@@ -115,7 +115,7 @@ static m3u_ext_id_t get_directive_id(const char *s, const char **endptr)
 
     /* check valid directives */
     for (i = 0; i < ARRAY_LEN(extensions); i++) {
-        if (util_strncasecmp(extensions[i].text, s, (size_t)(p - s)) == 0) {
+        if (util_strncasecmp(extensions[i].text, s, strlen(extensions[i].text)) == 0) {
             if (*p == ':') {
                 p++;    /* skip past colon */
             }
