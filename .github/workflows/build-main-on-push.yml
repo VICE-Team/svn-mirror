@@ -105,6 +105,7 @@ jobs:
               prerelease: true,
               target_commitish: context.sha
             });
+            const { releaseId, uploadUrl } = createReleaseResponse;
             core.setOutput('id', releaseId);
             core.setOutput('upload_url', uploadUrl);
 
