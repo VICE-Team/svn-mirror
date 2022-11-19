@@ -89,18 +89,18 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         id: create_release
+        env:
+          TAG_NAME: ${{ github.ref }}
+          RELEASE_NAME: ${{ github.ref }} snapshot  
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }} snapshot            
           script: |
-            const tagName = core.getInput('tag_name', { required: true }).replace('refs/tags/', '');
-            const releaseName = core.getInput('release_name', { required: false }).replace('refs/tags/', '');
-            const createReleaseResponse = await github.repos.createRelease({
+            const { TAG_NAME, RELEASE_NAME } = process.env
+            const createReleaseResponse = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: tagName,
-              name: releaseName,
+              tag_name: TAG_NAME.replace('refs/tags/', ''),
+              name: RELEASE_NAME.replace('refs/tags/', ''),
               draft: true,
               prerelease: true,
               target_commitish: context.sha
