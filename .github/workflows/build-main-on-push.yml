@@ -113,7 +113,6 @@ jobs:
     name: Style check, Test Headless, Build Documentation
     needs: create_release
     runs-on: ubuntu-latest
-
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
@@ -139,12 +138,38 @@ jobs:
           make stylecheck
           make
 
-      - name: Upload
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: vice-pdf
           path: vice/doc/vice.pdf
           retention-days: 1
+
+      - name: Upload Release Asset
+        uses: actions/github-script@v6
+        env:
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: vice/doc/vice.pdf
+          ASSET_NAME: vice.pdf
+          ASSET_CONTENT_TYPE: application/pdf
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            try {
+              const fs = require('fs');
+              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+                url: UPLOAD_URL,
+                headers: {
+                  'content-type': ASSET_CONTENT_TYPE,
+                  'content-length': fs.statSync(ASSET_PATH).size
+                },
+                name: ASSET_NAME,
+                file: fs.readFileSync(ASSET_PATH)
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
 
   build:
     name: Build
@@ -251,7 +276,7 @@ jobs:
               const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
               const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
                 url: UPLOAD_URL,
-                {
+                headers: {
                   'content-type': ASSET_CONTENT_TYPE,
                   'content-length': fs.statSync(ASSET_PATH).size
                 },
@@ -278,7 +303,7 @@ jobs:
               const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
               const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
                 url: UPLOAD_URL,
-                {
+                headers: {
                   'content-type': ASSET_CONTENT_TYPE,
                   'content-length': fs.statSync(ASSET_PATH).size
                 },
