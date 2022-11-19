@@ -291,9 +291,10 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
 static bool playlist_entry_handler(const char *text, size_t len)
 {
     const char *s = util_skip_whitespace(text);
-
+#if 0
     debug_gtk3("Got string: '%s' (%zu)", s, len - (s - text));
-    vsid_playlist_widget_append_file(text);
+#endif
+    vsid_playlist_widget_append_file(s);
     return true;
 }
 
