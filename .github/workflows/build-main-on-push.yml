@@ -89,14 +89,25 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }} snapshot
-          draft: true
-          prerelease: true
+        - uses: actions/github-script@v6
+          with:
+            github-token: ${{secrets.GITHUB_TOKEN}}
+            tag_name: ${{ github.ref }}
+            release_name: ${{ github.ref }} snapshot            
+            script: |
+              const tagName = core.getInput('tag_name', { required: true }).replace('refs/tags/', '');
+              const releaseName = core.getInput('release_name', { required: false }).replace('refs/tags/', '');
+              const createReleaseResponse = await github.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: tagName,
+                name: releaseName,
+                draft: true,
+                prerelease: true,
+                target_commitish: context.sha
+              });
+              core.setOutput('id', releaseId);
+              core.setOutput('upload_url', uploadUrl);
 
   build_doc:
     name: Style check, Test Headless, Build Documentation
