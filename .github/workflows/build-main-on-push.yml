@@ -15,6 +15,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             // Get a list of all releases, sorted newest first
             let releases =
@@ -94,6 +95,7 @@ jobs:
           RELEASE_NAME: ${{ github.ref }} snapshot  
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             const { TAG_NAME, RELEASE_NAME } = process.env;
             const createReleaseResponse = await github.rest.repos.createRelease({
@@ -154,6 +156,7 @@ jobs:
           ASSET_CONTENT_TYPE: application/pdf
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             try {
               const fs = require('fs');
@@ -271,6 +274,7 @@ jobs:
           ASSET_CONTENT_TYPE: application/zip
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             try {
               const fs = require('fs');
@@ -299,6 +303,7 @@ jobs:
           ASSET_CONTENT_TYPE: application/x-7z-compressed
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             try {
               const fs = require('fs');
@@ -325,6 +330,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
             await github.rest.repos.updateRelease(
               {
