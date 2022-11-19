@@ -167,6 +167,7 @@ jobs:
                 name: ASSET_NAME,
                 file: fs.readFileSync(ASSET_PATH)
               });
+              console.log(uploadAssetResponse);
             } catch (error) {
               core.setFailed(error.message);
             }
@@ -283,6 +284,7 @@ jobs:
                 name: ASSET_NAME,
                 file: fs.readFileSync(ASSET_PATH)
               });
+              console.log(uploadAssetResponse);
             } catch (error) {
               core.setFailed(error.message);
             }
@@ -310,6 +312,7 @@ jobs:
                 name: ASSET_NAME,
                 file: fs.readFileSync(ASSET_PATH)
               });
+              console.log(uploadAssetResponse);
             } catch (error) {
               core.setFailed(error.message);
             }
