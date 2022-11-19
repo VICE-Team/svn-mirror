@@ -18,7 +18,7 @@ jobs:
           script: |
             // Get a list of all releases, sorted newest first
             let releases =
-              (await github.rest.paginate(
+              (await github.paginate(
                 github.rest.repos.listReleases,
                 {
                   owner: context.repo.owner,
