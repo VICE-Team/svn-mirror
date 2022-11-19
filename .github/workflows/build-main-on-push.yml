@@ -87,27 +87,26 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_id: ${{ steps.create_release.outputs.id }}
     steps:
-      - name: Create Release
+      - uses: actions/github-script@v6
         id: create_release
-        - uses: actions/github-script@v6
-          with:
-            github-token: ${{secrets.GITHUB_TOKEN}}
-            tag_name: ${{ github.ref }}
-            release_name: ${{ github.ref }} snapshot            
-            script: |
-              const tagName = core.getInput('tag_name', { required: true }).replace('refs/tags/', '');
-              const releaseName = core.getInput('release_name', { required: false }).replace('refs/tags/', '');
-              const createReleaseResponse = await github.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: tagName,
-                name: releaseName,
-                draft: true,
-                prerelease: true,
-                target_commitish: context.sha
-              });
-              core.setOutput('id', releaseId);
-              core.setOutput('upload_url', uploadUrl);
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }} snapshot            
+          script: |
+            const tagName = core.getInput('tag_name', { required: true }).replace('refs/tags/', '');
+            const releaseName = core.getInput('release_name', { required: false }).replace('refs/tags/', '');
+            const createReleaseResponse = await github.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tagName,
+              name: releaseName,
+              draft: true,
+              prerelease: true,
+              target_commitish: context.sha
+            });
+            core.setOutput('id', releaseId);
+            core.setOutput('upload_url', uploadUrl);
 
   build_doc:
     name: Style check, Test Headless, Build Documentation
