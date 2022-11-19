@@ -95,7 +95,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const { TAG_NAME, RELEASE_NAME } = process.env
+            const { TAG_NAME, RELEASE_NAME } = process.env;
             const createReleaseResponse = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -237,25 +237,57 @@ jobs:
 
       - name: Upload Zip
         id: upload-zip
-        uses: actions/upload-release-asset@v1
+        uses: actions/github-script@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: ${{ steps.build.outputs.zip_path }}
+          ASSET_NAME: ${{ steps.build.outputs.zip_name }}
+          ASSET_CONTENT_TYPE: application/zip
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.build.outputs.zip_path }}
-          asset_name: ${{ steps.build.outputs.zip_name }}
-          asset_content_type: application/zip
-
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            try {
+              const fs = require('fs');
+              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+                url: UPLOAD_URL,
+                {
+                  'content-type': ASSET_CONTENT_TYPE,
+                  'content-length': fs.statSync(ASSET_PATH).size
+                },
+                name: ASSET_NAME,
+                file: fs.readFileSync(ASSET_PATH)
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
+      
       - name: Upload 7Zip
         id: upload-7zip
-        uses: actions/upload-release-asset@v1
+        uses: actions/github-script@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: ${{ steps.build.outputs.seven_zip_path }}
+          ASSET_NAME: ${{ steps.build.outputs.seven_zip_name }}
+          ASSET_CONTENT_TYPE: application/x-7z-compressed
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.build.outputs.seven_zip_path }}
-          asset_name: ${{ steps.build.outputs.seven_zip_name }}
-          asset_content_type: application/x-7z-compressed
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            try {
+              const fs = require('fs');
+              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+                url: UPLOAD_URL,
+                {
+                  'content-type': ASSET_CONTENT_TYPE,
+                  'content-length': fs.statSync(ASSET_PATH).size
+                },
+                name: ASSET_NAME,
+                file: fs.readFileSync(ASSET_PATH)
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
 
   publish_release:
     name: Publish Release
