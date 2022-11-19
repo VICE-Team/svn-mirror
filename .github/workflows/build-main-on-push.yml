@@ -166,7 +166,7 @@ jobs:
                 'content-length': fs.statSync(ASSET_PATH).size
               },
               name: ASSET_NAME,
-              file: fs.readFileSync(ASSET_PATH)
+              data: fs.readFileSync(ASSET_PATH)
             });
 
   build:
@@ -279,7 +279,7 @@ jobs:
                 'content-length': fs.statSync(ASSET_PATH).size
               },
               name: ASSET_NAME,
-              file: fs.readFileSync(ASSET_PATH)
+              data: fs.readFileSync(ASSET_PATH)
             });
       
       - name: Upload 7Zip
@@ -303,7 +303,7 @@ jobs:
                 'content-length': fs.statSync(ASSET_PATH).size
               },
               name: ASSET_NAME,
-              file: fs.readFileSync(ASSET_PATH)
+              data: fs.readFileSync(ASSET_PATH)
             });
 
   publish_release:
