@@ -107,6 +107,7 @@ jobs:
               prerelease: true,
               target_commitish: context.sha
             });
+            console.log(createReleaseResponse);
             const { releaseId, uploadUrl } = createReleaseResponse;
             core.setOutput('id', releaseId);
             core.setOutput('upload_url', uploadUrl);
@@ -158,22 +159,22 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
           script: |
-            try {
-              const fs = require('fs');
-              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
-              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
-                url: UPLOAD_URL,
-                headers: {
-                  'content-type': ASSET_CONTENT_TYPE,
-                  'content-length': fs.statSync(ASSET_PATH).size
-                },
-                name: ASSET_NAME,
-                file: fs.readFileSync(ASSET_PATH)
-              });
-              console.log(uploadAssetResponse);
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            console.log('UPLOAD_URL: ' + UPLOAD_URL);
+            console.log('ASSET_PATH: ' + ASSET_PATH);
+            console.log('ASSET_NAME: ' + ASSET_NAME);
+            console.log('ASSET_CONTENT_TYPE: ' + ASSET_CONTENT_TYPE);
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              file: fs.readFileSync(ASSET_PATH)
+            });
+            console.log(uploadAssetResponse);
 
   build:
     name: Build
@@ -276,22 +277,18 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
           script: |
-            try {
-              const fs = require('fs');
-              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
-              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
-                url: UPLOAD_URL,
-                headers: {
-                  'content-type': ASSET_CONTENT_TYPE,
-                  'content-length': fs.statSync(ASSET_PATH).size
-                },
-                name: ASSET_NAME,
-                file: fs.readFileSync(ASSET_PATH)
-              });
-              console.log(uploadAssetResponse);
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              file: fs.readFileSync(ASSET_PATH)
+            });
+            console.log(uploadAssetResponse);
       
       - name: Upload 7Zip
         id: upload-7zip
@@ -305,22 +302,18 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
           script: |
-            try {
-              const fs = require('fs');
-              const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
-              const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
-                url: UPLOAD_URL,
-                headers: {
-                  'content-type': ASSET_CONTENT_TYPE,
-                  'content-length': fs.statSync(ASSET_PATH).size
-                },
-                name: ASSET_NAME,
-                file: fs.readFileSync(ASSET_PATH)
-              });
-              console.log(uploadAssetResponse);
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              file: fs.readFileSync(ASSET_PATH)
+            });
+            console.log(uploadAssetResponse);
 
   publish_release:
     name: Publish Release
