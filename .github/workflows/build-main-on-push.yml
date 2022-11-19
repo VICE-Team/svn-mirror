@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      release_id: ${{ steps.create_release.outputs.id }}
+      release_id: ${{ steps.create_release.outputs.release_id }}
     steps:
       - uses: actions/github-script@v6
         id: create_release
@@ -107,10 +107,8 @@ jobs:
               prerelease: true,
               target_commitish: context.sha
             });
-            console.log(createReleaseResponse);
-            const { releaseId, uploadUrl } = createReleaseResponse;
-            core.setOutput('id', releaseId);
-            core.setOutput('upload_url', uploadUrl);
+            core.setOutput('release_id', createReleaseResponse.data.id);
+            core.setOutput('upload_url', createReleaseResponse.data.upload_url);
 
   build_doc:
     name: Style check, Test Headless, Build Documentation
@@ -161,10 +159,6 @@ jobs:
           script: |
             const fs = require('fs');
             const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
-            console.log('UPLOAD_URL: ' + UPLOAD_URL);
-            console.log('ASSET_PATH: ' + ASSET_PATH);
-            console.log('ASSET_NAME: ' + ASSET_NAME);
-            console.log('ASSET_CONTENT_TYPE: ' + ASSET_CONTENT_TYPE);
             const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
               url: UPLOAD_URL,
               headers: {
@@ -174,7 +168,6 @@ jobs:
               name: ASSET_NAME,
               file: fs.readFileSync(ASSET_PATH)
             });
-            console.log(uploadAssetResponse);
 
   build:
     name: Build
@@ -288,7 +281,6 @@ jobs:
               name: ASSET_NAME,
               file: fs.readFileSync(ASSET_PATH)
             });
-            console.log(uploadAssetResponse);
       
       - name: Upload 7Zip
         id: upload-7zip
@@ -313,7 +305,6 @@ jobs:
               name: ASSET_NAME,
               file: fs.readFileSync(ASSET_PATH)
             });
-            console.log(uploadAssetResponse);
 
   publish_release:
     name: Publish Release
