@@ -78,33 +78,23 @@ static int check_memory_expansion(int memory, int type)
     return 0;
 }
 
-static int has_fs(void)
-{
-    if (machine_class == VICE_MACHINE_CBM5x0 ||
-        machine_class == VICE_MACHINE_CBM6x0 ||
-        machine_class == VICE_MACHINE_PET) {
-        return 0;
-    }
-    return 1;
-}
-
 static int is_fs(int type)
 {
-    return ((type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL) && has_fs());
+    return (type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL);
 }
 
 static int check_current_drive_type(int type, int drive)
 {
-    int iecdevice = 0;
-    int fsdevice;
+    int tde = 0;
+    int vdt = 0;
+    int fsdevice = 0;
     int drivetype;
 
-    if (has_fs()) {
-        resources_get_int_sprintf("IECDevice%i", &iecdevice, drive);
-        resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
-    }
+    resources_get_int_sprintf("Drive%iTrueEmulation", &tde, drive);
+    resources_get_int_sprintf("VirtualDevice%i", &vdt, drive);
     resources_get_int_sprintf("Drive%iType", &drivetype, drive);
-    if (iecdevice) {
+    resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
+    if (!tde && vdt) {
         if (type == fsdevice) {
             return 1;
         }
@@ -119,14 +109,27 @@ static int check_current_drive_type(int type, int drive)
 static char *get_drive_type_string(int drive)
 {
     int type;
+    int tde = 0;
+    int vdt = 0;
+    int fsdevice = 0;
 
     type = drive_get_type_by_devnr(drive);
+    resources_get_int_sprintf("Drive%iTrueEmulation", &tde, drive);
+    resources_get_int_sprintf("VirtualDevice%i", &vdt, drive);
+    resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
+
+    if (!tde && vdt && fsdevice == ATTACH_DEVICE_FS) {
+        return MENU_SUBMENU_STRING " directory";
+    }
+
+#ifdef HAVE_REALDEVICE
+    if (!tde && vdt && fsdevice == ATTACH_DEVICE_REAL) {
+        return MENU_SUBMENU_STRING " real drive";
+    }
+#endif
+
     switch (type) {
         case 0:                  return MENU_SUBMENU_STRING " none";
-        case ATTACH_DEVICE_FS:   return MENU_SUBMENU_STRING " directory";
-#ifdef HAVE_REALDEVICE
-        case ATTACH_DEVICE_REAL: return MENU_SUBMENU_STRING " real drive";
-#endif
         case DRIVE_TYPE_1540:    return MENU_SUBMENU_STRING " 1540";
         case DRIVE_TYPE_1541:    return MENU_SUBMENU_STRING " 1541";
         case DRIVE_TYPE_1541II:  return MENU_SUBMENU_STRING " 1541-II";
@@ -648,13 +651,14 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
                 resources_set_int_sprintf("IECDevice%i", 1, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
 #endif
-            } else if (is_fs(parameter)) {
-                resources_set_int_sprintf("IECDevice%i", 1, drive);
+            } else if (parameter == ATTACH_DEVICE_FS) {
+                resources_set_int_sprintf("VirtualDevice%i", 1, drive);
+                resources_set_int_sprintf("Drive%iTrueEmulation", 0, drive);
+                resources_set_int_sprintf("FileSystemDevice%i", 0, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
             } else {
-                if (has_fs()) {
-                    resources_set_int_sprintf("IECDevice%i", 0, drive);
-                }
+                resources_set_int_sprintf("VirtualDevice%i", 0, drive);
+                resources_set_int_sprintf("Drive%iTrueEmulation", 1, drive);
                 resources_set_int_sprintf("Drive%iType", parameter, drive);
             }
         }
