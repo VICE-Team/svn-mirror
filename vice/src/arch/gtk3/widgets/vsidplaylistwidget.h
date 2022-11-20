@@ -28,12 +28,10 @@
 #ifndef VICE_VSIDPLAYLISTWIDGET_H
 #define VICE_VSIDPLAYLISTWIDGET_H
 
-
 #include <gtk/gtk.h>
 
 GtkWidget * vsid_playlist_widget_create(void);
-
 gboolean    vsid_playlist_widget_append_file(const gchar *path);
 void        vsid_playlist_widget_remove_file(int row);
-#endif
 
+#endif

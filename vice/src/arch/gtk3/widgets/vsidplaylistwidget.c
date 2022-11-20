@@ -46,6 +46,9 @@
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <stdbool.h>
+#include <time.h>
+#include <sys/time.h>
 
 #include "archdep_get_hvsc_dir.h"
 #include "hvsc.h"
@@ -55,6 +58,10 @@
 #include "uiapi.h"
 #include "uivsidwindow.h"
 #include "util.h"
+#include "version.h"
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
 #include "vice_gtk3.h"
 #include "vsidplaylistadddialog.h"
 #include "vsidtuneinfowidget.h"
@@ -112,6 +119,11 @@ typedef struct vsid_hotkey_s {
 } vsid_hotkey_t;
 
 
+/*
+ * Forward declarations
+ */
+static void update_title(void);
+
 
 /** \brief  Reference to the playlist model
  */
@@ -127,12 +139,24 @@ static GtkWidget *playlist_view;
  */
 static GtkWidget *title_widget;
 
+/** \brief  Reference to the save-playlist dialog's entry to set playlist title
+ *
+ * Only valid during lifetime of the save-playlist dialog
+ */
+static GtkWidget *playlist_title_entry;
+
 /** \brief  Playlist title
  *
  * Set when loading an m3u file with the "\#PLAYLIST:" directive.
  * Freed when the main widget is destroyed.
  */
 static char *playlist_title;
+
+/** \brief  Playlist path
+ *
+ * Used to suggest filename when saving playlist, set when loading a playlist.
+ */
+static char *playlist_path;
 
 
 /** \brief  Strip HVSC base dir from \a path
@@ -159,6 +183,64 @@ static gchar *strip_hvsc_base(const gchar *path)
         }
     }
     return g_strdup(path);
+}
+
+/** \brief  Free playlist title
+ */
+static void vsid_playlist_free_title(void)
+{
+    if (playlist_title != NULL) {
+        lib_free(playlist_title);
+    }
+    playlist_title = NULL;
+}
+
+/** \brief  Set playlist title
+ *
+ * \param[in]   title   playlist title
+ */
+static void vsid_playlist_set_title(const char *title)
+{
+    vsid_playlist_free_title();
+    playlist_title = lib_strdup(title);
+}
+
+/** \brief  Get playlist title
+ *
+ * \return  playlist title
+ */
+static const char *vsid_playlist_get_title(void)
+{
+    return playlist_title;
+}
+
+/** \brief  Free playlist file path
+ */
+static void vsid_playlist_free_path(void)
+{
+    if (playlist_path != NULL) {
+        lib_free(playlist_path);
+    }
+    playlist_path = NULL;
+}
+
+/** \brief  Set playlist path
+ *
+ * \param[in]   path    path to playlist file
+ */
+static void vsid_playlist_set_path(const char *path)
+{
+    vsid_playlist_free_path();
+    playlist_path = lib_strdup(path);
+}
+
+/** \brief  Get playlist file path
+ *
+ * \return  playlist file path
+ */
+static const char *vsid_playlist_get_path(void)
+{
+    return playlist_path;
 }
 
 /** \brief  Scroll view so the selected row is visible
@@ -322,7 +404,7 @@ static bool playlist_directive_handler(m3u_ext_id_t id, const char *text, size_t
             title = util_skip_whitespace(text);
             /* only set title when not empty and not previously set */
             if (*title != '\0' && playlist_title == NULL) {
-                playlist_title = lib_strdup(title);
+                vsid_playlist_set_title(title);
             }
             break;
         default:
@@ -350,17 +432,17 @@ static void playlist_load_callback(GtkDialog *dialog,
         if (m3u_open(filename, playlist_entry_handler, playlist_directive_handler)) {
             /* clear playlist now */
             gtk_list_store_clear(playlist_model);
-            /* clear title */
-            if (playlist_title != NULL) {
-                lib_free(playlist_title);
-                playlist_title = NULL;
-            }
+            /* clear title and path */
+            vsid_playlist_free_title();
+            vsid_playlist_free_path();
 
             /* run the parser to populate the playlist */
             if (!m3u_parse()) {
                 g_snprintf(buf, sizeof buf, "Error parsing %s.", filename);
                 ui_display_statustext(buf, 0);
             }
+            /* remember path for the playlist-save dialog */
+            vsid_playlist_set_path(filename);
             m3u_close();
         }
         g_free(filename);
@@ -368,6 +450,13 @@ static void playlist_load_callback(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+/** \brief  Handler for the 'clicked' event of the load-playlist button
+ *
+ * Show dialog to load a playlist file.
+ *
+ * \param[in]   widget  button (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
 static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
@@ -381,7 +470,196 @@ static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
                                         path,
                                         playlist_load_callback,
                                         NULL);
-    gtk_widget_show(dialog);
+    gtk_widget_show_all(dialog);
+}
+
+
+/*
+ * Save playlist
+ */
+
+/** \brief  Create content area widget for the 'save-playlist dialog
+ *
+ * Create GtkGrid with label and text entry to set/edit the playlist title.
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_save_content_area(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_widget_set_margin_top(grid, 8);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
+    gtk_widget_set_margin_bottom(grid, 8);
+
+    label = gtk_label_new_with_mnemonic("Playlist _title:");
+    playlist_title_entry = gtk_entry_new();
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_widget_set_hexpand(playlist_title_entry, TRUE);
+    gtk_entry_set_text(GTK_ENTRY(playlist_title_entry), vsid_playlist_get_title());
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), playlist_title_entry, 1, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+/** \brief  Callback for the 'save-playlist' dialog
+ *
+ * Save the current playlist to \a filename.
+ *
+ * \param[in]   dialog      save-playlist dialog
+ * \param[in]   filename    filename or `NULL` to cancel saving
+ * \param[in]   data        extra event data (ignored)
+ */
+static void playlist_save_dialog_callback(GtkDialog *dialog,
+                                          gchar *filename,
+                                          gpointer data)
+{
+    if (filename != NULL) {
+        GtkTreeIter iter;
+        char buf[256];
+        time_t t;
+        const struct tm *tinfo;
+        const char *title;
+        char *filename_ext;
+
+        debug_gtk3("Got playlist filename '%s'", filename);
+        /* add .m3u extension if missing */
+        filename_ext = util_add_extension_const(filename, "m3u");
+        g_free(filename);
+
+        /* update playlist title */
+        title = gtk_entry_get_text(GTK_ENTRY(playlist_title_entry));
+        if (title == NULL || *title == '\0') {
+            vsid_playlist_free_title();
+        } else {
+            vsid_playlist_set_title(title);
+            update_title();
+        }
+
+        /* try to open playlist file for writing */
+        if (!m3u_create(filename_ext)) {
+            ui_error("Failed to open '%s' for writing.", filename_ext);
+            lib_free(filename_ext);
+            gtk_widget_destroy(GTK_WIDGET(dialog));
+            return;
+        }
+        /* m3u code makes a copy of the path, so we can clean up here */
+        lib_free(filename_ext);
+
+        /* add empty line */
+        if (!m3u_append_newline()) {
+            goto save_error;
+        }
+
+        /* add timestamp */
+        t = time(NULL);
+        tinfo = localtime(&t);
+        if (tinfo != NULL) {
+            strftime(buf, sizeof buf, "Generated on %Y-%m-%dT%H:%M%z", tinfo);
+            if (!m3u_append_comment(buf)) {
+                goto save_error;
+            }
+        }
+
+        /* add VICE version */
+#ifdef USE_SVN_REVISION
+        g_snprintf(buf, sizeof buf,
+                   "Generated by VICE (Gtk) %s r%s",
+                   VERSION, VICE_SVN_REV_STRING);
+#else
+        g_snprintf(buf, sizeof buf, "Generated by VICE (Gtk) %s", VERSION);
+#endif
+        if (!m3u_append_comment(buf)) {
+            goto save_error;
+        }
+
+        /* add empty line */
+        if (!m3u_append_newline()) {
+            goto save_error;
+        }
+
+        /* add playlist title, if set */
+        if (title != NULL && *title != '\0') {
+            if (!m3u_set_playlist_title(title)) {
+                goto save_error;
+            }
+        }
+
+        /* add empty line */
+        if (!m3u_append_newline()) {
+            goto save_error;
+        }
+
+        /* finally! iterate playlist items, writing SID file entries */
+        if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
+            do {
+                const char *fullpath;
+                GValue value = G_VALUE_INIT;
+
+                gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                                         &iter,
+                                         COL_FULL_PATH,
+                                         &value);
+                fullpath = g_value_get_string(&value);
+                debug_gtk3("ENTRY: %s", fullpath);
+                if (!m3u_append_entry(fullpath)) {
+                    goto save_error;
+                }
+            } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(playlist_model),
+                                              &iter));
+        }
+        m3u_close();
+    } else {
+        debug_gtk3("playlist-save canceled");
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    return;
+
+save_error:
+    ui_error("I/O error while writing playlist.");
+    m3u_close();
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+/** \brief  Handler for the 'clicked' event of the 'save-playlist' button
+ *
+ * Show dialog to save the playlist, optionally setting a playlist title.
+ *
+ * \param[in]   widget  button (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
+static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+    const char *curpath;
+    gint rows;
+
+    /* don't try to save an empty playlist */
+    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
+    if (rows < 1) {
+        ui_display_statustext("Error: cannot save empty playlist.", 1);
+        return;
+    }
+
+    /* FIXME: default to HVSC dir, for now */
+    curpath = archdep_get_hvsc_dir();
+    dialog = vice_gtk3_save_file_dialog("Save playlist file",
+                                        vsid_playlist_get_path(),
+                                        TRUE,
+                                        curpath,
+                                        playlist_save_dialog_callback,
+                                        NULL);
+    /* add content area widget which allows setting playlist title */
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
+    gtk_widget_show_all(dialog);
 }
 
 
@@ -398,7 +676,9 @@ static void update_title(void)
     if (playlist_title == NULL) {
         g_snprintf(buffer, sizeof(buffer), "<b>Playlist (%d)</b>", rows);
     } else {
-        g_snprintf(buffer, sizeof(buffer), "<b>%s (%d)</b>", playlist_title, rows);
+        g_snprintf(buffer, sizeof(buffer),
+                   "<b>%s (%d)</b>",
+                   vsid_playlist_get_title(), rows);
     }
     gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
 }
@@ -416,10 +696,8 @@ static void update_title(void)
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
     vsid_playlist_add_dialog_free();
-    if (playlist_title != NULL) {
-        lib_free(playlist_title);
-        playlist_title = NULL;
-    }
+    vsid_playlist_free_title();
+    vsid_playlist_free_path();
 }
 
 
@@ -890,7 +1168,7 @@ static const plist_ctrl_button_t controls[] = {
       "Open playlist file" },
     { "document-save",
       BUTTON_PUSH,
-      NULL,
+      on_playlist_save_clicked,
       "Save playlist file" },
     { "edit-clear-all",
       BUTTON_PUSH,
