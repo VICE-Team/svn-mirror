@@ -1083,7 +1083,7 @@ UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
           toggle_VirtualDevice##x##_callback,                   \
           NULL },                                               \
 /* 16 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 17 */{ "Save Drive " #x" FD2000/4000 RTC data",              \
+/* 17 */{ "Save Drive " #x" CMD RTC data",                      \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##RTCSave_callback,                    \
           NULL },                                               \
