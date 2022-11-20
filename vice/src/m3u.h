@@ -27,6 +27,11 @@ bool m3u_open(const char *path,
               bool (*directive_callback)(m3u_ext_id_t id, const char *arg, size_t len));
 bool m3u_parse(void);
 void m3u_close(void);
+bool m3u_create(const char *path);
+bool m3u_set_playlist_title(const char *title);
+bool m3u_append_entry(const char *entry);
+bool m3u_append_comment(const char *comment);
+bool m3u_append_newline(void);
 long m3u_linenum(void);
 const char *m3u_directive_str(m3u_ext_id_t id);
 

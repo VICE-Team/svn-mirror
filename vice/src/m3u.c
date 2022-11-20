@@ -40,6 +40,15 @@
 /** \brief  Token indicating comment or directive */
 #define M3U_COMMENT '#'
 
+/** \brief  Extended M3U header
+ *
+ * This header must be the first line in an m3u 1.1 file.
+ *
+ * \note    A newline is added automagically when calling m3u_create()
+ */
+#define M3U_HEADER  "#EXTM3U"
+
+
 /** \brief  M3U directive data */
 typedef struct m3u_ext_s {
     m3u_ext_id_t id;    /**< numeric ID */
@@ -49,13 +58,19 @@ typedef struct m3u_ext_s {
 
 
 /** \brief  Path to playlist file */
-static const char *playlist_path = NULL;
+static char *playlist_path = NULL;
 
 /** \brief  File pointer for the parser */
 static FILE *playlist_fp = NULL;
 
 /** \brief  Current line number in the playlist */
 static long playlist_linenum = 0;
+
+/** \brief  Title has been set via m3u_set_playlist_title()
+ *
+ * Avoid writing title multiple times.
+ */
+static bool have_playlist_title = false;
 
 /** \brief  Buffer used for reading lines from the playlist
  *
@@ -228,7 +243,7 @@ bool m3u_open(const char *path,
         log_error(LOG_ERR, "m3u: entry_callback entry cannot be NULL.");
         return false;
     }
-    playlist_path = path;
+    playlist_path = lib_strdup(path);
     entry_cb = entry_callback;
     directive_cb = directive_callback;
     playlist_linenum = 1;
@@ -237,7 +252,7 @@ bool m3u_open(const char *path,
     playlist_fp = fopen(path, "rb");
     if (playlist_fp == NULL) {
         log_error(LOG_ERR,
-                  "m3u: failed to open %s for reading: errno %d (%s)",
+                  "m3u: failed to open %s for reading: errno %d: %s.",
                   path, errno, strerror(errno));
         return false;
     }
@@ -249,10 +264,178 @@ bool m3u_open(const char *path,
 }
 
 
+/** \brief  Check if we have an open file
+ *
+ * Test if we have an open file and report an error if not.
+ *
+ * \return  `true` when a file is open
+ */
+static bool have_output_file(void)
+{
+    if (playlist_fp == NULL) {
+        log_error(LOG_ERR, "m3u: no output file.");
+        return false;
+    }
+    return true;
+}
+
+
+/** \brief  Append string to current playlist file
+ *
+ * \param[in]   s   string to write
+ *
+ * \note    Obviously requires calling m3u_create() first
+ *
+ * \return  `true` on success
+ */
+static bool m3u_append_string(const char *s)
+{
+    if (!have_output_file()) {
+        return false;
+    }
+    if (fputs(s, playlist_fp) < 0) {
+        log_error(LOG_ERR,
+                  "m3u: failed to write to %s: errno %d: %s.",
+                  playlist_path, errno, strerror(errno));
+        return false;
+    }
+    return m3u_append_newline();
+}
+
+
+/** \brief  Create new M3U playlist file
+ *
+ * Open \a path for writing and write the M3U header.
+ *
+ * \param[in]   path    filename and path
+ *
+ * \return  `true` on success
+ */
+bool m3u_create(const char *path)
+{
+    /* open file for writing */
+    playlist_fp = fopen(path, "wb");
+    if (playlist_fp == NULL) {
+        log_error(LOG_ERR,
+                  "m3u: failed to open %s for writing: errno %d: %s.",
+                  path, errno, strerror(errno));
+        return false;
+    }
+
+    /* copy path */
+    if (playlist_path != NULL) {
+        lib_free(playlist_path);
+    }
+    playlist_path = lib_strdup(path);
+
+    /* write header and initialize line number */
+    if (!m3u_append_string(M3U_HEADER)) {
+        return false;
+    }
+    playlist_linenum = 2;
+    have_playlist_title = false;
+    return true;
+}
+
+
+/** \brief  Set playlist title
+ *
+ * \param[in]   title   playlist title
+ *
+ * \return  `true` on success
+ *
+ * \note    Normally one would call this after m3u_crearte() and before adding
+ *          any entries.
+ */
+bool m3u_set_playlist_title(const char *title)
+{
+    if (!have_output_file()) {
+        return false;
+    }
+    if (have_playlist_title) {
+        log_error(LOG_ERR, "m3u: playlist title has already been set.");
+        return false;
+    }
+    if (fprintf(playlist_fp, "#PLAYLIST: %s\n", title) < 0) {
+        log_error(LOG_ERR,
+                  "m3u: failed to write playlist title: errno %d: %s.",
+                  errno, strerror(errno));
+        return false;
+    }
+    have_playlist_title = true;
+    return true;
+}
+
+
+/** \brief  Append normal entry to playlist file
+ *
+ * Append path to SID file to playlist file.
+ *
+ * \param[in]   entry   path to SID file
+ *
+ * \return  `true` on success
+ *
+ * \todo    Support relative paths
+ */
+bool m3u_append_entry(const char *entry)
+{
+    if (!have_output_file()) {
+        return false;
+    }
+    return m3u_append_string(util_skip_whitespace(entry));
+}
+
+
+
+/** \brief  Append comment to playlist file
+ *
+ * \param[in]   comment comment text
+ *
+ * \note    The caller should not use the '\#' comment token, the function will
+ *          add it.
+ *
+ * \return  `true` on success
+ */
+bool m3u_append_comment(const char *comment)
+{
+    if (!have_output_file()) {
+        return false;
+    }
+    /* strip comment token, we add that ourselves */
+    if (*comment == M3U_COMMENT) {
+        comment++;
+    }
+    if (fprintf(playlist_fp, "# %s\n", comment) < 0) {
+        log_error(LOG_ERR,
+                  "m3u: failed to write comment: errno %d: %s.",
+                  errno, strerror(errno));
+        return false;
+    }
+    return true;
+}
+
+
+/** \brief  Append newline to playlist file
+ *
+ * \return  `true` on success
+ */
+bool m3u_append_newline(void)
+{
+    /* TODO: CR+LF for Winblows? */
+    if (fputc('\n', playlist_fp) < 0) {
+        log_error(LOG_ERR,
+                  "m3u: failed to write to %s: errno %d: %s.",
+                  playlist_path, errno, strerror(errno));
+        return false;
+    }
+    return true;
+}
+
+
 /** \brief  Close m3u file and clean up resources
  *
- * Cleans up resources and resets internal state for subsequent parsing of
- * m3u files.
+ * Cleans up resources and resets internal state for subsequent reading or
+ * writing of m3u files.
  */
 void m3u_close(void)
 {
@@ -264,8 +447,12 @@ void m3u_close(void)
         lib_free(playlist_buf);
         playlist_buf = NULL;
     }
-    playlist_path = NULL;
+    if (playlist_path != NULL) {
+        lib_free(playlist_path);
+        playlist_path = NULL;
+    }
     playlist_linenum = 0;
+    have_playlist_title = false;
 }
 
 
