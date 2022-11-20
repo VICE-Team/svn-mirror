@@ -1377,13 +1377,6 @@ void uidrive_menu_create(void)
     memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
 
-    if (machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_CBM5x0) {
-        memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_TDE], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_TDE], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_TDE], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_DRIVE_TDE], 0, sizeof(ui_menu_entry_t));
-    }
-
     drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(8) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(9) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(10) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
