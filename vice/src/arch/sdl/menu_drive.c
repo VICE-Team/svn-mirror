@@ -1018,8 +1018,9 @@ UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 
 #define DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0  12
-#define DRIVE_SETTINGS_OFFSET_DRIVE_TDE    16
-#define DRIVE_SETTINGS_OFFSET_DRIVE_VDRIVE 17
+#define DRIVE_SETTINGS_OFFSET_DRIVE_TDE    14
+#define DRIVE_SETTINGS_OFFSET_DRIVE_VDRIVE 15
+#define DRIVE_SETTINGS_OFFSET_DRIVE_RTC    17
 
 #define DRIVE_MENU(x)                                           \
     static ui_menu_entry_t drive_##x##_menu[] = {               \
@@ -1073,18 +1074,18 @@ UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
           toggle_AttachDevice##x##d1Readonly_callback,          \
           NULL },                                               \
 /* 13 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 14 */{ "Save Drive " #x" FD2000/4000 RTC data",              \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_Drive##x##RTCSave_callback,                    \
-          NULL },                                               \
-/* 15 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 16 */{ "Drive " #x" True Drive Emulation",                   \
+/* 14 */{ "Drive " #x" True Drive Emulation",                   \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##TrueEmulation_callback,              \
           NULL },                                               \
-/* 17 */{ "Drive " #x" Virtual Device",                         \
+/* 15 */{ "Drive " #x" Virtual Device",                         \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_VirtualDevice##x##_callback,                   \
+          NULL },                                               \
+/* 16 */SDL_MENU_ITEM_SEPARATOR,                                \
+/* 17 */{ "Save Drive " #x" FD2000/4000 RTC data",              \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          toggle_Drive##x##RTCSave_callback,                    \
           NULL },                                               \
         SDL_MENU_LIST_END                                       \
     };
@@ -1376,6 +1377,13 @@ void uidrive_menu_create(void)
     memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+
+    if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+        memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
+    }
 
     drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(8) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(9) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
