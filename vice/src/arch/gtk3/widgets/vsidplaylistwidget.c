@@ -52,6 +52,7 @@
 
 #include "archdep_get_hvsc_dir.h"
 #include "hvsc.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "m3u.h"
 #include "resources.h"
@@ -158,6 +159,12 @@ static char *playlist_title;
  */
 static char *playlist_path;
 
+/** \brief  Playlist dialogs last-used directory
+ *
+ * Last used directory for playlist dialogs, used to set the directory of the
+ * playlist dialogs.
+ */
+static char *playlist_last_dir;
 
 /** \brief  Strip HVSC base dir from \a path
  *
@@ -356,6 +363,23 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Set default directory of playlist load/save dialogs
+ *
+ * If the default directory (#playlist_last_dir) isn't set yet, we use the
+ * HVSC base directory.
+ */
+static void set_playlist_dialogs_default_dir(void)
+{
+    if (playlist_last_dir == NULL) {
+        const gchar *base = archdep_get_hvsc_dir();
+        if (base != NULL) {
+            /* the lastdir.c code uses GLib for memory management, so we use
+             * g_strdup() here: */
+            playlist_last_dir = g_strdup(base);
+        }
+    }
+}
+
 
 /*
  * Playlist loading
@@ -372,11 +396,7 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
  */
 static bool playlist_entry_handler(const char *text, size_t len)
 {
-    const char *s = util_skip_whitespace(text);
-#if 0
-    debug_gtk3("Got string: '%s' (%zu)", s, len - (s - text));
-#endif
-    vsid_playlist_widget_append_file(s);
+    vsid_playlist_widget_append_file(util_skip_whitespace(text));
     return true;
 }
 
@@ -426,8 +446,10 @@ static void playlist_load_callback(GtkDialog *dialog,
     if (filename != NULL) {
         char buf[1024];
 
+        lastdir_update(GTK_WIDGET(dialog), &playlist_last_dir, NULL);
+
         g_snprintf(buf, sizeof buf, "Loading playlist %s", filename);
-        ui_display_statustext(buf, 0);
+        ui_display_statustext(buf, 1);
 
         if (m3u_open(filename, playlist_entry_handler, playlist_directive_handler)) {
             /* clear playlist now */
@@ -460,16 +482,18 @@ static void playlist_load_callback(GtkDialog *dialog,
 static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
-    const char *path;
 
-    /* default to HVSC dir for now */
-    path = archdep_get_hvsc_dir();
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+
+    /* create dialog and set the initial directory */
     dialog = vice_gtk3_open_file_dialog("Load playlist",
                                         "Playlist files",
                                         file_chooser_pattern_playlist,
-                                        path,
+                                        NULL,
                                         playlist_load_callback,
                                         NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
     gtk_widget_show_all(dialog);
 }
 
@@ -528,7 +552,8 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
         const char *title;
         char *filename_ext;
 
-        debug_gtk3("Got playlist filename '%s'", filename);
+        lastdir_update(GTK_WIDGET(dialog), &playlist_last_dir, NULL);
+
         /* add .m3u extension if missing */
         filename_ext = util_add_extension_const(filename, "m3u");
         g_free(filename);
@@ -607,7 +632,6 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
                                          COL_FULL_PATH,
                                          &value);
                 fullpath = g_value_get_string(&value);
-                debug_gtk3("ENTRY: %s", fullpath);
                 if (!m3u_append_entry(fullpath)) {
                     goto save_error;
                 }
@@ -615,8 +639,6 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
                                               &iter));
         }
         m3u_close();
-    } else {
-        debug_gtk3("playlist-save canceled");
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
     return;
@@ -638,7 +660,6 @@ static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
-    const char *curpath;
     gint rows;
 
     /* don't try to save an empty playlist */
@@ -648,14 +669,16 @@ static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
         return;
     }
 
-    /* FIXME: default to HVSC dir, for now */
-    curpath = archdep_get_hvsc_dir();
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+    /* create dialog and set initial directory */
     dialog = vice_gtk3_save_file_dialog("Save playlist file",
                                         vsid_playlist_get_path(),
                                         TRUE,
-                                        curpath,
+                                        NULL,
                                         playlist_save_dialog_callback,
                                         NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
     /* add content area widget which allows setting playlist title */
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
@@ -698,6 +721,7 @@ static void on_destroy(GtkWidget *widget, gpointer data)
     vsid_playlist_add_dialog_free();
     vsid_playlist_free_title();
     vsid_playlist_free_path();
+    lastdir_shutdown(&playlist_last_dir, NULL);
 }
 
 
