@@ -268,6 +268,17 @@ const ui_menu_entry_t scpu64_rom_menu[] = {
 
 UI_MENU_DEFINE_FILE_STRING(EditorName)
 
+UI_MENU_DEFINE_FILE_STRING(RomModule9Name)
+UI_MENU_DEFINE_FILE_STRING(RomModuleAName)
+UI_MENU_DEFINE_FILE_STRING(RomModuleBName)
+
+UI_MENU_DEFINE_FILE_STRING(H6809RomAName)
+UI_MENU_DEFINE_FILE_STRING(H6809RomBName)
+UI_MENU_DEFINE_FILE_STRING(H6809RomCName)
+UI_MENU_DEFINE_FILE_STRING(H6809RomDName)
+UI_MENU_DEFINE_FILE_STRING(H6809RomEName)
+UI_MENU_DEFINE_FILE_STRING(H6809RomFName)
+
 const ui_menu_entry_t pet_rom_menu[] = {
     { "Drive ROMs",
       MENU_ENTRY_SUBMENU,
@@ -291,6 +302,46 @@ const ui_menu_entry_t pet_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_EditorName_callback,
       (ui_callback_data_t)"Select editor ROM image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Module ROMs"),
+    { "$9000 ROM Module",
+      MENU_ENTRY_DIALOG,
+      file_string_RomModule9Name_callback,
+      (ui_callback_data_t)"Select $9000 ROM Module image" },
+    { "$A000 ROM Module",
+      MENU_ENTRY_DIALOG,
+      file_string_RomModuleAName_callback,
+      (ui_callback_data_t)"Select $A000 ROM Module image" },
+    { "$B000 ROM Module",
+      MENU_ENTRY_DIALOG,
+      file_string_RomModuleBName_callback,
+      (ui_callback_data_t)"Select $B000 ROM Module image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("SuperPET 6809 Mode ROMs"),
+    { "SuperPET 6809 $A000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomAName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $A000 ROM image" },
+    { "SuperPET 6809 $B000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomBName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $B000 ROM image" },
+    { "SuperPET 6809 $C000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomCName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $C000 ROM image" },
+    { "SuperPET 6809 $D000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomDName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $D000 ROM image" },
+    { "SuperPET 6809 $D000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomEName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $E000 ROM image" },
+    { "SuperPET 6809 $F000 ROM",
+      MENU_ENTRY_DIALOG,
+      file_string_H6809RomFName_callback,
+      (ui_callback_data_t)"Select SuperPET 6809 $F000 ROM image" },
     SDL_MENU_LIST_END
 };
 
