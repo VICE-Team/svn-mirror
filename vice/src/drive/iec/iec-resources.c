@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include "drive.h"
 #include "drivemem.h"
@@ -153,17 +154,54 @@ static int set_drive_fixed(const char *val, void *param)
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
     unsigned long long int work;
     char suffix;
+    size_t len = 0;
+    char *check_string = NULL;
+    char last_char = 0;
+    int i;
 #if 0
     unsigned long long int calc;
     char text[50];
     int tp = 0;
-    int i;
 #endif
+
+    /* check if the given string is null */
+    if (!util_check_null_string(val)) {
+
+        /* duplicate the string so we can work on it */
+        check_string = lib_strdup(val);
+
+        /* remove any spaces */
+        util_remove_spaces(check_string);
+
+        /* check if last character is a k, m or g */
+        len = strlen(check_string);
+        if (!len) {
+            lib_free(check_string);
+            return -1;
+        }
+        last_char = util_toupper(check_string[len - 1]);
+        if (last_char == 'K' || last_char == 'M' || last_char == 'G') {
+            check_string[len - 1] = 0;
+        }
+
+        /* now check if the left over string is a number */
+        len = strlen(check_string);
+        for (i = 0; i < len; i++) {
+            if (!isdigit(check_string[i])) {
+                lib_free(check_string);
+                return -1;
+            }
+        }
+
+        /* string is a valid input, free the check string and proceed with the rest of the code */
+        lib_free(check_string);
+    }
 
     /* free existing ASCII value of resource */
     if (unit->fixed_size_text) {
         lib_free(unit->fixed_size_text);
     }
+
 
     /* turn whatever we are given into a number */
     errno = 0;
