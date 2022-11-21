@@ -166,6 +166,9 @@ static char *playlist_path;
  */
 static char *playlist_last_dir;
 
+
+/* {{{ Utility functions */
+
 /** \brief  Strip HVSC base dir from \a path
  *
  * Try to strip the HVSC base directory from \a path, otherwise return the
@@ -250,6 +253,23 @@ static const char *vsid_playlist_get_path(void)
     return playlist_path;
 }
 
+/** \brief  Set default directory of playlist load/save dialogs
+ *
+ * If the default directory (#playlist_last_dir) isn't set yet, we use the
+ * HVSC base directory.
+ */
+static void set_playlist_dialogs_default_dir(void)
+{
+    if (playlist_last_dir == NULL) {
+        const gchar *base = archdep_get_hvsc_dir();
+        if (base != NULL) {
+            /* the lastdir.c code uses GLib for memory management, so we use
+             * g_strdup() here: */
+            playlist_last_dir = g_strdup(base);
+        }
+    }
+}
+
 /** \brief  Scroll view so the selected row is visible
  *
  * \param[in]   iter    tree view iter
@@ -269,6 +289,8 @@ static void scroll_to_iter(GtkTreeIter *iter)
                                  0.0, 0.0); /* alignments, ignored */
     gtk_tree_path_free(path);
 }
+
+/* }}} */
 
 
 /** \brief  Add SID files to the playlist
@@ -292,6 +314,7 @@ static void add_files_callback(GSList *files)
     }
 }
 
+/* {{{ Context menu callbacks */
 /** \brief  Delete selected rows
  *
  * \param[in]   widget  widget triggering the event
@@ -299,7 +322,7 @@ static void add_files_callback(GSList *files)
  *
  * \return  FALSE on error
  */
-static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
+static gboolean on_ctx_delete_selected_rows(GtkWidget *widget, gpointer data)
 {
     GtkTreeModel *model;
     GtkTreeSelection *selection;
@@ -335,6 +358,7 @@ static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
     g_list_free(rows);
     return TRUE;
 }
+/* }}} */
 
 /** \brief  Delete the entire playlist
  *
@@ -363,27 +387,7 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Set default directory of playlist load/save dialogs
- *
- * If the default directory (#playlist_last_dir) isn't set yet, we use the
- * HVSC base directory.
- */
-static void set_playlist_dialogs_default_dir(void)
-{
-    if (playlist_last_dir == NULL) {
-        const gchar *base = archdep_get_hvsc_dir();
-        if (base != NULL) {
-            /* the lastdir.c code uses GLib for memory management, so we use
-             * g_strdup() here: */
-            playlist_last_dir = g_strdup(base);
-        }
-    }
-}
-
-
-/*
- * Playlist loading
- */
+/* {{{ Playlist loading */
 
 /** \brief  M3U entry handler
  *
@@ -471,36 +475,12 @@ static void playlist_load_callback(GtkDialog *dialog,
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
-/** \brief  Handler for the 'clicked' event of the load-playlist button
- *
- * Show dialog to load a playlist file.
- *
- * \param[in]   widget  button (ignored)
- * \param[in]   data    extra event data (ignored)
- */
-static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *dialog;
-
-    /* if we don't have a previous directory, we use the HVSC base directory */
-    set_playlist_dialogs_default_dir();
-
-    /* create dialog and set the initial directory */
-    dialog = vice_gtk3_open_file_dialog("Load playlist",
-                                        "Playlist files",
-                                        file_chooser_pattern_playlist,
-                                        NULL,
-                                        playlist_load_callback,
-                                        NULL);
-    lastdir_set(dialog, &playlist_last_dir, NULL);
-    gtk_widget_show_all(dialog);
-}
+/* }}} */
 
 
-/*
- * Save playlist
- */
+
+
+/* {{{ Playlist saving */
 
 /** \brief  Create content area widget for the 'save-playlist dialog
  *
@@ -648,42 +628,8 @@ save_error:
     m3u_close();
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
+/* }}} */
 
-/** \brief  Handler for the 'clicked' event of the 'save-playlist' button
- *
- * Show dialog to save the playlist, optionally setting a playlist title.
- *
- * \param[in]   widget  button (ignored)
- * \param[in]   data    extra event data (ignored)
- */
-static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *dialog;
-    GtkWidget *content;
-    gint rows;
-
-    /* don't try to save an empty playlist */
-    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
-    if (rows < 1) {
-        ui_display_statustext("Error: cannot save empty playlist.", 1);
-        return;
-    }
-
-    /* if we don't have a previous directory, we use the HVSC base directory */
-    set_playlist_dialogs_default_dir();
-    /* create dialog and set initial directory */
-    dialog = vice_gtk3_save_file_dialog("Save playlist file",
-                                        vsid_playlist_get_path(),
-                                        TRUE,
-                                        NULL,
-                                        playlist_save_dialog_callback,
-                                        NULL);
-    lastdir_set(dialog, &playlist_last_dir, NULL);
-    /* add content area widget which allows setting playlist title */
-    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
-    gtk_widget_show_all(dialog);
-}
 
 
 /** \brief  Update title of the widget with number of entries in the list
@@ -724,6 +670,65 @@ static void on_destroy(GtkWidget *widget, gpointer data)
     lastdir_shutdown(&playlist_last_dir, NULL);
 }
 
+/** \brief  Handler for the 'clicked' event of the load-playlist button
+ *
+ * Show dialog to load a playlist file.
+ *
+ * \param[in]   widget  button (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
+static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *dialog;
+
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+
+    /* create dialog and set the initial directory */
+    dialog = vice_gtk3_open_file_dialog("Load playlist",
+                                        "Playlist files",
+                                        file_chooser_pattern_playlist,
+                                        NULL,
+                                        playlist_load_callback,
+                                        NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
+    gtk_widget_show_all(dialog);
+}
+/** \brief  Handler for the 'clicked' event of the 'save-playlist' button
+ *
+ * Show dialog to save the playlist, optionally setting a playlist title.
+ *
+ * \param[in]   widget  button (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
+static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+    gint rows;
+
+    /* don't try to save an empty playlist */
+    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
+    if (rows < 1) {
+        ui_display_statustext("Error: cannot save empty playlist.", 1);
+        return;
+    }
+
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+    /* create dialog and set initial directory */
+    dialog = vice_gtk3_save_file_dialog("Save playlist file",
+                                        vsid_playlist_get_path(),
+                                        TRUE,
+                                        NULL,
+                                        playlist_save_dialog_callback,
+                                        NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
+    /* add content area widget which allows setting playlist title */
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
+    gtk_widget_show_all(dialog);
+}
 
 /** \brief  Event handler for the 'row-activated' event of the view
  *
@@ -766,8 +771,6 @@ static void on_row_activated(GtkTreeView *view,
     g_value_unset(&value);
 }
 
-
-
 /** \brief  Event handler for the 'add SID' button
  *
  * \param[in]   widget  button triggering the event (unused)
@@ -777,7 +780,6 @@ static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
 {
     vsid_playlist_add_dialog_exec(add_files_callback);
 }
-
 
 /** \brief  Event handler for the 'remove' button
  *
@@ -796,7 +798,6 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
         gtk_list_store_remove(playlist_model, &iter);
     }
 }
-
 
 /** \brief  Event handler for the 'first' button
  *
@@ -970,10 +971,23 @@ static const ctx_menu_item_t cmenu_items[] = {
       NULL,
       CTX_MENU_ACTION },
     { "Delete selected item(s)",
-      delete_selected_rows,
+      on_ctx_delete_selected_rows,
       CTX_MENU_ACTION },
 
     { "---", NULL, CTX_MENU_SEP },
+
+    { "Load playlist",
+      NULL,
+      CTX_MENU_ACTION },
+    { "Save playlist",
+      NULL,
+      CTX_MENU_ACTION },
+    { "Clear playlist",
+      NULL,
+      CTX_MENU_ACTION },
+
+    { "---", NULL, CTX_MENU_SEP },
+
 
     { "Export binary",
       NULL,
@@ -1042,7 +1056,7 @@ static gboolean on_button_press_event(GtkWidget *view,
  */
 static const vsid_hotkey_t hotkeys[] = {
     { GDK_KEY_Insert,   0,              open_add_dialog },
-    { GDK_KEY_Delete,   0,              delete_selected_rows },
+    { GDK_KEY_Delete,   0,              on_ctx_delete_selected_rows },
     { GDK_KEY_Delete,   GDK_SHIFT_MASK, delete_all_rows },
     { 0, 0, NULL }
 };
@@ -1369,6 +1383,3 @@ void vsid_playlist_widget_remove_file(int row)
     }
     /* TODO: actually remove item :) */
 }
-
-
-
