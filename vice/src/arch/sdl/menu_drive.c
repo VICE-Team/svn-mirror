@@ -1015,12 +1015,18 @@ UI_MENU_DEFINE_TOGGLE(VirtualDevice9)
 UI_MENU_DEFINE_TOGGLE(VirtualDevice10)
 UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
 
+UI_MENU_DEFINE_STRING(Drive8FixedSize)
+UI_MENU_DEFINE_STRING(Drive9FixedSize)
+UI_MENU_DEFINE_STRING(Drive10FixedSize)
+UI_MENU_DEFINE_STRING(Drive11FixedSize)
+
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 
 #define DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0  12
 #define DRIVE_SETTINGS_OFFSET_DRIVE_TDE    14
 #define DRIVE_SETTINGS_OFFSET_DRIVE_VDRIVE 15
-#define DRIVE_SETTINGS_OFFSET_DRIVE_RTC    17
+#define DRIVE_SETTINGS_OFFSET_IEEE_END     16
+#define DRIVE_SETTINGS_OFFSET_DRIVE_RTC    19
 
 #define DRIVE_MENU(x)                                           \
     static ui_menu_entry_t drive_##x##_menu[] = {               \
@@ -1083,7 +1089,12 @@ UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
           toggle_VirtualDevice##x##_callback,                   \
           NULL },                                               \
 /* 16 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 17 */{ "Save Drive " #x" CMD RTC data",                      \
+/* 17 */{ "CMD HD fixed size",                                  \
+          MENU_ENTRY_RESOURCE_STRING,                           \
+          string_Drive##x##FixedSize_callback,                  \
+          (ui_callback_data_t)"Set CMD HD fixed size" },        \
+/* 18 */SDL_MENU_ITEM_SEPARATOR,                                \
+/* 19 */{ "Save Drive " #x" CMD RTC data",                      \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##RTCSave_callback,                    \
           NULL },                                               \
@@ -1379,10 +1390,10 @@ void uidrive_menu_create(void)
     memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
 
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
-        memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_DRIVE_RTC], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+        memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
     }
 
     drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(8) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
