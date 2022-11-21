@@ -201,6 +201,27 @@ static const ui_menu_entry_t petcolour_menu[] = {
     SDL_MENU_LIST_END
 };
 
+/* SUPERPET CPU */
+
+UI_MENU_DEFINE_RADIO(CPUswitch)
+
+static const ui_menu_entry_t superpet_cpu_menu[] = {
+    SDL_MENU_ITEM_TITLE("SuperPET CPU switch"),
+    { "MOS 6502",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_CPUswitch_callback,
+      (ui_callback_data_t)SUPERPET_CPU_6502 },
+    { "Motorola 6809",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_CPUswitch_callback,
+      (ui_callback_data_t)SUPERPET_CPU_6809 },
+    { "Programmable",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_CPUswitch_callback,
+      (ui_callback_data_t)SUPERPET_CPU_PROG },
+    SDL_MENU_LIST_END
+};
+
 /* PET MODEL SELECTION */
 
 static UI_MENU_CALLBACK(custom_PETModel_callback)
@@ -296,6 +317,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)pet_keyboard_menu },
+    { "SuperPET CPU switch",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)superpet_cpu_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
