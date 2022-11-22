@@ -284,10 +284,10 @@ static void on_drag_data_received(
                 tmp = g_filename_from_uri(files[i], NULL, NULL);
                 if (tmp == NULL) {
                     debug_gtk3("adding '%s'.", files[i]);
-                    vsid_playlist_widget_append_file(files[i]);
+                    vsid_playlist_append(files[i]);
                 } else {
                     debug_gtk3("adding '%s'.", tmp);
-                    vsid_playlist_widget_append_file(tmp);
+                    vsid_playlist_append(tmp);
                     g_free(tmp);
                 }
             }
@@ -297,7 +297,7 @@ static void on_drag_data_received(
                 gchar *tmp = g_filename_from_uri(uris[i], NULL, NULL);
 
                 debug_gtk3("adding '%s'.", tmp);
-                vsid_playlist_widget_append_file(tmp);
+                vsid_playlist_append(tmp);
                 g_free(tmp);
             }
         }

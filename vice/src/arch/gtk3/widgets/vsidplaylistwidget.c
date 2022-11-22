@@ -54,6 +54,7 @@
 #include "hvsc.h"
 #include "lastdir.h"
 #include "lib.h"
+#include "mainlock.h"
 #include "m3u.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -72,8 +73,12 @@
 
 /* \brief  Control button types */
 enum {
-    BUTTON_PUSH,    /**< action button: simple push button */
-    BUTTON_TOGGLE     /**< toggle button: for 'repeat' and 'shuffle' */
+    CTRL_LIST_END = -1, /**< end of list */
+    CTRL_PUSH_BUTTON,   /**< action button: simple push button */
+    CTRL_TOGGLE_BUTTON, /**< toggle button: for 'repeat' and 'shuffle' */
+    CTRL_CENTERED_LABEL /**< centered label, gtk_label_set_markup() is used
+                             for the text, so some HTML tags such as bold and
+                             italic can be used */
 };
 
 /* Playlist column indexes */
@@ -86,14 +91,18 @@ enum {
     NUM_COLUMNS         /**< number of columns in the model */
 };
 
-/** \brief  Playlist control button struct
+/** \brief  Playlist control struct
  */
-typedef struct plist_ctrl_button_s {
-    const char *icon_name;  /**< icon-name in the Gtk3 theme */
-    int         type;       /**< type of button (action/toggle) */
+typedef struct plist_ctrl_ {
+    const char *icon;           /**< icon name in the Gtk3 theme */
+    int         type;           /**< type of button (action/toggle) */
+    int         action;         /**< UI action ID */
     void        (*callback)(GtkWidget *, gpointer); /**< callback function */
-    const char *tooltip;    /**< tooltip text */
-} plist_ctrl_button_t;
+    const char *text;           /**< text (for labels) */
+    const char *tooltip;        /**< tooltip text */
+    int         margin_start;    /**< left margin */
+    int         margin_end;   /**< right margin */
+} plist_ctrl_t;
 
 /** \brief  Type of context menu item types
  */
@@ -165,6 +174,10 @@ static char *playlist_path;
  * playlist dialogs.
  */
 static char *playlist_last_dir;
+
+#define MAX_CONTROLS 32
+static GtkWidget *control_widgets[MAX_CONTROLS];
+static gulong control_handlers[MAX_CONTROLS];
 
 
 /* {{{ Utility functions */
@@ -307,7 +320,7 @@ static void add_files_callback(GSList *files)
     if (files != NULL) {
         do {
             const char *path = (const char *)(pos->data);
-            vsid_playlist_widget_append_file(path);
+            vsid_playlist_append(path);
             pos = g_slist_next(pos);
         } while (pos != NULL);
         g_slist_free(files);
@@ -315,49 +328,22 @@ static void add_files_callback(GSList *files)
 }
 
 /* {{{ Context menu callbacks */
+
 /** \brief  Delete selected rows
+ *
+ * Event handler for context menu 'delete-all' and hotkey 'Shift+Delete'.
  *
  * \param[in]   widget  widget triggering the event
  * \param[in]   data    extra event data (unused)
  *
  * \return  FALSE on error
  */
-static gboolean on_ctx_delete_selected_rows(GtkWidget *widget, gpointer data)
+static gboolean on_ctx_delete_selected(GtkWidget *widget, gpointer data)
 {
-    GtkTreeModel *model;
-    GtkTreeSelection *selection;
-    GList *rows;
-    GList *elem;
-
-    /* get model in the correct type for gtk_tree_model_get_iter(),
-     * taking the address of GTK_TREE_MODEL(M) doesn't work.
-     */
-    model = GTK_TREE_MODEL(playlist_model);
-    /* get current selection */
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    /* get rows in the selection, which is a GList of GtkTreePath *'s */
-    rows = gtk_tree_selection_get_selected_rows(selection, &model);
-
-    /* iterate the list of rows in reverse order to avoid
-     * invalidating the GtkTreePath*'s in the list
-     */
-    for (elem = g_list_last(rows); elem != NULL; elem = elem->prev) {
-        GtkTreePath *path;
-        GtkTreeIter iter;
-
-        /* delete row */
-        path = elem->data;
-        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(playlist_model),
-                                    &iter,
-                                    path)) {
-            gtk_list_store_remove(playlist_model, &iter);
-        } else {
-            return FALSE;
-        }
-    }
-    g_list_free(rows);
+    vsid_playlist_remove_selection();
     return TRUE;
 }
+
 /* }}} */
 
 /** \brief  Delete the entire playlist
@@ -367,7 +353,7 @@ static gboolean on_ctx_delete_selected_rows(GtkWidget *widget, gpointer data)
  *
  * \return  TRUE
  */
-static gboolean delete_all_rows(GtkWidget *widget, gpointer data)
+static gboolean on_ctx_delete_all(GtkWidget *widget, gpointer data)
 {
     gtk_list_store_clear(playlist_model);
     return TRUE;
@@ -400,7 +386,8 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
  */
 static bool playlist_entry_handler(const char *text, size_t len)
 {
-    vsid_playlist_widget_append_file(util_skip_whitespace(text));
+    /* ignore errors for now */
+    vsid_playlist_append(util_skip_whitespace(text));
     return true;
 }
 
@@ -677,23 +664,11 @@ static void on_destroy(GtkWidget *widget, gpointer data)
  * \param[in]   widget  button (ignored)
  * \param[in]   data    extra event data (ignored)
  */
-static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_load_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkWidget *dialog;
-
-    /* if we don't have a previous directory, we use the HVSC base directory */
-    set_playlist_dialogs_default_dir();
-
-    /* create dialog and set the initial directory */
-    dialog = vice_gtk3_open_file_dialog("Load playlist",
-                                        "Playlist files",
-                                        file_chooser_pattern_playlist,
-                                        NULL,
-                                        playlist_load_callback,
-                                        NULL);
-    lastdir_set(dialog, &playlist_last_dir, NULL);
-    gtk_widget_show_all(dialog);
+    vsid_playlist_load();
 }
+
 /** \brief  Handler for the 'clicked' event of the 'save-playlist' button
  *
  * Show dialog to save the playlist, optionally setting a playlist title.
@@ -701,33 +676,9 @@ static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
  * \param[in]   widget  button (ignored)
  * \param[in]   data    extra event data (ignored)
  */
-static void on_playlist_save_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_save_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkWidget *dialog;
-    GtkWidget *content;
-    gint rows;
-
-    /* don't try to save an empty playlist */
-    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
-    if (rows < 1) {
-        ui_display_statustext("Error: cannot save empty playlist.", 1);
-        return;
-    }
-
-    /* if we don't have a previous directory, we use the HVSC base directory */
-    set_playlist_dialogs_default_dir();
-    /* create dialog and set initial directory */
-    dialog = vice_gtk3_save_file_dialog("Save playlist file",
-                                        vsid_playlist_get_path(),
-                                        TRUE,
-                                        NULL,
-                                        playlist_save_dialog_callback,
-                                        NULL);
-    lastdir_set(dialog, &playlist_last_dir, NULL);
-    /* add content area widget which allows setting playlist title */
-    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
-    gtk_widget_show_all(dialog);
+    vsid_playlist_save();
 }
 
 /** \brief  Event handler for the 'row-activated' event of the view
@@ -776,59 +727,31 @@ static void on_row_activated(GtkTreeView *view,
  * \param[in]   widget  button triggering the event (unused)
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_append_clicked(GtkWidget *widget, gpointer data)
 {
     vsid_playlist_add_dialog_exec(add_files_callback);
 }
 
 /** \brief  Event handler for the 'remove' button
  *
- * \param[in]   widget  button triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    if (gtk_tree_selection_get_selected(selection,
-                                        NULL,
-                                        &iter)) {
-        gtk_list_store_remove(playlist_model, &iter);
-    }
-}
-
-/** \brief  Event handler for the 'first' button
+ * Remove selected items from the playlist.
  *
  * \param[in]   widget  button triggering the event
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkTreeIter iter;
+    vsid_playlist_remove_selection();
+}
 
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
-        const gchar *filename;
-        GtkTreeSelection *selection;
-        GValue value = G_VALUE_INIT;
-
-        /* get selection object, unselect all rows and select the first row */
-        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-        gtk_tree_selection_unselect_all(selection);
-        gtk_tree_selection_select_iter(selection, &iter);
-        /* scroll row into view */
-        scroll_to_iter(&iter);
-        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
-                                 &iter,
-                                 COL_FULL_PATH,
-                                 &value);
-        filename = g_value_get_string(&value);
-
-        /* TODO: check result */
-        ui_vsid_window_load_psid(filename);
-        g_value_unset(&value);
-    }
+/** \brief  Event handler for the 'first' button
+ *
+ * \param[in]   widget  button triggering the event (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
+static void on_btn_playlist_first_clicked(GtkWidget *widget, gpointer data)
+{
+    vsid_playlist_first();
 }
 
 /** \brief  Event handler for the 'last' button
@@ -836,51 +759,42 @@ static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
  * \param[in]   widget  button triggering the event
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_last_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
+    vsid_playlist_last();
+}
 
-    /* get selection object and deselect all rows */
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    gtk_tree_selection_unselect_all(selection);
-
-    /* There is no gtk_tree_model_get_iter_last(), so: */
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
-        GtkTreeIter prev;
-        const gchar *filename;
-        GValue value = G_VALUE_INIT;
-
-        /* move to last row */
-        prev = iter;
-        while (gtk_tree_model_iter_next(GTK_TREE_MODEL(playlist_model), &iter)) {
-            prev = iter;
-        }
-        iter = prev;
-        gtk_tree_selection_select_iter(selection, &iter);
-        /* scroll row into view */
-        scroll_to_iter(&iter);
-
-        /* now get the sid filename and load it */
-        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
-                                 &iter,
-                                 COL_FULL_PATH,
-                                 &value);
-        filename = g_value_get_string(&value);
-        ui_vsid_window_load_psid(filename);
-
-        g_value_unset(&value);
+/** \brief  Callback for the clear-playlist confirmation dialog
+ *
+ * Destroys \a dialog and clears playlist if \a result is `TRUE`.
+ *
+ * \param[in]   dialog  confirmation dialog
+ * \param[in]   result  result of dialog
+ */
+static void clear_playlist_callback(GtkDialog *dialog, gboolean result)
+{
+    if (result) {
+        vsid_playlist_clear();
     }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 /** \brief  Event handler for the 'clear' button
  *
+ * Pops up confirmation dialog box and clears the playlist if confirmed.
+ *
  * \param[in]   widget  button triggering the event
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_clear_clicked(GtkWidget *widget, gpointer data)
 {
-    delete_all_rows(NULL, NULL);
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_message_confirm(
+            clear_playlist_callback,
+            "VSID",
+            "Are you sure you wish to clear the playlist?");
+    gtk_widget_show_all(dialog);
 }
 
 /** \brief  Event handler for the 'next' button
@@ -888,39 +802,9 @@ static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
  * \param[in]   widget  button triggering the event
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_next_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    GtkTreeModel *model;
-
-    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
-    model = GTK_TREE_MODEL(playlist_model);
-    /* get selection object and temporarily set mode to single-selection so
-     * we can get an iter (this will keep the 'anchor' selected: the first
-     * row clicked when selecting multiple rows) */
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-    if (gtk_tree_selection_get_selected(selection,
-                                        &model,
-                                        &iter)) {
-        if (gtk_tree_model_iter_next(model, &iter)) {
-            const gchar *filename;
-            GValue value = G_VALUE_INIT;
-
-            gtk_tree_selection_select_iter(selection, &iter);
-            scroll_to_iter(&iter);
-            gtk_tree_model_get_value(model,
-                                     &iter,
-                                     COL_FULL_PATH,
-                                     &value);
-            filename = g_value_get_string(&value);
-            ui_vsid_window_load_psid(filename);
-            g_value_unset(&value);
-        }
-    }
-    /* restore multi-select */
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
+    vsid_playlist_next();
 }
 
 /** \brief  Go to previous entry in the playlist
@@ -928,39 +812,9 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
  * \param[in]   widget  button triggering the event (unused)
  * \param[in]   data    extra event data (unused)
  */
-static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
+static void on_btn_playlist_previous_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    GtkTreeModel *model;
-
-    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
-    model = GTK_TREE_MODEL(playlist_model);
-    /* get selection object and temporarily set mode to single-selection so
-     * we can get an iter (this will keep the 'anchor' selected: the first
-     * row clicked when selecting multiple rows) */
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-    if (gtk_tree_selection_get_selected(selection,
-                                        &model,
-                                        &iter)) {
-        if (gtk_tree_model_iter_previous(model, &iter)) {
-            const gchar *filename;
-            GValue value = G_VALUE_INIT;
-
-            gtk_tree_selection_select_iter(selection, &iter);
-            scroll_to_iter(&iter);
-            gtk_tree_model_get_value(model,
-                                     &iter,
-                                     COL_FULL_PATH,
-                                     &value);
-            filename = g_value_get_string(&value);
-            ui_vsid_window_load_psid(filename);
-            g_value_unset(&value);
-        }
-    }
-    /* restore multi-select */
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
+    vsid_playlist_previous();
 }
 
 
@@ -971,7 +825,7 @@ static const ctx_menu_item_t cmenu_items[] = {
       NULL,
       CTX_MENU_ACTION },
     { "Delete selected item(s)",
-      on_ctx_delete_selected_rows,
+      on_ctx_delete_selected,
       CTX_MENU_ACTION },
 
     { "---", NULL, CTX_MENU_SEP },
@@ -980,7 +834,7 @@ static const ctx_menu_item_t cmenu_items[] = {
       NULL,
       CTX_MENU_ACTION },
     { "Save playlist",
-      NULL,
+      on_ctx_delete_all,
       CTX_MENU_ACTION },
     { "Clear playlist",
       NULL,
@@ -1020,6 +874,8 @@ static GtkWidget *create_context_menu(void)
                         "activate",
                         G_CALLBACK(cmenu_items[i].callback),
                         GINT_TO_POINTER(i));
+            } else {
+                gtk_widget_set_sensitive(item, FALSE);
             }
         }
         gtk_container_add(GTK_CONTAINER(menu), item);
@@ -1056,8 +912,8 @@ static gboolean on_button_press_event(GtkWidget *view,
  */
 static const vsid_hotkey_t hotkeys[] = {
     { GDK_KEY_Insert,   0,              open_add_dialog },
-    { GDK_KEY_Delete,   0,              on_ctx_delete_selected_rows },
-    { GDK_KEY_Delete,   GDK_SHIFT_MASK, delete_all_rows },
+    { GDK_KEY_Delete,   0,              on_ctx_delete_selected },
+    { GDK_KEY_Delete,   GDK_SHIFT_MASK, on_ctx_delete_all },
     { 0, 0, NULL }
 };
 
@@ -1167,52 +1023,81 @@ static void vsid_playlist_view_create(void)
 
 /** \brief  List of playlist controls
  */
-static const plist_ctrl_button_t controls[] = {
-    { "media-skip-backward",
-      BUTTON_PUSH,
-      on_playlist_first_clicked,
-      "Go to start of playlist" },
-    { "media-seek-backward",
-      BUTTON_PUSH,
-      on_playlist_prev_clicked,
-      "Go to previous tune" },
-    { "media-seek-forward",
-      BUTTON_PUSH,
-      on_playlist_next_clicked,
-      "Go to next tune" },
-    { "media-skip-forward",
-      BUTTON_PUSH,
-      on_playlist_last_clicked,
-      "Go to end of playlist" },
-    { "media-playlist-repeat",
-      BUTTON_TOGGLE,
-      NULL,
-      "Repeat playlist" },
-    { "media-playlist-shuffle",
-      BUTTON_TOGGLE,
-      NULL,
-      "Shuffle playlist" },
-    { "list-add",
-      BUTTON_PUSH,
-      on_playlist_append_clicked,
-      "Add tune to playlist" },
-    { "list-remove",
-      BUTTON_PUSH,
-      on_playlist_remove_clicked,
-      "Remove selected tune from playlist" },
-    { "document-open",
-      BUTTON_PUSH,
-      on_playlist_load_clicked,
-      "Open playlist file" },
-    { "document-save",
-      BUTTON_PUSH,
-      on_playlist_save_clicked,
-      "Save playlist file" },
-    { "edit-clear-all",
-      BUTTON_PUSH,
-      on_playlist_clear_clicked,
-      "Clear playlist" },
-    { NULL, 0, NULL, NULL }
+static const plist_ctrl_t controls[] = {
+    {
+        .icon = "media-skip-backward",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_first_clicked,
+        .tooltip = "Go to start of playlist"
+    },
+    {
+        .icon = "media-seek-backward",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_previous_clicked,
+        .tooltip = "Go to previous tune"
+    },
+    {
+        .type = CTRL_CENTERED_LABEL,
+        .text = "<b>0</b> of <b>0</b>",
+        .margin_start = 8,
+        .margin_end = 8
+    },
+    {
+        .icon = "media-seek-forward",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_next_clicked,
+        .tooltip = "Go to next tune"
+    },
+    {
+        .icon = "media-skip-forward",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_last_clicked,
+        .tooltip = "Go to end of playlist"
+    },
+    {
+        .icon = "media-playlist-repeat",
+        .type = CTRL_TOGGLE_BUTTON,
+        .tooltip = "Repeat playlist",
+        .margin_start = 16
+    },
+    {
+        .icon = "media-playlist-shuffle",
+        .type = CTRL_TOGGLE_BUTTON,
+        .tooltip = "Shuffle playlist"
+    },
+    {
+        .icon ="list-add",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_append_clicked,
+        .tooltip = "Add tune to playlist",
+        .margin_start = 16
+    },
+    {
+        .icon = "list-remove",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_remove_clicked,
+        .tooltip = "Remove selected tune from playlist"
+    },
+    {
+        .icon = "edit-clear-all",
+        .type = CTRL_PUSH_BUTTON,
+        .callback =  on_btn_playlist_clear_clicked,
+        .tooltip = "Clear playlist"
+    },
+    {
+        .icon = "document-open",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_load_clicked,
+        .tooltip = "Open playlist file",
+        .margin_start = 16
+    },
+    {
+        .icon = "document-save",
+        .type = CTRL_PUSH_BUTTON,
+        .callback = on_btn_playlist_save_clicked,
+        .tooltip = "Save playlist file"
+    },
+    { .type = CTRL_LIST_END }
 };
 
 /** \brief  Create a grid with a list of buttons to control the playlist
@@ -1228,25 +1113,80 @@ static GtkWidget *vsid_playlist_controls_create(void)
     int i;
 
     grid = vice_gtk3_grid_new_spaced(0, VICE_GTK3_DEFAULT);
-    for (i = 0; controls[i].icon_name != NULL; i++) {
-        GtkWidget *button;
-        gchar buff[1024];
+    for (i = 0; (i < MAX_CONTROLS) && (controls[i].type != CTRL_LIST_END); i++) {
+        GtkWidget *widget;
+        GtkWidget *image;
+        gulong handler;
+        gchar icon[256];
 
-        g_snprintf(buff, sizeof(buff), "%s-symbolic", controls[i].icon_name);
-        button = gtk_button_new_from_icon_name(buff, GTK_ICON_SIZE_LARGE_TOOLBAR);
-        /* always show icon and don't grab focus on click/tab */
-        gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
-        gtk_widget_set_can_focus(button, FALSE);
+        /* create symbolic icon name */
+        g_snprintf(icon, sizeof icon, "%s-symbolic", controls[i].icon);
 
-        gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1, 1);
-        if (controls[i].callback != NULL) {
-            g_signal_connect(button,
-                             "clicked",
-                             G_CALLBACK(controls[i].callback),
-                             (gpointer)(controls[i].icon_name));
+        widget = NULL;
+        handler = 0;
+        switch (controls[i].type) {
+
+            case CTRL_PUSH_BUTTON:
+                /* normal GtkButton */
+                widget = gtk_button_new_from_icon_name(icon,
+                                                       GTK_ICON_SIZE_LARGE_TOOLBAR);
+                /* always show icon and don't grab focus on click/tab */
+                gtk_button_set_always_show_image(GTK_BUTTON(widget), TRUE);
+                if (controls[i].callback != NULL) {
+                    handler = g_signal_connect(widget,
+                                               "clicked",
+                                               G_CALLBACK(controls[i].callback),
+                                               NULL);
+                } else {
+                    gtk_widget_set_sensitive(widget, FALSE);
+                }
+                break;
+
+            case CTRL_TOGGLE_BUTTON:
+                /* GtkToggleButton */
+                widget = gtk_toggle_button_new();
+                image = gtk_image_new_from_icon_name(icon,
+                                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
+                gtk_container_add(GTK_CONTAINER(widget), image);
+                if (controls[i].callback != NULL) {
+                    handler = g_signal_connect(widget,
+                                               "toggled",
+                                               G_CALLBACK(controls[i].callback),
+                                               NULL);
+                } else {
+                    gtk_widget_set_sensitive(widget, FALSE);
+                }
+                break;
+
+            case CTRL_CENTERED_LABEL:
+                /* GtkLabel, centered */
+                widget = gtk_label_new(NULL);
+                if (controls[i].text != NULL) {
+                    gtk_label_set_markup(GTK_LABEL(widget), controls[i].text);
+                }
+                gtk_widget_set_halign(widget, GTK_ALIGN_CENTER);
+               break;
+
+            default:
+                debug_gtk3("Unknown control type %d!!!", controls[i].type);
         }
-        if (controls[i].tooltip != NULL) {
-            gtk_widget_set_tooltip_text(button, controls[i].tooltip);
+
+        if (widget != NULL) {
+            gtk_widget_set_can_focus(widget, FALSE);
+            control_widgets[i] = widget;
+            control_handlers[i] = handler;
+
+            if (controls[i].margin_start > 0) {
+                gtk_widget_set_margin_start(widget, controls[i].margin_start);
+            }
+            if (controls[i].margin_end > 0) {
+                gtk_widget_set_margin_end(widget, controls[i].margin_end);
+            }
+
+            gtk_grid_attach(GTK_GRID(grid), widget, i, 0, 1, 1);
+            if (controls[i].tooltip != NULL) {
+                gtk_widget_set_tooltip_text(widget, controls[i].tooltip);
+            }
         }
     }
     return grid;
@@ -1304,14 +1244,10 @@ GtkWidget *vsid_playlist_widget_create(void)
  *
  * \return  TRUE on success, FALSE on failure
  */
-gboolean vsid_playlist_widget_append_file(const gchar *path)
+gboolean vsid_playlist_append(const gchar *path)
 {
     GtkTreeIter iter;
     hvsc_psid_t psid;
-    char name[HVSC_PSID_TEXT_LEN + 1];
-    char author[HVSC_PSID_TEXT_LEN + 1];
-    char *name_utf8;
-    char *author_utf8;
 
     /* Attempt to parse sid header for title & composer */
     if (!hvsc_psid_open(path, &psid)) {
@@ -1336,7 +1272,11 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
                            -1);
 
     } else {
-        gchar *display_path;
+        char name[HVSC_PSID_TEXT_LEN + 1];
+        char author[HVSC_PSID_TEXT_LEN + 1];
+        char *name_utf8;
+        char *author_utf8;
+        char *display_path;
 
         /* get SID name and author */
         memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
@@ -1356,7 +1296,7 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
                            COL_AUTHOR, author_utf8,
                            COL_FULL_PATH, path,
                            COL_DISPLAY_PATH, display_path,
-                          -1);
+                           -1);
 
         /* clean up */
         g_free(name_utf8);
@@ -1382,4 +1322,262 @@ void vsid_playlist_widget_remove_file(int row)
         return;
     }
     /* TODO: actually remove item :) */
+}
+
+
+/** \brief  Play first tune in the playlist
+ */
+void vsid_playlist_first(void)
+{
+    GtkTreeIter iter;
+
+    mainlock_assert_is_not_vice_thread();
+
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
+        const gchar *filename;
+        GtkTreeSelection *selection;
+        GValue value = G_VALUE_INIT;
+
+        /* get selection object, unselect all rows and select the first row */
+        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+        gtk_tree_selection_unselect_all(selection);
+        gtk_tree_selection_select_iter(selection, &iter);
+        /* scroll row into view */
+        scroll_to_iter(&iter);
+        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                                 &iter,
+                                 COL_FULL_PATH,
+                                 &value);
+        filename = g_value_get_string(&value);
+
+        /* TODO: check result */
+        ui_vsid_window_load_psid(filename);
+        g_value_unset(&value);
+    }
+}
+
+
+/** \brief  Play previous tune in the playlist
+ */
+void vsid_playlist_previous(void)
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    mainlock_assert_is_not_vice_thread();
+
+    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get selection object and temporarily set mode to single-selection so
+     * we can get an iter (this will keep the 'anchor' selected: the first
+     * row clicked when selecting multiple rows) */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    if (gtk_tree_selection_get_selected(selection,
+                                        &model,
+                                        &iter)) {
+        if (gtk_tree_model_iter_previous(model, &iter)) {
+            const gchar *filename;
+            GValue value = G_VALUE_INIT;
+
+            gtk_tree_selection_select_iter(selection, &iter);
+            scroll_to_iter(&iter);
+            gtk_tree_model_get_value(model,
+                                     &iter,
+                                     COL_FULL_PATH,
+                                     &value);
+            filename = g_value_get_string(&value);
+            ui_vsid_window_load_psid(filename);
+            g_value_unset(&value);
+        }
+    }
+    /* restore multi-select */
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
+}
+
+
+/** \brief  Play next tune in the playlist
+ */
+void vsid_playlist_next(void)
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    mainlock_assert_is_not_vice_thread();
+
+    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get selection object and temporarily set mode to single-selection so
+     * we can get an iter (this will keep the 'anchor' selected: the first
+     * row clicked when selecting multiple rows) */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    if (gtk_tree_selection_get_selected(selection,
+                                        &model,
+                                        &iter)) {
+        if (gtk_tree_model_iter_next(model, &iter)) {
+            const gchar *filename;
+            GValue value = G_VALUE_INIT;
+
+            gtk_tree_selection_select_iter(selection, &iter);
+            scroll_to_iter(&iter);
+            gtk_tree_model_get_value(model,
+                                     &iter,
+                                     COL_FULL_PATH,
+                                     &value);
+            filename = g_value_get_string(&value);
+            ui_vsid_window_load_psid(filename);
+            g_value_unset(&value);
+        }
+    }
+    /* restore multi-select */
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
+}
+
+
+/** \brief  Play last tune in the playlist
+ */
+void vsid_playlist_last(void)
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+
+    mainlock_assert_is_not_vice_thread();
+
+    /* get selection object and deselect all rows */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_unselect_all(selection);
+
+    /* There is no gtk_tree_model_get_iter_last(), so: */
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
+        GtkTreeIter prev;
+        const gchar *filename;
+        GValue value = G_VALUE_INIT;
+
+        /* move to last row */
+        prev = iter;
+        while (gtk_tree_model_iter_next(GTK_TREE_MODEL(playlist_model), &iter)) {
+            prev = iter;
+        }
+        iter = prev;
+        gtk_tree_selection_select_iter(selection, &iter);
+        /* scroll row into view */
+        scroll_to_iter(&iter);
+
+        /* now get the sid filename and load it */
+        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                                 &iter,
+                                 COL_FULL_PATH,
+                                 &value);
+        filename = g_value_get_string(&value);
+        ui_vsid_window_load_psid(filename);
+
+        g_value_unset(&value);
+    }
+}
+
+
+/** \brief  Remove selected tunes from the playlist
+ */
+void vsid_playlist_remove_selection(void)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GList *rows;
+    GList *elem;
+
+    /* get model in the correct type for gtk_tree_model_get_iter(),
+     * taking the address of GTK_TREE_MODEL(M) doesn't work.
+     */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get current selection */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    /* get rows in the selection, which is a GList of GtkTreePath *'s */
+    rows = gtk_tree_selection_get_selected_rows(selection, &model);
+
+    /* iterate the list of rows in reverse order to avoid
+     * invalidating the GtkTreePath*'s in the list
+     */
+    for (elem = g_list_last(rows); elem != NULL; elem = elem->prev) {
+        GtkTreeIter iter;
+        GtkTreePath *path = elem->data;
+
+        /* delete row */
+        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(playlist_model),
+                                    &iter,
+                                    path)) {
+            gtk_list_store_remove(playlist_model, &iter);
+        }
+    }
+    g_list_free(rows);
+}
+
+
+/** \brief  Clear playlist
+ */
+void vsid_playlist_clear(void)
+{
+    mainlock_assert_is_not_vice_thread();
+    if (playlist_model != NULL) {
+        gtk_list_store_clear(playlist_model);
+    }
+}
+
+
+/** \brief  Show dialog to load a playlist
+ */
+void vsid_playlist_load(void)
+{
+    GtkWidget *dialog;
+
+    mainlock_assert_is_not_vice_thread();
+
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+
+    /* create dialog and set the initial directory */
+    dialog = vice_gtk3_open_file_dialog("Load playlist",
+                                        "Playlist files",
+                                        file_chooser_pattern_playlist,
+                                        NULL,
+                                        playlist_load_callback,
+                                        NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
+    gtk_widget_show_all(dialog);
+}
+
+
+/** \brief  Show dialog to save the playlist
+ */
+void vsid_playlist_save(void)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+    gint rows;
+
+    mainlock_assert_is_not_vice_thread();
+
+    /* don't try to save an empty playlist */
+    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
+    if (rows < 1) {
+        ui_display_statustext("Error: cannot save empty playlist.", 1);
+        return;
+    }
+
+    /* if we don't have a previous directory, we use the HVSC base directory */
+    set_playlist_dialogs_default_dir();
+    /* create dialog and set initial directory */
+    dialog = vice_gtk3_save_file_dialog("Save playlist file",
+                                        vsid_playlist_get_path(),
+                                        TRUE,
+                                        NULL,
+                                        playlist_save_dialog_callback,
+                                        NULL);
+    lastdir_set(dialog, &playlist_last_dir, NULL);
+    /* add content area widget which allows setting playlist title */
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
+    gtk_widget_show_all(dialog);
 }
