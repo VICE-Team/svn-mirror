@@ -336,7 +336,7 @@ Filter::Filter()
         opamp[j].dvx = 0;
       }
       unsigned int f = voltages[j];
-      for (; j <= mf.bk; j++) {
+      for (; j < mf.bk; j++) {
         unsigned int fp = f;
         f = voltages[j];  // Scaled by m*2^31
         // m*2^31*dy/1 = (m*2^31*dy)/(m*2^16*dx) = 2^15*dy/dx
