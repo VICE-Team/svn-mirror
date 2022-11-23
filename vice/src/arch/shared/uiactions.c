@@ -767,6 +767,9 @@ void ui_actions_init(void)
     action_mappings_size = 64;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
+    /* properly terminate list, when adding an action we first scan the list
+     * if the action is already registered */
+    action_mappings[0].action = ACTION_NONE;
 #endif
 }
 
@@ -835,16 +838,17 @@ void ui_actions_register(const ui_action_map_t *mappings)
         entry->handler = map->handler;
         entry->blocks  = map->blocks;
         entry->dialog  = map->dialog;
+        entry->uithread = map->uithread;
         entry->is_busy = false;
 
         action_mappings_count++;
+        /* terminate list: needs to happen inside the loop since we search
+         * the array to determine if an action is already registered */
+        action_mappings[action_mappings_count].action  = ACTION_NONE;
+
         map++;;
     }
-    /* terminate list */
-    action_mappings[action_mappings_count].action  = ACTION_NONE;
-    action_mappings[action_mappings_count].handler = NULL;
 }
-
 
 
 /** \brief  Trigger a UI action
