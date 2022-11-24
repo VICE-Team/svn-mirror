@@ -463,23 +463,6 @@ static void driver_info_set_image(void)
 }
 
 
-#if 0
-/** \brief  Create temp songlength widget
- *
- * \return  GtkLabel
- */
-static GtkWidget *create_sldb_widget(void)
-{
-    GtkWidget *label;
-
-    label = gtk_label_new("N/A");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    gtk_widget_show_all(label);
-    return label;
-}
-#endif
-
 /** \brief  Update play time based ui elements
  */
 void vsid_tune_info_widget_update(void)
@@ -595,14 +578,6 @@ GtkWidget *vsid_tune_info_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), driver_info_widget, 1, row, 1, 1);
     row++;
 
-#if 0
-    /* song length info */
-    label = create_left_aligned_label("Song lengths:");
-    gtk_widget_set_valign(label, GTK_ALIGN_START);
-    sldb_widget = create_sldb_widget();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), sldb_widget, 1, 9, 1, 1);
-#endif
     g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
@@ -823,9 +798,6 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
 
 /** \brief  Set song lengths for each sub-tune
  *
- * For now this is more of a debugging/test function, the idea is to allow
- * tunes to automatically skip to the next song when their time is up.
- *
  * \param[in]   psid    SID file
  *
  * \return  non-0 if a songlenghts entry was found
@@ -833,6 +805,10 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
 int vsid_tune_info_widget_set_song_lengths(const char *psid)
 {
     int num;
+
+    if (song_lengths != NULL) {
+        lib_free(song_lengths);
+    }
 
     num = hvsc_sldb_get_lengths(psid, &song_lengths);
     if (num < 0) {

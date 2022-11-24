@@ -326,6 +326,8 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
  * \param[out]  lengths object to store pointer to array of song lengths
  *
  * \return  number of songs or -1 on error
+ *
+ * \note    The caller is responsible for freeing \a lengths after use.
  */
 int hvsc_sldb_get_lengths(const char *psid, long **lengths)
 {
