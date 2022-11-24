@@ -478,12 +478,21 @@ void vsid_tune_info_widget_update(void)
         total = song_lengths[tune_current - 1];
         /* determine progress bar value */
         fraction = 1.0 - ((gdouble)(total / 100 - play_time) / (gdouble)(total / 100));
-        if (fraction < 0.0) {
-            fraction = 1.0;
+        if (play_time >= total / 100) {
+            fraction = 1.0; /* keep fraction at 1.0 max if looping */
             /* skip to next tune, if repeat is off */
             if (!vsid_control_widget_get_repeat()) {
                 vsid_control_widget_next_tune();
                 fraction = 0.0;
+
+                /* TODO: Mark this subtune as played and skip to the next
+                 *       tune in playlist if all subtunes have been played
+                 *
+                 *       See vsidstate.c, the state object contains a
+                 *       'bitmap' of played tunes (state->tunes_played[])
+                 *       which can be queried and updated in a thread-safe
+                 *       manner.
+                 */
             }
         }
         vsid_control_widget_set_progress(fraction);
