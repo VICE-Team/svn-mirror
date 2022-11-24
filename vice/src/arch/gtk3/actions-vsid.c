@@ -47,6 +47,7 @@
 #include "uiactions.h"
 #include "uisidattach.h"
 #include "vsidcontrolwidget.h"
+#include "vsidplaylistwidget.h"
 #include "vsidstate.h"
 
 #include "actions-vsid.h"
@@ -377,6 +378,7 @@ static void psid_subtune_20_action(void)
 {
     play_subtune(20);
 }
+
 /** \brief  Play subtune 21 */
 static void psid_subtune_21_action(void)
 {
@@ -437,11 +439,60 @@ static void psid_subtune_30_action(void)
     play_subtune(30);
 }
 
+/** \brief  Toggle SID tune looping */
 static void psid_loop_toggle_action(void)
 {
     gboolean enabled = vsid_control_widget_get_repeat();
 
     vsid_control_widget_set_repeat(!enabled);
+}
+
+/** \brief  Play first tune in the playlist */
+static void psid_playlist_first_action(void)
+{
+    vsid_playlist_first();
+}
+
+/** \brief  Play previous tune in the playlist */
+static void psid_playlist_previous_action(void)
+{
+    vsid_playlist_previous();
+}
+
+/** \brief  Play next tune in the playlist */
+static void psid_playlist_next_action(void)
+{
+    vsid_playlist_next();
+}
+
+/** \brief  Play last tune in the playlist */
+static void psid_playlist_last_action(void)
+{
+    vsid_playlist_last();
+}
+
+/** \brief  Show dialog to add files to the playlist */
+static void psid_playlist_add_action(void)
+{
+    vsid_playlist_add();
+}
+
+/** \brief  Show dialog to load a playlist */
+static void psid_playlist_load_action(void)
+{
+    vsid_playlist_load();
+}
+
+/** \brief  Show dialog to save the playlist */
+static void psid_playlist_save_action(void)
+{
+    vsid_playlist_save();
+}
+
+/** \brief  Clear the playlist */
+static void psid_playlist_clear_action(void)
+{
+    vsid_playlist_clear();
 }
 
 
@@ -645,6 +696,56 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_loop_toggle_action,
         .uithread = true
     },
+
+    {
+        .action = ACTION_PSID_PLAYLIST_FIRST,
+        .handler = psid_playlist_first_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_PREVIOUS,
+        .handler = psid_playlist_previous_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_NEXT,
+        .handler = psid_playlist_next_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_LAST,
+        .handler = psid_playlist_last_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_ADD,
+        .handler = psid_playlist_add_action,
+        .uithread = true,
+        .dialog = true,
+        .blocks = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_LOAD,
+        .handler = psid_playlist_load_action,
+        .uithread = true,
+        .dialog = true,
+        .blocks = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_SAVE,
+        .handler = psid_playlist_save_action,
+        .uithread = true,
+        .dialog = true,
+        .blocks = true
+    },
+    {
+        .action = ACTION_PSID_PLAYLIST_CLEAR,
+        .handler = psid_playlist_clear_action,
+        .uithread = true,
+        .dialog = true,
+        .blocks = true
+    },
+
 
     UI_ACTION_MAP_TERMINATOR
 };

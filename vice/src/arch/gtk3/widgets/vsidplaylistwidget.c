@@ -57,6 +57,7 @@
 #include "mainlock.h"
 #include "m3u.h"
 #include "resources.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
 #include "util.h"
@@ -310,8 +311,7 @@ static void scroll_to_iter(GtkTreeIter *iter)
  *
  * \param[in,out]   files   List of selected files
  *
- * WARNING: this function frees its argument and probably shouldn't do that!
- *
+ * \note    The playlist-add dialog frees \a files after calling this function
  */
 static void add_files_callback(GSList *files)
 {
@@ -320,10 +320,9 @@ static void add_files_callback(GSList *files)
     if (files != NULL) {
         do {
             const char *path = (const char *)(pos->data);
-            vsid_playlist_append(path);
+            vsid_playlist_append_file(path);
             pos = g_slist_next(pos);
         } while (pos != NULL);
-        g_slist_free(files);
     }
 }
 
@@ -355,7 +354,7 @@ static gboolean on_ctx_delete_selected(GtkWidget *widget, gpointer data)
  */
 static gboolean on_ctx_delete_all(GtkWidget *widget, gpointer data)
 {
-    gtk_list_store_clear(playlist_model);
+    vsid_playlist_clear();
     return TRUE;
 }
 
@@ -374,7 +373,6 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
 
 
 /* {{{ Playlist loading */
-
 /** \brief  M3U entry handler
  *
  * Called by the m3u parser when encountering a normal entry.
@@ -387,7 +385,7 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
 static bool playlist_entry_handler(const char *text, size_t len)
 {
     /* ignore errors for now */
-    vsid_playlist_append(util_skip_whitespace(text));
+    vsid_playlist_append_file(util_skip_whitespace(text));
     return true;
 }
 
@@ -461,14 +459,12 @@ static void playlist_load_callback(GtkDialog *dialog,
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
+    ui_action_finish(ACTION_PSID_PLAYLIST_LOAD);
 }
 /* }}} */
 
 
-
-
 /* {{{ Playlist saving */
-
 /** \brief  Create content area widget for the 'save-playlist dialog
  *
  * Create GtkGrid with label and text entry to set/edit the playlist title.
@@ -608,15 +604,16 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
         m3u_close();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
+    ui_action_finish(ACTION_PSID_PLAYLIST_SAVE);
     return;
 
 save_error:
     ui_error("I/O error while writing playlist.");
     m3u_close();
     gtk_widget_destroy(GTK_WIDGET(dialog));
+    ui_action_finish(ACTION_PSID_PLAYLIST_SAVE);
 }
 /* }}} */
-
 
 
 /** \brief  Update title of the widget with number of entries in the list
@@ -655,30 +652,6 @@ static void on_destroy(GtkWidget *widget, gpointer data)
     vsid_playlist_free_title();
     vsid_playlist_free_path();
     lastdir_shutdown(&playlist_last_dir, NULL);
-}
-
-/** \brief  Handler for the 'clicked' event of the load-playlist button
- *
- * Show dialog to load a playlist file.
- *
- * \param[in]   widget  button (ignored)
- * \param[in]   data    extra event data (ignored)
- */
-static void on_btn_playlist_load_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_load();
-}
-
-/** \brief  Handler for the 'clicked' event of the 'save-playlist' button
- *
- * Show dialog to save the playlist, optionally setting a playlist title.
- *
- * \param[in]   widget  button (ignored)
- * \param[in]   data    extra event data (ignored)
- */
-static void on_btn_playlist_save_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_save();
 }
 
 /** \brief  Event handler for the 'row-activated' event of the view
@@ -722,16 +695,6 @@ static void on_row_activated(GtkTreeView *view,
     g_value_unset(&value);
 }
 
-/** \brief  Event handler for the 'add SID' button
- *
- * \param[in]   widget  button triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_btn_playlist_append_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_add_dialog_exec(add_files_callback);
-}
-
 /** \brief  Event handler for the 'remove' button
  *
  * Remove selected items from the playlist.
@@ -742,26 +705,6 @@ static void on_btn_playlist_append_clicked(GtkWidget *widget, gpointer data)
 static void on_btn_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 {
     vsid_playlist_remove_selection();
-}
-
-/** \brief  Event handler for the 'first' button
- *
- * \param[in]   widget  button triggering the event (ignored)
- * \param[in]   data    extra event data (ignored)
- */
-static void on_btn_playlist_first_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_first();
-}
-
-/** \brief  Event handler for the 'last' button
- *
- * \param[in]   widget  button triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_btn_playlist_last_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_last();
 }
 
 /** \brief  Callback for the clear-playlist confirmation dialog
@@ -777,44 +720,7 @@ static void clear_playlist_callback(GtkDialog *dialog, gboolean result)
         vsid_playlist_clear();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Event handler for the 'clear' button
- *
- * Pops up confirmation dialog box and clears the playlist if confirmed.
- *
- * \param[in]   widget  button triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_btn_playlist_clear_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_message_confirm(
-            clear_playlist_callback,
-            "VSID",
-            "Are you sure you wish to clear the playlist?");
-    gtk_widget_show_all(dialog);
-}
-
-/** \brief  Event handler for the 'next' button
- *
- * \param[in]   widget  button triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_btn_playlist_next_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_next();
-}
-
-/** \brief  Go to previous entry in the playlist
- *
- * \param[in]   widget  button triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_btn_playlist_previous_clicked(GtkWidget *widget, gpointer data)
-{
-    vsid_playlist_previous();
+    ui_action_finish(ACTION_PSID_PLAYLIST_CLEAR);
 }
 
 
@@ -1027,13 +933,13 @@ static const plist_ctrl_t controls[] = {
     {
         .icon = "media-skip-backward",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_first_clicked,
+        .action = ACTION_PSID_PLAYLIST_FIRST,
         .tooltip = "Go to start of playlist"
     },
     {
         .icon = "media-seek-backward",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_previous_clicked,
+        .action = ACTION_PSID_PLAYLIST_PREVIOUS,
         .tooltip = "Go to previous tune"
     },
     {
@@ -1045,13 +951,13 @@ static const plist_ctrl_t controls[] = {
     {
         .icon = "media-seek-forward",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_next_clicked,
+        .action = ACTION_PSID_PLAYLIST_NEXT,
         .tooltip = "Go to next tune"
     },
     {
         .icon = "media-skip-forward",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_last_clicked,
+        .action = ACTION_PSID_PLAYLIST_LAST,
         .tooltip = "Go to end of playlist"
     },
     {
@@ -1068,8 +974,8 @@ static const plist_ctrl_t controls[] = {
     {
         .icon ="list-add",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_append_clicked,
-        .tooltip = "Add tune to playlist",
+        .action = ACTION_PSID_PLAYLIST_ADD,
+        .tooltip = "Add tunes to playlist",
         .margin_start = 16
     },
     {
@@ -1081,24 +987,37 @@ static const plist_ctrl_t controls[] = {
     {
         .icon = "edit-clear-all",
         .type = CTRL_PUSH_BUTTON,
-        .callback =  on_btn_playlist_clear_clicked,
+        .action = ACTION_PSID_PLAYLIST_CLEAR,
         .tooltip = "Clear playlist"
     },
     {
         .icon = "document-open",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_load_clicked,
+        .action = ACTION_PSID_PLAYLIST_LOAD,
         .tooltip = "Open playlist file",
         .margin_start = 16
     },
     {
         .icon = "document-save",
         .type = CTRL_PUSH_BUTTON,
-        .callback = on_btn_playlist_save_clicked,
+        .action = ACTION_PSID_PLAYLIST_SAVE,
         .tooltip = "Save playlist file"
     },
     { .type = CTRL_LIST_END }
 };
+
+/** \brief  Event handler for playlist control buttons
+ *
+ * Trigger UI action on click/toggle.
+ *
+ * \param[in]   button  button triggering the event (currently ignored)
+ * \param[in]   action  UI action ID
+ */
+static void trigger_ui_action(GtkWidget *button, gpointer action)
+{
+    ui_action_trigger(GPOINTER_TO_INT(action));
+}
+
 
 /** \brief  Create a grid with a list of buttons to control the playlist
  *
@@ -1132,7 +1051,12 @@ static GtkWidget *vsid_playlist_controls_create(void)
                                                        GTK_ICON_SIZE_LARGE_TOOLBAR);
                 /* always show icon and don't grab focus on click/tab */
                 gtk_button_set_always_show_image(GTK_BUTTON(widget), TRUE);
-                if (controls[i].callback != NULL) {
+                if (controls[i].action > ACTION_NONE) {
+                    handler = g_signal_connect(widget,
+                                               "clicked",
+                                               G_CALLBACK(trigger_ui_action),
+                                               GINT_TO_POINTER(controls[i].action));
+                } else if (controls[i].callback != NULL) {
                     handler = g_signal_connect(widget,
                                                "clicked",
                                                G_CALLBACK(controls[i].callback),
@@ -1148,7 +1072,12 @@ static GtkWidget *vsid_playlist_controls_create(void)
                 image = gtk_image_new_from_icon_name(icon,
                                                      GTK_ICON_SIZE_LARGE_TOOLBAR);
                 gtk_container_add(GTK_CONTAINER(widget), image);
-                if (controls[i].callback != NULL) {
+                if (controls[i].action > ACTION_NONE) {
+                    handler = g_signal_connect(widget,
+                                               "toggled",
+                                               G_CALLBACK(trigger_ui_action),
+                                               GINT_TO_POINTER(controls[i].action));
+                } else if (controls[i].callback != NULL) {
                     handler = g_signal_connect(widget,
                                                "toggled",
                                                G_CALLBACK(controls[i].callback),
@@ -1244,7 +1173,7 @@ GtkWidget *vsid_playlist_widget_create(void)
  *
  * \return  TRUE on success, FALSE on failure
  */
-gboolean vsid_playlist_append(const gchar *path)
+gboolean vsid_playlist_append_file(const gchar *path)
 {
     GtkTreeIter iter;
     hvsc_psid_t psid;
@@ -1316,7 +1245,7 @@ gboolean vsid_playlist_append(const gchar *path)
  *
  * FIXME:   unlikely this will be used.
  */
-void vsid_playlist_widget_remove_file(int row)
+void vsid_playlist_remove_file(int row)
 {
     if (row < 0) {
         return;
@@ -1515,14 +1444,29 @@ void vsid_playlist_remove_selection(void)
 }
 
 
+/** \brief  Show dialog to add files to the playlist
+ */
+void vsid_playlist_add(void)
+{
+    vsid_playlist_add_dialog_exec(add_files_callback);
+}
+
+
 /** \brief  Clear playlist
+ *
+ * Shows confirmation dialog box before clearing.
  */
 void vsid_playlist_clear(void)
 {
+    GtkWidget *dialog;
+
     mainlock_assert_is_not_vice_thread();
-    if (playlist_model != NULL) {
-        gtk_list_store_clear(playlist_model);
-    }
+
+    dialog = vice_gtk3_message_confirm(
+            clear_playlist_callback,
+            "VSID",
+            "Are you sure you wish to clear the playlist?");
+    gtk_widget_show_all(dialog);
 }
 
 

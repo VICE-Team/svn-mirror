@@ -390,7 +390,7 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
         /* add newlines when not last subtune */
         if (t < stil.blocks_used - 1) {
-            gtk_text_buffer_insert(buffer, &end, "\n\n", -1);
+            gtk_text_buffer_insert(buffer, &end, "\n", -1);
         }
     }
 

@@ -63,6 +63,10 @@ static GtkWidget *main_menu_bar = NULL;
  */
 static GtkWidget *file_submenu = NULL;
 
+/** \brief  Playlist submenu
+ */
+static GtkWidget *playlist_submenu = NULL;
+
 
 /** \brief  Tune submenu
  */
@@ -157,6 +161,35 @@ static ui_menu_item_t tune_menu[] = {
 };
 #endif
 
+/** \brief  Playlist menu items */
+static const ui_menu_item_t playlist_menu[] = {
+    { "Load playlist...", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_LOAD,
+      NULL, true },
+    { "Save playlist...", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_SAVE,
+      NULL, true },
+    { "Clear playlist", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_CLEAR,
+      NULL, true },
+
+    UI_MENU_SEPARATOR,
+
+    { "Play first tune", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_FIRST,
+      NULL, false },
+    { "Play previous tune", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_PREVIOUS,
+      NULL, false },
+    { "Play next tune", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_NEXT,
+      NULL, false },
+    { "Play last tune", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PSID_PLAYLIST_LAST,
+      NULL, false },
+
+    UI_MENU_TERMINATOR
+};
 
 /** \brief  'Settings' menu
  */
@@ -170,7 +203,6 @@ static const ui_menu_item_t settings_menu[] = {
 
     UI_MENU_TERMINATOR
 };
-
 
 /** \brief  'Debug' menu items
  */
@@ -198,7 +230,6 @@ static const ui_menu_item_t debug_menu[] = {
     UI_MENU_TERMINATOR
 };
 #endif
-
 
 /** \brief  'Help' menu items
  */
@@ -314,6 +345,9 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 
     /* create the top-level 'File' menu */
     file_submenu = ui_menu_submenu_create(menu_bar, "File");
+
+    /* create the top-level 'Playlist' menu */
+    playlist_submenu = ui_menu_submenu_create(menu_bar, "Playlist");
 #if 0
     /* create the top-level 'Tune' menu */
     tune_submenu = ui_menu_submenu_create(menu_bar, "Tune");
@@ -332,6 +366,8 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 
     /* add items to the File menu */
     ui_menu_add(file_submenu, file_menu, window_id);
+    /* add items to the Playlist menu */
+    ui_menu_add(playlist_submenu, playlist_menu, window_id);
 
 #if 0
     /* TODO: add items to the Tune menu */
