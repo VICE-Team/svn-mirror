@@ -719,17 +719,6 @@ void vsid_tune_info_widget_set_time(unsigned int dsec)
     play_time = dsec;
 }
 
-#if 0
-/** \brief  Set driver information
- *
- * \param[in]   text    driver information
- */
-void vsid_tune_info_widget_set_driver(const char *text)
-{
-    /* NOP: replaced with separate driver parameter funcions */
-    debug_gtk3("Deprecated! use set_driver_addr(), set_load_addr() etc.");
-}
-#endif
 
 /** \brief  Set driver address
  *
