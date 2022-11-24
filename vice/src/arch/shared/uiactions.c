@@ -341,6 +341,15 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PSID_FFWD,                 "psid-ffwd",                "Fast forward",             VICE_MACHINE_VSID },
     { ACTION_PSID_LOOP_TOGGLE,          "psid-loop-toggle",         "Toggle looping",           VICE_MACHINE_VSID },
 
+    { ACTION_PSID_PLAYLIST_FIRST,       "psid-playlist-first",      "Play first tune in the playlist",      VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_PREVIOUS,    "psid-playlist-previous",   "Play previous tune in the playlist",   VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_NEXT,        "psid-playlist-next",       "Play next tune in the playlist",       VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_LAST,        "psid-playlist-last",       "Play last tune in the playlist",       VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_ADD,         "psid-playlist-add",        "Show dialog to add files to the playlist", VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_LOAD,        "psid-playlist-load",       "Show dialog to load a playlist",       VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_SAVE,        "psid-playlist-save",       "Show dialog to save the playlist",     VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_CLEAR,       "psid-playlist-clear",      "Clear the playlist",                   VICE_MACHINE_VSID },
+
     { ACTION_INVALID, NULL, NULL, 0 }
 };
 

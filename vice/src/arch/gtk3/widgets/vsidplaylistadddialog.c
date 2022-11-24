@@ -38,6 +38,7 @@
 #include "lastdir.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 
 #include "vsidplaylistadddialog.h"
 
@@ -90,11 +91,11 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
         lastdir_update_raw(dir, &last_used_dir, first, &last_used_file);
         g_free(dir);    /* lastdir_update makes a copy */
         dialog_cb(files);
+        g_slist_free(files);
     }
-
     gtk_widget_destroy(GTK_WIDGET(dialog));
+    ui_action_finish(ACTION_PSID_PLAYLIST_ADD);
 }
-
 
 /** \brief  Create GtkFileChooser instance to open SID files
  *
