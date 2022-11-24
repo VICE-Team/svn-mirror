@@ -828,7 +828,7 @@ uint8_t lo_read(uint16_t addr)
 
     if (mem_dma_rw) {
         /* FIXME: it is assumed that DMA transfers do NOT follow the MMU shared ram translation. */
-        retval = dma_bank[addr];
+        vicii.last_cpu_val = dma_bank[addr];
     } else {
         retval = c128_mem_mmu_wrap_read(addr);
         if (retval == 0x100) {
