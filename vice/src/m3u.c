@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <ctype.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -386,7 +387,6 @@ bool m3u_append_entry(const char *entry)
 }
 
 
-
 /** \brief  Append comment to playlist file
  *
  * \param[in]   comment comment text
@@ -421,7 +421,16 @@ bool m3u_append_comment(const char *comment)
  */
 bool m3u_append_newline(void)
 {
-    /* TODO: CR+LF for Winblows? */
+    /* Using something like archdep_append_newline(FILE *fp) seem like serious
+     * overkill */
+#ifdef WINDOWS_COMPILE
+    if (fputc('\r', playlist_fp) < 0) {
+        log_error(LOG_ERR,
+                  "m3u: failed to write to %s: errno %d: %s.",
+                  playlist_path, errno, strerror(errno));
+        return false;
+    }
+#endif
     if (fputc('\n', playlist_fp) < 0) {
         log_error(LOG_ERR,
                   "m3u: failed to write to %s: errno %d: %s.",
