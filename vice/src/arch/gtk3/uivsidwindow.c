@@ -252,6 +252,8 @@ int ui_vsid_window_load_psid(const char *filename)
         lib_free(state->psid_filename);
     }
     state->psid_filename = lib_strdup(filename);
+    /* clear bitmap of played tunes */
+    memset(state->tunes_played, 0, sizeof state->tunes_played);
     vsid_state_unlock();
 
     psid_init_driver();
@@ -261,6 +263,8 @@ int ui_vsid_window_load_psid(const char *filename)
     hvsc_stil_widget_set_psid(filename);
     ui_pause_disable();
     vsid_control_widget_set_state(VSID_PLAYING);
+
+    vsid_state_print_tunes_played();
 
     return 0;
 }

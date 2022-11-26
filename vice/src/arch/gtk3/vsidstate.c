@@ -126,19 +126,61 @@ void vsid_state_shutdown(void)
 }
 
 
+
+/** \brief  Set subtune play flag without using the lock
+ *
+ * Here be dragons: only call this when having manually obtained the lock!
+ *
+ * \param[in]   tune    subtune number
+ */
+void vsid_state_set_tune_played_unlocked(int tune)
+{
+    vsid_state_t *state = &vsid_state_hands_off;
+
+    if (tune < 1 || tune > 255) {
+        return;
+    }
+    state->tunes_played[(tune - 1) >> 3] |= (1 << ((tune - 1) & 7));
+}
+
+
 /** \brief  Set subtune played flag
  *
  * \param[in]   tune    tune number (1-255)
  */
 void vsid_state_set_tune_played(int tune)
 {
-    vsid_state_t *state;
-
     if (tune < 1 || tune > 255) {
         return;
     }
-    state = vsid_state_lock();
-    state->tunes_played[(tune - 1) >> 3] |= (1 << ((tune - 1) & 7));
+    vsid_state_lock();
+    vsid_state_set_tune_played_unlocked(tune);
+    vsid_state_unlock();
+}
+
+
+/** \brief  Mark current tune as played without obtaining the lock
+ *
+ * Make sure to have obtained the lock manually before using!
+ */
+void vsid_state_set_current_tune_played_unlocked(void)
+{
+    vsid_state_t *state = &vsid_state_hands_off;
+    int tune;
+
+    tune = state->tune_current;
+    if (tune > 0 && tune < 256) {
+        state->tunes_played[(tune - 1) >> 3] |= (1 << ((tune - 1) & 7));
+    }
+}
+
+
+/** \brief  Mark current tune as played
+ */
+void vsid_state_set_current_tune_played(void)
+{
+    vsid_state_lock();
+    vsid_state_set_current_tune_played_unlocked();
     vsid_state_unlock();
 }
 
@@ -212,4 +254,54 @@ bool vsid_state_get_all_tunes_played(void)
     }
     vsid_state_unlock();
     return all;
+}
+
+
+/** \brief  Get bitmap of tunes played
+ *
+ * \param[out]  bitmap  buffer to store bitmap, must be (at least) 8 bytes
+ */
+void vsid_state_get_tunes_played_bitmap(uint8_t *bitmap)
+{
+    vsid_state_t *state = vsid_state_lock();
+    memcpy(bitmap, state->tunes_played, sizeof state->tunes_played);
+    vsid_state_unlock();
+}
+
+
+/** \brief  Debug helper: print tunes_played bitmap on stdout
+ *
+ * Careful! Direct access to state which assumes the caller locks and unlocks!
+ */
+void vsid_state_print_tunes_played_unlocked(void)
+{
+    vsid_state_t *state = &vsid_state_hands_off;
+    uint8_t played[8];
+    int count;
+    int t;
+    int p = 0;
+
+    count = state->tune_count;
+    memcpy(played, state->tunes_played, sizeof played);
+
+    printf("VSID STATE: Tunes played:: ");
+    for (t = 0; t < count; t++) {
+        if (played[t >> 3] & (1 << (t & 7))) {
+            putchar('X');
+            p++;
+        } else {
+            putchar('-');
+        }
+    }
+    printf(" (%d/%d)\n", p, count);
+}
+
+
+/** \brief  Debug helper: print tunes played bitmap on stdout
+ */
+void vsid_state_print_tunes_played(void)
+{
+    vsid_state_lock();
+    vsid_state_print_tunes_played_unlocked();
+    vsid_state_unlock();
 }

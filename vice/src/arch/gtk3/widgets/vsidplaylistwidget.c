@@ -1440,7 +1440,7 @@ void vsid_playlist_remove_selection(void)
             gtk_list_store_remove(playlist_model, &iter);
         }
     }
-    g_list_free(rows);
+    g_list_free_full(rows, (GDestroyNotify)gtk_tree_path_free);
 }
 
 
@@ -1524,4 +1524,60 @@ void vsid_playlist_save(void)
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_save_content_area());
     gtk_widget_show_all(dialog);
+}
+
+
+
+/** \brief  Get row number of currently selected tune
+ *
+ * \param[out]  path    path to SID file (optional, pass `NULL` to ignore
+ *
+ * \return  row number or -1 when no selection or multiple rows selected
+ */
+gint vsid_playlist_get_current_row(const gchar **path)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreePath *treepath;
+    GList *rows;
+    gint rownum = -1;
+
+    model = GTK_TREE_MODEL(playlist_model);
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    rows = gtk_tree_selection_get_selected_rows(selection, &model);
+
+    if (rows != NULL) {
+        if (g_list_length(rows) > 1) {
+            /* multiple rows selected */
+            if (path != NULL) {
+                *path = NULL;
+            }
+        } else {
+            const gint *indices = NULL;
+
+            /* first (and only) element contains the tree path */
+            treepath = rows->data;
+            indices = gtk_tree_path_get_indices(treepath);
+            if (indices != NULL) {
+                /* finally, we have the row number :) */
+                rownum = indices[0];
+                if (path != NULL) {
+                    GtkTreeIter iter;
+
+                    if (gtk_tree_model_get_iter(model, &iter, treepath)) {
+                        GValue value = G_VALUE_INIT;
+
+                        gtk_tree_model_get_value(model,
+                                                 &iter,
+                                                 COL_FULL_PATH,
+                                                 &value);
+                        /* and now we finally have the path to the SID file */
+                        *path = g_value_get_string(&value);
+                    }
+                }
+            }
+        }
+        g_list_free_full(rows, (GDestroyNotify)gtk_tree_path_free);
+    }
+    return rownum;
 }

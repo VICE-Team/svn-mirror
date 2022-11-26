@@ -47,5 +47,6 @@ void        vsid_playlist_clear(void);
 void        vsid_playlist_load(void);
 void        vsid_playlist_save(void);
 
+gint        vsid_playlist_get_current_row(const gchar **path);
 
 #endif
