@@ -387,7 +387,7 @@ static bool m3u_append_string(const char *s)
 bool m3u_create(const char *path)
 {
     /* open file for writing */
-    playlist_fp = fopen(path, "wb");
+    playlist_fp = fopen(path, "w");
     if (playlist_fp == NULL) {
         log_error(LOG_ERR,
                   "m3u: failed to open %s for writing: errno %d: %s.",
@@ -493,16 +493,6 @@ bool m3u_append_comment(const char *comment)
  */
 bool m3u_append_newline(void)
 {
-    /* Using something like archdep_append_newline(FILE *fp) seem like serious
-     * overkill */
-#ifdef WINDOWS_COMPILE
-    if (fputc('\r', playlist_fp) < 0) {
-        log_error(LOG_ERR,
-                  "m3u: failed to write to %s: errno %d: %s.",
-                  playlist_path, errno, strerror(errno));
-        return false;
-    }
-#endif
     if (fputc('\n', playlist_fp) < 0) {
         log_error(LOG_ERR,
                   "m3u: failed to write to %s: errno %d: %s.",
