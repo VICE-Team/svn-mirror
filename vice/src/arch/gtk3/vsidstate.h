@@ -144,9 +144,17 @@ void            vsid_state_init    (void);
 void            vsid_state_shutdown(void);
 
 void vsid_state_set_tune_played(int tune);
+void vsid_state_set_current_tune_played(void);
 bool vsid_state_get_tune_played(int tune);
 void vsid_state_unset_tune_played(int tune);
 void vsid_state_clear_tunes_played(void);
+void vsid_state_print_tunes_played(void);
+void vsid_state_get_tunes_played_bitmap(uint8_t *bitmap);
 bool vsid_state_get_all_tunes_played(void);
+
+/* Here be dragons: only use when having obtained the lock first! */
+void vsid_state_set_tune_played_unlocked(int tune);
+void vsid_state_set_current_tune_played_unlocked(void);
+void vsid_state_print_tunes_played_unlocked(void);
 
 #endif

@@ -39,8 +39,11 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "uiactions.h"
 #include "util.h"
 #include "vsidcontrolwidget.h"
+#include "vsidplaylistwidget.h"
+#include "vsidstate.h"
 
 #include "vsidtuneinfowidget.h"
 
@@ -464,6 +467,10 @@ static void driver_info_set_image(void)
 
 
 /** \brief  Update play time based ui elements
+ *
+ * This function also determines if vsid should play the next subtune or play
+ * the next SID in the playlist, so it's probably doing too much or just
+ * misnamed.
  */
 void vsid_tune_info_widget_update(void)
 {
@@ -482,17 +489,23 @@ void vsid_tune_info_widget_update(void)
             fraction = 1.0; /* keep fraction at 1.0 max if looping */
             /* skip to next tune, if repeat is off */
             if (!vsid_control_widget_get_repeat()) {
-                vsid_control_widget_next_tune();
+                play_time = 0;
                 fraction = 0.0;
+                vsid_state_set_current_tune_played();
+                vsid_state_print_tunes_played();
 
-                /* TODO: Mark this subtune as played and skip to the next
-                 *       tune in playlist if all subtunes have been played
-                 *
-                 *       See vsidstate.c, the state object contains a
-                 *       'bitmap' of played tunes (state->tunes_played[])
-                 *       which can be queried and updated in a thread-safe
-                 *       manner.
-                 */
+                /* next subtune or next tune? */
+                if (vsid_state_get_all_tunes_played()) {
+                    /* load next tune in the playlist if a single row in
+                     * the playlist was selected */
+                    if (vsid_playlist_get_current_row(NULL) >= 0) {
+                        vsid_playlist_next();
+                    } else {
+                        ui_action_trigger(ACTION_PSID_SUBTUNE_NEXT);
+                    }
+                } else {
+                    ui_action_trigger(ACTION_PSID_SUBTUNE_NEXT);
+                }
             }
         }
         vsid_control_widget_set_progress(fraction);

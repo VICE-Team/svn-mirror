@@ -117,8 +117,14 @@ static void play_subtune(int tune)
     } else if (tune > count) {
         tune = count;
     }
+    if (state->tune_current > 0 && state->tune_current <= state->tune_count) {
+        vsid_state_set_tune_played_unlocked(state->tune_current);
+    }
     state->tune_previous = state->tune_current;
     state->tune_current = tune;
+
+    vsid_state_print_tunes_played_unlocked();
+
     vsid_state_unlock();
 
     play_current_tune();
@@ -227,6 +233,12 @@ static void psid_subtune_next_action(void)
 
     if (state->tune_current < 0) {
         state->tune_current = state->tune_previous;
+    } else if (state->tune_current > 0 && state->tune_current < 256) {
+        /* mark subtune played */
+        int t = state->tune_current;
+        state->tunes_played[(t - 1) >> 3] |= (1 << ((t - 1) & 7));
+        /* we have the lock, so we can call this: */
+        vsid_state_print_tunes_played_unlocked();
     }
 
     if (state->tune_current >= state->tune_count || state->tune_current < 1) {
