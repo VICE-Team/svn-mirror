@@ -9,7 +9,9 @@
  * used from various places on the internet, among which:
  * https://en.wikipedia.org/wiki/M3U
  *
- * Only a few directives of the extended m3u format are supported.
+ * Only a few directives of the extended m3u format are supported. Inline
+ * comments are **not** supported (can't find any reference about whether or
+ * not they should be).
  */
 
 #include "vice.h"
@@ -97,7 +99,20 @@ static bool (*entry_cb)(const char *, size_t) = NULL;
  */
 static bool (*directive_cb)(int, const char *, size_t) = NULL;
 
+/** \brief  Current directory for relative entries
+ *
+ * M3UEXT allows using directory-only entries and relative paths, so we keep
+ * track of that here.
+ *
+ * Initially the directory is set by m3u_open() to the directory of the playlist
+ * file being parsed. When a non-file entry is found the contents are either
+ * appended to the current dir (if relative) or the current directory is set
+ * to the entry (if absolute).
+ */
+static char *playlist_current_dir = NULL;
 
+
+/** \brief  List of extended m3u directives */
 static const m3u_ext_t extensions[] = {
     { M3U_EXTM3U,   "EXTM3U",   "file header" },
     { M3U_EXTINF,   "EXTINF",   "track information" },
@@ -163,10 +178,62 @@ static ssize_t strip_trailing(ssize_t pos)
     return pos + 1;
 }
 
+/** \brief  Free `playlist_current_dir` and set to `NULL`
+ */
+static void free_current_dir(void)
+{
+    if (playlist_current_dir != NULL) {
+        lib_free(playlist_current_dir);
+        playlist_current_dir = NULL;
+    }
+}
+
+/** \brief  Join current directory with \a path
+ *
+ * \param[in]   path    pathname
+ *
+ * \return  heap-allocated string, free with lib_free() after use
+ */
+static char *prepend_current_dir(const char *path)
+{
+    if (playlist_current_dir != NULL) {
+        return util_join_paths(playlist_current_dir, path, NULL);
+    } else {
+        return lib_strdup(path);
+    }
+}
+
+/** \brief  Update current directory for relative entries
+ *
+ * \param[in]   path    new directory (may be relative)
+ */
+static void update_current_dir(const char *path)
+{
+#if 0
+    printf("m3u: %s() called with %s\n", __func__, path);
+#endif
+    if (archdep_path_is_relative(path)) {
+        /* append path to current directory */
+        char *new_dir;
+
+        new_dir = util_join_paths(playlist_current_dir, path, NULL);
+        free_current_dir();
+        playlist_current_dir = new_dir;
+
+    } else {
+        free_current_dir();
+        playlist_current_dir = lib_strdup(path);
+    }
+#if 0
+    printf("m3u: new working directory: %s\n", playlist_current_dir);
+#endif
+}
+
 /** \brief  Read a line of text from the playlist
  *
- * \param[out]  len length of line read (including trailing whitespace)
+ * \param[out]  len length of line read (excluding trailing whitespace)
  *
+ * \note    trailing whitespace is stripped
  *
  * \return  `false` on EOF
  */
@@ -257,6 +324,11 @@ bool m3u_open(const char *path,
                   path, errno, strerror(errno));
         return false;
     }
+
+    /* use directory of playlist file as the "working dir" for relative
+     * paths in the file */
+    free_current_dir();
+    util_fname_split(path, &playlist_current_dir, NULL);
 
     /* allocate buffer for reading file content */
     playlist_buf = lib_malloc(INITIAL_BUFSIZE);
@@ -460,6 +532,7 @@ void m3u_close(void)
         lib_free(playlist_path);
         playlist_path = NULL;
     }
+    free_current_dir();
     playlist_linenum = 0;
     have_playlist_title = false;
 }
@@ -499,10 +572,39 @@ bool m3u_parse(void)
                 }
             }
         } else if (*s != '\0') {
-            if (!entry_cb(s, len - (s - playlist_buf))) {
-                /* some error, stop */
-                return false;
+            /* entry, check dir or file */
+            unsigned int isdir = 0;
+            char *temp;
+
+            if (archdep_path_is_relative(s)) {
+                temp = prepend_current_dir(s);
+            } else {
+                temp = lib_strdup(s);
             }
+
+            /* entry, check if directory or file */
+            if (archdep_stat(temp, NULL, &isdir) < 0) {
+                /* error, report but ignore for now */
+                log_error(LOG_ERR, "m3u: stat() call failed on %s", temp);
+                lib_free(temp);
+                continue;
+            }
+            if (isdir) {
+                /* handle directory */
+                update_current_dir(temp);
+            } else {
+                /* it's a file entry: */
+                char normalized[ARCHDEP_PATH_MAX];
+
+                /* normalize first, otherwise SLDB/STIL lookups might fail */
+                archdep_real_path(temp, normalized);
+                if (!entry_cb(normalized, strlen(normalized))) {
+                    /* some error, stop */
+                    lib_free(temp);
+                    return false;
+                }
+            }
+            lib_free(temp);
         }
 
         playlist_linenum++;
