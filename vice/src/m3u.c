@@ -417,7 +417,7 @@ bool m3u_create(const char *path)
  *
  * \return  `true` on success
  *
- * \note    Normally one would call this after m3u_crearte() and before adding
+ * \note    Normally one would call this after m3u_create() and before adding
  *          any entries.
  */
 bool m3u_set_playlist_title(const char *title)
