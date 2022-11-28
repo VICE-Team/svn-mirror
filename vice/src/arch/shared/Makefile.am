@@ -228,6 +228,7 @@ EXTRA_DIST = \
 	macOS-wrap-ranlib.sh \
 	make-bindist_osx.sh \
 	make_bindist_win32.sh \
+	rawnetarch.h \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
