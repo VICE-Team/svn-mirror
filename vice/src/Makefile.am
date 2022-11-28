@@ -243,7 +243,6 @@ noinst_HEADERS = \
 	ram.h \
 	rawfile.h \
 	rawnet.h \
-	rawnetarch.h \
 	resources.h \
 	riot.h \
 	romset.h \
