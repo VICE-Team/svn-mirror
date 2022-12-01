@@ -30,6 +30,7 @@
 
 #include "c64/cart/clockport.h"
 #include "cartridge.h"
+#include "mididrv.h"
 #include "types.h"
 #include "userport_io_sim.h"
 
