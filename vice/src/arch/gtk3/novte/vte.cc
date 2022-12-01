@@ -1320,6 +1320,13 @@ bool VteTerminalPrivate::set_encoding(char const* codeset)
     if (codeset == NULL) {
         codeset = "UTF-8";
     }
+    /* Hack to work around bug in Glib 2.74.2
+     * See https://gitlab.gnome.org/GNOME/glib/-/issues/2820
+     * Will be fixed in 2.74.3 according to the ticket.
+     */
+#if (GLIB_MAJOR_VERSION == 2) && (GLIB_MINOR_VERSION == 74) && (GLIB_MICRO_VERSION == 2)
+#undef g_str_equal
+#endif
     if ((m_encoding != nullptr) && g_str_equal(codeset, m_encoding)) {
         /* Nothing to do! */
         return true;
