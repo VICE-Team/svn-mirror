@@ -98,7 +98,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
     void (*callback)(GtkWidget *, int);
 
     resource = resource_widget_get_resource_name(check);
-    if (resources_get_int(resource, &state) > 0) {
+    if (resources_get_int(resource, &state) < 0) {
         /* warning */
         log_error(LOG_ERR, "invalid resource name '%s'", resource);
         return;
