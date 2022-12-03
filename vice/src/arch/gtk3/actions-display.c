@@ -226,7 +226,7 @@ void actions_display_setup_ui(void)
                                                         PRIMARY_WINDOW,
                                                         enabled);
     if (machine_class == VICE_MACHINE_C128) {
-        resources_get_int("VDChowStatusbar", &enabled);
+        resources_get_int("VDCShowStatusbar", &enabled);
         ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                             SECONDARY_WINDOW,
                                                             enabled);
