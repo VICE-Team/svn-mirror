@@ -125,8 +125,8 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
-          sudo apt-get install texinfo texlive-fonts-recommended texlive-latex-extra libpcap-dev
+          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix
+          sudo apt-get -y install texinfo texlive-fonts-recommended texlive-latex-extra libpcap-dev
 
       - name: Build
         id: build
@@ -281,7 +281,7 @@ jobs:
               name: ASSET_NAME,
               data: fs.readFileSync(ASSET_PATH)
             });
-      
+
       - name: Upload 7Zip
         id: upload-7zip
         uses: actions/github-script@v6

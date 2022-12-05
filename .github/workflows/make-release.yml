@@ -29,11 +29,11 @@ jobs:
     name: Build Tarball
     needs: create_release
     runs-on: ubuntu-latest
-    
+
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
-      
+
       - name: Checkout Source
         uses: actions/checkout@v2
 
@@ -41,8 +41,8 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev
-          
+          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev
+
       - name: Build
         id: build
         shell: bash
@@ -77,13 +77,13 @@ jobs:
     name: Build Headless, Upload Documentation
     needs: build_tarball
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Download Tarball
         uses: actions/download-artifact@v2
         with:
           name: vice-tarball
-      
+
       - name: Unpack Source
         shell: bash
         run: |
@@ -94,9 +94,9 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
-          sudo apt-get install texinfo texlive-fonts-recommended libpcap-dev
-          
+          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix
+          sudo apt-get -y install texinfo texlive-fonts-recommended libpcap-dev
+
       - name: Build
         id: build
         shell: bash
@@ -114,7 +114,7 @@ jobs:
           name: vice-pdf
           path: ${{ steps.build.outputs.pdf_path }}
           retention-days: 1
-  
+
   build:
     name: Build
     needs: [create_release, build_doc]
@@ -129,16 +129,16 @@ jobs:
     steps:
       - run: git config --global core.autocrlf input
         shell: bash
-      
+
       - name: Checkout Source
         uses: actions/checkout@v2
-      
+
       - name: Extract Github Actions Build Script
         shell: bash
         run: |
           mv vice/build/github-actions/build-msys2.sh .
           ls -A1 | grep -v build-msys2.sh | xargs rm -rf
-      
+
       - name: Download Documentation
         uses: actions/download-artifact@v2
         with:
@@ -148,7 +148,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: vice-tarball
-      
+
       - name: Unpack Tarball Source
         shell: bash
         run: |
@@ -185,7 +185,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-ffmpeg
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-gtk3
-      
+
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
         uses: msys2/setup-msys2@v2
@@ -234,7 +234,7 @@ jobs:
           asset_path: ${{ steps.build.outputs.zip_path }}
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
-      
+
       - name: Upload 7Zip
         id: upload-7zip
         uses: actions/upload-release-asset@v1
@@ -245,7 +245,7 @@ jobs:
           asset_path: ${{ steps.build.outputs.seven_zip_path }}
           asset_name: ${{ steps.build.outputs.seven_zip_name }}
           asset_content_type: application/x-7z-compressed
-  
+
   publish_release:
     name: Publish Release
     needs: [create_release, build]
