@@ -1621,9 +1621,9 @@ bool ui_hotkeys_parse(const char *path)
                 char *trimmed = parser_strtrim(line);
 
                 if (hotkeys_debug) {
-                    printf("LINE %3ld: '%s'\n",
-                           textfile_reader_linenum(&reader),
-                           line);
+                    log_debug("LINE %3ld: '%s'",
+                              textfile_reader_linenum(&reader),
+                              line);
                 }
 
                 if (*trimmed == '\0'

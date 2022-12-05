@@ -263,9 +263,9 @@ int ui_vsid_window_load_psid(const char *filename)
     hvsc_stil_widget_set_psid(filename);
     ui_pause_disable();
     vsid_control_widget_set_state(VSID_PLAYING);
-
+#ifdef DEBUG
     vsid_state_print_tunes_played();
-
+#endif
     return 0;
 }
 
