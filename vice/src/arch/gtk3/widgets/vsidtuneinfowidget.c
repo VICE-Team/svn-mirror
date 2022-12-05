@@ -492,7 +492,9 @@ void vsid_tune_info_widget_update(void)
                 play_time = 0;
                 fraction = 0.0;
                 vsid_state_set_current_tune_played();
+#ifdef DEBUG
                 vsid_state_print_tunes_played();
+#endif
 
                 /* next subtune or next tune? */
                 if (vsid_state_get_all_tunes_played()) {

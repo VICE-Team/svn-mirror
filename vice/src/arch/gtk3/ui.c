@@ -942,10 +942,7 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 {
     int index = ui_get_window_index(widget);
 
-    /* printf("ui.c:on_focus_in_event\n"); */
-
     ui_set_ignore_mouse_hide(FALSE);
-
     ui_mouse_grab_pointer();
 
     if (index < 0) {
@@ -955,7 +952,6 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
     }
 
     if (event->in == TRUE) {
-        /* fprintf(stderr, "window %d: focus-in\n", index); */
         active_win_index = index;
     }
 
@@ -976,12 +972,8 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
                                   gpointer user_data)
 {
-    /* printf("ui.c:on_focus_out_event\n"); */
-
     ui_set_ignore_mouse_hide(TRUE);
-
     ui_mouse_ungrab_pointer();
-
     return FALSE;
 }
 

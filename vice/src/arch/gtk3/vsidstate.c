@@ -15,6 +15,7 @@
 #include <string.h>
 #include <pthread.h>
 #include "lib.h"
+#include "log.h"
 
 #include "vsidstate.h"
 
@@ -280,20 +281,21 @@ void vsid_state_print_tunes_played_unlocked(void)
     int count;
     int t;
     int p = 0;
+    char buffer[257];
 
     count = state->tune_count;
     memcpy(played, state->tunes_played, sizeof played);
 
-    printf("VSID STATE: Tunes played:: ");
     for (t = 0; t < count; t++) {
         if (played[t >> 3] & (1 << (t & 7))) {
-            putchar('X');
+            buffer[t] = 'X';
             p++;
         } else {
-            putchar('-');
+            buffer[t] = '-';
         }
     }
-    printf(" (%d/%d)\n", p, count);
+    buffer[t] = '\0';
+    log_debug("VSID STATE: Tunes played: %s (%d/%d)", buffer, p, count);
 }
 
 
