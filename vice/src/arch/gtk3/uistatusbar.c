@@ -3018,8 +3018,6 @@ void ui_display_tape_motor_status(int port, int motor)
  */
 void ui_set_tape_status(int port, int tape_status)
 {
-    /* printf("TAPE DRIVE STATUS: %d\n", tape_status); */
-
     /* Ok to call from VICE thread */
 }
 

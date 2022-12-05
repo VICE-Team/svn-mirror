@@ -203,7 +203,7 @@ static void usb_joystick(int jp, void* priv)
     }
     if (ret != -1 && errno != EAGAIN) {
         /* XXX */
-        printf("strange read return: %zd/%d\n", ret, errno);
+        log_warning("strange read return: %zd/%d", ret, errno);
         return;
     }
     if (!val) {
