@@ -932,20 +932,20 @@ void ui_action_finish(int action)
 #ifdef DEBUG_ACTIONS
     const char *name = ui_action_get_name(action);
 
-    printf("%s(): called for %d (%s).\n",
-           __func__, action, name != NULL ? name : "<no name>");
+    log_debug("%s(): called for %d (%s).\n",
+              __func__, action, name != NULL ? name : "<no name>");
 #endif
 
     if (map != NULL) {
         /* clear all state flags for the action */
 #ifdef DEBUG_ACTIONS
-        printf("%s(): clearing state flags.\n", __func__);
+        log_debug("%s(): clearing state flags.\n", __func__);
 #endif
         map->is_busy = false;
         /* clear global dialog flag */
         if (map->dialog) {
 #ifdef DEBUG_ACTIONS
-            printf("%s(): clearing global dialog-active flag.\n", __func__);
+            log_debug("%s(): clearing global dialog-active flag.\n", __func__);
 #endif
             dialog_active = false;
         }
