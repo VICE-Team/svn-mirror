@@ -354,7 +354,7 @@ cpudtvcore_sources = \
 	6510dtvcore.c
 
 COMMON_EXTRA_DIST = \
-	systemheaderoverride/gtk/gtk.h \
+	arch/systemheaderoverride/gtk/gtk.h \
 	6510core.c \
 	65816core.c \
 	65c02core.c \
