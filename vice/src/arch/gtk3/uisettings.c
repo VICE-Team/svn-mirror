@@ -2485,14 +2485,13 @@ static void on_tree_selection_changed(GtkTreeSelection *selection,
         GtkWidget *(*callback)(void *) = NULL;
         const char *id;
 
-
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         gtk_tree_model_get(model, &iter, COLUMN_ID, &id, -1);
 
         if (callback != NULL) {
             GtkTreeIter parent;
-            char *title;
+            char title[256];
 
             /* try to get parent's name */
             if (gtk_tree_model_iter_parent(model, &parent, &iter)) {
@@ -2500,13 +2499,16 @@ static void on_tree_selection_changed(GtkTreeSelection *selection,
             }
 
             if (parent_name != NULL) {
-                title = lib_msprintf("%s settings :: %s :: %s",
-                        machine_name, parent_name, name);
+                g_snprintf(title, sizeof title,
+                           "%s settings :: %s :: %s",
+                           machine_name, parent_name, name);
             } else {
-                title = lib_msprintf("%s settings :: %s", machine_name, name);
+                g_snprintf(title, sizeof title,
+                           "%s settings :: %s",
+                           machine_name, name);
             }
             gtk_window_set_title(GTK_WINDOW(settings_window), title);
-            lib_free(title);
+
             /* create new central widget, using settings_window (this dialog)
              * as its parent, this will allow for proper blocking in modal
              * dialogs, while ui_get_active_window() breaks that. */
@@ -2621,9 +2623,9 @@ static GtkTreeStore *populate_tree_model(void)
             nodes = main_nodes_vsid;
             break;
         default:
-            fprintf(stderr,
-                    "Error: %s:%d:%s(): unsupported machine_class %d\n",
-                    __FILE__, __LINE__, __func__, machine_class);
+            log_error(LOG_ERR,
+                      "Error: %s:%d:%s(): unsupported machine_class %d\n",
+                      __FILE__, __LINE__, __func__, machine_class);
             archdep_vice_exit(1);
             break;
     }
@@ -2929,36 +2931,15 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
 {
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
-#if 0
-        int width = cfg->width;
-        int height = cfg->height;
-#endif
+
         /* Update dialog position, using gtk_window_get_position() doesn't
          * work, it reports the position of the dialog when it was spawned,
          * not the position if it has been moved afterwards. */
         settings_xpos = cfg->x;
         settings_ypos = cfg->y;
     }
-#if 0
-        /* debug_gtk3("width %d, height %d.", width, height); */
-        if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
-            /* uncomment the following to get some 'help' while building
-             * new dialogs: */
-#if 0
-            gtk_window_set_title(GTK_WINDOW(widget),
-                    "HELP! --- DIALOG IS TOO BLOODY LARGE -- ERROR!");
-#endif
-            debug_gtk3("Dialog is too large: %dx%d (max: %dx%d).",
-                    width, height, DIALOG_WIDTH_MAX, DIALOG_HEIGHT_MAX);
-        }
-#if 0
-        debug_gtk3("XPOS: %d - YPOS: %d", cfg->x, cfg->y);
-#endif
-    }
-#endif
     return FALSE;
 }
-
 
 
 /** \brief  Dialog create helper
@@ -2977,14 +2958,6 @@ static GtkWidget *dialog_create_helper(void)
             title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
-            /*
-             * Temp. disabled due to code freeze, will work on this again
-             * after the code freeze -- compyx
-             */
-#if 0
-            "Revert changes", RESPONSE_RESET,
-            "Factory reset", RESPONSE_FACTORY,
-#endif
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL);
 
@@ -3049,7 +3022,7 @@ static gboolean ui_settings_dialog_activate_node(const char *path)
         return FALSE;
     }
     if (path == NULL || *path == '\0') {
-        log_error(LOG_ERR, "NULL or empty path pased.");
+        log_error(LOG_ERR, "NULL or empty path passed.");
         return FALSE;
     }
 
@@ -3168,23 +3141,6 @@ static gboolean ui_settings_dialog_show_impl(gpointer user_data)
 
     return FALSE;
 }
-
-#if 0
-/** \brief  Show settings main dialog and activate a node
- *
- * \param[in]   path    NULL or path to name ("foo/bar/blah")
- *
- * \return  TRUE which means nothing.
- */
-gboolean ui_settings_dialog_create_and_activate_node(const char *path)
-{
-    /* call from ui thread without locking - creating the settings dialog is heavy */
-    gdk_threads_add_timeout(0, ui_settings_dialog_create_and_activate_node_impl, (gpointer)path);
-
-    return TRUE;
-}
-#endif
-
 
 /** \brief  Menu callback for the settings dialog
  *
