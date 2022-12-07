@@ -1286,8 +1286,10 @@ void ui_update_fullscreen_decorations(void)
 
     is_fullscreen = ui_is_fullscreen();
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+#if 0
     debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
             has_decorations, is_fullscreen, fullscreen_has_decorations);
+#endif
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
     menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);

@@ -85,7 +85,6 @@ static gboolean handle_accelerator(GtkAccelGroup *accel_grp,
                                GdkModifierType modifier,
                                gpointer action_id)
 {
-    debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
     ui_action_trigger(GPOINTER_TO_INT(action_id));
     return TRUE;
 }
@@ -167,10 +166,10 @@ void hotkey_map_add_actions(void)
             /* action not yet registered, is it valid for the current machine? */
             if (ui_action_is_valid(action->action)) {
                 hotkey_map_t *map;
-
+#if 0
                 debug_gtk3("action %d (%s) not yet registered, appending.",
                            action->action, ui_action_get_name(action->action));
-
+#endif
                 map = hotkey_map_new();
                 map->action = action->action;
                 hotkey_map_append(map);

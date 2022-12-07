@@ -320,7 +320,6 @@ static int hotkeys_file_set(const char *val, void *param)
 
     /* process hotkeys */
     if (help_requested) {
-        debug_gtk3("--help on command line, skip parsing.");
         return 0;
     }
 
@@ -1572,13 +1571,17 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     /* register mapping, first try looking up the item */
     map = hotkey_map_get_by_action(action_id);
     if (map != NULL) {
+#if 0
         debug_gtk3("Got mapping for action %d, updating with hotkey data.",
                     action_id);
+#endif
         map->keysym = keysym;
         map->modifier = mask;
     } else {
+#if 0
         debug_gtk3("Couldn't find mapping for action %d, allocating new mapping.",
                     action_id);
+#endif
         map = hotkey_map_new();
         map->action = action_id;
         map->keysym = keysym;
