@@ -557,8 +557,8 @@ void mem_pla_config_changed(void)
 static int mem_caps_key_event(int pressed)
 {
     DBGKEY(("mem_caps_key_event pressed:%d", pressed));
-    keyboard_custom_key_set(KBD_CUSTOM_CAPS, pressed);
-    pressed = keyboard_custom_key_get(KBD_CUSTOM_CAPS);
+    /*keyboard_custom_key_set(KBD_CUSTOM_CAPS, pressed);
+    pressed = keyboard_custom_key_get(KBD_CUSTOM_CAPS);*/
     if (pressed != 1) {
         pressed = 0;
     }
@@ -1220,7 +1220,7 @@ void mem_initialize_memory(void)
     vicii_set_chargen_addr_options(0xffff, 0xffff);
 
     mmu_reset();
-
+    /* CAUTION: the registered function MUST NOT call keyboard_custom_key_set() */
     keyboard_register_custom_key(KBD_CUSTOM_CAPS, mem_caps_key_event, "CAPS (ASCII/DIN)",
                                  &key_ctrl_caps, &key_flags_caps);
 

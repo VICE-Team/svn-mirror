@@ -1073,6 +1073,7 @@ static key_custom_info_t key_custom_info[KBD_CUSTOM_NUM] = {
     { "RESTORE2", key_restore2_pressed, KBD_CUSTOM_RESTORE2, 0, 0, &key_ctrl_restore2, &key_flags_restore2 },
 };
 
+/* CAUTION: the registered function MUST NOT call keyboard_custom_key_set() */
 void keyboard_register_custom_key(int id, key_custom_func_t func, char *name, int *keysym, int *keyflags)
 {
     key_custom_info[id].id = id;

@@ -230,8 +230,8 @@ static uint8_t mmu_is_valid_ram(uint8_t page, uint8_t bank, uint8_t current_bank
 static int mmu_4080_key_event(int pressed)
 {
     DBGKEY(("mmu_4080_key_event pressed:%d", pressed));
-    keyboard_custom_key_set(KBD_CUSTOM_4080, pressed);
-    pressed = keyboard_custom_key_get(KBD_CUSTOM_4080);
+    /*keyboard_custom_key_set(KBD_CUSTOM_4080, pressed);
+    pressed = keyboard_custom_key_get(KBD_CUSTOM_4080);*/
     if (pressed != 1) {
         pressed = 0;
     }
@@ -648,6 +648,7 @@ void mmu_reset(void)
     mmu[9] = 1;
     mmu_update_page01_pointers();
 
+    /* CAUTION: the registered function MUST NOT call keyboard_custom_key_set() */
     keyboard_register_custom_key(KBD_CUSTOM_4080, mmu_4080_key_event, "40/80 column key",
                                  &key_ctrl_column4080, &key_flags_column4080);
 
