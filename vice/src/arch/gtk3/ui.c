@@ -1896,10 +1896,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     /* set any menu checkboxes that aren't connected to resources */
-
-    /* FIXME:   This is apparently too early in the boot sequence for -warp
-     *          to take effect.
-     */
     ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              vsync_get_warp_mode());
 
