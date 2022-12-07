@@ -1,0 +1,7 @@
+Package: vice
+Version: 3.7-dev
+Architecture: amd64
+Maintainer: VICE-Team <vice-team@hotmail.com>
+Description: Emulators for Commodore 8-bit machines.
+Depends: libasound2, libatk1.0-0, libc6, libcairo2, libfontconfig1 libgcc-s1 libgdkpixbuf-2.0-0 libgl1 libglew2.2 libglib2.0-0 (>= 2.67.3) libgomp1 libgtk-3-0 (>= 3.24), libpango-1.0-0 libpangocairo-1.0-0, libpcap, libpng16-16, libpulse0, libreadline8, libstdc++6, libx11-6 zlib1g
+Homepage: https://vice-emu.sourceforge.io/
