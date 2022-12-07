@@ -689,7 +689,7 @@ static void machine_window_create(video_canvas_t *canvas)
     log_debug(" canvas_physical_wh: %u x %u", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
     log_debug(" scalexy: %d x %d", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
     log_debug(" sizexy: %u x %u", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
-    log_debug(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);
+    log_debug(" rmode: %u", canvas->videoconfig->cap->single_mode.rmode);
     log_debug(" aspect ratio: %f", (float)canvas->geometry->pixel_aspect_ratio);
 #endif
     /* find out if we have a videochip that uses vertical stretching. since the resources are not
