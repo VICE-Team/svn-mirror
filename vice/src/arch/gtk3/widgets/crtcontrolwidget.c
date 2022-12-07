@@ -336,16 +336,10 @@ static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
 
     parent = gtk_widget_get_parent(widget);
     data = g_object_get_data(G_OBJECT(parent), "InternalState");
-#if 0
-    debug_gtk3("CHIP: %s.", data->chip);
-#endif
     for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
         crt_control_t control = data->controls[i];
 
         if (control.scale != NULL) {
-#if 0
-            debug_gtk3("Resetting '%s' to factory value.", control.res.label);
-#endif
             vice_gtk3_resource_scale_custom_factory(control.scale);
             /* No need to reset the spin button, that gets triggered via
              * the scale widget
@@ -369,39 +363,6 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
     lib_free(data->chip);
     lib_free(data);
 }
-
-
-#if 0
-/** \brief  Handler for the 'value-changed' event of the spin buttons
- *
- * Updates \a scale with the value of \a spin.
- *
- * \param[in]       spin    spin button
- * \param[in,out]   scale   scale widget
- */
-static void on_spin_value_changed(GtkWidget *spin, gpointer scale)
-{
-    vice_gtk3_resource_scale_custom_sync(scale);
-}
-#endif
-
-
-#if 0
-/** \brief  Handler for the 'value-changed' event of the scale widgets
- *
- * Updates \a spin with the value of \a scale
- *
- * \param[in]       scale   scale widget
- * \param[in,out]   spin    spin button
- */
-static void on_scale_value_changed(GtkWidget *scale, gpointer spin)
-{
-    int scaleval;
-
-    vice_gtk3_resource_scale_custom_get(scale, &scaleval);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (double)scaleval);
-}
-#endif
 
 
 /** \brief  Create right-aligned label with a smaller font
@@ -468,34 +429,6 @@ static GtkWidget *create_slider(
     return scale;
 }
 
-#if 0
-/** \brief  Create spin button for \a resource of \a chip
- *
- * \param[in]   resource    resource name, excluding \a chip
- * \param[in]   chip        video chip name
- * \param[in]   low         spinbox lowest value
- * \param[in]   high        spinbox highest value
- * \param[in]   step        spinbox stepping
- * \param[in]   minimal     reduced size (for the statusbar widget)
- *
- * \return  spinbox widget
- */
-static GtkWidget *create_spin(
-        const char *resource, const char *chip,
-        int low, int high, int step,
-        gboolean minimal)
-{
-    GtkWidget *spin;
-
-    spin = vice_gtk3_resource_spin_int_new_sprintf(
-            "%s%s",
-            low, high, step,
-            chip, resource);
-    return spin;
-}
-#endif
-
-
 /** \brief  Create "U-only delayline" check button
  *
  * \param[in]   chip    video chip name
@@ -510,7 +443,6 @@ static GtkWidget *create_delayline_widget(const char *chip)
             "%sPALDelaylineType", "U-only Delayline", chip);
     return check;
 }
-
 
 /** \brief  Add GtkScale sliders to \a grid
  *
@@ -548,19 +480,6 @@ static int add_sliders(GtkGrid *grid,
                     control->res.disp_fmt,
                     minimal);
             gtk_grid_attach(grid, control->scale, 1, row, 1, 1);
-#if 0
-            control->spin = create_spin(control->res.name, chip,
-                    control->res.low, control->res.high, control->res.step,
-                    minimal);
-            gtk_grid_attach(grid, control->spin, 2, row, 1, 1);
-            /* hook up signal handlers */
-            g_signal_connect(control->scale, "value-changed",
-                    G_CALLBACK(on_scale_value_changed),
-                    (gpointer)(control->spin));
-            g_signal_connect(control->spin, "value-changed",
-                    G_CALLBACK(on_spin_value_changed),
-                    (gpointer)(control->scale));
-#endif
             row++;
         }
     } else {
@@ -591,11 +510,6 @@ static int add_sliders(GtkGrid *grid,
 
             if (control->scale != NULL) {
                 gtk_widget_set_sensitive(control->scale, is_ntsc);
-#if 0
-                if (control->spin != NULL) {
-                    gtk_widget_set_sensitive(control->spin, is_ntsc);
-                }
-#endif
             }
         }
     }
@@ -631,9 +545,6 @@ static crt_control_data_t *create_control_data(const char *chip)
         control->res.disp_step = resource_table[i].disp_step;
         control->res.disp_fmt = resource_table[i].disp_fmt;
         control->scale = NULL;
-#if 0
-        control->spin = NULL;
-#endif
     }
     data->delayline = NULL;
     return data;
@@ -680,9 +591,10 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     gtk_widget_set_margin_start(grid, 8);
     gtk_widget_set_margin_end(grid, 8);
     if (minimal) {
-        g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
+        g_snprintf(buffer, sizeof buffer,
+                   "<small><b>CRT settings (%s)</b></small>", chip);
     } else {
-        g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
+        g_snprintf(buffer, sizeof buffer, "<b>CRT settings (%s)</b>", chip);
     }
 
     label = gtk_label_new(NULL);
