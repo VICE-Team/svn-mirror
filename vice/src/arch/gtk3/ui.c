@@ -902,30 +902,6 @@ static gboolean on_delete_event(GtkWidget *widget,
     return TRUE;
 }
 
-/** \brief  Callback for the 'destroy' event of a main window
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   extra data for the callback (unused)
- */
-static void on_destroy(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *grid;
-
-    /*
-     * This should not be needed, destroying a GtkWindow should trigger
-     * destruction of all widgets it contains.
-     */
-    debug_gtk3("Manually calling destroy() on the CRT widgets. This should not"
-            " be necesarry, but right now it is.");
-    grid = gtk_bin_get_child(GTK_BIN(widget));
-    if (grid != NULL) {
-        GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
-        if (crt != NULL) {
-            gtk_widget_destroy(crt);
-        }
-    }
-}
-
 /** \brief  Handler for the "focus-in-event" of a main window
  *
  * \param[in]   widget      window triggering the event
@@ -1812,8 +1788,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* This event never returns so must not hold the vice lock */
     g_signal_connect(new_window, "delete-event",
                      G_CALLBACK(on_delete_event), NULL);
-    g_signal_connect(new_window, "destroy",
-                     G_CALLBACK(on_destroy), NULL);
     g_signal_connect_unlocked(new_window, "configure-event",
                      G_CALLBACK(on_window_configure_event),
                      GINT_TO_POINTER(target_window));
