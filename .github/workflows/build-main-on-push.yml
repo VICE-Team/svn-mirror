@@ -306,6 +306,73 @@ jobs:
               data: fs.readFileSync(ASSET_PATH)
             });
 
+  build_deb:
+    name: Build Debian Package
+    needs: [create_release, build_doc]
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y autoconf automake build-essential byacc flex xa65 dos2unix fakeroot devscripts
+          sudo apt install -y libpcap-dev libasound2-dev libpulse-dev libgtk-3-dev libglew-dev
+
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p build/usr
+          cd vice
+          ./src/buildtools/genvicedate_h.sh
+          ./autogen.sh
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui
+          make -j3
+          make DESTDIR=$HOME/build install
+
+      - name: Make Deb
+        id: make_deb
+        shell: bash
+        run: |
+          SVNREV=$(echo ${{ github.ref }} | sed 's/.*\///')
+          VICEVER=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/p')
+          DEBDIR=gtk3vice_${VICEVER}-${SVNREV}_amd64
+          echo "deb_name=${DEBDIR}.deb" >> $GITHUB_OUTPUT
+          mkdir -p ${DEBDIR}/DEBIAN
+          cp vice/build/debian/control ${DEBDIR}/DEBIAN/
+          cp -R $HOME/build/* ${DEBDIR}/
+          dpkg-deb --build ${DEBDIR}
+          echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
+
+      - name: Upload Deb
+        id: upload_deb
+        uses: actions/github-script@v6
+        env:
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: ${{ steps.make_deb.outputs.deb_path }}
+          ASSET_NAME: ${{ steps.make_deb.outputs.deb_name }}
+          ASSET_CONTENT_TYPE: application/vnd.debian.binary-package
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
+          script: |
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              data: fs.readFileSync(ASSET_PATH)
+            });
+
   publish_release:
     name: Publish Release
     needs: [create_release, build]
