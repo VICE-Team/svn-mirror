@@ -323,6 +323,7 @@ jobs:
           sudo apt update
           sudo apt install -y autoconf automake build-essential byacc flex xa65 dos2unix fakeroot devscripts
           sudo apt install -y libpcap-dev libasound2-dev libpulse-dev libgtk-3-dev libglew-dev
+          sudo apt install -y libgif-dev libvorbis-dev libmpg123-dev libflac-dev
 
       - name: Build
         shell: bash
@@ -331,8 +332,8 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-option-checking=fatal --prefix=/usr --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui
-          make -j3
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123
+          make -j3 -s --no-print-directory
           make DESTDIR=$HOME/build install
 
       - name: Make Deb
@@ -344,7 +345,7 @@ jobs:
           DEBDIR=gtk3vice_${VICEVER}-${SVNREV}_amd64
           echo "deb_name=${DEBDIR}.deb" >> $GITHUB_OUTPUT
           mkdir -p ${DEBDIR}/DEBIAN
-          cp vice/build/debian/control ${DEBDIR}/DEBIAN/
+          cat vice/build/debian/control | sed "s/__VICE_VERSION__/${VICEVER}/" > ${DEBDIR}/DEBIAN/control
           cp -R $HOME/build/* ${DEBDIR}/
           dpkg-deb --build ${DEBDIR}
           echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
