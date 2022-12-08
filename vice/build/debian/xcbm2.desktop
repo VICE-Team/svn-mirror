@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (xcbm2)
+Comment=Commodore CBM-II (600/700/B) emulator
+Exec=/usr/bin/xcbm2
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/xcbm2.svg
+Categories=Game,Emulator

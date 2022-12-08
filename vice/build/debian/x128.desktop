@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (x128)
+Comment=Commodore 128 emulator
+Exec=/usr/bin/x128
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/x128.svg
+Categories=Game,Emulator

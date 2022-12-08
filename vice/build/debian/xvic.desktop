@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (xvic)
+Comment=Commodore VIC-20 emulator
+Exec=/usr/bin/xvic
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/xvic.svg
+Categories=Game,Emulator

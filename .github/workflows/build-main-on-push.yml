@@ -338,7 +338,7 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-x64image
           make -j3 -s --no-print-directory
           make DESTDIR=$HOME/build install-strip
 
@@ -356,6 +356,19 @@ jobs:
           # copy PDF we downloaded
           mkdir -p ${DEBDIR}/usr/share/doc/vice
           cp vice/doc/vice.pdf ${DEBDIR}/usr/share/doc/vice/
+          # copy .desktop files
+          mkdir -p ${DEBDIR}/usr/share/applications
+          cp vice/build/debian/*.desktop ${DEBDIR}/usr/share/applications
+          # copy and rename icon files
+          mkdir -p ${DEBDIR}/usr/share/icons/hicolor/scalable/apps
+          cp vice/data/common/C128_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x128.svg
+          cp vice/data/common/C64_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x64sc.svg
+          cp vice/data/common/CBM2_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xcbm2.svg
+          cp vice/data/common/DTV_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x64dtv.svg
+          cp vice/data/common/Plus4_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xplus4.svg
+          cp vice/data/common/SCPU_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xscpu64.svg
+          cp vice/data/common/SID_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/vsid.svg
+          cp vice/data/common/VIC20_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xvic.svg
           # use fakeroot to force root ownership of the installed files
           fakeroot dpkg-deb --build ${DEBDIR}
           echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
