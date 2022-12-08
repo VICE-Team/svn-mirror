@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (xscpu64)
+Comment=Commodore 64 SuperCPU emulator
+Exec=/usr/bin/xscpu64
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/xscpu64.svg
+Categories=Game,Emulator

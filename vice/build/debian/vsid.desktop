@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (vsid)
+Comment=SID Player
+Exec=/usr/bin/vsid
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/vsid.svg
+Categories=Audio,AudioVideo,Emulator

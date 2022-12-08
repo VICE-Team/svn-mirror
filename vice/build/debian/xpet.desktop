@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VICE (xpet)
+Comment=Commodore PET emulator
+Exec=/usr/bin/xpet
+Terminal=false
+Icon=/usr/share/icons/hicolor/scalable/xpet.svg
+Categories=Game,Emulator
