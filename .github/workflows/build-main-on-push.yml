@@ -317,6 +317,12 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v3
 
+      - name: Download Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: vice-pdf
+          path: vice/doc/
+
       - name: Install Dependencies
         shell: bash
         run: |
@@ -347,6 +353,9 @@ jobs:
           mkdir -p ${DEBDIR}/DEBIAN
           cat vice/build/debian/control | sed "s/__VICE_VERSION__/${VICEVER}/" > ${DEBDIR}/DEBIAN/control
           cp -R $HOME/build/* ${DEBDIR}/
+          # copy PDF we downloaded
+          mkdir -p ${DEBDIR}/usr/share/doc/vice
+          cp vice/doc/vice.pdf ${DEBDIR}/usr/share/doc/vice/
           dpkg-deb --build ${DEBDIR}
           echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
 
