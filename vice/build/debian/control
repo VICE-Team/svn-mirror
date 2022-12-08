@@ -2,6 +2,8 @@ Package: vice
 Version: __VICE_VERSION__
 Architecture: amd64
 Maintainer: Bas Wassink <b.wassink@ziggo.nl>
+Section: contrib/otherosfs
+Priority: optional
 Description: Versatile Commodore Emulator
  Emulates Commodore 8-bit computers: C64, C64DTV, C128, VIC20, Plus/4, CBM-II and PET
  This package also contains the ROM files to run the various emulators.
