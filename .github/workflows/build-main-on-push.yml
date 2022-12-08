@@ -356,7 +356,8 @@ jobs:
           # copy PDF we downloaded
           mkdir -p ${DEBDIR}/usr/share/doc/vice
           cp vice/doc/vice.pdf ${DEBDIR}/usr/share/doc/vice/
-          dpkg-deb --build ${DEBDIR}
+          # use fakeroot to force root ownership of the installed files
+          fakeroot dpkg-deb --build ${DEBDIR}
           echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
 
       - name: Upload Deb

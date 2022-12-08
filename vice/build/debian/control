@@ -8,6 +8,7 @@ Description: Versatile Commodore Emulator
  Emulates Commodore 8-bit computers: C64, C64DTV, C128, VIC20, Plus/4, CBM-II and PET
  This package also contains the ROM files to run the various emulators.
 Homepage: https://vice-emu.sourceforge.io/
+Installed-Size: 43707
 Depends: libasound2,
  libatk1.0-0,
  libc6,
