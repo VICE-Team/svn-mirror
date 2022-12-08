@@ -338,7 +338,7 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-option-checking=fatal --prefix=/usr --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123
           make -j3 -s --no-print-directory
           make DESTDIR=$HOME/build install
 
