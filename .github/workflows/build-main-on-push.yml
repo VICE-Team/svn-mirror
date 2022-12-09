@@ -329,7 +329,7 @@ jobs:
           sudo apt update
           sudo apt install -y autoconf automake build-essential byacc flex xa65 dos2unix fakeroot devscripts
           sudo apt install -y libpcap-dev libasound2-dev libpulse-dev libgtk-3-dev libglew-dev
-          sudo apt install -y libgif-dev libvorbis-dev libmpg123-dev libflac-dev
+          sudo apt install -y libgif-dev libvorbis-dev libmpg123-dev libflac-dev libmp3lame-dev
 
       - name: Build
         shell: bash
@@ -338,7 +338,7 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-x64-image
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-gtk3ui --enable-ethernet --with-pulse --with-alsa --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --disable-debug --disable-debug-gtk3ui --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-lame --enable-midi
           make -j3 -s --no-print-directory
           make DESTDIR=$HOME/build install-strip
 
