@@ -36,6 +36,10 @@ mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
 cat vice/build/debian/control | \
     sed "s/__VICE_VERSION__/${VICE_VERSION}/" \
     > ${DEB_DIR}/DEBIAN/control
+# Create copyright file, taking contributer info from src/infocontrib.h
+cat vice/build/debian/copyright.header > ${DEB_DIR}/DEBIAN/copyright
+cat vice/src/infocontrib.h | vice/build/github-actions/contributers.awk \
+    >> ${DEB_DIR}/DEBIAN/copyright
 
 # Copy the files installed with `make install-strip`
 cp -R ${HOME}/build/* ${DEB_DIR}/
@@ -44,7 +48,7 @@ cp vice/doc/vice.pdf ${DEB_DIR}/usr/share/doc/vice/
 # Copy .desktop files
 cp vice/build/debian/*.desktop ${DEB_DIR}/usr/share/applications
 # Copy icon files
-for emu in "${!ICONS[@]}"
+for emu in ${!ICONS[@]}
 do
     orig="vice/data/common/${ICONS[$emu]}_1024.svg"
     dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
