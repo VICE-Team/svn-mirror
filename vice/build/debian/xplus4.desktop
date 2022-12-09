@@ -4,5 +4,5 @@ Name=VICE (xplus4)
 Comment=Commodore Plus/4 emulator
 Exec=/usr/bin/xplus4
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/xplus4.svg
+Icon=/usr/share/icons/hicolor/scalable/apps/xplus4.svg
 Categories=Game,Emulator

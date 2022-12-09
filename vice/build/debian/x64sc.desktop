@@ -4,5 +4,5 @@ Name=VICE (x64sc)
 Comment=Commodore 64 emulator
 Exec=/usr/bin/x64sc
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/x64sc.svg
+Icon=/usr/share/icons/hicolor/scalable/apps/x64sc.svg
 Categories=Game,Emulator

@@ -4,5 +4,5 @@ Name=VICE (vsid)
 Comment=SID Player
 Exec=/usr/bin/vsid
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/vsid.svg
+Icon=/usr/share/icons/hicolor/scalable/apps/vsid.svg
 Categories=Audio,AudioVideo,Emulator
