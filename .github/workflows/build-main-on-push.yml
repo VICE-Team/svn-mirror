@@ -345,7 +345,7 @@ jobs:
       - name: Make Deb
         id: make_deb
         shell: bash
-        run: sh ./vice/build/github-actions/build_deb.sh
+        run: ./vice/build/github-actions/build_deb.sh
 
       - name: Upload Deb
         id: upload_deb
