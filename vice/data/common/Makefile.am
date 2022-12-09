@@ -41,6 +41,7 @@ common_DATA = CBM_Logo.svg \
 	      PET_64.png \
 	      PET_256.png \
 	      PET_256.svg \
+	      PET_1024.svg \
 	      Plus4_16.png \
 	      Plus4_24.png \
 	      Plus4_32.png \
