@@ -9,7 +9,7 @@
 
 # Mapping of emulators to their icon names in data/common/
 # There is no separate icon for xcbm5x0, so we use the xcbm2 icon
-ICONS=(
+declare -A ICONS=(
     [vsid]="SID"
     [x128]="C128"
     [x64dtv]="DTV"
@@ -44,7 +44,8 @@ cp vice/doc/vice.pdf ${DEB_DIR}/usr/share/doc/vice/
 # Copy .desktop files
 cp vice/build/debian/*.desktop ${DEB_DIR}/usr/share/applications
 # Copy icon files
-for emu in "${!ICONS[@]}" do
+for emu in "${!ICONS[@]}"
+do
     orig="vice/data/common/${ICONS[$emu]}_1024.svg"
     dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
     cp ${orig} ${dest}
