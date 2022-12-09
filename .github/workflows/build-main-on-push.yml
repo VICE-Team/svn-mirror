@@ -345,33 +345,7 @@ jobs:
       - name: Make Deb
         id: make_deb
         shell: bash
-        run: |
-          SVNREV=$(echo ${{ github.ref }} | sed 's/.*\///')
-          VICEVER=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/p')
-          DEBDIR=vice_${VICEVER}_${SVNREV}
-          echo "deb_name=${DEBDIR}.deb" >> $GITHUB_OUTPUT
-          mkdir -p ${DEBDIR}/DEBIAN
-          cat vice/build/debian/control | sed "s/__VICE_VERSION__/${VICEVER}/" > ${DEBDIR}/DEBIAN/control
-          cp -R $HOME/build/* ${DEBDIR}/
-          # copy PDF we downloaded
-          mkdir -p ${DEBDIR}/usr/share/doc/vice
-          cp vice/doc/vice.pdf ${DEBDIR}/usr/share/doc/vice/
-          # copy .desktop files
-          mkdir -p ${DEBDIR}/usr/share/applications
-          cp vice/build/debian/*.desktop ${DEBDIR}/usr/share/applications
-          # copy and rename icon files
-          mkdir -p ${DEBDIR}/usr/share/icons/hicolor/scalable/apps
-          cp vice/data/common/C128_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x128.svg
-          cp vice/data/common/C64_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x64sc.svg
-          cp vice/data/common/CBM2_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xcbm2.svg
-          cp vice/data/common/DTV_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/x64dtv.svg
-          cp vice/data/common/Plus4_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xplus4.svg
-          cp vice/data/common/SCPU_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xscpu64.svg
-          cp vice/data/common/SID_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/vsid.svg
-          cp vice/data/common/VIC20_1024.svg ${DEBDIR}/usr/share/icons/hicolor/scalable/apps/xvic.svg
-          # use fakeroot to force root ownership of the installed files
-          fakeroot dpkg-deb --build ${DEBDIR}
-          echo "deb_path=$(realpath ${DEBDIR}.deb)" >> $GITHUB_OUTPUT
+        run: sh ./vice/build/github-actions/build.deb/sh
 
       - name: Upload Deb
         id: upload_deb
