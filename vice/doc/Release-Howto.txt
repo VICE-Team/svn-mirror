@@ -48,6 +48,12 @@ $ svn commit -m "preparing release"
   These three defines are all that is needed for a version number, the absence
   or presence of an SVN revision determines if a release is a point release or
   a development release.
+  We do not use odd/even MINOR/BUILD numbering for development/stable releases.
+
+  The BUILD number is bumped by one on each point release, except when we do
+  our "traditional" Christmas release, then we bump MINOR and reset BUILD to 0.
+  For massive changes we can decide to bump MAJOR and set MINOR and BUILD to 0,
+  for example when merging the 'vice-4' branch somewhere in the future.
 
 - propagate the updated version into the documentation:
 
