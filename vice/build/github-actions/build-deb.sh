@@ -36,9 +36,9 @@ mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
 cat vice/build/debian/control | \
     sed "s/__VICE_VERSION__/${VICE_VERSION}/" \
     > ${DEB_DIR}/DEBIAN/control
-# Create copyright file, taking contributer info from src/infocontrib.h
+# Create copyright file, taking contributor info from src/infocontrib.h
 cat vice/build/debian/copyright.header > ${DEB_DIR}/DEBIAN/copyright
-cat vice/src/infocontrib.h | vice/build/github-actions/contributers.awk \
+cat vice/src/infocontrib.h | vice/build/github-actions/contributors.awk \
     >> ${DEB_DIR}/DEBIAN/copyright
 
 # Copy the files installed with `make install-strip`
