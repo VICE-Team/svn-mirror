@@ -4,11 +4,14 @@ dnl
 dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
-dnl Set VICE version number
+dnl Set VICE version number.
+dnl ONLY bump this on release, any revision in the version string indicates
+dnl a development version. Don't add any strings to the version number (such
+dnl as '-dev' or 'beta'), the '-r$SVNREV' revision string is the only thing we
+dnl alllow after the version number.
 m4_define(vice_version_major, 3)
-m4_define(vice_version_minor, 7)
-m4_define(vice_version_build, 0)
-m4_define(vice_version_label, dev)
+m4_define(vice_version_minor, 6)
+m4_define(vice_version_build, 1)
 
 dnl Some people lose their shit if a version ends in .0
 dnl also turns out some people lose it if it doesn't :)
@@ -16,10 +19,10 @@ m4_define(vice_version,
           ifelse(vice_version_build, 0,
                  ifelse(vice_version_label, ,
                         [vice_version_major.vice_version_minor],
-                        [vice_version_major.vice_version_minor-vice_version_label]),
+                        [vice_version_major.vice_version_minor]),
                  ifelse(vice_version_label, ,
                         [vice_version_major.vice_version_minor.vice_version_build],
-                        [vice_version_major.vice_version_minor.vice_version_build-vice_version_label])))
+                        [vice_version_major.vice_version_minor.vice_version_build])))
 
 dnl The major/minor stuff gets replaced in autogen.sh
 AC_INIT([vice], [vice_version])
@@ -57,14 +60,12 @@ dnl Make version number visible to generated files and source
 VICE_VERSION_MAJOR=vice_version_major
 VICE_VERSION_MINOR=vice_version_minor
 VICE_VERSION_BUILD=vice_version_build
-VICE_VERSION_LABEL=vice_version_label
 VICE_VERSION=vice_version
 VERSION_RC="$VICE_VERSION_MAJOR,$VICE_VERSION_MINOR,$VICE_VERSION_BUILD,0"
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
 AC_SUBST(VICE_VERSION_BUILD)
-AC_SUBST(VICE_VERSION_LABEL)
 AC_SUBST(VICE_VERSION)
 AC_SUBST(VERSION_RC)
 AC_SUBST(VERSION_COMBINED)
