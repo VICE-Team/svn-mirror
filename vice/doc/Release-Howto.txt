@@ -1,4 +1,3 @@
-
 Prerequisites:
 --------------
 
@@ -40,13 +39,15 @@ $ svn commit -m "preparing release"
 
 - ANNOUNCE A CODE FREEZE ;)
 
-- make sure the version in configure.ac is updated, and make sure to remove the
-"dev" label:
+- make sure the version in configure.ac is updated:
 
     m4_define(vice_version_major, 3)
     m4_define(vice_version_minor, 6)
     m4_define(vice_version_build, 0)
-    m4_define(vice_version_label, )
+
+  These three defines are all that is needed for a version number, the absence
+  or presence of an SVN revision determines if a release is a point release or
+  a development release.
 
 - propagate the updated version into the documentation:
 
