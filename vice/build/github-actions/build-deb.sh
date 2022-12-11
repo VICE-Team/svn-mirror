@@ -46,7 +46,7 @@ SVN_REVISION=$(echo ${GITHUB_REF} | sed 's/.*\///')
 VICE_VERSION=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/p')
 
 # Create directory for the deb package and subdirectories inside the deb
-DEB_DIR="${UI}vice_${VICE_VERSION}_${SVN_REVISION}"
+DEB_DIR="${UI}vice_${VICE_VERSION}+${SVN_REVISION}"
 mkdir -p ${DEB_DIR}/DEBIAN
 mkdir -p ${DEB_DIR}/usr/share/doc/vice
 if [ "$UI" = "gtk3" ]; then
