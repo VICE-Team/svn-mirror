@@ -1,14 +1,16 @@
-Package: vice
+Package: gtk3vice
 Version: __VICE_VERSION__
 Architecture: amd64
 Maintainer: Bas Wassink <b.wassink@ziggo.nl>
 Section: contrib/otherosfs
 Priority: optional
-Description: Versatile Commodore Emulator
+Description: Versatile Commodore Emulator (Gtk3 version)
  Emulates Commodore 8-bit computers: C64, C64DTV, C128, VIC20, Plus/4, CBM-II and PET
  This package also contains the ROM files to run the various emulators.
+ The included binaries are not stripped from debug symbols.
 Homepage: https://vice-emu.sourceforge.io/
-Installed-Size: 43707
+Installed-Size: 148236
+Conflicts: vice, sdl2vice
 Depends: libasound2,
  libatk1.0-0,
  libc6,
