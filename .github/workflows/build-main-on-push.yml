@@ -349,7 +349,7 @@ jobs:
           ./autogen.sh
           # ALSA is required for SDL2 as well for midi support
           ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-ethernet --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-lame --enable-midi --with-alsa ${{ matrix.ui.conf }}
-          make -j3 -s --no-print-directory
+          make -j3 -s --no-print-directory SVN_REVISION_OVERRIDE=$(echo "${{ github.ref }}" | sed 's/^.*r//')
           # Don't use install-strip, we want symbols intact for backtraces
           make DESTDIR=$HOME/build install
 
