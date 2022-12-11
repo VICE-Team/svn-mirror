@@ -1,0 +1,29 @@
+Package: sdl2vice
+Version: __VICE_VERSION__
+Architecture: amd64
+Maintainer: Bas Wassink <b.wassink@ziggo.nl>
+Section: contrib/otherosfs
+Priority: optional
+Description: Versatile Commodore Emulator (SDL2 version)
+ Emulates Commodore 8-bit computers: C64, C64DTV, C128, VIC20, Plus/4, CBM-II and PET
+ This package also contains the ROM files to run the various emulators.
+ The included binaries are not stripped from debug symbols.
+Homepage: https://vice-emu.sourceforge.io/
+Installed-Size: 43707
+Conflicts: vice, gtk3vice
+Depends: libc6,
+ libflac8,
+ libgcc-s1,
+ libgif7,
+ libgomp1,
+ libmp3lame0,
+ libmpg123-0,
+ libogg0,
+ libpcap0.8,
+ libpng16-16,
+ libsdl2-2.0-0,
+ libsdl2-image-2.0-0,
+ libstdc++6,
+ libvorbis0a,
+ libx11-6,
+ zlib1g

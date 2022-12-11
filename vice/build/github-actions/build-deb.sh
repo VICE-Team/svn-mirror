@@ -3,9 +3,29 @@
 #
 # This script expects to be run inside the svn-mirror/ directory
 #
+# Usage:    build-deb.sh <UI>
+#
 # TODO: Generate DEBIAN/copyright file
 # TODO: Provide md5sums?
 
+
+# Check command line for UI argument
+if [ $# -ne 1 ]; then
+    echo "$(basename $0): Please specify UI to build: 'gtk3' or 'sdl2', aborting."
+    exit 1
+fi
+case "$1" in
+    [gG][tT][kK]3)
+        UI="gtk3"
+        ;;
+    [sS][dD][lL]2)
+        UI="sdl2"
+        ;;
+    *)
+        echo "$(basename $0): Unknown UI: $1, aborting."
+        exit 1
+        ;;
+esac
 
 # Mapping of emulators to their icon names in data/common/
 # There is no separate icon for xcbm5x0, so we use the xcbm2 icon
@@ -26,14 +46,14 @@ SVN_REVISION=$(echo ${GITHUB_REF} | sed 's/.*\///')
 VICE_VERSION=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/p')
 
 # Create directory for the deb package and subdirectories inside the deb
-DEB_DIR="vice_${VICE_VERSION}_${SVN_REVISION}"
+DEB_DIR="${UI}vice_${VICE_VERSION}_${SVN_REVISION}"
 mkdir -p ${DEB_DIR}/DEBIAN
 mkdir -p ${DEB_DIR}/usr/share/applications
 mkdir -p ${DEB_DIR}/usr/share/doc/vice
 mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
 
 # Copy control file, setting the correct VICE version in the "Version:" field
-cat vice/build/debian/control | \
+cat vice/build/debian/control.${UI} | \
     sed "s/__VICE_VERSION__/${VICE_VERSION}/" \
     > ${DEB_DIR}/DEBIAN/control
 # Create copyright file, taking contributor info from src/infocontrib.h
@@ -46,14 +66,18 @@ cp -R ${HOME}/build/* ${DEB_DIR}/
 # Copy the documentation
 cp vice/doc/vice.pdf ${DEB_DIR}/usr/share/doc/vice/
 # Copy .desktop files
-cp vice/build/debian/*.desktop ${DEB_DIR}/usr/share/applications
+if [ "$UI" = "gtk3" ]; then
+    cp vice/build/debian/*.desktop ${DEB_DIR}/usr/share/applications
+fi
 # Copy icon files
-for emu in ${!ICONS[@]}
-do
-    orig="vice/data/common/${ICONS[$emu]}_1024.svg"
-    dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
-    cp ${orig} ${dest}
-done
+if [ "$UI" = "sdl2" ]; then
+    for emu in ${!ICONS[@]}
+    do
+        orig="vice/data/common/${ICONS[$emu]}_1024.svg"
+        dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
+        cp ${orig} ${dest}
+    done
+fi
 
 # Now build the .deb
 fakeroot dpkg-deb --build ${DEB_DIR}
