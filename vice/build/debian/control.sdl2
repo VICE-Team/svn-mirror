@@ -11,7 +11,8 @@ Description: Versatile Commodore Emulator (SDL2 version)
 Homepage: https://vice-emu.sourceforge.io/
 Installed-Size: 43707
 Conflicts: vice, gtk3vice
-Depends: libc6,
+Depends: libasound2,
+ libc6,
  libflac8,
  libgcc-s1,
  libgif7,
