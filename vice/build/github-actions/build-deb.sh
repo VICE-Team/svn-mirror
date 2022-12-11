@@ -48,9 +48,11 @@ VICE_VERSION=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/
 # Create directory for the deb package and subdirectories inside the deb
 DEB_DIR="${UI}vice_${VICE_VERSION}_${SVN_REVISION}"
 mkdir -p ${DEB_DIR}/DEBIAN
-mkdir -p ${DEB_DIR}/usr/share/applications
 mkdir -p ${DEB_DIR}/usr/share/doc/vice
-mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
+if [ "$UI" = "gtk3" ]; then
+    mkdir -p ${DEB_DIR}/usr/share/applications
+    mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
+fi
 
 # Copy control file, setting the correct VICE version in the "Version:" field
 cat vice/build/debian/control.${UI} | \
