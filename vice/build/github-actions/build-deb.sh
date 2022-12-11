@@ -9,6 +9,20 @@
 # TODO: Provide md5sums?
 
 
+# Mapping of emulators to their icon names in data/common/
+# There is no separate icon for xcbm5x0, so we use the xcbm2 icon
+declare -A ICONS=(
+    [vsid]="SID"
+    [x128]="C128"
+    [x64dtv]="DTV"
+    [x64sc]="C64"
+    [xcbm2]="CBM2"
+    [xpet]="PET"
+    [xplus4]="Plus4"
+    [xscpu64]="SCPU"
+    [xvic]="VIC20"
+)
+
 # Check command line for UI argument
 if [ $# -ne 1 ]; then
     echo "$(basename $0): Please specify UI to build: 'gtk3' or 'sdl2', aborting."
@@ -26,20 +40,6 @@ case "$1" in
         exit 1
         ;;
 esac
-
-# Mapping of emulators to their icon names in data/common/
-# There is no separate icon for xcbm5x0, so we use the xcbm2 icon
-declare -A ICONS=(
-    [vsid]="SID"
-    [x128]="C128"
-    [x64dtv]="DTV"
-    [x64sc]="C64"
-    [xcbm2]="CBM2"
-    [xpet]="PET"
-    [xplus4]="Plus4"
-    [xscpu64]="SCPU"
-    [xvic]="VIC20"
-)
 
 # Get SVN revision and VICE version string
 SVN_REVISION=$(echo ${GITHUB_REF} | sed 's/.*\///')
@@ -77,7 +77,7 @@ if [ "$UI" = "gtk3" ]; then
     do
         orig="vice/data/common/${ICONS[$emu]}_1024.svg"
         dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
-        cp ${orig} ${dest}
+        cp -v ${orig} ${dest}
     done
 fi
 
