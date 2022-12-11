@@ -76,8 +76,8 @@ if [ "$UI" = "gtk3" ]; then
     for emu in ${!ICONS[@]}
     do
         orig="vice/data/common/${ICONS[$emu]}_1024.svg"
-        dest="/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
-        cp -v ${orig} ${dest}
+        dest="${DEB_DIR}/usr/share/icons/hicolor/scalable/apps/${emu}.svg"
+        cp ${orig} ${dest}
     done
 fi
 
