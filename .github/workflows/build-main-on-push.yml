@@ -318,7 +318,7 @@ jobs:
                   deps: 'libasound-dev libglew-dev libgtk-3-dev libpulse-dev' },
                 { name: 'SDL2',
                   conf: '--enable-sdl2ui --with-sdlsound --without-alsa --without-pulse',
-                  deps: 'libsdl2-dev' } ]
+                  deps: 'libsdl2-dev libsdl2-image-dev' } ]
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
