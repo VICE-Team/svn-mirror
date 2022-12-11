@@ -70,7 +70,7 @@ if [ "$UI" = "gtk3" ]; then
     cp vice/build/debian/*.desktop ${DEB_DIR}/usr/share/applications
 fi
 # Copy icon files
-if [ "$UI" = "sdl2" ]; then
+if [ "$UI" = "gtk3" ]; then
     for emu in ${!ICONS[@]}
     do
         orig="vice/data/common/${ICONS[$emu]}_1024.svg"
