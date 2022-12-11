@@ -311,15 +311,14 @@ jobs:
     needs: [create_release, build_doc]
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        ui: [ { name: 'GTK3',
-                conf: '--enable-gtk3ui --with-alsa --with-pulse',
-                deps: 'libasound-dev libglew-dev libgtk-3-dev libpulse-dev' },
-              { name: 'SDL2',
-                conf: '--enable-sdl2ui --with-sdlsound --without-alsa --without-pulse' },
-                deps: 'libsdl2-dev' }
-            ]
+          ui: [ { name: 'GTK3',
+                  conf: '--enable-gtk3ui --with-alsa --with-pulse',
+                  deps: 'libasound-dev libglew-dev libgtk-3-dev libpulse-dev' },
+                { name: 'SDL2',
+                  conf: '--enable-sdl2ui --with-sdlsound --without-alsa --without-pulse',
+                  deps: 'libsdl2-dev' } ]
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
