@@ -340,6 +340,7 @@ static void mmu_switch_to_c64mode(void)
         /* force standard addresses for stack and zeropage */
         mmu[7] = 0;
         c128_mem_set_mmu_page_0(0);
+        mmu_set_dma_bank(mmu[6]);
         mmu[8] = 0;
         mmu[9] = 1;
         c128_mem_set_mmu_page_1(1);
