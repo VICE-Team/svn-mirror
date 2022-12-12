@@ -9,7 +9,7 @@ Description: Versatile Commodore Emulator (Gtk3 version)
  This package also contains the ROM files to run the various emulators.
  The included binaries are not stripped from debug symbols.
 Homepage: https://vice-emu.sourceforge.io/
-Installed-Size: ____INSTALLED_SIZE__
+Installed-Size: __INSTALLED_SIZE__
 Conflicts: vice, sdl2vice
 Depends: libasound2,
  libatk1.0-0,
