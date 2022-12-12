@@ -1,0 +1,23 @@
+
+Files: src/arch/gtk3/linenoise.{c,h}
+License: BSD
+Copyright: 2010 Salvatore Sanfilippo
+           2010 Pieter Noordhuis
+
+Files: src/lib/linenoise-ng/*
+License: BSD
+Copyright: 2015 ArangoDB GmbH
+           2010 Salvatore Sanfilippo
+           2010 Pieter Noordhuis
+
+Files: src/lib/linenoise-ng/wcwidth.cpp
+License: ISC
+Copyright: 2007 Markus Kuhn
+
+Files: src/lib/linenoise-ng/ConvertUTF.cpp
+Copyright: 2001-2004 Unicode, Inc.
+
+Files: src/arch/gtk3/novte/*
+License: LPGL-2.1
+Copyright: 2001-2004,2009,2010 Red Hat, Inc.
+           2008-2018 Christian Persch

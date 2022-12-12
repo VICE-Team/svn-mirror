@@ -72,6 +72,12 @@ if [ "$UI" = "gtk3" ]; then
     done
 fi
 
+# Create copyright file, taking contributor info from src/infocontrib.h
+cat vice/build/debian/copyright.header > ${DEB_DIR}/usr/share/doc/vice/copyright
+cat vice/src/infocontrib.h | vice/build/github-actions/contributors.awk \
+    >> ${DEB_DIR}/usr/share/doc/vice/copyright
+cat vice/build/debian/copyright.footer >> ${DEB_DIR}/usr/share/doc/vice/copyright
+
 # Get total size of installed files in KiB
 INSTALLED_SIZE=$(du -ks ${DEB_DIR} | cut -f 1)
 
@@ -79,10 +85,7 @@ INSTALLED_SIZE=$(du -ks ${DEB_DIR} | cut -f 1)
 cat vice/build/debian/control.${UI} | \
     sed "s/__VICE_VERSION__/${VICE_VERSION}/ ; s/__SVN_REVISION__/${SVN_REVISION}/ ; s/__INSTALLED_SIZE__/${INSTALLED_SIZE}/" \
     > ${DEB_DIR}/DEBIAN/control
-# Create copyright file, taking contributor info from src/infocontrib.h
-cat vice/build/debian/copyright.header > ${DEB_DIR}/DEBIAN/copyright
-cat vice/src/infocontrib.h | vice/build/github-actions/contributors.awk \
-    >> ${DEB_DIR}/DEBIAN/copyright
+
 # Now build the .deb
 fakeroot dpkg-deb --build ${DEB_DIR}
 
