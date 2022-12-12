@@ -1,5 +1,5 @@
 Package: sdl2vice
-Version: __VICE_VERSION__
+Version: __VICE_VERSION__+__SVN_REVISION__
 Architecture: amd64
 Maintainer: Bas Wassink <b.wassink@ziggo.nl>
 Section: contrib/otherosfs
@@ -9,7 +9,7 @@ Description: Versatile Commodore Emulator (SDL2 version)
  This package also contains the ROM files to run the various emulators.
  The included binaries are not stripped from debug symbols.
 Homepage: https://vice-emu.sourceforge.io/
-Installed-Size: 43707
+Installed-Size: __INSTALLED_SIZE__
 Conflicts: vice, gtk3vice
 Depends: libasound2,
  libc6,
