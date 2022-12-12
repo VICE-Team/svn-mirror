@@ -648,6 +648,7 @@ void mmu_reset(void)
     }
     mmu[9] = 1;
     mmu_update_page01_pointers();
+    mmu_set_dma_bank(mmu[6]);
 
     /* CAUTION: the registered function MUST NOT call keyboard_custom_key_set() */
     keyboard_register_custom_key(KBD_CUSTOM_4080, mmu_4080_key_event, "40/80 column key",
