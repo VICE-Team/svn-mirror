@@ -54,15 +54,6 @@ if [ "$UI" = "gtk3" ]; then
     mkdir -p ${DEB_DIR}/usr/share/icons/hicolor/scalable/apps
 fi
 
-# Copy control file, setting the correct VICE version in the "Version:" field
-cat vice/build/debian/control.${UI} | \
-    sed "s/__VICE_VERSION__/${VICE_VERSION}/" \
-    > ${DEB_DIR}/DEBIAN/control
-# Create copyright file, taking contributor info from src/infocontrib.h
-cat vice/build/debian/copyright.header > ${DEB_DIR}/DEBIAN/copyright
-cat vice/src/infocontrib.h | vice/build/github-actions/contributors.awk \
-    >> ${DEB_DIR}/DEBIAN/copyright
-
 # Copy the files installed with `make install-strip`
 cp -R ${HOME}/build/* ${DEB_DIR}/
 # Copy the documentation
@@ -81,6 +72,17 @@ if [ "$UI" = "gtk3" ]; then
     done
 fi
 
+# Get total size of installed files in KiB
+INSTALLED_SIZE=$(du -ks ${DEB_DIR} | cut -f 1)
+
+# Copy control file, setting the correct package version and installed size
+cat vice/build/debian/control.${UI} | \
+    sed "s/__VICE_VERSION__/${VICE_VERSION}/ ; s/__SVN_REVISION__/${SVN_REVISION}/ ; s/__INSTALLED_SIZE__/${INSTALLED_SIZE}/" \
+    > ${DEB_DIR}/DEBIAN/control
+# Create copyright file, taking contributor info from src/infocontrib.h
+cat vice/build/debian/copyright.header > ${DEB_DIR}/DEBIAN/copyright
+cat vice/src/infocontrib.h | vice/build/github-actions/contributors.awk \
+    >> ${DEB_DIR}/DEBIAN/copyright
 # Now build the .deb
 fakeroot dpkg-deb --build ${DEB_DIR}
 
