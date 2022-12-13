@@ -1,0 +1,86 @@
+name: Weekly Check Dist
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+concurrency:
+  group: Weekly Check Dist
+  cancel-in-progress: true
+
+jobs:
+  make_dist:
+    name: Make Dist
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        source: [ { name: 'headless',
+                    conf: '--enable-headlessui',
+                    deps: '' },
+                  { name: 'sdl2',
+                   conf: '--enable-sdl2ui',
+                    deps: 'libsdl2-dev libsdl2-image-dev' },
+                  { name: 'GTK3',
+                    conf: '--enable-gtk3ui',
+                    deps: 'libgtk-3-dev libglew-dev' } ]
+        target: [ { name: 'headless',
+                    conf: '--enable-headlessui',
+                    deps: '' },
+                  { name: 'sdl2',
+                    conf: '--enable-sdl2ui',
+                    deps: 'libsdl2-dev libsdl2-image-dev' },
+                  { name: 'gtk3',
+                    conf: '--enable-gtk3ui',
+                    deps: 'libgtk-3-dev libglew-dev' } ]
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Install Source Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y autoconf automake build-essential byacc dos2unix \
+                              flex xa65 libasound2-dev libpulse-dev \
+                              ${{ matrix.source.deps }}
+
+      - name: Configure Dist
+        shell: bash
+        run: |
+          cd vice
+          ./autogen.sh
+          ./configure --enable-option-checking=fatal ${{ matrix.source.conf }} \
+                      --with-resid --disable-html-docs --disable-pdf-docs
+
+      - name: Make Dist
+        id: make_dist
+        shell: bash
+        run: |
+          cd vice
+          make -j3 -s --no-print-directory dist
+          echo "tarball=$(basename vice-*.tar.gz)" >> $GITHUB_OUTPUT
+          echo "tardir=$(basename -s .tar.gz vice-*.tar.gz)" >> $GITHUB_OUTPUT
+
+      - name: Install Target Dependencies
+        shell: bash
+        run: |
+          sudo apt install -y ${{ matrix.target.deps }}
+
+      - name: Configure Target Build
+        shell: bash
+        run: |
+          BUILDDIR=${{ matrix.target.name }}-build
+          mkdir ${BUILDDIR} && cd ${BUILDDIR}
+          tar -xzf ../vice/${{ steps.make_dist.outputs.tarball }}
+          cd ${{ steps.make_dist.outputs.tardir }}
+          ./configure --enable-option-checking=fatal ${{matrix.target.conf }} \
+                      --with-resid --with-fastsid --disable-html-docs --disable-pdf-docs
+          make -j3 -s --no-print-directory
+
+      - name: Report Failure
+        env:
+          IRC_PASS: ${{ secrets.IRC_PASS }}
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          ./vice/build/github-actions/irc-message.sh "make dist && make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}"
