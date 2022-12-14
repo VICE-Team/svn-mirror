@@ -24,6 +24,7 @@ noinst_LIBRARIES = libc128cartsystem.a
 
 libc128cartsystem_a_SOURCES = \
 	c128cart.c \
+	c128cart.h \
 	comal80.c \
 	comal80.h \
 	generic.c \
