@@ -78,7 +78,8 @@ libc128_a_SOURCES = \
 	z80mem.c \
 	z80mem.h
 	
-EXTRA_DIST =
+EXTRA_DIST = \
+	c128cart.h
 
 .PHONY: libc128cartsystem
 
