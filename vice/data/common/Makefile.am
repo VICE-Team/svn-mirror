@@ -1,6 +1,25 @@
 # vim: set noet ts=8 sw=8 sts=8:
 commondir = $(VICE_DATADIR)/common
 
+gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
+	       gtk3-hotkeys-cartridge-mac.vhk \
+	       gtk3-hotkeys-debug.vhk \
+	       gtk3-hotkeys-debug-mac.vhk \
+	       gtk3-hotkeys-drive.vhk \
+	       gtk3-hotkeys-drive-mac.vhk \
+	       gtk3-hotkeys-datasette1.vhk \
+	       gtk3-hotkeys-datasette1-mac.vhk \
+	       gtk3-hotkeys-datasette2.vhk \
+	       gtk3-hotkeys-datasette2-mac.vhk \
+	       gtk3-hotkeys-fliplist.vhk \
+	       gtk3-hotkeys-fliplist-mac.vhk \
+	       gtk3-hotkeys-help.vhk \
+	       gtk3-hotkeys-help-mac.vhk \
+	       gtk3-hotkeys-settings.vhk \
+	       gtk3-hotkeys-settings-mac.vhk \
+	       gtk3-hotkeys-snapshot.vhk \
+	       gtk3-hotkeys-snapshot-mac.vhk
+
 common_DATA = CBM_Logo.svg \
 	      C64_Pro_Mono-STYLE.ttf \
 	      icon1024x1024.png \
@@ -99,24 +118,7 @@ $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
 common_DATA += $(GRESOURCE_TARGET) \
-	       gtk3-hotkeys-cartridge.vhk \
-	       gtk3-hotkeys-cartridge-mac.vhk \
-	       gtk3-hotkeys-debug.vhk \
-	       gtk3-hotkeys-debug-mac.vhk \
-	       gtk3-hotkeys-drive.vhk \
-	       gtk3-hotkeys-drive-mac.vhk \
-	       gtk3-hotkeys-datasette1.vhk \
-	       gtk3-hotkeys-datasette1-mac.vhk \
-	       gtk3-hotkeys-datasette2.vhk \
-	       gtk3-hotkeys-datasette2-mac.vhk \
-	       gtk3-hotkeys-fliplist.vhk \
-	       gtk3-hotkeys-fliplist-mac.vhk \
-	       gtk3-hotkeys-help.vhk \
-	       gtk3-hotkeys-help-mac.vhk \
-	       gtk3-hotkeys-settings.vhk \
-	       gtk3-hotkeys-settings-mac.vhk \
-	       gtk3-hotkeys-snapshot.vhk \
-	       gtk3-hotkeys-snapshot-mac.vhk
+	       $(gtk3_hotkeys)
 
 # The *.ico and *.res files are currently generated in
 # src/arch/gtk3/data/win32/Makefile.am, but the plan is to move that to here
@@ -146,4 +148,8 @@ CLEANFILES = \
 	xcbm5x0.res \
 	vsid.res
 
-endif
+else !USE_GTK3UI
+
+EXTRA_DIST += $(gtk3_hotkeys)
+
+endif !USE_GTK3UI
