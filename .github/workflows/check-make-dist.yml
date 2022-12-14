@@ -20,7 +20,7 @@ jobs:
                   { name: 'sdl2',
                    conf: '--enable-sdl2ui',
                     deps: 'libsdl2-dev libsdl2-image-dev' },
-                  { name: 'GTK3',
+                  { name: 'gtk3',
                     conf: '--enable-gtk3ui',
                     deps: 'libgtk-3-dev libglew-dev' } ]
         target: [ { name: 'headless',
@@ -58,7 +58,7 @@ jobs:
         shell: bash
         run: |
           cd vice
-          make -j3 -s --no-print-directory dist
+          make -j2 -s --no-print-directory dist
           echo "tarball=$(basename vice-*.tar.gz)" >> $GITHUB_OUTPUT
           echo "tardir=$(basename -s .tar.gz vice-*.tar.gz)" >> $GITHUB_OUTPUT
 
@@ -68,15 +68,31 @@ jobs:
           sudo apt install -y ${{ matrix.target.deps }}
 
       - name: Configure Target Build
+        id: configure_target
         shell: bash
         run: |
           BUILDDIR=${{ matrix.target.name }}-build
+          echo "builddir=${BUILDDIR}" >> $GITHUB_OUTPUTS
           mkdir ${BUILDDIR} && cd ${BUILDDIR}
           tar -xzf ../vice/${{ steps.make_dist.outputs.tarball }}
           cd ${{ steps.make_dist.outputs.tardir }}
           ./configure --enable-option-checking=fatal ${{matrix.target.conf }} \
                       --with-resid --with-fastsid --disable-html-docs --disable-pdf-docs
-          make -j3 -s --no-print-directory
+         make -j2 -s --no-print-directory DESTDIR="../${INSTALLDIR}" install
+
+      - name: Make Target Build
+        shell: bash
+        run: |
+          cd ${{ steps.configure_target.builddir }}
+          make -j2 -s --no-print-directory
+
+      - name: Install Target Build
+        shell: bash
+        run: |
+          INSTALLDIR=${{ matrix.target.name }}-install
+          mkdir ${INSTALLDIR}
+          cd ${{ steps.configure_target.builddir }}
+          make -j2 -s --no-print-directory DESTDIR="../${INSTALLDIR}" install
 
       - name: Report Failure
         env:
@@ -84,4 +100,4 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: |
-          ./vice/build/github-actions/irc-message.sh "make dist && make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}"
+          ./vice/build/github-actions/irc-message.sh "make dist => make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}"
