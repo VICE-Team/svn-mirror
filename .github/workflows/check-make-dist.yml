@@ -83,6 +83,7 @@ jobs:
         shell: bash
         run: |
           cd ${{ steps.configure_target.outputs.builddir }}
+          cd ${{ steps.make_dist.outputs.tardir }}
           make -j2 -s --no-print-directory
 
       - name: Install Target Build
@@ -91,7 +92,8 @@ jobs:
           INSTALLDIR=${{ matrix.target.name }}-install
           mkdir ${INSTALLDIR}
           cd ${{ steps.configure_target.outputs.builddir }}
-          make -j2 -s --no-print-directory DESTDIR="../${INSTALLDIR}" install
+          cd ${{ steps.make_dist.outputs.tardir }}
+          make -j2 -s --no-print-directory DESTDIR="../../${INSTALLDIR}" install
 
       - name: Report Failure
         env:
