@@ -72,7 +72,7 @@ jobs:
         shell: bash
         run: |
           BUILDDIR=${{ matrix.target.name }}-build
-          echo "builddir=${BUILDDIR}" >> $GITHUB_OUTPUTS
+          echo "builddir=${BUILDDIR}" >> $GITHUB_OUTPUT
           mkdir ${BUILDDIR} && cd ${BUILDDIR}
           tar -xzf ../vice/${{ steps.make_dist.outputs.tarball }}
           cd ${{ steps.make_dist.outputs.tardir }}
