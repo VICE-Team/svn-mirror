@@ -82,7 +82,7 @@ jobs:
       - name: Make Target Build
         shell: bash
         run: |
-          cd ${{ steps.configure_target.builddir }}
+          cd ${{ steps.configure_target.outputs.builddir }}
           make -j2 -s --no-print-directory
 
       - name: Install Target Build
@@ -90,7 +90,7 @@ jobs:
         run: |
           INSTALLDIR=${{ matrix.target.name }}-install
           mkdir ${INSTALLDIR}
-          cd ${{ steps.configure_target.builddir }}
+          cd ${{ steps.configure_target.outputs.builddir }}
           make -j2 -s --no-print-directory DESTDIR="../${INSTALLDIR}" install
 
       - name: Report Failure
