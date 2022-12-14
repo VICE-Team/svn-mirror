@@ -78,7 +78,6 @@ jobs:
           cd ${{ steps.make_dist.outputs.tardir }}
           ./configure --enable-option-checking=fatal ${{matrix.target.conf }} \
                       --with-resid --with-fastsid --disable-html-docs --disable-pdf-docs
-          make -j2 -s --no-print-directory DESTDIR="../${INSTALLDIR}" install
 
       - name: Make Target Build
         shell: bash
