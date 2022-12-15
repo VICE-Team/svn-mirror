@@ -117,7 +117,7 @@ static const ui_menu_item_t file_menu[] = {
       NULL, true },
 
     UI_MENU_SEPARATOR,
-
+#if 0
     /* XXX: this item might need its own dialog that only
      *      contains sound recording options
      */
@@ -130,7 +130,7 @@ static const ui_menu_item_t file_menu[] = {
       NULL, false },
 
     UI_MENU_SEPARATOR,
-
+#endif
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MONITOR_OPEN,
