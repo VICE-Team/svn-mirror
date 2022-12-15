@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_RAWNET
+#ifdef HAVE_PCAP
 
 /* #define WPCAP */
 
@@ -305,7 +305,7 @@ static BOOL EthernetPcapOpenAdapter(const char *interface_name)
 }
 
 /* ------------------------------------------------------------------------- */
-/*    the architecture-dependend functions                                   */
+/*    the architecture-dependent functions                                   */
 
 int rawnet_arch_init(void)
 {
@@ -583,4 +583,4 @@ void rawnet_arch_resources_shutdown(void)
 
 }
 
-#endif /* #ifdef HAVE_RAWNET */
+#endif /* #ifdef HAVE_PCAP */
