@@ -134,6 +134,7 @@ typedef struct vsid_hotkey_s {
  * Forward declarations
  */
 static void update_title(void);
+static void update_current_and_total(void);
 
 
 /** \brief  Reference to the playlist model
@@ -455,6 +456,7 @@ static void playlist_load_callback(GtkDialog *dialog,
             /* remember path for the playlist-save dialog */
             vsid_playlist_set_path(filename);
             m3u_close();
+            update_current_and_total();
         }
         g_free(filename);
     }
@@ -616,24 +618,51 @@ save_error:
 /* }}} */
 
 
-/** \brief  Update title of the widget with number of entries in the list
+/** \brief  Update title widget with the playlist title, if present
  */
 static void update_title(void)
 {
-    gchar buffer[1024];
-    gint rows;
-
-    /* get number of top level items by using NULL as an iter */
-    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
-
     if (playlist_title == NULL) {
-        g_snprintf(buffer, sizeof(buffer), "<b>Playlist (%d)</b>", rows);
+        gtk_label_set_markup(GTK_LABEL(title_widget), "<b>Playlist:</b>");
     } else {
-        g_snprintf(buffer, sizeof(buffer),
-                   "<b>%s (%d)</b>",
-                   vsid_playlist_get_title(), rows);
+        char buffer[1024];
+        g_snprintf(buffer, sizeof buffer,
+                   "<b>Playlist: \"%s\"</b>",
+                   vsid_playlist_get_title());
+        gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
     }
-    gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
+}
+
+/** \brief  Update playlist 'current/total' display
+ *
+ * \todo    Add way to determine currently playing SID when multiple rows
+ *          have been selected: probably we'll need to keep track of the last
+ *          selected row in the playlist, also updating when pressing the
+ *          next/prev etc buttons, or autoskipping to the next SID.
+ */
+static void update_current_and_total(void)
+{
+    GtkWidget *widget = control_widgets[2]; /* FIXME! */
+
+    if (widget != NULL) {
+        gint row;
+        gint total;
+        gchar buffer[256];
+
+        row = vsid_playlist_get_current_row(NULL);
+        total = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model),
+                                               NULL);
+        if (row < 0) {
+            g_snprintf(buffer, sizeof buffer,
+                       "<b><tt> ?</tt></b> / <b><tt>%2d</tt></b>",
+                       total);
+        } else {
+            g_snprintf(buffer, sizeof buffer,
+                       "<b><tt>%2d</tt></b> / <b><tt>%2d</tt></b>",
+                       row + 1, total);
+        }
+        gtk_label_set_markup(GTK_LABEL(widget), buffer);
+    }
 }
 
 
@@ -691,6 +720,7 @@ static void on_row_activated(GtkTreeView *view,
         g_snprintf(msg, sizeof(msg), "'%s' is not a valid PSID file", filename);
         ui_display_statustext(msg, 10);
     }
+    update_current_and_total();
 
     g_value_unset(&value);
 }
@@ -1234,7 +1264,7 @@ gboolean vsid_playlist_append_file(const gchar *path)
         hvsc_psid_close(&psid);
     }
 
-    update_title();
+    update_current_and_total();
     return TRUE;
 }
 
@@ -1251,6 +1281,8 @@ void vsid_playlist_remove_file(int row)
         return;
     }
     /* TODO: actually remove item :) */
+
+    update_current_and_total();
 }
 
 
@@ -1282,6 +1314,8 @@ void vsid_playlist_first(void)
         /* TODO: check result */
         ui_vsid_window_load_psid(filename);
         g_value_unset(&value);
+
+        update_current_and_total();
     }
 }
 
@@ -1319,6 +1353,8 @@ void vsid_playlist_previous(void)
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
             g_value_unset(&value);
+
+            update_current_and_total();
         }
     }
     /* restore multi-select */
@@ -1359,6 +1395,8 @@ void vsid_playlist_next(void)
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
             g_value_unset(&value);
+
+            update_current_and_total();
         }
     }
     /* restore multi-select */
@@ -1402,8 +1440,9 @@ void vsid_playlist_last(void)
                                  &value);
         filename = g_value_get_string(&value);
         ui_vsid_window_load_psid(filename);
-
         g_value_unset(&value);
+
+        update_current_and_total();
     }
 }
 
@@ -1441,6 +1480,7 @@ void vsid_playlist_remove_selection(void)
         }
     }
     g_list_free_full(rows, (GDestroyNotify)gtk_tree_path_free);
+    update_current_and_total();
 }
 
 
@@ -1467,6 +1507,7 @@ void vsid_playlist_clear(void)
             "VSID",
             "Are you sure you wish to clear the playlist?");
     gtk_widget_show_all(dialog);
+    update_current_and_total();
 }
 
 
