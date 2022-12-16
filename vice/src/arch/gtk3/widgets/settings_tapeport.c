@@ -1,5 +1,5 @@
-/** \file   tapeportdeviceswidget.c
- * \brief   Tape port devices widget
+/** \file   settings_tapeport.c
+ * \brief   Tape port settings dialog widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -57,7 +57,7 @@
 #include "ui.h"
 #include "widgethelpers.h"
 
-#include "tapeportdeviceswidget.h"
+#include "settings_tapeport.h"
 
 /** \brief  Column indexes in the tapeport devices model
  */
@@ -273,7 +273,7 @@ static GtkWidget *create_datasette_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Datasette C2N</b>");
@@ -355,7 +355,7 @@ static GtkWidget *create_f83_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>CP Clock F83</b>");
@@ -383,7 +383,7 @@ static GtkWidget *create_tapecart_widget(void)
     GtkWidget *wrapper;
     int row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
 
     /* Tapecart label */
     label = gtk_label_new(NULL);
@@ -655,7 +655,7 @@ static GtkWidget *create_device_types_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
 
     /* header */
     label = gtk_label_new(NULL);
@@ -690,16 +690,16 @@ static GtkWidget *create_device_types_widget(void)
 
 /** \brief  Create widget to select/control tape port devices
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (ignored)
  *
  * \return  GtkGrid
  */
-GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
+GtkWidget *settings_tapeport_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     int device_id = 0;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 32);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 8);
 
     /* comboboxes with the tapeport devices */
     gtk_grid_attach(GTK_GRID(grid), create_device_types_widget(), 0, 0, 1, 1);

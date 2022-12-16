@@ -166,6 +166,7 @@ libwidgets_a_SOURCES = \
 	settings_sound.c \
 	settings_soundchip.c \
 	settings_speed.c \
+	settings_tapeport.c \
 	settings_video.c \
 	sfxsoundexpanderwidget.c \
 	sfxsoundsamplerwidget.c \
@@ -184,7 +185,6 @@ libwidgets_a_SOURCES = \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
 	supersnapshotwidget.c \
-	tapeportdeviceswidget.c \
 	ultimemwidget.c \
 	userportdeviceswidget.c \
 	userportrsinterfacewidget.c \
@@ -331,6 +331,7 @@ EXTRA_DIST = \
 	settings_sound.h \
 	settings_soundchip.h \
 	settings_speed.h \
+	settings_tapeport.h \
 	settings_video.h \
 	sfxsoundexpanderwidget.h \
 	sfxsoundsamplerwidget.h \
@@ -349,7 +350,6 @@ EXTRA_DIST = \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
 	supersnapshotwidget.h \
-	tapeportdeviceswidget.h \
 	ultimemwidget.h \
 	userportdeviceswidget.h \
 	userportrsinterfacewidget.h \

@@ -117,6 +117,7 @@
 #include "settings_sound.h"
 #include "settings_soundchip.h"
 #include "settings_speed.h"
+#include "settings_tapeport.h"
 #include "settings_video.h"
 
 #ifdef HAVE_RAWNET
@@ -134,7 +135,6 @@
 #include "sfxsoundexpanderwidget.h"
 #include "ds12c887widget.h"
 #include "userportdeviceswidget.h"
-#include "tapeportdeviceswidget.h"
 #include "sidcartwidget.h"
 #include "sfxsoundsamplerwidget.h"
 #include "megacartwidget.h"
@@ -1043,7 +1043,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
       userport_devices_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1366,7 +1366,7 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
       userport_devices_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1691,7 +1691,7 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
       userport_devices_widget_create, NULL },
     { "Tapeport devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1846,7 +1846,7 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
       userport_devices_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -2001,7 +2001,7 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
       userport_devices_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 #if 0 /* not implemented/supported */
 #ifdef HAVE_RAWNET
     { "Ethernet",
@@ -2150,7 +2150,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
 #endif
     { "Tape port devices",
       "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -2302,7 +2302,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
       userport_devices_widget_create, NULL },
     { "Tape port devices",
       "tapeport_devices",
-      tapeport_devices_widget_create, NULL },
+      settings_tapeport_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
