@@ -913,6 +913,7 @@ static void vsid_playlist_view_create(void)
             "text", COL_TITLE,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
+    gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     column = gtk_tree_view_column_new_with_attributes(
@@ -921,6 +922,7 @@ static void vsid_playlist_view_create(void)
             "text", COL_AUTHOR,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
+    gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     column = gtk_tree_view_column_new_with_attributes(
