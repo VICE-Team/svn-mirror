@@ -246,6 +246,83 @@ jobs:
           asset_name: ${{ steps.build.outputs.seven_zip_name }}
           asset_content_type: application/x-7z-compressed
 
+  build_deb:
+    name: Build Debian Package
+    needs: [create_release, build_doc]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+          ui: [ { name: 'GTK3',
+                  conf: '--enable-gtk3ui --with-pulse',
+                  deps: 'libglew-dev libgtk-3-dev libpulse-dev' },
+                { name: 'SDL2',
+                  conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
+                  deps: 'libsdl2-dev libsdl2-image-dev' } ]
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Download Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: vice-pdf
+          path: vice/doc/
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y autoconf automake build-essential byacc devscripts dos2unix fakeroot flex xa65
+          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev
+          sudo apt install -y ${{ matrix.ui.deps }}
+
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p build/usr
+          cd vice
+          ./src/buildtools/genvicedate_h.sh
+          ./autogen.sh
+          # ALSA is required for SDL2 as well for midi support
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-ethernet --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-lame --enable-midi --with-alsa ${{ matrix.ui.conf }}
+          make -j2 -s --no-print-directory
+          # Use install-strip, we want stripped binaries for point releases
+          make DESTDIR=$HOME/build install-strip
+
+      - name: Make Deb
+        id: make_deb
+        shell: bash
+        run: ./vice/build/github-actions/build-deb.sh ${{ matrix.ui.name }} release
+
+      - name: Upload Deb
+        id: upload_deb
+        uses: actions/github-script@v6
+        env:
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: ${{ steps.make_deb.outputs.deb_path }}
+          ASSET_NAME: ${{ steps.make_deb.outputs.deb_name }}
+          ASSET_CONTENT_TYPE: application/vnd.debian.binary-package
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
+          script: |
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              data: fs.readFileSync(ASSET_PATH)
+            });
+
+
   publish_release:
     name: Publish Release
     needs: [create_release, build]
