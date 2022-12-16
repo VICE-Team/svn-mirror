@@ -123,7 +123,7 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
-    char *text;
+    char text[1024];
 
     switch (response_id) {
 
@@ -132,18 +132,17 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             lastdir_update(widget, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
 
-            text = lib_msprintf("Opening '%s'", filename);
+            g_snprintf(text, sizeof text, "Opening '%s'", filename);
             ui_display_statustext(text, 10);
             if (ui_vsid_window_load_psid(filename) < 0) {
-                lib_free(text);
-                text = lib_msprintf("Error: '%s' is not a valid PSID file",
-                        filename);
+                g_snprintf(text, sizeof text,
+                           "Error: '%s' is not a valid PSID file",
+                           filename);
                 ui_display_statustext(text, 10);
             }
             ui_pause_disable();
 
             g_free(filename);
-            lib_free(text);
             gtk_widget_destroy(widget);
             break;
 

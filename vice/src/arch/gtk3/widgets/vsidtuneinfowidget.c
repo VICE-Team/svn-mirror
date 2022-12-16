@@ -229,16 +229,15 @@ static GtkWidget *create_readonly_entry(void)
 static GtkWidget *create_tune_num_widget(void)
 {
     GtkWidget *label;
-    char *text;
+    gchar text[256];
 
-    text = lib_msprintf("%d of %d (Default: %d)",
-            tune_current, tune_count, tune_default);
+    g_snprintf(text, sizeof text,
+               "%d of %d (default: %d)",
+               tune_current, tune_count, tune_default);
     label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    lib_free(text);
     return label;
 }
-
 
 /** \brief  Update tune number widget
  *
@@ -255,10 +254,9 @@ static void update_tune_num_widget(void)
     if (tune_num_widget != NULL) {
         gchar buffer[256];
 
-        g_snprintf(buffer, 256,
-                "%d of %d (default: %d)",
-                tune_current, tune_count, tune_default);
-
+        g_snprintf(buffer, sizeof buffer,
+                   "%d of %d (default: %d)",
+                   tune_current, tune_count, tune_default);
         gtk_label_set_text(GTK_LABEL(tune_num_widget), buffer);
     }
 }
