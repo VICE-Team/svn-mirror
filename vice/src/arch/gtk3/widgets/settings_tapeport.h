@@ -1,5 +1,5 @@
-/** \file   tapeportdeviceswidget.h
- * \brief   Tape port devices widget - header
+/** \file   settings_tapeport.h
+ * \brief   Tape port settings dialog widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef VICE_TAPEPORTDEVICESWIDGET_H
-#define VICE_TAPEPORTDEVICESWIDGET_H
+#ifndef VICE_SETTINGS_TAPEPORT_H
+#define VICE_SETTINGS_TAPEPORT_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *tapeport_devices_widget_create(GtkWidget *parent);
+GtkWidget *settings_tapeport_widget_create(GtkWidget *parent);
 
 #endif

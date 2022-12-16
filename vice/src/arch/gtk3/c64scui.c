@@ -47,7 +47,6 @@
 #include "cartridge.h"
 #include "carthelpers.h"
 #include "tapecart.h"
-#include "tapeportdeviceswidget.h"
 #include "settings_model.h"
 #include "c64ui.h"
 #include "crt.h"

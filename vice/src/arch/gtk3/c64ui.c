@@ -50,7 +50,6 @@
 #include "cartridge.h"
 #include "machine.h"
 #include "tapecart.h"
-#include "tapeportdeviceswidget.h"
 #include "crtpreviewwidget.h"
 
 #include "c64ui.h"

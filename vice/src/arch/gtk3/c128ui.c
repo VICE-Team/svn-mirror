@@ -49,7 +49,6 @@
 
 #include "cartridge.h"
 #include "tapecart.h"
-#include "tapeportdeviceswidget.h"
 #include "c128model.h"
 #include "settings_model.h"
 #include "crtpreviewwidget.h"
