@@ -3,9 +3,12 @@
 #
 # This script expects to be run inside the svn-mirror/ directory
 #
-# Usage:    build-deb.sh <UI>
+#   Usage:  build-deb.sh <UI> ['release']
 #
-# TODO: Generate DEBIAN/copyright file
+# When the string 'release' is given as the second argument a point release
+# package will be built. Currently this just means leaving out the SVN revision
+# in the package filename and the "Version" field in the control file.
+#
 # TODO: Provide md5sums?
 
 
@@ -23,8 +26,11 @@ declare -A ICONS=(
     [xvic]="VIC20"
 )
 
+# Point release flag
+RELEASE=0
+
 # Check command line for UI argument
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
     echo "$(basename $0): Please specify UI to build: 'gtk3' or 'sdl2', aborting."
     exit 1
 fi
@@ -40,13 +46,22 @@ case "$1" in
         exit 1
         ;;
 esac
+if [ "$2" = "release" ]; then
+    RELEASE=1
+fi
 
 # Get SVN revision and VICE version string
-SVN_REVISION=$(echo ${GITHUB_REF} | sed 's/.*\///')
+if [ $RELEASE -eq 0 ]; then
+    SVN_REVISION=$(echo ${GITHUB_REF} | sed 's/.*\///')
+fi
 VICE_VERSION=$(grep '\<VERSION' vice/src/config.h | sed -n 's/^.*"\(.*\)".*$/\1/p')
 
 # Create directory for the deb package and subdirectories inside the deb
-DEB_DIR="${UI}vice_${VICE_VERSION}+${SVN_REVISION}"
+if [ $RELEASE -eq 0 ]; then
+    DEB_DIR="${UI}vice_${VICE_VERSION}+${SVN_REVISION}"
+else
+    DEB_DIR="${UI}vice_${VICE_VERSION}"
+fi
 mkdir -p ${DEB_DIR}/DEBIAN
 mkdir -p ${DEB_DIR}/usr/share/doc/vice
 if [ "$UI" = "gtk3" ]; then
@@ -82,9 +97,16 @@ cat vice/build/debian/copyright.footer >> ${DEB_DIR}/usr/share/doc/vice/copyrigh
 INSTALLED_SIZE=$(du -ks ${DEB_DIR} | cut -f 1)
 
 # Copy control file, setting the correct package version and installed size
-cat vice/build/debian/control.${UI} | \
-    sed "s/__VICE_VERSION__/${VICE_VERSION}/ ; s/__SVN_REVISION__/${SVN_REVISION}/ ; s/__INSTALLED_SIZE__/${INSTALLED_SIZE}/" \
-    > ${DEB_DIR}/DEBIAN/control
+if [ $RELEASE -eq 0 ]; then
+    cat vice/build/debian/control.${UI} | \
+        sed "s/__VICE_VERSION__/${VICE_VERSION}/ ; s/__SVN_REVISION__/${SVN_REVISION}/ ; s/__INSTALLED_SIZE__/${INSTALLED_SIZE}/" \
+        > ${DEB_DIR}/DEBIAN/control
+else
+    # strip out the '+${SVNREVISION}' in point releases
+    cat vice/build/debian/control.${UI} | \
+        sed "s/__VICE_VERSION__/${VICE_VERSION}/ ; s/+__SVN_REVISION__// ; s/__INSTALLED_SIZE__/${INSTALLED_SIZE}/" \
+        > ${DEB_DIR}/DEBIAN/control
+fi
 
 # Now build the .deb
 fakeroot dpkg-deb --build ${DEB_DIR}
