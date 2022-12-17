@@ -1,5 +1,5 @@
-/** \file   rrnetmk3widget.c
- * \brief   Widget to control RRNet MK3 resourcs
+/** \file   settings_rrnetmk3.c
+ * \brief   Settings widget to control RRNet MK3 resourcs
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
@@ -43,7 +43,7 @@
 #include "cartridge.h"
 #include "carthelpers.h"
 
-#include "rrnetmk3widget.h"
+#include "settings_rrnetmk3.h"
 
 
 /** \brief  Callback for the save-dialog response handler
@@ -102,7 +102,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
+GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *flash_jumper;

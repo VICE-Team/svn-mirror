@@ -1,5 +1,5 @@
-/** \file   ethernetcartwidget.h
- * \brief   Widget to control ethernet cartridge settings - header
+/** \file   settings_ethernetcart.h
+ * \brief   Settings widget to control ethernet cartridge settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_ETHERNETCARTWIDGET_H
-#define VICE_ETHERNETCARTWIDGET_H
+#ifndef VICE_SETTINGS_ETHERNETCART_H
+#define VICE_SETTINGS_ETHERNETCART_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ethernet_cart_widget_create(GtkWidget *parent);
+GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent);
 
 #endif

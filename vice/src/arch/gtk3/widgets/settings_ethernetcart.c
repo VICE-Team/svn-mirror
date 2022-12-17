@@ -1,5 +1,5 @@
-/** \file   ethernetcartwidget.c
- * \brief   Widget to control ethernet cartridge settings
+/** \file   settings_ethernetcart.c
+ * \brief   Settings widget to control ethernet cartridge settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -42,7 +42,7 @@
 #include "machine.h"
 #include "resources.h"
 
-#include "ethernetcartwidget.h"
+#include "settings_ethernetcart.h"
 
 
 /** \brief  List of Ethernet Cartridge emulation modes
@@ -162,7 +162,7 @@ static GtkWidget *create_cartridge_base_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
+GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable_widget;

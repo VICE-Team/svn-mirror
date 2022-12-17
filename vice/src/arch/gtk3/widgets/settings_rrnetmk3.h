@@ -1,5 +1,5 @@
-/** \file   rrnetmk3widget.h
- * \brief   Widget to control RRNet MK3 resources - header
+/** \file   settings_rrnetmk3.h
+ * \brief   Settings widget to control RRNet MK3 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -21,12 +21,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_RRNETMK3WIDGET_H
-#define VICE_RRNETMK3WIDGET_H
+#ifndef VICE_SETTINGS_RRNETMK3_H
+#define VICE_SETTINGS_RRNETMK3_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *rrnetmk3_widget_create(GtkWidget *parent);
+GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent);
 
 #endif
