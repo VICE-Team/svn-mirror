@@ -1,5 +1,5 @@
-/** \file   mmcrwidget.c
- * \brief   Widget to control MMC Replay resources
+/** \file   settings_mmcr.c
+ * \brief   Settings widget to control MMC Replay resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -45,17 +45,17 @@
 #include "cartridge.h"
 #include "ui.h"
 
-#include "mmcrwidget.h"
+#include "settings_mmcr.h"
 
 
 /** \brief  List of memory card types
  */
 static const vice_gtk3_radiogroup_entry_t card_types[] = {
-    { "Auto", 0 },
-    { "MMC", 1 },
-    { "SD", 2 },
-    { "SDHC", 3 },
-    { NULL, -1 }
+    { "Auto",    0 },
+    { "MMC",     1 },
+    { "SD",      2 },
+    { "SDHC",    3 },
+    { NULL,     -1 }
 };
 
 
@@ -383,7 +383,7 @@ static GtkWidget *create_card_type_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *mmcr_widget_create(GtkWidget *parent)
+GtkWidget *settings_mmcr_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

@@ -1,5 +1,5 @@
-/** \file   mmc64widget.h
- * \brief   Widget to control MMC64 resources - header
+/** \file   settings_ieee488.h
+ * \brief   Settings widget for IEEE-488 adapter - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,15 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_MMC64WIDGET_H
-#define VICE_MMC64WIDGET_H
+#ifndef VICE_SETTINGS_IEEE488_H
+#define VICE_SETTINGS_IEEE488_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * mmc64_widget_create(GtkWidget *parent);
+GtkWidget *settings_ieee488_widget_create(GtkWidget *parent);
 
 #endif

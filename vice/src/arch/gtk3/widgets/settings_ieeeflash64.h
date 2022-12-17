@@ -1,5 +1,5 @@
-/** \file   ieeeflash64widget.h
- * \brief   Widget to control IEEE Flash! 64 resources - header
+/** \file   settings_ieeeflash64widget.h
+ * \brief   Settings widget to control IEEE Flash! 64 resources - header
  *
  * \author  Christopher Bongaarts <cab@bongalow.net>
  */
@@ -27,12 +27,11 @@
  *
  */
 
-#ifndef VICE_IEEEFLASH64WIDGET_H
-#define VICE_IEEEFLASH64WIDGET_H
+#ifndef VICE_SETTINGS_IEEEFLASH64_H
+#define VICE_SETTINGS_IEEEFLASH64_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * ieeeflash64_widget_create(GtkWidget *parent);
+GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent);
 
 #endif

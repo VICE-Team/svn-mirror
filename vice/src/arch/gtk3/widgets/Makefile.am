@@ -80,9 +80,6 @@ libwidgets_a_SOURCES = \
 	finalexpansionwidget.c \
 	hvscsettingswidget.c \
 	hvscstilwidget.c \
-	ide64widget.c \
-	ieee488widget.c \
-	ieeeflash64widget.c \
 	jamactionwidget.c \
 	jamdialog.c \
 	joystickautofirewidget.c \
@@ -93,15 +90,12 @@ libwidgets_a_SOURCES = \
 	kbdmappingwidget.c \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
-	ltkernalwidget.c \
 	machinemodelwidget.c \
 	magicvoicewidget.c \
 	megacartwidget.c \
 	midiwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
-	mmc64widget.c \
-	mmcrwidget.c \
 	netplaywidget.c \
 	petcolourgraphicswidget.c \
 	petdiagpinwidget.c \
@@ -143,12 +137,18 @@ libwidgets_a_SOURCES = \
 	settings_gmod3.c \
 	settings_host_display.c \
 	settings_hotkeys.c \
+	settings_ide64.c \
+	settings_ieee488.c \
+	settings_ieeeflash64.c \
 	settings_io.c \
 	settings_isepic.c \
 	settings_joystick.c \
 	settings_keyboard.c \
+	settings_ltkernal.c \
 	settings_misc.c \
 	settings_mixer.c \
+	settings_mmc64.c \
+	settings_mmcr.c \
 	settings_model.c \
 	settings_monitor.c \
 	settings_printer.c \
@@ -245,9 +245,6 @@ EXTRA_DIST = \
 	finalexpansionwidget.h \
 	hvscsettingswidget.h \
 	hvscstilwidget.h \
-	ide64widget.h \
-	ieee488widget.h \
-	ieeeflash64widget.h \
 	jamactionwidget.h \
 	jamdialog.h \
 	joystickautofirewidget.h \
@@ -258,15 +255,12 @@ EXTRA_DIST = \
 	kbdmappingwidget.h \
 	kernalrevisionwidget.h \
 	keysetdialog.h \
-	ltkernalwidget.h \
 	machinemodelwidget.h \
 	magicvoicewidget.h \
 	megacartwidget.h \
 	midiwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
-	mmc64widget.h \
-	mmcrwidget.h \
 	netplaywidget.h \
 	petcolourgraphicswidget.h \
 	petdiagpinwidget.h \
@@ -308,12 +302,18 @@ EXTRA_DIST = \
 	settings_gmod3.h \
 	settings_host_display.h \
 	settings_hotkeys.h \
+	settings_ide64.h \
+	settings_ieee488.h \
+	settings_ieeeflash64.h \
 	settings_io.h \
 	settings_isepic.h \
 	settings_joystick.h \
 	settings_keyboard.h \
+	settings_ltkernal.h \
 	settings_misc.h \
 	settings_mixer.h \
+	settings_mmc64.h \
+	settings_mmcr.h \
 	settings_model.h \
 	settings_monitor.h \
 	settings_printer.h \

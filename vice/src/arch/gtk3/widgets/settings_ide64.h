@@ -1,5 +1,5 @@
-/** \file   ieee488widget.h
- * \brief   IEEE-488 adapter widget - header
+/** \file   settings_ide64.h
+ * \brief   Settings widget to control IDE64 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,14 +22,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_IEEE488WIDGET_H
-#define VICE_IEEE488WIDGET_H
+#ifndef VICE_SETTINGS_IDE64_H
+#define VICE_SETTINGS_IDE64_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ieee488_widget_create(GtkWidget *parent);
+GtkWidget *settings_ide64_widget_create(GtkWidget *parent);
 
 #endif
