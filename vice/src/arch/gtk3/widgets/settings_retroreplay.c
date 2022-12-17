@@ -1,5 +1,5 @@
-/** \file   retroreplaywidget.c
- * \brief   Widget to control Retro Replay resources
+/** \file   settings_retroreplay.c
+ * \brief   Settings widget to control Retro Replay resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
@@ -52,15 +52,15 @@
 #include "cartridge.h"
 #include "carthelpers.h"
 
-#include "retroreplaywidget.h"
+#include "settings_retroreplay.h"
 
 
 /** \brief  List of Retro Replay revisions
  */
 static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
-    { CARTRIDGE_NAME_RETRO_REPLAY, 0 },
-    { CARTRIDGE_NAME_NORDIC_REPLAY, 1 },
-    { NULL, -1 }
+    { CARTRIDGE_NAME_RETRO_REPLAY,   0 },
+    { CARTRIDGE_NAME_NORDIC_REPLAY,  1 },
+    { NULL,                         -1 }
 };
 
 
@@ -120,7 +120,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *retroreplay_widget_create(GtkWidget *parent)
+GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *flash;

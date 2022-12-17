@@ -1,5 +1,5 @@
-/** \file   expertwidget.c
- * \brief   Widget to control Expert Cartridge resources
+/** \file   settings_expert.c
+ * \brief   Settings widget to control Expert Cartridge resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -45,7 +45,7 @@
 #include "resources.h"
 #include "savefiledialog.h"
 
-#include "expertwidget.h"
+#include "settings_expert.h"
 
 
 /** \brief  List of 'modes' for the Expert Cartridge
@@ -97,7 +97,7 @@ static GtkWidget *create_expert_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *expert_widget_create(GtkWidget *parent)
+GtkWidget *settings_expert_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *expert_enable_widget; /* expert_enable is defined by expert.c */

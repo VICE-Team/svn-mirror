@@ -1,5 +1,5 @@
-/** \file   retroreplaywidget.h
- * \brief   Widget to control Retro Replay resources - header
+/** \file   settings_supersnapshot.h
+ * \brief   Settings widget to control Super Snapshot V5 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_RETROREPLAYWIDGET_H
-#define VICE_RETROREPLAYWIDGET_H
+#ifndef VICE_SETTINGS_SUPERSNAPSHOT_H
+#define VICE_SETTINGS_SUPERSNAPSHOT_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *retroreplay_widget_create(GtkWidget *parent);
+GtkWidget *settings_supersnapshot_widget_create(GtkWidget *parent);
 
 #endif

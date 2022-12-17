@@ -1,11 +1,7 @@
-/** \file   supersnapshotwidget.c
- * \brief   Widget to control Super Snapshot V5 resources
+/** \file   settings_isepic.h
+ * \brief   Settings widget to control ISEPIC resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICE    SSRamExpansion  x64 x64sc xscpu x128
  */
 
 /*
@@ -29,33 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_ISEPIC_H
+#define VICE_SETTINGS_ISEPIC_H
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *settings_isepic_widget_create(GtkWidget *parent);
 
-#include "supersnapshotwidget.h"
-
-/** \brief  Create widget to control Super Snapshot v5 resources
- *
- * \param[in]   parent  parent widget, used for dialogs
- *
- * \return  GtkGrid
- */
-GtkWidget *super_snapshot_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = gtk_grid_new();
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("SSRamExpansion",
-                "Enable 32KiB Super Snapshot V5 RAM expansion"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

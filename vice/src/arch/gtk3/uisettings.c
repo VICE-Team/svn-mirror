@@ -76,14 +76,11 @@
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
 #include "c64memhackswidget.h"
-#include "expertwidget.h"
 #include "ide64widget.h"
-#include "isepicwidget.h"
 #include "ltkernalwidget.h"
 #include "mmc64widget.h"
 #include "mmcrwidget.h"
 #include "netplaywidget.h"
-#include "retroreplaywidget.h"
 #include "scpu64settingswidget.h"
 #include "settings_autofire.h"
 #include "settings_autostart.h"
@@ -92,6 +89,7 @@
 #include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_easyflash.h"
+#include "settings_expert.h"
 #include "settings_fsdevice.h"
 #include "settings_georam.h"
 #include "settings_gmod2.h"
@@ -99,6 +97,7 @@
 #include "settings_gmod3.h"
 #include "settings_hotkeys.h"
 #include "settings_io.h"
+#include "settings_isepic.h"
 #include "settings_joystick.h"
 #include "settings_keyboard.h"
 #include "settings_misc.h"
@@ -108,6 +107,7 @@
 #include "settings_ramcart.h"
 #include "settings_ramlink.h"
 #include "settings_ramreset.h"
+#include "settings_retroreplay.h"
 #include "settings_reu.h"
 #include "settings_rexramfloppy.h"
 #include "settings_romset.h"
@@ -117,6 +117,7 @@
 #include "settings_sound.h"
 #include "settings_soundchip.h"
 #include "settings_speed.h"
+#include "settings_supersnapshot.h"
 #include "settings_tapeport.h"
 #include "settings_video.h"
 
@@ -141,7 +142,6 @@
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
 #include "petdwwwidget.h"
-#include "supersnapshotwidget.h"
 #include "cpmwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
@@ -324,16 +324,16 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "Expert Cartridge",
       "expert-cart",
-      expert_widget_create, NULL },
+      settings_expert_widget_create, NULL },
     { "ISEPIC",
       "isepic",
-      isepic_widget_create, NULL },
+      settings_isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
-      retroreplay_widget_create, NULL },
+      settings_retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
       "super-snapshot",
-      super_snapshot_widget_create, NULL },
+      settings_supersnapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
 
     UI_SETTINGS_SEPARATOR,
@@ -463,16 +463,16 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "Expert Cartridge",
       "expert-cart",
-      expert_widget_create, NULL },
+      settings_expert_widget_create, NULL },
     { "ISEPIC",
       "isepic",
-      isepic_widget_create, NULL },
+      settings_isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
-      retroreplay_widget_create, NULL },
+      settings_retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
       "super-snapshot",
-      super_snapshot_widget_create, NULL },
+      settings_supersnapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
 
     UI_SETTINGS_SEPARATOR,
@@ -592,16 +592,16 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "Expert Cartridge",
       "expert-cart",
-      expert_widget_create, NULL },
+      settings_expert_widget_create, NULL },
     { "ISEPIC",
       "isepic",
-      isepic_widget_create, NULL },
+      settings_isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
-      retroreplay_widget_create, NULL },
+      settings_retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
       "super-snapshot",
-      super_snapshot_widget_create, NULL },
+      settings_supersnapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
     UI_SETTINGS_SEPARATOR,
 
