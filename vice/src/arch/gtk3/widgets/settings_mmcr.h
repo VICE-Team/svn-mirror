@@ -1,5 +1,6 @@
-/** \file   ltkernalwidget.h
- * \brief   Widget to control Lt. Kernal resources - header
+/** \file   settings_mmcr.h
+ * \brief   Settings widget to control MMC Replay resources - header
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -24,11 +25,11 @@
  *
  */
 
-#ifndef VICE_LTKERNALWIDGET_H
-#define VICE_LTKERNALWIDGET_H
+#ifndef VICE_SETTINGS_MMCR_H
+#define VICE_SETTINGS_MMCR_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *ltkernal_widget_create(GtkWidget *parent);
+GtkWidget *settings_mmcr_widget_create(GtkWidget *parent);
 
 #endif

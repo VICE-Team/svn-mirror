@@ -76,10 +76,6 @@
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
 #include "c64memhackswidget.h"
-#include "ide64widget.h"
-#include "ltkernalwidget.h"
-#include "mmc64widget.h"
-#include "mmcrwidget.h"
 #include "netplaywidget.h"
 #include "scpu64settingswidget.h"
 #include "settings_autofire.h"
@@ -99,11 +95,17 @@
 #include "settings_gmod2c128.h"
 #include "settings_gmod3.h"
 #include "settings_hotkeys.h"
+#include "settings_ide64.h"
+#include "settings_ieee488.h"
+#include "settings_ieeeflash64.h"
 #include "settings_io.h"
 #include "settings_isepic.h"
 #include "settings_joystick.h"
 #include "settings_keyboard.h"
+#include "settings_ltkernal.h"
 #include "settings_misc.h"
+#include "settings_mmc64.h"
+#include "settings_mmcr.h"
 #include "settings_model.h"
 #include "settings_monitor.h"
 #include "settings_printer.h"
@@ -128,7 +130,6 @@
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
-#include "ieee488widget.h"
 #include "digimaxwidget.h"
 #include "magicvoicewidget.h"
 #ifdef HAVE_MIDI
@@ -151,7 +152,6 @@
 #include "vicflashwidget.h"
 #include "ultimemwidget.h"
 #include "vicieee488widget.h"
-#include "ieeeflash64widget.h"
 #include "vicioramwidget.h"
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
@@ -355,22 +355,22 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "IDE64",
       "ide64",
-      ide64_widget_create, NULL },
+      settings_ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
-      ieee488_widget_create, NULL },
+      settings_ieee488_widget_create, NULL },
     { "IEEE Flash! 64 Interface",
       "ieee-flash-64",
-      ieeeflash64_widget_create, NULL },
+      settings_ieeeflash64_widget_create, NULL },
     { "Lt. Kernal Host Adapter",
       "ltkernal",
-      ltkernal_widget_create, NULL },
+      settings_ltkernal_widget_create, NULL },
     { "MMC64",
       "mmc64",
-      mmc64_widget_create, NULL },
+      settings_mmc64_widget_create, NULL },
     { "MMC Replay",
       "mmcr",
-      mmcr_widget_create, NULL },
+      settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -494,16 +494,16 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "IDE64",
       "ide64",
-      ide64_widget_create, NULL },
+      settings_ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
-      ieee488_widget_create, NULL },
+      settings_ieee488_widget_create, NULL },
     { "MMC64",
       "mmc64",
-      mmc64_widget_create, NULL },
+      settings_mmc64_widget_create, NULL },
     { "MMC Replay",
       "mmcr",
-      mmcr_widget_create, NULL },
+      settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -621,19 +621,19 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "IDE64",
       "ide64",
-      ide64_widget_create, NULL },
+      settings_ide64_widget_create, NULL },
     { "Lt. Kernal Host Adapter",
       "ltkernal",
-      ltkernal_widget_create, NULL },
+      settings_ltkernal_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
-      ieee488_widget_create, NULL },
+      settings_ieee488_widget_create, NULL },
     { "MMC64",
       "mmc64",
-      mmc64_widget_create, NULL },
+      settings_mmc64_widget_create, NULL },
     { "MMC Replay",
       "mmcr",
-      mmcr_widget_create, NULL },
+      settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 

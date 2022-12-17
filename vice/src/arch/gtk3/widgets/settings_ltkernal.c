@@ -1,5 +1,5 @@
-/** \file   ltkernalwidget.c
- * \brief   Widget to control Lt. Kernal resources
+/** \file   settings_ltkernal.c
+ * \brief   Settings widget to control Lt. Kernal resources
  *
  * Lt. Kernal cartridge settings.
  *
@@ -45,7 +45,7 @@
 #include "resources.h"
 #include "vice_gtk3.h"
 
-#include "ltkernalwidget.h"
+#include "settings_ltkernal.h"
 
 
 /** \brief  CSS used to mark 'serial number' invalid
@@ -286,7 +286,7 @@ static GtkWidget *create_hd_images_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *ltkernal_widget_create(GtkWidget *parent)
+GtkWidget *settings_ltkernal_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hd_images;

@@ -1,5 +1,5 @@
-/** \file   ide64widget.h
- * \brief   Widget to control IDE64 resources - header
+/** \file   settings_mmc64.h
+ * \brief   Settings widget to control MMC64 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_IDE64WIDGET_H
-#define VICE_IDE64WIDGET_H
+#ifndef VICE_SETTINGS_MMC64_H
+#define VICE_SETTINGS_MMC64_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ide64_widget_create(GtkWidget *parent);
+GtkWidget *settings_mmc64_widget_create(GtkWidget *parent);
 
 #endif

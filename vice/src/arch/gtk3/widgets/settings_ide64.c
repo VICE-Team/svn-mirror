@@ -1,5 +1,5 @@
-/** \file   ide64widget.c
- * \brief   Widget to control IDE64 resources
+/** \file   settings_ide64.c
+ * \brief   Settings widget to control IDE64 resources
  *
  * IDE64 settings widget
  *
@@ -62,13 +62,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-
 #include "ide64.h"
-#include "ide64widget.h"
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
 #include "vice_gtk3.h"
+
+#include "settings_ide64.h"
 
 
 /** \brief  List of IDE64 revisions
@@ -464,7 +464,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *ide64_widget_create(GtkWidget *parent)
+GtkWidget *settings_ide64_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *wrapper;

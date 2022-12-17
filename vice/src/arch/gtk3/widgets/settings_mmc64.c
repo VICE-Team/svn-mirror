@@ -1,5 +1,5 @@
-/** \file   mmc64widget.c
- * \brief   Widget to control MMC64 resources
+/** \file   settings_mmc64.c
+ * \brief   Settings widget to control MMC64 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -47,7 +47,7 @@
 #include "resources.h"
 #include "ui.h"
 
-#include "mmc64widget.h"
+#include "settings_mmc64.h"
 
 
 /** \brief  List of revisions
@@ -481,7 +481,7 @@ static GtkWidget *create_clockport_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *mmc64_widget_create(GtkWidget *parent)
+GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
@@ -516,19 +516,6 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), save_button, 0, 7, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 7, 1, 1);
 
-#if 0
-    eeprom_widget = create_eeprom_image_widget(parent);
-    gtk_grid_attach(GTK_GRID(grid), eeprom_widget, 0, 3, 3, 1);
-    card_widget = create_card_image_widget(parent);
-    gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 4, 3, 1);
-
-    card_type_widget = create_card_type_widget();
-    gtk_grid_attach(GTK_GRID(grid), card_type_widget, 0, 5, 3, 1);
-#endif
-#if 0
-    /* enable/disable widgets based on MMC64, dirty hack */
-    on_enable_toggled(enable_widget, NULL);
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }
