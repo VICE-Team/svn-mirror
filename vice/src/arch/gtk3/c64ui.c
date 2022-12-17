@@ -46,7 +46,6 @@
 #include "clockport.h"
 
 #include "reu.h"
-#include "reuwidget.h"
 #include "cartridge.h"
 #include "machine.h"
 #include "tapecart.h"

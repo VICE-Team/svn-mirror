@@ -1,5 +1,5 @@
-/** \file   reuwidget.c
- * \brief   Widget to control RAM Expansion Module resources
+/** \file   settings_reu.c
+ * \brief   Settings widget to control REU resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -42,7 +42,7 @@
 #include "resources.h"
 #include "cartridge.h"
 
-#include "reuwidget.h"
+#include "settings_reu.h"
 
 
 /** \brief  List of supported RAM sizes in KiB/MiB
@@ -114,7 +114,7 @@ static GtkWidget *create_reu_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *reu_widget_create(GtkWidget *parent)
+GtkWidget *settings_reu_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *reu_enable_widget;

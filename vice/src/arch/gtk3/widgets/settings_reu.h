@@ -1,10 +1,12 @@
-/** \file   ramlinkwidget.h
- * \brief   Widget to control RAMLink resources - header
+/** \file   settings_reu.h
+ * \brief   Settings widget to control REU resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
+ * Controls the following resource(s):
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -25,11 +27,11 @@
  *
  */
 
-#ifndef VICE_RAMLINKWIDGET_H
-#define VICE_RAMLINKWIDGET_H
+#ifndef VICE_SETTINGS_REU_H
+#define VICE_SETTINGS_REU_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *ramlink_widget_create(GtkWidget *parent);
+GtkWidget *settings_reu_widget_create(GtkWidget *parent);
 
 #endif

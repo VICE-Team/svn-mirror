@@ -1,7 +1,7 @@
-/** \file   rexramfloppywidget.h
- * \brief   Widget to control REX Ram-Floppy resources - header
+/** \file   settings_ramlink.h
+ * \brief   Settings widget to control RAMLink resources - header
  *
- * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_REXRAMFLOPPYWIDGET_H
-#define VICE_REXRAMFLOPPYWIDGET_H
+#ifndef VICE_SETTINGS_RAMLINK_H
+#define VICE_SETTINGS_RAMLINK_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * rexramfloppy_widget_create(GtkWidget *parent);
+GtkWidget *settings_ramlink_widget_create(GtkWidget *parent);
 
 #endif

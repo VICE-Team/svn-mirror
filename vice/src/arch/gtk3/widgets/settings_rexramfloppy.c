@@ -1,5 +1,5 @@
-/** \file   rexramfloppywidget.c
- * \brief   Widget to control REX Ram-Floppy resources
+/** \file   settings_rexramfloppy.c
+ * \brief   Settings widget to control REX Ram-Floppy resources
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  */
@@ -45,7 +45,7 @@
 #include "savefiledialog.h"
 #include "widgethelpers.h"
 
-#include "rexramfloppywidget.h"
+#include "settings_rexramfloppy.h"
 
 
 /** \brief  Create widget to load/save REX Ram-Floppy image file
@@ -68,7 +68,7 @@ static GtkWidget *create_rexramfloppy_image_widget(GtkWidget *parent)
  *
  * \return  GtkGrid
  */
-GtkWidget *rexramfloppy_widget_create(GtkWidget *parent)
+GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *rexramfloppy_image;
