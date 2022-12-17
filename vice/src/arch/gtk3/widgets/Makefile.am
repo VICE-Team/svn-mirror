@@ -75,15 +75,11 @@ libwidgets_a_SOURCES = \
 	drivenowidget.c \
 	drivewidgethelpers.c \
 	ds12c887widget.c \
-	easyflashwidget.c \
 	ethernetcartwidget.c \
 	expertwidget.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
-	gmod2widget.c \
-	gmod2c128widget.c \
-	gmod3widget.c \
 	hvscsettingswidget.c \
 	hvscstilwidget.c \
 	ide64widget.c \
@@ -141,9 +137,13 @@ libwidgets_a_SOURCES = \
 	settings_default_cart.c \
 	settings_dqbb.c \
 	settings_drive.c \
+	settings_easyflash.c \
 	settings_ethernet.c \
 	settings_fsdevice.c \
 	settings_georam.c \
+	settings_gmod2.c \
+	settings_gmod2c128.c \
+	settings_gmod3.c \
 	settings_host_display.c \
 	settings_hotkeys.c \
 	settings_io.c \
@@ -240,15 +240,11 @@ EXTRA_DIST = \
 	drivenowidget.h \
 	drivewidgethelpers.h \
 	ds12c887widget.h \
-	easyflashwidget.h \
 	ethernetcartwidget.h \
 	expertwidget.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
-	gmod2widget.h \
-	gmod2c128widget.h \
-	gmod3widget.h \
 	hvscsettingswidget.h \
 	hvscstilwidget.h \
 	ide64widget.h \
@@ -306,9 +302,13 @@ EXTRA_DIST = \
 	settings_default_cart.h \
 	settings_dqbb.h \
 	settings_drive.h \
+	settings_easyflash.h \
 	settings_ethernet.h \
 	settings_fsdevice.h \
 	settings_georam.h \
+	settings_gmod2.h \
+	settings_gmodc128.h \
+	settings_gmod3.h \
 	settings_host_display.h \
 	settings_hotkeys.h \
 	settings_io.h \

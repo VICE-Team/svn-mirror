@@ -1,5 +1,5 @@
-/** \file   gmod2c128widget.c
- * \brief   Widget to control GMod2 resources
+/** \file   settings_gmod2c128.c
+ * \brief   Settings widget to control GMod2-C128 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "ui.h"
 
-#include "gmod2c128widget.h"
+#include "settings_gmod2c128.h"
 
 
 /** \brief  Text entry used for the EEPROM filename
@@ -220,13 +220,13 @@ static GtkWidget *create_eeprom_image_widget(void)
 }
 
 
-/** \brief  Create widget to control GMOD2 resources
+/** \brief  Create widget to control GMOD2-C128 resources
  *
  * \param[in]   parent  parent widget, used for dialogs
  *
  * \return  GtkGrid
  */
-GtkWidget *gmod2c128_widget_create(GtkWidget *parent)
+GtkWidget *settings_gmod2c128_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

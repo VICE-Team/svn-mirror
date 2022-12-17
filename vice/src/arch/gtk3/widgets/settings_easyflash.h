@@ -1,5 +1,5 @@
-/** \file   gmod3widget.h
- * \brief   Widget to control GMod3 resources - header
+/** \file   settings_easyflash.h
+ * \brief   Settings widget to control Easy Flash resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_GMOD3WIDGET_H
-#define VICE_GMOD3WIDGET_H
+#ifndef VICE_SETTINGS_EASYFLASH_H
+#define VICE_SETTINGS_EASYFLASH_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * gmod3_widget_create(GtkWidget *parent);
+GtkWidget *settings_easyflash_widget_create(GtkWidget *parent);
 
 #endif
