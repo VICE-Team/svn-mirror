@@ -1,4 +1,4 @@
-/** \file   georamwidget.h
+/** \file   settings_georam.h
  * \brief   Widget to control GEO-RAM resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_GEORAMWIDGET_H
-#define VICE_GEORAMWIDGET_H
+#ifndef VICE_SETTINGS_GEORAM_H
+#define VICE_SETTINGS_GEORAM_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *georam_widget_create(GtkWidget *parent);
+GtkWidget *settings_georam_widget_create(GtkWidget *parent);
 
 #endif

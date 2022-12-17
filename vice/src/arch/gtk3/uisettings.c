@@ -78,7 +78,6 @@
 #include "c64memhackswidget.h"
 #include "easyflashwidget.h"
 #include "expertwidget.h"
-#include "georamwidget.h"
 #include "gmod2widget.h"
 #include "gmod2c128widget.h"
 #include "gmod3widget.h"
@@ -88,11 +87,7 @@
 #include "mmc64widget.h"
 #include "mmcrwidget.h"
 #include "netplaywidget.h"
-#include "ramcartwidget.h"
-#include "ramlinkwidget.h"
 #include "retroreplaywidget.h"
-#include "reuwidget.h"
-#include "rexramfloppywidget.h"
 #include "scpu64settingswidget.h"
 #include "settings_autofire.h"
 #include "settings_autostart.h"
@@ -101,6 +96,7 @@
 #include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_fsdevice.h"
+#include "settings_georam.h"
 #include "settings_hotkeys.h"
 #include "settings_io.h"
 #include "settings_joystick.h"
@@ -109,7 +105,11 @@
 #include "settings_model.h"
 #include "settings_monitor.h"
 #include "settings_printer.h"
+#include "settings_ramcart.h"
+#include "settings_ramlink.h"
 #include "settings_ramreset.h"
+#include "settings_reu.h"
+#include "settings_rexramfloppy.h"
 #include "settings_romset.h"
 #include "settings_rs232.h"
 #include "settings_sampler.h"
@@ -290,19 +290,19 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       settings_dqbb_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
-      georam_widget_create, NULL },
+      settings_georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
-      reu_widget_create, NULL },
+      settings_reu_widget_create, NULL },
     { "RamCart",    /* FIXME: shouldnt this be in "Memory Hacks" ? */
       "ramcart",
-      ramcart_widget_create, NULL },
+      settings_ramcart_widget_create, NULL },
     { "RAMLink",
       "ramlink",
-      ramlink_widget_create, NULL },
+      settings_ramlink_widget_create, NULL },
     { "REX Ram-Floppy",
       "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
+      settings_rexramfloppy_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -426,19 +426,19 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "GEO-RAM",
       "geo-ram",
-      georam_widget_create, NULL },
+      settings_georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
-      reu_widget_create, NULL },
+      settings_reu_widget_create, NULL },
     { "RamCart",
       "ramcart",
-      ramcart_widget_create, NULL },
+      settings_ramcart_widget_create, NULL },
     { "REX Ram-Floppy",
       "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
+      settings_rexramfloppy_widget_create, NULL },
     { "RAMLink",
       "ramlink",
-      ramlink_widget_create, NULL },
+      settings_ramlink_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       settings_dqbb_widget_create, NULL },
@@ -552,19 +552,19 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "GEO-RAM",
       "geo-ram",
-      georam_widget_create, NULL },
+      settings_georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
-      reu_widget_create, NULL },
+      settings_reu_widget_create, NULL },
     { "RAMLink",
       "ramlink",
-      ramlink_widget_create, NULL },
+      settings_ramlink_widget_create, NULL },
     { "REX Ram-Floppy",
       "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
+      settings_rexramfloppy_widget_create, NULL },
     { "RamCart",
       "ramcart",
-      ramcart_widget_create, NULL },
+      settings_ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       settings_dqbb_widget_create, NULL },
@@ -736,7 +736,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 #endif
     { "GEO-RAM (MasC=uerade)",
       "geo-ram",
-      georam_widget_create, NULL },
+      settings_georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)",
       "sfx-expander",
       sfx_sound_expander_widget_create, NULL },

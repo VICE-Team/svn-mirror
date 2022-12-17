@@ -1,5 +1,5 @@
-/** \file   ramlinkwidget.c
- * \brief   Widget to control RAMLink resources
+/** \file   settings_ramlink.c
+ * \brief   Settings widget to control RAMLink resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -43,7 +43,7 @@
 #include "resources.h"
 #include "vice_gtk3.h"
 
-#include "ramlinkwidget.h"
+#include "settings_ramlink.h"
 
 
 /** \brief  RAMLINK modes
@@ -61,7 +61,7 @@ static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
  *
  * \return  GtkGrid
  */
-GtkWidget *ramlink_widget_create(GtkWidget *parent)
+GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

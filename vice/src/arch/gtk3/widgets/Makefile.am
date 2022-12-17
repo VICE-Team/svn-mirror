@@ -81,7 +81,6 @@ libwidgets_a_SOURCES = \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
-	georamwidget.c \
 	gmod2widget.c \
 	gmod2c128widget.c \
 	gmod3widget.c \
@@ -131,11 +130,7 @@ libwidgets_a_SOURCES = \
 	printeremulationtypewidget.c \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
-	ramcartwidget.c \
-	ramlinkwidget.c \
 	retroreplaywidget.c \
-	reuwidget.c \
-	rexramfloppywidget.c \
 	romsetmanagerwidget.c \
 	rrnetmk3widget.c \
 	scpu64settingswidget.c \
@@ -148,6 +143,7 @@ libwidgets_a_SOURCES = \
 	settings_drive.c \
 	settings_ethernet.c \
 	settings_fsdevice.c \
+	settings_georam.c \
 	settings_host_display.c \
 	settings_hotkeys.c \
 	settings_io.c \
@@ -158,7 +154,11 @@ libwidgets_a_SOURCES = \
 	settings_model.c \
 	settings_monitor.c \
 	settings_printer.c \
+	settings_ramcart.c \
+	settings_ramlink.c \
 	settings_ramreset.c \
+	settings_reu.c \
+	settings_rexramfloppy.c \
 	settings_romset.c \
 	settings_rs232.c \
 	settings_sampler.c \
@@ -246,7 +246,6 @@ EXTRA_DIST = \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
-	georamwidget.h \
 	gmod2widget.h \
 	gmod2c128widget.h \
 	gmod3widget.h \
@@ -296,11 +295,7 @@ EXTRA_DIST = \
 	printeremulationtypewidget.h \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
-	ramcartwidget.h \
-	ramlinkwidget.h \
 	retroreplaywidget.h \
-	reuwidget.h \
-	rexramfloppywidget.h \
 	romsetmanagerwidget.h \
 	rrnetmk3widget.h \
 	scpu64settingswidget.h \
@@ -313,6 +308,7 @@ EXTRA_DIST = \
 	settings_drive.h \
 	settings_ethernet.h \
 	settings_fsdevice.h \
+	settings_georam.h \
 	settings_host_display.h \
 	settings_hotkeys.h \
 	settings_io.h \
@@ -323,7 +319,11 @@ EXTRA_DIST = \
 	settings_model.h \
 	settings_monitor.h \
 	settings_printer.h \
+	settings_ramcart.h \
+	settings_ramlink.h \
 	settings_ramreset.h \
+	settings_reu.h \
+	settings_rexramfloppy.h \
 	settings_romset.h \
 	settings_rs232.h \
 	settings_sampler.h \

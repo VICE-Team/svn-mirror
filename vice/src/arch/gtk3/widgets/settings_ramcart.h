@@ -1,5 +1,5 @@
-/** \file   ramcartwidget.h
- * \brief   Widget to control RAMCART resources - header
+/** \file   settings_ramcart.h
+ * \brief   Settings widget to control RAMCART resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_RAMCARTWIDGET_H
-#define VICE_RAMCARTWIDGET_H
+#ifndef VICE_SETTINGS_RAMCART_H
+#define VICE_SETTINGS_RAMCART_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * ramcart_widget_create(GtkWidget *parent);
+GtkWidget *settings_ramcart_widget_create(GtkWidget *parent);
 
 #endif

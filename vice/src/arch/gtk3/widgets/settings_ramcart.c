@@ -1,5 +1,5 @@
-/** \file   ramcartwidget.c
- * \brief   Widget to control RamCart resources
+/** \file   settings_ramcart.c
+ * \brief   Settings widget to control RamCart resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -41,7 +41,7 @@
 #include "resources.h"
 #include "cartridge.h"
 
-#include "ramcartwidget.h"
+#include "settings_ramcart.h"
 
 
 /** \brief  List of supported RAM sizes in KiB
@@ -115,7 +115,7 @@ static GtkWidget *create_ramcart_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *ramcart_widget_create(GtkWidget *parent)
+GtkWidget *settings_ramcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *ramcart_enable;

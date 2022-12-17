@@ -1,12 +1,10 @@
-/** \file   reuwidget.h
- * \brief   Widget to control REU resources - header
+/** \file   settings_rexramfloppy.h
+ * \brief   Settings widget to control REX Ram-Floppy resources - header
  *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  */
 
 /*
- * Controls the following resource(s):
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,12 +25,11 @@
  *
  */
 
-#ifndef VICE_REUWIDGET_H
-#define VICE_REUWIDGET_H
+#ifndef VICE_SETTINGS_REXRAMFLOPPY_H
+#define VICE_SETTINGS_REXRAMFLOPPY_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * reu_widget_create(GtkWidget *parent);
+GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent);
 
 #endif
