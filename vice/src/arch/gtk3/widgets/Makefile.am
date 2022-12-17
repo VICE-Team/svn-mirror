@@ -75,7 +75,6 @@ libwidgets_a_SOURCES = \
 	drivenowidget.c \
 	drivewidgethelpers.c \
 	ds12c887widget.c \
-	ethernetcartwidget.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
@@ -125,7 +124,6 @@ libwidgets_a_SOURCES = \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
 	romsetmanagerwidget.c \
-	rrnetmk3widget.c \
 	scpu64settingswidget.c \
 	settings_autofire.c \
 	settings_autostart.c \
@@ -136,6 +134,7 @@ libwidgets_a_SOURCES = \
 	settings_drive.c \
 	settings_easyflash.c \
 	settings_ethernet.c \
+	settings_ethernetcart.c \
 	settings_expert.c \
 	settings_fsdevice.c \
 	settings_georam.c \
@@ -160,6 +159,7 @@ libwidgets_a_SOURCES = \
 	settings_reu.c \
 	settings_rexramfloppy.c \
 	settings_romset.c \
+	settings_rrnetmk3.c \
 	settings_rs232.c \
 	settings_sampler.c \
 	settings_snapshot.c \
@@ -240,7 +240,6 @@ EXTRA_DIST = \
 	drivenowidget.h \
 	drivewidgethelpers.h \
 	ds12c887widget.h \
-	ethernetcartwidget.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
@@ -290,7 +289,6 @@ EXTRA_DIST = \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
 	romsetmanagerwidget.h \
-	rrnetmk3widget.h \
 	scpu64settingswidget.h \
 	settings_autofire.h \
 	settings_autostart.h \
@@ -301,6 +299,7 @@ EXTRA_DIST = \
 	settings_drive.h \
 	settings_easyflash.h \
 	settings_ethernet.h \
+	settings_ethernetcart.h \
 	settings_expert.h \
 	settings_fsdevice.h \
 	settings_georam.h \
@@ -325,6 +324,7 @@ EXTRA_DIST = \
 	settings_reu.h \
 	settings_rexramfloppy.h \
 	settings_romset.h \
+	settings_rrnetmk3.h \
 	settings_rs232.h \
 	settings_sampler.h \
 	settings_snapshot.h \

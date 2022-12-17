@@ -89,6 +89,9 @@
 #include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_easyflash.h"
+#ifdef HAVE_RAWNET
+# include "settings_ethernetcart.h"
+#endif
 #include "settings_expert.h"
 #include "settings_fsdevice.h"
 #include "settings_georam.h"
@@ -111,6 +114,9 @@
 #include "settings_reu.h"
 #include "settings_rexramfloppy.h"
 #include "settings_romset.h"
+#ifdef HAVE_RAWNET
+# include "settings_rrnetmk3.h"
+#endif
 #include "settings_rs232.h"
 #include "settings_sampler.h"
 #include "settings_snapshot.h"
@@ -120,11 +126,6 @@
 #include "settings_supersnapshot.h"
 #include "settings_tapeport.h"
 #include "settings_video.h"
-
-#ifdef HAVE_RAWNET
-# include "ethernetcartwidget.h"
-# include "rrnetmk3widget.h"
-#endif
 
 #include "c128functionromwidget.h"
 #include "ieee488widget.h"
@@ -342,10 +343,10 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "Ethernet Cartridge",
       "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
+      settings_ethernetcart_widget_create, NULL },
     { "RR-Net Mk3",
       "rrnetmk3",
-      rrnetmk3_widget_create, NULL },
+      settings_rrnetmk3_widget_create, NULL },
 
 #endif
     UI_SETTINGS_SEPARATOR,
@@ -481,10 +482,10 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "Ethernet Cartridge",
       "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
+      settings_ethernetcart_widget_create, NULL },
     { "RR-Net Mk3",
       "rrnetmk3",
-      rrnetmk3_widget_create, NULL },
+      settings_rrnetmk3_widget_create, NULL },
 #endif
 
     UI_SETTINGS_SEPARATOR,
@@ -609,10 +610,10 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "Ethernet Cartridge",
       "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
+      settings_ethernetcart_widget_create, NULL },
     { "RR-Net Mk3",
       "rrnetmk3",
-      rrnetmk3_widget_create, NULL },
+      settings_rrnetmk3_widget_create, NULL },
 #endif
     UI_SETTINGS_SEPARATOR,
 
@@ -732,7 +733,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge (MasC=uerade)",
       "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
+      settings_ethernetcart_widget_create, NULL },
 #endif
     { "GEO-RAM (MasC=uerade)",
       "geo-ram",
