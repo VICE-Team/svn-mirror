@@ -1,4 +1,4 @@
-/** \file   dqbbwidget.c
+/** \file   settings_dqbb.c
  * \brief   Widget to control Double Quick Brown Box resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -46,7 +46,7 @@
 #include "savefiledialog.h"
 #include "widgethelpers.h"
 
-#include "dqbbwidget.h"
+#include "settings_dqbb.h"
 
 
 /** \brief  Create widget to load/save Double Quick Brown Box image file
@@ -69,7 +69,7 @@ static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
  *
  * \return  GtkGrid
  */
-GtkWidget *dqbb_widget_create(GtkWidget *parent)
+GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *dqbb_enable_widget; /* dqbb_enable shadows */

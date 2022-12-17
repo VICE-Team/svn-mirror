@@ -1,4 +1,4 @@
-/** \file   dqbbwidget.h
+/** \file   settings_dqbb.h
  * \brief   Widget to control Double Quick Brown Box resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_DQBBWIDGET_H
-#define VICE_DQBBWIDGET_H
+#ifndef VICE_SETTINGS_DQBB_H
+#define VICE_SETTINGS_DQBB_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * dqbb_widget_create(GtkWidget *parent);
+GtkWidget *settings_dqbb_widget_create(GtkWidget *parent);
 
 #endif
