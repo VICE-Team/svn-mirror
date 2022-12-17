@@ -76,7 +76,6 @@ libwidgets_a_SOURCES = \
 	drivewidgethelpers.c \
 	ds12c887widget.c \
 	ethernetcartwidget.c \
-	expertwidget.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
@@ -85,7 +84,6 @@ libwidgets_a_SOURCES = \
 	ide64widget.c \
 	ieee488widget.c \
 	ieeeflash64widget.c \
-	isepicwidget.c \
 	jamactionwidget.c \
 	jamdialog.c \
 	joystickautofirewidget.c \
@@ -126,7 +124,6 @@ libwidgets_a_SOURCES = \
 	printeremulationtypewidget.c \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
-	retroreplaywidget.c \
 	romsetmanagerwidget.c \
 	rrnetmk3widget.c \
 	scpu64settingswidget.c \
@@ -139,6 +136,7 @@ libwidgets_a_SOURCES = \
 	settings_drive.c \
 	settings_easyflash.c \
 	settings_ethernet.c \
+	settings_expert.c \
 	settings_fsdevice.c \
 	settings_georam.c \
 	settings_gmod2.c \
@@ -147,6 +145,7 @@ libwidgets_a_SOURCES = \
 	settings_host_display.c \
 	settings_hotkeys.c \
 	settings_io.c \
+	settings_isepic.c \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_misc.c \
@@ -157,6 +156,7 @@ libwidgets_a_SOURCES = \
 	settings_ramcart.c \
 	settings_ramlink.c \
 	settings_ramreset.c \
+	settings_retroreplay.c \
 	settings_reu.c \
 	settings_rexramfloppy.c \
 	settings_romset.c \
@@ -166,6 +166,7 @@ libwidgets_a_SOURCES = \
 	settings_sound.c \
 	settings_soundchip.c \
 	settings_speed.c \
+	settings_supersnapshot.c \
 	settings_tapeport.c \
 	settings_video.c \
 	sfxsoundexpanderwidget.c \
@@ -184,7 +185,6 @@ libwidgets_a_SOURCES = \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
-	supersnapshotwidget.c \
 	ultimemwidget.c \
 	userportdeviceswidget.c \
 	userportrsinterfacewidget.c \
@@ -241,7 +241,6 @@ EXTRA_DIST = \
 	drivewidgethelpers.h \
 	ds12c887widget.h \
 	ethernetcartwidget.h \
-	expertwidget.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
@@ -250,7 +249,6 @@ EXTRA_DIST = \
 	ide64widget.h \
 	ieee488widget.h \
 	ieeeflash64widget.h \
-	isepicwidget.h \
 	jamactionwidget.h \
 	jamdialog.h \
 	joystickautofirewidget.h \
@@ -291,7 +289,6 @@ EXTRA_DIST = \
 	printeremulationtypewidget.h \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
-	retroreplaywidget.h \
 	romsetmanagerwidget.h \
 	rrnetmk3widget.h \
 	scpu64settingswidget.h \
@@ -304,6 +301,7 @@ EXTRA_DIST = \
 	settings_drive.h \
 	settings_easyflash.h \
 	settings_ethernet.h \
+	settings_expert.h \
 	settings_fsdevice.h \
 	settings_georam.h \
 	settings_gmod2.h \
@@ -312,6 +310,7 @@ EXTRA_DIST = \
 	settings_host_display.h \
 	settings_hotkeys.h \
 	settings_io.h \
+	settings_isepic.h \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_misc.h \
@@ -322,6 +321,7 @@ EXTRA_DIST = \
 	settings_ramcart.h \
 	settings_ramlink.h \
 	settings_ramreset.h \
+	settings_retroreplay.h \
 	settings_reu.h \
 	settings_rexramfloppy.h \
 	settings_romset.h \
@@ -331,6 +331,7 @@ EXTRA_DIST = \
 	settings_sound.h \
 	settings_soundchip.h \
 	settings_speed.h \
+	settings_supersnapshot.h \
 	settings_tapeport.h \
 	settings_video.h \
 	sfxsoundexpanderwidget.h \
@@ -349,7 +350,6 @@ EXTRA_DIST = \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
-	supersnapshotwidget.h \
 	ultimemwidget.h \
 	userportdeviceswidget.h \
 	userportrsinterfacewidget.h \

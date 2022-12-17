@@ -1,5 +1,5 @@
-/** \file   isepicwidget.h
- * \brief   Widget to control ISEPIC resources - header
+/** \file   settings_retroreplay.h
+ * \brief   Settings widget to control Retro Replay resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_ISEPICWIDGET_H
-#define VICE_ISEPICWIDGET_H
+#ifndef VICE_SETTINGS_RETROREPLAY_H
+#define VICE_SETTINGS_RETROREPLAY_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * isepic_widget_create(GtkWidget *parent);
+GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent);
 
 #endif

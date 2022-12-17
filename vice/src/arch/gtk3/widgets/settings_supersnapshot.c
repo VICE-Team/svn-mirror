@@ -1,7 +1,11 @@
-/** \file   expertwidget.h
- * \brief   Widget to control Expert Cartridge resources - header
+/** \file   settings_supersnapshot.c
+ * \brief   Settings widget to control Super Snapshot V5 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICE    SSRamExpansion  x64 x64sc xscpu x128
  */
 
 /*
@@ -25,12 +29,34 @@
  *
  */
 
-#ifndef VICE_EXPERTWIDGET_H
-#define VICE_EXPERTWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * expert_widget_create(GtkWidget *parent);
+#include "machine.h"
+#include "resources.h"
+#include "debug_gtk3.h"
+#include "widgethelpers.h"
+#include "basewidgets.h"
 
-#endif
+#include "settings_supersnapshot.h"
+
+
+/** \brief  Create widget to control Super Snapshot v5 resources
+ *
+ * \param[in]   parent  parent widget, used for dialogs
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_supersnapshot_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = gtk_grid_new();
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("SSRamExpansion",
+                "Enable 32KiB Super Snapshot V5 RAM expansion"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

@@ -1,5 +1,5 @@
-/** \file   supersnapshotwidget.h
- * \brief   Widget to control Super Snapshot V5 resources - header
+/** \file   settings_expert.h
+ * \brief   Settings widget to control Expert Cartridge resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_SUPERSNAPSHOTWIDGET_H
-#define VICE_SUPERSNAPSHOTWIDGET_H
+#ifndef VICE_SETTINGS_EXPERT_H
+#define VICE_SETTINGS_EXPERT_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *super_snapshot_widget_create(GtkWidget *parent);
+GtkWidget *settings_expert_widget_create(GtkWidget *parent);
 
 #endif

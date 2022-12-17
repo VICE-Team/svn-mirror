@@ -1,5 +1,5 @@
-/** \file   isepicwidget.c
- * \brief   Widget to control ISEPIC resources
+/** \file   settings_isepic.c
+ * \brief   Settings widget to control ISEPIC resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -48,7 +48,7 @@
 #include "savefiledialog.h"
 #include "widgethelpers.h"
 
-#include "isepicwidget.h"
+#include "settings_isepic.h"
 
 
 /** \brief  Handler for the 'state-set' event of the "IsepicSwitch" resource
@@ -117,7 +117,7 @@ static GtkWidget *create_isepic_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *isepic_widget_create(GtkWidget *parent)
+GtkWidget *settings_isepic_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *isepic_enable_widget;
