@@ -1,5 +1,5 @@
-/** \file   gmod2c128widget.h
- * \brief   Widget to control GMod2-C128 resources - header
+/** \file   settings_gmod2.h
+ * \brief   Settings widget to control GMod2 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_GMOD2C128WIDGET_H
-#define VICE_GMOD2C128WIDGET_H
+#ifndef VICE_SETTINGS_GMOD2_H
+#define VICE_SETTINGS_GMOD2_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * gmod2c128_widget_create(GtkWidget *parent);
+GtkWidget *settings_gmod2_widget_create(GtkWidget *parent);
 
 #endif

@@ -76,11 +76,7 @@
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
 #include "c64memhackswidget.h"
-#include "easyflashwidget.h"
 #include "expertwidget.h"
-#include "gmod2widget.h"
-#include "gmod2c128widget.h"
-#include "gmod3widget.h"
 #include "ide64widget.h"
 #include "isepicwidget.h"
 #include "ltkernalwidget.h"
@@ -95,8 +91,12 @@
 #include "settings_default_cart.h"
 #include "settings_dqbb.h"
 #include "settings_drive.h"
+#include "settings_easyflash.h"
 #include "settings_fsdevice.h"
 #include "settings_georam.h"
+#include "settings_gmod2.h"
+#include "settings_gmod2c128.h"
+#include "settings_gmod3.h"
 #include "settings_hotkeys.h"
 #include "settings_io.h"
 #include "settings_joystick.h"
@@ -310,13 +310,13 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "EasyFlash",
       "easyflash",
-      easyflash_widget_create, NULL },
+      settings_easyflash_widget_create, NULL },
     { "GMod2",
       "gmod2",
-      gmod2_widget_create, NULL },
+      settings_gmod2_widget_create, NULL },
     { "GMod3",
       "gmod3",
-      gmod3_widget_create, NULL },
+      settings_gmod3_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -449,13 +449,13 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "EasyFlash",
       "easyflash",
-      easyflash_widget_create, NULL },
+      settings_easyflash_widget_create, NULL },
     { "GMod2",
       "gmod2",
-      gmod2_widget_create, NULL },
+      settings_gmod2_widget_create, NULL },
     { "GMod3",
       "gmod3",
-      gmod3_widget_create, NULL },
+      settings_gmod3_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -575,16 +575,16 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "EasyFlash",
       "easyflash",
-      easyflash_widget_create, NULL },
+      settings_easyflash_widget_create, NULL },
     { "GMod2",
       "gmod2",
-      gmod2_widget_create, NULL },
+      settings_gmod2_widget_create, NULL },
     { "GMod2-C128",
       "gmod2c128",
-      gmod2c128_widget_create, NULL },
+      settings_gmod2c128_widget_create, NULL },
     { "GMod3",
       "gmod3",
-      gmod3_widget_create, NULL },
+      settings_gmod3_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 

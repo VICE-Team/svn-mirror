@@ -1,5 +1,5 @@
-/** \file   easyflashwidget.c
- * \brief   Widget to control Easy Flash resources
+/** \file   settings_easyflash.c
+ * \brief   Settings widget to control Easy Flash resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -45,7 +45,7 @@
 #include "savefiledialog.h"
 #include "widgethelpers.h"
 
-#include "easyflashwidget.h"
+#include "settings_easyflash.h"
 
 
 /** \brief  Callback for the save-dialog
@@ -103,7 +103,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *easyflash_widget_create(GtkWidget *parent)
+GtkWidget *settings_easyflash_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *jumper;

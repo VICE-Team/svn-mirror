@@ -1,5 +1,5 @@
-/** \file   gmod3widget.c
- * \brief   Widget to control GMod3 resources
+/** \file   settings_gmod3.c
+ * \brief   Settings widget to control GMod3 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -37,7 +37,7 @@
 #include "machine.h"
 #include "resources.h"
 
-#include "gmod3widget.h"
+#include "settings_gmod3.h"
 
 
 /** \brief  Callback for the save-dialog response handler
@@ -135,7 +135,7 @@ static GtkWidget *create_cart_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *gmod3_widget_create(GtkWidget *parent)
+GtkWidget *settings_gmod3_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

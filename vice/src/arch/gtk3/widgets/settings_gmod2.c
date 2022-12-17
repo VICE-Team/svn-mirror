@@ -1,5 +1,5 @@
-/** \file   gmod2widget.c
- * \brief   Widget to control GMod2 resources
+/** \file   settings_gmod2widget.c
+ * \brief   Settings widget to control GMod2 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "ui.h"
 
-#include "gmod2widget.h"
+#include "settings_gmod2.h"
 
 
 /** \brief  Text entry used for the EEPROM filename
@@ -226,7 +226,7 @@ static GtkWidget *create_eeprom_image_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *gmod2_widget_create(GtkWidget *parent)
+GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
