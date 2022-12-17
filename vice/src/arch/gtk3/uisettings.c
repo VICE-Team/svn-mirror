@@ -76,7 +76,6 @@
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
 #include "c64memhackswidget.h"
-#include "dqbbwidget.h"
 #include "easyflashwidget.h"
 #include "expertwidget.h"
 #include "georamwidget.h"
@@ -99,6 +98,7 @@
 #include "settings_autostart.h"
 #include "settings_controlport.h"
 #include "settings_default_cart.h"
+#include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_fsdevice.h"
 #include "settings_hotkeys.h"
@@ -287,7 +287,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "Double Quick Brown Box",
       "dqbb",
-      dqbb_widget_create, NULL },
+      settings_dqbb_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -441,7 +441,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       ramlink_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
-      dqbb_widget_create, NULL },
+      settings_dqbb_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -567,7 +567,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
-      dqbb_widget_create, NULL },
+      settings_dqbb_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 

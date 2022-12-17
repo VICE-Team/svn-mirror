@@ -62,7 +62,6 @@ libwidgets_a_SOURCES = \
 	cwdwidget.c \
 	digimaxwidget.c \
 	dirmenupopup.c \
-	dqbbwidget.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
 	drivefixedsizewidget.c \
@@ -145,6 +144,7 @@ libwidgets_a_SOURCES = \
 	settings_controlport.c \
 	settings_crt.c \
 	settings_default_cart.c \
+	settings_dqbb.c \
 	settings_drive.c \
 	settings_ethernet.c \
 	settings_fsdevice.c \
@@ -227,7 +227,6 @@ EXTRA_DIST = \
 	cwdwidget.h \
 	dirmenupopup.h \
 	digimaxwidget.h \
-	dqbbwidget.h \
 	drivedoswidget.h \
 	driveextendpolicywidget.h \
 	drivefixedsizewidget.h \
@@ -310,6 +309,7 @@ EXTRA_DIST = \
 	settings_controlport.h \
 	settings_crt.h \
 	settings_default_cart.h \
+	settings_dqbb.h \
 	settings_drive.h \
 	settings_ethernet.h \
 	settings_fsdevice.h \
