@@ -1,5 +1,5 @@
-/** \file   megacartwidget.h
- * \brief   Mega Cart widget - header
+/** \file   settings_ultimem.h
+ * \brief   Settings widget controlling VIC-20 UltiMem resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,14 +22,15 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_MEGACARTWIDGET_H
-#define VICE_MEGACARTWIDGET_H
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_ULTIMEM_H
+#define VICE_SETTINGS_ULTIMEM_H
+
 #include <gtk/gtk.h>
 
-GtkWidget *mega_cart_widget_create(GtkWidget *parent);
+GtkWidget *settings_ultimem_widget_create(GtkWidget *parent);
 
 #endif

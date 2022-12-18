@@ -1,11 +1,7 @@
-/** \file   ultimemwidget.c
- * \brief   VIC-20 UltiMem widget
+/** \file   settings_megacart.h
+ * \brief   Settings widget controlling VIC-20 Mega Cart resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES UltiMemWriteBack    xvic
  */
 
 /*
@@ -26,37 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_MEGACART_H
+#define VICE_SETTINGS_MEGACART_H
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *settings_megacart_widget_create(GtkWidget *parent);
 
-#include "ultimemwidget.h"
-
-
-/** \brief  Create widget to control VIC-20 Ultimem resources
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *ultimem_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("UltiMemWriteBack",
-                "Enable UltiMem image write back"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

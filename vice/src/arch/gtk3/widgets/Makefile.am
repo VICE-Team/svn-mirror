@@ -74,7 +74,6 @@ libwidgets_a_SOURCES = \
 	drivewidgethelpers.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
-	finalexpansionwidget.c \
 	hvscsettingswidget.c \
 	hvscstilwidget.c \
 	jamactionwidget.c \
@@ -88,7 +87,6 @@ libwidgets_a_SOURCES = \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
 	machinemodelwidget.c \
-	megacartwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
 	netplaywidget.c \
@@ -128,6 +126,7 @@ libwidgets_a_SOURCES = \
 	settings_ethernet.c \
 	settings_ethernetcart.c \
 	settings_expert.c \
+	settings_finalexpansion.c \
 	settings_fsdevice.c \
 	settings_georam.c \
 	settings_gmod2.c \
@@ -144,6 +143,7 @@ libwidgets_a_SOURCES = \
 	settings_keyboard.c \
 	settings_ltkernal.c \
 	settings_magicvoice.c \
+	settings_megacart.c \
 	settings_midi.c \
 	settings_misc.c \
 	settings_mixer.c \
@@ -170,6 +170,8 @@ libwidgets_a_SOURCES = \
 	settings_speed.c \
 	settings_supersnapshot.c \
 	settings_tapeport.c \
+	settings_ultimem.c \
+	settings_vicflashplugin.c \
 	settings_video.c \
 	sidcartwidget.c \
 	sidenginemodelwidget.c \
@@ -185,7 +187,6 @@ libwidgets_a_SOURCES = \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
-	ultimemwidget.c \
 	userportdeviceswidget.c \
 	userportrsinterfacewidget.c \
 	userportprinterwidget.c \
@@ -193,7 +194,6 @@ libwidgets_a_SOURCES = \
 	vdcmodelwidget.c \
 	vfliwidget.c \
 	vic20memoryexpansionwidget.c \
-	vicflashwidget.c \
 	vicieee488widget.c \
 	vicioramwidget.c \
 	videobordermodewidget.c \
@@ -239,7 +239,6 @@ EXTRA_DIST = \
 	drivewidgethelpers.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
-	finalexpansionwidget.h \
 	hvscsettingswidget.h \
 	hvscstilwidget.h \
 	jamactionwidget.h \
@@ -253,7 +252,6 @@ EXTRA_DIST = \
 	kernalrevisionwidget.h \
 	keysetdialog.h \
 	machinemodelwidget.h \
-	megacartwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
 	netplaywidget.h \
@@ -293,6 +291,7 @@ EXTRA_DIST = \
 	settings_ethernet.h \
 	settings_ethernetcart.h \
 	settings_expert.h \
+	settings_finalexpansion.h \
 	settings_fsdevice.h \
 	settings_georam.h \
 	settings_gmod2.h \
@@ -309,6 +308,7 @@ EXTRA_DIST = \
 	settings_keyboard.h \
 	settings_ltkernal.h \
 	settings_magicvoice.h \
+	settings_megacart.h \
 	settings_midi.h \
 	settings_misc.h \
 	settings_mixer.h \
@@ -335,6 +335,8 @@ EXTRA_DIST = \
 	settings_speed.h \
 	settings_supersnapshot.h \
 	settings_tapeport.h \
+	settings_ultimem.h \
+	settings_vicflashplugin.h \
 	settings_video.h \
 	sidcartwidget.h \
 	sidenginemodelwidget.h \
@@ -350,7 +352,6 @@ EXTRA_DIST = \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
-	ultimemwidget.h \
 	userportdeviceswidget.h \
 	userportrsinterfacewidget.h \
 	userportprinterwidget.h \
@@ -358,7 +359,6 @@ EXTRA_DIST = \
 	vdcmodelwidget.h \
 	vfliwidget.h \
 	vic20memoryexpansionwidget.h \
-	vicflashwidget.h \
 	vicieee488widget.h \
 	vicioramwidget.h \
 	videobordermodewidget.h \

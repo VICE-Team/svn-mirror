@@ -92,6 +92,7 @@
 # include "settings_ethernetcart.h"
 #endif
 #include "settings_expert.h"
+#include "settings_finalexpansion.h"
 #include "settings_fsdevice.h"
 #include "settings_georam.h"
 #include "settings_gmod2.h"
@@ -111,6 +112,7 @@
 # include "settings_midi.h"
 #endif
 #include "settings_misc.h"
+#include "settings_megacart.h"
 #include "settings_mmc64.h"
 #include "settings_mmcr.h"
 #include "settings_model.h"
@@ -136,21 +138,19 @@
 #include "settings_speed.h"
 #include "settings_supersnapshot.h"
 #include "settings_tapeport.h"
+#include "settings_ultimem.h"
+#include "settings_vicflashplugin.h"
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
 #include "userportdeviceswidget.h"
 #include "sidcartwidget.h"
-#include "megacartwidget.h"
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
 #include "petdwwwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
 #include "plus4digiblasterwidget.h"
-#include "finalexpansionwidget.h"
-#include "vicflashwidget.h"
-#include "ultimemwidget.h"
 #include "vicieee488widget.h"
 #include "vicioramwidget.h"
 #include "vfliwidget.h"
@@ -691,16 +691,16 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 
     { "Final Expansion",
       "final-expansion",
-      final_expansion_widget_create, NULL },
+      settings_finalexpansion_widget_create, NULL },
     { "Mega Cart",
       "mega-cart",
-      mega_cart_widget_create, NULL },
+      settings_megacart_widget_create, NULL },
     { "UltiMem",
       "ultimem",
-      ultimem_widget_create, NULL },
+      settings_ultimem_widget_create, NULL },
     { "Vic Flash Plugin",
       "vic-flash-plugin",
-      vic_flash_widget_create, NULL },
+      settings_vicflashplugin_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 

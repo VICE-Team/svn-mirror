@@ -1,7 +1,11 @@
-/** \file   ultimemwidget.h
- * \brief   VIC-20 UltiMem widget - header
+/** \file   settings_vicflashplugin.c
+ * \brief   Settings widget controlling Vic Flash Plugin resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES VicFlashPluginWriteBack     xvic
  */
 
 /*
@@ -25,13 +29,30 @@
  *
  */
 
-
-#ifndef VICE_ULTIMEMWIDGET_H
-#define VICE_ULTIMEMWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ultimem_widget_create(GtkWidget *parent);
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_vicflashplugin.h"
+
+
+/** \brief  Create widget to control Vic Flash whatever
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_vicflashplugin_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("VicFlashPluginWriteBack",
+                "Enable Vic Flash image write back"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

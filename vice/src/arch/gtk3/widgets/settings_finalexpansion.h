@@ -1,5 +1,5 @@
-/** \file   finalexpansionwidget.h
- * \brief   VIC-20 Final Expansion widget - header
+/** \file   settings_finalexpansion.h
+ * \brief   Settings widget controlling VIC-20 Final Expansion resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,13 +25,11 @@
  *
  */
 
-#ifndef VICE_FINALEXPANSIONWIDGET_H
-#define VICE_FINALEXPANSIONWIDGET_H
+#ifndef VICE_SETTINGS_FINALEXPANSION_H
+#define VICE_SETTINGS_FINALEXPANSION_H
 
-
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *final_expansion_widget_create(GtkWidget *parent);
+GtkWidget *settings_finalexpansion_widget_create(GtkWidget *parent);
 
 #endif
