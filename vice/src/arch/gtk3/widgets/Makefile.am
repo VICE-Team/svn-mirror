@@ -90,9 +90,7 @@ libwidgets_a_SOURCES = \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
 	machinemodelwidget.c \
-	magicvoicewidget.c \
 	megacartwidget.c \
-	midiwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
 	netplaywidget.c \
@@ -145,6 +143,8 @@ libwidgets_a_SOURCES = \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_ltkernal.c \
+	settings_magicvoice.c \
+	settings_midi.c \
 	settings_misc.c \
 	settings_mixer.c \
 	settings_mmc64.c \
@@ -162,6 +162,8 @@ libwidgets_a_SOURCES = \
 	settings_rrnetmk3.c \
 	settings_rs232.c \
 	settings_sampler.c \
+	settings_sfxsoundexpander.c \
+	settings_sfxsoundsampler.c \
 	settings_snapshot.c \
 	settings_sound.c \
 	settings_soundchip.c \
@@ -169,8 +171,6 @@ libwidgets_a_SOURCES = \
 	settings_supersnapshot.c \
 	settings_tapeport.c \
 	settings_video.c \
-	sfxsoundexpanderwidget.c \
-	sfxsoundsamplerwidget.c \
 	sidcartwidget.c \
 	sidenginemodelwidget.c \
 	sidmodelwidget.c \
@@ -255,9 +255,7 @@ EXTRA_DIST = \
 	kernalrevisionwidget.h \
 	keysetdialog.h \
 	machinemodelwidget.h \
-	magicvoicewidget.h \
 	megacartwidget.h \
-	midiwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
 	netplaywidget.h \
@@ -310,6 +308,8 @@ EXTRA_DIST = \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_ltkernal.h \
+	settings_magicvoice.h \
+	settings_midi.h \
 	settings_misc.h \
 	settings_mixer.h \
 	settings_mmc64.h \
@@ -327,6 +327,8 @@ EXTRA_DIST = \
 	settings_rrnetmk3.h \
 	settings_rs232.h \
 	settings_sampler.h \
+	settings_sfxsoundexpander.h \
+	settings_sfxsoundsampler.h \
 	settings_snapshot.h \
 	settings_sound.h \
 	settings_soundchip.h \
@@ -334,8 +336,6 @@ EXTRA_DIST = \
 	settings_supersnapshot.h \
 	settings_tapeport.h \
 	settings_video.h \
-	sfxsoundexpanderwidget.h \
-	sfxsoundsamplerwidget.h \
 	sidcartwidget.h \
 	sidenginemodelwidget.h \
 	sidmodelwidget.h \

@@ -1,5 +1,5 @@
-/** \file   sfxsoundsamplerwidget.h
- * \brief   SFX Sound Sampler widget - header
+/** \file   settings_magicvoice.h
+ * \brief   Settings widget controlling Magic Voice resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,15 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_SFXSOUNDSAMPLERWIDGET_H
-#define VICE_SFXSOUNDSAMPLERWIDGET_H
+#ifndef VICE_SETTINGS_MAGICVOICE_H
+#define VICE_SETTINGS_MAGICVOICE_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent);
+GtkWidget *settings_magicvoice_widget_create(GtkWidget *parent);
 
 #endif

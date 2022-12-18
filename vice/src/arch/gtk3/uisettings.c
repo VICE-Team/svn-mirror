@@ -104,6 +104,10 @@
 #include "settings_joystick.h"
 #include "settings_keyboard.h"
 #include "settings_ltkernal.h"
+#include "settings_magicvoice.h"
+#ifdef HAVE_MIDI
+# include "settings_midi.h"
+#endif
 #include "settings_misc.h"
 #include "settings_mmc64.h"
 #include "settings_mmcr.h"
@@ -122,6 +126,8 @@
 #endif
 #include "settings_rs232.h"
 #include "settings_sampler.h"
+#include "settings_sfxsoundexpander.h"
+#include "settings_sfxsoundsampler.h"
 #include "settings_snapshot.h"
 #include "settings_sound.h"
 #include "settings_soundchip.h"
@@ -131,15 +137,9 @@
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
-#include "magicvoicewidget.h"
-#ifdef HAVE_MIDI
-# include "midiwidget.h"
-#endif
-#include "sfxsoundexpanderwidget.h"
 #include "ds12c887widget.h"
 #include "userportdeviceswidget.h"
 #include "sidcartwidget.h"
-#include "sfxsoundsamplerwidget.h"
 #include "megacartwidget.h"
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
@@ -381,18 +381,18 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
-      magic_voice_widget_create, NULL },
+      settings_magicvoice_widget_create, NULL },
 #ifdef HAVE_MIDI
     { "MIDI emulation",
       "midi",
-      midi_widget_create, NULL },
+      settings_midi_widget_create, NULL },
 #endif
     { "SFX Sound Expander",
       "sfx-expander",
-      sfx_sound_expander_widget_create, NULL },
+      settings_sfxsoundexpander_widget_create, NULL },
     { "SFX Sound Sampler",
       "sfx-sampler",
-      sfx_sound_sampler_widget_create, NULL },
+      settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -514,18 +514,18 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
-      magic_voice_widget_create, NULL },
+      settings_magicvoice_widget_create, NULL },
 #ifdef HAVE_MIDI
     { "MIDI emulation",
       "midi",
-      midi_widget_create, NULL },
+      settings_midi_widget_create, NULL },
 #endif
     { "SFX Sound Expander",
       "sfx-expander",
-      sfx_sound_expander_widget_create, NULL },
+      settings_sfxsoundexpander_widget_create, NULL },
     { "SFX Sound Sampler",
       "sfx-sampler",
-      sfx_sound_sampler_widget_create, NULL },
+      settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -644,18 +644,18 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
-      magic_voice_widget_create, NULL },
+      settings_magicvoice_widget_create, NULL },
 #ifdef HAVE_MIDI
     { "MIDI emulation",
       "midi",
-      midi_widget_create, NULL },
+      settings_midi_widget_create, NULL },
 #endif
     { "SFX Sound Expander",
       "sfx-expander",
-      sfx_sound_expander_widget_create, NULL },
+      settings_sfxsoundexpander_widget_create, NULL },
     { "SFX Sound Sampler",
       "sfx-sampler",
-      sfx_sound_sampler_widget_create, NULL },
+      settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -717,7 +717,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 #ifdef HAVE_MIDI
     { "MIDI emulation",
       "midi",
-      midi_widget_create, NULL },
+      settings_midi_widget_create, NULL },
 #endif
 
     UI_SETTINGS_SEPARATOR,
@@ -740,10 +740,10 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
       settings_georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)",
       "sfx-expander",
-      sfx_sound_expander_widget_create, NULL },
+      settings_sfxsoundexpander_widget_create, NULL },
     { "SFX Sound Sampler (MasC=uerade)",
       "sfx-sampler",
-      sfx_sound_sampler_widget_create, NULL },
+      settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
