@@ -31,6 +31,12 @@ Lorazepam ipsum dolemite sith achmed.
 - Add Debian packages of development builds of the SDL2 and Gtk3 UIs
   (amd64 only).
 
+- Add dragonfly bsd support.
+
+- Add SPT (Stupid Pet Tricks) userport joystick adapter emulation.
+
+- Add sanity checks for CMD HD size string.
+
 
 ** build system
 ---------------
@@ -53,6 +59,7 @@ Lorazepam ipsum dolemite sith achmed.
 - Fix --with-sdlsound configuring for SDL2 even when SDL1 was explicitly
   requested via --enable-sdl1ui.
 
+- Fix single target builds.
 
 ** C64 fixes
 ------------
@@ -61,6 +68,11 @@ Lorazepam ipsum dolemite sith achmed.
 ** C128 fixes
 -------------
 
+- Add ram02 and ram03 in the monitor when 'full banks' mode is active.
+
+- Fix filling of VDC ram from the monitor.
+
+- Fix DMA bank.
 
 
 ** VIC-20 fixes
@@ -112,6 +124,20 @@ Lorazepam ipsum dolemite sith achmed.
 ** SDL fixes
 ------------
 
+- Correct colors on big endian platforms.
+
+- Add clearing of joystick mappings.
+
+- Add showing of joystick mappings for menu actions.
+
+- Fix setting of tde and virual device traps for xcbm2 and xcbm5x0.
+
+- Add CMD HD size elements.
+
+- Add PET ROM selection elements.
+
+- Add SuperPET CPU selection.
+
 
 ** Gtk3 fixes
 -------------
@@ -136,6 +162,7 @@ Lorazepam ipsum dolemite sith achmed.
 
 - Make saving custom hotkeys work.
 
+- Correct colors on big endian platforms.
 
 ** Windows fixes
 ----------------
