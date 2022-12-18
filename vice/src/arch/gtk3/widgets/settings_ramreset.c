@@ -127,7 +127,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     GtkWidget *scrolled;
     GtkWidget *view;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM reset pattern", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(16, 0, "RAM reset pattern", 2);
 
     label = gtk_label_new("Value of first byte");
     gtk_widget_set_margin_start(label, 16);
@@ -193,8 +193,10 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 8, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chance_random_widget, 1, 8, 1, 1);
 
-    label = gtk_label_new("Preview");
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Preview:</b>");
     gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_top(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 2, 1);
 
@@ -215,7 +217,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     /* TODO:    Look into setting the size based on the contents/font size
      *          --compyx
      */
-    gtk_widget_set_size_request(scrolled, 550, 300);
+    gtk_widget_set_size_request(scrolled, 550, 160);
     gtk_container_add(GTK_CONTAINER(scrolled), view);
     gtk_widget_set_margin_start(scrolled, 16);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, 10, 2, 1);
