@@ -1,12 +1,11 @@
-/** \file   megacartwidget.c
- * \brief   VIC-20 Mega Cart widget
+/** \file   settings_ultimem.c
+ * \brief   Settings widget controlling VIC-20 UltiMem resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
- * $VICERES MegaCartNvRAMfilename   xvic
- * $VICERES MegaCartNvRAMWriteBack  xvic
+ * $VICERES UltiMemWriteBack    xvic
  */
 
 /*
@@ -33,48 +32,27 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "widgethelpers.h"
-#include "ui.h"
+#include "vice_gtk3.h"
 
-#include "megacartwidget.h"
+#include "settings_ultimem.h"
 
 
-/** \brief  Create Mega Cart settings widget
- *
- * Allows selecting an nvram image and enabling/disabling write-back.
+/** \brief  Create widget to control VIC-20 Ultimem resources
  *
  * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
-GtkWidget *mega_cart_widget_create(GtkWidget *parent)
+GtkWidget *settings_ultimem_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *write_back;
-    GtkWidget *browser;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    browser = vice_gtk3_resource_browser_new(
-            "MegaCartNvRAMfilename",
-            NULL,
-            NULL,
-            "Select NvRAM image file",
-            "NvRAM image file",
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
-
-    write_back = vice_gtk3_resource_check_button_new(
-            "MegaCartNvRAMWriteBack",
-            "Enable Mega Cart NvRAM write back");
-    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
-
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("UltiMemWriteBack",
+                "Enable UltiMem image write back"),
+            0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

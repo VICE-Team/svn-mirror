@@ -1,5 +1,5 @@
-/** \file   finalexpansionwidget.c
- * \brief   VIC-20 Final Expansion widget
+/** \file   settings_finalexpansion.c
+ * \brief   Settings widget controlling VIC-20 Final Expansion resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -32,13 +32,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "resources.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "finalexpansionwidget.h"
+#include "settings_finalexpansion.h"
 
 
 /** \brief  Create widget to control Final Expansion resources
@@ -47,7 +43,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *final_expansion_widget_create(GtkWidget *parent)
+GtkWidget *settings_finalexpansion_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *check;
