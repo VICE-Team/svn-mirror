@@ -1,11 +1,7 @@
-/** \file   cpmwidget.c
- * \brief   Widget to control CP/M resources
+/** \file   settings_cpm.h
+ * \brief   Settings widget to control CP/M resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES CPMCart     x64 x64sc
  */
 
 /*
@@ -29,34 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_CPM_H
+#define VICE_SETTINGS_CPM_H
+
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "resources.h"
-#include "widgethelpers.h"
+GtkWidget *settings_cpm_widget_create(GtkWidget *parent);
 
-#include "cpmwidget.h"
-
-
-/** \brief  Create widget to control Super Snapshot v5 resources
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *cpm_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = gtk_grid_new();
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("CPMCart",
-                "Enable CP/M Cartridge"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

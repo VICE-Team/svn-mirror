@@ -1,5 +1,5 @@
-/** \file   ds12c887widget.c
- * \brief   DS12C887 RTC widget
+/** \file   settings_ds12c887.c
+ * \brief   Settings widget controlling DS12C887 RTC resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,18 +33,14 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include <stdlib.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "ds12c887widget.h"
+#include "settings_ds12c887.h"
 
 
 /** \brief  Values for I/O base on C64/C128
@@ -121,7 +117,7 @@ static GtkWidget *create_base_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *ds12c887_widget_create(GtkWidget *parent)
+GtkWidget *settings_ds12c887_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable_widget;
