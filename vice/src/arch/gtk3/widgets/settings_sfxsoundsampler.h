@@ -1,5 +1,5 @@
-/** \file   sfxsoundexpanderwidget.h
- * \brief   SFX Sound Expander widget - header
+/** \file   settings_sfxsoundsampler.h
+ * \brief   Settings widget controlling SFX Sound Sampler resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_SFXSOUNDEXPANDERWIDGET_H
-#define VICE_SFXSOUNDEXPANDERWIDGET_H
+#ifndef VICE_SETTINGS_SFXSOUNDSAMPLER_H
+#define VICE_SETTINGS_SFXSOUNDSAMPLER_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent);
+GtkWidget *settings_sfxsoundsampler_widget_create(GtkWidget *parent);
 
 #endif

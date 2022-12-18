@@ -1,5 +1,5 @@
-/** \file   sfxsoundexpanderwidget.c
- * \brief   SFX Sound Expander widget
+/** \file   settings_sfxsoundexpander.c
+ * \brief   Setting widget for SFX Sound Expander resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,18 +33,13 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-#include <stdlib.h>
 
 #include "machine.h"
 #include "resources.h"
 #include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "cartio.h"
-#include "cartridge.h"
+#include "vice_gtk3.h"
 
-#include "sfxsoundexpanderwidget.h"
+#include "settings_sfxsoundexpander.h"
 
 
 /** \brief  List of YM chip models
@@ -115,7 +110,7 @@ static GtkWidget *create_sfx_chip_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent)
+GtkWidget *settings_sfxsoundexpander_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *sfx_enable;

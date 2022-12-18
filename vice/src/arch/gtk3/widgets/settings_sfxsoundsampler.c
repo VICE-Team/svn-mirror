@@ -1,5 +1,5 @@
-/** \file   sfxsoundsamplerwidget.c
- * \brief   SFX Sound Sampler widget - header
+/** \file   settings_sfxsoundsampler.c
+ * \brief   Settings widget controlling SFX Sound Sampler resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -31,18 +31,15 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 #include "lib.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
-#include "basewidgets.h"
-#include "openfiledialog.h"
 #include "machine.h"
+#include "vice_gtk3.h"
 
-#include "sfxsoundsamplerwidget.h"
+#include "settings_sfxsoundsampler.h"
 
 
 /** \brief  I/O swap toggle button */
@@ -68,7 +65,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
+GtkWidget *settings_sfxsoundsampler_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;

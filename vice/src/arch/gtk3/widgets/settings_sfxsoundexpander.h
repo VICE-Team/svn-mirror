@@ -1,5 +1,5 @@
-/** \file   midiwidget.h
- * \brief   MIDI emulation settings widget - header
+/** \file   settings_sfxsoundexpander.h
+ * \brief   Setting widget for SFX Sound Expander resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,17 +25,11 @@
  *
  */
 
-#ifndef VICE_MIDIWIDGET_H
-#define VICE_MIDIWIDGET_H
-
-#include "vice.h"
-
-#ifdef HAVE_MIDI
+#ifndef VICE_SETTINGS_SFXSOUNDEXPANDER_H
+#define VICE_SETTINGS_SFXSOUNDEXPANDER_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *midi_widget_create(GtkWidget *parent);
-
-#endif
+GtkWidget *settings_sfxsoundexpander_widget_create(GtkWidget *parent);
 
 #endif

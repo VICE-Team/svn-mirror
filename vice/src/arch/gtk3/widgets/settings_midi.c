@@ -1,5 +1,5 @@
-/** \file   midiwidget.c
- * \brief   MIDI emulation settings widget
+/** \file   settings_midi.c
+ * \brief   Settings widget controlling MIDI emulation settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -8,7 +8,7 @@
  * $VICERES MIDIEnable      x64 x64sc xscpu64 x128 xvic
  * $VICERES MIDIMode        x64 x64sc xscpu64 x128
  * $VICERE$S MIDIDriver     x64 x64sc xscpu64 x128 xvic
- *  (Unix only, only if both OSS and ALSA is enabled)
+ *  (Unix only, only if both OSS and ALSA are enabled)
  * $VICERES MIDIInDev       x64 x64sc xscpu64 x128 xvic
  *  (OSS and Windows only)
  * $VICERES MIDIOutDev      x64 x64sc xscpu64 x128 xvic
@@ -57,16 +57,16 @@
 
 #include "archdep_defs.h"
 #include "machine.h"
-#include "resources.h"
-#include "ui.h"
-#include "vice_gtk3.h"
-
-#include "midiwidget.h"
-
 /* right now we only have a dropdown list on windows */
 #if defined (WINDOWS_COMPILE)
 #include "mididevicewidget.h"
 #endif
+#include "resources.h"
+#include "ui.h"
+#include "vice_gtk3.h"
+
+#include "settings_midi.h"
+
 
 /** \brief  MIDI enable checkbutton */
 static GtkWidget *midi_enable;
@@ -317,7 +317,7 @@ static GtkWidget *create_midi_driver_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *midi_widget_create(GtkWidget *parent)
+GtkWidget *settings_midi_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

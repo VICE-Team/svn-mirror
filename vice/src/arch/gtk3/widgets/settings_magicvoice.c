@@ -1,5 +1,5 @@
-/** \file   magicvoicewidget.c
- * \brief   Magic Voice widget
+/** \file   settings_magicvoice.c
+ * \brief   Settings widget controlling Magic Voice resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -31,20 +31,15 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
 #include "cartridge.h"
 #include "debug_gtk3.h"
 #include "machine.h"
-#include "openfiledialog.h"
 #include "resources.h"
-#include "ui.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "magicvoicewidget.h"
+#include "settings_magicvoice.h"
 
 
 /** \brief  Create widget to control MagicVoice cartridge
@@ -53,7 +48,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *magic_voice_widget_create(GtkWidget *parent)
+GtkWidget *settings_magicvoice_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;

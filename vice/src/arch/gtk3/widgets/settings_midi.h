@@ -1,5 +1,5 @@
-/** \file   magicvoicewidget.h
- * \brief   Magic Voice cartridge widget - header
+/** \file   settings_midi.h
+ * \brief   Settings widget controlling MIDI emulation settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,14 +22,20 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_MAGICVOICEWIDGET_H
-#define VICE_MAGICVOICEWIDGET_H
+#ifndef VICE_SETTINGS_MIDI_H
+#define VICE_SETTINGS_MIDI_H
 
 #include "vice.h"
+
+#ifdef HAVE_MIDI
+
 #include <gtk/gtk.h>
 
-GtkWidget *magic_voice_widget_create(GtkWidget *parent);
+GtkWidget *settings_midi_widget_create(GtkWidget *parent);
+
+#endif
 
 #endif
