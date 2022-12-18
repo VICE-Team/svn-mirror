@@ -82,6 +82,7 @@
 #include "settings_autostart.h"
 #include "settings_controlport.h"
 #include "settings_default_cart.h"
+#include "settings_digimax.h"
 #include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_easyflash.h"
@@ -130,7 +131,6 @@
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
-#include "digimaxwidget.h"
 #include "magicvoicewidget.h"
 #ifdef HAVE_MIDI
 # include "midiwidget.h"
@@ -378,7 +378,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "DigiMAX",
       "digimax",
-      digimax_widget_create, NULL },
+      settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
       magic_voice_widget_create, NULL },
@@ -511,7 +511,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "DigiMAX",
       "digimax",
-      digimax_widget_create, NULL },
+      settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
       magic_voice_widget_create, NULL },
@@ -641,7 +641,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "DigiMAX",
       "digimax",
-      digimax_widget_create, NULL },
+      settings_digimax_widget_create, NULL },
     { "Magic Voice",
       "magic-voice",
       magic_voice_widget_create, NULL },
@@ -726,7 +726,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 
     { "DigiMAX (MasC=uerade",
       "digimax",
-      digimax_widget_create, NULL },
+      settings_digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },

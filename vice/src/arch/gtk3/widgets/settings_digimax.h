@@ -1,5 +1,5 @@
-/** \file   digimaxwidget.h
- * \brief   DigiMAX widget - header
+/** \file   settings_digimax.h
+ * \brief   Setting widget controlling DigiMAX resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_DIGIMAXWIDGET_H
-#define VICE_DIGIMAXWIDGET_H
+#ifndef VICE_SETTINGS_DIGIMAX_H
+#define VICE_SETTINGS_DIGIMAX_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *digimax_widget_create(GtkWidget *parent);
+GtkWidget *settings_digimax_widget_create(GtkWidget *parent);
 
 #endif

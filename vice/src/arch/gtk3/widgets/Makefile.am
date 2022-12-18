@@ -60,7 +60,6 @@ libwidgets_a_SOURCES = \
 	crtcontrolwidget.c \
 	crtpreviewwidget.c \
 	cwdwidget.c \
-	digimaxwidget.c \
 	dirmenupopup.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
@@ -124,6 +123,7 @@ libwidgets_a_SOURCES = \
 	settings_controlport.c \
 	settings_crt.c \
 	settings_default_cart.c \
+	settings_digimax.c \
 	settings_dqbb.c \
 	settings_drive.c \
 	settings_easyflash.c \
@@ -226,7 +226,6 @@ EXTRA_DIST = \
 	crtpreviewwidget.h \
 	cwdwidget.h \
 	dirmenupopup.h \
-	digimaxwidget.h \
 	drivedoswidget.h \
 	driveextendpolicywidget.h \
 	drivefixedsizewidget.h \
@@ -289,6 +288,7 @@ EXTRA_DIST = \
 	settings_controlport.h \
 	settings_crt.h \
 	settings_default_cart.h \
+	settings_digimax.h \
 	settings_dqbb.h \
 	settings_drive.h \
 	settings_easyflash.h \
