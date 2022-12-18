@@ -19,6 +19,148 @@ with the "-default" command line argument or use "restore default config"
 in the UI).
 
 
+* Changes in Vice 3.x Enterprise Cloud Edition
+==============================================
+
+Lorazepam ipsum dolemite sith achmed.
+
+
+** general
+----------
+
+- Add Debian packages of development builds of the SDL2 and Gtk3 UIs
+  (amd64 only).
+
+
+** build system
+---------------
+
+- Rename configure options: --enable-native-gtk3ui   => --enable-gtk3ui
+                            --enable-sdlui2          => --enable-sdl2ui
+                            --enable-sdlui           => --enable-sdl1ui
+                            --enable-external-ffmpeg => --enable-ffmpeg
+
+- Remove jpeg support (--enable-jpeg).
+
+- Disable CatWeasel, SSI2001 and ParSID support by default.
+
+- Add `make bindist` for headless builds on Windows/Msys2.
+
+- Don't check for joystick support when configuring for a headless build.
+
+- Add configure check for [n]pcap headers on Windows.
+
+- Fix --with-sdlsound configuring for SDL2 even when SDL1 was explicitly
+  requested via --enable-sdl1ui.
+
+
+** C64 fixes
+------------
+
+
+** C128 fixes
+-------------
+
+
+
+** VIC-20 fixes
+---------------
+
+
+** Plus/4 fixes
+---------------
+
+
+** PET fixes
+------------
+
+
+** CBM-II fixes
+---------------
+
+
+** VSID fixes (Gtk3 only)
+-------------------------
+
+- Properly update the mixer widget with the current SID model when playing
+  a (subt)tune.
+
+- Add support for the `HVSC_BASE` environment variable: If the HVSC base
+  directory is left blank in the VSID settings the `HVSC_BASE` will be used
+  to determine the location of the High Voltage SID Collection files.
+
+- Add customizable hotkeys.
+
+- Add default hotkeys for subtunes #1-#30, Play, Pause, Stop, First,
+  Previous, Next, Last, FFWD, Loop.
+
+- Display STIL view and Playlist on top of each other, not next to each other.
+
+- Strip HVSC base dir from playlist 'Path' column.
+
+- Add playlist loading/saving (in M3U format).
+
+- Add autoplaying the next subtune when the current subtune has finished
+  playing (requires HVSC).
+
+- Add autplaying the next SID in the playlist when all subtunes of a SID have
+  played.
+
+- Fix missing display of the 'NAME' STIL field.
+
+
+** SDL fixes
+------------
+
+
+** Gtk3 fixes
+-------------
+
+- Remove unused -gtkbackend command line option: we no longer support
+  software rendering, so the only option left is accelerated rendering.
+
+- Improved statusbar layout.
+
+- Various layout fixes in the settings dialog.
+
+- More meaningful sliders for CRT settings.
+
+- Add -${CHIP}showstatusbar/+${CHIP}showstatusbar command line options to show
+  or hide the status bar.
+
+- Add -${CHIP}fullscreen/+${CHIP}fullscreen to enable or disable fullscreen
+  mode.
+
+- Hotkeys can be assigned to actions that do not have a corresponding menu
+  item.
+
+- Make saving custom hotkeys work.
+
+
+** Windows fixes
+----------------
+
+- Fix monitor Ctrl+C/V and other Ctrl+.. combinations (Gtk3).
+
+
+** MacOS fixes
+--------------
+
+
+** Linux fixes
+--------------
+
+
+** BSD fixes
+------------
+
+
+** Haiku fixes
+--------------
+
+- Fix `make bindist`.
+
+
 * Changes in Vice 3.6.1
 =======================
 
