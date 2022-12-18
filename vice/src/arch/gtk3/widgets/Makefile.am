@@ -56,7 +56,6 @@ libwidgets_a_SOURCES = \
 	cbm2rammappingwidget.c \
 	ciamodelwidget.c \
 	contentpreviewwidget.c \
-	cpmwidget.c \
 	crtcontrolwidget.c \
 	crtpreviewwidget.c \
 	cwdwidget.c \
@@ -73,7 +72,6 @@ libwidgets_a_SOURCES = \
 	driveunitwidget.c \
 	drivenowidget.c \
 	drivewidgethelpers.c \
-	ds12c887widget.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
@@ -119,11 +117,13 @@ libwidgets_a_SOURCES = \
 	settings_autofire.c \
 	settings_autostart.c \
 	settings_controlport.c \
+	settings_cpm.c \
 	settings_crt.c \
 	settings_default_cart.c \
 	settings_digimax.c \
 	settings_dqbb.c \
 	settings_drive.c \
+	settings_ds12c887.c \
 	settings_easyflash.c \
 	settings_ethernet.c \
 	settings_ethernetcart.c \
@@ -221,7 +221,6 @@ EXTRA_DIST = \
 	canvasrenderfilterwidget.h \
 	ciamodelwidget.h \
 	contentpreviewwidget.h \
-	cpmwidget.h \
 	crtcontrolwidget.h \
 	crtpreviewwidget.h \
 	cwdwidget.h \
@@ -238,7 +237,6 @@ EXTRA_DIST = \
 	driveunitwidget.h \
 	drivenowidget.h \
 	drivewidgethelpers.h \
-	ds12c887widget.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
@@ -284,11 +282,13 @@ EXTRA_DIST = \
 	settings_autofire.h \
 	settings_autostart.h \
 	settings_controlport.h \
+	settings_cpm.h \
 	settings_crt.h \
 	settings_default_cart.h \
 	settings_digimax.h \
 	settings_dqbb.h \
 	settings_drive.h \
+	settings_ds12c887.h \
 	settings_easyflash.h \
 	settings_ethernet.h \
 	settings_ethernetcart.h \

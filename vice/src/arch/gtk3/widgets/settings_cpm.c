@@ -1,7 +1,11 @@
-/** \file   ds12c887widget.h
- * \brief   DS12C887 RTC widget - header
+/** \file   settings_cpm.c
+ * \brief   Settings widget to control CP/M resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES CPMCart     x64 x64sc
  */
 
 /*
@@ -25,12 +29,33 @@
  *
  */
 
-#ifndef VICE_DS12C887WIDGET_H
-#define VICE_DS12C887WIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ds12c887_widget_create(GtkWidget *parent);
+#include "debug_gtk3.h"
+#include "machine.h"
+#include "resources.h"
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_cpm.h"
+
+
+/** \brief  Create widget to control CP/M cart resources
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_cpm_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = gtk_grid_new();
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("CPMCart",
+                "Enable CP/M Cartridge"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

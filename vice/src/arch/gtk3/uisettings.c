@@ -81,10 +81,12 @@
 #include "settings_autofire.h"
 #include "settings_autostart.h"
 #include "settings_controlport.h"
+#include "settings_cpm.h"
 #include "settings_default_cart.h"
 #include "settings_digimax.h"
 #include "settings_dqbb.h"
 #include "settings_drive.h"
+#include "settings_ds12c887.h"
 #include "settings_easyflash.h"
 #ifdef HAVE_RAWNET
 # include "settings_ethernetcart.h"
@@ -137,14 +139,12 @@
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
-#include "ds12c887widget.h"
 #include "userportdeviceswidget.h"
 #include "sidcartwidget.h"
 #include "megacartwidget.h"
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
 #include "petdwwwidget.h"
-#include "cpmwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
 #include "plus4digiblasterwidget.h"
@@ -400,7 +400,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "CP/M Cartridge",
       "cpm-cart",
-      cpm_widget_create, NULL },
+      settings_cpm_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -408,7 +408,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
-      ds12c887_widget_create, NULL },
+      settings_ds12c887_widget_create, NULL },
      UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -533,7 +533,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
-      ds12c887_widget_create, NULL },
+      settings_ds12c887_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -663,7 +663,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "CP/M Cartridge",
       "cpm-cart",
-      cpm_widget_create, NULL },
+      settings_cpm_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -671,7 +671,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
-       ds12c887_widget_create, NULL },
+       settings_ds12c887_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -729,7 +729,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
       settings_digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)",
       "ds12c887-rtc",
-      ds12c887_widget_create, NULL },
+      settings_ds12c887_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge (MasC=uerade)",
       "ethernet-cart",

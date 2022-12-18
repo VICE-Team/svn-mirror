@@ -1,5 +1,5 @@
-/** \file   cpmwidget.h
- * \brief   Widget to control CP/M resources - header
+/** \file   settings_ds12c887.h
+ * \brief   Settings widget controlling DS12C887 RTC resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_CPMCARTWIDGET_H
-#define VICE_CPMCARTWIDGET_H
+#ifndef VICE_SETTINGS_DS12C887_H
+#define VICE_SETTINGS_DS12C887_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *cpm_widget_create(GtkWidget *parent);
+GtkWidget *settings_ds12c887_widget_create(GtkWidget *parent);
 
 #endif
