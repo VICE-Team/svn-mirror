@@ -295,7 +295,7 @@ EXTRA_DIST = \
 	settings_fsdevice.h \
 	settings_georam.h \
 	settings_gmod2.h \
-	settings_gmodc128.h \
+	settings_gmod2c128.h \
 	settings_gmod3.h \
 	settings_host_display.h \
 	settings_hotkeys.h \
