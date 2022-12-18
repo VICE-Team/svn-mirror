@@ -86,6 +86,12 @@ Lorazepam ipsum dolemite sith achmed.
 ** PET fixes
 ------------
 
+- Improved the sound output by reworking parts of the VIA, in particular as
+  related to the shift register and the CB2 output.
+- Sound made by "manual" control of the CB2 output now works.
+- Added an adjustable low-pass filter to the sound output, since different
+  speakers on real hardware behave quite different in how much they "muffle"
+  the sound.
 
 ** CBM-II fixes
 ---------------
