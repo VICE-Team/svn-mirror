@@ -31,7 +31,7 @@ RELEASE=0
 
 # Check command line for UI argument
 if [ $# -lt 1 ]; then
-    echo "$(basename $0): Please specify UI to build: 'gtk3' or 'sdl2', aborting."
+    echo "$(basename $0): error: please specify UI to build: 'gtk3', 'sdl2' or 'headless'."
     exit 1
 fi
 case "$1" in
@@ -40,6 +40,9 @@ case "$1" in
         ;;
     [sS][dD][lL]2)
         UI="sdl2"
+        ;;
+    [Hh]eadless)
+        UI="headless"
         ;;
     *)
         echo "$(basename $0): Unknown UI: $1, aborting."

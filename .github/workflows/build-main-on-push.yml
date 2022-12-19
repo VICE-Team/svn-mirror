@@ -318,7 +318,10 @@ jobs:
                   deps: 'libglew-dev libgtk-3-dev libpulse-dev' },
                 { name: 'SDL2',
                   conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
-                  deps: 'libsdl2-dev libsdl2-image-dev' } ]
+                  deps: 'libsdl2-dev libsdl2-image-dev' },
+                { name: 'Headless',
+                  conf: '--enable-headlessui --with-pulse',
+                  deps: 'libpulse-dev' } ]
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
@@ -336,8 +339,10 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt install -y autoconf automake build-essential byacc devscripts dos2unix fakeroot flex xa65
-          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev
+          sudo apt install -y autoconf automake build-essential byacc devscripts \
+                              dos2unix fakeroot flex xa65
+          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev \
+                              libmpg123-dev libpcap-dev libpng-dev libvorbis-dev
           sudo apt install -y ${{ matrix.ui.deps }}
 
       - name: Build
@@ -348,8 +353,12 @@ jobs:
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
           # ALSA is required for SDL2 as well for midi support
-          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no --enable-ethernet --disable-pdf-docs --disable-html-docs --with-fastsid --with-resid --enable-cpuhistory --with-gif --with-png --with-vorbis --with-flac --with-mpg123 --enable-lame --enable-midi --with-alsa ${{ matrix.ui.conf }}
-          make -j3 -s --no-print-directory SVN_REVISION_OVERRIDE=$(echo "${{ github.ref }}" | sed 's/^.*r//')
+          ./configure --enable-option-checking=fatal --prefix=/usr --enable-arch=no \
+                      --enable-ethernet --disable-pdf-docs --disable-html-docs \
+                      --with-fastsid --with-resid --enable-cpuhistory --with-gif \
+                      --with-png --with-vorbis --with-flac --with-mpg123 --enable-lame \
+                      --enable-midi --with-alsa ${{ matrix.ui.conf }}
+          make -j2 -s --no-print-directory SVN_REVISION_OVERRIDE=$(echo "${{ github.ref }}" | sed 's/^.*r//')
           # Don't use install-strip, we want symbols intact for backtraces
           make DESTDIR=$HOME/build install
 

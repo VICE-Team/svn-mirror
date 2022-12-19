@@ -1,39 +1,28 @@
-Package: gtk3vice
+Package: headlessvice
 Version: __VICE_VERSION__+__SVN_REVISION__
 Architecture: amd64
 Maintainer: Bas Wassink <b.wassink@ziggo.nl>
 Section: contrib/otherosfs
 Priority: optional
-Description: Versatile Commodore Emulator (Gtk3 version)
+Description: Versatile Commodore Emulator (Headless version)
  Emulates Commodore 8-bit computers: C64, C64DTV, C128, VIC20, Plus/4, CBM-II and PET
  This package also contains the ROM files to run the various emulators.
  The included binaries are not stripped from debug symbols.
 Homepage: https://vice-emu.sourceforge.io/
 Installed-Size: __INSTALLED_SIZE__
-Conflicts: vice, headlessvice, sdl2vice
+Conflicts: vice, sdl2vice, gtk3vice
 Depends: libasound2,
- libatk1.0-0,
  libc6,
- libcairo2,
  libflac8,
- libfontconfig1,
  libgcc-s1,
- libgdk-pixbuf-2.0-0,
  libgif7,
- libgl1,
- libglew2.1 | libglew2.2,
- libglib2.0-0,
  libgomp1,
- libgtk-3-0 (>= 3.24),
  libmp3lame0,
  libmpg123-0,
  libogg0,
- libpango-1.0-0,
- libpangocairo-1.0-0,
  libpcap0.8,
  libpng16-16,
  libpulse0,
  libstdc++6,
  libvorbis0a,
- libx11-6,
  zlib1g
