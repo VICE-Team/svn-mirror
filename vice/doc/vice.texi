@@ -20180,6 +20180,7 @@ All multibyte values are in little endian order unless otherwise specified.
 * Binary Monitor Example Exchange::
 * Binary Commands::
 * Binary Responses::
+* Binary Example Projects::
 @end menu
 
 @node Binary Command Structure
@@ -21578,6 +21579,35 @@ Response body:
 @item byte 0-1: The current program counter position
 
 @end table
+
+
+@node Binary Example Projects
+@section Example Projects
+
+Here's a short list of some projects using the binary monitor interface:
+@sp 1
+
+@multitable @columnfractions .25 .75
+@item C64 Studio
+@tab IDE for assembly and BASIC projects, geared toward game development.
+@* @url{https://github.com/GeorgRottensteiner/C64Studio}
+
+@item VICE Binary Monitor Bridge for .NET
+@tab A cross platform .NET 5 library that implements a bridge for communication
+with the VICE binary monitor.
+@* @url{https://github.com/MihaMarkic/vice-bridge-net}
+
+@item IceBro Lite
+@tab IceBro Lite is a source-level debugger with a graphical user interface
+(GUI).
+@* @url{https://github.com/Sakrac/IceBroLite}
+
+@item VS65 Debugger
+@tab Visual Studio Code extension to debug CC65 projects.
+@* @url{https://github.com/empathicqubit/vscode-cc65-debugger}
+
+@end multitable
+
 
 @node c1541
 @chapter c1541
