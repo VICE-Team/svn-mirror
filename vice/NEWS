@@ -28,6 +28,12 @@ Lorazepam ipsum dolemite sith achmed.
 ** general
 ----------
 
+- The binary monitor interface is stable now. Examples of projects using it:
+  - https://github.com/GeorgRottensteiner/C64Studio
+  - https://github.com/MihaMarkic/vice-bridge-net
+  - https://github.com/Sakrac/IceBroLite
+  - https://github.com/empathicqubit/vscode-cc65-debugger
+
 - Add Debian packages of development builds of the SDL2 and Gtk3 UIs
   (amd64 only).
 
