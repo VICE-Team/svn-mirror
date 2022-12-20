@@ -762,8 +762,6 @@ uint8_t cia_read_(cia_context_t *cia_context, uint16_t addr)
 
     addr &= 0xf;
 
-    run_pending_alarms(*cia_context->clk_ptr, 0, cia_context->tb_alarm->context);
-
     if (cia_context->pre_read != NULL) {
         (cia_context->pre_read)();
     }
@@ -775,6 +773,8 @@ uint8_t cia_read_(cia_context_t *cia_context, uint16_t addr)
     if (cia_context->pre_read != NULL) {
         (cia_context->pre_read)();
     }
+
+    run_pending_alarms(rclk, READ_OFFSET, cia_context->tb_alarm->context);
 
     switch (addr) {
         case CIA_PRA:           /* port A */
