@@ -3273,7 +3273,112 @@ system/window manager. Mappings using @code{<Alt>} or
 @item
 @code{psid-subtune-10}
  @tab Play PSID subtune #10
-@item 
+@item
+@code{psid-subtune-11}
+ @tab Play PSID subtune #11
+@item
+@code{psid-subtune-12}
+ @tab Play PSID subtune #12
+@item
+@code{psid-subtune-13}
+ @tab Play PSID subtune #13
+@item
+@code{psid-subtune-14}
+ @tab Play PSID subtune #14
+@item
+@code{psid-subtune-15}
+ @tab Play PSID subtune #15
+@item
+@code{psid-subtune-16}
+ @tab Play PSID subtune #16
+@item
+@code{psid-subtune-17}
+ @tab Play PSID subtune #17
+@item
+@code{psid-subtune-18}
+ @tab Play PSID subtune #18
+@item
+@code{psid-subtune-19}
+ @tab Play PSID subtune #19
+@item
+@code{psid-subtune-20}
+ @tab Play PSID subtune #20
+@item
+@code{psid-subtune-21}
+ @tab Play PSID subtune #21
+@item
+@code{psid-subtune-22}
+ @tab Play PSID subtune #22
+@item
+@code{psid-subtune-23}
+ @tab Play PSID subtune #23
+@item
+@code{psid-subtune-24}
+ @tab Play PSID subtune #24
+@item
+@code{psid-subtune-25}
+ @tab Play PSID subtune #25
+@item
+@code{psid-subtune-26}
+ @tab Play PSID subtune #26
+@item
+@code{psid-subtune-27}
+ @tab Play PSID subtune #27
+@item
+@code{psid-subtune-28}
+ @tab Play PSID subtune #28
+@item
+@code{psid-subtune-29}
+ @tab Play PSID subtune #29
+@item
+@code{psid-subtune-30}
+ @tab Play PSID subtune #30
+@item
+@code{psid-subtune-next}
+ @tab Play next subtune
+@item
+@code{psid-subtune-previous}
+ @tab Play previous subtune
+@item
+@code{psid-play}
+ @tab Play
+@item
+@code{psid-pause}
+ @tab Pause playback
+@item
+@code{psid-stop}
+ @tab Stop playback
+@item
+@code{psid-ffwd}
+ @tab Fast forward
+@item
+@code{psid-loop-toggle}
+ @tab Toggle looping
+@item
+@code{psid-playlist-first}
+ @tab Play first tune in the playlist
+@item
+@code{psid-playlist-previous}
+ @tab Play previous tune in the playlist
+@item
+@code{psid-playlist-next}
+ @tab Play next tune in the playlist
+@item
+@code{psid-playlist-last}
+ @tab Play last tune in the playlist
+@item
+@code{psid-playlist-add}
+ @tab Show dialog to add files to the playlist
+@item
+@code{psid-playlist-load}
+ @tab Show dialog to load a platlist
+@item
+@code{psid-playlist-save}
+ @tab Show dialog to save the playlist
+@item
+@code{psid-playlist-clear}
+ @tab Clear the playlist
+@item
 @code{quit}
  @tab Quit emulator
 @item 
