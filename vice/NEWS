@@ -37,7 +37,9 @@ Lorazepam ipsum dolemite sith achmed.
 - Add Debian packages of development builds of the SDL2 and Gtk3 UIs
   (amd64 only).
 
-- Add dragonfly bsd support.
+- Add DragonFly BSD support.
+
+- Remove Android support.
 
 - Add SPT (Stupid Pet Tricks) userport joystick adapter emulation.
 
@@ -56,6 +58,8 @@ Lorazepam ipsum dolemite sith achmed.
 
 - Disable CatWeasel, SSI2001 and ParSID support by default.
 
+- Enable CPU history by default.
+
 - Add `make bindist` for headless builds on Windows/Msys2.
 
 - Don't check for joystick support when configuring for a headless build.
@@ -66,6 +70,9 @@ Lorazepam ipsum dolemite sith achmed.
   requested via --enable-sdl1ui.
 
 - Fix single target builds.
+
+- Fix installing Gtk3-specific files when not configured for Gtk3.
+
 
 ** C64 fixes
 ------------
@@ -171,6 +178,8 @@ Lorazepam ipsum dolemite sith achmed.
 
 - Hotkeys can be assigned to actions that do not have a corresponding menu
   item.
+
+- Properly show custom hotkeys in popup menus.
 
 - Make saving custom hotkeys work.
 
