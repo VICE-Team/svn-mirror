@@ -33,6 +33,7 @@ Lorazepam ipsum dolemite sith achmed.
   - https://github.com/MihaMarkic/vice-bridge-net
   - https://github.com/Sakrac/IceBroLite
   - https://github.com/empathicqubit/vscode-cc65-debugger
+  - https://github.com/rolandshacks/vs64
 
 - Add Debian packages of development builds of the SDL2 and Gtk3 UIs
   (amd64 only).
