@@ -21711,6 +21711,11 @@ with the VICE binary monitor.
 @tab Visual Studio Code extension to debug CC65 projects.
 @* @url{https://github.com/empathicqubit/vscode-cc65-debugger}
 
+@item VS64
+@tab The VS64 extension makes it easy to build, debug, inspect and run C64
+assembly code from Visual Studio Code.
+@* @url{https://github.com/rolandshacks/vs64}
+
 @end multitable
 
 
