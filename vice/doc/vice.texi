@@ -198,8 +198,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 3.3 of VICE, the Versatile
-Commodore Emulator.
+This is the documentation for VICE, the Versatile Commodore Emulator.
 
 @end ifinfo
 
