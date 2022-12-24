@@ -240,6 +240,7 @@ static cmdline_option_t cmdline_options_chip_colors[] =
     CMDLINE_LIST_END
 };
 
+/* PAL/NTSC emulation options */
 static const char * const cname_chip_crtemu_palntsc[] =
 {
     "-", "oddlinesphase", "PALOddLinePhase",
@@ -248,6 +249,7 @@ static const char * const cname_chip_crtemu_palntsc[] =
     NULL
 };
 
+/* CRT emulation options */
 static const char * const cname_chip_crtemu[] =
 {
     "-", "crtblur", "PALBlur",
@@ -265,7 +267,7 @@ static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
       "<0-2000>", "Set phase offset for color carrier in odd lines" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
-      "<type>", "Set type of delay line used in the CRT (0: normal, 1: U only)." },
+      "<type>", "Set type of delay line used in the CRT (0: normal, 1: U only (1084 style))." },
     CMDLINE_LIST_END
 };
 
@@ -500,6 +502,11 @@ int video_cmdline_options_chip_init(const char *chipname,
         lib_free(cmdline_options_chip_crtemu[i].name);
         lib_free(cmdline_options_chip_crtemu[i].resource_name);
     }
+
+    /* PAL/NTSC emulation */
+
+    /* FIXME: we need to add a member to video_chip_cap_t that lets us determine
+              whether we need PAL/NTSC options or not */
 
     for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
         cmdline_options_chip_crtemu_palntsc[i].name

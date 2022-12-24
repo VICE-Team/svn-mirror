@@ -52,7 +52,7 @@
  * CRT image "strings".
  */
 
-                                      //1234567890123456
+                                      /*1234567890123456*/
 static const char CRT_HEADER_C64[]   = "C64 CARTRIDGE   ";
 static const char CRT_HEADER_C128[]  = "C128 CARTRIDGE  ";
 static const char CRT_HEADER_VIC20[] = "VIC20 CARTRIDGE ";

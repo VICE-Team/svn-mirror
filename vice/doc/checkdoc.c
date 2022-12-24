@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 /* #define DEBUG 1  */
 
@@ -73,6 +74,7 @@ ITEM *list_addstr(ITEM *list, char *str)
     return itm;
 }
 
+/* skip all blanks, including newlines */
 int skipblank(FILE *f)
 {
     int c;
@@ -81,7 +83,22 @@ int skipblank(FILE *f)
         if (c == EOF) {
             return 0;
         }
-        if ((c != ' ') && (c != '\n') && (c != '\r') && (c != '\t')) {
+        if ((c != ' ') && (c != '\t') && (c != '\n') && (c != '\r')) {
+            break;
+        }
+    }
+    return c;
+}
+/* skip all blanks, EXcluding newlines */
+int skipspace(FILE *f)
+{
+    int c;
+    while(!feof(f)) {
+        c = fgetc(f);
+        if (c == EOF) {
+            return 0;
+        }
+        if ((c != ' ') && (c != '\t')) {
             break;
         }
     }
@@ -206,6 +223,7 @@ void readtexi(FILE *tf)
                 newline = 1;
 #endif
             } else if (/* !strcmp(tmp, "cindex") || */ !strcmp(tmp, "findex")) {
+            /* after @findex we expect one ore two options, seperated by a comma */
 #if 1
                 fscanf(tf, " ");
                 c = getstr(tf, tmp1[itmcnt]);
@@ -214,11 +232,17 @@ void readtexi(FILE *tf)
                     DBG(("option '%s' ",tmp1[itmcnt]));
                     itmcnt++;
                     if (c == ',') {
-                        tmp1[itmcnt][0] = skipblank(tf);
-                        c = getstr(tf, &tmp1[itmcnt][1]);
-                        list_addstr(&optlisttex, tmp1[itmcnt]);
-                        DBG(("/ '%s' ",tmp1[itmcnt]));
-                        itmcnt++;
+                        int next;
+                        next = skipspace(tf);
+                        if (!isspace(next)) {
+                            tmp1[itmcnt][0] = next;
+                            c = getstr(tf, &tmp1[itmcnt][1]);
+                            list_addstr(&optlisttex, tmp1[itmcnt]);
+                            DBG(("/ '%s' ",tmp1[itmcnt]));
+                            itmcnt++;
+                        } else {
+                            fprintf(stderr, "warning: expected option after comma (after: %s)\n", tmp1[itmcnt]);
+                        }
                     }
                     DBG(("\n"));
                 } else {
@@ -690,6 +714,15 @@ void checkresources(void)
                   ) {
                     printf("(MIDI only, might be disabled)");
                 } else if(0
+                    || !strcmp(list1->string, "MIDIInName")
+                    || !strcmp(list1->string, "MIDIOutName")
+                  ) {
+                    printf("(OSX MIDI only, might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "MIDIName")
+                  ) {
+                    printf("(OSX/Unix MIDI only, might be disabled)");
+                } else if(0
                     || !strcmp(list1->string, "KeepMonitorOpen")
                     || !strcmp(list1->string, "KeepAspectRatio")
                     || !strcmp(list1->string, "TrueAspectRatio")
@@ -709,6 +742,14 @@ void checkresources(void)
                     || !strcmp(list1->string, "FullscreenEnable")
                     || !strcmp(list1->string, "MonitorFG")
                     || !strcmp(list1->string, "MonitorBG")
+                    || !strcmp(list1->string, "AutostartOnDoubleClick")
+                    || !strcmp(list1->string, "MonitorFont")
+                    || !strcmp(list1->string, "MonitorXPos")
+                    || !strcmp(list1->string, "MonitorYPos")
+                    || !strcmp(list1->string, "MonitorWidth")
+                    || !strcmp(list1->string, "MonitorHeight")
+                    || !strcmp(list1->string, "PauseOnSettings")
+                    || !strcmp(list1->string, "FullscreenDecorations")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -729,6 +770,7 @@ void checkresources(void)
                     || !strcmp(list1->string, "JoyMapFile")
                     || !strcmp(list1->string, "JoyThreshold")
                     || !strcmp(list1->string, "JoyFuzz")
+                    || !strcmp(list1->string, "JoyMenuControl")
 
                     || !strcmp(list1->string, "HotkeyFile")
                     || !strcmp(list1->string, "MenuKey")
@@ -745,23 +787,23 @@ void checkresources(void)
                     || !strcmp(list1->string, "MenuKeyExit")
                     || !strcmp(list1->string, "MenuKeyMap")
 
-                    || !strcmp(list1->string, "CrtcSDLFullscreenMode")
+                    || !strcmp(list1->string, "CrtcFullscreenMode")
                     || !strcmp(list1->string, "CrtcFullscreenDevice")
                     || !strcmp(list1->string, "CrtcFullscreen")
                     || !strcmp(list1->string, "CrtcFullscreenStatusbar")
-                    || !strcmp(list1->string, "TEDSDLFullscreenMode")
+                    || !strcmp(list1->string, "TEDFullscreenMode")
                     || !strcmp(list1->string, "TEDFullscreenDevice")
                     || !strcmp(list1->string, "TEDFullscreen")
                     || !strcmp(list1->string, "TEDFullscreenStatusbar")
-                    || !strcmp(list1->string, "VDCSDLFullscreenMode")
+                    || !strcmp(list1->string, "VDCFullscreenMode")
                     || !strcmp(list1->string, "VDCFullscreenDevice")
                     || !strcmp(list1->string, "VDCFullscreen")
                     || !strcmp(list1->string, "VDCFullscreenStatusbar")
-                    || !strcmp(list1->string, "VICSDLFullscreenMode")
+                    || !strcmp(list1->string, "VICFullscreenMode")
                     || !strcmp(list1->string, "VICFullscreenDevice")
                     || !strcmp(list1->string, "VICFullscreen")
                     || !strcmp(list1->string, "VICFullscreenStatusbar")
-                    || !strcmp(list1->string, "VICIISDLFullscreenMode")
+                    || !strcmp(list1->string, "VICIIFullscreenMode")
                     || !strcmp(list1->string, "VICIIFullscreenDevice")
                     || !strcmp(list1->string, "VICIIFullscreen")
                     || !strcmp(list1->string, "VICIIFullscreenStatusbar")
@@ -773,17 +815,10 @@ void checkresources(void)
                   ) {
                     printf("(SDL1 only, not GTK3)");
                 } else if(0
-                    || !strcmp(list1->string, "OverClock")
-                    || !strcmp(list1->string, "UseFullscreen")
-                    || !strcmp(list1->string, "FOURCC")
-                    || !strcmp(list1->string, "MITSHM")
-                    || !strcmp(list1->string, "openGL_sync")
-                    || !strcmp(list1->string, "openGL_no_sync")
-                    || !strcmp(list1->string, "XSync")
-                    || !strcmp(list1->string, "UseXSync")
-                    || !strcmp(list1->string, "PrivateColormap")
+                    || !strcmp(list1->string, "SDL2Backend")
+                    || !strcmp(list1->string, "DualWindow")
                   ) {
-                    printf("(outdated?)");
+                    printf("(SDL2 only, not GTK3)");
                 } else if(0
                     || !strcmp(list1->string, "TraceMode")
                     || !strcmp(list1->string, "AutoPlaybackFrames")
@@ -799,6 +834,25 @@ void checkresources(void)
                     || !strcmp(list1->string, "DtvFlashLog")
                   ) {
                     printf("(DEBUG only, might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "OverClock")
+                    || !strcmp(list1->string, "UseFullscreen")
+                    || !strcmp(list1->string, "FOURCC")
+                    || !strcmp(list1->string, "MITSHM")
+                    || !strcmp(list1->string, "openGL_sync")
+                    || !strcmp(list1->string, "openGL_no_sync")
+                    || !strcmp(list1->string, "XSync")
+                    || !strcmp(list1->string, "UseXSync")
+                    || !strcmp(list1->string, "PrivateColormap")
+                    || !strcmp(list1->string, "FullscreenEnable")
+
+                    || !strcmp(list1->string, "CrtcSDLFullscreenMode")
+                    || !strcmp(list1->string, "TEDSDLFullscreenMode")
+                    || !strcmp(list1->string, "VDCSDLFullscreenMode")
+                    || !strcmp(list1->string, "VICSDLFullscreenMode")
+                    || !strcmp(list1->string, "VICIISDLFullscreenMode")
+                  ) {
+                    printf("(outdated?)");
                 } else {
                     i++;
                 }
@@ -1035,6 +1089,15 @@ void checkoptions(void)
                   ) {
                     printf("(MIDI only, might be disabled)");
                 } else if(0
+                    || !strcmp(list1->string, "-midiinname")
+                    || !strcmp(list1->string, "-midioutname")
+                  ) {
+                    printf("(OSX MIDI only, might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "-midiname")
+                  ) {
+                    printf("(OSX/Unix MIDI only, might be disabled)");
+                } else if(0
                     || !strcmp(list1->string, "-keepaspect")
                     || !strcmp(list1->string, "+keepaspect")
                     || !strcmp(list1->string, "-trueaspect")
@@ -1043,6 +1106,13 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+vsync")
                     || !strcmp(list1->string, "-keepmonopen")
                     || !strcmp(list1->string, "+keepmonopen")
+                    || !strcmp(list1->string, "-monitorfont")
+                    || !strcmp(list1->string, "-monitorfg")
+                    || !strcmp(list1->string, "-monitorbg")
+                    || !strcmp(list1->string, "-monitorxpos")
+                    || !strcmp(list1->string, "-monitorypos")
+                    || !strcmp(list1->string, "-monitorwidth")
+                    || !strcmp(list1->string, "-monitorheight")
                     || !strcmp(list1->string, "-refreshonbreak")
                     || !strcmp(list1->string, "+refreshonbreak")
                     || !strcmp(list1->string, "-minimized")
@@ -1050,8 +1120,13 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-displaydepth")
                     || !strcmp(list1->string, "-gtkbackend")
                     || !strcmp(list1->string, "-gtkfilter")
-                    || !strcmp(list1->string, "-fullscreen")
-                    || !strcmp(list1->string, "+fullscreen")
+                    || !strcmp(list1->string, "-settings-node")
+                    || !strcmp(list1->string, "-autostart-on-doubleclick")
+                    || !strcmp(list1->string, "+autostart-on-doubleclick")
+                    || !strcmp(list1->string, "-pauseonsettings")
+                    || !strcmp(list1->string, "+pauseonsettings")
+                    || !strcmp(list1->string, "-fullscreen-decorations")
+                    || !strcmp(list1->string, "+fullscreen-decorations")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -1065,13 +1140,15 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+sdlflipx")
                     || !strcmp(list1->string, "-sdlflipy")
                     || !strcmp(list1->string, "+sdlflipy")
+
                     || !strcmp(list1->string, "-joymap")
                     || !strcmp(list1->string, "-joythreshold")
                     || !strcmp(list1->string, "-joyfuzz")
+                    || !strcmp(list1->string, "-joymenucontrol")
+                    || !strcmp(list1->string, "+joymenucontrol")
+
                     || !strcmp(list1->string, "-sdlglfilter")
                     || !strcmp(list1->string, "+sdlglfilter")
-                    || !strcmp(list1->string, "-sdl2renderer")
-                    || !strcmp(list1->string, "-sdl2dualwindow")
                     || !strcmp(list1->string, "-paddles2inputjoyaxis")
                     || !strcmp(list1->string, "-hotkeyfile")
                     || !strcmp(list1->string, "-menukey")
@@ -1092,26 +1169,26 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-sdlcustomh")
                     || !strcmp(list1->string, "-sdlinitialw")
                     || !strcmp(list1->string, "-sdlinitialh")
-                    || !strcmp(list1->string, "-CRTCSDLfullmode")
                     || !strcmp(list1->string, "-CRTCfulldevice")
                     || !strcmp(list1->string, "-CRTCfull")
                     || !strcmp(list1->string, "+CRTCfull")
-                    || !strcmp(list1->string, "-TEDSDLfullmode")
                     || !strcmp(list1->string, "-TEDfulldevice")
                     || !strcmp(list1->string, "-TEDfull")
                     || !strcmp(list1->string, "+TEDfull")
-                    || !strcmp(list1->string, "-VDCSDLfullmode")
                     || !strcmp(list1->string, "-VDCfulldevice")
                     || !strcmp(list1->string, "-VDCfull")
                     || !strcmp(list1->string, "+VDCfull")
-                    || !strcmp(list1->string, "-VICSDLfullmode")
                     || !strcmp(list1->string, "-VICfulldevice")
                     || !strcmp(list1->string, "-VICfull")
                     || !strcmp(list1->string, "+VICfull")
-                    || !strcmp(list1->string, "-VICIISDLfullmode")
                     || !strcmp(list1->string, "-VICIIfulldevice")
                     || !strcmp(list1->string, "-VICIIfull")
                     || !strcmp(list1->string, "+VICIIfull")
+                    || !strcmp(list1->string, "-CRTCfullmode")
+                    || !strcmp(list1->string, "-TEDfullmode")
+                    || !strcmp(list1->string, "-VDCfullmode")
+                    || !strcmp(list1->string, "-VICfullmode")
+                    || !strcmp(list1->string, "-VICIIfullmode")
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0
@@ -1119,16 +1196,14 @@ void checkoptions(void)
                   ) {
                     printf("(SDL1 only, not GTK3)");
                 } else if(0
-                    || !strcmp(list1->string, "-mitshm")
-                    || !strcmp(list1->string, "+mitshm")
-                    || !strcmp(list1->string, "-fourcc")
-                    || !strcmp(list1->string, "+fourcc")
-                    || !strcmp(list1->string, "-xsync")
-                    || !strcmp(list1->string, "+xsync")
-                    || !strcmp(list1->string, "-colormap")
-                    || !strcmp(list1->string, "+colormap")
+                    || !strcmp(list1->string, "-sdlinitialw1")
+                    || !strcmp(list1->string, "-sdlinitialh1")
+                    || !strcmp(list1->string, "-sdl2backend")
+                    || !strcmp(list1->string, "-sdl2renderer")
+                    || !strcmp(list1->string, "-dualwindow")
+                    || !strcmp(list1->string, "+dualwindow")
                   ) {
-                    printf("(outdated?)");
+                    printf("(SDL2 only, not GTK3)");
                 } else if(0
                     || !strcmp(list1->string, "-debug")
                     || !strcmp(list1->string, "-trace_mode")
@@ -1153,6 +1228,33 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+dtvflashlog")
                   ) {
                     printf("(DEBUG only, might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "-mitshm")
+                    || !strcmp(list1->string, "+mitshm")
+                    || !strcmp(list1->string, "-fourcc")
+                    || !strcmp(list1->string, "+fourcc")
+                    || !strcmp(list1->string, "-xsync")
+                    || !strcmp(list1->string, "+xsync")
+                    || !strcmp(list1->string, "-colormap")
+                    || !strcmp(list1->string, "+colormap")
+
+                    || !strcmp(list1->string, "-CRTCSDLfullmode")
+                    || !strcmp(list1->string, "-TEDSDLfullmode")
+                    || !strcmp(list1->string, "-VDCSDLfullmode")
+                    || !strcmp(list1->string, "-VICSDLfullmode")
+                    || !strcmp(list1->string, "-VICIISDLfullmode")
+                    || !strcmp(list1->string, "-sdl2dualwindow")
+
+                    || !strcmp(list1->string, "-fullscreen")
+                    || !strcmp(list1->string, "+fullscreen")
+                  ) {
+                    printf("(outdated?)");
+                } else if(0
+                    || !strcmp(list1->string, "--check")
+                    || !strcmp(list1->string, "--verbose")
+                    || !strcmp(list1->string, "--debug")
+                  ) {
+                    printf("(ignored)");
                 } else {
                     i++;
                 }

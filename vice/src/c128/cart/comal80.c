@@ -124,10 +124,10 @@ static void c128comal80_io1_store(uint16_t addr, uint8_t value)
     1            0          y2    U2 ROM
     1            1          y3    U3 ROM */
     int romoffset[4] = {
-        0,  // 0,
-        0,  // 0,
-        2,  // 0x8000,
-        4,  // 0x10000
+        0,  /* 0,      */
+        0,  /* 0,      */
+        2,  /* 0x8000, */
+        4,  /* 0x10000 */
     };
     int bank;
 

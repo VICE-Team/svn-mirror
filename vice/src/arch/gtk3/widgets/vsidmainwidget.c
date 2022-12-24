@@ -359,7 +359,7 @@ GtkWidget *vsid_main_widget_create(void)
 
     /* right top pane: STIL widget */
     stil_widget = hvsc_stil_widget_create();
-    //gtk_widget_set_vexpand(stil_widget, TRUE);
+    /*gtk_widget_set_vexpand(stil_widget, TRUE);*/
     gtk_widget_set_hexpand(stil_widget, FALSE);
     gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 1);
 
