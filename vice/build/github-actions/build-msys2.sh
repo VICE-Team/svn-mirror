@@ -4,7 +4,7 @@
 
 set -o errexit
 set -o nounset
-source $(dirname $(readlink -f $0))/build-shared.sh
+source $(dirname $0)/build-shared.sh
 cd "$(dirname $0)"/../..
 
 UI="$1"
