@@ -318,7 +318,7 @@ in the UI).
 
 - Fix issues with numpad
 - Fixed MIDI device dialog
-
+- Fixed resize performance when emu fps > host display Hz
 
 ** Linux fixes
 --------------
