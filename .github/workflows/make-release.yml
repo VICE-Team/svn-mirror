@@ -140,6 +140,7 @@ jobs:
         shell: bash
         run: |
           mv vice/build/github-actions/build-msys2.sh .
+          mv vice/build/github-actions/build-shared.sh .
           ls -A1 | grep -v build-msys2.sh | xargs rm -rf
 
       - name: Download Documentation
