@@ -128,7 +128,7 @@ void archdep_fix_streams(void)
                             finfo.dwFileAttributes);
 #endif
                 }
-                
+
                 /* XXX: size is always 0 */
 #ifdef DEBUG_FIX
                 memset(path, 0, sizeof(path));

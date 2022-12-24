@@ -658,7 +658,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
         run_pending_alarms(rclk, via_context->write_offset, via_context->alarm_context);
-        //run_pending_alarms(rclk, 0, via_context->alarm_context);
+        /* run_pending_alarms(rclk, 0, via_context->alarm_context); */
     }
 
     switch (addr) {

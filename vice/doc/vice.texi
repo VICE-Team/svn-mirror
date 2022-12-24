@@ -4197,24 +4197,6 @@ an old monitor).
 
 @end itemize
 
-
-@menu
-* Video resources::
-@end menu
-
-@node Video resources, , Video settings, Video settings
-@subsection Video resources
-
-The following resources affect the screen emulation.
-
-@table @code
-
-@vindex FullscreenEnable
-@item FullscreenEnable
-Boolean specifying whether ``fullscreen'' is turned on at startup or not.
-
-@end table
-
 @node Keyboard settings, Control port settings, Video settings, Settings and resources
 @section Keyboard settings
 
@@ -13365,7 +13347,7 @@ Integer that specifies the video standard of the emulated machine
 @item C128HideVDC
 Boolean to enable/disable the VDC display window.
 
-@findex DualWindow
+@vindex DualWindow
 @item DualWindow
 Boolean to turn on dual-window rendering, opening two windows, one for each display.
 
@@ -13429,7 +13411,7 @@ Set the C128 machine type
 Hide/show the VDC display window
 (@code{C128HideVDC=1}, @code{C128HideVDC=0}).
 
-@findex -dualwindow
+@findex -dualwindow, +dualwindow
 @item -dualwindow
 Turn on dual-window rendering, opening two windows, one for each display.
 (@code{DualWindow}).
@@ -16127,7 +16109,7 @@ This option is incompatible with 80 columns and the Colour PET extension.
 Enable/disable the diagnostic pin at the PET userport
 (@code{DiagPin=1}, @code{DiagPin=0}).
 
-@findex -cb2lowpass,
+@findex -cb2lowpass
 @item -cb2lowpass
 Integer specifying the frequency of the low-pass filter that is
 applied to the CB2 sound signal.
@@ -17612,13 +17594,6 @@ Confirm quitting VICE
 @item +confirmonexit
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
-
-@findex -fullscreen, +fullscreen
-@item -fullscreen
-@itemx +fullscreen
-Enable/disable fullscreen mode
-(@code{FullscreenEnable=1}, (@code{FullscreenEnable=0})
-(all emulators except vsid).
 
 @findex -fullscreen-decorations, +fullscreen-decorations
 @item -fullscreen-decorations
@@ -22059,6 +22034,29 @@ Create a disk image in @code{d64} format, format it with the @code{name} and @co
 The cartconv program is a cartridge conversion utility, it can convert
 between binary and .crt images and it can 'insert' binary and/or
 .crt images into the EPROM type of cartridges.
+
+@example
+convert:    cartconv [-r] [-q|-v] [-t cart type] [-s cart revision] -i "input name" -o "output name" [-n "cart name"] [-l load address]
+print info: cartconv [-r] [-q|-v] -f "input name"
+check file: cartconv [-r] [-q|-v] -c "input name"
+
+-f <name>                   print info on file
+-c --check <name>           check file
+-r                          repair mode (accept broken/invalid input files)
+-p                          accept non padded binaries as input
+-b                          output all banks (do not optimize the .crt file)
+-t <type> or <crtid>        output cart type
+-s <rev>                    output cart revision/subtype
+-i <name>                   input filename
+-o <name>                   output filename
+-n <name>                   crt cart name
+-l <addr>                   load address
+-q                          quiet
+-v --verbose                verbose
+--types                     show the supported cart types
+--version                   print cartconv version
+--options-file <filename>   write options for reverting the conversion into a file (for test script)
+@end example
 
 @section cartconv command line options
 
