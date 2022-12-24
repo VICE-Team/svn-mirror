@@ -48,6 +48,12 @@ IMAGES_FILES = \
 	images/c64-layout-small.png \
 	images/c128-layout.png \
 	images/c128-layout-small.png \
+	images/pet-business-uk-layout.png \
+	images/pet-business-uk-layout-small.png \
+	images/pet-chiclet-layout.png \
+	images/pet-chiclet-layout-small.png \
+	images/pet-graphical-layout.png \
+	images/pet-graphical-layout-small.png \
 	images/vice-c64-symbolic-keymap-us-small.png \
 	images/vice-c64-symbolic-keymap-us.png \
 	images/vice-c64-positional-keymap-us-small.png \
@@ -63,7 +69,23 @@ IMAGES_FILES = \
 	images/vice-c128-symbolic-keymap-de-small.png \
 	images/vice-c128-symbolic-keymap-de.png \
 	images/vice-c128-positional-keymap-de-small.png \
-	images/vice-c128-positional-keymap-de.png
+	images/vice-c128-positional-keymap-de.png \
+	images/vice-pet-business-uk-positional-keymap-de.png \
+	images/vice-pet-business-uk-positional-keymap-de-small.png \
+	images/vice-pet-business-uk-positional-keymap-us.png \
+	images/vice-pet-business-uk-positional-keymap-us-small.png \
+	images/vice-pet-business-uk-symbolic-keymap-de.png \
+	images/vice-pet-business-uk-symbolic-keymap-de-small.png \
+	images/vice-pet-business-uk-symbolic-keymap-us.png \
+	images/vice-pet-business-uk-symbolic-keymap-us-small.png \
+	images/vice-pet-graphical-positional-keymap-de.png \
+	images/vice-pet-graphical-positional-keymap-de-small.png \
+	images/vice-pet-graphical-positional-keymap-us.png \
+	images/vice-pet-graphical-positional-keymap-us-small.png \
+	images/vice-pet-graphical-symbolic-keymap-de.png \
+	images/vice-pet-graphical-symbolic-keymap-de-small.png \
+	images/vice-pet-graphical-symbolic-keymap-us.png \
+	images/vice-pet-graphical-symbolic-keymap-us-small.png
 
 EXTRA_DIST = \
 	checklinks.sh \
