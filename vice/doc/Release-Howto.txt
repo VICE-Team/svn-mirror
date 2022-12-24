@@ -148,26 +148,6 @@ create a tagged branch on the svn
 
   $ svn cp --username=gpz -r <revision of release> svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
 
-switch svn head back into dev mode
-----------------------------------
-
-when the release is tagged in svn and no more changes will be done to the release,
-switch the tree into dev mode again:
-
-- update the devmode flag in configure.ac:
-
-    m4_define(vice_version_major, 3)
-    m4_define(vice_version_minor, 6)
-    m4_define(vice_version_build, 0)
-    m4_define(vice_version_label, dev)
-
-- propagate the updated version into the documentation:
-
-$ touch doc/vice.texi
-$ make all
-
-$ svn commit -m "switching to dev mode again"
-
 
 publish the release
 -------------------
