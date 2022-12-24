@@ -11606,7 +11606,7 @@ Integer specifying phase offset for color carrier in odd lines.
 
 @vindex VICIIPALDelaylineType
 @item VICIIPALDelaylineType
-Integer specifying the type of delay line used in the CRT (0: normal, 1: U only)
+Integer specifying the type of delay line used in the CRT (0: normal, 1: U only (1084 style))
 
 @vindex VICIIAudioLeak
 @item VICIIAudioLeak
@@ -11754,7 +11754,7 @@ Amount of scan line shading for the CRT emulation
 
 @findex -VICIIcrtdelaylinetype
 @item -VICIIcrtscanlineshade <type>
-Type of delay line used in the CRT (0: normal, 1: U only)
+Type of delay line used in the CRT (0: normal, 1: U only (1084 style))
 (@code{VICIIPALDelaylineType}).
 
 @findex -VICIIaudioleak, +VICIIaudioleak
@@ -14539,6 +14539,10 @@ Integer specifying phase for color carrier in odd lines.
 Integer specifying phase offset for color carrier in odd lines.
 (0..2000)
 
+@vindex VICPALDelaylineType
+@item VICPALDelaylineType
+Integer specifying the type of delay line used in the CRT (0: normal, 1: U only (1084 style))
+
 @vindex VICAudioLeak
 @item VICAudioLeak
 Boolean specifying whether to enable/disable video to audio leak emulation.
@@ -14649,6 +14653,11 @@ Amount of horizontal blur for the CRT emulation
 @item -VICcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
 (@code{VICPALScanLineShade}).
+
+@findex -VICcrtdelaylinetype
+@item -VICcrtscanlineshade <type>
+Type of delay line used in the CRT (0: normal, 1: U only (1084 style))
+(@code{VICPALDelaylineType}).
 
 @findex -VICaudioleak, +VICaudioleak
 @item -VICaudioleak
@@ -15034,6 +15043,10 @@ Integer specifying phase for color carrier in odd lines.
 Integer specifying phase offset for color carrier in odd lines.
 (0..2000)
 
+@vindex TEDPALDelaylineType
+@item TEDPALDelaylineType
+Integer specifying the type of delay line used in the CRT (0: normal, 1: U only (1084 style))
+
 @vindex TEDAudioLeak
 @item TEDAudioLeak
 Boolean specifying whether to enable/disable video to audio leak emulation.
@@ -15143,6 +15156,11 @@ Amount of horizontal blur for the CRT emulation
 @item -TEDcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
 (@code{TEDPALScanLineShade}).
+
+@findex -TEDcrtdelaylinetype
+@item -TEDcrtscanlineshade <type>
+Type of delay line used in the CRT (0: normal, 1: U only (1084 style))
+(@code{TEDPALDelaylineType}).
 
 @findex -TEDaudioleak, +TEDaudioleak
 @item -TEDaudioleak
