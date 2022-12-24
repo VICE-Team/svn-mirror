@@ -134,7 +134,7 @@ jobs:
         shell: bash
 
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Extract Github Actions Build Script
         shell: bash
@@ -161,6 +161,7 @@ jobs:
           mv vice.pdf vice/doc/
           mkdir -p vice/build/github-actions/
           mv build-msys2.sh vice/build/github-actions/
+          mv build-shared.sh vice/build/github-actions/
 
       - name: Install GTK3 Dependencies if Applicable
         if: ${{ matrix.ui == 'GTK3' }}
