@@ -79,6 +79,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Download Tarball
         uses: actions/download-artifact@v2
         with:
