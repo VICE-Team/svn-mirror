@@ -1,5 +1,5 @@
-/** \file   vicioramwidget.c
- * \brief   VIC-20 I/O RAM widget
+/** \file   settings_vicioram.c
+ * \brief   Settings widget for VIC-20 I/O RAM
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,13 +33,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 
-#include "vicioramwidget.h"
+#include "settings_vicioram.h"
 
 
 /** \brief  Create widget to control VIC-20 IEEE-488 resources
@@ -48,7 +44,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *vic_ioram_widget_create(GtkWidget *parent)
+GtkWidget *settings_vicioram_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

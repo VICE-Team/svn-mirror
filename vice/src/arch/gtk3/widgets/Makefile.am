@@ -172,8 +172,10 @@ libwidgets_a_SOURCES = \
 	settings_supersnapshot.c \
 	settings_tapeport.c \
 	settings_ultimem.c \
+	settings_vfli.c \
 	settings_vicflashplugin.c \
 	settings_vicieee488.c \
+	settings_vicioram.c \
 	settings_video.c \
 	sidenginemodelwidget.c \
 	sidmodelwidget.c \
@@ -193,9 +195,7 @@ libwidgets_a_SOURCES = \
 	userportprinterwidget.c \
 	v364speechwidget.c \
 	vdcmodelwidget.c \
-	vfliwidget.c \
 	vic20memoryexpansionwidget.c \
-	vicioramwidget.c \
 	videobordermodewidget.c \
 	videomodelwidget.c \
 	videopalettewidget.c \
@@ -337,8 +337,10 @@ EXTRA_DIST = \
 	settings_supersnapshot.h \
 	settings_tapeport.h \
 	settings_ultimem.h \
+	settings_vfli.h \
 	settings_vicflashplugin.h \
 	settings_vicieee488.h \
+	settings_vicioram.h \
 	settings_video.h \
 	sidenginemodelwidget.h \
 	sidmodelwidget.h \
@@ -358,9 +360,7 @@ EXTRA_DIST = \
 	userportprinterwidget.h \
 	v364speechwidget.h \
 	vdcmodelwidget.h \
-	vfliwidget.h \
 	vic20memoryexpansionwidget.h \
-	vicioramwidget.h \
 	videobordermodewidget.h \
 	videomodelwidget.h \
 	videopalettewidget.h \

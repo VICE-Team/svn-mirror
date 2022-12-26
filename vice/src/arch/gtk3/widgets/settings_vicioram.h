@@ -1,5 +1,5 @@
-/** \file   vfliwidget.h
- * \brief   VIC-20 VFLI widget - header
+/** \file   settings_vicioram.h
+ * \brief   Settings widget for VIC-20 I/O RAM - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_VFLIWIDGET_H
-#define VICE_VFLIWIDGET_H
+#ifndef VICE_SETTINGS_VICIORAM_H
+#define VICE_SETTINGS_VICIORAMT_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vfli_widget_create(GtkWidget *parent);
+GtkWidget *settings_vicioram_widget_create(GtkWidget *parent);
 
 #endif

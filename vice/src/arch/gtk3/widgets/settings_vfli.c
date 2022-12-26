@@ -1,7 +1,11 @@
-/** \file   vicioramwidget.h
- * \brief   VIC-20 I/O RAM widget - header
+/** \file   settings_vfli.c
+ * \brief   Settings widget for VIC-20 VFLI mod
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES VFLImod     xvic
  */
 
 /*
@@ -25,12 +29,30 @@
  *
  */
 
-#ifndef VICE_VICIORAMWIDGET_H
-#define VICE_VICIORAMWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vic_ioram_widget_create(GtkWidget *parent);
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_vfli.h"
+
+
+/** \brief  Create widget to control VIC-20 VFLI mod
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_vfli_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("VFLImod",
+                "Enable VFLI modification"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
