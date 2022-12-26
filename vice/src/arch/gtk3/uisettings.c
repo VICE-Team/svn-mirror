@@ -145,16 +145,16 @@
 #include "settings_supersnapshot.h"
 #include "settings_tapeport.h"
 #include "settings_ultimem.h"
+#include "settings_vfli.h"
 #include "settings_vicflashplugin.h"
 #include "settings_vicieee488.h"
+#include "settings_vicioram.h"
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
 #include "userportdeviceswidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
-#include "vicioramwidget.h"
-#include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "settings_crt.h"
 #include "uimachinewindow.h"
@@ -1604,10 +1604,10 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
       settings_io_widget_create, NULL },
     { "I/O RAM",
       "io-ram",
-      vic_ioram_widget_create, NULL },
+      settings_vicioram_widget_create, NULL },
     { "VFLI modification",
       "vfli",
-      vfli_widget_create, NULL },
+      settings_vfli_widget_create, NULL },
     { "SID Card",
       "sid-card",
       settings_sidcart_widget_create, NULL },

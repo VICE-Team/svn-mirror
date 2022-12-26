@@ -1,11 +1,7 @@
-/** \file   vfliwidget.c
- * \brief   VIC-20 VFLI widget
+/** \file   settings_vfli.h
+ * \brief   Settings widget for VIC-20 VFLI mod - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES VFLImod     xvic
  */
 
 /*
@@ -29,34 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_VFLI_H
+#define VICE_SETTINGS_VFLI_H
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *settings_vfli_widget_create(GtkWidget *parent);
 
-#include "vfliwidget.h"
-
-
-/** \brief  Create widget to control VIC-20 VFLI mod
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *vfli_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("VFLImod",
-                "Enable VFLI modification"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif
