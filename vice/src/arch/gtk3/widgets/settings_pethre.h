@@ -1,11 +1,7 @@
-/** \file   vicieee488widget.c
- * \brief   VIC-20 IEEE-488 interface widget
+/** \file   settings_pethre.h
+ * \brief   Settings widge for PET HRE - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES IEEE488     xvic
  */
 
 /*
@@ -29,34 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_PETHRE_H
+#define VICE_SETTINGS_PETHRE_H
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *settings_pethre_widget_create(GtkWidget *parent);
 
-#include "vicieee488widget.h"
-
-
-/** \brief  Create widget to control VIC-20 IEEE-488 resources
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *vic_ieee488_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("IEEE488",
-                "Enable VIC-1112 IEEE-488 interface"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

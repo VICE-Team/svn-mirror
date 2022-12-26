@@ -1,5 +1,5 @@
-/** \file   sidcartwidget.c
- * \brief   SID Cartidge widget
+/** \file   settings_sidcart.c
+ * \brief   Settings widget for SID Cart (Plus4/PET)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -43,7 +43,7 @@
 #include "resources.h"
 #include "sidmodelwidget.h"
 
-#include "sidcartwidget.h"
+#include "settings_sidcart.h"
 
 
 /* References to widgets to enable/disable depending on the "SidCart" resource
@@ -76,7 +76,6 @@ static const vice_gtk3_radiogroup_entry_t sid_base_vic20[] = {
     { NULL, -1 }
 };
 
-
 /** \brief  SID cart I/O base addresses for Plus4
  */
 static const vice_gtk3_radiogroup_entry_t sid_base_plus4[] = {
@@ -84,7 +83,6 @@ static const vice_gtk3_radiogroup_entry_t sid_base_plus4[] = {
     { "$FE80", 0xfe80 },
     { NULL, -1 }
 };
-
 
 /** \brief  SID cart I/O base addresses for PET
  */
@@ -94,7 +92,6 @@ static const vice_gtk3_radiogroup_entry_t sid_base_pet[] = {
     { NULL, -1 }
 };
 
-
 /** \brief  SID cart clock for VIC-20
  */
 static const vice_gtk3_radiogroup_entry_t sid_clock_vic20[] = {
@@ -103,7 +100,6 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_vic20[] = {
     { NULL, -1 }
 };
 
-
 /** \brief  SID cart clock for Plus4
  */
 static const vice_gtk3_radiogroup_entry_t sid_clock_plus4[] = {
@@ -111,7 +107,6 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_plus4[] = {
     { "Plus4", 1 },
     { NULL, -1 }
 };
-
 
 /** \brief  SID cart clock for PET
  */
@@ -142,7 +137,6 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
     }
 }
 
-
 /** \brief  Create toggle button to switch the "SidCart" resource
  *
  * \return  GtkGrid
@@ -158,7 +152,6 @@ static GtkWidget *create_sidcart_enable_widget(void)
     }
     return vice_gtk3_resource_check_button_new("SidCart", text);
 }
-
 
 /** \brief  Create widget to set SID I/O base address
  *
@@ -195,7 +188,6 @@ static GtkWidget *create_sidcart_address_widget(void)
     return grid;
 }
 
-
 /** \brief  Create widget to set SID clock
  *
  * \return  GtkGrid
@@ -231,7 +223,6 @@ static GtkWidget *create_sidcart_clock_widget(void)
     return grid;
 }
 
-
 /** \brief  Create SidCart joyport emulation widget (plus4 only)
  *
  * \return  GtkCheckButton
@@ -243,14 +234,13 @@ static GtkWidget *create_sidcart_joy_widget(void)
 }
 
 
-
 /** \brief  Create widget to conrol SID cartridge settings
  *
  * \param[in]   parent  parent widget
  *
  * \return  GtkGrid
  */
-GtkWidget *sidcart_widget_create(GtkWidget *parent)
+GtkWidget *settings_sidcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

@@ -1,7 +1,11 @@
-/** \file   petcolourgraphicswidget.h
- * \brief   PET Colour Graphics widget - header
+/** \file   settings_plus4digiblaster.c
+ * \brief   Settings widget to control Plus4 DigiBlaster
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES DIGIBLASTER     xplus4
  */
 
 /*
@@ -25,12 +29,30 @@
  *
  */
 
-#ifndef VICE_PETCOLOURGRAPHICSWIDGET_H
-#define VICE_PETCOLOURGRAPHICSWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent);
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_plus4digiblaster.h"
+
+
+/** \brief  Create widget to control Plus4 Digiblaster
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_plus4_digiblaster_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("DIGIBLASTER",
+                "Enable Digiblaster add-on"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

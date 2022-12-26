@@ -1,5 +1,5 @@
-/** \file   pethrewidget.h
- * \brief   PET HRE settings widhget - header
+/** \file   vicieee488widget.h
+ * \brief   Setting widget for the VIC-20 IEEE-488 interface - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,9 @@
  *
  */
 
-#ifndef VICE_PETHREWIDGET_H
-#define VICE_PETHREWIDGET_H
+#ifndef VICE_SETTINGS_VICIEEE488_H
+#define VICE_SETTINGS_VICIEEE488_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-GtkWidget *pet_hre_widget_create(GtkWidget *parent);
+GtkWidget *settings_vicieee488_widget_create(GtkWidget *parent);
 
 #endif

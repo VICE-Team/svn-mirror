@@ -1,11 +1,11 @@
-/** \file   plus4digiblasterwidget.c
- * \brief   Widget to control Plus4 DigiBlaster
+/** \file   settings_vicieee488.c
+ * \brief   Setting widget for the VIC-20 IEEE-488 interface
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
- * $VICERES DIGIBLASTER     xplus4
+ * $VICERES IEEE488     xvic
  */
 
 /*
@@ -32,30 +32,26 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 
-#include "plus4digiblasterwidget.h"
+#include "settings_vicieee488.h"
 
 
-/** \brief  Create widget to control Plus4 Digiblaster
+/** \brief  Create widget to control VIC-20 IEEE-488 resources
  *
  * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
-GtkWidget *plus4_digiblaster_widget_create(GtkWidget *parent)
+GtkWidget *settings_vicieee488_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("DIGIBLASTER",
-                "Enable Digiblaster add-on"),
+            vice_gtk3_resource_check_button_new("IEEE488",
+                "Enable VIC-1112 IEEE-488 interface"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

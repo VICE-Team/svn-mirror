@@ -1,9 +1,8 @@
-/** \file   sidcartwidget.h
- * \brief   SID Cartridge widget - header
+/** \file   setting_plus4digiblaster.h
+ * \brief   Setting widget to control Plus 4 DigiBlaster - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
-
 
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -26,12 +25,11 @@
  *
  */
 
-#ifndef VICE_SIDCARDWIDGET_H
-#define VICE_SIDCARDWIDGET_H
+#ifndef VICE_SETTINGS_PLUS4DIGIBLASTER_H
+#define VICE_SETTINGS_PLUS4DIGIBLASTER_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *sidcart_widget_create(GtkWidget *parent);
+GtkWidget *settings_plus4_digiblaster_widget_create(GtkWidget *parent);
 
 #endif

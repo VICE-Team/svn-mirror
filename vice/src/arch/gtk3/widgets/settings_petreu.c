@@ -1,5 +1,5 @@
-/** \file   petreuwidget.c
- * \brief   PET RAM expansion module widget
+/** \file   settings_petreu.c
+ * \brief   Settings widget for PET RAM Expansion Unit
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -34,16 +34,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "ui.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "petreuwidget.h"
+#include "settings_petreu.h"
 
 
 /** \brief  List of REU sizes
@@ -90,7 +83,7 @@ static void on_reu_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *pet_reu_widget_create(GtkWidget *parent)
+GtkWidget *settings_petreu_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;

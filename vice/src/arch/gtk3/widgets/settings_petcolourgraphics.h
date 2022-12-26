@@ -1,5 +1,5 @@
-/** \file   petreuwidget.h
- * \brief   PET RAM expansion module widget - header
+/** \file   settings_petcolourgraphics.h
+ * \brief   Settings widget for PET Colour Graphics - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_PETREUWIDGET_H
-#define VICE_PETREUWIDGET_H
+#ifndef VICE_SETTINGS_PETCOLOURGRAPHICS_H
+#define VICE_SETTINGS_PETCOLOURGRAPHICS_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_reu_widget_create(GtkWidget *parent);
+GtkWidget *settings_petcolourgraphics_widget_create(GtkWidget *parent);
 
 #endif

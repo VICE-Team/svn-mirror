@@ -90,20 +90,15 @@ libwidgets_a_SOURCES = \
 	mididevicewidget.c \
 	mixerwidget.c \
 	netplaywidget.c \
-	petcolourgraphicswidget.c \
 	petdiagpinwidget.c \
-	petdwwwidget.c \
-	pethrewidget.c \
 	petiosizewidget.c \
 	petram9widget.c \
 	petramawidget.c \
 	petkeyboardtypewidget.c \
 	petmiscwidget.c \
 	petramsizewidget.c \
-	petreuwidget.c \
 	petvideosizewidget.c \
 	plus4aciawidget.c \
-	plus4digiblasterwidget.c \
 	plus4memoryexpansionwidget.c \
 	plus4memorysizewidget.c \
 	printerdriverwidget.c \
@@ -151,6 +146,11 @@ libwidgets_a_SOURCES = \
 	settings_mmcr.c \
 	settings_model.c \
 	settings_monitor.c \
+	settings_petcolourgraphics.c \
+	settings_petdww.c \
+	settings_pethre.c \
+	settings_petreu.c \
+	settings_plus4digiblaster.c \
 	settings_printer.c \
 	settings_ramcart.c \
 	settings_ramlink.c \
@@ -164,6 +164,7 @@ libwidgets_a_SOURCES = \
 	settings_sampler.c \
 	settings_sfxsoundexpander.c \
 	settings_sfxsoundsampler.c \
+	settings_sidcart.c \
 	settings_snapshot.c \
 	settings_sound.c \
 	settings_soundchip.c \
@@ -172,8 +173,8 @@ libwidgets_a_SOURCES = \
 	settings_tapeport.c \
 	settings_ultimem.c \
 	settings_vicflashplugin.c \
+	settings_vicieee488.c \
 	settings_video.c \
-	sidcartwidget.c \
 	sidenginemodelwidget.c \
 	sidmodelwidget.c \
 	sidsoundwidget.c \
@@ -194,7 +195,6 @@ libwidgets_a_SOURCES = \
 	vdcmodelwidget.c \
 	vfliwidget.c \
 	vic20memoryexpansionwidget.c \
-	vicieee488widget.c \
 	vicioramwidget.c \
 	videobordermodewidget.c \
 	videomodelwidget.c \
@@ -255,20 +255,15 @@ EXTRA_DIST = \
 	mididevicewidget.h \
 	mixerwidget.h \
 	netplaywidget.h \
-	petcolourgraphicswidget.h \
 	petdiagpinwidget.h \
-	petdwwwidget.h \
-	pethrewidget.h \
 	petiosizewidget.h \
 	petram9widget.h \
 	petramawidget.h \
 	petkeyboardtypewidget.h \
 	petmiscwidget.h \
 	petramsizewidget.h \
-	petreuwidget.h \
 	petvideosizewidget.h \
 	plus4aciawidget.h \
-	plus4digiblasterwidget.h \
 	plus4memoryexpansionwidget.h \
 	plus4memorysizewidget.h \
 	printerdriverwidget.h \
@@ -316,6 +311,11 @@ EXTRA_DIST = \
 	settings_mmcr.h \
 	settings_model.h \
 	settings_monitor.h \
+	settings_petcolourgraphics.h \
+	settings_petdww.h \
+	settings_pethre.h \
+	settings_petreu.h \
+	settings_plus4digiblaster.h \
 	settings_printer.h \
 	settings_ramcart.h \
 	settings_ramlink.h \
@@ -329,6 +329,7 @@ EXTRA_DIST = \
 	settings_sampler.h \
 	settings_sfxsoundexpander.h \
 	settings_sfxsoundsampler.h \
+	settings_sidcart.h \
 	settings_snapshot.h \
 	settings_sound.h \
 	settings_soundchip.h \
@@ -337,8 +338,8 @@ EXTRA_DIST = \
 	settings_tapeport.h \
 	settings_ultimem.h \
 	settings_vicflashplugin.h \
+	settings_vicieee488.h \
 	settings_video.h \
-	sidcartwidget.h \
 	sidenginemodelwidget.h \
 	sidmodelwidget.h \
 	sidsoundwidget.h \
@@ -359,7 +360,6 @@ EXTRA_DIST = \
 	vdcmodelwidget.h \
 	vfliwidget.h \
 	vic20memoryexpansionwidget.h \
-	vicieee488widget.h \
 	vicioramwidget.h \
 	videobordermodewidget.h \
 	videomodelwidget.h \

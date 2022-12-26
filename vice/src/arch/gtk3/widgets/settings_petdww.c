@@ -1,5 +1,5 @@
-/** \file   petdwwwidget.c
- * \brief   PET RAM expansion module widget
+/** \file   settings_petdww.c
+ * \brief   Settings widget for PET DWW hi-res graphics
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,16 +33,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
 #include "resources.h"
-#include "ui.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "petdwwwidget.h"
+#include "settings_petdww.h"
 
 
 /* references to widgets to be able to toggle sensitive state depending on the
@@ -122,7 +116,7 @@ static GtkWidget *create_dww_check_button(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *pet_dww_widget_create(GtkWidget *parent)
+GtkWidget *settings_petdww_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;

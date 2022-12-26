@@ -1,5 +1,5 @@
-/** \file   vicieee488widget.h
- * \brief   VIC-20 IEEE-488 interface widget - header
+/** \file   settings_petreu.h
+ * \brief   Settings widget for PET RAM Expansion Unit - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,9 +25,11 @@
  *
  */
 
-#ifndef VICE_VICIEEE488WIDGET_H
-#define VICE_VICIEEE488WIDGET_H
+#ifndef VICE_SETTINGS_PETREU_H
+#define VICE_SETTINGS_PETREU_H
 
-GtkWidget *vic_ieee488_widget_create(GtkWidget *parent);
+#include <gtk/gtk.h>
+
+GtkWidget *settings_petreu_widget_create(GtkWidget *parent);
 
 #endif
