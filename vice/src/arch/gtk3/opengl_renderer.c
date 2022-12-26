@@ -295,7 +295,6 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
 static void invoke_widget_layout(video_canvas_t *canvas)
 {
     context_t *context;
-    GtkWidget *widget;
     GtkAllocation allocation;
 
     CANVAS_LOCK();
