@@ -1,5 +1,5 @@
-/** \file   burstmodewidget.c
- * \brief   Burst Mode Modification widget
+/** \file   settings_burstmode.c
+ * \brief   Settings widget for Burst Mode Modification
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -30,18 +30,11 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "burstmodewidget.h"
+#include "settings_burstmode.h"
 
 
 /** \brief  List of burst modes
@@ -50,7 +43,7 @@ static const vice_gtk3_radiogroup_entry_t burst_modes[] = {
     { "None", 0 },
     { "CIA1", 1 },
     { "CIA2", 2 },
-    { NULL, -1 }
+    { NULL,   -1 }
 };
 
 
@@ -60,7 +53,7 @@ static const vice_gtk3_radiogroup_entry_t burst_modes[] = {
  *
  * \return  GtkGrid
  */
-GtkWidget *burst_mode_widget_create(GtkWidget *parent)
+GtkWidget *settings_burstmode_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *group;

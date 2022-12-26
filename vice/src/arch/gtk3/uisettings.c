@@ -75,11 +75,12 @@
 
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
-#include "c64memhackswidget.h"
 #include "netplaywidget.h"
 #include "scpu64settingswidget.h"
 #include "settings_autofire.h"
 #include "settings_autostart.h"
+#include "settings_burstmode.h"
+#include "settings_c64memhacks.h"
 #include "settings_controlport.h"
 #include "settings_cpm.h"
 #include "settings_default_cart.h"
@@ -98,6 +99,7 @@
 #include "settings_gmod2.h"
 #include "settings_gmod2c128.h"
 #include "settings_gmod3.h"
+#include "settings_hvsc.h"
 #include "settings_hotkeys.h"
 #include "settings_ide64.h"
 #include "settings_ieee488.h"
@@ -145,6 +147,7 @@
 #include "settings_supersnapshot.h"
 #include "settings_tapeport.h"
 #include "settings_ultimem.h"
+#include "settings_userport.h"
 #include "settings_vfli.h"
 #include "settings_vicflashplugin.h"
 #include "settings_vicieee488.h"
@@ -152,8 +155,6 @@
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
-#include "userportdeviceswidget.h"
-#include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
 #include "petdiagpinwidget.h"
 #include "settings_crt.h"
@@ -161,9 +162,6 @@
 
 /* TODO: move up and sort headers */
 #include "settings_host_display.h"
-
-/* VSID stuff */
-#include "hvscsettingswidget.h"
 
 /* CWD widget: moved from machine->host to host
  *
@@ -870,7 +868,7 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
       settings_monitor_widget_create, NULL },
     { "HVSC",
       "hvsc",
-      hvsc_settings_widget_create, NULL },
+      settings_hvsc_widget_create, NULL },
     { "Hotkeys",
       "hotkeys",
       settings_hotkeys_widget_create, NULL },
@@ -955,13 +953,13 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
       settings_ramreset_widget_create, NULL },
     { "Memory Expansion Hacks",
       "mem-hacks",
-      c64_memhacks_widget_create, NULL },
+      settings_c64_memhacks_widget_create, NULL },
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
     { "Burst Mode Modification",
       "burstmode-mode",
-      burst_mode_widget_create, NULL },
+      settings_burstmode_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1041,7 +1039,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 #endif
    { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
@@ -1205,7 +1203,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
       settings_printer_widget_create, NULL },
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
       UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1364,7 +1362,7 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
@@ -1454,7 +1452,7 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
       settings_io_widget_create, NULL },
     { "Burst Mode Modification",
       "burstmode-mode",
-      burst_mode_widget_create, NULL },
+      settings_burstmode_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1533,7 +1531,7 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1689,7 +1687,7 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tapeport devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
@@ -1844,7 +1842,7 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
@@ -1999,7 +1997,7 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tape port devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
@@ -2300,7 +2298,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
 #endif
     { "Userport devices",
       "userport-devices",
-      userport_devices_widget_create, NULL },
+      settings_userport_widget_create, NULL },
     { "Tape port devices",
       "tapeport_devices",
       settings_tapeport_widget_create, NULL },

@@ -1,5 +1,5 @@
-/** \file   burstmodewidget.h
- * \brief   Burst Mode Modification widget - header
+/** \file   settings_hvsc.h
+ * \brief   High Voltage SID Collection settings widget for VSID - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_BURSTMODEWIDGET_H
-#define VICE_BURSTMODEWIDGET_H
+#ifndef VICE_SETTINGS_HVSC_H
+#define VICE_SETTINGS_HVSC_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *burst_mode_widget_create(GtkWidget *parent);
+GtkWidget *settings_hvsc_widget_create(GtkWidget *parent);
 
 #endif

@@ -1,5 +1,5 @@
-/** \file   userportdeviceswidget.h
- * \brief   Widget to select userport devices - header
+/** \file   settings_burstmode.h
+ * \brief   Settings widget for Burst Mode Modification - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_USERPORTDEVICESWIDGET_H
-#define VICE_USERPORTDEVICESWIDGET_H
+#ifndef VICE_SETTINGS_BURSTMODE_H
+#define VICE_SETTINGS_BURSTMODE_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *userport_devices_widget_create(GtkWidget *parent);
+GtkWidget *settings_burstmode_widget_create(GtkWidget *parent);
 
 #endif

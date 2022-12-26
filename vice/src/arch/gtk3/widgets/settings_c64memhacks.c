@@ -39,15 +39,11 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
 #include "c64-memory-hacks.h"
 #include "debug_gtk3.h"
-#include "openfiledialog.h"
-#include "ui.h"
-#include "uisettings.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
-#include "c64memhackswidget.h"
+#include "settings_c64memhacks.h"
 
 
 /** \brief  List of C64 memory hack devices
@@ -127,7 +123,7 @@ static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
             NULL, NULL, NULL,
             c64_256k_filename_callback,
             user_data);
- }
+}
 
 /** \brief  Set Plus60K image
  *
@@ -162,7 +158,6 @@ static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_dat
             user_data);
 }
 
-
 /** \brief  Set Plus256K image
  *
  * \param[in]       dialog      open-file dialog
@@ -181,8 +176,6 @@ static void browse_plus256k_filename_callback(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-
-
 /** \brief  Handler for the "clicked" event of the browse button for +256K
  *
  * \param[in]   button      browse button
@@ -197,7 +190,6 @@ static void on_plus256k_image_browse_clicked(GtkWidget *button,
             browse_plus256k_filename_callback,
             user_data);
 }
-
 
 /** \brief  Extra handler for the "toggled" event of the mem hack radio buttons
  *
@@ -247,7 +239,6 @@ static void on_hack_toggled(GtkWidget *widget, gpointer user_data)
     }
 }
 
-
 /** \brief  Create widget to select the memory hacks device
  *
  * \return  GtkGrid
@@ -280,7 +271,6 @@ static GtkWidget *memory_hacks_device_widget_create(void)
         }
         i++;
     }
-
     return grid;
 }
 
@@ -309,7 +299,6 @@ static GtkWidget *c64_256k_base_address_widget_create(void)
     return grid;
 }
 
-
 /** \brief  Create widget to set the I/O base of the +60k expansion
  *
  * \return  GtkGrid
@@ -333,8 +322,6 @@ static GtkWidget *plus_60k_base_address_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
 
 /** \brief  Create widget to set the C64_256K image file
  *
@@ -371,7 +358,6 @@ static GtkWidget *c64_256k_image_widget_create(void)
     return grid;
 }
 
-
 /** \brief  Create widget to set the +60K image file
  *
  * \return  GtkGrid
@@ -406,7 +392,6 @@ static GtkWidget *plus_60k_image_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 /** \brief  Create widget to set the +256K image file
  *
@@ -448,7 +433,7 @@ static GtkWidget *plus_256k_image_widget_create(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *c64_memhacks_widget_create(GtkWidget *parent)
+GtkWidget *settings_c64_memhacks_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hack;

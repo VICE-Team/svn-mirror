@@ -1,4 +1,4 @@
-/** \file   hvscsettingswidget.c
+/** \file   settings_hvsc.c
  * \brief   High Voltage SID Collection settings widget for VSID
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -30,13 +30,13 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "debug_gtk3.h"
+#include "hvsc.h"
+#include "resourceentry.h"
 #include "resources.h"
 #include "vice_gtk3.h"
-#include "debug_gtk3.h"
-#include "resourceentry.h"
-#include "hvsc.h"
 
-#include "hvscsettingswidget.h"
+#include "settings_hvsc.h"
 
 
 /** \brief  Reference to the entry box for the HVSC root dir
@@ -96,7 +96,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
  *
  * \return  GtkGrid
  */
-GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
+GtkWidget *settings_hvsc_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
