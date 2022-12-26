@@ -89,7 +89,7 @@ else
     TOPLINE+=.$VBUILD
     fi
     TOPLINE+=" released"
-    sed -i -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
+    LC_ALL=C sed -i -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
@@ -115,7 +115,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+=".tar.gz"
-    sed -i -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
+    LC_ALL=C sed -i -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
 fi
 
 LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
@@ -141,7 +141,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+="-win"
-    sed -i -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
+    LC_ALL=C sed -i -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
 fi
 
 LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
@@ -164,7 +164,7 @@ else
     else
     LINE+=.$VBUILD
     fi
-    sed -i -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
+    LC_ALL=C sed -i -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
 fi
 
 LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
@@ -188,7 +188,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+=".dmg"
-    sed -i -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
+    LC_ALL=C sed -i -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
 fi
 
 LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
