@@ -164,9 +164,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)
 {
     ViceOpenGLView *opengl_view = (ViceOpenGLView *)context->native_view;
-
-    [opengl_view setFrameOrigin: CGPointMake(context->native_view_x, context->native_view_y)];
-    [opengl_view setFrameSize: CGSizeMake(context->native_view_width, context->native_view_height)];
+    
+    [opengl_view setFrame: NSMakeRect(context->native_view_x, context->native_view_y, context->native_view_width, context->native_view_height)];
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
