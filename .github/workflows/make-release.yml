@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -52,8 +52,9 @@ jobs:
           ./autogen.sh
           ./configure --with-resid --disable-pdf-docs --enable-headlessui --without-pulse --without-alsa --without-png
           make dist
-          echo ::set-output name=tarball_path::$(echo $(pwd)/vice-*.tar.gz)
-          echo ::set-output name=tarball_name::$(echo vice-*.tar.gz)
+          TARBALL=$(ls vice-*.tar.gz)
+          echo "tarball_path=$(pwd)/${TARBALL}" >> $GITHUB_OUTPUT
+          echo "tarball_name=${TARBALL}"        >> $GITHUB_OUTPUT
 
       - name: Upload Artifact Tarball
         uses: actions/upload-artifact@v2
@@ -64,7 +65,7 @@ jobs:
 
       - name: Upload Release Tarball
         id: upload
-        uses: actions/upload-release-asset@v1
+        uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -83,7 +84,7 @@ jobs:
         run: git config --global core.autocrlf input
 
       - name: Download Tarball
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: vice-tarball
 
@@ -112,7 +113,7 @@ jobs:
           echo ::set-output name=pdf_path::$(echo $(pwd)/doc/vice.pdf)
 
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: vice-pdf
           path: ${{ steps.build.outputs.pdf_path }}
@@ -144,12 +145,12 @@ jobs:
           ls -A1 | grep -v 'build-.*\.sh' | xargs rm -rf
 
       - name: Download Documentation
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: vice-pdf
 
       - name: Download Tarball
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: vice-tarball
 
@@ -231,7 +232,7 @@ jobs:
 
       - name: Upload Zip
         id: upload-zip
-        uses: actions/upload-release-asset@v1
+        uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -242,7 +243,7 @@ jobs:
 
       - name: Upload 7Zip
         id: upload-7zip
-        uses: actions/upload-release-asset@v1
+        uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -333,7 +334,7 @@ jobs:
     needs: [create_release, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
