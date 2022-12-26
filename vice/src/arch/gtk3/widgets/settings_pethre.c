@@ -1,7 +1,11 @@
-/** \file   plus4digiblasterwidget.h
- * \brief   Widget to control Plus 4 DigiBlaster - header
+/** \file   pethrewidget.c
+ * \brief   Settings widge for PET HRE
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES PETHRE  xpet
  */
 
 /*
@@ -25,12 +29,29 @@
  *
  */
 
-#ifndef VICE_PLUS4DIGIBLASTERWIDGET_H
-#define VICE_PLUS4DIGIBLASTERWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *plus4_digiblaster_widget_create(GtkWidget *parent);
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_pethre.h"
+
+
+/** \brief  Create widget to control PET HRE resources
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_pethre_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("PETHRE",
+                "Enable HRE hi-res graphics"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

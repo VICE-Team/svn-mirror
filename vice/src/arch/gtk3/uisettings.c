@@ -117,6 +117,11 @@
 #include "settings_mmcr.h"
 #include "settings_model.h"
 #include "settings_monitor.h"
+#include "settings_petcolourgraphics.h"
+#include "settings_petdww.h"
+#include "settings_pethre.h"
+#include "settings_petreu.h"
+#include "settings_plus4digiblaster.h"
 #include "settings_printer.h"
 #include "settings_ramcart.h"
 #include "settings_ramlink.h"
@@ -132,6 +137,7 @@
 #include "settings_sampler.h"
 #include "settings_sfxsoundexpander.h"
 #include "settings_sfxsoundsampler.h"
+#include "settings_sidcart.h"
 #include "settings_snapshot.h"
 #include "settings_sound.h"
 #include "settings_soundchip.h"
@@ -140,22 +146,16 @@
 #include "settings_tapeport.h"
 #include "settings_ultimem.h"
 #include "settings_vicflashplugin.h"
+#include "settings_vicieee488.h"
 #include "settings_video.h"
 
 #include "c128functionromwidget.h"
 #include "userportdeviceswidget.h"
-#include "sidcartwidget.h"
-#include "petreuwidget.h"
-#include "petcolourgraphicswidget.h"
-#include "petdwwwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
-#include "plus4digiblasterwidget.h"
-#include "vicieee488widget.h"
 #include "vicioramwidget.h"
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
-#include "pethrewidget.h"
 #include "settings_crt.h"
 #include "uimachinewindow.h"
 
@@ -708,7 +708,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 
     { "VIC-1112 IEEE-488 interface",
       "ieee-488",
-      vic_ieee488_widget_create, NULL },
+      settings_vicieee488_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -763,10 +763,10 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 
     { "Digiblaster add-on",
       "digiblaster",
-      plus4_digiblaster_widget_create, NULL },
+      settings_plus4_digiblaster_widget_create, NULL },
     { "SID Card",
       "sid-card",
-      sidcart_widget_create, NULL },
+      settings_sidcart_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -780,7 +780,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 
     { "PET RAM Expansion Unit",
       "pet-reu",
-      pet_reu_widget_create, NULL },
+      settings_petreu_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -788,7 +788,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 
     { "SID Card",
       "sid-card",
-      sidcart_widget_create, NULL },
+      settings_sidcart_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
 
@@ -796,13 +796,13 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 
     { "PET Colour graphics",
       "pet-colour",
-      pet_colour_graphics_widget_create, NULL },
+      settings_petcolourgraphics_widget_create, NULL },
     { "PET DWW hi-res graphics",
       "pet-dww",
-      pet_dww_widget_create, NULL },
+      settings_petdww_widget_create, NULL },
     { "PET HRE hi-res graphics",
       "pet-hre",
-      pet_hre_widget_create, NULL },
+      settings_pethre_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1610,7 +1610,7 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
       vfli_widget_create, NULL },
     { "SID Card",
       "sid-card",
-      sidcart_widget_create, NULL },
+      settings_sidcart_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

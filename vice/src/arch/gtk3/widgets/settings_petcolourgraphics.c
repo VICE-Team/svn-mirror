@@ -1,5 +1,5 @@
-/** \file   petcolourgraphicswidget.c
- * \brief   PET Colour Graphics widget
+/** \file   settings_petcolourgraphics.c
+ * \brief   Settings widget for PET Colour Graphics
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,23 +33,19 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "pet.h"
+#include "vice_gtk3.h"
 
-#include "petcolourgraphicswidget.h"
+#include "settings_petcolourgraphics.h"
 
 
 /** \brief  List of PET Colour types
  */
 static const vice_gtk3_radiogroup_entry_t colour_types[] = {
-    { "Off", PET_COLOUR_TYPE_OFF },
-    { "RGBI", PET_COLOUR_TYPE_RGBI },
+    { "Off",    PET_COLOUR_TYPE_OFF },
+    { "RGBI",   PET_COLOUR_TYPE_RGBI },
     { "Analog", PET_COLOUR_TYPE_ANALOG },
-    { NULL, -1 }
+    { NULL,     -1 }
 };
 
 
@@ -59,7 +55,7 @@ static const vice_gtk3_radiogroup_entry_t colour_types[] = {
  *
  * \return  GtkGrid
  */
-GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent)
+GtkWidget *settings_petcolourgraphics_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

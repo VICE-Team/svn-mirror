@@ -1,12 +1,9 @@
-/** \file   pethrewidget.c
- * \brief   PET HRE settings widhget
+/** \file   settings_sidcart.h
+ * \brief   Settings widget for SID Cart (Plus4/PET) - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/*
- * $VICERES PETHRE  xpet
- */
 
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -29,33 +26,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_SIDCARD_H
+#define VICE_SETTINGS_SIDCARD_H
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *settings_sidcart_widget_create(GtkWidget *parent);
 
-#include "pethrewidget.h"
-
-
-/** \brief  Create widget to control PET HRE resources
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *pet_hre_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("PETHRE",
-                "Enable HRE hi-res graphics"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif
