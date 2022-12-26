@@ -147,7 +147,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     gint gtk_scale;
 
     CANVAS_LOCK();
-    
+
     gtk_widget_get_allocation(widget, &allocation);
     context->native_view_width  = allocation.width;
     context->native_view_height = allocation.height;
@@ -185,7 +185,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
     /* Monitor display DPI changes */
     g_signal_connect_unlocked(gtk_widget_get_screen(widget), "monitors_changed", G_CALLBACK(on_widget_monitors_changed), canvas);
-    
+
 #ifdef MACOS_COMPILE
     /* Due to the weird inverted native co-ordinates on macOS, we also need to layout when the window size changes */
     g_signal_connect_unlocked(gtk_widget_get_toplevel(canvas->event_box), "size-allocate", G_CALLBACK(on_top_level_widget_resized), canvas);
@@ -200,7 +200,7 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     context_t *context = canvas->renderer_context;
 
     g_signal_handlers_disconnect_by_func(gtk_widget_get_screen(widget), G_CALLBACK(on_widget_monitors_changed), canvas);
-    
+
 #ifdef MACOS_COMPILE
     g_signal_handlers_disconnect_by_func(gtk_widget_get_toplevel(canvas->event_box), G_CALLBACK(on_top_level_widget_resized), canvas);
 #endif
@@ -219,7 +219,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     video_canvas_t *canvas = data;
     context_t *context;
     gint gtk_scale;
-    
+
     int new_x = 0; /* Not currently used */
     int new_y;
     int new_width;
@@ -240,10 +240,10 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
      * macOS is different .. the native coordinates use 0,0 to mean the bottom left corner.
      * That means the native overlay view needs to be placed at y == statusbar height
      */
-    
+
     GtkAllocation top_level_allocation;
     int widget_top_level_y;
-    
+
     gtk_widget_get_allocation(gtk_widget_get_toplevel(widget), &top_level_allocation);
     gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, NULL, &widget_top_level_y);
     new_y = top_level_allocation.height - allocation->height - widget_top_level_y;
@@ -266,7 +266,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         context->native_view_bg_g = 0.5f;
         context->native_view_bg_b = 0.5f;
     }
-    
+
     if (    context->native_view_x              == new_x
         &&  context->native_view_y              == new_y
         &&  context->native_view_width          == new_width
@@ -285,7 +285,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     context->native_view_height         = new_height;
     context->gl_backing_layer_width     = new_backing_width;
     context->gl_backing_layer_height    = new_backing_height;
-    
+
     CANVAS_UNLOCK();
 
     /* Update the size of the native child window to match the gtk drawing area */
