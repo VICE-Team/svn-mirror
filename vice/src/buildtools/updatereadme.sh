@@ -85,7 +85,7 @@ else
     TOPLINE+=$MONTH
     TOPLINE+=" "
     TOPLINE+=$YEAR
-    sed -i -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
+    LC_ALL=C sed -i -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep " \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]" < $README`
@@ -112,7 +112,7 @@ else
     LINE+=" "
     fi
     LINE+="of VICE"
-    sed -i -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
+    LC_ALL=C sed -i -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
 fi
 
 LINE=`grep "This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE" < $README`
