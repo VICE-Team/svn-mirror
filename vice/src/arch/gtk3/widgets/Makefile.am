@@ -44,12 +44,10 @@ noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES = \
 	aciawidget.c \
-	burstmodewidget.c \
 	c128fullbankswidget.c \
 	c128functionromwidget.c \
 	c128machinetypewidget.c \
 	c64dtvflashsettingswidget.c \
-	c64memhackswidget.c \
 	canvasrenderfilterwidget.c \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2memorysizewidget.c \
@@ -74,7 +72,6 @@ libwidgets_a_SOURCES = \
 	drivewidgethelpers.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
-	hvscsettingswidget.c \
 	hvscstilwidget.c \
 	jamactionwidget.c \
 	jamdialog.c \
@@ -109,6 +106,8 @@ libwidgets_a_SOURCES = \
 	scpu64settingswidget.c \
 	settings_autofire.c \
 	settings_autostart.c \
+	settings_burstmode.c \
+	settings_c64memhacks.c \
 	settings_controlport.c \
 	settings_cpm.c \
 	settings_crt.c \
@@ -127,6 +126,7 @@ libwidgets_a_SOURCES = \
 	settings_gmod2.c \
 	settings_gmod2c128.c \
 	settings_gmod3.c \
+	settings_hvsc.c \
 	settings_host_display.c \
 	settings_hotkeys.c \
 	settings_ide64.c \
@@ -172,6 +172,7 @@ libwidgets_a_SOURCES = \
 	settings_supersnapshot.c \
 	settings_tapeport.c \
 	settings_ultimem.c \
+	settings_userport.c \
 	settings_vfli.c \
 	settings_vicflashplugin.c \
 	settings_vicieee488.c \
@@ -190,7 +191,6 @@ libwidgets_a_SOURCES = \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
-	userportdeviceswidget.c \
 	userportrsinterfacewidget.c \
 	userportprinterwidget.c \
 	v364speechwidget.c \
@@ -209,7 +209,6 @@ libwidgets_a_SOURCES = \
 
 EXTRA_DIST = \
 	aciawidget.h \
-	burstmodewidget.h \
 	c128fullbankswidget.h \
 	c128functionromwidget.h \
 	c128machinetypewidget.h \
@@ -217,7 +216,6 @@ EXTRA_DIST = \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2memorysizewidget.h \
 	cbm2rammappingwidget.h \
-	c64memhackswidget.h \
 	canvasrenderfilterwidget.h \
 	ciamodelwidget.h \
 	contentpreviewwidget.h \
@@ -239,7 +237,6 @@ EXTRA_DIST = \
 	drivewidgethelpers.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
-	hvscsettingswidget.h \
 	hvscstilwidget.h \
 	jamactionwidget.h \
 	jamdialog.h \
@@ -274,6 +271,8 @@ EXTRA_DIST = \
 	scpu64settingswidget.h \
 	settings_autofire.h \
 	settings_autostart.h \
+	settings_burstmode.h \
+	settings_c64memhacks.h \
 	settings_controlport.h \
 	settings_cpm.h \
 	settings_crt.h \
@@ -292,6 +291,7 @@ EXTRA_DIST = \
 	settings_gmod2.h \
 	settings_gmod2c128.h \
 	settings_gmod3.h \
+	settings_hvsc.h \
 	settings_host_display.h \
 	settings_hotkeys.h \
 	settings_ide64.h \
@@ -337,6 +337,7 @@ EXTRA_DIST = \
 	settings_supersnapshot.h \
 	settings_tapeport.h \
 	settings_ultimem.h \
+	settings_userport.h \
 	settings_vfli.h \
 	settings_vicflashplugin.h \
 	settings_vicieee488.h \
@@ -355,7 +356,6 @@ EXTRA_DIST = \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
-	userportdeviceswidget.h \
 	userportrsinterfacewidget.h \
 	userportprinterwidget.h \
 	v364speechwidget.h \

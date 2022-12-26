@@ -1,5 +1,5 @@
-/** \file   hvscsettingswidget.h
- * \brief   High Voltage SID Collection settings widget for VSID - heaer
+/** \file   settings_userport.h
+ * \brief   Settings widget for userport devices - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_HVSCSETTINGSWIDGET_H
-#define VICE_HVSCSETTINGSWIDGET_H
+#ifndef VICE_SETTINGS_USERPORT_H
+#define VICE_SETTINGS_USERPORT_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *hvsc_settings_widget_create(GtkWidget *parent);
+GtkWidget *settings_userport_widget_create(GtkWidget *parent);
 
 #endif

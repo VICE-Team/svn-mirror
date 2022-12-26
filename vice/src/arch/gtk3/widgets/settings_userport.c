@@ -1,5 +1,5 @@
-/** \file   userportdeviceswidget.c
- * \brief   Widget to select userport devices
+/** \file   settigs_userport.c
+ * \brief   Settings widget for userport devices
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -40,7 +40,7 @@
 #include "userport.h"
 #include "vice_gtk3.h"
 
-#include "userportdeviceswidget.h"
+#include "settings_userport.h"
 
 
 /** \brief  Column indexes in the useport devices model
@@ -64,7 +64,6 @@ static GtkWidget *rtc_58321a_save = NULL;
 static GtkWidget *rtc_ds1307_save = NULL;
 
 
-
 /** \brief  Create widget for the "UserportRTC58321aSave" resource
  *
  * \return  GtkCheckButton
@@ -75,7 +74,6 @@ static GtkWidget *create_rtc_58321a_save_widget(void)
             "UserportRTC58321aSave", "Enable RTC (58321a) saving");
 }
 
-
 /** \brief  Create widget for the "UserportRTCDS1307Save" resource
  *
  * \return  GtkCheckButton
@@ -85,7 +83,6 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
     return vice_gtk3_resource_check_button_new(
             "UserportRTCDS1307Save", "Enable RTC (DS1307) saving");
 }
-
 
 /** \brief  Set the RTC checkboxes' sensitivity based on device ID
  *
@@ -98,7 +95,6 @@ static void set_rtc_widgets_sensitivity(int id)
     gtk_widget_set_sensitive(rtc_58321a_save, id == USERPORT_DEVICE_RTC_58321A);
     gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
 }
-
 
 /** \brief  Handler for the 'changed' event of the device combobox
  *
@@ -128,7 +124,6 @@ static void on_device_changed(GtkComboBox *combo, gpointer user_data)
         g_free(name);
     }
 }
-
 
 /** \brief  Set userport device ID
  *
@@ -188,7 +183,6 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
 
     return result;
 }
-
 
 /** \brief  Create model for the device combobox
  *
@@ -289,7 +283,7 @@ static GtkWidget *create_device_combobox(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *userport_devices_widget_create(GtkWidget *parent)
+GtkWidget *settings_userport_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
