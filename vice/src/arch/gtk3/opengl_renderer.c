@@ -68,6 +68,9 @@ static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
 static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
+#ifdef MACOS_COMPILE
+static void on_top_level_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
+#endif
 static void render(void *job_data, void *pool_data);
 
 static GLuint create_shader(GLenum shader_type, const char *text);
@@ -144,12 +147,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     gint gtk_scale;
 
     CANVAS_LOCK();
-
-#ifdef MACOS_COMPILE
-    /* The content area coordinates include the menu on macOS */
-    gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
-#endif
-
+    
     gtk_widget_get_allocation(widget, &allocation);
     context->native_view_width  = allocation.width;
     context->native_view_height = allocation.height;
@@ -187,6 +185,11 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
     /* Monitor display DPI changes */
     g_signal_connect_unlocked(gtk_widget_get_screen(widget), "monitors_changed", G_CALLBACK(on_widget_monitors_changed), canvas);
+    
+#ifdef MACOS_COMPILE
+    /* Due to the weird inverted native co-ordinates on macOS, we also need to layout when the window size changes */
+    g_signal_connect_unlocked(gtk_widget_get_toplevel(canvas->event_box), "size-allocate", G_CALLBACK(on_top_level_widget_resized), canvas);
+#endif
 
     CANVAS_UNLOCK();
 }
@@ -197,6 +200,10 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     context_t *context = canvas->renderer_context;
 
     g_signal_handlers_disconnect_by_func(gtk_widget_get_screen(widget), G_CALLBACK(on_widget_monitors_changed), canvas);
+    
+#ifdef MACOS_COMPILE
+    g_signal_handlers_disconnect_by_func(gtk_widget_get_toplevel(canvas->event_box), G_CALLBACK(on_top_level_widget_resized), canvas);
+#endif
 
     CANVAS_LOCK();
 
@@ -212,6 +219,13 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     video_canvas_t *canvas = data;
     context_t *context;
     gint gtk_scale;
+    
+    int new_x = 0; /* Not currently used */
+    int new_y;
+    int new_width;
+    int new_height;
+    unsigned int new_backing_width;
+    unsigned int new_backing_height;
 
     CANVAS_LOCK();
 
@@ -222,16 +236,25 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     }
 
 #ifdef MACOS_COMPILE
-    /* The content area coordinates include the menu on macOS */
-    gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
+    /*
+     * macOS is different .. the native coordinates use 0,0 to mean the bottom left corner.
+     * That means the native overlay view needs to be placed at y == statusbar height
+     */
+    
+    GtkAllocation top_level_allocation;
+    int widget_top_level_y;
+    
+    gtk_widget_get_allocation(gtk_widget_get_toplevel(widget), &top_level_allocation);
+    gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, NULL, &widget_top_level_y);
+    new_y = top_level_allocation.height - allocation->height - widget_top_level_y;
 #endif
 
-    context->native_view_width = allocation->width;
-    context->native_view_height = allocation->height;
+    new_width = allocation->width;
+    new_height = allocation->height;
 
     gtk_scale = gtk_widget_get_scale_factor(widget);
-    context->gl_backing_layer_width     = context->native_view_width    * gtk_scale;
-    context->gl_backing_layer_height    = context->native_view_height   * gtk_scale;
+    new_backing_width     = new_width    * gtk_scale;
+    new_backing_height    = new_height   * gtk_scale;
 
     /* Set the background colour */
     if (ui_is_fullscreen_from_canvas(canvas)) {
@@ -243,16 +266,34 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         context->native_view_bg_g = 0.5f;
         context->native_view_bg_b = 0.5f;
     }
+    
+    if (    context->native_view_x              == new_x
+        &&  context->native_view_y              == new_y
+        &&  context->native_view_width          == new_width
+        &&  context->native_view_height         == new_height
+        &&  context->gl_backing_layer_width     == new_backing_width
+        &&  context->gl_backing_layer_height    == new_backing_height
+    ) {
+        /* Nothing changed, likely the result of window resize + widget resize in same frame. */
+        CANVAS_UNLOCK();
+        return;
+    }
 
+    context->native_view_x              = new_x;
+    context->native_view_y              = new_y;
+    context->native_view_width          = new_width;
+    context->native_view_height         = new_height;
+    context->gl_backing_layer_width     = new_backing_width;
+    context->gl_backing_layer_height    = new_backing_height;
+    
     CANVAS_UNLOCK();
 
     /* Update the size of the native child window to match the gtk drawing area */
     vice_opengl_renderer_resize_child_view(context);
 }
 
-static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
+static void invoke_widget_layout(video_canvas_t *canvas)
 {
-    video_canvas_t *canvas = data;
     context_t *context;
     GtkWidget *widget;
     GtkAllocation allocation;
@@ -267,12 +308,21 @@ static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
 
     CANVAS_UNLOCK();
 
-    widget = canvas->event_box;
-
-    gtk_widget_get_allocation(widget, &allocation);
-
+    gtk_widget_get_allocation(canvas->event_box, &allocation);
     on_widget_resized(canvas->event_box, &allocation, canvas);
 }
+
+static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
+{
+    invoke_widget_layout(data);
+}
+
+#ifdef MACOS_COMPILE
+static void on_top_level_widget_resized(GtkWidget *top_level_widget, GtkAllocation *top_level_allocation, gpointer data)
+{
+    invoke_widget_layout(data);
+}
+#endif
 
 /******/
 
