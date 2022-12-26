@@ -1,5 +1,5 @@
-/** \file   petdwwwidget.h
- * \brief   PET DWW widget - header
+/** \file   settings_petdww.h
+ * \brief   Settings widget for PET DWW hi-res graphics - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_PETDWWWIDGET_H
-#define VICE_PETDWWWIDGET_H
+#ifndef VICE_SETTINGS_PETDWW_H
+#define VICE_SETTINGS_PETDWWT_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_dww_widget_create(GtkWidget *parent);
+GtkWidget *settings_petdww_widget_create(GtkWidget *parent);
 
 #endif
