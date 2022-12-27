@@ -28,7 +28,6 @@
 #ifndef VICE_SETTINGS_AUTOSTART_H
 #define VICE_SETTINGS_AUTOSTART_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
 GtkWidget *settings_autostart_widget_create(GtkWidget *parent);

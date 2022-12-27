@@ -26,7 +26,7 @@
  */
 
 #ifndef VICE_SETTINGS_PETDWW_H
-#define VICE_SETTINGS_PETDWWT_H
+#define VICE_SETTINGS_PETDWW_H
 
 #include <gtk/gtk.h>
 

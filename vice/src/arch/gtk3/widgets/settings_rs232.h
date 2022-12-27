@@ -28,7 +28,6 @@
 #ifndef VICE_SETTINGS_RS232
 #define VICE_SETTINGS_RS232
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
 GtkWidget *settings_rs232_widget_create(GtkWidget *parent);
