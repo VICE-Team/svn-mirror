@@ -388,8 +388,9 @@ jobs:
       - uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          retries: 3
           script: |
-            await github.repos.updateRelease(
+            await github.rest.repos.updateRelease(
               {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
