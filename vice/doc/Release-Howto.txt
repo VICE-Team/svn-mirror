@@ -13,13 +13,17 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 - update the html pages in doc/html (index.html, windows.html, macosx.html). use
   the checklinks.sh script to check the links.
 
+$ cd doc/html
 $ ./checklinks.sh
+$ cd ../..
 
 - update vice.texi. use checkdoc.mak to find missing resources and options in
   the documentation.
 
+$ make
 $ cd doc
 $ make -f checkdoc.mak full
+$ cd ..
 
   (this only works for in-tree builds and with --enable-x64)
 
@@ -33,7 +37,7 @@ $ make -f checkdoc.mak full
   needed files.
 
 $ touch doc/vice.texi
-$ src/buildtools/genvicedate_h.sh
+$ ./src/buildtools/genvicedate_h.sh
 
 - after changing any of the above, make sure to run "make" so the changes will
   propagate to various files, and then commit the changed files.
