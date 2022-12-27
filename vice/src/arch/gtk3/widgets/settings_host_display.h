@@ -25,7 +25,6 @@
  *
  */
 
-
 #ifndef VICE_HOST_DISPLAY_WIDGET_H
 #define VICE_HOST_DISPLAY_WIDGET_H
 

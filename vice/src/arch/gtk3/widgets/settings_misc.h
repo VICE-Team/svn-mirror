@@ -28,7 +28,6 @@
 #ifndef VICE_SETTINGS_MISC_H
 #define VICE_SETTINGS_MISC_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
 GtkWidget *settings_misc_widget_create(GtkWidget *widget);

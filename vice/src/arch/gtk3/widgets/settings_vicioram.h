@@ -26,7 +26,7 @@
  */
 
 #ifndef VICE_SETTINGS_VICIORAM_H
-#define VICE_SETTINGS_VICIORAMT_H
+#define VICE_SETTINGS_VICIORAM_H
 
 #include <gtk/gtk.h>
 
