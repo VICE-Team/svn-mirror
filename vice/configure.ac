@@ -11,7 +11,7 @@ dnl as '-dev' or 'beta'), the '-r$SVNREV' revision string is the only thing we
 dnl alllow after the version number.
 m4_define(vice_version_major, 3)
 m4_define(vice_version_minor, 7)
-m4_define(vice_version_build, 0)
+m4_define(vice_version_build, 1)
 
 dnl Some people lose their shit if a version ends in .0
 dnl also turns out some people lose it if it doesn't :)
