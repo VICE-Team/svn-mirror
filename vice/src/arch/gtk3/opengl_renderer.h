@@ -166,7 +166,7 @@ typedef struct vice_opengl_renderer_context_s {
 } vice_opengl_renderer_context_t;
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
-void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_resize_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context);
 
 void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context);

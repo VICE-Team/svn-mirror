@@ -287,7 +287,7 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
     }
 }
 
-void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)
+void vice_opengl_renderer_resize_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context)
 {
     Display *x_display;
     Window x_overlay_window;

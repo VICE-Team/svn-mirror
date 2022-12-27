@@ -142,16 +142,37 @@ void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
 
 /**/
 
+static NSRect getLayout(NSView *window_nsview, vice_opengl_renderer_context_t *context)
+{
+    NSRect layout;
+
+    layout.origin.x     = context->native_view_x;
+    layout.size.width   = context->native_view_width;
+    layout.size.height  = context->native_view_height;
+
+    /*
+     * It seems that GTK 3.24.35, they un-flipped the native macOS Y co-ordinate system.
+     */
+
+    if ([window_nsview isFlipped]) {
+        layout.origin.y = context->native_view_y;
+    } else {
+        layout.origin.y = [window_nsview frame].size.height - context->native_view_y - context->native_view_height;
+    }
+
+    return layout;
+}
+
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context)
 {
-    NSView *gdk_view = gdk_quartz_window_get_nsview(gtk_widget_get_window(widget));
-    ViceOpenGLView *opengl_view = [[ViceOpenGLView alloc] initWithFrame: CGRectMake(context->native_view_x, context->native_view_y, context->native_view_width, context->native_view_height)
+    NSView *window_nsview = gdk_quartz_window_get_nsview(gtk_widget_get_window(widget));
+    ViceOpenGLView *opengl_view = [[ViceOpenGLView alloc] initWithFrame: getLayout(window_nsview, context)
                                                                 context: context];
 
     context->native_view = opengl_view;
 
     /* Add the openglk view as a child of the gdk window */
-    [gdk_view addSubview: opengl_view];
+    [window_nsview addSubview: opengl_view];
 
     vice_opengl_renderer_make_current(context);
 
@@ -161,11 +182,16 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     vice_opengl_renderer_clear_current(context);
 }
 
-void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)
+void vice_opengl_renderer_resize_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context)
 {
     ViceOpenGLView *opengl_view = (ViceOpenGLView *)context->native_view;
+    NSView *window_nsview;
 
-    [opengl_view setFrame: NSMakeRect(context->native_view_x, context->native_view_y, context->native_view_width, context->native_view_height)];
+    if (!opengl_view)
+        return;
+
+    window_nsview = gdk_quartz_window_get_nsview(gtk_widget_get_window(widget));
+    [opengl_view setFrame: getLayout(window_nsview, context)];
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
