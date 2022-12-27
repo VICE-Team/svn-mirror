@@ -29,8 +29,8 @@
 #ifndef VICEDATE_H
 #define VICEDATE_H
 
-#define VICEDATE_DAY 24
-#define VICEDATE_DAY_STR "24"
+#define VICEDATE_DAY 28
+#define VICEDATE_DAY_STR "28"
 
 #define VICEDATE_MONTH 12
 #define VICEDATE_MONTH_STR "12"
