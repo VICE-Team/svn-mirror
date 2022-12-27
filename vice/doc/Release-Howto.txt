@@ -102,12 +102,24 @@ $ svn commit -m "this is the 3.6.0 release - merry xmas"
   $ git clone --branch clean --depth 1 https://github.com/VICE-Team/svn-mirror.git
 
   $ cd svn-mirror
+
   $ git tag $RELEASE
   $ git push origin $RELEASE
 
   Pushing the tag triggers the release build, and creates a 'release' on Github called 3.6.0.
   Annoyingly, this release will automatically include a zip and tgz of the source for that
   commit, without any way to prevent it.
+
+  OOOOPS! now something doesnt work as intended - for example the release creation
+  itself fails for some reason. Now you can revert the tag like this:
+
+  $ git tag -d $RELEASE
+  $ git push --delete origin $RELEASE
+
+  Now fix your stuff, commit to svn, and if you are ready push the tag again:
+
+  $ git tag $RELEASE
+  $ git push origin $RELEASE
 
 *************************************
  Tarball and Windows Builds - Manual
