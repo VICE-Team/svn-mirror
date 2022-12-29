@@ -30,6 +30,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *settings_sound_create(GtkWidget *widget);
+GtkWidget *settings_sound_widget_create(GtkWidget *widget);
 
 #endif

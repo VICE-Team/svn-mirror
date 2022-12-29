@@ -31,7 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *settings_video_create(GtkWidget *parent);
-GtkWidget *settings_video_create_vdc(GtkWidget *parent);
+GtkWidget *settings_video_widget_create(GtkWidget *parent);
+GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent);
 
 #endif
