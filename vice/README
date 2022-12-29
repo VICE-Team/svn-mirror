@@ -1,5 +1,5 @@
 
-  VICE  3.7                                                          Dec 2022
+  VICE  3.7.1                                                        Dec 2022
 
 
                  _______________
@@ -24,7 +24,7 @@
 
  ----------------------------------------------------------------------------
 
- This is version 3.7 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 3.7.1 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  Win32, macOS, Haiku and for most Unix systems provided with the X Window
  System version 11, R5 or later.
