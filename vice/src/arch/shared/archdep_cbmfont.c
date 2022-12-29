@@ -171,7 +171,7 @@ int archdep_register_cbmfont(void)
        1.50.12 is actually broken in this respect, but the GDI way of font
        enumeration (with AddFontResource[A|W]) will be added back in 1.50.13.
      */
-    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) { 
+    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
         result = AddFontResourceEx(path, FR_PRIVATE, 0);
     } else {
         /* non-private version, if VICE crashes the font will remain on the
@@ -212,7 +212,7 @@ void archdep_unregister_cbmfont(void)
         return;
     }
 
-    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) { 
+    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
         RemoveFontResourceExA(path, FR_PRIVATE, 0);
     } else {
         RemoveFontResourceA(path);
