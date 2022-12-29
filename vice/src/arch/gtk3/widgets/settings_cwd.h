@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/jamactionwidget.h
- * \brief   GTK3 default JAM action setting dialog - header
+/** \file   settings_cwd.h
+ * \brief   Settings widget to set the current working directory - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,13 +22,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_JAMACTIONWIDGET_H
-#define VICE_JAMACTIONWIDGET_H
+#ifndef VICE_SETTINGS_CWD_H
+#define VICE_SETTINGS_CWD_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *jam_action_widget_create(GtkWidget *parent);
+GtkWidget *settings_cwd_widget_create(GtkWidget *parent);
 
 #endif

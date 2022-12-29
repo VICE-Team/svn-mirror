@@ -1,5 +1,5 @@
-/** \file   netplaywidget.c
- * \brief   Netplay settings widget
+/** \file   settings_netplay.c
+ * \brief   Settings widget for Netplay
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -46,7 +46,7 @@
 #include "resources.h"
 #include "ui.h"
 
-#include "netplaywidget.h"
+#include "settings_netplay.h"
 
 
 /** \brief  Net control widget info
@@ -343,7 +343,7 @@ static GtkWidget *create_controls_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *netplay_widget_create(GtkWidget *parent)
+GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

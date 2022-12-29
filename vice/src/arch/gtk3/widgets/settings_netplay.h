@@ -1,5 +1,5 @@
-/** \file   netplaywidget.h
- * \brief   Netplay settings widget - header
+/** \file   settings_netplay.h
+ * \brief   Settings widget for Netplay - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -24,11 +24,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_NETPLAYWIDGET_H
-#define VICE_NETPLAYWIDGET_H
+#ifndef VICE_SETTINGS_NETPLAY_H
+#define VICE_SETTINGS_NETPLAY_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *netplay_widget_create(GtkWidget *parent);
+GtkWidget *settings_netplay_widget_create(GtkWidget *parent);
 
 #endif
