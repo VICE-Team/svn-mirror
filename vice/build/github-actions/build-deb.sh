@@ -112,7 +112,7 @@ else
 fi
 
 # Now build the .deb
-fakeroot dpkg-deb --build ${DEB_DIR}
+fakeroot dpkg-deb -Zxz --build ${DEB_DIR}
 
 # Export some variables to the runner for the upload step
 echo "deb_name=${DEB_DIR}.deb" >> $GITHUB_OUTPUT
