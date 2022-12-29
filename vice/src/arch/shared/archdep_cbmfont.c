@@ -35,6 +35,7 @@
 
 #include "archdep_cbmfont.h"
 
+#ifdef USE_GTK3UI
 
 /** \brief  Filename of the TrueType CBM font used for directory display
  */
@@ -49,9 +50,9 @@
  * \return    bool as int
  */
 
-#ifdef MACOS_COMPILE
+# ifdef MACOS_COMPILE
 
-# include <CoreText/CTFontManager.h>
+#  include <CoreText/CTFontManager.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -88,11 +89,11 @@ int archdep_register_cbmfont(void)
     return 1;
 }
 
-#elif defined(UNIX_COMPILE)
+# elif defined(UNIX_COMPILE)
 
-# ifdef HAVE_FONTCONFIG
+#  ifdef HAVE_FONTCONFIG
 
-#  include <fontconfig/fontconfig.h>
+#   include <fontconfig/fontconfig.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -110,17 +111,12 @@ int archdep_register_cbmfont(void)
                 VICE_CBM_FONT_TTF);
         return 0;
     }
-#if 0
-    printf("Path = '%s'\n", path);
-#endif
-
     result = FcConfigAppFontAddFile(fc_config, (FcChar8 *)path) ? 1 : 0;
-
     lib_free(path);
     return result;
 }
 
-# else     /* HAVE_FONTCONFIG */
+#  else     /* HAVE_FONTCONFIG */
 
 int archdep_register_cbmfont(void)
 {
@@ -128,29 +124,29 @@ int archdep_register_cbmfont(void)
     return 0;
 }
 
-# endif
+#  endif
 
-#else   /* UNIX_COMPILE */
+# else   /* UNIX_COMPILE */
 
 
 /*
  * Windows part of the API
  */
 
-# ifdef WINDOWS_COMPILE
+#  ifdef WINDOWS_COMPILE
 
 /* Make sure AddFontResourceEx prototyped is used in wingdi.h */
-#ifndef _WIN32_WINNT
-#  define _WIN32_WINNT 0x0500
-#else
-#  if (_WIN32_WINNT < 0x0500)
-#    undef _WIN32_WINNT
+#   ifndef _WIN32_WINNT
 #    define _WIN32_WINNT 0x0500
-#  endif
-#endif
+#   else
+#    if (_WIN32_WINNT < 0x0500)
+#     undef _WIN32_WINNT
+#     define _WIN32_WINNT 0x0500
+#    endif
+#   endif
 
-#  include <windows.h>
-#  include <pango/pango.h>
+#   include <windows.h>
+#   include <pango/pango.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -185,7 +181,7 @@ int archdep_register_cbmfont(void)
     return 1;
 }
 
-# else
+#  else
 
 int archdep_register_cbmfont(void)
 {
@@ -193,9 +189,9 @@ int archdep_register_cbmfont(void)
    return 0;
 }
 
-# endif
+#  endif
 
-#endif
+# endif
 
 /** \brief  Unregister the CBM font
  *
@@ -203,7 +199,7 @@ int archdep_register_cbmfont(void)
  */
 void archdep_unregister_cbmfont(void)
 {
-#ifdef WINDOWS_COMPILE
+# ifdef WINDOWS_COMPILE
     char *path;
 
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
@@ -218,5 +214,19 @@ void archdep_unregister_cbmfont(void)
         RemoveFontResourceA(path);
     }
     lib_free(path);
-#endif
+# endif
 }
+# else  /* !USE_GTK3UI */
+
+/* Non-Gtk UIs */
+int archdep_register_cbmfont(void)
+{
+    return 0;   /* error */
+}
+
+void archdep_unregister_cbmfont(void)
+{
+    /* NOP */
+}
+
+#endif  /* !USE_GTK3UI */
