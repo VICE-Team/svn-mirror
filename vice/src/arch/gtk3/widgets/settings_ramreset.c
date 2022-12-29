@@ -67,12 +67,11 @@
  * That avoids making the widget look odd with themes other than Adwaita.
  */
 #define PREVIEW_CSS \
-    "label {\n" \
+    "text {\n" \
     "    font-family: \"Monospace\";\n" \
     "    background-color: black;\n" \
     "    color: limegreen;\n" \
     "}\n"
-
 
 
 /** \brief  List of powers of two used for the widgets
@@ -89,6 +88,10 @@ static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
 };
 
 
+/** \brief  Buffer used to print the raw text of the hexdump
+ */
+static char printbuffer[PREVIEWTEXTBYTES];
+
 
 /** \brief  Handler for the 'value-changed' event of the widgets in this dialog
  *
@@ -99,10 +102,57 @@ static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
  */
 static void on_value_changed(GtkWidget *widget, gpointer data)
 {
-    char printbuffer[PREVIEWTEXTBYTES];
+    GtkTextBuffer *buffer;
+    GtkTextIter start;
+    GtkTextIter end;
 
     ram_init_print_pattern(printbuffer, PREVIEWPATTERNBYTES, "\n");
-    gtk_label_set_text(GTK_LABEL(data), printbuffer);
+
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
+    gtk_text_buffer_set_text(buffer, "", -1);
+    gtk_text_buffer_get_bounds(buffer, &start, &end);
+    gtk_text_buffer_insert_with_tags_by_name(buffer,
+                                             &end,
+                                             printbuffer,
+                                             -1,
+                                             "hexdump",
+                                             NULL);
+}
+
+/** \brief  Create textview for the RAM init preview hexdump
+ *
+ * We use a textview here and not a label since a textview communicates with
+ * its scrolled winded to determine what to render and what not. We used to
+ * render inside a label, which had the advantage of keeping the scrolled
+ * window at the position the user had scrolled to when updating the contents.
+ * The downside is that the view now scrolls back to the top when changing
+ * contents. But keep in mind it took 5-8 seconds on a Win10 VM with 2 cores
+ * at 3GHz to render, making the UI unresponsive during this time.
+ *
+ * \return  GtkTextView
+ */
+static GtkWidget *create_preview_widget(void)
+{
+    GtkWidget *view_widget;
+    GtkTextBuffer *buffer;
+
+    view_widget = gtk_text_view_new();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(view_widget), FALSE);
+    gtk_text_view_set_input_hints(GTK_TEXT_VIEW(view_widget),
+                                  GTK_INPUT_HINT_NO_EMOJI);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(view_widget), GTK_WRAP_WORD_CHAR);
+    gtk_widget_set_can_focus(view_widget, FALSE);
+
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view_widget));
+    gtk_text_buffer_create_tag(buffer,
+                               "hexdump",
+                               "family", "monospace",
+                               "left-margin", 16,
+                               "right-margin", 16,
+                               "background", "black",
+                               "foreground", "limegreen",
+                               NULL);
+    return view_widget;
 }
 
 
@@ -206,8 +256,14 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
      * scrolled window to scroll back to the top. I spent a few hours trying
      * to get it working, using all sort of trickery and the gtk devs on #gtk
      * also couldn't help me out.
+     *
+     * Switched back to textview, rendering in a label is horrendously slow,
+     * see the comments for create_preview_widget().
      */
+#if 0
     view = gtk_label_new(NULL);
+#endif
+    view = create_preview_widget();
     vice_gtk3_css_add(view, PREVIEW_CSS);
 
     /* trigger setting the preview text */
