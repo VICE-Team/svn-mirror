@@ -149,7 +149,8 @@ int archdep_register_cbmfont(void)
 #  endif
 #endif
 
-#  include "windows.h"
+#  include <windows.h>
+#  include <pango/pango.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -162,7 +163,21 @@ int archdep_register_cbmfont(void)
         return 0;
     }
 
-    result = AddFontResourceEx(path, FR_PRIVATE, 0);
+    /* Work around the fact that Pango, starting with 1.50.12, has switched to
+       (only) using DirectWrite for enumarating fonts, and DirectWrite doesn't
+       find fonts added with AddFontResourceEx().
+       see https://gitlab.gnome.org/GNOME/pango/-/issues/720
+
+       1.50.12 is actually broken in this respect, but the GDI way of font
+       enumeration (with AddFontResource[A|W]) will be added back in 1.50.13.
+     */
+    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) { 
+        result = AddFontResourceEx(path, FR_PRIVATE, 0);
+    } else {
+        /* non-private version, if VICE crashes the font will remain on the
+           host system until the system is rebooted */
+        result = AddFontResourceA(path);
+    }
     lib_free(path);
     if (result == 0) {
         return 0;
@@ -197,7 +212,11 @@ void archdep_unregister_cbmfont(void)
         return;
     }
 
-    RemoveFontResourceExA(path, FR_PRIVATE, 0);
+    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) { 
+        RemoveFontResourceExA(path, FR_PRIVATE, 0);
+    } else {
+        RemoveFontResourceA(path);
+    }
     lib_free(path);
 #endif
 }
