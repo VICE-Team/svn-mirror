@@ -75,7 +75,6 @@
 
 #include "ui.h"
 #include "c64dtvflashsettingswidget.h"
-#include "netplaywidget.h"
 #include "scpu64settingswidget.h"
 #include "settings_autofire.h"
 #include "settings_autostart.h"
@@ -83,6 +82,7 @@
 #include "settings_c64memhacks.h"
 #include "settings_controlport.h"
 #include "settings_cpm.h"
+#include "settings_cwd.h"
 #include "settings_default_cart.h"
 #include "settings_digimax.h"
 #include "settings_dqbb.h"
@@ -106,6 +106,7 @@
 #include "settings_ieeeflash64.h"
 #include "settings_io.h"
 #include "settings_isepic.h"
+#include "settings_jam.h"
 #include "settings_joystick.h"
 #include "settings_keyboard.h"
 #include "settings_ltkernal.h"
@@ -119,6 +120,7 @@
 #include "settings_mmcr.h"
 #include "settings_model.h"
 #include "settings_monitor.h"
+#include "settings_netplay.h"
 #include "settings_petcolourgraphics.h"
 #include "settings_petdww.h"
 #include "settings_pethre.h"
@@ -162,17 +164,6 @@
 
 /* TODO: move up and sort headers */
 #include "settings_host_display.h"
-
-/* CWD widget: moved from machine->host to host
- *
- * XXX: Probably at some point create settings_paths.{c,h} and have that use
- * the CWD widget.
- */
-#include "cwdwidget.h"
-
-/* JAM action widget
- */
-#include "jamactionwidget.h"
 
 
 #include "uisettings.h"
@@ -847,16 +838,16 @@ static ui_settings_tree_node_t host_nodes_generic[] = {
       settings_monitor_widget_create, NULL },
     { "Netplay",
       "netplay",
-      netplay_widget_create, NULL },
+      settings_netplay_widget_create, NULL },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
     { "Current directory",
       "cwd",
-      cwd_widget_create, NULL },
+      settings_cwd_widget_create, NULL },
     { "CPU JAM action",
       "jam-action",
-      jam_action_widget_create, NULL },
+      settings_jam_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

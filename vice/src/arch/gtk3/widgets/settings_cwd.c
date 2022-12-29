@@ -1,8 +1,7 @@
 /** \file   cwdwidget.c
- * \brief   Widget to set the current working directory
+ * \brief   Settings widget to set the current working directory
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * /author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -31,12 +30,9 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "resources.h"
 #include "vice_gtk3.h"
 
-#include "cwdwidget.h"
+#include "settings_cwd.h"
 
 
 /** \brief  Reference to the text entry box
@@ -57,8 +53,6 @@ static void on_entry_changed(GtkWidget *widget, gpointer user_data)
     g_chdir(cwd);
 }
 
-
-
 /** \brief  Callback for the directory-select dialog
  *
  * \param[in]   dialog      directory-select dialog
@@ -74,7 +68,6 @@ static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * \param[in]   widget      widget triggering the event
@@ -83,28 +76,17 @@ static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
-
-    /* TODO: set CWD */
+    char *curdir = g_get_current_dir();
 
     dialog = vice_gtk3_select_directory_dialog(
             "Select directory",
             NULL,
             TRUE,
-            NULL,
+            curdir,
             browse_callback,
             NULL);
-    gtk_widget_show(dialog);
-
-
-    #if 0
-    gchar *filename;
-
-    filename = vice_gtk3_select_directory_dialog("Select directory",
-            NULL, TRUE, NULL);
-    if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry), filename);
-    }
-#endif
+    g_free(curdir);
+    gtk_widget_show_all(dialog);
 }
 
 
@@ -114,11 +96,12 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *cwd_widget_create(GtkWidget *parent)
+GtkWidget *settings_cwd_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *wrapper;
     GtkWidget *browse;
+    char *curdir = g_get_current_dir();
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             -1, -1,
@@ -133,7 +116,8 @@ GtkWidget *cwd_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
 
     entry = gtk_entry_new();
-    gtk_entry_set_text(GTK_ENTRY(entry), g_get_current_dir());
+    gtk_entry_set_text(GTK_ENTRY(entry), curdir);
+    g_free(curdir);
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(wrapper), entry, 0, 0, 1, 1);
 

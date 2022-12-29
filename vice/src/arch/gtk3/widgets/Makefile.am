@@ -56,7 +56,6 @@ libwidgets_a_SOURCES = \
 	contentpreviewwidget.c \
 	crtcontrolwidget.c \
 	crtpreviewwidget.c \
-	cwdwidget.c \
 	dirmenupopup.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
@@ -73,7 +72,6 @@ libwidgets_a_SOURCES = \
 	extendimagedialog.c \
 	ffmpegwidget.c \
 	hvscstilwidget.c \
-	jamactionwidget.c \
 	jamdialog.c \
 	joystickautofirewidget.c \
 	joystickdevicewidget.c \
@@ -86,7 +84,6 @@ libwidgets_a_SOURCES = \
 	machinemodelwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
-	netplaywidget.c \
 	petdiagpinwidget.c \
 	petiosizewidget.c \
 	petram9widget.c \
@@ -111,6 +108,7 @@ libwidgets_a_SOURCES = \
 	settings_controlport.c \
 	settings_cpm.c \
 	settings_crt.c \
+	settings_cwd.c \
 	settings_default_cart.c \
 	settings_digimax.c \
 	settings_dqbb.c \
@@ -134,6 +132,7 @@ libwidgets_a_SOURCES = \
 	settings_ieeeflash64.c \
 	settings_io.c \
 	settings_isepic.c \
+	settings_jam.c \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_ltkernal.c \
@@ -146,6 +145,7 @@ libwidgets_a_SOURCES = \
 	settings_mmcr.c \
 	settings_model.c \
 	settings_monitor.c \
+	settings_netplay.c \
 	settings_petcolourgraphics.c \
 	settings_petdww.c \
 	settings_pethre.c \
@@ -221,7 +221,6 @@ EXTRA_DIST = \
 	contentpreviewwidget.h \
 	crtcontrolwidget.h \
 	crtpreviewwidget.h \
-	cwdwidget.h \
 	dirmenupopup.h \
 	drivedoswidget.h \
 	driveextendpolicywidget.h \
@@ -238,7 +237,6 @@ EXTRA_DIST = \
 	extendimagedialog.h \
 	ffmpegwidget.h \
 	hvscstilwidget.h \
-	jamactionwidget.h \
 	jamdialog.h \
 	joystickautofirewidget.h \
 	joystickdevicewidget.h \
@@ -251,7 +249,6 @@ EXTRA_DIST = \
 	machinemodelwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
-	netplaywidget.h \
 	petdiagpinwidget.h \
 	petiosizewidget.h \
 	petram9widget.h \
@@ -276,6 +273,7 @@ EXTRA_DIST = \
 	settings_controlport.h \
 	settings_cpm.h \
 	settings_crt.h \
+	settings_cwd.h \
 	settings_default_cart.h \
 	settings_digimax.h \
 	settings_dqbb.h \
@@ -299,6 +297,7 @@ EXTRA_DIST = \
 	settings_ieeeflash64.h \
 	settings_io.h \
 	settings_isepic.h \
+	settings_jam.h \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_ltkernal.h \
@@ -311,6 +310,7 @@ EXTRA_DIST = \
 	settings_mmcr.h \
 	settings_model.h \
 	settings_monitor.h \
+	settings_netplay.h \
 	settings_petcolourgraphics.h \
 	settings_petdww.h \
 	settings_pethre.h \

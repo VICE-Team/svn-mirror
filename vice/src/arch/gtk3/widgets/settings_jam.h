@@ -1,5 +1,5 @@
-/** \file   cwdwidget.h
- * \brief   Widget to set working directory - header
+/** \file   settings_jam.h
+ * \brief   Settings widget to control JAM behaviour - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,14 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_CWDWIDGET_H
-#define VICE_CWDWIDGET_H
+#ifndef VICE_SETTINGS_JAM_H
+#define VICE_SETTINGS_JAM_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *cwd_widget_create(GtkWidget *parent);
+GtkWidget *settings_jam_widget_create(GtkWidget *parent);
 
 #endif

@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/jamactionwidget.c
- * \brief   GTK3 default JAM action setting dialog
+/** \file   settings_jam.c
+ * \brief   Settings widget to control JAM behaviour - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -28,15 +28,13 @@
  *  02111-1307  USA.
  */
 
-
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include "debug_gtk3.h"
+
 #include "machine.h"
 #include "vice_gtk3.h"
 
-#include "jamactionwidget.h"
+#include "settings_jam.h"
 
 
 /** \brief  List of possible actions on a CPU JAM
@@ -58,7 +56,7 @@ static const vice_gtk3_radiogroup_entry_t actions[] = {
  *
  * \return  GtkGrid
  */
-GtkWidget *jam_action_widget_create(GtkWidget *parent)
+GtkWidget *settings_jam_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *selection;
