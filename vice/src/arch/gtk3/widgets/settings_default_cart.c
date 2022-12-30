@@ -7,6 +7,11 @@
  */
 
 /*
+ * $VICERES CartridgeFile   x64 x64sc xscpu64 x128 xvic xplus4
+ * $VICERES CartridgeType   x64 x64sc xscpu64 x128 xvic xplus4
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
