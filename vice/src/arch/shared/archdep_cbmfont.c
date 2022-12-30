@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+#include <stddef.h>
+#include <stdbool.h>
 #include "archdep_defs.h"
 
 #include "archdep_boot_path.h"
@@ -135,7 +137,12 @@ int archdep_register_cbmfont(void)
 
 #  ifdef WINDOWS_COMPILE
 
-/* Make sure AddFontResourceEx prototyped is used in wingdi.h */
+/** Flag indictating the font was successfully registered and thus must be
+ *  unregistered.
+ */
+static bool font_registered = false;
+
+/* Make sure AddFontResourceEx prototype is used in wingdi.h */
 #   ifndef _WIN32_WINNT
 #    define _WIN32_WINNT 0x0500
 #   else
@@ -175,10 +182,13 @@ int archdep_register_cbmfont(void)
         result = AddFontResourceA(path);
     }
     lib_free(path);
-    if (result == 0) {
-        return 0;
+    if (result > 0) {
+        font_registered = true;
+        return 1;
     }
-    return 1;
+    log_warning(LOG_DEFAULT,
+                "Didn't register CBM font, perhaps it was already installed?");
+    return 0;
 }
 
 #  else
@@ -200,20 +210,23 @@ int archdep_register_cbmfont(void)
 void archdep_unregister_cbmfont(void)
 {
 # ifdef WINDOWS_COMPILE
-    char *path;
+    if (font_registered) {
+        char *path;
 
-    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
-        log_error(LOG_ERR, "failed to find resource data '%s'.",
-                VICE_CBM_FONT_TTF);
-        return;
-    }
+        if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
+            log_error(LOG_ERR, "failed to find resource data '%s'.",
+                    VICE_CBM_FONT_TTF);
+            return;
+        }
 
-    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
-        RemoveFontResourceExA(path, FR_PRIVATE, 0);
-    } else {
-        RemoveFontResourceA(path);
+        log_message(LOG_DEFAULT, "Unregistering CBM font");
+        if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
+            RemoveFontResourceExA(path, FR_PRIVATE, 0);
+        } else {
+            RemoveFontResourceA(path);
+        }
+        lib_free(path);
     }
-    lib_free(path);
 # endif
 }
 # else  /* !USE_GTK3UI */
