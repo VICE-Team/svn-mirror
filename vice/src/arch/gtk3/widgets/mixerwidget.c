@@ -12,6 +12,7 @@
  * $VICERES SidResid8580Passband    -vsid
  * $VICERES SidResid8580Gain        -vsid
  * $VICERES SidResid8580FilterBias  -vsid
+ * $VICERES CB2Lowpass              xpet
  */
 
 /*
