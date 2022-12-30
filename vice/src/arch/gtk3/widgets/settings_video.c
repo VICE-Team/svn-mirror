@@ -582,7 +582,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_video_create(GtkWidget *parent)
+GtkWidget *settings_video_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     const char *chip;
@@ -622,7 +622,7 @@ GtkWidget *settings_video_create(GtkWidget *parent)
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_video_create_vdc(GtkWidget *parent)
+GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
 
