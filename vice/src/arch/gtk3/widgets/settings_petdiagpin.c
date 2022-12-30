@@ -1,7 +1,11 @@
-/** \file   scpu64settingswidget.h
- * \brief   Widget controlling SCPU6-specific settings
+/** \file   settings_petdiagpin.c
+ * \brief   Settings widget for PET diagnostic pin
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES DiagPin     xpet
  */
 
 /*
@@ -25,13 +29,29 @@
  *
  */
 
-#ifndef VICE_SCPU64SETTINGSWIDGET_H
-#define VICE_SCPU64SETTINGSWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 
-GtkWidget *scpu64_settings_widget_create(GtkWidget *parent);
+#include "settings_petdiagpin.h"
 
-#endif
+
+/** \brief  Create widget to control PET diagnostic pin
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_petdiagpin_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("DiagPin",
+                "Enable userport diagnostic pin"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

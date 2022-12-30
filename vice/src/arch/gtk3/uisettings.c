@@ -50,9 +50,7 @@
  * +------------------------------------------+
  */
 
-
 #include "vice.h"
-
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,26 +60,24 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
-#include "uiactions.h"
-#include "util.h"
 #include "machine.h"
 #include "resources.h"
-
+#include "ui.h"
+#include "uiactions.h"
+#include "uimachinewindow.h"
+#include "util.h"
 #include "vice_gtk3.h"
 
-#ifdef HAVE_RAWNET
-# include "settings_ethernet.h"
-#endif
-
-#include "ui.h"
-#include "c64dtvflashsettingswidget.h"
-#include "scpu64settingswidget.h"
 #include "settings_autofire.h"
 #include "settings_autostart.h"
 #include "settings_burstmode.h"
+#include "settings_c128fullbanks.h"
+#include "settings_c128functionrom.h"
 #include "settings_c64memhacks.h"
+#include "settings_c64dtvflash.h"
 #include "settings_controlport.h"
 #include "settings_cpm.h"
+#include "settings_crt.h"
 #include "settings_cwd.h"
 #include "settings_default_cart.h"
 #include "settings_digimax.h"
@@ -90,6 +86,7 @@
 #include "settings_ds12c887.h"
 #include "settings_easyflash.h"
 #ifdef HAVE_RAWNET
+# include "settings_ethernet.h"
 # include "settings_ethernetcart.h"
 #endif
 #include "settings_expert.h"
@@ -99,8 +96,9 @@
 #include "settings_gmod2.h"
 #include "settings_gmod2c128.h"
 #include "settings_gmod3.h"
-#include "settings_hvsc.h"
+#include "settings_host_display.h"
 #include "settings_hotkeys.h"
+#include "settings_hvsc.h"
 #include "settings_ide64.h"
 #include "settings_ieee488.h"
 #include "settings_ieeeflash64.h"
@@ -122,6 +120,7 @@
 #include "settings_monitor.h"
 #include "settings_netplay.h"
 #include "settings_petcolourgraphics.h"
+#include "settings_petdiagpin.h"
 #include "settings_petdww.h"
 #include "settings_pethre.h"
 #include "settings_petreu.h"
@@ -139,6 +138,7 @@
 #endif
 #include "settings_rs232.h"
 #include "settings_sampler.h"
+#include "settings_scpu64.h"
 #include "settings_sfxsoundexpander.h"
 #include "settings_sfxsoundsampler.h"
 #include "settings_sidcart.h"
@@ -155,16 +155,6 @@
 #include "settings_vicieee488.h"
 #include "settings_vicioram.h"
 #include "settings_video.h"
-
-#include "c128functionromwidget.h"
-#include "c128fullbankswidget.h"
-#include "petdiagpinwidget.h"
-#include "settings_crt.h"
-#include "uimachinewindow.h"
-
-/* TODO: move up and sort headers */
-#include "settings_host_display.h"
-
 
 #include "uisettings.h"
 
@@ -192,11 +182,9 @@
     "    color: darker (@theme_bg_color);\n" \
     "}\n"
 
-
 /** \brief  Number of columns in the tree model
  */
 #define NUM_COLUMNS 3
-
 
 /** \brief  Column indici for the tree model
  */
@@ -206,7 +194,6 @@ enum {
     COLUMN_CALLBACK     /**< callback function */
 };
 
-
 /** \brief  Initial dialog width
  *
  * This is not how wide the dialog will actually become, that is determined by
@@ -214,14 +201,12 @@ enum {
  */
 #define DIALOG_WIDTH 800
 
-
 /** \brief  Initial dialog height
  *
  * This is not how tall the dialog will actually become, that is determined by
  * the Gtk theme applied. But it's a rough estimate.
  */
 #define DIALOG_HEIGHT 500
-
 
 /** \brief  Maximum width the UI can be
  *
@@ -231,7 +216,6 @@ enum {
  */
 #define DIALOG_WIDTH_MAX 1024
 
-
 /** \brief  Maximum height the UI can be
  *
  * This again is not a really a fixed value, but more of an indicator when the
@@ -239,7 +223,6 @@ enum {
  * have a UI that works on a 1280x768 resolution without requiring scrollbars.
  */
 #define DIALOG_HEIGHT_MAX 640
-
 
 /** \brief  Enum used for the "response" callback of the settings dialog
  *
@@ -1006,7 +989,7 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
       settings_ramreset_widget_create, NULL },
     { "Flash",
       "flash",
-      c64dtv_flash_settings_widget_create, NULL },
+      settings_c64dtvflash_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -1120,10 +1103,10 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
       settings_ramreset_widget_create, NULL },
     { "Function ROM",
       "function-rom",
-      c128_function_rom_widget_create, NULL },
+      settings_c128functionrom_widget_create, NULL },
     { "Banks 2 & 3",
       "banks-23",
-      c128_full_banks_widget_create, NULL },
+      settings_c128fullbanks_widget_create, NULL },
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
@@ -1252,7 +1235,7 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
       settings_model_widget_create, NULL },
     { "SCPU64",
       "scpu64",
-      scpu64_settings_widget_create, NULL },
+      settings_scpu64_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1649,8 +1632,8 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
       "ram-reset",
       settings_ramreset_widget_create, NULL },
     { "PET userport diagnostic pin",
-        "pet-diagpin",
-        pet_diagpin_widget_create, NULL },
+      "pet-diagpin",
+      settings_petdiagpin_widget_create, NULL },
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
@@ -2001,7 +1984,6 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
  */
 static void ui_settings_set_central_widget(GtkWidget *widget);
 
-
 /** \brief  Old pause state when popping up the dialog
  *
  * Used for the PauseOnSettings resource: if true, exiting the dialog will set
@@ -2009,49 +1991,39 @@ static void ui_settings_set_central_widget(GtkWidget *widget);
  */
 static int settings_old_pause_state;
 
-
 /** \brief  Reference to the settings dialog
  */
 static GtkWidget *settings_window = NULL;
-
 
 /** \brief  Previous X position of settings dialog
  */
 static gint settings_xpos = INT_MIN;
 
-
 /** \brief  Previous Y position of settings dialog
  */
 static gint settings_ypos = INT_MIN;
-
-
 
 /** \brief  Reference to the 'content area' widget of the settings dialog
  */
 static GtkWidget *settings_grid = NULL;
 
-
 /** \brief  Reference to the tree model for the settings tree
  */
 static GtkTreeStore *settings_model = NULL;
-
 
 /** \brief  Reference to the tree view for the settings tree
  */
 static GtkWidget *settings_tree = NULL;
 
-
 /** \brief  Scroll window container for the settings treeview
  */
 static GtkWidget *scrolled_window = NULL;
-
 
 /** \brief  Widget containing the treeview and the settings 'page'
  *
  * Allows resizing both the treeview and the setting with a 'grip'.
  */
 static GtkWidget *paned_widget = NULL;
-
 
 /** \brief  Path to the last used settings page
  */
@@ -2071,7 +2043,6 @@ static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
     settings_window = NULL;
     ui_action_finish(ACTION_SETTINGS_DIALOG);
 }
-
 
 /** \brief  Handler for the double click event of a tree node
  *
@@ -2098,7 +2069,6 @@ static void on_row_activated(GtkTreeView *tree_view,
         gtk_tree_view_expand_row(tree_view, path, FALSE);
     }
 }
-
 
 /** \brief  Create the widget that is initially shown in the settings UI
  *
@@ -2184,7 +2154,6 @@ static void on_tree_selection_changed(GtkTreeSelection *selection,
     }
 }
 
-
 /** \brief  Create the 'Save on exit' checkbox
  *
  * The current position/display of the checkbox is a little lame at the moment
@@ -2196,7 +2165,6 @@ static GtkWidget *create_save_on_exit_checkbox(void)
     return vice_gtk3_resource_check_button_new("SaveResourcesOnExit",
             "Save settings on exit");
 }
-
 
 /** \brief  Create the 'Confirm on exit' checkbox
  *
@@ -2210,7 +2178,6 @@ static GtkWidget *create_confirm_on_exit_checkbox(void)
             "Confirm on exit");
 }
 
-
 /** \brief  Create the 'Pause on settings dialog' checkbox
  *
  * \return  GtkCheckButton
@@ -2222,7 +2189,6 @@ static GtkWidget *create_pause_on_settings_checkbox(void)
             "Pause when showing settings");
 }
 
-
 /** \brief  Create empty tree model for the settings tree
  */
 static void create_tree_model(void)
@@ -2230,7 +2196,6 @@ static void create_tree_model(void)
     settings_model = gtk_tree_store_new(NUM_COLUMNS,
             G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
 }
-
 
 /** \brief  Create tree store containing settings items and children
  *
@@ -2316,7 +2281,6 @@ static GtkTreeStore *populate_tree_model(void)
     return model;
 }
 
-
 /** \brief  Determine if the current tree item should be a separator
  *
  * Callback function for the tree view to check item at \a iter in \a model
@@ -2343,7 +2307,6 @@ static gboolean row_separator_func(GtkTreeModel *model,
 
     return is_sep;
 }
-
 
 /** \brief  Create treeview for settings side-menu
  *
@@ -2387,7 +2350,6 @@ static GtkWidget *create_treeview(void)
     return tree;
 }
 
-
 /** \brief  Set the 'central'/action widget for the settings dialog
  *
  * Destroys the old 'central' widget and sets the new one.
@@ -2409,7 +2371,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     gtk_widget_set_margin_end(widget, 16);
     gtk_widget_set_margin_bottom(widget, 16);
 }
-
 
 /** \brief  Create the 'content widget' of the settings dialog
  *
@@ -2554,7 +2515,6 @@ static void response_callback(GtkWidget *widget,
     }
 }
 
-
 /** \brief  Respond to window size changes
  *
  * This allows for quickly seeing if specific dialog is getting too large.
@@ -2586,7 +2546,6 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
     }
     return FALSE;
 }
-
 
 /** \brief  Dialog create helper
  *
@@ -2625,24 +2584,6 @@ static GtkWidget *dialog_create_helper(void)
 
     return dialog;
 }
-
-
-/** \brief  Clean up resources used on emu exit
- *
- * This function cleans up the data used to present the user with the last used
- * settings page.
- *
- * \note    Do NOT call this when exiting the settings UI, the event handlers
- *          will take care of cleaning up resources used by the UI.
- */
-void ui_settings_shutdown(void)
-{
-    if (last_node_path != NULL) {
-        gtk_tree_path_free(last_node_path);
-        last_node_path = NULL;
-    }
-}
-
 
 /** \brief  Find and activate node in the tree view via \a path
  *
@@ -2754,7 +2695,6 @@ static gboolean ui_settings_dialog_activate_node(const char *path)
     return FALSE;
 }
 
-
 /** \brief  Threaded UI handler for the settings dialog constructor
  *
  * \param[in]   user_data   path to active node in the treeview
@@ -2788,6 +2728,7 @@ static gboolean ui_settings_dialog_show_impl(gpointer user_data)
     return FALSE;
 }
 
+
 /** \brief  Menu callback for the settings dialog
  *
  * Opens the main settings dialog and activates a node, if any.
@@ -2810,3 +2751,22 @@ void ui_settings_dialog_show(const char *path)
     /* call from ui thread without locking - creating the settings dialog is heavy */
     gdk_threads_add_timeout(0, ui_settings_dialog_show_impl, (gpointer)path);
 }
+
+
+/** \brief  Clean up resources used on emu exit
+ *
+ * This function cleans up the data used to present the user with the last used
+ * settings page.
+ *
+ * \note    Do NOT call this when exiting the settings UI, the event handlers
+ *          will take care of cleaning up resources used by the UI.
+ */
+void ui_settings_shutdown(void)
+{
+    if (last_node_path != NULL) {
+        gtk_tree_path_free(last_node_path);
+        last_node_path = NULL;
+    }
+}
+
+

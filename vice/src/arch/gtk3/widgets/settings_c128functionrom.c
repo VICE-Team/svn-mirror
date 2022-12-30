@@ -1,5 +1,5 @@
-/** \file   c128functionromwidget.c
- * \brief   Widget to control C128 function roms
+/** \file   settings_c128functionrom.c
+ * \brief   Settings widget to control C128 Function ROMs
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -35,9 +35,8 @@
 
 #include "vice_gtk3.h"
 #include "functionrom.h"
-#include "ui.h"
 
-#include "c128functionromwidget.h"
+#include "settings_c128functionrom.h"
 
 
 /** \brief  List of possible ROM bla things
@@ -71,7 +70,6 @@ static GtkWidget *create_rom_type_widget(const char *prefix)
     return widget;
 }
 
-
 /** \brief  Create ROM file selection widget
  *
  * \param[in]   prefix  resource prefix
@@ -90,7 +88,6 @@ static GtkWidget *create_rom_file_widget(const char *prefix)
                                           NULL,
                                           NULL);
 }
-
 
 /** \brief  Create External/Internal ROM widget
  *
@@ -140,7 +137,7 @@ static GtkWidget *create_rom_widget(const char *prefix)
  *
  * \return  GtkGrid
  */
-GtkWidget *c128_function_rom_widget_create(GtkWidget *parent)
+GtkWidget *settings_c128functionrom_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *internal_widget;

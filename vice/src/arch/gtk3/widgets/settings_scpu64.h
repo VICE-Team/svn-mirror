@@ -1,11 +1,7 @@
-/** \file   c128fullbankswidget.c
- * \brief   Widget to control C128 full banks
+/** \file   settings_scpu64.h
+ * \brief   Settings widget controlling SCPU64-specific settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES C128FullBanks x128
  */
 
 /*
@@ -29,34 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_SETTINGS_SCPU64_H
+#define VICE_SETTINGS_SCPU64_H
+
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "resources.h"
-#include "widgethelpers.h"
+GtkWidget *settings_scpu64_widget_create(GtkWidget *parent);
 
-#include "c128fullbankswidget.h"
-
-
-/** \brief  Create widget to control C128 full banks
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *c128_full_banks_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = gtk_grid_new();
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("C128FullBanks",
-                "Enable RAM banks 2 & 3"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif
