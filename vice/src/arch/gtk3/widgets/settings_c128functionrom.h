@@ -1,5 +1,5 @@
-/** \file   c128functionromwidget.h
- * \brief   Widget to control C128 function roms - header
+/** \file   settings_c128functionrom.h
+ * \brief   Settings widget to control C128 Function ROMs - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  */
 
 
-#ifndef VICE_C128FUNCTIONROMWIDGET_H
-#define VICE_C128FUNCTIONROMWIDGET_H
+#ifndef VICE_SETTINGS_C128FUNCTIONROM_H
+#define VICE_SETTINGS_C128FUNCTIONROM_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *c128_function_rom_widget_create(GtkWidget *parent);
+GtkWidget *settings_c128functionrom_widget_create(GtkWidget *parent);
 
 #endif

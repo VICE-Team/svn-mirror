@@ -44,10 +44,7 @@ noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES = \
 	aciawidget.c \
-	c128fullbankswidget.c \
-	c128functionromwidget.c \
 	c128machinetypewidget.c \
-	c64dtvflashsettingswidget.c \
 	canvasrenderfilterwidget.c \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2memorysizewidget.c \
@@ -84,7 +81,6 @@ libwidgets_a_SOURCES = \
 	machinemodelwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
-	petdiagpinwidget.c \
 	petiosizewidget.c \
 	petram9widget.c \
 	petramawidget.c \
@@ -100,10 +96,12 @@ libwidgets_a_SOURCES = \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
 	romsetmanagerwidget.c \
-	scpu64settingswidget.c \
 	settings_autofire.c \
 	settings_autostart.c \
 	settings_burstmode.c \
+	settings_c128fullbanks.c \
+	settings_c128functionrom.c \
+	settings_c64dtvflash.c \
 	settings_c64memhacks.c \
 	settings_controlport.c \
 	settings_cpm.c \
@@ -147,6 +145,7 @@ libwidgets_a_SOURCES = \
 	settings_monitor.c \
 	settings_netplay.c \
 	settings_petcolourgraphics.c \
+	settings_petdiagpin.c \
 	settings_petdww.c \
 	settings_pethre.c \
 	settings_petreu.c \
@@ -162,6 +161,7 @@ libwidgets_a_SOURCES = \
 	settings_rrnetmk3.c \
 	settings_rs232.c \
 	settings_sampler.c \
+	settings_scpu64.c \
 	settings_sfxsoundexpander.c \
 	settings_sfxsoundsampler.c \
 	settings_sidcart.c \
@@ -209,10 +209,7 @@ libwidgets_a_SOURCES = \
 
 EXTRA_DIST = \
 	aciawidget.h \
-	c128fullbankswidget.h \
-	c128functionromwidget.h \
 	c128machinetypewidget.h \
-	c64dtvflashsettingswidget.h \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2memorysizewidget.h \
 	cbm2rammappingwidget.h \
@@ -249,7 +246,6 @@ EXTRA_DIST = \
 	machinemodelwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
-	petdiagpinwidget.h \
 	petiosizewidget.h \
 	petram9widget.h \
 	petramawidget.h \
@@ -265,10 +261,12 @@ EXTRA_DIST = \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
 	romsetmanagerwidget.h \
-	scpu64settingswidget.h \
 	settings_autofire.h \
 	settings_autostart.h \
 	settings_burstmode.h \
+	settings_c128fullbanks.h \
+	settings_c128functionrom.h \
+	settings_c64dtvflash.h \
 	settings_c64memhacks.h \
 	settings_controlport.h \
 	settings_cpm.h \
@@ -312,6 +310,7 @@ EXTRA_DIST = \
 	settings_monitor.h \
 	settings_netplay.h \
 	settings_petcolourgraphics.h \
+	settings_petdiagpin.h \
 	settings_petdww.h \
 	settings_pethre.h \
 	settings_petreu.h \
@@ -327,6 +326,7 @@ EXTRA_DIST = \
 	settings_rrnetmk3.h \
 	settings_rs232.h \
 	settings_sampler.h \
+	settings_scpu64.h \
 	settings_sfxsoundexpander.h \
 	settings_sfxsoundsampler.h \
 	settings_sidcart.h \

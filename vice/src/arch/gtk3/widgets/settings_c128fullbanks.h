@@ -1,5 +1,5 @@
-/** \file   petdiagpinwidget.h
- * \brief   Widget to PET diagnostic pin settings - header
+/** \file   settings_c128fullbanks.h
+ * \brief   Settings widget to control C128 full banks - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_PETDIAGPINWIDGET_H
-#define VICE_PETDIAGPINWIDGET_H
+#ifndef VICE_SETTINGS_C128FULLBANKS_H
+#define VICE_SETTINGS_C128FULLBANKS_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_diagpin_widget_create(GtkWidget *parent);
+GtkWidget *settings_c128fullbanks_widget_create(GtkWidget *parent);
 
 #endif

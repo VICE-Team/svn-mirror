@@ -1,5 +1,5 @@
-/** \file   c128fullbankswidget.h
- * \brief   Widget to control C128 full banks - header
+/** \file   settings_c64dtvflash.h
+ * \brief   Settings widget controlling C64DTV Flash resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,11 @@
  *
  */
 
-#ifndef VICE_C128FULLBANKSWIDGET_H
-#define VICE_C128FULLBANKSWIDGET_H
+#ifndef VICE_SETTINGS_C64DTVFLASH_H
+#define VICE_SETTINGS_C64DTVFLASH_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *c128_full_banks_widget_create(GtkWidget *parent);
+GtkWidget *settings_c64dtvflash_widget_create(GtkWidget *parent);
 
 #endif

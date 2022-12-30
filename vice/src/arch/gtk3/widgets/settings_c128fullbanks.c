@@ -1,7 +1,11 @@
-/** \file   c64dtvflashsettingswidget.h
- * \brief   Widget controlling C64DTV Flash settings - header
+/** \file   settings_c128fullbanks.c
+ * \brief   Settings widget to control C128 full banks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES C128FullBanks x128
  */
 
 /*
@@ -25,12 +29,30 @@
  *
  */
 
-#ifndef VICE_C64DTVFLASHSETTINGSWIDGET_H
-#define VICE_C64DTVFLASHSETTINGSWIDGET_H
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *c64dtv_flash_settings_widget_create(GtkWidget *parent);
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_c128fullbanks.h"
+
+
+/** \brief  Create widget to control C128 full banks
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_c128fullbanks_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = gtk_grid_new();
+
+    gtk_grid_attach(GTK_GRID(grid),
+            vice_gtk3_resource_check_button_new("C128FullBanks",
+                "Enable RAM banks 2 & 3"),
+            0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}

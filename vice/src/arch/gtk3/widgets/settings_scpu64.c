@@ -1,5 +1,5 @@
-/** \file   scpu64settingswidget.c
- * \brief   Widget controlling SCPU6-specific settings
+/** \file   settings_scpu64.c
+ * \brief   Settings widget controlling SCPU64-specific settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -32,16 +32,11 @@
  */
 
 #include "vice.h"
-
-#include <stdio.h>
-#include <string.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "machine.h"
-#include "resources.h"
 
-#include "scpu64settingswidget.h"
+#include "settings_scpu64.h"
 
 
 /** \brief  List of SCPU64 SIMM sizes
@@ -77,7 +72,7 @@ static GtkWidget *create_indented_label(const char *text)
  *
  * \return  GtkGrid
  */
-GtkWidget *scpu64_settings_widget_create(GtkWidget *parent)
+GtkWidget *settings_scpu64_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

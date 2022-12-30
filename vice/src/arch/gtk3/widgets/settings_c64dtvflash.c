@@ -1,5 +1,5 @@
-/** \file   c64dtvflashsettingswidget.c
- * \brief   Widget controlling C64DTV Flash settings
+/** \file   settings_c64dtvflash.c
+ * \brief   Settings widget controlling C64DTV Flash resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,15 +33,11 @@
  */
 
 #include "vice.h"
-
-#include <stdio.h>
-#include <string.h>
 #include <gtk/gtk.h>
 
-#include "resources.h"
 #include "vice_gtk3.h"
 
-#include "c64dtvflashsettingswidget.h"
+#include "settings_c64dtvflash.h"
 
 
 /** \brief  Callback for the directory-select dialog
@@ -131,7 +127,7 @@ static GtkWidget *create_flash_dir_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *c64dtv_flash_settings_widget_create(GtkWidget *parent)
+GtkWidget *settings_c64dtvflash_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
