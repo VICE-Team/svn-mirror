@@ -9,6 +9,9 @@
 /*
  * $VICERES CartridgeFile   x64 x64sc xscpu64 x128 xvic xplus4
  * $VICERES CartridgeType   x64 x64sc xscpu64 x128 xvic xplus4
+ *
+ * These are only directly *read* by the code, manipulating them goes through
+ * the cartridge API as intended.
  */
 
 /*
