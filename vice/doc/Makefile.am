@@ -44,8 +44,10 @@ endif
 
 .vice-texi-charset-ok:	$(srcdir)/vice.texi
 	@if [ "`file --mime-encoding $<`" != "$<: iso-8859-1" ]; then \
-		echo "ERROR: vice.texi contains content that is not valid iso-8859-x" >&2; \
-		false; \
+		if [ "`file --mime-encoding $<`" != "$<: us-ascii" ]; then \
+			echo "ERROR: vice.texi contains content that is not valid iso-8859-x" >&2; \
+			false; \
+		fi; \
 	fi
 	@touch .vice-texi-charset-ok
 
