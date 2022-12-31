@@ -220,8 +220,8 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-gtk3
 
-      - name: Downgrade Pango to 1.5.11
-        if: ${{ matrix == 'GTK3' }}
+      - name: Downgrade Pango to 1.50.11
+        if: ${{ matrix.ui == 'GTK3' }}
         shell: msys2 {0}
         run: |
           wget https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-docs-1.50.11-1-any.pkg.tar.zst
