@@ -225,7 +225,7 @@ jobs:
         shell: msys2 {0}
         run: |
           wget https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-1.50.11-1-any.pkg.tar.zst
-          yes | pacman -U mingw-w64-x86_64-pango-1.50.11-1-any.pkg.tar.zst
+          pacman --noconfirm -U mingw-w64-x86_64-pango-1.50.11-1-any.pkg.tar.zst
 
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
