@@ -2398,6 +2398,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* pack the tree and the settings 'page' into a GtkPaned so we can resize
      * the tree */
     paned_widget = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_vexpand(paned_widget, TRUE);
     gtk_paned_set_wide_handle(GTK_PANED(paned_widget), TRUE);
     gtk_paned_pack1(GTK_PANED(paned_widget), scrolled_window, FALSE, FALSE);
     gtk_grid_attach(GTK_GRID(settings_grid), paned_widget, 0, 0, 1, 1);
@@ -2435,7 +2436,6 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* create container for generic settings */
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(extra), 8);
     gtk_widget_set_margin_top(extra, 16);
     gtk_widget_set_margin_start(extra, 16);
     gtk_widget_set_margin_end(extra, 16);
@@ -2454,7 +2454,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scrolled_window, 250, 400);
+    gtk_widget_set_size_request(scrolled_window, 250, -1);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
