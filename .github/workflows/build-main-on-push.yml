@@ -220,6 +220,13 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-gtk3
 
+      - name: Downgrade Pango to 1.5.11
+        if: ${{ matrix == 'GTK3' }}
+        shell: msys2 {0}
+        run: |
+          wget https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-docs-1.50.11-1-any.pkg.tar.zst
+          yes | pacman -U mingw-w64-x86_64-pango-docs-1.50.11-1-any.pkg.tar.zst
+
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
         uses: msys2/setup-msys2@v2
