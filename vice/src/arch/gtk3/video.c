@@ -51,51 +51,50 @@
  */
 static log_t    gtk3video_log = LOG_ERR;
 
-/** \brief  Keep aspect ratio when resizing */
-static int keepaspect = 0;
-
-/** \brief  Use true aspect ratio */
-static int trueaspect = 0;
-
 /** \brief  Prevent screen tearing */
 static int vsync = 1;
 
 /** \brief  Display filter (0: nearest 1: bilinear) */
 static int display_filter = 1;
 
-/** \brief  Set KeepAspectRatio resource (bool)
+
+/** \brief  Set <CHIP>AspectMode resource (integer)
  *
- * The display will be updated to reflect any changes this makes.
+ * The display will be updated to reflect any changes this makes. 
  *
- * \param[in]   val     new value
- * \param[in]   param   extra parameter (unused)
+ * Called by the actual resource handler (do not call directly)
+ *
+ * \param[in]   mode    new value
+ * \param[in]   canvas  extra parameter (canvas associated with this videochip)
  *
  * \return 0
  */
-static int set_keepaspect(int val, void *param)
+int ui_set_aspect_mode(int mode, void *canvas)
 {
-    keepaspect = val ? 1 : 0;
+    video_canvas_t *cv = canvas;
+    cv->videoconfig->aspect_mode = mode;
     ui_trigger_resize();
     return 0;
 }
 
-
-/** \brief  Set TrueAspectRatio resource (bool)
+/** \brief  Set <CHIP>AspectRatio resource (string)
  *
- * The display will be updated to reflect any changes this makes.
+ * The display will be updated to reflect any changes this makes. 
  *
- * \param[in]   val     new value
- * \param[in]   param   extra parameter (unused)
+ * Called by the actual resource handler (do not call directly)
+ *
+ * \param[in]   aspect    new value
+ * \param[in]   canvas  extra parameter (canvas associated with this videochip)
  *
  * \return 0
  */
-static int set_trueaspect(int val, void *param)
+int ui_set_aspect_ratio(double aspect, void *canvas)
 {
-    trueaspect = val ? 1 : 0;
+    video_canvas_t *cv = canvas;
+    cv->videoconfig->aspect_ratio = aspect;
     ui_trigger_resize();
     return 0;
 }
-
 
 /** \brief  Set VSync resource (bool)
  *
@@ -133,18 +132,6 @@ static int set_display_filter(int val, void *param)
  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-trueaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
-      NULL, "Enable true aspect ratio" },
-    { "+trueaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
-      NULL, "Disable true aspect ratio" },
-    { "-keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
-      NULL, "Keep aspect ratio when scaling" },
-    { "+keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
-      NULL, "Do not keep aspect ratio when scaling (freescale)" },
     { "-vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VSync", (resource_value_t)1,
       NULL, "Enable vsync to prevent screen tearing" },
@@ -160,10 +147,6 @@ static const cmdline_option_t cmdline_options[] =
 /** \brief  Integer/boolean resources related to video output
  */
 static const resource_int_t resources_int[] = {
-    { "KeepAspectRatio", 1, RES_EVENT_NO, NULL,
-      &keepaspect, set_keepaspect, NULL },
-    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
-      &trueaspect, set_trueaspect, NULL },
     { "VSync", 1, RES_EVENT_NO, NULL,
       &vsync, set_vsync, NULL },
     { "GTKFilter", 2, RES_EVENT_NO, NULL,
@@ -380,7 +363,9 @@ void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
 {
     int width = canvas->draw_buffer->canvas_physical_width;
     int height = canvas->draw_buffer->canvas_physical_height;
-    if (keepaspect && trueaspect) {
+    if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_CUSTOM) {
+        width *= canvas->videoconfig->aspect_ratio;
+    } else if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
         width *= canvas->geometry->pixel_aspect_ratio;
     }
 

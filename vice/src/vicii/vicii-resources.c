@@ -134,7 +134,7 @@ int vicii_resources_init(void)
     } else {
         video_chip_cap.external_palette_name = "pepto-pal";
     }
-    video_chip_cap.double_buffering_allowed = ARCHDEP_VICII_DBUF;
+
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_NTSC_1X1;

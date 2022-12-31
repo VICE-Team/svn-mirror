@@ -46,13 +46,6 @@
 #define ARCHDEP_TED_DSCAN     1
 #endif
 
-/* Video chip double buffering.  */
-#define ARCHDEP_VICII_DBUF 0
-#define ARCHDEP_VDC_DBUF   0
-#define ARCHDEP_VIC_DBUF   0
-#define ARCHDEP_CRTC_DBUF  0
-#define ARCHDEP_TED_DBUF   0
-
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE SDLK_UNKNOWN
 

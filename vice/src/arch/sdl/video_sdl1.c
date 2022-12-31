@@ -104,11 +104,6 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
     +1.0f, -1.0f, +1.0f, -1.0f
 };
 
-static int sdl_gl_aspect_mode;
-static char *aspect_ratio_s = NULL;
-static char *aspect_ratio_factory_value_s = NULL;
-static double aspect_ratio;
-
 static int sdl_gl_flipx;
 static int sdl_gl_flipy;
 
@@ -222,22 +217,27 @@ static int set_sdl_window_height(int h, void *param)
 }
 
 #if defined(HAVE_HWSCALE)
-static int set_sdl_gl_aspect_mode(int v, void *param)
-{
-    int old_v = sdl_gl_aspect_mode;
 
-    switch (v) {
-        case SDL_ASPECT_MODE_OFF:
-        case SDL_ASPECT_MODE_CUSTOM:
-        case SDL_ASPECT_MODE_TRUE:
+/* called when the <CHIP>AspectMode resource was set */
+int ui_set_aspect_mode(int newmode, void *canvas)
+{
+    int oldmode;
+    video_canvas_t *cv = canvas;
+
+    oldmode = cv->videoconfig->aspect_mode;
+
+    switch (newmode) {
+        case VIDEO_ASPECT_MODE_NONE:
+        case VIDEO_ASPECT_MODE_CUSTOM:
+        case VIDEO_ASPECT_MODE_TRUE:
             break;
         default:
             return -1;
     }
 
-    sdl_gl_aspect_mode = v;
+    cv->videoconfig->aspect_mode = newmode;
 
-    if (old_v != v) {
+    if (oldmode != newmode) {
         if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
@@ -246,37 +246,17 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     return 0;
 }
 
-static int set_aspect_ratio(const char *val, void *param)
+/* called when the <CHIP>AspectRatio resource was set */
+int ui_set_aspect_ratio(double aspect_ratio, void *canvas)
 {
-    double old_aspect = aspect_ratio;
-    char buf[20];
-
-    if (val) {
-        char *endptr;
-
-        util_string_set(&aspect_ratio_s, val);
-
-        aspect_ratio = strtod(val, &endptr);
-        if (val == endptr) {
-            aspect_ratio = 1.0;
-        } else if (aspect_ratio < 0.5) {
-            aspect_ratio = 0.5;
-        } else if (aspect_ratio > 2.0) {
-            aspect_ratio = 2.0;
-        }
-    } else {
-        aspect_ratio = 1.0;
-    }
-
-    sprintf(buf, "%f", aspect_ratio);
-    util_string_set(&aspect_ratio_s, buf);
+    video_canvas_t *cv = canvas;
+    double old_aspect = cv->videoconfig->aspect_ratio;
 
     if (old_aspect != aspect_ratio) {
         if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
-
     return 0;
 }
 
@@ -321,15 +301,6 @@ static int set_sdl_gl_filter(int v, void *param)
 }
 #endif /* HAVE_HWSCALE */
 
-static resource_string_t resources_string[] = {
-#if defined(HAVE_HWSCALE)
-    /* CAUTION: position hardcoded below */
-    { "AspectRatio", NULL, RES_EVENT_NO, NULL,
-      &aspect_ratio_s, set_aspect_ratio, NULL },
-#endif
-    RESOURCE_STRING_LIST_END
-};
-
 #define VICE_DEFAULT_BITDEPTH 0
 
 #define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_OFF
@@ -352,8 +323,6 @@ static const resource_int_t resources_int[] = {
     { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
 #if defined(HAVE_HWSCALE)
-    { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
-      &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
       &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
     { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
@@ -366,9 +335,6 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
-#if defined(HAVE_HWSCALE)
-    char buf[0x10];
-#endif
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
@@ -376,19 +342,6 @@ int video_arch_resources_init(void)
             return -1;
         }
     }
-
-#if defined(HAVE_HWSCALE)
-    /* KLUDGES: setup the factory default with a string, needs to be done at
-       runtime since float format depends on locale */
-    sprintf(buf, "%f", 1.0f);
-    util_string_set(&aspect_ratio_factory_value_s, buf);
-    resources_string[0].factory_value = aspect_ratio_factory_value_s;
-#endif
-
-    if (resources_register_string(resources_string) < 0) {
-        return -1;
-    }
-
     return resources_register_int(resources_int);
 }
 
@@ -401,7 +354,8 @@ void video_arch_resources_shutdown(void)
     }
 
 #if defined(HAVE_HWSCALE)
-    lib_free(aspect_ratio_s);
+    /* FIXME: loops over all canvas */
+    /* lib_free(canvas->videoconfig->aspect_ratio_s); */
 #endif
 }
 
@@ -431,12 +385,6 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set intiial window height" },
 #if defined(HAVE_HWSCALE)
-    { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLGLAspectMode", NULL,
-      "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
-    { "-aspect", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "AspectRatio", NULL,
-      "<aspect ratio>", "Set custom aspect ratio (0.5 - 2.0)" },
     { "-sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
       NULL, "Enable X flip" },
@@ -521,11 +469,11 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 {
     int dest_x = 0, dest_y = 0;
 
-    if (sdl_gl_aspect_mode != SDL_ASPECT_MODE_OFF) {
-        double aspect = aspect_ratio;
+    if (sdl_active_canvas->videoconfig->aspect_mode != VIDEO_ASPECT_MODE_NONE) {
+        double aspect = sdl_active_canvas->videoconfig->aspect_ratio;
 
         /* Get "true" aspect ratio */
-        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+        if (sdl_active_canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
             aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
         }
 
@@ -611,9 +559,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (!sdl_ui_finalized) { /* remember first size */
         double aspect = 1.0;
 #ifdef HAVE_HWSCALE
-        aspect = aspect_ratio;
+        aspect = sdl_active_canvas->videoconfig->aspect_ratio;
 
-        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+        if (sdl_active_canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
             aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
         }
 #endif
@@ -629,9 +577,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         if (fullscreen) {
             limit = SDL_LIMIT_MODE_OFF;
         } else {
-            double aspect = aspect_ratio;
+            double aspect = sdl_active_canvas->videoconfig->aspect_ratio;
 
-            if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+            if (sdl_active_canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
                 aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
             }
 
@@ -640,7 +588,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
                 limit_w = (unsigned int)((double)new_width * aspect + 0.5);
                 limit_h = new_height;
             } else { /* full window size remembering when aspect ratio is not important */
-                if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_OFF) {
+                if (sdl_active_canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_NONE) {
                     limit_w = (unsigned int)sdl_window_width;
                     limit_h = (unsigned int)sdl_window_height;
                 } else { /* only remember height, set width according to that and the aspect ratio */
@@ -685,9 +633,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (canvas == sdl_active_canvas) {
 #ifdef HAVE_HWSCALE
         if (hwscale) {
-            double aspect = aspect_ratio;
+            double aspect = sdl_active_canvas->videoconfig->aspect_ratio;
 
-            if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+            if (sdl_active_canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
                 aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
             }
 
@@ -974,13 +922,13 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     canvas->palette = palette;
 
-    fmt = canvas->screen->format;
-
     /* Fixme: needs further investigation how it can reach here without being fully initialized */
     if (canvas != sdl_active_canvas || canvas->width != canvas->screen->w) {
         DBG(("video_canvas_set_palette not active canvas or window not created, don't update hw palette"));
         return 0;
     }
+
+    fmt = canvas->screen->format;
 
     for (i = 0; i < palette->num_entries; i++) {
         if (canvas->depth == 8) {
@@ -1230,7 +1178,7 @@ int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
     local_buttons = SDL_GetMouseState(&local_x, &local_y);
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, x, y, buttons, on_screen);
+    fprintf(stderr, "%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, px, py, buttons, on_screen);
 #endif
 
     local_x -= sdl_lightpen_adjust.offset_x;

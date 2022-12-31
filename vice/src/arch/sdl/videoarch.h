@@ -161,11 +161,8 @@ extern uint8_t *draw_buffer_vsid;
 #define SDL_LIMIT_MODE_FIXED 2
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
-/* Modes of fixed aspect ratio */
-#define SDL_ASPECT_MODE_OFF    0
-#define SDL_ASPECT_MODE_CUSTOM 1
-#define SDL_ASPECT_MODE_TRUE   2
 
+/* FIXME: remove and make global */
 /* Filtering modes */
 #define SDL_FILTER_NEAREST     0
 #define SDL_FILTER_LINEAR      1

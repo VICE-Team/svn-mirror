@@ -105,6 +105,9 @@ GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
 video_canvas_t *ui_get_canvas_for_window(int index);
 
+int ui_set_aspect_mode(int mode, void *canvas);
+int ui_set_aspect_ratio(double aspect, void *canvas);
+
 /*
  * New pause 'API'
  */

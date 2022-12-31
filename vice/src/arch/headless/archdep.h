@@ -47,13 +47,6 @@
 #define ARCHDEP_TED_DSIZE     1     /**< TED double size */
 #define ARCHDEP_TED_DSCAN     1     /**< TED double scan */
 
-/* Video chip double buffering.  */
-#define ARCHDEP_VICII_DBUF 0        /**< VICII double buffering */
-#define ARCHDEP_VDC_DBUF   0        /**< VDC double buffering */
-#define ARCHDEP_VIC_DBUF   0        /**< VIC double buffering */
-#define ARCHDEP_CRTC_DBUF  0        /**< CRTC double buffering */
-#define ARCHDEP_TED_DBUF   0        /**< TED double buffering */
-
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE 0 /**< no keyboard symcode (?) */
 

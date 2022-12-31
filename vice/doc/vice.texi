@@ -168,7 +168,7 @@ Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
-Copyright @copyright{} 1996-2001 André Fachat
+Copyright @copyright{} 1996-2001 Andre Fachat
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
@@ -11401,6 +11401,16 @@ Integer specifying rendering filter.
 Integer specifying border display mode.
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex VICIIAspectRatio
+@item VICIIAspectRatio
+String/float specifying the aspect ratio.
+(0.5-2.0)
+
+@vindex VICIIAspectMode
+@item VICIIAspectMode
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
+
 @end table
 
 
@@ -11547,6 +11557,18 @@ Enable/disable video to audio leak emulation
 @item +VICIIshowstatusbar
 Show/hide status bar
 (@code{VICIIShowStatusbar=1}, @code{VICIIShowStatusbar=0}).
+
+@findex -VICIIaspectmode
+@item -VICIIaspectmode <mode>
+Set the aspect mode
+(@code{VICIIAspectMode}).
+(0: off, 1: custom, 2: true)
+
+@findex -VICIIaspectratio
+@item -VICIIaspectratio <aspect ratio>
+Set the aspect ratio
+(@code{VICIIAspectRatio}).
+(0.5-2.0)
 
 @end table
 
@@ -12775,6 +12797,17 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 @item VDCFilter
 Integer specifying rendering filter
 (0: None, 1: CRT emulation, 2: Scale2x)
+
+@vindex VDCAspectRatio
+@item VDCAspectRatio
+String/float specifying the aspect ratio.
+(0.5-2.0)
+
+@vindex VDCAspectMode
+@item VDCAspectMode
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
+
 @end table
 
 @c @node FIXME
@@ -12898,6 +12931,18 @@ Select rendering filter
 @item +VDCshowstatusbar
 Show/hide status bar
 (@code{VDCShowStatusbar=1}, @code{VDCShowStatusbar=0}).
+
+@findex -VDCaspectmode
+@item -VDCaspectmode <mode>
+Set the aspect mode
+(@code{VDCAspectMode}).
+(0: off, 1: custom, 2: true)
+
+@findex -VDCaspectratio
+@item -VDCaspectratio <aspect ratio>
+Set the aspect ratio
+(@code{VDCAspectRatio}).
+(0.5-2.0)
 
 @end table
 
@@ -14336,6 +14381,16 @@ Integer specifying the rendering filter.
 Integer specifying border display mode
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex VICAspectRatio
+@item VICAspectRatio
+String/float specifying the aspect ratio.
+(0.5-2.0)
+
+@vindex VICAspectMode
+@item VICAspectMode
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
+
 @end table
 
 @c @node FIXME
@@ -14449,6 +14504,18 @@ Enable/disable video to audio leak emulation
 @item +VICshowstatusbar
 Show/hide status bar
 (@code{VICShowStatusbar=1}, @code{VICShowStatusbar=0}).
+
+@findex -VICaspectmode
+@item -VICaspectmode <mode>
+Set the aspect mode
+(@code{VICAspectMode}).
+(0: off, 1: custom, 2: true)
+
+@findex -VICaspectratio
+@item -VICaspectratio <aspect ratio>
+Set the aspect ratio
+(@code{VICAspectRatio}).
+(0.5-2.0)
 
 @end table
 
@@ -14840,6 +14907,16 @@ Integer specifying rendering filter.
 Integer specifying border display mode.
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex TEDAspectRatio
+@item TEDAspectRatio
+String/float specifying the aspect ratio.
+(0.5-2.0)
+
+@vindex TEDAspectMode
+@item TEDAspectMode
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
+
 @end table
 
 @c @node FIXME
@@ -14952,6 +15029,18 @@ Enable/disable video to audio leak emulation
 @item +TEDshowstatusbar
 Show/hide status bar
 (@code{TEDShowStatusbar=1}, @code{TEDShowStatusbar=0}).
+
+@findex -TEDaspectmode
+@item -TEDaspectmode <mode>
+Set the aspect mode
+(@code{TEDAspectMode}).
+(0: off, 1: custom, 2: true)
+
+@findex -TEDaspectratio
+@item -TEDaspectratio <aspect ratio>
+Set the aspect ratio
+(@code{TEDAspectRatio}).
+(0.5-2.0)
 
 @end table
 
@@ -15419,6 +15508,16 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 Integer specifying rendering filter.
 (0: None, 1: CRT emulation, 2: Scale2x)
 
+@vindex CrtcAspectRatio
+@item CrtcAspectRatio
+String/float specifying the aspect ratio.
+(0.5-2.0)
+
+@vindex CrtcAspectMode
+@item CrtcAspectMode
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
+
 @end table
 
 @c @node FIXME
@@ -15533,6 +15632,18 @@ Enable/disable video to audio leak emulation
 @item +Crtcshowstatusbar
 Show/hide status bar
 (@code{CrtcShowStatusbar=1}, @code{CrtcShowStatusbar=0}).
+
+@findex -Crtcaspectmode
+@item -Crtcaspectmode <mode>
+Set the aspect mode
+(@code{CrtcAspectMode}).
+(0: off, 1: custom, 2: true)
+
+@findex -Crtcaspectratio
+@item -Crtcaspectratio <aspect ratio>
+Set the aspect ratio
+(@code{CrtcAspectRatio}).
+(0.5-2.0)
 
 @end table
 
@@ -16780,16 +16891,6 @@ Boolean specifying whether to show the status bar or not
 
 @table @code
 
-@vindex AspectRatio
-@item AspectRatio
-String/float specifying the aspect ratio.
-(0.5-2.0)
-
-@vindex SDLGLAspectMode
-@item SDLGLAspectMode
-Integer specifying the OpenGL aspect mode.
-(0: off, 1: custom, 2: true)
-
 @vindex SDLGLFlipX
 @item SDLGLFlipX
 Boolean to enable/disable OpenGL horizontal screen flip.
@@ -17091,18 +17192,6 @@ Enable/Disable fullscreen
 
 @table @code
 
-@findex -aspect
-@item -aspect <aspect ratio>
-Set the aspect ratio
-(@code{AspectRatio}).
-(0.5-2.0)
-
-@findex -sdlaspectmode
-@item -sdlaspectmode <mode>
-Set the aspect mode
-(@code{SDLGLAspectMode}).
-(0: off, 1: custom, 2: true)
-
 @findex -sdlflipx, +sdlflipx
 @item -sdlflipx
 @itemx +sdlflipx
@@ -17165,20 +17254,6 @@ This section lists the settings and commands that are common and specific to Uni
 @item GTKFilter
 Rendering filter to use for the Gtk3 UI
 (0: Nearest neighbor, 1: Bilinear, 2: Bicubic).
-
-@vindex AspectRatio
-@item AspectRatio
-String/float specifying the aspect ratio
-(0.5-2.0).
-
-@vindex KeepAspectRatio
-@item KeepAspectRatio
-Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0: free scaling, 1: scale with fixed aspect ratio)
-
-@vindex TrueAspectRatio
-@item TrueAspectRatio
-Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
 @vindex VSync
 @item VSync
@@ -17351,30 +17426,10 @@ Enable/disable automatic saving of settings on exit
 Start/Do not start with minimized window
 (@code{StartMinimized=1}, @code{StartMinimized=0}).
 
-@findex -aspect
-@item -aspect <aspect ratio>
-Set the aspect ratio
-(@code{AspectRatio}).
-(0.5-2.0)
-
 @findex -gtkfilter
 @item -gtkfilter <filter>
 (@code{GTKFilter})
 (0: Nearest neighbor, 1: Bilinear 2: Bicubic).
-
-@findex -keepaspect, +keepaspect
-@item -keepaspect
-Enable keeping of the aspect ratio when scaling
-(@code{KeepAspectRatio=1}).
-@item +keepaspect
-Disable keeping of the aspect ratio when scaling (freescaling)
-(@code{KeepAspectRatio=0}).
-
-@findex -trueaspect, +trueaspect
-@item -trueaspect
-@itemx +trueaspect
-Enable/disable whether to use the true (non square pixels) aspect ratio
-(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
 
 @findex -vsync, +vsync
 @item -vsync
@@ -34352,7 +34407,7 @@ Started the work on hardware-level 1541 emulation and wrote the
 new monitor introduced with VICE 0.15.
 
 @item
-@b{André Fachat}
+@b{Andre Fachat}
 Copyright @copyright{} 1996-2001
 Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
 the IEEE488 interface, implemented the IEC serial bus in `xvic'
@@ -34410,7 +34465,7 @@ Provided the German user interface translations.
 Copyright @copyright{} 2011-2017
 Provided the Spanish user interface translations.
 
-@b{Paul Dubé}
+@b{Paul Dube}
 Copyright @copyright{} 2004-2017
 Provided the French user interface translations.
 
@@ -35093,7 +35148,7 @@ Copyright @copyright{} 1997-2001 Daniel Sladic
 @item
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 @item
-Copyright @copyright{} 1996-1999 André Fachat
+Copyright @copyright{} 1996-1999 Andre Fachat
 @item
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 @item
