@@ -62,6 +62,11 @@
 #define VIDEO_CRT_TYPE_RGB            2
 #define VIDEO_CRT_TYPE_MONO           3
 
+/* aspect ration mode (<CHIP>AspectMode) */
+#define VIDEO_ASPECT_MODE_NONE          0
+#define VIDEO_ASPECT_MODE_CUSTOM        1
+#define VIDEO_ASPECT_MODE_TRUE          2
+
 struct video_canvas_s;
 struct video_cbm_palette_s;
 struct viewport_s;
@@ -130,7 +135,6 @@ struct video_chip_cap_s {
     unsigned int dsize_limit_width;
     unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
-    unsigned int double_buffering_allowed;
     unsigned int interlace_allowed;
     const char *external_palette_name;
     cap_render_t single_mode;
@@ -214,13 +218,18 @@ struct video_render_config_s {
     int filter;                    /* VIDEO_FILTER_NONE, VIDEO_FILTER_CRT, VIDEO_FILTER_SCALE2X */
     int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
-    int double_buffer;             /* Double buffering enabled? */
     int readable;                  /* reading of frame buffer is safe and fast */
     int interlaced;                /* Is the output currently interlaced? */
     int interlace_field;           /* Which of the two interlaced frames is current? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
     int show_statusbar;            /**< Show statusbar in the UI (boolean) */
+    int aspect_mode;
+    double aspect_ratio;
+    char *aspect_ratio_s;               /* custom aspect ratio <CHIP>AspectRatio */
+    char *aspect_ratio_factory_value_s; /* custom aspect ratio <CHIP>AspectRatio */
+    /* FIXME: we can probably get rid of this: */
+    int double_buffer;             /* Double buffering enabled? */
     /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];

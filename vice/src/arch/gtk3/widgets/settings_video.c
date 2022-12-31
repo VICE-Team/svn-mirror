@@ -68,6 +68,7 @@
 #include "resources.h"
 #include "machine.h"
 #include "uivideo.h"
+#include "videoaspectwidget.h"
 #include "videopalettewidget.h"
 #include "videorenderfilterwidget.h"
 #include "videobordermodewidget.h"
@@ -83,20 +84,9 @@ static char *widget_title[2] = { NULL, NULL };
  */
 static const char *chip_name[2] = { NULL, NULL };
 
-
-/* These are required for x128, since these resources are chip-independent, but
- * there's a TODO to make these resources chip-dependent. For now toggling a
- * checkbox in VICII settings should update the checkbox in VDC settings, and
- * vice-versa. Once the resources are chip-dependent, this can be removed.
+/** \brief  aspect mode widgets
  */
-
-/** \brief  keep-aspect-ratio widgets
- */
-static GtkWidget *keep_aspect_widget[2] = { NULL, NULL };
-
-/** \brief  true-aspect-ratio widgets
- */
-static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
+static GtkWidget *aspect_widget[2] = { NULL, NULL };
 
 /** \brief  double-size widgets
  */
@@ -284,58 +274,6 @@ static GtkWidget *create_vsp_bug_widget(int index)
 }
 
 
-/** \brief  Create "Keep aspect ratio" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_keep_aspect_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new(
-            "KeepAspectRatio", "Keep aspect ratio");
-}
-
-
-/** \brief  Create "True aspect ratio" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_true_aspect_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new(
-            "TrueAspectRatio", "True aspect ratio");
-}
-
-#if 0
-/** \brief  Handler for the 'toggled' event of the keep-aspect-ratio checkbox
- *
- * \param[in]   check       checkbox
- * \param[in]   user_data   chip index (int)
- */
-static void on_keep_aspect_toggled(GtkWidget *check, gpointer user_data)
-{
-    int index = GPOINTER_TO_INT(user_data);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(keep_aspect_widget[index]),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)));
-}
-
-
-/** \brief  Handler for the 'toggled' event of the true-aspect-ratio checkbox
- *
- * \param[in]   check       checkbox
- * \param[in]   user_data   chip index (int)
- */
-static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
-{
-    int index = GPOINTER_TO_INT(user_data);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(true_aspect_widget[index]),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)));
-}
-#endif
-
 /** \brief  Event handler for the 'Hide VDC Window' checkbox
  *
  * \param[in]   check   checkbutton triggering the event
@@ -443,57 +381,6 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
     return grid;
 }
 
-
-/** \brief  Create widget for HW scaling and keep/true aspect ratio
- *
- * \param[in]   index   chip index (used in x128)
- * \param[in]   chip    chip name
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_scaling_widget(int index, const char *chip)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
-
-    keep_aspect_widget[index] = create_keep_aspect_widget(index);
-    gtk_widget_set_margin_start(keep_aspect_widget[index], 16);
-    /* until per-chip KeepAspectRatio is implemented, connect the VICII and
-     * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
-     * updates the VDC checkbox, and vice-versa */
-
-    /* No longer required: VICII and VDC have separate 'pages' now */
-#if 0
-    if (machine_class == VICE_MACHINE_C128) {
-        g_signal_connect(keep_aspect_widget[index], "toggled",
-                G_CALLBACK(on_keep_aspect_toggled),
-                GINT_TO_POINTER(index == 0 ? 1: 0));
-    }
-#endif
-    gtk_grid_attach(GTK_GRID(grid), keep_aspect_widget[index], 0, 1, 1, 1);
-
-    true_aspect_widget[index] = create_true_aspect_widget(index);
-    /* until per-chip TrueAspectRatio is implemented, connect the VICII and
-     * VDC TrueAspectRatio checkboxes, so toggling the VICII checkbox also
-     * updates the VDC checkbox, and vice-versa */
-
-    /* No longer required: VICII and VDC have separate 'pages' now */
-#if 0
-    if (machine_class == VICE_MACHINE_C128) {
-        g_signal_connect(true_aspect_widget[index], "toggled",
-                G_CALLBACK(on_true_aspect_toggled),
-                GINT_TO_POINTER(index == 0 ? 1: 0));
-    }
-#endif
-    gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 1, 1, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
-
-
 /** \brief  Create a per-chip video settings layout
  *
  * \param[in]   parent  parent widget, required for dialogs and window switching
@@ -551,8 +438,8 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
 
     /* row 4, col 0-2: scaling and aspect ratio resources */
-    wrapper = create_scaling_widget(index, chip);
-    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 4, 3, 1);
+    aspect_widget[index] = video_aspect_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), aspect_widget[index], 0, 4, 3, 1);
 
     /* Hide VDC checkbox
      *
@@ -592,10 +479,8 @@ GtkWidget *settings_video_widget_create(GtkWidget *parent)
     chip_name[1] = NULL;
     widget_title[0] = NULL;
     widget_title[1] = NULL;
-    keep_aspect_widget[0] = NULL;
-    keep_aspect_widget[1] = NULL;
-    true_aspect_widget[0] = NULL;
-    true_aspect_widget[1] = NULL;
+    aspect_widget[0] = NULL;
+    aspect_widget[1] = NULL;
     double_size_widget[0] = NULL;
     double_size_widget[1] = NULL;
     render_filter_widget[0] = NULL;
@@ -630,10 +515,8 @@ GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent)
     chip_name[1] = NULL;
     widget_title[0] = NULL;
     widget_title[1] = NULL;
-    keep_aspect_widget[0] = NULL;
-    keep_aspect_widget[1] = NULL;
-    true_aspect_widget[0] = NULL;
-    true_aspect_widget[1] = NULL;
+    aspect_widget[0] = NULL;
+    aspect_widget[1] = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),

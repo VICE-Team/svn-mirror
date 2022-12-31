@@ -662,8 +662,6 @@ static void render(void *job_data, void *pool_data)
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     backbuffer_t *backbuffer;
     int vsync = 1;
-    int keepaspect = 1;
-    int trueaspect = 0;
     float scale_x = 1.0f;
     float scale_y = 1.0f;
 
@@ -713,18 +711,17 @@ static void render(void *job_data, void *pool_data)
      * Recalculate layout
      */
 
-    resources_get_int("KeepAspectRatio", &keepaspect);
-    resources_get_int("TrueAspectRatio", &trueaspect);
-
-    if (keepaspect) {
+    if (canvas->videoconfig->aspect_mode != VIDEO_ASPECT_MODE_NONE) {
         float viewport_aspect;
         float emulated_aspect;
 
         viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
         emulated_aspect = (float)context->current_frame_width / (float)context->current_frame_height;
 
-        if (trueaspect) {
+        if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
             emulated_aspect *= context->pixel_aspect_ratio;
+        } else {
+            emulated_aspect *= canvas->videoconfig->aspect_ratio;
         }
 
         if (emulated_aspect < viewport_aspect) {
@@ -742,7 +739,7 @@ static void render(void *job_data, void *pool_data)
     canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
 
     /* Calculate the minimum drawing area size to be enforced by gtk */
-    if (keepaspect && trueaspect) {
+    if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
         context->native_view_min_width  = ceil((float)context->current_frame_width * context->pixel_aspect_ratio);
         context->native_view_min_height = context->current_frame_height;
     } else {

@@ -81,6 +81,9 @@ extern void ui_sdl_quit(void);
 
 extern int native_monitor;
 
+extern int ui_set_aspect_mode(int newmode, void *canvas);
+extern int ui_set_aspect_ratio(double aspect_ratio, void *canvas);
+
 /*
  * For VSID drag-n-drop support
  */

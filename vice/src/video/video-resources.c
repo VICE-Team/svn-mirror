@@ -50,6 +50,7 @@
 #include "video.h"
 #include "viewport.h"
 #include "util.h"
+#include "ui.h"
 
 /*-----------------------------------------------------------------------*/
 /* global resources.  */
@@ -359,28 +360,73 @@ static resource_int_t resources_chip_palette_int[] =
     RESOURCE_INT_LIST_END
 };
 
-/** \brief  Setter for the boolean resource "${CHIP}DoubleBuffer"
+/** \brief  Setter for the integer resource "${CHIP}AspectMode"
  *
- * \param[in]   double_buffer   enable double buffering
- * \param[in]   canvas          video canvas
+ * \param[in]   mode        aspect mode
+ * \param[in]   canvas      video canvas
  *
  * \return  0
  */
-static int set_double_buffer_enabled(int double_buffer, void *canvas)
+static int set_aspect_mode(int mode, void *canvas)
 {
-    video_canvas_t *cv = canvas;
-
-    cv->videoconfig->double_buffer = double_buffer ? 1 : 0;
-    return 0;
+    if ((mode < VIDEO_ASPECT_MODE_NONE) || (mode > VIDEO_ASPECT_MODE_TRUE)) {
+        return 0;
+    }
+    return ui_set_aspect_mode(mode, canvas);
 }
 
-/** \brief  Resource registration template for "${CHIP}DoubleBuffer"
+/** \brief  Setter for the resource "${CHIP}AspectRatio"
+ *
+ * \param[in]   string      ratio
+ * \param[in]   canvas      video canvas
+ *
+ * \return  0
  */
-static resource_int_t resources_chip_double_buffer[] =
+static int set_aspect_ratio(const char *val, void *canvas)
 {
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_double_buffer_enabled, NULL },
+    video_canvas_t *cv = canvas;
+    double new_aspect;
+    char buf[20];
+
+    if (val) {
+        char *endptr;
+
+        util_string_set(&(cv->videoconfig->aspect_ratio_s), val);
+
+        new_aspect = strtod(val, &endptr);
+        if (val == endptr) {
+            new_aspect = 1.0;
+        } else if (new_aspect < 0.5) {
+            new_aspect = 0.5;
+        } else if (new_aspect > 2.0) {
+            new_aspect = 2.0;
+        }
+    } else {
+        new_aspect = 1.0;
+    }
+    cv->videoconfig->aspect_ratio = new_aspect;
+    sprintf(buf, "%f", new_aspect);
+    util_string_set(&(cv->videoconfig->aspect_ratio_s), buf);
+
+    return ui_set_aspect_ratio(new_aspect, canvas);
+}
+
+/** \brief  Resource registration template for "${CHIP}AspectMode"
+ */
+static resource_int_t resources_chip_aspectmode_int[] =
+{
+    { NULL, VIDEO_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
+      NULL, set_aspect_mode, NULL },
     RESOURCE_INT_LIST_END
+};
+
+/** \brief  Resource registration template for "${CHIP}AspectRatio"
+ */
+static resource_string_t resources_chip_aspectmode_string[] =
+{
+    { NULL, NULL, RES_EVENT_NO, NULL,
+      NULL, set_aspect_ratio, NULL },
+    RESOURCE_STRING_LIST_END
 };
 
 /*
@@ -458,7 +504,12 @@ static int set_color_tint(int val, void *param)
 }
 
 static const char * const vname_chip_colors[] = {
-    "ColorSaturation", "ColorContrast", "ColorBrightness", "ColorGamma", "ColorTint", NULL };
+    "ColorSaturation",
+    "ColorContrast",
+    "ColorBrightness",
+    "ColorGamma",
+    "ColorTint",
+    NULL };
 
 static resource_int_t resources_chip_colors[] =
 {
@@ -546,7 +597,13 @@ static int set_audioleak(int val, void *param)
 }
 
 static const char * const vname_chip_crtemu[] = {
-    "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "PALDelaylineType", "AudioLeak", NULL };
+    "PALScanLineShade",
+    "PALBlur",
+    "PALOddLinePhase",
+    "PALOddLineOffset",
+    "PALDelaylineType",
+    "AudioLeak",
+    NULL };
 
 static resource_int_t resources_chip_crtemu[] =
 {
@@ -775,25 +832,6 @@ int video_resources_chip_init(const char *chipname,
         set_palette_is_external(0, *canvas);
     }
 
-    /* ${CHIP}DoubleBuffer: double buffering  */
-    if (video_chip_cap->double_buffering_allowed != 0) {
-        if (machine_class != VICE_MACHINE_VSID) {
-            resources_chip_double_buffer[0].name
-                = util_concat(chipname, "DoubleBuffer", NULL);
-            resources_chip_double_buffer[0].value_ptr
-                = &((*canvas)->videoconfig->double_buffer);
-            resources_chip_double_buffer[0].param = *canvas;
-
-            result = resources_register_int(resources_chip_double_buffer);
-            lib_free(resources_chip_double_buffer[0].name);
-            if (result < 0) {
-                return -1;
-            }
-        } else {
-            set_double_buffer_enabled(0, *canvas);
-        }
-    }
-
     /* palette generator */
     if (machine_class != VICE_MACHINE_VSID) {
         i = 0;
@@ -918,11 +956,47 @@ int video_resources_chip_init(const char *chipname,
         lib_free(resources_chip_show_statusbar[0].name);
     }
 
+    /* CHIPAspectMode */
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_chip_aspectmode_int[0].name
+            = util_concat(chipname, "AspectMode", NULL);
+        resources_chip_aspectmode_int[0].value_ptr
+            = &((*canvas)->videoconfig->aspect_mode);
+        resources_chip_aspectmode_int[0].param = (void *)*canvas;
+
+        if (resources_register_int(resources_chip_aspectmode_int) < 0) {
+            lib_free(resources_chip_aspectmode_int[0].name);
+            return -1;
+        }
+        lib_free(resources_chip_aspectmode_int[0].name);
+    }
+
+    /* CHIPAspectRatio */
+    if (machine_class != VICE_MACHINE_VSID) {
+        char buf[20];
+        resources_chip_aspectmode_string[0].name
+            = util_concat(chipname, "AspectRatio", NULL);
+        /* KLUDGES: setup the factory default with a string, needs to be done at
+        runtime since float format depends on locale */
+        sprintf(buf, "%f", 1.0f);
+        util_string_set(&((*canvas)->videoconfig->aspect_ratio_factory_value_s), buf);
+        resources_chip_aspectmode_string[0].factory_value = ((*canvas)->videoconfig->aspect_ratio_factory_value_s);
+        resources_chip_aspectmode_string[0].value_ptr
+            = &((*canvas)->videoconfig->aspect_ratio_s);
+        resources_chip_aspectmode_string[0].param = *canvas;
+        if (resources_register_string(resources_chip_aspectmode_string) < 0) {
+            lib_free(resources_chip_aspectmode_string[0].name);
+            return -1;
+        }
+        lib_free(resources_chip_aspectmode_string[0].name);
+    }
+
     return 0;
 }
 
 void video_resources_chip_shutdown(struct video_canvas_s *canvas)
 {
+    lib_free(canvas->videoconfig->aspect_ratio_s);
     lib_free(canvas->videoconfig->external_palette_name);
     lib_free(canvas->videoconfig->chip_name);
 

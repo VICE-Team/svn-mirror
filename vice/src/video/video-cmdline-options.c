@@ -209,7 +209,26 @@ static cmdline_option_t cmdline_options_chip_show_statusbar[] =
     CMDLINE_LIST_END
 };
 
+/* aspect options */
+static const char * const cname_chip_aspect[] =
+{
+    "-", "aspectmode", "AspectMode",
+    "-", "aspect", "AspectRatio",
+    NULL
+};
 
+static cmdline_option_t cmdline_options_chip_aspect[] =
+{
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<aspect ratio>", "Set custom aspect ratio (0.5 - 2.0)" },
+    CMDLINE_LIST_END
+};
+
+/* CRT emulation options */
 static const char * const cname_chip_colors[] =
 {
     "-", "saturation", "ColorSaturation",
@@ -347,6 +366,8 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* video render filters */
+
+    /* <CHIP>Filter */
     for (i = 0; cname_chip_render_filter[i * 3] != NULL; i++) {
         cmdline_options_chip_render_filter[i].name
             = util_concat(cname_chip_render_filter[i * 3], chipname,
@@ -364,6 +385,7 @@ int video_cmdline_options_chip_init(const char *chipname,
         lib_free(cmdline_options_chip_render_filter[i].resource_name);
     }
 
+    /* <CHIP>ExternalPalette */
     for (i = 0; cname_chip_internal_palette[i * 3] != NULL; i++) {
         cmdline_options_chip_internal_palette[i].name
             = util_concat(cname_chip_internal_palette[i * 3], chipname,
@@ -383,6 +405,7 @@ int video_cmdline_options_chip_init(const char *chipname,
         lib_free(cmdline_options_chip_internal_palette[i].resource_name);
     }
 
+    /* <CHIP>PaletteFile */
     for (i = 0; cname_chip_palette[i * 3] != NULL; i++) {
         cmdline_options_chip_palette[i].name
             = util_concat(cname_chip_palette[i * 3], chipname,
@@ -445,6 +468,8 @@ int video_cmdline_options_chip_init(const char *chipname,
 #endif
 
     /* show status bar */
+
+    /* <CHIP>ShowStatusbar */
     cmdline_options_chip_show_statusbar[0].name
         = util_concat("-", chipname, "showstatusbar", NULL);
     cmdline_options_chip_show_statusbar[0].resource_name
@@ -465,6 +490,24 @@ int video_cmdline_options_chip_init(const char *chipname,
     lib_free(cmdline_options_chip_show_statusbar[0].resource_name);
     lib_free(cmdline_options_chip_show_statusbar[1].name);
     lib_free(cmdline_options_chip_show_statusbar[1].resource_name);
+
+    /* aspect options */
+    for (i = 0; cname_chip_aspect[i * 3] != NULL; i++) {
+        cmdline_options_chip_aspect[i].name
+            = util_concat(cname_chip_aspect[i * 3], chipname,
+                          cname_chip_aspect[i * 3 + 1], NULL);
+        cmdline_options_chip_aspect[i].resource_name
+            = util_concat(chipname, cname_chip_aspect[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_aspect) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_aspect[i * 3] != NULL; i++) {
+        lib_free(cmdline_options_chip_aspect[i].name);
+        lib_free(cmdline_options_chip_aspect[i].resource_name);
+    }
 
     /* color generator */
     for (i = 0; cname_chip_colors[i * 3] != NULL; i++) {

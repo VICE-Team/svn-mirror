@@ -386,24 +386,6 @@ VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip)
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 
-UI_MENU_DEFINE_RADIO(SDLGLAspectMode)
-
-static const ui_menu_entry_t aspect_menu[] = {
-    { "Off",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)SDL_ASPECT_MODE_OFF },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)SDL_ASPECT_MODE_CUSTOM },
-    { "True",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)SDL_ASPECT_MODE_TRUE },
-    SDL_MENU_LIST_END
-};
-
 UI_MENU_DEFINE_RADIO(SDLGLFilter)
 
 static const ui_menu_entry_t filter_menu[] = {
@@ -426,14 +408,6 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "Fixed aspect ratio",                                 \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)aspect_menu },                    \
-    { "Custom aspect ratio",                                \
-      MENU_ENTRY_RESOURCE_STRING,                           \
-      string_AspectRatio_callback,                          \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
     { "Filter",                                             \
       MENU_ENTRY_SUBMENU,                                   \
       submenu_radio_callback,                               \
@@ -450,14 +424,6 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "Fixed aspect ratio",                                 \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)aspect_menu },                    \
-    { "Custom aspect ratio",                                \
-      MENU_ENTRY_RESOURCE_STRING,                           \
-      string_AspectRatio_callback,                          \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
     { "Filter",                                             \
       MENU_ENTRY_SUBMENU,                                   \
       submenu_radio_callback,                               \
@@ -473,11 +439,34 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 #endif
 #endif
 
+#define VICE_SDL_SIZE_MENU_ASPECT(chip)             \
+    SDL_MENU_ITEM_SEPARATOR,                        \
+    SDL_MENU_ITEM_TITLE("Aspect Ratio Mode"),       \
+    { "off",                                        \
+      MENU_ENTRY_RESOURCE_RADIO,                    \
+      radio_##chip##AspectMode_callback,            \
+      (ui_callback_data_t)VIDEO_ASPECT_MODE_NONE }, \
+    { "custom",                                     \
+      MENU_ENTRY_RESOURCE_RADIO,                    \
+      radio_##chip##AspectMode_callback,            \
+      (ui_callback_data_t)VIDEO_ASPECT_MODE_CUSTOM }, \
+    { "true",                                       \
+      MENU_ENTRY_RESOURCE_RADIO,                    \
+      radio_##chip##AspectMode_callback,            \
+      (ui_callback_data_t)VIDEO_ASPECT_MODE_TRUE }, \
+    { "Custom aspect ratio",                        \
+      MENU_ENTRY_RESOURCE_STRING,                   \
+      string_##chip##AspectRatio_callback,          \
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
 
 /* VICII size menu */
 
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
+
+UI_MENU_DEFINE_RADIO(VICIIAspectMode)
+UI_MENU_DEFINE_STRING(VICIIAspectRatio)
+
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_RADIO(VICIIFullscreenMode)
 
@@ -485,6 +474,7 @@ static const ui_menu_entry_t vicii_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VICII)
     VICE_SDL_SIZE_MENU_ITEMS(VICII)
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
+    VICE_SDL_SIZE_MENU_ASPECT(VICII)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
 #endif
     SDL_MENU_LIST_END
@@ -495,6 +485,10 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
+
+UI_MENU_DEFINE_RADIO(VDCAspectMode)
+UI_MENU_DEFINE_STRING(VDCAspectRatio)
+
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
 UI_MENU_DEFINE_RADIO(VDCFullscreenMode)
@@ -504,6 +498,7 @@ static const ui_menu_entry_t vdc_size_menu[] = {
     VICE_SDL_SIZE_MENU_STRETCHVERTICAL(VDC)
     VICE_SDL_SIZE_MENU_ITEMS(VDC)
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
+    VICE_SDL_SIZE_MENU_ASPECT(VDC)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
 #endif
     SDL_MENU_LIST_END
@@ -518,11 +513,15 @@ UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 
+UI_MENU_DEFINE_RADIO(CrtcAspectMode)
+UI_MENU_DEFINE_STRING(CrtcAspectRatio)
+
 static const ui_menu_entry_t crtc_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(Crtc)
     VICE_SDL_SIZE_MENU_STRETCHVERTICAL(Crtc)
     VICE_SDL_SIZE_MENU_ITEMS(Crtc)
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
+    VICE_SDL_SIZE_MENU_ASPECT(Crtc)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
 #endif
     SDL_MENU_LIST_END
@@ -533,6 +532,10 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
+
+UI_MENU_DEFINE_RADIO(TEDAspectMode)
+UI_MENU_DEFINE_STRING(TEDAspectRatio)
+
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
 UI_MENU_DEFINE_RADIO(TEDFullscreenMode)
 
@@ -540,6 +543,7 @@ static const ui_menu_entry_t ted_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(TED)
     VICE_SDL_SIZE_MENU_ITEMS(TED)
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
+    VICE_SDL_SIZE_MENU_ASPECT(TED)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
 #endif
     SDL_MENU_LIST_END
@@ -550,6 +554,10 @@ static const ui_menu_entry_t ted_size_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
+
+UI_MENU_DEFINE_RADIO(VICAspectMode)
+UI_MENU_DEFINE_STRING(VICAspectRatio)
+
 UI_MENU_DEFINE_TOGGLE(VICFullscreen)
 UI_MENU_DEFINE_RADIO(VICFullscreenMode)
 
@@ -557,6 +565,7 @@ static const ui_menu_entry_t vic_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VIC)
     VICE_SDL_SIZE_MENU_ITEMS(VIC)
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
+    VICE_SDL_SIZE_MENU_ASPECT(VIC)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)
 #endif
     SDL_MENU_LIST_END

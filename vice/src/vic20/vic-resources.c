@@ -93,7 +93,6 @@ int vic_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VIC_DSCAN;
     video_chip_cap.interlace_allowed = 1;
     video_chip_cap.external_palette_name = "mike-pal";
-    video_chip_cap.double_buffering_allowed = ARCHDEP_VIC_DBUF;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_NTSC_1X1;

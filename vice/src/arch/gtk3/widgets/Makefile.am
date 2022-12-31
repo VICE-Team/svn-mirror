@@ -197,6 +197,7 @@ libwidgets_a_SOURCES = \
 	vdcmodelwidget.c \
 	vic20memoryexpansionwidget.c \
 	videobordermodewidget.c \
+	videoaspectwidget.c \
 	videomodelwidget.c \
 	videopalettewidget.c \
 	videorenderfilterwidget.c \
@@ -362,6 +363,7 @@ EXTRA_DIST = \
 	vdcmodelwidget.h \
 	vic20memoryexpansionwidget.h \
 	videobordermodewidget.h \
+	videoaspectwidget.h \
 	videomodelwidget.h \
 	videopalettewidget.h \
 	videorenderfilterwidget.h \
