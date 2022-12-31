@@ -60,7 +60,7 @@ static int display_filter = 1;
 
 /** \brief  Set <CHIP>AspectMode resource (integer)
  *
- * The display will be updated to reflect any changes this makes. 
+ * The display will be updated to reflect any changes this makes.
  *
  * Called by the actual resource handler (do not call directly)
  *
@@ -79,7 +79,7 @@ int ui_set_aspect_mode(int mode, void *canvas)
 
 /** \brief  Set <CHIP>AspectRatio resource (string)
  *
- * The display will be updated to reflect any changes this makes. 
+ * The display will be updated to reflect any changes this makes.
  *
  * Called by the actual resource handler (do not call directly)
  *
