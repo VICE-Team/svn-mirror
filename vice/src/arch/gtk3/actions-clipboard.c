@@ -33,6 +33,7 @@
 #include <gtk/gtk.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "charset.h"
 #include "clipboard.h"
