@@ -709,6 +709,11 @@ int disk_image_fsimage_create_dxm(const char *name, const char *dname, unsigned 
     return 0;
 }
 
+int disk_image_fsimage_create_dhd(const char *name, const char *dname, unsigned int type)
+{
+    return 0;
+}
+
 int disk_image_write_sector(disk_image_t *image, const uint8_t *buf, const disk_addr_t *dadr)
 {
     return 0;
