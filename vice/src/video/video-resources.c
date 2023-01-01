@@ -360,6 +360,7 @@ static resource_int_t resources_chip_palette_int[] =
     RESOURCE_INT_LIST_END
 };
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
 /** \brief  Setter for the integer resource "${CHIP}AspectMode"
  *
  * \param[in]   mode        aspect mode
@@ -428,6 +429,7 @@ static resource_string_t resources_chip_aspectmode_string[] =
       NULL, set_aspect_ratio, NULL },
     RESOURCE_STRING_LIST_END
 };
+#endif
 
 /*
       resources for the color/palette generator
@@ -956,6 +958,7 @@ int video_resources_chip_init(const char *chipname,
         lib_free(resources_chip_show_statusbar[0].name);
     }
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
     /* CHIPAspectMode */
     if (machine_class != VICE_MACHINE_VSID) {
         resources_chip_aspectmode_int[0].name
@@ -990,7 +993,7 @@ int video_resources_chip_init(const char *chipname,
         }
         lib_free(resources_chip_aspectmode_string[0].name);
     }
-
+#endif
     return 0;
 }
 
