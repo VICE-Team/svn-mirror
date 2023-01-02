@@ -74,12 +74,12 @@ static void drive_store_1541ram(diskunit_context_t *drv, uint16_t address, uint8
 
 static uint8_t drive_read_zero(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->drive_ram[address & 0xff];
+    return drv->drive_ram[address & 0xffu];
 }
 
 static void drive_store_zero(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
-    drv->drive_ram[address & 0xff] = value;
+    drv->drive_ram[address & 0xffu] = value;
 }
 
 /* ------------------------------------------------------------------------- */

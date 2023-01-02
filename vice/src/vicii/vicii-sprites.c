@@ -691,9 +691,18 @@ inline static void draw_hires_sprite_normal(uint8_t *data_ptr, int n,
         }
     }
 
-    collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
-                 | (msk_ptr[3] << 8) | msk_ptr[4]) << lshift)
-               | (msk_ptr[5] >> (8 - lshift)));
+    collmsk =
+        (
+            (
+                (  (uint32_t)msk_ptr[1] << 24
+                 | (uint32_t)msk_ptr[2] << 16
+                 | (uint32_t)msk_ptr[3] << 8
+                 | (uint32_t)msk_ptr[4]
+                )
+                << lshift
+             )
+            | ((uint32_t)msk_ptr[5] >> (8 - lshift))
+        );
 
     collmsk = (collmsk >> (32 - size));
 
