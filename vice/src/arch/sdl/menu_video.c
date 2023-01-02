@@ -386,57 +386,79 @@ VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip)
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 
-UI_MENU_DEFINE_RADIO(SDLGLFilter)
+UI_MENU_DEFINE_RADIO(VICIIGLFilter)
+UI_MENU_DEFINE_RADIO(TEDGLFilter)
+UI_MENU_DEFINE_RADIO(VICGLFilter)
+UI_MENU_DEFINE_RADIO(VDCGLFilter)
+UI_MENU_DEFINE_RADIO(CrtcGLFilter)
 
-static const ui_menu_entry_t filter_menu[] = {
-    { "Nearest",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLGLFilter_callback,
-      (ui_callback_data_t)SDL_FILTER_NEAREST },
-    { "Linear",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLGLFilter_callback,
-      (ui_callback_data_t)SDL_FILTER_LINEAR },
-    SDL_MENU_LIST_END
+#define VICE_SDL_VIDEO_FILTERS(chip)                         \
+static const ui_menu_entry_t chip##filter_menu[] = {         \
+    { "Nearest",                                             \
+      MENU_ENTRY_RESOURCE_RADIO,                             \
+      radio_##chip##GLFilter_callback,                       \
+      (ui_callback_data_t)VIDEO_GLFILTER_NEAREST },          \
+    { "Linear",                                              \
+      MENU_ENTRY_RESOURCE_RADIO,                             \
+      radio_##chip##GLFilter_callback,                       \
+      (ui_callback_data_t)VIDEO_GLFILTER_BILINEAR },         \
+    SDL_MENU_LIST_END                                        \
 };
 
-UI_MENU_DEFINE_STRING(AspectRatio)
-UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
-UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
+VICE_SDL_VIDEO_FILTERS(VICII)
+VICE_SDL_VIDEO_FILTERS(TED)
+VICE_SDL_VIDEO_FILTERS(VIC)
+VICE_SDL_VIDEO_FILTERS(VDC)
+VICE_SDL_VIDEO_FILTERS(Crtc)
 
-#ifndef USE_SDL2UI
+UI_MENU_DEFINE_TOGGLE(VICIIFlipX)
+UI_MENU_DEFINE_TOGGLE(TEDFlipX)
+UI_MENU_DEFINE_TOGGLE(VICFlipX)
+UI_MENU_DEFINE_TOGGLE(VDCFlipX)
+UI_MENU_DEFINE_TOGGLE(CrtcFlipX)
+
+UI_MENU_DEFINE_TOGGLE(VICIIFlipY)
+UI_MENU_DEFINE_TOGGLE(TEDFlipY)
+UI_MENU_DEFINE_TOGGLE(VICFlipY)
+UI_MENU_DEFINE_TOGGLE(VDCFlipY)
+UI_MENU_DEFINE_TOGGLE(CrtcFlipY)
+
+UI_MENU_DEFINE_TOGGLE(VICIIRotate)
+UI_MENU_DEFINE_TOGGLE(TEDRotate)
+UI_MENU_DEFINE_TOGGLE(VICRotate)
+UI_MENU_DEFINE_TOGGLE(VDCRotate)
+UI_MENU_DEFINE_TOGGLE(CrtcRotate)
+
+UI_MENU_DEFINE_TOGGLE(VICIIVSync)
+UI_MENU_DEFINE_TOGGLE(TEDVSync)
+UI_MENU_DEFINE_TOGGLE(VICVSync)
+UI_MENU_DEFINE_TOGGLE(VDCVSync)
+UI_MENU_DEFINE_TOGGLE(CrtcVSync)
+
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "Filter",                                             \
+    { "VSync",                                              \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      toggle_##chip##VSync_callback,                        \
+      NULL },                                               \
+    { "GL Filter",                                          \
       MENU_ENTRY_SUBMENU,                                   \
       submenu_radio_callback,                               \
-      (ui_callback_data_t)filter_menu },                    \
+      (ui_callback_data_t)chip##filter_menu },              \
     { "Flip X",                                             \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipX_callback,                           \
+      toggle_##chip##FlipX_callback,                        \
       NULL },                                               \
     { "Flip Y",                                             \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipY_callback,                           \
-      NULL },
-#else
-#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
-    SDL_MENU_ITEM_SEPARATOR,                                \
-    SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "Filter",                                             \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)filter_menu },                    \
-    { "Flip X",                                             \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipX_callback,                           \
+      toggle_##chip##FlipY_callback,                        \
       NULL },                                               \
-    { "Flip Y",                                             \
+    { "Rotate 90degr",                                      \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipY_callback,                           \
+      toggle_##chip##Rotate_callback,                       \
       NULL },
-#endif
+
 #endif
 
 #define VICE_SDL_SIZE_MENU_ASPECT(chip)             \

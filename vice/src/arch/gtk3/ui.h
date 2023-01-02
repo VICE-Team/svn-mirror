@@ -107,6 +107,11 @@ video_canvas_t *ui_get_canvas_for_window(int index);
 
 int ui_set_aspect_mode(int mode, void *canvas);
 int ui_set_aspect_ratio(double aspect, void *canvas);
+int ui_set_glfilter(int val, void *canvas);
+int ui_set_flipx(int val, void *canvas);
+int ui_set_flipy(int val, void *canvas);
+int ui_set_rotate(int val, void *canvas);
+int ui_set_vsync(int val, void *canvas);
 
 /*
  * New pause 'API'

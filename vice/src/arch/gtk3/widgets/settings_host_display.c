@@ -7,8 +7,6 @@
 /*
  * $VICERES FullscreenDecorations   -vsid
  * $VICERES StartMinimized          -vsid
- *
- * $VICERES VSync                   -vsid
  */
 
 /*
@@ -64,33 +62,6 @@ static GtkWidget *create_fullscreen_decorations_widget(int index)
 }
 
 
-/** \brief  Create synchronization method widget
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_sync_widget(void)
-{
-    GtkWidget *grid;
-    GtkWidget *vsync;
-    GtkWidget *header;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
-
-    header = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(header), "<b>Gtk sync method</b>");
-    gtk_widget_set_halign(header, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), header, 0, 0, 1, 1);
-
-    vsync = vice_gtk3_resource_check_button_new("VSync", "VSync");
-    gtk_widget_set_sensitive(vsync, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
-    gtk_widget_set_margin_top(vsync, 8);
-    gtk_widget_set_margin_start(vsync, 16);
-
-    return grid;
-}
-
-
 /** \brief  Create host display settings widget
  *
  * \param[in]   widget  parent widget (used for dialogs)
@@ -100,8 +71,6 @@ static GtkWidget *create_sync_widget(void)
 GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
-    GtkWidget *filter_widget = canvas_render_filter_widget_create();
-    GtkWidget *sync_widget;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -109,20 +78,12 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         GtkWidget *decorations;
         GtkWidget *minimized_widget;
-        int col = 0;
 
         decorations = create_fullscreen_decorations_widget(0);
 
         minimized_widget = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
                 "Start the emulator window minimized");
-
-        sync_widget = create_sync_widget();
-
-        gtk_grid_attach(GTK_GRID(grid), filter_widget, col++, 1, 2, 1);
-        gtk_widget_set_margin_start(filter_widget, 8);
-
-        gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 
         gtk_grid_attach(GTK_GRID(grid), decorations, 0, 2, 2, 1);
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);

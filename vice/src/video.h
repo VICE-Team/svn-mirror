@@ -38,6 +38,11 @@
 #define VIDEO_FILTER_CRT          1
 #define VIDEO_FILTER_SCALE2X      2
 
+/* video filter type, resource "CHIPGLFilter" */
+#define VIDEO_GLFILTER_NEAREST      0
+#define VIDEO_GLFILTER_BILINEAR     1
+#define VIDEO_GLFILTER_BICUBIC      2
+
 /* These constants are used to configure the video output.  */
 
 /* no video output (dummy) */
@@ -216,6 +221,8 @@ struct video_render_config_s {
     int scaley;                    /* Vertical scaling */
     int doublescan;                /* Doublescan enabled?  */
     int filter;                    /* VIDEO_FILTER_NONE, VIDEO_FILTER_CRT, VIDEO_FILTER_SCALE2X */
+    int glfilter;                  /* <CHIP>GLFilter */
+    int vsync;                     /* <CHIP>VSync */
     int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
     int readable;                  /* reading of frame buffer is safe and fast */
@@ -228,6 +235,7 @@ struct video_render_config_s {
     double aspect_ratio;
     char *aspect_ratio_s;               /* custom aspect ratio <CHIP>AspectRatio */
     char *aspect_ratio_factory_value_s; /* custom aspect ratio <CHIP>AspectRatio */
+    int flipx, flipy, rotate;           /* mirroring; <CHIP>FlipX, <CHIP>FlipY, <CHIP>Rotate */
     /* FIXME: we can probably get rid of this: */
     int double_buffer;             /* Double buffering enabled? */
     /* FIXME: get rid of as much as possible of the following: */

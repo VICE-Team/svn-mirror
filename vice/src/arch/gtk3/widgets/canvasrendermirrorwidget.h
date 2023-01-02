@@ -1,7 +1,8 @@
-/** \file   canvasrenderfilterwidget.h
- * \brief   Widget to select the Cario/OpenGL render filter - header
+/** \file   canvasrendermirrorwidget.h
+ * \brief   Widget to select how the GL output is mirrored / rotated
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  groepaz <groepaz@gmx.net>
  */
 
 /*
@@ -25,13 +26,13 @@
  *
  */
 
-#ifndef VICE_HAVE_CANVAS_RENDER_FILTER_WIDGET_H
-#define VICE_HAVE_CANVAS_RENDER_FILTER_WIDGET_H
+#ifndef VICE_HAVE_CANVAS_RENDER_MIRROR_WIDGET_H
+#define VICE_HAVE_CANVAS_RENDER_MIRROR_WIDGET_H
 
 
 #include <gtk/gtk.h>
 
-GtkWidget *canvas_render_filter_widget_create(const char *chip);
+GtkWidget *canvas_render_mirror_widget_create(const char *chip);
 
 #endif
 

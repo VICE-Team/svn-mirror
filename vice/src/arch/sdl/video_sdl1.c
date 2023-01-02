@@ -91,24 +91,30 @@ video_canvas_t *sdl_active_canvas = NULL;
 #if defined(HAVE_HWSCALE)
 static int sdl_gl_mode;
 static GLint screen_texture;
-static int sdl_gl_vertex_base = 0;
 
-static const float sdl_gl_vertex_coord[4 * 4] = {
-    /* Normal */
-    -1.0f, +1.0f, -1.0f, +1.0f,
-    /* Flip X */
-    +1.0f, +1.0f, -1.0f, -1.0f,
-    /* Flip Y */
-    -1.0f, -1.0f, +1.0f, +1.0f,
-    /* Flip X&Y */
-    +1.0f, -1.0f, +1.0f, -1.0f
+static const float sdl_gl_vertex_coord[4][2] = {
+    /* Lower Right Of Texture */
+    { -1.0f, +1.0f },
+    /* Upper Right Of Texture */
+    { -1.0f, -1.0f },
+    /* Upper Left Of Texture */
+    { +1.0f, -1.0f },
+    /* Lower Left Of Texture */
+    { +1.0f, +1.0f },
 };
 
-static int sdl_gl_flipx;
-static int sdl_gl_flipy;
-
-static int sdl_gl_filter_res;
-static int sdl_gl_filter;
+static const int sdl_gl_vertex_pts[4 * 2][4] = {
+    /* Normal */
+    { 0, 1, 2, 3 }, /* Normal */
+    { 3, 2, 1, 0 }, /* Flip X */
+    { 1, 0, 3, 2 }, /* Flip Y */
+    { 2, 3, 0, 1 }, /* Flip X&Y */
+    /* rotated 90 degrees */
+    { 3, 0, 1, 2 }, /* Normal */
+    { 0, 3, 2, 1 }, /* Flip X */
+    { 2, 1, 0, 3 }, /* Flip Y */
+    { 1, 2, 3, 0 }, /* Flip X&Y */
+};
 #endif
 
 struct sdl_lightpen_adjust_s {
@@ -164,6 +170,7 @@ static int set_sdl_limit_mode(int v, void *param)
     return 0;
 }
 
+/* custom width for fullscreen */
 static int set_sdl_custom_width(int w, void *param)
 {
     if (w <= 0) {
@@ -180,6 +187,7 @@ static int set_sdl_custom_width(int w, void *param)
     return 0;
 }
 
+/* custom height for fullscreen */
 static int set_sdl_custom_height(int h, void *param)
 {
     if (h <= 0) {
@@ -260,45 +268,71 @@ int ui_set_aspect_ratio(double aspect_ratio, void *canvas)
     return 0;
 }
 
-static void update_vertex_base(void)
+int ui_set_flipx(int val, void *canvas)
 {
-    sdl_gl_vertex_base = (sdl_gl_flipx << 2) | (sdl_gl_flipy << 3);
-}
-
-static int set_sdl_gl_flipx(int v, void *param)
-{
-    sdl_gl_flipx = v ? 1 : 0;
-    update_vertex_base();
-
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->flipx = val;
     return 0;
 }
 
-static int set_sdl_gl_flipy(int v, void *param)
+int ui_set_flipy(int val, void *canvas)
 {
-    sdl_gl_flipy = v ? 1 : 0;
-    update_vertex_base();
-
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->flipy = val;
     return 0;
 }
 
-static int set_sdl_gl_filter(int v, void *param)
+int ui_set_glfilter(int val, void *canvas)
 {
-    switch (v) {
-        case SDL_FILTER_NEAREST:
-            sdl_gl_filter = GL_NEAREST;
-            break;
-
-        case SDL_FILTER_LINEAR:
-            sdl_gl_filter = GL_LINEAR;
-            break;
-
-        default:
-            return -1;
+    video_canvas_t *cv = canvas;
+    if (val == VIDEO_GLFILTER_NEAREST) {
+        val = VIDEO_GLFILTER_NEAREST;
+    } else {
+        val = VIDEO_GLFILTER_BILINEAR;
     }
 
-    sdl_gl_filter_res = v;
+    cv->videoconfig->glfilter = val;
     return 0;
 }
+
+int ui_set_rotate(int val, void *canvas)
+{
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->rotate = val;
+    return 0;
+}
+
+int ui_set_vsync(int val, void *canvas)
+{
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->vsync = val;
+    return 0;
+}
+
 #endif /* HAVE_HWSCALE */
 
 #define VICE_DEFAULT_BITDEPTH 0
@@ -322,14 +356,6 @@ static const resource_int_t resources_int[] = {
       &sdl_window_width, set_sdl_window_width, NULL },
     { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
-#if defined(HAVE_HWSCALE)
-    { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
-      &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
-    { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
-      &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
-    { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
-      &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
-#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -354,7 +380,7 @@ void video_arch_resources_shutdown(void)
     }
 
 #if defined(HAVE_HWSCALE)
-    /* FIXME: loops over all canvas */
+    /* FIXME: should loop over all canvas */
     /* lib_free(canvas->videoconfig->aspect_ratio_s); */
 #endif
 }
@@ -384,23 +410,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set intiial window height" },
-#if defined(HAVE_HWSCALE)
-    { "-sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
-      NULL, "Enable X flip" },
-    { "+sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipX", (resource_value_t)0,
-      NULL, "Disable X flip" },
-    { "-sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipY", (resource_value_t)1,
-      NULL, "Enable Y flip" },
-    { "+sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
-      NULL, "Disable Y flip" },
-    { "-sdlglfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLGLFilter", NULL,
-      "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
-#endif
     CMDLINE_LIST_END
 };
 
@@ -844,7 +853,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
 #if defined(HAVE_HWSCALE)
     {
-        const float *v = &(sdl_gl_vertex_coord[sdl_gl_vertex_base]);
+        int sdl_gl_vertex_base = (canvas->videoconfig->flipx << 0) |
+                                 (canvas->videoconfig->flipy << 1) |
+                                 (canvas->videoconfig->rotate << 2);
+        int sdl_gl_filter = (canvas->videoconfig->glfilter == VIDEO_GLFILTER_NEAREST) ? GL_NEAREST : GL_LINEAR;
 
         if (canvas != sdl_active_canvas) {
             DBG(("%s: not active SDL canvas, ignoring", __func__));
@@ -883,19 +895,23 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
         /* Lower Right Of Texture */
         glTexCoord2f(0.0f, 0.0f);
-        glVertex2f(v[0], v[1]);
+        glVertex2f(sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][0]][0],
+                    sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][0]][1]);
 
         /* Upper Right Of Texture */
         glTexCoord2f(0.0f, (float)(canvas->height));
-        glVertex2f(v[0], v[2]);
+        glVertex2f(sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][1]][0],
+                    sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][1]][1]);
 
         /* Upper Left Of Texture */
         glTexCoord2f((float)(canvas->width), (float)(canvas->height));
-        glVertex2f(v[3], v[2]);
+        glVertex2f(sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][2]][0],
+                    sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][2]][1]);
 
         /* Lower Left Of Texture */
         glTexCoord2f((float)(canvas->width), 0.0f);
-        glVertex2f(v[3], v[1]);
+        glVertex2f(sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][3]][0],
+                    sdl_gl_vertex_coord[sdl_gl_vertex_pts[sdl_gl_vertex_base][3]][1]);
 
         glEnd();
 

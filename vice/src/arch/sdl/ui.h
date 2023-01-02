@@ -83,6 +83,11 @@ extern int native_monitor;
 
 extern int ui_set_aspect_mode(int newmode, void *canvas);
 extern int ui_set_aspect_ratio(double aspect_ratio, void *canvas);
+extern int ui_set_glfilter(int val, void *canvas);
+extern int ui_set_flipx(int val, void *canvas);
+extern int ui_set_flipy(int val, void *canvas);
+extern int ui_set_rotate(int val, void *canvas);
+extern int ui_set_vsync(int val, void *canvas);
 
 /*
  * For VSID drag-n-drop support

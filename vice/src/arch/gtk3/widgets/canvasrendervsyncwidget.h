@@ -1,7 +1,8 @@
-/** \file   canvasrenderfilterwidget.h
- * \brief   Widget to select the Cario/OpenGL render filter - header
+/** \file   canvasrendervsyncwidget.h
+ * \brief   Widget to select how the GL output is synced
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  groepaz <groepaz@gmx.net>
  */
 
 /*
@@ -25,13 +26,13 @@
  *
  */
 
-#ifndef VICE_HAVE_CANVAS_RENDER_FILTER_WIDGET_H
-#define VICE_HAVE_CANVAS_RENDER_FILTER_WIDGET_H
+#ifndef VICE_HAVE_CANVAS_RENDER_VSYNC_WIDGET_H
+#define VICE_HAVE_CANVAS_RENDER_VSYNC_WIDGET_H
 
 
 #include <gtk/gtk.h>
 
-GtkWidget *canvas_render_filter_widget_create(const char *chip);
+GtkWidget *canvas_render_vsync_widget_create(const char *chip);
 
 #endif
 

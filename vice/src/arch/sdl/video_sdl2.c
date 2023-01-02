@@ -97,16 +97,10 @@ static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
 video_canvas_t *sdl_active_canvas = NULL;
 
-static int sdl_gl_flipx;
-static int sdl_gl_flipy;
-
-static int sdl_gl_filter_res;
-static int sdl_gl_filter;
 static int sdl2_dual_window;
-static int sdl_vsync;
 
 static char *sdl2_renderer_name = NULL;
-static SDL_RendererFlip flip;
+
 static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
 static int recreate_textures = 0;
@@ -222,7 +216,7 @@ int ui_set_aspect_ratio(double aspect_ratio, void *canvas)
 {
     video_canvas_t *cv = canvas;
     double old_aspect = cv->videoconfig->aspect_ratio;
-    printf("ui_set_aspect_ratio %f %p\n", aspect_ratio, canvas);
+
     if (old_aspect != aspect_ratio) {
         if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
@@ -232,32 +226,47 @@ int ui_set_aspect_ratio(double aspect_ratio, void *canvas)
     return 0;
 }
 
-static int set_sdl_gl_flipx(int v, void *param)
+/* called when the <CHIP>FlipX resource was set */
+int ui_set_flipx(int val, void *canvas)
 {
-    sdl_gl_flipx = v ? 1 : 0;
-
-    if (sdl_gl_flipx) {
-        flip |= SDL_FLIP_HORIZONTAL;
-    } else {
-        flip &= ~SDL_FLIP_HORIZONTAL;
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
     }
-
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->flipx = val;
     return 0;
 }
 
-static int set_sdl_gl_flipy(int v, void *param)
+/* called when the <CHIP>FlipY resource was set */
+int ui_set_flipy(int val, void *canvas)
 {
-    sdl_gl_flipy = v ? 1 : 0;
-
-    if (sdl_gl_flipy) {
-        flip |= SDL_FLIP_VERTICAL;
-    } else {
-        flip &= ~SDL_FLIP_VERTICAL;
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
     }
-
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->flipy = val;
     return 0;
 }
 
+/* called when the <CHIP>Rotate resource was set */
+int ui_set_rotate(int val, void *canvas)
+{
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->rotate = val;
+    return 0;
+}
 
 static void recreate_canvas_textures(video_canvas_t *canvas)
 {
@@ -272,11 +281,12 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
     if (!surface) {
         return;
     }
+
     width = surface->w;
     height = surface->h;
 
     /* This hint controls the scaling mode of textures created afterwards */
-    if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
+    if (canvas->videoconfig->glfilter == VIDEO_GLFILTER_BILINEAR) {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     } else {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
@@ -311,22 +321,16 @@ static void recreate_all_textures(void)
     }
 }
 
-static int set_sdl_gl_filter(int v, void *param)
+int ui_set_glfilter(int val, void *canvas)
 {
-    switch (v) {
-        case SDL_FILTER_NEAREST:
-            sdl_gl_filter = GL_NEAREST;
-            break;
-
-        case SDL_FILTER_LINEAR:
-            sdl_gl_filter = GL_LINEAR;
-            break;
-
-        default:
-            return -1;
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
     }
-
-    sdl_gl_filter_res = v;
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->glfilter = val;
     recreate_textures = 1;
     return 0;
 }
@@ -348,10 +352,17 @@ static int set_sdl2_dual_window(int v, void *param)
     return 0;
 }
 
-static int set_sdl_vsync(int v, void *param)
+/* called when <CHIP>VSync was set */
+int ui_set_vsync(int val, void *canvas)
 {
-    sdl_vsync = v ? 1 : 0;
-
+    video_canvas_t *cv = canvas;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 1) {
+        val = 1;
+    }
+    cv->videoconfig->vsync = val;
     return 0;
 }
 
@@ -379,18 +390,8 @@ static const resource_int_t resources_int[] = {
       &sdl_initial_width[0], set_sdl_initial_width, (void*)0 },
     { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_initial_height[0], set_sdl_initial_height, (void*)0 },
-    { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
-      &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
-    { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
-      &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
-    { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
-      &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
-#ifdef USE_SDL2UI
     { "DualWindow", 0, RES_EVENT_NO, NULL,
       &sdl2_dual_window, set_sdl2_dual_window, NULL },
-#endif
-    { "VSync", 1, RES_EVENT_NO, NULL,
-      &sdl_vsync, set_sdl_vsync, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -463,38 +464,15 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set initial window height" },
-    { "-sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
-      NULL, "Enable X flip" },
-    { "+sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipX", (resource_value_t)0,
-      NULL, "Disable X flip" },
-    { "-sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipY", (resource_value_t)1,
-      NULL, "Enable Y flip" },
-    { "+sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
-      NULL, "Disable Y flip" },
-    { "-sdlglfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLGLFilter", NULL,
-      "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
     { "-sdl2backend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDL2Backend", NULL,
       "<backend name>", "Set the preferred SDL2 backend" },
-#ifdef USE_SDL2UI
     { "-dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DualWindow", (void *)1,
       NULL, "Enable dual window rendering"},
     { "+dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DualWindow", (void *)0,
       NULL, "Disable dual window rendering"},
-#endif
-    { "-vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VSync", (void *)1,
-      NULL, "Enable vsync to prevent tearing"},
-    { "+vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VSync", (void *)0,
-      NULL, "Disable vsync"},
     CMDLINE_LIST_END
 };
 
@@ -706,7 +684,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
        renderer - so to do this at runtime some magic has to be implemented
        that destroys current renderer(s), changes the hint, and then creates
        them again */
-    resources_get_int("VSync", &vsync);
+    vsync = canvas->videoconfig->vsync;
     log_message(sdlvideo_log, "VSync is %s.", vsync ? "enabled" : "disabled");
     if (vsync) {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_VSYNC, "1", SDL_HINT_OVERRIDE);
@@ -780,6 +758,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 {
     SDL_Texture *texture_swap;
     uint8_t *backup;
+    SDL_RendererFlip flip = 0;
+    double angle = 0;
 
     /* If the canvas isn't initialized, skip this */
     if ((canvas == NULL) || (canvas->screen == NULL)) {
@@ -849,6 +829,15 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     /* Render. */
     SDL_RenderClear(canvas->container->renderer);
 
+    if (canvas->videoconfig->flipx) {
+        flip |= SDL_FLIP_HORIZONTAL;
+    }
+    if (canvas->videoconfig->flipy) {
+        flip |= SDL_FLIP_VERTICAL;
+    }
+
+    /* FIXME: when the texture is rotated, the host window should resize accordingly */
+    angle = canvas->videoconfig->rotate ? 90.0f : 0.0f;
     if (canvas->videoconfig->interlaced && !sdl_menu_state) {
         /*
          * Interlaced mode: Re-render last frame to render new frame over.
@@ -856,12 +845,12 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
          * render of the menu shows the emu screen behind it!
          */
         SDL_SetTextureBlendMode(canvas->previous_frame_texture, SDL_BLENDMODE_NONE);
-        SDL_RenderCopyEx(canvas->container->renderer, canvas->previous_frame_texture, NULL, NULL, 0, NULL, flip);
+        SDL_RenderCopyEx(canvas->container->renderer, canvas->previous_frame_texture, NULL, NULL, angle, NULL, flip);
         SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_BLEND);
     } else {
         SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_NONE);
     }
-    SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
+    SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, angle, NULL, flip);
 
     SDL_RenderPresent(canvas->container->renderer);
 
@@ -988,6 +977,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     if (!(canvas && canvas->container && canvas->draw_buffer && canvas->videoconfig && canvas->fullscreenconfig)) {
         return;
     }
+
     width = canvas->draw_buffer->canvas_width * canvas->videoconfig->scalex;
     height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
 

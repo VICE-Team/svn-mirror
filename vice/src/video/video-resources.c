@@ -412,18 +412,56 @@ static int set_aspect_ratio(const char *val, void *canvas)
     return ui_set_aspect_ratio(new_aspect, canvas);
 }
 
+static int set_glfilter(int val, void *canvas)
+{
+    return ui_set_glfilter(val, canvas);
+}
+
+static int set_flipx(int val, void *canvas)
+{
+    return ui_set_flipx(val, canvas);
+}
+
+static int set_flipy(int val, void *canvas)
+{
+    return ui_set_flipy(val, canvas);
+}
+
+static int set_rotate(int val, void *canvas)
+{
+    return ui_set_rotate(val, canvas);
+}
+
+static int set_vsync(int val, void *canvas)
+{
+    return ui_set_vsync(val, canvas);
+}
+
+static const char * const vname_chip_gloptions_int[] = {
+    "AspectMode",
+    "GLFilter",
+    "FlipX",
+    "FlipY",
+    "Rotate",
+    "VSync",
+    NULL };
+
 /** \brief  Resource registration template for "${CHIP}AspectMode"
  */
-static resource_int_t resources_chip_aspectmode_int[] =
+static resource_int_t resources_chip_gloptions_int[] =
 {
-    { NULL, VIDEO_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
-      NULL, set_aspect_mode, NULL },
+    { NULL, VIDEO_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL, NULL, set_aspect_mode, NULL },
+    { NULL, VIDEO_GLFILTER_BICUBIC, RES_EVENT_NO, NULL, NULL, set_glfilter, NULL },
+    { NULL, 0                     , RES_EVENT_NO, NULL, NULL, set_flipx, NULL },
+    { NULL, 0                     , RES_EVENT_NO, NULL, NULL, set_flipy, NULL },
+    { NULL, 0                     , RES_EVENT_NO, NULL, NULL, set_rotate, NULL },
+    { NULL, 1                     , RES_EVENT_NO, NULL, NULL, set_vsync, NULL },
     RESOURCE_INT_LIST_END
 };
 
 /** \brief  Resource registration template for "${CHIP}AspectRatio"
  */
-static resource_string_t resources_chip_aspectmode_string[] =
+static resource_string_t resources_chip_gloptions_string[] =
 {
     { NULL, NULL, RES_EVENT_NO, NULL,
       NULL, set_aspect_ratio, NULL },
@@ -958,40 +996,55 @@ int video_resources_chip_init(const char *chipname,
         lib_free(resources_chip_show_statusbar[0].name);
     }
 
+    /* Open GL options */
 #if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
-    /* CHIPAspectMode */
+    /* CHIPAspectMode, CHIPGLFilter, CHIPFlipX, CHIPFlipY, CHIPRotate */
     if (machine_class != VICE_MACHINE_VSID) {
-        resources_chip_aspectmode_int[0].name
-            = util_concat(chipname, "AspectMode", NULL);
-        resources_chip_aspectmode_int[0].value_ptr
-            = &((*canvas)->videoconfig->aspect_mode);
-        resources_chip_aspectmode_int[0].param = (void *)*canvas;
+        int res = 0;
+        i = 0;
+        while (vname_chip_gloptions_int[i] != NULL) {
+            resources_chip_gloptions_int[i].name
+                = util_concat(chipname, vname_chip_gloptions_int[i], NULL);
+            resources_chip_gloptions_int[i].param = (void *)*canvas;
+            ++i;
+        }
 
-        if (resources_register_int(resources_chip_aspectmode_int) < 0) {
-            lib_free(resources_chip_aspectmode_int[0].name);
+        resources_chip_gloptions_int[0].value_ptr = &((*canvas)->videoconfig->aspect_mode);
+        resources_chip_gloptions_int[1].value_ptr = &((*canvas)->videoconfig->glfilter);
+        resources_chip_gloptions_int[2].value_ptr = &((*canvas)->videoconfig->flipx);
+        resources_chip_gloptions_int[3].value_ptr = &((*canvas)->videoconfig->flipy);
+        resources_chip_gloptions_int[4].value_ptr = &((*canvas)->videoconfig->rotate);
+        resources_chip_gloptions_int[5].value_ptr = &((*canvas)->videoconfig->vsync);
+
+        res = resources_register_int(resources_chip_gloptions_int);
+        i = 0;
+        while (vname_chip_gloptions_int[i] != NULL) {
+            lib_free(resources_chip_gloptions_int[i].name);
+            ++i;
+        }
+        if (res < 0) {
             return -1;
         }
-        lib_free(resources_chip_aspectmode_int[0].name);
     }
 
     /* CHIPAspectRatio */
     if (machine_class != VICE_MACHINE_VSID) {
         char buf[20];
-        resources_chip_aspectmode_string[0].name
+        resources_chip_gloptions_string[0].name
             = util_concat(chipname, "AspectRatio", NULL);
         /* KLUDGES: setup the factory default with a string, needs to be done at
         runtime since float format depends on locale */
         sprintf(buf, "%f", 1.0f);
         util_string_set(&((*canvas)->videoconfig->aspect_ratio_factory_value_s), buf);
-        resources_chip_aspectmode_string[0].factory_value = ((*canvas)->videoconfig->aspect_ratio_factory_value_s);
-        resources_chip_aspectmode_string[0].value_ptr
+        resources_chip_gloptions_string[0].factory_value = ((*canvas)->videoconfig->aspect_ratio_factory_value_s);
+        resources_chip_gloptions_string[0].value_ptr
             = &((*canvas)->videoconfig->aspect_ratio_s);
-        resources_chip_aspectmode_string[0].param = *canvas;
-        if (resources_register_string(resources_chip_aspectmode_string) < 0) {
-            lib_free(resources_chip_aspectmode_string[0].name);
+        resources_chip_gloptions_string[0].param = *canvas;
+        if (resources_register_string(resources_chip_gloptions_string) < 0) {
+            lib_free(resources_chip_gloptions_string[0].name);
             return -1;
         }
-        lib_free(resources_chip_aspectmode_string[0].name);
+        lib_free(resources_chip_gloptions_string[0].name);
     }
 #endif
     return 0;
