@@ -11406,6 +11406,11 @@ Integer specifying border display mode.
 Boolean specifying whether to enable vsync to prevent screen tearing.
 (0: vsync off, 1: vsync on)
 
+@vindex VICIIShowStatusbar
+@item VICIIShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -12866,6 +12871,11 @@ Integer specifying rendering filter
 @item VDCVSync
 Boolean specifying whether to enable vsync to prevent screen tearing.
 (0: vsync off, 1: vsync on)
+
+@vindex VDCShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x128 only).
 
 @end table
 
@@ -14515,6 +14525,11 @@ Integer specifying border display mode
 Boolean specifying whether to enable vsync to prevent screen tearing.
 (0: vsync off, 1: vsync on)
 
+@vindex VICShowStatusbar
+@item VICShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xvic only).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -15104,6 +15119,11 @@ Integer specifying border display mode.
 @item TEDVSync
 Boolean specifying whether to enable vsync to prevent screen tearing.
 (0: vsync off, 1: vsync on)
+
+@vindex TEDShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xplus4 only).
 
 @end table
 
@@ -15770,6 +15790,11 @@ Integer specifying rendering filter.
 @item CrtcVSync
 Boolean specifying whether to enable vsync to prevent screen tearing.
 (0: vsync off, 1: vsync on)
+
+@vindex CrtcShowStatusbar
+@item CrtcShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xcbm2 and xpet only).
 
 @end table
 
@@ -17058,11 +17083,6 @@ dialog. If set, the emulation will pause when triggering the settings dialog.
 When closing the settings dialog the pause state will revert to its state before
 triggering the settings UI.
 
-@vindex SDLStatusbar
-@item SDLStatusbar
-Boolean to enable/disable the statusbar
-(all emulators except vsid).
-
 @vindex SDLBitdepth
 @item SDLBitdepth
 Integer specifying the bitdepth used.
@@ -17177,32 +17197,6 @@ Integer specifying the fullscreen mode
 @item VICIIFullscreen
 Boolean specifying whether to use fullscreen mode or not
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
-@vindex CrtcShowStatusbar
-@item CrtcShowStatusbar
-Boolean specifying whether to show the status bar or not
-(xcbm2 and xpet only).
-
-@vindex TEDShowStatusbar
-@item TEDShowStatusbar
-Boolean specifying whether to show the status bar or not
-(xplus4 only).
-
-@vindex VDCShowStatusbar
-@item TEDShowStatusbar
-Boolean specifying whether to show the status bar or not
-(x128 only).
-
-@vindex VICShowStatusbar
-@item VICShowStatusbar
-Boolean specifying whether to show the status bar or not
-(xvic only).
-
-@vindex VICIIShowStatusbar
-@item VICIIShowStatusbar
-Boolean specifying whether to show the status bar or not
-(x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
-
 
 @end table
 
@@ -17328,13 +17322,6 @@ Pause emulation when enabling the settings dialog.
 @item +pauseonsettings
 Do not pause emulation when enabling the settings dialog.
 (@code{PauseOnSettings=0}).
-
-@findex -statusbar, +statusbar
-@item -statusbar
-@itemx +statusbar
-Enable/disable the statusbar
-(@code{SDLStatusbar=1}, @code{SDLStatusbar=0})
-(all emulators except vsid).
 
 @findex -sdlbitdepth
 @item -sdlbitdepth <bpp>

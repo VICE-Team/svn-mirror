@@ -158,11 +158,6 @@ UI_MENU_CALLBACK(vkbd_callback)
     return NULL;
 }
 
-UI_MENU_CALLBACK(statusbar_callback)
-{
-    return sdl_ui_menu_toggle_helper(activated, "SDLStatusbar");
-}
-
 UI_MENU_CALLBACK(quit_callback)
 {
     if (activated) {
