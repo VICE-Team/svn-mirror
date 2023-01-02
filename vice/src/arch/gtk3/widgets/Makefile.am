@@ -46,6 +46,8 @@ libwidgets_a_SOURCES = \
 	aciawidget.c \
 	c128machinetypewidget.c \
 	canvasrenderfilterwidget.c \
+	canvasrendermirrorwidget.c \
+	canvasrendervsyncwidget.c \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2memorysizewidget.c \
 	cbm2rammappingwidget.c \
@@ -215,6 +217,8 @@ EXTRA_DIST = \
 	cbm2memorysizewidget.h \
 	cbm2rammappingwidget.h \
 	canvasrenderfilterwidget.h \
+	canvasrendermirrorwidget.h \
+	canvasrendervsyncwidget.h \
 	ciamodelwidget.h \
 	contentpreviewwidget.h \
 	crtcontrolwidget.h \

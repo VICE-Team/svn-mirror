@@ -72,6 +72,9 @@
 #include "videopalettewidget.h"
 #include "videorenderfilterwidget.h"
 #include "videobordermodewidget.h"
+#include "canvasrenderfilterwidget.h"
+#include "canvasrendermirrorwidget.h"
+#include "canvasrendervsyncwidget.h"
 
 #include "settings_video.h"
 
@@ -87,6 +90,18 @@ static const char *chip_name[2] = { NULL, NULL };
 /** \brief  aspect mode widgets
  */
 static GtkWidget *aspect_widget[2] = { NULL, NULL };
+
+/** \brief  GL filter widgets
+ */
+static GtkWidget *glfilter_widget[2] = { NULL, NULL };
+
+/** \brief  GL mirror widgets
+ */
+static GtkWidget *mirror_widget[2] = { NULL, NULL };
+
+/** \brief  GL vsync widgets
+ */
+static GtkWidget *vsync_widget[2] = { NULL, NULL };
 
 /** \brief  double-size widgets
  */
@@ -439,7 +454,19 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 
     /* row 4, col 0-2: scaling and aspect ratio resources */
     aspect_widget[index] = video_aspect_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), aspect_widget[index], 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(layout), aspect_widget[index], 0, 4, 1, 1);
+
+    /* row 4, col 3: glfilter */
+    glfilter_widget[index] = canvas_render_filter_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), glfilter_widget[index], 1, 4, 1, 1);
+
+    /* row 4, col 3: mirror options */
+    mirror_widget[index] = canvas_render_mirror_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), mirror_widget[index], 2, 4, 1, 1);
+
+    /* row 5, col 0: vsync */
+    vsync_widget[index] = canvas_render_vsync_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), vsync_widget[index], 0, 5, 1, 1);
 
     /* Hide VDC checkbox
      *
@@ -452,7 +479,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
                     "C128HideVDC", "Hide VDC display");
             g_signal_connect(hide_vdc, "toggled",
                     G_CALLBACK(on_hide_vdc_toggled), parent);
-            gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, 5, 3, 1);
+            gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, 6, 3, 1);
         }
     }
     gtk_widget_show_all(layout);
@@ -481,6 +508,10 @@ GtkWidget *settings_video_widget_create(GtkWidget *parent)
     widget_title[1] = NULL;
     aspect_widget[0] = NULL;
     aspect_widget[1] = NULL;
+    glfilter_widget[0] = NULL;
+    glfilter_widget[1] = NULL;
+    mirror_widget[0] = NULL;
+    mirror_widget[1] = NULL;
     double_size_widget[0] = NULL;
     double_size_widget[1] = NULL;
     render_filter_widget[0] = NULL;
@@ -517,6 +548,10 @@ GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent)
     widget_title[1] = NULL;
     aspect_widget[0] = NULL;
     aspect_widget[1] = NULL;
+    glfilter_widget[0] = NULL;
+    glfilter_widget[1] = NULL;
+    mirror_widget[0] = NULL;
+    mirror_widget[1] = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),

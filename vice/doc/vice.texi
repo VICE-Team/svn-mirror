@@ -11401,6 +11401,17 @@ Integer specifying rendering filter.
 Integer specifying border display mode.
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex VICIIVSync
+@item VICIIVSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
+@end table
+
+@b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @vindex VICIIAspectRatio
 @item VICIIAspectRatio
 String/float specifying the aspect ratio.
@@ -11410,6 +11421,23 @@ String/float specifying the aspect ratio.
 @item VICIIAspectMode
 Integer specifying the OpenGL aspect mode.
 (0: off, 1: custom, 2: true)
+
+@vindex VICIIGLFilter
+@item VICIIGLFilter
+Integer specifying the OpenGL filtering mode.
+(0: nearest neighbour, 1: bilinear, 2: bicubic)
+
+@vindex VICIIFlipX
+@item VICIIFlipX
+Boolean to enable/disable OpenGL horizontal screen flip.
+
+@vindex VICIIFlipY
+@item VICIIFlipY
+Boolean to enable/disable OpenGL vertical screen flip.
+
+@vindex VICIIRotate
+@item VICIIRotate
+Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 
 @end table
 
@@ -11558,6 +11586,20 @@ Enable/disable video to audio leak emulation
 Show/hide status bar
 (@code{VICIIShowStatusbar=1}, @code{VICIIShowStatusbar=0}).
 
+@findex -VICIIvsync, +VICIIvsync
+@item -VICIIvsync
+Enable vsync to prevent screen tearing
+(@code{VICIIVSync=1}).
+@item +VICIIvsync
+Disable vsync to allow screen tearing
+(@code{VICIIVSync=0}).
+
+@end table
+
+@b{The following command-line options are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @findex -VICIIaspectmode
 @item -VICIIaspectmode <mode>
 Set the aspect mode
@@ -11570,8 +11612,30 @@ Set the aspect ratio
 (@code{VICIIAspectRatio}).
 (0.5-2.0)
 
-@end table
+@findex -VICIIglfilter
+@item -VICIIglfilter <mode>
+Set OpenGL (or Direct-X) filtering mode (0 = nearest, 1 = linear, 2 = bicubic)
+(@code{VICIIglfilter}).
 
+@findex -VICIIflipx, +VICIIflipx
+@item -VICIIflipx
+@itemx +VICIIflipx
+Enable/disable OpenGL horizontal screen flip
+(@code{VICIIFlipX=1}, @code{VICIIFlipX=0}).
+
+@findex -VICIIflipy, +VICIIflipy
+@item -VICIIflipy
+@itemx +VICIIflipy
+Enable/disable OpenGL vertical screen flip
+(@code{VICIIFlipY=1}, @code{VICIIFlipY=0}).
+
+@findex -VICIIrotate, +VICIIrotate
+@item -VICIIrotate
+@itemx +VICIIrotate
+Enable/disable OpenGL 90 degree rotation
+(@code{VICIIRotate=1}, @code{VICIIRotate=0}).
+
+@end table
 
 @node SID settings, C64 I/O extension settings, VIC-II settings, C64/128-specific
 @subsection SID settings
@@ -12798,6 +12862,17 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 Integer specifying rendering filter
 (0: None, 1: CRT emulation, 2: Scale2x)
 
+@vindex VDCVSync
+@item VDCVSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
+@end table
+
+@b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @vindex VDCAspectRatio
 @item VDCAspectRatio
 String/float specifying the aspect ratio.
@@ -12807,6 +12882,23 @@ String/float specifying the aspect ratio.
 @item VDCAspectMode
 Integer specifying the OpenGL aspect mode.
 (0: off, 1: custom, 2: true)
+
+@vindex VDCGLFilter
+@item VDCGLFilter
+Integer specifying the OpenGL filtering mode.
+(0: nearest neighbour, 1: bilinear, 2: bicubic)
+
+@vindex VDCFlipX
+@item VDCFlipX
+Boolean to enable/disable OpenGL horizontal screen flip.
+
+@vindex VDCFlipY
+@item VDCFlipY
+Boolean to enable/disable OpenGL vertical screen flip.
+
+@vindex VDCRotate
+@item VDCRotate
+Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 
 @end table
 
@@ -12932,6 +13024,20 @@ Select rendering filter
 Show/hide status bar
 (@code{VDCShowStatusbar=1}, @code{VDCShowStatusbar=0}).
 
+@findex -VDCvsync, +VDCvsync
+@item -VDCvsync
+Enable vsync to prevent screen tearing
+(@code{VDCVSync=1}).
+@item +VDCvsync
+Disable vsync to allow screen tearing
+(@code{VDCVSync=0}).
+
+@end table
+
+@b{The following command-line options are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @findex -VDCaspectmode
 @item -VDCaspectmode <mode>
 Set the aspect mode
@@ -12943,6 +13049,29 @@ Set the aspect mode
 Set the aspect ratio
 (@code{VDCAspectRatio}).
 (0.5-2.0)
+
+@findex -VDCglfilter
+@item -VDCglfilter <mode>
+Set OpenGL (or Direct-X) filtering mode (0 = nearest, 1 = linear, 2 = bicubic)
+(@code{VDCglfilter}).
+
+@findex -VDCflipx, +VDCflipx
+@item -VDCflipx
+@itemx +VDCflipx
+Enable/disable OpenGL horizontal screen flip
+(@code{VDCFlipX=1}, @code{VDCFlipX=0}).
+
+@findex -VDCflipy, +VDCflipy
+@item -VDCflipy
+@itemx +VDCflipy
+Enable/disable OpenGL vertical screen flip
+(@code{VDCFlipY=1}, @code{VDCFlipY=0}).
+
+@findex -VDCrotate, +VDCrotate
+@item -VDCrotate
+@itemx +VDCrotate
+Enable/disable OpenGL 90 degree rotation
+(@code{VDCRotate=1}, @code{VDCRotate=0}).
 
 @end table
 
@@ -14381,6 +14510,17 @@ Integer specifying the rendering filter.
 Integer specifying border display mode
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex VICVSync
+@item VICVSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
+@end table
+
+@b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @vindex VICAspectRatio
 @item VICAspectRatio
 String/float specifying the aspect ratio.
@@ -14390,6 +14530,23 @@ String/float specifying the aspect ratio.
 @item VICAspectMode
 Integer specifying the OpenGL aspect mode.
 (0: off, 1: custom, 2: true)
+
+@vindex VICGLFilter
+@item VICGLFilter
+Integer specifying the OpenGL filtering mode.
+(0: nearest neighbour, 1: bilinear, 2: bicubic)
+
+@vindex VICFlipX
+@item VICFlipX
+Boolean to enable/disable OpenGL horizontal screen flip.
+
+@vindex VICFlipY
+@item VICFlipY
+Boolean to enable/disable OpenGL vertical screen flip.
+
+@vindex VICRotate
+@item VICRotate
+Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 
 @end table
 
@@ -14505,6 +14662,20 @@ Enable/disable video to audio leak emulation
 Show/hide status bar
 (@code{VICShowStatusbar=1}, @code{VICShowStatusbar=0}).
 
+@findex -VICvsync, +VICvsync
+@item -VICvsync
+Enable vsync to prevent screen tearing
+(@code{VICVSync=1}).
+@item +VICvsync
+Disable vsync to allow screen tearing
+(@code{VICVSync=0}).
+
+@end table
+
+@b{The following command-line options are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @findex -VICaspectmode
 @item -VICaspectmode <mode>
 Set the aspect mode
@@ -14517,8 +14688,30 @@ Set the aspect ratio
 (@code{VICAspectRatio}).
 (0.5-2.0)
 
-@end table
+@findex -VICglfilter
+@item -VICglfilter <mode>
+Set OpenGL (or Direct-X) filtering mode (0 = nearest, 1 = linear, 2 = bicubic)
+(@code{VICglfilter}).
 
+@findex -VICflipx, +VICflipx
+@item -VICflipx
+@itemx +VICflipx
+Enable/disable OpenGL horizontal screen flip
+(@code{VICFlipX=1}, @code{VICFlipX=0}).
+
+@findex -VICflipy, +VICflipy
+@item -VICflipy
+@itemx +VICflipy
+Enable/disable OpenGL vertical screen flip
+(@code{VICFlipY=1}, @code{VICFlipY=0}).
+
+@findex -VICrotate, +VICrotate
+@item -VICrotate
+@itemx +VICrotate
+Enable/disable OpenGL 90 degree rotation
+(@code{VICRotate=1}, @code{VICRotate=0}).
+
+@end table
 
 @node VIC20 memory expansions, VIC20 system ROM settings, VIC20 cartridges, VIC20-specific
 @subsection Changing memory configuration
@@ -14907,6 +15100,17 @@ Integer specifying rendering filter.
 Integer specifying border display mode.
 (0: normal, 1: full, 2: debug, 3: none)
 
+@vindex TEDVSync
+@item TEDVSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
+@end table
+
+@b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @vindex TEDAspectRatio
 @item TEDAspectRatio
 String/float specifying the aspect ratio.
@@ -14916,6 +15120,23 @@ String/float specifying the aspect ratio.
 @item TEDAspectMode
 Integer specifying the OpenGL aspect mode.
 (0: off, 1: custom, 2: true)
+
+@vindex TEDGLFilter
+@item TEDGLFilter
+Integer specifying the OpenGL filtering mode.
+(0: nearest neighbour, 1: bilinear, 2: bicubic)
+
+@vindex TEDFlipX
+@item TEDFlipX
+Boolean to enable/disable OpenGL horizontal screen flip.
+
+@vindex TEDFlipY
+@item TEDFlipY
+Boolean to enable/disable OpenGL vertical screen flip.
+
+@vindex TEDRotate
+@item TEDRotate
+Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 
 @end table
 
@@ -15030,6 +15251,20 @@ Enable/disable video to audio leak emulation
 Show/hide status bar
 (@code{TEDShowStatusbar=1}, @code{TEDShowStatusbar=0}).
 
+@findex -TEDvsync, +TEDvsync
+@item -TEDvsync
+Enable vsync to prevent screen tearing
+(@code{TEDVSync=1}).
+@item +TEDvsync
+Disable vsync to allow screen tearing
+(@code{TEDVSync=0}).
+
+@end table
+
+@b{The following command-line options are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @findex -TEDaspectmode
 @item -TEDaspectmode <mode>
 Set the aspect mode
@@ -15041,6 +15276,29 @@ Set the aspect mode
 Set the aspect ratio
 (@code{TEDAspectRatio}).
 (0.5-2.0)
+
+@findex -TEDglfilter
+@item -TEDglfilter <mode>
+Set OpenGL (or Direct-X) filtering mode (0 = nearest, 1 = linear, 2 = bicubic)
+(@code{TEDglfilter}).
+
+@findex -TEDflipx, +TEDflipx
+@item -TEDflipx
+@itemx +TEDflipx
+Enable/disable OpenGL horizontal screen flip
+(@code{TEDFlipX=1}, @code{TEDFlipX=0}).
+
+@findex -TEDflipy, +TEDflipy
+@item -TEDflipy
+@itemx +TEDflipy
+Enable/disable OpenGL vertical screen flip
+(@code{TEDFlipY=1}, @code{TEDFlipY=0}).
+
+@findex -TEDrotate, +TEDrotate
+@item -TEDrotate
+@itemx +TEDrotate
+Enable/disable OpenGL 90 degree rotation
+(@code{TEDRotate=1}, @code{TEDRotate=0}).
 
 @end table
 
@@ -15508,6 +15766,17 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 Integer specifying rendering filter.
 (0: None, 1: CRT emulation, 2: Scale2x)
 
+@vindex CrtcVSync
+@item CrtcVSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
+@end table
+
+@b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @vindex CrtcAspectRatio
 @item CrtcAspectRatio
 String/float specifying the aspect ratio.
@@ -15517,6 +15786,23 @@ String/float specifying the aspect ratio.
 @item CrtcAspectMode
 Integer specifying the OpenGL aspect mode.
 (0: off, 1: custom, 2: true)
+
+@vindex CrtcGLFilter
+@item CrtcGLFilter
+Integer specifying the OpenGL filtering mode.
+(0: nearest neighbour, 1: bilinear, 2: bicubic)
+
+@vindex CrtcFlipX
+@item CrtcFlipX
+Boolean to enable/disable OpenGL horizontal screen flip.
+
+@vindex CrtcFlipY
+@item CrtcFlipY
+Boolean to enable/disable OpenGL vertical screen flip.
+
+@vindex CrtcRotate
+@item CrtcRotate
+Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 
 @end table
 
@@ -15633,6 +15919,20 @@ Enable/disable video to audio leak emulation
 Show/hide status bar
 (@code{CrtcShowStatusbar=1}, @code{CrtcShowStatusbar=0}).
 
+@findex -Crtcvsync, +Crtcvsync
+@item -Crtcvsync
+Enable vsync to prevent screen tearing
+(@code{CrtcVSync=1}).
+@item +Crtcvsync
+Disable vsync to allow screen tearing
+(@code{CrtcVSync=0}).
+
+@end table
+
+@b{The following command-line options are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
+
+@table @code
+
 @findex -Crtcaspectmode
 @item -Crtcaspectmode <mode>
 Set the aspect mode
@@ -15644,6 +15944,29 @@ Set the aspect mode
 Set the aspect ratio
 (@code{CrtcAspectRatio}).
 (0.5-2.0)
+
+@findex -Crtcglfilter
+@item -Crtcglfilter <mode>
+Set OpenGL (or Direct-X) filtering mode (0 = nearest, 1 = linear, 2 = bicubic)
+(@code{Crtcglfilter}).
+
+@findex -Crtcflipx, +Crtcflipx
+@item -Crtcflipx
+@itemx +Crtcflipx
+Enable/disable OpenGL horizontal screen flip
+(@code{CrtcFlipX=1}, @code{CrtcFlipX=0}).
+
+@findex -Crtcflipy, +Crtcflipy
+@item -Crtcflipy
+@itemx +Crtcflipy
+Enable/disable OpenGL vertical screen flip
+(@code{CrtcFlipY=1}, @code{CrtcFlipY=0}).
+
+@findex -Crtcrotate, +Crtcrotate
+@item -Crtcrotate
+@itemx +Crtcrotate
+Enable/disable OpenGL 90 degree rotation
+(@code{CrtcRotate=1}, @code{CrtcRotate=0}).
 
 @end table
 
@@ -16776,10 +17099,6 @@ Integer specifying the SDL window width.
 @item Window0Height
 Integer specifying the SDL window height.
 
-@vindex SDLGLFilter
-@item SDLGLFilter
-Integer specifying the OpenGL filtering mode.
-
 @vindex JoyDevice1
 @item JoyDevice1
 Integer specifying which joystick device the emulator should use for the emulation of joystick 1
@@ -16884,20 +17203,6 @@ Boolean specifying whether to show the status bar or not
 Boolean specifying whether to show the status bar or not
 (x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
 
-
-@end table
-
-@b{The following resources are only present if the OpenGL library is present and used at compile time.}
-
-@table @code
-
-@vindex SDLGLFlipX
-@item SDLGLFlipX
-Boolean to enable/disable OpenGL horizontal screen flip.
-
-@vindex SDLGLFlipY
-@item SDLGLFlipY
-Boolean to enable/disable OpenGL vertical screen flip.
 
 @end table
 
@@ -17076,11 +17381,6 @@ Set initial window height for the second window (C128),
 Enable/Disable keyboard-status bar (when status bar is enabled)
 (@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
 
-@findex -sdlglfilter
-@item -sdlglfilter <mode>
-Set OpenGL filtering mode (0 = nearest, 1 = linear)
-(@code{SDLGLFilter}).
-
 @findex -sdl2backend
 @item -sdl2backend <renderer name>
 Set the preferred SDL2 backend
@@ -17188,24 +17488,6 @@ Enable/Disable fullscreen
 
 @end table
 
-@b{The following command-line options are only present if the OpenGL library is present and used at compile time.}
-
-@table @code
-
-@findex -sdlflipx, +sdlflipx
-@item -sdlflipx
-@itemx +sdlflipx
-Enable/disable OpenGL horizontal screen flip
-(@code{SDLGLFlipX=1}, @code{SDLGLFlipX=0}).
-
-@findex -sdlflipy, +sdlflipy
-@item -sdlflipy
-@itemx +sdlflipy
-Enable/disable OpenGL vertical screen flip
-(@code{SDLGLFlipY=1}, @code{SDLGLFlipY=0}).
-
-@end table
-
 @b{The following command-line options are only present if the SDL library has joystick support at compile time and applies
 to all emulators except vsid.}
 
@@ -17249,16 +17531,6 @@ This section lists the settings and commands that are common and specific to Uni
 @subsection GTK3 specific resources
 
 @table @code
-
-@vindex GTKFilter
-@item GTKFilter
-Rendering filter to use for the Gtk3 UI
-(0: Nearest neighbor, 1: Bilinear, 2: Bicubic).
-
-@vindex VSync
-@item VSync
-Boolean specifying whether to enable vsync to prevent screen tearing.
-(0: vsync off, 1: vsync on)
 
 @vindex StartMinimized
 @item StartMinimized
@@ -17425,19 +17697,6 @@ Enable/disable automatic saving of settings on exit
 @itemx +minimized
 Start/Do not start with minimized window
 (@code{StartMinimized=1}, @code{StartMinimized=0}).
-
-@findex -gtkfilter
-@item -gtkfilter <filter>
-(@code{GTKFilter})
-(0: Nearest neighbor, 1: Bilinear 2: Bicubic).
-
-@findex -vsync, +vsync
-@item -vsync
-Enable vsync to prevent screen tearing
-(@code{VSync=1}).
-@item +vsync
-Disable vsync to allow screen tearing
-(@code{VSync=0}).
 
 @findex -confirmonexit, +confirmonexit
 @item -confirmonexit

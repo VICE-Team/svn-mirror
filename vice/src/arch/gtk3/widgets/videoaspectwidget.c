@@ -55,9 +55,9 @@
 /** \brief  List of radio buttons
  */
 static const vice_gtk3_radiogroup_entry_t aspect_modes[] = {
-    { "Off",     0 },
-    { "Custom",  1 },
-    { "True",    2 },
+    { "Off",     VIDEO_ASPECT_MODE_NONE },
+    { "Custom",  VIDEO_ASPECT_MODE_CUSTOM },
+    { "True",    VIDEO_ASPECT_MODE_TRUE },
     { NULL, -1 }
 };
 
@@ -87,9 +87,10 @@ GtkWidget *video_aspect_widget_create(const char *chip)
     /* address */
     aspect_ratio_s = vice_gtk3_resource_entry_full_new_sprintf(
         "%sAspectRatio", chip);
-    gtk_widget_set_hexpand(aspect_ratio_s, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), aspect_ratio_s, 1, 2, 1, 1);
+    gtk_widget_set_margin_start(aspect_ratio_s, 16);
+    gtk_widget_set_hexpand(aspect_ratio_s, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), aspect_ratio_s, 0, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

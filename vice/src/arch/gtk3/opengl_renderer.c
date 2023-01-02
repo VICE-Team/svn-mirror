@@ -83,14 +83,37 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
  * to each corner.
  */
 static float vertexData[] = {
-        -1.0f,    -1.0f, 0.0f, 1.0f,
-         1.0f,    -1.0f, 0.0f, 1.0f,
-        -1.0f,     1.0f, 0.0f, 1.0f,
-         1.0f,     1.0f, 0.0f, 1.0f,
-         0.0f,     1.0f,
-         1.0f,     1.0f,
-         0.0f,     0.0f,
-         1.0f,     0.0f
+        -1.0f, -1.0f, 0.0f, 1.0f,
+         1.0f, -1.0f, 0.0f, 1.0f,
+        -1.0f,  1.0f, 0.0f, 1.0f,
+         1.0f,  1.0f, 0.0f, 1.0f,
+/* normal */
+        0.0f,  1.0f,
+        1.0f,  1.0f,
+        0.0f,  0.0f,
+        1.0f,  0.0f
+#if 0
+/* xflip */
+        1.0f,  1.0f,
+        0.0f,  1.0f,
+        1.0f,  0.0f,
+        0.0f,  0.0f,
+/* yflip */
+        0.0f,  0.0f,
+        1.0f,  0.0f,
+        0.0f,  1.0f,
+        1.0f,  1.0f,
+/* xyflip (180 degr rot) */
+        1.0f,  0.0f,
+        0.0f,  0.0f,
+        1.0f,  1.0f,
+        0.0f,  1.0f,
+/* 90 degr rot */
+        1.0f,  1.0f,
+        1.0f,  0.0f,
+        0.0f,  1.0f,
+        0.0f,  0.0f,
+#endif
 };
 
 /**/
@@ -496,7 +519,7 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-static void legacy_render(context_t *context, float scale_x, float scale_y)
+static void legacy_render(video_canvas_t *canvas, float scale_x, float scale_y)
 {
     /* Used when OpenGL 3.2+ is NOT available */
 
@@ -508,7 +531,10 @@ static void legacy_render(context_t *context, float scale_x, float scale_y)
     float u2 = 1.0f;
     float v2 = 1.0f;
 
-    resources_get_int("GTKFilter", &filter);
+    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    filter = canvas->videoconfig->glfilter;
+
+    /* FIXME: add support for flipx/flipy/rotate */
 
     /* We only support builtin linear and nearest on legacy OpenGL contexts */
     gl_filter = filter ? GL_LINEAR : GL_NEAREST;
@@ -559,7 +585,7 @@ static void legacy_render(context_t *context, float scale_x, float scale_y)
     glDisable(GL_TEXTURE_2D);
 }
 
-static void modern_render(context_t *context, float scale_x, float scale_y)
+static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
 {
     /* Used when OpenGL 3.2+ is available */
 
@@ -575,20 +601,23 @@ static void modern_render(context_t *context, float scale_x, float scale_y)
     GLuint this_frame_uniform;
     GLuint last_frame_uniform;
 
-    resources_get_int("GTKFilter", &filter);
+    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    filter = canvas->videoconfig->glfilter;
+
+    /* FIXME: add support for flipx/flipy/rotate */
 
     /* For shader filters, we start with nearest neighbor. So only use linear if directly requested. */
-    gl_filter = filter == 1 ?  GL_LINEAR : GL_NEAREST;
+    gl_filter = (filter == VIDEO_GLFILTER_BILINEAR) ?  GL_LINEAR : GL_NEAREST;
 
     /* Choose the appropriate shader */
     if (context->interlaced) {
-        if (filter == 2) {
+        if (filter == VIDEO_GLFILTER_BICUBIC) {
             program = context->shader_bicubic_interlaced;
         } else {
             program = context->shader_builtin_interlaced;
         }
     } else {
-        if (filter == 2) {
+        if (filter == VIDEO_GLFILTER_BICUBIC) {
             program = context->shader_bicubic;
         } else {
             program = context->shader_builtin;
@@ -754,7 +783,7 @@ static void render(void *job_data, void *pool_data)
     vice_opengl_renderer_set_viewport(context);
 
     /* Enable or disable vsync as needed */
-    resources_get_int("VSync", &vsync);
+    vsync = canvas->videoconfig->vsync;
 
     if (vsync != context->cached_vsync_resource) {
         vice_opengl_renderer_set_vsync(context, vsync ? true : false);
@@ -767,9 +796,9 @@ static void render(void *job_data, void *pool_data)
 
     /* Invoke the appropriate renderer */
     if (context->gl_context_is_legacy) {
-        legacy_render(context, scale_x, scale_y);
+        legacy_render(canvas, scale_x, scale_y);
     } else {
-        modern_render(context, scale_x, scale_y);
+        modern_render(canvas, scale_x, scale_y);
     }
 
     vice_opengl_renderer_present_backbuffer(context);
