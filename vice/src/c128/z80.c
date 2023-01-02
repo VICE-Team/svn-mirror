@@ -121,7 +121,7 @@ inline static int z80mem_read_limit(int addr)
         z80_bank_limit = z80mem_read_limit(z80_reg_pc); \
     } while (0)
 
-#define LOAD(addr) (*_z80mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr))
+#define LOAD(addr) ((uint32_t)(*_z80mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr)))
 
 #define STORE(addr, value) (*_z80mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
 
@@ -957,7 +957,7 @@ static void export_registers(void)
     do {                                             \
         CLK_ADD(CLK, clk_inc1);                      \
         reg_val = IN(BC_WORD());                     \
-        reg_f = SZP[reg_val & 0xff] | LOCAL_CARRY(); \
+        reg_f = SZP[reg_val & 0xffu] | LOCAL_CARRY(); \
         CLK_ADD(CLK, clk_inc2);                      \
         INC_PC(pc_inc);                              \
     } while (0)
