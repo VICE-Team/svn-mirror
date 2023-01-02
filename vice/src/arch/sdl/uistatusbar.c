@@ -344,25 +344,9 @@ void ui_display_volume(int vol)
 /* ----------------------------------------------------------------- */
 /* resources */
 
-static int statusbar_enabled;
-
 #if 0
 static int kbdstatusbar_enabled;
 #endif
-
-
-static int set_statusbar(int val, void *param)
-{
-    statusbar_enabled = val ? 1 : 0;
-
-    if (statusbar_enabled) {
-        uistatusbar_open();
-    } else {
-        uistatusbar_close();
-    }
-
-    return 0;
-}
 
 #if 0
 static int set_kbdstatusbar(int val, void *param)
@@ -374,8 +358,6 @@ static int set_kbdstatusbar(int val, void *param)
 #endif
 
 static const resource_int_t resources_int[] = {
-    { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
-      &statusbar_enabled, set_statusbar, NULL },
 #if 0
     { "KbdStatusbar", 0, RES_EVENT_NO, NULL,
       &kbdstatusbar_enabled, set_kbdstatusbar, NULL },

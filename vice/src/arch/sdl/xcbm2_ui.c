@@ -67,8 +67,22 @@
 #include "ui.h"
 #include "uifonts.h"
 #include "uimenu.h"
+#include "uistatusbar.h"
 #include "videoarch.h"
 #include "vkbd.h"
+
+static UI_MENU_CALLBACK(toggle_CrtcShowStatusbar_callback)
+{
+    const char *n;
+
+    n = sdl_ui_menu_toggle_helper(activated, "CrtcShowStatusbar");
+    if (n != NULL) {
+        uistatusbar_open();
+    } else {
+        uistatusbar_close();
+    }
+    return n;
+}
 
 static UI_MENU_CALLBACK(pause_callback_wrapper);
 
@@ -152,7 +166,7 @@ static ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
       NULL },
     { "Statusbar",
       MENU_ENTRY_OTHER_TOGGLE,
-      statusbar_callback,
+      toggle_CrtcShowStatusbar_callback,
       NULL },
 #ifdef DEBUG
     { "Debug",

@@ -607,12 +607,6 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t statusbar_cmdline_options[] =
 {
-    { "-statusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLStatusbar", (resource_value_t)1,
-      NULL, "Enable statusbar" },
-    { "+statusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLStatusbar", (resource_value_t)0,
-      NULL, "Disable statusbar" },
 #if 0
     { "-kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KbdStatusbar", (resource_value_t)1,

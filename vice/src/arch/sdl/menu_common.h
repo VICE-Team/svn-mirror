@@ -113,7 +113,6 @@ extern UI_MENU_CALLBACK(autostart_callback);
 extern UI_MENU_CALLBACK(pause_callback);
 extern UI_MENU_CALLBACK(advance_frame_callback);
 extern UI_MENU_CALLBACK(vkbd_callback);
-extern UI_MENU_CALLBACK(statusbar_callback);
 extern UI_MENU_CALLBACK(quit_callback);
 
 #endif

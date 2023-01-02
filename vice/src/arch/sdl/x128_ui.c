@@ -69,8 +69,48 @@
 #include "ui.h"
 #include "uifonts.h"
 #include "uimenu.h"
+#include "uistatusbar.h"
 #include "videoarch.h"
 #include "vkbd.h"
+
+/* FIXME: implement showing the status bar only for one chip */
+static int status = 0;
+
+static UI_MENU_CALLBACK(toggle_VICIIShowStatusbar_callback)
+{
+    const char *n;
+
+    n = sdl_ui_menu_toggle_helper(activated, "VICIIShowStatusbar");
+    if (n != NULL) {
+        status |= 1;
+    } else {
+        status &= ~1;
+    }
+    if (status != 0) {
+        uistatusbar_open();
+    } else {
+        uistatusbar_close();
+    }
+    return n;
+}
+
+static UI_MENU_CALLBACK(toggle_VDCShowStatusbar_callback)
+{
+    const char *n;
+
+    n = sdl_ui_menu_toggle_helper(activated, "VDCShowStatusbar");
+    if (n != NULL) {
+        status |= 2;
+    } else {
+        status &= ~2;
+    }
+    if (status != 0) {
+        uistatusbar_open();
+    } else {
+        uistatusbar_close();
+    }
+    return n;
+}
 
 static UI_MENU_CALLBACK(pause_callback_wrapper);
 
@@ -155,9 +195,13 @@ static ui_menu_entry_t x128_main_menu[] = {
       MENU_ENTRY_OTHER,
       vkbd_callback,
       NULL },
-    { "Statusbar",
+    { "Statusbar (VICII)",
       MENU_ENTRY_OTHER_TOGGLE,
-      statusbar_callback,
+      toggle_VICIIShowStatusbar_callback,
+      NULL },
+    { "Statusbar (VDC)",
+      MENU_ENTRY_OTHER_TOGGLE,
+      toggle_VDCShowStatusbar_callback,
       NULL },
 #ifdef DEBUG
     { "Debug",
