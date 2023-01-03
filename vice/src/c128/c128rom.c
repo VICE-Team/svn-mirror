@@ -104,7 +104,7 @@ int c128rom_kernal_checksum(void)
 
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++) {
-        sum += c128memrom_kernal_rom[i];
+        sum = (uint16_t)(sum + c128memrom_kernal_rom[i]);
     }
     id = c128memrom_rom_read(0xff80);
     name = checkrominfo(kernalinfo, sum, id);
