@@ -9081,6 +9081,39 @@ categories.
 @subsection Miscellaneous resources
 
 @table @code
+
+@vindex Window0Width
+@vindex Window0Height
+@item Window0Width
+@itemx Window0Height
+Integers specifying the size of the (first) emulator window
+(all emulators except vsid).
+
+@vindex Window1Width
+@vindex Window1Height
+@item Window1Width
+@itemx Window1Height
+Integers specifying the size of the (second) emulator window
+(x128 only).
+
+@vindex SaveResourcesOnExit
+@item SaveResourcesOnExit
+Boolean specifying whether the emulator should save changed settings
+before exiting. If this is enabled, the user will be always prompted
+first, in case the settings have changed.
+
+@vindex ConfirmOnExit
+@item ConfirmOnExit
+Boolean specifying whether to show a confirmation dialog on exit.
+
+@vindex KbdStatusbar
+@item KbdStatusbar
+Boolean specifying whether the keyboard-status bar is enabled.
+
+@vindex StartMinimized
+@item StartMinimized
+Boolean specifying whether the emulator should start minimized
+
 @vindex JAMAction
 @item JAMAction
 Integer specifying the action to take when the CPU encounters a 'JAM' opcode.
@@ -9180,6 +9213,33 @@ Booleans that specify whether to attach images on the second drive of dual-drive
 @subsection Miscellaneous command-line options
 
 @table @code
+
+@findex -saveres, +saveres
+@item -saveres
+@itemx +saveres
+Enable/disable automatic saving of settings on exit
+(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@findex -confirmonexit, +confirmonexit
+@item -confirmonexit
+Confirm quitting VICE
+(@code{ConfirmOnExit=1}).
+@item +confirmonexit
+Never confirm quitting VICE
+(@code{ConfirmOnExit=0}).
+
+@findex -kbdstatusbar, +kbdstatusbar
+@item -kbdstatusbar
+@itemx +kbdstatusbar
+Enable/Disable keyboard-status bar (when status bar is enabled)
+(@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
+
+@findex -minimized, +minimized
+@item -minimized
+@itemx +minimized
+Start/Do not start with minimized window
+(@code{StartMinimized=1}, @code{StartMinimized=0}).
+
 @findex -jamaction
 @item -jamaction <Type>
 Specify the action to take when the CPU encounters a 'JAM' opcode
@@ -11411,6 +11471,11 @@ Boolean specifying whether to enable vsync to prevent screen tearing.
 Boolean specifying whether to show the status bar or not
 (x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
 
+@vindex VICIIFullscreen
+@item VICIIFullscreen
+Boolean specifying whether to use fullscreen mode or not
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -11598,6 +11663,13 @@ Enable vsync to prevent screen tearing
 @item +VICIIvsync
 Disable vsync to allow screen tearing
 (@code{VICIIVSync=0}).
+
+@findex -VICIIfull, +VICIIfull
+@item -VICIIfull
+@itemx +VICIIfull
+Enable/Disable fullscreen
+(@code{VICIIFullscreen=1}, @code{VICIIFullscreen=0})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -12877,6 +12949,11 @@ Boolean specifying whether to enable vsync to prevent screen tearing.
 Boolean specifying whether to show the status bar or not
 (x128 only).
 
+@vindex VDCFullscreen
+@item VDCFullscreen
+Boolean specifying whether to use fullscreen mode or not
+(x128 only).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -13041,6 +13118,13 @@ Enable vsync to prevent screen tearing
 @item +VDCvsync
 Disable vsync to allow screen tearing
 (@code{VDCVSync=0}).
+
+@findex -VDCfull, +VDCfull
+@item -VDCfull
+@itemx +VDCfull
+Enable/Disable fullscreen
+(@code{VDCFullscreen=1}, @code{VDCFullscreen=0})
+(x128 only).
 
 @end table
 
@@ -14530,6 +14614,11 @@ Boolean specifying whether to enable vsync to prevent screen tearing.
 Boolean specifying whether to show the status bar or not
 (xvic only).
 
+@vindex VICFullscreen
+@item VICFullscreen
+Boolean specifying whether to use fullscreen mode or not
+(xvic only).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -14684,6 +14773,13 @@ Enable vsync to prevent screen tearing
 @item +VICvsync
 Disable vsync to allow screen tearing
 (@code{VICVSync=0}).
+
+@findex -VICfull, +VICfull
+@item -VICfull
+@itemx +VICfull
+Enable/Disable fullscreen
+(@code{VICFullscreen=1}, @code{VICFullscreen=0})
+(xvic only).
 
 @end table
 
@@ -15125,6 +15221,11 @@ Boolean specifying whether to enable vsync to prevent screen tearing.
 Boolean specifying whether to show the status bar or not
 (xplus4 only).
 
+@vindex TEDFullscreen
+@item TEDFullscreen
+Boolean specifying whether to use fullscreen mode or not
+(xplus4 only).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -15278,6 +15379,13 @@ Enable vsync to prevent screen tearing
 @item +TEDvsync
 Disable vsync to allow screen tearing
 (@code{TEDVSync=0}).
+
+@findex -TEDfull, +TEDfull
+@item -TEDfull
+@itemx +TEDfull
+Enable/Disable fullscreen
+(@code{TEDFullscreen=1}, @code{TEDFullscreen=0})
+(xplus4 only).
 
 @end table
 
@@ -15796,6 +15904,11 @@ Boolean specifying whether to enable vsync to prevent screen tearing.
 Boolean specifying whether to show the status bar or not
 (xcbm2 and xpet only).
 
+@vindex CrtcFullscreen
+@item CrtcFullscreen
+Boolean specifying whether to use fullscreen mode or not
+(xcbm2 and xpet only).
+
 @end table
 
 @b{The following resources are only present if hardware scaling support (OpenGL or Direct-X) is present and used at compile time.}
@@ -15951,6 +16064,13 @@ Enable vsync to prevent screen tearing
 @item +Crtcvsync
 Disable vsync to allow screen tearing
 (@code{CrtcVSync=0}).
+
+@findex -CRTCfull, +CRTCfull
+@item -CRTCfull
+@itemx +CRTCfull
+Enable/Disable fullscreen
+(@code{CrtcFullscreen=1}, @code{CrtcFullscreen=0})
+(xcbm2 and xpet only).
 
 @end table
 
@@ -17003,6 +17123,11 @@ This section lists the settings and commands that are platform specific.
 
 This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms.
 
+@table @code
+
+
+
+@end table
 @c -----------------------------------------------------------------
 @c @node FIXME
 @subsection SDL specific resources
@@ -17066,23 +17191,6 @@ Integer specifying the keycode for 'exit' in the SDL menu.
 @item MenuKeyMap
 Integer specifying the keycode for 'map' in the SDL menu.
 
-@vindex SaveResourcesOnExit
-@item SaveResourcesOnExit
-Boolean specifying whether the emulator should save changed settings
-before exiting. If this is enabled, the user will be always prompted
-first, in case the settings have changed.
-
-@vindex ConfirmOnExit
-@item ConfirmOnExit
-Boolean specifying whether to show a confirmation dialog on exit.
-
-@vindex PauseOnSettings
-@item PauseOnSettings
-Boolean specifying wheter to pause the emulation when triggering the settings
-dialog. If set, the emulation will pause when triggering the settings dialog.
-When closing the settings dialog the pause state will revert to its state before
-triggering the settings UI.
-
 @vindex SDLBitdepth
 @item SDLBitdepth
 Integer specifying the bitdepth used.
@@ -17093,6 +17201,12 @@ Integer specifying the bitdepth used.
 Integer specifying the resolution limit mode.
 (0: off, 1: max, 2: fixed)
 
+@vindex SDL2Backend
+@item SDL2Backend
+String specifying the preferred SDL2 backend.
+(See startup log for available backends, valid ones might be eg: software, opengl,
+direct3d, direct3d11, opengles2)
+
 @vindex SDLCustomWidth
 @item SDLCustomWidth
 Integer specifying the custom fullscreen resolution width.
@@ -17101,23 +17215,35 @@ Integer specifying the custom fullscreen resolution width.
 @item SDLCustomHeight
 Integer specifying the custom fullscreen resolution height.
 
-@vindex KbdStatusbar
-@item KbdStatusbar
-Boolean specifying whether the keyboard-status bar is enabled.
+@vindex CrtcFullscreenMode
+@item CrtcFullscreenMode
+Integer specifying the fullscreen mode
+(xcbm2 and xpet only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex SDL2Backend
-@item SDL2Backend
-String specifying the preferred SDL2 backend.
-(See startup log for available backends, valid ones might be eg: software, opengl,
-direct3d, direct3d11, opengles2)
+@vindex TEDFullscreenMode
+@item TEDFullscreenMode
+Integer specifying the fullscreen mode
+(xplus4 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex Window0Width
-@item Window0Width
-Integer specifying the SDL window width.
+@vindex VDCFullscreenMode
+@item VDCFullscreenMode
+Integer specifying the fullscreen mode
+(x128 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex Window0Height
-@item Window0Height
-Integer specifying the SDL window height.
+@vindex VICFullscreenMode
+@item VICFullscreenMode
+Integer specifying the fullscreen mode
+(xvic only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+
+@vindex VICIIFullscreenMode
+@item VICIIFullscreenMode
+Integer specifying the fullscreen mode
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex JoyDevice1
 @item JoyDevice1
@@ -17142,61 +17268,6 @@ Integer specifying which joystick device the emulator should use for the emulati
 Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
 (all emulators except xcbm5x0, xplus4 and vsid).
 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
-
-@vindex CrtcFullscreenMode
-@item CrtcFullscreenMode
-Integer specifying the fullscreen mode
-(xcbm2 and xpet only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex CrtcFullscreen
-@item CrtcFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xcbm2 and xpet only).
-
-@vindex TEDFullscreenMode
-@item TEDFullscreenMode
-Integer specifying the fullscreen mode
-(xplus4 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex TEDFullscreen
-@item TEDFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xplus4 only).
-
-@vindex VDCFullscreenMode
-@item VDCFullscreenMode
-Integer specifying the fullscreen mode
-(x128 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex VDCFullscreen
-@item VDCFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(x128 only).
-
-@vindex VICFullscreenMode
-@item VICFullscreenMode
-Integer specifying the fullscreen mode
-(xvic only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex VICFullscreen
-@item VICFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xvic only).
-
-@vindex VICIIFullscreenMode
-@item VICIIFullscreenMode
-Integer specifying the fullscreen mode
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex VICIIFullscreen
-@item VICIIFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -17301,28 +17372,6 @@ Set the keycode of the 'exit' key in the SDL menu
 Set the keycode of the 'map' key in the SDL menu
 (@code{MenuKeyMap}).
 
-@findex -saveres, +saveres
-@item -saveres
-@itemx +saveres
-Enable/disable automatic saving of settings on exit
-(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
-
-@findex -confirmonexit, +confirmonexit
-@item -confirmonexit
-Confirm quitting VICE
-(@code{ConfirmOnExit=1}).
-@item +confirmonexit
-Never confirm quitting VICE
-(@code{ConfirmOnExit=0}).
-
-@findex -pauseonsettings, +pauseonsettings
-@item -pauseonsettings
-Pause emulation when enabling the settings dialog.
-(@code{PauseOnSettings=1}).
-@item +pauseonsettings
-Do not pause emulation when enabling the settings dialog.
-(@code{PauseOnSettings=0}).
-
 @findex -sdlbitdepth
 @item -sdlbitdepth <bpp>
 Set the display bitdepth
@@ -17335,6 +17384,33 @@ Set the resolution limit mode
 (@code{SDLLimitMode}).
 (0: off, 1: max, 2: fixed)
 
+@findex -sdl2backend
+@item -sdl2backend <renderer name>
+Set the preferred SDL2 backend
+(@code{SDL2Backend}).
+See startup log for available backends, valid ones might be eg: software, opengl,
+direct3d, direct3d11, opengles2)
+
+@findex -sdlinitialw
+@item -sdlinitialw <width>
+Set initial window width.
+(@code{Window0Width}).
+
+@findex -sdlinitialh
+@item -sdlinitialh <height>
+Set initial window height.
+(@code{Window0Height}).
+
+@findex -sdlinitialw1
+@item -sdlinitialw1 <width>
+Set initial window width for the second window (C128),
+(@code{Window1Width}).
+
+@findex -sdlinitialh1
+@item -sdlinitialh1 <height>
+Set initial window height for the second window (C128),
+(@code{Window1Height}).
+
 @findex -sdlcustomw
 @item -sdlcustomw <width>
 Set the custom fullscreen resolution width
@@ -17345,35 +17421,40 @@ Set the custom fullscreen resolution width
 Set the custom fullscreen resolution height
 (@code{SDLCustomHeight}).
 
-@findex -sdlinitialw
-@item -sdlinitialw <width>
-Set initial window width.
+@findex -CRTCfullmode
+@item -CRTCfullmode <Mode>
+Set the fullscreen mode
+(@code{CrtcFullscreenMode})
+(xcbm2 and xpet only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -sdlinitialh
-@item -sdlinitialh <height>
-Set initial window height.
+@findex -TEDfullmode
+@item -TEDfullmode <Mode>
+Set the fullscreen mode
+(@code{TEDFullscreenMode})
+(xplus4 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -sdlinitialw1
-@item -sdlinitialw1 <width>
-Set initial window width for the second window (C128),
+@findex -VDCfullmode
+@item -VDCfullmode <Mode>
+Set the fullscreen mode
+(@code{VDCFullscreenMode})
+(x128 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -sdlinitialh1
-@item -sdlinitialh1 <height>
-Set initial window height for the second window (C128),
+@findex -VICfullmode
+@item -VICfullmode <Mode>
+Set the fullscreen mode
+(@code{VICFullscreenMode})
+(xvic only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@c Move to generic options
-@findex -kbdstatusbar, +kbdstatusbar
-@item -kbdstatusbar
-@itemx +kbdstatusbar
-Enable/Disable keyboard-status bar (when status bar is enabled)
-(@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
-
-@findex -sdl2backend
-@item -sdl2backend <renderer name>
-Set the preferred SDL2 backend
-(@code{SDL2Backend}).
-See startup log for available backends, valid ones might be eg: software, opengl,
-direct3d, direct3d11, opengles2)
+@findex -VICIIfullmode
+@item -VICIIfullmode <Mode>
+Set the fullscreen mode
+(@code{VICIIFullscreenMode})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-4>
@@ -17402,76 +17483,6 @@ Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
-
-@findex -CRTCfullmode
-@item -CRTCfullmode <Mode>
-Set the fullscreen mode
-(@code{CrtcFullscreenMode})
-(xcbm2 and xpet only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -CRTCfull, +CRTCfull
-@item -CRTCfull
-@itemx +CRTCfull
-Enable/Disable fullscreen
-(@code{CrtcFullscreen=1}, @code{CrtcFullscreen=0})
-(xcbm2 and xpet only).
-
-@findex -TEDfullmode
-@item -TEDfullmode <Mode>
-Set the fullscreen mode
-(@code{TEDFullscreenMode})
-(xplus4 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -TEDfull, +TEDfull
-@item -TEDfull
-@itemx +TEDfull
-Enable/Disable fullscreen
-(@code{TEDFullscreen=1}, @code{TEDFullscreen=0})
-(xplus4 only).
-
-@findex -VDCfullmode
-@item -VDCfullmode <Mode>
-Set the fullscreen mode
-(@code{VDCFullscreenMode})
-(x128 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -VDCfull, +VDCfull
-@item -VDCfull
-@itemx +VDCfull
-Enable/Disable fullscreen
-(@code{VDCFullscreen=1}, @code{VDCFullscreen=0})
-(x128 only).
-
-@findex -VICfullmode
-@item -VICfullmode <Mode>
-Set the fullscreen mode
-(@code{VICFullscreenMode})
-(xvic only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -VICfull, +VICfull
-@item -VICfull
-@itemx +VICfull
-Enable/Disable fullscreen
-(@code{VICFullscreen=1}, @code{VICFullscreen=0})
-(xvic only).
-
-@findex -VICIIfullmode
-@item -VICIIfullmode <Mode>
-Set the fullscreen mode
-(@code{VICIIFullscreenMode})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -VICIIfull, +VICIIfull
-@item -VICIIfull
-@itemx +VICIIfull
-Enable/Disable fullscreen
-(@code{VICIIFullscreen=1}, @code{VICIIFullscreen=0})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -17519,70 +17530,30 @@ This section lists the settings and commands that are common and specific to Uni
 
 @table @code
 
-@vindex StartMinimized
-@item StartMinimized
-Boolean specifying whether the emulator should start minimized
-
-@vindex SaveResourcesOnExit
-@item SaveResourcesOnExit
-Boolean specifying whether the emulator should save changed settings
-before exiting. If this is enabled, the user will be always prompted
-first, in case the settings have changed.
-
-@vindex ConfirmOnExit
-@item ConfirmOnExit
-Boolean specifying whether to show a confirmation dialog on exit.
-
 @vindex FullscreenDecorations
 @item FullscreenDecorations
 Boolean specifying whether the menu and statusbar are shown in full screen mode.
 
-@vindex Window0Width
-@vindex Window0Height
+@vindex PauseOnSettings
+@item PauseOnSettings
+Boolean specifying wheter to pause the emulation when triggering the settings
+dialog. If set, the emulation will pause when triggering the settings dialog.
+When closing the settings dialog the pause state will revert to its state before
+triggering the settings UI.
+
 @vindex Window0Xpos
 @vindex Window0Ypos
-@item Window0Width
-@itemx Window0Height
-@itemx Window0Xpos
+@item Window0Xpos
 @itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window
+Integers specifying the position of the (first) emulator window
 (all emulators except vsid).
 
-@vindex Window1Width
-@vindex Window1Height
 @vindex Window1Xpos
 @vindex Window1Ypos
-@item Window1Width
-@itemx Window1Height
-@itemx Window1Xpos
+@item Window1Xpos
 @itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window
-(x128 only).
-
-@vindex CrtcFullscreen
-@item CrtcFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xcbm2 and xpet only).
-
-@vindex TEDFullscreen
-@item TEDFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xplus4 only).
-
-@vindex VDCFullscreen
-@item VDCFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(x128 only).
-
-@vindex VICFullscreen
-@item VICFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(xvic only).
-
-@vindex VICIIFullscreen
-@item VICIIFullscreen
-Boolean specifying whether to use fullscreen mode or not
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Integers specifying the position of the (first) emulator window
+(all emulators except vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1
@@ -17673,30 +17644,18 @@ Enum specifying the MIDI driver
 
 @table @code
 
-@findex -saveres, +saveres
-@item -saveres
-@itemx +saveres
-Enable/disable automatic saving of settings on exit
-(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
-
-@findex -minimized, +minimized
-@item -minimized
-@itemx +minimized
-Start/Do not start with minimized window
-(@code{StartMinimized=1}, @code{StartMinimized=0}).
-
-@findex -confirmonexit, +confirmonexit
-@item -confirmonexit
-Confirm quitting VICE
-(@code{ConfirmOnExit=1}).
-@item +confirmonexit
-Never confirm quitting VICE
-(@code{ConfirmOnExit=0}).
-
 @findex -fullscreen-decorations, +fullscreen-decorations
 @item -fullscreen-decorations
 @itemx +fullscreen-decorations
 Enable/disable fullscreen decorations
+
+@findex -pauseonsettings, +pauseonsettings
+@item -pauseonsettings
+Pause emulation when enabling the settings dialog.
+(@code{PauseOnSettings=1}).
+@item +pauseonsettings
+Do not pause emulation when enabling the settings dialog.
+(@code{PauseOnSettings=0}).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-9> / <0-11> / <0-13>
