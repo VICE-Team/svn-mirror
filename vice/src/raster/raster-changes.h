@@ -158,12 +158,12 @@ inline static void raster_changes_add_sorted_int(raster_changes_t *changes,
                                                  const int new_value)
 {
     raster_changes_action_t *action;
-    int j, i = changes->count - 1;
+    int j, i = (int)changes->count - 1;
 
     while (i >= 0 && changes->actions[i].where > where) {
         i--;
     }
-    for (j = changes->count - 1; j > i; j--) {
+    for (j = (int)changes->count - 1; j > i; j--) {
         changes->actions[j + 1] = changes->actions[j];
     }
 
