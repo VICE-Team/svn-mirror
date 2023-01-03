@@ -645,7 +645,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         /* fall through */
                     case 5:
                         if (drv->fifo_fill) {
-                            drv->clk += fdd_rotate(drv->fdd, (int)((*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE)) * BYTE_RATE;
+                            drv->clk += fdd_rotate(drv->fdd, (*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                             return PC8477_READ;
                         }
                         if (drv->cmd[6] != drv->sector) {
@@ -960,7 +960,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         break;
                 }
                 if (fdd_index_count(drv->fdd) > 1) {
-                    drv->clk += fdd_rotate(drv->fdd, (int)((*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE)) * BYTE_RATE;
+                    drv->clk += fdd_rotate(drv->fdd, (*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                     drv->cmd[3] = drv->sector;
                     drv->st[0] |= 0x40;
                     return PC8477_RESULT;
@@ -994,7 +994,7 @@ static void pc8477_store(pc8477_t *drv, uint16_t addr, uint8_t byte)
                 pc8477_software_reset(drv);
             }
             drv->dor = byte;
-            drv->clk += fdd_rotate(drv->fdd, (int)((*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE)) * BYTE_RATE;
+            drv->clk += fdd_rotate(drv->fdd, (*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
             for (i = 0; i < 4; i++) {
                 if ((byte & (0x10 << i)) != drv->fdds[i].motor_on_out && drv->fdds[i].motor_on) {
                     (drv->fdds[i].motor_on)(drv->fdds[i].motor_on_data, drv->fdds[i].motor_on_out ? 0 : 1);
@@ -1050,7 +1050,7 @@ static void pc8477_store(pc8477_t *drv, uint16_t addr, uint8_t byte)
                     drv->int_step = 0;
                     drv->fifo_fill = 0;
                     drv->fifop2 = drv->fifop;
-                    drv->clk += fdd_rotate(drv->fdd, (int)((*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE)) * BYTE_RATE;
+                    drv->clk += fdd_rotate(drv->fdd, (*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                     fdd_index_count_reset(drv->fdd);
                     drv->state = pc8477_execute(drv);
                     break;

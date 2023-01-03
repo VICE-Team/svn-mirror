@@ -526,14 +526,23 @@ static void fdd_update_raw(fd_drive_t *drv)
     }
 }
 
-int fdd_rotate(fd_drive_t *drv, int bytes)
+uint64_t fdd_rotate(fd_drive_t *drv, uint64_t bytes_in)
 {
+    uint64_t bytes;
+
     if (!drv || !drv->motor || !drv->image) {
-        return bytes;
+        return bytes_in;
+    }
+
+    for (bytes = bytes_in; bytes > INT32_MAX; bytes -= INT32_MAX)
+    {
+        drv->index_count += (drv->raw.head + INT32_MAX) / drv->raw.size;
+        drv->raw.head = (drv->raw.head + INT32_MAX) % drv->raw.size;
     }
     drv->index_count += (drv->raw.head + bytes) / drv->raw.size;
     drv->raw.head = (drv->raw.head + bytes) % drv->raw.size;
-    return bytes;
+
+    return bytes_in;
 }
 
 int fdd_index(fd_drive_t *drv)

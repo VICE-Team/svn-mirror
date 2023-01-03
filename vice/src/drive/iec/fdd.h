@@ -47,7 +47,7 @@ extern void fdd_seek_pulse(fd_drive_t *drv, int dir);
 extern void fdd_select_head(fd_drive_t *drv, int head);
 extern void fdd_set_motor(fd_drive_t *drv, int motor);
 extern void fdd_set_rate(fd_drive_t *drv, int rate);
-extern int fdd_rotate(fd_drive_t *drv, int bytes);
+extern uint64_t fdd_rotate(fd_drive_t *drv, uint64_t bytes);
 extern int fdd_index(fd_drive_t *drv);
 extern void fdd_index_count_reset(fd_drive_t *drv);
 extern unsigned int fdd_index_count(fd_drive_t *drv);
