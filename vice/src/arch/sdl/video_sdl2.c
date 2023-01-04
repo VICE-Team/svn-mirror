@@ -88,10 +88,6 @@ static int sdl_bitdepth;
 static int sdl_initial_width[2] = { 0, 0 };
 static int sdl_initial_height[2] = { 0, 0 };
 
-/* Custom w/h, used for non-desktop fullscreen */
-static int sdl_custom_width = 0;
-static int sdl_custom_height = 0;
-
 int sdl_active_canvas_num = 0;
 static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
@@ -131,33 +127,27 @@ static int set_sdl_bitdepth(int d, void *param)
     return 0;
 }
 
-static int set_sdl_custom_width(int w, void *param)
+int ui_set_fullscreen_custom_width(int w, void *canvas)
 {
-    if (w <= 0) {
-        return -1;
-    }
-
-    if (sdl_custom_width != w) {
-        sdl_custom_width = w;
-        if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            video_viewport_resize(sdl_active_canvas, 1);
+    video_canvas_t *cv = canvas;
+    if (cv->videoconfig->fullscreen_custom_width != w) {
+        cv->videoconfig->fullscreen_custom_width = w;
+        if (cv && cv->fullscreenconfig->enable
+            && cv->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            video_viewport_resize(cv, 1);
         }
     }
     return 0;
 }
 
-static int set_sdl_custom_height(int h, void *param)
+int ui_set_fullscreen_custom_height(int h, void *canvas)
 {
-    if (h <= 0) {
-        return -1;
-    }
-
-    if (sdl_custom_height != h) {
-        sdl_custom_height = h;
-        if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            video_viewport_resize(sdl_active_canvas, 1);
+    video_canvas_t *cv = canvas;
+    if (cv->videoconfig->fullscreen_custom_height != h) {
+        cv->videoconfig->fullscreen_custom_height = h;
+        if (cv && cv->fullscreenconfig->enable
+            && cv->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            video_viewport_resize(cv, 1);
         }
     }
     return 0;
@@ -374,30 +364,27 @@ static resource_string_t resources_string[] = {
 
 #define VICE_DEFAULT_BITDEPTH 32
 
-#define SDLCUSTOMWIDTH_DEFAULT   800
-#define SDLCUSTOMHEIGHT_DEFAULT  600
-
 /* FIXME: more resources should have the same name as their GTK counterparts,
           and the SDL prefix removed */
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
-    { "SDLCustomWidth", SDLCUSTOMWIDTH_DEFAULT, RES_EVENT_NO, NULL,
-      &sdl_custom_width, set_sdl_custom_width, NULL },
-    { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
-      &sdl_custom_height, set_sdl_custom_height, NULL },
-    { "Window0Width", 0, RES_EVENT_NO, NULL,
-      &sdl_initial_width[0], set_sdl_initial_width, (void*)0 },
-    { "Window0Height", 0, RES_EVENT_NO, NULL,
-      &sdl_initial_height[0], set_sdl_initial_height, (void*)0 },
     { "DualWindow", 0, RES_EVENT_NO, NULL,
       &sdl2_dual_window, set_sdl2_dual_window, NULL },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_width[0], set_sdl_initial_width, (void*)0 },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_height[0], set_sdl_initial_height, (void*)0 },
     RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_c128[] = {
+    /* FIXME: this is a generic (not SDL specific) resource */
     { "Window1Width", 0, RES_EVENT_NO, NULL,
       &sdl_initial_width[1], set_sdl_initial_width, (void*)1 },
+    /* FIXME: this is a generic (not SDL specific) resource */
     { "Window1Height", 0, RES_EVENT_NO, NULL,
       &sdl_initial_height[1], set_sdl_initial_height, (void*)1 },
     RESOURCE_INT_LIST_END
@@ -445,25 +432,11 @@ void video_arch_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* Video-related command-line options.  */
 
-/* FIXME: more options should have the same name as their GTK counterparts,
-          and the SDL prefix removed */
 static const cmdline_option_t cmdline_options[] =
 {
     { "-sdlbitdepth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLBitdepth", NULL,
       "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
-    { "-sdlcustomw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLCustomWidth", NULL,
-      "<width>", "Set custom fullscreen resolution width" },
-    { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLCustomHeight", NULL,
-      "<height>", "Set custom fullscreen resolution height" },
-    { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "Window0Width", NULL,
-      "<width>", "Set initial window width" },
-    { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "Window0Height", NULL,
-      "<height>", "Set initial window height" },
     { "-sdl2backend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDL2Backend", NULL,
       "<backend name>", "Set the preferred SDL2 backend" },
@@ -473,14 +446,24 @@ static const cmdline_option_t cmdline_options[] =
     { "+dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DualWindow", (void *)0,
       NULL, "Disable dual window rendering"},
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window0Width", NULL,
+      "<width>", "Set initial window width" },
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window0Height", NULL,
+      "<height>", "Set initial window height" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_c128[] =
 {
+    /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialw1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Width", NULL,
       "<width>", "Set initial window width" },
+    /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialh1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Height", NULL,
       "<height>", "Set initial window height" },
@@ -988,7 +971,9 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
         if (canvas == sdl_active_canvas) {
             if (canvas->fullscreenconfig->enable) {
                 if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-                    SDL_SetWindowSize(canvas->container->window, sdl_custom_width, sdl_custom_height);
+                    SDL_SetWindowSize(canvas->container->window,
+                                      canvas->videoconfig->fullscreen_custom_width,
+                                      canvas->videoconfig->fullscreen_custom_height);
                     SDL_SetWindowFullscreen(canvas->container->window, SDL_WINDOW_FULLSCREEN);
                 } else {
                     SDL_SetWindowFullscreen(canvas->container->window, SDL_WINDOW_FULLSCREEN_DESKTOP);

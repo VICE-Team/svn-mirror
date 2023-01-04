@@ -298,9 +298,11 @@ static const resource_int_t resources_int_shared[] = {
  * These are used by all emulators.
  */
 static const resource_int_t resources_int_primary_window[] = {
+    /* FIXME: this is a generic (not GTK specific) resource */
     { "Window0Height", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
         (void*)PRIMARY_WINDOW },
+    /* FIXME: this is a generic (not GTK specific) resource */
     { "Window0Width", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_width[PRIMARY_WINDOW]), set_window_width,
         (void*)PRIMARY_WINDOW },
@@ -320,9 +322,11 @@ static const resource_int_t resources_int_primary_window[] = {
  * These are only used by x128's VDC window.
  */
 static const resource_int_t resources_int_secondary_window[] = {
+    /* FIXME: this is a generic (not GTK specific) resource */
     { "Window1Height", 0, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[SECONDARY_WINDOW]), set_window_height,
         (void*)SECONDARY_WINDOW },
+    /* FIXME: this is a generic (not GTK specific) resource */
     { "Window1Width", 0, RES_EVENT_NO, NULL,
         &(ui_resources.window_width[SECONDARY_WINDOW]), set_window_width,
         (void*)SECONDARY_WINDOW },

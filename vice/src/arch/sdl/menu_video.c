@@ -298,8 +298,17 @@ static const ui_menu_entry_t crtc_color_controls_menu[] = {
 
 /* Size menu template */
 
-UI_MENU_DEFINE_INT(SDLCustomWidth)
-UI_MENU_DEFINE_INT(SDLCustomHeight)
+UI_MENU_DEFINE_INT(TEDFullscreenCustomWidth)
+UI_MENU_DEFINE_INT(TEDFullscreenCustomHeight)
+UI_MENU_DEFINE_INT(VICFullscreenCustomWidth)
+UI_MENU_DEFINE_INT(VICFullscreenCustomHeight)
+UI_MENU_DEFINE_INT(VDCFullscreenCustomWidth)
+UI_MENU_DEFINE_INT(VDCFullscreenCustomHeight)
+UI_MENU_DEFINE_INT(VICIIFullscreenCustomWidth)
+UI_MENU_DEFINE_INT(VICIIFullscreenCustomHeight)
+UI_MENU_DEFINE_INT(CrtcFullscreenCustomWidth)
+UI_MENU_DEFINE_INT(CrtcFullscreenCustomHeight)
+
 #ifndef USE_SDL2UI
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 #endif
@@ -342,11 +351,11 @@ UI_MENU_DEFINE_INT(Window0Height)
     SDL_MENU_ITEM_TITLE("Custom resolution"),       \
     { "Width",                                      \
       MENU_ENTRY_RESOURCE_INT,                      \
-      int_SDLCustomWidth_callback,                  \
+      int_##chip##FullscreenCustomWidth_callback,   \
       (ui_callback_data_t)"Set width" },            \
     { "Height",                                     \
       MENU_ENTRY_RESOURCE_INT,                      \
-      int_SDLCustomHeight_callback,                 \
+      int_##chip##FullscreenCustomHeight_callback,  \
       (ui_callback_data_t)"Set height" },
 #ifndef USE_SDL2UI
 #define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)        \

@@ -167,6 +167,8 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
 static const char * const cname_chip_fullscreen_mode[] =
 {
     "-", "fullmode", "FullscreenMode",
+    "-", "fullwidth", "FullscreenCustomWidth",
+    "-", "fullheight", "FullscreenCustomHeight",
     NULL
 };
 
@@ -175,10 +177,15 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
       "<Mode>", "Select fullscreen mode" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<width>", "Set custom fullscreen resolution width" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<height>", "Set custom fullscreen resolution height" },
     CMDLINE_LIST_END
 };
 #endif
-
 
 /** \brief  Template for [-+]CHIPshowstatusbar command line options
  */

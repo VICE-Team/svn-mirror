@@ -310,6 +310,44 @@ static resource_int_t resources_chip_fullscreen_mode[] =
 };
 #endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+
+/* <CHIP>FullscreenCustomWidth (SDL only) */
+static int set_fullscreen_custom_width(int w, void *canvas)
+{
+    if (w <= 0) {
+        return -1;
+    }
+    return ui_set_fullscreen_custom_width(w, canvas);
+}
+
+/* <CHIP>FullscreenCustomHeight (SDL only) */
+static int set_fullscreen_custom_height(int h, void *canvas)
+{
+    if (h <= 0) {
+        return -1;
+    }
+    return ui_set_fullscreen_custom_height(h, canvas);
+}
+
+static const char * const vname_chip_fullscreen_size[] = {
+    "FullscreenCustomWidth",
+    "FullscreenCustomHeight",
+    NULL };
+
+#define FULLSCREENCUSTOMWIDTH_DEFAULT   800
+#define FULLSCREENCUSTOMHEIGHT_DEFAULT  600
+
+static resource_int_t resources_chip_fullscreen_size[] =
+{
+    { NULL, FULLSCREENCUSTOMWIDTH_DEFAULT, RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_custom_width, NULL },
+    { NULL, FULLSCREENCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_custom_height, NULL },
+    RESOURCE_INT_LIST_END
+};
+#endif
+
 /** \brief  Setter for the boolean resource "${CHIP}ExternalPalette"
  *
  * \param[in]   external    use external palette
@@ -832,6 +870,29 @@ int video_resources_chip_init(const char *chipname,
         if (result < 0) {
             return -1;
         }
+        /* <CHIP>FullscreenCustomWidth */
+        /* <CHIP>FullscreenCustomHeight */
+        resources_chip_fullscreen_size[0].name
+            = util_concat(chipname,
+                          vname_chip_fullscreen_size[0], NULL);
+        resources_chip_fullscreen_size[0].value_ptr
+            = &((*canvas)->videoconfig->fullscreen_custom_width);
+        resources_chip_fullscreen_size[0].param = *canvas;
+
+        resources_chip_fullscreen_size[1].name
+            = util_concat(chipname,
+                          vname_chip_fullscreen_size[1], NULL);
+        resources_chip_fullscreen_size[1].value_ptr
+            = &((*canvas)->videoconfig->fullscreen_custom_height);
+        resources_chip_fullscreen_size[1].param = *canvas;
+
+        result = resources_register_int(resources_chip_fullscreen_size);
+        lib_free(resources_chip_fullscreen_size[0].name);
+        lib_free(resources_chip_fullscreen_size[1].name);
+        if (result < 0) {
+            return -1;
+        }
+
     } else {
         set_fullscreen_mode(0, (void *)resource_chip_mode);
     }

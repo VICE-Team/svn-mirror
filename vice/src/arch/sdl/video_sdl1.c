@@ -75,10 +75,6 @@ static int sdl_bitdepth;
 static int sdl_limit_mode;
 static int sdl_ui_finalized;
 
-/* Custom w/h, used for fullscreen and limiting*/
-static int sdl_custom_width = 0;
-static int sdl_custom_height = 0;
-
 /* window size, used for free scaling */
 static int sdl_window_width = 0;
 static int sdl_window_height = 0;
@@ -171,34 +167,28 @@ static int set_sdl_limit_mode(int v, void *param)
 }
 
 /* custom width for fullscreen */
-static int set_sdl_custom_width(int w, void *param)
+int ui_set_fullscreen_custom_width(int w, void *canvas)
 {
-    if (w <= 0) {
-        return -1;
-    }
-
-    if (sdl_custom_width != w) {
-        sdl_custom_width = w;
-        if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            video_viewport_resize(sdl_active_canvas, 1);
+    video_canvas_t *cv = canvas;
+    if (cv->videoconfig->fullscreen_custom_width != w) {
+        cv->videoconfig->fullscreen_custom_width = w;
+        if (cv && cv->fullscreenconfig->enable
+            && cv->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            video_viewport_resize(cv, 1);
         }
     }
     return 0;
 }
 
 /* custom height for fullscreen */
-static int set_sdl_custom_height(int h, void *param)
+int ui_set_fullscreen_custom_height(int h, void *canvas)
 {
-    if (h <= 0) {
-        return -1;
-    }
-
-    if (sdl_custom_height != h) {
-        sdl_custom_height = h;
-        if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            video_viewport_resize(sdl_active_canvas, 1);
+    video_canvas_t *cv = canvas;
+    if (cv->videoconfig->fullscreen_custom_height != h) {
+        cv->videoconfig->fullscreen_custom_height = h;
+        if (cv && cv->fullscreenconfig->enable
+            && cv->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            video_viewport_resize(cv, 1);
         }
     }
     return 0;
@@ -338,8 +328,6 @@ int ui_set_vsync(int val, void *canvas)
 #define VICE_DEFAULT_BITDEPTH 0
 
 #define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_OFF
-#define SDLCUSTOMWIDTH_DEFAULT   800
-#define SDLCUSTOMHEIGHT_DEFAULT  600
 
 /* FIXME: more resources should have the same name as their GTK counterparts,
           and the SDL prefix removed */
@@ -348,12 +336,10 @@ static const resource_int_t resources_int[] = {
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
     { "SDLLimitMode", SDLLIMITMODE_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_limit_mode, set_sdl_limit_mode, NULL },
-    { "SDLCustomWidth", SDLCUSTOMWIDTH_DEFAULT, RES_EVENT_NO, NULL,
-      &sdl_custom_width, set_sdl_custom_width, NULL },
-    { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
-      &sdl_custom_height, set_sdl_custom_height, NULL },
+    /* FIXME: this is a generic (not SDL specific) resource */
     { "Window0Width", 0, RES_EVENT_NO, NULL,
       &sdl_window_width, set_sdl_window_width, NULL },
+    /* FIXME: this is a generic (not SDL specific) resource */
     { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
     RESOURCE_INT_LIST_END
@@ -398,15 +384,11 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdllimitmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLLimitMode", NULL,
       "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
-    { "-sdlcustomw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLCustomWidth", NULL,
-      "<width>", "Set custom resolution width" },
-    { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLCustomHeight", NULL,
-      "<height>", "Set custom resolution height" },
+    /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Width", NULL,
       "<width>", "Set intiial window width" },
+    /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set intiial window height" },
@@ -520,8 +502,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int flags;
     int fullscreen = 0;
     int limit = sdl_limit_mode;
-    unsigned int limit_w = (unsigned int)sdl_custom_width;
-    unsigned int limit_h = (unsigned int)sdl_custom_height;
+    unsigned int limit_w = (unsigned int)canvas->videoconfig->fullscreen_custom_width;
+    unsigned int limit_h = (unsigned int)canvas->videoconfig->fullscreen_custom_height;
     int hwscale = 0;
     int lightpen_updated = 0;
 #ifdef HAVE_HWSCALE
