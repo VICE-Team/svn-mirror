@@ -241,6 +241,8 @@ struct video_render_config_s {
     /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];
+    int fullscreen_custom_width; /* currently used only in the SDL port */
+    int fullscreen_custom_height; /* currently used only in the SDL port */
 };
 typedef struct video_render_config_s video_render_config_t;
 

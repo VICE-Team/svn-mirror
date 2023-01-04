@@ -88,6 +88,8 @@ extern int ui_set_flipx(int val, void *canvas);
 extern int ui_set_flipy(int val, void *canvas);
 extern int ui_set_rotate(int val, void *canvas);
 extern int ui_set_vsync(int val, void *canvas);
+extern int ui_set_fullscreen_custom_width(int val, void *canvas);
+extern int ui_set_fullscreen_custom_height(int val, void *canvas);
 
 /*
  * For VSID drag-n-drop support

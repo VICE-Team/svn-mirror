@@ -17123,11 +17123,6 @@ This section lists the settings and commands that are platform specific.
 
 This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms.
 
-@table @code
-
-
-
-@end table
 @c -----------------------------------------------------------------
 @c @node FIXME
 @subsection SDL specific resources
@@ -17207,43 +17202,75 @@ String specifying the preferred SDL2 backend.
 (See startup log for available backends, valid ones might be eg: software, opengl,
 direct3d, direct3d11, opengles2)
 
-@vindex SDLCustomWidth
-@item SDLCustomWidth
-Integer specifying the custom fullscreen resolution width.
-
-@vindex SDLCustomHeight
-@item SDLCustomHeight
-Integer specifying the custom fullscreen resolution height.
-
 @vindex CrtcFullscreenMode
 @item CrtcFullscreenMode
 Integer specifying the fullscreen mode
 (xcbm2 and xpet only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{CrtcFullscreenCustomWidth}, @code{CrtcFullscreenCustomHeight})
+
+@vindex CrtcFullscreenCustomWidth
+@item CrtcFullscreenCustomWidth
+Integer specifying the custom fullscreen resolution width.
+
+@vindex CrtcFullscreenCustomHeight
+@item CrtcFullscreenCustomHeight
+Integer specifying the custom fullscreen resolution height.
 
 @vindex TEDFullscreenMode
 @item TEDFullscreenMode
 Integer specifying the fullscreen mode
 (xplus4 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{TEDFullscreenCustomWidth}, @code{TEDFullscreenCustomHeight})
+
+@vindex TEDFullscreenCustomWidth
+@item TEDFullscreenCustomWidth
+Integer specifying the custom fullscreen resolution width.
+
+@vindex TEDFullscreenCustomHeight
+@item TEDFullscreenCustomHeight
+Integer specifying the custom fullscreen resolution height.
 
 @vindex VDCFullscreenMode
 @item VDCFullscreenMode
 Integer specifying the fullscreen mode
 (x128 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VDCFullscreenCustomWidth}, @code{VDCFullscreenCustomHeight})
+
+@vindex VDCFullscreenCustomWidth
+@item VDCFullscreenCustomWidth
+Integer specifying the custom fullscreen resolution width.
+
+@vindex VDCFullscreenCustomHeight
+@item VDCFullscreenCustomHeight
+Integer specifying the custom fullscreen resolution height.
 
 @vindex VICFullscreenMode
 @item VICFullscreenMode
 Integer specifying the fullscreen mode
 (xvic only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VICFullscreenCustomWidth}, @code{VICFullscreenCustomWidth})
+
+@vindex VICFullscreenCustomWidth
+@item VICFullscreenCustomWidth
+Integer specifying the custom fullscreen resolution width.
+
+@vindex VICFullscreenCustomHeight
+@item VICFullscreenCustomHeight
+Integer specifying the custom fullscreen resolution height.
 
 @vindex VICIIFullscreenMode
 @item VICIIFullscreenMode
 Integer specifying the fullscreen mode
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VICIIFullscreenCustomWidth}, @code{VICIIFullscreenCustomHeight})
+
+@vindex VICIIFullscreenCustomWidth
+@item VICIIFullscreenCustomWidth
+Integer specifying the custom fullscreen resolution width.
+
+@vindex VICIIFullscreenCustomHeight
+@item VICIIFullscreenCustomHeight
+Integer specifying the custom fullscreen resolution height.
 
 @vindex JoyDevice1
 @item JoyDevice1
@@ -17411,50 +17438,90 @@ Set initial window width for the second window (C128),
 Set initial window height for the second window (C128),
 (@code{Window1Height}).
 
-@findex -sdlcustomw
-@item -sdlcustomw <width>
-Set the custom fullscreen resolution width
-(@code{SDLCustomWidth}).
-
-@findex -sdlcustomh
-@item -sdlcustomh <height>
-Set the custom fullscreen resolution height
-(@code{SDLCustomHeight}).
-
 @findex -CRTCfullmode
 @item -CRTCfullmode <Mode>
 Set the fullscreen mode
 (@code{CrtcFullscreenMode})
 (xcbm2 and xpet only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{CrtcFullscreenCustomWidth}, @code{CrtcFullscreenCustomHeight})
+
+@findex -Crtcfullwidth
+@item -Crtcfullwidth <width>
+Set the custom fullscreen resolution width
+(@code{CrtcFullscreenCustomWidth}).
+
+@findex -Crtcfullheight
+@item -Crtcfullheight <height>
+Set the custom fullscreen resolution height
+(@code{CrtcFullscreenCustomHeight}).
 
 @findex -TEDfullmode
 @item -TEDfullmode <Mode>
 Set the fullscreen mode
 (@code{TEDFullscreenMode})
 (xplus4 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{TEDFullscreenCustomWidth}, @code{TEDFullscreenCustomHeight})
+
+@findex -TEDfullwidth
+@item -TEDfullwidth <width>
+Set the custom fullscreen resolution width
+(@code{TEDFullscreenCustomWidth}).
+
+@findex -TEDfullheight
+@item -TEDfullheight <height>
+Set the custom fullscreen resolution height
+(@code{TEDFullscreenCustomHeight}).
 
 @findex -VDCfullmode
 @item -VDCfullmode <Mode>
 Set the fullscreen mode
 (@code{VDCFullscreenMode})
 (x128 only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VDCFullscreenCustomWidth}, @code{VDCFullscreenCustomHeight})
+
+@findex -VDCfullwidth
+@item -VDCfullwidth <width>
+Set the custom fullscreen resolution width
+(@code{VDCFullscreenCustomWidth}).
+
+@findex -VDCfullheight
+@item -VDCfullheight <height>
+Set the custom fullscreen resolution height
+(@code{VDCFullscreenCustomHeight}).
 
 @findex -VICfullmode
 @item -VICfullmode <Mode>
 Set the fullscreen mode
 (@code{VICFullscreenMode})
 (xvic only).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VICFullscreenCustomWidth}, @code{VICFullscreenCustomHeight})
+
+@findex -VICfullwidth
+@item -VICfullwidth <width>
+Set the custom fullscreen resolution width
+(@code{VICFullscreenCustomWidth}).
+
+@findex -VICfullheight
+@item -VICfullheight <height>
+Set the custom fullscreen resolution height
+(@code{VICFullscreenCustomHeight}).
 
 @findex -VICIIfullmode
 @item -VICIIfullmode <Mode>
 Set the fullscreen mode
 (@code{VICIIFullscreenMode})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
+(0: use desktop resolution, 1: switch to @code{VICIIFullscreenCustomWidth}, @code{VICIIFullscreenCustomHeight})
+
+@findex -VICIIfullwidth
+@item -VICIIfullwidth <width>
+Set the custom fullscreen resolution width
+(@code{VICIIFullscreenCustomWidth}).
+
+@findex -VICIIfullheight
+@item -VICIIfullheight <height>
+Set the custom fullscreen resolution height
+(@code{VICIIFullscreenCustomHeight}).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-4>
