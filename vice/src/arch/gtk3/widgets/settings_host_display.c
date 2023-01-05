@@ -130,7 +130,7 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         GtkWidget  *decorations;
         GtkWidget  *minimized;
         GtkWidget  *rendering_options;
-        GtkWidget  *rendering_options_vdc;
+        GtkWidget  *rendering_options_vdc = NULL;
         const char *chip;
 
         chip = uivideo_chip_name();
