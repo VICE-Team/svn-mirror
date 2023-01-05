@@ -56,7 +56,7 @@ GtkWidget *canvas_render_vsync_widget_create(const char *chip)
     GtkWidget *vsync_widget;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Sync", 1);
+            VICE_GTK3_DEFAULT, 0, "Sync", 1);
     vsync_widget = vice_gtk3_resource_check_button_new_sprintf(
             "%sVSync", "VSync", chip);
     gtk_widget_set_margin_start(vsync_widget, 16);

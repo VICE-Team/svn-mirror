@@ -69,7 +69,7 @@ GtkWidget *canvas_render_filter_widget_create(const char *chip)
     GtkWidget *render_widget;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "GL render filter", 1);
+            VICE_GTK3_DEFAULT, 0, "GL render filter", 1);
     render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sGLFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
     gtk_widget_set_margin_start(render_widget, 16);
