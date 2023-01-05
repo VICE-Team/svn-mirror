@@ -64,7 +64,7 @@ GtkWidget *canvas_render_mirror_widget_create(const char *chip)
     GtkWidget *rot_widget;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Mirror/Rotate", 1);
+            VICE_GTK3_DEFAULT, 0, "Mirror/Rotate", 1);
     flipx_widget = vice_gtk3_resource_check_button_new_sprintf(
             "%sFlipX", "Mirror X", chip);
     gtk_widget_set_margin_start(flipx_widget, 16);
@@ -76,7 +76,7 @@ GtkWidget *canvas_render_mirror_widget_create(const char *chip)
     gtk_grid_attach(GTK_GRID(grid), flipy_widget, 0, 2, 1, 1);
 
     rot_widget = vice_gtk3_resource_check_button_new_sprintf(
-            "%sRotate", "Rotate 90 degree", chip);
+            "%sRotate", "Rotate 90\u00b0", chip);
     gtk_widget_set_margin_start(rot_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rot_widget, 0, 3, 1, 1);
 

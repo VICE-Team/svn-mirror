@@ -27,39 +27,6 @@
  * $VICERES VICIIVSPBug         x64sc xscpu64
  * $VICERES C128HideVDC         x128
  *
- * These will be moved to Display->Host Display:
- *
- * $VICERES CrtcAspectMode      xcbm2 xpet
- * $VICERES CrtcAspectRatio     xcbm2 xpet
- * $VICERES CrtcFlipX           xcbm2 xpet
- * $VICERES CrtcFlipY           xcbm2 xpet
- * $VICERES CrtcRotate          xcbm2 xpet
- * $VICERES CrtcVSync           xcbm2 xpet
- * $VICERES TEDAspectMode       xplus4
- * $VICERES TEDAspectRatio      xplus4
- * $VICERES TEDFlipX            xplus4
- * $VICERES TEDFlipY            xplus4
- * $VICERES TEDRotate           xplus4
- * $VICERES TEDVSync            xplus4
- * $VICERES VDCAspectMode       x128
- * $VICERES VDCAspectRatio      x128
- * $VICERES VDCFlipX            x128
- * $VICERES VDCFlipY            x128
- * $VICERES VDCRotate           x128
- * $VICERES VDCVSync            x128
- * $VICERES VICAspectMode       xvic
- * $VICERES VICAspectRatio      xvic
- * $VICERES VICFlipX            xvic
- * $VICERES VICFlipY            xvic
- * $VICERES VICRotate           xvic
- * $VICERES VICVSync            xvic
- * $VICERES VICIIAspectMode     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIAspectRatio    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIFlipX          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIFlipY          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIRotate         x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIVSync          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- *
  *  (see included widgets for more resources)
  */
 
@@ -88,15 +55,12 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#include "canvasrenderfilterwidget.h"
-#include "canvasrendermirrorwidget.h"
-#include "canvasrendervsyncwidget.h"
+
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "ui.h"
 #include "uivideo.h"
 #include "vice_gtk3.h"
-#include "videoaspectwidget.h"
 #include "videobordermodewidget.h"
 #include "videopalettewidget.h"
 #include "videorenderfilterwidget.h"
@@ -342,10 +306,11 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
     int row = 2;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Miscellaneous", 1);
+            VICE_GTK3_DEFAULT, 0, "Miscellaneous", 1);
 
     audio_leak_widget = create_audio_leak_widget(chip);
     gtk_widget_set_margin_start(audio_leak_widget, 16);
+    gtk_widget_set_margin_top(audio_leak_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), audio_leak_widget, 0, 1, 1, 1);
 
     if (uivideo_chip_has_sprites(chip)) {
@@ -418,7 +383,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     /* row 3, col 2: misc options */
     wrapper = create_misc_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
-
+#if 0
     /* row 4, col 0: scaling and aspect ratio resources */
     widget = video_aspect_widget_create(chip);
     gtk_grid_attach(GTK_GRID(layout), widget, 0, 4, 1, 1);
@@ -434,7 +399,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     /* row 5, col 0: vsync */
     widget = canvas_render_vsync_widget_create(chip);
     gtk_grid_attach(GTK_GRID(layout), widget, 0, 5, 1, 1);
-
+#endif
     /* Hide VDC checkbox
      *
      * Only show when VICII window, VICII settings

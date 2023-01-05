@@ -76,7 +76,7 @@ GtkWidget *video_aspect_widget_create(const char *chip)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Aspect Mode", 1);
+            VICE_GTK3_DEFAULT, 0, "Aspect Mode", 1);
     render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sAspectMode", aspect_modes, GTK_ORIENTATION_VERTICAL, chip);
     gtk_widget_set_margin_start(render_widget, 16);
@@ -84,13 +84,21 @@ GtkWidget *video_aspect_widget_create(const char *chip)
 
     /* label */
     label = vice_gtk3_create_indented_label("Ratio");
-    /* address */
+    /* address
+     * TODO: implement as spin button */
     aspect_ratio_s = vice_gtk3_resource_entry_full_new_sprintf(
         "%sAspectRatio", chip);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_widget_set_margin_start(aspect_ratio_s, 16);
     gtk_widget_set_hexpand(aspect_ratio_s, TRUE);
     gtk_grid_attach(GTK_GRID(grid), aspect_ratio_s, 0, 3, 1, 1);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "\u2191<small>  I wanna be a spin button \u2639</small>");
+    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
