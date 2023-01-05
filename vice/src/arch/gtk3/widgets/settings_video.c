@@ -1,5 +1,5 @@
 /** \file   settings_video.c
- * \brief   Widget to control video settings
+ * \brief   Settings widget to control video settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,9 +25,40 @@
  * $VICERES VICIICheckSbColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIICheckSsColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIVSPBug         x64sc xscpu64
- * $VICERES KeepAspectRatio     -vsid
- * $VICERES TrueAspectRatio     -vsid
  * $VICERES C128HideVDC         x128
+ *
+ * These will be moved to Display->Host Display:
+ *
+ * $VICERES CrtcAspectMode      xcbm2 xpet
+ * $VICERES CrtcAspectRatio     xcbm2 xpet
+ * $VICERES CrtcFlipX           xcbm2 xpet
+ * $VICERES CrtcFlipY           xcbm2 xpet
+ * $VICERES CrtcRotate          xcbm2 xpet
+ * $VICERES CrtcVSync           xcbm2 xpet
+ * $VICERES TEDAspectMode       xplus4
+ * $VICERES TEDAspectRatio      xplus4
+ * $VICERES TEDFlipX            xplus4
+ * $VICERES TEDFlipY            xplus4
+ * $VICERES TEDRotate           xplus4
+ * $VICERES TEDVSync            xplus4
+ * $VICERES VDCAspectMode       x128
+ * $VICERES VDCAspectRatio      x128
+ * $VICERES VDCFlipX            x128
+ * $VICERES VDCFlipY            x128
+ * $VICERES VDCRotate           x128
+ * $VICERES VDCVSync            x128
+ * $VICERES VICAspectMode       xvic
+ * $VICERES VICAspectRatio      xvic
+ * $VICERES VICFlipX            xvic
+ * $VICERES VICFlipY            xvic
+ * $VICERES VICRotate           xvic
+ * $VICERES VICVSync            xvic
+ * $VICERES VICIIAspectMode     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIAspectRatio    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIFlipX          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIFlipY          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIRotate         x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIVSync          x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  *
  *  (see included widgets for more resources)
  */
@@ -54,81 +85,31 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include <stdlib.h>
 #include <string.h>
 
-#include "ui.h"
-#include "basewidgets.h"
-#include "lib.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
-#include "machine.h"
-#include "uivideo.h"
-#include "videoaspectwidget.h"
-#include "videopalettewidget.h"
-#include "videorenderfilterwidget.h"
-#include "videobordermodewidget.h"
 #include "canvasrenderfilterwidget.h"
 #include "canvasrendermirrorwidget.h"
 #include "canvasrendervsyncwidget.h"
+#include "debug_gtk3.h"
+#include "machine.h"
+#include "ui.h"
+#include "uivideo.h"
+#include "vice_gtk3.h"
+#include "videoaspectwidget.h"
+#include "videobordermodewidget.h"
+#include "videopalettewidget.h"
+#include "videorenderfilterwidget.h"
 
 #include "settings_video.h"
 
 
-/** \brief  Heap allocated titles for the sub-widgets
- */
-static char *widget_title[2] = { NULL, NULL };
-
-/** \brief  References to the chip names passed to create_layout()
- */
-static const char *chip_name[2] = { NULL, NULL };
-
-/** \brief  aspect mode widgets
- */
-static GtkWidget *aspect_widget[2] = { NULL, NULL };
-
-/** \brief  GL filter widgets
- */
-static GtkWidget *glfilter_widget[2] = { NULL, NULL };
-
-/** \brief  GL mirror widgets
- */
-static GtkWidget *mirror_widget[2] = { NULL, NULL };
-
-/** \brief  GL vsync widgets
- */
-static GtkWidget *vsync_widget[2] = { NULL, NULL };
-
 /** \brief  double-size widgets
+ *
+ * Used in render_filter_callback() to synchronize the double size widgets'
+ * state.
  */
 static GtkWidget *double_size_widget[2] = { NULL, NULL };
-
-/** \brief  render-filter widgets
- */
-static GtkWidget *render_filter_widget[2] = { NULL, NULL };
-
-
-/** \brief  Handler for the "destroy" event of the main widget
- *
- * Cleans up heap-allocated resources
- *
- * \param[in]   widget  main widget
- */
-static void on_destroy(GtkWidget *widget)
-{
-    if (widget_title[0] != NULL) {
-        lib_free(widget_title[0]);
-        widget_title[0] = NULL;
-    }
-    if (widget_title[1] != NULL) {
-        lib_free(widget_title[1]);
-        widget_title[1] = NULL;
-    }
-}
 
 
 /** \brief  Callback for changes of the render-filter widgets
@@ -145,7 +126,6 @@ static void render_filter_callback(GtkWidget *widget, int value)
                 "ChipIndex"));
     vice_gtk3_resource_check_button_sync(double_size_widget[index]);
 }
-
 
 /** \brief  Callback for changes of the "Double Size" widget
  *
@@ -185,110 +165,6 @@ static void double_size_callback(GtkWidget *widget, int state)
     }
 }
 
-
-
-/** \brief  Create "Double Size" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_double_size_widget(int index)
-{
-    GtkWidget *widget;
-
-    widget = vice_gtk3_resource_check_button_new_sprintf("%sDoubleSize",
-                                                         "Double size",
-                                                         chip_name[index]);
-    vice_gtk3_resource_check_button_add_callback(widget,
-                                                 double_size_callback);
-    return widget;
-}
-
-
-/** \brief  Create "Double Scan" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_double_scan_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sDoubleScan", "Double scan",
-            chip_name[index]);
-}
-
-
-/** \brief  Create "Vertical Stretch" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_vert_stretch_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sStretchVertical","Stretch vertically",
-            chip_name[index]);
-}
-
-
-/** \brief  Create "Audio leak emulation" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_audio_leak_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sAudioLeak", "Audio leak emulation",
-            chip_name[index]);
-}
-
-
-/** \brief  Create "Sprite-sprite collisions" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_sprite_sprite_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sCheckSsColl", "Sprite-sprite collisions",
-            chip_name[index]);
-}
-
-/** \brief  Create "Sprite-background collisions" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_sprite_background_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sCheckSbColl", "Sprite-background collisions",
-            chip_name[index]);
-}
-
-
-/** \brief  Create "VSP bug emulation" checkbox
- *
- * \param[in]   index   chip index
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_vsp_bug_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sVSPBug", "VSP bug emulation",
-            chip_name[index]);
-}
-
-
 /** \brief  Event handler for the 'Hide VDC Window' checkbox
  *
  * \param[in]   check   checkbutton triggering the event
@@ -318,6 +194,102 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
 }
 
 
+/** \brief  Create "Double Size" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_double_size_widget(const char *chip)
+{
+    GtkWidget *widget;
+
+    widget = vice_gtk3_resource_check_button_new_sprintf("%sDoubleSize",
+                                                         "Double size",
+                                                         chip);
+    vice_gtk3_resource_check_button_add_callback(widget,
+                                                 double_size_callback);
+    return widget;
+}
+
+/** \brief  Create "Double Scan" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_double_scan_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sDoubleScan",
+                                                       "Double scan",
+                                                       chip);
+}
+
+/** \brief  Create "Vertical Stretch" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vert_stretch_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sStretchVertical",
+                                                       "Stretch vertically",
+                                                       chip);
+}
+
+/** \brief  Create "Audio leak emulation" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_audio_leak_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sAudioLeak",
+                                                       "Audio leak emulation",
+                                                       chip);
+}
+
+/** \brief  Create "Sprite-sprite collisions" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_sprite_sprite_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sCheckSsColl",
+                                                       "Sprite-sprite collisions",
+                                                       chip);
+}
+
+/** \brief  Create "Sprite-background collisions" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_sprite_background_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sCheckSbColl",
+                                                       "Sprite-background collisions",
+                                                       chip);
+}
+
+/** \brief  Create "VSP bug emulation" checkbox
+ *
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vsp_bug_widget(const char *chip)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("%sVSPBug",
+                                                       "VSP bug emulation",
+                                                       chip);
+}
+
 /** \brief  Create widget for double size/scan, video cache and vert stretch
  *
  * \param[in]   index   chip index (using in x128)
@@ -333,26 +305,25 @@ static GtkWidget *create_render_widget(int index, const char *chip)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    double_size_widget[index] = create_double_size_widget(index);
+    double_size_widget[index] = create_double_size_widget(chip);
     g_object_set_data(G_OBJECT(double_size_widget[index]),
                                "ChipIndex",
                                GINT_TO_POINTER(index));
     gtk_widget_set_margin_start(double_size_widget[index], 16);
 
-    double_scan_widget = create_double_scan_widget(index);
+    double_scan_widget = create_double_scan_widget(chip);
 
     gtk_grid_attach(GTK_GRID(grid), double_size_widget[index], 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
 
     if (uivideo_chip_has_vert_stretch(chip)) {
-        vert_stretch_widget = create_vert_stretch_widget(index);
+        vert_stretch_widget = create_vert_stretch_widget(chip);
         gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 2, 0, 1, 1);
     }
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 /** \brief  Create widget for audio leak, sprite collisions and VSP bug
  *
@@ -373,13 +344,13 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Miscellaneous", 1);
 
-    audio_leak_widget = create_audio_leak_widget(index);
+    audio_leak_widget = create_audio_leak_widget(chip);
     gtk_widget_set_margin_start(audio_leak_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), audio_leak_widget, 0, 1, 1, 1);
 
     if (uivideo_chip_has_sprites(chip)) {
-        sprite_sprite_widget = create_sprite_sprite_widget(index);
-        sprite_background_widget = create_sprite_background_widget(index);
+        sprite_sprite_widget = create_sprite_sprite_widget(chip);
+        sprite_background_widget = create_sprite_background_widget(chip);
         gtk_widget_set_margin_start(sprite_sprite_widget, 16);
         gtk_widget_set_margin_start(sprite_background_widget, 16);
         gtk_grid_attach(GTK_GRID(grid), sprite_sprite_widget, 0, 2, 1, 1);
@@ -387,7 +358,7 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
         row = 4;
     }
     if (uivideo_chip_has_vsp_bug(chip)) {
-        vsp_bug_widget = create_vsp_bug_widget(index);
+        vsp_bug_widget = create_vsp_bug_widget(chip);
         gtk_widget_set_margin_start(vsp_bug_widget, 16);
         gtk_grid_attach(GTK_GRID(grid), vsp_bug_widget, 0, row, 1, 1);
 
@@ -409,13 +380,14 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     GtkWidget *layout;
     GtkWidget *wrapper;
     GtkWidget *hide_vdc;
+    GtkWidget *widget;
+    char       title[256];
 
-    widget_title[index] = lib_msprintf("%s Settings", chip);
-    chip_name[index] = chip;
+    g_snprintf(title, sizeof title, "%s Settings", chip);
 
     /* row 0, col 0-2: title */
     layout = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, widget_title[index], 3);
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, title, 3);
     /* spread out the rows a bit more */
     gtk_grid_set_row_spacing(GTK_GRID(layout),
             VICE_GTK3_GRID_ROW_SPACING * 2);
@@ -430,17 +402,12 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
             0, 2, 3, 1);
 
     /* row 3, col 0: rendering filter */
-    render_filter_widget[index] = video_render_filter_widget_create(chip);
+    widget = video_render_filter_widget_create(chip);
     /* set chip index to use for the callback */
-    g_object_set_data(G_OBJECT(render_filter_widget[index]),
-                      "ChipIndex",
-                      GINT_TO_POINTER(index));
+    g_object_set_data(G_OBJECT(widget), "ChipIndex", GINT_TO_POINTER(index));
     /* add callback to widget */
-    video_render_filter_widget_add_callback(render_filter_widget[index],
-                                            render_filter_callback);
-    gtk_grid_attach(GTK_GRID(layout),
-            render_filter_widget[index],
-            0, 3, 1, 1);
+    video_render_filter_widget_add_callback(widget, render_filter_callback);
+    gtk_grid_attach(GTK_GRID(layout), widget, 0, 3, 1, 1);
     /* row 3, col 1: border-mode  */
     if (uivideo_chip_has_border_mode(chip)) {
         /* add border mode widget */
@@ -452,21 +419,21 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     wrapper = create_misc_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
 
-    /* row 4, col 0-2: scaling and aspect ratio resources */
-    aspect_widget[index] = video_aspect_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), aspect_widget[index], 0, 4, 1, 1);
+    /* row 4, col 0: scaling and aspect ratio resources */
+    widget = video_aspect_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), widget, 0, 4, 1, 1);
 
     /* row 4, col 3: glfilter */
-    glfilter_widget[index] = canvas_render_filter_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), glfilter_widget[index], 1, 4, 1, 1);
+    widget = canvas_render_filter_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), widget, 1, 4, 1, 1);
 
     /* row 4, col 3: mirror options */
-    mirror_widget[index] = canvas_render_mirror_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), mirror_widget[index], 2, 4, 1, 1);
+    widget = canvas_render_mirror_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), widget, 2, 4, 1, 1);
 
     /* row 5, col 0: vsync */
-    vsync_widget[index] = canvas_render_vsync_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), vsync_widget[index], 0, 5, 1, 1);
+    widget = canvas_render_vsync_widget_create(chip);
+    gtk_grid_attach(GTK_GRID(layout), widget, 0, 5, 1, 1);
 
     /* Hide VDC checkbox
      *
@@ -501,29 +468,14 @@ GtkWidget *settings_video_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     const char *chip;
 
-    /* XXX: is this really required anymore? */
-    chip_name[0] = NULL;
-    chip_name[1] = NULL;
-    widget_title[0] = NULL;
-    widget_title[1] = NULL;
-    aspect_widget[0] = NULL;
-    aspect_widget[1] = NULL;
-    glfilter_widget[0] = NULL;
-    glfilter_widget[1] = NULL;
-    mirror_widget[0] = NULL;
-    mirror_widget[1] = NULL;
     double_size_widget[0] = NULL;
     double_size_widget[1] = NULL;
-    render_filter_widget[0] = NULL;
-    render_filter_widget[1] = NULL;
+    chip = uivideo_chip_name();
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    chip = uivideo_chip_name();
     gtk_grid_attach(GTK_GRID(grid),
             create_layout(parent, chip, PRIMARY_WINDOW),
             0, 0, 1, 1);
-
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -542,23 +494,10 @@ GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    chip_name[0] = NULL;
-    chip_name[1] = NULL;
-    widget_title[0] = NULL;
-    widget_title[1] = NULL;
-    aspect_widget[0] = NULL;
-    aspect_widget[1] = NULL;
-    glfilter_widget[0] = NULL;
-    glfilter_widget[1] = NULL;
-    mirror_widget[0] = NULL;
-    mirror_widget[1] = NULL;
-
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),
             create_layout(parent, "VDC", SECONDARY_WINDOW),
             0, 0, 1, 1);
-
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(grid);
     return grid;
 }
