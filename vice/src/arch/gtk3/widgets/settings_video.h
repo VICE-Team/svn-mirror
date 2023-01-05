@@ -1,5 +1,5 @@
 /** \file   settings_video.h
- * \brief   Widget to control video settings - header
+ * \brief   Settings widget to control video settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -28,7 +28,6 @@
 #ifndef VICE_SETTINGS_VIDEO_H
 #define VICE_SETTINGS_VIDEO_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
 GtkWidget *settings_video_widget_create(GtkWidget *parent);
