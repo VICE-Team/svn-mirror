@@ -51,13 +51,13 @@
 #include "videoaspectwidget.h"
 
 /** \brief  Aspect ratio spin button lower bound */
-#define RATIO_LOWER     0.000001
+#define RATIO_LOWER     0.5
 
 /** \brief  Aspect ratio spin button upper bound */
-#define RATIO_UPPER     1.999999
+#define RATIO_UPPER     2.0
 
 /** \brief  Aspect ratio spin button stepping */
-#define RATIO_STEP      0.0025
+#define RATIO_STEP      0.0069
 
 /** \brief  Aspect ratio spin button displayed digits
  *
