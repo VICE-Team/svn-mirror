@@ -53,4 +53,22 @@ gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget);
 void     vice_gtk3_resource_spin_int_set_fake_digits(GtkWidget *spin,
                                                      int digits);
 
+GtkWidget *vice_gtk3_resource_spin_double_new(const char *resource,
+                                              double      upper,
+                                              double      lower,
+                                              double      step);
+GtkWidget *vice_gtk3_resource_spin_double_new_sprintf(const char *fmt,
+                                                      double      upper,
+                                                      double      lower,
+                                                      double      step,
+                                                      ...);
+gboolean vice_gtk3_resource_spin_double_get       (GtkWidget *spin,
+                                                   double    *value);
+gboolean vice_gtk3_resource_spin_double_set       (GtkWidget *spin,
+                                                   double     value);
+gboolean vice_gtk3_resource_spin_double_reset     (GtkWidget *spin);
+gboolean vice_gtk3_resource_spin_double_factory   (GtkWidget *spin);
+gboolean vice_gtk3_resource_spin_double_sync      (GtkWidget *spin);
+void     vice_gtk3_resource_spin_double_set_digits(GtkWidget *spin,
+                                                   guint      digits);
 #endif
