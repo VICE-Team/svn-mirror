@@ -62,6 +62,57 @@
 #include "resourcespinbutton.h"
 
 
+/** \brief  Get string resource value as a double
+ *
+ * Get value for \a resource and try to convert to double.
+ * If \a text is not `NULL` the original string value will be stored there.
+ *
+ * \param[in]   resource    resource name
+ * \param[out]  value       resource converted to double
+ * \param[out]  text        original string resource value (optional)
+ *
+ * \return  `true` on success
+ *
+ * \note    on failure \a value and \a text are not touched
+ */
+static bool get_double_resource(const char  *resource,
+                                double      *value,
+                                const char **text)
+{
+    const char *current = NULL;
+
+    if (resources_get_string(resource, &current) == 0) {
+        double  result;
+        char   *endptr;
+
+        result = strtod(current, &endptr);
+        if (*endptr == '\0') {
+            *value = result;
+            if (text != NULL) {
+                *text = current;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+/** \brief  Set double in string resource
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   value       new value
+ *
+ * \return  `true` on success
+ */
+static bool set_double_resource(const char *resource,
+                                double      value)
+{
+    char text[64];
+
+    g_snprintf(text, sizeof text, "%16f", value);
+    return resources_set_string(resource, text) == 0;
+}
+
 /** \brief  Handler for the 'destroy' event of \a widget
  *
  * Frees memory used by the copy of the resource name.
@@ -74,6 +125,18 @@ static void on_spin_button_destroy(GtkWidget *widget, gpointer user_data)
     resource_widget_free_resource_name(widget);
 }
 
+/** \brief  Handler for the 'destroy' event of a double resource spin button
+ *
+ * Frees memory used by resource name and resource original value of \a self.
+ *
+ * \param[in]   self    resource double spin button
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_spin_button_double_destroy(GtkWidget *self, gpointer data)
+{
+    resource_widget_free_resource_name(self);
+    resource_widget_free_string(self, "ResourceOrig");
+}
 
 /** \brief  Handler for the 'input' event of the \a spin button
  *
@@ -163,6 +226,9 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
     }
 }
 
+/******************************************************************************
+ * Spin button for resources containing double integers                       *
+ *****************************************************************************/
 
 /** \brief  Create integer spin button to control a resource - helper
  *
@@ -396,4 +462,215 @@ gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget)
         return vice_gtk3_resource_spin_int_set(widget, resource_val);
     }
     return TRUE;
+}
+
+
+/******************************************************************************
+ * Spin button for resources containing double values                         *
+ *                                                                            *
+ * Since VICE doesn't support true float/double resources we internally use a *
+ * string resource.                                                           *
+ *****************************************************************************/
+
+/** \brief  Handler for the 'value-changed' event of a double resource spin button
+ *
+ * \param[in]   self    double resource spin button
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_spin_button_double_value_changed(GtkWidget *self,
+                                                gpointer   data)
+{
+    const char *resource;
+    double      value;
+
+    value    = gtk_spin_button_get_value(GTK_SPIN_BUTTON(self));
+    resource = resource_widget_get_resource_name(self);
+    set_double_resource(resource, value);
+}
+
+
+/** \brief  Create spin button for double resource
+ *
+ * Create a resource-bound spin button interpreting a string resource to double.
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   lower       lower bound of value
+ * \param[in]   upper       upper bound of value
+ * \param[in]   step        stepping to use when clicking +/-
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *vice_gtk3_resource_spin_double_new(const char *resource,
+                                              double      lower,
+                                              double      upper,
+                                              double      step)
+{
+    GtkWidget  *spin;
+    double      current = 0.0;
+    const char *curstr = "0.0";
+
+    get_double_resource(resource, &current, &curstr);
+    spin = gtk_spin_button_new_with_range(lower, upper, step);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), current);
+    resource_widget_set_resource_name(spin, resource);
+    /* we can't store a double with g_object_set() so we keep the string */
+    resource_widget_set_string(spin, "ResourceOrig", curstr);
+
+    g_signal_connect_unlocked(G_OBJECT(spin),
+                              "destroy",
+                              G_CALLBACK(on_spin_button_double_destroy),
+                              NULL);
+    g_signal_connect(G_OBJECT(spin),
+                     "value-changed",
+                     G_CALLBACK(on_spin_button_double_value_changed),
+                     NULL);
+    return spin;
+}
+
+
+/** \brief  Create spin button for double resource
+ *
+ * Create a resource-bound spin button interpreting a string resource to double.
+ * This version uses string formatting to create the resource name.
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   lower       lower bound of value
+ * \param[in]   upper       upper bound of value
+ * \param[in]   step        stepping to use when clicking +/-
+ * \param[in]   ...         arguments to \a fmt
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *vice_gtk3_resource_spin_double_new_sprintf(const char *fmt,
+                                                      double      lower,
+                                                      double      upper,
+                                                      double      step,
+                                                      ...)
+{
+    char    resource[256];
+    va_list args;
+
+    va_start(args, step);
+    g_vsnprintf(resource, sizeof resource, fmt, args);
+    va_end(args);
+    return vice_gtk3_resource_spin_double_new(resource, lower, upper, step);
+}
+
+
+/** \brief  Set new value for resource double spin button
+ *
+ * \param[in]   spin    resource double spin button
+ * \param[in]   value   new value for \a spin
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_spin_double_set(GtkWidget *spin, double value)
+{
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), value);
+    return TRUE;
+}
+
+
+/** \brief  Get value of resource double spin button
+ *
+ * \param[in]   spin    resource double spin button
+ * \param[out]  value   current value of \a spin
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_spin_double_get(GtkWidget *spin, double *value)
+{
+    *value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
+    return TRUE;
+}
+
+
+/** \brief  Reset resource double spin button to the value on construction
+ *
+ * Reset \a spin to the value the bound resource contained when \a spin was
+ * constructed.
+ *
+ * \param[in]   spin    resource double spin button
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_spin_double_reset(GtkWidget *spin)
+{
+    const char *orig;
+    double      value;
+    char       *endptr;
+
+    orig = resource_widget_get_string(spin, "ResourceOrig");
+    if (orig != NULL) {
+        value = strtod(orig, &endptr);
+        if (*endptr == '\0') {
+            return vice_gtk3_resource_spin_double_set(spin, value);
+        }
+    }
+    return FALSE;
+}
+
+/** \brief  Restore resource double spin button to factory value
+ *
+ * \param[in]   spin    resource double spin button
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_spin_double_factory(GtkWidget *spin)
+{
+    const char  *resource;
+    const char  *factory = NULL;
+    char        *endptr;
+    double       value;
+
+    resource = resource_widget_get_resource_name(spin);
+    if (resources_get_default_value(resource, &factory) < 0) {
+        log_error(LOG_ERR,
+                  "failed to get factory value for resource %s'.",
+                  resource);
+        return FALSE;
+    }
+    value = strtod(factory, &endptr);
+    if (*endptr != '\0') {
+        log_error(LOG_ERR,
+                  "factory value '%s' of resource '%s' could not be converted"
+                  " to double.",
+                  factory, resource);
+        return FALSE;
+    }
+    return vice_gtk3_resource_spin_double_set(spin, value);
+}
+
+
+/** \brief  Synchronize double spin button with its resource
+ *
+ * \param[in]   spin    resource double spin button
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_spin_double_sync(GtkWidget *spin)
+{
+    const char *resource;
+    double      value = 0.0;
+
+    resource = resource_widget_get_resource_name(spin);
+    if (get_double_resource(resource, &value, NULL)) {
+        return vice_gtk3_resource_spin_double_set(spin, value);
+    }
+    return FALSE;
+}
+
+
+/** \brief   Set the precision to be displayed by a resource double spin button
+ *
+ * \param[in]   spin    resource double spin button
+ * \param[in]   digits  number of digits
+ *
+ * \note    currently just calls gtk_spin_button_set_digits(\a spin), but the
+ *          internal structure of \a spin might change, so this function is
+ *          preferred over the gtk one.
+ */
+void vice_gtk3_resource_spin_double_set_digits(GtkWidget *spin, guint digits)
+{
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), digits);
 }

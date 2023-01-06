@@ -50,6 +50,20 @@
 
 #include "videoaspectwidget.h"
 
+/** \brief  Aspect ratio spin button lower bound */
+#define RATIO_LOWER     0.000001
+
+/** \brief  Aspect ratio spin button upper bound */
+#define RATIO_UPPER     1.999999
+
+/** \brief  Aspect ratio spin button stepping */
+#define RATIO_STEP      0.0025
+
+/** \brief  Aspect ratio spin button displayed digits
+ *
+ * A GtkSpinButton is limited to 20 digits, should be enough.
+ */
+#define RATIO_DIGITS    6
 
 
 /** \brief  List of radio buttons
@@ -72,7 +86,7 @@ GtkWidget *video_aspect_widget_create(const char *chip)
 {
     GtkWidget *grid;
     GtkWidget *render_widget;
-    GtkWidget *aspect_ratio_s;
+    GtkWidget *aspect_ratio;
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
@@ -83,22 +97,19 @@ GtkWidget *video_aspect_widget_create(const char *chip)
     gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
 
     /* label */
-    label = vice_gtk3_create_indented_label("Ratio");
-    /* address
-     * TODO: implement as spin button */
-    aspect_ratio_s = vice_gtk3_resource_entry_full_new_sprintf(
-        "%sAspectRatio", chip);
+    label = vice_gtk3_create_indented_label("Custom ratio:");
+    gtk_widget_set_margin_top(label, 8);
+    /* spin button for doubles */
+    aspect_ratio = vice_gtk3_resource_spin_double_new_sprintf("%sAspectRatio",
+                                                              RATIO_LOWER,
+                                                              RATIO_UPPER,
+                                                              RATIO_STEP,
+                                                              chip);
+    vice_gtk3_resource_spin_double_set_digits(aspect_ratio, RATIO_DIGITS);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_widget_set_margin_start(aspect_ratio_s, 16);
-    gtk_widget_set_hexpand(aspect_ratio_s, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), aspect_ratio_s, 0, 3, 1, 1);
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label),
-                         "\u2191<small>  I wanna be a spin button \u2639</small>");
-    gtk_widget_set_margin_start(label, 16);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+    gtk_widget_set_margin_start(aspect_ratio, 16);
+    gtk_widget_set_hexpand(aspect_ratio, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), aspect_ratio, 0, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
