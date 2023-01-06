@@ -58,6 +58,7 @@
 #include "autostart.h"
 #include "basedialogs.h"
 #include "cmdline.h"
+#include "crtcontrolwidget.h"
 #include "debug.h"
 #include "debug_gtk3.h"
 #include "drive.h"
@@ -2647,6 +2648,7 @@ void ui_exit(void)
         ui_tape_attach_shutdown();
         ui_smart_attach_shutdown();
         ui_media_shutdown();
+        crt_control_widget_shutdown();
     }
 
     ui_settings_shutdown();
