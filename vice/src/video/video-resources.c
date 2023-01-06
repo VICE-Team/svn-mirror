@@ -1095,7 +1095,7 @@ int video_resources_chip_init(const char *chipname,
             = util_concat(chipname, "AspectRatio", NULL);
         /* KLUDGES: setup the factory default with a string, needs to be done at
         runtime since float format depends on locale */
-        sprintf(buf, "%f", 1.0f);
+        snprintf(buf, sizeof buf, "%f", 1.0f);
         util_string_set(&((*canvas)->videoconfig->aspect_ratio_factory_value_s), buf);
         resources_chip_gloptions_string[0].factory_value = ((*canvas)->videoconfig->aspect_ratio_factory_value_s);
         resources_chip_gloptions_string[0].value_ptr
@@ -1114,6 +1114,7 @@ int video_resources_chip_init(const char *chipname,
 void video_resources_chip_shutdown(struct video_canvas_s *canvas)
 {
     lib_free(canvas->videoconfig->aspect_ratio_s);
+    lib_free(canvas->videoconfig->aspect_ratio_factory_value_s);
     lib_free(canvas->videoconfig->external_palette_name);
     lib_free(canvas->videoconfig->chip_name);
 
