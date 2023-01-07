@@ -228,6 +228,9 @@ static GtkCssProvider *scale_css_statusbar = NULL;
  */
 static GtkCssProvider *scale_css_dialog = NULL;
 
+/** \brief  MachineVideoStandard resource value on construction */
+static int standard = 0;
+
 
 /** \brief  Determine if the PAL-specific controls must be enabled
  *
@@ -239,9 +242,6 @@ static GtkCssProvider *scale_css_dialog = NULL;
  */
 static bool is_pal(const char *chip)
 {
-    int standard = 0;
-
-    resources_get_int("MachineVideoStandard", &standard);
     /* not CRTC and not VDC */
     if ((standard == MACHINE_SYNC_PAL || standard == MACHINE_SYNC_PALN) &&
             (chip[0] != 'C' && !(chip[0] == 'V' && chip[1] == 'D'))) {
@@ -487,6 +487,10 @@ static crt_control_data_t *create_control_data(const char *chip)
  * \param[in]   chip    video chip name (all caps)
  * \param[in]   minimal reduce slider sizes for use in the status bar
  *
+ * \todo    Add a way to force update of all sliders and their sensitivity when
+ *          MachineVideoStandard is changed (ie CRT sliders in the statusbar
+ *          are shown and the user switches from PAL to NTSC)
+ *
  * \return  GtkGrid
  */
 GtkWidget *crt_control_widget_create(GtkWidget  *parent,
@@ -526,6 +530,9 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
             return NULL;
         }
     }
+
+    /* this avoids obtaining the vice lock in each is_pal() call */
+    resources_get_int("MachineVideoStandard", &standard);
 
     data = create_control_data(chip);
 
