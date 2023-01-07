@@ -317,7 +317,7 @@ int c128ui_init(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
 #endif
-
+    uistatusbar_realize();
     return 0;
 }
 

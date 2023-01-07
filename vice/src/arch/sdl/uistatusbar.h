@@ -37,6 +37,7 @@ extern int uistatusbar_state;
 extern void uistatusbar_open(void);
 extern void uistatusbar_close(void);
 extern void uistatusbar_draw(void);
+void        uistatusbar_realize(void);
 
 extern int uistatusbar_init_resources(void);
 

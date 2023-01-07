@@ -519,3 +519,25 @@ void ui_display_reset(int device, int mode)
 {
     /* NOT IMPLEMENTED */
 }
+
+
+/** \brief  Set initial visibility of the status bar
+ *
+ * Called from \${emu}_init().
+ */
+void uistatusbar_realize(void)
+{
+    if (machine_class != VICE_MACHINE_VSID) {
+        int show = 0;
+        const video_canvas_t *canvas = sdl_active_canvas;
+
+        resources_get_int_sprintf("%sShowStatusbar",
+                                   &show,
+                                   canvas->videoconfig->chip_name);
+        if (show) {
+            uistatusbar_open();
+        } else {
+            uistatusbar_close();
+        }
+    }
+}
