@@ -274,6 +274,7 @@ int cbm2ui_init(void)
     sdl_menu_ffmpeg_init();
 #endif
 
+    uistatusbar_realize();
     return 0;
 }
 
