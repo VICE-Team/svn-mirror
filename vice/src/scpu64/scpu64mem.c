@@ -149,14 +149,14 @@ static int dma_in_progress = 0;
 
 inline static void check_ba_read(void)
 {
-    if (!scpu64_fastmode && maincpu_ba_low_flags) {
+    if (!scpu64_fastmode && maincpu_ba_low_flags && !dma_in_progress) {
         maincpu_steal_cycles();
     }
 }
 
 inline static void check_ba_write(void)
 {
-    if (!scpu64_fastmode && !scpu64_emulation_mode && maincpu_ba_low_flags) {
+    if (!scpu64_fastmode && !scpu64_emulation_mode && maincpu_ba_low_flags && !dma_in_progress) {
         maincpu_steal_cycles();
     }
 }
