@@ -101,6 +101,8 @@ static GtkWidget *create_rendering_options_widget(const char *chip)
 
     /* row 1, col 2: mirror options */
     widget = canvas_render_mirror_widget_create(chip);
+    /* XXX: remove this line to enable */
+    gtk_widget_set_sensitive(widget, FALSE);
     gtk_grid_attach(GTK_GRID(grid), widget, 2, row, 1, 1);
 
     row++;
