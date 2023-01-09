@@ -112,7 +112,7 @@ static void display_tape(void)
     }
     statusbar_text[STATUSBAR_TAPE_POS + len] = ' ';
 
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if (uistatusbar_state & (UISTATUSBAR_ACTIVE|UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
@@ -133,7 +133,7 @@ static void display_speed(void)
     statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
 
     /* TODO: Only re-render if the string changed, like GTK */
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if (uistatusbar_state & (UISTATUSBAR_ACTIVE|UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
@@ -187,7 +187,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         drive_state >>= 1;
     }
 
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if (uistatusbar_state & (UISTATUSBAR_ACTIVE|UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
@@ -216,7 +216,7 @@ void ui_display_drive_track(unsigned int drive_number,
     statusbar_text[offset] = (track_number / 10) + '0';
     statusbar_text[offset + 1] = (track_number % 10) + '0';
 
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if ((uistatusbar_state & UISTATUSBAR_ACTIVE) || (uistatusbar_state & UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
@@ -252,7 +252,7 @@ void ui_display_drive_led(unsigned int drive_number,
         statusbar_text[offset] = trk;
     }
 
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if (uistatusbar_state & (UISTATUSBAR_ACTIVE|UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
@@ -381,12 +381,26 @@ int uistatusbar_state = 0;
 
 void uistatusbar_open(void)
 {
-    uistatusbar_state = UISTATUSBAR_ACTIVE | UISTATUSBAR_REPAINT;
+    uistatusbar_state |= UISTATUSBAR_ACTIVE;
+    uistatusbar_state |= UISTATUSBAR_REPAINT;
+}
+
+void uistatusbar_open_vdc(void)
+{
+    uistatusbar_state |= UISTATUSBAR_ACTIVE_VDC;
+    uistatusbar_state |= UISTATUSBAR_REPAINT;
 }
 
 void uistatusbar_close(void)
 {
-    uistatusbar_state = UISTATUSBAR_REPAINT;
+    uistatusbar_state &= ~UISTATUSBAR_ACTIVE;
+    uistatusbar_state |= UISTATUSBAR_REPAINT;
+}
+
+void uistatusbar_close_vdc(void)
+{
+    uistatusbar_state &= ~UISTATUSBAR_ACTIVE_VDC;
+    uistatusbar_state |= UISTATUSBAR_REPAINT;
 }
 
 #define KBDSTATUSENTRYLEN   15
@@ -475,12 +489,10 @@ static void uistatusbar_draw_canvas(video_canvas_t *canvas, int draw, int color)
 void uistatusbar_draw(void)
 {
 #ifdef USE_SDL2UI
-    int vicii_statusbar;
-    int vdc_statusbar;
+    int vicii_statusbar = uistatusbar_state & UISTATUSBAR_ACTIVE;
+    int vdc_statusbar   = uistatusbar_state & UISTATUSBAR_ACTIVE_VDC;
 
     if (machine_class == VICE_MACHINE_C128) {
-        resources_get_int("VICIIShowStatusbar", &vicii_statusbar);
-        resources_get_int("VDCShowStatusbar", &vdc_statusbar);
         if (sdl_active_canvas_num == VIDEO_CANVAS_IDX_VDC) {
             uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VICII), vicii_statusbar, VICII_COLOR);
             uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VDC), vdc_statusbar, VDC_COLOR);
@@ -549,7 +561,7 @@ void ui_display_reset(int device, int mode)
 }
 
 
-/** \brief  Set initial visibility of the status bar
+/** \brief  Set initial visibility of the status bar(s)
  *
  * Called from \${emu}_init().
  */
@@ -557,15 +569,30 @@ void uistatusbar_realize(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         int show = 0;
-        const video_canvas_t *canvas = sdl_active_canvas;
+        const video_canvas_t *canvas;
 
+#ifdef USE_SDL2UI
+        canvas = sdl2_get_canvas_from_index(0);
+#else
+        canvas = sdl_active_canvas;
+#endif
         resources_get_int_sprintf("%sShowStatusbar",
-                                   &show,
-                                   canvas->videoconfig->chip_name);
+                                  &show,
+                                  canvas->videoconfig->chip_name);
         if (show) {
             uistatusbar_open();
         } else {
             uistatusbar_close();
         }
+#ifdef USE_SDL2UI
+        if (machine_class == VICE_MACHINE_C128) {
+            resources_get_int("VDCShowStatusbar", &show);
+            if (show) {
+                uistatusbar_open_vdc();
+            } else {
+                uistatusbar_close_vdc();
+            }
+        }
+#endif
     }
 }
