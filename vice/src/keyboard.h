@@ -148,4 +148,6 @@ extern void keyboard_alternative_set(int alternative);
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
 
+int keyboard_statusbar_enabled(void);
+
 #endif

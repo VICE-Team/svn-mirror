@@ -33,6 +33,7 @@
 
 #include "drive.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
@@ -410,16 +411,11 @@ static void uistatusbar_draw_canvas(video_canvas_t *canvas, int draw, int color)
     int i;
     uint8_t c, color_f, color_b;
     unsigned int line, maxchars;
-    int kbd_status;
     char *text;
     size_t text_len;
     menu_draw_t *limits = NULL;
 
     menufont = sdl_ui_get_menu_font();
-
-    if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
-        kbd_status = 0;
-    }
 
     /* Update the cpu/fps each frame */
     display_speed();
@@ -446,7 +442,7 @@ static void uistatusbar_draw_canvas(video_canvas_t *canvas, int draw, int color)
     maxchars = pitch / menufont->w;
 
     if (draw) {
-        if (kbd_status) {
+        if (keyboard_statusbar_enabled()) {
             for (i = 0; i < maxchars; ++i) {
                 c = kbdstatusbar_text[i];
                 if (c == 0) {
@@ -508,15 +504,12 @@ void uistatusbar_draw(void)
 void ui_display_kbd_status(SDL_Event *e)
 {
     char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
-    int kbd_status;
 
     if (machine_class == VICE_MACHINE_VSID) {
         return; /* vsid doesn't have a statusbar */
     }
 
-    resources_get_int("KbdStatusbar", &kbd_status);
-
-    if (kbd_status) {
+    if (keyboard_statusbar_enabled()) {
         memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN],
                 MAX_STATUSBAR_LEN - KBDSTATUSENTRYLEN);
         memset(p + KBDSTATUSENTRYLEN, ' ', MAX_STATUSBAR_LEN - (KBDSTATUSENTRYLEN * 3));
