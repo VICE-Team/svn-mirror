@@ -761,7 +761,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         sdl_vkbd_draw();
     }
 
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+    if (uistatusbar_state & (UISTATUSBAR_ACTIVE|UISTATUSBAR_ACTIVE_VDC)) {
         uistatusbar_draw();
     }
 

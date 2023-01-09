@@ -73,8 +73,6 @@
 #include "videoarch.h"
 #include "vkbd.h"
 
-/* FIXME: implement showing the status bar only for one chip */
-static int status = 0;
 
 static UI_MENU_CALLBACK(toggle_VICIIShowStatusbar_callback)
 {
@@ -82,11 +80,6 @@ static UI_MENU_CALLBACK(toggle_VICIIShowStatusbar_callback)
 
     n = sdl_ui_menu_toggle_helper(activated, "VICIIShowStatusbar");
     if (n != NULL) {
-        status |= 1;
-    } else {
-        status &= ~1;
-    }
-    if (status != 0) {
         uistatusbar_open();
     } else {
         uistatusbar_close();
@@ -100,14 +93,9 @@ static UI_MENU_CALLBACK(toggle_VDCShowStatusbar_callback)
 
     n = sdl_ui_menu_toggle_helper(activated, "VDCShowStatusbar");
     if (n != NULL) {
-        status |= 2;
+        uistatusbar_open_vdc();
     } else {
-        status &= ~2;
-    }
-    if (status != 0) {
-        uistatusbar_open();
-    } else {
-        uistatusbar_close();
+        uistatusbar_close_vdc();
     }
     return n;
 }

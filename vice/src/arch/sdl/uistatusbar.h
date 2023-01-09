@@ -29,8 +29,12 @@
 
 #include "vice.h"
 
-#define UISTATUSBAR_ACTIVE  (1 << 0)
-#define UISTATUSBAR_REPAINT (1 << 1)
+/** \brief  Status bar is active for primary display */
+#define UISTATUSBAR_ACTIVE      (1 << 0)
+/** \brief  Status bar is active for secondary display (x128 only: VDC) */
+#define UISTATUSBAR_ACTIVE_VDC  (1 << 1)
+/** \brief  Repaint status bar */
+#define UISTATUSBAR_REPAINT     (1 << 2)
 
 #define COLOR_DEFAULT -1
 #define VDC_COLOR     15
@@ -38,12 +42,14 @@
 
 extern int uistatusbar_state;
 
-extern void uistatusbar_open(void);
-extern void uistatusbar_close(void);
-extern void uistatusbar_draw(void);
-void        uistatusbar_realize(void);
+void uistatusbar_open(void);
+void uistatusbar_open_vdc(void);
+void uistatusbar_close(void);
+void uistatusbar_close_vdc(void);
+void uistatusbar_draw(void);
+void uistatusbar_realize(void);
 
-extern int uistatusbar_init_resources(void);
+int uistatusbar_init_resources(void);
 
 void ui_display_kbd_status(SDL_Event *event);
 
