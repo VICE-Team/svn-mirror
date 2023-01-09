@@ -95,8 +95,6 @@ GtkWidget *video_aspect_widget_create(const char *chip)
             "%sAspectMode", aspect_modes, GTK_ORIENTATION_VERTICAL, chip);
     gtk_widget_set_margin_start(render_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
-    /* XXX: Remove this line to enable the "Custom" radio button: */
-    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(render_widget), 0, 1), FALSE);
 
     /* label */
     label = vice_gtk3_create_indented_label("Custom ratio:");
@@ -112,8 +110,6 @@ GtkWidget *video_aspect_widget_create(const char *chip)
     gtk_widget_set_margin_start(aspect_ratio, 16);
     gtk_widget_set_hexpand(aspect_ratio, FALSE);
     gtk_grid_attach(GTK_GRID(grid), aspect_ratio, 0, 3, 1, 1);
-    /* XXX: remove this line to enable */
-    gtk_widget_set_sensitive(aspect_ratio, FALSE);
 
     gtk_widget_show_all(grid);
     return grid;
