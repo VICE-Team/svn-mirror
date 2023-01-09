@@ -74,7 +74,7 @@ static menufont_t *menufont = NULL;
 static int pitch;
 static int draw_offset;
 
-static inline void uistatusbar_putchar(uint8_t c, int pos_x, int pos_y, uint8_t color_f, uint8_t color_b)
+static inline void uistatusbar_putchar(uint8_t c, int pos_x, int pos_y, uint8_t color_f, uint8_t color_b, video_canvas_t *canvas)
 {
     int x, y;
     uint8_t fontchar;
@@ -82,7 +82,7 @@ static inline void uistatusbar_putchar(uint8_t c, int pos_x, int pos_y, uint8_t 
     uint8_t *draw_pos;
 
     font_pos = &(menufont->font[menufont->translate[(int)c]]);
-    draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont->w + pos_y * menufont->h * pitch]);
+    draw_pos = &(canvas->draw_buffer->draw_buffer[pos_x * menufont->w + pos_y * menufont->h * pitch]);
 
     draw_pos += draw_offset;
 
@@ -391,15 +391,15 @@ void uistatusbar_close(void)
 
 #define KBDSTATUSENTRYLEN   15
 
-void uistatusbar_draw(void)
+static void uistatusbar_draw_canvas(video_canvas_t *canvas, int draw, int color)
 {
     int i;
     uint8_t c, color_f, color_b;
     unsigned int line, maxchars;
-    menu_draw_t *limits = NULL;
     int kbd_status;
     char *text;
     size_t text_len;
+    menu_draw_t *limits = NULL;
 
     menufont = sdl_ui_get_menu_font();
 
@@ -410,59 +410,87 @@ void uistatusbar_draw(void)
     /* Update the cpu/fps each frame */
     display_speed();
 
-    sdl_ui_init_draw_params();
+    sdl_ui_init_draw_params(canvas);
     limits = sdl_ui_get_menu_param();
 
-    color_f = limits->color_default_front;
-    color_b = limits->color_default_back;
-    pitch = limits->pitch;
+    if (color == COLOR_DEFAULT) {
+        color_f = limits->color_default_front;
+        color_b = limits->color_default_back;
+    } else {
+        color_f = color;
+        color_b = 0;
+    }
+    pitch = canvas->draw_buffer->draw_buffer_pitch;
 
-    line = MIN(sdl_active_canvas->viewport->last_line,
-               sdl_active_canvas->geometry->last_displayed_line);
+    line = MIN(canvas->viewport->last_line,
+               canvas->geometry->last_displayed_line);
 
     draw_offset = (line - menufont->h + 1) * pitch
-                  + sdl_active_canvas->geometry->extra_offscreen_border_left
-                  + sdl_active_canvas->viewport->first_x;
+                  + canvas->geometry->extra_offscreen_border_left
+                  + canvas->viewport->first_x;
 
     maxchars = pitch / menufont->w;
 
-    if (kbd_status) {
-        for (i = 0; i < maxchars; ++i) {
-            c = kbdstatusbar_text[i];
-            if (c == 0) {
-                break;
-            }
+    if (draw) {
+        if (kbd_status) {
+            for (i = 0; i < maxchars; ++i) {
+                c = kbdstatusbar_text[i];
+                if (c == 0) {
+                    break;
+                }
 
-            if (((i / KBDSTATUSENTRYLEN) & 1) == 1) {
-                uistatusbar_putchar(c, i, -1, color_b, color_f);
-            } else {
-                uistatusbar_putchar(c, i, -1, color_f, color_b);
-            }
-        }
-    }
-
-    text = statusbar_text;
-    if (machine_is_jammed()) {
-        text = machine_jam_reason();
-    } else {
-        for (i = 0; i < NUM_DISK_UNITS; i++) {
-            if (drive_is_jammed(i)) {
-                text = drive_jam_reason(i);
-                break;
+                if (((i / KBDSTATUSENTRYLEN) & 1) == 1) {
+                    uistatusbar_putchar(c, i, -1, color_b, color_f, canvas);
+                } else {
+                    uistatusbar_putchar(c, i, -1, color_f, color_b, canvas);
+                }
             }
         }
-    }
-    text_len = strlen(text);
 
-    for (i = 0; i < maxchars; ++i) {
-        c = i < text_len ? text[i] : ' ';
-
-        if (c & 0x80) {
-            uistatusbar_putchar((uint8_t)(c & 0x7f), i, 0, color_b, color_f);
+        text = statusbar_text;
+        if (machine_is_jammed()) {
+            text = machine_jam_reason();
         } else {
-            uistatusbar_putchar(c, i, 0, color_f, color_b);
+            for (i = 0; i < NUM_DISK_UNITS; i++) {
+                if (drive_is_jammed(i)) {
+                    text = drive_jam_reason(i);
+                    break;
+                }
+            }
+        }
+        text_len = strlen(text);
+
+        for (i = 0; i < maxchars; ++i) {
+            c = i < text_len ? text[i] : ' ';
+
+            if (c & 0x80) {
+                uistatusbar_putchar((uint8_t)(c & 0x7f), i, 0, color_b, color_f, canvas);
+            } else {
+                uistatusbar_putchar(c, i, 0, color_f, color_b, canvas);
+            }
         }
     }
+}
+
+void uistatusbar_draw(void)
+{
+#ifdef USE_SDL2UI
+    int vicii_statusbar;
+    int vdc_statusbar;
+
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("VICIIShowStatusbar", &vicii_statusbar);
+        resources_get_int("VDCShowStatusbar", &vdc_statusbar);
+        if (sdl_active_canvas_num == VIDEO_CANVAS_IDX_VDC) {
+            uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VICII), vicii_statusbar, VICII_COLOR);
+            uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VDC), vdc_statusbar, VDC_COLOR);
+        } else {
+            uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VDC), vdc_statusbar, VDC_COLOR);
+            uistatusbar_draw_canvas(sdl2_get_canvas_from_index(VIDEO_CANVAS_IDX_VICII), vicii_statusbar, VICII_COLOR);
+        }
+    } else
+#endif
+    uistatusbar_draw_canvas(sdl_active_canvas, uistatusbar_state & UISTATUSBAR_ACTIVE, COLOR_DEFAULT);
 }
 
 void ui_display_kbd_status(SDL_Event *e)

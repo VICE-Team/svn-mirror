@@ -32,6 +32,10 @@
 #define UISTATUSBAR_ACTIVE  (1 << 0)
 #define UISTATUSBAR_REPAINT (1 << 1)
 
+#define COLOR_DEFAULT -1
+#define VDC_COLOR     15
+#define VICII_COLOR    1
+
 extern int uistatusbar_state;
 
 extern void uistatusbar_open(void);

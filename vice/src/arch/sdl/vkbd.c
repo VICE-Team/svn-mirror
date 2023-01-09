@@ -275,7 +275,7 @@ void sdl_vkbd_activate(void)
         return;
     }
 
-    sdl_ui_init_draw_params();
+    sdl_ui_init_draw_params(sdl_active_canvas);
     limits = sdl_ui_get_menu_param();
 
     vkbd_pos_max_x = limits->max_text_x - vkbd_w + 1;

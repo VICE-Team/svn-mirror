@@ -328,7 +328,7 @@ static int activate_dialog(const char *title, const char *message, int message_m
 
 int message_box(const char *title, char *message, int message_mode)
 {
-    sdl_ui_init_draw_params();
+    sdl_ui_init_draw_params(sdl_active_canvas);
 
     menu_draw = sdl_ui_get_menu_param();
 
