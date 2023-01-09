@@ -746,11 +746,11 @@ const ui_menu_entry_t c128_video_menu[] = {
       (ui_callback_data_t)2 },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII size settings",
+    { "VICII host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vicii_size_menu },
-    { "VDC size settings",
+    { "VDC host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vdc_size_menu },
@@ -834,7 +834,7 @@ const ui_menu_entry_t c128_video_menu[] = {
 /* C64 video menu */
 
 const ui_menu_entry_t c64_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vicii_size_menu },
@@ -890,7 +890,7 @@ const ui_menu_entry_t c64_video_menu[] = {
 /* C64SC video menu */
 
 const ui_menu_entry_t c64sc_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vicii_size_menu },
@@ -945,7 +945,7 @@ const ui_menu_entry_t c64sc_video_menu[] = {
 /* C64DTV video menu */
 
 const ui_menu_entry_t c64dtv_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vicii_size_menu },
@@ -1015,7 +1015,7 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
 /* CBM-II 5x0 video menu */
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vicii_size_menu },
@@ -1081,7 +1081,7 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
 /* CBM-II 6x0/7x0 video menu */
 
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)crtc_size_menu },
@@ -1122,7 +1122,7 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
 /* PET video menu */
 
 const ui_menu_entry_t pet_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)crtc_size_menu },
@@ -1163,7 +1163,7 @@ const ui_menu_entry_t pet_video_menu[] = {
 /* PLUS4 video menu */
 
 const ui_menu_entry_t plus4_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ted_size_menu },
@@ -1230,7 +1230,7 @@ static UI_MENU_CALLBACK(radio_MachineVideoStandard_vic20_callback)
 }
 
 const ui_menu_entry_t vic20_video_menu[] = {
-    { "Size settings",
+    { "Host rendering settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vic_size_menu },
