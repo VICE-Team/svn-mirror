@@ -398,7 +398,7 @@ int vsid_ui_init(void)
     sprintf(vsidstrings[VSID_CS_AUTHOR], "Author:");
     sprintf(vsidstrings[VSID_CS_RELEASED], "Released:");
 
-    sdl_ui_init_draw_params();
+    sdl_ui_init_draw_params(sdl_active_canvas);
 
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;

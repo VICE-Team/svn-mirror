@@ -36,6 +36,8 @@
 #include "types.h"
 #include <stddef.h>
 
+#include "videoarch.h"
+
 extern int sdl_menu_state;
 extern int sdl_pause_state;
 
@@ -170,7 +172,7 @@ extern void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);
 extern uint8_t *sdl_ui_get_draw_buffer(void);
 extern void sdl_ui_activate_pre_action(void);
 extern void sdl_ui_activate_post_action(void);
-extern void sdl_ui_init_draw_params(void);
+extern void sdl_ui_init_draw_params(video_canvas_t *canvas);
 extern void sdl_ui_reverse_colors(void);
 extern void sdl_ui_refresh(void);
 extern ui_menu_action_t sdl_ui_menu_poll_input(void);

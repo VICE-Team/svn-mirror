@@ -173,6 +173,7 @@ extern void sdl_ui_set_window_title(char *title);
 #ifdef USE_SDL2UI
 extern void sdl2_show_second_window(void);
 extern void sdl2_hide_second_window(void);
+extern video_canvas_t *sdl2_get_canvas_from_index(int index);
 #endif
 
 #endif

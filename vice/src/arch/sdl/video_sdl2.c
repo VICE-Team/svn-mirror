@@ -1196,6 +1196,11 @@ void sdl2_hide_second_window(void)
     }
 }
 
+video_canvas_t *sdl2_get_canvas_from_index(int index)
+{
+    return sdl_canvaslist[index];
+}
+
 /** \brief  Shows the secondary window.
  *
  * Internally, this creates a new window by calling `sdl_container_create`.

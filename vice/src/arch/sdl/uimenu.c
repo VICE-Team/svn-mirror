@@ -485,7 +485,7 @@ static void sdl_ui_menu_redraw(ui_menu_entry_t *menu, const char *title, int off
 {
     int i = 0;
 
-    sdl_ui_init_draw_params();
+    sdl_ui_init_draw_params(sdl_active_canvas);
     sdl_ui_clear();
     sdl_ui_display_title(title);
 
@@ -776,7 +776,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
         sdl_ui_menu_display(main_menu, msg, 1);
     } else {
         /* called via hotkey */
-        sdl_ui_init_draw_params();
+        sdl_ui_init_draw_params(sdl_active_canvas);
         sdl_ui_menu_item_activate((ui_menu_entry_t *)data);
     }
 
@@ -1296,16 +1296,16 @@ void sdl_ui_activate_post_action(void)
     DBG(("sdl_ui_activate_post_action end\n"));
 }
 
-void sdl_ui_init_draw_params(void)
+void sdl_ui_init_draw_params(video_canvas_t *canvas)
 {
     if (sdl_ui_set_menu_params != NULL) {
-        sdl_ui_set_menu_params(sdl_active_canvas->index, &menu_draw);
+        sdl_ui_set_menu_params(canvas->index, &menu_draw);
     }
 
-    menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_pitch;
-    menu_draw.offset = sdl_active_canvas->geometry->gfx_position.x + menu_draw.extra_x
-                       + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
-                       + sdl_active_canvas->geometry->extra_offscreen_border_left;
+    menu_draw.pitch = canvas->draw_buffer->draw_buffer_pitch;
+    menu_draw.offset = canvas->geometry->gfx_position.x + menu_draw.extra_x
+                       + (canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
+                       + canvas->geometry->extra_offscreen_border_left;
 }
 
 void sdl_ui_reverse_colors(void)
