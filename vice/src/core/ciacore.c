@@ -8,6 +8,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *  Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de>
+ *  Olaf Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -59,9 +60,76 @@
 #define CIAT_RUNNING    1
 #define CIAT_COUNTTA    2
 
+/*
+ * Values for field sdr_delay.
+ *
+ * Each group of bits is either some event that needs to happen in the near
+ * future, where ...0 is the time when it happens.
+ *
+ * Or it is something that happened in the near past, where the number
+ * increases every clock tick.
+ *
+ * As long as the sdr_alarm is active, they will be shifted LEFT one position
+ * each time it is called (and the bits moving into the next group are
+ * cleared), which is once per clock until no longer needed.
+ * Flags are added as needed to schedule tasks in the future.
+ *
+ * It's like a software version of a mercury delay line (or several in
+ * parallel). It avoids needing several alarm callbacks, where you're
+ * not quite sure of the ordering if they are for the same cycle.
+ *
+ * Not all bits are actually used, but using groups of 4 makes it
+ * easier to understand the value when printed.
+ */
+#define CIA_SDR_TOGGLE_CNT2     0x0001u /* countdown to toggling CNT */
+#define CIA_SDR_TOGGLE_CNT1     0x0002u
+#define CIA_SDR_TOGGLE_CNT0     0x0004u
+#define CIA_SDR_TOGGLE_CNT_1    0x0008u /* _1 = -1 */
+
+#define CIA_SDR_NOGGLE_CNT2     0x0010u /* countdown to NOT toggling CNT */
+#define CIA_SDR_NOGGLE_CNT1     0x0020u
+#define CIA_SDR_NOGGLE_CNT0     0x0040u
+#define CIA_SDR_NOGGLE_CNT_1    0x0080u
+
+#define CIA_SDR_SET_SDR_IRQ3    0x0100u /* countdown to setting the SDR IRQ */
+#define CIA_SDR_SET_SDR_IRQ2    0x0200u
+#define CIA_SDR_SET_SDR_IRQ1    0x0400u
+#define CIA_SDR_SET_SDR_IRQ0    0x0800u
+
+#define CIA_SDR_CNT0            0x1000u /* history of the CNT output value */
+#define CIA_SDR_CNT1            0x2000u /* After all these bits are set or */
+#define CIA_SDR_CNT2            0x4000u /* reset, we can stop updating them */
+#define CIA_SDR_CNT3            0x8000u /* until CNT is toggled. */
+
+#define CIA_SDR_SET3        0x00010000u /* countdown to setting shifter */
+#define CIA_SDR_SET2        0x00020000u /* from SDR */
+#define CIA_SDR_SET1        0x00040000u
+#define CIA_SDR_SET0        0x00080000u
+
+#define CIA_SDR_LEFTMOST    0x00100000u
+
+#define CIA_SDR_CLEAR   (CIA_SDR_NOGGLE_CNT2 | CIA_SDR_SET_SDR_IRQ3 | \
+                         CIA_SDR_CNT0 | CIA_SDR_SET3 | CIA_SDR_LEFTMOST)
+
+#define CIA_SDR_ACTIVE  (CIA_SDR_TOGGLE_CNT2 | CIA_SDR_TOGGLE_CNT1 |   \
+                         CIA_SDR_TOGGLE_CNT0 | CIA_SDR_TOGGLE_CNT_1 |  \
+                         CIA_SDR_NOGGLE_CNT2 | CIA_SDR_NOGGLE_CNT1 |   \
+                         CIA_SDR_NOGGLE_CNT0 | CIA_SDR_NOGGLE_CNT_1 |  \
+                         CIA_SDR_SET_SDR_IRQ3 | CIA_SDR_SET_SDR_IRQ2 | \
+                         CIA_SDR_SET_SDR_IRQ1 | CIA_SDR_SET_SDR_IRQ0 | \
+                         CIA_SDR_SET3 | CIA_SDR_SET2 |                 \
+                         CIA_SDR_SET1 | CIA_SDR_SET0)
+
+#define ALL_SDR_CNT     (CIA_SDR_CNT0|CIA_SDR_CNT1|CIA_SDR_CNT2|CIA_SDR_CNT3)
+
+#define ALL_SDR_TOGGLE_CNT  (CIA_SDR_TOGGLE_CNT2 | CIA_SDR_TOGGLE_CNT1 | \
+                             CIA_SDR_TOGGLE_CNT0 | CIA_SDR_TOGGLE_CNT_1)
+#define ALL_SDR_NOGGLE_CNT  (CIA_SDR_NOGGLE_CNT2 | CIA_SDR_NOGGLE_CNT1 | \
+                             CIA_SDR_NOGGLE_CNT0 | CIA_SDR_NOGGLE_CNT_1)
+
 static void ciacore_intta(CLOCK offset, void *data);
 static void ciacore_inttb(CLOCK offset, void *data);
-static void schedule_sdr_alarm(cia_context_t *cia_context, CLOCK rclk);
+static void schedule_sdr_alarm(cia_context_t *cia_context, CLOCK rclk, uint32_t feed);
 
 
 /* The following is an attempt in rewriting the interrupt defines into
@@ -334,7 +402,12 @@ void ciacore_reset(cia_context_t *cia_context)
     ciat_reset(cia_context->tb, *(cia_context->clk_ptr));
 
     cia_context->sdr_valid = false;
-    cia_context->sdr_off = false;
+    cia_context->sdr_force_finish = false;
+    cia_context->sdr_delay = CIA_SDR_CNT0|CIA_SDR_CNT1|CIA_SDR_CNT2|CIA_SDR_CNT3;
+
+    cia_context->sp_in_state = true;
+    cia_context->cnt_in_state = true;
+    cia_context->cnt_out_state = true;
 
     memset(cia_context->todalarm, 0, sizeof(cia_context->todalarm));
     cia_context->todlatched = 0;
@@ -360,60 +433,49 @@ void ciacore_reset(cia_context_t *cia_context)
 }
 
 /*
- * Many thanks to William McCabe for finding this monstrosity.
- * https://sourceforge.net/p/vice-emu/bugs/1219/#e6d2
+ * https://sourceforge.net/p/vice-emu/bugs/1219
  */
-static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rclk, uint8_t byte, bool continuous)
+static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
-    const int timer = ciat_read_timer(cia_context->ta, rclk);
-    const int latch = ciat_read_latch(cia_context->ta, rclk);
-    const int sr_bits = cia_context->sr_bits;
-    const int sdr_off = cia_context->sdr_off;
-    bool set_flag = false;
+    if ((byte & CIA_CRA_SPMODE_OUT) == CIA_CRA_SPMODE_IN) {
+        /* Switching from output to input */
+        bool forceFinish = false;
+        uint32_t cnt_wanted;
+        uint32_t sdr_delay = cia_context->sdr_delay;
+        uint32_t cnt_delay = sdr_delay;
 
-/*
- * SDROFF is true if TimerA latch was 2 and cia_context->sr_bits was
- * decremented to 0 in the last TimerA underflow.
- * sdr_off is just the second half of that condition.
- */
-#define newCIA  true
-
-    if ((byte & CIA_CRA_SPMODE_OUT) && latch == 0) {
-        set_flag = true;
-    }
-
-    if ((sr_bits || sdr_off) && continuous) {
-        if (latch == 0) {
-            /* handled above */
-        } else if (latch == 1) { /* This case needs to be improved */
-            set_flag = true;
-        } else if (latch == 2) { /* This is close but not perfect */
-            switch (timer) {
-            case 0:
-                set_flag = (sr_bits != 2) && !sdr_off;
-                break;
-            case 1:
-                set_flag = true;
-                break;
-            case 2:
-                set_flag = !(sr_bits & 1) /*|| !newCIA*/;
-                break;
-            }
-        } else if (sr_bits & 1) {
-            set_flag =     timer >  latch - 5
-                       && (timer != latch || latch == 3);
-        } else if (sr_bits != 0) {
-            set_flag =    (timer != latch - 1)
-                       && (timer != latch - 3 /* && newCIA */)
-                       && !(sr_bits == 2 && timer == latch - 2);
+        if (cia_context->model == CIA_MODEL_6526) {
+            cnt_wanted = (CIA_SDR_CNT0 | CIA_SDR_CNT1 | CIA_SDR_CNT2);
+        } else {
+            cnt_wanted = (               CIA_SDR_CNT1 | CIA_SDR_CNT2);
         }
-    }
+        forceFinish = (cnt_delay & cnt_wanted) != cnt_wanted;
 
-    if (set_flag) {
-        schedule_sdr_alarm(cia_context, rclk + 4);
-        DBG(("weird condition: timer %04x latch %04x sr_bits %u sdr_off %d ##################\n", (uint16_t)timer, (uint16_t)latch, cia_context->sr_bits, cia_context->sdr_off));
+        if (!forceFinish) {
+            if (cia_context->sr_bits != 2 &&
+                    !(sdr_delay & CIA_SDR_TOGGLE_CNT2) &&
+                    !(sdr_delay & CIA_SDR_TOGGLE_CNT1) &&
+                     (sdr_delay & CIA_SDR_TOGGLE_CNT0)) {
+                forceFinish = true;
+            }
+        }
+
+        cia_context->sdr_force_finish = forceFinish;
     } else {
-        DBG(("weird condition: timer %04x latch %04x sr_bits %u sdr_off %d ------------------\n", (uint16_t)timer, (uint16_t)latch, cia_context->sr_bits, cia_context->sdr_off));
+        /* Switching from input to output */
+
+        /*
+         * Act on positive incoming CNT flank.
+         * This doesn't really belong here. And does it even happen?
+         */
+        if (!cia_context->cnt_out_state && cia_context->sr_bits != 0) {
+            cia_context->shifter <<= 1;
+        }
+
+        if (cia_context->sdr_force_finish) {
+            schedule_sdr_alarm(cia_context, rclk, CIA_SDR_SET_SDR_IRQ2);
+            cia_context->sdr_force_finish = false;
+        }
     }
 }
 
@@ -568,19 +630,17 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
             DBG(("write SDR(1) %s: %02x, sr_bits %2u, shifter %04x sdr_valid %d rclk %lu\n",
                         cia_context->myname, byte, cia_context->sr_bits,
                         cia_context->shifter, cia_context->sdr_valid, rclk));
-            if ((cia_context->c_cia[CIA_CRA] & (CIA_CRA_SPMODE|CIA_CR_START)) ==
-                                           (CIA_CRA_SPMODE_OUT|CIA_CR_START)) {
-                if (cia_context->sr_bits == 0) {
-                    cia_context->sr_bits = 17;
-                    cia_context->shifter = byte;
-                } else if (cia_context->sr_bits == 2) {
-                    cia_context->shifter |= cia_context->c_cia[addr];
-                    cia_context->sr_bits = 18;
-                } else {
-                    cia_context->sdr_valid = true;
-                }
-            } else {
-                cia_context->sdr_valid = true;
+            if ((cia_context->c_cia[CIA_CRA] & (CIA_CRA_SPMODE)) ==
+                                           (CIA_CRA_SPMODE_OUT)) {
+                /*
+                 * There should be a 2 clock delay before this is effective.
+                 * That makes a difference in case there is a Timer A underflow
+                 * in between.
+                 * That also means that if the TA underflow isn't in the near
+                 * future, we could do a shortcut and set the shifter
+                 * directly. This is for later.
+                 */
+                schedule_sdr_alarm(cia_context, rclk, CIA_SDR_SET1);
             }
             DBG(("write SDR(2) %s: %02x, sr_bits %2u, shifter %04x sdr_valid %d\n",
                         cia_context->myname, byte, cia_context->sr_bits,
@@ -637,14 +697,21 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
                     !(cia_context->c_cia[CIA_CRA] & CIA_CR_START)) {
                 /* Starting timer A */
                 cia_context->tat = 1;
+            }
 
-                bool continuous = (byte & (CIA_CR_RUNMODE|CIA_CR_START)) ==
-                               (CIA_CR_RUNMODE_CONTINUOUS|CIA_CR_START);
-                strange_extra_sdr_flags(cia_context, rclk, byte, continuous);
+            /* Is the serial I/O direction changing? */
+            if ((byte ^ cia_context->c_cia[CIA_CRA]) & CIA_CRA_SPMODE) {
+                strange_extra_sdr_flags(cia_context, rclk, byte);
+                cia_context->sr_bits = 0;
+                cia_context->sdr_valid = false;
+                cia_context->sdr_delay &= ~(ALL_SDR_TOGGLE_CNT|ALL_SDR_NOGGLE_CNT);
 
-                /* FIXME? this possibly only when shifting OUT? */
-                if (cia_context->sr_bits && continuous) {
-                    cia_context->sr_bits = 0;
+                if (!cia_context->cnt_out_state) {
+                    cia_context->cnt_out_state = true;
+                    if (cia_context->set_cnt) {
+                        (cia_context->set_cnt)(cia_context, rclk, true);
+                    }
+                    /* TODO: timers driven by positive CNT edge */
                 }
             }
 
@@ -895,9 +962,11 @@ uint8_t cia_read_(cia_context_t *cia_context, uint16_t addr)
 #ifdef CIA_TIMER_DEBUG
                 if (cia_context->debugFlag) {
                     log_message(cia_context->log,
-                                "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
-                                rclk, cia_tai, cia_tbi,
-                                (int)(cia_context->irqflags));
+                                "cia read intfl: rclk=%lu, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
+                                rclk,
+                                ciat_alarm_clk(cia_context->ta),
+                                ciat_alarm_clk(cia_context->tb),
+                                cia_context->irqflags);
                 }
 #endif
 
@@ -1026,15 +1095,7 @@ static void ciacore_intta(CLOCK offset, void *data)
     CIAT_LOGIN(("ciaTimerA ciacore_intta: myclk=%lu rclk=%lu",
                 *(cia_context->clk_ptr), rclk));
 
-#if 0
-    if ((n = ciat_update(cia_context->ta, rclk))
-        && (cia_context->rdi != rclk - 1)) {
-        cia_context->irqflags |= CIA_IM_TA;
-        cia_context->tat = (cia_context->tat + n) & 1;
-    }
-#else
     cia_do_update_ta(cia_context, rclk);
-#endif
 
     ciat_ack_alarm(cia_context->ta, rclk);
 
@@ -1058,55 +1119,21 @@ static void ciacore_intta(CLOCK offset, void *data)
     }
 
     if ((cia_context->c_cia[CIA_CRA] & CIA_CRA_SPMODE_OUT)) {
-        DBG(("ciacore_intta(1): sr_bits %u, shifter %04x sdr_valid %d\n", cia_context->sr_bits, cia_context->shifter, cia_context->sdr_valid));
-        cia_context->sdr_off = false;
-
-        if (cia_context->sr_bits || cia_context->sdr_valid) {
-
-            CIAT_LOG(("rclk=%d SDR: timer A underflow, bits=%u",
-                        rclk, cia_context->sr_bits));
-
-            /* sr_bits was decremented to 0 in the last TA underflow. */
-            cia_context->sdr_off = (cia_context->sr_bits == 1);
-
-            if (cia_context->sr_bits && (--cia_context->sr_bits & 1)) {
-
-                /*printf("%s: rclk=%d, store_sdr(%02x, '%c'\n",
-                  cia_context->myname,
-                  rclk, cia_context->shifter);*/
-                if (cia_context->set_sp) {
-                    /* Note: the bit that's just left of the byte */
-                    bool bit = (cia_context->shifter >> 8) & 1;
-                    (cia_context->set_sp)(cia_context, rclk, bit);
-                }
-                if (cia_context->set_cnt) {
-                    (cia_context->set_cnt)(cia_context, rclk, false);
-                }
-            } else {
-                /* So either sr_bits was 0, or after decrementing it is even. */
-                cia_context->shifter <<= 1;
-
-                if (cia_context->sr_bits <= 2) {
-                    if (cia_context->sr_bits == 2) {
-                        DBG(("(store_sdr) %s: %04x %02x rclk %lu\n", cia_context->myname, cia_context->shifter, cia_context->shifter>>8, rclk));
-                        (cia_context->store_sdr)(cia_context, (cia_context->shifter >> 8) & 0xFF);
-                        /* IFR/IRQ requires 4 cycle delay; -1 because we're
-                         * in an alarm already. */
-                        schedule_sdr_alarm(cia_context, rclk + 3);
-                    }
-                    if (cia_context->sdr_valid) {
-                        cia_context->shifter |= cia_context->c_cia[CIA_SDR];
-                        cia_context->sdr_valid = false;
-                        cia_context->sr_bits = 16;
-                    }
-                }
-
-                if (cia_context->set_cnt) {
-                    (cia_context->set_cnt)(cia_context, rclk, true);
-                }
+        /*
+         * ~1.5 cycle delay until CNT is toggled.
+         */
+        if (cia_context->sr_bits != 0 || cia_context->sdr_valid) {
+            uint32_t event = CIA_SDR_TOGGLE_CNT1;
+            /*
+             * If the clock pulses come too close together, we can't detect
+             * the transition of the timer A output any more...
+             * (This is generally only relevant if the timer starts at 0000)
+             */
+            if (cia_context->sdr_delay & (CIA_SDR_TOGGLE_CNT0|CIA_SDR_NOGGLE_CNT0)) {
+                event = CIA_SDR_NOGGLE_CNT1;
             }
+            schedule_sdr_alarm(cia_context, rclk, event);
         }
-        DBG(("ciacore_intta(2): sr_bits %u, shifter %04x sdr_valid %d\n", cia_context->sr_bits, cia_context->shifter, cia_context->sdr_valid));
     }
 
     if ((cia_context->c_cia[CIA_CRB] & (CIA_CRB_INMODE_TA|CIA_CR_START)) == (CIA_CRB_INMODE_TA|CIA_CR_START)) {
@@ -1252,24 +1279,133 @@ void ciacore_set_sp(cia_context_t *cia_context, bool data)
 
 /* ------------------------------------------------------------------------- */
 
-static void schedule_sdr_alarm(cia_context_t *cia_context, CLOCK rclk)
+/*
+ * Schedule a new alarm, for the current cycle.
+ * That means it should normally be invoked only from a CPU register access,
+ * not from an alarm.
+ */
+static void schedule_sdr_alarm(cia_context_t *cia_context, CLOCK rclk, uint32_t feed)
 {
+    cia_context->sdr_delay |= feed;
     alarm_set(cia_context->sdr_alarm, rclk);
 }
 
 /*
- * Alarm to set the Serial Data Register interrupt flag with some delay.
+ * Alarm to handle the shift register for some cycles after TA reaches 0000.
+ *
+ * We need to make sure that if this alarm and also ciacore_intta
+ * is scheduled for the same clock, that TA is handled first.
+ * If this one runs first, ciacore_intta will schedule another run of intsdr
+ * for the same cycle...
  */
 static void ciacore_intsdr(CLOCK offset, void *data)
 {
     cia_context_t *cia_context = (cia_context_t *)data;
     CLOCK rclk = *(cia_context->clk_ptr) - offset;
+    uint32_t feed = 0;
 
-    DBG(("ciacore_intsdr: set CIA_IM_SDR  %lu\n", rclk));
-    cia_context->irqflags |= CIA_IM_SDR;
-    cia_do_set_int(cia_context, rclk);
+    DBG(("ciacore_intsdr: sr_bits %u, shifter %04x sdr_valid %d sdr_delay %05x\n", cia_context->sr_bits, cia_context->shifter, cia_context->sdr_valid, cia_context->sdr_delay));
 
-    alarm_unset(cia_context->sdr_alarm);
+    if (alarm_clk(cia_context->ta_alarm) == rclk) {
+        /* INT TA scheduled at the same clock cycle - do that one first */
+        ciacore_intta(offset, data);
+    }
+
+    if (cia_context->sdr_delay & CIA_SDR_SET0) {
+        if (cia_context->sr_bits == 0) {
+            cia_context->sr_bits = 16;
+            cia_context->shifter = cia_context->c_cia[CIA_SDR] << 1;
+        } else if (cia_context->sr_bits == 1) {
+            /* If this case is even possible, because when sr_bits
+             * is decremented to 1 at TA underflow,
+             * the value is loaded already and sr_bits is set to 17.
+             */
+            cia_context->shifter |= cia_context->c_cia[CIA_SDR];
+            cia_context->sr_bits = 17;
+        } else {
+            cia_context->sdr_valid = true;
+        }
+    }
+
+    if (cia_context->sdr_delay & CIA_SDR_TOGGLE_CNT0) {
+        /*
+         * TODO: should this condition be re-checked here, or should the
+         * event bit be cleared when it becomes false elsewhere?
+         *if (cia_context->sr_bits || cia_context->sdr_valid)
+         */
+        {
+            CIAT_LOG(("rclk=%lu SDR: timer A underflow, bits=%u",
+                        rclk, cia_context->sr_bits));
+
+            if (cia_context->sr_bits && (--cia_context->sr_bits & 1)) {
+
+                /*printf("%s: rclk=%d, store_sdr(%02x, '%c'\n",
+                  cia_context->myname,
+                  rclk, cia_context->shifter);*/
+
+                if (cia_context->set_sp) {
+                    /* Note: the bit that's just left of the byte */
+                    bool bit = (cia_context->shifter >> 8) & 1;
+                    (cia_context->set_sp)(cia_context, rclk, bit);
+                }
+                cia_context->cnt_out_state = false;
+                if (cia_context->set_cnt) {
+                    (cia_context->set_cnt)(cia_context, rclk, false);
+                }
+
+                if (cia_context->sr_bits == 1) {
+                    DBG(("(store_sdr) %s: %04x %02x rclk %lu\n", cia_context->myname, cia_context->shifter, cia_context->shifter>>8, rclk));
+                    (cia_context->store_sdr)(cia_context, (cia_context->shifter >> 8) & 0xFF);
+                    /* IFR/IRQ requires 2 cycle delay */
+                    feed |= CIA_SDR_SET_SDR_IRQ2;
+                    /* TODO: maybe unset the other SET_SDR_IRQx bits? */
+
+                    if (cia_context->sdr_valid) {
+                        cia_context->shifter |= cia_context->c_cia[CIA_SDR];
+                        cia_context->sdr_valid = false;
+                        cia_context->sr_bits = 17;
+                    }
+                }
+            } else {
+                /* So either sr_bits was 0, or after decrementing it is even. */
+                cia_context->shifter <<= 1;
+
+                cia_context->cnt_out_state = true;
+                if (cia_context->set_cnt) {
+                    (cia_context->set_cnt)(cia_context, rclk, true);
+                }
+            }
+        }
+        DBG(("ciacore_intta(2): sr_bits %u, shifter %04x sdr_valid %d\n", cia_context->sr_bits, cia_context->shifter, cia_context->sdr_valid));
+    }
+
+    if (cia_context->sdr_delay & CIA_SDR_SET_SDR_IRQ0) {
+        DBG(("ciacore_intsdr: set CIA_IM_SDR  %lu\n", rclk));
+        cia_context->irqflags |= CIA_IM_SDR;
+        cia_do_set_int(cia_context, rclk);
+    }
+
+    cia_context->sdr_delay |= feed;
+    cia_context->sdr_delay <<= 1;
+    cia_context->sdr_delay &= ~CIA_SDR_CLEAR;
+
+    if (cia_context->cnt_out_state) {
+        cia_context->sdr_delay |= CIA_SDR_CNT0;
+    }
+
+    bool active = (cia_context->sdr_delay & CIA_SDR_ACTIVE) != 0;
+    if (!active) {
+        uint32_t all_cnt = cia_context->sdr_delay & ALL_SDR_CNT;
+
+        if (all_cnt != 0 && all_cnt != ALL_SDR_CNT) {
+            active = true;
+        }
+    }
+    if (active) {
+        alarm_set(cia_context->sdr_alarm, rclk + 1);
+    } else {
+        alarm_unset(cia_context->sdr_alarm);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1546,11 +1682,11 @@ void ciacore_shutdown(cia_context_t *cia_context)
 /* The dump format has a module header and the data generated by the
  * chip...
  *
- * The version of this dump description is 2.2
+ * The version of this dump description is 2.4
  */
 
 #define CIA_DUMP_VER_MAJOR      2
-#define CIA_DUMP_VER_MINOR      3
+#define CIA_DUMP_VER_MINOR      4
 
 /*
  * The dump data:
@@ -1610,6 +1746,11 @@ void ciacore_shutdown(cia_context_t *cia_context)
  * BYTE         SHIFTER_HI      high byte of SHIFTER
  * BYTE         SDR_ALARM       if an sdr_alarm is pending and when
  * BYTE         SP_CNT_IN       input state of SP and CNT
+ *
+ *                              These bits have been added in V2.4
+ *
+ * DWORD        SDR_DELAY       event/history bits
+ * BYTE         SP_CNT_OUT      output state of SP and CNT
  */
 
 /* FIXME!!!  Error check.  */
@@ -1717,11 +1858,20 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     }
     SMW_B(m, byte);     /* SDR_ALARM */
 
-    byte = (cia_context->sp_in_state  ? 0x80 : 0)
-         | (cia_context->cnt_in_state ? 0x40 : 0)
-         | (cia_context->sdr_off      ? 0x20 : 0);
+    byte = (cia_context->sp_in_state      ? 0x80 : 0)
+         | (cia_context->cnt_in_state     ? 0x40 : 0)
+         | (cia_context->sdr_force_finish ? 0x20 : 0);
 
     SMW_B(m, byte);     /* SP_CNT_IN */
+
+    /* 2.4 */
+
+    SMW_DW(m, cia_context->sdr_delay);    /* SDR_DELAY */
+
+    byte = /* (cia_context->sp_out_state      ? 0x80 : 0)
+         | */ (cia_context->cnt_out_state     ? 0x40 : 0);
+
+    SMW_B(m, byte);     /* SP_CNT_OUT */
 
     snapshot_module_close(m);
 
@@ -1891,13 +2041,23 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
 
         SMR_B(m, &byte);        /* SDR_ALARM */
         if (byte) {
-            schedule_sdr_alarm(cia_context, rclk + byte - 1);
+            alarm_set(cia_context->sdr_alarm, rclk + byte - 1);
         }
 
         SMR_B(m, &byte);        /* SP_CNT_IN */
-        cia_context->sp_in_state =  (byte & 0x80) != 0;
-        cia_context->cnt_in_state = (byte & 0x40) != 0;
-        cia_context->sdr_off      = (byte & 0x20) != 0;
+        cia_context->sp_in_state      = (byte & 0x80) != 0;
+        cia_context->cnt_in_state     = (byte & 0x40) != 0;
+        cia_context->sdr_force_finish = (byte & 0x20) != 0;
+    }
+
+    if (vminor > 3) {
+        uint32_t dword;
+        SMR_DW(m, &dword);      /* SDR_DELAY */
+        cia_context->sdr_delay = dword;
+
+        SMR_B(m, &byte);        /* SP_CNT_OUT */
+        /* cia_context->sp_out_state   = (byte & 0x80) != 0; */
+        cia_context->cnt_out_state     = (byte & 0x40) != 0;
     }
 
     if (snapshot_module_close(m) < 0) {
@@ -1977,6 +2137,7 @@ int ciacore_dump(cia_context_t *cia_context)
             ciacore_peek(cia_context, 0x0e) & (1 << 6) ? "output" : "input");
     mon_out("Shift Register Data Buffer: %02x\n",
             ciacore_peek(cia_context, 0x0c));
+    mon_out("Timer A SDR: delay %05x\n", cia_context->sdr_delay);
 
     mon_out("\nFLAG1 IRQ: %s\n",
             (cia_context->c_cia[CIA_ICR] & (1<<4)) ? "on" : "off");

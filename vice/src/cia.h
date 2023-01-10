@@ -114,16 +114,17 @@ typedef struct cia_context_s {
     struct alarm_s *tod_alarm;
     struct alarm_s *idle_alarm;
     struct alarm_s *sdr_alarm;
-    int irqflags;
+    unsigned int irqflags;
     uint8_t irq_enabled;
     CLOCK rdi;
     unsigned int tat;
     unsigned int tbt;
     CLOCK todclk;
     unsigned int sr_bits;
-    bool sdr_off;
+    bool sdr_force_finish;
     bool sdr_valid;
     uint16_t shifter;
+    uint32_t sdr_delay;           /* delayed actions re. shift register */
     uint8_t old_pa;
     uint8_t old_pb;
 
@@ -131,7 +132,7 @@ typedef struct cia_context_s {
     char todlatched;
     uint8_t todalarm[4];
     uint8_t todlatch[4];
-    CLOCK todticks;                 /* init to 100000 */
+    CLOCK todticks;               /* init to 100000 */
     uint8_t todtickcounter;
 
     int power_freq;
@@ -145,10 +146,10 @@ typedef struct cia_context_s {
     struct ciat_s *tb;
     CLOCK read_clk;               /* init to 0 */
     int read_offset;              /* init to 0 */
-    uint8_t last_read;               /* init to 0 */
+    uint8_t last_read;            /* init to 0 */
     int debugFlag;                /* init to 0 */
 
-    int irq_line;                 /* IK_IRQ */
+    int irq_line;                 /* IK_IRQ or IK_NMI */
     unsigned int int_num;
 
     char *myname;
@@ -156,14 +157,15 @@ typedef struct cia_context_s {
     CLOCK *clk_ptr;
     int *rmw_flag;
     int write_offset;             /* 1 if CPU core does CLK++ before store */
-    int model;
+    int model;                    /* CIA_MODEL_6526 (old) or ..A (new) */
 
     bool enabled;
     bool sp_in_state;             /* state stored by ciacore_set_sp() */
     bool cnt_in_state;            /* state stored by ciacore_set_cnt() */
+    bool cnt_out_state;           /* state set by shift register output */
 
-    void *prv;
-    void *context;
+    void *prv;                    /* drivecia15{7,8}1_context_t */
+    void *context;                /* diskunit_context_t * in 15{7,8}1 */
 
     void (*undump_ciapa)(struct cia_context_s *, CLOCK, uint8_t);
     void (*undump_ciapb)(struct cia_context_s *, CLOCK, uint8_t);
