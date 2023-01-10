@@ -507,24 +507,24 @@ static GtkWidget *custom_new_helper(GtkWidget *self,
     display_value = custom_get_display_value(self);
     gtk_range_set_value(GTK_RANGE(self), display_value);
 
-    g_signal_connect(self, "destroy", G_CALLBACK(on_scale_custom_destroy), NULL);
     changed_handler = g_signal_connect(self,
                                        "value-changed",
                                        G_CALLBACK(on_custom_changed),
                                        NULL);
+    format_handler = g_signal_connect_unlocked(self,
+                                               "format-value",
+                                               G_CALLBACK(on_custom_format),
+                                               NULL);
+    g_signal_connect_unlocked(self,
+                              "destroy",
+                              G_CALLBACK(on_scale_custom_destroy),
+                              NULL);
     g_object_set_data(G_OBJECT(self),
                      "ChangedHandler",
                      GULONG_TO_POINTER(changed_handler));
-
-    format_handler = g_signal_connect(self,
-                                      "format-value",
-                                      G_CALLBACK(on_custom_format),
-                                      NULL);
     g_object_set_data(G_OBJECT(self),
                      "FormatHandler",
                      GULONG_TO_POINTER(format_handler));
-
-
     return self;
 }
 
@@ -918,23 +918,24 @@ static GtkWidget *exp_new_helper(GtkWidget *self,
 
     vice_gtk3_resource_exp_range_set_value(GTK_RANGE(self), resource_value);
 
-    g_signal_connect(self, "destroy", G_CALLBACK(on_scale_exp_destroy), NULL);
     changed_handler = g_signal_connect(self,
                                        "value-changed",
                                        G_CALLBACK(on_exp_changed),
                                        NULL);
+    format_handler = g_signal_connect_unlocked(self,
+                                               "format-value",
+                                               G_CALLBACK(on_exp_format),
+                                               NULL);
+    g_signal_connect_unlocked(self,
+                              "destroy",
+                              G_CALLBACK(on_scale_exp_destroy),
+                              NULL);
     g_object_set_data(G_OBJECT(self),
                      "ChangedHandler",
                      GULONG_TO_POINTER(changed_handler));
-
-    format_handler = g_signal_connect(self,
-                                      "format-value",
-                                      G_CALLBACK(on_exp_format),
-                                      NULL);
     g_object_set_data(G_OBJECT(self),
                      "FormatHandler",
                      GULONG_TO_POINTER(format_handler));
-
 
     return self;
 }
