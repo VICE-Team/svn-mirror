@@ -43,6 +43,10 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
     fileio_info_t *info = NULL;
     char *new_file, *new_path;
 
+    if (file_name == NULL || *file_name == '\0') {
+        return NULL;
+    }
+
     if ((command & FILEIO_COMMAND_FSNAME) && path == NULL) {
         util_fname_split(file_name, &new_path, &new_file);
     } else {

@@ -196,6 +196,9 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
         DBG(("expand_shortname path '%s'\n", prefix));
 
         host_dir = archdep_opendir(prefix, ARCHDEP_OPENDIR_ALL_FILES);
+        if (host_dir == NULL) {
+            return NULL;
+        }
 
         while(1) {
             direntry = archdep_readdir(host_dir);
