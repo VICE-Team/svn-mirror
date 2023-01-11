@@ -161,9 +161,10 @@ static int limit_longname(vdrive_t *vdrive, char *longname, int mode)
     DBG(("limit_longname path '%s'\n", prefix));
 
     archdep_dir = archdep_opendir(prefix, ARCHDEP_OPENDIR_ALL_FILES);
-    ret = _limit_longname(archdep_dir, vdrive, longname, mode);
-    archdep_closedir(archdep_dir);
-
+    if (archdep_dir != NULL) {
+        ret = _limit_longname(archdep_dir, vdrive, longname, mode);
+        archdep_closedir(archdep_dir);
+    }
     return ret;
 }
 
