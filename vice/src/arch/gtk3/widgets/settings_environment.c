@@ -1,7 +1,7 @@
-/** \file   settings_cwd.h
- * \brief   Settings widget to set the current working directory - header
+/** \file   settings_environment.c
+ * \brief   Settings widget to control host environment settings
  *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * /author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -25,11 +25,34 @@
  *
  */
 
-#ifndef VICE_SETTINGS_CWD_H
-#define VICE_SETTINGS_CWD_H
-
+#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *settings_cwd_widget_create(GtkWidget *parent);
+#include "cwdwidget.h"
+#include "logfilewidget.h"
+#include "vice_gtk3.h"
 
-#endif
+#include "settings_environment.h"
+
+
+/** \brief  Create widget to change host environment settings
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_environment_widget_create(GtkWidget *parent)
+{
+    GtkWidget *grid;
+    int        row = 1;
+
+    grid = vice_gtk3_grid_new_spaced(16, 24);
+
+    gtk_grid_attach(GTK_GRID(grid), cwd_widget_create(), 0, row, 1, 1);
+    row++;
+
+    gtk_grid_attach(GTK_GRID(grid), logfile_widget_create(), 0, row, 1, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}

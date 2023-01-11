@@ -55,6 +55,7 @@ libwidgets_a_SOURCES = \
 	contentpreviewwidget.c \
 	crtcontrolwidget.c \
 	crtpreviewwidget.c \
+	cwdwidget.c \
 	dirmenupopup.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
@@ -80,6 +81,7 @@ libwidgets_a_SOURCES = \
 	kbdmappingwidget.c \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
+	logfilewidget.c \
 	machinemodelwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
@@ -108,13 +110,13 @@ libwidgets_a_SOURCES = \
 	settings_controlport.c \
 	settings_cpm.c \
 	settings_crt.c \
-	settings_cwd.c \
 	settings_default_cart.c \
 	settings_digimax.c \
 	settings_dqbb.c \
 	settings_drive.c \
 	settings_ds12c887.c \
 	settings_easyflash.c \
+	settings_environment.c \
 	settings_ethernet.c \
 	settings_ethernetcart.c \
 	settings_expert.c \
@@ -223,6 +225,7 @@ EXTRA_DIST = \
 	contentpreviewwidget.h \
 	crtcontrolwidget.h \
 	crtpreviewwidget.h \
+	cwdwidget.h \
 	dirmenupopup.h \
 	drivedoswidget.h \
 	driveextendpolicywidget.h \
@@ -248,6 +251,7 @@ EXTRA_DIST = \
 	kbdmappingwidget.h \
 	kernalrevisionwidget.h \
 	keysetdialog.h \
+	logfilewidget.h \
 	machinemodelwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
@@ -276,13 +280,13 @@ EXTRA_DIST = \
 	settings_controlport.h \
 	settings_cpm.h \
 	settings_crt.h \
-	settings_cwd.h \
 	settings_default_cart.h \
 	settings_digimax.h \
 	settings_dqbb.h \
 	settings_drive.h \
 	settings_ds12c887.h \
 	settings_easyflash.h \
+	settings_environment.h \
 	settings_ethernet.h \
 	settings_ethernetcart.h \
 	settings_expert.h \

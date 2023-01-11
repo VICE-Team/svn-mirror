@@ -78,13 +78,13 @@
 #include "settings_controlport.h"
 #include "settings_cpm.h"
 #include "settings_crt.h"
-#include "settings_cwd.h"
 #include "settings_default_cart.h"
 #include "settings_digimax.h"
 #include "settings_dqbb.h"
 #include "settings_drive.h"
 #include "settings_ds12c887.h"
 #include "settings_easyflash.h"
+#include "settings_environment.h"
 #ifdef HAVE_RAWNET
 # include "settings_ethernet.h"
 # include "settings_ethernetcart.h"
@@ -825,9 +825,9 @@ static ui_settings_tree_node_t host_nodes_generic[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Current directory",
-      "cwd",
-      settings_cwd_widget_create, NULL },
+    { "Environment",
+      "environment",
+      settings_environment_widget_create, NULL },
     { "CPU JAM action",
       "jam-action",
       settings_jam_widget_create, NULL },
