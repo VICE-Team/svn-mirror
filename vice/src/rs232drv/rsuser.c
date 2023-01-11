@@ -705,10 +705,12 @@ static uint8_t rsuser_read_ctrl(uint8_t orig)
 
 static void rsuser_tx_byte(uint8_t b)
 {
-    buf = (buf << 8) | b;
-    valid += 8;
+    if (rsuser_up9600) {
+        buf = (buf << 8) | b;
+        valid += 8;
 
-    check_tx_buffer();
+        check_tx_buffer();
+    }
 }
 
 static void int_rsuser(CLOCK offset, void *data)
