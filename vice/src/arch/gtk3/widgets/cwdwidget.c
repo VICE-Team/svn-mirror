@@ -1,5 +1,5 @@
 /** \file   cwdwidget.c
- * \brief   Settings widget to set the current working directory
+ * \brief   Widget to set the current working directory
  *
  * /author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -32,7 +32,7 @@
 
 #include "vice_gtk3.h"
 
-#include "settings_cwd.h"
+#include "cwdwidget.h"
 
 
 /** \brief  Reference to the text entry box
@@ -92,11 +92,9 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create widget to change the current working directory
  *
- * \param[in]   parent  parent widget (unused)
- *
  * \return  GtkGrid
  */
-GtkWidget *settings_cwd_widget_create(GtkWidget *parent)
+GtkWidget *cwd_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *wrapper;
