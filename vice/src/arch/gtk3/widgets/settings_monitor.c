@@ -41,6 +41,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <limits.h>
 
 #include "vice_gtk3.h"
 #include "resources.h"
@@ -57,12 +58,9 @@ enum {
     ROW_NATIVE = 0,             /**< row for 'use native monitor' */
     ROW_KEEP_OPEN,              /**< row for 'keep monitor open' */
     ROW_REFRESH_ON_BREAK,       /**< row for 'Refresh display after command' */
-    ROW_SERVER_ENABLE,          /**< row for 'enable monitor server' */
-    ROW_SERVER_ADDRESS,         /**< row for 'monitor server address' */
-    ROW_BINARY_SERVER_ENABLE,   /**< row for 'enable monitor server' */
-    ROW_BINARY_SERVER_ADDRESS,  /**< row for 'monitor server address' */
-    ROW_LOG_ENABLE,             /**< row for 'enable logging to a file' */
-    ROW_LOG_NAME,               /**< row for 'log filename */
+    ROW_REMOTE_SERVER,          /**< row for 'remote monitor' */
+    ROW_BINARY_SERVER,          /**< row for 'binary monitor' */
+    ROW_LOG,                    /**< row for 'enable logging to a file' */
     ROW_SCROLL_LINES,           /**< row for 'scrollback buffer lines' */
 #ifdef FEATURE_CPUMEMHISTORY
     ROW_CHIS_LINES,             /**< row for 'cpu history lines */
@@ -71,7 +69,6 @@ enum {
     ROW_FONT,                    /**< row for 'monitor font' */
     ROW_COLOR
 };
-
 
 
 /** \brief  Handler for the 'color-set' event of the background color widget
@@ -90,7 +87,6 @@ static void on_bg_color_set(GtkColorButton *button, gpointer data)
     g_free(repr);
 }
 
-
 /** \brief  Handler for the 'color-set' event of the foreground color widget
  *
  * \param[in]   button  foreground color button
@@ -106,7 +102,6 @@ static void on_fg_color_set(GtkColorButton *button, gpointer data)
     resources_set_string("MonitorFG", repr);
     g_free(repr);
 }
-
 
 /** \brief  Handler for the 'font-set' event of the font chooser
  *
@@ -128,7 +123,6 @@ static void on_font_set(GtkFontButton *button, gpointer user_data)
 }
 
 
-
 /** \brief  Create widget to control monitor resources
  *
  * \param[in]   parent  parent widget (unused)
@@ -137,99 +131,94 @@ static void on_font_set(GtkFontButton *button, gpointer user_data)
  */
 GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 {
-    GtkWidget *grid;
-    GtkWidget *native;
-    GtkWidget *keep_open;
-    GtkWidget *refresh_on_break;
-    GtkWidget *server_enable;
-    GtkWidget *server_address;
-    GtkWidget *label;
-    GtkWidget *binary_server_enable;
-    GtkWidget *binary_server_address;
-    GtkWidget *binary_label;
-    GtkWidget *log_enable;
-    GtkWidget *log_name;
-    GtkWidget *log_label;
-    GtkWidget *scroll_lines;
-    GtkWidget *scroll_label;
+    GtkWidget  *grid;
+    GtkWidget  *native;
+    GtkWidget  *keep_open;
+    GtkWidget  *refresh;
+    GtkWidget  *rmon_enable;
+    GtkWidget  *rmon_addr;
+    GtkWidget  *bmon_enable;
+    GtkWidget  *bmon_addr;
+    GtkWidget  *log_enable;
+    GtkWidget  *log_name;
+    GtkWidget  *scroll_lines;
+    GtkWidget  *scroll_label;
 #ifdef FEATURE_CPUMEMHISTORY
-    GtkWidget *chis_lines;
-    GtkWidget *chis_label;
-    GtkWidget *chis_warning;
+    GtkWidget  *chis_lines;
+    GtkWidget  *chis_label;
+    GtkWidget  *chis_warning;
 #endif
-    GtkWidget *font_label;
-    GtkWidget *font_button;
-    GtkWidget *bg_button;
-    GtkWidget *fg_button;
-    GtkWidget *bg_label;
-    GtkWidget *fg_label;
-    GdkRGBA color;
-    const char *color_res;
-
+    GtkWidget  *font_label;
+    GtkWidget  *font_button;
+    GtkWidget  *colors_label;
+    GtkWidget  *colors_wrapper;
+    GtkWidget  *bg_button;
+    GtkWidget  *fg_button;
+    GtkWidget  *bg_label;
+    GtkWidget  *fg_label;
+    GdkRGBA     color;
+    const char *color_res = NULL;
     const char *font_name = NULL;
 
     resources_get_string("MonitorFont", &font_name);
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 0);
 
     native = vice_gtk3_resource_check_button_new("NativeMonitor",
-            "Use native monitor interface");
+                                                 "Use native monitor interface");
     keep_open = vice_gtk3_resource_check_button_new("KeepMonitorOpen",
-            "Keep monitor open");
-    refresh_on_break = vice_gtk3_resource_check_button_new("RefreshOnBreak",
-            "Refresh display after command");
+                                                    "Keep monitor open");
+    refresh = vice_gtk3_resource_check_button_new("RefreshOnBreak",
+                                                  "Refresh display after command");
 
-    server_enable = vice_gtk3_resource_check_button_new("MonitorServer",
-            "Enable remote monitor");
-    label = gtk_label_new("Server address");
-    /* align with the rest, more or less */
-    gtk_widget_set_margin_start(label, 8);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    server_address = vice_gtk3_resource_entry_full_new(
-            "MonitorServerAddress");
-    gtk_widget_set_hexpand(server_address, TRUE);
+    /* Remote monitor */
+    rmon_enable = vice_gtk3_resource_check_button_new("MonitorServer",
+                                                      "Enable remote monitor");
+    rmon_addr = vice_gtk3_resource_entry_full_new("MonitorServerAddress");
+    gtk_widget_set_hexpand(rmon_addr, TRUE);
+    gtk_widget_set_margin_top(rmon_enable, 8);
+    gtk_widget_set_margin_top(rmon_addr, 8);
 
-    binary_server_enable = vice_gtk3_resource_check_button_new("BinaryMonitorServer",
-            "Enable binary remote monitor");
-    binary_label = gtk_label_new("Server address");
-    /* align with the rest, more or less */
-    gtk_widget_set_margin_start(binary_label, 8);
-    gtk_widget_set_halign(binary_label, GTK_ALIGN_START);
-    binary_server_address = vice_gtk3_resource_entry_full_new(
-            "BinaryMonitorServerAddress");
-    gtk_widget_set_hexpand(binary_server_address, TRUE);
+    /* Binary monitor */
+    bmon_enable = vice_gtk3_resource_check_button_new("BinaryMonitorServer",
+                                                      "Enable binary monitor");
+    bmon_addr = vice_gtk3_resource_entry_full_new("BinaryMonitorServerAddress");
+    gtk_widget_set_hexpand(bmon_addr, TRUE);
+    gtk_widget_set_margin_top(bmon_enable, 8);
+    gtk_widget_set_margin_top(bmon_addr, 8);
 
     log_enable = vice_gtk3_resource_check_button_new("MonitorLogEnabled",
-            "Enable logging to a file");
-    log_label = gtk_label_new("Logfile name");
-    /* align with the rest, more or less */
-    gtk_widget_set_margin_start(log_label, 8);
-    gtk_widget_set_halign(log_label, GTK_ALIGN_START);
-    log_name = vice_gtk3_resource_browser_save_new(
-            "MonitorLogFileName",
-            "Select monitor log filename",
-            NULL,
-            NULL,
-            NULL);
+                                                     "Enable logging to a file");
+    log_name = vice_gtk3_resource_browser_save_new("MonitorLogFileName",
+                                                   "Select monitor log filename",
+                                                   NULL,
+                                                   NULL,
+                                                   NULL);
     gtk_widget_set_hexpand(log_name, TRUE);
+    gtk_widget_set_margin_top(log_enable, 8);
+    gtk_widget_set_margin_top(log_name, 8);
 
-    scroll_label = gtk_label_new("Number of lines in scrollback buffer\n(-1 for no limit)");
+    scroll_label = gtk_label_new("Scrollback buffer (lines)\n(-1 for no limit)");
     gtk_widget_set_margin_start(scroll_label, 8);
     gtk_widget_set_halign(scroll_label, GTK_ALIGN_START);
-    scroll_lines = vice_gtk3_resource_spin_int_new(
-            "MonitorScrollbackLines", -1, 0x0fffffff, 1);
+    scroll_lines = vice_gtk3_resource_spin_int_new("MonitorScrollbackLines",
+                                                   -1, INT_MAX, 256);
+    gtk_widget_set_margin_top(scroll_label, 8);
+    gtk_widget_set_margin_top(scroll_lines, 8);
 
 #ifdef FEATURE_CPUMEMHISTORY
-    chis_label = gtk_label_new("Number of lines in CPU History");
+    chis_label = gtk_label_new("CPU History (lines)");
     gtk_widget_set_margin_start(chis_label, 8);
     gtk_widget_set_halign(chis_label, GTK_ALIGN_START);
-    chis_lines = vice_gtk3_resource_spin_int_new(
-            "MonitorChisLines", 10, 0x0fffffff, 1);
+    chis_lines = vice_gtk3_resource_spin_int_new("MonitorChisLines",
+                                                 10, INT_MAX, 1024);
+    gtk_widget_set_margin_top(chis_label, 8);
+    gtk_widget_set_margin_top(chis_lines, 8);
     chis_warning = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(chis_warning),
-            "<i>Changing this setting will clear the CPU history</i>");
+            "<i>Changing this setting will clear the CPU history!</i>");
 #endif
 
     /* font selection label and button */
@@ -243,41 +232,51 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     if (font_name != NULL) {
         gtk_font_chooser_set_font(GTK_FONT_CHOOSER(font_button), font_name);
     }
+    gtk_widget_set_margin_top(font_label, 8);
+    gtk_widget_set_margin_top(font_button, 8);
     g_signal_connect(font_button, "font-set", G_CALLBACK(on_font_set), NULL);
 
+    /* Monitor colors */
+    colors_label = gtk_label_new("Monitor colors");
+    gtk_widget_set_halign(colors_label, GTK_ALIGN_START);
+    gtk_widget_set_margin_top(colors_label, 8);
+
+    colors_wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(colors_wrapper), 8);
+    gtk_grid_set_column_homogeneous(GTK_GRID(colors_wrapper), TRUE);
+    gtk_widget_set_margin_top(colors_wrapper, 8);
+    gtk_widget_set_margin_start(colors_label, 8);
 
     /* create button for the monitor backbround color */
     resources_get_string("MonitorBG", &color_res);
     gdk_rgba_parse(&color, color_res);
     bg_button = gtk_color_button_new_with_rgba(&color);
-    bg_label = gtk_label_new("Monitor background");
-    gtk_widget_set_margin_start(bg_label, 8);
+    bg_label = gtk_label_new("Background");
     gtk_widget_set_halign(bg_label, GTK_ALIGN_START);
     g_signal_connect(bg_button, "color-set", G_CALLBACK(on_bg_color_set), NULL);
-
 
     /* create button for the monitor foreground color */
     resources_get_string("MonitorFG", &color_res);
     gdk_rgba_parse(&color, color_res);
     fg_button = gtk_color_button_new_with_rgba(&color);
-    fg_label = gtk_label_new("Monitor foreground");
-    gtk_widget_set_margin_start(fg_label, 8);
+    fg_label = gtk_label_new("Foreground");
     gtk_widget_set_halign(fg_label, GTK_ALIGN_START);
     g_signal_connect(fg_button, "color-set", G_CALLBACK(on_fg_color_set), NULL);
 
+    gtk_grid_attach(GTK_GRID(colors_wrapper), bg_label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(colors_wrapper), bg_button, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(colors_wrapper), fg_label, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(colors_wrapper), fg_button, 3, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), native, 0, ROW_NATIVE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, ROW_KEEP_OPEN, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), refresh_on_break, 0, ROW_REFRESH_ON_BREAK, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_enable, 0, ROW_SERVER_ENABLE, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, ROW_SERVER_ADDRESS, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_address, 1, ROW_SERVER_ADDRESS, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), binary_server_enable, 0, ROW_BINARY_SERVER_ENABLE, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), binary_label, 0, ROW_BINARY_SERVER_ADDRESS, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), binary_server_address, 1, ROW_BINARY_SERVER_ADDRESS, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_enable, 0, ROW_LOG_ENABLE, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_label, 0, ROW_LOG_NAME, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_name, 1, ROW_LOG_NAME, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), refresh, 0, ROW_REFRESH_ON_BREAK, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), rmon_enable, 0, ROW_REMOTE_SERVER, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rmon_addr, 1, ROW_REMOTE_SERVER, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bmon_enable, 0, ROW_BINARY_SERVER, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bmon_addr, 1, ROW_BINARY_SERVER, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_enable, 0, ROW_LOG, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_name, 1, ROW_LOG, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), scroll_label, 0, ROW_SCROLL_LINES, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), scroll_lines, 1, ROW_SCROLL_LINES, 1, 1);
 #ifdef FEATURE_CPUMEMHISTORY
@@ -288,10 +287,8 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), font_label, 0, ROW_FONT, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), font_button, 1, ROW_FONT, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), bg_label, 0, ROW_COLOR, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bg_button, 1, ROW_COLOR, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), fg_label, 0, ROW_COLOR + 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), fg_button, 1, ROW_COLOR + 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), colors_label, 0, ROW_COLOR, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), colors_wrapper, 1, ROW_COLOR, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
