@@ -415,6 +415,8 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
     }
 }
 
+static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+
 #ifdef MACOS_COMPILE
 static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidget *terminal)
 {
@@ -430,6 +432,10 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
         case GDK_KEY_v:
         case GDK_KEY_V:
             *input_buffer = append_string_to_input_buffer(*input_buffer, terminal, GDK_SELECTION_CLIPBOARD);
+            return TRUE;
+        case GDK_KEY_w:
+        case GDK_KEY_W:
+            close_window(terminal, NULL, NULL);
             return TRUE;
     }
 }
