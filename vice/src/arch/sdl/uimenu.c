@@ -58,6 +58,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #ifdef DBGSDLMENU
 #define DBG(x) printf x
@@ -510,6 +512,51 @@ static void sdl_ui_menu_redraw_cursor(ui_menu_entry_t *menu, int offset, int *va
     }
 }
 
+/** \brief  Draw scroll bar to indicate there are more menu items than shown
+ *
+ * Currently only draws the up/down indicators when the menu is larger than
+ * can be displayed. Full scroll bar is probably overkill.
+ *
+ * \param[in]   menu_offset     offset in the menu of the first displayed item
+ * \param[in]   menu_item_count number of menu items in the current menu
+ * \param[in]   cursor_row      cursor row in displayed menu
+ */
+static void sdl_ui_menu_draw_scrollbar(int menu_offset,
+                                       int menu_item_count,
+                                       int cursor_row)
+{
+    bool    on_cursor = false;
+    uint8_t old_color = 0;
+
+    /* render scroll bar up arrow, if applicable */
+    if (menu_offset > 0) {
+        on_cursor = (bool)(cursor_row == 0);
+        if (on_cursor) {
+            old_color = sdl_ui_set_cursor_colors();
+        }
+        sdl_ui_putchar(UIFONT_SCROLLBAR_UP_CHAR,
+                       menu_draw.max_text_x - 1,
+                       MENU_FIRST_Y);
+        if (on_cursor) {
+            sdl_ui_reset_cursor_colors(old_color);
+        }
+    }
+
+    /* render scroll bar down arrow, if applicable */
+    if (menu_item_count - menu_offset > menu_draw.max_text_y - MENU_FIRST_Y) {
+        on_cursor = (bool)(cursor_row == menu_draw.max_text_y - MENU_FIRST_Y - 1);
+        if (on_cursor) {
+            old_color = sdl_ui_set_cursor_colors();
+        }
+        sdl_ui_putchar(UIFONT_SCROLLBAR_DOWN_CHAR,
+                       menu_draw.max_text_x - 1,
+                       menu_draw.max_text_y - 1);
+        if (on_cursor) {
+            sdl_ui_reset_cursor_colors(old_color);
+        }
+    }
+}
+
 static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title, int allow_mapping)
 {
     static int last_cur = -1, last_cur_offset = -1;
@@ -553,6 +600,8 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
         } else {
             sdl_ui_menu_redraw_cursor(menu, cur_offset, value_offsets, cur, cur_old);
         }
+        sdl_ui_menu_draw_scrollbar(cur_offset, num_items, cur);
+
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {

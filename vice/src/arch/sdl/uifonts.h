@@ -33,6 +33,8 @@
 #ifndef VICE_UIFONTS_H
 #define VICE_UIFONTS_H
 
+#include <stdint.h>
+
 extern int sdl_ui_font_init(const char *name, int initial_offset, int asc_offset, char load_every_second_char);
 extern void sdl_ui_font_shutdown(void);
 
@@ -81,6 +83,10 @@ extern void sdl_ui_font_shutdown(void);
 #define UIFONT_SLIDERACTIVE_CHAR '\x10'
 #define UIFONT_SLIDERHALFACTIVE_STRING "\x11"
 #define UIFONT_SLIDERHALFACTIVE_CHAR '\x11'
+/** \brief  Scroll bar up arrow */
+#define UIFONT_SCROLLBAR_UP_CHAR    '\x12'
+/** \brief  Scroll bar down arrow */
+#define UIFONT_SCROLLBAR_DOWN_CHAR  '\x13'
 
 typedef enum {
     MENU_FONT_IMAGES = 0,       /* uppercase petscii layout, used by image browser */
