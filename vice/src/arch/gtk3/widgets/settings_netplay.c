@@ -34,17 +34,15 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <errno.h>
 
-#include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "network.h"
 #include "resources.h"
 #include "ui.h"
+#include "vice_gtk3.h"
 
 #include "settings_netplay.h"
 
@@ -71,7 +69,7 @@ static const netctrl_t control_list[] = {
 
 /** \brief  Column headers for the NetworkControl resource
  */
-static const char *netctrl_headers[] = { "", "server", "client" };
+static const char *netctrl_headers[] = { "", "<b>Server</b>", "<b>Client</b>" };
 
 
 /** \brief  Modes for the netplay status display
@@ -116,11 +114,11 @@ static int netplay_mode = -1;
 static void netplay_update_status(void)
 {
     const char *text = NULL;
-    char *temp;
+    char temp[256];
     int mode = network_get_mode();
     int server = (gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay)) == 0);
 
-    if (mode < 0 || mode >= (int)(sizeof net_modes / sizeof net_modes[0])) {
+    if (mode < 0 || mode >= G_N_ELEMENTS(net_modes)) {
         text = "invalid";
     } else {
         text = net_modes[mode];
@@ -128,9 +126,8 @@ static void netplay_update_status(void)
 
     debug_gtk3("netplay_update_status: %d (%s)\n", mode, text);
 
-    temp = lib_msprintf("<b>%s</b>", text);
+    g_snprintf(temp, sizeof temp, "<b>%s</b>", text);
     gtk_label_set_markup(GTK_LABEL(netplay_status), temp);
-    lib_free(temp);
 
     /* mode combobox cant be changed when network is active */
     gtk_combo_box_set_button_sensitivity(GTK_COMBO_BOX(combo_netplay),
@@ -283,8 +280,8 @@ static GtkWidget *create_controls_widget(void)
     GtkWidget *grid;
     int status;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(32, 8, "Controls", 3);
-    gtk_widget_set_margin_top(grid, 32);
+    grid = vice_gtk3_grid_new_spaced_with_label(32, 0, "Controls", 3);
+    gtk_widget_set_margin_top(grid, 16);
     gtk_widget_set_margin_start(grid, 16);
 
     resources_get_int("NetworkControl", &status);
@@ -292,7 +289,9 @@ static GtkWidget *create_controls_widget(void)
     for (int i = 0; i < 3; i++) {
         GtkWidget *label;
 
-        label = gtk_label_new(netctrl_headers[i]);
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), netctrl_headers[i]);
+        gtk_widget_set_margin_bottom(label, 8);
         gtk_grid_attach(GTK_GRID(grid), label, i, 1, 1, 1);
     }
 
@@ -336,7 +335,6 @@ static GtkWidget *create_controls_widget(void)
 }
 
 
-
 /** \brief  Create Netplay settings widget
  *
  * \param[in]   parent widget (unused)
@@ -348,7 +346,7 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Netplay settings", 4);
+    grid = vice_gtk3_grid_new_spaced_with_label(16, 0, "Netplay settings", 4);
 
     /* client or server? */
     label = vice_gtk3_create_indented_label("Mode");
@@ -396,6 +394,8 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     label = vice_gtk3_create_indented_label("Network status");
     /* status widget */
     netplay_status = gtk_label_new(NULL);
+    gtk_widget_set_margin_top(label, 8);
+    gtk_widget_set_margin_top(netplay_status, 8);
     gtk_widget_set_halign(netplay_status, GTK_ALIGN_START);
     gtk_widget_set_hexpand(netplay_status, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
@@ -404,7 +404,7 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     netplay_update_status();
 
     controls = create_controls_widget();
-    gtk_widget_set_margin_top(controls, 32);
+    gtk_widget_set_margin_top(controls, 16);
 
     gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 6, 3, 1);
 
