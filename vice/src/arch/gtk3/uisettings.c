@@ -197,16 +197,44 @@ enum {
 /** \brief  Initial dialog width
  *
  * This is not how wide the dialog will actually become, that is determined by
- * the Gtk theme applied. But it's a rough estimate.
+ * the Gtk theme applied. But it's a rough estimate. A little over 900 pixels
+ * will still fit the dialog on a 1024 pixels wide display.
  */
-#define DIALOG_WIDTH 800
+#define DIALOG_WIDTH 920
+
+/** \brief  Tolerated extra dialog width added by decorations/theme
+ *
+ * Gtk has the annoying "feature" to not count any window decorations when we
+ * request a size. So when the dialog pops up, we immediately get a 'configure'
+ * event of the window triggered by a resize of said window. So in order for
+ * the debugging checks on the resizing of the dialog we need to allow some
+ * margin.
+ *
+ * Gnome's "Adwaita-dark" theme appears to add 16 pixels.
+ */
+#define DIALOG_WIDTH_TOLERANCE 20
 
 /** \brief  Initial dialog height
  *
  * This is not how tall the dialog will actually become, that is determined by
- * the Gtk theme applied. But it's a rough estimate.
+ * the Gtk theme applied. But it's a rough estimate. With a 1280x720 resolution
+ * in Gnome (with the default top bar and a bottom application selector bar)
+ * a height of about 560-580 is the maximum that'll make the dialog with still
+ * fit.
  */
-#define DIALOG_HEIGHT 500
+#define DIALOG_HEIGHT 560
+
+/** \brief  Tolerated extra dialog height added by decorations/theme
+ *
+ * Gtk has the annoying "feature" to not count any window decorations when we
+ * request a size. So when the dialog pops up, we immediately get a 'configure'
+ * event of the window triggered by a resize of said window. So in order for
+ * the debugging checks on the resizing of the dialog we need to allow some
+ * margin.
+ *
+ * Gnome's "Adwaita-dark" theme appears to add 50 pixels.
+ */
+#define DIALOG_HEIGHT_TOLERANCE 60
 
 /** \brief  Maximum width the UI can be
  *
@@ -2366,10 +2394,10 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     }
     gtk_paned_pack2(GTK_PANED(paned_widget), widget, TRUE, FALSE);
     /* add a little space around the widget */
-    gtk_widget_set_margin_top(widget, 16);
-    gtk_widget_set_margin_start(widget, 16);
-    gtk_widget_set_margin_end(widget, 16);
-    gtk_widget_set_margin_bottom(widget, 16);
+    gtk_widget_set_margin_top(widget, 8);
+    gtk_widget_set_margin_start(widget, 8);
+    gtk_widget_set_margin_end(widget, 8);
+    gtk_widget_set_margin_bottom(widget, 8);
 }
 
 /** \brief  Create the 'content widget' of the settings dialog
@@ -2394,6 +2422,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
      */
     scrolled_window = gtk_scrolled_window_new(NULL, NULL);
     gtk_container_add(GTK_CONTAINER(scrolled_window), settings_tree);
+    gtk_widget_set_hexpand(scrolled_window, TRUE);
 
     /* pack the tree and the settings 'page' into a GtkPaned so we can resize
      * the tree */
@@ -2436,10 +2465,10 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* create container for generic settings */
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
-    gtk_widget_set_margin_top(extra, 16);
-    gtk_widget_set_margin_start(extra, 16);
-    gtk_widget_set_margin_end(extra, 16);
-    gtk_widget_set_margin_bottom(extra, 16);
+    gtk_widget_set_margin_top(extra, 8);
+    gtk_widget_set_margin_start(extra, 8);
+    gtk_widget_set_margin_end(extra, 8);
+    gtk_widget_set_margin_bottom(extra, 8);
 
     gtk_grid_attach(GTK_GRID(extra), create_save_on_exit_checkbox(),
             0, 0, 1, 1);
@@ -2454,17 +2483,20 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scrolled_window, 250, -1);
+    gtk_widget_set_size_request(scrolled_window, 280, -1);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-    g_signal_connect_unlocked(G_OBJECT(selection), "changed",
-            G_CALLBACK(on_tree_selection_changed), NULL);
-
+    g_signal_connect_unlocked(G_OBJECT(selection),
+                              "changed",
+                              G_CALLBACK(on_tree_selection_changed),
+                              NULL);
     /* handler for the double click event on a node */
-    g_signal_connect(settings_tree, "row-activated",
-            G_CALLBACK(on_row_activated), NULL);
+    g_signal_connect_unlocked(settings_tree,
+                              "row-activated",
+                              G_CALLBACK(on_row_activated),
+                              NULL);
 
     return settings_grid;
 }
@@ -2521,10 +2553,6 @@ static void response_callback(GtkWidget *widget,
  * It's also used to store the dialog position so it can be restored when
  * respawning.
  *
- * The DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since
- * due to window managers using different themes, we can't use 'proper' values,
- * so I had to use approximate values.
- *
  * \param[in]   widget  a GtkWindow
  * \param[in]   event   the GDK event
  * \param[in]   data    extra event data (unused)
@@ -2537,12 +2565,25 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
 {
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+        int max_width = DIALOG_WIDTH + DIALOG_WIDTH_TOLERANCE;
+        int max_height = DIALOG_HEIGHT + DIALOG_HEIGHT_TOLERANCE;
 
         /* Update dialog position, using gtk_window_get_position() doesn't
          * work, it reports the position of the dialog when it was spawned,
          * not the position if it has been moved afterwards. */
         settings_xpos = cfg->x;
         settings_ypos = cfg->y;
+
+        /* check dialog size */
+        log_message(LOG_DEFAULT,
+                    "Settings UI: New dialog size is %dx%d (requested %dx%d).",
+                    cfg->width, cfg->height, DIALOG_WIDTH, DIALOG_HEIGHT);
+        if (cfg->width > max_width || cfg->height > max_height) {
+            debug_gtk3("New dialog size of %dx%d exceeds tolerance of %dx%d.",
+                       cfg->width, cfg->height, max_width, max_height);
+            gtk_window_set_title(GTK_WINDOW(widget),
+                                 "GODSAMME, M'N DING IS TE GROOT!");
+        }
     }
     return FALSE;
 }
