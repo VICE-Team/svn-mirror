@@ -185,22 +185,23 @@ static void on_netplay_notify_active(GtkSwitch  *widget,
                                      GParamSpec *pspec,
                                      gpointer    data)
 {
-    gboolean state = gtk_switch_get_active(widget);
-    int idx = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay));
+    gboolean active = gtk_switch_get_active(widget);
+    int      role   = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay));
+    int      mode   = network_get_mode();
 
+    debug_gtk3("active = %s, role = %s, mode = %s",
+               active ? "TRUE" : "FALSE",
+               role == 0 ? "Server" : "Client",
+               mode >= 0 && mode < G_N_ELEMENTS(net_modes) ? net_modes[mode] : "(invalid)");
 
-    debug_gtk3("state = %s, role = %s",
-               state ? "TRUE" : "FALSE",
-               idx == 0 ? "Server" : "Client");
-
-    /* just disconnect, doing it always is what the SDL port does and its stable */
-    if (network_connected()) {
+    /* disconnect when not idle */
+    if (mode != NETWORK_IDLE) {
         network_disconnect();
     }
 
-    if (state) {
+    if (active) {
         bool failed = false;
-        if (idx == 0) {
+        if (role == 0) {
             /* attempt to start server */
             if (network_start_server() < 0) {
                 log_error(LOG_ERR, "Failed to start netplay server.");
@@ -218,7 +219,6 @@ static void on_netplay_notify_active(GtkSwitch  *widget,
             gtk_switch_set_active(widget, FALSE);
             g_signal_handler_unblock(widget, netplay_handler);
         }
-
     }
     netplay_update_status();
 }
