@@ -106,6 +106,8 @@ static GtkWidget *combo_netplay = NULL;
 /** \brief  Client enable widget */
 static GtkWidget *netplay_enable = NULL;
 
+static gulong netplay_handler = 0;
+
 /** \brief  last used setting was client or server? */
 static int netplay_mode = -1;
 
@@ -124,7 +126,7 @@ static void netplay_update_status(void)
         text = net_modes[mode];
     }
 
-    debug_gtk3("netplay_update_status: %d (%s)\n", mode, text);
+    debug_gtk3("mode = %d ('%s')", mode, text);
 
     g_snprintf(temp, sizeof temp, "<b>%s</b>", text);
     gtk_label_set_markup(GTK_LABEL(netplay_status), temp);
@@ -173,36 +175,50 @@ static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
     }
 }
 
-/** \brief  Handler for the 'notify::toggled' event of the client enable switch
+/** \brief  Handler for the 'notify::active' event of the client enable switch
  *
  * \param[in,out]   widget  client enable switch
+ * \param[in]       pspec   GObject parameter specification (unused)
  * \param[in]       data    extra event data (unused)
  */
-static void on_netplay_enable_toggled(GtkSwitch *widget, gpointer data)
+static void on_netplay_notify_active(GtkSwitch  *widget,
+                                     GParamSpec *pspec,
+                                     gpointer    data)
 {
-    int state = gtk_switch_get_active(widget);
+    gboolean state = gtk_switch_get_active(widget);
     int idx = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay));
 
-    debug_gtk3("on_netplay_enable_toggled to %d\n", idx);
+
+    debug_gtk3("state = %s, role = %s",
+               state ? "TRUE" : "FALSE",
+               idx == 0 ? "Server" : "Client");
 
     /* just disconnect, doing it always is what the SDL port does and its stable */
-    network_disconnect();
-    netplay_update_status();
+    if (network_connected()) {
+        network_disconnect();
+    }
 
     if (state) {
+        bool failed = false;
         if (idx == 0) {
             /* attempt to start server */
             if (network_start_server() < 0) {
                 log_error(LOG_ERR, "Failed to start netplay server.");
-                gtk_switch_set_active(widget, 0);
-            }
+                failed = true;
+           }
         } else {
             /* start the client */
             if (network_connect_client() < 0) {
                 log_error(LOG_ERR, "Failed to start client.");
-                gtk_switch_set_active(widget, 0);
+                failed = true;
             }
         }
+        if (failed) {
+            g_signal_handler_block(widget, netplay_handler);
+            gtk_switch_set_active(widget, FALSE);
+            g_signal_handler_unblock(widget, netplay_handler);
+        }
+
     }
     netplay_update_status();
 }
@@ -266,8 +282,10 @@ static GtkWidget *create_netplay_enable_widget(void)
     gtk_widget_set_halign(widget, GTK_ALIGN_START);
     gtk_switch_set_active(GTK_SWITCH(widget), mode != NETWORK_IDLE);
 
-    g_signal_connect(widget, "notify::active",
-            G_CALLBACK(on_netplay_enable_toggled), NULL);
+    netplay_handler = g_signal_connect(widget,
+                                       "notify::active",
+                                       G_CALLBACK(on_netplay_notify_active),
+                                       NULL);
     return widget;
 }
 
