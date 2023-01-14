@@ -132,24 +132,24 @@ static double_point opamp_voltage_8580[] = {
  *  E   Rf|R2     RC
  *  F   Rf|R3     RC
  */
-static int resGain[16] =
+static double resGain[16] =
 {
-  (int)((1<<7)*(1.4/1.0)),                     //      Rf/Ri   1.4
-  (int)((1<<7)*(((1.4*15.3)/(1.4+15.3))/1.0)), // (Rf|R1)/Ri   1.28263
-  (int)((1<<7)*(((1.4*7.3)/(1.4+7.3))/1.0)),   // (Rf|R2)/Ri   1.17471
-  (int)((1<<7)*(((1.4*4.7)/(1.4+4.7))/1.0)),   // (Rf|R3)/Ri   1.07869
-  (int)((1<<7)*(1.4/1.4)),                     //      Rf/R4   1.0
-  (int)((1<<7)*(((1.4*15.3)/(1.4+15.3))/1.4)), // (Rf|R1)/R4   0.916168
-  (int)((1<<7)*(((1.4*7.3)/(1.4+7.3))/1.4)),   // (Rf|R2)/R4   0.83908
-  (int)((1<<7)*(((1.4*4.7)/(1.4+4.7))/1.4)),   // (Rf|R3)/R4   0.770492
-  (int)((1<<7)*(1.4/2.0)),                     //      Rf/R8   0.7
-  (int)((1<<7)*(((1.4*15.3)/(1.4+15.3))/2.0)), // (Rf|R1)/R8   0.641317
-  (int)((1<<7)*(((1.4*7.3)/(1.4+7.3))/2.0)),   // (Rf|R2)/R8   0.587356
-  (int)((1<<7)*(((1.4*4.7)/(1.4+4.7))/2.0)),   // (Rf|R3)/R8   0.539344
-  (int)((1<<7)*(1.4/2.8)),                     //      Rf/RC   0.5
-  (int)((1<<7)*(((1.4*15.3)/(1.4+15.3))/2.8)), // (Rf|R1)/RC   0.458084
-  (int)((1<<7)*(((1.4*7.3)/(1.4+7.3))/2.8)),   // (Rf|R2)/RC   0.41954
-  (int)((1<<7)*(((1.4*4.7)/(1.4+4.7))/2.8)),   // (Rf|R3)/RC   0.385246
+  ((1.4/1.0)),                     //      Rf/Ri   1.4
+  ((((1.4*15.3)/(1.4+15.3))/1.0)), // (Rf|R1)/Ri   1.28263
+  ((((1.4*7.3)/(1.4+7.3))/1.0)),   // (Rf|R2)/Ri   1.17471
+  ((((1.4*4.7)/(1.4+4.7))/1.0)),   // (Rf|R3)/Ri   1.07869
+  ((1.4/1.4)),                     //      Rf/R4   1.0
+  ((((1.4*15.3)/(1.4+15.3))/1.4)), // (Rf|R1)/R4   0.916168
+  ((((1.4*7.3)/(1.4+7.3))/1.4)),   // (Rf|R2)/R4   0.83908
+  ((((1.4*4.7)/(1.4+4.7))/1.4)),   // (Rf|R3)/R4   0.770492
+  ((1.4/2.0)),                     //      Rf/R8   0.7
+  ((((1.4*15.3)/(1.4+15.3))/2.0)), // (Rf|R1)/R8   0.641317
+  ((((1.4*7.3)/(1.4+7.3))/2.0)),   // (Rf|R2)/R8   0.587356
+  ((((1.4*4.7)/(1.4+4.7))/2.0)),   // (Rf|R3)/R8   0.539344
+  ((1.4/2.8)),                     //      Rf/RC   0.5
+  ((((1.4*15.3)/(1.4+15.3))/2.8)), // (Rf|R1)/RC   0.458084
+  ((((1.4*7.3)/(1.4+7.3))/2.8)),   // (Rf|R2)/RC   0.41954
+  ((((1.4*4.7)/(1.4+4.7))/2.8)),   // (Rf|R3)/RC   0.385246
 };
 
 typedef struct {
@@ -369,12 +369,12 @@ Filter::Filter()
       int size;
       for (int k = 0; k < 5; k++) {
         int idiv = 2 + k;        // 2 - 6 input "resistors".
-        int n_idiv = idiv << 7;  // n*idiv, scaled by 2^7
+        double n_idiv = double(idiv);
         size = idiv << 16;
         int x = mf.ak;
         for (int vi = 0; vi < size; vi++) {
           mf.summer[offset + vi] =
-            solve_gain(opamp, n_idiv, vi/idiv, x, mf);
+            solve_gain_d(opamp, n_idiv, vi/idiv, x, mf);
         }
         offset += size;
       }
@@ -385,12 +385,12 @@ Filter::Filter()
       //
       // All "on", transistors are modeled as one - see comments above for
       // the filter summer.
-      int divider = m==0 ? 6 : 5;
+      double divider = m==0 ? 6. : 5.;
       offset = 0;
       size = 1;  // Only one lookup element for 0 input "resistors".
       for (int l = 0; l < 8; l++) {
         int idiv = l;                 // 0 - 7 input "resistors".
-        int n_idiv = (idiv << 7)*8/divider; // n*idiv, scaled by 2^7
+        double n_idiv = double(idiv << 3)/divider; // n*idiv
         if (idiv == 0) {
           // Avoid division by zero; the result will be correct since
           // n_idiv = 0.
@@ -399,7 +399,7 @@ Filter::Filter()
         int x = mf.ak;
         for (int vi = 0; vi < size; vi++) {
           mf.mixer[offset + vi] =
-            solve_gain(opamp, n_idiv, vi/idiv, x, mf);
+            solve_gain_d(opamp, n_idiv, vi/idiv, x, mf);
         }
         offset += size;
         size = (l + 1) << 16;
@@ -410,12 +410,12 @@ Filter::Filter()
       // From die photographs of the volume "resistor" ladders
       // it follows that gain ~ vol/12 (6581) vol/16 (8580)
       // (assuming ideal op-amps and ideal "resistors").
-      divider = m==0 ? 12 : 16;
+      divider = m==0 ? 12. : 16.;
       for (int n8 = 0; n8 < 16; n8++) {
-        int n = (n8 << 7) / divider;  // Scaled by 2^7
+        double n = double(n8) / divider;
         int x = mf.ak;
         for (int vi = 0; vi < (1 << 16); vi++) {
-          mf.gain[n8][vi] = solve_gain(opamp, n, vi, x, mf);
+          mf.gain[n8][vi] = solve_gain_d(opamp, n, vi, x, mf);
         }
       }
 
@@ -448,10 +448,10 @@ Filter::Filter()
         // clipped). As resonance is increased, the filter must be clocked more
         // often to keep it stable.
         for (int n8 = 0; n8 < 16; n8++) {
-          int n = (~n8 & 0xf) << (7 - 3);  // Scaled by 2^7
+          double n = double(~n8 & 0xf) / 8.;
           int x = mf.ak;
           for (int vi = 0; vi < (1 << 16); vi++) {
-            mf.resonance[n8][vi] = solve_gain(opamp, n, vi, x, mf);
+            mf.resonance[n8][vi] = solve_gain_d(opamp, n, vi, x, mf);
           }
         }
 
@@ -579,7 +579,7 @@ Filter::Filter()
         for (int n8 = 0; n8 < 16; n8++) {
           int x = mf.ak;
           for (int vi = 0; vi < (1 << 16); vi++) {
-            mf.resonance[n8][vi] = solve_gain(opamp, resGain[n8], vi, x, mf);
+            mf.resonance[n8][vi] = solve_gain_d(opamp, resGain[n8], vi, x, mf);
           }
         }
 

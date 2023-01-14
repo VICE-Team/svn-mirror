@@ -633,7 +633,8 @@ protected:
   // DAC gate voltage
   int nVgt;
 
-  int solve_gain(opamp_t* opamp, int n, int vi_t, int& x, model_filter_t& mf);
+  //int solve_gain(opamp_t* opamp, int n, int vi_t, int& x, model_filter_t& mf);
+  int solve_gain_d(opamp_t* opamp, double n, int vi_t, int& x, model_filter_t& mf);
   int solve_integrate_6581(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
   int solve_integrate_8580(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
@@ -1490,6 +1491,7 @@ the equations for the root function and its derivative can be written as:
   f = a*(b - vx)^2 - c - (b - (vx + x))^2
   df = 2*((b - (vx + x))*(dvx + 1) - a*(b - vx)*dvx)
 */
+#if 0
 RESID_INLINE
 int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf)
 {
@@ -1539,6 +1541,80 @@ int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf
     // If f(xk) or f'(xk) are zero then we can't improve further.
     if (df) {
         x -= f/df;
+    }
+    if (unlikely(x == xk)) {
+      // No further root improvement possible.
+      return vo;
+    }
+
+    // Narrow down root bracket.
+    if (f < 0) {
+      // f(xk) < 0
+      ak = xk;
+    }
+    else {
+      // f(xk) > 0
+      bk = xk;
+    }
+
+    if (unlikely(x <= ak) || unlikely(x >= bk)) {
+      // Bisection step (ala Dekker's method).
+      x = (ak + bk) >> 1;
+      if (unlikely(x == ak)) {
+        // No further bisection possible.
+        return vo;
+      }
+    }
+  }
+}
+#endif
+RESID_INLINE
+int Filter::solve_gain_d(opamp_t* opamp, double n, int vi, int& x, model_filter_t& mf)
+{
+  // Note that all variables are translated and scaled in order to fit
+  // in 16 bits. It is not necessary to explicitly translate the variables here,
+  // since they are all used in subtractions which cancel out the translation:
+  // (a - t) - (b - t) = a - b
+
+  // Start off with an estimate of x and a root bracket [ak, bk].
+  // f is increasing, so that f(ak) < 0 and f(bk) > 0.
+  int ak = mf.ak, bk = mf.bk;
+
+  double a = n + 1.;
+  int b = mf.kVddt;                            // Scaled by m*2^16
+  double b_vi = b > vi ? double(b - vi) : 0.;  // Scaled by m*2^16
+  double c = n*(b_vi*b_vi);                    // Scaled by m^2*2^32
+
+  for (;;) {
+    int xk = x;
+
+    // Calculate f and df.
+    int vx = opamp[x].vx;      // Scaled by m*2^16
+    int dvx = opamp[x].dvx;    // Scaled by m*2^11
+
+    // f = a*(b - vx)^2 - c - (b - vo)^2
+    // df = 2*((b - vo)*dvx - a*(b - vx)*dvx)
+    //
+    int vo = vx + (x << 1) - (1 << 16);
+    if (vo > (1 << 16) - 1) {
+      vo = (1 << 16) - 1;
+    }
+    else if (vo < 0) {
+      vo = 0;
+    }
+    double b_vx = b > vx ? double(b - vx) : 0.;
+    double b_vo = b > vo ? double(b - vo) : 0.;
+    // The dividend is scaled by m^2*2^32.
+    double f = a*(b_vx*b_vx) - c - (b_vo*b_vo);
+    // The divisor is scaled by m*2^27.
+    double df = 2.*(b_vo - a*b_vx)*double(dvx);
+    // The resulting quotient is thus scaled by m*2^5.
+
+    // Newton-Raphson step: xk1 = xk - f(xk)/f'(xk)
+    // If f(xk) or f'(xk) are zero then we can't improve further.
+    if (df) {
+        // Multiply by 2^11 so it's scaled by m*2^16.
+        x -= int(double(1<<11)*f/df);
     }
     if (unlikely(x == xk)) {
       // No further root improvement possible.
