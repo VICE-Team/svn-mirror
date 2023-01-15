@@ -30,17 +30,9 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "ui.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "v364speechwidget.h"
 
@@ -52,13 +44,11 @@
  */
 static GtkWidget *instance = NULL;
 
-
 /** \brief  User callback to trigger on widget value changes
  *
  * Optional, set via v364_speech_widget_add_callback()
  */
 static void (*user_callback)(GtkWidget *, int value) = NULL;
-
 
 
 /** \brief  Handler for the "toggled" event of the Enable check button

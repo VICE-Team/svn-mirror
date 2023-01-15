@@ -185,6 +185,25 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
 }
 
 
+/** \brief  Set 'margin-bottom' property of the title of a grid with title
+ *
+ * Since we've switched to using a lot of grids with 0 row spacing, it's often
+ * desired to have a little space between a grid's title and its content.
+ *
+ * \param[in]   grid    GtkGrid created with vice_gtk3_grid_new_spaced_with_label()
+ * \param[in]   margin  bottom-margin property value
+ */
+void vice_gtk3_grid_set_title_margin(GtkWidget *grid, int margin)
+{
+    if (grid != NULL && GTK_IS_GRID(grid)) {
+        GtkWidget *title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+        if (title != NULL && GTK_IS_LABEL(title)) {
+            gtk_widget_set_margin_bottom(title, margin);
+        }
+    }
+}
+
+
 /** \brief  Set margin on \a grid
  *
  * Set margins on a GtkGrid. passing a value of <0 means skipping that property.

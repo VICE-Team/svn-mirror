@@ -30,13 +30,10 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "lib.h"
 #include "machine.h"
-#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "cbm2hardwiredswitcheswidget.h"
 
@@ -44,11 +41,10 @@
 /** \brief  Hardwired switches for 5x0 models
  */
 static const vice_gtk3_radiogroup_entry_t models_cbm5x0[] = {
-    { "50Hz 5x0",   2 },
-    { "60Hz 5x0",   1 },
-    { NULL,         -1 }
+    { "50Hz 5x0",  2 },
+    { "60Hz 5x0",  1 },
+    { NULL,       -1 }
 };
-
 
 /** \brief  Hardwired switches for 6x0 models
  */
@@ -69,15 +65,14 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     GtkWidget *grid;
     GtkWidget *radio_group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            -1, -1, "Hardwired switches", 1);
-    gtk_widget_set_margin_start(grid, 8);
-    gtk_widget_set_margin_end(grid, 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Hardwired switches", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     radio_group = vice_gtk3_resource_radiogroup_new("ModelLine",
-            machine_class == VICE_MACHINE_CBM5x0 ? models_cbm5x0 : models_cbm6x0,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(radio_group, 16);
+                                                    machine_class == VICE_MACHINE_CBM5x0
+                                                    ? models_cbm5x0 : models_cbm6x0,
+                                                    GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(radio_group, 8);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -91,9 +86,8 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
  * \param[in,out]   widget      ModelLine widget
  * \param[in]       callback    user-defined callback
  */
-void cbm2_hardwired_switches_widget_set_callback(
-        GtkWidget *widget,
-        void (*callback)(GtkWidget *, int))
+void cbm2_hardwired_switches_widget_set_callback(GtkWidget *widget,
+                                                 void (*callback)(GtkWidget*, int))
 {
     GtkWidget *group;
 

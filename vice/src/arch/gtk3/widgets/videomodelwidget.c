@@ -148,25 +148,23 @@ void video_model_widget_set_models(const vice_gtk3_radiogroup_entry_t *models)
 GtkWidget *video_model_widget_create(GtkWidget *machine)
 {
     GtkWidget *grid;
-    GtkWidget *radio;
-    GtkRadioButton *last = NULL;
-    GSList *group = NULL;
-    int i;
-    GtkWidget *title;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0,
-            widget_title, 1);
-    title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    gtk_widget_set_margin_bottom(title, 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, widget_title, 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     if (model_list != NULL) {
+        GtkWidget *radio;
+        GtkWidget *last = NULL;
+        GSList    *group = NULL;
+        int        i;
+
         for (i = 0; model_list[i].name != NULL; i++) {
             radio = gtk_radio_button_new_with_label(group, model_list[i].name);
-            gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-            gtk_widget_set_margin_start(radio, 16);
+            gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
+                                        GTK_RADIO_BUTTON(last));
+            gtk_widget_set_margin_start(radio, 8);
             gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
-            last = GTK_RADIO_BUTTON(radio);
+            last = radio;
         }
 
         /* now set the proper value */

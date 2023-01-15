@@ -128,7 +128,6 @@ GtkWidget *sid_engine_model_widget_create(void)
 #endif
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 

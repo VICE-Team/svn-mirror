@@ -44,13 +44,13 @@
 /** \brief  Data for the radio buttons group
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "4KiB",   4 },
-    { "8KiB",   8 },
-    { "16KiB",  16 },
-    { "32KiB",  32 },
-    { "96KiB",  96 },
+    { "4KiB",     4 },
+    { "8KiB",     8 },
+    { "16KiB",   16 },
+    { "32KiB",   32 },
+    { "96KiB",   96 },
     { "128KiB", 128 },
-    { NULL, -1 }
+    { NULL,      -1 }
 };
 
 
@@ -64,16 +64,14 @@ static void (*glue_func)(int);
 /** \brief  Callback for the radio group widget
  *
  * \param[in]   widget  radio group widget
- * \param[in]   ram     RAM size in KiB
+ * \param[in]   size    RAM size in KiB
  */
-static void on_ram_size_changed_callback(GtkWidget *widget, int ram)
+static void ram_size_callback(GtkWidget *widget, int size)
 {
     if (glue_func != NULL) {
-        glue_func(ram);
+        glue_func(size);
     }
 }
-
-
 
 
 /** \brief  Create PET RAM size widget
@@ -87,13 +85,12 @@ GtkWidget *pet_ram_size_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Memory size", 1);
-    gtk_widget_set_margin_top(grid, 8);
-    group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Memory size", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("RamSize",
+                                              ram_sizes,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -113,9 +110,8 @@ void pet_ram_size_widget_set_callback(GtkWidget *widget,
 
     group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (group != NULL) {
-        vice_gtk3_resource_radiogroup_add_callback(
-                group,
-                on_ram_size_changed_callback);
+        vice_gtk3_resource_radiogroup_add_callback(group,
+                                                   ram_size_callback);
         glue_func = func;
     }
 }

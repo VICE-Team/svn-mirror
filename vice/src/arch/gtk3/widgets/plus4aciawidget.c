@@ -48,12 +48,11 @@
  */
 static GtkWidget *instance = NULL;
 
-
 /** \brief  User callback to trigger on widget value changes
  *
  * Optional, set via plus4_acia_widget_add_callback()
  */
-static void (*user_callback)(GtkWidget *, int value) = NULL;
+static void (*user_callback)(GtkWidget*, int) = NULL;
 
 
 /** \brief  Extra handler for the 'toggled' event of the ACIA widget
