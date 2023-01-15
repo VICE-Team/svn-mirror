@@ -85,6 +85,7 @@ libwidgets_a_SOURCES = \
 	machinemodelwidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
+	petdiagnosticpinwidget.c \
 	petiosizewidget.c \
 	petram9widget.c \
 	petramawidget.c \
@@ -149,7 +150,6 @@ libwidgets_a_SOURCES = \
 	settings_monitor.c \
 	settings_netplay.c \
 	settings_petcolourgraphics.c \
-	settings_petdiagpin.c \
 	settings_petdww.c \
 	settings_pethre.c \
 	settings_petreu.c \
@@ -255,6 +255,7 @@ EXTRA_DIST = \
 	machinemodelwidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
+	petdiagnosticpinwidget.h \
 	petiosizewidget.h \
 	petram9widget.h \
 	petramawidget.h \
@@ -319,7 +320,6 @@ EXTRA_DIST = \
 	settings_monitor.h \
 	settings_netplay.h \
 	settings_petcolourgraphics.h \
-	settings_petdiagpin.h \
 	settings_petdww.h \
 	settings_pethre.h \
 	settings_petreu.h \

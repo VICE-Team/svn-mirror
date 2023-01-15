@@ -120,7 +120,6 @@
 #include "settings_monitor.h"
 #include "settings_netplay.h"
 #include "settings_petcolourgraphics.h"
-#include "settings_petdiagpin.h"
 #include "settings_petdww.h"
 #include "settings_pethre.h"
 #include "settings_petreu.h"
@@ -1659,9 +1658,6 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "PET userport diagnostic pin",
-      "pet-diagpin",
-      settings_petdiagpin_widget_create, NULL },
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },

@@ -35,7 +35,9 @@
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
+#include "petdiagnosticpinwidget.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "userport.h"
 #include "vice_gtk3.h"
@@ -306,6 +308,13 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
     /* RTC DS1307 save checkbox */
     rtc_ds1307_save = create_rtc_ds1307_save_widget();
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 2, 2, 1);
+
+    /* PET userport diagnostic pin */
+    if (machine_class == VICE_MACHINE_PET) {
+        gtk_grid_attach(GTK_GRID(grid),
+                        pet_diagnosticpin_widget_create(),
+                        0, 3, 2, 1);
+    }
 
     /* set the active item using the resource */
     if (resources_get_int("UserportDevice", &device_id) == 0) {

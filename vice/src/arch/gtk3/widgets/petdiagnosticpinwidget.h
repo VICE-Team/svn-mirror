@@ -1,11 +1,7 @@
-/** \file   settings_petdiagpin.c
- * \brief   Settings widget for PET diagnostic pin
+/** \file   petdiagnosticpinwidget.h
+ * \brief   Widget for the PET userport diagnostic pin - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
- * $VICERES DiagPin     xpet
  */
 
 /*
@@ -29,29 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_PETDIAGNOSTICPINWIDGET_H
+#define VICE_PETDIAGNOSTICPINWIDGET_H
+
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
+GtkWidget *pet_diagnosticpin_widget_create(void);
 
-#include "settings_petdiagpin.h"
-
-
-/** \brief  Create widget to control PET diagnostic pin
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *settings_petdiagpin_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("DiagPin",
-                "Enable userport diagnostic pin"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif
