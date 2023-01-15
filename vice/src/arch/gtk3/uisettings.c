@@ -2068,6 +2068,19 @@ static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
     ui_action_finish(ACTION_SETTINGS_DIALOG);
 }
 
+/** \brief  Handler for the 'clicked' event of our own "Close" button
+ *
+ * \param[in]   widget  button
+ * \param[in]   dialog  settings dialog
+ */
+static void on_close_clicked(GtkWidget *widget, gpointer dialog)
+{
+    g_signal_emit_by_name(G_OBJECT(dialog),
+                          "response",
+                          GTK_RESPONSE_DELETE_EVENT,
+                          NULL);
+}
+
 /** \brief  Handler for the double click event of a tree node
  *
  * Expands or collapses the node and its children (if any)
@@ -2401,14 +2414,15 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
  * This creates the widget in the dialog used to display the treeview and room
  * for the widget connected to that tree's currently selected item.
  *
- * \param[in]   widget  parent widget
+ * \param[in]   dialog  settings dialog
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_content_widget(GtkWidget *widget)
+static GtkWidget *create_content_widget(GtkWidget *dialog)
 {
     GtkTreeSelection *selection;
-    GtkWidget *extra;
+    GtkWidget        *extra;
+    GtkWidget        *close_button;
 
     settings_grid = gtk_grid_new();
     settings_tree = create_treeview();
@@ -2433,7 +2447,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* do we have a previous settings "page"? */
     if (last_node_path == NULL) {
         /* nope, display the default one */
-        ui_settings_set_central_widget(ui_settings_inital_widget(widget));
+        ui_settings_set_central_widget(ui_settings_inital_widget(dialog));
     } else {
         /* try to restore the page last shown */
         GtkTreeIter iter;
@@ -2448,7 +2462,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
                 selection = gtk_tree_view_get_selection(
                         GTK_TREE_VIEW(settings_tree));
 
-                ui_settings_set_central_widget(callback(widget));
+                ui_settings_set_central_widget(callback(dialog));
                 gtk_tree_view_expand_to_path(
                         GTK_TREE_VIEW(settings_tree),
                         last_node_path);
@@ -2458,26 +2472,42 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
         }
     }
 
-    /* create container for generic settings */
+    /* create container for generic settings and close button */
     extra = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
+    //gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
+    gtk_widget_set_hexpand(extra, TRUE);
     gtk_widget_set_margin_top(extra, 8);
-    gtk_widget_set_margin_start(extra, 8);
-    gtk_widget_set_margin_end(extra, 8);
-    gtk_widget_set_margin_bottom(extra, 8);
+//    gtk_widget_set_margin_start(extra, 8);
+//    gtk_widget_set_margin_end(extra, 0);
+//    gtk_widget_set_margin_bottom(extra, 8);
 
-    gtk_grid_attach(GTK_GRID(extra), create_save_on_exit_checkbox(),
-            0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(extra), create_confirm_on_exit_checkbox(),
-            0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(extra), create_pause_on_settings_checkbox(),
-            0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra),
+                    create_save_on_exit_checkbox(),
+                    0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra),
+                    create_confirm_on_exit_checkbox(),
+                    0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra),
+                    create_pause_on_settings_checkbox(),
+                    0, 2, 1, 1);
+
+    /* We add our own custom "Close" button here so we can pack the check
+     * buttons and the Close button on the same vertical space. We're not
+     * allowed to touch the GtkButtonBox that contains a dialog's buttons.
+     */
+    close_button = gtk_button_new_with_label("Close");
+    gtk_widget_set_vexpand(close_button, FALSE);
+    gtk_widget_set_hexpand(close_button, TRUE);
+    gtk_widget_set_halign(close_button, GTK_ALIGN_END);
+    gtk_widget_set_valign(close_button, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(extra), close_button, 1, 0, 1, 3);
 
     /* add to main layout */
     gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
 
-    gtk_widget_show(settings_grid);
-    gtk_widget_show(settings_tree);
+    gtk_widget_show_all(settings_grid);
+    gtk_widget_show_all(settings_tree);
+    gtk_widget_show_all(extra);
 
     gtk_widget_set_size_request(scrolled_window, 280, -1);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
@@ -2493,6 +2523,12 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
                               "row-activated",
                               G_CALLBACK(on_row_activated),
                               NULL);
+    /* our own Close button: emits the GtkDialog::response event on he dialog
+     * with a GTK_REPONSE_DELETE_EVENT argument. */
+    g_signal_connect_unlocked(close_button,
+                              "clicked",
+                              G_CALLBACK(on_close_clicked),
+                              (gpointer)dialog);
 
     return settings_grid;
 }
@@ -2506,40 +2542,24 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
  * \param[in]       user_data   extra data (unused)
  */
 static void response_callback(GtkWidget *widget,
-                              gint response_id,
-                              gpointer user_data)
+                              gint       response_id,
+                              gpointer   user_data)
 {
-    int pause_on_settings;
-
-    switch (response_id) {
-
+    if (response_id == GTK_RESPONSE_DELETE_EVENT) {
         /* close dialog */
-        case GTK_RESPONSE_DELETE_EVENT:
-            gtk_widget_destroy(widget);
-            settings_window = NULL;
+        int pause_on_settings = 0;
 
-            resources_get_int("PauseOnSettings", &pause_on_settings);
-            if (pause_on_settings) {
-                if (settings_old_pause_state) {
-                    ui_pause_enable();
-                } else {
-                    ui_pause_disable();
-                }
+        gtk_widget_destroy(widget);
+        settings_window = NULL;
+
+        resources_get_int("PauseOnSettings", &pause_on_settings);
+        if (pause_on_settings) {
+            if (settings_old_pause_state) {
+                ui_pause_enable();
+            } else {
+                ui_pause_disable();
             }
-
-            break;
-
-        /* reset resources in current central widget to the state they were
-         * in before entering the (sub)dialog */
-        case RESPONSE_RESET:
-            break;
-
-        /* restore resources in (sub)dialog to factory settings */
-        case RESPONSE_FACTORY:
-            break;
-
-        default:
-            break;
+        }
     }
 }
 
@@ -2586,39 +2606,45 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
 
 /** \brief  Dialog create helper
  *
+ * Create the GtkDialog and set it up, connecting signal handlers.
+ *
  * \return  Settings dialog
  */
 static GtkWidget *dialog_create_helper(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
-    char title[256];
+    gchar      title[256];
 
-    g_snprintf(title, sizeof(title), "%s Settings", machine_name);
+    g_snprintf(title, sizeof title, "%s Settings", machine_name);
 
-    dialog = gtk_dialog_new_with_buttons(
-            title,
-            ui_get_active_window(),
-            GTK_DIALOG_MODAL,
-            "Close", GTK_RESPONSE_DELETE_EVENT,
-            NULL);
+    dialog = gtk_dialog_new();
+    gtk_window_set_title(GTK_WINDOW(dialog), title);
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
+    /* XXX: maybe we can set this to FALSE once all dialog nodes fit the
+     *      initial size: */
+    gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     g_object_set(content, "border-width", 8, NULL);
     gtk_container_add(GTK_CONTAINER(content), create_content_widget(dialog));
 
-    /* set default response to Close */
-    gtk_dialog_set_default_response(
-            GTK_DIALOG(dialog),
-            GTK_RESPONSE_DELETE_EVENT);
+    gtk_dialog_set_default_response(GTK_DIALOG(dialog),
+                                    GTK_RESPONSE_DELETE_EVENT);
 
-    gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
-    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(response_callback), NULL);
-    g_signal_connect_unlocked(dialog, "configure-event",
-            G_CALLBACK(on_dialog_configure_event), NULL);
-    g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_settings_dialog_destroy),
-            NULL);
-
+    g_signal_connect_unlocked(dialog,
+                              "response",
+                              G_CALLBACK(response_callback),
+                              NULL);
+    g_signal_connect_unlocked(dialog,
+                              "configure-event",
+                              G_CALLBACK(on_dialog_configure_event),
+                              NULL);
+    g_signal_connect_unlocked(dialog,
+                              "destroy",
+                              G_CALLBACK(on_settings_dialog_destroy),
+                              NULL);
     return dialog;
 }
 
@@ -2805,5 +2831,3 @@ void ui_settings_shutdown(void)
         last_node_path = NULL;
     }
 }
-
-
