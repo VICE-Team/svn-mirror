@@ -1,4 +1,4 @@
-/** \file   settigs_userport.c
+/** \file   settings_userport.c
  * \brief   Settings widget for userport devices
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -51,7 +51,9 @@ enum {
     COL_DEVICE_ID,          /**< device ID (int) */
     COL_DEVICE_NAME,        /**< device name (str) */
     COL_DEVICE_TYPE_ID,     /**< device type (int) */
-    COL_DEVICE_TYPE_DESC    /**< device type description (str) */
+    COL_DEVICE_TYPE_DESC,   /**< device type description (str) */
+
+    COLUMN_COUNT            /**< number of columns in the model */
 };
 
 
@@ -72,8 +74,8 @@ static GtkWidget *rtc_ds1307_save = NULL;
  */
 static GtkWidget *create_rtc_58321a_save_widget(void)
 {
-    return vice_gtk3_resource_check_button_new(
-            "UserportRTC58321aSave", "Enable RTC (58321a) saving");
+    return vice_gtk3_resource_check_button_new("UserportRTC58321aSave",
+                                               "Enable RTC (58321a) saving");
 }
 
 /** \brief  Create widget for the "UserportRTCDS1307Save" resource
@@ -82,8 +84,8 @@ static GtkWidget *create_rtc_58321a_save_widget(void)
  */
 static GtkWidget *create_rtc_ds1307_save_widget(void)
 {
-    return vice_gtk3_resource_check_button_new(
-            "UserportRTCDS1307Save", "Enable RTC (DS1307) saving");
+    return vice_gtk3_resource_check_button_new("UserportRTCDS1307Save",
+                                               "Enable RTC (DS1307) saving");
 }
 
 /** \brief  Set the RTC checkboxes' sensitivity based on device ID
@@ -108,19 +110,18 @@ static void set_rtc_widgets_sensitivity(int id)
 static void on_device_changed(GtkComboBox *combo, gpointer user_data)
 {
     GtkTreeModel *model;
-    GtkTreeIter iter;
+    GtkTreeIter   iter;
 
     model = gtk_combo_box_get_model(combo);
     if (gtk_combo_box_get_active_iter(combo, &iter)) {
-        gint id;
-        gchar *name;
+        gint   id   = 0;
+        gchar *name = NULL;
 
         gtk_tree_model_get(model,
                            &iter,
                            COL_DEVICE_ID, &id,
                            COL_DEVICE_NAME, &name,
                            -1);
-        debug_gtk3("Got device #%d (%s)", id, name);
         resources_set_int("UserportDevice", id);
         set_rtc_widgets_sensitivity(id);
         g_free(name);
@@ -141,9 +142,9 @@ static void on_device_changed(GtkComboBox *combo, gpointer user_data)
 static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
 {
     GtkTreeModel *model;
-    GtkTreeIter iter;
-    gulong handler_id;
-    gboolean result = FALSE;
+    GtkTreeIter   iter;
+    gulong        handler_id;
+    gboolean      result = FALSE;
 
     /* do we need to block the 'changed' event handler? */
     if (blocked) {
@@ -199,7 +200,7 @@ static GtkListStore *create_device_model(void)
     userport_desc_t *devices;
     userport_desc_t *dev;
 
-    model = gtk_list_store_new(4,
+    model = gtk_list_store_new(COLUMN_COUNT,
                                G_TYPE_INT,      /* ID */
                                G_TYPE_STRING,   /* name */
                                G_TYPE_INT,      /* type ID */
@@ -210,9 +211,9 @@ static GtkListStore *create_device_model(void)
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                            &iter,
-                           COL_DEVICE_ID, dev->id,
-                           COL_DEVICE_NAME, dev->name,
-                           COL_DEVICE_TYPE_ID, dev->device_type,
+                           COL_DEVICE_ID,        dev->id,
+                           COL_DEVICE_NAME,      dev->name,
+                           COL_DEVICE_TYPE_ID,   dev->device_type,
                            COL_DEVICE_TYPE_DESC, userport_get_device_type_desc(dev->device_type),
                            -1);
     }
@@ -241,8 +242,8 @@ static GtkListStore *create_device_model(void)
  */
 static GtkWidget *create_device_combobox(void)
 {
-    GtkWidget *combo;
-    GtkListStore *model;
+    GtkWidget       *combo;
+    GtkListStore    *model;
     GtkCellRenderer *name_renderer;
 #if 0
     GtkCellRenderer *type_renderer;
@@ -290,30 +291,50 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *combo;
-    int device_id;
+    int        device_id = 0;
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     /* combobox with the userport devices */
     label = gtk_label_new("Userport device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     combo = create_device_combobox();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(combo, 16);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, row, 1, 1);
+    row++;
 
-    /* RTC 58321A save checkbox */
-    rtc_58321a_save = create_rtc_58321a_save_widget();
-    gtk_grid_attach(GTK_GRID(grid), rtc_58321a_save, 0, 1, 2, 1);
+    /* the RTC devices are not available for all emus */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            /* RTC 58321A save checkbox */
+            rtc_58321a_save = create_rtc_58321a_save_widget();
+            gtk_grid_attach(GTK_GRID(grid), rtc_58321a_save, 0, row, 2, 1);
+            row++;
 
-    /* RTC DS1307 save checkbox */
-    rtc_ds1307_save = create_rtc_ds1307_save_widget();
-    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 2, 2, 1);
+            /* RTC DS1307 save checkbox */
+            rtc_ds1307_save = create_rtc_ds1307_save_widget();
+            gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, row, 2, 1);
+            row++;
+            break;
+        default:
+            break;
+    }
 
     /* PET userport diagnostic pin */
     if (machine_class == VICE_MACHINE_PET) {
         gtk_grid_attach(GTK_GRID(grid),
                         pet_diagnosticpin_widget_create(),
-                        0, 3, 2, 1);
+                        0, row, 2, 1);
+        row++;
     }
 
     /* set the active item using the resource */
