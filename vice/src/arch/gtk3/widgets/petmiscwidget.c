@@ -31,11 +31,10 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "resources.h"
+#include "vice_gtk3.h"
 
 #include "petmiscwidget.h"
 
@@ -71,7 +70,7 @@ static void (*user_callback_screen2001)(int) = NULL;
  */
 static void on_crtc_toggled(GtkWidget *widget, gpointer user_data)
 {
-    int old_val;
+    int old_val = 0;
     int new_val;
 
     resources_get_int("Crtc", &old_val);
@@ -84,7 +83,6 @@ static void on_crtc_toggled(GtkWidget *widget, gpointer user_data)
         }
     }
 }
-
 
 /** \brief  Handler for the "toggled" event of the EOI Blank check button
  *
@@ -108,7 +106,6 @@ static void on_blank_toggled(GtkWidget *widget, gpointer user_data)
         }
     }
 }
-
 
 /** \brief  Handler for the "toggled" event of the Screen2001 check button
  *
@@ -143,27 +140,27 @@ static void on_screen2001_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *pet_misc_widget_create(void)
 {
     GtkWidget *grid;
-    int crtc;
-    int blank;
-    int screen2001;
+    int        crtc       = 0;
+    int        blank      = 0;
+    int        screen2001 = 0;
 
-    user_callback_crtc = NULL;
-    user_callback_blank = NULL;
+    user_callback_crtc       = NULL;
+    user_callback_blank      = NULL;
     user_callback_screen2001 = NULL;
 
-    resources_get_int("Crtc", &crtc);
-    resources_get_int("EoiBlank", &blank);
+    resources_get_int("Crtc",       &crtc);
+    resources_get_int("EoiBlank",   &blank);
     resources_get_int("Screen2001", &screen2001);
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Miscellaneous", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     crtc_widget = gtk_check_button_new_with_label("CRTC chip enable");
-    gtk_widget_set_margin_start(crtc_widget, 16);
+    gtk_widget_set_margin_start(crtc_widget, 8);
     blank_widget = gtk_check_button_new_with_label("2001 quirk: EOI blanks screen");
-    gtk_widget_set_margin_start(blank_widget, 16);
+    gtk_widget_set_margin_start(blank_widget, 8);
     screen2001_widget = gtk_check_button_new_with_label("2001 quirk: extra screen mirrors");
-    gtk_widget_set_margin_start(screen2001_widget, 16);
+    gtk_widget_set_margin_start(screen2001_widget, 8);
 
     gtk_grid_attach(GTK_GRID(grid), crtc_widget, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), blank_widget, 0, 2, 1, 1);
@@ -173,9 +170,18 @@ GtkWidget *pet_misc_widget_create(void)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(blank_widget), blank);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(screen2001_widget), blank);
 
-    g_signal_connect(crtc_widget, "toggled", G_CALLBACK(on_crtc_toggled), NULL);
-    g_signal_connect(blank_widget, "toggled", G_CALLBACK(on_blank_toggled), NULL);
-    g_signal_connect(screen2001_widget, "toggled", G_CALLBACK(on_screen2001_toggled), NULL);
+    g_signal_connect(crtc_widget,
+                     "toggled",
+                     G_CALLBACK(on_crtc_toggled),
+                     NULL);
+    g_signal_connect(blank_widget,
+                     "toggled",
+                     G_CALLBACK(on_blank_toggled),
+                     NULL);
+    g_signal_connect(screen2001_widget,
+                     "toggled",
+                     G_CALLBACK(on_screen2001_toggled),
+                     NULL);
 
     gtk_widget_show_all(grid);
     return grid;

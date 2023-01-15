@@ -78,6 +78,8 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
                                                 const char *label,
                                                 int span);
 
+void vice_gtk3_grid_set_title_margin(GtkWidget *grid, int margin);
+
 void vice_gtk3_grid_set_margins(GtkWidget *grid,
                                 gint top,
                                 gint bottom,

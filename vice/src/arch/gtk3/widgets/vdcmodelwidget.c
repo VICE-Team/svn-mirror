@@ -2,6 +2,8 @@
  * \brief   VDC settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Block signal handlers from being invoked in the update() function
  */
 
 /*
@@ -31,25 +33,23 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
 #include "machine.h"
+#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "vdcmodelwidget.h"
+
 
 /** \brief  List of VDC revisions
  */
 static const vice_gtk3_radiogroup_entry_t vdc_revs[] = {
-    { "Revision 0", 0 },
-    { "Revision 1", 1 },
-    { "Revision 2", 2 },
-    { NULL, -1 }
+    { "Revision 0",  0 },
+    { "Revision 1",  1 },
+    { "Revision 2",  2 },
+    { NULL,         -1 }
 };
 
 
@@ -60,25 +60,22 @@ static void (*vdc_revision_func)(int);
 static void (*vdc_ram_func)(int);
 
 
-
 /** \brief  Handler for the 'toggled' event of the revision radio buttons
  *
  * \param[in]   widget      radio button
- * \param[in]   user_data   revision (`int`)
+ * \param[in]   revision    VDC revision (`int`)
  */
-static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
+static void on_revision_toggled(GtkWidget *widget, gpointer revision)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int rev = GPOINTER_TO_INT(user_data);
+        int rev = GPOINTER_TO_INT(revision);
 
         resources_set_int("VDCRevision", rev);
-
         if (vdc_revision_func != NULL) {
             vdc_revision_func(rev);
         }
     }
 }
-
 
 /** brief   Extra event handler to update C128 model setting
  *
@@ -101,9 +98,8 @@ static GtkWidget *create_64kb_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new(
-            "VDC64KB", "Enable 64KiB video ram");
-    gtk_widget_set_margin_start(check, 16);
+    check = vice_gtk3_resource_check_button_new("VDC64KB",
+                                                "Enable 64KiB video ram");
     return check;
 }
 
@@ -120,11 +116,12 @@ static void vdc_model_widget_connect_signals(GtkWidget *widget)
     GtkWidget *radio;
     int i = 0;
 
-    while ((radio = gtk_grid_get_child_at(
-                    GTK_GRID(widget), 0, i)) != NULL) {
+    while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
-            g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
-                    GINT_TO_POINTER(vdc_revs[i].id));
+            g_signal_connect(radio,
+                             "toggled",
+                             G_CALLBACK(on_revision_toggled),
+                             GINT_TO_POINTER(vdc_revs[i].id));
         }
         i++;
     }
@@ -141,18 +138,20 @@ GtkWidget *vdc_model_widget_create(void)
     GtkWidget *group;
     GtkWidget *extra_ram;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "VDC settings", 1);
+    /* we can use row spacing of 8 here since the radio buttons are in a
+     * separate grid with row spacing of 0 */
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "VDC settings", 1);
 
     extra_ram = create_64kb_widget();
-    gtk_widget_set_margin_start(extra_ram, 16);
-    g_signal_connect(extra_ram, "toggled", G_CALLBACK(on_64kb_ram_toggled),
-            NULL);
+    gtk_widget_set_margin_start(extra_ram, 8);
+    g_signal_connect(extra_ram,
+                     "toggled",
+                     G_CALLBACK(on_64kb_ram_toggled),
+                     NULL);
     group = vice_gtk3_resource_radiogroup_new("VDCRevision",
-            vdc_revs, GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 16);
-
+                                              vdc_revs,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     /* connect extra handlers */
     vdc_model_widget_connect_signals(group);
 
@@ -169,14 +168,11 @@ GtkWidget *vdc_model_widget_create(void)
  */
 void vdc_model_widget_update(GtkWidget *widget)
 {
-    int rev;
-    int index;
-    int ram;
     GtkWidget *rev_widget;
     GtkWidget *ram_widget;
-
-    resources_get_int("VDCRevision", &rev);
-    index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
+    int        index;
+    int        rev;
+    int        ram = 0;
 
     /* grab VDC revisions grid from the VDC widget */
     rev_widget = gtk_grid_get_child_at(GTK_GRID(widget), 0, 2);
@@ -188,21 +184,15 @@ void vdc_model_widget_update(GtkWidget *widget)
      * widget, but once we start handling 'rev 1.0, rev 1.1' etc, you'll
      * thank me.
      */
+    resources_get_int("VDCRevision", &rev);
+    index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
     if (index >= 0) {
-        int i = 0;
         GtkWidget *radio;
+        int        i = 0;
 
-        while ((radio = gtk_grid_get_child_at(
-                        GTK_GRID(rev_widget), 0, i)) != NULL) {
-            if (GTK_IS_RADIO_BUTTON(radio)) {
-                if (i == index) {
-                    gtk_toggle_button_set_active(
-                            GTK_TOGGLE_BUTTON(radio),
-                            TRUE);
-                    break;
-                }
-            } else {
-                debug_gtk3("NOT RADIO (shouldn't get here).");
+        while ((radio = gtk_grid_get_child_at(GTK_GRID(rev_widget), 0, i)) != NULL) {
+            if (GTK_IS_RADIO_BUTTON(radio) && i == index) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
                 break;
             }
             i++;
@@ -213,7 +203,6 @@ void vdc_model_widget_update(GtkWidget *widget)
     resources_get_int("VDC64KB", &ram);
     ram_widget = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ram_widget), ram);
-
 }
 
 

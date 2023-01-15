@@ -55,7 +55,7 @@ static const vice_gtk3_radiogroup_entry_t expansions[] = {
 
 /** \brief  Reference to the radiogroup widget
  */
-static GtkWidget *memory_exp_widget = NULL;
+static GtkWidget *radio_group = NULL;
 
 
 /** \brief  Create Plus/4 memory expansion widget
@@ -66,14 +66,13 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            -1, -1, "Memory expansion hack", 1);
-    memory_exp_widget = vice_gtk3_resource_radiogroup_new(
-            "MemoryHack",
-            expansions,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_grid_attach(GTK_GRID(grid), memory_exp_widget, 0, 1, 1, 1);
-    gtk_widget_set_margin_start(memory_exp_widget, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Memory expansion hack", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    radio_group = vice_gtk3_resource_radiogroup_new("MemoryHack",
+                                                    expansions,
+                                                    GTK_ORIENTATION_VERTICAL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    gtk_widget_set_margin_start(radio_group, 8);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -87,7 +86,7 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
  */
 void plus4_memory_expansion_widget_add_callback(void (*callback)(GtkWidget *, int))
 {
-    vice_gtk3_resource_radiogroup_add_callback(memory_exp_widget, callback);
+    vice_gtk3_resource_radiogroup_add_callback(radio_group, callback);
 }
 
 
@@ -99,5 +98,5 @@ void plus4_memory_expansion_widget_add_callback(void (*callback)(GtkWidget *, in
  */
 gboolean plus4_memory_expansion_widget_sync(void)
 {
-    return vice_gtk3_resource_radiogroup_sync(memory_exp_widget);
+    return vice_gtk3_resource_radiogroup_sync(radio_group);
 }

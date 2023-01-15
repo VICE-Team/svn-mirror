@@ -33,7 +33,6 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "resources.h"
 
 #include "plus4memorysizewidget.h"
 
@@ -60,12 +59,12 @@ GtkWidget *plus4_memory_size_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Memory size", 1);
-    memory_size_widget = vice_gtk3_resource_radiogroup_new(
-            "RamSize",
-            ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(memory_size_widget, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Memory size", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    memory_size_widget = vice_gtk3_resource_radiogroup_new("RamSize",
+                                                           ram_sizes,
+                                                           GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(memory_size_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), memory_size_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

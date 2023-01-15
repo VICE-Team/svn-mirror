@@ -60,12 +60,12 @@ static void (*user_callback)(int) = NULL;
 /** \brief  Handler for the 'toggled' event of the radio buttons
  *
  * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   keyboard ID (`int`)
+ * \param[in]   type        keyboard ID (`int`)
  */
-static void on_keyboard_type_toggled(GtkWidget *widget, gpointer user_data)
+static void on_keyboard_type_toggled(GtkWidget *widget, gpointer type)
 {
-    int old_type;
-    int new_type = GPOINTER_TO_INT(user_data);
+    int old_type = 0;
+    int new_type = GPOINTER_TO_INT(type);
 
     resources_get_int("KeyboardType", &old_type);
 
@@ -107,40 +107,42 @@ void pet_keyboard_type_widget_set_keyboard_list_get(kbdtype_info_t *(*func)(void
  *
  * \return  GtkGrid
  */
-GtkWidget * pet_keyboard_type_widget_create(void)
+GtkWidget *pet_keyboard_type_widget_create(void)
 {
     GtkWidget *grid;
-    int num;
-    kbdtype_info_t *list;
-    GSList *group = NULL;
-    GtkRadioButton *last = NULL;
+    int        num = get_keyboard_num();
 
     user_callback = NULL;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Keyboard type", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Keyboard type", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
-    num = get_keyboard_num();
     if (num > 0) {
-        GtkWidget *radio;
-        int active;
-        int i;
+        GtkWidget      *radio;
+        GtkWidget      *last  = NULL;
+        GSList         *group = NULL;
+        kbdtype_info_t *list;
+        int             active = 0;
+        int             i;
 
         list = get_keyboard_list();
         resources_get_int("KeyboardType", &active);
 
         for (i = 0; i < num; i++) {
             radio = gtk_radio_button_new_with_label(group, list[i].name);
-            gtk_widget_set_margin_start(radio, 16);
-            gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
+            gtk_widget_set_margin_start(radio, 8);
+            gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
+                                        GTK_RADIO_BUTTON(last));
             if (active == i) {
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
             }
-            g_signal_connect(radio, "toggled",
-                    G_CALLBACK(on_keyboard_type_toggled),
-                    GINT_TO_POINTER(list[i].type));
+            g_signal_connect(radio,
+                             "toggled",
+                             G_CALLBACK(on_keyboard_type_toggled),
+                             GINT_TO_POINTER(list[i].type));
 
             gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
-            last = GTK_RADIO_BUTTON(radio);
+            last = radio;
         }
     }
 
@@ -167,14 +169,13 @@ void pet_keyboard_type_widget_set_callback(GtkWidget *widget,
  */
 void pet_keyboard_type_widget_sync(GtkWidget *widget)
 {
-    int type;
-    GtkWidget *radio;
+    int type = 0;
 
-    if (resources_get_int("KeyboardType", &type) < 0) {
-        return;
-    }
-    radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, type + 1);
-    if (GTK_IS_RADIO_BUTTON(radio)) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+    if (resources_get_int("KeyboardType", &type) == 0) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, type + 1);
+
+        if (GTK_IS_RADIO_BUTTON(radio)) {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+        }
     }
 }

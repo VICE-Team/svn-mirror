@@ -51,7 +51,6 @@ static const vice_gtk3_radiogroup_entry_t sid_models_none[] = {
     { NULL, -1 }
 };
 
-
 /** \brief  SID models used in the C64/C64SCPU, C128 and expanders for PET,
  *          VIC-20 and Plus/4
  */
@@ -61,7 +60,6 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
     { "8580 + digi boost", 2 },
     { NULL, -1 }
 };
-
 
 /** \brief  SID models used in the C64DTV
  */
@@ -73,7 +71,6 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
     { NULL, -1 }
 };
 
-
 /** \brief  SID models used in the CBM-II 510/520 models
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
@@ -84,7 +81,6 @@ static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
 };
 
 
-
 /** \brief  Reference to the machine model widget
  *
  * Used to update the widget when the SID model changes
@@ -92,21 +88,15 @@ static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
 static GtkWidget *machine_widget = NULL;
 
 
-
-/** \brief  Handler for the "toggled" event of the SID type radio buttons
+/** \brief  Extra callback for the SID type radio buttons
  *
  * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   sid type
+ * \param[in]   sid_type    SID type
  */
-static void on_sid_model_toggled(GtkWidget *widget, int user_data)
+static void sid_model_callback(GtkWidget *widget, int sid_type)
 {
     GtkWidget *parent;
     void (*callback)(int);
-
-
-    if (widget == NULL) {
-        debug_gtk3("WIDGET IS NUL!!!!!\n\n\n\n\n");
-    }
 
     /* sync mixer widget */
     mixer_widget_sid_type_changed();
@@ -114,7 +104,7 @@ static void on_sid_model_toggled(GtkWidget *widget, int user_data)
     parent = gtk_widget_get_parent(widget);
     callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
     if (callback != NULL) {
-        callback(user_data);
+        callback(sid_type);
     }
 }
 
@@ -166,13 +156,14 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             models = sid_models_none;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(VICE_GTK3_DEFAULT,
-            VICE_GTK3_DEFAULT, "SID model", 1);
-    group = vice_gtk3_resource_radiogroup_new(
-            "SidModel", models, GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID model", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("SidModel",
+                                              models,
+                                              GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-    vice_gtk3_resource_radiogroup_add_callback(group, on_sid_model_toggled);
+    gtk_widget_set_margin_start(group, 8);
+    vice_gtk3_resource_radiogroup_add_callback(group, sid_model_callback);
 
     /* SID cards for the Plus4, PET or VIC20:
      *
@@ -191,15 +182,6 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
         resources_get_int("SidCart", &sidcart);
         gtk_widget_set_sensitive(grid, sidcart);
     }
-
-    /*
-     * Fix layout issues
-     */
-    gtk_widget_set_margin_top(grid, 8);
-    gtk_widget_set_margin_start(grid, 8);
-    gtk_widget_set_margin_end(grid, 8);
-    gtk_widget_set_margin_bottom(grid, 8);
-
     return grid;
 }
 
@@ -216,7 +198,6 @@ void sid_model_widget_update(GtkWidget *widget, int model)
 }
 
 
-
 /** \brief  Synchronize the widget with its resource
  *
  * \param[in,out]   widget  SID model widget
@@ -231,7 +212,6 @@ void sid_model_widget_sync(GtkWidget *widget)
     }
     sid_model_widget_update(widget, model);
 }
-
 
 
 /** \brief  Set extra callback to trigger when the model changes

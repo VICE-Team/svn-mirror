@@ -31,17 +31,10 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
 #include "cia.h"
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "machine.h"
-#include "machinemodelwidget.h"
-#include "resources.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "ciamodelwidget.h"
 
@@ -49,9 +42,9 @@
 /** List of CIA models
  */
 static const vice_gtk3_radiogroup_entry_t cia_models[] = {
-    { "6526 (old)", CIA_MODEL_6526 },
+    { "6526 (old)", CIA_MODEL_6526  },
     { "8521 (new)", CIA_MODEL_6526A },
-    { NULL, -1 }
+    { NULL,         -1 }
 };
 
 
@@ -75,13 +68,24 @@ static void (*cia_model_callback)(int, int);
  * \param[in]   widget  CIA radiogroup widget triggering the event
  * \param[in]   model   CIA model ID
  */
-static void on_cia_model_callback_internal(GtkWidget *widget, int model)
+static void cia_model_callback_internal(GtkWidget *widget, int model)
 {
     if (cia_model_callback != NULL) {
         cia_model_callback(widget == cia1_group ? 1 : 2, model);
     }
 }
 
+/** \brief  Properly clear references
+ *
+ * \param[in]   self    CIA widget (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_destroy(GtkWidget *self, gpointer data)
+{
+    cia_model_callback = NULL;
+    cia1_group         = NULL;
+    cia2_group         = NULL;
+}
 
 /** \brief  Create a widget for CIA \a num
  *
@@ -101,13 +105,15 @@ static GtkWidget *create_cia_widget(int num)
 
     g_snprintf(buffer, sizeof(buffer), "CIA%d", num);
     label = gtk_label_new(buffer);
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
-            "CIA%dModel", cia_models, GTK_ORIENTATION_HORIZONTAL, num);
+    radio_group = vice_gtk3_resource_radiogroup_new_sprintf("CIA%dModel",
+                                                            cia_models,
+                                                            GTK_ORIENTATION_HORIZONTAL,
+                                                            num);
     vice_gtk3_resource_radiogroup_add_callback(radio_group,
-            on_cia_model_callback_internal);
+                                               cia_model_callback_internal);
     if (num == 1) {
         cia1_group = radio_group;
     } else {
@@ -133,13 +139,9 @@ GtkWidget *cia_model_widget_create(int count)
     GtkWidget *grid;
     GtkWidget *cia1_widget;
     GtkWidget *cia2_widget;
-    GtkWidget *title;
 
-    cia_model_callback = NULL;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "CIA model", 1);
-    title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    gtk_widget_set_margin_bottom(title, 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "CIA model", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     cia1_widget = create_cia_widget(1);
     gtk_grid_attach(GTK_GRID(grid), cia1_widget, 0, 1, 1, 1);
@@ -147,6 +149,12 @@ GtkWidget *cia_model_widget_create(int count)
         cia2_widget = create_cia_widget(2);
         gtk_grid_attach(GTK_GRID(grid), cia2_widget, 0, 2, 1, 1);
     }
+
+    g_signal_connect_unlocked(grid,
+                              "destroy",
+                              G_CALLBACK(on_destroy),
+                              NULL);
+
     gtk_widget_show_all(grid);
     return grid;
 }
