@@ -1,5 +1,5 @@
-/** \file   archdep_mkdir.h
- * \brief   Create a directory - header
+/** \file   archdep_user_state_path.h
+ * \brief   Retrieve path to the user's state directory - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef VICE_ARCHDEP_MKDIR_H
-#define VICE_ARCHDEP_MKDIR_H
+#ifndef VICE_ARCHDEP_USER_STATE_PATH_H
+#define VICE_ARCHDEP_USER_STATE_PATH_H
 
-#define ARCHDEP_MKDIR_RWXU   0700
-#define ARCHDEP_MKDIR_RWXUG  0770
-#define ARCHDEP_MKDIR_RWXUGO 0777
-
-int archdep_mkdir          (const char *pathname, int mode);
-int archdep_mkdir_recursive(const char *pathname, int mode);
+const char *archdep_user_state_path(void);
+void        archdep_user_state_path_free(void);
 
 #endif
-

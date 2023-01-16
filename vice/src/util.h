@@ -43,6 +43,7 @@
 
 extern char *util_concat(const char *s1, ...);
 extern char *util_strjoin(const char **list, const char *sep);
+char **util_strsplit(const char *string, const char *delimiter, int max_tokens);
 extern void util_addline(char **list, const char *line);
 extern void util_addline_free(char **list, char *line);
 extern uint8_t *util_bufcat(uint8_t *buf, int *buf_size, size_t *max_buf_size,

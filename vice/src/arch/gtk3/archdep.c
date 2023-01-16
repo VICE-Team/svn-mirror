@@ -78,20 +78,22 @@ static char *argv0 = NULL;
 int archdep_init(int *argc, char **argv)
 {
 #ifdef HAVE_DEBUG_GTK3UI
-#if 0
+//#if 0
     const char *prg_name;
-    char *cfg_path;
-    char *cache_path;
-    char *searchpath;
-    char *vice_ini;
-    char *datadir;
-    char *docsdir;
+    const char *config_path;
+    const char *cache_path;
+    const char *state_path;
+    char       *searchpath;
+    char       *vice_ini;
+    char       *datadir;
+    char       *docsdir;
 # if defined(LINUX_COMPILE) || defined(BSD_COMPILE)
-    char *xdg_cache;
-    char *xdg_config;
-    char *xdg_data;
+    char       *xdg_cache;
+    char       *xdg_config;
+    char       *xdg_data;
+    char       *xdg_state;
 # endif
-#endif
+//#endif
 #endif
     argv0 = lib_strdup(argv[0]);
 
@@ -100,22 +102,25 @@ int archdep_init(int *argc, char **argv)
 
     archdep_create_user_cache_dir();
     archdep_create_user_config_dir();
+    archdep_create_user_state_dir();
 
-#if 0
+// #if 0
 #ifdef HAVE_DEBUG_GTK3UI
     /* sanity checks, to remove later: */
-    prg_name = archdep_program_name();
-    searchpath = archdep_default_sysfile_pathlist(machine_name);
-    cfg_path = archdep_user_config_path();
-    cache_path = archdep_user_cache_path();
-    vice_ini = archdep_default_resource_file_name();
-    datadir = archdep_get_vice_datadir();
-    docsdir = archdep_get_vice_docsdir();
+    prg_name    = archdep_program_name();
+    searchpath  = archdep_default_sysfile_pathlist(machine_name);
+    config_path = archdep_user_config_path();
+    cache_path  = archdep_user_cache_path();
+    state_path  = archdep_user_state_path();
+    vice_ini    = archdep_default_resource_file_name();
+    datadir     = archdep_get_vice_datadir();
+    docsdir     = archdep_get_vice_docsdir();
 
     debug_gtk3("program name    = \"%s\"", prg_name);
     debug_gtk3("user home dir   = \"%s\"", archdep_home_path());
     debug_gtk3("user cache dir  = \"%s\"", cache_path);
-    debug_gtk3("user config dir = \"%s\"", cfg_path);
+    debug_gtk3("user config dir = \"%s\"", config_path);
+    debug_gtk3("user state dir  = \"%s\"", state_path);
     debug_gtk3("prg boot path   = \"%s\"", archdep_boot_path());
     debug_gtk3("VICE searchpath = \"%s\"", searchpath);
     debug_gtk3("VICE data path  = \"%s\"", datadir);
@@ -126,14 +131,17 @@ int archdep_init(int *argc, char **argv)
     xdg_cache = archdep_xdg_cache_home();
     xdg_config = archdep_xdg_config_home();
     xdg_data = archdep_xdg_data_home();
+    xdg_state = archdep_xdg_state_home();
 
     debug_gtk3("XDG_CACHE_HOME  = '%s'.", xdg_cache);
     debug_gtk3("XDG_CONFIG_HOME = '%s'.", xdg_config);
     debug_gtk3("XDG_DATA_HOME   = '%s'.", xdg_data);
+    debug_gtk3("XDG_STATE_HOME  = '%s'.", xdg_state);
 
     lib_free(xdg_cache);
     lib_free(xdg_config);
     lib_free(xdg_data);
+    lib_free(xdg_state);
 # endif
 
     lib_free(searchpath);
@@ -143,7 +151,7 @@ int archdep_init(int *argc, char **argv)
 # endif
     lib_free(datadir);
     lib_free(docsdir);
-#endif
+//#endif
 #endif
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
@@ -171,6 +179,8 @@ void archdep_shutdown(void)
     archdep_user_cache_path_free();
     /* free memory used by the config files path */
     archdep_user_config_path_free();
+    /* free memory used by the state files path */
+    archdep_user_state_path_free();
     /* free memory used by the sysfile pathlist */
     archdep_default_sysfile_pathlist_free();
 
