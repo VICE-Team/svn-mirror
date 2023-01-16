@@ -1,5 +1,6 @@
-/** \file   archdep_mkdir.h
- * \brief   Create a directory - header
+/** \file   archdep_create_user_state_dir.h
+ * \brief   Create XDG user state dir - header
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -24,15 +25,9 @@
  *
  */
 
-#ifndef VICE_ARCHDEP_MKDIR_H
-#define VICE_ARCHDEP_MKDIR_H
+#ifndef VICE_ARCHDEP_CREATE_USER_STATE_DIR_H
+#define VICE_ARCHDEP_CREATE_USER_STATE_DIR_H
 
-#define ARCHDEP_MKDIR_RWXU   0700
-#define ARCHDEP_MKDIR_RWXUG  0770
-#define ARCHDEP_MKDIR_RWXUGO 0777
-
-int archdep_mkdir          (const char *pathname, int mode);
-int archdep_mkdir_recursive(const char *pathname, int mode);
+void archdep_create_user_state_dir(void);
 
 #endif
-

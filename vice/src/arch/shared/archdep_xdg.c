@@ -38,23 +38,20 @@
 #include "archdep_xdg.h"
 
 
-/** \brief  Get XDG_DATA_HOME
+/** \brief  Get XDG_CACHE_HOME
  *
- * Either returns the value of $XDG_DATA_HOME or the default $HOME/.local/share
+ * Either returns the value of $XDG_CACHE_HOME or the default $HOME/.cache
  *
  * \return  heap-allocated string, free with lib_free()
  */
-char *archdep_xdg_data_home(void)
+char *archdep_xdg_cache_home(void)
 {
-    const char *path = getenv("XDG_DATA_HOME");
+    const char *path = getenv("XDG_CACHE_HOME");
 
     if (path != NULL && *path != '\0') {
-        /* got env var, heap-allocate since the util_join_paths() function
-         * also returns a heap-allocated string.
-         */
         return lib_strdup(path);
     }
-    return util_join_paths(archdep_home_path(), ".local", "share", NULL);
+    return util_join_paths(archdep_home_path(), ".cache", NULL);
 }
 
 
@@ -75,18 +72,38 @@ char *archdep_xdg_config_home(void)
 }
 
 
-/** \brief  Get XDG_CACHE_HOME
+/** \brief  Get XDG_DATA_HOME
  *
- * Either returns the value of $XDG_CACHE_HOME or the default $HOME/.cache
+ * Either returns the value of $XDG_DATA_HOME or the default $HOME/.local/share
  *
  * \return  heap-allocated string, free with lib_free()
  */
-char *archdep_xdg_cache_home(void)
+char *archdep_xdg_data_home(void)
 {
-    const char *path = getenv("XDG_CACHE_HOME");
+    const char *path = getenv("XDG_DATA_HOME");
+
+    if (path != NULL && *path != '\0') {
+        /* got env var, heap-allocate since the util_join_paths() function
+         * also returns a heap-allocated string.
+         */
+        return lib_strdup(path);
+    }
+    return util_join_paths(archdep_home_path(), ".local", "share", NULL);
+}
+
+
+/** \brief  Get XDG_STATE_HOME
+ *
+ * Either returns the value of $XDG_STATE_HOME or the default $HOME/.local/state
+ *
+ * \return  heap-allocated string, free with lib_free()
+ */
+char *archdep_xdg_state_home(void)
+{
+    const char *path = getenv("XDG_STATE_HOME");
 
     if (path != NULL && *path != '\0') {
         return lib_strdup(path);
     }
-    return util_join_paths(archdep_home_path(), ".cache", NULL);
+    return util_join_paths(archdep_home_path(), ".local", "state", NULL);
 }

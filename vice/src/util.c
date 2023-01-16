@@ -1067,3 +1067,97 @@ int util_strncasecmp(const char *s1, const char *s2, size_t n)
         return 1;
     }
 }
+
+
+/** \brief  Split string into substrings
+ *
+ * Split \a string into substrings on \a delimiter, returning at most
+ * \a max_tokens substrings, plus the remainder as a final substring if there
+ * is anything left in \a string. The \a delimiter is not among the substrings,
+ * except in the remainder if there is a remainder.
+ *
+ * If \a string is `NULL` or "" `NULL is returned.
+ * If \a delimiter is `NULL` or "" an array of a single element is returned,
+ * with the single element being a copy of the full \a string.
+ * If \a max_tokens is reached the remaining characters in \a string are
+ * returned as the final array element.
+ * Consecutive instances of \a delimiter are treated as a single delimiter,
+ * there are no empty tokens returned.
+ *
+ * \param[in]   string      string to split on \a delimiter
+ * \param[in]   delimiter   string delimiter
+ * \param[in]   max_tokens  maximum number of substrings to generate
+ *
+ * \return  array of substrings, `NULL`-terminated
+ *
+ * \note    free both the array and its elements with lib_free() after use
+ */
+char **util_strsplit(const char *string, const char *delimiter, int max_tokens)
+{
+    size_t       delimlen;
+    size_t       ressize;
+    size_t       resindex;
+    char       **result;
+    const char  *curpos;
+
+    if (string == NULL || *string == '\0') {
+        return NULL;
+    }
+    if (delimiter == NULL || *delimiter == '\0') {
+        result = lib_malloc(sizeof *result * 2);
+        result[0] = lib_strdup(string);
+        result[1] = NULL;
+        return result;
+    }
+    delimlen = strlen(delimiter);
+
+    if (max_tokens > 1) {
+        ressize = (size_t)max_tokens + 2; /* +1 for remainder, +1 for NULL */
+    } else {
+        ressize = 16;
+    }
+    result = lib_malloc(sizeof *result * ressize);
+
+    curpos   = string;
+    resindex = 0;
+    ressize  = 0;
+    while (*curpos != '\0' && ((max_tokens < 1) || (size_t)resindex < max_tokens)) {
+        const char *delimpos;
+        char       *token;
+        size_t      tokenlen;
+
+        /* -1 for remainder, -1 for terminating NULL */
+        if (resindex == ressize - 2) {
+            ressize *= 2;
+            result = realloc(result, sizeof *result * ressize);
+        }
+
+        delimpos = strstr(curpos, delimiter);
+        if (delimpos == NULL) {
+            /* no more data, append remainder */
+            break;
+        }
+
+        if (delimpos == curpos) {
+            /* delimiter at start of string or right after previous delimiter,
+             * skip */
+            curpos += delimlen;
+        } else {
+            /* append token */
+            tokenlen = (size_t)(delimpos - curpos);
+            token = lib_malloc(tokenlen + 1);
+            memcpy(token, curpos, tokenlen);
+            token[tokenlen] = '\0';
+            result[resindex++] = token;
+            curpos = delimpos + delimlen;
+        }
+    }
+
+    if (*curpos != '\0') {
+        /* add remainder of string as the final element */
+        result[resindex++] = lib_strdup(curpos);
+    }
+    /* terminate list */
+    result[resindex] = NULL;
+    return result;
+}

@@ -138,6 +138,10 @@ endif
 libtoolarch_a_SOURCES = \
 	archdep.c
 
+if USE_GTK3UI
+libtoolarch_a_SOURCES += debug_gtk3.c
+endif
+
 EXTRA_DIST = \
 	Resources/VICE.icns \
 	actions-cartridge.h \

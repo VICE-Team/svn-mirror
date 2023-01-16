@@ -48,6 +48,7 @@
 #include "archdep_close.h"
 #include "archdep_create_user_cache_dir.h"
 #include "archdep_create_user_config_dir.h"
+#include "archdep_create_user_state_dir.h"
 #include "archdep_current_dir.h"
 #include "archdep_default_autostart_disk_image_file_name.h"
 #include "archdep_default_fliplist_file_name.h"
@@ -116,6 +117,7 @@
 #include "archdep_tmpnam.h"
 #include "archdep_user_cache_path.h"
 #include "archdep_user_config_path.h"
+#include "archdep_user_state_path.h"
 #include "archdep_usleep.h"
 #include "archdep_xdg.h"
 

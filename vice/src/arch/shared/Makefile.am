@@ -42,6 +42,7 @@ libarchdep_a_SOURCES = \
 	archdep_close.c \
 	archdep_create_user_cache_dir.c \
 	archdep_create_user_config_dir.c \
+	archdep_create_user_state_dir.c \
 	archdep_current_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
 	archdep_default_fliplist_file_name.c \
@@ -110,6 +111,7 @@ libarchdep_a_SOURCES = \
 	archdep_tmpnam.c \
 	archdep_user_cache_path.c \
 	archdep_user_config_path.c \
+	archdep_user_state_path.c \
 	archdep_usleep.c \
 	archdep_xdg.c \
 	console.c \
@@ -140,6 +142,7 @@ EXTRA_DIST = \
 	archdep_close.h \
 	archdep_create_user_cache_dir.h \
 	archdep_create_user_config_dir.h \
+	archdep_create_user_state_dir.h \
 	archdep_current_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \
 	archdep_default_fliplist_file_name.h \
@@ -212,6 +215,7 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_user_cache_path.h \
 	archdep_user_config_path.h \
+	archdep_user_state_path.h \
 	archdep_usleep.h \
 	archdep_win32.h \
 	archdep_xdg.h \
