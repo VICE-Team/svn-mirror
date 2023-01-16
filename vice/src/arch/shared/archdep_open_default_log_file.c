@@ -1,6 +1,9 @@
 /** \file   archdep_open_default_log_file.c
  * \brief   Open default log file
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Open default log file `$XDG_STATE_HOME/vice/vice.log`, which defaults to
+ * `$HOME/.local/state/vice/vice.log`.
  */
 
 /*
@@ -34,7 +37,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
-#include "archdep_user_config_path.h"
+#include "archdep_user_state_path.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -42,65 +45,10 @@
 #include "archdep_open_default_log_file.h"
 
 
-/* amiga */
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    if (run_from_wb) {
-        char *fname;
-        FILE *f;
-
-        fname = util_concat(archdep_boot_path(), "vice.log", NULL);
-        f = fopen(fname, MODE_WRITE_TEXT);
-
-        lib_free(fname);
-
-        if (f == NULL) {
-            return stdout;
-        }
-
-        return f;
-    } else {
-        return stdout;
-    }
-}
-#endif
-
-/* beos */
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    char *fname;
-    FILE *f;
-
-    fname = util_concat(archdep_boot_path(), "/vice.log", NULL);
-    f = fopen(fname, "wt");
-    lib_free(fname);
-
-    return f;
-}
-#endif
-
-/* os2 */
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    char *fname;
-    FILE *f;
-
-    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
-    f = fopen(fname, "wt");
-    lib_free(fname);
-
-    return f;
-}
-#endif
-
-
 /** \brief  Opens the default log file
  *
  * On *nix the log goes to stdout by default. If that does not exist, attempt
- * to open a log file in the user's vice config dir. If the file cannot be
+ * to open a log file in the user's vice state dir. If the file cannot be
  * opened for some reason, stdout is returned anyway.
  *
  * \return  file pointer to log file
@@ -121,7 +69,7 @@ FILE *archdep_open_default_log_file(void)
            the shell */
         if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
 #endif
-            path = util_join_paths(archdep_user_config_path(), "vice.log", NULL);
+            path = util_join_paths(archdep_user_state_path(), "vice.log", NULL);
             fp = fopen(path, "w");
             if (fp == NULL) {
                 log_error(LOG_ERR,
