@@ -59,7 +59,6 @@
  */
 #define PREVIEWTEXTBYTES    (PREVIEWPATTERNBYTES * 4)
 
-
 /** \brief  CSS for the preview of the pattern
  *
  * Since Gtk's CSS doesn't allow using colors from the current theme, we make
@@ -73,18 +72,29 @@
     "    color: limegreen;\n" \
     "}\n"
 
-
 /** \brief  List of powers of two used for the widgets
  *
  * Yes, this looks silly, but allows me to use vice-gtk3 widgets.
  */
 static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
-    { "0 bytes", 0 }, { "1 byte", 1 }, { "2 bytes", 2 }, { "4 bytes", 4 },
-    { "8 bytes", 8 }, { "16 bytes", 16 }, { "32 bytes", 32 },
-    { "64 bytes", 64 }, { "128 bytes", 128 }, { "256 bytes", 256 },
-    { "512 bytes", 512 }, { "1024 bytes", 1024 }, { "2048 bytes", 2048 },
-    { "4096 bytes", 4096 }, { "8192 bytes", 8192 }, { "16384 bytes", 16384 },
-    { "32768 bytes", 32768 }, { NULL, -1 }
+    { "0 bytes",         0 },
+    { "1 byte",          1 },
+    { "2 bytes",         2 },
+    { "4 bytes",         4 },
+    { "8 bytes",         8 },
+    { "16 bytes",       16 },
+    { "32 bytes",       32 },
+    { "64 bytes",       64 },
+    { "128 bytes",     128 },
+    { "256 bytes",     256 },
+    { "512 bytes",     512 },
+    { "1024 bytes",   1024 },
+    { "2048 bytes",   2048 },
+    { "4096 bytes",   4096 },
+    { "8192 bytes",   8192 },
+    { "16384 bytes", 16384 },
+    { "32768 bytes", 32768 },
+    { NULL,             -1 }
 };
 
 
@@ -147,8 +157,8 @@ static GtkWidget *create_preview_widget(void)
     gtk_text_buffer_create_tag(buffer,
                                "hexdump",
                                "family", "monospace",
-                               "left-margin", 16,
-                               "right-margin", 16,
+                               "left-margin", 4,
+                               "right-margin", 4,
                                "background", "black",
                                "foreground", "limegreen",
                                NULL);
@@ -177,10 +187,10 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     GtkWidget *scrolled;
     GtkWidget *view;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(16, 0, "RAM reset pattern", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RAM reset pattern", 2);
 
     label = gtk_label_new("Value of first byte");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     start_value_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitStartValue", 0, 255, 1);
@@ -188,7 +198,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), start_value_widget, 1, 1, 1, 1);
 
     label = gtk_label_new("First byte offset");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     value_offset_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitValueOffset", powers_of_two);
@@ -196,7 +206,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), value_offset_widget, 1, 2, 1, 1);
 
     label = gtk_label_new("Invert first byte every");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     value_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitValueInvert", powers_of_two);
@@ -204,7 +214,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), value_invert_widget, 1, 3, 1, 1);
 
     label = gtk_label_new("Value of second byte");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     pattern_invert_value_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitPatternInvertValue", 0, 255, 1);
@@ -212,7 +222,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_value_widget, 1, 4, 1, 1);
 
     label = gtk_label_new("Invert with second byte every");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     pattern_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitPatternInvert", powers_of_two);
@@ -220,7 +230,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_widget, 1, 5, 1, 1);
 
     label = gtk_label_new("Length of random pattern");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     start_random_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitStartRandom", powers_of_two);
@@ -228,7 +238,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), start_random_widget, 1, 6, 1, 1);
 
     label = gtk_label_new("Repeat random pattern every");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     repeat_random_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitRepeatRandom", powers_of_two);
@@ -236,7 +246,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), repeat_random_widget, 1, 7, 1, 1);
 
     label = gtk_label_new("Global random chance");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     chance_random_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitRandomChance", 0, 0xfff, 1);
@@ -245,7 +255,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Preview:</b>");
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_margin_top(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 2, 1);
@@ -257,6 +267,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
      * to get it working, using all sort of trickery and the gtk devs on #gtk
      * also couldn't help me out.
      *
+     * UPDATE:
      * Switched back to textview, rendering in a label is horrendously slow,
      * see the comments for create_preview_widget().
      */
@@ -273,27 +284,43 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     /* TODO:    Look into setting the size based on the contents/font size
      *          --compyx
      */
-    gtk_widget_set_size_request(scrolled, 550, 160);
+    gtk_widget_set_size_request(scrolled, 512, 160);
     gtk_container_add(GTK_CONTAINER(scrolled), view);
-    gtk_widget_set_margin_start(scrolled, 16);
+    gtk_widget_set_margin_start(scrolled, 8);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, 10, 2, 1);
 
-    g_signal_connect(start_value_widget, "value-changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(value_offset_widget, "changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(value_invert_widget, "changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(pattern_invert_widget, "changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(pattern_invert_value_widget, "value-changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(start_random_widget, "changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(repeat_random_widget, "changed",
-            G_CALLBACK(on_value_changed), view);
-    g_signal_connect(chance_random_widget, "value-changed",
-            G_CALLBACK(on_value_changed), view);
+    g_signal_connect(start_value_widget,
+                     "value-changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(value_offset_widget,
+                     "changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(value_invert_widget,
+                     "changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(pattern_invert_widget,
+                     "changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(pattern_invert_value_widget,
+                     "value-changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(start_random_widget,
+                     "changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(repeat_random_widget,
+                     "changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
+    g_signal_connect(chance_random_widget,
+                     "value-changed",
+                     G_CALLBACK(on_value_changed),
+                     view);
 
     gtk_widget_show_all(grid);
     return grid;
