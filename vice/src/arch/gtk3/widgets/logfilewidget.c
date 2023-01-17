@@ -35,6 +35,9 @@
 #include <gtk/gtk.h>
 
 #include "archdep.h"
+#include "log.h"
+#include "resources.h"
+#include "ui.h"
 #include "vice_gtk3.h"
 
 #include "logfilewidget.h"
@@ -47,6 +50,8 @@
  */
 static gulong check_handler;
 
+static GtkWidget *launcher;
+
 
 /** \brief  Handler for the 'changed' event of the entry
  *
@@ -57,12 +62,13 @@ static gulong check_handler;
  */
 static void on_logfile_entry_changed(GtkWidget *entry, gpointer check)
 {
-    const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
+    const char *text    = gtk_entry_get_text(GTK_ENTRY(entry));
+    bool        enabled = g_strcmp0(text, "-") == 0;
 
     /* avoid signals bouncing */
     g_signal_handler_block(check, check_handler);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-                                 g_strcmp0(text, "-") == 0);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
+    gtk_widget_set_sensitive(launcher, !enabled);
     g_signal_handler_unblock(check, check_handler);
 }
 
@@ -83,6 +89,45 @@ static void on_stdout_check_toggled(GtkWidget *check, gpointer browser)
     }
 }
 
+
+static void on_launcher_clicked(GtkWidget *button, gpointer data)
+{
+    const char *logfile = NULL;
+    char        uri[ARCHDEP_PATH_MAX];
+    GError     *error = NULL;
+
+    resources_get_string("LogFileName", &logfile);
+    if (g_strcmp0(logfile, "-") == 0) {
+        return;
+    }
+
+    if (logfile == NULL || *logfile == '\0') {
+        const char *state;
+        char       *path;
+
+        state = archdep_user_state_path();
+        path  = g_build_path(ARCHDEP_DIR_SEP_STR,
+                             state,
+                             "vice.log",
+                             NULL);
+        g_snprintf(uri, sizeof uri, "file://%s", path);
+        g_free(path);
+    } else {
+        g_snprintf(uri, sizeof uri, "file://%s", logfile);
+    }
+
+    g_print("%s(): logfile URI = %s\n", __func__, uri);
+
+    if (!gtk_show_uri_on_window(ui_get_active_window(),
+                                uri,
+                                GDK_CURRENT_TIME,
+                                &error)) {
+        log_error(LOG_ERR,
+                  "failed to lauch application to view log file: %s",
+                  error->message);
+        g_error_free(error);
+    }
+}
 
 /** \brief  Create widget to set the LogFileName resource
  *
@@ -126,6 +171,14 @@ GtkWidget *logfile_widget_create(void)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stdout_check), TRUE);
     }
     gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
+    row++;
+
+    launcher = gtk_button_new_with_label("Open vice.log in text editor");
+    gtk_grid_attach(GTK_GRID(grid), launcher, 0, row, 1, 1);
+    g_signal_connect(launcher,
+                     "clicked",
+                     G_CALLBACK(on_launcher_clicked),
+                     NULL);
 
     check_handler = g_signal_connect(stdout_check,
                                      "toggled",
