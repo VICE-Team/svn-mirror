@@ -89,44 +89,55 @@ static void on_stdout_check_toggled(GtkWidget *check, gpointer browser)
     }
 }
 
-
+/** \brief  Open directory containing the log file
+ *
+ * \param[in]   button  button (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_launcher_clicked(GtkWidget *button, gpointer data)
 {
     const char *logfile = NULL;
-    char        uri[ARCHDEP_PATH_MAX];
+    char       *path;
+    char       *dir;
+    char       *uri;
     GError     *error = NULL;
 
     resources_get_string("LogFileName", &logfile);
     if (g_strcmp0(logfile, "-") == 0) {
+        /* stdout isn't in any directory ;) */
         return;
     }
 
     if (logfile == NULL || *logfile == '\0') {
         const char *state;
-        char       *path;
 
         state = archdep_user_state_path();
         path  = g_build_path(ARCHDEP_DIR_SEP_STR,
                              state,
                              "vice.log",
                              NULL);
-        g_snprintf(uri, sizeof uri, "file://%s", path);
-        g_free(path);
     } else {
-        g_snprintf(uri, sizeof uri, "file://%s", logfile);
+        path = g_strdup(logfile);
     }
 
-    g_print("%s(): logfile URI = %s\n", __func__, uri);
+    /* get dirname */
+    dir = g_path_get_dirname(path);
+    g_free(path);
+    uri = g_strdup_printf("file://%s/", dir);
+    g_free(dir);
+
+    g_print("%s(): logfile location = %s\n", __func__, uri);
 
     if (!gtk_show_uri_on_window(ui_get_active_window(),
                                 uri,
                                 GDK_CURRENT_TIME,
                                 &error)) {
         log_error(LOG_ERR,
-                  "failed to lauch application to view log file: %s",
+                  "failed to lauch file manager to view directory: %s",
                   error->message);
         g_error_free(error);
     }
+    g_free(uri);
 }
 
 /** \brief  Create widget to set the LogFileName resource
@@ -173,7 +184,7 @@ GtkWidget *logfile_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
     row++;
 
-    launcher = gtk_button_new_with_label("Open vice.log in text editor");
+    launcher = gtk_button_new_with_label("Open directory containing log file");
     gtk_grid_attach(GTK_GRID(grid), launcher, 0, row, 1, 1);
     g_signal_connect(launcher,
                      "clicked",
