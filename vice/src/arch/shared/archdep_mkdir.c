@@ -140,8 +140,9 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
     strncpy(buffer, pathname, sizeof buffer);
     buffer[sizeof buffer - 1U] = '\0';
 #endif
+#if 0
     printf("%s(): fixed path = %s\n", __func__, buffer);
-
+#endif
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     /* skip leading '/' */
     if (buffer[0] == '/') {

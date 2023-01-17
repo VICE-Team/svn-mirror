@@ -125,9 +125,9 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
     g_free(path);
     uri = g_strdup_printf("file://%s/", dir);
     g_free(dir);
-
+#if 0
     g_print("%s(): logfile location = %s\n", __func__, uri);
-
+#endif
     if (!gtk_show_uri_on_window(ui_get_active_window(),
                                 uri,
                                 GDK_CURRENT_TIME,
