@@ -135,6 +135,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
             buffer[i] = pathname[i];
         }
     }
+    buffer[i] = '\0';
 #else
     strncpy(buffer, pathname, sizeof buffer);
     buffer[sizeof buffer - 1U] = '\0';
