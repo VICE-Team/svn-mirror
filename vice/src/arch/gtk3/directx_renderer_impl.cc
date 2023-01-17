@@ -439,6 +439,8 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
 
         if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
             emulated_aspect *= context->pixel_aspect_ratio;
+        } else {
+            emulated_aspect *= canvas->videoconfig->aspect_ratio;
         }
 
         if (emulated_aspect < viewport_aspect) {
