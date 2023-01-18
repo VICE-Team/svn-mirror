@@ -145,7 +145,7 @@ GtkWidget *logfile_widget_create(void)
     GtkWidget  *logfile_browser;
     GtkWidget  *entry;
     GtkWidget  *stdout_check;
-    const char *logfilename;
+    const char *logfilename = NULL;
     char       *logfile_default;
 
     int         row = 1;
@@ -153,11 +153,16 @@ GtkWidget *logfile_widget_create(void)
     grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "VICE log file", 1);
 
     logfile_default = archdep_default_logfile();
+    resources_get_string("LogFileName", &logfilename);
     logfile_browser = vice_gtk3_resource_browser_save_new("LogFileName",
                                                           "Select log file",
                                                           NULL,
                                                           NULL,
                                                           NULL);
+    if (logfilename == NULL || *logfilename == '\0') {
+        vice_gtk3_resource_browser_set_directory(logfile_browser,
+                                                archdep_user_state_path());
+    }
     entry = gtk_grid_get_child_at(GTK_GRID(logfile_browser), 0, 0);
     /* align with the CWD widget in the parent widget (host->environment) */
     gtk_widget_set_margin_start(entry, 8);

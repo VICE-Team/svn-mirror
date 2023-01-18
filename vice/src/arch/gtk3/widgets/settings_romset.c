@@ -477,7 +477,7 @@ static GtkWidget* create_roms_widget(const romset_entry_t *roms, const char *pat
                 NULL);
         /* set append-dir if given */
         if (path != NULL) {
-            vice_gtk3_resource_browser_set_append_dir(browser, path);
+            vice_gtk3_resource_browser_set_directory(browser, path);
         }
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1,  1);
         gtk_grid_attach(GTK_GRID(grid), browser, 1, row, 1, 1);
