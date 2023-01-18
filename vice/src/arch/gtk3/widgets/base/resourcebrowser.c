@@ -188,6 +188,7 @@ static void rb_state_free(rb_state_t *state)
         lib_free(state->pattern_name);
         lib_free(state->title);
         lib_free(state->directory);
+        lib_free(state);
     }
 }
 
@@ -245,8 +246,6 @@ static void save_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     rb_state_t *state = data;
-
-    g_print("%s(): filename = '%s'\n", __func__, filename);
 
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
