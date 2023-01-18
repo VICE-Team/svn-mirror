@@ -47,7 +47,7 @@ GtkWidget *settings_vfli_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     gtk_grid_attach(GTK_GRID(grid),
             vice_gtk3_resource_check_button_new("VFLImod",
