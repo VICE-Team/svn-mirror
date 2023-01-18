@@ -35,6 +35,7 @@
 #include <gtk/gtk.h>
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "ui.h"
@@ -151,15 +152,13 @@ GtkWidget *logfile_widget_create(void)
     GtkWidget  *entry;
     GtkWidget  *stdout_check;
     const char *logfilename;
-    char       *path;
+    char       *logfile_default;
+
     int         row = 1;
 
     grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "VICE log file", 1);
 
-    path = g_build_path(ARCHDEP_DIR_SEP_STR,
-                        archdep_user_config_path(),
-                        "vice.log",
-                        NULL);
+    logfile_default = archdep_default_logfile();
     logfile_browser = vice_gtk3_resource_browser_save_new("LogFileName",
                                                           "Select log file",
                                                           NULL,
@@ -171,8 +170,8 @@ GtkWidget *logfile_widget_create(void)
     gtk_widget_set_margin_end(logfile_browser, 8);
     gtk_grid_set_column_spacing(GTK_GRID(logfile_browser), 8);
     /* use the default log file path as a placeholder text */
-    gtk_entry_set_placeholder_text(GTK_ENTRY(entry), path);
-    g_free(path);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(entry), logfile_default);
+    lib_free(logfile_default);
     gtk_grid_attach(GTK_GRID(grid), logfile_browser, 0, row, 1, 1);
     row++;
 

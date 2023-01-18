@@ -48,6 +48,7 @@ libarchdep_a_SOURCES = \
 	archdep_default_fliplist_file_name.c \
 	archdep_default_hotkey_file_name.c \
 	archdep_default_joymap_file_name.c \
+	archdep_default_logfile.c \
 	archdep_default_logger.c \
 	archdep_default_portable_resource_file_name.c \
 	archdep_default_resource_file_name.c \
@@ -148,6 +149,7 @@ EXTRA_DIST = \
 	archdep_default_fliplist_file_name.h \
 	archdep_default_hotkey_file_name.h \
 	archdep_default_joymap_file_name.h \
+	archdep_default_logfile.h \
 	archdep_default_logger.h \
 	archdep_default_portable_resource_file_name.h \
 	archdep_default_resource_file_name.h \

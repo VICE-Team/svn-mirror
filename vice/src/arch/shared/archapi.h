@@ -54,6 +54,7 @@
 #include "archdep_default_fliplist_file_name.h"
 #include "archdep_default_hotkey_file_name.h"
 #include "archdep_default_joymap_file_name.h"
+#include "archdep_default_logfile.h"
 #include "archdep_default_logger.h"
 #include "archdep_default_portable_resource_file_name.h"
 #include "archdep_default_resource_file_name.h"
