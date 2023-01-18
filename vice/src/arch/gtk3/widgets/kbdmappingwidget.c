@@ -115,7 +115,7 @@ static GtkWidget *create_symbolic_keymap_browser(void)
             "Select user-defined symbolic keymap",
             NULL,
             open_sym_file_callback);
-    vice_gtk3_resource_browser_set_append_dir(browser, path);
+    vice_gtk3_resource_browser_set_directory(browser, path);
     lib_free(path);
     return browser;
 }
@@ -140,7 +140,7 @@ static GtkWidget *create_positional_keymap_browser(void)
             "Select user-defined positional keymap",
             NULL,
             open_pos_file_callback);
-    vice_gtk3_resource_browser_set_append_dir(browser, path);
+    vice_gtk3_resource_browser_set_directory(browser, path);
     lib_free(path);
     return browser;
 }

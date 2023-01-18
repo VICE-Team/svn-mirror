@@ -28,32 +28,30 @@
 #ifndef VICE_RESOURCEBROWSER_H
 #define VICE_RESOURCEBROWSER_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vice_gtk3_resource_browser_new(
-        const char *resource,
-        const char * const *patterns,
-        const char *pattern_name,
-        const char *browser_title,
-        const char *label,
-        void (*callback)(GtkWidget *, gpointer));
+GtkWidget *vice_gtk3_resource_browser_new(const char         *resource,
+                                          const char * const *patterns,
+                                          const char         *pattern_name,
+                                          const char         *title,
+                                          const char         *label,
+                                          void              (*callback)(GtkWidget*, gpointer));
 
-GtkWidget *vice_gtk3_resource_browser_save_new(
-        const char *resource,
-        char *browser_title,
-        char *label,
-        const char *suggested,
-        void (*callback)(GtkWidget *, gpointer));
+GtkWidget *vice_gtk3_resource_browser_save_new(const char *resource,
+                                               const char *title,
+                                               const char *label,
+                                               const char *suggested,
+                                               void      (*callback)(GtkWidget*, gpointer));
 
 
-gboolean vice_gtk3_resource_browser_set(GtkWidget *widget, const char *new);
-gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest);
-gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget);
-gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget);
-gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget);
-
-void vice_gtk3_resource_browser_set_append_dir(GtkWidget *widget,
-                                               const char *path);
+gboolean vice_gtk3_resource_browser_set          (GtkWidget  *widget,
+                                                  const char *new);
+gboolean vice_gtk3_resource_browser_get          (GtkWidget   *widget,
+                                                  const char **dest);
+gboolean vice_gtk3_resource_browser_reset        (GtkWidget *widget);
+gboolean vice_gtk3_resource_browser_sync         (GtkWidget *widget);
+gboolean vice_gtk3_resource_browser_factory      (GtkWidget *widget);
+void     vice_gtk3_resource_browser_set_directory(GtkWidget  *widget,
+                                                  const char *directory);
 
 #endif
