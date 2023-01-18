@@ -110,20 +110,14 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
     }
 
     if (logfile == NULL || *logfile == '\0') {
-        const char *state;
-
-        state = archdep_user_state_path();
-        path  = g_build_path(ARCHDEP_DIR_SEP_STR,
-                             state,
-                             "vice.log",
-                             NULL);
+        path = archdep_default_logfile();
     } else {
-        path = g_strdup(logfile);
+        path = lib_strdup(logfile);
     }
 
     /* get dirname */
     dir = g_path_get_dirname(path);
-    g_free(path);
+    lib_free(path);
     uri = g_strdup_printf("file://%s/", dir);
     g_free(dir);
 #if 0

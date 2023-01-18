@@ -37,7 +37,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
-#include "archdep_user_state_path.h"
+#include "archdep_default_logfile.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -69,7 +69,7 @@ FILE *archdep_open_default_log_file(void)
            the shell */
         if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
 #endif
-            path = util_join_paths(archdep_user_state_path(), "vice.log", NULL);
+            path = archdep_default_logfile();
             fp = fopen(path, "w");
             if (fp == NULL) {
                 log_error(LOG_ERR,
