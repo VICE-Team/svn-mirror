@@ -102,6 +102,9 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
     char       *dir;
     char       *uri;
     GError     *error = NULL;
+#ifdef WINDOWS_COMPILE
+    char       *child_argv[3] = { "explorer.exe", NULL, NULL };
+#endif
 
     resources_get_string("LogFileName", &logfile);
     if (g_strcmp0(logfile, "-") == 0) {
@@ -119,10 +122,31 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
     dir = g_path_get_dirname(path);
     lib_free(path);
     uri = g_strdup_printf("file://%s/", dir);
-    g_free(dir);
 #if 0
     g_print("%s(): logfile location = %s\n", __func__, uri);
 #endif
+
+#ifdef WINDOWS_COMPILE
+    /* Set directory as argument to explorer.exe, *DO NOT QUOTE*, GIO handles
+       the quoting and unquoting mess for Windows: adding quotes around the
+       directory actually results in explorer opening "Documents" for some
+       obscene reason.
+    */
+    child_argv[1] = dir;
+    if (!g_spawn_async(NULL,                /* working directory */
+                       child_argv,          /* argv[], first element is executable */
+                       NULL,                /* environment */
+                       G_SPAWN_SEARCH_PATH, /* search PATH for executable */
+                       NULL,                /* child setup function */
+                       NULL,                /* user data for child setup */
+                       NULL,                /* child process ID */
+                       &error)) {
+        log_error(LOG_ERR,
+                  "failed to launch file manager to view directory: %s",
+                  error->message);
+        g_error_free(error);
+    }
+#else
     if (!gtk_show_uri_on_window(ui_get_active_window(),
                                 uri,
                                 GDK_CURRENT_TIME,
@@ -132,6 +156,8 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
                   error->message);
         g_error_free(error);
     }
+#endif
+    g_free(dir);
     g_free(uri);
 }
 
