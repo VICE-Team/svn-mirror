@@ -33,12 +33,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "machine.h"
-#include "resources.h"
 #include "cartio.h"
-#include "cartridge.h"
-#include "uisettings.h"
+#include "machine.h"
+#include "vice_gtk3.h"
 
 #include "settings_io.h"
 
@@ -49,7 +46,7 @@ static const vice_gtk3_radiogroup_entry_t io_collision_methods[] = {
     { "Detach all",     IO_COLLISION_METHOD_DETACH_ALL },
     { "Detach last",    IO_COLLISION_METHOD_DETACH_LAST },
     { "AND values",     IO_COLLISION_METHOD_AND_WIRES },
-    { NULL, -1 }
+    { NULL,             -1 }
 };
 
 
@@ -69,30 +66,27 @@ static GtkWidget *create_collision_widget(const char *desc)
     GtkWidget *group;
     char buffer[256];
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
-
-    label = gtk_label_new("I/O collision handling");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "I/O collision handling", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     group = vice_gtk3_resource_radiogroup_new("IOCollisionHandling",
-            io_collision_methods, GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_set_column_spacing(GTK_GRID(group), 16);
-    gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
+                                              io_collision_methods,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_grid_set_column_spacing(GTK_GRID(group), 8);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     label = gtk_label_new(NULL);
-    g_snprintf(buffer, sizeof(buffer), "<i>(%s)</i>", desc);
+    g_snprintf(buffer, sizeof buffer, "<i>(%s)</i>", desc);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_widget_set_margin_top(label, 8);
+    gtk_widget_set_margin_start(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 /** \brief  Create check button for "reset-on-cart-change"
  *
@@ -103,11 +97,9 @@ static GtkWidget *create_cart_reset_widget(void)
     GtkWidget *check;
 
     check = vice_gtk3_resource_check_button_new("CartridgeReset",
-            "Reset machine on cartridge change");
-    gtk_widget_set_margin_start(check, 16);
+                                                "Reset machine on cartridge change");
     return check;
 }
-
 
 /** \brief  Create layout for x64/x64sc
  *
@@ -118,10 +110,10 @@ static void create_c64_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$D000-$DFFF");
+    gtk_widget_set_margin_bottom(collision_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
 }
-
 
 /** \brief  Create layout for xscpu64
  *
@@ -132,10 +124,10 @@ static void create_scpu64_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$D000-$DFFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 1, 1, 1);
 }
-
 
 /** \brief  Create layout for x128
  *
@@ -146,11 +138,10 @@ static void create_c128_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$D000-$DFFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 1, 1, 1);
 }
-
-
 
 /** \brief  Create layout for x64dtv
  *
@@ -161,7 +152,6 @@ static void create_c64dtv_layout(GtkWidget *grid)
     /* NOP */
 }
 
-
 /** \brief  Create layout for xvic
  *
  * \param[in,out]   grid    grid to add widgets to
@@ -171,10 +161,10 @@ static void create_vic20_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$9000-$93FF, $9800-$9FFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 1, 1, 1);
 }
-
 
 /** \brief  Create layout for xplus4
  *
@@ -185,11 +175,10 @@ static void create_plus4_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$FD00-$FEFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 1, 1, 1);
 }
-
-
 
 /** \brief  Create layout for xpet
  *
@@ -200,9 +189,11 @@ static void create_pet_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$8800-$8FFF, $E900-$EEFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+#if 0
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+#endif
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
 }
-
 
 /** \brief  Create layout for xcbm5x0/xcbm2
  *
@@ -213,10 +204,10 @@ static void create_cbm5x0_layout(GtkWidget *grid)
     GtkWidget *collision_widget;
 
     collision_widget = create_collision_widget("$D800-$DFFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_widget_set_margin_bottom(collision_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 1, 1, 1);
 }
-
 
 
 /** \brief  Create widget for generic I/O extension settings
@@ -233,8 +224,7 @@ GtkWidget *settings_io_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            -1, -1, "Generic I/O extension settings", 3);
+    grid = gtk_grid_new();
 
     switch (machine_class) {
 
