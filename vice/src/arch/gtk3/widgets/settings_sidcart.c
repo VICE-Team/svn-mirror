@@ -33,15 +33,13 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "archdep.h"
-#include "lib.h"
 #include "machine.h"
-#include "resources.h"
+#include "sidcart.h"
 #include "sidmodelwidget.h"
+#include "vice_gtk3.h"
 
 #include "settings_sidcart.h"
 
@@ -73,7 +71,7 @@ static GtkWidget *sid_joy = NULL;
 static const vice_gtk3_radiogroup_entry_t sid_base_vic20[] = {
     { "$9800", 0x9800 },
     { "$9C00", 0x9c00 },
-    { NULL, -1 }
+    { NULL,        -1 }
 };
 
 /** \brief  SID cart I/O base addresses for Plus4
@@ -81,7 +79,7 @@ static const vice_gtk3_radiogroup_entry_t sid_base_vic20[] = {
 static const vice_gtk3_radiogroup_entry_t sid_base_plus4[] = {
     { "$FD40", 0xfd40 },
     { "$FE80", 0xfe80 },
-    { NULL, -1 }
+    { NULL,        -1 }
 };
 
 /** \brief  SID cart I/O base addresses for PET
@@ -89,31 +87,31 @@ static const vice_gtk3_radiogroup_entry_t sid_base_plus4[] = {
 static const vice_gtk3_radiogroup_entry_t sid_base_pet[] = {
     { "$8F00", 0x8f00 },
     { "$E900", 0xe900 },
-    { NULL, -1 }
+    { NULL,        -1 }
 };
 
 /** \brief  SID cart clock for VIC-20
  */
 static const vice_gtk3_radiogroup_entry_t sid_clock_vic20[] = {
-    { "C64", 0 },
-    { "VIC-20", 1 },
-    { NULL, -1 }
+    { "C64",    SIDCART_CLOCK_C64 },
+    { "VIC-20", SIDCART_CLOCK_NATIVE },
+    { NULL,     -1 }
 };
 
 /** \brief  SID cart clock for Plus4
  */
 static const vice_gtk3_radiogroup_entry_t sid_clock_plus4[] = {
-    { "C64", 0 },
-    { "Plus4", 1 },
-    { NULL, -1 }
+    { "C64",   SIDCART_CLOCK_C64 },
+    { "Plus4", SIDCART_CLOCK_NATIVE },
+    { NULL,    -1 }
 };
 
 /** \brief  SID cart clock for PET
  */
 static const vice_gtk3_radiogroup_entry_t sid_clock_pet[] = {
-    { "C64", 0 },
-    { "PET", 1 },
-    { NULL, -1 }
+    { "C64", SIDCART_CLOCK_C64 },
+    { "PET", SIDCART_CLOCK_NATIVE },
+    { NULL,  -1 }
 };
 
 
@@ -127,7 +125,7 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_pet[] = {
  */
 static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
     gtk_widget_set_sensitive(sid_model, state);
     gtk_widget_set_sensitive(sid_address, state);
@@ -179,9 +177,12 @@ static GtkWidget *create_sidcart_address_widget(void)
             break;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "SID address", 1);
-    group = vice_gtk3_resource_radiogroup_new("SidAddress", list,
-            GTK_ORIENTATION_VERTICAL);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID address", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("SidAddress",
+                                              list,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -214,9 +215,12 @@ static GtkWidget *create_sidcart_clock_widget(void)
             break;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "SID clock", 1);
-    group = vice_gtk3_resource_radiogroup_new("SidClock", list,
-            GTK_ORIENTATION_VERTICAL);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID clock", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("SidClock",
+                                              list,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -229,8 +233,8 @@ static GtkWidget *create_sidcart_clock_widget(void)
  */
 static GtkWidget *create_sidcart_joy_widget(void)
 {
-    return vice_gtk3_resource_check_button_new(
-            "SIDCartJoy", "Enable joystick port emulation");
+    return vice_gtk3_resource_check_button_new("SIDCartJoy",
+                                               "Enable joystick port emulation");
 }
 
 
@@ -244,13 +248,13 @@ GtkWidget *settings_sidcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
 
     sidcart_enable = create_sidcart_enable_widget();
+    gtk_widget_set_margin_bottom(sidcart_enable, 16);
     gtk_grid_attach(GTK_GRID(grid), sidcart_enable, 0, 0, 3, 1);
 
     sid_model = sid_model_widget_create(NULL);
-    gtk_widget_set_margin_start(sid_model, 16);
     gtk_grid_attach(GTK_GRID(grid), sid_model, 0, 1, 1, 1);
 
     sid_address = create_sidcart_address_widget();
@@ -261,12 +265,15 @@ GtkWidget *settings_sidcart_widget_create(GtkWidget *parent)
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         sid_joy = create_sidcart_joy_widget();
-        gtk_widget_set_margin_start(sid_joy, 16);
+        gtk_widget_set_margin_top(sid_joy, 16);
         gtk_grid_attach(GTK_GRID(grid), sid_joy, 0, 2, 3, 1);
     }
 
-    g_signal_connect(sidcart_enable, "toggled",
-            G_CALLBACK(on_sidcart_enable_toggled), NULL);
+    /* doesn't touch any resources, so can connected unlocked */
+    g_signal_connect_unlocked(sidcart_enable,
+                              "toggled",
+                              G_CALLBACK(on_sidcart_enable_toggled),
+                              NULL);
 
     /* initialize senstitive state of widgets */
     on_sidcart_enable_toggled(sidcart_enable, NULL);
