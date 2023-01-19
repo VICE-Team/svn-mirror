@@ -1767,7 +1767,18 @@ static uint8_t peek_bank_io(uint16_t addr)
 /* Exported banked memory access functions for the monitor.  */
 #define MAXBANKS (7)
 
-static const char *banknames[MAXBANKS + 1] = {
+static const char *banknames_regular[MAXBANKS + 1] = {
+    "default",
+    "cpu",
+    "ram",
+    "rom",
+    "io",
+    "extram",
+    NULL,
+    NULL
+};
+
+static const char *banknames_superpet[MAXBANKS + 1] = {
     "default",
     "cpu",
     "ram",
@@ -1775,7 +1786,6 @@ static const char *banknames[MAXBANKS + 1] = {
     "io",
     "extram",
     "6809",
-    /* by convention, a "bank array" has a 2-hex-digit bank index appended */
     NULL
 };
 
@@ -1803,7 +1813,11 @@ static const int bankflags[MAXBANKS + 1] = { 0, 0, 0, 0, 0, 0, 0, -1 };
 
 const char **mem_bank_list(void)
 {
-    return banknames;
+    if (petres.superpet) {
+        return banknames_superpet;
+    } else {
+        return banknames_regular;
+    }
 }
 
 const int *mem_bank_list_nos(void) {
@@ -1814,6 +1828,7 @@ const int *mem_bank_list_nos(void) {
 int mem_bank_from_name(const char *name)
 {
     int i = 0;
+    const char **banknames = mem_bank_list();
 
     while (banknames[i]) {
         if (!strcmp(name, banknames[i])) {
