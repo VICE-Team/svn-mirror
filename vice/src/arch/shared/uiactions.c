@@ -350,6 +350,9 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PSID_PLAYLIST_SAVE,        "psid-playlist-save",       "Show dialog to save the playlist",     VICE_MACHINE_VSID },
     { ACTION_PSID_PLAYLIST_CLEAR,       "psid-playlist-clear",      "Clear the playlist",                   VICE_MACHINE_VSID },
 
+    /* xpet */
+    { ACTION_DIAGNOSTIC_PIN_TOGGLE,     "diagnostic-pin-toggle",    "Toggle PET userport diagnostic pin",   VICE_MACHINE_PET },
+
     { ACTION_INVALID, NULL, NULL, 0 }
 };
 

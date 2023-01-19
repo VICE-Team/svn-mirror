@@ -29,6 +29,8 @@
 #define VICE_PIA_H
 
 #include "types.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 /* Signal values (for signaling edges on the control lines) */
 
@@ -59,7 +61,7 @@ extern void pia1_set_tape1_write_in(int v);
 extern void pia1_set_tape2_write_in(int v);
 extern void pia1_set_tape1_motor_in(int v);
 extern void pia1_set_tape2_motor_in(int v);
-
+extern bool pia1_get_diagnostic_pin(void);
 extern int pia1_snapshot_read_module(struct snapshot_s *);
 extern int pia1_snapshot_write_module(struct snapshot_s *);
 
@@ -75,5 +77,6 @@ extern int pia2_dump(void);
 
 extern int pia2_snapshot_read_module(struct snapshot_s *);
 extern int pia2_snapshot_write_module(struct snapshot_s *);
+
 
 #endif

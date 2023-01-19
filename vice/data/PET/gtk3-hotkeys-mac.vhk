@@ -62,6 +62,8 @@ advance-frame       <Command><Shift>p
 mouse-grab-toggle       <Command>m
 keyset-joystick-toggle  <Command><Shift>j
 
+# PET diagnostic pin (on status bar)
+diagnostic-pin-toggle   <Command><Shift>d
 
 # Settings dialog, load, save, default
 !include $VICEDIR/common/gtk3-hotkeys-settings-mac.vhk

@@ -26,6 +26,7 @@
  */
 
 #include "vice.h"
+#include <stdbool.h>
 
 #include "c64.h"
 #include "c64-midi.h"
@@ -59,6 +60,7 @@
 #include "machine-bus.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "pet/petpia.h"
 #include "printer.h"
 #include "sampler.h"
 #include "snapshot.h"
@@ -1118,6 +1120,11 @@ const char *tapeport_get_device_type_desc(int type)
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
     return;
+}
+
+bool pia1_get_diagnostic_pin(void)
+{
+    return false;
 }
 
 /*******************************************************************************

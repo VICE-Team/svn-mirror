@@ -25,8 +25,10 @@
  */
 
 #include "vice.h"
+#include <stdbool.h>
 
 #include "c64mem.h"
+#include "pet/petpia.h"
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
@@ -188,4 +190,9 @@ int tapeport_valid_port(int port)
 int tapecart_flush_tcrt(void)
 {
     return -1;
+}
+
+bool pia1_get_diagnostic_pin(void)
+{
+    return false;
 }

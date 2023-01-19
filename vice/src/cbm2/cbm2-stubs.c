@@ -28,10 +28,12 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "c64/cart/clockport.h"
 #include "cartridge.h"
 #include "mididrv.h"
+#include "pet/petpia.h"
 
 #ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
@@ -117,4 +119,9 @@ char *cartridge_get_filename(int slot)
 
 void cartridge_trigger_freeze(void)
 {
+}
+
+bool pia1_get_diagnostic_pin(void)
+{
+    return false;
 }

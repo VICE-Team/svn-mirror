@@ -94,6 +94,7 @@ static int set_diagnostic_pin_enabled(int val, void *param)
     return 0;
 }
 
+
 static const resource_int_t resources_int[] = {
     { "DiagPin", 0, RES_EVENT_SAME, NULL,
       &diagnostic_pin_enabled, set_diagnostic_pin_enabled, NULL },
@@ -163,6 +164,22 @@ void pia1_set_tape2_motor_in(int v)
 {
     tape2_motor_in = v;
 }
+
+/** \brief  Get diagnostic pin status
+ *
+ * Get "DiagPin" resource value without going through the resource interface.
+ *
+ * The Gtk3 status bar code runs each frame, so going through the resource
+ * interface and thus obtaining and releasing the main lock is too expensive.
+ * This function avoids that performance hit.
+ *
+ * \return  state of DiagPin resource
+ */
+bool pia1_get_diagnostic_pin(void)
+{
+    return (bool)diagnostic_pin_enabled;
+}
+
 
 /* ------------------------------------------------------------------------- */
 /* I/O */

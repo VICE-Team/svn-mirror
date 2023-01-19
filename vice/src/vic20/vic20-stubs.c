@@ -27,9 +27,11 @@
 #include "vice.h"
 
 #include <stddef.h>
+#include <stdbool.h>
 
 #include "c64/cart/clockport.h"
 #include "cartridge.h"
+#include "pet/petpia.h"
 #include "vic20.h"
 
 /*******************************************************************************
@@ -72,4 +74,9 @@ char *cartridge_get_filename(int slot)
 
 void cartridge_trigger_freeze(void)
 {
+}
+
+bool pia1_get_diagnostic_pin(void)
+{
+    return false;
 }

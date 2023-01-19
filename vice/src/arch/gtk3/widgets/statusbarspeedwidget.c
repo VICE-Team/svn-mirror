@@ -43,6 +43,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
+#include "petpia.h"
 #include "resources.h"
 #include "statusbarledwidget.h"
 #include "uiapi.h"
@@ -358,6 +359,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     state->last_warp = -1;
     state->last_shiftlock = -1;
     state->last_mode4080 = -1;
+    state->last_diagnostic_pin = -1;
 
     grid = gtk_grid_new();
     gtk_widget_set_valign(grid, GTK_ALIGN_START);
@@ -544,12 +546,17 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused = ui_pause_active();
     bool is_shiftlock = keyboard_get_shiftlock();
-    bool is_mode4080 = 0;
-    bool is_capslock = 0;
+    bool is_mode4080 = false;
+    bool is_capslock = false;
+    bool is_diagnostic_pin = false;
 
     if (machine_class == VICE_MACHINE_C128) {
         is_mode4080 = keyboard_custom_key_get(KBD_CUSTOM_4080);
         is_capslock = keyboard_custom_key_get(KBD_CUSTOM_CAPS);
+    }
+
+    if (machine_class == VICE_MACHINE_PET) {
+        is_diagnostic_pin = pia1_get_diagnostic_pin();
     }
 
     if (state->last_cpu_int != this_cpu_int ||
@@ -557,6 +564,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
             state->last_shiftlock != is_shiftlock ||
             state->last_mode4080 != is_mode4080 ||
             state->last_capslock != is_capslock ||
+            state->last_diagnostic_pin != is_diagnostic_pin ||
             state->last_paused != is_paused) {
 
         /* get grid containing the two labels */
@@ -590,6 +598,10 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         if (state->last_capslock != is_capslock) {
             capslock_led_set_active(window_identity, is_capslock);
         }
+        /* userport diagnostic pin */
+        if (state->last_diagnostic_pin != is_diagnostic_pin) {
+            diagnosticpin_led_set_active(window_identity, is_diagnostic_pin);
+        }
 
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
@@ -597,6 +609,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         state->last_shiftlock = is_shiftlock;
         state->last_mode4080 = is_mode4080;
         state->last_capslock = is_capslock;
+        state->last_diagnostic_pin = is_diagnostic_pin;
     }
 
     if (window_identity == PRIMARY_WINDOW) {
