@@ -28,10 +28,12 @@
 #include "vice.h"
 
 #include <stddef.h>
+#include <stdbool.h>
 
 #include "c64/cart/clockport.h"
 #include "cartridge.h"
 #include "mididrv.h"
+#include "pet/petpia.h"
 
 #ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
@@ -87,4 +89,9 @@ int cartridge_disable(int crtid)
 int cartridge_type_enabled(int crtid)
 {
     return 0;
+}
+
+bool pia1_get_diagnostic_pin(void)
+{
+    return false;
 }

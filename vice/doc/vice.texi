@@ -2931,6 +2931,8 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Toggle Drive 9 CPU trace
 @item @code{debug-trace-iec-toggle}
 @tab Toggle IEC bus trace
+@item @code{diagnostic-pin-toggle}
+@tab Toggle userport diagnostic pin
 @item @code{drive-attach-8:1}
 @tab Attach disk to unit 8, drive 1
 @item @code{drive-attach-9:0}

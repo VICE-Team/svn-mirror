@@ -317,6 +317,9 @@ enum {
 
     /* TODO: VSID playlist controls? */
 
+    /* PET */
+    ACTION_DIAGNOSTIC_PIN_TOGGLE,
+
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 

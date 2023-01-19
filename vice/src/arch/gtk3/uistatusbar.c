@@ -425,6 +425,9 @@ typedef struct ui_statusbar_s {
     /** \brief  capslock LED widget */
     GtkWidget *capslock_led;
 
+    /** \brief  Userport diagnostic pin widget (PET) */
+    GtkWidget *diagnosticpin_led;
+
     /** \brief  Widget displaying CPU speed and FPS
      *
      * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
@@ -1242,6 +1245,8 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
     bar->pause_led = NULL;
     bar->shiftlock_led = NULL;
     bar->mode4080_led = NULL;
+    bar->capslock_led = NULL;
+    bar->diagnosticpin_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -2147,6 +2152,40 @@ void capslock_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Callback function for the PET diagnostic pin LED
+ *
+ * \param[in]   led     diagnostic pin LED
+ * \param[in]   active  new state of the LED
+ */
+static void diagnosticpin_led_callback(GtkWidget *widget, gboolean active)
+{
+    resources_set_int("DiagPin", active ? 1 : 0);
+}
+
+static GtkWidget *diagnosticpin_led_create(void)
+{
+    GtkWidget *led = statusbar_led_widget_create("diag-pin:", "#ffa500", "#000");
+
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, diagnosticpin_led_callback);
+    gtk_widget_show_all(led);
+    return led;
+}
+
+/** \brief  Set PET userport diagnostic pin led state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  new state for led
+ */
+void diagnosticpin_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led = allocated_bars[bar].diagnosticpin_led;
+
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
 
 /** \brief  Get status bar index for \a window
  *
@@ -2346,9 +2385,10 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* LEDs */
     GtkWidget *warp_led;
     GtkWidget *pause_led;
-    GtkWidget *shiftlock_led;
-    GtkWidget *mode4080_led;
-    GtkWidget *capslock_led;
+    GtkWidget *shiftlock_led = NULL;
+    GtkWidget *mode4080_led = NULL;
+    GtkWidget *capslock_led = NULL;
+    GtkWidget *diagpin_led = NULL;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2461,20 +2501,27 @@ GtkWidget *ui_statusbar_create(int window_identity)
     if (machine_class != VICE_MACHINE_VSID) {
         /* shiftlock */
         shiftlock_led = shiftlock_led_create();
-        allocated_bars[i].shiftlock_led = shiftlock_led;
         statusbar_append_led(i, shiftlock_led, FALSE);  /* no separator, for now */
     }
+    allocated_bars[i].shiftlock_led = shiftlock_led;
 
     if (machine_class == VICE_MACHINE_C128) {
         /* 40/80 */
         mode4080_led = mode4080_led_create();
-        allocated_bars[i].mode4080_led = mode4080_led;
         statusbar_append_led(i, mode4080_led, FALSE);  /* no separator, for now */
         /* capslock */
         capslock_led = capslock_led_create();
-        allocated_bars[i].capslock_led = capslock_led;
         statusbar_append_led(i, capslock_led, FALSE);  /* no separator, for now */
     }
+    allocated_bars[i].mode4080_led = mode4080_led;
+    allocated_bars[i].capslock_led = capslock_led;
+
+    if (machine_class == VICE_MACHINE_PET) {
+        /* userport diagnostic pin */
+        diagpin_led = diagnosticpin_led_create();
+        statusbar_append_led(i, diagpin_led, FALSE);
+    }
+    allocated_bars[i].diagnosticpin_led = diagpin_led;
 
     /*
      * Add widgets to the widgets row

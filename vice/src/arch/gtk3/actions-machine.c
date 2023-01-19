@@ -117,7 +117,14 @@ static void reset_hard_action(void)
     ui_pause_disable();
 }
 
+/** \brief  Toggle PET userport diagnostic pin */
+static void diagnostic_pin_toggle_action(void)
+{
+    int active = 0;
 
+    resources_get_int("DiagPin", &active);
+    resources_set_int("DiagPin", active ? 0 : 1);
+}
 
 
 /** \brief  List of machine-related actions */
@@ -140,6 +147,13 @@ static const ui_action_map_t machine_actions[] = {
     {
         .action = ACTION_RESET_HARD,
         .handler = reset_hard_action
+    },
+    {
+        .action = ACTION_DIAGNOSTIC_PIN_TOGGLE,
+        .handler = diagnostic_pin_toggle_action,
+        /* no need for UI thread, the status bar code will update the LED when
+         * it runs */
+        .uithread = false
     },
 
     UI_ACTION_MAP_TERMINATOR

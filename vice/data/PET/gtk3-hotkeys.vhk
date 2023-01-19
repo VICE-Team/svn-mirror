@@ -62,6 +62,8 @@ advance-frame       <Alt><Shift>p
 mouse-grab-toggle       <Alt>m
 keyset-joystick-toggle  <Alt><Shift>j
 
+# PET diagnostic pin (on status bar)
+diagnostic-pin-toggle   <Alt><Shift>d
 
 # Settings dialog, load, save, default
 !include $VICEDIR/common/gtk3-hotkeys-settings.vhk
