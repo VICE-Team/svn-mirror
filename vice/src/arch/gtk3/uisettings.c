@@ -2590,9 +2590,10 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
 {
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+#ifdef HAVE_DEBUG_GTK3UI
         int max_width = DIALOG_WIDTH + DIALOG_WIDTH_TOLERANCE;
         int max_height = DIALOG_HEIGHT + DIALOG_HEIGHT_TOLERANCE;
-
+#endif
         /* Update dialog position, using gtk_window_get_position() doesn't
          * work, it reports the position of the dialog when it was spawned,
          * not the position if it has been moved afterwards. */
@@ -2603,12 +2604,14 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
         log_message(LOG_DEFAULT,
                     "Settings UI: New dialog size is %dx%d (requested %dx%d).",
                     cfg->width, cfg->height, DIALOG_WIDTH, DIALOG_HEIGHT);
+#ifdef HAVE_DEBUG_GTK3UI
         if (cfg->width > max_width || cfg->height > max_height) {
             debug_gtk3("New dialog size of %dx%d exceeds tolerance of %dx%d.",
                        cfg->width, cfg->height, max_width, max_height);
             gtk_window_set_title(GTK_WINDOW(widget),
                                  "GODSAMME, M'N DING IS TE GROOT!");
         }
+#endif
     }
     return FALSE;
 }
