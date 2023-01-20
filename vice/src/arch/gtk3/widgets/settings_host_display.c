@@ -71,8 +71,8 @@ static GtkWidget *create_fullscreen_decorations_widget(int index)
  * | "${CHIP} rendering options"                  |
  * +------------------+-----------+---------------+
  * | AspectMode/Ratio | GL filter | Mirror/Rotate |
- * |                  +-----------+---------------+
- * |                  | Sync                      |
+ * +------------------+-----------+---------------+
+ * | Synchronization                              |
  * +------------------+---------------------------+
  * </pre>
  *
@@ -88,11 +88,12 @@ static GtkWidget *create_rendering_options_widget(const char *chip)
     int        row = 1;
 
     g_snprintf(title, sizeof title, "%s rendering options", chip);
-    grid = vice_gtk3_grid_new_spaced_with_label(32, 8, title, 3);
+    grid = vice_gtk3_grid_new_spaced_with_label(32, 0, title, 3);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     /* row 1+2, col 0: scaling and aspect ratio resources */
     widget = video_aspect_widget_create(chip);
-    gtk_widget_set_margin_start(widget, 16);
+    gtk_widget_set_margin_start(widget, 8);
     gtk_grid_attach(GTK_GRID(grid), widget, 0, row, 1, 2);
 
     /* row 1, col 1: glfilter */
@@ -104,9 +105,11 @@ static GtkWidget *create_rendering_options_widget(const char *chip)
     gtk_grid_attach(GTK_GRID(grid), widget, 2, row, 1, 1);
 
     row++;
-    /* row 2, col 1+2: vsync */
+
+    /* row 2, col 0-2: vsync */
     widget = canvas_render_vsync_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(grid), widget, 1, row, 2, 1);
+    gtk_widget_set_margin_top(widget, 32);
+    gtk_grid_attach(GTK_GRID(grid), widget, 0, row, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -63,16 +63,16 @@
  *
  * A GtkSpinButton is limited to 20 digits, should be enough.
  */
-#define RATIO_DIGITS    6
+#define RATIO_DIGITS    4
 
 
 /** \brief  List of radio buttons
  */
 static const vice_gtk3_radiogroup_entry_t aspect_modes[] = {
-    { "Off",     VIDEO_ASPECT_MODE_NONE },
-    { "Custom",  VIDEO_ASPECT_MODE_CUSTOM },
-    { "True",    VIDEO_ASPECT_MODE_TRUE },
-    { NULL, -1 }
+    { "Off",        VIDEO_ASPECT_MODE_NONE },
+    { "Custom:",    VIDEO_ASPECT_MODE_CUSTOM },
+    { "True",       VIDEO_ASPECT_MODE_TRUE },
+    { NULL,         -1 }
 };
 
 
@@ -85,31 +85,29 @@ static const vice_gtk3_radiogroup_entry_t aspect_modes[] = {
 GtkWidget *video_aspect_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *render_widget;
+    GtkWidget *group;
     GtkWidget *aspect_ratio;
-    GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0, "Aspect Mode", 1);
-    render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
-            "%sAspectMode", aspect_modes, GTK_ORIENTATION_VERTICAL, chip);
-    gtk_widget_set_margin_start(render_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Aspect Mode", 1);
+    group = vice_gtk3_resource_radiogroup_new_sprintf("%sAspectMode",
+                                                      aspect_modes,
+                                                      GTK_ORIENTATION_VERTICAL,
+                                                      chip);
+    gtk_widget_set_margin_top(group, 8);
+    gtk_widget_set_margin_start(group, 8);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
-    /* label */
-    label = vice_gtk3_create_indented_label("Custom ratio:");
-    gtk_widget_set_margin_top(label, 8);
-    /* spin button for doubles */
+    /* custom aspect ratio spin button */
     aspect_ratio = vice_gtk3_resource_spin_double_new_sprintf("%sAspectRatio",
                                                               RATIO_LOWER,
                                                               RATIO_UPPER,
                                                               RATIO_STEP,
                                                               chip);
     vice_gtk3_resource_spin_double_set_digits(aspect_ratio, RATIO_DIGITS);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_widget_set_margin_start(aspect_ratio, 16);
+    gtk_widget_set_margin_start(aspect_ratio, 8);
     gtk_widget_set_hexpand(aspect_ratio, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), aspect_ratio, 0, 3, 1, 1);
+    /* put spin button in the radio button group grid, next to "Custom" */
+    gtk_grid_attach(GTK_GRID(group), aspect_ratio, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -121,8 +119,8 @@ GtkWidget *video_aspect_widget_create(const char *chip)
  * \param[in,out]   widget      render filter widget
  * \param[in]       callback    function accepting the radio button and its value
  */
-void video_aspect_widget_add_callback(GtkWidget *widget,
-                                             void (*callback)(GtkWidget *, int))
+void video_aspect_widget_add_callback(GtkWidget  *widget,
+                                      void      (*callback)(GtkWidget *, int))
 {
     GtkWidget *group;
 

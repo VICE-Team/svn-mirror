@@ -59,28 +59,30 @@
 GtkWidget *canvas_render_mirror_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *flipx_widget;
-    GtkWidget *flipy_widget;
-    GtkWidget *rot_widget;
+    GtkWidget *flip_x;
+    GtkWidget *flip_y;
+    GtkWidget *rotate;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0, "Mirror/Rotate", 1);
-    flipx_widget = vice_gtk3_resource_check_button_new_sprintf(
-            "%sFlipX", "Mirror X", chip);
-    gtk_widget_set_margin_start(flipx_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), flipx_widget, 0, 1, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Mirror/Rotate", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    flip_x = vice_gtk3_resource_check_button_new_sprintf("%sFlipX",
+                                                         "Flip X",
+                                                         chip);
+    gtk_widget_set_margin_start(flip_x, 8);
 
-    flipy_widget = vice_gtk3_resource_check_button_new_sprintf(
-            "%sFlipY", "Mirror Y", chip);
-    gtk_widget_set_margin_start(flipy_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), flipy_widget, 0, 2, 1, 1);
+    flip_y = vice_gtk3_resource_check_button_new_sprintf("%sFlipY",
+                                                         "Flip Y",
+                                                         chip);
+    gtk_widget_set_margin_start(flip_y, 8);
 
-    rot_widget = vice_gtk3_resource_check_button_new_sprintf(
-            "%sRotate", "Rotate 90\u00b0", chip);
-    gtk_widget_set_margin_start(rot_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), rot_widget, 0, 3, 1, 1);
+    rotate = vice_gtk3_resource_check_button_new_sprintf("%sRotate",
+                                                         "Rotate 90\u00b0",
+                                                         chip);
+    gtk_widget_set_margin_start(rotate, 8);
 
-
+    gtk_grid_attach(GTK_GRID(grid), flip_x, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flip_y, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rotate, 0, 3, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
