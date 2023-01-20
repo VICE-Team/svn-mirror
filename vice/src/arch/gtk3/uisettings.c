@@ -2422,6 +2422,7 @@ static GtkWidget *create_content_widget(GtkWidget *dialog)
 {
     GtkTreeSelection *selection;
     GtkWidget        *extra;
+    GtkWidget        *button_box;
     GtkWidget        *close_button;
 
     settings_grid = gtk_grid_new();
@@ -2474,12 +2475,8 @@ static GtkWidget *create_content_widget(GtkWidget *dialog)
 
     /* create container for generic settings and close button */
     extra = gtk_grid_new();
-    //gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
     gtk_widget_set_hexpand(extra, TRUE);
     gtk_widget_set_margin_top(extra, 8);
-//    gtk_widget_set_margin_start(extra, 8);
-//    gtk_widget_set_margin_end(extra, 0);
-//    gtk_widget_set_margin_bottom(extra, 8);
 
     gtk_grid_attach(GTK_GRID(extra),
                     create_save_on_exit_checkbox(),
@@ -2493,14 +2490,26 @@ static GtkWidget *create_content_widget(GtkWidget *dialog)
 
     /* We add our own custom "Close" button here so we can pack the check
      * buttons and the Close button on the same vertical space. We're not
-     * allowed to touch the GtkButtonBox that contains a dialog's buttons.
+     * allowed to touch the dialog's GtkButtonBox that contains a dialog's
+     * buttons, so we create our own here.
+     *
+     * Using a GtkButtonBox makes the buttons appear more "natural", ie they
+     * get some extra width as is default with dialog buttons. And we can add
+     * new buttons, should we wish, which will by default be homogeneous in
+     * size.
      */
-    close_button = gtk_button_new_with_label("Close");
-    gtk_widget_set_vexpand(close_button, FALSE);
-    gtk_widget_set_hexpand(close_button, TRUE);
-    gtk_widget_set_halign(close_button, GTK_ALIGN_END);
-    gtk_widget_set_valign(close_button, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(extra), close_button, 1, 0, 1, 3);
+    button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_vexpand(button_box, FALSE);
+    gtk_widget_set_hexpand(button_box, TRUE);
+    gtk_widget_set_halign(button_box, GTK_ALIGN_END);
+    gtk_widget_set_valign(button_box, GTK_ALIGN_END);
+
+    /* Alt+C closes the dialog, although in Gnome the accelerator isn't
+     * visible until pressing Alt */
+    close_button = gtk_button_new_with_mnemonic("_Close");
+    gtk_box_pack_end(GTK_BOX(button_box), close_button, FALSE, FALSE, 0);
+
+    gtk_grid_attach(GTK_GRID(extra), button_box, 1, 0, 1, 3);
 
     /* add to main layout */
     gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
