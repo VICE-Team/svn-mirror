@@ -96,8 +96,12 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
  */
 static void set_rtc_widgets_sensitivity(int id)
 {
-    gtk_widget_set_sensitive(rtc_58321a_save, id == USERPORT_DEVICE_RTC_58321A);
-    gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
+    if (rtc_58321a_save != NULL) {
+        gtk_widget_set_sensitive(rtc_58321a_save, id == USERPORT_DEVICE_RTC_58321A);
+    }
+    if (rtc_ds1307_save != NULL) {
+        gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
+    }
 }
 
 /** \brief  Handler for the 'changed' event of the device combobox
