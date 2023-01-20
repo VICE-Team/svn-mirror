@@ -55,13 +55,13 @@ GtkWidget *canvas_render_vsync_widget_create(const char *chip)
     GtkWidget *grid;
     GtkWidget *vsync_widget;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0, "Sync", 1);
-    vsync_widget = vice_gtk3_resource_check_button_new_sprintf(
-            "%sVSync", "VSync", chip);
-    gtk_widget_set_margin_start(vsync_widget, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Synchronization", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    vsync_widget = vice_gtk3_resource_check_button_new_sprintf("%sVSync",
+                                                               "VSync",
+                                                               chip);
+    gtk_widget_set_margin_start(vsync_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), vsync_widget, 0, 1, 1, 1);
-
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -1,7 +1,6 @@
 /** \file   canvasrenderfilterwidget.c
  * \brief   Widget to select the Cario/OpenGL render filter
  *
- *
  * \note    Normally I'd use 'gtkrenderfilterwidget.c' as the filename and
  *          gtk_render_filter_widget_' as the functions prefix, but that
  *          would invade the Gtk3 namespace, so 'canvas' it is for now.
@@ -66,16 +65,16 @@ static const vice_gtk3_radiogroup_entry_t filters[] = {
 GtkWidget *canvas_render_filter_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *render_widget;
+    GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0, "GL render filter", 1);
-    render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
-            "%sGLFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
-    gtk_widget_set_margin_start(render_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
-
-
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "GL render filter", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new_sprintf("%sGLFilter",
+                                                      filters,
+                                                      GTK_ORIENTATION_VERTICAL,
+                                                      chip);
+    gtk_widget_set_margin_start(group, 8);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
