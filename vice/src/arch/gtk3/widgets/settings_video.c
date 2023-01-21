@@ -136,8 +136,8 @@ static void double_size_callback(GtkWidget *widget, int state)
  */
 static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
 {
-    int hide;
     GtkWidget *window;
+    gboolean   hide;
 
     hide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     window = ui_get_window_by_index(SECONDARY_WINDOW);  /* VDC */
@@ -254,7 +254,7 @@ static GtkWidget *create_vsp_bug_widget(const char *chip)
                                                        chip);
 }
 
-/** \brief  Create widget for double size/scan, video cache and vert stretch
+/** \brief  Create widget for double size, double scan and vertical stretch
  *
  * \param[in]   index   chip index (using in x128)
  * \param[in]   chip    chip name
@@ -264,25 +264,28 @@ static GtkWidget *create_vsp_bug_widget(const char *chip)
 static GtkWidget *create_render_widget(int index, const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *double_scan_widget = NULL;
-    GtkWidget *vert_stretch_widget = NULL;
+    GtkWidget *double_scan = NULL;
+    GtkWidget *vert_stretch = NULL;
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     double_size_widget[index] = create_double_size_widget(chip);
     g_object_set_data(G_OBJECT(double_size_widget[index]),
                                "ChipIndex",
                                GINT_TO_POINTER(index));
-    gtk_widget_set_margin_start(double_size_widget[index], 16);
+    gtk_widget_set_margin_start(double_size_widget[index], 8);
 
-    double_scan_widget = create_double_scan_widget(chip);
+    double_scan = create_double_scan_widget(chip);
+    gtk_widget_set_margin_start(double_scan, 8);
 
-    gtk_grid_attach(GTK_GRID(grid), double_size_widget[index], 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), double_size_widget[index], 0, row++, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), double_scan, 0, row++, 1, 1);
 
     if (uivideo_chip_has_vert_stretch(chip)) {
-        vert_stretch_widget = create_vert_stretch_widget(chip);
-        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 2, 0, 1, 1);
+        vert_stretch = create_vert_stretch_widget(chip);
+        gtk_widget_set_margin_start(vert_stretch, 8);
+        gtk_grid_attach(GTK_GRID(grid), vert_stretch, 0, row++, 1, 1);
     }
 
     gtk_widget_show_all(grid);
@@ -303,32 +306,31 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
     GtkWidget *sprite_sprite_widget = NULL;
     GtkWidget *sprite_background_widget = NULL;
     GtkWidget *vsp_bug_widget = NULL;
-    int row = 2;
+    int        row = 2;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, 0, "Miscellaneous", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Miscellaneous", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     audio_leak_widget = create_audio_leak_widget(chip);
-    gtk_widget_set_margin_start(audio_leak_widget, 16);
-    gtk_widget_set_margin_top(audio_leak_widget, 8);
+    gtk_widget_set_margin_start(audio_leak_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), audio_leak_widget, 0, 1, 1, 1);
 
     if (uivideo_chip_has_sprites(chip)) {
         sprite_sprite_widget = create_sprite_sprite_widget(chip);
         sprite_background_widget = create_sprite_background_widget(chip);
-        gtk_widget_set_margin_start(sprite_sprite_widget, 16);
-        gtk_widget_set_margin_start(sprite_background_widget, 16);
+        gtk_widget_set_margin_start(sprite_sprite_widget, 8);
+        gtk_widget_set_margin_start(sprite_background_widget, 8);
         gtk_grid_attach(GTK_GRID(grid), sprite_sprite_widget, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), sprite_background_widget, 0, 3, 1, 1);
         row = 4;
     }
     if (uivideo_chip_has_vsp_bug(chip)) {
         vsp_bug_widget = create_vsp_bug_widget(chip);
-        gtk_widget_set_margin_start(vsp_bug_widget, 16);
+        gtk_widget_set_margin_start(vsp_bug_widget, 8);
         gtk_grid_attach(GTK_GRID(grid), vsp_bug_widget, 0, row, 1, 1);
 
     }
-    gtk_widget_show(grid);
+    gtk_widget_show_all(grid);
     return grid;
 }
 
@@ -343,76 +345,58 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
 static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 {
     GtkWidget *layout;
-    GtkWidget *wrapper;
+    GtkWidget *render;
+    GtkWidget *palette;
+    GtkWidget *filter;
+    GtkWidget *border;
+    GtkWidget *misc;
     GtkWidget *hide_vdc;
-    GtkWidget *widget;
-    char       title[256];
-
-    g_snprintf(title, sizeof title, "%s Settings", chip);
+    char       title[64];
+    int        row = 1;
 
     /* row 0, col 0-2: title */
-    layout = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, title, 3);
-    /* spread out the rows a bit more */
-    gtk_grid_set_row_spacing(GTK_GRID(layout),
-            VICE_GTK3_GRID_ROW_SPACING * 2);
+    g_snprintf(title, sizeof title, "%s Settings", chip);
+    layout = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 3 );
+    vice_gtk3_grid_set_title_margin(layout, 8);
 
-    /* row 1, col 0-2: video output options */
-    wrapper = create_render_widget(index, chip);
-    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 1, 3, 1);
+    /* row 1, col 0-2: video rendering options */
+    render = create_render_widget(index, chip);
+    gtk_grid_attach(GTK_GRID(layout), render, 0, row, 3, 1);
+    row++;
 
     /* row 2, col 0-2: palette selection */
-    gtk_grid_attach(GTK_GRID(layout),
-            video_palette_widget_create(chip),
-            0, 2, 3, 1);
+    palette = video_palette_widget_create(chip);
+    gtk_widget_set_margin_top(palette, 16);
+    gtk_widget_set_margin_bottom(palette, 16);
+    gtk_grid_attach(GTK_GRID(layout), palette, 0, row, 3, 1);
+    row++;
 
     /* row 3, col 0: rendering filter */
-    widget = video_render_filter_widget_create(chip);
-    /* set chip index to use for the callback */
-    g_object_set_data(G_OBJECT(widget), "ChipIndex", GINT_TO_POINTER(index));
-    /* add callback to widget */
-    video_render_filter_widget_add_callback(widget, render_filter_callback);
-    gtk_grid_attach(GTK_GRID(layout), widget, 0, 3, 1, 1);
-    /* row 3, col 1: border-mode  */
+    filter = video_render_filter_widget_create(chip);
+    g_object_set_data(G_OBJECT(filter), "ChipIndex", GINT_TO_POINTER(index));
+    video_render_filter_widget_add_callback(filter, render_filter_callback);
+    gtk_grid_attach(GTK_GRID(layout), filter, 0, row, 1, 1);
+
+    /* row 3, col 1: border mode  */
     if (uivideo_chip_has_border_mode(chip)) {
-        /* add border mode widget */
-        gtk_grid_attach(GTK_GRID(layout),
-                video_border_mode_widget_create(chip),
-                1, 3, 1, 1);
+        border = video_border_mode_widget_create(chip);
+        gtk_grid_attach(GTK_GRID(layout), border, 1, row, 1, 1);
     }
     /* row 3, col 2: misc options */
-    wrapper = create_misc_widget(index, chip);
-    gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
-#if 0
-    /* row 4, col 0: scaling and aspect ratio resources */
-    widget = video_aspect_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), widget, 0, 4, 1, 1);
+    misc = create_misc_widget(index, chip);
+    gtk_grid_attach(GTK_GRID(layout), misc, 2, row, 1, 1);
+    row++;
 
-    /* row 4, col 3: glfilter */
-    widget = canvas_render_filter_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), widget, 1, 4, 1, 1);
-
-    /* row 4, col 3: mirror options */
-    widget = canvas_render_mirror_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), widget, 2, 4, 1, 1);
-
-    /* row 5, col 0: vsync */
-    widget = canvas_render_vsync_widget_create(chip);
-    gtk_grid_attach(GTK_GRID(layout), widget, 0, 5, 1, 1);
-#endif
-    /* Hide VDC checkbox
-     *
-     * Only show when VICII window, VICII settings
-     */
-    if (machine_class == VICE_MACHINE_C128) {
-        /* compare 4 bytes, so perhaps an int cmp is faster? */
-        if (strcmp(chip, "VDC") == 0) {
-            hide_vdc = vice_gtk3_resource_check_button_new(
-                    "C128HideVDC", "Hide VDC display");
-            g_signal_connect(hide_vdc, "toggled",
-                    G_CALLBACK(on_hide_vdc_toggled), parent);
-            gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, 6, 3, 1);
-        }
+    /* Hide VDC checkbox (x128 only) */
+    if (machine_class == VICE_MACHINE_C128 && g_strcmp0(chip, "VDC") == 0) {
+        hide_vdc = vice_gtk3_resource_check_button_new("C128HideVDC",
+                                                       "Hide VDC display");
+        gtk_widget_set_margin_top(hide_vdc, 16);
+        g_signal_connect_unlocked(hide_vdc,
+                                  "toggled",
+                                  G_CALLBACK(on_hide_vdc_toggled),
+                                  (gpointer)parent);
+        gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, row, 3, 1);
     }
     gtk_widget_show_all(layout);
     return layout;
@@ -424,7 +408,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
  * This will create the VICII widget for x128, for the VDC widget use
  * settings_video_create_vdc().
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  settings dialog
  *
  * \return  GtkGrid
  */
@@ -437,10 +421,10 @@ GtkWidget *settings_video_widget_create(GtkWidget *parent)
     double_size_widget[1] = NULL;
     chip = uivideo_chip_name();
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_grid_attach(GTK_GRID(grid),
-            create_layout(parent, chip, PRIMARY_WINDOW),
-            0, 0, 1, 1);
+                    create_layout(parent, chip, PRIMARY_WINDOW),
+                    0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -451,7 +435,7 @@ GtkWidget *settings_video_widget_create(GtkWidget *parent)
  * This will create the VDC widget for x128, for the VICII widget use
  * settings_video_create().
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  settings dialog
  *
  * \return  GtkGrid
  */
@@ -459,10 +443,10 @@ GtkWidget *settings_video_widget_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_grid_attach(GTK_GRID(grid),
-            create_layout(parent, "VDC", SECONDARY_WINDOW),
-            0, 0, 1, 1);
+                             create_layout(parent, "VDC", SECONDARY_WINDOW),
+                             0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

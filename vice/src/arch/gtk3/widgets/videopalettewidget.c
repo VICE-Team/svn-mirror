@@ -41,7 +41,6 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 #include <string.h>
 
@@ -56,7 +55,7 @@
 
 /** \brief  video chip prefix, used to construct proper resource names
  */
-static const char *chip_prefix = NULL;
+static char chip_name[32];
 
 /** \brief  Internal palette radio button */
 static GtkWidget *radio_internal = NULL;
@@ -64,28 +63,27 @@ static GtkWidget *radio_internal = NULL;
 /** \brief  External palette radio button */
 static GtkWidget *radio_external = NULL;
 
-/** \brief  External palette combo box
- */
+/** \brief  External palette combo box */
 static GtkWidget *combo_external = NULL;
 
 /** \brief  Browse button for custom palette files
  *
- * TODO:    Replace with resourcebrowser.c
+ * We can't use the resource browser widget since we use a combobox, not a
+ * text entry.
  */
 static GtkWidget *button_custom = NULL;
 
 
-/** \brief  Handler for the "toggled" events of the internal/external radios
+/** \brief  Handler for the "toggled" event of the "External" radio button
  *
- * \param[in]   radio   Internal/External radio button
- * \param[in]   data    setting (bool)
+ * \param[in]   radio   External radio button
+ * \param[in]   data    extra event data (unused)
  */
-static void on_internal_toggled(GtkWidget *radio, gpointer data)
+static void on_external_toggled(GtkWidget *radio, gpointer data)
 {
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
-        resources_set_int_sprintf("%sExternalPalette", GPOINTER_TO_INT(data),
-                chip_prefix);
-    }
+    int external = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio)) ? 1 : 0;
+
+    resources_set_int_sprintf("%sExternalPalette", external, chip_name);
 }
 
 
@@ -98,11 +96,10 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 {
     const char *id = gtk_combo_box_get_active_id(combo);
 
+    /* the event handler of the external radio will set ${CHIP}ExternalPalette */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_external), TRUE);
-    resources_set_string_sprintf("%sPaletteFile", id, chip_prefix);
-    resources_set_int_sprintf("%sExternalPalette", 1, chip_prefix);
+    resources_set_string_sprintf("%sPaletteFile", id, chip_name);
 }
-
 
 /** \brief  Callback for the custom palette file chooser
  *
@@ -115,7 +112,7 @@ static void browse_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     if (filename != NULL) {
-        resources_set_string_sprintf("%sPaletteFile", filename, chip_prefix);
+        resources_set_string_sprintf("%sPaletteFile", filename, chip_name);
 
         /* add to combo box */
         gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(combo_external), 0,
@@ -126,7 +123,6 @@ static void browse_filename_callback(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-
 /** \brief  Handler for the "clicked" event of the "browse ..." button
  *
  * Opens a custom palette file and adds the file name to the combo box.
@@ -136,17 +132,17 @@ static void browse_filename_callback(GtkDialog *dialog,
  */
 static void on_browse_clicked(GtkButton *button, gpointer user_data)
 {
-    const char *flist[] = { "*.vpl", NULL };
-    GtkWidget *dialog;
+    GtkWidget  *dialog;
+    const char *patterns[] = { "*.vpl", NULL };
 
-    dialog = vice_gtk3_open_file_dialog(
-            "Open palette file",
-            "Palette files", flist, NULL,
-            browse_filename_callback,
-            NULL);
+    dialog = vice_gtk3_open_file_dialog("Open palette file",
+                                        "Palette files",
+                                        patterns,
+                                        NULL,
+                                        browse_filename_callback,
+                                        NULL);
     gtk_widget_show(dialog);
 }
-
 
 /** \brief  Create combo box with available palettes for the current chip
  *
@@ -158,27 +154,25 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
  */
 static GtkWidget *create_combo_box(void)
 {
-    GtkWidget *combo;
-    int index;
+    GtkWidget            *combo;
     const palette_info_t *list;
-    int row;
-    const char *current;
-    gboolean found = FALSE;
+    int                   index;
+    int                   row = 0;
+    const char           *current = NULL;
+    gboolean              found = FALSE;
 
-    if (resources_get_string_sprintf("%sPaletteFile",
-                &current, chip_prefix) < 0) {
-        current = NULL;
-    }
+    resources_get_string_sprintf("%sPaletteFile", &current, chip_name);
 
     row = 0;
     list = palette_get_info_list();
     combo = gtk_combo_box_text_new();
     for (index = 0; list[index].chip != NULL; index++) {
-        if (strcmp(list[index].chip, chip_prefix) == 0) {
+        if (g_strcmp0(list[index].chip, chip_name) == 0) {
             /* got a valid entry */
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                    list[index].file, list[index].name);
-            if (current != NULL && strcmp(list[index].file, current) == 0) {
+                                     list[index].file,
+                                     list[index].name);
+            if (g_strcmp0(list[index].file, current) == 0) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(combo), row);
                 found = TRUE;
             }
@@ -193,7 +187,10 @@ static GtkWidget *create_combo_box(void)
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     }
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
+    g_signal_connect(combo,
+                     "changed",
+                     G_CALLBACK(on_combo_changed),
+                     NULL);
     return combo;
 }
 
@@ -221,19 +218,20 @@ static GtkWidget *create_browse_button(void)
 GtkWidget *video_palette_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GSList *group = NULL;
-    int external;
+    GSList    *group = NULL;
+    char       title[64];
+    int        external = 0;
 
-    chip_prefix = chip;
+    /* make copy of chip name */
+    strncpy(chip_name, chip, sizeof chip_name);
+    chip_name[sizeof chip_name - 1u] = '\0';
 
-    resources_get_int_sprintf("%sExternalPalette", &external, chip);
-
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Palette settings", 4);
+    g_snprintf(title, sizeof title, "%s Palette", chip);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 4);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
     radio_internal = gtk_radio_button_new_with_label(group, "Internal");
-    gtk_widget_set_margin_start(radio_internal, 16);
+    gtk_widget_set_margin_start(radio_internal, 8);
     radio_external = gtk_radio_button_new_with_label(group, "External");
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_external),
                                 GTK_RADIO_BUTTON(radio_internal));
@@ -245,18 +243,20 @@ GtkWidget *video_palette_widget_create(const char *chip)
     gtk_grid_attach(GTK_GRID(grid), radio_internal, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), radio_external, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo_external, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), button_custom, 3, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button_custom,  3, 1, 1, 1);
 
+    resources_get_int_sprintf("%sExternalPalette", &external, chip);
     if (external) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_external), TRUE);
     } else {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_internal), TRUE);
     }
 
-    g_signal_connect(radio_internal, "toggled",
-            G_CALLBACK(on_internal_toggled), GINT_TO_POINTER(0));
-     g_signal_connect(radio_external, "toggled",
-            G_CALLBACK(on_internal_toggled), GINT_TO_POINTER(1));
+    /* gets called on toggling off AND on */
+    g_signal_connect(radio_external,
+                     "toggled",
+                     G_CALLBACK(on_external_toggled),
+                     NULL);
 
     gtk_widget_show_all(grid);
     return grid;
