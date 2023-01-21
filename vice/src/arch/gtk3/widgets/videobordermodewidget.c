@@ -46,15 +46,15 @@
 
 /** \brief  List of radio buttons
  *
- * Since all ${CHIP}_[NORMAL|FULL|DEBUG|NO]_BORDER constants are the same,
+ * Since all ${CHIP}_[NORMAL|FULL|DEBUG|NO]_BORDERS constants are the same,
  * I've decided to use simple numeric constants to avoid having multiple lists
  * for each $CHIP with the same values.
  */
 static const vice_gtk3_radiogroup_entry_t modes[] = {
-    { "Normal", 0 },
-    { "Full",   1 },
-    { "Debug",  2 },
-    { "None",   3 },
+    { "Normal",  0 },   /* chip_NORMAL_BORDERS */
+    { "Full",    1 },   /* chip_FULL_BORDERS */
+    { "Debug",   2 },   /* chip_DEBUG_BORDERS */
+    { "None",    3 },   /* chip_NO_BORDERS */
     { NULL,     -1 }
 };
 
@@ -68,15 +68,16 @@ static const vice_gtk3_radiogroup_entry_t modes[] = {
 GtkWidget *video_border_mode_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *mode_widget;
+    GtkWidget *mode;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Border mode", 1);
-    mode_widget = vice_gtk3_resource_radiogroup_new_sprintf(
-            "%sBorderMode", modes, GTK_ORIENTATION_VERTICAL, chip);
-    gtk_widget_set_margin_start(mode_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), mode_widget, 0, 1, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Border mode", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    mode = vice_gtk3_resource_radiogroup_new_sprintf("%sBorderMode",
+                                                     modes,
+                                                     GTK_ORIENTATION_VERTICAL,
+                                                     chip);
+    gtk_widget_set_margin_start(mode, 8);
+    gtk_grid_attach(GTK_GRID(grid), mode, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
