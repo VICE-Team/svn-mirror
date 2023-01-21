@@ -153,14 +153,10 @@ void mixer_widget_sid_type_changed(void)
 {
     int model = 0;
     int engine;
-#ifdef HAVE_RESID
-# ifdef HAVE_NEW_8580_FILTER
-    gboolean enabled = TRUE;
-# else
-    gboolean enabled = FALSE;
-# endif
+#if defined(HAVE_RESID) && defined(HAVE_NEW_8580_FILTER)
+# define FILTER_8580 TRUE
 #else
-    gboolean enabled = FALSE;
+# define FILTER_8580 FALSE
 #endif
 
     if (resources_get_int("SidModel", &model) < 0) {
@@ -205,9 +201,9 @@ void mixer_widget_sid_type_changed(void)
     }
 
     /* enable/disable 8580 filter controls based on --enable-new8580filter */
-    gtk_widget_set_sensitive(passband8580, enabled);
-    gtk_widget_set_sensitive(gain8580, enabled);
-    gtk_widget_set_sensitive(bias8580, enabled);
+    gtk_widget_set_sensitive(passband8580, FILTER_8580);
+    gtk_widget_set_sensitive(gain8580,     FILTER_8580);
+    gtk_widget_set_sensitive(bias8580,     FILTER_8580);
 #endif
 
     /* disable sliders when not ReSID */
@@ -215,18 +211,18 @@ void mixer_widget_sid_type_changed(void)
         log_error(LOG_ERR, "failed to reead 'SidEngine' resource, bailing!");
         return;
     }
-    enabled = engine == SID_ENGINE_FASTSID ? 0 : 1;
 
 #ifdef HAVE_RESID
     if (engine == SID_ENGINE_FASTSID) {
-        gtk_widget_set_sensitive(passband6581, enabled);
-        gtk_widget_set_sensitive(gain6581, enabled);
-        gtk_widget_set_sensitive(bias6581, enabled);
-        gtk_widget_set_sensitive(passband8580, enabled);
-        gtk_widget_set_sensitive(gain8580, enabled);
-        gtk_widget_set_sensitive(bias8580, enabled);
+        gtk_widget_set_sensitive(passband6581, FALSE);
+        gtk_widget_set_sensitive(gain6581,     FALSE);
+        gtk_widget_set_sensitive(bias6581,     FALSE);
+        gtk_widget_set_sensitive(passband8580, FALSE);
+        gtk_widget_set_sensitive(gain8580,     FALSE);
+        gtk_widget_set_sensitive(bias8580,     FALSE);
     }
 #endif
+#undef FILTER_8580
 }
 
 /** \brief  Handler for the 'clicked' event of the reset button
