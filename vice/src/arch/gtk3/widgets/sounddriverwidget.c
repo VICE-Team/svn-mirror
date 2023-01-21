@@ -46,10 +46,6 @@
 #include "sounddriverwidget.h"
 
 
-/*
- * Event handlers
- */
-
 /** \brief  Handler for the "changed" event of the device combobox
  *
  * \param[in]   widget      widget triggering the event
@@ -63,21 +59,15 @@ static void on_device_changed(GtkWidget *widget, gpointer user_data)
     resources_set_string("SoundDeviceName", id);
 }
 
-
-/*
- * Helper functions
- */
-
-
 /** \brief  Create combobox with sound devices
  *
  * \return  combobox
  */
 static GtkWidget *create_device_combobox(void)
 {
-    GtkWidget *combo;
-    int i;
-    int count = sound_device_num();
+    GtkWidget  *combo;
+    int         i;
+    int         count = sound_device_num();
     const char *current_device = NULL;
 
     resources_get_string("SoundDeviceName", &current_device);
@@ -85,26 +75,44 @@ static GtkWidget *create_device_combobox(void)
     for (i = 0; i < count; i++) {
         const char *device = sound_device_name(i);
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                device, device);
+                                  device,
+                                  device);
     }
 
     /* set active device */
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), current_device);
 
     /* now connect event handler */
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
+    g_signal_connect(combo,
+                     "changed",
+                     G_CALLBACK(on_device_changed),
+                     NULL);
 
     return combo;
 }
 
-
 /** \brief  Create the 'device driver argument' text entry box
  *
- * \return  entry
+ * \return  GtkEntry
  */
 static GtkWidget *create_argument_entry(void)
 {
     return vice_gtk3_resource_entry_full_new("SoundDeviceArg");
+}
+
+/** \brief  Create left-aligned, 8 pixels left-indented label
+ *
+ * \param[in]   text    label text
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *create_label(const char *text)
+{
+    GtkWidget *label = gtk_label_new(text);
+
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_start(label, 8);
+    return label;
 }
 
 
@@ -116,27 +124,23 @@ GtkWidget *sound_driver_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *device;
+    GtkWidget *label;
     GtkWidget *args;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Driver", 2);
-    gtk_widget_set_margin_top(grid, 8);
-    gtk_widget_set_margin_start(grid, 8);
-    gtk_widget_set_margin_end(grid, 8);
-    gtk_widget_set_margin_bottom(grid, 8);
+    /* row spacing of 8 works fine here to separate the text entries */
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "Host device", 2);
 
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_create_indented_label("Device name"), 0, 1, 1, 1);
+    label  = create_label("Device name");
     device = create_device_combobox();
     gtk_widget_set_hexpand(device, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,  0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), device, 1, 1, 1, 1);
 
-    args = create_argument_entry();
+    label = create_label("Driver arguments");
+    args  = create_argument_entry();
     gtk_widget_set_hexpand(args, TRUE);
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_create_indented_label("Driver argument"), 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), args, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), args,  1, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -30,17 +30,9 @@
 
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "lib.h"
-#include "ui.h"
-#include "resources.h"
-#include "vsync.h"
-#include "sound.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 
 #include "soundsampleratewidget.h"
 
@@ -48,12 +40,12 @@
 /** \brief  List of sound sampling rates
  */
 static const vice_gtk3_radiogroup_entry_t sample_rates[] = {
-    { "8000 Hz",    8000 },
+    { "8000 Hz",     8000 },
     { "11025 Hz",   11025 },
     { "22050 Hz",   22050 },
     { "44100 Hz",   44100 },
     { "48000 Hz",   48000 },
-    { NULL,         -1 }
+    { NULL,            -1 }
 };
 
 
@@ -68,12 +60,12 @@ GtkWidget *sound_sample_rate_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Sample rate", 1);
-    group = vice_gtk3_resource_radiogroup_new(
-            "SoundSampleRate", sample_rates, GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Sample rate", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("SoundSampleRate",
+                                              sample_rates,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

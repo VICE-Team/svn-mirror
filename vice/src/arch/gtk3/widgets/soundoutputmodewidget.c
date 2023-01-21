@@ -30,17 +30,10 @@
 
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "lib.h"
-#include "ui.h"
-#include "resources.h"
-#include "vsync.h"
 #include "sound.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 
 #include "soundoutputmodewidget.h"
 
@@ -51,7 +44,7 @@ static const vice_gtk3_radiogroup_entry_t output_modes[] = {
     { "System", SOUND_OUTPUT_SYSTEM },
     { "Mono",   SOUND_OUTPUT_MONO },
     { "Stereo", SOUND_OUTPUT_STEREO },
-    { NULL, -1 }
+    { NULL,     -1 }
 };
 
 
@@ -66,12 +59,12 @@ GtkWidget *sound_output_mode_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Output mode", 1);
-    group = vice_gtk3_resource_radiogroup_new(
-            "SoundOutput", output_modes, GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output mode", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("SoundOutput",
+                                              output_modes,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
