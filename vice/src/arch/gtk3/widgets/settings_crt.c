@@ -58,7 +58,7 @@ GtkWidget *settings_crt_widget_create(GtkWidget *parent)
     GtkWidget *chip1 = NULL;
     GtkWidget *chip2 = NULL;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
