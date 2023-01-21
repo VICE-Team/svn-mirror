@@ -151,27 +151,24 @@ static GtkCssProvider *scale_css_provider;
  */
 void mixer_widget_sid_type_changed(void)
 {
-    int model = 0;
-    int engine;
-#if defined(HAVE_RESID) && defined(HAVE_NEW_8580_FILTER)
-# define FILTER_8580 TRUE
-#else
-# define FILTER_8580 FALSE
-#endif
+#ifdef HAVE_RESID
+# ifdef HAVE_NEW_8580_FILTER
+#  define FILTER_8580 TRUE
+# else
+#  define FILTER_8580 FALSE
+# endif
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        log_error(LOG_ERR, "failed to get SidModel resource, bailing!");
-        return;
-    }
+    int model  = 0;
+    int engine = 0;
 
     if (machine_class == VICE_MACHINE_VSID) {
-        /* exit, vsid has its own machinism to toggle SID models and their
-         * widgets
-         */
+        /* VSID has its own mechanism to toggle SID models and their widgets */
         return;
     }
 
-#ifdef HAVE_RESID
+    resources_get_int("SidModel",  &model);
+    resources_get_int("SidEngine", &engine);
+
     if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
         gtk_widget_hide(passband6581);
         gtk_widget_hide(gain6581);
@@ -204,15 +201,7 @@ void mixer_widget_sid_type_changed(void)
     gtk_widget_set_sensitive(passband8580, FILTER_8580);
     gtk_widget_set_sensitive(gain8580,     FILTER_8580);
     gtk_widget_set_sensitive(bias8580,     FILTER_8580);
-#endif
 
-    /* disable sliders when not ReSID */
-    if (resources_get_int("SidEngine", &engine) < 0) {
-        log_error(LOG_ERR, "failed to reead 'SidEngine' resource, bailing!");
-        return;
-    }
-
-#ifdef HAVE_RESID
     if (engine == SID_ENGINE_FASTSID) {
         gtk_widget_set_sensitive(passband6581, FALSE);
         gtk_widget_set_sensitive(gain6581,     FALSE);
@@ -221,8 +210,8 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_set_sensitive(gain8580,     FALSE);
         gtk_widget_set_sensitive(bias8580,     FALSE);
     }
-#endif
-#undef FILTER_8580
+# undef FILTER_8580
+#endif  /* HAVE_RESID */
 }
 
 /** \brief  Handler for the 'clicked' event of the reset button
