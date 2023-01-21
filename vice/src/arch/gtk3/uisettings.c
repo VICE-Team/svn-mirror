@@ -819,7 +819,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 /** \brief  Main tree nodes for VSID
  */
 static ui_settings_tree_node_t main_nodes_vsid[] = {
-    { "Sound",      "sound",    settings_sound_widget_create,              NULL },
+    { "Sound driver", "sound-driver", settings_sound_widget_create, NULL },
     { "SID",        "sid",      settings_soundchip_widget_create,   NULL },
     { "Speed",      "speed",    settings_speed_widget_create,       NULL },
     /* XXX: basically a selection between 'PAL'/'NTSC' (50/60Hz) */
@@ -914,8 +914,8 @@ static ui_settings_tree_node_t display_nodes_c64[] = {
 /** \brief  Child nodes for the C64 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_c64[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1043,8 +1043,8 @@ static ui_settings_tree_node_t display_nodes_c64dtv[] = {
 /** \brief  Child nodes for the C64DTV 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1166,8 +1166,8 @@ static ui_settings_tree_node_t display_nodes_c128[] = {
 /** \brief  Child nodes for the C128 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_c128[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1300,8 +1300,8 @@ static ui_settings_tree_node_t display_nodes_scpu64[] = {
 /** \brief  Child nodes for the SCPU64 'Peripheral devices' node
  */
 static ui_settings_tree_node_t audio_nodes_scpu64[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1433,8 +1433,8 @@ static ui_settings_tree_node_t display_nodes_vic20[] = {
 /** \brief  Child nodes for the VIC20 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_vic20[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1559,8 +1559,8 @@ static ui_settings_tree_node_t display_nodes_plus4[] = {
 /** \brief  Child nodes for the Plus4 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_plus4[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1686,8 +1686,8 @@ static ui_settings_tree_node_t display_nodes_pet[] = {
 /** \brief  Child nodes for the PET 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_pet[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1808,8 +1808,8 @@ static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
 /** \brief  Child nodes for the CBM5x0 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
@@ -1927,8 +1927,8 @@ static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
 /** \brief  Child nodes for the CBM6x0 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
-    { "Sound",
-      "sound",
+    { "Sound driver",
+      "sound-driver",
       settings_sound_widget_create, NULL },
     { "SID",
       "sid",
