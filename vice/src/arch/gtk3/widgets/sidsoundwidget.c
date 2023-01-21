@@ -587,93 +587,80 @@ static GtkWidget *create_resource_reset_button(
 
 /** \brief  Create widget to control SID settings
  *
- * \param[in]   parent  parent widget (unused)
- *
  * \return  GtkGrid
  */
-GtkWidget *sid_sound_widget_create(GtkWidget *parent)
+GtkWidget *sid_sound_widget_create(void)
 {
-    GtkWidget *layout;
-    GtkWidget *label;
+    GtkWidget *grid;
     GtkWidget *engine;
-    GtkWidget *sids = NULL;
-    int current_engine;
-    int stereo;
-    int row = 2;
-    int i;
-    int model;
 #ifdef HAVE_RESID
-    int is_resid;
+    GtkWidget *label;
 #endif
+    int        row = 0;
+    int        current_engine = 0;
+    int        current_model  = 0;
+    int        current_stereo = 0;
 
-    layout = vice_gtk3_grid_new_spaced(8, VICE_GTK3_DEFAULT);
+    resources_get_int("SidEngine", &current_engine);
+    resources_get_int("SidModel",  &current_model);
+    resources_get_int("SidStereo", &current_stereo);
 
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>SID settings</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, 0, 3, 1);
-
-    resources_get_int("SidModel", &model);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     engine = sid_engine_model_widget_create();
     sid_engine_model_widget_set_callback(engine_model_changed_callback);
-    gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
+    gtk_grid_attach(GTK_GRID(grid), engine, 0, row, 1, 1);
+
 #ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
-    gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), resid_sampling, 1, row, 1, 1);
 #endif
-    resources_get_int("SidEngine", &current_engine);
-#ifdef HAVE_RESID
-    is_resid = current_engine == SID_ENGINE_RESID;
-#endif
+    row++;
 
     if (sid_machine_can_have_multiple_sids()) {
-        int max = sid_machine_get_max_sids();
-        int c = 1;
-        GtkWidget *sid_addresses;
+        GtkWidget *num_sids;
+        GtkWidget *addresses;
+        int        max = sid_machine_get_max_sids();
+        int        column;
+        int        extra;
 
-        sids = create_num_sids_widget();
-        gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
+        num_sids = create_num_sids_widget();
+        gtk_grid_attach(GTK_GRID(grid), num_sids, 2, 0, 1, 1);  /* fixed at row 0 */
 
-        for (i = 1; i < max; i++) {
-
-            address_widgets[i - 1] = create_extra_sid_address_widget(i);
+        for (extra = 1; extra < max; extra++) {
+            address_widgets[extra - 1] = create_extra_sid_address_widget(extra);
         }
 
-        sid_addresses = vice_gtk3_grid_new_spaced_with_label(
-                16, 8, "SID I/O addresses", 3);
-        gtk_widget_set_margin_top(sid_addresses, 16);
-        gtk_widget_set_margin_start(sid_addresses, 16);
-        gtk_widget_set_margin_bottom(sid_addresses, 16);
+        addresses = vice_gtk3_grid_new_spaced_with_label(16, 8, "SID I/O addresses", 3);
+        gtk_widget_set_margin_top(addresses, 16);
+        gtk_widget_set_margin_start(addresses, 16);
+        gtk_widget_set_margin_bottom(addresses, 16);
 
         /* lay out address widgets in a grid of four columns max, skip the
          * first SID
          */
-        i = 0;
-        while (i < max - 1) {
-            while ((c < 4) && (i < max -1)) {
-                gtk_grid_attach(GTK_GRID(sid_addresses),
-                                address_widgets[i],
-                                c, ((i + 1) / 4) + 1, 1, 1);
-                c++;
-                i++;
+        extra  = 0;
+        column = 1;
+        while (extra < max - 1) {
+            while ((column < 4) && (extra < max - 1)) {
+                gtk_grid_attach(GTK_GRID(addresses),
+                                address_widgets[extra],
+                                column, ((extra + 1) / 4) + 1, 1, 1);
+                column++;
+                extra++;
             }
-            c = 0;
+            column = 0;
         }
-        gtk_grid_attach(GTK_GRID(layout), sid_addresses, 0, row++, 3, 1);
-    } else {
-        row = 2;
+        gtk_grid_attach(GTK_GRID(grid), addresses, 0, row, 3, 1);
+        row++;
     }
 
 #ifdef HAVE_RESID
     filters = vice_gtk3_resource_check_button_new("SidFilters",
-            "Enable SID filter emulation");
-    gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
-#endif
-
-#ifdef HAVE_RESID
-    gtk_widget_set_sensitive(resid_sampling, current_engine == SID_ENGINE_RESID);
+                                                  "Enable SID filter emulation");
+    gtk_grid_attach(GTK_GRID(grid), filters, 0, row, 3, 1);
     gtk_widget_set_sensitive(filters, current_engine == SID_ENGINE_RESID);
+    gtk_widget_set_sensitive(resid_sampling, current_engine == SID_ENGINE_RESID);
 #endif
 
 
@@ -697,42 +684,38 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     label = gtk_label_new("8580 passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_8580_passband = create_resid_8580_passband_widget();
-    resid_8580_passband_button = create_resource_reset_button(
-            on_resid_8580_passband_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_passband, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_passband_button, 2, 1, 1, 1);
-
     /* We need to do this due to show_all getting disabled for the containing
      * GtkGrid and the other widgets (slider, button) having their own call
      * to Show() except this simple label:
      */
     gtk_widget_show(label);
+    resid_8580_passband = create_resid_8580_passband_widget();
+    resid_8580_passband_button = create_resource_reset_button(on_resid_8580_passband_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), label,                      0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_passband,        1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_passband_button, 2, 1, 1, 1);
 
     /* 8580 gain */
     label = gtk_label_new("8580 gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_8580_gain = create_resid_8580_gain_widget();
-    resid_8580_gain_button = create_resource_reset_button(
-            on_resid_8580_gain_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_gain, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_gain_button, 2, 2, 1, 1);
     gtk_widget_show(label);
+    resid_8580_gain = create_resid_8580_gain_widget();
+    resid_8580_gain_button = create_resource_reset_button(on_resid_8580_gain_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), label,                  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_gain,        1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_gain_button, 2, 2, 1, 1);
 
     /* 8580 bias */
     label = gtk_label_new("8580 filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_8580_bias = create_resid_8580_bias_widget();
-    resid_8580_bias_button = create_resource_reset_button(
-            on_resid_8580_bias_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_bias, 1, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_bias_button, 2, 3, 1, 1);
     gtk_widget_show(label);
+    resid_8580_bias = create_resid_8580_bias_widget();
+    resid_8580_bias_button = create_resource_reset_button(on_resid_8580_bias_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), label,                   0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_bias,         1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_8580_grid), resid_8580_bias_button,  2, 3, 1, 1);
 
     /* 6581 (YAY!) */
 
@@ -745,73 +728,68 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     label = gtk_label_new("6581 passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_6581_passband = create_resid_6581_passband_widget();
-    resid_6581_passband_button = create_resource_reset_button(
-            on_resid_6581_passband_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_passband, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_passband_button, 2, 1, 1, 1);
     gtk_widget_show(label);
+    resid_6581_passband = create_resid_6581_passband_widget();
+    resid_6581_passband_button = create_resource_reset_button(on_resid_6581_passband_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), label,                      0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_passband,        1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_passband_button, 2, 1, 1, 1);
 
     /* 6581 gain */
     label = gtk_label_new("6581 gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_6581_gain = create_resid_6581_gain_widget();
-    resid_6581_gain_button = create_resource_reset_button(
-            on_resid_6581_gain_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_gain, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_gain_button, 2, 2, 1, 1);
     gtk_widget_show(label);
+    resid_6581_gain = create_resid_6581_gain_widget();
+    resid_6581_gain_button = create_resource_reset_button(on_resid_6581_gain_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), label,                  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_gain,        1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_gain_button, 2, 2, 1, 1);
 
     /* 6581 bias */
     label = gtk_label_new("6581 filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
-    resid_6581_bias = create_resid_6581_bias_widget();
-    resid_6581_bias_button = create_resource_reset_button(
-            on_resid_6581_bias_default_clicked);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_bias, 1, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_bias_button, 2, 3, 1, 1);
     gtk_widget_show(label);
+    resid_6581_bias = create_resid_6581_bias_widget();
+    resid_6581_bias_button = create_resource_reset_button(on_resid_6581_bias_default_clicked);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), label,                  0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_bias,        1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid), resid_6581_bias_button, 2, 3, 1, 1);
 
     /* force expansion */
     gtk_widget_set_hexpand(resid_6581_gain, TRUE);
     gtk_widget_set_hexpand(resid_8580_gain, TRUE);
-
     gtk_widget_set_hexpand(resid_6581_grid, TRUE);
-    gtk_grid_attach(GTK_GRID(layout), resid_6581_grid, 0, row + 1, 3 ,1);
-    gtk_grid_attach(GTK_GRID(layout), resid_8580_grid, 0, row + 2, 3, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), resid_6581_grid, 0, row + 1, 3 ,1);
+    gtk_grid_attach(GTK_GRID(grid), resid_8580_grid, 0, row + 2, 3, 1);
 
 #endif
 
-    if (machine_class != VICE_MACHINE_PLUS4
-            && machine_class != VICE_MACHINE_CBM5x0
-            && machine_class != VICE_MACHINE_CBM6x0)
+    if (machine_class != VICE_MACHINE_PLUS4 &&
+            machine_class != VICE_MACHINE_CBM5x0 &&
+            machine_class != VICE_MACHINE_CBM6x0)
     {
         /* set sensitivity of address widgets */
-        resources_get_int("SidStereo", &stereo);
-        on_sid_count_changed(NULL, GINT_TO_POINTER(stereo));
+        on_sid_count_changed(NULL, GINT_TO_POINTER(current_stereo));
     }
 
 #ifdef HAVE_RESID
-    /* only enable proper widgets */
+    /* only enable appropriate widgets */
     gtk_widget_set_no_show_all(resid_6581_grid, TRUE);
     gtk_widget_set_no_show_all(resid_8580_grid, TRUE);
-    if (model == 1 || model == 2) {
-        gtk_widget_show(resid_8580_grid);
-        gtk_widget_hide(resid_6581_grid);
-    } else {
+    gtk_widget_set_sensitive(resid_6581_grid, current_engine == SID_ENGINE_RESID);
+    gtk_widget_set_sensitive(resid_8580_grid, current_engine == SID_ENGINE_RESID);
+    if (current_model == SID_MODEL_6581) {
         gtk_widget_show(resid_6581_grid);
         gtk_widget_hide(resid_8580_grid);
+    } else {
+        gtk_widget_hide(resid_6581_grid);
+        gtk_widget_show(resid_8580_grid);
     }
-
-    gtk_widget_set_sensitive(resid_6581_grid, is_resid);
-    gtk_widget_set_sensitive(resid_8580_grid, is_resid);
 #endif
-    gtk_widget_show_all(layout);
 
-    return layout;
+    gtk_widget_show_all(grid);
+    return grid;
 }

@@ -27,9 +27,8 @@
 #ifndef VICE_SIDSOUNDWIDGET_H
 #define VICE_SIDSOUNDWIDGET_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * sid_sound_widget_create(GtkWidget *parent);
+GtkWidget *sid_sound_widget_create(void);
 
 #endif
