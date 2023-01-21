@@ -252,39 +252,38 @@ static bool is_pal(const char *chip)
 
 /** \brief  Reset all sliders to their factory value
  *
- * \param[in]   widget      reset button
- * \param[in]   user_data   extra event data (unused)
+ * \param[in]   data    crt control data
  */
-static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
+static void reset_sliders(crt_control_data_t *data)
 {
-    GtkWidget *parent;
-    crt_control_data_t *data;
     int i;
 
-    parent = gtk_widget_get_parent(widget);
-    data = g_object_get_data(G_OBJECT(parent), "InternalState");
     for (i = 0; i < RESOURCE_COUNT; i++) {
         GtkWidget *scale = data->scales[i];
 
         if (scale != NULL) {
             vice_gtk3_resource_scale_custom_factory(scale);
-            /* No need to reset the spin button, that gets triggered via
-             * the scale widget
-             */
         }
     }
 }
 
+/** \brief  Reset all sliders to their factory value
+ *
+ * \param[in]   button  reset button
+ * \param[in]   data    crt control data
+ */
+static void on_reset_clicked(GtkWidget *button, gpointer data)
+{
+    reset_sliders(data);
+}
+
 /** \brief  Clean up memory used by the internal state of \a widget
  *
- * \param[in]   widget      widget
- * \param[in]   user_data   extra event data (unused)
+ * \param[in]   widget  widget
+ * \param[in]   data    crt control dat
  */
-static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
+static void on_widget_destroy(GtkWidget *widget, gpointer data)
 {
-    crt_control_data_t *data;
-
-    data = g_object_get_data(G_OBJECT(widget), "InternalState");
     lib_free(data);
 }
 
@@ -536,7 +535,7 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
 
     data = create_control_data(chip);
 
-    grid = vice_gtk3_grid_new_spaced(16, 0);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_widget_set_margin_start(grid, 8);
     gtk_widget_set_margin_end(grid, 8);
     if (minimal) {
@@ -560,6 +559,7 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
         vice_gtk3_css_add(data->delayline, CHECKBUTTON_CSS_STATUSBAR);
         gtk_grid_attach(GTK_GRID(grid), data->delayline, 2, row - 1, 2, 1);
     } else {
+        gtk_widget_set_margin_top(data->delayline, 8);
         gtk_grid_attach(GTK_GRID(grid), data->delayline, 0, row, 3, 1);
     }
     /* enable if PAL */
@@ -569,10 +569,16 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(grid), button, minimal ? 3 : 2, 0, 1, 1);
-    g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
+    g_signal_connect(button,
+                     "clicked",
+                     G_CALLBACK(on_reset_clicked),
+                     (gpointer)data);
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
+    g_signal_connect_unlocked(grid,
+                              "destroy",
+                              G_CALLBACK(on_widget_destroy),
+                              (gpointer)data);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -581,31 +587,19 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
 
 /** \brief  Custom callback for the resource widget manager
  *
- * This calls the reset methods on the various CRT sliders. It assumes the
- * widget was created for the settings UI ('minimal' argument set to false).
+ * This calls the reset methods on the various CRT sliders.
  *
  * \param[in]   widget  CRT control widget
  *
  * \return  bool
- *
- * FIXME:   When using the CRT widget in the settings UI and not as a widget
- *          controlled from the statusbar, the "Reset" shouldn't be there.
- *          So this code is not quite correct yet. I could hide the button,
- *          leaving all code intact and working, but that's lame.
  */
 gboolean crt_control_widget_reset(GtkWidget *widget)
 {
-    GtkWidget *button;
+    crt_control_data_t *data;
 
-    /* this assumes the CRT widget was created with 'minimal' set to False */
-    button = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
-    if (GTK_IS_BUTTON(button)) {
-        /* abuse event handler to reset widgets */
-        on_reset_clicked(button, NULL);
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    data = g_object_get_data(G_OBJECT(widget), "InternalState");
+    reset_sliders(data);
+    return TRUE;
 }
 
 
