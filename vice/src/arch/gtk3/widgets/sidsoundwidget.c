@@ -54,8 +54,6 @@
 #include "mixerwidget.h"
 #include "resources.h"
 #include "sid.h"
-/* for SID_RESID_SAMPLING_* defines */
-#include "sid-resources.h"
 #include "sidenginemodelwidget.h"
 #include "sound.h"
 #include "vice_gtk3.h"
