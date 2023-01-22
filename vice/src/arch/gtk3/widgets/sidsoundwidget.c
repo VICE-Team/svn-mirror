@@ -48,7 +48,6 @@
 
 
 #include "vice.h"
-
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -65,6 +64,36 @@
 #include "mixerwidget.h"
 
 #include "sidsoundwidget.h"
+
+/* Slider widget indexes */
+enum {
+    PASS_6581,
+    GAIN_6581,
+    BIAS_6581,
+    PASS_8580,
+    GAIN_8580,
+    BIAS_8580,
+
+    SLIDER_COUNT
+};
+
+
+typedef struct slider_s {
+    const char *label;
+    const char *resource;
+    int         min;
+    int         max;
+    int         step;
+} slider_t;
+
+static const slider_t slider_decl[SLIDER_COUNT] = {
+    [PASS_6581] = { "6581 passband", "SidResidPassband",           0,   90, 5 },
+    [GAIN_6581] = { "6581 gain",     "SidResidGain",              90,  100, 1 },
+    [BIAS_6581] = { "6581 bias",     "SidResidFilterBias",     -5000, 5000, 1 },
+    [PASS_8580] = { "8580 passband", "SidResid8580Passband",       0,   90, 5 },
+    [GAIN_8580] = { "8580 gain",     "SidResid8580Gain",          90,  100, 1 },
+    [BIAS_8580] = { "8580 bias",     "SidResid8580FilterGain", -5000, 5000, 1 }
+};
 
 
 
@@ -177,6 +206,9 @@ static GtkWidget *resid_8580_gain;
  * Used to enable/disable the widget based on the SidFilters setting
  */
 static GtkWidget *resid_8580_bias;
+
+static GtkWidget *slider_widgets[SLIDER_COUNT];
+
 #endif
 
 /** \brief  Reference to the extra SID address widgets
@@ -483,6 +515,32 @@ static GtkWidget *create_reset_button(GtkWidget *slider)
 }
 #endif
 
+
+static int create_and_attach_sliders(GtkWidget *grid, int row)
+{
+    for (int i = 0; i < SLIDER_COUNT; i++) {
+        GtkWidget      *label;
+        GtkWidget      *scale;
+        GtkWidget      *button;
+        const slider_t *decl;
+
+        decl   = &slider_decl[i];
+        label  = gtk_label_new(decl->label);
+        scale  = vice_gtk3_resource_scale_int_new(decl->resource,
+                                                  GTK_ORIENTATION_HORIZONTAL,
+                                                  decl->min,
+                                                  decl->max,
+                                                  decl->step);
+        button = create_reset_button(scale);
+        
+        gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1); 
+        gtk_grid_attach(GTK_GRID(grid), scale,  1, row, 1, 1); 
+        gtk_grid_attach(GTK_GRID(grid), button, 2, row, 1, 1);
+        slider_widgets[i] = scale;
+        row++;
+    }
+    return row;
+} 
 
 /** \brief  Create grid with extra SID I/O address widgets
  *
