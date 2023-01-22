@@ -332,7 +332,7 @@ void cpmcart_clock_stretch(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define Z80_SET_DMA_REQUEST(x) 
+#define Z80_SET_DMA_REQUEST(x)
 #define Z80_LOOP_COND z80_started
 
 
