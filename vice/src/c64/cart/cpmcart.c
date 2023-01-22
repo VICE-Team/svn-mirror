@@ -58,93 +58,17 @@ z80_regs_t z80_regs;
 static int z80_started = 0;
 static int cpmcart_enabled = 0;
 
-static read_func_ptr_t cpmcart_mem_read_tab[0x101];
-static store_func_ptr_t cpmcart_mem_write_tab[0x101];
-
 static uint8_t cpmcart_wrap_read(uint16_t addr)
 {
     uint32_t address = ((uint32_t)addr + 0x1000) & 0xffff;
-    return cpmcart_mem_read_tab[addr >> 8]((uint16_t)address);
+    return mem_dma_read((uint16_t)address);
 }
 
 static void cpmcart_wrap_store(uint16_t addr, uint8_t value)
 {
     uint32_t address = ((uint32_t)addr + 0x1000) & 0xffff;
 
-    cpmcart_mem_write_tab[addr >> 8]((uint16_t)address, value);
-}
-
-static void set_read_item(int index, uint8_t (*func)(uint16_t addr))
-{
-    cpmcart_mem_read_tab[index] = func;
-}
-
-static void set_write_item(int index, void (*func)(uint16_t addr, uint8_t val))
-{
-    cpmcart_mem_write_tab[index] = func;
-}
-
-static void cpmcart_mem_init(void)
-{
-    int i;
-
-    /* z80 $0000-$bfff -> c64 $1000-$cfff (RAM) */
-    for (i = 0; i < 0xc0; ++i) {
-        set_read_item(i, ram_read);
-        set_write_item(i, ram_store);
-    }
-
-    /* z80 $c000-$c7ff -> c64 $d000-$d7ff (VICII/SID I/O) */
-    set_read_item(0xc0, c64io_d000_read);
-    set_write_item(0xc0, c64io_d000_store);
-    set_read_item(0xc1, c64io_d100_read);
-    set_write_item(0xc1, c64io_d100_store);
-    set_read_item(0xc2, c64io_d200_read);
-    set_write_item(0xc2, c64io_d200_store);
-    set_read_item(0xc3, c64io_d300_read);
-    set_write_item(0xc3, c64io_d300_store);
-    set_read_item(0xc4, c64io_d400_read);
-    set_write_item(0xc4, c64io_d400_store);
-    set_read_item(0xc5, c64io_d500_read);
-    set_write_item(0xc5, c64io_d500_store);
-    set_read_item(0xc6, c64io_d600_read);
-    set_write_item(0xc6, c64io_d600_store);
-    set_read_item(0xc7, c64io_d700_read);
-    set_write_item(0xc7, c64io_d700_store);
-
-    /* z80 $c800-$cbff -> c64 $d800-$dbff (VICII colorram) */
-    for (i = 0xc8; i <= 0xcb; ++i) {
-        set_read_item(i, colorram_read);
-        set_write_item(i, colorram_store);
-    }
-
-    /* z80 $cc00-$ccff -> c64 $dc00-$dcff (CIA1) */
-    set_read_item(0xcc, cia1_read);
-    set_write_item(0xcc, cia1_store);
-
-    /* z80 $cd00-$cdff -> c64 $dd00-$ddff (CIA1) */
-    set_read_item(0xcd, cia2_read);
-    set_write_item(0xcd, cia2_store);
-
-    /* z80 $ce00-$ceff -> c64 $de00-$deff (I/O-1) */
-    set_read_item(0xce, c64io_de00_read);
-    set_write_item(0xce, c64io_de00_store);
-
-    /* z80 $cf00-$cfff -> c64 $df00-$dfff (I/O-2) */
-    set_read_item(0xcf, c64io_df00_read);
-    set_write_item(0xcf, c64io_df00_store);
-
-    /* z80 $d000-$efff -> c64 $e000-$ffff (RAM) */
-    for (i = 0xd0; i < 0xf0; ++i) {
-        set_read_item(i, ram_read);
-        set_write_item(i, ram_store);
-    }
-
-    /* z80 $f000-$ffff -> c64 $0000-$0fff (RAM) */
-    for (i = 0xf0; i < 0x100; ++i) {
-        set_read_item(i, ram_read);
-        set_write_item(i, ram_store);
-    }
+    mem_dma_store((uint16_t)address, value);
 }
 
 static void cpmcart_io_store(uint16_t addr, uint8_t byte)
@@ -221,8 +145,6 @@ static const resource_int_t resources_int[] = {
 
 int cpmcart_resources_init(void)
 {
-    cpmcart_mem_init();
-
     return resources_register_int(resources_int);
 }
 
