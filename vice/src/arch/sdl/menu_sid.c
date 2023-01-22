@@ -67,19 +67,19 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
     { "Fast",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidResidSampling_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)SID_RESID_SAMPLING_FAST },
     { "Interpolating",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidResidSampling_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)SID_RESID_SAMPLING_INTERPOLATION },
     { "Resampling",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidResidSampling_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)SID_RESID_SAMPLING_RESAMPLING },
     { "Fast Resampling",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidResidSampling_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)SID_RESID_SAMPLING_FAST_RESAMPLING },
     SDL_MENU_LIST_END
 };
 
