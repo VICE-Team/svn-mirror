@@ -348,7 +348,8 @@ midi_sources = \
 cpucore_sources = \
 	6510core.c \
 	65c02core.c \
-	65816core.c
+	65816core.c \
+	z80core.c
 
 cpudtvcore_sources = \
 	6510dtvcore.c
@@ -365,7 +366,8 @@ COMMON_EXTRA_DIST = \
 	piacore.c \
 	vice-version.sh \
 	vice-version.sh.in \
-	wrap-u-ar.sh
+	wrap-u-ar.sh \
+	z80core.c
 
 # RESID_EXTRA_DIST is a list of files in the resid directory that need to be
 # included in the source archive, this list was added to fix the fact that
