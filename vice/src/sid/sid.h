@@ -63,8 +63,10 @@ struct sid_snapshot_state_s;
 /** \brief  Maximum number of supported SIDs for the SSI2001 engine */
 #define SID_ENGINE_SSI2001_NUM_SIDS         1
 
-
-
+#define SID_RESID_SAMPLING_FAST                 0
+#define SID_RESID_SAMPLING_INTERPOLATION        1
+#define SID_RESID_SAMPLING_RESAMPLING           2
+#define SID_RESID_SAMPLING_FAST_RESAMPLING      3
 
 #define SID_MODEL_6581           0
 #define SID_MODEL_8580           1
