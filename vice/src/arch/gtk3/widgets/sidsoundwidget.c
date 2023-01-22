@@ -532,15 +532,15 @@ static int create_and_attach_sliders(GtkWidget *grid, int row)
                                                   decl->max,
                                                   decl->step);
         button = create_reset_button(scale);
-        
-        gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1); 
-        gtk_grid_attach(GTK_GRID(grid), scale,  1, row, 1, 1); 
+
+        gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), scale,  1, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), button, 2, row, 1, 1);
         slider_widgets[i] = scale;
         row++;
     }
     return row;
-} 
+}
 
 /** \brief  Create grid with extra SID I/O address widgets
  *
