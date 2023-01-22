@@ -62,7 +62,11 @@ static GtkWidget *auto_attach = NULL;
  */
 static void on_destroy(GtkWidget *dialog, gpointer port)
 {
-    ui_action_finish(GPOINTER_TO_INT(port));
+    if (GPOINTER_TO_INT(port) == 1) {
+        ui_action_finish(ACTION_TAPE_CREATE_1);
+    } else {
+        ui_action_finish(ACTION_TAPE_CREATE_2);
+    }
 }
 
 
