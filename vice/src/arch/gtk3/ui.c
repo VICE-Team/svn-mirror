@@ -2357,6 +2357,7 @@ void ui_shutdown(void)
 #if 0
     ui_actions_shutdown();
 #endif
+    actions_settings_shutdown();
 }
 
 
