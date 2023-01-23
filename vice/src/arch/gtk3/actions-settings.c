@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "basedialogs.h"
 #include "hotkeys.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "mainlock.h"
 #include "resources.h"
@@ -44,13 +45,17 @@
 #include "actions-settings.h"
 
 
+static char *last_dir = NULL;
+static char *last_file = NULL;
+
+
 /** \brief  Generate full path and name of the current vice config file
  *
  * \return  heap-allocated path to the current config file, free with lib_free()
  */
 static char *get_config_file_path(void)
 {
-    char *path;
+    char *path = NULL;
 
     if (vice_config_file != NULL) {
         /* -config used */
@@ -64,15 +69,9 @@ static char *get_config_file_path(void)
         } else {
             path = lib_strdup(vice_config_file);
         }
-    } else {
-        /* default vicerc or vice.ini */
-        path = util_join_paths(archdep_user_config_path(),
-                               ARCHDEP_VICERC_NAME,
-                               NULL);
     }
     return path;
 }
-
 
 /** \brief  Callback for the confirmation dialog to restore settings
  *
@@ -150,6 +149,7 @@ static void settings_load_filename_callback(GtkDialog *dialog,
                                     filename);
         }
         mainlock_release();
+        lastdir_update(GTK_WIDGET(dialog), &last_dir, &last_file);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -164,17 +164,24 @@ static void settings_load_filename_callback(GtkDialog *dialog,
 static void settings_load_helper(bool load_extra)
 {
     GtkWidget *dialog;
-    char *path;
+    char      *path;
 
+    dialog = vice_gtk3_open_file_dialog("Load settings file",
+                                        NULL, NULL, NULL,
+                                        settings_load_filename_callback,
+                                        GINT_TO_POINTER((int)load_extra));
     path = get_config_file_path();
-    dialog = vice_gtk3_open_file_dialog(
-            "Load settings file",
-            NULL, NULL, NULL,
-            settings_load_filename_callback,
-            GINT_TO_POINTER((int)load_extra));
-
-    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
-    lib_free(path);
+    if (path != NULL) {
+        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
+        lib_free(path);
+    } else if (last_dir == NULL) {
+        /* use config file dir */
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
+                                            archdep_user_config_path());
+    } else {
+        lastdir_set(dialog, &last_dir, &last_file);
+    }
+    gtk_widget_show_all(dialog);
 }
 
 /** \brief  Load settings from user-specified file */
@@ -223,6 +230,7 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
                                     filename);
         }
         mainlock_release();
+        lastdir_update(GTK_WIDGET(dialog), &last_dir, &last_file);
         g_free(filename);
     }
     mainlock_release();
@@ -236,16 +244,24 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
 static void settings_save_to_action(void)
 {
     GtkWidget *dialog;
-    char *path;
+    char      *path;
 
+    dialog = vice_gtk3_save_file_dialog("Save settings as ...",
+                                        NULL, TRUE, NULL,
+                                        on_settings_save_to_filename,
+                                        NULL);
     path = get_config_file_path();
-    dialog = vice_gtk3_save_file_dialog(
-            "Save settings as ...",
-            NULL, TRUE, NULL,
-            on_settings_save_to_filename,
-            NULL);
-    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
-    lib_free(path);
+    if (path != NULL) {
+        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
+        lib_free(path);
+    } else if (last_dir == NULL) {
+        /* use config file dir */
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
+                                            archdep_user_config_path());
+    } else {
+        lastdir_set(dialog, &last_dir, &last_file);
+    }
+    gtk_widget_show_all(dialog);
 }
 
 
@@ -298,4 +314,13 @@ static const ui_action_map_t settings_actions[] = {
 void actions_settings_register(void)
 {
     ui_actions_register(settings_actions);
+}
+
+/** \brief  Free the last used directory/filename
+ *
+ * Should be called on emu shutdown.
+ */
+void actions_settings_shutdown(void)
+{
+    lastdir_shutdown(&last_dir, &last_file);
 }

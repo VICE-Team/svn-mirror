@@ -30,5 +30,6 @@
 #define VICE_ACTIONS_SETTINGS_H
 
 void actions_settings_register(void);
+void actions_settings_shutdown(void);
 
 #endif
