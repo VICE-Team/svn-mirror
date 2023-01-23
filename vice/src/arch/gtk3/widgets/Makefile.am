@@ -77,7 +77,7 @@ libwidgets_a_SOURCES = \
 	joystickdevicewidget.c \
 	joystickmenupopup.c \
 	kbddebugwidget.c \
-	kbdlayoutwidget.c \
+	kbdhostlayoutwidget.c \
 	kbdmappingwidget.c \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
@@ -247,7 +247,7 @@ EXTRA_DIST = \
 	joystickdevicewidget.h \
 	joystickmenupopup.h \
 	kbddebugwidget.h \
-	kbdlayoutwidget.h \
+	kbdhostlayoutwidget.h \
 	kbdmappingwidget.h \
 	kernalrevisionwidget.h \
 	keysetdialog.h \

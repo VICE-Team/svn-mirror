@@ -37,19 +37,17 @@
 #include <string.h>
 
 
-#include "kbdlayoutwidget.h"
+#include "kbdhostlayoutwidget.h"
 #include "kbdmappingwidget.h"
 #include "keyboard.h"
 #include "keymap.h"
 #include "lib.h"
 #include "resources.h"
-#include "settings_keyboard.h"
-#include "ui.h"
-#include "ui.h"
 #include "uistatusbar.h"
 #include "util.h"
 #include "vice_gtk3.h"
-#include "vsync.h"
+
+#include "settings_keyboard.h"
 
 
 /** \brief  Toggle statusbar keyboard debugging widget display
@@ -60,10 +58,9 @@
  */
 static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_statusbar_set_kbd_debug(
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+    gboolean active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    ui_statusbar_set_kbd_debug(active);
 }
-
 
 /** \brief  Callback for the save-dialog response handler
  *
@@ -77,27 +74,25 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         char *path;
-        int oops;
-
+        int   result;
 
         /* `filename` is owned by GLib */
         path = util_add_extension_const(filename, "vkm");
+        g_free(filename);
 
-        oops = keyboard_keymap_dump(path);
-        if (oops == 0) {
+        result = keyboard_keymap_dump(path);
+        if (result == 0) {
             vice_gtk3_message_info(
                     "Succesfully saved current keymap",
-                    "Wrote current keymap as '%s'.", filename);
+                    "Wrote current keymap as '%s'.", path);
         } else {
             vice_gtk3_message_error("Failed to save custom keymap",
                     "Error %d: %s", errno, strerror(errno));
         }
-        g_free(filename);
         lib_free(path);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
 
 /** \brief  Write current keymap to host system
  *
@@ -128,39 +123,45 @@ static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
  */
 GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
 {
+    GtkWidget *grid;
+    GtkWidget *mapping;
     GtkWidget *layout;
-    GtkWidget *mapping_widget;
-    GtkWidget *layout_widget;
-    GtkWidget *kbdstatusbar;
-    GtkWidget *custom_button;
+    GtkWidget *status;
+    GtkWidget *save;
 
-    layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
-    mapping_widget = kbdmapping_widget_create(widget);
-    gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
-
-    layout_widget = kbdlayout_widget_create();
-    gtk_widget_set_margin_top(layout_widget, 32);
-
-    gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
+    mapping = kbdmapping_widget_create(widget);
 
     /* Add button to save current (perhaps altered) keymap */
-    custom_button = gtk_button_new_with_label("Save current keymap");
-    gtk_widget_set_margin_top(custom_button, 16);
-    g_signal_connect(custom_button, "clicked",
-            G_CALLBACK(on_save_custom_keymap_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(layout), custom_button, 0, 2, 1, 1);
+    save = gtk_button_new_with_label("Save current keymap to file...");
+    gtk_widget_set_hexpand(save, FALSE);
+    gtk_widget_set_halign(save, GTK_ALIGN_END);
+    gtk_widget_set_margin_top(save, 8);
+    g_signal_connect(save,
+                     "clicked",
+                     G_CALLBACK(on_save_custom_keymap_clicked),
+                     NULL);
 
-    kbdstatusbar = vice_gtk3_resource_check_button_new("KbdStatusbar",
-            "Enable keyboard debugging on statusbar");
-    gtk_widget_set_margin_top(kbdstatusbar, 16);
-    gtk_grid_attach(GTK_GRID(layout), kbdstatusbar, 0, 3, 1, 1);
-    g_signal_connect(kbdstatusbar, "toggled", G_CALLBACK(on_kbd_debug_toggled),
-            NULL);
-    gtk_widget_show_all(layout);
+    layout = kbdhostlayout_widget_create();
+    gtk_widget_set_margin_top(layout, 16);
+
+    status = vice_gtk3_resource_check_button_new("KbdStatusbar",
+                                                 "Enable keyboard debugging on statusbar");
+    gtk_widget_set_margin_top(status, 16);
+    g_signal_connect(status,
+                     "toggled",
+                     G_CALLBACK(on_kbd_debug_toggled),
+                     NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), mapping, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), save,    0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), layout,  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), status,  0, 3, 1, 1);
+    gtk_widget_show_all(grid);
 
     /* update widget so sym/pos is greyed out correctly */
     kbdmapping_widget_update();
 
-    return layout;
+    return grid;
 }

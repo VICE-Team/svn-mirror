@@ -1,5 +1,5 @@
-/** \file   kbdlayoutwidget.h
- * \brief   Gtk3 keyboard layout widget for the settings dialog - header
+/** \file   kbdhostlayoutwidget.h
+ * \brief   Gtk3 host keyboard layout widget for the settings dialog - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -24,12 +24,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_KBDLAYOUTWIDGET_H
-#define VICE_KBDLAYOUTWIDGET_H
+#ifndef VICE_KBDHOSTLAYOUTWIDGET_H
+#define VICE_KBDHOSTLAYOUTWIDGET_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * kbdlayout_widget_create(void);
+GtkWidget * kbdhostlayout_widget_create(void);
 
 #endif
