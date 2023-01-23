@@ -32,30 +32,21 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-#include "openfiledialog.h"
 #include "resources.h"
 #include "sampler.h"
-#include "ui.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "settings_sampler.h"
 
 
-/** \brief  Reference to the text entry
- *
- * Used by the "browse" button callback to set the new file name and trigger
- * a resource update
- */
-static GtkWidget *entry_widget = NULL;
-
-
-/** \brief  Reference to the "browse" button
- */
-static GtkWidget *browse_button = NULL;
+/** \brief  Minimum value for the gain slider */
+#define GAIN_MIN    0
+/** \brief  Maximum value for the gain slider */
+#define GAIN_MAX    250
+/** \brief  Stepping for the gain slider (when using cursor left/right) */
+#define GAIN_STEP   25
 
 
 /** \brief  Handler for the "changed" event of the devices combo box
@@ -68,182 +59,52 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
     int index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 
     resources_set_int("SamplerDevice", index);
-
-    /* this assumes the "media file input" is always first in the list */
-    gtk_widget_set_sensitive(entry_widget, index == 0);
-    gtk_widget_set_sensitive(browse_button, index == 0);
 }
 
-
-/** \brief  Handler for the "value-changed" event of the gain slider
+/** \brief  Create left-aligned, 8 pixels indented label
  *
- * \param[in]   scale       gain slider
- * \param[in]   user_data   extra data (unused)
+ * \param[in]   text    label text
+ *
+ * \return  GtkLabel
  */
-static void on_gain_changed(GtkScale *scale, gpointer user_data)
+static GtkWidget *create_label(const char *text)
 {
-    int value = (int)gtk_range_get_value(GTK_RANGE(scale));
+    GtkWidget *label = gtk_label_new(text);
 
-    resources_set_int("SamplerGain", value);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_start(label, 8);
+    return label;
 }
-
-
-/** \brief  Handler for the "changed" event of the text entry box
- *
- * \param[in]   entry       input file text box
- * \param[in]   user_data   extra data (unused)
- */
-static void on_entry_changed(GtkEntry *entry, gpointer user_data)
-{
-    const char *text;
-
-    text = gtk_entry_get_text(entry);
-    resources_set_string("SampleName", text);
-}
-
-
-/** \brief  Callback for the file selection dialog
- *
- * \param[in]       dialog      file selection dialog (unused)
- * \param[in,out]   filename    sampler input file
- * \param[in]       data        extra event data (unused)
- *
- * \todo    Replace with resourcebrowser widget
- */
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
-{
-    if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the "clicked" event of the "browse" button
- *
- * \param[in]   widget      browse button
- * \param[in]   user_data   extra data (unused)
- *
- * \todo    Replace with resourcebrowser widget
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_open_file_dialog(
-            "Select input file",
-            NULL, NULL, NULL,
-            browse_filename_callback,
-            NULL);
-    gtk_widget_show(dialog);
-}
-
 
 /** \brief  Create combo box for the devices list
  *
  * \return  GtkComboBoxText
  */
-static GtkWidget *create_device_widget(void)
+static GtkWidget *create_device_combo(void)
 {
-    GtkWidget *combo;
+    GtkWidget        *combo;
     sampler_device_t *devices;
-    int current;
-    int i;
+    int               current = 0;
+    int               index;
 
     resources_get_int("SamplerDevice", &current);
 
-    combo = gtk_combo_box_text_new();
-#if 0
-    if (devices_getter != NULL) {
-        devices = devices_getter();
-    } else {
-        return combo;
-    }
-#endif
+    combo   = gtk_combo_box_text_new();
     devices = sampler_get_devices();
-    for (i = 0; devices[i].name != NULL; i++) {
+    for (index = 0; devices[index].name != NULL; index++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                devices[i].name, devices[i].name);
-        if (i ==  current) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+                                  devices[index].name,
+                                  devices[index].name);
+        if (index == current) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
         }
     }
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
+    g_signal_connect(combo,
+                     "changed",
+                     G_CALLBACK(on_device_changed),
+                     NULL);
     return combo;
-}
-
-
-/** \brief  Create slider for the gain
- *
- * \return  GtkScale
- */
-static GtkWidget *create_gain_widget(void)
-{
-    GtkWidget *scale;
-    GtkWidget *label;
-    int value;
-    int i;
-
-    label = gtk_label_new("Sampler gain");
-    gtk_widget_set_margin_start(label, 16);
-
-    scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,
-            0.0, 200.0, 25.0);
-    gtk_scale_set_digits(GTK_SCALE(scale), 0);
-
-    /* add tick marks */
-    for (i = 0; i < 200; i += 25) {
-        gtk_scale_add_mark(GTK_SCALE(scale), (gdouble)i, GTK_POS_BOTTOM, NULL);
-    }
-
-
-    if (resources_get_int("SamplerGain", &value) >= 0) {
-        gtk_range_set_value(GTK_RANGE(scale), (gdouble)value);
-    } else {
-        gtk_range_set_value(GTK_RANGE(scale), 100.0);
-    }
-
-    g_signal_connect(scale, "value-changed", G_CALLBACK(on_gain_changed), NULL);
-
-    gtk_widget_show_all(scale);
-    return scale;
-}
-
-
-/** \brief  Create text entry for the input file name
- *
- * \return  GtkEntry
- */
-static GtkWidget *create_input_entry(void)
-{
-    GtkWidget *entry;
-    const char *text;
-
-    resources_get_string("SampleName", &text);
-
-    entry = gtk_entry_new();
-    if (text != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry), text);
-    }
-    g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
-    return entry;
-}
-
-
-/** \brief  Create the "browse" button
- *
- * \return  GtkButton
- */
-static GtkWidget *create_input_button(void)
-{
-    GtkWidget *button;
-
-    button = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(button, "clicked", G_CALLBACK(on_browse_clicked), NULL);
-    return button;
 }
 
 
@@ -259,43 +120,38 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *combo;
-    int index;
+    GtkWidget *device;
+    GtkWidget *gain;
+    GtkWidget *media;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Sampler settings", 3);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     /* sampler device list */
-    label = gtk_label_new("Sampler device");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    combo = create_device_widget();
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
+    label  = create_label("Sampler device");
+    device = create_device_combo();
+    gtk_grid_attach(GTK_GRID(grid), label,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), device, 1, 1, 1, 1);
 
     /* sampler gain */
-    label = gtk_label_new("Sampler gain");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
+    label = create_label("Sampler gain");
+    gain  = vice_gtk3_resource_scale_int_new("SamplerGain",
+                                             GTK_ORIENTATION_HORIZONTAL,
+                                             GAIN_MIN,
+                                             GAIN_MAX,
+                                             GAIN_STEP);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_gain_widget(), 1, 2, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain,  1, 2, 1, 1);
 
-    /* sampler input file text entry and browse button */
-    label = gtk_label_new("Sampler media file");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
+    /* sampler input file */
+    label = create_label("Sampler media file");
+    media = vice_gtk3_resource_browser_new("SampleName",
+                                           NULL,
+                                           NULL,
+                                           "Select a media file",
+                                           NULL,
+                                           NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    entry_widget = create_input_entry();
-    gtk_widget_set_hexpand(entry_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), entry_widget, 1, 3, 1, 1);
-    browse_button = create_input_button();
-    gtk_grid_attach(GTK_GRID(grid), browse_button, 2, 3, 1, 1);
-
-    /* update sensitivity of entry and button */
-    index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
-
-    gtk_widget_set_sensitive(entry_widget, index == 0);
-    gtk_widget_set_sensitive(browse_button, index == 0);
-
+    gtk_grid_attach(GTK_GRID(grid), media, 1, 3, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
