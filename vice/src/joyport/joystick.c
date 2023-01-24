@@ -364,7 +364,7 @@ uint16_t get_joystick_value(int index)
 
     /* check if autofire is enabled */
     if (joystick_autofire_enable[index]) {
-        /* check if autofire mode is permanent */
+        /* check if autofire mode is permanent, as in autofire when fire is not pressed */
         if (joystick_autofire_mode[index] == JOYSTICK_AUTOFIRE_MODE_PERMANENT) {
             /* check if fire button is not pressed */
             if (!fire_button) {
