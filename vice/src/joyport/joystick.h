@@ -156,8 +156,8 @@ extern const char *joystick_ui_get_next_device_name(int *id);
 #define JOYSTICK_AUTOFIRE_OFF   0
 #define JOYSTICK_AUTOFIRE_ON    1
 
-#define JOYSTICK_AUTOFIRE_MODE_PRESS       0
-#define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1
+#define JOYSTICK_AUTOFIRE_MODE_PRESS       0    /* autofire only when fire is pressed */
+#define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1    /* autofire only when fire is NOT pressed */
 
 #define JOYSTICK_AUTOFIRE_SPEED_DEFAULT    10   /* default autofire speed, button will be on this many times per second */
 

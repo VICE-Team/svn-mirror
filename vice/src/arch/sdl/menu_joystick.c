@@ -224,11 +224,11 @@ UI_MENU_DEFINE_RADIO(JoyStick10AutoFireMode)
 
 #define VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_autofire_mode_menu[] = { \
-        { "Autofire button press",                                              \
+        { "Autofire when fire is pressed",                                      \
           MENU_ENTRY_RESOURCE_RADIO,                                            \
           radio_JoyStick##port##AutoFireMode_callback,                          \
           (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PRESS },                   \
-        { "Permanent autofire",                                                 \
+        { "Autofire when fire is not pressed",                                  \
           MENU_ENTRY_RESOURCE_RADIO,                                            \
           radio_JoyStick##port##AutoFireMode_callback,                          \
           (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PERMANENT },               \
