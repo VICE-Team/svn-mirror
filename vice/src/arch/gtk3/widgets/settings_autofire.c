@@ -59,7 +59,7 @@ static int add_userport_widgets(GtkWidget *layout, int row, int count)
         char title[256];
 
         if (joyport_has_mapping(joy - 1)) {
-            g_snprintf(title, sizeof(title), "Extra Joystick #%d", joy - 2);
+            g_snprintf(title, sizeof title, "Extra Joystick #%d", joy - 2);
             widget = joystick_autofire_widget_create(joy, title);
             gtk_grid_attach(GTK_GRID(layout), widget, column, row, 1, 1);
         }
@@ -74,7 +74,6 @@ static int add_userport_widgets(GtkWidget *layout, int row, int count)
     }
     return row;
 }
-
 
 /** \brief  Create layout for x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0
  *
@@ -98,7 +97,6 @@ static int create_c64_layout(GtkWidget *layout, int row)
     return add_userport_widgets(layout, row, 8);
 }
 
-
 /** \brief  Create layout for xvic
  *
  * \param[in]   layout  GtkGrid to add widgets to
@@ -118,7 +116,6 @@ static int create_vic20_layout(GtkWidget *layout, int row)
     return add_userport_widgets(layout, row, 8);
 }
 
-
 /** \brief  Create layout for xcbm2
  *
  * \param[in]   layout  GtkGrid to add widgets to
@@ -132,7 +129,6 @@ static int create_cbm2_layout(GtkWidget *layout, int row)
     return add_userport_widgets(layout, row, 8);
 }
 
-
 /** \brief  Create layout for xpet
  *
  * \param[in]   layout  GtkGrid to add widgets to
@@ -145,7 +141,6 @@ static int create_pet_layout(GtkWidget *layout, int row)
     /* Userport 1-2 (joy 3-4) */
     return add_userport_widgets(layout, row, 2);
 }
-
 
 /** \brief  Create layout for xplus4
  *
@@ -182,7 +177,6 @@ static int create_plus4_layout(GtkWidget *layout, int row)
     return row;
 }
 
-
 /** \brief  Create settings 'page' widget for autofire settings
  *
  * \param[in]   parent  parent widget (unused)
@@ -194,7 +188,7 @@ GtkWidget *settings_autofire_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     int row;
 
-    grid = vice_gtk3_grid_new_spaced(16, 16);
+    grid = vice_gtk3_grid_new_spaced(32, 16);
     row = 0;
 
     /* add machine-specific layout */
