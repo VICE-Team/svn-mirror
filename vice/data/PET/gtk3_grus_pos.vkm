@@ -177,7 +177,7 @@ x            7 0 0
 y            3 2 0
 z            6 0 0
 
-KP_Separator 7 3 0  # ,
+KP_Decimal   9 6 8  # .
 KP_0         8 6 0  # 0
 KP_1         6 6 0  # 1
 KP_2         7 6 0  # 2
@@ -189,7 +189,7 @@ KP_7         2 6 0  # 7
 KP_8         3 6 0  # 8
 KP_9         2 7 0  # 9
 
-KP_Delete    7 3 1  # , + SHIFT
+KP_Delete    9 6 1  # . + SHIFT
 KP_Insert    8 6 1  # 0 + SHIFT
 KP_End       6 6 1  # 1 + SHIFT
 KP_Down      7 6 1  # 2 + SHIFT
@@ -204,13 +204,13 @@ KP_Page_Up   2 7 1  # 9 + SHIFT
 # Note: Num Lock can be mapped, but still the OS will change the meaning of the
 # numblock depending on numblock state, so its not very useful
 Num_Lock     0 6 8  # clr+home
-KP_Multiply  0 7 8  #   crsr left/right
 KP_Divide    1 6 8  #   crsr up/down
+KP_Multiply  0 7 8  #   crsr left/right
 KP_Subtract  1 7 8  #   inst/del
 
-KP_Add       7 7 8  #
+KP_Add       7 7 8  # KP +
 KP_Enter     9 7 8  # KP =
-KP_Decimal   9 6 8  #
+KP_Separator 7 3 0  # KP , (thousands separator, if present)
 
 grave        8 1 0  # `
 1            0 0 0
@@ -241,6 +241,8 @@ parenright   1 4 1
 underscore   0 5 1  # _
 plus         9 7 1
 
+# These keys should be on the numeric pad, but because of some double-size
+# keys, they don't fit and are relocated.
 End          8 7 8  # -
 Page_Up      3 7 8  # /
 Page_Down    5 7 8  # *
