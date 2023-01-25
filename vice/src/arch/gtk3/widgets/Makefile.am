@@ -68,6 +68,7 @@ libwidgets_a_SOURCES = \
 	driverpmwidget.c \
 	driveunitwidget.c \
 	drivenowidget.c \
+	drivesoundwidget.c \
 	drivewidgethelpers.c \
 	extendimagedialog.c \
 	ffmpegwidget.c \
@@ -238,6 +239,7 @@ EXTRA_DIST = \
 	driverpmwidget.h \
 	driveunitwidget.h \
 	drivenowidget.h \
+	drivesoundwidget.h \
 	drivewidgethelpers.h \
 	extendimagedialog.h \
 	ffmpegwidget.h \
