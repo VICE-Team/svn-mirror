@@ -178,6 +178,7 @@ z            6 0 0
 
 # Numeric pad keys:
 KP_Decimal   9 6 8  # .
+KP_Separator 9 6 8  # KP , (thousands separator, if present)
 KP_0         8 6 0  # 0
 KP_1         6 6 0  # 1
 KP_2         7 6 0  # 2
@@ -210,7 +211,6 @@ KP_Subtract  1 7 8  #   inst/del
 
 KP_Add       7 7 8  # KP +
 KP_Enter     9 7 8  # KP =
-KP_Separator 7 3 0  # KP , (thousands separator, if present)
 
 # These keys should be on the numeric pad, but because of some double-size
 # keys, they don't fit and are relocated.
