@@ -25,13 +25,11 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "filechooserhelpers.h"
-#include "ui.h"
 #include "mainlock.h"
+#include "ui.h"
 
 #include "selectdirectorydialog.h"
 
@@ -55,8 +53,6 @@ static void (*filename_cb)(GtkDialog *, gchar *, gpointer);
  */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("Called with response ID %d", response_id);
-
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
 
@@ -84,28 +80,27 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_select_directory_dialog(
-        const char *title,
-        const char *proposed,
-        gboolean allow_create,
-        const char *path,
-        void (*callback)(GtkDialog *, gchar *, gpointer),
-        gpointer param)
+GtkWidget *vice_gtk3_select_directory_dialog(const char  *title,
+                                             const char  *proposed,
+                                             gboolean     allow_create,
+                                             const char  *path,
+                                             void       (*callback)(GtkDialog*, char*, gpointer),
+                                             gpointer     param)
 {
-    GtkWidget *dialog;
+    GtkWidget     *dialog;
     GtkFileFilter *filter;
+    GtkWindow     *window;
 
     mainlock_assert_is_not_vice_thread();
 
     filename_cb = callback;
-
-    dialog = gtk_file_chooser_dialog_new(
-            title,
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-            "Select", GTK_RESPONSE_ACCEPT,
-            "Cancel", GTK_RESPONSE_REJECT,
-            NULL);
+    window = ui_get_active_window();
+    dialog = gtk_file_chooser_dialog_new(title,
+                                         window,
+                                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                         "Select", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_REJECT,
+                                         NULL);
 
     /* set proposed file name, if any */
     if (proposed != NULL && *proposed != '\0') {
@@ -119,15 +114,18 @@ GtkWidget *vice_gtk3_select_directory_dialog(
 
     /* create a custom filter for directories. without it all files will still
        be displayed, which can be irritating */
-    filter = gtk_file_filter_new ();
+    filter = gtk_file_filter_new();
     gtk_file_filter_add_mime_type (filter, "inode/directory");
     gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
     gtk_file_chooser_set_create_folders(GTK_FILE_CHOOSER(dialog), allow_create);
 
     /* set transient and modal */
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), window);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(on_response),
+                     param);
     return dialog;
 }

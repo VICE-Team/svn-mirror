@@ -37,16 +37,11 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice.h"
-
-#include "vice_gtk3.h"
-#include "debug_gtk3.h"
 #include "drive.h"
-#include "resources.h"
 #include "drivefsdevicewidget.h"
+#include "vice_gtk3.h"
 
 #include "settings_fsdevice.h"
 
@@ -64,19 +59,17 @@ static GtkWidget *fsdevice_widgets[NUM_DISK_UNITS];
  */
 static GtkWidget *create_stack_child_widget(int unit)
 {
-    GtkWidget *layout;
+    GtkWidget *grid;
+    int        index = unit - DRIVE_UNIT_MIN;
 
-    layout = vice_gtk3_grid_new_spaced(16, 16);
+    grid = gtk_grid_new();
 
-    fsdevice_widgets[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(layout), fsdevice_widgets[unit - DRIVE_UNIT_MIN],
-            0, 0, 1, 1);
-    gtk_widget_set_hexpand(fsdevice_widgets[unit - DRIVE_UNIT_MIN], TRUE);
-
-    gtk_widget_show_all(layout);
-    return layout;
+    fsdevice_widgets[index] = drive_fsdevice_widget_create(unit);
+    gtk_widget_set_hexpand(fsdevice_widgets[index], TRUE);
+    gtk_grid_attach(GTK_GRID(grid), fsdevice_widgets[index], 0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }
-
 
 
 /** \brief  Create FS Device settings widget
@@ -87,52 +80,48 @@ static GtkWidget *create_stack_child_widget(int unit)
  */
 GtkWidget *settings_fsdevice_widget_create(GtkWidget *parent)
 {
-    GtkWidget *layout;
-    GtkWidget *long_names;
+    GtkWidget *grid;
+    GtkWidget *longnames;
     GtkWidget *overwrite;
     GtkWidget *stack;
     GtkWidget *switcher;
-    int unit;
+    int        unit;
 
-    layout = vice_gtk3_grid_new_spaced(16, 16);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
-    long_names = vice_gtk3_resource_check_button_new(
-            "FSDeviceLongNames",
-            "Allow filenames longer than 16 characters");
-    gtk_grid_attach(GTK_GRID(layout), long_names, 0, 0, 1, 1);
-
-    overwrite = vice_gtk3_resource_check_button_new(
-            "FSDeviceOverwrite",
-            "Always overwrite files without error");
-    gtk_grid_attach(GTK_GRID(layout), overwrite, 0, 1, 1, 1);
+    longnames = vice_gtk3_resource_check_button_new("FSDeviceLongNames",
+                                                    "Allow file names longer than 16 characters");
+    overwrite = vice_gtk3_resource_check_button_new("FSDeviceOverwrite",
+                                                    "Always overwrite files without error");
+    gtk_grid_attach(GTK_GRID(grid), longnames, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), overwrite, 0, 1, 1, 1);
 
     /* create 'tabs' for each fsdevice drive */
     stack = gtk_stack_new();
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        gchar title[256];
+        gchar title[32];
 
-        g_snprintf(title, sizeof(title), "Drive %d", unit);
+        g_snprintf(title, sizeof title, "Drive %d", unit);
         gtk_stack_add_titled(GTK_STACK(stack),
-                create_stack_child_widget(unit),
-                title, title);
+                             create_stack_child_widget(unit),
+                             title,
+                             title);
     }
     gtk_stack_set_transition_type(GTK_STACK(stack),
-            GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
-    gtk_stack_set_transition_duration(GTK_STACK(stack), 500);
+                                  GTK_STACK_TRANSITION_TYPE_NONE);
 
     switcher = gtk_stack_switcher_new();
+    gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
+                                 GTK_STACK(stack));
     gtk_widget_set_halign(switcher, GTK_ALIGN_CENTER);
     gtk_widget_set_hexpand(switcher, TRUE);
-    gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
-            GTK_STACK(stack));
+    gtk_widget_set_margin_top(switcher, 16);
+    gtk_widget_set_margin_bottom(switcher, 16);
 
     gtk_widget_show_all(stack);
     gtk_widget_show_all(switcher);
-
-    gtk_grid_attach(GTK_GRID(layout), switcher, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), stack, 0, 3, 1, 1);
-
-
-    gtk_widget_show_all(layout);
-    return layout;
+    gtk_grid_attach(GTK_GRID(grid), switcher, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), stack,    0, 3, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }
