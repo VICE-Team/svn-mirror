@@ -41,41 +41,39 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "drivewidgethelpers.h"
-#include "machine.h"
-#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "driverpmwidget.h"
 
 
-/* Please note I pulled the following values from my backside, so feel free to
+/** \brief  Spin button declaration
+ *
+ * Data used for the 'fake float' resource spin buttons: spin buttons are
+ * presented as controlling float values while the internal resource values
+ * are integers.
+ */
+typedef struct spin_s {
+    const char *label;      /**< label to put next to the spin button */
+    const char *format;     /**< resource name format string */
+    int         min;        /**< spin button minimum value */
+    int         max;        /**< spin button maximum value */
+    int         step;       /**< spin button stepping */
+    int         digits;     /**< number of digits to display */
+} spin_t;
+
+/** \brief  Spin button declarations for the RPM resources
+ *
+ * Please note I pulled the following values from my backside, so feel free to
  * alter them to more sensible values   -- compyx
  */
-
-/** \brief  Drive RPM minimum */
-#define RPM_MIN             26000
-/** \brief  Drive RPM maximum */
-#define RPM_MAX             34000
-/** \brief  Drive RPM stepping for the spinbox */
-#define RPM_STEP              100
-
-/** \brief  Drive RPM wobble frequency minimum */
-#define WOBBLE_FREQ_MIN         0
-/** \brief  Drive RPM wobble frequency maximum */
-#define WOBBLE_FREQ_MAX     10000
-/** \brief  Drive RPM wobble frequency stepping for the spinbox */
-#define WOBBLE_FREQ_STEP       10
-
-/** \brief  Drive RPM wobble amplitude minimum */
-#define WOBBLE_AMP_MIN          0
-/** \brief  Drive RPM wobble amplitude maximum */
-#define WOBBLE_AMP_MAX       5000
-/** \brief  Drive RPM wobble amplitude stepping for the spinbox*/
-#define WOBBLE_AMP_STEP        10
+static const spin_t spinners[] = {
+    { "Drive RPM",        "Drive%dRPM",             26000, 34000, 100, 2 },
+    { "Wobble frequency", "Drive%dWobbleFrequency",     0, 10000,  10, 0 },
+    { "Wobble Amplitude", "Drive%dWobbleAmplitude",     0,  5000,  10, 0 }
+};
 
 
 /** \brief  Create widget to control drive RPM and wobble
@@ -87,43 +85,29 @@
 GtkWidget *drive_rpm_widget_create(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *rpm;
-    GtkWidget *wobble_freq;
-    GtkWidget *wobble_amp;
-    GtkWidget *label;
+    int        i;
 
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RPM settings", 2);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    /* RPM */
-    label = gtk_label_new("Drive RPM");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    rpm = vice_gtk3_resource_spin_int_new_sprintf("Drive%dRPM",
-            RPM_MIN, RPM_MAX, RPM_STEP, unit);
-    vice_gtk3_resource_spin_int_set_fake_digits(rpm, 2);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
+    for (i = 0; i < G_N_ELEMENTS(spinners); i++) {
+        GtkWidget *label;
+        GtkWidget *spin;
 
-    /* Wobble Frequency */
-    label = gtk_label_new("Wobble frequency");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    wobble_freq = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleFrequency",
-            WOBBLE_FREQ_MIN, WOBBLE_FREQ_MAX, WOBBLE_FREQ_STEP, unit);
-    vice_gtk3_resource_spin_int_set_fake_digits(wobble_freq, 0);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wobble_freq, 1, 2, 1, 1);
+        label = gtk_label_new(spinners[i].label);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    /* Wobble Amplitude */
-    label = gtk_label_new("Wobble amplitude");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    wobble_amp = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleAmplitude",
-            WOBBLE_AMP_MIN, WOBBLE_AMP_MAX, WOBBLE_AMP_STEP, unit);
-    vice_gtk3_resource_spin_int_set_fake_digits(wobble_amp, 0);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wobble_amp, 1, 3, 1, 1);
+        spin = vice_gtk3_resource_spin_int_new_sprintf(spinners[i].format,
+                                                       spinners[i].min,
+                                                       spinners[i].max,
+                                                       spinners[i].step,
+                                                       unit);
+        vice_gtk3_resource_spin_int_set_fake_digits(spin, spinners[i].digits);
+
+        gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), spin,  1, i + 1, 1, 1);
+    }
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
-

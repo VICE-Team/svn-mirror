@@ -103,8 +103,9 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 {
     gchar label[256];
 
-    g_snprintf(label, sizeof(label), "$%04X-$%04X", base, base + 0x1fff);
-    return vice_gtk3_resource_check_button_new_sprintf("Drive%dRAM%04X", label,
+    g_snprintf(label, sizeof label, "$%04X-$%04X", base, base + 0x1fff);
+    return vice_gtk3_resource_check_button_new_sprintf("Drive%dRAM%04X",
+                                                       label,
                                                        unit, base);
 }
 
@@ -123,13 +124,11 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 GtkWidget *drive_ram_widget_create(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *label;
-    int type = 0;
+    int        type = 0;
 
     /* create grid with header */
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "RAM expansions", 1);
-    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    gtk_widget_set_margin_bottom(label, 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RAM expansions", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
     /* store unit number (is this actually used?) */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
@@ -137,7 +136,8 @@ GtkWidget *drive_ram_widget_create(int unit)
     /* add RAM check buttons */
     for (int i = 0; i < RAM_EXP_COUNT; i++) {
         GtkWidget *check = create_ram_check_button(unit, expansions[i].base);
-        gtk_grid_attach(GTK_GRID(grid), check,
+        gtk_grid_attach(GTK_GRID(grid),
+                        check,
                         expansions[i].column, expansions[i].row + 1, 1, 1);
     }
 
