@@ -44,38 +44,27 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "attach.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "drive-check.h"
 #include "drive.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
-#include "selectdirectorydialog.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "drivefsdevicewidget.h"
-
-
-/*
- * TODO:    refactor the fsdir entry code into a `resourceentrywidget` in
- *          src/arch/gtk3/widgets/base
- */
 
 
 /** \brief  Callback for the directory-select dialog
  *
  * \param[in]   dialog      directory-select dialog
  * \param[in]   filename    filename (NULL if canceled)
- * \param[in]   param       entry box for the filename
+ * \param[in]   entry       entry box for the filename
  */
-static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
+static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer entry)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(param), filename);
+        vice_gtk3_resource_entry_full_set(GTK_WIDGET(entry), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -83,23 +72,23 @@ static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer p
 
 /** \brief  Handler for the 'clicked' event of the FS directory browse button
  *
- * \param[in]   widget      fs dir browse button
- * \param[in]   user_data   extra event data (entry widget)
+ * \param[in]   button  FS directory browse button (unused)
+ * \param[in]   entry   FS directory text entry
  */
-static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
+static void on_fsdir_browse_clicked(GtkWidget *button, gpointer entry)
 {
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_select_directory_dialog(
-            "Select filesystem directory",
-            NULL,
-            TRUE,
-            NULL,
-            fsdir_browse_callback,
-            user_data);
-    gtk_widget_show(dialog);
-}
+    mainlock_assert_is_not_vice_thread();
 
+    dialog = vice_gtk3_select_directory_dialog("Select filesystem directory",
+                                               NULL,
+                                               TRUE,
+                                               NULL,
+                                               fsdir_browse_callback,
+                                               entry);
+    gtk_widget_show_all(dialog);
+}
 
 /** \brief  Create text entry for file system directory for \a unit
  *
@@ -110,12 +99,12 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 static GtkWidget *create_fsdir_entry_widget(int unit)
 {
     GtkWidget *entry;
-    char resource[256];
+    char       resource[32];
 
-    g_snprintf(resource, 256, "FSDevice%dDir", unit);
+    g_snprintf(resource, sizeof resource, "FSDevice%dDir", unit);
     entry = vice_gtk3_resource_entry_full_new(resource);
     gtk_widget_set_tooltip_text(entry,
-            "Set the host OS directory to use as a virtual drive");
+                                "Set the host directory to use as a virtual drive");
     gtk_widget_set_hexpand(entry, TRUE);
     return entry;
 }
@@ -176,23 +165,22 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     GtkWidget *browse;
     GtkWidget *p00;
 
-    grid = gtk_grid_new();
-    grid = vice_gtk3_grid_new_spaced(8, 8);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
-    label = gtk_label_new("Directory");
+    label  = gtk_label_new("Host directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
-    entry = create_fsdir_entry_widget(unit);
+    entry  = create_fsdir_entry_widget(unit);
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_fsdir_browse_clicked),
-            (gpointer)entry);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
+    g_signal_connect_unlocked(browse,
+                              "clicked",
+                              G_CALLBACK(on_fsdir_browse_clicked),
+                              (gpointer)entry);
+    gtk_grid_attach(GTK_GRID(grid), label,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), entry,  1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     p00 = create_p00_widget(unit);
-    gtk_widget_set_margin_start(p00, 16);
-    gtk_widget_set_margin_end(p00, 16);
+    gtk_widget_set_margin_top(p00, 16);
     gtk_grid_attach(GTK_GRID(grid), p00, 0, 2, 3, 1);
 
     gtk_widget_show_all(grid);
