@@ -46,10 +46,10 @@
 /** \brief  List of printer emulation types
  */
 static const vice_gtk3_radiogroup_entry_t emu_types[] = {
-    { "None", PRINTER_DEVICE_NONE },
-    { "File system access", PRINTER_DEVICE_FS },
-    { "Real device access", PRINTER_DEVICE_REAL },
-    { NULL, -1 }
+    { "None",           PRINTER_DEVICE_NONE },
+    { "File system",    PRINTER_DEVICE_FS },
+    { "Real device",    PRINTER_DEVICE_REAL },
+    { NULL,             -1 }
 };
 
 
@@ -68,15 +68,16 @@ static const vice_gtk3_radiogroup_entry_t emu_types[] = {
 GtkWidget *printer_emulation_type_widget_create(int device)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
     /* build grid */
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Emulation type", 1);
-    radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
-            "Printer%d", emu_types, GTK_ORIENTATION_VERTICAL, device);
-    gtk_widget_set_margin_start(radio_group, 16);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Emulation type", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new_sprintf("Printer%d",
+                                                      emu_types,
+                                                      GTK_ORIENTATION_VERTICAL,
+                                                      device);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -89,8 +90,8 @@ GtkWidget *printer_emulation_type_widget_create(int device)
  */
 void printer_emulation_type_widget_update(GtkWidget *widget, int type)
 {
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
-    radio_group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
-    vice_gtk3_resource_radiogroup_set(radio_group, type);
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    vice_gtk3_resource_radiogroup_set(group, type);
 }

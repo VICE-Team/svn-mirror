@@ -48,10 +48,10 @@
 /** \brief  List of text output devices
  */
 static const vice_gtk3_radiogroup_entry_t device_list[] = {
-    { "#1", 0 },
-    { "#2", 1 },
-    { "#3", 2 },
-    { NULL, -1 }
+    { "Device 1",  0 },
+    { "Device 2",  1 },
+    { "Device 3",  2 },
+    { NULL,       -1 }
 };
 
 
@@ -64,14 +64,15 @@ static const vice_gtk3_radiogroup_entry_t device_list[] = {
 GtkWidget *printer_output_device_widget_create(int device)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output device", 1);
-    radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
-            "Printer%dTextDevice", device_list, GTK_ORIENTATION_VERTICAL,
-            device);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output device", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new_sprintf("Printer%dTextDevice",
+                                                      device_list,
+                                                      GTK_ORIENTATION_VERTICAL,
+                                                      device);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
