@@ -32,15 +32,10 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include "vice_gtk3.h"
 #include "resources.h"
-#include "printer.h"
+#include "vice_gtk3.h"
 
 #include "printeroutputmodewidget.h"
 
@@ -57,27 +52,26 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
     resource_widget_free_resource_name(widget);
 }
 
-
 /** \brief  Handler for the 'toggled' event of the radio buttons
  *
- * \param[in]   radio       radio button
- * \param[in]   user_data   new value for resource (`string`)
+ * \param[in]   radio   radio button
+ * \param[in]   mode    new output mode
  */
-static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
+static void on_radio_toggled(GtkWidget *radio, gpointer mode)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
 
-        GtkWidget *parent;
+        GtkWidget  *parent;
         const char *new_val;
-        const char *old_val;
+        const char *old_val = NULL;
         const char *resource;
 
-        parent = gtk_widget_get_parent(radio);
+        parent   = gtk_widget_get_parent(radio);
         resource = resource_widget_get_resource_name(parent);
+        new_val  = (const char *)mode;
         resources_get_string(resource, &old_val);
-        new_val = (const char *)user_data;
 
-        if (strcmp(new_val, old_val) != 0) {
+        if (g_strcmp0(new_val, old_val) != 0) {
             resources_set_string(resource, new_val);
         }
     }
@@ -92,45 +86,50 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  */
 GtkWidget *printer_output_mode_widget_create(int device)
 {
-    GtkWidget *grid;
-    GtkWidget *radio_text;
-    GtkWidget *radio_gfx;
-    GSList *group = NULL;
-    char resource[256];
-    const char *value;
+    GtkWidget  *grid;
+    GtkWidget  *text;
+    GtkWidget  *gfx;
+    GSList     *group = NULL;
+    const char *value = NULL;
+    char        resource[256];
 
     /* can't use the resource base widgets here, since for some reason this
      * resource is a string with two possible values: "text" and "graphics"
      */
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output mode", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output mode", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
 
-    g_snprintf(resource, sizeof(resource), "Printer%dOutput", device);
+    g_snprintf(resource, sizeof resource , "Printer%dOutput", device);
     resource_widget_set_resource_name(grid, resource);
 
-    radio_text = gtk_radio_button_new_with_label(group, "Text");
-    gtk_widget_set_margin_start(radio_text, 16);
-    radio_gfx = gtk_radio_button_new_with_label(group, "Graphics");
-    gtk_widget_set_margin_start(radio_gfx, 16);
-    gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_gfx),
-            GTK_RADIO_BUTTON(radio_text));
+    text = gtk_radio_button_new_with_label(group, "Text");
+    gfx  = gtk_radio_button_new_with_label(group, "Graphics");
+    gtk_radio_button_join_group(GTK_RADIO_BUTTON(gfx),
+                                GTK_RADIO_BUTTON(text));
 
     resources_get_string(resource, &value);
-    if (strcmp(value, "text") == 0) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_text), TRUE);
+    if (g_strcmp0(value, "text") == 0) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(text), TRUE);
     } else {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_gfx), TRUE);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gfx), TRUE);
     }
 
-    gtk_grid_attach(GTK_GRID(grid), radio_text, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), radio_gfx, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), text, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gfx,  0, 2, 1, 1);
 
-    g_signal_connect(radio_text, "toggled", G_CALLBACK(on_radio_toggled),
-            (gpointer)"text");
-    g_signal_connect(radio_gfx, "toggled", G_CALLBACK(on_radio_toggled),
-            (gpointer)"graphics");
-
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
+    g_signal_connect(text,
+                     "toggled",
+                     G_CALLBACK(on_radio_toggled),
+                     (gpointer)"text");
+    g_signal_connect(gfx,
+                     "toggled",
+                     G_CALLBACK(on_radio_toggled),
+                     (gpointer)"graphics");
+    g_signal_connect_unlocked(grid,
+                              "destroy",
+                              G_CALLBACK(on_widget_destroy),
+                              NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -34,14 +34,12 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "vice_gtk3.h"
 #include "archdep.h"
+#include "log.h"
 #include "resources.h"
 #include "printer.h"
 
@@ -68,6 +66,15 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     }
 }
 
+static GtkWidget *create_radio(GSList *group, const char *label, int device)
+{
+    GtkWidget *radio;
+
+    radio = gtk_radio_button_new_with_label(group, label);
+    g_object_set_data(G_OBJECT(radio), "DeviceNumber", GINT_TO_POINTER(device));
+    return radio;
+}
+
 
 /** \brief  Create printer driver selection widget
  *
@@ -86,17 +93,18 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  */
 GtkWidget *printer_driver_widget_create(int device)
 {
-    GtkWidget *grid;
-    GtkWidget *radio_ascii = NULL;
-    GtkWidget *radio_mps803 = NULL;
-    GtkWidget *radio_nl10 = NULL;
-    GtkWidget *radio_raw = NULL;
-    GtkWidget *radio_1520 = NULL;
-    GSList *group = NULL;
+    GtkWidget  *grid;
+    GtkWidget  *ascii  = NULL;
+    GtkWidget  *mps803 = NULL;
+    GtkWidget  *nl10   = NULL;
+    GtkWidget  *raw    = NULL;
+    GtkWidget  *v1520  = NULL;
+    GSList     *group  = NULL;
     const char *driver;
 
     /* build grid */
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Driver", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Driver", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
     /* set DeviceNumber property to allow the update function to work */
     resource_widget_set_int(grid, "DeviceNumber", device);
 
@@ -104,59 +112,42 @@ GtkWidget *printer_driver_widget_create(int device)
         /* 'normal' printers */
 
         /* ASCII */
-        radio_ascii = gtk_radio_button_new_with_label(group, "ASCII");
-        g_object_set_data(G_OBJECT(radio_ascii), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_ascii, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_ascii, 0, 1, 1, 1);
+        ascii = create_radio(group, "ASCII", device);
+        gtk_grid_attach(GTK_GRID(grid), ascii, 0, 1, 1, 1);
 
-        /* MPS803 */
-        radio_mps803 = gtk_radio_button_new_with_label(group, "MPS-803");
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_mps803),
-                GTK_RADIO_BUTTON(radio_ascii));
-        g_object_set_data(G_OBJECT(radio_mps803), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_mps803, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_mps803, 0, 2, 1, 1);
+        /* MPS 803 */
+        mps803 = create_radio(group, "MPS-803", device);
+        gtk_radio_button_join_group(GTK_RADIO_BUTTON(mps803),
+                                    GTK_RADIO_BUTTON(ascii));
+        gtk_grid_attach(GTK_GRID(grid), mps803, 0, 2, 1, 1);
 
         /* NL10 */
-        radio_nl10 = gtk_radio_button_new_with_label(group, "NL10");
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_nl10),
-                GTK_RADIO_BUTTON(radio_mps803));
-        g_object_set_data(G_OBJECT(radio_nl10), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_nl10, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_nl10, 0, 3, 1, 1);
+        nl10 = create_radio(group, "NL10", device);
+        gtk_radio_button_join_group(GTK_RADIO_BUTTON(nl10),
+                                    GTK_RADIO_BUTTON(mps803));
+        gtk_grid_attach(GTK_GRID(grid), nl10, 0, 3, 1, 1);
 
         /* RAW */
-        radio_raw = gtk_radio_button_new_with_label(group, "RAW");
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_raw),
-                GTK_RADIO_BUTTON(radio_nl10));
-        g_object_set_data(G_OBJECT(radio_raw), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_raw, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_raw, 0, 4, 1, 1);
+        raw = create_radio(group, "RAW", device);
+        gtk_radio_button_join_group(GTK_RADIO_BUTTON(raw),
+                                    GTK_RADIO_BUTTON(nl10));
+        gtk_grid_attach(GTK_GRID(grid), raw, 0, 4, 1, 1);
     } else if (device == 6) {
         /* plotter */
 
-        /* 1520 */
-        radio_1520 = gtk_radio_button_new_with_label(group, "1520");
-        g_object_set_data(G_OBJECT(radio_1520), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_1520, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_1520, 0, 1, 1, 1);
+        /* Commodore VIC-1520 */
+        v1520 = create_radio(group, "VIC-1520", device);
+        gtk_grid_attach(GTK_GRID(grid), v1520, 0, 1, 1, 1);
 
         /* RAW */
-        radio_raw = gtk_radio_button_new_with_label(group, "RAW");
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_raw),
-                GTK_RADIO_BUTTON(radio_1520));
-        g_object_set_data(G_OBJECT(radio_raw), "DeviceNumber",
-                GINT_TO_POINTER(device));
-        gtk_widget_set_margin_start(radio_raw, 16);
-        gtk_grid_attach(GTK_GRID(grid), radio_raw, 0, 2, 1, 1);
+        raw = create_radio(group, "RAW", device);
+        gtk_radio_button_join_group(GTK_RADIO_BUTTON(raw),
+                                    GTK_RADIO_BUTTON(v1520));
+        gtk_grid_attach(GTK_GRID(grid), raw, 0, 2, 1, 1);
     } else {
-        fprintf(stderr, "%s:%d:%s(): invalid device #%d\n",
-                __FILE__, __LINE__, __func__, device);
+        log_error(LOG_ERR,
+                  "%s:%d:%s(): invalid device #%d\n",
+                  __FILE__, __LINE__, __func__, device);
         archdep_vice_exit(1);
     }
 
@@ -166,19 +157,29 @@ GtkWidget *printer_driver_widget_create(int device)
     printer_driver_widget_update(grid, driver);
 
     /* connect signal handlers */
-    g_signal_connect(radio_raw, "toggled", G_CALLBACK(on_radio_toggled),
-            (gpointer)"raw");
+    g_signal_connect(raw,
+                     "toggled",
+                     G_CALLBACK(on_radio_toggled),
+                     (gpointer)"raw");
 
     if (device == 4 || device == 5) {
-        g_signal_connect(radio_ascii, "toggled", G_CALLBACK(on_radio_toggled),
-                (gpointer)"ascii");
-        g_signal_connect(radio_mps803, "toggled", G_CALLBACK(on_radio_toggled),
-                (gpointer)"mps803");
-        g_signal_connect(radio_nl10, "toggled", G_CALLBACK(on_radio_toggled),
-                (gpointer)"nl10");
+        g_signal_connect(ascii,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         (gpointer)"ascii");
+        g_signal_connect(mps803,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         (gpointer)"mps803");
+        g_signal_connect(nl10,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         (gpointer)"nl10");
     } else if (device == 6) {
-        g_signal_connect(radio_1520, "toggled", G_CALLBACK(on_radio_toggled),
-                (gpointer)"1520");
+        g_signal_connect(v1520,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         (gpointer)"1520");
     }
 
     gtk_widget_show_all(grid);
