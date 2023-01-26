@@ -44,6 +44,7 @@
 #include "vice_gtk3.h"
 #include "resources.h"
 #include "printer.h"
+#include "printerdriverwidget.h"
 #include "userport.h"
 
 #include "userportprinterwidget.h"
@@ -58,7 +59,7 @@ static const vice_gtk3_radiogroup_entry_t text_devices[] = {
     { NULL, -1 }
 };
 
-
+#if 0
 /** \brief  Handler for the "toggled" event of the driver radio buttons
  *
  * \param[in]   radio       radio button
@@ -73,7 +74,7 @@ static void on_driver_toggled(GtkRadioButton *radio, gpointer user_data)
         resources_set_string("PrinterUserportDriver", driver);
     }
 }
-
+#endif
 
 /** \brief  Handler for the "toggled" event of the output mode widget
  *
@@ -143,6 +144,7 @@ static GtkWidget *create_userport_emulation_widget(void)
  */
 static GtkWidget *create_driver_widget(void)
 {
+#if 0
     GtkWidget *grid;
     GtkWidget *radio_ascii = NULL;
     GtkWidget *radio_nl10 = NULL;
@@ -187,6 +189,8 @@ static GtkWidget *create_driver_widget(void)
 
     gtk_widget_show_all(grid);
     return grid;
+#endif
+    return printer_driver_widget_create(3);
 }
 
 

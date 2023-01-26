@@ -303,7 +303,7 @@ static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 
 /** \brief  Create button to send formfeed to the printer
  *
- * \param[in]   device  device number (4-7)
+ * \param[in]   device  device number (4-6) or 8 for userport
  *
  * \return  GtkButton
  */
@@ -315,6 +315,9 @@ static GtkWidget *create_formfeed_button(int device)
     g_snprintf(label, sizeof label, "Send formfeed to %s",
                children[device - PRINTER_MIN].title);
     button = gtk_button_new_with_label(label);
+    if (device > 7) {
+        device = 3; /* userport uses device 3 for printer_formfeed() */
+    }
     g_signal_connect(button,
                      "clicked",
                      G_CALLBACK(on_formfeed_clicked),
