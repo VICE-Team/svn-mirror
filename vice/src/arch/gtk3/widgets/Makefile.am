@@ -197,7 +197,6 @@ libwidgets_a_SOURCES = \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
 	userportrsinterfacewidget.c \
-	userportprinterwidget.c \
 	v364speechwidget.c \
 	vdcmodelwidget.c \
 	vic20memoryexpansionwidget.c \
@@ -368,7 +367,6 @@ EXTRA_DIST = \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
 	userportrsinterfacewidget.h \
-	userportprinterwidget.h \
 	v364speechwidget.h \
 	vdcmodelwidget.h \
 	vic20memoryexpansionwidget.h \

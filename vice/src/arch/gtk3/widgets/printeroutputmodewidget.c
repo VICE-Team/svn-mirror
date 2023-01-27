@@ -5,9 +5,10 @@
  */
 
 /*
- * $VICERES Printer4Output  -vsid
- * $VICERES Printer5Output  -vsid
- * $VICERES Printer6Output  -vsid
+ * $VICERES Printer4Output          -vsid
+ * $VICERES Printer5Output          -vsid
+ * $VICERES Printer6Output          -vsid
+ * $VICERES PrinterUserportOutput   x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*

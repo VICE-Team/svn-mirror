@@ -5,9 +5,10 @@
  */
 
 /*
- * $VICERES Printer4TextDevice  -vsid
- * $VICERES Printer5TextDevice  -vsid
- * $VICERES Printer6TextDevice  -vsid
+ * $VICERES Printer4TextDevice          -vsid
+ * $VICERES Printer5TextDevice          -vsid
+ * $VICERES Printer6TextDevice          -vsid
+ * $VICERES PrinterUserportTextDevice   x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
@@ -34,13 +35,12 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#include "vice_gtk3.h"
-#include "resources.h"
+#include "log.h"
 #include "printer.h"
+#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "printeroutputdevicewidget.h"
 
@@ -55,9 +55,9 @@ static const vice_gtk3_radiogroup_entry_t device_list[] = {
 };
 
 
-/** \brief  Create widget to control the "Printer[4-6]TextDevice resource
+/** \brief  Create widget for the "Printer[4-6|Userport]TextDevice resource
  *
- * \param[in]   device number (4-6)
+ * \param[in]   device number (4-6 or 3 for userport)
  *
  * \return  GtkGrid
  */
@@ -65,13 +65,25 @@ GtkWidget *printer_output_device_widget_create(int device)
 {
     GtkWidget *grid;
     GtkWidget *group;
+    char       resource[32];
+
+    if (device >= 4 && device <= 6) {
+        g_snprintf(resource, sizeof resource, "Printer%dTextDevice", device);
+    } else if (device == 3) {
+        strncpy(resource, "PrinterUserportTextDevice", sizeof resource - 1u);
+        resource[sizeof resource - 1u] = '\0';
+    } else {
+        log_error(LOG_ERR,
+                  "%s(): invalid device number %d.",
+                  __func__, device);
+        return NULL;
+    }
 
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output device", 1);
     vice_gtk3_grid_set_title_margin(grid, 8);
-    group = vice_gtk3_resource_radiogroup_new_sprintf("Printer%dTextDevice",
-                                                      device_list,
-                                                      GTK_ORIENTATION_VERTICAL,
-                                                      device);
+    group = vice_gtk3_resource_radiogroup_new(resource,
+                                              device_list,
+                                              GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

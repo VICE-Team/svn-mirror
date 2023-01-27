@@ -4,24 +4,16 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/* FIXME:   Some of the resources mentioned here are actually controlled by
- *          widgets in other files:
- *
+/*
  * $VICERES VirtualDevice4              -vsid
  * $VICERES VirtualDevice5              -vsid
  * $VICERES VirtualDevice6              -vsid
  * $VICERES VirtualDevice7              -vsid
- * $VICERES IECDevice4                  -vsid -xvic
- * $VICERES IECDevice5                  -vsid -xvic
- * $VICERES IECDevice6                  -vsid -xvic
- * $VICERES IECDevice7                  -vsid -xvic
- * $VICERES Printer4                    -vsid
- * $VICERES Printer5                    -vsid
- * $VICERES Printer6                    -vsid
+ * $VICERES IECDevice4                  x64 x64sc x64dtv xscpu64 x128 xplus4
+ * $VICERES IECDevice5                  x64 x64sc x64dtv xscpu64 x128 xplus4
+ * $VICERES IECDevice6                  x64 x64sc x64dtv xscpu64 x128 xplus4
+ * $VICERES IECDevice7                  x64 x64sc x64dtv xscpu64 x128 xplus4
  * $VICERES Printer7                    -vsid
- * $VICERES Printer4Driver              -vsid
- * $VICERES Printer5Driver              -vsid
- * $VICERES Printer6Driver              -vsid
  * $VICERES Printer4Output              -vsid
  * $VICERES Printer5Output              -vsid
  * $VICERES Printer6Output              -vsid
@@ -32,10 +24,8 @@
  * $VICERES Printer5TextDevice          -vsid
  * $VICERES Printer6TextDevice          -vsid
  * $VICERES Printer7TextDevice          -vsid
- * $VICERES PrinterUserport             -vsid
- * $VICERES PrinterUserportTextDevice   -vsid
- * $VICERES PrinterUserportDriver       -vsid
- * $VICERES PrinterUserportOutput       -vsid
+ * $VICERES PrinterUserport             x64 x64sc xscpu64 x128 xvic xpet xcbm2
+ * $VICERES UserportDevice              x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
@@ -68,6 +58,7 @@
 #include "resources.h"
 #include "machine.h"
 #include "printer.h"
+#include "userport.h"
 
 /* widgets */
 #include "printeremulationtypewidget.h"
@@ -79,15 +70,17 @@
 #include "settings_printer.h"
 
 
-#define PRINTER_NUM 4   /**< number of printer devices supported */
-#define PRINTER_MIN 4   /**< lowest device number for a printer */
-#define PRINTER_MAX 7   /**< highest device number for a printer */
+#define PRINTER_NUM      4  /**< number of printer devices supported */
+#define PRINTER_MIN      4  /**< lowest device number for a printer */
+#define PRINTER_MAX      7  /**< highest device number for a printer */
+#define PRINTER_USERPORT 3  /**< userport printer virtual device number */
 
 
 /** \brief  GtkStack child data */
 typedef struct child_s {
     const char *title;          /**< stack child title */
     const char *name;           /**< stack child name */
+    int         device;         /**< device number */
     bool        has_type;       /**< can set emulation type */
     bool        has_virtdev;    /**< virtual device support */
     bool        has_iec;        /**< can have IEC device support (depends on machine) */
@@ -96,6 +89,7 @@ typedef struct child_s {
     bool        has_driver;     /**< has driver selection */
     bool        has_outmode;    /**< has output mode selection */
     bool        has_outdev;     /**< has output device selection */
+    bool        has_userport;   /**< userport emulation enable/disable */
 } child_t;
 
 /** \brief  Stack child widget info */
@@ -103,6 +97,7 @@ static const child_t children[] = {
     {
         .title        = "Printer 4",
         .name         = "printer4",
+        .device       = 4,
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -114,6 +109,7 @@ static const child_t children[] = {
     {
         .title        = "Printer 5",
         .name         = "printer5",
+        .device       = 5,
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -125,6 +121,7 @@ static const child_t children[] = {
     {
         .title        = "Plotter 6",
         .name         = "plotter6",
+        .device       = 6,
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -136,6 +133,7 @@ static const child_t children[] = {
     {
         .title        = "OpenCBM 7",
         .name         = "opencbm7",
+        .device       = 7,
         .has_virtdev  = true,
         .has_iec      = true,
         .has_realdev  = true,
@@ -143,6 +141,11 @@ static const child_t children[] = {
     {
         .title        = "Userport",
         .name         = "userport",
+        .device       = 3,
+        .has_userport = true,
+        .has_driver   = true,
+        .has_outmode  = true,
+        .has_outdev   = true,
         .has_formfeed = true
     }
 };
@@ -218,20 +221,31 @@ static void on_real_device7_toggled(GtkCheckButton *check, gpointer user_data)
     resources_set_int("Printer7", state);
 }
 
-#if 0
-/** \brief  Set PrinterTextDevice[1-3] resource
+/** \brief  Handler for the 'clicked event of the "formfeed" button
  *
- * \param[in]   entry       text entry
- * \param[in]   user_data   resource index (1-3)
+ * \param[in]   widget  button
+ * \param[in]   data    device number (3-6)
  */
-static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
+static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 {
-    int num = GPOINTER_TO_INT(user_data);
-    const gchar *text = gtk_entry_get_text(entry);
+    int device = GPOINTER_TO_INT(data);
 
-    resources_set_string_sprintf("PrinterTextDevice%d", text, num);
+    printer_formfeed((unsigned int)device);
 }
-#endif
+
+/** \brief  Handler for the 'toggled' event of the userport emulation checkbox
+ *
+ * \param[in]   self    checkbox
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_userport_emulation_toggled(GtkWidget *self, gpointer data)
+{
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self))) {
+        resources_set_int("UserportDevice", USERPORT_DEVICE_PRINTER);
+    } else {
+        resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
+    }
+}
 
 /** \brief  Create Virtual Device check button
  *
@@ -287,23 +301,33 @@ static GtkWidget *create_real_device7_check_button(void)
     return check;
 }
 
-
-/** \brief  Handler for the 'clicked event of the "formfeed" button
+/** \brief  Create checkbox to control the UserportDevice resource
  *
- * \param[in]   widget  button
- * \param[in]   data    device number (4-7)
+ * Set "UserportDevice" to either `USERPORT_DEVICE_NONE` or `USERPORT_DEVICE_NONE`.
+ *
+ * \return  GtkCheckButton
  */
-static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
+static GtkWidget *create_userport_emulation_widget(void)
 {
-    int device = GPOINTER_TO_INT(data);
+    GtkWidget *check;
+    int        device = USERPORT_DEVICE_NONE;
 
-    printer_formfeed((unsigned int)device - PRINTER_MIN);
+    resources_get_int("UserportDevice", &device);
+
+    check = gtk_check_button_new_with_label("Enable userport printer emulation");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                                device == USERPORT_DEVICE_PRINTER);
+    g_signal_connect(check,
+                     "toggled",
+                     G_CALLBACK(on_userport_emulation_toggled),
+                     NULL);
+
+    return check;
 }
-
 
 /** \brief  Create button to send formfeed to the printer
  *
- * \param[in]   device  device number (4-6) or 8 for userport
+ * \param[in]   device  device number (4-6, 3 for userport)
  *
  * \return  GtkButton
  */
@@ -313,11 +337,10 @@ static GtkWidget *create_formfeed_button(int device)
     char       label[64];
 
     g_snprintf(label, sizeof label, "Send formfeed to %s",
-               children[device - PRINTER_MIN].title);
+               device == PRINTER_USERPORT
+                ? children[4].title
+                : children[device - PRINTER_MIN].title);
     button = gtk_button_new_with_label(label);
-    if (device > 7) {
-        device = 3; /* userport uses device 3 for printer_formfeed() */
-    }
     g_signal_connect(button,
                      "clicked",
                      G_CALLBACK(on_formfeed_clicked),
@@ -330,14 +353,11 @@ static GtkWidget *create_formfeed_button(int device)
  * Creates a widget for \a device to control its resource. The widget for
  * device #7 is different/simpler.
  *
- * TODO: Refactor to use the #children array; add support for creating userport
- *       printer widgets using a special device number (8?).
- *
- * \param[in]   device  device number (4-7)
+ * \param[in]   index   index in the #children array
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_printer_widget(int device)
+static GtkWidget *create_printer_widget(int index)
 {
     GtkWidget *grid;
     GtkWidget *type     = NULL;
@@ -347,8 +367,10 @@ static GtkWidget *create_printer_widget(int device)
     GtkWidget *outmode  = NULL;
     GtkWidget *outdev   = NULL;
     GtkWidget *formfeed = NULL;
-    int        index    = device - PRINTER_MIN;
+    int        device;
     const child_t *child = &children[index];
+
+    device = child->device;
 
     grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
@@ -364,6 +386,8 @@ static GtkWidget *create_printer_widget(int device)
     }
     if (child->has_virtdev) {
         virtdev = create_virtual_device_check_button(device);
+    } else if (child->has_userport) {
+        virtdev = create_userport_emulation_widget();
     }
     if (child->has_iec && machine_has_iec()) {
         iec = create_iec_check_button(device);
@@ -407,75 +431,11 @@ static GtkWidget *create_printer_widget(int device)
         gtk_widget_set_halign(formfeed, GTK_ALIGN_END);
         gtk_widget_set_valign(formfeed, GTK_ALIGN_END);
         gtk_widget_set_vexpand(formfeed, FALSE);
-        gtk_grid_attach(GTK_GRID(grid), formfeed, 2, 2, 2, 2);
+        gtk_grid_attach(GTK_GRID(grid), formfeed, 2, 3, 2, 2);
     }
 
     gtk_widget_show_all(grid);
     return grid;
-#if 0
-
-    if (device == 4 || device == 5 || device == 6) {
-        /* device 4,5,6 are 'normal' printers */
-        GtkWidget *formfeed;
-
-        type    = printer_emulation_type_widget_create(device);
-        virtual = create_virtual_device_check_button(device);
-        if (machine_has_iec()) {
-            iec = create_iec_check_button(device);
-        }
-
-        gtk_widget_set_margin_top(virtual, 8);
-        gtk_grid_attach(GTK_GRID(grid), type,    0, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), virtual, 0, 2, 2, 1);
-        if (iec != NULL) {
-            gtk_grid_attach(GTK_GRID(grid), iec, 0, 3, 2, 1);
-        }
-
-        gtk_grid_attach(GTK_GRID(grid),
-                printer_driver_widget_create(device), 1, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid),
-                printer_output_mode_widget_create(device), 2, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid),
-                printer_output_device_widget_create(device), 3, 1, 1, 1);
-        formfeed = create_formfeed_button(device);
-        gtk_widget_set_halign(formfeed, GTK_ALIGN_END);
-        gtk_widget_set_valign(formfeed, GTK_ALIGN_END);
-        gtk_widget_set_vexpand(formfeed, FALSE);
-        gtk_grid_attach(GTK_GRID(grid), formfeed, 2, 2, 2, 2);
-
-    } else if (device == 7) {
-        /* device 7 is 'special' */
-        GtkWidget *realdevice;
-
-        realdevice = create_real_device7_check_button();
-        gtk_grid_attach(GTK_GRID(grid), realdevice, 0, 1, 1, 1);
-
-        switch (machine_class) {
-            /* these machines have IEC */
-            case VICE_MACHINE_C64:      /* fall through */
-            case VICE_MACHINE_C64SC:    /* fall through */
-            case VICE_MACHINE_SCPU64:   /* fall through */
-            case VICE_MACHINE_C128:     /* fall through */
-            case VICE_MACHINE_C64DTV:   /* fall through */
-#if 0
-            /* FIXME: xvic does not use the generic IEC bus code in src/iecbus/iecbus.c yet */
-            case VICE_MACHINE_VIC20:    /* fall through */
-#endif
-            case VICE_MACHINE_PLUS4:
-                virtual = create_virtual_device_check_button(device);
-                iec     = create_iec_check_button(device);
-                gtk_grid_attach(GTK_GRID(grid), virtual, 0, 2, 1, 1);
-                gtk_grid_attach(GTK_GRID(grid), iec,     0, 3, 1, 1);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    gtk_widget_show_all(grid);
-    return grid;
-#endif
 }
 
 /** \brief  Create widget to control Printer Text Devices 1-3
@@ -509,7 +469,6 @@ static GtkWidget *create_printer_text_devices_widget(void)
     return grid;
 }
 
-
 /** \brief  Create widget to control printer settings
  *
  * \param[in]   parent  parent widget
@@ -522,8 +481,7 @@ GtkWidget *settings_printer_widget_create(GtkWidget *parent)
     GtkWidget *text_devices;
     GtkWidget *stack;
     GtkWidget *switcher;
-    GtkWidget *userport = NULL;
-    int        unit;
+    int        index;
 
     grid = gtk_grid_new();
 
@@ -536,24 +494,20 @@ GtkWidget *settings_printer_widget_create(GtkWidget *parent)
     /* add indentation to make it more clear it is part of the tabbed interface */
     gtk_widget_set_margin_start(stack, 16);
     gtk_widget_set_margin_end(stack, 16);
-    for (unit = PRINTER_MIN; unit <= PRINTER_MAX; unit++) {
+    for (index = 0; index < G_N_ELEMENTS(children); index++) {
         GtkWidget *printer;
-        int        index = unit - PRINTER_MIN;
 
-        printer = create_printer_widget(unit);
+        if (index == G_N_ELEMENTS(children) - 1) {
+            /* userport stack child */
+            if (!machine_has_userport()) {
+                break;
+            }
+        }
+        printer = create_printer_widget(index);
         gtk_stack_add_titled(GTK_STACK(stack),
                              printer,
                              children[index].name,
                              children[index].title);
-    }
-    /* determine if the userport is available */
-    if (machine_has_userport()) {
-        /* create userport printer widget and add to stack */
-        userport = userport_printer_widget_create();
-        gtk_stack_add_titled(GTK_STACK(stack),
-                             userport,
-                             children[4].name,
-                             children[4].title);
     }
 
     switcher = gtk_stack_switcher_new();
