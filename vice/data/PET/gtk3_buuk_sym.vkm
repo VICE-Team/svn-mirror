@@ -258,8 +258,8 @@ parenright      9 3 1   # 0 )
 minus           0 3 0   # -
 underscore      3 6 1   # shift+@
 
-equal           0 3 0   # =
-plus            2 6 1   # +
+equal           0 3 1   # = (shift+-)
+plus            2 6 1   # + (shift+;)
 
 BackSpace       4 7 8
 
@@ -307,7 +307,7 @@ Delete          4 7 0
 Insert          4 7 1
 Home            8 4 8
 #End
-Page_up         8 0 8   # revers off
+Page_Up         8 0 8   # revers off
 Page_Down       7 6 8   # repeat
 
 # cursor keys
