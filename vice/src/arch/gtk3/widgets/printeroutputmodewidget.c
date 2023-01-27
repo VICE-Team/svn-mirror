@@ -33,6 +33,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "log.h"
 #include "resources.h"
