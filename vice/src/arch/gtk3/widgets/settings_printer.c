@@ -65,7 +65,6 @@
 #include "printerdriverwidget.h"
 #include "printeroutputmodewidget.h"
 #include "printeroutputdevicewidget.h"
-#include "userportprinterwidget.h"
 
 #include "settings_printer.h"
 
