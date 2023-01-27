@@ -34,6 +34,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "log.h"
 #include "resources.h"
 #include "vice_gtk3.h"
 
@@ -80,7 +81,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer mode)
 
 /** \brief  Create widget to control Printer[device]TextDevice resource
  *
- * \param[in]   device  device number
+ * \param[in]   device  device number (4-6 or 3 for userport)
  *
  * \return  GtkGrid
  */
@@ -91,7 +92,7 @@ GtkWidget *printer_output_mode_widget_create(int device)
     GtkWidget  *gfx;
     GSList     *group = NULL;
     const char *value = NULL;
-    char        resource[256];
+    char        resource[32];
 
     /* can't use the resource base widgets here, since for some reason this
      * resource is a string with two possible values: "text" and "graphics"
@@ -100,7 +101,18 @@ GtkWidget *printer_output_mode_widget_create(int device)
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output mode", 1);
     vice_gtk3_grid_set_title_margin(grid, 8);
 
-    g_snprintf(resource, sizeof resource , "Printer%dOutput", device);
+    if (device >= 4 && device <= 6) {
+        g_snprintf(resource, sizeof resource , "Printer%dOutput", device);
+    } else if (device == 3) {
+        /* userport printer */
+        strncpy(resource, "PrinterUserportOutput", sizeof resource - 1u);
+        resource[sizeof resource - 1u] = '\0';
+    } else {
+        log_error(LOG_ERR,
+                  "%s(): invalid device number %d.",
+                  __func__, device);
+        return NULL;
+    }
     resource_widget_set_resource_name(grid, resource);
 
     text = gtk_radio_button_new_with_label(group, "Text");
