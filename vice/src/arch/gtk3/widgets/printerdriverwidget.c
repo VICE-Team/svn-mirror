@@ -3,13 +3,14 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Allows selecting drivers for printers \#4, \#5 and \#6.
+ * Allows selecting drivers for printers \#4, \#5, \#6 and userport printer.
  */
 
 /*
- * $VICERES Printer4Driver  -vsid
- * $VICERES Printer5Driver  -vsid
- * $VICERES Printer6Driver  -vsid
+ * $VICERES Printer4Driver          -vsid
+ * $VICERES Printer5Driver          -vsid
+ * $VICERES Printer6Driver          -vsid
+ * $VICERES PrinterUserportDriver   x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
