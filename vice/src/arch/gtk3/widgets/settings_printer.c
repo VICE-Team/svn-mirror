@@ -25,7 +25,6 @@
  * $VICERES Printer6TextDevice          -vsid
  * $VICERES Printer7TextDevice          -vsid
  * $VICERES PrinterUserport             x64 x64sc xscpu64 x128 xvic xpet xcbm2
- * $VICERES UserportDevice              x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
@@ -65,6 +64,7 @@
 #include "printerdriverwidget.h"
 #include "printeroutputmodewidget.h"
 #include "printeroutputdevicewidget.h"
+#include "userportdevicecheckbutton.h"
 
 #include "settings_printer.h"
 
@@ -232,20 +232,6 @@ static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
     printer_formfeed((unsigned int)device);
 }
 
-/** \brief  Handler for the 'toggled' event of the userport emulation checkbox
- *
- * \param[in]   self    checkbox
- * \param[in]   data    extra event data (unused)
- */
-static void on_userport_emulation_toggled(GtkWidget *self, gpointer data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self))) {
-        resources_set_int("UserportDevice", USERPORT_DEVICE_PRINTER);
-    } else {
-        resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
-    }
-}
-
 /** \brief  Create Virtual Device check button
  *
  * \param[in]   device  printer device
@@ -297,30 +283,6 @@ static GtkWidget *create_real_device7_check_button(void)
                      "toggled",
                      G_CALLBACK(on_real_device7_toggled),
                      NULL);
-    return check;
-}
-
-/** \brief  Create checkbox to control the UserportDevice resource
- *
- * Set "UserportDevice" to either `USERPORT_DEVICE_NONE` or `USERPORT_DEVICE_NONE`.
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_userport_emulation_widget(void)
-{
-    GtkWidget *check;
-    int        device = USERPORT_DEVICE_NONE;
-
-    resources_get_int("UserportDevice", &device);
-
-    check = gtk_check_button_new_with_label("Enable userport printer emulation");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-                                device == USERPORT_DEVICE_PRINTER);
-    g_signal_connect(check,
-                     "toggled",
-                     G_CALLBACK(on_userport_emulation_toggled),
-                     NULL);
-
     return check;
 }
 
@@ -386,7 +348,8 @@ static GtkWidget *create_printer_widget(int index)
     if (child->has_virtdev) {
         virtdev = create_virtual_device_check_button(device);
     } else if (child->has_userport) {
-        virtdev = create_userport_emulation_widget();
+        virtdev = userport_device_check_button_new("Enable userport printer emulation",
+                                                   USERPORT_DEVICE_PRINTER);
     }
     if (child->has_iec && machine_has_iec()) {
         iec = create_iec_check_button(device);
