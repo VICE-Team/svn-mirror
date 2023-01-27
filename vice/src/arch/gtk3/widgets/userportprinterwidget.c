@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "printer.h"
 #include "printerdriverwidget.h"
+#include "printeroutputmodewidget.h"
 #include "userport.h"
 
 #include "userportprinterwidget.h"
@@ -76,6 +77,7 @@ static void on_driver_toggled(GtkRadioButton *radio, gpointer user_data)
 }
 #endif
 
+#if 0
 /** \brief  Handler for the "toggled" event of the output mode widget
  *
  * \param[in]   radio       radio button
@@ -90,7 +92,7 @@ static void on_output_mode_toggled(GtkRadioButton *radio, gpointer user_data)
         resources_set_string("PrinterUserportOutput", mode);
     }
 }
-
+#endif
 
 /** \brief  Handler for the 'toggled' event of the userport emulation checkbox
  *
@@ -200,6 +202,7 @@ static GtkWidget *create_driver_widget(void)
  */
 static GtkWidget *create_output_mode_widget(void)
 {
+#if 0
     GtkWidget *grid;
     GtkWidget *radio_text;
     GtkWidget *radio_gfx;
@@ -225,6 +228,8 @@ static GtkWidget *create_output_mode_widget(void)
 
     gtk_widget_show_all(grid);
     return grid;
+#endif
+    return printer_output_mode_widget_create(3);
 }
 
 
