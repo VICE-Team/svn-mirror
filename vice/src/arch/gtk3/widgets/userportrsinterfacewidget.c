@@ -2,6 +2,7 @@
  * \brief   Userport RS232 Interface widget
  *
  * \author  Pablo Roldan <pdroldan@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -34,7 +35,6 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -47,21 +47,21 @@
 /** \brief  List of possible userport RS-232 interfaces for C64
  */
 static const vice_gtk3_combo_entry_int_t userport_rsinterfaces64[] = {
-    { "RS-232, normal control lines levels", USERPORT_RS_NONINVERTED },
+    { "RS-232, normal control lines levels",    USERPORT_RS_NONINVERTED },
     { "RS-232, inverted control lines levels",  USERPORT_RS_INVERTED },
-    { "RS-232, custom control lines levels", USERPORT_RS_CUSTOM },
-    { "UP-9600", USERPORT_RS_UP9600 },
-    { NULL,             -1 }
+    { "RS-232, custom control lines levels",    USERPORT_RS_CUSTOM },
+    { "UP-9600",                                USERPORT_RS_UP9600 },
+    { NULL,                                     -1 }
 };
 
 
 /** \brief  List of possible userport RS-232 interfaces for VIC-20/C128
  */
 static const vice_gtk3_combo_entry_int_t userport_rsinterfacesvic[] = {
-    { "RS-232, normal control lines levels", 0 },
+    { "RS-232, normal control lines levels",    0 },
     { "RS-232, inverted control lines levels",  1 },
-    { "RS-232, custom control lines levels", 2 },
-    { NULL,             -1 }
+    { "RS-232, custom control lines levels",    2 },
+    { NULL,                                    -1 }
 };
 
 /** \brief  Get RS-232 interface combo box index from the control lines checkboxes combinations
@@ -130,8 +130,23 @@ static void on_control_toggled(GtkWidget *widget, gpointer user_data)
     GtkWidget *combo;
 
     grid = gtk_widget_get_parent(widget);
-    combo = gtk_grid_get_child_at((GtkGrid*)grid, 1, 1);
-    gtk_combo_box_set_active((GtkComboBox*)combo, get_rsinterface_index());
+    combo = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), get_rsinterface_index());
+}
+
+/** \brief  Create left-aligned, 8 pixels indented label
+ *
+ * \param[in]   text    label text
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *create_label(const char *text)
+{
+    GtkWidget *label = gtk_label_new(text);
+
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_start(label, 8);
+    return label;
 }
 
 /** \brief  Create userport rsinterface widget
@@ -148,10 +163,8 @@ GtkWidget *userport_rsinterface_widget_create(void)
     GtkWidget *rsuser_dsrinv_widget;
     GtkWidget *rsuser_dcdinv_widget;
     GtkWidget *rsuser_dtrinv_widget;
-
-    int i;
-
     const vice_gtk3_combo_entry_int_t *list;
+    int i;
 
     if ((machine_class == VICE_MACHINE_VIC20) || (machine_class == VICE_MACHINE_C128)) {
         list = userport_rsinterfacesvic;
@@ -159,66 +172,69 @@ GtkWidget *userport_rsinterface_widget_create(void)
         list = userport_rsinterfaces64;
     }
 
-    /* grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Interface type", 1); */
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    /*g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));*/
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     combo = gtk_combo_box_text_new();
     for (i = 0; list[i].name != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-               NULL, list[i].name);
+                                  NULL,
+                                  list[i].name);
     }
     gtk_widget_set_hexpand(combo, TRUE);
-    gtk_widget_set_margin_start(combo, 16);
-    label = gtk_label_new("RS-232 Interface type");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_top(combo, 8);
+    gtk_widget_set_margin_bottom(combo, 8);
+    label = create_label("RS-232 Interface type");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
 
-    label = gtk_label_new("Control lines");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    rsuser_rtsinv_widget = vice_gtk3_resource_check_button_new(
-            "RsUserRTSInv", "Invert RTS");
-    gtk_widget_set_halign(rsuser_rtsinv_widget, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(rsuser_rtsinv_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    label = create_label("Control lines");
+    rsuser_rtsinv_widget = vice_gtk3_resource_check_button_new("RsUserRTSInv",
+                                                               "Invert RTS");
+    gtk_grid_attach(GTK_GRID(grid), label,                0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rsuser_rtsinv_widget, 1, 2, 1, 1);
-    g_signal_connect(rsuser_rtsinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
+    g_signal_connect(rsuser_rtsinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
 
-    rsuser_ctsinv_widget = vice_gtk3_resource_check_button_new(
-            "RsUserCTSInv", "Invert CTS");
-    gtk_widget_set_halign(rsuser_ctsinv_widget, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(rsuser_ctsinv_widget, 16);
+    rsuser_ctsinv_widget = vice_gtk3_resource_check_button_new("RsUserCTSInv",
+                                                               "Invert CTS");
     gtk_grid_attach(GTK_GRID(grid), rsuser_ctsinv_widget, 2, 2, 1, 1);
-    g_signal_connect(rsuser_ctsinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
+    g_signal_connect(rsuser_ctsinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
 
-    rsuser_dsrinv_widget = vice_gtk3_resource_check_button_new(
-            "RsUserDSRInv", "Invert DSR");
-    gtk_widget_set_halign(rsuser_dsrinv_widget, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(rsuser_dsrinv_widget, 16);
+    rsuser_dsrinv_widget = vice_gtk3_resource_check_button_new("RsUserDSRInv",
+                                                               "Invert DSR");
     gtk_grid_attach(GTK_GRID(grid), rsuser_dsrinv_widget, 1, 3, 1, 1);
-    g_signal_connect(rsuser_dsrinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
+    g_signal_connect(rsuser_dsrinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
 
-    rsuser_dcdinv_widget = vice_gtk3_resource_check_button_new(
-            "RsUserDCDInv", "Invert DCD");
-    gtk_widget_set_halign(rsuser_dcdinv_widget, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(rsuser_dcdinv_widget, 16);
+    rsuser_dcdinv_widget = vice_gtk3_resource_check_button_new("RsUserDCDInv",
+                                                               "Invert DCD");
+//    gtk_widget_set_halign(rsuser_dcdinv_widget, GTK_ALIGN_START);
+//    gtk_widget_set_margin_start(rsuser_dcdinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_dcdinv_widget, 2, 3, 1, 1);
 
-    rsuser_dtrinv_widget = vice_gtk3_resource_check_button_new(
-            "RsUserDTRInv", "Invert DTR");
-    gtk_widget_set_halign(rsuser_dtrinv_widget, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(rsuser_dtrinv_widget, 16);
+    rsuser_dtrinv_widget = vice_gtk3_resource_check_button_new("RsUserDTRInv",
+                                                               "Invert DTR");
     gtk_grid_attach(GTK_GRID(grid), rsuser_dtrinv_widget, 1, 4, 1, 1);
-    g_signal_connect(rsuser_dtrinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
+    g_signal_connect(rsuser_dtrinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
 
-    gtk_combo_box_set_active((GtkComboBox*)combo, get_rsinterface_index());
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), get_rsinterface_index());
+    g_signal_connect(combo,
+                     "changed",
+                     G_CALLBACK(on_combo_changed),
+                     NULL);
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
     gtk_widget_show_all(grid);
-    return grid; /* combo */
+    return grid;
 }
 
 /** \brief  Add custom callback to \a widget
@@ -228,8 +244,8 @@ GtkWidget *userport_rsinterface_widget_create(void)
  * \param[in,out]   widget      userport modem widget
  * \param[in]       cb_func     callback function
  */
-void userport_rsinterface_widget_add_callback(GtkGrid *widget,
-                                     void (*cb_func)(GtkWidget *))
+void userport_rsinterface_widget_add_callback(GtkGrid  *widget,
+                                              void    (*cb_func)(GtkWidget*))
 {
     GtkWidget *combo;
 
