@@ -1732,10 +1732,13 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
+    /* No RS232 for standard PET, SuperPET has ACIA though */
+#if 0
 #ifdef HAVE_RS232DEV
     { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
+#endif
 #endif
     { "Userport devices",
       "userport-devices",
