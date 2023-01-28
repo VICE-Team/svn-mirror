@@ -26,13 +26,10 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 
+#include "archdep_defs.h"
 #include "archdep_exit.h"
 #include "archdep_mkdir.h"
 #include "archdep_user_state_path.h"
@@ -48,7 +45,6 @@
 void archdep_create_user_state_dir(void)
 {
     const char *state = archdep_user_state_path();
-    printf("%s(): state dir = %s\n", __func__, state);
 
     if (archdep_mkdir_recursive(state, 0755) == 0) {
         return;     /* we created the dir */
