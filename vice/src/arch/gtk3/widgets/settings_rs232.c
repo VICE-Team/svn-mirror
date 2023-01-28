@@ -482,6 +482,8 @@ static GtkWidget *create_userport_widget(void)
 }
 
 
+
+
 /** \brief  Create RS232 devices widget
  *
  * XXX: only supports Unix, Windows appears do things differently.
@@ -491,84 +493,44 @@ static GtkWidget *create_userport_widget(void)
 static GtkWidget *create_rs232_devices_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *ser1_file_widget;
-    GtkWidget *ser1_baud_widget;
-    GtkWidget *ser1_ip232_widget;
-    GtkWidget *ser2_file_widget;
-    GtkWidget *ser2_baud_widget;
-    GtkWidget *ser2_ip232_widget;
-    GtkWidget *ser3_file_widget;
-    GtkWidget *ser3_baud_widget;
-    GtkWidget *ser3_ip232_widget;
-    GtkWidget *ser4_file_widget;
-    GtkWidget *ser4_baud_widget;
-    GtkWidget *ser4_ip232_widget;
-    /* ttyu[0-3] are supposedly set up on FreeBSD */
-    const char *patterns_ttys[] = { "ttyS*", "ttyu*", NULL };
+    int        serial;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>RS232 devices</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "RS232 devices", 5);
+    for (serial = 1; serial <= 4; serial++) {
+        GtkWidget  *widget;
+        char        buffer[64];
+        /* ttyu[0-3] are supposedly set up on FreeBSD */
+        const char *patterns_ttys[] = { "ttyS*", "ttyu*", NULL };
+        int         row = serial;   /* currently equal, might change with
+                                       layout change */
 
-    label = create_indented_label("Serial 1");
-    ser1_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice1", patterns_ttys, "Serial ports",
-            "Select serial port", NULL, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser1_file_widget, 1, 1, 1, 1);
-    label = gtk_label_new("Baud");
-    ser1_baud_widget = create_serial_baud_widget("RsDevice1Baud");
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser1_baud_widget, 3, 1, 1, 1);
-    ser1_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice1ip232", "IP232");
-    gtk_grid_attach(GTK_GRID(grid), ser1_ip232_widget, 4, 1, 1, 1);
+        /* label separate from the browser widget to have proper alignment
+         * of the entry box */
+        g_snprintf(buffer, sizeof buffer, "Serial %d", serial);
+        widget = create_indented_label(buffer);
+        gtk_grid_attach(GTK_GRID(grid), widget, 0, row, 1, 1);
 
-    label = create_indented_label("Serial 2");
-    ser2_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice2", patterns_ttys, "Serial ports",
-            "Select serial port", NULL, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser2_file_widget, 1, 2, 1, 1);
-    label = gtk_label_new("Baud");
-    ser2_baud_widget = create_serial_baud_widget("RsDevice2Baud");
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser2_baud_widget, 3, 2, 1, 1);
-    ser2_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice2ip232", "IP232");
-    gtk_grid_attach(GTK_GRID(grid), ser2_ip232_widget, 4, 2, 1, 1);
+        g_snprintf(buffer, sizeof buffer, "RsDevice%d", serial);
+        widget = vice_gtk3_resource_browser_new(buffer,
+                                                patterns_ttys,
+                                                "Serial ports",
+                                                "Select serial port",
+                                                NULL,  /* no label */
+                                                NULL);
+        gtk_grid_attach(GTK_GRID(grid), widget, 1, row, 1, 1);
 
-    label = create_indented_label("Serial 3");
-    ser3_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice3", patterns_ttys, "Serial ports",
-            "Select serial port", NULL, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser3_file_widget, 1, 3, 1, 1);
-    label = gtk_label_new("Baud");
-    ser3_baud_widget = create_serial_baud_widget("RsDevice3Baud");
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser3_baud_widget, 3, 3, 1, 1);
-    ser3_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice3ip232", "IP232");
-    gtk_grid_attach(GTK_GRID(grid), ser3_ip232_widget, 4, 3, 1, 1);
+        widget = gtk_label_new("Baud");
+        gtk_grid_attach(GTK_GRID(grid), widget, 2, row, 1, 1);
 
-    label = create_indented_label("Serial 4");
-    ser4_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice4", patterns_ttys, "Serial ports",
-            "Select serial port", NULL, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser4_file_widget, 1, 4, 1, 1);
-    label = gtk_label_new("Baud");
-    ser4_baud_widget = create_serial_baud_widget("RsDevice4Baud");
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ser4_baud_widget, 3, 4, 1, 1);
-    ser4_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice4ip232", "IP232");
-    gtk_grid_attach(GTK_GRID(grid), ser4_ip232_widget, 4, 4, 1, 1);
+        g_snprintf(buffer, sizeof buffer, "RsDevice%dBaud", serial);
+        widget = create_serial_baud_widget(buffer);
+        gtk_grid_attach(GTK_GRID(grid), widget, 3, row, 1, 1);
 
+        widget = vice_gtk3_resource_check_button_new_sprintf("RsDevice%dip232",
+                                                             "IP232",
+                                                             serial);
+        gtk_grid_attach(GTK_GRID(grid), widget, 3, row, 1, 1);
+    }
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -586,32 +548,31 @@ GtkWidget *settings_rs232_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *userport_widget;
-    int row = 1;
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 32);
+    grid = vice_gtk3_grid_new_spaced(8, 16);
 
     /* guard against accidental use on unsupported machines */
     if (machine_class == VICE_MACHINE_C64DTV
             || machine_class == VICE_MACHINE_PET
             || machine_class == VICE_MACHINE_VSID) {
-        char *text;
         GtkWidget *label;
+        char       message[1024];
 
-        text = lib_msprintf(
-                "<b>Error</b>: RS232 not supported for <b>%s</b>, please fix "
-                "the code that calls this code!",
-                machine_name);
+        g_snprintf(message, sizeof message,
+                   "<b>Error</b>: RS232 not supported for <b>%s</b>, please fix"
+                   " the code that calls this code!",
+                   machine_name);
         label = gtk_label_new(NULL);
-        gtk_label_set_markup(GTK_LABEL(label), text);
+        gtk_label_set_markup(GTK_LABEL(label), message);
         gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-        lib_free(text);
         gtk_widget_show_all(grid);
         return grid;
     }
 
-    gtk_grid_attach(GTK_GRID(grid), create_acia_widget(), 0, 0, 1, 1);
-    gtk_widget_show_all(grid);
+    gtk_grid_attach(GTK_GRID(grid), create_acia_widget(), 0, row, 1, 1);
+    row++;
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -629,5 +590,6 @@ GtkWidget *settings_rs232_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), create_rs232_devices_widget(), 0, row, 1, 1);
 
+    gtk_widget_show_all(grid);
     return grid;
 }
