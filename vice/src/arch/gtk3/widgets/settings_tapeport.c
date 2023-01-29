@@ -128,21 +128,38 @@ static GtkWidget *tapecart_optimize = NULL;
 /** \brief  Tapecart log level radiogroup */
 static GtkWidget *tapecart_loglevel = NULL;
 
-/** \brief  Tapecart filename entry
- *
- * TODO:    Replace with resourcebrowser.c
- */
+/** \brief  Tapecart image file browser */
 static GtkWidget *tapecart_filename = NULL;
-
-/** \brief  Tapecart browse button
- *
- * TODO:    Replace with resourcebrowser.c
- */
-static GtkWidget *tapecart_browse = NULL;
 
 /** \brief  Tapecart flush button */
 static GtkWidget *tapecart_flush = NULL;
 
+
+/** \brief  Determine if current machine supports tapecart
+ *
+ * \return  `TRUE` if tapecart emulation is available
+ */
+static gboolean machine_has_tapecart(void)
+{
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
+/** \brief  Determine if the current machine has a second tape port
+ *
+ * \return  `TRUE` if the machine has a second tape port
+ */
+static gboolean machine_has_second_tape_port(void)
+{
+    /* only a PET has a second tape port */
+    return (gboolean)(machine_class == VICE_MACHINE_PET);
+}
 
 /** \brief  Set Datasette widget active/inactive
  *
@@ -162,8 +179,7 @@ static void set_datasette_active(gboolean state)
         state = FALSE;
     }
     gtk_widget_set_sensitive(ds_traps1, state);
-    /* only xpet has two tape devices */
-    if (machine_class == VICE_MACHINE_PET) {
+    if (machine_has_second_tape_port()) {
         gtk_widget_set_sensitive(ds_traps2, state);
     }
 }
@@ -183,12 +199,13 @@ static void set_f83_active(gboolean state)
  */
 static void set_tapecart_active(gboolean state)
 {
-    gtk_widget_set_sensitive(tapecart_update,   state);
-    gtk_widget_set_sensitive(tapecart_optimize, state);
-    gtk_widget_set_sensitive(tapecart_loglevel, state);
-    gtk_widget_set_sensitive(tapecart_filename, state);
-    gtk_widget_set_sensitive(tapecart_browse,   state);
-    gtk_widget_set_sensitive(tapecart_flush,    state);
+    if (machine_has_tapecart()) {
+        gtk_widget_set_sensitive(tapecart_update,   state);
+        gtk_widget_set_sensitive(tapecart_optimize, state);
+        gtk_widget_set_sensitive(tapecart_loglevel, state);
+        gtk_widget_set_sensitive(tapecart_filename, state);
+        gtk_widget_set_sensitive(tapecart_flush,    state);
+    }
 }
 
 /** \brief  Set individual options active/inactive
@@ -199,13 +216,10 @@ static void set_options_widgets_sensitivity(int id)
 {
     set_datasette_active(id == TAPEPORT_DEVICE_DATASETTE);
     set_f83_active(id == TAPEPORT_DEVICE_CP_CLOCK_F83);
-     if (machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC||
-         machine_class == VICE_MACHINE_C128) {
-        set_tapecart_active(id == TAPEPORT_DEVICE_TAPECART);
-     }
+    set_tapecart_active(id == TAPEPORT_DEVICE_TAPECART);
 }
 
+#if 0
 /** \brief  Callback for the tapecart file chooser dialog
  *
  * \param[in,out]   dialog      file chooser dialog
@@ -245,6 +259,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
                                         NULL);
     gtk_widget_show(dialog);
 }
+#endif
 
 /** \brief  Handler for the 'clicked' event of the tapecart flush button
  *
@@ -277,7 +292,7 @@ static GtkWidget *create_datasette_widget(void)
                                                     "Virtual Device #1 (required for t64)");
     gtk_widget_set_margin_start(ds_traps1, 8);
     gtk_grid_attach(GTK_GRID(grid), ds_traps1, 0, row, 2, 1);
-    if (machine_class == VICE_MACHINE_PET) {
+    if (machine_has_second_tape_port()) {
         ds_traps2 = vice_gtk3_resource_check_button_new("VirtualDevice2",
                                                         "Virtual Device #2 (required for t64)");
         gtk_grid_attach(GTK_GRID(grid), ds_traps2, 2, row, 2, 1);
@@ -364,12 +379,13 @@ static GtkWidget *create_cpcf83_widget(void)
  */
 static GtkWidget *create_tapecart_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *wrapper;
-    int        row = 1;
+    GtkWidget  *grid;
+    GtkWidget  *label;
+    GtkWidget  *wrapper;
+    const char *patterns[] = { "*.tcrt", NULL };
+    int         row = 1;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Tapecart", 4);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Tapecart", 3);
     vice_gtk3_grid_set_title_margin(grid, 8);
 
     /* TapecartTCRTFilename */
@@ -377,19 +393,21 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    tapecart_filename = vice_gtk3_resource_entry_full_new("TapecartTCRTFilename");
+    tapecart_filename = vice_gtk3_resource_browser_new("TapecartTCRTFilename",
+                                                       patterns,
+                                                       "Tapecart images",
+                                                       "Select a tapecart image",
+                                                       NULL,
+                                                       NULL);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);
+    /* expand the GtkEntry inside the filename widget */
+    gtk_widget_set_hexpand(gtk_grid_get_child_at(GTK_GRID(tapecart_filename), 0, 0),
+                           TRUE);
     gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 1, row, 1, 1);
-    /* Browse button */
-    tapecart_browse = gtk_button_new_with_label("Browse ...");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 2, row, 1, 1);
-    /* Flush button */
+
     tapecart_flush = gtk_button_new_with_label("Save image");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 3, row, 1, 1);
-    g_signal_connect(tapecart_browse,
-                     "clicked",
-                     G_CALLBACK(on_tapecart_browse_clicked),
-                     NULL);
+    gtk_widget_set_hexpand(tapecart_flush, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 2, row, 1, 1);
     g_signal_connect(tapecart_flush,
                      "clicked",
                      G_CALLBACK(on_tapecart_flush_clicked),
@@ -405,7 +423,7 @@ static GtkWidget *create_tapecart_widget(void)
                                                              tcrt_loglevels);
     gtk_widget_set_margin_top(tapecart_loglevel, 8);
     gtk_widget_set_margin_bottom(tapecart_loglevel, 8);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 2, 1);
     row++;
 
     /* wrapper for update/optimize check buttons */
@@ -420,10 +438,7 @@ static GtkWidget *create_tapecart_widget(void)
     tapecart_optimize = vice_gtk3_resource_check_button_new("TapecartOptimizeTCRT",
                                                             "Optimize data when changed");
     gtk_grid_attach(GTK_GRID(wrapper), tapecart_optimize, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 4, 1);
-    row++;
-
-
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -644,7 +659,7 @@ static GtkWidget *create_device_types_widget(void)
     gtk_grid_attach(GTK_GRID(grid), port1_type, 1, 1, 1, 1);
 
     /* PET has a second tape port */
-    if (machine_class == VICE_MACHINE_PET) {
+    if (machine_has_second_tape_port()) {
         label = gtk_label_new("Tape port #2:");
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         gtk_widget_set_hexpand(label, FALSE);
@@ -695,9 +710,7 @@ GtkWidget *settings_tapeport_widget_create(GtkWidget *parent)
     row++;
 
     /* TapeCart settings */
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C64SC||
-        machine_class == VICE_MACHINE_C128) {
+    if (machine_has_tapecart()) {
         gtk_grid_attach(GTK_GRID(grid), create_tapecart_widget(), 0, row, 1, 1);
         row++;
     }
@@ -706,7 +719,7 @@ GtkWidget *settings_tapeport_widget_create(GtkWidget *parent)
     /* set port1 type using the resource */
     resources_get_int("TapePort1Device", &device_id);
     set_device_id(GTK_COMBO_BOX(port1_type), device_id, TRUE);
-    if (machine_class == VICE_MACHINE_PET) {
+    if (machine_has_second_tape_port()) {
         /* set port2 type using the resource */
         resources_get_int("TapePort2Device", &device_id);
         set_device_id(GTK_COMBO_BOX(port2_type), device_id, TRUE);
