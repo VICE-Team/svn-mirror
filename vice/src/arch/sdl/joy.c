@@ -238,14 +238,14 @@ int joy_sdl_init(void)
         log_error(sdljoy_log, "Subsystem init failed!");
         return -1;
     }
-    
+
     num_joysticks = SDL_NumJoysticks();
 
     if (num_joysticks == 0) {
         log_message(sdljoy_log, "No joysticks found");
         return 0;
     }
-        
+
     log_message(sdljoy_log, "%i joysticks found", num_joysticks);
 
     for (i = 0; i < num_joysticks; ++i) {
