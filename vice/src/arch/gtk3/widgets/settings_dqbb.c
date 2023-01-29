@@ -39,11 +39,6 @@
 #include "carthelpers.h"
 #include "cartimagewidget.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "savefiledialog.h"
 #include "widgethelpers.h"
 
 #include "settings_dqbb.h"
@@ -57,9 +52,12 @@
  */
 static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent, "DQBB image",
-            "DQBBfilename", "DQBBImageWrite",
-            CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);
+    return cart_image_widget_create(parent,
+                                    NULL,
+                                    "DQBBfilename",
+                                    "DQBBImageWrite",
+                                    CARTRIDGE_NAME_DQBB,
+                                    CARTRIDGE_DQBB);
 }
 
 
@@ -77,11 +75,12 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
 
-    dqbb_enable_widget = carthelpers_create_enable_check_button(
-            CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);
+    dqbb_enable_widget = carthelpers_create_enable_check_button(CARTRIDGE_NAME_DQBB,
+                                                                CARTRIDGE_DQBB);
     gtk_grid_attach(GTK_GRID(grid), dqbb_enable_widget, 0, 0, 1, 1);
 
     dqbb_image = create_dqbb_image_widget(parent);
+    gtk_widget_set_margin_top(dqbb_image, 8);
     gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

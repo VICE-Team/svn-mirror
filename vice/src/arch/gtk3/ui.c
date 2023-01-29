@@ -58,6 +58,7 @@
 #include "autostart.h"
 #include "basedialogs.h"
 #include "cmdline.h"
+#include "cartimagewidget.h"
 #include "crtcontrolwidget.h"
 #include "debug.h"
 #include "debug_gtk3.h"
@@ -2354,6 +2355,7 @@ void ui_shutdown(void)
     uidata_shutdown();
     ui_statusbar_shutdown();
     ui_hotkeys_shutdown();
+    cart_image_widget_shutdown();
 #if 0
     ui_actions_shutdown();
 #endif
