@@ -361,10 +361,6 @@ void video_arch_resources_shutdown(void)
 {
     DBG(("%s", __func__));
 
-    if (machine_class == VICE_MACHINE_VSID) {
-        joy_arch_resources_shutdown();
-    }
-
 #if defined(HAVE_HWSCALE)
     /* FIXME: should loop over all canvas */
     /* lib_free(canvas->videoconfig->aspect_ratio_s); */

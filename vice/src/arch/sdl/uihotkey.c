@@ -128,13 +128,6 @@ int sdl_ui_hotkey_map(ui_menu_entry_t *item)
         case SDL_KEYDOWN:
             sdlkbd_set_hotkey(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod, item);
             break;
-#ifdef HAVE_SDL_NUMJOYSTICKS
-        case SDL_JOYAXISMOTION:
-        case SDL_JOYBUTTONDOWN:
-        case SDL_JOYHATMOTION:
-            sdljoy_set_hotkey(e, item);
-            break;
-#endif
         default:
             break;
     }
