@@ -35,7 +35,6 @@
 #include "archdep.h"
 #include "interrupt.h"
 #include "joy.h"
-#include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
@@ -1000,6 +999,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
     SDL_Event e;
     int got_key = 0;
     ui_menu_action_t action = MENU_ACTION_NONE;
+    int joynum;
 #ifdef USE_SDL2UI
     int i;
 #endif
@@ -1012,6 +1012,8 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 #endif
 
     do {
+        action = MENU_ACTION_NONE;
+
         SDL_WaitEvent(&e);
 
         switch (e.type) {
@@ -1047,13 +1049,22 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    action = sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
+                }
                 break;
             case SDL_JOYBUTTONDOWN:
-                joy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    action = sdljoy_button_event(joynum, e.jbutton.button, 1);
+                }
                 break;
             case SDL_JOYHATMOTION:
-                joy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
+                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                if (joynum != -1) {
+                    action = sdljoy_hat_event(joynum, e.jhat.hat, e.jhat.value);
+                }
                 break;
 #endif
             default:
@@ -1361,7 +1372,7 @@ ui_menu_action_t sdl_ui_menu_poll_input(void)
 
     do {
         SDL_Delay(20);
-        retval = ui_dispatch_events_for_menu_action();
+        retval = ui_dispatch_events();
 #ifdef HAVE_SDL_NUMJOYSTICKS
         if (retval == MENU_ACTION_NONE || retval == MENU_ACTION_NONE_RELEASE) {
             retval = sdljoy_autorepeat();

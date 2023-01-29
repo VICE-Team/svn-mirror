@@ -474,8 +474,9 @@ static int sdlkbd_get_modifier(SDLMod mod)
     return ret;
 }
 
-void sdlkbd_press(SDLKey key, SDLMod mod)
+ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
 {
+    ui_menu_action_t i, retval = MENU_ACTION_NONE;
     ui_menu_entry_t *hotkey_action = NULL;
 
 #ifdef SDL_DEBUG
@@ -499,21 +500,39 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
     }
 #endif
 
+    if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
+        if (key != SDLK_UNKNOWN) {
+            for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
+                if (sdl_ui_menukeys[i] == (int)key) {
+                    retval = i;
+                    break;
+                }
+            }
+            if ((int)(key) == sdl_ui_menukeys[0]) {
+                retval = MENU_ACTION_EXIT;
+            }
+        }
+        return retval;
+    }
+
     if ((int)(key) == sdl_ui_menukeys[0]) {
         sdl_ui_activate();
-        return;
+        return retval;
     }
 
     if ((hotkey_action = sdlkbd_get_hotkey(key, mod)) != NULL) {
         sdl_ui_hotkey(hotkey_action);
-        return;
+        return retval;
     }
 
     keyboard_key_pressed((unsigned long)key, sdlkbd_get_modifier(mod));
+    return retval;
 }
 
-void sdlkbd_release(SDLKey key, SDLMod mod)
+ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
 {
+    ui_menu_action_t i, retval = MENU_ACTION_NONE_RELEASE;
+
 #ifdef SDL_DEBUG
     log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
@@ -530,39 +549,7 @@ void sdlkbd_release(SDLKey key, SDLMod mod)
     }
 #endif
 
-    keyboard_key_released((unsigned long)key, sdlkbd_get_modifier(mod));
-}
-
-ui_menu_action_t sdlkbd_press_for_menu_action(SDLKey key, SDLMod mod)
-{
-    ui_menu_action_t i, retval = MENU_ACTION_NONE;
-
-#ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
-#endif
-
-        if (key != SDLK_UNKNOWN) {
-            for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
-                if (sdl_ui_menukeys[i] == (int)key) {
-                    retval = i;
-                    break;
-                }
-            }
-            if ((int)(key) == sdl_ui_menukeys[0]) {
-                retval = MENU_ACTION_EXIT;
-            }
-        }
-        return retval;
-}
-
-ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod)
-{
-    ui_menu_action_t i, retval = MENU_ACTION_NONE_RELEASE;
-
-#ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
-#endif
-
+    if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         if (key != SDLK_UNKNOWN) {
             for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
                 if (sdl_ui_menukeys[i] == (int)key) {
@@ -572,6 +559,10 @@ ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod)
             }
         }
         return retval + MENU_ACTION_NONE_RELEASE;
+    }
+
+    keyboard_key_released((unsigned long)key, sdlkbd_get_modifier(mod));
+    return retval;
 }
 
 /* ------------------------------------------------------------------------ */
