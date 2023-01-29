@@ -9,8 +9,6 @@
  * $VICERES REUsize         x64 x64sc xscpu64 x128
  * $VICERES REUfilename     x64 x64sc xscpu64 x128
  * $VICERES REUImageWrite   x64 x64sc xscpu64 x128
- * $VICERES REUIOSwap       xvic
- *  (FIXME: check this one, seems odd, no mention in vice.texi)
  */
 
 /*
@@ -37,10 +35,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "machine.h"
-#include "resources.h"
 #include "cartridge.h"
+#include "vice_gtk3.h"
 
 #include "settings_reu.h"
 
@@ -50,30 +46,16 @@
  * REU sizes tend to be specified in MiB when being 1MiB or higher, not KiB.
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "128KiB",     128 },
-    { "256KiB",     256 },
-    { "512KiB",     512 },
-    { "1MiB",       1024 },
-    { "2MiB",       2048 },
-    { "4MiB",       4096 },
-    { "8MiB",       8192 },
-    { "16MiB",      16384 },
-    { NULL,         -1 }
+    { "128KiB",   128 },
+    { "256KiB",   256 },
+    { "512KiB",   512 },
+    { "1MiB",    1024 },
+    { "2MiB",    2048 },
+    { "4MiB",    4096 },
+    { "8MiB",    8192 },
+    { "16MiB",  16384 },
+    { NULL,        -1 }
 };
-
-
-/** \brief  Create IO-swap check button (seems to be valid for xvic only)
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_reu_ioswap_widget(void)
-{
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new(
-            "REUIOSwap", "MasC=uarade I/O swap");
-    return check;
-}
 
 
 /** \brief  Create radio button group to determine REU RAM size
@@ -83,17 +65,18 @@ static GtkWidget *create_reu_ioswap_widget(void)
 static GtkWidget *create_reu_size_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM Size", 1);
-    radio_group = vice_gtk3_resource_radiogroup_new("REUsize", ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(radio_group, 16);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "REU Size", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("REUsize",
+                                              ram_sizes,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 /** \brief  Create widget to load/save REU image file
  *
@@ -101,10 +84,12 @@ static GtkWidget *create_reu_size_widget(void)
  */
 static GtkWidget *create_reu_image_widget(void)
 {
-    return cart_image_widget_create(
-            NULL, "REU image",
-            "REUfilename", "REUImageWrite",
-            CARTRIDGE_NAME_REU, CARTRIDGE_REU);
+    return cart_image_widget_create(NULL,
+                                    NULL,
+                                    "REUfilename",
+                                    "REUImageWrite",
+                                    CARTRIDGE_NAME_REU,
+                                    CARTRIDGE_REU);
 }
 
 
@@ -119,24 +104,20 @@ GtkWidget *settings_reu_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *reu_enable_widget;
     GtkWidget *reu_size;
-    GtkWidget *reu_ioswap;
     GtkWidget *reu_image;
 
-    grid = vice_gtk3_grid_new_spaced(8, 8);
+    grid = vice_gtk3_grid_new_spaced(32, 8);
 
-    reu_enable_widget = carthelpers_create_enable_check_button(
-            CARTRIDGE_NAME_REU, CARTRIDGE_REU);
+    reu_enable_widget = carthelpers_create_enable_check_button(CARTRIDGE_NAME_REU,
+                                                               CARTRIDGE_REU);
     gtk_grid_attach(GTK_GRID(grid), reu_enable_widget, 0, 0, 2, 1);
 
-    if (machine_class == VICE_MACHINE_VIC20) {
-        reu_ioswap = create_reu_ioswap_widget();
-        gtk_grid_attach(GTK_GRID(grid), reu_ioswap, 0, 1, 1, 1);
-    }
-
     reu_size = create_reu_size_widget();
+    gtk_widget_set_margin_top(reu_size, 8);
     gtk_grid_attach(GTK_GRID(grid), reu_size, 0, 1, 1, 1);
 
     reu_image = create_reu_image_widget();
+    gtk_widget_set_margin_top(reu_image, 8);
     gtk_grid_attach(GTK_GRID(grid), reu_image, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
