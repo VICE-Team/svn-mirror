@@ -76,10 +76,8 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 extern SDLKey SDL2x_to_SDL1x_Keys(SDLKey key);
 extern SDLKey SDL1x_to_SDL2x_Keys(SDLKey key);
 
-extern void sdlkbd_press(SDLKey key, SDLMod mod);
-extern void sdlkbd_release(SDLKey key, SDLMod mod);
-ui_menu_action_t sdlkbd_press_for_menu_action(SDLKey key, SDLMod mod);
-ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod);
+extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);
+extern ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod);
 
 extern void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value);
 

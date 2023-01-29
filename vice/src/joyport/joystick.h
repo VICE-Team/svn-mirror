@@ -30,9 +30,6 @@
 
 #include "types.h"
 #include "joyport.h" /* for JOYPORT_MAX_PORTS */
-#if (defined USE_SDLUI ||defined USE_SDL2UI)
-#include "uimenu.h"
-#endif
 
 extern int joystick_init(void);
 extern int joystick_resources_init(void);
@@ -143,48 +140,6 @@ typedef enum joystick_axis_value_e {
    JOY_AXIS_NEGATIVE
 } joystick_axis_value_t;
 
-/* Actions to perform on joystick input */
-typedef enum joystick_action_e {
-    NONE = 0,
-
-    /* Joystick movement or button press */
-    JOYSTICK = 1,
-
-    /* Keyboard key press */
-    KEYBOARD = 2,
-
-    /* Map button */
-    MAP = 3,
-
-    /* (De)Activate UI */
-    UI_ACTIVATE = 4,
-
-    /* Call UI function */
-    UI_FUNCTION = 5,
-
-    /* Joystick axis used for potentiometers */
-    POT_AXIS = 6
-} joystick_action_t;
-
-/* Input mapping for each direction/button/etc */
-typedef struct joystick_mapping_s {
-    /* Action to perform */
-    joystick_action_t action;
-
-    union {
-        uint16_t joy_pin;
-
-        /* key[0] = row, key[1] = column */
-        int key[2];
-#if (defined USE_SDLUI ||defined USE_SDL2UI)
-        /* pointer to the menu item */
-        ui_menu_entry_t *ui_function;
-#endif
-    } value;
-    /* Previous state of input */
-    uint8_t prev;
-} joystick_mapping_t;
-
 extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
 extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
 extern void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
@@ -192,16 +147,6 @@ extern void joystick(void);
 extern void joystick_close(void);
 extern void joystick_ui_reset_device_list(void);
 extern const char *joystick_ui_get_next_device_name(int *id);
-extern int joy_arch_mapping_dump(const char *filename);
-extern int joy_arch_mapping_load(const char *filename);
-extern joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
-extern char *get_joy_pin_mapping_string(int pin);
-extern joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
-extern joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
-extern joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
-extern joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
-extern joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
-extern joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
 
 #define JOYSTICK_DIRECTION_UP    1
 #define JOYSTICK_DIRECTION_DOWN  2
@@ -211,8 +156,8 @@ extern joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum,
 #define JOYSTICK_AUTOFIRE_OFF   0
 #define JOYSTICK_AUTOFIRE_ON    1
 
-#define JOYSTICK_AUTOFIRE_MODE_PRESS       0
-#define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1
+#define JOYSTICK_AUTOFIRE_MODE_PRESS       0    /* autofire only when fire is pressed */
+#define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1    /* autofire only when fire is NOT pressed */
 
 #define JOYSTICK_AUTOFIRE_SPEED_DEFAULT    10   /* default autofire speed, button will be on this many times per second */
 
