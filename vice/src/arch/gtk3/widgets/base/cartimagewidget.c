@@ -208,9 +208,9 @@ GtkWidget *cart_image_widget_create(GtkWidget  *parent,
 
     if (title == NULL) {
         if (cart_name == NULL) {
-            strcpy(buffer, "Cartridge image");
+            strcpy(buffer, "Cartridge Image");
         } else {
-            g_snprintf(buffer, sizeof buffer, "%s image", cart_name);
+            g_snprintf(buffer, sizeof buffer, "%s Image", cart_name);
         }
     } else {
         strncpy(buffer, title, sizeof buffer);

@@ -48,13 +48,12 @@
 /** \brief  List of supported RAM sizes
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "512KiB",     512 },
-    { "1MiB",       1024 },
-    { "2MiB",       2048 },
-    { "4MiB",       4096 },
-    { NULL,         -1 }
+    { "512KiB",  512 },
+    { "1MiB",   1024 },
+    { "2MiB",   2048 },
+    { "4MiB",   4096 },
+    { NULL,       -1 }
 };
-
 
 
 /** \brief  Create IO-swap check button (seems to be valid for xvic only)
@@ -63,13 +62,9 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
  */
 static GtkWidget *create_georam_ioswap_widget(void)
 {
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new("GEORAMIOSwap",
-            "MasC=uarade I/O swap");
-    return check;
+    return vice_gtk3_resource_check_button_new("GEORAMIOSwap",
+                                               "MasC=uarade I/O swap");
 }
-
 
 /** \brief  Create radio button group to determine GEORAM RAM size
  *
@@ -78,17 +73,18 @@ static GtkWidget *create_georam_ioswap_widget(void)
 static GtkWidget *create_georam_size_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM size", 1);
-    radio_group = vice_gtk3_resource_radiogroup_new("GEORAMsize", ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(radio_group, 16);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "GEORAM Size", 1);
+    vice_gtk3_grid_set_title_margin(grid, 8);
+    group = vice_gtk3_resource_radiogroup_new("GEORAMsize",
+                                              ram_sizes,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 8);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 /** \brief  Create widget to load/save GEORAM image file
  *
@@ -96,10 +92,12 @@ static GtkWidget *create_georam_size_widget(void)
  */
 static GtkWidget *create_georam_image_widget(void)
 {
-    return cart_image_widget_create(
-            NULL, "GEORAM Image",
-            "GEORAMfilename", "GEORAMImageWrite",
-            CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
+    return cart_image_widget_create(NULL,
+                                    NULL,
+                                    "GEORAMfilename",
+                                    "GEORAMImageWrite",
+                                    CARTRIDGE_NAME_GEORAM,
+                                    CARTRIDGE_GEORAM);
 }
 
 
@@ -117,21 +115,23 @@ GtkWidget *settings_georam_widget_create(GtkWidget *parent)
     GtkWidget *georam_ioswap;
     GtkWidget *georam_image;
 
-    grid = vice_gtk3_grid_new_spaced(8, 8);
+    grid = vice_gtk3_grid_new_spaced(32, 8);
 
-    georam_enable = carthelpers_create_enable_check_button(
-            CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
+    georam_enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_GEORAM,
+                                                           CARTRIDGE_GEORAM);
     gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 2, 1);
 
     if (machine_class == VICE_MACHINE_VIC20) {
         georam_ioswap = create_georam_ioswap_widget();
-        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 2, 2, 1);
     }
 
     georam_size = create_georam_size_widget();
+    gtk_widget_set_margin_top(georam_size, 8);
     gtk_grid_attach(GTK_GRID(grid), georam_size, 0, 1, 1, 1);
 
     georam_image = create_georam_image_widget();
+    gtk_widget_set_margin_top(georam_image, 8);
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
