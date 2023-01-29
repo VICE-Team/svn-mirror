@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include "joy.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "lightpendrv.h"
 #include "machine.h"
@@ -88,7 +89,7 @@ void vsyncarch_sleep(unsigned long delay)
 void vsyncarch_presync(void)
 {
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
-        while (sdl_vkbd_process(ui_dispatch_events())) {
+        while (sdl_vkbd_process(ui_dispatch_events_for_menu_action())) {
         }
 #ifdef HAVE_SDL_NUMJOYSTICKS
         sdl_vkbd_process(sdljoy_autorepeat());

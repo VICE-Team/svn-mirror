@@ -41,6 +41,7 @@
 #include "color.h"
 #include "fullscreenarch.h"
 #include "joy.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -181,53 +182,82 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 }
 
 /* Main event handler */
-ui_menu_action_t ui_dispatch_events(void)
+void ui_dispatch_events(void)
+{
+    SDL_Event e;
+    while (SDL_PollEvent(&e)) {
+        switch (e.type) {
+            case SDL_KEYDOWN:
+                ui_display_kbd_status(&e);
+                sdlkbd_press(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
+                break;
+            case SDL_KEYUP:
+                ui_display_kbd_status(&e);
+                sdlkbd_release(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
+                break;
+#ifdef HAVE_SDL_NUMJOYSTICKS
+            case SDL_JOYAXISMOTION:
+                sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                break;
+            case SDL_JOYBUTTONDOWN:
+                joy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                break;
+            case SDL_JOYBUTTONUP:
+                joy_button_event(e.jbutton.which, e.jbutton.button, 0);
+                break;
+            case SDL_JOYHATMOTION:
+                joy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
+                break;
+#endif
+            case SDL_MOUSEMOTION:
+                sdl_ui_consume_mouse_event(&e);
+                if (_mouse_enabled) {
+                    mouse_move(e.motion.xrel, e.motion.yrel);
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+                if (_mouse_enabled) {
+                    mouse_button((int)(e.button.button), (e.button.state == SDL_PRESSED));
+                }
+                break;
+            default:
+                /* SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE); */
+                ui_handle_misc_sdl_event(e);
+                /* SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE); */
+                break;
+        }
+    }
+}
+
+ui_menu_action_t ui_dispatch_events_for_menu_action(void)
 {
     SDL_Event e;
     ui_menu_action_t retval = MENU_ACTION_NONE;
-    int joynum;
 
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
                 ui_display_kbd_status(&e);
-                retval = sdlkbd_press(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
+                retval = sdlkbd_press_for_menu_action(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
             case SDL_KEYUP:
                 ui_display_kbd_status(&e);
-                retval = sdlkbd_release(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
+                retval = sdlkbd_release_for_menu_action(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
-                if (joynum != -1) {
-                    retval = sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
-                }
+                sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
                 break;
             case SDL_JOYBUTTONDOWN:
-                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
-                if (joynum != -1) {
-                    retval = sdljoy_button_event(joynum, e.jbutton.button, 1);
-                }
+                joy_button_event(e.jbutton.which, e.jbutton.button, 1);
                 break;
             case SDL_JOYBUTTONUP:
-                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
-                if (joynum != -1) {
-                    retval = sdljoy_button_event(joynum, e.jbutton.button, 0);
-                }
+                joy_button_event(e.jbutton.which, e.jbutton.button, 0);
                 break;
             case SDL_JOYHATMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
-                if (joynum != -1) {
-                    retval = sdljoy_hat_event(joynum, e.jhat.hat, e.jhat.value);
-                }
+                joy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
                 break;
-#ifdef USE_SDL2UI
-            case SDL_JOYDEVICEADDED:
-            case SDL_JOYDEVICEREMOVED:
-                retval = sdljoy_rescan();
-                break;
-#endif
 #endif
             case SDL_MOUSEMOTION:
                 sdl_ui_consume_mouse_event(&e);
@@ -531,7 +561,6 @@ int ui_resources_init(void)
 void ui_resources_shutdown(void)
 {
     DBG(("%s", __func__));
-    joy_arch_resources_shutdown();
     sdlkbd_resources_shutdown();
 }
 
