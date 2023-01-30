@@ -45,15 +45,8 @@
 #include "settings_georam.h"
 
 
-/** \brief  List of supported RAM sizes
- */
-static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "512KiB",  512 },
-    { "1MiB",   1024 },
-    { "2MiB",   2048 },
-    { "4MiB",   4096 },
-    { NULL,       -1 }
-};
+/** \brief  List of supported RAM sizes */
+static int ram_sizes[] = { 512, 1024, 2048, 4096, -1 };
 
 
 /** \brief  Create IO-swap check button (seems to be valid for xvic only)
@@ -72,18 +65,9 @@ static GtkWidget *create_georam_ioswap_widget(void)
  */
 static GtkWidget *create_georam_size_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *group;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "GEORAM Size", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
-    group = vice_gtk3_resource_radiogroup_new("GEORAMsize",
-                                              ram_sizes,
-                                              GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
-    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+    return ram_size_radiogroup_new("GEORAMsize",
+                                   "GEORAM Size",
+                                   ram_sizes);
 }
 
 /** \brief  Create widget to load/save GEORAM image file

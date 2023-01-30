@@ -41,21 +41,8 @@
 #include "settings_reu.h"
 
 
-/** \brief  List of supported RAM sizes in KiB/MiB
- *
- * REU sizes tend to be specified in MiB when being 1MiB or higher, not KiB.
- */
-static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "128KiB",   128 },
-    { "256KiB",   256 },
-    { "512KiB",   512 },
-    { "1MiB",    1024 },
-    { "2MiB",    2048 },
-    { "4MiB",    4096 },
-    { "8MiB",    8192 },
-    { "16MiB",  16384 },
-    { NULL,        -1 }
-};
+/** \brief  List of supported RAM sizes in KiB */
+static int ram_sizes[] = { 128, 256, 512, 1024, 2048, 4096, 8192, 16384, -1 };
 
 
 /** \brief  Create radio button group to determine REU RAM size
@@ -64,18 +51,9 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
  */
 static GtkWidget *create_reu_size_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *group;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "REU Size", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
-    group = vice_gtk3_resource_radiogroup_new("REUsize",
-                                              ram_sizes,
-                                              GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
-    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+    return ram_size_radiogroup_new("REUsize",
+                                   "REU Size",
+                                   ram_sizes);
 }
 
 /** \brief  Create widget to load/save REU image file
