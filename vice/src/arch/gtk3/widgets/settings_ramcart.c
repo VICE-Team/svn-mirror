@@ -36,22 +36,14 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "machine.h"
-#include "resources.h"
 #include "cartridge.h"
+#include "vice_gtk3.h"
 
 #include "settings_ramcart.h"
 
 
-/** \brief  List of supported RAM sizes in KiB
- */
-static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "64KiB",  64 },
-    { "128KiB", 128 },
-    { NULL,     -1 }
-};
-
+/** \brief  List of supported RAM sizes in KiB */
+static int ram_sizes[] = { 64, 128, -1 };
 
 
 /** \brief  Create RAMCART enable check button
@@ -60,10 +52,9 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
  */
 static GtkWidget *create_ramcart_enable_widget(void)
 {
-    return vice_gtk3_resource_check_button_new(
-            "RAMCART", "Enable RAMCART expansion");
+    return vice_gtk3_resource_check_button_new("RAMCART",
+                                               "Enable RAMCART expansion");
 }
-
 
 /** \brief  Create check button to toggle read-only mode
  *
@@ -72,9 +63,8 @@ static GtkWidget *create_ramcart_enable_widget(void)
 static GtkWidget *create_ramcart_readonly_widget(void)
 {
     return vice_gtk3_resource_check_button_new("RAMCART_RO",
-            "RAMCART contents are read only");
+                                               "RAMCART contents are read only");
 }
-
 
 /** \brief  Create radio button group to determine RAMCART size
  *
@@ -82,18 +72,10 @@ static GtkWidget *create_ramcart_readonly_widget(void)
  */
 static GtkWidget *create_ramcart_size_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *radio_group;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM Size", 1);
-    radio_group = vice_gtk3_resource_radiogroup_new("RAMCARTsize", ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(radio_group, 16);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+    return ram_size_radiogroup_new("RAMCARTSize",
+                                   "RAM size",
+                                   ram_sizes);
 }
-
 
 /** \brief  Create widget to load/save RAMCART image file
  *
@@ -101,11 +83,12 @@ static GtkWidget *create_ramcart_size_widget(void)
  */
 static GtkWidget *create_ramcart_image_widget(void)
 {
-    return cart_image_widget_create(
-            NULL, "RAMCART image",
-            "RAMCARTfilename", "RAMCARTImageWrite",
-            CARTRIDGE_NAME_RAMCART, CARTRIDGE_RAMCART);
-
+    return cart_image_widget_create(NULL,
+                                    NULL,
+                                    "RAMCARTfilename",
+                                    "RAMCARTImageWrite",
+                                    CARTRIDGE_NAME_RAMCART,
+                                    CARTRIDGE_RAMCART);
 }
 
 
@@ -123,9 +106,7 @@ GtkWidget *settings_ramcart_widget_create(GtkWidget *parent)
     GtkWidget *ramcart_readonly;
     GtkWidget *ramcart_image;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(32, 8);
 
     ramcart_enable = create_ramcart_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_enable, 0, 0, 2, 1);
