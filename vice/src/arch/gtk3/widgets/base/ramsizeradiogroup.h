@@ -1,9 +1,5 @@
-/** \file   vice_gtk3.h
- * \brief   GTK3 base widgets/dialogs/settings generic header
- *
- * By including this file, all the base widgets/dialogs and any helper
- * functions and default settings should be included.
- *
+/** \file   ramsizeradiogroup.h
+ * \brief   Widget to show a list of radio buttons for RAM sizes - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -25,22 +21,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_VICE_GTK3_H
-#define VICE_VICE_GTK3_H
+#ifndef VICE_RAMSIZERADIOGROUP_H
+#define VICE_RAMSIZERADIOGROUP_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "basewidget_types.h"
-#include "debug_gtk3.h"
-#include "filechooserhelpers.h"
-#include "popupmenu.h"
-#include "ramsizeradiogroup.h"
-#include "resourcehelpers.h"
-#include "widgethelpers.h"
+GtkWidget *ram_size_radiogroup_new(const char *resource,
+                                   const char *title,
+                                   int        *sizes);
 
 #endif

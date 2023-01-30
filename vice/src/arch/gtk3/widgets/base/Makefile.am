@@ -44,6 +44,7 @@ libbasewidgets_a_SOURCES = \
 	lastdir.c \
 	openfiledialog.c \
 	popupmenu.c \
+	ramsizeradiogroup.c \
 	resourcebrowser.c \
 	resourcecheckbutton.c \
 	resourcecombobox.c \
@@ -71,6 +72,7 @@ EXTRA_DIST = \
 	lastdir.h \
 	openfiledialog.h \
 	popupmenu.h \
+	ramsizeradiogroup.h \
 	resourcebrowser.h \
 	resourcecheckbutton.h \
 	resourcecombobox.h \
