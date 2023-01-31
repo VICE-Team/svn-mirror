@@ -1116,11 +1116,11 @@ static void export_registers(void)
         uint8_t tmp;                    \
                                      \
         CLK_ADD(CLK, 4);             \
+        reg_b--;                     \
         tmp = LOAD(HL_WORD());       \
         CLK_ADD(CLK, 4);             \
         OUT(BC_WORD(), tmp);         \
         HL_FUNC;                     \
-        reg_b--;                     \
         if (!reg_b) {                \
             CLK_ADD(CLK, 4);         \
             reg_f = N_FLAG | Z_FLAG; \
