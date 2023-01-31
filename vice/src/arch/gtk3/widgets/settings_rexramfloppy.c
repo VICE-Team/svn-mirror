@@ -33,32 +33,24 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "carthelpers.h"
-#include "cartimagewidget.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "savefiledialog.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "settings_rexramfloppy.h"
 
 
 /** \brief  Create widget to load/save REX Ram-Floppy image file
  *
- * \param[in]   parent  parent widget
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_rexramfloppy_image_widget(GtkWidget *parent)
+static GtkWidget *create_rexramfloppy_image_widget(void)
 {
-    return cart_image_widget_create(parent, "REX Ram-Floppy image",
-            "RRFfilename", "RRFImageWrite",
-            CARTRIDGE_NAME_REX_RAMFLOPPY, CARTRIDGE_REX_RAMFLOPPY);
+    return cart_image_widget_create(NULL,
+                                    NULL,
+                                    "RRFfilename",
+                                    "RRFImageWrite",
+                                    CARTRIDGE_NAME_REX_RAMFLOPPY,
+                                    CARTRIDGE_REX_RAMFLOPPY);
 }
 
 
@@ -75,7 +67,7 @@ GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
 
-    rexramfloppy_image = create_rexramfloppy_image_widget(parent);
+    rexramfloppy_image = create_rexramfloppy_image_widget();
     gtk_grid_attach(GTK_GRID(grid), rexramfloppy_image, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
