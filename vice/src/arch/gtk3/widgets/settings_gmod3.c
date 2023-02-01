@@ -86,7 +86,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_GMOD3) < 0) {
         vice_gtk3_message_error("Flushing failed",
-                    "Failed to fush cartridge image");
+                                "Failed to fush cartridge image");
     }
 }
 
@@ -101,28 +101,41 @@ static GtkWidget *create_cart_image_widget(void)
     GtkWidget *write_back;
     GtkWidget *save_button;
     GtkWidget *flush_button;
+    GtkWidget *box;
+    gboolean   can_save;
+    gboolean   can_flush;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            -1, -1, "GMod3 Cartridge image", 3);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "GMod3 Cartridge image", 2);
 
     write_back = vice_gtk3_resource_check_button_new("GMod3FlashWrite",
-                "Save image when changed");
-    gtk_widget_set_margin_start(write_back, 16);
-    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
+                                                     "Save image when changed");
+    gtk_widget_set_margin_start(write_back, 8);
 
     save_button = gtk_button_new_with_label("Save image as ...");
-    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), save_button, 1, 1, 1, 1);
-    gtk_widget_set_sensitive(save_button,
-                             (gboolean)(cartridge_can_save_image(CARTRIDGE_GMOD3)));
-
+    g_signal_connect(save_button,
+                     "clicked",
+                     G_CALLBACK(on_save_clicked),
+                     NULL);
     flush_button = gtk_button_new_with_label("Save image now");
-    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
-            NULL);
-    gtk_widget_set_sensitive(flush_button,
-                             (gboolean)(cartridge_can_flush_image(CARTRIDGE_GMOD3)));
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 1, 1, 1);
+    g_signal_connect(flush_button,
+                     "clicked",
+                     G_CALLBACK(on_flush_clicked),
+                     NULL);
+
+    can_save  = (gboolean)cartridge_can_save_image(CARTRIDGE_GMOD3);
+    can_flush = (gboolean)cartridge_can_flush_image(CARTRIDGE_GMOD3);
+    gtk_widget_set_sensitive(save_button,  can_save);
+    gtk_widget_set_sensitive(flush_button, can_flush);
+
+    box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_halign(box, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_box_set_spacing(GTK_BOX(box), 8);
+    gtk_box_pack_start(GTK_BOX(box), save_button,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), flush_button, FALSE, FALSE, 0);
+
+    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), box,        1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -131,20 +144,11 @@ static GtkWidget *create_cart_image_widget(void)
 
 /** \brief  Create widget to control GMOD3 resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (ignored)
  *
  * \return  GtkGrid
  */
 GtkWidget *settings_gmod3_widget_create(GtkWidget *parent)
 {
-    GtkWidget *grid;
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    gtk_grid_attach(GTK_GRID(grid), create_cart_image_widget(), 0, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    return create_cart_image_widget();
 }
