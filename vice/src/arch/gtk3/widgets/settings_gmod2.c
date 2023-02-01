@@ -183,8 +183,8 @@ static GtkWidget *create_cart_image_widget(void)
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), box,        1, 1, 1, 1);
 
-    can_save  = (gboolean)cartridge_can_save_image(CARTRIDGE_EASYFLASH);
-    can_flush = (gboolean)cartridge_can_flush_image(CARTRIDGE_EASYFLASH);
+    can_save  = (gboolean)cartridge_can_save_image(CARTRIDGE_GMOD2);
+    can_flush = (gboolean)cartridge_can_flush_image(CARTRIDGE_GMOD2);
     gtk_widget_set_sensitive(save_button,  can_save);
     gtk_widget_set_sensitive(flush_button, can_flush);
 
