@@ -586,16 +586,33 @@ static bool textfile_reader_open(textfile_reader_t *reader, const char *path)
     }
 
     /* try to open new file */
+#if 0
+    debug_gtk3("calling sysfile_open(%s, %s)", path, machine_name);
+#endif
+    /* first try DATADIR/$MACHINE */
     reader->fp = sysfile_open(path, machine_name, &complete_path, "rb");
     if (reader->fp == NULL) {
-        return false;
-    } else {
-        /* add new file to stack */
-        textfile_entry_t *new = textfile_entry_new(complete_path);
-        lib_free(complete_path);
-        new->next = current;
-        reader->entries = new;
+#if 0
+        debug_gtk3("Failed, trying without machine_name %s", machine_name);
+#endif
+        /* try DATADIR (without $MACHINE) */
+        reader->fp = sysfile_open(path, NULL, &complete_path, "rb");
+        if (reader->fp == NULL) {
+            /* give up */
+#if 0
+            debug_gtk3("Failed, giving up.");
+#endif
+            return false;
+        }
     }
+#if 0
+    debug_gtk3("OK: %s", complete_path);
+#endif
+    /* add new file to stack */
+    textfile_entry_t *new = textfile_entry_new(complete_path);
+    lib_free(complete_path);
+    new->next = current;
+    reader->entries = new;
 
     return true;
 }
@@ -1246,6 +1263,7 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     char *arg;
     char *a;
     bool result;
+    const char *datadir = NULL;
 
     s = util_skip_whitespace(line);
     if (*s == '\0') {
@@ -1308,11 +1326,19 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
         *a = '\0';
     }
 
-    /* do substitution of special identifiers ($VICEDIR, $USERDIR) */
+    /* do substitution of special identifiers ($VICEDIR, $USERDIR), handle
+     * `-directory <datadir>` command line */
     vicedir = archdep_get_vice_datadir();
     userdir = archdep_xdg_data_home();
+    resources_get_string("Directory", &datadir);
 
-    path = parser_strsubst(arg, "$VICEDIR", vicedir);
+    if (datadir != NULL && *datadir != '\0') {
+        /* strip "$VICEDIR", let sysfile_open() handle the `-directory` argument,
+         * don't strip '/' or '\' after "$VICEDIR", sysfile_open() handles that */
+        path = parser_strsubst(arg, "$VICEDIR", "");
+    } else {
+        path = parser_strsubst(arg, "$VICEDIR", vicedir);
+    }
     tmp = parser_strsubst(path, "$USERDIR", userdir);
     lib_free(path);
     path = tmp;
