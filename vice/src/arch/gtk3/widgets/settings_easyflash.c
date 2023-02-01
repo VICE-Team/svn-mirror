@@ -34,16 +34,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "carthelpers.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "openfiledialog.h"
-#include "resources.h"
-#include "savefiledialog.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "settings_easyflash.h"
 
@@ -55,19 +47,19 @@
  * \param[in]       data        extra data (unused)
  */
 static void save_filename_callback(GtkDialog *dialog,
-                                   gchar *filename,
-                                   gpointer data)
+                                   gchar     *filename,
+                                   gpointer   data)
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_EASYFLASH, filename) < 0) {
             vice_gtk3_message_error("VICE core",
-                    "Failed to save '%s'", filename);
+                                    "Failed to save '%s'",
+                                    filename);
         }
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
 
 /** \brief  Handler for the 'clicked' event of the "Save As" button
  *
@@ -76,12 +68,16 @@ static void save_filename_callback(GtkDialog *dialog,
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-    vice_gtk3_save_file_dialog("Save Easyflash image as ...",
-                               NULL, TRUE, NULL,
-                               save_filename_callback,
-                               NULL);
-}
+    GtkWidget *dialog;
 
+    dialog = vice_gtk3_save_file_dialog("Save Easyflash image as ...",
+                                        NULL,
+                                        TRUE,
+                                        NULL,
+                                        save_filename_callback,
+                                        NULL);
+    gtk_widget_show_all(dialog);
+}
 
 /** \brief  Handler for the 'clicked' event of the "Flush now" button
  *
@@ -92,7 +88,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
         vice_gtk3_message_error("VICE core",
-                "Failed to flush the EasyFlash image");
+                                "Failed to flush the EasyFlash image");
     }
 }
 
@@ -107,44 +103,64 @@ GtkWidget *settings_easyflash_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *jumper;
+    GtkWidget *jumper_label;
     GtkWidget *write_crt;
     GtkWidget *optimize_crt;
     GtkWidget *save_button;
     GtkWidget *flush_button;
+    GtkWidget *button_box;
+    gboolean   can_save;
+    gboolean   can_flush;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
+#if 0
+    jumper = vice_gtk3_resource_check_button_new("EasyFlashJumper",
+                                                 "Set Easy Flash jumper");
+#endif
+    jumper = vice_gtk3_resource_switch_new("EasyFlashJumper");
+    gtk_widget_set_hexpand(jumper, FALSE);
+    gtk_widget_set_halign(jumper, GTK_ALIGN_START);
+    jumper_label = gtk_label_new("Easyflash jumper");
+    gtk_widget_set_halign(jumper_label, GTK_ALIGN_START);
 
-    jumper = vice_gtk3_resource_check_button_new(
-            "EasyFlashJumper", "Set Easy Flash jumper");
-    write_crt = vice_gtk3_resource_check_button_new(
-            "EasyFlashWriteCRT", "Save image when changed");
-    optimize_crt = vice_gtk3_resource_check_button_new(
-            "EasyFlashOptimizeCRT", "Optimize image when saving");
-
-    gtk_grid_attach(GTK_GRID(grid), jumper, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), write_crt, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), optimize_crt, 0, 2, 1, 1);
+    write_crt = vice_gtk3_resource_check_button_new("EasyFlashWriteCRT",
+                                                    "Save image when changed");
+    gtk_widget_set_margin_top(write_crt, 8);
+    optimize_crt = vice_gtk3_resource_check_button_new("EasyFlashOptimizeCRT",
+                                                       "Optimize image when saving");
 
     /* Save image as... */
     save_button = gtk_button_new_with_label("Save image as ...");
-    gtk_grid_attach(GTK_GRID(grid), save_button, 1, 0, 1, 1);
-    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
-            NULL);
-
-    gtk_widget_set_sensitive(save_button,
-            (gboolean)(cartridge_can_save_image(CARTRIDGE_EASYFLASH)));
+    g_signal_connect(save_button,
+                     "clicked",
+                     G_CALLBACK(on_save_clicked),
+                     NULL);
 
     /* Flush image now */
     flush_button = gtk_button_new_with_label("Save image");
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 1, 1, 1);
-    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
-            NULL);
+    g_signal_connect(flush_button,
+                     "clicked",
+                     G_CALLBACK(on_flush_clicked),
+                     NULL);
 
-    if (cartridge_can_flush_image(CARTRIDGE_EASYFLASH)) {
-        gtk_widget_set_sensitive(flush_button, TRUE);
-    } else {
-        gtk_widget_set_sensitive(flush_button, FALSE);
-    }
+    /* pack buttons in a button box for homogeneous sizes */
+    button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_button_box_set_layout(GTK_BUTTON_BOX(button_box), GTK_BUTTONBOX_SPREAD);
+    gtk_box_set_spacing(GTK_BOX(button_box), 8);
+    gtk_widget_set_margin_top(button_box, 16);
+    gtk_box_pack_start(GTK_BOX(button_box), save_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(button_box), flush_button, FALSE, FALSE, 0);
+
+    gtk_grid_attach(GTK_GRID(grid), jumper_label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), jumper,       1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), write_crt,    0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), optimize_crt, 0, 2, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), button_box,   0, 3, 2, 1);
+
+    can_save  = (gboolean)cartridge_can_save_image(CARTRIDGE_EASYFLASH);
+    can_flush = (gboolean)cartridge_can_flush_image(CARTRIDGE_EASYFLASH);
+    gtk_widget_set_sensitive(save_button,  can_save);
+    gtk_widget_set_sensitive(flush_button, can_flush);
 
     gtk_widget_show_all(grid);
     return grid;
