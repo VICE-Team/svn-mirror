@@ -34,6 +34,8 @@
 #ifndef VICE_MMC64_H
 #define VICE_MMC64_H
 
+#include <stdio.h>
+
 #include "types.h"
 #include "c64cart.h"
 
