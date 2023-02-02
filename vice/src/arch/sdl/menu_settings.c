@@ -30,7 +30,7 @@
 #include "vice_sdl.h"
 #include <stdlib.h>
 
-#include "joy.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "keymap.h"
