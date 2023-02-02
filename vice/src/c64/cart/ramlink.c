@@ -944,7 +944,7 @@ static int set_bios_filename(const char *name, void *param)
     LOG1(("RAMLINK: set_bios_filename: %d '%s'", rl_enabled, rl_bios_filename));
 
     util_string_set(&rl_bios_filename, name);
-    resources_get_int("MMC64", &enabled);
+    resources_get_int("RAMLINK", &enabled);
 
     if (set_enabled(enabled, (void*)1) < 0) {
         lib_free(rl_bios_filename);
