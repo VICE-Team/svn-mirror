@@ -1332,13 +1332,10 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     userdir = archdep_xdg_data_home();
     resources_get_string("Directory", &datadir);
 
-    /* check for non-empty and not-weird-"$$"-hack-in-sysfile.c */
-    if ((datadir != NULL && *datadir != '\0') && g_strcmp0(datadir, "$$") != 0) {
-        /* strip "$VICEDIR", let sysfile_open() handle the `-directory` argument,
-         * don't strip '/' or '\' after "$VICEDIR", sysfile_open() handles that */
-        path = parser_strsubst(arg, "$VICEDIR", "");
-    } else {
+    if ((g_strcmp0(datadir, "$$")) == 0 || (datadir == NULL || *datadir == '\0')) {
         path = parser_strsubst(arg, "$VICEDIR", vicedir);
+    } else {
+        path = parser_strsubst(arg, "$VICEDIR", datadir);
     }
     tmp = parser_strsubst(path, "$USERDIR", userdir);
     lib_free(path);
