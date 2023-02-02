@@ -195,7 +195,6 @@ extern const char *joystick_ui_get_next_device_name(int *id);
 extern int joy_arch_mapping_dump(const char *filename);
 extern int joy_arch_mapping_load(const char *filename);
 extern joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
-extern void joy_axis_store_pos(uint8_t joynum, uint8_t axis, joystick_axis_value_t pos);
 extern char *get_joy_pin_mapping_string(int pin);
 extern joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
 extern joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
