@@ -43,6 +43,7 @@
 #include <gtk/gtk.h>
 
 #include "resources.h"
+#include "ltkernal.h"
 #include "vice_gtk3.h"
 
 #include "settings_ltkernal.h"
@@ -68,8 +69,8 @@ static const char *filter_list[] = {
 /** \brief  List of I/O addresses for the cartridge
  */
 static vice_gtk3_radiogroup_entry_t io_entries[] = {
-    { "$DExx",  0 },
-    { "$DFxx",  1 },
+    { "$DExx",  LTKIO_DE00 },
+    { "$DFxx",  LTKIO_DF00 },
     { NULL,     -1 }
 };
 

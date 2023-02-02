@@ -37,6 +37,7 @@
 #include "clockport.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "ltkernal.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_c64_common_expansions.h"
@@ -978,11 +979,11 @@ static ui_menu_entry_t ltk_cart_menu[] = {
     { "$dexx",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_LTKio_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)LTKIO_DE00 },
     { "$dfxx",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_LTKio_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)LTKIO_DF00 },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Port Number"),
     { "0",

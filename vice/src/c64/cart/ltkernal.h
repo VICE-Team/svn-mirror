@@ -29,6 +29,9 @@
 
 struct snapshot_s;
 
+#define LTKIO_DE00   0
+#define LTKIO_DF00   1
+
 extern void ltkernal_freeze(void);
 extern void ltkernal_powerup(void);
 extern void ltkernal_config_init(void);

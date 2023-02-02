@@ -290,15 +290,15 @@ static int ltkernal_registerio(void)
         return -1;
     }
 
-    if (ltk_io < 0 || ltk_io > 1) {
-        ltk_io = 1;
+    if (ltk_io < LTKIO_DE00 || ltk_io > LTKIO_DF00) {
+        ltk_io = LTKIO_DF00;
     }
 
     ltkernal_io_device.start_address = 0xde00 + ltk_io * 256;
     ltkernal_io_device.end_address = ltkernal_io_device.start_address + 255;
 
     LOG1((LOG, "LTK IO is at $%02xxx",
-        (unsigned int)(ltk_io == 0 ? 0xde : 0xdf)));
+        (unsigned int)(ltk_io == LTKIO_DE00 ? 0xde : 0xdf)));
 
     ltkernal_io_list_item = io_source_register(&ltkernal_io_device);
 
@@ -332,7 +332,7 @@ static int set_port(int port, void *param)
 
 static int set_io(int io, void *param)
 {
-    if (io < 0 || io > 1) {
+    if (io < LTKIO_DE00 || io > LTKIO_DF00) {
         return -1;
     }
 
@@ -346,14 +346,14 @@ static int set_io(int io, void *param)
     }
 
     LOG1((LOG, "LTK IO = %d ($%02xxx)", io,
-        (unsigned int)(io == 0 ? 0xde : 0xdf)));
+        (unsigned int)(io == LTKIO_DE00 ? 0xde : 0xdf)));
 
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
     { "LTKport", 0, RES_EVENT_NO, NULL, &ltk_port, set_port, 0 },
-    { "LTKio", 1, RES_EVENT_NO, NULL, &ltk_io, set_io, 0 },
+    { "LTKio", LTKIO_DF00, RES_EVENT_NO, NULL, &ltk_io, set_io, 0 },
     RESOURCE_INT_LIST_END
 };
 
