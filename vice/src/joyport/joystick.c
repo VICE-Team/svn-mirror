@@ -2328,7 +2328,7 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
         joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].negative_direction, joyport, 1);
     }
 
-    joy_axis_store_pos(joynum, axis, value);
+    joystick_devices[joynum].axis_mapping[axis].prev = value;
 }
 
 void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
@@ -2408,12 +2408,8 @@ joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_
     joystick_mapping_t* retval = joy_get_axis_mapping_not_setting_value(joynum, axis, joystick_devices[joynum].axis_mapping[axis].prev);
     if (prev)
         *prev = joystick_devices[joynum].axis_mapping[axis].prev;
-    joy_axis_store_pos(joynum, axis, value);
+    joystick_devices[joynum].axis_mapping[axis].prev = value;
     return retval;
-}
-
-extern void joy_axis_store_pos(uint8_t joynum, uint8_t axis, joystick_axis_value_t pos) {
-    joystick_devices[joynum].axis_mapping[axis].prev = pos;
 }
 
 joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value) {
