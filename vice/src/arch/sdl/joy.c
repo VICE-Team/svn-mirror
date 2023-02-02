@@ -251,7 +251,7 @@ int sdljoy_rescan(void)
         log_message(sdljoy_log, "No joysticks found");
         return 0;
     }
-        
+
     log_message(sdljoy_log, "%i joysticks found", num_joysticks);
 
     for (i = 0; i < num_joysticks; ++i) {
@@ -386,7 +386,7 @@ void sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
 
     joy_axis_event(joynum, axis, cur);
 }
-            
+
 static ui_menu_action_t sdljoy_perform_event_for_menu_action(joystick_mapping_t* event, Sint16 value)
 {
     ui_menu_action_t retval = MENU_ACTION_NONE;
@@ -445,7 +445,7 @@ ui_menu_action_t sdljoy_axis_event_for_menu_action(Uint8 joynum, Uint8 axis, Sin
 ui_menu_action_t sdljoy_button_event_for_menu_action(Uint8 joynum, Uint8 button, Uint8 value) {
     joystick_mapping_t *mapping = joy_get_button_mapping(joynum, button);
     ui_menu_action_t retval;
-    
+
     if (mapping) {
         retval = sdljoy_perform_event_for_menu_action(mapping, value);
     } else {
@@ -458,7 +458,7 @@ ui_menu_action_t sdljoy_hat_event_for_menu_action(Uint8 joynum, Uint8 hat, Uint8
     joystick_mapping_t *prev_mapping = joy_get_hat_mapping(joynum, hat, value, NULL);
     joystick_mapping_t *cur_mapping = joy_get_hat_mapping_not_setting_value(joynum, hat, value);
     ui_menu_action_t retval = MENU_ACTION_NONE;
-    
+
     if (cur_mapping) {
         retval = sdljoy_perform_event_for_menu_action(cur_mapping, 1);
     } else if (prev_mapping) {
