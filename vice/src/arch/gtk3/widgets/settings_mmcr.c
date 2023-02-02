@@ -42,6 +42,7 @@
 #include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
+#include "c64cart.h"
 #include "cartridge.h"
 #include "ui.h"
 
@@ -51,10 +52,10 @@
 /** \brief  List of memory card types
  */
 static const vice_gtk3_radiogroup_entry_t card_types[] = {
-    { "Auto",    0 },
-    { "MMC",     1 },
-    { "SD",      2 },
-    { "SDHC",    3 },
+    { "Auto",    MMCR_TYPE_AUTO },
+    { "MMC",     MMCR_TYPE_MMC },
+    { "SD",      MMCR_TYPE_SD },
+    { "SDHC",    MMCR_TYPE_SDHC },
     { NULL,     -1 }
 };
 

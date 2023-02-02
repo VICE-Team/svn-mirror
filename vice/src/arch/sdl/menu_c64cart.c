@@ -706,19 +706,19 @@ static const ui_menu_entry_t mmcreplay_sd_type_menu[] = {
     { "Auto",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMCRSDType_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)MMCR_TYPE_AUTO },
     { "MMC",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMCRSDType_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)MMCR_TYPE_MMC },
     { "SD",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMCRSDType_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)MMCR_TYPE_SD },
     { "SDHC",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMCRSDType_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)MMCR_TYPE_SDHC },
     SDL_MENU_LIST_END
 };
 
