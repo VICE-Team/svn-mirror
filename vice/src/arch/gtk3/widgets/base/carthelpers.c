@@ -105,7 +105,7 @@ GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
     gulong     handler_id;
     char       title[256];
 
-    g_snprintf(title, sizeof title, "Enable %s", cart_name);
+    g_snprintf(title, sizeof title, "Enable %s emulation", cart_name);
     check = gtk_check_button_new_with_label(title);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
                                  (gboolean)cartridge_type_enabled(cart_id));
