@@ -40,6 +40,7 @@
 #include "carthelpers.h"
 #include "cartridge.h"
 #include "debug_gtk3.h"
+#include "ramlink.h"
 #include "resources.h"
 #include "vice_gtk3.h"
 
@@ -49,8 +50,8 @@
 /** \brief  RAMLINK modes
  */
 static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
-    { "Normal",   1 },
-    { "Disable",  0 },
+    { "Normal",   RL_MODE_NORMAL },
+    { "Direct",   RL_MODE_DIRECT },
     { NULL,      -1 }
 };
 
