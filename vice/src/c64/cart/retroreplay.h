@@ -30,6 +30,8 @@
 #endif
 #endif
 
+#ifdef CARTRIDGE_INCLUDE_PRIVATE_API
+
 #ifndef VICE_RETROREPLAY_H
 #define VICE_RETROREPLAY_H
 
@@ -38,9 +40,6 @@
 #include "types.h"
 
 struct snapshot_s;
-
-#define RR_REV_RETRO_REPLAY  0
-#define RR_REV_NORDIC_REPLAY 1
 
 extern uint8_t retroreplay_roml_read(uint16_t addr);
 extern void retroreplay_roml_store(uint16_t addr, uint8_t value);
@@ -75,4 +74,13 @@ extern void retroreplay_resources_shutdown(void);
 extern int retroreplay_snapshot_write_module(struct snapshot_s *s);
 extern int retroreplay_snapshot_read_module(struct snapshot_s *s);
 
-#endif
+#endif  /* VICE_RETROREPLAY_H */
+#endif  /* CARTRIDGE_INCLUDE_PRIVATE_API */
+
+#ifndef VICE_RETROREPLAY_PUBLIC_H
+#define VICE_RETROREPLAY_PUBLIC_H
+
+#define RR_REV_RETRO_REPLAY  0
+#define RR_REV_NORDIC_REPLAY 1
+
+#endif  /* VICE_RETROREPLAY_PUBLIC_H */

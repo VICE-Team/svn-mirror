@@ -77,8 +77,10 @@ typedef struct {
 /* this is referenced by the VICII emulation */
 extern export_t export;
 
+/* expose public API symbols for those headers that provide them */
 #define CARTRIDGE_INCLUDE_PUBLIC_API
 #include "cart/expert.h"    /* provide defines for ExpertCartridgeMode resource */
+#include "cart/retroreplay.h"   /* provide defines for RRrevision resource */
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 
 /* the following is used to hook up the c128 mode in x128 */
