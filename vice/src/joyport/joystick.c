@@ -1042,7 +1042,7 @@ int joy_arch_mapping_dump(const char *filename)
         fprintf(fp, "# %s\n", joystick_devices[i].jname);
         for (j = 0; j < joystick_devices[i].num_axes; j++) {
             t = joystick_devices[i].axis_mapping[j].positive_direction.action;
-            fprintf(fp, "%i %u %i %u", i, 0, k++, t);
+            fprintf(fp, "%i %u %i %u", i, 0u, k++, t);
             switch (t) {
                 case JOYSTICK:
                     fprintf(fp, " %i",
@@ -1065,7 +1065,7 @@ int joy_arch_mapping_dump(const char *filename)
             }
             fprintf(fp, "\n");
             t = joystick_devices[i].axis_mapping[j].negative_direction.action;
-            fprintf(fp, "%i %u %i %u", i, 0, k++, t);
+            fprintf(fp, "%i %u %i %u", i, 0u, k++, t);
             switch (t) {
                 case JOYSTICK:
                     fprintf(fp, " %i",
@@ -1223,7 +1223,7 @@ static void joy_arch_parse_entry(char *buffer)
                                     }
                                 }
                             } else {
-                                log_warning(joy_log, "inputindex %i too large for inputtype %u, joynum %i!", inputindex, inputtype, joynum);
+                                log_warning(joy_log, "inputindex %i too large for inputtype %u, joynum %i!", inputindex, (unsigned int)inputtype, joynum);
                             }
                             break;
                         case 1:
