@@ -1087,7 +1087,7 @@ int joy_arch_mapping_dump(const char *filename)
                     break;
             }
             fprintf(fp, "\n");
-            
+
             fprintf(fp, "\n");
         }
         fprintf(fp, "\n\n");
