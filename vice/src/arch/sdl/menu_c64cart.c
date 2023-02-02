@@ -796,11 +796,11 @@ static const ui_menu_entry_t retroreplay_revision_menu[] = {
     { "Retro Replay",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RRRevision_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)RR_REV_RETRO_REPLAY },
     { "Nordic Replay",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RRRevision_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)RR_REV_NORDIC_REPLAY },
     SDL_MENU_LIST_END
 };
 
