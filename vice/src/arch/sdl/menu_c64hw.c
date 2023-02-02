@@ -31,6 +31,7 @@
 
 #include "types.h"
 
+#include "c64fastiec.h"
 #include "cartridge.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64_expansions.h"
@@ -70,15 +71,15 @@ const ui_menu_entry_t burstmod_menu[] = {
     { "None",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_BurstMod_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)BURST_MOD_NONE },
     { "CIA1",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_BurstMod_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)BURST_MOD_CIA1 },
     { "CIA2",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_BurstMod_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)BURST_MOD_CIA2 },
     SDL_MENU_LIST_END
 };
 
