@@ -32,6 +32,7 @@
 
 #include "cartridge.h"
 #include "clockport.h"
+#include "ide64.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
 #include "uimenu.h"
@@ -388,15 +389,15 @@ const ui_menu_entry_t ide64_menu[] = {
     { "V3",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_IDE64version_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)IDE64_VERSION_3 },
     { "V4.1",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_IDE64version_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)IDE64_VERSION_4_1 },
     { "V4.2",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_IDE64version_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)IDE64_VERSION_4_2 },
     SDL_MENU_ITEM_SEPARATOR,
     { "Save RTC data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
