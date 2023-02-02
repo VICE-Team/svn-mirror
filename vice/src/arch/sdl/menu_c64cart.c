@@ -43,6 +43,7 @@
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
 #include "menu_ethernetcart.h"
+#include "ramlink.h"
 #include "resources.h"
 #include "ui.h"
 #include "uifilereq.h"
@@ -1076,11 +1077,11 @@ static ui_menu_entry_t ramlink_menu[] = {
     { "Normal",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RAMLINKmode_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)RL_MODE_NORMAL },
     { "Direct",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RAMLINKmode_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)RL_MODE_DIRECT },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory size"),
     { "0MiB",

@@ -27,6 +27,11 @@
 #ifndef VICE_RAMLINK_H
 #define VICE_RAMLINK_H
 
+#define RL_MODE_DIRECT   0
+#define RL_MODE_NORMAL   1
+
+#include "c64cart.h"
+
 struct snapshot_s;
 
 extern void ramlink_freeze(void);

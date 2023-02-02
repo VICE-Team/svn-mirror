@@ -908,9 +908,9 @@ static int set_size(int size, void *param)
 static int set_mode(int value, void *param)
 {
     if (value) {
-        rl_normal = 1;
+        rl_normal = RL_MODE_NORMAL;
     } else {
-        rl_normal = 0; /* direct mode */
+        rl_normal = RL_MODE_DIRECT; /* direct mode */
     }
 
     LOG1((LOG, "RAMLINK: mode = %s", rl_normal ? "Normal" : "Direct" ));
@@ -996,7 +996,7 @@ static const resource_int_t resources_int[] = {
       &rl_write_image, set_image_write, NULL },
     { "RAMLINKsize", 16, RES_EVENT_NO, NULL,
       &rl_cardsizemb, set_size, 0 },
-    { "RAMLINKmode", 1, RES_EVENT_NO, NULL,
+    { "RAMLINKmode", RL_MODE_NORMAL, RES_EVENT_NO, NULL,
       &rl_normal, set_mode, 0 },
     { "RAMLINKRTCSave", 0, RES_EVENT_NO, NULL,
       &rl_rtcsave, set_rtcsave, 0 },
