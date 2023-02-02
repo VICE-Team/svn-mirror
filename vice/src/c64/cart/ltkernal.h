@@ -27,6 +27,8 @@
 #ifndef VICE_LTKERNAL_H
 #define VICE_LTKERNAL_H
 
+#include "c64cart.h"
+
 struct snapshot_s;
 
 #define LTKIO_DE00   0
