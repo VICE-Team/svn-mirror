@@ -41,6 +41,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "c64cart.h"
 #include "cartridge.h"
 #include "log.h"
 #include "machine.h"
@@ -53,8 +54,8 @@
 /** \brief  List of revisions
  */
 static const vice_gtk3_radiogroup_entry_t revisions[] = {
-    { "Rev. A", 0 },
-    { "Rev. B", 1 },
+    { "Rev. A", MMC64_REV_A },
+    { "Rev. B", MMC64_REV_B },
     { NULL, -1 }
 };
 
@@ -62,10 +63,10 @@ static const vice_gtk3_radiogroup_entry_t revisions[] = {
 /** \brief  List of memory card types
  */
 static const vice_gtk3_radiogroup_entry_t card_types[] = {
-    { "Auto", 0 },
-    { "MMC", 1 },
-    { "SD", 2 },
-    { "SDHC", 3 },
+    { "Auto", MMC64_TYPE_AUTO },
+    { "MMC", MMC64_TYPE_MMC },
+    { "SD", MMC64_TYPE_SD },
+    { "SDHC", MMC64_TYPE_SDHC },
     { NULL, -1 }
 };
 
