@@ -44,7 +44,7 @@
 
 #include "settings_ethernetcart.h"
 
-#include "ethernetcart.h"
+#include "c64cart.h"
 
 /** \brief  List of Ethernet Cartridge emulation modes
  */
