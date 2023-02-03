@@ -41,6 +41,7 @@
 #include "log.h"
 #include "raster-resources.h"
 #include "resources.h"
+#include "vdc.h"
 #include "vdc-resources.h"
 #include "vdctypes.h"
 #include "video.h"

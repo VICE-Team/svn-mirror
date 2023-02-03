@@ -31,6 +31,15 @@
 
 #include "types.h"
 
+#define VDC_REVISION_0  0 /* 8563 R7A */
+#define VDC_REVISION_1  1 /* 8563 R8/R9 */
+#define VDC_REVISION_2  2 /* 8568 */
+
+#define VDC_NUM_REVISIONS 3
+
+#define VDC_16KB   0
+#define VDC_64KB   1
+
 struct snapshot_s;
 struct screenshot_s;
 struct canvas_refresh_s;

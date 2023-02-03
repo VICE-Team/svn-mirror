@@ -35,6 +35,7 @@
 #include "sid.h"
 #include "types.h"
 #include "vicii.h"
+#include "vdc.h"
 #include "vdctypes.h"
 
 #define CIA_MODEL_DEFAULT_OLD CIA_MODEL_6526
