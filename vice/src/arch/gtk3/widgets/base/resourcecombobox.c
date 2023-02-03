@@ -30,6 +30,8 @@
 #include <gtk/gtk.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "basewidget_types.h"
@@ -1096,4 +1098,429 @@ gboolean vice_gtk3_resource_combo_box_with_entry_sync(GtkWidget *widget)
     combo_with_entry_fix_index(widget, value);
     g_signal_handler_unblock(G_OBJECT(widget), handler_id);
     return TRUE;
+}
+
+
+/******************************************************************************
+ *    GtkComboBox for integer resources, displaying values in hexadecimal     *
+ *                                                                            *
+ * Displays a list, or range, of integer values in hexadecimal notation,      *
+ * presenting the values as unsigned 16-bit values in the form '$hhhh'.       *
+ *****************************************************************************/
+
+/* model column indexes */
+enum {
+    COL_HEX_ID,     /**< value */
+    COL_HEX_STR     /**< displayed string */
+};
+
+/* forward declarations */
+static bool get_hex_id(GtkComboBox *self, int *id);
+static bool set_hex_id(GtkComboBox *self, int id);
+
+
+/** \brief  Block the 'changed' signal handler of a hex resource combo box
+ *
+ * \param[in]   self    hex resource combo box
+ */
+static void combo_hex_handler_block(GtkComboBox *self)
+{
+    gulong handler = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(self),
+                                                         "ChangedHandlerID"));
+    g_signal_handler_block(G_OBJECT(self), handler);
+}
+
+/** \brief  Unblock the 'changed' signal handler of a hex resource combo box
+ *
+ * \param[in]   self    hex resource combo box
+ */
+static void combo_hex_handler_unblock(GtkComboBox *self)
+{
+    gulong handler = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(self),
+                                                         "ChangedHandlerID"));
+    g_signal_handler_unblock(G_OBJECT(self), handler);
+}
+
+/** \brief  Handler for the 'destroy' event of a hex resource combo box
+ *
+ * \param[in]   self    hex resource combo box
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_combo_hex_destroy(GtkWidget *self, gpointer data)
+{
+    resource_widget_free_resource_name(self);
+}
+
+/** \brief  Handler for the 'changed' event of a hex resource combo box
+ *
+ * Attempt to set the resource of \a self to the new value, revert to previous
+ * value if fail.
+ *
+ * \param[in]   self    hex resource combo box
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_combo_hex_changed(GtkComboBox *self, gpointer data)
+{
+    int id = 0;
+
+    if (get_hex_id(self, &id)) {
+        const char *resource;
+
+        resource = resource_widget_get_resource_name(GTK_WIDGET(self));
+        debug_gtk3("Setting %s to $%04x", resource, (unsigned int)id);
+        if (resources_set_int(resource, id) < 0) {
+            /* failed, restore previous value */
+            int previous = resource_widget_get_int(GTK_WIDGET(self),
+                                                   "PreviousID");
+            debug_gtk3("Failed: restoring combo to previous value $%04x",
+                       (unsigned int)previous);
+            combo_hex_handler_block(self);
+            set_hex_id(self, previous);
+            combo_hex_handler_unblock(self);
+        } else {
+            /* success, update previous ID */
+            resource_widget_set_int(GTK_WIDGET(self), "PreviousID", id);
+        }
+    }
+}
+
+/** \brief  Get current ID of hex resource combo box
+ *
+ * \param[in]   self    hex resource combo box
+ * \param[out]  id      current ID
+ *
+ * \return  `true` on success (active selection in \a self)
+ */
+static bool get_hex_id(GtkComboBox *self, int *id)
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter(self, &iter)) {
+        gtk_tree_model_get(gtk_combo_box_get_model(self),
+                           &iter,
+                           COL_HEX_ID, id,
+                           -1);
+        return true;
+    }
+    *id = -1;
+    return false;
+}
+
+/** \brief  Set ID of hex resource combo box
+ *
+ * \param[in]   self    hex resource combo box
+ * \param[out]  id      new ID
+ *
+ * \return  `true` on success (\a id was valid for \a self)
+ */
+static bool set_hex_id(GtkComboBox *self, int id)
+{
+    GtkTreeModel *model;
+    GtkTreeIter   iter;
+
+    model = gtk_combo_box_get_model(self);
+    if (gtk_tree_model_get_iter_first(model, &iter)) {
+        do {
+            int current = 0;
+
+            gtk_tree_model_get(model, &iter, COL_HEX_ID, &current, -1);
+            if (id == current) {
+                gtk_combo_box_set_active_iter(self, &iter);
+                return true;
+            }
+        } while (gtk_tree_model_iter_next(model, &iter));
+    }
+    return false;
+}
+
+/** \brief  Create empty model
+ *
+ * Create empty model with one integer column and one string column.
+ *
+ * \return  empty model
+ */
+static GtkListStore *create_hex_model_base(void)
+{
+    return gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+}
+
+/** \brief  Add value to model
+ *
+ * Add \a value as integer ID and as a hex string (prefixed with '$') to be
+ * displayed.
+ *
+ * \param[in]   model   hex resource combo model
+ * \param[in]   value   value for \a model
+ */
+static void add_hex_model_value(GtkListStore *model, int value)
+{
+    GtkTreeIter iter;
+    char        hexstr[64];
+
+    g_snprintf(hexstr, sizeof hexstr, "$%04x", (unsigned int)value);
+    gtk_list_store_append(model, &iter);
+    gtk_list_store_set(model,
+                       &iter,
+                       COL_HEX_ID, value,
+                       COL_HEX_STR, hexstr,
+                       -1);
+}
+
+/** \brief  Create model from list of integer values
+ *
+ * Create hex combo model from values in \a list.
+ *
+ * \param[in]   list    values, terminated with <0
+ *
+ * \return  populated model
+ */
+static GtkListStore *create_hex_model_list(const int *list)
+{
+    GtkListStore *model;
+    int           index = 0;
+
+    model = create_hex_model_base();
+    while (list[index] >= 0) {
+        add_hex_model_value(model, list[index]);
+        index++;
+    }
+    return model;
+}
+
+/** \brief  Create model from range of integer values
+ *
+ * Create hex combo model with values starting with \a lower up to, but excluding,
+ * \a upper, incrementing with \a step.
+ *
+ * \param[in]   list    values, terminated with <0
+ *
+ * \return  populated model
+ */
+static GtkListStore *create_hex_model_range(int lower,
+                                            int upper,
+                                            int step)
+{
+    GtkListStore *model;
+    int           value;
+
+    model = create_hex_model_base();
+    for (value = lower; value < upper; value += step) {
+        add_hex_model_value(model, value);
+    }
+    return model;
+}
+
+/** \brief  Create view for a hex resource combo
+ *
+ * Create combo box for \a model.
+ *
+ * \param[in]   model   model for the combo box
+ *
+ * \return  GtkComboBox
+ */
+static GtkWidget *create_hex_view(GtkListStore *model)
+{
+    GtkWidget       *view;
+    GtkCellRenderer *renderer;
+
+    /* create combo box with text renderer */
+    view = gtk_combo_box_new();
+    gtk_combo_box_set_model(GTK_COMBO_BOX(view), GTK_TREE_MODEL(model));
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(view), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(view),
+                                   renderer,
+                                   "text", COL_HEX_STR,
+                                   NULL);
+    return view;
+}
+
+/** \brief  Helper to create hex resource combo box
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   model       model for the combo box
+ *
+ * \return  GtkComboBox
+ */
+static GtkWidget *combo_hex_helper(const char   *resource,
+                                   GtkListStore *model)
+{
+    GtkWidget    *combo;
+    gulong        handler_id;
+    int           id = 0;
+
+    combo = create_hex_view(model);
+
+    /* set current value, resource name and "previous" value for recovery
+     * from errors setting the resource */
+    resources_get_int(resource, &id);
+    debug_gtk3("resource %s = $%04x", resource, (unsigned int)id);
+    set_hex_id(GTK_COMBO_BOX(combo), id);
+    resource_widget_set_resource_name(combo, resource);
+    resource_widget_set_int(combo, "ResourceOrig", id);
+    resource_widget_set_int(combo, "PreviousID", id);
+
+    /* set up signal handlers */
+    handler_id = g_signal_connect(G_OBJECT(combo),
+                                  "changed",
+                                  G_CALLBACK(on_combo_hex_changed),
+                                  NULL);
+    g_signal_connect_unlocked(G_OBJECT(combo),
+                              "destroy",
+                              G_CALLBACK(on_combo_hex_destroy),
+                              NULL);
+    g_object_set_data(G_OBJECT(combo),
+                      "ChangedHandlerID",
+                      GULONG_TO_POINTER(handler_id));
+    return combo;
+}
+
+
+/******************************************************************************
+ *                      Hex resource combo box - Public API                   *
+ *****************************************************************************/
+
+/** \brief  Create resource-bound combo box showing hex literals
+ *
+ * Create combo box bound to an integer resource that shows a hex string in
+ * the form '$hhhh' for each value in \a list.
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   list        list of values, terminate with <0
+ *
+ * \return  GtkComboBox
+ */
+GtkWidget *vice_gtk3_resource_combo_hex_list_new(const char *resource,
+                                                 const int  *list)
+{
+    return combo_hex_helper(resource, create_hex_model_list(list));
+}
+
+
+/** \brief  Create resource-bound combo box showing hex literals
+ *
+ * Create combo box bound to an integer resource that shows a hex string in
+ * the form '$hhhh' for each value in range \a lower to \a upper (exclusive).
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   lower       range starting value (inclusive)
+ * \param[in]   upper       range ending value (exclusive)
+ * \param[in]   step        increment of value
+ *
+ * \return  GtkComboBox
+ */
+GtkWidget *vice_gtk3_resource_combo_hex_range_new(const char *resource,
+                                                  int         lower,
+                                                  int         upper,
+                                                  int         step)
+{
+    if (upper <= lower) {
+        log_error(LOG_ERR, "%s(): invalid range %d-%d", __func__, lower, upper);
+        return NULL;
+    }
+    if (step < 1) {
+        log_error(LOG_ERR, "%s(): invalid step value %d", __func__, step);
+        return NULL;
+    }
+    return combo_hex_helper(resource, create_hex_model_range(lower, upper, step));
+}
+
+
+/** \brief  Set hex resource combo box ID, triggering resource update
+ *
+ * \param[in]   combo   hex resource combo box
+ * \param[in]   id      new ID for \a combo
+ *
+ * \return  `TRUE` if the combo box ID and resource value could be set
+ */
+gboolean vice_gtk3_resource_combo_hex_set(GtkWidget *combo, int id)
+{
+    return set_hex_id(GTK_COMBO_BOX(combo), id) ? TRUE : FALSE;
+}
+
+
+/** \brief  Set hex resource combo box ID, without triggering resource update
+ *
+ * \param[in]   combo   hex resource combo box
+ * \param[in]   id      new ID for \a combo
+ *
+ * \return  `TRUE` if the combo box ID could be set
+ */
+gboolean vice_gtk3_resource_combo_hex_set_blocked(GtkWidget *combo, int id)
+{
+    bool result;
+
+    combo_hex_handler_block(GTK_COMBO_BOX(combo));
+    result = set_hex_id(GTK_COMBO_BOX(combo), id);
+    combo_hex_handler_unblock(GTK_COMBO_BOX(combo));
+    return result ? TRUE : FALSE;
+}
+
+
+/** \brief  Get hex resource combo box ID
+ *
+ * \param[in]   combo   hex resource combo box
+ * \param[out]  id      current ID of \a combo (set to -1 on failure)
+ *
+ * \return  `TRUE` if the combo box had a valid selection
+ */
+gboolean vice_gtk3_resource_combo_hex_get(GtkWidget *combo, int *id)
+{
+    return get_hex_id(GTK_COMBO_BOX(combo), id) ? TRUE : FALSE;
+}
+
+
+/** \brief  Reset hex combo box to the resource factory value
+ *
+ * Set combo box and the bound resource to the resource factory value.
+ *
+ * \param[in]   combo
+ *
+ * \return  `TRUE` if the combo box and the resource could be set
+ */
+gboolean vice_gtk3_resource_combo_hex_factory(GtkWidget *combo)
+{
+    const char *resource;
+    int         factory = -1;
+
+    resource = resource_widget_get_resource_name(combo);
+    if (resources_get_default_value(resource, &factory) < 0) {
+        return FALSE;
+    }
+    return vice_gtk3_resource_combo_hex_set(combo, factory);
+}
+
+
+/** \brief  Reset hex combo box to its value on instanciation
+ *
+ * Reset \a combo to the value the resource had when the \a combo was created.
+ *
+ * \param[in]   combo
+ *
+ * \return  `TRUE` if the combo box and the resource could be set
+ */
+gboolean vice_gtk3_resource_combo_hex_reset(GtkWidget *combo)
+{
+    int orig = resource_widget_get_int(combo, "ResourceOrig");
+    return vice_gtk3_resource_combo_hex_set(combo, orig);
+}
+
+
+/** \brief  Synchronized hex combo box with its resource
+ *
+ * Set \a combo to the current value of its resource, without triggering a
+ * resource-set operation.
+ *
+ * \return  `TRUE` if the combo box could be synchronized with its resource
+ */
+gboolean vice_gtk3_resource_combo_hex_sync(GtkWidget *combo)
+{
+    const char *resource;
+    int         current = -1;
+
+    resource = resource_widget_get_resource_name(combo);
+    if (resources_get_int(resource, &current) < 0) {
+        return FALSE;
+    }
+    return vice_gtk3_resource_combo_hex_set_blocked(combo, current);
 }
