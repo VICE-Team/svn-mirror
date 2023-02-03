@@ -43,18 +43,6 @@
 #include "printeroutputmodewidget.h"
 
 
-/** \brief  Handler for the 'destroy' event of \a widget
- *
- * Frees memory used by the copy of the resource name.
- *
- * \param[in,out]   widget      widget
- * \param[in]       user_data   extra event data (unused)
- */
-static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
-{
-    resource_widget_free_resource_name(widget);
-}
-
 /** \brief  Handler for the 'toggled' event of the radio buttons
  *
  * \param[in]   radio   radio button
@@ -140,10 +128,6 @@ GtkWidget *printer_output_mode_widget_create(int device)
                      "toggled",
                      G_CALLBACK(on_radio_toggled),
                      (gpointer)"graphics");
-    g_signal_connect_unlocked(grid,
-                              "destroy",
-                              G_CALLBACK(on_widget_destroy),
-                              NULL);
 
     gtk_widget_show_all(grid);
     return grid;

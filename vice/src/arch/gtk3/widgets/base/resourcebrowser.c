@@ -200,9 +200,7 @@ static void rb_state_free(rb_state_t *state)
 static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
 {
     rb_state_t *state = data;
-
     rb_state_free(state);
-    resource_widget_free_resource_name(widget);
 }
 
 /** \brief  Callback for the dialog

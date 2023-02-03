@@ -54,19 +54,6 @@
 #include "resourceswitch.h"
 
 
-/** \brief  Handler for the 'destroy' event of the switch
- *
- * Frees the heap-allocated copy of the resource name.
- *
- * \param[in,out]   widget      switch
- * \param[in]       user_data   extra event data (unused)
- */
-static void on_switch_destroy(GtkWidget *widget, gpointer user_data)
-{
-    resource_widget_free_resource_name(widget);
-}
-
-
 /** \brief  Handler for the 'state-set' event of the switch
  *
  * \param[in,out]   widget      switch
@@ -139,10 +126,6 @@ GtkWidget *vice_gtk3_resource_switch_new(const char *resource)
                      "state-set",
                      G_CALLBACK(on_switch_state_set),
                      NULL);
-    g_signal_connect_unlocked(widget,
-                              "destroy",
-                              G_CALLBACK(on_switch_destroy),
-                              NULL);
 
     gtk_widget_show(widget);
     return widget;

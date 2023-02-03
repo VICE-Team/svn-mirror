@@ -26,6 +26,8 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <stdarg.h>
+
 #include "lib.h"
 #include "resources.h"
 
@@ -62,20 +64,32 @@ int resource_widget_get_int(GtkWidget *widget, const char *key)
 
 /** \brief  Set property \a key of \a widget to string \a value
  *
- * Sets \a key to \a value using g_object_set_data() using lib_strdup(), so
+ * Sets \a key to \a value using g_object_set_data() with lib_strdup(), so
  * this function can be called with temporary data from the caller.
- * Needs to be freed with resource_widget_free_string().
+ * This function can be used to update \a key with a new \a value, the old
+ * string is freed before setting a new one.
  *
  * \param[in,out]   widget  widget
  * \param[in]       key     property name
  * \param[in]       value   property value
+ *
+ * \note    Call resource_widget_free_string(\a widget, \a key) to free memory
+ *          used by \a value.
  */
-void resource_widget_set_string(GtkWidget *widget,
+void resource_widget_set_string(GtkWidget  *widget,
                                 const char *key,
                                 const char *value)
 {
-    g_object_set_data(G_OBJECT(widget), key,
-            (gpointer)lib_strdup(value != NULL ? value : ""));
+    char *data = g_object_get_data(G_OBJECT(widget), key);
+
+    if (data != NULL) {
+        lib_free(data);
+        data = NULL;
+    }
+    if (value != NULL) {
+        data = lib_strdup(value);
+    }
+    g_object_set_data(G_OBJECT(widget), key, (gpointer)data);
 }
 
 
@@ -103,12 +117,19 @@ void resource_widget_free_string(GtkWidget *widget, const char *key)
 {
     /* free(NULL) is valid, so this is safe */
     lib_free(g_object_get_data(G_OBJECT(widget), key));
+    g_object_set_data(G_OBJECT(widget), key, NULL);
 }
 
+static void on_destroy_resource_name(GtkWidget *widget, gpointer data)
+{
+    char *resource = g_object_get_data(G_OBJECT(widget), "ResourceName");
+    lib_free(resource);
+}
 
 /** \brief  Set the "ResourceName" property of \a widget to \a resoucre
  *
- * Stores a copy of \a resource in \a widget using lib_strdup()
+ * Stores a copy of \a resource in \a widget using lib_strdup(). The copy will
+ * be freed on widget destruction.
  *
  * \param[in,out]   widget      widget
  * \param[in]       resource    resource name
@@ -116,6 +137,29 @@ void resource_widget_free_string(GtkWidget *widget, const char *key)
 void resource_widget_set_resource_name(GtkWidget *widget, const char *resource)
 {
     resource_widget_set_string(widget, "ResourceName", resource);
+    g_signal_connect_unlocked(G_OBJECT(widget),
+                              "destroy",
+                              G_CALLBACK(on_destroy_resource_name),
+                              NULL);
+}
+
+
+/** \brief  Set resource name using a valist
+ *
+ * The caller is required to release \a args after using this function.
+ *
+ * \param[in]   widget  widget to set resource name property
+ * \param[in]   format  format string for the resource name
+ * \param[in]   args    argument list of \a format
+ */
+void resource_widget_set_resource_name_valist(GtkWidget  *widget,
+                                              const char *format,
+                                              va_list     args)
+{
+    char resource[256];
+
+    g_vsnprintf(resource, sizeof resource, format, args);
+    return resource_widget_set_resource_name(widget, resource);
 }
 
 
@@ -128,16 +172,6 @@ void resource_widget_set_resource_name(GtkWidget *widget, const char *resource)
 const char *resource_widget_get_resource_name(GtkWidget *widget)
 {
     return resource_widget_get_string(widget, "ResourceName");
-}
-
-
-/** \brief  Free memory used by the "ResourceName" property of \a widget
- *
- * \param[in,out]   widget  widget
- */
-void resource_widget_free_resource_name(GtkWidget *widget)
-{
-    resource_widget_free_string(widget, "ResourceName");
 }
 
 

@@ -113,18 +113,6 @@ static bool set_double_resource(const char *resource,
     return resources_set_string(resource, text) == 0;
 }
 
-/** \brief  Handler for the 'destroy' event of \a widget
- *
- * Frees memory used by the copy of the resource name.
- *
- * \param[in,out]   widget      integer spin button
- * \param[in]       user_data   extra event data (unused)
- */
-static void on_spin_button_destroy(GtkWidget *widget, gpointer user_data)
-{
-    resource_widget_free_resource_name(widget);
-}
-
 /** \brief  Handler for the 'destroy' event of a double resource spin button
  *
  * Frees memory used by resource name and resource original value of \a self.
@@ -134,7 +122,6 @@ static void on_spin_button_destroy(GtkWidget *widget, gpointer user_data)
  */
 static void on_spin_button_double_destroy(GtkWidget *self, gpointer data)
 {
-    resource_widget_free_resource_name(self);
     resource_widget_free_string(self, "ResourceOrig");
 }
 
@@ -266,8 +253,6 @@ static GtkWidget *resource_spin_int_new_helper(GtkWidget *spin)
 
     g_signal_connect(spin, "value-changed",
             G_CALLBACK(on_spin_button_value_changed),NULL);
-    g_signal_connect_unlocked(spin, "destroy",
-            G_CALLBACK(on_spin_button_destroy), NULL);
 
     gtk_widget_show(spin);
     return spin;
@@ -327,15 +312,13 @@ GtkWidget *vice_gtk3_resource_spin_int_new_sprintf(
         ...)
 {
     GtkWidget *spin;
-    char *resource;
-    va_list args;
+    va_list    args;
 
-    spin = gtk_spin_button_new_with_range((gdouble)lower, (gdouble)upper,
-            (gdouble)step);
-
+    spin = gtk_spin_button_new_with_range((gdouble)lower,
+                                          (gdouble)upper,
+                                          (gdouble)step);
     va_start(args, step);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(spin), "ResourceName", (gpointer)resource);
+    resource_widget_set_resource_name_valist(spin, fmt, args);
     va_end(args);
 
     return resource_spin_int_new_helper(spin);

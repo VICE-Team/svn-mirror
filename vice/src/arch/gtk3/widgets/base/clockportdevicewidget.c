@@ -39,19 +39,6 @@
 #include "clockportdevicewidget.h"
 
 
-/** \brief  Handler for the 'destroy' event of the widget
- *
- * Frees memory used by the resource name.
- *
- * \param[in,out]   widget  clockport device widget
- * \param[in]       data    extra event data (unused)
- */
-static void on_destroy(GtkWidget *widget, gpointer data)
-{
-    resource_widget_free_resource_name(widget);
-}
-
-
 /** \brief  Handler for the "changed" event of the combo box
  *
  * \param[in]   widget      combo box
@@ -111,7 +98,6 @@ GtkWidget *clockport_device_widget_create(const char *resource)
     }
 
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
-    g_signal_connect_unlocked(combo, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(combo);
     return combo;
