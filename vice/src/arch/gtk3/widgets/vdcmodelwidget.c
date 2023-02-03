@@ -38,11 +38,11 @@
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
+#include "vdc.h"
 #include "vice_gtk3.h"
 
 #include "vdcmodelwidget.h"
 
-#include "vdc.h"
 
 /** \brief  List of VDC revisions
  */
