@@ -44,12 +44,13 @@
 
 #include "settings_ethernetcart.h"
 
+#include "ethernetcart.h"
 
 /** \brief  List of Ethernet Cartridge emulation modes
  */
 static const vice_gtk3_radiogroup_entry_t modes[] = {
-    { "ETFE",   0 },
-    { "RRNet",  1 },
+    { "ETFE",   ETHERNETCART_MODE_TFE },
+    { "RRNet",  ETHERNETCART_MODE_RRNET },
     { NULL,     -1 }
 };
 
