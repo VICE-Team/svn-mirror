@@ -46,6 +46,8 @@
 
 #include "c64cart.h"
 
+#ifdef HAVE_RAWNET
+
 /** \brief  List of Ethernet Cartridge emulation modes
  */
 static const vice_gtk3_radiogroup_entry_t modes[] = {
@@ -213,3 +215,4 @@ GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
