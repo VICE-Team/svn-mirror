@@ -40,6 +40,8 @@
 #include "resources.h"
 #include "uimenu.h"
 
+#include "ethernetcart.h"
+
 /* Common menus */
 
 UI_MENU_DEFINE_TOGGLE(ETHERNETCART_ACTIVE)
@@ -50,11 +52,11 @@ static const ui_menu_entry_t ethernetcart_mode_menu[] = {
     { "RR-Net compatible",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ETHERNETCARTMode_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)ETHERNETCART_MODE_RRNET },
     { "TFE compatible",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ETHERNETCARTMode_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)ETHERNETCART_MODE_TFE },
     SDL_MENU_LIST_END
 };
 
