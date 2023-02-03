@@ -64,6 +64,7 @@
 #endif
 
 #include "uimenu.h"
+#include "vdc.h"
 
 #define CIA_MODEL_MENU(xyz)                                     \
     UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
@@ -121,25 +122,25 @@ static const ui_menu_entry_t vdc_menu[] = {
     { "Rev 0",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDCRevision_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)VDC_REVISION_0 },
     { "Rev 1",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDCRevision_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)VDC_REVISION_1 },
     { "Rev 2",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDCRevision_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)VDC_REVISION_2 },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("VDC memory size"),
     { "16KiB",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDC64KB_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)VDC_16KB },
     { "64KiB",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDC64KB_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)VDC_64KB },
     SDL_MENU_LIST_END
 };
 

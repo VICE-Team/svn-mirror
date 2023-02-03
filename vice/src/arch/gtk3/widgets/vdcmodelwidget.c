@@ -42,13 +42,14 @@
 
 #include "vdcmodelwidget.h"
 
+#include "vdc.h"
 
 /** \brief  List of VDC revisions
  */
 static const vice_gtk3_radiogroup_entry_t vdc_revs[] = {
-    { "Revision 0",  0 },
-    { "Revision 1",  1 },
-    { "Revision 2",  2 },
+    { "Revision 0",  VDC_REVISION_0 },
+    { "Revision 1",  VDC_REVISION_1 },
+    { "Revision 2",  VDC_REVISION_2 },
     { NULL,         -1 }
 };
 
