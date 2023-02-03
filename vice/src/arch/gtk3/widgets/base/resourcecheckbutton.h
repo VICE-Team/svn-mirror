@@ -31,23 +31,20 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * vice_gtk3_resource_check_button_new(const char *resource,
-                                                const char *label);
-
-GtkWidget * vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
+GtkWidget *vice_gtk3_resource_check_button_new         (const char *resource,
+                                                        const char *label);
+GtkWidget *vice_gtk3_resource_check_button_new_sprintf (const char *fmt,
                                                         const char *label,
                                                         ...);
-
-void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget);
-gboolean vice_gtk3_resource_check_button_set(GtkWidget *check, gboolean value);
-gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);
-gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget);
-gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget);
-gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget);
-gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget);
-
-void vice_gtk3_resource_check_button_add_callback(
-        GtkWidget *widget,
-        void (*callback)(GtkWidget *, int));
+gboolean   vice_gtk3_resource_check_button_set         (GtkWidget *widget,
+                                                        gboolean   value);
+gboolean   vice_gtk3_resource_check_button_get         (GtkWidget *widget,
+                                                        gboolean  *value);
+gboolean   vice_gtk3_resource_check_button_reset       (GtkWidget *widget);
+gboolean   vice_gtk3_resource_check_button_factory     (GtkWidget *widget);
+gboolean   vice_gtk3_resource_check_button_sync        (GtkWidget *widget);
+gboolean   vice_gtk3_resource_check_button_apply       (GtkWidget *widget);
+void       vice_gtk3_resource_check_button_add_callback(GtkWidget  *widget,
+                                                        void      (*callback)(GtkWidget *, int));
 
 #endif

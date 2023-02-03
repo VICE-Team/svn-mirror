@@ -37,13 +37,12 @@
  * or removed update the resource)
  */
 
-GtkWidget *vice_gtk3_resource_entry_new(const char *resource);
-
-gboolean vice_gtk3_resource_entry_set(GtkWidget *entry, const char *new);
-gboolean vice_gtk3_resource_entry_get(GtkWidget *entry, const char **dest);
-gboolean vice_gtk3_resource_entry_factory(GtkWidget *entry);
-gboolean vice_gtk3_resource_entry_reset(GtkWidget *widget);
-gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget);
+GtkWidget *vice_gtk3_resource_entry_new    (const char *resource);
+gboolean   vice_gtk3_resource_entry_set    (GtkWidget *widget, const char *text);
+gboolean   vice_gtk3_resource_entry_get    (GtkWidget *widget, const char **text);
+gboolean   vice_gtk3_resource_entry_factory(GtkWidget *entry);
+gboolean   vice_gtk3_resource_entry_reset  (GtkWidget *widget);
+gboolean   vice_gtk3_resource_entry_sync   (GtkWidget *widget);
 
 
 /*
@@ -51,16 +50,12 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget);
  * or Enter is pressed)
  */
 
-GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource);
+GtkWidget *vice_gtk3_resource_entry_full_new        (const char *resource);
 GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...) VICE_ATTR_PRINTF;
-
-void vice_gtk3_resource_entry_full_disable_auto_update(GtkWidget *widget);
-
-gboolean vice_gtk3_resource_entry_full_set(GtkWidget *entry, const char *new);
-gboolean vice_gtk3_resource_entry_full_get(GtkWidget *widget, const char **dest);
-gboolean vice_gtk3_resource_entry_full_reset(GtkWidget *entry);
-gboolean vice_gtk3_resource_entry_full_sync(GtkWidget *entry);
-gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry);
-
+gboolean   vice_gtk3_resource_entry_full_set        (GtkWidget *widget, const char *text);
+gboolean   vice_gtk3_resource_entry_full_get        (GtkWidget *widget, const char **text);
+gboolean   vice_gtk3_resource_entry_full_reset      (GtkWidget *widget);
+gboolean   vice_gtk3_resource_entry_full_sync       (GtkWidget *widget);
+gboolean   vice_gtk3_resource_entry_full_factory    (GtkWidget *widget);
 
 #endif
