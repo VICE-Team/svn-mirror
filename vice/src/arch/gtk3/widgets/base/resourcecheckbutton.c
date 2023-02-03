@@ -80,24 +80,18 @@
  */
 static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
-    int state;
-    const gchar *resource;
-    void (*callback)(GtkWidget *, int);
+    const char  *resource;
+    void       (*callback)(GtkWidget*, int);
+    gboolean     state;
 
     resource = resource_widget_get_resource_name(check);
-    if (resources_get_int(resource, &state) < 0) {
-        /* warning */
-        log_error(LOG_ERR, "invalid resource name '%s'", resource);
-        return;
-    }
-    /* Whatever value the check button is now, use as the new resource value */
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)) ? 1 : 0;
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     resources_set_int(resource, state);
 
     /* call user callback if set */
     callback = g_object_get_data(G_OBJECT(check), "ExtraCallback");
     if (callback != NULL) {
-        callback(check, state);
+        callback(check, (int)state);
     }
 }
 
@@ -114,24 +108,21 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
  */
 static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
 {
-    int state;
     const char *resource;
+    int         state = 0;
 
     /* get current resource value */
     resource = resource_widget_get_resource_name(check);
     if (resources_get_int(resource, &state) < 0) {
         /* invalid resource, set state to off */
-        log_error(LOG_ERR, "invalid resource name '%s'", resource);
-        state = 0;
+        log_error(LOG_ERR,
+                  "%s(): invalid resource name '%s'",
+                  __func__, resource);
     }
     /* remember original state for the reset() method */
     resource_widget_set_int(check, "ResourceOrig", state);
-
     /* set extra callback to NULL */
     g_object_set_data(G_OBJECT(check), "ExtraCallback", NULL);
-
-    /* set auto-update to true */
-    resource_widget_set_auto_update(check, TRUE);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
                                  state ? TRUE : FALSE);
@@ -139,7 +130,7 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     g_signal_connect(check,
                      "toggled",
                      G_CALLBACK(on_check_button_toggled),
-                    (gpointer)resource);
+                     (gpointer)resource);
 
     gtk_widget_show(check);
     return check;
@@ -235,17 +226,17 @@ gboolean vice_gtk3_resource_check_button_set(GtkWidget *widget, gboolean value)
  *
  * \return  TRUE if the resource value was retrieved
  */
-gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
+gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *value)
 {
     const char *resource;
-    int value;
+    int         state;
 
     resource = resource_widget_get_resource_name(widget);
-    if (resources_get_int(resource, &value) < 0) {
-        *dest = FALSE;
+    if (resources_get_int(resource, &state) < 0) {
+        *value = FALSE;
         return FALSE;
     }
-    *dest = (gboolean)value;
+    *value = (gboolean)state;
     return TRUE;
 }
 
@@ -259,7 +250,7 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
 {
     const char *resource;
-    int value;
+    int         value;
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_default_value(resource, &value) < 0) {
@@ -292,9 +283,9 @@ gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget)
  */
 gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
 {
-    int widget_val;
     const char *resource_name;
-    int resource_val;
+    gboolean    widget_val;
+    int         resource_val;
 
     /* get widget state */
     widget_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
@@ -306,59 +297,11 @@ gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
     }
 
     /* do we need to update the widget? */
-    if ((gboolean)resource_val != (gboolean)widget_val) {
+    if (resource_val != (gboolean)widget_val) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
-                (gboolean)resource_val);
+                                     (gboolean)resource_val);
     }
     return TRUE;
-}
-
-
-/** \brief  Set resource to the widget's value
- *
- * \param[in,out]   widget  resource check button
- *
- * \return  bool
- */
-gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget)
-{
-    const char *resource;
-    int state;
-    int current;
-
-    resource = resource_widget_get_resource_name(widget);
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    if (resources_get_int(resource, &current) < 0) {
-        /* invalid resource, exit */
-        log_error(LOG_ERR, "invalid resource name'%s'", resource);
-        return FALSE;
-    }
-
-    /* make sure we don't update a resource when the UI happens to be out of
-     * sync for some reason */
-    if (state != current) {
-        if (resources_set_int(resource, state ? 1 : 0) < 0) {
-            log_error(LOG_ERR,
-                    "setting %s to %s failed",
-                    resource, state ? "True": "False");
-            /* get current resource value (validity of the name has been
-             * checked already */
-            resources_get_int(resource, &current);
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
-                    current ? TRUE : FALSE);
-        }
-    }
-    return TRUE;
-}
-
-
-/** \brief  Disable the auto updating of the bound resource
- *
- * \param[in,out]   widget  resource check button widget
- */
-void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget)
-{
-    resource_widget_set_auto_update(widget, FALSE);
 }
 
 
@@ -368,9 +311,8 @@ void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget)
  * \param[in]       callback    function to call when the checkbutton state
  *                              changes
  */
-void vice_gtk3_resource_check_button_add_callback(
-        GtkWidget *widget,
-        void (*callback)(GtkWidget *, int))
+void vice_gtk3_resource_check_button_add_callback(GtkWidget  *widget,
+                                                  void      (*callback)(GtkWidget*, int))
 {
     g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
 }

@@ -221,13 +221,6 @@ static GtkWidget *resource_combo_box_int_new_helper(
      * fails */
     resource_widget_set_int(combo, "PreviousID", current);
 
-    /* register methods to be used by the resource widget manager */
-    resource_widget_register_methods(
-            combo,
-            vice_gtk3_resource_combo_box_int_reset,
-            vice_gtk3_resource_combo_box_int_factory,
-            vice_gtk3_resource_combo_box_int_sync);
-
     /* connect signal handlers */
     handler_id = g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
     /* used to temporarily block the signal handler to avoid extra resource_set_int() calls */

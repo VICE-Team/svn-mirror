@@ -225,34 +225,26 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
  */
 static GtkWidget *resource_spin_int_new_helper(GtkWidget *spin)
 {
-    int current;
     const char *resource;
+    int         current = 0;
 
     resource = resource_widget_get_resource_name(spin);
 
     /* set fake digits to 0 */
     g_object_set_data(G_OBJECT(spin), "FakeDigits", GINT_TO_POINTER(0));
-
     /* set real digits to 0 */
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
 
     if (resources_get_int(resource, &current) < 0) {
-        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
-                resource);
-        current = 0;
+        log_error(LOG_ERR,
+                  "%s(): failed to get value for resource '%s'\n",
+                  __func__, resource);
     }
-
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)current);
-
-    /* register methods to be used by the resource widget manager */
-    resource_widget_register_methods(
-            spin,
-            vice_gtk3_resource_spin_int_reset,
-            vice_gtk3_resource_spin_int_factory,
-            vice_gtk3_resource_spin_int_sync);
-
-    g_signal_connect(spin, "value-changed",
-            G_CALLBACK(on_spin_button_value_changed),NULL);
+    g_signal_connect(spin,
+                     "value-changed",
+                     G_CALLBACK(on_spin_button_value_changed),
+                     NULL);
 
     gtk_widget_show(spin);
     return spin;
