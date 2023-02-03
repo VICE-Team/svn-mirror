@@ -42,19 +42,6 @@
 #include "resourceradiogroup.h"
 
 
-/** \brief  Handler for the 'destroy' event of the widget
- *
- * Frees the heap-allocated copy of the resource name
- *
- * \param[in]   widget      radiogroup widget
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_radiogroup_destroy(GtkWidget *widget, gpointer user_data)
-{
-    resource_widget_free_resource_name(widget);
-}
-
-
 /** \brief  Handler for the 'toggled' event of a radio button
  *
  * \param[in]   radio       radio button triggering the event
@@ -154,14 +141,6 @@ static GtkWidget *resource_radiogroup_new_helper(
         last = GTK_RADIO_BUTTON(radio);
     }
 
-    /* register methods to be used by the resource widget manager */
-    resource_widget_register_methods(
-            grid,
-            vice_gtk3_resource_radiogroup_reset,
-            vice_gtk3_resource_radiogroup_factory,
-            vice_gtk3_resource_radiogroup_sync);
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_radiogroup_destroy), NULL);
-
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -231,14 +210,11 @@ GtkWidget *vice_gtk3_resource_radiogroup_new_sprintf(
         ...)
 {
     GtkWidget *grid;
-    char *resource;
-    va_list args;
+    va_list    args;
 
     grid = gtk_grid_new();
-
     va_start(args, orientation);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(grid), "ResourceName", (gpointer)resource);
+    resource_widget_set_resource_name_valist(grid, fmt, args);
     va_end(args);
 
     return resource_radiogroup_new_helper(grid, entries, orientation);

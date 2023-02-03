@@ -38,8 +38,14 @@ const char *resource_widget_get_string(GtkWidget *widget, const char *key);
 void resource_widget_free_string(GtkWidget *widget, const char *key);
 
 void resource_widget_set_resource_name(GtkWidget *widget, const char *resource);
+void resource_widget_set_resource_name_valist(GtkWidget  *widget,
+                                              const char *format,
+                                              va_list     args);
+
 const char *resource_widget_get_resource_name(GtkWidget *widget);
+#if 0
 void resource_widget_free_resource_name(GtkWidget *widget);
+#endif
 
 void     resource_widget_set_auto_update(GtkWidget *widget, gboolean state);
 gboolean resource_widget_get_auto_update(GtkWidget *widget);

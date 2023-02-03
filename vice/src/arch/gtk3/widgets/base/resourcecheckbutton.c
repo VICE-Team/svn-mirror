@@ -73,19 +73,6 @@
 #include "resourcecheckbutton.h"
 
 
-/** \brief  Handler for the "destroy" event of the check button
- *
- * Frees the heap-allocated copy of the resource name.
- *
- * \param[in,out]   check       check button
- * \param[in]       user_data   extra event data (unused)
- */
-static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
-{
-    resource_widget_free_resource_name(check);
-}
-
-
 /** \brief  Handler for the 'toggled' event of the check button
  *
  * \param[in]   check       check button
@@ -147,19 +134,12 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     resource_widget_set_auto_update(check, TRUE);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-            state ? TRUE : FALSE);
+                                 state ? TRUE : FALSE);
 
-    /* register methods to be used by the resource widget manager */
-    resource_widget_register_methods(
-            check,
-            vice_gtk3_resource_check_button_reset,
-            vice_gtk3_resource_check_button_factory,
-            vice_gtk3_resource_check_button_sync);
-
-    g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
-            (gpointer)resource);
-    g_signal_connect_unlocked(check, "destroy", G_CALLBACK(on_check_button_destroy),
-            NULL);
+    g_signal_connect(check,
+                     "toggled",
+                     G_CALLBACK(on_check_button_toggled),
+                    (gpointer)resource);
 
     gtk_widget_show(check);
     return check;
@@ -218,14 +198,15 @@ GtkWidget *vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
                                                        ...)
 {
     GtkWidget *check;
-    va_list args;
-    char *resource;
+    va_list    args;
 
-    check = gtk_check_button_new_with_label(label);
-
+    if (label != NULL) {
+        check = gtk_check_button_new_with_label(label);
+    } else {
+        check = gtk_check_button_new();
+    }
     va_start(args, label);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(check), "ResourceName", (gpointer)resource);
+    resource_widget_set_resource_name_valist(check, fmt, args);
     va_end(args);
 
     return resource_check_button_new_helper(check);

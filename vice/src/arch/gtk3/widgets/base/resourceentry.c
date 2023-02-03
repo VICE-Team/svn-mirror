@@ -50,7 +50,6 @@
  */
 static void on_entry_destroy(GtkWidget *entry, gpointer user_data)
 {
-    resource_widget_free_resource_name(entry);
     resource_widget_free_string(entry, "ResourceOrig");
 }
 
@@ -272,10 +271,6 @@ static void on_resource_entry_full_destroy(GtkEntry *entry, gpointer data)
 {
     char *tmp;
 
-    tmp = g_object_get_data(G_OBJECT(entry), "ResourceName");
-    if (tmp != NULL) {
-        lib_free(tmp);
-    }
     tmp = g_object_get_data(G_OBJECT(entry), "ResourceOrig");
     if (tmp != NULL) {
         lib_free(tmp);

@@ -130,20 +130,6 @@ static gboolean set_combo_int_id(GtkComboBox *combo, int id)
     return FALSE;
 }
 
-
-/** \brief  Handler for the "destroy" event of the integer combo box
- *
- * Frees the heap-allocated copy of the resource name
- *
- * \param[in]   combo       combo box
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_combo_int_destroy(GtkWidget *combo, gpointer user_data)
-{
-    resource_widget_free_resource_name(combo);
-}
-
-
 /** \brief  Handler for the "changed" event of the integer combo box
  *
  * Updates the resource connected to the combo box
@@ -246,7 +232,6 @@ static GtkWidget *resource_combo_box_int_new_helper(
     handler_id = g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
     /* used to temporarily block the signal handler to avoid extra resource_set_int() calls */
     g_object_set_data(G_OBJECT(combo), "ChangedHandlerID", GULONG_TO_POINTER(handler_id));
-    g_signal_connect_unlocked(combo, "destroy", G_CALLBACK(on_combo_int_destroy), NULL);
 
     gtk_widget_show(combo);
     return combo;
@@ -288,14 +273,11 @@ GtkWidget *vice_gtk3_resource_combo_box_int_new_sprintf(
         ...)
 {
     GtkWidget *combo;
-    char *resource;
-    va_list args;
+    va_list    args;
 
     combo = gtk_combo_box_new();
-
     va_start(args, entries);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
+    resource_widget_set_resource_name_valist(combo, fmt, args);
     va_end(args);
 
     return resource_combo_box_int_new_helper(combo, entries);
@@ -462,7 +444,6 @@ gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget)
  */
 static void on_combo_str_destroy(GtkWidget *combo, gpointer user_data)
 {
-    resource_widget_free_resource_name(combo);
     resource_widget_free_string(combo, "ResourceOrig");
 }
 
@@ -526,14 +507,6 @@ static GtkWidget *resource_combo_box_str_new_helper(
         }
     }
 
-    /* register methods to be used by the resource widget manager */
-    resource_widget_register_methods(
-            combo,
-            vice_gtk3_resource_combo_box_str_reset,
-            vice_gtk3_resource_combo_box_str_factory,
-            vice_gtk3_resource_combo_box_str_sync);
-
-
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_str_changed), NULL);
     g_signal_connect(combo, "destroy", G_CALLBACK(on_combo_str_destroy), NULL);
@@ -578,14 +551,11 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_sprintf(
         ...)
 {
     GtkWidget *combo;
-    char *resource;
-    va_list args;
+    va_list    args;
 
     combo = gtk_combo_box_text_new();
-
     va_start(args, entries);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
+    resource_widget_set_resource_name_valist(combo, fmt, args);
     va_end(args);
 
     return resource_combo_box_str_new_helper(combo, entries);
@@ -748,7 +718,6 @@ static gboolean combo_with_entry_fix_index(GtkWidget *widget, const char *value)
  */
 static void on_combo_with_entry_destroy(GtkWidget *widget, gpointer unused)
 {
-    resource_widget_free_resource_name(widget);
     resource_widget_free_string(widget, "ResourceOrig");
 }
 
@@ -1141,16 +1110,6 @@ static void combo_hex_handler_unblock(GtkComboBox *self)
     g_signal_handler_unblock(G_OBJECT(self), handler);
 }
 
-/** \brief  Handler for the 'destroy' event of a hex resource combo box
- *
- * \param[in]   self    hex resource combo box
- * \param[in]   data    extra event data (unused)
- */
-static void on_combo_hex_destroy(GtkWidget *self, gpointer data)
-{
-    resource_widget_free_resource_name(self);
-}
-
 /** \brief  Handler for the 'changed' event of a hex resource combo box
  *
  * Attempt to set the resource of \a self to the new value, revert to previous
@@ -1365,10 +1324,6 @@ static GtkWidget *combo_hex_helper(const char   *resource,
                                   "changed",
                                   G_CALLBACK(on_combo_hex_changed),
                                   NULL);
-    g_signal_connect_unlocked(G_OBJECT(combo),
-                              "destroy",
-                              G_CALLBACK(on_combo_hex_destroy),
-                              NULL);
     g_object_set_data(G_OBJECT(combo),
                       "ChangedHandlerID",
                       GULONG_TO_POINTER(handler_id));

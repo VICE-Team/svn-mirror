@@ -328,7 +328,6 @@ static gboolean on_key_press_event(
  */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
-    resource_widget_free_resource_name(widget);
     resource_widget_free_string(widget, "ResourceOrig");
 }
 

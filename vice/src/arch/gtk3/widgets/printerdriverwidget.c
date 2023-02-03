@@ -93,12 +93,6 @@ static const driver_resource_t driver_resources[] = {
 };
 
 
-static void on_destroy(GtkWidget *self, gpointer data)
-{
-    resource_widget_free_resource_name(self);
-}
-
-
 /** \brief  Handler for the "toggled" event of the radio buttons
  *
  * \param[in]   radio       radio button
@@ -169,11 +163,6 @@ GtkWidget *printer_driver_widget_create(int device)
 
     /* set resource name to allow the update function to work */
     resource_widget_set_resource_name(grid, driver_resources[index].name);
-    /* free resource name on widget destruction */
-    g_signal_connect_unlocked(G_OBJECT(grid),
-                              "destroy",
-                              G_CALLBACK(on_destroy),
-                              NULL);
 
     /* create radio buttons */
     drivers = driver_resources[index].drivers;
