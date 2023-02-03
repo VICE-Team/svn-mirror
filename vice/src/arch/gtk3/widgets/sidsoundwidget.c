@@ -98,56 +98,24 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
 };
 #endif
 
-/** \brief  I/O addresses for extra SID's for the C64
- *
- * \note    Yes, I know I can generate this table
- */
-static const vice_gtk3_combo_entry_int_t sid_address_c64[] = {
-    { "$d420", 0xd420 }, { "$d440", 0xd440 }, { "$d460", 0xd460 },
-    { "$d480", 0xd480 }, { "$d4a0", 0xd4a0 }, { "$d4c0", 0xd4c0 },
-    { "$d4e0", 0xd4e0 },
-
-    { "$d500", 0xd500 }, { "$d520", 0xd520 }, { "$d540", 0xd540 },
-    { "$d560", 0xd560 }, { "$d580", 0xd580 }, { "$d5a0", 0xd5a0 },
-    { "$d5c0", 0xd5c0 }, { "$d5e0", 0xd5e0 },
-
-    { "$d600", 0xd600 }, { "$d620", 0xd620 }, { "$d640", 0xd640 },
-    { "$d660", 0xd660 }, { "$d680", 0xd680 }, { "$d6a0", 0xd6a0 },
-    { "$d6c0", 0xd6c0 }, { "$d6e0", 0xd6e0 },
-
-    { "$d700", 0xd700 }, { "$d720", 0xd720 }, { "$d740", 0xd740 },
-    { "$d760", 0xd760 }, { "$d780", 0xd780 }, { "$d7a0", 0xd7a0 },
-    { "$d7c0", 0xd7c0 }, { "$d7e0", 0xd7e0 },
-
-    { "$de00", 0xde00 }, { "$de20", 0xde20 }, { "$de40", 0xde40 },
-    { "$de60", 0xde60 }, { "$de80", 0xde80 }, { "$dea0", 0xdea0 },
-    { "$dec0", 0xdec0 }, { "$dee0", 0xdee0 },
-
-    { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
-    { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
-    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
-    VICE_GTK3_COMBO_ENTRY_INT_LIST_END
+/** \brief  I/O addresses for extra SID's for the C64 */
+static int sid_addr_list_c64[] = {
+    /*N/A*/ 0xd420, 0xd440, 0xd460, 0xd480, 0xd4a0, 0xd4c0, 0xd4e0,
+    0xd500, 0xd520, 0xd540, 0xd560, 0xd580, 0xd5a0, 0xd5c0, 0xd5e0,
+    0xd600, 0xd620, 0xd640, 0xd660, 0xd680, 0xd6a0, 0xd6c0, 0xd6e0,
+    0xd700, 0xd720, 0xd740, 0xd760, 0xd780, 0xd7a0, 0xd7c0, 0xd7e0,
+    0xde00, 0xde20, 0xde40, 0xde60, 0xde80, 0xdea0, 0xdec0, 0xdee0,
+    0xdf00, 0xdf20, 0xdf40, 0xdf60, 0xdf80, 0xdfa0, 0xdfc0, 0xdfe0,
+    -1
 };
 
-/** \brief  I/O addresses for extra SID's for the C128
- */
-static const vice_gtk3_combo_entry_int_t sid_address_c128[] = {
-    { "$d420", 0xd420 }, { "$d440", 0xd440 }, { "$d460", 0xd460 },
-    { "$d480", 0xd480 }, { "$d4a0", 0xd4a0 }, { "$d4c0", 0xd4c0 },
-    { "$d4e0", 0xd4e0 },
-
-    { "$d700", 0xd700 }, { "$d720", 0xd720 }, { "$d740", 0xd740 },
-    { "$d760", 0xd760 }, { "$d780", 0xd780 }, { "$d7a0", 0xd7a0 },
-    { "$d7c0", 0xd7c0 }, { "$d7e0", 0xd7e0 },
-
-    { "$de00", 0xde00 }, { "$de20", 0xde20 }, { "$de40", 0xde40 },
-    { "$de60", 0xde60 }, { "$de80", 0xde80 }, { "$dea0", 0xdea0 },
-    { "$dec0", 0xdec0 }, { "$dee0", 0xdee0 },
-
-    { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
-    { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
-    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
-    VICE_GTK3_COMBO_ENTRY_INT_LIST_END
+/** \brief  I/O addresses for extra SID's for the C128 */
+static int sid_addr_list_c128[] = {
+    /*N/A*/ 0xd420, 0xd440, 0xd460, 0xd480, 0xd4a0, 0xd4c0, 0xd4e0,
+    0xd700, 0xd720, 0xd740, 0xd760, 0xd780, 0xd7a0, 0xd7c0, 0xd7e0,
+    0xde00, 0xde20, 0xde40, 0xde60, 0xde80, 0xdea0, 0xdec0, 0xdee0,
+    0xdf00, 0xdf20, 0xdf40, 0xdf60, 0xdf80, 0xdfa0, 0xdfc0, 0xdfe0,
+    -1
 };
 
 
@@ -299,20 +267,28 @@ static GtkWidget *create_num_sids_widget(void)
  */
 static GtkWidget *create_extra_sid_address_widget(int sid)
 {
-    char label[32];
-    char resource[64];
+    GtkWidget *grid;
+    GtkWidget *combo;
+    GtkWidget *label;
+    char       text[32];
+    char       resource[64];
 
     g_snprintf(resource, sizeof resource, "SID%dAddressStart", sid + 1);
-    g_snprintf(label, sizeof label, "SID #%d", sid + 1);
+    g_snprintf(text, sizeof text, "SID #%d", sid + 1);
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    label = gtk_label_new(text);
     if (machine_class == VICE_MACHINE_C128) {
-        return vice_gtk3_resource_combo_box_int_new_with_label(resource,
-                                                               sid_address_c128,
-                                                               label);
+        combo = vice_gtk3_resource_combo_hex_list_new(resource,
+                                                      sid_addr_list_c128);
     } else {
-        return vice_gtk3_resource_combo_box_int_new_with_label(resource,
-                                                               sid_address_c64,
-                                                               label);
+        combo = vice_gtk3_resource_combo_hex_list_new(resource,
+                                                      sid_addr_list_c64);
     }
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+    return grid;
 }
 
 #ifdef HAVE_RESID
