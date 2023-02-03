@@ -83,7 +83,9 @@ extern export_t export;
 #include "cart/retroreplay.h"   /* provide defines for RRrevision resource */
 #include "cart/mmc64.h"         /* provide defines for MMC64_sd_type and MMC64_revision resources */
 #include "cart/mmcreplay.h"     /* provide defines for MMCRSDType resource */
+#ifdef HAVE_RAWNET
 #include "cart/ethernetcart.h"  /* provide defines for ETHERNETCARTMode resource */
+#endif
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 
 /* the following is used to hook up the c128 mode in x128 */
