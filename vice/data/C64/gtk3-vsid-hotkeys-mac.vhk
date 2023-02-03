@@ -1,7 +1,7 @@
 # VICE Gtk3 Hotkeys for vsid - MacOS version
 #
 # Author:   Bas Wassink
-# Updated:  2022-05-10
+# Updated:  2023-02-04
 #
 # See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.

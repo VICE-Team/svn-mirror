@@ -6,7 +6,7 @@
 # This file will get reworked into a "patch" to the GTK hotkeys, once the !UNDEF
 # feature is implemented.
 
-#!include $VICEDIR/C64/gtk3-hotkeys.vhk
+#!include /C64/gtk3-hotkeys.vhk
 
 !debug disable
 !clear
