@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "uimenu.h"
 
-#include "ethernetcart.h"
+#include "c64cart.h"
 
 /* Common menus */
 
