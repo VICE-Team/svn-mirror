@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+#include "c64gluelogic.h"
 #include "c64model.h"
 #include "c64rom.h"
 #include "cia.h"
@@ -299,11 +300,11 @@ const ui_menu_entry_t c64sc_model_menu[] = {
     { "Discrete",
       MENU_ENTRY_RESOURCE_TOGGLE,
       radio_GlueLogic_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)GLUE_LOGIC_DISCRETE },
     { "Custom IC",
       MENU_ENTRY_RESOURCE_TOGGLE,
       radio_GlueLogic_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)GLUE_LOGIC_CUSTOM_IC },
     SDL_MENU_ITEM_SEPARATOR,
     { "Reset goes to IEC",
       MENU_ENTRY_RESOURCE_TOGGLE,
