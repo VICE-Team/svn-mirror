@@ -36,6 +36,9 @@
 #include "menu_midi.h"
 #include "uimenu.h"
 
+#include "mididrv.h"
+#include "c64-midi.h"
+
 /* *nix MIDI settings */
 #if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 
@@ -64,11 +67,11 @@ static const ui_menu_entry_t midi_driver_menu[] = {
     { "OSS",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIDriver_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)MIDI_DRIVER_OSS },
     { "ALSA",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIDriver_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)MIDI_DRIVER_ALSA },
     SDL_MENU_LIST_END
 };
 
@@ -297,23 +300,23 @@ static const ui_menu_entry_t midi_type_menu[] = {
     { "Sequential",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)MIDI_MODE_SEQUENTIAL },
     { "Passport",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)MIDI_MODE_PASSPORT },
     { "DATEL",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)MIDI_MODE_DATEL },
     { "Namesoft",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)MIDI_MODE_NAMESOFT },
     { "Maplin",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
-      (ui_callback_data_t)4 },
+      (ui_callback_data_t)MIDI_MODE_MAPLIN },
     SDL_MENU_LIST_END
 };
 

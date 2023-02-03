@@ -32,6 +32,14 @@
 
 #include "types.h"
 
+#if defined(USE_OSS) && defined(USE_ALSA)
+#define MIDI_DRIVER_OSS  0
+#define MIDI_DRIVER_ALSA 1
+#else
+#define MIDI_DRIVER_OSS  0
+#define MIDI_DRIVER_ALSA 0
+#endif
+
 extern void mididrv_init(void);
 
 /* Opens a MIDI device */
