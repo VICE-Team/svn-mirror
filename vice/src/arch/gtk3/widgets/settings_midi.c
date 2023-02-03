@@ -67,11 +67,14 @@
 
 #include "settings_midi.h"
 
+#include "mididrv.h"
+#include "c64-midi.h"
+
 
 /** \brief  MIDI enable checkbutton */
 static GtkWidget *midi_enable;
 /** \brief  MIDI mode combobox */
-static GtkWidget *midi_mode;
+static GtkWidget *midimode;
 #if defined (MACOS_COMPILE) || defined (WINDOWS_COMPILE) || defined (USE_OSS)
 /** \brief  MIDI in device  */
 static GtkWidget *midi_in_entry;
@@ -99,11 +102,11 @@ static GtkWidget *midi_out_browse;
  * Seems to be a list of MIDI expansions
  */
 static const vice_gtk3_combo_entry_int_t midi_modes[] = {
-    { "Sequential",         0 },
-    { "Passport/Syntech",   1 },
-    { "DATEL/Siel/JMS",     2 },
-    { "Namesoft",           4 },
-    { "Maplin",             5 },
+    { "Sequential",         MIDI_MODE_SEQUENTIAL },
+    { "Passport/Syntech",   MIDI_MODE_PASSPORT },
+    { "DATEL/Siel/JMS",     MIDI_MODE_DATEL },
+    { "Namesoft",           MIDI_MODE_NAMESOFT },
+    { "Maplin",             MIDI_MODE_MAPLIN },
     { NULL, -1 }
 };
 
@@ -112,8 +115,8 @@ static const vice_gtk3_combo_entry_int_t midi_modes[] = {
 /** \brief  List of MIDI drivers
  */
 static const vice_gtk3_combo_entry_int_t midi_drivers[]= {
-    { "OSS",    0 },
-    { "ALSA",   1 },
+    { "OSS",    MIDI_DRIVER_OSS },
+    { "ALSA",   MIDI_DRIVER_ALSA },
     { NULL,     -1 }
 };
 #endif
@@ -148,7 +151,7 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 #endif
 
     if (machine_class != VICE_MACHINE_VIC20) {
-        gtk_widget_set_sensitive(midi_mode, state);
+        gtk_widget_set_sensitive(midimode, state);
     }
 
 #if defined (MACOS_COMPILE)
@@ -168,8 +171,8 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 #if defined (USE_OSS) && defined (USE_ALSA)
     /* only needed if OSS and ALSA is enabled */
     gtk_widget_set_sensitive(midi_driver, state);
-    ossactive = (gtk_combo_box_get_active(GTK_COMBO_BOX(midi_driver)) == 0);
-    alsaactive = (gtk_combo_box_get_active(GTK_COMBO_BOX(midi_driver)) == 1);
+    ossactive = (gtk_combo_box_get_active(GTK_COMBO_BOX(midi_driver)) == MIDI_DRIVER_OSS);
+    alsaactive = (gtk_combo_box_get_active(GTK_COMBO_BOX(midi_driver)) == MIDI_DRIVER_ALSA);
 #endif
 
 #if defined(USE_ALSA)
@@ -285,8 +288,8 @@ static GtkWidget *create_midi_mode_widget(void)
 static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(midi_enable));
-    int ossactive = (gtk_combo_box_get_active(combo) == 0);
-    int alsaactive = (gtk_combo_box_get_active(combo) == 1);
+    int ossactive = (gtk_combo_box_get_active(combo) == MIDI_DRIVER_OSS);
+    int alsaactive = (gtk_combo_box_get_active(combo) == MIDI_DRIVER_ALSA);
     /* ALSA or macOS */
     gtk_widget_set_sensitive(midi_name_entry, state && alsaactive);
     /* Windows, OSS or macOS */
@@ -331,8 +334,8 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     if (machine_class != VICE_MACHINE_VIC20) {
         label = label_helper("MIDI mode");
         gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-        midi_mode = create_midi_mode_widget();
-        gtk_grid_attach(GTK_GRID(grid), midi_mode, 1, 1, 1, 1);
+        midimode = create_midi_mode_widget();
+        gtk_grid_attach(GTK_GRID(grid), midimode, 1, 1, 1, 1);
     }
 
     row = 2;

@@ -83,14 +83,6 @@ static char *midi_out_dev = NULL;
 static int fd_in = -1;
 static int fd_out = -1;
 
-#if defined(USE_OSS) && defined(USE_ALSA)
-#define MIDI_DRIVER_OSS  0
-#define MIDI_DRIVER_ALSA 1
-#else
-#define MIDI_DRIVER_OSS  0
-#define MIDI_DRIVER_ALSA 0
-#endif
-
 #ifdef USE_ALSA
 static int midi_driver_num = MIDI_DRIVER_ALSA;
 #else
