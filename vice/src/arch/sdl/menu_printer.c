@@ -101,15 +101,15 @@ static const ui_menu_entry_t printer_6_driver_submenu[] = {
         { "1",                                                        \
           MENU_ENTRY_RESOURCE_RADIO,                                  \
           radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)0 },                                    \
+          (ui_callback_data_t)PRINTER_TEXT_DEVICE_1 },                \
         { "2",                                                        \
           MENU_ENTRY_RESOURCE_RADIO,                                  \
           radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)1 },                                    \
+          (ui_callback_data_t)PRINTER_TEXT_DEVICE_2 },                \
         { "3",                                                        \
           MENU_ENTRY_RESOURCE_RADIO,                                  \
           radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)2 },                                    \
+          (ui_callback_data_t)PRINTER_TEXT_DEVICE_3 },                \
         SDL_MENU_LIST_END                                             \
     };
 
@@ -236,7 +236,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Printer #4 form feed",                         \
       MENU_ENTRY_OTHER,                               \
       uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)PRINTER_IEC_4 },
 
 #define VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS          \
     { "Printer #5 emulation",                         \
@@ -258,7 +258,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Printer #5 form feed",                         \
       MENU_ENTRY_OTHER,                               \
       uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)PRINTER_IEC_5 },
 
 #define VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS          \
     { "Printer #6 emulation",                         \
@@ -280,7 +280,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Printer #6 form feed",                         \
       MENU_ENTRY_OTHER,                               \
       uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)PRINTER_IEC_6 },
 
 #ifdef HAVE_REALDEVICE
 #define VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS \
@@ -310,7 +310,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Userport printer form feed",                          \
       MENU_ENTRY_OTHER,                                      \
       uiprinter_formfeed_callback,                           \
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)PRINTER_USERPORT },
 
 UI_MENU_DEFINE_STRING(PrinterTextDevice1)
 UI_MENU_DEFINE_STRING(PrinterTextDevice2)

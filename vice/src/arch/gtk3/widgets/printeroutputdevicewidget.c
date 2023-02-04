@@ -48,9 +48,9 @@
 /** \brief  List of text output devices
  */
 static const vice_gtk3_radiogroup_entry_t device_list[] = {
-    { "Device 1",  0 },
-    { "Device 2",  1 },
-    { "Device 3",  2 },
+    { "Device 1",  PRINTER_TEXT_DEVICE_1 },
+    { "Device 2",  PRINTER_TEXT_DEVICE_2 },
+    { "Device 3",  PRINTER_TEXT_DEVICE_3 },
     { NULL,       -1 }
 };
 
