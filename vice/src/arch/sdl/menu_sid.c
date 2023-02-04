@@ -34,6 +34,7 @@
 #include "menu_sid.h"
 #include "resources.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "uimenu.h"
 
 static UI_MENU_CALLBACK(custom_SidModel_callback)
@@ -591,11 +592,11 @@ ui_menu_entry_t sid_vic_menu[] = {
     { "C64",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)SIDCART_CLOCK_C64 },
     { "VIC20",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)SIDCART_CLOCK_NATIVE },
     SDL_MENU_LIST_END
 };
 
@@ -630,11 +631,11 @@ ui_menu_entry_t sid_pet_menu[] = {
     { "C64",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)SIDCART_CLOCK_C64 },
     { "PET",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)SIDCART_CLOCK_NATIVE },
     SDL_MENU_LIST_END
 };
 
@@ -671,11 +672,11 @@ ui_menu_entry_t sid_plus4_menu[] = {
     { "C64",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)SIDCART_CLOCK_C64 },
     { "PLUS4",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)SIDCART_CLOCK_NATIVE },
     SDL_MENU_ITEM_SEPARATOR,
     { "Enable SID cartridge digiblaster add-on",
       MENU_ENTRY_RESOURCE_TOGGLE,
