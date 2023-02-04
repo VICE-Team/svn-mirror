@@ -586,7 +586,7 @@ static bool textfile_reader_open(textfile_reader_t *reader, const char *path)
     }
 
     /* try to open new file */
-    /*    debug_gtk3("calling sysfile_open(%s, %s)", path, machine_name);   */
+    /*  debug_gtk3("calling sysfile_open(%s, %s)", path, machine_name); */
     /* first try DATADIR/$MACHINE */
     reader->fp = sysfile_open(path, machine_name, &complete_path, "rb");
     if (reader->fp == NULL) {
@@ -599,7 +599,7 @@ static bool textfile_reader_open(textfile_reader_t *reader, const char *path)
             return false;
         }
     }
-    /*  debug_gtk3("OK: %s", complete_path);    */
+    /*  debug_gtk3("OK: %s", complete_path); */
 
     /* add new file to stack */
     textfile_entry_t *new = textfile_entry_new(complete_path);
@@ -1312,6 +1312,27 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
             *a++ = *s++;
         }
         *a = '\0';
+    }
+
+    /* Fuck with the path separators to work around crappy findpath()
+     *
+     * With the $VICEDIR stuff in place we would pass in an absolute path to
+     * sysfile_open()/findpath(), but with that removed findpath() fucks up
+     * on directory separators in its argument and considers anything with a
+     * separator in it to be relative to the user's directory, not the vice dir.
+     *
+     * So in order to fool findpath() we change the OS-native directory separators
+     * to the non-native separators */
+    for (int i = 0; arg[i] != '\0'; i++) {
+#ifdef WINDOWS_COMPILE
+        if (arg[i] == '\\') {
+            arg[i] = '/';
+        }
+#else
+        if (arg[i] == '/') {
+            arg[i] = '\\';
+        }
+#endif
     }
 
     result = textfile_reader_open(reader, arg);
