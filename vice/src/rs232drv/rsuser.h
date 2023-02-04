@@ -42,6 +42,11 @@
 #define CTS_IN          0x40    /* PB6 */
 #define DSR_IN          0x80    /* PB7 */
 
+#define RS_USER_DEVICE_1   0
+#define RS_USER_DEVICE_2   1
+#define RS_USER_DEVICE_3   2
+#define RS_USER_DEVICE_4   3
+
 extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                         void (*byte_rx_func)(uint8_t));
 extern void rsuser_change_timing(long cycles_per_sec);

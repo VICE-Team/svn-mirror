@@ -37,6 +37,8 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "userport.h"
+#include "acia.h"
+#include "rsuser.h"
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
@@ -104,19 +106,19 @@ static const ui_menu_entry_t acia1dev_menu[] = {
     { "1",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Dev_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)ACIA_DEVICE_1 },
     { "2",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Dev_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)ACIA_DEVICE_2 },
     { "3",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Dev_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)ACIA_DEVICE_3 },
     { "4",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Dev_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)ACIA_DEVICE_4 },
     SDL_MENU_LIST_END
 };
 
@@ -126,15 +128,15 @@ static const ui_menu_entry_t acia1irq_menu[] = {
     { "No IRQ/NMI",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Irq_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)ACIA_INT_NONE },
     { "NMI",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Irq_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)ACIA_INT_NMI },
     { "IRQ",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Irq_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)ACIA_INT_IRQ },
     SDL_MENU_LIST_END
 };
 
@@ -144,15 +146,15 @@ static const ui_menu_entry_t acia1mode_menu[] = {
     { "Normal",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Mode_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)ACIA_MODE_NORMAL },
     { "Swiftlink",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Mode_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)ACIA_MODE_SWIFTLINK },
     { "Turbo232",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Mode_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)ACIA_MODE_TURBO232 },
     SDL_MENU_LIST_END
 };
 
@@ -248,19 +250,19 @@ static const ui_menu_entry_t rsuserdev_menu[] = {
     { "1",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserDev_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)RS_USER_DEVICE_1 },
     { "2",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserDev_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)RS_USER_DEVICE_2 },
     { "3",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserDev_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)RS_USER_DEVICE_3 },
     { "4",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserDev_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)RS_USER_DEVICE_4 },
     SDL_MENU_LIST_END
 };
 
