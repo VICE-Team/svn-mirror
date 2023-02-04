@@ -135,6 +135,16 @@ static void warp(int x, int y)
         log_error(LOG_DEFAULT, "SetCursorPos(%d, %d) - %lu", x, y, GetLastError());
     }
 
+    {
+        DWORD dw;
+        mouse_event(MOUSEEVENTF_ABSOLUTE, x, y, 0, 0);
+        dw = GetLastError();
+        if (dw != 0) {
+            log_error(LOG_DEFAULT, "mouse_event(%d, %d) - %lu", x, y, dw);
+        }
+    }
+  
+
 #else /* xlib */
 
     GtkWidget *gtk_widget = ui_get_window_by_index(PRIMARY_WINDOW);
