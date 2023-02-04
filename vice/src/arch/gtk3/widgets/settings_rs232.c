@@ -68,17 +68,17 @@
 #include "settings_rs232.h"
 
 #include "rsuser.h"
-
+#include "acia.h"
 
 /** \brief  List of ACIA devices
  *
  * \note    Also used by the Userport RS232 Device list combo box
  */
 static const vice_gtk3_combo_entry_int_t acia_devices[] = {
-    { "Serial 1",  0 },
-    { "Serial 2",  1 },
-    { "Serial 3",  2 },
-    { "Serial 4",  3 },
+    { "Serial 1",  ACIA_DEVICE_1 },
+    { "Serial 2",  ACIA_DEVICE_2 },
+    { "Serial 3",  ACIA_DEVICE_3 },
+    { "Serial 4",  ACIA_DEVICE_4 },
     { NULL,       -1 }
 };
 
@@ -107,22 +107,21 @@ static const vice_gtk3_radiogroup_entry_t acia_base_vic20[] = {
     { NULL,        -1 }
 };
 
-
 /** \brief  List of ACIA IRQ sources (x64/x64sc/xscpu64/x128/xvic)
  */
 static const vice_gtk3_radiogroup_entry_t acia_irqs[] = {
-    { "None",  0 },
-    { "NMI",   1 },
-    { "IRQ",   2 },
+    { "None",  ACIA_INT_NONE },
+    { "NMI",   ACIA_INT_NMI },
+    { "IRQ",   ACIA_INT_IRQ },
     { NULL,   -1 }
 };
 
 /** \brief  List of emulated RS232 modes (x64/x64sc/xscpu64/x128/xvic)
  */
 static const vice_gtk3_radiogroup_entry_t acia_modes[] = {
-    { "Normal",     0 },
-    { "Swiftlink",  1 },
-    { "Turbo232",   2 },
+    { "Normal",     ACIA_MODE_NORMAL },
+    { "Swiftlink",  ACIA_MODE_SWIFTLINK },
+    { "Turbo232",   ACIA_MODE_TURBO232 },
     { NULL,        -1 }
 };
 
