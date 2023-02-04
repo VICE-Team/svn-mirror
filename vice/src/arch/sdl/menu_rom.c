@@ -35,6 +35,8 @@
 #include "menu_rom.h"
 #include "uimenu.h"
 
+#include "functionrom.h"
+
 UI_MENU_DEFINE_FILE_STRING(InternalFunctionName)
 
 UI_MENU_DEFINE_RADIO(InternalFunctionROM)
@@ -45,19 +47,19 @@ const ui_menu_entry_t int_func_rom_menu[] = {
     { "None",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_InternalFunctionROM_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)INT_FUNCTION_NONE },
     { "ROM",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_InternalFunctionROM_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)INT_FUNCTION_ROM },
     { "RAM",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_InternalFunctionROM_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)INT_FUNCTION_RAM },
     { "RTC",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_InternalFunctionROM_callback,
-      (ui_callback_data_t)3 },
+      (ui_callback_data_t)INT_FUNCTION_RTC },
     SDL_MENU_LIST_END
 };
 
