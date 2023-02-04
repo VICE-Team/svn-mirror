@@ -131,7 +131,9 @@ static void warp(int x, int y)
 
 #elif defined(WINDOWS_COMPILE)
 
-    SetCursorPos(x, y);
+    if (SetCursorPos(x, y) == FALSE) {
+        log_error(LOG_DEFAULT, "SetCursorPos(%d, %d) - %lu", x, y, GetLastError());
+    }
 
 #else /* xlib */
 
