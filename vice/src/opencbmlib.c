@@ -37,6 +37,14 @@
 #include "log.h"
 #include "dynlib.h"
 
+#define DEBUG_OPENCBM
+
+#ifdef DEBUG_OPENCBM
+#define LOG(x)  log_debug x
+#else
+#define LOG(x)
+#endif
+
 static void *opencbm_so = NULL;
 
 /* Macro for getting function pointers from opencbm dll.  */
@@ -52,6 +60,7 @@ static void opencbmlib_free_library(void)
         if (vice_dynlib_close(opencbm_so) != 0) {
             log_debug("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
         }
+        LOG(("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " OK"));
     }
 
     opencbm_so = NULL;
@@ -100,8 +109,10 @@ void opencbmlib_close(void)
 unsigned int opencbmlib_is_available(void)
 {
     if (opencbm_so != NULL) {
+        LOG(("opencbmlib_is_available OK"));
         return 1;
     }
+    LOG(("opencbmlib_is_available FAILED"));
 
     return 0;
 }
