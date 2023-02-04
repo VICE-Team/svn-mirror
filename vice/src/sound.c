@@ -90,9 +90,6 @@ static const sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_PULSE
     { "pulse", sound_init_pulse_device, SOUND_PLAYBACK_DEVICE },
 #endif
-#ifdef USE_ARTS
-    { "arts", sound_init_arts_device, SOUND_PLAYBACK_DEVICE },
-#endif
 #ifdef USE_ALSA
     { "alsa", sound_init_alsa_device, SOUND_PLAYBACK_DEVICE },
 #endif

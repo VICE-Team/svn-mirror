@@ -191,12 +191,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"sdl" },
 #endif
-#ifdef USE_DMEDIA
-    { "SGI",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"sgi" },
-#endif
 #if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
 # if !defined(NETBSD_COMPILE)
     { "Sun audio",
@@ -209,12 +203,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"netbsd" },
 # endif
-#endif
-#if defined(USE_OSS) && !defined(FREEBSD_COMPILE)
-    { "OSS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"uss" },
 #endif
 #ifdef WINDOWS_COMPILE
     { "WMM",
