@@ -685,6 +685,10 @@ UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
 
 
 /* C128 video menu */
+#define VIDEO_OUTPUT_VICII         0
+#define VIDEO_OUTPUT_VDC           1
+#define VIDEO_OUTPUT_DUAL_WINDOW   2
+
 #ifndef USE_SDL2UI
 static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 {
@@ -708,16 +712,16 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
     resources_get_int("DualWindow", &dual_window);
 
     if (activated) {
-        if (value < 2) {
+        if (value == VIDEO_OUTPUT_VICII || value == VIDEO_OUTPUT_VDC) {
             sdl_video_canvas_switch(value);
             resources_set_int("DualWindow", 0);
             sdl2_hide_second_window();
-        } else if (value == 2) {
+        } else if (value == VIDEO_OUTPUT_DUAL_WINDOW) {
             resources_set_int("DualWindow", 1);
             sdl2_show_second_window();
         }
     } else {
-        if ((value == 2) && (dual_window == 1)) {
+        if ((value == VIDEO_OUTPUT_DUAL_WINDOW) && (dual_window == 1)) {
             return sdl_menu_text_tick;
         } else if (dual_window != 1) {
             if (value == sdl_active_canvas->index) {
@@ -734,16 +738,16 @@ const ui_menu_entry_t c128_video_menu[] = {
     { "VICII (40 cols)",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)VIDEO_OUTPUT_VICII },
     { "VDC (80 cols)",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)VIDEO_OUTPUT_VDC },
 #ifdef USE_SDL2UI
     { "Dual Windows",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)VIDEO_OUTPUT_DUAL_WINDOW },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
     { "VICII host rendering settings",
@@ -1498,5 +1502,3 @@ void uipalette_menu_shutdown(void)
         palette_dyn_menu_free(palette_dyn_menu2);
     }
 }
-
-
