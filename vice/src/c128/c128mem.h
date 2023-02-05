@@ -72,6 +72,9 @@ extern void ram_store(uint16_t addr, uint8_t value);
 extern uint8_t one_read(uint16_t addr);
 extern void one_store(uint16_t addr, uint8_t value);
 
+extern uint8_t z80_read_zero(uint16_t addr);
+extern void z80_store_zero(uint16_t addr, uint8_t value);
+
 extern void colorram_store(uint16_t addr, uint8_t value);
 extern uint8_t colorram_read(uint16_t addr);
 
