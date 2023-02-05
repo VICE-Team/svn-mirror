@@ -94,16 +94,6 @@ void bios_store(uint16_t addr, uint8_t value)
     z80bios_rom[addr] = value;
 }
 
-static uint8_t z80_read_zero(uint16_t addr)
-{
-    return mem_page_zero[addr];
-}
-
-static void z80_store_zero(uint16_t addr, uint8_t value)
-{
-    mem_page_zero[addr] = value;
-}
-
 static uint8_t read_unconnected_io(uint16_t addr)
 {
     log_message(z80mem_log, "Read from unconnected IO %04x", addr);

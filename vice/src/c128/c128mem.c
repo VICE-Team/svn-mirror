@@ -264,18 +264,13 @@ void c128_mem_set_mmu_zp_sp_shared(uint8_t val)
 }
 
 /* returns 0x100 if normal read needs to be done, or <0x100 if the read was remapped */
-static uint16_t c128_mem_mmu_wrap_read_zero(uint16_t address)
+static uint16_t z80_mem_mmu_wrap_read_zero(uint16_t address)
 {
     uint8_t addr_pos = (address & 0xff);
     uint8_t addr_page = 0;
     uint8_t addr_bank = 0;
     uint16_t addr;
     int use_ram_only = 0;
-
-    /* Make sure the internal cpu port is always used for address 0 and 1 */
-    if (address == 0 || address == 1) {
-        return 0x100;
-    }
 
     /* Check if there is no translation that needs to be done */
     if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_0_bank == 0) {
@@ -304,6 +299,17 @@ static uint16_t c128_mem_mmu_wrap_read_zero(uint16_t address)
     }
 
     return 0x100;
+}
+
+/* returns 0x100 if normal read needs to be done, or <0x100 if the read was remapped */
+static uint16_t c128_mem_mmu_wrap_read_zero(uint16_t address)
+{
+    /* Make sure the internal cpu port is always used for address 0 and 1 */
+    if (address == 0 || address == 1) {
+        return 0x100;
+    }
+
+    return z80_mem_mmu_wrap_read_zero(address);
 }
 
 /* returns 0x100 if normal read needs to be done, or <0x100 if the read was remapped */
@@ -365,7 +371,7 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
 }
 
 /* returns 1 if normal write needs to be done, or 0 if write was remapped and done */
-static uint8_t c128_mem_mmu_wrap_store(uint16_t address, uint8_t value)
+static uint8_t z80_mem_mmu_wrap_store(uint16_t address, uint8_t value)
 {
     uint8_t addr_pos = (address & 0xff);
     uint8_t addr_page = (address >> 8);
@@ -375,12 +381,6 @@ static uint8_t c128_mem_mmu_wrap_store(uint16_t address, uint8_t value)
 
     /* Check if there is no translation that needs to be done */
     if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
-        return 1;
-    }
-
-
-    /* Make sure the internal cpu port is always used for address 0 and 1 */
-    if (address == 0 || address == 1) {
         return 1;
     }
 
@@ -422,6 +422,16 @@ static uint8_t c128_mem_mmu_wrap_store(uint16_t address, uint8_t value)
     } else {
         return 1;
     }
+}
+
+/* returns 1 if normal write needs to be done, or 0 if write was remapped and done */
+static uint8_t c128_mem_mmu_wrap_store(uint16_t address, uint8_t value)
+{
+    /* Make sure the internal cpu port is always used for address 0 and 1 */
+    if (address == 0 || address == 1) {
+        return 1;
+    }
+    return z80_mem_mmu_wrap_store(address, value);
 }
 
 static void mem_update_chargen(unsigned int chargen_high)
@@ -686,6 +696,44 @@ void zero_store(uint16_t addr, uint8_t value)
             } else if (c128_mem_mmu_wrap_store(addr, value)) {
                 mem_page_zero[addr] = value;
             }
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* z80 versions of reading and writing the zero page under mmu control. */
+
+uint8_t z80_read_zero(uint16_t addr)
+{
+    uint16_t retval = 0;
+    addr &= 0xff;
+
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+        vicii.last_cpu_val = dma_bank[addr];
+    } else {
+        retval = z80_mem_mmu_wrap_read_zero(addr);
+        if (retval == 0x100) {
+            vicii.last_cpu_val = mem_page_zero[addr];
+        } else {
+            vicii.last_cpu_val = (uint8_t)retval;
+        }
+    }
+
+    return vicii.last_cpu_val;
+}
+
+void z80_store_zero(uint16_t addr, uint8_t value)
+{
+    addr &= 0xff;
+
+    vicii.last_cpu_val = value;
+
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+        dma_bank[addr] = value;
+    } else if (z80_mem_mmu_wrap_store(addr, value)) {
+        mem_page_zero[addr] = value;
     }
 }
 
