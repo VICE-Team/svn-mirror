@@ -55,6 +55,7 @@ libbasewidgets_a_SOURCES = \
 	resourcescale.c \
 	resourcespinbutton.c \
 	resourceswitch.c \
+	resourcewidgetmediator.c \
 	savefiledialog.c \
 	selectdirectorydialog.c \
 	uiactionbutton.c \
@@ -83,6 +84,7 @@ EXTRA_DIST = \
 	resourcescale.h \
 	resourcespinbutton.h \
 	resourceswitch.h \
+	resourcewidgetmediator.h \
 	savefiledialog.h \
 	selectdirectorydialog.h \
 	uiactionbutton.h \
