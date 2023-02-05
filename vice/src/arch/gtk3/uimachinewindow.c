@@ -292,7 +292,16 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 #elif defined(WINDOWS_COMPILE)
 
         int scale = gtk_widget_get_scale_factor(widget);
-        mouse_host_moved(motion->x_root * scale, motion->y_root * scale);
+        POINT pt;
+        /* mouse_host_moved(motion->x_root * scale, motion->y_root * scale); */
+        if (GetCursorPos(&pt) == FALSE) {
+            /* log_error(LOG_DEFAULT, "GetCursorPos failed"); */
+            printf("GetCursorPos failed (%ld, %ld)\n", pt.x, pt.y); fflush(stdout);
+        } else {
+            /* log_message(LOG_DEFAULT, "mouse move %f, %f GetCursorPos: %ld, %ld", motion->x, motion->y, pt.x, pt.y); */
+            printf("mouse move %f, %f GetCursorPos: %ld, %ld\n", motion->x, motion->y, pt.x, pt.y); fflush(stdout);
+            mouse_host_moved(pt.x * scale, pt.y * scale);
+        }
 
 #else /* Xlib, warp is relative to window */
 
