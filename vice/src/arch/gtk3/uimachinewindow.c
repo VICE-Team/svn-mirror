@@ -143,7 +143,6 @@ static void warp(int x, int y)
             log_error(LOG_DEFAULT, "mouse_event(%d, %d) - %lu", x, y, dw);
         }
     }
-  
 
 #else /* xlib */
 
