@@ -273,7 +273,7 @@ void mediator_handler_unblock(mediator_t *mediator)
  *        Boolean resource methods (`gboolean` in Gtk, `int` in VICE)         *
  *****************************************************************************/
 
-/** \brief  Get resource value through mediator
+/** \brief  Get boolean resource value through mediator
  *
  * \param[in]   mediator    resource mediator
  *
@@ -292,7 +292,7 @@ gboolean mediator_get_resource_boolean(mediator_t *mediator)
 }
 
 
-/** \brief  Get resource value on mediator instanciation
+/** \brief  Get boolean resource value on mediator instanciation
  *
  * \param[in]   mediator    resource mediator
  *
@@ -304,7 +304,7 @@ gboolean mediator_get_initial_boolean(mediator_t *mediator)
 }
 
 
-/** \brief  Get last valid value of resource
+/** \brief  Get last valid value of boolean resource
  *
  * The `current` member is updated on succesfully setting the resource, it can
  * be used to revert a widget to its previous state should setting the resource
@@ -320,7 +320,7 @@ gboolean mediator_get_current_boolean(mediator_t *mediator)
 }
 
 
-/** \brief  Get factory value for resource
+/** \brief  Get boolean factory value for resource
  *
  * \param[in]   mediator    resource mediator
  *
@@ -335,7 +335,7 @@ gboolean mediator_get_factory_boolean(mediator_t *mediator)
 }
 
 
-/** \brief  Set current resource value in the mediator
+/** \brief  Set current boolean resource value in the mediator
  *
  * Calling this will update the last valid value of the resource in the
  * \a mediator, which can be used to revert the widget to its previous state
@@ -431,21 +431,90 @@ gboolean mediator_update_boolean_w(GtkWidget *widget, gboolean value)
  *          Integer resource methods (`int` in Gtk, `int  in VICE)            *
  *****************************************************************************/
 
+/** \brief  Get integer resource value through mediator
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  resource value
+ */
+int mediator_get_resource_int(mediator_t *mediator)
+{
+    int i = 0;
+
+    resources_get_int(mediator->name, &i);
+    return i;
+
+}
+
+
+/** \brief  Get integer resource value on mediator instanciation
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  resource's value when mediator_new() was called
+ */
 int mediator_get_initial_int(mediator_t *mediator)
 {
     return g_value_get_int(&(mediator->initial));
 }
 
+
+/** \brief  Get integer resource factory value
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  factory value
+ */
+int mediator_get_factory_int(mediator_t *mediator)
+{
+    int factory = 0;
+
+    resources_get_default_value(mediator->name, &factory);
+    return factory;
+}
+
+
+/** \brief  Get last valid value of integer resource
+ *
+ * The `current` member is updated on succesfully setting the resource, it can
+ * be used to revert a widget to its previous state should setting the resource
+ * fail.
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  last valid resource value
+ */
 int mediator_get_current_int(mediator_t *mediator)
 {
     return g_value_get_int(&(mediator->current));
 }
 
+
+/** \brief  Set current integer resource value in the mediator
+ *
+ * Calling this will update the last valid value of the resource in the
+ * \a mediator, which can be used to revert the widget to its previous state
+ * when setting the resource fails.
+ * When using update() there's no need to call this, that function calls this
+ * function on success.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   value       resource value
+ */
 void mediator_set_current_int(mediator_t *mediator, int value)
 {
     g_value_set_int(&(mediator->current), value);
 }
 
+
+/** \brief  Set callback function to be called on succesful resource updates
+ *
+ * When a resource is succesfully updated \a callback will be called with
+ * the widget and the new resource value as its arguments.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   callback    user-defined callback
+ */
 void mediator_set_callback_int(mediator_t *mediator,
                                void (*callback)(GtkWidget*, int))
 {
@@ -453,13 +522,43 @@ void mediator_set_callback_int(mediator_t *mediator,
 }
 
 
-void mediator_update_int(mediator_t *mediator, int value)
+/** \brief  Set resource, update internal mediator and trigger user callback
+ *
+ * Set resource and upon success update the last valid resource value in
+ * \a mediator and trigger the user-registered callback, if present.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   value       new value for resource
+ *
+ * \return  `TRUE` if the resource succesfully updated
+ */
+gboolean mediator_update_int(mediator_t *mediator, int value)
 {
     if (resources_set_int(mediator->name, value) == 0) {
         mediator_set_current_int(mediator, value);
         if (mediator->callback.i != NULL) {
             mediator->callback.i(mediator->widget, value);
         }
+        return TRUE;
     }
+    return FALSE;
 }
 
+
+/** \brief  Shortcut for mediator_update_int() using a widget
+ *
+ * Calls mediator_update_int() on the mediator obtained from \a widget.
+ *
+ * \param[in]   widget  resource widget
+ * \param[in]   value   resource value
+ *
+ * \return  `TRUE` if the resource succesfully updated
+ */
+gboolean mediator_update_int_w(GtkWidget *widget, int value)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+    if (mediator != NULL) {
+        return mediator_update_int(mediator_for_widget(widget), value);
+    }
+    return FALSE;
+}
