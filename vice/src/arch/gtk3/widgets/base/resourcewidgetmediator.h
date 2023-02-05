@@ -103,13 +103,18 @@ void        mediator_set_callback_boolean_w(GtkWidget *widget,
 gboolean    mediator_update_boolean        (mediator_t *mediator, gboolean value);
 gboolean    mediator_update_boolean_w      (GtkWidget *widget, gboolean value);
 
+int         mediator_get_resource_int      (mediator_t *mediator);
 int         mediator_get_initial_int       (mediator_t *mediator);
+int         mediator_get_factory_int       (mediator_t *mediator);
 int         mediator_get_current_int       (mediator_t *mediator);
 void        mediator_set_current_int       (mediator_t *mediator, int value);
 void        mediator_set_callback_int      (mediator_t *mediator,
                                             void (*callback)(GtkWidget*, int));
-void        mediator_update_int            (mediator_t *mediator, gboolean value);
+gboolean    mediator_update_int            (mediator_t *mediator, int value);
+gboolean    mediator_update_int_w          (GtkWidget *widget, int value);
 
+#if 0
 const char *mediator_get_initial_string    (mediator_t *mediator);
+#endif
 
 #endif
