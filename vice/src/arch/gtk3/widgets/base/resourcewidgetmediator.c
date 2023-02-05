@@ -367,6 +367,24 @@ void mediator_set_callback_boolean(mediator_t *mediator,
 }
 
 
+/** \brief  Set callback function to be called on succesful resource updates
+ *
+ * When a resource is succesfully updated \a callback will be called with
+ * the \a widget and the new resource value as its arguments.
+ *
+ * \param[in]   widget      resource widget
+ * \param[in]   callback    user-defined callback
+ */
+void mediator_set_callback_boolean_w(GtkWidget *widget,
+                                     void (*callback)(GtkWidget*, gboolean))
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+    if (mediator != NULL) {
+        mediator->callback.b = callback;
+    }
+}
+
+
 /** \brief  Set resource, update internal mediator and trigger user callback
  *
  * Set resource and upon success update the last valid resource value in

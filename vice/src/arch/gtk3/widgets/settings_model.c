@@ -653,9 +653,9 @@ static void c64dtv_hummer_adc_sync(void)
 /** \brief  Update DTV widget on 'Hummer ADC' toggle
  *
  * \param[in]   widget  check button
- * \param[in]   value   new value (bool)
+ * \param[in]   value   new value (ignored)
  */
-static void c64dtv_hummer_adc_callback(GtkWidget *widget, int value)
+static void c64dtv_hummer_adc_callback(GtkWidget *widget, gboolean value)
 {
     machine_model_widget_update(machine_widget);
 }

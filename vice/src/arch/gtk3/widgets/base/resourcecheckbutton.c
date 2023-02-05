@@ -225,7 +225,7 @@ gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
     if (active != value) {
         /* block signal handler to avoid triggering useless resource update */
         mediator_handler_block(mediator);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), active);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), value);
         mediator_handler_unblock(mediator);
     }
     return TRUE;
@@ -234,14 +234,11 @@ gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
 
 /** \brief  Add user callback to resource checkbutton
  *
- * \param[in,out]   widget      resource checkbutton
- * \param[in]       callback    function to call when the checkbutton state
- *                              changes
+ * \param[in]   widget      resource checkbutton
+ * \param[in]   callback    function to call when the checkbutton state changes
  */
 void vice_gtk3_resource_check_button_add_callback(GtkWidget *widget,
-                                                  void (*callback)(GtkWidget*, int))
+                                                  void (*callback)(GtkWidget*, gboolean))
 {
-    mediator_t *mediator = mediator_for_widget(widget);
-
-    mediator_set_callback_boolean(mediator, callback);
+    mediator_set_callback_boolean_w(widget, callback);
 }
