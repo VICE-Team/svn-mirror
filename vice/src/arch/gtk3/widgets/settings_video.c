@@ -101,7 +101,7 @@ static void render_filter_callback(GtkWidget *widget, int value)
  * \param[in]   widget  check button (unused)
  * \param[in]   state   check button toggle state
  */
-static void double_size_callback(GtkWidget *widget, int state)
+static void double_size_callback(GtkWidget *widget, gboolean state)
 {
     if (!state && !ui_is_fullscreen()) {
 

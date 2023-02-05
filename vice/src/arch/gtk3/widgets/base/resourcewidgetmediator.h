@@ -78,35 +78,38 @@ typedef struct mediator_s {
 } mediator_t;
 
 
-mediator_t *mediator_new                 (GtkWidget  *widget,
-                                          const char *name,
-                                          GType       type);
-GtkWidget  *mediator_get_widget          (mediator_t *mediator);
-mediator_t *mediator_for_widget          (GtkWidget *widget);
-const char *mediator_get_name            (mediator_t *mediator);
-const char *mediator_get_name_w          (GtkWidget *widget);
+mediator_t *mediator_new                   (GtkWidget  *widget,
+                                            const char *name,
+                                            GType       type);
+GtkWidget  *mediator_get_widget            (mediator_t *mediator);
+mediator_t *mediator_for_widget            (GtkWidget *widget);
+const char *mediator_get_name              (mediator_t *mediator);
+const char *mediator_get_name_w            (GtkWidget *widget);
 
-void        mediator_set_handler         (mediator_t *mediator, gulong handler);
-void        mediator_handler_block       (mediator_t *mediator);
-void        mediator_handler_unblock     (mediator_t *mediator);
+void        mediator_set_handler           (mediator_t *mediator, gulong handler);
+void        mediator_handler_block         (mediator_t *mediator);
+void        mediator_handler_unblock       (mediator_t *mediator);
 
-gboolean    mediator_get_resource_boolean(mediator_t *mediator);
-gboolean    mediator_get_initial_boolean (mediator_t *mediator);
-gboolean    mediator_get_factory_boolean (mediator_t *mediator);
-gboolean    mediator_get_current_boolean (mediator_t *mediator);
-void        mediator_set_current_boolean (mediator_t *mediator, gboolean value);
-void        mediator_set_callback_boolean(mediator_t *mediator,
-                                          void (*callback)(GtkWidget*, gboolean));
-gboolean    mediator_update_boolean      (mediator_t *mediator, gboolean value);
-gboolean    mediator_update_boolean_w    (GtkWidget *widget, gboolean value);
+gboolean    mediator_get_resource_boolean  (mediator_t *mediator);
+gboolean    mediator_get_initial_boolean   (mediator_t *mediator);
+gboolean    mediator_get_factory_boolean   (mediator_t *mediator);
+gboolean    mediator_get_current_boolean   (mediator_t *mediator);
+void        mediator_set_current_boolean   (mediator_t *mediator, gboolean value);
+void        mediator_set_callback_boolean  (mediator_t *mediator,
+                                            void (*callback)(GtkWidget*, gboolean));
+void        mediator_set_callback_boolean_w(GtkWidget *widget,
+                                            void (*callback)(GtkWidget*, gboolean));
 
-int         mediator_get_initial_int     (mediator_t *mediator);
-int         mediator_get_current_int     (mediator_t *mediator);
-void        mediator_set_current_int     (mediator_t *mediator, int value);
-void        mediator_set_callback_int    (mediator_t *mediator,
-                                          void (*callback)(GtkWidget*, int));
-void        mediator_update_int          (mediator_t *mediator, gboolean value);
+gboolean    mediator_update_boolean        (mediator_t *mediator, gboolean value);
+gboolean    mediator_update_boolean_w      (GtkWidget *widget, gboolean value);
 
-const char *mediator_get_initial_string  (mediator_t *mediator);
+int         mediator_get_initial_int       (mediator_t *mediator);
+int         mediator_get_current_int       (mediator_t *mediator);
+void        mediator_set_current_int       (mediator_t *mediator, int value);
+void        mediator_set_callback_int      (mediator_t *mediator,
+                                            void (*callback)(GtkWidget*, int));
+void        mediator_update_int            (mediator_t *mediator, gboolean value);
+
+const char *mediator_get_initial_string    (mediator_t *mediator);
 
 #endif
