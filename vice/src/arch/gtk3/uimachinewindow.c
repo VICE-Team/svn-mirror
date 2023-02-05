@@ -137,6 +137,7 @@ static void warp(int x, int y)
 
     {
         DWORD dw;
+        SetLastError(0);
         mouse_event(MOUSEEVENTF_ABSOLUTE, x, y, 0, 0);
         dw = GetLastError();
         if (dw != 0) {
