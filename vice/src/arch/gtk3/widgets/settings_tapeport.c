@@ -419,7 +419,7 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    tapecart_loglevel = vice_gtk3_resource_combo_box_int_new("TapecartLogLevel",
+    tapecart_loglevel = vice_gtk3_resource_combo_int_new("TapecartLogLevel",
                                                              tcrt_loglevels);
     gtk_widget_set_margin_top(tapecart_loglevel, 8);
     gtk_widget_set_margin_bottom(tapecart_loglevel, 8);

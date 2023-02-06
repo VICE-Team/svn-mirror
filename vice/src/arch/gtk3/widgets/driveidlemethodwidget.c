@@ -65,7 +65,7 @@ GtkWidget *drive_idle_method_widget_create(int unit)
 {
     GtkWidget *combo;
 
-    combo = vice_gtk3_resource_combo_box_int_new_sprintf(
+    combo = vice_gtk3_resource_combo_int_new_sprintf(
             "Drive%dIdleMethod", idle_methods, unit);
     g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
     gtk_widget_set_hexpand(combo, TRUE);

@@ -230,7 +230,7 @@ static void on_rsinterface_changed(GtkWidget *widget)
                 break;
             case USERPORT_RS_UP9600:
                 if (baud != NULL) {
-                    vice_gtk3_resource_combo_box_int_set(baud, 9600);
+                    vice_gtk3_resource_combo_int_set(baud, 9600);
                 }
                 resources_set_int("RsUserUP9600", 1);
                 break;
@@ -355,7 +355,7 @@ static GtkWidget *create_acia_widget(void)
 
     /* widgets */
     acia_enable_widget = create_acia_enable_widget();
-    acia_device_widget = vice_gtk3_resource_combo_box_int_new("Acia1Dev",
+    acia_device_widget = vice_gtk3_resource_combo_int_new("Acia1Dev",
                                                               acia_devices);
     acia_base_widget   = create_acia_base_widget();
     acia_irq_widget    = create_acia_irq_widget();
@@ -421,7 +421,7 @@ static GtkWidget *create_serial_baud_widget(const char *resource)
         default:
             return NULL;
     }
-    return vice_gtk3_resource_combo_box_int_new(resource, entries);
+    return vice_gtk3_resource_combo_int_new(resource, entries);
 }
 
 /** \brief  Create user-port RS232 emulation settings widget
@@ -457,7 +457,7 @@ static GtkWidget *create_userport_widget(void)
      * to align the widgets more consistently */
 
     label = create_indented_label("Device");
-    rsuser_device = vice_gtk3_resource_combo_box_int_new("RsUserDev",
+    rsuser_device = vice_gtk3_resource_combo_int_new("RsUserDev",
                                                          acia_devices);
     gtk_widget_set_margin_top(rsuser_device, 8);
     gtk_grid_attach(GTK_GRID(rsuser_rsiface), label,         0, 5, 1, 1);
@@ -469,7 +469,7 @@ static GtkWidget *create_userport_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
     gtk_widget_set_margin_top(wrapper, 8);
     label = create_indented_label("Baud");
-    rsuser_baud_widget = vice_gtk3_resource_combo_box_int_new("RsUserBaud",
+    rsuser_baud_widget = vice_gtk3_resource_combo_int_new("RsUserBaud",
                                                               rsuser_baud_rates);
     gtk_grid_attach(GTK_GRID(wrapper), label,              0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), rsuser_baud_widget, 1, 0, 1, 1);
@@ -528,7 +528,7 @@ static GtkWidget *create_rs232_devices_widget(void)
         widget = vice_gtk3_resource_check_button_new_sprintf("RsDevice%dip232",
                                                              "IP232",
                                                              serial);
-        gtk_grid_attach(GTK_GRID(grid), widget, 3, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), widget, 4, row, 1, 1);
     }
     gtk_widget_show_all(grid);
     return grid;

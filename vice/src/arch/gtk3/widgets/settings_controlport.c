@@ -117,7 +117,7 @@ static void on_control_port_changed(GtkWidget *widget, gpointer data)
 
     /* temporarily block this signal handler so we don't trigger it again */
     g_signal_handlers_block_by_func(other, G_CALLBACK(on_control_port_changed), data);
-    vice_gtk3_resource_combo_box_int_sync(other);
+    vice_gtk3_resource_combo_int_sync(other);
     g_signal_handlers_unblock_by_func(other, G_CALLBACK(on_control_port_changed), data);
 }
 
@@ -226,7 +226,7 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 1);
     vice_gtk3_grid_set_title_margin(grid, 8);
 
-    combo = vice_gtk3_resource_combo_box_int_new_sprintf("JoyPort%dDevice",
+    combo = vice_gtk3_resource_combo_int_new_sprintf("JoyPort%dDevice",
                                                          joyport_combo_lists[port],
                                                          port + 1);
     gtk_widget_set_margin_start(combo, 8);

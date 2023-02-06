@@ -86,7 +86,7 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
         list = parallel_cables_c64;
     }
 
-    combo = vice_gtk3_resource_combo_box_int_new_sprintf(
+    combo = vice_gtk3_resource_combo_int_new_sprintf(
             "Drive%dParallelCable", list, unit);
     g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
     gtk_widget_set_hexpand(combo, TRUE);

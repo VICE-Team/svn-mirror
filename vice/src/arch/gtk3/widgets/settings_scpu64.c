@@ -83,7 +83,7 @@ GtkWidget *settings_scpu64_widget_create(GtkWidget *parent)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = create_indented_label("SIMM size");
-    simm_widget = vice_gtk3_resource_combo_box_int_new("SIMMSize",
+    simm_widget = vice_gtk3_resource_combo_int_new("SIMMSize",
             simm_sizes);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), simm_widget, 1, 0, 1, 1);
