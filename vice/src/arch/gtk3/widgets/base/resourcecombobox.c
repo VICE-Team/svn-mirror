@@ -376,7 +376,7 @@ static void combo_str_model_append(GtkListStore *model,
         gtk_list_store_set(model,
                            &iter,
                            COLUMN_ID,    id,
-                           COLUMN_VALUE, value
+                           COLUMN_VALUE, value,
                            -1);
     } else {
         log_error(LOG_ERR,
