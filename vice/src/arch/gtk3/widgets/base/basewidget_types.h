@@ -74,8 +74,8 @@ typedef struct vice_gtk3_combo_entry_int_s {
 /** \brief  Entry for a combo box using a string as ID
  */
 typedef struct vice_gtk3_combo_entry_str_s {
-    char *name;     /**< displayed in the combo box */
     char *id;       /**< ID for the entry in the combo box */
+    char *value;    /**< displayed value in the combo box */
 } vice_gtk3_combo_entry_str_t;
 
 /** \brief  combo box string entry list terminator */

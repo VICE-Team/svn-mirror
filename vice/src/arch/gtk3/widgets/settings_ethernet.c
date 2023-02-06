@@ -127,9 +127,9 @@ static gboolean build_iface_list(void)
          * Unix this isn't the case and NULL can be returned.
          */
         if (if_desc == NULL) {
-            iface_list[num].name = lib_strdup(if_name);
+            iface_list[num].value = lib_strdup(if_name);
         } else {
-            iface_list[num].name = lib_msprintf("%s (%s)", if_name, if_desc);
+            iface_list[num].value = lib_msprintf("%s (%s)", if_name, if_desc);
         }
         lib_free(if_name);
         if (if_desc != NULL) {
@@ -139,7 +139,7 @@ static gboolean build_iface_list(void)
         num++;
     }
     iface_list[num].id = NULL;
-    iface_list[num].name = NULL;
+    iface_list[num].value = NULL;
     rawnet_enumadapter_close();
     return TRUE;
 }
@@ -186,9 +186,9 @@ static gboolean build_driver_list(void)
          * Unix this isn't the case and NULL can be returned.
          */
         if (driver_desc == NULL) {
-            driver_list[num].name = lib_strdup(driver_name);
+            driver_list[num].value = lib_strdup(driver_name);
         } else {
-            driver_list[num].name = lib_msprintf("%s (%s)", driver_name, driver_desc);
+            driver_list[num].value = lib_msprintf("%s (%s)", driver_name, driver_desc);
         }
         lib_free(driver_name);
         if (driver_desc != NULL) {
@@ -198,7 +198,7 @@ static gboolean build_driver_list(void)
         num++;
     }
     driver_list[num].id = NULL;
-    driver_list[num].name = NULL;
+    driver_list[num].value = NULL;
     rawnet_enumdriver_close();
     return TRUE;
 }
@@ -212,7 +212,7 @@ static void clean_iface_list(void)
         int num = 0;
         while (iface_list[num].id != NULL) {
             lib_free(iface_list[num].id);
-            lib_free(iface_list[num].name);
+            lib_free(iface_list[num].value);
             num++;
         }
         lib_free(iface_list);
@@ -229,7 +229,7 @@ static void clean_driver_list(void)
         int num = 0;
         while (driver_list[num].id != NULL) {
             lib_free(driver_list[num].id);
-            lib_free(driver_list[num].name);
+            lib_free(driver_list[num].value);
             num++;
         }
         lib_free(driver_list);
@@ -247,11 +247,10 @@ static GtkWidget *create_driver_combo(void)
     GtkWidget *combo;
 
     if (build_driver_list()) {
-        combo = vice_gtk3_resource_combo_box_str_new(
-                "ETHERNET_DRIVER",
-                driver_list);
+        combo = vice_gtk3_resource_combo_str_new("ETHERNET_DRIVER",
+                                                 driver_list);
     } else {
-        combo = gtk_combo_box_text_new();
+        combo = gtk_combo_box_new();
     }
     return combo;
 }
@@ -266,10 +265,10 @@ static GtkWidget *create_device_combo(void)
     GtkWidget *combo;
 
     if (build_iface_list()) {
-        combo = vice_gtk3_resource_combo_box_str_new("ETHERNET_INTERFACE",
-                iface_list);
+        combo = vice_gtk3_resource_combo_str_new("ETHERNET_INTERFACE",
+                                                 iface_list);
     } else {
-        combo = gtk_combo_box_text_new();
+        combo = gtk_combo_box_new();
     }
 
     return combo;
