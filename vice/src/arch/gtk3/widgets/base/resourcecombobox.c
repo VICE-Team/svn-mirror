@@ -411,22 +411,30 @@ static GtkWidget *combo_str_view_new(GtkListStore *model)
     return view;
 }
 
-
 /** \brief  Handler for the 'changed' event of the string combo box
  *
  * Updates the resource connected to the combo box
  *
- * \param[in]   combo       combo box
- * \param[in]   user_data   extra event data (unused)
+ * \param[in]   combo  combo box
+ * \param[in]   data   extra event data (unused)
  */
-static void on_combo_str_changed(GtkWidget *combo, gpointer user_data)
+static void on_combo_str_changed(GtkComboBox *self, gpointer data)
 {
-    const char *id_str;
-    const char *resource;
+    mediator_t *mediator;
+    const char *combo_id;
 
-    resource = resource_widget_get_resource_name(combo);
-    id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
-    resources_set_string(resource, id_str);
+    mediator = mediator_for_widget(GTK_WIDGET(self));
+    combo_id = gtk_combo_box_get_active_id(self);
+    if (combo_id != NULL) {
+        /* update resource and mediator state, call callback on success */
+        if (!mediator_update_string(mediator, combo_id)) {
+            /* failed to set resource, revert widget state */
+            mediator_handler_block(mediator);
+            gtk_combo_box_set_active_id(self,
+                                        mediator_get_current_string(mediator));
+            mediator_handler_unblock(mediator);
+        }
+    }
 }
 
 
