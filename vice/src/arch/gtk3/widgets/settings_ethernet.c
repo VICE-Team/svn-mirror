@@ -130,14 +130,15 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    char *text;
+    char       text[1024];
 #ifdef HAVE_RAWNET
+    GtkWidget *iface_label;
     GtkWidget *iface_combo;
+    GtkWidget *driver_label;
     GtkWidget *driver_combo;
-    bool available = archdep_ethernet_available();
 #endif
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     switch (machine_class) {
         case VICE_MACHINE_C64DTV:   /* fall through */
@@ -147,15 +148,14 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
         case VICE_MACHINE_CBM6x0:   /* fall through */
         case VICE_MACHINE_VSID:
 
-            text = lib_msprintf(
-                    "<b>Error</b>: Ethernet not supported for <b>%s</b>, "
-                    "please fix the code that calls this code!",
-                    machine_name);
+            g_snprintf(text, sizeof text,
+                       "<b>Error</b>: Ethernet not supported for <b>%s</b>, "
+                       "please fix the code that calls this code!",
+                        machine_name);
             label = gtk_label_new(NULL);
             gtk_label_set_markup(GTK_LABEL(label), text);
             gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
             gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-            lib_free(text);
             gtk_widget_show_all(grid);
             return grid;
         default:
@@ -163,29 +163,31 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     }
 
 #ifdef HAVE_RAWNET
-    label = gtk_label_new("Ethernet driver:");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    driver_label = gtk_label_new("Ethernet driver:");
     driver_combo = create_driver_combo();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), driver_combo, 1, 0, 1, 1);
+    gtk_widget_set_halign(driver_label, GTK_ALIGN_START);
 
-    label = gtk_label_new("Ethernet interface:");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-
+    iface_label = gtk_label_new("Ethernet interface:");
     iface_combo = create_device_combo();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), iface_combo, 1, 1, 1, 1);
+    gtk_widget_set_halign(iface_label, GTK_ALIGN_START);
 
-    if (!available) {
+    gtk_grid_attach(GTK_GRID(grid), driver_label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), driver_combo, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), iface_label,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), iface_combo,  1, 1, 1, 1);
+
+    if (!archdep_ethernet_available()) {
         gtk_widget_set_sensitive(driver_combo, FALSE);
         gtk_widget_set_sensitive(iface_combo, FALSE);
         label = gtk_label_new(NULL);
 # ifdef UNIX_COMPILE
         gtk_label_set_markup(GTK_LABEL(label),
-                "<i>VICE needs TUN/TAP support or the proper permissions (with libpcap) to be able to use ethernet emulation.</i>");
+                "<i>VICE needs TUN/TAP support or the proper permissions"
+                " (with libpcap) to be able to use ethernet emulation.</i>");
 # elif defined(WINDOWS_COMPILE)
         gtk_label_set_markup(GTK_LABEL(label),
-                "<i>Couldn't load <b>wpcap.dll</b>, please install WinPCAP to use ethernet emulation.</i>");
+                "<i>Couldn't load <b>wpcap.dll</b>, please install WinPCAP"
+                " to use ethernet emulation.</i>");
 # else
         gtk_label_set_markup(GTK_LABEL(label),
                 "<i>Ethernet emulation disabled due to unsupported OS.</i>");
@@ -194,8 +196,9 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 2, 1);
     }
 #else
-    label = gtk_label_new("Ethernet not supported, please compile with "
-            "--enable-ethernet.");
+    label = gtk_label_new(NULL);
+    gtk_label_set_mark(GTK_LABEL(label),
+            "Ethernet not supported, please compile with <tt>--enable-ethernet<tt>.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 #endif
     gtk_widget_show_all(grid);
