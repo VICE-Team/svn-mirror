@@ -188,9 +188,9 @@ static GtkWidget *create_predef_romsets_widget(
         /* add predefined sets */
         int i;
 
-        for (i = 0; sets[i].name != NULL; i++) {
+        for (i = 0; sets[i].value != NULL; i++) {
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                    sets[i].id, sets[i].name);
+                    sets[i].id, sets[i].value);
         }
 
         g_signal_connect(combo, "changed", G_CALLBACK(on_predef_changed), NULL);

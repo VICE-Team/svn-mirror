@@ -71,9 +71,9 @@ typedef struct mediator_s {
 
     /** \brief  Additional callback for the user of the widget (optional) */
     union {
-        void (*b)(GtkWidget *, gboolean);
-        void (*i)(GtkWidget *, int);
-        void (*s)(GtkWidget *, char *);
+        void (*b)(GtkWidget*, gboolean);
+        void (*i)(GtkWidget*, int);
+        void (*s)(GtkWidget*, const char*);
     } callback;
 } mediator_t;
 
@@ -116,5 +116,17 @@ gboolean    mediator_update_int_w          (GtkWidget *widget, int value);
 #if 0
 const char *mediator_get_initial_string    (mediator_t *mediator);
 #endif
+const char *mediator_get_resource_string   (mediator_t *mediator);
+const char *mediator_get_initial_string    (mediator_t *mediator);
+const char *mediator_get_factory_string    (mediator_t *mediator);
+const char *mediator_get_current_string    (mediator_t *mediator);
+void        mediator_set_current_string    (mediator_t *mediator, const char *value);
+void        mediator_set_callback_string   (mediator_t *mediator,
+                                            void (*callback)(GtkWidget*, const char*));
+void        mediator_set_callback_string_w (GtkWidget *widget,
+                                            void (*callback)(GtkWidget*, const char*));
+
+gboolean    mediator_update_string         (mediator_t *mediator, const char *value);
+gboolean    mediator_update_string_w       (GtkWidget *widget, const char *value);
 
 #endif

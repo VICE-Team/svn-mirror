@@ -562,3 +562,157 @@ gboolean mediator_update_int_w(GtkWidget *widget, int value)
     }
     return FALSE;
 }
+
+
+/******************************************************************************
+ *          String resource methods (const char* in Gtk and VICE)             *
+ *****************************************************************************/
+
+/** \brief  Get current string value of the resource
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  value of resource
+ */
+const char *mediator_get_resource_string(mediator_t *mediator)
+{
+    const char *s = NULL;
+
+    resources_get_string(mediator->name, &s);
+    g_value_set_string(&(mediator->current), s);
+    return s;
+}
+
+
+/** \brief  Get string resource value on mediator instanciation
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  value of resource on mediator instanciation
+ */
+const char *mediator_get_initial_string(mediator_t *mediator)
+{
+    return g_value_get_string(&(mediator->initial));
+}
+
+
+/** \brief  Get string factory value of resource
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  factory value
+ */
+const char *mediator_get_factory_string(mediator_t *mediator)
+{
+    const char *s = NULL;
+
+    resources_get_default_value(mediator->name, &s);
+    return s;
+}
+
+
+/** \brief  Get last valid string resource value
+ *
+ * Get the last valid value of the resource. This can be used to revert the
+ * widget to its previous state when setting the resource fails.
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  last valid value
+ */
+const char *mediator_get_current_string(mediator_t *mediator)
+{
+    return g_value_get_string(&(mediator->current));
+}
+
+
+/** \brief  Set last valid string resource value
+ *
+ * Set the last valid value of the resource. This can be used to revert the
+ * widget to its previous state when setting the resource fails.
+ *
+ * \param[in]   mediator    resource mediator
+ *
+ * \return  last valid value
+ */
+void mediator_set_current_string(mediator_t *mediator, const char *value)
+{
+    g_value_set_string(&(mediator->current), value);
+}
+
+
+/** \brief  Set user-defined callback
+ *
+ * Register \a callback to be called on succesful resource changes.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   callback    user-defined function
+ */
+void mediator_set_callback_string(mediator_t *mediator,
+                                  void (*callback)(GtkWidget*, const char*))
+{
+    mediator->callback.s = callback;
+}
+
+
+/** \brief  Set user-defined callback on widget
+ *
+ * Register \a callback to be called on succesful resource changes.
+ *
+ * \param[in]   widget      string resource-bound widget
+ * \param[in]   callback    user-defined function
+ */
+void mediator_set_callback_string_w(GtkWidget *widget,
+                                    void (*callback)(GtkWidget*, const char*))
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+    if (mediator != NULL) {
+        mediator->callback.s = callback;
+    }
+}
+
+
+/** \brief  Update string resource value, trigger callback
+ *
+ * Update the resource of \a mediator to \a value, mark \a value as the last
+ * valid value and call the user-definedcallback (if present) on succesful
+ * resource change.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   value       new string value for resource
+ *
+ * \return  `TRUE` on succesful resource change
+ */
+gboolean mediator_update_string(mediator_t *mediator, const char *value)
+{
+    if (resources_set_string(mediator->name, value) == 0) {
+        mediator_set_current_string(mediator, value);
+        if (mediator->callback.s != NULL) {
+            mediator->callback.s(mediator->widget, value);
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+/** \brief  Update string resource value, trigger callback
+ *
+ * Update the resource of \a mediator to \a value, mark \a value as the last
+ * valid value and call the user-definedcallback (if present) on succesful
+ * resource change.
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   value       new string value for resource
+ *
+ * \return  `TRUE` on succesful resource change
+ */
+gboolean mediator_update_string_w(GtkWidget *widget, const char *value)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+
+    if (mediator != NULL) {
+        return mediator_update_string(mediator, value);
+    }
+    return FALSE;
+}
