@@ -179,7 +179,7 @@ GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 
     /* RRrevision */
     label = create_label("Revision");
-    revision = vice_gtk3_resource_combo_box_int_new("RRrevision",
+    revision = vice_gtk3_resource_combo_int_new("RRrevision",
                                                     rr_revisions);
     gtk_widget_set_margin_top(label, 16);
     gtk_widget_set_margin_top(revision, 16);

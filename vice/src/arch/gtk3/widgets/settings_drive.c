@@ -362,7 +362,7 @@ static GtkWidget *create_drive_device_type_widget(int unit)
 {
     GtkWidget *combo;
 
-    combo = vice_gtk3_resource_combo_box_int_new_sprintf("FileSystemDevice%d",
+    combo = vice_gtk3_resource_combo_int_new_sprintf("FileSystemDevice%d",
                                                          device_types,
                                                          unit);
     /* XXX: Remove all this once xvic supports OpenCBM

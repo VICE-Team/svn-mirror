@@ -36,25 +36,20 @@
  * Integer resource combo box API
  */
 
-GtkWidget *vice_gtk3_resource_combo_box_int_new(
+GtkWidget *vice_gtk3_resource_combo_int_new(
         const char *resource,
         const vice_gtk3_combo_entry_int_t *entries);
 
-GtkWidget *vice_gtk3_resource_combo_box_int_new_sprintf(
+GtkWidget *vice_gtk3_resource_combo_int_new_sprintf(
         const char *fmt,
         const vice_gtk3_combo_entry_int_t *entries,
         ...);
 
-GtkWidget *vice_gtk3_resource_combo_box_int_new_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_int_t *entries,
-        const char *label);
-
-gboolean vice_gtk3_resource_combo_box_int_set(GtkWidget *widget, int id);
-gboolean vice_gtk3_resource_combo_box_int_get(GtkWidget *widget, int *dest);
-gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget);
-gboolean vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget);
-gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget);
+gboolean vice_gtk3_resource_combo_int_set    (GtkWidget *widget, int id);
+gboolean vice_gtk3_resource_combo_int_get    (GtkWidget *widget, int *id);
+gboolean vice_gtk3_resource_combo_int_factory(GtkWidget *widget);
+gboolean vice_gtk3_resource_combo_int_reset  (GtkWidget *widget);
+gboolean vice_gtk3_resource_combo_int_sync   (GtkWidget *widget);
 
 
 /*
@@ -69,11 +64,6 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_sprintf(
         const char *fmt,
         const vice_gtk3_combo_entry_str_t *entries,
         ...);
-
-GtkWidget *vice_gtk3_resource_combo_box_str_new_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_str_t *entries,
-        const char *label);
 
 gboolean vice_gtk3_resource_combo_box_str_set(GtkWidget *widget, const char *id);
 gboolean vice_gtk3_resource_combo_box_str_get(GtkWidget *widget, const char **dest);

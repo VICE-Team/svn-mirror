@@ -274,7 +274,7 @@ static GtkWidget *create_midi_enable_widget(void)
  */
 static GtkWidget *create_midi_mode_widget(void)
 {
-    return vice_gtk3_resource_combo_box_int_new("MIDIMode", midi_modes);
+    return vice_gtk3_resource_combo_int_new("MIDIMode", midi_modes);
 }
 
 
@@ -307,7 +307,7 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 static GtkWidget *create_midi_driver_widget(void)
 {
     GtkWidget *combo;
-    combo = vice_gtk3_resource_combo_box_int_new("MIDIDriver", midi_drivers);
+    combo = vice_gtk3_resource_combo_int_new("MIDIDriver", midi_drivers);
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
     return combo;
 }

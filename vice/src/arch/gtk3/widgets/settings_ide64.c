@@ -421,7 +421,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     gtk_widget_set_margin_start(digimax_enable, GTK_ALIGN_END);
     digimax_label = gtk_label_new("DigMAX base address");
     gtk_widget_set_halign(digimax_label, GTK_ALIGN_END);
-    digimax_address = vice_gtk3_resource_combo_box_int_new("SBDIGIMAXbase",
+    digimax_address = vice_gtk3_resource_combo_int_new("SBDIGIMAXbase",
             digimax_addresses);
 
     gtk_grid_attach(GTK_GRID(grid), digimax_enable, 0, 1, 1, 1);
@@ -439,7 +439,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     gtk_widget_set_margin_start(etfe_enable, 16);
     etfe_label = gtk_label_new("ETFE base address");
     gtk_widget_set_halign(etfe_label, GTK_ALIGN_END);
-    etfe_address = vice_gtk3_resource_combo_box_int_new("SBETFEbase",
+    etfe_address = vice_gtk3_resource_combo_int_new("SBETFEbase",
             etfe_addresses);
 
     gtk_grid_attach(GTK_GRID(grid), etfe_enable, 0, 2, 1, 1);

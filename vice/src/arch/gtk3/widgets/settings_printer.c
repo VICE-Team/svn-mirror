@@ -229,6 +229,8 @@ static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 {
     int device = GPOINTER_TO_INT(data);
 
+    debug_gtk3("Sending formfeed to device %d", device);
+
     printer_formfeed((unsigned int)device);
 }
 

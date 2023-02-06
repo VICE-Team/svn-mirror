@@ -100,7 +100,7 @@ GtkWidget *kbdhostlayout_widget_create(void)
     vice_gtk3_grid_set_title_margin(grid, 8);
 
     entries = create_combo_entries();
-    combo = vice_gtk3_resource_combo_box_int_new("KeyboardMapping", entries);
+    combo = vice_gtk3_resource_combo_int_new("KeyboardMapping", entries);
     lib_free(entries);
     gtk_widget_set_margin_start(combo, 8);
     gtk_widget_set_hexpand(combo, TRUE);
