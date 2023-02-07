@@ -589,11 +589,10 @@ static void save_screenshot_handler(GtkWidget *parent)
     lastdir_set(dialog, &media_last_dir, NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
-    g_signal_connect_swapped(
-            dialog,
-            "destroy",
-            G_CALLBACK(gtk_widget_destroy),
-            parent);
+    g_signal_connect_swapped_unlocked(dialog,
+                                      "destroy",
+                                      G_CALLBACK(gtk_widget_destroy),
+                                      parent);
 
     lib_free(proposed);
     lib_free(title);
@@ -658,11 +657,10 @@ static void save_audio_recording_handler(GtkWidget *parent)
             NULL);
     lastdir_set(dialog, &media_last_dir, NULL);
     /* destroy parent dialog when the dialog is destroyed */
-    g_signal_connect_swapped(
-            dialog,
-            "destroy",
-            G_CALLBACK(gtk_widget_destroy),
-            parent);
+    g_signal_connect_swapped_unlocked(dialog,
+                                      "destroy",
+                                      G_CALLBACK(gtk_widget_destroy),
+                                      parent);
 
     lib_free(title);
     lib_free(proposed);
@@ -746,11 +744,10 @@ static void save_video_recording_handler(GtkWidget *parent)
     lastdir_set(dialog, &media_last_dir, NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
-    g_signal_connect_swapped(
-            dialog,
-            "destroy",
-            G_CALLBACK(gtk_widget_destroy),
-            parent);
+    g_signal_connect_swapped_unlocked(dialog,
+                                      "destroy",
+                                      G_CALLBACK(gtk_widget_destroy),
+                                      parent);
 
     lib_free(proposed);
     lib_free(title);
