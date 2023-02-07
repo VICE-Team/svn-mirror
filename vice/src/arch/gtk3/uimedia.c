@@ -77,17 +77,13 @@ enum {
     RESPONSE_SAVE = 1   /**< Save button clicked */
 };
 
-
-/** \brief  Name of the stack child for screenshots
- */
+/** \brief  Name of the stack child for screenshots */
 #define CHILD_SCREENSHOT    "Screenshot"
 
-/** \brief  Name of the stack child for sound recording
- */
+/** \brief  Name of the stack child for sound recording */
 #define CHILD_SOUND         "Sound"
 
-/** \brief  Name of the stack child for video recording
-*/
+/** \brief  Name of the stack child for video recording */
 #define CHILD_VIDEO         "Video"
 
 
@@ -98,7 +94,6 @@ typedef struct video_driver_info_s {
     const char *name;       /**< driver name */
     const char *ext;        /**< default file extension */
 } video_driver_info_t;
-
 
 /** \brief  Struct to hold information on available audio recording drivers
  */
@@ -113,11 +108,9 @@ typedef struct audio_driver_info_s {
  */
 static video_driver_info_t *video_driver_list = NULL;
 
-
 /** \brief  Number of available video drivers
  */
 static int video_driver_count = 0;
-
 
 /** \brief  Index of currently selected screenshot driver
  *
@@ -126,14 +119,10 @@ static int video_driver_count = 0;
  */
 static int screenshot_driver_index = -1;
 
-
 #ifdef HAVE_FFMPEG
-/** \brief  Index of currently selected video driver
- *
- */
+/** \brief  Index of currently selected video driver */
 static int video_driver_index = 0;
 #endif  /* HAVE_FFMPEG */
-
 
 /** \brief  Index of currently selected audio driver
  *
@@ -141,7 +130,6 @@ static int video_driver_index = 0;
  * Set to last selected driver on subsequent uses of the dialog.
  */
 static int audio_driver_index = -1;
-
 
 /** \brief  Last used directory of the file chooser dialogs
  *
@@ -175,51 +163,47 @@ static audio_driver_info_t audio_driver_list[] = {
     { NULL,         NULL,   NULL }
 };
 
-
 /** \brief  List of 'oversize modes' for some screenshot output drivers
  */
 static vice_gtk3_combo_entry_int_t oversize_modes[] = {
-    { "scale down", 0 },
-    { "crop left top", 1, },
-    { "crop center top", 2 },
-    { "crop right top", 3 },
-    { "crop left center", 4 },
-    { "crop center", 5 },
-    { "crop right center", 6 },
-    { "crop left bottom", 7 },
-    { "crop center bottom", 8 },
-    { "crop right bottom", 9 },
-    { NULL, -1 }
+    { "scale down",         NATIVE_SS_OVERSIZE_SCALE },
+    { "crop left top",      NATIVE_SS_OVERSIZE_CROP_LEFT_TOP, },
+    { "crop center top",    NATIVE_SS_OVERSIZE_CROP_CENTER_TOP },
+    { "crop right top",     NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP },
+    { "crop left center",   NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER },
+    { "crop center",        NATIVE_SS_OVERSIZE_CROP_CENTER },
+    { "crop right center",  NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER },
+    { "crop left bottom",   NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM },
+    { "crop center bottom", NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM },
+    { "crop right bottom",  NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
+    { NULL,                 -1 }
 };
-
 
 /** \brief  List of 'undersize modes' for some screenshot output drivers
  */
 static vice_gtk3_combo_entry_int_t undersize_modes[] = {
-    { "scale up", 0 },
-    { "border size", 1 },
-    { NULL, -1 }
+    { "scale up",   NATIVE_SS_UNDERSIZE_SCALE },
+    { "bordize",    NATIVE_SS_UNDERSIZE_BORDERIZE },
+    { NULL,         -1 }
 };
-
 
 /** \brief  List of multi color modes for some screenshot output drivers
  */
 static const vice_gtk3_combo_entry_int_t multicolor_modes[] = {
-    { "B&W", 0 },
-    { "2 colors", 1 },
-    { "4 colors", 2 },
-    { "Grey scale", 3 },
-    { "Best cell colors", 4 },
-    { NULL, -1 }
+    { "Black & White",      NATIVE_SS_MC2HR_BLACK_WHITE },
+    { "2 colors",           NATIVE_SS_MC2HR_2_COLORS },
+    { "4 colors",           NATIVE_SS_MC2HR_4_COLORS },
+    { "Grayscale",          NATIVE_SS_MC2HR_GRAY },
+    { "Best cell colors",   NATIVE_SS_MC2HR_DITHER },
+    { NULL,                 -1 }
 };
-
 
 /** \brief  TED output driver Luma modes
  */
 static const vice_gtk3_combo_entry_int_t ted_luma_modes[] = {
-    { "ignore", 0 },
-    { "Best cell colors", 1 },
-    { NULL, -1 },
+    { "ignore",             NATIVE_SS_TED_LUM_IGNORE },
+    { "Best cell colors",   NATIVE_SS_TED_LUM_DITHER },
+    { NULL,                 -1 },
 };
 
 
