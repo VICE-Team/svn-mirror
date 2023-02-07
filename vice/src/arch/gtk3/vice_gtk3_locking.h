@@ -41,6 +41,12 @@ gulong vice_locking_g_signal_connect(
     gpointer data,
     const char *signal_handler_name);
 
+gulong vice_locking_g_signal_connect_swapped(gpointer     instance,
+                                             const gchar *detailed_signal,
+                                             GCallback    c_handler,
+                                             gpointer     data,
+                                             const char  *signal_handler_name);
+
 void vice_locking_gtk_accel_group_connect(
     GtkAccelGroup *accel_group,
     guint accel_key,
@@ -60,6 +66,13 @@ void vice_locking_gtk_accel_group_connect(
     vice_locking_g_signal_connect((instance), (detailed_signal), callback, data, #detailed_signal"["#callback"]")
 
 /*
+ * Replace the standard g_signal_connect_swapped macro with one that calls our vice locking version.
+ */
+#undef g_signal_connect_swapped
+#define g_signal_connect_swapped(instance, detailed_signal, callback, data) \
+    vice_locking_g_signal_connect_swapped((instance), (detailed_signal), callback, data, #detailed_signal"["#callback"]")
+
+/*
  * g_signal_connect_unlocked is a copy of the original implementation of g_signal_connect (no locking).
  *
  * This is useful in controlled circumstances where we know the handler takes significant time to run
@@ -69,5 +82,13 @@ void vice_locking_gtk_accel_group_connect(
  */
 #define g_signal_connect_unlocked(instance, detailed_signal, callback, data) \
     g_signal_connect_data((instance), (detailed_signal), (G_CALLBACK(callback)), (data), NULL, (GConnectFlags) 0)
+
+
+/** \brief  Normal g_signal_connect_swapped() implementation as defined in gsignal.h
+ *
+ * Pretty much verbatim copy of g_signal_connect_swapped in GLib's `gobject/gsignal.h`.
+ */
+#define g_signal_connect_swapped_unlocked(instance, detailed_signal, callback, data) \
+    g_signal_connect_data((instance), (detailed_signal), (c_handler), (data), NULL, G_CONNECT_SWAPPED)
 
 #endif

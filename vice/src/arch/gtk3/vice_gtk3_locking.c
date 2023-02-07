@@ -2,6 +2,7 @@
  * \brief   GTK3 signal handling helper functions
  *
  * \author  David Hogan <david.q.hogan@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -61,6 +62,54 @@ gulong vice_locking_g_signal_connect(gpointer instance, const gchar *detailed_si
 
     return g_signal_connect_closure(instance, detailed_signal, closure, FALSE);
 }
+
+
+/** \brief  Replacement for g_signal_connect_swapped() implementing locking
+ *
+ * Replacement for g_signal_connect_swapped() that obtains the VICE lock before
+ * triggering \a c_handler and releases the lock afterwards.
+ *
+ * \param[in]   instance            object to connect \a c_handler to
+ * \param[in]   detailed_signal     signal name
+ * \param[in]   c_handler           user-defined callback to call for \a detailed_signal
+ * \param[in]   data                object to call \a c_handler on
+ * \param[in]   signal_handler_name signal handler name ("detailed_signal[${c_handler}]")
+ *
+ * \return  signal handler ID
+ */
+gulong vice_locking_g_signal_connect_swapped(gpointer     instance,
+                                             const gchar *detailed_signal,
+                                             GCallback    c_handler,
+                                             gpointer     data,
+                                             const char  *signal_handler_name)
+{
+#if 0
+    printf("%s(): setting up closure for %s (%s)\n",
+           __func__, detailed_signal, signal_handler_name);
+    fflush(stdout);
+#endif
+    /* This is the trick: make the closure trigger with `data` as its first
+     * argument; which is what g_signal_connect_swapped() does, for example:
+     *
+     *  g_signal_connect_swapped(button, "clicked", gtk_widget_destroy, dialog);
+     *
+     * would call gtk_widget_destroy(dialog, button) (in this case `button`
+     * will be ignored).
+     * So we mimic that behaviour here with locking.
+     */
+    GClosure *closure = g_cclosure_new_swap(c_handler, data, NULL);
+
+    /* wrap lock()/unlock() around c_handler */
+    g_closure_add_marshal_guards(closure,                       /* closure */
+                                 (gpointer)signal_handler_name, /* pre_marshal_data */
+                                 vice_gtk3_lock,                /* pre_marshal_notify */
+                                 (gpointer)signal_handler_name, /* post_marshal_data */
+                                 vice_gtk3_unlock);             /* post_marshal_notify */
+
+    /* connect the swapped closure to the instance */
+    return g_signal_connect_closure(instance, detailed_signal, closure, FALSE);
+}
+
 
 /*
  * A replacement for gtk_accel_group_connect that wraps the hotkey callback in vice lock/unlock.
