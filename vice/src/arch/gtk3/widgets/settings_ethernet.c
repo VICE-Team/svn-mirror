@@ -198,7 +198,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 #else
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label),
-            "Ethernet not supported, please compile with <tt>--enable-ethernet<tt>.");
+            "Ethernet not supported, please compile with <tt>--enable-ethernet</tt>.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 #endif
     gtk_widget_show_all(grid);
