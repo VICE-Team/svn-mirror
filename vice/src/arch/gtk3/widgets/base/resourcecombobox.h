@@ -33,7 +33,7 @@
 #include "basewidget_types.h"
 
 /*
- * Integer resource combo box API
+ * Integer resource combo box, using integer for keys and strings for display.
  */
 
 GtkWidget *vice_gtk3_resource_combo_int_new(
@@ -50,6 +50,22 @@ gboolean vice_gtk3_resource_combo_int_get    (GtkWidget *widget, int *id);
 gboolean vice_gtk3_resource_combo_int_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_combo_int_reset  (GtkWidget *widget);
 gboolean vice_gtk3_resource_combo_int_sync   (GtkWidget *widget);
+
+/*
+ * Integer combo box presenting values as hexadecimal literals.
+ */
+
+GtkWidget *vice_gtk3_resource_combo_hex_list_new   (const char *resource,
+                                                    const int  *list);
+GtkWidget *vice_gtk3_resource_combo_hex_range_new  (const char *resource,
+                                                    int         lower,
+                                                    int         upper,
+                                                    int         step);
+
+gboolean   vice_gtk3_resource_combo_hex_set        (GtkWidget *combo, int id);
+gboolean   vice_gtk3_resource_combo_hex_factory    (GtkWidget *combo);
+gboolean   vice_gtk3_resource_combo_hex_reset      (GtkWidget *combo);
+gboolean   vice_gtk3_resource_combo_hex_sync       (GtkWidget *combo);
 
 
 /*
@@ -86,19 +102,5 @@ gboolean vice_gtk3_resource_combo_box_with_entry_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_combo_box_with_entry_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_combo_box_with_entry_sync(GtkWidget *widget);
 
-
-GtkWidget *vice_gtk3_resource_combo_hex_list_new   (const char *resource,
-                                                    const int  *list);
-GtkWidget *vice_gtk3_resource_combo_hex_range_new  (const char *resource,
-                                                    int         lower,
-                                                    int         upper,
-                                                    int         step);
-
-gboolean   vice_gtk3_resource_combo_hex_get        (GtkWidget *combo, int *id);
-gboolean   vice_gtk3_resource_combo_hex_set        (GtkWidget *combo, int id);
-gboolean   vice_gtk3_resource_combo_hex_set_blocked(GtkWidget *combo, int id);
-gboolean   vice_gtk3_resource_combo_hex_factory    (GtkWidget *combo);
-gboolean   vice_gtk3_resource_combo_hex_reset      (GtkWidget *combo);
-gboolean   vice_gtk3_resource_combo_hex_sync       (GtkWidget *combo);
 
 #endif
