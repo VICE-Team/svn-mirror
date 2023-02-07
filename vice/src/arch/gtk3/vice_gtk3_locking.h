@@ -88,7 +88,7 @@ void vice_locking_gtk_accel_group_connect(
  *
  * Pretty much verbatim copy of g_signal_connect_swapped in GLib's `gobject/gsignal.h`.
  */
-#define g_signal_connect_swapped_unlocked(instance, detailed_signal, callback, data) \
+#define g_signal_connect_swapped_unlocked(instance, detailed_signal, c_handler, data) \
     g_signal_connect_data((instance), (detailed_signal), (c_handler), (data), NULL, G_CONNECT_SWAPPED)
 
 #endif
