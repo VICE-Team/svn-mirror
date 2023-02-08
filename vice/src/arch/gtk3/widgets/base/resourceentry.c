@@ -26,7 +26,6 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 #include <string.h>
 #include <stdarg.h>
@@ -38,212 +37,6 @@
 #include "resourcehelpers.h"
 
 #include "resourceentry.h"
-
-
-/** \brief  Handler for the 'destroy' event of the entry
- *
- * Frees the heap-allocated copy of the resource name and the value of the
- * resource on instanciation of the widget.
- *
- * \param[in,out]   entry       entry
- * \param[in]       user_data   extra event data (unused)
- */
-static void on_entry_destroy(GtkWidget *entry, gpointer user_data)
-{
-    resource_widget_free_string(entry, "ResourceOrig");
-}
-
-
-/** \brief  Handler for the 'changed' event of the check button
- *
- * \param[in]   entry       entry
- * \param[in]   user_data   unused
- */
-static void on_entry_changed(GtkWidget *entry, gpointer user_data)
-{
-    const char *resource;
-    const char *text;
-
-    resource = resource_widget_get_resource_name(entry);
-    text = gtk_entry_get_text(GTK_ENTRY(entry));
-    if (resources_set_string(resource, text) < 0) {
-        log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",
-                resource, text);
-    }
-}
-
-
-/** \brief  Create entry to control a string resource
- *
- * Creates a text entry to update \a resource. Makes a heap-allocated copy
- * of the resource name so initializing this widget with a constructed/temporary
- * resource name works as well.
- *
- * \param[in]   resource    resource name
- *
- * \note    The resource name is stored in the "ResourceName" property.
- *
- * \return  GtkEntry
- */
-GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
-{
-    GtkWidget *entry;
-    const char *current;
-
-    /* get current resource value */
-    if (resources_get_string(resource, &current) < 0) {
-        /* invalid resource, set text to NULL */
-        log_error(LOG_ERR, "failed to get resource '%s'\n", resource);
-        current = NULL;
-    }
-
-    entry = gtk_entry_new();
-    if (current != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry), current);
-    }
-
-    /* make a copy of the resource name and store the pointer in the propery
-     * "ResourceName" */
-    resource_widget_set_resource_name(entry, resource);
-
-    /* make a deep copy of the current resource value */
-    resource_widget_set_string(entry, "ResourceOrig", current);
-
-    g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
-    g_signal_connect_unlocked(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
-
-    gtk_widget_show(entry);
-    return entry;
-}
-
-
-/** \brief  Set new \a value for \a entry
- *
- * \param[in,out]   entry   entry
- * \param[in]       new     new text for \a entry
- *
- * \return  TRUE
- */
-gboolean vice_gtk3_resource_entry_set(GtkWidget *entry, const char *new)
-{
-    if (new != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry), new);
-    } else {
-        gtk_entry_set_text(GTK_ENTRY(entry), "");
-    }
-    return TRUE;
-}
-
-
-/** \brief  Get current resource value of \a widget
- *
- * Retrieves the current resource value and stores it in \a *dest, if retrieving
- * the resource value fails, `FALSE` is returned and \a *dest is set to `NULL`.
- *
- * \param[in]   widget  resource entry
- * \param[out]  dest    object to store value
- *
- * \return  TRUE if the value was retrieved
- */
-gboolean vice_gtk3_resource_entry_get(GtkWidget *widget, const char **dest)
-{
-    const char *resource = resource_widget_get_resource_name(widget);
-
-    if (resources_get_string(resource, dest) < 0) {
-        log_error(LOG_ERR, "failed to retrieve value for resource '%s'.", resource);
-        *dest = NULL;
-        return FALSE;
-    }
-    return TRUE;
-}
-
-
-/** \brief  Reset \a entry to its resource factory value
- *
- * \param[in]   entry   entry
- *
- * \return  TRUE when the entry was reset to factory
- */
-gboolean vice_gtk3_resource_entry_factory(GtkWidget *entry)
-{
-    const char *resource;
-    const char *factory;
-
-    resource = resource_widget_get_resource_name(entry);
-    if (resources_get_default_value(resource, &factory) < 0) {
-        log_error(LOG_ERR,
-                "failed to retrieve factory value for resource '%s'.",
-                resource);
-        return FALSE;
-    }
-    return vice_gtk3_resource_entry_set(entry, factory);
-}
-
-
-/** \brief  Reset \a entry to the resource value during instanciation.
- *
- * \param[in,out]   widget  resource entry widget
- *
- * \return  TRUE when the entry was reset to its original value
- */
-gboolean vice_gtk3_resource_entry_reset(GtkWidget *widget)
-{
-    const char *resource;
-    const char *orig;
-    const char *current;
-
-    resource = resource_widget_get_resource_name(widget);
-    orig = resource_widget_get_string(widget, "ResourceOrig");
-    if (resources_get_string(resource, &current) < 0) {
-        log_error(LOG_ERR, "failed to get value of resource '%s'.", resource);
-        return FALSE;
-    }
-
-    /* avoid setting the resource when not required */
-    if (orig == NULL || current == NULL) {
-        /* can't compare them */
-        return FALSE;
-    }
-    if (strcmp(current, orig) != 0) {
-        gtk_entry_set_text(GTK_ENTRY(widget), orig);
-    }
-    return TRUE;
-}
-
-
-/** \brief  Synchronize \a widget with its resource
- *
- * \param[in,out]   widget  resource entry
- *
- * \return  TRUE on when widget was synchronized
- */
-gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
-{
-    const char *resource_name;
-    const char *resource_val;
-    const char *widget_val;
-
-    widget_val = gtk_entry_get_text(GTK_ENTRY(widget));
-    resource_name = resource_widget_get_resource_name(widget);
-    if (resources_get_string(resource_name, &resource_val) < 0) {
-        log_error(LOG_ERR, "failed to get retrieve value for '%s'.", resource_name);
-        return FALSE;
-    }
-
-    if (widget_val == NULL || resource_val == NULL) {
-        /* give up */
-        return FALSE;
-    }
-
-    if (strcmp(resource_val, widget_val) != 0) {
-        /* differs, setting new widget value triggers resource update through
-         * event handler */
-        gtk_entry_set_text(GTK_ENTRY(widget), resource_val);
-    }
-    return TRUE;
-}
-
-
 
 
 /*
@@ -260,7 +53,7 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
  * \param[in,out]   entry   full resource entry box
  * \param[in]       data    ununsed
  */
-static void on_resource_entry_full_destroy(GtkEntry *entry, gpointer data)
+static void on_resource_entry_destroy(GtkEntry *entry, gpointer data)
 {
     char *tmp;
 
@@ -277,7 +70,7 @@ static void on_resource_entry_full_destroy(GtkEntry *entry, gpointer data)
  *
  * \return  TRUE when the entry was updated
  */
-static gboolean resource_entry_full_update_resource(GtkEntry *entry)
+static gboolean resource_entry_update_resource(GtkEntry *entry)
 {
     const char *res_name;
     const char *res_val;
@@ -313,7 +106,7 @@ static gboolean on_focus_out_event(GtkEntry *entry,
                                    GdkEvent *event,
                                    gpointer  data)
 {
-    resource_entry_full_update_resource(entry);
+    resource_entry_update_resource(entry);
     return FALSE;
 }
 
@@ -338,7 +131,7 @@ static gboolean on_key_press_event(GtkEntry *entry,
          * We handled Enter/Return for Gtk3/GLib, whether or not the
          * resource actually gets updated is another issue.
          */
-        resource_entry_full_update_resource(entry);
+        resource_entry_update_resource(entry);
         return TRUE;
     }
     return FALSE;
@@ -356,7 +149,7 @@ static gboolean on_key_press_event(GtkEntry *entry,
  *
  * \return  GtkEntry
  */
-GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
+GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
 {
     GtkWidget *entry;
     const char *current;
@@ -373,7 +166,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
     }
 
     /* store current resource value, so it can be restored via
-     * resource_entry_full_reset() */
+     * resource_entry_reset() */
     if (current != NULL) {
         orig = lib_strdup(current);
     } else {
@@ -387,7 +180,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
 
     g_signal_connect_unlocked(entry,
                               "destroy",
-                              G_CALLBACK(on_resource_entry_full_destroy),
+                              G_CALLBACK(on_resource_entry_destroy),
                               NULL);
     g_signal_connect(entry,
                      "focus-out-event",
@@ -409,7 +202,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
  * in the UI) or when the user presses 'Enter'. This behaviour differs from the
  * other resource entry which updates its resource on every key press.
  *
- * This is a variant of vice_gtk3_resource_entry_full_new() that allows using
+ * This is a variant of vice_gtk3_resource_entry_new() that allows using
  * a printf format string to specify the resource name.
  *
  * \param[in]   fmt     resource name format string (printf-style)
@@ -417,7 +210,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
  *
  * \return  GtkEntry
  */
-GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...)
+GtkWidget *vice_gtk3_resource_entry_new_sprintf(const char *fmt, ...)
 {
     char     resource[256];
     va_list  args;
@@ -425,7 +218,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...)
     va_start(args, fmt);
     g_vsnprintf(resource, sizeof resource, fmt, args);
     va_end(args);
-    return vice_gtk3_resource_entry_full_new(resource);
+    return vice_gtk3_resource_entry_new(resource);
 }
 
 
@@ -438,12 +231,12 @@ GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...)
  *
  * \return  TRUE when the entry was reset to its original value
  */
-gboolean vice_gtk3_resource_entry_full_reset(GtkWidget *widget)
+gboolean vice_gtk3_resource_entry_reset(GtkWidget *widget)
 {
     const char *orig;
 
     orig = resource_widget_get_string(widget, "ResourceOrig");
-    return vice_gtk3_resource_entry_full_set(widget, orig);
+    return vice_gtk3_resource_entry_set(widget, orig);
 }
 
 
@@ -459,7 +252,7 @@ gboolean vice_gtk3_resource_entry_full_reset(GtkWidget *widget)
  *
  * \return  TRUE on success
  */
-gboolean vice_gtk3_resource_entry_full_set(GtkWidget *widget, const char *text)
+gboolean vice_gtk3_resource_entry_set(GtkWidget *widget, const char *text)
 {
     const char *resource;
 
@@ -480,31 +273,15 @@ gboolean vice_gtk3_resource_entry_full_set(GtkWidget *widget, const char *text)
 }
 
 
-/** \brief  Get current resource value of resource entry
- *
- * Retrieves the current resource value and stores it in \a *text, if retrieving
- * the resource value fails, `FALSE` is returned and \a *text is set to `NULL`.
- *
- * \param[in]   widget  resource entry
- * \param[out]  text    current resource value
- *
- * \return  TRUE when the value was retrieved
- */
-gboolean vice_gtk3_resource_entry_full_get(GtkWidget *widget, const char **text)
-{
-    return vice_gtk3_resource_entry_get(widget, text);
-}
-
-
 /** \brief  Synchronize \a widget with its resource
  *
  * \param[in,out]   widget  resource entry
  *
  * \return  TRUE on success
  */
-gboolean vice_gtk3_resource_entry_full_sync(GtkWidget *widget)
+gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
 {
-    return vice_gtk3_resource_entry_sync(widget);
+    return FALSE;
 }
 
 
@@ -514,7 +291,7 @@ gboolean vice_gtk3_resource_entry_full_sync(GtkWidget *widget)
  *
  * \return  TRUE when the entry was restored to its factory value
  */
-gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *widget)
+gboolean vice_gtk3_resource_entry_factory(GtkWidget *widget)
 {
     const char *resource;
     const char *factory;
@@ -526,5 +303,5 @@ gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *widget)
                   __func__, resource);
         return FALSE;
     }
-    return vice_gtk3_resource_entry_full_set(widget, factory);
+    return vice_gtk3_resource_entry_set(widget, factory);
 }

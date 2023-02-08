@@ -379,7 +379,7 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     /* label */
     label = vice_gtk3_create_indented_label("Server Address");
     /* address */
-    server_address = vice_gtk3_resource_entry_full_new("NetworkServerBindAddress");
+    server_address = vice_gtk3_resource_entry_new("NetworkServerBindAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_address, 1, 2, 1, 1);
@@ -389,7 +389,7 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     /* label */
     label = vice_gtk3_create_indented_label("Remote Server");
     /* address */
-    client_address = vice_gtk3_resource_entry_full_new("NetworkServerName");
+    client_address = vice_gtk3_resource_entry_new("NetworkServerName");
     gtk_widget_set_hexpand(client_address, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), client_address, 1, 3, 1, 1);

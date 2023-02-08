@@ -197,7 +197,7 @@ static void midi_in_filename_callback(GtkDialog *dialog,
                                       gpointer data)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(midi_in_entry, filename);
+        vice_gtk3_resource_entry_set(midi_in_entry, filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -227,7 +227,7 @@ static void midi_out_filename_callback(GtkDialog *dialog,
                                        gpointer data)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(midi_out_entry, filename);
+        vice_gtk3_resource_entry_set(midi_out_entry, filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -357,7 +357,7 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     label = label_helper("ALSA Client Name");
 #endif
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_name_entry = vice_gtk3_resource_entry_full_new("MIDIName");
+    midi_name_entry = vice_gtk3_resource_entry_new("MIDIName");
     gtk_widget_set_hexpand(midi_name_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_name_entry, 1, row, 1, 1);
     row++;
@@ -376,7 +376,7 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     /* A text entry field to input the port name */
     label = label_helper("MIDI In Name");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInName");
+    midi_in_entry = vice_gtk3_resource_entry_new("MIDIInName");
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_in_entry, 1, row, 1, 1);
 #endif
@@ -385,7 +385,7 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     /* A text enrty field+browse button to enter the device file */
     label = label_helper("OSS MIDI In");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInDev");
+    midi_in_entry = vice_gtk3_resource_entry_new("MIDIInDev");
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_in_entry, 1, row, 1, 1);
 
@@ -410,7 +410,7 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     /* A text entry field to input the port name */
     label = label_helper("MIDI Out Name");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutName");
+    midi_out_entry = vice_gtk3_resource_entry_new("MIDIOutName");
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
 #endif
@@ -419,7 +419,7 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     /* A text enrty field+browse button to enter the device file */
     label = label_helper("OSS MIDI Out");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutDev");
+    midi_out_entry = vice_gtk3_resource_entry_new("MIDIOutDev");
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
 

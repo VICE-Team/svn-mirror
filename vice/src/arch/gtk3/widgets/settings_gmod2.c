@@ -209,7 +209,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 8);
 
-    eeprom_entry = vice_gtk3_resource_entry_full_new("GMOD2EEPROMImage");
+    eeprom_entry = vice_gtk3_resource_entry_new("GMOD2EEPROMImage");
     gtk_widget_set_hexpand(eeprom_entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");

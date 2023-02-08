@@ -49,7 +49,7 @@
 static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(param), filename);
+        vice_gtk3_resource_entry_set(GTK_WIDGET(param), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -106,7 +106,7 @@ static GtkWidget *create_flash_dir_widget(void)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    entry = vice_gtk3_resource_entry_full_new("FSFlashDir");
+    entry = vice_gtk3_resource_entry_new("FSFlashDir");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 

@@ -97,7 +97,7 @@ static GtkWidget *create_device_combobox(void)
  */
 static GtkWidget *create_argument_entry(void)
 {
-    return vice_gtk3_resource_entry_full_new("SoundDeviceArg");
+    return vice_gtk3_resource_entry_new("SoundDeviceArg");
 }
 
 /** \brief  Create left-aligned, 8 pixels left-indented label

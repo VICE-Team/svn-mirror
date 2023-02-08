@@ -176,7 +176,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     /* Remote monitor */
     rmon_enable = vice_gtk3_resource_check_button_new("MonitorServer",
                                                       "Enable remote monitor");
-    rmon_addr = vice_gtk3_resource_entry_full_new("MonitorServerAddress");
+    rmon_addr = vice_gtk3_resource_entry_new("MonitorServerAddress");
     gtk_widget_set_hexpand(rmon_addr, TRUE);
     gtk_widget_set_margin_top(rmon_enable, 8);
     gtk_widget_set_margin_top(rmon_addr, 8);
@@ -184,7 +184,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     /* Binary monitor */
     bmon_enable = vice_gtk3_resource_check_button_new("BinaryMonitorServer",
                                                       "Enable binary monitor");
-    bmon_addr = vice_gtk3_resource_entry_full_new("BinaryMonitorServerAddress");
+    bmon_addr = vice_gtk3_resource_entry_new("BinaryMonitorServerAddress");
     gtk_widget_set_hexpand(bmon_addr, TRUE);
     gtk_widget_set_margin_top(bmon_enable, 8);
     gtk_widget_set_margin_top(bmon_addr, 8);

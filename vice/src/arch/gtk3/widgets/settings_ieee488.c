@@ -175,7 +175,7 @@ GtkWidget *settings_ieee488_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("IEEE-488 image");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry_widget = vice_gtk3_resource_entry_full_new("IEEE488Image");
+    entry_widget = vice_gtk3_resource_entry_new("IEEE488Image");
     gtk_widget_set_hexpand(entry_widget, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);

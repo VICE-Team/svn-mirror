@@ -421,7 +421,7 @@ static GtkWidget *create_printer_text_devices_widget(void)
 
         label = gtk_label_new(title);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        entry = vice_gtk3_resource_entry_full_new_sprintf("PrinterTextDevice%d",
+        entry = vice_gtk3_resource_entry_new_sprintf("PrinterTextDevice%d",
                                                           i + 1);
         gtk_widget_set_hexpand(entry, TRUE);
 
