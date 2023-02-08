@@ -116,36 +116,6 @@ static UI_MENU_CALLBACK(custom_frequency_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(start_recording_callback)
-{
-    char *parameter = (char *)param;
-
-    if (activated) {
-        resources_set_string("SoundRecordDeviceName", "");
-        if (parameter != NULL) {
-            char *name = NULL;
-
-            name = sdl_ui_file_selection_dialog("Choose audio file to record to", FILEREQ_MODE_CHOOSE_FILE);
-            if (name != NULL) {
-                util_add_extension(&name, parameter);
-                resources_set_string("SoundRecordDeviceArg", name);
-                resources_set_string("SoundRecordDeviceName", parameter);
-                lib_free(name);
-            }
-        }
-    } else {
-        if (parameter != NULL) {
-            const char *w;
-
-            resources_get_string("SoundRecordDeviceName", &w);
-            if (!strcmp(w, parameter)) {
-                return sdl_menu_text_tick;
-            }
-        }
-    }
-    return NULL;
-}
-
 static ui_menu_entry_t sound_output_dyn_menu[SOUND_DEVICE_PLAYBACK_MAX + 1];
 
 static int sound_output_dyn_menu_init = 0;
@@ -226,59 +196,6 @@ static ui_menu_entry_t fragment_size_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundFragmentSize_callback,
       (ui_callback_data_t)SOUND_FRAGMENT_VERY_LARGE },
-    SDL_MENU_LIST_END
-};
-
-const ui_menu_entry_t sound_record_menu[] = {
-    { "Start recording AIFF audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"aiff" },
-    { "Start recording IFF audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"iff" },
-#ifdef USE_LAMEMP3
-    { "Start recording MP3 audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"mp3" },
-#endif
-#ifdef USE_FLAC
-    { "Start recording FLAC audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"flac" },
-#endif
-#ifdef USE_VORBIS
-    { "Start recording ogg/vorbis audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"ogg" },
-#endif
-    { "Start recording VOC audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"voc" },
-    { "Start recording WAV audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"wav" },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Start recording RAW audio file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"fs" },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Start recording sound dump file",
-      MENU_ENTRY_DIALOG,
-      start_recording_callback,
-      (ui_callback_data_t)"dump" },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Stop recording",
-      MENU_ENTRY_OTHER,
-      start_recording_callback,
-      NULL },
     SDL_MENU_LIST_END
 };
 
