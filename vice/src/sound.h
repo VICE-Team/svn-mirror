@@ -101,9 +101,41 @@
 /* largest value in the UIs. also used by VSID as default */
 #define SOUND_SAMPLE_MAX_BUFFER_SIZE    350
 
+/* Sound device types */
 #define SOUND_RECORD_DEVICE         0
 #define SOUND_PLAYBACK_DEVICE       1
 #define SOUND_MOVIE_RECORD_DEVICE   2
+
+
+/* Sound playback device ID numbers */
+#define SOUND_DEVICE_PLAYBACK_PULSE        0
+#define SOUND_DEVICE_PLAYBACK_ALSA         1
+#define SOUND_DEVICE_PLAYBACK_COREAUDIO    2
+#define SOUND_DEVICE_PLAYBACK_SUN_NETBSD   3
+#define SOUND_DEVICE_PLAYBACK_DX           4
+#define SOUND_DEVICE_PLAYBACK_WMM          5
+#define SOUND_DEVICE_PLAYBACK_BEOS         6
+#define SOUND_DEVICE_PLAYBACK_BSP          7
+#define SOUND_DEVICE_PLAYBACK_SDL          8
+#define SOUND_DEVICE_PLAYBACK_DUMMY        9
+#define SOUND_DEVICE_PLAYBACK_MAX         10
+
+
+/* Sound record device ID numbers */
+#define SOUND_DEVICE_RECORD_FS     0
+#define SOUND_DEVICE_RECORD_DUMP   1
+#define SOUND_DEVICE_RECORD_WAV    2
+#define SOUND_DEVICE_RECORD_VOC    3
+#define SOUND_DEVICE_RECORD_IFF    4
+#define SOUND_DEVICE_RECORD_AIFF   5
+#define SOUND_DEVICE_RECORD_MP3    6
+#define SOUND_DEVICE_RECORD_FLAC   7
+#define SOUND_DEVICE_RECORD_OGG    8
+#define SOUND_DEVICE_RECORD_MAX    9
+
+/* Sound movie record device ID numbers */
+#define SOUND_DEVICE_MOVIE_RECORD_SOUNDMOVIE   0
+#define SOUND_DEVICE_MOVIE_RECORD_MAX          1
 
 extern int sound_state_changed;
 extern int sound_playdev_reopen;
