@@ -287,6 +287,7 @@ void cbm2ui_shutdown(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();
     uisid_menu_shutdown();

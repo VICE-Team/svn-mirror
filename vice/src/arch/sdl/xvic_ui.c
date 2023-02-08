@@ -294,6 +294,7 @@ int vic20ui_init(void)
 
 void vic20ui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uisid_menu_shutdown();
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();

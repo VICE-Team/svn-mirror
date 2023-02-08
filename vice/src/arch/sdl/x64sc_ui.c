@@ -277,6 +277,7 @@ int c64scui_init(void)
 
 void c64scui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uicart_menu_shutdown();

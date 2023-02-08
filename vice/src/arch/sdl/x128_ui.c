@@ -311,6 +311,7 @@ int c128ui_init(void)
 
 void c128ui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uicart_menu_shutdown();

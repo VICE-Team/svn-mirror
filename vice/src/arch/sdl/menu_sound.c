@@ -146,72 +146,48 @@ static UI_MENU_CALLBACK(start_recording_callback)
     return NULL;
 }
 
-static ui_menu_entry_t sound_output_driver_menu[] = {
-#ifdef USE_ALSA
-    { "ALSA",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"alsa" },
-#endif
-#ifdef BEOS_COMPILE
-    { "BeOS GameSound",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"beos" },
-    { "BeOS SoundPlayer",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"bsp" },
-#endif
-#ifdef USE_COREAUDIO
-    { "Core Audio",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"coreaudio" },
-#endif
-    { "Dummy",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"dummy" },
-#if defined(WINDOWS_COMPILE) && defined(USE_DXSOUND)
-    { "DirectX",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"dx" },
-#endif
-#ifdef USE_PULSE
-    { "PulseAudio",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"pulse" },
-#endif
-#ifdef USE_SDL_AUDIO
-    { "SDL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"sdl" },
-#endif
-#if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
-# if !defined(NETBSD_COMPILE)
-    { "Sun audio",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"sun" },
-# else
-    { "NetBSD",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"netbsd" },
-# endif
-#endif
-#ifdef WINDOWS_COMPILE
-    { "WMM",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"wmm" },
-#endif
-    SDL_MENU_LIST_END
-};
+static ui_menu_entry_t sound_output_dyn_menu[SOUND_DEVICE_PLAYBACK_MAX + 1];
+
+static int sound_output_dyn_menu_init = 0;
+
+static void sdl_menu_sound_output_free(void)
+{
+    int i;
+
+    for (i = 0; sound_output_dyn_menu[i].string != NULL; i++) {
+        lib_free(sound_output_dyn_menu[i].string);
+        lib_free(sound_output_dyn_menu[i].data);
+    }
+}
+
+static UI_MENU_CALLBACK(SoundOutput_dynmenu_callback)
+{
+    sound_desc_t *devices = sound_get_valid_devices(SOUND_PLAYBACK_DEVICE, 1);
+    int i;
+
+    /* rebuild menu if it already exists. */
+    if (sound_output_dyn_menu_init != 0) {
+        sdl_menu_sound_output_free();
+    } else {
+        sound_output_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i].name; ++i) {
+        sound_output_dyn_menu[i].string = (char *)lib_strdup(devices[i].description);
+        sound_output_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        sound_output_dyn_menu[i].callback = radio_SoundDeviceName_callback;
+        sound_output_dyn_menu[i].data = (ui_callback_data_t)lib_strdup(devices[i].name);
+    }
+
+    sound_output_dyn_menu[i].string = NULL;
+    sound_output_dyn_menu[i].type = 0;
+    sound_output_dyn_menu[i].callback = NULL;
+    sound_output_dyn_menu[i].data = NULL;
+
+    lib_free(devices);
+
+    return MENU_SUBMENU_STRING;
+}
 
 static ui_menu_entry_t sound_output_mode_menu[] = {
     { "System",
@@ -318,8 +294,8 @@ const ui_menu_entry_t sound_output_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Output driver",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sound_output_driver_menu },
+      SoundOutput_dynmenu_callback,
+      (ui_callback_data_t)sound_output_dyn_menu },
     { "Output Mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -353,3 +329,12 @@ const ui_menu_entry_t sound_output_menu[] = {
 
     SDL_MENU_LIST_END
 };
+
+/** \brief  Clean up memory used by the dynamically created sound output menus
+ */
+void uisound_output_menu_shutdown(void)
+{
+    if (sound_output_dyn_menu_init) {
+        sdl_menu_sound_output_free();
+    }
+}

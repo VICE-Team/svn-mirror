@@ -553,6 +553,7 @@ void vsid_ui_set_data_size(uint16_t size)
 
 void vsid_ui_close(void)
 {
+    uisound_output_menu_shutdown();
     uisid_menu_shutdown();
     sdl_ui_font_shutdown();
 }
