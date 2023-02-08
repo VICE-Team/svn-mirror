@@ -272,6 +272,7 @@ int scpu64ui_init(void)
 
 void scpu64ui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uicart_menu_shutdown();

@@ -261,6 +261,7 @@ int c64dtvui_init(void)
 
 void c64dtvui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();

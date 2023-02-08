@@ -271,6 +271,7 @@ int plus4ui_init(void)
 
 void plus4ui_shutdown(void)
 {
+    uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
