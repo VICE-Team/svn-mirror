@@ -75,12 +75,6 @@ static void sounddev_close(const sound_device_t **dev);
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct sound_register_devices_s {
-    const char *name;
-    int (*init)(void);
-    int is_playback_device;
-} sound_register_devices_t;
-
 /* This table is used to specify the order of inits of the playback and recording devices */
 static const sound_register_devices_t sound_register_devices[] = {
 
@@ -88,66 +82,66 @@ static const sound_register_devices_t sound_register_devices[] = {
        priority (most wanted first) */
 
 #ifdef USE_PULSE
-    { "pulse", sound_init_pulse_device, SOUND_PLAYBACK_DEVICE },
+    { "pulse", "Pulseaudio sound output", sound_init_pulse_device, SOUND_PLAYBACK_DEVICE },
 #endif
 #ifdef USE_ALSA
-    { "alsa", sound_init_alsa_device, SOUND_PLAYBACK_DEVICE },
+    { "alsa", "ALSA sound output", sound_init_alsa_device, SOUND_PLAYBACK_DEVICE },
 #endif
 #ifdef USE_COREAUDIO
-    { "coreaudio", sound_init_coreaudio_device, SOUND_PLAYBACK_DEVICE },
+    { "coreaudio", "Mac OS X Audio output", sound_init_coreaudio_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
 /* Don't use the NetBSD/SUN sound driver for OpenBSD */
 #if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
 #if defined(NETBSD_COMPILE)
-    { "netbsd", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
+    { "netbsd", "NetBSD sound output", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #else
-    { "sun", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
+    { "sun", "Solaris sound output", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #endif /* NETBSD_COMPILE */
 #endif /* HAVE_SYS_AUDIOIO_H */
 
 #ifdef WINDOWS_COMPILE
 #ifdef USE_DXSOUND
-    { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
+    { "dx", "DirectSound sound output", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
 #endif
-    { "wmm", sound_init_wmm_device, SOUND_PLAYBACK_DEVICE },
+    { "wmm", "Windows Waveout sound output", sound_init_wmm_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
 #ifdef BEOS_COMPILE
-    { "beos", sound_init_beos_device, SOUND_PLAYBACK_DEVICE },
-    { "bsp", sound_init_bsp_device, SOUND_PLAYBACK_DEVICE },
+    { "beos", "BeOS sound output", sound_init_beos_device, SOUND_PLAYBACK_DEVICE },
+    { "bsp", "BeOS Media Kit sound output", sound_init_bsp_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
     /* SDL driver last, after all platform specific ones */
 #ifdef USE_SDL_AUDIO
-    { "sdl", sound_init_sdl_device, SOUND_PLAYBACK_DEVICE },
+    { "sdl", "SDL sound output", sound_init_sdl_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
     /* the dummy device acts as a "guard" against the drivers that create files,
        since the list will be searched top-down, and the dummy driver always
        works, no files will be created accidently */
-    { "dummy", sound_init_dummy_device, SOUND_PLAYBACK_DEVICE },
+    { "dummy", "Dummy sound output (no sound)", sound_init_dummy_device, SOUND_PLAYBACK_DEVICE },
 
-    { "fs", sound_init_fs_device, SOUND_RECORD_DEVICE },
-    { "dump", sound_init_dump_device, SOUND_RECORD_DEVICE },
-    { "wav", sound_init_wav_device, SOUND_RECORD_DEVICE },
-    { "voc", sound_init_voc_device, SOUND_RECORD_DEVICE },
-    { "iff", sound_init_iff_device, SOUND_RECORD_DEVICE },
-    { "aiff", sound_init_aiff_device, SOUND_RECORD_DEVICE },
+    { "fs", "Raw sound recording", sound_init_fs_device, SOUND_RECORD_DEVICE },
+    { "dump", "Sound chip state recording", sound_init_dump_device, SOUND_RECORD_DEVICE },
+    { "wav", "RIFF/WAV sound recording", sound_init_wav_device, SOUND_RECORD_DEVICE },
+    { "voc", "Creative Voice VOC sound recording", sound_init_voc_device, SOUND_RECORD_DEVICE },
+    { "iff", "AmigaOS IFF/8SVX sound recording", sound_init_iff_device, SOUND_RECORD_DEVICE },
+    { "aiff", "Apple AIFF sound recording", sound_init_aiff_device, SOUND_RECORD_DEVICE },
 
 #ifdef USE_LAMEMP3
-    { "mp3", sound_init_mp3_device, SOUND_RECORD_DEVICE },
+    { "mp3", "MP3 sound recording", sound_init_mp3_device, SOUND_RECORD_DEVICE },
 #endif
 
 #ifdef USE_FLAC
-    { "flac", sound_init_flac_device, SOUND_RECORD_DEVICE },
+    { "flac", "FLAC sound recording", sound_init_flac_device, SOUND_RECORD_DEVICE },
 #endif
 
 #ifdef USE_VORBIS
-    { "ogg", sound_init_vorbis_device, SOUND_RECORD_DEVICE },
+    { "ogg", "OGG sound recording", sound_init_vorbis_device, SOUND_RECORD_DEVICE },
 #endif
 
-    { "soundmovie", sound_init_movie_device, SOUND_RECORD_DEVICE },
+    { "soundmovie", "Movie sound recording", sound_init_movie_device, SOUND_MOVIE_RECORD_DEVICE },
     { NULL, NULL, 0 }
 };
 
@@ -575,7 +569,7 @@ int sound_cmdline_options_init(void)
     record_devices_cmdline = lib_strdup("Specify recording sound driver. (");
 
     for (i = 0; sound_register_devices[i].name; i++) {
-        if (sound_register_devices[i].is_playback_device) {
+        if (sound_register_devices[i].device_type == SOUND_PLAYBACK_DEVICE) {
             if (started_playback) {
                 temp = util_concat(playback_devices_cmdline, "/", sound_register_devices[i].name, NULL);
             } else {
@@ -607,6 +601,48 @@ int sound_cmdline_options_init(void)
     devs_cmdline_options[2].description = record_devices_cmdline;
 
     return cmdline_register_options(devs_cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int sound_valid_devices_compare_names(const void* a, const void* b)
+{
+    const sound_desc_t *arg1 = (const sound_desc_t*)a;
+    const sound_desc_t *arg2 = (const sound_desc_t*)b;
+
+    return strcmp(arg1->name, arg2->name);
+}
+
+sound_desc_t *sound_get_valid_devices(int type, int sort)
+{
+    sound_desc_t *retval = NULL;
+    int i;
+    int valid = 0;
+    int j = 0;
+
+    for (i = 0; sound_register_devices[i].name; ++i) {
+        if (sound_register_devices[i].device_type == type) {
+               ++valid;
+        }
+    }
+
+
+    retval = lib_malloc(((size_t)valid + 1) * sizeof(sound_desc_t));
+    for (i = 0; sound_register_devices[i].name; ++i) {
+        if (sound_register_devices[i].device_type == type) {
+            retval[j].name = sound_register_devices[i].name;
+            retval[j].description = sound_register_devices[i].ui_display_name;
+            retval[j].device_type = sound_register_devices[i].device_type;
+            ++j;
+        }
+    }
+    retval[j].name = NULL;
+
+    if (sort) {
+        qsort(retval, valid, sizeof(sound_desc_t), sound_valid_devices_compare_names);
+    }
+
+    return retval;
 }
 
 /* ------------------------------------------------------------------------- */
