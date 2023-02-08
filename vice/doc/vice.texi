@@ -1041,6 +1041,9 @@ This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
 This mapping applies to the C128 emulator. It is for a large part identical with
 the respective C64 mapping, plus the added function- and extra keys.
 
+Note that to use the numpad, you will have to disable the "allow keyset joysticks"
+setting.
+
 @subsubsection Symbolic (US)
 @image{html/images/vice-c128-symbolic-keymap-us-small}
 @subsubsection Positional (US)
@@ -1053,7 +1056,15 @@ the respective C64 mapping, plus the added function- and extra keys.
 
 @subsection C16 & Plus4 Keyboard Map
 
-TODO
+@image{html/images/plus4-layout-small}
+
+This mapping applies to the Plus4 emulator
+
+@subsubsection Positional (US)
+@image{html/images/vice-plus4-positional-keymap-us-small}
+
+@subsubsection Positional (DE)
+@image{html/images/vice-plus4-positional-keymap-de-small}
 
 @subsection PET Graphics Keyboard Map
 
