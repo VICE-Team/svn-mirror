@@ -56,7 +56,7 @@ static GtkWidget *hvsc_root_entry;
 static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(hvsc_root_entry), filename);
+        vice_gtk3_resource_entry_set(GTK_WIDGET(hvsc_root_entry), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -108,7 +108,7 @@ GtkWidget *settings_hvsc_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("HSVC root directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    hvsc_root_entry = vice_gtk3_resource_entry_full_new("HVSCRoot");
+    hvsc_root_entry = vice_gtk3_resource_entry_new("HVSCRoot");
     gtk_widget_set_hexpand(hvsc_root_entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 

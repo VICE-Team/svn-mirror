@@ -176,7 +176,7 @@ static void card_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(card_widget, filename);
+        vice_gtk3_resource_entry_set(card_widget, filename);
         g_free(filename);
     }
 
@@ -286,7 +286,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
 
-    eeprom_entry = vice_gtk3_resource_entry_full_new("MMCREEPROMImage");
+    eeprom_entry = vice_gtk3_resource_entry_new("MMCREEPROMImage");
     gtk_widget_set_hexpand(eeprom_entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");
@@ -328,7 +328,7 @@ static GtkWidget *create_card_image_widget(void)
     gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
-    entry = vice_gtk3_resource_entry_full_new("MMCRCardImage");
+    entry = vice_gtk3_resource_entry_new("MMCRCardImage");
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
 

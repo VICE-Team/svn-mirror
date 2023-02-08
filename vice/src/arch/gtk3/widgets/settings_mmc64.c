@@ -119,7 +119,7 @@ static void bios_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(bios_filename_widget, filename);
+        vice_gtk3_resource_entry_set(bios_filename_widget, filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -152,7 +152,7 @@ static void card_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(card_filename_entry, filename);
+        vice_gtk3_resource_entry_set(card_filename_entry, filename);
         g_free(filename);
     }
 
@@ -362,7 +362,7 @@ static GtkWidget *create_bios_image_widget(void)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     label = gtk_label_new("file name");
-    bios_filename_widget = vice_gtk3_resource_entry_full_new("MMC64BIOSfilename");
+    bios_filename_widget = vice_gtk3_resource_entry_new("MMC64BIOSfilename");
     gtk_widget_set_hexpand(bios_filename_widget, TRUE);
     gtk_widget_set_margin_start(label, 16);
     bios_browse_widget = gtk_button_new_with_label("Browse ...");
@@ -403,7 +403,7 @@ static GtkWidget *create_card_image_widget(void)
     gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
-    card_filename_entry = vice_gtk3_resource_entry_full_new("MMC64Imagefilename");
+    card_filename_entry = vice_gtk3_resource_entry_new("MMC64Imagefilename");
     gtk_widget_set_hexpand(card_filename_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), card_filename_entry, 1, 1, 1, 1);
 

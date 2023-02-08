@@ -70,7 +70,7 @@ static void histdir_browse_callback(GtkDialog *dialog,
                                     gpointer param)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(histdir_entry, filename);
+        vice_gtk3_resource_entry_set(histdir_entry, filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -124,7 +124,7 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
 
-    histdir_entry = vice_gtk3_resource_entry_full_new("EventSnapshotDir");
+    histdir_entry = vice_gtk3_resource_entry_new("EventSnapshotDir");
     gtk_widget_set_hexpand(histdir_entry, TRUE);
 
     histdir_browse = gtk_button_new_with_label("Browse ...");

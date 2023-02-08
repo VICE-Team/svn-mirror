@@ -64,7 +64,7 @@
 static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer entry)
 {
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(entry), filename);
+        vice_gtk3_resource_entry_set(GTK_WIDGET(entry), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -102,7 +102,7 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
     char       resource[32];
 
     g_snprintf(resource, sizeof resource, "FSDevice%dDir", unit);
-    entry = vice_gtk3_resource_entry_full_new(resource);
+    entry = vice_gtk3_resource_entry_new(resource);
     gtk_widget_set_tooltip_text(entry,
                                 "Set the host directory to use as a virtual drive");
     gtk_widget_set_hexpand(entry, TRUE);
