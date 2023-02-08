@@ -396,8 +396,9 @@ F11 10 0 8
 # CAPS LOCK (ASCII/DIN) key
 F12 -4 1
 
+# BUG, we cant map a second key to shift-lock apparently
+# https://sourceforge.net/p/vice-emu/bugs/1829/
 #Pause -4 1
-
 
 # Numeric keypad
 KP_0 10 1 8

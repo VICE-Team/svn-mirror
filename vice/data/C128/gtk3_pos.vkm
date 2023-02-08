@@ -150,7 +150,8 @@ Control_L 7 5 8192
 
 # INST/DEL (both below)
 BackSpace 0 0 8
-Delete 0 0 8
+Delete          0 0 8
+Insert          0 0 1
 # Run/Stop
 Escape 7 7 8
 
@@ -180,14 +181,16 @@ F10 8 3 8
 # alt
 F11 10 0 8
 # CAPS LOCK (ASCII/DIN) key
-F12 -4 1
+F12     -4 1
 
-#Pause -4 1
+# BUG, we cant map a second key to shift-lock apparently
+# https://sourceforge.net/p/vice-emu/bugs/1829/
+#Pause   -4 1
 
 # CLR/HOME
 Home 6 3 8
 # Pound
-Insert 6 0 8
+End 6 0 8
 
 Return 0 1 8
 Shift_R 6 4 4
@@ -212,15 +215,8 @@ Down 0 7 264
 # Down in c128 mode mapped to A.DOWN
 Down 10 4 8
 
-# CRSR up/down
-End 0 7 8
-# CRSR left/right
-# FIXME Page_Down is already mapped (below) to up arrow symbol (which "wins")
-# This means CRSR left/right is not mapped to anything in c128 mode (c64 mode is OK)
-# INS/DEL is double mapped to both Backspace and Delete, so Delete could be used?
-Page_Down 0 2 8
-# Arrow Up         FIXME see above. Arrow up > Page_Down is the x64 mapping
-Page_Down 6 6 8
+# Arrow Up
+backslash 6 6 8
 
 # Restore key mapping
 Page_Up -3 0
@@ -233,7 +229,7 @@ asciicircum 2 3 8
 asciitilde 7 1 8
 asterisk 3 3 8
 at 7 3 8
-backslash 6 5 8
+Page_Down 6 5 8
 bar 6 5 8
 braceleft 5 6 8
 braceright 6 1 8
