@@ -101,8 +101,9 @@
 /* largest value in the UIs. also used by VSID as default */
 #define SOUND_SAMPLE_MAX_BUFFER_SIZE    350
 
-#define SOUND_RECORD_DEVICE     0
-#define SOUND_PLAYBACK_DEVICE   1
+#define SOUND_RECORD_DEVICE         0
+#define SOUND_PLAYBACK_DEVICE       1
+#define SOUND_MOVIE_RECORD_DEVICE   2
 
 extern int sound_state_changed;
 extern int sound_playdev_reopen;
@@ -138,6 +139,19 @@ typedef struct sound_device_s {
     bool is_timing_source;
 } sound_device_t;
 
+typedef struct sound_register_devices_s {
+    const char *name;
+    const char *ui_display_name;
+    int (*init)(void);
+    int device_type;
+} sound_register_devices_t;
+
+typedef struct sound_desc_s {
+    const char *name;
+    const char *description;
+    int device_type;
+} sound_desc_t;
+
 static inline int16_t sound_audio_mix(int ch1, int ch2)
 {
     if (ch1 == 0) {
@@ -158,6 +172,8 @@ static inline int16_t sound_audio_mix(int ch1, int ch2)
 
     return (int16_t)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
+
+extern sound_desc_t *sound_get_valid_devices(int type, int sort);
 
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
