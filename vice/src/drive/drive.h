@@ -347,67 +347,69 @@ extern struct diskunit_context_s *diskunit_context[NUM_DISK_UNITS];
 
 extern int rom_loaded;
 
-extern int drive_init(void);
-extern int drive_enable(struct diskunit_context_s *drv);
-extern void drive_disable(struct diskunit_context_s *drv);
-extern void drive_move_head(int step, struct drive_s *drive);
+int drive_init(void);
+int drive_enable(struct diskunit_context_s *drv);
+void drive_disable(struct diskunit_context_s *drv);
+void drive_move_head(int step, struct drive_s *drive);
+
 /* Don't use these pointers before the context is set up!  */
-extern struct monitor_interface_s *drive_cpu_monitor_interface_get(unsigned int dnr);
-extern void drive_cpu_early_init_all(void);
-extern void drive_cpu_trigger_reset(unsigned int dnr);
-extern void drive_reset(void);
-extern void drive_shutdown(void);
-extern void drive_cpu_execute_one(struct diskunit_context_s *drv, CLOCK clk_value);
-extern void drive_cpu_execute_all(CLOCK clk_value);
-extern void drive_cpu_set_overflow(struct diskunit_context_s *drv);
-extern void drive_vsync_hook(void);
-extern int drive_get_disk_drive_type(int dnr);
-extern void drive_enable_update_ui(struct diskunit_context_s *drv);
-extern void drive_update_ui_status(void);
-extern void drive_gcr_data_writeback(struct drive_s *drive);
-extern void drive_gcr_data_writeback_all(void);
-extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
-extern int drive_set_disk_drive_type(unsigned int drive_type,
-                                     struct diskunit_context_s *drv);
+struct monitor_interface_s *drive_cpu_monitor_interface_get(unsigned int dnr);
 
-extern void drive_set_half_track(int num, int side, drive_t *dptr);
-extern void drive_set_machine_parameter(long cycles_per_sec);
-extern void drive_set_disk_memory(uint8_t *id, unsigned int track,
-                                  unsigned int sector,
-                                  struct diskunit_context_s *drv);
-extern void drive_set_last_read(unsigned int track, unsigned int sector,
-                                uint8_t *buffer, struct diskunit_context_s *drv);
+void drive_cpu_early_init_all(void);
+void drive_cpu_trigger_reset(unsigned int dnr);
+void drive_reset(void);
+void drive_shutdown(void);
+void drive_cpu_execute_one(struct diskunit_context_s *drv, CLOCK clk_value);
+void drive_cpu_execute_all(CLOCK clk_value);
+void drive_cpu_set_overflow(struct diskunit_context_s *drv);
+void drive_vsync_hook(void);
+int drive_get_disk_drive_type(int dnr);
+void drive_enable_update_ui(struct diskunit_context_s *drv);
+void drive_update_ui_status(void);
+void drive_gcr_data_writeback(struct drive_s *drive);
+void drive_gcr_data_writeback_all(void);
+void drive_set_active_led_color(unsigned int type, unsigned int dnr);
+int drive_set_disk_drive_type(unsigned int drive_type,
+                              struct diskunit_context_s *drv);
 
-extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
-extern int drive_check_extend_policy(int drive_type);
-extern int drive_check_idle_method(int drive_type);
-extern int drive_check_expansion(int drive_type);
-extern int drive_check_expansion2000(int drive_type);
-extern int drive_check_expansion4000(int drive_type);
-extern int drive_check_expansion6000(int drive_type);
-extern int drive_check_expansion8000(int drive_type);
-extern int drive_check_expansionA000(int drive_type);
-extern int drive_check_parallel_cable(int drive_type);
-extern int drive_check_extend_policy(int drive_type);
-extern int drive_check_profdos(int drive_type);
-extern int drive_check_supercard(int drive_type);
-extern int drive_check_stardos(int drive_type);
-extern int drive_check_rtc(int drive_type);
-extern int drive_check_iec(int drive_type);
-extern int drive_num_leds(unsigned int dnr);
+void drive_set_half_track(int num, int side, drive_t *dptr);
+void drive_set_machine_parameter(long cycles_per_sec);
+void drive_set_disk_memory(uint8_t *id, unsigned int track,
+                           unsigned int sector,
+                           struct diskunit_context_s *drv);
+void drive_set_last_read(unsigned int track, unsigned int sector,
+                         uint8_t *buffer, struct diskunit_context_s *drv);
+
+int drive_check_type(unsigned int drive_type, unsigned int dnr);
+int drive_check_extend_policy(int drive_type);
+int drive_check_idle_method(int drive_type);
+int drive_check_expansion(int drive_type);
+int drive_check_expansion2000(int drive_type);
+int drive_check_expansion4000(int drive_type);
+int drive_check_expansion6000(int drive_type);
+int drive_check_expansion8000(int drive_type);
+int drive_check_expansionA000(int drive_type);
+int drive_check_parallel_cable(int drive_type);
+int drive_check_extend_policy(int drive_type);
+int drive_check_profdos(int drive_type);
+int drive_check_supercard(int drive_type);
+int drive_check_stardos(int drive_type);
+int drive_check_rtc(int drive_type);
+int drive_check_iec(int drive_type);
+int drive_num_leds(unsigned int dnr);
 
 int drive_get_type_by_devnr(int devnr);
 int drive_is_dualdrive_by_devnr(int devnr);
 
-extern void drive_setup_context(void);
+void drive_setup_context(void);
 
-extern int drive_resources_type_init(unsigned int default_type);
+int drive_resources_type_init(unsigned int default_type);
 
-extern int drive_has_buttons(unsigned int dnr);
-extern void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button);
+int drive_has_buttons(unsigned int dnr);
+void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button);
 
-extern unsigned int drive_jam(int mynumber, const char *format, ...) VICE_ATTR_PRINTF2;
-extern bool drive_is_jammed(int mynumber);
-extern char *drive_jam_reason(int mynumber);
+unsigned int drive_jam(int mynumber, const char *format, ...) VICE_ATTR_PRINTF2;
+bool drive_is_jammed(int mynumber);
+char *drive_jam_reason(int mynumber);
 
 #endif
