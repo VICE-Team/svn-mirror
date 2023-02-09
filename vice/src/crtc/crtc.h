@@ -43,37 +43,36 @@ struct snapshot_s;
 struct screenshot_s;
 struct canvas_refresh_s;
 
-extern struct raster_s *crtc_init(void);
-extern struct video_canvas_s *crtc_get_canvas(void);
-extern void crtc_reset(void);
+struct raster_s *crtc_init(void);
+struct video_canvas_s *crtc_get_canvas(void);
+void crtc_reset(void);
 
-extern int crtc_resources_init(void);
-extern int crtc_cmdline_options_init(void);
+int crtc_resources_init(void);
+int crtc_cmdline_options_init(void);
 
-extern int crtc_snapshot_write_module(struct snapshot_s *s);
-extern int crtc_snapshot_read_module(struct snapshot_s *s);
+int crtc_snapshot_write_module(struct snapshot_s *s);
+int crtc_snapshot_read_module(struct snapshot_s *s);
 
-extern void crtc_set_screen_addr(uint8_t *screen);
-extern void crtc_set_chargen_offset(int offset);
-extern void crtc_set_chargen_addr(uint8_t *chargen, int cmask);
-extern void crtc_set_screen_options(int num_cols, int rasterlines);
-extern void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
-                                int vrevmask);
-extern void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
-extern void crtc_set_retrace_type(int type);
-extern void crtc_set_hires_draw_callback(crtc_hires_draw_t);
-extern void crtc_enable_hw_screen_blank(int enable);
-extern void crtc_screenshot(struct screenshot_s *screenshot);
-extern void crtc_async_refresh(struct canvas_refresh_s *refresh);
-extern void crtc_shutdown(void);
+void crtc_set_screen_addr(uint8_t *screen);
+void crtc_set_chargen_offset(int offset);
+void crtc_set_chargen_addr(uint8_t *chargen, int cmask);
+void crtc_set_screen_options(int num_cols, int rasterlines);
+void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset, int vrevmask);
+void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
+void crtc_set_retrace_type(int type);
+void crtc_set_hires_draw_callback(crtc_hires_draw_t);
+void crtc_enable_hw_screen_blank(int enable);
+void crtc_screenshot(struct screenshot_s *screenshot);
+void crtc_async_refresh(struct canvas_refresh_s *refresh);
+void crtc_shutdown(void);
 
-extern void crtc_screen_enable(int);
+void crtc_screen_enable(int);
 
-extern int crtc_offscreen(void);
+int crtc_offscreen(void);
 
-extern void crtc_update_window(void);
-extern void crtc_update_renderer(void);
+void crtc_update_window(void);
+void crtc_update_renderer(void);
 
-extern uint8_t *crtc_get_active_bitmap(void);
+uint8_t *crtc_get_active_bitmap(void);
 
 #endif

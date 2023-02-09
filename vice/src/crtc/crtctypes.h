@@ -199,7 +199,7 @@ extern crtc_t crtc;
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
-extern int crtc_load_palette(const char *name);
-extern void crtc_resize(void);
+int crtc_load_palette(const char *name);
+void crtc_resize(void);
 
 #endif
