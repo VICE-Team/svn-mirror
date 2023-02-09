@@ -32,9 +32,9 @@
 #include <windows.h>
 
 /*  These are in joystick.c . */
-extern void joystick_calibrate(HWND hwnd);
-extern void joystick_ui_get_device_list(HWND joy_hwnd);
-extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
-extern void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
+void joystick_calibrate(HWND hwnd);
+void joystick_ui_get_device_list(HWND joy_hwnd);
+void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
+void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
 
 #endif
