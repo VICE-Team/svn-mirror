@@ -44,8 +44,8 @@ static char datasette_halfwaves;
 
 
 /* resources */
-extern int datasette_sound_emulation;
-extern int datasette_sound_emulation_volume;
+static int datasette_sound_emulation = 0;
+static int datasette_sound_emulation_volume = 0;
 
 static void datasette_sound_flush_circular_buffer(void)
 {
