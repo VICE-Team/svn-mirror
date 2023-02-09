@@ -69,12 +69,12 @@ typedef struct rtc_bq4830y_s {
 #define CLOCK_WRITE_LATCH        6
 #define CLOCK_READ_WRITE_LATCH   7
 
-extern rtc_bq4830y_t *bq4830y_init(char *device);
-extern void bq4830y_destroy(rtc_bq4830y_t *context, int save);
+rtc_bq4830y_t *bq4830y_init(char *device);
+void bq4830y_destroy(rtc_bq4830y_t *context, int save);
 
-extern void bq4830y_store(rtc_bq4830y_t *context, uint16_t address, uint8_t val);
-extern uint8_t bq4830y_read(rtc_bq4830y_t *context, uint16_t address);
-extern int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_t *s);
-extern int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_t *s);
+void bq4830y_store(rtc_bq4830y_t *context, uint16_t address, uint8_t val);
+uint8_t bq4830y_read(rtc_bq4830y_t *context, uint16_t address);
+int bq4830y_write_snapshot(rtc_bq4830y_t *context, snapshot_t *s);
+int bq4830y_read_snapshot(rtc_bq4830y_t *context, snapshot_t *s);
 
 #endif

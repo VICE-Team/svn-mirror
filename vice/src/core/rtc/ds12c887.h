@@ -73,21 +73,21 @@ typedef struct rtc_ds12c887_s {
 #define DS12C887_REG_CTRL_D          13
 #define DS12C887_REG_CENTURIES       50
 
-extern void ds12c887_reset(rtc_ds12c887_t *context);
-extern rtc_ds12c887_t *ds12c887_init(char *device);
-extern void ds12c887_destroy(rtc_ds12c887_t *context, int save);
+void ds12c887_reset(rtc_ds12c887_t *context);
+rtc_ds12c887_t *ds12c887_init(char *device);
+void ds12c887_destroy(rtc_ds12c887_t *context, int save);
 
 /* This function needs to be called at least every 1/10th of a second
  * it returns a 1 if an IRQ was generated */
-extern int ds12c887_update_flags(rtc_ds12c887_t *context);
+int ds12c887_update_flags(rtc_ds12c887_t *context);
 
-extern void ds12c887_store_address(rtc_ds12c887_t *context, uint8_t address);
-extern void ds12c887_store_data(rtc_ds12c887_t *context, uint8_t data);
-extern uint8_t ds12c887_read(rtc_ds12c887_t *context);
+void ds12c887_store_address(rtc_ds12c887_t *context, uint8_t address);
+void ds12c887_store_data(rtc_ds12c887_t *context, uint8_t data);
+uint8_t ds12c887_read(rtc_ds12c887_t *context);
 
-extern int ds12c887_dump(rtc_ds12c887_t *context);
+int ds12c887_dump(rtc_ds12c887_t *context);
 
-extern int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
-extern int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
+int ds12c887_write_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
+int ds12c887_read_snapshot(rtc_ds12c887_t *context, snapshot_t *s);
 
 #endif

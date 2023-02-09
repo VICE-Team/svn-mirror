@@ -59,13 +59,13 @@ typedef struct rtc_72421_s {
 #define RTC72421_REGISTER_CTRL1         14
 #define RTC72421_REGISTER_CTRL2         15
 
-extern rtc_72421_t *rtc72421_init(char *device);
-extern void rtc72421_destroy(rtc_72421_t *context, int save);
+rtc_72421_t *rtc72421_init(char *device);
+void rtc72421_destroy(rtc_72421_t *context, int save);
 
-extern uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address);
-extern void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data);
+uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address);
+void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data);
 
-extern int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_t *s);
-extern int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_t *s);
+int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_t *s);
+int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_t *s);
 
 #endif
