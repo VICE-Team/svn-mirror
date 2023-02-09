@@ -115,7 +115,7 @@ int shortbus_cmdline_options_init(void)
     return 0;
 }
 
-extern void shortbus_unregister(void)
+void shortbus_unregister(void)
 {
     shortbus_digimax_unregister();
 
