@@ -41,7 +41,7 @@ typedef struct soundmovie_funcs_t {
     void (*close)(void);
 } soundmovie_funcs_t;
 
-extern int soundmovie_start(soundmovie_funcs_t *funcs);
-extern int soundmovie_stop(void);
+int soundmovie_start(soundmovie_funcs_t *funcs);
+int soundmovie_stop(void);
 
 #endif

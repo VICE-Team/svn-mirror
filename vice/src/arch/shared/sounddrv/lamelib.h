@@ -81,8 +81,8 @@ struct lamelib_s {
 typedef struct lamelib_s lamelib_t;
 
 extern lamelib_t lamelib;
-extern int lamelib_open(void);
-extern void lamelib_close(void);
+int lamelib_open(void);
+void lamelib_close(void);
 
 #endif  /* ifdef HAVE_STATIC_LAME */
 #endif  /* ifndef VICE_MP3LAME_H */
