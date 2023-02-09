@@ -45,7 +45,7 @@
 #define IS_DTV     0
 #define IS_HUMMER  1
 
-extern int dtvmodel_get(void);
-extern void dtvmodel_set(int model);
+int dtvmodel_get(void);
+void dtvmodel_set(int model);
 
 #endif
