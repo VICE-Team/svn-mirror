@@ -35,12 +35,12 @@
 #define MEMORY_HACK_PLUS60K    2
 #define MEMORY_HACK_PLUS256K   3
 
-extern int memory_hacks_ram_inject(uint16_t addr, uint8_t value);
+int memory_hacks_ram_inject(uint16_t addr, uint8_t value);
 
-extern int memory_hacks_resources_init(void);
-extern int memory_hacks_cmdline_options_init(void);
+int memory_hacks_resources_init(void);
+int memory_hacks_cmdline_options_init(void);
 
-extern int memhacks_snapshot_write_modules(struct snapshot_s *s);
-extern int memhacks_snapshot_read_modules(struct snapshot_s *s);
+int memhacks_snapshot_write_modules(struct snapshot_s *s);
+int memhacks_snapshot_read_modules(struct snapshot_s *s);
 
 #endif

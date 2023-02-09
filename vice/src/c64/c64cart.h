@@ -112,6 +112,6 @@ typedef struct c128cartridge_interface_s c128cartridge_interface_t;
 extern c128cartridge_interface_t *c128cartridge; /* lives in c64cart.c */
 
 /* only x128 actually implements this function */
-extern void c128cartridge_setup_interface(void);
+void c128cartridge_setup_interface(void);
 
 #endif
