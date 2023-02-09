@@ -34,10 +34,10 @@
 
 #define SDL_UI_HOTKEY_DELIM "&"
 
-extern ui_menu_entry_t *sdl_ui_hotkey_action(char *path);
-extern char *sdl_ui_hotkey_path(ui_menu_entry_t *action);
-extern int sdl_ui_hotkey_map(ui_menu_entry_t *item);
+ui_menu_entry_t *sdl_ui_hotkey_action(char *path);
+char *sdl_ui_hotkey_path(ui_menu_entry_t *action);
+int sdl_ui_hotkey_map(ui_menu_entry_t *item);
 
-extern int sdl_ui_hotkey(ui_menu_entry_t *item); /* implemented in uimenu.c */
+int sdl_ui_hotkey(ui_menu_entry_t *item); /* implemented in uimenu.c */
 
 #endif

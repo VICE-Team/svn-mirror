@@ -30,18 +30,18 @@
 
 #include "mouse.h"
 
-extern int mousedrv_resources_init(const mouse_func_t *funcs);
-extern int mousedrv_cmdline_options_init(void);
-extern void mousedrv_init(void);
+int mousedrv_resources_init(const mouse_func_t *funcs);
+int mousedrv_cmdline_options_init(void);
+void mousedrv_init(void);
 
-extern void mousedrv_mouse_changed(void);
+void mousedrv_mouse_changed(void);
 
-extern void mouse_button(int bnumber, int state);
+void mouse_button(int bnumber, int state);
 
-extern void mousedrv_button_left(int pressed);
-extern void mousedrv_button_right(int pressed);
-extern void mousedrv_button_middle(int pressed);
-extern void mousedrv_button_up(int pressed);
-extern void mousedrv_button_down(int pressed);
+void mousedrv_button_left(int pressed);
+void mousedrv_button_right(int pressed);
+void mousedrv_button_middle(int pressed);
+void mousedrv_button_up(int pressed);
+void mousedrv_button_down(int pressed);
 
 #endif

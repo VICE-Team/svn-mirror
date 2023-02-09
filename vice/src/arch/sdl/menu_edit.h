@@ -27,8 +27,8 @@
 #ifndef VICE_MENU_EDIT_H
 #define VICE_MENU_EDIT_H
 
-extern UI_MENU_CALLBACK(edit_menu_paste_callback);
-extern UI_MENU_CALLBACK(edit_menu_copy_callback);
+UI_MENU_CALLBACK(edit_menu_paste_callback);
+UI_MENU_CALLBACK(edit_menu_copy_callback);
 
 extern const ui_menu_entry_t edit_menu[];
 

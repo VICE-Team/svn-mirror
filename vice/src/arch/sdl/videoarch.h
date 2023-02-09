@@ -134,21 +134,21 @@ typedef struct video_canvas_s video_canvas_t;
 extern video_canvas_t *sdl_active_canvas;
 
 /* Resize window to stored real size */
-extern void sdl_video_restore_size(void);
+void sdl_video_restore_size(void);
 
 #ifdef USE_SDL2UI
 /* special case handling for the SDL window resize event */
-extern void sdl2_video_resize_event(int canvas_id, unsigned int w, unsigned int h);
+void sdl2_video_resize_event(int canvas_id, unsigned int w, unsigned int h);
 #else
 /* special case handling for the SDL window resize event */
-extern void sdl_video_resize_event(unsigned int w, unsigned int h);
+void sdl_video_resize_event(unsigned int w, unsigned int h);
 #endif
 
 /* Switch to canvas with given index; used by x128 and xcbm2 */
-extern void sdl_video_canvas_switch(int index);
+void sdl_video_canvas_switch(int index);
 extern int sdl_active_canvas_num;
 
-extern void sdl_ui_init_finalize(void);
+void sdl_ui_init_finalize(void);
 
 int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons);
 void sdl_ui_consume_mouse_event(SDL_Event *event);
@@ -168,12 +168,12 @@ extern uint8_t *draw_buffer_vsid;
 #define SDL_FILTER_LINEAR      1
 #endif
 
-extern void sdl_ui_set_window_title(char *title);
+void sdl_ui_set_window_title(char *title);
 
 #ifdef USE_SDL2UI
-extern void sdl2_show_second_window(void);
-extern void sdl2_hide_second_window(void);
-extern video_canvas_t *sdl2_get_canvas_from_index(int index);
+void sdl2_show_second_window(void);
+void sdl2_hide_second_window(void);
+video_canvas_t *sdl2_get_canvas_from_index(int index);
 #endif
 
 #endif

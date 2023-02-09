@@ -33,7 +33,7 @@
 
 extern ui_menu_entry_t userport_menu[];
 
-extern void uiuserport_menu_create(int rtc);
-extern void uiuserport_menu_shutdown(void);
+void uiuserport_menu_create(int rtc);
+void uiuserport_menu_shutdown(void);
 
 #endif

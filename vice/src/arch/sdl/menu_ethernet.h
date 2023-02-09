@@ -33,6 +33,6 @@
 
 extern const ui_menu_entry_t ethernet_menu[];
 
-extern void sdl_menu_ethernet_interface_free(void);
+void sdl_menu_ethernet_interface_free(void);
 
 #endif
