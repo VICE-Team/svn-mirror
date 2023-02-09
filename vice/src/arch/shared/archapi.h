@@ -123,9 +123,9 @@
 #include "archdep_xdg.h"
 
 /* Program start.  */
-extern int archdep_init(int *argc, char **argv);
+int archdep_init(int *argc, char **argv);
 
 /* Free everything on exit. (in arch/../archdep.c)  */
-extern void archdep_shutdown(void);
+void archdep_shutdown(void);
 
 #endif
