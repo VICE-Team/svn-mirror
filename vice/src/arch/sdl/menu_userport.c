@@ -117,7 +117,7 @@ void uiuserport_menu_create(int rtc)
 }
 
 
-/** \brief  Clean up memory used by the dynamically created joyport menus
+/** \brief  Clean up memory used by the dynamically created userport menus
  */
 void uiuserport_menu_shutdown(void)
 {
