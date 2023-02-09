@@ -61,14 +61,14 @@ typedef struct clockport_supported_devices_s {
     char *name;
 } clockport_supported_devices_t;
 
-extern int clockport_resources_init(void);
-extern void clockport_resources_shutdown(void);
+int clockport_resources_init(void);
+void clockport_resources_shutdown(void);
 
-extern clockport_device_t *clockport_open_device(int deviceid, const char *owner);
-extern void clockport_close_device(clockport_device_t *device);
+clockport_device_t *clockport_open_device(int deviceid, const char *owner);
+void clockport_close_device(clockport_device_t *device);
 
 extern clockport_supported_devices_t clockport_supported_devices[];
 
-extern char *clockport_device_id_to_name(int id);
+char *clockport_device_id_to_name(int id);
 
 #endif
