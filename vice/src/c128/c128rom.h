@@ -27,29 +27,29 @@
 #ifndef VICE_C128ROM_H
 #define VICE_C128ROM_H
 
-extern int c128rom_load_kernal_int(const char *rom_name);
-extern int c128rom_load_kernal_de(const char *rom_name);
-extern int c128rom_load_kernal_fi(const char *rom_name);
-extern int c128rom_load_kernal_fr(const char *rom_name);
-extern int c128rom_load_kernal_it(const char *rom_name);
-extern int c128rom_load_kernal_no(const char *rom_name);
-extern int c128rom_load_kernal_se(const char *rom_name);
-extern int c128rom_load_kernal_ch(const char *rom_name);
-extern int c128rom_load_basiclo(const char *rom_name);
-extern int c128rom_load_basichi(const char *rom_name);
-extern int c128rom_load_chargen_int(const char *rom_name);
-extern int c128rom_load_chargen_de(const char *rom_name);
-extern int c128rom_load_chargen_fr(const char *rom_name);
-extern int c128rom_load_chargen_se(const char *rom_name);
-extern int c128rom_load_chargen_ch(const char *rom_name);
-extern int c128rom_load_chargen_no(const char *rom_name);
-extern int c128rom_load_kernal64(const char *rom_name, uint8_t *cartkernal);
-extern int c128rom_load_basic64(const char *rom_name);
+int c128rom_load_kernal_int(const char *rom_name);
+int c128rom_load_kernal_de(const char *rom_name);
+int c128rom_load_kernal_fi(const char *rom_name);
+int c128rom_load_kernal_fr(const char *rom_name);
+int c128rom_load_kernal_it(const char *rom_name);
+int c128rom_load_kernal_no(const char *rom_name);
+int c128rom_load_kernal_se(const char *rom_name);
+int c128rom_load_kernal_ch(const char *rom_name);
+int c128rom_load_basiclo(const char *rom_name);
+int c128rom_load_basichi(const char *rom_name);
+int c128rom_load_chargen_int(const char *rom_name);
+int c128rom_load_chargen_de(const char *rom_name);
+int c128rom_load_chargen_fr(const char *rom_name);
+int c128rom_load_chargen_se(const char *rom_name);
+int c128rom_load_chargen_ch(const char *rom_name);
+int c128rom_load_chargen_no(const char *rom_name);
+int c128rom_load_kernal64(const char *rom_name, uint8_t *cartkernal);
+int c128rom_load_basic64(const char *rom_name);
 
-extern int c128rom_basic_checksum(void);
-extern int c128rom_kernal_checksum(void);
-extern int c128rom_kernal_setup(void);
-extern int c128rom_chargen_setup(void);
+int c128rom_basic_checksum(void);
+int c128rom_kernal_checksum(void);
+int c128rom_kernal_setup(void);
+int c128rom_chargen_setup(void);
 
 /* BASICLO + BASICHI */
 #define C128_BASIC_85_CHECKSUM      38592
