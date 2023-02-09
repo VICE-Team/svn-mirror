@@ -1432,8 +1432,8 @@ static int cycles_per_sec = 1000000;
 static int sample_rate = 22050;
 
 /* resources */
-extern int drive_sound_emulation;
-extern int drive_sound_emulation_volume;
+static int drive_sound_emulation;
+static int drive_sound_emulation_volume;
 
 static int drive_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {

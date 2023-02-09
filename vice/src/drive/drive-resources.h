@@ -27,7 +27,7 @@
 #ifndef VICE_DRIVE_RESOURCES_H
 #define VICE_DRIVE_RESOURCES_H
 
-extern int drive_resources_init(void);
-extern void drive_resources_shutdown(void);
+int drive_resources_init(void);
+void drive_resources_shutdown(void);
 
 #endif
