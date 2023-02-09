@@ -34,35 +34,35 @@
 
 struct snapshot_s;
 
-extern void ramlink_freeze(void);
-extern void ramlink_config_init(export_t *ex);
-extern void ramlink_config_setup(uint8_t *rawcart);
-extern int ramlink_bin_attach(const char *filename, uint8_t *rawcart);
-extern void ramlink_detach(void);
-extern int ramlink_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
-extern int ramlink_flush_image(void); /* FIXME: API reserved for primary/ROM image */
-extern const char *ramlink_get_file_name(void); /* FIXME: API reserved for primary/ROM image */
-extern int ramlink_cart_enabled(void);
-extern int ramlink_bin_save(const char *filename); /* FIXME: API reserved for primary/ROM image */
+void ramlink_freeze(void);
+void ramlink_config_init(export_t *ex);
+void ramlink_config_setup(uint8_t *rawcart);
+int ramlink_bin_attach(const char *filename, uint8_t *rawcart);
+void ramlink_detach(void);
+int ramlink_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
+int ramlink_flush_image(void); /* FIXME: API reserved for primary/ROM image */
+const char *ramlink_get_file_name(void); /* FIXME: API reserved for primary/ROM image */
+int ramlink_cart_enabled(void);
+int ramlink_bin_save(const char *filename); /* FIXME: API reserved for primary/ROM image */
 
-extern int ramlink_roml_read(uint16_t addr, uint8_t *value);
-extern int ramlink_romh_read(uint16_t addr, uint8_t *value);
-extern int ramlink_a000_bfff_read(uint16_t addr, uint8_t *value);
-extern int ramlink_peek_mem(uint16_t addr, uint8_t *value);
-extern int ramlink_romh_phi1_read(uint16_t addr, uint8_t *value);
-extern int ramlink_romh_phi2_read(uint16_t addr, uint8_t *value);
-extern int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-extern void ramlink_passthrough_changed(export_t *ex);
-extern int ramlink_cart_mode(void);
+int ramlink_roml_read(uint16_t addr, uint8_t *value);
+int ramlink_romh_read(uint16_t addr, uint8_t *value);
+int ramlink_a000_bfff_read(uint16_t addr, uint8_t *value);
+int ramlink_peek_mem(uint16_t addr, uint8_t *value);
+int ramlink_romh_phi1_read(uint16_t addr, uint8_t *value);
+int ramlink_romh_phi2_read(uint16_t addr, uint8_t *value);
+int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+void ramlink_passthrough_changed(export_t *ex);
+int ramlink_cart_mode(void);
 
-extern int ramlink_enable(void);
-extern int ramlink_disable(void);
+int ramlink_enable(void);
+int ramlink_disable(void);
 
-extern int ramlink_cmdline_options_init(void);
-extern int ramlink_resources_init(void);
-extern int ramlink_resources_shutdown(void);
+int ramlink_cmdline_options_init(void);
+int ramlink_resources_init(void);
+int ramlink_resources_shutdown(void);
 
-extern int ramlink_snapshot_write_module(struct snapshot_s *s);
-extern int ramlink_snapshot_read_module(struct snapshot_s *s);
+int ramlink_snapshot_write_module(struct snapshot_s *s);
+int ramlink_snapshot_read_module(struct snapshot_s *s);
 
 #endif
