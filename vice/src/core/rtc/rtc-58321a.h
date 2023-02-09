@@ -59,17 +59,17 @@ typedef struct rtc_58321a_s {
 #define RTC58321A_REGISTER_SS0           14
 #define RTC58321A_REGISTER_SS1           15
 
-extern rtc_58321a_t *rtc58321a_init(char *device);
-extern void rtc58321a_destroy(rtc_58321a_t *context, int save);
+rtc_58321a_t *rtc58321a_init(char *device);
+void rtc58321a_destroy(rtc_58321a_t *context, int save);
 
-extern uint8_t rtc58321a_read(rtc_58321a_t *context);
-extern void rtc58321a_write_address(rtc_58321a_t *context, uint8_t address);
-extern void rtc58321a_write_data(rtc_58321a_t *context, uint8_t data);
+uint8_t rtc58321a_read(rtc_58321a_t *context);
+void rtc58321a_write_address(rtc_58321a_t *context, uint8_t address);
+void rtc58321a_write_data(rtc_58321a_t *context, uint8_t data);
 
-extern void rtc58321a_stop_clock(rtc_58321a_t *context);
-extern void rtc58321a_start_clock(rtc_58321a_t *context);
+void rtc58321a_stop_clock(rtc_58321a_t *context);
+void rtc58321a_start_clock(rtc_58321a_t *context);
 
-extern int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_t *s);
-extern int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_t *s);
+int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_t *s);
+int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_t *s);
 
 #endif

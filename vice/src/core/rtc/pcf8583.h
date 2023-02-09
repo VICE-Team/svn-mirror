@@ -71,15 +71,15 @@ typedef struct rtc_pcf8583_s {
     char *device;
 } rtc_pcf8583_t;
 
-extern rtc_pcf8583_t *pcf8583_init(char *device, int read_bit_shift);
-extern void pcf8583_destroy(rtc_pcf8583_t *context, int save);
+rtc_pcf8583_t *pcf8583_init(char *device, int read_bit_shift);
+void pcf8583_destroy(rtc_pcf8583_t *context, int save);
 
-extern void pcf8583_set_clk_line(rtc_pcf8583_t *context, uint8_t data);
-extern void pcf8583_set_data_line(rtc_pcf8583_t *context, uint8_t data);
+void pcf8583_set_clk_line(rtc_pcf8583_t *context, uint8_t data);
+void pcf8583_set_data_line(rtc_pcf8583_t *context, uint8_t data);
 
-extern uint8_t pcf8583_read_data_line(rtc_pcf8583_t *context);
+uint8_t pcf8583_read_data_line(rtc_pcf8583_t *context);
 
-extern int pcf8583_write_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
-extern int pcf8583_read_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
+int pcf8583_write_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
+int pcf8583_read_snapshot(rtc_pcf8583_t *context, snapshot_t *s);
 
 #endif
