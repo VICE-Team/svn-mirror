@@ -29,13 +29,11 @@
 #define VICE_RESOURCE_NUMERIC_STRING_H
 
 #include <gtk/gtk.h>
-#include <stdint.h>
 
 GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource);
-
-void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
-                                                  uint64_t min,
-                                                  uint64_t max,
-                                                  gboolean allow_zero);
+void       vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
+                                                        guint64    minimum,
+                                                        guint64    maximum,
+                                                        gboolean   allow_zero);
 
 #endif

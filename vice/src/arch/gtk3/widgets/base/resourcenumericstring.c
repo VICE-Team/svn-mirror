@@ -4,8 +4,8 @@
  * Used for resources that store their numeric value as a string.
  *
  * Supports using suffixes 'K', 'M', and 'G' for KiB, MiB and GiB respectively.
- *
- *
+ * Digits are accepted as well a navigation keys (left, right, home, end,
+ * insert, delete) and Tab, Return and Enter to accept input.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -32,17 +32,12 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 #include <stdlib.h>
-#include <inttypes.h>
-#include <stdint.h>
-#include <ctype.h>
-#include <errno.h>
 
-#include "vice_gtk3.h"
-#include "lib.h"
 #include "resources.h"
+#include "resourcewidgetmediator.h"
+#include "vice_gtk3.h"
 
 #include "resourcenumericstring.h"
 
@@ -64,6 +59,17 @@ typedef struct numstr_unit_s {
     int         suffix; /**< suffix, in upper case */
     uint64_t    factor; /**< number to multiply numeric string with */
 } numstr_unit_t;
+
+
+/** \brief  Object holding additional widget info
+ */
+typedef struct numstr_info_s {
+    GtkCssProvider *provider;
+    guint64         minimum;
+    guint64         maximum;
+    gboolean        has_limits;
+    gboolean        allow_zero;
+} numstr_info_t;
 
 
 /** \brief  List of suffixes and their factors
@@ -91,12 +97,30 @@ static const gint valid_keys[] = {
     GDK_KEY_g, GDK_KEY_G,   /* GiB */
     GDK_KEY_x, GDK_KEY_X,   /* 0x -> hex */
     GDK_KEY_BackSpace,
+    GDK_KEY_Delete,
     GDK_KEY_Insert,
     GDK_KEY_Left,
     GDK_KEY_Right,
+    GDK_KEY_Home,
+    GDK_KEY_End,
     -1
 };
 
+
+/** \brief  Free additional data object
+ *
+ * Called during widget destruction by the mediator.
+ *
+ * \param[in]   info    info object to free
+ */
+static void free_info(void *info)
+{
+    numstr_info_t *i = info;
+    if (i != NULL) {
+        g_object_unref(G_OBJECT(i->provider));
+        g_free(i);
+    }
+}
 
 /** \brief  Check \a value against limits set on \a widget
  *
@@ -105,64 +129,33 @@ static const gint valid_keys[] = {
  *
  * \return  value is valid for the given (or missing) limits
  */
-static gboolean value_is_valid(GtkWidget *widget, uint64_t value)
+static gboolean value_is_valid(GtkEntry *self, guint64 value)
 {
-    int has_limits = GPOINTER_TO_INT(
-            g_object_get_data(G_OBJECT(widget), "HasLimits"));
-#if 0
-    debug_gtk3("Has-Limits = %s", has_limits ? "True" : "False");
-#endif
-    if (!has_limits) {
-        /* no limits set, must be valid */
-        return TRUE;
-    } else {
-        uint32_t min_lo = GPOINTER_TO_UINT(
-                g_object_get_data(G_OBJECT(widget), "ResourceMinLo"));
-        uint32_t min_hi = GPOINTER_TO_UINT(
-                g_object_get_data(G_OBJECT(widget), "ResourceMinHi"));
-        uint32_t max_lo = GPOINTER_TO_UINT(
-                g_object_get_data(G_OBJECT(widget), "ResourceMaxLo"));
-        uint32_t max_hi = GPOINTER_TO_UINT(
-                g_object_get_data(G_OBJECT(widget), "ResourceMaxHi"));
-        uint64_t min = min_lo + ((uint64_t)min_hi << 32LU);
-        uint64_t max = max_lo + ((uint64_t)max_hi << 32LU);
+    numstr_info_t *info = mediator_get_data_w(GTK_WIDGET(self));
 
-        int allow_zero = GPOINTER_TO_INT(
-                g_object_get_data(G_OBJECT(widget), "AllowZero"));
-#if 0
-        debug_gtk3("Checking against $%" PRIx64 " - $%" PRIx64 ", allow-zero: %s",
-                min, max, allow_zero ? "True" : "False");
-#endif
-        if (allow_zero && value == 0) {
+    if (info->has_limits) {
+        if (info->allow_zero && value == 0) {
             return TRUE;
         }
-
-        if (min == 0 && max == UINT64_MAX) {
-            return TRUE;
-        }
-        return (value >= min && value <= max);
+        return (gboolean)(value >= info->minimum && value <= info->maximum);
     }
-
     return TRUE;
 }
 
-
-
 /** \brief  Validate input
  *
- * \param[in,out]   widget  GtkEntry instance
- * \param[in]       data    extra data (unused yet)
+ * \param[in]   widget  GtkEntry instance
  *
- * \return  bool
+ * \return  `TRUE` if the current text in \a self is valid
  */
-static gboolean input_is_valid(GtkWidget *widget, gpointer data)
+static gboolean input_is_valid(GtkEntry *self)
 {
-    long long result;
-    char *endptr;
+    long long   result;
+    char       *endptr;
     const char *text;
-    int64_t factor = 1;
+    guint64     factor = 1;
 
-    text = gtk_entry_get_text(GTK_ENTRY(widget));
+    text = gtk_entry_get_text(self);
     if (*text == '\0') {
         /* special: 0 means no fixed size */
         return TRUE;
@@ -170,165 +163,142 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
 
     result = strtoull(text, &endptr, 0);
     if (*endptr != '\0') {
-        /* possible suffix */
+        /* possible suffix*/
         int i;
-#if 0
-        debug_gtk3("Got possible suffix '%c'", *endptr);
-#endif
+
         if (endptr == text) {
-            /* missing digits */
+            /* suffix without preceeding digits, fail */
             return FALSE;
         }
 
         for (i = 0; units[i].factor > 0; i++) {
-            if (toupper(*endptr) == units[i].suffix) {
-#if 0
-                debug_gtk3("Found valid suffix '%d' -> %" PRIu64,
-                        toupper(*endptr), units[i].factor);
-#endif
+            if (g_ascii_toupper(*endptr) == units[i].suffix) {
                 factor = units[i].factor;
                 break;
             }
         }
         if (units[i].suffix < 0) {
-#if 0
-            debug_gtk3("Invalid suffix.");
-#endif
+            /* exhausted list of suffixes, fail */
             return FALSE;
         }
 
         if (endptr[1] != '\0') {
+            /* text after suffix, fail */
             return FALSE;
         }
     }
-#if 0
-    debug_gtk3("result = %lld", result * factor);
-#endif
-    return value_is_valid(widget, result * factor);
-
+    return value_is_valid(self, result * factor);
 }
 
+/** \brief  Update resource with text of entry
+ *
+ * Attempt to update the resource with the text of \a self, if that fails revert
+ * to previous valid resource value.
+ *
+ * \param[in]   self    entry widget
+ *
+ * \return  `TRUE` on succesfully updating the resource
+ */
+static gboolean update_resource_value(GtkEntry *self)
+{
+    mediator_t *mediator;
+    const char *entry_val;
+    const char *res_val;
+
+    mediator  = mediator_for_widget(GTK_WIDGET(self));
+    entry_val = gtk_entry_get_text(self);
+    res_val   = mediator_get_resource_string(mediator);
+    if (g_strcmp0(entry_val, res_val) != 0) {
+        if (!mediator_update_string(mediator, entry_val)) {
+            /* revert */
+            gtk_entry_set_text(self, res_val);
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
 
 /** \brief  Event handler for the 'changed' event
  *
  * Gets triggered after accepting/refusing any key input. so we check the input
  * for validity here, and also add a visual hint via CSS.
  *
- * \param[in,out]   widget  widget
- * \param[in]       data    unused extra data
+ * \param[in,out]   self    entry widget
+ * \param[in]       data    extra event data (unused)
  */
-static void on_entry_changed(GtkWidget *widget, gpointer data)
+static void on_entry_changed(GtkEntry *self, gpointer data)
 {
+    numstr_info_t  *info;
     GtkCssProvider *provider;
 
-    provider = g_object_get_data(G_OBJECT(widget), "CSSProvider");
-    if (!input_is_valid(widget, NULL)) {
-        vice_gtk3_css_provider_add(widget, provider);
+    info = mediator_get_data_w(GTK_WIDGET(self));
+    provider = info->provider;
+
+    if (!input_is_valid(self)) {
+        vice_gtk3_css_provider_add(GTK_WIDGET(self), provider);
     } else {
-        vice_gtk3_css_provider_remove(widget, provider);
+        vice_gtk3_css_provider_remove(GTK_WIDGET(self), provider);
     }
 }
 
-
 /** \brief  Handler for the "focus-out" event
  *
- * \param[in]   entry   entry box
- * \param[in]   event   event object
- * \param[in]   data    unused
+ * \param[in]   self    entry widget (unused)
+ * \param[in]   event   event object (unused)
+ * \param[in]   data    extra event data (unused)
  *
- * \return  TRUE
+ * \return  GDK_EVENT_PROPAGATE
  */
-static gboolean on_focus_out_event(
-        GtkEntry *entry,
-        GdkEvent *event,
-        gpointer data)
+static gboolean on_focus_out_event(GtkEntry *self,
+                                   GdkEvent *event,
+                                   gpointer  data)
 {
-    const char *value;
-    const char *resource;
-
-    value = gtk_entry_get_text(GTK_ENTRY(entry));
-    resource = resource_widget_get_resource_name(GTK_WIDGET(entry));
-#if 0
-    debug_gtk3("Got '%s' with Enter for '%s;", value, resource);
-#endif
-    if (resources_set_string(resource, value) < 0) {
-        debug_gtk3("Implement proper error popup");
-    }
-    return TRUE;
+    update_resource_value(self);
+    return GDK_EVENT_PROPAGATE;
 }
 
 
 /** \brief  Handler for the 'on-key-press' event
  *
- * \param[in]   entry   entry box
+ * Filter certain keys from being used in the entry widget.
+ *
+ * \param[in]   self    entry widget
  * \param[in]   event   event object
  * \param[in]   data    unused
  *
  * \return  TRUE if Enter was pushed, FALSE otherwise (makes the pushed key
  *          propagate to the entry)
  */
-static gboolean on_key_press_event(
-        GtkEntry *entry,
-        GdkEvent *event,
-        gpointer data)
+static gboolean on_key_press_event(GtkEntry *self,
+                                   GdkEvent *event,
+                                   gpointer  data)
 {
     GdkEventKey *keyev = (GdkEventKey *)event;
 
     if (keyev->type == GDK_KEY_PRESS) {
         gint keyval = keyev->keyval;
-#if 0
-        debug_gtk3("Key Press event, keyval = %d", keyval);
-#endif
-        if (keyev->keyval == GDK_KEY_Return) {
+
+        if (keyval == GDK_KEY_Return || keyval == GDK_KEY_Tab ||
+                keyval == GDK_KEY_KP_Enter) {
             /*
-             * We handled Enter/Return for Gtk3/GLib, whether or not the
-             * resource actually gets updated is another issue.
+             * We handle Enter/Tab for Gdk, whether or not the resource
+             * actually gets updated is another issue.
              */
-            const char *value;
-            const char *resource;
-
-            value = gtk_entry_get_text(GTK_ENTRY(entry));
-            resource = resource_widget_get_resource_name(GTK_WIDGET(entry));
-#if 0
-            debug_gtk3("Got '%s' with Enter for '%s;", value, resource);
-#endif
-            if (resources_set_string(resource, value) < 0) {
-                debug_gtk3("Implement proper error popup");
-            }
-            return TRUE;
-
+            update_resource_value(self);
+            return GDK_EVENT_PROPAGATE;
         } else {
-
             int i;
+
             for (i = 0; valid_keys[i] >= 0; i++) {
-#if 0
-                debug_gtk3("Comparing %d against %d", keyval, valid_keys[i]);
-#endif
                 if (valid_keys[i] == keyval) {
-#if 0
-                    debug_gtk3("Valid keyval %d", keyval);
-#endif
-                    return FALSE;
+                    return GDK_EVENT_PROPAGATE; /* we accept this key */
                 }
             }
-            return TRUE;
+            /* we don't accept this key */
+            return GDK_EVENT_STOP;
         }
     }
-    return FALSE;
-}
-
-
-
-/** \brief  Handler for the 'destroy' event of the widget
- *
- * Cleans up resource allocated by the widget.
- *
- * \param[in,out]   widget  widget
- * \param[in]       data    extra event data (unused)
- */
-static void on_destroy(GtkWidget *widget, gpointer data)
-{
-    resource_widget_free_string(widget, "ResourceOrig");
+    return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -342,44 +312,40 @@ static void on_destroy(GtkWidget *widget, gpointer data)
  */
 GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource)
 {
-    GtkWidget *entry;
-    const char *current = NULL;
-    char *orig;
+    GtkWidget      *entry;
+    mediator_t     *mediator;
+    numstr_info_t  *info;
     GtkCssProvider *provider;
 
-    entry = gtk_entry_new();
-    resource_widget_set_resource_name(entry, resource);
+    entry    = gtk_entry_new();
+    mediator = mediator_new(entry, resource, G_TYPE_STRING);
+    provider = vice_gtk3_css_provider_new(CSS_INVALID);
+    info     = g_malloc0(sizeof *info);
+    info->provider   = provider;
+    info->minimum    = 0;
+    info->maximum    = G_MAXUINT64;
+    info->has_limits = FALSE;
+    info->allow_zero = TRUE;
+    mediator_set_data(mediator, info, free_info);
 
-    /* get current resource value */
-    if (resources_get_string(resource, &current) < 0) {
-        debug_gtk3("Failed to get resource '%s' value.", resource);
-        current = NULL;
-    }
-    /* this assumes a correct value */
-    gtk_entry_set_text(GTK_ENTRY(entry), current);
-
-    /* store orignal value for 'reset' method */
-    orig = lib_strdup(current != NULL ? current : "");
-    g_object_set_data(G_OBJECT(entry), "ResourceOrig", orig);
-
-    /* set limits */
-    g_object_set_data(G_OBJECT(entry), "ResouceMinLSB", GUINT_TO_POINTER(0));
-    g_object_set_data(G_OBJECT(entry), "ResouceMinMSB", GUINT_TO_POINTER(0));
-    g_object_set_data(G_OBJECT(entry), "ResouceMaxLSB", GUINT_TO_POINTER(-1));
-    g_object_set_data(G_OBJECT(entry), "ResouceMaxMSB", GUINT_TO_POINTER(-1));
-
+    /* set entry to resource value */
+    gtk_entry_set_text(GTK_ENTRY(entry),
+                       mediator_get_resource_string(mediator));
     /* set preferrence to upper case (doesn't work for shit) */
     gtk_entry_set_input_hints(GTK_ENTRY(entry), GTK_INPUT_HINT_UPPERCASE_CHARS);
 
-    /* add CSS provider to visually (in)validate input */
-    provider = vice_gtk3_css_provider_new(CSS_INVALID);
-    g_object_set_data(G_OBJECT(entry), "CSSProvider", provider);
-
-    g_signal_connect_unlocked(entry, "destroy", G_CALLBACK(on_destroy), NULL);
-    g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
-    g_signal_connect(entry, "key-press-event", G_CALLBACK(on_key_press_event), NULL);
-    g_signal_connect(entry, "focus-out-event",
-            G_CALLBACK(on_focus_out_event), NULL);
+    g_signal_connect(entry,
+                     "changed",
+                     G_CALLBACK(on_entry_changed),
+                     NULL);
+    g_signal_connect(entry,
+                     "key-press-event",
+                     G_CALLBACK(on_key_press_event),
+                     NULL);
+    g_signal_connect(entry,
+                     "focus-out-event",
+                     G_CALLBACK(on_focus_out_event),
+                     NULL);
 
     gtk_widget_show_all(entry);
     return entry;
@@ -392,36 +358,20 @@ GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource)
  * is meant to allow using 0 to indicate a special case.
  *
  * \param[in,out]   widget      resource numeric string widget
- * \param[in]       min         minimum value
- * \param[in]       max         maximum value
+ * \param[in]       minimum     minimum value
+ * \param[in]       maximum     maximum value
  * \param[in]       allow_zero  allow zero as a special (Nul) value
  */
 void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
-                                                  uint64_t min,
-                                                  uint64_t max,
-                                                  gboolean allow_zero)
+                                                  guint64    minimum,
+                                                  guint64    maximum,
+                                                  gboolean   allow_zero)
 {
-    uint32_t min_lo;
-    uint32_t min_hi;
-    uint32_t max_lo;
-    uint32_t max_hi;
+    numstr_info_t *info;
 
-    /* We need this shit since on a 32-bit machine a pointer is 32-bit, so
-     * storing 64-bit values is pretty unlikely to work.
-     */
-
-    min_lo = min & G_MAXUINT32;
-    min_hi = min >> 32U;
-    max_lo = max & G_MAXUINT32;
-    max_hi = max >> 32U;
-#if 0
-    debug_gtk3("min_lo = %" PRIu32 ", min_hi = %" PRIu32, min_lo, min_hi);
-    debug_gtk3("max_lo = %" PRIu32 ", max_hi = %" PRIu32, max_lo, max_hi);
-#endif
-    g_object_set_data(G_OBJECT(widget), "HasLimits", GINT_TO_POINTER(TRUE));
-    g_object_set_data(G_OBJECT(widget), "AllowZero", GINT_TO_POINTER(allow_zero));
-    g_object_set_data(G_OBJECT(widget), "ResourceMinLo", GUINT_TO_POINTER(min_lo));
-    g_object_set_data(G_OBJECT(widget), "ResourceMinHi", GUINT_TO_POINTER(min_hi));
-    g_object_set_data(G_OBJECT(widget), "ResourceMaxLo", GUINT_TO_POINTER(max_lo));
-    g_object_set_data(G_OBJECT(widget), "ResourceMaxHi", GUINT_TO_POINTER(max_hi));
+    info = mediator_get_data_w(widget);
+    info->minimum    = minimum;
+    info->maximum    = maximum;
+    info->has_limits = TRUE;
+    info->allow_zero = allow_zero;
 }
