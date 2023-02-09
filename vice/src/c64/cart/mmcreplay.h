@@ -43,44 +43,45 @@
 /* FIXME get rid of this */
 #define MMCREPLAY_EEPROM_SIZE (1024)
 
-extern uint8_t mmcreplay_roml_read(uint16_t addr);
-extern void mmcreplay_roml_store(uint16_t addr, uint8_t value);
-extern uint8_t mmcreplay_romh_read(uint16_t addr);
-extern void mmcreplay_romh_store(uint16_t addr, uint8_t value);
+uint8_t mmcreplay_roml_read(uint16_t addr);
+void mmcreplay_roml_store(uint16_t addr, uint8_t value);
+uint8_t mmcreplay_romh_read(uint16_t addr);
+void mmcreplay_romh_store(uint16_t addr, uint8_t value);
 
-extern uint8_t mmcreplay_1000_7fff_read(uint16_t addr);
-extern void mmcreplay_1000_7fff_store(uint16_t addr, uint8_t value);
-extern uint8_t mmcreplay_a000_bfff_read(uint16_t addr);
-extern void mmcreplay_a000_bfff_store(uint16_t addr, uint8_t value);
-extern uint8_t mmcreplay_c000_cfff_read(uint16_t addr);
-extern void mmcreplay_c000_cfff_store(uint16_t addr, uint8_t value);
+uint8_t mmcreplay_1000_7fff_read(uint16_t addr);
+void mmcreplay_1000_7fff_store(uint16_t addr, uint8_t value);
+uint8_t mmcreplay_a000_bfff_read(uint16_t addr);
+void mmcreplay_a000_bfff_store(uint16_t addr, uint8_t value);
+uint8_t mmcreplay_c000_cfff_read(uint16_t addr);
+void mmcreplay_c000_cfff_store(uint16_t addr, uint8_t value);
 
-extern int mmcreplay_romh_phi1_read(uint16_t addr, uint8_t *value);
-extern int mmcreplay_romh_phi2_read(uint16_t addr, uint8_t *value);
+int mmcreplay_romh_phi1_read(uint16_t addr, uint8_t *value);
+int mmcreplay_romh_phi2_read(uint16_t addr, uint8_t *value);
 
-extern void mmcreplay_freeze(void);
-extern int mmcreplay_freeze_allowed(void);
+void mmcreplay_freeze(void);
+int mmcreplay_freeze_allowed(void);
 
-extern void mmcreplay_config_init(void);
-extern void mmcreplay_reset(void);
-extern void mmcreplay_config_setup(uint8_t *rawcart);
-extern int mmcreplay_bin_attach(const char *filename, uint8_t *rawcart);
-extern int mmcreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
-extern void mmcreplay_detach(void);
-extern int mmcreplay_flush_image(void);
-extern int mmcreplay_bin_save(const char *filename);
-extern int mmcreplay_crt_save(const char *filename);
-extern void mmcreplay_powerup(void);
+void mmcreplay_config_init(void);
+void mmcreplay_reset(void);
+void mmcreplay_config_setup(uint8_t *rawcart);
+int mmcreplay_bin_attach(const char *filename, uint8_t *rawcart);
+int mmcreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
+void mmcreplay_detach(void);
+int mmcreplay_flush_image(void);
+int mmcreplay_bin_save(const char *filename);
+int mmcreplay_crt_save(const char *filename);
+void mmcreplay_powerup(void);
 
-extern int mmcreplay_resources_init(void);
-extern void mmcreplay_resources_shutdown(void);
-extern int mmcreplay_cmdline_options_init(void);
+int mmcreplay_resources_init(void);
+void mmcreplay_resources_shutdown(void);
+int mmcreplay_cmdline_options_init(void);
 
-extern int mmcreplay_cart_enabled(void);
+int mmcreplay_cart_enabled(void);
 extern int mmcr_clockport_enabled; /* FIXME */
 
 struct snapshot_s;
-extern int mmcreplay_snapshot_read_module(struct snapshot_s *s);
-extern int mmcreplay_snapshot_write_module(struct snapshot_s *s);
+
+int mmcreplay_snapshot_read_module(struct snapshot_s *s);
+int mmcreplay_snapshot_write_module(struct snapshot_s *s);
 
 #endif

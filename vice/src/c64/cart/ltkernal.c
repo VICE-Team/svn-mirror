@@ -42,6 +42,7 @@
 #include "cartridge.h"
 #include "export.h"
 #include "ltkernal.h"
+#include "maincpu.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
@@ -94,8 +95,6 @@
 #if C64CART_ROM_LIMIT <= 16384
 #error C64CART_ROM_LIMIT is too small; it should be at least 16384.
 #endif
-
-extern unsigned int reg_pc;
 
 /* C128 work still in progress */
 /* #define C128 */
