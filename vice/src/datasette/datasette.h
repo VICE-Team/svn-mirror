@@ -52,24 +52,24 @@
 
 struct tap_s;
 
-extern void datasette_init(void);
-extern void datasette_set_tape_image(int port, struct tap_s *image);
-extern void datasette_control(int port, int command);
-extern void datasette_reset(void);
-extern void datasette_reset_counter(int port);
-extern void datasette_event_playback_port1(CLOCK offset, void *data);
-extern void datasette_event_playback_port2(CLOCK offset, void *data);
+void datasette_init(void);
+void datasette_set_tape_image(int port, struct tap_s *image);
+void datasette_control(int port, int command);
+void datasette_reset(void);
+void datasette_reset_counter(int port);
+void datasette_event_playback_port1(CLOCK offset, void *data);
+void datasette_event_playback_port2(CLOCK offset, void *data);
 
 /* Emulator specific functions.  */
-extern void machine_trigger_flux_change(int port, unsigned int on);
-extern void machine_set_tape_sense(int port, int sense);
-extern void machine_set_tape_write_in(int port, int val);
-extern void machine_set_tape_motor_in(int port, int val);
+void machine_trigger_flux_change(int port, unsigned int on);
+void machine_set_tape_sense(int port, int sense);
+void machine_set_tape_write_in(int port, int val);
+void machine_set_tape_motor_in(int port, int val);
 
-extern void datasette_set_tape_sense(int port, int sense);
+void datasette_set_tape_sense(int port, int sense);
 
 /* For registering the resources.  */
-extern int datasette_resources_init(int amount);
-extern int datasette_cmdline_options_init(void);
+int datasette_resources_init(int amount);
+int datasette_cmdline_options_init(void);
 
 #endif
