@@ -63,7 +63,8 @@ void acia1_store
 #define myacia_reset acia1_reset
 #define myacia_store acia1_store
 
-extern int acia1_set_mode(int mode);
+/* function prototype */
+int acia1_set_mode(int mode);
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #define myacia_set_mode(x) acia1_set_mode(x)
