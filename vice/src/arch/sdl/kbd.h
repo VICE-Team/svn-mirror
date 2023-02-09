@@ -31,11 +31,11 @@
 #include "vice_sdl.h"
 #include "uimenu.h"
 
-extern void kbd_arch_init(void);
+void kbd_arch_init(void);
 
-extern signed long kbd_arch_keyname_to_keynum(char *keyname);
-extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
-extern void kbd_initialize_numpad_joykeys(int *joykeys);
+signed long kbd_arch_keyname_to_keynum(char *keyname);
+const char *kbd_arch_keynum_to_keyname(signed long keynum);
+void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "sdl"
 
@@ -73,32 +73,32 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 #define VICE_SDLK_ESCAPE      SDLK_ESCAPE
 #define VICE_SDLK_RETURN      SDLK_RETURN
 
-extern SDLKey SDL2x_to_SDL1x_Keys(SDLKey key);
-extern SDLKey SDL1x_to_SDL2x_Keys(SDLKey key);
+SDLKey SDL2x_to_SDL1x_Keys(SDLKey key);
+SDLKey SDL1x_to_SDL2x_Keys(SDLKey key);
 
-extern void sdlkbd_press(SDLKey key, SDLMod mod);
-extern void sdlkbd_release(SDLKey key, SDLMod mod);
+void sdlkbd_press(SDLKey key, SDLMod mod);
+void sdlkbd_release(SDLKey key, SDLMod mod);
 ui_menu_action_t sdlkbd_press_for_menu_action(SDLKey key, SDLMod mod);
 ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod);
 
-extern void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value);
+void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value);
 
-extern int sdlkbd_hotkeys_load(const char *filename);
-extern int sdlkbd_hotkeys_load(const char *filename);
-extern int sdlkbd_hotkeys_dump(const char *filename);
+int sdlkbd_hotkeys_load(const char *filename);
+int sdlkbd_hotkeys_load(const char *filename);
+int sdlkbd_hotkeys_dump(const char *filename);
 
-extern int sdlkbd_init_resources(void);
-extern void sdlkbd_resources_shutdown(void);
+int sdlkbd_init_resources(void);
+void sdlkbd_resources_shutdown(void);
 
-extern int sdlkbd_init_cmdline(void);
+int sdlkbd_init_cmdline(void);
 
-extern void kbd_enter_leave(void);
-extern void kbd_focus_change(void);
+void kbd_enter_leave(void);
+void kbd_focus_change(void);
 
 extern int sdl_ui_menukeys[];
 
-extern char *kbd_get_menu_keyname(void);
+char *kbd_get_menu_keyname(void);
 
-extern char *kbd_get_path_keyname(char *path);
+char *kbd_get_path_keyname(char *path);
 
 #endif

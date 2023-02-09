@@ -33,6 +33,6 @@
 
 extern ui_menu_entry_t sampler_menu[];
 
-extern void uisampler_menu_create(void);
+void uisampler_menu_create(void);
 
 #endif

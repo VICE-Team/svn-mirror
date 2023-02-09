@@ -30,6 +30,6 @@
 #include "vice.h"
 #include "types.h"
 
-extern void sdl_lightpen_update(void);
+void sdl_lightpen_update(void);
 
 #endif

@@ -41,7 +41,7 @@ typedef struct vkbd_s {
     const uint8_t shift;
 } vkbd_t;
 
-extern void sdl_vkbd_set_vkbd(const vkbd_t *machine_vkbd);
+void sdl_vkbd_set_vkbd(const vkbd_t *machine_vkbd);
 
 extern vkbd_t vkbd_c64;
 extern vkbd_t vkbd_vic20;
@@ -56,9 +56,9 @@ extern vkbd_t vkbd_pet_gr;
 #define SDL_VKBD_REPAINT (1 << 1)
 extern int sdl_vkbd_state;
 
-extern void sdl_vkbd_activate(void);
-extern void sdl_vkbd_close(void);
-extern void sdl_vkbd_draw(void);
-extern int sdl_vkbd_process(ui_menu_action_t input);
+void sdl_vkbd_activate(void);
+void sdl_vkbd_close(void);
+void sdl_vkbd_draw(void);
+int sdl_vkbd_process(ui_menu_action_t input);
 
 #endif

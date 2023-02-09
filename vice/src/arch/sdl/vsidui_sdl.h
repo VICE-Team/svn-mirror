@@ -35,9 +35,9 @@ extern int sdl_vsid_state;
 
 typedef void (*ui_draw_func_t) (void);
 
-extern void sdl_vsid_activate(void);
-extern void sdl_vsid_close(void);
-extern void sdl_vsid_draw_init(ui_draw_func_t func);
-extern void sdl_vsid_draw(void);
+void sdl_vsid_activate(void);
+void sdl_vsid_close(void);
+void sdl_vsid_draw_init(ui_draw_func_t func);
+void sdl_vsid_draw(void);
 
 #endif
