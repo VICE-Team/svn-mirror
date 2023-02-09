@@ -241,6 +241,34 @@ void mediator_set_data(mediator_t *mediator, void *data, void (*data_free)(void*
 }
 
 
+/** \brief  Get pointer to additional state data
+ *
+ * \param[in]   mediator
+ *
+ * \return  object or `NULL` when not set
+ */
+void *mediator_get_data(mediator_t *mediator)
+{
+    return mediator->data;
+}
+
+
+/** \brief  Get pointer to additional state data through widget
+ *
+ * \param[in]   widget  widget with resource mediator
+ *
+ * \return  object or `NULL` when not set
+ */
+void *mediator_get_data_w(GtkWidget *widget)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+    if (mediator != NULL) {
+        return mediator->data;
+    }
+    return NULL;
+}
+
+
 /** \brief  Set ID of the signal handler of the widget that updates the resource
  *
  * Set ID of the signal handler of the widget that is used to update the bound
