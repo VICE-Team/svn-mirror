@@ -84,15 +84,15 @@
 
 #define C64_KERNAL_ID_R03swe 0x03       /* FIXME */
 
-extern int c64rom_load_kernal(const char *rom_name, uint8_t *new_kernal);
-extern int c64rom_load_basic(const char *rom_name);
-extern int c64rom_load_chargen(const char *rom_name);
+int c64rom_load_kernal(const char *rom_name, uint8_t *new_kernal);
+int c64rom_load_basic(const char *rom_name);
+int c64rom_load_chargen(const char *rom_name);
 
-extern int c64rom_get_kernal_checksum(void);
-extern int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout);
-extern int c64rom_get_basic_checksum(void);
+int c64rom_get_kernal_checksum(void);
+int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout);
+int c64rom_get_basic_checksum(void);
 
-extern int c64rom_isloaded(void);
+int c64rom_isloaded(void);
 
 extern int c64rom_cartkernal_active;
 
