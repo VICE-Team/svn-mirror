@@ -103,6 +103,8 @@ const char *mediator_get_name_w            (GtkWidget *widget);
 void        mediator_set_data              (mediator_t *mediator,
                                             void       *data,
                                             void (*data_free)(void*));
+void       *mediator_get_data              (mediator_t *mediator);
+void       *mediator_get_data_w            (GtkWidget *widget);
 
 void        mediator_set_handler           (mediator_t *mediator, gulong handler);
 void        mediator_handler_block         (mediator_t *mediator);
