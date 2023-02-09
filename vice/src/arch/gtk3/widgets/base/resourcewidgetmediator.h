@@ -75,6 +75,20 @@ typedef struct mediator_s {
         void (*i)(GtkWidget*, int);
         void (*s)(GtkWidget*, const char*);
     } callback;
+
+    /** \brief  Object with additional data for the widget
+     *
+     * If a widget needs to keep additional data around this pointer can be
+     * used to keep a reference to the additional data and free it on widget
+     * destruction.
+     */
+    void      *data;
+
+    /** \brief  Function to call to free additional data
+     *
+     * Function that frees \a data and its members on widget destruction.
+     */
+    void     (*data_free)(void*);
 } mediator_t;
 
 
@@ -85,6 +99,10 @@ GtkWidget  *mediator_get_widget            (mediator_t *mediator);
 mediator_t *mediator_for_widget            (GtkWidget *widget);
 const char *mediator_get_name              (mediator_t *mediator);
 const char *mediator_get_name_w            (GtkWidget *widget);
+
+void        mediator_set_data              (mediator_t *mediator,
+                                            void       *data,
+                                            void (*data_free)(void*));
 
 void        mediator_set_handler           (mediator_t *mediator, gulong handler);
 void        mediator_handler_block         (mediator_t *mediator);

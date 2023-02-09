@@ -84,7 +84,12 @@ static void mediator_free(mediator_t *mediator)
  */
 static void on_widget_destroy(GtkWidget *widget, gpointer mediator)
 {
-    mediator_free((mediator_t*)mediator);
+    mediator_t *m = mediator;
+
+    if (m->data != NULL && m->data_free != NULL) {
+        m->data_free(m->data);
+    }
+    mediator_free(m);
 }
 
 
@@ -114,14 +119,16 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
     mediator = g_malloc0(sizeof *mediator);
     g_object_set_data(G_OBJECT(widget), MEDIATOR_GOBJECT_KEY, (gpointer)mediator);
 
-    mediator->widget  = widget;
-    mediator->name    = g_strdup(name);
-    mediator->type    = type;
-    mediator->handler = 0;
-    mediator->destroy = g_signal_connect_unlocked(G_OBJECT(widget),
-                                               "destroy",
-                                               G_CALLBACK(on_widget_destroy),
-                                               mediator);
+    mediator->widget    = widget;
+    mediator->name      = g_strdup(name);
+    mediator->type      = type;
+    mediator->data      = NULL;
+    mediator->data_free = NULL;
+    mediator->handler   = 0;
+    mediator->destroy   = g_signal_connect_unlocked(G_OBJECT(widget),
+                                                    "destroy",
+                                                    G_CALLBACK(on_widget_destroy),
+                                                    mediator);
     /* initialize GValues to their GType */
     g_value_init(&(mediator->initial), type);
     g_value_init(&(mediator->current), type);
@@ -218,6 +225,19 @@ const char *mediator_get_name_w(GtkWidget *widget)
         return mediator->name;
     }
     return NULL;
+}
+
+
+/** \brief  Set pointer to additional state data a widget might need
+ *
+ * \param[in]   mediator    resource mediator
+ * \param[in]   data        additional state object
+ * \param[in]   data_free   function to call to free \a data (can be `NULL`)
+ */
+void mediator_set_data(mediator_t *mediator, void *data, void (*data_free)(void*))
+{
+    mediator->data      = data;
+    mediator->data_free = data_free;
 }
 
 
