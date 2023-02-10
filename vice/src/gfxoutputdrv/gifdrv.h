@@ -27,6 +27,6 @@
 #ifndef VICE_GIFDRV_H
 #define VICE_GIFDRV_H
 
-extern void gfxoutput_init_gif(int help);
+void gfxoutput_init_gif(int help);
 
 #endif
