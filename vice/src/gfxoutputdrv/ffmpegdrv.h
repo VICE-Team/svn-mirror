@@ -30,7 +30,7 @@
 #include "screenshot.h"
 #include "gfxoutput.h"
 
-extern void gfxoutput_init_ffmpeg(int help);
+void gfxoutput_init_ffmpeg(int help);
 
 /* deprecated access for UIs that do not use the gfxoutputdrv->formatlist yet: */
 extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;

@@ -27,6 +27,6 @@
 #ifndef VICE_PNGDRV_H
 #define VICE_PNGDRV_H
 
-extern void gfxoutput_init_png(int help);
+void gfxoutput_init_png(int help);
 
 #endif

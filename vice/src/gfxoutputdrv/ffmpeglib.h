@@ -213,7 +213,7 @@ struct ffmpeglib_s {
 
 typedef struct ffmpeglib_s ffmpeglib_t;
 
-extern int ffmpeglib_open(ffmpeglib_t *lib);
-extern void ffmpeglib_close(ffmpeglib_t *lib);
+int ffmpeglib_open(ffmpeglib_t *lib);
+void ffmpeglib_close(ffmpeglib_t *lib);
 
 #endif
