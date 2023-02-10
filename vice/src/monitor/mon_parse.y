@@ -37,7 +37,7 @@
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #else  /* Not HAVE_ALLOCA_H  */
-extern char *alloca();
+char *alloca();
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* __GNUC__ */
 
@@ -81,10 +81,11 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
-extern void free_buffer(void);
-extern void make_buffer(char *str);
-extern int yylex(void);
 extern int cur_len, last_len;
+
+void free_buffer(void);
+void make_buffer(char *str);
+int yylex(void);
 
 #define ERR_ILLEGAL_INPUT 1     /* Generic error as returned by yacc.  */
 #define ERR_RANGE_BAD_START 2

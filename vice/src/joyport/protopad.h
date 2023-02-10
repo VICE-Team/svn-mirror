@@ -36,6 +36,6 @@
 #define PROTOPAD_TRIPPLE_3    4
 #define PROTOPAD_COUNT_MAX    5
 
-extern int joyport_protopad_resources_init(void);
+int joyport_protopad_resources_init(void);
 
 #endif
