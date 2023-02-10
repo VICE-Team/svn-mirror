@@ -28,21 +28,22 @@
 #ifndef VICE_BASEWIDGETS_H
 #define VICE_BASEWIDGETS_H
 
-#include "vice_gtk3_settings.h"
 #include "basewidget_types.h"
-#include "cartimagewidget.h"
 #include "carthelpers.h"
+#include "cartimagewidget.h"
 #include "clockportdevicewidget.h"
 #include "csshelpers.h"
+#include "resourcebrowser.h"
 #include "resourcecheckbutton.h"
 #include "resourcecombobox.h"
 #include "resourceentry.h"
+#include "resourcefilechooser.h"
 #include "resourcenumericstring.h"
 #include "resourceradiogroup.h"
 #include "resourcescale.h"
 #include "resourcespinbutton.h"
-#include "resourcebrowser.h"
 #include "resourceswitch.h"
 #include "uiactionbutton.h"
+#include "vice_gtk3_settings.h"
 
 #endif
