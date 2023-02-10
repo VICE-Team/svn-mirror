@@ -34,47 +34,48 @@
 #include "uimenu.h"
 #endif
 
-extern int joystick_init(void);
-extern int joystick_resources_init(void);
-extern int joystick_cmdline_options_init(void);
+int joystick_init(void);
+int joystick_resources_init(void);
+int joystick_cmdline_options_init(void);
 
 /* SDL-specific functions. */
-extern int joy_sdl_init(void);
-extern int joy_sdl_resources_init(void);
-extern int joy_sdl_cmdline_options_init(void);
+int joy_sdl_init(void);
+int joy_sdl_resources_init(void);
+int joy_sdl_cmdline_options_init(void);
 
-extern int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);
-extern int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
-extern void joystick_joypad_clear(void);
+int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);
+int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
+void joystick_joypad_clear(void);
 
-extern void joystick_set_axis_value(unsigned int index, uint8_t value);
-extern uint8_t joystick_get_axis_value(unsigned int index);
+void joystick_set_axis_value(unsigned int index, uint8_t value);
+uint8_t joystick_get_axis_value(unsigned int index);
 
-extern void joystick_set_value_absolute(unsigned int joyport, uint16_t value);
-extern void joystick_set_value_or(unsigned int joyport, uint16_t value);
-extern void joystick_set_value_and(unsigned int joyport, uint16_t value);
-extern void joystick_clear(unsigned int joyport);
-extern void joystick_clear_all(void);
+void joystick_set_value_absolute(unsigned int joyport, uint16_t value);
+void joystick_set_value_or(unsigned int joyport, uint16_t value);
+void joystick_set_value_and(unsigned int joyport, uint16_t value);
+void joystick_clear(unsigned int joyport);
+void joystick_clear_all(void);
 
-extern void joystick_event_playback(CLOCK offset, void *data);
-extern void joystick_event_delayed_playback(void *data);
-extern void joystick_register_delay(unsigned int delay);
+void joystick_event_playback(CLOCK offset, void *data);
+void joystick_event_delayed_playback(void *data);
+void joystick_register_delay(unsigned int delay);
 
-extern void linux_joystick_init(void);
-extern void usb_joystick_init(void);
-extern void joy_hidlib_init(void);
-extern void joy_hidlib_exit(void);
-extern int win32_directinput_joystick_init(void);
+void linux_joystick_init(void);
+void usb_joystick_init(void);
+void joy_hidlib_init(void);
+void joy_hidlib_exit(void);
+int win32_directinput_joystick_init(void);
 
-extern uint16_t get_joystick_value(int index);
+uint16_t get_joystick_value(int index);
 
 typedef void (*joystick_machine_func_t)(void);
-extern void joystick_register_machine(joystick_machine_func_t func);
+
+void joystick_register_machine(joystick_machine_func_t func);
 
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYPORT_MAX_PORTS];
 
-extern void joystick_set_snes_mapping(int port);
+void joystick_set_snes_mapping(int port);
 
 /** \brief  Use keypad as predefined keys for joystick emulation
  *
@@ -89,6 +90,7 @@ extern void joystick_set_snes_mapping(int port);
 #define JOYSTICK_KEYSET_IDX_NUMBLOCK 0
 #define JOYSTICK_KEYSET_IDX_A        1
 #define JOYSTICK_KEYSET_IDX_B        2
+
 extern int joykeys[JOYSTICK_KEYSET_NUM][JOYSTICK_KEYSET_NUM_KEYS];
 
 /* several things depend on the order/exact values of the members in this enum,
@@ -129,7 +131,7 @@ typedef struct joystick_driver_s {
     void (*close)(void*);
 } joystick_driver_t;
 
-extern void register_joystick_driver(
+void register_joystick_driver(
    struct joystick_driver_s *driver,
    const char *jname,
    void *priv,
@@ -185,23 +187,23 @@ typedef struct joystick_mapping_s {
     uint8_t prev;
 } joystick_mapping_t;
 
-extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
-extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
-extern void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
-extern void joystick(void);
-extern void joystick_close(void);
-extern void joystick_ui_reset_device_list(void);
-extern const char *joystick_ui_get_next_device_name(int *id);
-extern int joy_arch_mapping_dump(const char *filename);
-extern int joy_arch_mapping_load(const char *filename);
-extern joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
-extern char *get_joy_pin_mapping_string(int pin);
-extern joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
-extern joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
-extern joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
-extern joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
-extern joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
-extern joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
+void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
+void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
+void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
+void joystick(void);
+void joystick_close(void);
+void joystick_ui_reset_device_list(void);
+const char *joystick_ui_get_next_device_name(int *id);
+int joy_arch_mapping_dump(const char *filename);
+int joy_arch_mapping_load(const char *filename);
+joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
+char *get_joy_pin_mapping_string(int pin);
+joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
+joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
+joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
+joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
+joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
+joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
 
 #define JOYSTICK_DIRECTION_UP    1
 #define JOYSTICK_DIRECTION_DOWN  2

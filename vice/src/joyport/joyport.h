@@ -260,7 +260,7 @@ typedef struct joyport_port_props_s {
     int active;              /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
-extern int joyport_port_has_pot(int port);
+int joyport_port_has_pot(int port);
 
 /* this structure is used for host joystick to emulated input device mappings */
 typedef struct joyport_mapping_s {
@@ -281,8 +281,8 @@ typedef struct joyport_mapping_s {
     char *pot2;   /* name for the mapping of analog pot 2 (POT-Y) */
 } joyport_mapping_t;
 
-extern void joyport_set_mapping(joyport_mapping_t *mapping, int port);
-extern void joyport_clear_mapping(int port);
+void joyport_set_mapping(joyport_mapping_t *mapping, int port);
+void joyport_clear_mapping(int port);
 
 typedef struct joyport_map_s {
     char *name;   /* name of the pin/pot */
@@ -295,51 +295,51 @@ typedef struct joyport_map_desc_s {
     joyport_map_t *potmap;   /* mapping of the pots */
 } joyport_map_desc_t;
 
-extern int joyport_has_mapping(int port);
-extern joyport_map_desc_t *joyport_get_mapping(int port);
+int joyport_has_mapping(int port);
+joyport_map_desc_t *joyport_get_mapping(int port);
 
-extern int joyport_device_register(int id, joyport_t *device);
+int joyport_device_register(int id, joyport_t *device);
 
-extern uint8_t read_joyport_dig(int port);
-extern void store_joyport_dig(int port, uint8_t val, uint8_t mask);
-extern uint8_t read_joyport_potx(void);
-extern uint8_t read_joyport_poty(void);
+uint8_t read_joyport_dig(int port);
+void store_joyport_dig(int port, uint8_t val, uint8_t mask);
+uint8_t read_joyport_potx(void);
+uint8_t read_joyport_poty(void);
 
-extern void set_joyport_pot_mask(int mask);
+void set_joyport_pot_mask(int mask);
 
-extern void joyport_powerup(void);
+void joyport_powerup(void);
 
-extern int joyport_resources_init(void);
-extern int joyport_cmdline_options_init(void);
+int joyport_resources_init(void);
+int joyport_cmdline_options_init(void);
 
-extern int joyport_port_register(int port, joyport_port_props_t *props);
+int joyport_port_register(int port, joyport_port_props_t *props);
 
-extern joyport_desc_t *joyport_get_valid_devices(int port, int sort);
+joyport_desc_t *joyport_get_valid_devices(int port, int sort);
 
-extern void joyport_display_joyport(int port, int id, uint16_t status);
+void joyport_display_joyport(int port, int id, uint16_t status);
 
-extern char *joyport_get_port_name(int port);
+char *joyport_get_port_name(int port);
 
-extern void joyport_clear_devices(void);
+void joyport_clear_devices(void);
 
-extern int joyport_port_is_active(int port);
+int joyport_port_is_active(int port);
 
-extern void joyport_handle_joystick_hook(int port, uint16_t state);
+void joyport_handle_joystick_hook(int port, uint16_t state);
 
-extern char *joystick_adapter_get_name(void);
-extern uint8_t joystick_adapter_get_id(void);
-extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
-extern void joystick_adapter_deactivate(void);
-extern int joystick_adapter_is_snes(void);
+char *joystick_adapter_get_name(void);
+uint8_t joystick_adapter_get_id(void);
+uint8_t joystick_adapter_activate(uint8_t id, char *name);
+void joystick_adapter_deactivate(void);
+int joystick_adapter_is_snes(void);
 
-extern void joystick_adapter_set_ports(int ports);
-extern int joystick_adapter_get_ports(void);
-extern void joystick_adapter_set_add_ports(int ports);
-extern void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));
+void joystick_adapter_set_ports(int ports);
+int joystick_adapter_get_ports(void);
+void joystick_adapter_set_add_ports(int ports);
+void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));
 
-extern void joystick_set_hook(int port, int val, uint16_t mask);
+void joystick_set_hook(int port, int val, uint16_t mask);
 
-extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
-extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);
+int joyport_snapshot_write_module(struct snapshot_s *s, int port);
+int joyport_snapshot_read_module(struct snapshot_s *s, int port);
 
 #endif
