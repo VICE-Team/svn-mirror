@@ -48,6 +48,6 @@
 #define INCEPTION_STATE_LO_JOY8   16
 #define INCEPTION_STATE_EOS       17
 
-extern int joyport_inception_resources_init(void);
+int joyport_inception_resources_init(void);
 
 #endif
