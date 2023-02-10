@@ -258,8 +258,6 @@ void crtc_store_hre(uint16_t addr, uint8_t value)
 /* ------------------------------------------------------------------------- */
 /* Raster drawing */
 
-extern uint32_t dwg_table[16];
-
 #define MA_WIDTH        64
 #define MA_LO           (MA_WIDTH - 1)          /* 6 bits */
 #define MA_HI           (~MA_LO)
