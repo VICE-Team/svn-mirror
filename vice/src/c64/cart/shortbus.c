@@ -131,7 +131,7 @@ void shortbus_unregister(void)
 }
 
 
-extern void shortbus_register(void)
+void shortbus_register(void)
 {
     shortbus_digimax_register();
 
