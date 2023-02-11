@@ -160,6 +160,10 @@ int archdep_register_cbmfont(void)
     char *path;
     int result;
 
+    log_message(LOG_DEFAULT,
+                "%s(): Registering CBM font using Pango %s",
+                __func__, pango_version_string());
+
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
         log_error(LOG_ERR, "failed to find resource data '%s'.",
                 VICE_CBM_FONT_TTF);
@@ -175,19 +179,30 @@ int archdep_register_cbmfont(void)
        enumeration (with AddFontResource[A|W]) will be added back in 1.50.13.
      */
     if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
+        log_message(LOG_DEFAULT,
+                    "%s(): Using AddFontResourceEx()",
+                    __func__);
         result = AddFontResourceEx(path, FR_PRIVATE, 0);
     } else {
         /* non-private version, if VICE crashes the font will remain on the
            host system until the system is rebooted */
+        log_message(LOG_DEFAULT,
+                    "%s(): Using AddFontResourceA()",
+                    __func__);
         result = AddFontResourceA(path);
     }
     lib_free(path);
     if (result > 0) {
         font_registered = true;
+        log_message(LOG_DEFAULT,
+                    "%s(): According to Windows, the CBM font was succesfully"
+                    " registered.",
+                    __func__);
         return 1;
     }
     log_warning(LOG_DEFAULT,
-                "Didn't register CBM font, perhaps it was already installed?");
+                "%s(): According to Windows, registering the font failed",
+                __func__);
     return 0;
 }
 
@@ -219,11 +234,31 @@ void archdep_unregister_cbmfont(void)
             return;
         }
 
-        log_message(LOG_DEFAULT, "Unregistering CBM font");
         if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
+            log_message(LOG_DEFAULT,
+                        "%s(): Unregistering CBM font with RemoveFontResourceExA()",
+                        __func__);
             RemoveFontResourceExA(path, FR_PRIVATE, 0);
         } else {
+            /* If we unregister the font with RemoveFontResourceA() the font
+             * will somehow remain unregistered and registering the font with
+             * AddFontResourceA() on subsequent runs will NOT register it again,
+             * although the function reports success.
+             * So if we call this RemoveFontResourceA() the user will either
+             * have to reboot Windows every time before starting VICE, or
+             * manually install the font.
+             * Although rebooting a lot is perfectly normal in daily Windows use,
+             * I find to be less enjoyable ;)
+             * So we leave the font around for the session, after a reboot (heh)
+             * the font will be gone again and VICE will register it again.
+             */
+            log_warning(LOG_DEFAULT,
+                        "%s(): Pango version >= 1.5.12: skipping unregistering"
+                        " font with RemoveFontResourceA()",
+                        __func__);
+#if 0
             RemoveFontResourceA(path);
+#endif
         }
         lib_free(path);
     }
