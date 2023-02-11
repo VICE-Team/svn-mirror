@@ -52,6 +52,9 @@
 
 struct tap_s;
 
+extern int datasette_sound_emulation;
+extern int datasette_sound_emulation_volume;
+
 void datasette_init(void);
 void datasette_set_tape_image(int port, struct tap_s *image);
 void datasette_control(int port, int command);

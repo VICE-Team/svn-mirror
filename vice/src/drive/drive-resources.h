@@ -27,6 +27,9 @@
 #ifndef VICE_DRIVE_RESOURCES_H
 #define VICE_DRIVE_RESOURCES_H
 
+extern int drive_sound_emulation;
+extern int drive_sound_emulation_volume;
+
 int drive_resources_init(void);
 void drive_resources_shutdown(void);
 

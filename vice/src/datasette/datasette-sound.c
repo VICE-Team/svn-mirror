@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "sound.h"
+#include "datasette.h"
 #include "datasette-sound.h"
 #include "maincpu.h"
 
@@ -44,9 +45,6 @@ static char datasette_halfwaves;
 
 
 /* resources */
-static int datasette_sound_emulation = 0;
-static int datasette_sound_emulation_volume = 0;
-
 static void datasette_sound_flush_circular_buffer(void)
 {
     datasette_sound.chip_enabled = 0;

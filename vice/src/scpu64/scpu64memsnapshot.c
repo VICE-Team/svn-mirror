@@ -54,17 +54,6 @@
 #define SNAP_ROM_MAJOR 0
 #define SNAP_ROM_MINOR 0
 
-/* private stuff, but it's needed for the snapshot */
-static int mem_reg_soft_1mhz;
-static int mem_reg_sys_1mhz;
-static int mem_reg_hwenable;
-static int mem_reg_dosext;
-static int mem_reg_ramlink;
-static int mem_reg_optim;
-static int mem_reg_bootmap;
-static int mem_reg_simm;
-static int mem_pport;
-static unsigned int mem_simm_ram_mask;
 /* ------------------------ */
 
 static log_t c64_snapshot_log = LOG_ERR;

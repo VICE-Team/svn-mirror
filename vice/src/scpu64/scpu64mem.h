@@ -42,6 +42,18 @@
 extern uint8_t mem_sram[];
 extern uint8_t mem_trap_ram[];
 
+extern int mem_reg_soft_1mhz;          /* 1MHz software enabled */
+extern int mem_reg_sys_1mhz;           /* 1MHz system enabled */
+extern int mem_reg_hwenable;           /* hardware enabled */
+extern int mem_reg_dosext;             /* dos extension enable */
+extern int mem_reg_ramlink;            /* ramlink registers enable */
+extern int mem_reg_optim;              /* optimization mode */
+extern int mem_reg_bootmap;            /* boot map */
+extern int mem_reg_simm;               /* simm configuration */
+extern int mem_pport;                  /* processor "port" */
+
+extern unsigned int mem_simm_ram_mask;
+
 int c64_mem_init_resources(void);
 int c64_mem_init_cmdline_options(void);
 

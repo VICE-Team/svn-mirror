@@ -56,6 +56,7 @@
 
 /* Is drive sound emulation switched on?  */
 int drive_sound_emulation;
+
 /* volume of the drive sound */
 int drive_sound_emulation_volume;
 
