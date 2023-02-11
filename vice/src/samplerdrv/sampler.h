@@ -55,17 +55,17 @@ typedef struct sampler_device_s {
     void (*reset)(void);
 } sampler_device_t;
 
-extern void sampler_start(int channels, char *devname);
-extern void sampler_stop(void);
-extern uint8_t sampler_get_sample(int channel);
-extern void sampler_reset(void);
+void sampler_start(int channels, char *devname);
+void sampler_stop(void);
+uint8_t sampler_get_sample(int channel);
+void sampler_reset(void);
 
-extern void sampler_device_register(sampler_device_t *device, int id);
+void sampler_device_register(sampler_device_t *device, int id);
 
-extern int sampler_resources_init(void);
-extern void sampler_resources_shutdown(void);
-extern int sampler_cmdline_options_init(void);
+int sampler_resources_init(void);
+void sampler_resources_shutdown(void);
+int sampler_cmdline_options_init(void);
 
-extern sampler_device_t *sampler_get_devices(void);
+sampler_device_t *sampler_get_devices(void);
 
 #endif
