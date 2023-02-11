@@ -52,7 +52,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name, unsigned int al
 
 int autostart_disk(int unit, int drive, const char *file_name, const char *program_name,
                    unsigned int program_number, unsigned int runmode);
-int autostart_tape(const char *file_name, const char *program_name, 
+int autostart_tape(const char *file_name, const char *program_name,
                    unsigned int program_number, unsigned int runmode,
                    unsigned int tapeport);
 int autostart_prg(const char *file_name, unsigned int runmode);
