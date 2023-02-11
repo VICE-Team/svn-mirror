@@ -206,8 +206,6 @@ static void on_icon_press(GtkEntry             *self,
     char       *dirpart;    /* dirname */
     char       *filepart;   /* basename */
 
-    debug_gtk3("called");
-
     mediator = mediator_for_widget(GTK_WIDGET(self));
     state    = mediator_get_data(mediator);
     window   = ui_get_active_window();
@@ -220,8 +218,10 @@ static void on_icon_press(GtkEntry             *self,
                                          NULL);
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
     gtk_window_set_transient_for(GTK_WINDOW(dialog), window);
+
+    /* set user-defined file filter, if set */
     if (state->filter != NULL) {
-        /* set user-defined filter */
+        /* user-defined filter */
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), state->filter);
         /* add '*' */
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), state->all_files);
@@ -230,8 +230,6 @@ static void on_icon_press(GtkEntry             *self,
     respath  = mediator_get_resource_string(mediator);
     dirpart  = g_path_get_dirname(respath);
     filepart = g_path_get_basename(respath);
-
-    debug_gtk3("setting dialog pathname to %s", respath);
     gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), respath);
 
     /* set action-specific dialog properties */
