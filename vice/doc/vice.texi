@@ -1110,7 +1110,15 @@ compatible to the graphics keyboard:
 
 @subsection CBM2 Keyboard Map
 
-TODO
+This Layout is used for all CBM2 machines:
+
+@image{html/images/cbm2-layout-small}
+
+@subsubsection Positional (US)
+@image{html/images/vice-cbm2-positional-keymap-us-small}
+
+@subsubsection Positional (DE)
+@image{html/images/vice-cbm2-positional-keymap-de-small}
 
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
