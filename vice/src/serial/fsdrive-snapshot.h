@@ -29,7 +29,8 @@
 
 struct snapshot_s;
 
-extern void fsdrive_snapshot_prepare(void);
-extern int fsdrive_snapshot_write_module(struct snapshot_s *s);
-extern int fsdrive_snapshot_read_module(struct snapshot_s *s);
+void fsdrive_snapshot_prepare(void);
+int fsdrive_snapshot_write_module(struct snapshot_s *s);
+int fsdrive_snapshot_read_module(struct snapshot_s *s);
+
 #endif
