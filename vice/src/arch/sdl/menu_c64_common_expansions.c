@@ -249,7 +249,7 @@ static const ui_menu_entry_t ide64_menu_HD_1[] = {
     { "Sectors",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Sectors1_callback,
-      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
     SDL_MENU_LIST_END
 };
 
@@ -276,7 +276,7 @@ static const ui_menu_entry_t ide64_menu_HD_2[] = {
     { "Sectors",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Sectors2_callback,
-      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
     SDL_MENU_LIST_END
 };
 
@@ -303,7 +303,7 @@ static const ui_menu_entry_t ide64_menu_HD_3[] = {
     { "Sectors",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Sectors3_callback,
-      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
     SDL_MENU_LIST_END
 };
 
@@ -330,7 +330,7 @@ static const ui_menu_entry_t ide64_menu_HD_4[] = {
     { "Sectors",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Sectors4_callback,
-      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
     SDL_MENU_LIST_END
 };
 
