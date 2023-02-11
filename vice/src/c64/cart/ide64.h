@@ -59,6 +59,11 @@ int ide64_snapshot_write_module(struct snapshot_s *s);
 #define IDE64_VERSION_4_1 1
 #define IDE64_VERSION_4_2 2
 
+/* device numbers for IDE64 resources */
+#define IDE64_DEVICE_MIN    1
+#define IDE64_DEVICE_MAX    4
+#define IDE64_DEVICE_COUNT  (IDE64_DEVICE_MAX - IDE64_DEVICE_MIN + 1)
+
 /* limits for the geometry resources (inclusive) */
 #define IDE64_CYLINDERS_MIN     1
 #define IDE64_CYLINDERS_MAX 65535
