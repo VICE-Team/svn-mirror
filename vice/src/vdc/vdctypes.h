@@ -259,11 +259,11 @@ typedef struct vdc_s vdc_t;
 extern vdc_t vdc;
 
 /* Private function calls, used by the other VDC modules.  */
-extern int vdc_load_palette(const char *name);
-extern void vdc_fetch_matrix(int offs, int num);
-extern void vdc_update_memory_ptrs(unsigned int cycle);
-extern void vdc_update_video_mode(unsigned int cycle);
-extern void vdc_set_set_canvas_refresh(int enable);
-extern void vdc_calculate_xsync(void);
+int vdc_load_palette(const char *name);
+void vdc_fetch_matrix(int offs, int num);
+void vdc_update_memory_ptrs(unsigned int cycle);
+void vdc_update_video_mode(unsigned int cycle);
+void vdc_set_set_canvas_refresh(int enable);
+void vdc_calculate_xsync(void);
 
 #endif
