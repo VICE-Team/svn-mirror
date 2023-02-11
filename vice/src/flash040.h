@@ -79,26 +79,26 @@ typedef struct flash040_context_s {
 
 struct alarm_context_s;
 
-extern void flash040core_init(struct flash040_context_s *flash040_context,
-                              struct alarm_context_s *alarm_context,
-                              flash040_type_t type, uint8_t *data);
-extern void flash040core_shutdown(struct flash040_context_s *flash040_context);
-extern void flash040core_reset(struct flash040_context_s *flash040_context);
+void flash040core_init(struct flash040_context_s *flash040_context,
+                       struct alarm_context_s *alarm_context,
+                       flash040_type_t type, uint8_t *data);
+void flash040core_shutdown(struct flash040_context_s *flash040_context);
+void flash040core_reset(struct flash040_context_s *flash040_context);
 
-extern void flash040core_store(struct flash040_context_s *flash040_context,
-                               unsigned int addr, uint8_t data);
-extern uint8_t flash040core_read(struct flash040_context_s *flash040_context,
-                              unsigned int addr);
-extern uint8_t flash040core_peek(struct flash040_context_s *flash040_context,
-                              unsigned int addr);
+void flash040core_store(struct flash040_context_s *flash040_context,
+                        unsigned int addr, uint8_t data);
+uint8_t flash040core_read(struct flash040_context_s *flash040_context,
+                          unsigned int addr);
+uint8_t flash040core_peek(struct flash040_context_s *flash040_context,
+                          unsigned int addr);
 
 struct snapshot_s;
 
-extern int flash040core_snapshot_write_module(struct snapshot_s *s,
-                                              struct flash040_context_s *flash040_context,
-                                              const char *name);
-extern int flash040core_snapshot_read_module(struct snapshot_s *s,
-                                             struct flash040_context_s *flash040_context,
-                                             const char *name);
+int flash040core_snapshot_write_module(struct snapshot_s *s,
+                                       struct flash040_context_s *flash040_context,
+                                       const char *name);
+int flash040core_snapshot_read_module(struct snapshot_s *s,
+                                      struct flash040_context_s *flash040_context,
+                                      const char *name);
 
 #endif
