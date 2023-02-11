@@ -442,12 +442,12 @@ typedef struct vicii_s vicii_t;
 extern vicii_t vicii;
 
 /* Private function calls, used by the other VIC-II modules.  */
-extern void vicii_update_memory_ptrs(unsigned int cycle);
-extern void vicii_update_video_mode(unsigned int cycle);
-extern void vicii_raster_draw_alarm_handler(CLOCK offset, void *data);
-extern void vicii_handle_pending_alarms(CLOCK num_write_cycles);
-extern void vicii_delay_clk(void);
-extern void vicii_delay_oldclk(CLOCK num);
+void vicii_update_memory_ptrs(unsigned int cycle);
+void vicii_update_video_mode(unsigned int cycle);
+void vicii_raster_draw_alarm_handler(CLOCK offset, void *data);
+void vicii_handle_pending_alarms(CLOCK num_write_cycles);
+void vicii_delay_clk(void);
+void vicii_delay_oldclk(CLOCK num);
 
 /* Debugging options.  */
 
