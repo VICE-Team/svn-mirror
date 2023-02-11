@@ -44,22 +44,20 @@ typedef struct driver_select_s driver_select_t;
 #define DRIVER_FIRST_OPEN       0xFFFF
 #define DRIVER_LAST_CLOSE       0xFFFF
 
-extern void driver_select_init(void);
-extern int driver_select_init_resources(void);
-extern int driver_select_userport_init_resources(void);
-extern void driver_select_shutdown(void);
-extern int driver_select_init_cmdline_options(void);
-extern int driver_select_userport_init_cmdline_options(void);
+void driver_select_init(void);
+int driver_select_init_resources(void);
+int driver_select_userport_init_resources(void);
+void driver_select_shutdown(void);
+int driver_select_init_cmdline_options(void);
+int driver_select_userport_init_cmdline_options(void);
 
-extern void driver_select_register(driver_select_t *driver_select);
+void driver_select_register(driver_select_t *driver_select);
 
-extern int driver_select_open(unsigned int prnr, unsigned int secondary);
-extern void driver_select_close(unsigned int prnr, unsigned int secondary);
-extern int driver_select_putc(unsigned int prnr, unsigned int secondary,
-                              uint8_t b);
-extern int driver_select_getc(unsigned int prnr, unsigned int secondary,
-                              uint8_t *b);
-extern int driver_select_flush(unsigned int prnr, unsigned int secondary);
-extern int driver_select_formfeed(unsigned int prnr);
+int driver_select_open(unsigned int prnr, unsigned int secondary);
+void driver_select_close(unsigned int prnr, unsigned int secondary);
+int driver_select_putc(unsigned int prnr, unsigned int secondary, uint8_t b);
+int driver_select_getc(unsigned int prnr, unsigned int secondary, uint8_t *b);
+int driver_select_flush(unsigned int prnr, unsigned int secondary);
+int driver_select_formfeed(unsigned int prnr);
 
 #endif
