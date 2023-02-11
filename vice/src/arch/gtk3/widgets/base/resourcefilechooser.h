@@ -40,7 +40,8 @@ void       vice_gtk3_resource_filechooser_set_confirm(GtkWidget *widget,
                                                       gboolean   confirm_overwrite);
 void       vice_gtk3_resource_filechooser_set_directory(GtkWidget  *widget,
                                                         const char *directory);
-void       vice_gtk3_resource_filechooser_set_filter(GtkWidget          *widget,
-                                                     const char         *name,
-                                                     const char * const *patterns);
+void       vice_gtk3_resource_filechooser_set_filter(GtkWidget   *widget,
+                                                     const char  *name,
+                                                     const char **patterns,
+                                                     gboolean     show_patterns);
 #endif
