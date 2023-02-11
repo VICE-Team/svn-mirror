@@ -151,8 +151,6 @@ static uint8_t ram_peek(uint16_t addr)
 
 /* ------------------------------------------------------------------------- */
 
-extern int vic20_vflihack_userport;
-
 static uint8_t colorram_read(uint16_t addr)
 {
     if (vflimod_enabled) {
