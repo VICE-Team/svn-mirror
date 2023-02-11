@@ -113,53 +113,51 @@ struct sid_snapshot_state_s;
 
 
 
-extern void machine_sid2_enable(int val);
+void machine_sid2_enable(int val);
 
-extern uint8_t sid_read(uint16_t address);
-extern uint8_t sid2_read(uint16_t address);
-extern uint8_t sid3_read(uint16_t address);
-extern uint8_t sid4_read(uint16_t address);
-extern uint8_t sid5_read(uint16_t address);
-extern uint8_t sid6_read(uint16_t address);
-extern uint8_t sid7_read(uint16_t address);
-extern uint8_t sid8_read(uint16_t address);
+uint8_t sid_read(uint16_t address);
+uint8_t sid2_read(uint16_t address);
+uint8_t sid3_read(uint16_t address);
+uint8_t sid4_read(uint16_t address);
+uint8_t sid5_read(uint16_t address);
+uint8_t sid6_read(uint16_t address);
+uint8_t sid7_read(uint16_t address);
+uint8_t sid8_read(uint16_t address);
 
-extern uint8_t sid_peek(uint16_t address);
-extern uint8_t sid2_peek(uint16_t address);
-extern uint8_t sid3_peek(uint16_t address);
-extern uint8_t sid4_peek(uint16_t address);
-extern uint8_t sid5_peek(uint16_t address);
-extern uint8_t sid6_peek(uint16_t address);
-extern uint8_t sid7_peek(uint16_t address);
-extern uint8_t sid8_peek(uint16_t address);
+uint8_t sid_peek(uint16_t address);
+uint8_t sid2_peek(uint16_t address);
+uint8_t sid3_peek(uint16_t address);
+uint8_t sid4_peek(uint16_t address);
+uint8_t sid5_peek(uint16_t address);
+uint8_t sid6_peek(uint16_t address);
+uint8_t sid7_peek(uint16_t address);
+uint8_t sid8_peek(uint16_t address);
 
-extern void sid_store(uint16_t address, uint8_t byte);
-extern void sid2_store(uint16_t address, uint8_t byte);
-extern void sid3_store(uint16_t address, uint8_t byte);
-extern void sid4_store(uint16_t address, uint8_t byte);
-extern void sid5_store(uint16_t address, uint8_t byte);
-extern void sid6_store(uint16_t address, uint8_t byte);
-extern void sid7_store(uint16_t address, uint8_t byte);
-extern void sid8_store(uint16_t address, uint8_t byte);
+void sid_store(uint16_t address, uint8_t byte);
+void sid2_store(uint16_t address, uint8_t byte);
+void sid3_store(uint16_t address, uint8_t byte);
+void sid4_store(uint16_t address, uint8_t byte);
+void sid5_store(uint16_t address, uint8_t byte);
+void sid6_store(uint16_t address, uint8_t byte);
+void sid7_store(uint16_t address, uint8_t byte);
+void sid8_store(uint16_t address, uint8_t byte);
 
-extern int sid_dump(void);
-extern int sid2_dump(void);
-extern int sid3_dump(void);
-extern int sid4_dump(void);
-extern int sid5_dump(void);
-extern int sid6_dump(void);
-extern int sid7_dump(void);
-extern int sid8_dump(void);
+int sid_dump(void);
+int sid2_dump(void);
+int sid3_dump(void);
+int sid4_dump(void);
+int sid5_dump(void);
+int sid6_dump(void);
+int sid7_dump(void);
+int sid8_dump(void);
 
-extern void sid_reset(void);
+void sid_reset(void);
 
-extern void sid_set_machine_parameter(long clock_rate);
-extern uint8_t *sid_get_siddata(unsigned int channel);
-extern int sid_engine_set(int engine);
-extern void sid_state_read(unsigned int channel,
-                           struct sid_snapshot_state_s *sid_state);
-extern void sid_state_write(unsigned int channel,
-                            struct sid_snapshot_state_s *sid_state);
+void sid_set_machine_parameter(long clock_rate);
+uint8_t *sid_get_siddata(unsigned int channel);
+int sid_engine_set(int engine);
+void sid_state_read(unsigned int channel, struct sid_snapshot_state_s *sid_state);
+void sid_state_write(unsigned int channel, struct sid_snapshot_state_s *sid_state);
 
 struct sid_engine_s {
     struct sound_s *(*open)(uint8_t *sidstate);
@@ -184,24 +182,24 @@ struct sid_engine_model_s {
 };
 typedef struct sid_engine_model_s sid_engine_model_t;
 
-extern bool sid_sound_machine_set_engine_hooks(void);
-extern sound_t *sid_sound_machine_open(int chipno);
-extern int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor);
-extern int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-extern void sid_sound_machine_close(sound_t *psid);
-extern uint8_t sid_sound_machine_read(sound_t *psid, uint16_t addr);
-extern void sid_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
-extern void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
-extern char *sid_sound_machine_dump_state(sound_t *psid);
-extern int sid_sound_machine_cycle_based(void);
-extern int sid_sound_machine_channels(void);
-extern void sid_sound_machine_enable(int enable);
-extern sid_engine_model_t **sid_get_engine_model_list(void);
-extern int sid_set_engine_model(int engine, int model);
-extern void sid_sound_chip_init(void);
+bool sid_sound_machine_set_engine_hooks(void);
+sound_t *sid_sound_machine_open(int chipno);
+int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor);
+int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+void sid_sound_machine_close(sound_t *psid);
+uint8_t sid_sound_machine_read(sound_t *psid, uint16_t addr);
+void sid_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
+void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
+int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+char *sid_sound_machine_dump_state(sound_t *psid);
+int sid_sound_machine_cycle_based(void);
+int sid_sound_machine_channels(void);
+void sid_sound_machine_enable(int enable);
+sid_engine_model_t **sid_get_engine_model_list(void);
+int sid_set_engine_model(int engine, int model);
+void sid_sound_chip_init(void);
 
-extern void sid_set_enable(int value);
+void sid_set_enable(int value);
 
 int sid_engine_get_max_sids(int engine);
 int sid_machine_get_max_sids(void);
