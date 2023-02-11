@@ -106,7 +106,7 @@ GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent)
     GtkWidget *save_button;
     GtkWidget *flush_button;
 
-    grid = vice_gtk3_grid_new_spaced(8, 16);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     flash_label  = gtk_label_new("RR-Net Mk3 flash jumper");
     flash_jumper = vice_gtk3_resource_switch_new("RRNETMK3_flashjumper");
@@ -118,11 +118,13 @@ GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent)
     /* RRBiosWrite */
     bios_write = vice_gtk3_resource_check_button_new("RRNETMK3_bios_write",
             "Write back RR-Net Mk3 Flash ROM image automatically");
+    gtk_widget_set_margin_top(bios_write, 8);
 
     /* Save image as... */
     save_button = gtk_button_new_with_label("Save image as ...");
     gtk_widget_set_halign(save_button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(save_button, TRUE);
+    gtk_widget_set_margin_top(save_button, 8);
     g_signal_connect(save_button,
                      "clicked",
                      G_CALLBACK(on_save_clicked),
