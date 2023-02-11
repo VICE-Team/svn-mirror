@@ -44,24 +44,24 @@ struct snapshot_s;
 struct screenshot_s;
 struct canvas_refresh_s;
 
-extern int vdc_resources_init(void);
-extern int vdc_cmdline_options_init(void);
-extern struct raster_s *vdc_init(void);
-extern struct video_canvas_s *vdc_get_canvas(void);
+int vdc_resources_init(void);
+int vdc_cmdline_options_init(void);
+struct raster_s *vdc_init(void);
+struct video_canvas_s *vdc_get_canvas(void);
 
-extern void vdc_reset(void);
-extern void vdc_trigger_light_pen(CLOCK mclk);
-extern CLOCK vdc_lightpen_timing(int x, int y);
-extern void vdc_prepare_for_snapshot(void);
-extern void vdc_powerup(void);
-extern void vdc_resize(void);
-extern void vdc_screenshot(struct screenshot_s *screenshot);
-extern void vdc_async_refresh(struct canvas_refresh_s *r);
+void vdc_reset(void);
+void vdc_trigger_light_pen(CLOCK mclk);
+CLOCK vdc_lightpen_timing(int x, int y);
+void vdc_prepare_for_snapshot(void);
+void vdc_powerup(void);
+void vdc_resize(void);
+void vdc_screenshot(struct screenshot_s *screenshot);
+void vdc_async_refresh(struct canvas_refresh_s *r);
 
-extern int vdc_write_snapshot_module(struct snapshot_s *s);
-extern int vdc_read_snapshot_module(struct snapshot_s *s);
+int vdc_write_snapshot_module(struct snapshot_s *s);
+int vdc_read_snapshot_module(struct snapshot_s *s);
 
-extern void vdc_set_canvas_refresh(int enable);
-extern void vdc_shutdown(void);
+void vdc_set_canvas_refresh(int enable);
+void vdc_shutdown(void);
 
 #endif
