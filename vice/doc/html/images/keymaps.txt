@@ -124,3 +124,19 @@ http://www.keyboard-layout-editor.com/#/gists/ec37b6fc4cbda159fba1e80573023878
 PET positional (DE):
 
 http://www.keyboard-layout-editor.com/#/gists/0ef82f590c48dacfde441ffae18b0976
+
+
+CBM2:
+-----
+
+CBM2 layout:
+
+http://www.keyboard-layout-editor.com/#/gists/792e442a5c236bf9338b0aa3e36fd34d
+
+CBM2 positional (US):
+
+http://www.keyboard-layout-editor.com/#/gists/97c8478526b116a3f3ba0f86686091b0
+
+CBM2 positional (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/0bb82191926577c24e1a8e6e99c02032
