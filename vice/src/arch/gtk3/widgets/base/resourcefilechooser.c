@@ -34,8 +34,10 @@
 #include <stdarg.h>
 
 #include "debug_gtk3.h"
+#include "lib.h"
 #include "resourcewidgetmediator.h"
 #include "ui.h"
+#include "util.h"
 
 #include "resourcefilechooser.h"
 
@@ -237,6 +239,8 @@ static void on_icon_press(GtkEntry             *self,
         case GTK_FILE_CHOOSER_ACTION_SAVE:
             gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
                                                            state->confirm);
+            gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog),
+                                              filepart);
             /* fall through */
         case GTK_FILE_CHOOSER_ACTION_OPEN:
             if ((g_strcmp0(dirpart, ".") == 0) && (state->directory != NULL)) {
@@ -246,8 +250,6 @@ static void on_icon_press(GtkEntry             *self,
                 gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
                                                     dirpart);
             }
-            gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog),
-                                              filepart);
             break;
         case GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER: /* fall through */
         case GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER:
@@ -461,14 +463,18 @@ void vice_gtk3_resource_filechooser_set_confirm(GtkWidget *widget,
 /** \brief  Add file filter for the file chooser dialog
  *
  * Add glob-style patterns to filter displayed files in the dialog.
+ * If \a show_patterns is true, the \a name will be combined with the patterns
+ * into "name (pattern1,pattern2,patter3)".
  *
- * \param[in]   widget      resource file chooser
- * \param[in]   name        name of filter
- * \param[in]   patterns    shell glob-style patterns, terminated with `NULL`
+ * \param[in]   widget          resource file chooser
+ * \param[in]   name            name of filter
+ * \param[in]   patterns        shell glob-style patterns, terminated with `NULL`
+ * \param[in]   show_patterns   display list of patterns after the \a name
  */
-void vice_gtk3_resource_filechooser_set_filter(GtkWidget          *widget,
-                                               const char         *name,
-                                               const char * const *patterns)
+void vice_gtk3_resource_filechooser_set_filter(GtkWidget   *widget,
+                                               const char  *name,
+                                               const char **patterns,
+                                               gboolean     show_patterns)
 {
     GtkFileFilter *filter;
     mediator_t    *mediator;
@@ -478,9 +484,22 @@ void vice_gtk3_resource_filechooser_set_filter(GtkWidget          *widget,
     mediator = mediator_for_widget(widget);
     state    = mediator_get_data(mediator);
     filter   = gtk_file_filter_new();
-    gtk_file_filter_set_name(filter, name);
+
     for (index = 0; patterns[index] != NULL; index++) {
         gtk_file_filter_add_pattern(filter, patterns[index]);
+    }
+
+    if (show_patterns) {
+        char  buffer[256];
+        char *joined;
+
+        /* can't use g_strjoinv() here since the list is a `gchar**` (no const) */
+        joined = util_strjoin(patterns, ",");
+        g_snprintf(buffer, sizeof buffer, "%s (%s)", name, joined);
+        lib_free(joined);
+        gtk_file_filter_set_name(filter, buffer);
+    } else {
+        gtk_file_filter_set_name(filter, name);
     }
 
     /* Sink reference, we'll be using this object every time we create a
