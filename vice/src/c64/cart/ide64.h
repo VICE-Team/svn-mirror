@@ -55,8 +55,16 @@ int ide64_snapshot_read_module(struct snapshot_s *s);
 int ide64_snapshot_write_module(struct snapshot_s *s);
 
 /* values to be used with IDE64Version resource */
-#define IDE64_VERSION_3 0
+#define IDE64_VERSION_3   0
 #define IDE64_VERSION_4_1 1
 #define IDE64_VERSION_4_2 2
+
+/* limits for the geometry resources (inclusive) */
+#define IDE64_CYLINDERS_MIN     1
+#define IDE64_CYLINDERS_MAX 65535
+#define IDE64_HEADS_MIN         1
+#define IDE64_HEADS_MAX        16
+#define IDE64_SECTORS_MIN       1
+#define IDE64_SECTORS_MAX      63
 
 #endif
