@@ -110,26 +110,26 @@ typedef struct tapeport_device_s {
     int (*read_snapshot)(int port, struct snapshot_s *s);
 } tapeport_device_t;
 
-extern int tapeport_device_register(int id, tapeport_device_t *device);
+int tapeport_device_register(int id, tapeport_device_t *device);
 
-extern void tapeport_set_motor(int port, int flag);
-extern void tapeport_toggle_write_bit(int port, int write_bit);
-extern void tapeport_set_sense_out(int port, int sense);
+void tapeport_set_motor(int port, int flag);
+void tapeport_toggle_write_bit(int port, int write_bit);
+void tapeport_set_sense_out(int port, int sense);
 
-extern void tapeport_powerup(void);
+void tapeport_powerup(void);
 
-extern int tapeport_valid_port(int port);
+int tapeport_valid_port(int port);
 
-extern void tapeport_trigger_flux_change(unsigned int on, int port);
-extern void tapeport_set_tape_sense(int sense, int port);
-extern void tapeport_set_write_in(int val, int port);
-extern void tapeport_set_motor_in(int val, int port);
+void tapeport_trigger_flux_change(unsigned int on, int port);
+void tapeport_set_tape_sense(int sense, int port);
+void tapeport_set_write_in(int val, int port);
+void tapeport_set_motor_in(int val, int port);
 
-extern int tapeport_resources_init(int amount);
-extern void tapeport_resources_shutdown(void);
-extern int tapeport_cmdline_options_init(void);
+int tapeport_resources_init(int amount);
+void tapeport_resources_shutdown(void);
+int tapeport_cmdline_options_init(void);
 
-extern void tapeport_enable(int val);
+void tapeport_enable(int val);
 
 typedef struct tapeport_desc_s {
     char *name;
@@ -137,10 +137,10 @@ typedef struct tapeport_desc_s {
     int device_type;
 } tapeport_desc_t;
 
-extern tapeport_desc_t *tapeport_get_valid_devices(int port, int sort);
-extern const char *tapeport_get_device_type_desc(int type);
+tapeport_desc_t *tapeport_get_valid_devices(int port, int sort);
+const char *tapeport_get_device_type_desc(int type);
 
-extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
-extern int tapeport_snapshot_read_module(struct snapshot_s *s);
+int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
+int tapeport_snapshot_read_module(struct snapshot_s *s);
 
 #endif

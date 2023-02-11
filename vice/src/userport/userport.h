@@ -155,35 +155,35 @@ typedef struct userport_desc_s {
     int device_type;
 } userport_desc_t;
 
-extern void userport_port_register(userport_port_props_t *props);
-extern int userport_device_register(int id, userport_device_t *device);
+void userport_port_register(userport_port_props_t *props);
+int userport_device_register(int id, userport_device_t *device);
 
-extern uint8_t read_userport_pbx(uint8_t orig);
-extern void store_userport_pbx(uint8_t val, int pulse);
-extern uint8_t read_userport_pa2(uint8_t orig);
-extern void store_userport_pa2(uint8_t val);
-extern uint8_t read_userport_pa3(uint8_t orig);
-extern void store_userport_pa3(uint8_t val);
-extern uint8_t read_userport_pc(uint8_t orig);
-extern uint8_t read_userport_sp1(uint8_t orig);
-extern void store_userport_sp1(uint8_t val);
-extern uint8_t read_userport_sp2(uint8_t orig);
-extern void store_userport_sp2(uint8_t val);
-extern void userport_reset(void);
-extern void userport_powerup(void);
+uint8_t read_userport_pbx(uint8_t orig);
+void store_userport_pbx(uint8_t val, int pulse);
+uint8_t read_userport_pa2(uint8_t orig);
+void store_userport_pa2(uint8_t val);
+uint8_t read_userport_pa3(uint8_t orig);
+void store_userport_pa3(uint8_t val);
+uint8_t read_userport_pc(uint8_t orig);
+uint8_t read_userport_sp1(uint8_t orig);
+void store_userport_sp1(uint8_t val);
+uint8_t read_userport_sp2(uint8_t orig);
+void store_userport_sp2(uint8_t val);
+void userport_reset(void);
+void userport_powerup(void);
 
 /* use this function from userport device code to set the userport flag */
-extern void set_userport_flag(uint8_t val);
+void set_userport_flag(uint8_t val);
 
-extern int userport_resources_init(void);
-extern int userport_cmdline_options_init(void);
+int userport_resources_init(void);
+int userport_cmdline_options_init(void);
 
-extern userport_desc_t *userport_get_valid_devices(int sort);
-extern const char *userport_get_device_type_desc(int type);
+userport_desc_t *userport_get_valid_devices(int sort);
+const char *userport_get_device_type_desc(int type);
 
-extern void userport_enable(int val);
+void userport_enable(int val);
 
-extern int userport_snapshot_write_module(snapshot_t *s);
-extern int userport_snapshot_read_module(snapshot_t *s);
+int userport_snapshot_write_module(snapshot_t *s);
+int userport_snapshot_read_module(snapshot_t *s);
 
 #endif

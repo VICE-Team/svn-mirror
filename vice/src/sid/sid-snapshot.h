@@ -128,7 +128,7 @@ typedef struct sid_ssi2001_snapshot_state_s {
     uint8_t regs[32];
 } sid_ssi2001_snapshot_state_t;
 
-extern int sid_snapshot_write_module(struct snapshot_s *s);
-extern int sid_snapshot_read_module(struct snapshot_s *s);
+int sid_snapshot_write_module(struct snapshot_s *s);
+int sid_snapshot_read_module(struct snapshot_s *s);
 
 #endif
