@@ -36,95 +36,100 @@
 */
 
 /* init the cartridge system */
-extern void cartridge_init(void);
-extern int cartridge_resources_init(void);
-extern int cartridge_cmdline_options_init(void);
+void cartridge_init(void);
+int cartridge_resources_init(void);
+int cartridge_cmdline_options_init(void);
+
 /* shutdown the cartridge system */
-extern void cartridge_shutdown(void);
-extern void cartridge_resources_shutdown(void);
+void cartridge_shutdown(void);
+void cartridge_resources_shutdown(void);
 
 /* init the cartridge config so the cartridge can start (or whatever) */
-extern void cartridge_init_config(void);
+void cartridge_init_config(void);
 
 /* detect cartridge type (takes crt and bin files) */
-extern int cartridge_detect(const char *filename);
+int cartridge_detect(const char *filename);
+
 /* attach (and enable) a cartridge by type and filename (takes crt and bin files) */
-extern int cartridge_attach_image(int type, const char *filename);
+int cartridge_attach_image(int type, const char *filename);
+
 /* enable cartridge by type. loads default image if any.
    should be used by the UI instead of using the resources directly */
-extern int cartridge_enable(int type);
+int cartridge_enable(int type);
 
 /* disable cartridge by type */
-extern int cartridge_disable(int type);
+int cartridge_disable(int type);
 
 /* detaches/disables the cartridge with the associated id. pass -1 to detach all */
-extern void cartridge_detach_image(int type);
+void cartridge_detach_image(int type);
 
 /* FIXME: slot arg is ignored right now.
    this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
 */
-extern int cartridge_get_id(int slot);
+int cartridge_get_id(int slot);
 
 /* FIXME: slot arg is ignored right now.
    this should return a pointer to a filename, or NULL
 */
-extern char *cartridge_get_filename(int slot);
+char *cartridge_get_filename(int slot);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* set current "Main Slot" cart as default */
-extern void cartridge_set_default(void);
+void cartridge_set_default(void);
 
 void cartridge_unset_default(void);
 
 /* reset button pressed in UI */
-extern void cartridge_reset(void);
+void cartridge_reset(void);
+
 /* powerup / hardreset */
-extern void cartridge_powerup(void);
+void cartridge_powerup(void);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* freeze button pressed in UI */
-extern void cartridge_trigger_freeze(void);
+void cartridge_trigger_freeze(void);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* trigger a freeze, but don't trigger the cartridge logic (which might release it). used by monitor */
-extern void cartridge_trigger_freeze_nmi_only(void);
+void cartridge_trigger_freeze_nmi_only(void);
 
 /* FIXME: this should also be made a generic function that takes the type */
-extern void cartridge_release_freeze(void);
+void cartridge_release_freeze(void);
 
-extern const char *cartridge_get_file_name(int type);
-extern int cartridge_type_enabled(int type);
+const char *cartridge_get_file_name(int type);
+int cartridge_type_enabled(int type);
 
 /* save the (rom/ram)image of the give cart type to a file */
-extern int cartridge_save_image(int type, const char *filename);
-extern int cartridge_bin_save(int type, const char *filename);
-extern int cartridge_crt_save(int type, const char *filename);
-extern int cartridge_flush_image(int type);
+int cartridge_save_image(int type, const char *filename);
+int cartridge_bin_save(int type, const char *filename);
+int cartridge_crt_save(int type, const char *filename);
+int cartridge_flush_image(int type);
 
 /* returns 1 when cartridge (ROM) image can be flushed */
-extern int cartridge_can_flush_image(int crtid);
+int cartridge_can_flush_image(int crtid);
+
 /* returns 1 when cartridge (ROM) image can be saved */
-extern int cartridge_can_save_image(int crtid);
+int cartridge_can_save_image(int crtid);
 
 /* load/write snapshot modules for attached cartridges */
 struct snapshot_s;
-extern int cartridge_snapshot_read_modules(struct snapshot_s *s);
-extern int cartridge_snapshot_write_modules(struct snapshot_s *s);
+int cartridge_snapshot_read_modules(struct snapshot_s *s);
+int cartridge_snapshot_write_modules(struct snapshot_s *s);
 
 /* setup context */
 struct machine_context_s;
-extern void cartridge_setup_context(struct machine_context_s *machine_context);
+void cartridge_setup_context(struct machine_context_s *machine_context);
 
 /* generic cartridge memory peek for the monitor */
-extern uint8_t cartridge_peek_mem(uint16_t addr);
+uint8_t cartridge_peek_mem(uint16_t addr);
 
 /* mmu translation */
-extern void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 
 /* Initialize RAM for power-up.  */
-extern void cartridge_ram_init(void);
+void cartridge_ram_init(void);
 
-extern void cartridge_sound_chip_init(void);
+void cartridge_sound_chip_init(void);
 
 /* Carts that don't have a rom image */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */
@@ -600,6 +605,6 @@ typedef struct {
 #define CARTRIDGE_GROUP_GAME            0x0008
 #define CARTRIDGE_GROUP_UTIL            0x0010
 
-extern cartridge_info_t *cartridge_get_info_list(void);
+cartridge_info_t *cartridge_get_info_list(void);
 
 #endif

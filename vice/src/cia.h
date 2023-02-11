@@ -187,31 +187,29 @@ typedef struct cia_context_s {
     void (*pre_peek)(void);
 } cia_context_t;
 
-extern void ciacore_setup_context(struct cia_context_s *cia_context);
-extern void ciacore_init(struct cia_context_s *cia_context,
-                         struct alarm_context_s *alarm_context,
-                         struct interrupt_cpu_status_s *int_status);
-extern void ciacore_shutdown(cia_context_t *cia_context);
-extern void ciacore_reset(struct cia_context_s *cia_context);
-extern void ciacore_disable(struct cia_context_s *cia_context);
-extern void ciacore_store(struct cia_context_s *cia_context, uint16_t addr, uint8_t data);
-extern uint8_t ciacore_read(struct cia_context_s *cia_context, uint16_t addr);
-extern uint8_t ciacore_peek(struct cia_context_s *cia_context, uint16_t addr);
+void ciacore_setup_context(struct cia_context_s *cia_context);
+void ciacore_init(struct cia_context_s *cia_context,
+                  struct alarm_context_s *alarm_context,
+                  struct interrupt_cpu_status_s *int_status);
+void ciacore_shutdown(cia_context_t *cia_context);
+void ciacore_reset(struct cia_context_s *cia_context);
+void ciacore_disable(struct cia_context_s *cia_context);
+void ciacore_store(struct cia_context_s *cia_context, uint16_t addr, uint8_t data);
+uint8_t ciacore_read(struct cia_context_s *cia_context, uint16_t addr);
+uint8_t ciacore_peek(struct cia_context_s *cia_context, uint16_t addr);
 
 /*
  * The next several functions can be called from outside the CIA
  * to set the FLAG, CNT or SP input lines, or the whole SDR at once
  * (which is cheating).
  */
-extern void ciacore_set_flag(struct cia_context_s *cia_context);
-extern void ciacore_set_sdr(struct cia_context_s *cia_context, uint8_t data);
-extern void ciacore_set_cnt(struct cia_context_s *cia_context, bool data);
-extern void ciacore_set_sp(struct cia_context_s *cia_context, bool data);
+void ciacore_set_flag(struct cia_context_s *cia_context);
+void ciacore_set_sdr(struct cia_context_s *cia_context, uint8_t data);
+void ciacore_set_cnt(struct cia_context_s *cia_context, bool data);
+void ciacore_set_sp(struct cia_context_s *cia_context, bool data);
 
-extern int ciacore_snapshot_write_module(struct cia_context_s *cia_context,
-                                         struct snapshot_s *s);
-extern int ciacore_snapshot_read_module(struct cia_context_s *cia_context,
-                                        struct snapshot_s *s);
-extern int ciacore_dump(cia_context_t *cia_context);
+int ciacore_snapshot_write_module(struct cia_context_s *cia_context, struct snapshot_s *s);
+int ciacore_snapshot_read_module(struct cia_context_s *cia_context, struct snapshot_s *s);
+int ciacore_dump(cia_context_t *cia_context);
 
 #endif
