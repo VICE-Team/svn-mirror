@@ -815,10 +815,10 @@ void ui_mouse_grab_pointer(void)
      * Windows uses SetCursorPos, which needs screen co-ordinates
      * Use native window API to get these, as it deals with multi-monitor
      * negative co-ordinates which are possible with some screen layouts.
-     * 
+     *
      * If you change this code, make sure you test with more than one monitor,
      * and test all layouts where the second monitor is left/above/below/right.
-     * 
+     *
      * If the code is wrong, you'll see the mouse pointer 'warp' to weird
      * screen locations instead of to the middle of the emu window.
      */
@@ -828,7 +828,7 @@ void ui_mouse_grab_pointer(void)
     RECT rect;
 
     GetWindowRect(hWnd, &rect);
-    
+
     warp_x += rect.left;
     warp_y += rect.top;
 
