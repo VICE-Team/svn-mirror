@@ -58,6 +58,7 @@
 #include <limits.h>
 
 #include "archdep.h"
+#include "cartridge.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -355,7 +356,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "IDE64",
       "ide64",
       settings_ide64_widget_create, NULL },
-    { "IEEE-448 Interface",
+    { /*"IEEE-488 Interface",*/ CARTRIDGE_NAME_IEEE488,
       "ieee-488",
       settings_ieee488_widget_create, NULL },
     { "IEEE Flash! 64 Interface",
