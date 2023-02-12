@@ -795,11 +795,11 @@ UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
 UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 
 static const ui_menu_entry_t retroreplay_revision_menu[] = {
-    { "Retro Replay",
+    { CARTRIDGE_NAME_RETRO_REPLAY,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RRRevision_callback,
       (ui_callback_data_t)RR_REV_RETRO_REPLAY },
-    { "Nordic Replay",
+    { CARTRIDGE_NAME_NORDIC_REPLAY,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RRRevision_callback,
       (ui_callback_data_t)RR_REV_NORDIC_REPLAY },
@@ -1034,7 +1034,7 @@ static ui_menu_entry_t ltk_cart_menu[] = {
     { "11",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_LTKport_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)11 },
     { "12",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_LTKport_callback,
@@ -1399,7 +1399,7 @@ ui_menu_entry_t c64cart_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",
+    { CARTRIDGE_NAME_ETHERNETCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernetcart_menu },
@@ -1484,7 +1484,7 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SFXSoundSampler_callback,
       NULL },
-    { "CP/M Cartridge",
+    { CARTRIDGE_NAME_CPM,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CPMCart_callback,
       NULL },
@@ -1533,7 +1533,7 @@ ui_menu_entry_t c128cart_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",
+    { CARTRIDGE_NAME_ETHERNETCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernetcart_menu },
@@ -1647,7 +1647,7 @@ ui_menu_entry_t scpu64cart_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",
+    { CARTRIDGE_NAME_ETHERNETCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernetcart_menu },

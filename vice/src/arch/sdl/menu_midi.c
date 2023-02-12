@@ -36,6 +36,7 @@
 #include "menu_midi.h"
 #include "uimenu.h"
 
+#include "cartridge.h"
 #include "mididrv.h"
 #include "c64-midi.h"
 
@@ -297,23 +298,23 @@ UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
 
 static const ui_menu_entry_t midi_type_menu[] = {
-    { "Sequential",
+    { CARTRIDGE_NAME_MIDI_SEQUENTIAL,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)MIDI_MODE_SEQUENTIAL },
-    { "Passport",
+    { CARTRIDGE_NAME_MIDI_PASSPORT,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)MIDI_MODE_PASSPORT },
-    { "DATEL",
+    { CARTRIDGE_NAME_MIDI_DATEL,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)MIDI_MODE_DATEL },
-    { "Namesoft",
+    { CARTRIDGE_NAME_MIDI_NAMESOFT,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)MIDI_MODE_NAMESOFT },
-    { "Maplin",
+    { CARTRIDGE_NAME_MIDI_MAPLIN,
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)MIDI_MODE_MAPLIN },

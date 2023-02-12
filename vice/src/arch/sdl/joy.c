@@ -79,9 +79,6 @@ typedef enum {
     NUM_INPUT_TYPES
 } sdljoystick_input_t;
 
-
-
-
 #ifndef USE_SDLUI2
 typedef int SDL_JoystickID;
 #endif

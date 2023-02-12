@@ -49,11 +49,11 @@ UI_MENU_DEFINE_RADIO(ETHERNETCARTMode)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTBase)
 
 static const ui_menu_entry_t ethernetcart_mode_menu[] = {
-    { "RR-Net compatible",
+    { CARTRIDGE_NAME_RRNET " compatible",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ETHERNETCARTMode_callback,
       (ui_callback_data_t)ETHERNETCART_MODE_RRNET },
-    { "TFE compatible",
+    { CARTRIDGE_NAME_TFE " compatible",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ETHERNETCARTMode_callback,
       (ui_callback_data_t)ETHERNETCART_MODE_TFE },
@@ -341,15 +341,15 @@ const ui_menu_entry_t ethernetcart_menu[] = {
 };
 
 const ui_menu_entry_t ethernetcart20_menu[] = {
-    { "Ethernet Cart emulation",
+    { CARTRIDGE_NAME_ETHERNETCART " emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_ETHERNETCART_ACTIVE_callback,
       NULL },
-    { "Ethernet Cart mode",
+    { CARTRIDGE_NAME_ETHERNETCART " mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)ethernetcart_mode_menu },
-    { "Ethernet Cart base address",
+    { CARTRIDGE_NAME_ETHERNETCART " base address",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)ethernetcart_base20_menu },
