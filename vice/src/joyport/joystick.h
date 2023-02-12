@@ -197,13 +197,19 @@ const char *joystick_ui_get_next_device_name(int *id);
 int joy_arch_mapping_dump(const char *filename);
 int joy_arch_mapping_load(const char *filename);
 joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
-char *get_joy_pin_mapping_string(int pin);
+char *get_joy_pin_mapping_string(int joystick_device, int pin);
+char *get_joy_extra_mapping_string(int joystick_device, int which);
 joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
 joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
 joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
 joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
 joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
 joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
+void joy_delete_pin_mapping(int joystick_device, int pin);
+void joy_delete_pot_mapping(int joystick_device, int pot);
+#if (defined USE_SDLUI ||defined USE_SDL2UI)
+void joy_delete_extra_mapping(int joystick_device, int type);
+#endif
 
 #define JOYSTICK_DIRECTION_UP    1
 #define JOYSTICK_DIRECTION_DOWN  2
