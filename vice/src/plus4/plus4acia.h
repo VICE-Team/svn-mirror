@@ -33,7 +33,7 @@
 
 struct snapshot_s;
 
-extern void acia_init(void);
+void acia_init(void);
 uint8_t acia_read(uint16_t a);
 uint8_t acia_peek(uint16_t a);
 void acia_store(uint16_t a, uint8_t b);

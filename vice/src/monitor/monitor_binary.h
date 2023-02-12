@@ -34,7 +34,7 @@
 #include "mon_breakpoint.h"
 #include "vicesocket.h"
 
-extern int monitor_binary_resources_init(void);
+int monitor_binary_resources_init(void);
 void monitor_binary_resources_shutdown(void);
 int monitor_binary_cmdline_options_init(void);
 
