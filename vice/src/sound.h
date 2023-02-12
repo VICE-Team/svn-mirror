@@ -205,70 +205,68 @@ static inline int16_t sound_audio_mix(int ch1, int ch2)
     return (int16_t)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
 
-extern sound_desc_t *sound_get_valid_devices(int type, int sort);
+sound_desc_t *sound_get_valid_devices(int type, int sort);
 
 /* external functions for vice */
-extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
-extern void sound_reset(void);
-extern bool sound_flush(void);
-extern void sound_suspend(void);
-extern void sound_resume(void);
-extern int sound_open(void);
-extern void sound_close(void);
-extern void sound_set_relative_speed(int value);
-extern void sound_set_warp_mode(int value);
-extern void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
-extern void sound_snapshot_prepare(void);
-extern void sound_snapshot_finish(void);
+void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
+void sound_reset(void);
+bool sound_flush(void);
+void sound_suspend(void);
+void sound_resume(void);
+int sound_open(void);
+void sound_close(void);
+void sound_set_relative_speed(int value);
+void sound_set_warp_mode(int value);
+void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
+void sound_snapshot_prepare(void);
+void sound_snapshot_finish(void);
 
-extern int sound_resources_init(void);
-extern void sound_resources_shutdown(void);
-extern int sound_cmdline_options_init(void);
+int sound_resources_init(void);
+void sound_resources_shutdown(void);
+int sound_cmdline_options_init(void);
 
 
 /* device initialization prototypes */
-extern int sound_init_alsa_device(void);
-extern int sound_init_dummy_device(void);
-extern int sound_init_dump_device(void);
-extern int sound_init_fs_device(void);
-extern int sound_init_wav_device(void);
-extern int sound_init_sdl_device(void);
-extern int sound_init_sun_device(void);
-extern int sound_init_uss_device(void);
-extern int sound_init_dx_device(void);
-extern int sound_init_dart_device(void);
-extern int sound_init_beos_device(void);
-extern int sound_init_bsp_device(void);
-extern int sound_init_arts_device(void);
-extern int sound_init_wmm_device(void);
-extern int sound_init_movie_device(void);
-extern int sound_init_coreaudio_device(void);
-extern int sound_init_voc_device(void);
-extern int sound_init_iff_device(void);
-extern int sound_init_aiff_device(void);
-extern int sound_init_mp3_device(void);
-extern int sound_init_flac_device(void);
-extern int sound_init_vorbis_device(void);
-extern int sound_init_pulse_device(void);
+int sound_init_alsa_device(void);
+int sound_init_dummy_device(void);
+int sound_init_dump_device(void);
+int sound_init_fs_device(void);
+int sound_init_wav_device(void);
+int sound_init_sdl_device(void);
+int sound_init_sun_device(void);
+int sound_init_dx_device(void);
+int sound_init_beos_device(void);
+int sound_init_bsp_device(void);
+int sound_init_wmm_device(void);
+int sound_init_movie_device(void);
+int sound_init_coreaudio_device(void);
+int sound_init_voc_device(void);
+int sound_init_iff_device(void);
+int sound_init_aiff_device(void);
+int sound_init_mp3_device(void);
+int sound_init_flac_device(void);
+int sound_init_vorbis_device(void);
+int sound_init_pulse_device(void);
 
 /* internal function for sound device registration */
-extern int sound_register_device(const sound_device_t *pdevice);
+int sound_register_device(const sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
-extern int sound_read(uint16_t addr, int chipno);
-extern void sound_store(uint16_t addr, uint8_t val, int chipno);
-extern long sound_sample_position(void);
-extern int sound_dump(int chipno);
+int sound_read(uint16_t addr, int chipno);
+void sound_store(uint16_t addr, uint8_t val, int chipno);
+long sound_sample_position(void);
+int sound_dump(int chipno);
 
 /* functions and structs implemented by each machine */
 typedef struct sound_s sound_t;
-extern char *sound_machine_dump_state(sound_t *psid);
-extern void sound_machine_enable(int enable);
 
-extern unsigned int sound_device_num(void);
-extern const char *sound_device_name(unsigned int num);
+char *sound_machine_dump_state(sound_t *psid);
+void sound_machine_enable(int enable);
 
-extern sound_t *sound_get_psid(unsigned int channel);
+unsigned int sound_device_num(void);
+const char *sound_device_name(unsigned int num);
+
+sound_t *sound_get_psid(unsigned int channel);
 
 /* This structure is used by sound producing chips/devices */
 typedef struct sound_chip_s {
@@ -304,7 +302,7 @@ typedef struct sound_chip_s {
 
 } sound_chip_t;
 
-extern uint16_t sound_chip_register(sound_chip_t *chip);
+uint16_t sound_chip_register(sound_chip_t *chip);
 
 typedef struct sound_dac_s {
     float output;
@@ -312,11 +310,11 @@ typedef struct sound_dac_s {
     int value;
 } sound_dac_t;
 
-extern void sound_dac_init(sound_dac_t *dac, int speed);
-extern int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs);
+void sound_dac_init(sound_dac_t *dac, int speed);
+int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs);
 
 /* recording related functions, equivalent to screenshot_... */
-extern void sound_stop_recording(void);
-extern int sound_is_recording(void);
+void sound_stop_recording(void);
+int sound_is_recording(void);
 
 #endif

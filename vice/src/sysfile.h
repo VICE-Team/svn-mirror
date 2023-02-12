@@ -31,13 +31,13 @@
 
 #include "types.h"
 
-extern int sysfile_init(const char *emu_id);
-extern void sysfile_shutdown(void);
-extern int sysfile_resources_init(void);
-extern void sysfile_resources_shutdown(void);
-extern int sysfile_cmdline_options_init(void);
-extern FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_return, const char *open_mode);
-extern int sysfile_locate(const char *name, const char *subpath, char **complete_path_return);
-extern int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsize, int maxsize);
+int sysfile_init(const char *emu_id);
+void sysfile_shutdown(void);
+int sysfile_resources_init(void);
+void sysfile_resources_shutdown(void);
+int sysfile_cmdline_options_init(void);
+FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_return, const char *open_mode);
+int sysfile_locate(const char *name, const char *subpath, char **complete_path_return);
+int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsize, int maxsize);
 
 #endif

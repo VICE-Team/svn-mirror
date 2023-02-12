@@ -31,21 +31,21 @@
 
 #include "sid-snapshot.h"
 
-extern int ssi2001_open(void);
-extern int ssi2001_close(void);
-extern int ssi2001_read(uint16_t addr, int chipno);
-extern void ssi2001_store(uint16_t addr, uint8_t val, int chipno);
-extern void ssi2001_set_machine_parameter(long cycles_per_sec);
+int ssi2001_open(void);
+int ssi2001_close(void);
+int ssi2001_read(uint16_t addr, int chipno);
+void ssi2001_store(uint16_t addr, uint8_t val, int chipno);
+void ssi2001_set_machine_parameter(long cycles_per_sec);
 
-extern int ssi2001_available(void);
+int ssi2001_available(void);
 
-extern int ssi2001_drv_open(void);
-extern int ssi2001_drv_close(void);
-extern int ssi2001_drv_read(uint16_t addr, int chipno);
-extern void ssi2001_drv_store(uint16_t addr, uint8_t val, int chipno);
-extern int ssi2001_drv_available(void);
+int ssi2001_drv_open(void);
+int ssi2001_drv_close(void);
+int ssi2001_drv_read(uint16_t addr, int chipno);
+void ssi2001_drv_store(uint16_t addr, uint8_t val, int chipno);
+int ssi2001_drv_available(void);
 
-extern void ssi2001_state_read(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
-extern void ssi2001_state_write(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
+void ssi2001_state_read(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
+void ssi2001_state_write(int chipno, struct sid_ssi2001_snapshot_state_s *sid_state);
 
 #endif
