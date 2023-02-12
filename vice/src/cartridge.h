@@ -326,19 +326,18 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
 #define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
-#define CARTRIDGE_NAME_MAX_BASIC          "MAX Basic"
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
+#define CARTRIDGE_NAME_MAX_BASIC          "MAX Basic"
 #define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
 #define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
 #define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
-#define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
-#define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
-#define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
 #define CARTRIDGE_NAME_MULTIMAX           "MultiMAX" /* http://www.multimax.co/ */
+#define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
 #define CARTRIDGE_NAME_NORDIC_REPLAY      "Nordic Replay" /* "Retro Replay v2" see manual */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"
 #define CARTRIDGE_NAME_PARTNER64          "Partner 64"
+#define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
 #define CARTRIDGE_NAME_RAMLINK            "RAMLink"
@@ -352,6 +351,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
 #define CARTRIDGE_NAME_ROSS               "ROSS"
 #define CARTRIDGE_NAME_SDBOX              "SD-BOX" /* http://c64.com.pl/index.php/sdbox106.html */
+#define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
 #define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
 #define CARTRIDGE_NAME_SILVERROCK_128     "Silverrock 128KiB Cartridge"
