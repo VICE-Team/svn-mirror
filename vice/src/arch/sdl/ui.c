@@ -200,6 +200,8 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 void ui_dispatch_events(void)
 {
     SDL_Event e;
+    int joynum;
+
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
@@ -212,16 +214,28 @@ void ui_dispatch_events(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
+                }
                 break;
             case SDL_JOYBUTTONDOWN:
-                joy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    joy_button_event(joynum, e.jbutton.button, 1);
+                }
                 break;
             case SDL_JOYBUTTONUP:
-                joy_button_event(e.jbutton.which, e.jbutton.button, 0);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    joy_button_event(joynum, e.jbutton.button, 0);
+                }
                 break;
             case SDL_JOYHATMOTION:
-                joy_hat_event(e.jhat.which, e.jhat.hat, hat_map[e.jhat.value]);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    joy_hat_event(joynum, e.jhat.hat, hat_map[e.jhat.value]);
+                }
                 break;
 #endif
             case SDL_MOUSEMOTION:
@@ -249,6 +263,7 @@ ui_menu_action_t ui_dispatch_events_for_menu_action(void)
 {
     SDL_Event e;
     ui_menu_action_t retval = MENU_ACTION_NONE;
+    int joynum;
 
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
@@ -262,16 +277,28 @@ ui_menu_action_t ui_dispatch_events_for_menu_action(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                retval = sdljoy_axis_event_for_menu_action(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    retval = sdljoy_axis_event_for_menu_action(joynum, e.jaxis.axis, e.jaxis.value);
+                }
                 break;
             case SDL_JOYBUTTONDOWN:
-                retval = sdljoy_button_event_for_menu_action(e.jbutton.which, e.jbutton.button, 1);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event_for_menu_action(joynum, e.jbutton.button, 1);
+                }
                 break;
             case SDL_JOYBUTTONUP:
-                retval = sdljoy_button_event_for_menu_action(e.jbutton.which, e.jbutton.button, 0);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event_for_menu_action(joynum, e.jbutton.button, 0);
+                }
                 break;
             case SDL_JOYHATMOTION:
-                retval = sdljoy_hat_event_for_menu_action(e.jhat.which, e.jhat.hat, hat_map[e.jhat.value]);
+                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                if (joynum != -1) {
+                    retval = sdljoy_hat_event_for_menu_action(joynum, e.jhat.hat, hat_map[e.jhat.value]);
+                }
                 break;
 #ifdef USE_SDL2UI
             case SDL_JOYDEVICEADDED:

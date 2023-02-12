@@ -79,6 +79,9 @@ typedef enum {
     NUM_INPUT_TYPES
 } sdljoystick_input_t;
 
+
+
+
 #ifndef USE_SDLUI2
 typedef int SDL_JoystickID;
 #endif
@@ -234,12 +237,14 @@ int joy_sdl_init(void)
     return 0;
 }
 
+SDL_JoystickID *joy_ordinal_to_id = NULL;
+
 int sdljoy_rescan(void)
 {
     int i, axis, button, hat, ball;
     SDL_Joystick *joy;
     char *name;
-    int num_joysticks;
+    int num_joysticks, num_valid_joysticks;
 
     joystick_close();
     num_joysticks = SDL_NumJoysticks();
@@ -248,10 +253,11 @@ int sdljoy_rescan(void)
         log_message(sdljoy_log, "No joysticks found");
         return 0;
     }
+    joy_ordinal_to_id = lib_realloc(joy_ordinal_to_id, (num_joysticks + 1) * sizeof(SDL_JoystickID));
 
     log_message(sdljoy_log, "%i joysticks found", num_joysticks);
 
-    for (i = 0; i < num_joysticks; ++i) {
+    for (i = 0, num_valid_joysticks = 0; i < num_joysticks; ++i) {
         joy = SDL_JoystickOpen(i);
         if (joy) {
 #ifdef USE_SDL2UI
@@ -271,14 +277,17 @@ int sdljoy_rescan(void)
                 axis,
                 button,
                 hat);
+            joy_ordinal_to_id[num_valid_joysticks++] = SDL_JoystickGetDeviceInstanceID(i);
         } else {
             log_warning(sdljoy_log, "Couldn't open joystick %i", i);
         }
     }
+    joy_ordinal_to_id[num_valid_joysticks] = -1;
 
     SDL_JoystickEventState(SDL_ENABLE);
     return 0;
 }
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -293,11 +302,11 @@ static inline joystick_axis_value_t sdljoy_axis_direction(Sint16 value, joystick
     }
 
     if (value < -thres) {
-        return 2;
+        return JOY_AXIS_NEGATIVE;
     } else if (value > thres) {
-        return 1;
+        return JOY_AXIS_POSITIVE;
     } else if ((value < thres) && (value > -thres)) {
-        return 0;
+        return JOY_AXIS_MIDDLE;
     }
 
     return prev;
@@ -312,19 +321,69 @@ static inline uint8_t sdljoy_hat_direction(Uint8 value, uint8_t prev)
 
     switch (b) {
         case SDL_HAT_UP:
-            return 1;
+            return JOYSTICK_DIRECTION_UP;
         case SDL_HAT_DOWN:
-            return 2;
+            return JOYSTICK_DIRECTION_DOWN;
         case SDL_HAT_LEFT:
-            return 3;
+            return JOYSTICK_DIRECTION_LEFT;
         case SDL_HAT_RIGHT:
-            return 4;
+            return JOYSTICK_DIRECTION_RIGHT;
         default:
             /* ignore diagonals and releases */
             break;
     }
 
     return 0;
+}
+
+int sdljoy_get_joynum_for_event(SDL_JoystickID event_device_id)
+{
+    int i = 0;
+
+    while (joy_ordinal_to_id[i] != -1) {
+        if (joy_ordinal_to_id[i] == event_device_id) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+static joystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
+{
+    joystick_mapping_t *retval = NULL;
+    uint8_t cur;
+    int joynum;
+
+    switch (e.type) {
+        case SDL_JOYAXISMOTION:
+            cur = sdljoy_axis_direction(e.jaxis.value, 0);
+            if (cur != JOY_AXIS_MIDDLE) {
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    retval = joy_get_axis_mapping_not_setting_value(joynum, e.jaxis.axis, cur);
+                }
+            }
+            break;
+        case SDL_JOYHATMOTION:
+            cur = sdljoy_hat_direction(e.jhat.value, 0);
+            if (cur > 0) {
+                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                if (joynum != -1) {
+                    retval = joy_get_hat_mapping_not_setting_value(joynum, e.jhat.hat, cur);
+                }
+            }
+            break;
+        case SDL_JOYBUTTONDOWN:
+            joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+            if (joynum != -1) {
+                retval = joy_get_button_mapping(joynum, e.jbutton.button);
+            }
+            break;
+        default:
+            break;
+    }
+    return retval;
 }
 
 static int sdljoy_pins[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS] = { 0 };
@@ -481,6 +540,34 @@ static ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
     return retval;
 }
 #endif
+
+void sdljoy_set_joystick(SDL_Event e, int bits)
+{
+    joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = JOYSTICK;
+        joyevent->value.joy_pin = (uint16_t)bits;
+    }
+}
+
+void sdljoy_set_extra(SDL_Event e, int type)
+{
+    joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = type ? MAP : UI_ACTIVATE;
+    }
+}
+
+void sdljoy_unset(SDL_Event e)
+{
+    joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = NONE;
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
