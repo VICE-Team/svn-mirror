@@ -236,9 +236,9 @@ static unsigned int cc_changed = 0;
 
 static uint16_t *index_regs[4] = { &X, &Y, &U, &S };
 
-extern void nmi(void);
-extern void irq(void);
-extern void firq(void);
+void nmi(void);
+void irq(void);
+void firq(void);
 
 static void request_nmi(unsigned int source)
 {
