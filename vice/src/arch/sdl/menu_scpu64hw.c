@@ -177,7 +177,7 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernet_menu },
-    { "Ethernet Cart settings",
+    { CARTRIDGE_NAME_ETHERNETCART " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernetcart_menu },

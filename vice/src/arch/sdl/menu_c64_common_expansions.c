@@ -338,13 +338,13 @@ UI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
 UI_MENU_DEFINE_RADIO(SBDIGIMAXbase)
 
 static const ui_menu_entry_t ide64_digimax_menu[] = {
-    SDL_MENU_ITEM_TITLE("DigiMAX settings"),
-    { "Enable DigiMAX device",
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_NAME_DIGIMAX " settings"),
+    { "Enable " CARTRIDGE_NAME_DIGIMAX " device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SBDIGIMAX_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("DigiMAX device address"),
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_NAME_DIGIMAX " device address"),
     { "$de40",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SBDIGIMAXbase_callback,
@@ -438,7 +438,7 @@ const ui_menu_entry_t ide64_menu[] = {
       (ui_callback_data_t)ide64_clockport_device_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Shortbus Device settings"),
-    { "DigiMAX settings",
+    { CARTRIDGE_NAME_DIGIMAX " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_digimax_menu },
