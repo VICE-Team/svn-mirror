@@ -32,17 +32,19 @@
 #include "snapshot.h"
 #include "types.h"
 
-#define PCF8583_IDLE               0
-#define PCF8583_GET_ADDRESS        1
-#define PCF8583_GET_REG_NR         2
-#define PCF8583_READ_REGS          3
-#define PCF8583_WRITE_REGS         4
-#define PCF8583_ADDRESS_READ_ACK   5
-#define PCF8583_ADDRESS_WRITE_ACK  6
-#define PCF8583_REG_NR_ACK         7
-#define PCF8583_WRITE_ACK          8
-#define PCF8583_READ_ACK           9
-#define PCF8583_READ_REGS_TRAIN    10
+enum {
+    PCF8583_IDLE = 0,
+    PCF8583_GET_ADDRESS,
+    PCF8583_GET_REG_NR,
+    PCF8583_READ_REGS,
+    PCF8583_WRITE_REGS,
+    PCF8583_ADDRESS_READ_ACK,
+    PCF8583_ADDRESS_WRITE_ACK,
+    PCF8583_REG_NR_ACK,
+    PCF8583_WRITE_ACK,
+    PCF8583_READ_ACK,
+    PCF8583_READ_REGS_TRAIN
+};
 
 #define PCF8583_RAM_SIZE  240
 #define PCF8583_REG_SIZE   16

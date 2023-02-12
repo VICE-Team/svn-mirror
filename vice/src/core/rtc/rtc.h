@@ -37,18 +37,20 @@
 #include <sys/types.h>
 #endif
 
-#define RTC_MONTH_JAN   0
-#define RTC_MONTH_FEB   1
-#define RTC_MONTH_MAR   2
-#define RTC_MONTH_APR   3
-#define RTC_MONTH_MAY   4
-#define RTC_MONTH_JUN   5
-#define RTC_MONTH_JUL   6
-#define RTC_MONTH_AUG   7
-#define RTC_MONTH_SEP   8
-#define RTC_MONTH_OCT   9
-#define RTC_MONTH_NOV   10
-#define RTC_MONTH_DEC   11
+enum {
+    RTC_MONTH_JAN = 0,
+    RTC_MONTH_FEB,
+    RTC_MONTH_MAR,
+    RTC_MONTH_APR,
+    RTC_MONTH_MAY,
+    RTC_MONTH_JUN,
+    RTC_MONTH_JUL,
+    RTC_MONTH_AUG,
+    RTC_MONTH_SEP,
+    RTC_MONTH_OCT,
+    RTC_MONTH_NOV,
+    RTC_MONTH_DEC
+};
 
 /* max amount of RTC's in use at the same time */
 #define RTC_MAX 20
@@ -64,8 +66,8 @@ uint8_t rtc_get_month(time_t time_val, int bcd);          /* 1 - 12 (1 = January
 uint8_t rtc_get_year(time_t time_val, int bcd);           /* 0 - 99 */
 uint8_t rtc_get_century(time_t time_val, int bcd);        /* 19 - 20 */
 uint8_t rtc_get_weekday(time_t time_val);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
-uint16_t rtc_get_day_of_year(time_t time_val);             /* 0 - 365 */
-int rtc_get_dst(time_t time_val);                     /* 0 - >0 (0 no dst, >0 dst) */
+uint16_t rtc_get_day_of_year(time_t time_val);            /* 0 - 365 */
+int rtc_get_dst(time_t time_val);                         /* 0 - >0 (0 no dst, >0 dst) */
 time_t rtc_get_latch(time_t offset);
 
 /* these functions all return a new offset based on what is changed and the old offset */

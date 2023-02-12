@@ -40,9 +40,11 @@ int functionrom_resources_init(void);
 void functionrom_resources_shutdown(void);
 int functionrom_cmdline_options_init(void);
 
-#define INT_FUNCTION_NONE   0
-#define INT_FUNCTION_ROM    1
-#define INT_FUNCTION_RAM    2
-#define INT_FUNCTION_RTC    3
+enum {
+    INT_FUNCTION_NONE = 0,
+    INT_FUNCTION_ROM,
+    INT_FUNCTION_RAM,
+    INT_FUNCTION_RTC
+};
 
 #endif

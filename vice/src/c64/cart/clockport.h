@@ -29,15 +29,18 @@
 
 #include "types.h"
 
-#define CLOCKPORT_DEVICE_NONE            0
-#define CLOCKPORT_DEVICE_ETH64_II        1
-#define CLOCKPORT_DEVICE_RRNET           2
-#define CLOCKPORT_DEVICE_RRNETMK3        3
-#define CLOCKPORT_DEVICE_SILVER_SURFER   4
-#define CLOCKPORT_DEVICE_MP3_64          5
-#define CLOCKPORT_DEVICE_CW3_SID         6
+enum {
+    CLOCKPORT_DEVICE_NONE = 0,
+    CLOCKPORT_DEVICE_ETH64_II,
+    CLOCKPORT_DEVICE_RRNET,
+    CLOCKPORT_DEVICE_RRNETMK3,
+    CLOCKPORT_DEVICE_SILVER_SURFER,
+    CLOCKPORT_DEVICE_MP3_64,
+    CLOCKPORT_DEVICE_CW3_SID,
 
-#define CLOCKPORT_MAX_ENTRIES            7
+    /* This entry needs to always be at the end */
+    CLOCKPORT_MAX_ENTRIES
+};
 
 typedef struct clockport_device_s {
     const char *owner;

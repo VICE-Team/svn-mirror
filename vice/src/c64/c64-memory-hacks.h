@@ -30,10 +30,12 @@
 #include "snapshot.h"
 #include "types.h"
 
-#define MEMORY_HACK_NONE       0
-#define MEMORY_HACK_C64_256K   1
-#define MEMORY_HACK_PLUS60K    2
-#define MEMORY_HACK_PLUS256K   3
+enum {
+    MEMORY_HACK_NONE = 0,
+    MEMORY_HACK_C64_256K,
+    MEMORY_HACK_PLUS60K,
+    MEMORY_HACK_PLUS256K
+};
 
 int memory_hacks_ram_inject(uint16_t addr, uint8_t value);
 
