@@ -45,6 +45,7 @@
 #import <CoreGraphics/CGEvent.h>
 #elif defined(WINDOWS_COMPILE)
 #include <windows.h>
+#include <gdk/gdkwin32.h>
 #endif
 
 #ifdef WINDOWS_COMPILE
@@ -298,7 +299,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             log_error(LOG_DEFAULT, "GetCursorPos failed (%ld, %ld)\n", pt.x, pt.y);
             /*printf("GetCursorPos failed (%ld, %ld)\n", pt.x, pt.y); fflush(stdout);*/
         } else {
-            log_message(LOG_DEFAULT, "mouse move %f, %f GetCursorPos: %ld, %ld", motion->x, motion->y, pt.x, pt.y);
+            /* log_message(LOG_DEFAULT, "mouse move %f, %f GetCursorPos: %ld, %ld", motion->x, motion->y, pt.x, pt.y); */
             /*printf("mouse move %f, %f GetCursorPos: %ld, %ld\n", motion->x, motion->y, pt.x, pt.y); fflush(stdout);*/
             mouse_host_moved(pt.x * scale, pt.y * scale);
         }
@@ -810,12 +811,26 @@ void ui_mouse_grab_pointer(void)
 
 #ifdef WINDOWS_COMPILE
 
-    /* Windows uses SetCursorPos, which needs screen co-ordinates */
-    int window_x, window_y;
-    gtk_window_get_position(GTK_WINDOW(window), &window_x, &window_y);
+    /*
+     * Windows uses SetCursorPos, which needs screen co-ordinates
+     * Use native window API to get these, as it deals with multi-monitor
+     * negative co-ordinates which are possible with some screen layouts.
+     * 
+     * If you change this code, make sure you test with more than one monitor,
+     * and test all layouts where the second monitor is left/above/below/right.
+     * 
+     * If the code is wrong, you'll see the mouse pointer 'warp' to weird
+     * screen locations instead of to the middle of the emu window.
+     */
 
-    warp_x += window_x * scale;
-    warp_y += window_y * scale;
+    GdkWindow *gdk_window = gtk_widget_get_window(window);
+    HWND hWnd = gdk_win32_window_get_impl_hwnd(gdk_window);
+    RECT rect;
+
+    GetWindowRect(hWnd, &rect);
+    
+    warp_x += rect.left;
+    warp_y += rect.top;
 
 #endif
 #endif
