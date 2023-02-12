@@ -29,13 +29,16 @@
 
 #include "types.h"
 
-#define DTVMODEL_V2_PAL        0 /* DTV v2 (pal) */
-#define DTVMODEL_V2_NTSC       1 /* DTV v2 (ntsc) */
-#define DTVMODEL_V3_PAL        2 /* DTV v3 (pal) */
-#define DTVMODEL_V3_NTSC       3 /* DTV v3 (ntsc) */
-#define DTVMODEL_HUMMER_NTSC   4 /* Hummer (ntsc) */
+enum {
+    DTVMODEL_V2_PAL = 0,   /* DTV v2 (pal) */
+    DTVMODEL_V2_NTSC,      /* DTV v2 (ntsc) */
+    DTVMODEL_V3_PAL,       /* DTV v3 (pal) */
+    DTVMODEL_V3_NTSC,      /* DTV v3 (ntsc) */
+    DTVMODEL_HUMMER_NTSC,  /* Hummer (ntsc) */
 
-#define DTVMODEL_NUM 5
+    /* This entry always needs to be at the end */
+    DTVMODEL_NUM
+};
 
 #define DTVMODEL_UNKNOWN 99
 

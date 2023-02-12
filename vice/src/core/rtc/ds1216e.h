@@ -51,14 +51,16 @@ typedef struct rtc_ds1216e_s {
     char *device;
 } rtc_ds1216e_t;
 
-#define DS1216E_REGISTER_CENTISECONDS   0
-#define DS1216E_REGISTER_SECONDS        1
-#define DS1216E_REGISTER_MINUTES        2
-#define DS1216E_REGISTER_HOURS          3
-#define DS1216E_REGISTER_WEEKDAYS       4
-#define DS1216E_REGISTER_MONTHDAYS      5
-#define DS1216E_REGISTER_MONTHS         6
-#define DS1216E_REGISTER_YEARS          7
+enum {
+    DS1216E_REGISTER_CENTISECONDS = 0,
+    DS1216E_REGISTER_SECONDS,
+    DS1216E_REGISTER_MINUTES,
+    DS1216E_REGISTER_HOURS,
+    DS1216E_REGISTER_WEEKDAYS,
+    DS1216E_REGISTER_MONTHDAYS,
+    DS1216E_REGISTER_MONTHS,
+    DS1216E_REGISTER_YEARS
+};
 
 rtc_ds1216e_t *ds1216e_init(char *device);
 void ds1216e_destroy(rtc_ds1216e_t *context, int save);
