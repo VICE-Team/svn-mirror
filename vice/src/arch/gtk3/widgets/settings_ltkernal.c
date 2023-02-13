@@ -42,8 +42,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "resources.h"
+#include "cartridge.h"
 #include "ltkernal.h"
+#include "resources.h"
 #include "vice_gtk3.h"
 
 #include "settings_ltkernal.h"
@@ -53,18 +54,17 @@
  */
 #define SERIAL_INVALID_CSS \
     "entry {\n" \
-    "  background-color: crimson;\n" \
+    "  text-decoration: crimson wavy underline;\n" \
     "}"
 
 
 /** \brief  Filter patterns for HD image files
  *
- * Used in the HD image browser widgets.
+ * Used in the HD image file chooser widgets.
  */
-static const char *filter_list[] = {
-        "*.hdd", "*.iso", "*.fdd", "*.cfa", "*.dsk", "*.img", NULL
+static const char *patterns[] = {
+    "*.hdd", "*.iso", "*.fdd", "*.cfa", "*.dsk", "*.img", NULL
 };
-
 
 /** \brief  List of I/O addresses for the cartridge
  */
@@ -74,34 +74,40 @@ static vice_gtk3_radiogroup_entry_t io_entries[] = {
     { NULL,     -1 }
 };
 
-
-/** \brief  Reference to the CSS provider used to mark 'serial number' invalid'
+/** \brief  List of valid keys for the serial number widget
  */
-static GtkCssProvider *serial_css_provider_invalid;
+static const gint valid_keys[] = {
+    GDK_KEY_0, GDK_KEY_1, GDK_KEY_2, GDK_KEY_3, GDK_KEY_4,
+    GDK_KEY_5, GDK_KEY_6, GDK_KEY_7, GDK_KEY_8, GDK_KEY_9,
+    GDK_KEY_BackSpace,
+    GDK_KEY_Delete,
+    GDK_KEY_Insert,
+    GDK_KEY_Left,
+    GDK_KEY_Right,
+    GDK_KEY_Home,
+    GDK_KEY_End,
+    -1
+};
 
+
+/** \brief  Reference to the CSS provider used to mark 'serial number' invalid */
+static GtkCssProvider *css_provider;
+
+/** \brief  Indicates whether the css provider has been added */
+static gboolean provider_added = FALSE;
 
 
 /** \brief  Create widget to set port number
  *
- *
- * \return  GtkGrid
+ * \return  GtkSpinButton
  */
 static GtkWidget *create_port_number_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *spin;
-
-    /* create grid with label */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 16, "Port Number", 1);
-
-    /* create spin button */
-    spin = vice_gtk3_resource_spin_int_new("LTKport", 0, 15, 1);
-    gtk_widget_set_margin_start(spin, 16);
-    gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
-
-    return grid;
+    return vice_gtk3_resource_spin_int_new("LTKport",
+                                           LTK_PORT_MIN,
+                                           LTK_PORT_MAX,
+                                           1);
 }
-
 
 /** \brief  Create widget to select I/O address range
  *
@@ -109,51 +115,67 @@ static GtkWidget *create_port_number_widget(void)
  */
 static GtkWidget *create_io_address_widget(void)
 {
-    GtkWidget *grid;
     GtkWidget *group;
 
-    /* create grid with label */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 16, "I/O Address", 1);
-
-    /* create radio group for I/O address */
     group = vice_gtk3_resource_radiogroup_new("LTKio",
                                               io_entries,
                                               GTK_ORIENTATION_HORIZONTAL);
-    gtk_widget_set_margin_start(group, 16);
-    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-    return grid;
+    gtk_grid_set_column_spacing(GTK_GRID(group), 16);
+    return group;
 }
 
+/** \brief  Attempt to set the "LTKserial" resource
+ *
+ * Uses the text in \a entry to set the "LTKserial" resource.
+ * If successful any CSS provider marking the text invalid is removed, if
+ * unsuccessful a CSS provider is added marking the text invalid.
+ *
+ * \param[in]   entry   entry with serial number
+ *
+ * \return  TRUE on success
+ */
+static gboolean set_serial_resource(GtkEntry *entry)
+{
+    if (resources_set_string("LTKserial", gtk_entry_get_text(entry)) == 0) {
+        if (provider_added) {
+            vice_gtk3_css_provider_remove(GTK_WIDGET(entry), css_provider);
+            provider_added = FALSE;
+        }
+        return TRUE;
+    } else {
+        vice_gtk3_css_provider_add(GTK_WIDGET(entry), css_provider);
+        provider_added = TRUE;
+        return FALSE;
+    }
+}
 
+/** \brief  Handler for the 'destroy' event of the entry
+ *
+ * Called on entry widget destruction, unrefs CSS provider.
+ *
+ * \param[in]   entry   entry widget (unused);
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_serial_destroy(GtkEntry *self, gpointer data)
+{
+    g_object_unref(css_provider);
+}
 
 /** \brief  Handler for the 'focus-out' event of the serial number entry
  *
  * \param[in]   entry   entry box
- * \param[in]   event   event object
+ * \param[in]   event   event object (unused)
  * \param[in]   data    extra event data (unused)
  *
- * \return  TRUE
+ * \return  GDK_EVENT_PROPAGATE
  */
-static gboolean on_serial_focus_out_event(
-        GtkEntry *entry,
-        GdkEvent *event,
-        gpointer data)
+static gboolean on_serial_focus_out_event(GtkEntry *entry,
+                                          GdkEvent *event,
+                                          gpointer  data)
 {
-    debug_gtk3("Focus-Out: entry text = '%s'", gtk_entry_get_text(entry));
-    /* attempt to update resource, use CSS to mark widget background to
-     * indicate whether the value was valid
-     */
-    if (resources_set_string("LTKserial", gtk_entry_get_text(entry)) != 0) {
-        debug_gtk3("Invalid input!\n");
-        vice_gtk3_css_provider_add(GTK_WIDGET(entry),
-                                   serial_css_provider_invalid);
-    } else {
-        vice_gtk3_css_provider_remove(GTK_WIDGET(entry),
-                                      serial_css_provider_invalid);
-    }
-    return TRUE;
+    set_serial_resource(entry);
+    return GDK_EVENT_PROPAGATE;
 }
-
 
 /** \brief  Handler for the 'on-key-press' event for the serial number entry
  *
@@ -161,40 +183,36 @@ static gboolean on_serial_focus_out_event(
  * \param[in]   event   event object
  * \param[in]   data    extra event data (unused)
  *
- * \return  TRUE if Enter was pushed, FALSE otherwise (makes the pushed key
- *          propagate to the entry)
+ * \return  GDK_EVENT_STOP if Return or Enter was pushed, GDK_EVENT_PROPAGATE
+ *          otherwise
  */
-static gboolean on_serial_key_press_event(
-        GtkEntry *entry,
-        GdkEvent *event,
-        gpointer data)
+static gboolean on_serial_key_press_event(GtkEntry *entry,
+                                          GdkEvent *event,
+                                          gpointer  data)
 {
-    GdkEventKey *keyev = (GdkEventKey *)event;
+    if (gdk_event_get_event_type(event) == GDK_KEY_PRESS) {
+        guint keyval = 0;
 
-    if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
-        /*
-         * We handled Enter/Return for Gtk3/GLib, whether or not the
-         * resource actually gets updated is another issue.
-         */
-        debug_gtk3("Enter pressed: entry text = '%s'", gtk_entry_get_text(entry));
+        if (gdk_event_get_keyval(event, &keyval)) {
+            /* Iso_Left_Tab is used by X11 for Shift+Tab */
+            if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter ||
+                    keyval == GDK_KEY_Tab || keyval == GDK_KEY_ISO_Left_Tab) {
+                set_serial_resource(entry);
+                return GDK_EVENT_PROPAGATE;
+            } else {
+                int k;
 
-        /* attempt to update resource, use CSS to mark widget background to
-         * indicate whether the value was valid
-         */
-        if (resources_set_string("LTKserial", gtk_entry_get_text(entry)) != 0) {
-            debug_gtk3("Invalid input!\n");
-            vice_gtk3_css_provider_add(GTK_WIDGET(entry),
-                                       serial_css_provider_invalid);
-        } else {
-            vice_gtk3_css_provider_remove(GTK_WIDGET(entry),
-                                          serial_css_provider_invalid);
+                for (k = 0; valid_keys[k] >= 0; k++) {
+                    if ((guint)valid_keys[k] == keyval) {
+                        return GDK_EVENT_PROPAGATE; /* accept this key */
+                    }
+                }
+                return GDK_EVENT_STOP;  /* we don't accept this key */
+            }
         }
-        return TRUE;
     }
-
-    return FALSE;
+    return GDK_EVENT_PROPAGATE;
 }
-
 
 /** \brief  Create entry box for the Lt. Kernal serial number
  *
@@ -204,80 +222,89 @@ static gboolean on_serial_key_press_event(
  *
  * \return  GtkWidget
  */
-static GtkWidget *create_serial_number_widget(void)
+static GtkWidget *create_serial_entry(void)
 {
-    GtkWidget *grid;
-    GtkWidget *entry;
-    GtkWidget *label;
-    const char *value;
-
-    /* create grid with label */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 16, "Serial Number", 2);
+    GtkWidget  *entry;
+    const char *value = NULL;
 
     /* create text entry box */
     entry = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(entry), 8);
-    gtk_widget_set_margin_start(entry, 16);
     resources_get_string("LTKserial", &value);
     gtk_entry_set_text(GTK_ENTRY(entry), value);
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 1, 1, 1);
+    /* doesn't actually block non-digit characters, is used for screen readers
+     * etc. */
+    gtk_entry_set_input_purpose(GTK_ENTRY(entry), GTK_INPUT_PURPOSE_DIGITS);
+
     /* add event handlers */
-    g_signal_connect(entry, "focus-out-event",
-            G_CALLBACK(on_serial_focus_out_event), NULL);
+    g_signal_connect(entry,
+                     "focus-out-event",
+                     G_CALLBACK(on_serial_focus_out_event),
+                     NULL);
     g_signal_connect(entry, "key-press-event",
-            G_CALLBACK(on_serial_key_press_event), NULL);
+                     G_CALLBACK(on_serial_key_press_event),
+                     NULL);
 
     /* create CSS provider to mark input invalid */
-    serial_css_provider_invalid = vice_gtk3_css_provider_new(
-            SERIAL_INVALID_CSS);
-
-
-    /* add info label */
-    label = gtk_label_new("The serial number must be 8 decimal digits.");
-    gtk_grid_attach(GTK_GRID(grid), label, 1, 1, 1, 1);
-
-    return grid;
+    css_provider = vice_gtk3_css_provider_new(SERIAL_INVALID_CSS);
+    /* register destroy handler to unref the provider */
+    g_signal_connect_unlocked(G_OBJECT(entry),
+                              "destroy",
+                              G_CALLBACK(on_serial_destroy),
+                              NULL);
+    return entry;
 }
 
-
-
-/** \brief  Create widget with resource browsers for the HD images
+/** \brief  Add resource file choosers for HD images 0-6 to main grid
  *
- * Creates a widget with 7 file browser widgets for HD image 0-6.
+ * Creates labels and resource file chooser widgets for HD images 0-6 and adds
+ * them to \a grid, starting at \a row.
  *
- * \return  GtkGrid;
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to start adding widgets
+ * \param[in]   columns number of columns in the grid (used to set proper span)
+ *
+ * \return  row for next widgets
  */
-static GtkWidget *create_hd_images_widget(void)
+static int create_hd_images_layout(GtkWidget *grid, int row, int columns)
 {
-    GtkWidget *grid;
-    int i;
+    GtkWidget *label;
+    int        disk;
 
-    /* create grid with label */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "HD Images", 1);
+    /* create header */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<b>" CARTRIDGE_NAME_LT_KERNAL " HD Images</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
+    row++;
 
-    /* add 7 browser widgets */
-    for (i = 0; i <= 6; i++) {
-        GtkWidget *browser;
-        gchar resource[256];
-        gchar title[256];
-        gchar label[256];
+    for (disk = LTK_HD_MIN; disk <= LTK_HD_MAX; disk++) {
 
-        /* generate resource name, dialog title and widget label */
-        g_snprintf(resource, sizeof(resource), "LTKimage%d", i);
-        g_snprintf(title, sizeof(title), "Select HD%d image file", i);
-        g_snprintf(label, sizeof(label), "HD%d image", i);
-        /* create browser widget and add to grid */
-        browser = vice_gtk3_resource_browser_new(
-                resource,
-                filter_list,
-                "HD image files",
-                title,
-                label,
-                NULL);
-        gtk_widget_set_margin_start(browser, 16);
-        gtk_grid_attach(GTK_GRID(grid), browser, 0, i + 1, 1, 1);
+        GtkWidget *chooser;
+        char       buffer[64];
+
+        /* create label */
+        g_snprintf(buffer, sizeof buffer, "HD%d image file", disk);
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), buffer);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+
+        /* create file chooser */
+        chooser = vice_gtk3_resource_filechooser_new_sprintf("LTKimage%d",
+                                                             GTK_FILE_CHOOSER_ACTION_OPEN,
+                                                             disk);
+        vice_gtk3_resource_filechooser_set_filter(chooser,
+                                                  "HD images",
+                                                  patterns,
+                                                  TRUE);
+
+        gtk_grid_attach(GTK_GRID(grid), label,   0, row, 1,           1);
+        gtk_grid_attach(GTK_GRID(grid), chooser, 1, row, columns - 1, 1);
+        row++;
     }
-    return grid;
+    return row;
 }
 
 
@@ -290,30 +317,46 @@ static GtkWidget *create_hd_images_widget(void)
 GtkWidget *settings_ltkernal_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *hd_images;
+    GtkWidget *label;
     GtkWidget *serial;
+    GtkWidget *info;
     GtkWidget *io_address;
     GtkWidget *port_number;
+    int        row = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 32);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    /* add HD images */
-    hd_images = create_hd_images_widget();
-    gtk_grid_attach(GTK_GRID(grid), hd_images, 0, 0, 2, 1);
+    row = create_hd_images_layout(grid, row, 4);
 
     /* add serial number */
-    serial = create_serial_number_widget();
-    gtk_grid_attach(GTK_GRID(grid), serial, 0, 1, 2, 1);
+    label  = gtk_label_new("Serial number");
+    serial = create_serial_entry();
+    info   = gtk_label_new("The serial number consists of 8 decimal digits.");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_halign(info,  GTK_ALIGN_START);
+    gtk_widget_set_margin_top(label,  16);
+    gtk_widget_set_margin_top(serial, 16);
+    gtk_widget_set_margin_top(info,   16);
+    gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), serial, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), info,   2, row, 2, 1);
+    row++;
 
     /* add I/O address */
+    label      = gtk_label_new("I/O address");
     io_address = create_io_address_widget();
-    gtk_grid_attach(GTK_GRID(grid), io_address, 0, 2, 2, 1);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(io_address, GTK_ALIGN_CENTER);
+    gtk_grid_attach(GTK_GRID(grid), label,      0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), io_address, 1, row, 1, 1);
 
     /* add port number */
+    label       = gtk_label_new("Port number");
     port_number = create_port_number_widget();
-    gtk_grid_attach(GTK_GRID(grid), port_number, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,       2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), port_number, 3, row, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

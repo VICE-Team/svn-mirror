@@ -34,6 +34,19 @@ struct snapshot_s;
 #define LTKIO_DE00   0
 #define LTKIO_DF00   1
 
+/** \brief  Lowest disk image number */
+#define LTK_HD_MIN   0
+/** \brief  Highest disk image number */
+#define LTK_HD_MAX   6
+/** \brief  Number of supported disk images */
+#define LTK_HD_COUNT (LTK_HD_MAX - LTK_HD_MIN + 1)
+
+/** \brief  Lowest port number */
+#define LTK_PORT_MIN 0
+/** \brief  Highest port number */
+#define LTK_PORT_MAX 15
+
+
 void ltkernal_freeze(void);
 void ltkernal_powerup(void);
 void ltkernal_config_init(void);
