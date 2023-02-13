@@ -163,7 +163,7 @@ static uint8_t mouse_get_paddle_x(int port)
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
-            return joystick_get_axis_value(port << 1);
+            return joystick_get_axis_value(port, 0);
         } else {
             if (_mouse_enabled) {
                 /* Use mouse for paddle value */
@@ -177,7 +177,7 @@ static uint8_t mouse_get_paddle_x(int port)
         /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
-            return joystick_get_axis_value(port << 1);
+            return joystick_get_axis_value(port, 0);
         } else {
             if (_mouse_enabled) {
                 /* Use mouse for paddle value */
@@ -197,7 +197,7 @@ static uint8_t mouse_get_paddle_y(int port)
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
-            return joystick_get_axis_value((port << 1) | 1);
+            return joystick_get_axis_value(port, 1);
         } else {
             if (_mouse_enabled) {
                 /* Use mouse for paddle value */
@@ -211,7 +211,7 @@ static uint8_t mouse_get_paddle_y(int port)
         /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
-            return joystick_get_axis_value((port << 1) | 1);
+            return joystick_get_axis_value(port, 1);
         } else {
             if (_mouse_enabled) {
                 /* Use mouse for paddle value */

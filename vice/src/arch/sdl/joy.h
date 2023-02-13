@@ -57,6 +57,7 @@ uint8_t sdljoy_check_hat_movement(SDL_Event e);
 void sdljoy_set_joystick(SDL_Event e, int bits);
 void sdljoy_set_extra(SDL_Event e, int type);
 void sdljoy_unset(SDL_Event e);
+void sdljoy_set_joystick_axis(SDL_Event e, int pot);
 void sdljoy_delete_extra_mapping(int type);
 int sdljoy_get_joynum_for_event(SDL_JoystickID event_device_id);
 int sdljoy_rescan(void);

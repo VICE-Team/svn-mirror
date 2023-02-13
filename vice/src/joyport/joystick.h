@@ -47,8 +47,8 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);
 int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
 void joystick_joypad_clear(void);
 
-void joystick_set_axis_value(unsigned int index, uint8_t value);
-uint8_t joystick_get_axis_value(unsigned int index);
+void joystick_set_axis_value(unsigned int index, unsigned int axis, uint8_t value);
+uint8_t joystick_get_axis_value(unsigned int port, unsigned int pot);
 
 void joystick_set_value_absolute(unsigned int joyport, uint16_t value);
 void joystick_set_value_or(unsigned int joyport, uint16_t value);
@@ -197,6 +197,7 @@ const char *joystick_ui_get_next_device_name(int *id);
 int joy_arch_mapping_dump(const char *filename);
 int joy_arch_mapping_load(const char *filename);
 joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis);
+char *get_joy_pot_mapping_string(int joystick_device_num, int pot);
 char *get_joy_pin_mapping_string(int joystick_device, int pin);
 char *get_joy_extra_mapping_string(int joystick_device, int which);
 joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
@@ -205,6 +206,7 @@ joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
 joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
 joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
 joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
+void joy_set_pot_mapping(int joystick_device_num, int axis, int pot);
 void joy_delete_pin_mapping(int joystick_device, int pin);
 void joy_delete_pot_mapping(int joystick_device, int pot);
 #if (defined USE_SDLUI ||defined USE_SDL2UI)

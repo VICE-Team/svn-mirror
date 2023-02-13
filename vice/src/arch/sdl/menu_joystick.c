@@ -567,7 +567,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
 
         switch (e.type) {
             case SDL_JOYAXISMOTION:
-                //sdljoy_set_joystick_axis(e, pot);
+                sdljoy_set_joystick_axis(e, pot);
                 resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_JOY_AXIS, port + 1);
                 break;
             case SDL_MOUSEMOTION:
@@ -583,7 +583,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
                 break;
         }
     } else {
-        return NULL;// get_joy_pot_mapping_string(port, pot);
+        return get_joy_pot_mapping_string(joystick_device, pot);
     }
 
     return NULL;
