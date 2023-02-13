@@ -140,6 +140,12 @@ const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_16KB,    0x2000, 0x8000,   2, 0, CARTRIDGE_NAME_TURTLE_GRAPHICS_II,"turtle", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB,    0x4000, 0x8000,   1, 0, CARTRIDGE_NAME_FREEZE_FRAME_MK2,     "ff2", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB,    0x2000, 0x8000,   2, 0, CARTRIDGE_NAME_PARTNER64,      "partner64", save_stardos_crt},
-    {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
+    {0, 0, CARTRIDGE_SIZE_32KB |
+           CARTRIDGE_SIZE_64KB |
+           CARTRIDGE_SIZE_128KB |
+           CARTRIDGE_SIZE_256KB |
+           CARTRIDGE_SIZE_512KB |
+           CARTRIDGE_SIZE_1024KB |
+           CARTRIDGE_SIZE_2048KB,  0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_MAGIC_DESK_16,        "md16", save_regular_crt},    {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

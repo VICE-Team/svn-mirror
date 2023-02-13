@@ -253,7 +253,8 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
 #define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
 #define CARTRIDGE_PARTNER64            78 /* partner64.c */
-#define CARTRIDGE_LAST                 78 /* cartconv: last cartridge in list */
+#define CARTRIDGE_MAGIC_DESK_16        79 /* magicdesk.c */
+#define CARTRIDGE_LAST                 79 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -324,6 +325,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_LT_KERNAL          "Lt. Kernal Host Adaptor"
 #define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
 #define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
+#define CARTRIDGE_NAME_MAGIC_DESK_16      "Magic Desk 16K" /* https://github.com/crystalct/MagicDesk2 */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
 #define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
@@ -370,7 +372,6 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
 #define CARTRIDGE_NAME_ZIPPCODE48         "ZIPP-CODE 48"
-
 #define CARTRIDGE_NAME_GENERIC_8KB        "generic 8KiB game"
 #define CARTRIDGE_NAME_GENERIC_16KB       "generic 16KiB game"
 #define CARTRIDGE_NAME_ULTIMAX            "generic Ultimax"

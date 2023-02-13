@@ -36,10 +36,17 @@ void magicdesk_config_setup(uint8_t *rawcart);
 int magicdesk_bin_attach(const char *filename, uint8_t *rawcart);
 int magicdesk_crt_attach(FILE *fd, uint8_t *rawcart);
 void magicdesk_detach(void);
+void magicdesk16_config_init(void);
+void magicdesk16_config_setup(uint8_t *rawcart);
+int magicdesk16_bin_attach(const char *filename, uint8_t *rawcart);
+int magicdesk16_crt_attach(FILE *fd, uint8_t *rawcart);
+void magicdesk16_detach(void);
 
 struct snapshot_s;
 
 int magicdesk_snapshot_write_module(struct snapshot_s *s);
 int magicdesk_snapshot_read_module(struct snapshot_s *s);
+int magicdesk16_snapshot_write_module(struct snapshot_s *s);
+int magicdesk16_snapshot_read_module(struct snapshot_s *s);
 
 #endif
