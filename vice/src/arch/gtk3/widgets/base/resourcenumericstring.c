@@ -278,14 +278,12 @@ static gboolean on_key_press_event(GtkEntry *self,
     if (keyev->type == GDK_KEY_PRESS) {
         gint keyval = keyev->keyval;
 
-        if (keyval == GDK_KEY_Return || keyval == GDK_KEY_Tab ||
-                keyval == GDK_KEY_KP_Enter) {
-            /*
-             * We handle Enter/Tab for Gdk, whether or not the resource
-             * actually gets updated is another issue.
-             */
+        /* Shift+Tab is mapped by X11 to Iso_Left_Tab for some reason, so it's
+         * not caught with GDK_KEY_Tab */
+        if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter ||
+                keyval == GDK_KEY_Tab || keyval == GDK_KEY_ISO_Left_Tab) {
             update_resource_value(self);
-            return GDK_EVENT_PROPAGATE;
+            return GDK_EVENT_PROPAGATE; /* propagete further */
         } else {
             int i;
 
