@@ -80,6 +80,24 @@ Make sure everything is fine, and commit the release
 
 $ svn commit -m "this is the 3.6.0 release - merry xmas"
 
+
+****************************************
+ Tarball verification using Github
+****************************************
+
+  The file in .github/workflows/check-make-dist.yml contains a worflow to check
+  if `make dist` works for all UIs, with `make dist` being run configured for
+  each UI and then a Linux `configure && make && make install` being run for
+  each UI for the generated tarballs, so currently nine combinations of
+  `make dist` and `make [install]`.
+
+  To trigger this workflow go to:
+  https://github.com/VICE-Team/svn-mirror/actions/workflows/check-make-dist.yml
+  Click on the "Run workflow" dropdown and click on the "Run workflow" button.
+
+  The process usually takes about 7 minutes to finish if successful. If not
+  successful check the logs and fix missing files in Makefile.am files.
+
 ****************************************
  Tarball and Windows Builds - Automated
 ****************************************
