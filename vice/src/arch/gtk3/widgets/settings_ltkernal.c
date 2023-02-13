@@ -283,7 +283,7 @@ static int create_hd_images_layout(GtkWidget *grid, int row, int columns)
     for (disk = LTK_HD_MIN; disk <= LTK_HD_MAX; disk++) {
 
         GtkWidget *chooser;
-        char       buffer[64];
+        char       buffer[256];
 
         /* create label */
         g_snprintf(buffer, sizeof buffer, "HD%d image file", disk);
@@ -292,6 +292,7 @@ static int create_hd_images_layout(GtkWidget *grid, int row, int columns)
         gtk_widget_set_halign(label, GTK_ALIGN_START);
 
         /* create file chooser */
+        g_snprintf(buffer, sizeof buffer, "Select image file for HD%d", disk);
         chooser = vice_gtk3_resource_filechooser_new_sprintf("LTKimage%d",
                                                              GTK_FILE_CHOOSER_ACTION_OPEN,
                                                              disk);
@@ -299,6 +300,7 @@ static int create_hd_images_layout(GtkWidget *grid, int row, int columns)
                                                   "HD images",
                                                   patterns,
                                                   TRUE);
+        vice_gtk3_resource_filechooser_set_custom_title(chooser, buffer);
 
         gtk_grid_attach(GTK_GRID(grid), label,   0, row, 1,           1);
         gtk_grid_attach(GTK_GRID(grid), chooser, 1, row, columns - 1, 1);
