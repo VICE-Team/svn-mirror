@@ -39,53 +39,71 @@ FONTS_FILES = \
 	fonts/Lato-Regular.woff2 \
 	fonts/OFL.txt
 
+# Sorted in the order of `LC_ALL=C ls -1 *.png`, makes it easier to spot
+# missing files.
 IMAGES_FILES = \
 	images/CIPS2008.png \
-	images/new.gif \
-	images/vice-logo.svg \
-	images/vice-logo-black.png \
-	images/c64-layout.png \
-	images/c64-layout-small.png \
-	images/c128-layout.png \
+	images/c116-layout-small.png \
+	images/c116-layout.png \
 	images/c128-layout-small.png \
-	images/pet-business-uk-layout.png \
+	images/c128-layout.png \
+	images/c16-layout-small.png \
+	images/c16-layout.png \
+	images/c64-layout-small.png \
+	images/c64-layout.png \
+	images/cbm2-layout-small.png \
+	images/cbm2-layout.png \
+	images/new.gif \
 	images/pet-business-uk-layout-small.png \
-	images/pet-chiclet-layout.png \
+	images/pet-business-uk-layout.png \
 	images/pet-chiclet-layout-small.png \
-	images/pet-graphical-layout.png \
+	images/pet-chiclet-layout.png \
 	images/pet-graphical-layout-small.png \
-	images/vice-c64-symbolic-keymap-us-small.png \
-	images/vice-c64-symbolic-keymap-us.png \
-	images/vice-c64-positional-keymap-us-small.png \
-	images/vice-c64-positional-keymap-us.png \
-	images/vice-c64-symbolic-keymap-de-small.png \
-	images/vice-c64-symbolic-keymap-de.png \
-	images/vice-c64-positional-keymap-de-small.png \
-	images/vice-c64-positional-keymap-de.png \
-	images/vice-c128-symbolic-keymap-us-small.png \
-	images/vice-c128-symbolic-keymap-us.png \
+	images/pet-graphical-layout.png \
+	images/plus4-layout-small.png \
+	images/plus4-layout.png \
+	images/vice-c128-positional-keymap-de-small.png \
+	images/vice-c128-positional-keymap-de.png \
 	images/vice-c128-positional-keymap-us-small.png \
 	images/vice-c128-positional-keymap-us.png \
 	images/vice-c128-symbolic-keymap-de-small.png \
 	images/vice-c128-symbolic-keymap-de.png \
-	images/vice-c128-positional-keymap-de-small.png \
-	images/vice-c128-positional-keymap-de.png \
-	images/vice-pet-business-uk-positional-keymap-de.png \
+	images/vice-c128-symbolic-keymap-us-small.png \
+	images/vice-c128-symbolic-keymap-us.png \
+	images/vice-c64-positional-keymap-de-small.png \
+	images/vice-c64-positional-keymap-de.png \
+	images/vice-c64-positional-keymap-us-small.png \
+	images/vice-c64-positional-keymap-us.png \
+	images/vice-c64-symbolic-keymap-de-small.png \
+	images/vice-c64-symbolic-keymap-de.png \
+	images/vice-c64-symbolic-keymap-us-small.png \
+	images/vice-c64-symbolic-keymap-us.png \
+	images/vice-cbm2-positional-keymap-de-small.png \
+	images/vice-cbm2-positional-keymap-de.png \
+	images/vice-cbm2-positional-keymap-us-small.png \
+	images/vice-cbm2-positional-keymap-us.png \
+	images/vice-logo-black.png \
+	images/vice-logo.svg \
 	images/vice-pet-business-uk-positional-keymap-de-small.png \
-	images/vice-pet-business-uk-positional-keymap-us.png \
+	images/vice-pet-business-uk-positional-keymap-de.png \
 	images/vice-pet-business-uk-positional-keymap-us-small.png \
-	images/vice-pet-business-uk-symbolic-keymap-de.png \
+	images/vice-pet-business-uk-positional-keymap-us.png \
 	images/vice-pet-business-uk-symbolic-keymap-de-small.png \
-	images/vice-pet-business-uk-symbolic-keymap-us.png \
+	images/vice-pet-business-uk-symbolic-keymap-de.png \
 	images/vice-pet-business-uk-symbolic-keymap-us-small.png \
-	images/vice-pet-graphical-positional-keymap-de.png \
+	images/vice-pet-business-uk-symbolic-keymap-us.png \
 	images/vice-pet-graphical-positional-keymap-de-small.png \
-	images/vice-pet-graphical-positional-keymap-us.png \
+	images/vice-pet-graphical-positional-keymap-de.png \
 	images/vice-pet-graphical-positional-keymap-us-small.png \
-	images/vice-pet-graphical-symbolic-keymap-de.png \
+	images/vice-pet-graphical-positional-keymap-us.png \
 	images/vice-pet-graphical-symbolic-keymap-de-small.png \
+	images/vice-pet-graphical-symbolic-keymap-de.png \
+	images/vice-pet-graphical-symbolic-keymap-us-small.png \
 	images/vice-pet-graphical-symbolic-keymap-us.png \
-	images/vice-pet-graphical-symbolic-keymap-us-small.png
+	images/vice-plus4-positional-keymap-de-small.png \
+	images/vice-plus4-positional-keymap-de.png \
+	images/vice-plus4-positional-keymap-us-small.png \
+	images/vice-plus4-positional-keymap-us.png
 
 EXTRA_DIST = \
 	checklinks.sh \
