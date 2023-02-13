@@ -47,6 +47,7 @@
 typedef struct fc_state_s {
     GtkFileChooserAction  action;       /**< chooser type */
     char                 *directory;    /**< default directory */
+    char                 *custom_title; /**< custom title for dialog */
     GtkFileFilter        *filter;       /**< file filter for dialog */
     GtkFileFilter        *all_files;    /**< filter for '*' */
     gboolean              confirm;      /**< confirm before overwriting in case
@@ -61,11 +62,12 @@ typedef struct fc_state_s {
 static fc_state_t *fc_state_new(void)
 {
     fc_state_t *state = g_malloc(sizeof *state);
-    state->action    = GTK_FILE_CHOOSER_ACTION_OPEN;
-    state->directory = NULL;
-    state->confirm   = FALSE;
-    state->filter    = NULL;
-    state->all_files = NULL;
+    state->action       = GTK_FILE_CHOOSER_ACTION_OPEN;
+    state->directory    = NULL;
+    state->confirm      = FALSE;
+    state->filter       = NULL;
+    state->all_files    = NULL;
+    state->custom_title = NULL;
 
     return state;
 }
@@ -78,6 +80,7 @@ static void fc_state_free(void *state)
 {
     fc_state_t *st = state;
     g_free(st->directory);
+    g_free(st->custom_title);
     if (st->filter != NULL) {
         g_object_unref(st->filter);
     }
@@ -204,6 +207,7 @@ static void on_icon_press(GtkEntry             *self,
     GtkWidget  *dialog;
     mediator_t *mediator;
     fc_state_t *state;
+    const char *title;
     const char *respath;    /* path in the resource */
     char       *dirpart;    /* dirname */
     char       *filepart;   /* basename */
@@ -211,8 +215,14 @@ static void on_icon_press(GtkEntry             *self,
     mediator = mediator_for_widget(GTK_WIDGET(self));
     state    = mediator_get_data(mediator);
     window   = ui_get_active_window();
+    if (state->custom_title != NULL) {
+        /* use custom title set by user */
+        title = state->custom_title;
+    } else {
+        title = title_for_action(state->action);
+    }
 
-    dialog = gtk_file_chooser_dialog_new(title_for_action(state->action),
+    dialog = gtk_file_chooser_dialog_new(title,
                                          window,
                                          state->action,
                                          "Accept", GTK_RESPONSE_ACCEPT,
@@ -518,3 +528,21 @@ void vice_gtk3_resource_filechooser_set_filter(GtkWidget   *widget,
     g_object_ref_sink(filter);
     state->all_files = filter;
 }
+
+
+/** \brief  Set custom title to use for file chooser dialogs
+ *
+ * \param[in]   widget  resource file chooser
+ * \param[in]   title   custom title for dialog of the icon
+ */
+void vice_gtk3_resource_filechooser_set_custom_title(GtkWidget  *widget,
+                                                     const char *title)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+
+    if (mediator != NULL) {
+        fc_state_t *state = mediator_get_data(mediator);
+        state->custom_title = g_strdup(title);
+    }
+}
+
