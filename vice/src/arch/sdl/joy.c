@@ -551,6 +551,20 @@ void sdljoy_set_joystick(SDL_Event e, int bits)
     }
 }
 
+void sdljoy_set_joystick_axis(SDL_Event e, int pot)
+{
+    int joynum;
+
+    if (e.type != SDL_JOYAXISMOTION) {
+        return;
+    }
+    joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+    if (joynum == -1) {
+        return;
+    }
+    joy_set_pot_mapping(joynum, e.jaxis.axis, pot);
+}
+
 void sdljoy_set_extra(SDL_Event e, int type)
 {
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);

@@ -217,6 +217,7 @@ void ui_dispatch_events(void)
                 joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
                 if (joynum != -1) {
                     sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
+                    joystick_set_axis_value(joynum, e.jaxis.axis, (uint8_t)((~e.jaxis.value + 32768) >> 8));
                 }
                 break;
             case SDL_JOYBUTTONDOWN:

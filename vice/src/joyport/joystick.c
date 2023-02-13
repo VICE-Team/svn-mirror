@@ -158,7 +158,7 @@ static int joystick_autofire_enable[JOYPORT_MAX_PORTS] = {0};
 static int joystick_autofire_mode[JOYPORT_MAX_PORTS] = {0};
 static int joystick_autofire_speed[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t joystick_axis_value[4] = { 0x80, 0x80, 0x80, 0x80 };
+static uint8_t joystick_axis_value[2][2] = { {0x80, 0x80}, {0x80, 0x80} };
 
 /*! \todo SRT: offset is unused! */
 
@@ -284,14 +284,9 @@ static void joystick_process_latch(void)
     }
 }
 
-void joystick_set_axis_value(unsigned int index, uint8_t value)
+uint8_t joystick_get_axis_value(unsigned int port, unsigned int pot)
 {
-    joystick_axis_value[index] = value;
-}
-
-uint8_t joystick_get_axis_value(unsigned int index)
-{
-    return joystick_axis_value[index];
+    return joystick_axis_value[port][pot];
 }
 
 void joystick_set_value_absolute(unsigned int joyport, uint16_t value)
@@ -810,6 +805,7 @@ typedef struct joystick_axis_mapping_s {
     uint8_t prev;
     struct joystick_mapping_s positive_direction;
     struct joystick_mapping_s negative_direction;
+    uint8_t pot;
 } joystick_axis_mapping_t;
 
 typedef struct joystick_hat_mapping_s {
@@ -871,6 +867,30 @@ static int set_joystick_device(int val, void *param)
     }
 
     return 0;
+}
+
+void joystick_set_axis_value(unsigned int joynum, unsigned int axis, uint8_t value)
+{
+    if (joynum < num_joystick_devices
+    && (joystick_devices[joynum].joyport == 0 || joystick_devices[joynum].joyport == 1)
+    && joystick_devices[joynum].axis_mapping[axis].pot > 0) {
+        joystick_axis_value[joystick_devices[joynum].joyport][joystick_devices[joynum].axis_mapping[axis].pot - 1] = value;
+    }
+}
+
+char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
+{
+    int j;
+    char *retval = NULL;
+
+    if (joystick_device_num >= 0 && joystick_device_num < num_joystick_devices) {
+        for (j = 0; j < joystick_devices[joystick_device_num].num_axes; j++) {
+            if (joystick_devices[joystick_device_num].axis_mapping[j].pot - 1 == pot) {
+                retval = lib_msprintf("Ax%d", j);
+            }
+        }
+    }
+    return retval;
 }
 
 char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
@@ -1078,65 +1098,19 @@ char *get_joy_extra_mapping_string(int joystick_device_num, int which)
     return retval;
 }
 
+void joy_set_pot_mapping(int joystick_device_num, int axis, int pot)
+{
+    joystick_devices[joystick_device_num].axis_mapping[axis].pot = pot + 1;
+}
+
 void joy_delete_pot_mapping(int joystick_device_num, int pot)
 {
     int j;
-    joystick_action_t t;
 
     if (joystick_device_num >= 0 && joystick_device_num < num_joystick_devices) {
         for (j = 0; j < joystick_devices[joystick_device_num].num_axes; j++) {
-            t = joystick_devices[joystick_device_num].axis_mapping[j].positive_direction.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].axis_mapping[j].positive_direction.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].axis_mapping[j].positive_direction.action = NONE;
-                    joystick_devices[joystick_device_num].axis_mapping[j].positive_direction.value.joy_pin = 0;
-                }
-            }
-            t = joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.action = NONE;
-                    joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.value.joy_pin = 0;
-                }
-            }
-        }
-        for (j = 0; j < joystick_devices[joystick_device_num].num_buttons; j++) {
-            t = joystick_devices[joystick_device_num].button_mapping[j].action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].button_mapping[j].value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].button_mapping[j].action = NONE;
-                    joystick_devices[joystick_device_num].button_mapping[j].value.joy_pin = 0;
-                }
-            }
-        }
-        for (j = 0; j < joystick_devices[joystick_device_num].num_hats; j++) {
-            t = joystick_devices[joystick_device_num].hat_mapping[j].up.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].hat_mapping[j].up.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].hat_mapping[j].up.action = NONE;
-                    joystick_devices[joystick_device_num].hat_mapping[j].up.value.joy_pin = 0;
-                }
-            }
-            t = joystick_devices[joystick_device_num].hat_mapping[j].down.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].hat_mapping[j].down.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].hat_mapping[j].down.action = NONE;
-                    joystick_devices[joystick_device_num].hat_mapping[j].down.value.joy_pin = 0;
-                }
-            }
-            t = joystick_devices[joystick_device_num].hat_mapping[j].left.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].hat_mapping[j].left.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].hat_mapping[j].left.action = NONE;
-                    joystick_devices[joystick_device_num].hat_mapping[j].left.value.joy_pin = 0;
-                }
-            }
-            t = joystick_devices[joystick_device_num].hat_mapping[j].right.action;
-            if (t == POT_AXIS) {
-                if (joystick_devices[joystick_device_num].hat_mapping[j].right.value.joy_pin == pot) {
-                    joystick_devices[joystick_device_num].hat_mapping[j].right.action = NONE;
-                    joystick_devices[joystick_device_num].hat_mapping[j].right.value.joy_pin = 0;
-                }
+            if (joystick_devices[joystick_device_num].axis_mapping[j].pot == pot) {
+                joystick_devices[joystick_device_num].axis_mapping[j].pot = 0;
             }
         }
     }
