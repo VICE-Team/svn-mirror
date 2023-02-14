@@ -31,14 +31,20 @@
 enum flash040_type_s {
     /* 29F040 */
     FLASH040_TYPE_NORMAL,
+
     /* 29F040B */
     FLASH040_TYPE_B,
+
     /* 29F010 */
     FLASH040_TYPE_010,
+
     /* 29F032B, A0/1 swapped */
     FLASH040_TYPE_032B_A0_1_SWAP,
+
     /* Spansion S29GL064N */
     FLASH040_TYPE_064,
+
+    /* This item always needs to be at the end */
     FLASH040_TYPE_NUM
 };
 typedef enum flash040_type_s flash040_type_t;

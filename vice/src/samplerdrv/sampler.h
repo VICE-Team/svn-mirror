@@ -39,10 +39,13 @@
 #define SAMPLER_CLOSED   0
 #define SAMPLER_STARTED  1
 
-#define SAMPLER_DEVICE_FILE        0
-#define SAMPLER_DEVICE_PORTAUDIO   1
+enum {
+    SAMPLER_DEVICE_FILE = 0,
+    SAMPLER_DEVICE_PORTAUDIO,
 
-#define SAMPLER_MAX_DEVICES        2
+    /* This item always needs to be at the end */
+    SAMPLER_MAX_DEVICES
+};
 
 typedef struct sampler_device_s {
     const char *name;

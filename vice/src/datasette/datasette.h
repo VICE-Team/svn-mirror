@@ -30,23 +30,27 @@
 
 #include "types.h"
 
-#define DATASETTE_CONTROL_STOP    0
-#define DATASETTE_CONTROL_START   1
-#define DATASETTE_CONTROL_FORWARD 2
-#define DATASETTE_CONTROL_REWIND  3
-#define DATASETTE_CONTROL_RECORD  4
-#define DATASETTE_CONTROL_RESET   5
-#define DATASETTE_CONTROL_RESET_COUNTER   6
+enum {
+    DATASETTE_CONTROL_STOP = 0,
+    DATASETTE_CONTROL_START,
+    DATASETTE_CONTROL_FORWARD,
+    DATASETTE_CONTROL_REWIND,
+    DATASETTE_CONTROL_RECORD,
+    DATASETTE_CONTROL_RESET,
+    DATASETTE_CONTROL_RESET_COUNTER
+};
 
 /* Counter is c=g*(sqrt(v*t/d*pi+r^2/d^2)-r/d)
    Some constants for the Datasette-Counter, maybe resourses in future */
 #ifndef PI
 #define PI          3.1415926535
 #endif
+
 #define DS_D        1.27e-5
 #define DS_R        1.07e-2
 #define DS_V_PLAY   4.76e-2
 #define DS_G        0.525
+
 /* at FF/REWIND, Datasette-counter makes ~4 rounds per second */
 #define DS_RPS_FAST 4.00
 

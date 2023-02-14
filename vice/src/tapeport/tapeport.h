@@ -32,15 +32,18 @@
 
 /* #define TAPEPORT_EXPERIMENTAL_DEVICES */
 
-#define TAPEPORT_DEVICE_NONE                      0
-#define TAPEPORT_DEVICE_DATASETTE                 1
-#define TAPEPORT_DEVICE_CP_CLOCK_F83              2
-#define TAPEPORT_DEVICE_DTL_BASIC_DONGLE          3
-#define TAPEPORT_DEVICE_SENSE_DONGLE              4
-#define TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS  5
-#define TAPEPORT_DEVICE_TAPECART                  6
+enum {
+    TAPEPORT_DEVICE_NONE = 0,
+    TAPEPORT_DEVICE_DATASETTE,
+    TAPEPORT_DEVICE_CP_CLOCK_F83,
+    TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
+    TAPEPORT_DEVICE_SENSE_DONGLE,
+    TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS,
+    TAPEPORT_DEVICE_TAPECART,
 
-#define TAPEPORT_MAX_DEVICES                      7
+    /* This item always needs to be at the end */
+    TAPEPORT_MAX_DEVICES
+};
 
 enum {
     TAPEPORT_DEVICE_TYPE_NONE = 0,
@@ -56,6 +59,8 @@ enum {
 enum {
     TAPEPORT_PORT_1 = 0,
     TAPEPORT_PORT_2,
+
+    /* This item always needs to be at the end */
     TAPEPORT_MAX_PORTS
 };
 

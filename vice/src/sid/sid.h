@@ -39,12 +39,15 @@
 struct sound_s;
 struct sid_snapshot_state_s;
 
-#define SID_ENGINE_FASTSID        0
-#define SID_ENGINE_RESID          1
-#define SID_ENGINE_CATWEASELMKIII 2
-#define SID_ENGINE_HARDSID        3
-#define SID_ENGINE_PARSID         4
-#define SID_ENGINE_SSI2001        5
+enum {
+    SID_ENGINE_FASTSID = 0,
+    SID_ENGINE_RESID,
+    SID_ENGINE_CATWEASELMKIII,
+    SID_ENGINE_HARDSID,
+    SID_ENGINE_PARSID,
+    SID_ENGINE_SSI2001
+};
+
 #define SID_ENGINE_DEFAULT       99
 
 /* Maximum number of supported SIDs for each engine
@@ -52,26 +55,36 @@ struct sid_snapshot_state_s;
 
 /** \brief  Maximum number of supported SIDs for the FastSID engine */
 #define SID_ENGINE_FASTSID_NUM_SIDS         4
+
 /** \brief  Maximum number of supported SIDs for the ReSID engine */
 #define SID_ENGINE_RESID_NUM_SIDS           4
+
 /** \brief  Maximum number of supported SIDs for the Catweasel Mk3 engine */
 #define SID_ENGINE_CATWEASELMKIII_NUM_SIDS  2
+
 /** \brief  Maximum number of supported SIDs for the HardSID engine */
 #define SID_ENGINE_HARDSID_NUM_SIDS         2
+
 /** \brief  Maximum number of supported SIDs for the ParSID engine */
 #define SID_ENGINE_PARSID_NUM_SIDS          1
+
 /** \brief  Maximum number of supported SIDs for the SSI2001 engine */
 #define SID_ENGINE_SSI2001_NUM_SIDS         1
 
-#define SID_RESID_SAMPLING_FAST                 0
-#define SID_RESID_SAMPLING_INTERPOLATION        1
-#define SID_RESID_SAMPLING_RESAMPLING           2
-#define SID_RESID_SAMPLING_FAST_RESAMPLING      3
+enum {
+    SID_RESID_SAMPLING_FAST = 0,
+    SID_RESID_SAMPLING_INTERPOLATION,
+    SID_RESID_SAMPLING_RESAMPLING,
+    SID_RESID_SAMPLING_FAST_RESAMPLING
+};
 
-#define SID_MODEL_6581           0
-#define SID_MODEL_8580           1
-#define SID_MODEL_8580D          2
-#define SID_MODEL_DTVSID         3
+enum {
+    SID_MODEL_6581 = 0,
+    SID_MODEL_8580,
+    SID_MODEL_8580D,
+    SID_MODEL_DTVSID
+};
+
 #define SID_MODEL_DEFAULT       99
 
 /* these definitions are the only valid combinations of
@@ -95,22 +108,25 @@ struct sid_snapshot_state_s;
 #define SID_MACHINE_MAX_SID_C64     8
 #define SID_MACHINE_MAX_SID_C64DTV  1
 #define SID_MACHINE_MAX_SID_C128    8
+
 /** \brief  The VIC20 has an optional SID cartridge */
 #define SID_MACHINE_MAX_SID_VIC20   1
+
 /** \brief  The Plus4 has an optional SIDCard expansion */
 #define SID_MACHINE_MAX_SID_PLUS4   1
+
 #define SID_MACHINE_MAX_SID_CBM5x0  1
 #define SID_MACHINE_MAX_SID_CBM6x0  0
+
 /** \brief  The PET has an optional SID Card expansion */
 #define SID_MACHINE_MAX_SID_PET     1
+
 /** \brief  VSID supports up to three SIDS
  *
  * This can be the same as C64 in emulation, but PSID currently only manages 3
  * SIDs.
  */
 #define SID_MACHINE_MAX_SID_VSID    3
-
-
 
 
 void machine_sid2_enable(int val);
@@ -166,13 +182,10 @@ struct sid_engine_s {
     uint8_t (*read)(struct sound_s *psid, uint16_t addr);
     void (*store)(struct sound_s *psid, uint16_t addr, uint8_t val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
-    int (*calculate_samples)(struct sound_s *psid, short *pbuf, int nr,
-                             int interleave, CLOCK *delta_t);
+    int (*calculate_samples)(struct sound_s *psid, short *pbuf, int nr, int interleave, CLOCK *delta_t);
     char *(*dump_state)(struct sound_s *psid);
-    void (*state_read)(struct sound_s *psid,
-                       struct sid_snapshot_state_s *sid_state);
-    void (*state_write)(struct sound_s *psid,
-                        struct sid_snapshot_state_s *sid_state);
+    void (*state_read)(struct sound_s *psid, struct sid_snapshot_state_s *sid_state);
+    void (*state_write)(struct sound_s *psid, struct sid_snapshot_state_s *sid_state);
 };
 typedef struct sid_engine_s sid_engine_t;
 
