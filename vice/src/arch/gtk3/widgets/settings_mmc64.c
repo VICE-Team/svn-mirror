@@ -224,7 +224,6 @@ static GtkWidget *create_mmc64_revision_widget(void)
  */
 static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
 {
-
     GtkWidget  *label;
     GtkWidget  *bios_write;
     const char *title;
@@ -234,8 +233,7 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
     gtk_label_set_markup(GTK_LABEL(label),
                          "<b>" CARTRIDGE_NAME_MMC64 " BIOS</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 24);
-    gtk_widget_set_margin_bottom(label, 8);
+    gtk_widget_set_margin_top(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
     row++;
 
@@ -247,15 +245,13 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
                                                        GTK_FILE_CHOOSER_ACTION_OPEN);
     title = "Select " CARTRIDGE_NAME_MMC64 " BIOS file";
     vice_gtk3_resource_filechooser_set_custom_title(bios_filename, title);
+    gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), bios_filename, 1, row, columns - 1, 1);
+    row++;
 
     /* BIOS writes */
     bios_write = vice_gtk3_resource_check_button_new("MMC64_bios_write",
                                                      "Enable BIOS image writes");
-    gtk_widget_set_margin_top(bios_write, 8);
-
-    gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
-    gtk_grid_attach(GTK_GRID(grid), bios_filename, 1, row, columns - 1, 1);
-    row++;
     gtk_grid_attach(GTK_GRID(grid), bios_write,    1, row, columns - 1, 1);
 
     return row + 1;
@@ -281,8 +277,7 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     gtk_label_set_markup(GTK_LABEL(label),
                          "<b>" CARTRIDGE_NAME_MMC64 " SD/MMC Card</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 24);
-    gtk_widget_set_margin_bottom(label, 8);
+    gtk_widget_set_margin_top(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
     row++;
 
@@ -297,28 +292,24 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     gtk_grid_attach(GTK_GRID(grid), card_filename, 1, row, columns - 1, 1);
     row++;
 
-    /* card writes */
-    card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
-                                                      "Enable SD/MMC card read-only");
-    gtk_widget_set_margin_top(card_writes, 8);
-    gtk_grid_attach(GTK_GRID(grid), card_writes, 1, row, columns - 1, 1);
-    row++;
+
 
     /* card type */
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 8);
     type = vice_gtk3_resource_radiogroup_new("MMC64_sd_type",
                                              card_types,
                                              GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(type), 16);
-    gtk_widget_set_margin_top(type, 8);
-    /* extra spacing */
-    gtk_widget_set_margin_bottom(label, 16);
-    gtk_widget_set_margin_bottom(type, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1,           1);
     gtk_grid_attach(GTK_GRID(grid), type,  1, row, columns - 1, 1);
+    row++;
 
+    /* card writes */
+    card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
+                                                      "Enable SD/MMC card read-only");
+    gtk_grid_attach(GTK_GRID(grid), card_writes, 1, row, columns - 1, 1);
+    row++;
     return row + 1;
 }
 
@@ -329,15 +320,26 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
  * \param[in]   columns number of columns in \a grid, for proper column span
  *
  * \return  row in \a grid to add more widgets
+ *
+ * \todo    Turn into cart_image_layout() with header label, like MMCR
  */
-static int create_buttons_layout(GtkWidget *grid, int row, int columns)
+static int create_cart_image_layout(GtkWidget *grid, int row, int columns)
 {
+    GtkWidget *label;
     GtkWidget *box;
     GtkWidget *save;
     GtkWidget *flush;
 
-    box =   gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-    flush = gtk_button_new_with_label("Save image");
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<b>" CARTRIDGE_NAME_MMC64 " Cartridge Image</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_top(label, 16);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
+    row++;
+
+    box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    flush = gtk_button_new_with_label("Flush image");
     save =  gtk_button_new_with_label("Save image as ...");
 
     g_signal_connect(G_OBJECT(flush),
@@ -353,8 +355,7 @@ static int create_buttons_layout(GtkWidget *grid, int row, int columns)
     gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
     gtk_box_set_spacing(GTK_BOX(box), 8);
     gtk_widget_set_halign(box, GTK_ALIGN_END);
-    gtk_widget_set_margin_top(box, 32);
-    gtk_grid_attach(GTK_GRID(grid), box, 0, row, columns, 1);
+    gtk_grid_attach(GTK_GRID(grid), box, 2, row, columns - 2, 1);
 
     return row + 1;
 }
@@ -383,17 +384,20 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    /* all rows need at least 8 pixels space between widgets, so we set the
+     * minimum spacing here */
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* enable emulation check button */
     enable_widget = create_mmc64_enable_widget();
 
     /* jumper switch and label */
     jumper_wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(jumper_wrapper), 16);
     jumper_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " flash jumper");
     jumper_widget  = create_mmc64_jumper_widget();
     gtk_widget_set_halign(jumper_label, GTK_ALIGN_END);
     gtk_widget_set_hexpand(jumper_label, TRUE);
-    gtk_widget_set_margin_end(jumper_label, 16);
     gtk_widget_set_halign(jumper_widget, GTK_ALIGN_END);
     gtk_widget_set_valign(jumper_widget, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(jumper_wrapper), jumper_label,  0, 0, 1, 1);
@@ -405,22 +409,23 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 
     row = create_bios_image_layout(grid, row, NUM_COLS);
     row = create_card_image_layout(grid, row, NUM_COLS);
+    row = create_cart_image_layout(grid, row, NUM_COLS);
+
+    clockport_label  = gtk_label_new("ClockPort device");
+    clockport_widget = clockport_device_widget_create("MMC64ClockPort");
+    gtk_widget_set_halign(clockport_label, GTK_ALIGN_START);
+    gtk_widget_set_margin_top(clockport_label, 16);
+    gtk_widget_set_margin_top(clockport_widget, 16);
+    gtk_grid_attach(GTK_GRID(grid), clockport_label,  0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 1, row, 1, 1);
+    row++;
 
     revision_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " Revision");
     revision_widget  = create_mmc64_revision_widget();
-    clockport_label  = gtk_label_new("ClockPort device");
-    clockport_widget = clockport_device_widget_create("MMC64ClockPort");
     gtk_widget_set_halign(revision_label, GTK_ALIGN_START);
-    gtk_widget_set_valign(revision_widget, GTK_ALIGN_CENTER);
-    gtk_widget_set_halign(clockport_label, GTK_ALIGN_END);
-
+    gtk_widget_set_valign(revision_widget, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), revision_label,   0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), revision_widget,  1, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), clockport_label,  2, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 3, row, 1, 1);
-    row++;
-
-    create_buttons_layout(grid, row, NUM_COLS);
 #undef NUM_COLS
 
     gtk_widget_show_all(grid);
