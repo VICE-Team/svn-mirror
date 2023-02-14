@@ -913,7 +913,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                 index_string = "I";
                 index = j;
                 sub_index = 0;
-                break;
             }
             t = joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.action;
             if (t == JOYSTICK && joystick_devices[joystick_device_num].axis_mapping[j].negative_direction.value.joy_pin == pin) {
@@ -922,7 +921,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                 index_string = "I";
                 index = j;
                 sub_index = 1;
-                break;
             }
         }
         for (j = 0; j < joystick_devices[joystick_device_num].num_buttons; j++) {
@@ -934,7 +932,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                     index_string = NULL;
                     index = j;
                     sub_index = 0;
-                    break;
                 }
             }
         }
@@ -948,7 +945,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                     index_string = "I";
                     index = j;
                     sub_index = 0;
-                    break;
                 }
             }
             t = joystick_devices[joystick_device_num].hat_mapping[j].down.action;
@@ -960,7 +956,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                     index_string = "I";
                     index = j;
                     sub_index = 1;
-                    break;
                 }
             }
             t = joystick_devices[joystick_device_num].hat_mapping[j].left.action;
@@ -972,7 +967,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                     index_string = "I";
                     index = j;
                     sub_index = 2;
-                    break;
                 }
             }
             t = joystick_devices[joystick_device_num].hat_mapping[j].right.action;
@@ -984,7 +978,6 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
                     index_string = "I";
                     index = j;
                     sub_index = 3;
-                    break;
                 }
             }
         }
