@@ -428,8 +428,24 @@ uint8_t sdljoy_check_axis_movement(SDL_Event e)
 
 uint8_t sdljoy_check_hat_movement(SDL_Event e)
 {
-    joy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
-    return e.jhat.value;
+    uint8_t cur, prev;
+    Uint8 joynum;
+    Uint8 hat;
+    Uint8 value;
+
+    joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+    hat = e.jhat.hat;
+    value = e.jhat.value;
+
+    prev = joy_hat_prev(joynum, hat);
+
+    cur = sdljoy_hat_direction(value, prev);
+    if (cur == prev) {
+        return 0;
+    }
+
+    joy_get_hat_mapping(joynum, hat, cur, NULL);
+    return cur;
 }
 
 void sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
