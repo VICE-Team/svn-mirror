@@ -40,13 +40,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "c64cart.h"
 #include "cartridge.h"
 #include "log.h"
-#include "machine.h"
-#include "resources.h"
-#include "ui.h"
+#include "vice_gtk3.h"
 
 #include "settings_mmc64.h"
 
@@ -56,127 +53,25 @@
 static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Rev. A", MMC64_REV_A },
     { "Rev. B", MMC64_REV_B },
-    { NULL, -1 }
+    { NULL,     -1 }
 };
-
 
 /** \brief  List of memory card types
  */
 static const vice_gtk3_radiogroup_entry_t card_types[] = {
     { "Auto", MMC64_TYPE_AUTO },
-    { "MMC", MMC64_TYPE_MMC },
-    { "SD", MMC64_TYPE_SD },
+    { "MMC",  MMC64_TYPE_MMC },
+    { "SD",   MMC64_TYPE_SD },
     { "SDHC", MMC64_TYPE_SDHC },
-    { NULL, -1 }
+    { NULL,   -1 }
 };
 
 
-/** \brief  Enable checkbox */
-static GtkWidget *enable_widget = NULL;
-
-/** \brief  Jumper switch */
-static GtkWidget *jumper_widget = NULL;
-
-/** \brief  Revision radiogroup */
-static GtkWidget *revision_widget = NULL;
-
-/** \brief  Clockport device widget */
-static GtkWidget *clockport_widget = NULL;
-
 /** \brief  BIOS filename entry */
-static GtkWidget *bios_filename_widget = NULL;
-
-/** \brief  BIOS browse button */
-static GtkWidget *bios_browse_widget = NULL;
-
-/** \brief  BIOS write checkbox */
-static GtkWidget *bios_write_widget = NULL;
-
-/** \brief  SD card widget */
-static GtkWidget *card_widget = NULL;
+static GtkWidget *bios_filename = NULL;
 
 /** \brief  SD card widget filename entry */
-static GtkWidget *card_filename_entry = NULL;
-
-/** \brief  SD card widget type widget */
-static GtkWidget *card_type_widget = NULL;
-
-/** \brief  Save button */
-static GtkWidget *save_button = NULL;
-
-/** \brief  Flush button */
-static GtkWidget *flush_button = NULL;
-
-
-/** \brief  Callback for the BIOS file dilaog
- *
- * \param[in,out]   dialog      BIOS file dialog
- * \param[in]       filename    filename or NULL on cancel
- * \param[in]       data        extra data (unused)
- */
-static void bios_filename_callback(GtkDialog *dialog,
-                                   gchar *filename,
-                                   gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(bios_filename_widget, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the "clicked" event of the BIOS browse button
- *
- * \param[in]   button      browse button
- * \param[in]   user_data   BIOS text entry
- */
-static void on_bios_browse_clicked(GtkWidget *button, gpointer user_data)
-{
-    vice_gtk3_open_file_dialog(
-            "Open MMC64 BIOS image file",
-            NULL, NULL, NULL,
-            bios_filename_callback,
-            NULL);
-}
-
-
-/** \brief  Callback for the card file dilaog
- *
- * \param[in,out]   dialog      card file dialog
- * \param[in]       filename    filename or NULL on cancel
- * \param[in]       data        extra data (unused)
- */
-static void card_filename_callback(GtkDialog *dialog,
-                                   gchar *filename,
-                                   gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(card_filename_entry, filename);
-        g_free(filename);
-    }
-
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-
-/** \brief  Handler for the "clicked" event of the memory card browse button
- *
- * \param[in]   button      browse button
- * \param[in]   user_data   unused
- */
-static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_open_file_dialog(
-            "Open memory card file",
-            NULL, NULL, NULL,
-            card_filename_callback,
-            NULL);
-    gtk_widget_show(dialog);
-}
+static GtkWidget *card_filename = NULL;
 
 
 /** \brief  Handler for the 'toggled' event of the "MMC64 Enabled" widget
@@ -186,35 +81,39 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
  */
 static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    const char *bios = gtk_entry_get_text(GTK_ENTRY(bios_filename_widget));
+    gboolean    enabled;
+    const char *bios;
 
-    if (state && (bios == NULL || *bios == '\0')) {
+    enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+    bios    = gtk_entry_get_text(GTK_ENTRY(bios_filename));
+
+    if (enabled && (bios == NULL || *bios == '\0')) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-        vice_gtk3_message_error("VICE core error",
-                "Cannot enable cartridge due to missing BIOS file");
+        vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+                                "Cannot enable " CARTRIDGE_NAME_MMC64
+                                " due to missing BIOS file.");
         return;
     }
 
     /* TODO: this requires proper logging or error dialogs, not debug_gtk3() */
-    if (state && bios != NULL && *bios != '\0') {
+    if (enabled && bios != NULL && *bios != '\0') {
         if (cartridge_enable(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-            log_error(LOG_ERR, "failed to activate MMC64, please set BIOS file.");
+            log_error(LOG_ERR,
+                      "failed to activate " CARTRIDGE_NAME_MMC64 ", please set BIOS file.");
         }
         /* doesn't work, attaching for example a KCS Power Cart will still
          * return 37 (MMC64) */
         if (!cartridge_type_enabled(CARTRIDGE_MMC64)) {
             debug_gtk3("failed to attach MMC64.");
         }
-    } else if (!state) {
+    } else if (!enabled) {
         if (cartridge_disable(CARTRIDGE_MMC64) < 0) {
-            log_error(LOG_ERR, "failed to disable cartridge.");
+            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_MMC64 ".");
         }
     }
 }
-
 
 /** \brief  Callback for the save-dialog response handler
  *
@@ -223,8 +122,8 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
  * \param[in]       data        extra data (unused)
  */
 static void save_filename_callback(GtkDialog *dialog,
-                                   gchar *filename,
-                                   gpointer data)
+                                   gchar     *filename,
+                                   gpointer   data)
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_MMC64, filename) < 0) {
@@ -237,7 +136,6 @@ static void save_filename_callback(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
  * \param[in]   widget      button
@@ -245,12 +143,14 @@ static void save_filename_callback(GtkDialog *dialog,
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-    vice_gtk3_save_file_dialog("Save cartridge image",
-                               NULL, TRUE, NULL,
-                               save_filename_callback,
-                               NULL);
-}
+    GtkWidget *dialog;
 
+    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_MMC64 " image",
+                                        NULL, TRUE, NULL,
+                                        save_filename_callback,
+                                        NULL);
+    gtk_widget_show(dialog);
+}
 
 /** \brief  Handler for the "clicked" event of the Flush Image button
  *
@@ -260,13 +160,13 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
-        vice_gtk3_message_error("Flushing failed",
-                    "Failed to fush cartridge image");
+        vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+                                "Failed to flush " CARTRIDGE_NAME_MMC64 " image.");
     }
 }
 
 
-/** \brief  Create widget to toggle the MMC64 on/off
+/** \brief  Create widget to toggle MMC64 emulation
  *
  * \return  GtkCheckButton
  */
@@ -274,54 +174,30 @@ static GtkWidget *create_mmc64_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = gtk_check_button_new_with_label("Enable MMC64");
+    check = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_MMC64 " emulation");
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-            cartridge_type_enabled(CARTRIDGE_MMC64));
-
-    g_signal_connect(check, "toggled", G_CALLBACK(on_enable_toggled), NULL);
+                                 cartridge_type_enabled(CARTRIDGE_MMC64));
+    g_signal_connect(check,
+                     "toggled",
+                     G_CALLBACK(on_enable_toggled),
+                     NULL);
     return check;
 }
-
 
 /** \brief  Create widget to toggle the MMC64 flash jumper
  *
- * \return  GtkCheckButton
+ * \return  GtkSwitch
  */
 static GtkWidget *create_mmc64_jumper_widget(void)
 {
-    GtkWidget *check;
+    GtkWidget *sw;
 
-    check = vice_gtk3_resource_check_button_new("MMC64_flashjumper",
-            "Enable flash jumper");
-    return check;
+    sw = vice_gtk3_resource_switch_new("MMC64_flashjumper");
+    gtk_widget_set_hexpand(sw, FALSE);
+    gtk_widget_set_vexpand(sw, FALSE);
+    return sw;
 }
-
-
-/** \brief  Create button to save the cartridge (BIOS) image
- *
- * \return  GtkButton
- */
-static GtkWidget *create_save_button(void)
-{
-    GtkWidget *button = gtk_button_new_with_label("Save image as ...");
-    g_signal_connect(button, "clicked", G_CALLBACK(on_save_clicked), NULL);
-    return button;
-}
-
-
-/** \brief  Create button to flush the cartridge (BIOS) image
- *
- * \return  GtkButton
- */
-static GtkWidget *create_flush_button(void)
-{
-    GtkWidget *button = gtk_button_new_with_label("Save image");
-    g_signal_connect(button, "clicked", G_CALLBACK(on_flush_clicked), NULL);
-    return button;
-}
-
-
 
 /** \brief  Create widget to set the MMC64 revision
  *
@@ -329,151 +205,159 @@ static GtkWidget *create_flush_button(void)
  */
 static GtkWidget *create_mmc64_revision_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *radio_group;
+    GtkWidget *group;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-
-    label = gtk_label_new("Revision");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    radio_group = vice_gtk3_resource_radiogroup_new("MMC64_revision", revisions,
-            GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    group = vice_gtk3_resource_radiogroup_new("MMC64_revision",
+                                              revisions,
+                                              GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_set_column_spacing(GTK_GRID(group), 8);
+    return group;
 }
 
-
-/** \brief  Create widget to control BIOS resources
+/** \brief  Add BIOS widgets to main grid
  *
- * \return  GtkGrid
- */
-static GtkWidget *create_bios_image_widget(void)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "MMC64 BIOS image", 2);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    label = gtk_label_new("file name");
-    bios_filename_widget = vice_gtk3_resource_entry_new("MMC64BIOSfilename");
-    gtk_widget_set_hexpand(bios_filename_widget, TRUE);
-    gtk_widget_set_margin_start(label, 16);
-    bios_browse_widget = gtk_button_new_with_label("Browse ...");
-    bios_write_widget = vice_gtk3_resource_check_button_new(
-            "MMC64_bios_write", "Enable BIOS image writes");
-    gtk_widget_set_margin_start(bios_write_widget, 16);
-
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bios_filename_widget, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bios_browse_widget, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bios_write_widget, 0, 2, 3, 1);
-
-    g_signal_connect(bios_browse_widget, "clicked",
-            G_CALLBACK(on_bios_browse_clicked),
-            (gpointer)bios_filename_widget);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
-
-
-/** \brief  Create widget to control memory card image
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to add widgets
+ * \param[in]   columns number of columns in \a grid, for proper column span
  *
- * \return  GtkGrid
+ * \return  row in \a grid to add more widgets
  */
-static GtkWidget *create_card_image_widget(void)
+static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *browse;
-    GtkWidget *card_writes;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            -1, -1, "MMC64 SD/MMC Card image", 3);
+    GtkWidget  *label;
+    GtkWidget  *bios_write;
+    const char *title;
 
-    label = gtk_label_new("file name");
+    /* header */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<b>" CARTRIDGE_NAME_MMC64 " BIOS</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_widget_set_margin_top(label, 24);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
+    row++;
 
-    card_filename_entry = vice_gtk3_resource_entry_new("MMC64Imagefilename");
-    gtk_widget_set_hexpand(card_filename_entry, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), card_filename_entry, 1, 1, 1, 1);
+    /* BIOS file chooser */
+    label = gtk_label_new("BIOS filename");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    browse = gtk_button_new_with_label("Browse ...");
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
+    bios_filename = vice_gtk3_resource_filechooser_new("MMC64BIOSfilename",
+                                                       GTK_FILE_CHOOSER_ACTION_OPEN);
+    title = "Select " CARTRIDGE_NAME_MMC64 " BIOS file";
+    vice_gtk3_resource_filechooser_set_custom_title(bios_filename, title);
 
-    card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
-            "Enable SD/MMC card read-only");
-    gtk_widget_set_margin_top(card_writes, 8);
-    gtk_widget_set_margin_start(card_writes, 16);
-    gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);
+    /* BIOS writes */
+    bios_write = vice_gtk3_resource_check_button_new("MMC64_bios_write",
+                                                     "Enable BIOS image writes");
+    gtk_widget_set_margin_top(bios_write, 8);
 
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_card_browse_clicked),
-            NULL);
+    gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), bios_filename, 1, row, columns - 1, 1);
+    row++;
+    gtk_grid_attach(GTK_GRID(grid), bios_write,    1, row, columns - 1, 1);
 
-    gtk_widget_show_all(grid);
-    return grid;
+    return row + 1;
 }
 
-
-/** \brief  Create widget to control memory card type
+/** \brief  Add widgets for the SD/MCC card
  *
- * \return  GtkGrid
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to add widgets
+ * \param[in]   columns number of columns in \a grid, for proper column span
+ *
+ * \return  row in \a grid to add more widgets
  */
-static GtkWidget *create_card_type_widget(void)
+static int create_card_image_layout(GtkWidget *grid, int row, int columns)
 {
-    GtkWidget *grid;
-    GtkWidget *radio_group;
-    GtkWidget *label;
+    GtkWidget  *label;
+    GtkWidget  *card_writes;
+    GtkWidget  *type;
+    const char *title;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    /* header */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<b>" CARTRIDGE_NAME_MMC64 " SD/MMC Card</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_top(label, 24);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
+    row++;
+
+    /* card image file */
+    label = gtk_label_new("Card image file");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    card_filename = vice_gtk3_resource_filechooser_new("MMC64Imagefilename",
+                                                       GTK_FILE_CHOOSER_ACTION_OPEN);
+    title = "Select " CARTRIDGE_NAME_MMC64 " SD/MMC card image file";
+    vice_gtk3_resource_filechooser_set_custom_title(card_filename, title);
+    gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), card_filename, 1, row, columns - 1, 1);
+    row++;
+
+    /* card writes */
+    card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
+                                                      "Enable SD/MMC card read-only");
+    gtk_widget_set_margin_top(card_writes, 8);
+    gtk_grid_attach(GTK_GRID(grid), card_writes, 1, row, columns - 1, 1);
+    row++;
+
+    /* card type */
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_widget_set_margin_top(label, 8);
+    type = vice_gtk3_resource_radiogroup_new("MMC64_sd_type",
+                                             card_types,
+                                             GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_set_column_spacing(GTK_GRID(type), 16);
+    gtk_widget_set_margin_top(type, 8);
+    /* extra spacing */
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(type, 16);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), type,  1, row, columns - 1, 1);
 
-    radio_group = vice_gtk3_resource_radiogroup_new("MMC64_sd_type",
-            card_types, GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_set_column_spacing(GTK_GRID(radio_group), 16);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    return row + 1;
 }
 
-
-/** \brief  Create widget to select the clockport device
+/** \brief  Add buttons for flushing and saving image
  *
- * \return  GtkGrid
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to add widgets
+ * \param[in]   columns number of columns in \a grid, for proper column span
+ *
+ * \return  row in \a grid to add more widgets
  */
-static GtkWidget *create_clockport_widget(void)
+static int create_buttons_layout(GtkWidget *grid, int row, int columns)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
+    GtkWidget *box;
+    GtkWidget *save;
+    GtkWidget *flush;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    box =   gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
+    flush = gtk_button_new_with_label("Save image");
+    save =  gtk_button_new_with_label("Save image as ...");
 
-    label = gtk_label_new("ClockPort device");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    g_signal_connect(G_OBJECT(flush),
+                     "clicked",
+                     G_CALLBACK(on_flush_clicked),
+                     NULL);
+    g_signal_connect(G_OBJECT(save),
+                     "clicked",
+                     G_CALLBACK(on_save_clicked),
+                     NULL);
 
-    gtk_grid_attach(GTK_GRID(grid),
-            clockport_device_widget_create("MMC64ClockPort"), 1, 0, 1, 1);
+    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
+    gtk_box_set_spacing(GTK_BOX(box), 8);
+    gtk_widget_set_halign(box, GTK_ALIGN_END);
+    gtk_widget_set_margin_top(box, 32);
+    gtk_grid_attach(GTK_GRID(grid), box, 0, row, columns, 1);
 
-    gtk_widget_show_all(grid);
-    return grid;
+    return row + 1;
 }
-
 
 
 /** \brief  Create widget to control MMC64 resources
@@ -484,38 +368,60 @@ static GtkWidget *create_clockport_widget(void)
  */
 GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 {
+    /* number of columns in grid */
+#define NUM_COLS 4
     GtkWidget *grid;
+    GtkWidget *enable_widget;
+    GtkWidget *jumper_wrapper;
+    GtkWidget *jumper_label;
+    GtkWidget *jumper_widget;
+    GtkWidget *revision_label;
+    GtkWidget *revision_widget;
+    GtkWidget *clockport_label;
+    GtkWidget *clockport_widget;
+    int        row = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
+    /* enable emulation check button */
     enable_widget = create_mmc64_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 2 ,1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_bios_image_widget(),
-            0, 1, 2, 1);
-    card_widget = create_card_image_widget();
-    gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 2, 2, 1);
+    /* jumper switch and label */
+    jumper_wrapper = gtk_grid_new();
+    jumper_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " flash jumper");
+    jumper_widget  = create_mmc64_jumper_widget();
+    gtk_widget_set_halign(jumper_label, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(jumper_label, TRUE);
+    gtk_widget_set_margin_end(jumper_label, 16);
+    gtk_widget_set_halign(jumper_widget, GTK_ALIGN_END);
+    gtk_widget_set_valign(jumper_widget, GTK_ALIGN_CENTER);
+    gtk_grid_attach(GTK_GRID(jumper_wrapper), jumper_label,  0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(jumper_wrapper), jumper_widget, 1, 0, 1, 1);
 
-    card_type_widget = create_card_type_widget();
-    gtk_widget_set_margin_start(card_type_widget, 16);
-    gtk_widget_set_margin_bottom(card_type_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), card_type_widget, 0, 3, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), enable_widget,  0, row, 2 ,1);
+    gtk_grid_attach(GTK_GRID(grid), jumper_wrapper, 2, row, 2, 1);
+    row++;
 
-    jumper_widget = create_mmc64_jumper_widget();
-    gtk_grid_attach(GTK_GRID(grid), jumper_widget, 0, 4, 2, 1);
+    row = create_bios_image_layout(grid, row, NUM_COLS);
+    row = create_card_image_layout(grid, row, NUM_COLS);
 
-    revision_widget = create_mmc64_revision_widget();
-    gtk_grid_attach(GTK_GRID(grid), revision_widget, 0, 5, 2, 1);
+    revision_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " Revision");
+    revision_widget  = create_mmc64_revision_widget();
+    clockport_label  = gtk_label_new("ClockPort device");
+    clockport_widget = clockport_device_widget_create("MMC64ClockPort");
+    gtk_widget_set_halign(revision_label, GTK_ALIGN_START);
+    gtk_widget_set_valign(revision_widget, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(clockport_label, GTK_ALIGN_END);
 
-    clockport_widget = create_clockport_widget();
-    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 0, 6, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), revision_label,   0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), revision_widget,  1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), clockport_label,  2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 3, row, 1, 1);
+    row++;
 
-    save_button = create_save_button();
-    flush_button = create_flush_button();
-    gtk_grid_attach(GTK_GRID(grid), save_button, 0, 7, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 7, 1, 1);
+    create_buttons_layout(grid, row, NUM_COLS);
+#undef NUM_COLS
 
     gtk_widget_show_all(grid);
     return grid;
