@@ -33,71 +33,76 @@
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
 #define JOYPORT_ID_UNKNOWN             -1   /* used with joyport_display_joyport() */
-#define JOYPORT_ID_NONE                0    /* CAUTION: some code relies on this being 0 */
-#define JOYPORT_ID_JOYSTICK            1
-#define JOYPORT_ID_PADDLES             2
-#define JOYPORT_ID_MOUSE_1351          3
-#define JOYPORT_ID_MOUSE_NEOS          4
-#define JOYPORT_ID_MOUSE_AMIGA         5
-#define JOYPORT_ID_MOUSE_CX22          6
-#define JOYPORT_ID_MOUSE_ST            7
-#define JOYPORT_ID_MOUSE_SMART         8
-#define JOYPORT_ID_MOUSE_MICROMYS      9
-#define JOYPORT_ID_KOALAPAD            10
-#define JOYPORT_ID_LIGHTPEN_U          11
-#define JOYPORT_ID_LIGHTPEN_L          12
-#define JOYPORT_ID_LIGHTPEN_DATEL      13
-#define JOYPORT_ID_LIGHTGUN_Y          14
-#define JOYPORT_ID_LIGHTGUN_L          15
-#define JOYPORT_ID_LIGHTPEN_INKWELL    16
-#define JOYPORT_ID_LIGHTGUN_GUNSTICK   17
-#define JOYPORT_ID_SAMPLER_2BIT        18
-#define JOYPORT_ID_SAMPLER_4BIT        19
-#define JOYPORT_ID_BBRTC               20
-#define JOYPORT_ID_PAPERCLIP64         21
-#define JOYPORT_ID_COPLIN_KEYPAD       22
-#define JOYPORT_ID_CARDCO_KEYPAD       23
-#define JOYPORT_ID_CX85_KEYPAD         24
-#define JOYPORT_ID_RUSHWARE_KEYPAD     25
-#define JOYPORT_ID_CX21_KEYPAD         26
-#define JOYPORT_ID_SCRIPT64_DONGLE     27
-#define JOYPORT_ID_VIZAWRITE64_DONGLE  28
-#define JOYPORT_ID_WAASOFT_DONGLE      29
-#define JOYPORT_ID_TRAPTHEM_SNESPAD    30
-#define JOYPORT_ID_NINJA_SNESPAD       31
-#define JOYPORT_ID_SPACEBALLS          32
-#define JOYPORT_ID_INCEPTION           33
-#define JOYPORT_ID_MULTIJOY_JOYSTICKS  34
-#define JOYPORT_ID_MULTIJOY_CONTROL    35
-#define JOYPORT_ID_PROTOPAD            36
-#define JOYPORT_ID_IO_SIMULATION       37
-#define JOYPORT_ID_MF_JOYSTICK         38
 
-#define JOYPORT_MAX_DEVICES            39
+enum {
+    JOYPORT_ID_NONE = 0,    /* CAUTION: some code relies on this being 0 */
+    JOYPORT_ID_JOYSTICK,
+    JOYPORT_ID_PADDLES,
+    JOYPORT_ID_MOUSE_1351,
+    JOYPORT_ID_MOUSE_NEOS,
+    JOYPORT_ID_MOUSE_AMIGA,
+    JOYPORT_ID_MOUSE_CX22,
+    JOYPORT_ID_MOUSE_ST,
+    JOYPORT_ID_MOUSE_SMART,
+    JOYPORT_ID_MOUSE_MICROMYS,
+    JOYPORT_ID_KOALAPAD,
+    JOYPORT_ID_LIGHTPEN_U,
+    JOYPORT_ID_LIGHTPEN_L,
+    JOYPORT_ID_LIGHTPEN_DATEL,
+    JOYPORT_ID_LIGHTGUN_Y,
+    JOYPORT_ID_LIGHTGUN_L,
+    JOYPORT_ID_LIGHTPEN_INKWELL,
+    JOYPORT_ID_LIGHTGUN_GUNSTICK,
+    JOYPORT_ID_SAMPLER_2BIT,
+    JOYPORT_ID_SAMPLER_4BIT,
+    JOYPORT_ID_BBRTC,
+    JOYPORT_ID_PAPERCLIP64,
+    JOYPORT_ID_COPLIN_KEYPAD,
+    JOYPORT_ID_CARDCO_KEYPAD,
+    JOYPORT_ID_CX85_KEYPAD,
+    JOYPORT_ID_RUSHWARE_KEYPAD,
+    JOYPORT_ID_CX21_KEYPAD,
+    JOYPORT_ID_SCRIPT64_DONGLE,
+    JOYPORT_ID_VIZAWRITE64_DONGLE,
+    JOYPORT_ID_WAASOFT_DONGLE,
+    JOYPORT_ID_TRAPTHEM_SNESPAD,
+    JOYPORT_ID_NINJA_SNESPAD,
+    JOYPORT_ID_SPACEBALLS,
+    JOYPORT_ID_INCEPTION,
+    JOYPORT_ID_MULTIJOY_JOYSTICKS,
+    JOYPORT_ID_MULTIJOY_CONTROL,
+    JOYPORT_ID_PROTOPAD,
+    JOYPORT_ID_IO_SIMULATION,
+    JOYPORT_ID_MF_JOYSTICK,
 
-#define JOYPORT_RES_ID_NONE        0
-#define JOYPORT_RES_ID_MOUSE       1
-#define JOYPORT_RES_ID_SAMPLER     2
-#define JOYPORT_RES_ID_KEYPAD      3
+    /* This item always needs to be at the end */
+    JOYPORT_MAX_DEVICES
+};
 
-#define JOYPORT_1   0   /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 1,
-                             vic20 control port */
-#define JOYPORT_2   1   /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 2 */
-#define JOYPORT_3   2   /**< c64/c128/c64dtv/scpu64/cbm2/pet/plus4/vic20 userport
-                             joystick adapter port 1 */
-#define JOYPORT_4   3   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
-                             joystick adapter port 2 */
-#define JOYPORT_5   4   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
-                             joystick adapter port 3 */
-#define JOYPORT_6   5   /**< plus4 sidcart control port */
-#define JOYPORT_7   6
-#define JOYPORT_8   7
-#define JOYPORT_9   8
-#define JOYPORT_10  9
+enum {
+    JOYPORT_RES_ID_NONE,
+    JOYPORT_RES_ID_MOUSE,
+    JOYPORT_RES_ID_SAMPLER,
+    JOYPORT_RES_ID_KEYPAD
+};
+
+enum {
+    JOYPORT_1 = 0,   /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 1, vic20 control port */
+    JOYPORT_2,       /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 2 */
+    JOYPORT_3,       /**< c64/c128/c64dtv/scpu64/cbm2/pet/plus4/vic20 userport, joystick adapter port 1 */
+    JOYPORT_4,       /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport, joystick adapter port 2 */
+    JOYPORT_5,       /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport, joystick adapter port 3 */
+    JOYPORT_6,       /**< plus4 sidcart control port */
+    JOYPORT_7,
+    JOYPORT_8,
+    JOYPORT_9,
+    JOYPORT_10,
+
+    /* This item always needs to be at the end */
+    JOYPORT_MAX_PORTS
+};
 
 #define JOYPORT_PLUS4_SIDCART JOYPORT_6
-
-#define JOYPORT_MAX_PORTS     10
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0
 #define JOYPORT_IS_LIGHTPEN       1
@@ -105,30 +110,34 @@
 #define JOYPORT_POT_REQUIRED   0
 #define JOYPORT_POT_OPTIONAL   1
 
-#define JOYSTICK_ADAPTER_ID_NONE                  0
-#define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT      1
-#define JOYSTICK_ADAPTER_ID_NINJA_SNES            2
-#define JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES 3
-#define JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64   4
-#define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
-#define JOYSTICK_ADAPTER_ID_MULTIJOY              6
-#define JOYSTICK_ADAPTER_ID_INCEPTION             7
-#define JOYSTICK_ADAPTER_ID_SPT_JOYSTICK          8
+enum {
+    JOYSTICK_ADAPTER_ID_NONE = 0,
+    JOYSTICK_ADAPTER_ID_GENERIC_USERPORT,
+    JOYSTICK_ADAPTER_ID_NINJA_SNES,
+    JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES,
+    JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64,
+    JOYSTICK_ADAPTER_ID_SPACEBALLS,
+    JOYSTICK_ADAPTER_ID_MULTIJOY,
+    JOYSTICK_ADAPTER_ID_INCEPTION,
+    JOYSTICK_ADAPTER_ID_SPT_JOYSTICK
+};
 
-#define JOYPORT_DEVICE_TYPE_NONE          0
-#define JOYPORT_DEVICE_JOYSTICK           1
-#define JOYPORT_DEVICE_JOYSTICK_ADAPTER   2
-#define JOYPORT_DEVICE_SNES_ADAPTER       3
-#define JOYPORT_DEVICE_PADDLES            4
-#define JOYPORT_DEVICE_MOUSE              5
-#define JOYPORT_DEVICE_LIGHTPEN           6
-#define JOYPORT_DEVICE_LIGHTGUN           7
-#define JOYPORT_DEVICE_DRAWING_PAD        8
-#define JOYPORT_DEVICE_KEYPAD             9
-#define JOYPORT_DEVICE_SAMPLER            10
-#define JOYPORT_DEVICE_RTC                11
-#define JOYPORT_DEVICE_C64_DONGLE         12
-#define JOYPORT_DEVICE_IO_SIMULATION      13
+enum {
+    JOYPORT_DEVICE_TYPE_NONE = 0,
+    JOYPORT_DEVICE_JOYSTICK,
+    JOYPORT_DEVICE_JOYSTICK_ADAPTER,
+    JOYPORT_DEVICE_SNES_ADAPTER,
+    JOYPORT_DEVICE_PADDLES,
+    JOYPORT_DEVICE_MOUSE,
+    JOYPORT_DEVICE_LIGHTPEN,
+    JOYPORT_DEVICE_LIGHTGUN,
+    JOYPORT_DEVICE_DRAWING_PAD,
+    JOYPORT_DEVICE_KEYPAD,
+    JOYPORT_DEVICE_SAMPLER,
+    JOYPORT_DEVICE_RTC,
+    JOYPORT_DEVICE_C64_DONGLE,
+    JOYPORT_DEVICE_IO_SIMULATION
+};
 
 /* joystick bits */
 #define JOYPORT_P0_BIT    0

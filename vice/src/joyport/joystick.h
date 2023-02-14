@@ -87,6 +87,7 @@ void joystick_set_snes_mapping(int port);
 
 #define JOYSTICK_KEYSET_NUM          3
 #define JOYSTICK_KEYSET_NUM_KEYS     16 /* 4 directions, 4 diagonals, 8 fire */
+
 #define JOYSTICK_KEYSET_IDX_NUMBLOCK 0
 #define JOYSTICK_KEYSET_IDX_A        1
 #define JOYSTICK_KEYSET_IDX_B        2

@@ -64,17 +64,21 @@ int mouse_get_mouse_sy(void);
 int read_mouse_common_snapshot(snapshot_module_t *m);
 int write_mouse_common_snapshot(snapshot_module_t *m);
 
-#define MOUSE_TYPE_1351     0
-#define MOUSE_TYPE_NEOS     1
-#define MOUSE_TYPE_AMIGA    2
-#define MOUSE_TYPE_PADDLE   3
-#define MOUSE_TYPE_CX22     4
-#define MOUSE_TYPE_ST       5
-#define MOUSE_TYPE_SMART    6
-#define MOUSE_TYPE_MICROMYS 7
-#define MOUSE_TYPE_KOALAPAD 8
-#define MOUSE_TYPE_MF_JOY   9
-#define MOUSE_TYPE_NUM      10
+enum {
+    MOUSE_TYPE_1351 = 0,
+    MOUSE_TYPE_NEOS,
+    MOUSE_TYPE_AMIGA,
+    MOUSE_TYPE_PADDLE,
+    MOUSE_TYPE_CX22,
+    MOUSE_TYPE_ST,
+    MOUSE_TYPE_SMART,
+    MOUSE_TYPE_MICROMYS,
+    MOUSE_TYPE_KOALAPAD,
+    MOUSE_TYPE_MF_JOY,
+
+    /* This item always needs to be at the end */
+    MOUSE_TYPE_NUM
+};
 
 #define PADDLES_INPUT_MOUSE    0
 #define PADDLES_INPUT_JOY_AXIS 1
