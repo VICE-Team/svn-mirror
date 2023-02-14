@@ -422,8 +422,25 @@ void sdljoy_autorepeat_init(void) {
 
 uint8_t sdljoy_check_axis_movement(SDL_Event e)
 {
-    joy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
-    return e.jaxis.value;
+    uint8_t cur, prev;
+    Uint8 joynum;
+    Uint8 axis;
+    Sint16 value;
+
+    joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+    axis = e.jaxis.axis;
+    value = e.jaxis.value;
+
+    prev = joy_axis_prev(joynum, axis);
+
+    cur = sdljoy_axis_direction(value, prev);
+
+    if (cur == prev) {
+        return 0;
+    }
+
+    joy_get_axis_mapping(joynum, axis, cur, NULL);
+    return cur;
 }
 
 uint8_t sdljoy_check_hat_movement(SDL_Event e)
