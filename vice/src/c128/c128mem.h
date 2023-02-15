@@ -139,6 +139,7 @@ void c128_c64io_de00_store(uint16_t addr, uint8_t value);
 uint8_t c128_c64io_df00_read(uint16_t addr);
 void c128_c64io_df00_store(uint16_t addr, uint8_t value);
 
+void mem_initialize_go64_memory_bank(void);
 
 /* add due to incompatibilities with c64mem.h */
 
