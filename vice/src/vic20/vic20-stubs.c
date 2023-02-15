@@ -44,16 +44,6 @@ clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
     cartridge
 *******************************************************************************/
 
-int cartridge_enable(int crtid)
-{
-    return -1;
-}
-
-int cartridge_disable(int crtid)
-{
-    return -1;
-}
-
 cartridge_info_t *cartridge_get_info_list(void)
 {
     return NULL;
