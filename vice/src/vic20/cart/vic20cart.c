@@ -595,6 +595,103 @@ void cartridge_detach_image(int type)
     cartridge_is_from_snapshot = 0;
 }
 
+/*
+    attach a cartridge without setting an image name
+*/
+int cartridge_enable(int type)
+{
+    DBG(("CART: enable type: %d\n", type));
+    switch (type) {
+        case CARTRIDGE_DIGIMAX:
+            digimax_enable();
+            break;
+        case CARTRIDGE_DS12C887RTC:
+            ds12c887rtc_enable();
+            break;
+        case CARTRIDGE_GEORAM:
+            georam_enable();
+            break;
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            sfx_soundexpander_enable();
+            break;
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            sfx_soundsampler_enable();
+            break;
+#ifdef HAVE_RAWNET
+        case CARTRIDGE_TFE:
+            ethernetcart_enable();
+            break;
+#endif
+        default:
+            DBG(("CART: no enable hook %d\n", type));
+            break;
+    }
+
+#if 0
+    /* FIXME: cart_type_enabled not implemented */
+    if (cart_type_enabled(type)) {
+        return 0;
+    }
+    log_error(LOG_ERR, "Failed to enable cartridge with ID %d.\n", type);
+    return -1;
+#endif
+    return 0;
+}
+
+
+/** \brief  Disable cartridge by \a type
+ *
+ * \return  0 on success, -1 on failure
+ *
+ * \todo    More or less copy cartridge_enable() while replacing
+ *          ${cart}_enable() with ${cart_disable(). The various disable
+ *          functions still need to be written at the moment.
+ */
+int cartridge_disable(int type)
+{
+    /*
+    fprintf(stderr, "%s:%d: %s() isn't implemented yet, continuing\n",
+            __FILE__, __LINE__, __func__);
+    */
+    DBG(("CART: enable type: %d\n", type));
+    switch (type) {
+        case CARTRIDGE_DIGIMAX:
+            digimax_disable();
+            break;
+        case CARTRIDGE_DS12C887RTC:
+            ds12c887rtc_disable();
+            break;
+        case CARTRIDGE_GEORAM:
+            georam_disable();
+            break;
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            sfx_soundexpander_disable();
+            break;
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            sfx_soundsampler_disable();
+            break;
+#ifdef HAVE_RAWNET
+        case CARTRIDGE_TFE:
+            ethernetcart_disable();
+            break;
+#endif
+        default:
+            DBG(("CART: no disable hook %d\n", type));
+            break;
+    }
+
+#if 0
+    /* FIXME: cart_type_enabled not implemented */
+    /* make sure the cart has been disabled */
+    if (!cart_type_enabled(type)) {
+        return 0;
+    }
+    log_error(LOG_ERR, "Failed to disable cartridge with ID %d.\n", type);
+    return -1;
+#endif
+    return 0;
+}
+
 void cartridge_set_default(void)
 {
     if (cartridge_is_from_snapshot) {
