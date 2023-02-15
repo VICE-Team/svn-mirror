@@ -46,10 +46,9 @@
 
 #ifdef HAVE_MIDI
 
-#if defined (UNIX_COMPILE) && !defined(MACOS_COMPILE)
-# if !defined (USE_OSS) && !defined (USE_ALSA)
+#if defined (UNIX_COMPILE) && !defined(MACOS_COMPILE) && \
+    !defined (USE_OSS) && !defined (USE_ALSA)
 # error "MIDI needs either OSS or ALSA"
-# endif
 #endif
 
 #include <gtk/gtk.h>
@@ -62,8 +61,6 @@
 #include "mididevicewidget.h"
 #endif
 #include "mididrv.h"
-#include "resources.h"
-#include "ui.h"
 #include "vice_gtk3.h"
 
 #include "settings_midi.h"
@@ -184,70 +181,6 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 }
 #endif
 
-#if defined(USE_OSS)
-#if 0
-static void midi_in_filename_callback(GtkDialog *dialog,
-                                      gchar *filename,
-                                      gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(midi_in_widget, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-#endif
-
-#if 0
-/** \brief  Handler for the "clicked" event of the MIDI-In "Browse" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   text entry to store new filename
- */
-static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
-{
-    const char *filters[] = { "midi*", "seq*", NULL };
-
-    vice_gtk3_open_file_dialog(
-            "Select MIDI In device",
-            "MIDI devices", filters, "/dev",
-            midi_in_filename_callback,
-            NULL);
-}
-#endif
-
-#if 0
-static void midi_out_filename_callback(GtkDialog *dialog,
-                                       gchar *filename,
-                                       gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(midi_out_widget, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-#endif
-
-#if 0
-/** \brief  Handler for the 'clicked' event of the MIDI-Out "Browse" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   text entry to store new filename
- */
-static void on_midi_out_browse(GtkWidget *widget, gpointer user_data)
-{
-    const char *filters[] = { "mi*", NULL };
-
-    vice_gtk3_open_file_dialog(
-            "Select MIDI Out device",
-            "MIDI devices", filters, "/dev",
-            midi_out_filename_callback,
-            NULL);
-}
-#endif
-#endif
-
 /** \brief  Create check button to enable/disable MIDI emulation
  *
  * \return  GtkCheckButton
@@ -273,8 +206,6 @@ static GtkWidget *create_midi_mode_widget(void)
 {
     return vice_gtk3_resource_combo_int_new("MIDIMode", midi_modes);
 }
-
-
 
 #if defined(USE_OSS) && defined(USE_ALSA)
 /** \brief  Create MIDI driver selection widget
@@ -474,131 +405,5 @@ GtkWidget *settings_midi_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-#if 0
-/** \brief  Create MIDI settings widget
- *
- * \param[in]   parent  parent widget (unused)
- *
- * \return  GtkGrid
- */
-GtkWidget *settings_midi_widget_create_old(GtkWidget *parent)
-{
-#define NUM_COLS 3
-    GtkWidget *grid;
-    GtkWidget *label;
-    int        row = 0;
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    midi_enable_widget = create_midi_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), midi_enable_widget, 0, row, NUM_COLS, 1);
-    row++;
-
-    if (machine_class != VICE_MACHINE_VIC20) {
-        label = label_helper("MIDI mode");
-        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-        midi_mode_widget = create_midi_mode_widget();
-        gtk_grid_attach(GTK_GRID(grid), midi_mode_widget, row, 1, 1, 1);
-        row++;
-    }
-
-#if defined (USE_OSS) && defined (USE_ALSA)
-    /* Unix only, use ALSA or OSS? */
-    label = label_helper("MIDI driver");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_driver_widget = create_midi_driver_widget();
-    gtk_grid_attach(GTK_GRID(grid), midi_driver_widget, 1, row, 1, 1);
-    row++;
-#endif
-
-#if defined (MACOS_COMPILE) || defined (USE_ALSA)
-    /* macOS, Linux (ALSA) - name of the MIDI client */
-#if defined (MACOS_COMPILE)
-    label = label_helper("MIDI Client Name");
-#else
-    label = label_helper("ALSA Client Name");
-#endif
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_name_widget = vice_gtk3_resource_entry_new("MIDIName");
-    gtk_widget_set_hexpand(midi_name_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_name_widget, 1, row, 1, 1);
-    row++;
-#endif
-
-#ifdef WINDOWS_COMPILE
-    /* A drop down list containing the available devices */
-    label = label_helper("MIDI In");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_widget = midi_device_widget_create(0);
-    gtk_widget_set_hexpand(midi_in_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_in_widget, 1, row, 1, 1);
-#endif
-
-#ifdef MACOS_COMPILE
-    /* A text entry field to input the port name */
-    label = label_helper("MIDI In Name");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_widget = vice_gtk3_resource_entry_new("MIDIInName");
-    gtk_widget_set_hexpand(midi_in_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_in_widget, 1, row, 1, 1);
-#endif
-
-#if defined(USE_OSS)
-    /* A text enrty field+browse button to enter the device file */
-    label = label_helper("OSS MIDI In");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_widget = vice_gtk3_resource_entry_new("MIDIInDev");
-    gtk_widget_set_hexpand(midi_in_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_in_widget, 1, row, 1, 1);
-
-    /* the browse button, only needed for OSS (for browsing to the device file) */
-    midi_in_browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(midi_in_browse, "clicked", G_CALLBACK(on_midi_in_browse),
-            (gpointer)midi_in_widget);
-    gtk_grid_attach(GTK_GRID(grid), midi_in_browse, 2, row, 1, 1);
-#endif
-    row++;
-
-#ifdef WINDOWS_COMPILE
-    /* A drop down list containing the available devices */
-    label = label_helper("MIDI Out");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_widget = midi_device_widget_create(1);
-    gtk_widget_set_hexpand(midi_out_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_out_widget, 1, row, 1, 1);
-#endif
-
-#ifdef MACOS_COMPILE
-    /* A text entry field to input the port name */
-    label = label_helper("MIDI Out Name");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_widget = vice_gtk3_resource_entry_new("MIDIOutName");
-    gtk_widget_set_hexpand(midi_out_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_out_widget, 1, row, 1, 1);
-#endif
-
-#if defined(USE_OSS)
-    /* A text enrty field+browse button to enter the device file */
-    label = label_helper("OSS MIDI Out");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_widget = vice_gtk3_resource_entry_new("MIDIOutDev");
-    gtk_widget_set_hexpand(midi_out_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), midi_out_widget, 1, row, 1, 1);
-
-    /* the browse button, only needed for OSS (for browsing to the device file) */
-    midi_out_browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(midi_out_browse, "clicked",
-            G_CALLBACK(on_midi_out_browse), (gpointer)midi_out_widget);
-    gtk_grid_attach(GTK_GRID(grid), midi_out_browse, 2, row, 1, 1);
-#endif
-    row++;
-#undef NUM_COLS
-    gtk_widget_show_all(grid);
-    return grid;
-}
-#endif
 
 #endif /* HAVE_MIDI */
