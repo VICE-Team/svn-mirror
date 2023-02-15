@@ -35,6 +35,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *settings_midi_widget_create(GtkWidget *parent);
+GtkWidget *settings_midi_widget_create_old(GtkWidget *parent);
 
 #endif
 
