@@ -1298,6 +1298,22 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
 
+void mem_initialize_go64_memory_bank(void)
+{
+    int i, j;
+
+    for (i = 0; i < 32; i++) {
+        mem_read_base_tab[128 + i][0] = ram_bank;
+        mem_read_base_tab[128 + i][1] = ram_bank;
+        for (j = 2; j <= 0xfe; j++) {
+            mem_read_base_tab[128 + i][j] = ram_bank;
+        }
+        mem_read_base_tab[128 + i][0xff] = ram_bank;
+    }
+
+    c64meminit(128);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Initialize RAM for power-up.  */
