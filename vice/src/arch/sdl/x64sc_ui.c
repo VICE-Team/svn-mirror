@@ -47,6 +47,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_joystick.h"
 #include "menu_media.h"
 #include "menu_midi.h"
 #include "menu_monitor.h"
@@ -283,6 +284,7 @@ void c64scui_shutdown(void)
     uicart_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
     uitapeport_menu_shutdown();
     uimedia_menu_shutdown();
