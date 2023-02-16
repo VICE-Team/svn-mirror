@@ -1140,7 +1140,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
     mem_read_base_tab[base][index] = mem_ptr;
 }
 
-void c64mode_ffxx_store(uint16_t addr, uint8_t value)
+static void c64mode_ffxx_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
