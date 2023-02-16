@@ -46,8 +46,6 @@
 
 #include "parsid.h"
 
-static int use_io = 0;
-
 #ifdef HAVE_PORTSID
 static int use_port = 0;
 #endif
@@ -69,10 +67,6 @@ void parsid_drv_out_ctr(uint8_t parsid_ctrport, int chipno)
         ps_file_out_ctr(parsid_ctrport, chipno);
     }
 #endif
-
-    if (use_io) {
-        ps_io_out_ctr(parsid_ctrport, chipno);
-    }
 }
 
 uint8_t parsid_drv_in_ctr(int chipno)
@@ -88,10 +82,6 @@ uint8_t parsid_drv_in_ctr(int chipno)
         return ps_file_in_ctr(chipno);
     }
 #endif
-
-    if (use_io) {
-        return ps_io_in_ctr(chipno);
-    }
     return 0;
 }
 
@@ -114,12 +104,6 @@ int parsid_drv_open(void)
         return 0;
     }
 #endif
-
-    i = ps_io_open();
-    if (!i) {
-        use_io = 1;
-        return 0;
-    }
     return -1;
 }
 
@@ -136,10 +120,6 @@ uint8_t parsid_drv_in_data(int chipno)
         return ps_file_in_data(chipno);
     }
 #endif
-
-    if (use_io) {
-        return ps_io_in_data(chipno);
-    }
     return 0;
 }
 
@@ -156,10 +136,6 @@ void parsid_drv_out_data(uint8_t outval, int chipno)
         ps_file_out_data(outval, chipno);
     }
 #endif
-
-    if (use_io) {
-        ps_io_out_data(outval, chipno);
-    }
 }
 
 int parsid_drv_close(void)
@@ -177,12 +153,6 @@ int parsid_drv_close(void)
         use_port = 0;
     }
 #endif
-
-    if (use_io) {
-        ps_io_close();
-        use_io = 0;
-    }
-
     return 0;
 }
 
@@ -204,11 +174,6 @@ int parsid_drv_available(void)
         return ps_file_available();
     }
 #endif
-
-    if (use_io) {
-        return ps_io_available();
-    }
-
     return 0;
 }
 #endif

@@ -32,12 +32,7 @@
 int io_access_init(void);
 void io_access_shutdown(void);
 
-# ifdef UNIX_COMPILE
-void io_access_store(uint16_t addr, uint8_t value);
-uint8_t io_access_read(uint16_t addr);
-int io_access_map(uint16_t addr, uint16_t space);
-void io_access_unmap(uint16_t addr, uint16_t space);
-# else
+# ifndef UNIX_COMPILE
 void io_access_store_byte(uint16_t addr, uint8_t value);
 uint8_t io_access_read_byte(uint16_t addr);
 void io_access_store_long(uint16_t addr, uint32_t value);
