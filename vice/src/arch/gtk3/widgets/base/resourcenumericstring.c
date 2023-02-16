@@ -32,6 +32,7 @@
  */
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
@@ -39,6 +40,7 @@
 #include "resourcewidgetmediator.h"
 #include "vice_gtk3.h"
 
+#include "types.h"
 #include "resourcenumericstring.h"
 
 

@@ -35,6 +35,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "types.h"
 #include "c64rom.h"
 #include "lib.h"
 #include "resources.h"
