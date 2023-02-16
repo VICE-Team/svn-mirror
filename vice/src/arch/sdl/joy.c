@@ -194,6 +194,8 @@ static void sdl_joystick_poll(int joyport, void* joystick) {}
 static void sdl_joystick_close(void* joystick)
 {
     SDL_JoystickClose(joystick);
+    lib_free(joy_ordinal_to_id);
+    joy_ordinal_to_id = NULL;
 }
 
 static joystick_driver_t sdl_joystick_driver = {
@@ -261,6 +263,7 @@ int sdljoy_rescan(void)
                 button,
                 hat);
             joy_ordinal_to_id[num_valid_joysticks++] = SDL_JoystickGetDeviceInstanceID(i);
+            lib_free(name);
         } else {
             log_warning(sdljoy_log, "Couldn't open joystick %i", i);
         }
