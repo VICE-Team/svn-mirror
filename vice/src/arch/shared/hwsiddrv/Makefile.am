@@ -36,8 +36,7 @@ endif HAVE_CATWEASELMKIII
 if HAVE_PARSID
 HWSIDDRIVERS += \
 	parsid-win32-drv.o \
-	ps-ieee1284.o \
-	ps-win32-dll.o
+	ps-ieee1284.o
 endif HAVE_PARSID
 endif WINDOWS_COMPILE
 
@@ -111,7 +110,6 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	ps-ieee1284.c \
 	ps-unix-file.c \
 	ps-unix-io.c \
-	ps-win32-dll.c \
 	ssi2001-beos-drv.c \
 	ssi2001-unix-drv.c
 

@@ -112,7 +112,9 @@ static int set_sid_engine(int set_engine, void *param)
         case SID_ENGINE_HARDSID:
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         case SID_ENGINE_PARSID:
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -551,10 +553,12 @@ static sid_engine_model_t sid_engine_models_hardsid[] = {
 #endif
 
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
 static sid_engine_model_t sid_engine_models_parsid[] = {
     { "ParSID", SID_PARSID },
     { NULL, -1 }
 };
+#endif
 #endif
 
 #ifdef HAVE_SSI2001
@@ -607,9 +611,11 @@ sid_engine_model_t **sid_get_engine_model_list(void)
 #endif
 
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
     if (parsid_available()) {
         add_sid_engine_models(sid_engine_models_parsid);
     }
+#endif
 #endif
 
 #ifdef HAVE_SSI2001

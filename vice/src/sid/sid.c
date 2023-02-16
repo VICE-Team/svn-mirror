@@ -908,8 +908,10 @@ int sid_sound_machine_cycle_based(void)
             return 0;
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         case SID_ENGINE_PARSID:
             return 0;
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -961,11 +963,13 @@ static void set_sound_func(void)
         }
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         if (sid_engine_type == SID_ENGINE_PARSID) {
             sid_read_func = parsid_read;
             sid_store_func = parsid_store;
             sid_dump_func = NULL; /* TODO: parsid dump */
         }
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -1017,6 +1021,7 @@ int sid_engine_set(int engine)
     }
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
     if ((engine == SID_ENGINE_PARSID)
         && sid_engine_type != engine) {
         if (parsid_open() < 0) {
@@ -1027,6 +1032,7 @@ int sid_engine_set(int engine)
         && sid_engine_type == SID_ENGINE_PARSID) {
         parsid_close();
     }
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -1102,8 +1108,10 @@ int sid_engine_get_max_sids(int engine)
             return SID_ENGINE_CATWEASELMKIII_NUM_SIDS;
         case SID_ENGINE_HARDSID:
             return SID_ENGINE_HARDSID_NUM_SIDS;
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         case SID_ENGINE_PARSID:
             return SID_ENGINE_PARSID_NUM_SIDS;
+#endif
 #ifndef WINDOWS_COMPILE
         case SID_ENGINE_SSI2001:
             return SID_ENGINE_SSI2001_NUM_SIDS;
