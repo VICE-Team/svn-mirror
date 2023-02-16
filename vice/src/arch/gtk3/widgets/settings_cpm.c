@@ -32,9 +32,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "resources.h"
+#include "cartridge.h"
 #include "vice_gtk3.h"
 
 #include "settings_cpm.h"
@@ -49,13 +47,17 @@
 GtkWidget *settings_cpm_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *enable;
 
+    /* only a single widget in this grid, but perhaps some day there will be
+     * more =) */
     grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("CPMCart",
-                "Enable CP/M Cartridge"),
-            0, 0, 1, 1);
+    enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_CPM,
+                                                    CARTRIDGE_CPM);
+    gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
