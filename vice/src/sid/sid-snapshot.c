@@ -862,6 +862,7 @@ static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr, uint8_t 
  */
 
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
 static int sid_snapshot_write_parsid_module(snapshot_module_t *m, int sidnr)
 {
     sid_parsid_snapshot_state_t sid_state;
@@ -890,6 +891,7 @@ static int sid_snapshot_read_parsid_module(snapshot_module_t *m, int sidnr)
 
     return 0;
 }
+#endif
 #endif
 
 /* ---------------------------------------------------------------------*/
@@ -996,11 +998,13 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
             break;
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         case SID_ENGINE_PARSID:
             if (sid_snapshot_write_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -1121,11 +1125,13 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
             break;
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
         case SID_ENGINE_PARSID:
             if (sid_snapshot_read_parsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE

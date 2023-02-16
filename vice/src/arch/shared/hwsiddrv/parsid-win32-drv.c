@@ -29,6 +29,7 @@
 #ifdef WINDOWS_COMPILE
 
 #ifdef HAVE_PARSID
+#ifdef HAVE_LIBIEEE1284
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -39,36 +40,19 @@
 #include "ps-win32.h"
 #include "types.h"
 
-#ifdef HAVE_LIBIEEE1284
 static int use_ieee1284 = 0;
-#endif
-
-static int use_dll = 0;
-
 
 void parsid_drv_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         ps_ieee1284_out_ctr(parsid_ctrport, chipno);
-    }
-#endif
-
-    if (use_dll) {
-        ps_dll_out_ctr(parsid_ctrport, chipno);
     }
 }
 
 uint8_t parsid_drv_in_ctr(int chipno)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         return ps_ieee1284_in_ctr(chipno);
-    }
-#endif
-
-    if (use_dll) {
-        return ps_dll_in_ctr(chipno);
     }
 
     return 0;
@@ -76,16 +60,9 @@ uint8_t parsid_drv_in_ctr(int chipno)
 
 int parsid_drv_close(void)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         ps_ieee1284_close();
         use_ieee1284 = 0;
-    }
-#endif
-
-    if (use_dll) {
-        ps_dll_close();
-        use_dll = 0;
     }
 
     return 0;
@@ -93,14 +70,8 @@ int parsid_drv_close(void)
 
 uint8_t parsid_drv_in_data(int chipno)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         return ps_ieee1284_in_data(chipno);
-    }
-#endif
-
-    if (use_dll) {
-        return ps_dll_in_data(chipno);
     }
 
     return 0;
@@ -108,14 +79,8 @@ uint8_t parsid_drv_in_data(int chipno)
 
 void parsid_drv_out_data(uint8_t addr, int chipno)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         ps_ieee1284_out_data(addr, chipno);
-    }
-#endif
-
-    if (use_dll) {
-        ps_dll_out_data(addr, chipno);
     }
 }
 
@@ -127,14 +92,8 @@ void parsid_drv_sleep(int amount)
 
 int parsid_drv_available(void)
 {
-#ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
         return ps_ieee1284_available();
-    }
-#endif
-
-    if (use_dll) {
-        return ps_dll_available();
     }
 
     return 0;
@@ -144,21 +103,14 @@ int parsid_drv_open(void)
 {
     int i;
 
-#ifdef HAVE_LIBIEEE1284
     i = ps_ieee1284_open();
     if (!i) {
         use_ieee1284 = 1;
         return 0;
     }
-#endif
-
-    i = ps_dll_open();
-    if (!i) {
-        use_dll = 1;
-        return 0;
-    }
 
     return -1;
 }
+#endif
 #endif
 #endif

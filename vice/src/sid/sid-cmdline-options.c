@@ -116,10 +116,12 @@ static const struct engine_s engine_match[] = {
     { "hs", SID_HARDSID },
 #endif
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
     { "1024", SID_PARSID },
     { "parsid", SID_PARSID },
     { "par", SID_PARSID },
     { "lpt", SID_PARSID },
+#endif
 #endif
 #ifdef HAVE_SSI2001
 #ifndef WINDOWS_COMPILE
@@ -372,12 +374,14 @@ static char *build_sid_cmdline_option(int sid_type)
 #endif
 
 #ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
     /* add parsid options if available */
     if (parsid_available()) {
         new = util_concat(old, ", 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3", NULL);
         lib_free(old);
         old = new;
     }
+#endif
 #endif
 
 #ifdef HAVE_SSI2001
