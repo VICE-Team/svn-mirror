@@ -912,8 +912,10 @@ int sid_sound_machine_cycle_based(void)
             return 0;
 #endif
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
         case SID_ENGINE_SSI2001:
             return 0;
+#endif
 #endif
     }
 
@@ -966,11 +968,13 @@ static void set_sound_func(void)
         }
 #endif
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
         if (sid_engine_type == SID_ENGINE_SSI2001) {
             sid_read_func = ssi2001_read;
             sid_store_func = ssi2001_store;
             sid_dump_func = NULL; /* TODO: hardsid dump */
         }
+#endif
 #endif
     } else {
         sid_read_func = sid_read_off;
@@ -1025,6 +1029,7 @@ int sid_engine_set(int engine)
     }
 #endif
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
     if (engine == SID_ENGINE_SSI2001
         && sid_engine_type != SID_ENGINE_SSI2001) {
         if (ssi2001_open() < 0) {
@@ -1035,6 +1040,7 @@ int sid_engine_set(int engine)
         && sid_engine_type == SID_ENGINE_SSI2001) {
         ssi2001_close();
     }
+#endif
 #endif
 
     sid_engine_type = engine;
@@ -1079,7 +1085,7 @@ void sid_set_machine_parameter(long clock_rate)
 /** \brief  Get maximum number of support SIDs for \a engine
  *
  * Helper function for UIs: determine number of supported SIDs to allow UIs
- * to not display impossibre settings.
+ * to not display impossible settings.
  *
  * \param[in]   engine  engine ID
  *
@@ -1098,8 +1104,10 @@ int sid_engine_get_max_sids(int engine)
             return SID_ENGINE_HARDSID_NUM_SIDS;
         case SID_ENGINE_PARSID:
             return SID_ENGINE_PARSID_NUM_SIDS;
+#ifndef WINDOWS_COMPILE
         case SID_ENGINE_SSI2001:
             return SID_ENGINE_SSI2001_NUM_SIDS;
+#endif
         default:
             /* unknow engine */
             return -1;

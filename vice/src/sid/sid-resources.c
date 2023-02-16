@@ -115,7 +115,9 @@ static int set_sid_engine(int set_engine, void *param)
         case SID_ENGINE_PARSID:
 #endif
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
         case SID_ENGINE_SSI2001:
+#endif
 #endif
             break;
         default:
@@ -556,10 +558,12 @@ static sid_engine_model_t sid_engine_models_parsid[] = {
 #endif
 
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
 static sid_engine_model_t sid_engine_models_ssi2001[] = {
     { "SSI2001", SID_SSI2001 },
     { NULL, -1 }
 };
+#endif
 #endif
 
 static void add_sid_engine_models(sid_engine_model_t *sid_engine_models)
@@ -609,9 +613,11 @@ sid_engine_model_t **sid_get_engine_model_list(void)
 #endif
 
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
     if (ssi2001_available()) {
         add_sid_engine_models(sid_engine_models_ssi2001);
     }
+#endif
 #endif
 
     sid_engine_model_list[num_sid_engine_models] = NULL;
