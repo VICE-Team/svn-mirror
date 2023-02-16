@@ -87,10 +87,10 @@ GtkWidget *settings_sfxsoundsampler_widget_create(GtkWidget *parent)
 
         /* connect handler to the enable check button to set sensitivity of the
          * I/O swap check button */
-        g_signal_connect(G_OBJECT(enable),
-                         "toggled",
-                         G_CALLBACK(on_enable_toggled),
-                         (gpointer)io_swap);
+        g_signal_connect_unlocked(G_OBJECT(enable),
+                                  "toggled",
+                                  G_CALLBACK(on_enable_toggled),
+                                  (gpointer)io_swap);
 
         /* set initial sensitivity of I/O swap */
         active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enable));
