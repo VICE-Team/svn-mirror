@@ -40,8 +40,6 @@
 void joystick_close(void);
 void joystick(void);
 
-void joy_arch_resources_shutdown(void);
-
 #ifdef HAVE_SDL_NUMJOYSTICKS
 void joy_arch_init_default_mapping(int joynum);
 int joy_arch_mapping_load(const char *filename);

@@ -2731,6 +2731,10 @@ void joystick_close(void)
 
     lib_free(joystick_devices);
     joystick_devices = NULL;
+}
+
+void joystick_resources_shutdown(void)
+{
     if (joymap_factory) {
         lib_free(joymap_factory);
         joymap_factory = NULL;

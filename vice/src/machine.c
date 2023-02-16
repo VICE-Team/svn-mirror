@@ -389,6 +389,7 @@ void machine_shutdown(void)
 
     vsync_shutdown();
 
+    joystick_resources_shutdown();
     sysfile_resources_shutdown();
     zfile_shutdown();
     ui_resources_shutdown();

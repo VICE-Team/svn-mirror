@@ -193,6 +193,7 @@ void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
 void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
 void joystick(void);
 void joystick_close(void);
+void joystick_resources_shutdown(void);
 void joystick_ui_reset_device_list(void);
 const char *joystick_ui_get_next_device_name(int *id);
 int joy_arch_mapping_dump(const char *filename);
