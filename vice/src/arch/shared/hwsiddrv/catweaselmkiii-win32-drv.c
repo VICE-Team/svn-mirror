@@ -26,16 +26,10 @@
 
 /* Tested and confirmed working on:
 
- - Windows 95C (Direct PCI I/O)
  - Windows 98SE (Driver)
- - Windows 98SE (Direct PCI I/O)
  - Windows ME (Driver)
- - Windows ME (Direct PCI I/O)
- - Windows NT 4.0 (winio32.dll PCI I/O)
  - Windows 2000 (Driver)
- - Windows 2000 (winio32.dll PCI I/O)
  - Windows XP (Driver)
- - Windows XP (winio32.dll PCI I/O)
  */
 
 #include "vice.h"
@@ -48,7 +42,6 @@
 #include "cw-win32.h"
 #include "types.h"
 
-static int use_cw_pci = 0;
 static int use_cw_dll = 0;
 
 int catweaselmkiii_drv_open(void)
@@ -61,21 +54,11 @@ int catweaselmkiii_drv_open(void)
         return 0;
     }
 
-    retval = cw_pci_open();
-    if (!retval) {
-        use_cw_pci = 1;
-        return 0;
-    }
-
     return -1;
 }
 
 int catweaselmkiii_drv_close(void)
 {
-    if (use_cw_pci) {
-        use_cw_pci = 0;
-        cw_pci_close();
-    }
     if (use_cw_dll) {
         use_cw_dll = 0;
         cw_dll_close();
@@ -85,9 +68,6 @@ int catweaselmkiii_drv_close(void)
 
 int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 {
-    if (use_cw_pci) {
-        return cw_pci_read(addr, chipno);
-    }
     if (use_cw_dll) {
         return cw_dll_read(addr, chipno);
     }
@@ -96,9 +76,6 @@ int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 
 void catweaselmkiii_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
-    if (use_cw_pci) {
-        cw_pci_store(addr, val, chipno);
-    }
     if (use_cw_dll) {
         cw_dll_store(addr, val, chipno);
     }
@@ -113,9 +90,6 @@ void catweaselmkiii_drv_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_drv_available(void)
 {
-    if (use_cw_pci) {
-        return cw_pci_available();
-    }
     if (use_cw_dll) {
         return cw_dll_available();
     }

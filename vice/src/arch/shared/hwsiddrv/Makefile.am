@@ -27,25 +27,18 @@ HWSIDDRIVERS=
 if WINDOWS_COMPILE
 HWSIDDRIVERS += \
 	hardsid-win32-drv.o \
-	hs-win32-dll.o \
-	hs-win32-isa.o \
-	hs-win32-pci.o
+	hs-win32-dll.o
 if HAVE_CATWEASELMKIII
 HWSIDDRIVERS += \
 	catweaselmkiii-win32-drv.o \
-	cw-win32-dll.o \
-	cw-win32-pci.o
+	cw-win32-dll.o
 endif HAVE_CATWEASELMKIII
 if HAVE_PARSID
 HWSIDDRIVERS += \
 	parsid-win32-drv.o \
 	ps-ieee1284.o \
-	ps-win32-dll.o \
-	ps-win32-io.o
+	ps-win32-dll.o
 endif HAVE_PARSID
-if HAVE_SSI2001
-HWSIDDRIVERS += ssi2001-win32-drv.o
-endif HAVE_SSI2001
 endif WINDOWS_COMPILE
 
 if BEOS_COMPILE
@@ -103,7 +96,6 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	cw-unix-device.c \
 	cw-unix-pci.c \
 	cw-win32-dll.c \
-	cw-win32-pci.c \
 	hardsid-beos-drv.c \
 	hardsid-unix-drv.c \
 	hardsid-win32-drv.c \
@@ -113,8 +105,6 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	hs-unix-linux.c \
 	hs-unix-pci.c \
 	hs-win32-dll.c \
-	hs-win32-isa.c \
-	hs-win32-pci.c \
 	parsid-beos-drv.c \
 	parsid-unix-drv.c \
 	parsid-win32-drv.c \
@@ -122,10 +112,8 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	ps-unix-file.c \
 	ps-unix-io.c \
 	ps-win32-dll.c \
-	ps-win32-io.c \
 	ssi2001-beos-drv.c \
-	ssi2001-unix-drv.c \
-	ssi2001-win32-drv.c
+	ssi2001-unix-drv.c
 
 EXTRA_DIST = \
 	cw-unix.h \
@@ -134,8 +122,7 @@ EXTRA_DIST = \
 	hs-unix.h \
 	hs-win32.h \
 	ps-unix.h \
-	ps-win32.h \
-	wininpoutp.h
+	ps-win32.h
 
 # Always built:
 # (needs to be declared empty to avoid `make` to try to build libhwsiddrv.o

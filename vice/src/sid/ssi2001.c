@@ -30,6 +30,7 @@
 
 #ifdef HAVE_SSI2001
 
+#ifndef WINDOWS_COMPILE
 #include "sid-snapshot.h"
 #include "ssi2001.h"
 #include "types.h"
@@ -121,4 +122,5 @@ void ssi2001_state_write(int chipno, struct sid_ssi2001_snapshot_state_s *sid_st
         }
     }
 }
+#endif
 #endif

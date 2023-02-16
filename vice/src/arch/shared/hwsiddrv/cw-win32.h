@@ -31,21 +31,10 @@
 #include "types.h"
 
 int cw_dll_open(void);
-int cw_pci_open(void);
-
 int cw_dll_close(void);
-int cw_pci_close(void);
-
 int cw_dll_read(uint16_t addr, int chipno);
-int cw_pci_read(uint16_t addr, int chipno);
-
 void cw_dll_store(uint16_t addr, uint8_t val, int chipno);
-void cw_pci_store(uint16_t addr, uint8_t val, int chipno);
-
 int cw_dll_available(void);
-int cw_pci_available(void);
-
 void cw_dll_set_machine_parameter(long cycles_per_sec);
-void cw_pci_set_machine_parameter(long cycles_per_sec);
 
 #endif

@@ -122,9 +122,11 @@ static const struct engine_s engine_match[] = {
     { "lpt", SID_PARSID },
 #endif
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
     { "1280", SID_SSI2001 },
     { "ssi2001", SID_SSI2001 },
     { "ssi", SID_SSI2001 },
+#endif
 #endif
     { NULL, -1 }
 };
@@ -379,12 +381,14 @@ static char *build_sid_cmdline_option(int sid_type)
 #endif
 
 #ifdef HAVE_SSI2001
+#ifndef WINDOWS_COMPILE
     /* add ssi2001 options if available */
     if (ssi2001_available()) {
         new = util_concat(old, ", 1792: SSI2001", NULL);
         lib_free(old);
         old = new;
     }
+#endif
 #endif
 
     /* add ending bracket */
