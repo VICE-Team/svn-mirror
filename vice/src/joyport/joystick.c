@@ -1100,7 +1100,7 @@ void joy_delete_pot_mapping(int joystick_device_num, int pot)
 
     if (joystick_device_num >= 0 && joystick_device_num < num_joystick_devices) {
         for (j = 0; j < joystick_devices[joystick_device_num].num_axes; j++) {
-            if (joystick_devices[joystick_device_num].axis_mapping[j].pot == pot) {
+            if (joystick_devices[joystick_device_num].axis_mapping[j].pot - 1 == pot) {
                 joystick_devices[joystick_device_num].axis_mapping[j].pot = 0;
             }
         }
@@ -1263,15 +1263,19 @@ int joy_arch_mapping_dump(const char *filename)
             "# 1      button\n"
             "# 2      hat\n"
             "#\n"
-            "# Note that each axis has 2 inputindex entries and each hat has 4.\n"
+            "# For buttons, inputindex is the zero-based index of the button.\n"
+            "# For hats: hat 0 has inputindex 0,1,2,3 respectively for up, down, left and right. Hat 1 has 5,6,7,8 etc.\n"
+            "# For axes, and action 1 (joystick) and 2 (keyboard): axis 0 has inputindex 0,1 respectively for positive and negative, axis 1 has 2,3 etc.\n"
+            "# For axes, and action 6 (pot axis): inputindex is the zero-based index of the axis.\n"
             "#\n"
             "# action [action_parameters]:\n"
             "# 0               none\n"
-            "# 1 port pin      joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)\n"
+            "# 1 pin           joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)\n"
             "# 2 row col       keyboard\n"
             "# 3               map\n"
             "# 4               UI activate\n"
             "# 5 path&to&item  UI function\n"
+            "# 6 pot           potentiometer (1=pot x, 2=pot y)\n"
             "#\n\n"
             );
 
@@ -1281,53 +1285,144 @@ int joy_arch_mapping_dump(const char *filename)
         k = 0;
         fprintf(fp, "# %s\n", joystick_devices[i].jname);
         for (j = 0; j < joystick_devices[i].num_axes; j++) {
-            t = joystick_devices[i].axis_mapping[j].positive_direction.action;
-            fprintf(fp, "%i %u %i %u", i, 0u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].axis_mapping[j].positive_direction.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].axis_mapping[j].positive_direction.value.key[0],
-                            joystick_devices[i].axis_mapping[j].positive_direction.value.key[1]
-                            );
-                    break;
-                /*case UI_FUNCTION:
-                    hotkey_path = sdl_ui_hotkey_path(sdljoystick[i].input[j][k].value.ui_function);
-                    fprintf(fp, " %s", hotkey_path);
-                    lib_free(hotkey_path);
-                    break;*/
-                default:
-                    break;
+            if (joystick_devices[i].axis_mapping[j].pot > 0) {
+                fprintf(fp, "%i %u %i %u %u\n", i, 0u, j, 6u, joystick_devices[i].axis_mapping[j].pot);
+            } else {
+                t = joystick_devices[i].axis_mapping[j].positive_direction.action;
+                fprintf(fp, "%i %u %i %u", i, 0u, k, t);
+                switch (t) {
+                    case JOYSTICK:
+                        fprintf(fp, " %i",
+                                joystick_devices[i].axis_mapping[j].positive_direction.value.joy_pin
+                                );
+                        break;
+                    case KEYBOARD:
+                        fprintf(fp, " %i %i",
+                                joystick_devices[i].axis_mapping[j].positive_direction.value.key[0],
+                                joystick_devices[i].axis_mapping[j].positive_direction.value.key[1]
+                                );
+                        break;
+                    default:
+                        break;
+                }
+                fprintf(fp, "\n");
+                t = joystick_devices[i].axis_mapping[j].negative_direction.action;
+                fprintf(fp, "%i %u %i %u", i, 0u, k + 1, t);
+                switch (t) {
+                    case JOYSTICK:
+                        fprintf(fp, " %i",
+                                joystick_devices[i].axis_mapping[j].negative_direction.value.joy_pin
+                                );
+                        break;
+                    case KEYBOARD:
+                        fprintf(fp, " %i %i",
+                                joystick_devices[i].axis_mapping[j].negative_direction.value.key[0],
+                                joystick_devices[i].axis_mapping[j].negative_direction.value.key[1]
+                                );
+                        break;
+                    default:
+                        break;
+                }
+                fprintf(fp, "\n");
             }
-            fprintf(fp, "\n");
-            t = joystick_devices[i].axis_mapping[j].negative_direction.action;
-            fprintf(fp, "%i %u %i %u", i, 0u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].axis_mapping[j].negative_direction.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].axis_mapping[j].negative_direction.value.key[0],
-                            joystick_devices[i].axis_mapping[j].negative_direction.value.key[1]
-                            );
-                    break;
-                /*case UI_FUNCTION:
-                    hotkey_path = sdl_ui_hotkey_path(sdljoystick[i].input[j][k].value.ui_function);
-                    fprintf(fp, " %s", hotkey_path);
-                    lib_free(hotkey_path);
-                    break;*/
-                default:
-                    break;
-            }
-            fprintf(fp, "\n");
 
+            fprintf(fp, "\n");
+            k += 2;
+        }
+        for (j = 0; j < joystick_devices[i].num_buttons; j++) {
+            t = joystick_devices[i].button_mapping[j].action;
+            fprintf(fp, "%i %u %i %u", i, 1u, j, t);
+            switch (t) {
+                case JOYSTICK:
+                    fprintf(fp, " %i",
+                            joystick_devices[i].button_mapping[j].value.joy_pin
+                            );
+                    break;
+                case KEYBOARD:
+                    fprintf(fp, " %i %i",
+                            joystick_devices[i].button_mapping[j].value.key[0],
+                            joystick_devices[i].button_mapping[j].value.key[1]
+                            );
+                    break;
+                default:
+                    break;
+            }
+            fprintf(fp, "\n");
+        }
+        fprintf(fp, "\n");
+        k = 0;
+        for (j = 0; j < joystick_devices[i].num_hats; j++) {
+            t = joystick_devices[i].hat_mapping[j].up.action;
+            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
+            switch (t) {
+                case JOYSTICK:
+                    fprintf(fp, " %i",
+                            joystick_devices[i].hat_mapping[j].up.value.joy_pin
+                            );
+                    break;
+                case KEYBOARD:
+                    fprintf(fp, " %i %i",
+                            joystick_devices[i].hat_mapping[j].up.value.key[0],
+                            joystick_devices[i].hat_mapping[j].up.value.key[1]
+                            );
+                    break;
+                default:
+                    break;
+            }
+            fprintf(fp, "\n");
+            t = joystick_devices[i].hat_mapping[j].down.action;
+            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
+            switch (t) {
+                case JOYSTICK:
+                    fprintf(fp, " %i",
+                            joystick_devices[i].hat_mapping[j].down.value.joy_pin
+                            );
+                    break;
+                case KEYBOARD:
+                    fprintf(fp, " %i %i",
+                            joystick_devices[i].hat_mapping[j].down.value.key[0],
+                            joystick_devices[i].hat_mapping[j].down.value.key[1]
+                            );
+                    break;
+                default:
+                    break;
+            }
+            fprintf(fp, "\n");
+            t = joystick_devices[i].hat_mapping[j].left.action;
+            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
+            switch (t) {
+                case JOYSTICK:
+                    fprintf(fp, " %i",
+                            joystick_devices[i].hat_mapping[j].left.value.joy_pin
+                            );
+                    break;
+                case KEYBOARD:
+                    fprintf(fp, " %i %i",
+                            joystick_devices[i].hat_mapping[j].left.value.key[0],
+                            joystick_devices[i].hat_mapping[j].left.value.key[1]
+                            );
+                    break;
+                default:
+                    break;
+            }
+            fprintf(fp, "\n");
+            t = joystick_devices[i].hat_mapping[j].right.action;
+            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
+            switch (t) {
+                case JOYSTICK:
+                    fprintf(fp, " %i",
+                            joystick_devices[i].hat_mapping[j].right.value.joy_pin
+                            );
+                    break;
+                case KEYBOARD:
+                    fprintf(fp, " %i %i",
+                            joystick_devices[i].hat_mapping[j].right.value.key[0],
+                            joystick_devices[i].hat_mapping[j].right.value.key[1]
+                            );
+                    break;
+                default:
+                    break;
+            }
             fprintf(fp, "\n");
         }
         fprintf(fp, "\n\n");
@@ -1426,44 +1521,46 @@ static void joy_arch_parse_entry(char *buffer)
                 if (valid) {
                     switch (inputtype) {
                         case 0:
-                            axis_or_hat_index = inputindex / 2;
-                            direction = inputindex % 2;
-                            if (axis_or_hat_index < joystick_devices[joynum].num_axes) {
-                                if (direction == 0) {
-                                    joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.action = action;
-                                    switch (action) {
-                                        case JOYSTICK:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.joy_pin = data1;
-                                            break;
-                                        case POT_AXIS:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.joy_pin = data1;
-                                            break;
-                                        case KEYBOARD:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[0] = data1;
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[1] = data2;
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                            if (action == POT_AXIS) {
+                                if (inputindex < joystick_devices[joynum].num_axes) {
+                                    joystick_devices[joynum].axis_mapping[inputindex].pot = data1;
                                 } else {
-                                    joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.action = action;
-                                    switch (action) {
-                                        case JOYSTICK:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.joy_pin = data1;
-                                            break;
-                                        case POT_AXIS:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.joy_pin = data1;
-                                            break;
-                                        case KEYBOARD:
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[0] = data1;
-                                            joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[1] = data2;
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                    log_warning(joy_log, "inputindex %i too large for inputtype axis (pot), joynum %i!", inputindex, joynum);
                                 }
                             } else {
-                                log_warning(joy_log, "inputindex %i too large for inputtype %u, joynum %i!", inputindex, (unsigned int)inputtype, joynum);
+                                axis_or_hat_index = inputindex / 2;
+                                direction = inputindex % 2;
+                                if (axis_or_hat_index < joystick_devices[joynum].num_axes) {
+                                    if (direction == 0) {
+                                        joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.action = action;
+                                        switch (action) {
+                                            case JOYSTICK:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.joy_pin = data1;
+                                                break;
+                                            case KEYBOARD:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[0] = data1;
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[1] = data2;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    } else {
+                                        joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.action = action;
+                                        switch (action) {
+                                            case JOYSTICK:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.joy_pin = data1;
+                                                break;
+                                            case KEYBOARD:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[0] = data1;
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[1] = data2;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                } else {
+                                    log_warning(joy_log, "inputindex %i too large for inputtype axis, joynum %i!", inputindex, joynum);
+                                }
                             }
                             break;
                         case 1:
@@ -1473,9 +1570,6 @@ static void joy_arch_parse_entry(char *buffer)
                                     case JOYSTICK:
                                         joystick_devices[joynum].button_mapping[inputindex].value.joy_pin = data1;
                                         break;
-                                    case POT_AXIS:
-                                        joystick_devices[joynum].button_mapping[inputindex].value.joy_pin = data1;
-                                        break;
                                     case KEYBOARD:
                                         joystick_devices[joynum].button_mapping[inputindex].value.key[0] = data1;
                                         joystick_devices[joynum].button_mapping[inputindex].value.key[1] = data2;
@@ -1483,7 +1577,71 @@ static void joy_arch_parse_entry(char *buffer)
                                     default:
                                         break;
                                 }
+                            } else {
+                                log_warning(joy_log, "inputindex %i too large for inputtype button, joynum %i!", inputindex, joynum);
                             }
+                            break;
+                        case 2:
+                            axis_or_hat_index = inputindex / 4;
+                            direction = inputindex % 4;
+                            if (axis_or_hat_index < joystick_devices[joynum].num_hats) {
+                                if (direction == 0) {
+                                    joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.action = action;
+                                    switch (action) {
+                                        case JOYSTICK:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.joy_pin = data1;
+                                            break;
+                                        case KEYBOARD:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[0] = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[1] = data2;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                } else if (direction == 1) {
+                                    joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.action = action;
+                                    switch (action) {
+                                        case JOYSTICK:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.joy_pin = data1;
+                                            break;
+                                        case KEYBOARD:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[0] = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[1] = data2;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                } else if (direction == 2) {
+                                    joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.action = action;
+                                    switch (action) {
+                                        case JOYSTICK:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.joy_pin = data1;
+                                            break;
+                                        case KEYBOARD:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.key[0] = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.key[1] = data2;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                } else if (direction == 3) {
+                                    joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.action = action;
+                                    switch (action) {
+                                        case JOYSTICK:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.joy_pin = data1;
+                                            break;
+                                        case KEYBOARD:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.key[0] = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.key[1] = data2;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            } else {
+                                log_warning(joy_log, "inputindex %i too large for inputtype hat, joynum %i!", inputindex, joynum);
+                            }
+                            break;
                     }
                 }
             }
