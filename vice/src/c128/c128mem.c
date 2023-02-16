@@ -1140,6 +1140,16 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
     mem_read_base_tab[base][index] = mem_ptr;
 }
 
+void c64mode_ffxx_store(uint16_t addr, uint8_t value)
+{
+    vicii.last_cpu_val = value;
+
+    if (addr == 0xff00) {
+        reu_dma(-1);
+    } else {
+        top_shared_store(addr, value);
+    }
+}
 
 void mem_initialize_memory(void)
 {
@@ -1167,31 +1177,37 @@ void mem_initialize_memory(void)
         mem_set_write_hook(128 + i, 1, one_store);
         mem_read_tab[128 + i][1] = one_read;
         mem_read_base_tab[128 + i][1] = mem_ram;
-        for (j = 2; j <= 0xfe; j++) {
+
+        /* Use lo_read/lo_store for possibly shared bottom memory area in $0200-$3fff */
+        for (j = 2; j <= 0x3f; j++) {
+            mem_read_tab[128 + i][j] = lo_read;
+            mem_read_base_tab[128 + i][j] = mem_ram;
+            for (k = 0; k < NUM_VBANKS; k++) {
+                mem_write_tab[k][128 + i][j] = lo_store;
+            }
+        }
+
+        /* use normal ram_read/ram_store for $4000-$bfff */
+        for (j = 0x40; j <= 0xbf; j++) {
             mem_read_tab[128 + i][j] = ram_read;
             mem_read_base_tab[128 + i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
-                if ((j & 0xc0) == (k << 6)) {
-                    switch (j & 0x3f) {
-                        case 0x39:
-                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_39xx_store;
-                            break;
-                        case 0x3f:
-                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_3fxx_store;
-                            break;
-                        default:
-                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_store;
-                    }
-                } else {
-                    mem_write_tab[k][128 + i][j] = ram_store;
-                }
+                mem_write_tab[k][128 + i][j] = ram_store;
             }
         }
-        mem_read_tab[128 + i][0xff] = ram_read;
+
+        for (j = 0xc0; j <= 0xfe; j++) {
+            mem_read_tab[128 + i][j] = top_shared_read;
+            mem_read_base_tab[128 + i][j] = mem_ram;
+            for (k = 0; k < NUM_VBANKS; k++) {
+                mem_write_tab[k][128 + i][j] = top_shared_store;
+            }
+        }
+        mem_read_tab[128 + i][0xff] = top_shared_read;
         mem_read_base_tab[128 + i][0xff] = mem_ram;
 
         /* vbank access is handled within `ram_hi_store()'.  */
-        mem_set_write_hook(128 + i, 0xff, ram_hi_store);
+        mem_set_write_hook(128 + i, 0xff, c64mode_ffxx_store);
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
@@ -1298,17 +1314,101 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
 
-void mem_initialize_go64_memory_bank(void)
+/* Set up the memory map for the c64 mode */
+void mem_initialize_go64_memory_bank(uint8_t shared_mem)
 {
     int i, j;
+    int shared_size = shared_mem & 3;
+    int shared_loc = (shared_mem >> 2) & 3;
+
+    uint8_t *use_bank;
 
     for (i = 0; i < 32; i++) {
-        mem_read_base_tab[128 + i][0] = ram_bank;
-        mem_read_base_tab[128 + i][1] = ram_bank;
-        for (j = 2; j <= 0xfe; j++) {
+
+        /* check if $0000-$03ff is shared or not */
+        if (shared_loc == 1 || shared_loc == 3) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0x00; j <= 0x03; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $0400-$0fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && shared_size != 0) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0x04; j <= 0x0f; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $1000-$1fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && (shared_size == 2 || shared_size == 3)) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0x10; j <= 0x1f; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $2000-$3fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && shared_size == 3) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0x20; j <= 0x3f; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* $4000-$bfff is always current ram bank*/
+        for (j = 0x40; j <= 0xbd; j++) {
             mem_read_base_tab[128 + i][j] = ram_bank;
         }
-        mem_read_base_tab[128 + i][0xff] = ram_bank;
+
+        /* check if $c000-$dfff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && shared_size == 3) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0xc0; j <= 0xdf; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $e000-$efff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && (shared_size == 2 || shared_size == 3)) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0xe0; j <= 0xef; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $f000-$fbff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && shared_size != 0) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0xf0; j <= 0xfb; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
+
+        /* check if $fc00-$ffff is shared or not */
+        if (shared_loc == 2 || shared_loc == 3) {
+            use_bank = mem_ram;   /* shared, so bank 0 */
+        } else {
+            use_bank = ram_bank;  /* not shared, so current ram bank */
+        }
+        for (j = 0xfc; j <= 0xff; j++) {
+            mem_read_base_tab[128 + i][j] = use_bank;
+        }
     }
 
     c64meminit(128);
