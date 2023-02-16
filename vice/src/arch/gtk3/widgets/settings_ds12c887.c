@@ -35,6 +35,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "cartridge.h"
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
@@ -48,23 +49,11 @@
  * The hardware appears to allow $d100, $d200 and $d300 as I/O-base but that's
  * not emulated and thus not in this list.
  */
-static vice_gtk3_combo_entry_int_t c64_base[] = {
-    { "$D500", 0xd500 },
-    { "$D600", 0xd600 },
-    { "$D700", 0xd700 },
-    { "$DE00", 0xde00 },
-    { "$DF00", 0xdf00 },
-    { NULL, - 1 }
-};
-
+static const int io_base_c64[] = { 0xd500, 0xd600, 0xd700, 0xde00, 0xdf00, -1 };
 
 /** \brief  Values for I/O base on VIC-20
  */
-static vice_gtk3_combo_entry_int_t vic20_base[] = {
-    { "$9800", 0x9800 },
-    { "$9C00", 0x9c00 },
-    { NULL, - 1 }
-};
+static const int io_base_vic20[] = { 0x9800, 0x9c00, -1 };
 
 
 /** \brief  Reference to the oscilattor checkbox */
@@ -75,6 +64,17 @@ static GtkWidget *base_widget = NULL;
 static GtkWidget *rtc_widget = NULL;
 
 
+/** \brief  Set sensitivity of widgets
+ *
+ * \param[in]   sensitive   sensitivity
+ */
+static void set_widgets_sensitivity(gboolean sensitive)
+{
+    gtk_widget_set_sensitive(oscil_widget, sensitive);
+    gtk_widget_set_sensitive(base_widget,  sensitive);
+    gtk_widget_set_sensitive(rtc_widget,   sensitive);
+}
+
 /** \brief  Handler for the "toggled" event of the enable widget
  *
  * \param[in,out]   widget      "enable" toggle button
@@ -82,14 +82,10 @@ static GtkWidget *rtc_widget = NULL;
  */
 static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    gboolean active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(oscil_widget, state);
-    gtk_widget_set_sensitive(base_widget, state);
-    gtk_widget_set_sensitive(rtc_widget, state);
-
+    set_widgets_sensitivity(active);
 }
-
 
 /** \brief  Create widget to set I/O base for the RTC thing
  *
@@ -99,15 +95,9 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_base_widget(void)
 {
-    vice_gtk3_combo_entry_int_t *list;
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        list = vic20_base;
-    } else {
-        list = c64_base;
-    }
-
-    return vice_gtk3_resource_combo_int_new("DS12C887RTCbase", list);
+    return vice_gtk3_resource_combo_hex_list_new("DS12C887RTCbase",
+                                                 machine_class == VICE_MACHINE_VIC20
+                                                 ? io_base_vic20 : io_base_c64);
 }
 
 
@@ -120,36 +110,36 @@ static GtkWidget *create_base_widget(void)
 GtkWidget *settings_ds12c887_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *enable_widget;
+    GtkWidget *enable;
     GtkWidget *label;
+    gboolean   active;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable_widget = vice_gtk3_resource_check_button_new("DS12C887RTC",
-            "Enable DS12C877 Real Time Clock");
-    /* TODO: add event to enable/disable widgets */
-    gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 2, 1);
-
+    enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_DS12C887RTC,
+                                                    CARTRIDGE_DS12C887RTC);
     oscil_widget = vice_gtk3_resource_check_button_new("DS12C887RTCRunMode",
-            "Start with running oscillator");
-    gtk_widget_set_margin_start(oscil_widget, 16);
+                                                       "Start with running oscillator");
     rtc_widget = vice_gtk3_resource_check_button_new("DS12C887RTCSave",
-            "Enable RTC Saving");
-    gtk_widget_set_margin_start(rtc_widget, 16);
+                                                     "Enable RTC Saving");
+    gtk_grid_attach(GTK_GRID(grid), enable,       0, 0, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), oscil_widget, 0, 1, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, 2, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), rtc_widget,   0, 2, 2, 1);
 
-    label = gtk_label_new("Base address");
-    gtk_widget_set_margin_start(label, 16);
+    label = gtk_label_new("I/O base address");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     base_widget = create_base_widget();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,       0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), base_widget, 1, 3, 1, 1);
 
-    g_signal_connect(enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
-            NULL);
-
-    on_enable_toggled(enable_widget ,NULL);
+    g_signal_connect_unlocked(G_OBJECT(enable),
+                              "toggled",
+                              G_CALLBACK(on_enable_toggled),
+                              NULL);
+    active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enable));
+    set_widgets_sensitivity(active);
 
     gtk_widget_show_all(grid);
     return grid;
