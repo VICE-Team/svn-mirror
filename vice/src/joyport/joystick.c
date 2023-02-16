@@ -878,6 +878,8 @@ void joystick_set_axis_value(unsigned int joynum, unsigned int axis, uint8_t val
     }
 }
 
+static char mapping_retval[50];
+
 char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
 {
     int j;
@@ -886,7 +888,8 @@ char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
     if (joystick_device_num >= 0 && joystick_device_num < num_joystick_devices) {
         for (j = 0; j < joystick_devices[joystick_device_num].num_axes; j++) {
             if (joystick_devices[joystick_device_num].axis_mapping[j].pot - 1 == pot) {
-                retval = lib_msprintf("Ax%d", j);
+                snprintf(mapping_retval, 50, "Ax%d", j);
+                retval = mapping_retval;
             }
         }
     }
@@ -983,14 +986,15 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
         }
     }
     if (valid > 1) {
-        retval = lib_msprintf("Multiple");
+        retval = "Multiple";
     }
     if (valid == 1) {
         if (index_string != NULL ) {
-            retval = lib_msprintf("%s%d, %s%d", type_string, index, index_string, sub_index);
+            snprintf(mapping_retval, 50, "%s%d, %s%d", type_string, index, index_string, sub_index);
         } else {
-            retval = lib_msprintf("%s%d", type_string, index);
+            snprintf(mapping_retval, 50, "%s%d", type_string, index);
         }
+        retval = mapping_retval;
     }
 
     return retval;
@@ -1080,10 +1084,11 @@ char *get_joy_extra_mapping_string(int joystick_device_num, int which)
     }
     if (valid == 1) {
         if (index_string != NULL ) {
-            retval = lib_msprintf("%s%d, %s%d", type_string, index, index_string, sub_index);
+            snprintf(mapping_retval, 50, "%s%d, %s%d", type_string, index, index_string, sub_index);
         } else {
-            retval = lib_msprintf("%s%d", type_string, index);
+            snprintf(mapping_retval, 50, "%s%d", type_string, index);
         }
+        retval = mapping_retval;
     }
 
     return retval;
