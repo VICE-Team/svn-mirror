@@ -60,30 +60,21 @@ endif BEOS_COMPILE
 
 if UNIX_COMPILE
 HWSIDDRIVERS += \
-	hardsid-unix-drv.o \
-	hs-unix-pci.o
-if !MACOS_COMPILE
-HWSIDDRIVERS += hs-unix-isa.o
-endif !MACOS_COMPILE
+	hardsid-unix-drv.o
 if LINUX_COMPILE
 HWSIDDRIVERS += hs-unix-linux.o
 endif LINUX_COMPILE
 if HAVE_CATWEASELMKIII
 HWSIDDRIVERS += \
 	catweaselmkiii-unix-drv.o \
-	cw-unix-device.o \
-	cw-unix-pci.o
+	cw-unix-device.o
 endif HAVE_CATWEASELMKIII
 if HAVE_PARSID
 HWSIDDRIVERS += \
 	parsid-unix-drv.o \
 	ps-ieee1284.o \
-	ps-unix-file.o \
-	ps-unix-io.o
+	ps-unix-file.o
 endif HAVE_PARSID
-if HAVE_SSI2001
-HWSIDDRIVERS += ssi2001-unix-drv.o
-endif HAVE_SSI2001
 endif UNIX_COMPILE
 
 
@@ -93,25 +84,20 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	catweaselmkiii-unix-drv.c \
 	catweaselmkiii-win32-drv.c \
 	cw-unix-device.c \
-	cw-unix-pci.c \
 	cw-win32-dll.c \
 	hardsid-beos-drv.c \
 	hardsid-unix-drv.c \
 	hardsid-win32-drv.c \
 	hs-beos-isa.c \
 	hs-beos-pci.c \
-	hs-unix-isa.c \
 	hs-unix-linux.c \
-	hs-unix-pci.c \
 	hs-win32-dll.c \
 	parsid-beos-drv.c \
 	parsid-unix-drv.c \
 	parsid-win32-drv.c \
 	ps-ieee1284.c \
 	ps-unix-file.c \
-	ps-unix-io.c \
-	ssi2001-beos-drv.c \
-	ssi2001-unix-drv.c
+	ssi2001-beos-drv.c
 
 EXTRA_DIST = \
 	cw-unix.h \

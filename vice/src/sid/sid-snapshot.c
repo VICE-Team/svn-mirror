@@ -904,7 +904,7 @@ static int sid_snapshot_read_parsid_module(snapshot_module_t *m, int sidnr)
  */
 
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
 static int sid_snapshot_write_ssi2001_module(snapshot_module_t *m, int sidnr)
 {
     sid_ssi2001_snapshot_state_t sid_state;
@@ -1007,7 +1007,7 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 #endif
 #endif
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
         case SID_ENGINE_SSI2001:
             if (sid_snapshot_write_ssi2001_module(m, sidnr) < 0) {
                 goto fail;
@@ -1134,7 +1134,7 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
 #endif
 #endif
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
         case SID_ENGINE_SSI2001:
             if (sid_snapshot_read_ssi2001_module(m, sidnr) < 0) {
                 goto fail;

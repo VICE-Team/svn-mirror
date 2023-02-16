@@ -30,7 +30,7 @@
 
 #ifdef HAVE_SSI2001
 
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
 #include "sid-snapshot.h"
 #include "ssi2001.h"
 #include "types.h"

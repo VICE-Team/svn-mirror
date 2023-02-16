@@ -914,7 +914,7 @@ int sid_sound_machine_cycle_based(void)
 #endif
 #endif
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
         case SID_ENGINE_SSI2001:
             return 0;
 #endif
@@ -972,7 +972,7 @@ static void set_sound_func(void)
 #endif
 #endif
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
         if (sid_engine_type == SID_ENGINE_SSI2001) {
             sid_read_func = ssi2001_read;
             sid_store_func = ssi2001_store;
@@ -1035,7 +1035,7 @@ int sid_engine_set(int engine)
 #endif
 #endif
 #ifdef HAVE_SSI2001
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
     if (engine == SID_ENGINE_SSI2001
         && sid_engine_type != SID_ENGINE_SSI2001) {
         if (ssi2001_open() < 0) {
@@ -1112,7 +1112,7 @@ int sid_engine_get_max_sids(int engine)
         case SID_ENGINE_PARSID:
             return SID_ENGINE_PARSID_NUM_SIDS;
 #endif
-#ifndef WINDOWS_COMPILE
+#ifdef BEOS_COMPILE
         case SID_ENGINE_SSI2001:
             return SID_ENGINE_SSI2001_NUM_SIDS;
 #endif

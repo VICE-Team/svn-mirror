@@ -45,10 +45,6 @@
 static int use_cw_device = 0;
 #endif
 
-#ifdef HAVE_CATWEASELMKIII_IO
-static int use_cw_pci = 0;
-#endif
-
 int catweaselmkiii_drv_open(void)
 {
 #ifdef HAVE_CWSID_H
@@ -57,14 +53,6 @@ int catweaselmkiii_drv_open(void)
         return 0;
     }
 #endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (!cw_pci_open()) {
-        use_cw_pci = 1;
-        return 0;
-    }
-#endif
-
     return -1;
 }
 
@@ -75,13 +63,6 @@ int catweaselmkiii_drv_available(void)
         return cw_device_available();
     }
 #endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (use_cw_pci) {
-        return cw_pci_available();
-    }
-#endif
-
     return 0;
 }
 
@@ -93,14 +74,6 @@ int catweaselmkiii_drv_close(void)
         use_cw_device = 0;
     }
 #endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (use_cw_pci) {
-        cw_pci_close();
-        use_cw_pci = 0;
-    }
-#endif
-
     return 0;
 }
 
@@ -111,13 +84,6 @@ int catweaselmkiii_drv_read(uint16_t addr, int chipno)
         return cw_device_read(addr, chipno);
     }
 #endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (use_cw_pci) {
-        return cw_pci_read(addr, chipno);
-    }
-#endif
-
     return 0;
 }
 
@@ -126,12 +92,6 @@ void catweaselmkiii_drv_store(uint16_t addr, uint8_t val, int chipno)
 #ifdef HAVE_CWSID_H
     if (use_cw_device) {
         cw_device_store(addr, val, chipno);
-    }
-#endif
-
-#ifdef HAVE_CATWEASELMKIII_IO
-    if (use_cw_pci) {
-        cw_pci_store(addr, val, chipno);
     }
 #endif
 }
