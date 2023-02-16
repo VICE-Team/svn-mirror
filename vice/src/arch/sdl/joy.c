@@ -87,13 +87,6 @@ typedef int SDL_JoystickID;
 #endif
 
 
-/** \brief  Temporary copy of the default joymap file name
- *
- * Avoids silly casting away of const
- */
-static char *joymap_factory = NULL;
-
-
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 /* ------------------------------------------------------------------------- */
@@ -179,16 +172,6 @@ int joy_sdl_resources_init(void)
 #endif
 
     return 0;
-}
-
-void joy_arch_resources_shutdown(void)
-{
-#ifdef HAVE_SDL_NUMJOYSTICKS
-    if (joymap_factory) {
-        lib_free(joymap_factory);
-        joymap_factory = NULL;
-    }
-#endif
 }
 
 int joy_sdl_cmdline_options_init(void)
