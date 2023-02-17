@@ -65,7 +65,7 @@ static void sdl_poll_print_timeout(int x, int y, int time)
 /* ------------------------------------------------------------------ */
 /* External interface */
 
-SDL_Event sdl_ui_poll_event(const char *what, const char *target, SDL_JoystickID joystick_device, char allow_keyboard, char allow_modifier, int timeout)
+SDL_Event sdl_ui_poll_event(const char *what, const char *target, SDL_JoystickID joystick_device, char allow_any_joystick, char allow_keyboard, char allow_modifier, int timeout)
 {
     SDL_Event e;
 
@@ -94,17 +94,17 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, SDL_JoystickID
                     break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
                 case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.which == joystick_device) {
+                    if (allow_any_joystick || e.jbutton.which == joystick_device) {
                         polling = 0;
                     }
                     break;
                 case SDL_JOYHATMOTION:
-                    if (e.jhat.which == joystick_device && (sdljoy_check_hat_movement(e) != 0)) {
+                    if ((allow_any_joystick || e.jhat.which == joystick_device) && (sdljoy_check_hat_movement(e) != 0)) {
                         polling = 0;
                     }
                     break;
                 case SDL_JOYAXISMOTION:
-                    if (e.jaxis.which == joystick_device && (sdljoy_check_axis_movement(e) != 0)) {
+                    if ((allow_any_joystick || e.jaxis.which == joystick_device) && (sdljoy_check_axis_movement(e) != 0)) {
                         polling = 0;
                     }
                     break;

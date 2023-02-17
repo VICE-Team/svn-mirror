@@ -372,7 +372,7 @@ static UI_MENU_CALLBACK(custom_keyset_callback)
     }
 
     if (activated) {
-        e = sdl_ui_poll_event("key", (const char *)param, -1, 1, 1, 5);
+        e = sdl_ui_poll_event("key", (const char *)param, -1, 0, 1, 1, 5);
 
         if (e.type == SDL_KEYDOWN) {
             resources_set_int((const char *)param, (int)SDL2x_to_SDL1x_Keys(e.key.keysym.sym));
@@ -507,7 +507,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s (press del to clear)", port + 1, joy_pin[port][pin]);
-        e = sdl_ui_poll_event("joystick", target, joystick_device, 1, 0, 5);
+        e = sdl_ui_poll_event("joystick", target, joystick_device, 0, 1, 0, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -562,7 +562,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s (del clears mappings)", port + 1, joy_pot[pot]);
-        e = sdl_ui_poll_event("joystick", target, joystick_device, 1, 0, 5);
+        e = sdl_ui_poll_event("joystick", target, joystick_device, 0, 1, 0, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -599,7 +599,7 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
 
     if (activated) {
         target = lib_msprintf("%s (del clears mappings)", type ? "Map" : "Menu activate");
-        e = sdl_ui_poll_event("joystick", target, -1, 1, 0, 5); // TODO joystick
+        e = sdl_ui_poll_event("joystick", target, -1, 1, 1, 0, 5); // TODO joystick
         lib_free(target);
 
         switch (e.type) {
@@ -610,14 +610,14 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
                 break;
             case SDL_KEYDOWN:
                 if (e.key.keysym.sym == SDLK_DELETE || e.key.keysym.sym == SDLK_BACKSPACE) {
-                    //joy_delete_extra_mapping(type);
+                    joy_delete_extra_mapping(type);
                 }
                 break;
             default:
                 break;
         }
     } else {
-        //return get_joy_extra_mapping_string(type);
+        return get_joy_extra_mapping_string(type);
     }
 
     return NULL;

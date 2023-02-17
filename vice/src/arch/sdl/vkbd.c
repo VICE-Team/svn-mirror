@@ -202,7 +202,7 @@ static void sdl_vkbd_key_map(void)
         mr = -mr;
     }
 
-    e = sdl_ui_poll_event("key or joystick event", unmap ? "(unmap)" : keyname, -1, 1, 1, 5);
+    e = sdl_ui_poll_event("key or joystick event", unmap ? "(unmap)" : keyname, -1, 0, 1, 1, 5);
 
     /* TODO check if key/event is suitable */
     switch (e.type) {

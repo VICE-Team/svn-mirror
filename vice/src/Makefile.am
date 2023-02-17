@@ -224,6 +224,7 @@ noinst_HEADERS = \
 	mainlock.h \
 	mainviccpu.c \
 	mem.h \
+	menu-activate.h \
 	midi.h \
 	mididrv.h \
 	monitor.h \
