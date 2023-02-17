@@ -35,6 +35,8 @@
 #include "settings_environment.h"
 
 
+
+
 /** \brief  Create widget to change host environment settings
  *
  * \param[in]   parent  parent widget (unused)
@@ -44,14 +46,31 @@
 GtkWidget *settings_environment_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    int        row = 1;
+    GtkWidget *cwd_label;
+    GtkWidget *cwd_widget;
+    GtkWidget *logfile_widget;
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(16, 24);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    gtk_grid_attach(GTK_GRID(grid), cwd_widget_create(), 0, row, 1, 1);
+    /* CWD header */
+    cwd_label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(cwd_label), "<b>Current working directory</b>");
+    gtk_widget_set_halign(cwd_label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), cwd_label, 0, row, 1, 1);
     row++;
 
-    gtk_grid_attach(GTK_GRID(grid), logfile_widget_create(), 0, row, 1, 1);
+    /* CWD widget */
+    cwd_widget = cwd_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, row, 1, 1);
+    row++;
+
+    /* Logfile widget */
+    logfile_widget = logfile_widget_create();
+    gtk_widget_set_margin_top(logfile_widget, 24);  /* extra space */
+    gtk_grid_attach(GTK_GRID(grid), logfile_widget, 0, row, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
