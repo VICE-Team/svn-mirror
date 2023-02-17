@@ -1,8 +1,8 @@
 /*
- * uipoll.h - UI key/button polling.
+ * menu-activate.h - API to start the settings menu from a joystick action.
  *
  * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Fabrizio Gennari <fabrizio.ge@tiscali.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,20 +24,9 @@
  *
  */
 
-#ifndef VICE_UIPOLL_H
-#define VICE_UIPOLL_H
+#ifndef VICE_MENU_ACTIVATE_H
+#define VICE_MENU_ACTIVATE_H
 
-#include "vice.h"
-#include "types.h"
-
-#include "vice_sdl.h"
-
-#include "uimenu.h"
-
-#define SDL_POLL_JOYSTICK (1 << 0)
-#define SDL_POLL_KEYBOARD (1 << 1)
-#define SDL_POLL_MODIFIER (1 << 2)
-
-SDL_Event sdl_ui_poll_event(const char *what, const char *target, SDL_JoystickID joystick_device, char allow_any_joystick, char allow_keyboard, char allow_modifier, int timeout);
+void arch_ui_activate(void);
 
 #endif

@@ -79,6 +79,7 @@ libarch_a_SOURCES = \
 	hotkeys.c \
 	kbd.c \
 	linenoise.c \
+	menu-activate.c \
 	mousedrv.c \
 	petui.c \
 	plus4ui.c \

@@ -73,6 +73,7 @@ libarch_a_SOURCES = \
 	kbd.h \
 	lightpendrv.c \
 	lightpendrv.h \
+	menu-activate.c \
 	menu_c128hw.c \
 	menu_c128hw.h \
 	menu_c64cart.c \
