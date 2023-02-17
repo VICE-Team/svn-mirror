@@ -41,21 +41,10 @@ endif HAVE_PARSID
 endif WINDOWS_COMPILE
 
 if BEOS_COMPILE
-HWSIDDRIVERS += \
-	hardsid-beos-drv.o \
-	hs-beos-isa.o \
-	hs-beos-pci.o
-if HAVE_CATWEASELMKIII
-HWSIDDRIVERS += catweaselmkiii-beos-drv.o
-endif HAVE_CATWEASELMKIII
 if HAVE_PARSID
 HWSIDDRIVERS += \
-	parsid-beos-drv.o \
 	ps-ieee1284.o
 endif HAVE_PARSID
-if HAVE_SSI2001
-HWSIDDRIVERS += ssi2001-beos-drv.o
-endif HAVE_SSI2001
 endif BEOS_COMPILE
 
 if UNIX_COMPILE
@@ -80,29 +69,22 @@ endif UNIX_COMPILE
 
 # Built depending on configure options:
 EXTRA_libhwsiddrv_a_SOURCES = \
-	catweaselmkiii-beos-drv.c \
 	catweaselmkiii-unix-drv.c \
 	catweaselmkiii-win32-drv.c \
 	cw-unix-device.c \
 	cw-win32-dll.c \
-	hardsid-beos-drv.c \
 	hardsid-unix-drv.c \
 	hardsid-win32-drv.c \
-	hs-beos-isa.c \
-	hs-beos-pci.c \
 	hs-unix-linux.c \
 	hs-win32-dll.c \
-	parsid-beos-drv.c \
 	parsid-unix-drv.c \
 	parsid-win32-drv.c \
 	ps-ieee1284.c \
-	ps-unix-file.c \
-	ssi2001-beos-drv.c
+	ps-unix-file.c
 
 EXTRA_DIST = \
 	cw-unix.h \
 	cw-win32.h \
-	hs-beos.h \
 	hs-unix.h \
 	hs-win32.h \
 	ps-unix.h \

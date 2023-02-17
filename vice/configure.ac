@@ -3613,7 +3613,6 @@ AC_OUTPUT([Makefile
            src/arch/headless/Makefile
            src/arch/shared/Makefile
            src/arch/shared/hwsiddrv/Makefile
-           src/arch/shared/iodrv/Makefile
            src/arch/shared/mididrv/Makefile
            src/arch/shared/socketdrv/Makefile
            src/arch/shared/sounddrv/Makefile
