@@ -98,7 +98,6 @@ VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI s
 VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(parsid,            [  --enable-parsid         enables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables PortAudio support])
-VICE_ARG_ENABLE_LIST(ssi2001,           [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 
 
@@ -459,7 +458,6 @@ HAVE_RS232DEV_SUPPORT="no "
 HAVE_RS232NET_SUPPORT="no "
 HAVE_OPENMP_SUPPORT="no "
 HAVE_SDL_NUMJOYSTICKS_SUPPORT="no "
-HAVE_SSI2001_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_ZLIB_SUPPORT="no "
@@ -745,7 +743,6 @@ JOYSTICK_DRIVERS=""
 dnl Hardware SID drivers (obsolete so disabled by default)
 AM_CONDITIONAL(HAVE_CATWEASELMKIII, false)
 AM_CONDITIONAL(HAVE_PARSID, false)
-AM_CONDITIONAL(HAVE_SSI2001, false)
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
 
@@ -797,11 +794,6 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
         AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
-  fi
-  if test x"$enable_ssi2001" = "xyes"; then
-    AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
-    AM_CONDITIONAL(HAVE_SSI2001, true)
-    HAVE_SSI2001_SUPPORT="yes"
   fi
   if test x"$enable_midi" = "xyes"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
@@ -870,12 +862,6 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
         AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
-  fi
-
-  if test x"$enable_ssi2001" = "xyes"; then
-    AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
-    AM_CONDITIONAL(HAVE_SSI2001, true)
-    HAVE_SSI2001_SUPPORT="yes"
   fi
 
   dnl Haiku needs a few compiler flags to compile:
@@ -2873,7 +2859,7 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
-dnl Check for ParSID/SSI2001/HardSID/CW support
+dnl Check for ParSID/HardSID/CW support
 if test x"$is_unix" = "xyes"; then
 
   dnl Check cpu first
@@ -2882,13 +2868,12 @@ if test x"$is_unix" = "xyes"; then
       ;;
   *)
       enable_parsid=no
-      enable_ssi2001=no
       enable_hardsid=no
       enable_catweasel=no
       ;;
   esac
 
-  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" = "xyes"; then
+  if test x"$enable_parsid" = "xyes" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" = "xyes"; then
 
     if test x"$enable_libieee1284" = "xyes"; then
       LIBIEEE1284_HEADERS_PRESENT=yes
@@ -2943,7 +2928,7 @@ if test x"$is_unix" = "xyes"; then
       fi
     fi
 
-    if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_ssi2001" = "xno" -a x"$enable_hardsid" = "xno"; then
+    if test x"$PARSID_SUPPORT" != "xno" -a x"$enable_hardsid" = "xno"; then
       IOSID_SUPPORT=yes
       HAVE_IOSID_SUPPORT=yes
     fi
@@ -2987,11 +2972,6 @@ if test x"$is_unix" = "xyes"; then
         AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
         AM_CONDITIONAL(HAVE_PARSID, true)
         HAVE_PARSID_SUPPORT="yes"
-      fi
-      if test x"$enable_ssi2001" = "xyes"; then
-        AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
-        AM_CONDITIONAL(HAVE_SSI2001, true)
-        HAVE_SSI2001_SUPPORT="yes"
       fi
       if test x"$enable_catweasel" = "xyes"; then
         AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -3814,7 +3794,6 @@ fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
     echo "ParSID support               : $HAVE_PARSID_SUPPORT (--enable/disable-parsid)"
-    echo "SSI2001 support              : $HAVE_SSI2001_SUPPORT (--enable/disable-ssi2001)"
     echo "direct I/O access support    : $HAVE_IOSID_SUPPORT"
     echo "lpt port access              : $HAVE_PORTSID_SUPPORT"
 fi

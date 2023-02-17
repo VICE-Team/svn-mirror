@@ -298,14 +298,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (amiga/beos/unix/windows) */
-    { "HAVE_SSI2001", "Support for SSI-2001.",
-#ifndef HAVE_SSI2001
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(UNIX_COMPILE) /* (unix) */
     { "HAVE_SYS_AUDIO_H", "Define to 1 if you have the <sys/audio.h> header file.",
 #ifndef HAVE_SYS_AUDIO_H
