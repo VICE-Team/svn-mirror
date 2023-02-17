@@ -96,36 +96,35 @@ static GtkWidget *port_number = NULL;
 /** \brief  Netplay status widget */
 static GtkWidget *netplay_status = NULL;
 
-/** \brief  Netplay controls widget */
-static GtkWidget *controls = NULL;
-
-/** \brief  Network mode combo box
- */
+/** \brief  Network mode combo box */
 static GtkWidget *combo_netplay = NULL;
 
 /** \brief  Client enable widget */
 static GtkWidget *netplay_enable = NULL;
 
+/** \brief  Signal handler ID of the enable switch */
 static gulong netplay_handler = 0;
 
 /** \brief  last used setting was client or server? */
 static int netplay_mode = -1;
+
 
 /** \brief  Update display of the netplay status
  */
 static void netplay_update_status(void)
 {
     const char *text = NULL;
-    char temp[256];
-    int mode = network_get_mode();
-    int server = (gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay)) == 0);
+    char        temp[256];
+    int         mode;
+    gboolean    server;
 
+    server = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay)) == 0;
+    mode   = network_get_mode();
     if (mode < 0 || mode >= G_N_ELEMENTS(net_modes)) {
         text = "invalid";
     } else {
         text = net_modes[mode];
     }
-
     debug_gtk3("mode = %d ('%s')", mode, text);
 
     g_snprintf(temp, sizeof temp, "<b>%s</b>", text);
@@ -243,6 +242,23 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
         ((mode == NETWORK_IDLE) && !server) ? TRUE : FALSE);
 }
 
+
+/** \brief  Create left-aligned label using Pango markup
+ *
+ * \param[in]   text    label text, can contain Pango markup
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label;
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
 /** \brief  Create combo box with network modes
  *
  * \return  GtkComboBoxText
@@ -279,9 +295,11 @@ static GtkWidget *create_netplay_enable_widget(void)
     mode = network_get_mode();
     widget = gtk_switch_new();
 
-    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    gtk_widget_set_halign(widget, GTK_ALIGN_END);
+    gtk_widget_set_valign(widget, GTK_ALIGN_CENTER);
     gtk_switch_set_active(GTK_SWITCH(widget), mode != NETWORK_IDLE);
-
+    gtk_widget_set_hexpand(widget, FALSE);
+    gtk_widget_set_vexpand(widget, FALSE);
     netplay_handler = g_signal_connect(widget,
                                        "notify::active",
                                        G_CALLBACK(on_netplay_notify_active),
@@ -289,67 +307,81 @@ static GtkWidget *create_netplay_enable_widget(void)
     return widget;
 }
 
-/** \brief  Create controls checkboxes
+/** \brief  Add controls checkboxes
  *
- * \return  GtkGrid
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to start adding widgets
+ * \param[in]   columns number of columns in \a grid, for proper column spans
+ *
+ * \return  next row in \a grid to add widgets
  */
-static GtkWidget *create_controls_widget(void)
+static int create_controls_layout(GtkWidget *grid, int row, int columns)
 {
-    GtkWidget *grid;
-    int status;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(32, 0, "Controls", 3);
-    gtk_widget_set_margin_top(grid, 16);
-    gtk_widget_set_margin_start(grid, 16);
+    GtkWidget *label;
+    int        i;
+    int        status = 0;
 
     resources_get_int("NetworkControl", &status);
 
-    for (int i = 0; i < 3; i++) {
-        GtkWidget *label;
+    /* header */
+    label = label_helper("<b>Controls</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
+    gtk_widget_set_margin_top(label, 16);
+    row++;
 
-        label = gtk_label_new(NULL);
-        gtk_label_set_markup(GTK_LABEL(label), netctrl_headers[i]);
+    /* column headers */
+    for (i = 0; i < G_N_ELEMENTS(netctrl_headers); i++) {
+        label = label_helper(netctrl_headers[i]);
         gtk_widget_set_margin_bottom(label, 8);
-        gtk_grid_attach(GTK_GRID(grid), label, i, 1, 1, 1);
+        gtk_widget_set_hexpand(label, FALSE);
+        gtk_grid_attach(GTK_GRID(grid), label, i, row, 1, 1);
     }
+    row++;
 
-    for (int i = 0; control_list[i].text != NULL; i++) {
+    for (i = 0; control_list[i].text != NULL; i++) {
 
-        GtkWidget *label;
         GtkWidget *check;
         netctrl_t data = control_list[i];
 
         /* name of the thing */
         label = gtk_label_new(data.text);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        gtk_widget_set_margin_start(label, 16);
-        gtk_grid_attach(GTK_GRID(grid), label, 0, i + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
 
         /* checkbutton to toggle the server side */
         check = gtk_check_button_new();
-        gtk_widget_set_halign(check, GTK_ALIGN_CENTER);
+        gtk_widget_set_halign(check, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(check, FALSE);
+        /* FIXME: there has to be a better way to properly center the check
+         *        buttons and the headers without taking up so much space in
+         *        the main grid. */
+        gtk_widget_set_margin_start(check, 12);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-                status & data.mask);
-        g_signal_connect(check, "toggled",
-                G_CALLBACK(on_server_mask_toggled),
-                GINT_TO_POINTER(data.mask));
-        gtk_grid_attach(GTK_GRID(grid), check, 1, i + 2, 1, 1);
+                                     status & data.mask);
+        g_signal_connect(G_OBJECT(check),
+                         "toggled",
+                         G_CALLBACK(on_server_mask_toggled),
+                         GINT_TO_POINTER(data.mask));
+        gtk_grid_attach(GTK_GRID(grid), check, 1, row, 1, 1);
 
         /* checkbutton to toggle the client side */
         check = gtk_check_button_new();
-        gtk_widget_set_halign(check, GTK_ALIGN_CENTER);
+        gtk_widget_set_halign(check, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(check, FALSE);
+        gtk_widget_set_margin_start(check, 12);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-                (status >> 8) & data.mask);
-        g_signal_connect(check, "toggled",
-                G_CALLBACK(on_server_mask_toggled),
-                GINT_TO_POINTER(data.mask << 8));
+                                     (status >> 8) & data.mask);
+        g_signal_connect(G_OBJECT(check),
+                         "toggled",
+                         G_CALLBACK(on_server_mask_toggled),
+                         GINT_TO_POINTER(data.mask << 8));
 
-        gtk_grid_attach(GTK_GRID(grid), check, 2, i + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), check, 2, row, 1, 1);
 
+        row++;
     }
 
-    gtk_widget_show_all(grid);
-    return grid;
+    return row;
 }
 
 
@@ -361,71 +393,85 @@ static GtkWidget *create_controls_widget(void)
  */
 GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
 {
+#define NUM_COLS 5
     GtkWidget *grid;
     GtkWidget *label;
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(16, 0, "Netplay settings", 4);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    /* network settings header */
+    label = label_helper("<b>Network settings</b>");
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, NUM_COLS, 1);
+    row++;
 
     /* client or server? */
-    label = vice_gtk3_create_indented_label("Mode");
-    combo_netplay = create_combo_box();
+    label          = label_helper("Network mode");
+    combo_netplay  = create_combo_box();
     netplay_enable = create_netplay_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo_netplay, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), netplay_enable, 2, 1, 1, 1);
+    gtk_widget_set_hexpand(combo_netplay, TRUE);
+    //gtk_widget_set_halign(combo_netplay, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1,            1);
+    gtk_grid_attach(GTK_GRID(grid), combo_netplay,  1, row, NUM_COLS - 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), netplay_enable, 4, row, 1,            1);
+    row++;
 
     /* Server widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Server Address");
+    label = label_helper("Server address");
     /* address */
     server_address = vice_gtk3_resource_entry_new("NetworkServerBindAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_address, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1,            1);
+    gtk_grid_attach(GTK_GRID(grid), server_address, 1, row, NUM_COLS - 1, 1);
+    row++;
 
     /* Client widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Remote Server");
+    label = label_helper("Remote server");
     /* address */
     client_address = vice_gtk3_resource_entry_new("NetworkServerName");
     gtk_widget_set_hexpand(client_address, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), client_address, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1,            1);
+    gtk_grid_attach(GTK_GRID(grid), client_address, 1, row, NUM_COLS - 1, 1);
+    row++;
 
     /* Port widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Port");
+    label = label_helper("Port");
     /* port */
     port_number = vice_gtk3_resource_spin_int_new("NetworkServerPort",
-            1, 65535, 1);
+                                                  1, 65535, 1);
     gtk_widget_set_hexpand(port_number, FALSE);
     gtk_widget_set_halign(port_number, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), port_number, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,       0, row, 1,            1);
+    gtk_grid_attach(GTK_GRID(grid), port_number, 1, row, NUM_COLS - 1, 1);
+    row++;
 
     /* Network status widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Network status");
+    label = label_helper("Network status");
     /* status widget */
     netplay_status = gtk_label_new(NULL);
     gtk_widget_set_margin_top(label, 8);
     gtk_widget_set_margin_top(netplay_status, 8);
     gtk_widget_set_halign(netplay_status, GTK_ALIGN_START);
     gtk_widget_set_hexpand(netplay_status, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), netplay_status, 1, 5, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1,            1);
+    gtk_grid_attach(GTK_GRID(grid), netplay_status, 1, row, NUM_COLS - 1, 1);
+    row++;
     /* update status text */
     netplay_update_status();
 
-    controls = create_controls_widget();
-    gtk_widget_set_margin_top(controls, 16);
-
-    gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 6, 3, 1);
-
+    row = create_controls_layout(grid, row, NUM_COLS);
+#undef NUM_COLS
     gtk_widget_show_all(grid);
     return grid;
 }
