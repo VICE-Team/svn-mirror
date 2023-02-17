@@ -53,6 +53,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "menu-activate.h"
 #include "lightpen.h"
 #include "resources.h"
 #include "util.h"
@@ -386,4 +387,8 @@ void ui_update_lightpen(void)
 void ui_hotkeys_init(void)
 {
     /* NOP */
+}
+
+void arch_ui_activate(void)
+{
 }
