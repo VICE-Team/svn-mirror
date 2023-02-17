@@ -254,7 +254,6 @@ noinst_HEADERS = \
 	signals.h \
 	snespad.h \
 	sound.h \
-	ssi2001.h \
 	sysfile.h \
 	tap.h \
 	tape.h \
@@ -567,7 +566,6 @@ hwsiddrv_lib = $(top_builddir)/src/arch/shared/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
-iodrv_lib = $(top_builddir)/src/arch/shared/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
@@ -620,7 +618,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if SUPPORT_X64
 x64_bin = x64
@@ -646,7 +644,6 @@ vsid_libs =  \
 	$(mididrv_lib) \
 	$(socketdrv_lib) \
 	$(hwsiddrv_lib) \
-	$(iodrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
 	$(vicii_lib) \
@@ -1387,9 +1384,6 @@ $(iecbus_lib):
 $(imagecontents_lib):
 	@echo "making all in imagecontents"
 	@(cd imagecontents && $(MAKE))
-$(iodrv_lib):
-	@echo "making all in arch/shared/iodrv"
-	@(cd arch/shared/iodrv && $(MAKE))
 $(linenoise_ng_lib):
 	@echo "making all in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))

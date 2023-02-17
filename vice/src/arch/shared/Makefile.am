@@ -10,7 +10,7 @@
 #
 # -- compyx, 2020-02-08
 
-SUBDIRS = hwsiddrv iodrv mididrv socketdrv sounddrv
+SUBDIRS = hwsiddrv mididrv socketdrv sounddrv
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \

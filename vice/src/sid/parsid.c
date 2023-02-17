@@ -29,7 +29,7 @@
 #include "vice.h"
 
 #ifdef HAVE_PARSID
-#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
+#ifdef HAVE_LIBIEEE1284
 #include "parsid.h"
 #include "types.h"
 
