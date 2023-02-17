@@ -60,7 +60,7 @@
  * \param[in]   widget  resource switch
  * \param[in]   data    extra event data (unused)
  */
-static void on_switch_state_set(GtkWidget *self, gpointer data)
+static void on_switch_notify_active(GtkWidget *self, gpointer data)
 {
     gboolean    active;
     mediator_t *mediator;
@@ -102,8 +102,8 @@ GtkWidget *vice_gtk3_resource_switch_new(const char *resource)
 
     /* connect signal handler and store ID in mediator */
     handler = g_signal_connect(widget,
-                               "state-set",
-                               G_CALLBACK(on_switch_state_set),
+                               "notify::active",
+                               G_CALLBACK(on_switch_notify_active),
                                NULL);
     mediator_set_handler(mediator, handler);
 
