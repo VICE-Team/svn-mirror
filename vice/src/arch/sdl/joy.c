@@ -488,6 +488,10 @@ static ui_menu_action_t sdljoy_perform_event_for_menu_action(joystick_mapping_t*
                     break;
             }
         }
+    } else if (event->action == UI_ACTIVATE) {
+        retval = MENU_ACTION_CANCEL;
+    } else if (event->action == MAP) {
+        retval = MENU_ACTION_MAP;
     }
     if (!value) {
         autorepeat = MENU_ACTION_NONE;
