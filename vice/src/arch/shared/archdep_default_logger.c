@@ -63,13 +63,12 @@ int archdep_default_logger(const char *level_string, const char *txt)
         out = lib_strdup(txt);
     }
 
-    /* If a console is attached, spit out the log entry */
-    if (!GetConsoleTitle(NULL, 0) && GetLastError() == ERROR_SUCCESS) {
-        puts(out);
-        fflush(stdout);
-    } else {
-        OutputDebugString(out);
-    }
+    /* first output to stdout as usual, and flush the output so it
+       shows up in the console immediately */
+    puts(out);
+    fflush(stdout);
+    /* also output to debug output, so it can be captured by Debugview etc */
+    OutputDebugString(out);
 
     lib_free(out);
     return 0;
