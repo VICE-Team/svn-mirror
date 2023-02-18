@@ -156,8 +156,8 @@ static void update_common_config_combo(GtkWidget *widget)
     /* get grid containing the toggle button */
     parent = gtk_widget_get_parent(widget);
     if (GTK_IS_GRID(parent)) {
-        int i = get_common_config_index(parent);
-        gtk_combo_box_set_active(GTK_COMBO_BOX(configs_combo), i);
+        int index = get_common_config_index(parent);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(configs_combo), index);
     }
 }
 
@@ -168,8 +168,8 @@ static void update_common_config_combo(GtkWidget *widget)
  */
 static void on_ram_block_toggled(GtkWidget *widget, gpointer user_data)
 {
-    int old_state;
-    int new_state;
+    int old_state = 0;
+    int new_state = 0;
     int block = GPOINTER_TO_INT(user_data);
 
     resources_get_int_sprintf("RamBlock%d", &old_state, block);
@@ -217,13 +217,19 @@ static void on_common_config_changed(GtkWidget *widget, gpointer user_data)
 static GtkWidget *vic20_common_config_widget_create(void)
 {
     GtkWidget *grid;
-    int i;
+    GtkWidget *label;
+    int        i;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Common configurations", 1);
-    gtk_widget_set_margin_bottom(gtk_grid_get_child_at(GTK_GRID(grid), 0, 0), 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<span font_weight=\"semibold\">Common configurations</span>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     configs_combo = gtk_combo_box_text_new();
-    gtk_widget_set_margin_start(configs_combo, 8);
     for (i = 0; common_configs[i].text != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(configs_combo),
                                   NULL, common_configs[i].text);
@@ -245,20 +251,26 @@ static GtkWidget *vic20_common_config_widget_create(void)
 static GtkWidget *vic20_ram_blocks_widget_create(void)
 {
     GtkWidget *grid;
-    int i;
+    GtkWidget *label;
+    int        i;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RAM blocks", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+                         "<span font_weight=\"semibold\">RAM blocks</span>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     for (i = 0; ram_blocks[i].name != NULL; i++) {
+        GtkWidget *check;
+        int        active = 0;
 
-        GtkWidget *check = gtk_check_button_new_with_label(ram_blocks[i].name);
-        int active;
-
+        check = gtk_check_button_new_with_label(ram_blocks[i].name);
         resources_get_int_sprintf("RamBlock%d", &active, ram_blocks[i].id);
-        gtk_widget_set_margin_start(check, 8);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), active);
-        g_signal_connect(check,
+        g_signal_connect(G_OBJECT(check),
                          "toggled",
                          G_CALLBACK(on_ram_block_toggled),
                          GINT_TO_POINTER(ram_blocks[i].id));

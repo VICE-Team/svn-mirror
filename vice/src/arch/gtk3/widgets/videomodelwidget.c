@@ -63,7 +63,6 @@ static const char *resource_name = NULL;
 static const vice_gtk3_radiogroup_entry_t *model_list = NULL;
 
 
-
 /** \brief  Get index in model list for model-ID \a model
  *
  * \param[in]   model   model index
@@ -74,7 +73,6 @@ static int get_model_index(int model)
 {
     return vice_gtk3_radiogroup_get_list_index(model_list, model);
 }
-
 
 /** \brief  Handler for the "toggled" event of the model radio buttons
  *
@@ -87,8 +85,9 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         if (resources_set_int(resource_name, model_id) < 0) {
-            log_error(LOG_ERR, "failed to set %s to %d\n",
-                    resource_name, model_id);
+            log_error(LOG_ERR,
+                      "%s(): failed to set %s to %d\n",
+                      __func__, resource_name, model_id);
         } else {
             GtkWidget *parent;
             void (*callback)(int);
@@ -148,9 +147,19 @@ void video_model_widget_set_models(const vice_gtk3_radiogroup_entry_t *models)
 GtkWidget *video_model_widget_create(GtkWidget *machine)
 {
     GtkWidget *grid;
+    GtkWidget *label;
+    char       title[64];
+    int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, widget_title, 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+
+    g_snprintf(title, sizeof title, "<b>%s</b>", widget_title);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), title);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    row++;
 
     if (model_list != NULL) {
         GtkWidget *radio;
@@ -162,16 +171,14 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
             radio = gtk_radio_button_new_with_label(group, model_list[i].name);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
                                         GTK_RADIO_BUTTON(last));
-            gtk_widget_set_margin_start(radio, 8);
-            gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), radio, 0, row, 1, 1);
             last = radio;
+            row++;
         }
 
         /* now set the proper value */
         video_model_widget_update(grid);
     }
-
-    g_object_set_data(G_OBJECT(grid), "ExtraCallback", NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -213,12 +220,14 @@ void video_model_widget_update(GtkWidget *widget)
 void video_model_widget_connect_signals(GtkWidget *widget)
 {
     GtkWidget *radio;
-    int i = 0;
+    int        i = 0;
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
-            g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
-                    GINT_TO_POINTER(model_list[i].id));
+            g_signal_connect(G_OBJECT(radio),
+                             "toggled",
+                             G_CALLBACK(on_model_toggled),
+                             GINT_TO_POINTER(model_list[i].id));
         } else {
             break;
         }

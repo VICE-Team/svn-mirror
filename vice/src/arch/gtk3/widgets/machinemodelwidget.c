@@ -146,20 +146,28 @@ void machine_model_widget_set_models(const char **list)
 GtkWidget *machine_model_widget_create(void)
 {
     GtkWidget   *grid;
+    GtkWidget   *label;
     GtkWidget   *radio;
     GtkWidget   *last;
     GSList      *group = NULL;
     const char **list = model_list;
+    int          row = 0;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Model", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Model</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    row++;
 
     /* add 'unknown' model radio */
     group = NULL;
     last = radio = gtk_radio_button_new_with_label(group, "Unknown");
-    gtk_widget_set_margin_start(radio, 8);
     gtk_widget_set_sensitive(radio, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), radio, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), radio, 0, row, 1, 1);
+    row++;
 
     if (list != NULL) {
         int i;
@@ -168,9 +176,9 @@ GtkWidget *machine_model_widget_create(void)
             radio = gtk_radio_button_new_with_label(group, list[i]);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
                                         GTK_RADIO_BUTTON(last));
-            gtk_widget_set_margin_start(radio, 8);
-            gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 2, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), radio, 0, row, 1, 1);
             last = radio;
+            row++;
         }
         machine_model_widget_update(grid);
     }
