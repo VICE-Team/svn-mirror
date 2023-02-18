@@ -2079,7 +2079,11 @@ int ui_init(void)
      * hack works, and it does.
      */
     settings_default = gtk_settings_get_default();
-    g_object_set(settings_default, "gtk-menu-bar-accel", "F20", NULL);
+    /* i've seen gtk example code use the returned value directly, but the docs
+     * say it can return NULL, so let's be safe */
+    if (settings_default != NULL) {
+        g_object_set(settings_default, "gtk-menu-bar-accel", "F20", NULL);
+    }
 
     if (!uidata_init()) {
         log_error(LOG_ERR,
@@ -2101,8 +2105,12 @@ int ui_init(void)
      *          Which probably isn't the correct way.
      */
     settings = g_settings_new("org.gtk.Settings.FileChooser");
+    /* returns floating ref */
     variant = g_variant_new("b", TRUE);
+    /* floating ref is consumed here */
     g_settings_set_value(settings, "sort-directories-first", variant);
+    /* this should be unref'ed after use */
+    g_object_unref(settings);
 
     ui_statusbar_init();
     return 0;
