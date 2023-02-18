@@ -46,6 +46,7 @@
 
 #include "archdep.h"
 #include "c128machinetypewidget.h"
+#include "c64dtvmodel.h"
 #include "c64model.h"
 #include "cbm2hardwiredswitcheswidget.h"
 #include "cbm2memorysizewidget.h"
@@ -87,11 +88,12 @@ static void plus4_debug_dump_resources(void);
 
 
 /** \brief  List of C64DTV revisions
+ *
  */
 static const vice_gtk3_radiogroup_entry_t c64dtv_revisions[] = {
-    { "DTV2", 2 },
-    { "DTV3", 3 },
-    { NULL, -1 }
+    { "DTV2", DTVREV_2 },
+    { "DTV3", DTVREV_3 },
+    { NULL,   -1 }
 };
 
 
@@ -668,22 +670,21 @@ static void c64dtv_hummer_adc_callback(GtkWidget *widget, gboolean value)
  */
 static void machine_model_handler_c64dtv(int model)
 {
-    int rev = 3;
     GtkWidget *group;
+    int        rev;
 
     switch (model) {
-        case 0: /* V2 PAL */
-            rev = 2;
+        case DTVMODEL_V2_PAL:       /* fall through */
+        case DTVMODEL_V2_NTSC:
+            rev = DTVREV_2;
             break;
-        case 1: /* V2 NTSC */
-            rev = 2;
-            break;
-        case 3: /* V3 NTSC */
-            break;
-        case 4: /* Hummer */
+        case DTVMODEL_V3_PAL:       /* fall through */
+        case DTVMODEL_V3_NTSC:      /* fall through */
+        case DTVMODEL_HUMMER_NTSC:
+            rev = DTVREV_3;
             break;
         default:
-            /* 3: V3 PAL */
+            rev = -1;
             break;
     }
 
