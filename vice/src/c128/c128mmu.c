@@ -323,7 +323,8 @@ int mmu_is_c64config(void)
     return (mmu[5] & 0x40) ? 1 : 0;
 }
 
-static int in_c64_mode = -1;
+int in_c64_mode = -1;
+int c64_mode_bank = 0;
 
 static void mmu_switch_to_c64mode(void)
 {
@@ -353,6 +354,11 @@ static void mmu_switch_to_c64mode(void)
     mem_update_config(0x80 + mmu_config64);
     if (in_c64_mode != 1) {
         mem_initialize_go64_memory_bank(mmu[6]);
+        if (c128_full_banks) {
+            c64_mode_bank = ((mmu[0] >> 6) & 0x3);
+        } else {
+            c64_mode_bank = ((mmu[0] >> 6) & 0x1);
+        }
         in_c64_mode = 1;
     }
     keyboard_alternative_set(1);
