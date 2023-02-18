@@ -24,7 +24,7 @@
  *
  */
 
-/* #define DEBUG_ATTACH */
+#define DEBUG_ATTACH
 
 #include "vice.h"
 
@@ -386,7 +386,7 @@ static int set_attach_device_readonly(int value, void *param)
 static int vdrive_device_setup_if_no_image(vdrive_t *vdrive, unsigned int unit, unsigned int drive)
 {
     if (vdrive != NULL && vdrive_get_image(vdrive, drive) == NULL) {
-        return vdrive_device_setup(vdrive, unit, drive);
+        return vdrive_device_setup(vdrive, unit /*, drive */); /* FIXME: drive number */
     }
 
     return 0;

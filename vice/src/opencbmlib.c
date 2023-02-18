@@ -60,14 +60,23 @@ static void opencbmlib_free_library(void)
         if (vice_dynlib_close(opencbm_so) != 0) {
             log_debug("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
         }
-        LOG(("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " OK"));
+#ifdef DEBUG_OPENCBM
+        else {
+            LOG(("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " OK"));
+        }
+#endif
     }
-
+#ifdef DEBUG_OPENCBM
+    else {
+        LOG(("closing dynamic library " ARCHDEP_OPENCBM_SO_NAME " WAS NOT OPEN"));
+    }
+#endif
     opencbm_so = NULL;
 }
 
 static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
 {
+    LOG(("opencbmlib_load_library opencbmlib_t:%p", opencbmlib));
     if (opencbm_so == NULL) {
         opencbm_so = vice_dynlib_open(ARCHDEP_OPENCBM_SO_NAME);
 
