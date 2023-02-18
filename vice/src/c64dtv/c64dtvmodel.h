@@ -42,8 +42,8 @@ enum {
 
 #define DTVMODEL_UNKNOWN 99
 
-#define REV_2  2
-#define REV_3  3
+#define DTVREV_2  2
+#define DTVREV_3  3
 
 #define IS_DTV     0
 #define IS_HUMMER  1
