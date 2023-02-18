@@ -58,4 +58,9 @@ void c128_mem_set_mmu_page_1_target_ram(uint8_t val);
 
 void c128_mem_set_mmu_zp_sp_shared(uint8_t val);
 
+/* indicates if x128 is in c64 mode or not */
+extern int in_c64_mode;
+
+extern int c64_mode_bank;
+
 #endif

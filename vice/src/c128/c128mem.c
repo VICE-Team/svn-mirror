@@ -272,13 +272,19 @@ static uint16_t z80_mem_mmu_wrap_read_zero(uint16_t address)
     uint16_t addr;
     int use_ram_only = 0;
 
+    /* check if we are in c64 mode and page 0 is shared, if yes, replace bank with 0 */
+    if (in_c64_mode == 1 && c128_mem_mmu_zp_sp_shared) {
+        addr_bank = 0;
+        use_ram_only = 1;
+    /* check if we are in c64 mode and page 0 is NOT shared, if yes, replace bank with current bank */
+    } else if (in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared) {
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
     /* Check if there is no translation that needs to be done */
-    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_0_bank == 0) {
+    } else if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_0_bank == 0) {
         return 0x100;
-    }
-
     /* check if the address page is page 0 and in shared memory then bank does not change */
-    if (c128_mem_mmu_zp_sp_shared && addr_page == 0) {
+    } else if (c128_mem_mmu_zp_sp_shared && addr_page == 0) {
         addr_page = c128_mem_mmu_page_0;
         use_ram_only = 1;
     /* check if the address page is page 0 and replace addr with mmu given page and bank */
@@ -321,18 +327,25 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
     uint16_t addr;
     int use_ram_only = 0;
 
+    /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is shared, if yes, replace bank with 0 */
+    if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && c128_mem_mmu_zp_sp_shared) {
+        addr_bank = 0;
+        use_ram_only = 1;
+    /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is NOT shared, if yes, replace bank with current bank */
+    } else if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && !c128_mem_mmu_zp_sp_shared) {
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
+    /* check if we are in c64 mode and some other address was accessed, in that case no translation is needed */
+    } else if (in_c64_mode == 1) {
+        return 0x100;
     /* Check if there is no translation that needs to be done */
-    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
+    } else if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
         return 0x100;
-    }
-
     /* Make sure the internal cpu port is always used for address 0 and 1 */
-    if (address == 0 || address == 1) {
+    } else if (address == 0 || address == 1) {
         return 0x100;
-    }
-
     /* check if the address page is page 1 and in shared memory then bank does not change */
-    if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
+    } else if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
         addr_page = c128_mem_mmu_page_1;
         use_ram_only = 1;
     /* check if the address page is page 0 and in shared memory then bank does not change */
@@ -379,13 +392,22 @@ static uint8_t z80_mem_mmu_wrap_store(uint16_t address, uint8_t value)
     uint16_t addr;
     int use_ram_only = 0;
 
-    /* Check if there is no translation that needs to be done */
-    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
+    /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is shared, if yes, replace bank with 0 */
+    if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && c128_mem_mmu_zp_sp_shared) {
+        addr_bank = 0;
+        use_ram_only = 1;
+    /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is NOT shared, if yes, replace bank with current bank */
+    } else if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && !c128_mem_mmu_zp_sp_shared) {
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
+    /* check if we are in c64 mode and some other address was accessed, in that case no translation is needed */
+    } else if (in_c64_mode == 1) {
         return 1;
-    }
-
+    /* Check if there is no translation that needs to be done */
+    } else if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
+        return 1;
     /* check if the address page is page 1 and in shared memory then bank does not change */
-    if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
+    } else if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
         addr_page = c128_mem_mmu_page_1;
         use_ram_only = 1;
     /* check if the address page is page 0 and in shared memory then bank does not change */
