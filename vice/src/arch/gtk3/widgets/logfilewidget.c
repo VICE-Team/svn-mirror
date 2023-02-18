@@ -49,9 +49,11 @@
  * This ID is used to temporarily block the signal to avoid signal handlers of
  * the check button and the text entry triggering each other.
  */
-static gulong check_handler;
+static gulong check_handler = 0;
 
-static GtkWidget *launcher;
+/** \brief  Button to open a file manager in the logfile directory
+ */
+static GtkWidget *launcher = NULL;
 
 
 /** \brief  Handler for the 'changed' event of the entry
@@ -79,15 +81,19 @@ static void on_logfile_entry_changed(GtkWidget *entry, gpointer check)
  * contents when \a check is toggled off.
  *
  * \param[in]   check   GtkCheckButton for "log to stdout"
- * \param[in]   browser resource browser containing the LogFileName contents
+ * \param[in]   chooser resource file chooser containing the LogFileName contents
  */
-static void on_stdout_check_toggled(GtkWidget *check, gpointer browser)
+static void on_stdout_check_toggled(GtkWidget *check, gpointer chooser)
 {
+    const char *text;
+
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
-        vice_gtk3_resource_browser_set(GTK_WIDGET(browser), "-");
+        text = "-";
     } else {
-        vice_gtk3_resource_browser_set(GTK_WIDGET(browser), NULL);
+        text = "";
     }
+    gtk_entry_set_text(GTK_ENTRY(chooser), text);
+    resources_set_string("LogFileName", text);
 }
 
 /** \brief  Open directory containing the log file
@@ -161,6 +167,22 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
     g_free(uri);
 }
 
+/** \brief  Create left-aligned label with Pango markup
+ *
+ * \param[in]   text    label text, can contain Pango markup
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
+
 /** \brief  Create widget to set the LogFileName resource
  *
  * \return  GtkGrid
@@ -168,62 +190,69 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
 GtkWidget *logfile_widget_create(void)
 {
     GtkWidget  *grid;
-    GtkWidget  *logfile_browser;
-    GtkWidget  *entry;
+    GtkWidget  *header_label;
+    GtkWidget  *logfile_chooser;
     GtkWidget  *stdout_check;
+    GtkWidget  *button_box;
     const char *logfilename = NULL;
     char       *logfile_default;
+    int         row = 0;
 
-    int         row = 1;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "VICE log file", 1);
-
-    logfile_default = archdep_default_logfile();
     resources_get_string("LogFileName", &logfilename);
-    logfile_browser = vice_gtk3_resource_browser_save_new("LogFileName",
-                                                          "Select log file",
-                                                          NULL,
-                                                          NULL,
-                                                          NULL);
-    if (logfilename == NULL || *logfilename == '\0') {
-        vice_gtk3_resource_browser_set_directory(logfile_browser,
-                                                archdep_user_state_path());
-    }
-    entry = gtk_grid_get_child_at(GTK_GRID(logfile_browser), 0, 0);
-    /* align with the CWD widget in the parent widget (host->environment) */
-    gtk_widget_set_margin_start(entry, 8);
-    gtk_widget_set_margin_end(logfile_browser, 8);
-    gtk_grid_set_column_spacing(GTK_GRID(logfile_browser), 8);
-    /* use the default log file path as a placeholder text */
-    gtk_entry_set_placeholder_text(GTK_ENTRY(entry), logfile_default);
-    lib_free(logfile_default);
-    gtk_grid_attach(GTK_GRID(grid), logfile_browser, 0, row, 1, 1);
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    /* header */
+    header_label = label_helper("<b>VICE log file</b>");
+    gtk_grid_attach(GTK_GRID(grid), header_label, 0, row, 2, 1);
     row++;
 
+    /* logfile resource filechooser */
+    logfile_default = archdep_default_logfile();
+    logfile_chooser = vice_gtk3_resource_filechooser_new("LogFileName",
+                                                         GTK_FILE_CHOOSER_ACTION_SAVE);
+    vice_gtk3_resource_filechooser_set_custom_title(logfile_chooser,
+                                                    "Select or create log file");
+    if (logfilename == NULL || *logfilename == '\0') {
+        vice_gtk3_resource_filechooser_set_directory(logfile_chooser,
+                                                     archdep_user_state_path());
+    }
+    /* use the default log file path as a placeholder text */
+    gtk_entry_set_placeholder_text(GTK_ENTRY(logfile_chooser), logfile_default);
+    lib_free(logfile_default);
+    gtk_grid_attach(GTK_GRID(grid), logfile_chooser, 0, row, 2, 1);
+    row++;
+
+    /* check button for "log to stdout" */
     stdout_check = gtk_check_button_new_with_label("Log to stdout");
-    logfilename = gtk_entry_get_text(GTK_ENTRY(entry));
+    logfilename = gtk_entry_get_text(GTK_ENTRY(logfile_chooser));
     if (g_strcmp0(logfilename, "-") == 0) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stdout_check), TRUE);
     }
     gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
-    row++;
 
+    /* "Open directory" button in button box, next to the stdout check button */
+    button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_set_spacing(GTK_BOX(button_box), 8);
     launcher = gtk_button_new_with_label("Open directory containing log file");
-    gtk_grid_attach(GTK_GRID(grid), launcher, 0, row, 1, 1);
-    g_signal_connect(launcher,
+    gtk_box_pack_start(GTK_BOX(button_box), launcher, FALSE, FALSE, 0);
+    gtk_widget_set_halign(button_box, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(grid), button_box, 1, row, 1, 1);
+
+    g_signal_connect(G_OBJECT(launcher),
                      "clicked",
                      G_CALLBACK(on_launcher_clicked),
                      NULL);
-
-    check_handler = g_signal_connect(stdout_check,
+    check_handler = g_signal_connect(G_OBJECT(stdout_check),
                                      "toggled",
                                      G_CALLBACK(on_stdout_check_toggled),
-                                     (gpointer)logfile_browser);
-    g_signal_connect_unlocked(entry,
+                                     (gpointer)logfile_chooser);
+    g_signal_connect_unlocked(G_OBJECT(logfile_chooser),
                               "changed",
                               G_CALLBACK(on_logfile_entry_changed),
                               (gpointer)stdout_check);
-
 
     gtk_widget_show_all(grid);
     return grid;
