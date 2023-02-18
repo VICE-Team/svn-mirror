@@ -145,11 +145,7 @@ int main_program(int argc, char **argv)
     }
     /* make stdin, stdout and stderr available on Windows when compiling with
      * -mwindows */
-    /* Never works right when you need it, only confuses things. Windows is
-     * plenty fucked up without us adding more fucked up crap =) */
-#if 0
     archdep_fix_streams();
-#endif
 
     /* Check for some options at the beginning of the commandline before
        initializing the user interface or loading the config file.
