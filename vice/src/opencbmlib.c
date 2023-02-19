@@ -76,7 +76,7 @@ static void opencbmlib_free_library(void)
 
 static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
 {
-    LOG(("opencbmlib_load_library opencbmlib_t:%p", opencbmlib));
+    LOG(("opencbmlib_load_library opencbmlib_t:%p", (void*)opencbmlib));
     if (opencbm_so == NULL) {
         opencbm_so = vice_dynlib_open(ARCHDEP_OPENCBM_SO_NAME);
 
