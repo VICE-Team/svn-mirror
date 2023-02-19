@@ -123,8 +123,8 @@ void _vte_ring_fini (VteRing *ring)
 typedef struct _VteRowRecord {
     gsize text_start_offset;  /* offset where text of this row begins */
     gsize attr_start_offset;  /* offset of the first character's attributes */
-    int soft_wrapped: 1;      /* end of line is not '\n' */
-    int is_ascii: 1;          /* for rewrapping speedup: guarantees that line contains 32..126 bytes only. Can be 0 even when ascii only. */
+    guint8 soft_wrapped: 1;   /* end of line is not '\n' */
+    guint8 is_ascii: 1;       /* for rewrapping speedup: guarantees that line contains 32..126 bytes only. Can be 0 even when ascii only. */
 } VteRowRecord;
 
 /* Represents a cell position, see ../doc/rewrap.txt */
