@@ -151,12 +151,10 @@ uint8_t realdevice_read(void (*st_func)(uint8_t))
 
     vsync_suspend_speed_eval();
 
-#ifdef DEBUG_RD
-    log_debug("realdevice: READ FD:%p DATA:%02x", realdevice_fd, data);
-#endif
     st = ((*opencbmlib.p_cbm_raw_read)(realdevice_fd, &data, 1) == 1) ? 0 : 2;
 
 #ifdef DEBUG_RD
+    log_debug("realdevice: READ FD:%p DATA:%02x", realdevice_fd, data);
     log_debug("realdevice: READ FD:%p ST:%02x", realdevice_fd, st);
 #endif
 
