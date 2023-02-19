@@ -47,7 +47,7 @@ void log_close_all(void);
 void log_enable(int on);
 int log_set_silent(int n);
 int log_set_verbose(int n);
-int log_verbose_init(int argc, char **argv);
+int log_early_init(int argc, char **argv);
 
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
