@@ -586,7 +586,7 @@ static basic_list_t basic_list[] = {
     { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       0, 0, 0, "Basic v2.0 with Eve Basic (C64)" },
     { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      0, 0, 0, "Basic v2.0 with The Tool 64 (C64)" },
     { B_HANDY,    22, 0xE1, 0x1801, 0, 0xCC, handykwcc,         "handy",     0, 0, 0, "Basic v2.0 with Handy Basic v1.0 (VIC20)" },
-    { B_65,       73, 0x48, 0x2001, 2, 0,    NULL, /* fix */    "65",        0, 1, 1, "Basic v65.0 (Mega65)" },
+    { B_65,       85, 0x54, 0x2001, 2, 0,    NULL, /* fix */    "65",        0, 1, 1, "Basic v65.0 (Mega65)" },
     { 0,          0,  0,    0,     0 , 0,    NULL,              NULL,        0, 0, 0, NULL }
 };
 
@@ -861,7 +861,8 @@ static const char *kwce10[] = {
 
 static const char *kwce65[] = {
     "",    "",        "pot",     "bump", "lpen", "rsppos", "rsprite", "rspcolor",
-    "log10", "rwindow", "pointer", "mod", "pixel", "rpalette", "rspeed", "rplay"
+    "log10", "rwindow", "pointer", "mod", "pixel", "rpalette", "rspeed", "rplay",
+    "wpeek"
 };
 #define NUM_KWCE65 (sizeof(kwce65) / sizeof(kwce65[0]))
 
@@ -898,13 +899,14 @@ static const char *kwfe65[] = {
     "",         "",           "bank",     "filter",     "play",    "tempo",     "movspr",  "sprite",
     "sprcolor", "rreg",       "envelope", "sleep",      "catalog", "dopen",     "append",  "dclose",
     "bsave",    "bload",      "record",   "concat",     "dverify", "dclear",    "sprsav",  "collision",
-    "begin",    "bend",       "window",   "boot",       "fread#",  "sprdef",    "fwrite#", "dma",
+    "begin",    "bend",       "window",   "boot",       "fread#",  "wpoke",     "fwrite#", "dma",
     "",         "edma",       "",         "mem",        "off",     "fast",      "speed",   "type",
     "bverify",  "ectory",     "erase",    "find",       "change",  "set",       "screen",  "polygon",
     "ellipse",  "viewport",   "gcopy",    "pen",        "palette", "dmode",     "dpat",    "format",
     "genlock",  "foreground", "",         "background", "border",  "highlight", "mouse",   "rmouse",
     "disk",     "cursor",     "rcursor",  "loadiff",    "saveiff", "edit",      "font",    "fgoto",
-    "fgosub"
+    "fgosub",   "mount",      "freezer",  "chdir",      "dot",     "info",      "bit",     "unlock",
+    "lock",     "mkdir",      "<<",       ">>",         "vsync"
 };
 
 /* ------------------------------------------------------------------------- */
