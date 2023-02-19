@@ -80,7 +80,7 @@ int archdep_init(int *argc, char **argv)
     archdep_create_user_config_dir();
 
     /* needed for early log control (parses for -silent/-verbose) */
-    log_verbose_init(*argc, argv);
+    log_early_init(*argc, argv);
 
     return 0;
 }
