@@ -1210,16 +1210,14 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
                 the ORA value as the other port. Value read might be different
                 from what is expected due to excessive load. */
 #ifdef MYVIA_NEED_LATCHING
-                if (IS_PA_INPUT_LATCH()) {
+                if (IS_PA_INPUT_LATCH() && (via_context->ifr & VIA_IM_CA1)) {
                     byte = via_context->ila;
-                } else {
+                } else
+#endif
+		{
                     /* FIXME: side effects ? */
                     byte = (via_context->read_pra)(via_context, addr);
                 }
-#else
-                /* FIXME: side effects ? */
-                byte = (via_context->read_pra)(via_context, addr);
-#endif
                 return byte;
             }
 
@@ -1227,16 +1225,14 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
             {
                 uint8_t byte;
 #ifdef MYVIA_NEED_LATCHING
-                if (IS_PB_INPUT_LATCH()) {
+                if (IS_PB_INPUT_LATCH() && (via_context->ifr & VIA_IM_CB1)) {
                     byte = via_context->ilb;
-                } else {
+                } else
+#endif
+		{
                     /* FIXME: side effects ? */
                     byte = (via_context->read_prb)(via_context);
                 }
-#else
-                /* FIXME: side effects ? */
-                byte = (via_context->read_prb)(via_context);
-#endif
                 byte = (byte & ~(via_context->via[VIA_DDRB]))
                        | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
                 if (via_context->via[VIA_ACR] & VIA_ACR_T1_PB7_USED) {
