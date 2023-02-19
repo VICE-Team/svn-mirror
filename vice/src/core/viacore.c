@@ -210,7 +210,8 @@ inline static void update_myviairq_rclk(via_context_t *via_context, CLOCK rclk)
 {
     (via_context->set_int)(via_context, via_context->int_num,
                            (via_context->ifr & via_context->ier & 0x7f)
-                           ? via_context->irq_line : 0, rclk);
+                               ? 1 : 0,
+                           rclk);
 }
 
 inline static void update_myviairq(via_context_t *via_context)
@@ -951,8 +952,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 alarm_set_if_not_pending(via_context->phi2_sr_alarm, rclk + SR_PHI2_FIRST_OFFSET);
                 break;
             case VIA_ACR_SR_IN_CB1:
-            case VIA_ACR_SR_OUT_CB1:
-                /* TODO: Not emulated */
+            case VIA_ACR_SR_OUT_CB1: /* TODO: Out not emulated */
                 alarm_unset(via_context->phi2_sr_alarm);
                 break;
             }
@@ -1039,6 +1039,9 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 {
 #endif
     uint8_t byte = 0xff;
+#ifdef MYVIA_NEED_LATCHING
+    uint8_t tmpifr;
+#endif
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1060,6 +1063,9 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 
     switch (addr) {
         case VIA_PRA:           /* port A */
+#ifdef MYVIA_NEED_LATCHING
+	    tmpifr = via_context->ifr;
+#endif
             via_context->ifr &= ~VIA_IM_CA1;
             if ((via_context->via[VIA_PCR] & 0x0a) != 0x02) {
                 via_context->ifr &= ~VIA_IM_CA2;
@@ -1075,26 +1081,33 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
                 update_myviairq_rclk(via_context, rclk);
             }
-            /* falls through */
+	    goto via_pra_nhs;
+            /* falls through but skips tmpifr = ... */ 
 
         case VIA_PRA_NHS: /* port A, no handshake */
             /* WARNING: this pin reads the voltage of the output pins, not
                the ORA value as the other port. Value read might be different
                from what is expected due to excessive load. */
 #ifdef MYVIA_NEED_LATCHING
-            if (IS_PA_INPUT_LATCH()) {
+	    tmpifr = via_context->ifr;
+#endif
+	via_pra_nhs:
+#ifdef MYVIA_NEED_LATCHING
+            if (IS_PA_INPUT_LATCH() && (tmpifr & VIA_IM_CA1)) {
                 byte = via_context->ila;
-            } else {
+            } else
+#endif
+	    {
                 byte = (via_context->read_pra)(via_context, addr);
             }
-#else
-            byte = (via_context->read_pra)(via_context, addr);
-#endif
             via_context->ila = byte;
             via_context->last_read = byte;
             return byte;
 
         case VIA_PRB:           /* port B */
+#ifdef MYVIA_NEED_LATCHING
+	    tmpifr = via_context->ifr;
+#endif
             via_context->ifr &= ~VIA_IM_CB1;
             if ((via_context->via[VIA_PCR] & 0xa0) != 0x20) {
                 via_context->ifr &= ~VIA_IM_CB2;
@@ -1106,14 +1119,13 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             /* WARNING: this pin reads the ORA for output pins, not
                the voltage on the pins as the other port. */
 #ifdef MYVIA_NEED_LATCHING
-            if (IS_PB_INPUT_LATCH()) {
+            if (IS_PB_INPUT_LATCH() && (tmpifr & VIA_IM_CB1)) {
                 byte = via_context->ilb;
-            } else {
+            } else
+#endif
+	    {
                 byte = (via_context->read_prb)(via_context);
             }
-#else
-            byte = (via_context->read_prb)(via_context);
-#endif
             via_context->ilb = byte;
             byte = (byte & ~(via_context->via[VIA_DDRB]))
                    | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
@@ -1369,18 +1381,27 @@ static void viacore_cache_cb12_io_status(via_context_t *via_context)
            (pcr & VIA_PCR_CB2_I_OR_O) == VIA_PCR_CB2_INPUT;
 
     /*
-     * If the shift register is disabled, it does apparently shift on CB1 pulses,
-     * but CB2 in/out status would be controlled in the PCR.
+     * If the shift register is disabled, it does apparently shift on CB1
+     * pulses, but CB2 in/out status would be controlled in the PCR.
      */
     via_context->cb1_is_input = cb1_drives_shifting;
     via_context->cb2_is_input = sr_is_input || cb2_is_input;
+
+    /*
+     * If shifting is idle, set CB1 to idle state 1 when it is an output.
+     */
+    if (via_context->set_cb1 &&
+        !via_context->cb1_is_input &&
+        via_context->shift_state == FINISHED_SHIFTING) {
+        (via_context->set_cb1)(via_context, 1);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
 
 
 /*
- * CB1 is the clock line for the shift register output, CB2.
+ * CB1 is the clock line for the shift register in/output, CB2.
  */
 
 void viacore_set_cb1(via_context_t *via_context, bool data) {
@@ -1390,7 +1411,7 @@ void viacore_set_cb1(via_context_t *via_context, bool data) {
      */
     if (data != via_context->cb1_in_state) {
         if (via_context->cb1_is_input) {
-            /* Is this the right way to start shifting a byte? */
+            /* FIXME: Is this the right way to start shifting a byte? */
             if (!data && via_context->shift_state == FINISHED_SHIFTING) {
                 via_context->shift_state = START_SHIFTING;
             }
@@ -1399,7 +1420,7 @@ void viacore_set_cb1(via_context_t *via_context, bool data) {
 
             /* Is it rising? */
             if (data) {
-                /* Shift register */
+                /* Shift register IN; TODO: check this is the mode */
                 via_context->via[VIA_SR] <<= 1;
                 via_context->via[VIA_SR] |= via_context->cb2_in_state;
 
@@ -1407,7 +1428,26 @@ void viacore_set_cb1(via_context_t *via_context, bool data) {
                     viacore_set_sr(via_context, via_context->via[VIA_SR]);
                     via_context->shift_state = START_SHIFTING;
                 }
-            }
+            } else {
+		/* TODO: the case of
+		 * VIA_ACR_SR_OUT_CB1      0x1C
+		 * mode 7 Shift out under control of an External Pulse
+		 * which happens on the falling edge of CB1.
+		 * (maybe keep separate cb1_drives_shifting flag?)
+From http://forum.6502.org/viewtopic.php?f=4&t=7241&start=15#p94001
+The CB1 pad also works as the shift clock from/to the outerworld
+when enabling "10) shift register", and that's why we have _another_
+(conceptually different) edge detector sensing the CB1 pad,
+gated with PHI0=1 AND PHI2=1.
+
+If ACR4=0, the shift register shifts in, and the detector scans for CB1 rising edge.
+If ACR4=1, the shift register shifts out, and the detector scans for CB1 falling edge.
+
+Low_active signal SR_CB1_DET# generated by the detector tells "22) shift register control"
+to shift/count the next Bit.
+		 */
+                /* If shifting OUT, do it here */
+	    }
         }
 
         via_context->cb1_in_state = (data != 0);
@@ -1464,6 +1504,7 @@ void viacore_set_sr(via_context_t *via_context, uint8_t data)
     if (!(via_context->via[VIA_ACR] & VIA_ACR_SR_OUT) &&
          (via_context->via[VIA_ACR] & 0x0c)) {
         via_context->via[VIA_SR] = data;
+        /* TODO: Setting VIA_IM_SR may need a delay of 1 clock */
         via_context->ifr |= VIA_IM_SR;
         update_myviairq(via_context);
         via_context->shift_state = FINISHED_SHIFTING;
@@ -1643,6 +1684,24 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
          * When shifting out, it shifts first and then waits (holding the
          * value), but when shifting in, it waits first and then shifts.
          *
+         * Input bits are sampled on the RISING edge of the clock (CB1)
+         * (and they change at the falling edge).
+         *
+         *> Something seems off though:
+         *> https://twitter.com/RueNahcMohr/status/1571705526911905793:
+         *>* -When you access the shift register, it starts another transfer cycle, NOT.
+         *>* It gets ready to. The timer has to hit zero before it starts.
+         *>* THEN the first cycle is with CB1 _HIGH_! (same as idle..)
+         *>
+         *> Are the even and odd actions swapped?
+         *> Then we also need to set CB1 high again when shifting finishes.
+         *> It seems to imply 9 timer underflows per byte, though.
+         *> Also, via_sr tests which read out the SR would fail; it would
+         *> need decoupling of the shifting from CB1's falling edge and its
+         *> change in the CB2 output (the latter should stay at the falling edge).
+         *> On the other hand, this is probably about IN_T2, not OUT_T2, and that
+         *> is not covered by our tests.
+         *
          * We should not be getting here if we are shifting in or out under
          * control of CB1 (or is disabled).
          */
@@ -1655,8 +1714,11 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
                 if (via_context->set_cb1) {
                     (via_context->set_cb1)(via_context, 0);
                 }
-                /* FIXME: and interrupt flag set according to
-                 * edge detection in PCR? */
+                /* FIXME: and set interrupt flag according to
+                 * edge detection in PCR? In hardware, there is also a special
+                 * SR-related edge detector which triggers the actual shifting
+                 * and counting, the code for which is cut short and
+                 * duplicated here. */
             }
 
             if (shift_out) {
@@ -1677,6 +1739,8 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
                 if (via_context->set_cb1) {
                     (via_context->set_cb1)(via_context, 1);
                 }
+		/* FIXME: and set interrupt flag according to
+		 * edge detection in PCR? */
             }
 
             if (!shift_out) {
