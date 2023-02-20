@@ -33,80 +33,69 @@
 #include "cartridge.h"
 #include "debug_gtk3.h"
 #include "lastdir.h"
-#include "machine.h"
+#include "lib.h"
 #include "openfiledialog.h"
 #include "resources.h"
+#include "resourcewidgetmediator.h"
 #include "savefiledialog.h"
 #include "ui.h"
-#include "widgethelpers.h"
 
 #include "cartimagewidget.h"
 
 
 /** \brief  Cartridge name
  *
- * Used in messages.
+ * Used in messages, copied with lib_strdup(), freed with lib_free().
  */
-static const char *crt_name;
+static char *crt_name = NULL;
 
 /** \brief  Cartridge ID
  *
  * Used for various cartridge functions
  */
-static int crt_id;  /**< cartridge ID in cartridge_*() calls */
+static int crt_id = 0;  /**< cartridge ID in cartridge_*() calls */
 
-/** \brief  Name of resource containing the cartridge filename */
-static const char *res_fname;
+/** \brief  Name of resource containing the cartridge filename
+ *
+ * Copied with lib_strdup(), freed with lib_free() in the 'destroy' handler.
+ */
+static char *res_fname;
 
-/** \brief  Name of resource containing the flush-on-write setting */
-static const char *res_write;
+/** \brief  Name of resource containing the flush-on-write setting
+ *
+ * Copied with lib_strdup(), freed with lib_free() in the 'destroy' handler.
+ */
+static char *res_write;
 
 /** \brief  Reference to the filename entry widget */
 static GtkWidget *filename_entry;
 
+/** \brief  Last used directory
+ */
 static char *last_dir = NULL;
+
+/** \brief  Last used file
+ */
 static char *last_file = NULL;
 
 
-/** \brief  Callback for the open/create-file dialog
+/** \brief  Handler for the 'destroy' event of the containing grid
  *
- * \param[in,out]   dialog      open/create dialog
- * \param[in,out]   filename    filename
- * \param[in]       data        extra data (unused)
+ * Clean up copies of resource names and the cart name.
+ * The last used directory and filename are cleaned up on emulator shutdown by
+ * cart_image_widget_shutdown().
+ *
+ * \param[in]   widget  widget grid (ignored)
+ * \param[in]   data    event data (NULL)
  */
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar     *filename,
-                                     gpointer   data)
+static void on_destroy(GtkWidget *widget, gpointer data)
 {
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(filename_entry, filename);
-        g_free(filename);
-        lastdir_update(GTK_WIDGET(dialog), &last_dir, &last_file);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the "clicked" event of the "browse" button
- *
- * Select an image file for the extension.
- *
- * \param[in]   button      browse button
- * \param[in]   user_data   unused
- */
-static void on_browse_clicked(GtkWidget *button, gpointer user_data)
-{
-    GtkWidget *dialog;
-    char       title[256];
-
-    g_snprintf(title, sizeof title, "Open or create %s image file", crt_name);
-    dialog = vice_gtk3_open_create_file_dialog(title,
-                                               NULL,
-                                               FALSE,
-                                               NULL,
-                                               browse_filename_callback,
-                                               NULL);
-    lastdir_set(dialog, &last_dir, &last_file);
-    gtk_widget_show(dialog);
+    lib_free(crt_name);
+    lib_free(res_fname);
+    lib_free(res_write);
+    crt_name  = NULL;
+    res_fname = NULL;
+    res_write = NULL;
 }
 
 /** \brief  Callback for the save-dialog
@@ -167,6 +156,113 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
     }
 }
 
+/** \brief  Handler for the 'response' event of the (RAM) image file dialog
+ *
+ * \param[in]   self        file chooser dialog for the image
+ * \param[in]   response_id response ID
+ * \param[in]   entry       resource entry
+ */
+static void on_response(GtkDialog *self, int response_id, gpointer entry)
+{
+    char *filename;
+
+    switch (response_id) {
+        case GTK_RESPONSE_ACCEPT:
+            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(self));
+            if (filename != NULL) {
+                if (resources_set_string(res_fname, filename) == 0) {
+                    gtk_entry_set_text(GTK_ENTRY(entry), filename);
+                }
+                g_free(filename);
+                lastdir_update(GTK_WIDGET(self), &last_dir, &last_file);
+            }
+            break;
+        default:
+            break;
+    }
+    gtk_widget_destroy(GTK_WIDGET(self));
+}
+
+/** \brief  Handler for the 'icon-press' event of the filename entry
+ *
+ * Show a file choose dialog to select or create a file or directory.
+ *
+ * \param[in]   self        resource file chooser
+ * \param[in]   icon_pos    icon position in \a self (ignored)
+ * \param[in]   event       event information (ignored)
+ * \param[in]   data        extra event data (unused)
+ */
+static void on_icon_press(GtkEntry             *self,
+                          GtkEntryIconPosition  icon_pos,
+                          GdkEvent             *event,
+                          gpointer              data)
+{
+    GtkWidget  *dialog;
+    GtkWindow  *parent;
+    mediator_t *mediator;
+    char        title[256];
+    const char *current = NULL;
+
+    mediator = mediator_for_widget(GTK_WIDGET(self));
+    current  = mediator_get_resource_string(mediator);
+    debug_gtk3("Resource %s value: '%s'", mediator_get_name(mediator), current);
+
+    g_snprintf(title,
+               sizeof title,
+               "Open or create %s RAM image",
+               (const char *)crt_name);
+    parent = ui_get_active_window();
+    dialog = gtk_file_chooser_dialog_new(title,
+                                         parent,
+                                         GTK_FILE_CHOOSER_ACTION_SAVE,
+                                         "Accept", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_CANCEL,
+                                         NULL);
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), FALSE);
+    lastdir_set(dialog, &last_dir, &last_file);
+
+    if (current != NULL && *current != '\0') {
+        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), current);
+    }
+
+    g_signal_connect(G_OBJECT(dialog),
+                     "response",
+                     G_CALLBACK(on_response),
+                     (gpointer)self);
+    gtk_widget_show(dialog);
+}
+
+/** \brief  Create resource entry with clickable icon
+ *
+ * Create a resource entry box and add an icon to open a file dialog.
+ * We can't use the resource filechooser here since we also want to remember
+ * the last used dir and file and the resouce filechooser doesn't do that
+ * (yet?).
+ *
+ * \param[in]   resource    resource name
+ *
+ * \return  GtkEntry
+ */
+static GtkWidget *create_filename_entry(const char *resource)
+{
+    GtkWidget *entry;
+
+    entry = vice_gtk3_resource_entry_new(resource);
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry),
+                                      GTK_ENTRY_ICON_SECONDARY,
+                                      "document-open-symbolic");
+    gtk_entry_set_icon_tooltip_markup(GTK_ENTRY(entry),
+                                      GTK_ENTRY_ICON_SECONDARY,
+                                      "Select image file");
+    g_signal_connect(G_OBJECT(entry),
+                     "icon-press",
+                     G_CALLBACK(on_icon_press),
+                     NULL);
+    return entry;
+}
+
 
 /** \brief  Create widget to load/save/flush cart image file
  *
@@ -195,61 +291,71 @@ GtkWidget *cart_image_widget_create(GtkWidget  *parent,
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *browse;
     GtkWidget *auto_save;
+    GtkWidget *box;
     GtkWidget *save_button;
     GtkWidget *flush_button;
     char       buffer[256];
+    int        row = 0;
 
-    res_fname = resource_fname;
-    res_write = resource_write;
-    crt_name  = cart_name;
+    res_fname = lib_strdup(resource_fname);
+    res_write = lib_strdup(resource_write);
+    crt_name  = lib_strdup(cart_name);
     crt_id    = cart_id;
 
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    /* this needs to be set otherwise the label takes too much space, as if
+     * homogeneous is set to TRUE (which it shouldn't be) */
+    gtk_grid_set_column_homogeneous(GTK_GRID(grid), FALSE);
+
+    /* header */
     if (title == NULL) {
         if (cart_name == NULL) {
-            strcpy(buffer, "Cartridge Image");
+            strcpy(buffer, "<b>Cartridge Image</b>");
         } else {
-            g_snprintf(buffer, sizeof buffer, "%s Image", cart_name);
+            g_snprintf(buffer, sizeof buffer, "<b>%s Image</b>", cart_name);
         }
     } else {
         strncpy(buffer, title, sizeof buffer);
         buffer[sizeof buffer - 1u] = '\0';
     }
-
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, buffer, 3);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 3, 1);
+    row++;
 
     label = gtk_label_new("File name:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
-    filename_entry = vice_gtk3_resource_entry_new(resource_fname);
+    filename_entry = create_filename_entry(resource_fname);
     gtk_widget_set_hexpand(filename_entry, TRUE);
-    /* gtk_widget_set_sensitive(entry, FALSE); */
-    browse = gtk_button_new_with_label("Browse ...");
-
-    gtk_grid_attach(GTK_GRID(grid), label,          0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), filename_entry, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse,         2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), filename_entry, 1, row, 2, 1);
+    row++;
 
     auto_save = vice_gtk3_resource_check_button_new(resource_write,
             "Write image on image detach/emulator exit");
-    gtk_widget_set_margin_start(auto_save, 8);
-    gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);
+    gtk_widget_set_valign(auto_save, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), auto_save, 0, row, 2, 1);
 
-    save_button = gtk_button_new_with_label("Save as ...");
-    gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
+    /* wrap save and flush button in button box */
+    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
+    gtk_box_set_spacing(GTK_BOX(box), 8);
+    save_button = gtk_button_new_with_label("Save image as ..");
+    gtk_box_pack_start(GTK_BOX(box), save_button, FALSE, FALSE, 0);
+    flush_button = gtk_button_new_with_label("Flush image");
+    gtk_box_pack_start(GTK_BOX(box), flush_button, FALSE, FALSE, 0);
+    gtk_widget_set_halign(box, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), box, 1, row, 1, 1);
 
-    flush_button = gtk_button_new_with_label("Save image");
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
     gtk_widget_set_sensitive(flush_button,
                              (gboolean)(cartridge_can_flush_image(cart_id)));
     gtk_widget_set_sensitive(save_button,
                              (gboolean)(cartridge_can_save_image(cart_id)));
 
-    g_signal_connect(browse,
-                     "clicked",
-                     G_CALLBACK(on_browse_clicked),
-                     NULL);
     g_signal_connect(save_button,
                      "clicked",
                      G_CALLBACK(on_save_clicked),
@@ -258,6 +364,10 @@ GtkWidget *cart_image_widget_create(GtkWidget  *parent,
                      "clicked",
                      G_CALLBACK(on_flush_clicked),
                      NULL);
+    g_signal_connect_unlocked(G_OBJECT(grid),
+                              "destroy",
+                              G_CALLBACK(on_destroy),
+                              NULL);
 
     gtk_widget_show_all(grid);
     return grid;
