@@ -333,9 +333,14 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
     /* Make sure the internal cpu port is always used for address 0 and 1 */
     } else if (address == 0 || address == 1) {
         return 0x100;
-    /* check if the address page is page 0 or page 1 and we are in c64 mode, ifso normal read needs to be done */
-    } else if ((addr_page == 0 || addr_page == 1) && in_c64_mode == 1) {
-        return 0x100;
+    /* check if the address page is page 0 or page 1 and we are in c64 mode and page 0 and 1 are in shared memory, ifso replace with bank 0 */
+    } else if ((addr_page == 0 || addr_page == 1) && in_c64_mode == 1 && c128_mem_mmu_zp_sp_shared) {
+        addr_bank = 0;
+        use_ram_only = 1;
+    /* check if the address page is page 0 or page 1 and we are in c64 mode and page 0 and 1 are NOT in shared memory, ifso replace bank with current bank */
+    } else if ((addr_page == 0 || addr_page == 1) && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared) {
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
     /* check if the address page is page 1 and in shared memory then bank does not change */
     } else if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
         addr_page = c128_mem_mmu_page_1;
