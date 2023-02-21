@@ -122,12 +122,21 @@ GtkWidget *ram_size_radiogroup_new(const char *resource,
     free_entries(entries);
 
     if (title != NULL) {
-        GtkWidget *grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 1);
+        GtkWidget *grid;
+        GtkWidget *label;
+        char       buffer[256];
 
-        vice_gtk3_grid_set_title_margin(grid, 8);
-        gtk_widget_set_margin_start(group, 8);
+        g_snprintf(buffer, sizeof buffer, "<b>%s</b>", title);
+
+        grid = gtk_grid_new();
+        gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), buffer);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-        gtk_widget_show_all(grid);
         return grid;
     }
     return group;
