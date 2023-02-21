@@ -354,8 +354,8 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
         addr_page = c128_mem_mmu_page_1;
         addr_bank = c128_mem_mmu_page_1_bank;
         use_ram_only = 1;
-    /* check if the address page is page 1 target and we are in c64 mode, ifso replace addr with page 1 and bank 0 */
-    } else if (addr_page == c128_mem_mmu_page_1 && in_c64_mode == 1) {
+    /* check if the address page is page 1 target and we are in c64 mode and the target is in the current bank, ifso replace addr with page 1 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_1 && in_c64_mode == 1 && c128_mem_mmu_page_1_bank == c64_mode_bank) {
         addr_page = 1;
         addr_bank = c128_mem_mmu_page_1_bank;
         use_ram_only = 1;
@@ -369,8 +369,8 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
         addr_page = c128_mem_mmu_page_0;
         addr_bank = c128_mem_mmu_page_0_bank;
         use_ram_only = 1;
-    /* check if the address page is page 0 target and if we are in c64 mode, ifso replace addr with page 0 and bank 0 */
-    } else if (addr_page == c128_mem_mmu_page_0 && in_c64_mode == 1) {
+    /* check if the address page is page 0 target and if we are in c64 mode and the target is in the current bank, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_0 && in_c64_mode == 1 && c128_mem_mmu_page_0_bank == c64_mode_bank) {
         addr_page = 0;
         addr_bank = c128_mem_mmu_page_0_bank;
         use_ram_only = 1;
