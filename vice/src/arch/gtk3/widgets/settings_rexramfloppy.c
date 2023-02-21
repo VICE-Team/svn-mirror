@@ -63,13 +63,8 @@ static GtkWidget *create_rexramfloppy_image_widget(void)
 GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *rexramfloppy_image;
 
-    grid = vice_gtk3_grid_new_spaced(8, 8);
-
-    rexramfloppy_image = create_rexramfloppy_image_widget();
-    gtk_grid_attach(GTK_GRID(grid), rexramfloppy_image, 0, 1, 1, 1);
-
+    grid = create_rexramfloppy_image_widget();
     gtk_widget_show_all(grid);
     return grid;
 }
