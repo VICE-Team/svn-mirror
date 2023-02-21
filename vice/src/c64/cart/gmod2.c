@@ -489,6 +489,26 @@ int gmod2_flush_image(void)
     return -1;
 }
 
+/** \brief  Save a copy of the GMod2 EEPROM image to a file
+ *
+ * \param[in]   filename    filename for EEPROM image copy
+ *
+ * \return  0 on success, -1 on failre
+ */
+int gmod2_eeprom_save(const char *filename)
+{
+    return m93c86_save_image(filename);
+}
+
+/** \brief  FLush current contents of the GMod2 EEPROM to file
+ *
+ * \return  0 on success, -1 on failure
+ */
+int gmod2_flush_eeprom(void)
+{
+    return m93c86_flush_image();
+}
+
 void gmod2_detach(void)
 {
     if (gmod2_flash_write && flashrom_state->flash_dirty) {
@@ -507,6 +527,7 @@ void gmod2_detach(void)
 
     gmod2_enabled = 0;
 }
+
 
 /* ---------------------------------------------------------------------*/
 

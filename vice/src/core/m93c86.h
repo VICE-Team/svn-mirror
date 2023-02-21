@@ -35,6 +35,8 @@ void m93c86_write_select(uint8_t value);
 void m93c86_write_clock(uint8_t value);
 
 int  m93c86_open_image(char *name, int rw);
+int  m93c86_save_image(const char *name);
+int  m93c86_flush_image(void);
 void m93c86_close_image(int rw);
 
 struct snapshot_s;
