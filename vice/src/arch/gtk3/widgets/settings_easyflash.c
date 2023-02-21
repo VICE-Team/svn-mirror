@@ -52,8 +52,9 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_EASYFLASH, filename) < 0) {
-            vice_gtk3_message_error("VICE core",
-                                    "Failed to save '%s'",
+            vice_gtk3_message_error(CARTRIDGE_NAME_EASYFLASH " Error",
+                                    "Failed to save " CARTRIDGE_NAME_EASYFLASH
+                                    " image as '%s'.",
                                     filename);
         }
         g_free(filename);
@@ -70,7 +71,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_save_file_dialog("Save Easyflash image as ...",
+    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_EASYFLASH
+                                        " image as",
                                         NULL,
                                         TRUE,
                                         NULL,
@@ -87,8 +89,9 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
-        vice_gtk3_message_error("VICE core",
-                                "Failed to flush the EasyFlash image");
+        vice_gtk3_message_error(CARTRIDGE_NAME_EASYFLASH "Error",
+                                "Failed to flush the "
+                                CARTRIDGE_NAME_EASYFLASH " image.");
     }
 }
 
@@ -112,15 +115,14 @@ GtkWidget *settings_easyflash_widget_create(GtkWidget *parent)
     gboolean   can_save;
     gboolean   can_flush;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
-#if 0
-    jumper = vice_gtk3_resource_check_button_new("EasyFlashJumper",
-                                                 "Set Easy Flash jumper");
-#endif
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_column_homogeneous(GTK_GRID(grid), FALSE);
+
     jumper = vice_gtk3_resource_switch_new("EasyFlashJumper");
-    gtk_widget_set_hexpand(jumper, FALSE);
+    gtk_widget_set_hexpand(jumper, TRUE);
     gtk_widget_set_halign(jumper, GTK_ALIGN_START);
-    jumper_label = gtk_label_new("Easyflash jumper");
+    jumper_label = gtk_label_new(CARTRIDGE_NAME_EASYFLASH " jumper");
     gtk_widget_set_halign(jumper_label, GTK_ALIGN_START);
 
     write_crt = vice_gtk3_resource_check_button_new("EasyFlashWriteCRT",
@@ -130,26 +132,27 @@ GtkWidget *settings_easyflash_widget_create(GtkWidget *parent)
                                                        "Optimize image when saving");
 
     /* Save image as... */
-    save_button = gtk_button_new_with_label("Save image as ...");
-    g_signal_connect(save_button,
+    save_button = gtk_button_new_with_label("Save image as ..");
+    g_signal_connect(G_OBJECT(save_button),
                      "clicked",
                      G_CALLBACK(on_save_clicked),
                      NULL);
 
     /* Flush image now */
-    flush_button = gtk_button_new_with_label("Save image");
-    g_signal_connect(flush_button,
+    flush_button = gtk_button_new_with_label("Flush image");
+    g_signal_connect(G_OBJECT(flush_button),
                      "clicked",
                      G_CALLBACK(on_flush_clicked),
                      NULL);
 
     /* pack buttons in a button box for homogeneous sizes */
-    button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_button_box_set_layout(GTK_BUTTON_BOX(button_box), GTK_BUTTONBOX_SPREAD);
+    button_box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
     gtk_box_set_spacing(GTK_BOX(button_box), 8);
     gtk_widget_set_margin_top(button_box, 16);
     gtk_box_pack_start(GTK_BOX(button_box), save_button, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(button_box), flush_button, FALSE, FALSE, 0);
+    gtk_widget_set_hexpand(button_box, TRUE);
+    gtk_widget_set_halign(button_box, GTK_ALIGN_END);
 
     gtk_grid_attach(GTK_GRID(grid), jumper_label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), jumper,       1, 0, 1, 1);
