@@ -56,6 +56,21 @@ static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
 };
 
 
+/** \brief  Create left-aligned label with Pango markup
+ *
+ * \param[in]   text    label text (uses Pango markup)
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
 /** \brief  Create RAMLink widget
  *
  * \param[in]   parent  parent widget (unused)
@@ -73,22 +88,38 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     GtkWidget *size;
     GtkWidget *cart_widget;
     GtkWidget *rom_widget;
+    int        row = 0;
 
-    /* use three columns for the label */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, CARTRIDGE_NAME_RAMLINK " settings", 4);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>" CARTRIDGE_NAME_RAMLINK " settings</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 4, 1);
+    row++;
 
     /* create 'enable ramlink' checkbox */
     enable = vice_gtk3_resource_check_button_new("RAMLINK",
                                                  "Enable " CARTRIDGE_NAME_RAMLINK);
-    gtk_widget_set_margin_start(enable, 8);
-    gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), enable, 0, row, 1, 1);
+
+    /* create size widget */
+    size = vice_gtk3_resource_spin_int_new("RAMLINKsize",
+                                           0, 16, 1);
+    label = gtk_label_new("Size (MiB)");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), size,  3, row, 1, 1);
+    /* fix size of the spin button */
+    gtk_widget_set_hexpand(size, FALSE);
+    gtk_widget_set_halign(size, GTK_ALIGN_START);
+    row++;
 
     /* create 'RTC Save' checkbox */
     rtc_save = vice_gtk3_resource_check_button_new("RAMLINKRTCSave",
                                                    "RTC Save");
-    gtk_widget_set_margin_start(rtc_save, 8);
     gtk_widget_set_valign(rtc_save, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, row, 1, 1);
 
     /* create mode widget */
     mode = vice_gtk3_resource_radiogroup_new("RAMLINKmode",
@@ -98,45 +129,39 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     label = gtk_label_new("Mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), mode, 3, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mode,  3, row, 1, 1);
+    row++;
 
-    /* create size widget */
-    size = vice_gtk3_resource_spin_int_new("RAMLINKsize",
-                                           0, 16, 1);
-    label = gtk_label_new("Size (MiB)");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), size, 3, 1, 1, 1);
-    /* fix size of the spin button */
-    gtk_widget_set_hexpand(size, FALSE);
-    gtk_widget_set_halign(size, GTK_ALIGN_START);
 
     /* ROM image browser widget (mimic the cart image layout */
-    wrapper = vice_gtk3_grid_new_spaced_with_label(8, 0, "RAMLink ROM Image", 1);
-    vice_gtk3_grid_set_title_margin(wrapper, 8);
-    rom_widget = vice_gtk3_resource_browser_new("RAMLINKBIOSfilename",
-                                                NULL,
-                                                NULL,
-                                                "Select Ramlink ROM image",
-                                                "File name:",
-                                                NULL);
-    gtk_widget_set_margin_start(rom_widget, 8);
-    gtk_grid_attach(GTK_GRID(wrapper), rom_widget, 0, 1, 1, 1);
+    wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(wrapper), 8);
+
+    label = label_helper("<b>" CARTRIDGE_NAME_RAMLINK " BIOS Image</b>");
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, 0, 2, 1);
+
+    label = label_helper("File name:");
+    rom_widget = vice_gtk3_resource_filechooser_new("RAMLINKBIOSfilename",
+                                                    GTK_FILE_CHOOSER_ACTION_OPEN);
+    vice_gtk3_resource_filechooser_set_custom_title(rom_widget,
+                                                    "Select " CARTRIDGE_NAME_RAMLINK " BIOS image");
+    gtk_grid_attach(GTK_GRID(wrapper), label,      0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), rom_widget, 1, 1, 1, 1);
     gtk_widget_set_margin_top(wrapper, 16);
     gtk_widget_set_margin_bottom(wrapper, 24);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 4, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 4, 1);
+    row++;
 
     /* create RAMlink image browser */
     cart_widget = cart_image_widget_create(parent,
-                                           CARTRIDGE_NAME_RAMLINK " RAM Image",
+                                           "<b>" CARTRIDGE_NAME_RAMLINK " RAM Image</b>",
                                            "RAMLINKfilename",
                                            "RAMLINKImageWrite",
                                            CARTRIDGE_NAME_RAMLINK,
                                            CARTRIDGE_RAMLINK);
-    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 5, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, row, 4, 1);
 
     gtk_widget_show_all(grid);
 
