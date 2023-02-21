@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 #include <string.h> /* for memset */
+#include <errno.h>
 
 #include "log.h"
 #include "m93c86.h"
@@ -368,6 +369,56 @@ int m93c86_open_image(char *name, int rw)
         }
         fseek(m93c86_image_file, 0, SEEK_SET);
         log_debug("opened eeprom card image (rw): %s", m93c86_image_filename);
+    }
+    return 0;
+}
+
+/** \brief  Save copy of image to file
+ *
+ * \param[in]   name    file to write copy to
+ *
+ * \return  0 on success, -1 on failure
+ */
+int m93c86_save_image(const char *name)
+{
+    FILE *fp;
+
+    if (name == NULL || *name == '\0') {
+        log_debug("error: eeprom card image filename is NULL or empty");
+        return -1;
+    }
+
+    fp = fopen(name, "wb");
+    if (fp == NULL) {
+        log_debug("could not open file '%s' for writing: errno %d (%s)",
+                  name, errno, strerror(errno));
+        return -1;
+    }
+
+    if (fwrite(m93c86_data, 1u, M93C86_SIZE, fp) != M93C86_SIZE) {
+        log_debug("error while writing eeprom card image: errno %d (%s)",
+                  errno, strerror(errno));
+        fclose(fp);
+        return -1;
+    }
+    fclose(fp);
+    return 0;
+}
+
+/** \brief  Flush eeprom card image file
+ *
+ * \return  0 on success, -1 on failure
+ */
+int m93c86_flush_image(void)
+{
+    if (m93c86_image_file == NULL) {
+        log_debug("cannot flush eeprom card image: file not opened");
+        return -1;
+    }
+    if (fflush(m93c86_image_file) != 0) {
+        log_debug("failed to flush eeprom card image: %d (%s)",
+                  errno, strerror(errno));
+        return -1;
     }
     return 0;
 }
