@@ -26,6 +26,8 @@
  *
  */
 
+/* #define DEBUG_CARTCONV */
+
 #include "vice.h"
 
 #include <assert.h>
@@ -64,6 +66,12 @@
 #  if main == SDL_main
 #    undef main
 #  endif
+#endif
+
+#ifdef DEBUG_CARTCONV
+#define LOG(x)  printf x
+#else
+#define LOG(x)
 #endif
 
 unsigned int loadfile_size = 0;
@@ -285,7 +293,7 @@ static int load_multicart_crt(void)
             return -1;
         }
         size += 0x4000;
-        /*printf("size: %06x load_position: %06x load_address: %04x\n", size, load_position, load_address);*/
+        LOG(("size: %06x load_position: %06x load_address: %04x\n", size, load_position, load_address));
     }
 }
 
@@ -450,10 +458,10 @@ static int save_binary(unsigned char *buffer, char *filename, unsigned int addre
 
 static int save_binary_output_file(void)
 {
-/*
-    printf("save_binary_output_file mode:%s addr:%04x size:%04x\n",
-           convert_to_prg ? "prg" : "bin", load_address, loadfile_size);
-*/
+
+    LOG(("save_binary_output_file mode:%s addr:%04x size:%04x\n",
+           convert_to_prg ? "prg" : "bin", load_address, loadfile_size));
+
     if ((machine_class == VICE_MACHINE_VIC20) &&
         (output_filenames == 2) &&
         (loadfile_size == 0x4000)) {
@@ -478,10 +486,10 @@ void save_regular_crt(unsigned int length, unsigned int banks, unsigned int addr
 {
     unsigned int i;
     unsigned int real_banks = banks;
-/*
-    printf("save_regular_crt  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
-            loadfile_size, length, banks, address, type);
-*/
+
+    LOG(("save_regular_crt  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
+            loadfile_size, length, banks, address, type));
+
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
@@ -540,10 +548,10 @@ static int detect_input_file(char *filename)
         }
 
     }
-/*
-    printf("detect_input_file loadfile_is_crt:%d machine_class:%d\n",
-           loadfile_is_crt, machine_class);
-*/
+
+    LOG(("detect_input_file loadfile_is_crt:%d machine_class:%d\n",
+           loadfile_is_crt, machine_class));
+
     return 0;
 }
 
@@ -692,7 +700,7 @@ int load_input_file(char *filename)
         loadfile_is_crt = 0;
         /* read the rest of the file */
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
-        printf("loadfile_size: %06x\n", loadfile_size);
+        LOG(("loadfile_size: %06x\n", loadfile_size));
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_2KB:
             case CARTRIDGE_SIZE_4KB:
@@ -1088,7 +1096,7 @@ static void printoptions(char *inputname, char *optionsname)
     }
 #endif
 
-    /* printf("printoptions '%s' '%s' %d\n", inputname, optionsname, loadfile_is_crt); */
+    LOG(("printoptions '%s' '%s' %d\n", inputname, optionsname, loadfile_is_crt));
 
     crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
     if (headerbuffer[0x17] & 0x80) {
@@ -1100,10 +1108,10 @@ static void printoptions(char *inputname, char *optionsname)
     cartinfo = find_cartinfo_from_crtid(crtid, machine_class);
 
     memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
-/*
-    printf("crtid: %d exrom: %d game: %d machine: %d name '%s'\n",
-            crtid, headerbuffer[CRT_HEADER_EXROM], headerbuffer[CRT_HEADER_GAME], machine_class, inputname);
-*/
+
+    LOG(("crtid: %d exrom: %d game: %d machine: %d name '%s'\n",
+            crtid, headerbuffer[CRT_HEADER_EXROM], headerbuffer[CRT_HEADER_GAME], machine_class, inputname));
+
     if (loadfile_is_crt == 1) {
         if (crtid > 0) {
             if (cartinfo) {
@@ -1510,7 +1518,7 @@ static int checkflag(char *flg, char *arg)
                         convert_to_ultimax = 1;
                     }
                 }
-                /* printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class); */
+                LOG(("-t cart_type: %d machine_class: %d\n", cart_type, machine_class));
                 return 2;
             case 'i':
                 checkarg(arg);
@@ -1611,8 +1619,8 @@ int main(int argc, char *argv[])
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
-            printf("c64 input_filenames: %d output_filenames: %d\n",
-                input_filenames, output_filenames);
+            LOG(("c64 input_filenames: %d output_filenames: %d\n",
+                input_filenames, output_filenames));
             /* some formats allow more than one input file */
             if ((input_filenames > 1) &&
                 (cart_type != CARTRIDGE_DELA_EP64) && (loadfile_cart_type != CARTRIDGE_DELA_EP64) &&
@@ -1636,16 +1644,16 @@ int main(int argc, char *argv[])
             }
         break;
         case VICE_MACHINE_C128:
-            printf("c128 input_filenames: %d output_filenames: %d\n",
-                input_filenames, output_filenames);
+            LOG(("c128 input_filenames: %d output_filenames: %d\n",
+                input_filenames, output_filenames));
             /* some formats allow more than one output file */
             if (output_filenames > 1) {
                 too_many_outputs();
             }
         break;
         case VICE_MACHINE_VIC20:
-            printf("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
-                input_filenames, output_filenames, cart_type, loadfile_cart_type);
+            LOG(("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
+                input_filenames, output_filenames, cart_type, loadfile_cart_type));
             /* some formats allow more than one input file */
             if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
                 too_many_inputs();
@@ -1656,8 +1664,8 @@ int main(int argc, char *argv[])
             }
         break;
         case VICE_MACHINE_PLUS4:
-            printf("plus4 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
-                input_filenames, output_filenames, cart_type, loadfile_cart_type);
+            LOG(("plus4 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
+                input_filenames, output_filenames, cart_type, loadfile_cart_type));
             /* some formats allow more than one input file */
             if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
                 too_many_inputs();
