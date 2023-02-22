@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 #include <string.h> /* for memset */
+#include <stdbool.h>
 #include <errno.h>
 
 #include "log.h"
@@ -57,6 +58,12 @@
 static FILE *m93c86_image_file = NULL;
 
 static uint8_t m93c86_data[M93C86_SIZE];
+
+/** \brief  Flag indicating if the file was opened read/write
+ *
+ * Used to determine if flushing the EEPROM data can be done.
+ */
+static bool eeprom_file_rw = false;
 
 static int eeprom_cs = 0;
 static int eeprom_clock = 0;
@@ -91,6 +98,7 @@ static int ready_busy_status = 1;
 
 #define STATUSREADY 1
 #define STATUSBUSY 0
+
 
 static void reset_input_shiftreg(void)
 {
@@ -334,6 +342,8 @@ int m93c86_open_image(char *name, int rw)
 {
     char *m93c86_image_filename = name;
 
+    eeprom_file_rw = (bool)rw;
+
     if (m93c86_image_filename != NULL) {
         /* FIXME */
     } else {
@@ -413,6 +423,10 @@ int m93c86_flush_image(void)
 {
     if (m93c86_image_file == NULL) {
         log_debug("cannot flush eeprom card image: file not opened");
+        return -1;
+    }
+    if (!eeprom_file_rw) {
+        log_debug("cannot flush read-only eeprom card image");
         return -1;
     }
     if (fflush(m93c86_image_file) != 0) {
