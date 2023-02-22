@@ -27,7 +27,8 @@ palettes = \
 	cjam.vpl \
 	palette.vpl \
 	pixcen.vpl \
-	rgb.vpl
+	rgb.vpl \
+	the64.vpl
 
 gtk3_hotkeys = \
 	gtk3-hotkeys.vhk \
