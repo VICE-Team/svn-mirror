@@ -34,6 +34,7 @@ palettes = \
 	deekay.vpl \
 	cjam.vpl \
 	rgb.vpl \
+	the64.vpl \
 	vice.vpl \
 	palette.vpl \
 	pixcen.vpl \
