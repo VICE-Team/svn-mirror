@@ -61,13 +61,20 @@ static const vice_gtk3_radiogroup_entry_t mode_list[] = {
 static GtkWidget *create_expert_mode_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "Cartridge mode", 1);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>" CARTRIDGE_NAME_EXPERT " mode</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     group = vice_gtk3_resource_radiogroup_new("ExpertCartridgeMode",
                                               mode_list,
                                               GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -101,7 +108,8 @@ GtkWidget *settings_expert_widget_create(GtkWidget *parent)
     GtkWidget *image;
     GtkWidget *mode;
 
-    grid = vice_gtk3_grid_new_spaced(8, 16);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 32);
 
     enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_EXPERT,
                                                     CARTRIDGE_EXPERT);
