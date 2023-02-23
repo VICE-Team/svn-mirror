@@ -54,7 +54,7 @@ static GtkWidget *create_isepic_switch_widget(void)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
-    label = gtk_label_new("Isepic enable switch");
+    label = gtk_label_new(CARTRIDGE_NAME_ISEPIC " enable switch");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     button = vice_gtk3_resource_switch_new("IsepicSwitch");
@@ -93,17 +93,19 @@ GtkWidget *settings_isepic_widget_create(GtkWidget *parent)
     GtkWidget *image;
     GtkWidget *toggle;
 
-
-    grid = vice_gtk3_grid_new_spaced(8, 16);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 32);
 
     enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_ISEPIC,
                                                     CARTRIDGE_ISEPIC);
     toggle = create_isepic_switch_widget();
     image  = create_isepic_image_widget();
+    gtk_widget_set_hexpand(toggle, TRUE);
+    gtk_widget_set_halign(toggle, GTK_ALIGN_END);
 
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), toggle, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), image,  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), toggle, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), image,  0, 1, 2, 1);
 
     gtk_widget_show_all(grid);
     return grid;
