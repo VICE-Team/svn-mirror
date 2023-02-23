@@ -52,15 +52,14 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_GMOD3, filename) < 0) {
-            vice_gtk3_message_error("Saving failed",
-                    "Failed to save cartridge image '%s'",
-                    filename);
+            vice_gtk3_message_error(CARTRIDGE_NAME_GMOD3 " Error",
+                                    "Failed to save cartridge image '%s'.",
+                                    filename);
         }
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
 
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
@@ -70,12 +69,11 @@ static void save_filename_callback(GtkDialog *dialog,
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     /* TODO: retrieve filename of cart image */
-    vice_gtk3_save_file_dialog("Save cartridge image",
+    vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_GMOD3 " cartridge image",
                                NULL, TRUE, NULL,
                                save_filename_callback,
                                NULL);
 }
-
 
 /** \brief  Handler for the "clicked" event of the Flush Image button
  *
@@ -85,11 +83,10 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_GMOD3) < 0) {
-        vice_gtk3_message_error("Flushing failed",
-                                "Failed to fush cartridge image");
+        vice_gtk3_message_error(CARTRIDGE_NAME_GMOD3 " Error",
+                                "Failed to flush cartridge image.");
     }
 }
-
 
 /** \brief  Create widget to handle Cartridge image resources and save/flush
  *
@@ -98,6 +95,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 static GtkWidget *create_cart_image_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *write_back;
     GtkWidget *save_button;
     GtkWidget *flush_button;
@@ -105,18 +103,25 @@ static GtkWidget *create_cart_image_widget(void)
     gboolean   can_save;
     gboolean   can_flush;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "GMod3 Cartridge image", 2);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>" CARTRIDGE_NAME_GMOD3 " cartridge image</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+
 
     write_back = vice_gtk3_resource_check_button_new("GMod3FlashWrite",
-                                                     "Save image when changed");
-    gtk_widget_set_margin_start(write_back, 8);
-
-    save_button = gtk_button_new_with_label("Save image as ...");
+                                                     "Write image when contents are changed");
+    gtk_widget_set_valign(write_back, GTK_ALIGN_START);
+    save_button = gtk_button_new_with_label("Save image as ..");
     g_signal_connect(save_button,
                      "clicked",
                      G_CALLBACK(on_save_clicked),
                      NULL);
-    flush_button = gtk_button_new_with_label("Save image now");
+    flush_button = gtk_button_new_with_label("Flush image");
     g_signal_connect(flush_button,
                      "clicked",
                      G_CALLBACK(on_flush_clicked),
@@ -127,7 +132,7 @@ static GtkWidget *create_cart_image_widget(void)
     gtk_widget_set_sensitive(save_button,  can_save);
     gtk_widget_set_sensitive(flush_button, can_flush);
 
-    box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
     gtk_widget_set_halign(box, GTK_ALIGN_END);
     gtk_widget_set_hexpand(box, TRUE);
     gtk_box_set_spacing(GTK_BOX(box), 8);
