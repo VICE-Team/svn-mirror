@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_VIDEO */
+#define DEBUG_VIDEO
 
 /* use all neutral settings in the color calculations */
 /* #define DEBUG_NEUTRAL_SETTINGS */
@@ -845,7 +845,7 @@ static palette_t *video_calc_palette(struct video_canvas_s *canvas, const video_
 
     for (i = 0; i < p->num_entries; i++) {
         video_convert_renderer_to_rgb_gamma(&p->entries[i], sat, bri, con, gam, tin, &prgb->entries[i], video);
-        DBG((" %2u: Y:%4d Cb:%4d Cr:%4d  R:%3d G:%3d B:%3d", i,
+        DBG((" %2u: Y:%4d Cb:%4d Cr:%4d  R:%2x G:%2x B:%2x", i,
             (int)p->entries[i].y, (int)p->entries[i].cb, (int)p->entries[i].cr,
             (int)prgb->entries[i].red, (int)prgb->entries[i].green, (int)prgb->entries[i].blue));
     }
@@ -929,7 +929,7 @@ int video_color_update_palette(struct video_canvas_s *canvas)
         ycbcr = video_ycbcr_palette_create(palette->num_entries);
         video_palette_to_ycbcr(palette, ycbcr, video);
         video_calc_ycbcrtable(video_resources, ycbcr, &canvas->videoconfig->color_tables, video);
-        if (canvas->videoconfig->filter == VIDEO_FILTER_CRT) {
+        /* if (canvas->videoconfig->filter == VIDEO_FILTER_CRT) */ {
             palette_free(palette);
             palette = video_calc_palette(canvas, ycbcr, video);
         }
