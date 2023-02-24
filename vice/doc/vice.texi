@@ -1621,6 +1621,13 @@ Enable verbose log output.
 @item -silent
 Disable all log output (except errors).
 
+@findex -no-redirect-streams
+@item -no-redirect-streams
+Disable stream redirection on Windows. Stream redirection is used on Windows
+to reconnect stdin, stdout and stderr to VICE, so options like -help work as
+one would expect on a sane OS. Stream redirection is disabled when running from
+an msys2 shell, or when VICE is compiled with --enable-debug.
+
 @findex -seed
 @item -seed <value>
 Set the random seed (for debugging).
