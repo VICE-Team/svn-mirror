@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
 #endif
@@ -117,6 +118,9 @@ int main_program(int argc, char **argv)
     size_t name_len;
     int reserr;
     char *cmdline;
+#ifdef WINDOWS_COMPILE
+    bool no_redirect_streams = false;
+#endif
 
 #ifdef USE_VICE_THREAD
     /*
@@ -143,10 +147,24 @@ int main_program(int argc, char **argv)
         cmdline = util_concat(p, " ", argv[i], NULL);
         lib_free(p); /* free old pointer */
     }
+
+#ifdef WINDOWS_COMPILE
     /* make stdin, stdout and stderr available on Windows when compiling with
      * -mwindows */
-    archdep_fix_streams();
-
+    for (i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-no-redirect-streams") == 0) {
+            no_redirect_streams = true;
+            /* printf("%s(): found -no-redirect-streams\n", __func__); */
+            break;
+        }
+    }
+    if (!no_redirect_streams) {
+        /* printf("%s(): enabling stream redirection\n", __func__); */
+        archdep_fix_streams();
+    } else {
+        /* printf("%s(): disabling stream redirection\n", __func__); */
+    }
+#endif
     /* Check for some options at the beginning of the commandline before
        initializing the user interface or loading the config file.
        -default => use default config, do not load any config
