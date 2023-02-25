@@ -276,6 +276,11 @@ static uint16_t z80_mem_mmu_wrap_read_zero(uint16_t address)
     if (in_c64_mode == 1 && c128_mem_mmu_zp_sp_shared) {
         addr_bank = 0;
         use_ram_only = 1;
+    /* check if we are in c64 mode and page 0 is NOT shared, and page 1 is mapped to page 0, if yes replace bank with current bank and replace page with page 1 */
+    } else if (in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared && c128_mem_mmu_page_1 == 0) {
+        addr_page = 1;
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
     /* check if we are in c64 mode and page 0 is NOT shared, if yes, replace bank with current bank */
     } else if (in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared) {
         addr_bank = c64_mode_bank;
@@ -336,6 +341,18 @@ static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
     /* check if the address page is page 0 or page 1 and we are in c64 mode and page 0 and 1 are in shared memory, ifso replace with bank 0 */
     } else if ((addr_page == 0 || addr_page == 1) && in_c64_mode == 1 && c128_mem_mmu_zp_sp_shared) {
         addr_bank = 0;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and we are in c64 mode and page 0 is NOT shared, and page 1 is mapped to page 0,
+       if yes replace bank with current bank and replace page with page 1 */
+    } else if (addr_page == 0 && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared && c128_mem_mmu_page_1 == 0) {
+        addr_page = 1;
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 1 and we are in c64 mode and page 1 is NOT shared, and page 1 is mapped to page 0,
+       and page 0 is mapped to page 1, if yes replace bank with current bank and replace page with page 0 */
+    } else if (addr_page == 1 && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared && c128_mem_mmu_page_1 == 0 && c128_mem_mmu_page_0 == 1) {
+        addr_page = 0;
+        addr_bank = c64_mode_bank;
         use_ram_only = 1;
     /* check if the address page is page 0 or page 1 and we are in c64 mode and page 0 and 1 are NOT in shared memory, ifso replace bank with current bank */
     } else if ((addr_page == 0 || addr_page == 1) && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared) {
@@ -402,6 +419,18 @@ static uint8_t z80_mem_mmu_wrap_store(uint16_t address, uint8_t value)
     /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is shared, if yes, replace bank with 0 */
     if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && c128_mem_mmu_zp_sp_shared) {
         addr_bank = 0;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and we are in c64 mode and page 0 is NOT shared, and page 1 is mapped to page 0,
+       if yes replace bank with current bank and replace page with page 1 */
+    } else if (addr_page == 0 && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared && c128_mem_mmu_page_1 == 0) {
+        addr_page = 1;
+        addr_bank = c64_mode_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 1 and we are in c64 mode and page 1 is NOT shared, and page 1 is mapped to page 0,
+       and page 0 is mapped to page 1, if yes replace bank with current bank and replace page with page 0 */
+    } else if (addr_page == 1 && in_c64_mode == 1 && !c128_mem_mmu_zp_sp_shared && c128_mem_mmu_page_1 == 0 && c128_mem_mmu_page_0 == 1) {
+        addr_page = 0;
+        addr_bank = c64_mode_bank;
         use_ram_only = 1;
     /* check if we are in c64 mode and page 0/1 is being accessed while page 0/1 is NOT shared, if yes, replace bank with current bank */
     } else if (in_c64_mode == 1 && (addr_page == 0 || addr_page == 1) && !c128_mem_mmu_zp_sp_shared) {
