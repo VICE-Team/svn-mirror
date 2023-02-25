@@ -3062,14 +3062,12 @@ dnl Check time.h.
 dnl AC_HEADER_TIME
 dnl AC_STRUCT_TM
 
-dnl GTK3-FIXME: check if readline is even needed for GTK3 UI and disable the check if needed
-
 dnl ----- Readline -----
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with '--without-readline'.
 READLINE_LIBS=
 EDITLINE_LIBS=
-if test x"$is_unix_x11" = "xyes"; then
+if test x"$is_unix_x11" = "xyes" -a "x$enable_gtk3ui" != "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE_HEADER_PRESENT=yes
     AC_CHECK_HEADERS(readline/readline.h,,[READLINE_HEADER_PRESENT=no],)
@@ -3112,10 +3110,6 @@ if test x"$is_unix_x11" = "xyes"; then
              [Does the 'readline' library support 'rl_readline_name'?]) ],,)
     fi
     LIBS="${old_LIBS}"
-  else
-    if test x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes"; then
-      READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
-    fi
   fi
 else
   READLINE=""
