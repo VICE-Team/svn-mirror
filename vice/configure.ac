@@ -115,7 +115,6 @@ dnl
 dnl Misc build options
 dnl
 
-VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
@@ -3061,62 +3060,6 @@ dnl Check time.h.
 
 dnl AC_HEADER_TIME
 dnl AC_STRUCT_TM
-
-dnl ----- Readline -----
-dnl Check whether we have GNU readline.  If not, use our replacement.
-dnl The user can force us to use the replacement with '--without-readline'.
-READLINE_LIBS=
-EDITLINE_LIBS=
-if test x"$is_unix_x11" = "xyes" -a "x$enable_gtk3ui" != "xyes"; then
-  if test x"$with_readline" != "xno" ; then
-    READLINE_HEADER_PRESENT=yes
-    AC_CHECK_HEADERS(readline/readline.h,,[READLINE_HEADER_PRESENT=no],)
-    READLINE=""
-    unset ac_cv_lib_readline_readline
-    old_LIBS="$LIBS"
-    AC_CHECK_LIB(readline, readline,
-               [ READLINE="" READLINE_LIBS="-lreadline"],
-               [],,)
-
-    if test "$ac_cv_lib_readline_readline" = "no"; then
-      unset ac_cv_lib_readline_readline
-      AC_CHECK_LIB(readline, readline,
-               [ READLINE="" READLINE_LIBS="-lreadline -ltermcap"],
-               [], [-ltermcap],)
-    fi
-
-    if test "$ac_cv_lib_readline_readline" = "no"; then
-      unset ac_cv_lib_readline_readline
-      AC_CHECK_LIB(readline, readline,
-               [ READLINE="" READLINE_LIBS="-lreadline -lncurses"],
-               [], [-lncurses],)
-    fi
-
-    if test "$ac_cv_lib_readline_readline" = "no"; then
-      unset ac_cv_lib_readline_readline
-      AC_CHECK_LIB(readline, readline,
-             [ READLINE="" READLINE_LIBS="-lreadline -lcurses"],
-             [ ],
-              [-lcurses],)
-    fi
-
-    if test x"$enable_sdl1ui" != "xno" -o x"$enable_sdl2ui" != "xno"; then
-      READLINE=""
-    fi
-
-    if test "$ac_cv_lib_readline_readline" = "yes"; then
-      AC_CHECK_LIB(readline, rl_readline_name,
-             [ AC_DEFINE(HAVE_RLNAME,,
-             [Does the 'readline' library support 'rl_readline_name'?]) ],,)
-    fi
-    LIBS="${old_LIBS}"
-  fi
-else
-  READLINE=""
-fi
-AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" != "x")
-AC_SUBST(READLINE)
-AC_SUBST(READLINE_LIBS)
 
 dnl Configure graphics output drivers
 old_LIBS="$LIBS"

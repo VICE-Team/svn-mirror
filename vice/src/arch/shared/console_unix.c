@@ -31,111 +31,21 @@
 #include "vice.h"
 
 #include <stdio.h>
-
-#include "console.h"
-
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
 
+#include "console.h"
 #include "lib.h"
 #include "log.h"
 #include "charset.h"
 
-#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-static FILE *mon_input;
-static FILE *mon_output;
-#endif
+#include "lib/linenoise-ng/linenoise.h"
 
-#ifdef HAVE_READLINE
-#define _FUNCTION_DEF
-#define USE_VARARGS
-#define PREFER_STDARG
-#include <readline/readline.h>
-#include <readline/history.h>
-#undef _FUNCTION_DEF
-#undef USE_VARARGS
-#undef PREFER_STDARG
-#endif
-
-#if 0
-static int vice_ismsystty(int fd)
-{
-    intptr_t h_stdin = _get_osfhandle(fd);
-    char ntfn_bytes[sizeof(OBJECT_NAME_INFORMATION) + 256 * sizeof(WCHAR)];
-    OBJECT_NAME_INFORMATION *ntfn = (OBJECT_NAME_INFORMATION*) ntfn_bytes;
-    NTSTATUS status;
-    ULONG ntfn_size = sizeof(ntfn_bytes);
-    USHORT i, l;
-    wchar_t c, *s0;
-
-    memset(ntfn, 0, ntfn_size);
-    status = NtQueryObject((HANDLE)h_stdin, ObjectNameInformation, ntfn, ntfn_size, &ntfn_size);
-
-    if (!NT_SUCCESS(status)) {
-        return 0;
-    }
-
-    l = ntfn->Name.Length;
-    s0 = ntfn->Name.Buffer;
-    /* Check for "\Device\NamedPipe" */
-    {
-        USHORT l1 = l;
-        wchar_t *s1 = s0;
-        wchar_t expect[] = L"\\Device\\NamedPipe\\";
-
-        if (s0[0] == '\\' && s0[1] == '\\' && s0[2] == '?' && s0[3] == '\\') {
-            l1 -= 4;
-            s1 += 4;
-        }
-        for (i = 0; i < l1; i++) {
-            wchar_t e = expect[i];
-            c = s1[i];
-            if (!e) {
-                break;
-            }
-            if (c != e) {
-                return 0;
-            }
-        }
-    }
-    /* Look for "-pty%d-" */
-    for (i = 0; i < l; i++) {
-        c = s0[i];
-        if (c == '-') {
-            wchar_t *s = s0 + i + 1;
-            if (s[0] == 'p' && s[1] == 't' && s[2] == 'y' && (c = s[3]) && (c >= '0') && (c <= '9'))
-            {
-                s += 4;
-                while ((c = *s) && (c >= '0') && (c <= '9')) {
-                    s++;
-                }
-                if (c == '-' || c == 0) {
-                    return 1;
-                }
-            }
-        }
-    }
-
-    return 0;
-}
-
-static int vice_isatty(int fd)
-{
-    if (!isatty(fileno(stdin))) {
-        return vice_ismsystty(fileno(stdin));
-    }
-    return 1;
-}
-#else
-#define vice_isatty isatty
-#endif
 
 typedef struct console_private_s {
     FILE *input;
@@ -157,11 +67,11 @@ console_t *native_console_open(const char *id)
     conpriv->input = NULL;
     conpriv->output = NULL;
 
-    if (!vice_isatty(fileno(stdin))) {
+    if (!isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "native_console_open: stdin is not a tty.");
         goto exitnull;
     }
-    if (!vice_isatty(fileno(stdout))) {
+    if (!isatty(fileno(stdout))) {
         log_error(LOG_DEFAULT, "native_console_open: stdout is not a tty.");
         goto exitnull;
     }
@@ -171,10 +81,7 @@ console_t *native_console_open(const char *id)
         printf("\033]2;VICE monitor console (%d)\007", (int)getpid());
     }
 
-#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-    mon_input = conpriv->input = stdin;
-    mon_output = conpriv->output = stdout;
-#endif
+    linenoiseHistorySetMaxLen(100);
 
 #ifdef HAVE_SYS_IOCTL_H
     if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
@@ -201,7 +108,9 @@ exitnull:
 
 int native_console_close(console_t *log)
 {
+    lib_free(log->private);
     lib_free(log);
+    linenoiseHistoryFree();
     return 0;
 }
 
@@ -255,54 +164,23 @@ int native_console_petscii_out(console_t *log, const char *format, ...)
     return 0;
 }
 
-#ifndef HAVE_READLINE
-char *readline(const char *prompt)
-{
-    char *p = lib_malloc(1024);
-    size_t len;
-
-    native_console_out(NULL, "%s", prompt);
-
-    fflush(mon_output);
-    if (fgets(p, 1024, mon_input) == NULL) {
-        lib_free(p);
-        return NULL;
-    }
-
-    /* Remove trailing newlines.  */
-    for (len = strlen(p);
-            len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
-            len--) {
-        p[len - 1] = '\0';
-    }
-    return p;
-}
-#endif
-
 char *native_console_in(console_t *log, const char *prompt)
 {
-    char *p, *ret_sting;
+    char *p;
+    char *ret_string;
 
-    p = readline(prompt);
-#ifdef HAVE_READLINE
-    if (p && *p) {
-        add_history(p);
+    p = linenoise(prompt);
+    if (p != NULL && *p != '\0') {
+        linenoiseHistoryAdd(p);
     }
-#endif
-    ret_sting = lib_strdup(p);
-#if 0
-    /* Don't free this, add_history() seems to take ownership */
+    ret_string = lib_strdup(p);
     free(p);
-#endif
 
-    return ret_sting;
+    return ret_string;
 }
 
 int native_console_init(void)
 {
-#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
-    rl_readline_name = "VICE";
-#endif
     return 0;
 }
 
