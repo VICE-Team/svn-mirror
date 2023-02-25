@@ -100,6 +100,7 @@
 #include "p64.h"
 #include "fileio/p00.h"
 
+/* we want the NG header, not the old one in arch/gtk3: */
 #include "lib/linenoise-ng/linenoise.h"
 
 #ifdef UNIX_COMPILE
@@ -534,54 +535,6 @@ const command_t command_list[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-
-#if 0
-#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
-#include <readline/readline.h>
-#include <readline/history.h>
-
-/** \brief  Read a line of input from stdin
- *
- * \param[in]   prompt  prompt to display to the user
- *
- * \return  line read from stdin
- */
-static char *read_line(const char *prompt)
-{
-    static char *line = NULL;
-
-    if (line != NULL) {
-        free(line);
-    }
-    line = readline(prompt);
-    if (line != NULL && *line != 0) {
-        add_history(line);
-    }
-    return line;
-}
-
-#else
-
-/** \brief  Read a line of input from stdin
- *
- * \param[in]   prompt  prompt to display to the user
- *
- * \return  line read from stdin
- */
-static char *read_line(const char *prompt)
-{
-    static char line[1024];
-
-    /* Make sure there is a 0 at the end of the string */
-    line[sizeof(line) - 1] = 0;
-
-    fputs(prompt, stdout);
-    fflush(stdout);
-    return fgets(line, sizeof(line) - 1, stdin);
-}
-
-#endif
-#endif
 
 
 /** \brief  Split \a line into a list of arguments
@@ -5623,12 +5576,6 @@ int main(int argc, char **argv)
 
         /* Interactive mode.  */
         interactive_mode = 1;
-#if 0
-        /* properly init GNU readline, if available */
-#ifdef HAVE_READLINE_READLINE_H
-        using_history();
-#endif
-#endif
         /* init linenoise-ng */
         linenoiseHistorySetMaxLen(100);
 
@@ -5693,11 +5640,6 @@ int main(int argc, char **argv)
             }
         }
         /* properly clean up GNU readline's history, if used */
-#if 0
-#ifdef HAVE_READLINE_READLINE_H
-        clear_history();
-#endif
-#endif
         linenoiseHistoryFree();
     } else {
         while (i < argc) {
