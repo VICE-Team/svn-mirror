@@ -201,6 +201,8 @@ static inline void video_convert_ycbcr_to_yuv(video_ycbcr_color_t *src, video_yc
     dst->cr = src->cr * 0.877283f;
 }
 
+/* currently unused */
+#if 0
 static inline void video_convert_ycbcr_to_yiq(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
 {
     float cb = src->cb;
@@ -209,6 +211,8 @@ static inline void video_convert_ycbcr_to_yiq(video_ycbcr_color_t *src, video_yc
     dst->cb = -0.27f * cb + 0.74f * cr;
     dst->cr =  0.41f * cb + 0.48f * cr;
 }
+#endif
+
 #endif
 
 static inline void video_convert_yuv_to_ycbcr(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
@@ -882,7 +886,7 @@ int video_color_update_palette(struct video_canvas_s *canvas)
     video_resources_t *video_resources;
     int video;
 
-    DBG(("video_color_update_palette canvas: %p", canvas));
+    DBG(("video_color_update_palette canvas: %p", (void*)canvas));
 
     if (canvas == NULL) {
         return 0;
