@@ -15,7 +15,6 @@ ARGS="
     --enable-lame \
     --enable-midi \
     --enable-cpuhistory \
-    --enable-ffmpeg \
     "
 
 # Set configure options, check UI, set OTHER_UI
