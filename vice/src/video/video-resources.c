@@ -589,6 +589,7 @@ static const char * const vname_chip_colors[] = {
     "ColorTint",
     NULL };
 
+/* TODO: we should have different sets of defaults per video mode */
 static resource_int_t resources_chip_colors[] =
 {
     { NULL, 1000, RES_EVENT_NO, NULL,
@@ -597,7 +598,7 @@ static resource_int_t resources_chip_colors[] =
       NULL, set_color_contrast, NULL },
     { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_brightness, NULL },
-    { NULL, 2200, RES_EVENT_NO, NULL,
+    { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_gamma, NULL },
     { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_tint, NULL },
@@ -949,6 +950,10 @@ int video_resources_chip_init(const char *chipname,
 
         resources_chip_colors[0].factory_value = 1000; /* saturation */
         resources_chip_colors[1].factory_value = 1000; /* contrast */
+
+        /* TODO: perhaps we should not do this and let the user decide about
+           cranking up brightness/saturation/contrast if needed? */
+#if 1
         if (!strcmp(chipname, "VIC")) {
             resources_chip_colors[0].factory_value = 1500; /* saturation */
             resources_chip_colors[1].factory_value = 1250; /* contrast */
@@ -961,7 +966,7 @@ int video_resources_chip_init(const char *chipname,
             resources_chip_colors[0].factory_value = 1250; /* saturation */
             resources_chip_colors[1].factory_value = 1250; /* contrast */
         }
-
+#endif
         if (resources_register_int(resources_chip_colors) < 0) {
             return -1;
         }
@@ -975,7 +980,7 @@ int video_resources_chip_init(const char *chipname,
         set_color_saturation(1000, (void *)*canvas);
         set_color_contrast(1000, (void *)*canvas);
         set_color_brightness(1000, (void *)*canvas);
-        set_color_gamma(2200, (void *)*canvas);
+        set_color_gamma(1000, (void *)*canvas);
         set_color_tint(1000, (void *)*canvas);
     }
 

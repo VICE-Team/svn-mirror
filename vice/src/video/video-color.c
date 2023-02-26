@@ -472,6 +472,9 @@ static void video_convert_rgb_to_renderer(const palette_entry_t *src,
 /* FIXME: handle gamma for CRT emulation (CGA and Monochrom video) too */
 static float video_get_gamma(video_resources_t *video_resources, int video)
 {
+    /* doing the distinction for pal/ntsc here is weird, we should have
+     * different sets of video adjust settings for each video mode instead */
+#if 0
     float mgam, vgam;
 
     if (video) {
@@ -482,6 +485,8 @@ static float video_get_gamma(video_resources_t *video_resources, int video)
 
     mgam = ((float)(video_resources->color_gamma)) / 1000.0f;
     return mgam / vgam;
+#endif
+    return ((float)(video_resources->color_gamma)) / 1000.0f;
 }
 
 /* gammatable calculation */
