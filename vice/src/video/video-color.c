@@ -25,7 +25,7 @@
  *
  */
 
-#define DEBUG_VIDEO
+/* #define DEBUG_VIDEO */
 
 /* use all neutral settings in the color calculations */
 /* #define DEBUG_NEUTRAL_SETTINGS */
@@ -222,7 +222,8 @@ static inline void video_convert_yuv_to_ycbcr(video_ycbcr_color_t *src, video_yc
     dst->cr = src->cr / 0.877283f;
 }
 
-#if 0 /* currently unused */
+/* currently unused */
+#if 0
 static inline void video_convert_yiq_to_ycbcr(video_ycbcr_color_t *src, video_ycbcr_color_t *dst)
 {
     float i = src->cb;
@@ -258,9 +259,9 @@ static inline void video_convert_ycbcr_to_rgb(const video_ycbcr_color_t *src, in
     gf = src->y - 0.344136f * src->cb - 0.714136f * src->cr;
     bf = src->y +    1.772f * src->cb;
 #endif
-    *r = (int)RMINMAX(rf, 0, 255);
-    *g = (int)RMINMAX(gf, 0, 255);
-    *b = (int)RMINMAX(bf, 0, 255);
+    *r = RMINMAX(((int)(rf + 0.5f)), 0, 255);
+    *g = RMINMAX(((int)(gf + 0.5f)), 0, 255);
+    *b = RMINMAX(((int)(bf + 0.5f)), 0, 255);
 }
 
 static inline void video_convert_yiq_to_rgb(video_ycbcr_color_t *src, int *r, int *g, int *b)
@@ -272,17 +273,17 @@ static inline void video_convert_yiq_to_rgb(video_ycbcr_color_t *src, int *r, in
     gf = src->y - 0.378f * src->cb - 0.466f * src->cr;
     bf = src->y - 1.089f * src->cb + 1.677f * src->cr;
 
-    *r = (int)RMINMAX(rf, 0, 255);
-    *g = (int)RMINMAX(gf, 0, 255);
-    *b = (int)RMINMAX(bf, 0, 255);
+    *r = RMINMAX(((int)(rf + 0.5f)), 0, 255);
+    *g = RMINMAX(((int)(gf + 0.5f)), 0, 255);
+    *b = RMINMAX(((int)(bf + 0.5f)), 0, 255);
 }
 
 static inline void video_convert_rgb_to_yiq(const palette_entry_t *src, video_ycbcr_color_t *dst)
 {
     /* inverse of SONY matrix */
-    dst->y  = 0.23485876230514607f * src->red + 0.6335007388077467f  * src->green + 0.13164049888710716f * src->blue;
-    dst->cb = 0.4409594767911895f  * src->red - 0.27984362502847304f * src->green - 0.16111585176271648f * src->blue; /* I */
-    dst->cr = 0.14630060102591497f * src->red - 0.5594814826856017f  * src->green + 0.4131808816596867f  * src->blue; /* Q */
+    dst->y  = 0.23485876230514601561f * src->red + 0.63350073880774681230f * src->green + 0.13164049888710717208f * src->blue;
+    dst->cb = 0.44095947679118953500f * src->red - 0.27984362502847306001f * src->green - 0.16111585176271647499f * src->blue; /* I */
+    dst->cr = 0.14630060102591496005f * src->red - 0.55948148268560165453f * src->green + 0.41318088165968669449f * src->blue; /* Q */
 }
 
 /*
@@ -440,9 +441,9 @@ static void video_convert_renderer_to_rgb_gamma(video_ycbcr_color_t *src, float 
 
     /* convert to int and clip to 8 bit boundaries */
 
-    r = (int)rf;
-    g = (int)gf;
-    b = (int)bf;
+    r = (int)(rf + 0.5f);
+    g = (int)(gf + 0.5f);
+    b = (int)(bf + 0.5f);
 
     dst->red = (uint8_t)RMAX(r,255);
     dst->green = (uint8_t)RMAX(g,255);
