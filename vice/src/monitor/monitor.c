@@ -2264,7 +2264,7 @@ char* mon_prepend_dot_to_name(char* name)
     char* s = malloc(strlen(name) + 2);
     strcpy(s, ".");
     strcat(s, name);
-    free(name);
+    lib_free(name);
     return s;
 }
 
