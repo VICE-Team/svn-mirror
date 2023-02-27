@@ -482,6 +482,15 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
+    io_read_tab[0x10] = z80_colorram_read;
+    io_write_tab[0x10] = z80_colorram_store;
+    io_read_tab[0x11] = z80_colorram_read;
+    io_write_tab[0x11] = z80_colorram_store;
+    io_read_tab[0x12] = z80_colorram_read;
+    io_write_tab[0x12] = z80_colorram_store;
+    io_read_tab[0x13] = z80_colorram_read;
+    io_write_tab[0x13] = z80_colorram_store;
+
     io_read_tab[0xd0] = z80_c64io_d000_read;
     io_write_tab[0xd0] = z80_c64io_d000_store;
     io_read_tab[0xd1] = z80_c64io_d100_read;
