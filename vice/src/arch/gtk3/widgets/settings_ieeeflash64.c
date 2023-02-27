@@ -76,11 +76,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEEFLASH64) < 0) {
-            log_error(LOG_ERR, "failed to enable IEEE Flash! 64 cartridge.");
+            log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_IEEEFLASH64 ".");
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEEFLASH64) < 0) {
-            log_error(LOG_ERR, "failed to disable IEEE Flash! 64 cartridge.");
+            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_IEEEFLASH64 ".");
         }
     }
 }
@@ -114,7 +114,7 @@ GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent)
     /* we can't use a `resource_check_button` here, since toggling the resource
      * depends on whether an image file is specified
      */
-    enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_IEEEFLASH64);
+    enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_IEEEFLASH64 " emulation");
     gtk_widget_set_margin_bottom(enable, 16);
     /* only set state to true if both the state is true and an image is given */
     if (cart_enabled && (image != NULL && *image != '\0')) {
