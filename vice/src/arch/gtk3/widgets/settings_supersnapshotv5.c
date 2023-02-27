@@ -1,4 +1,4 @@
-/** \file   settings_supersnapshot.c
+/** \file   settings_supersnapshotv5.c
  * \brief   Settings widget to control Super Snapshot V5 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,13 +32,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+#include "cartridge.h"
+#include "vice_gtk3.h"
 
-#include "settings_supersnapshot.h"
+#include "settings_supersnapshotv5.h"
 
 
 /** \brief  Create widget to control Super Snapshot v5 resources
@@ -47,16 +44,17 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_supersnapshot_widget_create(GtkWidget *parent)
+GtkWidget *settings_supersnapshotv5_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *check;
 
     grid = gtk_grid_new();
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("SSRamExpansion",
-                "Enable 32KiB Super Snapshot V5 RAM expansion"),
-            0, 0, 1, 1);
+    check = vice_gtk3_resource_check_button_new("SSRamExpansion",
+                                                "Enable 32KiB "
+                                                CARTRIDGE_NAME_SUPER_SNAPSHOT_V5
+                                                " RAM expansion"),
+    gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

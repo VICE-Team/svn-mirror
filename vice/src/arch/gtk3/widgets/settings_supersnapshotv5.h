@@ -1,4 +1,4 @@
-/** \file   settings_supersnapshot.h
+/** \file   settings_supersnapshotv5.h
  * \brief   Settings widget to control Super Snapshot V5 resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef VICE_SETTINGS_SUPERSNAPSHOT_H
-#define VICE_SETTINGS_SUPERSNAPSHOT_H
+#ifndef VICE_SETTINGS_SUPERSNAPSHOTV5_H
+#define VICE_SETTINGS_SUPERSNAPSHOTV5_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *settings_supersnapshot_widget_create(GtkWidget *parent);
+GtkWidget *settings_supersnapshotv5_widget_create(GtkWidget *parent);
 
 #endif

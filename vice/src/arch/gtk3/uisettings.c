@@ -146,7 +146,7 @@
 #include "settings_sound.h"
 #include "settings_soundchip.h"
 #include "settings_speed.h"
-#include "settings_supersnapshot.h"
+#include "settings_supersnapshotv5.h"
 #include "settings_tapeport.h"
 #include "settings_ultimem.h"
 #include "settings_userport.h"
@@ -333,8 +333,8 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "retroreplay",
       settings_retroreplay_widget_create, NULL },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
-      "super-snapshot",
-      settings_supersnapshot_widget_create, NULL },
+      "super-snapshot-v5",
+      settings_supersnapshotv5_widget_create, NULL },
 #ifdef HAVE_RAWNET
 
     UI_SETTINGS_SEPARATOR,
@@ -472,8 +472,8 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "retroreplay",
       settings_retroreplay_widget_create, NULL },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
-      "super-snapshot",
-      settings_supersnapshot_widget_create, NULL },
+      "super-snapshot-v5",
+      settings_supersnapshotv5_widget_create, NULL },
 #ifdef HAVE_RAWNET
 
     UI_SETTINGS_SEPARATOR,
@@ -601,8 +601,8 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "retroreplay",
       settings_retroreplay_widget_create, NULL },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT,
-      "super-snapshot",
-      settings_supersnapshot_widget_create, NULL },
+      "super-snapshot-v5",
+      settings_supersnapshotv5_widget_create, NULL },
 #ifdef HAVE_RAWNET
     UI_SETTINGS_SEPARATOR,
 
