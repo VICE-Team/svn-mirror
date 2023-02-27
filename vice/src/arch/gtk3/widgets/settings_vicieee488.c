@@ -32,6 +32,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "cartridge.h"
 #include "vice_gtk3.h"
 
 #include "settings_vicieee488.h"
@@ -46,13 +47,13 @@
 GtkWidget *settings_vicieee488_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *check;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("IEEE488",
-                "Enable VIC-1112 IEEE-488 interface"),
-            0, 0, 1, 1);
+    grid  = gtk_grid_new();
+    check = vice_gtk3_resource_check_button_new("IEEE488",
+                                                "Enable " CARTRIDGE_VIC20_NAME_IEEE488
+                                                " emulation");
+    gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
