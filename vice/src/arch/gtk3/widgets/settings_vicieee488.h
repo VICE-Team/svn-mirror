@@ -1,5 +1,5 @@
 /** \file   vicieee488widget.h
- * \brief   Setting widget for the VIC-20 IEEE-488 interface - header
+ * \brief   Setting widget for the VIC-1112 IEEE-488 Interface - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
