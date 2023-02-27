@@ -62,6 +62,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "cartridge.h"
 #include "ide64.h"
 #include "machine.h"
 #include "resources.h"
@@ -294,7 +295,7 @@ static int create_ide64_revision_layout(GtkWidget *grid, int row)
     GtkWidget *label;
     GtkWidget *group;
 
-    label = gtk_label_new("IDE64 revision");
+    label = gtk_label_new(CARTRIDGE_NAME_IDE64 " revision");
     group = vice_gtk3_resource_radiogroup_new("IDE64version",
                                               revisions,
                                               GTK_ORIENTATION_HORIZONTAL);
@@ -397,8 +398,8 @@ static int create_ide64_shortbus_layout(GtkWidget *grid, int row)
     row++;
 
     digimax_enable = vice_gtk3_resource_check_button_new("SBDIGIMAX",
-                                                         "Enable DigiMAX");
-    digimax_adlabel = gtk_label_new("DigMAX base address");
+                                                         "Enable " CARTRIDGE_NAME_DIGIMAX);
+    digimax_adlabel = gtk_label_new(CARTRIDGE_NAME_DIGIMAX " base address");
     digimax_address = vice_gtk3_resource_combo_int_new("SBDIGIMAXbase",
                                                        digimax_addresses);
     gtk_widget_set_halign(digimax_adlabel, GTK_ALIGN_START);
