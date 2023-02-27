@@ -127,9 +127,9 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_MMC64, filename) < 0) {
-            vice_gtk3_message_error("Saving failed",
-                    "Failed to save cartridge image '%s'",
-                    filename);
+            vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+                                    "Failed to save image as '%s'.",
+                                    filename);
         }
         g_free(filename);
     }
@@ -161,7 +161,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
         vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
-                                "Failed to flush " CARTRIDGE_NAME_MMC64 " image.");
+                                "Failed to flush image.");
     }
 }
 
@@ -340,7 +340,7 @@ static int create_cart_image_layout(GtkWidget *grid, int row, int columns)
 
     box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     flush = gtk_button_new_with_label("Flush image");
-    save =  gtk_button_new_with_label("Save image as ...");
+    save =  gtk_button_new_with_label("Save image as ..");
 
     g_signal_connect(G_OBJECT(flush),
                      "clicked",
@@ -351,8 +351,8 @@ static int create_cart_image_layout(GtkWidget *grid, int row, int columns)
                      G_CALLBACK(on_save_clicked),
                      NULL);
 
-    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
     gtk_box_set_spacing(GTK_BOX(box), 8);
     gtk_widget_set_halign(box, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(grid), box, 2, row, columns - 2, 1);
@@ -394,7 +394,7 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     /* jumper switch and label */
     jumper_wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(jumper_wrapper), 16);
-    jumper_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " flash jumper");
+    jumper_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " Flash jumper");
     jumper_widget  = create_mmc64_jumper_widget();
     gtk_widget_set_halign(jumper_label, GTK_ALIGN_END);
     gtk_widget_set_hexpand(jumper_label, TRUE);
