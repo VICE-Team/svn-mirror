@@ -115,6 +115,20 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_pet[] = {
 };
 
 
+/** \brief  Set sensitivity of widgets
+ *
+ * \param[in]   sensitive   new sensitivity
+ */
+static void set_widgets_sensitivity(gboolean sensitive)
+{
+    gtk_widget_set_sensitive(sid_model,   sensitive);
+    gtk_widget_set_sensitive(sid_address, sensitive);
+    gtk_widget_set_sensitive(sid_clock,   sensitive);
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        gtk_widget_set_sensitive(sid_joy, sensitive);
+    }
+}
+
 /** \brief  Handler for the 'toggled' event of the SidCart enable widget
  *
  * Enables/disables the model, address and clock widgets depending on the
@@ -125,14 +139,24 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_pet[] = {
  */
 static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
-    gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    gboolean active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(sid_model, state);
-    gtk_widget_set_sensitive(sid_address, state);
-    gtk_widget_set_sensitive(sid_clock, state);
-    if (machine_class == VICE_MACHINE_PLUS4) {
-        gtk_widget_set_sensitive(sid_joy, state);
-    }
+    set_widgets_sensitivity(active);
+}
+
+/** \brief  Create left-aligned label using Pango markup
+ *
+ * \param[in]   text    text for label
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
 }
 
 /** \brief  Create toggle button to switch the "SidCart" resource
@@ -141,14 +165,8 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_sidcart_enable_widget(void)
 {
-    const char *text;
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        text = "Enable SID cartridge";
-    } else {
-        text = "Enable SID expansion";
-    }
-    return vice_gtk3_resource_check_button_new("SidCart", text);
+    return vice_gtk3_resource_check_button_new("SidCart",
+                                               "Enable SID Card emulation");
 }
 
 /** \brief  Create widget to set SID I/O base address
@@ -158,6 +176,7 @@ static GtkWidget *create_sidcart_enable_widget(void)
 static GtkWidget *create_sidcart_address_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
     const vice_gtk3_radiogroup_entry_t *list;
 
@@ -177,12 +196,15 @@ static GtkWidget *create_sidcart_address_widget(void)
             break;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID address", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>SID address</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     group = vice_gtk3_resource_radiogroup_new("SidAddress",
                                               list,
                                               GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -196,6 +218,7 @@ static GtkWidget *create_sidcart_address_widget(void)
 static GtkWidget *create_sidcart_clock_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
     const vice_gtk3_radiogroup_entry_t *list;
 
@@ -215,12 +238,15 @@ static GtkWidget *create_sidcart_clock_widget(void)
             break;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID clock", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>SID clock</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     group = vice_gtk3_resource_radiogroup_new("SidClock",
                                               list,
                                               GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -247,8 +273,10 @@ static GtkWidget *create_sidcart_joy_widget(void)
 GtkWidget *settings_sidcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    gboolean   active;
 
-    grid = vice_gtk3_grid_new_spaced(16, 0);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
     sidcart_enable = create_sidcart_enable_widget();
     gtk_widget_set_margin_bottom(sidcart_enable, 16);
@@ -275,8 +303,9 @@ GtkWidget *settings_sidcart_widget_create(GtkWidget *parent)
                               G_CALLBACK(on_sidcart_enable_toggled),
                               NULL);
 
-    /* initialize senstitive state of widgets */
-    on_sidcart_enable_toggled(sidcart_enable, NULL);
+    /* set senstitivity of widgets */
+    active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(sidcart_enable));
+    set_widgets_sensitivity(active);
 
     gtk_widget_show_all(grid);
     return grid;

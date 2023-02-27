@@ -35,6 +35,7 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
+#include "sid.h"
 #include "vice_gtk3.h"
 #include "lib.h"
 #include "resources.h"
@@ -55,29 +56,29 @@ static const vice_gtk3_radiogroup_entry_t sid_models_none[] = {
  *          VIC-20 and Plus/4
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
-    { "6581", 0 },
-    { "8580", 1 },
-    { "8580 + digi boost", 2 },
-    { NULL, -1 }
+    { "6581",               SID_MODEL_6581 },
+    { "8580",               SID_MODEL_8580 },
+    { "8580 + digi boost",  SID_MODEL_8580D },
+    { NULL,                 -1 }
 };
 
 /** \brief  SID models used in the C64DTV
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
-    { "DTVSID (ReSID-DTV)", 3 },
-    { "6581", 0 },
-    { "8580", 1 },
-    { "8580 + digi boost", 2 },
-    { NULL, -1 }
+    { "DTVSID (ReSID-DTV)", SID_MODEL_DTVSID },
+    { "6581",               SID_MODEL_6581 },
+    { "8580",               SID_MODEL_8580 },
+    { "8580 + digi boost",  SID_MODEL_8580D },
+    { NULL,                 -1 }
 };
 
 /** \brief  SID models used in the CBM-II 510/520 models
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
-    { "6581", 0 },
-    { "8580", 1 },
-    { "8580 + digi boost", 2 },
-    { NULL, -1 }
+    { "6581",               SID_MODEL_6581 },
+    { "8580",               SID_MODEL_8580 },
+    { "8580 + digi boost",  SID_MODEL_8580D },
+    { NULL,                 -1 }
 };
 
 
@@ -121,6 +122,7 @@ static void sid_model_callback(GtkWidget *widget, int sid_type)
 GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
     const vice_gtk3_radiogroup_entry_t *models;
 
@@ -156,13 +158,18 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             models = sid_models_none;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "SID model", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>SID model</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     group = vice_gtk3_resource_radiogroup_new("SidModel",
                                               models,
                                               GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
-    gtk_widget_set_margin_start(group, 8);
     vice_gtk3_resource_radiogroup_add_callback(group, sid_model_callback);
 
     /* SID cards for the Plus4, PET or VIC20:
@@ -176,11 +183,11 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
     if (machine_class == VICE_MACHINE_PLUS4
             || machine_class == VICE_MACHINE_PET
             || machine_class == VICE_MACHINE_VIC20) {
-        int sidcart;
+        int sidcart_enabled = 0;
 
         /* make SID widget sensitive, depending on if a SID cart is active */
-        resources_get_int("SidCart", &sidcart);
-        gtk_widget_set_sensitive(grid, sidcart);
+        resources_get_int("SidCart", &sidcart_enabled);
+        gtk_widget_set_sensitive(grid, (gboolean)sidcart_enabled);
     }
     return grid;
 }
