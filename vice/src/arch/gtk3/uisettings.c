@@ -391,7 +391,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      "sfx-sampler",
+      "sfx-sound-sampler",
       settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
@@ -524,7 +524,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      "sfx-sampler",
+      "sfx-sound-sampler",
       settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
@@ -654,7 +654,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      "sfx-sampler",
+      "sfx-sound-sampler",
       settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
@@ -742,7 +742,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
       "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)",
-      "sfx-sampler",
+      "sfx-sound-sampler",
       settings_sfxsoundsampler_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
