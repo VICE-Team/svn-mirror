@@ -49,6 +49,22 @@ static const vice_gtk3_radiogroup_entry_t colour_types[] = {
 };
 
 
+/** \brief  Create left-aligned label using Pango markup
+ *
+ * \param[in]   text    text for label
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
+
 /** \brief  Create widget to control PET Colour graphics resources
  *
  * \param[in]   parent  parent widget (unused)
@@ -62,22 +78,23 @@ GtkWidget *settings_petcolourgraphics_widget_create(GtkWidget *parent)
     GtkWidget *group;
     GtkWidget *spin;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     /* PET Colour type */
-    label = gtk_label_new("PET Colour type");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    group = vice_gtk3_resource_radiogroup_new("PETColour", colour_types,
-            GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_set_column_spacing(GTK_GRID(group), 16);
+    label = label_helper("PET Colour type");
+    group = vice_gtk3_resource_radiogroup_new("PETColour",
+                                              colour_types,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     /* use two columns to avoid the BG spinbutton to stretch very wide */
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 2, 1);
 
     /* PET Colour background */
-    label = gtk_label_new("PET Colour background");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    spin = vice_gtk3_resource_spin_int_new("PETColourBG", 0, 255, 1);
+    label = label_helper("PET Colour background");
+    spin  = vice_gtk3_resource_spin_int_new("PETColourBG", 0, 255, 1);
     gtk_widget_set_hexpand(spin, FALSE);    /* still too wide */
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), spin, 1, 1, 1, 1);

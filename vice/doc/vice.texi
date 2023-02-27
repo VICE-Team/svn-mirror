@@ -16183,7 +16183,7 @@ Integer selecting the colour extension.
 
 @vindex PETColourBG
 @item PETColourBG
-Iteger specifying the analog colour background on PET 4032.
+Integer specifying the analog colour background on PET 4032.
 (0..255)
 
 @vindex SidCart
