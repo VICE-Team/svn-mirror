@@ -175,7 +175,7 @@ libwidgets_a_SOURCES = \
 	settings_sound.c \
 	settings_soundchip.c \
 	settings_speed.c \
-	settings_supersnapshot.c \
+	settings_supersnapshotv5.c \
 	settings_tapeport.c \
 	settings_ultimem.c \
 	settings_userport.c \
@@ -346,7 +346,7 @@ EXTRA_DIST = \
 	settings_sound.h \
 	settings_soundchip.h \
 	settings_speed.h \
-	settings_supersnapshot.h \
+	settings_supersnapshotv5.h \
 	settings_tapeport.h \
 	settings_ultimem.h \
 	settings_userport.h \
