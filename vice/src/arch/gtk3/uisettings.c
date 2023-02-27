@@ -369,7 +369,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "mmc64",
       settings_mmc64_widget_create, NULL },
     { CARTRIDGE_NAME_MMC_REPLAY,
-      "mmcr",
+      "mmc-replay",
       settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
@@ -502,7 +502,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "mmc64",
       settings_mmc64_widget_create, NULL },
     { CARTRIDGE_NAME_MMC_REPLAY,
-      "mmcr",
+      "mmc-replay",
       settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
@@ -632,7 +632,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "mmc64",
       settings_mmc64_widget_create, NULL },
     { CARTRIDGE_NAME_MMC_REPLAY,
-      "mmcr",
+      "mmc-replay",
       settings_mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
