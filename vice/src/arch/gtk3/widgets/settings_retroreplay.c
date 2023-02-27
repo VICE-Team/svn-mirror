@@ -68,8 +68,8 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
-            vice_gtk3_message_error("Retro Replay Error",
-                                    "Failed to save Retro Replay image '%s'.",
+            vice_gtk3_message_error(CARTRIDGE_NAME_RETRO_REPLAY " Error",
+                                    "Failed to save image as '%s'.",
                                     filename);
         }
         g_free(filename);
@@ -86,7 +86,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_save_file_dialog("Save image as",
+    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_RETRO_REPLAY
+                                        " image as",
                                         NULL,
                                         TRUE,
                                         NULL,
@@ -104,8 +105,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_RETRO_REPLAY) < 0) {
-        vice_gtk3_message_error("Retro Replay Error",
-                                "Failed to flush current Retro Replay image.");
+        vice_gtk3_message_error(CARTRIDGE_NAME_RETRO_REPLAY " Error",
+                                "Failed to flush current image.");
     }
 }
 
@@ -153,6 +154,7 @@ static GtkWidget *create_switch(const char *resource)
 GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *box;
     GtkWidget *flash;
     GtkWidget *bank;
     GtkWidget *label;
@@ -196,24 +198,34 @@ GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 
     /* RRBiosWrite */
     bios_write = vice_gtk3_resource_check_button_new("RRBiosWrite",
-            "Write back RR Flash ROM image automatically");
+            "Write back " CARTRIDGE_NAME_RETRO_REPLAY " Flash ROM image"
+            " automatically");
+    gtk_widget_set_valign(bios_write, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 4, 3, 1);
 
-    /* Save image as... */
-    save_button = gtk_button_new_with_label("Save image as ...");
-    gtk_grid_attach(GTK_GRID(grid), save_button, 3, 4, 1, 1);
+    /* wrap buttons in button box */
+    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
+    gtk_box_set_spacing(GTK_BOX(box), 8);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_halign(box, GTK_ALIGN_END);
+
+    /* Save image as .. */
+    save_button = gtk_button_new_with_label("Save image as ..");
     g_signal_connect(save_button,
                      "clicked",
                      G_CALLBACK(on_save_clicked),
                      NULL);
 
     /* Flush image now */
-    flush_button = gtk_button_new_with_label("Save image now");
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 3, 5, 1, 1);
+    flush_button = gtk_button_new_with_label("Flush image");
     g_signal_connect(flush_button,
                      "clicked",
                      G_CALLBACK(on_flush_clicked),
                      NULL);
+
+    gtk_box_pack_start(GTK_BOX(box), save_button,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), flush_button, FALSE, FALSE, 0);
+    gtk_grid_attach(GTK_GRID(grid), box, 3, 4, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
