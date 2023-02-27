@@ -122,11 +122,13 @@ GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent)
     GtkWidget *base_label;
     int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     enable_widget = vice_gtk3_resource_check_button_new("ETHERNETCART_ACTIVE",
                                                         "Enable ethernet cartridge");
-    gtk_widget_set_margin_bottom(enable_widget, 8);
+    gtk_widget_set_margin_bottom(enable_widget, 24);
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, row, 2, 1);
     row++;
 
@@ -135,10 +137,10 @@ GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent)
         case VICE_MACHINE_C64SC:    /* fallthrough */
         case VICE_MACHINE_C128:     /* fallthrough */
         case VICE_MACHINE_SCPU64:
-            mode_label  = gtk_label_new("Ethernet Cartridge mode");
+            mode_label  = gtk_label_new("Cartridge mode");
             mode_widget = create_cartridge_mode_widget();
             gtk_widget_set_halign(mode_label, GTK_ALIGN_START);
-            gtk_grid_attach(GTK_GRID(grid), mode_label, 0, row, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), mode_label,  0, row, 1, 1);
             gtk_grid_attach(GTK_GRID(grid), mode_widget, 1, row, 1, 1);
             row++;
             break;
@@ -150,7 +152,7 @@ GtkWidget *settings_ethernetcart_widget_create(GtkWidget *parent)
     base_label  = gtk_label_new("Cartridge I/O base");
     base_widget = create_cartridge_base_widget();
     gtk_widget_set_halign(base_label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), base_label, 0, row, 1,1);
+    gtk_grid_attach(GTK_GRID(grid), base_label,  0, row, 1,1);
     gtk_grid_attach(GTK_GRID(grid), base_widget, 1, row, 1, 1);
 
     gtk_widget_set_sensitive(grid, (gboolean)archdep_ethernet_available());
