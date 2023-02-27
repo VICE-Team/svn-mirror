@@ -27,8 +27,10 @@
 #ifndef VICE_RAMSIZERADIOGROUP_H
 #define VICE_RAMSIZERADIOGROUP_H
 
+#include <gtk/gtk.h>
+
 GtkWidget *ram_size_radiogroup_new(const char *resource,
                                    const char *title,
-                                   int        *sizes);
+                                   const int  *sizes);
 
 #endif

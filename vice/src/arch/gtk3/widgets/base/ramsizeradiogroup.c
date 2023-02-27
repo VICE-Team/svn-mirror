@@ -45,7 +45,7 @@
  *
  * \return  heap-allocated entries, owned by Gtk
  */
-static vice_gtk3_radiogroup_entry_t *create_entries(int *sizes)
+static vice_gtk3_radiogroup_entry_t *create_entries(const int *sizes)
 {
     vice_gtk3_radiogroup_entry_t *entries;
     size_t i = 0;
@@ -110,7 +110,7 @@ static void free_entries(vice_gtk3_radiogroup_entry_t *entries)
  */
 GtkWidget *ram_size_radiogroup_new(const char *resource,
                                    const char *title,
-                                   int        *sizes)
+                                   const int  *sizes)
 {
     GtkWidget *group;
     vice_gtk3_radiogroup_entry_t *entries;
