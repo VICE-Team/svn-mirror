@@ -95,8 +95,7 @@ static GtkWidget *create_sfx_chip_widget(void)
     GtkWidget *group;
     group = vice_gtk3_resource_radiogroup_new("SFXSoundExpanderChip",
                                               chip_models,
-                                              GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_set_column_spacing(GTK_GRID(group), 16);
+                                              GTK_ORIENTATION_VERTICAL);
     return group;
 }
 
@@ -127,6 +126,7 @@ GtkWidget *settings_sfxsoundexpander_widget_create(GtkWidget *parent)
     }
     enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
                                                     cart_id);
+    gtk_widget_set_margin_bottom(enable, 8);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, row, 2, 1);
     row++;
 
@@ -139,6 +139,7 @@ GtkWidget *settings_sfxsoundexpander_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("YM chip model");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
     chip_group = create_sfx_chip_widget();
     gtk_grid_attach(GTK_GRID(grid), label,      0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chip_group, 1, row, 1, 1);
