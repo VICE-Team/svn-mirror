@@ -761,8 +761,8 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 
     /* Audio Expansions + Adapters */
 
-    { "Digiblaster add-on",
-      "digiblaster",
+    { "Digi-Blaster add-on",
+      "digi-blaster",
       settings_plus4_digiblaster_widget_create, NULL },
     { "SID Card",
       "sid-card",
