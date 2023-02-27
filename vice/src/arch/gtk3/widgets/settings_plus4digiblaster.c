@@ -1,7 +1,10 @@
 /** \file   settings_plus4digiblaster.c
- * \brief   Settings widget to control Plus4 DigiBlaster
+ * \brief   Settings widget to control Plus4 Digi-Blaster SID-Card add-on
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \note    Digi-Blaster spelling according to:
+ *          http://www.solder-synergy.de/plus4/hardware/index.html
  */
 
 /*
@@ -37,7 +40,7 @@
 #include "settings_plus4digiblaster.h"
 
 
-/** \brief  Create widget to control Plus4 Digiblaster
+/** \brief  Create widget to control Plus4 Digi-Blaster
  *
  * \param[in]   parent  parent widget (unused)
  *
@@ -46,13 +49,12 @@
 GtkWidget *settings_plus4_digiblaster_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *check;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("DIGIBLASTER",
-                "Enable Digiblaster add-on"),
-            0, 0, 1, 1);
+    grid  = gtk_grid_new();
+    check = vice_gtk3_resource_check_button_new("DIGIBLASTER",
+                                                "Enable Digi-Blaster SID-Card add-on");
+    gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

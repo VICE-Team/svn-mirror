@@ -1,5 +1,5 @@
 /** \file   setting_plus4digiblaster.h
- * \brief   Setting widget to control Plus 4 DigiBlaster - header
+ * \brief   Settings widget to control Plus4 Digi-Blaster SID-Card add-on - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
