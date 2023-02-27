@@ -33,6 +33,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "cartridge.h"
 #include "vice_gtk3.h"
 
 #include "settings_megacart.h"
@@ -50,23 +51,29 @@ GtkWidget *settings_megacart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *write_back;
-    GtkWidget *browser;
+    GtkWidget *label;
+    GtkWidget *chooser;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    browser = vice_gtk3_resource_browser_new(
-            "MegaCartNvRAMfilename",
-            NULL,
-            NULL,
-            "Select NvRAM image file",
-            "NvRAM image file",
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
+    label = gtk_label_new("NvRAM image file");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    write_back = vice_gtk3_resource_check_button_new(
-            "MegaCartNvRAMWriteBack",
-            "Enable Mega Cart NvRAM write back");
-    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
+    chooser = vice_gtk3_resource_filechooser_new("MegaCartNvRAMfilename",
+                                                GTK_FILE_CHOOSER_ACTION_SAVE);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser,
+                                                    "Select " CARTRIDGE_VIC20_NAME_MEGACART
+                                                    " NvRAM image file");
+    gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
+
+    write_back = vice_gtk3_resource_check_button_new("MegaCartNvRAMWriteBack",
+                                                     "Enable "
+                                                     CARTRIDGE_VIC20_NAME_MEGACART
+                                                     " NvRAM write back");
+    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 2, 1);
 
     gtk_widget_show_all(grid);
     return grid;
