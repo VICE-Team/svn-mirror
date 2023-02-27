@@ -388,7 +388,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       settings_midi_widget_create, NULL },
 #endif
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
-      "sfx-expander",
+      "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
       "sfx-sampler",
@@ -521,7 +521,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       settings_midi_widget_create, NULL },
 #endif
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
-      "sfx-expander",
+      "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
       "sfx-sampler",
@@ -651,7 +651,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       settings_midi_widget_create, NULL },
 #endif
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
-      "sfx-expander",
+      "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
       "sfx-sampler",
@@ -739,7 +739,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
       "geo-ram",
       settings_georam_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " (MasC=uerade)",
-      "sfx-expander",
+      "sfx-sound-expander",
       settings_sfxsoundexpander_widget_create, NULL },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)",
       "sfx-sampler",
