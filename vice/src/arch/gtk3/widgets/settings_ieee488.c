@@ -72,11 +72,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEE488) < 0) {
-            log_error(LOG_ERR, "failed to enable IEEE488 cartridge.");
+            log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_IEEE488 ".");
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEE488) < 0) {
-            log_error(LOG_ERR, "failed to disable IEEE488 cartridge.");
+            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_IEEE488 ".");
         }
     }
 }
