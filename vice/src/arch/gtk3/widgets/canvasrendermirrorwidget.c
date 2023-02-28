@@ -59,27 +59,29 @@
 GtkWidget *canvas_render_mirror_widget_create(const char *chip)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *flip_x;
     GtkWidget *flip_y;
     GtkWidget *rotate;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Mirror/Rotate", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Mirror/Rotate</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+
     flip_x = vice_gtk3_resource_check_button_new_sprintf("%sFlipX",
                                                          "Flip X",
                                                          chip);
-    gtk_widget_set_margin_start(flip_x, 8);
-
     flip_y = vice_gtk3_resource_check_button_new_sprintf("%sFlipY",
                                                          "Flip Y",
                                                          chip);
-    gtk_widget_set_margin_start(flip_y, 8);
-
     rotate = vice_gtk3_resource_check_button_new_sprintf("%sRotate",
                                                          "Rotate 90\u00b0",
                                                          chip);
-    gtk_widget_set_margin_start(rotate, 8);
 
+    gtk_grid_attach(GTK_GRID(grid), label,  0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_x, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_y, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rotate, 0, 3, 1, 1);
