@@ -87,13 +87,19 @@ static GtkWidget *create_rendering_options_widget(const char *chip)
     char       title[256];
     int        row = 1;
 
-    g_snprintf(title, sizeof title, "%s rendering options", chip);
-    grid = vice_gtk3_grid_new_spaced_with_label(32, 0, title, 3);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    g_snprintf(title, sizeof title, "<b>%s rendering options</b>", chip);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 32);
+
+    /* row 0, col 0-3: title */
+    widget = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(widget), title);
+    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(widget, 8);
+    gtk_grid_attach(GTK_GRID(grid), widget, 0, 0, 3, 1);
 
     /* row 1+2, col 0: scaling and aspect ratio resources */
     widget = video_aspect_widget_create(chip);
-    gtk_widget_set_margin_start(widget, 8);
     gtk_grid_attach(GTK_GRID(grid), widget, 0, row, 1, 2);
 
     /* row 1, col 1: glfilter */

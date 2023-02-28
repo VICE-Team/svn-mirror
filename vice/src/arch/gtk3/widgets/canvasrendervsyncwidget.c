@@ -35,11 +35,9 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "video.h"
 
 #include "canvasrendervsyncwidget.h"
 
@@ -53,14 +51,20 @@
 GtkWidget *canvas_render_vsync_widget_create(const char *chip)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *vsync_widget;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Synchronization", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Synchronization</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     vsync_widget = vice_gtk3_resource_check_button_new_sprintf("%sVSync",
                                                                "VSync",
                                                                chip);
-    gtk_widget_set_margin_start(vsync_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), vsync_widget, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
