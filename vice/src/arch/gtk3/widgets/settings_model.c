@@ -647,9 +647,11 @@ static void dtv_video_callback(int model)
  */
 static void c64dtv_hummer_adc_sync(void)
 {
-    int hummeradc = 0;
-    resources_get_int("HummerAdc", &hummeradc);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(c64dtv_hummer_adc_widget), hummeradc);
+    int hummer_adc = 0;
+
+    resources_get_int("HummerAdc", &hummer_adc);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(c64dtv_hummer_adc_widget),
+                                                   (gboolean)hummer_adc);
 }
 
 /** \brief  Update DTV widget on 'Hummer ADC' toggle
@@ -1090,18 +1092,17 @@ static GtkWidget *create_c64dtv_revision_widget(void)
     GtkWidget *group;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>DTV Revision</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_bottom(label, 8);
 
     group = vice_gtk3_resource_radiogroup_new("DtvRevision",
                                               c64dtv_revisions,
                                               GTK_ORIENTATION_VERTICAL);
     vice_gtk3_resource_radiogroup_add_callback(group, dtv_revision_callback);
-    gtk_widget_set_margin_start(group, 8);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -1227,12 +1228,13 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
 
     /* create revision widget */
     c64dtv_rev_widget = create_c64dtv_revision_widget();
+    gtk_widget_set_margin_top(c64dtv_rev_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), c64dtv_rev_widget, 1, 1, 1, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     sid_model_widget_set_callback(sid_widget, sid_model_callback);
-    gtk_widget_set_margin_start(sid_widget, 8);
+    gtk_widget_set_margin_top(sid_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 0, 2, 1, 1);
 
     /* Luma fix widget */
@@ -1242,9 +1244,8 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), luma_widget, 0, 3, 2, 1);
 
     /* Hummer ADC widget */
-    c64dtv_hummer_adc_widget = vice_gtk3_resource_check_button_new(
-            "HummerADC",
-            "Enable Hummer ADC");
+    c64dtv_hummer_adc_widget = vice_gtk3_resource_check_button_new("HummerADC",
+                                                                   "Enable Hummer ADC");
     vice_gtk3_resource_check_button_add_callback(c64dtv_hummer_adc_widget,
                                                  c64dtv_hummer_adc_callback);
     gtk_grid_attach(GTK_GRID(grid), c64dtv_hummer_adc_widget, 0, 4, 2, 1);
