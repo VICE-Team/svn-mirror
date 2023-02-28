@@ -40,84 +40,54 @@
 #include "settings_c64dtvflash.h"
 
 
-/** \brief  Callback for the directory-select dialog
+/** \brief  Create resource filechooser widget for DTV ROM
  *
- * \param[in,out]   dialog      directory-select dialog
- * \param[in,out]   filename    filename (NULL if canceled)
- * \param[in]       param       text entry for the filename
- */
-static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_set(GTK_WIDGET(param), filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the 'clicked' event of the Flash FS browser button
- *
- * Opens a directory selection/creating dialog and sets the resource
- * 'FSFlashDir' trough the GtkEntry \a data.
- *
- * \param[in]       widget  browse button (unused)
- * \param[in,out]   data    reference to the GtkEntry controlling the resource
- */
-static void on_flash_dir_browse_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_select_directory_dialog(
-            "Select Flash filesystem directory",
-            NULL,
-            TRUE,
-            NULL,
-            flash_browse_callback,
-            data);  /* entry box */
-    gtk_widget_show(dialog);
-}
-
-
-/** \brief  Create DTV ROM selection widget
- *
- * \return  GtkGrid
+ * \return  GtkEntry
  */
 static GtkWidget *create_rom_widget(void)
 {
-    GtkWidget *browser;
-    const char *patterns[] = { "*.bin", NULL };
+    GtkWidget  *chooser;
+    const char *patterns[] = { "*.bin", "*.rom", NULL };
 
-    browser = vice_gtk3_resource_browser_new("c64dtvromfilename", patterns,
-            "C64DTV ROMs", "Select C64DTV ROM", NULL, NULL);
-    return browser;
+    chooser = vice_gtk3_resource_filechooser_new("c64dtvromfilename",
+                                                 GTK_FILE_CHOOSER_ACTION_OPEN);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser,
+                                                    "Select C64DTV ROM");
+    vice_gtk3_resource_filechooser_set_filter(chooser,
+                                              "ROM files",
+                                              patterns,
+                                              TRUE);
+    return chooser;
 }
 
-
-/** \brief  Create entry and browse button to control 'FSFlashDir'
+/** \brief  Create resource filechooser widget for Flash filesystem directory
  *
- * \return  GtkGrid
+ * \return  GtkEntry
  */
 static GtkWidget *create_flash_dir_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *entry;
-    GtkWidget *browse;
+    GtkWidget *chooser;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    chooser = vice_gtk3_resource_filechooser_new("FSFlashDir",
+                                                 GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser,
+                                                    "Select Flash filesystem directory");
+    return chooser;
+}
 
-    entry = vice_gtk3_resource_entry_new("FSFlashDir");
-    gtk_widget_set_hexpand(entry, TRUE);
-    browse = gtk_button_new_with_label("Browse ...");
+/** \brief  Create left-aligned label
+ *
+ * \param[in]   text    label text (uses Pango markup)
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
 
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 1, 0, 1, 1);
-
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_flash_dir_browse_clicked),
-            (gpointer)entry);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
 }
 
 
@@ -131,36 +101,36 @@ GtkWidget *settings_c64dtvflash_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *rom_file_widget;
-    GtkWidget *rom_write_widget;
-    GtkWidget *flash_dir_widget;
-    GtkWidget *flash_hw_widget;
+    GtkWidget *rom_file;
+    GtkWidget *rom_write;
+    GtkWidget *flash_dir;
+    GtkWidget *flash_hw;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    /* DTV ROM browser */
-    label = gtk_label_new("C64DTV ROM file");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    rom_file_widget = create_rom_widget();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rom_file_widget, 1, 0, 1, 1);
-
-    /* DTV ROM R/W widget */
-    rom_write_widget = vice_gtk3_resource_check_button_new("c64dtvromrw",
+    /* DTV ROM file chooser and R/W check button */
+    label     = label_helper("C64DTV ROM file");
+    rom_file  = create_rom_widget();
+    rom_write = vice_gtk3_resource_check_button_new(
+            "c64dtvromrw",
             "Enable writes to C64DTV ROM image");
-    gtk_grid_attach(GTK_GRID(grid), rom_write_widget, 1, 1, 1,1);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_write, 1, 1, 1,1);
 
-    /* Flash dir widget */
-    label = gtk_label_new("Flash FS directory");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    flash_dir_widget = create_flash_dir_widget();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flash_dir_widget, 1, 2, 1, 1);
-
-    /* Flash true hardware flash file system widget */
-    flash_hw_widget = vice_gtk3_resource_check_button_new("FlashTrueFS",
+    /* Flash dir and true HW flash check button */
+    label     = label_helper("Flash FS directory");
+    flash_dir = create_flash_dir_widget();
+    flash_hw  = vice_gtk3_resource_check_button_new(
+            "FlashTrueFS",
             "Enable true hardware flash file system");
-    gtk_grid_attach(GTK_GRID(grid), flash_hw_widget, 1, 3, 1, 1);
+    gtk_widget_set_margin_top(label,     16);
+    gtk_widget_set_margin_top(flash_dir, 16);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flash_dir, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flash_hw,  1, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
