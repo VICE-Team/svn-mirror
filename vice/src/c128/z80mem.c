@@ -623,11 +623,11 @@ void z80mem_initialize(void)
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[8][i] = top_shared_read;
         mem_write_tab[8][i] = top_shared_store;
-        mem_read_tab[9][i] = top_shared_read;
+        mem_read_tab[9][i] = chargen_read;
         mem_write_tab[9][i] = top_shared_store;
-        mem_read_tab[10][i] = top_shared_read;
+        mem_read_tab[10][i] = chargen_read;
         mem_write_tab[10][i] = top_shared_store;
-        mem_read_tab[11][i] = top_shared_read;
+        mem_read_tab[11][i] = chargen_read;
         mem_write_tab[11][i] = top_shared_store;
         mem_read_tab[12][i] = top_shared_read;
         mem_write_tab[12][i] = top_shared_store;
