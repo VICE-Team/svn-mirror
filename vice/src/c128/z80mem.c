@@ -58,7 +58,8 @@ store_func_ptr_t *_z80mem_write_tab_ptr;
 uint8_t **_z80mem_read_base_tab_ptr;
 int *z80mem_read_limit_tab_ptr;
 
-#define NUM_CONFIGS 8
+#define NUM_CONFIGS 16
+#define NUM_Z80_C128MODE_CONFIGS 8
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
@@ -297,6 +298,24 @@ static void z80_c64io_df00_store(uint16_t adr, uint8_t val)
 #endif
 
 
+/* FIXME: this needs to be refined for the mmu io bit */
+static uint8_t c64mode_colorram_read(uint16_t adr)
+{
+#if 0
+    return colorram_read(adr);
+#endif
+    return lo_read(adr);
+}
+
+/* FIXME: this needs to be refined for the mmu io bit */
+static void c64mode_colorram_store(uint16_t adr, uint8_t val)
+{
+#if 0
+    colorram_store(adr, val);
+#endif
+    lo_store(adr, val);
+}
+
 void z80mem_initialize(void)
 {
     int i, j;
@@ -310,6 +329,7 @@ void z80mem_initialize(void)
         }
     }
 
+    /* z80 c128 mode memory map for the zero page */
     mem_read_tab[0][0] = bios_read;
     mem_write_tab[0][0] = z80_store_zero;
     mem_read_tab[1][0] = bios_read;
@@ -327,6 +347,25 @@ void z80mem_initialize(void)
     mem_read_tab[7][0] = z80_read_zero;
     mem_write_tab[7][0] = z80_store_zero;
 
+    /* z80 c64 mode memory map for the zero page */
+    mem_read_tab[8][0] = z80_read_zero;
+    mem_write_tab[8][0] = z80_store_zero;
+    mem_read_tab[9][0] = z80_read_zero;
+    mem_write_tab[9][0] = z80_store_zero;
+    mem_read_tab[10][0] = z80_read_zero;
+    mem_write_tab[10][0] = z80_store_zero;
+    mem_read_tab[11][0] = z80_read_zero;
+    mem_write_tab[11][0] = z80_store_zero;
+    mem_read_tab[12][0] = z80_read_zero;
+    mem_write_tab[12][0] = z80_store_zero;
+    mem_read_tab[13][0] = z80_read_zero;
+    mem_write_tab[13][0] = z80_store_zero;
+    mem_read_tab[14][0] = z80_read_zero;
+    mem_write_tab[14][0] = z80_store_zero;
+    mem_read_tab[15][0] = z80_read_zero;
+    mem_write_tab[15][0] = z80_store_zero;
+
+    /* z80 c128 mode memory map for the stack page */
     mem_read_tab[0][1] = bios_read;
     mem_write_tab[0][1] = one_store;
     mem_read_tab[1][1] = bios_read;
@@ -344,7 +383,26 @@ void z80mem_initialize(void)
     mem_read_tab[7][1] = one_read;
     mem_write_tab[7][1] = one_store;
 
+    /* z80 c128 mode memory map for the stack page */
+    mem_read_tab[8][1] = one_read;
+    mem_write_tab[8][1] = one_store;
+    mem_read_tab[9][1] = one_read;
+    mem_write_tab[9][1] = one_store;
+    mem_read_tab[10][1] = one_read;
+    mem_write_tab[10][1] = one_store;
+    mem_read_tab[11][1] = one_read;
+    mem_write_tab[11][1] = one_store;
+    mem_read_tab[12][1] = one_read;
+    mem_write_tab[12][1] = one_store;
+    mem_read_tab[13][1] = one_read;
+    mem_write_tab[13][1] = one_store;
+    mem_read_tab[14][1] = one_read;
+    mem_write_tab[14][1] = one_store;
+    mem_read_tab[15][1] = one_read;
+    mem_write_tab[15][1] = one_store;
+
     for (i = 2; i < 0x10; i++) {
+        /* z80 c128 mode memory map for $0200-$0fff */
         mem_read_tab[0][i] = bios_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = bios_read;
@@ -361,9 +419,28 @@ void z80mem_initialize(void)
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = lo_read;
         mem_write_tab[7][i] = lo_store;
+
+        /* z80 c64 mode memory map for $0200-$0fff */
+        mem_read_tab[8][i] = lo_read;
+        mem_write_tab[8][i] = lo_store;
+        mem_read_tab[9][i] = lo_read;
+        mem_write_tab[9][i] = lo_store;
+        mem_read_tab[10][i] = lo_read;
+        mem_write_tab[10][i] = lo_store;
+        mem_read_tab[11][i] = lo_read;
+        mem_write_tab[11][i] = lo_store;
+        mem_read_tab[12][i] = lo_read;
+        mem_write_tab[12][i] = lo_store;
+        mem_read_tab[13][i] = lo_read;
+        mem_write_tab[13][i] = lo_store;
+        mem_read_tab[14][i] = lo_read;
+        mem_write_tab[14][i] = lo_store;
+        mem_read_tab[15][i] = lo_read;
+        mem_write_tab[15][i] = lo_store;
     }
 
     for (i = 0x10; i <= 0x13; i++) {
+        /* z80 c128 mode memory map for $1000-$13ff */
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = colorram_read;
@@ -380,9 +457,28 @@ void z80mem_initialize(void)
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = colorram_read;
         mem_write_tab[7][i] = colorram_store;
+
+        /* z80 c128 mode memory map for $1000-$13ff */
+        mem_read_tab[8][i] = c64mode_colorram_read;
+        mem_write_tab[8][i] = c64mode_colorram_store;
+        mem_read_tab[9][i] = c64mode_colorram_read;
+        mem_write_tab[9][i] = c64mode_colorram_store;
+        mem_read_tab[10][i] = c64mode_colorram_read;
+        mem_write_tab[10][i] = c64mode_colorram_store;
+        mem_read_tab[11][i] = c64mode_colorram_read;
+        mem_write_tab[11][i] = c64mode_colorram_store;
+        mem_read_tab[12][i] = c64mode_colorram_read;
+        mem_write_tab[12][i] = c64mode_colorram_store;
+        mem_read_tab[13][i] = c64mode_colorram_read;
+        mem_write_tab[13][i] = c64mode_colorram_store;
+        mem_read_tab[14][i] = c64mode_colorram_read;
+        mem_write_tab[14][i] = c64mode_colorram_store;
+        mem_read_tab[15][i] = c64mode_colorram_read;
+        mem_write_tab[15][i] = c64mode_colorram_store;
     }
 
     for (i = 0x14; i <= 0x3f; i++) {
+        /* z80 c128 mode memory map for $1400-$3fff */
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = ram_read;
@@ -399,16 +495,63 @@ void z80mem_initialize(void)
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = lo_read;
         mem_write_tab[7][i] = lo_store;
+
+        /* z80 c64 mode memory map for $1400-$3fff */
+        mem_read_tab[8][i] = lo_read;
+        mem_write_tab[8][i] = lo_store;
+        mem_read_tab[9][i] = lo_read;
+        mem_write_tab[9][i] = lo_store;
+        mem_read_tab[10][i] = lo_read;
+        mem_write_tab[10][i] = lo_store;
+        mem_read_tab[11][i] = lo_read;
+        mem_write_tab[11][i] = lo_store;
+        mem_read_tab[12][i] = lo_read;
+        mem_write_tab[12][i] = lo_store;
+        mem_read_tab[13][i] = lo_read;
+        mem_write_tab[13][i] = lo_store;
+        mem_read_tab[14][i] = lo_read;
+        mem_write_tab[14][i] = lo_store;
+        mem_read_tab[15][i] = lo_read;
+        mem_write_tab[15][i] = lo_store;
     }
 
-    for (j = 0; j < NUM_CONFIGS; j++) {
-        for (i = 0x40; i <= 0xbf; i++) {
+    /* z80 c128 AND c64 mode memory map for $4000-$9fff */
+    for (i = 0x40; i <= 0x9f; i++) {
+        for (j = 0; j < NUM_CONFIGS; j++) {
             mem_read_tab[j][i] = ram_read;
             mem_write_tab[j][i] = ram_store;
         }
     }
 
+
+    for (i = 0xa0; i <= 0xbf; i++) {
+        /* z80 c128 mode memory map for $a000-$bfff */
+        for (j = 0; j < NUM_Z80_C128MODE_CONFIGS; j++) {
+            mem_read_tab[j][i] = ram_read;
+            mem_write_tab[j][i] = ram_store;
+        }
+
+        /* z80 c64 mode memory map for $a000-$bfff, FIXME: still needs to be refined for c64 mem configs */
+        mem_read_tab[8][i] = ram_read;
+        mem_write_tab[8][i] = ram_store;
+        mem_read_tab[9][i] = ram_read;
+        mem_write_tab[9][i] = ram_store;
+        mem_read_tab[10][i] = ram_read;
+        mem_write_tab[10][i] = ram_store;
+        mem_read_tab[11][i] = ram_read;
+        mem_write_tab[11][i] = ram_store;
+        mem_read_tab[12][i] = ram_read;
+        mem_write_tab[12][i] = ram_store;
+        mem_read_tab[13][i] = ram_read;
+        mem_write_tab[13][i] = ram_store;
+        mem_read_tab[14][i] = ram_read;
+        mem_write_tab[14][i] = ram_store;
+        mem_read_tab[15][i] = ram_read;
+        mem_write_tab[15][i] = ram_store;
+    }
+
     for (i = 0xc0; i <= 0xcf; i++) {
+        /* z80 c128 mode memory map for $c000-$cfff */
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = ram_read;
@@ -425,8 +568,27 @@ void z80mem_initialize(void)
         mem_write_tab[6][i] = top_shared_store;
         mem_read_tab[7][i] = top_shared_read;
         mem_write_tab[7][i] = top_shared_store;
+
+        /* z80 c64 mode memory map for $c000-$cfff */
+        mem_read_tab[8][i] = top_shared_read;
+        mem_write_tab[8][i] = top_shared_store;
+        mem_read_tab[9][i] = top_shared_read;
+        mem_write_tab[9][i] = top_shared_store;
+        mem_read_tab[10][i] = top_shared_read;
+        mem_write_tab[10][i] = top_shared_store;
+        mem_read_tab[11][i] = top_shared_read;
+        mem_write_tab[11][i] = top_shared_store;
+        mem_read_tab[12][i] = top_shared_read;
+        mem_write_tab[12][i] = top_shared_store;
+        mem_read_tab[13][i] = top_shared_read;
+        mem_write_tab[13][i] = top_shared_store;
+        mem_read_tab[14][i] = top_shared_read;
+        mem_write_tab[14][i] = top_shared_store;
+        mem_read_tab[15][i] = top_shared_read;
+        mem_write_tab[15][i] = top_shared_store;
     }
 
+    /* z80 c128 mode memory map for $d000-$dfff */
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
@@ -446,7 +608,28 @@ void z80mem_initialize(void)
         mem_write_tab[7][i] = top_shared_store;
     }
 
+    /* z80 c64 mode memory map for $c000-$cfff, FIXME: this needs to be refined for c64 mode configs, ram/chargen/io */
+    for (i = 0xd0; i <= 0xdf; i++) {
+        mem_read_tab[8][i] = top_shared_read;
+        mem_write_tab[8][i] = top_shared_store;
+        mem_read_tab[9][i] = top_shared_read;
+        mem_write_tab[9][i] = top_shared_store;
+        mem_read_tab[10][i] = top_shared_read;
+        mem_write_tab[10][i] = top_shared_store;
+        mem_read_tab[11][i] = top_shared_read;
+        mem_write_tab[11][i] = top_shared_store;
+        mem_read_tab[12][i] = top_shared_read;
+        mem_write_tab[12][i] = top_shared_store;
+        mem_read_tab[13][i] = top_shared_read;
+        mem_write_tab[13][i] = top_shared_store;
+        mem_read_tab[14][i] = top_shared_read;
+        mem_write_tab[14][i] = top_shared_store;
+        mem_read_tab[15][i] = top_shared_read;
+        mem_write_tab[15][i] = top_shared_store;
+    }
+
     for (i = 0xe0; i <= 0xfe; i++) {
+        /* z80 c128 mode memory map for $e000-$feff */
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = ram_read;
@@ -463,12 +646,51 @@ void z80mem_initialize(void)
         mem_write_tab[6][i] = top_shared_store;
         mem_read_tab[7][i] = top_shared_read;
         mem_write_tab[7][i] = top_shared_store;
+
+        /* z80 c64 mode memory map for $e000-$feff, FIXME: this needs to be refined for c64 mode configs */
+        mem_read_tab[8][i] = top_shared_read;
+        mem_write_tab[8][i] = top_shared_store;
+        mem_read_tab[9][i] = top_shared_read;
+        mem_write_tab[9][i] = top_shared_store;
+        mem_read_tab[10][i] = top_shared_read;
+        mem_write_tab[10][i] = top_shared_store;
+        mem_read_tab[11][i] = top_shared_read;
+        mem_write_tab[11][i] = top_shared_store;
+        mem_read_tab[12][i] = top_shared_read;
+        mem_write_tab[12][i] = top_shared_store;
+        mem_read_tab[13][i] = top_shared_read;
+        mem_write_tab[13][i] = top_shared_store;
+        mem_read_tab[14][i] = top_shared_read;
+        mem_write_tab[14][i] = top_shared_store;
+        mem_read_tab[15][i] = top_shared_read;
+        mem_write_tab[15][i] = top_shared_store;
     }
 
-    for (j = 0; j < NUM_CONFIGS; j++) {
+    /* z80 c128 mode memory map for $ff00-$ffff */
+    for (j = 0; j < NUM_Z80_C128MODE_CONFIGS; j++) {
         mem_read_tab[j][0xff] = mmu_ffxx_read_z80;
         mem_write_tab[j][0xff] = mmu_ffxx_store;
+    }
 
+    /* z80 c64 mode memory map for $ff00-$ffff, FIXME: this needs to be refined for c64 mode configs */
+    mem_read_tab[8][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[8][0xff] = mmu_ffxx_store;
+    mem_read_tab[9][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[9][0xff] = mmu_ffxx_store;
+    mem_read_tab[10][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[10][0xff] = mmu_ffxx_store;
+    mem_read_tab[11][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[11][0xff] = mmu_ffxx_store;
+    mem_read_tab[12][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[12][0xff] = mmu_ffxx_store;
+    mem_read_tab[13][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[13][0xff] = mmu_ffxx_store;
+    mem_read_tab[14][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[14][0xff] = mmu_ffxx_store;
+    mem_read_tab[15][0xff] = mmu_ffxx_read_z80;
+    mem_write_tab[15][0xff] = mmu_ffxx_store;
+
+    for (j = 0; j < NUM_CONFIGS; j++) {
         mem_read_tab[j][0x100] = mem_read_tab[j][0x0];
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
     }
@@ -532,6 +754,7 @@ void z80mem_initialize(void)
     io_write_tab[0xdf] = z80_c64io_df00_store;
 }
 
+static int c64mode_bit = 0;
 
 void z80mem_update_config(int config)
 {
@@ -539,6 +762,20 @@ void z80mem_update_config(int config)
     _z80mem_write_tab_ptr = mem_write_tab[config];
     _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
     z80mem_read_limit_tab_ptr = mem_read_limit_tab[config];
+
+    /* when switching to c64 mode, disable mmu i/o access */
+    if (!c64mode_bit && (config & 8)) {
+        io_read_tab[0xd5] = read_unconnected_io;
+        io_write_tab[0xd5] = store_unconnected_io;
+        c64mode_bit = 1;
+    }
+
+    /* when switching to c128 mode, enable mmu i/o access */
+    if (c64mode_bit && !(config & 8)) {
+        io_read_tab[0xd5] = z80_mmu_read;
+        io_write_tab[0xd5] = z80_mmu_store;
+        c64mode_bit = 0;
+    }
 
     z80_resync_limits();
 }

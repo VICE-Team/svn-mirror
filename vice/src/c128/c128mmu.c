@@ -360,6 +360,7 @@ static void mmu_switch_to_c64mode(void)
             c64_mode_bank = ((mmu[0] >> 6) & 0x1);
         }
         in_c64_mode = 1;
+        z80mem_update_config(8 + (mmu_config64 & 7));
     }
     keyboard_alternative_set(1);
     machine_kbdbuf_reset_c64();
