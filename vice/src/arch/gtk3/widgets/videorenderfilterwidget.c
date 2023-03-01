@@ -34,12 +34,11 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "vice_gtk3.h"
 #include "video.h"
 
 #include "videorenderfilterwidget.h"
@@ -52,7 +51,7 @@ static const vice_gtk3_radiogroup_entry_t filters[] = {
     { "Unfiltered",     VIDEO_FILTER_NONE },
     { "CRT emulation",  VIDEO_FILTER_CRT },
     { "Scale2x",        VIDEO_FILTER_SCALE2X },
-    { NULL, -1 }
+    { NULL,             -1 }
 };
 
 
@@ -65,14 +64,22 @@ static const vice_gtk3_radiogroup_entry_t filters[] = {
 GtkWidget *video_render_filter_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *render_widget;
+    GtkWidget *label;
+    GtkWidget *render;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
-    render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
-            "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
-    gtk_widget_set_margin_start(render_widget, 16);
-    gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Render filter</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+    render = vice_gtk3_resource_radiogroup_new_sprintf("%sFilter",
+                                                       filters,
+                                                       GTK_ORIENTATION_VERTICAL,
+                                                       chip);
+    gtk_grid_attach(GTK_GRID(grid), render, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

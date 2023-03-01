@@ -86,7 +86,6 @@ static void on_external_toggled(GtkWidget *radio, gpointer data)
     resources_set_int_sprintf("%sExternalPalette", external, chip_name);
 }
 
-
 /** \brief  Handler for the "changed" event of the palettes combo box
  *
  * \param[in]   combo       combo box
@@ -194,7 +193,6 @@ static GtkWidget *create_combo_box(void)
     return combo;
 }
 
-
 /** \brief  Create "browse ..." button to select a palette file
  *
  * \return  GtkButton
@@ -231,7 +229,6 @@ GtkWidget *video_palette_widget_create(const char *chip)
     vice_gtk3_grid_set_title_margin(grid, 8);
 
     radio_internal = gtk_radio_button_new_with_label(group, "Internal");
-    gtk_widget_set_margin_start(radio_internal, 8);
     radio_external = gtk_radio_button_new_with_label(group, "External");
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_external),
                                 GTK_RADIO_BUTTON(radio_internal));
@@ -241,9 +238,9 @@ GtkWidget *video_palette_widget_create(const char *chip)
     button_custom = create_browse_button();
 
     gtk_grid_attach(GTK_GRID(grid), radio_internal, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), radio_external, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo_external, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), button_custom,  3, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), radio_external, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo_external, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button_custom,  2, 2, 1, 1);
 
     resources_get_int_sprintf("%sExternalPalette", &external, chip);
     if (external) {
