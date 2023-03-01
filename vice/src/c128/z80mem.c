@@ -303,33 +303,22 @@ static void z80_c64io_df00_store(uint16_t adr, uint8_t val)
 /* FIXME: this needs to be refined for the mmu io bit */
 static uint8_t c64mode_colorram_read(uint16_t adr)
 {
-#if 0
-    return colorram_read(adr);
-#endif
-    return lo_read(adr);
+    if (mmu_peek(0xd500) & 1) {
+        return lo_read(adr);
+    } else {
+        return colorram_read(adr);
+    }
 }
 
 /* FIXME: this needs to be refined for the mmu io bit */
 static void c64mode_colorram_store(uint16_t adr, uint8_t val)
 {
-#if 0
-    colorram_store(adr, val);
-#endif
-    lo_store(adr, val);
+    if (mmu_peek(0xd500) & 1) {
+        lo_store(adr, val);
+    } else {
+        colorram_store(adr, val);
+    }
 }
-
-#if 1
-static uint8_t z80_d000_read(uint16_t adr)
-{
-    printf("reading from vicii address %04X\n", adr);
-    return 0;
-}
-
-static void z80_d000_store(uint16_t adr, uint8_t val)
-{
-    printf("writing %02X to vicii address %04X\n", val, adr);
-}
-#endif
 
 static void z80_c64mode_ffxx_store(uint16_t addr, uint8_t value)
 {
