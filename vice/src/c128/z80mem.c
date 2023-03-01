@@ -318,6 +318,19 @@ static void c64mode_colorram_store(uint16_t adr, uint8_t val)
     lo_store(adr, val);
 }
 
+#if 1
+static uint8_t z80_d000_read(uint16_t adr)
+{
+    printf("reading from vicii address %04X\n", adr);
+    return 0;
+}
+
+static void z80_d000_store(uint16_t adr, uint8_t val)
+{
+    printf("writing %02X to vicii address %04X\n", val, adr);
+}
+#endif
+
 static void z80_c64mode_ffxx_store(uint16_t addr, uint8_t value)
 {
     if (addr == 0xff00) {
@@ -619,7 +632,7 @@ void z80mem_initialize(void)
         mem_write_tab[7][i] = top_shared_store;
     }
 
-    /* z80 c64 mode memory map for $d000-$dfff, FIXME: this needs to be refined for c64 mode configs, ram/chargen/io */
+    /* z80 c64 mode memory map for $d000-$dfff */
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[8][i] = top_shared_read;
         mem_write_tab[8][i] = top_shared_store;
@@ -631,12 +644,40 @@ void z80mem_initialize(void)
         mem_write_tab[11][i] = top_shared_store;
         mem_read_tab[12][i] = top_shared_read;
         mem_write_tab[12][i] = top_shared_store;
-        mem_read_tab[13][i] = top_shared_read;
-        mem_write_tab[13][i] = top_shared_store;
-        mem_read_tab[14][i] = top_shared_read;
-        mem_write_tab[14][i] = top_shared_store;
-        mem_read_tab[15][i] = top_shared_read;
-        mem_write_tab[15][i] = top_shared_store;
+    }
+    for (j = 13; j <= 15; j++) {
+       mem_read_tab[j][0xd0] = z80_c64io_d000_read;
+       mem_write_tab[j][0xd0] = z80_c64io_d000_store;
+       mem_read_tab[j][0xd1] = z80_c64io_d100_read;
+       mem_write_tab[j][0xd1] = z80_c64io_d100_store;
+       mem_read_tab[j][0xd2] = z80_c64io_d200_read;
+       mem_write_tab[j][0xd2] = z80_c64io_d200_store;
+       mem_read_tab[j][0xd3] = z80_c64io_d300_read;
+       mem_write_tab[j][0xd3] = z80_c64io_d300_store;
+       mem_read_tab[j][0xd4] = z80_c64io_d400_read;
+       mem_write_tab[j][0xd4] = z80_c64io_d400_store;
+       mem_read_tab[j][0xd5] = read_unconnected_io;
+       mem_write_tab[j][0xd5] = store_unconnected_io;
+       mem_read_tab[j][0xd6] = z80_vdc_read;
+       mem_write_tab[j][0xd6] = z80_vdc_store;
+       mem_read_tab[j][0xd7] = z80_c64io_d700_read;
+       mem_write_tab[j][0xd7] = z80_c64io_d700_store;
+       mem_read_tab[j][0xd8] = z80_colorram_read;
+       mem_write_tab[j][0xd8] = z80_colorram_store;
+       mem_read_tab[j][0xd9] = z80_colorram_read;
+       mem_write_tab[j][0xd9] = z80_colorram_store;
+       mem_read_tab[j][0xda] = z80_colorram_read;
+       mem_write_tab[j][0xda] = z80_colorram_store;
+       mem_read_tab[j][0xdb] = z80_colorram_read;
+       mem_write_tab[j][0xdb] = z80_colorram_store;
+       mem_read_tab[j][0xdc] = z80_cia1_read;
+       mem_write_tab[j][0xdc] = z80_cia1_store;
+       mem_read_tab[j][0xdd] = z80_cia2_read;
+       mem_write_tab[j][0xdd] = z80_cia2_store;
+       mem_read_tab[j][0xde] = z80_c64io_de00_read;
+       mem_write_tab[j][0xde] = z80_c64io_de00_store;
+       mem_read_tab[j][0xdf] = z80_c64io_df00_read;
+       mem_write_tab[j][0xdf] = z80_c64io_df00_store;
     }
 
     for (i = 0xe0; i <= 0xfe; i++) {
@@ -658,7 +699,7 @@ void z80mem_initialize(void)
         mem_read_tab[7][i] = top_shared_read;
         mem_write_tab[7][i] = top_shared_store;
 
-        /* z80 c64 mode memory map for $e000-$feff, FIXME: this needs to be refined for c64 mode configs */
+        /* z80 c64 mode memory map for $e000-$feff */
         mem_read_tab[8][i] = top_shared_read;
         mem_write_tab[8][i] = top_shared_store;
         mem_read_tab[9][i] = top_shared_read;
@@ -683,7 +724,7 @@ void z80mem_initialize(void)
         mem_write_tab[j][0xff] = mmu_ffxx_store;
     }
 
-    /* z80 c64 mode memory map for $ff00-$ffff, FIXME: this needs to be refined for c64 mode configs */
+    /* z80 c64 mode memory map for $ff00-$ffff */
     mem_read_tab[8][0xff] = top_shared_read;
     mem_write_tab[8][0xff] = z80_c64mode_ffxx_store;
     mem_read_tab[9][0xff] = top_shared_read;
