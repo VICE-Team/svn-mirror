@@ -50,19 +50,6 @@
 #define SPIN_STEP   1
 
 
-/** \brief  Create spin button to set the buffer size
- *
- * \return  GtkSpinButton
- */
-static GtkWidget *create_spinbutton(void)
-{
-    return vice_gtk3_resource_spin_int_new("SoundBufferSize",
-                                           SPIN_MIN,
-                                           SPIN_MAX,
-                                           SPIN_STEP);
-}
-
-
 /** \brief  Create a widget to set the "SoundBufferSize" resource
  *
  * \return  grid
@@ -70,21 +57,28 @@ static GtkWidget *create_spinbutton(void)
 GtkWidget *sound_buffer_size_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *spin;
     GtkWidget *msec;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Buffer size", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    spin = create_spinbutton();
-    gtk_widget_set_margin_start(spin, 8);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Buffer size</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    msec = gtk_label_new("milliseconds");
+    spin = vice_gtk3_resource_spin_int_new("SoundBufferSize",
+                                           SPIN_MIN,
+                                           SPIN_MAX,
+                                           SPIN_STEP);
+
+    msec = gtk_label_new("(in milliseconds)");
     gtk_widget_set_halign(msec, GTK_ALIGN_CENTER);
-    gtk_widget_set_margin_start(msec, 8);
 
-    gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), msec, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), spin,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), msec,  0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

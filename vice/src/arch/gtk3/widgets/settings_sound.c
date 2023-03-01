@@ -32,23 +32,14 @@
 
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "lib.h"
-#include "ui.h"
-#include "resources.h"
-#include "vsync.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-
+#include "soundbuffersizewidget.h"
 #include "sounddriverwidget.h"
+#include "soundfragmentsizewidget.h"
 #include "soundoutputmodewidget.h"
 #include "soundsampleratewidget.h"
-#include "soundbuffersizewidget.h"
-#include "soundfragmentsizewidget.h"
+#include "vice_gtk3.h"
 
 #include "settings_sound.h"
 
@@ -110,7 +101,7 @@ GtkWidget *settings_sound_widget_create(GtkWidget *widget)
     GtkWidget *enabled_check;
 
     /* outer grid: contains the checkbox and an 'inner' grid for the widgets */
-    outer = vice_gtk3_grid_new_spaced(8, 0);
+    outer = gtk_grid_new();
 
     /* add checkbox for 'sound enabled' */
     enabled_check = vice_gtk3_resource_check_button_new("Sound",
