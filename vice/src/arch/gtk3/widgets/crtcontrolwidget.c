@@ -134,7 +134,6 @@
     "  margin-bottom: -8px;\n" \
     "}"
 
-
 /** \brief  CSS used to tweak looks of CRT sliders in the settings dialog
  *
  * We use monospace for the value labels to keep them aligned on the decimal
@@ -145,7 +144,6 @@
     "  font-family: monospace;\n" \
     "}"
 
-
 /** \brief  CSS for the "U-only delayline" check button on the status bar
  */
 #define CHECKBUTTON_CSS_STATUSBAR \
@@ -155,6 +153,18 @@
     "checkbutton check {\n" \
     "  min-width: 12px;\n" \
     "  min-height: 12px;\n" \
+    "}"
+
+/** \brief  CSS for the reset button when used on the status bar
+ */
+#define BUTTON_CSS_STATUSBAR \
+    "button {\n" \
+    "  min-width: 12px;\n" \
+    "  min-height: 12px;\n" \
+    "  padding-top: 2px;\n " \
+    "  padding-left: 2px;\n " \
+    "  padding-bottom: 2px;\n " \
+    "  padding-right: 2px;\n " \
     "}"
 
 /** \brief  CSS for the labels
@@ -216,16 +226,19 @@ static const crt_control_info_t control_info[RESOURCE_COUNT] = {
 };
 
 
-/** \brief  CSS provider for labels
- */
+/** \brief  CSS provider for labels */
 static GtkCssProvider *label_css = NULL;
 
-/** \brief  CSS provider for scales in the CRT widget for the statusbar
- */
+/** \brief  CSS provider for the reset button on the status bar */
+static GtkCssProvider *button_css = NULL;
+
+/** \brief  CSS provider for the U-delayline check button on the status bar */
+static GtkCssProvider *checkbutton_css = NULL;
+
+/** \brief  CSS provider for scales in the CRT widget for the statusbar */
 static GtkCssProvider *scale_css_statusbar = NULL;
 
-/** \brief  CSS provider for scales in the settings dialog
- */
+/** \brief  CSS provider for scales in the settings dialog */
 static GtkCssProvider *scale_css_dialog = NULL;
 
 /** \brief  MachineVideoStandard resource value on construction */
@@ -285,6 +298,52 @@ static void on_reset_clicked(GtkWidget *button, gpointer data)
 static void on_widget_destroy(GtkWidget *widget, gpointer data)
 {
     lib_free(data);
+}
+
+
+/** \brief  Create reusable CSS providers for the widgets
+ *
+ * Create CSS providers once when needed and only unref on emulator shutdown.
+ * Keeping them around after a widget using them has been destroyed avoids
+ * having to recreate them every time a dialog/widget is recreated that uses
+ * said widget.
+ *
+ * \return  TRUE when all CSS was successfully parsed
+ */
+static gboolean create_css_providers(void)
+{
+    if (label_css == NULL) {
+        label_css = vice_gtk3_css_provider_new(LABEL_CSS);
+        if (label_css == NULL) {
+            return FALSE;
+        }
+    }
+    if (button_css == NULL) {
+        button_css = vice_gtk3_css_provider_new(BUTTON_CSS_STATUSBAR);
+        if (button_css == NULL) {
+            return FALSE;
+        }
+    }
+    if (checkbutton_css == NULL) {
+        checkbutton_css = vice_gtk3_css_provider_new(CHECKBUTTON_CSS_STATUSBAR);
+        if (checkbutton_css == NULL) {
+            return FALSE;
+        }
+    }
+
+    if (scale_css_statusbar == NULL) {
+        scale_css_statusbar = vice_gtk3_css_provider_new(SCALE_CSS_STATUSBAR);
+        if (scale_css_statusbar == NULL) {
+            return FALSE;
+        }
+    }
+    if (scale_css_dialog == NULL) {
+        scale_css_dialog = vice_gtk3_css_provider_new(SCALE_CSS_DIALOG);
+        if (scale_css_dialog == NULL) {
+            return FALSE;
+        }
+    }
+    return TRUE;
 }
 
 /** \brief  Create right-aligned label with a smaller font
@@ -479,6 +538,69 @@ static crt_control_data_t *create_control_data(const char *chip)
     return data;
 }
 
+/** \brief  Create header with label and reset button
+ *
+ * Create grid with label mentioning \a chip and reset button, adjust size
+ * depending on whether \a minimal is `TRUE`.
+ *
+ * \param[in]   chip    video chip name
+ * \param[in]   minimal reduce size of widgets for use on the status bar
+ * \param[in]   data    CRT controls runtime data object
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_header(const char         *chip,
+                                gboolean            minimal,
+                                crt_control_data_t *data)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *button;
+    GtkWidget *image;
+    char       buffer[256];
+
+    grid = gtk_grid_new();
+    gtk_widget_set_hexpand(grid, TRUE);
+
+    /* header label */
+    if (minimal) {
+        g_snprintf(buffer, sizeof buffer,
+                   "<small><b>CRT settings (%s)</b></small>", chip);
+    } else {
+        g_snprintf(buffer, sizeof buffer, "<b>CRT settings (%s)</b>", chip);
+    }
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, TRUE);
+
+    /* reset button */
+    button = gtk_button_new();
+    image  = gtk_image_new_from_icon_name("edit-undo-symbolic",
+                                           GTK_ICON_SIZE_BUTTON);
+    if (minimal) {
+        gtk_image_set_pixel_size(GTK_IMAGE(image), 8);
+        /* We have to use CSS here: none of the Gtk size/margin/alignment
+         * setters work to reduce size from what Gtk considers minimal. */
+        vice_gtk3_css_provider_add(button, button_css);
+        gtk_widget_set_margin_top(button, 2);
+        gtk_widget_set_margin_start(button, 2);
+        gtk_widget_set_margin_end(button, 2);
+        gtk_widget_set_margin_bottom(button, 2);
+    }
+    gtk_button_set_image(GTK_BUTTON(button), image);
+    gtk_widget_set_halign(button, GTK_ALIGN_END);
+
+    g_signal_connect(button,
+                     "clicked",
+                     G_CALLBACK(on_reset_clicked),
+                     (gpointer)data);
+
+    gtk_grid_attach(GTK_GRID(grid), label,  0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
+    return grid;
+}
+
 
 /** \brief  Create CRT control widget for \a chip
  *
@@ -497,9 +619,7 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
                                      gboolean    minimal)
 {
     GtkWidget          *grid;
-    GtkWidget          *label;
-    GtkWidget          *button;
-    gchar               buffer[256];
+    GtkWidget          *header;
     crt_control_data_t *data;
     int                 row;
 
@@ -511,44 +631,20 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
     }
 
     /* create reusable CSS providers */
-    if (label_css == NULL) {
-        label_css = vice_gtk3_css_provider_new(LABEL_CSS);
-        if (label_css == NULL) {
-            return NULL;
-        }
-    }
-    if (scale_css_statusbar == NULL) {
-        scale_css_statusbar = vice_gtk3_css_provider_new(SCALE_CSS_STATUSBAR);
-        if (scale_css_statusbar == NULL) {
-            return NULL;
-        }
-    }
-    if (scale_css_dialog == NULL) {
-        scale_css_dialog = vice_gtk3_css_provider_new(SCALE_CSS_DIALOG);
-        if (scale_css_dialog == NULL) {
-            return NULL;
-        }
+    if (!create_css_providers()) {
+        return NULL;
     }
 
     /* this avoids obtaining the vice lock in each is_pal() call */
     resources_get_int("MachineVideoStandard", &standard);
-
     data = create_control_data(chip);
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
-    gtk_widget_set_margin_start(grid, 8);
-    gtk_widget_set_margin_end(grid, 8);
-    if (minimal) {
-        g_snprintf(buffer, sizeof buffer,
-                   "<small><b>CRT settings (%s)</b></small>", chip);
-    } else {
-        g_snprintf(buffer, sizeof buffer, "<b>CRT settings (%s)</b>", chip);
-    }
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), minimal ? 4 : 8);
 
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), buffer);
-    gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    /* header */
+    header = create_header(chip, minimal, data);
+    gtk_grid_attach(GTK_GRID(grid), header, 0, 0, minimal ? 4 : 2, 1);
 
     /* add scales and spin buttons */
     row = add_sliders(GTK_GRID(grid), data, minimal);
@@ -556,7 +652,7 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
     /* add U-only delayline check button */
     data->delayline = create_delayline_widget(chip);
     if (minimal) {
-        vice_gtk3_css_add(data->delayline, CHECKBUTTON_CSS_STATUSBAR);
+        vice_gtk3_css_provider_add(data->delayline, checkbutton_css);
         gtk_grid_attach(GTK_GRID(grid), data->delayline, 2, row - 1, 2, 1);
     } else {
         gtk_widget_set_margin_top(data->delayline, 8);
@@ -565,14 +661,6 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
     /* enable if PAL */
     gtk_widget_set_sensitive(data->delayline, is_pal(chip));
     row++;
-
-    button = gtk_button_new_with_label("Reset");
-    gtk_widget_set_halign(button, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), button, minimal ? 3 : 2, 0, 1, 1);
-    g_signal_connect(button,
-                     "clicked",
-                     G_CALLBACK(on_reset_clicked),
-                     (gpointer)data);
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect_unlocked(grid,
@@ -611,14 +699,17 @@ void crt_control_widget_shutdown(void)
 {
     if (label_css != NULL) {
         g_object_unref(label_css);
-        label_css = NULL;
+    }
+    if (button_css != NULL) {
+        g_object_unref(button_css);
+    }
+    if (checkbutton_css != NULL) {
+        g_object_unref(button_css);
     }
     if (scale_css_statusbar != NULL) {
         g_object_unref(scale_css_statusbar);
-        scale_css_statusbar = NULL;
     }
     if (scale_css_dialog != NULL) {
         g_object_unref(scale_css_dialog);
-        scale_css_dialog = NULL;
     }
 }
