@@ -51,20 +51,28 @@ static const vice_gtk3_radiogroup_entry_t output_modes[] = {
 /** \brief  Create widget for "Sound output mode"
  *
  * A simple list of radio buttons for sound output mode: System, Mono or Stereo
+ * and a header.
  *
- * \return  grid
+ * \return  GtkGrid
  */
 GtkWidget *sound_output_mode_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Output mode", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Output mode</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+
     group = vice_gtk3_resource_radiogroup_new("SoundOutput",
                                               output_modes,
                                               GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

@@ -83,7 +83,7 @@ static GtkWidget *create_device_combobox(void)
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), current_device);
 
     /* now connect event handler */
-    g_signal_connect(combo,
+    g_signal_connect(G_OBJECT(combo),
                      "changed",
                      G_CALLBACK(on_device_changed),
                      NULL);
@@ -100,7 +100,7 @@ static GtkWidget *create_argument_entry(void)
     return vice_gtk3_resource_entry_new("SoundDeviceArg");
 }
 
-/** \brief  Create left-aligned, 8 pixels left-indented label
+/** \brief  Create left-aligned labe with Pango markup
  *
  * \param[in]   text    label text
  *
@@ -108,10 +108,10 @@ static GtkWidget *create_argument_entry(void)
  */
 static GtkWidget *create_label(const char *text)
 {
-    GtkWidget *label = gtk_label_new(text);
+    GtkWidget *label = gtk_label_new(NULL);
 
+    gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
     return label;
 }
 
@@ -128,7 +128,12 @@ GtkWidget *sound_driver_widget_create(void)
     GtkWidget *args;
 
     /* row spacing of 8 works fine here to separate the text entries */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "Host device", 2);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = create_label("<b>Host device</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
 
     label  = create_label("Device name");
     device = create_device_combobox();
