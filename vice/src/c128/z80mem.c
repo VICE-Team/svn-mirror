@@ -299,25 +299,20 @@ static void z80_c64io_df00_store(uint16_t adr, uint8_t val)
 #define z80_c64io_df00_store  c64io_df00_store
 #endif
 
-
-/* FIXME: this needs to be refined for the mmu io bit */
 static uint8_t c64mode_colorram_read(uint16_t adr)
 {
-    if (mmu_peek(0xd500) & 1) {
-        return lo_read(adr);
-    } else {
+    if (!(mmu_peek(0xd500) & 1)) {
         return colorram_read(adr);
     }
+    return lo_read(adr);
 }
 
-/* FIXME: this needs to be refined for the mmu io bit */
 static void c64mode_colorram_store(uint16_t adr, uint8_t val)
 {
-    if (mmu_peek(0xd500) & 1) {
-        lo_store(adr, val);
-    } else {
+    if (!(mmu_peek(0xd500) & 1)) {
         colorram_store(adr, val);
     }
+    lo_store(adr, val);
 }
 
 static void z80_c64mode_ffxx_store(uint16_t addr, uint8_t value)
@@ -327,6 +322,12 @@ static void z80_c64mode_ffxx_store(uint16_t addr, uint8_t value)
     } else {
         top_shared_store(addr, value);
     }
+}
+
+static void mm_colorram_store(uint16_t adr, uint8_t val)
+{
+    colorram_store(adr, val);
+    lo_store(adr, val);
 }
 
 void z80mem_initialize(void)
@@ -457,19 +458,19 @@ void z80mem_initialize(void)
         mem_read_tab[0][i] = ram_read;
         mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = colorram_read;
-        mem_write_tab[1][i] = colorram_store;
+        mem_write_tab[1][i] = mm_colorram_store;
         mem_read_tab[2][i] = lo_read;
         mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = colorram_read;
-        mem_write_tab[3][i] = colorram_store;
+        mem_write_tab[3][i] = mm_colorram_store;
         mem_read_tab[4][i] = ram_read;
         mem_write_tab[4][i] = ram_store;
         mem_read_tab[5][i] = colorram_read;
-        mem_write_tab[5][i] = colorram_store;
+        mem_write_tab[5][i] = mm_colorram_store;
         mem_read_tab[6][i] = lo_read;
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = colorram_read;
-        mem_write_tab[7][i] = colorram_store;
+        mem_write_tab[7][i] = mm_colorram_store;
 
         /* z80 c128 mode memory map for $1000-$13ff */
         mem_read_tab[8][i] = c64mode_colorram_read;
