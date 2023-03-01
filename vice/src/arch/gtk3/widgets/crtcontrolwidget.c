@@ -704,7 +704,7 @@ void crt_control_widget_shutdown(void)
         g_object_unref(button_css);
     }
     if (checkbutton_css != NULL) {
-        g_object_unref(button_css);
+        g_object_unref(checkbutton_css);
     }
     if (scale_css_statusbar != NULL) {
         g_object_unref(scale_css_statusbar);
