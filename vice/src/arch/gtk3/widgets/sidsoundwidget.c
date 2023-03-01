@@ -60,31 +60,50 @@
 
 #include "sidsoundwidget.h"
 
+
+/** \brief  CSS applied to scale to fix up value display
+ *
+ * Fixed width font to get proper alignment of the value display of the sliders,
+ * slightly reduced font size to try to keep it roughly the same size as the
+ * sans-serif fonts used in the Adwaita theme (on Gnome Shell anyway).
+ */
+#define SCALE_CSS \
+    "scale value {\n" \
+    "  font-family: monospace;\n" \
+    "  font-size: 90%;\n" \
+    "}"
+
+
 #ifdef HAVE_RESID
 /** \brief  ReSID filter slider declaration
  */
 typedef struct slider_s {
     const char *label;      /**< label text */
     const char *resource;   /**< resource name */
+    const char *format;     /**< format string for Gtk.Scale::draw_value */
     int         min;        /**< scale minimum value */
     int         max;        /**< scale maximum value */
     int         step;       /**< scale stepping */
 } slider_t;
 
-/** \brief  ReSID filter sliders for 6581 */
+/** \brief  ReSID filter sliders for 6581
+ *
+ * Extra leading space in format string is used to keep the slider knob from
+ * touching the text.
+ */
 static const slider_t sliders_6581[] = {
-    { "6581 passband", "SidResidPassband",           0,   90, 5 },
-    { "6581 gain",     "SidResidGain",              90,  100, 1 },
-    { "6581 bias",     "SidResidFilterBias",     -5000, 5000, 1 },
-    { NULL,            NULL,                         0,    0, 0 }
+    { "6581 passband", "SidResidPassband",       " %5.0f",      0,   90, 5 },
+    { "6581 gain",     "SidResidGain",           " %5.0f",     90,  100, 1 },
+    { "6581 bias",     "SidResidFilterBias",     " %+5.0f", -5000, 5000, 1 },
+    { NULL,            NULL,                     NULL,          0,    0, 0 }
 };
 
 /** \brief  ReSID filter sliders for 8580 */
 static const slider_t sliders_8580[] = {
-    { "8580 passband", "SidResid8580Passband",       0,   90, 5 },
-    { "8580 gain",     "SidResid8580Gain",          90,  100, 1 },
-    { "8580 bias",     "SidResid8580FilterBias", -5000, 5000, 1 },
-    { NULL,            NULL,                         0,    0, 0 }
+    { "8580 passband", "SidResid8580Passband",   " %5.0f",      0,   90, 5 },
+    { "8580 gain",     "SidResid8580Gain",       " %5.0f",     90,  100, 1 },
+    { "8580 bias",     "SidResid8580FilterBias", " %+5.0f", -5000, 5000, 1 },
+    { NULL,            NULL,                     NULL,          0,    0, 0 }
 };
 
 /** \brief  Values for the "SidResidSampling" resource
@@ -174,6 +193,15 @@ static void on_sid_count_changed(GtkWidget *widget, gpointer data)
     update_sid_addresses_sensitivity(count);
 }
 
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
 #ifdef HAVE_RESID
 /** \brief  Extra callback for the SID engine/model widget
  *
@@ -212,15 +240,18 @@ static void engine_model_changed_callback(int engine, int model)
 static GtkWidget *create_resid_sampling_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "ReSID sampling method", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
+    label = label_helper("<b>ReSID sampling method</b>");
     group = vice_gtk3_resource_radiogroup_new("SidResidSampling",
                                               resid_sampling_modes,
                                               GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -234,6 +265,7 @@ static GtkWidget *create_resid_sampling_widget(void)
 static GtkWidget *create_num_sids_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *spin;
     int        max_sids = SOUND_SIDS_MAX;
 
@@ -241,19 +273,21 @@ static GtkWidget *create_num_sids_widget(void)
         max_sids = SOUND_SIDS_MAX_PSID;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Extra SIDs", 2);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>Extra SIDs</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     /* create spinbutton for the 'SidStereo' resource */
     spin = vice_gtk3_resource_spin_int_new("SidStereo", 0, max_sids - 1, 1);
     num_sids_widget = spin;
-    gtk_widget_set_margin_start(spin, 8);
     gtk_widget_set_halign(spin, GTK_ALIGN_START);
     gtk_widget_set_hexpand(spin, FALSE);
-    g_signal_connect(spin,
-                     "value-changed",
-                     G_CALLBACK(on_sid_count_changed),
-                     NULL);
+    g_signal_connect_unlocked(G_OBJECT(spin),
+                              "value-changed",
+                              G_CALLBACK(on_sid_count_changed),
+                              NULL);
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -292,6 +326,23 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 #ifdef HAVE_RESID
+/** \brief  Virtual method '::format_value' of the GtkScale widgets
+ *
+ * Format \a value printed next to the \a scale, to keep all sliders equal
+ * in length.
+ *
+ * \param[in]   scale   scale widget
+ * \param[in]   value   value to format
+ *
+ * \return  heap-allocated string, freed by the GtkScale
+ */
+static gchar *on_format_value(GtkScale *scale, gdouble value)
+{
+    const char *format = g_object_get_data(G_OBJECT(scale), "FormatString");
+
+    return g_strdup_printf(format, value);
+}
+
 /** \brief  Handler for the 'clicked' event of a reset button
  *
  * \param[in]   button  reset button (unused)
@@ -312,15 +363,15 @@ static GtkWidget *create_reset_button(GtkWidget *slider)
 {
     GtkWidget *button;
 
-    button = gtk_button_new_with_label("Reset");
+    button = gtk_button_new_from_icon_name("edit-undo-symbolic",
+                                           GTK_ICON_SIZE_BUTTON);
     gtk_widget_set_valign(button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(button, FALSE);
 
-    g_signal_connect(button,
+    g_signal_connect(G_OBJECT(button),
                      "clicked",
                      G_CALLBACK(on_reset_clicked),
                      (gpointer)slider);
-    gtk_widget_show(button);
     return button;
 }
 
@@ -336,20 +387,34 @@ static GtkWidget *create_reset_button(GtkWidget *slider)
 static GtkWidget *create_sliders(const slider_t *slider_decls,
                                  const char     *title)
 {
-    GtkWidget *grid;
-    int        i;
+    GtkWidget      *grid;
+    GtkWidget      *label;
+    GtkCssProvider *provider;
+    int             row = 0;
+    int             i;
+    char            buffer[256];
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 3);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    provider = vice_gtk3_css_provider_new(SCALE_CSS);
+    if (provider == NULL) {
+        return NULL;
+    }
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+
+    g_snprintf(buffer, sizeof buffer, "<b>%s</b>", title);
+    label = label_helper(buffer);
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 3, 1);
+    row++;
 
     for (i = 0; slider_decls[i].label != NULL; i++) {
-        GtkWidget      *label;
         GtkWidget      *scale;
         GtkWidget      *button;
         const slider_t *decl;
 
         decl   = &slider_decls[i];
-        label  = gtk_label_new(decl->label);
+        label  = label_helper(decl->label);
         scale  = vice_gtk3_resource_scale_int_new(decl->resource,
                                                   GTK_ORIENTATION_HORIZONTAL,
                                                   decl->min,
@@ -357,15 +422,31 @@ static GtkWidget *create_sliders(const slider_t *slider_decls,
                                                   decl->step);
         button = create_reset_button(scale);
 
-        gtk_widget_set_halign(label, GTK_ALIGN_START);
-        gtk_widget_set_margin_start(label, 8);
+        /* needed since we use no-show-all */
         gtk_widget_show(label);
-        gtk_widget_set_hexpand(scale, TRUE);
+        gtk_widget_show(button);
 
-        gtk_grid_attach(GTK_GRID(grid), label,  0, i + 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), scale,  1, i + 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), button, 2, i + 1, 1, 1);
+        gtk_widget_set_hexpand(scale, TRUE);
+        gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
+        gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+        vice_gtk3_css_provider_add(scale, provider);
+        /* store pointer to format string in the object keystore so we can
+         * access the string in the format_value virtual method: */
+        g_object_set_data(G_OBJECT(scale), "FormatString", (gpointer)decl->format);
+        g_signal_connect_unlocked(G_OBJECT(scale),
+                                  "format-value",
+                                  G_CALLBACK(on_format_value),
+                                  NULL);    /* cannot use data arg, not used
+                                               in virtual method */
+
+        gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), scale,  1, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), button, 2, row, 1, 1);
+        row++;
     }
+
+    g_object_unref(provider);
+
     return grid;
 }
 #endif
