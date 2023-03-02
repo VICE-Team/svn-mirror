@@ -266,6 +266,9 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
     gtk_grid_attach(GTK_GRID(layout),
                     device_widgets[JOYPORT_1],
                     0, row, 1, 1);
+    /* add spacing */
+    gtk_widget_set_margin_bottom(device_widgets[JOYPORT_1], 8);
+
     /* control port #2 */
     if (count > 1) {
         device_widgets[JOYPORT_2] = joystick_device_widget_create(
@@ -311,6 +314,7 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
         c ^= 1; /* switch column position */
         if (c == 0) {
             r++;    /* update row position */
+            gtk_widget_set_margin_bottom(device_widgets[i + 2], 8);
         }
     }
 
