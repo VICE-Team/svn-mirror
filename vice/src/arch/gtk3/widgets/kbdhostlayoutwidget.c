@@ -93,19 +93,24 @@ static vice_gtk3_combo_entry_int_t *create_combo_entries(void)
 GtkWidget *kbdhostlayout_widget_create(void)
 {
     GtkWidget                   *grid;
+    GtkWidget                   *label;
     GtkWidget                   *combo;
     vice_gtk3_combo_entry_int_t *entries;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Host keyboard layout", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Host keyboard layout</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     entries = create_combo_entries();
     combo = vice_gtk3_resource_combo_int_new("KeyboardMapping", entries);
     lib_free(entries);
-    gtk_widget_set_margin_start(combo, 8);
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
-    g_signal_connect(combo,
+    g_signal_connect(G_OBJECT(combo),
                      "changed",
                      G_CALLBACK(on_combo_changed),
                      NULL);

@@ -41,6 +41,7 @@
 #include "kbdmappingwidget.h"
 #include "keyboard.h"
 #include "keymap.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "resources.h"
 #include "uistatusbar.h"
@@ -48,6 +49,13 @@
 #include "vice_gtk3.h"
 
 #include "settings_keyboard.h"
+
+
+/** \brief  Last directory of the save-as dialog */
+static char *last_dir = NULL;
+
+/** \brief  Last filename of the save-as dialog */
+static char *last_file = NULL;
 
 
 /** \brief  Toggle statusbar keyboard debugging widget display
@@ -69,8 +77,8 @@ static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
  * \param[in]       data        extra data (unused)
  */
 static void save_filename_callback(GtkDialog *dialog,
-                                   gchar *filename,
-                                   gpointer data)
+                                   gchar     *filename,
+                                   gpointer   data)
 {
     if (filename != NULL) {
         char *path;
@@ -85,6 +93,7 @@ static void save_filename_callback(GtkDialog *dialog,
             vice_gtk3_message_info(
                     "Succesfully saved current keymap",
                     "Wrote current keymap as '%s'.", path);
+            lastdir_update(GTK_WIDGET(dialog), &last_dir, &last_file);
         } else {
             vice_gtk3_message_error("Failed to save custom keymap",
                     "Error %d: %s", errno, strerror(errno));
@@ -111,6 +120,7 @@ static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
             save_filename_callback, /* filename callback */
             NULL                    /* extra data */
          );
+    lastdir_set(dialog, &last_dir, &last_file);
     gtk_widget_show(dialog);
 }
 
@@ -129,7 +139,9 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     GtkWidget *status;
     GtkWidget *save;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     mapping = kbdmapping_widget_create(widget);
 
@@ -138,7 +150,7 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     gtk_widget_set_hexpand(save, FALSE);
     gtk_widget_set_halign(save, GTK_ALIGN_END);
     gtk_widget_set_margin_top(save, 8);
-    g_signal_connect(save,
+    g_signal_connect(G_OBJECT(save),
                      "clicked",
                      G_CALLBACK(on_save_custom_keymap_clicked),
                      NULL);
@@ -149,7 +161,7 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     status = vice_gtk3_resource_check_button_new("KbdStatusbar",
                                                  "Enable keyboard debugging on statusbar");
     gtk_widget_set_margin_top(status, 16);
-    g_signal_connect(status,
+    g_signal_connect(G_OBJECT(status),
                      "toggled",
                      G_CALLBACK(on_kbd_debug_toggled),
                      NULL);
@@ -164,4 +176,15 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     kbdmapping_widget_update();
 
     return grid;
+}
+
+
+/** \brief  Free last used directory and file strings
+ *
+ * This function should be called on emulator shutdown to clean up the resources
+ * used by the last used directory/file strings.
+ */
+void settings_keyboard_widget_shutdown(void)
+{
+    lastdir_shutdown(&last_dir, &last_file);
 }
