@@ -46,5 +46,7 @@ void       vice_gtk3_resource_filechooser_set_filter(GtkWidget   *widget,
                                                      gboolean     show_patterns);
 void       vice_gtk3_resource_filechooser_set_custom_title(GtkWidget  *widget,
                                                            const char *title);
+void       vice_gtk3_resource_filechooser_set_callback(GtkWidget *widget,
+                                                       void (*callback)(GtkEntry *, gchar *));
 
 #endif
