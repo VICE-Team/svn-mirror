@@ -174,7 +174,7 @@ make_app_bundle() {
     -R \
     -B \
     "$app_path" \
-    2&>1 > $output
+    2>&1 > $output
   
   PLATYPUS_STATUS=$?
   
