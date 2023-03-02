@@ -108,19 +108,20 @@ void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file)
     gchar *new_dir;
     gchar *new_file;
 
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    new_file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
+    if (last_dir != NULL) {
+        new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
+        if (new_dir != NULL) {
+            /* clean up previous value */
             if (*last_dir != NULL) {
                 g_free(*last_dir);
             }
             *last_dir = new_dir;
         }
     }
-    if (new_file != NULL) {
-        if (last_file != NULL) {
+
+    if (last_file != NULL) {
+        new_file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+        if (new_file != NULL) {
             if (*last_file != NULL) {
                 g_free(*last_file);
             }

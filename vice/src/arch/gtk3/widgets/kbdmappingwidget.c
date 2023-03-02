@@ -67,70 +67,78 @@ static const vice_gtk3_radiogroup_entry_t mappings[] = {
 static GtkWidget *radio_group = NULL;
 
 
-/** \brief  Custom callback for the symbolic user keymap browser
+/** \brief  Extra callback for the symbolic user keymap file chooser
  *
- * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   filename    filename returned by the widget (unused)
+ * \param[in]   chooser     resource file chooser widget (ignored)
+ * \param[in]   filename    new resource value
  */
-static void open_sym_file_callback(GtkWidget *widget, gpointer filename)
+static void open_sym_file_callback(GtkEntry *chooser, gchar *filename)
 {
     vice_gtk3_resource_radiogroup_set(radio_group, KBD_INDEX_USERSYM);
+    g_free(filename);
 }
 
-/** \brief  Custom callback for the positional user keymap browser
+/** \brief  Extra callback for the positional user keymap file chooser
  *
- * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   filename    filename returned by the widget (unused)
+ * \param[in]   chooser     resource file chooser widget (ignored)
+ * \param[in]   filename    new resource value
  */
-static void open_pos_file_callback(GtkWidget *widget, gpointer filename)
+static void open_pos_file_callback(GtkEntry *chooser, gchar *filename)
 {
     vice_gtk3_resource_radiogroup_set(radio_group, KBD_INDEX_USERPOS);
+    g_free(filename);
 }
 
-/** \brief  Create resource browser widget for the user-defined symbolic keymap
+/** \brief  Create resource file chooser widget for the user-defined symbolic keymap
  *
  * \return  resource browser widget
  */
 static GtkWidget *create_symbolic_keymap_browser(void)
 {
-    GtkWidget *browser;
-    char *path;
+    GtkWidget *chooser;
+    char      *path;
 
     /* determine path to machine dir */
     path = archdep_get_vice_machinedir();
 
-    browser = vice_gtk3_resource_browser_new("KeymapUserSymFile",
-                                             keymap_patterns,
-                                             "VICE keymap files",
-                                             "Select user-defined symbolic keymap",
-                                             NULL,
-                                             open_sym_file_callback);
-    vice_gtk3_resource_browser_set_directory(browser, path);
+    chooser = vice_gtk3_resource_filechooser_new("KeymapUserSymFile",
+                                                 GTK_FILE_CHOOSER_ACTION_OPEN);
+    vice_gtk3_resource_filechooser_set_callback(chooser, open_sym_file_callback);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser,
+                                                    "Select user-define symbolic keymap");
+    vice_gtk3_resource_filechooser_set_directory(chooser, path);
     lib_free(path);
-    return browser;
+    vice_gtk3_resource_filechooser_set_filter(chooser,
+                                              "VICE keymap files",
+                                              keymap_patterns,
+                                              TRUE);
+    return chooser;
 }
 
-/** \brief  Create resource browser widget for the user-defined positional keymap
+/** \brief  Create resource file chooser widget for the user-defined positional keymap
  *
  * \return  GtkGrid
  */
 static GtkWidget *create_positional_keymap_browser(void)
 {
-    GtkWidget *browser;
-    char *path;
+    GtkWidget *chooser;
+    char      *path;
 
     /* determine path to machine dir */
     path = archdep_get_vice_machinedir();
 
-    browser = vice_gtk3_resource_browser_new("KeymapUserPosFile",
-                                             keymap_patterns,
-                                             "VICE keymap files",
-                                             "Select user-defined positional keymap",
-                                             NULL,
-                                             open_pos_file_callback);
-    vice_gtk3_resource_browser_set_directory(browser, path);
+    chooser = vice_gtk3_resource_filechooser_new("KeymapUserPosFile",
+                                                 GTK_FILE_CHOOSER_ACTION_OPEN);
+    vice_gtk3_resource_filechooser_set_callback(chooser, open_pos_file_callback);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser,
+                                                    "Select user-define positional keymap");
+    vice_gtk3_resource_filechooser_set_directory(chooser, path);
     lib_free(path);
-    return browser;
+    vice_gtk3_resource_filechooser_set_filter(chooser,
+                                              "VICE keymap files",
+                                              keymap_patterns,
+                                              TRUE);
+    return chooser;
 }
 
 
@@ -167,17 +175,23 @@ void kbdmapping_widget_update(void)
 GtkWidget *kbdmapping_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *browser_sym;
     GtkWidget *browser_pos;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Keyboard mapping", 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Keyboard mapping</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     radio_group = vice_gtk3_resource_radiogroup_new("KeymapIndex",
                                                     mappings,
                                                     GTK_ORIENTATION_VERTICAL);
     gtk_grid_set_row_homogeneous(GTK_GRID(radio_group), TRUE);
-    gtk_widget_set_margin_start(radio_group, 8);
+    gtk_grid_set_row_spacing(GTK_GRID(radio_group), 8);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     browser_sym = create_symbolic_keymap_browser();

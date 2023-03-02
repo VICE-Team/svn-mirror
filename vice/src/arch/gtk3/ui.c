@@ -79,6 +79,7 @@
 #include "mixerwidget.h"
 #include "monitor.h"
 #include "resources.h"
+#include "settings_keyboard.h"
 #include "types.h"
 #include "uiactions.h"
 #include "uiapi.h"
@@ -2364,6 +2365,7 @@ void ui_shutdown(void)
     ui_statusbar_shutdown();
     ui_hotkeys_shutdown();
     cart_image_widget_shutdown();
+    settings_keyboard_widget_shutdown();
 #if 0
     ui_actions_shutdown();
 #endif

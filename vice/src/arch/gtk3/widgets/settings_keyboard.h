@@ -30,5 +30,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *settings_keyboard_widget_create(GtkWidget *widget);
+void       settings_keyboard_widget_shutdown(void);
 
 #endif
