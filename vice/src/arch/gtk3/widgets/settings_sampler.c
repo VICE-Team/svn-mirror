@@ -61,7 +61,7 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
     resources_set_int("SamplerDevice", index);
 }
 
-/** \brief  Create left-aligned, 8 pixels indented label
+/** \brief  Create left-aligned label using Pango markup
  *
  * \param[in]   text    label text
  *
@@ -69,10 +69,10 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
  */
 static GtkWidget *create_label(const char *text)
 {
-    GtkWidget *label = gtk_label_new(text);
+    GtkWidget *label = gtk_label_new(NULL);
 
+    gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 8);
     return label;
 }
 
@@ -100,7 +100,7 @@ static GtkWidget *create_device_combo(void)
         }
     }
 
-    g_signal_connect(combo,
+    g_signal_connect(G_OBJECT(combo),
                      "changed",
                      G_CALLBACK(on_device_changed),
                      NULL);
@@ -124,7 +124,9 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
     GtkWidget *gain;
     GtkWidget *media;
 
-    grid = vice_gtk3_grid_new_spaced(8, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     /* sampler device list */
     label  = create_label("Sampler device");
@@ -144,12 +146,10 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
 
     /* sampler input file */
     label = create_label("Sampler media file");
-    media = vice_gtk3_resource_browser_new("SampleName",
-                                           NULL,
-                                           NULL,
-                                           "Select a media file",
-                                           NULL,
-                                           NULL);
+    media = vice_gtk3_resource_filechooser_new("SampleName",
+                                               GTK_FILE_CHOOSER_ACTION_OPEN);
+    vice_gtk3_resource_filechooser_set_custom_title(media,
+                                                    "Select a media file");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), media, 1, 3, 1, 1);
     gtk_widget_show_all(grid);
