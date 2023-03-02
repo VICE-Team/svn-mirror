@@ -314,10 +314,10 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     label = gtk_label_new(text);
     if (machine_class == VICE_MACHINE_C128) {
-        combo = vice_gtk3_resource_combo_hex_list_new(resource,
+        combo = vice_gtk3_resource_combo_hex_new_list(resource,
                                                       sid_addr_list_c128);
     } else {
-        combo = vice_gtk3_resource_combo_hex_list_new(resource,
+        combo = vice_gtk3_resource_combo_hex_new_list(resource,
                                                       sid_addr_list_c64);
     }
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);

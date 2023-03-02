@@ -90,12 +90,12 @@ static GtkWidget *create_cartridge_base_widget(void)
         case VICE_MACHINE_C64SC:    /* fallthrough */
         case VICE_MACHINE_C128:     /* fallthrough */
         case VICE_MACHINE_SCPU64:
-            combo = vice_gtk3_resource_combo_hex_range_new("ETHERNETCARTBase",
+            combo = vice_gtk3_resource_combo_hex_new_range("ETHERNETCARTBase",
                                                            0xde00, 0xe000, 0x10);
             break;
 
         case VICE_MACHINE_VIC20:
-            combo = vice_gtk3_resource_combo_hex_list_new("ETHERNETCARTBase",
+            combo = vice_gtk3_resource_combo_hex_new_list("ETHERNETCARTBase",
                                                           eth_base_list_vic20);
             break;
         default:

@@ -83,6 +83,12 @@ static GtkListStore *combo_int_model_new(const vice_gtk3_combo_entry_int_t *list
     return model;
 }
 
+/** \brief  Append row to int combo model
+ *
+ * \param[in]   model   combo box model
+ * \param[in]   id      ID for row
+ * \param[in]   value   displayed value for row
+ */
 static void combo_int_model_append(GtkListStore *model, int id, const char *value)
 {
     GtkTreeIter iter;
@@ -213,7 +219,9 @@ GtkWidget *vice_gtk3_resource_combo_int_new(const char *resource,
     mediator = mediator_new(view, resource, G_TYPE_INT);
 
     /* set current ID */
-    set_combo_int_id(GTK_COMBO_BOX(view), mediator_get_current_int(mediator));
+    if (entries != NULL) {
+        set_combo_int_id(GTK_COMBO_BOX(view), mediator_get_current_int(mediator));
+    }
     /* connect handler and register with mediator */
     handler = g_signal_connect(G_OBJECT(view),
                                "changed",
@@ -247,6 +255,23 @@ GtkWidget *vice_gtk3_resource_combo_int_new_sprintf(
     va_end(args);
 
     return vice_gtk3_resource_combo_int_new(resource, entries);
+}
+
+
+/** \brief  Append row to integer combo box
+ *
+ * \param[in]   widget  integer resource combo box
+ * \param[in]   id      ID for row
+ * \param[in]   value   displayed string for row
+ */
+void vice_gtk3_resource_combo_int_append(GtkWidget  *widget,
+                                         int         id,
+                                         const char *value)
+{
+    GtkListStore *model;
+
+    model = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(widget)));
+    combo_int_model_append(model, id, value);
 }
 
 
@@ -457,12 +482,30 @@ static GtkWidget *combo_hex_helper(const char   *resource,
  * Create combo box bound to an integer resource that shows a hex string in
  * the form '$hhhh' for each value in \a list.
  *
+ * This function creates the combo box with an empty model, which can then
+ * be populated using vice_gtk3_resource_combo_hex_append().
+ *
+ * \return  GtkComboBox
+ */
+GtkWidget *vice_gtk3_resource_combo_hex_new(const char *resource)
+{
+    GtkListStore *model = combo_int_model_new(NULL);
+
+    return combo_hex_helper(resource, model);
+}
+
+
+/** \brief  Create resource-bound combo box showing hex literals
+ *
+ * Create combo box bound to an integer resource that shows a hex string in
+ * the form '$hhhh' for each value in \a list.
+ *
  * \param[in]   resource    resource name
  * \param[in]   list        list of values, terminate with <0
  *
  * \return  GtkComboBox
  */
-GtkWidget *vice_gtk3_resource_combo_hex_list_new(const char *resource,
+GtkWidget *vice_gtk3_resource_combo_hex_new_list(const char *resource,
                                                  const int  *list)
 {
     return combo_hex_helper(resource, combo_hex_model_list_new(list));
@@ -481,7 +524,7 @@ GtkWidget *vice_gtk3_resource_combo_hex_list_new(const char *resource,
  *
  * \return  GtkComboBox
  */
-GtkWidget *vice_gtk3_resource_combo_hex_range_new(const char *resource,
+GtkWidget *vice_gtk3_resource_combo_hex_new_range(const char *resource,
                                                   int         lower,
                                                   int         upper,
                                                   int         step)
@@ -496,6 +539,20 @@ GtkWidget *vice_gtk3_resource_combo_hex_range_new(const char *resource,
     }
     return combo_hex_helper(resource,
                             combo_hex_model_range_new(lower, upper, step));
+}
+
+
+/** \brief  Append value to hex combo box
+ *
+ * \param[in]   combo   hex resource combo box
+ * \param[in]   value   value to apend (will be displayed as "\$hhhhh")
+ */
+void vice_gtk3_resource_combo_hex_append(GtkWidget *combo, int value)
+{
+    GtkListStore *model;
+
+    model = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(combo)));
+    combo_hex_model_append(model, value);
 }
 
 

@@ -95,7 +95,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_base_widget(void)
 {
-    return vice_gtk3_resource_combo_hex_list_new("DS12C887RTCbase",
+    return vice_gtk3_resource_combo_hex_new_list("DS12C887RTCbase",
                                                  machine_class == VICE_MACHINE_VIC20
                                                  ? io_base_vic20 : io_base_c64);
 }

@@ -45,6 +45,9 @@ GtkWidget *vice_gtk3_resource_combo_int_new_sprintf(
         const vice_gtk3_combo_entry_int_t *entries,
         ...);
 
+void     vice_gtk3_resource_combo_int_append (GtkWidget  *widget,
+                                              int         id,
+                                              const char *value);
 gboolean vice_gtk3_resource_combo_int_set    (GtkWidget *widget, int id);
 gboolean vice_gtk3_resource_combo_int_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_combo_int_reset  (GtkWidget *widget);
@@ -54,13 +57,14 @@ gboolean vice_gtk3_resource_combo_int_sync   (GtkWidget *widget);
  * Integer combo box presenting values as hexadecimal literals.
  */
 
-GtkWidget *vice_gtk3_resource_combo_hex_list_new   (const char *resource,
+GtkWidget *vice_gtk3_resource_combo_hex_new        (const char *resource);
+GtkWidget *vice_gtk3_resource_combo_hex_new_list   (const char *resource,
                                                     const int  *list);
-GtkWidget *vice_gtk3_resource_combo_hex_range_new  (const char *resource,
+GtkWidget *vice_gtk3_resource_combo_hex_new_range  (const char *resource,
                                                     int         lower,
                                                     int         upper,
                                                     int         step);
-
+void       vice_gtk3_resource_combo_hex_append     (GtkWidget *combo, int value);
 gboolean   vice_gtk3_resource_combo_hex_set        (GtkWidget *combo, int id);
 gboolean   vice_gtk3_resource_combo_hex_factory    (GtkWidget *combo);
 gboolean   vice_gtk3_resource_combo_hex_reset      (GtkWidget *combo);
