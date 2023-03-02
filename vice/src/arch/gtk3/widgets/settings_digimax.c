@@ -79,12 +79,12 @@ GtkWidget *settings_digimax_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     /* all addresses are in a nice, simple range */
     if (machine_class == VICE_MACHINE_VIC20) {
-        address = vice_gtk3_resource_combo_hex_range_new("DIGIMAXbase",
+        address = vice_gtk3_resource_combo_hex_new_range("DIGIMAXbase",
                                                          IOBASE_VIC20_START,
                                                          IOBASE_VIC20_END,
                                                          IOBASE_STEP);
     } else {
-        address = vice_gtk3_resource_combo_hex_range_new("DIGIMAXbase",
+        address = vice_gtk3_resource_combo_hex_new_range("DIGIMAXbase",
                                                          IOBASE_C64_START,
                                                          IOBASE_C64_END,
                                                          IOBASE_STEP);
