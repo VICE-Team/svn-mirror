@@ -67,28 +67,6 @@ static const device_info_t predefined_device_list[] = {
 };
 
 
-/** \brief  Handler for the "changed" event of the combo box
- *
- * \param[in]   combo       combo box
- * \param[in]   user_data   device number (0-4) (int`)
- */
-static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
-{
-    const char *id_str;
-    int         id_val;
-    char       *endptr;
-    int         device;
-
-    id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
-    id_val = (int)strtol(id_str, &endptr, 10);
-    device = GPOINTER_TO_INT(user_data) + 1;
-
-    if (*endptr == '\0') {
-        resources_set_int_sprintf("JoyDevice%d", id_val, device);
-    }
-}
-
-
 /** \brief  Create joystick device selection widget
  *
  * \param[in]   device  device number (0-4)
@@ -99,31 +77,36 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
 GtkWidget *joystick_device_widget_create(int device, const char *title)
 {
     GtkWidget  *grid;
+    GtkWidget  *label;
     GtkWidget  *combo;
     int         id;
     const char *name;
-    char        idstr[32];
+    char        buffer[256]; /* large since we use it for resource name as well */
     int         dev;
     int         current = 0;
 
     resources_get_int_sprintf("JoyDevice%d", &current, device + 1);
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    combo = gtk_combo_box_text_new();
-    gtk_widget_set_margin_start(combo, 8);
+    g_snprintf(buffer, sizeof buffer, "<b>%s</b>", title);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+
+    /* no new_sprintf() method, construct resource name: */
+    g_snprintf(buffer, sizeof buffer, "JoyDevice%d", device + 1);
+    combo = vice_gtk3_resource_combo_int_new(buffer, NULL /* empty model */);
     gtk_widget_set_hexpand(combo, TRUE);
+
     /* add predefined standard devices */
     for (dev = 0; (name = predefined_device_list[dev].name) != NULL; dev++) {
         id = predefined_device_list[dev].id;
 
-        g_snprintf(idstr, sizeof idstr, "%d", id);
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                                  idstr,
-                                  name);
+        vice_gtk3_resource_combo_int_append(combo, id, name);
         if (id == current) {
-            gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), idstr);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), dev);
         }
     }
     /* add more devices (joysticks) */
@@ -132,21 +115,15 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
         /* convert name from locale to UTF-8 to be used in the list */
         char *utf8 = file_chooser_convert_from_locale(name);
 
-        g_snprintf(idstr, sizeof idstr, "%d", id);
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                                  idstr,
-                                  utf8);
+        vice_gtk3_resource_combo_int_append(combo, id, utf8);
         g_free(utf8);
         if (id == current) {
-            gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), idstr);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), dev);
         }
+        dev++;
     }
 
-    g_signal_connect(combo,
-                     "changed",
-                     G_CALLBACK(on_device_changed),
-                     GINT_TO_POINTER(device));
-
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -161,14 +138,10 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 void joystick_device_widget_update(GtkWidget *widget, int id)
 {
     GtkWidget *combo;
-    char       idstr[32];
-
-    /* turn device_id into key for the combo box */
-    g_snprintf(idstr, sizeof idstr, "%d", id);
 
     /* get combo box widget */
     combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (combo != NULL && GTK_IS_COMBO_BOX_TEXT(combo)) {
-        gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), idstr);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), id);
     }
 }
