@@ -28,12 +28,12 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include "vice_gtk3.h"
-#include "machine.h"
-#include "joystickautofirewidget.h"
+
 #include "joyport.h"
+#include "joystickautofirewidget.h"
+#include "machine.h"
+#include "vice_gtk3.h"
 
 #include "settings_autofire.h"
 
