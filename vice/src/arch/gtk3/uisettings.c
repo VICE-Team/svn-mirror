@@ -888,7 +888,7 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
       "io",
       settings_io_widget_create, NULL },
     { "Burst Mode Modification",
-      "burstmode",
+      "burst-mode",
       settings_burstmode_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
@@ -1274,7 +1274,7 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
       "io",
       settings_io_widget_create, NULL },
     { "Burst Mode Modification",
-      "burstmode-mode",
+      "burst-mode",
       settings_burstmode_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
