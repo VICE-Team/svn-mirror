@@ -711,7 +711,7 @@ void z80mem_initialize(void)
     /* z80 c128 mode memory map for $ff00-$ffff */
     for (j = 0; j < NUM_Z80_C128MODE_CONFIGS; j++) {
         mem_read_tab[j][0xff] = mmu_ffxx_read_z80;
-        mem_write_tab[j][0xff] = mmu_ffxx_store;
+        mem_write_tab[j][0xff] = mmu_ffxx_store_z80;
     }
 
     /* z80 c64 mode memory map for $ff00-$ffff */
