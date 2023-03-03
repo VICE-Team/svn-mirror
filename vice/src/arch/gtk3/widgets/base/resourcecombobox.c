@@ -201,10 +201,16 @@ static void on_combo_int_changed(GtkComboBox *self, gpointer data)
 
 /** \brief  Create a combo box to control an integer resource
  *
+ * Create integer resource-bound combo box for \a resource, populating it with
+ * \a entries. The \a entries list is allowed to be `NULL`, in which case an
+ * empty model is created and the user can manually add rows using
+ * vice_gtk3_resource_combo_int_append().
+ *
  * \param[in]   resource    resource name
- * \param[in]   entries     list of entries for the combo box
+ * \param[in]   entries     list of entries for the combo box (can be `NULL`)
  *
  * \return  GtkComboBoxText
+ *
  */
 GtkWidget *vice_gtk3_resource_combo_int_new(const char *resource,
                                             const vice_gtk3_combo_entry_int_t *entries)
@@ -235,10 +241,15 @@ GtkWidget *vice_gtk3_resource_combo_int_new(const char *resource,
 
 /** \brief  Create a combo box to control an integer resource
  *
- * Allows setting the resource name via sprintf()-syntax
+ * * Create integer resource-bound combo box, populating it with \a entries.
+ * The \a entries list is allowed to be `NULL`, in which case an empty model is
+ * created and the user can manually add rows using
+ * vice_gtk3_resource_combo_int_append().
+ *
+ * This verions allows setting the resource name via sprintf()-syntax.
  *
  * \param[in]   fmt     format string for the resource name
- * \param[in]   entries list of entries for the combo box
+ * \param[in]   entries list of entries for the combo box (can be `NULL`)
  *
  * \return  GtkComboBoxText
  */
