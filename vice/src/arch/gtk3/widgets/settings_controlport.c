@@ -42,10 +42,8 @@
 
 #include "joyport.h"
 #include "lib.h"
-#include "log.h"
 #include "machine.h"
 #include "resources.h"
-#include "uisettings.h"
 #include "vice_gtk3.h"
 
 #include "settings_controlport.h"
@@ -54,16 +52,8 @@
 /*
  * Forward declarations
  */
-static void joyport_devices_list_shutdown(void);
-static void free_combo_list(int port);
 static void update_adapter_ports_visibility(GtkGrid *grid, int row);
 
-
-/** \brief  Lists of valid devices for each joyport */
-static joyport_desc_t *joyport_devices[JOYPORT_MAX_PORTS];
-
-/** \brief  Combo box entry lists for each joyport */
-static vice_gtk3_combo_entry_int_t *joyport_combo_lists[JOYPORT_MAX_PORTS];
 
 /** \brief  Resource combo box for control port #1 */
 static GtkWidget *control_port_1_combo = NULL;
@@ -71,21 +61,6 @@ static GtkWidget *control_port_1_combo = NULL;
 /** \brief  Resource combo box for control port #2 */
 static GtkWidget *control_port_2_combo = NULL;
 
-
-/** \brief  Handler for the "destroy" event of the main widget
- *
- * \param[in]   widget      the main widget (unused)
- * \param[in]   user_data   extra data (unused)
- */
-static void on_destroy(GtkWidget *widget, gpointer user_data)
-{
-    int port;
-
-    joyport_devices_list_shutdown();
-    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
-        free_combo_list(port);
-    }
-}
 
 /** \brief  Handler for the 'changed' event of the control port combo boxes
  *
@@ -121,86 +96,39 @@ static void on_control_port_changed(GtkWidget *widget, gpointer data)
     g_signal_handlers_unblock_by_func(other, G_CALLBACK(on_control_port_changed), data);
 }
 
-/** \brief  Dynamically generate a list of joyport devices for \a port
+/** \brief  Create combo box for joy port device
  *
- * \param[in]   port    port number
+ * \param[in]   port    index in devices, add 1 for JoyPort[n]Device
  *
- * \return  TRUE if the list was generated
+ * \return  GtkComboBox
  */
-static gboolean create_combo_list(int port)
+static GtkWidget *create_joyport_combo(int port)
 {
-    joyport_desc_t *dev;
-    size_t          num = 0;
-    int             i   = 0;
+    GtkWidget      *combo;
+    joyport_desc_t *devices;
 
-    dev = joyport_devices[port];
-    if (dev == NULL) {
-        joyport_combo_lists[port] = NULL;
-        return FALSE;
-    }
+    combo = vice_gtk3_resource_combo_int_new_sprintf("JoyPort%dDevice",
+                                                     NULL, /* empty model */
+                                                     port + 1);
 
-    /* calculate size of list to create */
-    while (dev->name != NULL) {
-        dev++;
-        num++;
-    }
+    devices = joyport_get_valid_devices(port, TRUE);
+    if (devices != NULL) {
+        int row;
+        int id = 0;
 
-    /* allocate memory for list */
-    joyport_combo_lists[port] = lib_malloc((num + 1u) * sizeof *joyport_combo_lists[port]);
+        resources_get_int_sprintf("JoyPort%dDevice", &id, port + 1);
 
-    /* populate list */
-    i = 0;
-    dev = joyport_devices[port];
-    while (dev->name != NULL) {
-        joyport_combo_lists[port][i].name = dev->name;
-        joyport_combo_lists[port][i].id   = dev->id;
-        dev++;
-        i++;
-    }
-    /* terminate list */
-    joyport_combo_lists[port][i].name = NULL;
-    joyport_combo_lists[port][i].id   = -1;
-    return TRUE;
-}
-
-/** \brief  Free memory used by the combo box entry list for \a port
- *
- * \param[in]   port    index in the combo box lists (0 == JoyPort1Device)
- */
-static void free_combo_list(int port)
-{
-    if (joyport_combo_lists[port] != NULL) {
-        lib_free(joyport_combo_lists[port]);
-        joyport_combo_lists[port] = NULL;
-    }
-}
-
-/** \brief  Retrieve valid devices for each joyport
- *
- * joyport_get_valid_devices() returns an empty list for unsupported devices,
- * so no need to check for machine type.
- */
-static void joyport_devices_list_init(void)
-{
-    int i;
-
-    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        joyport_devices[i] = joyport_get_valid_devices(i, 1);
-    }
-}
-
-/** \brief  Clean up memory used by the valid devices list
- */
-static void joyport_devices_list_shutdown(void)
-{
-    int i;
-
-    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        if (joyport_devices[i] != NULL) {
-            lib_free(joyport_devices[i]);
-            joyport_devices[i] = NULL;
+        for (row = 0; devices[row].name != NULL; row++) {
+            vice_gtk3_resource_combo_int_append(combo,
+                                                devices[row].id,
+                                                devices[row].name);
+            if (devices[row].id == id) {
+                gtk_combo_box_set_active(GTK_COMBO_BOX(combo), row);
+            }
         }
+        lib_free(devices);
     }
+    return combo;
 }
 
 /** \brief  Create combo box for joyport \a port
@@ -213,23 +141,22 @@ static void joyport_devices_list_shutdown(void)
 static GtkWidget *create_joyport_widget(int port, const char *title)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *combo;
+    char       buffer[64];
 
-    /* generate combo box list */
-    if (!create_combo_list(port)) {
-        log_error(LOG_ERR,
-                  "failed to generate joyport devices list for port %d",
-                  port + 1);
-        return NULL;
-    }
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, title, 1);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    /* header */
+    g_snprintf(buffer, sizeof buffer, "<b>%s</b>", title);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    combo = vice_gtk3_resource_combo_int_new_sprintf("JoyPort%dDevice",
-                                                         joyport_combo_lists[port],
-                                                         port + 1);
-    gtk_widget_set_margin_start(combo, 8);
+    /* combo box */
+    combo = create_joyport_combo(port);
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
 
@@ -616,9 +543,8 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
 
-    joyport_devices_list_init();
-
-    layout = vice_gtk3_grid_new_spaced(8, 0);
+    layout = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_widget_set_no_show_all(layout, TRUE);
 
     switch (machine_class) {
@@ -652,8 +578,6 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
             break;
     }
 
-    g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show(layout);
-
     return layout;
 }
