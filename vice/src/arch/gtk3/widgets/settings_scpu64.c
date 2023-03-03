@@ -42,26 +42,25 @@
 /** \brief  List of SCPU64 SIMM sizes
  */
 static const vice_gtk3_combo_entry_int_t simm_sizes[] = {
-    { "0MiB",   0 },
-    { "1MiB",   1 },
-    { "4MiB",   4 },
-    { "8MiB",   8 },
-    { "16MiB",  16 },
-    { NULL,     -1 }
+    { "Not installed",  0 },
+    { "1MiB",           1 },
+    { "4MiB",           4 },
+    { "8MiB",           8 },
+    { "16MiB",         16 },
+    { NULL,            -1 }
 };
 
 
-/** \brief  Create left-aligned, 16 px indented label from \a text
+/** \brief  Create left-aligned label
  *
  * \param[in]   text    text for the label
  *
  * \return  GtkLabel
  */
-static GtkWidget *create_indented_label(const char *text)
+static GtkWidget *create_label(const char *text)
 {
     GtkWidget *label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_start(label, 16);
     return label;
 }
 
@@ -76,27 +75,31 @@ GtkWidget *settings_scpu64_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *simm_widget;
-    GtkWidget *jiffy_widget;
-    GtkWidget *speed_widget;
+    GtkWidget *simm;
+    GtkWidget *jiffy;
+    GtkWidget *speed;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
-    label = create_indented_label("SIMM size");
-    simm_widget = vice_gtk3_resource_combo_int_new("SIMMSize",
-            simm_sizes);
+    label = create_label("Speed switch");
+    speed = vice_gtk3_resource_switch_new("SpeedSwitch");
+    gtk_widget_set_halign(speed, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), simm_widget, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), speed, 1, 0, 1, 1);
 
-    label = create_indented_label("JiffyDOS switch");
-    jiffy_widget = vice_gtk3_resource_switch_new("JiffySwitch");
+    label = create_label("JiffyDOS switch");
+    jiffy = vice_gtk3_resource_switch_new("JiffySwitch");
+    gtk_widget_set_halign(jiffy, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), jiffy_widget, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), jiffy, 1, 1, 1, 1);
 
-    label = create_indented_label("Speed switch");
-    speed_widget = vice_gtk3_resource_switch_new("SpeedSwitch");
+    label = create_label("SuperRAM expansion");
+    simm  = vice_gtk3_resource_combo_int_new("SIMMsize",
+                                             simm_sizes);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), speed_widget, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), simm,  1, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
