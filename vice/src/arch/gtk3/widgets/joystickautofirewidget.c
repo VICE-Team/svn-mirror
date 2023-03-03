@@ -144,7 +144,7 @@ static void set_widgets_sensitivity(GtkWidget *grid,
     }
 }
 
-/** \brief  Create left-aligned but indented label
+/** \brief  Create left-aligned label using Pango markup
  *
  * \param[in]   text    label text
  *
@@ -152,15 +152,14 @@ static void set_widgets_sensitivity(GtkWidget *grid,
  */
 static GtkWidget *create_label(const char *text)
 {
-    GtkWidget *label = gtk_label_new(text);
+    GtkWidget *label = gtk_label_new(NULL);
 
-    gtk_widget_set_margin_start(label, 8);
+    gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_valign(label, GTK_ALIGN_START);
     return label;
 }
 
-/** \brief  Handler for the 'state-set' event of the autofire enable switch
+/** \brief  Handler for the 'notify:active' event of the autofire enable switch
  *
  * Extra event handler for setting the other widgets' sensitivity base on the
  * state of the switch.
@@ -168,7 +167,7 @@ static GtkWidget *create_label(const char *text)
  * \param[in]   widget  autofire enable switch
  * \param[in]   joy     joyport number (unused)
  */
-static void on_autofire_state_set(GtkWidget *widget, gpointer joy)
+static void on_autofire_notify_active(GtkWidget *widget, gpointer joy)
 {
     GtkWidget *bar = gtk_widget_get_parent(widget);
     if (bar != NULL) {
@@ -195,10 +194,10 @@ static GtkWidget *create_autofire_enable_widget(int joy)
     gtk_widget_set_valign(widget, GTK_ALIGN_START);
     gtk_widget_set_hexpand(widget, FALSE);
     gtk_widget_set_vexpand(widget, FALSE);
-    g_signal_connect(widget,
-                     "state-set",
-                     G_CALLBACK(on_autofire_state_set),
-                     GINT_TO_POINTER(joy));
+    g_signal_connect_unlocked(widget,
+                              "notify::active",
+                              G_CALLBACK(on_autofire_notify_active),
+                              GINT_TO_POINTER(joy));
     return widget;
 }
 
@@ -265,10 +264,8 @@ GtkWidget *joystick_autofire_widget_create(int joy, const char *title)
      * grows too large: */
     gtk_widget_set_margin_bottom(bar, 4);
 
-    label = gtk_label_new(NULL);
     g_snprintf(text, sizeof text, "<b>%s</b>", title);
-    gtk_label_set_markup(GTK_LABEL(label), text);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    label  = create_label(text);
     enable = create_autofire_enable_widget(joy);
     gtk_grid_attach(GTK_GRID(bar), label,  0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(bar), enable, 1, 0, 1, 1);
