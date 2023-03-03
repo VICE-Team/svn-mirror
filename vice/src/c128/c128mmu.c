@@ -580,6 +580,22 @@ void mmu_ffxx_store(uint16_t addr, uint8_t value)
     }
 }
 
+void mmu_ffxx_store_z80(uint16_t addr, uint8_t value)
+{
+    vicii.last_cpu_val = value;
+    if (addr == 0xff00) {
+        /* FIXME? [SRT] does reu_dma(-1) work here, or should
+        it be deferred until later? */
+        reu_dma(-1);
+    } else {
+        if (addr <= 0xff04) {
+            mmu_store(0, mmu[addr & 0xf]);
+        } else {
+            top_shared_store(addr, value);
+        }
+    }
+}
+
 int mmu_dump(void *context, uint16_t addr)
 {
     mon_out("CR: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
