@@ -309,12 +309,12 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
             g_snprintf(label, sizeof(label), "Joystick Adapter Port #%d", i + 1);
             device_widgets[i + 2] = joystick_device_widget_create(d, label);
             gtk_grid_attach(layout, device_widgets[i + 2], c, r, 1, 1);
+            gtk_widget_set_margin_bottom(device_widgets[i + 2], 8);
         }
         d++;
         c ^= 1; /* switch column position */
         if (c == 0) {
             r++;    /* update row position */
-            gtk_widget_set_margin_bottom(device_widgets[i + 2], 8);
         }
     }
 
