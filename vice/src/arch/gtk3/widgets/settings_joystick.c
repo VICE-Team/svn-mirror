@@ -337,6 +337,7 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
  */
 static int layout_add_sidcard_port(GtkGrid *layout, int row)
 {
+    /* not JOYPORT_5 because the API is retarded: JOYPORT_5 == 4 */
     if (joyport_has_mapping(5)) {
         device_widgets[JOYPORT_5] = joystick_device_widget_create(
                 JOYPORT_5, "SIDCard Joystick");
