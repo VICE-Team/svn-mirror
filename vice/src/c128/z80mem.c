@@ -99,19 +99,18 @@ void bios_store(uint16_t addr, uint8_t value)
 
 static uint8_t read_unconnected_io(uint16_t addr)
 {
-    log_message(z80mem_log, "Read from unconnected IO %04x", addr);
 #ifdef Z80_4MHZ
     z80_clock_stretch();
 #endif
-    return 0;
+    return _z80mem_read_tab_ptr[addr >> 8](addr);
 }
 
 static void store_unconnected_io(uint16_t addr, uint8_t value)
 {
-    log_message(z80mem_log, "Store to unconnected IO %04x %02x", addr, value);
 #ifdef Z80_4MHZ
     z80_clock_stretch();
 #endif
+    _z80mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
 #ifdef Z80_4MHZ
@@ -640,8 +639,8 @@ void z80mem_initialize(void)
        mem_write_tab[j][0xd3] = z80_c64io_d300_store;
        mem_read_tab[j][0xd4] = z80_c64io_d400_read;
        mem_write_tab[j][0xd4] = z80_c64io_d400_store;
-       mem_read_tab[j][0xd5] = read_unconnected_io;
-       mem_write_tab[j][0xd5] = store_unconnected_io;
+       mem_read_tab[j][0xd5] = z80_c64io_d700_read;
+       mem_write_tab[j][0xd5] = z80_c64io_d700_store;
        mem_read_tab[j][0xd6] = z80_vdc_read;
        mem_write_tab[j][0xd6] = z80_vdc_store;
        mem_read_tab[j][0xd7] = z80_c64io_d700_read;
