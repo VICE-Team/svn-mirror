@@ -37,7 +37,8 @@ uint8_t mmu_ffxx_read(uint16_t addr);
 void mmu_ffxx_store(uint16_t addr, uint8_t value);
 uint8_t mmu_ffxx_read_z80(uint16_t addr);
 
-void mmu_ffxx_store_z80(uint16_t addr, uint8_t value);
+uint8_t z80_c128_mmu_read(uint16_t addr);
+void z80_c128_mmu_store(uint16_t address, uint8_t value);
 
 void mmu_reset(void);
 void mmu_set_config64(int config);
