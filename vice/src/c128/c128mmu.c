@@ -536,6 +536,23 @@ void mmu_store(uint16_t address, uint8_t value)
     }
 }
 
+/* z80 version of the mmu read using in/out, the mmu i/o range for the z80 depends on the mmu i/o bit */
+uint8_t z80_c128_mmu_read(uint16_t addr)
+{
+    if (mmu[0] & 1) {
+        return 0;
+    }
+    return mmu_read(addr);
+}
+
+/* z80 version of the mmu store using in/out, the mmu i/o range for the z80 depends on the mmu i/o bit */
+void z80_c128_mmu_store(uint16_t address, uint8_t value)
+{
+    if (!(mmu[0] & 1)) {
+        mmu_store(address, value);
+    }
+}
+
 /* $FF00 - $FFFF: RAM, Kernal or internal function ROM, with MMU at
    $FF00 - $FF04.  */
 uint8_t mmu_ffxx_read(uint16_t addr)
@@ -568,22 +585,6 @@ void mmu_ffxx_store(uint16_t addr, uint8_t value)
     vicii.last_cpu_val = value;
     if (addr == 0xff00) {
         mmu_store(0, value);
-        /* FIXME? [SRT] does reu_dma(-1) work here, or should
-        it be deferred until later? */
-        reu_dma(-1);
-    } else {
-        if (addr <= 0xff04) {
-            mmu_store(0, mmu[addr & 0xf]);
-        } else {
-            top_shared_store(addr, value);
-        }
-    }
-}
-
-void mmu_ffxx_store_z80(uint16_t addr, uint8_t value)
-{
-    vicii.last_cpu_val = value;
-    if (addr == 0xff00) {
         /* FIXME? [SRT] does reu_dma(-1) work here, or should
         it be deferred until later? */
         reu_dma(-1);

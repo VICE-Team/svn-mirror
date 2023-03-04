@@ -711,7 +711,7 @@ void z80mem_initialize(void)
     /* z80 c128 mode memory map for $ff00-$ffff */
     for (j = 0; j < NUM_Z80_C128MODE_CONFIGS; j++) {
         mem_read_tab[j][0xff] = mmu_ffxx_read_z80;
-        mem_write_tab[j][0xff] = mmu_ffxx_store_z80;
+        mem_write_tab[j][0xff] = mmu_ffxx_store;
     }
 
     /* z80 c64 mode memory map for $ff00-$ffff */
@@ -767,8 +767,8 @@ void z80mem_initialize(void)
     io_read_tab[0xd4] = z80_c64io_d400_read;
     io_write_tab[0xd4] = z80_c64io_d400_store;
 
-    io_read_tab[0xd5] = z80_mmu_read;
-    io_write_tab[0xd5] = z80_mmu_store;
+    io_read_tab[0xd5] = z80_c128_mmu_read;
+    io_write_tab[0xd5] = z80_c128_mmu_store;
 
     io_read_tab[0xd6] = z80_vdc_read;
     io_write_tab[0xd6] = z80_vdc_store;
