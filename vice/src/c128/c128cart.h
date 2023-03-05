@@ -27,6 +27,8 @@
 #ifndef VICE_C128CART_H
 #define VICE_C128CART_H
 
+#include "types.h"
+
 int c128cartridge_cmdline_options_init(void);
 int c128cartridge_resources_init(void);
 void c128cartridge_resources_shutdown(void);
