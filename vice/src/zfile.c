@@ -429,6 +429,8 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     FILE *fd;
     char tmp[1024];
 
+    /* ZDEBUG(("try_uncompress_archive: %s", name)); */
+
     /* Do we have correct extension?  */
     len = strlen(extension);
     if (l <= len || util_strcasecmp(name + l - len, extension) != 0) {
@@ -460,6 +462,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program, listopts));
 
     fd = fopen(tmp_name, MODE_READ);
+    ZDEBUG(("try_uncompress_archive: tmp_name:'%s'", tmp_name));
     if (!fd) {
         ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
                 program, tmp_name));
@@ -474,6 +477,8 @@ static char *try_uncompress_archive(const char *name, int write_mode,
        filename begins, then search for first recognizeable file.  */
     nameoffset = search ? SIZE_MAX : 0;
     len = search ? strlen(search) : 0;
+    ZDEBUG(("try_uncompress_archive: search:'%s' nameoffset:%llu len:%llu",
+        search, nameoffset, len));
     while (!feof(fd) && !found) {
         if (fgets(tmp, 1024, fd) == NULL) {
             break;
