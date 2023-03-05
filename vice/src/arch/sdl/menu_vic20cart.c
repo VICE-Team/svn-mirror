@@ -48,6 +48,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
 
     if (activated) {
         switch (vice_ptr_to_int(param)) {
+            case CARTRIDGE_CRT:
+                title = "Select cartridge image";
+                break;
             case CARTRIDGE_VIC20_BEHRBONZ:
                 title = "Select " CARTRIDGE_VIC20_NAME_BEHRBONZ " image";
                 break;
@@ -456,6 +459,10 @@ UI_MENU_DEFINE_TOGGLE(IO2RAM)
 UI_MENU_DEFINE_TOGGLE(IO3RAM)
 
 const ui_menu_entry_t vic20cart_menu[] = {
+    { "Attach CRT image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_CRT },
     { "Attach generic cartridge image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
