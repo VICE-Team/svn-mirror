@@ -367,6 +367,7 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
+#ifdef WINDOWS_COMPILE
 static int cmdline_no_redirect_streams(const char *param, void *extra_param)
 {
     /* "-no-redirect-streams" is handled at the start of main()
@@ -374,6 +375,7 @@ static int cmdline_no_redirect_streams(const char *param, void *extra_param)
        hence this kludge. */
     return 0;
 }
+#endif
 
 static const cmdline_option_t common_cmdline_options[] =
 {
