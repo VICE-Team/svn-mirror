@@ -214,7 +214,7 @@ int archdep_spawn(const char *cmd, char **argv, char **pstdout_redir, const char
         stdout_redir = NULL;
     }
     LOG(("archdep_spawn: stdout_redir: '%s'", stdout_redir));
-    
+
     if (stderr_redir) {
         /* FIXME: stderr is not redirected yet. No code uses this right now */
         log_error(LOG_DEFAULT, "FIXME: archdep_spawn does not redirect stderr yet");
@@ -244,7 +244,7 @@ int archdep_spawn(const char *cmd, char **argv, char **pstdout_redir, const char
     if (!SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
         return -1;
     }
-    
+
     /* create a string containing the command and arguments */
     arglen = n = 0;
     while(argv[n] != NULL) {
