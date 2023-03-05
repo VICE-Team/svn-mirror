@@ -34,11 +34,11 @@
 # ALT+A
 1121 Autostart image
 # ALT+B
-1122 Statusbar
+1122 Statusbar (VICII)
 # ALT+C
 1123 Cartridge&Attach CRT image
 # ALT+D
-1124 Video settings&VICII size settings&Fullscreen
+1124 Video settings&VICII host rendering settings&Fullscreen
 # ALT+E
 1125 Snapshot&Set recording milestone
 # ALT+H
@@ -70,8 +70,10 @@
 # ALT+Z
 1146 Cartridge&Cartridge freeze
 
+# ALT+SHIFT+B
+1634 Statusbar (VDC)
 # ALT+SHIFT+D
-1636 Video settings&VDC size settings&Fullscreen
+1636 Video settings&VDC host rendering settings&Fullscreen
 # ALT+SHIFT+J
 1642 Machine settings&Joystick settings&Allow keyset joystick
 # ALT+SHIFT+N
