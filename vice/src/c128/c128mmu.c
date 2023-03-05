@@ -66,7 +66,7 @@
 #endif
 
 /* MMU register.  */
-static uint8_t mmu[12];
+uint8_t mmu[12];
 
 /* latches for P0H and P1H */
 static uint8_t p0h_latch, p1h_latch;
@@ -569,15 +569,6 @@ uint8_t mmu_ffxx_read(uint16_t addr)
         vicii.last_cpu_val = top_shared_read(addr);
     }
     return vicii.last_cpu_val;
-}
-
-uint8_t mmu_ffxx_read_z80(uint16_t addr)
-{
-    if (addr >= 0xff00 && addr <= 0xff04) {
-        return mmu[addr & 0xf];
-    }
-
-    return top_shared_read(addr);
 }
 
 void mmu_ffxx_store(uint16_t addr, uint8_t value)

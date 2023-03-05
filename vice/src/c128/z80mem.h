@@ -30,6 +30,11 @@
 #include "mem.h"
 #include "types.h"
 
+#define Z80_C128_ROM        0
+#define Z80_C128_INT_FUNC   1
+#define Z80_C128_EXT_FUNC   2
+#define Z80_C128_RAM        3
+
 void z80mem_update_config(int config);
 
 int z80mem_load(void);

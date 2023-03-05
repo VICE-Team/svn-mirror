@@ -35,7 +35,6 @@ uint8_t mmu_peek(uint16_t addr);
 void mmu_store(uint16_t address, uint8_t value);
 uint8_t mmu_ffxx_read(uint16_t addr);
 void mmu_ffxx_store(uint16_t addr, uint8_t value);
-uint8_t mmu_ffxx_read_z80(uint16_t addr);
 
 uint8_t z80_c128_mmu_read(uint16_t addr);
 void z80_c128_mmu_store(uint16_t address, uint8_t value);
@@ -65,5 +64,7 @@ void c128_mem_set_mmu_zp_sp_shared(uint8_t val);
 extern int in_c64_mode;
 
 extern int c64_mode_bank;
+
+extern uint8_t mmu[12];
 
 #endif
