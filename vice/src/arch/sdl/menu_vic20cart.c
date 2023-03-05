@@ -463,6 +463,7 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_CRT },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Attach generic cartridge image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
