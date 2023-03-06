@@ -1484,7 +1484,9 @@ void mem_initialize_go64_memory_bank(uint8_t shared_mem)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    ram_init(mem_ram, C128_RAM_SIZE);
+    if (mmu[5] & 1) {
+        ram_init(mem_ram, C128_RAM_SIZE);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
