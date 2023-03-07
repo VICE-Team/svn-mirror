@@ -465,6 +465,31 @@ static void z80mem_hi_rom_area_store(uint16_t adr, uint8_t val)
     }
 }
 
+/* in() from $0000-$0fff in bank 0 get translated to memory read from RAM at $d000-$dfff */ 
+static uint8_t z80_io_ram_bank0_read(uint16_t adr)
+{
+    uint16_t real_adr = (adr & 0x0fff) | 0xd000;
+
+    if (mmu[0] & 0x40) {
+        return _z80mem_read_tab_ptr[adr >> 8](adr);
+    }
+
+    return _z80mem_read_tab_ptr[real_adr >> 8](real_adr);
+}
+
+/* out() to $0000-$0fff in bank 0 get translated to memory store to RAM at $d000-$dfff */ 
+static void z80_io_ram_bank0_store(uint16_t adr, uint8_t val)
+{
+    uint16_t real_adr = (adr & 0x0fff) | 0xd000;
+
+    if (mmu[0] & 0x40) {
+        _z80mem_write_tab_ptr[adr >> 8](adr, val);
+    } else {
+        _z80mem_write_tab_ptr[real_adr >> 8](real_adr, val);
+    }
+}
+
+
 static uint8_t c64mode_colorram_read(uint16_t adr)
 {
     if (!(mmu[0] & 1)) {
@@ -877,6 +902,13 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
+
+    for (i = 0; i <= 0xf; i++) {
+        io_read_tab[i] = z80_io_ram_bank0_read;
+        io_write_tab[i] = z80_io_ram_bank0_store;
+    }
+
+
     io_read_tab[0xd0] = z80_c64io_d000_read;
     io_write_tab[0xd0] = z80_c64io_d000_store;
     io_read_tab[0xd1] = z80_c64io_d100_read;
