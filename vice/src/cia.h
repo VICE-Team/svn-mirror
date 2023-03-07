@@ -114,9 +114,13 @@ typedef struct cia_context_s {
     struct alarm_s *tod_alarm;
     struct alarm_s *idle_alarm;
     struct alarm_s *sdr_alarm;
-    unsigned int irqflags;
+    unsigned int irqflags;	/* more than 8 bits used! */
+    unsigned int ack_irqflags;	/* only 8 bits used */
+    unsigned int new_irqflags;	/* only 8 bits used */
     uint8_t irq_enabled;
-    CLOCK rdi;
+    CLOCK rdi;                  /* last time ICR was read */
+    CLOCK ifr_clock;            /* clock for last action on ifr_delay */
+    uint32_t ifr_delay;
     unsigned int tat;
     unsigned int tbt;
     CLOCK todclk;
