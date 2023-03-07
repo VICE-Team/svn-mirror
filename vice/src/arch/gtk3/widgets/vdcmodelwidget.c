@@ -90,7 +90,6 @@ static void on_64kb_ram_toggled(GtkWidget *widget, gpointer data)
     }
 }
 
-
 /** \brief  Create check button to toggle 64KB video ram
  *
  * \return  GtkCheckButton
@@ -104,7 +103,6 @@ static GtkWidget *create_64kb_widget(void)
     return check;
 }
 
-
 /** \brief  Connect extra signal handlers to the VDC revision radiogroup
  *
  * Add signal handlers to the revision radio buttons to trigger the extra
@@ -115,11 +113,12 @@ static GtkWidget *create_64kb_widget(void)
 static void vdc_model_widget_connect_signals(GtkWidget *widget)
 {
     GtkWidget *radio;
-    int i = 0;
+    int        i = 0;
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
-            g_signal_connect(radio,
+            /* cannot use unlocked, the callback can access resources */
+            g_signal_connect(G_OBJECT(radio),
                              "toggled",
                              G_CALLBACK(on_revision_toggled),
                              GINT_TO_POINTER(vdc_revs[i].id));
@@ -136,28 +135,35 @@ static void vdc_model_widget_connect_signals(GtkWidget *widget)
 GtkWidget *vdc_model_widget_create(void)
 {
     GtkWidget *grid;
-    GtkWidget *group;
+    GtkWidget *label;
+    GtkWidget *revisions;
     GtkWidget *extra_ram;
 
     /* we can use row spacing of 8 here since the radio buttons are in a
      * separate grid with row spacing of 0 */
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 8, "VDC settings", 1);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    /* header */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>VDC settings</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
 
     extra_ram = create_64kb_widget();
-    gtk_widget_set_margin_start(extra_ram, 8);
-    g_signal_connect(extra_ram,
+    g_signal_connect(G_OBJECT(extra_ram),
                      "toggled",
                      G_CALLBACK(on_64kb_ram_toggled),
                      NULL);
-    group = vice_gtk3_resource_radiogroup_new("VDCRevision",
-                                              vdc_revs,
-                                              GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(group, 8);
+    revisions = vice_gtk3_resource_radiogroup_new("VDCRevision",
+                                                  vdc_revs,
+                                                  GTK_ORIENTATION_VERTICAL);
     /* connect extra handlers */
-    vdc_model_widget_connect_signals(group);
+    vdc_model_widget_connect_signals(revisions);
 
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), extra_ram, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), group, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), revisions, 0, 2, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

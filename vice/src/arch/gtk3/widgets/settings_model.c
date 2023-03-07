@@ -975,6 +975,21 @@ static void c64_glue_widget_sync(void)
     }
 }
 
+/** \brief  Create left-aligned label with Pango markup
+ *
+ * \param[in]   text    text for label using Pango markup
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
 /** \brief  Create widget to select C64SC Glue Logic
  *
  * \return  GtkGrid
@@ -1028,13 +1043,17 @@ static GtkWidget *create_c64_glue_widget(void)
 static GtkWidget *create_c64_misc_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *iec_widget;
     GtkWidget *glue_widget = NULL;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Miscellaneous", 1);
-    gtk_widget_set_margin_bottom(gtk_grid_get_child_at(GTK_GRID(grid), 0, 0), 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>Miscellaneous</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
     iec_widget = create_reset_with_iec_widget();
-    gtk_widget_set_margin_start(iec_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
 
     /*
@@ -1044,7 +1063,6 @@ static GtkWidget *create_c64_misc_widget(void)
     if (machine_class == VICE_MACHINE_C64SC ||
             machine_class == VICE_MACHINE_SCPU64) {
         glue_widget = create_c64_glue_widget();
-        gtk_widget_set_margin_top(glue_widget, 8);
         gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
     }
 
@@ -1067,13 +1085,20 @@ static void c64_misc_widget_sync(void)
 static GtkWidget *create_c128_misc_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *go64_widget;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Miscellaneous", 1);
+    /* no row spacing, we use a margin since more widgets might be added in
+     * the future for which we don't want extra row spacing */
+    grid = gtk_grid_new();
+
+    label = label_helper("<b>Miscellaneous</b>");
+    /* we do the extra spacing here */
+    gtk_widget_set_margin_bottom(label, 8);
 
     go64_widget = create_go64_widget();
-    gtk_widget_set_margin_top(go64_widget, 8);
-    gtk_widget_set_margin_start(go64_widget, 8);
+
+    gtk_grid_attach(GTK_GRID(grid), label,       0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), go64_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
