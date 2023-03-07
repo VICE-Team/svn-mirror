@@ -1617,11 +1617,6 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
     { "Tape port devices",
       "tapeport-devices",
       settings_tapeport_widget_create, NULL },
-#ifdef HAVE_RAWNET
-    { "Ethernet",
-      "ethernet",
-      settings_ethernet_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
