@@ -129,7 +129,7 @@ void printer_shutdown(void)
 
 /** \brief  Send formfeed to printer
  *
- * \param[in]   prnr    device number (4-7)
+ * \param[in]   prnr    device index (0-2: 4-6, 3: userport)
  */
 void printer_formfeed(unsigned int prnr)
 {

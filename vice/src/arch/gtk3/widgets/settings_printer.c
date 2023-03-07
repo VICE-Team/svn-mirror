@@ -79,7 +79,8 @@
 typedef struct child_s {
     const char *title;          /**< stack child title */
     const char *name;           /**< stack child name */
-    int         device;         /**< device number */
+    int         device;         /**< device number used by resources */
+    int         device_drv;     /**< device number used by drivers */
     bool        has_type;       /**< can set emulation type */
     bool        has_virtdev;    /**< virtual device support */
     bool        has_iec;        /**< can have IEC device support (depends on machine) */
@@ -97,6 +98,7 @@ static const child_t children[] = {
         .title        = "Printer 4",
         .name         = "printer4",
         .device       = 4,
+        .device_drv   = PRINTER_IEC_4,  /* 0 */
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -109,6 +111,7 @@ static const child_t children[] = {
         .title        = "Printer 5",
         .name         = "printer5",
         .device       = 5,
+        .device_drv   = PRINTER_IEC_5,  /* 1 */
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -121,6 +124,7 @@ static const child_t children[] = {
         .title        = "Plotter 6",
         .name         = "plotter6",
         .device       = 6,
+        .device_drv   = PRINTER_IEC_6,  /* 2 */
         .has_type     = true,
         .has_virtdev  = true,
         .has_iec      = true,
@@ -133,6 +137,7 @@ static const child_t children[] = {
         .title        = "OpenCBM 7",
         .name         = "opencbm7",
         .device       = 7,
+        .device_drv   = PRINTER_USERPORT,   /* 3 */
         .has_virtdev  = true,
         .has_iec      = true,
         .has_realdev  = true,
@@ -148,6 +153,7 @@ static const child_t children[] = {
         .has_formfeed = true
     }
 };
+
 
 /** \brief  Current machine has IEC bus support
  *
@@ -229,8 +235,7 @@ static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 {
     int device = GPOINTER_TO_INT(data);
 
-    debug_gtk3("Sending formfeed to device %d", device);
-
+    debug_gtk3("Sending formfeed to device with index %d", device);
     printer_formfeed((unsigned int)device);
 }
 
@@ -290,24 +295,21 @@ static GtkWidget *create_real_device7_check_button(void)
 
 /** \brief  Create button to send formfeed to the printer
  *
- * \param[in]   device  device number (4-6, 3 for userport)
+ * \param[in]   child   switcher child info
  *
  * \return  GtkButton
  */
-static GtkWidget *create_formfeed_button(int device)
+static GtkWidget *create_formfeed_button(const child_t *child)
 {
     GtkWidget *button;
     char       label[64];
 
-    g_snprintf(label, sizeof label, "Send formfeed to %s",
-               device == PRINTER_USERPORT
-                ? children[4].title
-                : children[device - PRINTER_MIN].title);
+    g_snprintf(label, sizeof label, "Send formfeed to %s", child->title);
     button = gtk_button_new_with_label(label);
-    g_signal_connect(button,
+    g_signal_connect(G_OBJECT(button),
                      "clicked",
                      G_CALLBACK(on_formfeed_clicked),
-                     GINT_TO_POINTER(device));
+                     GINT_TO_POINTER(child->device_drv));
     return button;
 }
 
@@ -366,7 +368,7 @@ static GtkWidget *create_printer_widget(int index)
         outdev = printer_output_device_widget_create(device);
     }
     if (child->has_formfeed) {
-        formfeed = create_formfeed_button(device);
+        formfeed = create_formfeed_button(child);
     }
 
     /* attach widgets */
