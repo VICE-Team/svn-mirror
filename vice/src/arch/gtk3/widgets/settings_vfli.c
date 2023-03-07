@@ -46,13 +46,12 @@
 GtkWidget *settings_vfli_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *vfli;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("VFLImod",
-                "Enable VFLI modification"),
-            0, 0, 1, 1);
+    grid = gtk_grid_new();
+    vfli = vice_gtk3_resource_check_button_new("VFLImod",
+                                               "Enable VFLI modification");
+    gtk_grid_attach(GTK_GRID(grid), vfli, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
