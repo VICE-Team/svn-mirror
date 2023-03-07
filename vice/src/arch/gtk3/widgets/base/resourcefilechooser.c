@@ -129,13 +129,13 @@ static gboolean set_resource_and_entry(GtkEntry *entry, const char *text)
     if (g_strcmp0(res_text, text) != 0) {
         if (!mediator_update_string(mediator, text)) {
             /* set old resource value */
-            gtk_entry_set_text(entry, res_text);
+            gtk_entry_set_text(entry, res_text ? res_text : "");
             result = FALSE;
         } else {
             fc_state_t *state = mediator_get_data(mediator);
 
             /* update entry */
-            gtk_entry_set_text(entry, text);
+            gtk_entry_set_text(entry, text ? text : "");
             /* call user-defined function, if present */
             if (state->callback != NULL) {
                 state->callback(entry, g_strdup(text));
@@ -381,7 +381,7 @@ GtkWidget *vice_gtk3_resource_filechooser_new(const char           *resource,
 
     /* set up entry */
     path = mediator_get_resource_string(mediator);
-    gtk_entry_set_text(GTK_ENTRY(entry), path);
+    gtk_entry_set_text(GTK_ENTRY(entry), path ? path : "");
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry),
                                       GTK_ENTRY_ICON_SECONDARY,
