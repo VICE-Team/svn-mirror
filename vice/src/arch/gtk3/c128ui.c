@@ -27,31 +27,19 @@
  */
 
 #include "vice.h"
+#include <gtk/gtk.h>
 
-#include <stdio.h>
-
-#include "debug_gtk3.h"
 #include "c128model.h"
 #include "crtcontrolwidget.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
 #include "resources.h"
-#include "sampler.h"
+#include "settings_model.h"
 #include "ui.h"
 #include "uimachinewindow.h"
 #include "vdc.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
-#include "widgethelpers.h"
-
-#include "clockportdevicewidget.h"
-#include "clockport.h"
-
-#include "cartridge.h"
-#include "tapecart.h"
-#include "c128model.h"
-#include "settings_model.h"
-#include "crtpreviewwidget.h"
 
 #include "c128ui.h"
 
@@ -70,15 +58,14 @@ static const char *c128_model_list[] = {
     NULL
 };
 
-
 /** \brief  List of VIC-II models
  *
  * Used in the VIC-II model widget
  */
 static const vice_gtk3_radiogroup_entry_t c128_vicii_models[] = {
-    { "PAL", MACHINE_SYNC_PAL },
-    { "NTSC", MACHINE_SYNC_NTSC },
-    { NULL, -1 }
+    { "PAL",    MACHINE_SYNC_PAL },
+    { "NTSC",   MACHINE_SYNC_NTSC },
+    { NULL,     -1 }
 };
 
 
@@ -137,8 +124,9 @@ int c128ui_init_early(void)
  */
 int c128ui_init(void)
 {
-    int forty;
-    int hide_vdc;
+    GtkWidget *window;
+    int        forty = 0;
+    int        hide_vdc = 0;
 
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
@@ -152,28 +140,22 @@ int c128ui_init(void)
     settings_model_widget_set_model_func(c128model_get);
 
     /* push VDC display to front depending on 40/80 key */
-    if (resources_get_int("C128ColumnKey", &forty) >= 0) {
-        GtkWidget *window;
-
-        if (forty) {
-            window = ui_get_window_by_index(0); /* VICIIe */
-        } else {
-            window = ui_get_window_by_index(1); /* VDC */
-        }
-        if (window != NULL) {
-            gtk_window_present(GTK_WINDOW(window));
-        }
+    resources_get_int("C128ColumnKey", &forty);
+    if (forty) {
+        window = ui_get_window_by_index(PRIMARY_WINDOW); /* VICIIe */
+    } else {
+        window = ui_get_window_by_index(SECONDARY_WINDOW); /* VDC */
+    }
+    if (window != NULL) {
+        gtk_window_present(GTK_WINDOW(window));
     }
 
     /* Hide VDC window, ignoring the stuff before this */
-    if (resources_get_int("C128HideVDC", &hide_vdc) >= 0) {
-        GtkWidget *window;
-
-        if (hide_vdc) {
-            window = ui_get_window_by_index(1); /* VDC */
-            if (window != NULL) {
-                gtk_widget_hide(window);
-            }
+    resources_get_int("C128HideVDC", &hide_vdc);
+    if (hide_vdc) {
+        window = ui_get_window_by_index(SECONDARY_WINDOW); /* VDC */
+        if (window != NULL) {
+            gtk_widget_hide(window);
         }
     }
 
