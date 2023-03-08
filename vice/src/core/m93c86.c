@@ -429,11 +429,13 @@ int m93c86_flush_image(void)
         log_debug("cannot flush read-only eeprom card image");
         return -1;
     }
-    if (fflush(m93c86_image_file) != 0) {
+    fseek(m93c86_image_file, 0, SEEK_SET);
+    if (fwrite(m93c86_data, 1, M93C86_SIZE, m93c86_image_file) == 0) {
         log_debug("failed to flush eeprom card image: %d (%s)",
                   errno, strerror(errno));
         return -1;
     }
+    fflush(m93c86_image_file);
     return 0;
 }
 

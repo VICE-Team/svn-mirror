@@ -94,6 +94,27 @@ static void on_image_flush_clicked(GtkWidget *widget, gpointer user_data)
     }
 }
 
+/** \brief  Callback for the open-file dialog
+ *
+ * \param[in]   dialog      open-file dialog
+ * \param[in]   filename    filename or NULL on cancel
+ * \param[in]   data        extra data (unused)
+ */
+static void save_eeprom_callback(GtkDialog *dialog,
+                                gchar     *filename,
+                                gpointer   data)
+{
+    if (filename != NULL) {
+        if (cartridge_save_secondary_image(CARTRIDGE_GMOD2, filename) < 0) {
+            vice_gtk3_message_error(CARTRIDGE_NAME_GMOD2 " Error",
+                                    "Failed to save eeprom image '%s'.",
+                                    filename);
+        }
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 /** \brief  Handler for the 'clicked' event of the "save eeprom" button
  *
  * \param[in]   button  save-as button (unused)
@@ -101,8 +122,15 @@ static void on_image_flush_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_eeprom_save_clicked(GtkWidget *button, gpointer data)
 {
-    /* FIXME: Implement once the cartridge API supports this */
-    debug_gtk3("Not implemented yet!");
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_GMOD2 " eeprom image",
+                                        NULL,
+                                        TRUE,
+                                        NULL,
+                                        save_eeprom_callback,
+                                        NULL);
+    gtk_widget_show(dialog);
 }
 
 /** \brief  Handler for the 'clicked' event of the "flush eeprom" button
@@ -112,15 +140,10 @@ static void on_eeprom_save_clicked(GtkWidget *button, gpointer data)
  */
 static void on_eeprom_flush_clicked(GtkWidget *button, gpointer data)
 {
-    /* FIXME: Implement once the cartridge API supports this */
-    debug_gtk3("Not implemented yet!");
-    /* cannot include gmod2.h directly, so commented out for now. */
-#if 0
-    if (gmod2_flush_eeprom() < 0) {
+    if (cartridge_flush_secondary_image(CARTRIDGE_GMOD2) < 0) {
         vice_gtk3_message_error(CARTRIDGE_NAME_GMOD2 "Error",
                                 "Failed to flush EEPROM image.");
     }
-#endif
 }
 
 /** \brief  Create left-aligned label with Pango markup
@@ -170,7 +193,7 @@ static GtkWidget *create_eeprom_image_widget(void)
                                                     CARTRIDGE_NAME_GMOD2
                                                     " EEPROM image file");
     gtk_widget_set_hexpand(label, FALSE);
-    //gtk_widget_set_halign(eeprom, GTK_ALIGN_START);
+    /* gtk_widget_set_halign(eeprom, GTK_ALIGN_START); */
     gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), eeprom, 1, row, 2, 1);
     row++;
@@ -197,12 +220,6 @@ static GtkWidget *create_eeprom_image_widget(void)
                      "clicked",
                      G_CALLBACK(on_eeprom_flush_clicked),
                      NULL);
-
-    /* FIXME:   Once the eeprom flush/save is accesible via the normal cartridge
-     *          API, the handlers should be implemented and the buttons enabled.
-     */
-    gtk_widget_set_sensitive(save,  FALSE);
-    gtk_widget_set_sensitive(flush, FALSE);
 
     gtk_grid_attach(GTK_GRID(grid), write_enable, 0, row, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), box,          2, row, 1, 1);
