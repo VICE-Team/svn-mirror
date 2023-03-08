@@ -99,7 +99,7 @@ void cartridge_release_freeze(void);
 const char *cartridge_get_file_name(int type);
 int cartridge_type_enabled(int type);
 
-/* save the (rom/ram)image of the give cart type to a file */
+/* save the primary (rom/ram)image of the give cart type to a file */
 int cartridge_save_image(int type, const char *filename);
 int cartridge_bin_save(int type, const char *filename);
 int cartridge_crt_save(int type, const char *filename);
@@ -110,6 +110,10 @@ int cartridge_can_flush_image(int crtid);
 
 /* returns 1 when cartridge (ROM) image can be saved */
 int cartridge_can_save_image(int crtid);
+
+/* save the secondary image of the give cart type to a file */
+int cartridge_save_secondary_image(int type, const char *filename);
+int cartridge_flush_secondary_image(int type);
 
 /* load/write snapshot modules for attached cartridges */
 struct snapshot_s;

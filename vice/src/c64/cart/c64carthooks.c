@@ -2681,6 +2681,10 @@ int cart_freeze_allowed(void)
     flush cart image
 
     all carts whose image might be modified at runtime should be hooked up here.
+
+    CAUTION: this is only for the primary (usually ROM) image. If the cartridge
+             has a ROM and a second writeable chip, it should use
+             cartridge_flush_secondary_image() below
 */
 int cartridge_flush_image(int type)
 {
@@ -2727,6 +2731,16 @@ int cartridge_flush_image(int type)
             return reu_flush_image();
     }
     log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.\n", type);
+    return -1;
+}
+
+int cartridge_flush_secondary_image(int type)
+{
+    switch (type) {
+        case CARTRIDGE_GMOD2:
+            return gmod2_flush_eeprom();
+    }
+    log_error(LOG_ERR, "Failed flushing secondary image for cartridge ID %d.\n", type);
     return -1;
 }
 
@@ -2785,6 +2799,16 @@ int cartridge_bin_save(int type, const char *filename)
             return reu_bin_save(filename);
     }
     log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.\n", type);
+    return -1;
+}
+
+int cartridge_save_secondary_image(int type, const char *filename)
+{
+    switch (type) {
+        case CARTRIDGE_GMOD2:
+            return gmod2_eeprom_save(filename);
+    }
+    log_error(LOG_ERR, "Failed saving secondary image for cartridge ID %d.\n", type);
     return -1;
 }
 

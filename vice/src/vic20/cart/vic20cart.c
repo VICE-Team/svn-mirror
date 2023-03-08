@@ -776,6 +776,11 @@ int cartridge_flush_image(int type)
     return -1;
 }
 
+int cartridge_flush_secondary_image(int type)
+{
+    return -1;
+}
+
 int cartridge_save_image(int type, const char *filename)
 {
 /* FIXME: this can be used once we implement a crt like format for vic20 */
@@ -786,6 +791,11 @@ int cartridge_save_image(int type, const char *filename)
     }
 #endif
     return cartridge_bin_save(type, filename);
+}
+
+int cartridge_save_secondary_image(int type, const char *filename)
+{
+    return -1;
 }
 
 int cartridge_type_enabled(int crtid)

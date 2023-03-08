@@ -67,7 +67,17 @@ int cartridge_save_image(int type, const char *filename)
     return -1;
 }
 
+int cartridge_save_secondary_image(int type, const char *filename)
+{
+    return -1;
+}
+
 int cartridge_flush_image(int type)
+{
+    return -1;
+}
+
+int cartridge_flush_secondary_image(int type)
 {
     return -1;
 }
