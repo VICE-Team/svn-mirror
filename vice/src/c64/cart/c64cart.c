@@ -346,16 +346,15 @@ int cartridge_get_id(int slot)
     return type;
 }
 
-/* FIXME: terrible name, we already have cartridge_get_file_name */
-char *cartridge_get_filename(int slot)
+char *cartridge_get_filename_by_slot(int slot)
 {
-    DBG(("cartridge_get_filename(slot:%d)\n", slot));
-/*    return cart_get_file_name(mem_cartridge_type); */
+    DBG(("cartridge_get_filename_by_slot(slot:%d)\n", slot));
+/*    return cart_get_filename_by_type(mem_cartridge_type); */
     int type = cart_getid_slotmain();
     if (cart_getid_slotmain() == type && !cart_can_get_file_name(type)) {
         return cartfile;
     }
-    return (char*)cart_get_file_name(type);
+    return (char*)cart_get_filename_by_type(type);
 }
 
 /*
@@ -653,12 +652,12 @@ int cart_getid_slotmain(void)
 /*
     get filename of cart with given type
 */
-const char *cartridge_get_file_name(int type)
+const char *cartridge_get_filename_by_type(int type)
 {
     if (cart_getid_slotmain() == type && !cart_can_get_file_name(type)) {
         return cartfile;
     }
-    return cart_get_file_name(type);
+    return cart_get_filename_by_type(type);
 }
 
 /*

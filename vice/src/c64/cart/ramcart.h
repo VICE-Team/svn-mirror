@@ -53,7 +53,7 @@ int ramcart_peek_mem(uint16_t addr, uint8_t *value);
 void ramcart_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 
 int ramcart_cart_enabled(void);
-const char *ramcart_get_file_name(void);
+const char *ramcart_get_filename_by_type(void);
 int ramcart_bin_attach(const char *filename, uint8_t *rawcart);
 int ramcart_bin_save(const char *filename);
 int ramcart_flush_image(void);

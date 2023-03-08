@@ -803,7 +803,7 @@ int cart_can_get_file_name(int type)
 /*
     get filename of cart with given type
 */
-const char *cart_get_file_name(int type)
+const char *cart_get_filename_by_type(int type)
 {
     switch (type) {
         /* "Slot 0" */
@@ -825,7 +825,7 @@ const char *cart_get_file_name(int type)
         case CARTRIDGE_ISEPIC:
             return isepic_get_file_name();
         case CARTRIDGE_RAMCART:
-            return ramcart_get_file_name();
+            return ramcart_get_filename_by_type();
         /* "Main Slot" */
         /* "I/O Slot" */
         case CARTRIDGE_GEORAM:
@@ -852,7 +852,7 @@ const char *cart_get_file_name(int type)
 #endif
             break;
 
-            /* Main Slot handled in c64cart.c:cartridge_get_file_name */
+            /* Main Slot handled in c64cart.c:cartridge_get_filename_by_type */
     }
     return ""; /* FIXME: NULL or empty string? */
 }
@@ -2684,7 +2684,7 @@ int cartridge_can_flush_image(int crtid)
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
-    p = cartridge_get_file_name(crtid);
+    p = cartridge_get_filename_by_type(crtid);
     if ((p == NULL) || (*p == '\x0')) {
         return 0;
     }

@@ -133,10 +133,9 @@ int cartridge_get_id(int slot)
     return type;
 }
 
-/* FIXME: terrible name, we already have cartridge_get_file_name */
-char *cartridge_get_filename(int slot)
+char *cartridge_get_filename_by_slot(int slot)
 {
-    DBG(("cartridge_get_filename(slot:%d)\n", slot));
+    DBG(("cartridge_get_filename_by_slot(slot:%d)\n", slot));
     return cartfile;
 }
 

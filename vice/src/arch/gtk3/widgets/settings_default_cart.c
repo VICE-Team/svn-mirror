@@ -148,7 +148,7 @@ static void update_cart_default_type_widget(void)
 
 static void update_cart_file_widget(void)
 {
-    const char *filename = cartridge_get_filename(0 /* FIXME: slot */);
+    const char *filename = cartridge_get_filename_by_slot(0 /* FIXME: slot */);
 
     if (filename != NULL) {
         gtk_entry_set_text(GTK_ENTRY(cart_file_widget), filename);
