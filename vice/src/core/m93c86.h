@@ -38,6 +38,7 @@ int  m93c86_open_image(char *name, int rw);
 int  m93c86_save_image(const char *name);
 int  m93c86_flush_image(void);
 void m93c86_close_image(int rw);
+void m93c86_set_image_rw(int rw);
 
 struct snapshot_s;
 
