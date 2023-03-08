@@ -300,6 +300,7 @@ static int set_gmod2_eeprom_filename(const char *name, void *param)
 static int set_gmod2_eeprom_rw(int val, void* param)
 {
     gmod2_eeprom_rw = val ? 1 : 0;
+    m93c86_set_image_rw(gmod2_eeprom_rw);
     return 0;
 }
 
