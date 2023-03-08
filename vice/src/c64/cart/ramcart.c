@@ -548,7 +548,7 @@ int ramcart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-const char *ramcart_get_file_name(void)
+const char *ramcart_get_filename_by_type(void)
 {
     return ramcart_filename;
 }

@@ -718,7 +718,7 @@ void cartridge_unset_default(void)
     cartridge_type = CARTRIDGE_NONE;
 }
 
-const char *cartridge_get_file_name(int addr)
+const char *cartridge_get_filename_by_type(int addr)
 {
     if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
         /* special case handling for the multiple file generic type */
@@ -817,7 +817,7 @@ int cartridge_can_flush_image(int crtid)
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
-    p = cartridge_get_file_name(crtid);
+    p = cartridge_get_filename_by_type(crtid);
     if ((p == NULL) || (*p == '\x0')) {
         return 0;
     }
@@ -855,10 +855,15 @@ int cartridge_get_id(int slot)
     return CARTRIDGE_NONE;
 }
 
-/* FIXME: terrible name, we already have cartridge_get_file_name */
-char *cartridge_get_filename(int slot)
+char *cartridge_get_filename_by_slot(int slot)
 {
-    return NULL;
+    if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
+        /* special case handling for the multiple file generic type */
+        /* return generic_get_file_name((uint16_t)addr); */
+        log_warning(LOG_DEFAULT, "FIXME: cartridge_get_filename_by_slot not implemented for generic type");
+    }
+
+    return cartfile;
 }
 
 void cartridge_trigger_freeze(void)

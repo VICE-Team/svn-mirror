@@ -71,7 +71,7 @@ int cartridge_get_id(int slot);
 /* FIXME: slot arg is ignored right now.
    this should return a pointer to a filename, or NULL
 */
-char *cartridge_get_filename(int slot);
+char *cartridge_get_filename_by_slot(int slot);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* set current "Main Slot" cart as default */
@@ -96,7 +96,7 @@ void cartridge_trigger_freeze_nmi_only(void);
 /* FIXME: this should also be made a generic function that takes the type */
 void cartridge_release_freeze(void);
 
-const char *cartridge_get_file_name(int type);
+const char *cartridge_get_filename_by_type(int type);
 int cartridge_type_enabled(int type);
 
 /* save the primary (rom/ram)image of the give cart type to a file */

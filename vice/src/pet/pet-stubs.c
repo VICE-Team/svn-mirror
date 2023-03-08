@@ -108,8 +108,7 @@ int cartridge_get_id(int slot)
     return CARTRIDGE_NONE;
 }
 
-/* FIXME: terrible name, we already have cartridge_get_file_name */
-char *cartridge_get_filename(int slot)
+char *cartridge_get_filename_by_slot(int slot)
 {
     return NULL;
 }
