@@ -210,7 +210,8 @@ static GtkWidget *create_ide64_geometry_widget(int device)
         spin  = vice_gtk3_resource_spin_int_new_sprintf(geo->resource,
                                                         geo->min,
                                                         geo->max,
-                                                        geo->step);
+                                                        geo->step,
+                                                        device);
         gtk_widget_set_halign(label, GTK_ALIGN_END);
         /* using 1 column for the label and 2 for the spin button creates a
          * homogeneous layout without too much wasted space */
