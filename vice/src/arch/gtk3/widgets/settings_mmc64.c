@@ -226,6 +226,9 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
 {
     GtkWidget  *label;
     GtkWidget  *bios_write;
+    GtkWidget  *box;
+    GtkWidget  *save;
+    GtkWidget  *flush;
     const char *title;
 
     /* header */
@@ -252,8 +255,26 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
     /* BIOS writes */
     bios_write = vice_gtk3_resource_check_button_new("MMC64_bios_write",
                                                      "Enable BIOS image writes");
-    gtk_grid_attach(GTK_GRID(grid), bios_write,    1, row, columns - 1, 1);
+    /* buttons */
+    box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    flush = gtk_button_new_with_label("Flush image");
+    save =  gtk_button_new_with_label("Save image as ..");
 
+    g_signal_connect(G_OBJECT(flush),
+                     "clicked",
+                     G_CALLBACK(on_flush_clicked),
+                     NULL);
+    g_signal_connect(G_OBJECT(save),
+                     "clicked",
+                     G_CALLBACK(on_save_clicked),
+                     NULL);
+
+    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
+    gtk_box_set_spacing(GTK_BOX(box), 8);
+    gtk_widget_set_halign(box, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(grid), bios_write,    1, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), box,           2, row, columns - 2, 1);
     return row + 1;
 }
 
@@ -292,8 +313,6 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     gtk_grid_attach(GTK_GRID(grid), card_filename, 1, row, columns - 1, 1);
     row++;
 
-
-
     /* card type */
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -310,53 +329,6 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
                                                       "Enable SD/MMC card read-only");
     gtk_grid_attach(GTK_GRID(grid), card_writes, 1, row, columns - 1, 1);
     row++;
-    return row + 1;
-}
-
-/** \brief  Add buttons for flushing and saving image
- *
- * \param[in]   grid    main grid
- * \param[in]   row     row in \a grid to add widgets
- * \param[in]   columns number of columns in \a grid, for proper column span
- *
- * \return  row in \a grid to add more widgets
- *
- * \todo    Turn into cart_image_layout() with header label, like MMCR
- */
-static int create_cart_image_layout(GtkWidget *grid, int row, int columns)
-{
-    GtkWidget *label;
-    GtkWidget *box;
-    GtkWidget *save;
-    GtkWidget *flush;
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label),
-                         "<b>" CARTRIDGE_NAME_MMC64 " Cartridge Image</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
-    row++;
-
-    box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-    flush = gtk_button_new_with_label("Flush image");
-    save =  gtk_button_new_with_label("Save image as ..");
-
-    g_signal_connect(G_OBJECT(flush),
-                     "clicked",
-                     G_CALLBACK(on_flush_clicked),
-                     NULL);
-    g_signal_connect(G_OBJECT(save),
-                     "clicked",
-                     G_CALLBACK(on_save_clicked),
-                     NULL);
-
-    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), box, 2, row, columns - 2, 1);
-
     return row + 1;
 }
 
@@ -409,7 +381,6 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 
     row = create_bios_image_layout(grid, row, NUM_COLS);
     row = create_card_image_layout(grid, row, NUM_COLS);
-    row = create_cart_image_layout(grid, row, NUM_COLS);
 
     clockport_label  = gtk_label_new("ClockPort device");
     clockport_widget = clockport_device_widget_create("MMC64ClockPort");
