@@ -780,6 +780,62 @@ void cartridge_trigger_freeze(void)
     DBG(("cartridge_trigger_freeze delay %d cycles", delay));
 }
 
+
+int cartridge_save_image(int type, const char *filename)
+{
+    return -1;
+}
+
+int cartridge_save_secondary_image(int type, const char *filename)
+{
+    return -1;
+}
+
+int cartridge_flush_image(int type)
+{
+    return -1;
+}
+
+int cartridge_flush_secondary_image(int type)
+{
+    return -1;
+}
+
+int cartridge_can_save_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_flush_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_save_secondary_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_flush_secondary_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_enable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_disable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_type_enabled(int crtid)
+{
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /*

@@ -824,6 +824,11 @@ int cartridge_can_flush_image(int crtid)
     return 1;
 }
 
+int cartridge_can_flush_secondary_image(int crtid)
+{
+    return 0;
+}
+
 /* returns 1 when cartridge (ROM) image can be saved */
 int cartridge_can_save_image(int crtid)
 {
@@ -831,6 +836,33 @@ int cartridge_can_save_image(int crtid)
         return 0;
     }
     return 1;
+}
+
+int cartridge_can_save_secondary_image(int crtid)
+{
+    return 0;
+}
+
+cartridge_info_t *cartridge_get_info_list(void)
+{
+    return NULL;
+}
+
+/* return cartridge type of main slot
+   returns 0 (CARTRIDGE_CRT) if crt file */
+int cartridge_get_id(int slot)
+{
+    return CARTRIDGE_NONE;
+}
+
+/* FIXME: terrible name, we already have cartridge_get_file_name */
+char *cartridge_get_filename(int slot)
+{
+    return NULL;
+}
+
+void cartridge_trigger_freeze(void)
+{
 }
 
 /* ------------------------------------------------------------------------- */
