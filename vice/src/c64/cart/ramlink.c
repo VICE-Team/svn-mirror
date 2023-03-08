@@ -692,10 +692,7 @@ static void ramlink_unregisterio(void)
     }
 }
 
-/* FIXME: the xxx_bin_save API call is supposed to save the "primary" ROM
- * image of a cartridge. we need to create another API for the RAM image */
-/* save a RAMCard image file */
-int ramlink_bin_save(const char *filename)
+int ramlink_ram_save(const char *filename)
 {
     if (rl_card == NULL) {
         return -1;
@@ -717,22 +714,35 @@ int ramlink_bin_save(const char *filename)
     return 0;
 }
 
-/* FIXME: the xxx_flush_image API call is supposed to flush the "primary" ROM
- * image of a cartridge. we need to create another API for the RAM image */
-/* save RAMCard to set image file */
-int ramlink_flush_image(void)
+int ramlink_can_save_ram_image(void)
 {
-    if (ramlink_bin_save(rl_filename) < 0) {
+    if (rl_filename == NULL) {
+        return 0;
+    }
+    return 1;
+}
+
+int ramlink_flush_ram_image(void)
+{
+    if (ramlink_ram_save(rl_filename) < 0) {
         return -1;
     }
     return 0;
+}
+
+int ramlink_can_flush_ram_image(void)
+{
+    if (rl_filename == NULL) {
+        return 0;
+    }
+    return 1;
 }
 
 /* save RAMCard image file if set to by resource */
 static int ramlink_save_image(void)
 {
     if (rl_write_image) {
-        return ramlink_flush_image();
+        return ramlink_flush_ram_image();
     }
 
     return 0;
@@ -1105,9 +1115,7 @@ int ramlink_resources_shutdown(void)
     return 0;
 }
 
-/* FIXME: this should really return the name of the ROM image, we need to create
- * an API for returning the name of the RAM image */
-const char *ramlink_get_file_name(void)
+const char *ramlink_get_ram_file_name(void)
 {
     return rl_filename;
 }

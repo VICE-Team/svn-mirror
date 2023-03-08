@@ -40,10 +40,14 @@ void ramlink_config_setup(uint8_t *rawcart);
 int ramlink_bin_attach(const char *filename, uint8_t *rawcart);
 void ramlink_detach(void);
 int ramlink_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
-int ramlink_flush_image(void); /* FIXME: API reserved for primary/ROM image */
-const char *ramlink_get_file_name(void); /* FIXME: API reserved for primary/ROM image */
 int ramlink_cart_enabled(void);
-int ramlink_bin_save(const char *filename); /* FIXME: API reserved for primary/ROM image */
+
+int ramlink_flush_ram_image(void);
+const char *ramlink_get_ram_file_name(void);
+int ramlink_ram_save(const char *filename);
+
+int ramlink_can_flush_ram_image(void);
+int ramlink_can_save_ram_image(void);
 
 int ramlink_roml_read(uint16_t addr, uint8_t *value);
 int ramlink_romh_read(uint16_t addr, uint8_t *value);
