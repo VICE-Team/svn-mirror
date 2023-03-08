@@ -489,6 +489,19 @@ int gmod2_flush_image(void)
     return -1;
 }
 
+int gmod2_can_save_eeprom(void)
+{
+    return 1;
+}
+
+int gmod2_can_flush_eeprom(void)
+{
+    if (gmod2_eeprom_filename) {
+        return 1;
+    }
+    return 0;
+}
+
 /** \brief  Save a copy of the GMod2 EEPROM image to a file
  *
  * \param[in]   filename    filename for EEPROM image copy

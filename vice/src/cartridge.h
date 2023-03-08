@@ -115,6 +115,9 @@ int cartridge_can_save_image(int crtid);
 int cartridge_save_secondary_image(int type, const char *filename);
 int cartridge_flush_secondary_image(int type);
 
+int cartridge_can_flush_secondary_image(int crtid);
+int cartridge_can_save_secondary_image(int crtid);
+
 /* load/write snapshot modules for attached cartridges */
 struct snapshot_s;
 int cartridge_snapshot_read_modules(struct snapshot_s *s);

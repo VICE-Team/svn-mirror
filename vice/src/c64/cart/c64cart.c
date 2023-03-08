@@ -1353,26 +1353,3 @@ void cartridge_init(void)
     cartridge_freeze_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_freeze_alarm_triggered, NULL);
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
-
-/* returns 1 when cartridge (ROM) image can be flushed */
-int cartridge_can_flush_image(int crtid)
-{
-    const char *p;
-    if (!cartridge_type_enabled(crtid)) {
-        return 0;
-    }
-    p = cartridge_get_file_name(crtid);
-    if ((p == NULL) || (*p == '\x0')) {
-        return 0;
-    }
-    return 1;
-}
-
-/* returns 1 when cartridge (ROM) image can be saved */
-int cartridge_can_save_image(int crtid)
-{
-    if (!cartridge_type_enabled(crtid)) {
-        return 0;
-    }
-    return 1;
-}

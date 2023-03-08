@@ -810,7 +810,7 @@ const char *cart_get_file_name(int type)
         case CARTRIDGE_IEEE488:
             return tpi_get_file_name();
         case CARTRIDGE_RAMLINK:
-            return ramlink_get_file_name();
+            return ramlink_get_ram_file_name();
         case CARTRIDGE_IEEEFLASH64:
             return ieeeflash64_get_file_name();
         case CARTRIDGE_MAGIC_VOICE:
@@ -2677,6 +2677,70 @@ int cart_freeze_allowed(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* returns 1 when cartridge (ROM) image can be flushed */
+int cartridge_can_flush_image(int crtid)
+{
+    const char *p;
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+    p = cartridge_get_file_name(crtid);
+    if ((p == NULL) || (*p == '\x0')) {
+        return 0;
+    }
+    return 1;
+}
+
+/* returns 1 when secondary cartridge image can be flushed */
+int cartridge_can_flush_secondary_image(int crtid)
+{
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+
+    switch (crtid) {
+        /* "Slot 0" */
+        case CARTRIDGE_RAMLINK:
+            return ramlink_can_flush_ram_image();
+        /* "Slot 1" */
+        /* "Main Slot" */
+        case CARTRIDGE_GMOD2:
+            return gmod2_can_flush_eeprom();
+    }
+
+    return 0;
+}
+
+/* returns 1 when cartridge (ROM) image can be saved */
+int cartridge_can_save_image(int crtid)
+{
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+
+    return 1;
+}
+
+/* returns 1 when secondary cartridge image can be saved */
+int cartridge_can_save_secondary_image(int crtid)
+{
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+
+    switch (crtid) {
+        /* "Slot 0" */
+        case CARTRIDGE_RAMLINK:
+            return 1;
+        /* "Slot 1" */
+        /* "Main Slot" */
+        case CARTRIDGE_GMOD2:
+            return 1;
+    }
+
+    return 0;
+}
+
 /*
     flush cart image
 
@@ -2737,7 +2801,7 @@ int cartridge_flush_secondary_image(int type)
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_RAMLINK:
-            return ramlink_flush_image();
+            return ramlink_flush_ram_image();
         /* "Slot 1" */
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
@@ -2810,7 +2874,7 @@ int cartridge_save_secondary_image(int type, const char *filename)
         /* "Slot 0" */
         /* "Slot 1" */
         case CARTRIDGE_RAMLINK:
-            return ramlink_bin_save(filename);
+            return ramlink_ram_save(filename);
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_eeprom_save(filename);
