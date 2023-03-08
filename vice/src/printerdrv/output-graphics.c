@@ -149,6 +149,9 @@ static int output_graphics_open(unsigned int prnr,
         filename = "prngfx";
     }
 
+    if (output_gfx[prnr].filename != NULL) {
+        lib_free(output_gfx[prnr].filename);
+    }
     output_gfx[prnr].filename = lib_malloc(strlen(filename) + 3);
     sprintf(output_gfx[prnr].filename, "%s00", filename);
 
