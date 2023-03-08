@@ -146,6 +146,11 @@ if test x"$CROSS" != "xtrue"; then
   if grep -q '^#define EXTERNAL_FFMPEG ' $TOPBUILDDIR/src/config.h
     then cp -u `ntldd -R $MINGW_PREFIX/bin/avfilter-*.dll|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
   fi
+
+  # drop unzip.exe and its dependencies in the bin/ =)
+  cp /usr/bin/unzip.exe $BUILDPATH/bin
+  cp `ntldd -R $BUILDPATH/bin/unzip.exe | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
+
 else
 
 # The following lines assume a cross compiler,
