@@ -70,6 +70,7 @@
 #include "vicii-phi1.h"
 #include "vicii.h"
 #include "viciitypes.h"
+#include "z80.h"
 #include "z80mem.h"
 #include "video.h"
 
@@ -1481,20 +1482,10 @@ void mem_initialize_go64_memory_bank(uint8_t shared_mem)
 
 /* ------------------------------------------------------------------------- */
 
-static int first_time = 0;
-
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    if (mmu[5] & 1) {
-        ram_init(mem_ram, C128_RAM_SIZE);
-    } else if (!first_time) {
-        first_time = 1;
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        ram_init(mem_ram, C128_RAM_SIZE);
-    } else if (first_time) {
-        first_time = 0;
-    }
+    ram_init(mem_ram, C128_RAM_SIZE);
 }
 
 /* ------------------------------------------------------------------------- */
