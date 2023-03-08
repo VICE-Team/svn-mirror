@@ -855,6 +855,9 @@ int cartridge_get_id(int slot)
     return CARTRIDGE_NONE;
 }
 
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
 char *cartridge_get_filename_by_slot(int slot)
 {
     if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
@@ -864,6 +867,14 @@ char *cartridge_get_filename_by_slot(int slot)
     }
 
     return cartfile;
+}
+
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
+char *cartridge_get_secondary_filename_by_slot(int slot)
+{
+    return NULL;
 }
 
 void cartridge_trigger_freeze(void)

@@ -72,6 +72,7 @@ int cartridge_get_id(int slot);
    this should return a pointer to a filename, or NULL
 */
 char *cartridge_get_filename_by_slot(int slot);
+char *cartridge_get_secondary_filename_by_slot(int slot);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* set current "Main Slot" cart as default */
