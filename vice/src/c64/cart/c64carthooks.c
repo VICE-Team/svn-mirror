@@ -2684,7 +2684,7 @@ int cart_freeze_allowed(void)
 
     CAUTION: this is only for the primary (usually ROM) image. If the cartridge
              has a ROM and a second writeable chip, it should use
-             cartridge_flush_secondary_image() below
+             cartridge_flush_secondary_image() below for the second chip!
 */
 int cartridge_flush_image(int type)
 {
@@ -2696,8 +2696,6 @@ int cartridge_flush_image(int type)
         /* "Slot 0" */
         case CARTRIDGE_MMC64:
             return mmc64_flush_image();
-        case CARTRIDGE_RAMLINK:
-            return ramlink_flush_image();
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
             return dqbb_flush_image();
@@ -2737,6 +2735,11 @@ int cartridge_flush_image(int type)
 int cartridge_flush_secondary_image(int type)
 {
     switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_RAMLINK:
+            return ramlink_flush_image();
+        /* "Slot 1" */
+        /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_flush_eeprom();
     }
@@ -2750,6 +2753,10 @@ int cartridge_flush_secondary_image(int type)
     *atleast* all carts whose image might be modified at runtime should be hooked up here.
 
     TODO: add bin save for all ROM carts also
+
+    CAUTION: this is only for the primary (usually ROM) image. If the cartridge
+             has a ROM and a second writeable chip, it should use
+             cartridge_save_secondary_image() below for the second chip!
 */
 int cartridge_bin_save(int type, const char *filename)
 {
@@ -2761,11 +2768,6 @@ int cartridge_bin_save(int type, const char *filename)
         /* "Slot 0" */
         case CARTRIDGE_MMC64:
             return mmc64_bin_save(filename);
-        case CARTRIDGE_RAMLINK:
-            /* HACK: this will save the RAMlinks RAM - not the actual cartridge
-                     image. since we have no API for this special case (yet?)
-                     we leave it here */
-            return ramlink_bin_save(filename);
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
             return dqbb_bin_save(filename);
@@ -2805,6 +2807,11 @@ int cartridge_bin_save(int type, const char *filename)
 int cartridge_save_secondary_image(int type, const char *filename)
 {
     switch (type) {
+        /* "Slot 0" */
+        /* "Slot 1" */
+        case CARTRIDGE_RAMLINK:
+            return ramlink_bin_save(filename);
+        /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_eeprom_save(filename);
     }
