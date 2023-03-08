@@ -338,7 +338,7 @@ void m93c86_write_clock(uint8_t value)
     eeprom_clock = value;
 }
 
-void m93c86_set_image_rw(int rw) 
+void m93c86_set_image_rw(int rw)
 {
     eeprom_file_rw = (bool)rw;
 }
