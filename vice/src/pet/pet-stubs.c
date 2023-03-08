@@ -113,6 +113,11 @@ char *cartridge_get_filename_by_slot(int slot)
     return NULL;
 }
 
+char *cartridge_get_secondary_filename_by_slot(int slot)
+{
+    return NULL;
+}
+
 void cartridge_trigger_freeze(void)
 {
 }

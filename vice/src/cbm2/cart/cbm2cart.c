@@ -461,7 +461,18 @@ int cartridge_get_id(int slot)
     return CARTRIDGE_NONE;
 }
 
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
 char *cartridge_get_filename_by_slot(int slot)
+{
+    return NULL;
+}
+
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
+char *cartridge_get_secondary_filename_by_slot(int slot)
 {
     return NULL;
 }

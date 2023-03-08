@@ -788,19 +788,6 @@ int cart_type_enabled(int type)
 }
 
 /*
-    can the "main slot" cart handle get filename
-*/
-int cart_can_get_file_name(int type)
-{
-    switch (type) {
-        /* "Main Slot" */
-        case CARTRIDGE_RAMLINK:
-            return 1;
-    }
-    return 0;
-}
-
-/*
     get filename of cart with given type
 */
 const char *cart_get_filename_by_type(int type)

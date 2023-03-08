@@ -346,15 +346,32 @@ int cartridge_get_id(int slot)
     return type;
 }
 
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
 char *cartridge_get_filename_by_slot(int slot)
 {
     DBG(("cartridge_get_filename_by_slot(slot:%d)\n", slot));
 /*    return cart_get_filename_by_type(mem_cartridge_type); */
     int type = cart_getid_slotmain();
-    if (cart_getid_slotmain() == type && !cart_can_get_file_name(type)) {
+    if (cart_getid_slotmain() == type) {
         return cartfile;
     }
+    log_error(LOG_DEFAULT, "FIXME: cartridge_get_filename_by_slot only works with main-slot");
+    return NULL;
+#if 0
+    /* FIXME: this can not work right! */
     return (char*)cart_get_filename_by_type(type);
+#endif
+}
+
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
+char *cartridge_get_secondary_filename_by_slot(int slot)
+{
+    log_error(LOG_DEFAULT, "FIXME: cartridge_get_secondary_filename_by_slot not implemented yet");
+    return NULL;
 }
 
 /*
@@ -365,7 +382,7 @@ char *cartridge_get_filename_by_slot(int slot)
     - cartridge change reset behaviour
 
     the following functions try to deal with this in a hopefully sane way... however,
-    do _NOT_ change the used resources from the (G)UI directly. (used the set_default
+    do _NOT_ change the used resources from the (G)UI directly. (use the set_default
     function instead)
 */
 
@@ -654,7 +671,7 @@ int cart_getid_slotmain(void)
 */
 const char *cartridge_get_filename_by_type(int type)
 {
-    if (cart_getid_slotmain() == type && !cart_can_get_file_name(type)) {
+    if (cart_getid_slotmain() == type) {
         return cartfile;
     }
     return cart_get_filename_by_type(type);
