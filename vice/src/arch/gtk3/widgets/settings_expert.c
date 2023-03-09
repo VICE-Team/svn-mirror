@@ -87,7 +87,6 @@ static GtkWidget *create_expert_mode_widget(void)
 static GtkWidget *create_expert_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "Expertfilename",
                                     "ExpertImageWrite",
                                     CARTRIDGE_NAME_EXPERT,

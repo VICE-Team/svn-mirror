@@ -270,7 +270,6 @@ static GtkWidget *create_filename_entry(const char *resource)
  *
  * If \a title is `NULL` the title will be set to "\<\a cartname\> image".
  *
- * \param[in]   parent          parent widget (unused)
  * \param[in]   title           widget title (can be NULL)
  * \param[in]   resource_fname  resource for the image file name
  * \param[in]   resource_write  resource controlling flush-on-exit/detach
@@ -282,8 +281,7 @@ static GtkWidget *create_filename_entry(const char *resource)
  *
  * \return  GtkGrid
  */
-GtkWidget *cart_image_widget_create(GtkWidget  *parent,
-                                    const char *title,
+GtkWidget *cart_image_widget_create(const char *title,
                                     const char *resource_fname,
                                     const char *resource_write,
                                     const char *cart_name,

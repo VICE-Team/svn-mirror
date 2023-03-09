@@ -63,7 +63,6 @@ static GtkWidget *create_reu_size_widget(void)
 static GtkWidget *create_reu_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "REUfilename",
                                     "REUImageWrite",
                                     CARTRIDGE_NAME_REU,

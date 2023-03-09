@@ -46,7 +46,6 @@
 static GtkWidget *create_rexramfloppy_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "RRFfilename",
                                     "RRFImageWrite",
                                     CARTRIDGE_NAME_REX_RAMFLOPPY,
