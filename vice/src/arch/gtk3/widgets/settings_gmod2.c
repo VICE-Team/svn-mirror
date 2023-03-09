@@ -94,58 +94,6 @@ static void on_image_flush_clicked(GtkWidget *widget, gpointer user_data)
     }
 }
 
-/** \brief  Callback for the open-file dialog
- *
- * \param[in]   dialog      open-file dialog
- * \param[in]   filename    filename or NULL on cancel
- * \param[in]   data        extra data (unused)
- */
-static void save_eeprom_callback(GtkDialog *dialog,
-                                gchar     *filename,
-                                gpointer   data)
-{
-    if (filename != NULL) {
-        if (cartridge_save_secondary_image(CARTRIDGE_GMOD2, filename) < 0) {
-            vice_gtk3_message_error(CARTRIDGE_NAME_GMOD2 " Error",
-                                    "Failed to save eeprom image '%s'.",
-                                    filename);
-        }
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the 'clicked' event of the "save eeprom" button
- *
- * \param[in]   button  save-as button (unused)
- * \param[in]   data    event data (NULL)
- */
-static void on_eeprom_save_clicked(GtkWidget *button, gpointer data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_GMOD2 " eeprom image",
-                                        NULL,
-                                        TRUE,
-                                        NULL,
-                                        save_eeprom_callback,
-                                        NULL);
-    gtk_widget_show(dialog);
-}
-
-/** \brief  Handler for the 'clicked' event of the "flush eeprom" button
- *
- * \param[in]   button  save-as button (unused)
- * \param[in]   data    event data (NULL)
- */
-static void on_eeprom_flush_clicked(GtkWidget *button, gpointer data)
-{
-    if (cartridge_flush_secondary_image(CARTRIDGE_GMOD2) < 0) {
-        vice_gtk3_message_error(CARTRIDGE_NAME_GMOD2 "Error",
-                                "Failed to flush EEPROM image.");
-    }
-}
-
 /** \brief  Create left-aligned label with Pango markup
  *
  * \param[in]   text    label text (uses Pango markup)
@@ -161,78 +109,16 @@ static GtkWidget *label_helper(const char *text)
     return label;
 }
 
-/** \brief  Create widget to control GMod2 EEPROM
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_eeprom_image_widget(void)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *eeprom;
-    GtkWidget *write_enable;
-    GtkWidget *box;
-    GtkWidget *save;
-    GtkWidget *flush;
-    int        row = 0;
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_column_homogeneous(GTK_GRID(grid), FALSE);
-
-    label = label_helper("<b>" CARTRIDGE_NAME_GMOD2 " EEPROM image</b>");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 3, 1);
-    row++;
-
-    label = label_helper("EEPROM image file");
-    eeprom = vice_gtk3_resource_filechooser_new("GMOD2EEPROMImage",
-                                                GTK_FILE_CHOOSER_ACTION_SAVE);
-    vice_gtk3_resource_filechooser_set_custom_title(eeprom,
-                                                    "Select or create "
-                                                    CARTRIDGE_NAME_GMOD2
-                                                    " EEPROM image file");
-    gtk_widget_set_hexpand(label, FALSE);
-    /* gtk_widget_set_halign(eeprom, GTK_ALIGN_START); */
-    gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), eeprom, 1, row, 2, 1);
-    row++;
-
-    write_enable = vice_gtk3_resource_check_button_new("GMOD2EEPROMRW",
-            "Enable writes to " CARTRIDGE_NAME_GMOD2 " EEPROM image");
-    gtk_widget_set_valign(write_enable, GTK_ALIGN_START);
-
-    /* pack flush/save-as buttons in a button box */
-    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_hexpand(box, TRUE);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-
-    save  = gtk_button_new_with_label("Save image as ..");
-    flush = gtk_button_new_with_label("Flush image");
-    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
-    g_signal_connect(G_OBJECT(save),
-                     "clicked",
-                     G_CALLBACK(on_eeprom_save_clicked),
-                     NULL);
-    g_signal_connect(G_OBJECT(flush),
-                     "clicked",
-                     G_CALLBACK(on_eeprom_flush_clicked),
-                     NULL);
-
-    gtk_grid_attach(GTK_GRID(grid), write_enable, 0, row, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), box,          2, row, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
-
 /** \brief  Create widget to handle Cartridge image resources and save/flush
  *
  * \return  GtkGrid
+ *
+ * TODO:    Refactor the cart primary image widget in `cartimagewidget.c` to
+ *          allow adding check buttons in the way the secondary image does, then
+ *          we won't need any of this custom bollocks, and this function would
+ *          be two function calls.
  */
-static GtkWidget *create_cart_image_widget(void)
+static GtkWidget *create_primary_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -285,6 +171,24 @@ static GtkWidget *create_cart_image_widget(void)
     return grid;
 }
 
+/** \brief  Create widget to control GMod2 EEPROM
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_secondary_image_widget(void)
+{
+    GtkWidget *eeprom;
+
+    eeprom = cart_secondary_image_widget_create("EEPROM",
+                                                "GMOD2EEPROMImage",
+                                                CARTRIDGE_NAME_GMOD2,
+                                                CARTRIDGE_GMOD2);
+    cart_secondary_image_widget_append_check("GMOD2EEPROMRW",
+                                             "Enable writes to " CARTRIDGE_NAME_GMOD2
+                                             " EEPROM image");
+    return eeprom;
+}
+
 
 /** \brief  Create widget to control GMOD2 resources
  *
@@ -296,10 +200,11 @@ GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = vice_gtk3_grid_new_spaced(8, 32);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 32);
 
-    gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cart_image_widget(),   0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_primary_image_widget(),   0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_secondary_image_widget(), 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

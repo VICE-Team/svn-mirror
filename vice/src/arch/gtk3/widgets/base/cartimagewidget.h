@@ -38,4 +38,15 @@ GtkWidget *cart_image_widget_create(const char *title,
 
 void cart_image_widget_shutdown(void);
 
+GtkWidget *cart_secondary_image_widget_create(const char *image_name,
+                                              const char *resource,
+                                              const char *cart_name,
+                                              int         cart_id);
+void       cart_secondary_image_widget_append_check(const char *resource,
+                                                    const char *text);
+
+
+
+
+
 #endif
