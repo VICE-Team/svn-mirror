@@ -128,16 +128,6 @@ char *cartridge_get_secondary_filename_by_slot(int slot)
     return NULL;
 }
 
-int cartridge_can_save_secondary_image(int crtid)
-{
-    return 0;
-}
-
-int cartridge_can_flush_secondary_image(int crtid)
-{
-    return 0;
-}
-
 void cartridge_trigger_freeze(void)
 {
 }
