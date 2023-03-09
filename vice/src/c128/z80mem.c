@@ -474,7 +474,7 @@ static uint8_t z80_io_ram_bank0_read(uint16_t adr)
         return _z80mem_read_tab_ptr[adr >> 8](adr);
     }
 
-    return _z80mem_read_tab_ptr[real_adr >> 8](real_adr);
+    return top_shared_read(real_adr);
 }
 
 /* out() to $0000-$0fff in bank 0 get translated to memory store to RAM at $d000-$dfff */
@@ -485,7 +485,7 @@ static void z80_io_ram_bank0_store(uint16_t adr, uint8_t val)
     if (mmu[0] & 0x40) {
         _z80mem_write_tab_ptr[adr >> 8](adr, val);
     } else {
-        _z80mem_write_tab_ptr[real_adr >> 8](real_adr, val);
+        top_shared_store(real_adr, val);
     }
 }
 
