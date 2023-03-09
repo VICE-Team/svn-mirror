@@ -73,6 +73,16 @@ int cartridge_can_flush_image(int crtid)
     return 0;
 }
 
+int cartridge_can_save_secondary_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_flush_secondary_image(int crtid)
+{
+    return 0;
+}
+
 int cartridge_enable(int crtid)
 {
     return -1;

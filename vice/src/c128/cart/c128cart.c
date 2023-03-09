@@ -322,6 +322,23 @@ static int c128cartridge_bin_save(int type, const char *filename)
     return -1;
 }
 
+static int c128cartridge_save_secondary_image(int type, const char *filename)
+{
+    DBG(("c128cartridge_save_secondary_image name: %s\n", filename));
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_eeprom_save(filename);
+    }
+    log_error(LOG_ERR, "Failed saving secondary image for cartridge ID %d.\n", type);
+    return -1;
+}
+
 static int c128cartridge_crt_save(int type, const char *filename)
 {
     DBG(("c128cartridge_crt_save name: %s\n", filename));
@@ -353,6 +370,82 @@ static int c128cartridge_flush_image(int type)
     }
     log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.\n", type);
     return -1;
+}
+
+static int c128cartridge_flush_secondary_image(int type)
+{
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_flush_eeprom();
+    }
+    log_error(LOG_ERR, "Failed flushing secondary for cartridge ID %d.\n", type);
+    return -1;
+}
+
+static int c128cartridge_can_save_image(int crtid)
+{
+    switch (crtid) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return 1;
+    }
+    return 0;
+}
+
+static int c128cartridge_can_flush_image(int crtid)
+{
+    switch (crtid) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return 1;
+    }
+    return 0;
+}
+
+static int c128cartridge_can_save_secondary_image(int crtid)
+{
+    switch (crtid) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_can_save_eeprom();
+    }
+    return 0;
+}
+
+static int c128cartridge_can_flush_secondary_image(int crtid)
+{
+    switch (crtid) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_can_flush_eeprom();
+    }
+    return 0;
 }
 
 /*
@@ -457,8 +550,10 @@ void c128cartridge_setup_interface(void)
     c128interface.attach_crt = c128cartridge_attach_crt;
     c128interface.bin_attach = c128cartridge_bin_attach;
     c128interface.bin_save = c128cartridge_bin_save;
+    c128interface.save_secondary_image = c128cartridge_save_secondary_image;
     c128interface.crt_save = c128cartridge_crt_save;
     c128interface.flush_image = c128cartridge_flush_image;
+    c128interface.flush_secondary_image = c128cartridge_flush_secondary_image;
     c128interface.detach_image = c128cartridge_detach_image;
     c128interface.config_init = c128cartridge_config_init;
     c128interface.config_setup = c128cartridge_config_setup;
@@ -467,6 +562,10 @@ void c128cartridge_setup_interface(void)
     c128interface.freeze_allowed = c128cartridge_freeze_allowed;
     c128interface.freeze = c128cartridge_freeze;
     c128interface.powerup = c128cartridge_powerup;
+    c128interface.can_flush_image = c128cartridge_can_flush_image;
+    c128interface.can_save_image = c128cartridge_can_save_image;
+    c128interface.can_flush_secondary_image = c128cartridge_can_flush_secondary_image;
+    c128interface.can_save_secondary_image = c128cartridge_can_save_secondary_image;
     c128cartridge = &c128interface;
 }
 

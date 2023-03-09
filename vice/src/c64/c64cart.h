@@ -96,8 +96,10 @@ struct c128cartridge_interface_s {
     int (*attach_crt)(int type, FILE *fd, const char *filename, uint8_t *rawcart);
     int (*bin_attach)(int type, const char *filename, uint8_t *rawcart);
     int (*bin_save)(int type, const char *filename);
+    int (*save_secondary_image)(int type, const char *filename);
     int (*crt_save)(int type, const char *filename);
     int (*flush_image)(int type);
+    int (*flush_secondary_image)(int type);
     void (*config_init)(int type);
     void (*config_setup)(int type, uint8_t *rawcart);
     void (*detach_image)(int type);
@@ -106,6 +108,10 @@ struct c128cartridge_interface_s {
     void (*freeze)(void);
     void (*powerup)(void);
     cartridge_info_t* (*get_info_list)(void);
+    int (*can_flush_image)(int type);
+    int (*can_flush_secondary_image)(int type);
+    int (*can_save_image)(int type);
+    int (*can_save_secondary_image)(int type);
 };
 typedef struct c128cartridge_interface_s c128cartridge_interface_t;
 
