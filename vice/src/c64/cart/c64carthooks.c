@@ -2668,6 +2668,11 @@ int cart_freeze_allowed(void)
 int cartridge_can_flush_image(int crtid)
 {
     const char *p;
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_flush_image(crtid);
+    }
+
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
@@ -2681,6 +2686,10 @@ int cartridge_can_flush_image(int crtid)
 /* returns 1 when secondary cartridge image can be flushed */
 int cartridge_can_flush_secondary_image(int crtid)
 {
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_flush_secondary_image(crtid);
+    }
+
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
@@ -2705,6 +2714,10 @@ int cartridge_can_flush_secondary_image(int crtid)
 /* returns 1 when cartridge (ROM) image can be saved */
 int cartridge_can_save_image(int crtid)
 {
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_save_image(crtid);
+    }
+
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
@@ -2715,6 +2728,10 @@ int cartridge_can_save_image(int crtid)
 /* returns 1 when secondary cartridge image can be saved */
 int cartridge_can_save_secondary_image(int crtid)
 {
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_save_secondary_image(crtid);
+    }
+
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
@@ -2747,8 +2764,8 @@ int cartridge_can_save_secondary_image(int crtid)
 */
 int cartridge_flush_image(int type)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(mem_cartridge_type)) {
-        return c128cartridge->flush_image(mem_cartridge_type);
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        return c128cartridge->flush_image(type);
     }
 
     switch (type) {
@@ -2791,6 +2808,10 @@ int cartridge_flush_image(int type)
 
 int cartridge_flush_secondary_image(int type)
 {
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        return c128cartridge->flush_secondary_image(type);
+    }
+
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_RAMLINK:
@@ -2821,8 +2842,8 @@ int cartridge_flush_secondary_image(int type)
 */
 int cartridge_bin_save(int type, const char *filename)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(mem_cartridge_type)) {
-        return c128cartridge->bin_save(mem_cartridge_type, filename);
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        return c128cartridge->bin_save(type, filename);
     }
 
     switch (type) {
@@ -2865,6 +2886,10 @@ int cartridge_bin_save(int type, const char *filename)
 
 int cartridge_save_secondary_image(int type, const char *filename)
 {
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        return c128cartridge->save_secondary_image(type, filename);
+    }
+
     switch (type) {
         /* "Slot 0" */
         /* "Slot 1" */
@@ -2892,8 +2917,8 @@ int cartridge_save_secondary_image(int type, const char *filename)
 */
 int cartridge_crt_save(int type, const char *filename)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(mem_cartridge_type)) {
-        return c128cartridge->crt_save(mem_cartridge_type, filename);
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        return c128cartridge->crt_save(type, filename);
     }
 
     switch (type) {
