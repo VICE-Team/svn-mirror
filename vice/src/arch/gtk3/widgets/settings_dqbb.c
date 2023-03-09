@@ -46,14 +46,11 @@
 
 /** \brief  Create widget to load/save Double Quick Brown Box image file
  *
- * \param[in]   parent  parent widget
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
+static GtkWidget *create_dqbb_image_widget(void)
 {
-    return cart_image_widget_create(parent,
-                                    NULL,
+    return cart_image_widget_create(NULL,
                                     "DQBBfilename",
                                     "DQBBImageWrite",
                                     CARTRIDGE_NAME_DQBB,
@@ -79,7 +76,7 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
                                                                 CARTRIDGE_DQBB);
     gtk_grid_attach(GTK_GRID(grid), dqbb_enable_widget, 0, 0, 1, 1);
 
-    dqbb_image = create_dqbb_image_widget(parent);
+    dqbb_image = create_dqbb_image_widget();
     gtk_widget_set_margin_top(dqbb_image, 8);
     gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 1);
 

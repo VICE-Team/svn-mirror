@@ -77,7 +77,6 @@ static GtkWidget *create_georam_size_widget(void)
 static GtkWidget *create_georam_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "GEORAMfilename",
                                     "GEORAMImageWrite",
                                     CARTRIDGE_NAME_GEORAM,

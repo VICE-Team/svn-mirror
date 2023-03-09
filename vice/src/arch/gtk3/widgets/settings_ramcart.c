@@ -84,7 +84,6 @@ static GtkWidget *create_ramcart_size_widget(void)
 static GtkWidget *create_ramcart_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "RAMCARTfilename",
                                     "RAMCARTImageWrite",
                                     CARTRIDGE_NAME_RAMCART,

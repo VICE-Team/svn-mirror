@@ -155,8 +155,7 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     row++;
 
     /* create RAMlink image browser */
-    cart_widget = cart_image_widget_create(parent,
-                                           "<b>" CARTRIDGE_NAME_RAMLINK " RAM Image</b>",
+    cart_widget = cart_image_widget_create("<b>" CARTRIDGE_NAME_RAMLINK " RAM Image</b>",
                                            "RAMLINKfilename",
                                            "RAMLINKImageWrite",
                                            CARTRIDGE_NAME_RAMLINK,

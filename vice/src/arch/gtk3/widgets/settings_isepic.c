@@ -72,7 +72,6 @@ static GtkWidget *create_isepic_switch_widget(void)
 static GtkWidget *create_isepic_image_widget(void)
 {
     return cart_image_widget_create(NULL,
-                                    NULL,
                                     "Isepicfilename",
                                     "IsepicImageWrite",
                                     CARTRIDGE_NAME_ISEPIC,
