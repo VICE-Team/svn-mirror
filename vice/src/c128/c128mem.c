@@ -1249,7 +1249,20 @@ void mem_initialize_memory(void)
             mem_read_tab[128 + i][j] = lo_read;
             mem_read_base_tab[128 + i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
-                mem_write_tab[k][128 + i][j] = lo_store;
+                if ((j & 0xc0) == (k << 6)) {
+                    switch (j & 0x3f) {
+                        case 0x39:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_store;
+                    }
+                } else {
+                    mem_write_tab[k][128 + i][j] = lo_store;
+                }
             }
         }
 
@@ -1258,7 +1271,20 @@ void mem_initialize_memory(void)
             mem_read_tab[128 + i][j] = ram_read;
             mem_read_base_tab[128 + i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
-                mem_write_tab[k][128 + i][j] = ram_store;
+                if ((j & 0xc0) == (k << 6)) {
+                    switch (j & 0x3f) {
+                        case 0x39:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_store;
+                    }
+                } else {
+                    mem_write_tab[k][128 + i][j] = ram_store;
+                }
             }
         }
 
@@ -1266,7 +1292,20 @@ void mem_initialize_memory(void)
             mem_read_tab[128 + i][j] = top_shared_read;
             mem_read_base_tab[128 + i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
-                mem_write_tab[k][128 + i][j] = top_shared_store;
+                if ((j & 0xc0) == (k << 6)) {
+                    switch (j & 0x3f) {
+                        case 0x39:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_store;
+                    }
+                } else {
+                    mem_write_tab[k][128 + i][j] = top_shared_store;
+                }
             }
         }
         mem_read_tab[128 + i][0xff] = top_shared_read;
