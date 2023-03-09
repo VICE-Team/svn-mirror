@@ -497,7 +497,7 @@ int gmod2_can_save_eeprom(void)
 
 int gmod2_can_flush_eeprom(void)
 {
-    if (gmod2_eeprom_filename) {
+    if ((gmod2_eeprom_filename != NULL) && (*gmod2_eeprom_filename != 0)) {
         return 1;
     }
     return 0;

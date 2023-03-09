@@ -74,6 +74,10 @@ int mmcreplay_bin_save(const char *filename);
 int mmcreplay_crt_save(const char *filename);
 void mmcreplay_powerup(void);
 
+int mmcreplay_save_eeprom(const char *filename);
+int mmcreplay_flush_eeprom(void);
+int mmcreplay_can_flush_eeprom(void);
+
 int mmcreplay_resources_init(void);
 void mmcreplay_resources_shutdown(void);
 int mmcreplay_cmdline_options_init(void);

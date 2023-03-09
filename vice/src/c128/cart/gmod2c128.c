@@ -243,6 +243,7 @@ static int set_c128gmod2_eeprom_filename(const char *name, void *param)
 static int set_c128gmod2_eeprom_rw(int val, void* param)
 {
     c128gmod2_eeprom_rw = val ? 1 : 0;
+    m93c86_set_image_rw(c128gmod2_eeprom_rw);
     return 0;
 }
 
@@ -430,6 +431,19 @@ int c128gmod2_flush_image(void)
         return c128gmod2_crt_save(c128gmod2_filename);
     }
     return -1;
+}
+
+int c128gmod2_can_save_eeprom(void)
+{
+    return 1;
+}
+
+int c128gmod2_can_flush_eeprom(void)
+{
+    if ((c128gmod2_eeprom_filename != NULL) && (*c128gmod2_eeprom_filename != 0)) {
+        return 1;
+    }
+    return 0;
 }
 
 /** \brief  Save a copy of the GMod2 EEPROM image to a file

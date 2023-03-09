@@ -2693,6 +2693,10 @@ int cartridge_can_flush_secondary_image(int crtid)
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_can_flush_eeprom();
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_can_flush_eeprom();
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_can_flush_ram();
     }
 
     return 0;
@@ -2722,6 +2726,10 @@ int cartridge_can_save_secondary_image(int crtid)
         /* "Slot 1" */
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
+            return 1;
+        case CARTRIDGE_MMC_REPLAY:
+            return 1;
+        case CARTRIDGE_REX_RAMFLOPPY:
             return 1;
     }
 
@@ -2767,8 +2775,6 @@ int cartridge_flush_image(int type)
             return mmcreplay_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
-        case CARTRIDGE_REX_RAMFLOPPY:
-            return rexramfloppy_flush_image();
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_flush_image();
@@ -2779,7 +2785,7 @@ int cartridge_flush_image(int type)
         case CARTRIDGE_REU:
             return reu_flush_image();
     }
-    log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.\n", type);
+    log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.", type);
     return -1;
 }
 
@@ -2793,8 +2799,12 @@ int cartridge_flush_secondary_image(int type)
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_flush_eeprom();
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_flush_eeprom();
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_ram_flush();
     }
-    log_error(LOG_ERR, "Failed flushing secondary image for cartridge ID %d.\n", type);
+    log_error(LOG_ERR, "Failed flushing secondary image for cartridge ID %d.", type);
     return -1;
 }
 
@@ -2839,8 +2849,6 @@ int cartridge_bin_save(int type, const char *filename)
             return mmcreplay_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
-        case CARTRIDGE_REX_RAMFLOPPY:
-            return rexramfloppy_bin_save(filename);
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_bin_save(filename);
@@ -2865,6 +2873,10 @@ int cartridge_save_secondary_image(int type, const char *filename)
         /* "Main Slot" */
         case CARTRIDGE_GMOD2:
             return gmod2_eeprom_save(filename);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_save_eeprom(filename);
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_ram_save(filename);
     }
     log_error(LOG_ERR, "Failed saving secondary image for cartridge ID %d.\n", type);
     return -1;
