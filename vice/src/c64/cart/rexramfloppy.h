@@ -46,8 +46,10 @@ int rexramfloppy_resources_init(void);
 void rexramfloppy_resources_shutdown(void);
 int rexramfloppy_cmdline_options_init(void);
 
-int rexramfloppy_flush_image(void);
-int rexramfloppy_bin_save(const char *filename);
+int rexramfloppy_ram_flush(void);
+int rexramfloppy_ram_save(const char *filename);
+
+int rexramfloppy_can_flush_ram(void);
 
 struct snapshot_s;
 

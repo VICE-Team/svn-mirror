@@ -44,9 +44,12 @@ int c128gmod2_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 int c128gmod2_bin_save(const char *filename);
 int c128gmod2_crt_save(const char *filename);
 int c128gmod2_flush_image(void);
+void c128gmod2_detach(void);
+
 int c128gmod2_eeprom_save(const char *filename);
 int c128gmod2_flush_eeprom(void);
-void c128gmod2_detach(void);
+int c128gmod2_can_save_eeprom(void);
+int c128gmod2_can_flush_eeprom(void);
 
 int c128gmod2_cmdline_options_init(void);
 int c128gmod2_resources_init(void);

@@ -327,7 +327,7 @@ void rexramfloppy_detach(void)
     rexramfloppy_ram = NULL;
 }
 
-int rexramfloppy_flush_image(void)
+int rexramfloppy_ram_flush(void)
 {
     if (rexramfloppy_ram) {
         return rexramfloppy_save_ram_image(RRF_FORCE_SAVE);
@@ -335,7 +335,15 @@ int rexramfloppy_flush_image(void)
     return 0;
 }
 
-int rexramfloppy_bin_save(const char *filename)
+int rexramfloppy_can_flush_ram(void)
+{
+    if (rexramfloppy_ram) {
+        return 1;
+    }
+    return 0;
+}
+
+int rexramfloppy_ram_save(const char *filename)
 {
     if (!rexramfloppy_ram) {
         return -1;

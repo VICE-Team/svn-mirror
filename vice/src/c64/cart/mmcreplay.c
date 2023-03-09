@@ -2792,6 +2792,23 @@ int mmcreplay_flush_image(void)
     return -1;
 }
 
+int mmcreplay_save_eeprom(const char *filename)
+{
+    log_error(LOG_DEFAULT, "FIXME: mmcreplay_save_eeprom not implemented");
+    return -1;
+}
+
+int mmcreplay_flush_eeprom(void)
+{
+    log_error(LOG_DEFAULT, "FIXME: mmcreplay_flush_eeprom not implemented");
+    return -1;
+}
+
+int mmcreplay_can_flush_eeprom(void)
+{
+    return 0;
+}
+
 void mmcreplay_detach(void)
 {
     if (mmcr_write_image && flashrom_state->flash_dirty) {
