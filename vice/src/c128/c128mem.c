@@ -1210,10 +1210,16 @@ static void c64mode_ffxx_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    if (addr == 0xff00) {
-        reu_dma(-1);
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else if (vbank == 3) {
+        vicii_mem_vbank_3fxx_store(addr, value);
     } else {
         top_shared_store(addr, value);
+    }
+
+   if (addr == 0xff00) {
+        reu_dma(-1);
     }
 }
 
