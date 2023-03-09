@@ -482,7 +482,7 @@ static io_source_t vdc_d600_device = {
     "VDC",                 /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
-    0xd600, 0xd601, 0x01,  /* main SID registers $d400-$d41f */
+    0xd600, 0xd601, 0x01,  /* regs: $d6000-$d601, mirrors: $d602-$d6ff */
     1,                     /* read is always valid */
     vdc_store,             /* store function */
     NULL,                  /* NO poke function */
@@ -492,7 +492,7 @@ static io_source_t vdc_d600_device = {
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_NORMAL,        /* high priority, mirrors never involved in collisions */
     0,                     /* insertion order, gets filled in by the registration function */
-    IO_MIRROR_NONE         /* this is not a mirror */
+    IO_MIRROR_MASK         /* contains mirrors, defined by mask */
 };
 
 static io_source_list_t *vicii_d000_list_item = NULL;
