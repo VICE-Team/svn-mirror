@@ -34,6 +34,7 @@
 #include "log.h"
 #include "output-select.h"
 #include "output.h"
+#include "palette.h"
 #include "types.h"
 
 /* #define DEBUG_PRINTER */
@@ -164,7 +165,7 @@ static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
 #ifdef DEBUG_PRINTER
-    log_message(drv_ascii_log, "Print device #%i secondary %i data %02x.",
+    log_message(drv_ascii_log, "Print device #%u secondary %u data %02x.",
                 prnr + 4, secondary, b);
 #endif
 
@@ -182,12 +183,18 @@ static int drv_ascii_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 
 static int drv_ascii_flush(unsigned int prnr, unsigned int secondary)
 {
+#ifdef DEBUG_PRINTER
+    log_message(drv_ascii_log, "drv_ascii_flush device #%u secondary %u.", prnr + 4, secondary);
+#endif
     return output_select_flush(prnr);
 }
 
 static int drv_ascii_formfeed(unsigned int prnr)
 {
-    return 0;
+#ifdef DEBUG_PRINTER
+    log_message(drv_ascii_log, "drv_ascii_formfeed device #%u.", prnr + 4);
+#endif
+    return output_select_formfeed(prnr);
 }
 
 int drv_ascii_init_resources(void)
@@ -207,7 +214,8 @@ int drv_ascii_init_resources(void)
     return 0;
 }
 
-void drv_ascii_init(void)
+int drv_ascii_init(void)
 {
     drv_ascii_log = log_open("Drv-Ascii");
+    return 0;
 }

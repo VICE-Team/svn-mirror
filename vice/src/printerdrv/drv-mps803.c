@@ -468,27 +468,27 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
-    DBG(("drv_mps803_putc(%u,%u:$%02x)\n", prnr, secondary, b));
+    DBG(("drv_mps803_putc(%u,%u:$%02x)", prnr, secondary, b));
     print_char(&drv_mps803[prnr], prnr, b);
     return 0;
 }
 
 static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
-    DBG(("drv_mps803_getc(%u,%u)\n", prnr, secondary));
+    DBG(("drv_mps803_getc(%u,%u)", prnr, secondary));
     return output_select_getc(prnr, b);
 }
 
 static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
 {
-    DBG(("drv_mps803_flush(%u,%u)\n", prnr, secondary));
+    DBG(("drv_mps803_flush(%u,%u)", prnr, secondary));
     return output_select_flush(prnr);
 }
 
 static int drv_mps803_formfeed(unsigned int prnr)
 {
-    DBG(("drv_mps803_formfeed(%u)\n", prnr));
-    return 0;
+    DBG(("drv_mps803_formfeed(%u)", prnr));
+    return output_select_formfeed(prnr);;
 }
 
 int drv_mps803_init_resources(void)
@@ -533,6 +533,6 @@ int drv_mps803_init(void)
 
 void drv_mps803_shutdown(void)
 {
-    DBG(("drv_mps803_shutdown\n"));
+    DBG(("drv_mps803_shutdown"));
     palette_free(palette);
 }

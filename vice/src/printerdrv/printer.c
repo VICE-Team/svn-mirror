@@ -34,11 +34,20 @@
 #include "drv-raw.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
+#include "log.h"
 #include "machine-printer.h"
 #include "output-graphics.h"
 #include "output-select.h"
 #include "output-text.h"
 #include "printer.h"
+
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 int printer_resources_init(void)
 {
@@ -133,5 +142,6 @@ void printer_shutdown(void)
  */
 void printer_formfeed(unsigned int prnr)
 {
+    DBG(("printer_formfeed:%u", prnr));
     driver_select_formfeed(prnr);
 }

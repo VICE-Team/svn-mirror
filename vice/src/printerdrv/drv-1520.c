@@ -42,7 +42,7 @@
 #include "palette.h"
 #include "types.h"
 
-/*#define DEBUG1520       1*/
+/*#define DEBUG1520       1 */
 /*#define DEBUG1520_A   1*/
 
 /*

@@ -42,6 +42,14 @@
 #include "types.h"
 #include "lib.h"
 
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 /* MAX_COL must be a multiple of 32 */
 /* 2432 x 3172 */
 #define BORDERX 16
@@ -1975,11 +1983,13 @@ static int drv_nl10_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 
 static int drv_nl10_flush(unsigned int prnr, unsigned int secondary)
 {
+    DBG(("drv_nl10_flush:%d\n", prnr));
     return 0;
 }
 
 static int drv_nl10_formfeed(unsigned int prnr)
 {
+    DBG(("drv_nl10_formfeed:%d\n", prnr));
     nl10_t *nl10 = &(drv_nl10[prnr]);
     if (nl10->isopen) {
         formfeed(nl10, prnr);

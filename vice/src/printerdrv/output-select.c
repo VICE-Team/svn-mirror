@@ -31,10 +31,19 @@
 
 #include "cmdline.h"
 #include "lib.h"
+#include "log.h"
 #include "output-select.h"
 #include "resources.h"
 #include "types.h"
 #include "util.h"
+
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 struct output_select_list_s {
     output_select_t output_select;
@@ -254,10 +263,12 @@ int output_select_getc(unsigned int prnr, uint8_t *b)
 
 int output_select_flush(unsigned int prnr)
 {
+    DBG(("output_select_flush:%d", prnr));
     return output_select[prnr].output_flush(prnr);
 }
 
 int output_select_formfeed(unsigned int prnr)
 {
+    DBG(("output_select_formfeed:%d", prnr));
     return output_select[prnr].output_formfeed(prnr);
 }
