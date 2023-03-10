@@ -44,26 +44,13 @@
 
 #include "output-text.h"
 
-/* XXX: coproc.c now does the proper includes, and on systems where fork_coproc()
- *      doesn't work an error is logged and -1 returned.
- */
-#if 0
-/* TODO: configure check that matches what arch/shared/coproc.c does... */
-#if defined(HAVE_FORK)
-# if !defined(BEOS_COMPILE)
-#   define COPROC_SUPPORT
-# endif
-#elif defined(WINDOWS_COMPILE)
-# include <windows.h>
-# define COPROC_SUPPORT
-#endif
+/* #define DEBUG_PRINTER */
 
-#ifdef COPROC_SUPPORT
-# include <unistd.h>
-# include "coproc.h"
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
 #endif
-#endif
-
 
 static char *PrinterDev[NUM_OUTPUT_SELECT] = { NULL, NULL, NULL };
 static int printer_device[NUM_OUTPUT_SELECT];
@@ -236,6 +223,7 @@ static int output_text_getc(unsigned int prnr, uint8_t *b)
 
 static int output_text_flush(unsigned int prnr)
 {
+    DBG(("output_text_flush:%u", prnr));
     if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
     }
@@ -246,6 +234,7 @@ static int output_text_flush(unsigned int prnr)
 
 static int output_text_formfeed(unsigned int prnr)
 {
+    DBG(("output_text_formfeed:%u", prnr));
     return output_text_flush(prnr);
 }
 

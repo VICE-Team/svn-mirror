@@ -29,6 +29,6 @@
 #define VICE_DRV_ASCII_H
 
 int drv_ascii_init_resources(void);
-void drv_ascii_init(void);
+int drv_ascii_init(void);
 
 #endif

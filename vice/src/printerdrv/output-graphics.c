@@ -42,6 +42,13 @@
 #include "screenshot.h"
 #include "types.h"
 
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 struct output_gfx_s {
     gfxoutputdrv_t *gfxoutputdrv;
@@ -256,11 +263,13 @@ static int output_graphics_getc(unsigned int prnr, uint8_t *b)
 
 static int output_graphics_flush(unsigned int prnr)
 {
+    DBG(("output_graphics_flush:%d", prnr));
     return 0;
 }
 
 static int output_graphics_formfeed(unsigned int prnr)
 {
+    DBG(("output_graphics_formfeed:%d", prnr));
     /*
      * Will finish writing current file, and leaves open
      * the option to start a new one.
