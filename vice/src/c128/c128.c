@@ -482,7 +482,7 @@ static io_source_t vdc_d600_device = {
     "VDC",                 /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
-    0xd600, 0xd601, 0x01,  /* regs: $d6000-$d601, mirrors: $d602-$d6ff */
+    0xd600, 0xd6ff, 0x01,  /* regs: $d600-$d601, mirrors: $d602-$d6ff */
     1,                     /* read is always valid */
     vdc_store,             /* store function */
     NULL,                  /* NO poke function */
