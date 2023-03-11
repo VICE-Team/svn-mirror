@@ -529,9 +529,9 @@ void z80mem_initialize(void)
 
     /* z80 c128 mode memory map for the zero page */
     mem_read_tab[0][0] = bios_read;
-    mem_write_tab[0][0] = z80_store_zero;
+    mem_write_tab[0][0] = z80_io_ram_bank0_store;
     mem_read_tab[1][0] = bios_read;
-    mem_write_tab[1][0] = z80_store_zero;
+    mem_write_tab[1][0] = z80_io_ram_bank0_store;
     mem_read_tab[2][0] = z80_read_zero;
     mem_write_tab[2][0] = z80_store_zero;
     mem_read_tab[3][0] = z80_read_zero;
@@ -565,9 +565,9 @@ void z80mem_initialize(void)
 
     /* z80 c128 mode memory map for the stack page */
     mem_read_tab[0][1] = bios_read;
-    mem_write_tab[0][1] = one_store;
+    mem_write_tab[0][1] = z80_io_ram_bank0_store;
     mem_read_tab[1][1] = bios_read;
-    mem_write_tab[1][1] = one_store;
+    mem_write_tab[1][1] = z80_io_ram_bank0_store;
     mem_read_tab[2][1] = one_read;
     mem_write_tab[2][1] = one_store;
     mem_read_tab[3][1] = one_read;
@@ -602,9 +602,9 @@ void z80mem_initialize(void)
     for (i = 2; i < 0x10; i++) {
         /* z80 c128 mode memory map for $0200-$0fff */
         mem_read_tab[0][i] = bios_read;
-        mem_write_tab[0][i] = ram_store;
+        mem_write_tab[0][i] = z80_io_ram_bank0_store;
         mem_read_tab[1][i] = bios_read;
-        mem_write_tab[1][i] = ram_store;
+        mem_write_tab[1][i] = z80_io_ram_bank0_store;
         mem_read_tab[2][i] = lo_read;
         mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = lo_read;
