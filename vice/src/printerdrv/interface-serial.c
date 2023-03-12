@@ -41,6 +41,15 @@
 #include "resources.h"
 #include "serial.h"
 #include "types.h"
+#include "vdrive.h"
+
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 #ifdef HAVE_REALDEVICE
 static int interface_opencbm_attach(unsigned int prnr);
@@ -236,6 +245,8 @@ static int write_pr(unsigned int prnr, uint8_t byte, unsigned int secondary)
     int err;
     int mask = 1 << secondary;
 
+    DBG(("write_pr prnr:%u secondary:%u byte:%u", prnr, secondary, byte));
+
     if (!(inuse_secadr[prnr] & mask)) {
         /* oh, well, we just assume an implicit open - "OPEN 1,4"
            just does not leave any trace on the serial bus */
@@ -297,11 +308,13 @@ static int open_pr4(struct vdrive_s *var, const uint8_t *name, unsigned int leng
                     unsigned int secondary,
                     struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
+    DBG(("open_pr4 unit:%u", var->unit));
     return open_pr(0, name, length, secondary);
 }
 
 static int read_pr4(struct vdrive_s *var, uint8_t *byte, unsigned int secondary)
 {
+    DBG(("read_pr4 unit:%u", var->unit));
     return read_pr(0, byte, secondary);
 }
 

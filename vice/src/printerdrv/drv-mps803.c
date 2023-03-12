@@ -50,8 +50,10 @@
 #define DBG(x)
 #endif
 
-#define MAX_COL 480
-#define MAX_ROW 66 * 10
+#define PAGE_HEIGHT_CHARACTERS  66
+
+#define PAGE_WIDTH_DOTS     480
+#define PAGE_HEIGHT_DOTS    (PAGE_HEIGHT_CHARACTERS * 10)
 
 #define MPS_REVERSE  0x01
 #define MPS_CRSRUP   0x02 /* set in gfxmode (default) unset in businessmode */
@@ -60,15 +62,22 @@
 #define MPS_REPEAT   0x10
 #define MPS_ESC      0x20
 #define MPS_QUOTED   0x40 /* odd number of quotes in line (textmode) */
-#define MPS_BUSINESS 0x80 /* opened with SA = 7 in businessmode */
+
+#define MPS_BUSINESS 0x80 /* opened with SA = 7 in business mode */
+#define MPS_GRAPHICS 0x00 /* opened with SA = 0 in graphics mode */
 
 struct mps_s {
-    uint8_t line[MAX_COL][7];
+    uint8_t line[PAGE_WIDTH_DOTS][7];
     int repeatn;
     int pos;
     int tab;
     uint8_t tabc[3];
-    int mode;
+    int begin_line;
+    int mode_global;            /* global mode */
+#if 0
+    /* FIXME: index is the secondary file number */
+    int chargen_select[0x100];
+#endif
 };
 typedef struct mps_s mps_t;
 
@@ -100,27 +109,125 @@ static void dump_charset(void)
 /* ------------------------------------------------------------------------- */
 /* MPS803 printer engine. */
 
-static void set_mode(mps_t *mps, unsigned int m)
+/*
+    "if the logical file number is > 127, any printed lines will be double spaced."
+
+    secondary address 7 -> business mode
+
+    *   The MPS801 is mostly the same as MPS803 Manual, however regarding SA it
+    *   says this:
+    *
+    *   Sa= 0: Print data exactly as received
+    *   Sa= 6: Setting spacing between lines
+    *   Sa= 7: Select business mode
+    *   Sa= S: Select graphic mode
+    *   Sa=10: Reset the printer
+    *
+    *   Interestingly, in another Version it is this:
+    *
+    *   SA = O: "GRAPH IC" (upper case/graphic) Mode
+    *   SA = 7: "BUSINESS" (lower/upper case) Mode
+
+
+    The manual specifies the following printer control codes:
+
+    10      LF (line feed)
+            - all data in buffer is printed and paper is advanced one line
+    13      CR (carriage return)
+            - all data in buffer is printed and paper is advanced one line
+            - turns off reverse and quote mode
+
+    14      enhanced character set ON
+            - following characters are 12 pixel wide, 7 pixel high
+            - cancels bit image printing, switches to 1/16 inch line feed
+    15      enhanced character set OFF
+            - following characters are 6 pixel wide, 7 pixel high
+            - cancels bit image printing, switches to 1/16 inch line feed
+
+    145     print in graphics mode
+            - functions until chr$(17) or CR
+    17      print in business mode
+            - functions until chr$(145) or CR
+
+    18      reverse ON
+            - cancelled by CR
+    146     reverse OFF
+
+    16      TAB setting - chr$(16);"nHnL"
+            - moves printer head to absolute (char) position in the line
+    27      specify dot address - chr$(27);chr$(16);chr$(nH)chr$(nL)
+            - set head position in dot units
+
+    8       bit image printing
+
+    26      repeat graphic selected - chr$(26);chr$(image data)
+
+    34      quote
+            - if an odd number of quotation marks have been transmitted, control
+              characters are mode visible (quote mode = ON)
+            - quote mode is cancelled by CR
+
+    line feeds are:
+    - 6 lines per inch in character- and double width character mode
+    - 9 lines per inch in bit image graphic print mode
+
+    automatic printing:
+
+    - automatic printing occurs under 3 conditions:
+
+    a) when buffer fills up during input of data
+    b) when printer "sees" that you have used more than 480 dots per line (chars
+       and spaces count as 6 dots each)
+    c) when a) and b) happen at the same time
+
+    manual is a bit unclear about how much of the buffer will be printed
+
+    Open Questions:
+        - what happens when using other secondary addresses than 0 and 7 ?
+        - what is/are the exact conditions when the chargen select is reset to
+          what the secondary address implies?
+        - is the local state of chargen select (when changed via control chars)
+          preserved when printing one line, but using different secondary
+          addresses?
+ */
+
+static void set_global_mode(mps_t *mps, unsigned int m)
 {
-    mps->mode |= m;
+    mps->mode_global |= m;
 }
 
-static void del_mode(mps_t *mps, unsigned int m)
+static void unset_global_mode(mps_t *mps, unsigned int m)
 {
-    mps->mode &= ~m;
+    mps->mode_global &= ~m;
 }
 
-static int is_mode(mps_t *mps, unsigned int m)
+static int get_global_mode(mps_t *mps, unsigned int m)
 {
-    return mps->mode & m;
+    return mps->mode_global & m;
 }
+
+/* FIXME: it is not quite clear how this works exactly */
+static int get_chargen_mode(mps_t *mps, unsigned int secondary)
+{
+    return (secondary == 7) ? MPS_BUSINESS : MPS_GRAPHICS;
+    /* return mps->chargen_select[secondary]; */
+}
+
+#if 0
+static void set_chargen_mode(mps_t *mps, unsigned int secondary, unsigned int m)
+{
+    mps->chargen_select[secondary] = m;
+}
+#endif
+
+/******************************************************************************/
 
 static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
                            unsigned int row)
 {
     int reverse, result;
 
-    reverse = is_mode(mps, MPS_REVERSE);
+    reverse = get_global_mode(mps, MPS_REVERSE);
 
     result = charset[nr][row] & (1 << (7 - col)) ? !reverse : reverse;
 
@@ -135,19 +242,19 @@ static void print_cbm_char(mps_t *mps, const uint8_t rawchar)
     c = (int)rawchar;
 
     /* in the ROM, graphics charset comes first, then business */
-    if (!is_mode(mps, MPS_CRSRUP)) {
+    if (!get_global_mode(mps, MPS_CRSRUP)) {
         c += 256;
     }
 
     for (y = 0; y < 7; y++) {
-        if (is_mode(mps, MPS_DBLWDTH)) {
+        if (get_global_mode(mps, MPS_DBLWDTH)) {
             for (x = 0; x < 6; x++) {
-                if ((mps->pos + x * 2) >= MAX_COL) {
+                if ((mps->pos + x * 2) >= PAGE_WIDTH_DOTS) {
                     err = 1;
                     break;
                 }
                 mps->line[mps->pos + x * 2][y] = get_charset_bit(mps, c, x, y);
-                if ((mps->pos + x * 2 + 1) >= MAX_COL) {
+                if ((mps->pos + x * 2 + 1) >= PAGE_WIDTH_DOTS) {
                     err = 1;
                     break;
                 }
@@ -155,7 +262,7 @@ static void print_cbm_char(mps_t *mps, const uint8_t rawchar)
             }
         } else {
             for (x = 0; x < 6; x++) {
-                if ((mps->pos + x) >= MAX_COL) {
+                if ((mps->pos + x) >= PAGE_WIDTH_DOTS) {
                     err = 1;
                     break;
                 }
@@ -165,10 +272,10 @@ static void print_cbm_char(mps_t *mps, const uint8_t rawchar)
     }
 
     if (err) {
-        log_error(drv803_log, "Printing beyond limit of %d dots.", MAX_COL);
+        log_error(drv803_log, "Printing beyond limit of %d dots.", PAGE_WIDTH_DOTS);
     }
 
-    mps->pos += is_mode(mps, MPS_DBLWDTH) ? 12 : 6;
+    mps->pos += get_global_mode(mps, MPS_DBLWDTH) ? 12 : 6;
 }
 
 static void write_line(mps_t *mps, unsigned int prnr)
@@ -183,7 +290,7 @@ static void write_line(mps_t *mps, unsigned int prnr)
         output_select_putc(prnr, (uint8_t)(OUTPUT_NEWLINE));
     }
 
-    if (!is_mode(mps, MPS_BITMODE)) {
+    if (!get_global_mode(mps, MPS_BITMODE)) {
         /* bitmode:  9 rows/inch (7lines/row * 9rows/inch=63 lines/inch) */
         /* charmode: 6 rows/inch (7lines/row * 6rows/inch=42 lines/inch) */
         /*   --> 63lines/inch - 42lines/inch = 21lines/inch missing */
@@ -200,16 +307,11 @@ static void clear_buffer(mps_t *mps)
 {
     unsigned int x, y;
 
-    for (x = 0; x < MAX_COL; x++) {
+    for (x = 0; x < PAGE_WIDTH_DOTS; x++) {
         for (y = 0; y < 7; y++) {
             mps->line[x][y] = 0;
         }
     }
-}
-
-static void bitmode_off(mps_t *mps)
-{
-    del_mode(mps, MPS_BITMODE);
 }
 
 static void print_bitmask(mps_t *mps, unsigned int prnr, const char c)
@@ -222,7 +324,7 @@ static void print_bitmask(mps_t *mps, unsigned int prnr, const char c)
     }
 
     for (i = 0; i < (unsigned int)(mps->repeatn); i++) {
-        if (mps->pos >= MAX_COL) {  /* flush buffer*/
+        if (mps->pos >= PAGE_WIDTH_DOTS) {  /* flush buffer*/
             write_line(mps, prnr);
             clear_buffer(mps);
         }
@@ -235,62 +337,86 @@ static void print_bitmask(mps_t *mps, unsigned int prnr, const char c)
     mps->repeatn=0;
 }
 
-static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
+static void print_char(mps_t *mps, unsigned int prnr, unsigned int secondary, const uint8_t c)
 {
+    static int last_secondary = -1;
+
     if (mps->tab) {     /* decode tab-number*/
         mps->tabc[2 - mps->tab] = c;
 
         if (mps->tab == 1) {
             mps->pos =
-                is_mode(mps, MPS_ESC) ?
+                get_global_mode(mps, MPS_ESC) ?
                 mps->tabc[0] << 8 | mps->tabc[1] :
                 atoi((char *)mps->tabc) * 6;
 
-            del_mode(mps, MPS_ESC);
+            unset_global_mode(mps, MPS_ESC);
         }
 
         mps->tab--;
         return;
     }
 
-    if (is_mode(mps, MPS_ESC) && (c != 16)) {
-        del_mode(mps, MPS_ESC);
+    if (get_global_mode(mps, MPS_ESC) && (c != 16)) {
+        unset_global_mode(mps, MPS_ESC);
     }
 
-    if (is_mode(mps, MPS_REPEAT)) {
+    if (get_global_mode(mps, MPS_REPEAT)) {
         mps->repeatn = c;
-        del_mode(mps, MPS_REPEAT);
+        unset_global_mode(mps, MPS_REPEAT);
         return;
     }
 
-    if (is_mode(mps, MPS_BITMODE) && (c & 128)) {
+    if (get_global_mode(mps, MPS_BITMODE) && (c & 128)) {
         print_bitmask(mps, prnr, c);
         return;
     }
+
+    /* FIXME: it is not quite clear under what condition the chargen mode is
+              reset to what the secondary address implies. right now we do it
+              under the following conditions:
+              - the current character is the first character in a logical line,
+                ie it follows a CR
+              - the secondary address is different to the secondary address used
+                for the last character.
+    */
+
+    if (mps->begin_line || (last_secondary != secondary)) {
+        if (get_chargen_mode(mps, secondary) == MPS_BUSINESS) {
+            unset_global_mode(mps, MPS_CRSRUP);
+        } else {
+            set_global_mode(mps, MPS_CRSRUP);
+        }
+    }
+    mps->begin_line = 0;
+    last_secondary = secondary;
 
     /* it seems that CR works even in quote mode */
     switch (c) {
         case 13: /* CR*/
             mps->pos = 0;
-            if (is_mode(mps, MPS_BUSINESS)) {
-                del_mode(mps, MPS_CRSRUP);
+#if 0
+            if (get_chargen_mode(mps, secondary) == MPS_BUSINESS) {
+                unset_global_mode(mps, MPS_CRSRUP);
             } else {
-                set_mode(mps, MPS_CRSRUP);
+                set_global_mode(mps, MPS_CRSRUP);
             }
+#endif
             /* CR resets Quote mode, revers mode, ... */
-            del_mode(mps, MPS_QUOTED);
-            del_mode(mps, MPS_REVERSE);
+            unset_global_mode(mps, MPS_QUOTED);
+            unset_global_mode(mps, MPS_REVERSE);
             write_line(mps, prnr);
             clear_buffer(mps);
+            mps->begin_line = 1;
             return;
     }
 
     /* in text mode ignore most (?) other control chars when quote mode is active */
-    if (!is_mode(mps, MPS_QUOTED) || is_mode(mps, MPS_BITMODE)) {
+    if (!get_global_mode(mps, MPS_QUOTED) || get_global_mode(mps, MPS_BITMODE)) {
 
         switch (c) {
             case 8:
-                set_mode(mps, MPS_BITMODE);
+                set_global_mode(mps, MPS_BITMODE);
                 return;
 
             case 10: /* LF*/
@@ -302,28 +428,28 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
             /* Not really sure if the MPS803 recognizes this one... */
             case 13 + 128: /* shift CR: CR without LF (from 4023 printer) */
                 mps->pos = 0;
-                if (is_mode(mps, MPS_BUSINESS)) {
-                    del_mode(mps, MPS_CRSRUP);
+                if (get_chargen_mode(mps, secondary) == MPS_BUSINESS) {
+                    unset_global_mode(mps, MPS_CRSRUP);
                 } else {
-                    set_mode(mps, MPS_CRSRUP);
+                    set_global_mode(mps, MPS_CRSRUP);
                 }
                 /* CR resets Quote mode, revers mode, ... */
-                del_mode(mps, MPS_QUOTED);
-                del_mode(mps, MPS_REVERSE);
+                unset_global_mode(mps, MPS_QUOTED);
+                unset_global_mode(mps, MPS_REVERSE);
                 return;
 #endif
 
             case 14: /* EN on*/
-                set_mode(mps, MPS_DBLWDTH);
-                if (is_mode(mps, MPS_BITMODE)) {
-                    bitmode_off(mps);
+                set_global_mode(mps, MPS_DBLWDTH);
+                if (get_global_mode(mps, MPS_BITMODE)) {
+                    unset_global_mode(mps, MPS_BITMODE);
                 }
                 return;
 
             case 15: /* EN off*/
-                del_mode(mps, MPS_DBLWDTH);
-                if (is_mode(mps, MPS_BITMODE)) {
-                    bitmode_off(mps);
+                unset_global_mode(mps, MPS_DBLWDTH);
+                if (get_global_mode(mps, MPS_BITMODE)) {
+                    unset_global_mode(mps, MPS_BITMODE);
                 }
                 return;
 
@@ -341,34 +467,34 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
             * a carriage return or cursor up code [CHR$(145)] is detected.
             */
             case 17: /* crsr dn, enter businessmode local */
-                del_mode(mps, MPS_CRSRUP);
+                unset_global_mode(mps, MPS_CRSRUP);
                 return;
 
             case 145: /* CRSR up, enter gfxmode local */
-                set_mode(mps, MPS_CRSRUP);
+                set_global_mode(mps, MPS_CRSRUP);
                 return;
 
             case 18:
-                set_mode(mps, MPS_REVERSE);
+                set_global_mode(mps, MPS_REVERSE);
                 return;
 
             case 146: /* 18+128*/
-                del_mode(mps, MPS_REVERSE);
+                unset_global_mode(mps, MPS_REVERSE);
                 return;
 
             case 26: /* repeat last chr$(8) c times.*/
-                set_mode(mps, MPS_REPEAT);
+                set_global_mode(mps, MPS_REPEAT);
                 mps->repeatn = 1;
                 return;
 
             case 27:
-                set_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
+                set_global_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
                 return;
         }
 
     }
 
-    if (is_mode(mps, MPS_BITMODE)) {
+    if (get_global_mode(mps, MPS_BITMODE)) {
         return;
     }
 
@@ -380,25 +506,25 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
     * end of this line.
     */
     if (c == 34) {
-        mps->mode ^= MPS_QUOTED;
+        mps->mode_global ^= MPS_QUOTED;
     }
 
-    if (mps->pos >= MAX_COL) {  /* flush buffer*/
+    if (mps->pos >= PAGE_WIDTH_DOTS) {  /* flush buffer*/
         write_line(mps, prnr);
         clear_buffer(mps);
     }
 
-    if (is_mode(mps, MPS_QUOTED)) {
+    if (get_global_mode(mps, MPS_QUOTED)) {
         if (c <= 0x1f) {
-            set_mode(mps, MPS_REVERSE);
+            set_global_mode(mps, MPS_REVERSE);
             print_cbm_char(mps, (uint8_t)(c + 0x40));
-            del_mode(mps, MPS_REVERSE);
+            unset_global_mode(mps, MPS_REVERSE);
             return;
         }
         if ((c >= 0x80) && (c <= 0x9f)) {
-            set_mode(mps, MPS_REVERSE);
+            set_global_mode(mps, MPS_REVERSE);
             print_cbm_char(mps, (uint8_t)(c - 0x20));
-            del_mode(mps, MPS_REVERSE);
+            unset_global_mode(mps, MPS_REVERSE);
             return;
         }
     }
@@ -436,20 +562,25 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
      * even remembered for each SA separately.
      */
     if (secondary == 0) {
-        set_mode(&drv_mps803[prnr], MPS_CRSRUP);
+        /* set_chargen_mode(&drv_mps803[prnr], secondary, MPS_GRAPHICS); */
+        set_global_mode(&drv_mps803[prnr], MPS_CRSRUP);
     } else if (secondary == 7) {
-        set_mode(&drv_mps803[prnr], MPS_BUSINESS);
+        /* set_chargen_mode(&drv_mps803[prnr], secondary, MPS_BUSINESS); */
+        unset_global_mode(&drv_mps803[prnr], MPS_CRSRUP);
     } else if (secondary == DRIVER_FIRST_OPEN) {
         /* Is this the first open? */
         output_parameter_t output_parameter;
 
-        output_parameter.maxcol = MAX_COL;
-        output_parameter.maxrow = MAX_ROW;
+        output_parameter.maxcol = PAGE_WIDTH_DOTS;
+        output_parameter.maxrow = PAGE_HEIGHT_DOTS;
         output_parameter.dpi_x = 60;    /* mps803 has different horizontal & vertical dpi - see pg 49 of the manual part H. */
         output_parameter.dpi_y = 72;    /* NOTE - mixed dpi might not be liked by some image viewers */
         output_parameter.palette = palette;
 
         return output_select_open(prnr, &output_parameter);
+    } else {
+        /* any other secondary address */
+        log_warning(LOG_DEFAULT, "FIXME: secondary address is %u - what does the real MPS803 do in this case?", secondary);
     }
 
     return 0;
@@ -469,7 +600,7 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
     DBG(("drv_mps803_putc(%u,%u:$%02x)", prnr, secondary, b));
-    print_char(&drv_mps803[prnr], prnr, b);
+    print_char(&drv_mps803[prnr], prnr, secondary, b);
     return 0;
 }
 
