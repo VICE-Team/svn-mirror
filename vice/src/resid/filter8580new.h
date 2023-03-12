@@ -1478,7 +1478,7 @@ Our root function f can thus be written as:
 We are using the mapping function x = vo - vx -> vx. We thus substitute
 for vo = vx + x and get:
 
-  f = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - (vx + x))^2 = 0
+  f(vx) = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - (vx + x))^2 = 0
 
 Using substitution constants
 
@@ -1486,10 +1486,24 @@ Using substitution constants
   b = Vddt
   c = n*(Vddt - vi)^2
 
-the equations for the root function and its derivative can be written as:
+the equations for the root function can be written and expanded as:
 
-  f = a*(b - vx)^2 - c - (b - (vx + x))^2
-  df = 2*((b - (vx + x))*(dvx + 1) - a*(b - vx)*dvx)
+  f(vx) = a*(b - vx)^2 - c - (b - (vx + x))^2
+        = a*(b^2 + vx^2 - 2*b*vx) - c - (b^2 + (vx + x)^2 - 2*b*(vx + x))
+        = a*b^2 + a*vx^2 - 2*a*b*vx - c - b^2 - (vx + x)^2 + 2*b*(vx + x)
+        = a*b^2 + a*vx^2 - 2*a*b*vx - c - b^2 - vx^2 - x^2 - 2*x*vx + 2*b*vx + 2*b*x
+
+Then we calculate the derivative:
+
+  f'(vx) = 2*a*vx - 2*a*b  - 2*vx - 2*x + 2*b
+         = 2*(a*vx - a*b - vx - x + b)
+         = 2*(a*(vx - b) + b - (vx + x))
+         = 2*(b - (vx + x) - a*(b - vx))
+         = 2*(b - vo - a*(b - vx))
+
+Given f'(x) = df/dx, we have the resulting
+
+  df = 2*((b - (vx + x)) - a*(b - vx))*dvx
 */
 #if 0
 RESID_INLINE
@@ -1593,7 +1607,7 @@ int Filter::solve_gain_d(opamp_t* opamp, double n, int vi, int& x, model_filter_
     int dvx = opamp[x].dvx;    // Scaled by m*2^11
 
     // f = a*(b - vx)^2 - c - (b - vo)^2
-    // df = 2*((b - vo)*dvx - a*(b - vx)*dvx)
+    // df = 2*((b - vo) - a*(b - vx))*dvx
     //
     int vo = vx + (x << 1) - (1 << 16);
     if (vo > (1 << 16) - 1) {
