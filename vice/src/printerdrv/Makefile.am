@@ -4,7 +4,8 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/userport
+	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/vdrive
 
 AM_CFLAGS = @VICE_CFLAGS@
 
