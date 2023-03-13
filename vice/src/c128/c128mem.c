@@ -1643,6 +1643,9 @@ void mem_initialize_go64_memory_bank(uint8_t shared_mem)
 void mem_powerup(void)
 {
     ram_init(mem_ram, C128_RAM_SIZE);
+
+    vicii_init_colorram(mem_color_ram);
+    vicii_init_colorram(mem_color_ram + 0x400);
 }
 
 /* ------------------------------------------------------------------------- */

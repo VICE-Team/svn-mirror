@@ -276,6 +276,7 @@ noinst_HEADERS = \
 	vicesocket.h \
 	vicefeatures.h \
 	vicii.h \
+	vicii-colorram.h \
 	video.h \
 	viewport.h \
 	vsidui.h \
