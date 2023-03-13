@@ -1445,11 +1445,11 @@ static int drive_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, 
             s = (((*step[j]) * stepvol[j]) * drive_sound_emulation_volume) >> 8;
             switch (soc) {
                 default:
-                case 1:
+                case SOUND_OUTPUT_MONO:
                     pbuf[i] = sound_audio_mix(pbuf[i], m);
                     pbuf[i] = sound_audio_mix(pbuf[i], s);
                     break;
-                case 2:
+                case SOUND_OUTPUT_STEREO:
                     pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], m);
                     pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], s);
                     pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], m);

@@ -182,7 +182,7 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
     if (snd.digital) {
         for (i = 0; i < nr; i++) {
             pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
-            if (soc > 1) {
+            if (soc == SOUND_OUTPUT_STEREO) {
                 pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
             }
         }
@@ -265,7 +265,7 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
             }
 
             pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], volume);
-            if (soc > 1) {
+            if (soc == SOUND_OUTPUT_STEREO) {
                 pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], volume);
             }
         }

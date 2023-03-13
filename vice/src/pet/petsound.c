@@ -351,11 +351,11 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, i
 
         /* pbuf[i * soc] = v; */
         pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (sample_t)v);
-#if 0
-        if (soc > 1) {
+
+        /* do stereo as well if needed */
+        if (soc == SOUND_OUTPUT_STEREO) {
             pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (sample_t)v);
         }
-#endif
 
     }
     return nr;

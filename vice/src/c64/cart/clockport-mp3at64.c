@@ -246,11 +246,11 @@ static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int
     for (i = 0; i < nr; ++i) {
         switch (soc) {
             default:
-            case 1:
+            case SOUND_OUTPUT_MONO:
                 sample = sound_audio_mix(mp3_get_current_sample(), mp3_get_current_sample());
                 pbuf[i] = sound_audio_mix(pbuf[i], sample);
                 break;
-           case 2:
+           case SOUND_OUTPUT_STEREO:
                 pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], mp3_get_current_sample());
                 pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[i], mp3_get_current_sample());
                 break;

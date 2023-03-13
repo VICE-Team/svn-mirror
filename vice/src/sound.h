@@ -76,6 +76,25 @@ enum {
     SOUND_OUTPUT_STEREO
 };
 
+/* Sound device amounts */
+enum {
+    SOUND_1_DEVICE = 1,
+    SOUND_2_DEVICES,
+    SOUND_3_DEVICES,
+    SOUND_4_DEVICES,
+    SOUND_5_DEVICES,
+    SOUND_6_DEVICES,
+    SOUND_7_DEVICES,
+    SOUND_8_DEVICES
+};
+
+/* Sound channels */
+enum {
+    SOUND_CHANNEL_1 = 1,
+    SOUND_CHANNEL_2,
+    SOUND_CHANNELS_1_AND_2
+};
+
 /* Sound defaults.  */
 #if defined(MACOS_COMPILE)
 #define SOUND_SAMPLE_RATE 48000

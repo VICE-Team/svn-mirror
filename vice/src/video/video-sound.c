@@ -90,12 +90,12 @@ static int video_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, 
             smpval2 = (int)((*chip[num].lumaptr) * LUMALINES_VOLUME) / (1 << 16);
             switch (soc) {
                 default:
-                case 1:
+                case SOUND_OUTPUT_MONO:
                     pbuf[i] = sound_audio_mix(pbuf[i], smpval1 + smpval2);
                     break;
-                case 2:
-                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], smpval1 + smpval2);
-                    pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], smpval1 + smpval2);
+                case SOUND_OUTPUT_STEREO:
+                    pbuf[i * soc] = sound_audio_mix(pbuf[i * 2], smpval1 + smpval2);
+                    pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], smpval1 + smpval2);
                     break;
             }
 
