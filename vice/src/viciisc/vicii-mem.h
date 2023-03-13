@@ -42,4 +42,6 @@ uint8_t vicii_palette_read(uint16_t addr);
 int vicii_extended_regs(void);
 void viciidtv_update_colorram(void);
 
+void vicii_init_colorram(uint8_t *colorram);
+
 #endif

@@ -922,6 +922,8 @@ void mem_powerup(void)
         memset(mem_rom + 0xd000 + i + 0x40, 0xff, 0x40);
     }
 
+    vicii_init_colorram(mem_color_ram);
+
     cbm2mem_bank_exec = 0;
     cbm2mem_bank_ind = 0;
     cbm2mem_set_bank_exec(15);
