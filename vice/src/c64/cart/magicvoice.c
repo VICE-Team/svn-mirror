@@ -1477,7 +1477,7 @@ static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *p
     /* mix generated samples to output */
     for (i = 0; i < nr; i++) {
         pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], buffer[i]);
-        if (soc > 1) {
+        if (soc == SOUND_OUTPUT_STEREO) {
             pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], buffer[i]);
         }
     }

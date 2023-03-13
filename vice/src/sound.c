@@ -1606,10 +1606,10 @@ int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int 
         if (!sample) {
             return nr;
         }
-        if (cs & 1) {
+        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
             pbuf[off] = sound_audio_mix(pbuf[off], sample);
         }
-        if (cs & 2) {
+        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
             pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
         }
         off += soc;
@@ -1618,10 +1618,10 @@ int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int 
     for (i = 1; i < nr; i++) {
         dac->output *= dac->alpha;
         sample = (int)dac->output;
-        if (cs & 1) {
+        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
             pbuf[off] = sound_audio_mix(pbuf[off], sample);
         }
-        if (cs & 2) {
+        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
             pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
         }
         off += soc;
