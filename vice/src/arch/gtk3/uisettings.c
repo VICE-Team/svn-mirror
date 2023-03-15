@@ -583,7 +583,7 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { CARTRIDGE_C128_NAME_GMOD2C128,
       "gmod2c128",
       settings_gmod2c128_widget_create, NULL },
-    { "GMod3",
+    { CARTRIDGE_NAME_GMOD3,
       "gmod3",
       settings_gmod3_widget_create, NULL },
 
