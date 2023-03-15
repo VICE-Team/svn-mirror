@@ -112,12 +112,12 @@ GtkWidget *settings_expert_widget_create(GtkWidget *parent)
 
     enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_EXPERT,
                                                     CARTRIDGE_EXPERT);
-    mode   = create_expert_mode_widget();
     image  = create_expert_image_widget();
+    mode   = create_expert_mode_widget();
 
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), mode,   0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), image,  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), image,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mode,   0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
