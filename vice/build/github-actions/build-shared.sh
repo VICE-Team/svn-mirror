@@ -15,6 +15,7 @@ ARGS="
     --enable-lame \
     --enable-midi \
     --enable-cpuhistory \
+    --with-unzip-bin \
     "
 
 # Set configure options, check UI, set OTHER_UI
