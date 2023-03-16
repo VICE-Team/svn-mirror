@@ -92,7 +92,7 @@ jobs:
         id: create_release
         env:
           TAG_NAME: ${{ github.ref }}
-          RELEASE_NAME: ${{ github.ref }} snapshot  
+          RELEASE_NAME: ${{ github.ref }} snapshot
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
@@ -231,6 +231,7 @@ jobs:
             base-devel
             autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
+            unzip
             zip
             p7zip
             subversion

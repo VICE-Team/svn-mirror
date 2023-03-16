@@ -229,6 +229,7 @@ jobs:
             base-devel
             autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
+            unzip
             zip
             p7zip
             subversion
