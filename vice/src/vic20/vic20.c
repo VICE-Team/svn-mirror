@@ -1152,6 +1152,8 @@ int machine_specific_init(void)
 /* VIC20-specific reset sequence.  */
 void machine_specific_reset(void)
 {
+    userport_reset_start();
+
     serial_traps_reset();
 
     viacore_reset(machine_context.via1);
@@ -1177,6 +1179,8 @@ void machine_specific_reset(void)
     datasette_reset();
 
     sampler_reset();
+
+    userport_reset_end();
 }
 
 /* VIC20-specific powerup/hardreset  */

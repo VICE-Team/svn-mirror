@@ -172,7 +172,9 @@ uint8_t read_userport_sp1(uint8_t orig);
 void store_userport_sp1(uint8_t val);
 uint8_t read_userport_sp2(uint8_t orig);
 void store_userport_sp2(uint8_t val);
+void userport_reset_start(void);
 void userport_reset(void);
+void userport_reset_end(void);
 void userport_powerup(void);
 
 /* use this function from userport device code to set the userport flag */
