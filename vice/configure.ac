@@ -116,6 +116,7 @@ dnl Misc build options
 dnl
 
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
+VICE_ARG_WITH_LIST(zip-bin,             [  --with-zip-bin          enables distribution of unzip.exe in the windows bindist])
 VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(ethernet,          [  --enable-ethernet       enables The Final Ethernet emulation])
@@ -346,6 +347,16 @@ dnl generate info pages anymore ?
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
 AS_IF([test x"$MAKEINFO" = "xno"],
       [AC_MSG_ERROR([makeinfo is missing, please install texinfo])])
+
+dnl if --with-zip-bin was given check for unzip and error out if not found
+if test x"$with_zip_bin" = "xyes"; then
+  AC_PATH_PROGS(UNZIPBIN, unzip.exe, no)
+  if test x"$UNZIPBIN" = "xno"; then
+    AC_MSG_ERROR([unzip was requested (--with-zip-bin), but unzip is missing])
+  fi
+else
+  UNZIPBIN="no"
+fi
 
 dnl Check for dos2unix
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, no)

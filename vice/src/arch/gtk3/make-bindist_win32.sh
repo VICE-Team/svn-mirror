@@ -26,18 +26,21 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
-#                         $1      $2             $3              $4          $5             $6           $7    $8                 $9      $10       $11
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs>
+#                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10     $11       $12        $13
 #
 
 STRIP=$1
 VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
-X64INC=$5
-TOPSRCDIR=$6
-CPU=$7
-TOPBUILDDIR=$8
+UNZIPBIN=$5
+X64INC=$6
+TOPSRCDIR=$7
+CPU=$8
+TOPBUILDDIR=$9
+
+shift
 CROSS=$9
 
 shift
@@ -148,9 +151,10 @@ if test x"$CROSS" != "xtrue"; then
   fi
 
   # drop unzip.exe and its dependencies in the bin/ =)
-  cp /usr/bin/unzip.exe $BUILDPATH/bin
-  cp `ntldd -R $BUILDPATH/bin/unzip.exe | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
-
+  if test x"$UNZIPBIN" != "xno"; then
+    cp $UNZIPBIN $BUILDPATH/bin
+    cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
+  fi
 else
 
 # The following lines assume a cross compiler,

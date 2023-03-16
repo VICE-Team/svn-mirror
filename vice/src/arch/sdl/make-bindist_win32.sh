@@ -26,34 +26,37 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3> <zip|nozip=$4> <x64-included=$5>
-#                        <top-srcdir=$6> <top-builddir=$7> <cpu=$8> <SDL-version=$9> <sdl-config=$10>
-#                        <cross=$11> <objdump=$12> <compiler=$13> <--enable-html-docs=$14>
+# Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3> <zip|nozip=$4> <unzipbin=$5>
+#                        <x64-included=$6> <top-srcdir=$7> <top-builddir=$8> <cpu=$9> <SDL-version=$10>
+#                        <sdl-config=$11> <cross=$12> <objdump=$13> <compiler=$14> <--enable-html-docs=$15>
 #
 
 STRIP=$1
 VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
-X64INC=$5
-TOPSRCDIR=$6
-TOPBUILDDIR=$7
-CPU=$8
-SDLVERSION=$9
+UNZIPBIN=$5
+X64INC=$6
+TOPSRCDIR=$7
+TOPBUILDDIR=$8
+CPU=$9
 
 shift   # $10
-SDLCONFIG=$9
+SDLVERSION=$9
 
 shift   # $11
-CROSS=$9
+SDLCONFIG=$9
 
 shift   # $12
-OBJDUMP=$9
+CROSS=$9
 
 shift   # $13
-COMPILER=$9
+OBJDUMP=$9
 
 shift   # $14
+COMPILER=$9
+
+shift   # $15
 HTML_DOCS=$9
 
 
@@ -138,6 +141,11 @@ if test x"$CROSS" != "xtrue"; then
     then cp -u `ntldd -R $MINGW_PREFIX/bin/avfilter-*.dll|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BINDIST_DIR
   fi
 
+  # drop unzip.exe and its dependencies in the bin/ =)
+  if test x"$UNZIPBIN" != "xno"; then
+    cp $UNZIPBIN $BINDIST_DIR
+    cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BINDIST_DIR
+  fi
 else
   # Assume a cross-builder for Windows here.
   get_dll_deps()
