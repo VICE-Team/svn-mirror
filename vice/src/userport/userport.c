@@ -156,6 +156,9 @@ int userport_device_register(int id, userport_device_t *device)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+static int userport_reset_started = 0;
+
+
 /* attach device 'id' to the userport */
 static int userport_set_device(int id)
 {
@@ -281,12 +284,14 @@ uint8_t read_userport_pbx(uint8_t orig)
 
 void store_userport_pbx(uint8_t val, int pulse)
 {
-    if (userport_active) {
-        /* store to new userport system if the device has been registered */
-        if (userport_current_device != USERPORT_DEVICE_NONE) {
-            if (userport_device[userport_current_device].name) {
-                if (userport_device[userport_current_device].store_pbx) {
-                    userport_device[userport_current_device].store_pbx(val, pulse);
+    if (!userport_reset_started) {
+        if (userport_active) {
+            /* store to new userport system if the device has been registered */
+            if (userport_current_device != USERPORT_DEVICE_NONE) {
+                if (userport_device[userport_current_device].name) {
+                    if (userport_device[userport_current_device].store_pbx) {
+                        userport_device[userport_current_device].store_pbx(val, pulse);
+                    }
                 }
             }
         }
@@ -448,6 +453,16 @@ void userport_reset(void)
             }
         }
     }
+}
+
+void userport_reset_start(void)
+{
+    userport_reset_started = 1;
+}
+
+void userport_reset_end(void)
+{
+    userport_reset_started = 0;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
