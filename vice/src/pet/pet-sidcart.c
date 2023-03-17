@@ -29,11 +29,13 @@
 #include "cartio.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "pets.h"
 #include "sid.h"
 #include "sidcart.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sound.h"
+#include "uiapi.h"
 
 int sidcart_address;
 int sidcart_clock;
@@ -88,6 +90,7 @@ static io_source_t sidcart_8f00_device = {
     0                     /* insertion order, gets filled in by the registration function */
 };
 
+/* the $e9xx range is only exposed when the I/O size is big (30xx and superpet models) */
 static io_source_t sidcart_e900_device = {
     "SIDCART",            /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
@@ -123,6 +126,10 @@ static int set_sidcart_enabled(int value, void *param)
         if (sidcart_address == 0x8f00) {
             sidcart_list_item = io_source_register(&sidcart_8f00_device);
         } else {
+            if (petres.IOSize < 2048) {
+                ui_error("Cannot enable SID: $e9xx range only available on superpet and 30xx models");
+                return -1;
+            }
             sidcart_list_item = io_source_register(&sidcart_e900_device);
         }
     } else {
@@ -158,6 +165,10 @@ static int set_sid_address(int val, void *param)
         if (val == 0x8f00) {
             sidcart_list_item = io_source_register(&sidcart_8f00_device);
         } else {
+            if (petres.IOSize < 2048) {
+                ui_error("Cannot enable SID: $e9xx range only available on superpet and 30xx models");
+                return -1;
+            }
             sidcart_list_item = io_source_register(&sidcart_e900_device);
         }
     }
@@ -204,6 +215,7 @@ int sidcart_resources_init(void)
     if (sid_resources_init() < 0) {
         return -1;
     }
+
     return resources_register_int(sidcart_resources_int);
 }
 
