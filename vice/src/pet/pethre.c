@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
+#include "uiapi.h"
 
 /*
  * A HRE board consists of a few 74LS-type chips, and is plugged
@@ -167,6 +168,7 @@ void pethre_reset(void)
 static int pethre_activate(void)
 {
     if (petres.map != PET_MAP_8296) {
+        ui_error("Cannot enable HRE: requires PET model 8296.");
         log_message(pethre_log, "Cannot enable HRE: requires PET model 8296.");
         return -1;
     }

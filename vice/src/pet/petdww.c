@@ -48,6 +48,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
+#include "uiapi.h"
 #include "util.h"
 
 /*
@@ -112,6 +113,7 @@ static void store_petdww_reg(uint16_t addr, uint8_t value);
 static void store_petdww_ec00_ram(uint16_t addr, uint8_t value);
 static int petdww_dump(void);
 
+/* the $ebxx range is only exposed when the I/O size is big (30xx and superpet models) */
 static io_source_t petdww_reg_device = {
     "PETDWW REG",         /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
@@ -128,6 +130,7 @@ static io_source_t petdww_reg_device = {
     0                     /* insertion order, gets filled in by the registration function */
 };
 
+/* the $ecxx range is only exposed when the I/O size is big (30xx and superpet models) */
 static io_source_t petdww_ram_ec00_device = {
     "PETDWW RAM",          /* name of the device */
     IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
@@ -144,6 +147,7 @@ static io_source_t petdww_ram_ec00_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* the $edxx range is only exposed when the I/O size is big (30xx and superpet models) */
 static io_source_t petdww_ram_ed00_device = {
     "PETDWW RAM",          /* name of the device */
     IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
@@ -160,6 +164,7 @@ static io_source_t petdww_ram_ed00_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* the $eexx range is only exposed when the I/O size is big (30xx and superpet models) */
 static io_source_t petdww_ram_ee00_device = {
     "PETDWW RAM",          /* name of the device */
     IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
@@ -176,6 +181,7 @@ static io_source_t petdww_ram_ee00_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* the $efxx range is only exposed when the I/O size is big AND the model is NOT a superpet (30xx models) */
 static io_source_t petdww_ram_ef00_device = {
     "PETDWW RAM",          /* name of the device */
     IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
@@ -338,11 +344,13 @@ void petdww_reset(void)
 static int petdww_activate(void)
 {
     if (petres.IOSize < 2048) {
+        ui_error("Cannot enable DWW: $eb00-$efff range only available on 30xx models");
         log_message(petdww_log, "Cannot enable DWW: IOSize too small (%d but must be 2KiB)", petres.IOSize);
         return -1;
     }
 
     if (petres.superpet) {
+        ui_error("Cannot enable DWW: not compatible with SuperPET");
         log_message(petdww_log, "Cannot enable DWW: not compatible with SuperPET");
         return -1;
     }
