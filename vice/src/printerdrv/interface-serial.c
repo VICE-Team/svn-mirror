@@ -320,6 +320,13 @@ static int read_pr4(struct vdrive_s *var, uint8_t *byte, unsigned int secondary)
 
 static int write_pr4(struct vdrive_s *var, uint8_t byte, unsigned int secondary)
 {
+#ifdef DEBUG_PRINTER
+    if (var) {
+        DBG(("write_pr4 unit:%u sec:%u byte:%u", var->unit, secondary, byte));
+    } else {
+        DBG(("write_pr4 unit:n/a sec:%u byte:%u", secondary, byte));
+    }
+#endif
     return write_pr(0, byte, secondary);
 }
 

@@ -59,11 +59,16 @@ typedef struct driver_resource_s {
 
 /** \brief  Drivers for printer 4 & 5 */
 static const driver_radio_t printer_drivers[] = {
-    { "ASCII",      "ascii" },
-    { "MPS-803",    "mps803" },
-    { "NL10",       "nl10" },
-    { "RAW",        "raw" },
-    { NULL,         NULL }
+    { "ASCII",                "ascii" },
+    { "Commodore 2022",       "2022" },
+    { "Commodore 4023",       "4023" },
+    { "Commodore 8023",       "8023" },
+    { "MPS-801",              "mps801" },
+    { "MPS-802",              "mps802" },
+    { "MPS-803",              "mps803" },
+    { "NL10",                 "nl10" },
+    { "RAW",                  "raw" },
+    { NULL,                   NULL }
 };
 
 /** \brief  Drivers for plotter 6 */

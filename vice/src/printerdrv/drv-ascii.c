@@ -197,6 +197,11 @@ static int drv_ascii_formfeed(unsigned int prnr)
     return output_select_formfeed(prnr);
 }
 
+static int drv_ascii_select(unsigned int prnr)
+{
+    return 0;
+}
+
 int drv_ascii_init_resources(void)
 {
     driver_select_t driver_select;
@@ -208,6 +213,7 @@ int drv_ascii_init_resources(void)
     driver_select.drv_getc = drv_ascii_getc;
     driver_select.drv_flush = drv_ascii_flush;
     driver_select.drv_formfeed = drv_ascii_formfeed;
+    driver_select.drv_select = drv_ascii_select;
 
     driver_select_register(&driver_select);
 

@@ -83,11 +83,11 @@ static int set_output_device(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "Printer4Output", "text", RES_EVENT_NO, NULL,
+    { "Printer4Output", "graphics", RES_EVENT_NO, NULL,
       (char **)&output_select[0].output_name, set_output_device, (void *)0 },
     { "Printer5Output", "text", RES_EVENT_NO, NULL,
       (char **)&output_select[1].output_name, set_output_device, (void *)1 },
-    { "Printer6Output", "text", RES_EVENT_NO, NULL,
+    { "Printer6Output", "graphics", RES_EVENT_NO, NULL,
       (char **)&output_select[2].output_name, set_output_device, (void *)2 },
     RESOURCE_STRING_LIST_END
 };

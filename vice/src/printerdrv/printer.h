@@ -66,11 +66,25 @@ void printer_serial_shutdown(void);
 /* Userport interface.  */
 int printer_userport_init_resources(void);
 
-#define MPS803_ROM_SIZE (7 * 512)
+#define MPS801_ROM_SIZE     (4 * 1024)
+#define CBM1526_ROM_SIZE    (8 * 1024)
+#define MPS802_ROM_SIZE     CBM1526_ROM_SIZE
+#define MPS803_ROM_SIZE     (4 * 1024)
 
-#define MPS801_ROM_NAME     "mps801.bin"
-#define CBM1526_ROM_NAME    "cbm1526-325341-08.bin"     /* same as mps802 ? */
-#define MPS803_ROM_NAME     "mps803.bin"
+#define C2022_ROM_SIZE      (4 * 1024)
+#define C2023_ROM_SIZE      (4 * 1024)
+#define C4023_ROM_SIZE      (8 * 1024)
+#define C8023_ROM_SIZE      (8 * 1024)
+
+#define MPS801_ROM_NAME     "mps801.bin"                    /* c1fbd1f3 */
+#define CBM1526_ROM_NAME    "cbm1526-325341-08.bin"         /* same as mps802 ? */
+#define MPS802_ROM_NAME     CBM1526_ROM_NAME
+#define MPS803_ROM_NAME     "mps803-D7811G-111-U32053A.bin"
+
+#define C2022_ROM_NAME      "2022-901472-04.bin"             /* 2022/2023 */
+#define C4023_ROM_NAME      "4023-325360-02.bin"             /* 4023 */
+#define C8023_ROM_NAME      "8023-325320-02.bin"             /* 8023 */
+
 #define NL10_ROM_NAME       "nl10.bin"
 
 #endif
