@@ -56,7 +56,8 @@ static driver_select_list_t *driver_select_list = NULL;
 
 static const char * const userprinter_names[] = { "ascii", "nl10", "raw", NULL };
 
-static const char * const printer_names[] = { "ascii", "mps803", "nl10", "raw", NULL };
+static const char * const printer_names[] = { "ascii", "2022", "4023", "8023",
+    "mps801", "mps802", "mps803", "nl10", "raw", NULL };
 
 static const char * const plotter_names[] = { "1520", "raw", NULL };
 
@@ -126,7 +127,13 @@ static int set_printer_driver(const char *name, void *param)
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
-            driver_select[prnr] = list->driver_select;
+            memcpy(&(driver_select[prnr]), &(list->driver_select), sizeof(driver_select_t));
+            if(driver_select[prnr].drv_select) {
+#ifdef DEBUG_PRINTER
+                log_debug(driver_select_log, "driver_select[%d].drv_select != NULL", prnr);
+#endif
+                driver_select[prnr].drv_select(prnr);
+            }
             return 0;
         }
         list = list->next;
@@ -136,7 +143,7 @@ static int set_printer_driver(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "Printer4Driver", "ascii", RES_EVENT_NO, NULL,
+    { "Printer4Driver", "mps803", RES_EVENT_NO, NULL,
       (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
     { "Printer5Driver", "ascii", RES_EVENT_NO, NULL,
       (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
@@ -165,10 +172,10 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer4Driver", NULL,
-      "<Name>", "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)" },
+      "<Name>", "Specify name of printer driver for device #4. (ascii/raw/mps801/mps802/mps803/220/4032/8023/nl10)" },
     { "-pr5drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer5Driver", NULL,
-      "<Name>", "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)" },
+      "<Name>", "Specify name of printer driver for device #5. (ascii/raw/mps801/mps802/mps803/220/4032/8023/nl10)" },
     { "-pr6drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer6Driver", NULL,
       "<Name>", "Specify name of printer driver for device #6. (1520/raw)" },

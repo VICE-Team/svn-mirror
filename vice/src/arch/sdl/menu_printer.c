@@ -45,6 +45,26 @@ UI_MENU_DEFINE_RADIO(UserportDevice)
           MENU_ENTRY_RESOURCE_RADIO,                                  \
           radio_Printer##prn##Driver_callback,                        \
           (ui_callback_data_t)"ascii" },                              \
+        { "Commodore 2022",                                           \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"2022" },                               \
+        { "Commodore 4023",                                           \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"4023" },                               \
+        { "Commodore 8023",                                           \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"8023" },                               \
+        { "MPS801",                                                   \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"mps801" },                             \
+        { "MPS802",                                                   \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"mps802" },                             \
         { "MPS803",                                                   \
           MENU_ENTRY_RESOURCE_RADIO,                                  \
           radio_Printer##prn##Driver_callback,                        \

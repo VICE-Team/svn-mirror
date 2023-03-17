@@ -37,6 +37,7 @@ struct driver_select_s {
     int (*drv_getc)(unsigned int prnr, unsigned int secondary, uint8_t *b);
     int (*drv_flush)(unsigned int prnr, unsigned int secondary);
     int (*drv_formfeed)(unsigned int prnr);
+    int (*drv_select)(unsigned int prnr);
 };
 typedef struct driver_select_s driver_select_t;
 

@@ -7531,12 +7531,12 @@ Integer specifying how printer 7 is being emulated.
 @vindex Printer4Driver
 @item Printer4Driver
 String specifying the printer output driver.
-(raw, ascii, mps803, nl10)
+(raw, ascii, 2022, 4023, 8023, mps801, mps802, mps803, nl10)
 
 @vindex Printer5Driver
 @item Printer5Driver
 String specifying the printer output driver.
-(raw, ascii, mps803, nl10)
+(raw, ascii, 2022, 4023, 8023, mps801, mps802, mps803, nl10)
 
 @vindex Printer6Driver
 @item Printer6Driver
@@ -7662,13 +7662,13 @@ Specify name of output device for device #6
 @item -pr4drv <name>
 Specify name of printer driver for device #4
 (@code{Printer4Driver}).
-(raw, ascii, mps803, nl10)
+(raw, ascii, 2022, 4023, 8023, mps801, mps802, mps803, nl10)
 
 @findex -pr5drv
 @item -pr5drv <name>
 Specify name of printer driver for device #5
 (@code{Printer5Driver}).
-(raw, ascii, mps803, nl10)
+(raw, ascii, 2022, 4023, 8023, mps801, mps802, mps803, nl10)
 
 @findex -pr6drv
 @item -pr6drv <name>

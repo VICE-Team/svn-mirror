@@ -128,6 +128,11 @@ static int drv_raw_formfeed(unsigned int prnr)
     return output_select_formfeed(prnr);
 }
 
+static int drv_raw_select(unsigned int prnr)
+{
+    return 0;
+}
+
 int drv_raw_init_resources(void)
 {
     driver_select_t driver_select;
@@ -139,6 +144,7 @@ int drv_raw_init_resources(void)
     driver_select.drv_getc = drv_raw_getc;
     driver_select.drv_flush = drv_raw_flush;
     driver_select.drv_formfeed = drv_raw_formfeed;
+    driver_select.drv_select = drv_raw_select;
 
     driver_select_register(&driver_select);
 
