@@ -313,7 +313,10 @@ Filter::Filter()
         //
         //   m*2^N*x = x_n - m*2^N*xmin
         //
-        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0] + denorm)/2.;
+        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0])/2.;
+        // Translate value to the positive axis by adding 32768
+        // The same is done later in the integrator function when accessing the opamp array
+        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] += double(1 << 15);
         scaled_voltage[fi.opamp_voltage_size - 1 - i][1] = N31*(fi.opamp_voltage[i][0] - vmin);
       }
 
