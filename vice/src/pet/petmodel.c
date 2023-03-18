@@ -404,7 +404,7 @@ int pet_set_model(const char *model_name, void *extra)
 
     i = 0;
     while (pet_table[i].model) {
-        if (!strcmp(pet_table[i].model, model_name)) {
+        if (!strcasecmp(pet_table[i].model, model_name)) {
             petmodel_set(i);
             return 0;
         }
