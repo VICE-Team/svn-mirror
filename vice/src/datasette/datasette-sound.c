@@ -245,6 +245,10 @@ static sound_chip_t datasette_sound = {
     NULL,                                      /* NO sound chip reset function */
     datasette_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
     datasette_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+#ifdef SOUND_SYSTEM_FLOAT
+    100,                                       /* left channel volume % in case of stereo output, currently hardcoded to output to both */
+    100,                                       /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+#endif
     0                                          /* sound chip enabled flag, toggled upon device (de-)activation */
 };
 

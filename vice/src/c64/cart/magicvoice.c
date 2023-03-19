@@ -876,6 +876,10 @@ static sound_chip_t magicvoice_sound_chip = {
     magicvoice_sound_machine_reset,             /* sound chip reset function, currently only used for debug */
     magicvoice_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
     magicvoice_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+#ifdef SOUND_SYSTEM_FLOAT
+    100,                                        /* left channel volume % in case of stereo output, currently hardcoded to output to both */
+    100,                                        /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+#endif
     0                                           /* chip enabled, toggled when sound chip is (de-)activated */
 };
 
