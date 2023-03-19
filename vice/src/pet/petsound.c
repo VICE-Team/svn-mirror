@@ -48,7 +48,7 @@
 /* #define DBG(...)        fprintf(stderr, __VA_ARGS__) */
 #define DBG(...)
 
-#define HIGHPASS        0       /* Experimental so far; default off */
+#define HIGHPASS        1       /* Enable a high-pass filter; avoids annoying clicks */
 
 #define MAX_SAMPLE      4095
 
