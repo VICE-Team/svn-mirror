@@ -81,6 +81,44 @@ static videosound_t chip[2];
 /* FIXME */
 static int video_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i, num;
+    float smpval1, smpval2;
+
+    /* DBG(("video_sound_machine_calculate_samples")); */
+
+    for (i = 0; i < nr; i++) {
+        for (num = 0; num < numchips; num++) {
+            smpval1 = (((float)(*chip[num].sampleptr) * chip[num].avglum * NOISE_VOLUME) / (1 << 16)) / 32767.0;
+            smpval2 = (((*chip[num].lumaptr) * LUMALINES_VOLUME) / (1 << 16)) / 32767.0;
+            switch (soc) {
+                default:
+                case SOUND_OUTPUT_MONO:
+                    pbuf[i] = smpval1 + smpval2;
+                    break;
+                case SOUND_OUTPUT_STEREO:
+                    pbuf[i * soc] = smpval1 + smpval2;
+                    pbuf[(i * soc) + 1] = smpval1 + smpval2;
+                    break;
+            }
+
+            chip[num].div1 += NOISE_RATE;
+            while (chip[num].div1 >= sample_rate) {
+                chip[num].div1 -= sample_rate;
+                chip[num].sampleptr++;
+                if (chip[num].sampleptr == &noise_sample[sizeof(noise_sample)]) {
+                    chip[num].sampleptr = noise_sample;
+                }
+            }
+            chip[num].div2 += LUMALINES_RATE;
+            while (chip[num].div2 >= sample_rate) {
+                chip[num].div2 -= sample_rate;
+                chip[num].lumaptr++;
+                if (chip[num].lumaptr == &chip[num].lumas[chip[num].lastline + 1]) {
+                    chip[num].lumaptr = &chip[num].lumas[chip[num].firstline];
+                }
+            }
+        }
+    }
     return nr;
 }
 #else
