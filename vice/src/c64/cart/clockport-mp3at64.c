@@ -145,6 +145,27 @@ static void mp3at64_reset(void)
     mp3_input_data_state = MP3_INPUT_STATE_IDLE;
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+static float mp3_get_current_sample(void)
+{
+    int16_t retval = 0;
+    int i;
+
+    if (mp3_output_buffers_size[0]) {
+        retval = mp3_output_buffers[0][mp3_output_sample_pos++];
+        if (mp3_output_sample_pos >= mp3_output_buffers_size[0]) {
+            lib_free(mp3_output_buffers[0]);
+            for (i = 1; i < MP3_BUFFERS; ++i) {
+                mp3_output_buffers[i - 1] = mp3_output_buffers[i];
+                mp3_output_buffers_size[i - 1] = mp3_output_buffers_size[i];
+            }
+            mp3_output_buffers[MP3_BUFFERS - 1] = NULL;
+            mp3_output_buffers_size[MP3_BUFFERS - 1] = 0;
+        }
+    }
+    return retval / 32767.0;
+}
+#else
 static int16_t mp3_get_current_sample(void)
 {
     int16_t retval = 0;
@@ -164,6 +185,7 @@ static int16_t mp3_get_current_sample(void)
     }
     return retval;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -247,6 +269,22 @@ static void clockport_mp3at64_sound_machine_close(sound_t *psid)
 /* FIXME */
 static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i;
+    float sample;
+
+    for (i = 0; i < nr; ++i) {
+        sample = mp3_get_current_sample();
+        switch (soc) {
+            default:
+            case SOUND_OUTPUT_MONO:
+                pbuf[i] = sample;
+                break;
+           case SOUND_OUTPUT_STEREO:
+                pbuf[i * 2] = sample;
+                pbuf[(i * 2) + 1] = sample;
+                break;
+        }
+    }
     return nr;
 }
 #else
