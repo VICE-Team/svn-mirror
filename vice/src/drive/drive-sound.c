@@ -32,7 +32,6 @@
 #include "drive-sound.h"
 #include "sound.h"
 
-#ifndef SOUND_SYSTEM_FLOAT
 static const signed char hum[] = {
     0, -1, -2, -3, -2, 0, 3, 5, 6, 5, 3, 0, -3, -5, -6, -4, -2, 1, 2, 3, 3, 3,
     3, 2, 0, -3, -4, -4, -1, 2, 5, 5, 3, -1, -5, -6, -6, -4, -2, -1, 0, 0, 0,
@@ -459,7 +458,6 @@ static const signed char hum[] = {
     -7, -3, 2, 4, 3, -2, -5, -5, -2, 2, 4, 2, -2, -6, -6, -2, 4, 8, 7, 0, -8,
     -14, -14, -10, -3, 5, 12, 17, 19, 18, 12, 2, -8, -15, -16, -10, 0, 9, 11
 };
-#endif
 
 static const signed char spinup[] = {
     -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1,
@@ -1439,6 +1437,75 @@ static int sample_rate = 22050;
 /* FIXME */
 static int drive_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i, j, nos = 0;
+    static int div = 0;
+    float m, s;
+
+    for (i = 0; i < nr; i++) {
+        if (soc == SOUND_OUTPUT_STEREO) {
+            pbuf[i * 2 + 1] = 0.0;
+        }
+        pbuf[i * soc] = 0.0;
+
+        for (j = 0; j < NUM_DISK_UNITS; j++) {
+            m = ((((*motor[j]) * motorvol[j]) * drive_sound_emulation_volume) >> 8) / 32767.0;
+            s = ((((*step[j]) * stepvol[j]) * drive_sound_emulation_volume) >> 8) / 32767.0;
+
+            switch (soc) {
+                default:
+                case SOUND_OUTPUT_MONO:
+                    pbuf[i] += m;
+                    pbuf[i] += s;
+                    break;
+                case SOUND_OUTPUT_STEREO:
+                    pbuf[i * 2] += m;
+                    pbuf[i * 2] += s;
+                    pbuf[i * 2 + 1] += m;
+                    pbuf[i * 2 + 1] += s;
+                    break;
+            }
+        }
+        div += 44100;
+        while (div >= sample_rate) {
+            div -= sample_rate;
+            nos = 1;
+            for (j = 0; j < NUM_DISK_UNITS; j++) {
+                motor[j]++;
+                if (motor[j] == &spinup[sizeof(spinup)]) {
+                    motor[j] = hum;
+                }
+                if (motor[j] == &hum[sizeof(hum)]) {
+                    motor[j] = hum;
+                }
+                if (motor[j] == &spindown[sizeof(spindown)]) {
+                    motor[j] = nosound;
+                }
+                if (motor[j] == nosound + 1) {
+                    motor[j] = nosound;
+                } else {
+                    nos = 0;
+                }
+                step[j]++;
+                if (step[j] == &stepping[sizeof(stepping)]) {
+                    step[j] = nosound;
+                }
+                if (step[j] == &stepping2[sizeof(stepping2)]) {
+                    step[j] = nosound;
+                }
+                if (step[j] == &bump[sizeof(bump)]) {
+                    step[j] = nosound;
+                }
+                if (step[j] == nosound + 1) {
+                    step[j] = nosound;
+                } else {
+                    nos = 0;
+                }
+            }
+        }
+    }
+    if (nos) {
+        drive_sound.chip_enabled = 0;
+    }
     return nr;
 }
 #else
