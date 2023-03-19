@@ -294,7 +294,57 @@ static inline int lowpass_repeated(big_sample_t prev, big_sample_t next, int tim
  * the time of the sample. Here we apply a low-pass filter on that.
 #endif
  */
-#ifndef SOUND_SYSTEM_FLOAT
+#ifdef SOUND_SYSTEM_FLOAT
+static float pet_makesample(void)
+{
+    if (snd.first_sample_index != snd.next_sample_index) {
+        int sample = snd.samples[snd.first_sample_index];
+        snd.first_sample_index++;
+        snd.first_sample_index %= NSAMPLES;
+
+#if HIGHPASS
+        /* The highpass value is scaled with the same factor
+         * as the sample. */
+        snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
+                             / ALPHA_SCALE;
+#endif /* HIGHPASS */
+#if LOWPASS_CB2
+        /*
+         * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
+         */
+# if HIGHPASS
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample. */
+        sample -= snd.highpass_prev;
+# endif /* HIGHPASS */
+        sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
+        snd.lowpass_prev = sample;      /* Only used when samples run out */
+#else /* LOWPASS_CB2 */
+        /* Low-pass filtering on the averaged CB2 signal */
+        snd.lowpass_prev += (snd.alpha * (sample - snd.lowpass_prev))
+                            / ALPHA_SCALE;
+        sample = snd.lowpass_prev;
+# if HIGHPASS
+        /* Now that the sample has been low-passed, subtract the
+         * high-pass value */
+        sample -= snd.highpass_prev;
+# endif /* HIGHPASS */
+#endif /* LOWPASS_CB2 */
+
+        return sample / 32767.0;
+    }
+
+    /* No more samples available... */
+    DBG("*");
+#if HIGHPASS
+    if (snd.lowpass_prev != 0) {
+        snd.lowpass_prev += (snd.highpass_alpha * (0 - snd.lowpass_prev))
+                           / ALPHA_SCALE;
+    }
+#endif /* HIGHPASS */
+    return snd.lowpass_prev / 32767.0;
+}
+#else
 static sample_t pet_makesample(void)
 {
     if (snd.first_sample_index != snd.next_sample_index) {
@@ -350,6 +400,19 @@ static sample_t pet_makesample(void)
 /* FIXME */
 static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i;
+
+    create_intermediate_samples(maincpu_clk);
+
+    for (i = 0; i < nr; i++) {
+        pbuf[i * soc] = pet_makesample();
+
+        /* do stereo as well if needed */
+        if (soc == SOUND_OUTPUT_STEREO) {
+            pbuf[(i * soc) + 1] = pbuf[i * soc];
+        }
+
+    }
     return nr;
 }
 #else
