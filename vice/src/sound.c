@@ -341,6 +341,9 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
         }
     }
 
+    /* free addition buffer */
+    lib_free(addition_buffer);
+
     return temp;
 #else
     int i;
