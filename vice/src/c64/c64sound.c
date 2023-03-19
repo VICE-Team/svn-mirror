@@ -215,6 +215,10 @@ static sound_chip_t sid_sound_chip = {
     sid_sound_machine_reset,             /* sound chip reset function */
     sid_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, resid engine is cycle based, all other engines are not */
     sid_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, the amount of channels depends on the extra amount of active SIDs */
+#ifdef SOUND_SYSTEM_FLOAT
+    100,                                 /* left channel volume % in case of stereo output, currently hardcoded to output to both */
+    100,                                 /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+#endif
     1                                    /* sound chip is always enabled */
 };
 

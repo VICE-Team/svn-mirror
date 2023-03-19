@@ -92,17 +92,20 @@ static int pet_sound_machine_channels(void)
 
 /* PET userport sound device */
 static sound_chip_t pet_sound_chip = {
-    .open = NULL,                      /* NO sound chip open function */
-    .init = pet_sound_machine_init,    /* sound chip init function */
-    .close = NULL,                     /* NO sound chip close function */
+    .open = NULL,                                 /* NO sound chip open function */
+    .init = pet_sound_machine_init,               /* sound chip init function */
+    .close = NULL,                                /* NO sound chip close function */
     .calculate_samples = pet_sound_machine_calculate_samples,
-    .store = NULL,                     /* NO sound chip store function */
-    .read = NULL,                      /* NO sound chip read function */
-    .reset = pet_sound_reset,          /* sound chip reset function */
-    .cycle_based = pet_sound_machine_cycle_based,
-                                       /* chip is NOT cycle based */
-    .channels = pet_sound_machine_channels,/* sound chip has 1 channel */
-    .chip_enabled = false,             /* chip is enabled after init */
+    .store = NULL,                                /* NO sound chip store function */
+    .read = NULL,                                 /* NO sound chip read function */
+    .reset = pet_sound_reset,                     /* sound chip reset function */
+    .cycle_based = pet_sound_machine_cycle_based, /* chip is NOT cycle based */
+    .channels = pet_sound_machine_channels,       /* sound chip has 1 channel */
+#ifdef SOUND_SYSTEM_FLOAT
+    .left_channel_volume = 100,                   /* left channel volume % in case of stereo output, currently hardcoded to output to both */
+    .right_channel_volume = 100,                  /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+#endif
+    .chip_enabled = false,                        /* chip is enabled after init */
 };
 
 static uint16_t pet_sound_chip_offset = 0;

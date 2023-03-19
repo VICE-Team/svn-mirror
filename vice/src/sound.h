@@ -339,6 +339,14 @@ typedef struct sound_chip_s {
     /* sound chip 'get_amount_of_channels()' function */
     int (*channels)(void);
 
+#ifdef SOUND_SYSTEM_FLOAT
+    /* left channel volume of a mono render stream, can be used to put the sound left, right, or both, can also be used for panning */
+    int left_channel_volume;
+
+    /* right channel volume of a mono render stream, can be used to put the sound left, right, or both, can also be used for panning */
+    int right_channel_volume;
+#endif
+
     /* sound chip enabled flag */
     int chip_enabled;
 
