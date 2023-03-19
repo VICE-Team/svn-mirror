@@ -182,6 +182,106 @@ static const int16_t volume_tab[16] = {
 /* FIXME */
 static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i;
+    int j;
+    int16_t volume;
+    float sample;
+
+    if (snd.digital) {
+        for (i = 0; i < nr; i++) {
+            sample = (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)) / 32767.0;
+            pbuf[i * soc] = sample;
+            if (soc == SOUND_OUTPUT_STEREO) {
+                pbuf[(i * soc) + 1] = sample;
+            }
+        }
+    } else {
+        for (i = 0; i < nr; i++) {
+            snd.sample_position_remainder += snd.sample_length_remainder;
+            if (snd.sample_position_remainder >= snd.speed) {
+                snd.sample_position_remainder -= snd.speed;
+                snd.sample_position_integer++;
+            }
+            snd.sample_position_integer += snd.sample_length_integer;
+            if (snd.sample_position_integer >= 8) {
+                /* Advance state engine */
+                uint32_t ticks = snd.sample_position_integer >> 3;
+                if (snd.voice0_accu <= ticks) {
+                    uint32_t delay = ticks - snd.voice0_accu;
+                    snd.voice0_sign ^= 1;
+                    snd.voice0_accu = 1023 - snd.voice0_reload;
+                    if (snd.voice0_accu == 0) {
+                        snd.voice0_accu = 1024;
+                    }
+                    if (delay >= snd.voice0_accu) {
+                        snd.voice0_sign = ((delay / snd.voice0_accu)
+                                           & 1) ? snd.voice0_sign ^ 1
+                                          : snd.voice0_sign;
+                        snd.voice0_accu = snd.voice0_accu - (delay % snd.voice0_accu);
+                    } else {
+                        snd.voice0_accu -= delay;
+                    }
+                } else {
+                    snd.voice0_accu -= ticks;
+                }
+
+                if (snd.voice1_accu <= ticks) {
+                    uint32_t delay = ticks - snd.voice1_accu;
+                    snd.voice1_sign ^= 1;
+                    snd.noise_shift_register
+                        = (snd.noise_shift_register << 1) +
+                          ( 1 ^ ((snd.noise_shift_register >> 7) & 1) ^
+                            ((snd.noise_shift_register >> 5) & 1) ^
+                            ((snd.noise_shift_register >> 4) & 1) ^
+                            ((snd.noise_shift_register >> 1) & 1));
+                    snd.voice1_accu = 1023 - snd.voice1_reload;
+                    if (snd.voice1_accu == 0) {
+                        snd.voice1_accu = 1024;
+                    }
+                    if (delay >= snd.voice1_accu) {
+                        snd.voice1_sign = ((delay / snd.voice1_accu)
+                                           & 1) ? snd.voice1_sign ^ 1
+                                          : snd.voice1_sign;
+                        for (j = 0; j < (int)(delay / snd.voice1_accu);
+                             j++) {
+                            snd.noise_shift_register
+                                = (snd.noise_shift_register << 1) +
+                                  ( 1 ^ ((snd.noise_shift_register >> 7) & 1) ^
+                                    ((snd.noise_shift_register >> 5) & 1) ^
+                                    ((snd.noise_shift_register >> 4) & 1) ^
+                                    ((snd.noise_shift_register >> 1) & 1));
+                        }
+                        snd.voice1_accu = snd.voice1_accu - (delay % snd.voice1_accu);
+                    } else {
+                        snd.voice1_accu -= delay;
+                    }
+                } else {
+                    snd.voice1_accu -= ticks;
+                }
+            }
+            snd.sample_position_integer = snd.sample_position_integer & 7;
+
+            volume = 0;
+
+            if (snd.voice0_output_enabled && snd.voice0_sign) {
+                volume += snd.volume;
+            }
+            if (snd.voice1_output_enabled && !snd.noise && snd.voice1_sign) {
+                volume += snd.volume;
+            }
+            if (snd.voice1_output_enabled && snd.noise && (!(snd.noise_shift_register & 1))) {
+                volume += snd.volume;
+            }
+
+
+            sample = volume / 32767.0;
+
+            pbuf[i * soc] = sample;
+            if (soc == SOUND_OUTPUT_STEREO) {
+                pbuf[(i * soc) + 1] = sample;
+            }
+        }
+    }
     return nr;
 }
 #else
