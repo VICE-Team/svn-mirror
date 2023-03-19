@@ -368,6 +368,25 @@ static struct sfx_soundexpander_sound_s snd;
 /* FIXME */
 static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i;
+    int16_t *buffer;
+
+    buffer = lib_malloc(nr * 2);
+
+    if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
+        ym3812_update_one(YM3812_chip, buffer, nr);
+    } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
+        ym3526_update_one(YM3526_chip, buffer, nr);
+    }
+
+    for (i = 0; i < nr; i++) {
+        pbuf[i * soc] = buffer[i] / 32767.0;
+        if (soc == SOUND_OUTPUT_STEREO) {
+            pbuf[(i * soc) + 1] = buffer[i] / 32767.0;
+        }
+    }
+    lib_free(buffer);
+
     return nr;
 }
 #else
