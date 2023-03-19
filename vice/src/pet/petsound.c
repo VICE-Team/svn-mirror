@@ -48,13 +48,6 @@
 /* #define DBG(...)        fprintf(stderr, __VA_ARGS__) */
 #define DBG(...)
 
-/*
- * Enable a low-pass filter directly on the CB2 output.
- * Disabling this may reduce the CPU usage somewhat.
- * In that case, the CB2 signal is averaged for each output sample
- * and a low-pass filter is applied on that.
- */
-#define LOWPASS_CB2     1
 #define HIGHPASS        0       /* Experimental so far; default off */
 
 #define MAX_SAMPLE      4095
@@ -190,12 +183,8 @@ struct pet_sound_s {
     int lowpass_prev;           /* lowpass filter, prev sample */
 #define NSAMPLES 256            /* 5 is usually enough... */
     big_sample_t samples[NSAMPLES];
-#if LOWPASS_CB2
     /* Increasing weights for the newer sample as time goes on */
     big_sample_t exponential_moving_average[LP_TABLESZ];
-#else
-    int alpha;
-#endif /* LOWPASS_CB2 */
 #if HIGHPASS
     int highpass_alpha;
     int highpass_prev;          /* highpass filter, prev sample;
@@ -208,8 +197,6 @@ static struct pet_sound_s snd = {
     .on = false,
     .clocks_per_sample = 20,
 };
-
-#if LOWPASS_CB2
 
 static inline big_sample_t lowpass(big_sample_t alpha, big_sample_t prev, big_sample_t next)
 {
@@ -280,19 +267,12 @@ static inline int lowpass_repeated(big_sample_t prev, big_sample_t next, int tim
     return prev;
 }
 
-#endif /* LOWPASS_CB2 */
-
 /*
  * Collect a sample from the ring buffer.
  *
-#if LOWPASS_CB2
  * The samples have been processed through a low-pass filter when
  * they were created.
  * We need to drop the extra bits used to make the filtering more precise.
-#else
- * The samples have been created by averaging the CB2 signal over
- * the time of the sample. Here we apply a low-pass filter on that.
-#endif
  */
 #ifdef SOUND_SYSTEM_FLOAT
 static float pet_makesample(void)
@@ -308,7 +288,6 @@ static float pet_makesample(void)
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
 #endif /* HIGHPASS */
-#if LOWPASS_CB2
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
@@ -319,17 +298,6 @@ static float pet_makesample(void)
 # endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
-#else /* LOWPASS_CB2 */
-        /* Low-pass filtering on the averaged CB2 signal */
-        snd.lowpass_prev += (snd.alpha * (sample - snd.lowpass_prev))
-                            / ALPHA_SCALE;
-        sample = snd.lowpass_prev;
-# if HIGHPASS
-        /* Now that the sample has been low-passed, subtract the
-         * high-pass value */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
-#endif /* LOWPASS_CB2 */
 
         return sample / 32767.0;
     }
@@ -358,7 +326,6 @@ static sample_t pet_makesample(void)
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
 #endif /* HIGHPASS */
-#if LOWPASS_CB2
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
@@ -369,17 +336,6 @@ static sample_t pet_makesample(void)
 # endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
-#else /* LOWPASS_CB2 */
-        /* Low-pass filtering on the averaged CB2 signal */
-        snd.lowpass_prev += (snd.alpha * (sample - snd.lowpass_prev))
-                            / ALPHA_SCALE;
-        sample = snd.lowpass_prev;
-# if HIGHPASS
-        /* Now that the sample has been low-passed, subtract the
-         * high-pass value */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
-#endif /* LOWPASS_CB2 */
 
         return sample;
     }
@@ -461,7 +417,6 @@ void petsound_store_onoff(bool value)
 static void create_intermediate_samples(CLOCK rclk)
 {
     while (rclk >= snd.end_of_sample_time) {
-#if LOWPASS_CB2
         /*
          * Now that the CB2 signal changes, we know how long
          * the previous state lasted, and can process that period.
@@ -471,32 +426,10 @@ static void create_intermediate_samples(CLOCK rclk)
         big_sample_t newsample = snd.manual ? LP_SCALE-1 : 0;
         sample = lowpass_repeated(sample, newsample, (int)time);
         snd.samples[snd.next_sample_index] = sample;
-#else /* LOWPASS_CB2 */
-        if (snd.manual) {
-            CLOCK time = snd.end_of_sample_time - snd.latest_bit_time;
-            int contribution = time /* * snd.manual */;
-            snd.samples[snd.next_sample_index] += contribution;
-        }
-
-        /*
-         * Because sometimes a sample can be a cycle longer due to
-         * accumulated rounding (fracs_per_sample), we must average and
-         * scale the sample value here, where we still know the real time
-         * in clocks.
-         * fracs_per_sample is significant enough that we can't ignore it.
-         */
-        snd.samples[snd.next_sample_index] =
-            (snd.samples[snd.next_sample_index] * MAX_SAMPLE) /
-            (snd.end_of_sample_time - snd.next_sample_time);
-#endif /* LOWPASS_CB2 */
 
         snd.next_sample_index++;
         snd.next_sample_index %= NSAMPLES;
-#if LOWPASS_CB2
         snd.samples[snd.next_sample_index] = sample;
-#else
-        snd.samples[snd.next_sample_index] = 0;
-#endif
 
         snd.next_sample_time = snd.end_of_sample_time;
         snd.latest_bit_time = snd.end_of_sample_time;
@@ -523,19 +456,11 @@ void petsound_store_manual(bool value, CLOCK rclk)
          * Now that the CB2 signal changes, we know how long
          * the previous state lasted, and can process that period.
          */
-#if LOWPASS_CB2
         CLOCK time = rclk - snd.latest_bit_time;
         big_sample_t sample = snd.samples[snd.next_sample_index];
         big_sample_t newsample = snd.manual ? LP_SCALE-1 : 0;
         sample = lowpass_repeated(sample, newsample, (int)time);
         snd.samples[snd.next_sample_index] = sample;
-#else /* LOWPASS_CB2 */
-        if (snd.manual) {
-            CLOCK time = rclk - snd.latest_bit_time;
-            int contribution = time /* * snd.manual */;
-            snd.samples[snd.next_sample_index] += contribution;
-        }
-#endif /* LOWPASS_CB2 */
     }
 
     /* Remember when this CB2 state started (i.e. this moment) */
@@ -582,13 +507,9 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
      */
     int cb2_lowpass_freq;
     resources_get_int("CB2Lowpass", &cb2_lowpass_freq);
-#if LOWPASS_CB2
     int alpha = calculate_alpha(cycles_per_sec, cb2_lowpass_freq, ALPHA_SCALE);
     DBG("### pet_sound_machine_init: alpha = %d\n", alpha);
     init_lowpass_table(alpha);
-#else
-    snd.alpha = calculate_alpha(speed, cb2_lowpass_freq, ALPHA_SCALE);
-#endif /* LOWPASS_CB2 */
 #if HIGHPASS
     snd.highpass_alpha = calculate_alpha(speed, 160, ALPHA_SCALE);
     snd.highpass_prev = 0;
