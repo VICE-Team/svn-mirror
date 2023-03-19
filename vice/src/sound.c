@@ -165,6 +165,62 @@ uint16_t sound_chip_register(sound_chip_t *chip)
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct {
+    /* Number of sound output channels */
+    int sound_output_channels;
+
+    /* Number of sound chip channels (for multiple SIDs) */
+    int sound_chip_channels;
+
+    /* sid itself */
+    sound_t *psid[SOUND_SIDS_MAX];
+
+    /* number of clocks between each sample. used value */
+    soundclk_t clkstep;
+
+    /* number of clocks between each sample. original value */
+    soundclk_t origclkstep;
+
+    /* factor between those two clksteps */
+    soundclk_t clkfactor;
+
+    /* time of last sample generated */
+    soundclk_t fclk;
+
+    /* time of last write to sid. used for pdev->dump() */
+    CLOCK wclk;
+
+    /* time of last call to sound_run_sound() */
+    CLOCK lastclk;
+
+    /* sample buffer */
+    int16_t *buffer;
+
+    /* sample buffer pointer */
+    int bufptr;
+
+    /* pointer to playback device structure in use */
+    const sound_device_t *playdev;
+
+    /* pointer to playback device structure in use */
+    const sound_device_t *recdev;
+
+    /* number of samples in a fragment */
+    int fragsize;
+
+    /* number of fragments in kernel buffer */
+    int fragnr;
+
+    /* number of samples in kernel buffer */
+    int bufsize;
+
+    /* is the device suspended? */
+    int issuspended;
+    int16_t lastsample[SOUND_CHANNELS_MAX];
+} snddata_t;
+
+static snddata_t snddata;
+
 static sound_t *sound_machine_open(int chipno)
 {
     sound_t *retval = NULL;
@@ -214,7 +270,78 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 {
 /* FIXME */
 #ifdef SOUND_SYSTEM_FLOAT
-    return nr;
+    int i, j;
+    int temp;
+    float *sound_buffer[SOUND_CHIPS_MAX];
+    float *addition_buffer = NULL;
+    CLOCK initial_delta_t = *delta_t;
+    CLOCK delta_t_for_other_chips;
+
+    /* allocate buffer for first sound device if needed */
+    if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
+        sound_buffer[0] = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
+    }
+
+    /* allocate buffers for the rest of the enabled sound devices */
+    for (i = 1; i < (offset >> 5); i++) {
+        if (sound_calls[i]->chip_enabled) {
+            sound_buffer[i] = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
+        } else {
+            sound_buffer[i] = NULL;
+        }
+    }
+
+    /* do special treatment of first sound device in case it is cycle based */
+    if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
+        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0], nr, soc, scc, delta_t);
+    } else {
+        temp = nr;
+    }
+
+    /* have remaining enabled devices calculate their samples */
+    for (i = 1; i < (offset >> 5); i++) {
+        if (sound_calls[i]->chip_enabled) {
+            delta_t_for_other_chips = initial_delta_t;
+            sound_calls[i]->calculate_samples(psid, sound_buffer[i], temp, soc, scc, &delta_t_for_other_chips);
+        }
+    }
+
+    /* allocate buffer to hold added samples */
+    addition_buffer = lib_malloc(snddata.bufsize * soc * sizeof(float));
+
+    /* Add all samples together for enabled sound devices */
+    for (j = 0; j < (temp * soc); j++) {
+        addition_buffer[j] = 0.0;
+        for (i = 0; i < (offset >> 5); i++) {
+            if (sound_calls[i]->chip_enabled) {
+                addition_buffer[j] += sound_buffer[i][j];
+            }
+        }
+    }
+
+    /* clip the addition buffer if needed */
+    for (j = 0; j < (temp * soc); j++) {
+        if (addition_buffer[j] < -1.0) {
+            addition_buffer[j] = -1.0;
+        } else if (addition_buffer[j] > 1.0) {
+            addition_buffer[j] = 1.0;
+        }
+    }
+
+    /* convert floats to int16_t for output */
+    for (j = 0; j < (temp * soc); j++) {
+        pbuf[j] = (int16_t)(addition_buffer[j] * 32767.0);
+    }
+
+    /* free buffers for enabled sound devices */
+    for (i = 0; i < (offset >> 5); i++) {
+        if (sound_buffer[i]) {
+            lib_free(sound_buffer[i]);
+            sound_buffer[i] = NULL;
+        }
+    }
+
+    return temp;
 #else
     int i;
     int temp;
@@ -662,62 +789,6 @@ static double speed_percent;
 
 /* Flag: Is warp mode enabled?  */
 static int warp_mode_enabled;
-
-typedef struct {
-    /* Number of sound output channels */
-    int sound_output_channels;
-
-    /* Number of sound chip channels (for multiple SIDs) */
-    int sound_chip_channels;
-
-    /* sid itself */
-    sound_t *psid[SOUND_SIDS_MAX];
-
-    /* number of clocks between each sample. used value */
-    soundclk_t clkstep;
-
-    /* number of clocks between each sample. original value */
-    soundclk_t origclkstep;
-
-    /* factor between those two clksteps */
-    soundclk_t clkfactor;
-
-    /* time of last sample generated */
-    soundclk_t fclk;
-
-    /* time of last write to sid. used for pdev->dump() */
-    CLOCK wclk;
-
-    /* time of last call to sound_run_sound() */
-    CLOCK lastclk;
-
-    /* sample buffer */
-    int16_t *buffer;
-
-    /* sample buffer pointer */
-    int bufptr;
-
-    /* pointer to playback device structure in use */
-    const sound_device_t *playdev;
-
-    /* pointer to playback device structure in use */
-    const sound_device_t *recdev;
-
-    /* number of samples in a fragment */
-    int fragsize;
-
-    /* number of fragments in kernel buffer */
-    int fragnr;
-
-    /* number of samples in kernel buffer */
-    int bufsize;
-
-    /* is the device suspended? */
-    int issuspended;
-    int16_t lastsample[SOUND_CHANNELS_MAX];
-} snddata_t;
-
-static snddata_t snddata;
 
 /* device registration code */
 #define MAX_SOUND_DEVICES 24

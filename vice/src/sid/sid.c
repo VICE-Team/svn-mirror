@@ -598,7 +598,7 @@ void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 /* FIXME */
 int sid_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
-    return nr;
+    return sid_engine.calculate_samples(psid[0], pbuf, nr, SOUND_OUTPUT_MONO, delta_t);
 }
 #else
 int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
