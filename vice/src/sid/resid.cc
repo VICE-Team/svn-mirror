@@ -263,7 +263,7 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t)
+static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, CLOCK *delta_t)
 {
     short *tmp_buf;
     int retval;
@@ -275,7 +275,7 @@ static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int inter
 
     if (psid->factor == 1000) {
         tmp_buf = getbuf(2 * nr);
-        retval = psid->sid->clock(int_delta_t, tmp_buf, nr, interleave);
+        retval = psid->sid->clock(int_delta_t, tmp_buf, nr, 0);
         (*delta_t) += int_delta_t - int_delta_t_original;
         for (i = 0; i < nr; i++) {
             pbuf[i] = tmp_buf[i] / 32767.0;
@@ -284,7 +284,7 @@ static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int inter
     }
 
     tmp_buf = getbuf(2 * nr * psid->factor / 1000);
-    retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
+    retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, 0) * 1000 / psid->factor;
     (*delta_t) += int_delta_t - int_delta_t_original;
     for (i = 0; i < nr; i++) {
         pbuf[i] = tmp_buf[i] / 32767.0;

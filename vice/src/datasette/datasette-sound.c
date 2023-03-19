@@ -124,7 +124,7 @@ static CLOCK datasette_sound_remove_from_circular_buffer(
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int datasette_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int datasette_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i = 0, j, num_samples;
     CLOCK cycles_to_be_consumed = *delta_t;

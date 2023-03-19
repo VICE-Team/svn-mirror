@@ -189,7 +189,7 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t)
+static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, CLOCK *delta_t)
 {
     int retval;
     int int_delta_t_original = (int)*delta_t;
@@ -197,7 +197,7 @@ static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int inter
     int i;
     short *tmp_buf = (short *)lib_calloc(nr * 2, 1);
 
-    retval = psid->sid->clock(int_delta_t, tmp_buf, nr, interleave);
+    retval = psid->sid->clock(int_delta_t, tmp_buf, nr, 0);
 
     (*delta_t) += int_delta_t - int_delta_t_original;
 

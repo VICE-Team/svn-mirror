@@ -52,7 +52,7 @@ static void ted_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static uint8_t ted_sound_machine_read(sound_t *psid, uint16_t addr);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -184,7 +184,7 @@ static const int16_t volume_tab[16] = {
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i;
     int j;
@@ -194,10 +194,7 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int 
     if (snd.digital) {
         for (i = 0; i < nr; i++) {
             sample = (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)) / 32767.0;
-            pbuf[i * soc] = sample;
-            if (soc == SOUND_OUTPUT_STEREO) {
-                pbuf[(i * soc) + 1] = sample;
-            }
+            pbuf[i] = sample;
         }
     } else {
         for (i = 0; i < nr; i++) {
@@ -280,10 +277,7 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int 
 
             sample = volume / 32767.0;
 
-            pbuf[i * soc] = sample;
-            if (soc == SOUND_OUTPUT_STEREO) {
-                pbuf[(i * soc) + 1] = sample;
-            }
+            pbuf[i] = sample;
         }
     }
     return nr;

@@ -868,18 +868,18 @@ static int16_t fastsid_calculate_single_sample(sound_t *psid, int i)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int fastsid_calculate_samples(sound_t *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t)
+static int fastsid_calculate_samples(sound_t *psid, float *pbuf, int nr, CLOCK *delta_t)
 {
     int i;
 
     if (psid->factor == 1000) {
         for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = fastsid_calculate_single_sample(psid, i);
+            pbuf[i] = fastsid_calculate_single_sample(psid, i);
         }
         return nr;
     }
     for (i = 0; i < (nr * psid->factor / 1000); i++) {
-        pbuf[i * interleave] = fastsid_calculate_single_sample(psid, i);
+        pbuf[i] = fastsid_calculate_single_sample(psid, i);
     }
 
     return nr;

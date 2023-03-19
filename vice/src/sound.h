@@ -318,7 +318,7 @@ typedef struct sound_chip_s {
 
 #ifdef SOUND_SYSTEM_FLOAT
     /* sound chip calculate samples function */
-    int (*calculate_samples)(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+    int (*calculate_samples)(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
     /* sound chip calculate samples function */
     int (*calculate_samples)(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
@@ -363,7 +363,7 @@ typedef struct sound_dac_s {
 void sound_dac_init(sound_dac_t *dac, int speed);
 
 #ifdef SOUND_SYSTEM_FLOAT
-int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr, int soc, int cs);
+int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr);
 #else
 int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs);
 #endif

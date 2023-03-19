@@ -132,7 +132,7 @@ static uint8_t sfx_soundexpander_sound_machine_read(sound_t *psid, uint16_t addr
 static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -370,7 +370,7 @@ static struct sfx_soundexpander_sound_s snd;
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i;
     int16_t *buffer;
@@ -384,10 +384,7 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, flo
     }
 
     for (i = 0; i < nr; i++) {
-        pbuf[i * soc] = buffer[i] / 32767.0;
-        if (soc == SOUND_OUTPUT_STEREO) {
-            pbuf[(i * soc) + 1] = buffer[i] / 32767.0;
-        }
+        pbuf[i] = buffer[i] / 32767.0;
     }
     lib_free(buffer);
 

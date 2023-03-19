@@ -1435,35 +1435,21 @@ static int sample_rate = 22050;
 /* resources */
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int drive_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int drive_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i, j, nos = 0;
     static int div = 0;
     float m, s;
 
     for (i = 0; i < nr; i++) {
-        if (soc == SOUND_OUTPUT_STEREO) {
-            pbuf[i * 2 + 1] = 0.0;
-        }
-        pbuf[i * soc] = 0.0;
+        pbuf[i] = 0.0;
 
         for (j = 0; j < NUM_DISK_UNITS; j++) {
             m = ((((*motor[j]) * motorvol[j]) * drive_sound_emulation_volume) >> 8) / 32767.0;
             s = ((((*step[j]) * stepvol[j]) * drive_sound_emulation_volume) >> 8) / 32767.0;
 
-            switch (soc) {
-                default:
-                case SOUND_OUTPUT_MONO:
-                    pbuf[i] += m;
-                    pbuf[i] += s;
-                    break;
-                case SOUND_OUTPUT_STEREO:
-                    pbuf[i * 2] += m;
-                    pbuf[i * 2] += s;
-                    pbuf[i * 2 + 1] += m;
-                    pbuf[i * 2 + 1] += s;
-                    break;
-            }
+            pbuf[i] += m;
+            pbuf[i] += s;
         }
         div += 44100;
         while (div >= sample_rate) {

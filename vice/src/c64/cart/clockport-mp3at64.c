@@ -195,7 +195,7 @@ static void clockport_mp3at64_sound_reset(sound_t *psid, CLOCK cpu_clk);
 static void clockport_mp3at64_sound_machine_close(sound_t *psid);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -271,23 +271,14 @@ static void clockport_mp3at64_sound_machine_close(sound_t *psid)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i;
     float sample;
 
     for (i = 0; i < nr; ++i) {
         sample = mp3_get_current_sample();
-        switch (soc) {
-            default:
-            case SOUND_OUTPUT_MONO:
-                pbuf[i] = sample;
-                break;
-           case SOUND_OUTPUT_STEREO:
-                pbuf[i * 2] = sample;
-                pbuf[(i * 2) + 1] = sample;
-                break;
-        }
+        pbuf[i] = sample;
     }
     return nr;
 }

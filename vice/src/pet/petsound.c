@@ -75,7 +75,7 @@ static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 static void create_intermediate_samples(CLOCK rclk);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -357,20 +357,14 @@ static sample_t pet_makesample(void)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i;
 
     create_intermediate_samples(maincpu_clk);
 
     for (i = 0; i < nr; i++) {
-        pbuf[i * soc] = pet_makesample();
-
-        /* do stereo as well if needed */
-        if (soc == SOUND_OUTPUT_STEREO) {
-            pbuf[(i * soc) + 1] = pbuf[i * soc];
-        }
-
+        pbuf[i] = pet_makesample();
     }
     return nr;
 }
