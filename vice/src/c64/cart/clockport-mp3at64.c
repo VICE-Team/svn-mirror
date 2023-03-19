@@ -169,9 +169,14 @@ static int16_t mp3_get_current_sample(void)
 
 /* Some prototypes are needed */
 static int clockport_mp3at64_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void clockport_mp3at64_sound_reset(sound_t *psid, CLOCK cpu_clk);
 static void clockport_mp3at64_sound_machine_close(sound_t *psid);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int clockport_mp3at64_sound_machine_cycle_based(void)
 {
@@ -238,6 +243,13 @@ static void clockport_mp3at64_sound_machine_close(sound_t *psid)
     }
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -258,6 +270,7 @@ static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int
     }
     return nr;
 }
+#endif
 
 static void clockport_mp3at64_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {

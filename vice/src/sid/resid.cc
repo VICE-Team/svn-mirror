@@ -68,8 +68,12 @@ typedef struct sound_s sound_t;
 /* manage temporary buffers. if the requested size is smaller or equal to the
  * size of the already allocated buffer, reuse it.  */
 static short *buf = NULL;
-static int blen = 0;
 
+#ifndef SOUND_SYSTEM_FLOAT
+static int blen = 0;
+#endif
+
+#ifndef SOUND_SYSTEM_FLOAT
 static short *getbuf(int len)
 {
     if ((buf == NULL) || (blen < len)) {
@@ -81,6 +85,7 @@ static short *getbuf(int len)
     }
     return buf;
 }
+#endif
 
 static sound_t *resid_open(uint8_t *sidstate)
 {
@@ -260,8 +265,14 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
     psid->sid->reset();
 }
 
-static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
-                                   int interleave, CLOCK *delta_t)
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int resid_calculate_samples(sound_t *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
+static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr, int interleave, CLOCK *delta_t)
 {
     short *tmp_buf;
     int retval;
@@ -283,6 +294,7 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
 
     return retval;
 }
+#endif
 
 static char *resid_dump_state(sound_t *psid)
 {

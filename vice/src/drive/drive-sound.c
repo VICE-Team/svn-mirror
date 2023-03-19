@@ -32,6 +32,7 @@
 #include "drive-sound.h"
 #include "sound.h"
 
+#ifndef SOUND_SYSTEM_FLOAT
 static const signed char hum[] = {
     0, -1, -2, -3, -2, 0, 3, 5, 6, 5, 3, 0, -3, -5, -6, -4, -2, 1, 2, 3, 3, 3,
     3, 2, 0, -3, -4, -4, -1, 2, 5, 5, 3, -1, -5, -6, -6, -4, -2, -1, 0, 0, 0,
@@ -458,6 +459,7 @@ static const signed char hum[] = {
     -7, -3, 2, 4, 3, -2, -5, -5, -2, 2, 4, 2, -2, -6, -6, -2, 4, 8, 7, 0, -8,
     -14, -14, -10, -3, 5, 12, 17, 19, 18, 12, 2, -8, -15, -16, -10, 0, 9, 11
 };
+#endif
 
 static const signed char spinup[] = {
     -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1,
@@ -1433,6 +1435,13 @@ static int cycles_per_sec = 1000000;
 static int sample_rate = 22050;
 
 /* resources */
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int drive_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int drive_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i, j, nos = 0;
@@ -1500,6 +1509,7 @@ static int drive_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, 
     }
     return nr;
 }
+#endif
 
 static int drive_sound_machine_init(sound_t *psid, int speed, int cycles)
 {

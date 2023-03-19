@@ -35,6 +35,10 @@
 #include "types.h"
 
 
+/* This define switches the sound system sample calculation
+   to use the new and experimental float based sound system */
+/* #define SOUND_SYSTEM_FLOAT */
+
 /* OSS: check if needed defines are present */
 #ifdef USE_OSS
 
@@ -310,8 +314,13 @@ typedef struct sound_chip_s {
     /* sound chip close function */
     void (*close)(sound_t *psid);
 
+#ifdef SOUND_SYSTEM_FLOAT
+    /* sound chip calculate samples function */
+    int (*calculate_samples)(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
     /* sound chip calculate samples function */
     int (*calculate_samples)(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
     /* sound chip store function */
     void (*store)(sound_t *psid, uint16_t addr, uint8_t val);
@@ -342,7 +351,12 @@ typedef struct sound_dac_s {
 } sound_dac_t;
 
 void sound_dac_init(sound_dac_t *dac, int speed);
+
+#ifdef SOUND_SYSTEM_FLOAT
+int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr, int soc, int cs);
+#else
 int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs);
+#endif
 
 /* recording related functions, equivalent to screenshot_... */
 void sound_stop_recording(void);

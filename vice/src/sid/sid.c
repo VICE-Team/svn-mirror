@@ -502,6 +502,7 @@ static int blen5 = 0;
 static int blen6 = 0;
 static int blen7 = 0;
 
+#ifndef SOUND_SYSTEM_FLOAT
 #define GETBUFx(nr)                                 \
     static int16_t *getbuf##nr(int len)             \
     {                                               \
@@ -525,6 +526,7 @@ GETBUFx(4)
 GETBUFx(5)
 GETBUFx(6)
 GETBUFx(7)
+#endif
 
 int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor)
 {
@@ -592,6 +594,13 @@ void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
     sid_engine.reset(psid, cpu_clk);
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+int sid_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -883,6 +892,7 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
     }
     return tmp_nr;
 }
+#endif
 
 char *sid_sound_machine_dump_state(sound_t *psid)
 {

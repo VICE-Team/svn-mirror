@@ -78,9 +78,14 @@ typedef int64_t big_sample_diff_t; /* Only needs 33 bits, really */
 /* Some prototypes are needed */
 
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 static void create_intermediate_samples(CLOCK rclk);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int pet_sound_machine_cycle_based(void)
 {
@@ -289,6 +294,7 @@ static inline int lowpass_repeated(big_sample_t prev, big_sample_t next, int tim
  * the time of the sample. Here we apply a low-pass filter on that.
 #endif
  */
+#ifndef SOUND_SYSTEM_FLOAT
 static sample_t pet_makesample(void)
 {
     if (snd.first_sample_index != snd.next_sample_index) {
@@ -338,7 +344,15 @@ static sample_t pet_makesample(void)
 #endif /* HIGHPASS */
     return snd.lowpass_prev;
 }
+#endif
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int pet_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -360,6 +374,7 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, i
     }
     return nr;
 }
+#endif
 
 /*
  * This function works together with petvia.c to turn off the sound

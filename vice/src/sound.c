@@ -212,6 +212,10 @@ static void sound_machine_close(sound_t *psid)
 */
 static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+/* FIXME */
+#ifdef SOUND_SYSTEM_FLOAT
+    return nr;
+#else
     int i;
     int temp;
     CLOCK initial_delta_t = *delta_t;
@@ -231,6 +235,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
         }
     }
     return temp;
+#endif
 }
 
 static void sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
@@ -1590,6 +1595,13 @@ void sound_dac_init(sound_dac_t *dac, int speed)
 /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
  * have an easy-to-use infrastructure for blep generation. We should write
  * this code. */
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr, int soc, int cs)
+{
+    return nr;
+}
+#else
 int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs)
 {
     int i, sample;
@@ -1628,6 +1640,7 @@ int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int 
     }
     return nr;
 }
+#endif
 
 /* recording related functions, equivalent to screenshot_... */
 void sound_stop_recording(void)
