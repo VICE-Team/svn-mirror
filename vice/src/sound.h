@@ -219,6 +219,7 @@ typedef struct sound_desc_s {
     int device_type;
 } sound_desc_t;
 
+#ifndef SOUND_SYSTEM_FLOAT
 static inline int16_t sound_audio_mix(int ch1, int ch2)
 {
     if (ch1 == 0) {
@@ -239,6 +240,7 @@ static inline int16_t sound_audio_mix(int ch1, int ch2)
 
     return (int16_t)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
+#endif
 
 sound_desc_t *sound_get_valid_devices(int type, int sort);
 
