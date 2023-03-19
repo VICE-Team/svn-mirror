@@ -1673,6 +1673,45 @@ void sound_dac_init(sound_dac_t *dac, int speed)
 /* FIXME */
 int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr, int soc, int cs)
 {
+    int i;
+    int off = 0;
+    float sample;
+
+    /* A simple high pass digital filter is employed here to get rid of the DC offset,
+       which would cause distortion when mixed with other signal. This filter is formed
+       on the actual hardware by the combination of output decoupling capacitor and load
+       resistance.
+    */
+    if (nr) {
+        dac->output = dac->alpha * (dac->output + (float)(value - dac->value));
+        dac->value = value;
+
+        if (!(int)dac->output) {
+            return nr;
+        }
+
+        sample = (int)dac->output / 32767.0;
+
+        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
+            pbuf[off] = sample;
+        }
+        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
+            pbuf[off + 1] = sample;
+        }
+        off += soc;
+    }
+
+    for (i = 1; i < nr; i++) {
+        dac->output *= dac->alpha;
+        sample = (int)dac->output / 32767.0;
+        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
+            pbuf[off] = sample;
+        }
+        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
+            pbuf[off + 1] = sample;
+        }
+        off += soc;
+    }
     return nr;
 }
 #else

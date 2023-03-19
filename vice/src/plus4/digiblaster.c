@@ -211,7 +211,7 @@ static struct digiblaster_sound_s snd;
 /* FIXME */
 static int digiblaster_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
-    return nr;
+    return sound_dac_calculate_samples(&digiblaster_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc == SOUND_OUTPUT_STEREO) ? SOUND_CHANNELS_1_AND_2 : SOUND_CHANNEL_1);
 }
 #else
 static int digiblaster_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
