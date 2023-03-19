@@ -627,6 +627,23 @@ int speech_cmdline_options_init(void)
 /* FIXME */
 static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    int i;
+    float *buffer;
+
+    buffer = lib_malloc(nr * sizeof(float));
+
+    t6721_update_output(t6721, buffer, nr);
+
+    /* mix generated samples to output */
+    for (i = 0; i < nr; i++) {
+        pbuf[i * soc] = buffer[i];
+        if (soc == SOUND_OUTPUT_STEREO) {
+            pbuf[(i * soc) + 1] = buffer[i];
+        }
+    }
+
+    lib_free(buffer);
+
     return nr;
 }
 #else
