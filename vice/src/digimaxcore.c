@@ -31,10 +31,15 @@
 
 /* Some prototypes are needed */
 static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int digimax_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void digimax_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static uint8_t digimax_sound_machine_read(sound_t *psid, uint16_t addr);
 static void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int digimax_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int digimax_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int digimax_sound_machine_cycle_based(void)
 {
@@ -77,6 +82,13 @@ struct digimax_sound_s {
 
 static struct digimax_sound_s snd;
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int digimax_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int digimax_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     sound_dac_calculate_samples(&digimax_dac[0], pbuf, (int)snd.voice0 * 64, nr, soc, SOUND_CHANNEL_1);
@@ -85,6 +97,7 @@ static int digimax_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf
     sound_dac_calculate_samples(&digimax_dac[3], pbuf, (int)snd.voice3 * 64, nr, soc, (soc == SOUND_OUTPUT_STEREO) ? SOUND_CHANNEL_2 : SOUND_CHANNEL_1);
     return nr;
 }
+#endif
 
 static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {

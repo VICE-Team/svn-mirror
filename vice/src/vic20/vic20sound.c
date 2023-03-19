@@ -47,8 +47,13 @@
 
 /* Some prototypes are needed */
 static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void vic_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t value);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int vic_sound_machine_cycle_based(void)
 {
@@ -143,6 +148,7 @@ static uint8_t noisepattern[1024] = {
 };
 #endif
 
+#ifndef SOUND_SYSTEM_FLOAT
 static float voltagefunction[] = {
         0.00f,   148.28f,   296.55f,   735.97f,   914.88f,  1126.89f,  1321.86f,  1503.07f,  1603.50f,
      1758.00f,  1913.98f,  2070.94f,  2220.36f,  2342.91f,  2488.07f,  3188.98f,  3285.76f,  3382.53f,
@@ -194,6 +200,7 @@ static float voltagefunction[] = {
     29389.90f, 29398.34f, 29406.78f, 29415.23f, 29423.67f, 29432.11f, 29440.55f, 29448.99f, 29457.43f,
     29465.88f, 29474.32f, 29482.76f, 29491.20f
 };
+#endif
 
 static uint8_t vic20_sound_data[16];
 
@@ -273,6 +280,13 @@ static struct sound_vic20_s snd;
 
 void vic_sound_clock(CLOCK cycles);
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int s = 0;
@@ -313,6 +327,7 @@ static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
     }
     return s;
 }
+#endif
 
 void vic_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {

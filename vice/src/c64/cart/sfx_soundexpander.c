@@ -127,10 +127,15 @@ static const export_resource_t export_res_piano = {
 /* Some prototypes are needed */
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void sfx_soundexpander_sound_machine_close(sound_t *psid);
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void sfx_soundexpander_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static uint8_t sfx_soundexpander_sound_machine_read(sound_t *psid, uint16_t addr);
 static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int sfx_soundexpander_sound_machine_cycle_based(void)
 {
@@ -359,6 +364,13 @@ struct sfx_soundexpander_sound_s {
 
 static struct sfx_soundexpander_sound_s snd;
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -382,6 +394,7 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int
 
     return nr;
 }
+#endif
 
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {

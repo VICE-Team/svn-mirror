@@ -847,8 +847,13 @@ static const export_resource_t export_res = {
 /* Some prototypes are needed */
 static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void magicvoice_sound_machine_close(sound_t *psid);
-static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int magicvoice_sound_machine_cycle_based(void)
 {
@@ -1465,6 +1470,13 @@ void magicvoice_reset(void)
 /*
     called periodically for every sound fragment that is played
 */
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -1486,6 +1498,7 @@ static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *p
 
     return nr;
 }
+#endif
 
 static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {

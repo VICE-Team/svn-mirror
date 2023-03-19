@@ -257,8 +257,12 @@ static signed char ampMod1x8[256];
 /* manage temporary buffers. if the requested size is smaller or equal to the
  * size of the already allocated buffer, reuse it.  */
 static int16_t *buf = NULL;
-static int blen = 0;
 
+#ifndef SOUND_SYSTEM_FLOAT
+static int blen = 0;
+#endif
+
+#ifndef SOUND_SYSTEM_FLOAT
 static int16_t *getbuf(int len)
 {
     if ((buf == NULL) || (blen < len)) {
@@ -270,6 +274,7 @@ static int16_t *getbuf(int len)
     }
     return buf;
 }
+#endif
 
 inline static void dofilter(voice_t *pVoice)
 {
@@ -427,6 +432,7 @@ static void set_adsr(voice_t *pv, uint8_t fm)
 }
 
 /* ADSR counter triggered state change */
+#ifndef SOUND_SYSTEM_FLOAT
 static void trigger_adsr(voice_t *pv)
 {
     switch (pv->adsrm) {
@@ -443,6 +449,7 @@ static void trigger_adsr(voice_t *pv)
             break;
     }
 }
+#endif
 
 static void print_voice(char *b, voice_t *pv)
 {
@@ -675,6 +682,13 @@ inline static void setup_voice(voice_t *pv)
     pv->gateflip = 0;
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static float fastsid_calculate_single_sample(sound_t *psid, int i)
+{
+    return 0.0;
+}
+#else
 static int16_t fastsid_calculate_single_sample(sound_t *psid, int i)
 {
     uint32_t o0, o1, o2;
@@ -764,9 +778,16 @@ static int16_t fastsid_calculate_single_sample(sound_t *psid, int i)
 
     return (int16_t)(((int32_t)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol);
 }
+#endif
 
-static int fastsid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr,
-                                     int interleave, CLOCK *delta_t)
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int fastsid_calculate_samples(sound_t *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
+static int fastsid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr, int interleave, CLOCK *delta_t)
 {
     int i;
     int16_t *tmp_buf;
@@ -784,6 +805,7 @@ static int fastsid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr,
     memcpy(pbuf, tmp_buf, 2 * nr);
     return nr;
 }
+#endif
 
 static void init_filter(sound_t *psid, int freq)
 {

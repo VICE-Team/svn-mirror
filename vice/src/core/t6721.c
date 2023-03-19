@@ -772,6 +772,12 @@ void t6721_update_ticks(t6721_state *t6721, int ticks)
 float up2smp = 0;
 
 /* render num samples into output buffer, run remaining cycles (if any) */
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+void t6721_update_output(t6721_state *t6721, float *buf, int num)
+{
+}
+#else
 void t6721_update_output(t6721_state *t6721, int16_t *buf, int num)
 {
     int i;
@@ -792,6 +798,7 @@ void t6721_update_output(t6721_state *t6721, int16_t *buf, int num)
         *buf++ = output_update_sample(t6721);
     }
 }
+#endif
 
 /*****************************************************************************
     Chip Command Handling

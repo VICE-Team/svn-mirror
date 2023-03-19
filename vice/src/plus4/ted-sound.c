@@ -48,9 +48,14 @@
 
 /* Some prototypes are needed */
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void ted_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static uint8_t ted_sound_machine_read(sound_t *psid, uint16_t addr);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int ted_sound_machine_cycle_based(void)
 {
@@ -173,6 +178,13 @@ static const int16_t volume_tab[16] = {
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff
 };
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -272,6 +284,7 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
     }
     return nr;
 }
+#endif
 
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {

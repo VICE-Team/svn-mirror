@@ -77,6 +77,13 @@ typedef struct {
 } videosound_t;
 static videosound_t chip[2];
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int video_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int video_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i, num;
@@ -119,6 +126,7 @@ static int video_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, 
     }
     return nr;
 }
+#endif
 
 static int video_sound_machine_init(sound_t *psid, int speed, int cycles)
 {

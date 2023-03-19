@@ -177,7 +177,11 @@ struct sid_engine_s {
     uint8_t (*read)(struct sound_s *psid, uint16_t addr);
     void (*store)(struct sound_s *psid, uint16_t addr, uint8_t val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
+#ifdef SOUND_SYSTEM_FLOAT
+    int (*calculate_samples)(struct sound_s *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t);
+#else
     int (*calculate_samples)(struct sound_s *psid, short *pbuf, int nr, int interleave, CLOCK *delta_t);
+#endif
     char *(*dump_state)(struct sound_s *psid);
     void (*state_read)(struct sound_s *psid, struct sid_snapshot_state_s *sid_state);
     void (*state_write)(struct sound_s *psid, struct sid_snapshot_state_s *sid_state);
@@ -198,7 +202,6 @@ void sid_sound_machine_close(sound_t *psid);
 uint8_t sid_sound_machine_read(sound_t *psid, uint16_t addr);
 void sid_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
 void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 char *sid_sound_machine_dump_state(sound_t *psid);
 int sid_sound_machine_cycle_based(void);
 int sid_sound_machine_channels(void);
@@ -206,6 +209,12 @@ void sid_sound_machine_enable(int enable);
 sid_engine_model_t **sid_get_engine_model_list(void);
 int sid_set_engine_model(int engine, int model);
 void sid_sound_chip_init(void);
+
+#ifdef SOUND_SYSTEM_FLOAT
+int sid_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
+int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 void sid_set_enable(int value);
 

@@ -38,11 +38,13 @@ static const int gap_circular_buffer_size =
     sizeof(gap_circular_buffer) / sizeof(gap_circular_buffer[0]);
 static int gap_circular_buffer_start = 0;
 static int gap_circular_buffer_end = 0;
-static char last_was_split_in_two = 0;
 static CLOCK sound_start_maincpu_clk;
-static char datasette_square_sign = 1;
 static char datasette_halfwaves;
 
+#ifndef SOUND_SYSTEM_FLOAT
+static char datasette_square_sign = 1;
+static char last_was_split_in_two = 0;
+#endif
 
 /* resources */
 static void datasette_sound_flush_circular_buffer(void)
@@ -75,6 +77,7 @@ void datasette_sound_add_to_circular_buffer(CLOCK gap)
     }
 }
 
+#ifndef SOUND_SYSTEM_FLOAT
 static CLOCK datasette_sound_remove_from_circular_buffer(
     CLOCK max_amount_to_remove, char divide_by_two, char *must_flip)
 {
@@ -121,9 +124,16 @@ static CLOCK datasette_sound_remove_from_circular_buffer(
     }
     return gap;
 }
+#endif
 
-static int datasette_sound_machine_calculate_samples(sound_t **psid,
-    int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int datasette_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
+static int datasette_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i = 0, j, num_samples;
     CLOCK cycles_to_be_consumed = *delta_t;
@@ -172,6 +182,7 @@ static int datasette_sound_machine_calculate_samples(sound_t **psid,
     }
     return nr;
 }
+#endif
 
 static int datasette_sound_machine_cycle_based(void)
 {

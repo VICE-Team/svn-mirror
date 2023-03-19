@@ -483,7 +483,12 @@ void speech_setup_context(machine_context_t *machine_ctx)
 
 /* Some prototypes are needed */
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
+#ifdef SOUND_SYSTEM_FLOAT
+static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#else
 static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+#endif
 
 static int speech_sound_machine_cycle_based(void)
 {
@@ -618,6 +623,13 @@ int speech_cmdline_options_init(void)
 /*
     called periodically for every sound fragment that is played
 */
+#ifdef SOUND_SYSTEM_FLOAT
+/* FIXME */
+static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+{
+    return nr;
+}
+#else
 static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
@@ -639,6 +651,7 @@ static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf,
 
     return nr;
 }
+#endif
 
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
