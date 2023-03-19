@@ -148,7 +148,6 @@ static uint8_t noisepattern[1024] = {
 };
 #endif
 
-#ifndef SOUND_SYSTEM_FLOAT
 static float voltagefunction[] = {
         0.00f,   148.28f,   296.55f,   735.97f,   914.88f,  1126.89f,  1321.86f,  1503.07f,  1603.50f,
      1758.00f,  1913.98f,  2070.94f,  2220.36f,  2342.91f,  2488.07f,  3188.98f,  3285.76f,  3382.53f,
@@ -200,7 +199,6 @@ static float voltagefunction[] = {
     29389.90f, 29398.34f, 29406.78f, 29415.23f, 29423.67f, 29432.11f, 29440.55f, 29448.99f, 29457.43f,
     29465.88f, 29474.32f, 29482.76f, 29491.20f
 };
-#endif
 
 static uint8_t vic20_sound_data[16];
 
@@ -284,7 +282,34 @@ void vic_sound_clock(CLOCK cycles);
 /* FIXME */
 static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
-    return nr;
+    int s = 0;
+    int i;
+    float o;
+    int samples_to_do;
+
+    while (s < nr && *delta_t >= snd.cycles_per_sample - snd.leftover_cycles) {
+        samples_to_do = (int)(snd.cycles_per_sample - snd.leftover_cycles);
+        snd.leftover_cycles += samples_to_do - snd.cycles_per_sample;
+        vic_sound_clock(samples_to_do);
+
+        o = (snd.lowpassbuf - snd.highpassbuf) / 32767.0;
+        snd.highpassbuf += snd.highpassbeta * (snd.lowpassbuf - snd.highpassbuf);
+        snd.lowpassbuf += snd.lowpassbeta * (voltagefunction[(((snd.accum * 7) / snd.accum_cycles) + 1) * snd.volume] - snd.lowpassbuf);
+
+        for (i = 0; i < soc; i++) {
+            pbuf[(s * soc) + i] = o;
+        }
+        s++;
+        snd.accum = 0;
+        snd.accum_cycles = 0;
+        *delta_t -= samples_to_do;
+    }
+    if (*delta_t > 0) {
+        snd.leftover_cycles += *delta_t;
+        vic_sound_clock(*delta_t);
+        *delta_t = 0;
+    }
+    return s;
 }
 #else
 static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
