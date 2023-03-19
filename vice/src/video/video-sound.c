@@ -79,7 +79,7 @@ static videosound_t chip[2];
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int video_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int video_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i, num;
     float smpval1, smpval2;
@@ -90,16 +90,7 @@ static int video_sound_machine_calculate_samples(sound_t **psid, float *pbuf, in
         for (num = 0; num < numchips; num++) {
             smpval1 = (((float)(*chip[num].sampleptr) * chip[num].avglum * NOISE_VOLUME) / (1 << 16)) / 32767.0;
             smpval2 = (((*chip[num].lumaptr) * LUMALINES_VOLUME) / (1 << 16)) / 32767.0;
-            switch (soc) {
-                default:
-                case SOUND_OUTPUT_MONO:
-                    pbuf[i] = smpval1 + smpval2;
-                    break;
-                case SOUND_OUTPUT_STEREO:
-                    pbuf[i * soc] = smpval1 + smpval2;
-                    pbuf[(i * soc) + 1] = smpval1 + smpval2;
-                    break;
-            }
+            pbuf[i] = smpval1 + smpval2;
 
             chip[num].div1 += NOISE_RATE;
             while (chip[num].div1 >= sample_rate) {

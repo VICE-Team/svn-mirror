@@ -50,7 +50,7 @@ static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void vic_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t value);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -284,10 +284,9 @@ void vic_sound_clock(CLOCK cycles);
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int s = 0;
-    int i;
     float o;
     int samples_to_do;
 
@@ -300,9 +299,8 @@ static int vic_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int 
         snd.highpassbuf += snd.highpassbeta * (snd.lowpassbuf - snd.highpassbuf);
         snd.lowpassbuf += snd.lowpassbeta * (voltagefunction[(((snd.accum * 7) / snd.accum_cycles) + 1) * snd.volume] - snd.lowpassbuf);
 
-        for (i = 0; i < soc; i++) {
-            pbuf[(s * soc) + i] = o;
-        }
+        pbuf[s] = o;
+
         s++;
         snd.accum = 0;
         snd.accum_cycles = 0;

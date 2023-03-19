@@ -106,7 +106,7 @@ static uint8_t sfx_soundsampler_sound_machine_read(sound_t *psid, uint16_t addr)
 static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -325,9 +325,9 @@ static struct sfx_soundsampler_sound_s snd;
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
-    return sound_dac_calculate_samples(&sfx_soundsampler_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc == SOUND_OUTPUT_STEREO) ? SOUND_CHANNELS_1_AND_2 : SOUND_CHANNEL_1);
+    return sound_dac_calculate_samples(&sfx_soundsampler_dac, pbuf, (int)snd.voice0 * 128, nr);
 }
 #else
 static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)

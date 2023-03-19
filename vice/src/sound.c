@@ -268,7 +268,7 @@ static void sound_machine_close(sound_t *psid)
 */
 static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
-/* FIXME */
+/* FIXME: fix mono stream to stereo mixing next */
 #ifdef SOUND_SYSTEM_FLOAT
     int i, j;
     int temp;
@@ -293,7 +293,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 
     /* do special treatment of first sound device in case it is cycle based */
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0], nr, soc, scc, delta_t);
+        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0], nr, scc, delta_t);
     } else {
         temp = nr;
     }
@@ -302,7 +302,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
             delta_t_for_other_chips = initial_delta_t;
-            sound_calls[i]->calculate_samples(psid, sound_buffer[i], temp, soc, scc, &delta_t_for_other_chips);
+            sound_calls[i]->calculate_samples(psid, sound_buffer[i], temp, scc, &delta_t_for_other_chips);
         }
     }
 
@@ -1671,7 +1671,7 @@ void sound_dac_init(sound_dac_t *dac, int speed)
  * this code. */
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr, int soc, int cs)
+int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr)
 {
     int i;
     int off = 0;
@@ -1692,25 +1692,15 @@ int sound_dac_calculate_samples(sound_dac_t *dac, float *pbuf, int value, int nr
 
         sample = (int)dac->output / 32767.0;
 
-        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
-            pbuf[off] = sample;
-        }
-        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
-            pbuf[off + 1] = sample;
-        }
-        off += soc;
+        pbuf[off] = sample;
+        off ++;
     }
 
     for (i = 1; i < nr; i++) {
         dac->output *= dac->alpha;
         sample = (int)dac->output / 32767.0;
-        if (cs == SOUND_CHANNEL_1 || cs == SOUND_CHANNELS_1_AND_2) {
-            pbuf[off] = sample;
-        }
-        if (cs == SOUND_CHANNEL_2 || cs == SOUND_CHANNELS_1_AND_2) {
-            pbuf[off + 1] = sample;
-        }
-        off += soc;
+        pbuf[off] = sample;
+        off ++;
     }
     return nr;
 }

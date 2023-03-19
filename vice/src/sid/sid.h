@@ -178,7 +178,7 @@ struct sid_engine_s {
     void (*store)(struct sound_s *psid, uint16_t addr, uint8_t val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
 #ifdef SOUND_SYSTEM_FLOAT
-    int (*calculate_samples)(struct sound_s *psid, float *pbuf, int nr, int interleave, CLOCK *delta_t);
+    int (*calculate_samples)(struct sound_s *psid, float *pbuf, int nr, CLOCK *delta_t);
 #else
     int (*calculate_samples)(struct sound_s *psid, short *pbuf, int nr, int interleave, CLOCK *delta_t);
 #endif
@@ -211,7 +211,7 @@ int sid_set_engine_model(int engine, int model);
 void sid_sound_chip_init(void);
 
 #ifdef SOUND_SYSTEM_FLOAT
-int sid_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+int sid_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif

@@ -485,7 +485,7 @@ void speech_setup_context(machine_context_t *machine_ctx)
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 
 #ifdef SOUND_SYSTEM_FLOAT
-static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
+static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int sound_chip_channels, CLOCK *delta_t);
 #else
 static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 #endif
@@ -629,7 +629,7 @@ int speech_cmdline_options_init(void)
 */
 #ifdef SOUND_SYSTEM_FLOAT
 /* FIXME */
-static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
+static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
     int i;
     float *buffer;
@@ -640,10 +640,7 @@ static int speech_sound_machine_calculate_samples(sound_t **psid, float *pbuf, i
 
     /* mix generated samples to output */
     for (i = 0; i < nr; i++) {
-        pbuf[i * soc] = buffer[i];
-        if (soc == SOUND_OUTPUT_STEREO) {
-            pbuf[(i * soc) + 1] = buffer[i];
-        }
+        pbuf[i] = buffer[i];
     }
 
     lib_free(buffer);
