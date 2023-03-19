@@ -309,13 +309,50 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     /* allocate buffer to hold added samples */
     addition_buffer = lib_malloc(snddata.bufsize * soc * sizeof(float));
 
-    /* Add all samples together for enabled sound devices */
-    for (j = 0; j < (temp * soc); j++) {
-        addition_buffer[j] = 0.0;
-        for (i = 0; i < (offset >> 5); i++) {
-            if (sound_calls[i]->chip_enabled) {
-                addition_buffer[j] += sound_buffer[i][j];
+    if (soc == SOUND_OUTPUT_MONO) {
+
+        /* Add all samples together for enabled sound devices and output in mono */
+        for (j = 0; j < temp; j++) {
+            addition_buffer[j] = 0.0;
+            for (i = 0; i < (offset >> 5); i++) {
+                if (sound_calls[i]->chip_enabled) {
+                    addition_buffer[j] += sound_buffer[i][j];
+                }
             }
+        }
+    } else {
+
+        /* Add all samples together for enabled sound devices and output in stereo */
+        for (j = 0; j < temp; j++) {
+
+            /* left first */
+            addition_buffer[j * soc] = 0.0;
+            for (i = 0; i < (offset >> 5); i++) {
+                if (sound_calls[i]->chip_enabled) {
+                    if (sound_calls[i]->left_channel_volume) {
+                        if (sound_calls[i]->left_channel_volume == 100) {
+                            addition_buffer[j * soc] += sound_buffer[i][j];
+                        } else {
+                            addition_buffer[j * soc] += (sound_buffer[i][j] * sound_calls[i]->left_channel_volume / 100.0);
+                        }
+                    }
+                }
+            }
+
+            /* now right */
+            addition_buffer[(j * soc) + 1] = 0.0;
+            for (i = 0; i < (offset >> 5); i++) {
+                if (sound_calls[i]->chip_enabled) {
+                    if (sound_calls[i]->right_channel_volume) {
+                        if (sound_calls[i]->right_channel_volume == 100) {
+                            addition_buffer[(j * soc) + 1] += sound_buffer[i][j];
+                        } else {
+                            addition_buffer[(j * soc) + 1] += (sound_buffer[i][j] * sound_calls[i]->right_channel_volume / 100.0);
+                        }
+                    }
+                }
+            }
+
         }
     }
 
