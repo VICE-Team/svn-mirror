@@ -205,6 +205,11 @@ static int clockport_mp3at64_sound_machine_cycle_based(void)
     return 0;
 }
 
+static int clockport_mp3at64_sound_machine_channels(void)
+{
+    return 1;
+}
+
 #ifdef SOUND_SYSTEM_FLOAT
 /* stereo mixing placement of the ClockPort MP3@64 sound */
 static sound_chip_mixing_spec_t *clockport_mp3at64_sound_mixing_spec = {
