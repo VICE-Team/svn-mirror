@@ -37,7 +37,7 @@
 #include "vicedate.h"
 
 /* HACK: Massive fixed size buffer for now, as the sound.c buffer has been made dynamic in size there is no more constant to use here. */
-#define PCM_BUFFER_SIZE (SOUND_CHANNELS_MAX * 1024 * 1024)
+#define PCM_BUFFER_SIZE (SOUND_OUTPUT_CHANNELS_MAX * 1024 * 1024)
 
 static int stereo = 0;
 static FLAC__int32 pcm_buffer[PCM_BUFFER_SIZE];

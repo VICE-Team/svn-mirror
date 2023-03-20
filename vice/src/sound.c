@@ -216,7 +216,7 @@ typedef struct {
 
     /* is the device suspended? */
     int issuspended;
-    int16_t lastsample[SOUND_CHANNELS_MAX];
+    int16_t lastsample[SOUND_OUTPUT_CHANNELS_MAX];
 } snddata_t;
 
 static snddata_t snddata;
