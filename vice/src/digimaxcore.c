@@ -48,8 +48,30 @@ static int digimax_sound_machine_cycle_based(void)
 
 static int digimax_sound_machine_channels(void)
 {
-    return 1;     /* FIXME: needs to become stereo for stereo capable ports */
+    return 4;     /* FIXME: needs to become stereo for stereo capable ports */
 }
+
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the DigiMAX sound */
+static sound_chip_mixing_spec_t digimax_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* DAC 1 left channel volume % in case of stereo output, default output to left only */
+        0,   /* DAC 1 right channel volume % in case of stereo output, default output to left only */
+    },
+    {
+        100, /* DAC 2 left channel volume % in case of stereo output, default output to left only */
+        0,   /* DAC 2 right channel volume % in case of stereo output, default output to left only */
+    },
+    {
+        0,   /* DAC 3 left channel volume % in case of stereo output, default output to right only */
+        100, /* DAC 3 right channel volume % in case of stereo output, default output to right only */
+    },
+    {
+        0,   /* DAC 4 left channel volume % in case of stereo output, default output to right only */
+        100, /* DAC 4 right channel volume % in case of stereo output, default output to right only */
+    }
+};
+#endif
 
 /* DigiMAX sound chip, as used in the IDE64-shortbus DigiMAX device, userport DigiMAX device and c64/c128 DigiMAX cartridge */
 static sound_chip_t digimax_sound_chip = {
@@ -61,10 +83,9 @@ static sound_chip_t digimax_sound_chip = {
     digimax_sound_machine_read,              /* sound chip read function */
     digimax_sound_reset,                     /* sound chip reset function */
     digimax_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
-    digimax_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    digimax_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 4 channels */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                     /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                     /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    digimax_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     0                                        /* sound chip enabled flag, toggled upon device (de-)activation */
 };

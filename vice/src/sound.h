@@ -307,6 +307,19 @@ const char *sound_device_name(unsigned int num);
 
 sound_t *sound_get_psid(unsigned int channel);
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* This structure is used by sound producing chips/devices to indicate the left/right mixing in stereo mode per chip channel */
+typedef struct sound_chip_mixing_spec_s {
+
+    /* left channel volume of a mono render stream for stereo output, can be used to put the sound left, right, or both, can also be used for panning */
+    int left_channel_volume;
+
+    /* right channel volume of a mono render stream for stereo output, can be used to put the sound left, right, or both, can also be used for panning */
+    int right_channel_volume;
+
+} sound_chip_mixing_spec_t;
+#endif
+
 /* This structure is used by sound producing chips/devices */
 typedef struct sound_chip_s {
     /* sound chip open function */
@@ -342,11 +355,8 @@ typedef struct sound_chip_s {
     int (*channels)(void);
 
 #ifdef SOUND_SYSTEM_FLOAT
-    /* left channel volume of a mono render stream, can be used to put the sound left, right, or both, can also be used for panning */
-    int left_channel_volume;
-
-    /* right channel volume of a mono render stream, can be used to put the sound left, right, or both, can also be used for panning */
-    int right_channel_volume;
+    /* specs for mixing mono chip streams to a stereo stream, stereo channel placement */
+    sound_chip_mixing_spec_t *sound_chip_channel_mixing;
 #endif
 
     /* sound chip enabled flag */

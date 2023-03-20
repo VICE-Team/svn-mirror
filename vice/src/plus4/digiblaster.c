@@ -65,6 +65,16 @@ static int digiblaster_sound_machine_channels(void)
     return 1;
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the PLUS4 DigiBlaster cartridge sound */
+static sound_chip_mixing_spec_t digiblaster_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* left channel volume % in case of stereo output, default output to both */
+        100  /* right channel volume % in case of stereo output, default output to both */
+    }
+};
+#endif
+
 /* PLUS4 DigiBlaster cartridge sound chip */
 static sound_chip_t digiblaster_sound_chip = {
     NULL,                                        /* NO sound chip open function */
@@ -77,8 +87,7 @@ static sound_chip_t digiblaster_sound_chip = {
     digiblaster_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
     digiblaster_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                         /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                         /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    digiblaster_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     0                                            /* sound chip enabled flag, toggled upon device (de-)activation */
 };
