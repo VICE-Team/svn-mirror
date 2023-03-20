@@ -378,6 +378,7 @@ void machine_sid2_enable(int val)
         sid8_list_item = io_source_register(&sid8_device);
     }
 
+#ifdef SOUND_SYSTEM_FLOAT
     /* set stereo rendering preferences */
     switch (val) {
         case 8:   /* 8 SID chips, 0/2/4/6 left only, 1/3/5/7 right only */
@@ -469,6 +470,7 @@ void machine_sid2_enable(int val)
             sid_sound_mixing_spec[0].right_channel_volume = 100;
             break;
     }
+#endif
 }
 
 char *sound_machine_dump_state(sound_t *psid)
