@@ -272,6 +272,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 #ifdef SOUND_SYSTEM_FLOAT
     int i, j;
     int temp;
+    int sound_channels;
     float *sound_buffer[SOUND_CHIPS_MAX];
     float *addition_buffer = NULL;
     CLOCK initial_delta_t = *delta_t;
@@ -293,7 +294,8 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 
     /* do special treatment of first sound device in case it is cycle based */
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0], nr, scc, delta_t);
+        sound_channels = sound_calls[0]->channels();
+        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0], nr, sound_channels, delta_t);
     } else {
         temp = nr;
     }
@@ -302,7 +304,8 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
             delta_t_for_other_chips = initial_delta_t;
-            sound_calls[i]->calculate_samples(psid, sound_buffer[i], temp, scc, &delta_t_for_other_chips);
+            sound_channels = sound_calls[i]->channels();
+            sound_calls[i]->calculate_samples(psid, sound_buffer[i], temp, sound_channels, &delta_t_for_other_chips);
         }
     }
 
