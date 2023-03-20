@@ -110,7 +110,9 @@ enum {
 #define SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 #endif
 
-#define SOUND_CHANNELS_MAX 2
+#define SOUND_OUTPUT_CHANNELS_MAX 2
+
+#define SOUND_CHIP_CHANNELS_MAX 8
 
 /** \brief  Maximum number of SIDs supported by the emulation.
  */
