@@ -205,10 +205,15 @@ static int clockport_mp3at64_sound_machine_cycle_based(void)
     return 0;
 }
 
-static int clockport_mp3at64_sound_machine_channels(void)
-{
-    return 1;
-}
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the ClockPort MP3@64 sound */
+static sound_chip_mixing_spec_t *clockport_mp3at64_sound_mixing_spec = {
+    {
+        100, /* left channel volume % in case of stereo output, default output to both */
+        100  /* right channel volume % in case of stereo output, default output to both */
+    }
+};
+#endif
 
 /* ClockPort MP3@64 sound chip */
 static sound_chip_t clockport_mp3at64_sound_chip = {
@@ -222,8 +227,7 @@ static sound_chip_t clockport_mp3at64_sound_chip = {
     clockport_mp3at64_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
     clockport_mp3at64_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                               /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                               /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    clockport_mp3at64_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     0                                                  /* chip enabled, toggled when sound chip is (de-)activated */
 };

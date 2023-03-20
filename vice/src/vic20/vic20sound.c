@@ -65,6 +65,16 @@ static int vic_sound_machine_channels(void)
     return 1;
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the VIC20 VIC sound */
+static sound_chip_mixing_spec_t vic_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* left channel volume % in case of stereo output, default output to both */
+        100  /* right channel volume % in case of stereo output, default output to both */
+    }
+};
+#endif
+
 /* VIC20 VIC sound device */
 static sound_chip_t vic_sound_chip = {
     NULL,                                /* NO sound chip open function */
@@ -77,8 +87,7 @@ static sound_chip_t vic_sound_chip = {
     vic_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
     vic_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                 /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                 /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    vic_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     1                                    /* sound chip enabled flag, chip is always enabled */
 };

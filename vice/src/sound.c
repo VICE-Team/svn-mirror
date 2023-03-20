@@ -332,11 +332,11 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             addition_buffer[j * soc] = 0.0;
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
-                    if (sound_calls[i]->left_channel_volume) {
-                        if (sound_calls[i]->left_channel_volume == 100) {
+                    if (sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume) {
+                        if (sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume == 100) {
                             addition_buffer[j * soc] += sound_buffer[i][j];
                         } else {
-                            addition_buffer[j * soc] += (sound_buffer[i][j] * sound_calls[i]->left_channel_volume / 100.0);
+                            addition_buffer[j * soc] += (sound_buffer[i][j] * sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume / 100.0);
                         }
                     }
                 }
@@ -346,11 +346,11 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             addition_buffer[(j * soc) + 1] = 0.0;
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
-                    if (sound_calls[i]->right_channel_volume) {
-                        if (sound_calls[i]->right_channel_volume == 100) {
+                    if (sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume) {
+                        if (sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume == 100) {
                             addition_buffer[(j * soc) + 1] += sound_buffer[i][j];
                         } else {
-                            addition_buffer[(j * soc) + 1] += (sound_buffer[i][j] * sound_calls[i]->right_channel_volume / 100.0);
+                            addition_buffer[(j * soc) + 1] += (sound_buffer[i][j] * sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume / 100.0);
                         }
                     }
                 }

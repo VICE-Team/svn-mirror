@@ -147,6 +147,16 @@ static int sfx_soundexpander_sound_machine_channels(void)
     return 1;     /* FIXME: needs to become stereo for stereo capable ports */
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the SFX Sound Expander sound */
+static sound_chip_mixing_spec_t sfx_soundexpander_mixing_sound_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* left channel volume % in case of stereo output, default output to both */
+        100  /* right channel volume % in case of stereo output, default output to both */
+    }
+};
+#endif
+
 /* SFX Sound Expander cartridge sound chip */
 static sound_chip_t sfx_soundexpander_sound_chip = {
     NULL,                                              /* NO sound chip open function */
@@ -159,8 +169,7 @@ static sound_chip_t sfx_soundexpander_sound_chip = {
     sfx_soundexpander_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
     sfx_soundexpander_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                               /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                               /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    sfx_soundexpander_mixing_sound_spec,               /* stereo mixing placement specs */
 #endif
     0                                                  /* chip enabled, toggled when sound chip is (de-)activated */
 };

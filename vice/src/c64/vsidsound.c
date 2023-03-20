@@ -39,6 +39,16 @@
 
 /* ---------------------------------------------------------------------*/
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the VSID SID sound */
+static sound_chip_mixing_spec_t sid_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* left channel volume % in case of stereo output, default output to both */
+        100  /* right channel volume % in case of stereo output, default output to both */
+    }
+};
+#endif
+
 /* VSID SID sound chip */
 static sound_chip_t sid_sound_chip = {
     sid_sound_machine_open,              /* sound chip open function */
@@ -51,8 +61,7 @@ static sound_chip_t sid_sound_chip = {
     sid_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, RESID engine is cycle based, everything else is NOT */
     sid_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, depends on how many extra SIDs are active */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                 /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                 /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    sid_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     1                                    /* chip is always enabled */
 };

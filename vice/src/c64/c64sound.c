@@ -204,6 +204,44 @@ static io_source_list_t *sid8_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
+#ifdef SOUND_SYSTEM_FLOAT
+/* stereo mixing placement of the C64 SID sound */
+static sound_chip_mixing_spec_t sid_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
+    {
+        100, /* SID 1 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 1 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 2 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 2 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 3 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 3 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 4 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 4 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 5 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 5 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 6 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 6 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 7 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 7 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 8 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 8 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    }
+};
+#endif
+
 /* C64 SID sound chip */
 static sound_chip_t sid_sound_chip = {
     sid_sound_machine_open,              /* sound chip open function */
@@ -216,8 +254,7 @@ static sound_chip_t sid_sound_chip = {
     sid_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, resid engine is cycle based, all other engines are not */
     sid_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, the amount of channels depends on the extra amount of active SIDs */
 #ifdef SOUND_SYSTEM_FLOAT
-    100,                                 /* left channel volume % in case of stereo output, currently hardcoded to output to both */
-    100,                                 /* right channel volume % in case of stereo output, currently hardcoded to output to both */
+    sid_sound_mixing_spec,               /* stereo mixing placement specs */
 #endif
     1                                    /* sound chip is always enabled */
 };
@@ -339,6 +376,98 @@ void machine_sid2_enable(int val)
     }
     if (val >= 7) {
         sid8_list_item = io_source_register(&sid8_device);
+    }
+
+    /* set stereo rendering preferences */
+    switch (val) {
+        case 8:   /* 8 SID chips, 0/2/4/6 left only, 1/3/5/7 right only */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 0;
+            sid_sound_mixing_spec[4].left_channel_volume = 100;
+            sid_sound_mixing_spec[4].right_channel_volume = 0;
+            sid_sound_mixing_spec[6].left_channel_volume = 100;
+            sid_sound_mixing_spec[6].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[3].left_channel_volume = 0;
+            sid_sound_mixing_spec[3].right_channel_volume = 100;
+            sid_sound_mixing_spec[5].left_channel_volume = 0;
+            sid_sound_mixing_spec[5].right_channel_volume = 100;
+            sid_sound_mixing_spec[7].left_channel_volume = 0;
+            sid_sound_mixing_spec[7].right_channel_volume = 100;
+            break;
+        case 7:   /* 7 SID chips, 0/2/4 left only, 1/3/5 right only, 6 both */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 0;
+            sid_sound_mixing_spec[4].left_channel_volume = 100;
+            sid_sound_mixing_spec[4].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[3].left_channel_volume = 0;
+            sid_sound_mixing_spec[3].right_channel_volume = 100;
+            sid_sound_mixing_spec[5].left_channel_volume = 0;
+            sid_sound_mixing_spec[5].right_channel_volume = 100;
+            sid_sound_mixing_spec[6].left_channel_volume = 100;
+            sid_sound_mixing_spec[6].right_channel_volume = 100;
+            break;
+        case 6:   /* 6 SID chips, 0/2/4 left only, 1/3/5 right only */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 0;
+            sid_sound_mixing_spec[4].left_channel_volume = 100;
+            sid_sound_mixing_spec[4].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[3].left_channel_volume = 0;
+            sid_sound_mixing_spec[3].right_channel_volume = 100;
+            sid_sound_mixing_spec[5].left_channel_volume = 0;
+            sid_sound_mixing_spec[5].right_channel_volume = 100;
+            break;
+        case 5:   /* 5 SID chips, 0/2 left only, 1/3 right only, 4 both */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[3].left_channel_volume = 0;
+            sid_sound_mixing_spec[3].right_channel_volume = 100;
+            sid_sound_mixing_spec[4].left_channel_volume = 100;
+            sid_sound_mixing_spec[4].right_channel_volume = 100;
+            break;
+        case 4:   /* 4 SID chips, 0/2 left only, 1/3 right only */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[3].left_channel_volume = 0;
+            sid_sound_mixing_spec[3].right_channel_volume = 100;
+            break;
+        case 3:   /* 3 SID chips, 0 left only, 1 right only, 2 both */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            sid_sound_mixing_spec[2].left_channel_volume = 100;
+            sid_sound_mixing_spec[2].right_channel_volume = 100;
+            break;
+        case 2:   /* 2 SID chips, 0 left only, 1 right only */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 0;
+            sid_sound_mixing_spec[1].left_channel_volume = 0;
+            sid_sound_mixing_spec[1].right_channel_volume = 100;
+            break;
+        case 1:   /* 1 SID chip, mix on both */
+            sid_sound_mixing_spec[0].left_channel_volume = 100;
+            sid_sound_mixing_spec[0].right_channel_volume = 100;
+            break;
     }
 }
 
