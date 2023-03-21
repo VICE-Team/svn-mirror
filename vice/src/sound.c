@@ -452,9 +452,11 @@ static int sound_machine_channels(void)
     int temp;
 
     for (i = 0; i < (offset >> 5); i++) {
-        temp = sound_calls[i]->channels();
-        if (temp > retval) {
-            retval = temp;
+        if (sound_calls[i]->chip_enabled) {
+            temp = sound_calls[i]->channels();
+            if (temp > retval) {
+                retval = temp;
+            }
         }
     }
     return retval;
