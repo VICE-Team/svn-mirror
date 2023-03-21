@@ -4,6 +4,8 @@
 # Syntax:
 # Red Green Blue
 #
+# NAME:Green
+# TYPE:Crtc
 
 # green screens use P1 phosphor (528nm)
 

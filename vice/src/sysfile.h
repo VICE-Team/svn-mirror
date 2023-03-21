@@ -36,8 +36,13 @@ void sysfile_shutdown(void);
 int sysfile_resources_init(void);
 void sysfile_resources_shutdown(void);
 int sysfile_cmdline_options_init(void);
+
+/* Functions to locate/open/load files from the system path */
 FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_return, const char *open_mode);
 int sysfile_locate(const char *name, const char *subpath, char **complete_path_return);
 int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsize, int maxsize);
+
+/* get the full search path */
+const char *get_system_path(void);
 
 #endif

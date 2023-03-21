@@ -4,6 +4,8 @@
 # Syntax:
 # Red Green Blue
 #
+# NAME:Amber
+# TYPE:Crtc
 
 # amber screens use P3 phosphor (602nm)
 

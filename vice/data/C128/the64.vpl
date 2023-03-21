@@ -2,9 +2,12 @@
 # VICE Palette file
 #
 # Syntax:
-# Red Green Blue Dither
+# Red Green Blue
 #
 # VIC-II palette for THEC64
+#
+# NAME:THEC64
+# TYPE:VICII
 
 # Black
 00 00 00

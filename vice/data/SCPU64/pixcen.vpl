@@ -5,6 +5,9 @@
 # Red Green Blue
 #
 # VIC-II default palette taken from the pixcen editor
+#
+# TYPE:VICII
+# NAME:PixCen
 
 # Black
 00 00 00

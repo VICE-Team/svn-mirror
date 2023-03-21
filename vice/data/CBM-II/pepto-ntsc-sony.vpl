@@ -4,6 +4,8 @@
 # Syntax:
 # Red Green Blue
 #
+# TYPE:VICII
+# NAME:Pepto (NTSC, Sony Matrix)
 
 # this palette was calculated for NTSC according to http://www.pepto.de/projects/colorvic/
 # using the SONY CXA2025AS US decoder matrix - this looks noteably different to PAL

@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+#include "util.h"
 #include "vic.h"
 #include "vicii.h"
 #include "videoarch.h"
@@ -1392,10 +1393,43 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
 
     while (palettelist->name) {
         if (palettelist->chip && !strcmp(palettelist->chip, video_chip1_used)) {
+            const char *current;
+            char *current2;
+            const char *ext;
             palette_dyn_menu1[i].string = (char *)lib_strdup(palettelist->name);
             palette_dyn_menu1[i].type = MENU_ENTRY_OTHER_TOGGLE;
             palette_dyn_menu1[i].callback = external_palette_file1_callback;
-            palette_dyn_menu1[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
+            palette_dyn_menu1[i].data = NULL;
+            resources_get_string_sprintf("%sPaletteFile", &current, video_chip1_used);
+            if (current) {
+                /* if the <CHIP>PaletteFile resource points to a file,
+                - create an alternative name without extension, if the file has a
+                    .vpl extension
+                - create an alternative name with .vpl extension, if the file has no
+                    extension
+                */
+                ext = util_get_extension(current);
+                if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
+                    /* current has .vpl extension, so make sure the menu entry has it */
+                    if ((ext = util_get_extension(palettelist->file)) == NULL) {
+                        current2 = lib_strdup(palettelist->file);
+                        util_add_extension(&current2, "vpl");
+                        palette_dyn_menu1[i].data = current2;
+                    }
+                } else if (ext == NULL) {
+                    /* current has no extension, so remove it from menu entry too */
+                    ext = util_get_extension(palettelist->file);
+                    if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
+                        int n = strlen(palettelist->file);
+                        current2 = lib_strdup(palettelist->file);
+                        current2[n - 4] = 0;
+                        palette_dyn_menu1[i].data = current2;
+                    }
+                }
+            }
+            if (palette_dyn_menu1[i].data == NULL) {
+                palette_dyn_menu1[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
+            }
             ++i;
         }
         ++palettelist;
@@ -1415,10 +1449,43 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
 
         while (palettelist->name) {
             if (palettelist->chip && !strcmp(palettelist->chip, video_chip2_used)) {
+                const char *current;
+                char *current2;
+                const char *ext;
                 palette_dyn_menu2[i].string = (char *)lib_strdup(palettelist->name);
                 palette_dyn_menu2[i].type = MENU_ENTRY_OTHER_TOGGLE;
                 palette_dyn_menu2[i].callback = external_palette_file2_callback;
-                palette_dyn_menu2[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
+                palette_dyn_menu2[i].data = NULL;
+                resources_get_string_sprintf("%sPaletteFile", &current, video_chip2_used);
+                if (current) {
+                    /* if the <CHIP>PaletteFile resource points to a file,
+                    - create an alternative name without extension, if the file has a
+                        .vpl extension
+                    - create an alternative name with .vpl extension, if the file has no
+                        extension
+                    */
+                    ext = util_get_extension(current);
+                    if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
+                        /* current has .vpl extension, so make sure the menu entry has it */
+                        if ((ext = util_get_extension(palettelist->file)) == NULL) {
+                            current2 = lib_strdup(palettelist->file);
+                            util_add_extension(&current2, "vpl");
+                            palette_dyn_menu2[i].data = current2;
+                        }
+                    } else if (ext == NULL) {
+                        /* current has no extension, so remove it from menu entry too */
+                        ext = util_get_extension(palettelist->file);
+                        if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
+                            int n = strlen(palettelist->file);
+                            current2 = lib_strdup(palettelist->file);
+                            current2[n - 4] = 0;
+                            palette_dyn_menu2[i].data = current2;
+                        }
+                    }
+                }
+                if (palette_dyn_menu2[i].data == NULL) {
+                    palette_dyn_menu2[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
+                }
                 ++i;
             }
             ++palettelist;

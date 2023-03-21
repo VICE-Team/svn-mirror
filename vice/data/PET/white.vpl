@@ -4,6 +4,8 @@
 # Syntax:
 # Red Green Blue
 #
+# NAME:Black/White
+# TYPE:Crtc
 
 # white screens use P4 phosphor
 

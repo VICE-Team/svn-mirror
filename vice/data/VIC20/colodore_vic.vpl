@@ -5,6 +5,9 @@
 # Red Green Blue
 #
 # VIC palette based on http://www.colodore.com/
+#
+# TYPE:VIC
+# NAME:Colodore (PAL)
 
 00 00 00
 ff ff ff
