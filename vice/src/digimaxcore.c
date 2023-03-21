@@ -48,7 +48,7 @@ static int digimax_sound_machine_cycle_based(void)
 
 static int digimax_sound_machine_channels(void)
 {
-    return 4;     /* FIXME: needs to become stereo for stereo capable ports */
+    return 4;
 }
 
 #ifdef SOUND_SYSTEM_FLOAT
