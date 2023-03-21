@@ -113,6 +113,11 @@ static int set_system_path(const char *val, void *param)
     return 0;
 }
 
+const char *get_system_path(void)
+{
+    return expanded_system_path;
+}
+
 static const resource_string_t resources_string[] = {
     { "Directory", "$$", RES_EVENT_NO, NULL,
       &system_path, set_system_path, NULL },
@@ -178,6 +183,11 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         return NULL;
     }
 
+    /*
+     * name      - filename or command we are looking for in the resulting path
+     * expanded_system_path  - list of search path(es), separated by target specific separator
+     * subpath  - path tail component, will be appended to the resulting path
+     */
     p = findpath(name, expanded_system_path, subpath, ARCHDEP_ACCESS_R_OK);
 
     if (p == NULL) {

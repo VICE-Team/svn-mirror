@@ -5,6 +5,9 @@
 # Red Green Blue Dither
 #
 # VIC-II palette for THEC64
+#
+# TYPE:VICII
+# NAME:THE64
 
 # Black
 00 00 00

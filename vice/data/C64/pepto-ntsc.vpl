@@ -4,6 +4,8 @@
 # Syntax:
 # Red Green Blue
 #
+# TYPE:VICII
+# NAME:Pepto (NTSC)
 
 # this palette was calculated for NTSC according to http://www.pepto.de/projects/colorvic/
 # using the FCC sanctioned decoder matrix - this is almost identical to the PAL palette!

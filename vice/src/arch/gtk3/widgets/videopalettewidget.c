@@ -48,7 +48,9 @@
 #include "debug_gtk3.h"
 #include "palette.h"
 #include "resources.h"
+#include "lib.h"
 #include "ui.h"
+#include "util.h"
 
 #include "videopalettewidget.h"
 
@@ -157,11 +159,38 @@ static GtkWidget *create_combo_box(void)
     const palette_info_t *list;
     int                   index;
     int                   row = 0;
+    const char           *ext = NULL;
     const char           *current = NULL;
+    char                 *current2 = NULL;
     gboolean              found = FALSE;
 
     resources_get_string_sprintf("%sPaletteFile", &current, chip_name);
 
+    if (current) {
+        /*printf("create_combo_box (%sPaletteFile) current:'%s'\n", chip_name, current);*/
+        /* if the <CHIP>PaletteFile resource points to a file,
+           - create an alternative name without extension, if the file has a
+             .vpl extension
+           - create an alternative name with .vpl extension, if the file has no
+             extension
+        */
+        ext = util_get_extension(current);
+        if ((ext != NULL) && (strcmp(ext, "vpl"))) {
+            /* current already has .vpl extension, so remove it for the extra string */
+            int n = strlen(current);
+            current2 = lib_strdup(current);
+            current2[n - 4] = 0;
+        } else if (ext == NULL) {
+            /* current has no extension, so add it for the extra string */
+            current2 = lib_strdup(current);
+            util_add_extension(&current2, "vpl");
+        }
+        /*printf("create_combo_box (%sPaletteFile) current2:'%s'\n", chip_name, current2);*/
+    }
+
+    /* loop over all items in the palette info list, filter out the ones that
+       match the chip we want to get the list for, populate the combo box with
+       names and respective file names */
     row = 0;
     list = palette_get_info_list();
     combo = gtk_combo_box_text_new();
@@ -171,13 +200,21 @@ static GtkWidget *create_combo_box(void)
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                                      list[index].file,
                                      list[index].name);
-            if (g_strcmp0(list[index].file, current) == 0) {
+            /*printf("list[%d].file:%s\n", index, list[index].file);*/
+            /* if file of the current item matches one of the names generated
+               above (from <CHIP>PaletteFile resource), then make it the
+               active item */
+            if ((current && (g_strcmp0(list[index].file, current) == 0)) ||
+                (current2 && (g_strcmp0(list[index].file, current2) == 0))) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(combo), row);
+                /*printf("added in row %d: %s:%s\n", row, current, current2);*/
                 found = TRUE;
             }
             row++;
         }
     }
+
+    lib_free(current2);
 
     /* if we didn't find `current` in the list of VICE palette files, add it as
      * a custom user-defined file */

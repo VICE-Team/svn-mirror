@@ -2623,13 +2623,12 @@ keyboard matrix), and @code{1} specifies that every time the user presses
 emulators.  They are made up of lines like the following:
 
 @example
-RED GREEN BLUE DITHER
+RED GREEN BLUE
 @end example
 
 where @code{RED}, @code{GREEN} and @code{BLUE} are hexadecimal values
 ranging from 0 to FF and specifying the amount of red, green and blue
-you want for each color and @code{DITHER} is a 4-bit hexadecimal number
-specifying the pattern you want when rendering on a B/W display.
+you want for each color.
 
 You have to include as many lines as the number of colors the emulated
 machine has, and the order of the lines must respect the one used in the
@@ -2638,7 +2637,21 @@ machine (so the N'th line must contain the specifications for color N -
 
 Lines starting with the @code{#} sign are completely ignored.  This is
 useful for adding comments (such as color names) within the palette
-file.
+file. That said, it is not the whole truth - there are special comment lines,
+which the user interface uses to identify and refer to palettes:
+
+@example
+# NAME:<NAME>
+@end example
+with <NAME> being the name of the Palette, as shown in the menus.
+
+@example
+# TYPE:<CHIP>
+@end example
+with <CHIP> being one the following: "VIC, VICII, TED, VDC, Crtc"
+
+These special comment lines must appear exactly as shown above, or they will be
+ignored.
 
 For example, the default PET palette file (which has only two colors, 0 for
 background and 1 for foreground), looks like the following:
@@ -2648,14 +2661,16 @@ background and 1 for foreground), looks like the following:
 # VICE Palette file
 #
 # Syntax:
-# Red Green Blue Dither
+# Red Green Blue
 #
+# NAME:Black/White
+# TYPE:Crtc
 
 # Background
-00 00 00 0
+00 00 00
 
 # Foreground
-00 FF 00 F
+00 FF 00
 @end example
 
 @node Romset files, , Palette files, System files

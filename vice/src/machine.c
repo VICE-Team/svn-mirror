@@ -57,6 +57,7 @@
 #include "monitor_network.h"
 #include "monitor_binary.h"
 #include "network.h"
+#include "palette.h"
 #include "printer.h"
 #include "resources.h"
 #include "romset.h"
@@ -372,6 +373,8 @@ void machine_shutdown(void)
         ui_shutdown();
         ui_actions_shutdown();
     }
+
+    palette_shutdown();
 
     sysfile_shutdown();
 
