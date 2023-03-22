@@ -365,20 +365,6 @@ static GtkWidget *create_drive_device_type_widget(int unit)
     combo = vice_gtk3_resource_combo_int_new_sprintf("FileSystemDevice%d",
                                                          device_types,
                                                          unit);
-    /* XXX: Remove all this once xvic supports OpenCBM
-     *
-     * We remove realdrive/OpenCBM here since xvic doesn't work with OpenCBM
-     */
-    if (machine_class == VICE_MACHINE_VIC20) {
-        GtkTreeModel *model;
-        GtkTreeIter   iter;
-
-        model = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
-        if (gtk_tree_model_get_iter_from_string(model, &iter, "2")) {
-            gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
-        }
-    }
-
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_widget_show_all(combo);
     return combo;
