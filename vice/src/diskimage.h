@@ -58,7 +58,7 @@
 #define D9060_FILE_SIZE   (153*4*32*256) /* D90 image, 153 tracks, 32 sectors, 4 heads */
 
 #define DISK_IMAGE_DEVICE_FS   0
-#define DISK_IMAGE_DEVICE_REAL 1
+#define DISK_IMAGE_DEVICE_REAL 1    /* opencbm */
 #define DISK_IMAGE_DEVICE_RAW  2
 
 #ifdef HAVE_X64_IMAGE
@@ -92,7 +92,7 @@ struct disk_image_s {
         struct rawimage_s *rawimage;
     } media;
     unsigned int read_only;
-    unsigned int device;
+    unsigned int device; /* FS/REAL/RAW */
     unsigned int type;
     unsigned int tracks;
     unsigned int sectors; /* for D9090/D9060 */

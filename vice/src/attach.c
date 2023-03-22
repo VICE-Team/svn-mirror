@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_ATTACH
+/* #define DEBUG_ATTACH */
 
 #include "vice.h"
 
@@ -421,9 +421,9 @@ static int set_file_system_device(int val, void *param)
 
     vdrive = file_system_get_vdrive(unit);
 
-   if (vdrive == NULL) {
+    if (vdrive == NULL) {
         /* file_system_set_serial_hooks() requires non-NULL... */
-        DBG(("set_file_system_device: Too early in initialization; unit %u: vdrive is NULL", unit));
+        DBG(("set_file_system_device: Too early in initialization; unit %u: vdrive is NULL (file_system_init not called?)", unit));
         return 0;
     }
 
