@@ -155,6 +155,13 @@ if test x"$CROSS" != "xtrue"; then
     cp $UNZIPBIN $BUILDPATH/bin
     cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
   fi
+
+  # needed eg for OpenCBM
+  if test -f "$MINGW_PREFIX/bin/libusb-1.0.dll"; then
+      cp $MINGW_PREFIX/bin/libusb-1.0.dll $BUILDPATH/bin
+  else
+      echo "WARNING: "$MINGW_PREFIX/bin/libusb-1.0.dll" does not exist."
+  fi
 else
 
 # The following lines assume a cross compiler,

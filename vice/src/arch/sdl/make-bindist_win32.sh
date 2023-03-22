@@ -146,6 +146,14 @@ if test x"$CROSS" != "xtrue"; then
     cp $UNZIPBIN $BINDIST_DIR
     cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BINDIST_DIR
   fi
+
+  # needed eg for OpenCBM
+  if test -f "$MINGW_PREFIX/bin/libusb-1.0.dll"; then
+      cp $MINGW_PREFIX/bin/libusb-1.0.dll $BUILDPATH/bin
+  else
+      echo "WARNING: "$MINGW_PREFIX/bin/libusb-1.0.dll" does not exist."
+  fi
+
 else
   # Assume a cross-builder for Windows here.
   get_dll_deps()
