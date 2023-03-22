@@ -1203,11 +1203,18 @@ OpenCBM library. You can get it from @uref{https://spiro.trikaliotis.net/opencbm
 Make sure to pick the right library (32 or 64bit) for your system. 
 @itemize @bullet
 @item To use it in the emulators, go to the drive tab in the settings and choose
-"IEC Device" and "Real Drive (OpenCBM)". Note that this will not work with all
-emulators right now.
-@item If you want to use OpenCBM with c1541, start it with c1541 /dev/cbm (on Linux).
+either "Virtual Device" or "IEC Device" and "Real Drive (OpenCBM)".
+Note that this will not work with all emulators right now. Also note that using
+the real drives like this provides only very limited compatibility in practise -
+it is recommended to transfer the disks to images and use the images with an
+emulated drive in the emulator.
+@item If you want to use OpenCBM with c1541:
+@itemize @bullet
+@item Use "opencbm" as filename (instead of the disk image name).
+@item With older linux drivers, that provide a device file, use that device
+file as filename (eg /dev/cbm).
 @end itemize
-
+@end itemize
 @end itemize
 
 When using disk images there are two available types of drive
@@ -21906,9 +21913,10 @@ stops and returns a nonzero error code.
 If no @code{COMMAND}s are specified at all, @code{c1541} enters
 interactive mode, where you can type commands manually.  Commands in
 interactive mode are the same as commands in batch mode, but do not
-require a leading @code{-}.  As with the monitor, file name completion
-and command line editing with history are provided via GNU
-@code{readline}.  Use the command @samp{quit} or press @kbd{C-d} to
+require a leading @code{-}.
+
+As with the monitor, file name completion and command line editing with
+history are provided. Use the command @samp{quit} or press @kbd{C-d} to
 exit.
 
 @menu
@@ -22185,6 +22193,7 @@ files in the current directory.
 @c FIXME: add more c1541 examples
 
 @table @code
+
 @item c1541 -attach test.d64 -list
 Attach @code{test.d64} and show directory.
 
@@ -22193,6 +22202,10 @@ Write @code{test.prg} to @code{test.d64} as @code{testfile}.
 
 @item c1541 -format "name,id" d64 disk.d64
 Create a disk image in @code{d64} format, format it with the @code{name} and @code{id} and save it to @code{disk.d64}.
+
+@item c1541 opencbm -list
+Show directory from a 1541 drive connected via OpenCBM.
+
 @end table
 
 @node Cartconv
@@ -35598,7 +35611,8 @@ PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
 (@uref{http://sta.c64.org/sc.html}) on DOS, and OpenCBM
 (@uref{http://www.trikaliotis.net/opencbm}) on Windows and Linux.  And
-no, you cannot read C64 disks with your old 5"1/4 PC drive.
+no, you cannot read C64 disks with your old 5"1/4 PC drive (unless investing in
+a disk drive controller that can do this).
 
 @item
 Please don't ask us where to find games for the emulator on the

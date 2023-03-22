@@ -53,6 +53,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "fsimage.h"
 #include "diskcontents-block.h"
@@ -1044,21 +1045,30 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     disk_image_t *image;
 
     image = disk_image_create();
+    /*printf("open_disk_image name:%s unit:%d\n", name, unit);*/
 
     if (archdep_file_is_blockdev(name)) {
         image->device = DISK_IMAGE_DEVICE_RAW;
         serial_device_type_set(SERIAL_DEVICE_RAW, unit);
         serial_realdevice_disable();
+    } else if (archdep_file_is_chardev(name)) {
+        image->device = DISK_IMAGE_DEVICE_REAL;
+        serial_device_type_set(SERIAL_DEVICE_REAL, unit);
+        serial_realdevice_enable();
+    } else if (strcmp(name, "opencbm") == 0) {
+        /*printf("opencbm name:%s unit:%d\n", name, unit);*/
+        image->device = DISK_IMAGE_DEVICE_REAL;
+        serial_device_type_set(SERIAL_DEVICE_REAL, unit);
+        serial_realdevice_enable();
+        /* FIXME: this will only work with a 1541 drive */
+        image->type = DISK_IMAGE_TYPE_D64;
+        image->tracks = MAX_TRACKS_1541;
+        image->max_half_tracks = MAX_TRACKS_1541 * 2;
+        printf("NOTE: using opencbm is always assuming 1541 disk layout.\n");
     } else {
-        if (archdep_file_is_chardev(name)) {
-            image->device = DISK_IMAGE_DEVICE_REAL;
-            serial_device_type_set(SERIAL_DEVICE_REAL, unit);
-            serial_realdevice_enable();
-        } else {
-            image->device = DISK_IMAGE_DEVICE_FS;
-            serial_device_type_set(SERIAL_DEVICE_FS, unit);
-            serial_realdevice_disable();
-        }
+        image->device = DISK_IMAGE_DEVICE_FS;
+        serial_device_type_set(SERIAL_DEVICE_FS, unit);
+        serial_realdevice_disable();
     }
 
     disk_image_media_create(image);
@@ -1183,8 +1193,10 @@ static int check_drive_ready(int index)
 {
     int status = check_drive_index(index);
     if (status == FD_OK) {
-        if (drives[index] == NULL || drives[index]->image == NULL) {
-            status = FD_NOTREADY;
+        if (drives[index]->image->device == DISK_IMAGE_DEVICE_FS) {
+            if ((drives[index] == NULL) || (drives[index]->image == NULL)) {
+                status = FD_NOTREADY;
+            }
         }
     }
     return status;
@@ -1254,6 +1266,17 @@ static int parse_unit_number(const char *s)
    and then PETSCII -> ASCII again.  */
 
 
+static int use_opencbm(char *name)
+{
+    int n = strlen(name);
+    if (n > 6) {
+        if (strcmp(&name[n - 7], "opencbm") == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /** \brief  'attach' command handler
  *
  * Attach a disk image to a virtual drive.
@@ -1289,7 +1312,11 @@ static int attach_cmd(int nargs, char **args)
             return FD_BADDEV;
     }
 
-    archdep_expand_path(&path, args[1]);
+    if (use_opencbm(args[1])) {
+        path = lib_strdup(args[1]);
+    } else {
+        archdep_expand_path(&path, args[1]);
+    }
     open_disk_image(drives[dev], path, (unsigned int)dev + DRIVE_UNIT_MIN);
     lib_free(path);
     return FD_OK;
@@ -2190,6 +2217,7 @@ static int chain_cmd(int nargs, char **args)
         unsigned char buffer[RAW_BLOCK_SIZE];
 
         printf("(%2u,%2u) -> ", track, sector);
+        fflush(stdout);
 
         /* read sector data */
         err = vdrive_read_sector(vdrive, buffer, track, sector);
@@ -2201,6 +2229,7 @@ static int chain_cmd(int nargs, char **args)
 
         if (link_find(link, track, sector) != NULL) {
             printf("cyclic reference found to (%u,%u)!\n", track, sector);
+            fflush(stdout);
             break;
         }
         link = link_add(link, track, sector);
@@ -3519,6 +3548,7 @@ static int list_cmd(int nargs, char **args)
                     lib_free(string);
                     string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                     printf("%s\n", string);
+                    fflush(stdout);
                 }
                 lib_free(string);
                 lib_free(type);
@@ -3526,6 +3556,7 @@ static int list_cmd(int nargs, char **args)
         }
         if (listing->blocks_free >= 0) {
             printf("%d blocks free.\n", listing->blocks_free);
+            fflush(stdout);
         }
         /* free image contents */
         image_contents_destroy(listing);
@@ -5503,8 +5534,18 @@ static int raw_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive = drives[drive_index];
 
-    if (vdrive == NULL || vdrive->buffers[15].buffer == NULL) {
+    if (vdrive == NULL) {
         return FD_NOTREADY;
+    }
+
+    if (vdrive->image == NULL) {
+        return FD_NOTREADY;
+    }
+
+    if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
+        if (vdrive->buffers[15].buffer == NULL) {
+            return FD_NOTREADY;
+        }
     }
 
     /* Write to the command channel.  */
