@@ -149,10 +149,8 @@ if test x"$CROSS" != "xtrue"; then
 
   # needed eg for OpenCBM
   if test -f "$MINGW_PREFIX/bin/libusb-1.0.dll"; then
-      echo "copying "$MINGW_PREFIX/bin/libusb-1.0.dll" to "$BINDIST_DIR/bin
-      cp $MINGW_PREFIX/bin/libusb-1.0.dll $BINDIST_DIR/bin
-  else
-      echo "WARNING: "$MINGW_PREFIX/bin/libusb-1.0.dll" does not exist."
+      echo "copying "$MINGW_PREFIX/bin/libusb-1.0.dll" to "$BINDIST_DIR
+      cp $MINGW_PREFIX/bin/libusb-1.0.dll $BINDIST_DIR
   fi
 
 else
