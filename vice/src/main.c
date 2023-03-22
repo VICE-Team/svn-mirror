@@ -244,8 +244,9 @@ int main_program(int argc, char **argv)
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
 
-
-    if ((init_resources() < 0) || (init_cmdline_options() < 0)) {
+    /* generic init, first resources, then cmdline options that use them */
+    if ((init_resources() < 0) ||
+        (init_cmdline_options() < 0)) {
         return -1;
     }
 

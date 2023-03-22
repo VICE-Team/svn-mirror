@@ -37,7 +37,7 @@
 #include "log.h"
 #include "dynlib.h"
 
-#define DEBUG_OPENCBM
+/* #define DEBUG_OPENCBM */
 
 #ifdef DEBUG_OPENCBM
 #define LOG(x)  log_debug x
