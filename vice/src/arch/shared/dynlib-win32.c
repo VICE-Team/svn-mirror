@@ -29,6 +29,50 @@
 
 #include "dynlib.h"
 
+static int opencbm_fix_tried = 0;
+
+void opencbm_fix_dll_path(void)
+{
+    HKEY hKey;
+    TCHAR OpenCBM[256];
+    DWORD OpenCBMlen = 256;
+    LONG ret;
+    char *dllpath = NULL;
+    char *dllpath_end = NULL;
+
+    if (opencbm_fix_tried) {
+        return;
+    }
+
+    /* open the opencbm registry key */
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\OpenCBM"), 0, KEY_QUERY_VALUE, &hKey);
+
+    if (ret == ERROR_SUCCESS) {
+        /* get the uninstall string, it contains the path to where opencbm is installed */
+        ret = RegQueryValueEx(hKey, TEXT("UninstallString"), NULL, NULL, (LPBYTE)OpenCBM, &OpenCBMlen);
+        if (ret == ERROR_SUCCESS && OpenCBMlen <= 256) {
+            /* get to the beginning of the path */
+            dllpath = strstr(OpenCBM, "/c ");
+            if (dllpath) {
+                dllpath += 4;
+
+                /* get to the ending of the path */
+                dllpath_end = strstr(dllpath, "\\installer\\uninstall.cmd");
+
+                if (dllpath_end) {
+                    /* put a NULL ending at the correct location, now dllpath has the correct path */
+                    dllpath_end[0] = 0;
+
+                    /* add the path to the dll search path */
+                    SetDllDirectory(dllpath);
+                }
+            }
+        }
+        RegCloseKey(hKey);
+    }
+    opencbm_fix_tried = 1;
+}
+
 void *vice_dynlib_open(const char *name)
 {
     return LoadLibrary(name);
