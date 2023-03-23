@@ -258,6 +258,35 @@ static void sound_machine_close(sound_t *psid)
     }
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+static float *sound_buffer[SOUND_CHIPS_MAX][SOUND_CHIP_CHANNELS_MAX];
+
+static void alloc_sound_buffers(void)
+{
+    int i, j;
+
+    /* allocate all possibly needed buffers */
+    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
+        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
+            sound_buffer[i][j] = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
+        }
+    }
+}
+
+static void free_sound_buffers(void)
+{
+    int i, j;
+
+    /* free all buffers */
+    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
+        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
+            lib_free(sound_buffer[i][j]);
+            sound_buffer[i][j] = NULL;
+        }
+    }
+}
+#endif
+
 /*
     There is some inconsistency about when the buffer should be overwritten and
     when mixed. Usually it's overwritten by SID and other cycle based engines,
@@ -270,42 +299,45 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 {
 /* FIXME: fix mono stream to stereo mixing next */
 #ifdef SOUND_SYSTEM_FLOAT
-    int i, j;
+    int i, j, k;
     int temp;
+    int initial_nr = nr;
+    int first_sound_rendered = 0;
     int sound_channels[SOUND_CHIPS_MAX];
-    float *sound_buffer[SOUND_CHIPS_MAX][SOUND_CHIP_CHANNELS_MAX];
     float *addition_buffer = NULL;
     CLOCK initial_delta_t = *delta_t;
     CLOCK delta_t_for_other_chips;
 
-    /* allocate all possibly needed buffers */
-    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
-        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
-            sound_buffer[i][j] = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
-        }
-    }
-
-    /* get the sound channels of the enabled sound devices */
-    for (i = 0; i < (offset >> 5); i++) {
-        if (sound_calls[i]->chip_enabled) {
-            sound_channels[i] = sound_calls[i]->channels();
-        } else {
-            sound_channels[i] = 0;
-        }
+    /* get all the channel amounts into sound_channels[] */
+    for (i = 1; i < (offset >> 5); i++) {
+        sound_channels[i] = sound_calls[i]->channels();
     }
 
     /* do special treatment of first sound device in case it is cycle based */
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0][0], nr, sound_channels[0], delta_t);
+        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0][0], nr, 0, delta_t);
+        first_sound_rendered = 1;
     } else {
         temp = nr;
+    }
+
+    /* if the first sound device was called, check if it has additional channels and have them render as well */
+    if (first_sound_rendered) {
+        if (sound_channels[0] > 1) {
+            for (j = 1; j < sound_channels[0]; j++) {
+                delta_t_for_other_chips = initial_delta_t;
+                sound_calls[0]->calculate_samples(psid, sound_buffer[0][j], initial_nr, j, &delta_t_for_other_chips);
+            }
+        }
     }
 
     /* have remaining enabled devices calculate their samples */
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
-            delta_t_for_other_chips = initial_delta_t;
-            sound_calls[i]->calculate_samples(psid, sound_buffer[i][0], temp, sound_channels[i], &delta_t_for_other_chips);
+            for (j = 0; j < sound_channels[i]; j++) {
+                delta_t_for_other_chips = initial_delta_t;
+                sound_calls[i]->calculate_samples(psid, sound_buffer[i][j], temp, j, &delta_t_for_other_chips);
+            }
         }
     }
 
@@ -319,7 +351,9 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             addition_buffer[j] = 0.0;
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
-                    addition_buffer[j] += sound_buffer[i][0][j];
+                    for (k = 0; k < sound_channels[i]; k++) {
+                        addition_buffer[j] += sound_buffer[i][k][j];
+                    }
                 }
             }
         }
@@ -332,11 +366,13 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             addition_buffer[j * soc] = 0.0;
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
-                    if (sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume) {
-                        if (sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume == 100) {
-                            addition_buffer[j * soc] += sound_buffer[i][0][j];
-                        } else {
-                            addition_buffer[j * soc] += (sound_buffer[i][0][j] * sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume / 100.0);
+                    for (k = 0; k < sound_channels[i]; k++) {
+                        if (sound_calls[i]->sound_chip_channel_mixing[k].left_channel_volume) {
+                            if (sound_calls[i]->sound_chip_channel_mixing[k].left_channel_volume == 100) {
+                                addition_buffer[j * soc] += sound_buffer[i][k][j];
+                            } else {
+                                addition_buffer[j * soc] += (sound_buffer[i][k][j] * sound_calls[i]->sound_chip_channel_mixing[k].left_channel_volume / 100.0);
+                            }
                         }
                     }
                 }
@@ -346,11 +382,13 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             addition_buffer[(j * soc) + 1] = 0.0;
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
-                    if (sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume) {
-                        if (sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume == 100) {
-                            addition_buffer[(j * soc) + 1] += sound_buffer[i][0][j];
-                        } else {
-                            addition_buffer[(j * soc) + 1] += (sound_buffer[i][0][j] * sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume / 100.0);
+                    for (k = 0; k < sound_channels[i]; k++) {
+                        if (sound_calls[i]->sound_chip_channel_mixing[k].right_channel_volume) {
+                            if (sound_calls[i]->sound_chip_channel_mixing[k].right_channel_volume == 100) {
+                                addition_buffer[(j * soc) + 1] += sound_buffer[i][k][j];
+                            } else {
+                                addition_buffer[(j * soc) + 1] += (sound_buffer[i][k][j] * sound_calls[i]->sound_chip_channel_mixing[k].right_channel_volume / 100.0);
+                            }
                         }
                     }
                 }
@@ -371,16 +409,6 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     /* convert floats to int16_t for output */
     for (j = 0; j < (temp * soc); j++) {
         pbuf[j] = (int16_t)(addition_buffer[j] * 32767.0);
-    }
-
-    /* free buffers */
-    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
-        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
-            if (sound_buffer[i][j]) {
-                lib_free(sound_buffer[i][j]);
-                sound_buffer[i][j] = NULL;
-            }
-        }
     }
 
     /* free addition buffer */
@@ -1146,8 +1174,14 @@ int sound_open(void)
         if (snddata.buffer) {
             lib_free(snddata.buffer);
             snddata.buffer = NULL;
+#ifdef SOUND_SYSTEM_FLOAT
+            free_sound_buffers();
+#endif
         }
         snddata.buffer = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(int16_t));
+#ifdef SOUND_SYSTEM_FLOAT
+        alloc_sound_buffers();
+#endif
         snddata.issuspended = 0;
 
         for (c = 0; c < snddata.sound_output_channels; c++) {
@@ -1260,6 +1294,9 @@ void sound_close(void)
     sound_playdev_reopen = FALSE;
     sound_is_timing_source = FALSE;
 
+#ifdef SOUND_SYSTEM_FLOAT
+    free_sound_buffers();
+#endif
     lib_free(snddata.buffer);
     snddata.buffer = NULL;
     snddata.bufsize = 0;
