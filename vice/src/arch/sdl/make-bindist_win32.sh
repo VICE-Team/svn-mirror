@@ -147,12 +147,6 @@ if test x"$CROSS" != "xtrue"; then
     cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BINDIST_DIR
   fi
 
-  # needed eg for OpenCBM
-  if test -f "$MINGW_PREFIX/bin/libusb-1.0.dll"; then
-      echo "copying "$MINGW_PREFIX/bin/libusb-1.0.dll" to "$BINDIST_DIR
-      cp $MINGW_PREFIX/bin/libusb-1.0.dll $BINDIST_DIR
-  fi
-
 else
   # Assume a cross-builder for Windows here.
   get_dll_deps()

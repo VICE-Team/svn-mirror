@@ -31,7 +31,28 @@
 
 static int opencbm_fix_tried = 0;
 
-void opencbm_fix_dll_path(void)
+/*
+    HACK HACK:
+
+    The original opencbm.dll (tested with 0.4.99.104) did, for some reason,
+    under certain conditions, not find the libusb-1.0.dll that it required
+    to work with zoomfloppy/xum1541.
+    The problem seems to be this:
+    a) on a "virgin" windows system, after "opencbm" was installed as
+       documented ("install xum1541"), including answering yes to "install the
+       USB driver?", the following files have been copied into the system:
+       %windows%\System32\opencbm.dll
+       %windows%\System32\opencbm-xum1541.dll
+       %programmfiles%\opencbm\opencbm.dll
+       %programmfiles%\opencbm\opencbm-xum1541.dll
+       %programmfiles%\opencbm\libusb-1.0.dll
+    b) When VICE opens opencbm.dll, the "%programmfiles%\opencbm" directory
+       is not searched. The result is that it can not find libusb-1.0.dll
+    To work around the problem, we look up the uninstall path for "opencbm" in
+    the registry, which gives us the path where libusb-1.0.dll can be found,
+    and we add this to the dll search path.
+ */
+void archdep_opencbm_fix_dll_path(void)
 {
     HKEY hKey;
     TCHAR OpenCBM[256];
