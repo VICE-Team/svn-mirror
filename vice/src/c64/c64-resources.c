@@ -179,15 +179,23 @@ static int set_cia2_model(int val, void *param)
 }
 
 #define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
-static int trapfl[NUM_TRAP_DEVICES];
-static int trapdevices[NUM_TRAP_DEVICES + 1] = { 1, 4, 5, 6, 7, 8, 9, 10, 11, -1 };
+static const int trapdevices[NUM_TRAP_DEVICES + 1] = { 1, 4, 5, 6, 7, 8, 9, 10, 11, -1 };
 
-static void get_trapflags(void)
+static unsigned int get_trapflags(void)
 {
     int i;
+    /*int val = 0;*/
+    int ret = 0;
+    int trapfl;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("VirtualDevice%d", &trapfl, trapdevices[i]);
+        /*val |= trapfl;*/
+        if (trapfl) {
+            ret |= (1 << i);
+        }
     }
+    /*printf("get_trapflags(%d)\n", val);*/
+    return ret;
 }
 
 static void clear_trapflags(void)
@@ -196,14 +204,20 @@ static void clear_trapflags(void)
     for(i = 0; trapdevices[i] != -1; i++) {
         resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
     }
+    /*printf("clear_trapflags\n");*/
 }
 
-static void restore_trapflags(void)
+static void restore_trapflags(unsigned int flags)
 {
     int i;
+    /*int val = 0;*/
+    int trapfl;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        trapfl = (flags & (1 << i)) ? 1 : 0;
+        resources_set_int_sprintf("VirtualDevice%d", trapfl, trapdevices[i]);
+        /*val |= trapfl;*/
     }
+    /*printf("restore_trapflags(%d)\n", val);*/
 }
 
 struct kernal_s {
@@ -228,17 +242,22 @@ static int set_kernal_revision(int val, void *param)
 {
     int n = 0, rev = C64_KERNAL_UNKNOWN;
     const char *name = NULL;
-    log_verbose("set_kernal_revision was kernal_revision: %d new val:%d", kernal_revision, val);
+    int flags;
 
+    log_verbose("set_kernal_revision(val:%d) was kernal_revision: %d", val, kernal_revision);
+
+    flags = get_trapflags();
+
+    /* if the new type is "unknown", only remove the traps */
     if (val == C64_KERNAL_UNKNOWN) {
-        if(!c64rom_isloaded()) {
+        if(c64rom_isloaded()) {
             /* disable device traps before kernal patching */
             if (machine_class != VICE_MACHINE_VSID) {
-                get_trapflags();
                 clear_trapflags();
             }
         }
         kernal_revision = C64_KERNAL_UNKNOWN;
+        restore_trapflags(flags);
         return 0;
     }
 
@@ -256,10 +275,9 @@ static int set_kernal_revision(int val, void *param)
         return -1;
     }
 
-    if(!c64rom_isloaded()) {
+    if(c64rom_isloaded()) {
         /* disable device traps before kernal patching */
         if (machine_class != VICE_MACHINE_VSID) {
-            get_trapflags();
             clear_trapflags();
         }
     }
@@ -268,6 +286,7 @@ static int set_kernal_revision(int val, void *param)
 
     if (resources_set_string("KernalName", name) < 0) {
         log_error(LOG_DEFAULT, "failed to set kernal name (%s)", name);
+        restore_trapflags(flags);
         return -1;
     }
 
@@ -278,7 +297,7 @@ static int set_kernal_revision(int val, void *param)
     }
     /* restore traps */
     if (machine_class != VICE_MACHINE_VSID) {
-        restore_trapflags();
+        restore_trapflags(flags);
     }
     kernal_revision = rev;
     log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
