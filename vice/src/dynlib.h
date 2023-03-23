@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+void opencbm_fix_dll_path(void);
+
 void *vice_dynlib_open(const char *name);
 void *vice_dynlib_symbol(void *handle, const char *name);
 char *vice_dynlib_error(void);

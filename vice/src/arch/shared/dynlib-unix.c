@@ -81,3 +81,8 @@ int vice_dynlib_close(void *handle)
 }
 
 #endif
+
+/* stub for windows opencbm libusb dll path fix */
+void opencbm_fix_dll_path(void)
+{
+}
