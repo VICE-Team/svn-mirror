@@ -384,7 +384,7 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, flo
     int i;
     int16_t *buffer;
 
-    buffer = lib_malloc(nr * 2);
+    buffer = lib_malloc(nr * sizeof(int16_t));
 
     if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         ym3812_update_one(YM3812_chip, buffer, nr);
