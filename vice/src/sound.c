@@ -301,8 +301,9 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 {
 /* FIXME: fix mono stream to stereo mixing next */
 #ifdef SOUND_SYSTEM_FLOAT
-    int i, j;
+    int i, j, k;
     int temp;
+    int primary_sound_rendered = 0;
     int sound_channels[SOUND_CHIPS_MAX];
     float *addition_buffer = NULL;
     CLOCK initial_delta_t = *delta_t;
@@ -320,8 +321,19 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     /* do special treatment of first sound device in case it is cycle based */
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
         temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0][0], nr, 0, delta_t);
+        primary_sound_rendered = 1;
     } else {
         temp = nr;
+    }
+
+    /* check if the first sound device has multiple channels, and render them if needed */
+    if (primary_sound_rendered) {
+        if (sound_channels[0] > 1) {
+            for (k = 1; k < sound_channels[0]; k++) {
+                delta_t_for_other_chips = initial_delta_t;
+                sound_calls[0]->calculate_samples(psid, sound_buffer[0][k], nr, k, &delta_t_for_other_chips);
+            }
+        }
     }
 
     /* have remaining enabled devices calculate their samples */
@@ -343,6 +355,11 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
             for (i = 0; i < (offset >> 5); i++) {
                 if (sound_calls[i]->chip_enabled) {
                     addition_buffer[j] += sound_buffer[i][0][j];
+                    if (sound_channels[i] > 1) {
+                        for (k = 1; k < sound_channels[i]; k++) {
+                            addition_buffer[j] += sound_buffer[i][k][j];
+                        }
+                    }
                 }
             }
         }
@@ -362,6 +379,15 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
                             addition_buffer[j * soc] += (sound_buffer[i][0][j] * sound_calls[i]->sound_chip_channel_mixing[0].left_channel_volume / 100.0);
                         }
                     }
+                    if (sound_channels[i] > 1) {
+                        for (k = 1; k < sound_channels[i]; k++) {
+                            if (sound_calls[i]->sound_chip_channel_mixing[k].left_channel_volume == 100) {
+                                addition_buffer[j * soc] += sound_buffer[i][k][j];
+                            } else {
+                                addition_buffer[j * soc] += (sound_buffer[i][k][j] * sound_calls[i]->sound_chip_channel_mixing[k].left_channel_volume / 100.0);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -374,6 +400,15 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
                             addition_buffer[(j * soc) + 1] += sound_buffer[i][0][j];
                         } else {
                             addition_buffer[(j * soc) + 1] += (sound_buffer[i][0][j] * sound_calls[i]->sound_chip_channel_mixing[0].right_channel_volume / 100.0);
+                        }
+                    }
+                    if (sound_channels[i] > 1) {
+                        for (k = 1; k < sound_channels[i]; k++) {
+                            if (sound_calls[i]->sound_chip_channel_mixing[k].right_channel_volume == 100) {
+                                addition_buffer[(j * soc) + 1] += sound_buffer[i][k][j];
+                            } else {
+                                addition_buffer[(j * soc) + 1] += (sound_buffer[i][k][j] * sound_calls[i]->sound_chip_channel_mixing[k].right_channel_volume / 100.0);
+                            }
                         }
                     }
                 }
