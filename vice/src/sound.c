@@ -319,7 +319,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 
     /* do special treatment of first sound device in case it is cycle based */
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0][0], nr, sound_channels[0], delta_t);
+        temp = sound_calls[0]->calculate_samples(psid, sound_buffer[0][0], nr, 0, delta_t);
     } else {
         temp = nr;
     }
@@ -328,7 +328,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
             delta_t_for_other_chips = initial_delta_t;
-            sound_calls[i]->calculate_samples(psid, sound_buffer[i][0], temp, sound_channels[i], &delta_t_for_other_chips);
+            sound_calls[i]->calculate_samples(psid, sound_buffer[i][0], temp, 0, &delta_t_for_other_chips);
         }
     }
 

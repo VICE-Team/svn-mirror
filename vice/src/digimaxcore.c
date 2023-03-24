@@ -108,10 +108,8 @@ static struct digimax_sound_s snd;
 /* FIXME: fix this for multichannel output */
 static int digimax_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int nr, int scc, CLOCK *delta_t)
 {
-    sound_dac_calculate_samples(&digimax_dac[0], pbuf, (int)snd.voice[0] * 64, nr);
-    sound_dac_calculate_samples(&digimax_dac[1], pbuf, (int)snd.voice[1] * 64, nr);
-    sound_dac_calculate_samples(&digimax_dac[2], pbuf, (int)snd.voice[2] * 64, nr);
-    sound_dac_calculate_samples(&digimax_dac[3], pbuf, (int)snd.voice[3] * 64, nr);
+    sound_dac_calculate_samples(&digimax_dac[scc], pbuf, (int)snd.voice[scc] * 64, nr);
+
     return nr;
 }
 #else
