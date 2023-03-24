@@ -284,10 +284,10 @@ int shortbus_digimax_write_snapshot_module(snapshot_t *s)
     if (0
         || SMW_DW(m, (uint32_t)shortbus_digimax_address) < 0
         || SMW_BA(m, digimax_sound_data, 4) < 0
-        || SMW_B(m, snd.voice0) < 0
-        || SMW_B(m, snd.voice1) < 0
-        || SMW_B(m, snd.voice2) < 0
-        || SMW_B(m, snd.voice3) < 0) {
+        || SMW_B(m, snd.voice[0]) < 0
+        || SMW_B(m, snd.voice[1]) < 0
+        || SMW_B(m, snd.voice[2]) < 0
+        || SMW_B(m, snd.voice[3]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -316,10 +316,10 @@ int shortbus_digimax_read_snapshot_module(snapshot_t *s)
     if (0
         || SMR_DW_INT(m, &temp_digimax_address) < 0
         || SMR_BA(m, digimax_sound_data, 4) < 0
-        || SMR_B(m, &snd.voice0) < 0
-        || SMR_B(m, &snd.voice1) < 0
-        || SMR_B(m, &snd.voice2) < 0
-        || SMR_B(m, &snd.voice3) < 0) {
+        || SMR_B(m, &snd.voice[0]) < 0
+        || SMR_B(m, &snd.voice[1]) < 0
+        || SMR_B(m, &snd.voice[2]) < 0
+        || SMR_B(m, &snd.voice[3]) < 0) {
         goto fail;
     }
 

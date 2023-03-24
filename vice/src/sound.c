@@ -258,6 +258,37 @@ static void sound_machine_close(sound_t *psid)
     }
 }
 
+#ifdef SOUND_SYSTEM_FLOAT
+static float *sound_buffer[SOUND_CHIPS_MAX][SOUND_CHIP_CHANNELS_MAX];
+
+static void free_sound_buffers(void)
+{
+    int i, j;
+
+    /* free buffers */
+    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
+        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
+            if (sound_buffer[i][j]) {
+                lib_free(sound_buffer[i][j]);
+                sound_buffer[i][j] = NULL;
+            }
+        }
+    }
+}
+
+static void malloc_sound_buffers(int size)
+{
+    int i, j;
+
+    /* allocate all possibly needed buffers */
+    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
+        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
+            sound_buffer[i][j] = lib_malloc(size);
+        }
+    }
+}
+#endif
+
 /*
     There is some inconsistency about when the buffer should be overwritten and
     when mixed. Usually it's overwritten by SID and other cycle based engines,
@@ -273,17 +304,9 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     int i, j;
     int temp;
     int sound_channels[SOUND_CHIPS_MAX];
-    float *sound_buffer[SOUND_CHIPS_MAX][SOUND_CHIP_CHANNELS_MAX];
     float *addition_buffer = NULL;
     CLOCK initial_delta_t = *delta_t;
     CLOCK delta_t_for_other_chips;
-
-    /* allocate all possibly needed buffers */
-    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
-        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
-            sound_buffer[i][j] = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
-        }
-    }
 
     /* get the sound channels of the enabled sound devices */
     for (i = 0; i < (offset >> 5); i++) {
@@ -371,16 +394,6 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
     /* convert floats to int16_t for output */
     for (j = 0; j < (temp * soc); j++) {
         pbuf[j] = (int16_t)(addition_buffer[j] * 32767.0);
-    }
-
-    /* free buffers */
-    for (i = 0; i < SOUND_CHIPS_MAX; i++) {
-        for (j = 0; j < SOUND_CHIP_CHANNELS_MAX; j++) {
-            if (sound_buffer[i][j]) {
-                lib_free(sound_buffer[i][j]);
-                sound_buffer[i][j] = NULL;
-            }
-        }
     }
 
     /* free addition buffer */
@@ -1146,8 +1159,14 @@ int sound_open(void)
         if (snddata.buffer) {
             lib_free(snddata.buffer);
             snddata.buffer = NULL;
+#ifdef SOUND_SYSTEM_FLOAT
+            free_sound_buffers();
+#endif
         }
         snddata.buffer = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(int16_t));
+#ifdef SOUND_SYSTEM_FLOAT
+        malloc_sound_buffers(snddata.bufsize * snddata.sound_output_channels * sizeof(float));
+#endif
         snddata.issuspended = 0;
 
         for (c = 0; c < snddata.sound_output_channels; c++) {
@@ -1260,6 +1279,9 @@ void sound_close(void)
     sound_playdev_reopen = FALSE;
     sound_is_timing_source = FALSE;
 
+#ifdef SOUND_SYSTEM_FLOAT
+    free_sound_buffers();
+#endif
     lib_free(snddata.buffer);
     snddata.buffer = NULL;
     snddata.bufsize = 0;
