@@ -1,7 +1,7 @@
 /** \file   uiactions.c
- * \brief   UI action names and descriptions
+ * \brief   UI actions interface
  *
- * Provides names and descriptions for UI actions.
+ * System to handle UI actions in an OS/UI-agnostic way.
  *
  * Used by menu structs, hotkeys and joystick mappings. There will be no Doxygen
  * docblocks for most of the defines, since they're self-explanatory. And
