@@ -47,6 +47,8 @@
 #include "via1d1541.h"
 #include "via4000.h"
 #include "viad.h"
+#include "pc8477.h"
+#include "wd1770.h"
 #include "cmdhd.h"
 
 static drive_read_func_t *read_tab_watch[0x101];
@@ -254,20 +256,20 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_1571CR:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context, IO_MIRROR_NONE);
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context, IO_MIRROR_NONE);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, wd1770d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1571_dump, context, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_1581:
             mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1581_dump, context, IO_MIRROR_NONE);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, wd1770d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_2000:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context, IO_MIRROR_NONE);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, pc8477d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_4000:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context, IO_MIRROR_NONE);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, pc8477d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_CMDHD:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8000, 0x800f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via10, IO_MIRROR_NONE);

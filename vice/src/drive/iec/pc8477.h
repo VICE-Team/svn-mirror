@@ -42,6 +42,8 @@ void pc8477_setup_context(struct diskunit_context_s *drv);
 void pc8477d_store(struct diskunit_context_s *drv, uint16_t addr, uint8_t byte);
 uint8_t pc8477d_read(struct diskunit_context_s *drv, uint16_t addr);
 uint8_t pc8477d_peek(struct diskunit_context_s *drv, uint16_t addr);
+void pc8477d_dump(struct diskunit_context_s *drv);
+
 void pc8477_reset(pc8477_t *drv, int is8477);
 int pc8477_irq(pc8477_t *drv);
 

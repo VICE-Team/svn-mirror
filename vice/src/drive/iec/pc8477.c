@@ -39,6 +39,7 @@
 #include "alarm.h"
 #include "drivesync.h"
 #include "fdd.h"
+#include "monitor.h"
 
 /* #define PC8477_DEBUG */
 
@@ -1229,6 +1230,19 @@ static uint8_t pc8477_peek(pc8477_t *drv, uint16_t addr)
             break;
     }
     return result;
+}
+
+void pc8477d_dump(diskunit_context_t *ctx)
+{
+    int i;
+    pc8477_t *drv = ctx->pc8477;
+    mon_out("Type: %s\n", drv->is8477 ? "pc8477" : "dp8473");
+    mon_out("Rate: %dkHz\n", drv->rate);
+    for (i = 0; i < 4; i++) {
+        mon_out("FDD #%d:\n", i);
+        mon_out(" Track:%d (seeking:%s)\n", drv->fdds[i].track, drv->fdds[i].seeking ? "yes" : "no");
+        mon_out(" Motor:%s\n", drv->fdds[i].motor_on_out ? "on" : "off");
+    }
 }
 
 void pc8477_reset(pc8477_t *drv, int is8477)

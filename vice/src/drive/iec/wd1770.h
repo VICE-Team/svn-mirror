@@ -45,7 +45,10 @@ int wd1770_disk_change(wd1770_t *drv);
 void wd1770d_store(struct diskunit_context_s *drv, uint16_t addr, uint8_t byte);
 uint8_t wd1770d_read(struct diskunit_context_s *drv, uint16_t addr);
 uint8_t wd1770d_peek(struct diskunit_context_s *drv, uint16_t addr);
+void wd1770d_dump(struct diskunit_context_s *drv);
+
 void wd1770_reset(wd1770_t *drv);
+
 void wd1770_set_side(wd1770_t *drv, int side);
 void wd1770_set_motor(wd1770_t *drv, int on);
 

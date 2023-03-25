@@ -37,6 +37,7 @@
 #include "wd1770.h"
 #include "fdd.h"
 #include "lib.h"
+#include "monitor.h"
 #include "snapshot.h"
 
 /* FIXME: msvc sux at var arg defines */
@@ -918,6 +919,13 @@ static uint8_t wd1770_peek(wd1770_t *drv, uint16_t addr)
             return drv->data;
     }
     return 0;
+}
+
+void wd1770d_dump(diskunit_context_t *ctx)
+{
+    wd1770_t *drv = ctx->wd1770;
+    mon_out("Track:%d Sector:%d\n", drv->track, drv->sector);
+    mon_out("Status:$%02x Data:$%02x\n", drv->status, drv->data);
 }
 
 void wd1770_reset(wd1770_t *drv)
