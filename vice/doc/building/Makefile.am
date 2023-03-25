@@ -13,5 +13,6 @@ BUILDING_DOX = \
 	GTK3-Fedora-cross-build-setup.md \
 	NetBSD-howto.txt
 
-dist_doc_DATA = $(BUILDING_DOX)
+dist_doc_DATA =
 
+EXTRA_DIST = $(BUILDING_DOX)
