@@ -775,7 +775,7 @@ static ui_action_map_t *find_action_map(int action)
  */
 void ui_actions_init(void)
 {
-#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
+#if defined(USE_GTK3UI) || defined(USE_SDLUI) || defined(USE_SDL2UI)
     action_mappings_size = 64;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
@@ -802,7 +802,7 @@ void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
  */
 void ui_actions_shutdown(void)
 {
-#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
+#if defined(USE_GTK3UI) || defined(USE_SDLUI) || defined(USE_SDL2UI)
     if (action_mappings != NULL) {
         lib_free(action_mappings);
         action_mappings = NULL;
