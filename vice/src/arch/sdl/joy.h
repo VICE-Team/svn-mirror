@@ -52,6 +52,7 @@ ui_menu_action_t sdljoy_autorepeat(void);
 void sdljoy_autorepeat_init(void);
 uint8_t sdljoy_check_axis_movement(SDL_Event e);
 uint8_t sdljoy_check_hat_movement(SDL_Event e);
+void sdljoy_set_keypress(SDL_Event e, int row, int col);
 void sdljoy_set_joystick(SDL_Event e, int bits);
 void sdljoy_set_extra(SDL_Event e, int type);
 void sdljoy_unset(SDL_Event e);

@@ -2635,10 +2635,20 @@ void register_joystick_driver(
         new_joystick_device->button_mapping[n].value.joy_pin = 64;
         n++;
     }
-    if (num_buttons > n) {
-        for ( ; n < num_buttons; n++) {
-            new_joystick_device->button_mapping[n].action = JOYSTICK;
-            new_joystick_device->button_mapping[n].value.joy_pin = 16;
+    for ( ; n < num_buttons; n++) {
+        switch (n & 3) {
+            case 0:
+            case 3:
+            default:
+                new_joystick_device->button_mapping[n].action = JOYSTICK;
+                new_joystick_device->button_mapping[n].value.joy_pin = 16;
+                break;
+            case 1:
+                new_joystick_device->button_mapping[n].action = UI_ACTIVATE;
+                break;
+            case 2:
+                new_joystick_device->button_mapping[n].action = MAP;
+                break;
         }
     }
     memset(gtkjoy_pins, 0, sizeof(int) * JOYPORT_MAX_PORTS * JOYPORT_MAX_PINS);
