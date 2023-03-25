@@ -45,12 +45,10 @@ void riot1_init(struct diskunit_context_s *ctxptr);
 void riot1_store(struct diskunit_context_s *ctxptr, uint16_t addr, uint8_t byte);
 uint8_t riot1_read(struct diskunit_context_s *ctxptr, uint16_t addr);
 uint8_t riot1_peek(struct diskunit_context_s *ctxptr, uint16_t addr);
-int riot1_dump(struct diskunit_context_s *ctxptr, uint16_t addr);
 
 void riot2_init(struct diskunit_context_s *ctxptr);
 void riot2_store(struct diskunit_context_s *ctxptr, uint16_t addr, uint8_t byte);
 uint8_t riot2_read(struct diskunit_context_s *ctxptr, uint16_t addr);
 uint8_t riot2_peek(struct diskunit_context_s *ctxptr, uint16_t addr);
-int riot2_dump(struct diskunit_context_s *ctxptr, uint16_t addr);
 
 #endif

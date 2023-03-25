@@ -41,7 +41,7 @@
 #include "machine-drive.h"
 #include "mem.h"
 #include "monitor.h"
-#include "riotd.h"
+#include "riot.h"
 #include "tpid.h"
 #include "types.h"
 #include "via1d1541.h"
@@ -281,8 +281,8 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
         case DRIVE_TYPE_9000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, riot1_dump, context, IO_MIRROR_NONE);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, riot2_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, riotcore_dump, ((diskunit_context_t *)context)->riot1, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, riotcore_dump, ((diskunit_context_t *)context)->riot2, IO_MIRROR_NONE);
             break;
         default:
             log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%u'.", type);
