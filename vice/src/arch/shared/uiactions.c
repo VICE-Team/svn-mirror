@@ -788,9 +788,9 @@ void ui_actions_init(void)
 
 /** \brief  Set UI-specific function to dispatch UI action handlers
  *
- * \param[in]   dispatch    function to call with an action handler as its
- *                          argument to have the UI actually invoke the handler
- *                          on the proper thread
+ * \param[in]   dispatch    function to call with an action map as its argument
+ *                          to have the UI actually invoke the handler on the
+ *                          proper thread
  */
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
 {
@@ -865,15 +865,11 @@ void ui_actions_register(const ui_action_map_t *mappings)
 
 /** \brief  Trigger a UI action
  *
- * Calls the action's handler if conditions are met.
+ * Calls the action dispatch handler if conditions are met.
  *
  * If an action is marked as a dialog then it will only be triggered when there
  * is no other dialog active. If an action is marked as blocking i will only be
- * triggered when it isn't marked as busy. If an action is either marked as a
- * dialog or as an action that needs the UI thread then it will be dispatched
- * to the UI's dispatcher to push the handler onto the UI thread, if not the
- * action is executed directly, meaning it runs on the thread that invoked this
- * function.
+ * triggered when it isn't marked as busy.
  *
  * \param[in]   action  action ID
  *
@@ -908,14 +904,8 @@ void ui_action_trigger(int action)
             dialog_active = true;
         }
 
-        /* dispatch to UI? */
-        if (map->uithread || map->dialog) {
-            /* yes, call the UI-specific dispatcher */
-            dispatch_handler(map);
-        } else {
-            /* no, call directly without pushing onto the UI thread */
-            map->handler();
-        }
+        /* pass to dispatch handler */
+        dispatch_handler(map);
     } else {
         log_error(LOG_ERR, "no handler for action %d\n", action);
     }

@@ -1102,11 +1102,15 @@ static gboolean ui_action_dispatch_impl(gpointer data)
  */
 static void ui_action_dispatch(const ui_action_map_t *map)
 {
-    if (mainlock_is_vice_thread()) {
-        /* we're on the main thread, push to UI thread */
-        gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
+    if (map->uithread || map->dialog) {
+        if (mainlock_is_vice_thread()) {
+            /* we're on the main thread, push to UI thread */
+            gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
+        } else {
+            /* we're already on the UI thread */
+            map->handler();
+        }
     } else {
-        /* we're already on the UI thread */
         map->handler();
     }
 }
