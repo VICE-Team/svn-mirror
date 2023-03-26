@@ -301,15 +301,17 @@ static float pet_makesample(void)
          * as the sample. */
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample.
+         * A high-pass filter is like taking the signal and subtracting lower
+         * frequencies, i.e. subtracting a low-pass version of the signal.
+         * That's why the code for both looks so similar! Just this subtract is extra.
+         */
+        sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
-# if HIGHPASS
-        /* Subtract highpass value here, so it gets scaled with the
-         * already low-passed sample. */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
 
@@ -339,15 +341,17 @@ static sample_t pet_makesample(void)
          * as the sample. */
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample.
+         * A high-pass filter is like taking the signal and subtracting lower
+         * frequencies, i.e. subtracting a low-pass version of the signal.
+         * That's why the code for both looks so similar! Just this subtract is extra.
+         */
+        sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
-# if HIGHPASS
-        /* Subtract highpass value here, so it gets scaled with the
-         * already low-passed sample. */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
 
