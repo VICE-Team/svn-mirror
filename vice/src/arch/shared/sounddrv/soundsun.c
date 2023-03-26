@@ -168,7 +168,7 @@ static int sun_write(int16_t *pbuf, size_t nr)
         }
         total = nr;
     } else {
-        total = nr * sizeof(int16_t) * sun_channels;
+        total = nr * sizeof(int16_t);
     }
     for (i = 0; i < total; i += now)
     {
