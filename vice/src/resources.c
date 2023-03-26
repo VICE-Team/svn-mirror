@@ -534,11 +534,15 @@ int resources_set_value(const char *name, resource_value_t value)
         return -1;
     }
 
-    if (r->event_relevant == RES_EVENT_STRICT
-        && network_get_mode() != NETWORK_IDLE) {
+    /* if netplay is not idle, and resource is tagged RES_EVENT_STRICT,
+       it can not be changed at all */
+    if ((r->event_relevant == RES_EVENT_STRICT) &&
+        (network_get_mode() != NETWORK_IDLE)) {
         return -2;
     }
 
+    /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
+       record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
         resource_record_event(r, value);
         return 0;
@@ -597,10 +601,15 @@ int resources_set_int(const char *name, int value)
         return -1;
     }
 
-    if (r->event_relevant == RES_EVENT_STRICT && network_get_mode() != NETWORK_IDLE) {
+    /* if netplay is not idle, and resource is tagged RES_EVENT_STRICT,
+       it can not be changed at all */
+    if ((r->event_relevant == RES_EVENT_STRICT) &&
+        (network_get_mode() != NETWORK_IDLE)) {
         return -2;
     }
 
+    /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
+       record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
         resource_record_event(r, uint_to_void_ptr(value));
         return 0;
@@ -620,10 +629,15 @@ int resources_set_string(const char *name, const char *value)
         return -1;
     }
 
-    if (r->event_relevant == RES_EVENT_STRICT && network_get_mode() != NETWORK_IDLE) {
+    /* if netplay is not idle, and resource is tagged RES_EVENT_STRICT,
+       it can not be changed at all */
+    if ((r->event_relevant == RES_EVENT_STRICT) &&
+        (network_get_mode() != NETWORK_IDLE)) {
         return -2;
     }
 
+    /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
+       record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
         resource_record_event(r, (resource_value_t)value);
         return 0;
@@ -961,6 +975,7 @@ int resources_set_defaults(void)
     return 0;
 }
 
+/* set resources tagged RES_EVENT_STRICT to their event_strict_value */
 int resources_set_event_safe(void)
 {
     unsigned int i;
@@ -996,6 +1011,9 @@ int resources_set_event_safe(void)
     return 0;
 }
 
+/* get list of event safe resources (tagged with RES_EVENT_SAME) - these need
+   to be the same on server and client during netplay, and are sent to the client
+   by the server when netplay is initiated */
 void resources_get_event_safe_list(event_list_state_t *list)
 {
     unsigned int i;
@@ -1029,7 +1047,10 @@ int resources_toggle(const char *name, int *new_value_return)
 
     value = !(*(int *)r->value_ptr);
 
-    if (r->event_relevant == RES_EVENT_STRICT && network_get_mode() != NETWORK_IDLE) {
+    /* if netplay is not idle, and resource is tagged RES_EVENT_STRICT,
+       it can not be changed at all */
+    if ((r->event_relevant == RES_EVENT_STRICT) &&
+        (network_get_mode() != NETWORK_IDLE)) {
         return -2;
     }
 
@@ -1037,6 +1058,8 @@ int resources_toggle(const char *name, int *new_value_return)
         *new_value_return = value;
     }
 
+    /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
+       record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
         resource_record_event(r, uint_to_void_ptr(value));
         return 0;
