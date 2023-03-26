@@ -41,6 +41,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "types.h"
+#include "util.h"
 
 /* #define DEBUG_PRINTER */
 
@@ -127,6 +128,37 @@ static void output_graphics_line_data(screenshot_t *screenshot, uint8_t *data,
 
 /* ------------------------------------------------------------------------- */
 
+/* when creating a filename for a new file, check if that file already exists,
+   and if yes, skip that file and try the next one */
+static int advance_outfile_name(unsigned int prnr)
+{
+    output_gfx_t *o = &(output_gfx[prnr]);
+    int i;
+    char *testname = util_concat(o->filename, ".", o->gfxoutputdrv->default_extension, NULL);
+
+    while (util_file_exists(testname)) {
+        /* increase page count in filename */
+        i = (int)strlen(o->filename);
+        o->filename[i - 1]++;
+        if (o->filename[i - 1] > '9') {
+            o->filename[i - 1] = '0';
+            o->filename[i - 2]++;
+            if (o->filename[i - 2] > '9') {
+                o->filename[i - 2] = '0';
+                o->filename[i - 3]++;
+                if (o->filename[i - 3] > '9') {
+                    lib_free(testname);
+                    return -1;
+                }
+            }
+        }
+        lib_free(testname);
+        testname = util_concat(o->filename, ".", o->gfxoutputdrv->default_extension, NULL);
+    }
+    lib_free(testname);
+    return 0;
+}
+
 static int output_graphics_open(unsigned int prnr,
                                 output_parameter_t *output_parameter)
 {
@@ -159,8 +191,12 @@ static int output_graphics_open(unsigned int prnr,
     if (output_gfx[prnr].filename != NULL) {
         lib_free(output_gfx[prnr].filename);
     }
-    output_gfx[prnr].filename = lib_malloc(strlen(filename) + 3);
-    sprintf(output_gfx[prnr].filename, "%s00", filename);
+
+    /* add 000 after the filename */
+    output_gfx[prnr].filename = util_concat(filename, "000", NULL);
+    if (advance_outfile_name(prnr) < 0) {
+        return -1;
+    }
 
     output_gfx[prnr].screenshot.width = output_parameter->maxcol;
     output_gfx[prnr].screenshot.height = output_parameter->maxrow;
@@ -214,16 +250,9 @@ static int output_graphics_putc(unsigned int prnr, uint8_t b)
     if (b == OUTPUT_NEWLINE) {
         /* if output is not open yet, open it now */
         if (!o->isopen) {
-            int i;
-
-            /* increase page count in filename */
-            i = (int)strlen(o->filename);
-            o->filename[i - 1]++;
-            if (o->filename[i - 1] > '9') {
-                o->filename[i - 1] = '0';
-                o->filename[i - 2]++;
+            if (advance_outfile_name(prnr) < 0) {
+                return -1;
             }
-
             /* open output file */
             o->gfxoutputdrv->open(&o->screenshot, o->filename);
             o->isopen = 1;
