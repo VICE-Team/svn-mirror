@@ -114,7 +114,7 @@ static sound_chip_t pet_sound_chip = {
 #ifdef SOUND_SYSTEM_FLOAT
     .sound_chip_channel_mixing = pet_sound_mixing_spec, /* stereo mixing placement specs */
 #endif
-    .chip_enabled = false,                              /* chip is enabled after init */
+    .chip_enabled = true,                               /* chip is always enabled */
 };
 
 static uint16_t pet_sound_chip_offset = 0;
@@ -173,12 +173,13 @@ void machine_sid2_enable(int val)
 }
 
 struct pet_sound_s {
-    bool on;            /* are we even making sound? */
 
-    int speed;          /* sample rate * 100 / speed_percent */
-    int cycles_per_sec;
+    int speed;                  /* sample rate * 100 / speed_percent */
+    int32_t cycles_per_sec;     /* around 1 000 000 */
 
-    bool manual;        /* 1 if CB2 set to manual control "high", 0 otherwise */
+    bool on;                    /* are we even making sound? */
+    bool manual;                /* 1 if CB2 set to manual control "high", 0 otherwise */
+    bool initialized;           /* has pet_sound_machine_init() been called? */
 
     CLOCK next_sample_time;     /* start time of sample under construction */
     CLOCK end_of_sample_time;   /* end time of same */
@@ -207,6 +208,7 @@ struct pet_sound_s {
 static struct pet_sound_s snd = {
     .speed = 48000,
     .on = false,
+    .initialized = false,
     .clocks_per_sample = 20,
 };
 
@@ -410,7 +412,7 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, i
  */
 void petsound_store_onoff(bool value)
 {
-    if (pet_sound_chip.chip_enabled) {
+    if (snd.initialized) {
         create_intermediate_samples(maincpu_clk);
     }
 
@@ -455,7 +457,7 @@ void petsound_store_manual(bool value, CLOCK rclk)
         return;
     }
 
-    if (pet_sound_chip.chip_enabled) {
+    if (snd.initialized) {
         create_intermediate_samples(rclk);
 
         /*
@@ -522,7 +524,7 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     DBG("### pet_sound_machine_init: highpass alpha = %d\n", snd.highpass_alpha);
 #endif
 
-    pet_sound_chip.chip_enabled = true;
+    snd.initialized = true;
 
     return 1;
 }
