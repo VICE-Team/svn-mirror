@@ -25,6 +25,8 @@
  */
 
 #include "menu-activate.h"
+
+#include "lib.h"
 #include "uimenu.h"
 #include "uihotkey.h"
 
@@ -36,5 +38,16 @@ void arch_ui_activate(void)
 void arch_ui_perform_action(ui_menu_entry_t* item)
 {
     sdl_ui_hotkey(item);
+}
+
+void arch_hotkey_path_to_file(FILE* fp, ui_menu_entry_t* item)
+{
+    char *hotkey_path = sdl_ui_hotkey_path(item);
+    fprintf(fp, " %s", hotkey_path);
+    lib_free(hotkey_path);
+}
+
+ui_menu_entry_t* arch_hotkey_action(char* path) {
+    return sdl_ui_hotkey_action(path);
 }
 

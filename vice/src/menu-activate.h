@@ -29,13 +29,19 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 void arch_ui_activate(void);
 
 #if (defined USE_SDLUI ||defined USE_SDL2UI)
 struct ui_menu_entry_s;
 void arch_ui_perform_action(struct ui_menu_entry_s* item);
+void arch_hotkey_path_to_file(FILE* file, struct ui_menu_entry_s* item);
+struct ui_menu_entry_s* arch_hotkey_action(char* path);
 #else
 void arch_ui_perform_action(int action);
+void arch_hotkey_path_to_file(FILE* file, int action);
+int arch_hotkey_action(char* path);
 #endif
 
 #endif

@@ -1316,6 +1316,9 @@ int joy_arch_mapping_dump(const char *filename)
                                 joystick_devices[i].axis_mapping[j].positive_direction.value.key[1]
                                 );
                         break;
+                    case UI_FUNCTION:
+                        arch_hotkey_path_to_file(fp, joystick_devices[i].axis_mapping[j].positive_direction.value.ui_function);
+                        break;
                     default:
                         break;
                 }
@@ -1334,6 +1337,8 @@ int joy_arch_mapping_dump(const char *filename)
                                 joystick_devices[i].axis_mapping[j].negative_direction.value.key[1]
                                 );
                         break;
+                    case UI_FUNCTION:
+                        arch_hotkey_path_to_file(fp, joystick_devices[i].axis_mapping[j].negative_direction.value.ui_function);
                     default:
                         break;
                 }
@@ -1358,6 +1363,8 @@ int joy_arch_mapping_dump(const char *filename)
                             joystick_devices[i].button_mapping[j].value.key[1]
                             );
                     break;
+                case UI_FUNCTION:
+                    arch_hotkey_path_to_file(fp, joystick_devices[i].button_mapping[j].value.ui_function);
                 default:
                     break;
             }
@@ -1380,6 +1387,8 @@ int joy_arch_mapping_dump(const char *filename)
                             joystick_devices[i].hat_mapping[j].up.value.key[1]
                             );
                     break;
+                case UI_FUNCTION:
+                    arch_hotkey_path_to_file(fp, joystick_devices[i].hat_mapping[j].up.value.ui_function);
                 default:
                     break;
             }
@@ -1398,6 +1407,8 @@ int joy_arch_mapping_dump(const char *filename)
                             joystick_devices[i].hat_mapping[j].down.value.key[1]
                             );
                     break;
+                case UI_FUNCTION:
+                    arch_hotkey_path_to_file(fp, joystick_devices[i].hat_mapping[j].down.value.ui_function);
                 default:
                     break;
             }
@@ -1416,6 +1427,8 @@ int joy_arch_mapping_dump(const char *filename)
                             joystick_devices[i].hat_mapping[j].left.value.key[1]
                             );
                     break;
+                case UI_FUNCTION:
+                    arch_hotkey_path_to_file(fp, joystick_devices[i].hat_mapping[j].left.value.ui_function);
                 default:
                     break;
             }
@@ -1434,6 +1447,8 @@ int joy_arch_mapping_dump(const char *filename)
                             joystick_devices[i].hat_mapping[j].right.value.key[1]
                             );
                     break;
+                case UI_FUNCTION:
+                    arch_hotkey_path_to_file(fp, joystick_devices[i].hat_mapping[j].right.value.ui_function);
                 default:
                     break;
             }
@@ -1509,6 +1524,12 @@ static void joy_arch_parse_entry(char *buffer)
                 action = (joystick_action_t)atoi(p);
 
                 switch (action) {
+                    case UI_FUNCTION:
+                        p = strtok(NULL, "\t\r\n");
+                        if (p != NULL) {
+                            valid = 1;
+                        }
+                        break;
                     case JOYSTICK:
                     case POT_AXIS:
                         p = strtok(NULL, " \t");
@@ -1558,6 +1579,9 @@ static void joy_arch_parse_entry(char *buffer)
                                                 joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[0] = data1;
                                                 joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.key[1] = data2;
                                                 break;
+                                            case UI_FUNCTION:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].positive_direction.value.ui_function = arch_hotkey_action(p);
+                                               break;
                                             default:
                                                 break;
                                         }
@@ -1571,6 +1595,9 @@ static void joy_arch_parse_entry(char *buffer)
                                                 joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[0] = data1;
                                                 joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.key[1] = data2;
                                                 break;
+                                            case UI_FUNCTION:
+                                                joystick_devices[joynum].axis_mapping[axis_or_hat_index].negative_direction.value.ui_function = arch_hotkey_action(p);
+                                               break;
                                             default:
                                                 break;
                                         }
@@ -1590,6 +1617,9 @@ static void joy_arch_parse_entry(char *buffer)
                                     case KEYBOARD:
                                         joystick_devices[joynum].button_mapping[inputindex].value.key[0] = data1;
                                         joystick_devices[joynum].button_mapping[inputindex].value.key[1] = data2;
+                                        break;
+                                    case UI_FUNCTION:
+                                        joystick_devices[joynum].button_mapping[inputindex].value.ui_function = arch_hotkey_action(p);
                                         break;
                                     default:
                                         break;
@@ -1612,6 +1642,9 @@ static void joy_arch_parse_entry(char *buffer)
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[0] = data1;
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[1] = data2;
                                             break;
+                                        case UI_FUNCTION:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.ui_function = arch_hotkey_action(p);
+                                            break;
                                         default:
                                             break;
                                     }
@@ -1619,11 +1652,14 @@ static void joy_arch_parse_entry(char *buffer)
                                     joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.action = action;
                                     switch (action) {
                                         case JOYSTICK:
-                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.joy_pin = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.value.joy_pin = data1;
                                             break;
                                         case KEYBOARD:
-                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[0] = data1;
-                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].up.value.key[1] = data2;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.value.key[0] = data1;
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.value.key[1] = data2;
+                                            break;
+                                        case UI_FUNCTION:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].down.value.ui_function = arch_hotkey_action(p);
                                             break;
                                         default:
                                             break;
@@ -1638,6 +1674,9 @@ static void joy_arch_parse_entry(char *buffer)
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.key[0] = data1;
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.key[1] = data2;
                                             break;
+                                        case UI_FUNCTION:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].left.value.ui_function = arch_hotkey_action(p);
+                                            break;
                                         default:
                                             break;
                                     }
@@ -1650,6 +1689,9 @@ static void joy_arch_parse_entry(char *buffer)
                                         case KEYBOARD:
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.key[0] = data1;
                                             joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.key[1] = data2;
+                                            break;
+                                        case UI_FUNCTION:
+                                            joystick_devices[joynum].hat_mapping[axis_or_hat_index].right.value.ui_function = arch_hotkey_action(p);
                                             break;
                                         default:
                                             break;
