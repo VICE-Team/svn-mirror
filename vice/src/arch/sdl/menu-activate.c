@@ -26,9 +26,15 @@
 
 #include "menu-activate.h"
 #include "uimenu.h"
+#include "uihotkey.h"
 
 void arch_ui_activate(void)
 {
     sdl_ui_activate();
+}
+
+void arch_ui_perform_action(ui_menu_entry_t* item)
+{
+    sdl_ui_hotkey(item);
 }
 

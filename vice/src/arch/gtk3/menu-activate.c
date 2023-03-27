@@ -32,3 +32,7 @@ void arch_ui_activate(void)
     ui_settings_dialog_show(NULL);
 }
 
+void arch_ui_perform_action(int action)
+{
+}
+

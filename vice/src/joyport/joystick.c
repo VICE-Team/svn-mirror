@@ -2718,6 +2718,10 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
                 arch_ui_activate();
             }
             break;
+        case UI_FUNCTION:
+            if (value && event->value.ui_function) {
+                arch_ui_perform_action(event->value.ui_function);
+            }
 #if 0   /* FIXME */
         case MENUACTION:
             DBG(("joy_perform_event (MENUACTION) joyport: %d value: %d action: %d\n",

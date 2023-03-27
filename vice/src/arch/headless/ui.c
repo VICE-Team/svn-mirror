@@ -392,3 +392,8 @@ void ui_hotkeys_init(void)
 void arch_ui_activate(void)
 {
 }
+
+void arch_ui_perform_action(int action)
+{
+}
+

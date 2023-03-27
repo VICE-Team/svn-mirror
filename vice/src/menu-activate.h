@@ -27,6 +27,15 @@
 #ifndef VICE_MENU_ACTIVATE_H
 #define VICE_MENU_ACTIVATE_H
 
+#include "vice.h"
+
 void arch_ui_activate(void);
+
+#if (defined USE_SDLUI ||defined USE_SDL2UI)
+struct ui_menu_entry_s;
+void arch_ui_perform_action(struct ui_menu_entry_s* item);
+#else
+void arch_ui_perform_action(int action);
+#endif
 
 #endif
