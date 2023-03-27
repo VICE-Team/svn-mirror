@@ -170,6 +170,10 @@ static int output_graphics_open(unsigned int prnr,
         return -1;
     }
 
+    if (output_gfx[prnr].isopen) {
+        return 0;
+    }
+
     switch (prnr) {
         case 0:
             resources_get_int("Printer4TextDevice", &device);
@@ -220,6 +224,10 @@ static int output_graphics_open(unsigned int prnr,
 
 static void output_graphics_close(unsigned int prnr)
 {
+    DBG(("output_graphics_close(%d) isopen:%d\n", prnr, output_gfx[prnr].isopen));
+    /* The layer that calls us does that for each CLOSE on the bus, this is not
+       very useful */
+#if 0
     output_gfx_t *o = &(output_gfx[prnr]);
 
     /* only do this if something has actually been printed on this page */
@@ -241,6 +249,7 @@ static void output_graphics_close(unsigned int prnr)
         o->gfxoutputdrv->close(&o->screenshot);
         o->isopen = 0;
     }
+#endif
 }
 
 static int output_graphics_putc(unsigned int prnr, uint8_t b)
@@ -292,19 +301,50 @@ static int output_graphics_getc(unsigned int prnr, uint8_t *b)
 
 static int output_graphics_flush(unsigned int prnr)
 {
+    output_gfx_t *o = &(output_gfx[prnr]);
     DBG(("output_graphics_flush:%d", prnr));
+
+    /* only do this if something has actually been printed on this page */
+    if (o->isopen) {
+        /* output current line */
+        current_prnr = prnr;
+        (o->gfxoutputdrv->write)(&o->screenshot);
+        o->line_no++;
+    }
     return 0;
 }
 
 static int output_graphics_formfeed(unsigned int prnr)
 {
+    output_gfx_t *o = &(output_gfx[prnr]);
     DBG(("output_graphics_formfeed:%d", prnr));
+#if 0
     /*
      * Will finish writing current file, and leaves open
      * the option to start a new one.
      */
     output_graphics_close(prnr);
+#else
+    /* only do this if something has actually been printed on this page */
+    if (o->isopen) {
+        unsigned int i;
 
+        /* output current line */
+        current_prnr = prnr;
+        (o->gfxoutputdrv->write)(&o->screenshot);
+        o->line_no++;
+
+        /* fill rest of page with blank lines */
+        memset(o->line, OUTPUT_PIXEL_WHITE, o->screenshot.width);
+        for (i = o->line_no; i < o->screenshot.height; i++) {
+            (o->gfxoutputdrv->write)(&o->screenshot);
+        }
+
+        /* close output */
+        o->gfxoutputdrv->close(&o->screenshot);
+        o->isopen = 0;
+    }
+#endif
     return 0;
 }
 

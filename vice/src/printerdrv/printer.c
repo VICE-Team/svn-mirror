@@ -119,6 +119,7 @@ void printer_reset(void)
 
 void printer_shutdown(void)
 {
+    int n;
     driver_select_shutdown();
     /*
      * This shuts down the serial port, which may close some lingering
@@ -126,6 +127,10 @@ void printer_shutdown(void)
      * (graphics) output.
      */
     machine_printer_shutdown();
+    /* send a formfeed to all drivers */
+    for (n = 0; n < 4; n++) {
+        driver_select_formfeed(n);
+    }
     /*
      * So really shutting them down should be done after that.
      */
