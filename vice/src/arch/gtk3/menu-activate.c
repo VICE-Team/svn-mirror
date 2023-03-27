@@ -25,6 +25,7 @@
  */
 
 #include "menu-activate.h"
+#include "uiactions.h"
 #include "uisettings.h"
 
 void arch_ui_activate(void)
@@ -34,6 +35,7 @@ void arch_ui_activate(void)
 
 void arch_ui_perform_action(int action)
 {
+    ui_action_trigger(action);
 }
 
 void arch_hotkey_path_to_file(FILE* file, int action)
