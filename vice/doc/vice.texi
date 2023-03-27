@@ -1478,18 +1478,14 @@ a look at the logfile to see if this is the problem.
 @subsection Printer problems
 
 VICE supports the emulation of a printer either on the userport or as
-IEC device 4. Unfortunately the Commodore IEC routines do not
+IEC device 4-7. Unfortunately the Commodore IEC routines do not
 send all commands to the IEC bus. For example an @code{OPEN 1,4}
 is not seen on the IEC bus. Also a @code{CLOSE 1} after that
 is not seen. VICE can see from printing that there was an @code{OPEN},
 but it cannot see when the close was. Also a "finish print job"
 cannot be seen on the userport device.
 To flush the printer buffer (write to @code{print.dump} or to the
-printer) now a menu entry can be used. Disabling and re-enabling the printer
-should work as well.
-
-The printing services have not been extensively tested but apart
-from the problem mentioned above it should work fine now.
+printer) you can manually trigger a form feed in the printer settings.
 
 @node PET keyboard problems, ,Printer problems, Common problems
 @subsection PET keyboard problems
@@ -3621,25 +3617,49 @@ the name) and then build a disk image using all four.
 
 @itemize @bullet
 @item
-Start the emulator (x64sc, for example) with default settings.
+Go to "Preferences -> Peripheral devices -> Printer", select the printer you want to use.
+Note that not all types of printers are available at all ports/device numbers.
 @item
-go to "Preferences -> Peripheral devices -> Printer", select "Printer 4"
+Enable either "Virtual Device" or "IEC Device" (There is no "True Printer Emulation")
 @item
-Enable Virtual Device
+Set "Emulation type" to "File system access" if you want to output to a file or pipe through a program.
+If you want to use a real printer via OpenCBM, select "Real device (OpenCBM)".
 @item
-set "Printer Emulation" to "File system access".
+Set "Driver" to the type of printer you want to emulate. Use "Raw" when talking to OpenCBM.
+Use "ASCII" when writing into a simple text file.
 @item
-Print something, for example:
+Select the "Output mode" to "Graphics" if you want to produce a .bmp file. For all
+other practical purposes use "Text".
+@item
+Select the "Output device". This is one of 3 strings which can be either:
+@itemize @bullet
+@item
+a file name. When the graphics output is used, 3 digits will be appended to the
+name, and a new file generated for each new page.
+@example
+print.dump
+@end example
+@item
+if the string starts with a pipe character, it is used as a series of shell
+commands to pipe the output to. This only works for the "Text" output mode!
+@example
+|petlp -F PS |lpr
+@end example
+@end itemize
+@end itemize
+
+Now you are ready to print something. For example:
+
 @example
 open4,4
 cmd4:list
 print#4,"test":close4
 @end example
-@item
-Close the emulator or disable printer emulation. This is needed to flush the data to the file.
-@item
-Have a look at the file print.dump in your VICE working directory with your favourite editor.
-@end itemize
+
+Note that, when printing to a file, the data may only get fully flushed after
+a form feed occurs. This occurs automatically when a new page is started, or when
+the emulator is closed. You may also trigger a form feed manually in the printer
+settings dialog.
 
 @node Reset,  , Disk and tape images, Basics
 @section Resetting the machine
