@@ -177,7 +177,7 @@ static GtkWidget *create_combo_box(void)
         ext = util_get_extension(current);
         if ((ext != NULL) && (strcmp(ext, "vpl"))) {
             /* current already has .vpl extension, so remove it for the extra string */
-            int n = strlen(current);
+            size_t n = strlen(current);
             current2 = lib_strdup(current);
             current2[n - 4] = 0;
         } else if (ext == NULL) {
