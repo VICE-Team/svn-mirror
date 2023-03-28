@@ -3,6 +3,8 @@ c128dir = $(VICE_DATADIR)/C128
 roms = \
 	basic64-901226-01.bin \
 	kernal64-901227-03.bin \
+	kernal64-325179-01.bin \
+	kernal64-325182-01.bin \
 	basichi-318019-04.bin \
 	basiclo-318018-04.bin \
 	chargen-315079-01.bin \
@@ -11,6 +13,7 @@ roms = \
 	chargen-325181-01.bin \
 	chargen-325173-01D.bin \
 	chargen-325078-02.bin \
+	chargen-325167-02.bin \
 	kernal-318020-05.bin \
 	kernal-315078-03.bin \
 	kernalfi \

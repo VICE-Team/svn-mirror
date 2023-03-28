@@ -91,7 +91,10 @@ UI_MENU_DEFINE_FILE_STRING(BasicLoName)
 UI_MENU_DEFINE_FILE_STRING(BasicHiName)
 UI_MENU_DEFINE_FILE_STRING(ChargenIntName)
 UI_MENU_DEFINE_FILE_STRING(ChargenDEName)
+UI_MENU_DEFINE_FILE_STRING(ChargenFIName)
 UI_MENU_DEFINE_FILE_STRING(ChargenFRName)
+UI_MENU_DEFINE_FILE_STRING(ChargenITName)
+UI_MENU_DEFINE_FILE_STRING(ChargenNOName)
 UI_MENU_DEFINE_FILE_STRING(ChargenSEName)
 UI_MENU_DEFINE_FILE_STRING(ChargenCHName)
 UI_MENU_DEFINE_FILE_STRING(Kernal64Name)
@@ -161,10 +164,22 @@ const ui_menu_entry_t c128_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ChargenDEName_callback,
       (ui_callback_data_t)"Select German chargen ROM image" },
+    { "Finnish chargen",
+      MENU_ENTRY_DIALOG,
+      file_string_ChargenFIName_callback,
+      (ui_callback_data_t)"Select Finnish chargen ROM image" },
     { "French chargen",
       MENU_ENTRY_DIALOG,
       file_string_ChargenFRName_callback,
       (ui_callback_data_t)"Select French chargen ROM image" },
+    { "Italian chargen",
+      MENU_ENTRY_DIALOG,
+      file_string_ChargenITName_callback,
+      (ui_callback_data_t)"Select Italian chargen ROM image" },
+    { "Norwegian chargen",
+      MENU_ENTRY_DIALOG,
+      file_string_ChargenNOName_callback,
+      (ui_callback_data_t)"Select Norwegian chargen ROM image" },
     { "Swedish chargen",
       MENU_ENTRY_DIALOG,
       file_string_ChargenSEName_callback,

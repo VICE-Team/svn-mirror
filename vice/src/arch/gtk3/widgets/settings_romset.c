@@ -190,9 +190,9 @@ static const romset_entry_t scpu64_machine_roms[] = {
  */
 static const romset_entry_t c128_machine_roms[] = {
     { "KernalIntName",  "International Kernal",     NULL },
-    { "KernalDEName",   "German Kernal",            NULL },
     { "KernalFIName",   "Finnish Kernal",           NULL },
     { "KernalFRName",   "French Kernal",            NULL },
+    { "KernalDEName",   "German Kernal",            NULL },
     { "KernalITName",   "Italian Kernal",           NULL },
     { "KernalNOName",   "Norwegian Kernal",         NULL },
     { "KernalSEName",   "Swedish Kernal",           NULL },
@@ -211,11 +211,13 @@ static const romset_entry_t c128_machine_roms[] = {
  */
 static const romset_entry_t c128_chargen_roms[] = {
     { "ChargenIntName", "International Chargen",    NULL },
-    { "ChargenDEName",  "German Chargen",           NULL },
+    { "ChargenFIName",  "Finnish Chargen",           NULL },
     { "ChargenFRName",  "French Chargen",           NULL },
+    { "ChargenDEName",  "German Chargen",           NULL },
+    { "ChargenITName",  "Italian Chargen",          NULL },
+    { "ChargenNOName",  "Norwegian Chargen",        NULL },
     { "ChargenSEName",  "Swedish Chargen",          NULL },
     { "ChargenCHName",  "Swiss Chargen",            NULL },
-    { "ChargenNOName",  "Norwegian Chargen",        NULL },
     { NULL,             NULL,                       NULL }
 };
 
