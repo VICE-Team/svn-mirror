@@ -8347,6 +8347,9 @@ void VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
 
     read_modifiers(base_event);
 
+    /* scroll 1/10 of a page per wheel click */
+    v = ceil (gtk_adjustment_get_page_increment (m_vadjustment) / 10.);
+
     switch (event->direction) {
         case GDK_SCROLL_UP:
             m_mouse_smooth_scroll_delta -= 1.;
@@ -8357,6 +8360,12 @@ void VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
             _vte_debug_print(VTE_DEBUG_EVENTS, "Scroll down\n");
             break;
         case GDK_SCROLL_SMOOTH:
+#ifdef MACOS_COMPILE
+            /* for smooth scrolling on MacOS the scroll unit is 1 pixel,
+             * or roughly 0.1 lines */
+            v = 0.1;
+#endif
+
             gdk_event_get_scroll_deltas ((GdkEvent*) event, &delta_x, &delta_y);
             m_mouse_smooth_scroll_delta += delta_y;
             _vte_debug_print(VTE_DEBUG_EVENTS,
@@ -8393,10 +8402,9 @@ void VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
         return;
     }
 
-    v = MAX (1., ceil (gtk_adjustment_get_page_increment (m_vadjustment) / 10.));
     _vte_debug_print(VTE_DEBUG_EVENTS,
-            "Scroll speed is %d lines per non-smooth scroll unit\n",
-            (int) v);
+            "Scroll speed is %f lines per scroll unit\n",
+            v);
     if (m_screen == &m_alternate_screen && m_alternate_screen_scroll) {
         char *normal;
         gssize normal_length;
