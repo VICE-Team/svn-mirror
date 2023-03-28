@@ -193,8 +193,12 @@ make_app_bundle() {
   # means it won't get past gatekeeper properly, at least on 10.14. But it will on
   # 10.15 if it's notarised. Wtf Apple.
   #
+  # Also, with newer versions of platypus, the key WILL be there already.
+  # So, we check for it, and add it if missing.
+  #
 
-  /usr/libexec/PlistBuddy -c "Add CFBundlePackageType string APPL" "$app_path/Contents/Info.plist"
+  /usr/libexec/PlistBuddy -c 'print ":CFBundlePackageType"' "$app_path/Contents/Info.plist" 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Add CFBundlePackageType string APPL" "$app_path/Contents/Info.plist"
 }
 
 echo "  bundling $BUNDLE.app: "
