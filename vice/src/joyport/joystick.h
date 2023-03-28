@@ -183,7 +183,7 @@ typedef struct joystick_mapping_s {
         /* pointer to the menu item */
         ui_menu_entry_t *ui_function;
 #else
-	int ui_function;
+        int ui_function;
 #endif
     } value;
     /* Previous state of input */
