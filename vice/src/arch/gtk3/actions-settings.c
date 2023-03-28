@@ -196,7 +196,6 @@ static void settings_load_extra_action(void)
     settings_load_helper(true);     /* don't reset before loading */
 }
 
-
 /** \brief  Save current settings */
 static void settings_save_action(void)
 {
@@ -209,8 +208,8 @@ static void settings_save_action(void)
         vice_gtk3_message_error("VICE core error",
                 "Failed to save default settings file");
     }
+    ui_action_finish(ACTION_SETTINGS_SAVE);
 }
-
 
 /** \brief  Callback for the save-to settings dialog
  *
@@ -238,7 +237,6 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
     mainlock_obtain();
     ui_action_finish(ACTION_SETTINGS_SAVE_TO);
 }
-
 
 /** \brief  Pop up a dialog to save current settings to a file */
 static void settings_save_to_action(void)
