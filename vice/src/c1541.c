@@ -1268,7 +1268,7 @@ static int parse_unit_number(const char *s)
 
 static int use_opencbm(char *name)
 {
-    int n = strlen(name);
+    size_t n = strlen(name);
     if (n > 6) {
         if (strcmp(&name[n - 7], "opencbm") == 0) {
             return 1;
