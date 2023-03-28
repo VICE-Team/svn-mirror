@@ -13255,9 +13255,21 @@ String specifying the filename of the international character generator ROM imag
 @item ChargenDEName
 String specifying the filename of the German character generator ROM image.
 
+@vindex ChargenFIName
+@item ChargenFIName
+String specifying the filename of the Finnish character generator ROM image.
+
 @vindex ChargenFRName
 @item ChargenFRName
 String specifying the filename of the French character generator ROM image.
+
+@vindex ChargenITName
+@item ChargenITName
+String specifying the filename of the Italian character generator ROM image.
+
+@vindex ChargenNOName
+@item ChargenNOName
+String specifying the filename of the Norwegian character generator ROM image.
 
 @vindex ChargenSEName
 @item ChargenSEName
@@ -13266,10 +13278,6 @@ String specifying the filename of the Swedish character generator ROM image.
 @vindex ChargenCHName
 @item ChargenCHName
 String specifying the filename of the Swiss character generator ROM image.
-
-@vindex ChargenNOName
-@item ChargenNOName
-String specifying the filename of the Norwegian character generator ROM image.
 
 @vindex KernalIntName
 @item KernalIntName
@@ -13407,10 +13415,25 @@ Specify name of international character generator ROM image
 Specify name of German character generator ROM image
 (@code{ChargenDEName}).
 
+@findex -chargfi
+@item -chargfi <name>
+Specify name of Finnish character generator ROM image
+(@code{ChargenFRName}).
+
 @findex -chargfr
 @item -chargfr <name>
 Specify name of French character generator ROM image
 (@code{ChargenFRName}).
+
+@findex -chargit
+@item -chargit <name>
+Specify name of Italian character generator ROM image
+(@code{ChargenFRName}).
+
+@findex -chargno
+@item -chargno <name>
+Specify name of Norwegian character generator ROM image
+(@code{ChargenNOName}).
 
 @findex -chargse
 @item -chargse <name>
@@ -13421,11 +13444,6 @@ Specify name of Swedish character generator ROM image
 @item -chargch <name>
 Specify name of Swiss character generator ROM image
 (@code{ChargenCHName}).
-
-@findex -chargno
-@item -chargno <name>
-Specify name of Norwegian character generator ROM image
-(@code{ChargenNOName}).
 
 @findex -intfunc
 @item -intfunc <type>
