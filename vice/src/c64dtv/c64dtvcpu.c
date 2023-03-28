@@ -128,6 +128,7 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
 
 #define CLK_ADD(clock, amount) c64dtvcpu_clock_add(&clock, amount)
 
+#if defined ALLOW_UNALIGNED_ACCESS
 /* This is an optimization making x64dtv consume less host cycles in burst mode. */
 inline static void mem_burst_read(const uint16_t addr, uint8_t *burst_c)
 {
@@ -147,6 +148,7 @@ inline static void mem_burst_read(const uint16_t addr, uint8_t *burst_c)
     /* this memcpy is optimized to a simple dword copy */
     memcpy(burst_c, &mem_ram[paddr], 4);
 }
+#endif
 
 /* Burst mode & skip cycle helper table */
 /* format: SBDDDFFF */
