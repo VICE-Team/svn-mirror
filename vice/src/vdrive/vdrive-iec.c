@@ -1027,7 +1027,7 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 #ifdef DEBUG_DRIVE
                 if (p->mode == BUFFER_COMMAND_CHANNEL) {
                     log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
-                              p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+                              p->mode, 0, 0, *data, (isprint((unsigned char)*data) ? *data : '.'));
                 }
 #endif
                 return SERIAL_EOF;
@@ -1052,7 +1052,7 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
         log_debug("Disk read  %u [%02d %02d] data %02x (%c).",
-                  p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+                  p->mode, 0, 0, *data, (isprint((unsigned char)*data) ? *data : '.'));
     }
 #endif
     return status;
@@ -1082,7 +1082,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
         log_debug("Disk write %u [%02d %02d] data %02x (%c).",
-                  p->mode, 0, 0, data, (isprint(data) ? data : '.'));
+                  p->mode, 0, 0, data, (isprint((unsigned char)data) ? data : '.'));
     }
 #endif
 

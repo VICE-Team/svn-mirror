@@ -187,7 +187,7 @@ static int set_drive_fixed(const char *val, void *param)
         /* now check if the left over string is a number */
         len = strlen(check_string);
         for (i = 0; i < len; i++) {
-            if (!isdigit(check_string[i])) {
+            if (!isdigit((unsigned char)check_string[i])) {
                 lib_free(check_string);
                 return -1;
             }

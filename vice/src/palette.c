@@ -125,7 +125,7 @@ static int palette_copy(palette_t *dest, const palette_t *src)
 
 static const char *next_nonspace(const char *p)
 {
-    while (*p != '\0' && isspace((int)*p)) {
+    while (*p != '\0' && isspace((unsigned char)*p)) {
         p++;
     }
 

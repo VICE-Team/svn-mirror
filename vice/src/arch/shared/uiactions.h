@@ -79,7 +79,8 @@ typedef struct ui_action_map_s {
  * * '_', '-' and ':'
  */
 #define IS_ACTION_NAME_CHAR(ch) \
-    (isalpha(ch) || isdigit(ch) || ch == '_' || ch == '-' || ch == ':')
+    (isalpha((unsigned char)(ch)) || isdigit((unsigned char)(ch)) || \
+     ch == '_' || ch == '-' || ch == ':')
 
 
 /** \brief  IDs for the UI actions

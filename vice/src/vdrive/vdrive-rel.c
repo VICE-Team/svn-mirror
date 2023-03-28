@@ -1294,7 +1294,7 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
                 if (p->mode == BUFFER_COMMAND_CHANNEL) {
                     log_error(vdrive_rel_log,
                               "Disk read  %u [%02d %02d] data %02x (%c).",
-                              p->mode, 0, 0, *data, (isprint(*data)
+                              p->mode, 0, 0, *data, (isprint((unsigned char)*data)
                                                      ? *data : '.'));
                 }
     #endif
@@ -1462,7 +1462,7 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
             if (p->mode == BUFFER_COMMAND_CHANNEL) {
                 log_error(vdrive_rel_log,
                           "Disk read  %u [%02d %02d] data %02x (%c).",
-                          p->mode, 0, 0, data, (isprint(data)
+                          p->mode, 0, 0, data, (isprint((unsigned char)data)
                                                 ? data : '.'));
             }
 #endif

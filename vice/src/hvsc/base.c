@@ -611,7 +611,7 @@ void hvsc_path_fix_separators(char *path)
  */
 bool hvsc_string_is_empty(const char *s)
 {
-    while (*s != '\0' && isspace((int)*s)) {
+    while (*s != '\0' && isspace((unsigned char)*s)) {
         s++;
     }
     return (bool)(*s == '\0');
@@ -630,7 +630,7 @@ bool hvsc_string_is_empty(const char *s)
 bool hvsc_string_is_comment(const char *s)
 {
     /* ignore leading whitespace (not strictly required) */
-    while (*s != '\0' && isspace((int)*s)) {
+    while (*s != '\0' && isspace((unsigned char)*s)) {
         s++;
     }
     return (bool)(*s == '#');
@@ -657,7 +657,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
     int fd = 0; /* number of fractional digits */
 
     /* minutes */
-    while (isdigit((int)*t)) {
+    while (isdigit((unsigned char)*t)) {
         m = m * 10 + *t - '0';
         t++;
     }
@@ -671,7 +671,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
 
     /* seconds */
     t++;
-    while (isdigit((int)*t)) {
+    while (isdigit((unsigned char)*t)) {
         s = s * 10 + *t - '0';
         t++;
         if (s > 59) {
@@ -688,7 +688,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
         fd = 0;
         f = 0;
 
-        while (isdigit((int)*t) && fd < 3) {
+        while (isdigit((unsigned char)*t) && fd < 3) {
             fd++;
             f = f * 10 + *t - '0';
             t++;

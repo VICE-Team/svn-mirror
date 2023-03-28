@@ -1624,7 +1624,7 @@ static void _p_toascii(int c, int version, int ctrls, int quote)
                     break;
 
                 default:
-                    if ((c > 0x1f) && isprint(c)) {
+                    if ((c > 0x1f) && isprint((unsigned char)c)) {
                         _p_fputc(c, c, quote);
                     } else if (ctrls) {
                         if (version == B_35) {
@@ -1672,7 +1672,7 @@ static int scan_integer(const char *line, unsigned int *num, unsigned int *digit
 #ifdef GEMDOS
     *digits = 0;
     if (sscanf(line, "%u", num) == 1) {
-        while (isspace(*line) || isdigit(*line)) {
+        while (isspace((unsigned char)*line) || isdigit((unsigned char)*line)) {
             line++;
             (*digits)++;
         }
@@ -1914,7 +1914,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
         quote = 0;
         rem_data_mode = 0;
-        while (isspace(*p2)) {
+        while (isspace((unsigned char)*p2)) {
             p2++;
         }
 
@@ -2040,7 +2040,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                 /* DO NOTHING! As we do not set "match", the if (!match) will be true,
                  * and this part will copy the char over to the new buffer */
-            } else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
+            } else if (isalpha((unsigned char)*p2) || strchr("+-*/^>=<", *p2)) {
                 /* FE and CE prefixes are checked first */
                 if (version == B_7 || version == B_71 || version == B_10 || version == B_65 || version == B_SXC || version == B_SIMON) {
                     switch (version) {

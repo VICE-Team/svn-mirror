@@ -91,7 +91,7 @@ int archdep_mkdir(const char *pathname, int mode)
 static bool has_drive_letter(const char *pathname)
 {
     if (pathname != NULL &&
-            isalpha((int)pathname[0])
+            isalpha((unsigned char)pathname[0])
             && pathname[1] == ':'
             && pathname[2] == '\\') {
         return true;
