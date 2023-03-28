@@ -120,7 +120,7 @@ static int file_is_gzip(const char *name)
 
     if ((l < 4 || util_strcasecmp(name + l - 3, ".gz"))
         && (l < 3 || util_strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
+        && (l < 4 || toupper((unsigned char)name[l - 1]) != 'Z' || name[l - 4] != '.')) {
           return 0;
     }
     return 1;

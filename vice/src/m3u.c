@@ -140,7 +140,7 @@ static m3u_ext_id_t get_directive_id(const char *s, const char **endptr)
     size_t i = 0;
 
     /* locate either eol, whitespace or colon */
-    while (*p != '\0' && *p != ':' && !isspace((int)*p)) {
+    while (*p != '\0' && *p != ':' && !isspace((unsigned char)*p)) {
         p++;
     }
 
@@ -171,7 +171,7 @@ static m3u_ext_id_t get_directive_id(const char *s, const char **endptr)
 static ssize_t strip_trailing(ssize_t pos)
 {
     pos--;
-    while (pos >= 0 && isspace((int)(playlist_buf[pos]))) {
+    while (pos >= 0 && isspace((unsigned char)(playlist_buf[pos]))) {
         pos--;
     }
     playlist_buf[pos + 1] = '\0';

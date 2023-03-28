@@ -221,7 +221,7 @@ static int parse_sldb_entry(char *line, long **lengths)
 
     while (*p != '\0') {
         /* skip whitespace */
-        while (*p != '\0' && isspace((int)(*p))) {
+        while (*p != '\0' && isspace((unsigned char)(*p))) {
             p++;
         }
         if (*p == '\0') {

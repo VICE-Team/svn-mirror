@@ -231,7 +231,7 @@ static int _rs232net_putc(int fd, uint8_t b)
     }
 
     /* for the beginning... */
-    DEBUG_LOG_MESSAGE((rs232net_log, "Output 0x%02x '%c'.", b, isgraph(b) ? b : '.'));
+    DEBUG_LOG_MESSAGE((rs232net_log, "Output 0x%02x '%c'.", b, isgraph((unsigned char)b) ? b : '.'));
 
     n = vice_network_send(fds[fd].fd, &b, 1, 0);
     if (n < 0) {
@@ -274,7 +274,7 @@ static int _rs232net_getc(int fd, uint8_t * b)
         if (ret > 0) {
 
             no_of_read_byte = vice_network_receive(fds[fd].fd, b, 1, 0);
-            DEBUG_LOG_MESSAGE((rs232net_log, "Input 0x%02x '%c'.", *b, isgraph(*b) ? *b : '.'));
+            DEBUG_LOG_MESSAGE((rs232net_log, "Input 0x%02x '%c'.", *b, isgraph((unsigned char)*b) ? *b : '.'));
 
             if ( no_of_read_byte != 1 ) {
                 if ( no_of_read_byte < 0 ) {

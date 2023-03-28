@@ -588,6 +588,27 @@ void sdljoy_set_joystick_axis(SDL_Event e, int pot)
     joy_set_pot_mapping(joynum, e.jaxis.axis, pot);
 }
 
+void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)
+{
+    joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = UI_FUNCTION;
+        joyevent->value.ui_function = value;
+    }
+}
+
+void sdljoy_set_keypress(SDL_Event e, int row, int col)
+{
+    joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = KEYBOARD;
+        joyevent->value.key[0] = row;
+        joyevent->value.key[1] = col;
+    }
+}
+
 void sdljoy_set_extra(SDL_Event e, int type)
 {
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);

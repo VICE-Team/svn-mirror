@@ -934,7 +934,7 @@ static hotkeys_keyword_id_t parser_get_keyword_id(const char *name)
         } else if (kwname[k] == '\0') {
             /* input matched keyword so far, but input contains more
              * characters */
-            if (isspace((int)name[k])) {
+            if (isspace((unsigned char)name[k])) {
                 /* remaining input cannot be part of a keyword: match */
                 return kw->id;
             }
@@ -988,7 +988,7 @@ static hotkeys_modifier_id_t parser_get_modifier_id(const char *name,
                 *endptr = name + k;
             }
             return mod->id;
-        } else if (modname[k] == '\0' && !isalpha((int)name[k])) {
+        } else if (modname[k] == '\0' && !isalpha((unsigned char)name[k])) {
             /* input is longer, but contains characters that cannot match any
              * modifier name */
             return HOTKEYS_MOD_ID_ILLEGAL;
@@ -1132,7 +1132,9 @@ static bool parser_get_gdk_mask_and_keyval(const char *line,
      * 'GDK_KEY_':
      */
     oldpos = s;
-    while (*s != '\0' && (isalpha((int)*s) || isdigit((int)*s) || *s == '_')) {
+    while (*s != '\0' && (isalpha((unsigned char)*s) ||
+                          isdigit((unsigned char)*s) ||
+                          *s == '_')) {
         s++;
     }
     if (oldpos == s) {
@@ -1308,7 +1310,7 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     } else {
         /* no quotes, copy until first whitespace character */
         arg = a = lib_malloc(strlen(line) + 1);
-        while (*s != '\0' && !isspace((int)*s)) {
+        while (*s != '\0' && !isspace((unsigned char)*s)) {
             *a++ = *s++;
         }
         *a = '\0';
@@ -1445,7 +1447,7 @@ static bool parser_handle_keyword(const char *line, textfile_reader_t *reader)
                     textfile_reader_filename(reader),
                     textfile_reader_linenum(reader));
         result =  false;
-    } else if (!isalpha((int)*line)) {
+    } else if (!isalpha((unsigned char)*line)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: syntax error, illegal character after '!'.",
                     textfile_reader_filename(reader),

@@ -392,3 +392,16 @@ void ui_hotkeys_init(void)
 void arch_ui_activate(void)
 {
 }
+
+void arch_ui_perform_action(int action)
+{
+}
+
+void arch_hotkey_path_to_file(FILE* file, int action)
+{
+}
+
+int arch_hotkey_action(char* path) {
+    return 0;
+}
+

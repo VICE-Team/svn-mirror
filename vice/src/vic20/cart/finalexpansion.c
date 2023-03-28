@@ -1015,6 +1015,8 @@ static void finalexpansion_mon_dump_blk(int blk)
         case MODE_SUPER_ROM:
 #ifdef FE3_2_SUPER_ROM_BUG
             bank_w = 1 | (register_a & REGA_BANK_MASK);
+#else
+            bank_w = 1;
 #endif
             acc_mode_r = ACC_FLASH;
             acc_mode_w = ACC_RAM;

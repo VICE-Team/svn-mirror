@@ -36,10 +36,22 @@ typedef enum resource_type_s {
     RES_STRING
 } resource_type_t;
 
+/* Flag: Is the resource important for history recording or netplay? */
 typedef enum resource_event_relevant_s {
+    /* The value can be different on client and server, and may change at any
+       time on either side. This is the default for most resources. */
     RES_EVENT_NO,
-    RES_EVENT_SAME,     /* guess: must be the same on server and client */
-    RES_EVENT_STRICT    /* guess: must be the exact event_strict_value */
+    /* Must be the same on server and client, when a value changes that event
+       is distributed to the other emulator. when client connects to server, the
+       server sends the initial values to the client.
+       example: MachineVideoStandard */
+    RES_EVENT_SAME,
+    /* must be the same on server and client, the value can not be changed.
+       Server sets the resource to event_strict_value when server is started.
+       Client sets the resource to event_strict_value when it connects to the
+       server.
+       example: InitialWarpMode = 0 */
+    RES_EVENT_STRICT
 } resource_event_relevant_t;
 
 typedef void *resource_value_t;
@@ -65,7 +77,7 @@ struct resource_int_s {
        value will be determined and set at runtime */
     int factory_value;
 
-    /* Is the resource important for history recording or netplay? */
+    /* Flag: Is the resource important for history recording or netplay? */
     resource_event_relevant_t event_relevant;
 
     /* Value that is needed for correct history recording and netplay.  */

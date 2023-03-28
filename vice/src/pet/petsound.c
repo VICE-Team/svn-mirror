@@ -114,7 +114,7 @@ static sound_chip_t pet_sound_chip = {
 #ifdef SOUND_SYSTEM_FLOAT
     .sound_chip_channel_mixing = pet_sound_mixing_spec, /* stereo mixing placement specs */
 #endif
-    .chip_enabled = false,                              /* chip is enabled after init */
+    .chip_enabled = true,                               /* chip is always enabled */
 };
 
 static uint16_t pet_sound_chip_offset = 0;
@@ -173,12 +173,13 @@ void machine_sid2_enable(int val)
 }
 
 struct pet_sound_s {
-    bool on;            /* are we even making sound? */
 
-    int speed;          /* sample rate * 100 / speed_percent */
-    int cycles_per_sec;
+    int speed;                  /* sample rate * 100 / speed_percent */
+    int32_t cycles_per_sec;     /* around 1 000 000 */
 
-    bool manual;        /* 1 if CB2 set to manual control "high", 0 otherwise */
+    bool on;                    /* are we even making sound? */
+    bool manual;                /* 1 if CB2 set to manual control "high", 0 otherwise */
+    bool initialized;           /* has pet_sound_machine_init() been called? */
 
     CLOCK next_sample_time;     /* start time of sample under construction */
     CLOCK end_of_sample_time;   /* end time of same */
@@ -207,6 +208,7 @@ struct pet_sound_s {
 static struct pet_sound_s snd = {
     .speed = 48000,
     .on = false,
+    .initialized = false,
     .clocks_per_sample = 20,
 };
 
@@ -299,15 +301,17 @@ static float pet_makesample(void)
          * as the sample. */
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample.
+         * A high-pass filter is like taking the signal and subtracting lower
+         * frequencies, i.e. subtracting a low-pass version of the signal.
+         * That's why the code for both looks so similar! Just this subtract is extra.
+         */
+        sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
-# if HIGHPASS
-        /* Subtract highpass value here, so it gets scaled with the
-         * already low-passed sample. */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
 
@@ -337,15 +341,17 @@ static sample_t pet_makesample(void)
          * as the sample. */
         snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
                              / ALPHA_SCALE;
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample.
+         * A high-pass filter is like taking the signal and subtracting lower
+         * frequencies, i.e. subtracting a low-pass version of the signal.
+         * That's why the code for both looks so similar! Just this subtract is extra.
+         */
+        sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
-# if HIGHPASS
-        /* Subtract highpass value here, so it gets scaled with the
-         * already low-passed sample. */
-        sample -= snd.highpass_prev;
-# endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
         snd.lowpass_prev = sample;      /* Only used when samples run out */
 
@@ -410,7 +416,7 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, i
  */
 void petsound_store_onoff(bool value)
 {
-    if (pet_sound_chip.chip_enabled) {
+    if (snd.initialized) {
         create_intermediate_samples(maincpu_clk);
     }
 
@@ -455,7 +461,7 @@ void petsound_store_manual(bool value, CLOCK rclk)
         return;
     }
 
-    if (pet_sound_chip.chip_enabled) {
+    if (snd.initialized) {
         create_intermediate_samples(rclk);
 
         /*
@@ -522,7 +528,7 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     DBG("### pet_sound_machine_init: highpass alpha = %d\n", snd.highpass_alpha);
 #endif
 
-    pet_sound_chip.chip_enabled = true;
+    snd.initialized = true;
 
     return 1;
 }

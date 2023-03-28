@@ -855,7 +855,7 @@ char *util_get_extension(const char *filename)
    out of the main sources. */
 char util_tolower(char c)
 {
-    return (char)tolower((int)c);
+    return (char)tolower((unsigned char)c);
 }
 
 /* char to char toupper function, still uses toupper,
@@ -863,7 +863,7 @@ char util_tolower(char c)
    out of the main sources. */
 char util_toupper(char c)
 {
-    return (char)toupper((int)c);
+    return (char)toupper((unsigned char)c);
 }
 
 /** \brief  Skip leading whitespace in string
@@ -874,7 +874,7 @@ char util_toupper(char c)
  */
 const char *util_skip_whitespace(const char *s)
 {
-    while (*s != '\0' && isspace((int)*s)) {
+    while (*s != '\0' && isspace((unsigned char)*s)) {
         s++;
     }
     return s;
@@ -899,7 +899,7 @@ const char *util_skip_whitespace_trailing(const char *s)
     /* last character in the string */
     p = s + strlen(s) - 1;
 
-    while (*p != '\0' && isspace((int)*p)) {
+    while (*p != '\0' && isspace((unsigned char)*p)) {
         p--;
     }
     if (p < s) {

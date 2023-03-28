@@ -56,7 +56,7 @@ int archdep_path_is_relative(const char *path)
     if (*path == '\\' || *path == '/') {
         return 0;
     }
-    if (isalpha(path[0]) && path[1] == ':' &&
+    if (isalpha((unsigned char)path[0]) && path[1] == ':' &&
             (path[2] == '\\' || path[2] == '/')) {
         return 0;
     }

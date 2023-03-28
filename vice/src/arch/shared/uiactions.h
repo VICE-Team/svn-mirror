@@ -1,5 +1,5 @@
 /** \file   uiactions.h
- * \brief   UI action names and descriptions - header
+ * \brief   UI actions interface - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -39,7 +39,7 @@
 /** \brief  Mapping of action IDs to names and descriptions
  */
 typedef struct ui_action_info_s {
-    int id;             /**< action ID */
+    int         id;     /**< action ID */
     const char *name;   /**< action name */
     const char *desc;   /**< action description */
 } ui_action_info_t;
@@ -48,21 +48,23 @@ typedef struct ui_action_info_s {
 /** \brief  Mapping of an action ID to a handler
  */
 typedef struct ui_action_map_s {
-    int action;             /**< action ID */
+    int    action;          /**< action ID */
     void (*handler)(void);  /**< function handling the action */
 
     /* modes */
-    bool blocks;            /**< action blocks (the same action cannot be
+    bool   blocks;          /**< action blocks (the same action cannot be
                                  triggered again until it finishes) */
-    bool dialog;            /**< action pops up a dialog (only one dialog action
+    bool   dialog;          /**< action pops up a dialog (only one dialog action
                                  is allowed at a time), this implies using the
                                  UI thread */
-    bool uithread;          /**< must run on the UI thread */
+    bool   uithread;        /**< must run on the UI thread */
 
     /* state */
-    bool is_busy;           /**< action is busy */
+    bool   is_busy;         /**< action is busy */
 } ui_action_map_t;
 
+/** \brief  Terminator of action maps
+ */
 #define UI_ACTION_MAP_TERMINATOR { .action = ACTION_NONE, .handler = NULL }
 
 
@@ -77,7 +79,8 @@ typedef struct ui_action_map_s {
  * * '_', '-' and ':'
  */
 #define IS_ACTION_NAME_CHAR(ch) \
-    (isalpha(ch) || isdigit(ch) || ch == '_' || ch == '-' || ch == ':')
+    (isalpha((unsigned char)(ch)) || isdigit((unsigned char)(ch)) || \
+     ch == '_' || ch == '-' || ch == ':')
 
 
 /** \brief  IDs for the UI actions
@@ -323,36 +326,36 @@ enum {
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 
+/* Action info getters */
+int                     ui_action_get_id       (const char *name);
+const char *            ui_action_get_name     (int action);
+const char *            ui_action_get_desc     (int action);
+ui_action_info_t *      ui_action_get_info_list(void);
+bool                    ui_action_is_valid     (int action);
 
-int                 ui_action_get_id(const char *name);
-const char *        ui_action_get_name(int action);
-const char *        ui_action_get_desc(int action);
-ui_action_info_t *  ui_action_get_info_list(void);
-bool                ui_action_is_valid(int action);
-
-/* Get action IDs for fliplist actions */
-int ui_action_id_fliplist_add(int unit, int drive);
-int ui_action_id_fliplist_remove(int unit, int drive);
-int ui_action_id_fliplist_next(int unit, int drive);
-int ui_action_id_fliplist_previous(int unit, int drive);
-int ui_action_id_fliplist_clear(int unit, int drive);
-int ui_action_id_fliplist_load(int unit, int drive);
-int ui_action_id_fliplist_save(int unit, int drive);
-
-int ui_action_id_drive_attach(int unit, int drive);
-int ui_action_id_drive_detach(int unit, int drive);
+/* Get action IDs for drive actions */
+int                     ui_action_id_fliplist_add     (int unit, int drive);
+int                     ui_action_id_fliplist_remove  (int unit, int drive);
+int                     ui_action_id_fliplist_next    (int unit, int drive);
+int                     ui_action_id_fliplist_previous(int unit, int drive);
+int                     ui_action_id_fliplist_clear   (int unit, int drive);
+int                     ui_action_id_fliplist_load    (int unit, int drive);
+int                     ui_action_id_fliplist_save    (int unit, int drive);
+int                     ui_action_id_drive_attach     (int unit, int drive);
+int                     ui_action_id_drive_detach     (int unit, int drive);
 
 /* Main API */
-void ui_actions_init(void);
-void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
-void ui_actions_shutdown(void);
-const ui_action_map_t *ui_actions_get_registered(void);
-void ui_actions_register(const ui_action_map_t *mappings);
-void ui_action_trigger(int action);
-void ui_action_finish(int action);
+void                    ui_actions_init          (void);
+void                    ui_actions_set_dispatch  (void (*dispatch)(const ui_action_map_t *));
+void                    ui_actions_shutdown      (void);
+const ui_action_map_t * ui_actions_get_registered(void);
+void                    ui_actions_register      (const ui_action_map_t *mappings);
+
+void                    ui_action_trigger        (int action);
+void                    ui_action_finish         (int action);
 /* TODO: implement the following: */
-bool                ui_action_def(int action, const char *hotkey);
-bool                ui_action_undef(int action);
-bool                ui_action_redef(int action, const char *hotkey);
+bool                    ui_action_def            (int action, const char *hotkey);
+bool                    ui_action_redef          (int action, const char *hotkey);
+bool                    ui_action_undef          (int action);
 
 #endif

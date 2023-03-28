@@ -150,7 +150,7 @@ static void kbd_buf_parse_string(const char *string)
                 kbd_buf_string[j] = charset_p_topetcii('\n');
                 i += 1;
                 j++;
-            } else if((i < (len - 3)) && (string[i + 1] == 'x') && isxdigit((int)string[i + 2]) && isxdigit((int)string[i + 3])) {
+            } else if((i < (len - 3)) && (string[i + 1] == 'x') && isxdigit((unsigned char)string[i + 2]) && isxdigit((unsigned char)string[i + 3])) {
                 /* escaped hex value in c-style format "\x00" */
                 char hexvalue[3];
 

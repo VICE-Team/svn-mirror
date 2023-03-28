@@ -63,13 +63,6 @@ uint8_t riot2_peek(diskunit_context_t *ctxptr, uint16_t addr)
     return riotcore_peek(ctxptr->riot2, addr);
 }
 
-int riot2_dump(diskunit_context_t *ctxptr, uint16_t addr)
-{
-    /* TODO: implement dump feature */
-    /* riotcore_dump(ctxptr->riot2, addr); */
-    return -1;
-}
-
 static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
 {
     diskunit_context_t *dc;

@@ -687,7 +687,7 @@ static int arg_to_int(const char *arg, int *return_value)
 
     /* Only whitespace is allowed after the last valid character.  */
     if (!util_check_null_string(tailptr)) {
-        while (isspace((int)tailptr[counter])) {
+        while (isspace((unsigned char)tailptr[counter])) {
             counter++;
         }
         tailptr += counter;
@@ -3380,7 +3380,7 @@ static int match_sub_pattern(const char *name, int type,
 #endif
     /* first check if we have a filetype specifier */
     if (plen > 2 && pattern[plen - 2] == '=') {
-        if (toupper((int)(pattern[plen -1])) != type) {
+        if (toupper((unsigned char)(pattern[plen -1])) != type) {
             return 0;
         } else {
             /* reduce pattern size (strip off '=X') */
@@ -3412,7 +3412,7 @@ static int match_sub_pattern(const char *name, int type,
 
 /** \brief  Test a file \a name and \a type against \a pattern
  *
- * This function can handle multiple patterns separated by comma's, and supports
+ * This function can handle multiple patterns separated by commas, and supports
  * specifying a file type per sub pattern.
  *
  * Example: "foo*=p,b?r*=s", will match PRG files against "foo*" and SEQ files
@@ -3439,7 +3439,7 @@ static int list_file_matches_pattern(const char *name,
     int plen;
 
     /* get filetype as single token */
-    ftype = toupper((int)(type[1]));   /* P, S, D, R, U */
+    ftype = toupper((unsigned char)(type[1]));   /* P, S, D, R, U */
 
     /* pattern length */
     plen = (int)strlen(pattern);

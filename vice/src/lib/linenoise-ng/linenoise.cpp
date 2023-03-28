@@ -3497,7 +3497,7 @@ void linenoisePrintKeyCodes(void) {
     quit[sizeof(quit) - 1] = c; /* Insert current char on the right. */
     if (memcmp(quit, "quit", sizeof(quit)) == 0) break;
 
-    printf("'%c' %02x (%d) (type quit to exit)\n", isprint(c) ? c : '?',
+    printf("'%c' %02x (%d) (type quit to exit)\n", isprint((unsigned char)c) ? c : '?',
             (unsigned int)c, (int)c);
     printf("\r"); /* Go left edge manually, we are in raw mode. */
     fflush(stdout);
