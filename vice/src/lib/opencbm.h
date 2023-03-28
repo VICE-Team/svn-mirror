@@ -84,7 +84,7 @@ extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
 # define EXTERN extern /*!< EXTERN is not defined on Linux */
 # define CBMAPIDECL /*!< CBMAPIDECL is a dummy on Linux */
 # define WINAPI /*!< WINAPI is a dummy on Linux */
-# define CBM_FILE intptr_t /*!< The "file descriptor" for an opened driver */
+# define CBM_FILE void * /*!< The "file descriptor" for an opened driver */
 # define CBM_FILE_INVALID ((CBM_FILE)-1) /*!< An invalid "file descriptor" (CBM_FILE) */
 
 #ifndef UNREFERENCED_PARAMETER
