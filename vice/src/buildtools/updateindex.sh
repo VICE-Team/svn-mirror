@@ -6,6 +6,15 @@
 
 #VERBOSE=1
 
+if sed -i 'p' $(mktemp) 2>/dev/null
+then
+    # GNU sed
+    SED_I="sed -i"
+else
+    # BSD sed
+    SED_I="sed -i ''"
+fi
+
 README=doc/html/index.html
 CONFIG=configure.ac
 VICEDATE=src/vicedate.h
@@ -89,7 +98,7 @@ else
     TOPLINE+=.$VBUILD
     fi
     TOPLINE+=" released"
-    LC_ALL=C sed -i -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
+    LC_ALL=C $SED_I -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
@@ -115,7 +124,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+=".tar.gz"
-    LC_ALL=C sed -i -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
 fi
 
 LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
@@ -141,7 +150,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+="-win"
-    LC_ALL=C sed -i -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
 fi
 
 LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
@@ -164,7 +173,7 @@ else
     else
     LINE+=.$VBUILD
     fi
-    LC_ALL=C sed -i -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
 fi
 
 LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
@@ -188,7 +197,7 @@ else
     LINE+=.$VBUILD
     fi
     LINE+=".dmg"
-    LC_ALL=C sed -i -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
 fi
 
 LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`

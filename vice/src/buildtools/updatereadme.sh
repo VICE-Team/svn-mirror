@@ -6,6 +6,15 @@
 
 #VERBOSE=1
 
+if sed -i 'p' $(mktemp) 2>/dev/null
+then
+    # GNU sed
+    SED_I="sed -i"
+else
+    # BSD sed
+    SED_I="sed -i ''"
+fi
+
 README=README
 CONFIG=configure.ac
 VICEDATE=src/vicedate.h
@@ -85,7 +94,7 @@ else
     TOPLINE+=$MONTH
     TOPLINE+=" "
     TOPLINE+=$YEAR
-    LC_ALL=C sed -i -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
+    LC_ALL=C $SED_I -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep " \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]" < $README`
@@ -112,7 +121,7 @@ else
     LINE+=" "
     fi
     LINE+="of VICE"
-    LC_ALL=C sed -i -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
 fi
 
 LINE=`grep "This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE" < $README`
