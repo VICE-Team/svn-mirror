@@ -340,7 +340,7 @@ static int palette_read_tag(FILE *f, char *tag, char *outbuf, int len)
 static int palette_read_info(const char *pathname, const char *filename, palette_info_t* list)
 {
     int res = 0;
-    int n = 0;
+    size_t n = 0;
     char *fullpath;
     const char *chip_guess;
     const char *name_guess;
@@ -525,7 +525,7 @@ const palette_info_t *palette_get_info_list(void)
             {
                 archdep_dir_t *host_dir;
                 const char *fname;
-                int n;
+                size_t n;
                 host_dir = archdep_opendir(dirname, ARCHDEP_OPENDIR_ALL_FILES);
                 if (host_dir) {
                     while ((fname = archdep_readdir(host_dir)) != NULL) {
