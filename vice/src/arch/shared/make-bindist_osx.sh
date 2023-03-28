@@ -31,8 +31,14 @@ set -o nounset
 #                         $1           $2      $3             $4              $5         $6
 #
 
+WARN_CODE_SIGN=false
+
 [ -z ${DEPS_PREFIX+set} ] && (>&2 echo "ERROR: Please set DEPS_PREFIX environment variable to something like /opt/local, /usr/local, or /opt/homebrew"; exit 1)
-[ -z ${CODE_SIGN_ID+set} ] && CODE_SIGN_ID=""
+
+if [ -z ${CODE_SIGN_ID+set} ]; then
+  CODE_SIGN_ID=$(security find-identity -v -p codesigning | grep "Developer ID Application" | head -n1 | awk -F'"' '{ print $2 }')
+  WARN_CODE_SIGN=true
+fi
 
 if which gtk-update-icon-cache-3.0 > /dev/null; then
   # macports
@@ -174,7 +180,8 @@ make_app_bundle() {
     -R \
     -B \
     "$app_path" \
-    2>&1 > $output
+    > /dev/null \
+    2> $output
   
   PLATYPUS_STATUS=$?
   
@@ -197,7 +204,7 @@ make_app_bundle() {
   # So, we check for it, and add it if missing.
   #
 
-  /usr/libexec/PlistBuddy -c 'print ":CFBundlePackageType"' "$app_path/Contents/Info.plist" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c 'print ":CFBundlePackageType"' "$app_path/Contents/Info.plist" >/dev/null 2>&1 || \
     /usr/libexec/PlistBuddy -c "Add CFBundlePackageType string APPL" "$app_path/Contents/Info.plist"
 }
 
@@ -674,7 +681,7 @@ fi
 # --- show warnings ------------------------------------------------------------
 
 if [ -z "$CODE_SIGN_ID" ]; then
-  cat << "  HEREDOC" | sed 's/^ *//'
+  cat <<HEREDOC | sed 's/^ *//'
 
     ****
     Bindist is not codesigned. To sign, export the CODE_SIGN_ID environment variable to
@@ -683,16 +690,29 @@ if [ -z "$CODE_SIGN_ID" ]; then
     Run 'security find-identity -v -p codesigning' to list available identities.
     ****
 
-  HEREDOC
+HEREDOC
+fi
+
+if $WARN_CODE_SIGN; then
+  cat <<HEREDOC | sed 's/^ *//'
+
+    ****
+    CODE_SIGN_ID environment variable not set, using detected value: $CODE_SIGN_ID
+    
+    Run 'security find-identity -v -p codesigning' to list available identities,
+    and set CODE_SIGN_ID to something like "Developer ID Application: <NAME> (<ID>)".
+    ****
+
+HEREDOC
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
-  cat << "  HEREDOC" | sed 's/^ *//'
+  cat <<HEREDOC | sed 's/^ *//'
     
     ****
     Warning: binaries are optimized for your system and might not run on a different system,
     use --enable-arch=no to avoid this.
     ****
 
-  HEREDOC
+HEREDOC
 fi
