@@ -92,13 +92,30 @@ MPS1000
 
 early 801     7       6                       80    480
 803           7       6  0.09   0.08          80    480    1/72"   1/60"
+
+803:
+  Char Column spacing: 10 characters/inch = 60 dots/inch
+  Char Line spacing:   6 Char lines/inch (USA) or 8 Char lines/inch (europe)
+                       72/7 "Char" lines/inch in bit image printing
+  "Paper Feed Pitch select" (1/6" or 1/8") is a physical switch
+
+US Letter paper is   8.5" x 11.00"
+A4 paper is         8.25" x 11.75"
 */
 #define MAX_CHARS_PER_LINE  136
 #define MAX_BYTES_PER_CHAR  8
 #define MAX_COLS_PER_CHAR   8
 #define MAX_ROWS_PER_CHAR   8
 
-#define MPS803_PAGE_HEIGHT_CHARACTERS  66
+/* Determining the proper value for the page height doesn't seem to be easy, it
+ * is not really defined :/
+ *
+ * The theoretical maximum for a US Letter page would be ~ 792 dots
+ *
+ * "The Print Shop" needs 70 char rows (actually 693 dots high page) to be able
+ * to fit a greetings card on a single page
+ */
+#define MPS803_PAGE_HEIGHT_CHARACTERS  70
 #define MPS803_PAGE_WIDTH_CHARACTERS  80
 
 #define MPS803_PAGE_WIDTH_DOTS     (MPS803_PAGE_WIDTH_CHARACTERS * 6)
@@ -578,7 +595,8 @@ static void write_line(mps_t *mps, unsigned int prnr)
     /*
     mps803:
     line feeds are:
-    - 6 lines per inch in character- and double width character mode
+    - 6 lines (USA) or 8 lines (Europe) per inch in character- and double width character mode
+      ("Paper Feed Pitch select" (1/6" or 1/8") is a physical switch)
     - 9 lines per inch in bit image graphic print mode
     */
 
