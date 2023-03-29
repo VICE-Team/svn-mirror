@@ -42,6 +42,7 @@ romsets = \
 	hre.vrs
 
 palettes = \
+	2001-blueish.vpl \
 	amber.vpl \
 	green.vpl \
 	white.vpl
