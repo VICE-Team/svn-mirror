@@ -2002,6 +2002,7 @@ int drv_nl10_init_resources(void)
     driver_select_t driver_select;
 
     driver_select.drv_name = "nl10";
+    driver_select.drv_select = NULL;
     driver_select.drv_open = drv_nl10_open;
     driver_select.drv_close = drv_nl10_close;
     driver_select.drv_putc = drv_nl10_putc;
