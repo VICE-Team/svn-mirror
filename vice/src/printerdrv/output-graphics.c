@@ -301,16 +301,9 @@ static int output_graphics_getc(unsigned int prnr, uint8_t *b)
 
 static int output_graphics_flush(unsigned int prnr)
 {
-    output_gfx_t *o = &(output_gfx[prnr]);
     DBG(("output_graphics_flush:%d", prnr));
-
-    /* only do this if something has actually been printed on this page */
-    if (o->isopen) {
-        /* output current line */
-        current_prnr = prnr;
-        (o->gfxoutputdrv->write)(&o->screenshot);
-        o->line_no++;
-    }
+    /* We can't really update the output partially, so we do nothing and rely on
+       the rest of the code doing it as needed */
     return 0;
 }
 
