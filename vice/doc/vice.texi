@@ -16609,11 +16609,14 @@ following values:
 @itemize @bullet
 @item
 @code{green.vpl} (default, ``green)''), the good old green-on-black
-feeling;
+feeling; for use on the 3000 models and up;
 @item
-@code{amber.vpl} (``amber''), an amber phosphor lookalike;
+@code{2001-blueish.vpl} (``2001-blueish''), an approximation of the slightly
+blue CRTs used for the 2001 models;
 @item
-@code{white.vpl} (``white''), simple white-on-black palette.
+@code{amber.vpl} (``amber''), an amber phosphor lookalike (not used by Commodore);
+@item
+@code{white.vpl} (``white''), simple white-on-black palette (not used by Commodore).
 @end itemize
 
 @node PET DWW high resolution graphics
