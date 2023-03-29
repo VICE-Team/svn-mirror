@@ -71,6 +71,9 @@
 
 
 static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data);
+#if DELAY_NOCRTC_RETRACE > 0
+static void crtc_delayed_retrace_alarm_handler(CLOCK offset, void *data);
+#endif
 
 
 /*--------------------------------------------------------------------*/
@@ -480,6 +483,10 @@ raster_t *crtc_init(void)
 
     crtc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "CrtcRasterDraw",
                                        crtc_raster_draw_alarm_handler, NULL);
+#if DELAY_NOCRTC_RETRACE > 0
+    crtc.delayed_retrace_alarm = alarm_new(maincpu_alarm_context, "CrtcDelayedRetrace",
+                                           crtc_delayed_retrace_alarm_handler, NULL);
+#endif
 
     raster = &crtc.raster;
 
@@ -808,7 +815,12 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
             }
         } else {        /* PETs without CRTC */
             if (crtc.venable && !new_venable) {
+#if DELAY_NOCRTC_RETRACE > 0
+                alarm_set(crtc.delayed_retrace_alarm,
+                          maincpu_clk - offset + DELAY_NOCRTC_RETRACE);
+#else
                 crtc.retrace_callback(1);
+#endif
             } else
             if (new_venable && !crtc.venable) {
                 crtc.retrace_callback(0);
@@ -862,6 +874,14 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     alarm_set(crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
 }
+
+#if DELAY_NOCRTC_RETRACE > 0
+static void crtc_delayed_retrace_alarm_handler(CLOCK offset, void *data)
+{
+    alarm_unset(crtc.delayed_retrace_alarm);
+    crtc.retrace_callback(1);
+}
+#endif
 
 void crtc_shutdown(void)
 {

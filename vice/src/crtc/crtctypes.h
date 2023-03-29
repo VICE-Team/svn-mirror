@@ -160,6 +160,20 @@ struct crtc_s {
     /* Alarm to update a raster line.  */
     struct alarm_s *raster_draw_alarm;
 
+    /*
+     * On real 2001s, the retrace interrupt is delayed by probably about
+     * 16-24 clock cycles after VENABLE goes false.
+     * Almost nothing cares about this, and obeying the delay adds some
+     * overhead, so by default this is not emulated.
+     * Here is a compile-time switch to turn it on (choosing the number of
+     * cycles of delay) or off (0).
+     */
+#define DELAY_NOCRTC_RETRACE    0      /* 16 */
+#if DELAY_NOCRTC_RETRACE > 0
+    /* Alarm to trigger a delayed retrace alarm.  */
+    struct alarm_s *delayed_retrace_alarm;
+#endif
+
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
 };
