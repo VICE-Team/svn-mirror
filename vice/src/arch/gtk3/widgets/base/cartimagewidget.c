@@ -555,6 +555,7 @@ GtkWidget *cart_secondary_image_widget_create(const char *image_tag,
     } else {
         secondary_tag = lib_strdup("secondary");
     }
+    crt_id = cart_id;
     if (crt_name == NULL) {
         crt_name = lib_strdup(cart_name);
     }
