@@ -207,6 +207,7 @@ int drv_ascii_init_resources(void)
     driver_select_t driver_select;
 
     driver_select.drv_name = "ascii";
+    driver_select.drv_select = NULL;
     driver_select.drv_open = drv_ascii_open;
     driver_select.drv_close = drv_ascii_close;
     driver_select.drv_putc = drv_ascii_putc;
