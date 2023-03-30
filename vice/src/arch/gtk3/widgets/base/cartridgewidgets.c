@@ -48,6 +48,8 @@
 typedef struct ci_state_s {
     mediator_t *mediator;       /**< resource meditator backref */
     GtkWidget  *entry;          /**< GtkEntry for the image path */
+    GtkWidget  *flush;          /**< GtkButton to flush the image */
+    GtkWidget  *save;           /**< GtkButton to save the image */
     GtkWidget  *checks_grid;    /**< GtkGrid for the optional check buttons */
     int         checks_count;   /**< number of check buttons in \a checks_grid */
     int         cart_id;        /**< cartridge ID according to cartridge.h */
@@ -311,6 +313,8 @@ static ci_state_t *ci_state_new(int         cart_id,
     ci_state_t *state = g_malloc(sizeof *state);
 
     state->entry        = NULL;
+    state->flush        = NULL;
+    state->save         = NULL;
     state->checks_grid  = NULL;
     state->checks_count = 0;
     state->cart_id      = cart_id;
@@ -352,6 +356,41 @@ static gboolean valid_image_num(cart_img_t num)
     return (gboolean)(num >= CART_IMAGE_PRIMARY && num <= CART_IMAGE_QUATERNARY);
 }
 
+/** \brief  Update sensitivity of flush/save buttons
+ *
+ * Use the _can_flush()/_can_save() cartridge functions to set the sensitivity
+ * of the save/flush buttons.
+ *
+ * \param[in]   state   widget state object
+ */
+static void update_buttons_sensitivity(const ci_state_t *state)
+{
+    gboolean can_flush;
+    gboolean can_save;
+
+    switch (state->image_num) {
+        case CART_IMAGE_PRIMARY:
+            can_save  = (gboolean)cartridge_can_save_image(state->cart_id);
+            can_flush = (gboolean)cartridge_can_flush_image(state->cart_id);
+            break;
+        case CART_IMAGE_SECONDARY:
+            can_save  = (gboolean)cartridge_can_save_secondary_image(state->cart_id);
+            can_flush = (gboolean)cartridge_can_flush_secondary_image(state->cart_id);
+            break;
+        default:
+            /* no support for tertiary/quaternary images yet */
+            can_save  = FALSE;
+            can_flush = FALSE;
+    }
+
+    if (state->flush != NULL) {
+        gtk_widget_set_sensitive(state->flush, can_flush);
+    }
+    if (state->save != NULL) {
+        gtk_widget_set_sensitive(state->save, can_save);
+    }
+}
+
 /** \brief  Update filename resource of cartridge image
  *
  * Update the resource for the cartridge image to \a filename, if updating fails
@@ -376,6 +415,7 @@ static gboolean update_resource(ci_state_t *state, const char *filename)
                                 "Failed to set '%s' as the %s image file.",
                                 filename, state->image_tag);
     }
+    update_buttons_sensitivity(state);
     return result;
 }
 
@@ -552,8 +592,6 @@ GtkWidget *cart_image_widget_new(int         cart_id,
     GtkWidget  *flush = NULL;
     mediator_t *mediator;
     ci_state_t *state;
-    gboolean    can_save;
-    gboolean    can_flush;
     char        buffer[256];
     int         row = 0;
 
@@ -617,6 +655,7 @@ GtkWidget *cart_image_widget_new(int         cart_id,
                              "clicked",
                              G_CALLBACK(on_save_clicked),
                              (gpointer)state);
+            state->save = save;
         }
         if (flush_button) {
             flush = gtk_button_new_with_label("Flush image");
@@ -625,30 +664,12 @@ GtkWidget *cart_image_widget_new(int         cart_id,
                              "clicked",
                              G_CALLBACK(on_flush_clicked),
                              (gpointer)state);
-        }
-
-        /* set sensitivity of buttons */
-        switch (image_num) {
-            case CART_IMAGE_PRIMARY:
-                can_save  = (gboolean)cartridge_can_save_image(cart_id);
-                can_flush = (gboolean)cartridge_can_flush_image(cart_id);
-                break;
-            case CART_IMAGE_SECONDARY:
-                can_save  = (gboolean)cartridge_can_save_secondary_image(cart_id);
-                can_flush = (gboolean)cartridge_can_flush_secondary_image(cart_id);
-                break;
-            default:
-                /* no support for tertiary/quaternary images yet */
-                can_save  = FALSE;
-                can_flush = FALSE;
-        }
-        if (save != NULL) {
-            gtk_widget_set_sensitive(save,  can_save);
-        }
-        if (flush != NULL) {
-            gtk_widget_set_sensitive(flush, can_flush);
+            state->flush = flush;
         }
         gtk_grid_attach(GTK_GRID(grid), buttons, 1, row, 1, 1);
+
+        /* set sensitivity of buttons */
+        update_buttons_sensitivity(state);
     }
 
     return grid;
