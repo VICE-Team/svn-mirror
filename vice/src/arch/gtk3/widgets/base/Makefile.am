@@ -38,6 +38,7 @@ libbasewidgets_a_SOURCES = \
 	basedialogs.c \
 	carthelpers.c \
 	cartimagewidget.c \
+	cartridgewidgets.c \
 	clockportdevicewidget.c \
 	csshelpers.c \
 	filechooserhelpers.c \
@@ -68,6 +69,7 @@ EXTRA_DIST = \
 	basewidgets.h \
 	carthelpers.h \
 	cartimagewidget.h \
+	cartridgewidgets.h \
 	clockportdevicewidget.h \
 	csshelpers.h \
 	filechooserhelpers.h \
