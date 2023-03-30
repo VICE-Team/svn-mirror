@@ -99,6 +99,9 @@ static void on_widget_destroy(GtkWidget *widget, gpointer mediator)
  * \a widget. Registers a 'destroy' signal handler on \a widget that frees
  * the mediator and its members.
  *
+ * The resource \a name can be `NULL` so the mediator can be used to wrangle
+ * additional state objects (like in cartwidgets.c).
+ *
  * \param[in]   widget  resource widget
  * \param[in]   name    resource name
  * \param[in]   type    resource type (`G_TYPE_BOOLEAN`, `G_TYPE_INT` or
@@ -134,35 +137,58 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
     g_value_init(&(mediator->current), type);
 
     /* get initial resource value */
-    switch (type) {
-        case G_TYPE_BOOLEAN:
-            if (resources_get_int(name, &ival) < 0) {
-                goto report_error;
-            }
-            g_value_set_boolean(&(mediator->initial), ival ? TRUE : FALSE);
-            g_value_set_boolean(&(mediator->current), ival ? TRUE : FALSE);
-            break;
+    if (name != NULL) {
+        switch (type) {
+            case G_TYPE_BOOLEAN:
+                if (resources_get_int(name, &ival) < 0) {
+                    goto report_error;
+                }
+                g_value_set_boolean(&(mediator->initial), ival ? TRUE : FALSE);
+                g_value_set_boolean(&(mediator->current), ival ? TRUE : FALSE);
+                break;
 
-        case G_TYPE_INT:
-            if (resources_get_int(name, &ival) < 0) {
-                goto report_error;
-            }
-            g_value_set_int(&(mediator->initial), ival);
-            g_value_set_int(&(mediator->current), ival);
-            break;
+            case G_TYPE_INT:
+                if (resources_get_int(name, &ival) < 0) {
+                    goto report_error;
+                }
+                g_value_set_int(&(mediator->initial), ival);
+                g_value_set_int(&(mediator->current), ival);
+                break;
 
-        case G_TYPE_STRING:
-            if (resources_get_string(name, &sval) < 0) {
-                goto report_error;
-            }
-            g_value_set_string(&(mediator->initial), sval);
-            g_value_set_string(&(mediator->current), sval);
-            break;
+            case G_TYPE_STRING:
+                if (resources_get_string(name, &sval) < 0) {
+                    goto report_error;
+                }
+                g_value_set_string(&(mediator->initial), sval);
+                g_value_set_string(&(mediator->current), sval);
+                break;
 
-        default:
-            debug_gtk3("resource %s: unhandled type %s.",
-                       name, g_type_name(type));
-            break;
+            default:
+                debug_gtk3("resource %s: unhandled type %s.",
+                           name, g_type_name(type));
+                break;
+        }
+    } else {
+        /* we're using the mediator's wrangling of additional state but not an
+         * actual resource, init the value anyway */
+        switch (type) {
+            case G_TYPE_BOOLEAN:
+                g_value_set_boolean(&(mediator->initial), FALSE);
+                g_value_set_boolean(&(mediator->current), FALSE);
+                break;
+            case G_TYPE_INT:
+                g_value_set_int(&(mediator->initial), 0);
+                g_value_set_int(&(mediator->current), 0);
+                break;
+            case G_TYPE_STRING:
+                g_value_set_string(&(mediator->initial), NULL);
+                g_value_set_string(&(mediator->current), NULL);
+                break;
+            default:
+                debug_gtk3("resource %s: unhandled type %s.",
+                           name, g_type_name(type));
+                break;
+        }
     }
 
     return mediator;
