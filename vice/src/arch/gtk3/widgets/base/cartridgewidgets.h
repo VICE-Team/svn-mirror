@@ -51,7 +51,9 @@ GtkWidget *cart_image_widget_new(int         cart_id,
                                  const char *cart_name,
                                  cart_img_t  image_num,
                                  const char *image_tag,
-                                 const char *resource);
+                                 const char *resource,
+                                 gboolean    flush_button,
+                                 gboolean    save_button);
 
 void       cart_image_widget_append_check(GtkWidget  *widget,
                                           const char *resource,

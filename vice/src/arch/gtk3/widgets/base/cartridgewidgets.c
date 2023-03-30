@@ -522,11 +522,13 @@ static GtkWidget *label_helper(const char *text)
  * used. If \a resource is `NULL` the GtkEntry to select an image file won't be
  * added.
  *
- * \param[in]   cart_id     cartridge ID
- * \param[in]   cart_name   cartridge name
- * \param[in]   image_num   cartridge image number
- * \param[in]   image_tag   cartridge image tag (can be `NULL`)
- * \param[in]   resource    cartridge image file resource (can be `NULL`)
+ * \param[in]   cart_id         cartridge ID
+ * \param[in]   cart_name       cartridge name
+ * \param[in]   image_num       cartridge image number
+ * \param[in]   image_tag       cartridge image tag (can be `NULL`)
+ * \param[in]   resource        cartridge image file resource (can be `NULL`)
+ * \param[in]   flush_button    cartridge widget needs "flush image" button
+ * \param[in]   save_button     cartridge widget needs "save image as" button
  *
  * \return  GtkGrid
  *
@@ -537,15 +539,17 @@ GtkWidget *cart_image_widget_new(int         cart_id,
                                  const char *cart_name,
                                  cart_img_t  image_num,
                                  const char *image_tag,
-                                 const char *resource)
+                                 const char *resource,
+                                 gboolean    flush_button,
+                                 gboolean    save_button)
 {
     GtkWidget  *grid;
     GtkWidget  *label;
     GtkWidget  *entry;
     GtkWidget  *checks;
-    GtkWidget  *buttons;
-    GtkWidget  *save;
-    GtkWidget  *flush;
+    GtkWidget  *buttons = NULL;
+    GtkWidget  *save = NULL;
+    GtkWidget  *flush = NULL;
     mediator_t *mediator;
     ci_state_t *state;
     gboolean    can_save;
@@ -597,46 +601,55 @@ GtkWidget *cart_image_widget_new(int         cart_id,
     /* check buttons grid */
     checks = gtk_grid_new();
     state->checks_grid = checks;
-
-    /* save and flush buttons */
-    buttons = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-    save    = gtk_button_new_with_label("Save image as ..");
-    flush   = gtk_button_new_with_label("Flush image");
-    gtk_box_pack_start(GTK_BOX(buttons), save,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(buttons), flush, FALSE, FALSE, 0);
-    gtk_box_set_spacing(GTK_BOX(buttons), 8);
-    gtk_widget_set_halign(buttons, GTK_ALIGN_END);
-    gtk_widget_set_hexpand(buttons, TRUE);
-    /* set sensitivity of buttons */
-    switch (image_num) {
-        case CART_IMAGE_PRIMARY:
-            can_save  = (gboolean)cartridge_can_save_image(cart_id);
-            can_flush = (gboolean)cartridge_can_flush_image(cart_id);
-            break;
-        case CART_IMAGE_SECONDARY:
-            can_save  = (gboolean)cartridge_can_save_secondary_image(cart_id);
-            can_flush = (gboolean)cartridge_can_flush_secondary_image(cart_id);
-            break;
-        default:
-            /* no support for tertiary/quaternary images yet */
-            can_save  = FALSE;
-            can_flush = FALSE;
-    }
-    gtk_widget_set_sensitive(save,  can_save);
-    gtk_widget_set_sensitive(flush, can_flush);
-    /* connect signal handlers */
-    g_signal_connect(G_OBJECT(save),
-                     "clicked",
-                     G_CALLBACK(on_save_clicked),
-                     (gpointer)state);
-    g_signal_connect(G_OBJECT(flush),
-                     "clicked",
-                     G_CALLBACK(on_flush_clicked),
-                     (gpointer)state);
-
     gtk_grid_attach(GTK_GRID(grid), checks,  0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), buttons, 1, row, 1, 1);
 
+    /* save and flush buttons, if requested */
+    if (flush_button || save_button) {
+        buttons = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
+        gtk_box_set_spacing(GTK_BOX(buttons), 8);
+        gtk_widget_set_halign(buttons, GTK_ALIGN_END);
+        gtk_widget_set_hexpand(buttons, TRUE);
+
+        if (save_button) {
+            save = gtk_button_new_with_label("Save image as ..");
+            gtk_box_pack_start(GTK_BOX(buttons), save,  FALSE, FALSE, 0);
+            g_signal_connect(G_OBJECT(save),
+                             "clicked",
+                             G_CALLBACK(on_save_clicked),
+                             (gpointer)state);
+        }
+        if (flush_button) {
+            flush = gtk_button_new_with_label("Flush image");
+            gtk_box_pack_start(GTK_BOX(buttons), flush, FALSE, FALSE, 0);
+            g_signal_connect(G_OBJECT(flush),
+                             "clicked",
+                             G_CALLBACK(on_flush_clicked),
+                             (gpointer)state);
+        }
+
+        /* set sensitivity of buttons */
+        switch (image_num) {
+            case CART_IMAGE_PRIMARY:
+                can_save  = (gboolean)cartridge_can_save_image(cart_id);
+                can_flush = (gboolean)cartridge_can_flush_image(cart_id);
+                break;
+            case CART_IMAGE_SECONDARY:
+                can_save  = (gboolean)cartridge_can_save_secondary_image(cart_id);
+                can_flush = (gboolean)cartridge_can_flush_secondary_image(cart_id);
+                break;
+            default:
+                /* no support for tertiary/quaternary images yet */
+                can_save  = FALSE;
+                can_flush = FALSE;
+        }
+        if (save != NULL) {
+            gtk_widget_set_sensitive(save,  can_save);
+        }
+        if (flush != NULL) {
+            gtk_widget_set_sensitive(flush, can_flush);
+        }
+        gtk_grid_attach(GTK_GRID(grid), buttons, 1, row, 1, 1);
+    }
 
     return grid;
 }

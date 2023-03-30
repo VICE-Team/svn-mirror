@@ -56,11 +56,14 @@ GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 32);
 
     /* primary image: 512KB flash */
-    primary = cart_image_widget_new(CARTRIDGE_GMOD2,
-                                    CARTRIDGE_NAME_GMOD2,
-                                    CART_IMAGE_PRIMARY,
-                                    "cartridge",
-                                    NULL);
+    primary = cart_image_widget_new(CARTRIDGE_GMOD2,        /* cart id */
+                                    CARTRIDGE_NAME_GMOD2,   /* cart name */
+                                    CART_IMAGE_PRIMARY,     /* image number */
+                                    "cartridge",            /* image tag */
+                                    NULL,                   /* resource name */
+                                    TRUE,                   /* flush button */
+                                    TRUE                    /* save button */
+                                    );
     cart_image_widget_append_check(primary,
                                    "GMOD2FlashWrite",
                                    "Save image when changed");
@@ -70,7 +73,9 @@ GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
                                       CARTRIDGE_NAME_GMOD2,
                                       CART_IMAGE_SECONDARY,
                                       "EEPROM",
-                                      "GMOD2EEPROMImage");
+                                      "GMOD2EEPROMImage",
+                                      TRUE,
+                                      TRUE);
     cart_image_widget_append_check(secondary,
                                    "GMOD2EEPROMRW",
                                    "Enable writes to " CARTRIDGE_NAME_GMOD2
