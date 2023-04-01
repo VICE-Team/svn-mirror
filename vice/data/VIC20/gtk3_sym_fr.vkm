@@ -144,7 +144,12 @@ quotedbl        0 7 1
 # |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
 
 numbersign      1 0 1
-Shift_L         1 3 2
+# left shift
+# key is left shift
+Shift_L          1 3 2
+# shift lock
+# key is (left) shift-lock
+Caps_Lock        1 3 64
 dollar          1 7 1
 
 #####################
