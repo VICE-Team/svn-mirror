@@ -157,7 +157,12 @@
 #!LCTRL 0 0
 #!VCTRL LCTRL
 
-Shift_L     6 0 2
+# left shift
+# key is left shift
+Shift_L          6 0 2
+# shift lock
+# key is (left) shift-lock
+Caps_Lock        6 0 64
 Shift_R     6 6 4
 Control_L   9 4 8
 

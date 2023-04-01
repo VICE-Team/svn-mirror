@@ -181,7 +181,13 @@ Escape          9 4 8
 Return          6 5 8
 asterisk        5 7 16
 
-Shift_L         8 0 2
+# left shift
+# key is left shift
+Shift_L          8 0 2
+# shift lock
+# key is (left) shift-lock
+Caps_Lock        8 0 64
+
 comma           7 3 0
 semicolon       6 4 0
 question        7 4 16
