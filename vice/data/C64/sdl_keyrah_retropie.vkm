@@ -155,7 +155,7 @@
 51  1 0 8               /*            3 -> 3            */
 52  1 3 8               /*            4 -> 4            */
 304 1 7 2               /*   Left Shift -> Left Shift   */
-#301 1 7 64              /*    Caps Lock -> Shift Lock   */
+301 1 7 64              /*    Caps Lock -> Shift Lock   */
 
 53  2 0 8               /*            5 -> 5            */
 54  2 3 8               /*            6 -> 6            */

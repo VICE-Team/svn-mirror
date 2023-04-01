@@ -180,6 +180,7 @@
 92 6 6 8                /*            \ -> arrow up     */
 
 304 1 7 2               /*   Left Shift -> Left Shift   */
+301 1 7 64              /*    Caps Lock -> Shift Lock   */
 122 1 4 8               /*            Z -> Z            */
 120 2 7 8               /*            X -> X            */
 99 2 4 8                /*            C -> C            */
