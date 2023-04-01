@@ -24,6 +24,8 @@
  *
  */
 
+#include <stdlib.h>
+
 #include "menu-activate.h"
 #include "uiactions.h"
 #include "uisettings.h"
