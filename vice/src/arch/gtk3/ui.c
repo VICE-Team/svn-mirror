@@ -55,6 +55,7 @@
 #endif
 
 #include "archdep.h"
+#include "attach.h"
 #include "autostart.h"
 #include "basedialogs.h"
 #include "cmdline.h"
@@ -808,6 +809,7 @@ static void on_drag_data_received(GtkWidget *widget,
     gchar *filename = NULL;
     gchar **files = NULL;
     guchar *text = NULL;
+    GdkDragAction action = gdk_drag_context_get_selected_action (context);
 
     switch (info) {
 
@@ -887,8 +889,17 @@ static void on_drag_data_received(GtkWidget *widget,
 
     /* can we attempt autostart? */
     if (filename != NULL) {
-        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-            /* TODO: add proper UI error */
+        if (action != GDK_ACTION_MOVE) {
+            /* drop with alt ("link") -> only load, not run */
+            int mode = (action == GDK_ACTION_LINK) ? AUTOSTART_MODE_LOAD : AUTOSTART_MODE_RUN;
+            if (autostart_autodetect(filename, NULL, 0, mode) != 0) {
+                /* TODO: add proper UI error */
+            }
+        } else {
+            /* drop with shift ("move") -> only mount the disk */
+            if (file_system_attach_disk(8, 0, filename) < 0) {
+                /* TODO: add proper UI error */
+            }
         }
         g_free(filename);
     }
@@ -1813,7 +1824,7 @@ void ui_create_main_window(video_canvas_t *canvas)
                           GTK_DEST_DEFAULT_ALL,
                           ui_drag_targets,
                           UI_DRAG_TARGETS_COUNT,
-                          GDK_ACTION_COPY);
+                          GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
         g_signal_connect(new_window,
                          "drag-data-received",
                          G_CALLBACK(on_drag_data_received),
