@@ -713,7 +713,7 @@ int machine_specific_init(void)
         return -1;
     }
     crtc_set_retrace_callback(cbm2_crtc_signal);
-    crtc_set_retrace_type(0);
+    crtc_set_retrace_type(1);
     crtc_set_hw_options(1, 0x7ff, 0x1000, 512, -0x2000);
 
     cia1_init(machine_context.cia1);

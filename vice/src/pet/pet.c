@@ -962,8 +962,8 @@ void pet_crtc_set_screen(void)
              *
              * Tuned specifically for 64 clocks (= chars) per scanline,
              * for the Cursor #18 Hi-Res program.
-             * The exact time of the IRQ is probably not 100% right,
-             * but close enough to get a visual effect.
+             * Unless CRTC_BEAM_RACING is enabled, the exact time of the IRQ is
+             * not 100% right, but close enough to get a visual effect.
              *
              * 15625 Hz horizontal
              * PET: cycles per frame set to 16640, refresh to 60.096Hz
@@ -975,9 +975,18 @@ void pet_crtc_set_screen(void)
              * Presumably this should correct the frequency which is
              * slightly over 60 Hz: 60.096 * 622 / 623 = 59.99954.
              *
-             * Note that with the granularity of 1 scanline we cannot
-             * really get closer to the "real" freqency, assuming that
-             * the 622/623 fix is perfect: 60 * 623 / 622 = 60.096 463.
+             * However, 60.096 * 625 / 626 = 60.0000...
+             * so it could have done even better.
+             *
+             * Since we use the CRTC, a raster line is considered to start at
+             * the left edge of the visible characters. So the right border,
+             * horizontal retrace, and left border are at the end of the line.
+             * Likewise, scan line 0 is the first text scan line.
+             * There are 200 text lines, 20 bottom border, 20 vertical retrace
+             * and 20 top border lines.
+             * The "off-screen" signal, which triggers the IRQ, goes on just
+             * after the last text character, and comes on 3*20 lines later, at
+             * the same place in line -1 (259).
              */
               63, /* R0 total horizontal characters - 1 */
               40, /* R1 displayed horizontal characters */
@@ -993,14 +1002,6 @@ void pet_crtc_set_screen(void)
                0, /* R11 CURSOREND */
             0x10, /* R12 DISPSTARTH */
             0x00, /* R13 DISPSTARTL */
-#if 0
-            /*
-             * Original values.
-             * PET: cycles per frame set to 17920, refresh to 55.803Hz
-             */
-            63, 40, 50, 8, 32, 16, 25, 29,
-            0, 7, 0, 0, 0x10, 0,
-#endif
         };
         int r;
 

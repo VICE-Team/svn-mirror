@@ -61,6 +61,7 @@
 #include "types.h"
 #include "via.h"
 #include "vsync.h"
+#include "crtc.h"
 
 static uint8_t mem_read_patchbuf(uint16_t addr);
 static void mem_initialize_memory_6809_flat(void);
@@ -200,6 +201,27 @@ static void store_extC(uint16_t addr, uint8_t value)
 }
 
 /*
+ * Read/write the video memory.
+ * Split out to separate functions so we can add implementation of
+ * racing-the-beam effects (and maybe video snow).
+ */
+static uint8_t read_vmem(uint16_t addr)
+{
+    last_access = mem_ram[0x8000 + (addr & 0x3fff)];
+    return last_access;
+}
+
+static void store_vmem(uint16_t addr, uint8_t value)
+{
+    addr &= 0x3fff;
+    mem_ram[0x8000 + addr] = value;
+    last_access = value;
+#if CRTC_BEAM_RACING
+    crtc_update_prefetch(addr, value);
+#endif
+}
+
+/*
  * Map $8400-$87FF to $8000-$83FF and $8C00-$8FFF to $8800-$8BFF.
  * This is only relevant for 40 column models, since 80 column models
  * don't have a mirror image of the screen memory.
@@ -215,8 +237,14 @@ static uint8_t read_vmirror(uint16_t addr)
 
 static void store_vmirror(uint16_t addr, uint8_t value)
 {
-    mem_ram[0x8000 + (addr & 0xbff)] = value;
+    addr &= 0x0bff;
+    mem_ram[0x8000 + addr] = value;
     last_access = value;
+#if CRTC_BEAM_RACING
+    if (addr < 0x0400) {
+        crtc_update_prefetch(addr, value);
+    }
+#endif
 }
 
 /*
@@ -231,8 +259,12 @@ static uint8_t read_vmirror_2001(uint16_t addr)
 
 static void store_vmirror_2001(uint16_t addr, uint8_t value)
 {
-    mem_ram[0x8000 + (addr & 0x3ff)] = value;
+    addr &= 0x03ff;
+    mem_ram[0x8000 + addr] = value;
     last_access = value;
+#if CRTC_BEAM_RACING
+    crtc_update_prefetch(addr, value);
+#endif
 }
 
 uint8_t rom_read(uint16_t addr)
@@ -1356,10 +1388,10 @@ void petmem_set_vidmem(void)
     log_message(pet_mem_log, "petmem_set_vidmem(videoSize=%04x, l=%d)",
                 petres.videoSize,l);
 */
-    /* Setup RAM from $8000 to $8000 + petres.videoSize ($8400 or $8800) */
+    /* Setup RAM from $8000 to $8000 + petres.videoSize ($8400 or $8800 or $9000) */
     for (i = 0x80; i < l; i++) {
-        _mem_read_tab[i] = ram_read;
-        _mem_write_tab[i] = ram_store;
+        _mem_read_tab[i] = read_vmem;
+        _mem_write_tab[i] = store_vmem;
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
     }

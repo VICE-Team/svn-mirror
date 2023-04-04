@@ -38,6 +38,8 @@
 #include "maincpu.h"
 #include "types.h"
 
+#include <string.h>
+
 
 /* CRTC interface functions.
    - bit 0 of the addr is wired to register-select of the chip
@@ -47,6 +49,10 @@ void crtc_store(uint16_t addr, uint8_t value)
 {
     CLOCK current_cycle;
 
+    /*
+     * The current raster line starts at the left edge of the text area.
+     * That is also when the raster draw alarm is called.
+     */
     current_cycle = maincpu_clk - crtc.rl_start;
 
     addr &= 1;
@@ -85,10 +91,10 @@ void crtc_store(uint16_t addr, uint8_t value)
             }
 
             /* the compare is not yet done */
-            if ((crtc.regs[1]) > current_cycle) {
+            if (crtc.regs[CRTC_REG_HDISP] > current_cycle) {
                 /* only if we write a higher value than the counter,
                  we can update disp_cycles here */
-                crtc.rl_visible = crtc.regs[1];
+                crtc.rl_visible = crtc.regs[CRTC_REG_HDISP];
                 crtc.henable = 1;
             } else {
                 /* we write a value lower than the counter -> never reached,
@@ -96,6 +102,14 @@ void crtc_store(uint16_t addr, uint8_t value)
                 crtc.rl_visible = crtc.rl_len + 1;
                 crtc.henable = 0;
             }
+#if CRTC_BEAM_RACING
+            if (crtc.venable) {
+                /* Just cache the new visible length of the line */
+                memcpy(&crtc.prefetch[0],
+                       &crtc.screen_base[crtc.screen_rel],
+                       crtc.rl_visible * crtc.hw_cols);
+            }
+#endif
             break;
 
         case CRTC_REG_HSYNC:        /* R02  Horizontal Sync Position */

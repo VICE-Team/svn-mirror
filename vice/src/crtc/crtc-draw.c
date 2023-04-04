@@ -90,13 +90,28 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
                   + crtc.chargen_rel
                   + (crtc.raster.ycounter & 0x0f);
     /* pointer to current screen line */
-    screen_ptr = crtc.screen_base;
-    screen_rel = ((scr_rel) + (xs));
+#if CRTC_BEAM_RACING
+    if (xs == 0) {
+        /* When called with scr_rel = crtc.screen_rel, not prev_screen_rel */
+        screen_ptr = &crtc.prefetch[0];
+        screen_rel = xs;
+    } else /* Uncached access; called with crtc.prev_screen_rel. */
+#endif
+    {
+        screen_ptr = crtc.screen_base;
+        screen_rel = scr_rel + xs;
+    }
 
     if (crtc.crsrmode && crtc.cursor_lines && crtc.crsrstate) {
-        int crsrrel = ((crtc.regs[14] << 8) | crtc.regs[15]) & crtc.vaddr_mask;
+        int crsrrel = ((crtc.regs[CRTC_REG_CURSORPOSH] << 8) |
+                        crtc.regs[CRTC_REG_CURSORPOSL]) & crtc.vaddr_mask;
+#if CRTC_BEAM_RACING
+        if (xs == 0) { /* same condition as above */
+            crsrrel -= scr_rel;
+        }
+#endif
 
-        for (i = (xs); i < (xc); i++) {
+        for (i = xs; i < xc; i++) {
             d = *(chargen_ptr
                   + (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
 
@@ -107,7 +122,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 
             screen_rel++;
 
-            if ((reverse_flag)) {
+            if (reverse_flag) {
                 d ^= 0xff;
             }
 
@@ -115,13 +130,13 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             *pw++ = dwg_table[d & 0x0f];
         }
     } else {
-        for (i = (xs); i < (xc); i++) {
+        for (i = xs; i < xc; i++) {
             /* we use 16 bytes/char character generator */
             d = *(chargen_ptr
                   + (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
             screen_rel++;
 
-            if ((reverse_flag)) {
+            if (reverse_flag) {
                 d ^= 0xff;
             }
 
@@ -131,7 +146,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     }
 
     /* blank the rest */
-    for (; i < (xe); i++) {
+    for (; i < xe; i++) {
         *pw++ = 0;
         *pw++ = 0;
     }
