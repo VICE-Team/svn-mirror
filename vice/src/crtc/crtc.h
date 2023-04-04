@@ -75,4 +75,22 @@ void crtc_update_renderer(void);
 
 uint8_t *crtc_get_active_bitmap(void);
 
+/*
+ * If CRTC_BEAM_RACING is true, then some racing-the-beam code is
+ * enabled.
+ * Since rendering of scanlines happens all-at-once at the end of the line
+ * (a.k.a. the start of the next line), normally even memory stores that are in
+ * the current text line but "behind the beam" would still have effect.
+ * When set, we prefetch the text line at the start of each scan line. In the
+ * video memory store functions, we update the cache if the store is ahead of
+ * the beam. Stores that are "too late" will then not be displayed in this line.
+ *
+ * Additionally, the timing of the "off_screen" signal for non-CRTC is
+ * corrected, at the cost of extra alarms.
+ */
+#define CRTC_BEAM_RACING	1
+#if CRTC_BEAM_RACING
+void crtc_update_prefetch(uint16_t addr, uint8_t value);
+#endif
+
 #endif

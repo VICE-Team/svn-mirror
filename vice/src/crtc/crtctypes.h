@@ -89,7 +89,7 @@ struct crtc_s {
        Some effects need better timing, though */
 
     /* rasterline variables */
-    CLOCK rl_start;     /* clock when the current rasterline starts */
+    CLOCK rl_start;     /* clock when the current rasterline starts (left edge of text area) */
     int rl_visible;     /* number of visible chars in this line */
     int rl_sync;        /* character in line when the sync starts */
     int rl_len;         /* length of line in cycles */
@@ -116,6 +116,7 @@ struct crtc_s {
                            decreasing till end */
     int venable;        /* flagged when vertical enable flipflop has not
                            been reset in frame */
+    bool off_screen;    /* set when the crt ray is considered off-screen */
     int vsync;          /* number of rasterlines till end of vsync */
 
     int current_charline; /* state of the current character line counter */
@@ -144,6 +145,8 @@ struct crtc_s {
     machine_crtc_retrace_signal_t retrace_callback;
     crtc_hires_draw_t hires_draw_callback;
 
+#define CRTC_RETRACE_TYPE_DISCRETE      0
+#define CRTC_RETRACE_TYPE_CRTC          1
     int retrace_type;
 
     /*---------------------------------------------------------------*/
@@ -160,22 +163,21 @@ struct crtc_s {
     /* Alarm to update a raster line.  */
     struct alarm_s *raster_draw_alarm;
 
-    /*
-     * On real 2001s, the retrace interrupt is delayed by probably about
-     * 16-24 clock cycles after VENABLE goes false.
-     * Almost nothing cares about this, and obeying the delay adds some
-     * overhead, so by default this is not emulated.
-     * Here is a compile-time switch to turn it on (choosing the number of
-     * cycles of delay) or off (0).
-     */
-#define DELAY_NOCRTC_RETRACE    0      /* 16 */
-#if DELAY_NOCRTC_RETRACE > 0
-    /* Alarm to trigger a delayed retrace alarm.  */
-    struct alarm_s *delayed_retrace_alarm;
-#endif
 
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
+
+#if CRTC_BEAM_RACING
+    /*
+     * On real 2001s, the retrace interrupt is triggered at the END of the
+     * last scan line of the visible text area. The normal raster alarm runs
+     * at the start of the next line, which is too late.
+     */
+    struct alarm_s *adjusted_retrace_alarm;
+
+    uint8_t prefetch[256*2];    /* maximum theoretical size */
+#endif
+
 };
 
 /* internal registers */
