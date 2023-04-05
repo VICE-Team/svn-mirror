@@ -351,7 +351,7 @@ const ui_menu_entry_t pet_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_H6809RomDName_callback,
       (ui_callback_data_t)"Select SuperPET 6809 $D000 ROM image" },
-    { "SuperPET 6809 $D000 ROM",
+    { "SuperPET 6809 $E000 ROM",
       MENU_ENTRY_DIALOG,
       file_string_H6809RomEName_callback,
       (ui_callback_data_t)"Select SuperPET 6809 $E000 ROM image" },
