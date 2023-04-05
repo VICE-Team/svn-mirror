@@ -1420,7 +1420,7 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
                     /* current has no extension, so remove it from menu entry too */
                     ext = util_get_extension(palettelist->file);
                     if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
-                        int n = strlen(palettelist->file);
+                        size_t n = strlen(palettelist->file);
                         current2 = lib_strdup(palettelist->file);
                         current2[n - 4] = 0;
                         palette_dyn_menu1[i].data = current2;
@@ -1476,7 +1476,7 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
                         /* current has no extension, so remove it from menu entry too */
                         ext = util_get_extension(palettelist->file);
                         if ((ext != NULL) && (strcmp(ext, "vpl") == 0)) {
-                            int n = strlen(palettelist->file);
+                            size_t n = strlen(palettelist->file);
                             current2 = lib_strdup(palettelist->file);
                             current2[n - 4] = 0;
                             palette_dyn_menu2[i].data = current2;
