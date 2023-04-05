@@ -302,8 +302,6 @@ static int palette_read_tag(FILE *f, char *tag, char *outbuf, int len)
 {
     char buf[MAX_TAG_LEN + 1];
 
-    unsigned int line_num = 0;
-
     fseek(f, SEEK_SET, 0);
 
     DBG(("palette_read_tag %s", tag));
@@ -319,8 +317,6 @@ static int palette_read_tag(FILE *f, char *tag, char *outbuf, int len)
         if (line_len < 0) {
             break;
         }
-
-        line_num++;
 
         if ((buf[0] == '#') && (buf[1] == ' ') && (buf[6] == ':')) {
             if ((memcmp(&buf[2], tag, 4) == 0)) {
