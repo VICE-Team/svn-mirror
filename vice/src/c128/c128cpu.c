@@ -62,7 +62,7 @@
 /* C128 needs external reg_pc */
 #define NEED_REG_PC
 
-/* Put Z80 registers into monitor sturct.  */
+/* Put Z80 registers into monitor struct.  */
 #define HAVE_Z80_REGS
 
 /* ------------------------------------------------------------------------- */
