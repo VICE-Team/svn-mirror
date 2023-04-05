@@ -80,13 +80,6 @@ typedef enum {
 } sdljoystick_input_t;
 
 
-
-
-#ifndef USE_SDLUI2
-typedef int SDL_JoystickID;
-#endif
-
-
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 /* ------------------------------------------------------------------------- */
