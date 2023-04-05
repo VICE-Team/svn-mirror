@@ -918,8 +918,9 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
              * Which memory location is currently being fetched for display?
              * 40 cols: 1 character takes 1 clock cycle.
              * 80 cols: 2 characters take 1 clock cycle.
+             * Expected values: 0...<frame duration at most>.
              */
-            int beampos = (maincpu_clk - crtc.rl_start) * crtc.hw_cols;
+            int beampos = (int)(maincpu_clk - crtc.rl_start) * crtc.hw_cols;
 
             if (xpos >= beampos) {
                 /* Character is still to be displayed in the current scan line */
