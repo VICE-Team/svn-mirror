@@ -186,15 +186,15 @@ static const uint8_t burst_status_tab[] = {
 #define CLK_ABS_I_STORE2 (2 - (dtv_registers[9] & 1))
 #define CLK_STACK_PUSH (1 - (dtv_registers[9] & 1))
 #define CLK_STACK_PULL (2 - 2 * (dtv_registers[9] & 1))
-#define CLK_ABS_RMW2 (3 - (dtv_registers[9] & 1))
-#define CLK_ABS_I_RMW2 (3 - (dtv_registers[9] & 1))
 #define CLK_ZERO_I_STORE (2 - (dtv_registers[9] & 1))
 #define CLK_ZERO_I2 (2 - (dtv_registers[9] & 1))
-#define CLK_ZERO_RMW (3 - (dtv_registers[9] & 1))
-#define CLK_ZERO_I_RMW (4 - 2 * (dtv_registers[9] & 1))
-#define CLK_IND_X_RMW (3 - (dtv_registers[9] & 1))
-#define CLK_IND_Y_RMW1 (1 - (dtv_registers[9] & 1))
-#define CLK_IND_Y_RMW2 (3 - (dtv_registers[9] & 1))
+/* #define CLK_ABS_RMW2 (3 - (dtv_registers[9] & 1)) */
+/* #define CLK_ABS_I_RMW2 (3 - (dtv_registers[9] & 1)) */
+/* #define CLK_ZERO_RMW (3 - (dtv_registers[9] & 1)) */
+/* #define CLK_ZERO_I_RMW (4 - 2 * (dtv_registers[9] & 1)) */
+/* #define CLK_IND_X_RMW (3 - (dtv_registers[9] & 1)) */
+/* #define CLK_IND_Y_RMW1 (1 - (dtv_registers[9] & 1)) */
+/* #define CLK_IND_Y_RMW2 (3 - (dtv_registers[9] & 1)) */
 #define CLK_BRANCH2 (1 - (dtv_registers[9] & 1))
 #define CLK_INT_CYCLE (1 - (dtv_registers[9] & 1))
 /* CAUTION: operator '?:' has lower precedence than '+'; '+' will be evaluated first */
@@ -207,6 +207,8 @@ static const uint8_t burst_status_tab[] = {
 #define IRQ_CYCLES (7 - 2 * (dtv_registers[9] & 1))
 #define NMI_CYCLES (7 - 2 * (dtv_registers[9] & 1))
 
+#define CLK_ADD_DUMMY(clock, amount) \
+        ((dtv_registers[9] & 1) ? (clock) : CLK_ADD(clock, amount))
 
 /* New opcodes */
 

@@ -384,6 +384,9 @@ struct vicii_s {
     uint16_t store_addr;
     uint8_t store_value;
 
+    /* Read-modify-write instruction detection */
+    CLOCK last_write_clk;
+
     /* Stores to 0x3fff idle location (used for idle sprite fetch).  */
     unsigned int num_idle_3fff;
     idle_3fff_t *idle_3fff;
