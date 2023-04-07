@@ -80,17 +80,25 @@ static GtkWidget *create_expert_mode_widget(void)
     return grid;
 }
 
-/** \brief  Create widget to load/save Expert Cartridge image file
+/** \brief  Create widget to load/flush/save Expert Cartridge image file
  *
  * \return  GtkGrid
  */
 static GtkWidget *create_expert_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "Expertfilename",
-                                    "ExpertImageWrite",
-                                    CARTRIDGE_NAME_EXPERT,
-                                    CARTRIDGE_EXPERT);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_EXPERT,
+                                  CARTRIDGE_NAME_EXPERT,
+                                  CART_IMAGE_PRIMARY,
+                                  NULL,
+                                  "Expertfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "ExpertImageWrite",
+                                   "Write image on cartridge detach/emulator exit");
+    return image;
 }
 
 
