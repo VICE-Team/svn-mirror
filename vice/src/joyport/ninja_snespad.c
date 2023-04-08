@@ -157,17 +157,17 @@ static uint8_t snespad_read(int port)
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_UP_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 up on joyport 'left' pin */
             break;
         case SNESPAD_DOWN:
-            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_DOWN_BIT, JOYPORT_UP_BIT);      /* output snespad 1 down on joyport 'up' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_DOWN_BIT, JOYPORT_UP_BIT);      /* output snespad 1 down on joyport 'up' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_DOWN_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 down on joyport 'down' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_DOWN_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 down on joyport 'left' pin */
             break;
         case SNESPAD_LEFT:
-            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_LEFT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 left on joyport 'up' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_LEFT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 left on joyport 'up' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_LEFT_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 left on joyport 'down' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_LEFT_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 left on joyport 'left' pin */
             break;
         case SNESPAD_RIGHT:
-            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_RIGHT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 right on joyport 'up' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_RIGHT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 right on joyport 'up' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_RIGHT_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 right on joyport 'down' pin */
             retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_RIGHT_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 right on joyport 'left' pin */
             break;
