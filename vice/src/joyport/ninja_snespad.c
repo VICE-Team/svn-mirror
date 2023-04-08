@@ -83,7 +83,17 @@ static int joyport_snespad_set_enabled(int port, int enabled)
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_NINJA_SNES, joyport_snespad_device.name);
         counter = 0;
         joystick_adapter_set_ports(3);
+
+        /* enabled, enable snes mapping on ports 3, 4 and 5 */
+        joystick_set_snes_mapping(JOYPORT_3);
+        joystick_set_snes_mapping(JOYPORT_4);
+        joystick_set_snes_mapping(JOYPORT_5);
     } else {
+        /* disabled, disable snes mapping on ports 3, 4 and 5 */
+        joyport_clear_mapping(JOYPORT_3);
+        joyport_clear_mapping(JOYPORT_4);
+        joyport_clear_mapping(JOYPORT_5);
+
         /* disabled, deactivate joystick adapter */
         joystick_adapter_deactivate();
     }
