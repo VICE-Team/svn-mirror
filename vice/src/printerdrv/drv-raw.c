@@ -138,7 +138,6 @@ int drv_raw_init_resources(void)
     driver_select_t driver_select;
 
     driver_select.drv_name = "raw";
-    driver_select.drv_select = NULL;
     driver_select.drv_open = drv_raw_open;
     driver_select.drv_close = drv_raw_close;
     driver_select.drv_putc = drv_raw_putc;
