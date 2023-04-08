@@ -1220,6 +1220,7 @@ int drv_1520_init_resources(void)
     driver_select.drv_getc = drv_1520_getc;
     driver_select.drv_flush = drv_1520_flush;
     driver_select.drv_formfeed = drv_1520_formfeed;
+    driver_select.drv_select = NULL;
 
     driver_select_register(&driver_select);
 
