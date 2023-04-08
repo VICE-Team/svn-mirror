@@ -34570,10 +34570,12 @@ outdated mess. And various fixes and improvements.
 @b{Olaf Seibert}
 Contributed some PET, including PET DWW hires, Xaw, lightpen,
 hardware scaling, and disk drive patches. Added proper SuperPET
-support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
+support, including 6809/6309 CPU emulation. Maintained the Xaw UI.
 Added PET HRE (High Res Emulator) board emulation. Added the
 2-chip colour board for the Universal PET mainboard. Added
-support for 'printer/plotter' Commodore 1520.
+support for 'printer/plotter' Commodore 1520. Overhauled internals
+of VIA and CIA code. Corrected pre-CRTC PET display timing.
+REL-file support for the filesystem device and c1541.
 
 @item
 @b{Marcus Sutton}
