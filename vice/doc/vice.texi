@@ -20282,7 +20282,10 @@ Detach file from device. (device 32 = cart)
 
 @item @@<disk command>
 Perform a disk command on the currently attached disk image on virtual
-drive 8.
+drive 8. Since the emulated drive is halted when the monitor is open, DOS commands
+can not be sent to the actual drive emulation and must be handled by the virtual
+drive implementation. As a consequence, all limitations of the virtual drives
+apply. Use the regular monitor commands to eg execute code in the drive.
 
 @item list [<directory>]
 List disk contents.
