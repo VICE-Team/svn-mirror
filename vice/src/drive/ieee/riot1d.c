@@ -40,12 +40,13 @@
 
 void riot1_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
+    ctxptr->cpu->cpu_last_data = data;
     riotcore_store(ctxptr->riot1, addr, data);
 }
 
 uint8_t riot1_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
-    return riotcore_read(ctxptr->riot1, addr);
+    return ctxptr->cpu->cpu_last_data = riotcore_read(ctxptr->riot1, addr);
 }
 
 uint8_t riot1_peek(diskunit_context_t *ctxptr, uint16_t addr)

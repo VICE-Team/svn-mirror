@@ -52,12 +52,13 @@ typedef struct drivecia1581_context_s {
 
 void cia1581_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
+    ctxptr->cpu->cpu_last_data = data;
     ciacore_store(ctxptr->cia1581, addr, data);
 }
 
 uint8_t cia1581_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
-    return ciacore_read(ctxptr->cia1581, addr);
+    return ctxptr->cpu->cpu_last_data = ciacore_read(ctxptr->cia1581, addr);
 }
 
 uint8_t cia1581_peek(diskunit_context_t *ctxptr, uint16_t addr)

@@ -535,7 +535,7 @@ static void drivecpu_jam(diskunit_context_t *drv)
 /* ------------------------------------------------------------------------- */
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
 {
@@ -563,6 +563,7 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         || SMW_CLOCK(m, cpu->cycle_accum) < 0
         || SMW_CLOCK(m, cpu->last_exc_cycles) < 0
         || SMW_CLOCK(m, cpu->stop_clk) < 0
+        || SMW_B(m, cpu->cpu_last_data) < 0
         ) {
         goto fail;
     }
@@ -642,6 +643,7 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
         || SMR_CLOCK(m, &(cpu->cycle_accum)) < 0
         || SMR_CLOCK(m, &(cpu->last_exc_cycles)) < 0
         || SMR_CLOCK(m, &(cpu->stop_clk)) < 0
+        || SMR_B(m, &(cpu->cpu_last_data)) < 0
         ) {
         goto fail;
     }

@@ -1276,12 +1276,13 @@ int pc8477_irq(pc8477_t *drv)
 
 void pc8477d_store(diskunit_context_t *drv, uint16_t addr, uint8_t byte)
 {
+    drv->cpu->cpu_last_data = byte;
     pc8477_store(drv->pc8477, (uint16_t)(addr & 7), byte);
 }
 
 uint8_t pc8477d_read(diskunit_context_t *drv, uint16_t addr)
 {
-    return pc8477_read(drv->pc8477, (uint16_t)(addr & 7));
+    return drv->cpu->cpu_last_data = pc8477_read(drv->pc8477, (uint16_t)(addr & 7));
 }
 
 uint8_t pc8477d_peek(diskunit_context_t *drv, uint16_t addr)
