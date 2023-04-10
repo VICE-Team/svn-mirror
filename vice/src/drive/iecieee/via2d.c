@@ -131,12 +131,13 @@ static void restore_int(via_context_t *via_context, unsigned int int_num, int va
 
 void via2d_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
+    ctxptr->cpu->cpu_last_data = data;
     viacore_store(ctxptr->via2, addr, data);
 }
 
 uint8_t via2d_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
-    return viacore_read(ctxptr->via2, addr);
+    return ctxptr->cpu->cpu_last_data = viacore_read(ctxptr->via2, addr);
 }
 
 uint8_t via2d_peek(diskunit_context_t *ctxptr, uint16_t addr)

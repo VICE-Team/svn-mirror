@@ -44,41 +44,44 @@
 
 static uint8_t drive_read_rom(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->rom[address & 0x7fff];
+    return drv->cpu->cpu_last_data = drv->rom[address & 0x7fff];
 }
 
 static uint8_t drive_read_rom_ds1216(diskunit_context_t *drv, uint16_t address)
 {
-    return ds1216e_read(drv->ds1216, address, drv->rom[address & 0x7fff]);
+    return drv->cpu->cpu_last_data = ds1216e_read(drv->ds1216, address, drv->rom[address & 0x7fff]);
 }
 
 static uint8_t drive_read_ram(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->drive_ram[address];
+    return drv->cpu->cpu_last_data = drv->drive_ram[address];
 }
 
 static void drive_store_ram(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
+    drv->cpu->cpu_last_data = value;
     drv->drive_ram[address] = value;
 }
 
 static uint8_t drive_read_1541ram(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->drive_ram[address & 0x7ff];
+    return drv->cpu->cpu_last_data = drv->drive_ram[address & 0x7ff];
 }
 
 static void drive_store_1541ram(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
+    drv->cpu->cpu_last_data = value;
     drv->drive_ram[address & 0x7ff] = value;
 }
 
 static uint8_t drive_read_zero(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->drive_ram[address & 0xffu];
+    return drv->cpu->cpu_last_data = drv->drive_ram[address & 0xffu];
 }
 
 static void drive_store_zero(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
+    drv->cpu->cpu_last_data = value;
     drv->drive_ram[address & 0xffu] = value;
 }
 

@@ -56,12 +56,13 @@ typedef struct drivevia1_context_s {
 
 void via1d2031_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
+    ctxptr->cpu->cpu_last_data = data;
     viacore_store(ctxptr->via1d2031, addr, data);
 }
 
 uint8_t via1d2031_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
-    return viacore_read(ctxptr->via1d2031, addr);
+    return ctxptr->cpu->cpu_last_data = viacore_read(ctxptr->via1d2031, addr);
 }
 
 uint8_t via1d2031_peek(diskunit_context_t *ctxptr, uint16_t addr)

@@ -34,6 +34,8 @@ struct diskunit_context_s;
 struct drivecpud_context_s;
 struct mem_ioreg_list_s;
 
+extern uint8_t drive_cpu_last_data;
+
 void drivemem_toggle_watchpoints(int flag, void *context);
 uint8_t drivemem_bank_read(int bank, uint16_t addr, void *context);
 uint8_t drivemem_bank_peek(int bank, uint16_t addr, void *context);

@@ -50,12 +50,13 @@ typedef struct driveriot2_context_s {
 
 void riot2_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
+    ctxptr->cpu->cpu_last_data = data;
     riotcore_store(ctxptr->riot2, addr, data);
 }
 
 uint8_t riot2_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
-    return riotcore_read(ctxptr->riot2, addr);
+    return ctxptr->cpu->cpu_last_data = riotcore_read(ctxptr->riot2, addr);
 }
 
 uint8_t riot2_peek(diskunit_context_t *ctxptr, uint16_t addr)

@@ -62,6 +62,10 @@ typedef struct drivecpu_context_s {
        memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
     int rmw_flag; /* init to 0 */
 
+    /* Last data read/write by the cpu, this value lingers on the C(PU)-bus and
+    gets used when the CPU reads from unconnected space on the C(PU)-bus */
+    uint8_t cpu_last_data;
+
     /* Interrupt/alarm status.  */
     struct interrupt_cpu_status_s *int_status;
 

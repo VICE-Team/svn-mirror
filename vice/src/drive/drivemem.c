@@ -66,11 +66,12 @@ static int watchpoints_active = 0;
 
 static uint8_t drive_read_free(diskunit_context_t *drv, uint16_t address)
 {
-    return address >> 8;
+    return drv->cpu->cpu_last_data;
 }
 
 static void drive_store_free(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
+    drv->cpu->cpu_last_data = value;
     return;
 }
 
@@ -86,12 +87,13 @@ static uint8_t drive_zero_read_watch(diskunit_context_t *drv, uint16_t addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, drv->cpu->monspace);
-    return drv->cpud->read_tab[0][0](drv, addr);
+    return drv->cpu->cpu_last_data = drv->cpud->read_tab[0][0](drv, addr);
 }
 
 static void drive_zero_store_watch(diskunit_context_t *drv, uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
+    drv->cpu->cpu_last_data = value;
     monitor_watch_push_store_addr(addr, drv->cpu->monspace);
     drv->cpud->store_tab[0][0](drv, addr, value);
 }
@@ -99,11 +101,12 @@ static void drive_zero_store_watch(diskunit_context_t *drv, uint16_t addr, uint8
 static uint8_t drive_read_watch(diskunit_context_t *drv, uint16_t address)
 {
     monitor_watch_push_load_addr(address, drv->cpu->monspace);
-    return drv->cpud->read_tab[0][address >> 8](drv, address);
+    return drv->cpu->cpu_last_data = drv->cpud->read_tab[0][address >> 8](drv, address);
 }
 
 static void drive_store_watch(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
+    drv->cpu->cpu_last_data = value;
     monitor_watch_push_store_addr(address, drv->cpu->monspace);
     drv->cpud->store_tab[0][address >> 8](drv, address, value);
 }
@@ -189,7 +192,6 @@ uint8_t drivemem_bank_peek(int bank, uint16_t addr, void *context)
 void drivemem_bank_store(int bank, uint16_t addr, uint8_t value, void *context)
 {
     diskunit_context_t *drv = (diskunit_context_t *)context;
-
     drv->cpud->store_func_ptr[addr >> 8](drv, addr, value);
 }
 
