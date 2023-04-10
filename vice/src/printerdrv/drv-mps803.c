@@ -990,6 +990,12 @@ static void mps_engine_putc(mps_t *mps, unsigned int prnr, unsigned int secondar
         }
     }
 
+    /* any codes in the non printable range should produce no output at all.
+     * FIXME: confirm this on a real printer */
+    if ((c <= 0x1f) || ((c >= 0x80) && (c <= 0x9f)))  {
+        return;
+    }
+
     print_cbm_char(mps, c);
 }
 
