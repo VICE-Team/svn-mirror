@@ -1619,7 +1619,7 @@ void macos_set_dock_icon_workaround(GdkPixbuf *icon)
  * This workaround is the obj-c runtime equivalent of calling:
  * [[NSApplication sharedApplication] activateIgnoringOtherApps: YES];
  */
-void macos_activate_application_workaround()
+void macos_activate_application_workaround(void)
 {
     id ns_application;
 
