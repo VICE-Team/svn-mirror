@@ -66,7 +66,6 @@
 #include "util.h"
 #include "version.h"
 #include "video.h"
-#include "vsync.h"
 #include "vsyncapi.h"
 
 #ifdef USE_SVN_REVISION
@@ -392,23 +391,6 @@ int main_program(int argc, char **argv)
     if (init_main() < 0) {
         return -1;
     }
-
-    /*
-     * HACK: During init, some on_vsync_do callbacks may have accumulated -
-     * so we invoke them before considering the cmdline autostart flags.
-     *
-     * This is because a mode change causes a reset x64 and other emus,
-     * and a reset will cancel any pending autostart.
-     *
-     * The result being that setting VICIIborders via config or cmdline
-     * breaks autostart in these emulators.
-     *
-     * It would be better to move initcmdline_check_attach() somewhere
-     * later but this might break something?
-     */
-    vsync_reset_hook();
-
-    initcmdline_check_attach();
 
 #ifdef USE_VICE_THREAD
 
