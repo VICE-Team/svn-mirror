@@ -238,7 +238,7 @@ static CFIndex string_buf_size_for_utf8_char_length(CFIndex utf8Chars)
     return utf8Chars * 4 + 1;
 }
 
-static int determine_output_device_id()
+static int determine_output_device_id(void)
 {
     OSStatus err;
     UInt32 size;
