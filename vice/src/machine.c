@@ -94,6 +94,7 @@ static int jam_action = MACHINE_JAM_ACTION_DIALOG;
 int machine_keymap_index;
 static char *ExitScreenshotName = NULL;
 static char *ExitScreenshotName1 = NULL;
+static bool is_first_reset = true;
 
 /* NOTE: this function is very similar to drive_jam - in case the behavior
          changes, change drive_jam too */
@@ -239,6 +240,12 @@ void machine_reset(void)
     monitor_reset_hook();
 
     vsync_reset_hook();
+
+    /* If this is the first machine reset, kick off any requested autostart */
+    if (is_first_reset) {
+        is_first_reset = false;
+        initcmdline_check_attach();
+    }
 }
 
 void machine_maincpu_init(void)
