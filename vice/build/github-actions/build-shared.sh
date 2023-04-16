@@ -12,7 +12,7 @@ ARGS="
     --with-vorbis \
     --with-flac \
     --enable-ethernet \
-    --enable-lame \
+    --with-lame \
     --enable-midi \
     --enable-cpuhistory \
     --with-unzip-bin \
