@@ -3855,23 +3855,20 @@ fi
 echo ""
 echo "DOCUMENTATION"
 echo "-------------"
-echo -n "Generate Info/text: "
 if test x"$MAKEINFO" = "x:"; then
-    echo "no (install texinfo)"
+    echo "Generate Info/text: no (install texinfo)"
 else
-    echo "yes"
+    echo "Generate Info/text: yes"
 fi
-echo -n "Generate PDF      : "
 if test x"$enable_pdf_docs" = xyes; then
-    echo "yes"
+    echo "Generate PDF      : yes"
 else
-    echo "no"
+    echo "Generate PDF      : no"
 fi
-echo -n "Generate HTML     : "
 if test x"${enable_html_docs:-yes}" != xno; then
-    echo "yes"
+    echo "Generate HTML     : yes"
 else
-    echo "no"
+    echo "Generate HTML     : no"
 fi
 
 echo ""
