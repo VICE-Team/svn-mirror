@@ -161,7 +161,7 @@ dnl
 dnl Documentation options
 dnl
 VICE_ARG_ENABLE_LIST(html-docs,         [  --disable-html-docs     do not generate the HTML documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
+VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=no]]])
 VICE_ARG_ENABLE_LIST(platformdox,       [  --enable-platformdox    enable generating of documentation specific to the current host])
 
 
