@@ -84,21 +84,21 @@ dnl
 VICE_ARG_WITH_LIST(alsa,                [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(fastsid,             [  --with-fastsid          use the FastSID engine])
 VICE_ARG_WITH_LIST(flac,                [  --with-flac             use FLAC support])
-VICE_ARG_WITH_LIST(mpg123,              [  --with-mpg123           use MPG123 support])
+VICE_ARG_WITH_LIST(mpg123,              [  --with-mpg123           use MPG123 for MP3 decoding])
 VICE_ARG_WITH_LIST(oss,                 [  --with-oss              use the OSS sound system])
 VICE_ARG_WITH_LIST(pulse,               [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use the reSID engine])
 VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(vorbis,              [  --with-vorbis           use Ogg/Vorbis support])
+VICE_ARG_WITH_LIST(lame,                [  --with-lame             use LAME for MP3 encoding])
+VICE_ARG_WITH_LIST(static-lame,         [  --with-static-lame      statically link LAME MP3])
 VICE_ARG_ENABLE_LIST(catweasel,         [  --enable-catweasel      enables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,           [  --disable-hardsid       disables HardSID support])
-VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(parsid,            [  --enable-parsid         enables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables PortAudio support])
-VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 
 
 dnl
@@ -2637,7 +2637,7 @@ fi
 
 dnl --- Lame ---
 
-if test x"$enable_lame" = "xyes" ; then
+if test x"$with_lame" = "xyes" ; then
 
   old_CFLAGS="$CFLAGS"
   CFLAGS="$VICE_CFLAGS"
@@ -2647,10 +2647,10 @@ if test x"$enable_lame" = "xyes" ; then
   dnl the header is available!
   if test x"$ac_cv_header_lame_lame_h" = "xyes" ; then
     AC_MSG_CHECKING([for lame lib linking])
-    if test x"$dynlib_support" = "xyes" -a x"$enable_static_lame" != "xyes" ; then
+    if test x"$dynlib_support" = "xyes" -a x"$with_static_lame" != "xyes" ; then
       dnl dynlib linking
       SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o lamelib.o"
-      AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])
+      AC_DEFINE(USE_LAMEMP3,,[Use lame for MP3 encoding.])
       USE_LAMEMP3_SUPPORT="yes"
       AC_DEFINE(HAVE_EXTERNAL_LAME,,[External linking for lame libs])
       AC_MSG_RESULT([dynlib])
@@ -2668,11 +2668,11 @@ if test x"$enable_lame" = "xyes" ; then
         if test "$ADD_MPGDECODER" = "1" ; then
           SOUND_LIBS="$SOUND_LIBS -lmpgdecoder";
         fi
-        AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])
+        AC_DEFINE(USE_LAMEMP3,,[Use lame for MP3 encoding.])
         USE_LAMEMP3_SUPPORT="yes"
         AC_DEFINE(HAVE_STATIC_LAME,,[Static linking for lame libs])
       fi
-      if test x"$USE_LAMEMP3_SUPPORT" != "xyes" -a x"$enable_lame" = "xyes"; then
+      if test x"$USE_LAMEMP3_SUPPORT" != "xyes" -a x"$with_lame" = "xyes"; then
         AC_MSG_ERROR([lame mp3 support is missing])
       fi
     fi
@@ -3748,7 +3748,7 @@ fi
 
 echo "PCI utils support            : $HAVE_PCIUTILS_SUPPORT"
 
-echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
+echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--with/without-lame)"
 echo "MP3 decoding support         : $USE_MPG123_SUPPORT (--with/without-mpg123)"
 echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT (--with/without-flac)"
 echo "Vorbis en/de-coding support  : $USE_VORBIS_SUPPORT (--with/without-vorbis)"
