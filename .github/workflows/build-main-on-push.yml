@@ -135,7 +135,7 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
+          ./configure --enable-headlessui --enable-pdf-docs --enable-html-docs --without-pulse --without-alsa --without-png
           make stylecheck
           make
 

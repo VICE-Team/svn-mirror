@@ -370,7 +370,7 @@ AS_IF([test x"$XA" = "xno"],
                   distribution or build and install it using the latest source
                   from https://www.floodgap.com/retrotech/xa/])])
 
-if test x"$enable_pdf_docs" != xno; then
+if test x"$enable_pdf_docs" = xyes; then
   AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
   if test x"$TEXI2DVI" = "xno"; then
     AC_MSG_ERROR([PDF docs were requested (--enable-pdf-docs), but texi2dvi is missing])
@@ -388,8 +388,8 @@ if test x"${enable_html_docs:-yes}" != xno -a x"$PERL" = x; then
   AC_MSG_ERROR([Perl is required to generate the HTML documentation])]
 fi
 
-AM_CONDITIONAL([ENABLE_PDF_DOCS], [test x"${enable_pdf_docs}" != xno])
-if test x"${enable_pdf_docs}" != "xno"; then
+AM_CONDITIONAL([ENABLE_PDF_DOCS], [test x"$enable_pdf_docs" = xyes])
+if test x"$enable_pdf_docs" = xyes; then
     VICE_PDF_FILE_NAME="vice.pdf"
 else
     VICE_PDF_FILE_NAME=""
@@ -3862,10 +3862,10 @@ else
     echo "yes"
 fi
 echo -n "Generate PDF      : "
-if test x"$enable_pdf_docs" = xno; then
-    echo "no (install texinfo)"
-else
+if test x"$enable_pdf_docs" = xyes; then
     echo "yes"
+else
+    echo "no"
 fi
 echo -n "Generate HTML     : "
 if test x"${enable_html_docs:-yes}" != xno; then
