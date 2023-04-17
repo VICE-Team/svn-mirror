@@ -109,6 +109,7 @@
 #include "userport_dac.h"
 #include "userport_io_sim.h"
 #include "userport_joystick.h"
+#include "userport_spt_joystick.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
@@ -505,6 +506,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_oem_resources_init() < 0) {
         init_resource_fail("userport oem joystick");
+        return -1;
+    }
+    if (userport_spt_joystick_resources_init() < 0) {
+        init_resource_fail("userport spt joystick");
         return -1;
     }
     if (userport_joystick_synergy_resources_init() < 0) {
