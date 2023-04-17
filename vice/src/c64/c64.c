@@ -129,6 +129,7 @@
 #include "userport_dac.h"
 #include "userport_diag_586220_harness.h"
 #include "userport_digimax.h"
+#include "userport_hks_joystick.h"
 #include "userport_io_sim.h"
 #include "userport_joystick.h"
 #include "userport_petscii_snespad.h"

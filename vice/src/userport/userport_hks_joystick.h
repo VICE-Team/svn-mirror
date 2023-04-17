@@ -1,5 +1,5 @@
 /*
- * userport_joystick.h: Generic userport joystick device emulation.
+ * userport_hks_joystick.h:
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,14 +24,13 @@
  *
  */
 
-#ifndef VICE_USERPORT_JOYSTICK_H
-#define VICE_USERPORT_JOYSTICK_H
+#ifndef VICE_USERPORT_HKS_JOYSTICK_H
+#define VICE_USERPORT_HKS_JOYSTICK_H
 
 #include "types.h"
 
-int userport_joystick_cga_resources_init(void);
-int userport_joystick_pet_resources_init(void);
-int userport_joystick_hummer_resources_init(void);
-int userport_joystick_oem_resources_init(void);
+int userport_joystick_hit_resources_init(void);
+int userport_joystick_kingsoft_resources_init(void);
+int userport_joystick_starbyte_resources_init(void);
 
 #endif
