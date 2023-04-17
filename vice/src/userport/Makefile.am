@@ -53,4 +53,7 @@ libuserport_a_SOURCES = \
 	userport_synergy_joystick.c \
 	userport_synergy_joystick.h \
 	userport_wic64.c \
-	userport_wic64.h
+	userport_wic64.h \
+	userport_woj_joystick.c \
+	userport_woj_joystick.h
+
