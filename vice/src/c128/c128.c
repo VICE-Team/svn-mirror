@@ -135,6 +135,7 @@
 #include "userport_rtc_ds1307.h"
 #include "userport_spt_joystick.h"
 #include "userport_superpad64.h"
+#include "userport_synergy_joystick.h"
 #include "userport_wic64.h"
 #include "vdc.h"
 #include "vdc-mem.h"
