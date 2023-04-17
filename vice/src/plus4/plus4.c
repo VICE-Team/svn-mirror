@@ -107,6 +107,7 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_dac.h"
+#include "userport_hummer_joystick.h"
 #include "userport_io_sim.h"
 #include "userport_joystick.h"
 #include "userport_spt_joystick.h"
