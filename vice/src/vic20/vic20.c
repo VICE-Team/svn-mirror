@@ -102,6 +102,7 @@
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
 #include "userport_spt_joystick.h"
+#include "userport_synergy_joystick.h"
 #include "via.h"
 #include "vic.h"
 #include "vic-mem.h"

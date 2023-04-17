@@ -110,6 +110,7 @@
 #include "userport_io_sim.h"
 #include "userport_joystick.h"
 #include "userport_spt_joystick.h"
+#include "userport_synergy_joystick.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"

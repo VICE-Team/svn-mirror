@@ -108,6 +108,7 @@
 #include "userport_rtc_ds1307.h"
 #include "userport_spt_joystick.h"
 #include "userport_superpad64.h"
+#include "userport_synergy_joystick.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
