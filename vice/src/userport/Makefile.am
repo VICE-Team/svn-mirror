@@ -34,6 +34,8 @@ libuserport_a_SOURCES = \
 	userport_digimax.h \
 	userport_hks_joystick.c \
 	userport_hks_joystick.h \
+	userport_hummer_joystick.c \
+	userport_hummer_joystick.h \
 	userport_io_sim.c \
 	userport_io_sim.h \
 	userport_joystick.c \
