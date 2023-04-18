@@ -325,10 +325,10 @@ void sidcart_cmdline_options_shutdown(void)
 
 static void sidcartjoy_store(uint16_t addr, uint8_t value)
 {
-    store_joyport_dig(JOYPORT_6, value, 0xff);
+    store_joyport_dig(JOYPORT_PLUS4_SIDCART, value, 0xff);
 }
 
 static uint8_t sidcartjoy_read(uint16_t addr)
 {
-    return read_joyport_dig(JOYPORT_6);
+    return read_joyport_dig(JOYPORT_PLUS4_SIDCART);
 }

@@ -724,7 +724,7 @@ static int joyport_enable_joystick(int port, int val)
 
     joyport_joystick[port] = (val) ? 1 : 0;
     if (val) {
-        if (port == JOYPORT_1 || port == JOYPORT_2 || (port == JOYPORT_6 && machine_class == VICE_MACHINE_PLUS4)) {
+        if (port == JOYPORT_1 || port == JOYPORT_2 || (port == JOYPORT_PLUS4_SIDCART && machine_class == VICE_MACHINE_PLUS4)) {
             if (joyport_port_has_pot(port)) {
                 mapping = &joystick_mapping;
             } else {

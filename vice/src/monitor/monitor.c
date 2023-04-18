@@ -1297,7 +1297,7 @@ IO_SIM_RESULT mon_joyport_set_output(int port, int value)
             }
             break;
         case VICE_MACHINE_PLUS4:
-            if (port == JOYPORT_1 || port == JOYPORT_2 || port == JOYPORT_6) {
+            if (port == JOYPORT_1 || port == JOYPORT_2 || port == JOYPORT_PLUS4_SIDCART) {
                 command_ok = 1;
             } else {
                 port_ok = 0;

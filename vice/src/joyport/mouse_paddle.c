@@ -159,7 +159,7 @@ static uint8_t mouse_get_paddle_x(int port)
     DBG(("mouse_get_paddle_x port:%d mouse enabled:%d mouse_x:%d mouse_y:%d\n",
          port, _mouse_enabled, mouse_x, mouse_y));
 
-    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_PLUS4_SIDCART)) {
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
@@ -193,7 +193,7 @@ static uint8_t mouse_get_paddle_y(int port)
 {
     mouse_get_raw_int16(&mouse_x, &mouse_y);
 
-    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_PLUS4_SIDCART)) {
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return analog value of a host axis converted to 8bit */
@@ -264,7 +264,7 @@ static uint8_t joyport_paddles_value(int port)
     uint16_t paddle_fire_buttons = get_joystick_value(port);
     uint8_t retval = 0xff;
 
-    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_PLUS4_SIDCART)) {
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return joystick mapped button state */
@@ -660,7 +660,7 @@ static uint8_t joyport_mf_joystick_value(int port)
     uint16_t mf_fire_buttons = get_joystick_value(port);
     uint8_t retval = 0xff;
 
-    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_PLUS4_SIDCART)) {
         /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             /* return joystick mapped buttons */
