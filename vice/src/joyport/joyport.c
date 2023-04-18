@@ -612,8 +612,8 @@ static int check_valid_io_sim(int port, int index)
     if (joyport_device[index].device_type != JOYPORT_DEVICE_IO_SIMULATION) {
         return 1;
     }
-    /* check for plus4 port 6 */
-    if (port == JOYPORT_6 && machine_class == VICE_MACHINE_PLUS4) {
+    /* check for plus4 sidcart port */
+    if (port == JOYPORT_PLUS4_SIDCART && machine_class == VICE_MACHINE_PLUS4) {
         return 1;
     }
     if (port == JOYPORT_1 || port == JOYPORT_2) {

@@ -376,7 +376,7 @@ static int init_joyport_ports(void)
     if (joyport_port_register(JOYPORT_5, &joy_adapter_control_port_3) < 0) {
         return -1;
     }
-    return joyport_port_register(JOYPORT_6, &sidcard_port);
+    return joyport_port_register(JOYPORT_PLUS4_SIDCART, &sidcard_port);
 }
 
 /* Plus4-specific resource initialization.  This is called before initializing
