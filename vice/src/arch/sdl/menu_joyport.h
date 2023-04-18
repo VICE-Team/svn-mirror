@@ -33,7 +33,7 @@
 
 extern ui_menu_entry_t joyport_menu[];
 
-void uijoyport_menu_create(int port1, int port2, int port3_4, int port5, int port6_10);
+void uijoyport_menu_create(int port1, int port2, int port3_4, int port5, int port6_10, int port11);
 void uijoyport_menu_shutdown(void);
 
 #endif

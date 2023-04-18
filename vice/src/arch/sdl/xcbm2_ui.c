@@ -256,8 +256,8 @@ int cbm2ui_init(void)
 {
 
     /* no "real" joystickports, and a user port */
-    uijoyport_menu_create(0, 0, 1, 1, 1);
-    uijoystick_menu_create(0, 0, 1, 1, 1);
+    uijoyport_menu_create(0, 0, 1, 1, 1, 0);
+    uijoystick_menu_create(0, 0, 1, 1, 1, 0);
     uiuserport_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
