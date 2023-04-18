@@ -103,7 +103,7 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
-static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
@@ -1941,6 +1941,18 @@ static resource_int_t joy10_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+static resource_int_t joy11_resources_int[] = {
+    { "JoyDevice11", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[JOYPORT_11], set_joystick_device, (void *)JOYPORT_11 },
+    { "JoyStick11AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_11], set_joystick_autofire, (void *)JOYPORT_11 },
+    { "JoyStick11AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_11], set_joystick_autofire_mode, (void *)JOYPORT_11 },
+    { "JoyStick11AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_11], set_joystick_autofire_speed, (void *)JOYPORT_11 },
+    RESOURCE_INT_LIST_END
+};
+
 static resource_string_t resources_string[] = {
     { "JoyMapFile", NULL, RES_EVENT_NO, NULL,
       &joymap_file, joymap_file_set, (void *)0 },
@@ -2046,6 +2058,15 @@ int joystick_resources_init(void)
             return -1;
         }
     }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (joyport_get_port_name(JOYPORT_11)) {
+            if (resources_register_int(joy11_resources_int) < 0) {
+                return -1;
+            }
+        }
+    }
+
     joymap_factory = archdep_default_joymap_file_name();
     resources_string[0].factory_value = joymap_factory;
 
@@ -2359,6 +2380,29 @@ static const cmdline_option_t joydev10cmdline_options[] = {
     CMDLINE_LIST_END
 };
 
+static const cmdline_option_t joydev11cmdline_options[] = {
+    { "-extrajoydev9", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyDevice11", NULL,
+#ifdef HAS_USB_JOYSTICK
+    "<0-13>", "Set device for sidcart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)" },
+#else
+    "<0-9>", "Set device for sidcart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
+#endif
+    { "-extrajoystick9autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick11AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in sidcart joystick port" },
+    { "+extrajoystick9autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick11AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in sidcart joystick port" },
+    { "-extrajoystick9autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick11AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in sidcart joystick port (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick9autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick11AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in sidcart joystick port (amount of fire button presses per second)" },
+    CMDLINE_LIST_END
+};
+
 /** \brief  Initialize joystick command line options
  *
  * \return  0 on success, -1 on failure
@@ -2428,6 +2472,14 @@ int joystick_cmdline_options_init(void)
     if (joyport_get_port_name(JOYPORT_10)) {
         if (cmdline_register_options(joydev10cmdline_options) < 0) {
             return -1;
+        }
+    }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (joyport_get_port_name(JOYPORT_11)) {
+            if (cmdline_register_options(joydev11cmdline_options) < 0) {
+                return -1;
+            }
         }
     }
 

@@ -245,8 +245,8 @@ int cbm5x0ui_init(void)
 {
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
     /* p500 has 2 "real" joystickports, and a user port */
-    uijoyport_menu_create(1, 1, 1, 1, 1);
-    uijoystick_menu_create(1, 1, 1, 1, 1);
+    uijoyport_menu_create(1, 1, 1, 1, 1, 0);
+    uijoystick_menu_create(1, 1, 1, 1, 1, 0);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();

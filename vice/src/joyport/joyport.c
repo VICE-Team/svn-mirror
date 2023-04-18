@@ -792,7 +792,7 @@ uint8_t joystick_adapter_activate(uint8_t id, char *name)
     joystick_adapter_id = id;
     joystick_adapter_name = name;
 
-    /* if the joystick adapter is a SNES adapter, make sure the devices on ports 3-10 are 'none' or 'joystick' only */
+    /* if the joystick adapter is a SNES adapter, make sure the devices on ports 3-11 are 'none' or 'joystick' only */
     if (joystick_adapter_is_snes_adapter(id)) {
         for (i = JOYPORT_3; i < JOYPORT_MAX_PORTS; i++) {
             if (joy_port[i] != JOYPORT_ID_NONE && joy_port[i] != JOYPORT_ID_JOYSTICK) {
@@ -1114,6 +1114,12 @@ static const resource_int_t resources_int_port10[] = {
     RESOURCE_INT_LIST_END
 };
 
+static const resource_int_t resources_int_port11[] = {
+    { "JoyPort11Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_11], set_joyport_device, (void *)JOYPORT_11 },
+    RESOURCE_INT_LIST_END
+};
+
 int joyport_resources_init(void)
 {
     int i;
@@ -1124,6 +1130,14 @@ int joyport_resources_init(void)
     joyport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         joy_port[i] = JOYPORT_ID_NONE;
+    }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (port_props[JOYPORT_11].name) {
+            if (resources_register_int(resources_int_port11) < 0) {
+                return -1;
+            }
+        }
     }
 
     if (port_props[JOYPORT_10].name) {
@@ -1421,6 +1435,14 @@ static cmdline_option_t cmdline_options_port10[] =
     CMDLINE_LIST_END
 };
 
+static cmdline_option_t cmdline_options_port11[] =
+{
+    { "-controlport11device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_11, "JoyPort11Device", NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
 int joyport_cmdline_options_init(void)
 {
     union char_func cf;
@@ -1512,6 +1534,17 @@ int joyport_cmdline_options_init(void)
         cmdline_options_port10[0].attributes |= (JOYPORT_10 << 8);
         if (cmdline_register_options(cmdline_options_port10) < 0) {
             return -1;
+        }
+    }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (port_props[JOYPORT_11].name) {
+            cf.f = build_joyport_string;
+            cmdline_options_port11[0].description = cf.c;
+            cmdline_options_port11[0].attributes |= (JOYPORT_11 << 8);
+            if (cmdline_register_options(cmdline_options_port11) < 0) {
+                return -1;
+            }
         }
     }
     return 0;

@@ -54,6 +54,7 @@ UI_MENU_DEFINE_RADIO(JoyDevice7)
 UI_MENU_DEFINE_RADIO(JoyDevice8)
 UI_MENU_DEFINE_RADIO(JoyDevice9)
 UI_MENU_DEFINE_RADIO(JoyDevice10)
+UI_MENU_DEFINE_RADIO(JoyDevice11)
 
 static ui_menu_entry_t joystick_device_dyn_menu[JOYPORT_MAX_PORTS][6];
 static int joystick_device_dyn_menu_init[JOYPORT_MAX_PORTS] = { 0 };
@@ -79,7 +80,8 @@ static const ui_callback_t uijoystick_device_callbacks[JOYPORT_MAX_PORTS] = {
     radio_JoyDevice7_callback,
     radio_JoyDevice8_callback,
     radio_JoyDevice9_callback,
-    radio_JoyDevice10_callback
+    radio_JoyDevice10_callback,
+    radio_JoyDevice11_callback
 };
 
 static const char *joystick_device_dynmenu_helper(int port)
@@ -190,6 +192,11 @@ static UI_MENU_CALLBACK(Joystick10Device_dynmenu_callback)
     return joystick_device_dynmenu_helper(JOYPORT_10);
 }
 
+static UI_MENU_CALLBACK(Joystick11Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_11);
+}
+
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
 UI_MENU_DEFINE_TOGGLE(JoyOpposite)
 
@@ -203,6 +210,7 @@ UI_MENU_DEFINE_TOGGLE(JoyStick7AutoFire)
 UI_MENU_DEFINE_TOGGLE(JoyStick8AutoFire)
 UI_MENU_DEFINE_TOGGLE(JoyStick9AutoFire)
 UI_MENU_DEFINE_TOGGLE(JoyStick10AutoFire)
+UI_MENU_DEFINE_TOGGLE(JoyStick11AutoFire)
 
 UI_MENU_DEFINE_SLIDER(JoyStick1AutoFireSpeed, 1, 255)
 UI_MENU_DEFINE_SLIDER(JoyStick2AutoFireSpeed, 1, 255)
@@ -214,6 +222,7 @@ UI_MENU_DEFINE_SLIDER(JoyStick7AutoFireSpeed, 1, 255)
 UI_MENU_DEFINE_SLIDER(JoyStick8AutoFireSpeed, 1, 255)
 UI_MENU_DEFINE_SLIDER(JoyStick9AutoFireSpeed, 1, 255)
 UI_MENU_DEFINE_SLIDER(JoyStick10AutoFireSpeed, 1, 255)
+UI_MENU_DEFINE_SLIDER(JoyStick11AutoFireSpeed, 1, 255)
 
 UI_MENU_DEFINE_RADIO(JoyStick1AutoFireMode)
 UI_MENU_DEFINE_RADIO(JoyStick2AutoFireMode)
@@ -225,6 +234,7 @@ UI_MENU_DEFINE_RADIO(JoyStick7AutoFireMode)
 UI_MENU_DEFINE_RADIO(JoyStick8AutoFireMode)
 UI_MENU_DEFINE_RADIO(JoyStick9AutoFireMode)
 UI_MENU_DEFINE_RADIO(JoyStick10AutoFireMode)
+UI_MENU_DEFINE_RADIO(JoyStick11AutoFireMode)
 
 #define VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_autofire_mode_menu[] = { \
@@ -249,6 +259,7 @@ VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(7)
 VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(8)
 VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(9)
 VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(10)
+VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(11)
 
 #define VICE_SDL_JOYSTICK_AUTOFIRE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_autofire_menu[] = { \
@@ -277,6 +288,7 @@ VICE_SDL_JOYSTICK_AUTOFIRE_MENU(7)
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(8)
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(9)
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(10)
+VICE_SDL_JOYSTICK_AUTOFIRE_MENU(11)
 
 static ui_menu_entry_t joystick_autofire_dyn_menu[JOYPORT_MAX_PORTS + 1];
 static int joystick_autofire_dyn_menu_init = 0;
@@ -291,6 +303,7 @@ static const ui_menu_entry_t *joystick_port_autofire_menus[JOYPORT_MAX_PORTS] = 
     joystick_port7_autofire_menu,
     joystick_port8_autofire_menu,
     joystick_port9_autofire_menu,
+    joystick_port10_autofire_menu,
     joystick_port10_autofire_menu
 };
 
@@ -765,6 +778,11 @@ static UI_MENU_CALLBACK(Joystick10Mapping_dynmenu_callback)
     return joystick_mapping_dynmenu_helper(JOYPORT_10);
 }
 
+static UI_MENU_CALLBACK(Joystick11Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_11);
+}
+
 static ui_menu_entry_t joystick_host_mapping_dyn_menu[JOYPORT_MAX_PORTS + 1];
 static int joystick_host_mapping_dyn_menu_init = 0;
 
@@ -778,7 +796,8 @@ static const ui_callback_t uijoystick_host_mapping_callbacks[JOYPORT_MAX_PORTS] 
     Joystick7Mapping_dynmenu_callback,
     Joystick8Mapping_dynmenu_callback,
     Joystick9Mapping_dynmenu_callback,
-    Joystick10Mapping_dynmenu_callback
+    Joystick10Mapping_dynmenu_callback,
+    Joystick11Mapping_dynmenu_callback
 };
 
 static void sdl_menu_joystick_host_mapping_free(void)
@@ -1101,10 +1120,30 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       Joystick5Device_dynmenu_callback,
       (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "SID cartridge joystick port",
+    { "Joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
       Joystick6Device_dynmenu_callback,
       (ui_callback_data_t)joystick_device_dyn_menu[5] },
+    { "Joystick adapter port 5",
+      MENU_ENTRY_SUBMENU,
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
+    { "Joystick adapter port 6",
+      MENU_ENTRY_SUBMENU,
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
+    { "Joystick adapter port 7",
+      MENU_ENTRY_SUBMENU,
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
+    { "Joystick adapter port 8",
+      MENU_ENTRY_SUBMENU,
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
+    { "SID cartridge joystick port",
+      MENU_ENTRY_SUBMENU,
+      Joystick11Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[10] },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
@@ -1295,11 +1334,11 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
     SDL_MENU_LIST_END
 };
 
-void uijoystick_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10)
+void uijoystick_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10, int p11)
 {
 #if 0
     int i, j = 0;
-    int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10 };
+    int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10, p11 };
 
     joyport_menu[j].string = "Save BBRTC data when changed";
     joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
