@@ -117,12 +117,8 @@
 /** \brief  References to the joystick device widgets
  *
  * These references are used to update the UI when swapping joysticks.
- *
- * Currently the first element is unused, since JOYPORT_1 is 1, not 0. This is
- * not ideal, but it makes the code a lot more readable, not having to add
- * '- 1' to each index.
  */
-static GtkWidget *device_widgets[JOYPORT_MAX_PORTS + 1];
+static GtkWidget *device_widgets[JOYPORT_MAX_PORTS];
 
 
 /*****************************************************************************
