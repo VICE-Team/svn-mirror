@@ -147,6 +147,26 @@ static GtkWidget *drive_device_type_label[NUM_DISK_UNITS];
 static GtkWidget *drive_size[NUM_DISK_UNITS];
 
 
+/** \brief  Determine if the current machine supports IEC
+ *
+ * \return  `TRUE` if IEC-related resources are available
+ */
+static gboolean has_iec(void)
+{
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PLUS4:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
 /*
  * Gtk event handlers and custom widget callbacks
  */
@@ -614,9 +634,11 @@ static int create_left_layout(GtkWidget *grid, int unit)
     row++;
 
     /* RTC save check button */
-    drive_rtc_save[index] = create_rtc_check_button(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rtc_save[index],     0, row, 2, 1);
-    row++;
+    if (has_iec()) {
+        drive_rtc_save[index] = create_rtc_check_button(unit);
+        gtk_grid_attach(GTK_GRID(grid), drive_rtc_save[index],     0, row, 2, 1);
+        row++;
+    }
 
     /* true drive emulation check button */
     drive_tde[index] = create_drive_true_emulation_widget(unit);
