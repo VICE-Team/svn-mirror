@@ -91,14 +91,14 @@ static int joyport_inception_set_enabled(int port, int enabled)
 static uint8_t inception_read(int port)
 {
     uint8_t retval;
-    uint16_t joyval1 = get_joystick_value(JOYPORT_3);
-    uint16_t joyval2 = get_joystick_value(JOYPORT_4);
-    uint16_t joyval3 = get_joystick_value(JOYPORT_5);
-    uint16_t joyval4 = get_joystick_value(JOYPORT_6);
-    uint16_t joyval5 = get_joystick_value(JOYPORT_7);
-    uint16_t joyval6 = get_joystick_value(JOYPORT_8);
-    uint16_t joyval7 = get_joystick_value(JOYPORT_9);
-    uint16_t joyval8 = get_joystick_value(JOYPORT_10);
+    uint8_t joyval1 = ~read_joyport_dig(JOYPORT_3);
+    uint8_t joyval2 = ~read_joyport_dig(JOYPORT_4);
+    uint8_t joyval3 = ~read_joyport_dig(JOYPORT_5);
+    uint8_t joyval4 = ~read_joyport_dig(JOYPORT_6);
+    uint8_t joyval5 = ~read_joyport_dig(JOYPORT_7);
+    uint8_t joyval6 = ~read_joyport_dig(JOYPORT_8);
+    uint8_t joyval7 = ~read_joyport_dig(JOYPORT_9);
+    uint8_t joyval8 = ~read_joyport_dig(JOYPORT_10);
 
     switch (counter) {
         case INCEPTION_STATE_IDLE:
