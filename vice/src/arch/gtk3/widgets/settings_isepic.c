@@ -71,11 +71,19 @@ static GtkWidget *create_isepic_switch_widget(void)
  */
 static GtkWidget *create_isepic_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "Isepicfilename",
-                                    "IsepicImageWrite",
-                                    CARTRIDGE_NAME_ISEPIC,
-                                    CARTRIDGE_ISEPIC);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_ISEPIC,
+                                  CARTRIDGE_NAME_ISEPIC,
+                                  CART_IMAGE_PRIMARY,
+                                  "cartridge",
+                                  "Isepicfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "IsepicImageWrite",
+                                   "Write image on detach/emulator exit");
+    return image;
 }
 
 
