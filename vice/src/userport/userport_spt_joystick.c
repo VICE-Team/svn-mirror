@@ -78,7 +78,7 @@ static int userport_spt_joystick_enable(int value);
 
 static userport_device_t userport_spt_joystick_device = {
     "Userport Stupid Pet Tricks joystick adapter", /* device name */
-    JOYSTICK_ADAPTER_ID_SPT_JOYSTICK,              /* this is a joystick adapter */
+    JOYSTICK_ADAPTER_ID_GENERIC_USERPORT,          /* this is a joystick adapter */
     USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER,         /* device is a joystick adapter */
     userport_spt_joystick_enable,                  /* enable function */
     userport_spt_joystick_read_pbx,                /* read pb0-pb7 function */
@@ -114,7 +114,7 @@ static int userport_spt_joystick_enable(int value)
             ui_error("%s is a joystick adapter, but joystick adapter %s is already active", userport_spt_joystick_device.name, joystick_adapter_get_name());
             return -1;
         }
-        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_SPT_JOYSTICK, userport_spt_joystick_device.name);
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, userport_spt_joystick_device.name);
         joystick_adapter_set_ports(1);
     } else {
         joystick_adapter_deactivate();
@@ -149,7 +149,7 @@ static uint8_t userport_spt_joystick_read_pbx(uint8_t orig)
 {
     uint8_t retval = 0;
 
-    uint16_t portval = get_joystick_value(JOYPORT_3);
+    uint8_t portval = ~read_joyport_dig(JOYPORT_3);
 
     /* convert from joyport pins to spt joystick pins */
     retval |= ((portval & JOYPORT_LEFT) >> JOYPORT_LEFT_BIT) << SPT_JOYSTICK_LEFT_BIT;
