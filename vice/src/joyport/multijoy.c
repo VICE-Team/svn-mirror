@@ -163,9 +163,9 @@ static void multijoy_store(int port, uint8_t val)
 static uint8_t multijoy_read(int port)
 {
     uint8_t retval = 0;
-    uint16_t joyval;
+    uint8_t joyval;
 
-    joyval = get_joystick_value(JOYPORT_3 + multijoy_address);
+    joyval = ~read_joyport_dig(JOYPORT_3 + multijoy_address);
     retval = (uint8_t)(joyval & 0x1f);
 
     return ~(retval);
