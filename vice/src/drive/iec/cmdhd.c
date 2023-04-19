@@ -1392,9 +1392,13 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
         for (i = 0; i < 7; i++) {
             /* skip first disk as it has a DHD extension */
             for (j = (i == 0); j < 8; j++) {
-               /* generate the name */
-               testname = lib_msprintf("%s%" PRI_SIZE_T" %1" PRI_SIZE_T,
-                                       basename, i, j);
+               /* generate the name
+                * (somehow using `"%1" PRI_SIZE_T` doesn't work on Windows,
+                *  see bug #1872, so we cast to unsigned long long here) */
+               testname = lib_msprintf("%s%llu%1llu",
+                                       basename,
+                                       (unsigned long long)i,
+                                       (unsigned long long)j);
                /* open the file */
                test = fopen(testname, "rb+");
                if (test) {
