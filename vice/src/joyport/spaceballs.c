@@ -104,7 +104,7 @@ static int joyport_spaceballs_set_enabled(int port, int enabled)
 static uint8_t spaceballs_read(int port)
 {
     uint8_t retval = 0;
-    uint16_t joyval = 0;
+    uint8_t joyval = 0;
 
     int i;
 
@@ -112,7 +112,7 @@ static uint8_t spaceballs_read(int port)
         /* check which joystick are selected */
         if (!((spaceballs_grounds >> i) & 1)) {
             /* get value from selected joystick */
-            joyval = get_joystick_value(JOYPORT_3 + i);
+            joyval = ~read_joyport_dig(JOYPORT_3 + i);
             retval |= (joyval & 0x1f);
         }
     }
