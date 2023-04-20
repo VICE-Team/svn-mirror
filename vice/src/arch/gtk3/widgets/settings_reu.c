@@ -52,7 +52,7 @@ static int ram_sizes[] = { 128, 256, 512, 1024, 2048, 4096, 8192, 16384, -1 };
 static GtkWidget *create_reu_size_widget(void)
 {
     return ram_size_radiogroup_new("REUsize",
-                                   "REU Size",
+                                   CARTRIDGE_NAME_REU " Size",
                                    ram_sizes);
 }
 
@@ -62,11 +62,19 @@ static GtkWidget *create_reu_size_widget(void)
  */
 static GtkWidget *create_reu_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "REUfilename",
-                                    "REUImageWrite",
-                                    CARTRIDGE_NAME_REU,
-                                    CARTRIDGE_REU);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_REU,
+                                  CARTRIDGE_NAME_REU,
+                                  CART_IMAGE_PRIMARY,
+                                  "cartridge",
+                                  "REUfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "REUImageWrite",
+                                   "Write image on detach/emulator exit");
+    return image;
 }
 
 
@@ -79,23 +87,21 @@ static GtkWidget *create_reu_image_widget(void)
 GtkWidget *settings_reu_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *reu_enable_widget;
-    GtkWidget *reu_size;
-    GtkWidget *reu_image;
+    GtkWidget *enable;
+    GtkWidget *size;
+    GtkWidget *image;
 
-    grid = vice_gtk3_grid_new_spaced(32, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
-    reu_enable_widget = carthelpers_create_enable_check_button(CARTRIDGE_NAME_REU,
-                                                               CARTRIDGE_REU);
-    gtk_grid_attach(GTK_GRID(grid), reu_enable_widget, 0, 0, 2, 1);
+    enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_REU,
+                                                    CARTRIDGE_REU);
+    image  = create_reu_image_widget();
+    size   = create_reu_size_widget();
 
-    reu_size = create_reu_size_widget();
-    gtk_widget_set_margin_top(reu_size, 8);
-    gtk_grid_attach(GTK_GRID(grid), reu_size, 0, 1, 1, 1);
-
-    reu_image = create_reu_image_widget();
-    gtk_widget_set_margin_top(reu_image, 8);
-    gtk_grid_attach(GTK_GRID(grid), reu_image, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), image,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), size,   0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
