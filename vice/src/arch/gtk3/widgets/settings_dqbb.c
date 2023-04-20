@@ -50,11 +50,19 @@
  */
 static GtkWidget *create_dqbb_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "DQBBfilename",
-                                    "DQBBImageWrite",
-                                    CARTRIDGE_NAME_DQBB,
-                                    CARTRIDGE_DQBB);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_DQBB,
+                                  CARTRIDGE_NAME_DQBB,
+                                  CART_IMAGE_PRIMARY,
+                                  "cartridge",
+                                  "DQBBfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "DQBBImageWrite",
+                                   "Write image on detach/emulator exit");
+    return image;
 }
 
 
