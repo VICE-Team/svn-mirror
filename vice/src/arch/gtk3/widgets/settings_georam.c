@@ -66,7 +66,7 @@ static GtkWidget *create_georam_ioswap_widget(void)
 static GtkWidget *create_georam_size_widget(void)
 {
     return ram_size_radiogroup_new("GEORAMsize",
-                                   "GEORAM Size",
+                                   CARTRIDGE_NAME_GEORAM " Size",
                                    ram_sizes);
 }
 
@@ -76,11 +76,19 @@ static GtkWidget *create_georam_size_widget(void)
  */
 static GtkWidget *create_georam_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "GEORAMfilename",
-                                    "GEORAMImageWrite",
-                                    CARTRIDGE_NAME_GEORAM,
-                                    CARTRIDGE_GEORAM);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_GEORAM,
+                                  CARTRIDGE_NAME_GEORAM,
+                                  CART_IMAGE_PRIMARY,
+                                  "cartridge",
+                                  "GEORAMfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "GEORAMImageWrite",
+                                   "Write image on detach/emulator exit");
+    return image;
 }
 
 
@@ -94,28 +102,27 @@ GtkWidget *settings_georam_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *georam_enable;
-    GtkWidget *georam_size;
-    GtkWidget *georam_ioswap;
     GtkWidget *georam_image;
+    GtkWidget *georam_size;
+    GtkWidget *georam_ioswap = NULL;
 
-    grid = vice_gtk3_grid_new_spaced(32, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     georam_enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_GEORAM,
                                                            CARTRIDGE_GEORAM);
-    gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 2, 1);
-
+    georam_image  = create_georam_image_widget();
+    georam_size   = create_georam_size_widget();
     if (machine_class == VICE_MACHINE_VIC20) {
         georam_ioswap = create_georam_ioswap_widget();
-        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 2, 2, 1);
     }
 
-    georam_size = create_georam_size_widget();
-    gtk_widget_set_margin_top(georam_size, 8);
-    gtk_grid_attach(GTK_GRID(grid), georam_size, 0, 1, 1, 1);
-
-    georam_image = create_georam_image_widget();
-    gtk_widget_set_margin_top(georam_image, 8);
-    gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), georam_image,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), georam_size,   0, 2, 1, 1);
+    if (georam_ioswap != NULL) {
+        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 3, 1, 1);
+    }
 
     gtk_widget_show_all(grid);
     return grid;
