@@ -65,17 +65,11 @@
 
 /* Timer debugging */
 /*#define MYVIA_TIMER_DEBUG */
-/* when PB7 is really used, set this
-   to enable pulse output from the timer.
-   Otherwise PB7 state is computed only
-   when port B is read -
-   not yet implemented */
-#define MYVIA_NEED_PB7
 /* When you really need latching, define this.
-   It implies additional READ_PR* when
-   writing the snapshot. When latching is
-   enabled: it reads the port when enabling,
+   When latching is enabled:
+   it reads the port when enabling,
    and when an active C*1 transition occurs.
+   Both conditions must be true at the same time!
    It does not read the port when reading the
    port register. Side-effects beware! */
 /* FIXME: this doesnt even work anymore */
@@ -863,15 +857,22 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
             /* bit 1, 0  latch enable port B and A */
 #ifdef MYVIA_NEED_LATCHING
-            /* switch on port A latching - FIXME: is this ok? */
+            /*
+             * If all conditions for latching become true now,
+             * store the port's input value into the latch.
+             */
             if ((!(via_context->via[addr] & VIA_ACR_PA_LATCH)) &&
                                     (byte & VIA_ACR_PA_LATCH)) {
-                via_context->ila = (via_context->read_pra)(via_context, addr);
+                if (via_context->ifr & VIA_IM_CA1) {
+                    via_context->ila = (via_context->read_pra)(via_context, addr);
+                }
             }
-            /* switch on port B latching - FIXME: is this ok? */
+            /* switch on port B latching, same as for port A */
             if ((!(via_context->via[addr] & VIA_ACR_PB_LATCH)) &&
                                     (byte & VIA_ACR_PB_LATCH)) {
-                via_context->ilb = (via_context->read_prb)(via_context);
+                if (via_context->ifr & VIA_IM_CB1) {
+                    via_context->ilb = (via_context->read_prb)(via_context);
+                }
             }
 #endif
 
@@ -1067,6 +1068,8 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             tmpifr = via_context->ifr;
 #endif
             via_context->ifr &= ~VIA_IM_CA1;
+            /* (VIA_PCR_CA2_I_OR_O | VIA_PCR_CA2_INDEPENDENT_INTERRUPT) != 
+             * (VIA_PCR_CA2_INPUT  | VIA_PCR_CA2_INDEPENDENT_INTERRUPT) */
             if ((via_context->via[VIA_PCR] & 0x0a) != 0x02) {
                 via_context->ifr &= ~VIA_IM_CA2;
             }
@@ -1093,14 +1096,20 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 #endif
         via_pra_nhs:
 #ifdef MYVIA_NEED_LATCHING
+            /* If all latching conditions are (still) true, the input value
+             * has been latched when they became true, and we use it here. */
             if (IS_PA_INPUT_LATCH() && (tmpifr & VIA_IM_CA1)) {
                 byte = via_context->ila;
             } else
 #endif
             {
                 byte = (via_context->read_pra)(via_context, addr);
+                /*
+                 * Currently the latch is transparent, so there is no need
+                 * to store the byte into it. That will happen next time
+                 * when its conditions become true.
+                 */
             }
-            via_context->ila = byte;
             via_context->last_read = byte;
             return byte;
 
@@ -1109,6 +1118,8 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             tmpifr = via_context->ifr;
 #endif
             via_context->ifr &= ~VIA_IM_CB1;
+            /* (VIA_PCR_CB2_I_OR_O | VIA_PCR_CB2_INDEPENDENT_INTERRUPT) != 
+             * (VIA_PCR_CB2_INPUT  | VIA_PCR_CB2_INDEPENDENT_INTERRUPT) */
             if ((via_context->via[VIA_PCR] & 0xa0) != 0x20) {
                 via_context->ifr &= ~VIA_IM_CB2;
             }
@@ -1116,7 +1127,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
                 update_myviairq_rclk(via_context, rclk);
             }
 
-            /* WARNING: this pin reads the ORA for output pins, not
+            /* WARNING: this port reads the ORB for output pins, not
                the voltage on the pins as the other port. */
 #ifdef MYVIA_NEED_LATCHING
             if (IS_PB_INPUT_LATCH() && (tmpifr & VIA_IM_CB1)) {
@@ -1125,8 +1136,8 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 #endif
             {
                 byte = (via_context->read_prb)(via_context);
+                /* Same comment about transparent latch as for PA */
             }
-            via_context->ilb = byte;
             byte = (byte & ~(via_context->via[VIA_DDRB]))
                    | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
@@ -1398,6 +1409,7 @@ static void viacore_cache_cb12_io_status(via_context_t *via_context)
 
 /*
  * CB1 is the clock line for the shift register in/output, CB2.
+ * If MYVIA_NEED_LATCHING: It can also function to activate the latch on Port B.
  */
 
 void viacore_set_cb1(via_context_t *via_context, bool data) {
