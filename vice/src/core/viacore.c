@@ -1068,7 +1068,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             tmpifr = via_context->ifr;
 #endif
             via_context->ifr &= ~VIA_IM_CA1;
-            /* (VIA_PCR_CA2_I_OR_O | VIA_PCR_CA2_INDEPENDENT_INTERRUPT) != 
+            /* (VIA_PCR_CA2_I_OR_O | VIA_PCR_CA2_INDEPENDENT_INTERRUPT) !=
              * (VIA_PCR_CA2_INPUT  | VIA_PCR_CA2_INDEPENDENT_INTERRUPT) */
             if ((via_context->via[VIA_PCR] & 0x0a) != 0x02) {
                 via_context->ifr &= ~VIA_IM_CA2;
@@ -1118,7 +1118,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             tmpifr = via_context->ifr;
 #endif
             via_context->ifr &= ~VIA_IM_CB1;
-            /* (VIA_PCR_CB2_I_OR_O | VIA_PCR_CB2_INDEPENDENT_INTERRUPT) != 
+            /* (VIA_PCR_CB2_I_OR_O | VIA_PCR_CB2_INDEPENDENT_INTERRUPT) !=
              * (VIA_PCR_CB2_INPUT  | VIA_PCR_CB2_INDEPENDENT_INTERRUPT) */
             if ((via_context->via[VIA_PCR] & 0xa0) != 0x20) {
                 via_context->ifr &= ~VIA_IM_CB2;
