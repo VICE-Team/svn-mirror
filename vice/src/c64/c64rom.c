@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUG_C64ROM */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -39,6 +41,12 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
+
+#ifdef DEBUG_C64ROM
+#define LOG(x)  log_debug x
+#else
+#define LOG(x)
+#endif
 
 static log_t c64rom_log = LOG_ERR;
 
@@ -81,6 +89,7 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
     }
     if (sum == 0) {
         *sumout = 0; *idout = 0;
+        LOG(("c64rom_get_kernal_chksum_id: C64_KERNAL_NONE"));
         return C64_KERNAL_NONE;
     }
 
@@ -91,7 +100,7 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
     /* get ID from Kernal ROM */
     id = c64memrom_rom64_read(0xff80);
 
-    /*printf("sum: %d id: %d\n", sum, id);*/
+    LOG(("c64rom_get_kernal_chksum_id chksum: %d id: %d", sum, id));
 
     if (sumout) {
         *sumout = sum;
@@ -102,11 +111,13 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 
     i= 0; do {
         if ((kernal_match[i].id == id) && (kernal_match[i].chksum == sum)) {
+            LOG(("c64rom_get_kernal_chksum_id: rev:%d", kernal_match[i].rev));
             return kernal_match[i].rev;
         }
         i++;
     } while (kernal_match[i].rev != C64_KERNAL_UNKNOWN);
 
+    LOG(("c64rom_get_kernal_chksum_id: C64_KERNAL_NONE"));
     return C64_KERNAL_UNKNOWN; /* unknown */
 }
 
