@@ -35,6 +35,7 @@ palettes = \
 	pc64.vpl \
 	vdc_deft.vpl \
 	vdc_comp.vpl \
+	vdc_scart.vpl \
 	vice.vpl \
 	pepto-ntsc-sony.vpl \
 	pepto-ntsc.vpl \
