@@ -383,11 +383,11 @@ static const cmdline_option_t cmdline_options[] =
     /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Width", NULL,
-      "<width>", "Set intiial window width" },
+      "<width>", "Set initial window width" },
     /* FIXME: this could be a generic (not SDL specific) option */
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
-      "<height>", "Set intiial window height" },
+      "<height>", "Set initial window height" },
     CMDLINE_LIST_END
 };
 
