@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#include "sha1.h"
 #include "sysfile.h"
 #include "types.h"
 
@@ -61,27 +62,29 @@ int c64rom_isloaded(void)
 struct kernal_s {
     int id;         /* the value located at 0xff80 */
     int chksum;
+    char *sha1hash;
     int rev;
 };
 
 /* NOTE: also update the table in c64-resources.c */
 static struct kernal_s kernal_match[] = {
-    { C64_KERNAL_ID_R01,    C64_KERNAL_CHECKSUM_R01,    C64_KERNAL_REV1 },
-    { C64_KERNAL_ID_R02,    C64_KERNAL_CHECKSUM_R02,    C64_KERNAL_REV2 },
-    { C64_KERNAL_ID_R03,    C64_KERNAL_CHECKSUM_R03,    C64_KERNAL_REV3 },
-/*  { C64_KERNAL_ID_R03swe, C64_KERNAL_CHECKSUM_R03swe, C64_KERNAL_REV3swe }, */
-    { C64_KERNAL_ID_JAP,    C64_KERNAL_CHECKSUM_JAP,    C64_KERNAL_JAP },
-    { C64_KERNAL_ID_R43,    C64_KERNAL_CHECKSUM_R43,    C64_KERNAL_SX64 },
-    { C64_KERNAL_ID_GS64,   C64_KERNAL_CHECKSUM_GS64,   C64_KERNAL_GS64 },
-    { C64_KERNAL_ID_R64,    C64_KERNAL_CHECKSUM_R64,    C64_KERNAL_4064 },
-    { 0,                    0,                          C64_KERNAL_UNKNOWN }
+    { C64_KERNAL_ID_R01,    C64_KERNAL_CHECKSUM_R01,    C64_KERNAL_HASH_R01,    C64_KERNAL_REV1 },
+    { C64_KERNAL_ID_R02,    C64_KERNAL_CHECKSUM_R02,    C64_KERNAL_HASH_R02,    C64_KERNAL_REV2 },
+    { C64_KERNAL_ID_R03,    C64_KERNAL_CHECKSUM_R03,    C64_KERNAL_HASH_R03,    C64_KERNAL_REV3 },
+/*  { C64_KERNAL_ID_R03swe, C64_KERNAL_CHECKSUM_R03swe, C64_KERNAL_HASH_R03swe, C64_KERNAL_REV3swe }, */
+    { C64_KERNAL_ID_JAP,    C64_KERNAL_CHECKSUM_JAP,    C64_KERNAL_HASH_JAP,    C64_KERNAL_JAP },
+    { C64_KERNAL_ID_R43,    C64_KERNAL_CHECKSUM_R43,    C64_KERNAL_HASH_R43,    C64_KERNAL_SX64 },
+    { C64_KERNAL_ID_GS64,   C64_KERNAL_CHECKSUM_GS64,   C64_KERNAL_HASH_GS64,   C64_KERNAL_GS64 },
+    { C64_KERNAL_ID_R64,    C64_KERNAL_CHECKSUM_R64,    C64_KERNAL_HASH_R64,    C64_KERNAL_4064 },
+    { 0,                    0,                          NULL,                   C64_KERNAL_UNKNOWN }
 };
 
 int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 {
     int i;
-    uint16_t sum;                   /* ROM checksum */
+    uint16_t sum;               /* ROM checksum */
     int id;                     /* ROM identification number */
+    char sha1hash[41];
 
     /* special case to support MAX machine, if kernal is all zeros, return C64_KERNAL_NONE */
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++) {
@@ -109,8 +112,12 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
         *idout = id;
     }
 
+    SHA1String(sha1hash, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
+    LOG(("c64rom_get_kernal_chksum_id sha1: %s", sha1hash));
+
+    /* find kernal that matches the SHA1 hash */
     i= 0; do {
-        if ((kernal_match[i].id == id) && (kernal_match[i].chksum == sum)) {
+        if (strncmp(kernal_match[i].sha1hash, sha1hash, 40) == 0) {
             LOG(("c64rom_get_kernal_chksum_id: rev:%d", kernal_match[i].rev));
             return kernal_match[i].rev;
         }
@@ -126,7 +133,7 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 */
 int c64rom_get_kernal_checksum(void)
 {
-    uint16_t sum;                   /* ROM checksum */
+    uint16_t sum;               /* ROM checksum */
     int id;                     /* ROM identification number */
 
     if (c64rom_get_kernal_chksum_id(&sum, &id) == C64_KERNAL_UNKNOWN) {
