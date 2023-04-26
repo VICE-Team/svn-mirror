@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_C64ROM
+/* #define DEBUG_C64ROM */
 
 #include "vice.h"
 
