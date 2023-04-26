@@ -249,6 +249,7 @@ noinst_HEADERS = \
 	romset.h \
 	scpu64ui.h \
 	screenshot.h \
+	sha1.h \
 	snapshot.h \
 	serial.h \
 	sidcart.h \
@@ -329,6 +330,7 @@ base_sources = \
 	resources.c \
 	romset.c \
 	screenshot.c \
+	sha1.c \
 	snapshot.c \
 	socket.c \
 	sound.c \
