@@ -79,7 +79,7 @@ static struct kernal_s kernal_match[] = {
     { 0,                    0,                          NULL,                   C64_KERNAL_UNKNOWN }
 };
 
-int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
+int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout, char *hash)
 {
     int i;
     uint16_t sum;               /* ROM checksum */
@@ -115,6 +115,10 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
     SHA1String(sha1hash, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
     LOG(("c64rom_get_kernal_chksum_id sha1: %s", sha1hash));
 
+    if (hash) {
+        strncpy(hash, sha1hash, 41);
+    }
+
     /* find kernal that matches the SHA1 hash */
     i= 0; do {
         if (strncmp(kernal_match[i].sha1hash, sha1hash, 40) == 0) {
@@ -131,19 +135,24 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 /* FIXME: this function has a misleading name, only called from snapshot stuff atm
           it was used to patch the kernal before, but not anymore
 */
-int c64rom_get_kernal_checksum(void)
+int c64rom_print_kernal_info(void)
 {
     uint16_t sum;               /* ROM checksum */
     int id;                     /* ROM identification number */
+    int rev;                    /* detected revision */
+    char hash[41];
 
-    if (c64rom_get_kernal_chksum_id(&sum, &id) == C64_KERNAL_UNKNOWN) {
-        log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X).", id, (unsigned int)id, sum, sum);
-        return -1;
+    rev = c64rom_get_kernal_chksum_id(&sum, &id, hash);
+    if (rev == C64_KERNAL_UNKNOWN) {
+        log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X) SHA1: %s.",
+                    id, (unsigned int)id, sum, sum, hash);
+        return rev;
     } else {
-        log_message(c64rom_log, "Kernal rev #%d ($%02X) Sum: %d ($%04X).", id, (unsigned int)id, sum, sum);
+        log_message(c64rom_log, "Kernal rev #%d ($%02X) Sum: %d ($%04X) SHA1: %s.",
+                    id, (unsigned int)id, sum, sum, hash);
     }
 
-    return 0;
+    return rev;
 }
 
 int c64rom_cartkernal_active = 0;
@@ -182,8 +191,8 @@ static void restore_trapflags(void)
 int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
 {
     int rev;
-    uint16_t sum;       /* ROM checksum */
-    int id;             /* ROM identification number */
+
+    LOG(("c64rom_load_kernal rom_name:%s", rom_name));
 
     if (!rom_loaded) {
         return 0;
@@ -221,12 +230,7 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
         c64rom_cartkernal_active = 1;
     }
 
-    rev = c64rom_get_kernal_chksum_id(&sum, &id);
-    if (rev == C64_KERNAL_UNKNOWN) {
-        log_verbose("loaded unknown kernal revision:%d chksum: %d", id, sum);
-    } else {
-        log_verbose("loaded known kernal revision:%d chksum: %d", id, sum);
-    }
+    rev = c64rom_print_kernal_info();
     if (machine_class != VICE_MACHINE_C64DTV) {
         resources_set_int("KernalRev", rev);
     }
@@ -240,10 +244,11 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
     return 0;
 }
 
-int c64rom_get_basic_checksum(void)
+int c64rom_print_basic_info(void)
 {
     int i;
-    uint16_t sum;
+    uint16_t sum;   /* ROM checksum */
+    int rev = 0;    /* ROM revision */
 
     /* Check Basic ROM.  */
 
@@ -255,7 +260,7 @@ int c64rom_get_basic_checksum(void)
         log_warning(c64rom_log, "Unknown Basic image.  Sum: %d ($%04X).", sum, sum);
     }
 
-    return 0;
+    return rev;
 }
 
 int c64rom_load_basic(const char *rom_name)
@@ -269,7 +274,8 @@ int c64rom_load_basic(const char *rom_name)
         log_error(c64rom_log, "Couldn't load basic ROM `%s'.", rom_name);
         return -1;
     }
-    return c64rom_get_basic_checksum();
+    c64rom_print_basic_info();
+    return 0;
 }
 
 int c64rom_load_chargen(const char *rom_name)
