@@ -99,9 +99,11 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *new_kernal);
 int c64rom_load_basic(const char *rom_name);
 int c64rom_load_chargen(const char *rom_name);
 
-int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout);
-int c64rom_get_kernal_checksum(void); /* FIXME: misleading name, used to print kernal rev after loading snapshot */
-int c64rom_get_basic_checksum(void); /* FIXME: misleading name, used to print basic rev after loading snapshot */
+int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout, char *sha1hash);
+
+/* print ROM ID, checksum, sha1 hash. returns the revision */
+int c64rom_print_kernal_info(void);
+int c64rom_print_basic_info(void);
 
 int c64rom_isloaded(void);
 
