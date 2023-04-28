@@ -510,7 +510,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     char *target = NULL;
     SDL_Event e;
     int pin, port;
-    SDL_JoystickID joystick_device = -1;
+    VICE_SDL_JoystickID joystick_device = -1;
 
     pin = (vice_ptr_to_int(param)) & 15;
     port = (vice_ptr_to_int(param)) >> 5;
@@ -565,7 +565,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     char *target = NULL;
     SDL_Event e;
     int pot, port;
-    SDL_JoystickID joystick_device = -1;
+    VICE_SDL_JoystickID joystick_device = -1;
 
     pot = (vice_ptr_to_int(param)) & 15;
     port = (vice_ptr_to_int(param)) >> 5;

@@ -65,7 +65,7 @@ static void sdl_poll_print_timeout(int x, int y, int time)
 /* ------------------------------------------------------------------ */
 /* External interface */
 
-SDL_Event sdl_ui_poll_event(const char *what, const char *target, SDL_JoystickID joystick_device, char allow_any_joystick, char allow_keyboard, char allow_modifier, int timeout)
+SDL_Event sdl_ui_poll_event(const char *what, const char *target, VICE_SDL_JoystickID joystick_device, char allow_any_joystick, char allow_keyboard, char allow_modifier, int timeout)
 {
     SDL_Event e;
 

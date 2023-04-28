@@ -214,26 +214,26 @@ void ui_dispatch_events(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
                 if (joynum != -1) {
                     sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
                     joystick_set_axis_value(joynum, e.jaxis.axis, (uint8_t)((~e.jaxis.value + 32768) >> 8));
                 }
                 break;
             case SDL_JOYBUTTONDOWN:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
                 if (joynum != -1) {
                     joy_button_event(joynum, e.jbutton.button, 1);
                 }
                 break;
             case SDL_JOYBUTTONUP:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
                 if (joynum != -1) {
                     joy_button_event(joynum, e.jbutton.button, 0);
                 }
                 break;
             case SDL_JOYHATMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
                 if (joynum != -1) {
                     joy_hat_event(joynum, e.jhat.hat, hat_map[e.jhat.value]);
                 }
@@ -278,25 +278,25 @@ ui_menu_action_t ui_dispatch_events_for_menu_action(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
                 if (joynum != -1) {
                     retval = sdljoy_axis_event_for_menu_action(joynum, e.jaxis.axis, e.jaxis.value);
                 }
                 break;
             case SDL_JOYBUTTONDOWN:
-                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jbutton.which);
                 if (joynum != -1) {
                     retval = sdljoy_button_event_for_menu_action(joynum, e.jbutton.button, 1);
                 }
                 break;
             case SDL_JOYBUTTONUP:
-                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jbutton.which);
                 if (joynum != -1) {
                     retval = sdljoy_button_event_for_menu_action(joynum, e.jbutton.button, 0);
                 }
                 break;
             case SDL_JOYHATMOTION:
-                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jhat.which);
                 if (joynum != -1) {
                     retval = sdljoy_hat_event_for_menu_action(joynum, e.jhat.hat, hat_map[e.jhat.value]);
                 }
