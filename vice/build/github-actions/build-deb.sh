@@ -38,6 +38,9 @@ case "$1" in
     [gG][tT][kK]3)
         UI="gtk3"
         ;;
+    [sS][dD][lL]1)
+        UI="sdl1"
+        ;;
     [sS][dD][lL]2)
         UI="sdl2"
         ;;

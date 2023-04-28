@@ -20,7 +20,7 @@ ARGS="
 
 # Set configure options, check UI, set OTHER_UI
 #
-# params:   $1  UI identifier (GTK3, SDL2)
+# params:   $1  UI identifier (GTK3, SDL2, SDL1)
 #
 set_configure_options()
 {
@@ -28,6 +28,10 @@ set_configure_options()
         GTK3)
             ARGS="--enable-gtk3ui $ARGS"
             OTHER_UI="SDL2"
+            ;;
+        SDL1)
+            ARGS="--enable-sdl1ui $ARGS"
+            OTHER_UI="GTK3"
             ;;
         SDL2)
             ARGS="--enable-sdl2ui $ARGS"
