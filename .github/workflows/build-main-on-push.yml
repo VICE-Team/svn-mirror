@@ -179,7 +179,7 @@ jobs:
         arch:
         - { msystem: MINGW64, arch: x86_64 }
         - { msystem: MINGW32, arch: i686 }
-        ui: [ GTK3, SDL2 ]
+        ui: [ GTK3, SDL2, SDL1 ]
     steps:
       - run: git config --global core.autocrlf input
         shell: bash
@@ -249,6 +249,34 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-libusb
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+
+      - name: Install SDL1 Dependencies if Applicable
+        if: ${{ matrix.ui == 'SDL1' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            autotools
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            p7zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-SDL
+            mingw-w64-${{ matrix.arch.arch }}-SDL_image
 
       - name: Build
         id: build
@@ -321,6 +349,9 @@ jobs:
                 { name: 'SDL2',
                   conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
                   deps: 'libsdl2-dev libsdl2-image-dev' },
+                { name: 'SDL1',
+                  conf: '--enable-sdl1ui --with-sdlsound --without-pulse',
+                  deps: 'libsdl1-dev libsdl1-image-dev' },
                 { name: 'Headless',
                   conf: '--enable-headlessui --with-pulse',
                   deps: 'libpulse-dev' } ]
