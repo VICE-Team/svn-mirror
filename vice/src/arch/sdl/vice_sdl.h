@@ -91,4 +91,11 @@
 #undef HAVE_VICE_NANOSLEEP
 #endif
 
+/* SDL_JoystickID handling */
+#ifdef USE_SDL2UI
+#define VICE_SDL_JoystickID SDL_JoystickID
+#else
+#define VICE_SDL_JoystickID Sint16
+#endif
+
 #endif

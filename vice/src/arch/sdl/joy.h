@@ -59,7 +59,7 @@ void sdljoy_set_extra(SDL_Event e, int type);
 void sdljoy_unset(SDL_Event e);
 void sdljoy_set_joystick_axis(SDL_Event e, int pot);
 void sdljoy_delete_extra_mapping(int type);
-int sdljoy_get_joynum_for_event(SDL_JoystickID event_device_id);
+int sdljoy_get_joynum_for_event(VICE_SDL_JoystickID event_device_id);
 int sdljoy_rescan(void);
 void sdljoy_clear_presses(void);
 
@@ -68,7 +68,7 @@ void sdljoy_clear_presses(void);
 void sdljoy_swap_ports(void);
 int sdljoy_get_swap_ports(void) ;
 
-extern SDL_JoystickID *joy_ordinal_to_id;
+extern VICE_SDL_JoystickID *joy_ordinal_to_id;
 
 #define JOYDEV_NONE     0
 #define JOYDEV_NUMPAD   1
