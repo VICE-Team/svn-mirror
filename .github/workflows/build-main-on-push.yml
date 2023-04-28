@@ -351,7 +351,7 @@ jobs:
                   deps: 'libsdl2-dev libsdl2-image-dev' },
                 { name: 'SDL1',
                   conf: '--enable-sdl1ui --with-sdlsound --without-pulse',
-                  deps: 'libsdl1.2-dev libsdl-image-dev' },
+                  deps: 'libsdl1.2-dev libsdl-image1.2-dev' },
                 { name: 'Headless',
                   conf: '--enable-headlessui --with-pulse',
                   deps: 'libpulse-dev' } ]
