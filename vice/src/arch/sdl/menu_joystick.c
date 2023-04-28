@@ -304,7 +304,8 @@ static const ui_menu_entry_t *joystick_port_autofire_menus[JOYPORT_MAX_PORTS] = 
     joystick_port8_autofire_menu,
     joystick_port9_autofire_menu,
     joystick_port10_autofire_menu,
-    joystick_port10_autofire_menu
+    joystick_port10_autofire_menu,
+    joystick_port11_autofire_menu
 };
 
 static void sdl_menu_joystick_autofire_free(void)
