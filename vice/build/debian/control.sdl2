@@ -10,7 +10,7 @@ Description: Versatile Commodore Emulator (SDL2 version)
  The included binaries are not stripped from debug symbols.
 Homepage: https://vice-emu.sourceforge.io/
 Installed-Size: __INSTALLED_SIZE__
-Conflicts: vice, headlessvice, gtk3vice
+Conflicts: vice, headlessvice, gtk3vice, sdl1vice
 Depends: libasound2,
  libc6,
  libflac8,
