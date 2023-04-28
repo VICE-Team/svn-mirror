@@ -100,6 +100,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
         close(fd1[1]);
         return -1;
     }
+    log_message(LOG_DEFAULT, "forking process '%s'", cmd);
     if ((pid = fork()) < 0) {
         log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
         close(fd1[0]);
@@ -118,6 +119,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
             dup2(fd2[0], STDIN_FILENO);
             close(fd2[0]);
         }
+
         /* Hm, we have to close all other files that are currently
            open now...  */
         execl(SHELL, "sh", "-c", cmd, NULL);
