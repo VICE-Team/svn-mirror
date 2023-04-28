@@ -261,6 +261,7 @@ jobs:
             base-devel
             autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
+            unzip
             zip
             p7zip
             subversion
@@ -273,10 +274,10 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-libvorbis
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-icoutils
-            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
             mingw-w64-${{ matrix.arch.arch }}-libpcap
-            mingw-w64-${{ matrix.arch.arch }}-SDL
-            mingw-w64-${{ matrix.arch.arch }}-SDL_image
+            mingw-w64-${{ matrix.arch.arch }}-libusb
+            mingw-w64-${{ matrix.arch.arch }}-SDL2
+            mingw-w64-${{ matrix.arch.arch }}-SDL2_image
 
       - name: Build
         id: build
