@@ -1860,17 +1860,29 @@ static void ciacore_inttod(CLOCK offset, void *data)
     alarm_set(cia_context->tod_alarm, cia_context->todclk);
 
     if (!(cia_context->todstopped)) {
-        /* count 50/60 hz ticks */
-        cia_context->todtickcounter++;
-        /* counter is 3 bits */
-        cia_context->todtickcounter &= 7;
+        /*
+         * The divider which divides the 50 or 60 Hz power supply ticks into
+         * 10 Hz uses a 3-bit ring counter, which goes 000, 001 011, 111, 110,
+         * 100.
+         * For 50 Hz: matches at 110 (like "4")
+         * For 60 Hz: matches at 100 (like "5")
+         * (the middle bit of the match value is CRA7)
+         * After a match there is a 1 tick delay (until the next power supply
+         * tick) and then the 1/10 seconds counter increases, and the ring
+         * resets to 000.
+         */
+        update = (cia_context->todtickcounter ==
+            ((cia_context->c_cia[CIA_CRA] & CIA_CRA_TODIN_50HZ) ? 4 : 5));
 
-        /* if the counter matches the TOD frequency ... */
-        if (cia_context->todtickcounter ==
-            ((cia_context->c_cia[CIA_CRA] & CIA_CRA_TODIN_50HZ) ? 5 : 6)) {
-            /* reset the counter and update the timer */
+        if (update) {
+            /* Reset the counter */
             cia_context->todtickcounter = 0;
-            update = 1;
+        } else {
+            /* Count 50/60 Hz power supply ticks */
+            cia_context->todtickcounter++;
+            /* Ring counter of 3 bits has 6 states */
+            if (cia_context->todtickcounter > 5)
+                cia_context->todtickcounter = 0;
         }
     }
 
