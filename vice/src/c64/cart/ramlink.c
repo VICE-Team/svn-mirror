@@ -1029,7 +1029,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Specify name of " CARTRIDGE_NAME_RAMLINK " BIOS image" },
     { "-ramlinkmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMLINKmode", NULL,
-      NULL, "RAMPort Mode (1=Normal, 0=Direct)" },
+      "<Mode>", "RAMPort Mode (1=Normal, 0=Direct)" },
     { "-ramlinkrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMLINKrtcsave", (resource_value_t)1,
       NULL, "Enable saving of the RTC data when changed." },
