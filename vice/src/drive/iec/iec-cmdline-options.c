@@ -99,7 +99,7 @@ static cmdline_option_t cmd_drive[] =
       NULL, "Disable 8KiB RAM expansion at $A000-$BFFF" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
-      NULL, "Fixed Disk Size" },
+      "<Size>", "Fixed Disk Size" },
     CMDLINE_LIST_END
 };
 
