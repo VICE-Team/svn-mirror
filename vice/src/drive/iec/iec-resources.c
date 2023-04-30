@@ -352,7 +352,7 @@ static resource_int_t res_drive[] = {
 };
 
 static resource_string_t res_string[] = {
-    { NULL, "8G", RES_EVENT_NO, NULL,
+    { NULL, "8G", RES_EVENT_SAME, NULL,
       NULL, set_drive_fixed, NULL },
     RESOURCE_STRING_LIST_END
 };
