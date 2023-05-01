@@ -1562,14 +1562,42 @@ static void ciacore_inttb_entry(CLOCK offset, void *data)
  * (which is cheating).
  */
 
-void ciacore_set_flag(cia_context_t *cia_context)
+static void ciacore_async_interrupt(cia_context_t *cia_context, int flag)
 {
+    /*
+     * This is for when an external signal has come in,
+     * which doesn't synchronize with our internal activities.
+     */
     CLOCK rclk = *(cia_context->clk_ptr);
 
-    cia_set_irq_flag(cia_context, rclk, CIA_IM_FLG);
+    cia_set_irq_flag(cia_context, rclk, flag);
+
+    /* cia_ifr_catchup(); has been called in cia_set_irq_flag() */
     if (cia_context->ifr_clock == rclk) { /* don't call it twice */
         cia_ifr_current(cia_context, rclk, CIA_IFR_CUR_NXT);
+    } else {
+        /*
+         * If we can't call the above since it has run already,
+         * at least replicate a minimal functionality here,
+         * so the interrupt does not get lost.
+         * Not so great but better than nothing.
+         */
+
+        if (flag & cia_context->c_cia[CIA_ICR]) {
+            cia_context->irqflags |= CIA_IM_SET;
+            if (cia_context->model != CIA_MODEL_6526) {
+                my_set_int(cia_context, true, rclk);        /* new CIA */
+            } else {
+                my_set_int(cia_context, true, rclk + 1);    /* old CIA */
+            }
+        }
+        cia_context->new_irqflags &= ~flag;
     }
+}
+
+void ciacore_set_flag(cia_context_t *cia_context)
+{
+    ciacore_async_interrupt(cia_context, CIA_IM_FLG);
 }
 
 /*
@@ -1579,7 +1607,6 @@ void ciacore_set_flag(cia_context_t *cia_context)
 void ciacore_set_sdr(cia_context_t *cia_context, uint8_t data)
 {
     if ((cia_context->c_cia[CIA_CRA] & CIA_CRA_SPMODE) == CIA_CRA_SPMODE_IN) {
-        CLOCK rclk = *(cia_context->clk_ptr);
 
         cia_context->c_cia[CIA_SDR] = data;
         DBG(("ciacore_set_sdr %s: %02x\n", cia_context->myname, data));
@@ -1589,12 +1616,7 @@ void ciacore_set_sdr(cia_context_t *cia_context, uint8_t data)
          * cia_context->sdr_delay |= CIA_SDR_SET_SDR_IRQ2;
          * and enable the sdr_alarm ?
          */
-        cia_set_irq_flag(cia_context, rclk, CIA_IM_SDR);
-
-        /* cia_ifr_catchup(); has been called in cia_set_irq_flag() */
-        if (cia_context->ifr_clock == rclk) { /* don't call it twice */
-            cia_ifr_current(cia_context, rclk, CIA_IFR_CUR_NXT);
-        }
+        ciacore_async_interrupt(cia_context, CIA_IM_SDR);
 
         alarm_unset(cia_context->sdr_alarm);
     }
