@@ -152,8 +152,10 @@ int sid_common_set_engine_model(const char *param, void *extra_param)
 
 static cmdline_option_t sidengine_cmdline_options[] =
 {
+    /* NOTE: although we use CALL_FUNCTION, we put the resource that will be
+             modified into the array - this helps reconstructing the cmdline */
     { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      sid_common_set_engine_model, NULL, NULL, NULL,
+      sid_common_set_engine_model, NULL, "SidModel", NULL,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
 };
@@ -161,8 +163,10 @@ static cmdline_option_t sidengine_cmdline_options[] =
 #ifdef HAVE_RESID
 static cmdline_option_t siddtvengine_cmdline_options[] =
 {
+    /* NOTE: although we use CALL_FUNCTION, we put the resource that will be
+             modified into the array - this helps reconstructing the cmdline */
     { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      sid_common_set_engine_model, NULL, NULL, NULL,
+      sid_common_set_engine_model, NULL, "SidModel", NULL,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
 };

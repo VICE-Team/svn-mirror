@@ -134,7 +134,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Specify 4KiB ROM file name at $F000 for 6809" },
     { "-cb2lowpass", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "CB2Lowpass", NULL,
-      NULL, "Low-pass filter setting for CB2 sound" },
+      "<Freq>", "Low-pass filter setting for CB2 sound" },
     { "-colour-rgbi", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "PETColour", (void *)PET_COLOUR_TYPE_RGBI,
       NULL, "RGBI colour extension to PET 4032" },
