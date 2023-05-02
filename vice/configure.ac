@@ -29,6 +29,7 @@ AC_INIT([vice], [vice_version])
 dnl We save the command line options here since AM_INIT_AUTOMAKE and other
 dnl macros clobber $@:
 cmdline_options="$@"
+AC_DEFINE_UNQUOTED([CONFIGURE_FLAGS], ["$cmdline_options"],[Flags passed to configure])
 AC_CONFIG_SRCDIR([src/maincpu.c])
 AM_INIT_AUTOMAKE([-Wno-portability foreign])
 
