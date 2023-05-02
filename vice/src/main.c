@@ -429,6 +429,7 @@ void vice_thread_shutdown(void)
         return;
     }
 
+    log_message(LOG_DEFAULT, "\nConfigure Flags:\n%s", CONFIGURE_FLAGS);
     /* log resources with non default values */
     resources_log_active();
     /* log the active config as commandline options */
