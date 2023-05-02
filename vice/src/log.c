@@ -220,8 +220,10 @@ void log_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
+    /* NOTE: although we use CALL_FUNCTION, we put the resource that will be
+             modified into the array - this helps reconstructing the cmdline */
     { "-logfile", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      log_logfile_opt, NULL, NULL, NULL,
+      log_logfile_opt, NULL, "LogFileName", NULL,
       "<Name>", "Specify log file name" },
     { "-verbose", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       log_verbose_opt, (void*)1, NULL, NULL,
