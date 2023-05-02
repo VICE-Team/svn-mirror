@@ -1572,26 +1572,20 @@ static void ciacore_async_interrupt(cia_context_t *cia_context, int flag)
 
     cia_set_irq_flag(cia_context, rclk, flag);
 
-    /* cia_ifr_catchup(); has been called in cia_set_irq_flag() */
-    if (cia_context->ifr_clock == rclk) { /* don't call it twice */
-        cia_ifr_current(cia_context, rclk, CIA_IFR_CUR_NXT);
-    } else {
+    /*
+     * Leave calling cia_ifr_current() to the idle (or another) alarm,
+     * since we're totally async here.
+     */
+    CLOCK idleclk = alarm_clk(cia_context->idle_alarm);
+    if (idleclk > rclk + 1) {
         /*
-         * If we can't call the above since it has run already,
-         * at least replicate a minimal functionality here,
-         * so the interrupt does not get lost.
-         * Not so great but better than nothing.
+         * If not already scheduled for the near future, re-schedule
+         * it sooner. We could schedule it for rclk+0 if we could be
+         * sure it won't be scheduled twice then (but we can't).
          */
-
-        if (flag & cia_context->c_cia[CIA_ICR]) {
-            cia_context->irqflags |= CIA_IM_SET;
-            if (cia_context->model != CIA_MODEL_6526) {
-                my_set_int(cia_context, true, rclk);        /* new CIA */
-            } else {
-                my_set_int(cia_context, true, rclk + 1);    /* old CIA */
-            }
-        }
-        cia_context->new_irqflags &= ~flag;
+        alarm_set(cia_context->idle_alarm, rclk + 1);
+    } else {
+        DBG(("ciacore_async_interrupt: idleclk == rclk + %ld\n", (long)(idleclk - rclk)));
     }
 }
 
