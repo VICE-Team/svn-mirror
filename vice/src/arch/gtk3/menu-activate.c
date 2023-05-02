@@ -25,6 +25,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "menu-activate.h"
 #include "uiactions.h"
@@ -32,7 +33,9 @@
 
 void arch_ui_activate(void)
 {
-    ui_settings_dialog_show(NULL);
+    /* Use actions system to avoid popping up multiple dialogs on multiple
+     * button presses: */
+    ui_action_trigger(ACTION_SETTINGS_DIALOG);
 }
 
 void arch_ui_perform_action(int action)
