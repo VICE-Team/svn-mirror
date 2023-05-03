@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <stdarg.h>
 
+#include "debug_gtk3.h"
 #include "log.h"
 #include "resources.h"
 #include "resourcewidgetmediator.h"
@@ -72,7 +73,8 @@ static gboolean resource_entry_update_resource(GtkEntry *entry, const char *text
     if (g_strcmp0(res_val, text) != 0) {
         if (!mediator_update_string(mediator, text)) {
             /* failed, revert */
-            gtk_entry_set_text(entry, mediator_get_current_string(mediator));
+            const char *current = mediator_get_current_string(mediator);
+            gtk_entry_set_text(entry, current != NULL ? current : "");
             return FALSE;
         }
     }
@@ -137,10 +139,13 @@ GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
 {
     GtkWidget  *entry;
     mediator_t *mediator;
+    const char *current;
 
     entry    = gtk_entry_new();
     mediator = mediator_new(entry, resource, G_TYPE_STRING);
-    gtk_entry_set_text(GTK_ENTRY(entry), mediator_get_current_string(mediator));
+    current  = mediator_get_current_string(mediator);
+    /* debug_gtk3("resource = '%s', current = '%s'", resource, current); */
+    gtk_entry_set_text(GTK_ENTRY(entry), current != NULL ? current : "");
 
     g_signal_connect(entry,
                      "focus-out-event",
