@@ -876,7 +876,7 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
       "model",
       settings_model_widget_create, NULL },
     { "ROM",
-      "roms",
+      "rom",
       settings_romset_widget_create, NULL },
     { "RAM",
       "ram",
