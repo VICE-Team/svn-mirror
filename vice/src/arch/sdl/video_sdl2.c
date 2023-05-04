@@ -1246,6 +1246,8 @@ void sdl_ui_init_finalize(void)
         video_canvas_t* canvas = sdl_canvaslist[i];
         canvas->container = container;
         video_canvas_resize(sdl_canvaslist[i], 1);
+        /* FIXME: we should restore the saved window position here */
+        SDL_SetWindowPosition(container->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     }
 
     /* If we're setup for dual windows, then we need to allocate a new container
@@ -1263,6 +1265,8 @@ void sdl_ui_init_finalize(void)
 
         vdc_canvas->container = container;
         video_canvas_resize(vdc_canvas, 1);
+        /* FIXME: we should restore the saved window position here */
+        SDL_SetWindowPosition(container->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
         /* Explicitly raise the VIC-II window in dual head mode -- creating the
          * windows in reverse order still results in the VDC window being on top
