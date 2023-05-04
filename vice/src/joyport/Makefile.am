@@ -56,6 +56,12 @@ libjoyport_a_SOURCES = \
 	ninja_snespad.h \
 	paperclip64.c \
 	paperclip64.h \
+	paperclip64e.c \
+	paperclip64e.h \
+	paperclip64sc.c \
+	paperclip64sc.h \
+	paperclip2.c \
+	paperclip2.h \
 	protopad.c \
 	protopad.h \
 	rushware_keypad.c \
