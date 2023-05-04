@@ -42,6 +42,9 @@ now ... you will need some packages:
 # pkg install alsa-utils       # for ALSA sound support
 # pkg install glew             # for OpenGL hardware scaling support
 
+If you plan on building the PDF documentation, you will also need to install
+whatever package includes "epsf.tex".
+
 (libpng-dev is required but is a hard dependency of libgtk-3-dev)
 
 The following are optional but recommended (not required for a basic build):

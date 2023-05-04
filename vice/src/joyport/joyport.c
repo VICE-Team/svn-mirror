@@ -99,6 +99,9 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_TRAPTHEM_SNESPAD:
         case JOYPORT_ID_BBRTC:
         case JOYPORT_ID_PAPERCLIP64:
+        case JOYPORT_ID_PAPERCLIP64E:
+        case JOYPORT_ID_PAPERCLIP64SC:
+        case JOYPORT_ID_PAPERCLIP2:
         case JOYPORT_ID_SCRIPT64_DONGLE:
         case JOYPORT_ID_VIZAWRITE64_DONGLE:
         case JOYPORT_ID_WAASOFT_DONGLE:
@@ -1255,6 +1258,14 @@ static const struct joyport_opt_s id_match[] = {
     { "paperclip64",      JOYPORT_ID_PAPERCLIP64 },
     { "paperclip",        JOYPORT_ID_PAPERCLIP64 },
     { "pc64",             JOYPORT_ID_PAPERCLIP64 },
+    { "paperclip64e",     JOYPORT_ID_PAPERCLIP64E },
+    { "paperclipe",       JOYPORT_ID_PAPERCLIP64E },
+    { "pc64e",            JOYPORT_ID_PAPERCLIP64E },
+    { "paperclip64sc",    JOYPORT_ID_PAPERCLIP64SC },
+    { "paperclipsc",      JOYPORT_ID_PAPERCLIP64SC },
+    { "pc64sc",           JOYPORT_ID_PAPERCLIP64SC },
+    { "paperclip2",       JOYPORT_ID_PAPERCLIP2 },
+    { "pc2",              JOYPORT_ID_PAPERCLIP2 },
     { "coplin",           JOYPORT_ID_COPLIN_KEYPAD },
     { "coplinkp",         JOYPORT_ID_COPLIN_KEYPAD },
     { "coplinkeypad",     JOYPORT_ID_COPLIN_KEYPAD },

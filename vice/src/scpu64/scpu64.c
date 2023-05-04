@@ -85,6 +85,9 @@
 #include "network.h"
 #include "ninja_snespad.h"
 #include "paperclip64.h"
+#include "paperclip64e.h"
+#include "paperclip64sc.h"
+#include "paperclip2.h"
 #include "parallel.h"
 #include "printer.h"
 #include "protopad.h"
@@ -567,6 +570,18 @@ int machine_resources_init(void)
     }
     if (joyport_paperclip64_resources_init() < 0) {
         init_resource_fail("joyport paperclip64 dongle");
+        return -1;
+    }
+    if (joyport_paperclip64e_resources_init() < 0) {
+        init_resource_fail("joyport paperclip64e dongle");
+        return -1;
+    }
+    if (joyport_paperclip64sc_resources_init() < 0) {
+        init_resource_fail("joyport paperclip64sc dongle");
+        return -1;
+    }
+    if (joyport_paperclip2_resources_init() < 0) {
+        init_resource_fail("joyport paperclip2 dongle");
         return -1;
     }
     if (joyport_coplin_keypad_resources_init() < 0) {

@@ -4510,7 +4510,7 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab X
 @tab X
 @item 21
-@tab Dongle (Paperclip64)
+@tab Dongle (Paperclip64D)
 @tab X
 @tab X
 @item 22
@@ -4607,6 +4607,18 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab X
 @item 38
 @tab Microflyte joystick
+@tab X
+@tab X
+@item 39
+@tab Dongle (Paperclip64E)
+@tab X
+@tab X
+@item 40
+@tab Dongle (Paperclip64SC)
+@tab X
+@tab X
+@item 41
+@tab Dongle (Paperclip2)
 @tab X
 @tab X
 @end multitable
@@ -4735,7 +4747,7 @@ x64dtv control ports and devices:
 @tab X
 @tab X
 @item 21
-@tab Dongle (Paperclip64)
+@tab Dongle (Paperclip64D)
 @tab X
 @tab X
 @item 22
@@ -4800,6 +4812,18 @@ x64dtv control ports and devices:
 @tab X
 @item 37
 @tab I/O Simulation device
+@tab X
+@tab X
+@item 39
+@tab Dongle (Paperclip64E)
+@tab X
+@tab X
+@item 40
+@tab Dongle (Paperclip64SC)
+@tab X
+@tab X
+@item 41
+@tab Dongle (Paperclip2)
 @tab X
 @tab X
 @end multitable
@@ -35174,6 +35198,7 @@ good guy reviewing and commenting changes in the background.
 @b{Roberto Muscedere}
 Improved support for REL files in vdrive. Added Lt. Kernal Host Adaptor,
 CMD HD, CMD RAMLINK, and CBM D9090/60 emulation. Added D90 support to vdrive.
+Added joyport attached paperclip 64E, paperclip 64SC, and paperclip 2 dongle.
 
 @item
 @b{Leandro Nini}
