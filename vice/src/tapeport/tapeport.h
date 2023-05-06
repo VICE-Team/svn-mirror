@@ -135,6 +135,7 @@ void tapeport_resources_shutdown(void);
 int tapeport_cmdline_options_init(void);
 
 void tapeport_enable(int val);
+int tapeport_get_active_state(void);
 
 typedef struct tapeport_desc_s {
     char *name;
