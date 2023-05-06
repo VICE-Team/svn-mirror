@@ -43,8 +43,6 @@
 ted_resources_t ted_resources = { 0 };
 static video_chip_cap_t video_chip_cap;
 
-static int next_border_mode;
-
 static void on_vsync_set_border_mode(void *unused)
 {
     int sync;
@@ -53,10 +51,7 @@ static void on_vsync_set_border_mode(void *unused)
         sync = MACHINE_SYNC_PAL;
     }
 
-    if (ted_resources.border_mode != next_border_mode) {
-        ted_resources.border_mode = next_border_mode;
-        machine_change_timing(sync, ted_resources.border_mode);
-    }
+    machine_change_timing(sync, ted_resources.border_mode);
 }
 
 static int set_border_mode(int val, void *param)
@@ -71,7 +66,7 @@ static int set_border_mode(int val, void *param)
             return -1;
     }
 
-    next_border_mode = val;
+    ted_resources.border_mode = val;
     vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
 
     return 0;
