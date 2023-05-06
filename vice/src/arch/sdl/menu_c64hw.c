@@ -66,6 +66,7 @@
 
 #include "uimenu.h"
 
+#include "tapeport.h"
 #include "userport.h"
 #include "util.h"
 
@@ -242,12 +243,21 @@ ui_menu_entry_t c64sc_hardware_menu[sizeof(c64sc_hardware_menu_template) / sizeo
 void c64_create_machine_menu(void)
 {
     int has_userport = userport_get_active_state();
+    int has_tapeport = tapeport_get_active_state();
     int i;
     int j = 0;
 
     for (i = 0; c64_hardware_menu_template[i].string != NULL; i++) {
         if (!util_strcasecmp(c64_hardware_menu_template[i].string, "Userport settings")) {
             if (has_userport) {
+                c64_hardware_menu[j].string = c64_hardware_menu_template[i].string;
+                c64_hardware_menu[j].type = c64_hardware_menu_template[i].type;
+                c64_hardware_menu[j].callback = c64_hardware_menu_template[i].callback;
+                c64_hardware_menu[j].data = c64_hardware_menu_template[i].data;
+                j++;
+            }
+        } else if (!util_strcasecmp(c64_hardware_menu_template[i].string, "Tape port devices")) {
+            if (has_tapeport) {
                 c64_hardware_menu[j].string = c64_hardware_menu_template[i].string;
                 c64_hardware_menu[j].type = c64_hardware_menu_template[i].type;
                 c64_hardware_menu[j].callback = c64_hardware_menu_template[i].callback;
@@ -272,6 +282,14 @@ void c64_create_machine_menu(void)
     for (i = 0; c64sc_hardware_menu_template[i].string != NULL; i++) {
         if (!util_strcasecmp(c64sc_hardware_menu_template[i].string, "Userport settings")) {
             if (has_userport) {
+                c64sc_hardware_menu[j].string = c64sc_hardware_menu_template[i].string;
+                c64sc_hardware_menu[j].type = c64sc_hardware_menu_template[i].type;
+                c64sc_hardware_menu[j].callback = c64sc_hardware_menu_template[i].callback;
+                c64sc_hardware_menu[j].data = c64sc_hardware_menu_template[i].data;
+                j++;
+            }
+        } else if (!util_strcasecmp(c64_hardware_menu_template[i].string, "Tape port devices")) {
+            if (has_tapeport) {
                 c64sc_hardware_menu[j].string = c64sc_hardware_menu_template[i].string;
                 c64sc_hardware_menu[j].type = c64sc_hardware_menu_template[i].type;
                 c64sc_hardware_menu[j].callback = c64sc_hardware_menu_template[i].callback;
