@@ -649,6 +649,11 @@ void userport_enable(int val)
     userport_active = val ? 1 : 0;
 }
 
+int userport_get_active_state(void)
+{
+    return userport_active;
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 /* USERPORT snapshot module format:

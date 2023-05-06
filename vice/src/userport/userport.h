@@ -188,6 +188,7 @@ userport_desc_t *userport_get_valid_devices(int sort);
 const char *userport_get_device_type_desc(int type);
 
 void userport_enable(int val);
+int userport_get_active_state(void);
 
 int userport_snapshot_write_module(snapshot_t *s);
 int userport_snapshot_read_module(snapshot_t *s);
