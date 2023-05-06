@@ -38,6 +38,7 @@
 #include "menu_common.h"
 #include "menu_joyport.h"
 #include "menu_joystick.h"
+#include "menu_scpu64hw.h"
 
 #ifdef HAVE_MIDI
 #include "menu_midi.h"
@@ -63,6 +64,8 @@
 #endif
 
 #include "uimenu.h"
+#include "userport.h"
+#include "util.h"
 
 UI_MENU_DEFINE_RADIO(BurstMod)
 
@@ -111,7 +114,7 @@ const ui_menu_entry_t scpu64_simmsize_menu[] = {
 UI_MENU_DEFINE_TOGGLE(JiffySwitch)
 UI_MENU_DEFINE_TOGGLE(SpeedSwitch)
 
-const ui_menu_entry_t scpu64_hardware_menu[] = {
+const ui_menu_entry_t scpu64_hardware_menu_template[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -192,3 +195,34 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
       (ui_callback_data_t)userport_menu },
     SDL_MENU_LIST_END
 };
+
+ui_menu_entry_t scpu64_hardware_menu[sizeof(scpu64_hardware_menu_template) / sizeof(ui_menu_entry_t)];
+
+void scpu64_create_machine_menu(void)
+{
+    int has_userport = userport_get_active_state();
+    int i;
+    int j = 0;
+
+    for (i = 0; scpu64_hardware_menu_template[i].string != NULL; i++) {
+        if (!util_strcasecmp(scpu64_hardware_menu_template[i].string, "Userport settings")) {
+            if (has_userport) {
+                scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
+                scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
+                scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
+                scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
+                j++;
+            }
+        } else {
+            scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
+            scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
+            scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
+            scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
+            j++;
+        }
+    }
+    scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
+    scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
+    scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
+    scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
+}

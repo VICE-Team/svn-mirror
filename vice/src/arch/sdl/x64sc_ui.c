@@ -87,6 +87,13 @@ static UI_MENU_CALLBACK(toggle_VICIIShowStatusbar_callback)
 
 static UI_MENU_CALLBACK(pause_callback_wrapper);
 
+static UI_MENU_CALLBACK(Machine_dynmenu_callback)
+{
+    c64_create_machine_menu();
+
+    return MENU_SUBMENU_STRING;
+}
+
 static ui_menu_entry_t x64sc_main_menu[] = {
     { "Autostart image",
       MENU_ENTRY_DIALOG,
@@ -110,7 +117,7 @@ static ui_menu_entry_t x64sc_main_menu[] = {
       (ui_callback_data_t)printer_iec_menu },
     { "Machine settings",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      Machine_dynmenu_callback,
       (ui_callback_data_t)c64sc_hardware_menu },
     { "Video settings",
       MENU_ENTRY_SUBMENU,

@@ -32,7 +32,9 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t c64_hardware_menu[];
-extern const ui_menu_entry_t c64sc_hardware_menu[];
+extern ui_menu_entry_t c64_hardware_menu[];
+extern ui_menu_entry_t c64sc_hardware_menu[];
+
+void c64_create_machine_menu(void);
 
 #endif

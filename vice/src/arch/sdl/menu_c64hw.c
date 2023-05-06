@@ -35,6 +35,7 @@
 #include "cartridge.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64_expansions.h"
+#include "menu_c64hw.h"
 #include "menu_c64model.h"
 #include "menu_common.h"
 #include "menu_joyport.h"
@@ -65,6 +66,9 @@
 
 #include "uimenu.h"
 
+#include "userport.h"
+#include "util.h"
+
 UI_MENU_DEFINE_RADIO(BurstMod)
 
 const ui_menu_entry_t burstmod_menu[] = {
@@ -83,7 +87,7 @@ const ui_menu_entry_t burstmod_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t c64_hardware_menu[] = {
+const ui_menu_entry_t c64_hardware_menu_template[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -157,7 +161,9 @@ const ui_menu_entry_t c64_hardware_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t c64sc_hardware_menu[] = {
+ui_menu_entry_t c64_hardware_menu[sizeof(c64_hardware_menu_template) / sizeof(ui_menu_entry_t)];
+
+const ui_menu_entry_t c64sc_hardware_menu_template[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -230,3 +236,58 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       (ui_callback_data_t)tapeport_devices_menu },
     SDL_MENU_LIST_END
 };
+
+ui_menu_entry_t c64sc_hardware_menu[sizeof(c64sc_hardware_menu_template) / sizeof(ui_menu_entry_t)];
+
+void c64_create_machine_menu(void)
+{
+    int has_userport = userport_get_active_state();
+    int i;
+    int j = 0;
+
+    for (i = 0; c64_hardware_menu_template[i].string != NULL; i++) {
+        if (!util_strcasecmp(c64_hardware_menu_template[i].string, "Userport settings")) {
+            if (has_userport) {
+                c64_hardware_menu[j].string = c64_hardware_menu_template[i].string;
+                c64_hardware_menu[j].type = c64_hardware_menu_template[i].type;
+                c64_hardware_menu[j].callback = c64_hardware_menu_template[i].callback;
+                c64_hardware_menu[j].data = c64_hardware_menu_template[i].data;
+                j++;
+            }
+        } else {
+            c64_hardware_menu[j].string = c64_hardware_menu_template[i].string;
+            c64_hardware_menu[j].type = c64_hardware_menu_template[i].type;
+            c64_hardware_menu[j].callback = c64_hardware_menu_template[i].callback;
+            c64_hardware_menu[j].data = c64_hardware_menu_template[i].data;
+            j++;
+        }
+    }
+    c64_hardware_menu[j].string = c64_hardware_menu_template[i].string;
+    c64_hardware_menu[j].type = c64_hardware_menu_template[i].type;
+    c64_hardware_menu[j].callback = c64_hardware_menu_template[i].callback;
+    c64_hardware_menu[j].data = c64_hardware_menu_template[i].data;
+
+    j = 0;
+
+    for (i = 0; c64sc_hardware_menu_template[i].string != NULL; i++) {
+        if (!util_strcasecmp(c64sc_hardware_menu_template[i].string, "Userport settings")) {
+            if (has_userport) {
+                c64sc_hardware_menu[j].string = c64sc_hardware_menu_template[i].string;
+                c64sc_hardware_menu[j].type = c64sc_hardware_menu_template[i].type;
+                c64sc_hardware_menu[j].callback = c64sc_hardware_menu_template[i].callback;
+                c64sc_hardware_menu[j].data = c64sc_hardware_menu_template[i].data;
+                j++;
+            }
+        } else {
+            c64sc_hardware_menu[j].string = c64sc_hardware_menu_template[i].string;
+            c64sc_hardware_menu[j].type = c64sc_hardware_menu_template[i].type;
+            c64sc_hardware_menu[j].callback = c64sc_hardware_menu_template[i].callback;
+            c64sc_hardware_menu[j].data = c64sc_hardware_menu_template[i].data;
+            j++;
+        }
+    }
+    c64sc_hardware_menu[j].string = c64sc_hardware_menu_template[i].string;
+    c64sc_hardware_menu[j].type = c64sc_hardware_menu_template[i].type;
+    c64sc_hardware_menu[j].callback = c64sc_hardware_menu_template[i].callback;
+    c64sc_hardware_menu[j].data = c64sc_hardware_menu_template[i].data;
+}

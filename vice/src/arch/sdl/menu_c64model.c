@@ -35,6 +35,7 @@
 #include "c64rom.h"
 #include "cia.h"
 #include "machine.h"
+#include "menu_c64hw.h"
 #include "menu_common.h"
 #include "menu_sid.h"
 #include "resources.h"
@@ -52,6 +53,7 @@ static UI_MENU_CALLBACK(custom_C64Model_callback)
 
     if (activated) {
         c64model_set(selected);
+        c64_create_machine_menu();
     } else {
         model = c64model_get();
 

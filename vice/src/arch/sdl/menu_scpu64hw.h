@@ -31,6 +31,8 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t scpu64_hardware_menu[];
+extern ui_menu_entry_t scpu64_hardware_menu[];
+
+void scpu64_create_machine_menu(void);
 
 #endif
