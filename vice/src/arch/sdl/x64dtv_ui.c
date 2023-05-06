@@ -242,7 +242,7 @@ int c64dtvui_init(void)
     uijoystick_menu_create(1, 1, 1, 1, 1, 0);
     uiuserport_menu_create(0);
     uisampler_menu_create();
-    uidrive_menu_create();
+    uidrive_menu_create(1);
     uikeyboard_menu_create();
     uisid_menu_create();
     uimedia_menu_create();

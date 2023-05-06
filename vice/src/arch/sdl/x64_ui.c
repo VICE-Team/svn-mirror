@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "c64iec.h"
 #include "c64mem.h"
 #include "c64rom.h"
 #include "c64ui.h"
@@ -250,6 +251,8 @@ int c64ui_init_early(void)
  */
 int c64ui_init(void)
 {
+    int has_iec = c64iec_get_active_state();
+
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
@@ -261,7 +264,7 @@ int c64ui_init(void)
     uiuserport_menu_create(1);
     uisampler_menu_create();
     uicart_menu_create();
-    uidrive_menu_create();
+    uidrive_menu_create(has_iec);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();

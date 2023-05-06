@@ -275,7 +275,7 @@ int petui_init(void)
     uijoystick_menu_create(0, 0, 1, 1, 1, 0);
     uiuserport_menu_create(1);
     uisampler_menu_create();
-    uidrive_menu_create();
+    uidrive_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
     uisid_menu_create();

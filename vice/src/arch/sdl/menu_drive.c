@@ -57,6 +57,8 @@ enum {
     UI_FLIP_SAVE
 };
 
+static int had_driveport;
+
 static int check_memory_expansion(int memory, int type)
 {
     switch (memory) {
@@ -663,7 +665,7 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
             }
         }
         /* update the drive menu items */
-        uidrive_menu_create();
+        uidrive_menu_create(had_driveport);
     } else {
         if (!support) {
             return MENU_NOT_AVAILABLE_STRING;
@@ -1248,8 +1250,13 @@ static UI_MENU_CALLBACK(custom_drive_volume_callback)
     return NULL;
 }
 
+ui_menu_entry_t drive_menu_no_iec[] = {
+    SDL_MENU_ITEM_TITLE("No IEC port on current model"),
+    SDL_MENU_LIST_END
+};
+
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
-ui_menu_entry_t drive_menu[] = {
+ui_menu_entry_t drive_menu_template[] = {
     /* start of hardcoded offsets in uidrive_menu_create() */
 /* 0  */{ "Attach disk image to drive 8",
           MENU_ENTRY_DIALOG,
@@ -1373,54 +1380,91 @@ ui_menu_entry_t drive_menu[] = {
         SDL_MENU_LIST_END
 };
 
+ui_menu_entry_t drive_menu[sizeof(drive_menu_template) / sizeof(ui_menu_entry_t)];
+
 /* patch some things that are slightly different in the emulators */
-void uidrive_menu_create(void)
+void uidrive_menu_create(int has_driveport)
 {
     int newend = 4;
     int i, d0, d1;
 
-    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C64DTV) {
-        newend = 1;
-    } else if (machine_class == VICE_MACHINE_PLUS4) {
-        newend = 2;
-    }
-    memset(&drive_8_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    had_driveport = has_driveport;
 
-    if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
-        memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
-        memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
-    }
+    if (!has_driveport) {
 
-    drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(8) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
-    drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(9) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
-    drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(10) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
-    drive_11_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(11) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+        /* copy over 'no iec' menu if there is no driveport */
+        drive_menu[0].string = drive_menu_no_iec[0].string;
+        drive_menu[0].type = drive_menu_no_iec[0].type;
+        drive_menu[0].callback = drive_menu_no_iec[0].callback;
+        drive_menu[0].data = drive_menu_no_iec[0].data;
+        drive_menu[1].string = drive_menu_no_iec[1].string;
+        drive_menu[1].type = drive_menu_no_iec[1].type;
+        drive_menu[1].callback = drive_menu_no_iec[1].callback;
+        drive_menu[1].data = drive_menu_no_iec[1].data;
 
-    /* depending on the active drive type, enable the attach and detach
-       menu items in the drive menu */
-    for (i = 0; i < 4; i++) {
-        d0 = d1 = MENU_STATUS_INACTIVE;
-        if (drive_get_type_by_devnr(8 + i) != 0) {
-            d0 = MENU_STATUS_ACTIVE;
-            if (drive_is_dualdrive_by_devnr(8 + i)) {
-                d1 = MENU_STATUS_ACTIVE;
+        /* disable drive reset menu items */
+        for (i = 0; i < 4; i++) {
+            reset_menu[7 + (i * 2) + 0].status = MENU_STATUS_INACTIVE;
+            reset_menu[7 + (i * 2) + 1].status = MENU_STATUS_INACTIVE;
+        }
+    } else {
+
+        /* First copy the template to the actual menu */
+        for (i = 0; drive_menu_template[i].string != NULL; i++) {
+            drive_menu[i].string = drive_menu_template[i].string;
+            drive_menu[i].type = drive_menu_template[i].type;
+            drive_menu[i].callback = drive_menu_template[i].callback;
+            drive_menu[i].data = drive_menu_template[i].data;
+        }
+        drive_menu[i].string = drive_menu_template[i].string;
+        drive_menu[i].type = drive_menu_template[i].type;
+        drive_menu[i].callback = drive_menu_template[i].callback;
+        drive_menu[i].data = drive_menu_template[i].data;
+
+
+        if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C64DTV) {
+            newend = 1;
+        } else if (machine_class == VICE_MACHINE_PLUS4) {
+            newend = 2;
+        }
+        memset(&drive_8_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+
+        if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+            memset(&drive_8_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+            memset(&drive_9_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+            memset(&drive_10_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+            memset(&drive_11_menu[DRIVE_SETTINGS_OFFSET_IEEE_END], 0 , sizeof(ui_menu_entry_t));
+        }
+
+        drive_8_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(8) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+        drive_9_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(9) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+        drive_10_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(10) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+        drive_11_menu[DRIVE_SETTINGS_OFFSET_DRIVE_D1_R0].status = drive_is_dualdrive_by_devnr(11) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+
+        /* depending on the active drive type, enable the attach and detach
+           menu items in the drive menu */
+        for (i = 0; i < 4; i++) {
+            d0 = d1 = MENU_STATUS_INACTIVE;
+            if (drive_get_type_by_devnr(8 + i) != 0) {
+                d0 = MENU_STATUS_ACTIVE;
+                if (drive_is_dualdrive_by_devnr(8 + i)) {
+                    d1 = MENU_STATUS_ACTIVE;
+                }
             }
-        }
-        drive_menu[0 + (i * 2)].status = d0;
-        drive_menu[1 + (i * 2)].status = d1;
-        drive_menu[9 + (i * 2)].status = d0;
-        drive_menu[10 + (i * 2)].status = d1;
+            drive_menu[0 + (i * 2)].status = d0;
+            drive_menu[1 + (i * 2)].status = d1;
+            drive_menu[9 + (i * 2)].status = d0;
+            drive_menu[10 + (i * 2)].status = d1;
 
-        d0 = MENU_STATUS_INACTIVE;
-        if (drive_get_type_by_devnr(8 + i) == DRIVE_TYPE_CMDHD) {
-            d0 = MENU_STATUS_ACTIVE;
+            d0 = MENU_STATUS_INACTIVE;
+            if (drive_get_type_by_devnr(8 + i) == DRIVE_TYPE_CMDHD) {
+                d0 = MENU_STATUS_ACTIVE;
+            }
+            reset_menu[7 + (i * 2) + 0].status = d0;
+            reset_menu[7 + (i * 2) + 1].status = d0;
         }
-        reset_menu[7 + (i * 2) + 0].status = d0;
-        reset_menu[7 + (i * 2) + 1].status = d0;
     }
 }
