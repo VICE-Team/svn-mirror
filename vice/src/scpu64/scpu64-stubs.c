@@ -196,3 +196,8 @@ bool pia1_get_diagnostic_pin(void)
 {
     return false;
 }
+
+int tapeport_get_active_state(void)
+{
+    return 0;
+}
