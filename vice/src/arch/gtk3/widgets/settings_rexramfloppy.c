@@ -43,13 +43,21 @@
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_rexramfloppy_image_widget(void)
+static GtkWidget *create_primary_image_widget(void)
 {
-    return cart_image_widget_create(NULL,
-                                    "RRFfilename",
-                                    "RRFImageWrite",
-                                    CARTRIDGE_NAME_REX_RAMFLOPPY,
-                                    CARTRIDGE_REX_RAMFLOPPY);
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_REX_RAMFLOPPY,
+                                  CARTRIDGE_NAME_REX_RAMFLOPPY,
+                                  CART_IMAGE_PRIMARY,
+                                  "cartridge",
+                                  "RRFfilename",
+                                  TRUE,
+                                  TRUE);
+    cart_image_widget_append_check(image,
+                                   "RRFImageWrite",
+                                   "Write image on detach/emulator exit");
+    return image;
 }
 
 
@@ -61,9 +69,9 @@ static GtkWidget *create_rexramfloppy_image_widget(void)
  */
 GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent)
 {
-    GtkWidget *grid;
+    GtkWidget *primary;
 
-    grid = create_rexramfloppy_image_widget();
-    gtk_widget_show_all(grid);
-    return grid;
+    primary = create_primary_image_widget();
+    gtk_widget_show_all(primary);
+    return primary;
 }
