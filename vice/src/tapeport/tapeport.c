@@ -558,6 +558,11 @@ void tapeport_enable(int val)
     tapeport_active = val ? 1 : 0;
 }
 
+int tapeport_get_active_state(void)
+{
+    return tapeport_active;
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 /* TAPEPORT snapshot module format:
