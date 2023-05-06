@@ -251,7 +251,7 @@ int plus4ui_init(void)
     uijoyport_menu_create(1, 1, 1, 1, 1, 1);
     uijoystick_menu_create(1, 1, 1, 1, 1, 1);
     uiuserport_menu_create(0);
-    uidrive_menu_create();
+    uidrive_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("TED", NULL);
     uisid_menu_create();

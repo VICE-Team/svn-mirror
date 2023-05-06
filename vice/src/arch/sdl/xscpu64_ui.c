@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "c64iec.h"
 #include "c64mem.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
@@ -246,6 +247,8 @@ int scpu64ui_init_early(void)
  */
 int scpu64ui_init(void)
 {
+    int has_iec = c64iec_get_active_state();
+
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
@@ -254,10 +257,10 @@ int scpu64ui_init(void)
 
     uijoyport_menu_create(1, 1, 1, 1, 1, 0);
     uijoystick_menu_create(1, 1, 1, 1, 1, 0);
-    uiuserport_menu_create(1);
+    uiuserport_menu_create(has_iec);
     uisampler_menu_create();
     uicart_menu_create();
-    uidrive_menu_create();
+    uidrive_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();

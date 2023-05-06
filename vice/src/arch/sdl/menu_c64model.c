@@ -31,12 +31,14 @@
 #include "types.h"
 
 #include "c64gluelogic.h"
+#include "c64iec.h"
 #include "c64model.h"
 #include "c64rom.h"
 #include "cia.h"
 #include "machine.h"
 #include "menu_c64hw.h"
 #include "menu_common.h"
+#include "menu_drive.h"
 #include "menu_sid.h"
 #include "resources.h"
 #include "uimenu.h"
@@ -48,12 +50,15 @@
 static UI_MENU_CALLBACK(custom_C64Model_callback)
 {
     int model, selected;
+    int has_iec;
 
     selected = vice_ptr_to_int(param);
 
     if (activated) {
         c64model_set(selected);
         c64_create_machine_menu();
+        has_iec = c64iec_get_active_state();
+        uidrive_menu_create(has_iec);
     } else {
         model = c64model_get();
 
