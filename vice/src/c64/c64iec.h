@@ -36,4 +36,6 @@ void c64iec_enable(int val);
 
 extern int c64iec_active;
 
+int c64iec_get_active_state(void);
+
 #endif
