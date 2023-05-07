@@ -259,7 +259,7 @@ graph		{ return GRAPH; }
 func		{ return FUNC; }
 depth		{ return DEPTH; }
 disass		{ return DISASS; }
-context	{ return CONTEXT; }
+context	{ return PROFILE_CONTEXT; }
 clear		{ return CLEAR; }
 
 load { yylval.i = e_load; return MEM_OP; }
