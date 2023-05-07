@@ -147,6 +147,9 @@ int c64rom_print_kernal_info(void)
         log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X) SHA1: %s.",
                     id, (unsigned int)id, sum, sum, hash);
         return rev;
+    } else if (rev == C64_KERNAL_NONE) {
+        /* MAX machine doesn't have a kernal */
+        log_message(c64rom_log, "No Kernal image. No hash calculated.");
     } else {
         log_message(c64rom_log, "Kernal rev #%d ($%02X) Sum: %d ($%04X) SHA1: %s.",
                     id, (unsigned int)id, sum, sum, hash);
