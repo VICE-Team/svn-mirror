@@ -308,7 +308,7 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr);
 /* the _nosfx variants must be used when the monitor must absolutely not cause
    any sideeffect, be it emulated I/O or (re)triggering checkpoints */
 uint8_t mon_get_mem_val_ex_nosfx(MEMSPACE mem, int bank, uint16_t mem_addr);
-uint8_t mon_get_mem_val_nosfx(MEMSPACE mem, uint16_t mem_addr);
+uint8_t mon_get_mem_val_nosfx(MEMSPACE mem, uint16_t mem_config, uint16_t mem_addr);
 void mon_get_mem_block(MEMSPACE mem, uint16_t mem_start, uint16_t mem_end, uint8_t *data);
 void mon_get_mem_block_ex(MEMSPACE mem, int bank, uint16_t mem_start, uint16_t mem_end, uint8_t *data);
 void mon_jump(MON_ADDR addr);

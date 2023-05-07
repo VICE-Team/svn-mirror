@@ -68,6 +68,7 @@ char *alloca();
 #include "types.h"
 #include "uimon.h"
 #include "vsync.h"
+#include "mon_profile.h"
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -146,6 +147,7 @@ int yylex(void);
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
 %token CMD_WARP
+%token CMD_PROFILE FLAT GRAPH FUNC DEPTH DISASS CONTEXT CLEAR
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC REG_PCR
@@ -161,7 +163,7 @@ int yylex(void);
 %type<range> address_range address_opt_range
 %type<a>  address opt_address
 %type<cond_node> opt_if_cond_expr cond_expr cond_operand
-%type<i> number expression d_number guess_default device_num
+%type<i> number expression d_number opt_d_number opt_context_num guess_default device_num
 %type<i> memspace memloc memaddr checkpt_num mem_op opt_mem_op
 %type<i> top_level value
 %type<i> assembly_instruction register
@@ -587,6 +589,24 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                      { mon_stopwatch_reset(); }
                   | CMD_STOPWATCH end_cmd
                      { mon_stopwatch_show("Stopwatch: ", "\n"); }
+                  | CMD_PROFILE TOGGLE end_cmd
+                     { mon_profile_action($2); }
+                  | CMD_PROFILE end_cmd
+                     { mon_profile(); }
+                  | CMD_PROFILE FLAT opt_d_number end_cmd
+                     { mon_profile_flat($3); }
+                  | CMD_PROFILE GRAPH opt_context_num end_cmd
+                     { mon_profile_graph($3, -1); }
+                  | CMD_PROFILE GRAPH opt_context_num DEPTH d_number end_cmd
+                     { mon_profile_graph($3, $5); }
+                  | CMD_PROFILE FUNC address end_cmd
+                     { mon_profile_func($3); }
+                  | CMD_PROFILE DISASS address end_cmd
+                     { mon_profile_disass($3); }
+                  | CMD_PROFILE CLEAR address end_cmd
+                     { mon_profile_clear($3); }
+                  | CMD_PROFILE CONTEXT d_number end_cmd
+                     { mon_profile_disass_context($3); }
                   ;
 
 disk_rules: CMD_LOAD filename device_num opt_address end_cmd
@@ -702,6 +722,10 @@ reg_asgn: register EQUALS number
 checkpt_num: d_number { $$ = $1; }
            | error { return ERR_EXPECT_CHECKNUM; }
            ;
+
+opt_context_num: d_number { $$ = $1; }
+               | { $$ = -1; }
+               ;
 
 address_opt_range: address_range
                  | address { $$[0] = $1; $$[1] = BAD_ADDR; }
@@ -830,6 +854,10 @@ d_number: D_NUMBER { $$ = $1; }
         | D_NUMBER_GUESS { $$ = (int)strtol($1, NULL, 10); }
         | O_NUMBER_GUESS { $$ = (int)strtol($1, NULL, 10); }
         ;
+
+opt_d_number: d_number { $$ = $1; }
+            | { $$ = -1; }
+            ;
 
 guess_default: B_NUMBER_GUESS { $$ = resolve_datatype(B_NUMBER,$1); }
              | D_NUMBER_GUESS { $$ = resolve_datatype(D_NUMBER,$1); }

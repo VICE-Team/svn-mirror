@@ -60,6 +60,7 @@
 #include "network.h"
 #include "palette.h"
 #include "printer.h"
+#include "profiler.h"
 #include "resources.h"
 #include "romset.h"
 #include "screenshot.h"
@@ -374,6 +375,8 @@ void machine_shutdown(void)
     drive_shutdown();
 
     machine_maincpu_shutdown();
+
+    profile_shutdown();
 
     video_shutdown();
 

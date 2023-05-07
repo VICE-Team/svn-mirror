@@ -69,6 +69,8 @@
 CLOCK debug_clk;
 #endif
 
+CLOCK stolen_cycles;
+
 static int reu_dma_triggered = 0;
 
 #define NEED_REG_PC
@@ -188,15 +190,16 @@ static void maincpu_steal_cycles(void)
 inline static void check_ba(void)
 {
     if (maincpu_ba_low_flags) {
-#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
         CLOCK old_maincpu_clk = maincpu_clk;
-#endif
+
         maincpu_steal_cycles();
 #if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
         if (debug_clk == old_maincpu_clk) {
             debug_clk = maincpu_clk;
         }
 #endif
+
+        stolen_cycles += maincpu_clk - old_maincpu_clk;
     }
 }
 
@@ -525,6 +528,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
 
     maincpu_monitor_interface->mem_bank_read = mem_bank_read;
     maincpu_monitor_interface->mem_bank_peek = mem_bank_peek;
+    maincpu_monitor_interface->mem_peek_with_config = mem_peek_with_config;
     maincpu_monitor_interface->mem_bank_write = mem_bank_write;
     maincpu_monitor_interface->mem_bank_poke = mem_bank_poke;
 

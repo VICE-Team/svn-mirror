@@ -324,6 +324,7 @@ base_sources = \
 	network.c \
 	opencbmlib.c \
 	palette.c \
+	profiler.c \
 	ram.c \
 	rawfile.c \
 	rawnet.c \
@@ -341,6 +342,7 @@ base_sources = \
 	vsync.c \
 	zfile.c \
 	zipcode.c
+
 
 ps2mouse_sources = \
 	ps2mouse.c

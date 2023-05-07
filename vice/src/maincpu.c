@@ -324,6 +324,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
 
     maincpu_monitor_interface->mem_bank_read = mem_bank_read;
     maincpu_monitor_interface->mem_bank_peek = mem_bank_peek;
+    maincpu_monitor_interface->mem_peek_with_config = mem_peek_with_config;
     maincpu_monitor_interface->mem_bank_write = mem_bank_write;
     maincpu_monitor_interface->mem_bank_poke = mem_bank_poke;
 

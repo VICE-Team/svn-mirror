@@ -213,6 +213,10 @@ void c64_mem_init(void)
     cpmcart_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_VICII);
 }
 
+int mem_get_current_bank_config(void) {
+    return mem_config;
+}
+
 void mem_pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
@@ -1121,6 +1125,57 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     return mem_ram[addr];
 }
 
+uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
+    /* special case to read the CPU port of the 6510 */
+    if (addr < 2) {
+        return mem_read(addr);
+    }
+    /* we must check for which bank is currently active */
+    /* don't include ultimax here, check later */
+    if (c64meminit_io_config[config] == 1) {
+        if ((addr >= 0xd000) && (addr < 0xe000)) {
+            return peek_bank_io(addr);
+        }
+    }
+    if (c64meminit_roml_config[config]) {
+        if (addr >= 0x8000 && addr <= 0x9fff) {
+            return cartridge_peek_mem(addr);
+        }
+    }
+    if (c64meminit_romh_config[config]) {
+        unsigned int romhloc = c64meminit_romh_mapping[config] << 8;
+        if (addr >= romhloc && addr <= (romhloc + 0x1fff)) {
+            return cartridge_peek_mem(addr);
+        }
+    }
+    if (c64meminit_io_config[config] == 2) {
+        /* ultimax mode */
+        if (/*addr >= 0x0000 &&*/ addr <= 0x0fff) {
+            return mem_ram[addr];
+        }
+        return cartridge_peek_mem(addr);
+    }
+    if((config == 3) || (config == 7) ||
+        (config == 11) || (config == 15)) {
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return c64memrom_basic64_rom[addr & 0x1fff];
+        }
+    }
+    if((config & 3) > 1) {
+        if (addr >= 0xe000) {
+            return c64memrom_kernal64_rom[addr & 0x1fff];
+        }
+    }
+    if((config & 3) && (config != 0x19)) {
+        if ((addr >= 0xd000) && (addr < 0xdfff)) {
+            return mem_chargen_rom[addr & 0x0fff];
+        }
+    }
+
+    return mem_ram[addr];
+}
+
+
 /* used by monitor if sfx off, and when disassembling/tracing. this function
  * can NOT use the generic mem_read stuff, because that DOES have side effects,
  * such as (re)triggering checkpoints in the monitor!
@@ -1129,52 +1184,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0: /* CPU */
-            /* special case to read the CPU port of the 6510 */
-            if (addr < 2) {
-                return mem_read(addr);
-            }
-            /* we must check for which bank is currently active */
-            /* don't include ultimax here, check later */
-            if (c64meminit_io_config[mem_config] == 1) {
-                if ((addr >= 0xd000) && (addr < 0xe000)) {
-                    return peek_bank_io(addr);
-                }
-            }
-            if (c64meminit_roml_config[mem_config]) {
-                if (addr >= 0x8000 && addr <= 0x9fff) {
-                    return cartridge_peek_mem(addr);
-                }
-            }
-            if (c64meminit_romh_config[mem_config]) {
-                unsigned int romhloc = c64meminit_romh_mapping[mem_config] << 8;
-                if (addr >= romhloc && addr <= (romhloc + 0x1fff)) {
-                    return cartridge_peek_mem(addr);
-                }
-            }
-            if (c64meminit_io_config[mem_config] == 2) {
-                /* ultimax mode */
-                if (/*addr >= 0x0000 &&*/ addr <= 0x0fff) {
-                    return mem_ram[addr];
-                }
-                return cartridge_peek_mem(addr);
-            }
-            if((mem_config == 3) || (mem_config == 7) ||
-               (mem_config == 11) || (mem_config == 15)) {
-                if (addr >= 0xa000 && addr <= 0xbfff) {
-                    return c64memrom_basic64_rom[addr & 0x1fff];
-                }
-            }
-            if((mem_config & 3) > 1) {
-                if (addr >= 0xe000) {
-                    return c64memrom_kernal64_rom[addr & 0x1fff];
-                }
-            }
-            if((mem_config & 3) && (mem_config != 0x19)) {
-                if ((addr >= 0xd000) && (addr < 0xdfff)) {
-                    return mem_chargen_rom[addr & 0x0fff];
-                }
-            }
-            break;
+            return mem_peek_with_config(mem_config, addr, context);
         case 3: /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);

@@ -20375,7 +20375,7 @@ Stop recording commands.  See @code{record}.
 
 @end table
 
-@node Label commands, Miscellaneous commands, Command file commands, Monitor
+@node Label commands, Profiling commands, Command file commands, Monitor
 @section Label commands
 
 
@@ -20428,8 +20428,43 @@ all labels from default address space.
 
 @end table
 
+@node Profiling commands, Miscellaneous commands, Label commands, Monitor
+@section Profiling commands
+Profiling commands are executed through the @code{profile} command (alt.
+abbreviated @code{prof}) followed by subcommand and arguments per below.
 
-@node Miscellaneous commands,  , Label commands, Monitor
+@table @code
+
+@item profile on
+Start profiling and flush old profiling data.
+
+@item profile off
+Stop profiling.
+
+@item profile flat [<num=20>]
+Show flat summary of @code{num} top functions sorted by self time.
+
+@item profile graph [<ctx>] [depth <d>]
+Show callgraph up to @code{d} levels deep. If @code{ctx} is given, zoom on
+that subtree.
+
+@item profile func <function>
+Show aggregate statistics for a function including callers and callees.
+
+@item profile disass <function>
+Show per-instruction profiling for a given function.
+
+@item profile context <ctx>
+Show detailed context information including per-instruction profiling for
+a function a call graph context.
+
+@item profile clear <function>
+Clears all profiling stats for a function.
+
+@end table
+
+
+@node Miscellaneous commands,  , Profiling commands, Monitor
 @section Miscellaneous commands
 
 
