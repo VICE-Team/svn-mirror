@@ -292,6 +292,7 @@ int c128ui_init(void)
     uisampler_menu_create();
     uicart_menu_create();
     uidrive_menu_create(1);
+    uitape_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", "VDC");
     uisid_menu_create();

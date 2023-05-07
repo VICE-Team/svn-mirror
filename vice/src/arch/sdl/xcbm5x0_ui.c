@@ -249,6 +249,7 @@ int cbm5x0ui_init(void)
     uijoystick_menu_create(1, 1, 1, 1, 1, 0);
     uisampler_menu_create();
     uidrive_menu_create(1);
+    uitape_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();

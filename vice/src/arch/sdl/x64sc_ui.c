@@ -66,6 +66,7 @@
 #include "menu_userport.h"
 #include "menu_video.h"
 #include "resources.h"
+#include "tapeport.h"
 #include "ui.h"
 #include "uifonts.h"
 #include "uimenu.h"
@@ -259,6 +260,7 @@ int c64scui_init_early(void)
 int c64scui_init(void)
 {
     int has_iec = c64iec_get_active_state();
+    int has_tapeport = tapeport_get_active_state();
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
@@ -271,6 +273,7 @@ int c64scui_init(void)
     uisampler_menu_create();
     uicart_menu_create();
     uidrive_menu_create(has_iec);
+    uitape_menu_create(has_tapeport);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();
