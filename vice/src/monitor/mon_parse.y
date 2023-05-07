@@ -147,7 +147,7 @@ int yylex(void);
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
 %token CMD_WARP
-%token CMD_PROFILE FLAT GRAPH FUNC DEPTH DISASS CONTEXT CLEAR
+%token CMD_PROFILE FLAT GRAPH FUNC DEPTH DISASS PROFILE_CONTEXT CLEAR
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC REG_PCR
@@ -605,7 +605,7 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                      { mon_profile_disass($3); }
                   | CMD_PROFILE CLEAR address end_cmd
                      { mon_profile_clear($3); }
-                  | CMD_PROFILE CONTEXT d_number end_cmd
+                  | CMD_PROFILE PROFILE_CONTEXT d_number end_cmd
                      { mon_profile_disass_context($3); }
                   ;
 
