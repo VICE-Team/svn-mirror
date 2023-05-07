@@ -34,12 +34,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "carthelpers.h"
-#include "cartimagewidget.h"
 #include "cartridge.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "settings_dqbb.h"
 
