@@ -35,7 +35,6 @@
 #include "basewidgets.h"
 #include "widgethelpers.h"
 #include "basedialogs.h"
-#include "cartimagewidget.h"
 #include "filechooserhelpers.h"
 #include "lastdir.h"
 #include "log.h"
