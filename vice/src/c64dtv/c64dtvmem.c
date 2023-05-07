@@ -587,6 +587,8 @@ void store_bank_io(uint16_t addr, uint8_t byte)
         case 0xd400:
         case 0xd500:
         case 0xd600:
+            sid_store(addr, byte);
+            break;
         case 0xd700:
             sid_store(addr, byte);
             debugcart_store(addr, byte);
