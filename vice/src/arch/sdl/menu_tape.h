@@ -32,10 +32,12 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t tape_menu[];
+extern ui_menu_entry_t tape_menu[];
 extern const ui_menu_entry_t tape_pet_menu[];
 extern const ui_menu_entry_t tapeport_devices_menu[];
 extern const ui_menu_entry_t tapeport_pet_devices_menu[];
+
+void uitape_menu_create(int has_tapeport);
 
 void uitapeport_menu_shutdown(void);
 

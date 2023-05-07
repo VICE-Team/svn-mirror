@@ -65,6 +65,7 @@
 #include "menu_tape.h"
 #include "menu_userport.h"
 #include "menu_video.h"
+#include "tapeport.h"
 #include "ui.h"
 #include "uifonts.h"
 #include "uimenu.h"
@@ -89,9 +90,12 @@ static UI_MENU_CALLBACK(pause_callback_wrapper);
 static UI_MENU_CALLBACK(Machine_dynmenu_callback)
 {
     int has_iec = c64iec_get_active_state();
+    int has_tapeport = tapeport_get_active_state();
+
     c64_create_machine_menu();
 
     uidrive_menu_create(has_iec);
+    uitape_menu_create(has_tapeport);
 
     return MENU_SUBMENU_STRING;
 }
@@ -255,6 +259,7 @@ int c64ui_init_early(void)
 int c64ui_init(void)
 {
     int has_iec = c64iec_get_active_state();
+    int has_tapeport = tapeport_get_active_state();
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
@@ -268,6 +273,7 @@ int c64ui_init(void)
     uisampler_menu_create();
     uicart_menu_create();
     uidrive_menu_create(has_iec);
+    uitape_menu_create(has_tapeport);
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();

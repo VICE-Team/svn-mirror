@@ -326,7 +326,12 @@ const ui_menu_entry_t tape_pet_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t tape_menu[] = {
+ui_menu_entry_t tape_menu_no_tapeport[] = {
+    SDL_MENU_ITEM_TITLE("No tapeport on current model"),
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t tape_menu_template[] = {
     { "Attach tape image",
       MENU_ENTRY_DIALOG,
       attach_tape1_callback,
@@ -400,6 +405,8 @@ const ui_menu_entry_t tape_menu[] = {
       NULL },
     SDL_MENU_LIST_END
 };
+
+ui_menu_entry_t tape_menu[sizeof(tape_menu_template) / sizeof(ui_menu_entry_t)];
 
 UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 
@@ -500,5 +507,33 @@ void uitapeport_menu_shutdown(void)
         if (tapeport_dyn_menu_init[i]) {
             sdl_menu_tapeport_free(i);
         }
+    }
+}
+
+void uitape_menu_create(int has_tapeport)
+{
+    int i;
+
+    if (!has_tapeport) {
+        /* copy over 'no tapeport' menu if there is no tapeport */
+        tape_menu[0].string = tape_menu_no_tapeport[0].string;
+        tape_menu[0].type = tape_menu_no_tapeport[0].type;
+        tape_menu[0].callback = tape_menu_no_tapeport[0].callback;
+        tape_menu[0].data = tape_menu_no_tapeport[0].data;
+        tape_menu[1].string = tape_menu_no_tapeport[1].string;
+        tape_menu[1].type = tape_menu_no_tapeport[1].type;
+        tape_menu[1].callback = tape_menu_no_tapeport[1].callback;
+        tape_menu[1].data = tape_menu_no_tapeport[1].data;
+    } else {
+        for (i = 0; tape_menu_template[i].string != NULL; i++) {
+            tape_menu[i].string = tape_menu_template[i].string;
+            tape_menu[i].type = tape_menu_template[i].type;
+            tape_menu[i].callback = tape_menu_template[i].callback;
+            tape_menu[i].data = tape_menu_template[i].data;
+        }
+        tape_menu[i].string = tape_menu_template[i].string;
+        tape_menu[i].type = tape_menu_template[i].type;
+        tape_menu[i].callback = tape_menu_template[i].callback;
+        tape_menu[i].data = tape_menu_template[i].data;
     }
 }
