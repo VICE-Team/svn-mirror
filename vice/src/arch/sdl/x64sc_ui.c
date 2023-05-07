@@ -90,7 +90,11 @@ static UI_MENU_CALLBACK(pause_callback_wrapper);
 
 static UI_MENU_CALLBACK(Machine_dynmenu_callback)
 {
+    int has_iec = c64iec_get_active_state();
+
     c64_create_machine_menu();
+
+    uidrive_menu_create(has_iec);
 
     return MENU_SUBMENU_STRING;
 }
