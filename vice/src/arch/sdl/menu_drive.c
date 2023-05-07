@@ -33,6 +33,7 @@
 #include "drive-check.h"
 #include "diskimage.h"
 #include "fliplist.h"
+#include "iecdrive.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
@@ -643,6 +644,11 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
 #endif
     } else {
         support = (is_fs(parameter) || drive_check_type(parameter, drive - 8));
+        if (support && !had_driveport) {
+            if (drive_check_bus(parameter, IEC_BUS_IEC)) {
+                support = 0;
+            }
+        }
     }
     current = check_current_drive_type(parameter, drive);
 
@@ -1387,10 +1393,11 @@ void uidrive_menu_create(int has_driveport)
 {
     int newend = 4;
     int i, d0, d1;
+    int ieee_bus = iec_available_busses() & IEC_BUS_IEEE;
 
     had_driveport = has_driveport;
 
-    if (!has_driveport) {
+    if (!has_driveport && !ieee_bus) {
 
         /* copy over 'no iec' menu if there is no driveport */
         drive_menu[0].string = drive_menu_no_iec[0].string;
