@@ -102,6 +102,9 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context);
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context);
 void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context);
 
+uint8_t mem_peek_with_config(int config, uint16_t addr, void *context);
+int mem_get_current_bank_config(void);
+
 void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank);
 void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking);
 

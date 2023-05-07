@@ -47,6 +47,10 @@
 
 #include "traps.h"
 
+#ifndef DRIVE_CPU
+#include "profiler.h"
+#endif
+
 #ifndef C64DTV
 /* The C64DTV can use different shadow registers for accu read/write. */
 /* For standard 6510, this is not the case. */
@@ -362,6 +366,34 @@
 #endif
 #endif
 
+#if !defined(DRIVE_CPU)
+#define CHECK_PROFILE_INTERRUPT(dest_addr, handler)                        \
+do {                                                                   \
+        profile_int(dest_addr, handler, reg_sp + 1, CLK - profiling_clock_start); \
+} while (0)
+
+#define CHECK_PROFILE_JSR(dest_addr)     \
+    do {                                 \
+        profile_jsr(dest_addr, reg_pc, reg_sp); \
+} while (0)
+
+#define CHECK_PROFILE_RTS()      \
+    do {                         \
+            profile_rtx(reg_sp); \
+    } while (0)
+
+#define CHECK_PROFILE_RTI()          \
+        do {                             \
+            profile_rtx(reg_sp + 1); \
+    } while (0)
+
+#else
+#define CHECK_PROFILE_INTERRUPT(dest_addr, handler)
+#define CHECK_PROFILE_JSR(dest_addr)
+#define CHECK_PROFILE_RTS()
+#define CHECK_PROFILE_RTI()
+#endif
+
 #ifdef DEBUG
 #define TRACE_NMI(clk)                        \
     do {                                      \
@@ -395,6 +427,7 @@
 #define DO_INTERRUPT(int_kind)                                                                 \
     do {                                                                                       \
         uint8_t ik = (int_kind);                                                               \
+        uint16_t addr, handler_vector;                                                         \
                                                                                                \
         if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                                             \
             if (((ik & IK_NMI)                                                                 \
@@ -424,12 +457,15 @@
                     && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) {                 \
                     TRACE_NMI(CLK - NMI_CYCLES + 2);                                           \
                     interrupt_ack_nmi(CPU_INT_STATUS);                                         \
-                    JUMP(LOAD_ADDR(0xfffa));                                                   \
+                    handler_vector = 0xfffa;                                                   \
                 } else {                                                                       \
                     TRACE_IRQ(CLK - IRQ_CYCLES + 2);                                           \
                     interrupt_ack_irq(CPU_INT_STATUS);                                         \
-                    JUMP(LOAD_ADDR(0xfffe));                                                   \
+                    handler_vector = 0xfffe;                                                   \
                 }                                                                              \
+                addr = LOAD_ADDR(handler_vector);                                              \
+                CHECK_PROFILE_INTERRUPT(addr, handler_vector);                                 \
+                JUMP(addr);                                                                    \
                 SET_LAST_OPCODE(0);                                                            \
                 CLK_ADD(CLK, 2);                                                               \
             }                                                                                  \
@@ -449,7 +485,9 @@
                 bank_start = bank_limit = 0; /* prevent caching */                             \
                 LOCAL_SET_INTERRUPT(1);                                                        \
                 cpu_is_jammed = 0;                                                             \
-                JUMP(LOAD_ADDR(0xfffc));                                                       \
+                addr = LOAD_ADDR(0xfffc);                                                      \
+                CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                                         \
+                JUMP(addr);                                                                    \
                 DMA_ON_RESET;                                                                  \
             }                                                                                  \
         }                                                                                      \
@@ -918,6 +956,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 
 #define BRK()                                                                                     \
     do {                                                                                          \
+        uint16_t addr, handler_vector;                                                            \
         EXPORT_REGISTERS();                                                                       \
         INC_PC(2);                                                                                \
         LOCAL_SET_BREAK(1);                                                                       \
@@ -936,7 +975,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
                 monitor_check_icount_interrupt();                                                 \
             }                                                                                     \
             interrupt_ack_nmi(CPU_INT_STATUS);                                                    \
-            JUMP(LOAD_ADDR(0xfffa));                                                              \
+            handler_vector = 0xfffa;                                                              \
         } else if ((CPU_INT_STATUS->global_pending_int & (IK_IRQ | IK_IRQPEND))                   \
                  && !LOCAL_INTERRUPT() && (CLK >= (CPU_INT_STATUS->irq_clk + INTERRUPT_DELAY))) { \
             LOCAL_SET_INTERRUPT(1);                                                               \
@@ -945,12 +984,15 @@ FIXME: perhaps we really have to add some randomness to (some) bits
                 monitor_check_icount_interrupt();                                                 \
             }                                                                                     \
             interrupt_ack_irq(CPU_INT_STATUS);                                                    \
-            JUMP(LOAD_ADDR(0xfffe));                                                              \
+            handler_vector = 0xfffe;                                                              \
         } else {                                                                                  \
             TRACE_BRK();                                                                          \
             LOCAL_SET_INTERRUPT(1);                                                               \
-            JUMP(LOAD_ADDR(0xfffe));                                                              \
+            handler_vector = 0xfffe;                                                              \
         }                                                                                         \
+        addr = LOAD_ADDR(handler_vector);                                                         \
+        CHECK_PROFILE_INTERRUPT(addr, handler_vector);                                            \
+        JUMP(addr);                                                                               \
         CLK_ADD(CLK, 2);                                                                          \
     } while (0)
 
@@ -1183,7 +1225,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 
 #define JMP_IND()                                                    \
     do {                                                             \
-        uint16_t dest_addr;                                              \
+        uint16_t dest_addr;                                          \
         dest_addr = LOAD(p2);                                        \
         CLK_ADD(CLK, 1);                                             \
         dest_addr |= (LOAD((p2 & 0xff00) | ((p2 + 1) & 0xff)) << 8); \
@@ -1213,6 +1255,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         JSR_FIXUP_MSB(addr_msb);                      \
         tmp_addr = (p1 | (addr_msb << 8));            \
         CLK_ADD(CLK, CLK_JSR_INT_CYCLE);              \
+        CHECK_PROFILE_JSR(tmp_addr);                  \
         JUMP(tmp_addr);                               \
     } while (0)
 
@@ -1539,6 +1582,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
     do {                                \
         uint16_t tmp;                   \
                                         \
+        CHECK_PROFILE_RTI();            \
         CLK_ADD(CLK, CLK_RTI);          \
         LOAD_DUMMY(0x100 + reg_sp);     \
         tmp = (uint16_t)PULL();         \
@@ -1552,6 +1596,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
     do {                             \
         uint16_t tmp;                \
                                      \
+        CHECK_PROFILE_RTS();         \
         CLK_ADD(CLK, CLK_RTS);       \
         LOAD_DUMMY(0x100 + reg_sp);  \
         tmp = PULL();                \
@@ -2162,6 +2207,9 @@ static const uint8_t rewind_fetch_tab[] = {
 {
     static int cpu_is_jammed = 0;
     unsigned int tmpa; /* needed for some of the opcode macros */
+#if !defined(DRIVE_CPU)
+    CLOCK profiling_clock_start;
+#endif
 
     /* handle 8502 fast mode refresh cycles */
     CPU_REFRESH_CLK
@@ -2197,6 +2245,10 @@ static const uint8_t rewind_fetch_tab[] = {
 
         pending_interrupt = CPU_INT_STATUS->global_pending_int;
         if (pending_interrupt != IK_NONE) {
+#if !defined(DRIVE_CPU)
+            profiling_clock_start = CLK;
+#endif
+
             DO_INTERRUPT(pending_interrupt);
             if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
                 && CPU_INT_STATUS->global_pending_int & IK_IRQPEND) {
@@ -2228,6 +2280,14 @@ static const uint8_t rewind_fetch_tab[] = {
         history_clk = CLK;
 #endif
 #endif
+
+#if !defined(DRIVE_CPU)
+        profiling_clock_start = CLK;
+        if (maincpu_profiling) {
+            profile_sample_start(reg_pc);
+        }
+#endif
+
         SET_LAST_ADDR(reg_pc);
 
         FETCH_OPCODE(opcode);
@@ -3303,5 +3363,12 @@ trap_skipped:
                 ISB(p2, 0, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW, DUMMY_STORE_ABS_X_RMW);
                 break;
         }
+
+#if !defined(DRIVE_CPU)
+        if (maincpu_profiling) {
+            profile_sample_finish(CLK - profiling_clock_start);
+        }
+#endif
+
     }
 }

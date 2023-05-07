@@ -121,7 +121,7 @@ static int init_break_address = -1;
 #define MONITOR_GET_PC(mem) \
     ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC)))
 
-#define MONITOR_GET_OPCODE(mem) (mon_get_mem_val_nosfx(mem, MONITOR_GET_PC(mem)))
+#define MONITOR_GET_OPCODE(mem) (mon_get_mem_val_nosfx(mem, mem == e_comp_space ? mem_get_current_bank_config() : 0, MONITOR_GET_PC(mem)))
 
 console_t *console_log = NULL;
 
@@ -863,8 +863,23 @@ uint8_t mon_get_mem_val_ex_nosfx(MEMSPACE mem, int bank, uint16_t mem_addr)
     }
 }
 
-uint8_t mon_get_mem_val_nosfx(MEMSPACE mem, uint16_t mem_addr)
+uint8_t mon_get_mem_val_nosfx(MEMSPACE mem, uint16_t mem_config, uint16_t mem_addr)
 {
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    if (mon_interfaces[mem]->mem_peek_with_config != NULL) {
+        return mon_interfaces[mem]->mem_peek_with_config(mem_config, mem_addr, mon_interfaces[mem]->context);
+    } else if (mon_interfaces[mem]->mem_bank_peek != NULL) {
+        return mon_interfaces[mem]->mem_bank_peek(mon_interfaces[mem]->current_bank, mem_addr, mon_interfaces[mem]->context);
+    } else {
+        return mon_interfaces[mem]->mem_bank_read(mon_interfaces[mem]->current_bank, mem_addr, mon_interfaces[mem]->context);
+    }
+
+
     return mon_get_mem_val_ex_nosfx(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
@@ -1082,23 +1097,79 @@ static void montor_list_destroy(monitor_cpu_type_list_t *list)
     lib_free(list);
 }
 
+unsigned mon_disassemble_oneline(MEMSPACE memspace, uint16_t mem_config, uint16_t addr) {
+    const int hex_mode = 1;
+    unsigned opc_size;
+    uint8_t opc;
+    uint16_t loc;
+    uint8_t p3;
+
+    opc  = mon_get_mem_val_nosfx(memspace, mem_config, addr);
+    loc  = mon_get_mem_val_nosfx(memspace, mem_config, addr + 1)
+         | mon_get_mem_val_nosfx(memspace, mem_config, addr + 2) << 8;
+    p3   = mon_get_mem_val_nosfx(memspace, mem_config, addr + 3);
+
+    mon_out(".%s:%04x   %s",
+            mon_memspace_string[memspace],
+            addr,
+            mon_disassemble_to_string_ex(memspace, addr,
+                                         opc,
+                                         loc & 0xff,
+                                         loc >> 8,
+                                         p3,
+                                         hex_mode,
+                                         &opc_size));
+
+    if (opc == 0x6c) {
+        uint16_t dest = mon_get_mem_val_nosfx(memspace, mem_config, loc)
+                      | mon_get_mem_val_nosfx(memspace, mem_config, loc + 1) << 8;
+
+        mon_out(" ; -> $%04X", dest);
+    }
+
+    mon_out("\n");
+
+    return opc_size;
+}
+
 void mon_backtrace(void)
 {
-    uint8_t opc;
-    uint16_t sp, i, addr, n;
+    uint16_t sp, i, pc, addr;
 
-    /* TODO support DTV stack relocation, check memspace handling, move somewhere else */
-    n = 0;
+    extern uint16_t callstack_pc_dst[];
+    extern uint16_t callstack_pc_src[];
+    extern uint16_t callstack_memory_bank_config[];
+    extern uint8_t  callstack_sp[];
+    extern unsigned callstack_size;
+
+    pc = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_PC);
     sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
-    for (i = sp + 0x100 + 1; i < 0x1ff; i++) {
-        addr = mon_get_mem_val(default_memspace, i);
-        addr += ((uint16_t)mon_get_mem_val(default_memspace, (uint16_t)(i + 1))) << 8;
-        addr -= 2;
-        opc = mon_get_mem_val(default_memspace, addr);
-        if (opc == 0x20 /* JSR */) {
-            mon_out("(%d) %04x\n", n, addr);
+
+    mon_out("             PC        ");
+    mon_disassemble_oneline(default_memspace, mem_get_current_bank_config(), pc);
+
+    for (i = callstack_size-1; (int16_t)i >= 0; i--) {
+        uint16_t addr_src = callstack_pc_src[i];
+        uint16_t addr_dst = callstack_pc_dst[i];
+
+        /* get current stack value */
+        addr =   mon_get_mem_val_nosfx(default_memspace, callstack_memory_bank_config[i], callstack_sp[i] + 0x100 + 1)
+               | mon_get_mem_val_nosfx(default_memspace, callstack_memory_bank_config[i], callstack_sp[i] + 0x100 + 2) << 8;
+
+        if (addr_src >= 0xfffa && !(addr_src & 1)) {
+            switch(addr_src) {
+            case 0xfffa: mon_out("NMI "); break;
+            case 0xfffc: mon_out("RST "); break;
+            case 0xfffe: mon_out("IRQ "); break;
+            }
+        } else {
+            mon_out("%04x", (unsigned)(addr_src - 2));
+            addr -= 2; /* print the JSR instruction */
         }
-        n++;
+        mon_out(" -> %04x", addr_dst);
+        mon_out(" [SP +%3d] ", callstack_sp[i] - sp + 1);
+
+        mon_disassemble_oneline(default_memspace, callstack_memory_bank_config[i], addr);
     }
 }
 

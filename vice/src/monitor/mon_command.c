@@ -144,6 +144,27 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "profile", "prof",
+      "[on|off]|[flat [num]]|[graph [context] [depth]]|[func <function>]",
+      "Main CPU profiling functions. Commands:\n"
+      "\n"
+      "    prof on                        Start profiling and flush old profiling\n"
+      "                                   data.\n"
+      "    prof off                       Stop profiling.\n"
+      "    prof flat [<num=20>]           Show flat summary of 'num' top functions\n"
+      "                                   sorted by self time.\n"
+      "    prof graph [<ctx>] [depth <d>] Show callgraph up to 'd' levels deep.\n"
+      "                                   If 'ctx' is given, zoom on that subtree.\n"
+      "    prof func <function>           Show aggregate statistics for a function\n"
+      "                                   including callers and callees.\n"
+      "    prof disass <function>         Per-instruction profiling for function.\n"
+      "    prof context <ctx>             Detailed context information including\n"
+      "                                   per-instruction profiling for function\n"
+      "                                   in a call graph context.\n"
+      "    prof clear <function>          Clears all profiling stats for function.\n",
+      NO_FILENAME_ARG
+    },
+
     { "registers", "r",
       "[<reg_name> = <number> [, <reg_name> = <number>]*]",
       "Assign respective registers (use FL for status flags).  With no\n"

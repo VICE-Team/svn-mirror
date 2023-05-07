@@ -60,6 +60,8 @@
 CLOCK debug_clk;
 #endif
 
+CLOCK stolen_cycles;
+
 #define NEED_REG_PC
 
 /* ------------------------------------------------------------------------- */

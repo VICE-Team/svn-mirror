@@ -1988,6 +1988,15 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
     return mem_bank_read(bank, addr, context);
 }
 
+int mem_get_current_bank_config(void) {
+    return 0; /* TODO: not implemented yet */
+}
+
+uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
+    /* TODO, config not implemented yet */
+    return mem_bank_peek(0 /* current */, addr, context);
+}
+
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     if ((bank >= 5) && (bank <= 6)) {

@@ -210,6 +210,7 @@ HDIGIT  [0-9a-f]
         next|n          { BEGIN(INITIAL);       return CMD_NEXT; }
         playback|pb     { BEGIN(FNAME);         return CMD_PLAYBACK; }
         print|p         { BEGIN(INITIAL);       return CMD_PRINT; }
+        profile|prof    { BEGIN(INITIAL);       return CMD_PROFILE; }
         pwd             { BEGIN(INITIAL);       return CMD_PWD; }
         quit|q          { BEGIN(INITIAL);       return CMD_QUIT; }
         radix|rad       { BEGIN(RADIX);         return CMD_RADIX; }
@@ -252,6 +253,14 @@ HDIGIT  [0-9a-f]
 on  		{ yylval.i = e_ON; return TOGGLE; }
 off 		{ yylval.i = e_OFF; return TOGGLE; }
 toggle		{ yylval.i = e_TOGGLE; return TOGGLE; }
+
+flat		{ return FLAT; }
+graph		{ return GRAPH; }
+func		{ return FUNC; }
+depth		{ return DEPTH; }
+disass		{ return DISASS; }
+context	{ return CONTEXT; }
+clear		{ return CLEAR; }
 
 load { yylval.i = e_load; return MEM_OP; }
 store { yylval.i = e_store; return MEM_OP; }

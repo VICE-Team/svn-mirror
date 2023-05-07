@@ -28,6 +28,7 @@
  *
  */
 
+#include "mem.h"
 #include "vice.h"
 
 #include <stdio.h>
@@ -1474,17 +1475,19 @@ static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR ad
     uint8_t opc[5];
     MEMSPACE mem;
     uint16_t loc;
+    uint16_t mem_config;
     int hex_mode = 1;
     const char *dis_inst;
 
     mem = addr_memspace(addr);
     loc = addr_location(addr);
+    mem_config = mem == e_comp_space ? mem_get_current_bank_config() : 0;
 
-    opc[0] = mon_get_mem_val_nosfx(mem, loc);
-    opc[1] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 1));
-    opc[2] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 2));
-    opc[3] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 3));
-    opc[4] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 4));
+    opc[0] = mon_get_mem_val_nosfx(mem, mem_config, loc);
+    opc[1] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 1));
+    opc[2] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 2));
+    opc[3] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 3));
+    opc[4] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 4));
 
     dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
 
