@@ -39,6 +39,7 @@
 #include "plus4rom.h"
 #include "machine.h"
 #include "resources.h"
+#include "userport.h"
 #include "types.h"
 
 struct model_s {
@@ -158,4 +159,6 @@ void plus4model_set(int model)
 
     resources_set_string("c2loName", plus4models[model].c2loname);
     resources_set_int("SpeechEnabled", plus4models[model].hasspeech);
+
+    userport_enable(plus4models[model].hasuserport);
 }
