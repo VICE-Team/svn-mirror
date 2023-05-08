@@ -375,7 +375,7 @@ static const read_func_ptr_t turbomaster_io_read_tab[0x11] = {
     colorram_read,
     colorram_read,
     cia1_read,
-    cia2_read,
+    c64io_dd00_read,
     c64io_de00_read,
     c64io_df00_read,
     NULL
@@ -395,7 +395,7 @@ static const store_func_ptr_t turbomaster_io_write_tab[0x11] = {
     colorram_store,
     colorram_store,
     cia1_store,
-    cia2_store,
+    c64io_dd00_store,
     c64io_de00_store,
     c64io_df00_store,
     NULL

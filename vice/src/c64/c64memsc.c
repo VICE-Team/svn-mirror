@@ -917,7 +917,7 @@ void store_bank_io(uint16_t addr, uint8_t byte)
             cia1_store(addr, byte);
             break;
         case 0xdd00:
-            cia2_store(addr, byte);
+            c64io_dd00_store(addr, byte);
             break;
         case 0xde00:
             c64io_de00_store(addr, byte);
@@ -981,7 +981,7 @@ uint8_t read_bank_io(uint16_t addr)
         case 0xdc00:
             return cia1_read(addr);
         case 0xdd00:
-            return cia2_read(addr);
+            return c64io_dd00_read(addr);
         case 0xde00:
             return c64io_de00_read(addr);
         case 0xdf00:
@@ -1017,7 +1017,7 @@ static uint8_t peek_bank_io(uint16_t addr)
         case 0xdc00:
             return cia1_peek(addr);
         case 0xdd00:
-            return cia2_peek(addr);
+            return c64io_dd00_peek(addr);
         case 0xde00:
             return c64io_de00_peek(addr);
         case 0xdf00:
@@ -1268,8 +1268,6 @@ static int mem_dump_io(void *context, uint16_t addr)
 {
     if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
         return ciacore_dump(machine_context.cia1);
-    } else if ((addr >= 0xdd00) && (addr <= 0xdd3f)) {
-        return ciacore_dump(machine_context.cia2);
     }
     return -1;
 }
@@ -1281,7 +1279,6 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     io_source_ioreg_add_list(&mem_ioreg_list);  /* VIC-II, SID first so it's in address order */
 
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io, NULL, IO_MIRROR_NONE);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io, NULL, IO_MIRROR_NONE);
 
     return mem_ioreg_list;
 }

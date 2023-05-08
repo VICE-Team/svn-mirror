@@ -381,6 +381,13 @@ static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
 
+static int cia2_dump(void)
+{
+    return ciacore_dump(machine_context.cia2);
+}
+
+/* ------------------------------------------------------------------------ */
+
 /* C128-specific I/O initialization. */
 
 static io_source_t vicii_d000_device = {
@@ -502,6 +509,23 @@ static io_source_t vdc_d600_device = {
     IO_MIRROR_MASK         /* contains mirrors, defined by mask */
 };
 
+static io_source_t cia2_dd00_device = {
+    "CIA2",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdd00, 0xddff, 0x0f,  /* main CIA2 registers $dd00-$dd0f, mirrors: $dd10-$ddff */
+    1,                     /* read is always valid */
+    cia2_store,            /* store function */
+    NULL,                  /* NO poke function */
+    cia2_read,             /* read function */
+    cia2_peek,             /* peek function */
+    cia2_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, mirrors never involved in collisions */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_MASK         /* contains mirrors, defined by mask */
+};
+
 static io_source_list_t *vicii_d000_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
 static io_source_list_t *vicii_d200_list_item = NULL;
@@ -509,6 +533,7 @@ static io_source_list_t *vicii_d300_list_item = NULL;
 static io_source_list_t *sid_d400_list_item = NULL;
 static io_source_list_t *sid_d420_list_item = NULL;
 static io_source_list_t *vdc_d600_list_item = NULL;
+static io_source_list_t *cia2_dd00_list_item = NULL;
 
 void c64io_vicii_init(void)
 {
@@ -547,6 +572,7 @@ static void c128io_init(void)
     sid_d400_list_item = io_source_register(&sid_d400_device);
     sid_d420_list_item = io_source_register(&sid_d420_device);
     vdc_d600_list_item = io_source_register(&vdc_d600_device);
+    cia2_dd00_list_item = io_source_register(&cia2_dd00_device);
 }
 
 /* ------------------------------------------------------------------------ */

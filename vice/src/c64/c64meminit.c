@@ -174,10 +174,9 @@ void c64meminit(unsigned int base)
 
             mem_read_tab_set(base + j, 0xdc, cia1_read);
             mem_set_write_hook(base + j, 0xdc, cia1_store);
-            if (board != 1) {
-                mem_read_tab_set(base + j, 0xdd, cia2_read);
-                mem_set_write_hook(base + j, 0xdd, cia2_store);
-            }
+
+            mem_read_tab_set(base + j, 0xdd, c64io_dd00_read);
+            mem_set_write_hook(base + j, 0xdd, c64io_dd00_store);
 
             mem_read_tab_set(base + j, 0xde, c64io_de00_read);
             mem_set_write_hook(base + j, 0xde, c64io_de00_store);
