@@ -241,6 +241,11 @@ static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
 
+static int cia2_dump(void)
+{
+    return ciacore_dump(machine_context.cia2);
+}
+
 /* The following I/O range is only used when +60K or +256K memory hacks are not active.
    The +60K or +256K memory hacks unregister this range and use their own replacement.
  */
@@ -406,6 +411,23 @@ static io_source_t sid_d700_device = {
     IO_MIRROR_OTHER            /* this is a mirror of another registered device */
 };
 
+static io_source_t cia2_dd00_device = {
+    "CIA2",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdd00, 0xdd0f, 0x0f,  /* main registers */
+    1,                     /* read is always valid */
+    cia2_store,            /* store function */
+    NULL,                  /* NO poke function */
+    cia2_read,             /* read function */
+    cia2_peek,             /* peek function */
+    cia2_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* this is not a mirror */
+};
+
 static io_source_list_t *vicii_d000_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
 static io_source_list_t *vicii_d200_list_item = NULL;
@@ -415,6 +437,29 @@ static io_source_list_t *sid_d420_list_item = NULL;
 static io_source_list_t *sid_d500_list_item = NULL;
 static io_source_list_t *sid_d600_list_item = NULL;
 static io_source_list_t *sid_d700_list_item = NULL;
+static io_source_list_t *cia2_dd00_list_item = NULL;
+
+static int c64_cia2_active = 1;
+
+void c64_cia2_enable(int val)
+{
+    if (c64_cia2_active != val) {
+        if (cia2_dd00_list_item != NULL) {
+            io_source_unregister(cia2_dd00_list_item);
+            cia2_dd00_list_item = NULL;
+        }
+        if (val) {
+            cia2_dd00_list_item = io_source_register(&cia2_dd00_device);
+        }
+    }
+
+    c64_cia2_active = val;
+}
+
+int c64_cia2_get_active_state(void)
+{
+    return c64_cia2_active;   
+}
 
 void c64io_vicii_reinit(void)
 {
@@ -467,6 +512,10 @@ static void c64io_init(void)
     sid_d500_list_item = io_source_register(&sid_d500_device);
     sid_d600_list_item = io_source_register(&sid_d600_device);
     sid_d700_list_item = io_source_register(&sid_d700_device);
+
+    if (c64_cia2_active) {
+        cia2_dd00_list_item = io_source_register(&cia2_dd00_device);
+    }
 }
 
 /* ------------------------------------------------------------------------ */

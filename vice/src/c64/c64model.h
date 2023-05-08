@@ -88,6 +88,9 @@ enum {
 #define NO_KEYBOARD  0
 #define HAS_KEYBOARD 1
 
+#define NO_CIA2  0
+#define HAS_CIA2 1
+
 typedef struct {
     int vicii_model;
     int sid_model;
