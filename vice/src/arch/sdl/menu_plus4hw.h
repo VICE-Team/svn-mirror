@@ -31,6 +31,8 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t plus4_hardware_menu[];
+extern ui_menu_entry_t plus4_hardware_menu[];
+
+void plus4_create_machine_menu(void);
 
 #endif
