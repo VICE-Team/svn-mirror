@@ -458,7 +458,7 @@ void c64_cia2_enable(int val)
 
 int c64_cia2_get_active_state(void)
 {
-    return c64_cia2_active;   
+    return c64_cia2_active;
 }
 
 void c64io_vicii_reinit(void)
