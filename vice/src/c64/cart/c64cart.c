@@ -138,7 +138,7 @@
 #include "zippcode48.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x; fflush(stdout);
