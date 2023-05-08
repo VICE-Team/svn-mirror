@@ -33,6 +33,7 @@
 #include "menu_common.h"
 #include "menu_joyport.h"
 #include "menu_joystick.h"
+#include "menu_plus4hw.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_userport.h"
@@ -50,6 +51,8 @@
 #include "menu_sid.h"
 #include "menu_tape.h"
 #include "uimenu.h"
+#include "userport.h"
+#include "util.h"
 
 /* PLUS4 MODEL SELECTION */
 
@@ -61,6 +64,7 @@ static UI_MENU_CALLBACK(custom_PLUS4Model_callback)
 
     if (activated) {
         plus4model_set(selected);
+        plus4_create_machine_menu();
     } else {
         model = plus4model_get();
 
@@ -119,7 +123,7 @@ UI_MENU_DEFINE_RADIO(MemoryHack)
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 
-const ui_menu_entry_t plus4_hardware_menu[] = {
+const ui_menu_entry_t plus4_hardware_menu_template[] = {
     { "Select Plus4 model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -209,3 +213,34 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       (ui_callback_data_t)MEMORY_HACK_H4096K },
     SDL_MENU_LIST_END
 };
+
+ui_menu_entry_t plus4_hardware_menu[sizeof(plus4_hardware_menu_template) / sizeof(ui_menu_entry_t)];
+
+void plus4_create_machine_menu(void)
+{
+    int has_userport = userport_get_active_state();
+    int i;
+    int j = 0;
+
+    for (i = 0; plus4_hardware_menu_template[i].string != NULL; i++) {
+        if (!util_strcasecmp(plus4_hardware_menu_template[i].string, "Userport settings")) {
+            if (has_userport) {
+                plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
+                plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
+                plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
+                plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
+                j++;
+            }
+        } else {
+            plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
+            plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
+            plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
+            plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
+            j++;
+        }
+    }
+    plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
+    plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
+    plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
+    plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
+}
