@@ -239,6 +239,8 @@ noinst_HEADERS = \
 	petui.h \
 	piacore.h \
 	plus4ui.h \
+	profiler.h \
+	profiler_data.h \
 	ps2mouse.h \
 	r65c02.h \
 	ram.h \
