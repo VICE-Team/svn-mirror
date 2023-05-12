@@ -27,7 +27,7 @@ namespace reSID
 
 // Number of cycles after which the shift register is reset
 // when the test bit is set.
-const cycle_count SHIFT_REGISTER_RESET_START_6581 =    9768; // 0x8000
+const cycle_count SHIFT_REGISTER_RESET_START_6581 =   35000; // 0x8000
 const cycle_count SHIFT_REGISTER_RESET_BIT_6581   =    1000;
 const cycle_count SHIFT_REGISTER_RESET_START_8580 = 2519864; // 0x950000
 const cycle_count SHIFT_REGISTER_RESET_BIT_8580   =  315000;
