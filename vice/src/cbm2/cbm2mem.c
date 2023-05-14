@@ -112,6 +112,8 @@ int cbm2_init_ok = 0;
 */
 static int watchpoints_active = 0;
 
+static void mem_update_tab_ptrs(int flag);
+
 /* ------------------------------------------------------------------------- */
 
 void cbm2_set_tpi2pc(uint8_t b)
@@ -138,10 +140,7 @@ void cbm2mem_set_bank_exec(int val)
     if (val != cbm2mem_bank_exec) {
         cbm2mem_bank_exec = val;
 
-        _mem_read_tab_ptr = _mem_read_tab[cbm2mem_bank_exec];
-        _mem_write_tab_ptr = _mem_write_tab[cbm2mem_bank_exec];
-        _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
-        _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
+        mem_update_tab_ptrs(watchpoints_active);
 
         _mem_read_base_tab_ptr = _mem_read_base_tab[cbm2mem_bank_exec];
         mem_read_limit_tab_ptr = mem_read_limit_tab[(cbm2mem_bank_exec < 15)
@@ -182,8 +181,9 @@ void cbm2mem_set_bank_ind(int val)
 
     if (val != cbm2mem_bank_ind) {
         cbm2mem_bank_ind = val;
-        _mem_read_ind_tab_ptr = _mem_read_tab[cbm2mem_bank_ind];
-        _mem_write_ind_tab_ptr = _mem_write_tab[cbm2mem_bank_ind];
+
+        mem_update_tab_ptrs(watchpoints_active);
+
         /* set all register mirror locations */
         for (i = 0; i < 16; i++) {
             mem_ram[(i << 16) + 1] = val;
@@ -520,7 +520,7 @@ static uint8_t read_io(uint16_t addr)
     return last_access;
 }
 
-/* called by mem_toggle_watchpoints() */
+/* called by mem_toggle_watchpoints(), cbm2mem_set_bank_exec(), cbm2mem_set_bank_ind() */
 static void mem_update_tab_ptrs(int flag)
 {
     if (flag) {
