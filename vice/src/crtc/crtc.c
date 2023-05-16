@@ -769,6 +769,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 crtc.raster.ycounter &= 0x1f;
             } else {
                 crtc.raster.ycounter = 0;
+                crtc.cursor_lines = 0;
                 crtc.current_charline++;
                 crtc.current_charline &= 0x7f;
 
@@ -933,7 +934,7 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
     }
 #if SNOW
     /* snow ... */
-    int beampos = (maincpu_clk - crtc.rl_start) * crtc.hw_cols;
+    int beampos = (int)(maincpu_clk - crtc.rl_start) * crtc.hw_cols;
     int width =  crtc.rl_visible * crtc.hw_cols;
 
     if (beampos >= 0 && beampos < width) {
