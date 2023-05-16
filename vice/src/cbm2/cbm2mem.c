@@ -418,6 +418,20 @@ static void store_watch(uint16_t addr, uint8_t value)
     _mem_write_tab[cbm2mem_bank_exec][addr >> 8](addr, value);
 }
 
+static uint8_t zero_read_ind_watch(uint16_t addr)
+{
+    addr &= 0xff;
+    monitor_watch_push_load_addr(addr, e_comp_space);
+    return _mem_read_tab[cbm2mem_bank_ind][0](addr);
+}
+
+static void zero_store_ind_watch(uint16_t addr, uint8_t value)
+{
+    addr &= 0xff;
+    monitor_watch_push_store_addr(addr, e_comp_space);
+    _mem_write_tab[cbm2mem_bank_ind][0](addr, value);
+}
+
 static uint8_t read_ind_watch(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
@@ -628,9 +642,10 @@ void mem_initialize_memory(void)
         _mem_write_tab_watch[i] = store_watch;
         _mem_write_ind_tab_watch[i] = store_ind_watch;
     }
-    /* FIXME: what about _ind_tab_watch ? */
     _mem_read_tab_watch[0] = zero_read_watch;
     _mem_write_tab_watch[0] = zero_store_watch;
+    _mem_read_ind_tab_watch[0] = zero_read_ind_watch;
+    _mem_write_ind_tab_watch[0] = zero_store_ind_watch;
 }
 
 void mem_initialize_memory_bank(int i)
