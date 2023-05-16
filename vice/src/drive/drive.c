@@ -197,6 +197,9 @@ int drive_init(void)
 
     }
 
+    driverom_load_images();
+    /* Do not error out if _SOME_ images are not found, ie. FD2K/4K, CMDHD */
+#if 0
     if (driverom_load_images() < 0) {
         resources_set_int("Drive8Type", DRIVE_TYPE_NONE);
         resources_set_int("Drive9Type", DRIVE_TYPE_NONE);
@@ -204,6 +207,7 @@ int drive_init(void)
         resources_set_int("Drive11Type", DRIVE_TYPE_NONE);
         return -1;
     }
+#endif
 
     log_message(drive_log, "Finished loading ROM images.");
     rom_loaded = 1;
