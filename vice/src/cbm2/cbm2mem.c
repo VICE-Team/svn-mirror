@@ -558,10 +558,6 @@ void mem_toggle_watchpoints(int flag, void *context)
 {
     mem_update_tab_ptrs(flag);
     watchpoints_active = flag;
-    if (!flag) {
-        cbm2mem_set_bank_exec(cbm2mem_bank_exec);
-        cbm2mem_set_bank_ind(cbm2mem_bank_ind);
-    }
 }
 
 /* ------------------------------------------------------------------------- */
