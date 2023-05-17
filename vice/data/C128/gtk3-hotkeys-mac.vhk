@@ -1,7 +1,7 @@
 # VICE Gtk3 Hotkeys for x128, MacOS version
 #
 # Author:   Bas Wassink
-# Updated:  2023-02-04
+# Updated:  2023-05-17
 #
 # See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.
@@ -32,6 +32,12 @@ smart-attach        <Command>a
 
 # "File" - cartridge items
 !include common/gtk3-hotkeys-cartridge-mac.vhk
+
+# "File" - printer items
+printer-formfeed-4          <Command>4
+printer-formfeed-5          <Command>5
+printer-formfeed-6          <Command>6
+printer-formfeed-userport   <Command>3
 
 # "File" - monitor, reset, quit
 monitor-open        <Command>h
