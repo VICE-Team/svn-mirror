@@ -347,6 +347,76 @@ static const ui_menu_item_t file_menu_cart[] = {
 };
 /* }}} */
 
+/* {{{ printer_submenu */
+/** \brief  'File' menu - printer submenu (with userport printer)
+ *
+ * C64, C64SC, SCPU64, C128, VIC20, PET, CBM6x0.
+ */
+static const ui_menu_item_t printer_submenu[] = {
+    { "Send formfeed to printer #4", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_4,
+      NULL, false },
+    { "Send formfeed to printer #5", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_5,
+      NULL, false },
+    { "Send formfeed to plotter #6", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_6,
+      NULL, false },
+    { "Send formfeed to userport printer", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_USERPORT,
+      NULL, false },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+/* }}} */
+
+/* {{{ file_menu_printer_no_userport */
+/** \brief  'File' menu - printer submenu (without userport printer)
+ *
+ * C64DTV, PLUS4, CBM5x0.
+ */
+static const ui_menu_item_t printer_submenu_no_userport[] = {
+    { "Send formfeed to printer #4", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_4,
+      NULL, false },
+    { "Send formfeed to printer #5", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_5,
+      NULL, false },
+    { "Send formfeed to plotter #6", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_PRINTER_FORMFEED_6,
+      NULL, false },
+    UI_MENU_TERMINATOR
+};
+/* }}} */
+
+/* {{{ file_menu_print */
+/** \brief  'File' menu - printer section (with userport printer)
+ *
+ * C64, C64SC, SCPU64, C128, VIC20, PET, CBM6x0.
+ */
+static const ui_menu_item_t file_menu_printer[] = {
+    { "Printer/plotter",    UI_MENU_TYPE_SUBMENU,
+      0,
+      printer_submenu, false },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR,
+};
+/* }}} */
+
+/* {{{ file_menu_printer_no_userport */
+/** \brief  'File' menu - printer section (without userport printer)
+ *
+ * C64DTV, PLUS4, CBM5x0.
+ */
+static const ui_menu_item_t file_menu_printer_no_userport[] = {
+    { "Printer/plotter",    UI_MENU_TYPE_SUBMENU,
+      0,
+      printer_submenu_no_userport, false },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR,
+};
+/* }}} */
+
 /* {{{ file_menu_tail */
 /** \brief  'File' menu - tail section
  */
@@ -748,6 +818,12 @@ static const ui_menu_item_t *file_menu_tape_section = NULL;
  */
 static const ui_menu_item_t *file_menu_cart_section = NULL;
 
+/** \brief  'File' menu - printer section pointer
+ *
+ * Set by ui_machine_menu_bar_create().
+ */
+static const ui_menu_item_t *file_menu_printer_section = NULL;
+
 /** \brief  'Settings' menu - joystick section pointer
  *
  * Set by ui_machine_menu_bar_create().
@@ -802,50 +878,59 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
 
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_C64DTV:
+            file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_SCPU64:
-            file_menu_cart_section = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_C128:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_VIC20:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer;
             break;
 
         case VICE_MACHINE_PLUS4:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM5x0:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM6x0:
-            file_menu_tape_section = file_menu_tape;
-            file_menu_cart_section = file_menu_cart;
+            file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart;
+            file_menu_printer_section = file_menu_printer;
             break;
 
         case VICE_MACHINE_PET:
-            file_menu_tape_section = file_menu_tape_xpet;
+            file_menu_tape_section    = file_menu_tape_xpet;
+            file_menu_printer_section = file_menu_printer;
             break;
 
         case VICE_MACHINE_VSID:
@@ -863,6 +948,9 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
     }
     if (file_menu_cart_section != NULL) {
         ui_menu_add(file_submenu, file_menu_cart_section, window_id);
+    }
+    if (file_menu_printer_section != NULL) {
+        ui_menu_add(file_submenu, file_menu_printer_section, window_id);
     }
     ui_menu_add(file_submenu, file_menu_tail, window_id);
 

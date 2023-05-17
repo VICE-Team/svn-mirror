@@ -323,6 +323,12 @@ enum {
     /* PET */
     ACTION_DIAGNOSTIC_PIN_TOGGLE,
 
+    /* Printers and plotters */
+    ACTION_PRINTER_FORMFEED_4,
+    ACTION_PRINTER_FORMFEED_5,
+    ACTION_PRINTER_FORMFEED_6,
+    ACTION_PRINTER_FORMFEED_USERPORT,
+
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 

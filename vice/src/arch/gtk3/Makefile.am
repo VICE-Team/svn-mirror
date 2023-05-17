@@ -13,6 +13,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
@@ -62,6 +63,7 @@ libarch_a_SOURCES = \
 	actions-joystick.c \
 	actions-machine.c \
 	actions-media.c \
+	actions-printer.c \
 	actions-settings.c \
 	actions-snapshot.c \
 	actions-speed.c \
@@ -156,6 +158,7 @@ EXTRA_DIST = \
 	actions-joystick.h \
 	actions-machine.h \
 	actions-media.h \
+	actions-printer.h \
 	actions-settings.h \
 	actions-snapshot.h \
 	actions-speed.h \
