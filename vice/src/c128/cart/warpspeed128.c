@@ -50,6 +50,13 @@
 #define DBG(x)
 #endif
 
+/*
+     Note: the actual cartridge contains both a C64 and a C128 ROM, which can
+    be selected with a switch. We implement them as if these two ROMs were
+    different cartridges - this way they can be selected by using the other
+    .crt file, instead of having to flip the switch in the user interface.
+*/
+
 #define WARPSPEED_ROM_SIZE  0x4000
 
 /* ---------------------------------------------------------------------*/
