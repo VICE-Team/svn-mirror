@@ -16,6 +16,7 @@ ARGS="
     --enable-midi \
     --enable-cpuhistory \
     --with-unzip-bin \
+    --with-libcurl \
     "
 
 # Set configure options, check UI, set OTHER_UI
