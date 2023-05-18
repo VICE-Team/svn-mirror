@@ -13,6 +13,7 @@ Installed-Size: __INSTALLED_SIZE__
 Conflicts: vice, headlessvice, gtk3vice, sdl1vice
 Depends: libasound2,
  libc6,
+ libcurl4,
  libflac8,
  libgcc-s1,
  libgif7,
