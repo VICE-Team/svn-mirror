@@ -127,6 +127,7 @@ VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the us
 VICE_ARG_ENABLE_LIST(realdevice,        [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(rs232,             [  --disable-rs232         disable RS232 support])
 VICE_ARG_ENABLE_LIST(openmp,            [  --disable-openmp        disable OpenMP acceleration])
+VICE_ARG_ENABLE_LIST(wic64,             [  --enable-wic64          enable WIC64 emulation])
 
 dnl
 dnl Developer options
@@ -492,6 +493,7 @@ USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
 HAVE_LIBCURL_SUPPORT="no "
+HAVE_WIC64_SUPPORT="no "
 
 
 dnl Why do we have this?
@@ -1153,7 +1155,6 @@ if test x"$enable_openmp" != "xno"; then
     fi
   fi
 fi
-
 
 dnl Check for threading code debugging
 AM_CONDITIONAL(HAVE_DEBUG_THREADS, test x"$enable_debug_threads" = "xyes")
@@ -2160,6 +2161,11 @@ fi
 AC_SUBST(ZLIB_LIBS)
 
 
+dnl --- WIC64 ---
+if test x"$enable_wic64" = "xyes"; then
+  with_libcurl="yes"
+fi
+
 dnl --- Curl ---
 if test x"$with_libcurl" = "xyes"; then
   PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
@@ -2173,6 +2179,16 @@ if test x"$with_libcurl" = "xyes"; then
   AC_DEFINE(HAVE_LIBCURL, , [libcurl support])
 fi
 
+dnl ----- WIC64 -----
+WIC64_LIBS=""
+if test x"$enable_wic64" = "xyes"; then
+  if test x"$HAVE_LIBCURL_SUPPORT" = "xyes" ; then
+    AC_DEFINE([HAVE_WIC64], [], [WIC64 support])
+    HAVE_WIC64_SUPPORT="yes"
+  else
+    echo "WIC64 requires libcurl, which wasn't found."
+  fi
+fi
 
 dnl ----- Netplay Support -----
 NETPLAY_LIBS=
@@ -3819,6 +3835,7 @@ echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
 echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
 echo "Network capture/injection support: $HAVE_RAWNET_SUPPORT (--enable/disable-ethernet)"
 echo "libcurl support                  : $HAVE_LIBCURL_SUPPORT (--with/without-libcurl)"
+echo "WIC64 support                    : $HAVE_WIC64_SUPPORT (--enable/disable-wic64)"
 
 echo ""
 echo "DRIVE"

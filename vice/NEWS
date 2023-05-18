@@ -18,6 +18,14 @@ Before reporting bugs, always try with a clean config: Run the emulator
 with the "-default" command line argument or use "restore default config"
 in the UI).
 
+* Changes in Vice 3.7.1
+=======================
+
+** general
+----------
+
+- added WIC64 support for C64,C128,SCPU64
+
 
 * Changes in Vice 3.7
 =====================
