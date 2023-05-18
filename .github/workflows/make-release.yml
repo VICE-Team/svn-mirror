@@ -339,7 +339,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y autoconf automake build-essential byacc devscripts dos2unix fakeroot flex xa65
-          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev curl
+          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev libcurl-dev
           sudo apt install -y ${{ matrix.ui.deps }}
 
       - name: Build
