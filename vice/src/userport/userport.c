@@ -562,7 +562,7 @@ static const struct userport_opt_s id_match[] = {
 #endif
 #ifdef HAVE_WIC64
     { "wic64",              USERPORT_DEVICE_WIC64 },
-#endif    
+#endif
     { "space",              USERPORT_DEVICE_SPACEBALLS },
     { "spaceballs",         USERPORT_DEVICE_SPACEBALLS },
     { NULL, -1 }
