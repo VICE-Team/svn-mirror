@@ -217,7 +217,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-libcurl
+            mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-gtk3
 
       - name: Install SDL2 Dependencies if Applicable
@@ -246,7 +246,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-libcurl
+            mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
 
@@ -339,7 +339,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y autoconf automake build-essential byacc devscripts dos2unix fakeroot flex xa65
-          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev libcurl-dev
+          sudo apt install -y libasound-dev libflac-dev libgif-dev libmp3lame-dev libmpg123-dev libpcap-dev libvorbis-dev curl
           sudo apt install -y ${{ matrix.ui.deps }}
 
       - name: Build
