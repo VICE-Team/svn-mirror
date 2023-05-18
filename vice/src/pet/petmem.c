@@ -1745,7 +1745,7 @@ void mem_inject_key(uint16_t addr, uint8_t value)
 
 int mem_rom_trap_allowed(uint16_t addr)
 {
-    return (addr >= 0xf000) && !(petmem_map_reg & 0x80);
+    return (addr >= 0xf000) && !(petmem_map_reg & FFF0_ENABLED);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1903,10 +1903,8 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     switch (bank) {
         case bank_cpu:      /* current */
             return mem_read(addr);
-            break;
         case bank_extram:       /* extended RAM area (8x96, SuperPET) */
             return mem_ram[addr + EXT_RAM];
-            break;
         case bank_io:          /* io */
             if (addr >= 0xe800 && addr < 0xe900) {
                 return read_io_e8(addr);
@@ -1936,35 +1934,51 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case bank_cpu:      /* current */
-            return mem_read(addr); /* FIXME */
-            break;
-        case bank_io:           /* io */
-            if (addr >= 0xe800 && addr < 0xe900) {
+            if ((petmem_map_reg & (FFF0_ENABLED|FFF0_IO_PEEK_THROUGH)) ==
+                                  (FFF0_ENABLED)) {
+                /* There is expansion RAM at E8xx, no I/O. */
+                break;
+            }
+            goto check_io_range;
+        case bank_cpu6809:
+            if (spet_flat_mode) {
+                /* There is only RAM visible in this mode */
+                break;
+            }
+            /* FALL THROUGH */
+            /* to check for potential IO addresses */
+        case bank_io:       /* io */
+        check_io_range:
+            if (addr >= 0xE800 && addr < 0xE900) {
                 return peek_bank_io(addr);
             }
-            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            if (petres.superpet && (addr & 0xFF00) == 0xEF00) {
                 return read_super_io(addr);
             }
-            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            if (addr >= 0xE900 && addr < 0xE800 + petres.IOSize) {
                 uint8_t result;
                 /* is_peek_access = 1; FIXME */
                 result = read_unused(addr);
                 /* is_peek_access = 0; FIXME */
                 return result;
             }
+            /* FALLS THROUGH TO normal read with side effects */
     }
+    /* For extram, rom, cpu/cpu6809 when not accessing I/O, and ram: */
     return mem_bank_read(bank, addr, context);
 }
 
-/* these functions should probably use petmem_map_reg to determine the
- * current mem config */
 int mem_get_current_bank_config(void) {
-    return 0; /* TODO: not implemented yet */
+    if (petres.superpet &&
+            petres.superpet_cpu_switch == SUPERPET_CPU_6809) {
+        return bank_cpu6809;
+    } else {
+        return bank_cpu;
+    }
 }
 
 uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
-    /* TODO, config not implemented yet */
-    return mem_bank_peek(bank_cpu, addr, context);
+    return mem_bank_peek(config, addr, context);
 }
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
