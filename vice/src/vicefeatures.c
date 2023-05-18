@@ -178,6 +178,13 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+/* All? */
+    { "HAVE_LIBCURL", "Enable libcurl for WiC64",
+#ifndef HAVE_LIBCURL
+        0 },
+#else
+        1 },
+#endif
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_LIBIEEE1284", "Define to 1 if you have the `ieee1284' library", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284
