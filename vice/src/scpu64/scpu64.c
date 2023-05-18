@@ -773,7 +773,7 @@ int machine_resources_init(void)
         init_resource_fail("userport petscii snes pad");
         return -1;
     }
-#ifdef USERPORT_EXPERIMENTAL_DEVICES
+#ifdef HAVE_WIC64
     if (userport_wic64_resources_init() < 0) {
         init_resource_fail("userport wic64");
         return -1;

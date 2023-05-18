@@ -56,6 +56,7 @@ static type2text_t device_type_desc[] = {
     { USERPORT_DEVICE_TYPE_AUDIO_OUTPUT, "Audio output" },
     { USERPORT_DEVICE_TYPE_SAMPLER, "Sampler" },
     { USERPORT_DEVICE_TYPE_RTC, "Real-time clock" },
+    { USERPORT_DEVICE_TYPE_WIFI, "WiFi modem" },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { USERPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
 #endif
@@ -558,8 +559,10 @@ static const struct userport_opt_s id_match[] = {
     { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { "wic",                USERPORT_DEVICE_WIC64 },
-    { "wic64",              USERPORT_DEVICE_WIC64 },
 #endif
+#ifdef HAVE_WIC64
+    { "wic64",              USERPORT_DEVICE_WIC64 },
+#endif    
     { "space",              USERPORT_DEVICE_SPACEBALLS },
     { "spaceballs",         USERPORT_DEVICE_SPACEBALLS },
     { NULL, -1 }
