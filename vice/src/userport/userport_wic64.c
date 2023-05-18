@@ -284,8 +284,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
                 }
                 curl_multi_remove_handle(cm, e);
                 curl_easy_cleanup(e);
-            }
-            else {
+            } else {
                 DBG(("%s: CURLMsg (%u)", __FUNCTION__, msg->msg));
             }
         }
@@ -704,7 +703,6 @@ static void do_command_16(void)
 {
     DBG(("%s: set timezone", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-
     wic64_timezone[0] = commandbuffer[0];
     wic64_timezone[1] = commandbuffer[1];
 
@@ -713,11 +711,9 @@ static void do_command_16(void)
         DBG(("setting tz to %s: %dh:%dm", timezones[tzidx].tz_name,
              timezones[tzidx].hour_offs, timezones[tzidx].min_offs));
         current_tz = tzidx;
-    }
-    else {
+    } else {
         DBG(("tzidx = %d - out of range", tzidx));
     }
-
     /* FIXME: send a reply or not? */
     send_reply("Timezone set");
 }
