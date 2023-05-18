@@ -237,8 +237,7 @@ static int scan_reply(const uint8_t *buffer, int len)
         /* DBG(("%s: found sectoken: %s", __FUNCTION__, t)); */
         p = t + strlen(TOKEN_NAME) + 1;
         del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-        if (del)
-        {
+        if (del) {
             *del = 0; /* terminate string */
             strncpy(sec_token, p, 31);
             DBG(("%s: token = %s", __FUNCTION__, sec_token));
@@ -251,8 +250,7 @@ static int scan_reply(const uint8_t *buffer, int len)
         (t = strstr((const char*)buffer, sec_token))) {
         p = t + strlen(sec_token) + 1;
         del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-        if (del)
-        {
+        if (del) {
             *del = 0; /* terminate string */
             strncpy(session_id, p, 31);
             DBG(("%s: session id = %s", __FUNCTION__, session_id));
@@ -402,17 +400,19 @@ static void hexdump(const char *buf, int len)
     while (len > 0) {
         printf("%04x: ", (unsigned) idx);
         for (i = 0; i < 16; i++) {
-            if (i < len)
+            if (i < len) {
                 printf("%02x ", (uint8_t) buf[idx + i]);
-            else
+            } else {
                 printf("   ");
+            }
         }
         printf ("|");
         for (i = 0; i < 16; i++) {
-            if (i < len)
+            if (i < len) {
                 printf("%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
-            else
+            } else {
                 printf(" ");
+            }
         }
         printf ("|\n");
         idx += 16;
@@ -853,37 +853,37 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
     if (pulse == 1) {
         if (wic64_inputmode) {
             switch (input_state) {
-            case 0:
-                input_length = 0;
-                commandptr = 0;
-                if (value == 0x57) {    /* 'w' */
+                case 0:
+                    input_length = 0;
+                    commandptr = 0;
+                    if (value == 0x57) {    /* 'w' */
+                        input_state++;
+                    }
+                    handshake_flag2();
+                    break;
+                case 1: /* lenght low byte */
+                    input_length = value;
                     input_state++;
-                }
-                handshake_flag2();
-                break;
-            case 1: /* lenght low byte */
-                input_length = value;
-                input_state++;
-                handshake_flag2();
-                break;
-            case 2: /* lenght high byte */
-                input_length |= (value << 8);
-                input_state++;
-                handshake_flag2();
-                break;
-            case 3: /* command */
-                input_command = value;
-                input_state++;
-                handshake_flag2();
-                break;
-            default:    /* additional data depending on command */
-                if ((commandptr + 4) < input_length) {
-                    commandbuffer[commandptr] = value;
-                    commandptr++;
-                    commandbuffer[commandptr] = 0;
-                }
-                handshake_flag2();
-                break;
+                    handshake_flag2();
+                    break;
+                case 2: /* lenght high byte */
+                    input_length |= (value << 8);
+                    input_state++;
+                    handshake_flag2();
+                    break;
+                case 3: /* command */
+                    input_command = value;
+                    input_state++;
+                    handshake_flag2();
+                    break;
+                default:    /* additional data depending on command */
+                    if ((commandptr + 4) < input_length) {
+                        commandbuffer[commandptr] = value;
+                        commandptr++;
+                        commandbuffer[commandptr] = 0;
+                    }
+                    handshake_flag2();
+                    break;
             }
 #if 0
             DBG(("%s: input_state: %d input_length: %d input_command: %02x commandptr: %02x",
@@ -896,7 +896,9 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             }
 
         } else {
-            if (reply_length) reply_next_byte();
+            if (reply_length) {
+                reply_next_byte();
+            }
             //DBG(("%s: reply_length = %d - doing handshake now...", __FUNCTION__, reply_length));
             handshake_flag2();
         }
