@@ -56,7 +56,9 @@ static type2text_t device_type_desc[] = {
     { USERPORT_DEVICE_TYPE_AUDIO_OUTPUT, "Audio output" },
     { USERPORT_DEVICE_TYPE_SAMPLER, "Sampler" },
     { USERPORT_DEVICE_TYPE_RTC, "Real-time clock" },
+#ifdef HAVE_WIC64
     { USERPORT_DEVICE_TYPE_WIFI, "WiFi modem" },
+#endif
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { USERPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
 #endif
