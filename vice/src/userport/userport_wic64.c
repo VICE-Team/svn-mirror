@@ -25,7 +25,7 @@
  *
  */
 
-#define DEBUG_WIC64
+/* #define DEBUG_WIC64 */
 
 /* - WiC64 (C64/C128)
 
@@ -162,16 +162,18 @@ CURLM *cm;
 
 /* timezone mapping
    C64 sends just a number 0-31, bcd little endian in commandbuffer.
-   offsets can then be calculated. 
+   offsets can then be calculated.
    TBD, Fixme for day-wraparounds incl. dates
- */
-typedef struct tzones 
+*/
+typedef struct tzones
 {
-    int idx; char *tz_name; int hour_offs; int min_offs;
+    int idx;
+    char *tz_name;
+    int hour_offs;
+    int min_offs;
 } tzones_t;
 
-static tzones_t timezones[] = 
-{
+static tzones_t timezones[] = {
     { 0, "Greenwich Mean Time", 0, 0 },
     { 1, "Greenwich Mean Time", 0, 0 },
     { 2, "European Central Time", 1, 0 },
@@ -214,7 +216,7 @@ static size_t write_cb(char *data, size_t n, size_t l, void *userp)
     httpbufferptr += (n * l);
     return n*l;
 }
- 
+
 static void add_transfer(CURLM *cmulti, char *url)
 {
     CURL *eh = curl_easy_init();
@@ -222,7 +224,7 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
     /* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
-    curl_easy_setopt(eh, CURLOPT_USERAGENT, "ESP32HTTPClient"); 
+    curl_easy_setopt(eh, CURLOPT_USERAGENT, "ESP32HTTPClient");
     curl_multi_add_handle(cmulti, eh);
 }
 
@@ -230,33 +232,33 @@ static int scan_reply(const uint8_t *buffer, int len)
 {
     char *t, *p;
     uint8_t *del;
-    
+
     if ((t = strstr((const char*)buffer, TOKEN_NAME))) {
-	/* DBG(("%s: found sectoken: %s", __FUNCTION__, t)); */
-	p = t + strlen(TOKEN_NAME) + 1;
-	del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-	if (del)
-	{
-	    *del = 0; /* terminate string */
-	    strncpy(sec_token, p, 31);
-	    DBG(("%s: token = %s", __FUNCTION__, sec_token));
-	}
-	send_binary_reply(++del, 1); /* move over value 01 */
-	sec_init = 1;
-	return 0;
+        /* DBG(("%s: found sectoken: %s", __FUNCTION__, t)); */
+        p = t + strlen(TOKEN_NAME) + 1;
+        del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
+        if (del)
+        {
+            *del = 0; /* terminate string */
+            strncpy(sec_token, p, 31);
+            DBG(("%s: token = %s", __FUNCTION__, sec_token));
+        }
+        send_binary_reply(++del, 1); /* move over value 01 */
+        sec_init = 1;
+        return 0;
     }
     if (sec_init &&
-	(t = strstr((const char*)buffer, sec_token))) {
-	p = t + strlen(sec_token) + 1;
-	del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-	if (del)
-	{
-	    *del = 0; /* terminate string */
-	    strncpy(session_id, p, 31);
-	    DBG(("%s: session id = %s", __FUNCTION__, session_id));
-	}
-	send_binary_reply(++del, 2); /* move over value 01 */
-	return 0;
+        (t = strstr((const char*)buffer, sec_token))) {
+        p = t + strlen(sec_token) + 1;
+        del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
+        if (del)
+        {
+            *del = 0; /* terminate string */
+            strncpy(session_id, p, 31);
+            DBG(("%s: session id = %s", __FUNCTION__, session_id));
+        }
+        send_binary_reply(++del, 2); /* move over value 01 */
+        return 0;
     }
     return 1; /* send reply */
 }
@@ -268,43 +270,43 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     int msgs_left = -1;
     curl_multi_perform(cm, &still_alive);
     if (still_alive) {
-	if((msg = curl_multi_info_read(cm, &msgs_left))) {
-	    if(msg->msg == CURLMSG_DONE) {
-		char *url;
-		CURL *e = msg->easy_handle;
-		curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
-		DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
-		     msg->data.result, curl_easy_strerror(msg->data.result), url));
-		res = curl_easy_perform(msg->easy_handle);
-		if(res != CURLE_OK) {
-		    DBG(("%s: curl_easy_perform() failed: %s\n", __FUNCTION__,
-			 curl_easy_strerror(res)));
-		}
-		curl_multi_remove_handle(cm, e);
-		curl_easy_cleanup(e);
-	    }
-	    else {
-		DBG(("%s: CURLMsg (%u)", __FUNCTION__, msg->msg));
-	    }
-	}
+        if((msg = curl_multi_info_read(cm, &msgs_left))) {
+            if(msg->msg == CURLMSG_DONE) {
+                char *url;
+                CURL *e = msg->easy_handle;
+                curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+                DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
+                     msg->data.result, curl_easy_strerror(msg->data.result), url));
+                res = curl_easy_perform(msg->easy_handle);
+                if(res != CURLE_OK) {
+                    DBG(("%s: curl_easy_perform() failed: %s\n", __FUNCTION__,
+                         curl_easy_strerror(res)));
+                }
+                curl_multi_remove_handle(cm, e);
+                curl_easy_cleanup(e);
+            }
+            else {
+                DBG(("%s: CURLMsg (%u)", __FUNCTION__, msg->msg));
+            }
+        }
     } else {
-	curl_multi_cleanup(cm);
-	curl_global_cleanup();
-	alarm_unset(http_get_alarm);
-	if (httpbufferptr > 0) {
-	    DBG(("%s: got %lu bytes", __FUNCTION__, httpbufferptr));
-	    if (scan_reply(httpbuffer, httpbufferptr))
-		send_binary_reply(httpbuffer, httpbufferptr);
-	} else {
-	    DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
-	    send_reply("!0");
-	}
+        curl_multi_cleanup(cm);
+        curl_global_cleanup();
+        alarm_unset(http_get_alarm);
+        if (httpbufferptr > 0) {
+            DBG(("%s: got %lu bytes", __FUNCTION__, httpbufferptr));
+            if (scan_reply(httpbuffer, httpbufferptr))
+                send_binary_reply(httpbuffer, httpbufferptr);
+        } else {
+            DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
+            send_reply("!0");
+        }
     }
 }
 
 static void do_http_get(char *hostname, char *path, unsigned short server_port)
 {
-  
+
     char thisurl[0x1000];
 
     strcpy(thisurl, "http://");
@@ -324,8 +326,8 @@ static void do_http_get(char *hostname, char *path, unsigned short server_port)
     add_transfer(cm, thisurl);
 
     if (http_get_alarm == NULL) {
-	http_get_alarm = alarm_new(maincpu_alarm_context, "HTTPGetAlarm",
-				   http_get_alarm_handler, NULL);
+        http_get_alarm = alarm_new(maincpu_alarm_context, "HTTPGetAlarm",
+                                   http_get_alarm_handler, NULL);
     }
     alarm_unset(http_get_alarm);
     alarm_set(http_get_alarm, maincpu_clk + (312 * 65));
@@ -334,9 +336,9 @@ static void do_http_get(char *hostname, char *path, unsigned short server_port)
 /* ---------------------------------------------------------------------*/
 #define WLAN_SSID   "VICE WiC64 emulation"
 #define WLAN_RSSI   "123"
-static unsigned char wic64_mac_address[6] = { 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff }; // {0x00, 0xd8, 0x61, 0x6f, 0x0f, 0x8b}; //
+static unsigned char wic64_mac_address[6] = { 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff };
 static unsigned char wic64_internal_ip[4] = { 192, 168, 188, 5 };
-static unsigned char wic64_external_ip[4] = { 204, 234, 1, 4 }; //{ 178, 191, 234, 48 };
+static unsigned char wic64_external_ip[4] = { 204, 234, 1, 4 };
 static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
@@ -396,25 +398,26 @@ static void reply_next_byte(void)
 static void hexdump(const char *buf, int len)
 {
 #ifdef DEBUG_WIC64
-    int i, idx = 0;;
+    int i;
+    int idx = 0;;
     while (len > 0) {
-	printf("%04x: ", (unsigned) idx);
-	for (i = 0; i < 16; i++) {
-	    if (i < len)
-		printf("%02x ", (uint8_t) buf[idx + i]);
-	    else
-		printf("   ");
-	}
-	printf ("|");
-	for (i = 0; i < 16; i++) {
-	    if (i < len)
-		printf("%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
-	    else
-		printf(" ");
-	}
-	printf ("|\n");
-	idx += 16;
-	len -= 16;
+        printf("%04x: ", (unsigned) idx);
+        for (i = 0; i < 16; i++) {
+            if (i < len)
+                printf("%02x ", (uint8_t) buf[idx + i]);
+            else
+                printf("   ");
+        }
+        printf ("|");
+        for (i = 0; i < 16; i++) {
+            if (i < len)
+                printf("%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
+            else
+                printf(" ");
+        }
+        printf ("|\n");
+        idx += 16;
+        len -= 16;
     }
 #endif
 }
@@ -448,7 +451,7 @@ static void do_command_01_0f(int encode)
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    
+
     /* if encode is enabled, there might be binary data after <$, which is
        then encoded as a stream of hex digits */
     if (encode) {
@@ -520,9 +523,9 @@ static void do_command_01_0f(int encode)
         sprintf(macstring, "%02x%02x%02x%02x%02x%02x%s",
                 wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2],
                 wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5],
-		session_id);
+                session_id);
         strcat(temppath, macstring);
-	strcat(temppath, p + 4);
+        strcat(temppath, p + 4);
         /* copy back to path buffer */
         strcpy(path, temppath);
     }
@@ -535,7 +538,7 @@ static void do_command_01_0f(int encode)
         /* add the default server address */
         strcat(temppath, default_server_hostname);
         /* copy string after %ser */
-	strcat(temppath, p + 4);
+        strcat(temppath, p + 4);
         /* copy back to path buffer */
         strcpy(path, temppath);
         DBG(("temppath:%s", temppath));
@@ -626,7 +629,7 @@ static void do_command_0e(void)
 {
     DBG(("%s: set udp port", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    
+
     wic64_udp_port = commandbuffer[0];
     wic64_udp_port += commandbuffer[1] << 8;
     DBG(("set udp port to %d", wic64_udp_port));
@@ -680,7 +683,7 @@ static void do_command_14(void)
 static void do_command_15(void)
 {
     int dst;
-    
+
     /* FIXME: should also send time+date (in what format?) */
     DBG(("%s: get timezone + time", __FUNCTION__));
     static char timestr[64];
@@ -688,11 +691,11 @@ static void do_command_15(void)
     struct tm *tm = localtime(&t);
     dst = tm->tm_isdst; /* this is somehow wrong, get dst vom target tz */
     tm = gmtime(&t); /* now get the UTC */
-    
+
     snprintf(timestr, 63, "%02d:%02d:%02d %02d-%02d-%04d",
-	     (tm->tm_hour + timezones[current_tz].hour_offs + ((dst > 0) ? 1 : 0)) % 24, /* Fixme, wrap arounds */
-	     (tm->tm_min + timezones[current_tz].min_offs % 60),
-	     tm->tm_sec, tm->tm_mday, tm->tm_mon+1, tm->tm_year + 1900);
+             (tm->tm_hour + timezones[current_tz].hour_offs + ((dst > 0) ? 1 : 0)) % 24, /* Fixme, wrap arounds */
+             (tm->tm_min + timezones[current_tz].min_offs % 60),
+             tm->tm_sec, tm->tm_mday, tm->tm_mon+1, tm->tm_year + 1900);
     send_reply(timestr);
 }
 
@@ -701,19 +704,20 @@ static void do_command_16(void)
 {
     DBG(("%s: set timezone", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    
+
     wic64_timezone[0] = commandbuffer[0];
     wic64_timezone[1] = commandbuffer[1];
 
     int tzidx = commandbuffer[1] * 10 + commandbuffer[0];
     if (tzidx < sizeof(timezones) / sizeof (tzones_t)) {
-	DBG(("setting tz to %s: %dh:%dm", timezones[tzidx].tz_name,
-	     timezones[tzidx].hour_offs, timezones[tzidx].min_offs));
-	current_tz = tzidx;
+        DBG(("setting tz to %s: %dh:%dm", timezones[tzidx].tz_name,
+             timezones[tzidx].hour_offs, timezones[tzidx].min_offs));
+        current_tz = tzidx;
     }
-    else
-	DBG(("tzidx = %d - out of range", tzidx));
-    
+    else {
+        DBG(("tzidx = %d - out of range", tzidx));
+    }
+
     /* FIXME: send a reply or not? */
     send_reply("Timezone set");
 }
@@ -728,8 +732,8 @@ static void do_command_1e(void)
 /* send tcp */
 static void do_command_1f(void)
 {
-     DBG(("%s: send TCP - not implemented", __FUNCTION__));
-     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    DBG(("%s: send TCP - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     /* this command sends no reply */
 }
 
@@ -755,91 +759,91 @@ static void do_command(void)
 {
     switch (input_command) {
     case 0x01: /* http get */
-	do_command_01_0f(0);
-	break;
+        do_command_01_0f(0);
+        break;
     case 0x02: /* set wlan ssid + password */
-	do_command_02();
-	break;
+        do_command_02();
+        break;
     case 0x03: /* standard firmware update */
-	DBG(("command 03: standard firmware update"));
-	/* this command sends no reply */
-	break;
+        DBG(("command 03: standard firmware update"));
+        /* this command sends no reply */
+        break;
     case 0x04: /* developer firmware update */
-	DBG(("command 04: developer firmware update"));
-	/* this command sends no reply */
-	send_reply("OK");
-	break;
+        DBG(("command 04: developer firmware update"));
+        /* this command sends no reply */
+        send_reply("OK");
+        break;
     case 0x05: /* developer special update */
-	DBG(("command 05: developer special update"));
-	/* this command sends no reply */
-	break;
+        DBG(("command 05: developer special update"));
+        /* this command sends no reply */
+        break;
     case 0x06: /* get wic64 ip address */
-	do_command_06();
-	break;
+        do_command_06();
+        break;
     case 0x07: /* get firmware stats */
-	do_command_07();
-	break;
+        do_command_07();
+        break;
     case 0x08: /* set default server */
-	do_command_08();
-	break;
+        do_command_08();
+        break;
     case 0x09: /* prints output to serial console */
-	do_command_09();
-	break;
+        do_command_09();
+        break;
     case 0x0a: /* get udp package */
-	do_command_0a();
-	break;
+        do_command_0a();
+        break;
     case 0x0b: /* send udp package */
-	do_command_0b();
-	break;
+        do_command_0b();
+        break;
     case 0x0c: /* get list of all detected wlan ssids */
-	do_command_0c();
-	break;
+        do_command_0c();
+        break;
     case 0x0d: /* set wlan via scan id */
-	do_command_0d();
-	break;
+        do_command_0d();
+        break;
     case 0x0e: /* set udp port */
-	do_command_0e();
-	break;
+        do_command_0e();
+        break;
     case 0x0f: /* send http with decoded url for PHP */
-	do_command_01_0f(1);
-	break;
+        do_command_01_0f(1);
+        break;
     case 0x10: /* get connected wlan name */
-	do_command_10();
-	break;
+        do_command_10();
+        break;
     case 0x11: /* get wlan rssi signal level */
-	do_command_11();
-	break;
+        do_command_11();
+        break;
     case 0x12: /* get default server */
-	do_command_12();
-	break;
+        do_command_12();
+        break;
     case 0x13: /* get external ip address */
-	do_command_13();
-	break;
+        do_command_13();
+        break;
     case 0x14: /* get wic64 MAC address */
-	do_command_14();
-	break;
+        do_command_14();
+        break;
     case 0x15: /* get timezone+time */
-	do_command_15();
-	break;
+        do_command_15();
+        break;
     case 0x16: /* set timezones */
-	do_command_16();
-	break;
+        do_command_16();
+        break;
     case 0x1e: /* get tcp */
-	do_command_1e();
-	break;
+        do_command_1e();
+        break;
     case 0x1f: /* send tcp */
-	do_command_1f();
-	break;
+        do_command_1f();
+        break;
     case 0x20: /* set tcp port */
-	do_command_20();
-	break;
+        do_command_20();
+        break;
     case 0x63: /* factory reset */
-	do_command_63();
-	break;
+        do_command_63();
+        break;
     default:
-	log_error(LOG_DEFAULT, "WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
-	input_state = 0;
-	send_reply("!0");
+        log_error(LOG_DEFAULT, "WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
+        input_state = 0;
+        send_reply("!0");
         break;
     }
 }
@@ -853,42 +857,42 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
     if (pulse == 1) {
         if (wic64_inputmode) {
             switch (input_state) {
-	    case 0:
-		input_length = 0;
-		commandptr = 0;
-		if (value == 0x57) {    /* 'w' */
-		    input_state++;
-		}
-		handshake_flag2();
+            case 0:
+                input_length = 0;
+                commandptr = 0;
+                if (value == 0x57) {    /* 'w' */
+                    input_state++;
+                }
+                handshake_flag2();
                 break;
-	    case 1: /* lenght low byte */
-		input_length = value;
-		input_state++;
-		handshake_flag2();
+            case 1: /* lenght low byte */
+                input_length = value;
+                input_state++;
+                handshake_flag2();
                 break;
-	    case 2: /* lenght high byte */
-		input_length |= (value << 8);
-		input_state++;
-		handshake_flag2();
+            case 2: /* lenght high byte */
+                input_length |= (value << 8);
+                input_state++;
+                handshake_flag2();
                 break;
-	    case 3: /* command */
-		input_command = value;
-		input_state++;
-		handshake_flag2();
+            case 3: /* command */
+                input_command = value;
+                input_state++;
+                handshake_flag2();
                 break;
-	    default:    /* additional data depending on command */
-		if ((commandptr + 4) < input_length) {
-		    commandbuffer[commandptr] = value;
-		    commandptr++;
-		    commandbuffer[commandptr] = 0;
-		}
-		handshake_flag2();
+            default:    /* additional data depending on command */
+                if ((commandptr + 4) < input_length) {
+                    commandbuffer[commandptr] = value;
+                    commandptr++;
+                    commandbuffer[commandptr] = 0;
+                }
+                handshake_flag2();
                 break;
             }
 #if 0
             DBG(("%s: input_state: %d input_length: %d input_command: %02x commandptr: %02x",
-		 __FUNCTION__,
-		 input_state, input_length, input_command, commandptr));
+                 __FUNCTION__,
+                 input_state, input_length, input_command, commandptr));
 #endif
             if ((input_state == 4) && ((commandptr + 4) >= input_length)) {
                 do_command();
@@ -897,8 +901,8 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
 
         } else {
             if (reply_length) reply_next_byte();
-	    //DBG(("%s: reply_length = %d - doing handshake now...", __FUNCTION__, reply_length));
-	    handshake_flag2();
+            //DBG(("%s: reply_length = %d - doing handshake now...", __FUNCTION__, reply_length));
+            handshake_flag2();
         }
     }
 }
@@ -916,10 +920,10 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 static void userport_wic64_store_pa2(uint8_t value)
 {
     /* DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length)); */
-    
+
     if ((wic64_inputmode == 1) && (value == 0) && (reply_length)) {
-	//reply_next_byte();
-	DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length));
+        //reply_next_byte();
+        DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length));
         handshake_flag2();
     }
     wic64_inputmode = value;
@@ -999,4 +1003,3 @@ static int userport_wic64_read_snapshot_module(snapshot_t *s)
 }
 
 #endif /* WIC64 */
-

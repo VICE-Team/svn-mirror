@@ -127,7 +127,6 @@ VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the us
 VICE_ARG_ENABLE_LIST(realdevice,        [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(rs232,             [  --disable-rs232         disable RS232 support])
 VICE_ARG_ENABLE_LIST(openmp,            [  --disable-openmp        disable OpenMP acceleration])
-VICE_ARG_ENABLE_LIST(wic64,             [  --enable-wic64          enable WIC64 emulation])
 
 dnl
 dnl Developer options
@@ -142,7 +141,7 @@ VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code 
 VICE_ARG_ENABLE_LIST(extra-warnings,    [  --enable-extra-warnings enable anal warnings [[default=no]]])
 VICE_ARG_ENABLE_LIST(io-simulation,     [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
 
-dnl Temporary for something mysterious
+dnl Needed for WIC64
 VICE_ARG_WITH_LIST(libcurl,             [  --with-libcurl          enable libcurl support [[default=no]]])
 
 dnl
@@ -2161,12 +2160,7 @@ fi
 AC_SUBST(ZLIB_LIBS)
 
 
-dnl --- WIC64 ---
-if test x"$enable_wic64" = "xyes"; then
-  with_libcurl="yes"
-fi
-
-dnl --- Curl ---
+dnl --- Curl / WIC64 ---
 if test x"$with_libcurl" = "xyes"; then
   PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
   if test x"$have_libcurl" = "xno"; then
@@ -2177,17 +2171,8 @@ if test x"$with_libcurl" = "xyes"; then
   VICE_LDFLAGS="$VICE_LDFLAGS $libcurl_LDFLAGS"
   LIBS="$LIBS $libcurl_LIBS"
   AC_DEFINE(HAVE_LIBCURL, , [libcurl support])
-fi
-
-dnl ----- WIC64 -----
-WIC64_LIBS=""
-if test x"$enable_wic64" = "xyes"; then
-  if test x"$HAVE_LIBCURL_SUPPORT" = "xyes" ; then
-    AC_DEFINE([HAVE_WIC64], [], [WIC64 support])
-    HAVE_WIC64_SUPPORT="yes"
-  else
-    echo "WIC64 requires libcurl, which wasn't found."
-  fi
+  AC_DEFINE([HAVE_WIC64], [], [WIC64 support])
+  HAVE_WIC64_SUPPORT="yes"
 fi
 
 dnl ----- Netplay Support -----
@@ -3835,7 +3820,6 @@ echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
 echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
 echo "Network capture/injection support: $HAVE_RAWNET_SUPPORT (--enable/disable-ethernet)"
 echo "libcurl support                  : $HAVE_LIBCURL_SUPPORT (--with/without-libcurl)"
-echo "WIC64 support                    : $HAVE_WIC64_SUPPORT (--enable/disable-wic64)"
 
 echo ""
 echo "DRIVE"
