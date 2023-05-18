@@ -963,7 +963,7 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-#ifdef HAVE_WIC64
+#ifdef HAVE_LIBCURL
     if (userport_wic64_resources_init() < 0) {
         init_resource_fail("userport wic64");
         return -1;
