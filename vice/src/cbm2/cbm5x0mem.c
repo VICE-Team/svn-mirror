@@ -739,10 +739,6 @@ void mem_initialize_memory(void)
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 }
 
-/*
- * TODO: does an indirect write to $0000 or $0001 write
- * to RAM or into the banking register?
- */
 void mem_initialize_memory_bank(int i)
 {
     int j;
@@ -1039,6 +1035,11 @@ static uint8_t peek_bank_io(uint16_t addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
+#define BANK_RAM_00     0x00    /* Only RAM */
+#define BANK_RAM_0F     0x0F    /* Only RAM */
+#define BANK_ROMIO      16      /* Like bank 15 but with ROM and I/O in place */
+#define BANK_CPU        17      /* What the CPU sees in its exec bank */
+
 #define MAXBANKS (2 + 16 + 2)
 
 static const char *banknames[MAXBANKS + 1] = {
@@ -1051,9 +1052,9 @@ static const char *banknames[MAXBANKS + 1] = {
 };
 
 static const int banknums[MAXBANKS + 1] = {
-    17, 17,
+    BANK_CPU, BANK_CPU,
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-    16, 16,
+    BANK_ROMIO, BANK_ROMIO,
     -1
 };
 
@@ -1125,15 +1126,15 @@ int mem_bank_flags_from_bank(int bank)
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case 17:                /* current */
+        case BANK_CPU:                /* current */
             return mem_read(addr);
-        case 16:                 /* romio */
+        case BANK_ROMIO:              /* romio */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return read_io(addr);
             }
             return _mem_read_tab[15][addr >> 8](addr);
         default:
-            if (bank >= 0 && bank <= 15) {
+            if (bank >= BANK_RAM_00 && bank <= BANK_RAM_0F) {
                 return read_ram_tab[bank](addr);
             }
     }
@@ -1143,31 +1144,35 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 /* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
-    if (bank == 16) {
-        if (addr >= 0xc000 && addr < 0xe000) {
+    if (bank == BANK_ROMIO ||
+        (bank == BANK_CPU && cbm2mem_bank_exec == BANK_RAM_0F) ) {
+        if (addr >= 0xD000 && addr < 0xE000) {
             return peek_bank_io(addr);
         }
     }
+    /* For other cases we access only RAM or banking registers,
+     * so there are no side effects; just fall back to read. */
     return mem_bank_read(bank, addr, context);
 }
 
 int mem_get_current_bank_config(void) {
-    return 0; /* TODO: not implemented yet */
+    return cbm2mem_bank_exec == BANK_RAM_0F ? BANK_ROMIO
+                                            : cbm2mem_bank_exec;
+    /* return BANK_CPU; could be another option */
 }
 
 uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
-    /* TODO, config not implemented yet */
-    return mem_bank_peek(0 /* current */, addr, context);
+    return mem_bank_peek(config, addr, context);
 }
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
-        case 17:                 /* current */
+        case BANK_CPU:                 /* current */
             mem_store(addr, byte);
             return;
-        case 16:
-            if (addr >= 0xd000 && addr <= 0xdfff) {
+        case BANK_ROMIO:
+            if (addr >= 0xD000 && addr <= 0xDFFF) {
                 store_io(addr, byte);
                 return;
             }
@@ -1206,7 +1211,7 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
     *base = 0xd000;
     *rows = 25;
     *columns = 40;
-    *bank = 16;
+    *bank = BANK_ROMIO;
 }
 
 /* used by autostart to locate and "read" kernal output on the current screen
