@@ -492,8 +492,6 @@ USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
 HAVE_LIBCURL_SUPPORT="no "
-HAVE_WIC64_SUPPORT="no "
-
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -2171,8 +2169,6 @@ if test x"$with_libcurl" = "xyes"; then
   VICE_LDFLAGS="$VICE_LDFLAGS $libcurl_LDFLAGS"
   LIBS="$LIBS $libcurl_LIBS"
   AC_DEFINE(HAVE_LIBCURL, , [libcurl support])
-  AC_DEFINE([HAVE_WIC64], [], [WIC64 support])
-  HAVE_WIC64_SUPPORT="yes"
 fi
 
 dnl ----- Netplay Support -----

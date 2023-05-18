@@ -67,7 +67,7 @@
 #include "machine.h"
 #include "uiapi.h"
 
-#ifdef HAVE_WIC64
+#ifdef HAVE_LIBCURL
 
 #include "log.h"
 #ifdef DEBUG_WIC64
