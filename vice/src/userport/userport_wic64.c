@@ -775,6 +775,46 @@ static void do_command_20(void)
     DBG(("set tcp port to %d", wic64_udp_port));
 }
 
+static void do_command_21(void)
+{
+    DBG(("%s: connect TCP - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    /* this command sends no reply */
+    send_reply("!E");
+}
+
+static void do_command_22(void)
+{
+    DBG(("%s: get TCP1 - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    /* this command sends no reply */
+    send_reply("!E");
+}
+
+static void do_command_23(void)
+{
+    DBG(("%s: send TCP1 - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    /* this command sends no reply */
+    send_reply("!E");
+}
+
+static void do_command_24(void)
+{
+    DBG(("%s: httppost - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    /* this command sends no reply */
+    send_reply("!E");
+}
+
+static void do_command_25(void)
+{
+    DBG(("%s: big loader - not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    /* this command sends no reply */
+    send_reply("!E");
+}
+
 /* factory reset */
 static void do_command_63(void)
 {
@@ -866,13 +906,31 @@ static void do_command(void)
     case 0x20: /* set tcp port */
         do_command_20();
         break;
+    case 0x21: /* connect TCP */
+        do_command_21();
+        break;
+    case 0x22: /* get tcp1 */
+        do_command_22();
+        break;
+    case 0x23: /* send tcp1  */
+        do_command_23();
+        break;
+    case 0x24: /* httppost  */
+        do_command_24();
+        break;
+    case 0x25: /* loading bigttp  */
+        do_command_25();
+        break;
+    case 0x26: /* getVersion  */
+        do_command_07(); /* same as cmd07 here */
+        break;
     case 0x63: /* factory reset */
         do_command_63();
         break;
     default:
         log_error(LOG_DEFAULT, "WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
         input_state = 0;
-        send_reply("!0");
+        send_reply("!E");
         break;
     }
 }
