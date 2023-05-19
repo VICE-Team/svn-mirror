@@ -49,6 +49,9 @@
 
 int vic20_vflihack_userport = 0xff;
 
+static int userport_pa6 = 1; /* HACK: this is also connected to tape sense */
+static int userport_pb = 0xff;
+
 void via2_store(uint16_t addr, uint8_t data)
 {
     viacore_store(machine_context.via2, addr, data);
@@ -70,6 +73,10 @@ static void set_ca2(via_context_t *via_context, int state)
 
 static void set_cb2(via_context_t *via_context, int state)
 {
+    if (!via_context->cb2_is_input) {
+        /* CB2 goes to userport pin M */
+        store_userport_pa2(state);
+    }
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num, int value, CLOCK rclk)
@@ -135,11 +142,14 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
     store_joyport_dig(JOYPORT_1, joy_bits, 0x17);
 
     tapeport_set_sense_out(TAPEPORT_PORT_1, byte & 0x40 ? 1 : 0);
+    userport_pa6 = byte & 0x40 ? 1 : 0;
+    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
 }
 
 static void undump_prb(via_context_t *via_context, uint8_t byte)
 {
-    store_userport_pbx(byte, USERPORT_NO_PULSE);
+    userport_pb = byte;
+    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
 }
 
 static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
@@ -148,7 +158,8 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
     /* for mike's VFLI hack, PB0-PB3 are used as A10-A13 of the color ram */
     vic20_vflihack_userport = byte & 0x0f;
 
-    store_userport_pbx(byte, USERPORT_NO_PULSE);
+    userport_pb = byte;
+    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
 }
 
 static void undump_pcr(via_context_t *via_context, uint8_t byte)
@@ -157,6 +168,8 @@ static void undump_pcr(via_context_t *via_context, uint8_t byte)
 
 static void reset(via_context_t *via_context)
 {
+    userport_pb = 0xff;
+    userport_pa6 = 1;
     store_userport_pbx(0xff, USERPORT_NO_PULSE);
     store_userport_pa2(1);
 }
