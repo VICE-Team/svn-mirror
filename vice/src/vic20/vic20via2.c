@@ -49,8 +49,15 @@
 
 int vic20_vflihack_userport = 0xff;
 
-static int userport_pa6 = 1; /* HACK: this is also connected to tape sense */
+static int userport_pa6 = 1;    /* HACK: pin 8, this is also connected to tape sense */
 static int userport_pb = 0xff;
+
+/* HACK: on the C64, pin 8 is connected to PC2, which automatically generates a pulse
+         when PB is written, which is why both is updated by the same function. */
+static void update_portbits(void)
+{
+    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
+}
 
 void via2_store(uint16_t addr, uint8_t data)
 {
@@ -142,14 +149,15 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
     store_joyport_dig(JOYPORT_1, joy_bits, 0x17);
 
     tapeport_set_sense_out(TAPEPORT_PORT_1, byte & 0x40 ? 1 : 0);
+
     userport_pa6 = byte & 0x40 ? 1 : 0;
-    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
+    update_portbits();  /* HACK: see above */
 }
 
 static void undump_prb(via_context_t *via_context, uint8_t byte)
 {
     userport_pb = byte;
-    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
+    update_portbits();  /* HACK: see above */
 }
 
 static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
@@ -159,7 +167,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
     vic20_vflihack_userport = byte & 0x0f;
 
     userport_pb = byte;
-    store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
+    update_portbits();  /* HACK: see above */
 }
 
 static void undump_pcr(via_context_t *via_context, uint8_t byte)
