@@ -98,7 +98,7 @@ static userport_device_t userport_wic64_device = {
     userport_wic64_store_pa2,             /* store pa2 pin function */
     NULL,                                 /* NO read pa3 pin function */
     NULL,                                 /* NO store pa3 pin function */
-    1,                                    /* pc pin IS needed */
+    0,                                    /* pc pin IS needed */
     NULL,                                 /* NO store sp1 pin function */
     NULL,                                 /* NO read sp1 pin function */
     NULL,                                 /* NO store sp2 pin function */

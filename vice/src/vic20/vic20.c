@@ -104,6 +104,7 @@
 #include "userport_rtc_ds1307.h"
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
+#include "userport_wic64.h"
 #include "userport_woj_joystick.h"
 #include "via.h"
 #include "vic.h"
@@ -619,6 +620,12 @@ int machine_resources_init(void)
         init_resource_fail("userport printer");
         return -1;
     }
+#ifdef HAVE_LIBCURL
+    if (userport_wic64_resources_init() < 0) {
+        init_resource_fail("userport wic20");
+        return -1;
+    }
+#endif
     if (init_joyport_ports() < 0) {
         init_resource_fail("joyport ports");
         return -1;
