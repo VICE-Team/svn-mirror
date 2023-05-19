@@ -299,6 +299,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
             log_message(LOG_DEFAULT, "WiC64: URL returned empty page");
             send_reply("!0");
         }
+        memset(httpbuffer, 0, httpbufferptr);
     }
 }
 
@@ -440,10 +441,53 @@ static void send_binary_reply(const uint8_t *reply, int len)
     handshake_flag2();
 }
 
-/* http get */
-static void do_command_01_0f(int encode)
+/* encode binary after escape '$<' */
+static void do_command_0f(void)
 {
-    char *p, *cptr;
+    char *p;
+    char *cptr;
+    char temppath[COMMANDBUFFER_MAXLEN];
+
+    DBG(("%s: encode URL", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+
+    /* if encode is enabled, there might be binary data after <$, which is
+       then encoded as a stream of hex digits */
+    cptr = (char*)commandbuffer;
+    while((p = strstr(cptr, "<$")) != NULL) {
+        static char hextab[16] = "0123456789abcdef";
+        int encodedlen, encodeoffset, i;
+        encodeoffset = p - cptr;
+        DBG(("%s: escape sequence found, offset %d, cmdlen = %d", __FUNCTION__,
+             encodeoffset, commandptr));
+        /* copy string before <$ */
+        strncpy(temppath, cptr, encodeoffset);
+        temppath[encodeoffset] = 0;
+        /* copy encoded string */
+        encodedlen = p[2];
+        encodedlen += p[3] << 8;
+        p += 4; /* skip escape sequence and len */
+        commandptr -= 4;
+        for (i = 0; i < encodedlen; i++) {
+            temppath[encodeoffset] = hextab[(*p >> 4) & 0xf];
+            encodeoffset++;
+            temppath[encodeoffset] = hextab[*p & 0xf];
+            encodeoffset++;
+            p++;
+            commandptr++;
+        }
+        temppath[encodeoffset] = 0;
+        /* copy string after <$ */
+        strcat(temppath, p);
+        /* copy back to commandbuffer buffer */
+        strcpy((char*)commandbuffer, temppath);
+    }
+}
+
+/* http get */
+static void do_command_01(void)
+{
+    char *p;
     int port = 80;
     char hostname[COMMANDBUFFER_MAXLEN];
     char path[COMMANDBUFFER_MAXLEN];
@@ -452,38 +496,6 @@ static void do_command_01_0f(int encode)
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-
-    /* if encode is enabled, there might be binary data after <$, which is
-       then encoded as a stream of hex digits */
-    if (encode) {
-        cptr = (char*)commandbuffer;
-        p = strstr(cptr, "<$");
-        if (p != NULL) {
-            static char hextab[16] = "0123456789abcdef";
-            int encodedlen, encodeoffset, i;
-            encodeoffset = p - cptr;
-            DBG(("%s: escape sequence found, offset %d", __FUNCTION__, encodeoffset));
-            /* copy string before <$ */
-            strncpy(temppath, cptr, encodeoffset);
-            temppath[encodeoffset] = 0;
-            /* copy encoded string */
-            encodedlen = p[2];
-            encodedlen += p[3] << 8;
-            p += 4; /* skip escape sequence and len */
-            for (i = 0; i < encodedlen; i++) {
-                temppath[encodeoffset] = hextab[(*p >> 4) & 0xf];
-                encodeoffset++;
-                temppath[encodeoffset] = hextab[*p & 0xf];
-                encodeoffset++;
-                p++;
-            }
-            temppath[encodeoffset] = 0;
-            /* copy string after <$ */
-            strcat(temppath, p);
-            /* copy back to commandbuffer buffer */
-            strcpy((char*)commandbuffer, temppath);
-        }
-    }
 
     /* if url begins with !, replace by default server */
     if (commandbuffer[0] == '!') {
@@ -553,7 +565,12 @@ static void do_command_01_0f(int encode)
 
     /* now strip trailing whitspaces of path */
     p = path + strlen(path) - 1;
-    while (p && isspace(*p)) {
+    while (isspace(*p)) {
+        *p = '\0';
+        p--;
+    }
+    /* remove trailing \001 - not sure, fixes at least artillery duel */
+    while ((*p) == '\001') {
         *p = '\0';
         p--;
     }
@@ -770,7 +787,7 @@ static void do_command(void)
 {
     switch (input_command) {
     case 0x01: /* http get */
-        do_command_01_0f(0);
+        do_command_01();
         break;
     case 0x02: /* set wlan ssid + password */
         do_command_02();
@@ -816,7 +833,8 @@ static void do_command(void)
         do_command_0e();
         break;
     case 0x0f: /* send http with decoded url for PHP */
-        do_command_01_0f(1);
+        do_command_0f();
+        do_command_01();
         break;
     case 0x10: /* get connected wlan name */
         do_command_10();
