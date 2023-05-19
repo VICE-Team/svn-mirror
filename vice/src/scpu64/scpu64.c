@@ -367,6 +367,7 @@ static joyport_port_props_t control_port_1 =
     1,                  /* has lightpen support on this port */
     1,                  /* has joystick adapter on this port */
     1,                  /* has output support on this port */
+    1,                  /* has +5vdc line on this port */
     1                   /* port is always active */
 };
 
@@ -377,6 +378,7 @@ static joyport_port_props_t control_port_2 =
     0,                  /* has NO lightpen support on this port */
     1,                  /* has joystick adapter on this port */
     1,                  /* has output support on this port */
+    1,                  /* has +5vdc line on this port */
     1                   /* port is always active */
 };
 
@@ -387,6 +389,7 @@ static joyport_port_props_t joy_adapter_control_port_1 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -397,6 +400,7 @@ static joyport_port_props_t joy_adapter_control_port_2 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -407,6 +411,7 @@ static joyport_port_props_t joy_adapter_control_port_3 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -417,6 +422,7 @@ static joyport_port_props_t joy_adapter_control_port_4 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -427,6 +433,7 @@ static joyport_port_props_t joy_adapter_control_port_5 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -437,6 +444,7 @@ static joyport_port_props_t joy_adapter_control_port_6 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -447,6 +455,7 @@ static joyport_port_props_t joy_adapter_control_port_7 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 
@@ -457,6 +466,7 @@ static joyport_port_props_t joy_adapter_control_port_8 =
     0,                  /* has NO lightpen support on this port */
     0,                  /* has NO joystick adapter on this port */
     1,                  /* has output support on this port */
+    0,                  /* default for joystick adapter ports is NO +5vdc line on this port, can be changed by the joystick adapter when activated */
     0                   /* port can be switched on/off */
 };
 

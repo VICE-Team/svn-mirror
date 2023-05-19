@@ -495,6 +495,7 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     port_props[port].has_lp_support = props->has_lp_support;
     port_props[port].has_adapter_support = props->has_adapter_support;
     port_props[port].has_output_support = props->has_output_support;
+    port_props[port].has_5vdc_support = props->has_5vdc_support;
     port_props[port].active = props->active;
 
     return 0;

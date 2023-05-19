@@ -269,6 +269,7 @@ typedef struct joyport_port_props_s {
     int has_lp_support;      /* flag to indicate that the port has lightpen support */
     int has_adapter_support; /* flag to indicate that the port can handle joystick adapters */
     int has_output_support;  /* flag to indicate that the port has output support */
+    int has_5vdc_support;    /* flag to indicate that the port has a +5VDC line */
     int active;              /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
