@@ -101,6 +101,9 @@ static userport_device_t userport_wic64_device = {
     userport_wic64_store_pa2,             /* store pa2 pin function */
     NULL,                                 /* NO read pa3 pin function */
     NULL,                                 /* NO store pa3 pin function */
+    /* HACK: We put a 0 into the struct here, although pin 8 of the userport
+       (which is PC2 on the C64) is actually used. This is needed so the device
+       can be registered in xvic (where the pin is driven by PA6). */
     0,                                    /* pc pin IS needed */
     NULL,                                 /* NO store sp1 pin function */
     NULL,                                 /* NO read sp1 pin function */
