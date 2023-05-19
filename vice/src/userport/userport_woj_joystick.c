@@ -105,7 +105,9 @@ static int userport_joystick_woj_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport WOJ joystick adapter");
-        joystick_adapter_set_ports(8);
+
+        /* Enable 8 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(8, 0);
     } else {
         joystick_adapter_deactivate();
     }

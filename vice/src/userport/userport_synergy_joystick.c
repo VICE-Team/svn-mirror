@@ -105,7 +105,9 @@ static int userport_joystick_synergy_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport Synergy joystick adapter");
-        joystick_adapter_set_ports(3);
+
+        /* Enable 3 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(3, 0);
     } else {
         joystick_adapter_deactivate();
     }

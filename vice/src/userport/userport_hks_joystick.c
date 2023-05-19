@@ -76,6 +76,10 @@ C64/C128 | JOY1 | JOY2 | NOTES
    K     |  -   |  4   | PB6 <- JOY2 RIGHT
    L     |  -   |  3   | PB7 <- JOY2 LEFT
    M     |  -   |  1   | PA2 <- JOY2 UP
+
+
+Note that for all of these adapters that the userport +5VDC pin is NOT connected to the joystick +5VDC pins.
+
 */
 
 #include "vice.h"
@@ -235,7 +239,9 @@ static int userport_joystick_hit_enable(int value)
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport HIT joystick adapter");
         joystick_adapter_set_output_check_function(userport_joystick_hit_kingsoft_output_check);
-        joystick_adapter_set_ports(2);
+
+        /* Enable 2 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(2, 0);
     } else {
         joystick_adapter_deactivate();
     }
@@ -261,7 +267,9 @@ static int userport_joystick_kingsoft_enable(int value)
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport Kingsoft joystick adapter");
         joystick_adapter_set_output_check_function(userport_joystick_hit_kingsoft_output_check);
-        joystick_adapter_set_ports(2);
+
+        /* Enable 2 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(2, 0);
     } else {
         joystick_adapter_deactivate();
     }
@@ -287,7 +295,9 @@ static int userport_joystick_starbyte_enable(int value)
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport Starbyte joystick adapter");
         joystick_adapter_set_output_check_function(userport_joystick_starbyte_output_check);
-        joystick_adapter_set_ports(2);
+
+        /* Enable 2 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(2, 0);
     } else {
         joystick_adapter_deactivate();
     }

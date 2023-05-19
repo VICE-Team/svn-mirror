@@ -113,7 +113,10 @@ static int userport_superpad64_enable(int value)
         }
         counter = 0;
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64, userport_superpad64_device.name);
-        joystick_adapter_set_ports(8);
+
+        /* Enable 8 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(8, 0);
+
         joystick_set_snes_mapping(JOYPORT_3);
         joystick_set_snes_mapping(JOYPORT_4);
         joystick_set_snes_mapping(JOYPORT_5);

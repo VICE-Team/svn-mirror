@@ -210,7 +210,9 @@ static int userport_joystick_cga_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport CGA joystick adapter");
-        joystick_adapter_set_ports(2);
+
+        /* Enable 2 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(2, 0);
     } else {
         joystick_adapter_deactivate();
     }
@@ -236,7 +238,9 @@ static int userport_joystick_pet_enable(int value)
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport PET joystick adapter");
         joystick_adapter_set_output_check_function(userport_joystick_pet_output_check);
-        joystick_adapter_set_ports(2);
+
+        /* Enable 2 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(2, 0);
     } else {
         joystick_adapter_deactivate();
     }
@@ -261,7 +265,9 @@ static int userport_joystick_oem_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport OEM joystick adapter");
-        joystick_adapter_set_ports(1);
+
+        /* Enable 1 extra joystick port, without +5VDC support */
+        joystick_adapter_set_ports(1, 0);
     } else {
         joystick_adapter_deactivate();
     }

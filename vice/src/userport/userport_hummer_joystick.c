@@ -33,6 +33,9 @@ C64/C128 | C64DTV | CBM2 | PET | PLUS4 | VIC20 | JOY | NOTES
     E    |  USR2  |  12  |  E  |   4   |   E   |  3  | PB2 <- JOY LEFT
     F    |  USR3  |  11  |  F  |   5   |   F   |  4  | PB3 <- JOY RIGHT
     H    |  USR4  |  10  |  H  |   6   |   H   |  6  | PB4 <- JOY FIRE
+
+The c64dtv uses 3.3v, so NO +5VDC pin is supported on the userport.
+
 */
 
 #include "vice.h"
@@ -101,7 +104,9 @@ static int userport_joystick_hummer_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport HUMMER joystick adapter");
-        joystick_adapter_set_ports(1);
+
+        /* Enable 1 extra joystick port, without +5VDC support */
+        joystick_adapter_set_ports(1, 0);
     } else {
         joystick_adapter_deactivate();
     }
