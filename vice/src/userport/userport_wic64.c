@@ -29,19 +29,19 @@
 
 /* - WiC64 (C64/C128)
 
-   C64/C128   |  I/O
-   -----------------
-   C (PB0)   |  I/O   databits from/to C64
-   D (PB1)   |  I/O
-   E (PB2)   |  I/O
-   F (PB3)   |  I/O
-   H (PB4)   |  I/O
-   J (PB5)   |  I/O
-   K (PB6)   |  I/O
-   L (PB7)   |  I/O
-   8 (PC2)   |  O     C64 triggers PC2 IRQ whenever data is read or write
-   M (PA2)   |  O     Low=device sends data High=C64 sends data (powerup=high)
-   B (FLAG2) |  I     device asserts high->low transition when databyte sent to c64 is ready (triggers irq)
+ PET   VIC20  C64/C128   |  I/O
+--------------------------------
+               C (PB0)   |  I/O   databits from/to C64
+               D (PB1)   |  I/O
+               E (PB2)   |  I/O
+               F (PB3)   |  I/O
+               H (PB4)   |  I/O
+               J (PB5)   |  I/O
+               K (PB6)   |  I/O
+               L (PB7)   |  I/O
+WRITE  SENSE   8 (PC2)   |  O     C64 triggers PC2 IRQ whenever data is read or write
+CB2    CB2     M (PA2)   |  O     Low=device sends data High=C64 sends data (powerup=high)
+CA1    CB1     B (FLAG2) |  I     device asserts high->low transition when databyte sent to c64 is ready (triggers irq)
 
    enable the device and start https://www.wic64.de/wp-content/uploads/2021/10/wic64start.zip
 
