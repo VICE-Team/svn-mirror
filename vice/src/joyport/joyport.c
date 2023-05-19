@@ -820,6 +820,7 @@ void joystick_adapter_deactivate(void)
     /* deactivate all extra joy ports */
     for (i = JOYPORT_3; i < JOYPORT_MAX_PORTS; i++) {
         port_props[i].active = 0;
+        port_props[i].has_5vdc_support = 0;
     }
 
     /* turn plus4 sidcard joy back on if it was still on */
@@ -828,7 +829,7 @@ void joystick_adapter_deactivate(void)
     }
 }
 
-void joystick_adapter_set_ports(int ports)
+void joystick_adapter_set_ports(int ports, int has_5vdc)
 {
     int i;
 
@@ -837,6 +838,7 @@ void joystick_adapter_set_ports(int ports)
     /* activate the extra joy ports */
     for (i = 0; i < ports; i++) {
         port_props[JOYPORT_3 + i].active = 1;
+        port_props[JOYPORT_3 + i].has_5vdc_support = has_5vdc;
     }
 }
 

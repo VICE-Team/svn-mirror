@@ -82,7 +82,9 @@ static int joyport_snespad_set_enabled(int port, int enabled)
         /* enabled, activate joystick adapter and set amount of ports to 3 */
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_NINJA_SNES, joyport_snespad_device.name);
         counter = 0;
-        joystick_adapter_set_ports(3);
+
+        /* enable 3 extra ports, since this is a snes adapter no +5VDC support */
+        joystick_adapter_set_ports(3, 0);
 
         /* enabled, enable snes mapping on ports 3, 4 and 5 */
         joystick_set_snes_mapping(JOYPORT_3);

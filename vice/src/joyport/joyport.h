@@ -345,7 +345,7 @@ uint8_t joystick_adapter_activate(uint8_t id, char *name);
 void joystick_adapter_deactivate(void);
 int joystick_adapter_is_snes(void);
 
-void joystick_adapter_set_ports(int ports);
+void joystick_adapter_set_ports(int ports, int has_5vdc);
 int joystick_adapter_get_ports(void);
 void joystick_adapter_set_add_ports(int ports);
 void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));

@@ -33,6 +33,9 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
     F    |  11  |  F  |   F   | UP (PB2)
     H    |  10  |  H  |   H   | DOWN (PB3)
     K    |   8  |  K  |   K   | FIRE (PB5)
+
+Note that the userport +5VDC is NOT connected to the joystick +5VDC pin.
+
 */
 
 #include "vice.h"
@@ -115,7 +118,9 @@ static int userport_spt_joystick_enable(int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, userport_spt_joystick_device.name);
-        joystick_adapter_set_ports(1);
+
+        /* Enable 1 extra joystick port, without +5VDC support */
+        joystick_adapter_set_ports(1, 0);
     } else {
         joystick_adapter_deactivate();
     }

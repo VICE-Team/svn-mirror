@@ -49,6 +49,8 @@
      4   |      D3
      6   |      D4
 
+   Note that +5VDC is provided for the 8 joystick ports.
+
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic)
 
@@ -76,7 +78,9 @@ static int joyport_inception_set_enabled(int port, int enabled)
         /* enabled, activate joystick adapter, clear counter and set extra joy ports to 8 */
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_INCEPTION, joyport_inception_device.name);
         counter = 0;
-        joystick_adapter_set_ports(8);
+
+        /* Enable 8 extra joystick ports, with +5VDC support */
+        joystick_adapter_set_ports(8, 1);
     } else {
         /* disabled, deactivate joystick adapter */
         joystick_adapter_deactivate();

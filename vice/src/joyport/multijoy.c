@@ -63,6 +63,8 @@
        9 (O6)   |    JOY7
        7 (O7)   |    JOY8
 
+   Note that the +5VDC is not connected to any of the 8 ports.
+
    Works on:
    - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
  */
@@ -90,7 +92,9 @@ static int joyport_multijoy_joysticks_set_enabled(int port, int enabled)
     if (new_state) {
         /* enabled, activate joystick adapter, set amount of joystick adapter ports to 8 */
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_MULTIJOY, joyport_multijoy_joy_device.name);
-        joystick_adapter_set_ports(8);
+
+        /* enable 8 extra ports, no +5VDC support */
+        joystick_adapter_set_ports(8, 0);
 
         /* set other port to multijoy control device */
         if (port == JOYPORT_1) {

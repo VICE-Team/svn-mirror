@@ -58,6 +58,8 @@
    The userport is driven in such a way that only 1 joystick
    has ground.
 
+   Note that the +5VDC pin is NOT connected
+
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic)
 
@@ -88,7 +90,9 @@ static int joyport_spaceballs_set_enabled(int port, int enabled)
         }
         /* activate joystick adapter and set amount of ports to 8 */
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_SPACEBALLS, joyport_spaceballs_device.name);
-        joystick_adapter_set_ports(8);
+
+        /* enable 8 extra joystick ports, without +5VDC support */
+        joystick_adapter_set_ports(8, 0);
     } else {
         /* disabled, deactivate joystick adapter and userport part of the spaceballs adapter */
         joystick_adapter_deactivate();
