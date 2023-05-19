@@ -296,17 +296,18 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
                 send_binary_reply(httpbuffer, httpbufferptr);
         } else {
             DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
+            log_message(LOG_DEFAULT, "WiC64: URL returned empty page");
             send_reply("!0");
         }
     }
 }
 
-static void do_http_get(char *hostname, char *path, unsigned short server_port)
+static void do_http_get(const char *prot, char *hostname, char *path, unsigned short server_port)
 {
 
     char thisurl[0x1000];
 
-    strcpy(thisurl, "http://");
+    strcpy(thisurl, prot);
     strcat(thisurl, hostname);
     strcat(thisurl, "/");
     strcat(thisurl, path);
@@ -447,6 +448,7 @@ static void do_command_01_0f(int encode)
     char hostname[COMMANDBUFFER_MAXLEN];
     char path[COMMANDBUFFER_MAXLEN];
     char temppath[COMMANDBUFFER_MAXLEN];
+    char *http_prot = NULL;
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
@@ -499,17 +501,23 @@ static void do_command_01_0f(int encode)
     /* detect protocol and split path/hostname */
     p = (char*)commandbuffer;
     if (!strncmp(p, "http://", 7)) {
-        p += 7;
-        p = strtok(p, "/");
-        strcpy(hostname, p);
-        p = (char*)commandbuffer;
-        p += (7 + 1);
-        p += strlen(hostname);
-        memcpy(path, p, COMMANDBUFFER_MAXLEN - (p - (char*)commandbuffer));
+        http_prot = "http://";
     } else {
-        DBG(("malformed URL:%s", commandbuffer));
-        return;
+        if (!strncmp(p, "https://", 8)) {
+            http_prot = "https://";
+        } else {
+            DBG(("malformed URL:%s", commandbuffer));
+            return;
+        }
     }
+
+    p += strlen(http_prot);
+    p = strtok(p, "/");
+    strcpy(hostname, p);
+    p = (char*)commandbuffer;
+    p += (strlen(http_prot) + 1);
+    p += strlen(hostname);
+    memcpy(path, p, COMMANDBUFFER_MAXLEN - (p - (char*)commandbuffer));
 
     /* replace "%mac" by our MAC */
     p = strstr(path, "%mac");
@@ -542,7 +550,14 @@ static void do_command_01_0f(int encode)
         strcpy(path, temppath);
         DBG(("temppath:%s", temppath));
     }
-    do_http_get(hostname, path, port);
+
+    /* now strip trailing whitspaces of path */
+    p = path + strlen(path) - 1;
+    while (p && isspace(*p)) {
+        *p = '\0';
+        p--;
+    }
+    do_http_get(http_prot, hostname, path, port);
 }
 
 /* set wlan ssid + password */
@@ -847,43 +862,41 @@ static void do_command(void)
 /* PC2 irq (pulse) triggers when C64 reads/writes to userport */
 static void userport_wic64_store_pbx(uint8_t value, int pulse)
 {
-#if 0
-    DBG(("%s: val = %02x pulse = %d", __FUNCTION__, value, pulse));
-#endif
+    /* DBG(("%s: val = %02x pulse = %d", __FUNCTION__, value, pulse)); */
     if (pulse == 1) {
         if (wic64_inputmode) {
             switch (input_state) {
-                case 0:
-                    input_length = 0;
-                    commandptr = 0;
-                    if (value == 0x57) {    /* 'w' */
-                        input_state++;
-                    }
-                    handshake_flag2();
-                    break;
-                case 1: /* lenght low byte */
-                    input_length = value;
+            case 0:
+                input_length = 0;
+                commandptr = 0;
+                if (value == 0x57) {    /* 'w' */
                     input_state++;
-                    handshake_flag2();
-                    break;
-                case 2: /* lenght high byte */
-                    input_length |= (value << 8);
-                    input_state++;
-                    handshake_flag2();
-                    break;
-                case 3: /* command */
-                    input_command = value;
-                    input_state++;
-                    handshake_flag2();
-                    break;
-                default:    /* additional data depending on command */
-                    if ((commandptr + 4) < input_length) {
-                        commandbuffer[commandptr] = value;
-                        commandptr++;
-                        commandbuffer[commandptr] = 0;
-                    }
-                    handshake_flag2();
-                    break;
+                }
+                handshake_flag2();
+                break;
+            case 1: /* lenght low byte */
+                input_length = value;
+                input_state++;
+                handshake_flag2();
+                break;
+            case 2: /* lenght high byte */
+                input_length |= (value << 8);
+                input_state++;
+                handshake_flag2();
+                break;
+            case 3: /* command */
+                input_command = value;
+                input_state++;
+                handshake_flag2();
+                break;
+            default:    /* additional data depending on command */
+                if ((commandptr + 4) < input_length) {
+                    commandbuffer[commandptr] = value;
+                    commandptr++;
+                    commandbuffer[commandptr] = 0;
+                }
+                handshake_flag2();
+                break;
             }
 #if 0
             DBG(("%s: input_state: %d input_length: %d input_command: %02x commandptr: %02x",
@@ -894,12 +907,10 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
             }
-
         } else {
             if (reply_length) {
                 reply_next_byte();
             }
-            //DBG(("%s: reply_length = %d - doing handshake now...", __FUNCTION__, reply_length));
             handshake_flag2();
         }
     }
@@ -920,7 +931,6 @@ static void userport_wic64_store_pa2(uint8_t value)
     /* DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length)); */
 
     if ((wic64_inputmode == 1) && (value == 0) && (reply_length)) {
-        //reply_next_byte();
         DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length));
         handshake_flag2();
     }
