@@ -58,8 +58,12 @@ void crtc_set_chargen_offset(int offset);
 void crtc_set_chargen_addr(uint8_t *chargen, int cmask);
 void crtc_set_screen_options(int num_cols, int rasterlines);
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset, int vrevmask);
+#define CRTC_HW_CURSOR          1       /* do we have a hardware cursor */
+#define CRTC_HW_DOUBLE_CHARS    2       /* 2 chars per cycle */
 void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
 void crtc_set_retrace_type(int type);
+#define CRTC_RETRACE_TYPE_DISCRETE      0
+#define CRTC_RETRACE_TYPE_CRTC          1
 void crtc_set_hires_draw_callback(crtc_hires_draw_t);
 void crtc_enable_hw_screen_blank(int enable);
 void crtc_screenshot(struct screenshot_s *screenshot);

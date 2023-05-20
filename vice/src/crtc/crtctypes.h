@@ -65,10 +65,14 @@ struct crtc_s {
     int hw_cursor;
     int hw_cols;        /* 1 or 2, number of chars per cycle */
     int hw_blank;
-    int vaddr_mask;
-    int vaddr_charswitch;
+    int vaddr_mask;     /* how many bits (mask) in the video base address are
+                         * connected to hardware. */
+    int vaddr_mask_eff;     /* how many effective address bits we can generate;
+                             * when 2 chars per cycle, this is 1 more bit. */
+    int vaddr_charswitch;   /* which bit (mask) in vaddr selects the other
+                             * half of the character generator. */
     int vaddr_charoffset;
-    int vaddr_revswitch;
+    int vaddr_revswitch;    /* which bit (mask) in vaddr inverts the screen */
 
     /* screen and charset memory options (almost) as given to
        crtc_set_chargen_addr() and crtc_set_screen_addr() */
@@ -145,8 +149,6 @@ struct crtc_s {
     machine_crtc_retrace_signal_t retrace_callback;
     crtc_hires_draw_t hires_draw_callback;
 
-#define CRTC_RETRACE_TYPE_DISCRETE      0
-#define CRTC_RETRACE_TYPE_CRTC          1
     int retrace_type;
 
     /*---------------------------------------------------------------*/

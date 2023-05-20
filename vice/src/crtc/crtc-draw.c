@@ -103,8 +103,10 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     }
 
     if (crtc.crsrmode && crtc.cursor_lines && crtc.crsrstate) {
+        /* Note: only the B series have a hardware cursor and there we have
+         * only 1 char/cycle, so multiplying by hw_cols is not needed. */
         int crsrrel = ((crtc.regs[CRTC_REG_CURSORPOSH] << 8) |
-                        crtc.regs[CRTC_REG_CURSORPOSL]) & crtc.vaddr_mask;
+                        crtc.regs[CRTC_REG_CURSORPOSL]) & crtc.vaddr_mask_eff;
 #if CRTC_BEAM_RACING
         if (xs == 0) { /* same condition as above */
             crsrrel -= scr_rel;
@@ -113,7 +115,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 
         for (i = xs; i < xc; i++) {
             d = *(chargen_ptr
-                  + (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
+                  + (screen_ptr[screen_rel & crtc.vaddr_mask_eff] << 4));
 
             /* FIXME: mask with 0x3fff (screen_rel must be expanded) */
             if (screen_rel == crsrrel) {
@@ -133,7 +135,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
         for (i = xs; i < xc; i++) {
             /* we use 16 bytes/char character generator */
             d = *(chargen_ptr
-                  + (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
+                  + (screen_ptr[screen_rel & crtc.vaddr_mask_eff] << 4));
             screen_rel++;
 
             if (reverse_flag) {
