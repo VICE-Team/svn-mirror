@@ -486,7 +486,7 @@ void petmodel_set(int model)
         return;
     }
 
-    petres.video = -1; /* force reinitialization in pet-resources.c:set_video, see bug #3496413 */
+    petres.model.video = -1; /* force reinitialization in pet-resources.c:set_video, see bug #3496413 */
     pet_set_model_info(&pet_table[model].info);
 
     /* we have to wait until we have done enough initialization */

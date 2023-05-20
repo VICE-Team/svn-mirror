@@ -11,6 +11,7 @@
  *
  *  It is not compatible with other display extensions
  *  (DWW hires, HRE hires).
+ *  In real hardware the board would likely be incompatible with 8296.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -98,47 +98,27 @@ typedef struct petinfo_s {
     int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
-    const char  *chargenName;   /* Character ROM */
-    const char  *kernalName;    /* Kernal ROM $f*** */
-    const char  *editorName;    /* $E*** ROM image filename (2k/4k) */
-    const char  *basicName;     /* $b/c-$e*** basic ROM (8k/12k) */
-    const char  *memBname;      /* $B*** ROM image filename */
-    const char  *memAname;      /* $A*** ROM image filename */
-    const char  *mem9name;      /* $9*** ROM image filename */
+    char  *chargenName;         /* Character ROM */
+    char  *kernalName;          /* Kernal ROM $f*** */
+    char  *editorName;          /* $E*** ROM image filename (2k/4k) */
+    char  *basicName;           /* $b/c-$e*** basic ROM (8k/12k) */
+    char  *memBname;            /* $B*** ROM image filename */
+    char  *memAname;            /* $A*** ROM image filename */
+    char  *mem9name;            /* $9*** ROM image filename */
+
     /* SuperPET resources */
     char        *h6809romName[NUM_6809_ROMS];   /* $[ABCDEF]*** */
 } petinfo_t;
 
 /* This struct holds the resources and some other runtime-derived info */
 typedef struct petres_s {
-    /* hardware options (resources) */
-    int ramSize;                /* RAM_4K, RAM_8K, RAM_16K, 32, 96, 128 */
-    int IOSize;                 /* 256 Byte / 2k I/O */
-    int crtc;                   /* 0 = no CRTC, 1 = has one */
-    int video;                  /* 0 = autodetect, 40, or 80 */
-    int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
-    int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
-    int kbd_type;               /* 1 = graphics, 0 = business (UK) */
-    int pet2k;                  /* 1 = do PET 2001 kernal patches */
-    int eoiblank;               /* 1 = EOI blanks screen */
-    int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
-    int palette2001;            /* 1 = Use 2001-blueish.vpl */
-    int superpet;               /* 1 = enable SuperPET I/O */
+    /* (Mostly) resources defining the particular model */
+    petinfo_t model;
 
-    /* ROM image resources */
-    char        *chargenName;   /* Character ROM */
-    char        *kernalName;    /* Kernal ROM $f*** */
-    char        *editorName;    /* $E*** ROM image filename (2k/4k) */
-    char        *basicName;     /* $b/c-$e*** basic ROM (8k/12k) */
-    char        *memBname;      /* $B*** ROM image filename */
-    char        *memAname;      /* $A*** ROM image filename */
-    char        *mem9name;      /* $9*** ROM image filename */
-
-    /* SuperPET resources */
-    char        *h6809romName[NUM_6809_ROMS];   /* $[ABCDEF]*** */
+    /* Resources not part of the model */
     int superpet_cpu_switch;         /* 0 = 6502, 1 = 6809E, 2 = "prog" */
 
-    /* runtime (derived) variables */
+    /* Runtime (derived) constants */
     int videoSize;              /* video RAM size (1k or 2k) */
     int map;                    /* 0 = linear map, 1 = 8096 mapping */
                                 /* 2 = 8296 mapping */

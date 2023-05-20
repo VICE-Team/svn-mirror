@@ -744,7 +744,7 @@ int machine_specific_init(void)
         return -1;
     }
 
-    crtc_set_retrace_type(petres.crtc);
+    crtc_set_retrace_type(petres.model.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
     petcolour_init();
@@ -1005,7 +1005,7 @@ void pet_crtc_set_screen(void)
 {
     int cols, vmask;
 
-    cols = petres.video;
+    cols = petres.model.video;
     vmask = petres.vmask;
 
     /* mem_initialize_memory(); */
@@ -1024,18 +1024,20 @@ void pet_crtc_set_screen(void)
     }
 /*
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
-                vmask, cols, petres.crtc);
-*/
-/*
-    crtc_set_screen_mode(mem_ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
+                vmask, cols, petres.model.crtc);
 */
     crtc_set_screen_options(cols, 25 * 10);
     crtc_set_screen_addr(mem_ram + 0x8000);
-    crtc_set_hw_options((cols == 80) ? 2 : 0, vmask, 0x2000, 512, 0x1000);
-    crtc_set_retrace_type(petres.crtc ? 1 : 0);
+    crtc_set_hw_options((cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0,
+                        vmask,
+                        0x2000,         /* vchar */
+                        512,            /* vcoffset */
+                        0x1000);        /* vrevmask */
+    crtc_set_retrace_type(petres.model.crtc ? CRTC_RETRACE_TYPE_CRTC
+                                            : CRTC_RETRACE_TYPE_DISCRETE);
 
     /* No CRTC -> assume 40 columns and 60 Hz */
-    if (!petres.crtc) {
+    if (!petres.model.crtc) {
         static uint8_t crtc_values[14] = {
             /*
              * Set the CRTC to display 60 frames per second.

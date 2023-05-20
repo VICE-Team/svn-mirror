@@ -187,7 +187,7 @@ bool pia1_get_diagnostic_pin(void)
 static void pia_set_ca2(int a)
 {
     parallel_cpu_set_eoi((uint8_t)((a) ? 0 : 1));
-    if (petres.pet2k) {
+    if (petres.model.pet2k) {
         crtc_screen_enable((a) ? 1 : 0);
     }
 }

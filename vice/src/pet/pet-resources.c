@@ -62,8 +62,8 @@ static int set_iosize(int val, void *param)
             return -1;
     }
 
-    if (petres.IOSize != val) {
-        petres.IOSize = val;
+    if (petres.model.IOSize != val) {
+        petres.model.IOSize = val;
 
         mem_initialize_memory();
     }
@@ -73,7 +73,7 @@ static int set_iosize(int val, void *param)
 
 static int set_crtc_enabled(int val, void *param)
 {
-    petres.crtc = val ? 1 : 0;
+    petres.model.crtc = val ? 1 : 0;
 
     return 0;
 }
@@ -82,10 +82,10 @@ static int set_superpet_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (petres.superpet != val) {
-        petres.superpet = (unsigned int)val;
+    if (petres.model.superpet != val) {
+        petres.model.superpet = (unsigned int)val;
 
-        if (petres.superpet && petres.ramSize > 32) {
+        if (petres.model.superpet && petres.model.ramSize > 32) {
             set_ramsize(32, NULL);      /* disable 8x96 */
         }
 
@@ -99,8 +99,8 @@ static int set_ram_9_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (petres.ramsel9 != val) {
-        petres.ramsel9 = (unsigned int)val;
+    if (petres.model.ramsel9 != val) {
+        petres.model.ramsel9 = (unsigned int)val;
         mem_initialize_memory();
     }
 
@@ -111,8 +111,8 @@ static int set_ram_a_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (petres.ramselA != val) {
-        petres.ramselA = (unsigned int)val;
+    if (petres.model.ramselA != val) {
+        petres.model.ramselA = (unsigned int)val;
         mem_initialize_memory();
     }
 
@@ -136,8 +136,8 @@ static int set_ramsize(int size, void *param)
 
     size = sizes[i];
 
-    if (petres.ramSize != size) {
-        petres.ramSize = size;
+    if (petres.model.ramSize != size) {
+        petres.model.ramSize = size;
         petres.map = PET_MAP_LINEAR;
 
         if (size == 96) {
@@ -165,8 +165,8 @@ static int set_video(int col, void *param)
             return -1;
     }
 
-    if (col != petres.video) {
-        petres.video = col;
+    if (col != petres.model.video) {
+        petres.model.video = col;
 
         petmem_check_info(&petres);
         pet_crtc_set_screen();
@@ -179,7 +179,7 @@ static int set_video(int col, void *param)
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.chargenName, val)) {
+    if (util_string_set(&petres.model.chargenName, val)) {
         return 0;
     }
 
@@ -188,7 +188,7 @@ static int set_chargen_rom_name(const char *val, void *param)
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.kernalName, val)) {
+    if (util_string_set(&petres.model.kernalName, val)) {
         return 0;
     }
 
@@ -200,7 +200,7 @@ static int set_basic_rom_name(const char *val, void *param)
 /*  do we want to reload the basic even with the same name - romB can
     overload the basic ROM image and we can restore it only here ?
 */
-    if (util_string_set(&petres.basicName, val)) {
+    if (util_string_set(&petres.model.basicName, val)) {
         return 0;
     }
 
@@ -209,7 +209,7 @@ static int set_basic_rom_name(const char *val, void *param)
 
 static int set_editor_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.editorName, val)) {
+    if (util_string_set(&petres.model.editorName, val)) {
         return 0;
     }
 
@@ -218,7 +218,7 @@ static int set_editor_rom_name(const char *val, void *param)
 
 static int set_rom_module_9_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.mem9name, val)) {
+    if (util_string_set(&petres.model.mem9name, val)) {
         return 0;
     }
 
@@ -227,7 +227,7 @@ static int set_rom_module_9_name(const char *val, void *param)
 
 static int set_rom_module_a_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memAname, val)) {
+    if (util_string_set(&petres.model.memAname, val)) {
         return 0;
     }
 
@@ -236,7 +236,7 @@ static int set_rom_module_a_name(const char *val, void *param)
 
 static int set_rom_module_b_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memBname, val)) {
+    if (util_string_set(&petres.model.memBname, val)) {
         return 0;
     }
 
@@ -249,14 +249,14 @@ static int set_pet2k_enabled(int val, void *param)
 {
     int i = (val) ? 1 : 0;
 
-    if (i != petres.pet2k) {
-        if (petres.pet2k) {
+    if (i != petres.model.pet2k) {
+        if (petres.model.pet2k) {
             petrom_unpatch_2001();
         }
 
-        petres.pet2k = i;
+        petres.model.pet2k = i;
 
-        if (petres.pet2k) {
+        if (petres.model.pet2k) {
             petrom_patch_2001();
         }
     }
@@ -267,9 +267,9 @@ static int set_eoiblank_enabled(int val, void *param)
 {
     int i = (val) ? 1 : 0;
 
-    petres.eoiblank = i;
+    petres.model.eoiblank = i;
 
-    crtc_enable_hw_screen_blank(petres.eoiblank);
+    crtc_enable_hw_screen_blank(petres.model.eoiblank);
 
     return 0;
 }
@@ -278,8 +278,8 @@ static int set_screen2001_enabled(int val, void *param)
 {
     int i = (val) ? 1 : 0;
 
-    if (i != petres.screenmirrors2001) {
-        petres.screenmirrors2001 = i;
+    if (i != petres.model.screenmirrors2001) {
+        petres.model.screenmirrors2001 = i;
 
         petmem_set_vidmem();
     }
@@ -318,7 +318,7 @@ static int set_h6809_rom_name(const char *val, void *param)
 {
     unsigned int num = vice_ptr_to_uint(param);
 
-    if (util_string_set(&petres.h6809romName[num], val)) {
+    if (util_string_set(&petres.model.h6809romName[num], val)) {
         return 0;
     }
 
@@ -388,31 +388,31 @@ static int set_cb2_lowpass(int val, void *param)
 
 static const resource_string_t resources_string[] = {
     { "ChargenName", PET_CHARGEN2_NAME, RES_EVENT_NO, NULL,
-      &petres.chargenName, set_chargen_rom_name, NULL },
+      &petres.model.chargenName, set_chargen_rom_name, NULL },
     { "KernalName", PET_KERNAL4NAME, RES_EVENT_NO, NULL,
-      &petres.kernalName, set_kernal_rom_name, NULL },
+      &petres.model.kernalName, set_kernal_rom_name, NULL },
     { "EditorName", PET_EDITOR4B80NAME, RES_EVENT_NO, NULL,
-      &petres.editorName, set_editor_rom_name, NULL },
+      &petres.model.editorName, set_editor_rom_name, NULL },
     { "BasicName", PET_BASIC4NAME, RES_EVENT_NO, NULL,
-      &petres.basicName, set_basic_rom_name, NULL },
+      &petres.model.basicName, set_basic_rom_name, NULL },
     { "RomModule9Name", "", RES_EVENT_NO, NULL,
-      &petres.mem9name, set_rom_module_9_name, NULL },
+      &petres.model.mem9name, set_rom_module_9_name, NULL },
     { "RomModuleAName", "", RES_EVENT_NO, NULL,
-      &petres.memAname, set_rom_module_a_name, NULL },
+      &petres.model.memAname, set_rom_module_a_name, NULL },
     { "RomModuleBName", "", RES_EVENT_NO, NULL,
-      &petres.memBname, set_rom_module_b_name, NULL },
+      &petres.model.memBname, set_rom_module_b_name, NULL },
     { "H6809RomAName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[0], set_h6809_rom_name, (void *)0 },
+      &petres.model.h6809romName[0], set_h6809_rom_name, (void *)0 },
     { "H6809RomBName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[1], set_h6809_rom_name, (void *)1 },
+      &petres.model.h6809romName[1], set_h6809_rom_name, (void *)1 },
     { "H6809RomCName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[2], set_h6809_rom_name, (void *)2 },
+      &petres.model.h6809romName[2], set_h6809_rom_name, (void *)2 },
     { "H6809RomDName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[3], set_h6809_rom_name, (void *)3 },
+      &petres.model.h6809romName[3], set_h6809_rom_name, (void *)3 },
     { "H6809RomEName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[4], set_h6809_rom_name, (void *)4 },
+      &petres.model.h6809romName[4], set_h6809_rom_name, (void *)4 },
     { "H6809RomFName", "", RES_EVENT_NO, NULL,
-      &petres.h6809romName[5], set_h6809_rom_name, (void *)5 },
+      &petres.model.h6809romName[5], set_h6809_rom_name, (void *)5 },
     RESOURCE_STRING_LIST_END
 };
 
@@ -421,25 +421,25 @@ static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
     { "RamSize", 32, RES_EVENT_SAME, NULL,
-      &petres.ramSize, set_ramsize, NULL },
+      &petres.model.ramSize, set_ramsize, NULL },
     { "IOSize", 0x100, RES_EVENT_SAME, NULL,
-      &petres.IOSize, set_iosize, NULL },
+      &petres.model.IOSize, set_iosize, NULL },
     { "Crtc", 1, RES_EVENT_SAME, NULL,
-      &petres.crtc, set_crtc_enabled, NULL },
+      &petres.model.crtc, set_crtc_enabled, NULL },
     { "VideoSize", COLS_AUTO, RES_EVENT_SAME, NULL,
-      &petres.video, set_video, NULL },
+      &petres.model.video, set_video, NULL },
     { "Ram9", 0, RES_EVENT_SAME, NULL,
-      &petres.ramsel9, set_ram_9_enabled, NULL },
+      &petres.model.ramsel9, set_ram_9_enabled, NULL },
     { "RamA", 0, RES_EVENT_SAME, NULL,
-      &petres.ramselA, set_ram_a_enabled, NULL },
+      &petres.model.ramselA, set_ram_a_enabled, NULL },
     { "SuperPET", 0, RES_EVENT_SAME, NULL,
-      &petres.superpet, set_superpet_enabled, NULL },
+      &petres.model.superpet, set_superpet_enabled, NULL },
     { "Basic1", 1, RES_EVENT_SAME, NULL,
-      &petres.pet2k, set_pet2k_enabled, NULL },
+      &petres.model.pet2k, set_pet2k_enabled, NULL },
     { "EoiBlank", 0, RES_EVENT_SAME, NULL,
-      &petres.eoiblank, set_eoiblank_enabled, NULL },
+      &petres.model.eoiblank, set_eoiblank_enabled, NULL },
     { "Screen2001", 0, RES_EVENT_SAME, NULL,
-      &petres.screenmirrors2001, set_screen2001_enabled, NULL },
+      &petres.model.screenmirrors2001, set_screen2001_enabled, NULL },
     { "CPUswitch", SUPERPET_CPU_6502, RES_EVENT_SAME, NULL,
       &petres.superpet_cpu_switch, set_superpet_cpu_switch, NULL },
 /*  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
@@ -458,16 +458,16 @@ int pet_resources_init(void)
 {
     int i;
 
-    petres.chargenName = NULL;
-    petres.kernalName = NULL;
-    petres.editorName = NULL;
-    petres.basicName = NULL;
-    petres.memBname = NULL;
-    petres.memAname = NULL;
-    petres.mem9name = NULL;
+    petres.model.chargenName = NULL;
+    petres.model.kernalName = NULL;
+    petres.model.editorName = NULL;
+    petres.model.basicName = NULL;
+    petres.model.memBname = NULL;
+    petres.model.memAname = NULL;
+    petres.model.mem9name = NULL;
 
     for (i = 0; i < NUM_6809_ROMS; i++) {
-        petres.h6809romName[i] = NULL;
+        petres.model.h6809romName[i] = NULL;
     }
     petres.superpet_cpu_switch = SUPERPET_CPU_6502;
 
@@ -482,15 +482,15 @@ void pet_resources_shutdown(void)
 {
     int i;
 
-    lib_free(petres.chargenName);
-    lib_free(petres.kernalName);
-    lib_free(petres.editorName);
-    lib_free(petres.basicName);
-    lib_free(petres.memBname);
-    lib_free(petres.memAname);
-    lib_free(petres.mem9name);
+    lib_free(petres.model.chargenName);
+    lib_free(petres.model.kernalName);
+    lib_free(petres.model.editorName);
+    lib_free(petres.model.basicName);
+    lib_free(petres.model.memBname);
+    lib_free(petres.model.memAname);
+    lib_free(petres.model.mem9name);
 
     for (i = 0; i < NUM_6809_ROMS; i++) {
-        lib_free(petres.h6809romName[i]);
+        lib_free(petres.model.h6809romName[i]);
     }
 }

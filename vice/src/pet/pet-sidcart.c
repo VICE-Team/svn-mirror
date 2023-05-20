@@ -139,7 +139,7 @@ static int set_sidcart_enabled(int value, void *param)
         if (sidcart_address == 0x8f00) {
             sidcart_list_item = io_source_register(&sidcart_8f00_device);
         } else {
-            if (petres.IOSize < 2048) {
+            if (petres.model.IOSize < 2048) {
                 ui_error("Cannot enable SID: $e9xx range only available on superpet and 30xx models");
                 return -1;
             }
@@ -178,7 +178,7 @@ static int set_sid_address(int val, void *param)
         if (val == 0x8f00) {
             sidcart_list_item = io_source_register(&sidcart_8f00_device);
         } else {
-            if (petres.IOSize < 2048) {
+            if (petres.model.IOSize < 2048) {
                 ui_error("Cannot enable SID: $e9xx range only available on superpet and 30xx models");
                 return -1;
             }
