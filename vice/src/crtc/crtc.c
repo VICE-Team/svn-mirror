@@ -72,6 +72,7 @@
 
 static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data);
 #if CRTC_BEAM_RACING
+inline void crtc_fetch_prefetch(void);
 static void crtc_adjusted_retrace_alarm_handler(CLOCK offset, void *data);
 #endif
 
@@ -803,10 +804,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
 #if CRTC_BEAM_RACING
         if (new_venable) {
-            memcpy(&crtc.prefetch[0],
-                   &crtc.screen_base[crtc.screen_rel],
-                   crtc.rl_visible * crtc.hw_cols);
-            /* FIXME: Ignores wraparound for now. */
+            crtc_fetch_prefetch();
         }
 #endif /* CRTC_BEAM_RACING */
     }
@@ -881,6 +879,34 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 }
 
 #if CRTC_BEAM_RACING
+
+inline void crtc_fetch_prefetch(void)
+{
+    const int length = crtc.rl_visible * crtc.hw_cols;
+    const int start = crtc.screen_rel & crtc.vaddr_mask_eff;
+    const int end = start + length;
+    const int limit = crtc.vaddr_mask_eff + 1;
+
+    if (end <= limit) {
+        /* The usual case */
+        memcpy(&crtc.prefetch[0],
+               &crtc.screen_base[start],
+               length);
+    } else {
+        /* Handle address wraparound */
+        const int length1 = limit - start;
+        const int length2 = end - limit;
+        /* const int length1 = length - length2; */
+
+        memcpy(&crtc.prefetch[0],
+               &crtc.screen_base[start],
+               length1);
+        memcpy(&crtc.prefetch[length1],
+               &crtc.screen_base[0],
+               length2);
+    }
+}
+
 /*
  * Handle the beginning and end of the retrace period on non-CRTC hardware.
  * It starts just after the last text position and ends exactly 3*20 scan line

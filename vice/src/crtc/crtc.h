@@ -65,6 +65,7 @@ void crtc_set_retrace_type(int type);
 #define CRTC_RETRACE_TYPE_DISCRETE      0
 #define CRTC_RETRACE_TYPE_CRTC          1
 void crtc_set_hires_draw_callback(crtc_hires_draw_t);
+void crtc_fetch_prefetch(void);
 void crtc_enable_hw_screen_blank(int enable);
 void crtc_screenshot(struct screenshot_s *screenshot);
 void crtc_async_refresh(struct canvas_refresh_s *refresh);
