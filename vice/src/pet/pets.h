@@ -41,6 +41,7 @@
 #define NUM_6809_ROMS           6       /* at 0x[ABCDEF]000 */
 #define PET_6809_ROMSIZE        (NUM_6809_ROMS * 0x1000)
 
+#define RAM_4K    4
 #define RAM_8K    8
 #define RAM_16K   16
 #define RAM_32K   32
@@ -75,13 +76,15 @@
 #define NO_MIRRORS_2001 0
 #define SCREEN_MIRRORS_2001 1
 
+#define PALETTE_2001 "2001-blueish.vpl"
+
 #define NORMAL_IO   0
 #define SUPERPET_IO 1
 
 /* This struct is used to hold the default values for the different models */
 typedef struct petinfo_s {
     /* hardware options (resources) */
-    int ramSize;
+    int ramSize;                /* RAM_4K, RAM_8K, RAM_16K, 32, 96, 128 */
     int IOSize;                 /* 256 Byte / 2k I/O */
     int crtc;                   /* 0 = no CRTC, 1 = has one */
     int video;                  /* 0 = autodetect, 40, or 80 */
@@ -91,6 +94,7 @@ typedef struct petinfo_s {
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int eoiblank;               /* 1 = EOI blanks screen */
     int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
+    int palette2001;            /* 1 = Use 2001-blueish.vpl */
     int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
@@ -108,7 +112,7 @@ typedef struct petinfo_s {
 /* This struct holds the resources and some other runtime-derived info */
 typedef struct petres_s {
     /* hardware options (resources) */
-    int ramSize;
+    int ramSize;                /* RAM_4K, RAM_8K, RAM_16K, 32, 96, 128 */
     int IOSize;                 /* 256 Byte / 2k I/O */
     int crtc;                   /* 0 = no CRTC, 1 = has one */
     int video;                  /* 0 = autodetect, 40, or 80 */
@@ -118,6 +122,7 @@ typedef struct petres_s {
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int eoiblank;               /* 1 = EOI blanks screen */
     int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
+    int palette2001;            /* 1 = Use 2001-blueish.vpl */
     int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
