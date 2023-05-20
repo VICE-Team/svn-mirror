@@ -415,9 +415,11 @@ void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
 {
     /* printf("crtc_set_hw_options(hwflag:%02x vmask:%02x vchar:%02x vcoffset:%02x vrevmask:%02x)\n",
            hwflag, vmask, vchar, vcoffset, vrevmask); */
-    crtc.hw_cursor = hwflag & 1;
-    crtc.hw_cols = (hwflag & 2) ? 2 : 1;
+    crtc.hw_cursor = hwflag & CRTC_HW_CURSOR;
+    crtc.hw_cols = (hwflag & CRTC_HW_DOUBLE_CHARS) ? 2 : 1;
     crtc.vaddr_mask = vmask;
+    crtc.vaddr_mask_eff = (hwflag & CRTC_HW_DOUBLE_CHARS) ? (vmask << 1) | 1
+                                                          : vmask;
     crtc.vaddr_charswitch = vchar;
     crtc.vaddr_charoffset = vcoffset << 4; /* times the number of bytes/char */
     crtc.vaddr_revswitch = vrevmask;
@@ -804,6 +806,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
             memcpy(&crtc.prefetch[0],
                    &crtc.screen_base[crtc.screen_rel],
                    crtc.rl_visible * crtc.hw_cols);
+            /* FIXME: Ignores wraparound for now. */
         }
 #endif /* CRTC_BEAM_RACING */
     }

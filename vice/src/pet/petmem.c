@@ -2165,12 +2165,12 @@ void petmem_check_info(petres_t *pi)
         pi->vmask = 0x3ff;
         pi->videoSize = 0x400;
     } else {
-        pi->vmask = 0x7ff;
+        pi->vmask = 0x3ff;
         pi->videoSize = 0x800;
     }
 
     if (pi->ramSize == 128) {
-        pi->vmask = 0x1fff;
-        pi->videoSize = 0x1000;
+        pi->vmask = 0x0fff;
+        pi->videoSize = 0x1000; /* maybe even 0x2000 ? */
     }
 }

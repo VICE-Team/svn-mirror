@@ -728,8 +728,12 @@ int machine_specific_init(void)
         return -1;
     }
     crtc_set_retrace_callback(cbm2_crtc_signal);
-    crtc_set_retrace_type(1);
-    crtc_set_hw_options(1, 0x7ff, 0x1000, 512, -0x2000);
+    crtc_set_retrace_type(CRTC_RETRACE_TYPE_CRTC);
+    crtc_set_hw_options(CRTC_HW_CURSOR,
+                        0x7ff,          /* vmask */
+                        0x1000,         /* vchar */
+                        512,            /* vcoffset */
+                        -0x2000);       /* vrevmask */
 
     cia1_init(machine_context.cia1);
     acia1_init();

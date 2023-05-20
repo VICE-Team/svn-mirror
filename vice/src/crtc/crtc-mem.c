@@ -108,6 +108,7 @@ void crtc_store(uint16_t addr, uint8_t value)
                 memcpy(&crtc.prefetch[0],
                        &crtc.screen_base[crtc.screen_rel],
                        crtc.rl_visible * crtc.hw_cols);
+                /* FIXME: Ignores wraparound for now. */
             }
 #endif
             break;
@@ -174,6 +175,7 @@ void crtc_store(uint16_t addr, uint8_t value)
              * Bit 2: no connection
              * Bit 3: no connection
              * Bit 4: use top half of 4K character generator
+             *        8296: HRE HiRes mode
              * Bit 5: invert video signal
              * Bit 6: (no pin on the CRTC, video address is 14 bit only)
              * Bit 7: (no pin on the CRTC, video address is 14 bit only)
