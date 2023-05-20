@@ -105,10 +105,7 @@ void crtc_store(uint16_t addr, uint8_t value)
 #if CRTC_BEAM_RACING
             if (crtc.venable) {
                 /* Just cache the new visible length of the line */
-                memcpy(&crtc.prefetch[0],
-                       &crtc.screen_base[crtc.screen_rel],
-                       crtc.rl_visible * crtc.hw_cols);
-                /* FIXME: Ignores wraparound for now. */
+                crtc_fetch_prefetch();
             }
 #endif
             break;
@@ -164,19 +161,19 @@ void crtc_store(uint16_t addr, uint8_t value)
             /* FIXME: set end line */
             break;
 
-        case CRTC_REG_DISPSTARTH:   /* R12  Control register */
+        case CRTC_REG_DISPSTARTH:   /* R12  Control register, MA8-13 */
             /* This is actually the upper 6 video RAM address bits.
              * But CBM decided that the two uppermost bits should be used
              * for control.
              * The usage here is from the 8032 schematics on funet.
              *
-             * Bit 0: 1=add 256 to screen start address ( 512 for 80-columns)
-             * Bit 1: 1=add 512 to screen start address (1024 for 80-columns)
-             * Bit 2: no connection
-             * Bit 3: no connection
-             * Bit 4: use top half of 4K character generator
-             *        8296: HRE HiRes mode
-             * Bit 5: invert video signal
+             * Bit 0(8): 1=add 256 to screen start address ( 512 for 80-columns)
+             * Bit 1(9): 1=add 512 to screen start address (1024 for 80-columns)
+             * Bit 2(10): no connection (8296: connected)
+             * Bit 3(11): no connection (8296: connected)
+             * Bit 4(12): invert video signal
+             *            8296: HRE HiRes mode, or connected via JU8/9(?)
+             * Bit 5(13): use top half of 4K character generator
              * Bit 6: (no pin on the CRTC, video address is 14 bit only)
              * Bit 7: (no pin on the CRTC, video address is 14 bit only)
              */
@@ -187,7 +184,7 @@ void crtc_store(uint16_t addr, uint8_t value)
             crtc.regs[CRTC_REG_DISPSTARTH] &= 0x3f;
             break;
 
-        case CRTC_REG_DISPSTARTL:   /* R13  Address of first character */
+        case CRTC_REG_DISPSTARTL:   /* R13  Address of first character: MA0-7 */
             break;
 
         case CRTC_REG_CURSORPOSH:   /* R14  Cursor location  HI -- unused */
