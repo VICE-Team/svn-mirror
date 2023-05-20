@@ -221,14 +221,14 @@ void crtc_store_hre(uint16_t addr, uint8_t value)
                 if (value == 0x0F) {            /* ROMs on */
                     /* printf("HRE: ROMs on\n"); */
                     petmem_ramON = 0;
-                    petres.ramsel9 = 0;
-                    petres.ramselA = 0;
+                    petres.model.ramsel9 = 0;
+                    petres.model.ramselA = 0;
                     ramsel_changed();
                 } else if (value == 0x83) {     /* ROMs off */
                     /* printf("HRE: ROMs off\n"); */
                     petmem_ramON = 1;
-                    petres.ramsel9 = 0;
-                    petres.ramselA = 0;
+                    petres.model.ramsel9 = 0;
+                    petres.model.ramselA = 0;
                     ramsel_changed();
                 }
                 reg_E888 = value;

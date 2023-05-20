@@ -91,7 +91,7 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
         ef = -1;
     }
 
-    if ((!ef) && petres.superpet) {
+    if ((!ef) && petres.model.superpet) {
         ef = acia1_snapshot_write_module(s);
     }
 

@@ -55,7 +55,7 @@
  * A DWW (Double-W) board consists of a PIA and 8 K RAM.
  *
  * The PIA is at $EBx0, and the RAM may be mapped at $EC00-$EFFF.
- * Therefore, petres.IOSize must be 2K.
+ * Therefore, petres.model.IOSize must be 2K.
  *
  * The RAM may also be mapped at $9000-AFFF under software control,
  * so we need to hook into the memory mapping system.
@@ -343,13 +343,13 @@ void petdww_reset(void)
 
 static int petdww_activate(void)
 {
-    if (petres.IOSize < 2048) {
+    if (petres.model.IOSize < 2048) {
         ui_error("Cannot enable DWW: $eb00-$efff range only available on 30xx models");
-        log_message(petdww_log, "Cannot enable DWW: IOSize too small (%d but must be 2KiB)", petres.IOSize);
+        log_message(petdww_log, "Cannot enable DWW: IOSize too small (%d but must be 2KiB)", petres.model.IOSize);
         return -1;
     }
 
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         ui_error("Cannot enable DWW: not compatible with SuperPET");
         log_message(petdww_log, "Cannot enable DWW: not compatible with SuperPET");
         return -1;
@@ -447,7 +447,7 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
     int i;
 
     /* Check this just in case */
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         return;
     }
     /*
@@ -697,7 +697,7 @@ static void store_pa(uint8_t byte)
                 crtc_set_hires_draw_callback(petdww_DRAW_blank);
             }
         } else {
-            if (petres.video == 80) {
+            if (petres.model.video == 80) {
                 crtc_set_hires_draw_callback(petdww_DRAW_80);
             } else {
                 crtc_set_hires_draw_callback(petdww_DRAW_40);
