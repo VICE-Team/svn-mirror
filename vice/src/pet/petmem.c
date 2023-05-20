@@ -605,7 +605,7 @@ static void superpet_mem_powerup(void)
 
 int petmem_superpet_diag(void)
 {
-    return petres.superpet && spet_diag;
+    return petres.model.superpet && spet_diag;
 }
 
 static uint8_t read_super_io(uint16_t addr)
@@ -846,7 +846,7 @@ static void store_io_e8(uint16_t addr, uint8_t value)
         via_store(addr, value);
     }
 
-    if ((addr & 0x80) && petres.crtc) {
+    if ((addr & 0x80) && petres.model.crtc) {
         crtc_store(addr, value);
         crtc_store_hre(addr, value);
     }
@@ -873,7 +873,7 @@ static uint8_t read_io_e8(uint16_t addr)
             last_access = via_read(addr); /* VIA */
             break;
         case 0x80:              /* CRTC */
-            if (petres.crtc) {
+            if (petres.model.crtc) {
                 last_access = crtc_read(addr);
             } /* fall through */
         case 0x00:
@@ -895,7 +895,7 @@ static uint8_t read_io_e8(uint16_t addr)
                 v3 = 0xff;
             }
             v4 = 0xff;
-            if ((addr & 0x80) && petres.crtc) {
+            if ((addr & 0x80) && petres.model.crtc) {
                 v4 = crtc_read(addr);
             }
             last_access = v1 & v2 & v3 & v4;
@@ -1030,16 +1030,16 @@ static void set_std_9tof(void)
 
         if (petmem_ramON) {
             ram9 = ramA = ramBCD = 1;
-            ramE = petres.ramsel9 || petres.ramselA;
-            ramE8 = petres.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
-            ramF = petres.ramselA;
+            ramE = petres.model.ramsel9 || petres.model.ramselA;
+            ramE8 = petres.model.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
+            ramF = petres.model.ramselA;
             /*
              * XXX: If there is no I/O peek through, how can we write
              * again to the E888 register to restore I/O?
              */
         } else {
-            ram9 = petres.ramsel9;
-            ramA = petres.ramselA;
+            ram9 = petres.model.ramsel9;
+            ramA = petres.model.ramselA;
             ramBCD = ramE = ramE8 = ramF = 0;
         }
     } else {
@@ -1048,7 +1048,7 @@ static void set_std_9tof(void)
     }
 
     /* Setup RAM/ROM at $9000 - $9FFF. */
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
@@ -1099,10 +1099,10 @@ static void set_std_9tof(void)
     }
 
     /* End of I/O address space */
-    l = ((0xe800 + petres.IOSize) >> 8) & 0xff;
+    l = ((0xe800 + petres.model.IOSize) >> 8) & 0xff;
 
     if (ramE8) {
-        /* Setup RAM at $E800 - $E800 + petres.IOSize. */
+        /* Setup RAM at $E800 - $E800 + petres.model.IOSize. */
         for (i = 0xe0; i < l; i++) {
             _mem_read_tab[i] = ram_read;
             _mem_write_tab[i] = store;
@@ -1110,7 +1110,7 @@ static void set_std_9tof(void)
             mem_read_limit_tab[i] = 0;
         }
     } else {
-        /* Setup I/O at $e800 - $e800 + petres.IOSize. */
+        /* Setup I/O at $e800 - $e800 + petres.model.IOSize. */
         /* i.e. IO at $e800... */
         _mem_read_tab[0xe8] = read_io_e8;
         _mem_write_tab[0xe8] = store_io_e8;
@@ -1126,7 +1126,7 @@ static void set_std_9tof(void)
         }
     }
 
-    /* Setup RAM/ROM at $E800 + petres.IOSize - $EFFF: Extended Editor */
+    /* Setup RAM/ROM at $E800 + petres.model.IOSize - $EFFF: Extended Editor */
     fetch = ramE ? ram_read : rom_read;
     for (i = l; i <= 0xef; i++) {
         _mem_read_tab[i] = fetch;
@@ -1139,7 +1139,7 @@ static void set_std_9tof(void)
      * $EF00 is needed for SuperPET I/O or 2001 ROM patch.
      * This means that those models can't support an extended editor ROM.
      */
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
         _mem_read_base_tab[0xef] = NULL;
@@ -1409,7 +1409,7 @@ void petmem_set_vidmem(void)
      * Model 2001 has its 1K screen memory mirrored all over $8xxx,
      * unlike later models.
      */
-    if (petres.screenmirrors2001) {
+    if (petres.model.screenmirrors2001) {
         /* Setup screen mirror 3 and 4 from $8800 to $8FFF */
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_vmirror_2001;
@@ -1558,11 +1558,11 @@ void mem_initialize_memory(void)
 {
     int i, l;
 
-    l = petres.ramSize << 2;       /* ramSize in kB, l in 256 Byte */
+    l = petres.model.ramSize << 2; /* ramSize in kB, l in 256 Byte */
     if (l > (32 << 2)) {
         l = (32 << 2);             /* fix 8096 / 8296 */
     }
-    /* Setup RAM from $0000 to petres.ramSize */
+    /* Setup RAM from $0000 to petres.model.ramSize */
     _mem_read_tab[0] = zero_read;
     _mem_write_tab[0] = zero_store;
     _mem_read_base_tab[0] = NULL;
@@ -1575,7 +1575,7 @@ void mem_initialize_memory(void)
         mem_read_limit_tab[i] = 0;
     }
 
-    /* Setup unused from petres.ramSize to $7fff */
+    /* Setup unused from petres.model.ramSize to $7fff */
     for (i = l; i < 0x80; i++) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_void;
@@ -1596,7 +1596,7 @@ void mem_initialize_memory(void)
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
     mem_read_limit_tab[0x100] = 0;
 
-    ram_size = petres.ramSize * 1024;
+    ram_size = petres.model.ramSize * 1024;
     _mem_read_tab_ptr = _mem_read_tab;
     _mem_write_tab_ptr = _mem_write_tab;
     _mem_read_tab_ptr_dummy = _mem_read_tab;
@@ -1621,7 +1621,7 @@ void mem_initialize_memory(void)
     }
 
 
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         /*
          * Initialize SuperPET 6809 memory view.
          * Basically, it is the same as the 6502 view, except for the
@@ -1764,7 +1764,7 @@ static uint8_t peek_bank_io(uint16_t addr)
         case 0x40:
             return via_peek(addr); /* VIA */
         case 0x80:              /* CRTC */
-            if (petres.crtc) {
+            if (petres.model.crtc) {
                 return crtc_read(addr);
             }
             /* FALL THROUGH */
@@ -1790,7 +1790,7 @@ static uint8_t peek_bank_io(uint16_t addr)
         v3 = 0xff;
     }
     v4 = 0xff;
-    if ((addr & 0x80) && petres.crtc) {
+    if ((addr & 0x80) && petres.model.crtc) {
         v4 = crtc_read(addr);
     }
     return v1 & v2 & v3 & v4;
@@ -1845,7 +1845,7 @@ static const int bankflags[MAXBANKS + 1] = { 0, 0, 0, 0, 0, 0, 0, -1 };
 
 const char **mem_bank_list(void)
 {
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         return banknames_superpet;
     } else {
         return banknames_regular;
@@ -1909,10 +1909,10 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             if (addr >= 0xe800 && addr < 0xe900) {
                 return read_io_e8(addr);
             }
-            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            if (petres.model.superpet && (addr & 0xff00) == 0xef00) {
                 return read_super_io(addr);
             }
-            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            if (addr >= 0xe900 && addr < 0xe800 + petres.model.IOSize) {
                 return read_io_e9_ef(addr);
             }
             /* FALL THROUGH */
@@ -1952,10 +1952,10 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             if (addr >= 0xE800 && addr < 0xE900) {
                 return peek_bank_io(addr);
             }
-            if (petres.superpet && (addr & 0xFF00) == 0xEF00) {
+            if (petres.model.superpet && (addr & 0xFF00) == 0xEF00) {
                 return read_super_io(addr);
             }
-            if (addr >= 0xE900 && addr < 0xE800 + petres.IOSize) {
+            if (addr >= 0xE900 && addr < 0xE800 + petres.model.IOSize) {
                 uint8_t result;
                 /* is_peek_access = 1; FIXME */
                 result = read_unused(addr);
@@ -1969,7 +1969,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 }
 
 int mem_get_current_bank_config(void) {
-    if (petres.superpet &&
+    if (petres.model.superpet &&
             petres.superpet_cpu_switch == SUPERPET_CPU_6809) {
         return bank_cpu6809;
     } else {
@@ -1995,11 +1995,11 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 store_io_e8(addr, byte);
                 return;
             }
-            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            if (petres.model.superpet && (addr & 0xff00) == 0xef00) {
                 store_super_io(addr, byte);
                 return;
             }
-            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            if (addr >= 0xe900 && addr < 0xe800 + petres.model.IOSize) {
                 store_io_e9_ef(addr, byte);
                 return;
             }
@@ -2034,7 +2034,7 @@ static int mem_dump_io(void *context, uint16_t addr)
     } else if ((addr >= 0xe840) && (addr <= 0xe84f)) {
         return viacore_dump(machine_context.via);
     } else if ((addr >= 0xe880) && (addr <= 0xe881)) {
-        if (petres.crtc) {
+        if (petres.model.crtc) {
             return crtc_dump();
         }
     } else if (addr == 0xe888) {
@@ -2048,7 +2048,7 @@ static int mem_dump_io(void *context, uint16_t addr)
             return fff0_dump();
         }
     }
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         if (addr >= 0xefe0 && addr <= 0xefe3) {
             return efe0_dump();
         } else if (addr >= 0xeff0 && addr <= 0xeff3) {
@@ -2087,7 +2087,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0xe810, 0xe81f, mem_dump_io, NULL, IO_MIRROR_NONE);
     mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f, mem_dump_io, NULL, IO_MIRROR_NONE);
     mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f, mem_dump_io, NULL, IO_MIRROR_NONE);
-    if (petres.crtc) {
+    if (petres.model.crtc) {
         mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe881, mem_dump_io, NULL, IO_MIRROR_NONE);
     }
     if (pethre_enabled) {
@@ -2096,7 +2096,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     if (petres.map) {
         mon_ioreg_add_list(&mem_ioreg_list, "8096", 0xfff0, 0xfff0, mem_dump_io, NULL, IO_MIRROR_NONE);
     }
-    if (petres.superpet) {
+    if (petres.model.superpet) {
         mon_ioreg_add_list(&mem_ioreg_list, "6702", 0xefe0, 0xefe3, mem_dump_io, NULL, IO_MIRROR_NONE);
         mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xeff0, 0xeff3, mem_dump_io, NULL, IO_MIRROR_NONE);
         mon_ioreg_add_list(&mem_ioreg_list, "Control", 0xeff8, 0xeff8, mem_dump_io, NULL, IO_MIRROR_NONE);
@@ -2111,7 +2111,7 @@ int petmem_get_screen_columns(void)
 {
     int cols;
 
-    cols = petres.video;
+    cols = petres.model.video;
     if (!cols) {
         cols = petres.rom_video;
         if (!cols) {
@@ -2161,7 +2161,7 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
 
 void petmem_check_info(petres_t *pi)
 {
-    if (pi->video == 40 || (pi->video == 0 && pi->rom_video == 40)) {
+    if (pi->model.video == 40 || (pi->model.video == 0 && pi->rom_video == 40)) {
         pi->vmask = 0x3ff;
         pi->videoSize = 0x400;
     } else {
@@ -2169,7 +2169,7 @@ void petmem_check_info(petres_t *pi)
         pi->videoSize = 0x800;
     }
 
-    if (pi->ramSize == 128) {
+    if (pi->model.ramSize == 128) {
         pi->vmask = 0x0fff;
         pi->videoSize = 0x1000; /* maybe even 0x2000 ? */
     }
