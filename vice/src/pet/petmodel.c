@@ -79,8 +79,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = NO_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = PATCH_2K_KERNAL,
         .eoiblank = EOI_BLANKS,
@@ -100,8 +98,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = NO_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -121,8 +117,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = NO_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -142,8 +136,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = NO_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -163,8 +155,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = NO_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -184,8 +174,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -205,8 +193,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_GRAPHICS_US,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -226,8 +212,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_40,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -247,8 +231,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_80,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -268,8 +250,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_80,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -289,8 +269,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_256,
         .crtc = HAS_CRTC,
         .video = COLS_80,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -310,8 +288,6 @@ static const pet_table_t pet_table[] = {
         .IOSize = IO_2048,
         .crtc = HAS_CRTC,
         .video = COLS_80,
-        .ramsel9 = NO_RAM_9,
-        .ramselA = NO_RAM_A,
         .kbd_type = KBD_TYPE_BUSINESS_UK,
         .pet2k = NO_KERNAL_PATCH,
         .eoiblank = NO_EOI,
@@ -346,8 +322,6 @@ static int petmem_get_conf_info(petinfo_t *pi)
     if ((resources_get_int("RamSize", &pi->ramSize) < 0)
         || (resources_get_int("IOSize", &pi->IOSize) < 0)
         || (resources_get_int("Crtc", &pi->crtc) < 0)
-        || (resources_get_int("Ram9", &pi->ramsel9) < 0)
-        || (resources_get_int("RamA", &pi->ramselA) < 0)
         || (resources_get_int("EoiBlank", &pi->eoiblank) < 0)
         || (resources_get_int("Screen2001", &pi->screenmirrors2001) < 0)
         || (resources_get_int("SuperPET", &pi->superpet) < 0)
@@ -370,8 +344,6 @@ int petmem_set_conf_info(const petinfo_t *pi)
     resources_set_int("IOSize", pi->IOSize);
     resources_set_int("Crtc", pi->crtc);
     resources_set_int("VideoSize", pi->video);
-    resources_set_int("Ram9", pi->ramsel9);
-    resources_set_int("RamA", pi->ramselA);
     resources_set_int("EoiBlank", pi->eoiblank);
     resources_set_int("Screen2001", pi->screenmirrors2001);
     resources_set_int("SuperPET", pi->superpet);
@@ -452,14 +424,6 @@ static int petmodel_get_temp(petinfo_t *pi)
             && (pet_table[i].info.screenmirrors2001 == pi->screenmirrors2001)
             && (pet_table[i].info.superpet == pi->superpet)
             && (pet_table[i].info.kbd_type == pi->kbd_type)) {
-            if ((pet_table[i].info.ramsel9 != pi->ramsel9)
-                && (i != PETMODEL_8296)) {
-                continue;
-            }
-            if ((pet_table[i].info.ramselA != pi->ramselA)
-                && (i != PETMODEL_8296)) {
-                continue;
-            }
             return i;
         }
     }

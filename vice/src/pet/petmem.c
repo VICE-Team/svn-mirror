@@ -1030,16 +1030,16 @@ static void set_std_9tof(void)
 
         if (petmem_ramON) {
             ram9 = ramA = ramBCD = 1;
-            ramE = petres.model.ramsel9 || petres.model.ramselA;
-            ramE8 = petres.model.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
-            ramF = petres.model.ramselA;
+            ramE = petres.ramsel9 || petres.ramselA;
+            ramE8 = petres.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
+            ramF = petres.ramselA;
             /*
              * XXX: If there is no I/O peek through, how can we write
              * again to the E888 register to restore I/O?
              */
         } else {
-            ram9 = petres.model.ramsel9;
-            ramA = petres.model.ramselA;
+            ram9 = petres.ramsel9;
+            ramA = petres.ramselA;
             ramBCD = ramE = ramE8 = ramF = 0;
         }
     } else {

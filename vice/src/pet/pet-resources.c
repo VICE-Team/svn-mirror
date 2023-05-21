@@ -99,8 +99,8 @@ static int set_ram_9_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (petres.model.ramsel9 != val) {
-        petres.model.ramsel9 = (unsigned int)val;
+    if (petres.ramsel9 != val) {
+        petres.ramsel9 = (unsigned int)val;
         mem_initialize_memory();
     }
 
@@ -111,8 +111,8 @@ static int set_ram_a_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (petres.model.ramselA != val) {
-        petres.model.ramselA = (unsigned int)val;
+    if (petres.ramselA != val) {
+        petres.ramselA = (unsigned int)val;
         mem_initialize_memory();
     }
 
@@ -429,9 +429,9 @@ static const resource_int_t resources_int[] = {
     { "VideoSize", COLS_AUTO, RES_EVENT_SAME, NULL,
       &petres.model.video, set_video, NULL },
     { "Ram9", 0, RES_EVENT_SAME, NULL,
-      &petres.model.ramsel9, set_ram_9_enabled, NULL },
+      &petres.ramsel9, set_ram_9_enabled, NULL },
     { "RamA", 0, RES_EVENT_SAME, NULL,
-      &petres.model.ramselA, set_ram_a_enabled, NULL },
+      &petres.ramselA, set_ram_a_enabled, NULL },
     { "SuperPET", 0, RES_EVENT_SAME, NULL,
       &petres.model.superpet, set_superpet_enabled, NULL },
     { "Basic1", 1, RES_EVENT_SAME, NULL,

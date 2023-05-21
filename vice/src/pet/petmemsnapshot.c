@@ -137,8 +137,8 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
         }
     }
 
-    rconf = (petres.model.ramsel9 ? 0x40 : 0) |
-            (petres.model.ramselA ? 0x80 : 0);
+    rconf = (petres.ramsel9 ? 0x40 : 0) |
+            (petres.ramselA ? 0x80 : 0);
 
     conf8x96 = petmem_map_reg;
 
@@ -277,10 +277,10 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
             break;
     }
 
-    peti.ramsel9 = (rconf & 0x40) ? 1 : 0;
-    peti.ramselA = (rconf & 0x80) ? 1 : 0;
-
     petmem_set_conf_info(&peti);  /* set resources and config accordingly */
+
+    petres.ramsel9 = (rconf & 0x40) ? 1 : 0;
+    petres.ramselA = (rconf & 0x80) ? 1 : 0;
     petmem_map_reg = conf8x96;
 
     mem_initialize_memory();

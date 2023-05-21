@@ -1030,9 +1030,9 @@ void pet_crtc_set_screen(void)
     crtc_set_screen_addr(mem_ram + 0x8000);
     crtc_set_hw_options((cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0,
                         vmask,
-                        0x2000,         /* vchar */
+                        0x2000,         /* vchar: MA13 */
                         512,            /* vcoffset */
-                        0x1000);        /* vrevmask */
+                        0x1000);        /* vrevmask: MA12 */
     crtc_set_retrace_type(petres.model.crtc ? CRTC_RETRACE_TYPE_CRTC
                                             : CRTC_RETRACE_TYPE_DISCRETE);
 
