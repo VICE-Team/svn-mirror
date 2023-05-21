@@ -85,6 +85,7 @@
  * Forward declarations
  */
 static void plus4_debug_dump_resources(void);
+static void machine_model_handler_pet(int model);
 
 
 /** \brief  List of C64DTV revisions
@@ -203,7 +204,7 @@ static GtkWidget *c64_custom_radio = NULL;
 static void video_model_callback(int model)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
         if (machine_class == VICE_MACHINE_PLUS4) {
             plus4_debug_dump_resources();
         }
@@ -223,7 +224,7 @@ static void video_model_callback(int model)
 static void vdc_revision_callback(int revision)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -235,7 +236,7 @@ static void vdc_revision_callback(int revision)
 static void vdc_ram_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -248,7 +249,7 @@ static void vdc_ram_callback(int state)
 static void sid_model_callback(int model)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -261,7 +262,7 @@ static void sid_model_callback(int model)
  */
 static void kernal_revision_callback(int rev)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Function called on IEC checkbox toggles
@@ -271,7 +272,7 @@ static void kernal_revision_callback(int rev)
  */
 static void iec_callback(GtkWidget *widget, gpointer data)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for CIA model changes
@@ -282,7 +283,7 @@ static void iec_callback(GtkWidget *widget, gpointer data)
 static void cia_model_callback(int cia_num, int cia_model)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -295,7 +296,8 @@ static void cia_model_callback(int cia_num, int cia_model)
 static void pet_ram_size_callback(int size)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -307,7 +309,8 @@ static void pet_ram_size_callback(int size)
 static void pet_video_size_callback(int size)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -319,7 +322,8 @@ static void pet_video_size_callback(int size)
 static void pet_keyboard_type_callback(int type)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -331,7 +335,8 @@ static void pet_keyboard_type_callback(int type)
 static void pet_crtc_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -343,7 +348,8 @@ static void pet_crtc_callback(int state)
 static void pet_blank_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -355,7 +361,21 @@ static void pet_blank_callback(int state)
 static void pet_screen2001_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
+    }
+}
+
+
+/** \brief  Callback for SuperPET I/O changes
+ *
+ * \param[in]   state    enabled
+ */
+static void superpet_enable_callback(int state)
+{
+    if (get_model_func != NULL) {
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -367,7 +387,8 @@ static void pet_screen2001_callback(int state)
 static void pet_io_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -379,7 +400,8 @@ static void pet_io_callback(int state)
 static void pet_ram9_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 
@@ -391,7 +413,8 @@ static void pet_ram9_callback(int state)
 static void pet_rama_callback(int state)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        /* resources may have changed; sync widgets */
+        machine_model_widget_update(machine_widget, true);
     }
 }
 /* }}} */
@@ -474,7 +497,7 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
     debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
 #endif
     plus4_memory_expansion_widget_sync();
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
     plus4_debug_dump_resources();
 }
 
@@ -496,7 +519,7 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
     gtk_widget_set_sensitive(ram_widget, value == MEMORY_HACK_NONE);
     plus4_memory_size_widget_sync();
 
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
     plus4_debug_dump_resources();
 }
 
@@ -508,7 +531,7 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
  */
 static void plus4_acia_widget_callback(GtkWidget *widget, int value)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 
@@ -519,7 +542,7 @@ static void plus4_acia_widget_callback(GtkWidget *widget, int value)
  */
 static void v364_speech_widget_callback(GtkWidget *widget, int value)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 
@@ -627,7 +650,7 @@ static void machine_model_handler_c128(int model)
 static void dtv_revision_callback(GtkWidget *widget, int revision)
 {
     if (get_model_func != NULL) {
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -639,7 +662,7 @@ static void dtv_revision_callback(GtkWidget *widget, int revision)
  */
 static void dtv_video_callback(int model)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Sync "Hummer ADC" widget with the associated resource
@@ -661,7 +684,7 @@ static void c64dtv_hummer_adc_sync(void)
  */
 static void c64dtv_hummer_adc_callback(GtkWidget *widget, gboolean value)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for DTV machine model changes
@@ -715,7 +738,7 @@ static void machine_model_handler_c64dtv(int model)
  */
 static void vic20_video_callback(int model)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for VIC-20 machine model changes
@@ -751,7 +774,7 @@ static void machine_model_handler_vic20(int model)
  */
 static void plus4_video_callback(int model)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
     plus4_debug_dump_resources();
 }
 
@@ -781,7 +804,7 @@ static void machine_model_handler_plus4(int model)
  */
 static void cbm5x0_video_callback(int model)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for the CBM-II 6x0/7x0 CRTC model (sync factor)
@@ -792,7 +815,7 @@ static void cbm5x0_video_callback(int model)
  */
 static void cbm2_video_callback(int model)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for the CBM-II 6x0/7x0 ModelLine switches
@@ -804,7 +827,7 @@ static void cbm2_video_callback(int model)
  */
 static void cbm2_switches_callback(GtkWidget *widget, int model_line)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for CBM-II 6x0/7x0 memory size changes
@@ -816,7 +839,7 @@ static void cbm2_switches_callback(GtkWidget *widget, int model_line)
  */
 static void cbm2_memory_size_callback(GtkWidget *widget, int size)
 {
-    machine_model_widget_update(machine_widget);
+    machine_model_widget_update(machine_widget, false);
 }
 
 /** \brief  Callback for CBM 5x0 model changes
@@ -841,22 +864,24 @@ static void machine_model_handler_cbm6x0(int model)
 
 /** \brief  Set sensitivity of PET Ram9 and RamA widgets
  *
- * Only the 8296 model has the Ram9 and RamA resources
+ * Only the 8296 memory mapping has the Ram9 and RamA resources.
+ * Use RamSize as a proxy to determine this.
  */
 static void pet_set_ram9a_sensitivity(void)
 {
+    int ramSize;
     gboolean model_is_8296;
 
-    if (get_model_func != NULL) {
-        int true_model = get_model_func();
-
-        model_is_8296 = true_model == PETMODEL_8296;
-        gtk_widget_set_sensitive(pet_ram9_widget, model_is_8296);
-        gtk_widget_set_sensitive(pet_rama_widget, model_is_8296);
-    }
+    resources_get_int("RamSize", &ramSize);
+    model_is_8296 = (ramSize == 128);
+    gtk_widget_set_sensitive(pet_ram9_widget, model_is_8296);
+    gtk_widget_set_sensitive(pet_rama_widget, model_is_8296);
 }
 
-/** \brief  Callback for PET model changes
+/** \brief  Callback for PET model changes.
+ *          Also called if the model doesn't apparently change;
+ *          one resource change may have triggered another so all widgets must
+ *          be synced.
  *
  * \param[in]   model   new model
  */
@@ -869,6 +894,7 @@ static void machine_model_handler_pet(int model)
     pet_io_size_widget_sync(pet_io_widget);
     pet_ram9_widget_sync(pet_ram9_widget);
     pet_rama_widget_sync(pet_rama_widget);
+    pet_superpet_enable_widget_sync(superpet_enable_widget);
     pet_set_ram9a_sensitivity();
 }
 
@@ -922,7 +948,7 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         resources_set_int("GlueLogic", glue);
-        machine_model_widget_update(machine_widget);
+        machine_model_widget_update(machine_widget, false);
     }
 }
 
@@ -1419,6 +1445,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
 
     /* SuperPET widgets */
     superpet_grid = superpet_widget_create();
+    pet_superpet_widget_set_superpet_enable_callback(superpet_enable_callback);
 
     stack = gtk_stack_new();
 
