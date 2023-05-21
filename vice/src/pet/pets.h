@@ -115,7 +115,7 @@ typedef struct petres_s {
 
     /* Resources not part of the model */
     int superpet_cpu_switch;         /* 0 = 6502, 1 = 6809E, 2 = "prog" */
-    
+
     /* These can be set only if you have 8296 style memory mapping */
     int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
     int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
