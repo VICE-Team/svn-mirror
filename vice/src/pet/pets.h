@@ -88,8 +88,6 @@ typedef struct petinfo_s {
     int IOSize;                 /* 256 Byte / 2k I/O */
     int crtc;                   /* 0 = no CRTC, 1 = has one */
     int video;                  /* 0 = autodetect, 40, or 80 */
-    int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
-    int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
     int kbd_type;               /* see pet-resources.h */
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int eoiblank;               /* 1 = EOI blanks screen */
@@ -117,6 +115,10 @@ typedef struct petres_s {
 
     /* Resources not part of the model */
     int superpet_cpu_switch;         /* 0 = 6502, 1 = 6809E, 2 = "prog" */
+    
+    /* These can be set only if you have 8296 style memory mapping */
+    int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
+    int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
 
     /* Runtime (derived) constants */
     int videoSize;              /* video RAM size (1k or 2k) */
