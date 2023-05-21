@@ -56,7 +56,7 @@
 
 
 /** \brief  SuperPET enable toggle button */
-static GtkWidget *superpet_enable_widget = NULL;
+GtkWidget *superpet_enable_widget = NULL;
 
 /** \brief  ACIA widget */
 static GtkWidget *acia1_widget = NULL;
@@ -139,6 +139,26 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer index)
                                GINT_TO_POINTER(rom - 'A'));
 }
 
+/** \brief  User-defined callback function
+ *
+ * Set with pet_superpet_widget_set_superpet_enable_callback()
+ */
+static void (*user_callback_enable)(int);
+
+
+/** \brief  Callback for the check button widget
+ *
+ * \param[in]   widget   check button widget
+ * \param[in]   enabled  enabled or not
+ */
+static void superpet_enable_callback(GtkWidget *widget, int enabled)
+{
+    if (user_callback_enable != NULL) {
+        user_callback_enable(enabled);
+    }
+}
+
+
 /** \brief  Create check button for the SuperPET resource
  *
  * Create a grid with a check button and some informative text under it.
@@ -159,7 +179,33 @@ static GtkWidget *create_superpet_enable_widget(void)
     gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
+
+    vice_gtk3_resource_check_button_add_callback(check, superpet_enable_callback);
+
     return grid;
+}
+
+
+/** \brief  Set function to trigger on SuperPET enable checkbox toggle
+ *
+ * \param[in]   func    callback function
+ */
+void pet_superpet_widget_set_superpet_enable_callback(void (*func)(int))
+{
+    user_callback_enable = func;
+}
+
+
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  SuperPET I/O enabled widget
+ */
+void pet_superpet_enable_widget_sync(GtkWidget *widget)
+{
+    GtkWidget *check;
+
+    check = gtk_grid_get_child_at(GTK_GRID(widget), 0, 0);
+    vice_gtk3_resource_check_button_sync(check);
 }
 
 /** \brief  Create SuperPET CPU selection widget

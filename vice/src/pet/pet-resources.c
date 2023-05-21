@@ -47,6 +47,7 @@
 
 static int sync_factor;
 static int set_ramsize(int size, void *param);
+static int set_superpet_enabled(int value, void *param);
 
 int pet_colour_type = PET_COLOUR_TYPE_OFF;
 int pet_colour_analog_bg = 0;
@@ -55,8 +56,8 @@ int cb2_lowpass = 0;
 static int set_iosize(int val, void *param)
 {
     switch (val) {
-        case 256:
-        case 2048:
+        case IO_256:
+        case IO_2048:
             break;
         default:
             return -1;
@@ -64,6 +65,10 @@ static int set_iosize(int val, void *param)
 
     if (petres.model.IOSize != val) {
         petres.model.IOSize = val;
+
+        if (petres.model.superpet && val < IO_2048) {
+            set_superpet_enabled(0, NULL);/* requires space for its IO chips */
+        }
 
         mem_initialize_memory();
     }
@@ -85,8 +90,12 @@ static int set_superpet_enabled(int value, void *param)
     if (petres.model.superpet != val) {
         petres.model.superpet = (unsigned int)val;
 
-        if (petres.model.superpet && petres.model.ramSize > 32) {
-            set_ramsize(32, NULL);      /* disable 8x96 */
+        if (petres.model.superpet && petres.model.ramSize > RAM_32K) {
+            set_ramsize(RAM_32K, NULL);    /* disable 8x96; expansions incompatible */
+        }
+
+        if (petres.model.superpet && petres.model.IOSize < IO_2048) {
+            set_iosize(IO_2048, NULL);     /* requires space for its IO chips */
         }
 
         mem_initialize_memory();
@@ -122,7 +131,7 @@ static int set_ram_a_enabled(int value, void *param)
 static int set_ramsize(int size, void *param)
 {
     int i;
-    const int sizes[] = { 4, 8, 16, 32, 96, 128 };
+    const int sizes[] = { RAM_4K, RAM_8K, RAM_16K, RAM_32K, RAM_96K, RAM_128K };
 
     for (i = 0; i < util_arraysize(sizes); i++) {
         if (size <= sizes[i]) {
@@ -140,12 +149,12 @@ static int set_ramsize(int size, void *param)
         petres.model.ramSize = size;
         petres.map = PET_MAP_LINEAR;
 
-        if (size == 96) {
-            petres.map = PET_MAP_8096;         /* 8096 mapping */
-            set_superpet_enabled(0, NULL);
-        } else if (size == 128) {
-            petres.map = PET_MAP_8296;         /* 8296 mapping */
-            set_superpet_enabled(0, NULL);
+        if (size == RAM_96K) {
+            petres.map = PET_MAP_8096;          /* 8096 mapping */
+            set_superpet_enabled(0, NULL);      /* expansions incompatible */
+        } else if (size == RAM_128K) {
+            petres.map = PET_MAP_8296;          /* 8296 mapping */
+            set_superpet_enabled(0, NULL);      /* expansions incompatible */
         }
         petmem_check_info(&petres);
         mem_initialize_memory();
@@ -243,7 +252,7 @@ static int set_rom_module_b_name(const char *val, void *param)
     return petrom_load_romB();
 }
 
-/* Enable/disable patching the PET 2001 chargen ROM/kernal ROM */
+/* Enable/disable patching the PET 2001 kernal ROM */
 
 static int set_pet2k_enabled(int val, void *param)
 {
