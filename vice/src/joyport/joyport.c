@@ -466,6 +466,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].joystick_adapter_id = device->joystick_adapter_id;
     joyport_device[id].device_type = device->device_type;
     joyport_device[id].output_bits = device->output_bits;
+    joyport_device[id].needs_5v = device->needs_5v;
     joyport_device[id].set_enabled = device->set_enabled;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -523,6 +524,17 @@ static int check_valid_lightpen(int port, int index)
         return 1;
     }
     if (port_props[port].has_lp_support) {
+        return 1;
+    }
+    return 0;
+}
+
+static int check_valid_5vdc(int port, int index)
+{
+    if (!joyport_device[index].needs_5v) {
+        return 1;
+    }
+    if (port_props[port].has_5vdc_support) {
         return 1;
     }
     return 0;
@@ -644,6 +656,9 @@ static int joyport_valid_devices_compare_names(const void* a, const void* b)
 
 static int joyport_check_valid_devices(int port, int index)
 {
+    if (!check_valid_5vdc(port, index)) {
+        return 0;
+    }
     if (!check_valid_lightpen(port, index)) {
         return 0;
     }

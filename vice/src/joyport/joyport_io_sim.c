@@ -161,6 +161,7 @@ static joyport_t joyport_io_hw_device = {
     JOYPORT_RES_ID_NONE,          /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,      /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,         /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_NOT_NEEDED,      /* device does NOT need +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,     /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_IO_SIMULATION, /* device is a SNES adapter */
     0,                            /* output bits are programmable */
@@ -181,6 +182,7 @@ static joyport_t joyport_io_sim_device = {
     JOYPORT_RES_ID_NONE,           /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,          /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_NOT_NEEDED,       /* device does NOT need +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_IO_SIMULATION,  /* device is a SNES adapter */
     0,                             /* output bits are programmable */

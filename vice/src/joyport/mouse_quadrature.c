@@ -38,6 +38,8 @@
      4   | HQ-pulse      |  I
      5   | middle button |  I
      6   | left button   |  I
+     7   | +5VDC         |  Power
+     8   | GND           |  Ground
      9   | right button  |  I
 
    Works on:
@@ -58,6 +60,8 @@
      3   | Y direction |  I
      4   | Y motion    |  I
      6   | button      |  I
+     7   | +5VDC       |  Power
+     8   | GND         |  Ground
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
@@ -77,6 +81,8 @@
      3   | YA           |  I
      4   | YB           |  I
      6   | left button  |  I
+     7   | +5VDC        |  Power
+     8   | GND          |  Ground
      9   | right button |  I
 
    Works on:
@@ -255,6 +261,7 @@ static joyport_t mouse_amiga_joyport_device = {
     JOYPORT_RES_ID_MOUSE,             /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device uses the potentiometer lines for the right and middle buttons, but could work without it */
+    JOYPORT_5VDC_REQUIRED,            /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,         /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,             /* device is a Mouse */
     0,                                /* NO output bits */
@@ -279,6 +286,7 @@ static joyport_t mouse_cx22_joyport_device = {
     JOYPORT_RES_ID_MOUSE,      /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,      /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,     /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse/Trackball */
     0,                         /* NO output bits */
@@ -304,6 +312,7 @@ static joyport_t mouse_st_joyport_device = {
     JOYPORT_RES_ID_MOUSE,             /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device uses the potentiometer lines for the right button, but could work without it */
+    JOYPORT_5VDC_REQUIRED,            /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,         /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,             /* device is a Mouse */
     0,                                /* NO output bits */

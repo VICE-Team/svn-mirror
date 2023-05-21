@@ -201,6 +201,7 @@ static joyport_t joyport_coplin_keypad_device = {
     JOYPORT_RES_ID_KEYPAD,             /* device is a keypad, only 1 keypad can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,              /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_NOT_NEEDED,           /* device does NOT need +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_KEYPAD,             /* device is a Keypad */
     0,                                 /* No output bits */

@@ -45,6 +45,8 @@
      1   | RST   |  O
      2   | DQ    | I/O
      4   | CLK   |  O
+     7   | +5VDC | Power
+     8   | GND   | Ground
 
    Works on:
    - native port(s) (x64/x64sc/x128/xscpu64/x64dtv/xcbm5x0/xvic)
@@ -142,6 +144,7 @@ static joyport_t joyport_bbrtc_device = {
     JOYPORT_RES_ID_NONE,       /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,      /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,     /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_RTC,        /* device is an RTC */
     0x0B,                      /* bits 3, 1 and 0 are output */

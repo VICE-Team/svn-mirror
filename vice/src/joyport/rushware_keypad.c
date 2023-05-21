@@ -44,6 +44,7 @@
      3   | KEY2    |  I
      4   | KEY3    |  I
      6   | KEYDOWN |  I
+     8   | GND     |  Ground
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/xplus4/xvic)
@@ -223,6 +224,7 @@ static joyport_t joyport_rushware_keypad_device = {
     JOYPORT_RES_ID_KEYPAD,               /* device is a keypad, only 1 keypad can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,             /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_NOT_NEEDED,             /* device does NOT need +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,            /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_KEYPAD,               /* device is a Keypad */
     0,                                   /* NO output bits */

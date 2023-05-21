@@ -43,6 +43,8 @@
      2   | D1           |  I
      3   | D2           |  I
      4   | D3           |  I
+     7   | +5VDC        |  Power
+     8   | GND          |  Ground
 
    Works on all joystick ports and adapters
 
@@ -90,6 +92,7 @@ static joyport_t joyport_sampler_device = {
     JOYPORT_RES_ID_SAMPLER,      /* device is a sampler, only 1 sampler can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,     /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,        /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,       /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,    /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SAMPLER,      /* device is a Sampler */
     0,                           /* NO output bits */

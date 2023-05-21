@@ -114,6 +114,9 @@ enum {
 #define JOYPORT_POT_REQUIRED   0
 #define JOYPORT_POT_OPTIONAL   1
 
+#define JOYPORT_5VDC_NOT_NEEDED   0
+#define JOYPORT_5VDC_REQUIRED     1
+
 enum {
     JOYSTICK_ADAPTER_ID_NONE = 0,
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT,
@@ -241,6 +244,7 @@ typedef struct joyport_s {
     int resource_id;                                       /* type of device, to determine if there can be multiple instances of the type of device */
     int is_lp;                                             /* flag to indicate the device is a lightpen */
     int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
+    int needs_5v;                                          /* flag to indicate the device needs the +5VDC line to work */
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int device_type;                                       /* device type */
     uint8_t output_bits;                                   /* flag to indicate which bits are output */
