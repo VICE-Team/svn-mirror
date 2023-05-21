@@ -58,7 +58,7 @@
    The userport is driven in such a way that only 1 joystick
    has ground.
 
-   Note that the +5VDC pin is NOT connected
+   Note that the +5VDC pin is NOT connected to the 8 joystick ports
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic)
@@ -134,6 +134,7 @@ static joyport_t joyport_spaceballs_device = {
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_NOT_NEEDED,          /* decice does NOT need the +5VDC on the joystick port, the switching gets its power from the +5VDC on the userport */
     JOYSTICK_ADAPTER_ID_SPACEBALLS,   /* device is a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,  /* device is a Joystick adapter */
     0,                                /* NO output bits */

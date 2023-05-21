@@ -184,6 +184,7 @@ static joyport_t joyport_snespad_device = {
     JOYPORT_RES_ID_NONE,               /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,              /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,             /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SNES_ADAPTER,       /* device is a SNES adapter */
     0x1C,                              /* bits 4 and 3 are output bits */

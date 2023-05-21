@@ -45,6 +45,8 @@
      3   | COUNTER CLK  |  O
      4   | COUNTER CLR  |  O
      6   |   PROM CE    |  O
+     7   |    +5VDC     |  Power
+     8   |     GND      |  Ground
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128)
@@ -182,6 +184,7 @@ static joyport_t joyport_paperclip64e_device = {
     JOYPORT_RES_ID_NONE,             /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,         /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,            /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,           /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,        /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_C64_DONGLE,       /* device is a C64 Dongle */
     0x1C,                            /* bits 4, 3 and 2 are output bits */

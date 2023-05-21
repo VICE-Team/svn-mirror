@@ -63,7 +63,7 @@
        9 (O6)   |    JOY7
        7 (O7)   |    JOY8
 
-   Note that the +5VDC is not connected to any of the 8 ports.
+   Note that the +5VDC is not connected to any of the 8 ports, but it is used to power the 74138.
 
    Works on:
    - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
@@ -185,6 +185,7 @@ static joyport_t joyport_multijoy_joy_device = {
     JOYPORT_RES_ID_NONE,                     /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,                 /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                    /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,                   /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_MULTIJOY,            /* device is a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,         /* device is a Joystick adapter */
     0,                                       /* NO output bits */
@@ -205,6 +206,7 @@ static joyport_t joyport_multijoy_control_device = {
     JOYPORT_RES_ID_NONE,                  /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,              /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                 /* device does NOT use the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,                /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,             /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,      /* device is a Joystick adapter */
     0x07,                                 /* bits 2, 1 and 0 are output bits */

@@ -36,6 +36,8 @@
      1   | right button |  I ("Up")
      5   | Y-position   |  I
      6   | left button  |  I ("Fire")
+     7   | +5VDC        |  Power
+     8   | GND          |  Ground
      9   | X-position   |  I
 
    Works on:
@@ -50,6 +52,8 @@
      4   | RTC RST      | I/O
      5   | Y-position   |  I
      6   | left button  |  I
+     7   | +5VDC        |  Power
+     8   | GND          |  Ground
      9   | X-position   |  I
 
    Works on:
@@ -64,6 +68,8 @@
      4   | wheel down    |  I
      5   | Y-position    |  I
      6   | left button   |  I
+     7   | +5VDC         |  Power
+     8   | GND           |  Ground
      9   | X-position    |  I
 
    Works on:
@@ -208,6 +214,7 @@ static joyport_t mouse_1351_joyport_device = {
     JOYPORT_RES_ID_MOUSE,      /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,     /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse */
     0,                         /* NO output bits */
@@ -361,6 +368,7 @@ static joyport_t mouse_micromys_joyport_device = {
     JOYPORT_RES_ID_MOUSE,          /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,         /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,          /* device is a Mouse */
     0,                             /* NO output bits */
@@ -497,6 +505,7 @@ static joyport_t mouse_smart_joyport_device = {
     JOYPORT_RES_ID_MOUSE,       /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,      /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,       /* device is a Mouse */
     0x0E,                       /* bits 3, 2 and 1 are output bits */

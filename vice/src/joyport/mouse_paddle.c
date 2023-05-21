@@ -36,6 +36,8 @@
      3   | paddle X button |  I
      4   | paddle Y button |  I
      5   | paddle Y value  |  I
+     7   |      +5VDC      |  Power
+     8   |       GND       |  Ground
      9   | paddle X value  |  I
 
    Works on:
@@ -47,6 +49,8 @@
      3   | left button  |  I
      4   | right button |  I
      5   | Y-position   |  I
+     7   |    +5VDC     |  Power
+     8   |     GND      |  Ground
      9   | X-position   |  I
 
    Works on:
@@ -61,6 +65,8 @@
      4   | Flaps button         |  I
      5   | up/down pot value    |  I
      6   | Reset button         |  I
+     7   | +5VDC                |  Power
+     8   | GND                  |  Ground
      9   | left/right pot value |  I
 
    Works on:
@@ -340,6 +346,7 @@ static joyport_t paddles_joyport_device = {
                                     therefor it is flagged as not using the mouse */
     JOYPORT_IS_NOT_LIGHTPEN,     /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,        /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,       /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,    /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_PADDLES,      /* device is a Paddle */
     0,                           /* NO output bits */
@@ -536,6 +543,7 @@ static joyport_t koalapad_joyport_device = {
     JOYPORT_RES_ID_MOUSE,       /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,      /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DRAWING_PAD, /* device is a Drawing Tablet */
     0,                          /* NO output bits */
@@ -692,6 +700,7 @@ static joyport_t mf_joystick_joyport_device = {
                                  therefor it is flagged as not using the mouse */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
+    JOYPORT_5VDC_REQUIRED,     /* device NEEDS +5VDC to work */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_PADDLES,    /* device is a Paddle */
     0,                         /* NO output bits */
