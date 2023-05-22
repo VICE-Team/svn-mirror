@@ -116,11 +116,12 @@ void render_thread_join(render_thread_t thread)
 
 void render_thread_shutdown_and_join_all(void)
 {
-    for (int i = 0; i < thread_count; i++) {
+    int i;
+    for (i = 0; i < thread_count; i++) {
         render_thread_initiate_shutdown(threads + i);
     }
 
-    for (int i = 0; i < thread_count; i++) {
+    for (i = 0; i < thread_count; i++) {
         render_thread_join(threads + i);
     }
 }
