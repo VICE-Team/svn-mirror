@@ -40,6 +40,20 @@ const int min_label_width = 15;
 static void print_disass_context(profiling_context_t *context, bool print_subcontexts);
 static void print_function_line(profiling_context_t *context, int indent, profiling_counter_t total_cycles);
 
+enum ContextType {
+    CONTEXT_ALIASED = 1,
+    CONTEXT_MERGED  = 2,
+};
+
+static bool is_aliased(profiling_context_t *context) {
+    return context->pc_src == 0 /* aggregate */ && context->id & CONTEXT_ALIASED;
+}
+
+static bool is_merged(profiling_context_t *context) {
+    return context->pc_src == 0 /* aggregate */ && context->id & CONTEXT_MERGED;
+}
+
+
 void mon_profile(void)
 {
     if (maincpu_profiling) {
@@ -95,27 +109,104 @@ static bool init_profiling_data(void) {
     return true;
 }
 
-static void aggregate_context(profiling_context_t *output,
-                              profiling_context_t *source) {
+static void merge_aggregate_contexts(profiling_context_t *output,
+                                     profiling_context_t *source) {
     int i,j;
+
+    if (output->memory_bank_config != source->memory_bank_config) {
+        /* mark that the context is a merge of multiple memory configs */
+        output->id |= CONTEXT_MERGED;
+    }
 
     output->num_enters        += source->num_enters;
     output->num_exits         += source->num_exits;
     output->total_cycles      += source->total_cycles;
     output->total_cycles_self += source->total_cycles_self;
 
-    for (i = 0; i < 256; i++) {
-        if (source->page[i]) {
-            profiling_page_t *output_page = profiling_get_page(output, i);
-            profiling_page_t *source_page = source->page[i];
-            for (j = 0; j < 256; j++) {
-                output_page->data[j].num_cycles  += source_page->data[j].num_cycles;
-                output_page->data[j].num_samples += source_page->data[j].num_samples;
-                output_page->data[j].touched     |= source_page->data[j].touched;
+    while (source) {
+        profiling_context_t *output_context = get_mem_config_context(output, source->memory_bank_config);
+        for (i = 0; i < 256; i++) {
+            if (source->page[i]) {
+                profiling_page_t *output_page = profiling_get_page(output_context, i);
+                profiling_page_t *source_page = source->page[i];
+                for (j = 0; j < 256; j++) {
+                    output_page->data[j].num_cycles  += source_page->data[j].num_cycles;
+                    output_page->data[j].num_samples += source_page->data[j].num_samples;
+                    output_page->data[j].touched     |= source_page->data[j].touched;
+                }
             }
         }
+
+        source = source->next_mem_config;
     }
 }
+
+/* check to see if two aggregates seem to be collapsible
+ * i.e. even if they have different memory banking configurations
+ * memory areas referenced by the pc are identical */
+static bool are_aggregates_compatible(profiling_context_t *a,
+                                      profiling_context_t *b) {
+    if (a->memory_bank_config == b->memory_bank_config) {
+        return true;
+    }
+
+    int i;
+    MEMSPACE mem = e_comp_space;
+    uint16_t loc;
+
+    /* loop over all memory configs within each context */
+    profiling_context_t *ac = a;
+    while (ac) {
+        profiling_context_t *bc = b;
+        while (bc) {
+
+            for (i = 0; i < 256; i++) {
+                profiling_page_t *page_a = ac->page[i];
+                profiling_page_t *page_b = bc->page[i];
+
+                if (page_a && page_b) {
+                    int j;
+
+                    for (j = 0; j < 256; j++) {
+                        if (page_a->data[j].num_samples > 0 &&
+                            page_b->data[j].num_samples > 0) {
+                            int k;
+
+                            loc = (i << 8) | j;
+
+                            /* check the pc addr and the next 2
+                             * memory locations for opcodes up to length 3 */
+                            for (k = 0; k < 3; k++) {
+                                if (mon_get_mem_val_nosfx(mem, ac->memory_bank_config, loc + k) !=
+                                    mon_get_mem_val_nosfx(mem, bc->memory_bank_config, loc + k)) {
+                                    /* incompatible memory bank configs */
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            bc = bc->next_mem_config;
+        }
+        ac = ac->next_mem_config;
+    }
+
+    return true;
+}
+
+typedef struct context_array_s {
+    profiling_context_t **data;
+    int capacity;
+    int size;
+} context_array_t;
+
+typedef struct aggregate_stats_s {
+    profiling_context_t *aggregate;
+    context_array_t callers;
+    context_array_t callees;
+    struct aggregate_stats_s *next;
+} aggregate_stats_t;
 
 static uint16_t parent_function(profiling_context_t *context) {
     if (context->parent) {
@@ -145,13 +236,6 @@ static int total_time(void const* a, void const* b) {
     return (int)(*((profiling_context_t**)b))->total_cycles - (int)(*((profiling_context_t**)a))->total_cycles;
 }
 
-typedef struct context_array_s {
-    profiling_context_t **data;
-    int capacity;
-    int size;
-} context_array_t;
-
-context_array_t all_functions;
 
 static void array_sort(context_array_t *arr, int (*compar)(const void *, const void *))
 {
@@ -170,6 +254,15 @@ static int binary_search(context_array_t *arr, profiling_context_t *ref, int (*c
         } else if (res > 0) {
             hi = mid;
         } else {
+            /* find smallest matching index in case we have duplicates */
+            while (mid > lo) {
+                /* check previous element */
+                if (compar(&arr->data[mid-1], &ref) < 0) {
+                    /* found smallest index */
+                    return mid;
+                }
+                mid--;
+            }
             return mid;
         }
     }
@@ -198,56 +291,160 @@ static void array_free(context_array_t *arr) {
     arr->capacity = 0;
 }
 
-/* assuming sorted source array */
-static void array_compact(context_array_t * output, context_array_t const* source, int (*compar)(const void *, const void *)) {
-    profiling_context_t * const* src_ptr = source->data;
-    while (src_ptr != source->data + source->size) {
-        profiling_context_t *aggregate = alloc_profiling_context();
+static aggregate_stats_t *alloc_aggregate_stats(void) {
+    /* zeroes out all fields */
+    return lib_calloc(1, sizeof(aggregate_stats_t));
+}
 
+static void free_aggregate_stats(aggregate_stats_t *c) {
+    if (!c) return;
 
-        aggregate->pc_dst = (*src_ptr)->pc_dst;
-        /* HACK, store parent->dst as source pointer */
-        aggregate->pc_src = (*src_ptr)->parent->pc_dst;
-        aggregate_context(aggregate, *src_ptr);
+    if (c->next) {
+        free_aggregate_stats(c->next);
+    }
+    free_profiling_context(c->aggregate);
+    array_free(&c->callers);
+    array_free(&c->callees);
+    lib_free(c);
+}
 
-        while (src_ptr + 1 < source->data + source->size &&
-               compar(src_ptr, src_ptr+1) == 0) {
-            aggregate_context(aggregate, *(src_ptr+1));
-            src_ptr++;
+static void mark_aliases(context_array_t *contexts) {
+    for (int i = 1; i < contexts->size; i++) {
+        if (contexts->data[i  ]->pc_dst ==
+            contexts->data[i-1]->pc_dst) {
+            /* mark that the contexts are aliased */
+            contexts->data[i  ]->id |= CONTEXT_ALIASED;
+            contexts->data[i-1]->id |= CONTEXT_ALIASED;
         }
-
-        array_append(output, aggregate);
-
-        src_ptr++;
     }
 }
 
+/* Aggregate stats for all context that match call address 'addr'
+ * If multiple incompatible contexts exist, they get separated out into different
+ * aggregates.
+ * Returning data by populating a linked list of incompatible aggregates with
+ * their respective caller/callee contexts.
+ */
+static void recursively_aggregate_matching_functions(
+    profiling_context_t *query_context,
+    uint16_t             addr,
+    aggregate_stats_t  **stat_list)
+{
+    aggregate_stats_t *matched_stats = NULL;
 
-static void recursively_aggregate_all_functions(profiling_context_t *context) {
+    if (query_context->pc_dst == addr) {
+        /* find matching call_list context */
+        matched_stats = *stat_list;
+        while(matched_stats) {
+            if (are_aggregates_compatible(query_context, matched_stats->aggregate)) {
+                break; /* match found */
+            }
+            matched_stats = matched_stats->next;
+        }
+        if (!matched_stats) {
+            /* initialize new stats aggregate */
+            aggregate_stats_t *new_stats = alloc_aggregate_stats();
+            new_stats->aggregate = alloc_profiling_context();
+            new_stats->aggregate->pc_dst = addr;
+            new_stats->aggregate->memory_bank_config = query_context->memory_bank_config;
+
+            new_stats->next = *stat_list;
+            *stat_list = new_stats;
+            matched_stats = *stat_list;
+        }
+    }
+
+    if (matched_stats) {
+        merge_aggregate_contexts(matched_stats->aggregate, query_context);
+        array_append(&matched_stats->callers, query_context);
+    }
+
+    if (query_context->child) {
+        profiling_context_t *c = query_context->child;
+        do {
+            if (matched_stats) {
+                array_append(&matched_stats->callees, c);
+            }
+            recursively_aggregate_matching_functions(c, addr, stat_list);
+            c = c->next;
+        } while (c != query_context->child);
+    }
+}
+
+static void recursively_aggregate_all_functions(profiling_context_t *query_context,
+                                                context_array_t *all_functions) {
     /* binary search for matching context */
-    int element = binary_search(&all_functions, context, pc_dst_compare);
-    if (element < all_functions.size) {
-        aggregate_context(all_functions.data[element], context);
-    } else {
+    int element = binary_search(all_functions, query_context, pc_dst_compare);
+    bool match_found = false;
+
+    /* check all matches to see if any is compatible */
+    while (element < all_functions->size) {
+        if (query_context->pc_dst != all_functions->data[element]->pc_dst) {
+            break;
+        }
+        if (are_aggregates_compatible(query_context, all_functions->data[element])) {
+            match_found = true;
+            merge_aggregate_contexts(all_functions->data[element], query_context);
+            break;
+        }
+
+        element++;
+    }
+
+    if (!match_found) {
         /* no match, insert and sort */
         profiling_context_t *new_context = alloc_profiling_context();
 
-        new_context->pc_dst = context->pc_dst;
-        aggregate_context(new_context, context);
-        array_append(&all_functions, new_context);
-        array_sort(&all_functions, pc_dst_compare);
+        new_context->pc_dst = query_context->pc_dst;
+        new_context->memory_bank_config = query_context->memory_bank_config;
+        merge_aggregate_contexts(new_context, query_context);
+        array_append(all_functions, new_context);
+        array_sort(all_functions, pc_dst_compare);
     }
 
     /* recursively add children */
-    if (context->child) {
-        profiling_context_t *c = context->child;
+    if (query_context->child) {
+        profiling_context_t *c = query_context->child;
         do {
-            recursively_aggregate_all_functions(c);
+            recursively_aggregate_all_functions(c, all_functions);
             c = c->next;
-        } while (c != context->child);
+        } while (c != query_context->child);
     }
 }
 
+/* assuming sorted source array */
+static void array_compact(context_array_t * output, context_array_t const* source, int (*compar)(const void *, const void *)) {
+    int i;
+
+    for (i = 0; i < source->size; i++) {
+        int j;
+        profiling_context_t *aggregate = alloc_profiling_context();
+
+        aggregate->pc_dst = source->data[i]->pc_dst;
+        aggregate->memory_bank_config = source->data[i]->memory_bank_config;
+        /* HACK, store parent->dst as source pointer */
+        aggregate->pc_src = source->data[i]->parent->pc_dst;
+        merge_aggregate_contexts(aggregate, source->data[i]);
+
+        /* merge all compatible contexts */
+        for (j = i+1; j < source->size; j++) {
+            /* i points to the last compatible context */
+            if (compar(&source->data[i], &source->data[j]) != 0) {
+                break;
+            }
+            if (are_aggregates_compatible(aggregate, source->data[j])) {
+                merge_aggregate_contexts(aggregate, source->data[j]);
+                /* swap places with data[i] to remove any gaps */
+                i++; /* guaranteed to still be < size */
+                profiling_context_t *tmp = source->data[i];
+                source->data[i] = source->data[j];
+                source->data[j] = tmp;
+            }
+        }
+
+        array_append(output, aggregate);
+    }
+}
 
 void mon_profile_flat(int num)
 {
@@ -257,11 +454,14 @@ void mon_profile_flat(int num)
 
     if (num <= 0) num = 20;
 
+    context_array_t all_functions;
+
     all_functions.size = 0;
     all_functions.capacity = 0;
     all_functions.data = NULL;
 
-    recursively_aggregate_all_functions(root_context);
+    recursively_aggregate_all_functions(root_context, &all_functions);
+    mark_aliases(&all_functions);
 
     /* sort based on self time */
     array_sort(&all_functions, self_time);
@@ -274,9 +474,13 @@ void mon_profile_flat(int num)
         print_function_line(all_functions.data[i], 0 /* indent */, root_context->total_cycles);
         free_profiling_context(all_functions.data[i]);
     }
+    for (i = num; i < all_functions.size; i++) {
+        free_profiling_context(all_functions.data[i]);
+    }
 
     array_free(&all_functions);
 }
+
 
 static void print_context_graph(profiling_context_t *context, int depth, int max_depth, profiling_counter_t total_cycles);
 
@@ -300,36 +504,12 @@ void mon_profile_graph(int context_id, int depth)
     print_context_graph(context, 0, depth, context->total_cycles);
 }
 
-static void recursively_aggregate_function_profile(profiling_context_t *context,
-                                            uint16_t             addr,
-                                            context_array_t     *callers,
-                                            context_array_t     *callees,
-                                            profiling_context_t *aggregate)
-{
-    if (context->pc_dst == addr) {
-        aggregate_context(aggregate, context);
-        array_append(callers, context);
-    }
-
-    if (context->child) {
-        profiling_context_t *c = context->child;
-        do {
-            if (context->pc_dst == addr) {
-                array_append(callees, c);
-            }
-            recursively_aggregate_function_profile(c, addr, callers, callees, aggregate);
-            c = c->next;
-        } while (c != context->child);
-    }
-}
 
 void mon_profile_func(MON_ADDR function)
 {
-    context_array_t callers        = {NULL, 0, 0};
-    context_array_t callers_merged = {NULL, 0, 0};
-    context_array_t callees        = {NULL, 0, 0};
-    context_array_t callees_merged = {NULL, 0, 0};
-    profiling_context_t *aggregate = NULL;
+    aggregate_stats_t *func_stats = NULL;
+    aggregate_stats_t *c = NULL;
+
     uint16_t addr;
     int i;
 
@@ -342,43 +522,51 @@ void mon_profile_func(MON_ADDR function)
         return;
     }
 
-    aggregate = alloc_profiling_context();
-    aggregate->pc_dst = addr;
+    recursively_aggregate_matching_functions(root_context, addr, &func_stats);
+    c = func_stats;
+    while(c) {
+        context_array_t callers_merged = {NULL, 0, 0};
+        context_array_t callees_merged = {NULL, 0, 0};
 
-    recursively_aggregate_function_profile(root_context, addr, &callers, &callees, aggregate);
+        /* merge all callers that have the same parent function */
+        array_sort(&c->callers, sort_by_parent_function);
+        array_compact(&callers_merged, &c->callers, sort_by_parent_function);
+        array_sort(&callers_merged, self_time);
 
-    /* merge all callers that have the same parent function */
-    array_sort(&callers, sort_by_parent_function);
-    array_compact(&callers_merged, &callers, sort_by_parent_function);
-    array_sort(&callers_merged, self_time);
+        /* merge all calleess that have the same target function */
+        array_sort(&c->callees, pc_dst_compare);
+        array_compact(&callees_merged, &c->callees, pc_dst_compare);
+        array_sort(&callees_merged, total_time);
+        mon_out("                                          Callers\n");
+        mon_out("        Total      %%          Self      %%         Callees\n");
+        mon_out("------------- ------ ------------- ------ |---|---|------\n");
 
-    /* merge all calleess that have the same target function */
-    array_sort(&callees, pc_dst_compare);
-    array_compact(&callees_merged, &callees, pc_dst_compare);
-    array_sort(&callees_merged, total_time);
-    mon_out("                                          Callers\n");
-    mon_out("        Total      %%          Self      %%         Callees\n");
-    mon_out("------------- ------ ------------- ------ |---|---|------\n");
+        for (i = 0; i < callers_merged.size; i++) {
+            /* HACK: the function name is stored in pc_src */
+            callers_merged.data[i]->pc_dst = callers_merged.data[i]->pc_src;
+            callers_merged.data[i]->pc_src = 0;
+            print_function_line(callers_merged.data[i], 0 /* indent */, c->aggregate->total_cycles);
+            free_profiling_context(callers_merged.data[i]);
+        }
 
-    for (i = 0; i < callers_merged.size; i++) {
-        /* HACK: the function name is stored in pc_src */
-        callers_merged.data[i]->pc_dst = callers_merged.data[i]->pc_src;
-        print_function_line(callers_merged.data[i], 0 /* indent */, aggregate->total_cycles);
-        free_profiling_context(callers_merged.data[i]);
+        if (func_stats->next) {
+            /* more than one context */
+            c->aggregate->id |= CONTEXT_ALIASED;
+        }
+        print_function_line(c->aggregate, 4 /* indent */, c->aggregate->total_cycles);
+
+        for (i = 0; i < callees_merged.size; i++) {
+            print_function_line(callees_merged.data[i], 8 /* indent */, c->aggregate->total_cycles);
+            free_profiling_context(callees_merged.data[i]);
+        }
+
+        array_free(&callers_merged);
+        array_free(&callees_merged);
+
+        c = c->next;
     }
 
-    print_function_line(aggregate, 4 /* indent */, aggregate->total_cycles);
-
-    for (i = 0; i < callees_merged.size; i++) {
-        print_function_line(callees_merged.data[i], 8 /* indent */, aggregate->total_cycles);
-        free_profiling_context(callees_merged.data[i]);
-    }
-
-    free_profiling_context(aggregate);
-    array_free(&callers);
-    array_free(&callers_merged);
-    array_free(&callees);
-    array_free(&callees_merged);
+    free_aggregate_stats(func_stats);
 }
 
 static bool is_interrupt(uint16_t src) {
@@ -396,22 +584,54 @@ static void print_src(uint16_t src) {
     }
 }
 
-static void print_dst(uint16_t dst, int max_width) {
+/* memory_config -2 will print "{*}" */
+static void print_dst(uint16_t dst, int max_width, int memory_config) {
     char *name = mon_symbol_table_lookup_name(default_memspace, dst);
-    if (name) {
-        size_t l = strlen(name);
-        if (l > max_width) {
-            mon_out("%*.*s...", -(max_width-3), (max_width-3), name);
+    char buf[32];
+    char *full_name = NULL;
+    size_t l;
+
+    if (!name) {
+        if (dst == 0x0000) {
+            snprintf(buf, 32, "ROOT");
         } else {
-            mon_out("%*s", -max_width, name);
+            snprintf(buf, 32, "%04x", dst);
         }
-    } else if (dst == 0x0000) {
-        mon_out("ROOT");
-        mon_out("%*s", max_width-4, "");
-    } else {
-        mon_out("%04x", dst);
-        mon_out("%*s", max_width-4, "");
+        name = buf;
     }
+
+    l = strlen(name);
+
+    if (memory_config != -1) {
+        char suffix[32];
+        if (memory_config >= 0) {
+            snprintf(suffix, 32, " {%d}", memory_config);
+        } else {
+            snprintf(suffix, 32, " {*}");
+        }
+        full_name = lib_calloc(l + strlen(suffix) + 1, 1);
+        /* strncpy(full_name, name, l); */
+        strcat(full_name, name); /* since name was not changed, this will always copy max l bytes */
+        strcat(full_name, suffix);
+        name = full_name;
+        l += 1 + strlen(suffix);
+    }
+
+    if (l > max_width) {
+        mon_out("%*.*s...", -(max_width-3), (max_width-3), name);
+    } else {
+        mon_out("%*s", -max_width, name);
+    }
+
+    lib_free(full_name);
+}
+
+static int context_memory_config(profiling_context_t *context) {
+    return is_aliased(context)
+               ? is_merged(context) /* multiple configs merged into one */
+                     ? -2
+                     : context->memory_bank_config
+               : -1 /* print no suffix */;
 }
 
 static void print_context_id(profiling_context_t *context, int max_width) {
@@ -428,7 +648,8 @@ static void print_context_name(profiling_context_t *context, int indent, int max
     } else {
         print_src(context->pc_src);
         mon_out(" -> ");
-        print_dst(context->pc_dst, min_label_width + max_indent - indent);
+        print_dst(context->pc_dst, min_label_width + max_indent - indent,
+                  context_memory_config(context));
     }
 }
 
@@ -436,7 +657,8 @@ static void print_function_line(profiling_context_t *context, int indent, profil
     mon_out("%'13u %5.1f%% ", context->total_cycles,      100.0 * context->total_cycles / total_cycles);
     mon_out("%'13u %5.1f%% ", context->total_cycles_self, 100.0 * context->total_cycles_self / total_cycles);
     mon_out("%*s", indent, "");
-    print_dst(context->pc_dst, 40);
+    print_dst(context->pc_dst, 40, context_memory_config(context));
+
     mon_out("\n");
 }
 
@@ -485,56 +707,20 @@ static void print_context_graph(profiling_context_t *context, int depth, int max
     }
 }
 
-static void aggregate_context_recursively(profiling_context_t *output,
-                                   profiling_context_t *source) {
-
-    if (output->pc_dst == source->pc_dst) {
-        aggregate_context(output, source);
-    }
-
-    if (source->child) {
-        profiling_context_t *c = source->child;
-        do {
-            if (output->pc_dst == source->pc_dst) {
-                /* copy children */
-                profiling_context_t *child_copy = alloc_profiling_context();
-                child_copy->pc_src = c->pc_src;
-                child_copy->pc_dst = c->pc_dst;
-                child_copy->total_cycles = c->total_cycles;
-                child_copy->total_cycles_self = c->total_cycles_self;
-                if (!output->child) {
-                    output->child = child_copy;
-                    output->child->next = output->child;
-                } else {
-                    child_copy->next = output->child->next;
-                    output->child->next = child_copy;
-                }
-            }
-            aggregate_context_recursively(output, c);
-            c = c->next;
-        } while (c != source->child);
-    }
-}
-
-static void print_all_contexts(profiling_context_t * context, uint16_t dst_addr)
+static void print_all_contexts(context_array_t *context_list)
 {
-    if (context->pc_dst == dst_addr) {
-        mon_out("[%d]", get_context_id(context));
-    }
-
-    if (context->child) {
-        profiling_context_t *c = context->child;
-        do {
-            print_all_contexts(c, dst_addr);
-            c = c->next;
-        } while(c != context->child);
+    for (int i = 0; i < context_list->size; i++) {
+        mon_out("[%d]", get_context_id(context_list->data[i]));
     }
 }
 
 void mon_profile_disass(MON_ADDR function)
 {
+    aggregate_stats_t *func_stats = NULL;
+    aggregate_stats_t *c = NULL;
+
     uint16_t addr;
-    profiling_context_t *context;
+
     if (!init_profiling_data()) return;
 
     if (addr_memspace(function) == e_default_space) {
@@ -544,29 +730,38 @@ void mon_profile_disass(MON_ADDR function)
         return;
     }
 
-    context = alloc_profiling_context();
-    context->pc_dst = addr;
+    recursively_aggregate_matching_functions(root_context, addr, &func_stats);
 
-    aggregate_context_recursively(context, root_context);
+    c = func_stats;
+    while(c) {
+        mon_out("\n");
 
-    mon_out("\n");
+        mon_out("Function ");
+        print_dst(addr, 70, func_stats->next /* more than one? */
+                                ? is_merged(c->aggregate)
+                                      ? -2 /* magic for print '*' */
+                                      : c->aggregate->memory_bank_config
+                                : -1 /* magic for print nothing */
+                  );
+        mon_out("\n");
 
-    mon_out("Function ");
-    print_dst(addr, 70);
-    mon_out("\n");
+        mon_out("\n");
 
-    mon_out("\n");
+        mon_out("   Contexts ");
+        print_all_contexts(&c->callers);
+        mon_out("\n");
+        mon_out("   Subcontexts ");
+        print_all_contexts(&c->callees);
+        mon_out("\n");
 
-    mon_out("   Contexts ");
-    print_all_contexts(root_context, addr);
-    mon_out("\n");
+        mon_out("\n");
 
-    mon_out("\n");
+        print_disass_context(c->aggregate, false /* print_subcontexts */);
 
-    print_disass_context(context, false /* print_subcontexts */);
+        c = c->next;
+    }
 
-    /* this also frees children */
-    free_profiling_context(context);
+    free_aggregate_stats(func_stats);
 }
 
 static void print_cycle_time(double cycles, int align_column) {
@@ -594,6 +789,40 @@ static void print_cycle_time(double cycles, int align_column) {
     mon_out(format, align_column, precision, time, unit);
 }
 
+static void merge_all_pages(profiling_context_t *target, profiling_context_t *source) {
+    int i, j;
+
+    for (i = 0; i < 256; i++) {
+        profiling_page_t *source_page = source->page[i];
+        if (source_page) {
+            /* initialize target page if it doesn't exist */
+            profiling_page_t *target_page = profiling_get_page(target, i);
+
+            for (j = 0; j < 256; j++) {
+                target_page->data[j].num_cycles  += source_page->data[j].num_cycles;
+                target_page->data[j].num_samples += source_page->data[j].num_samples;
+                target_page->data[j].touched     |= source_page->data[j].touched;
+            }
+        }
+    }
+}
+
+static void merge_all_memory_configs(profiling_context_t *context) {
+    profiling_context_t *c = context->next_mem_config;
+    while (c) {
+        profiling_context_t *c_next;
+        merge_all_pages(context, c);
+
+        /* free the memory config */
+        c_next = c->next_mem_config;
+        c->next_mem_config = NULL;
+        free_profiling_context(c);
+        c = c_next;
+    }
+
+    context->next_mem_config = NULL;
+}
+
 static void print_disass_context(profiling_context_t *context, bool print_contexts) {
     profiling_context_t *c;
     int num_memory_map_configs = 0;
@@ -606,7 +835,7 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
     average_times = 0.5 * (context->num_enters + context->num_exits);
 
     mon_out("   Entered %'10u time%s\n", context->num_enters, context->num_enters != 1 ? "s":"");
-    mon_out("   Exited  %'10u time%s\n", context->num_exits,  context->num_exits!= 1 ? "s":"");
+    mon_out("   Exited  %'10u time%s\n", context->num_exits,  context->num_exits  != 1 ? "s":"");
 
     mon_out("   Total   %'10u cycles ", context->total_cycles);
     print_cycle_time(context->total_cycles, 10);
@@ -630,6 +859,18 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
         mon_out(" %d", c->memory_bank_config);
         c = c->next_mem_config;
     }
+
+    if (is_merged(context)) {
+        /* merged multi-config aggregate */
+
+        print_contexts = false;
+        mon_out("\n   Note: Disassembly represents multiple memory configs.");
+        num_memory_map_configs = 1; /* suppress bank information output */
+
+        /* Note: this should only be performed on aggregate contexts */
+        merge_all_memory_configs(context); /* this is destructive */
+    }
+
     mon_out("\n\n");
 
     addr_column = 37;
