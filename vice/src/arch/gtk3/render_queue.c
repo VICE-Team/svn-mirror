@@ -72,12 +72,13 @@ void *render_queue_create(void)
 {
     render_queue_t *rq;
     backbuffer_t *bb;
+    int i;
 
     rq = lib_calloc(1, sizeof(render_queue_t));
     pthread_mutex_init(&rq->lock, NULL);
 
     /* Seed the pool with the maximum number of backbuffers */
-    for (int i = 0; i < RENDER_QUEUE_MAX_BACKBUFFERS; i++) {
+    for (i = 0; i < RENDER_QUEUE_MAX_BACKBUFFERS; i++) {
 
         bb = lib_malloc(sizeof(backbuffer_t));
         bb->pixel_data = lib_malloc(0);
@@ -182,6 +183,7 @@ unsigned int render_queue_length(void *render_queue)
 backbuffer_t *render_queue_dequeue_for_display(void *render_queue)
 {
     render_queue_t *rq = (render_queue_t *)render_queue;
+    void *backbuffer;
 
     LOCK();
 
@@ -191,7 +193,7 @@ backbuffer_t *render_queue_dequeue_for_display(void *render_queue)
         return NULL;
     }
 
-    void *backbuffer = rq->render_queue[rq->render_queue_next];
+    backbuffer = rq->render_queue[rq->render_queue_next];
     rq->render_queue_next = (rq->render_queue_next + 1) % RENDER_QUEUE_MAX_BACKBUFFERS;
     rq->render_queue_length--;
 
