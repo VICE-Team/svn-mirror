@@ -866,11 +866,16 @@ static GLuint create_shader(GLenum shader_type, const char *text)
         info_log = lib_malloc(sizeof(GLchar) * (info_log_length + 1));
         glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
 
-        switch(shader_type)
-        {
-        case GL_VERTEX_SHADER: shader_type_name = "vertex"; break;
-        case GL_FRAGMENT_SHADER: shader_type_name = "fragment"; break;
-        default: shader_type_name = "unknown"; break;
+        switch(shader_type) {
+            case GL_VERTEX_SHADER:
+                shader_type_name = "vertex";
+                break;
+            case GL_FRAGMENT_SHADER:
+                shader_type_name = "fragment";
+                break;
+            default:
+                shader_type_name = "unknown";
+                break;
         }
 
         log_error(LOG_DEFAULT, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
@@ -942,8 +947,7 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
     glAttachShader(program, frag);
     glLinkProgram(program);
     glGetProgramiv (program, GL_LINK_STATUS, &status);
-    if (status == GL_FALSE)
-    {
+    if (status == GL_FALSE) {
         GLint info_log_length;
         GLchar *info_log;
 
