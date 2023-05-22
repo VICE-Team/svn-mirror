@@ -57,5 +57,4 @@ void profile_rtx(uint8_t sp);
 
 void profile_shutdown(void);
 
-
 #endif /* VICE_PROFILER_H */

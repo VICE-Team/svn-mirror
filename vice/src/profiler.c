@@ -156,8 +156,8 @@ profiling_page_t *profiling_get_page(profiling_context_t *ctx, uint8_t page) {
     return ctx->page[page];
 }
 
-static profiling_context_t *get_mem_config_context(profiling_context_t *main_context,
-                                                   uint16_t mem_config) {
+profiling_context_t *get_mem_config_context(profiling_context_t *main_context,
+                                            uint16_t mem_config) {
     /* if mem_config matches main context's mem config, simply return the same */
     if (main_context->memory_bank_config == mem_config) {
         return main_context;

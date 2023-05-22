@@ -74,5 +74,7 @@ void                 compute_aggregate_stats(profiling_context_t *context);
 profiling_page_t    *profiling_get_page(profiling_context_t *ctx, uint8_t page);
 profiling_context_t *alloc_profiling_context(void);
 void                 free_profiling_context(profiling_context_t *data);
+profiling_context_t *get_mem_config_context(profiling_context_t *main_context,
+                                            uint16_t mem_config);
 
 #endif /* VICE_PROFILER_DATA_H */
