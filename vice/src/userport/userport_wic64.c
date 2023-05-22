@@ -117,6 +117,8 @@ static userport_device_t userport_wic64_device = {
 
 
 static struct alarm_s *http_get_alarm = NULL;
+static struct alarm_s *tcp_get_alarm = NULL;
+static struct alarm_s *tcp_send_alarm = NULL;
 static char sec_token[32];
 static int sec_init = 0;
 static char session_id[32];
@@ -149,6 +151,7 @@ int userport_wic64_resources_init(void)
 /* ---------------------------------------------------------------------*/
 
 #define HTTPREPLY_MAXLEN    (0x18000)
+#define COMMANDBUFFER_MAXLEN    0x1000
 
 size_t httpbufferptr = 0;
 uint8_t httpbuffer[HTTPREPLY_MAXLEN];
@@ -164,7 +167,11 @@ uint8_t httpbuffer[HTTPREPLY_MAXLEN];
 #define MAX_PARALLEL 1 /* number of simultaneous transfers */
 #define NUM_URLS 10
 int still_alive = 0;
-CURLM *cm;
+CURLM *cm;                      /* used for http(s) */
+CURL *curl;                     /* used for telnet */
+uint8_t curl_buf[HTTPREPLY_MAXLEN];
+uint8_t curl_send_buf[COMMANDBUFFER_MAXLEN];
+uint16_t curl_send_len;
 
 /* timezone mapping
    C64 sends just a number 0-31, bcd little endian in commandbuffer.
@@ -283,7 +290,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
                      msg->data.result, curl_easy_strerror(msg->data.result), url));
                 res = curl_easy_perform(msg->easy_handle);
                 if(res != CURLE_OK) {
-                    DBG(("%s: curl_easy_perform() failed: %s\n", __FUNCTION__,
+                    DBG(("%s: curl_easy_perform() failed: %s", __FUNCTION__,
                          curl_easy_strerror(res)));
                 }
                 curl_multi_remove_handle(cm, e);
@@ -349,8 +356,6 @@ static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
 
 char default_server_hostname[0x100];
-
-#define COMMANDBUFFER_MAXLEN    0x1000
 
 #define FLAG2_ACTIVE    0
 #define FLAG2_INACTIVE  1
@@ -442,8 +447,10 @@ static void send_binary_reply(const uint8_t *reply, int len)
     memcpy((char*)replybuffer + 2, reply, len);
     reply_length = len + 2;
     replyptr = 0;
-    DBG(("%s: sending", __FUNCTION__));
-    hexdump(replybuffer, reply_length);
+    if (len > 0) {
+        DBG(("%s: sending", __FUNCTION__));
+        hexdump(replybuffer, reply_length);
+    }
     handshake_flag2();
 }
 
@@ -524,8 +531,12 @@ static void do_command_01(void)
         if (!strncmp(p, "https://", 8)) {
             http_prot = "https://";
         } else {
-            DBG(("malformed URL:%s", commandbuffer));
-            return;
+            if (!strncmp(p, "telnet://", 9)) {
+                http_prot = "https://";
+            } else {
+                DBG(("malformed URL:%s", commandbuffer));
+                return;
+            }
         }
     }
 
@@ -781,34 +792,145 @@ static void do_command_20(void)
     DBG(("set tcp port to %d", wic64_udp_port));
 }
 
+/* open a curl connection */
+static void do_connect(void)
+{
+    CURLcode res;
+
+    curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_URL, commandbuffer);
+    /* Do not do the transfer - only connect to host */
+    curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
+    res = curl_easy_perform(curl);
+    DBG(("%s: curl_easy_perform: %s",__FUNCTION__, curl_easy_strerror(res)));
+    if (res != CURLE_OK) {
+        send_reply("!E");
+    } else {
+        send_reply("0");
+    }
+}
+
 static void do_command_21(void)
 {
-    DBG(("%s: connect TCP - not implemented", __FUNCTION__));
+    DBG(("%s: connect TCP", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+
+    char tmp[COMMANDBUFFER_MAXLEN];
+
+    strcpy(tmp, "telnet://");
+    memcpy(tmp + 9, commandbuffer, commandptr + 1); /* copy '\0' */
+    commandptr += 9;
+    memcpy(commandbuffer, tmp, commandptr + 1);
+    do_connect();
     /* this command sends no reply */
+    //send_reply("!E");
+}
+
+static void tcp_get_alarm_handler(CLOCK offset, void *data)
+{
+    CURLcode res;
+    size_t nread;
+    static size_t total_read;
+
+    res = curl_easy_recv(curl, curl_buf + total_read,
+                         sizeof(curl_buf) - total_read, &nread);
+    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65 * 20));
+    if (res == CURLE_AGAIN) {
+        send_reply("");
+        return;
+    }
+    total_read += nread;
+
+    if (res == CURLE_OK) {
+        if (nread == 0) {
+            /* connection closed */
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
+            alarm_unset(tcp_get_alarm);
+            curl = NULL;
+            DBG(("%s: connection closed", __FUNCTION__));
+        }
+        send_binary_reply(curl_buf, total_read);
+        total_read = 0;
+        return;
+    }
+    total_read = 0;
+    DBG(("%s: curl_easy_recv: %s", __FUNCTION__, curl_easy_strerror(res)));
     send_reply("!E");
 }
 
 static void do_command_22(void)
 {
-    DBG(("%s: get TCP1 - not implemented", __FUNCTION__));
-    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    /* this command sends no reply */
-    send_reply("!E");
+    if (commandptr > 0) {
+        DBG(("%s: get TCP1", __FUNCTION__));
+        hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    }
+
+    if (!curl) {
+        DBG(("%s: connection lost", __FUNCTION__));
+        send_reply("!E");
+        return;
+    }
+
+    if (tcp_get_alarm == NULL) {
+        tcp_get_alarm = alarm_new(maincpu_alarm_context, "TCPGetAlarm",
+                                  tcp_get_alarm_handler, NULL);
+    }
+    alarm_unset(tcp_get_alarm);
+    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65));
+    /* no return here, but from alarm handler */
+}
+
+static void tcp_send_alarm_handler(CLOCK offset, void *data)
+{
+    CURLcode res;
+    size_t nsent;
+    static size_t nsent_total;
+
+    alarm_set(tcp_send_alarm, maincpu_clk + (312 * 65));
+
+    nsent = 0;
+    res = curl_easy_send(curl, curl_send_buf + nsent_total,
+                         curl_send_len - nsent_total, &nsent);
+    nsent_total += nsent;
+
+    if (nsent_total < curl_send_len) {
+        return;
+    }
+    nsent_total = 0; /* reset ptr for sending */
+
+    if (res == CURLE_OK) {
+        alarm_unset(tcp_send_alarm);
+        DBG(("%s: tcp sent successfully", __FUNCTION__));
+        send_reply("0");
+    } else {
+        DBG(("%s: curl_easy_send: %s", __FUNCTION__, curl_easy_strerror(res)));
+        send_reply("!E");
+    }
 }
 
 static void do_command_23(void)
 {
-    DBG(("%s: send TCP1 - not implemented", __FUNCTION__));
+    DBG(("%s: send TCP1", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    /* this command sends no reply */
-    send_reply("!E");
+
+    memcpy(curl_send_buf, commandbuffer, commandptr);
+    curl_send_len = commandptr;
+
+    if (tcp_send_alarm == NULL) {
+        tcp_send_alarm = alarm_new(maincpu_alarm_context, "TCPSendAlarm",
+                                  tcp_send_alarm_handler, NULL);
+    }
+    alarm_unset(tcp_send_alarm);
+    alarm_set(tcp_send_alarm, maincpu_clk + (312 * 65));
+    /* no return here, but from alarm handler */
 }
 
 static void do_command_24(void)
 {
     DBG(("%s: httppost - not implemented", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+
     /* this command sends no reply */
     send_reply("!E");
 }
