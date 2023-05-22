@@ -83,9 +83,6 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
      * https://www.khronos.org/opengl/wiki/Tutorial:_OpenGL_3.0_Context_Creation_(GLX)
      */
 
-    /* use the same connection to the x server that GDK is using */
-    context->x_display = GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget));
-
     /* we need to create a child window compatible with the type of OpenGL stuff we want */
     static int visual_attribs[] =
         {
@@ -103,6 +100,13 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     int glx_major;
     int glx_minor;
+    int fbcount;
+    const char *glx_extensions;
+    int major = -1;
+    int minor = -1;
+
+    /* use the same connection to the x server that GDK is using */
+    context->x_display = GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget));
 
     if (!glXQueryVersion(context->x_display, &glx_major, &glx_minor)) {
         log_error(LOG_DEFAULT, "Failed to get GLX version\n");
@@ -118,7 +122,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     }
 
     log_message(LOG_DEFAULT, "Getting matching framebuffer configs" );
-    int fbcount;
+
     PFNGLXCHOOSEFBCONFIGPROC vice_glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXChooseFBConfig");
     GLXFBConfig *framebuffer_configs = vice_glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
     if (!framebuffer_configs) {
@@ -165,7 +169,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     XFree(x_visual);
 
     /* Get the screen's GLX extension list */
-    const char *glx_extensions = glXQueryExtensionsString(context->x_display, DefaultScreen(context->x_display));
+    glx_extensions = glXQueryExtensionsString(context->x_display, DefaultScreen(context->x_display));
 
     PFNGLXCREATECONTEXTATTRIBSARBPROC vice_glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
 
@@ -178,9 +182,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         /* Legact context -- TODO, actually support using this */
         PFNGLXCREATENEWCONTEXTPROC vice_glXCreateNewContext = (PFNGLXCREATENEWCONTEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateNewContext");
         context->gl_context = vice_glXCreateNewContext(context->x_display, framebuffer_config, GLX_RGBA_TYPE, NULL, True);
-    }
-    else
-    {
+    } else {
         XErrorHandler oldHandler;
         int context_attribs[] =
             {
@@ -221,8 +223,6 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     vice_opengl_renderer_make_current(context);
     glewInit();
 
-    int major = -1;
-    int minor = -1;
     sscanf((const char *)glGetString(GL_VERSION), "%d.%d", &major, &minor);
 
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
