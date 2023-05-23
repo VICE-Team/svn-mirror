@@ -788,7 +788,7 @@ static joyport_t joystick_device = {
     0                               /* NO device hook function mask */
 };
 
-static int joystick_joyport_register(void)
+int joystick_joyport_register(void)
 {
     return joyport_device_register(JOYPORT_ID_JOYSTICK, &joystick_device);
 }
@@ -1967,10 +1967,6 @@ static resource_string_t resources_string[] = {
  */
 int joystick_resources_init(void)
 {
-    if (joystick_joyport_register() < 0) {
-        return -1;
-    }
-
 #ifdef COMMON_JOYKEYS
     if (resources_register_int(joykeys_resources_int) < 0) {
         return -1;

@@ -554,14 +554,19 @@ static const cmdline_option_t cmdline_extra_option[] =
 
 int mouse_1351_register(void)
 {
-    if (joyport_device_register(JOYPORT_ID_MOUSE_MICROMYS, &mouse_micromys_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device) < 0) {
-        return -1;
-    }
+    return joyport_device_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device);
+}
+
+int mouse_micromys_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_MOUSE_MICROMYS, &mouse_micromys_joyport_device);
+}
+
+int mouse_smartmouse_register(void)
+{
     return joyport_device_register(JOYPORT_ID_MOUSE_SMART, &mouse_smart_joyport_device);
 }
+
 
 /* --------------------------------------------------------- */
 

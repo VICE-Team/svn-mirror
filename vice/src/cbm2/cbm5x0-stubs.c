@@ -34,6 +34,7 @@
 #include "mididrv.h"
 #include "pet/petpia.h"
 #include "types.h"
+#include "userport.h"
 #include "userport_io_sim.h"
 
 
@@ -61,4 +62,13 @@ clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
 bool pia1_get_diagnostic_pin(void)
 {
     return false;
+}
+
+/*******************************************************************************
+    userport
+*******************************************************************************/
+
+int userport_device_register(int id, userport_device_t *device)
+{
+    return -1;
 }

@@ -60,6 +60,8 @@ void joystick_event_playback(CLOCK offset, void *data);
 void joystick_event_delayed_playback(void *data);
 void joystick_register_delay(unsigned int delay);
 
+int joystick_joyport_register(void);
+
 void linux_joystick_init(void);
 void usb_joystick_init(void);
 void joy_hidlib_init(void);

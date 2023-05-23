@@ -29,6 +29,8 @@
 #define VICE_1351_H
 
 int mouse_1351_register(void);
+int mouse_micromys_register(void);
+int mouse_smartmouse_register(void);
 
 /* commodore 1351 */
 

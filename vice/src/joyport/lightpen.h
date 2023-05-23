@@ -31,8 +31,15 @@
 #include "types.h"
 #include "joyport.h"
 
-int lightpen_resources_init(void);
 void lightpen_init(void);
+
+int lightpen_u_joyport_register(void);
+int lightpen_l_joyport_register(void);
+int lightpen_datel_joyport_register(void);
+int lightgun_y_joyport_register(void);
+int lightgun_l_joyport_register(void);
+int lightpen_inkwell_joyport_register(void);
+int lightgun_gunstick_joyport_register(void);
 
 extern int lightpen_enabled;
 

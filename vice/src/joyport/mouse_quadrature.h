@@ -27,7 +27,9 @@
 #ifndef VICE_QUADRATURE_H
 #define VICE_QUADRATURE_H
 
-int mouse_quadrature_register(void);
+int mouse_amiga_register(void);
+int mouse_cx22_register(void);
+int mouse_st_register(void);
 
 void mouse_amiga_st_init(void);
 

@@ -238,6 +238,15 @@ enum {
 
 #define JOYPORT_BIT_SHIFT(var, from, to) ((var & (1 << from)) ? (1 << to) : 0)
 
+/* this structure is used to init all the joystick devices */
+typedef struct joyport_init_s {
+    int device_id;                                         /* device ID */
+    int emu_mask;                                          /* which emulator does the device work on */
+    int (*joyport_device_resources_init)(void);            /* device resources init function */
+    void (*joyport_device_resources_shutdown)(void);       /* device resources shutdown function */
+    int (*joyport_device_cmdline_options_init)(void);      /* device cmdline init function */
+} joyport_init_t;
+
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
@@ -327,6 +336,7 @@ void set_joyport_pot_mask(int mask);
 void joyport_powerup(void);
 
 int joyport_resources_init(void);
+void joyport_resources_shutdown(void);
 int joyport_cmdline_options_init(void);
 
 int joyport_port_register(int port, joyport_port_props_t *props);

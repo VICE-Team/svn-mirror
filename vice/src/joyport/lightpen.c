@@ -471,40 +471,42 @@ static joyport_t gun_stick_joyport_device = {
 };
 #endif
 
-static int lightpen_joyport_register(void)
+int lightpen_u_joyport_register(void)
 {
-    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_U, &lightpen_u_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_L, &lightpen_l_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_LIGHTPEN_DATEL, &lightpen_datel_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_LIGHTGUN_Y, &magnum_light_phaser_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_LIGHTGUN_L, &stack_light_rifle_joyport_device) < 0) {
-        return -1;
-    }
-#ifdef JOYPORT_EXPERIMENTAL_DEVICES
-    if (joyport_device_register(JOYPORT_ID_LIGHTGUN_GUNSTICK, &gun_stick_joyport_device) < 0) {
-        return -1;
-    }
-#endif
+    return joyport_device_register(JOYPORT_ID_LIGHTPEN_U, &lightpen_u_joyport_device);
+}
+
+int lightpen_l_joyport_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_LIGHTPEN_L, &lightpen_l_joyport_device);
+}
+
+int lightpen_datel_joyport_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_LIGHTPEN_DATEL, &lightpen_datel_joyport_device);
+}
+
+int lightgun_y_joyport_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_LIGHTGUN_Y, &magnum_light_phaser_joyport_device);
+}
+
+int lightgun_l_joyport_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_LIGHTGUN_L, &stack_light_rifle_joyport_device);
+}
+
+int lightpen_inkwell_joyport_register(void)
+{
     return joyport_device_register(JOYPORT_ID_LIGHTPEN_INKWELL, &inkwell_lightpen_joyport_device);
 }
 
-/* --------------------------------------------------------- */
-
-int lightpen_resources_init(void)
+#ifdef JOYPORT_EXPERIMENTAL_DEVICES
+int lightgun_gunstick_joyport_register(void)
 {
-    if (lightpen_joyport_register() < 0) {
-        return -1;
-    }
-    return 0;
+    return joyport_device_register(JOYPORT_ID_LIGHTGUN_GUNSTICK, &gun_stick_joyport_device);
 }
+#endif
 
 /* --------------------------------------------------------- */
 /* Main API */

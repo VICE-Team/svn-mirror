@@ -330,14 +330,18 @@ static joyport_t mouse_st_joyport_device = {
 
 /* --------------------------------------------------------- */
 
-int mouse_quadrature_register(void)
+int mouse_amiga_register(void)
 {
-    if (joyport_device_register(JOYPORT_ID_MOUSE_AMIGA, &mouse_amiga_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_CX22, &mouse_cx22_joyport_device) < 0) {
-        return -1;
-    }
+    return joyport_device_register(JOYPORT_ID_MOUSE_AMIGA, &mouse_amiga_joyport_device);
+}
+
+int mouse_cx22_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_MOUSE_CX22, &mouse_cx22_joyport_device);
+}
+
+int mouse_st_register(void)
+{
     return joyport_device_register(JOYPORT_ID_MOUSE_ST, &mouse_st_joyport_device);
 }
 
