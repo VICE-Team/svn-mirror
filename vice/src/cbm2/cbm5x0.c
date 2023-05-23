@@ -368,42 +368,6 @@ int machine_resources_init(void)
         init_resource_fail("joyport devices");
         return -1;
     }
-    if (joyport_sampler2bit_resources_init() < 0) {
-        init_resource_fail("joyport 2bit sampler");
-        return -1;
-    }
-    if (joyport_sampler4bit_resources_init() < 0) {
-        init_resource_fail("joyport 4bit sampler");
-        return -1;
-    }
-    if (joyport_bbrtc_resources_init() < 0) {
-        init_resource_fail("joyport bbrtc");
-        return -1;
-    }
-    if (joyport_trapthem_snespad_resources_init() < 0) {
-        init_resource_fail("joyport trapthem snespad");
-        return -1;
-    }
-    if (joyport_ninja_snespad_resources_init() < 0) {
-        init_resource_fail("joyport ninja snespad");
-        return -1;
-    }
-    if (joyport_protopad_resources_init() < 0) {
-        init_resource_fail("joyport protopad");
-        return -1;
-    }
-    if (joyport_inception_resources_init() < 0) {
-        init_resource_fail("joyport inception");
-        return -1;
-    }
-    if (joyport_multijoy_resources_init() < 0) {
-        init_resource_fail("joyport multijoy");
-        return -1;
-    }
-    if (joyport_io_sim_resources_init() < 0) {
-        init_resource_fail("joyport I/O simulation");
-        return -1;
-    }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
@@ -458,13 +422,6 @@ int machine_resources_init(void)
         init_resource_fail("mouse");
         return -1;
     }
-/* FIXME: add lightpen support for xcbm5x0 */
-#if 0
-    if (lightpen_resources_init() < 0) {
-        init_resource_fail("lightpen");
-        return -1;
-    }
-#endif
 #endif
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
@@ -483,10 +440,10 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
-    joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
     cartridge_resources_shutdown();
+    joyport_resources_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
@@ -542,10 +499,6 @@ int machine_cmdline_options_init(void)
     }
     if (joyport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joyport");
-        return -1;
-    }
-    if (joyport_bbrtc_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("bbrtc");
         return -1;
     }
     if (joystick_cmdline_options_init() < 0) {

@@ -48,6 +48,7 @@
 #include "drive-check.h"
 #include "driveimage.h"
 #include "drivetypes.h"
+#include "ds1602.h"
 #include "fileio.h"
 #include "fsdevice.h"
 #include "fsdevice-filename.h"
@@ -426,6 +427,42 @@ int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
 }
 
 int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
+{
+    return -1;
+}
+
+int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_t *s)
+{
+    return -1;
+}
+
+void ds1602_destroy(rtc_ds1602_t *context, int save)
+{
+}
+
+rtc_ds1602_t *ds1602_init(char *device, time_t offset0)
+{
+    return NULL;
+}
+
+uint8_t ds1602_read_data_line(rtc_ds1602_t *context)
+{
+    return 0;
+}
+
+void ds1602_set_data_line(rtc_ds1602_t *context, uint8_t data)
+{
+}
+
+void ds1602_set_clk_line(rtc_ds1602_t *context, uint8_t data)
+{
+}
+
+void ds1602_set_reset_line(rtc_ds1602_t *context, uint8_t data)
+{
+}
+
+int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_t *s)
 {
     return -1;
 }
@@ -1138,7 +1175,11 @@ const char *tapeport_get_device_type_desc(int type)
 
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
-    return;
+}
+
+int userport_device_register(int id, userport_device_t *device)
+{
+    return -1;
 }
 
 bool pia1_get_diagnostic_pin(void)
@@ -1155,8 +1196,19 @@ sampler_device_t *sampler_get_devices(void)
     return NULL;
 }
 
+void sampler_stop(void)
+{
+}
+
+void sampler_start(int channels, char *devname)
+{
+}
+
+uint8_t sampler_get_sample(int channel)
+{
+    return 0;
+}
+
 /*******************************************************************************
     UI
 *******************************************************************************/
-
-

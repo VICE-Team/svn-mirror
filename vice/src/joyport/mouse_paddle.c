@@ -716,13 +716,17 @@ static joyport_t mf_joystick_joyport_device = {
     0                          /* NO device hook function mask */
 };
 
-int mouse_paddle_register(void)
+int paddle_register(void)
 {
-    if (joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MF_JOYSTICK, &mf_joystick_joyport_device) < 0) {
-        return -1;
-    }
+    return joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device);
+}
+
+int koalapad_register(void)
+{
     return joyport_device_register(JOYPORT_ID_KOALAPAD, &koalapad_joyport_device);
+}
+
+int mf_joystick_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_MF_JOYSTICK, &mf_joystick_joyport_device);
 }
