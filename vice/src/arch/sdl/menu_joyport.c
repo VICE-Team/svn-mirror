@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+#include "machine.h"
 #include "menu_common.h"
 #include "joyport.h"
 #include "uimenu.h"
@@ -190,12 +191,14 @@ void uijoyport_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10, int p1
     int i, j = 0;
     int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10, p11 };
 
-    if (p1 || p2) {
-        joyport_menu[j].string = "Save BBRTC data when changed";
-        joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
-        joyport_menu[j].callback = toggle_BBRTCSave_callback;
-        joyport_menu[j].data = NULL;
-        ++j;
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        if (p1 || p2) {
+            joyport_menu[j].string = "Save BBRTC data when changed";
+            joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
+            joyport_menu[j].callback = toggle_BBRTCSave_callback;
+            joyport_menu[j].data = NULL;
+            ++j;
+        }
     }
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
