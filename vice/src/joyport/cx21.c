@@ -52,7 +52,6 @@ Works on:
 - native port(s) (x64/x64sc/xscpu64/xvic)
 - sidcart joystick adapter port (xplus4)
 
-
 The keypad has the following layout:
 
 KEYPAD          KEYMAP KEYS

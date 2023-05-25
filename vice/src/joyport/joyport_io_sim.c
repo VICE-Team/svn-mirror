@@ -42,6 +42,10 @@
    This device provides a way of simulating the data input and
    output lines of a joyport device, can be used to test the
    joyport system.
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xvic/xcbm5x0/xplus4)
+   - sidcart joystick adapter port (xplus4)
 */
 
 /* #define HOST_HARDWARE_IO */

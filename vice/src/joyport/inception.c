@@ -52,8 +52,7 @@
    Note that +5VDC is provided for the 8 joystick ports.
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic)
-
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
  */
 
 static int inception_enabled = 0;

@@ -48,14 +48,8 @@
      6   |   LATCH    |  O
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xvic)
-   - hit userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
-   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
-   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
-   - hummer userport joystick adapter port (x64dtv)
-   - oem userport joystick adapter port (xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
-
  */
 
 static int snespad_enabled[JOYPORT_MAX_PORTS] = {0};

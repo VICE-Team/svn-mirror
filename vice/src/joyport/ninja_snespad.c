@@ -52,8 +52,7 @@
      8   |     GND      | Ground
 
    Works on:
-   - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
-   - sidcart joystick adapter port (xplus4)
+   - native joystick ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
  */
 
 /* Since there are currently no games that use more than 3 snes pads,

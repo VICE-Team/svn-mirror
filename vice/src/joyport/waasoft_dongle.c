@@ -31,6 +31,9 @@
      1   | Reset          |  O
      2   | Clock          |  O
      5   | Data           |  I
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128)
  */
 
 #include "vice.h"

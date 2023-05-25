@@ -43,14 +43,8 @@
      9   | right button  |  I
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
-   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
-   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
-   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - hummer userport joystick adapter port (x64dtv)
-   - pet userport joystick adapter ports (xcbm2/xpet)
-   - oem userport joystick adapter port (xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0/xplus4)
+   - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | cx22        | I/O
@@ -64,14 +58,8 @@
      8   | GND         |  Ground
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
-   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
-   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
-   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - hummer userport joystick adapter port (x64dtv)
-   - pet userport joystick adapter ports (xcbm2/xpet)
-   - oem userport joystick adapter port (xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0/xplus4)
+   - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | atari-st     | I/O
@@ -86,14 +74,8 @@
      9   | right button |  I
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
-   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
-   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
-   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
-   - hummer userport joystick adapter port (x64dtv)
-   - pet userport joystick adapter ports (xcbm2/xpet)
-   - oem userport joystick adapter port (xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0/xplus4)
+   - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 */
 

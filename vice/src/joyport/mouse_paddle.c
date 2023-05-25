@@ -41,7 +41,7 @@
      9   | paddle X value  |  I
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | koalapad     | I/O
@@ -54,7 +54,7 @@
      9   | X-position   |  I
 
    Works on:
-   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | microflyte joystick  | I/O
@@ -70,9 +70,8 @@
      9   | left/right pot value |  I
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
-
  */
 
 /* #define DEBUG_PADDLE */
