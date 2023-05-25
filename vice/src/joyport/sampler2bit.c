@@ -44,8 +44,10 @@
      7   | +5VDC        |  Power
      8   | GND          |  Ground
 
-   Works on all joystick ports and adapters
-
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0/xplus4)
+   - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
+   - sidcart joystick adapter port (xplus4)
  */
 
 static int sampler_enabled = 0;

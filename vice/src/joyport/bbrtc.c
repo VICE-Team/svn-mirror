@@ -49,13 +49,7 @@
      8   | GND   | Ground
 
    Works on:
-   - native port(s) (x64/x64sc/x128/xscpu64/x64dtv/xcbm5x0/xvic)
-   - hit userport joystick adapter ports (x64/x64sc/x128/xscpu64)
-   - kingsoft userport joystick adapter ports (x64/x64sc/x128/xscpu64)
-   - starbyte userport joystick adapter ports (x64/x64sc/x128/xscpu64)
-   - pet userport joystick adapter ports (xpet/xcbm2)
-   - hummer userport joystick adapter port (x64dtv)
-   - oem userport joystick adapter port (xvic)
+   - native port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
  */
 

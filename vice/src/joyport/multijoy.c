@@ -66,7 +66,7 @@
    Note that the +5VDC is not connected to any of the 8 ports, but it is used to power the 74138.
 
    Works on:
-   - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
+   - native joystick ports (x64/x64sc/xscpu64/x128/xcbm5x0)
  */
 
 static int multijoy_enabled = 0;

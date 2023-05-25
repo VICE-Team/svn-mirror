@@ -41,7 +41,7 @@
      9   | X-position   |  I
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | smart mouse  | I/O
@@ -57,7 +57,7 @@
      9   | X-position   |  I
 
    Works on:
-   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
    cport | micromys      | I/O
@@ -73,9 +73,8 @@
      9   | X-position    |  I
 
    Works on:
-   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
-
 */
 
 /* #define DEBUG_1351 */

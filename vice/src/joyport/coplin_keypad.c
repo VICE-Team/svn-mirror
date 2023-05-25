@@ -46,13 +46,20 @@
      6   | KEY4   |  I
 
 Works on:
-- native port(s) (x64/x64sc/xscpu64/x64dtv/xplus4/xvic)
+- native port(s) (x64/x64sc/xscpu64/x64dtv/xvic/xplus4)
+- inception joystick adapter ports (x64/x64sc/xscpu64/xvic)
+- multijoy joystick adapter ports (x64/x64sc/xscpu64)
+- spaceballs joystick adapter ports (x64/x64sc/xscpu64)
 - cga userport joystick adapter ports (x64/x64sc/xscpu64)
 - hit userport joystick adapter ports (x64/x64sc/xscpu64)
+- hummer userport joystick adapter port (x64/x64sc/xscpu64)
 - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64)
+- oem userport joystick adapter port (x64/x64sc/xscpu64)
+- pet userport joystick adapter port (x64/x64sc/xscpu64)
 - starbyte userport joystick adapter ports (x64/x64sc/xscpu64)
-- hummer userport joystick adapter port (x64dtv)
-- oem userport joystick adapter port (xvic)
+- synergy userport joystick adapter ports (x64/x64sc/xscpu64)
+- stupid pet tricks userport joystick adapter port (x64/x64sc/xscpu64)
+- wheel of joysticks userport joystick adapter ports (x64/x64sc/xscpu64)
 - sidcart joystick adapter port (xplus4)
 
 The keypad has the following layout:

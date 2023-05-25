@@ -44,7 +44,7 @@
      9   | 27 Kohm
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic)
+   - native joystick port(s) (x64/x64sc/xscpu64/x128)
  */
 
 #define POTX_RETURN   0xC0
