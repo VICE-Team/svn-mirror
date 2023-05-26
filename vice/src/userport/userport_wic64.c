@@ -233,6 +233,9 @@ static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 static void add_transfer(CURLM *cmulti, char *url)
 {
     CURL *eh = curl_easy_init();
+#ifdef DEBUG_WIC64
+    curl_easy_setopt(eh, CURLOPT_VERBOSE, 1L);
+#endif
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
@@ -279,12 +282,24 @@ static int scan_reply(const uint8_t *buffer, size_t len)
 static void http_get_alarm_handler(CLOCK offset, void *data)
 {
     CURLMsg *msg;
-    CURLcode res;
+    CURLMcode r;
     int msgs_left = -1;
-    curl_multi_perform(cm, &still_alive);
+    r = curl_multi_perform(cm, &still_alive);
+    if (r != CURLM_OK) {
+        DBG(("%s: curl_multi_perform failed: %s", __FUNCTION__, curl_multi_strerror(r)));
+        msg = curl_multi_info_read(cm, &msgs_left);
+        if (msg) {
+            char *url;
+            DBG(("%s: msg: %u, %s", __FUNCTION__, msg->data.result, curl_easy_strerror(msg->data.result)));
+            curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+            DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
+                 msg->data.result, curl_easy_strerror(msg->data.result), url));
+        }
+    }
     if (still_alive) {
         if((msg = curl_multi_info_read(cm, &msgs_left))) {
             if(msg->msg == CURLMSG_DONE) {
+                CURLcode res;
                 char *url;
                 CURL *e = msg->easy_handle;
                 curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
