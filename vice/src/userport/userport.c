@@ -62,8 +62,8 @@
 
    CBM2 (internal)
 
-    o o o o o o o o o o o o o o
-    o o o o o o o o o o o o o o
+     25 o o o o o o o 9 7 5 3 1
+     26 o o o o o o o o 8 6 4 2
 
     FIXME: indicate what pin goes where
 
@@ -98,6 +98,8 @@
     C64DTV (internal)
 
     - "Userport" pins must be tapped at the ASIC
+    - DTV V1 has no userport pins exposed
+    - "Hummer" has only PB0-PB4
 
     PA2
     PB7
