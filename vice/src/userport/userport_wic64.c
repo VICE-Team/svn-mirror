@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_WIC64 */
+#define DEBUG_WIC64
 
 /* - WiC64 (C64/C128)
 
