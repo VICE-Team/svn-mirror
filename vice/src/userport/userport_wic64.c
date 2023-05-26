@@ -239,8 +239,13 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
-    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0L); /* attempt to make windows happy with https:// URLs */
-    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0L);
+#if 0
+    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0L); /* makes windows happy with https:// URLs */
+    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0L); /* but decreases security */
+#else
+    curl_easy_setopt(eh, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+#endif
+
 /* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
     curl_easy_setopt(eh, CURLOPT_USERAGENT, "ESP32HTTPClient");
     curl_multi_add_handle(cmulti, eh);
@@ -284,53 +289,58 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     CURLMsg *msg;
     CURLMcode r;
     int msgs_left = -1;
+    long response;
+    char *url = "<unknown>";
     r = curl_multi_perform(cm, &still_alive);
     if (r != CURLM_OK) {
         DBG(("%s: curl_multi_perform failed: %s", __FUNCTION__, curl_multi_strerror(r)));
         msg = curl_multi_info_read(cm, &msgs_left);
         if (msg) {
-            char *url;
             DBG(("%s: msg: %u, %s", __FUNCTION__, msg->data.result, curl_easy_strerror(msg->data.result)));
             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
             DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
                  msg->data.result, curl_easy_strerror(msg->data.result), url));
         }
+        send_reply("!0");       /* maybe wrong here */
+        goto out;
     }
     if (still_alive) {
-        if((msg = curl_multi_info_read(cm, &msgs_left))) {
-            if(msg->msg == CURLMSG_DONE) {
-                CURLcode res;
-                char *url;
-                CURL *e = msg->easy_handle;
-                curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
-                DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
-                     msg->data.result, curl_easy_strerror(msg->data.result), url));
-                res = curl_easy_perform(msg->easy_handle);
-                if(res != CURLE_OK) {
-                    DBG(("%s: curl_easy_perform() failed: %s", __FUNCTION__,
-                         curl_easy_strerror(res)));
-                }
-                curl_multi_remove_handle(cm, e);
-                curl_easy_cleanup(e);
-            } else {
-                DBG(("%s: CURLMsg (%u)", __FUNCTION__, msg->msg));
-            }
-        }
-    } else {
-        curl_multi_cleanup(cm);
-        curl_global_cleanup();
-        alarm_unset(http_get_alarm);
-        if (httpbufferptr > 0) {
-            DBG(("%s: got %lu bytes", __FUNCTION__, httpbufferptr));
-            if (scan_reply(httpbuffer, httpbufferptr))
-                send_binary_reply(httpbuffer, httpbufferptr);
-        } else {
-            DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
-            log_message(LOG_DEFAULT, "WiC64: URL returned empty page");
-            send_reply("!0");
-        }
-        memset(httpbuffer, 0, httpbufferptr);
+        /* http request not yet finished */
+        return;
     }
+    msg = curl_multi_info_read(cm, &msgs_left);
+    if (msg) {
+        CURLcode res;
+        res = curl_easy_getinfo(msg->easy_handle,
+                                CURLINFO_RESPONSE_CODE,
+                                &response);
+        if (res != CURLE_OK) {
+            DBG(("%s: curl_easy_getinfo(...&response failed: %s", __FUNCTION__,
+                 curl_easy_strerror(res)));
+            send_reply("!0");   /* maybe wrong here */
+            goto out;
+        }
+        curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        if (response == 404) {
+            log_message(LOG_DEFAULT, "WiC64: URL '%s' not found", url);
+            goto out;
+        }
+    }
+    if (httpbufferptr > 0) {    /* Fixme: check response codes */
+        DBG(("%s: got %lu bytes", __FUNCTION__, httpbufferptr));
+        if (scan_reply(httpbuffer, httpbufferptr))
+            send_binary_reply(httpbuffer, httpbufferptr);
+    } else {
+        DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
+        log_message(LOG_DEFAULT, "WiC64: URL '%s' returned empty page", url);
+        send_reply("!0");
+    }
+
+  out:
+    curl_multi_cleanup(cm);
+    curl_global_cleanup();
+    alarm_unset(http_get_alarm);
+    memset(httpbuffer, 0, httpbufferptr);
 }
 
 static void do_http_get(const char *prot, char *hostname, char *path, unsigned short server_port)
