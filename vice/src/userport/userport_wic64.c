@@ -639,8 +639,8 @@ static void do_command_0a(void)
     DBG(("%s: get udp package", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     /* FIXME: not implemented */
-    DBG(("get UDP not implemented"));
-    send_reply("!0");
+    log_message(LOG_DEFAULT, "WIC64: get UDP not implemented, returning empty packet");
+    send_reply("");
 }
 
 /* send udp package */
@@ -649,7 +649,7 @@ static void do_command_0b(void)
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     /* FIXME: not implemented */
-    DBG(("send UDP not implemented"));
+    log_message(LOG_DEFAULT, "WIC64: send UDP not implemented");
     /* this command sends no reply */
 }
 
@@ -665,7 +665,7 @@ static void do_command_0c(void)
 static void do_command_0d(void)
 {
     DBG(("%s: set WLAN ssid - just return OK.", __FUNCTION__));
-    send_reply("Wlan config changed");
+    send_reply("vice: use your host OS, wlan unchanged");
 }
 
 /* set udp port */
@@ -707,7 +707,8 @@ static void do_command_13(void)
     char buffer[0x20];
     /* FIXME: update the external IP */
     DBG(("%s: get external IP address", __FUNCTION__));
-    sprintf(buffer, "%d.%d.%d.%d", wic64_external_ip[0], wic64_external_ip[1],
+    sprintf(buffer, "%d.%d.%d.%d",
+            wic64_external_ip[0], wic64_external_ip[1],
             wic64_external_ip[2], wic64_external_ip[3]);
     send_reply(buffer);
 }
@@ -763,10 +764,46 @@ static void do_command_16(void)
     send_reply("Timezone set");
 }
 
+/* get timezone */
+static void do_command_17(void)
+{
+    DBG(("%s: get timezone", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    send_reply(timezones[current_tz].tz_name);
+}
+
+/* check update */
+static void do_command_18(void)
+{
+    DBG(("%s: check updatee", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    send_reply("0");
+}
+
+/* read prefs */
+static void do_command_19(void)
+{
+    char buffer[256];
+    DBG(("%s: read prefs not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    snprintf(buffer, 255, "%s", "vice");
+    send_reply(buffer);
+}
+
+/* wrtie prefs */
+static void do_command_1a(void)
+{
+    DBG(("%s: write prefs not implemented", __FUNCTION__));
+    hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    send_reply("");
+}
+
 /* get tcp */
 static void do_command_1e(void)
 {
     DBG(("%s: get TCP - not implemented", __FUNCTION__));
+    log_message(LOG_DEFAULT, "WIC64: get TCP not implemented, returning empty packet");
+    send_reply("");
     /* FIXME: not implemented */
 }
 
@@ -775,6 +812,7 @@ static void do_command_1f(void)
 {
     DBG(("%s: send TCP - not implemented", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    log_message(LOG_DEFAULT, "WIC64: send TCP not implemented");
     /* this command sends no reply */
 }
 
@@ -1016,8 +1054,20 @@ static void do_command(void)
     case 0x15: /* get timezone+time */
         do_command_15();
         break;
-    case 0x16: /* set timezones */
+    case 0x16: /* set timezone */
         do_command_16();
+        break;
+    case 0x17: /* get timezone */
+        do_command_17();
+        break;
+    case 0x18: /* check update */
+        do_command_18();
+        break;
+    case 0x19: /* read prefs */
+        do_command_19();
+        break;
+    case 0x1a: /* save prefs */
+        do_command_1a();
         break;
     case 0x1e: /* get tcp */
         do_command_1e();
