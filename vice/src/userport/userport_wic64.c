@@ -236,7 +236,9 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
-    /* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
+    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0L); /* attempt to make windows happy with https:// URLs */
+    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0L);
+/* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
     curl_easy_setopt(eh, CURLOPT_USERAGENT, "ESP32HTTPClient");
     curl_multi_add_handle(cmulti, eh);
 }
