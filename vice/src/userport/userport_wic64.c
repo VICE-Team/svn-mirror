@@ -124,7 +124,7 @@ static int sec_init = 0;
 static char session_id[32];
 static const char *TOKEN_NAME = "sectokenname";
 static void handshake_flag2(void);
-static void send_binary_reply(const uint8_t *reply, int len);
+static void send_binary_reply(const uint8_t *reply, size_t len);
 static void send_reply(const char *reply);
 static void userport_wic64_reset(void);
 
@@ -241,7 +241,7 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_multi_add_handle(cmulti, eh);
 }
 
-static int scan_reply(const uint8_t *buffer, int len)
+static int scan_reply(const uint8_t *buffer, size_t len)
 {
     char *t, *p;
     uint8_t *del;
@@ -439,7 +439,7 @@ static void send_reply(const char * reply)
     send_binary_reply((uint8_t *)reply, strlen(reply));
 }
 
-static void send_binary_reply(const uint8_t *reply, int len)
+static void send_binary_reply(const uint8_t *reply, size_t len)
 {
     /* highbyte first! */
     replybuffer[1] = len & 0xff;
@@ -470,11 +470,11 @@ static void do_command_0f(void)
     while((p = strstr(cptr, "<$")) != NULL) {
         static char hextab[16] = "0123456789abcdef";
         int encodedlen, encodeoffset, i;
-        encodeoffset = p - cptr;
+        encodeoffset = (int)(p - cptr);
         DBG(("%s: escape sequence found, offset %d, cmdlen = %d", __FUNCTION__,
              encodeoffset, commandptr));
         /* copy string before <$ */
-        strncpy(temppath, cptr, encodeoffset);
+        strncpy(temppath, cptr, (size_t)encodeoffset);
         temppath[encodeoffset] = 0;
         /* copy encoded string */
         encodedlen = p[2];
