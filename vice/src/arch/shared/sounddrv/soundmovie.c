@@ -64,6 +64,7 @@ static int soundmovie_init(const char *param, int *speed, int *fragsize, int *fr
     return -1;
 }
 
+/* encode nr samples from pbuf */
 static int soundmovie_write(int16_t *pbuf, size_t nr)
 {
     size_t copied = 0;

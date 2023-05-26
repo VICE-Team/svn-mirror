@@ -276,9 +276,7 @@ int scpu64ui_init(void)
     sdl_ui_font_init(C64_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c64);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -304,8 +302,7 @@ void scpu64ui_shutdown(void)
     sdl_menu_ethernet_interface_free();
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
+
     sdl_ui_font_shutdown();
 }

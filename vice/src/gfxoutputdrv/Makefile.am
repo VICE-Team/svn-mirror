@@ -34,6 +34,8 @@ libgfxoutputdrv_a_SOURCES = \
 	bmpdrv.c \
 	bmpdrv.h \
 	artstudiodrv.c \
+	ffmpegexedrv.c \
+	ffmpegexedrv.h \
 	gfxoutput.c \
 	godotdrv.c \
 	godotdrv.h \

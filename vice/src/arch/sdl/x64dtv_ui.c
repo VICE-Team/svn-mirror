@@ -251,9 +251,7 @@ int c64dtvui_init(void)
     sdl_ui_font_init(C64_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c64dtv);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -272,8 +270,7 @@ void c64dtvui_shutdown(void)
     fprintf(stderr,"%s\n",__func__);
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
+
     sdl_ui_font_shutdown();
 }

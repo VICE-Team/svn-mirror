@@ -35,5 +35,6 @@ extern ui_menu_entry_t ffmpeg_menu[];
 
 void sdl_menu_ffmpeg_init(void);
 void sdl_menu_ffmpeg_shutdown(void);
+void sdl_menu_ffmpeg_set_driver(const char *driver);
 
 #endif
