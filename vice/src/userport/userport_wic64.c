@@ -169,7 +169,7 @@ uint8_t httpbuffer[HTTPREPLY_MAXLEN];
 int still_alive = 0;
 CURLM *cm;                      /* used for http(s) */
 CURL *curl;                     /* used for telnet */
-uint8_t curl_buf[HTTPREPLY_MAXLEN];
+uint8_t curl_buf[240];          /* this slows down by smaller chunks sent to C64, improves BBSs  */
 uint8_t curl_send_buf[COMMANDBUFFER_MAXLEN];
 uint16_t curl_send_len;
 
@@ -531,12 +531,8 @@ static void do_command_01(void)
         if (!strncmp(p, "https://", 8)) {
             http_prot = "https://";
         } else {
-            if (!strncmp(p, "telnet://", 9)) {
-                http_prot = "https://";
-            } else {
-                DBG(("malformed URL:%s", commandbuffer));
-                return;
-            }
+            DBG(("malformed URL:%s", commandbuffer));
+            return;
         }
     }
 
@@ -822,8 +818,6 @@ static void do_command_21(void)
     commandptr += 9;
     memcpy(commandbuffer, tmp, commandptr + 1);
     do_connect();
-    /* this command sends no reply */
-    //send_reply("!E");
 }
 
 static void tcp_get_alarm_handler(CLOCK offset, void *data)
@@ -832,31 +826,31 @@ static void tcp_get_alarm_handler(CLOCK offset, void *data)
     size_t nread;
     static size_t total_read;
 
-    res = curl_easy_recv(curl, curl_buf + total_read,
-                         sizeof(curl_buf) - total_read, &nread);
-    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65 * 20));
-    if (res == CURLE_AGAIN) {
-        send_reply("");
-        return;
-    }
+    res = curl_easy_recv(curl,
+                         curl_buf + total_read,
+                         sizeof(curl_buf) - total_read,
+                         &nread);
+    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65 * 30));
     total_read += nread;
+    if ((res == CURLE_OK) && (nread == 0)) {
+        /* connection closed */
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+        alarm_unset(tcp_get_alarm);
+        curl = NULL;
+        DBG(("%s: connection closed", __FUNCTION__));
+    }
 
-    if (res == CURLE_OK) {
-        if (nread == 0) {
-            /* connection closed */
-            curl_easy_cleanup(curl);
-            curl_global_cleanup();
-            alarm_unset(tcp_get_alarm);
-            curl = NULL;
-            DBG(("%s: connection closed", __FUNCTION__));
+    if ((res == CURLE_OK) || (res == CURLE_AGAIN)) {
+        if (nread) {
+            DBG(("%s: nread = %lu, total_read = %lu", __FUNCTION__, nread, total_read));
         }
         send_binary_reply(curl_buf, total_read);
-        total_read = 0;
-        return;
+    } else {
+        DBG(("%s: curl_easy_recv: %s", __FUNCTION__, curl_easy_strerror(res)));
+        send_reply("!E");
     }
     total_read = 0;
-    DBG(("%s: curl_easy_recv: %s", __FUNCTION__, curl_easy_strerror(res)));
-    send_reply("!E");
 }
 
 static void do_command_22(void)
@@ -878,7 +872,7 @@ static void do_command_22(void)
     }
     alarm_unset(tcp_get_alarm);
     alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65));
-    /* no return here, but from alarm handler */
+    /* no reply here, but from alarm handler */
 }
 
 static void tcp_send_alarm_handler(CLOCK offset, void *data)
@@ -923,7 +917,7 @@ static void do_command_23(void)
     }
     alarm_unset(tcp_send_alarm);
     alarm_set(tcp_send_alarm, maincpu_clk + (312 * 65));
-    /* no return here, but from alarm handler */
+    /* no reply here, but from alarm handler */
 }
 
 static void do_command_24(void)
@@ -1134,7 +1128,9 @@ static void userport_wic64_store_pa2(uint8_t value)
 {
     /* DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length)); */
 
-    if ((wic64_inputmode == 1) && (value == 0) && (reply_length)) {
+    if ((wic64_inputmode == 1)
+        && (value == 0)
+        && (reply_length)) {
         DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length));
         handshake_flag2();
     }
