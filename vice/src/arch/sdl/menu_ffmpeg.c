@@ -24,9 +24,9 @@
  *
  */
 
-#include "vice.h"
+/* #define SDL_DEBUG */
 
-#ifdef HAVE_FFMPEG
+#include "vice.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -46,7 +46,6 @@
 #include "util.h"
 #include "videoarch.h"
 
-
 static gfxoutputdrv_t *ffmpeg_drv = NULL;
 
 #define MAX_FORMATS 7
@@ -62,6 +61,25 @@ UI_MENU_DEFINE_RADIO(FFMPEGAudioCodec)
 UI_MENU_DEFINE_SLIDER(FFMPEGVideoBitrate, VICE_FFMPEG_VIDEO_RATE_MIN, VICE_FFMPEG_VIDEO_RATE_MIN)
 UI_MENU_DEFINE_SLIDER(FFMPEGAudioBitrate, VICE_FFMPEG_AUDIO_RATE_MIN, VICE_FFMPEG_AUDIO_RATE_MAX)
 
+static const char *video_driver = NULL;
+
+void sdl_menu_ffmpeg_set_driver(const char *driver)
+{
+    video_driver = driver;
+}
+
+static const char* get_video_driver(void)
+{
+    if (video_driver) {
+        return video_driver;
+    }
+#ifdef HAVE_FFMPEG
+    return "FFMPEG";
+#else
+    return "FFMPEGEXE";
+#endif
+}
+
 static UI_MENU_CALLBACK(save_movie_callback)
 {
     char *name = NULL;
@@ -75,9 +93,9 @@ static UI_MENU_CALLBACK(save_movie_callback)
             return NULL;
         }
 
-        ffmpeg_drv = gfxoutput_get_driver("FFMPEG");
+        ffmpeg_drv = gfxoutput_get_driver(get_video_driver());
         if (ffmpeg_drv == NULL) {
-            ui_error("FFMPEG not available.");
+            ui_error("Driver '%s' not available.", get_video_driver());
             return NULL;
         }
 
@@ -87,7 +105,7 @@ static UI_MENU_CALLBACK(save_movie_callback)
             height = sdl_active_canvas->draw_buffer->draw_buffer_height;
             memcpy(sdl_active_canvas->draw_buffer->draw_buffer, sdl_ui_get_draw_buffer(), width * height);
             util_add_extension(&name, ffmpeg_drv->default_extension);
-            if (screenshot_save("FFMPEG", name, sdl_active_canvas) < 0) {
+            if (screenshot_save(get_video_driver(), name, sdl_active_canvas) < 0) {
                 ui_error("Cannot save movie.");
             }
             lib_free(name);
@@ -305,10 +323,10 @@ void sdl_menu_ffmpeg_init(void)
         return;
     }
 
-
     k = 0;
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL && i < MAX_FORMATS; i++) {
         char *name = ffmpegdrv_formatlist[i].name;
+
         if (ffmpegdrv_formatlist[i].audio_codecs != NULL &&
                 ffmpegdrv_formatlist[i].video_codecs != NULL) {
             format_menu[k].string = name;
@@ -345,5 +363,3 @@ void sdl_menu_ffmpeg_shutdown(void)
         screenshot_stop_recording();
     }
 }
-
-#endif /* HAVE_FFMPEG */

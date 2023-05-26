@@ -1,10 +1,9 @@
-/** \file   ffmpegwidget.h
- * \brief   FFMPEG media recording options dialog - header
- *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
 /*
+ * ffmpegexedrv.h - Movie driver using FFMPEG executable
+ *
+ * Written by
+ *  groepaz@gmx.net
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -22,14 +21,15 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_FFMPEGWIDGET_H
-#define VICE_FFMPEGWIDGET_H
+#ifndef VICE_FFMPEGEXEDRV_H
+#define VICE_FFMPEGEXEDRV_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
+#include "screenshot.h"
+#include "gfxoutput.h"
 
-GtkWidget *ffmpeg_widget_create(const char *name);
+void gfxoutput_init_ffmpegexe(int help);
 
 #endif

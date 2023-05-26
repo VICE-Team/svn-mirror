@@ -285,9 +285,7 @@ int vic20ui_init(void)
     sdl_ui_font_init(VIC20_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_vic20);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -313,9 +311,7 @@ void vic20ui_shutdown(void)
     sdl_menu_ethernet_interface_free();
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
 
     sdl_ui_font_shutdown();
 }

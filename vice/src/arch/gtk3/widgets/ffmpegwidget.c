@@ -495,7 +495,7 @@ static GtkWidget *create_audio_combo_box(int fmt)
  *
  * \return  GtkGrid
  */
-GtkWidget *ffmpeg_widget_create(void)
+GtkWidget *ffmpeg_widget_create(const char *name)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -506,7 +506,7 @@ GtkWidget *ffmpeg_widget_create(void)
     int current_ac;
 
     /* retrieve FFMPEG driver info */
-    driver_info = gfxoutput_get_driver("FFMPEG");
+    driver_info = gfxoutput_get_driver(name);
 
     /* get current FFMPEG format */
     if (resources_get_string("FFMPEGFormat", &current_format) < 0) {

@@ -269,9 +269,7 @@ int plus4ui_init(void)
     sdl_ui_font_init(PLUS4_KERNAL_PAL_REV5_NAME, 0x1000, 0x1400, 0);
     sdl_vkbd_set_vkbd(&vkbd_plus4);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -292,9 +290,7 @@ void plus4ui_shutdown(void)
     fprintf(stderr, "%s\n", __func__);
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
 
     sdl_ui_font_shutdown();
 }

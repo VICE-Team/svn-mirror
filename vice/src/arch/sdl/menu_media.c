@@ -121,6 +121,43 @@ static UI_MENU_CALLBACK(SoundRecord_dynmenu_callback)
 }
 
 /** \brief  Generic media menu */
+
+#ifdef HAVE_FFMPEG
+#define MAX_VIDEO_DRIVERS   2
+#else
+#define MAX_VIDEO_DRIVERS   1
+#endif
+
+static int video_driver_index = 0;
+static const char *video_driver_names[MAX_VIDEO_DRIVERS] = {
+#ifdef HAVE_FFMPEG
+    "FFMPEG",
+#endif
+    "FFMPEGEXE"
+};
+
+static UI_MENU_CALLBACK(custom_video_driver_callback)
+{
+    int driver;
+
+    if (activated) {
+        video_driver_index = 0;
+        for (driver = 0; driver < MAX_VIDEO_DRIVERS; driver++) {
+            if (!strcmp(video_driver_names[driver], param)) {
+                video_driver_index = driver;
+                sdl_menu_ffmpeg_set_driver(video_driver_names[driver]);
+                break;
+            }
+        }
+    } else {
+        if (!strcmp(video_driver_names[video_driver_index], param)) {
+            return sdl_menu_text_tick;
+        }
+    }
+
+    return NULL;
+}
+
 ui_menu_entry_t media_menu[] = {
     { "Create screenshot",
         MENU_ENTRY_SUBMENU,
@@ -130,12 +167,22 @@ ui_menu_entry_t media_menu[] = {
         MENU_ENTRY_SUBMENU,
         SoundRecord_dynmenu_callback,
         (ui_callback_data_t)sound_record_dyn_menu },
-#ifdef HAVE_FFMPEG
     { "Create video recording",
         MENU_ENTRY_SUBMENU,
         submenu_callback,
         (ui_callback_data_t)ffmpeg_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Video driver"),
+#ifdef HAVE_FFMPEG
+    { "FFMPEG (Library)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_video_driver_callback,
+      (ui_callback_data_t)"FFMPEG" },
 #endif
+    { "FFMPEG (Executable)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_video_driver_callback,
+      (ui_callback_data_t)"FFMPEGEXE" },
     SDL_MENU_LIST_END
 };
 

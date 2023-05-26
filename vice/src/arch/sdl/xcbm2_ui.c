@@ -271,9 +271,7 @@ int cbm2ui_init(void)
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -285,9 +283,8 @@ void cbm2ui_shutdown(void)
     fprintf(stderr, "%s\n", __func__);
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
+
     uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();

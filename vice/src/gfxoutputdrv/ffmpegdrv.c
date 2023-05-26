@@ -1019,7 +1019,7 @@ static void ffmpegdrv_shutdown(void);
 
 static gfxoutputdrv_t ffmpeg_drv = {
     "FFMPEG",
-    "FFMPEG",
+    "FFMPEG (Library)",
     NULL,
     NULL, /* filled in ffmpeg_get_formats_and_codecs */
     NULL, /* open */

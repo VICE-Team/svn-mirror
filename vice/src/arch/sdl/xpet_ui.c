@@ -285,9 +285,7 @@ int petui_init(void)
     sdl_ui_set_main_menu(xpet_main_menu);
     sdl_ui_font_init(PET_CHARGEN2_NAME, 0, 0x400, 0);
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
-#endif
 
     uistatusbar_realize();
     return 0;
@@ -308,9 +306,7 @@ void petui_shutdown(void)
     fprintf(stderr, "%s\n", __func__);
 #endif
 
-#ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
-#endif
 
     sdl_ui_font_shutdown();
 }
