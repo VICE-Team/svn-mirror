@@ -209,7 +209,9 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].screenshot.y_offset = 0;
     output_gfx[prnr].screenshot.palette = output_parameter->palette;
 
-    lib_free(output_gfx[prnr].line);
+    if (output_gfx[prnr].line != NULL) {
+        lib_free(output_gfx[prnr].line);
+    }
     output_gfx[prnr].line = lib_malloc(output_parameter->maxcol);
     memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE, output_parameter->maxcol);
 
@@ -347,9 +349,16 @@ void output_graphics_init(void)
 {
     unsigned int i;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < NUM_OUTPUT_SELECT; i++) {
+        if (output_gfx[i].filename) {
+            lib_free(output_gfx[i].filename);
+        }
+        if (output_gfx[i].line) {
+            lib_free(output_gfx[i].line);
+        }
         output_gfx[i].filename = NULL;
         output_gfx[i].line = NULL;
+
         output_gfx[i].line_pos = 0;
     }
 }
@@ -358,10 +367,13 @@ void output_graphics_shutdown(void)
 {
     unsigned int i;
 
-    for (i = 0; i < 3; i++) {
-        lib_free(output_gfx[i].filename);
-        lib_free(output_gfx[i].line);
-
+    for (i = 0; i < NUM_OUTPUT_SELECT; i++) {
+        if (output_gfx[i].filename) {
+            lib_free(output_gfx[i].filename);
+        }
+        if (output_gfx[i].line) {
+            lib_free(output_gfx[i].line);
+        }
         output_gfx[i].filename = NULL;
         output_gfx[i].line = NULL;
     }

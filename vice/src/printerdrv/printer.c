@@ -128,7 +128,7 @@ void printer_shutdown(void)
      */
     machine_printer_shutdown();
     /* send a formfeed to all drivers */
-    for (n = 0; n < 4; n++) {
+    for (n = 0; n < NUM_OUTPUT_SELECT; n++) {
         driver_select_formfeed(n);
     }
     /*
