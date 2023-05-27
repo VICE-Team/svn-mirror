@@ -466,7 +466,7 @@ static int write_video_frame(VIDEOFrame *pic)
     size_t len = INPUT_VIDEO_BPP * video_height * video_width;
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
 #ifdef USE_SOCKETS_VIDEO
-        return len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
+        return (int)len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
 #else
         return len - write(ffmpeg_stdin, pic->data, len);
 #endif
