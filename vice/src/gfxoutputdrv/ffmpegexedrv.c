@@ -74,6 +74,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "coproc.h"
+#include "ffmpegdrv.h"
 #include "ffmpegexedrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
@@ -141,6 +142,15 @@ static char *av_codec_get_option(int id)
     }
 }
 
+/******************************************************************************/
+
+/* FIXME: some SDL UIs use ffmpegdrv_formatlist directly */
+#define ffmpegexedrv_formatlist ffmpegdrv_formatlist
+
+#ifdef HAVE_FFMPEG
+/* FIXME: while we coexist with the old driver, do not use our own format list */
+#else
+
 static gfxoutputdrv_codec_t mp4_audio_codeclist[] = {
     { AV_CODEC_ID_AAC,          "AAC" },
     { AV_CODEC_ID_MP3,          "MP3" },
@@ -198,14 +208,9 @@ static gfxoutputdrv_codec_t none_codeclist[] = {
 };
 #endif
 
-/* FIXME: some SDL UIs use this directly */
-#ifndef HAVE_FFMPEG
-#define ffmpegexedrv_formatlist ffmpegdrv_formatlist
-#endif
-
 /* formatlist is filled from with available formats and codecs at init time */
 gfxoutputdrv_format_t *ffmpegexedrv_formatlist = NULL;
-gfxoutputdrv_format_t output_formats_to_test[] =
+static gfxoutputdrv_format_t output_formats_to_test[] =
 {
     { "mp4",        mp4_audio_codeclist, mp4_video_codeclist },
     { "ogg",        ogg_audio_codeclist, ogg_video_codeclist },
@@ -216,6 +221,7 @@ gfxoutputdrv_format_t output_formats_to_test[] =
     { "mp2",        mp2_audio_codeclist, NULL },
     { NULL, NULL, NULL }
 };
+#endif
 
 /******************************************************************************/
 
@@ -432,6 +438,10 @@ static int ffmpegexedrv_cmdline_options_init(void)
 /*---------------------------------------------------------------------*/
 
 #ifdef HAVE_FFMPEG
+/* FIXME: when we coexist with the old FFMPEG driver, we use this function to
+          read the actual resource values (defined in the old driver) into the
+          variables local to this file, so other code can use these "as if" the
+          resources were defined in this file, rather than the old driver. */
 static void get_resource_values(void)
 {
     int i;
@@ -588,7 +598,7 @@ static int start_ffmpeg_executable(void)
 #ifdef USE_SOCKETS_VIDEO
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
-        ad = vice_network_address_generate("127.0.0.1:60000", 0);
+        ad = vice_network_address_generate("127.0.0.1", SOCKETS_VIDEO_PORT);
         if (!ad) {
             log_error(LOG_DEFAULT, "Bad device name.\n");
             return -1;
@@ -600,7 +610,7 @@ static int start_ffmpeg_executable(void)
                 /*log_error(LOG_DEFAULT, "ffmpegexedrv: Error connecting AUDIO socket");*/
                 archdep_usleep(1000);
             } else {
-                log_message(LOG_DEFAULT, "VIDEO connected");
+                log_message(LOG_DEFAULT, "ffmpegexedrv: VIDEO connected");
                 video_connected = 1;
                 break;
             }
@@ -621,7 +631,7 @@ static int start_ffmpeg_executable(void)
 #ifdef USE_SOCKETS_AUDIO
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
-        ad = vice_network_address_generate("127.0.0.1:60001", 0);
+        ad = vice_network_address_generate("127.0.0.1", SOCKETS_AUDIO_PORT);
         if (!ad) {
             log_error(LOG_DEFAULT, "Bad device name.\n");
             return -1;
@@ -633,7 +643,7 @@ static int start_ffmpeg_executable(void)
                 /*log_error(LOG_DEFAULT, "ffmpegexedrv: Error connecting AUDIO socket");*/
                 archdep_usleep(1000);
             } else {
-                log_message(LOG_DEFAULT, "AUDIO connected");
+                log_message(LOG_DEFAULT, "ffmpegexedrv: AUDIO connected");
                 audio_connected = 1;
                 break;
             }
@@ -890,6 +900,12 @@ static VIDEOFrame* video_alloc_picture(int bpp, int width, int height)
     return picture;
 }
 
+static void video_free_picture(VIDEOFrame *picture)
+{
+    lib_free(picture->data);
+    lib_free(picture);
+}
+
 /* called by ffmpegexedrv_init_file */
 static int ffmpegexedrv_open_video(void)
 {
@@ -910,9 +926,13 @@ static int ffmpegexedrv_open_video(void)
 /* called by ffmpegexedrv_close() */
 static void ffmpegexedrv_close_video(void)
 {
-    printf("ffmpegexedrv_close_video");
+    DBG(("ffmpegexedrv_close_video"));
     close_video_stream();
     video_is_open = 0;
+    if (video_st_frame) {
+        video_free_picture(video_st_frame);
+        video_st_frame = NULL;
+    }
 }
 
 /* called by ffmpegexedrv_save */
@@ -1102,9 +1122,11 @@ static gfxoutputdrv_t ffmpegexe_drv = {
 /* gfxoutputdrv_t.shutdown */
 static void ffmpegexedrv_shutdown(void)
 {
+#ifndef HAVE_FFMPEG
     int i = 0;
+#endif
     DBG(("ffmpegexedrv_shutdown"));
-
+#ifndef HAVE_FFMPEG
     if (ffmpegexe_drv.formatlist != NULL) {
 
         while (ffmpegexe_drv.formatlist[i].name != NULL) {
@@ -1117,11 +1139,20 @@ static void ffmpegexedrv_shutdown(void)
             }
             i++;
         }
-        lib_free(ffmpegexe_drv.formatlist);
+        if (ffmpegexe_drv.formatlist) {
+            lib_free(ffmpegexe_drv.formatlist);
+            ffmpegexe_drv.formatlist = NULL;
+        }
     }
-    lib_free(ffmpegexedrv_formatlist);
+/* ??? this is actually ffmpegexe_drv.formatlist
+    if (ffmpegexedrv_formatlist) {
+        lib_free(ffmpegexedrv_formatlist);
+    }
+*/
+#endif
 }
 
+#ifndef HAVE_FFMPEG
 static void get_formats_and_codecs(void)
 {
     int i, j, ai = 0, vi = 0, f;
@@ -1168,6 +1199,7 @@ static void get_formats_and_codecs(void)
     ffmpegexedrv_formatlist[f].name = NULL;
     ffmpegexe_drv.formatlist = ffmpegexedrv_formatlist;
 }
+#endif
 
 /* public, init this output driver */
 void gfxoutput_init_ffmpegexe(int help)
@@ -1177,6 +1209,11 @@ void gfxoutput_init_ffmpegexe(int help)
         return;
     }
 
+#ifdef HAVE_FFMPEG
+    /* FIXME: as long as we coexist with the old FFMPEG driver, we reuse its formatlist */
+    ffmpegexe_drv.formatlist = ffmpegdrv_formatlist;
+#else
     get_formats_and_codecs();
+#endif
     gfxoutput_register(&ffmpegexe_drv);
 }
