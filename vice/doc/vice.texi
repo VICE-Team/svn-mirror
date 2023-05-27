@@ -1178,7 +1178,7 @@ The Trap-Them SNES pad adapter port is mapped to the same port it is attached to
 
 The MicroFlyte analog joystick is mapped to the same port it is attached to.
 
-The SID cartridge joystick port (xplus4) is mapped to extra joystick device #4.
+The SID cartridge joystick port (xplus4) is mapped to extra joystick device #9.
 
 @node Disk drive emulation, Supported file formats, Joystick emulation, Preface
 @section The disk drive emulation
@@ -4348,13 +4348,21 @@ Enable/Disable saving of the battery-backed real time clock data
 @node Control port and devices,  , Control port options, Control port settings
 @subsection Control port and devices
 
-x64/x64sc/xscpu64/x128 control ports and devices:
+x64/x64sc/xscpu64 control ports and devices:
 
-@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
+@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
 @headitem nr
 @tab device
 @tab N1
 @tab N2
+@tab I1
+@tab I2
+@tab I3
+@tab I4
+@tab I5
+@tab I6
+@tab I7
+@tab I8
 @tab E1
 @tab E2
 @tab E3
@@ -4365,6 +4373,14 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab E8
 @item 0
 @tab None
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -4387,6 +4403,14 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab X
 @tab X
 @tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @item 2
 @tab Paddles
 @tab X
@@ -4397,14 +4421,6 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab X
 @item 4
 @tab Mouse (NEOS)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @item 5
@@ -4501,20 +4517,20 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab RTC (BBRTC)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 21
 @tab Dongle (Paperclip64D)
 @tab X
 @tab X
 @item 22
 @tab Keypad (Coplin)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -4535,6 +4551,14 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab X
 @item 25
 @tab Keypad (RushWare)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -4565,14 +4589,6 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab SNES Pad (TrapThem)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 31
 @tab SNES Pad (Ninja)
 @tab X
@@ -4593,12 +4609,235 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 @tab ProtoPad
 @tab X
 @tab X
+@item 37
+@tab I/O Simulation device
+@tab X
+@tab X
+@item 38
+@tab Microflyte joystick
+@tab X
+@tab X
+@item 39
+@tab Dongle (Paperclip64E)
+@tab X
+@tab X
+@item 40
+@tab Dongle (Paperclip64SC)
+@tab X
+@tab X
+@item 41
+@tab Dongle (Paperclip2)
+@tab X
+@tab X
+@end multitable
+
+x128 control ports and devices:
+
+@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
+@headitem nr
+@tab device
+@tab N1
+@tab N2
+@tab I1
+@tab I2
+@tab I3
+@tab I4
+@tab I5
+@tab I6
+@tab I7
+@tab I8
+@tab E1
+@tab E2
+@tab E3
+@tab E4
+@tab E5
+@tab E6
+@tab E7
+@tab E8
+@item 0
+@tab None
 @tab X
 @tab X
 @tab X
 @tab X
 @tab X
 @tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 1
+@tab Joystick
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 2
+@tab Paddles
+@tab X
+@tab X
+@item 3
+@tab Mouse (1351)
+@tab X
+@tab X
+@item 4
+@tab Mouse (NEOS)
+@tab X
+@tab X
+@item 5
+@tab Mouse (AMIGA)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 6
+@tab Trackball (CX22)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 7
+@tab Mouse (ST)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 8
+@tab Mouse (SmartMouse)
+@tab X
+@tab X
+@item 9
+@tab Mouse (Micromys)
+@tab X
+@tab X
+@item 10
+@tab KoalaPad
+@tab X
+@tab X
+@item 11
+@tab Lightpen (up trigger)
+@tab X
+@item 12
+@tab Lightpen (left trigger)
+@tab X
+@item 13
+@tab Lightpen (Datel)
+@tab X
+@item 14
+@tab Lightgun (Magnum Phaser)
+@tab X
+@item 15
+@tab Lightgun (Stack Rifle)
+@tab X
+@item 16
+@tab Lightpen (Inkwell)
+@tab X
+@item 18
+@tab Sampler (2bit)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 19
+@tab Sampler (4bit)
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@item 20
+@tab RTC (BBRTC)
+@tab X
+@tab X
+@item 21
+@tab Dongle (Paperclip64D)
+@tab X
+@tab X
+@item 27
+@tab Dongle (Script 64)
+@tab X
+@tab X
+@item 28
+@tab Dongle (VizaWrite 64)
+@tab X
+@tab X
+@item 29
+@tab Dongle (WaaSoft)
+@tab X
+@tab X
+@item 30
+@tab SNES Pad (TrapThem)
+@tab X
+@tab X
+@item 31
+@tab SNES Pad (Ninja)
+@tab X
+@tab X
+@item 32
+@tab Spaceballs joy adapter
+@tab X
+@tab X
+@item 33
+@tab Inception joy adapter
+@tab X
+@tab X
+@item 34
+@tab MultiJoy adapter
+@tab X
+@tab X
+@item 36
+@tab ProtoPad
 @tab X
 @tab X
 @item 37
@@ -4625,28 +4864,14 @@ x64/x64sc/xscpu64/x128 control ports and devices:
 
 x64dtv control ports and devices:
 
-@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
+@multitable @columnfractions .05 .33 .05 .05 .05
 @headitem nr
 @tab device
 @tab N1
 @tab N2
 @tab E1
-@tab E2
-@tab E3
-@tab E4
-@tab E5
-@tab E6
-@tab E7
-@tab E8
 @item 0
 @tab None
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @tab X
@@ -4655,110 +4880,8 @@ x64dtv control ports and devices:
 @tab X
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 4
-@tab Mouse (NEOS)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 5
-@tab Mouse (AMIGA)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 6
-@tab Trackball (CX22)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 7
-@tab Mouse (ST)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 18
-@tab Sampler (2bit)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 19
-@tab Sampler (4bit)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 20
-@tab RTC (BBRTC)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 21
-@tab Dongle (Paperclip64D)
-@tab X
-@tab X
 @item 22
 @tab Keypad (Coplin)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @tab X
@@ -4767,68 +4890,13 @@ x64dtv control ports and devices:
 @tab X
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 30
-@tab SNES Pad (TrapThem)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@item 31
-@tab SNES Pad (Ninja)
-@tab X
-@tab X
-@item 33
-@tab Inception joy adapter
-@tab X
-@tab X
-@item 34
-@tab MultiJoy adapter
-@tab X
-@tab X
-@item 36
-@tab ProtoPad
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 37
 @tab I/O Simulation device
 @tab X
 @tab X
-@item 39
-@tab Dongle (Paperclip64E)
-@tab X
-@tab X
-@item 40
-@tab Dongle (Paperclip64SC)
-@tab X
-@tab X
-@item 41
-@tab Dongle (Paperclip2)
-@tab X
-@tab X
 @end multitable
 
-xcbm2 can handle the following devices on all control ports:
+xcbm2/xpet can handle the following devices on all control ports:
 
 @multitable @columnfractions .05 .33
 @headitem nr
@@ -4837,29 +4905,23 @@ xcbm2 can handle the following devices on all control ports:
 @tab None
 @item 1
 @tab Joystick
-@item 4
-@tab Mouse (NEOS)
-@item 5
-@tab Mouse (AMIGA)
-@item 6
-@tab Trackball (CX22)
-@item 7
-@tab Mouse (ST)
-@item 18
-@tab Sampler (2bit)
-@item 19
-@tab Sampler (4bit)
-@item 20
-@tab RTC (BBRTC)
 @end multitable
 
 xcbm5x0 control ports and devices:
 
-@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
+@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
 @headitem nr
 @tab device
 @tab N1
 @tab N2
+@tab I1
+@tab I2
+@tab I3
+@tab I4
+@tab I5
+@tab I6
+@tab I7
+@tab I8
 @tab E1
 @tab E2
 @tab E3
@@ -4880,8 +4942,24 @@ xcbm5x0 control ports and devices:
 @tab X
 @tab X
 @tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @item 1
 @tab Joystick
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -4902,14 +4980,6 @@ xcbm5x0 control ports and devices:
 @tab X
 @item 4
 @tab Mouse (NEOS)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @item 5
@@ -4988,24 +5058,8 @@ xcbm5x0 control ports and devices:
 @tab RTC (BBRTC)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 30
 @tab SNES Pad (TrapThem)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @item 31
@@ -5022,14 +5076,6 @@ xcbm5x0 control ports and devices:
 @tab X
 @item 36
 @tab ProtoPad
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @tab X
 @item 37
@@ -5042,34 +5088,9 @@ xcbm5x0 control ports and devices:
 @tab X
 @end multitable
 
-xpet can handle the following devices on all control ports:
-
-@multitable @columnfractions .05 .33
-@headitem nr
-@tab device
-@item 0
-@tab None
-@item 1
-@tab Joystick
-@item 4
-@tab Mouse (NEOS)
-@item 5
-@tab Mouse (AMIGA)
-@item 6
-@tab Trackball (CX22)
-@item 7
-@tab Mouse (ST)
-@item 18
-@tab Sampler (2bit)
-@item 19
-@tab Sampler (4bit)
-@item 20
-@tab RTC (BBRTC)
-@end multitable
-
 xplus4 control ports and devices:
 
-@multitable @columnfractions .05 .33 .05 .05 .05 .05
+@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05
 @headitem nr
 @tab device
 @tab N1
@@ -5077,6 +5098,11 @@ xplus4 control ports and devices:
 @tab E1
 @tab E2
 @tab E3
+@tab E4
+@tab E5
+@tab E6
+@tab E7
+@tab E8
 @tab SC
 @item 0
 @tab None
@@ -5086,8 +5112,18 @@ xplus4 control ports and devices:
 @tab X
 @tab X
 @tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @item 1
 @tab Joystick
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -5101,9 +5137,19 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 3
 @tab Mouse (1351)
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5117,33 +5163,58 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 5
 @tab Mouse (AMIGA)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 6
 @tab Trackball (CX22)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 7
 @tab Mouse (ST)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 8
 @tab Mouse (SmartMouse)
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5157,9 +5228,19 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 10
 @tab KoalaPad
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5170,20 +5251,35 @@ xplus4 control ports and devices:
 @tab Sampler (2bit)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 19
 @tab Sampler (4bit)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 20
 @tab RTC (BBRTC)
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5194,12 +5290,22 @@ xplus4 control ports and devices:
 @tab Keypad (Coplin)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 23
 @tab Keypad (Cardco)
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5213,17 +5319,32 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 25
 @tab Keypad (RushWare)
 @tab X
 @tab X
-@tab X
-@tab X
-@tab X
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 26
 @tab Keypad (CX21)
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5237,9 +5358,19 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @item 36
 @tab ProtoPad
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab
 @tab
 @tab
@@ -5257,15 +5388,28 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab
+@tab
+@tab
+@tab
+@tab
+@tab
 @tab X
 @end multitable
 
 xvic control ports and devices:
 
-@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05
+@multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
 @headitem nr
 @tab device
 @tab N1
+@tab I1
+@tab I2
+@tab I3
+@tab I4
+@tab I5
+@tab I6
+@tab I7
+@tab I8
 @tab E1
 @tab E2
 @tab E3
@@ -5276,6 +5420,14 @@ xvic control ports and devices:
 @tab E8
 @item 0
 @tab None
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @tab X
 @tab X
 @tab X
@@ -5296,6 +5448,14 @@ xvic control ports and devices:
 @tab X
 @tab X
 @tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
+@tab X
 @item 2
 @tab Paddles
 @tab X
@@ -5304,14 +5464,6 @@ xvic control ports and devices:
 @tab X
 @item 4
 @tab Mouse (NEOS)
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @item 5
 @tab Mouse (AMIGA)
@@ -5398,14 +5550,6 @@ xvic control ports and devices:
 @item 20
 @tab RTC (BBRTC)
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 22
 @tab Keypad (Coplin)
 @tab X
@@ -5440,14 +5584,6 @@ xvic control ports and devices:
 @item 30
 @tab SNES Pad (TrapThem)
 @tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @item 31
 @tab SNES Pad (Ninja)
 @tab X
@@ -5459,14 +5595,6 @@ xvic control ports and devices:
 @tab X
 @item 36
 @tab ProtoPad
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
-@tab X
 @tab X
 @item 37
 @tab I/O Simulation device
@@ -5485,22 +5613,38 @@ Meaning of abreviations used in the tables above:
 @tab Native control port 1
 @item N2
 @tab Native control port 2
+@item I1
+@tab Inception Joystick adapter port 1
+@item I2
+@tab Inception Joystick adapter port 2
+@item I3
+@tab Inception Joystick adapter port 3
+@item I4
+@tab Inception Joystick adapter port 4
+@item I5
+@tab Inception Joystick adapter port 5
+@item I6
+@tab Inception Joystick adapter port 6
+@item I7
+@tab Inception Joystick adapter port 7
+@item I8
+@tab Inception Joystick adapter port 8
 @item E1
-@tab Joystick adapter port 1
+@tab Other Joystick adapter port 1
 @item E2
-@tab Joystick adapter port 2
+@tab Other Joystick adapter port 2
 @item E3
-@tab Joystick adapter port 3
+@tab Other Joystick adapter port 3
 @item E4
-@tab Joystick adapter port 4
+@tab Other Joystick adapter port 4
 @item E5
-@tab Joystick adapter port 5
+@tab Other Joystick adapter port 5
 @item E6
-@tab Joystick adapter port 6
+@tab Other Joystick adapter port 6
 @item E7
-@tab Joystick adapter port 7
+@tab Other Joystick adapter port 7
 @item E8
-@tab Joystick adapter port 8
+@tab Other Joystick adapter port 8
 @item SC
 @tab xplus4 SidCart joystick port
 @end multitable
@@ -5523,6 +5667,7 @@ Meaning of abreviations used in the tables above:
 @vindex JoyDevice8
 @vindex JoyDevice9
 @vindex JoyDevice10
+@vindex JoyDevice11
 @item JoyDevice1
 @itemx JoyDevice2
 @itemx JoyDevice3
@@ -5533,6 +5678,7 @@ Meaning of abreviations used in the tables above:
 @itemx JoyDevice8
 @itemx JoyDevice9
 @itemx JoyDevice10
+@itemx JoyDevice11
 Integer specifying which joystick device the emulator should use for
 joystick emulation for ports 1 - 10, respectively.
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
@@ -5551,6 +5697,7 @@ available for example).
 @vindex JoyStick8AutoFire
 @vindex JoyStick9AutoFire
 @vindex JoyStick10AutoFire
+@vindex JoyStick11AutoFire
 @item JoyStick1AutoFire
 @itemx JoyStick2AutoFire
 @itemx JoyStick3AutoFire
@@ -5561,6 +5708,7 @@ available for example).
 @itemx JoyStick8AutoFire
 @itemx JoyStick9AutoFire
 @itemx JoyStick10AutoFire
+@itemx JoyStick11AutoFire
 Boolean, enables autofire for joystick emulation for ports 1 - 10, respectively.
 (0=Off, 1=On)
 
@@ -5574,6 +5722,7 @@ Boolean, enables autofire for joystick emulation for ports 1 - 10, respectively.
 @vindex JoyStick8AutoFireMode
 @vindex JoyStick9AutoFireMode
 @vindex JoyStick10AutoFireMode
+@vindex JoyStick11AutoFireMode
 @item JoyStick1AutoFireMode
 @itemx JoyStick2AutoFireMode
 @itemx JoyStick3AutoFireMode
@@ -5584,6 +5733,7 @@ Boolean, enables autofire for joystick emulation for ports 1 - 10, respectively.
 @itemx JoyStick8AutoFireMode
 @itemx JoyStick9AutoFireMode
 @itemx JoyStick10AutoFireMode
+@itemx JoyStick11AutoFireMode
 Integer specifying the autofire mode to be used for for joystick emulation for ports 1 - 10, respectively.
 (0=Autofire when fire is pressed, 1=Permanent autofire except when fire is pressed)
 
@@ -5597,6 +5747,7 @@ Integer specifying the autofire mode to be used for for joystick emulation for p
 @vindex JoyStick8AutoFireSpeed
 @vindex JoyStick9AutoFireSpeed
 @vindex JoyStick10AutoFireSpeed
+@vindex JoyStick11AutoFireSpeed
 @item JoyStick1AutoFireSpeed
 @itemx JoyStick2AutoFireSpeed
 @itemx JoyStick3AutoFireSpeed
@@ -5607,6 +5758,7 @@ Integer specifying the autofire mode to be used for for joystick emulation for p
 @itemx JoyStick8AutoFireSpeed
 @itemx JoyStick9AutoFireSpeed
 @itemx JoyStick10AutoFireSpeed
+@itemx JoyStick11AutoFireSpeed
 Integer specifying the amount of fire button presses per second for autofire for joystick emulation for ports 1 - 10, respectively.
 (1-255)
 
@@ -5736,6 +5888,7 @@ Set the device for joystick emulation of port 1 and 2, respectively.
 @findex -extrajoydev6
 @findex -extrajoydev7
 @findex -extrajoydev8
+@findex -extrajoydev9
 @item -extrajoydev1 <0-8>
 @itemx -extrajoydev2 <0-8>
 @itemx -extrajoydev3 <0-8>
@@ -5744,8 +5897,9 @@ Set the device for joystick emulation of port 1 and 2, respectively.
 @itemx -extrajoydev6 <0-8>
 @itemx -extrajoydev7 <0-8>
 @itemx -extrajoydev8 <0-8>
+@itemx -extrajoydev9 <0-8>
 Set device for extra joystick port 1, 2, 3, 4, 5, 6, 7 and 8.
-(@code{JoyDevice3}, @code{JoyDevice4}, @code{JoyDevice5}, @code{JoyDevice6}, @code{JoyDevice7}, @code{JoyDevice8}, @code{JoyDevice9}, @code{JoyDevice10}).
+(@code{JoyDevice3}, @code{JoyDevice4}, @code{JoyDevice5}, @code{JoyDevice6}, @code{JoyDevice7}, @code{JoyDevice8}, @code{JoyDevice9}, @code{JoyDevice10}, @code{JoyDevice11}).
 
 @findex -joystick1autofire, +joystick1autofire
 @item -joystick1autofire
@@ -5780,42 +5934,49 @@ Enable/disable autofire for joystick adapter port 2
 @itemx +extrajoystick3autofire
 Enable/disable autofire for joystick adapter port 3 or plus4 sidcard joystick port
 (@code{JoyStick5AutoFire=1}, @code{JoyStick5AutoFire=0}).
-(all emulators except xpet and vsid)
+(all emulators except vsid)
 
 @findex -extrajoystick4autofire, +extrajoystick4autofire
 @item -extrajoystick4autofire
 @itemx +extrajoystick4autofire
 Enable/disable autofire for joystick adapter port 4
 (@code{JoyStick6AutoFire=1}, @code{JoyStick6AutoFire=0}).
-(all emulators except xpet, xplus4 and vsid)
+(all emulators except vsid)
 
 @findex -extrajoystick5autofire, +extrajoystick5autofire
 @item -extrajoystick5autofire
 @itemx +extrajoystick5autofire
 Enable/disable autofire for joystick adapter port 5
 (@code{JoyStick7AutoFire=1}, @code{JoyStick7AutoFire=0}).
-(all emulators except xpet, xplus4 and vsid)
+(all emulators except vsid)
 
 @findex -extrajoystick6autofire, +extrajoystick6autofire
 @item -extrajoystick6autofire
 @itemx +extrajoystick6autofire
 Enable/disable autofire for joystick adapter port 6
 (@code{JoyStick8AutoFire=1}, @code{JoyStick8AutoFire=0}).
-(all emulators except xpet, xplus4 and vsid)
+(all emulators except vsid)
 
 @findex -extrajoystick7autofire, +extrajoystick7autofire
 @item -extrajoystick7autofire
 @itemx +extrajoystick7autofire
 Enable/disable autofire for joystick adapter port 7
 (@code{JoyStick9AutoFire=1}, @code{JoyStick9AutoFire=0}).
-(all emulators except xpet, xplus4 and vsid)
+(all emulators except vsid)
 
 @findex -extrajoystick8autofire, +extrajoystick8autofire
 @item -extrajoystick8autofire
 @itemx +extrajoystick8autofire
 Enable/disable autofire for joystick adapter port 8
 (@code{JoyStick10AutoFire=1}, @code{JoyStick10AutoFire=0}).
-(all emulators except xpet, xplus4 and vsid)
+(all emulators except vsid)
+
+@findex -extrajoystick9autofire, +extrajoystick9autofire
+@item -extrajoystick9autofire
+@itemx +extrajoystick9autofire
+Enable/disable autofire for joystick adapter port 9
+(@code{JoyStick11AutoFire=1}, @code{JoyStick11AutoFire=0}).
+(xplus4 only)
 
 @findex -joystick1autofiremode
 @item -joystick1autofiremode <Mode>
@@ -5849,42 +6010,49 @@ Set autofire mode for joystick adapter port 2
 @item -extrajoystick3autofiremode <Mode>
 Set autofire mode for joystick adapter port 3 or plus4 sidcard joystick port
 (@code{JoyStick5AutoFireMode})
-(all emulators except xpet and vsid).
+(all emulators except vsid).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -extrajoystick4autofiremode
 @item -extrajoystick4autofiremode <Mode>
 Set autofire mode for joystick adapter port 4
 (@code{JoyStick6AutoFireMode})
-(all emulators except xpet, xplus4 and vsid).
+(all emulators except vsid).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -extrajoystick5autofiremode
 @item -extrajoystick5autofiremode <Mode>
 Set autofire mode for joystick adapter port 5
 (@code{JoyStick7AutoFireMode})
-(all emulators except xpet, xplus4 and vsid).
+(all emulators except vsid).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -extrajoystick6autofiremode
 @item -extrajoystick6autofiremode <Mode>
 Set autofire mode for joystick adapter port 6
 (@code{JoyStick8AutoFireMode})
-(all emulators except xpet, xplus4 and vsid).
+(all emulators except vsid).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -extrajoystick7autofiremode
 @item -extrajoystick7autofiremode <Mode>
 Set autofire mode for joystick adapter port 7
 (@code{JoyStick9AutoFireMode})
-(all emulators except xpet, xplus4 and vsid).
+(all emulators except vsid).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -extrajoystick8autofiremode
 @item -extrajoystick8autofiremode <Mode>
 Set autofire mode for joystick adapter port 8
 (@code{JoyStick10AutoFireMode})
-(all emulators except xpet, xplus4 and vsid).
+(all emulators except vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick9autofiremode
+@item -extrajoystick9autofiremode <Mode>
+Set autofire mode for joystick adapter port 9
+(@code{JoyStick11AutoFireMode})
+(xplus4 only).
 (0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
 
 @findex -joystick1autofirespeed
@@ -5901,6 +6069,7 @@ Set the amount of presses per second for autofire for joystick emulation of port
 @findex -extrajoystick6autofirespeed
 @findex -extrajoystick7autofirespeed
 @findex -extrajoystick8autofirespeed
+@findex -extrajoystick9autofirespeed
 @item -extrajoystick1autofirespeed <1-255>
 @itemx -extrajoystick2autofirespeed <1-255>
 @itemx -extrajoystick3autofirespeed <1-255>
@@ -5909,8 +6078,9 @@ Set the amount of presses per second for autofire for joystick emulation of port
 @itemx -extrajoystick6autofirespeed <1-255>
 @itemx -extrajoystick7autofirespeed <1-255>
 @itemx -extrajoystick8autofirespeed <1-255>
-Set the amount of presses per second for autofire for extra joystick port 1, 2, 3, 4, 5, 6, 7 and 8.
-(@code{JoyStick3AutoFireSpeed}, @code{JoyStick4AutoFireSpeed}, @code{JoyStick5AutoFireSpeed}, @code{JoyStick6AutoFireSpeed}, @code{JoyStick7AutoFireSpeed}, @code{JoyStick8AutoFireSpeed}, @code{JoyStick9AutoFireSpeed}, @code{JoyStick10AutoFireSpeed}, ).
+@itemx -extrajoystick9autofirespeed <1-255>
+Set the amount of presses per second for autofire for extra joystick port 1, 2, 3, 4, 5, 6, 7, 8 and 9.
+(@code{JoyStick3AutoFireSpeed}, @code{JoyStick4AutoFireSpeed}, @code{JoyStick5AutoFireSpeed}, @code{JoyStick6AutoFireSpeed}, @code{JoyStick7AutoFireSpeed}, @code{JoyStick8AutoFireSpeed}, @code{JoyStick9AutoFireSpeed}, @code{JoyStick10AutoFireSpeed}, @code{JoyStick11AutoFireSpeed}).
 
 @findex -joyopposite, +joyopposite
 @item -joyopposite
