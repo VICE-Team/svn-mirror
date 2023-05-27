@@ -92,6 +92,7 @@ static void vdc_update_renderer(void)
         video_chip_cap.double_mode.sizey = 2;
         video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGBI_2X2;
     }
+    video_chip_cap.video_has_palntsc = 0;
 }
 
 static int set_stretch(int val, void *param)
