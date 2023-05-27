@@ -73,6 +73,7 @@ void crtc_update_renderer(void)
         crtc.video_chip_cap->double_mode.sizey = 2;
         crtc.video_chip_cap->double_mode.rmode = VIDEO_RENDER_CRT_MONO_2X2;
     }
+    crtc.video_chip_cap->video_has_palntsc = 0;
 }
 
 static int set_stretch(int val, void *param)

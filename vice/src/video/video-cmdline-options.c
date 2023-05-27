@@ -311,14 +311,6 @@ static const char * const cname_chip_crtemu_palntsc[] =
     NULL
 };
 
-/* CRT emulation options */
-static const char * const cname_chip_crtemu[] =
-{
-    "-", "crtblur", "PALBlur",
-    "-", "crtscanlineshade", "PALScanLineShade",
-    NULL
-};
-
 static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
 {
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -331,6 +323,14 @@ static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
       NULL, NULL, NULL, NULL,
       "<type>", "Set type of delay line used in the CRT (0: normal, 1: U only (1084 style))." },
     CMDLINE_LIST_END
+};
+
+/* CRT emulation options */
+static const char * const cname_chip_crtemu[] =
+{
+    "-", "crtblur", "PALBlur",
+    "-", "crtscanlineshade", "PALScanLineShade",
+    NULL
 };
 
 static cmdline_option_t cmdline_options_chip_crtemu[] =
@@ -590,25 +590,23 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* PAL/NTSC emulation */
+    if (video_chip_cap->video_has_palntsc) {
+        for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
+            cmdline_options_chip_crtemu_palntsc[i].name
+                = util_concat(cname_chip_crtemu_palntsc[i * 3], chipname,
+                            cname_chip_crtemu_palntsc[i * 3 + 1], NULL);
+            cmdline_options_chip_crtemu_palntsc[i].resource_name
+                = util_concat(chipname, cname_chip_crtemu_palntsc[i * 3 + 2], NULL);
+        }
 
-    /* FIXME: we need to add a member to video_chip_cap_t that lets us determine
-              whether we need PAL/NTSC options or not */
+        if (cmdline_register_options(cmdline_options_chip_crtemu_palntsc) < 0) {
+            return -1;
+        }
 
-    for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
-        cmdline_options_chip_crtemu_palntsc[i].name
-            = util_concat(cname_chip_crtemu_palntsc[i * 3], chipname,
-                          cname_chip_crtemu_palntsc[i * 3 + 1], NULL);
-        cmdline_options_chip_crtemu_palntsc[i].resource_name
-            = util_concat(chipname, cname_chip_crtemu_palntsc[i * 3 + 2], NULL);
-    }
-
-    if (cmdline_register_options(cmdline_options_chip_crtemu_palntsc) < 0) {
-        return -1;
-    }
-
-    for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
-        lib_free(cmdline_options_chip_crtemu_palntsc[i].name);
-        lib_free(cmdline_options_chip_crtemu_palntsc[i].resource_name);
+        for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
+            lib_free(cmdline_options_chip_crtemu_palntsc[i].name);
+            lib_free(cmdline_options_chip_crtemu_palntsc[i].resource_name);
+        }
     }
 
     return 0;

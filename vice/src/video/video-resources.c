@@ -678,9 +678,6 @@ static int set_audioleak(int val, void *param)
 static const char * const vname_chip_crtemu[] = {
     "PALScanLineShade",
     "PALBlur",
-    "PALOddLinePhase",
-    "PALOddLineOffset",
-    "PALDelaylineType",
     "AudioLeak",
     NULL };
 
@@ -690,14 +687,25 @@ static resource_int_t resources_chip_crtemu[] =
       NULL, set_pal_scanlineshade, NULL },
     { NULL, 500, RES_EVENT_NO, NULL,
       NULL, set_pal_blur, NULL },
+    { NULL, 0, RES_EVENT_NO, NULL,
+      NULL, set_audioleak, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+static const char * const vname_chip_crtemu_palntsc[] = {
+    "PALOddLinePhase",
+    "PALOddLineOffset",
+    "PALDelaylineType",
+    NULL };
+
+static resource_int_t resources_chip_crtemu_palntsc[] =
+{
     { NULL, 1500, RES_EVENT_NO, NULL,
       NULL, set_pal_oddlinesphase, NULL },
     { NULL, 500, RES_EVENT_NO, NULL,
       NULL, set_pal_oddlinesoffset, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_delaylinetype, NULL },
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_audioleak, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -986,6 +994,7 @@ int video_resources_chip_init(const char *chipname,
 
     /* crt emulation */
     if (machine_class != VICE_MACHINE_VSID) {
+        /* crt emulation */
         i = 0;
         while (vname_chip_crtemu[i]) {
             resources_chip_crtemu[i].name = util_concat(chipname, vname_chip_crtemu[i], NULL);
@@ -994,23 +1003,7 @@ int video_resources_chip_init(const char *chipname,
         }
         resources_chip_crtemu[0].value_ptr = &((*canvas)->videoconfig->video_resources.pal_scanlineshade);
         resources_chip_crtemu[1].value_ptr = &((*canvas)->videoconfig->video_resources.pal_blur);
-        resources_chip_crtemu[2].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_phase);
-        resources_chip_crtemu[3].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
-        resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.delaylinetype);
-        resources_chip_crtemu[5].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
-
-        resources_chip_crtemu[2].factory_value = 1000; /* oddlines phase */
-        resources_chip_crtemu[3].factory_value = 1000; /* oddlines offset */
-        if (!strcmp(chipname, "VIC")) {
-            resources_chip_crtemu[2].factory_value = 1125; /* oddlines phase */
-            resources_chip_crtemu[3].factory_value = 1125; /* oddlines offset */
-        } else if (!strcmp(chipname, "VICII")) {
-            resources_chip_crtemu[2].factory_value = 1250; /* oddlines phase */
-            resources_chip_crtemu[3].factory_value = 750; /* oddlines offset */
-        } else if (!strcmp(chipname, "TED")) {
-            resources_chip_crtemu[2].factory_value = 1250; /* oddlines phase */
-            resources_chip_crtemu[3].factory_value = 750; /* oddlines offset */
-        }
+        resources_chip_crtemu[2].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
 
         if (resources_register_int(resources_chip_crtemu) < 0) {
             return -1;
@@ -1021,13 +1014,52 @@ int video_resources_chip_init(const char *chipname,
             lib_free(resources_chip_crtemu[i].name);
             ++i;
         }
+
+        if (video_chip_cap->video_has_palntsc) {
+            /* PAL/NTSC emulation options */
+            i = 0;
+            while (vname_chip_crtemu_palntsc[i]) {
+                resources_chip_crtemu_palntsc[i].name = util_concat(chipname, vname_chip_crtemu_palntsc[i], NULL);
+                resources_chip_crtemu_palntsc[i].param = (void *)*canvas;
+                ++i;
+            }
+            resources_chip_crtemu_palntsc[0].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_phase);
+            resources_chip_crtemu_palntsc[1].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
+            resources_chip_crtemu_palntsc[2].value_ptr = &((*canvas)->videoconfig->video_resources.delaylinetype);
+
+            resources_chip_crtemu_palntsc[0].factory_value = 1000; /* oddlines phase */
+            resources_chip_crtemu_palntsc[1].factory_value = 1000; /* oddlines offset */
+#if 1
+            if (!strcmp(chipname, "VIC")) {
+                resources_chip_crtemu_palntsc[0].factory_value = 1125; /* oddlines phase */
+                resources_chip_crtemu_palntsc[1].factory_value = 1125; /* oddlines offset */
+            } else if (!strcmp(chipname, "VICII")) {
+                resources_chip_crtemu_palntsc[0].factory_value = 1250; /* oddlines phase */
+                resources_chip_crtemu_palntsc[1].factory_value = 750; /* oddlines offset */
+            } else if (!strcmp(chipname, "TED")) {
+                resources_chip_crtemu_palntsc[0].factory_value = 1250; /* oddlines phase */
+                resources_chip_crtemu_palntsc[1].factory_value = 750; /* oddlines offset */
+            }
+#endif
+            if (resources_register_int(resources_chip_crtemu_palntsc) < 0) {
+                return -1;
+            }
+
+            i = 0;
+            while (vname_chip_crtemu_palntsc[i]) {
+                lib_free(resources_chip_crtemu_palntsc[i].name);
+                ++i;
+            }
+        }
     } else {
+        /* crt emulation */
         set_pal_scanlineshade(1000, (void *)*canvas);
         set_pal_blur(0, (void *)*canvas);
+        set_audioleak(0, (void *)*canvas);
+        /* PAL/NTSC emulation options */
         set_pal_oddlinesphase(1000, (void *)*canvas);
         set_pal_oddlinesoffset(1000, (void *)*canvas);
         set_delaylinetype(0, (void *)*canvas);
-        set_audioleak(0, (void *)*canvas);
     }
 
     /* ${CHIP}Filter */

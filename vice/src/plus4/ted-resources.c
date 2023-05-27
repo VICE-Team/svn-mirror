@@ -88,6 +88,7 @@ int ted_resources_init(void)
     video_chip_cap.dsize_limit_height = 0;
     video_chip_cap.dscan_allowed = ARCHDEP_TED_DSCAN;
     video_chip_cap.external_palette_name = "yape-pal";
+    video_chip_cap.video_has_palntsc = 1;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_NTSC_1X1;

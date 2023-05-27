@@ -145,6 +145,7 @@ struct video_chip_cap_s {
     cap_render_t single_mode;
     cap_render_t double_mode;
     cap_fullscreen_t fullscreen;
+    unsigned int video_has_palntsc; /* 1 if options for pal/ntsc/secam/whatever colour system are needed */
 };
 typedef struct video_chip_cap_s video_chip_cap_t;
 
