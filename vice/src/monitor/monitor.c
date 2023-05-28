@@ -70,7 +70,6 @@
 
 #include "mon_parse.h"
 #include "mon_register.h"
-#include "mon_ui.h"
 #include "mon_util.h"
 #include "monitor.h"
 #include "monitor_network.h"
@@ -1493,8 +1492,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     asm_mode = 0;
     next_or_step_stop = 0;
     recording = false;
-
-    mon_ui_init();
 
     monitor_cpu_type_list = monitor_list_new();
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
