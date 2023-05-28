@@ -288,8 +288,8 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     if (load_at_end && rsize < ((size_t)maxsize)) {
         dest += maxsize - rsize;
     } else if (rsize > ((size_t)maxsize)) {
-        log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
-                    complete_path);
+        log_warning(LOG_DEFAULT, "ROM `%s': long file (%lu), discarding end (%lu bytes).",
+                    complete_path, rsize, rsize - maxsize);
         rsize = maxsize;
     }
     if ((rsize = fread((char *)dest, 1, rsize, fp)) < ((size_t)minsize)) {

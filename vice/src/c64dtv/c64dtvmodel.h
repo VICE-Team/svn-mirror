@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+/* NOTE: we use the same enum for the Flash ROM Revision */
 enum {
     DTVMODEL_V2_PAL = 0,   /* DTV v2 (pal) */
     DTVMODEL_V2_NTSC,      /* DTV v2 (ntsc) */

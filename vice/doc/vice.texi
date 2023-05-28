@@ -13809,10 +13809,30 @@ normally you should use a patched rom.
 
 @table @code
 
-@findex -c64dtvromimage
-@item -c64dtvromimage <name>
-Specify filename of the C64DTV ROM image
-(@code{c64dtvromfilename}).
+@findex -ntscv2romimage
+@item -ntscv2romimage <name>
+Specify filename of the C64DTV NTSC v2 ROM image
+(@code{DTVNTSCV2FlashName}).
+
+@findex -palv2romimage
+@item -palv2romimage <name>
+Specify filename of the C64DTV PAL v2 ROM image
+(@code{DTVPALV2FlashName}).
+
+@findex -ntscv3romimage
+@item -ntscv3romimage <name>
+Specify filename of the C64DTV NTSC v3 ROM image
+(@code{DTVNTSCV3FlashName}).
+
+@findex -palv3romimage
+@item -palv3romimage <name>
+Specify filename of the C64DTV PAL v3 ROM image
+(@code{DTVPALV3FlashName}).
+
+@findex -hummerromimage
+@item -hummerromimage <name>
+Specify filename of the C64DTV Hummer ROM image
+(@code{DTVHummerFlashName}).
 
 @findex -c64dtvromrw, +c64dtvromrw
 @item -c64dtvromrw
@@ -13968,9 +13988,29 @@ String specifying the name of the Kernal ROM (default @file{kernal}).
 @item BasicName
 String specifying the name of the Basic ROM (default @file{basic}).
 
-@vindex c64dtvromfilename
-@item c64dtvromfilename
-String specifying the filename of the DTV Flash ROM image.
+@vindex DTVNTSCV2FlashName
+@item DTVNTSCV2FlashName
+String specifying the filename of the DTV NTSC v2 Flash ROM image.
+
+@vindex DTVPALV2FlashName
+@item DTVPALV2FlashName
+String specifying the filename of the DTV PAL v2 Flash ROM image.
+
+@vindex DTVNTSCV3FlashName
+@item DTVNTSCV3FlashName
+String specifying the filename of the DTV NTSC v3 Flash ROM image.
+
+@vindex DTVPALV3FlashName
+@item DTVPALV3FlashName
+String specifying the filename of the DTV PAL v3 Flash ROM image.
+
+@vindex DTVHummerFlashName
+@item DTVHummerFlashName
+String specifying the filename of the DTV Hummer Flash ROM image.
+
+@vindex DTVFlashRevision
+@item DTVFlashRevision
+Integer specifying which of the above Flash ROM images will be used.
 
 @vindex c64dtvromrw
 @item c64dtvromrw
