@@ -91,7 +91,12 @@ static const ui_menu_entry_t dtv_model_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(HummerADC)
 
-UI_MENU_DEFINE_FILE_STRING(c64dtvromfilename)
+UI_MENU_DEFINE_FILE_STRING(DTVNTSCV2FlashName)
+UI_MENU_DEFINE_FILE_STRING(DTVPALV2FlashName)
+UI_MENU_DEFINE_FILE_STRING(DTVNTSCV3FlashName)
+UI_MENU_DEFINE_FILE_STRING(DTVPALV3FlashName)
+UI_MENU_DEFINE_FILE_STRING(DTVHummerFlashName)
+
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 UI_MENU_DEFINE_RADIO(DtvRevision)
@@ -124,11 +129,28 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)sid_dtv_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("C64DTV ROM image"),
-    { "File",
+    SDL_MENU_ITEM_TITLE("C64DTV Flash ROM images"),
+    { "NTSC v2",
       MENU_ENTRY_DIALOG,
-      file_string_c64dtvromfilename_callback,
-      (ui_callback_data_t)"Select C64DTV ROM image file" },
+      file_string_DTVNTSCV2FlashName_callback,
+      (ui_callback_data_t)"Select C64DTV NTSC v2 ROM image file" },
+    { "PAL v2",
+      MENU_ENTRY_DIALOG,
+      file_string_DTVPALV2FlashName_callback,
+      (ui_callback_data_t)"Select C64DTV PAL v2 ROM image file" },
+    { "NTSC v3",
+      MENU_ENTRY_DIALOG,
+      file_string_DTVNTSCV3FlashName_callback,
+      (ui_callback_data_t)"Select C64DTV NTSC v3 ROM image file" },
+    { "PAL v3",
+      MENU_ENTRY_DIALOG,
+      file_string_DTVPALV3FlashName_callback,
+      (ui_callback_data_t)"Select C64DTV PAL v3 ROM image file" },
+    { "Hummer",
+      MENU_ENTRY_DIALOG,
+      file_string_DTVHummerFlashName_callback,
+      (ui_callback_data_t)"Select C64DTV Hummer ROM image file" },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Enable writes",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_c64dtvromrw_callback,

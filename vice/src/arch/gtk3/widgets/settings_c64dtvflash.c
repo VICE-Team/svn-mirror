@@ -5,7 +5,11 @@
  */
 
 /*
- * $VICERES c64dtvromfilename   x64dtv
+ * $VICERES DTVPALV2FlashName   x64dtv
+ * $VICERES DTVNTSCV2FlashName  x64dtv
+ * $VICERES DTVPALV3FlashName   x64dtv
+ * $VICERES DTVNTSCV3FlashName  x64dtv
+ * $VICERES DTVHummerFlashName  x64dtv
  * $VICERES c64dtvromrw         x64dtv
  * $VICERES FSFlashDir          x64dtv
  * $VICERES FlashTrueFS         x64dtv
@@ -37,6 +41,8 @@
 
 #include "vice_gtk3.h"
 
+#include "c64dtvmodel.h"
+
 #include "settings_c64dtvflash.h"
 
 
@@ -44,12 +50,19 @@
  *
  * \return  GtkEntry
  */
-static GtkWidget *create_rom_widget(void)
+static GtkWidget *create_rom_widget(int idx)
 {
     GtkWidget  *chooser;
     const char *patterns[] = { "*.bin", "*.rom", NULL };
+    const char *resnames[DTVMODEL_NUM] = {
+        "DTVPALV2FlashName",
+        "DTVNTSCV2FlashName",
+        "DTVPALV3FlashName",
+        "DTVNTSCV3FlashName",
+        "DTVHummerFlashName"
+    };
 
-    chooser = vice_gtk3_resource_filechooser_new("c64dtvromfilename",
+    chooser = vice_gtk3_resource_filechooser_new(resnames[idx],
                                                  GTK_FILE_CHOOSER_ACTION_OPEN);
     vice_gtk3_resource_filechooser_set_custom_title(chooser,
                                                     "Select C64DTV ROM");
@@ -111,14 +124,35 @@ GtkWidget *settings_c64dtvflash_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* DTV ROM file chooser and R/W check button */
-    label     = label_helper("C64DTV ROM file");
-    rom_file  = create_rom_widget();
+    label     = label_helper("PAL V2 ROM file");
+    rom_file  = create_rom_widget(DTVMODEL_V2_PAL);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 0, 1, 1);
+
+    label     = label_helper("NTSC V2 ROM file");
+    rom_file  = create_rom_widget(DTVMODEL_V2_NTSC);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 1, 1, 1);
+
+    label     = label_helper("PAL V3 ROM file");
+    rom_file  = create_rom_widget(DTVMODEL_V3_PAL);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 2, 1, 1);
+
+    label     = label_helper("NTSC V3 ROM file");
+    rom_file  = create_rom_widget(DTVMODEL_V3_NTSC);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 3, 1, 1);
+
+    label     = label_helper("Hummer ROM file");
+    rom_file  = create_rom_widget(DTVMODEL_HUMMER_NTSC);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 4, 1, 1);
+
     rom_write = vice_gtk3_resource_check_button_new(
             "c64dtvromrw",
             "Enable writes to C64DTV ROM image");
-    gtk_grid_attach(GTK_GRID(grid), label,     0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rom_file,  1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rom_write, 1, 1, 1,1);
+    gtk_grid_attach(GTK_GRID(grid), rom_write, 1, 5, 1, 1);
 
     /* Flash dir and true HW flash check button */
     label     = label_helper("Flash FS directory");
@@ -128,9 +162,9 @@ GtkWidget *settings_c64dtvflash_widget_create(GtkWidget *parent)
             "Enable true hardware flash file system");
     gtk_widget_set_margin_top(label,     16);
     gtk_widget_set_margin_top(flash_dir, 16);
-    gtk_grid_attach(GTK_GRID(grid), label,     0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flash_dir, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flash_hw,  1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flash_dir, 1, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flash_hw,  1, 7, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
