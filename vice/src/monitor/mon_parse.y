@@ -1285,7 +1285,7 @@ static int resolve_datatype(unsigned guess_type, const char *num)
     /* a string containing any of A-F can only be a hex number */
     c = num;
     while (*c) {
-        if ((tolower(*c) >= 'a') && (tolower(*c) <= 'f')) {
+        if ((tolower((unsigned char)*c) >= 'a') && (tolower((unsigned char)*c) <= 'f')) {
             hex = 1;
             octal = 0;
             binary = 0;

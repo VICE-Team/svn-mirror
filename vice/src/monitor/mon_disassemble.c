@@ -98,6 +98,11 @@ static void remove_z80_prefix(CPU_TYPE_t cpu_type, uint8_t *opc, unsigned int *i
 
 /*****************************************************************************/
 
+/*
+ * Used by all disassembly variants.
+ * Independent of memory config, since it receives the instruction's bytes
+ * explicitly.
+ */
 static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                                                       unsigned int addr, uint8_t opc[5],
                                                       int hex_mode, unsigned *opc_size_p,
@@ -1469,19 +1474,17 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 #undef p3
 #undef p4
 
-static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR addr)
+static const char* mon_disassemble_instr_internal(unsigned *opc_size, MON_ADDR addr, int mem_config)
 {
     static char buff[256];
     uint8_t opc[5];
     MEMSPACE mem;
     uint16_t loc;
-    uint16_t mem_config;
     int hex_mode = 1;
     const char *dis_inst;
 
     mem = addr_memspace(addr);
     loc = addr_location(addr);
-    mem_config = mem == e_comp_space ? mem_get_current_bank_config() : 0;
 
     opc[0] = mon_get_mem_val_nosfx(mem, mem_config, loc);
     opc[1] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 1));
@@ -1496,6 +1499,12 @@ static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR ad
     return buff;
 }
 
+
+/*
+ * Used by DEBUG cpu trace.
+ * Independent of memory config, since it receives the instruction's bytes
+ * explicitly.
+ */
 const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
                                       unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                       int hex_mode, const char *cpu_type)
@@ -1511,6 +1520,11 @@ const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
     return mon_disassemble_to_string_internal(memspace, addr, opc, hex_mode, NULL, monitor_find_cpu_type_from_string(cpu_type));
 }
 
+/*
+ * Used by monitor CPU history (chist).
+ * Independent of memory config, since it receives the instruction's bytes
+ * explicitly.
+ */
 const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
                                          unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                          int hex_mode, unsigned *opc_size_p)
@@ -1526,10 +1540,15 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
     return mon_disassemble_to_string_internal(memspace, addr, opc, hex_mode, opc_size_p, monitor_cpu_for_memspace[memspace]);
 }
 
-unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
+/*
+ * Used specifically by the monitor D command,
+ * so it should use the monitor's currently set bank.
+ */
+static unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
 {
     MEMSPACE mem;
     uint16_t loc;
+    int mem_config;
     char *label;
     unsigned opc_size;
 
@@ -1542,8 +1561,10 @@ unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
         mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
     }
 
+    mem_config = mon_interfaces[mem]->current_bank;
+
     /* Print the disassembled instruction */
-    mon_out("%s\n", mon_disassemble_instr_interal(&opc_size, addr));
+    mon_out("%s\n", mon_disassemble_instr_internal(&opc_size, addr, mem_config));
 
     /* a line with label takes two lines */
     if (line_count) {
@@ -1553,16 +1574,26 @@ unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
     return opc_size;
 }
 
-
+/*
+ * Used by monitor breakpoints and single step,
+ * so it should use the current cpu's memory configuration.
+ *
+ * FIXME: both callers explicitly set mon_interfaces[...]->current_bank to
+ * "cpu" bank so maybe we should use that instead (or remove it?) More so
+ * because mem_get_current_bank_config() has several "not implemented" notes.
+ * In most (all?) cases it would return the cpu bank (or equivalent) anyway.
+ */
 void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
 {
     monitor_cpu_type_t *monitor_cpu;
     const char *dis_inst;
     unsigned opc_size;
+    int mem_config;
 
     monitor_cpu = monitor_cpu_for_memspace[mem];
+    mem_config = mem == e_comp_space ? mem_get_current_bank_config() : 0;
 
-    dis_inst = mon_disassemble_instr_interal(&opc_size, addr);
+    dis_inst = mon_disassemble_instr_internal(&opc_size, addr, mem_config);
     if (monitor_cpu->mon_register_print_ex) {
         mon_out("%-35s - %s ", dis_inst, monitor_cpu->mon_register_print_ex(mem));
     } else {
@@ -1573,6 +1604,10 @@ void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
+/*
+ * Used specifically by the monitor D command,
+ * so it should use the monitor's bank (mem_config).
+ */
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
     MEMSPACE mem;
