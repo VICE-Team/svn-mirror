@@ -1046,7 +1046,7 @@ UI_MENU_DEFINE_STRING(Drive11FixedSize)
           MENU_ENTRY_SUBMENU,                                   \
           submenu_callback,                                     \
           (ui_callback_data_t)drive_##x##_fsdir_menu },         \
-/* 2  */{ "Drive " #x " 40 track handling",                     \
+/* 2  */{ "Drive " #x " extra tracks handling",                 \
           MENU_ENTRY_SUBMENU,                                   \
           drive_##x##_show_extend_callback,                     \
           (ui_callback_data_t)drive_##x##_extend_menu },        \
