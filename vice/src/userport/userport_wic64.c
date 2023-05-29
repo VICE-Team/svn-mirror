@@ -223,6 +223,40 @@ static tzones_t timezones[] = {
 };
 static int current_tz = 2;
 
+static void hexdump(const char *buf, int len)
+{
+#ifdef DEBUG_WIC64
+    int i;
+    int idx = 0;
+    int lines = 0;
+    while (len > 0) {
+        printf("%04x: ", (unsigned) idx);
+        if (lines++ > 5) {      /* just print 6 lines */
+            printf("...\n");
+            break;
+        }
+        for (i = 0; i < 16; i++) {
+            if (i < len) {
+                printf("%02x ", (uint8_t) buf[idx + i]);
+            } else {
+                printf("   ");
+            }
+        }
+        printf ("|");
+        for (i = 0; i < 16; i++) {
+            if (i < len) {
+                printf("%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
+            } else {
+                printf(" ");
+            }
+        }
+        printf ("|\n");
+        idx += 16;
+        len -= 16;
+    }
+#endif
+}
+
 static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
     memcpy(&httpbuffer[httpbufferptr], data, n * l);
@@ -251,37 +285,47 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_multi_add_handle(cmulti, eh);
 }
 
-static int scan_reply(const uint8_t *buffer, size_t len)
+static void update_prefs(uint8_t *buffer, size_t len)
 {
-    char *t, *p;
-    uint8_t *del;
+    /* manage preferences in memory only for now */
+    DBG(("%s: requested", __FUNCTION__));
+    hexdump((char *)buffer, len);
+    char *t;
+    char *p;
+    char *pref;
+    char *val;
+    char *ret;
 
-    if ((t = strstr((const char*)buffer, TOKEN_NAME))) {
-        /* DBG(("%s: found sectoken: %s", __FUNCTION__, t)); */
-        p = t + strlen(TOKEN_NAME) + 1;
-        del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-        if (del) {
-            *del = 0; /* terminate string */
-            strncpy(sec_token, p, 31);
-            DBG(("%s: token = %s", __FUNCTION__, sec_token));
+    if (len > 0) {
+        p = (char *)buffer + 1; /* skip \001 */
+        t = strchr(p,'\001');
+        if (t) {
+            *t = '\0';
+            pref = p;
         }
-        send_binary_reply(++del, 1); /* move over value 01 */
-        sec_init = 1;
-        return 0;
+        p = t + 1; /* skip \0 */
+        t = strchr(p,'\001');
+        if (t) {
+            *t = '\0';
+            val = p;
+        }
+        ret = t + 1; /* hope string is terminated */
+
+        log_message(LOG_DEFAULT, "WiC64: user-pref '%s' = '%s', ret = '%s'",
+                    pref, val, ret);
     }
     if (sec_init &&
-        (t = strstr((const char*)buffer, sec_token))) {
-        p = t + strlen(sec_token) + 1;
-        del = (uint8_t *)strchr(p, 0x1); /* find value 01 */
-        if (del) {
-            *del = 0; /* terminate string */
-            strncpy(session_id, p, 31);
-            DBG(("%s: session id = %s", __FUNCTION__, session_id));
-        }
-        send_binary_reply(++del, 2); /* move over value 01 */
-        return 0;
+        (strcmp(pref, sec_token) == 0)) {
+        strncpy(session_id, val, 31);
+        DBG(("%s: session id = %s", __FUNCTION__, session_id));
     }
-    return 1; /* send reply */
+    if (strcmp(pref, TOKEN_NAME) == 0) {
+        strncpy(sec_token, val, 31);
+        DBG(("%s: token = %s", __FUNCTION__, sec_token));
+        sec_init = 1;
+    }
+    send_reply(ret);
+    return;
 }
 
 static void http_get_alarm_handler(CLOCK offset, void *data)
@@ -289,8 +333,9 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     CURLMsg *msg;
     CURLMcode r;
     int msgs_left = -1;
-    long response;
+    long response = -1;
     char *url = "<unknown>";
+
     r = curl_multi_perform(cm, &still_alive);
     if (r != CURLM_OK) {
         DBG(("%s: curl_multi_perform failed: %s", __FUNCTION__, curl_multi_strerror(r)));
@@ -320,19 +365,32 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
             send_reply("!0");   /* maybe wrong here */
             goto out;
         }
-        curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        res = curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        if (res != CURLE_OK) {
+            /* ignore problem, URL is only for debugging */
+            DBG(("%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
+                 curl_easy_strerror(res)));
+        }
         if (response == 404) {
-            log_message(LOG_DEFAULT, "WiC64: URL '%s' not found", url);
+            log_message(LOG_DEFAULT, "WiC64: URL '%s' not found (http code: %ld)", url, response);
             goto out;
         }
+        /* Fixme: check if curl_easy... needs cleanup, or if code below is sufficient */
     }
-    if (httpbufferptr > 0) {    /* Fixme: check response codes */
-        DBG(("%s: got %lu bytes", __FUNCTION__, httpbufferptr));
-        if (scan_reply(httpbuffer, httpbufferptr))
-            send_binary_reply(httpbuffer, httpbufferptr);
+    if (response == 201) {
+        /* prefs update requested, handles replies */
+        update_prefs(httpbuffer, httpbufferptr);
+        goto out;
+    }
+
+    if (response == 200) {
+        DBG(("%s: got %lu bytes, URL: '%s', http code = %ld",
+             __FUNCTION__, httpbufferptr, url, response));
+        send_binary_reply(httpbuffer, httpbufferptr);
     } else {
-        DBG(("%s: received 0 bytes, sending '!0' back.", __FUNCTION__));
-        log_message(LOG_DEFAULT, "WiC64: URL '%s' returned empty page", url);
+        DBG(("%s: http code = %ld, sending '!0' back.", __FUNCTION__, response));
+        log_message(LOG_DEFAULT, "WiC64: URL '%s' returned %lu bytes (http code: %ld)",
+                    url, httpbufferptr, response);
         send_reply("!0");
     }
 
@@ -430,35 +488,6 @@ static void reply_next_byte(void)
     } else {
         reply_length = 0;
     }
-}
-
-static void hexdump(const char *buf, int len)
-{
-#ifdef DEBUG_WIC64
-    int i;
-    int idx = 0;;
-    while (len > 0) {
-        printf("%04x: ", (unsigned) idx);
-        for (i = 0; i < 16; i++) {
-            if (i < len) {
-                printf("%02x ", (uint8_t) buf[idx + i]);
-            } else {
-                printf("   ");
-            }
-        }
-        printf ("|");
-        for (i = 0; i < 16; i++) {
-            if (i < len) {
-                printf("%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
-            } else {
-                printf(" ");
-            }
-        }
-        printf ("|\n");
-        idx += 16;
-        len -= 16;
-    }
-#endif
 }
 
 static void send_reply(const char * reply)
