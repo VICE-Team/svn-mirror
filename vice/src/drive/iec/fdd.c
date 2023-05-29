@@ -29,13 +29,28 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "diskimage.h"
 #include "lib.h"
+#include "log.h"
 #include "types.h"
 #include "fdd.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "snapshot.h"
+
+/* 3.5" mechs are usually specified for 80 physical tracks. However, using track
+   81 is usually no problem at all on any combination of mech and disk. Often
+   also track 82 works. On good quality drives even track 83 is ok.
+   Most importantly, track 81 is not uncommon "in the wild":
+   - the FD2000/4000 ROMS write to track 81 with zeros when formatting for 1581
+     disks (TODO: test and handle this without breaking the upper tracks)
+   - Wheels "MakeSysDisk" puts its copyright info on track 81
+
+   FIXME: images are always "extended" without asking
+
+*/
+#define FDD_MAX_TRACK   (80 + 3)
+#define FDD_NUM_TRACKS  (80 + 3)
 
 const int fdd_data_rates[4] = { 500, 300, 250, 1000 }; /* kbit/s */
 #define INDEXLEN (16)
@@ -61,7 +76,7 @@ struct fd_drive_s {
     int disk_rate;
     int image_sectors;
     unsigned int index_count;
-    int write_beyond; /* flag to see if we writing D?M data to a D81 image */
+    /*int write_beyond;*/ /* flag to see if we writing D?M data to a D81 image */
     drive_t *drive;
     struct disk_image_s *image;
     struct {
@@ -82,7 +97,7 @@ fd_drive_t *fdd_init(int num, drive_t *drive)
     drv->number = num & 3;
     drv->motor = 0;
     drv->track = 0;
-    drv->tracks = 80;
+    drv->tracks = FDD_NUM_TRACKS;
     drv->sectors = 10;
     drv->sector_size = 2;
     drv->head_invert = 1;
@@ -94,7 +109,7 @@ fd_drive_t *fdd_init(int num, drive_t *drive)
     /* TODO: What about the other fields in raw? */
     drv->raw.data = NULL;
     drv->raw.sync = NULL;
-    drv->write_beyond = 0;
+    /*drv->write_beyond = 0;*/
     return drv;
 }
 
@@ -135,7 +150,7 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
     drv->image = image;
     switch (image->type) {
         case DISK_IMAGE_TYPE_D1M:
-            drv->tracks = 81;
+            drv->tracks = 80 + 3; /* FIXME */
             drv->sectors = 10;
             drv->sector_size = 2;
             drv->head_invert = 1;
@@ -146,7 +161,7 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
             drv->image_sectors = 256;
             break;
         case DISK_IMAGE_TYPE_D2M:
-            drv->tracks = 81;
+            drv->tracks = 80 + 3; /* FIXME */
             drv->sectors = 10;
             drv->sector_size = 3;
             drv->head_invert = 1;
@@ -157,7 +172,7 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
             drv->image_sectors = 256;
             break;
         case DISK_IMAGE_TYPE_D4M:
-            drv->tracks = 81;
+            drv->tracks = 80 + 3; /* FIXME */
             drv->sectors = 20;
             drv->sector_size = 3;
             drv->head_invert = 1;
@@ -169,11 +184,13 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
             break;
         case DISK_IMAGE_TYPE_D81:
         default:
+#if 0
             /* Normally, the value below would be 80, but the FD2K/4K ROMS
                write to sector 81 with zeros when formatting for 1581 disks.
                By setting it to 81, we later detect this and error out
                appropriately so the format command will work. */
-            drv->tracks = 81;
+#endif
+            drv->tracks = MAX_TRACKS_1581;
             drv->sectors = 10;
             drv->sector_size = 2;
             drv->head_invert = 1;
@@ -190,7 +207,7 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
     drv->raw.track_head = -1;
     drv->raw.dirty = 0;
     drv->raw.head = 0;
-    drv->write_beyond = 0;
+    /*drv->write_beyond = 0;*/
 
     drv->disk_change = 1;
     drv->write_protect = (int)(image->read_only);
@@ -240,7 +257,7 @@ inline uint16_t fdd_crc(uint16_t crc, uint8_t b)
 
 static void fdd_flush_raw(fd_drive_t *drv)
 {
-    int i, j, s, p, step, d, c;
+    int i, j, s, p, step, d;
     uint8_t *data;
     uint16_t w;
     disk_addr_t dadr;
@@ -372,6 +389,7 @@ static void fdd_flush_raw(fd_drive_t *drv)
                         dadr.sector = dadr.sector % (unsigned int)(drv->image_sectors);
 
                         for (j = 0; j < (1 << drv->sector_size); j += 2) {
+#if 0
                             /* FD2000 and FD4000 drives will expect to read back a formatted
                                track 81 on a D81 image, but this is beyond the image spec.
                                We will track if the data wasn't all zeros here, and error
@@ -388,6 +406,8 @@ static void fdd_flush_raw(fd_drive_t *drv)
                                 disk_image_write_sector(drv->image, data + j * 128, &dadr);
                                 drv->write_beyond = 0;
                             }
+#endif
+                            disk_image_write_sector(drv->image, data + j * 128, &dadr);
                             dadr.sector = (dadr.sector + 1) % (unsigned int)(drv->image_sectors);
                             if (!dadr.sector) {
                                 dadr.track++;
@@ -467,6 +487,7 @@ static void fdd_update_raw(fd_drive_t *drv)
             }
             crc = 0xe295;
             for (j = 0; j < (1 << drv->sector_size); j += 2) {
+#if 0
                 /* FD2000 and FD4000 drives will expect to read back a formatted
                    track 81 on a D81 image, but this is beyond the image spec.
                    If any data other than zero was written, error out on the
@@ -485,6 +506,8 @@ static void fdd_update_raw(fd_drive_t *drv)
                 } else {
                     res = disk_image_read_sector(drv->image, buffer, &dadr);
                 }
+#endif
+                res = disk_image_read_sector(drv->image, buffer, &dadr);
                 if (res < 0) {
                     return;
                 }
@@ -662,6 +685,7 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir)
     if (!drv) {
         return;
     }
+
     if (drv->motor) {
         drv->track += dir ? 1 : -1;
     }
@@ -671,10 +695,22 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir)
     if (drv->track < 0) {
         drv->track = 0;
     }
-    if (drv->track > 82) {
-        drv->track = 82;
+    if (drv->track > FDD_MAX_TRACK) {
+        drv->track = FDD_MAX_TRACK;
     }
     drv->drive->current_half_track = (drv->track + 1) * 2;
+#if 0
+    printf("track:%d (half:%d) img tracks: %u (max half:%u)\n",
+           drv->track, drv->drive->current_half_track,
+           drv->image->tracks, drv->image->max_half_tracks);
+#endif
+    if (drv->image) {
+        if (drv->drive->current_half_track > (drv->image->tracks * 2)) {
+            log_warning(LOG_DEFAULT, "disk image will get extended (%d tracks)",
+                        drv->drive->current_half_track / 2);
+            /* FIXME: actually extend the image here */
+        }
+    }
 }
 
 void fdd_select_head(fd_drive_t *drv, int head)
@@ -791,14 +827,14 @@ int fdd_snapshot_read_module(fd_drive_t *drv, struct snapshot_s *s)
     if (drv->track < 0) {
         drv->track = 0;
     }
-    if (drv->track > 82) {
-        drv->track = 82;
+    if (drv->track > FDD_MAX_TRACK) {
+        drv->track = FDD_MAX_TRACK;
     }
     if (drv->tracks < 0) {
         drv->tracks = 0;
     }
-    if (drv->tracks > 82) {
-        drv->tracks = 82;
+    if (drv->tracks > FDD_NUM_TRACKS) {
+        drv->tracks = FDD_NUM_TRACKS;
     }
     drv->head &= 1;
     drv->motor &= 1;
