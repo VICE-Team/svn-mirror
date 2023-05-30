@@ -69,6 +69,7 @@ CA1     CB1     B (FLAG2) |  I     device asserts high->low transition when data
 #include "userport_wic64.h"
 #include "machine.h"
 #include "uiapi.h"
+#include "lib.h"
 
 #ifdef HAVE_LIBCURL
 
@@ -293,27 +294,29 @@ static void update_prefs(uint8_t *buffer, size_t len)
     char *t;
     char *p;
     char *pref;
-    char *val;
-    char *ret;
+    char *val = "";
+    char *ret = "";
 
     if (len > 0) {
         p = (char *)buffer + 1; /* skip \001 */
-        t = strchr(p,'\001');
-        if (t) {
+        t = strchr(p, '\001');
+        if ((t != NULL) && ((t - p) < 31)) {
             *t = '\0';
             pref = p;
         }
         p = t + 1; /* skip \0 */
-        t = strchr(p,'\001');
-        if (t) {
+        t = strchr(p, '\001');
+        if ((t != NULL) && ((t - p) < 31)) {
             *t = '\0';
             val = p;
         }
         ret = t + 1; /* hope string is terminated */
-
         log_message(LOG_DEFAULT, "WiC64: user-pref '%s' = '%s', ret = '%s'",
                     pref, val, ret);
+    } else {
+        return;
     }
+
     if (sec_init &&
         (strcmp(pref, sec_token) == 0)) {
         strncpy(session_id, val, 31);
@@ -325,7 +328,6 @@ static void update_prefs(uint8_t *buffer, size_t len)
         sec_init = 1;
     }
     send_reply(ret);
-    return;
 }
 
 static void http_get_alarm_handler(CLOCK offset, void *data)
@@ -433,9 +435,9 @@ static void do_http_get(const char *prot, char *hostname, char *path, unsigned s
 /* ---------------------------------------------------------------------*/
 #define WLAN_SSID   "VICE WiC64 emulation"
 #define WLAN_RSSI   "123"
-static unsigned char wic64_mac_address[6] = { 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff };
-static unsigned char wic64_internal_ip[4] = { 192, 168, 188, 5 };
-static unsigned char wic64_external_ip[4] = { 204, 234, 1, 4 };
+static unsigned char wic64_mac_address[6] = { 0x00, 0xd8, 0x61, 0xdd, 0xee, 0xff }; /* 4 latter bytes will be overwritten by randoms */
+static unsigned char wic64_internal_ip[4] = { 192, 168, 42, 42 }; /* just something meaningful */
+static unsigned char wic64_external_ip[4] = { 0, 0, 0, 0 }; /* just a dummy, report not implemented to user cmd 0x13 */
 static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
@@ -631,6 +633,12 @@ static void do_command_01(void)
         strcpy(path, temppath);
         DBG(("temppath:%s", temppath));
     }
+    p = strstr(path, "&pid=");
+    if (p != NULL) {
+        DBG(("%s: patching &pid=XY", __FUNCTION__));
+        *(p + 5) = 'X';
+        *(p + 6) = 'Y';
+    }
 
     /* now strip trailing whitspaces of path */
     p = path + strlen(path) - 1;
@@ -763,6 +771,7 @@ static void do_command_13(void)
     char buffer[0x20];
     /* FIXME: update the external IP */
     DBG(("%s: get external IP address", __FUNCTION__));
+    log_message(LOG_DEFAULT, "WiC64: command 13, external IP address not implemented, returning 0.0.0.0");
     sprintf(buffer, "%d.%d.%d.%d",
             wic64_external_ip[0], wic64_external_ip[1],
             wic64_external_ip[2], wic64_external_ip[3]);
@@ -1252,6 +1261,10 @@ static void userport_wic64_reset(void)
     memset(session_id, 0, 32);
     memset(sec_token, 0, 32);
     sec_init = 0;
+    wic64_mac_address[2] = lib_unsigned_rand(0, 255);
+    wic64_mac_address[3] = lib_unsigned_rand(0, 255);
+    wic64_mac_address[4] = lib_unsigned_rand(0, 255);
+    wic64_mac_address[5] = lib_unsigned_rand(0, 255);
 }
 
 /* ---------------------------------------------------------------------*/
