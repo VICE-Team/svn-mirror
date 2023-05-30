@@ -1115,7 +1115,7 @@ static int ffmpegexedrv_record(screenshot_t *screenshot)
     video_fill_rgb_image(screenshot, video_st_frame);
 
     write_video_frame(video_st_frame);
-    
+
     /* the video is late */
     if (frametime < (audiotime - (time_base * 1.5f))) {
         /* insert one frame */
