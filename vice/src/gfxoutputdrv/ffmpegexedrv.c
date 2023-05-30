@@ -45,6 +45,8 @@
     - audio-only saving does not work correctly
     - there should probably be a check that makes sure "ffmpeg" exists and
       can be executed
+    - at least on windows the ffmpeg process will not exit/quit when we closed
+      the stdin/stdout handles connected to it(?)
     - very much untested, more bugs will exist
 
     * https://ffmpeg.org/ffmpeg.html
@@ -240,8 +242,8 @@ static int file_init_done;
 #define INPUT_VIDEO_BPP     3
 
 static double time_base;
-static double fps;
-static unsigned int framecounter;
+static double fps;                  /* frames per second */
+static uint64_t framecounter = 0;   /* number of processed video frames */
 
 typedef struct {
     uint8_t *data;
@@ -250,14 +252,15 @@ typedef struct {
 static VIDEOFrame *video_st_frame;
 
 /* input audio stream */
-#define AUDIO_BUFFER_SAMPLES        0x1000
+#define AUDIO_BUFFER_SAMPLES        0x400
 #define AUDIO_BUFFER_MAX_CHANNELS   2
 
 static soundmovie_buffer_t ffmpegexedrv_audio_in;
 static int audio_init_done;
 static int audio_is_open;
 static int audio_has_codec = -1;
-static int audio_input_sample_rate = -1;
+static uint64_t audio_input_counter = 0;    /* total samples played */
+static int audio_input_sample_rate = -1;    /* samples per second */
 static int audio_input_channels = -1;
 
 /* output video */
@@ -507,9 +510,16 @@ static int start_ffmpeg_executable(void)
 
     strcpy(command,
             "ffmpeg "
+            /* Caution: at least on windows we must avoid that the ffmpeg
+               executable produces output on stdout - if it does, the process
+               may block and wait for ffmpeg_stderr being read */
+            "-hide_banner "
 #ifdef DEBUG_FFMPEG
             /* "-loglevel trace " */
-            "-loglevel verbose "
+            /* "-loglevel verbose " */
+            "-loglevel error "
+#else
+            "-loglevel error "
 #endif
     );
 
@@ -761,6 +771,8 @@ static void ffmpegexedrv_close_audio(void)
 
     audio_input_sample_rate = -1;
     audio_is_open = 0;
+    audio_input_counter = 0;
+
     if (ffmpegexedrv_audio_in.buffer) {
         lib_free(ffmpegexedrv_audio_in.buffer);
     }
@@ -802,16 +814,19 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
     int c;
     int res;
 #ifdef DEBUG_FFMPEG_FRAMES
+    double frametime = (double)framecounter / fps;
+    double audiotime = (double)audio_input_counter / (double)audio_input_sample_rate;
     if (audio_in) {
-        DBG(("ffmpegexe_soundmovie_encode (p:%p size:%d used:%d)\n", audio_in, audio_in->size, audio_in->used));
+        DBGFRAMES(("ffmpegexe_soundmovie_encode(framecount:%lu, audiocount:%lu frametime:%f, audiotime:%f size:%d used:%d)",
+            framecounter, audio_input_counter, frametime, audiotime, audio_in->size, audio_in->used));
     } else {
-        DBG(("ffmpegexe_soundmovie_encode (NULL)\n"));
+        DBG(("ffmpegexe_soundmovie_encode (NULL)"));
     }
 #endif
 
+#if 1
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
-        /* FIXME: do we really have to omit 1 value? */
-        for (n = 0; n < (audio_in->used - 1); n++) {
+        for (n = 0; n < audio_in->used; n++) {
             /* FIXME: this is not quite correct */
             for (c = 0; c < audio_input_channels; c++) {
 #ifdef USE_SOCKETS_AUDIO
@@ -825,9 +840,9 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
             }
         }
     }
-
+#endif
+    audio_input_counter += audio_in->used;
     audio_in->used = 0;
-
     return 0;
 }
 
@@ -933,6 +948,7 @@ static void ffmpegexedrv_close_video(void)
         video_free_picture(video_st_frame);
         video_st_frame = NULL;
     }
+    framecounter = 0;
 }
 
 /* called by ffmpegexedrv_save */
@@ -1071,7 +1087,10 @@ static int ffmpegexedrv_close(screenshot_t *screenshot)
 /* triggered by screenshot_record, periodically called to output video data stream */
 static int ffmpegexedrv_record(screenshot_t *screenshot)
 {
-    /*DBGFRAMES(("ffmpegexedrv_record(framecount:%u)", framecounter));*/
+    double frametime = (double)framecounter / fps;
+    double audiotime = (double)audio_input_counter / (double)audio_input_sample_rate;
+    DBGFRAMES(("ffmpegexedrv_record(framecount:%lu, audiocount:%lu frametime:%f, audiotime:%f)",
+        framecounter, audio_input_counter, frametime, audiotime));
 #ifdef HAVE_FFMPEG
     get_resource_values();
 #endif
@@ -1084,10 +1103,26 @@ static int ffmpegexedrv_record(screenshot_t *screenshot)
         return 0;
     }
 
+    /* the video is ahead */
+    if (frametime > (audiotime + (time_base * 1.5f))) {
+        /* drop one frame */
+        framecounter--;
+        DBG(("video is ahead, dropping a frame"));
+        return 0;
+    }
+
     /*DBGFRAMES(("ffmpegexedrv_record (%u)", framecounter));*/
     video_fill_rgb_image(screenshot, video_st_frame);
 
     write_video_frame(video_st_frame);
+    
+    /* the video is late */
+    if (frametime < (audiotime - (time_base * 1.5f))) {
+        /* insert one frame */
+        framecounter++;
+        DBG(("video is late, inserting a frame"));
+        write_video_frame(video_st_frame);
+    }
     return 0;
 }
 
