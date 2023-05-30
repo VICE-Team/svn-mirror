@@ -1584,7 +1584,6 @@ static unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
 {
     MEMSPACE mem;
     uint16_t loc;
-    int mem_config;
     char *label;
     unsigned opc_size;
 
