@@ -1474,7 +1474,11 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 #undef p3
 #undef p4
 
-static const char* mon_disassemble_instr_internal(unsigned *opc_size, MON_ADDR addr, int mem_config)
+/*
+ * Disassemble an instruction based on the current mem_config (implies bank
+ * "cpu" but possibly differently configured).
+ */
+static const char* mon_disassemble_instr_memconfig_internal(unsigned *opc_size, MON_ADDR addr)
 {
     static char buff[256];
     uint8_t opc[5];
@@ -1482,15 +1486,47 @@ static const char* mon_disassemble_instr_internal(unsigned *opc_size, MON_ADDR a
     uint16_t loc;
     int hex_mode = 1;
     const char *dis_inst;
+    int mem_config;
 
     mem = addr_memspace(addr);
     loc = addr_location(addr);
+    mem_config = mem == e_comp_space ? mem_get_current_bank_config() : 0;
 
     opc[0] = mon_get_mem_val_nosfx(mem, mem_config, loc);
     opc[1] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 1));
     opc[2] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 2));
     opc[3] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 3));
     opc[4] = mon_get_mem_val_nosfx(mem, mem_config, (uint16_t)(loc + 4));
+
+    dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
+
+    sprintf(buff, ".%s:%04x  %s", mon_memspace_string[mem], loc, dis_inst);
+
+    return buff;
+}
+
+/*
+ * Disassemble an instruction based on the currently set bank.
+ */
+static const char* mon_disassemble_instr_bank_internal(unsigned *opc_size, MON_ADDR addr)
+{
+    static char buff[256];
+    uint8_t opc[5];
+    MEMSPACE mem;
+    uint16_t loc;
+    int hex_mode = 1;
+    const char *dis_inst;
+    int bank;
+
+    mem = addr_memspace(addr);
+    loc = addr_location(addr);
+    bank = mon_interfaces[mem]->current_bank;
+
+    opc[0] = mon_get_mem_val_ex_nosfx(mem, bank, (uint16_t)(loc + 0));
+    opc[1] = mon_get_mem_val_ex_nosfx(mem, bank, (uint16_t)(loc + 1));
+    opc[2] = mon_get_mem_val_ex_nosfx(mem, bank, (uint16_t)(loc + 2));
+    opc[3] = mon_get_mem_val_ex_nosfx(mem, bank, (uint16_t)(loc + 3));
+    opc[4] = mon_get_mem_val_ex_nosfx(mem, bank, (uint16_t)(loc + 4));
 
     dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
 
@@ -1561,10 +1597,8 @@ static unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
         mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
     }
 
-    mem_config = mon_interfaces[mem]->current_bank;
-
     /* Print the disassembled instruction */
-    mon_out("%s\n", mon_disassemble_instr_internal(&opc_size, addr, mem_config));
+    mon_out("%s\n", mon_disassemble_instr_bank_internal(&opc_size, addr));
 
     /* a line with label takes two lines */
     if (line_count) {
@@ -1579,21 +1613,18 @@ static unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
  * so it should use the current cpu's memory configuration.
  *
  * FIXME: both callers explicitly set mon_interfaces[...]->current_bank to
- * "cpu" bank so maybe we should use that instead (or remove it?) More so
- * because mem_get_current_bank_config() has several "not implemented" notes.
- * In most (all?) cases it would return the cpu bank (or equivalent) anyway.
+ * "cpu" bank but that is unneeded, since memory access based on mem_config
+ * implies the "cpu" bank anyway (possibly differently configured).
  */
 void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
 {
     monitor_cpu_type_t *monitor_cpu;
     const char *dis_inst;
     unsigned opc_size;
-    int mem_config;
 
     monitor_cpu = monitor_cpu_for_memspace[mem];
-    mem_config = mem == e_comp_space ? mem_get_current_bank_config() : 0;
 
-    dis_inst = mon_disassemble_instr_internal(&opc_size, addr, mem_config);
+    dis_inst = mon_disassemble_instr_memconfig_internal(&opc_size, addr);
     if (monitor_cpu->mon_register_print_ex) {
         mon_out("%-35s - %s ", dis_inst, monitor_cpu->mon_register_print_ex(mem));
     } else {
