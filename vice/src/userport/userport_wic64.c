@@ -154,8 +154,9 @@ int userport_wic64_resources_init(void)
 #define HTTPREPLY_MAXLEN    (0x18000)
 #define COMMANDBUFFER_MAXLEN    0x1000
 
-size_t httpbufferptr = 0;
-uint8_t httpbuffer[HTTPREPLY_MAXLEN];
+static size_t httpbufferptr = 0;
+static uint8_t httpbuffer[HTTPREPLY_MAXLEN];
+static char encoded_helper[COMMANDBUFFER_MAXLEN];
 
 #include <errno.h>
 #include <stdlib.h>
@@ -232,7 +233,7 @@ static void hexdump(const char *buf, int len)
     int lines = 0;
     while (len > 0) {
         printf("%04x: ", (unsigned) idx);
-        if (lines++ > 5) {      /* just print 6 lines */
+        if (lines++ > 7) {      /* just print 8 lines */
             printf("...\n");
             break;
         }
@@ -512,12 +513,31 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
     handshake_flag2();
 }
 
+static int _encode(char **p, int len)
+{
+    int enc_it = 0;
+    int i;
+    static char hextab[16] = "0123456789abcdef";
+
+    for (i = 0; i < len; i++) {
+        encoded_helper[enc_it++] = hextab[((**p) >> 4) & 0xf];
+        encoded_helper[enc_it++] = hextab[(**p) & 0xf];
+        (*p)++;
+    }
+    encoded_helper[enc_it] = '\0';
+    return strlen(encoded_helper);
+}
+
 /* encode binary after escape '$<' */
 static void do_command_0f(void)
 {
     char *p;
+    char *endmarker;
     char *cptr;
+    char *tptr;
     char temppath[COMMANDBUFFER_MAXLEN];
+    int len;
+    int l;
 
     DBG(("%s: encode URL", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
@@ -525,34 +545,37 @@ static void do_command_0f(void)
     /* if encode is enabled, there might be binary data after <$, which is
        then encoded as a stream of hex digits */
     cptr = (char*)commandbuffer;
-    while((p = strstr(cptr, "<$")) != NULL) {
-        static char hextab[16] = "0123456789abcdef";
-        int encodedlen, encodeoffset, i;
-        encodeoffset = (int)(p - cptr);
-        DBG(("%s: escape sequence found, offset %d, cmdlen = %d", __FUNCTION__,
-             encodeoffset, commandptr));
+    tptr = temppath;
+    endmarker = cptr + commandptr;
+    len = 0;
+    while ((len < COMMANDBUFFER_MAXLEN) &&
+           ((p = strstr(cptr, "<$")) != NULL) &&
+           (cptr < endmarker)) {
+        l = (p - cptr);
+        len += l;
+        DBG(("%s: escape sequence found, offset %d", __FUNCTION__, len));
+
         /* copy string before <$ */
-        strncpy(temppath, cptr, (size_t)encodeoffset);
-        temppath[encodeoffset] = 0;
-        /* copy encoded string */
-        encodedlen = p[2];
-        encodedlen += p[3] << 8;
+        memcpy(tptr, cptr, (size_t)l);
+        tptr += l;
+        l = p[2];
+        l += p[3] << 8;
         p += 4; /* skip escape sequence and len */
-        commandptr -= 4;
-        for (i = 0; i < encodedlen; i++) {
-            temppath[encodeoffset] = hextab[(*p >> 4) & 0xf];
-            encodeoffset++;
-            temppath[encodeoffset] = hextab[*p & 0xf];
-            encodeoffset++;
-            p++;
-            commandptr++;
-        }
-        temppath[encodeoffset] = 0;
-        /* copy string after <$ */
-        strcat(temppath, p);
-        /* copy back to commandbuffer buffer */
-        strcpy((char*)commandbuffer, temppath);
+        l = _encode(&p, l);
+        memcpy(tptr, encoded_helper, l);
+        len += l;
+        cptr = p;
+        tptr += l;
     }
+    l = 0;
+    if (cptr < endmarker) {
+        /* copy remaining commandbuffer */
+        l = endmarker - cptr;
+        memcpy(temppath + len, cptr, l);
+    }
+    commandptr = len + l;
+    memcpy(commandbuffer, temppath, commandptr);
+    commandbuffer[commandptr] = '\0'; /* URL must be a valid string */
 }
 
 /* http get */
@@ -633,6 +656,7 @@ static void do_command_01(void)
         strcpy(path, temppath);
         DBG(("temppath:%s", temppath));
     }
+    /* see below, noprintables need to be overruled, otherwise libcure complains */
     p = strstr(path, "&pid=");
     if (p != NULL) {
         DBG(("%s: patching &pid=XY", __FUNCTION__));
@@ -646,8 +670,9 @@ static void do_command_01(void)
         *p = '\0';
         p--;
     }
-    /* remove trailing \001 - not sure, fixes at least artillery duel */
-    while ((*p) == '\001') {
+    /* remove trailing nonprintables - otherwise libcurl rejects the URL
+       probably a bug on the app side, fixes at least artillery duel */
+    while (!isprint(*p)) {
         *p = '\0';
         p--;
     }
@@ -1219,6 +1244,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             if ((input_state == 4) && ((commandptr + 4) >= input_length)) {
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
+                memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
             }
         } else {
             if (reply_length) {
@@ -1265,6 +1291,8 @@ static void userport_wic64_reset(void)
     wic64_mac_address[3] = lib_unsigned_rand(0, 255);
     wic64_mac_address[4] = lib_unsigned_rand(0, 255);
     wic64_mac_address[5] = lib_unsigned_rand(0, 255);
+    wic64_internal_ip[2] = lib_unsigned_rand(1, 254);
+    wic64_internal_ip[3] = lib_unsigned_rand(1, 254);
 }
 
 /* ---------------------------------------------------------------------*/
