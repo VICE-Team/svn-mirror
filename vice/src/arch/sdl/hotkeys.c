@@ -27,7 +27,7 @@
  */
 
 #include "vice.h"
-#include <SDL/SDL.h>
+#include "vice_sdl.h"
 #include <stdbool.h>
 #include <stdint.h>
 
