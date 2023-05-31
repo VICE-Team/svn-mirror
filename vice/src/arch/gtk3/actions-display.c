@@ -47,7 +47,7 @@
 #include <stddef.h>
 
 #include "debug_gtk3.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -81,7 +81,7 @@ static void fullscreen_toggle_action(void)
     enabled = !ui_is_fullscreen();
     ui_set_fullscreen_enabled(enabled);
 
-    ui_set_check_menu_item_blocked_by_action_for_window(
+    vhk_gtk_set_check_item_blocked_by_action_for_window(
             ACTION_FULLSCREEN_TOGGLE, index, enabled);
     ui_update_fullscreen_decorations();
 }
@@ -94,7 +94,7 @@ static void fullscreen_decorations_toggle_action(void)
 
     resources_set_int("FullscreenDecorations", decorations);
 
-    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
                                              decorations);
     ui_update_fullscreen_decorations();
 }
@@ -142,11 +142,11 @@ static void show_statusbar_toggle_action(void)
         /* update menu item's toggled state */
         if (machine_class == VICE_MACHINE_C128) {
             /* x128 is special since it has two windows and thus two status bars */
-            ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+            vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                                 canvas->window_index,
                                                                 show);
         } else {
-            ui_set_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
+            vhk_gtk_set_check_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                      show);
         }
     }
@@ -202,14 +202,14 @@ void actions_display_setup_ui(void)
 
     /* set fullscreen check button for primary window */
     resources_get_int_sprintf("%sFullscreen", &enabled, chip);
-    ui_set_check_menu_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
                                                         PRIMARY_WINDOW,
                                                         (gboolean)enabled);
 
     /* set fullscreen check button for secondary window (x128 VDC) */
     if (machine_class == VICE_MACHINE_C128) {
         resources_get_int("VDCFullscreen", &enabled);
-        ui_set_check_menu_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
                                                             SECONDARY_WINDOW,
                                                             (gboolean)enabled);
     }
@@ -217,17 +217,17 @@ void actions_display_setup_ui(void)
     /* fullscreen decorations is currently a single resource for all chips
      * and thus windows */
     resources_get_int("FullscreenDecorations", &enabled);
-    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
                                              (gboolean)enabled);
 
     /* set check buttons for show-statusbar */
     resources_get_int_sprintf("%sShowStatusbar", &enabled, chip);
-    ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                         PRIMARY_WINDOW,
                                                         enabled);
     if (machine_class == VICE_MACHINE_C128) {
         resources_get_int("VDCShowStatusbar", &enabled);
-        ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                             SECONDARY_WINDOW,
                                                             enabled);
     }

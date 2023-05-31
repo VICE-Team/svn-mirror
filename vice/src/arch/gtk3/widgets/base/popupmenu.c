@@ -27,7 +27,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "uiactions.h"
 
 #include "popupmenu.h"
@@ -74,7 +74,7 @@ GtkWidget *popup_menu_item_action_new(const char *text, int action)
     GtkWidget *item;
 
     item = gtk_menu_item_new_with_label(text);
-    ui_set_menu_item_accel_label(item, action);
+    vhk_gtk_set_menu_item_accel_label(item, action);
     g_signal_connect(G_OBJECT(item),
                      "activate",
                      G_CALLBACK(on_action_item_activate),
@@ -176,7 +176,7 @@ GtkWidget *popup_menu_new(const popup_item_t *items)
         }
         /* set accelerator, if any */
         if (items->action > ACTION_NONE) {
-            ui_set_menu_item_accel_label(item, items->action);
+            vhk_gtk_set_menu_item_accel_label(item, items->action);
         }
 
         gtk_container_add(GTK_CONTAINER(menu), item);

@@ -6,6 +6,7 @@ AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
+	-I$(top_srcdir)/src/arch/shared/hotkeys \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -65,6 +66,8 @@ libarch_a_SOURCES = \
 	archdep.h \
 	fullscreen.c \
 	fullscreenarch.h \
+	hotkeys.c \
+	hotkeys.h \
 	icon.c \
 	icon.h \
 	joy.c \

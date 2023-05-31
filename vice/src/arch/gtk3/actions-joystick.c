@@ -40,7 +40,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -102,7 +102,7 @@ static void swap_controlport_toggle_action(void)
 
     controlport_swapped = !controlport_swapped;
 
-    ui_set_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
                                              controlport_swapped);
 }
 
@@ -114,7 +114,7 @@ static void keyset_joystick_toggle_action(void)
     resources_get_int("KeySetEnable", &enable);
     resources_set_int("KeySetEnable", !enable);
 
-    ui_set_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
                                              !enable);
 }
 
@@ -130,7 +130,7 @@ static void mouse_grab_toggle_action(void)
     mouse = !mouse;
 
     if (mouse) {
-        gchar *name = hotkey_map_get_accel_label_for_action(ACTION_MOUSE_GRAB_TOGGLE);
+        gchar *name = vhk_gtk_get_accel_label_by_action(ACTION_MOUSE_GRAB_TOGGLE);
         g_snprintf(title, sizeof(title),
                    "VICE (%s) (Use %s to disable mouse grab)",
                    machine_get_name(), name);
@@ -148,7 +148,7 @@ static void mouse_grab_toggle_action(void)
         gtk_window_set_title(GTK_WINDOW(window), title);
     }
 
-    ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
 }
 
 
@@ -191,17 +191,17 @@ void actions_joystick_setup_ui(void)
 
     /* mouse grab */
     resources_get_int("Mouse", &enabled);
-    ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE,
                                              (gboolean)enabled);
 
     /* swap joysticks */
     if (ui_action_is_valid(ACTION_SWAP_CONTROLPORT_TOGGLE)) {
-        ui_set_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
                                                  (gboolean)controlport_swapped);
     }
 
     /* keyset joysticks */
     resources_get_int("KeySetEnable", &enabled);
-    ui_set_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
                                              (gboolean)enabled);
 }

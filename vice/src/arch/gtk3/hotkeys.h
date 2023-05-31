@@ -32,32 +32,8 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include "archdep_defs.h"
-
-
-/** \brief  Name of Gtk3 main hotkeys files
- */
-#ifdef MACOS_COMPILE
-# define VHK_PREFIX         "gtk3-hotkeys-mac"
-# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys-mac"
-#else
-# define VHK_PREFIX         "gtk3-hotkeys"
-# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys"
-#endif
-
-/** \brief  Extension of Gtk3 hotkeys files
- *
- * Although the extension is the same as for the SDL UI, the format is slightly
- * different.
- */
-#define VHK_EXT     ".vhk"
-
-/** \brief  Filename of default Gtk3 hotkeys files
- */
-#define VHK_DEFAULT_NAME        VHK_PREFIX VHK_EXT
-
-/** \brief  Filename of default Gtk3 VSID hotkeys file
- */
-#define VHK_DEFAULT_NAME_VSID   VHK_PREFIX_VSID VHK_EXT
+#include "hotkeystypes.h"
+#include "uitypes.h"
 
 
 /** \brief  Accepted GDK modifiers for hotkeys
@@ -83,56 +59,39 @@
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK)
 #endif
 
+/* TODO: Perhaps move to src/arch/gtk3/widget/settings_hotkeys.c ? */
 
-/** \brief  Modifier IDs
+
+/** \brief  Gtk3-specific `user_data` object in `vhk_map_t`
  */
-typedef enum hotkeys_modifier_id_e {
-    HOTKEYS_MOD_ID_ILLEGAL = -1,    /**< illegal modifier */
-    HOTKEYS_MOD_ID_NONE,            /**< no modifer */
-    HOTKEYS_MOD_ID_ALT,             /**< Alt */
-    HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
-    HOTKEYS_MOD_ID_CONTROL,         /**< Control */
-    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
-    HOTKEYS_MOD_ID_META,            /**< Meta, on MacOS GDK_META_MASK maps to
-                                         Command */
-    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS), GDK_MOD1_MASK, same as
-                                         Alt */
-    HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
-    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key), could be Apple
-                                         key on MacOS */
-} hotkeys_modifier_id_t;
+typedef struct vhk_gtk_map_s {
+    const ui_menu_item_t *decl;         /**< menu item declaration with additional
+                                             info for Gtk3, such as whether to
+                                             connect locked or unlocked */
+    gulong                handler[2];   /**< signal handler ID, used to be able
+                                             to block signals when changing
+                                             state such as 'toggled' of menu
+                                             items */
+} vhk_gtk_map_t;
 
 
-/** \brief  Parser modifier type
- *
- * The modifier IDs are there to allow dumping a hotkeys file with PC-specific
- * modifier names on Linux, BSD, Windows and MacOS-specific modifier names on
- * MacOS. So "<Control><Alt>X" would be dumped as "<Command><Option>X" on MacOS,
- * but the parser wouldn't care when reading back the file.
- */
-typedef struct hotkeys_modifier_s {
-    const char *            name;       /**< modifier name */
-    hotkeys_modifier_id_t   id;         /**< modifier ID */
-    GdkModifierType         mask;       /**< GDK modifier mask */
-    const char *            mask_str;   /**< string form of macro, without the
-                                             "GDK_" prefix or the "_MASK" suffix */
-    const char *            utf8;       /**< used for hotkeys UI display */
-} hotkeys_modifier_t;
+vhk_gtk_map_t *vhk_gtk_map_new (const ui_menu_item_t *decl);
+void           vhk_gtk_map_free(vhk_gtk_map_t *map);
 
+void           vhk_gtk_init_accelerators(GtkWidget *window);
+gboolean       vhk_gtk_remove_accelerator(guint keysym, GdkModifierType modifier);
 
-
-int     ui_hotkeys_resources_init(void);
-int     ui_hotkeys_cmdline_options_init(void);
-
-void    ui_hotkeys_init(void);
-void    ui_hotkeys_shutdown(void);
-
-bool    ui_hotkeys_parse(const char *path);
-bool    ui_hotkeys_export(const char *path);
-void    ui_hotkeys_load_default(void);
-
-char *  ui_hotkeys_get_hotkey_string_for_action(gint action_id);
-const hotkeys_modifier_t *ui_hotkeys_get_modifier_list(void);
+gchar         *vhk_gtk_get_accel_label_by_action(int action);
+gchar         *vhk_gtk_get_accel_label_by_map(const vhk_map_t *map);
+GtkWidget     *vhk_gtk_get_menu_item_by_action_for_window(int action,
+                                                          int window_id);
+void           vhk_gtk_set_menu_item_accel_label(GtkWidget *item, int action);
+void           vhk_gtk_set_check_item_blocked(GtkWidget *item,
+                                              gboolean   checked);
+void           vhk_gtk_set_check_item_blocked_by_action(int      action,
+                                                        gboolean checked);
+void           vhk_gtk_set_check_item_blocked_by_action_for_window(int      action,
+                                                                   int      window_id,
+                                                                   gboolean checked);
 
 #endif
-

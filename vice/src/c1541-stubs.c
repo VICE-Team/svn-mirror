@@ -308,9 +308,9 @@ int crt_getid(const char *filename)
 }
 
 
-void ui_hotkeys_init(void)
-{
-}
+//void ui_hotkeys_init(const char *prefix)
+//{
+//}
 
 int drive_get_disk_drive_type(int dnr)
 {

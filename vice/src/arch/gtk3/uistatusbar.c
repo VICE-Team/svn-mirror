@@ -73,7 +73,7 @@
 #include "drive.h"
 #include "drivetypes.h"
 #include "fliplist.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "joyport.h"
 #include "joystickmenupopup.h"
 #include "kbddebugwidget.h"
@@ -890,11 +890,11 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
             child = children = gtk_container_get_children(GTK_CONTAINER(tape_menu));
 
             action_id = port == 1 ? ACTION_TAPE_ATTACH_1 : ACTION_TAPE_ATTACH_2;
-            ui_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
+            vhk_gtk_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
 
             child = child->next;
             action_id = port == 1 ? ACTION_TAPE_DETACH_1 : ACTION_TAPE_DETACH_2;
-            ui_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
+            vhk_gtk_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
 
             g_list_free(children);
 
@@ -981,7 +981,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 
         /* set hotkey, if any */
         action = ui_action_id_drive_attach(i + DRIVE_UNIT_MIN, drive);
-        ui_set_menu_item_accel_label(drive_menu_item, action);
+        vhk_gtk_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     /* set "Detach" item label based on dual-drive status */
@@ -1004,7 +1004,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 
         /* set hotkey, if any */
         action = ui_action_id_drive_detach(i + DRIVE_UNIT_MIN, drive);
-        ui_set_menu_item_accel_label(drive_menu_item, action);
+        vhk_gtk_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     g_list_free(children);
@@ -3615,7 +3615,7 @@ gboolean ui_action_toggle_show_statusbar(void)
         window = ui_get_active_window();
         ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);
         /* update menu item's toggled state! */
-        ui_set_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
                                                  show);
     }
     return TRUE;

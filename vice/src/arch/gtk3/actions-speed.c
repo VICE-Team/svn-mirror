@@ -39,7 +39,7 @@
 
 #include "basedialogs.h"
 #include "debug_gtk3.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
@@ -58,7 +58,7 @@
 static void pause_toggle_action(void)
 {
     ui_pause_toggle();
-    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                              (gboolean)ui_pause_active());
     /* the pause LED gets updated in in the status bar update code */
 }
@@ -71,7 +71,7 @@ static void advance_frame_action(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE, TRUE);
+        vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE, TRUE);
     }
 }
 
@@ -83,7 +83,7 @@ static void advance_frame_action(void)
 static void warp_mode_toggle_action(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              (gboolean)vsync_get_warp_mode());
 }
 
@@ -130,7 +130,7 @@ static void update_cpu_radio_buttons(void)
 #if 0
     debug_gtk3("Selecting action '%s'.", action);
 #endif
-    ui_set_check_menu_item_blocked_by_action(action, TRUE);
+    vhk_gtk_set_check_item_blocked_by_action(action, TRUE);
 }
 
 
@@ -161,7 +161,7 @@ static void update_fps_radio_buttons(void)
 #if 0
     debug_gtk3("Selecting action '%s'.", action);
 #endif
-    ui_set_check_menu_item_blocked_by_action(action, TRUE);
+    vhk_gtk_set_check_item_blocked_by_action(action, TRUE);
 }
 
 
@@ -248,8 +248,8 @@ static void speed_cpu_custom_action(void)
 {
     GtkWidget *widget;
 
-    widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
-                                                   ui_get_main_window_index());
+    widget = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
+                                                        ui_get_main_window_index());
     if (widget != NULL) {
         int curval = 0;
 
@@ -317,7 +317,7 @@ static void speed_fps_custom_action(void)
     GtkWidget *widget;
 
     /* only show the dialog when the radio/check button is toggled ON */
-    widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_CUSTOM,
+    widget = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
         int curval = 0;
@@ -440,14 +440,14 @@ void actions_speed_setup_ui(void)
 
     /* set '$MACHINE FPS' label */
     g_snprintf(buffer, sizeof(buffer), "%s FPS", machine_get_name());
-    item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
-                                                 PRIMARY_WINDOW);
+    item = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                      PRIMARY_WINDOW);
     if (item != NULL) {
         gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
     }
     if (machine_class == VICE_MACHINE_C128) {
-        item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
-                                                     SECONDARY_WINDOW);
+        item = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                          SECONDARY_WINDOW);
         if (item != NULL) {
             gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
         }
@@ -458,11 +458,11 @@ void actions_speed_setup_ui(void)
     update_fps_radio_buttons();
 
     /* pause */
-    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                              (gboolean)ui_pause_active());
 
     /* warp */
-    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              (gboolean)vsync_get_warp_mode());
 
 }

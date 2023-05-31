@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
 	$(extra_includes) \
+	-I$(top_srcdir)/src/arch/shared/hotkeys \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
@@ -77,7 +78,6 @@ libarch_a_SOURCES = \
 	cbm5x0ui.c \
 	debug_gtk3.c \
 	gtk3main.c \
-	hotkeymap.c \
 	hotkeys.c \
 	kbd.c \
 	linenoise.c \
@@ -167,7 +167,6 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	directx_renderer.h \
 	directx_renderer_impl.h \
-	hotkeymap.h \
 	hotkeys.h \
 	kbd.h \
 	linenoise.h \

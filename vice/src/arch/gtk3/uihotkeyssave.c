@@ -41,6 +41,7 @@
 #include "savefiledialog.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uihotkeys.h"
 #include "uistatusbar.h"
 #include "util.h"
 
@@ -100,7 +101,7 @@ void ui_hotkeys_save_dialog_show(void)
         char cwd[ARCHDEP_PATH_MAX];
 
         archdep_getcwd(cwd, sizeof(cwd));
-        full = archdep_default_hotkey_file_name();
+        full = ui_hotkeys_vhk_filename_user();
         base = g_path_get_basename(full);
         lib_free(full);
         proposed = util_join_paths(cwd, base, NULL);
