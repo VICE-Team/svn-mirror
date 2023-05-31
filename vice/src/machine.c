@@ -71,6 +71,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "uiactions.h"
+#include "uihotkeys.h"
 #include "util.h"
 #include "video.h"
 #include "vsync.h"
@@ -383,6 +384,9 @@ void machine_shutdown(void)
     if (!console_mode) {
         ui_shutdown();
         ui_actions_shutdown();
+#ifndef USE_HEADLESSUI
+        ui_hotkeys_shutdown();
+#endif
     }
 
     palette_shutdown();

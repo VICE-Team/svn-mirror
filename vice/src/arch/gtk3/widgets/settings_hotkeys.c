@@ -37,7 +37,6 @@
 #include "vice_gtk3.h"
 
 #include "archdep.h"
-#include "hotkeymap.h"
 #include "hotkeys.h"
 #include "lib.h"
 #include "log.h"
@@ -46,9 +45,12 @@
 #include "uiactions.h"
 #include "uiapi.h"
 #include "uihotkeysload.h"
+#include "uihotkeys.h"
 #include "uimenu.h"
 #include "uitypes.h"
 #include "util.h"
+#include "vhkkeysyms.h"
+#include "vhkmap.h"
 
 #include "settings_hotkeys.h"
 
@@ -64,6 +66,36 @@
 #define ARRAY_LEN(arr)  (sizeof arr / sizeof arr[0])
 #endif
 
+#ifdef DEBUG_HOTKEYS
+/** \brief  Modifier IDs for the hotkeys editor
+ */
+typedef enum hotkeys_modifier_id_e {
+    HOTKEYS_MOD_ID_ILLEGAL = -1,    /**< illegal modifier */
+    HOTKEYS_MOD_ID_NONE,            /**< no modifer */
+    HOTKEYS_MOD_ID_ALT,             /**< Alt */
+    HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
+    HOTKEYS_MOD_ID_CONTROL,         /**< Control */
+    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
+    HOTKEYS_MOD_ID_META,            /**< Meta, on MacOS GDK_META_MASK maps to
+                                         Command */
+    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS), GDK_MOD1_MASK, same as
+                                         Alt */
+    HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
+    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key), could be Apple
+                                         key on MacOS */
+} hotkeys_modifier_id_t;
+
+/** \brief  Hotkeys editor modifier list object
+ */
+typedef struct hotkeys_modifier_s {
+    const char *            name;       /**< modifier name */
+    hotkeys_modifier_id_t   id;         /**< modifier ID */
+    GdkModifierType         mask;       /**< GDK modifier mask */
+    const char *            mask_str;   /**< string form of macro, without the
+                                             "GDK_" prefix or the "_MASK" suffix */
+    const char *            utf8;       /**< used for hotkeys UI display */
+} hotkeys_modifier_t;
+#endif
 
 typedef struct mod_mask_s {
     guint mask;         /**< GDKModifierType constant */
@@ -71,7 +103,6 @@ typedef struct mod_mask_s {
     int column;         /**< GtkGrid column */
     int row;            /**< GtkGrid row */
 } mod_mask_t;
-
 
 /** \brief  Columns for the hotkeys table
  */
@@ -81,7 +112,6 @@ enum {
     COL_ACTION_DESC,    /**< action description (string) */
     COL_HOTKEY          /**< key and modifiers (string) */
 };
-
 
 /** \brief  Set/Unset hotkey dialog custom response IDs
  */
@@ -114,6 +144,26 @@ static const mod_mask_t mod_mask_list[] = {
     { mod_item(GDK_MOD5_MASK),      1, 4 }
 };
 #undef mod_item
+#endif
+
+#ifdef DEBUG_HOTKEYS
+/** \brief  Mapping of modifier names to GDK modifier masks
+ *
+ * Contains mappings of modifier names used in hotkeys files to IDs and
+ * GDK modifier masks.
+ *
+ * \note    The array needs to stay in alphabetical order.
+ */
+static const hotkeys_modifier_t hotkeys_modifier_list[] = {
+    { "Alt",        HOTKEYS_MOD_ID_ALT,     GDK_MOD1_MASK,      "MOD1",     "Alt" },
+    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_META_MASK,      "META",     "Command \u2318" },
+    { "Control",    HOTKEYS_MOD_ID_CONTROL, GDK_CONTROL_MASK,   "CONTROL",  "Control \u2303" },
+    { "Hyper",      HOTKEYS_MOD_ID_HYPER,   GDK_HYPER_MASK,     "HYPER",    "Hyper" },
+    { "Option",     HOTKEYS_MOD_ID_OPTION,  GDK_MOD1_MASK,      "MOD1",     "Option \u2325" },
+    { "Shift",      HOTKEYS_MOD_ID_SHIFT,   GDK_SHIFT_MASK,     "SHIFT",    "Shift \u21e7" },
+    { "Super",      HOTKEYS_MOD_ID_SUPER,   GDK_SUPER_MASK,     "SUPER",    "Super" },
+    { NULL,         -1,                     0,                  NULL,       NULL }
+};
 #endif
 
 
@@ -164,7 +214,7 @@ static void clear_all_hotkeys(void)
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    ui_clear_hotkeys();
+    ui_hotkeys_remove_all();
 
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(hotkeys_view));
     if (gtk_tree_model_get_iter_first(model, &iter)) {
@@ -187,13 +237,11 @@ static void update_hotkeys_path(void)
         /* default location */
         char *path;
         char *datadir = archdep_get_vice_datadir();
+        char *vhkname = ui_hotkeys_vhk_filename_vice();
 
-        if (machine_class == VICE_MACHINE_VSID) {
-            path = util_join_paths(datadir, machine_name, VHK_DEFAULT_NAME_VSID, NULL);
-        } else {
-            path = util_join_paths(datadir, machine_name, VHK_DEFAULT_NAME, NULL);
-        }
+        path = util_join_paths(datadir, machine_name, vhkname, NULL);
         lib_free(datadir);
+        lib_free(vhkname);
 
         gtk_entry_set_text(GTK_ENTRY(hotkeys_path), path);
         lib_free(path);
@@ -303,14 +351,14 @@ static GtkListStore *create_hotkeys_model(void)
 
     list = ui_action_get_info_list();
     for (action = list; action->id > ACTION_NONE; action++) {
-        GtkTreeIter iter;
-        hotkey_map_t *map;
-        gchar *hotkey = NULL;
+        GtkTreeIter  iter;
+        vhk_map_t   *map;
+        gchar       *hotkey = NULL;
 
         /* Is there a hotkey defined for the current action? */
-        map = hotkey_map_get_by_action(action->id);
+        map = vhk_map_get(action->id);
         if (map != NULL) {
-            hotkey = hotkey_map_get_accel_label(map);
+            hotkey = vhk_gtk_get_accel_label_by_map(map);
         }
 
         gtk_list_store_append(model, &iter);
@@ -574,6 +622,8 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 static void dialog_accept_handler(int action)
 {
     gchar *accel;
+    uint32_t vice_keysym;
+    uint32_t vice_modmask;
 
     accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
     debug_gtk3("Setting accelerator: %s (keysym: %04x, mask: %04x)"
@@ -586,30 +636,32 @@ static void dialog_accept_handler(int action)
      * XXX: somehow the mask gets OR'ed with $2000, which is a reserved
      *      flag, so we mask out any reserved bits:
      */
-    hotkey_map_t *map = hotkey_map_get_by_hotkey(hotkey_keysym,
-                                                 hotkey_mask & accepted_mods);
+    vhk_map_t *map = vhk_map_get_by_arch_hotkey(hotkey_keysym,
+                                                hotkey_mask & accepted_mods);
     if (map == NULL) {
         debug_gtk3("No previously registered action for hotkey %s. OK.", accel);
-    } else if (map->keysym != 0) {
+    } else if (map->vice_keysym != 0) {
         debug_gtk3("Removing old accelerator: %s from action %d (%s)",
                    accel, map->action, ui_action_get_name(map->action));
-        hotkey_map_clear_hotkey(map);
+        vhk_map_unset_by_map(map);
         remove_treeview_hotkey(accel);
     }
 
-    map = hotkey_map_get_by_action(action);
+    map = vhk_map_get(action);
     if (map == NULL) {
         debug_gtk3("Error: Couldn't find hotkey map for action %d!", action);
         g_free(accel);
         return;
     }
+
     debug_gtk3("Setting new accelerator %s for action %d (%s)",
                accel, action, ui_action_get_name(action));
-    if (!hotkey_map_update_hotkey(map, hotkey_keysym, hotkey_mask & accepted_mods)) {
-        debug_gtk3("Error: Failed to update hotkey!");
-    } else {
-        update_treeview_hotkey(accel);
-    }
+    vice_keysym  = ui_hotkeys_arch_keysym_from_arch(hotkey_keysym);
+    vice_modmask = ui_hotkeys_arch_modmask_from_arch(hotkey_mask & accepted_mods);
+
+    /* call virtual method */
+    ui_hotkeys_update_by_map(map, vice_keysym, vice_modmask);
+    update_treeview_hotkey(accel);
     g_free(accel);
 }
 
@@ -619,9 +671,8 @@ static void dialog_accept_handler(int action)
  */
 static void dialog_clear_handler(int action)
 {
-    if (hotkey_map_clear_hotkey_by_action(action)) {
-        update_treeview_hotkey(NULL);
-    }
+    ui_hotkeys_remove_by_action(action);
+    update_treeview_hotkey(NULL);
 }
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -714,7 +765,7 @@ static GtkWidget *create_modifier_list(void)
     int row;
     int i;
 
-    list = ui_hotkeys_get_modifier_list();
+    list = hotkeys_modifier_list;
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
@@ -1142,9 +1193,8 @@ static void on_context_clear_activate(GtkWidget *unused, gpointer treepath)
         gint action_id;
 
         gtk_tree_model_get(model, &iter, COL_ACTION_ID, &action_id, -1);
-        if (hotkey_map_clear_hotkey_by_action(action_id)) {
-            update_treeview_hotkey(NULL);   /* clear hotkey of selected row */
-        }
+        ui_hotkeys_remove_by_action(action_id);
+        update_treeview_hotkey(NULL);   /* clear hotkey of selected row */
     }
 }
 

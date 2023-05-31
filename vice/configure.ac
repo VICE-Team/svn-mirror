@@ -329,6 +329,8 @@ m4_foreach([flag],
             ])
 AC_SUBST(MONITOR_CFLAGS)
 
+AC_PROG_AWK
+AS_IF([test x"$AWK" = "x:"], [AC_MSG_ERROR([Could not find awk!])])
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LEX
@@ -3538,6 +3540,7 @@ AC_OUTPUT([Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
            src/arch/shared/Makefile
+           src/arch/shared/hotkeys/Makefile
            src/arch/shared/hwsiddrv/Makefile
            src/arch/shared/mididrv/Makefile
            src/arch/shared/socketdrv/Makefile

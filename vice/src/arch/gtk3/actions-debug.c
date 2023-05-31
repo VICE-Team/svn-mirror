@@ -48,7 +48,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiactions.h"
@@ -79,7 +79,7 @@ static void toggle_resource_and_update_menu(const char *resource, int action)
     resources_get_int(resource, &enabled);
     enabled = !enabled;
     resources_set_int(resource, enabled);
-    ui_set_check_menu_item_blocked_by_action(action, enabled);
+    vhk_gtk_set_check_item_blocked_by_action(action, enabled);
 }
 
 /** \brief  Pop up dialog to change trace mode */
@@ -324,7 +324,7 @@ void actions_debug_setup_ui(void)
             int enabled;
 
             resources_get_int(actions_list[i].resource, &enabled);
-            ui_set_check_menu_item_blocked_by_action(actions_list[i].action,
+            vhk_gtk_set_check_item_blocked_by_action(actions_list[i].action,
                                                      (gboolean)enabled);
         }
     }

@@ -34,7 +34,7 @@
 
 #include "actions-joystick.h"
 #include "debug_gtk3.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiactions.h"
@@ -117,7 +117,7 @@ GtkWidget *joystick_menu_popup_create(void)
     if (joystick_swap_possible()) {
         /* Swap joysticks */
         item = gtk_check_menu_item_new_with_label("Swap joysticks");
-        ui_set_menu_item_accel_label(item, ACTION_SWAP_CONTROLPORT_TOGGLE);
+        vhk_gtk_set_menu_item_accel_label(item, ACTION_SWAP_CONTROLPORT_TOGGLE);
         gtk_container_add(GTK_CONTAINER(menu), item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
                                        (gboolean)ui_get_controlport_swapped());
@@ -129,7 +129,7 @@ GtkWidget *joystick_menu_popup_create(void)
 
     /* Enable keyset joysticks */
     item = gtk_check_menu_item_new_with_label("Allow keyset joysticks");
-    ui_set_menu_item_accel_label(item, ACTION_KEYSET_JOYSTICK_TOGGLE);
+    vhk_gtk_set_menu_item_accel_label(item, ACTION_KEYSET_JOYSTICK_TOGGLE);
     resources_get_int("KeySetEnable", &keyset);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)keyset);
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -140,7 +140,7 @@ GtkWidget *joystick_menu_popup_create(void)
 
     /* Enable mouse grab */
     item = gtk_check_menu_item_new_with_label("Enable mouse grab");
-    ui_set_menu_item_accel_label(item, ACTION_MOUSE_GRAB_TOGGLE);
+    vhk_gtk_set_menu_item_accel_label(item, ACTION_MOUSE_GRAB_TOGGLE);
     resources_get_int("Mouse", &mouse);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)mouse);
     gtk_container_add(GTK_CONTAINER(menu), item);

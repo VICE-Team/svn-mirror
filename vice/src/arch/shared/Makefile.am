@@ -11,6 +11,9 @@
 # -- compyx, 2020-02-08
 
 SUBDIRS = hwsiddrv mididrv socketdrv sounddrv
+if !USE_HEADLESSUI
+SUBDIRS += hotkeys
+endif
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
@@ -240,5 +243,7 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	uiactions.h \
 	README-bindist.txt
+
+
 
 # FIXME: the Extra MacOS script stuff should live elsewhere

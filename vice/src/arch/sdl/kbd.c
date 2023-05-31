@@ -75,8 +75,13 @@ ui_menu_entry_t *sdlkbd_ui_hotkeys[SDLKBD_UI_HOTKEYS_MAX];
 
 /* ------------------------------------------------------------------------ */
 
-/* Resources.  */
+/* Resources.
+ *
+ * The HotkeyFile resource and -hotkeyfile command line parameter are handled
+ * by the hotkeys code in shared/ and initialized in src/main.c
+ */
 
+#if 0
 static int hotkey_file_set(const char *val, void *param)
 {
 #ifdef SDL_DEBUG
@@ -95,27 +100,33 @@ static resource_string_t resources_string[] = {
       &hotkey_file, hotkey_file_set, (void *)0 },
     RESOURCE_STRING_LIST_END
 };
+#endif
 
 int sdlkbd_init_resources(void)
 {
+#if 0
     hotkey_filename = archdep_default_hotkey_file_name();
     resources_string[0].factory_value = hotkey_filename;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
+#endif
     return 0;
 }
 
 void sdlkbd_resources_shutdown(void)
 {
+#if 0
     lib_free(hotkey_filename);
     lib_free(hotkey_file);
     hotkey_file = NULL;
+#endif
 }
 
 /* ------------------------------------------------------------------------ */
 
+#if 0
 static const cmdline_option_t cmdline_options[] =
 {
     { "-hotkeyfile", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -123,10 +134,15 @@ static const cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of hotkey file" },
     CMDLINE_LIST_END
 };
+#endif
 
 int sdlkbd_init_cmdline(void)
 {
+#if 0
     return cmdline_register_options(cmdline_options);
+#else
+    return 0;
+#endif
 }
 
 /* ------------------------------------------------------------------------ */

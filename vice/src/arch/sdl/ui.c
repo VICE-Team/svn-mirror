@@ -836,13 +836,6 @@ int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palett
 }
 
 
-/* FIXME: temporary stub to support calling ui_hotkeys_init() from src/main.c
- */
-void ui_hotkeys_init(void)
-{
-    /* NOP */
-}
-
 /* ---------------------------------------------------------------------*/
 /* vsidui_sdl.h */
 

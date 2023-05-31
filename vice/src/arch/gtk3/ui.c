@@ -67,7 +67,6 @@
 #include "extendimagedialog.h"
 /* for the fullscreen_capability() stub */
 #include "fullscreen.h"
-#include "hotkeymap.h"
 #include "hotkeys.h"
 #include "interrupt.h"
 #include "jamdialog.h"
@@ -87,6 +86,7 @@
 #include "uicart.h"
 #include "uidata.h"
 #include "uidiskattach.h"
+#include "uihotkeys.h"
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
 #include "uimedia.h"
@@ -1718,7 +1718,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
-    ui_init_accelerators(new_window);
+    vhk_gtk_init_accelerators(new_window);
 
     /* set the dock / taskbar icon */
     icon = get_default_icon();
@@ -1735,7 +1735,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (!mouse_grab) {
         g_snprintf(title, sizeof(title), "VICE (%s)", machine_get_name());
     } else {
-        gchar *name = hotkey_map_get_accel_label_for_action(ACTION_MOUSE_GRAB_TOGGLE);
+        gchar *name = vhk_gtk_get_accel_label_by_action(ACTION_MOUSE_GRAB_TOGGLE);
         g_snprintf(title, sizeof(title),
                    "VICE (%s) (Use %s to disable mouse grab)",
                    machine_get_name(), name);
@@ -1919,7 +1919,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     /* set any menu checkboxes that aren't connected to resources */
-    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              vsync_get_warp_mode());
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -2034,9 +2034,6 @@ void ui_destroy_main_window(int index)
  */
 int ui_cmdline_options_init(void)
 {
-    if (ui_hotkeys_cmdline_options_init() != 0) {
-        return -1;
-    }
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -2250,10 +2247,8 @@ int ui_init_finalize(void)
             /* actions_vsid_register(); */
         }
 
-        /* Add any actions that weren't already registered during menu creation */
-        hotkey_map_add_actions();
-
-        ui_hotkeys_init();
+        /* new hotkeys API in shared/hotkeys/ */
+        ui_hotkeys_init("gtk3");
 
         /* Set proper radio buttons, check buttons and menu item labels
          * (All emus including VSID) */
@@ -2352,9 +2347,6 @@ int ui_resources_init(void)
         }
     }
 
-    /* initialize custom hotkeys resources */
-    ui_hotkeys_resources_init();
-
     for (i = 0; i < NUM_WINDOWS; ++i) {
         ui_resources.canvas[i] = NULL;
         ui_resources.window_widget[i] = NULL;
@@ -2380,13 +2372,10 @@ void ui_shutdown(void)
 {
     uidata_shutdown();
     ui_statusbar_shutdown();
-    ui_hotkeys_shutdown();
     cart_image_widgets_shutdown();
     settings_keyboard_widget_shutdown();
-#if 0
-    ui_actions_shutdown();
-#endif
     actions_settings_shutdown();
+    /* hotkeys are shut down in src/main.c */
 }
 
 
@@ -2618,7 +2607,7 @@ void ui_pause_toggle(void)
 gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                              (gboolean)ui_pause_active());
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
@@ -2633,7 +2622,7 @@ gboolean ui_action_toggle_pause(void)
 gboolean ui_action_toggle_warp(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              (gboolean)vsync_get_warp_mode());
 
     return TRUE;
@@ -2654,7 +2643,7 @@ gboolean ui_action_advance_frame(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                                  (gboolean)ui_pause_active());
     }
 

@@ -37,10 +37,10 @@
 #include <stdbool.h>
 
 #include "basedialogs.h"
-#include "hotkeymap.h"
 #include "hotkeys.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uihotkeys.h"
 #include "uihotkeysload.h"
 #include "uihotkeyssave.h"
 #include "uistatusbar.h"
@@ -52,7 +52,7 @@
 static void hotkeys_clear_action(void)
 {
     ui_display_statustext("Clearing all hotkeys.", 1);
-    ui_clear_hotkeys();
+    ui_hotkeys_remove_all();
 }
 
 /** \brief  Load default hotkeys */
@@ -71,7 +71,7 @@ static void hotkeys_load_action(void)
     const char *hotkeys_file = NULL;
 
     ui_display_statustext("Reloading current hotkeys.", 1);
-    ui_clear_hotkeys();
+    ui_hotkeys_remove_all();
 
     resources_get_string("HotkeyFile", &hotkeys_file);
     if (hotkeys_file != NULL && *hotkeys_file != '\0') {

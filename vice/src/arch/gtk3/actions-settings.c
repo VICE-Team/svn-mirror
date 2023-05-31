@@ -33,12 +33,12 @@
 
 #include "archdep.h"
 #include "basedialogs.h"
-#include "hotkeys.h"
 #include "lastdir.h"
 #include "lib.h"
 #include "mainlock.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uihotkeys.h"
 #include "uisettings.h"
 #include "util.h"
 

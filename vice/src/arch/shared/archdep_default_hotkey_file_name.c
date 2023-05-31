@@ -3,9 +3,10 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * TODO:    Once we start supporting custom hotkeys in the Gtk3 port, this
- *          code needs to be updated for Windows, since Gtk3-Win binaries live
- *          in bin/, so we need to strip off 'bin/'.
+ * XXX:     No longer used by the Gtk3 port, superceeded by
+ *          `ui_hotkeys_vhk_filename_vice()` in arch/shared/hotkeys/uihotkeys.c.
+ *          Once SDL hotkeys are also using the shared hotkeys API this file
+ *          can be removed.
  */
 
 /*

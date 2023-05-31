@@ -30,6 +30,8 @@
 #define VICE_UIAPI
 
 #include "types.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 typedef enum {
     UI_JAM_INVALID = -1, UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
@@ -106,6 +108,87 @@ void ui_display_joyport(uint16_t *joyport);
 void ui_display_volume(int vol);
 
 /* Hotkeys */
-void ui_hotkeys_init(void);
+
+#include "arch/shared/hotkeys/hotkeystypes.h"
+
+void ui_hotkeys_arch_init(void);
+
+/* New hotkeys API (in src/arch/shared)
+ *
+ * Some identifiers will be changed once conflicting identifiers in the Gtk3
+ * UI code have been removed. Conflicting identifiers will use a `ui_arch_`
+ * prefix unti then.
+ */
+
+/* virtual methods */
+
+/** \brief  Run UI-specific hotkeys initialization code
+ *
+ * This function is called after the generic hotkeys code has initialized and
+ * allows UIs to do their own additional initialization.
+ * For example, Gtk3 will set up its `GtkAccelGroup` here.
+ */
+void ui_hotkeys_arch_init(void);
+
+/** \brief  Run UI-specific hotkeys shutdown code
+ *
+ * This function is called in `ui_hotkeys_shutdown()` before any other cleanup
+ * happens, allowing UIs to do their own additional cleanup if required.
+ */
+void ui_hotkeys_arch_shutdown(void);
+
+/** \brief  Install hotkey
+ *
+ * Run UI-specific code to register the hotkey in \a map.
+ * The \a map contains a UI action ID, a VICE keysym and a VICE modifier mask,
+ * the UI needs to register the hotkey using its API and, if present, set the
+ * menu item pointer(s) in \a map.
+ *
+ * \param[in]   map hotkeys mapping reference
+ */
+void ui_hotkeys_arch_install_by_map(vhk_map_t *map);
+
+/** \brief  Update hotkey
+ *
+ * The \a map should contain a valid action ID and the keysym and modmask of
+ * the currently registered hotkey for that action. The function is expected
+ * to remove the old hotkey from its menu items, if any, set the hotkey for
+ * the action to \a vice_keysym + \a vice_modmask, and if menu items are present
+ * update their accelator labels to the new hotkey. The generic hotkeys code
+ * takes care of updating the internals of \a map.
+ *
+ * \param[in]   map             vhk map object
+ * \param[in]   vice_keysym     new VICE keysym
+ * \param[in]   vice_modmask    new VICE modifier mask
+ */
+void ui_hotkeys_arch_update_by_map(vhk_map_t *map,
+                                   uint32_t vice_keysym,
+                                   uint32_t vice_modmask);
+
+/** \brief  Remove hotkey
+ *
+ * Remove hotkey from the UI. The \a map contains the keysym and modifier mask
+ * of the hotkey to remove. The shared hotkeys code will take care of removing
+ * the keysyms/modifier masks from \a map, the arch-specific code is expected
+ * to remove any accelerator (labels) from the UI and disconnecting any
+ * signal handlers connected for the hotkey.
+ *
+ * \param[in]   map     vhk map object
+ */
+void ui_hotkeys_arch_remove_by_map(vhk_map_t *map);
+
+/*
+ * Functions translating between VICE and arch keysysm and modifiers
+ *
+ * TODO: Decide if we need to have both functions for single modifiers and
+ *       modifier masks (combined modifiers).
+ */
+
+uint32_t ui_hotkeys_arch_keysym_from_arch  (uint32_t arch_keysym);
+uint32_t ui_hotkeys_arch_keysym_to_arch    (uint32_t vice_keysym);
+uint32_t ui_hotkeys_arch_modifier_from_arch(uint32_t arch_mod);
+uint32_t ui_hotkeys_arch_modifier_to_arch  (uint32_t vice_mod);
+uint32_t ui_hotkeys_arch_modmask_from_arch (uint32_t arch_modmask);
+uint32_t ui_hotkeys_arch_modmask_to_arch   (uint32_t vice_modmask);
 
 #endif

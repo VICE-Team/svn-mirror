@@ -34,7 +34,7 @@
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "vice_gtk3.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -46,6 +46,7 @@
 #include "uiabout.h"
 #include "uistatusbar.h"
 #include "util.h"
+#include "vhkmap.h"
 
 #include "uimenu.h"
 
@@ -85,7 +86,7 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
         guint mask;
 
         gtk_accel_label_get_accel(label, &keysym, &mask);
-        ui_remove_accelerator(keysym, mask);
+        vhk_gtk_remove_accelerator(keysym, mask);
     }
 }
 
@@ -242,27 +243,41 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
             /* add item to table of references if it triggers a UI action */
             if (items[i].action_id > ACTION_NONE) {
 
-                hotkey_map_t *map;
+                vhk_gtk_map_t *arch_map = NULL;     /* new API */
+                vhk_map_t     *vhk_map  = NULL;     /* new API */
 
                 /* add to hotkey maps or update */
                 if (window_id == PRIMARY_WINDOW) {
-                    map = hotkey_map_new();
-                    map->action = items[i].action_id;
-                    map->decl = &items[i];
-                    hotkey_map_append(map);
+                    vhk_map = vhk_map_get(items[i].action_id);
+                    if (vhk_map != NULL) {
+                        printf("%s(): setting vhk_map->user_data\n", __func__);
+                        arch_map = vhk_map->user_data;
+                        if (arch_map == NULL) {
+                            printf("%s(): creating new arch_map with decl &items[%zu]\n",
+                                    __func__, i);
+                            arch_map = vhk_gtk_map_new(&items[i]);
+                            vhk_map->user_data = arch_map;
+                        }
+                    }
+
                 } else {
-                    map = hotkey_map_get_by_action(items[i].action_id);
-                    if (map == NULL) {
-                        /* this shouldn't happen! */
-                        debug_gtk3("Failed to locate hotkey mapping object"
-                                   "for action %d (%s).",
+
+                    vhk_map = vhk_map_get(items[i].action_id);
+                    if (vhk_map == NULL) {
+                        /* shouldn't happen */
+                        debug_gtk3("Failed to locate vhk mapping object for "
+                                   "action %d (%s).",
                                    items[i].action_id,
                                    ui_action_get_name(items[i].action_id));
                     }
                 }
-                if (map != NULL) {
-                    map->item[window_id] = item;
-                    map->handler[window_id] = handler_id;
+
+                if (vhk_map != NULL) {
+                    debug_gtk3("setting menu item %p", (const void *)item);
+                    vhk_map->menu_item[window_id] = item;
+                }
+                if (arch_map != NULL) {
+                    arch_map->handler[window_id] = handler_id;
                 }
             }
         }
@@ -270,9 +285,3 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
     }
     return menu;
 }
-
-
-
-
-
-

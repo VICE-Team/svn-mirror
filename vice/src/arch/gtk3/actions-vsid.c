@@ -39,7 +39,7 @@
 #include <stdbool.h>
 
 #include "debug_gtk3.h"
-#include "hotkeymap.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
@@ -144,7 +144,7 @@ static void psid_override_toggle_action(void)
     resources_get_int("PSIDKeepEnv", &enabled);
     enabled = !enabled;
     resources_set_int("PSIDKeepEnv", enabled);
-    ui_set_check_menu_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
 }
 
 /** \brief  Start playback */
@@ -780,5 +780,5 @@ void actions_vsid_setup_ui(void)
 
     /* Override PSID settings */
     resources_get_int("PSIDKeepEnv", &enabled);
-    ui_set_check_menu_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
+    vhk_gtk_set_check_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
 }

@@ -739,6 +739,10 @@ void mem_initialize_memory(void)
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 }
 
+/*
+ * TODO: does an indirect write to $0000 or $0001 write
+ * to RAM or into the banking register?
+ */
 void mem_initialize_memory_bank(int i)
 {
     int j;

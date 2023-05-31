@@ -153,7 +153,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/arch/shared/socketdrv \
 	-I$(top_srcdir)/src/hvsc \
 	-I$(top_srcdir)/src/lib/linenoise-ng \
-	-I$(top_srcdir)/src/cart
+	-I$(top_srcdir)/src/cart \
+	-I$(top_srcdir)/src/arch/shared/hotkeys
 
 noinst_HEADERS = \
 	6510core.h \
@@ -570,6 +571,9 @@ drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
+if !USE_HEADLESSUI
+hotkeys_lib = $(top_builddir)/src/arch/shared/hotkeys/libhotkeys.a
+endif
 hwsiddrv_lib = $(top_builddir)/src/arch/shared/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
@@ -663,7 +667,8 @@ vsid_libs =  \
 	$(joystickdrv_lib) \
 	$(hvsc_lib) \
 	$(datasette_lib) \
-	$(vsidstubs_lib)
+	$(vsidstubs_lib) \
+	$(hotkeys_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)
@@ -713,7 +718,8 @@ x64_libs =  \
 	$(imagecontents_lib) \
 	$(c64stubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64_RES)
@@ -762,7 +768,8 @@ x64sc_libs =  \
 	$(imagecontents_lib) \
 	$(c64scstubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64SC_RES)
@@ -818,7 +825,8 @@ x64dtv_libs =  \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
 	$(rtc_lib) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
@@ -867,7 +875,8 @@ xscpu64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XSCPU64_RES)
@@ -920,7 +929,8 @@ x128_libs =  \
 	$(imagecontents_lib) \
 	$(c128stubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X128_RES)
@@ -967,7 +977,8 @@ xvic_libs =  \
 	$(imagecontents_lib) \
 	$(vic20stubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ $(XVIC_RES)
@@ -1013,7 +1024,8 @@ xpet_libs =  \
 	$(petstubs_lib) \
 	$(resid_libs) \
 	$(rtc_lib) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPET_RES)
@@ -1062,7 +1074,8 @@ xplus4_libs =  \
 	$(joystickdrv_lib) \
 	$(plus4stubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPLUS4_RES)
@@ -1109,7 +1122,8 @@ xcbm2_libs = \
 	$(xcbm2stubs_lib) \
 	$(resid_libs) \
 	$(rtc_lib) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM2_RES)
@@ -1156,7 +1170,8 @@ xcbm5x0_libs = \
 	$(joystickdrv_lib) \
 	$(xcbm5x0stubs_lib) \
 	$(resid_libs) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(hotkeys_lib)
 
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM5x0_RES)

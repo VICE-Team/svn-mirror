@@ -63,8 +63,12 @@
 #include "types.h"
 #include "uiapi.h"
 #include "uiactions.h"
+#include "uihotkeys.h"
 #include "util.h"
 #include "version.h"
+#ifndef USE_HEADLESSUI
+#include "vhkmap.h"
+#endif
 #include "video.h"
 #include "vsyncapi.h"
 
@@ -267,7 +271,16 @@ int main_program(int argc, char **argv)
      * init so the UI code can register handlers */
     if (!console_mode && !help_requested) {
         ui_actions_init();
+#ifndef USE_HEADLESSUI
+        /* also initialize the hotkeys resources/cmdline */
+        ui_hotkeys_resources_init();
+        ui_hotkeys_cmdline_options_init();
+#endif
     }
+    /* Clear vhk mappings, needs to happen before any menus are created */
+#ifndef USE_HEADLESSUI
+    vhk_map_init_mappings();
+#endif
 
     /* Initialize the user interface.  `ui_init_with_args()' might need to handle the
        command line somehow, so we call it before parsing the options.
