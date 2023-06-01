@@ -35,7 +35,7 @@
 
 #include "vhkmap.h"
 
-#define DEBUG_VHK
+/* #define DEBUG_VHK */
 #include "vhkdebug.h"
 
 #define ARRAY_LEN(arr)  (sizeof (arr) / sizeof (arr[0]) )

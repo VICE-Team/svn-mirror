@@ -99,7 +99,9 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
  */
 static void on_menu_item_activate(GtkWidget *item, gpointer action_id)
 {
+#if 0
     debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
+#endif
     ui_action_trigger(GPOINTER_TO_INT(action_id));
 }
 
@@ -250,11 +252,8 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
                 if (window_id == PRIMARY_WINDOW) {
                     vhk_map = vhk_map_get(items[i].action_id);
                     if (vhk_map != NULL) {
-                        printf("%s(): setting vhk_map->user_data\n", __func__);
                         arch_map = vhk_map->user_data;
                         if (arch_map == NULL) {
-                            printf("%s(): creating new arch_map with decl &items[%zu]\n",
-                                    __func__, i);
                             arch_map = vhk_gtk_map_new(&items[i]);
                             vhk_map->user_data = arch_map;
                         }
@@ -273,7 +272,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
                 }
 
                 if (vhk_map != NULL) {
-                    debug_gtk3("setting menu item %p", (const void *)item);
                     vhk_map->menu_item[window_id] = item;
                 }
                 if (arch_map != NULL) {

@@ -157,9 +157,10 @@ static void set_menu_item_accel(GtkWidget *item,
 {
     GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 
+#if 0
     debug_gtk3("called with keysym %04x, mask %08x, item = %p",
                arch_keysym, arch_modmask, (const void*)item);
-
+#endif
     if (label != NULL) {
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), arch_keysym, arch_modmask);
     }
@@ -534,7 +535,7 @@ uint32_t ui_hotkeys_arch_modmask_to_arch(uint32_t vice_modmask)
     uint32_t bit  = 0;
 
     while (vice_modmask != 0) {
-        printf("%s(): vice_modmask = %08x\n", __func__, vice_modmask);
+        /* printf("%s(): vice_modmask = %08x\n", __func__, vice_modmask);*/
         /* add UI modifier translated from VICE modifier */
         mask |= ui_hotkeys_arch_modifier_to_arch(vice_modmask & (1u << bit));
         /* clear VICE modifier */
@@ -584,21 +585,27 @@ void ui_hotkeys_arch_install_by_map(vhk_map_t *map)
             unlocked = item_decl->unlocked;
         }
     }
+#if 0
     debug_gtk3("connecting accelerator");
+#endif
     connect_accelerator(map->action,
                         map->arch_keysym,
                         map->arch_modmask,
                         unlocked);
 
     if (map->menu_item[PRIMARY_WINDOW] != NULL) {
+#if 0
         debug_gtk3("got primary menu item");
+#endif
         set_menu_item_accel(map->menu_item[PRIMARY_WINDOW],
                             map->arch_keysym,
                             map->arch_modmask);
     }
     /* x128 */
     if (map->menu_item[SECONDARY_WINDOW] != NULL) {
+#if 0
         debug_gtk3("got secondary menu item");
+#endif
         set_menu_item_accel(map->menu_item[SECONDARY_WINDOW],
                             map->arch_keysym,
                             map->arch_modmask);
@@ -609,11 +616,12 @@ void ui_hotkeys_arch_install_by_map(vhk_map_t *map)
 /* Remove hotkey, see src/uiapi.h for docblock */
 void ui_hotkeys_arch_remove_by_map(vhk_map_t *map)
 {
+#if 0
     printf("%s(): action = %d (%s)\n",
            __func__, map->action, ui_action_get_name(map->action));
     printf("%s(): vice keysym/modmask: %04x/%08x, arch keysym/modmask: %04x/%08x\n",
            __func__, map->vice_keysym, map->vice_modmask, map->arch_keysym, map->arch_modmask);
-
+#endif
     /* remove accelator from Gtk accel group */
     vhk_gtk_remove_accelerator(map->arch_keysym, map->arch_modmask);
 
