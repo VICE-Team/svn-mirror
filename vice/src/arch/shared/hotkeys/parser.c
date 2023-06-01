@@ -43,7 +43,7 @@
 #include "parser.h"
 
 
-#define DEBUG_VHK
+/* #define DEBUG_VHK */
 #include "vhkdebug.h"
 
 

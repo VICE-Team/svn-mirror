@@ -55,7 +55,7 @@
 #include "uihotkeys.h"
 
 /* to disable debugging, uncomment the #define, but keep the #include: */
-#define DEBUG_VHK
+/* #define DEBUG_VHK */
 #include "vhkdebug.h"
 
 
@@ -192,7 +192,7 @@ int ui_hotkeys_cmdline_options_init(void)
  */
 void ui_hotkeys_init(const char *prefix)
 {
-    vhk_log = log_open("Hotkeys (new API)");
+    vhk_log = log_open("Hotkeys");
     log_message(vhk_log, "Initializing hotkeys.");
     if (prefix == NULL || *prefix == '\0') {
         log_error(vhk_log,
@@ -245,15 +245,15 @@ void ui_hotkeys_load_default(void)
     char *filename = ui_hotkeys_vhk_filename_vice();
 
     log_message(vhk_log,
-                "Hotkeys: parsing default file '%s' for machine %s",
+                "parsing default file '%s' for machine %s",
                 filename, machine_name);
 
     if (ui_hotkeys_parse(filename)) {
-        log_message(vhk_log, "Hotkeys: OK.");
+        log_message(vhk_log, "OK.");
         /* clear the custom hotkeys file resource */
         resources_set_string("HotkeyFile", "");
     } else {
-        log_message(vhk_log, "Hotkeys: Failed, continuing anyway.");
+        log_message(vhk_log, "failed, continuing anyway.");
     }
 
     lib_free(filename);
