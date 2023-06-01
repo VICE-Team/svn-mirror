@@ -39,6 +39,6 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = keysymtable.c
 
-keysymtable.c: $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_srcdir)/src/buildtools/genkeysymtable.awk
+keysymtable.c: $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_srcdir)/src/buildtools/genkeysymtable.awk $(top_srcdir)/src/buildtools/genkeysymtable.sh
 	@echo "Generating $(top_builddir)/src/arch/shared/hotkeys/keysymtable.c"
-	@$(AWK) -f $(top_srcdir)/src/buildtools/genkeysymtable.awk $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h > $(top_builddir)/src/arch/shared/hotkeys/keysymtable.c
+	@$(SHELL) $(top_srcdir)/src/buildtools/genkeysymtable.sh $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_builddir)/src/arch/shared/hotkeys/keysymtable.c
