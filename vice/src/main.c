@@ -66,9 +66,6 @@
 #include "uihotkeys.h"
 #include "util.h"
 #include "version.h"
-#ifndef USE_HEADLESSUI
-#include "vhkmap.h"
-#endif
 #include "video.h"
 #include "vsyncapi.h"
 

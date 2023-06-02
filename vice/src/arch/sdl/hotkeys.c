@@ -31,8 +31,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "vhkmap.h"
 #include "uiapi.h"
+#include "uihotkeys.h"
 
 #include "hotkeys.h"
 
