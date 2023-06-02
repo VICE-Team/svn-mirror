@@ -349,7 +349,7 @@ function add_vpath {
 		then
 			echo "$vpath/$file"
 		else
-			>&2 echo "Warning, can't find $file in $(pwd)"
+			>&2 echo "$(tput bold)Warning, can't find $file in $(pwd)$(tput sgr0)"
 		fi
 	done
 }
@@ -415,6 +415,17 @@ function process_source_makefile {
 	
 	pushdq $dir
 
+	#
+	# Generate any necessary sources, they may be listed
+	#
+
+	local generated_sources=$(extract_make_var BUILT_SOURCES)
+	if [ ! -z "$generated_sources" ]
+	then
+		echo "Generating sources in $(project_relative_folder): $generated_sources"
+		make -s $generated_sources
+	fi
+
 	echo -n "Creating $(project_relative_folder)/CMakeLists.txt ("
 	touch CMakeLists.txt
 
@@ -479,17 +490,6 @@ function process_source_makefile {
 	done
 
 	echo ")"
-
-	#
-	# Generate any necessary sources
-	#
-
-	local generated_sources=$(extract_make_var BUILT_SOURCES)
-	if [ ! -z "$generated_sources" ]
-	then
-		echo "- generating sources in $(project_relative_folder): $generated_sources"
-		make -s $generated_sources
-	fi
 
 	#
 	# Let cmake know about subdirs
