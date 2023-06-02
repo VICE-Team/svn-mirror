@@ -14,7 +14,7 @@ usage()
     echo "Usage: $(basename $0) <path-to-vhkkeysyms.h> <output-file>"
     echo ""
     echo "For example: $(basename $0) src/arch/shared/hotkeys/vhkkeysyms.h \\"
-    echo "                               src/arch/shared/hotkeys/keysymtable.c"
+    echo "                               src/arch/shared/hotkeys/keysymtable.h"
 }
 
 
