@@ -63,7 +63,7 @@ static const vhk_modifier_t vhk_modifier_list[] = {
 
 
 /* include generated keysyms table: static vhk_key_t keys[] */
-#include "keysymtable.c"
+#include "keysymtable.h"
 
 
 /** \brief  Comparison function for bsearch(3)

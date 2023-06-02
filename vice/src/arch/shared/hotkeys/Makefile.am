@@ -33,12 +33,12 @@ EXTRA_DIST = \
 	parser.h \
 	textfilereader.h \
 	vhkdebug.h \
-	vhkeysyms.h \
+	vhkkeysyms.h \
 	vhkmap.h \
 	uihotkeys.h
 
-BUILT_SOURCES = keysymtable.c
+BUILT_SOURCES = keysymtable.h
 
-keysymtable.c: $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_srcdir)/src/buildtools/genkeysymtable.awk $(top_srcdir)/src/buildtools/genkeysymtable.sh
-	@echo "Generating $(top_builddir)/src/arch/shared/hotkeys/keysymtable.c"
-	@$(SHELL) $(top_srcdir)/src/buildtools/genkeysymtable.sh $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_builddir)/src/arch/shared/hotkeys/keysymtable.c
+keysymtable.h: $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_srcdir)/src/buildtools/genkeysymtable.awk $(top_srcdir)/src/buildtools/genkeysymtable.sh
+	@echo "Generating $(top_builddir)/src/arch/shared/hotkeys/keysymtable.h"
+	@$(SHELL) $(top_srcdir)/src/buildtools/genkeysymtable.sh $(top_srcdir)/src/arch/shared/hotkeys/vhkkeysyms.h $(top_builddir)/src/arch/shared/hotkeys/keysymtable.h
