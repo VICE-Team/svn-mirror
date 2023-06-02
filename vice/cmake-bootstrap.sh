@@ -345,8 +345,11 @@ function add_vpath {
 		if [ -f "$file" ]
 		then
 			echo "$file"
-		else
+		elif [ -f "$vpath/$file" ]
+		then
 			echo "$vpath/$file"
+		else
+			>&2 echo "Warning, can't find $file in $(pwd)"
 		fi
 	done
 }
