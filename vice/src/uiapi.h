@@ -107,20 +107,14 @@ void ui_display_joyport(uint16_t *joyport);
 /* Volume UI */
 void ui_display_volume(int vol);
 
-/* Hotkeys */
 
-#include "arch/shared/hotkeys/hotkeystypes.h"
-
-void ui_hotkeys_arch_init(void);
-
-/* New hotkeys API (in src/arch/shared)
+/* Hotkeys
  *
- * Some identifiers will be changed once conflicting identifiers in the Gtk3
- * UI code have been removed. Conflicting identifiers will use a `ui_arch_`
- * prefix unti then.
+ * The following are functions that are required to be implemented by an arch
+ * and/or UI using the hotkeys API in src/arch/shared/hotkeys/.
  */
 
-/* virtual methods */
+#include "arch/shared/hotkeys/hotkeystypes.h"
 
 /** \brief  Run UI-specific hotkeys initialization code
  *
@@ -177,18 +171,58 @@ void ui_hotkeys_arch_update_by_map(vhk_map_t *map,
  */
 void ui_hotkeys_arch_remove_by_map(vhk_map_t *map);
 
-/*
- * Functions translating between VICE and arch keysysm and modifiers
+/* Functions translating between VICE and arch keysysm and modifiers
  *
  * TODO: Decide if we need to have both functions for single modifiers and
  *       modifier masks (combined modifiers).
  */
 
+/** \brief  Translate arch keysym to VICE keysysm
+ *
+ * \param[in]   arch_keysym arch keysym
+ *
+ * \return  VICE keysym
+ */
 uint32_t ui_hotkeys_arch_keysym_from_arch  (uint32_t arch_keysym);
+
+/** \brief  Translate VICE keysym to arch keysysm
+ *
+ * \param[in]   vice_keysym VICE keysym
+ *
+ * \return  arch keysym
+ */
 uint32_t ui_hotkeys_arch_keysym_to_arch    (uint32_t vice_keysym);
+
+/** \brief  Translate arch modifier to VICE modifier
+ *
+ * \param[in]   arch_mod    arch modifier
+ *
+ * \return  VICE modifier
+ */
 uint32_t ui_hotkeys_arch_modifier_from_arch(uint32_t arch_mod);
+
+/** \brief  Translate VICE modifier to arch modifier
+ *
+ * \param[in]   vice_mod    VICE modifier
+ *
+ * \return  arch modifier
+ */
 uint32_t ui_hotkeys_arch_modifier_to_arch  (uint32_t vice_mod);
+
+/** \brief  Translate arch modifier mask to VICE modifier mask
+ *
+ * \param[in]   arch_modmask    arch modifier mask
+ *
+ * \return  VICE modifier mask
+ */
 uint32_t ui_hotkeys_arch_modmask_from_arch (uint32_t arch_modmask);
+
+/** \brief  Translate VICE modifier mask to arch modifier
+ *
+ * \param[in]   vice_modmask    VICE modifier mask
+ *
+ * \return  arch modifier mask
+ */
 uint32_t ui_hotkeys_arch_modmask_to_arch   (uint32_t vice_modmask);
 
 #endif
