@@ -49,8 +49,6 @@
 #include "uimenu.h"
 #include "uitypes.h"
 #include "util.h"
-#include "vhkkeysyms.h"
-#include "vhkmap.h"
 
 #include "settings_hotkeys.h"
 

@@ -27,9 +27,14 @@
 #ifndef VICE_HOTKEYS_UIHOTKEYS_H
 #define VICE_HOTKEYS_UIHOTKEYS_H
 
+#ifndef USE_HEADLESSUI
+
 #include <stdbool.h>
 #include <stdint.h>
+
 #include "hotkeystypes.h"
+#include "vhkkeysyms.h"
+#include "vhkmap.h"
 
 
 void        ui_hotkeys_init    (const char *prefix);
@@ -56,4 +61,5 @@ void        ui_hotkeys_load_default(void);
 char       *ui_hotkeys_vhk_filename_vice(void);
 char       *ui_hotkeys_vhk_filename_user(void);
 
+#endif  /* ifndef USE_HEADLESS_UI */
 #endif

@@ -55,8 +55,6 @@
 #include "uimenu.h"
 #include "util.h"
 #include "version.h"
-#include "vhkkeysyms.h"
-#include "vhkmap.h"
 #include "vice_gtk3.h"
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
