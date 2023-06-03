@@ -496,7 +496,7 @@ ui_action_info_t *ui_action_get_info_list(void)
     /* create list of valid actions */
     list = lib_malloc((valid + 1) * sizeof *list);
     action = action_info_list;
-    while (action-> name != NULL) {
+    while (action->name != NULL) {
         if (is_current_machine_action(action)) {
             list[index].id = action->id;
             list[index].name = action->name;
@@ -722,17 +722,9 @@ int ui_action_id_drive_detach(int unit, int drive)
 
 /** \brief  List of mappings of action IDs to handlers
  *
- * Will be allocated and reallocated when adding mappings.
+ * A simple array indexed by action ID
  */
-static ui_action_map_t *action_mappings;
-
-/** \brief  Size of the mappings array in elements
- */
-static size_t action_mappings_size = 0;
-
-/** \brief  Number of elements in the mappings array
- */
-static size_t action_mappings_count = 0;
+static ui_action_map_t action_mappings[ACTION_ID_COUNT];
 
 /** \brief  Flag indicating a dialog is active
  *
@@ -753,21 +745,16 @@ static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
  *
  * \param[in]   action  action ID
  *
- * \return  action mapping or `NULL` when not found
+ * \return  action mapping or `NULL` when no handler registered
  */
 static ui_action_map_t *find_action_map(int action)
 {
-    ui_action_map_t *map = action_mappings;
-
     if (action < ACTION_NONE || action >= ACTION_ID_COUNT) {
         return NULL;
     }
 
-    while (map->action > ACTION_NONE) {
-        if (map->action == action) {
-            return map;
-        }
-        map++;
+    if (action_mappings[action].handler != NULL) {
+        return &action_mappings[action];
     }
     return NULL;
 }
@@ -782,12 +769,19 @@ static ui_action_map_t *find_action_map(int action)
 void ui_actions_init(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDLUI) || defined(USE_SDL2UI)
-    action_mappings_size = 64;
-    action_mappings_count = 0;
-    action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
-    /* properly terminate list, when adding an action we first scan the list
-     * if the action is already registered */
-    action_mappings[0].action = ACTION_NONE;
+    int action;
+
+    for (action = 0; action < ACTION_ID_COUNT; action++) {
+        ui_action_map_t *map = &action_mappings[action];
+
+        /* initialize elements */
+        map->action   = action; /* needed when passing a pointer into the array */
+        map->handler  = NULL;
+        map->blocks   = false;
+        map->dialog   = false;
+        map->uithread = false;
+        map->is_busy  = false;
+    }
 #endif
 }
 
@@ -809,17 +803,9 @@ void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
 void ui_actions_shutdown(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDLUI) || defined(USE_SDL2UI)
-    if (action_mappings != NULL) {
-        lib_free(action_mappings);
-        action_mappings = NULL;
-    }
 #endif
 }
 
-const ui_action_map_t *ui_actions_get_registered(void)
-{
-    return action_mappings;
-}
 
 /** \brief  Register UI action implementations
  *
@@ -835,7 +821,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
         ui_action_map_t *entry;
 
         /* first check if the action is already registered */
-        if (find_action_map(map->action) != NULL) {
+        if (action_mappings[map->action].handler != NULL) {
             log_error(LOG_ERR,
                       "Handler for action %d (%s) already present, skipping.",
                       map->action, ui_action_get_name(map->action));
@@ -843,26 +829,13 @@ void ui_actions_register(const ui_action_map_t *mappings)
             continue;
         }
 
-        /* do we need to reallocate the array? (-1 for the terminator) */
-        if ((action_mappings_size - 1) == action_mappings_count) {
-            /* yup, double its size */
-            action_mappings_size *= 2;
-            action_mappings = lib_realloc(action_mappings,
-                                          sizeof *action_mappings * action_mappings_size);
-        }
-
-        entry = &action_mappings[action_mappings_count];
-        entry->action  = map->action;
-        entry->handler = map->handler;
-        entry->blocks  = map->blocks;
-        entry->dialog  = map->dialog;
+        entry = &action_mappings[map->action];
+        entry->action   = map->action;
+        entry->handler  = map->handler;
+        entry->blocks   = map->blocks;
+        entry->dialog   = map->dialog;
         entry->uithread = map->uithread;
-        entry->is_busy = false;
-
-        action_mappings_count++;
-        /* terminate list: needs to happen inside the loop since we search
-         * the array to determine if an action is already registered */
-        action_mappings[action_mappings_count].action  = ACTION_NONE;
+        entry->is_busy  = false;
 
         map++;;
     }

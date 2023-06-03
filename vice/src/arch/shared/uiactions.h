@@ -354,7 +354,6 @@ int                     ui_action_id_drive_detach     (int unit, int drive);
 void                    ui_actions_init          (void);
 void                    ui_actions_set_dispatch  (void (*dispatch)(const ui_action_map_t *));
 void                    ui_actions_shutdown      (void);
-const ui_action_map_t * ui_actions_get_registered(void);
 void                    ui_actions_register      (const ui_action_map_t *mappings);
 
 void                    ui_action_trigger        (int action);
