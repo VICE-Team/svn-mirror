@@ -70,6 +70,7 @@ CA1     CB1     B (FLAG2) |  I     device asserts high->low transition when data
 #include "machine.h"
 #include "uiapi.h"
 #include "lib.h"
+#include "util.h"
 
 #ifdef HAVE_LIBCURL
 
@@ -90,6 +91,7 @@ static int userport_wic64_write_snapshot_module(snapshot_t *s);
 static int userport_wic64_read_snapshot_module(snapshot_t *s);
 static int userport_wic64_enable(int value);
 static void userport_wic64_reset(void);
+static int wic64_set_default_server(const char *val, void *p);
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -116,7 +118,6 @@ static userport_device_t userport_wic64_device = {
     userport_wic64_read_snapshot_module   /* snapshot read function */
 };
 
-
 static struct alarm_s *http_get_alarm = NULL;
 static struct alarm_s *tcp_get_alarm = NULL;
 static struct alarm_s *tcp_send_alarm = NULL;
@@ -128,6 +129,13 @@ static void handshake_flag2(void);
 static void send_binary_reply(const uint8_t *reply, size_t len);
 static void send_reply(const char *reply);
 static void userport_wic64_reset(void);
+static char *default_server_hostname = NULL;
+static const resource_string_t wic64_resources[] =
+{
+    { "WIC64DefaultServer", "http://x.wic64.net/", (resource_event_relevant_t)0, NULL,
+      &default_server_hostname, wic64_set_default_server, NULL },
+    RESOURCE_STRING_LIST_END,
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -143,9 +151,18 @@ static int userport_wic64_enable(int value)
     return 0;
 }
 
+static int wic64_set_default_server(const char *val, void *v)
+{
+    util_string_set(&default_server_hostname, val);
+    return 0;
+}
+
 int userport_wic64_resources_init(void)
 {
     userport_wic64_reset();
+    if (resources_register_string(wic64_resources) < 0) {
+        return -1;
+    }
     return userport_device_register(USERPORT_DEVICE_WIC64, &userport_wic64_device);
 }
 
@@ -443,8 +460,6 @@ static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
 
-char default_server_hostname[0x100];
-
 #define FLAG2_ACTIVE    0
 #define FLAG2_INACTIVE  1
 
@@ -525,7 +540,7 @@ static int _encode(char **p, int len)
         (*p)++;
     }
     encoded_helper[enc_it] = '\0';
-    return strlen(encoded_helper);
+    return enc_it;
 }
 
 /* encode binary after escape '$<' */
@@ -587,19 +602,31 @@ static void do_command_01(void)
     char path[COMMANDBUFFER_MAXLEN];
     char temppath[COMMANDBUFFER_MAXLEN];
     char *http_prot = NULL;
+    int i;
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
 
+    /* sanity check if URL is OK in principle */
+    for (i = 0; i < commandptr; i++) {
+        if (!isprint(commandbuffer[i])) {
+            log_message(LOG_DEFAULT,
+                        "WIC64: bad char '0x%02x' detected in URL at offet %d, %s",
+                        commandbuffer[i], i, commandbuffer);
+        }
+    }
+
     /* if url begins with !, replace by default server */
     if (commandbuffer[0] == '!') {
-        DBG(("URL starts with !, default server is: %s", default_server_hostname));
+        const char *sv;
+        resources_get_string("WIC64DefaultServer", &sv);
+        DBG(("URL starts with !, default server is: %s", sv));
         p = temppath;
         /* add the default server address */
-        strcpy(p, default_server_hostname);
-        p += strlen(default_server_hostname);
+        strcpy(p, sv);
+        p += strlen(sv);
         /* copy command buffer */
-        memcpy(p, commandbuffer + 1, COMMANDBUFFER_MAXLEN - strlen(default_server_hostname));
+        memcpy(p, commandbuffer + 1, COMMANDBUFFER_MAXLEN - strlen(sv));
         /* copy back to commandbuffer buffer */
         memcpy(commandbuffer, temppath, COMMANDBUFFER_MAXLEN);
     }
@@ -645,11 +672,13 @@ static void do_command_01(void)
     /* replace "%ser" by the default server */
     p = strstr(path, "%ser");
     if (p != NULL) {
+        const char *sv;
+        resources_get_string("WIC64DefaultServer", &sv);
         /* copy string before %ser */
         strncpy(temppath, path, p - path);
         temppath[p - path] = 0;
         /* add the default server address */
-        strcat(temppath, default_server_hostname);
+        strcat(temppath, sv);
         /* copy string after %ser */
         strcat(temppath, p + 4);
         /* copy back to path buffer */
@@ -709,7 +738,7 @@ static void do_command_07(void)
 static void do_command_08(void)
 {
     DBG(("%s: set default server", __FUNCTION__));
-    strcpy(default_server_hostname, (char*)commandbuffer);
+    resources_set_string("WIC64DefaultServer", (char *)commandbuffer);
     /* this command sends no reply */
 }
 
@@ -786,8 +815,10 @@ static void do_command_11(void)
 /* get default server */
 static void do_command_12(void)
 {
+    const char *sv;
+    resources_get_string("WIC64DefaultServer", &sv);
     DBG(("%s: get default server", __FUNCTION__));
-    send_reply(default_server_hostname);
+    send_reply(sv);
 }
 
 /* get external ip address */
