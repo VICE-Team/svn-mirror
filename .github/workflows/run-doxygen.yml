@@ -5,7 +5,7 @@ on:
     - cron: '0 4 * * *'
   # Allow manually running
   workflow_dispatch:
-concurreny:
+concurrency:
   group: Run Doxygen
   cancel-in-progress: true
 
