@@ -1,0 +1,40 @@
+name: Run Doxygen
+on:
+  schedule:
+    # Every day at 04:00 UTC
+    - cron: '0 4 * * *'
+  # Allow manually running
+  workflow_dispatch:
+concurreny:
+  group: Run Doxygen
+  cancel-in-progress: true
+
+jobs:
+  mkdoxy:
+    name: Generate HTML docs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Install Doxygen and dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y doxygen
+
+      - name: Run mkdoxy.sh Script
+        shell: bash
+        run: |
+          cd vice/doc
+          ./mkdoxy.sh
+
+      - name: Report Failure
+        env:
+          IRC_PASS: ${{ secrets.IRC_PASS }}
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          ./vice/build/github-actions/irc-message.sh "Running Doxygen failed."
