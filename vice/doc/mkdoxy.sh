@@ -64,6 +64,11 @@ INPUT+=" mainpage.dox"
 
 ARCH_INPUT=" ../src/arch"
 ARCH_INPUT+=" ../src/arch/shared"
+ARCH_INPUT+=" ../src/arch/shared/hotkeys"
+ARCH_INPUT+=" ../src/arch/shared/hwsiddrv"
+ARCH_INPUT+=" ../src/arch/shared/mididrv"
+ARCH_INPUT+=" ../src/arch/shared/socketdrv"
+ARCH_INPUT+=" ../src/arch/shared/sounddrv"
 
 ARCH_GTK3_INPUT=" ../src/arch/gtk3"
 ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets"
@@ -99,16 +104,7 @@ INPUT+=" ../src/video"
 
 # external libs
 LIB_INPUT=" ../src/lib"
-LIB_INPUT+=" ../src/lib/libffmpeg"
-LIB_INPUT+=" ../src/lib/libffmpeg/libavcodec"
-LIB_INPUT+=" ../src/lib/libffmpeg/libavdevice"
-LIB_INPUT+=" ../src/lib/libffmpeg/libavformat"
-LIB_INPUT+=" ../src/lib/libffmpeg/libavutil"
-LIB_INPUT+=" ../src/lib/libffmpeg/libswscale"
-# FIXME: add subdirs
-LIB_INPUT+=" ../src/lib/liblame"
-# FIXME: add subdirs
-LIB_INPUT+=" ../src/lib/libx264"
+LIB_INPUT+=" ../src/lib/linenoise-ng"
 LIB_INPUT+=" ../src/lib/p64"
 
 # chips
@@ -135,6 +131,7 @@ C64_INPUT+=" ../src/drive/ieee"
 C64_INPUT+=" ../src/drive/tcbm"
 
 C128_INPUT=" ../src/c128"
+C128_INPUT+=" ../src/c128/cart"
 C128_INPUT+=" ../src/drive/iec128dcr"
 C128_INPUT+=" ../src/drive/iecieee"
 C128_INPUT+=" ../src/drive/ieee"
@@ -146,6 +143,7 @@ DTV_INPUT+=" ../src/drive/ieee"
 DTV_INPUT+=" ../src/drive/tcbm"
 
 CBM2_INPUT=" ../src/cbm2"
+CBM2_INPUT+=" ../src/cbm2/cart"
 CBM2_INPUT+=" ../src/drive/iecieee"
 CBM2_INPUT+=" ../src/drive/ieee"
 CBM2_INPUT+=" ../src/drive/tcbm"
@@ -156,6 +154,7 @@ PET_INPUT+=" ../src/drive/ieee"
 PET_INPUT+=" ../src/drive/tcbm"
 
 PLUS4_INPUT=" ../src/plus4"
+PLUS4_INPUT+=" ../src/plus4/cart"
 PLUS4_INPUT+=" ../src/drive/iec/plus4exp"
 PLUS4_INPUT+=" ../src/drive/iecieee"
 PLUS4_INPUT+=" ../src/drive/ieee"
@@ -169,9 +168,9 @@ VIC20_INPUT+=" ../src/drive/tcbm"
 
 C1541_INPUT=" ../src"
 
-CARTCONV_INPUT=" ../src"
+CARTCONV_INPUT=" ../src/tools/cartconv"
 
-PETCAT_INPUT=" ../src"
+PETCAT_INPUT=" ../src/tools/petcat"
 
 # machine
 case "$1" in
@@ -281,17 +280,12 @@ function getexcludes
 ALWAYS_EXCLUDE=" ../src/monitor/mon_lex.c"
 ALWAYS_EXCLUDE+=" ../src/monitor/mon_parse.c"
 
-ARCH_LINUX_EXCLUDE=" ../src/sounddrv/soundaix.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundbeos.cc"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundallegro.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundhpux.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundsgi.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundsun.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundcoreaudio.c"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundmmos2.c"
-ARCH_LINUX_EXCLUDE+=" ../src/gfxoutputdrv/quicktimedrv.c"
-ARCH_LINUX_EXCLUDE+=" ../src/gfxoutputdrv/quicktimedrv.h"
-ARCH_LINUX_EXCLUDE+=" ../src/video/render1x1_dingoo.h"
+ARCH_LINUX_EXCLUDE=" ../src/arch/shared/sounddrv/soundbeos.cc"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/sounddrv/soundbsp.cc"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/sounddrv/soundcoreaudio.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/sounddrv/sounddx.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/sounddrv/soundsun.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/sounddrv/soundwmm.c"
 # FIXME: add non unix GTK3 stuff
 ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/archdep_win32.c"
 ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/archdep_win32.h"
@@ -312,8 +306,16 @@ ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/rs232-win32-dev.c"
 # FIXME: add non unix SDL stuff
 
 # FIXME: add non unix shared stuff
-ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/dynlib-win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_haiku.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_haiku.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_macos_bindist.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_macos_bindist.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_windows_nt.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_is_windows_nt.h"
 ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_win32.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/dynlib-win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/macOS-util.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/macOS-util.m"
 ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/rawnetarch_win32.c"
 ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/rs232-win32-dev.c"
 
@@ -562,16 +564,8 @@ TOOLSEXCLUDE+=" ../src/tapeport"
 TOOLSEXCLUDE+=" ../src/userport"
 TOOLSEXCLUDE+=" ../src/video"
 TOOLSEXCLUDE+=" ../src/lib"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavcodec"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavdevice"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavformat"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavutil"
-TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libswscale"
+TOOLSEXCLUDE+=" ../src/lib/linenoise-ng"
 # FIXME: add subdirs
-TOOLSEXCLUDE+=" ../src/lib/liblame"
-# FIXME: add subdirs
-TOOLSEXCLUDE+=" ../src/lib/libx264"
 TOOLSEXCLUDE+=" ../src/lib/p64"
 
 TOOLSEXCLUDE+=" ../src/arch/gtk3"
