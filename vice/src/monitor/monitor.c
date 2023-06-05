@@ -92,6 +92,13 @@
 #include "video.h"
 #include "vsync.h"
 
+/*
+   INITBREAK switched to a break point so that the first instruction doesn't
+   run when '-initbreak reset' is used.
+   Will keep the old code in for awhile incase something breaks somewhere.
+*/
+/* #define TRAP_INITBREAK */
+
 int mon_stop_output;
 
 enum init_break_mode_t {
@@ -363,7 +370,9 @@ void monitor_reset_hook(void)
     if (init_break_mode == ON_RESET) {
         init_break_mode = NONE;
 
+#ifdef TRAP_INITBREAK
         monitor_startup_trap();
+#endif
     }
 }
 
@@ -1568,6 +1577,12 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
             mon_breakpoint_add_checkpoint((uint16_t)init_break_address, BAD_ADDR,
                     true, e_exec, false, true);
         }
+#ifndef TRAP_INITBREAK
+    } else if (init_break_mode == ON_RESET) {
+        mon_breakpoint_add_checkpoint((uint16_t)0, (uint16_t)0xffff,
+                true, e_exec, true, false);
+        exit_mon = 0;
+#endif
     }
 }
 
