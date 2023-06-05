@@ -308,10 +308,10 @@ static void update_prefs(uint8_t *buffer, size_t len)
 {
     /* manage preferences in memory only for now */
     DBG(("%s: requested", __FUNCTION__));
-    hexdump((char *)buffer, len);
+    hexdump((char *)buffer, (int)len);
     char *t;
     char *p;
-    char *pref;
+    char *pref = NULL;
     char *val = "";
     char *ret = "";
 
@@ -566,7 +566,7 @@ static void do_command_0f(void)
     while ((len < COMMANDBUFFER_MAXLEN) &&
            ((p = strstr(cptr, "<$")) != NULL) &&
            (cptr < endmarker)) {
-        l = (p - cptr);
+        l = (int)(p - cptr);
         len += l;
         DBG(("%s: escape sequence found, offset %d", __FUNCTION__, len));
 
@@ -585,8 +585,8 @@ static void do_command_0f(void)
     l = 0;
     if (cptr < endmarker) {
         /* copy remaining commandbuffer */
-        l = endmarker - cptr;
-        memcpy(temppath + len, cptr, l);
+        l = (int)(endmarker - cptr);
+        memcpy(temppath + len, cptr, (size_t)l);
     }
     commandptr = len + l;
     memcpy(commandbuffer, temppath, commandptr);
