@@ -27,6 +27,8 @@
 #ifndef VICE_C128MEMLIMIT_H
 #define VICE_C128MEMLIMIT_H
 
+#if 0
 void mem_limit_init(int mem_read_limit_tab[256][0x101]);
+#endif
 
 #endif

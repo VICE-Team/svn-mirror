@@ -46,5 +46,6 @@ void external_function_rom_set_bank(int value);
 uint8_t external_function_rom_read(uint16_t addr);
 void external_function_rom_store(uint16_t addr, uint8_t value);
 void external_function_top_shared_store(uint16_t addr, uint8_t value);
+uint8_t external_function_rom_peek(uint16_t addr);
 
 #endif

@@ -65,6 +65,10 @@
 #define DBGKEY(x)
 #endif
 
+#define NUM_CONFIGS64  32
+#define NUM_CONFIGS128 256
+#define NUM_CONFIGS (NUM_CONFIGS64+NUM_CONFIGS128)
+
 /* MMU register.  */
 uint8_t mmu[12];
 
@@ -249,16 +253,18 @@ static void mmu_switch_cpu(int value)
 #ifdef MMU_DEBUG
         log_message(mmu_log, "Switching to 8502 CPU.");
 #endif
+        monitor_cpu_type_set_value(CPU_6502);
         z80_trigger_dma();
     } else {
 #ifdef MMU_DEBUG
         log_message(mmu_log, "Switching to Z80 CPU.");
 #endif
+        monitor_cpu_type_set_value(CPU_Z80);
         interrupt_trigger_dma(maincpu_int_status, maincpu_clk);
     }
 }
 
-static void mmu_set_ram_bank(uint8_t value)
+void mmu_set_ram_bank(uint8_t value)
 {
     if (c128_full_banks) {
         ram_bank = mem_ram + (((long)value & 0xc0) << 10);
@@ -351,7 +357,7 @@ static void mmu_switch_to_c64mode(void)
         mmu_update_page01_pointers();
     }
     machine_tape_init_c64();
-    mem_update_config(0x80 + mmu_config64);
+    mem_update_config(mmu_config64);
     if (in_c64_mode != 1) {
         mem_initialize_go64_memory_bank(mmu[6]);
         if (c128_full_banks) {
@@ -374,11 +380,7 @@ static void mmu_switch_to_c128mode(void)
     log_message(mmu_log, "mmu_switch_to_c128mode\n");
 #endif
     machine_tape_init_c128();
-    mem_update_config(((mmu[0] & 0x2) ? 0 : 1) |
-                      ((mmu[0] & 0x0c) >> 1) |
-                      ((mmu[0] & 0x30) >> 1) |
-                      ((mmu[0] & 0x40) ? 32 : 0) |
-                      ((mmu[0] & 0x1) ? 0 : 64));
+    mem_update_config(NUM_CONFIGS64 + mmu[0]);
     z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1) | ((mmu[0] & 0x40) ? 2 : 0) | ((mmu[0] & 0x80) ? 4 : 0));
     if (in_c64_mode != 0) {
         mem_initialize_go64_memory_bank(mmu[6]);

@@ -43,6 +43,8 @@ void mmu_reset(void);
 void mmu_set_config64(int config);
 int mmu_is_c64config(void);
 
+void mmu_set_ram_bank(uint8_t value);
+
 void mmu_init(void);
 int mmu_resources_init(void);
 int mmu_cmdline_options_init(void);

@@ -241,6 +241,8 @@ libc64c128_a_SOURCES = \
 	c64keyboard.h \
 	c64meminit.c \
 	c64meminit.h \
+	c64memlimit.c \
+	c64memlimit.h \
 	c64memrom.c \
 	c64memrom.h \
 	c64printer.c \

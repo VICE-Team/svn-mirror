@@ -657,6 +657,20 @@ void monitor_cpu_type_set(const char *cpu_type)
     }
 }
 
+/* basically above code but faster as the type is passed; used by x128 */
+void monitor_cpu_type_set_value(int searchcpu)
+{
+    monitor_cpu_type_t *monitor_cpu_type_p = NULL;
+
+    if (searchcpu > -1) {
+        monitor_cpu_type_p = monitor_find_cpu_for_memspace(default_memspace, searchcpu);
+    }
+    if (monitor_cpu_type_p) {
+        monitor_cpu_for_memspace[default_memspace] = monitor_cpu_type_p;
+        uimon_notify_change();
+    }
+}
+
 /* return the bank number for a literal bank name in the given memspace.
    returns -1 if the memspace has no banking */
 int mon_banknum_from_bank(MEMSPACE mem, const char *bankname)
