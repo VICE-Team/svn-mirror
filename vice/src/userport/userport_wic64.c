@@ -203,42 +203,43 @@ typedef struct tzones
     char *tz_name;
     int hour_offs;
     int min_offs;
+    int dst;                    /* add DST or not, still not perfekt */
 } tzones_t;
 
 static tzones_t timezones[] = {
-    { 0, "Greenwich Mean Time", 0, 0 },
-    { 1, "Greenwich Mean Time", 0, 0 },
-    { 2, "European Central Time", 1, 0 },
-    { 3, "Eastern European Time", 2, 0 },
-    { 4, "Arabic Egypt Time", 2, 0 },
-    { 5, "Arabic Egypt Time", 2, 0 },
-    { 6, "Arabic Egypt Time", 2, 0 },
-    { 7, "Near East Time", 4, 0 },
-    { 8, "India Standard Time", 4, 30 },
-    { 9, "Dont Know Time", 6, 0 },
-    { 10, "Dont Know Time", 7, 0 },
-    { 11, "Dont Know Time", 8, 0 },
-    { 12, "Dont Know Time", 9, 0 },
-    { 13, "Japan Standard Time", 9, 0 },
-    { 14, "Australia Central Time", 9, 30 },
-    { 15, "Australia Central Time", 10, 0 },
-    { 16, "Dont Know Tme", 11, 0 },
-    { 17, "New Zealand Standart Time", 12, 0 },
-    { 18, "Midway Islands Time", -11, 0 },
-    { 19, "Hawaii Standard Time", -10, 0 },
-    { 20, "Alaska Standard Time", -9, 0 },
-    { 21, "Pacific Standard Time", -8, 0 },
-    { 22, "Phoenix Standard Time", -7, 0 },
-    { 23, "Mountain Standard Time", -7, 0 },
-    { 24, "Central Standard Time", -6, 0 },
-    { 25, "Eastern Standard Time", -5, 0 },
-    { 26, "Indiana Eastern Standard Time", -5, 0 },
-    { 27, "Puerto Rico Virg. Island Time", -4, 0 },
-    { 28, "Canada Newfoundland Time", -3, -30 },
-    { 29, "Dont Know Time", -2, 0 },
-    { 30, "Dont Know Time", -1, 0 },
-    { 31, "Dont Know Time", 0, 0 },
-    { 99, "Juptier Vice Time", -42, 42 },
+    { 0, "Greenwich Mean Time", 0, 0, 1},
+    { 1, "Greenwich Mean Time", 0, 0, 1},
+    { 2, "European Central Time", 1, 0, 1 },
+    { 3, "Eastern European Time", 2, 0, 1 },
+    { 4, "Arabic Egypt Time", 2, 0, 1 },
+    { 5, "Arabic Egypt Time", 2, 0, 1 },
+    { 6, "Arabic Egypt Time", 2, 0, 1 },
+    { 7, "Near East Time", 4, 0, 1 },
+    { 8, "India Standard Time", 5, 30, 0 },
+    { 9, "Dont Know Time", 6, 0, 0 },
+    { 10, "Dont Know Time", 7, 0, 0 },
+    { 11, "China Standard Time", 8, 0, 0 },
+    { 12, "Korean Standard Time", 9, 0, 0 },
+    { 13, "Japan Standard Time", 9, 0, 0},
+    { 14, "Australia Central Time", 9, 30, 0 },
+    { 15, "Australia Eastern Time", 10, 0, 0 },
+    { 16, "Dont Know Tme", 11, 0,0 },
+    { 17, "New Zealand Standart Time", 12, 0, 0 },
+    { 18, "Midway Islands Time", -11, 0, 0 },
+    { 19, "Hawaii Standard Time", -10, 0, 0 },
+    { 20, "Alaska Standard Time", -8, 0, 0 },
+    { 21, "Pacific Standard Time", -7, 0, 0 },
+    { 22, "Phoenix Standard Time", -7, 0, 0 },
+    { 23, "Mountain Standard Time", -6, 0, 0 },
+    { 24, "Central Standard Time", -5, 0, 0 },
+    { 25, "Eastern Standard Time", -4, 0, 0 },
+    { 26, "Indiana Eastern Standard Time", -5, 0, 0 },
+    { 27, "Puerto Rico Virg. Island Time", -4, 0, 0 },
+    { 28, "Canada Newfoundland Time", -2, -30, 0 },
+    { 29, "Dont Know Time", -2, 0, 0 },
+    { 30, "Dont Know Time", -1, 0, 0 },
+    { 31, "Dont Know Time", 0, 0, 0 },
+    { 99, "Juptier Vice Time", -42, 42, 1 },
 };
 static int current_tz = 2;
 
@@ -850,18 +851,17 @@ static void do_command_15(void)
 {
     int dst;
 
-    /* FIXME: should also send time+date (in what format?) */
     DBG(("%s: get timezone + time", __FUNCTION__));
     static char timestr[64];
     long t = time(NULL);
     struct tm *tm = localtime(&t);
     dst = tm->tm_isdst; /* this is somehow wrong, get dst vom target tz */
+    t = t + timezones[current_tz].hour_offs * 3600 +
+        ((dst > 0) ? 3600 : 0) * timezones[current_tz].dst + /* some TZs have DST others not */
+        timezones[current_tz].min_offs * 60;
     tm = gmtime(&t); /* now get the UTC */
-
     snprintf(timestr, 63, "%02d:%02d:%02d %02d-%02d-%04d",
-             (tm->tm_hour + timezones[current_tz].hour_offs + ((dst > 0) ? 1 : 0)) % 24, /* Fixme, wrap arounds */
-             (tm->tm_min + timezones[current_tz].min_offs % 60),
-             tm->tm_sec, tm->tm_mday, tm->tm_mon+1, tm->tm_year + 1900);
+             tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_mday, tm->tm_mon+1, tm->tm_year + 1900);
     send_reply(timestr);
 }
 
@@ -881,22 +881,25 @@ static void do_command_16(void)
     } else {
         DBG(("tzidx = %d - out of range", tzidx));
     }
-    /* FIXME: send a reply or not? */
-    send_reply("Timezone set");
+    /* no reply */
 }
 
 /* get timezone */
 static void do_command_17(void)
 {
+    char buf[16];
     DBG(("%s: get timezone", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    send_reply(timezones[current_tz].tz_name);
+    snprintf(buf, 16, "%d",
+            timezones[current_tz].hour_offs * 3600 +
+            timezones[current_tz].min_offs * 60);
+    send_reply(buf);
 }
 
 /* check update */
 static void do_command_18(void)
 {
-    DBG(("%s: check updatee", __FUNCTION__));
+    DBG(("%s: check update", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     send_reply("0");
 }
