@@ -65,6 +65,7 @@ extern uint8_t mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 void mem_set_write_hook(int config, int page, store_func_t *f);
 void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr);
+void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit);
 
 void mem_store_without_ultimax(uint16_t addr, uint8_t value);
 uint8_t mem_read_without_ultimax(uint16_t addr);

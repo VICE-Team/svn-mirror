@@ -209,6 +209,16 @@ uint8_t internal_function_rom_read(uint16_t addr)
     return vicii.last_cpu_val;
 }
 
+uint8_t internal_function_rom_peek(uint16_t addr)
+{
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+/* FIXME: this RTC should have a peek function */
+/*        return bq4830y_peek(rtc1_context, (uint16_t)(addr & 0x7fff)); */
+        return 0;
+    }
+    return int_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)];
+}
+
 void internal_function_rom_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;

@@ -35,6 +35,7 @@ extern uint8_t int_function_rom[];
 uint8_t internal_function_rom_read(uint16_t addr);
 void internal_function_rom_store(uint16_t addr, uint8_t value);
 void internal_function_top_shared_store(uint16_t addr, uint8_t value);
+uint8_t internal_function_rom_peek(uint16_t addr);
 
 int functionrom_resources_init(void);
 void functionrom_resources_shutdown(void);

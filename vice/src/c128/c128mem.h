@@ -65,30 +65,37 @@ void mem_pla_config_changed(void);
 void mem_set_write_hook(int config, int page, store_func_t *f);
 void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr);
+void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit);
 
 uint8_t ram_read(uint16_t addr);
 void ram_store(uint16_t addr, uint8_t value);
+uint8_t ram_peek(uint16_t addr);
 
 uint8_t one_read(uint16_t addr);
 void one_store(uint16_t addr, uint8_t value);
+uint8_t one_peek(uint16_t addr);
 
 uint8_t z80_read_zero(uint16_t addr);
 void z80_store_zero(uint16_t addr, uint8_t value);
+uint8_t z80_peek_zero(uint16_t addr);
 
 void colorram_store(uint16_t addr, uint8_t value);
 uint8_t colorram_read(uint16_t addr);
+uint8_t colorram_peek(uint16_t addr);
 
 uint8_t d7xx_read(uint16_t addr);
 void d7xx_store(uint16_t addr, uint8_t value);
 
 uint8_t lo_read(uint16_t addr);
 void lo_store(uint16_t addr, uint8_t value);
+uint8_t lo_peek(uint16_t addr);
 
 uint8_t hi_read(uint16_t addr);
 void hi_store(uint16_t addr, uint8_t value);
 
 uint8_t top_shared_read(uint16_t addr);
 void top_shared_store(uint16_t addr, uint8_t value);
+uint8_t top_shared_peek(uint16_t addr);
 
 uint8_t editor_read(uint16_t addr);
 void editor_store(uint16_t addr, uint8_t value);

@@ -1155,6 +1155,9 @@ static void c128_monitor_init(void)
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init, asmarray);
+
+    /* Set the monitor to be in Z80 mode initially */
+    monitor_cpu_type_set_value(CPU_Z80);
 }
 
 void machine_setup_context(void)

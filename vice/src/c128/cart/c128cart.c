@@ -669,6 +669,33 @@ uint8_t external_function_rom_read(uint16_t addr)
     return vicii.last_cpu_val;
 }
 
+/* ROML and ROMH peeks at the cartridge port */
+uint8_t external_function_rom_peek(uint16_t addr)
+{
+    int type = cartridge_get_id(0);
+    uint8_t val;
+    switch(type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+/* FIXME: gmod2 needs a peek */
+/*            val = c128gmod2_roml_peek(addr); */
+            val = 0;
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
+            break;
+        default:
+/* FIXME: What should we return here? is vicii_read_phi1() safe for a peek? */
+/*            val = vicii_read_phi1(); */
+            val = 0;
+            break;
+    }
+    return val;
+}
+
 /* ROML and ROMH stores at the cartridge port */
 void external_function_rom_store(uint16_t addr, uint8_t value)
 {

@@ -514,7 +514,7 @@ static void c64_256k_init_config(void)
     int i, j;
 
     if (c64_256k_enabled) {
-        mem_limit_256k_init(mem_read_limit_tab);
+        mem_limit_256k_init();
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
                 if (check_256k_ram_write(i, j) == 1) {
@@ -559,7 +559,7 @@ static void plus256k_init_config(void)
     int i, j;
 
     if (plus256k_enabled) {
-        mem_limit_256k_init(mem_read_limit_tab);
+        mem_limit_256k_init();
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
                 if (check_256k_ram_write(i, j) == 1) {
@@ -589,7 +589,7 @@ static void plus60k_init_config(void)
     int i, j;
 
     if (plus60k_enabled) {
-        mem_limit_plus60k_init(mem_read_limit_tab);
+        mem_limit_plus60k_init();
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 0x10; j <= 0xff; j++) {
                 if (mem_write_tab[i][j] == ram_hi_store) {
@@ -636,6 +636,11 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
     mem_read_base_tab[base][index] = mem_ptr;
 }
 
+void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit)
+{
+    mem_read_limit_tab[base][index] = limit;
+}
+
 void mem_initialize_memory(void)
 {
     int i, j;
@@ -645,7 +650,7 @@ void mem_initialize_memory(void)
     mem_color_ram_cpu = mem_color_ram;
     mem_color_ram_vicii = mem_color_ram;
 
-    mem_limit_init(mem_read_limit_tab);
+    mem_limit_init();
 
     /* setup watchpoint tables */
     mem_read_tab_watch[0] = zero_read_watch;
@@ -740,7 +745,7 @@ void mem_initialize_memory(void)
     c64_256k_init_config();
 
     if (board == 1) {
-        mem_limit_max_init(mem_read_limit_tab);
+        mem_limit_max_init();
     }
 }
 

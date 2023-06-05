@@ -32,6 +32,7 @@
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c64cia.h"
+#include "c128memrom.h"
 #include "c64memrom.h"
 #include "cartio.h"
 #include "cmdline.h"
@@ -61,6 +62,8 @@ read_func_ptr_t *_z80mem_read_tab_ptr;
 store_func_ptr_t *_z80mem_write_tab_ptr;
 uint8_t **_z80mem_read_base_tab_ptr;
 int *z80mem_read_limit_tab_ptr;
+
+int z80mem_config;
 
 #define NUM_CONFIGS 16
 #define NUM_Z80_C128MODE_CONFIGS 8
@@ -300,12 +303,34 @@ static void z80_c64io_df00_store(uint16_t adr, uint8_t val)
 #define z80_c64io_df00_store  c64io_df00_store
 #endif
 
+#define z80_c64io_d000_peek   c64io_d000_peek
+#define z80_c64io_d100_peek   c64io_d100_peek
+#define z80_c64io_d200_peek   c64io_d200_peek
+#define z80_c64io_d300_peek   c64io_d300_peek
+#define z80_c64io_d400_peek   c64io_d400_peek
+#define z80_mmu_peek          mmu_peek
+#define z80_vdc_peek          vdc_peek
+#define z80_c64io_d700_peek   c64io_d700_peek
+#define z80_colorram_peek     colorram_peek
+#define z80_cia1_peek         cia1_peek
+#define z80_cia2_peek         cia2_peek
+#define z80_c64io_de00_peek   c64io_de00_peek
+#define z80_c64io_df00_peek   c64io_df00_peek
+
 static uint8_t z80mem_lo_rom_area_read(uint16_t adr)
 {
     if (mmu[0] & 2) {
         return ram_read(adr);
     }
     return basic_lo_read(adr);
+}
+
+static uint8_t z80mem_lo_rom_area_peek(uint16_t adr)
+{
+    if (mmu[0] & 2) {
+        return ram_peek(adr);
+    }
+    return c128memrom_basic_rom[adr - 0x4000];
 }
 
 static void z80mem_lo_rom_area_store(uint16_t adr, uint8_t val)
@@ -331,6 +356,25 @@ static uint8_t z80mem_mid_rom_area_read(uint16_t adr)
             break;
         case Z80_C128_RAM:
             return ram_read(adr);
+            break;
+    }
+    return 0; /* should not get here */
+}
+
+static uint8_t z80mem_mid_rom_area_peek(uint16_t adr)
+{
+    switch ((mmu[0] & 0xc) >> 2) {
+        case Z80_C128_ROM:
+            return c128memrom_basic_rom[adr - 0x4000];
+            break;
+        case Z80_C128_INT_FUNC:
+            return internal_function_rom_peek(adr);
+            break;
+        case Z80_C128_EXT_FUNC:
+            return external_function_rom_peek(adr);
+            break;
+        case Z80_C128_RAM:
+            return ram_peek(adr);
             break;
     }
     return 0; /* should not get here */
@@ -373,6 +417,25 @@ static uint8_t z80mem_editor_rom_area_read(uint16_t adr)
     return 0; /* should not get here */
 }
 
+static uint8_t z80mem_editor_rom_area_peek(uint16_t adr)
+{
+    switch ((mmu[0] & 0x30) >> 4) {
+        case Z80_C128_ROM:
+            return c128memrom_basic_rom[adr - 0x4000];
+            break;
+        case Z80_C128_INT_FUNC:
+            return internal_function_rom_peek(adr);
+            break;
+        case Z80_C128_EXT_FUNC:
+            return external_function_rom_peek(adr);
+            break;
+        case Z80_C128_RAM:
+            return top_shared_peek(adr);
+            break;
+    }
+    return 0; /* should not get here */
+}
+
 static void z80mem_editor_rom_area_store(uint16_t adr, uint8_t val)
 {
     switch ((mmu[0] & 0xc) >> 2) {
@@ -410,6 +473,25 @@ static uint8_t z80mem_chargen_rom_area_read(uint16_t adr)
     return 0; /* should not get here */
 }
 
+static uint8_t z80mem_chargen_rom_area_peek(uint16_t adr)
+{
+    switch ((mmu[0] & 0x30) >> 4) {
+        case Z80_C128_ROM:
+            return mem_chargen_rom_ptr[adr & 0x0fff];
+            break;
+        case Z80_C128_INT_FUNC:
+            return internal_function_rom_peek(adr);
+            break;
+        case Z80_C128_EXT_FUNC:
+            return external_function_rom_peek(adr);
+            break;
+        case Z80_C128_RAM:
+            return top_shared_peek(adr);
+            break;
+    }
+    return 0; /* should not get here */
+}
+
 static void z80mem_chargen_rom_area_store(uint16_t adr, uint8_t val)
 {
     switch ((mmu[0] & 0xc) >> 2) {
@@ -442,6 +524,25 @@ static uint8_t z80mem_hi_rom_area_read(uint16_t adr)
             break;
         case Z80_C128_RAM:
             return top_shared_read(adr);
+            break;
+    }
+    return 0; /* should not get here */
+}
+
+static uint8_t z80mem_hi_rom_area_peek(uint16_t adr)
+{
+    switch ((mmu[0] & 0x30) >> 4) {
+        case Z80_C128_ROM:
+            return c128memrom_kernal_rom[adr & 0x1fff];
+            break;
+        case Z80_C128_INT_FUNC:
+            return internal_function_rom_peek(adr);
+            break;
+        case Z80_C128_EXT_FUNC:
+            return external_function_rom_peek(adr);
+            break;
+        case Z80_C128_RAM:
+            return top_shared_peek(adr);
             break;
     }
     return 0; /* should not get here */
@@ -581,7 +682,7 @@ void z80mem_initialize(void)
     mem_read_tab[7][1] = one_read;
     mem_write_tab[7][1] = one_store;
 
-    /* z80 c128 mode memory map for the stack page */
+    /* z80 c64 mode memory map for the stack page */
     mem_read_tab[8][1] = one_read;
     mem_write_tab[8][1] = one_store;
     mem_read_tab[9][1] = one_read;
@@ -609,10 +710,10 @@ void z80mem_initialize(void)
         mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = lo_read;
         mem_write_tab[3][i] = lo_store;
-        mem_read_tab[4][i] = ram_read;
-        mem_write_tab[4][i] = ram_store;
-        mem_read_tab[5][i] = ram_read;
-        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[4][i] = ram_read; /* lo_read? for bank 2 */
+        mem_write_tab[4][i] = ram_store; /* lo_store? for bank 2 */
+        mem_read_tab[5][i] = ram_read; /* lo_read? for bank 2 */
+        mem_write_tab[5][i] = ram_store; /* lo_store? for bank 2 */
         mem_read_tab[6][i] = lo_read;
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = lo_read;
@@ -647,8 +748,8 @@ void z80mem_initialize(void)
         mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = colorram_read;
         mem_write_tab[3][i] = colorram_store;
-        mem_read_tab[4][i] = ram_read;
-        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[4][i] = ram_read; /* lo_read? for bank 2 */
+        mem_write_tab[4][i] = ram_store; /* lo_store? for bank 2 */
         mem_read_tab[5][i] = colorram_read;
         mem_write_tab[5][i] = colorram_store;
         mem_read_tab[6][i] = lo_read;
@@ -656,7 +757,7 @@ void z80mem_initialize(void)
         mem_read_tab[7][i] = colorram_read;
         mem_write_tab[7][i] = colorram_store;
 
-        /* z80 c128 mode memory map for $1000-$13ff */
+        /* z80 c64 mode memory map for $1000-$13ff */
         mem_read_tab[8][i] = c64mode_colorram_read;
         mem_write_tab[8][i] = c64mode_colorram_store;
         mem_read_tab[9][i] = c64mode_colorram_read;
@@ -685,10 +786,10 @@ void z80mem_initialize(void)
         mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = lo_read;
         mem_write_tab[3][i] = lo_store;
-        mem_read_tab[4][i] = ram_read;
-        mem_write_tab[4][i] = ram_store;
-        mem_read_tab[5][i] = ram_read;
-        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[4][i] = ram_read; /* lo_read? for bank 2 */
+        mem_write_tab[4][i] = ram_store; /* lo_store? for bank 2 */
+        mem_read_tab[5][i] = ram_read; /* lo_read? for bank 2 */
+        mem_write_tab[5][i] = ram_store; /* lo_store? for bank 2 */
         mem_read_tab[6][i] = lo_read;
         mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = lo_read;
@@ -952,6 +1053,8 @@ static int c64mode_bit = 0;
 
 void z80mem_update_config(int config)
 {
+    z80mem_config = config;
+
     _z80mem_read_tab_ptr = mem_read_tab[config];
     _z80mem_write_tab_ptr = mem_write_tab[config];
     _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
@@ -984,3 +1087,210 @@ int z80mem_load(void)
 
     return 0;
 }
+
+/* "config" here is between 0 and 15 */
+uint8_t z80mem_peek_with_config(int config, uint16_t addr, void *context)
+{
+    int j = config & 15;
+    int i = addr >> 8;
+
+    uint8_t res;
+    /* save old config */
+    uint8_t *old_bank = ram_bank;
+
+    /* switch to new config */
+    /* This may not be entirely correct given that the MMU has a lot of
+       weird behavior when the registers are not "zero" in c64 mode.
+       We will just set the memory banks for now. */
+    mmu_set_ram_bank((j & 6) << 5);
+
+    /* create a macro to simplify the restoration of the previous config */
+#define result(var)        \
+    res = var;           \
+    ram_bank = old_bank; \
+    return res;
+
+    if (j & 8) {
+        /* z80 c64 mode memory map */
+        /* bottom 3 bits of config honor c46 mem_config */
+        switch (i >> 4) {
+            case 0x0:
+                switch (i & 0x0f) {
+                    case 0x00:
+                        result(z80_peek_zero(addr));
+                        break;
+                    case 0x01:
+                        result(one_peek(addr));
+                        break;
+                    default:
+                        result(lo_peek(addr));
+                        break;
+                }
+            case 0x1:
+                switch (i & 0x0f) {
+                    case 0x00:
+                    case 0x01:
+                    case 0x02:
+                    case 0x03:
+                        result(colorram_read(addr));
+                        break;
+                    default:
+                        break;
+                }
+                /* FALL THROUGH */
+            case 0x2:
+            case 0x3:
+                result(lo_peek(addr));
+                break;
+            case 0x4:
+            case 0x5:
+            case 0x6:
+            case 0x7:
+            case 0x8:
+            case 0x9:
+                result(ram_peek(addr));
+            case 0xa:
+            case 0xb:
+                if ((j & 3) == 3) {
+                    result(c64memrom_basic64_read(addr));
+                } else {
+                    result(ram_peek(addr));
+                }
+            case 0xc:
+                result(top_shared_peek(addr));
+            case 0xd:
+                switch (j) {
+                    case 8:
+                    case 12:
+                        result(top_shared_peek(addr));
+                    case 9:
+                    case 10:
+                    case 11:
+                        result(mem_chargen_rom_ptr[addr & 0x0fff]);
+                    default:
+                        switch (i & 0x0f) {
+                            case 0x0:
+                                result(z80_c64io_d000_peek(addr));
+                            case 0x1:
+                                result(z80_c64io_d100_peek(addr));
+                            case 0x2:
+                                result(z80_c64io_d200_peek(addr));
+                            case 0x3:
+                                result(z80_c64io_d300_peek(addr));
+                            case 0x4:
+                                result(z80_c64io_d400_peek(addr));
+                            case 0x5:
+                            case 0x7:
+                                result(z80_c64io_d700_peek(addr));
+                            case 0x6:
+                                result(z80_vdc_peek(addr));
+                            case 0x8:
+                            case 0x9:
+                            case 0xa:
+                            case 0xb:
+                                result(z80_colorram_peek(addr));
+                            case 0xc:
+                                result(z80_cia1_peek(addr));
+                            case 0xd:
+                                result(z80_cia2_peek(addr));
+                            case 0xe:
+                                result(z80_c64io_de00_peek(addr));
+                            case 0xf:
+                                result(z80_c64io_df00_peek(addr));
+                        }
+                        break;
+                }
+                break;
+            case 0xe:
+            case 0xf:
+                if (j & 2) {
+                    result(c64memrom_kernal64_read(addr));
+                } else {
+                    result(top_shared_peek(addr));
+                }
+        }
+
+
+    } else {
+        /* z80 c128 mode memory map */
+        /* bit 0 of mem_config is 0 for RAM and 1 for IO */
+        /* bit 1 of mem_config is A16 */
+        /* bit 2 of mem_config is A17 */
+        switch (i >> 4) {
+            case 0x0:
+                switch (i & 0x0f) {
+                    case 0x00:
+                        if (j & 6) {
+                            result(z80_peek_zero(addr));
+                        } else {
+                            result(bios_read(addr));
+                        }
+                        break;
+                    case 0x01:
+                        if (j & 6) {
+                            result(one_peek(addr));
+                        } else {
+                            result(bios_read(addr));
+                        }
+                        break;
+                    default:
+                        if (j & 6) {
+                            result(lo_peek(addr));
+                        } else {
+                            result(bios_read(addr));
+                        }
+                        break;
+                }
+            case 0x1:
+                switch (i & 0x0f) {
+                    case 0x00:
+                    case 0x01:
+                    case 0x02:
+                    case 0x03:
+                        if (j & 1) {
+                            result(colorram_read(addr));
+                        } else if (j & 6) {
+                            result(lo_peek(addr));
+                        } else {
+                            result(ram_peek(addr));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                /* FALL THROUGH */
+            case 0x2:
+            case 0x3:
+                if (j & 6) {
+                    result(lo_peek(addr));
+                } else {
+                    result(ram_peek(addr));
+                }
+                break;
+            case 0x4:
+            case 0x5:
+            case 0x6:
+            case 0x7:
+                result(z80mem_lo_rom_area_peek(addr));
+            case 0x8:
+            case 0x9:
+            case 0xa:
+            case 0xb:
+                result(z80mem_mid_rom_area_peek(addr));
+            case 0xc:
+                result(z80mem_editor_rom_area_peek(addr));
+            case 0xd:
+                result(z80mem_chargen_rom_area_peek(addr));
+            case 0xe:
+            case 0xf:
+                if (addr >= 0xff00 && addr <= 0xff04) {
+                    result(mmu[addr & 0xf]);
+                } else {
+                    result(z80mem_hi_rom_area_peek(addr));
+                }
+        }
+    }
+
+    result(0);
+}
+

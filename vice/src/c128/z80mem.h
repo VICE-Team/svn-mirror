@@ -41,6 +41,8 @@ int z80mem_load(void);
 
 extern uint8_t z80bios_rom[0x1000];
 
+extern int z80mem_config;
+
 void z80mem_initialize(void);
 
 /* Pointers to the currently used memory read and write tables.  */
@@ -51,6 +53,8 @@ extern int *z80mem_read_limit_tab_ptr;
 
 uint8_t bios_read(uint16_t addr);
 void bios_store(uint16_t addr, uint8_t value);
+
+uint8_t z80mem_peek_with_config(int config, uint16_t addr, void *context);
 
 extern store_func_ptr_t io_write_tab[];
 extern read_func_ptr_t io_read_tab[];
