@@ -118,7 +118,7 @@ static const export_resource_t export_res = {
 
 static void c128comal80_io1_store(uint16_t addr, uint8_t value)
 {
-/*  A (D5)       B (D6)
+/*  B (D6)       A (D5)
     0            0          y0    U1 ROM
     0            1          y1    unused
     1            0          y2    U2 ROM
@@ -133,7 +133,7 @@ static void c128comal80_io1_store(uint16_t addr, uint8_t value)
 
     comal80_register = value & 0xf0;    /* upper 4 bit go into the register latch */
 
-    bank = romoffset[(((value >> 5) & 1) << 1) | ((value >> 6) & 1)];
+    bank = romoffset[(value >> 5) & 3];
     bank |= ((value >> 4) & 1);
     external_function_rom_set_bank(bank);
 
