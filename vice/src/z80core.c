@@ -444,8 +444,8 @@ static void export_registers(void)
                 }                                                                         \
             }                                                                             \
             if (ik & IK_RESET) {                                                          \
-                interrupt_ack_reset(cpu_int_status);                                      \
                 maincpu_reset();                                                          \
+                interrupt_ack_reset(cpu_int_status);                                      \
             }                                                                             \
         }                                                                                 \
         if (ik & (IK_MONITOR)) {                                                          \

@@ -480,15 +480,15 @@ do {                                                                   \
                 }                                                                              \
             }                                                                                  \
             if (ik & IK_RESET) {                                                               \
-                interrupt_ack_reset(CPU_INT_STATUS);                                           \
                 cpu_reset();                                                                   \
+                interrupt_ack_reset(CPU_INT_STATUS);                                           \
                 bank_start = bank_limit = 0; /* prevent caching */                             \
                 LOCAL_SET_INTERRUPT(1);                                                        \
                 cpu_is_jammed = 0;                                                             \
+                DMA_ON_RESET;                                                                  \
                 addr = LOAD_ADDR(0xfffc);                                                      \
                 CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                                         \
                 JUMP(addr);                                                                    \
-                DMA_ON_RESET;                                                                  \
             }                                                                                  \
         }                                                                                      \
         if (ik & (IK_MONITOR | IK_DMA)) {                                                      \
