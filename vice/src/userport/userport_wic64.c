@@ -463,6 +463,7 @@ static uint16_t wic64_tcp_port = 0;
 
 #define FLAG2_ACTIVE    0
 #define FLAG2_INACTIVE  1
+#define FLAG2_TOGGLE_DELAY 3    /* delay in cycles to toggle flag2 */
 
 uint8_t input_state = 0, input_command = 0;
 uint8_t wic64_inputmode = 1;
@@ -492,7 +493,7 @@ static void handshake_flag2(void)
         flag2_alarm = alarm_new(maincpu_alarm_context, "FLAG2Alarm", flag2_alarm_handler, NULL);
     }
     alarm_unset(flag2_alarm);
-    alarm_set(flag2_alarm, maincpu_clk + 3);
+    alarm_set(flag2_alarm, maincpu_clk + FLAG2_TOGGLE_DELAY);
 
     set_userport_flag(FLAG2_ACTIVE);
     /* set_userport_flag(FLAG2_INACTIVE); */
