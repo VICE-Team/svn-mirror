@@ -33,6 +33,8 @@
 #include "montypes.h"
 #include "types.h"
 
+/* NOTE: the value from this table is added to the total opcode size, so 0 may
+         be valid, is this intended? */
 static const int addr_mode_size[ASM_ADDR_MODE_LAST] = {
     /* 6502 */
     [ASM_ADDR_MODE_IMPLIED]  = 1,
@@ -892,6 +894,7 @@ static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned in
     return opcode_list + p0;
 }
 
+/* must return a positive number (opcode length in bytes) */
 static unsigned int asm_addr_mode_get_size(unsigned int mode, unsigned int p0,
                                            unsigned int p1, unsigned int p2, unsigned int p3)
 {
