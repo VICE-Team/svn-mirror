@@ -479,6 +479,10 @@ static int write_video_frame(VIDEOFrame *pic)
     size_t len = INPUT_VIDEO_BPP * video_height * video_width;
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
 #ifdef USE_SOCKETS_VIDEO
+        if (ffmpeg_video_socket == 0) {
+            log_error(LOG_DEFAULT, "FFMPEG: write_video_frame ffmpeg_video_socket is 0 (framecount:%lu)\n", framecounter);
+            return 0;
+        }
         return (int)len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
 #else
         return len - write(ffmpeg_stdin, pic->data, len);
@@ -519,7 +523,10 @@ static int start_ffmpeg_executable(void)
             /* "-loglevel verbose " */
             "-loglevel error "
 #else
-            "-loglevel error "
+            "-loglevel quiet "
+#endif
+#if defined(USE_SOCKETS_VIDEO) && defined(USE_SOCKETS_AUDIO)
+            "-nostdin "
 #endif
     );
 
@@ -530,6 +537,8 @@ static int start_ffmpeg_executable(void)
                 "-pix_fmt rgb24 "
                 "-framerate %2d.%02d "              /* exact fps */
                 "-s %dx%d "                         /* size */
+                /*"-readrate_initial_burst 0 "*/        /* no initial burst read */
+                /*"-readrate 1 "*/                      /* Read input at native frame rate */
 #ifdef USE_SOCKETS_VIDEO
                 "-i tcp://127.0.0.1:%d?listen "
 #else
@@ -573,6 +582,8 @@ static int start_ffmpeg_executable(void)
     sprintf(tempcommand,
             "-y "           /* overwrite existing file */
             "-f %s "        /* outfile format/container */
+            "-shortest "    /* Finish encoding when the shortest output stream ends. */
+            /*"-shortest_buf_duration 1 "*/ /* the maximum duration of buffered frames in seconds */
             , ffmpegexe_format                      /* outfile format/container */
     );
     strcat(command, tempcommand);
@@ -824,7 +835,13 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
     }
 #endif
 
-#if 1
+#ifdef USE_SOCKETS_AUDIO
+    if (ffmpeg_audio_socket == 0) {
+        log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%lu)\n", audio_input_counter);
+        return 0;
+    }
+#endif
+
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         for (n = 0; n < audio_in->used; n++) {
             /* FIXME: this is not quite correct */
@@ -840,7 +857,7 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
             }
         }
     }
-#endif
+
     audio_input_counter += audio_in->used;
     audio_in->used = 0;
     return 0;
