@@ -253,7 +253,7 @@ void c128meminit(int base)
             mem_set_write_hook(j + base, 0xd2, c128_c64io_d200_store);
             mem_read_tab_set(j + base, 0xd3, c128_c64io_d300_read);
             mem_set_write_hook(j + base, 0xd3, c128_c64io_d300_store);
-    
+
             mem_read_tab_set(j + base, 0xd4, c128_c64io_d400_read);
             mem_set_write_hook(j + base, 0xd4, c128_c64io_d400_store);
             mem_read_tab_set(j + base, 0xd5, c128_mmu_read);
@@ -262,7 +262,7 @@ void c128meminit(int base)
             mem_set_write_hook(j + base, 0xd6, c128_c64io_d600_store);
             mem_read_tab_set(j + base, 0xd7, c128_c64io_d700_read);
             mem_set_write_hook(j + base, 0xd7, c128_c64io_d700_store);
-    
+
             mem_read_tab_set(j + base, 0xd8, c128_colorram_read);
             mem_read_tab_set(j + base, 0xd9, c128_colorram_read);
             mem_read_tab_set(j + base, 0xda, c128_colorram_read);
@@ -276,7 +276,7 @@ void c128meminit(int base)
             mem_set_write_hook(j + base, 0xdc, c128_cia1_store);
             mem_read_tab_set(j + base, 0xdd, c128_cia2_read);
             mem_set_write_hook(j + base, 0xdd, c128_cia2_store);
-    
+
             mem_read_tab_set(j + base, 0xde, c128_c64io_de00_read);
             mem_set_write_hook(j + base, 0xde, c128_c64io_de00_store);
             mem_read_tab_set(j + base, 0xdf, c128_c64io_df00_read);
