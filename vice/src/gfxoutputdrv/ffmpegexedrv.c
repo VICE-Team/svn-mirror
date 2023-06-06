@@ -39,8 +39,6 @@
     file can likely be more simplified too).
 
     bugs/open ends:
-    - when recording is started, but no audio is currently playing, the
-      recording hangs (as if VICE produces no audio in this case?)
     - stereo audio has problems
     - audio-only saving does not work correctly
     - there should probably be a check that makes sure "ffmpeg" exists and
@@ -58,11 +56,6 @@
 
 /* #define DEBUG_FFMPEG */
 /*#define DEBUG_FFMPEG_FRAMES*/
-
-/* in theory we should be able to undefine one of the two, and use stdin pipe
-   instead of sockets. it doesnt really work though ... */
-#define USE_SOCKETS_VIDEO
-#define USE_SOCKETS_AUDIO
 
 #include "vice.h"
 
@@ -88,9 +81,7 @@
 #include "soundmovie.h"
 #include "uiapi.h"
 #include "util.h"
-#if defined(USE_SOCKETS_VIDEO) || defined(USE_SOCKETS_AUDIO)
 #include "vicesocket.h"
-#endif
 
 #ifdef DEBUG_FFMPEG
 #define DBG(x) log_debug x
@@ -273,12 +264,9 @@ static int video_height = -1;
 /* ffmpeg interface */
 static int ffmpeg_stdin = 0;
 static int ffmpeg_stdout = 0;
-#ifdef USE_SOCKETS_VIDEO
+
 static vice_network_socket_t *ffmpeg_video_socket = NULL;
-#endif
-#ifdef USE_SOCKETS_AUDIO
 static vice_network_socket_t *ffmpeg_audio_socket = NULL;
-#endif
 
 static char *outfilename = NULL;
 
@@ -478,15 +466,11 @@ static int write_video_frame(VIDEOFrame *pic)
 {
     size_t len = INPUT_VIDEO_BPP * video_height * video_width;
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
-#ifdef USE_SOCKETS_VIDEO
         if (ffmpeg_video_socket == 0) {
             log_error(LOG_DEFAULT, "FFMPEG: write_video_frame ffmpeg_video_socket is 0 (framecount:%lu)\n", framecounter);
             return 0;
         }
         return (int)len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
-#else
-        return len - write(ffmpeg_stdin, pic->data, len);
-#endif
     }
     return 0;
 }
@@ -525,9 +509,7 @@ static int start_ffmpeg_executable(void)
 #else
             "-loglevel quiet "
 #endif
-#if defined(USE_SOCKETS_VIDEO) && defined(USE_SOCKETS_AUDIO)
             "-nostdin "
-#endif
     );
 
     /* options to define the input video format */
@@ -539,16 +521,10 @@ static int start_ffmpeg_executable(void)
                 "-s %dx%d "                         /* size */
                 /*"-readrate_initial_burst 0 "*/        /* no initial burst read */
                 /*"-readrate 1 "*/                      /* Read input at native frame rate */
-#ifdef USE_SOCKETS_VIDEO
                 "-i tcp://127.0.0.1:%d?listen "
-#else
-                "-i pipe: "
-#endif
                 , fpsint, fpsfrac
                 , video_width, video_height
-#ifdef USE_SOCKETS_VIDEO
                 , SOCKETS_VIDEO_PORT
-#endif
         );
         strcat(command, tempcommand);
     }
@@ -562,18 +538,12 @@ static int start_ffmpeg_executable(void)
                 "-ac %d "                       /* input audio channels */
                 "-ar %d "                       /* input audio stream sample rate */
                 "-ss %d "
-#ifdef USE_SOCKETS_AUDIO
                 "-i tcp://127.0.0.1:%d?listen "
-#else
-                "-i pipe: "
-#endif
                 , audio_input_channels
                 , audio_input_channels
                 , audio_input_sample_rate * audio_input_channels    /* ??? */
                 , AUDIO_SKIP_SECONDS
-#ifdef USE_SOCKETS_AUDIO
                 , SOCKETS_AUDIO_PORT
-#endif
         );
         strcat(command, tempcommand);
     }
@@ -616,7 +586,7 @@ static int start_ffmpeg_executable(void)
         log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
         return -1;
     }
-#ifdef USE_SOCKETS_VIDEO
+
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
         ad = vice_network_address_generate("127.0.0.1", SOCKETS_VIDEO_PORT);
@@ -648,8 +618,7 @@ static int start_ffmpeg_executable(void)
     for (frm = 0; frm < DUMMY_FRAMES_VIDEO; frm++) {
         write_video_frame(video_st_frame);
     }
-#endif
-#ifdef USE_SOCKETS_AUDIO
+
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
         ad = vice_network_address_generate("127.0.0.1", SOCKETS_AUDIO_PORT);
@@ -685,55 +654,38 @@ static int start_ffmpeg_executable(void)
             return -1;
         }
     }
-#endif
+
     log_message(LOG_DEFAULT, "ffmpegexedrv: pipes are ready");
     return 0;
 }
 
 static void close_video_stream(void)
 {
-#ifdef USE_SOCKETS_VIDEO
     if (ffmpeg_video_socket != NULL) {
         vice_network_socket_close(ffmpeg_video_socket);
         ffmpeg_video_socket = NULL;
     }
-#else
-    if (ffmpeg_stdin != -1) {
-        close(ffmpeg_stdin);    /* FIXME */
-        ffmpeg_stdin = -1;
-    }
-#endif
 }
 
 static void close_audio_stream(void)
 {
-#ifdef USE_SOCKETS_AUDIO
     if (ffmpeg_audio_socket != NULL) {
         vice_network_socket_close(ffmpeg_audio_socket);
         ffmpeg_audio_socket = NULL;
     }
-#else
-    if (ffmpeg_stdin != -1) {
-        close(ffmpeg_stdin);    /* FIXME */
-        ffmpeg_stdin = -1;
-    }
-#endif
 }
 
 static void close_stream(void)
 {
-#ifdef USE_SOCKETS_VIDEO
     if (ffmpeg_video_socket != NULL) {
         vice_network_socket_close(ffmpeg_video_socket);
         ffmpeg_video_socket = NULL;
     }
-#endif
-#ifdef USE_SOCKETS_AUDIO
     if (ffmpeg_audio_socket != NULL) {
         vice_network_socket_close(ffmpeg_audio_socket);
         ffmpeg_audio_socket = NULL;
     }
-#endif
+
     if (ffmpeg_stdin != -1) {
         close(ffmpeg_stdin);
         ffmpeg_stdin = -1;
@@ -835,22 +787,16 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
     }
 #endif
 
-#ifdef USE_SOCKETS_AUDIO
     if (ffmpeg_audio_socket == 0) {
         log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%lu)\n", audio_input_counter);
         return 0;
     }
-#endif
 
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         for (n = 0; n < audio_in->used; n++) {
             /* FIXME: this is not quite correct */
             for (c = 0; c < audio_input_channels; c++) {
-#ifdef USE_SOCKETS_AUDIO
                 res = vice_network_send(ffmpeg_audio_socket, &audio_in->buffer[n], 2, 0 /* flags */);
-#else
-                res = write(ffmpeg_stdin, &audio_in->buffer[n], 2);
-#endif
                 if (res != 2) {
                     return -1;
                 }
