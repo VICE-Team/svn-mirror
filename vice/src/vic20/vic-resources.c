@@ -94,6 +94,7 @@ int vic_resources_init(void)
     video_chip_cap.double_mode.sizex = 2;
     video_chip_cap.double_mode.sizey = 2;
     video_chip_cap.double_mode.rmode = VIDEO_RENDER_PAL_NTSC_2X2;
+    video_chip_cap.video_has_palntsc = 1;
 
     fullscreen_capability(&(video_chip_cap.fullscreen));
 
