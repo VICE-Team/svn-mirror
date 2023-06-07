@@ -91,6 +91,7 @@ static int userport_wic64_write_snapshot_module(snapshot_t *s);
 static int userport_wic64_read_snapshot_module(snapshot_t *s);
 static int userport_wic64_enable(int value);
 static void userport_wic64_reset(void);
+
 static int wic64_set_default_server(const char *val, void *p);
 
 static userport_device_t userport_wic64_device = {
@@ -130,6 +131,7 @@ static void send_binary_reply(const uint8_t *reply, size_t len);
 static void send_reply(const char *reply);
 static void userport_wic64_reset(void);
 static char *default_server_hostname = NULL;
+
 static const resource_string_t wic64_resources[] =
 {
     { "WIC64DefaultServer", "http://x.wic64.net/", (resource_event_relevant_t)0, NULL,
@@ -164,6 +166,19 @@ int userport_wic64_resources_init(void)
         return -1;
     }
     return userport_device_register(USERPORT_DEVICE_WIC64, &userport_wic64_device);
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-wic64server", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64DefaultServer", NULL,
+      "<URL>", "Specify default server URL" },
+    CMDLINE_LIST_END
+};
+
+int userport_wic64_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ---------------------------------------------------------------------*/
