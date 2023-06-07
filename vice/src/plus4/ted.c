@@ -433,9 +433,13 @@ void ted_reset_registers(void)
         return;
     }
 
-    for (i = 0; i <= 0x3f; i++) {
+    /* don't reset 0x3e and 0x3f */
+    for (i = 0; i <= 0x3d; i++) {
         ted_store(i, 0);
     }
+    /* turn on the ROMs. don't know what the real reset state of this is,
+       but turning on the ROMs makes the emulator work. */
+    ted_store(0x3e, 0);
 }
 
 void ted_powerup(void)
