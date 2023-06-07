@@ -69,6 +69,7 @@ void c128meminit(int base)
     for (j = 0; j < NUM_CONFIGS128; j++) {
         for (i = 0; i <= 0x100; i++) {
             mem_read_base_set(j + base, i, NULL);
+            mem_read_limit_set(j + base, i, 0);
         }
 
         /* 0x0000 - 0x00ff */
@@ -81,7 +82,7 @@ void c128meminit(int base)
 
         /* 0x0200 - 0x3fff */
         for (i = 0x02; i <= 0x3f; i++) {
-            if ((j & 0xc0)==0) {
+            if ((j & 0xc0) == 0) {
                 /* bank 0 */
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
@@ -91,22 +92,22 @@ void c128meminit(int base)
                 /* other banks, ie. shared RAM */
                 mem_read_tab_set(j + base, i, lo_read);
                 mem_set_write_hook(j + base, i, lo_store);
-                mem_read_base_set(j + base, i, NULL);
             }
         }
 
         /* 0x4000 - 0x7fff */
         for (i = 0x40; i <= 0x7f; i++) {
-            if ((j & 0x2)==0) {
+            if ((j & 0x2) == 0) {
                 mem_read_tab_set(j + base, i, basic_lo_read);
                 mem_set_write_hook(j + base, i, basic_lo_store);
                 mem_read_base_set(j + base, i, c128memrom_basic_rom - 0x4000);
+                mem_read_limit_set(j + base, i, 0x40007fff - 2);
             } else {
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
-                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) );
+/*                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) ); */
+/*                mem_read_limit_set(j + base, i, 0x40007fff - 2); */
             }
-            mem_read_limit_set(j + base, i, 0x40007fff - 2);
         }
 
         /* 0x8000 - 0xbfff */
@@ -121,18 +122,16 @@ void c128meminit(int base)
             case 1:
                 mem_read_tab_set(j + base, i, internal_function_rom_read);
                 mem_set_write_hook(j + base, i, internal_function_rom_store);
-                mem_read_base_set(j + base, i, NULL);
                 break;
             case 2:
                 mem_read_tab_set(j + base, i, external_function_rom_read);
                 mem_set_write_hook(j + base, i, external_function_rom_store);
-                mem_read_base_set(j + base, i, NULL);
                 break;
             case 3:
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
-                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) );
-                mem_read_limit_set(j + base, i, 0x8000bfff - 2);
+/*                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) ); */
+/*                mem_read_limit_set(j + base, i, 0x8000bfff - 2); */
                 break;
             default:
                 break;
@@ -150,28 +149,26 @@ void c128meminit(int base)
                 break;
             case 1:
                 mem_read_tab_set(j + base, i, internal_function_rom_read);
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_set_write_hook(j + base, i, internal_function_rom_store);
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_set_write_hook(j + base, i, internal_function_top_shared_store);
                 }
-                mem_read_base_set(j + base, i, NULL);
                 break;
             case 2:
                 mem_read_tab_set(j + base, i, external_function_rom_read);
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_set_write_hook(j + base, i, external_function_rom_store);
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_set_write_hook(j + base, i, external_function_top_shared_store);
                 }
-                mem_read_base_set(j + base, i, NULL);
                 break;
             case 3:
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, ram_read);
                     mem_set_write_hook(j + base, i, ram_store);
@@ -181,7 +178,6 @@ void c128meminit(int base)
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, top_shared_read);
                     mem_set_write_hook(j + base, i, top_shared_store);
-                    mem_read_base_set(j + base, i, NULL);
                 }
                 break;
             default:
@@ -197,36 +193,31 @@ void c128meminit(int base)
                 case 0:
                     mem_read_tab_set(j + base, i, chargen_read);
                     mem_set_write_hook(j + base, i, hi_store);
-                    mem_read_base_set(j + base, i, NULL);
                     break;
                 case 1:
-                    if ((j & 0xc0)==0) {
+                    if ((j & 0xc0) == 0) {
                         /* bank 0 */
                         mem_read_tab_set(j + base, i, internal_function_rom_read);
                         mem_set_write_hook(j + base, i, internal_function_rom_store);
-                        mem_read_base_set(j + base, i, NULL);
                     } else {
                         /* other banks, ie. shared RAM */
                         mem_read_tab_set(j + base, i, internal_function_rom_read);
                         mem_set_write_hook(j + base, i, internal_function_top_shared_store);
-                        mem_read_base_set(j + base, i, NULL);
                     }
                     break;
                 case 2:
-                    if ((j & 0xc0)==0) {
+                    if ((j & 0xc0) == 0) {
                         /* bank 0 */
                         mem_read_tab_set(j + base, i, external_function_rom_read);
                         mem_set_write_hook(j + base, i, external_function_rom_store);
-                        mem_read_base_set(j + base, i, NULL);
                     } else {
                         /* other banks, ie. shared RAM */
                         mem_read_tab_set(j + base, i, external_function_rom_read);
                         mem_set_write_hook(j + base, i, external_function_top_shared_store);
-                        mem_read_base_set(j + base, i, NULL);
                     }
                     break;
                 case 3:
-                    if ((j & 0xc0)==0) {
+                    if ((j & 0xc0) == 0) {
                         /* bank 0 */
                         mem_read_tab_set(j + base, i, ram_read);
                         mem_set_write_hook(j + base, i, ram_store);
@@ -236,7 +227,6 @@ void c128meminit(int base)
                         /* other banks, ie. shared RAM */
                         mem_read_tab_set(j + base, i, top_shared_read);
                         mem_set_write_hook(j + base, i, top_shared_store);
-                        mem_read_base_set(j + base, i, NULL);
                     }
                     break;
                 default:
@@ -293,33 +283,29 @@ void c128meminit(int base)
                 mem_read_limit_set(j + base, i, 0xe000feff - 2);
                 break;
             case 1:
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, internal_function_rom_read);
                     mem_set_write_hook(j + base, i, internal_function_rom_store);
-                    mem_read_base_set(j + base, i, NULL);
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, internal_function_rom_read);
                     mem_set_write_hook(j + base, i, internal_function_top_shared_store);
-                    mem_read_base_set(j + base, i, NULL);
                 }
                 break;
             case 2:
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, external_function_rom_read);
                     mem_set_write_hook(j + base, i, external_function_rom_store);
-                    mem_read_base_set(j + base, i, NULL);
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, external_function_rom_read);
                     mem_set_write_hook(j + base, i, external_function_top_shared_store);
-                    mem_read_base_set(j + base, i, NULL);
                 }
                 break;
             case 3:
-                if ((j & 0xc0)==0) {
+                if ((j & 0xc0) == 0) {
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, ram_read);
                     mem_set_write_hook(j + base, i, ram_store);
@@ -329,7 +315,6 @@ void c128meminit(int base)
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, top_shared_read);
                     mem_set_write_hook(j + base, i, top_shared_store);
-                    mem_read_base_set(j + base, i, NULL);
                 }
                 break;
             default:
