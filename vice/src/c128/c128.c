@@ -1126,10 +1126,12 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport rtc (ds1307)");
         return -1;
     }
+#ifdef HAVE_LIBCURL
     if (userport_wic64_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport wic64");
         return -1;
     }
+#endif
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
         return -1;
