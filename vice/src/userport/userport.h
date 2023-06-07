@@ -35,6 +35,9 @@
 #define USERPORT_NO_PULSE   0
 #define USERPORT_PULSE      1
 
+/* IMPORTANT: Do NOT put #ifdef's in this enum,
+              Do NOT change the order of the ID's,
+              Add new devices at the end, before JOYPORT_MAX_DEVICES */
 enum {
     USERPORT_DEVICE_NONE = 0,
     USERPORT_DEVICE_PRINTER,
@@ -59,9 +62,7 @@ enum {
     USERPORT_DEVICE_DIAG_586220_HARNESS,
     USERPORT_DEVICE_DRIVE_PAR_CABLE,
     USERPORT_DEVICE_IO_SIMULATION,
-#ifdef HAVE_LIBCURL
     USERPORT_DEVICE_WIC64,
-#endif
     USERPORT_DEVICE_SPACEBALLS,
     USERPORT_DEVICE_SPT_JOYSTICK,
 

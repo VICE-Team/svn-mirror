@@ -34,6 +34,9 @@
 
 #define JOYPORT_ID_UNKNOWN             -1   /* used with joyport_display_joyport() */
 
+/* IMPORTANT: Do NOT put #ifdef's in this enum,
+              Do NOT change the order of the ID's,
+              Add new devices at the end, before JOYPORT_MAX_DEVICES */
 enum {
     JOYPORT_ID_NONE = 0,    /* CAUTION: some code relies on this being 0 */
     JOYPORT_ID_JOYSTICK,
