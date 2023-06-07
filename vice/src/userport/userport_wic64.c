@@ -193,7 +193,7 @@ static char encoded_helper[COMMANDBUFFER_MAXLEN];
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-#ifndef WIN32
+#ifndef WINDOWS_COMPILE
 #include <unistd.h>
 #endif
 #include <curl/curl.h>
