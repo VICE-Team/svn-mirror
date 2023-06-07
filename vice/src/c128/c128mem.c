@@ -2580,7 +2580,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 
     switch (real_bank) {
         case bank256_cpu:                   /* current */
-            return mem_peek_with_config_c128(mem_config, addr, context);
+            return mem_peek_with_config_c128(mem_config - NUM_CONFIGS64, addr, context);
             break;
         case bank256_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
