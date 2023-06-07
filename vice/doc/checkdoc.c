@@ -697,6 +697,7 @@ void checkresources(void)
             } else {
                 printf("%-40s", list1->string);
                 if(0
+#if 0
                     || !strcmp(list1->string, "FFMPEGFormat")
                     || !strcmp(list1->string, "FFMPEGAudioBitrate")
                     || !strcmp(list1->string, "FFMPEGVideoBitrate")
@@ -706,6 +707,7 @@ void checkresources(void)
                   ) {
                     printf("(FFMPEG only, might be disabled)");
                 } else if(0
+#endif
                     || !strcmp(list1->string, "MIDIEnable")
                     || !strcmp(list1->string, "MIDIMode")
                     || !strcmp(list1->string, "MIDIInDev")
@@ -1075,10 +1077,16 @@ void checkoptions(void)
                 else printf("  ");
                 printf("%-40s", list1->string);
                 if(0
+#if 0
                     || !strcmp(list1->string, "-ffmpegaudiobitrate")
                     || !strcmp(list1->string, "-ffmpegvideobitrate")
                   ) {
                     printf("(FFMPEG only, might be disabled)");
+                } else if(0
+#endif
+               || !strcmp(list1->string, "-no-redirect-streams")
+                  ) {
+                    printf("(Windows only)");
                 } else if(0
                     || !strcmp(list1->string, "-miditype")
                     || !strcmp(list1->string, "-midi")
@@ -1189,6 +1197,16 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-VDCfullmode")
                     || !strcmp(list1->string, "-VICfullmode")
                     || !strcmp(list1->string, "-VICIIfullmode")
+                    || !strcmp(list1->string, "-Crtcfullwidth")
+                    || !strcmp(list1->string, "-TEDfullwidth")
+                    || !strcmp(list1->string, "-VDCfullwidth")
+                    || !strcmp(list1->string, "-VICfullwidth")
+                    || !strcmp(list1->string, "-VICIIfullwidth")
+                    || !strcmp(list1->string, "-Crtcfullheight")
+                    || !strcmp(list1->string, "-TEDfullheight")
+                    || !strcmp(list1->string, "-VDCfullheight")
+                    || !strcmp(list1->string, "-VICfullheight")
+                    || !strcmp(list1->string, "-VICIIfullheight")
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0

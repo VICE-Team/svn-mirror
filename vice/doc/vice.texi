@@ -4177,6 +4177,7 @@ machine specific, currently always 0 except for xpet: 0: Business (us)
 @end table
 
 @node Control port settings, Sound settings, Keyboard settings, Settings and resources
+@section Control port settings
 
 The control port settings submenu allows you to select which control
 port device is connected to a control port.
@@ -4252,6 +4253,12 @@ joystick adapter port 7 (x64, x64sc, xscpu64, x128, x64dtv, xcbm2, xcbm5x0, xvic
 @item JoyPort10Device
 Set the device attached to:
 joystick adapter port 8 (x64, x64sc, xscpu64, x128, x64dtv, xcbm2, xcbm5x0, xvic)
+(@ref{Control port and devices}).
+
+@vindex JoyPort11Device
+@item JoyPort11Device
+Set the device attached to:
+joystick adapter port 9 (xplus4)
 (@ref{Control port and devices}).
 
 @vindex BBRTCSave
@@ -4335,6 +4342,13 @@ joystick adapter port 7 (x64, x64sc, xscpu64, x128, x64dtv, xcbm2, xcbm5x0, xvic
 Set the device attached to:
 joystick adapter port 8 (x64, x64sc, xscpu64, x128, x64dtv, xcbm2, xcbm5x0, xvic)
 (@code{JoyPort10Device})
+(@ref{Control port and devices}).
+
+@findex -controlport11device
+@item -controlport11device <device>
+Set the device attached to:
+joystick adapter port 9 (xplus4)
+(@code{JoyPort11Device})
 (@ref{Control port and devices}).
 
 @findex -bbrtcsave, +bbrtcsave
@@ -8718,6 +8732,11 @@ Boolean specifying whether the userport RTC data is saved when changed or not
 Boolean specifying whether the userport RTC data is saved when changed or not
 (xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
+@vindex WIC64DefaultServer
+@item WIC64DefaultServer
+String specifying the default server URL used by the wic64 emulation.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @end table
 
 @c @node FIXME
@@ -8742,6 +8761,11 @@ Disable/enable saving of the userport RTC data when changed
 Disable/enable saving of the userport RTC data when changed
 (@code{UserportRTCDS1307Save=1}, @code{UserportRTCDS1307Save=0})
 (xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64server
+@item -wic64server <name>
+String specifying the default server URL used by the wic64 emulation, @code{WIC64DefaultServer}.
+(vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
 
@@ -11947,8 +11971,8 @@ Set the aspect mode
 (@code{VICIIAspectMode}).
 (0: off, 1: custom, 2: true)
 
-@findex -VICIIaspectratio
-@item -VICIIaspectratio <aspect ratio>
+@findex -VICIIaspect
+@item -VICIIaspect <aspect ratio>
 Set the aspect ratio
 (@code{VICIIAspectRatio}).
 (0.5-2.0)
@@ -13184,16 +13208,6 @@ Integer specifying amount of scan line shading for the CRT emulation.
 Integer specifying amount of horizontal blur for the CRT emulation.
 (0..1000)
 
-@vindex VDCPALOddLinePhase
-@item VDCPALOddLinePhase
-Integer specifying phase for color carrier in odd lines.
-(0..2000)
-
-@vindex VDCPALOddLineOffset
-@item VDCPALOddLineOffset
-Integer specifying phase offset for color carrier in odd lines.
-(0..2000)
-
 @vindex VDCAudioLeak
 @item VDCAudioLeak
 Boolean specifying whether to enable/disable video to audio leak emulation.
@@ -13337,16 +13351,6 @@ Set gamma of internal calculated palette
 Set tint of internal calculated palette
 (@code{VDCColorTint}).
 
-@findex -VDCoddlinesphase
-@item -VDCoddlinesphase <0-2000>
-Set phase for color carrier in odd lines
-(@code{VDCPALOddLinePhase}).
-
-@findex -VDCoddlinesoffset
-@item -VDCoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines
-(@code{VDCPALOddLineOffset}).
-
 @findex -VDCcrtblur
 @item -VDCcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
@@ -13402,8 +13406,8 @@ Set the aspect mode
 (@code{VDCAspectMode}).
 (0: off, 1: custom, 2: true)
 
-@findex -VDCaspectratio
-@item -VDCaspectratio <aspect ratio>
+@findex -VDCaspect
+@item -VDCaspect <aspect ratio>
 Set the aspect ratio
 (@code{VDCAspectRatio}).
 (0.5-2.0)
@@ -15115,8 +15119,8 @@ Set the aspect mode
 (@code{VICAspectMode}).
 (0: off, 1: custom, 2: true)
 
-@findex -VICaspectratio
-@item -VICaspectratio <aspect ratio>
+@findex -VICaspect
+@item -VICaspect <aspect ratio>
 Set the aspect ratio
 (@code{VICAspectRatio}).
 (0.5-2.0)
@@ -15721,8 +15725,8 @@ Set the aspect mode
 (@code{TEDAspectMode}).
 (0: off, 1: custom, 2: true)
 
-@findex -TEDaspectratio
-@item -TEDaspectratio <aspect ratio>
+@findex -TEDaspect
+@item -TEDaspect <aspect ratio>
 Set the aspect ratio
 (@code{TEDAspectRatio}).
 (0.5-2.0)
@@ -16197,16 +16201,6 @@ Integer specifying amount of scan line shading for the CRT emulation.
 Integer specifying amount of horizontal blur for the CRT emulation.
 (0..1000)
 
-@vindex CrtcPALOddLinePhase
-@item CrtcPALOddLinePhase
-Integer specifying phase for color carrier in odd lines.
-(0..2000)
-
-@vindex CrtcPALOddLineOffset
-@item CrtcPALOddLineOffset
-Integer specifying phase offset for color carrier in odd lines.
-(0..2000)
-
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
 Boolean specifying whether to enable/disable video to audio leak emulation.
@@ -16347,16 +16341,6 @@ Set gamma of internal calculated palette
 Set tint of internal calculated palette
 (@code{CrtcColorTint}).
 
-@findex -Crtcoddlinesphase
-@item -Crtcoddlinesphase <0-2000>
-Set phase for color carrier in odd lines
-(@code{CrtcPALOddLinePhase}).
-
-@findex -Crtcoddlinesoffset
-@item -Crtcoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines
-(@code{CrtcPALOddLineOffset}).
-
 @findex -Crtccrtblur
 @item -Crtccrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
@@ -16406,8 +16390,8 @@ Set the aspect mode
 (@code{CrtcAspectMode}).
 (0: off, 1: custom, 2: true)
 
-@findex -Crtcaspectratio
-@item -Crtcaspectratio <aspect ratio>
+@findex -Crtcaspect
+@item -Crtcaspect <aspect ratio>
 Set the aspect ratio
 (@code{CrtcAspectRatio}).
 (0.5-2.0)
