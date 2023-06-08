@@ -898,18 +898,27 @@ int ted_dump(void)
     mon_out("Timer 2: $%04x\n", (unsigned int)((ted_timer_read(0x03) << 8) | ted_timer_read(0x02)));
     mon_out("Timer 3 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 6) & 0x01)? "on" : "off", (ted.timer_running[2]) ? "yes" : "no");
     mon_out("Timer 3: $%04x\n\n", (unsigned int)((ted_timer_read(0x05) << 8) | ted_timer_read(0x04)));
-    mon_out("Raster x/y: %u/%u\t IRQ: %u\n", (unsigned int)i, TED_RASTER_Y(maincpu_clk),(unsigned int)(ted.regs[0x0b] | ((ted.regs[0x0a] & 1) << 8)));
+    mon_out("Raster X/Y: %u/%u\t IRQ: %u\n", (unsigned int)i, TED_RASTER_Y(maincpu_clk),(unsigned int)(ted.regs[0x0b] | ((ted.regs[0x0a] & 1) << 8)));
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
     mon_out("Colors: Border: %02x BG: %02x\n", ted.regs[0x19], ted.regs[0x15]);
-    mon_out("Scroll X/Y: %d/%d, %dx%d\n", ted.regs[0x07] & 0x07, ted.regs[0x06] & 0x07, 38 + ((ted.regs[0x07] >> 3) & 1), 24 + ((ted.regs[0x06] >> 3) & 1));
+    mon_out("Scroll X/Y: %d/%d, RC %u,", ted.regs[0x07] & 0x07, ted.regs[0x06] & 0x07, ted.raster.ycounter);
+    mon_out(" %dx%d\n",38 + ((ted.regs[0x07] >> 3) & 1), 24 + ((ted.regs[0x06] >> 3) & 1));
+    mon_out("Cursor X/Y: ");
+    i = ((ted.regs[0x0c] & 0x03) << 8) | ted.regs[0x0d];
+    if (i < 1000){
+        mon_out("%d/%d ", i % 40, (int) (i/40));
+    } else {
+        mon_out("-/- ");
+    }
+    mon_out("($%03x)\n", (unsigned int)i);
 
     vram = (unsigned int)(ted.regs[0x14] & 0xf8) << 8;
     mon_out("Video $%04x (%s), ", vram, (vram < 0x8000)? "RAM" : ((ted.regs[0x13] & 0x01) ? "ROM" : "RAM"));
-    i = ((ted.regs[07] & 0x80) == 0x80 || m_ecm == 1)? 0xf8 : 0xf0;
+    i = ((ted.regs[0x07] & 0x80) == 0x80 || m_ecm == 1)? 0xf8 : 0xf0;
     cgen = (unsigned int)((ted.regs[0x13] & i) << 8);
     bmap = (unsigned int)((ted.regs[0x12] & 0x38) << 10);
     mon_out("Bitmap $%04x (%s), ", bmap, ((ted.regs[0x12] & 0x04) ? ((bmap >= 0x8000) ? "ROM" : "OPEN BUS") : "RAM"));
-    mon_out("Charset $%04x (%s)\n", cgen, ((ted.regs[0x12] & 0x04) ? ((cgen >= 0x8000) ? "ROM" : "OPEN BUS") : "RAM"));
+    mon_out("Charset $%04x (%s)\n\n", cgen, ((ted.regs[0x12] & 0x04) ? ((cgen >= 0x8000) ? "ROM" : "OPEN BUS") : "RAM"));
 
     i = (((ted_sound_read(0x11) & 0x0f) >= 8) ? 0x08 : (ted_sound_read(0x11) & 0x07));
     mon_out("Sound mode: %s  Vol: %01x\n", (ted_sound_read(0x11) & 0x80) ? "Digital" : "Analog",(unsigned int) i);
