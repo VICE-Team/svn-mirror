@@ -908,12 +908,12 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
         addr_column += 5;
     }
 
-    mon_out("       Cycles      %%         Times");
+    mon_out("       Cycles      %%         Times OPC");
     if (print_contexts) mon_out(" Context");
     if (num_memory_map_configs > 1) mon_out(" Bank");
     mon_out(" Address  Disassembly\n");
 
-    mon_out("------------- ------ -------------");
+    mon_out("------------- ------ ------------- ---");
     if (print_contexts) mon_out(" -------");
     if (num_memory_map_configs > 1) mon_out(" ----");
     mon_out(" -------  -------------------------\n");
@@ -964,6 +964,14 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
                                 total_cycles,
                                 100.0 * total_cycles / context->total_cycles,
                                 page->data[j].num_samples);
+
+                        /* Output instruction cycle timings without decimal
+                         * point only when average is exactly an integer */
+                        if (page->data[j].num_cycles % page->data[j].num_samples != 0) {
+                            mon_out(" %3.1f", (double)page->data[j].num_cycles / page->data[j].num_samples);
+                        } else {
+                            mon_out(" %-3u", page->data[j].num_cycles / page->data[j].num_samples);
+                        }
 
                         if (print_contexts && subcontext) {
                             print_context_id(subcontext, context_column);
