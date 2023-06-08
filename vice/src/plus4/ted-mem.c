@@ -1032,6 +1032,8 @@ uint8_t ted_peek(uint16_t addr)
     addr &= 0x3f;
 
     switch (addr) {
+        case 0x00 ... 0x05:
+            return ted_timer_read(addr);
         case 0x08:
             return ted08_read();
         case 0x09:

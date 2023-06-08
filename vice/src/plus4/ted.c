@@ -65,6 +65,7 @@
 #include "types.h"
 #include "vsync.h"
 #include "video.h"
+#include "monitor.h"
 
 
 ted_t ted;
@@ -860,4 +861,62 @@ void ted_screenshot(screenshot_t *screenshot)
 void ted_async_refresh(struct canvas_refresh_s *refresh)
 {
     raster_async_refresh(&ted.raster, refresh);
+}
+
+int ted_dump(void)
+{
+    static const char * const mode_name[] = {
+        "Standard Text",
+        "Multicolor Text",
+        "Hires Bitmap",
+        "Multicolor Bitmap",
+        "Extended Text",
+        "Illegal Text",
+        "Invalid Bitmap 1",
+        "Invalid Bitmap 2"
+    };
+
+    int video_mode, m_mcm, m_bmm, m_ecm;
+    unsigned int cgen, bmap , vram;
+
+    video_mode = ((ted.regs[0x06] & 0x60) | (ted.regs[0x07] & 0x10)) >> 4;
+
+    m_ecm = (video_mode & 4) >> 2;  /* 0 standard, 1 extended */
+    m_bmm = (video_mode & 2) >> 1;  /* 0 text, 1 bitmap */
+    m_mcm = video_mode & 1;         /* 0 hires, 1 multi */
+
+    int i;
+
+    i = ((int)TED_RASTER_CYCLE(maincpu_clk) - 16) * 4;  /* x raster position */
+    if (i < 0) {
+        i = ted.cycles_per_line * 4 + i;
+    }
+
+    mon_out("Timer 1 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 3) & 0x01)? "on" : "off", (ted.timer_running[0]) ? "yes" : "no");
+    mon_out("Timer 1: $%04x (latched $%04lx)\n", (unsigned int)((ted_timer_read(0x01) << 8) | ted_timer_read(0x00)), ted.t1_start);
+    mon_out("Timer 2 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 4) & 0x01)? "on" : "off", (ted.timer_running[1]) ? "yes" : "no");
+    mon_out("Timer 2: $%04x\n", (unsigned int)((ted_timer_read(0x03) << 8) | ted_timer_read(0x02)));
+    mon_out("Timer 3 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 6) & 0x01)? "on" : "off", (ted.timer_running[2]) ? "yes" : "no");
+    mon_out("Timer 3: $%04x\n\n", (unsigned int)((ted_timer_read(0x05) << 8) | ted_timer_read(0x04)));
+    mon_out("Raster x/y: %u/%u\t IRQ: %u\n", (unsigned int)i, TED_RASTER_Y(maincpu_clk),(unsigned int)(ted.regs[0x0b] | ((ted.regs[0x0a] & 1) << 8)));
+    mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
+    mon_out("Colors: Border: %02x BG: %02x\n", ted.regs[0x19], ted.regs[0x15]);
+    mon_out("Scroll X/Y: %d/%d, %dx%d\n", ted.regs[0x07] & 0x07, ted.regs[0x06] & 0x07, 38 + ((ted.regs[0x07] >> 3) & 1), 24 + ((ted.regs[0x06] >> 3) & 1));
+
+    vram = (unsigned int)(ted.regs[0x14] & 0xf8) << 8;
+    mon_out("Video $%04x (%s), ", vram, (vram < 0x8000)? "RAM" : ((ted.regs[0x13] & 0x01) ? "ROM" : "RAM"));
+    i = ((ted.regs[07] & 0x80) == 0x80 || m_ecm == 1)? 0xf8 : 0xf0;
+    cgen = (unsigned int)((ted.regs[0x13] & i) << 8);
+    bmap = (unsigned int)((ted.regs[0x12] & 0x38) << 10);
+    mon_out("Bitmap $%04x (%s), ", bmap, ((ted.regs[0x12] & 0x04) ? ((bmap >= 0x8000) ? "ROM" : "OPEN BUS") : "RAM"));
+    mon_out("Charset $%04x (%s)\n", cgen, ((ted.regs[0x12] & 0x04) ? ((cgen >= 0x8000) ? "ROM" : "OPEN BUS") : "RAM"));
+
+    i = (((ted_sound_read(0x11) & 0x0f) >= 8) ? 0x08 : (ted_sound_read(0x11) & 0x07));
+    mon_out("Sound mode: %s  Vol: %01x\n", (ted_sound_read(0x11) & 0x80) ? "Digital" : "Analog",(unsigned int) i);
+    i = ((ted_sound_read(0x12) & 0x03) << 8) | ted_sound_read(0x0e);
+    mon_out("Voice 1: %s  Freq: $%03x\n", (ted_sound_read(0x11) & 0x10) ? "on" : "off", (unsigned int) i);
+    i = ((ted_sound_read(0x10) & 0x03) << 8) | ted_sound_read(0x0f);
+    mon_out("Voice 2: %s  Freq: $%03x\n", (ted_sound_read(0x11) & 0x20) ? "tone" : ((ted_sound_read(0x11) & 0x40) ? "noise" : "off"), (unsigned int) i);
+
+    return 0;
 }

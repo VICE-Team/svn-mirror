@@ -1272,7 +1272,7 @@ void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context)
 static int mem_dump_io(void *context, uint16_t addr)
 {
     if ((addr >= 0xff00) && (addr <= 0xff3f)) {
-        /* return ted_dump(machine_context.ted); */ /* FIXME */
+        return ted_dump(); /* FIXME */
     }
     return -1;
 }
