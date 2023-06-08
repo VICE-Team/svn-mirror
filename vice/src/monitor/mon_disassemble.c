@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "asm.h"
 #include "console.h"
@@ -600,7 +601,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     if (offset & 0x10) {        /* sign extend 5-bit value */
                         offset -= 0x20;
                     }
-                    sprintf(buffp, " %d,%c", offset, R);
+                    sprintf(buffp, " %s$%02X,%c", (offset < 0) ? "-" : "", (unsigned int)abs(offset), R);
                     break;
                 }
 
