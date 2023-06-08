@@ -59,9 +59,13 @@ typedef struct profiling_context_s {
     struct profiling_context_s *next;            /* cyclic linked list of sibling contexts */
     struct profiling_context_s *next_mem_config; /* non-cyclic linked list of mem bank configs */
 
+    profiling_counter_t total_stolen_cycles_self;
+
     /* the items below are populated by compute_aggregate_stats() */
     profiling_counter_t total_cycles;
     profiling_counter_t total_cycles_self;
+    profiling_counter_t total_stolen_cycles;
+
     int id;
 } profiling_context_t;
 

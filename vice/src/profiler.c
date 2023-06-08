@@ -255,13 +255,14 @@ void profile_sample_start(uint16_t pc)
     }
 }
 
-void profile_sample_finish(uint16_t cycle_time)
+void profile_sample_finish(uint16_t cycle_time, uint16_t stolen_cycles)
 {
     profiling_data_t * data = &profiling_get_page(current_context,
                                                  current_pc >> 8)
                                   ->data[current_pc & 0xff];
     data->num_cycles += cycle_time;
     data->num_samples++;
+    current_context->total_stolen_cycles_self   += stolen_cycles;
 }
 
 void profile_jsr(uint16_t pc_dst, uint16_t pc_src, uint8_t sp)
@@ -279,7 +280,7 @@ void profile_int(uint16_t pc_dst,
     entered_context = true;
     if (maincpu_profiling) {
         profile_sample_start(handler);
-        profile_sample_finish(cycle_time);
+        profile_sample_finish(cycle_time, 0 /* stolen_cycles */);
     }
 }
 
@@ -308,8 +309,9 @@ void profile_start(void)
 
 void compute_aggregate_stats(profiling_context_t *context) {
     profiling_context_t *c;
-    profiling_counter_t total_child_cycles = 0;
-    profiling_counter_t total_self_cycles  = 0;
+    profiling_counter_t total_child_cycles        = 0;
+    profiling_counter_t total_self_cycles         = 0;
+    profiling_counter_t total_stolen_child_cycles = 0;
     int i,j;
 
     if (context->child) {
@@ -329,7 +331,8 @@ void compute_aggregate_stats(profiling_context_t *context) {
                 }
             }
             compute_aggregate_stats(c);
-            total_child_cycles += c->total_cycles;
+            total_child_cycles        += c->total_cycles;
+            total_stolen_child_cycles += c->total_stolen_cycles;
             c = c->next;
         } while(c != context->child);
     }
@@ -346,8 +349,9 @@ void compute_aggregate_stats(profiling_context_t *context) {
         c = c->next_mem_config;
     }
 
-    context->total_cycles_self = total_self_cycles;
-    context->total_cycles      = total_self_cycles + total_child_cycles;
+    context->total_cycles_self   = total_self_cycles;
+    context->total_cycles        = total_self_cycles + total_child_cycles;
+    context->total_stolen_cycles = context->total_stolen_cycles_self + total_stolen_child_cycles;
 }
 
 

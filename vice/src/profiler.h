@@ -39,7 +39,7 @@ void profile_stop(void);
 
 /* called by the CPU for each instruction */
 void profile_sample_start(uint16_t pc);
-void profile_sample_finish(uint16_t cycle_time);
+void profile_sample_finish(uint16_t cycle_time, uint16_t stolen_cycles);
 
 /* called whenever a JSR is encountered */
 void profile_jsr(uint16_t pc_dst, uint16_t pc_src, uint8_t sp);
