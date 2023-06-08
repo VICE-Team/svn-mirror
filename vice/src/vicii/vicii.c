@@ -1459,7 +1459,7 @@ int vicii_dump(void)
         mon_out("              MuCol1: %2d MuCol2: %2d\n", vicii.regs[0x22], vicii.regs[0x23]);
     }
     mon_out("Scroll X/Y:   %d/%d\n", vicii.regs[0x16] & 0x07, vicii.regs[0x11] & 0x07);
-    mon_out("Screen Size:  %d x %d\n", 39 + ((vicii.regs[0x16] >> 3) & 1), 24 + ((vicii.regs[0x11] >> 3) & 1));
+    mon_out("Screen Size:  %d x %d\n", 38 + ((vicii.regs[0x16] >> 3) & 1), 24 + ((vicii.regs[0x11] >> 3) & 1));
 
     mon_out("\nVIC Memory Bank:   $%04x - $%04x\n",
            (unsigned int)v_bank, (unsigned int)(v_bank + 0x3fff));
