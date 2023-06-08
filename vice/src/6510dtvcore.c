@@ -2744,7 +2744,7 @@ trap_skipped:
 
 #if !defined(DRIVE_CPU)
         if (maincpu_profiling) {
-            profile_sample_finish(CLK - profiling_clock_start - stolen_cycles);
+            profile_sample_finish(CLK - profiling_clock_start - stolen_cycles, stolen_cycles);
         }
 #endif
 

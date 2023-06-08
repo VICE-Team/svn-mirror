@@ -118,10 +118,12 @@ static void merge_aggregate_contexts(profiling_context_t *output,
         output->id |= CONTEXT_MERGED;
     }
 
-    output->num_enters        += source->num_enters;
-    output->num_exits         += source->num_exits;
-    output->total_cycles      += source->total_cycles;
-    output->total_cycles_self += source->total_cycles_self;
+    output->num_enters               += source->num_enters;
+    output->num_exits                += source->num_exits;
+    output->total_cycles             += source->total_cycles;
+    output->total_cycles_self        += source->total_cycles_self;
+    output->total_stolen_cycles      += source->total_stolen_cycles;
+    output->total_stolen_cycles_self += source->total_stolen_cycles_self;
 
     while (source) {
         profiling_context_t *output_context = get_mem_config_context(output, source->memory_bank_config);
@@ -834,24 +836,48 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
 
     average_times = 0.5 * (context->num_enters + context->num_exits);
 
-    mon_out("   Entered %'10u time%s\n", context->num_enters, context->num_enters != 1 ? "s":"");
-    mon_out("   Exited  %'10u time%s\n", context->num_exits,  context->num_exits  != 1 ? "s":"");
+    mon_out("   Entered        %'10u time%s\n", context->num_enters, context->num_enters != 1 ? "s":"");
+    mon_out("   Exited         %'10u time%s\n", context->num_exits,  context->num_exits  != 1 ? "s":"");
 
-    mon_out("   Total   %'10u cycles ", context->total_cycles);
+    mon_out("   Total          %'10u cycles ", context->total_cycles);
     print_cycle_time(context->total_cycles, 10);
     mon_out("\n");
 
-    mon_out("   Self    %'10u cycles ", context->total_cycles_self);
+    mon_out("   Self           %'10u cycles ", context->total_cycles_self);
     print_cycle_time(context->total_cycles_self, 10);
     mon_out("\n");
 
-    mon_out("   Average %'10.0f cycles ", context->total_cycles/average_times);
+    mon_out("   Average        %'10.0f cycles ", context->total_cycles/average_times);
     print_cycle_time(context->total_cycles/average_times, 10);
     if (context->num_enters != context->num_exits) {
-        mon_out("*\n");
-        mon_out("        * Averages are not accurate since enters differs from exits.");
+        mon_out("*");
     }
-    mon_out("\n\n");
+    mon_out("\n");
+
+    mon_out("   Stolen total   %'10u cycles ", context->total_stolen_cycles);
+    print_cycle_time(context->total_stolen_cycles, 10);
+    mon_out("\n");
+
+    if(context->total_stolen_cycles_self > 0) {
+        profiling_counter_t total_with_stolen = context->total_cycles + context->total_stolen_cycles;
+
+        mon_out("   Stolen self    %'10u cycles ", context->total_stolen_cycles_self);
+        print_cycle_time(context->total_stolen_cycles_self, 10);
+        mon_out("\n");
+
+        mon_out("   Avg inc stolen %'10.0f cycles ", total_with_stolen/average_times);
+        print_cycle_time(total_with_stolen/average_times, 10);
+        if (context->num_enters != context->num_exits) {
+            mon_out("*");
+        }
+        mon_out("\n");
+    }
+
+    if (context->num_enters != context->num_exits) {
+        mon_out("             * Averages are not accurate since enters differs from exits.\n");
+    }
+
+    mon_out("\n");
     mon_out("   Memory Banking Config%s:", context->next_mem_config ? "s" : "");
     c = context;
     while (c) {
