@@ -189,6 +189,13 @@ struct ted_s {
     /* TED registers.  */
     uint8_t regs[64];
 
+    /* Timer 1 reload latch */
+    CLOCK t1_start;
+
+    /* Timers running status */
+
+    unsigned int timer_running[3];
+
     /* Interrupt register.  */
     int irq_status;             /* = 0; */
 

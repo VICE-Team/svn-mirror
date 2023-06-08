@@ -62,4 +62,6 @@ void ted_snapshot_prepare(void);
 int ted_snapshot_write_module(struct snapshot_s *s);
 int ted_snapshot_read_module(struct snapshot_s *s);
 
+int ted_dump(void);
+
 #endif
