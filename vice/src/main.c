@@ -267,8 +267,8 @@ int main_program(int argc, char **argv)
     /* Initialize the UI actions system, this needs to happen before the UI
      * init so the UI code can register handlers */
     if (!console_mode && !help_requested) {
-        ui_actions_init();
 #ifndef USE_HEADLESSUI
+        ui_actions_init();
         /* also initialize the hotkeys resources/cmdline */
         ui_hotkeys_resources_init();
         ui_hotkeys_cmdline_options_init();

@@ -123,8 +123,17 @@ libarchdep_a_SOURCES = \
 	dynlib.c \
 	rawnetarch.c \
 	rs232dev.c \
-	signals.c \
-	uiactions.c
+	signals.c
+
+if USE_SDLUI
+libarchdep_a_SOURCES += uiactions.c
+endif
+if USE_SDL2UI
+libarchdep_a_SOURCES += uiactions.c
+endif
+if USE_GTK3UI
+libarchdep_a_SOURCES += uiactions.c
+endif
 
 if UNIX_COMPILE
 libarchdep_a_SOURCES += \
@@ -244,6 +253,9 @@ EXTRA_DIST = \
 	uiactions.h \
 	README-bindist.txt
 
+if USE_HEADLESSUI
+EXTRA_DIST += uiactions.c
+endif
 
 
 # FIXME: the Extra MacOS script stuff should live elsewhere
