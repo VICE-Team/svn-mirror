@@ -43,7 +43,6 @@
 #include "resources.h"
 #include "parser.h"
 #include "vhkkeysyms.h"
-#include "vhkmap.h"
 #include "uiapi.h"
 #include "uiactions.h"
 #include "util.h"
@@ -365,7 +364,7 @@ bool ui_hotkeys_export(const char *path)
 
     /* iterate assigned hotkeys */
     for (action = 0; action < ACTION_ID_COUNT; action++) {
-        vhk_map_t *map = vhk_map_get(action);
+        ui_action_map_t *map = ui_action_map_get(action);
         if (map != NULL && map->vice_keysym != 0) {
 
             const char *action_name;
@@ -405,7 +404,7 @@ bool ui_hotkeys_export(const char *path)
  *
  * \param[in]   map     vhk map object
  */
-void ui_hotkeys_install_by_map(vhk_map_t *map)
+void ui_hotkeys_install_by_map(ui_action_map_t *map)
 {
     ui_hotkeys_arch_install_by_map(map);
     /* so far no additional bookkeeping required */
@@ -419,13 +418,13 @@ void ui_hotkeys_install_by_map(vhk_map_t *map)
  * ui_hotkeys_arch_install_by_map() and updates VICE and arch keysysm and
  * modmasks in \a map.
  *
- * \param[in]   map             vhk map object
+ * \param[in]   map             UI action map object
  * \param[in]   vice_keysym     new VICE keysym
  * \param[in]   vice_modmask    new VICE modifier mask
  */
-void ui_hotkeys_update_by_map(vhk_map_t *map,
-                              uint32_t vice_keysym,
-                              uint32_t vice_modmask)
+void ui_hotkeys_update_by_map(ui_action_map_t *map,
+                              uint32_t         vice_keysym,
+                              uint32_t         vice_modmask)
 {
     if (map != NULL) {
         uint32_t arch_keysym;
@@ -463,7 +462,7 @@ void ui_hotkeys_update_by_action(int action,
                                  uint32_t vice_keysym,
                                  uint32_t vice_modmask)
 {
-    vhk_map_t *map = vhk_map_get(action);
+    ui_action_map_t *map = ui_action_map_get(action);
     if (map != NULL) {
         ui_hotkeys_update_by_map(map, vice_keysym, vice_modmask);
     }
@@ -476,13 +475,13 @@ void ui_hotkeys_update_by_action(int action,
  * item accelerator labels if present.
  * Calls virtual method ui_hotkeys_arch_remove_by_map().
  *
- * \param[in]   map     vhk map object
+ * \param[in]   map     UI action map object
  */
-void ui_hotkeys_remove_by_map(vhk_map_t *map)
+void ui_hotkeys_remove_by_map(ui_action_map_t *map)
 {
     if (map != NULL) {
         ui_hotkeys_arch_remove_by_map(map);
-        vhk_map_unset_by_map(map);
+        ui_action_map_clear_hotkey(map);
     }
 }
 
@@ -497,7 +496,7 @@ void ui_hotkeys_remove_by_map(vhk_map_t *map)
  */
 void ui_hotkeys_remove_by_action(int action)
 {
-    vhk_map_t *map = vhk_map_get(action);
+    ui_action_map_t *map = ui_action_map_get(action);
     if (map != NULL) {
         ui_hotkeys_remove_by_map(map);
     }
@@ -514,12 +513,12 @@ void ui_hotkeys_remove_all(void)
     int action;
 
     for (action = 0 ; action < ACTION_ID_COUNT; action++) {
-        vhk_map_t *map = vhk_map_get(action);
+        ui_action_map_t *map = ui_action_map_get(action);
         if (map != NULL && map->vice_keysym != 0) {
             debug_vhk("removing hotkeys for action %d (%s)",
                       action, ui_action_get_name(action));
             ui_hotkeys_arch_remove_by_map(map);
-            vhk_map_unset_by_map(map);
+            ui_action_map_clear_hotkey(map);
         }
     }
 }

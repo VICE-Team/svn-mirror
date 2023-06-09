@@ -41,11 +41,14 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "uiapi.h"
 
 #include "uiactions.h"
 
 /* Enable debugging */
 /* #define DEBUG_ACTIONS */
+
+#define ARRAY_LEN(arr)  (sizeof (arr) / sizeof (arr[0]) )
 
 
 /** \brief  Mapping of action names to descriptions and machine support
@@ -373,7 +376,6 @@ static bool is_current_machine_action(const ui_action_info_private_t *action)
 {
     return (bool)(action->machine & machine_class);
 }
-
 
 /** \brief  Get "private" info about a UI action
  *
@@ -741,7 +743,7 @@ static bool dialog_active = false;
 static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 
 
-/** \brief  Find action mapping by action ID
+/** \brief  Find action mapping by action ID with valid handler
  *
  * \param[in]   action  action ID
  *
@@ -774,13 +776,20 @@ void ui_actions_init(void)
     for (action = 0; action < ACTION_ID_COUNT; action++) {
         ui_action_map_t *map = &action_mappings[action];
 
-        /* initialize elements */
-        map->action   = action; /* needed when passing a pointer into the array */
-        map->handler  = NULL;
-        map->blocks   = false;
-        map->dialog   = false;
-        map->uithread = false;
-        map->is_busy  = false;
+        /* explicitly initialize elements */
+        map->action       = action; /* needed when passing a pointer into the array */
+        map->handler      = NULL;
+        map->blocks       = false;
+        map->dialog       = false;
+        map->uithread     = false;
+        map->is_busy      = false;
+        map->vice_keysym  = 0;
+        map->vice_modmask = 0;
+        map->arch_keysym  = 0;
+        map->arch_modmask = 0;
+        map->menu_item[0] = NULL;
+        map->menu_item[1] = NULL;
+        map->user_data    = NULL;
     }
 #endif
 }
@@ -836,7 +845,6 @@ void ui_actions_register(const ui_action_map_t *mappings)
         entry->dialog   = map->dialog;
         entry->uithread = map->uithread;
         entry->is_busy  = false;
-
         map++;;
     }
 }
@@ -922,4 +930,172 @@ void ui_action_finish(int action)
             dialog_active = false;
         }
     }
+}
+
+
+/*
+ * Additional code for the hotkeys
+ */
+
+/** \brief  Check if \a action is a valid index in the mappings array
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  `true` if valid index
+ */
+static bool is_valid_index(int action)
+{
+    return (action >= 0 && action < (int)ARRAY_LEN(action_mappings));
+}
+
+
+/** \brief  Get UI action map by UI action ID
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  UI action map or `NULL` when \a action is invalid
+ */
+ui_action_map_t *ui_action_map_get(int action)
+{
+    if (is_valid_index(action)) {
+        return &action_mappings[action];
+    }
+    return NULL;
+}
+
+
+/** \brief  Get UI action map by VICE hotkey
+ *
+ * \param[in]   vice_keysym     VICE keysym
+ * \param[in]   vice_modmask    VICE modifier mask
+ *
+ * \return  UI action map or `NULL` when not found
+ */
+ui_action_map_t *ui_action_map_get_by_hotkey(uint32_t vice_keysym,
+                                             uint32_t vice_modmask)
+{
+    if (vice_keysym != 0) {
+        size_t action;
+
+        for (action = 0; action < ARRAY_LEN(action_mappings); action++) {
+            ui_action_map_t *map = &action_mappings[action];
+            if (map->vice_keysym == vice_keysym && map->vice_modmask == vice_modmask) {
+                return map;
+            }
+        }
+    }
+    return NULL;
+}
+
+
+/** \brief  Get UI action map by arch hotkey
+ *
+ * \param[in]   arch_keysym     arch keysym
+ * \param[in]   arch_modmask    arch modifier mask
+ *
+ * \return  UI action map or `NULL` when not found
+ */
+ui_action_map_t *ui_action_map_get_by_arch_hotkey(uint32_t arch_keysym,
+                                                  uint32_t arch_modmask)
+{
+    uint32_t vice_keysym  = ui_hotkeys_arch_keysym_from_arch(arch_keysym);
+    uint32_t vice_modmask = ui_hotkeys_arch_modmask_from_arch(arch_modmask);
+
+    return ui_action_map_get_by_hotkey(vice_keysym, vice_modmask);
+}
+
+
+/** \brief  Clear hotkey
+ *
+ * Set the VICE and arch keysyms and modifier masks to 0 in \a map.
+ *
+ * \param[in]   map     UI action map
+ */
+void ui_action_map_clear_hotkey(ui_action_map_t *map)
+{
+    map->vice_keysym  = 0;
+    map->vice_modmask = 0;
+    map->arch_keysym  = 0;
+    map->arch_modmask = 0;
+}
+
+
+/** \brief  Clear hotkey
+ *
+ * Set VICE and arch keysyms and modifier masks to 0.
+ *
+ * \param[in]   action  UI action ID
+ */
+void ui_action_map_clear_hotkey_by_action(int action)
+{
+    ui_action_map_t *map = ui_action_map_get(action);
+    if (map != NULL) {
+        ui_action_map_clear_hotkey(map);
+    }
+}
+
+
+/** \brief  Clear hotkey
+ *
+ * Set VICE and arch keysyms and modifier masks to 0.
+ *
+ * \param[in]   vice_keysym     VICE keysym
+ * \param[in]   vice_modmask    VICE modifier mask
+ */
+void ui_action_map_clear_hotkey_by_hotkey(uint32_t vice_keysym,
+                                          uint32_t vice_modmask)
+{
+    ui_action_map_t *map = ui_action_map_get_by_hotkey(vice_keysym, vice_modmask);
+    if (map != NULL) {
+        ui_action_map_clear_hotkey(map);
+    }
+}
+
+
+/** \brief  Set hotkey for action
+ *
+ * \param[in]   action          action ID
+ * \param[in]   vice_keysym     VICE keysym
+ * \param[in]   vice_modmask    VICE modifier mask
+ * \param[in]   arch_keysym     arch keysym
+ * \param[in]   arch_modmask    arch modifier mask
+ *
+ * \return  pointer to map or `NULL` on error
+ */
+ui_action_map_t *ui_action_map_set_hotkey(int       action,
+                                          uint32_t  vice_keysym,
+                                          uint32_t  vice_modmask,
+                                          uint32_t  arch_keysym,
+                                          uint32_t  arch_modmask)
+{
+    ui_action_map_t *map = ui_action_map_get(action);
+    if (map != NULL) {
+        map->action       = action;
+        map->vice_keysym  = vice_keysym;
+        map->vice_modmask = vice_modmask;
+        map->arch_keysym  = arch_keysym;
+        map->arch_modmask = arch_modmask;
+    }
+    return map;
+}
+
+
+/** \brief  Set hotkey for action
+ *
+ * \param[in]   map             UI action map
+ * \param[in]   vice_keysym     VICE keysym
+ * \param[in]   vice_modmask    VICE modifier mask
+ * \param[in]   arch_keysym     arch keysym
+ * \param[in]   arch_modmask    arch modifier mask
+ */
+void ui_action_map_set_hotkey_by_map(ui_action_map_t *map,
+                                     uint32_t         vice_keysym,
+                                     uint32_t         vice_modmask,
+                                     uint32_t         arch_keysym,
+                                     uint32_t         arch_modmask)
+{
+    map->vice_keysym  = vice_keysym;
+    map->vice_modmask = vice_modmask;
+    map->arch_keysym  = arch_keysym;
+    map->arch_modmask = arch_modmask;
 }

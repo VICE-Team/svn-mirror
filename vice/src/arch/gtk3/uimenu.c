@@ -46,7 +46,6 @@
 #include "uiabout.h"
 #include "uistatusbar.h"
 #include "util.h"
-#include "vhkmap.h"
 
 #include "uimenu.h"
 
@@ -244,37 +243,22 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
 
             /* add item to table of references if it triggers a UI action */
             if (items[i].action_id > ACTION_NONE) {
-
-                vhk_gtk_map_t *arch_map = NULL;     /* new API */
-                vhk_map_t     *vhk_map  = NULL;     /* new API */
+                ui_action_map_t *action_map;        /* ui-agnostic data */
 
                 /* add to hotkey maps or update */
-                if (window_id == PRIMARY_WINDOW) {
-                    vhk_map = vhk_map_get(items[i].action_id);
-                    if (vhk_map != NULL) {
-                        arch_map = vhk_map->user_data;
-                        if (arch_map == NULL) {
-                            arch_map = vhk_gtk_map_new(&items[i]);
-                            vhk_map->user_data = arch_map;
-                        }
+                action_map = ui_action_map_get(items[i].action_id);
+                if (action_map != NULL) {
+                    vhk_gtk_map_t *arch_map;    /* gtk3-specific data */
+
+                    action_map->menu_item[window_id] = item;
+                    arch_map = action_map->user_data;
+                    if (arch_map == NULL) {
+                        /* will be NULL when this code runs for the primary
+                         * window */
+                        arch_map = vhk_gtk_map_new(&items[i]);
+                        action_map->user_data = arch_map;
                     }
-
-                } else {
-
-                    vhk_map = vhk_map_get(items[i].action_id);
-                    if (vhk_map == NULL) {
-                        /* shouldn't happen */
-                        debug_gtk3("Failed to locate vhk mapping object for "
-                                   "action %d (%s).",
-                                   items[i].action_id,
-                                   ui_action_get_name(items[i].action_id));
-                    }
-                }
-
-                if (vhk_map != NULL) {
-                    vhk_map->menu_item[window_id] = item;
-                }
-                if (arch_map != NULL) {
+                    /* set signal handler ID in the gtk3-specific map */
                     arch_map->handler[window_id] = handler_id;
                 }
             }

@@ -38,7 +38,6 @@
 #include "uihotkeys.h"
 #include "util.h"
 #include "vhkkeysyms.h"
-#include "vhkmap.h"
 
 #include "parser.h"
 
@@ -635,13 +634,13 @@ static bool vhk_parser_do_include(const char *line, textfile_reader_t *reader)
  */
 static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
 {
-    const char *curpos;
-    const char *oldpos;
-    uint32_t    vice_mask;
-    uint32_t    vice_key;
-    uint32_t    arch_mask;
-    uint32_t    arch_key;
-    vhk_map_t  *map;
+    const char       *curpos;
+    const char       *oldpos;
+    uint32_t          vice_mask;
+    uint32_t          vice_key;
+    uint32_t          arch_mask;
+    uint32_t          arch_key;
+    ui_action_map_t  *map;
 
     curpos = util_skip_whitespace(line);
     if (*curpos == '\0') {
@@ -672,7 +671,7 @@ static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
     }
 
     /* lookup map for hotkey */
-    map = vhk_map_get_by_hotkey(vice_key, vice_mask);
+    map = ui_action_map_get_by_hotkey(vice_key, vice_mask);
     if (map != NULL) {
         if (vhk_debug) {
             log_message(vhk_log,
@@ -682,7 +681,7 @@ static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
                         textfile_reader_linenum(reader),
                         map->action, ui_action_get_name(map->action));
         }
-    vhk_map_unset_by_map(map);
+    ui_action_map_clear_hotkey(map);
     } else {
         /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
          * a display and thus no GdkKeymap. :( */
@@ -800,16 +799,16 @@ static bool vhk_parser_handle_keyword(const char *line, textfile_reader_t *reade
  */
 static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reader)
 {
-    const char *curpos;
-    const char *oldpos;
-    char        action_name[256];
-    ptrdiff_t   namelen;
-    vhk_map_t  *map;
-    int         action_id    = ACTION_INVALID;
-    uint32_t    vice_keysym  = 0;
-    uint32_t    vice_modmask = VHK_MOD_NONE;
-    uint32_t    arch_keysym  = 0;
-    uint32_t    arch_modmask = 0;
+    const char      *curpos;
+    const char      *oldpos;
+    char             action_name[256];
+    ptrdiff_t        namelen;
+    ui_action_map_t *map;
+    int              action_id    = ACTION_INVALID;
+    uint32_t         vice_keysym  = 0;
+    uint32_t         vice_modmask = 0;
+    uint32_t         arch_keysym  = 0;
+    uint32_t         arch_modmask = 0;
 
     curpos = oldpos = line;
 
@@ -869,11 +868,9 @@ static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reade
     }
 
     /* register mapping, first try looking up the item */
-    map = vhk_map_set(action_id,
-                      vice_keysym, vice_modmask,
-                      arch_keysym, arch_modmask,
-                      NULL, NULL);
-
+    map = ui_action_map_set_hotkey(action_id,
+                                   vice_keysym, vice_modmask,
+                                   arch_keysym, arch_modmask);
     if (map != NULL) {
         /* set hotkey for menu item, if it exists */
         /* call arch-specific "virtual method" */

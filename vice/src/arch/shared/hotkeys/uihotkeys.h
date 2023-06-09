@@ -34,7 +34,7 @@
 
 #include "hotkeystypes.h"
 #include "vhkkeysyms.h"
-#include "vhkmap.h"
+#include "uiactions.h"
 
 
 void        ui_hotkeys_init    (const char *prefix);
@@ -43,14 +43,14 @@ void        ui_hotkeys_remove_all(void);
 bool        ui_hotkeys_parse(const char *path);
 bool        ui_hotkeys_export(const char *path);
 
-void        ui_hotkeys_install_by_map  (vhk_map_t *map);
-void        ui_hotkeys_update_by_map   (vhk_map_t *map,
-                                        uint32_t   vice_keysym,
-                                        uint32_t   vice_modmask);
-void        ui_hotkeys_update_by_action(int action,
-                                        uint32_t   vice_keysym,
-                                        uint32_t   vice_modmask);
-void        ui_hotkeys_remove_by_map   (vhk_map_t *map);
+void        ui_hotkeys_install_by_map  (ui_action_map_t *map);
+void        ui_hotkeys_update_by_map   (ui_action_map_t *map,
+                                        uint32_t         vice_keysym,
+                                        uint32_t         vice_modmask);
+void        ui_hotkeys_update_by_action(int      action,
+                                        uint32_t vice_keysym,
+                                        uint32_t vice_modmask);
+void        ui_hotkeys_remove_by_map   (ui_action_map_t *map);
 void        ui_hotkeys_remove_by_action(int action);
 
 int         ui_hotkeys_resources_init(void);

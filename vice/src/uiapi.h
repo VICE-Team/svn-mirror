@@ -114,7 +114,7 @@ void ui_display_volume(int vol);
  * and/or UI using the hotkeys API in src/arch/shared/hotkeys/.
  */
 
-#include "arch/shared/hotkeys/hotkeystypes.h"
+#include "arch/shared/uiactions.h"
 
 /** \brief  Run UI-specific hotkeys initialization code
  *
@@ -138,9 +138,9 @@ void ui_hotkeys_arch_shutdown(void);
  * the UI needs to register the hotkey using its API and, if present, set the
  * menu item pointer(s) in \a map.
  *
- * \param[in]   map hotkeys mapping reference
+ * \param[in]   map UI action map object
  */
-void ui_hotkeys_arch_install_by_map(vhk_map_t *map);
+void ui_hotkeys_arch_install_by_map(ui_action_map_t *map);
 
 /** \brief  Update hotkey
  *
@@ -151,13 +151,13 @@ void ui_hotkeys_arch_install_by_map(vhk_map_t *map);
  * update their accelator labels to the new hotkey. The generic hotkeys code
  * takes care of updating the internals of \a map.
  *
- * \param[in]   map             vhk map object
+ * \param[in]   map             UI action map object
  * \param[in]   vice_keysym     new VICE keysym
  * \param[in]   vice_modmask    new VICE modifier mask
  */
-void ui_hotkeys_arch_update_by_map(vhk_map_t *map,
-                                   uint32_t vice_keysym,
-                                   uint32_t vice_modmask);
+void ui_hotkeys_arch_update_by_map(ui_action_map_t *map,
+                                   uint32_t         vice_keysym,
+                                   uint32_t         vice_modmask);
 
 /** \brief  Remove hotkey
  *
@@ -167,9 +167,9 @@ void ui_hotkeys_arch_update_by_map(vhk_map_t *map,
  * to remove any accelerator (labels) from the UI and disconnecting any
  * signal handlers connected for the hotkey.
  *
- * \param[in]   map     vhk map object
+ * \param[in]   map     UI action map object
  */
-void ui_hotkeys_arch_remove_by_map(vhk_map_t *map);
+void ui_hotkeys_arch_remove_by_map(ui_action_map_t *map);
 
 /* Functions translating between VICE and arch keysysm and modifiers
  *

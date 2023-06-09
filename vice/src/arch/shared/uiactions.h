@@ -29,6 +29,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 /* this header is required if the macro IS_ACTION_NAME_CHAR() is used: */
 #include <ctype.h>
 
@@ -49,6 +50,11 @@ typedef struct ui_action_info_s {
  */
 typedef struct ui_action_map_s {
     int    action;          /**< action ID */
+
+    /*
+     * Action handler data
+     */
+
     void (*handler)(void);  /**< function handling the action */
 
     /* modes */
@@ -61,6 +67,16 @@ typedef struct ui_action_map_s {
 
     /* state */
     bool   is_busy;         /**< action is busy */
+
+    /*
+     * Hotkey data
+     */
+    uint32_t  vice_keysym;  /**< VICE keysym, see hotkeys.vhkkeysyms.h */
+    uint32_t  vice_modmask; /**< VICE modmask, see hotkeys.vhkkeysyms.h */
+    uint32_t  arch_keysym;  /**< arch keysym */
+    uint32_t  arch_modmask; /**< arch modmask */
+    void     *menu_item[2]; /**< menu item references */
+    void     *user_data;    /**< additional data (optional) */
 } ui_action_map_t;
 
 /** \brief  Terminator of action maps
@@ -362,5 +378,28 @@ void                    ui_action_finish         (int action);
 bool                    ui_action_def            (int action, const char *hotkey);
 bool                    ui_action_redef          (int action, const char *hotkey);
 bool                    ui_action_undef          (int action);
+
+/*
+ * For the added hotkeys data:
+ */
+
+ui_action_map_t *ui_action_map_get                   (int action);
+ui_action_map_t *ui_action_map_get_by_hotkey         (uint32_t vice_keysym, uint32_t vice_modmask);
+ui_action_map_t *ui_action_map_get_by_arch_hotkey    (uint32_t arch_keysym, uint32_t arch_modmask);
+
+void             ui_action_map_clear_hotkey          (ui_action_map_t *map);
+void             ui_action_map_clear_hotkey_by_action(int action);
+void             ui_action_map_clear_hotkey_by_hotkey(uint32_t vice_keysym, uint32_t vice_modmask);
+
+ui_action_map_t *ui_action_map_set_hotkey            (int       action,
+                                                      uint32_t  vice_keysym,
+                                                      uint32_t  vice_modmask,
+                                                      uint32_t  arch_keysym,
+                                                      uint32_t  arch_modmask);
+void             ui_action_map_set_hotkey_by_map     (ui_action_map_t *map,
+                                                      uint32_t         vice_keysym,
+                                                      uint32_t         vice_modmask,
+                                                      uint32_t         arch_keysym,
+                                                      uint32_t         arch_modmask);
 
 #endif

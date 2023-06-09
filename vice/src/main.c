@@ -274,10 +274,6 @@ int main_program(int argc, char **argv)
         ui_hotkeys_cmdline_options_init();
 #endif
     }
-    /* Clear vhk mappings, needs to happen before any menus are created */
-#ifndef USE_HEADLESSUI
-    vhk_map_init_mappings();
-#endif
 
     /* Initialize the user interface.  `ui_init_with_args()' might need to handle the
        command line somehow, so we call it before parsing the options.
