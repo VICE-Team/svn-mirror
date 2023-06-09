@@ -168,7 +168,8 @@ static io_source_t ide64_idebus_device = {
     ide64_idebus_dump,           /* device state information dump function */
     CARTRIDGE_IDE64,             /* cartridge ID */
     IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
-    0                            /* insertion order, gets filled in by the registration function */
+    0,                           /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE               /* NO mirroring */
 };
 
 static io_source_t ide64_io_device = {
@@ -184,7 +185,8 @@ static io_source_t ide64_io_device = {
     ide64_io_dump,               /* device state information dump function */
     CARTRIDGE_IDE64,             /* cartridge ID */
     IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
-    0                            /* insertion order, gets filled in by the registration function */
+    0,                           /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE               /* NO mirroring */
 };
 
 static io_source_t ide64_ft245_device = {
@@ -200,7 +202,8 @@ static io_source_t ide64_ft245_device = {
     NULL,                          /* TODO: device state information dump function */
     CARTRIDGE_IDE64,               /* cartridge ID */
     IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
-    0                              /* insertion order, gets filled in by the registration function */
+    0,                             /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE                 /* NO mirroring */
 };
 
 static io_source_t ide64_ds1302_device = {
@@ -216,7 +219,8 @@ static io_source_t ide64_ds1302_device = {
     ide64_rtc_dump,                 /* device state information dump function */
     CARTRIDGE_IDE64,                /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
-    0                               /* insertion order, gets filled in by the registration function */
+    0,                              /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE                  /* NO mirroring */
 };
 
 static io_source_t ide64_rom_device = {
@@ -232,7 +236,8 @@ static io_source_t ide64_rom_device = {
     NULL,                        /* TODO: device state information dump function */
     CARTRIDGE_IDE64,             /* cartridge ID */
     IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
-    0                            /* insertion order, gets filled in by the registration function */
+    0,                           /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE               /* NO mirroring */
 };
 
 static io_source_t ide64_clockport_device = {
@@ -248,7 +253,8 @@ static io_source_t ide64_clockport_device = {
     ide64_clockport_dump,             /* device state information dump function */
     CARTRIDGE_IDE64,                  /* cartridge ID */
     IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
-    0                                 /* insertion order, gets filled in by the registration function */
+    0,                                /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE                    /* NO mirroring */
 };
 
 static io_source_list_t *ide64_idebus_list_item = NULL;

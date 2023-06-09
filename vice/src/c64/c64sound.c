@@ -89,7 +89,8 @@ static io_source_t sid2_device = {
     sid2_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 3rd SID, can be a cartridge or an internal board */
@@ -106,7 +107,8 @@ static io_source_t sid3_device = {
     sid3_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 4th SID, can be a cartridge or an internal board */
@@ -123,7 +125,8 @@ static io_source_t sid4_device = {
     sid4_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 5th SID, can be a cartridge or an internal board */
@@ -140,7 +143,8 @@ static io_source_t sid5_device = {
     sid5_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 6th SID, can be a cartridge or an internal board */
@@ -157,7 +161,8 @@ static io_source_t sid6_device = {
     sid6_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 7th SID, can be a cartridge or an internal board */
@@ -174,7 +179,8 @@ static io_source_t sid7_device = {
     sid7_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* 8th SID, can be a cartridge or an internal board */
@@ -191,7 +197,8 @@ static io_source_t sid8_device = {
     sid8_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 static io_source_list_t *sid2_list_item = NULL;
