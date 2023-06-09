@@ -216,7 +216,7 @@ void vhk_gtk_init_accelerators(GtkWidget *window)
  *
  * \todo    Rename
  */
-gchar *vhk_gtk_get_accel_label_by_map(const vhk_map_t *map)
+gchar *vhk_gtk_get_accel_label_by_map(const ui_action_map_t *map)
 {
     if (map->arch_keysym > 0) {
         return gtk_accelerator_get_label(map->arch_keysym, map->arch_modmask);
@@ -236,7 +236,7 @@ gchar *vhk_gtk_get_accel_label_by_map(const vhk_map_t *map)
  */
 gchar *vhk_gtk_get_accel_label_by_action(int action)
 {
-    vhk_map_t *map = vhk_map_get(action);
+    ui_action_map_t *map = ui_action_map_get(action);
     if (map != NULL) {
         return vhk_gtk_get_accel_label_by_map(map);
     }
@@ -257,7 +257,7 @@ gchar *vhk_gtk_get_accel_label_by_action(int action)
 GtkWidget *vhk_gtk_get_menu_item_by_action_for_window(int action, int window_id)
 {
     if (valid_window_id(window_id)) {
-        vhk_map_t *map = vhk_map_get(action);
+        ui_action_map_t *map = ui_action_map_get(action);
         if (map != NULL) {
             return map->menu_item[window_id];
         }
@@ -279,11 +279,11 @@ GtkWidget *vhk_gtk_get_menu_item_by_action_for_window(int action, int window_id)
  */
 void vhk_gtk_set_menu_item_accel_label(GtkWidget *item, int action)
 {
-    vhk_map_t *map;
-    GtkWidget *label;
+    ui_action_map_t *map;
+    GtkWidget       *label;
 
     label = gtk_bin_get_child(GTK_BIN(item));
-    map   = vhk_map_get(action);
+    map   = ui_action_map_get(action);
     if (map != NULL) {
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label),
                                   map->arch_keysym,
@@ -327,7 +327,7 @@ void vhk_gtk_set_check_item_blocked(GtkWidget *item, gboolean checked)
  */
 void vhk_gtk_set_check_item_blocked_by_action(int action, gboolean checked)
 {
-    vhk_map_t *map = vhk_map_get(action);
+    ui_action_map_t *map = ui_action_map_get(action);
     if (map != NULL) {
         if (map->menu_item[PRIMARY_WINDOW] != NULL) {
             vhk_gtk_set_check_item_blocked(map->menu_item[PRIMARY_WINDOW], checked);
@@ -353,7 +353,7 @@ void vhk_gtk_set_check_item_blocked_by_action_for_window(int      action,
                                                          gboolean checked)
 {
     if (valid_window_id(window_id)) {
-        vhk_map_t *map = vhk_map_get(action);
+        ui_action_map_t *map = ui_action_map_get(action);
         if (map != NULL) {
             vhk_gtk_set_check_item_blocked(map->menu_item[window_id], checked);
         }
@@ -568,7 +568,7 @@ uint32_t ui_hotkeys_arch_modmask_from_arch(uint32_t arch_modmask)
 
 
 /* Install hotkey, see src/uiapi.h for docblock */
-void ui_hotkeys_arch_install_by_map(vhk_map_t *map)
+void ui_hotkeys_arch_install_by_map(ui_action_map_t *map)
 {
     const vhk_gtk_map_t  *arch_map;
     const ui_menu_item_t *item_decl;
@@ -612,7 +612,7 @@ void ui_hotkeys_arch_install_by_map(vhk_map_t *map)
 
 
 /* Remove hotkey, see src/uiapi.h for docblock */
-void ui_hotkeys_arch_remove_by_map(vhk_map_t *map)
+void ui_hotkeys_arch_remove_by_map(ui_action_map_t *map)
 {
 #if 0
     printf("%s(): action = %d (%s)\n",
@@ -656,7 +656,7 @@ void ui_hotkeys_arch_shutdown(void)
     int action;
 
     for (action = 0; action < ACTION_ID_COUNT; action++) {
-        vhk_map_t *map = vhk_map_get(action);
+        ui_action_map_t *map = ui_action_map_get(action);
         if (map != NULL) {
             vhk_gtk_map_t *arch_map = map->user_data;
             if (arch_map != NULL) {

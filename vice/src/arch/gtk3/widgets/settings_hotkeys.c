@@ -349,12 +349,12 @@ static GtkListStore *create_hotkeys_model(void)
 
     list = ui_action_get_info_list();
     for (action = list; action->id > ACTION_NONE; action++) {
-        GtkTreeIter  iter;
-        vhk_map_t   *map;
-        gchar       *hotkey = NULL;
+        ui_action_map_t *map;
+        GtkTreeIter      iter;
+        gchar           *hotkey = NULL;
 
         /* Is there a hotkey defined for the current action? */
-        map = vhk_map_get(action->id);
+        map = ui_action_map_get(action->id);
         if (map != NULL) {
             hotkey = vhk_gtk_get_accel_label_by_map(map);
         }
@@ -619,9 +619,10 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
  */
 static void dialog_accept_handler(int action)
 {
-    gchar *accel;
-    uint32_t vice_keysym;
-    uint32_t vice_modmask;
+    ui_action_map_t *map;
+    gchar           *accel;
+    uint32_t         vice_keysym;
+    uint32_t         vice_modmask;
 
     accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
     debug_gtk3("Setting accelerator: %s (keysym: %04x, mask: %04x)"
@@ -634,18 +635,18 @@ static void dialog_accept_handler(int action)
      * XXX: somehow the mask gets OR'ed with $2000, which is a reserved
      *      flag, so we mask out any reserved bits:
      */
-    vhk_map_t *map = vhk_map_get_by_arch_hotkey(hotkey_keysym,
-                                                hotkey_mask & accepted_mods);
+    map = ui_action_map_get_by_arch_hotkey(hotkey_keysym,
+                                           hotkey_mask & accepted_mods);
     if (map == NULL) {
         debug_gtk3("No previously registered action for hotkey %s. OK.", accel);
     } else if (map->vice_keysym != 0) {
         debug_gtk3("Removing old accelerator: %s from action %d (%s)",
                    accel, map->action, ui_action_get_name(map->action));
-        vhk_map_unset_by_map(map);
+        ui_action_map_clear_hotkey(map);
         remove_treeview_hotkey(accel);
     }
 
-    map = vhk_map_get(action);
+    map = ui_action_map_get(action);
     if (map == NULL) {
         debug_gtk3("Error: Couldn't find hotkey map for action %d!", action);
         g_free(accel);

@@ -71,11 +71,11 @@ uint32_t ui_hotkeys_arch_modmask_from_arch(uint32_t arch_modmask)
     return 0;
 }
 
-void     ui_hotkeys_arch_install_by_map(vhk_map_t *map)
+void     ui_hotkeys_arch_install_by_map(ui_action_map_t *map)
 {
 }
 
-void     ui_hotkeys_arch_remove_by_map(vhk_map_t *map)
+void     ui_hotkeys_arch_remove_by_map(ui_action_map_t *map)
 {
 }
 

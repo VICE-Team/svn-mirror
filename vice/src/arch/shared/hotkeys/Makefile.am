@@ -25,7 +25,6 @@ libhotkeys_a_SOURCES = \
 	textfilereader.c \
 	vhkdebug.c \
 	vhkkeysyms.c \
-	vhkmap.c \
 	uihotkeys.c
 
 EXTRA_DIST = \
@@ -34,7 +33,6 @@ EXTRA_DIST = \
 	textfilereader.h \
 	vhkdebug.h \
 	vhkkeysyms.h \
-	vhkmap.h \
 	uihotkeys.h
 
 BUILT_SOURCES = keysymtable.h

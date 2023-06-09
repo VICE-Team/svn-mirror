@@ -33,6 +33,7 @@
 #include <stdbool.h>
 #include "archdep_defs.h"
 #include "hotkeystypes.h"
+#include "uiactions.h"
 #include "uitypes.h"
 
 
@@ -82,7 +83,7 @@ void           vhk_gtk_init_accelerators(GtkWidget *window);
 gboolean       vhk_gtk_remove_accelerator(guint keysym, GdkModifierType modifier);
 
 gchar         *vhk_gtk_get_accel_label_by_action(int action);
-gchar         *vhk_gtk_get_accel_label_by_map(const vhk_map_t *map);
+gchar         *vhk_gtk_get_accel_label_by_map(const ui_action_map_t *map);
 GtkWidget     *vhk_gtk_get_menu_item_by_action_for_window(int action,
                                                           int window_id);
 void           vhk_gtk_set_menu_item_accel_label(GtkWidget *item, int action);
