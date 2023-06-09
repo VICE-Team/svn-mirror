@@ -85,7 +85,8 @@ static io_source_t sfx_soundexpander_sound_device = {
     NULL,                              /* TODO: device state information dump function */
     CARTRIDGE_SFX_SOUND_EXPANDER,      /* cartridge ID */
     IO_PRIO_NORMAL,                    /* normal priority, device read needs to be checked for collisions */
-    0                                  /* insertion order, gets filled in by the registration function */
+    0,                                 /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE                     /* NO mirroring */
 };
 
 #if 0

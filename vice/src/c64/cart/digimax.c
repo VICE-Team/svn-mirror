@@ -82,7 +82,8 @@ static io_source_t digimax_device = {
     NULL,                   /* nothing to dump */
     CARTRIDGE_DIGIMAX,      /* cartridge ID */
     IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
-    0                       /* insertion order, gets filled in by the registration function */
+    0,                      /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE          /* NO mirroring */
 };
 
 static io_source_list_t * digimax_list_item = NULL;

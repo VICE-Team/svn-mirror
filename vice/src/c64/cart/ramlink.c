@@ -177,7 +177,8 @@ static io_source_t ramlink_io1_device = {
     ramlink_io1_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* normal priority, device read needs to be checked for collisions */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_20_22_device = {
@@ -193,7 +194,8 @@ static io_source_t ramlink_io2_20_22_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_40_43_device = {
@@ -209,7 +211,8 @@ static io_source_t ramlink_io2_40_43_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_60_60_device = {
@@ -225,7 +228,8 @@ static io_source_t ramlink_io2_60_60_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_70_70_device = {
@@ -241,7 +245,8 @@ static io_source_t ramlink_io2_70_70_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_7e_7f_device = {
@@ -257,7 +262,8 @@ static io_source_t ramlink_io2_7e_7f_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_80_9f_device = {
@@ -273,7 +279,8 @@ static io_source_t ramlink_io2_80_9f_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_a0_a3_device = {
@@ -289,7 +296,8 @@ static io_source_t ramlink_io2_a0_a3_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_b0_bf_device = {
@@ -305,7 +313,8 @@ static io_source_t ramlink_io2_b0_bf_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_t ramlink_io2_c0_c3_device = {
@@ -321,7 +330,8 @@ static io_source_t ramlink_io2_c0_c3_device = {
     ramlink_io2_dump,         /* device state information dump function */
     CARTRIDGE_RAMLINK,        /* cartridge ID */
     IO_PRIO_HIGH,             /* high priority, device reads first */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 #define RAMLINKIOS 10
