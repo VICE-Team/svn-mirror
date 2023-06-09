@@ -142,7 +142,7 @@ static const sound_register_devices_t sound_register_devices[] = {
 #endif
 
     { "soundmovie", "Movie sound recording", sound_init_movie_device, SOUND_MOVIE_RECORD_DEVICE },
-    { NULL, NULL, 0 }
+    { NULL, NULL, NULL, 0 }
 };
 
 /* ------------------------------------------------------------------------- */
