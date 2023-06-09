@@ -383,8 +383,8 @@ void machine_shutdown(void)
 
     if (!console_mode) {
         ui_shutdown();
-        ui_actions_shutdown();
 #ifndef USE_HEADLESSUI
+        ui_actions_shutdown();
         ui_hotkeys_shutdown();
 #endif
     }
