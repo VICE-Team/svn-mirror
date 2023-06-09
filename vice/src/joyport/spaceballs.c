@@ -184,6 +184,7 @@ static userport_device_t userport_spaceballs_device = {
     NULL,                                  /* NO read sp1 pin function */
     NULL,                                  /* NO store sp2 pin function */
     NULL,                                  /* NO read sp2 pin function */
+    NULL,                                  /* reset */
     NULL,                                  /* NO powerup function */
     NULL,                                  /* NO snapshot write function */
     NULL                                   /* NO snapshot read function */
