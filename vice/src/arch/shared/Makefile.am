@@ -253,9 +253,4 @@ EXTRA_DIST = \
 	uiactions.h \
 	README-bindist.txt
 
-if USE_HEADLESSUI
-EXTRA_DIST += uiactions.c
-endif
-
-
 # FIXME: the Extra MacOS script stuff should live elsewhere
