@@ -118,7 +118,8 @@ static io_source_t sidcart_fd40_device = {
     sid_dump,             /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 static io_source_t sidcart_fe80_device = {
@@ -134,7 +135,8 @@ static io_source_t sidcart_fe80_device = {
     sid_dump,             /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 static io_source_t sidcart_joy_device = {
@@ -150,7 +152,8 @@ static io_source_t sidcart_joy_device = {
     NULL,                     /* TODO: device state information dump function */
     IO_CART_ID_NONE,          /* not a cartridge */
     IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
-    0                         /* insertion order, gets filled in by the registration function */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
 };
 
 static io_source_list_t *sidcartjoy_list_item = NULL;
