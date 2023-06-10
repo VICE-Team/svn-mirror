@@ -255,11 +255,16 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
             break;
         case DRIVE_TYPE_1570:
         case DRIVE_TYPE_1571:
-        case DRIVE_TYPE_1571CR:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context, IO_MIRROR_NONE);
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context, IO_MIRROR_NONE);
             mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, wd1770d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1571_dump, context, IO_MIRROR_NONE);
+            break;
+        case DRIVE_TYPE_1571CR:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, wd1770d_dump, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "MOS5710", 0x4000, 0x401f, mos5710_dump, context, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_1581:
             mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1581_dump, context, IO_MIRROR_NONE);
