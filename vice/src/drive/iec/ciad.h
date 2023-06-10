@@ -42,6 +42,11 @@ uint8_t cia1571_read(struct diskunit_context_s *ctxptr, uint16_t addr);
 uint8_t cia1571_peek(struct diskunit_context_s *ctxptr, uint16_t addr);
 int cia1571_dump(struct diskunit_context_s *ctxptr, uint16_t addr);
 
+void mos5710_store(struct diskunit_context_s *ctxptr, uint16_t addr, uint8_t value);
+uint8_t mos5710_read(struct diskunit_context_s *ctxptr, uint16_t addr);
+uint8_t mos5710_peek(struct diskunit_context_s *ctxptr, uint16_t addr);
+int mos5710_dump(struct diskunit_context_s *ctxptr, uint16_t addr);
+
 void cia1581_init(struct diskunit_context_s *ctxptr);
 void cia1581_store(struct diskunit_context_s *ctxptr, uint16_t addr, uint8_t value);
 uint8_t cia1581_read(struct diskunit_context_s *ctxptr, uint16_t addr);
