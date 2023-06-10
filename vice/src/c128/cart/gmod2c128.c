@@ -119,7 +119,8 @@ static io_source_t c128gmod2_io1_device = {
     c128gmod2_dump,                 /* device state information dump function */
     CARTRIDGE_C128_GMOD2C128,       /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
-    0                               /* insertion order, gets filled in by the registration function */
+    0,                              /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE                  /* NO mirroring */
 };
 
 static io_source_list_t *c128gmod2_io1_list_item = NULL;
