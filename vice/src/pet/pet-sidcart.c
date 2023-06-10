@@ -100,7 +100,8 @@ static io_source_t sidcart_8f00_device = {
     sid_dump,             /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* the $e9xx range is only exposed when the I/O size is big (30xx and superpet models) */
@@ -117,7 +118,8 @@ static io_source_t sidcart_e900_device = {
     sid_dump,             /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 static io_source_list_t *sidcart_list_item = NULL;

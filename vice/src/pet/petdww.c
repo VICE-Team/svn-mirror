@@ -127,7 +127,8 @@ static io_source_t petdww_reg_device = {
     petdww_dump,          /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
-    0                     /* insertion order, gets filled in by the registration function */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
 };
 
 /* the $ecxx range is only exposed when the I/O size is big (30xx and superpet models) */
@@ -144,7 +145,8 @@ static io_source_t petdww_ram_ec00_device = {
     petdww_dump,           /* device state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* NO mirroring */
 };
 
 /* the $edxx range is only exposed when the I/O size is big (30xx and superpet models) */
@@ -161,7 +163,8 @@ static io_source_t petdww_ram_ed00_device = {
     petdww_dump,           /* device state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* NO mirroring */
 };
 
 /* the $eexx range is only exposed when the I/O size is big (30xx and superpet models) */
@@ -178,7 +181,8 @@ static io_source_t petdww_ram_ee00_device = {
     petdww_dump,           /* device state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* NO mirroring */
 };
 
 /* the $efxx range is only exposed when the I/O size is big AND the model is NOT a superpet (30xx models) */
@@ -195,7 +199,8 @@ static io_source_t petdww_ram_ef00_device = {
     petdww_dump,           /* device state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* NO mirroring */
 };
 
 static io_source_list_t *petdww_reg_list_item = NULL;
