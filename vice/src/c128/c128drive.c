@@ -51,10 +51,9 @@ int machine_drive_resources_init(void)
     if (ieee_drive_resources_init() < 0) {
         return -1;
     }
+
     /* init drive type resource last, so the ROMs are loaded when it initializes */
-    if (drive_resources_type_init(DRIVE_TYPE_1571) < 0) {
-        /* FIXME: 1571CR emulation doesnt seem to work properly */
-        /* if (drive_resources_type_init(DRIVE_TYPE_1571CR) < 0) { */
+    if (drive_resources_type_init(DRIVE_TYPE_1571CR) < 0) {
         return -1;
     }
     return 0;
