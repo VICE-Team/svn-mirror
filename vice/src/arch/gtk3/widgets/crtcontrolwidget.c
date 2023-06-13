@@ -196,6 +196,7 @@ typedef struct crt_control_info_s {
     double      disp_high;  /**< display high */
     double      disp_step;  /**< stepping for the displayed values */
     const char *disp_fmt;   /**< format string for the displayed value */
+    int         emu_mask;   /**< mask indicating which emus expose the resource */
 } crt_control_info_t;
 
 /** \brief  Object holding internal state of a CRT control widget
@@ -214,15 +215,15 @@ typedef struct crt_control_data_s {
 /** \brief  List of CRT emulation resources
  */
 static const crt_control_info_t control_info[RESOURCE_COUNT] = {
-    { "Brightness",     "ColorBrightness",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
-    { "Contrast",       "ColorContrast",    true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
-    { "Saturation",     "ColorSaturation",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
-    { "Tint",           "ColorTint",        true,  0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f%%" },
-    { "Gamma",          "ColorGamma",       true,  0, 4000, 200,   0.0,   4.0, 0.01, "%6.2f" },
-    { "Blur",           "PALBlur",          false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%" },
-    { "Scanline shade", "PALScanLineShade", false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%" },
-    { "Oddline phase",  "PALOddLinePhase",  false, 0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0" },
-    { "Oddline offset", "PALOddLineOffset", false, 0, 2000, 100, -50.0,  50.0,  0.1, "%+4.1f%%" }
+    { "Brightness",     "ColorBrightness",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Contrast",       "ColorContrast",    true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Saturation",     "ColorSaturation",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Tint",           "ColorTint",        true,  0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f%%",     VICE_MACHINE_ALL },
+    { "Gamma",          "ColorGamma",       true,  0, 4000, 200,   0.0,   4.0, 0.01, "%6.2f",        VICE_MACHINE_ALL },
+    { "Blur",           "PALBlur",          false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Scanline shade", "PALScanLineShade", false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Oddline phase",  "PALOddLinePhase",  false, 0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0", VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+    { "Oddline offset", "PALOddLineOffset", false, 0, 2000, 100, -50.0,  50.0,  0.1, "%+4.1f%%",     VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET }
 };
 
 
@@ -255,9 +256,7 @@ static int standard = 0;
  */
 static bool is_pal(const char *chip)
 {
-    /* not CRTC and not VDC */
-    if ((standard == MACHINE_SYNC_PAL || standard == MACHINE_SYNC_PALN) &&
-            (chip[0] != 'C' && !(chip[0] == 'V' && chip[1] == 'D'))) {
+    if (standard == MACHINE_SYNC_PAL || standard == MACHINE_SYNC_PALN) {
         return true;
     }
     return false;
@@ -452,7 +451,11 @@ static int add_sliders(GtkGrid             *grid,
 
     if (!minimal) {
         for (i = 0; i < RESOURCE_COUNT; i ++) {
-            info    = &(control_info[i]);
+            info = &(control_info[i]);
+            if (!(info->emu_mask & machine_class)) {
+                continue;
+            }
+
             label   = create_label(info->label, minimal);
 
             gtk_grid_attach(grid, label, 0, row, 1, 1);
@@ -474,9 +477,13 @@ static int add_sliders(GtkGrid             *grid,
         for (i = 0; i < RESOURCE_COUNT; i ++) {
             int column;
 
-            column  = (i % 2) * 2;
-            info    = &(control_info[i]);
-            label   = create_label(info->label, minimal);
+            info = &(control_info[i]);
+            if (!(info->emu_mask & machine_class)) {
+                continue;
+            }
+
+            column = (i % 2) * 2;
+            label  = create_label(info->label, minimal);
 
             gtk_grid_attach(grid, label, column + 0, row, 1, 1);
             scale = create_slider(info->name,
@@ -650,17 +657,20 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
     row = add_sliders(GTK_GRID(grid), data, minimal);
 
     /* add U-only delayline check button */
-    data->delayline = create_delayline_widget(chip);
-    if (minimal) {
-        vice_gtk3_css_provider_add(data->delayline, checkbutton_css);
-        gtk_grid_attach(GTK_GRID(grid), data->delayline, 2, row - 1, 2, 1);
-    } else {
-        gtk_widget_set_margin_top(data->delayline, 8);
-        gtk_grid_attach(GTK_GRID(grid), data->delayline, 0, row, 3, 1);
+    if ((machine_class != VICE_MACHINE_CBM6x0) &&
+        (machine_class != VICE_MACHINE_PET)) {
+        data->delayline = create_delayline_widget(chip);
+        if (minimal) {
+            vice_gtk3_css_provider_add(data->delayline, checkbutton_css);
+            gtk_grid_attach(GTK_GRID(grid), data->delayline, 2, row - 1, 2, 1);
+        } else {
+            gtk_widget_set_margin_top(data->delayline, 8);
+            gtk_grid_attach(GTK_GRID(grid), data->delayline, 0, row, 3, 1);
+        }
+        /* enable if PAL */
+        gtk_widget_set_sensitive(data->delayline, is_pal(chip));
+        row++;
     }
-    /* enable if PAL */
-    gtk_widget_set_sensitive(data->delayline, is_pal(chip));
-    row++;
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect_unlocked(grid,
