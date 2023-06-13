@@ -58,7 +58,8 @@ GtkWidget *settings_crt_widget_create(GtkWidget *parent)
     GtkWidget *chip1 = NULL;
     GtkWidget *chip2 = NULL;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
