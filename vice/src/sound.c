@@ -48,6 +48,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mainlock.h"
 #include "monitor.h"
 #include "resources.h"
 #include "sound.h"
