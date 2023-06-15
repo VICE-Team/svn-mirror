@@ -75,7 +75,7 @@
 #endif
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static uint16_t joyport_display[JOYPORT_MAX_PORTS + 1] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static uint16_t joyport_display[JOYPORT_MAX_PORTS + 1];
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
