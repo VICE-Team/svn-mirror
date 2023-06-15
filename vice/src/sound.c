@@ -1439,6 +1439,19 @@ bool sound_flush(void)
     int c, i, nr, space;
     char *state;
 
+    /*
+     * It's possible when changing settings via UI to end up
+     * flushing sound on the ui thread, which is a problem
+     * because it will 'yield' the mainlock during the flush.
+     *
+     * The 'yield' mechanism is build to only work when the
+     * the vice thread is yielding to the ui thread, so the
+     * result is that the ui thread hangs forever.
+     */
+
+    if (!mainlock_is_vice_thread())
+        goto done;
+
     if (!playback_enabled) {
         if (sdev_open) {
             sound_close();
