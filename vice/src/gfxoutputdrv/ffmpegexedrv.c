@@ -470,7 +470,7 @@ static int write_video_frame(VIDEOFrame *pic)
     size_t len = INPUT_VIDEO_BPP * video_height * video_width;
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         if (ffmpeg_video_socket == 0) {
-            log_error(LOG_DEFAULT, "FFMPEG: write_video_frame ffmpeg_video_socket is 0 (framecount:%lu)\n", framecounter);
+            log_error(LOG_DEFAULT, "FFMPEG: write_video_frame ffmpeg_video_socket is 0 (framecount:%llu)\n", framecounter);
             return 0;
         }
         return (int)len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
@@ -807,7 +807,7 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
 #endif
 
     if (ffmpeg_audio_socket == 0) {
-        log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%lu)\n", audio_input_counter);
+        log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%llu)\n", audio_input_counter);
         return 0;
     }
 

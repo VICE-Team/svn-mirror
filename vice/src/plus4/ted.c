@@ -893,7 +893,7 @@ int ted_dump(void)
     }
 
     mon_out("Timer 1 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 3) & 0x01)? "on" : "off", (ted.timer_running[0]) ? "yes" : "no");
-    mon_out("Timer 1: $%04x (latched $%04lx)\n", (unsigned int)((ted_timer_read(0x01) << 8) | ted_timer_read(0x00)), ted.t1_start);
+    mon_out("Timer 1: $%04x (latched $%04llx)\n", (unsigned int)((ted_timer_read(0x01) << 8) | ted_timer_read(0x00)), ted.t1_start);
     mon_out("Timer 2 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 4) & 0x01)? "on" : "off", (ted.timer_running[1]) ? "yes" : "no");
     mon_out("Timer 2: $%04x\n", (unsigned int)((ted_timer_read(0x03) << 8) | ted_timer_read(0x02)));
     mon_out("Timer 3 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 6) & 0x01)? "on" : "off", (ted.timer_running[2]) ? "yes" : "no");
