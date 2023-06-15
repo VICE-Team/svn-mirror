@@ -59,7 +59,7 @@ static uint8_t drive_read_zero(diskunit_context_t *drv, uint16_t address)
             return drv->cpu->cpu_last_data = glue1551_port1_read(drv);
     }
 
-    return drv->cpu->cpu_last_data = drv->drive_ram[address & 0xff];
+    return drv->cpu->cpu_last_data = drv->drive_ram[(uint32_t)(address & 0xff)];
 }
 
 static void drive_store_zero(diskunit_context_t *drv, uint16_t address, uint8_t value)
@@ -74,7 +74,7 @@ static void drive_store_zero(diskunit_context_t *drv, uint16_t address, uint8_t 
             return;
     }
 
-    drv->drive_ram[address & 0xff] = value;
+    drv->drive_ram[(uint32_t)(address & 0xff)] = value;
 }
 
 void mem1551_init(struct diskunit_context_s *drv, unsigned int type)
