@@ -309,6 +309,10 @@ static int set_container_format(const char *val, void *param)
         return -1;
     }
 
+    if (ffmpegexe_format) {
+        lib_free(ffmpegexe_format);
+        ffmpegexe_format = NULL;
+    }
     util_string_set(&ffmpegexe_format, val);
 
     return 0;
@@ -1175,6 +1179,11 @@ static void ffmpegexedrv_shutdown(void)
     }
 */
 #endif
+
+    if (ffmpegexe_format) {
+        lib_free(ffmpegexe_format);
+        ffmpegexe_format = NULL;
+    }
 }
 
 /* FIXME: when the regular FFMPEG driver was removed, this should interrogate
