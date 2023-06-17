@@ -379,7 +379,9 @@ int sdl_ui_set_default_colors(void)
 
 static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offset, int iscursor)
 {
-    int n, i = 0, istoggle = 0, status = 0;
+    int n, i = 0;
+    bool istoggle = false;
+    int status = MENU_STATUS_ACTIVE;
     char string[3] = {0x20, 0x20, 0};
     const char *itemdata;
     uint8_t oldbg = 0, oldfg = 1;
@@ -413,11 +415,11 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
 
     if ((itemdata != NULL) && !strcmp(itemdata, MENU_NOT_AVAILABLE_STRING)) {
         /* menu is not available */
-        status = 2;
+        status = MENU_STATUS_NA;
     } else {
         /* print tick-mark for toggles and radio buttons at the start of the line */
         if (istoggle) {
-            status = (itemdata == NULL) ? 0 : 1;
+            status = (itemdata == NULL) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
             string[0] = (itemdata == NULL) ? MENU_CHECKMARK_UNCHECKED_CHAR : itemdata[0];
         }
     }
@@ -467,7 +469,7 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     }
 
     /* if the item was not an available "toggle", then print the item data */
-    if (!istoggle || (status == 2)) {
+    if (!istoggle || (status == MENU_STATUS_NA)) {
         if ((n = sdl_ui_print(itemdata, MENU_FIRST_X + i, y_pos + MENU_FIRST_Y)) < 0) {
             goto dispitemexit;
         }
