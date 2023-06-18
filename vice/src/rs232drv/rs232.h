@@ -85,20 +85,17 @@ extern int rs232_useip232[RS232_NUM_DEVICES];
 tcpser->vice
 
 0xff nn ->
- nn = 0      DCD = false
- nn = 1      DCD = true
+ nn     bit 0   0: DCD = false      1: DCD = true
+        bit 1   0: RI = false       1: RI = true
  nn = 255    literal 0xff
 other   ->   unchanged
 
 vice->tcpser
 
 0xff nn ->
- nn = 0      DTR = false
- nn = 1      DTR = true
+ nn     bit 0   0: DTR = false      1: DTR = true
  nn = 255    literal 0xff
 other   ->   unchanged
-
-there appears to be a bug in tcpser that makes the DTR codes appear in the output.
 
 */
 
@@ -109,5 +106,10 @@ there appears to be a bug in tcpser that makes the DTR codes appear in the outpu
 /* reading */
 #define IP232DCDLO  0
 #define IP232DCDHI  1
+#define IP232DCDMASK    1
+
+#define IP232RILO   0
+#define IP232RIHI   2
+#define IP232RIMASK     2
 
 #endif

@@ -96,6 +96,7 @@ typedef struct rs232net {
                     log from being flooded with error messages. */
     int useip232; /*!< 1 to use the ip232 protocol for tcpser */
     int dcd_in;   /*!< ip232 status of DCD line */
+    int ri_in;    /*!< ip232 status of RI line */
     int dtr_out;  /*!< ip232 status of DTR line */
 } rs232net_t;
 
@@ -325,18 +326,12 @@ tryagain:
             if ((ret = _rs232net_getc(fd, b)) < 1) {
                 return ret;
             }
-            switch (*b) {
-                case IP232DCDLO: /* dcd false */
-                    fds[fd].dcd_in = 0;
-                    goto tryagain;
-                case IP232DCDHI: /* dcd true */
-                    fds[fd].dcd_in = 1;
-                    goto tryagain;
-                case 0xff:
-                    break;
-                default:
-                    log_error(rs232net_log, "rs232net_getc recieved invalid code after IP232 magic: %02x", *b);
-                    break;
+            if (*b == IP232MAGIC) {
+                /* literal 0xff */
+            } else {
+                fds[fd].dcd_in = (*b & IP232DCDMASK) == IP232DCDHI ? 1 : 0;
+                fds[fd].ri_in = (*b & IP232RIMASK) == IP232RIHI ? 1 : 0;
+                goto tryagain;
             }
         }
     }
@@ -394,6 +389,9 @@ enum rs232handshake_in rs232net_get_status(int fd)
 #endif
         if (fds[fd].dcd_in && fds[fd].dtr_out) {
             status |= RS232_HSI_DCD;
+        }
+        if (fds[fd].ri_in) {
+            status |= RS232_HSI_RI;
         }
     } else {
         status |= RS232_HSI_DCD;

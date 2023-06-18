@@ -11,6 +11,8 @@
  * $VICERES RsUserCTSInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDSRInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDCDInv    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserDTRInv    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserRIInv     x64 x64sc xscpu64 x128 xvic
  */
 
 /*
@@ -163,6 +165,7 @@ GtkWidget *userport_rsinterface_widget_create(void)
     GtkWidget *rsuser_dsrinv_widget;
     GtkWidget *rsuser_dcdinv_widget;
     GtkWidget *rsuser_dtrinv_widget;
+    GtkWidget *rsuser_riinv_widget;
     const vice_gtk3_combo_entry_int_t *list;
     int i;
 
@@ -215,14 +218,24 @@ GtkWidget *userport_rsinterface_widget_create(void)
 
     rsuser_dcdinv_widget = vice_gtk3_resource_check_button_new("RsUserDCDInv",
                                                                "Invert DCD");
-//    gtk_widget_set_halign(rsuser_dcdinv_widget, GTK_ALIGN_START);
-//    gtk_widget_set_margin_start(rsuser_dcdinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_dcdinv_widget, 2, 3, 1, 1);
+    g_signal_connect(rsuser_dcdinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
 
     rsuser_dtrinv_widget = vice_gtk3_resource_check_button_new("RsUserDTRInv",
                                                                "Invert DTR");
     gtk_grid_attach(GTK_GRID(grid), rsuser_dtrinv_widget, 1, 4, 1, 1);
     g_signal_connect(rsuser_dtrinv_widget,
+                     "toggled",
+                     G_CALLBACK(on_control_toggled),
+                     NULL);
+
+    rsuser_riinv_widget = vice_gtk3_resource_check_button_new("RsUserRIInv",
+                                                               "Invert RI");
+    gtk_grid_attach(GTK_GRID(grid), rsuser_riinv_widget, 2, 4, 1, 1);
+    g_signal_connect(rsuser_riinv_widget,
                      "toggled",
                      G_CALLBACK(on_control_toggled),
                      NULL);
