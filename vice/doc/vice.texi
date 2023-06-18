@@ -8203,6 +8203,11 @@ Boolean specifying if the user-port RS232 Data Carrier Detect (DCD) control line
 Boolean specifying if the user-port RS232 Data Terminal Ready (DTR) control line is inverted.
 (C64, C128 and VIC20).
 
+@vindex RsUserRIInv
+@item RsUserRIInv
+Boolean specifying if the user-port RS232 Ring Indicator (RI) control line is inverted.
+(C64, C128 and VIC20).
+
 @vindex RsUserBaud
 @item RsUserBaud
 Integer specifying the baudrate of the user-port RS232 interface
@@ -8347,6 +8352,11 @@ Enable or disable inversion of the userport RS232 emulation Data Carrier Detect 
 @item -rsuserdtrinv
 @itemx +rsuserdtrinv
 Enable or disable inversion of the userport RS232 emulation Data Terminal Ready (DTR) control line.
+
+@findex -rsuserriinv, +rsuserriinv
+@item -rsuserriinv
+@itemx +rsuserriinv
+Enable or disable inversion of the userport RS232 emulation Ring Indicator (RI) control line.
 
 @findex -rsuserbaud
 @item -rsuserbaud <baud>
