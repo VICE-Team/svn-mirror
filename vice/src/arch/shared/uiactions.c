@@ -199,10 +199,19 @@ static const ui_action_info_private_t action_info_list[] = {
     /* reset items */
     { ACTION_RESET_SOFT,        "reset-soft",           "Soft-reset the machine",               VICE_MACHINE_ALL },
     { ACTION_RESET_HARD,        "reset-hard",           "Hard-reset the machine",               VICE_MACHINE_ALL },
-    { ACTION_RESET_DRIVE_8,     "reset-drive-8",        "Reset drive 8",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_RESET_DRIVE_9,     "reset-drive-9",        "Reset drive 9",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_RESET_DRIVE_10,    "reset-drive-10",       "Reset drive 10",                       VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_RESET_DRIVE_11,    "reset-drive-11",       "Reset drive 11",                       VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+
+    { ACTION_RESET_DRIVE_8,          "reset-drive-8",           "Reset drive 8",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_8_CONFIG,   "reset-drive-8-config",    "Reset drive 8 in configuration mode",  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_8_INSTALL,  "reset-drive-8-install",   "Reset drive 8 in installation mode",   VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_9,          "reset-drive-9",           "Reset drive 9",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_9_CONFIG,   "reset-drive-9-config",    "Reset drive 9 in configuration mode",  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_9_INSTALL,  "reset-drive-9-install",   "Reset drive 9 in installation mode",   VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_10,         "reset-drive-10",          "Reset drive 10",                       VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_10_CONFIG,  "reset-drive-10-config",   "Reset drive 10 in configuration mode", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_10_INSTALL, "reset-drive-10-install",  "Reset drive 10 in installation mode",  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_11,         "reset-drive-11",          "Reset drive 11",                       VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_11_CONFIG,  "reset-drive-11-config",   "Reset drive 11 in configuration mode", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESET_DRIVE_11_INSTALL, "reset-drive-11-install",  "Reset drive 11 in installation mode",  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* quit emulator */
     { ACTION_QUIT,              "quit",                 "Quit emulator",                        VICE_MACHINE_ALL },
