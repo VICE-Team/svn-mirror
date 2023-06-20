@@ -38,6 +38,7 @@
 #include <stdbool.h>
 
 #include "archdep.h"
+#include "drive.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -597,6 +598,27 @@ static const int drive_detach_ids[4][2] = {
     { ACTION_DRIVE_DETACH_11_0, ACTION_DRIVE_DETACH_11_1 }
 };
 
+static const int drive_reset_ids[4] = {
+    ACTION_RESET_DRIVE_8,
+    ACTION_RESET_DRIVE_9,
+    ACTION_RESET_DRIVE_10,
+    ACTION_RESET_DRIVE_11
+};
+
+static const int drive_reset_config_ids[4] = {
+    ACTION_RESET_DRIVE_8_CONFIG,
+    ACTION_RESET_DRIVE_9_CONFIG,
+    ACTION_RESET_DRIVE_10_CONFIG,
+    ACTION_RESET_DRIVE_11_CONFIG
+};
+
+static const int drive_reset_install_ids[4] = {
+    ACTION_RESET_DRIVE_8_INSTALL,
+    ACTION_RESET_DRIVE_9_INSTALL,
+    ACTION_RESET_DRIVE_10_INSTALL,
+    ACTION_RESET_DRIVE_11_INSTALL
+};
+
 
 /** \brief  Get action ID for a drive action
  *
@@ -730,6 +752,55 @@ int ui_action_id_drive_detach(int unit, int drive)
     return get_drive_action_id(drive_detach_ids, unit, drive);
 }
 
+
+/** \brief  Get reset-drive action ID for unit
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  action ID or `ACTION_NONE` for invalud \a unit
+ */
+int ui_action_id_drive_reset(int unit)
+{
+    if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
+        return drive_reset_ids[unit - DRIVE_UNIT_MIN];
+    }
+    return ACTION_NONE;
+}
+
+
+/** \brief  Get reset-drive-config action ID for unit
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  action ID or `ACTION_NONE` for invalud \a unit
+ */
+int ui_action_id_drive_reset_config(int unit)
+{
+    if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
+        return drive_reset_config_ids[unit - DRIVE_UNIT_MIN];
+    }
+    return ACTION_NONE;
+}
+
+
+/** \brief  Get reset-drive-install action ID for unit
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  action ID or `ACTION_NONE` for invalud \a unit
+ */
+int ui_action_id_drive_reset_install(int unit)
+{
+    if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
+        return drive_reset_install_ids[unit - DRIVE_UNIT_MIN];
+    }
+    return ACTION_NONE;
+}
+
+
+/******************************************************************************
+ *                            UI action mappings                              *
+ *****************************************************************************/
 
 /** \brief  List of mappings of action IDs to handlers
  *
