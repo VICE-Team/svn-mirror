@@ -161,6 +161,24 @@
 /* maximum number of LEDs per drive (not unit!) */
 #define DRIVE_LEDS_MAX  2
 
+/* Drive button masks for drive_has_buttons()
+ *
+ * CMD devices 2000, 4000 and HD (200?) have buttons
+ */
+
+/** \brief  Drive has write protect button */
+#define DRIVE_BUTTON_WRITE_PROTECT  0x01
+
+/** \brief  Drive has SWAP 8 button */
+#define DRIVE_BUTTON_SWAP_8         0x02
+
+/** \brief  Drive has SWAP 9 button */
+#define DRIVE_BUTTON_SWAP_9         0x04
+
+/** \brief  Drive has single SWAP button */
+#define DRIVE_BUTTON_SWAP_SINGLE    0x08
+
+
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define DRIVE_ATTACH_DELAY           (3 * 600000)

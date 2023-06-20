@@ -1086,11 +1086,12 @@ int drive_has_buttons(unsigned int dnr)
 {
     diskunit_context_t *unit = diskunit_context[dnr];
     if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
-        return 8; /* single swap */
+        /* single swap */
+        return DRIVE_BUTTON_SWAP_SINGLE;
     } else if (unit->type == DRIVE_TYPE_CMDHD) {
-        return 1 | 2 | 4; /* write protect, swap 8, swap 9 */
+         /* write protect, swap 8, swap 9 */
+        return DRIVE_BUTTON_WRITE_PROTECT | DRIVE_BUTTON_SWAP_8 | DRIVE_BUTTON_SWAP_9;
     }
-
     return 0;
 }
 
