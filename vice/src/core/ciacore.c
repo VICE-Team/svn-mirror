@@ -611,6 +611,17 @@ void ciacore_disable(cia_context_t *cia_context)
     cia_context->enabled = false;
 }
 
+/*
+    we must take care to choose a value which is small enough so the counters do
+    not fall behind too much to cause a significant peak in cpu usage, and one
+    that is big enough so the overall performance impact is not too big.
+    it seems reasonable to also consider how peaks in cpu usage interact with
+    automatic framerate adjustment, so choosing a value that makes sure a more
+    or less constant amount of cpu time per frame is consumed is a good idea.
+    (about 20000 cycles are a full PAL frame on the C64, making sure that we do
+    not fall behind one frame at all seems a good idea.)
+ */
+#define CIA_MAX_IDLE_CYCLES     5000
 
 void ciacore_reset(cia_context_t *cia_context)
 {
@@ -661,6 +672,16 @@ void ciacore_reset(cia_context_t *cia_context)
 
     (cia_context->do_reset_cia)(cia_context);
     cia_context->enabled = true;
+
+    /*
+     * A reset also resets the system clock, so any existing alarms
+     * (except the one set above) at this time would now be invalid.
+     */
+    alarm_set(cia_context->idle_alarm,
+              *(cia_context->clk_ptr) + CIA_MAX_IDLE_CYCLES);
+    alarm_unset(cia_context->ta_alarm);
+    alarm_unset(cia_context->tb_alarm);
+    alarm_unset(cia_context->sdr_alarm);
 }
 
 /*
@@ -2000,17 +2021,6 @@ void ciacore_setup_context(cia_context_t *cia_context)
 }
 
 /*
-    we must take care to choose a value which is small enough so the counters do
-    not fall behind too much to cause a significant peak in cpu usage, and one
-    that is big enough so the overall performance impact is not too big.
-    it seems reasonable to also consider how peaks in cpu usage interact with
-    automatic framerate adjustment, so choosing a value that makes sure a more
-    or less constant amount of cpu time per frame is consumed is a good idea.
-    (about 20000 cycles are a full PAL frame on the C64, making sure that we do
-    not fall behind one frame at all seems a good idea.)
- */
-#define CIA_MAX_IDLE_CYCLES     5000
-/*
     this callback takes care of the problem that when ciat_update has to catch
     up with an excessive amount of clock cycles it will consume a lot of cpu
     time, in the worst case leading to a noticeable stall of the entire emulation
@@ -2061,8 +2071,6 @@ void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
                                         ciacore_idle,
                                         (void *)cia_context);
     lib_free(buffer);
-    alarm_set(cia_context->idle_alarm,
-              *(cia_context->clk_ptr) + CIA_MAX_IDLE_CYCLES);
 
     buffer = lib_msprintf("%s_TA", cia_context->myname);
     cia_context->ta_alarm = alarm_new(alarm_context, buffer,
