@@ -947,14 +947,6 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     int drive = GPOINTER_TO_INT(data) >> 8;
     int buttons;
 
-    gint reset_ids[] = {
-        ACTION_RESET_DRIVE_8,
-        ACTION_RESET_DRIVE_9,
-        ACTION_RESET_DRIVE_10,
-        ACTION_RESET_DRIVE_11
-    };
-
-
     mainlock_assert_is_not_vice_thread();
 
     debug_gtk3("Got drive menu popup for unit #%d, drive #%d.",
@@ -1025,7 +1017,8 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
      * Add drive reset item
      */
     g_snprintf(buffer, sizeof(buffer), "Reset drive #%d", i + DRIVE_UNIT_MIN);
-    drive_menu_item = popup_menu_item_action_new(buffer, reset_ids[i]);
+    drive_menu_item = popup_menu_item_action_new(buffer,
+                                                 ui_action_id_drive_reset(i + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     buttons = drive_has_buttons(i);

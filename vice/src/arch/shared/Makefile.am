@@ -15,6 +15,9 @@ if !USE_HEADLESSUI
 SUBDIRS += hotkeys
 endif
 
+# The core/rtc and lib/p64 directories are required in order to be able to
+# include drive.h
+
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
@@ -22,6 +25,9 @@ AM_CPPFLAGS = \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/core/rtc \
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/rs232drv \
 	-DVICE_DATADIR='"$(datadir)/$(PACKAGE)"' \
 	-DVICE_DOCDIR='"$(docdir)"'

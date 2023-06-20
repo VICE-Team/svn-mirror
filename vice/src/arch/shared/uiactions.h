@@ -364,15 +364,18 @@ ui_action_info_t *      ui_action_get_info_list(void);
 bool                    ui_action_is_valid     (int action);
 
 /* Get action IDs for drive actions */
-int                     ui_action_id_fliplist_add     (int unit, int drive);
-int                     ui_action_id_fliplist_remove  (int unit, int drive);
-int                     ui_action_id_fliplist_next    (int unit, int drive);
-int                     ui_action_id_fliplist_previous(int unit, int drive);
-int                     ui_action_id_fliplist_clear   (int unit, int drive);
-int                     ui_action_id_fliplist_load    (int unit, int drive);
-int                     ui_action_id_fliplist_save    (int unit, int drive);
-int                     ui_action_id_drive_attach     (int unit, int drive);
-int                     ui_action_id_drive_detach     (int unit, int drive);
+int                     ui_action_id_fliplist_add       (int unit, int drive);
+int                     ui_action_id_fliplist_remove    (int unit, int drive);
+int                     ui_action_id_fliplist_next      (int unit, int drive);
+int                     ui_action_id_fliplist_previous  (int unit, int drive);
+int                     ui_action_id_fliplist_clear     (int unit, int drive);
+int                     ui_action_id_fliplist_load      (int unit, int drive);
+int                     ui_action_id_fliplist_save      (int unit, int drive);
+int                     ui_action_id_drive_attach       (int unit, int drive);
+int                     ui_action_id_drive_detach       (int unit, int drive);
+int                     ui_action_id_drive_reset        (int unit);
+int                     ui_action_id_drive_reset_config (int unit);
+int                     ui_action_id_drive_reset_install(int unit);
 
 /* Main API */
 void                    ui_actions_init          (void);
