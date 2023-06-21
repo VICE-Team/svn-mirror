@@ -1450,8 +1450,9 @@ bool sound_flush(void)
      * result is that the ui thread hangs forever.
      */
 
-    if (!mainlock_is_vice_thread())
+    if (!mainlock_is_vice_thread()) {
         goto done;
+    }
 
     if (!playback_enabled) {
         if (sdev_open) {
