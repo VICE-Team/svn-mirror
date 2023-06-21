@@ -36,19 +36,19 @@
 
 
 /** \brief  Pop up dialog to record video/audio or make a screenshot */
-static void media_record_action(void)
+static void media_record_action(void *unused)
 {
     ui_media_dialog_show();
 }
 
 /** \brief  Stop media recording, if active */
-static void media_stop_action(void)
+static void media_stop_action(void *unused)
 {
     ui_media_stop_recording();
 }
 
 /** \brief  Save screenshot with auto-generated filename */
-static void screenshot_quicksave_action(void)
+static void screenshot_quicksave_action(void *unused)
 {
     ui_media_auto_screenshot();
 }
@@ -57,21 +57,21 @@ static void screenshot_quicksave_action(void)
 /** \brief  List of media actions */
 static const ui_action_map_t media_actions[] = {
     {
-        .action = ACTION_MEDIA_RECORD,
+        .action  = ACTION_MEDIA_RECORD,
         .handler = media_record_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
         /* Needs to run on the UI thread */
-        .action = ACTION_MEDIA_STOP,
-        .handler = media_stop_action,
+        .action   = ACTION_MEDIA_STOP,
+        .handler  = media_stop_action,
         .uithread = true
     },
     {
         /* Needs to run on the UI thread (calls ui_get_active_canvas()) */
-        .action = ACTION_SCREENSHOT_QUICKSAVE,
-        .handler = screenshot_quicksave_action,
+        .action   = ACTION_SCREENSHOT_QUICKSAVE,
+        .handler  = screenshot_quicksave_action,
         .uithread = true
     },
 

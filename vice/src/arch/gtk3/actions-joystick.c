@@ -65,7 +65,7 @@ bool ui_get_controlport_swapped(void)
 
 
 /** \brief  Swap joysticks and their associated devices */
-static void swap_controlport_toggle_action(void)
+static void swap_controlport_toggle_action(void *unused)
 {
     int joy1 = -1;
     int joy2 = -1;
@@ -107,9 +107,9 @@ static void swap_controlport_toggle_action(void)
 }
 
 /** \brief  Toggle keyset joysticks */
-static void keyset_joystick_toggle_action(void)
+static void keyset_joystick_toggle_action(void *unused)
 {
-    int enable;
+    int enable = 0;
 
     resources_get_int("KeySetEnable", &enable);
     resources_set_int("KeySetEnable", !enable);
@@ -119,11 +119,11 @@ static void keyset_joystick_toggle_action(void)
 }
 
 /** \brief  Toggle mouse grab */
-static void mouse_grab_toggle_action(void)
+static void mouse_grab_toggle_action(void *unused)
 {
     GtkWidget *window;
-    gchar title[256];
-    int mouse;
+    gchar      title[256];
+    int        mouse = 0;
 
     resources_get_int("Mouse", &mouse);
     resources_set_int("Mouse", !mouse);
@@ -155,18 +155,18 @@ static void mouse_grab_toggle_action(void)
 /** \brief  List of joystick/mouse avtions */
 static const ui_action_map_t joystick_actions[] = {
     {
-        .action = ACTION_SWAP_CONTROLPORT_TOGGLE,
-        .handler = swap_controlport_toggle_action,
+        .action   = ACTION_SWAP_CONTROLPORT_TOGGLE,
+        .handler  = swap_controlport_toggle_action,
         .uithread = true
     },
     {
-        .action = ACTION_KEYSET_JOYSTICK_TOGGLE,
-        .handler = keyset_joystick_toggle_action,
+        .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .handler  = keyset_joystick_toggle_action,
         .uithread = true
     },
     {
-        .action = ACTION_MOUSE_GRAB_TOGGLE,
-        .handler = mouse_grab_toggle_action,
+        .action   = ACTION_MOUSE_GRAB_TOGGLE,
+        .handler  = mouse_grab_toggle_action,
         .uithread = true
     },
 

@@ -68,10 +68,10 @@
  *          in case of x128: each window can be individually fullscreened but
  *          the check items will be set/unset in both windows' menus.
  */
-static void fullscreen_toggle_action(void)
+static void fullscreen_toggle_action(void *unused)
 {
     gboolean enabled;
-    gint index = ui_get_main_window_index();
+    gint     index = ui_get_main_window_index();
 
     if (index != PRIMARY_WINDOW && index != SECONDARY_WINDOW) {
         return;
@@ -81,14 +81,14 @@ static void fullscreen_toggle_action(void)
     enabled = !ui_is_fullscreen();
     ui_set_fullscreen_enabled(enabled);
 
-    vhk_gtk_set_check_item_blocked_by_action_for_window(
-            ACTION_FULLSCREEN_TOGGLE, index, enabled);
+    vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
+                                                        index,
+                                                        enabled);
     ui_update_fullscreen_decorations();
 }
 
-
 /** \brief Toggles fullscreen window decorations */
-static void fullscreen_decorations_toggle_action(void)
+static void fullscreen_decorations_toggle_action(void *unused)
 {
     gboolean decorations = !ui_fullscreen_has_decorations();
 
@@ -99,12 +99,11 @@ static void fullscreen_decorations_toggle_action(void)
     ui_update_fullscreen_decorations();
 }
 
-
 /** \brief  Attempt to restore the active window's size to its "natural" size
  *
  * Also unmaximizes and unfullscreens the window.
  */
-static void restore_display_action(void)
+static void restore_display_action(void *unused)
 {
     GtkWindow *window = ui_get_active_window();
 
@@ -124,7 +123,7 @@ static void restore_display_action(void)
 }
 
 /** \brief  Toggle status bar visibility for the active window */
-static void show_statusbar_toggle_action(void)
+static void show_statusbar_toggle_action(void *unused)
 {
     video_canvas_t *canvas = ui_get_active_canvas();
     if (canvas != NULL) {
@@ -156,23 +155,23 @@ static void show_statusbar_toggle_action(void)
 /** \brief  List of display-related actions */
 static const ui_action_map_t display_actions[] = {
     {
-        .action = ACTION_FULLSCREEN_TOGGLE,
-        .handler = fullscreen_toggle_action,
+        .action   = ACTION_FULLSCREEN_TOGGLE,
+        .handler  = fullscreen_toggle_action,
         .uithread = true
     },
     {
-        .action = ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-        .handler = fullscreen_decorations_toggle_action,
+        .action   = ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+        .handler  = fullscreen_decorations_toggle_action,
         .uithread = true
     },
     {
-        .action = ACTION_RESTORE_DISPLAY,
-        .handler = restore_display_action,
+        .action   = ACTION_RESTORE_DISPLAY,
+        .handler  = restore_display_action,
         .uithread = true
     },
     {
-        .action = ACTION_SHOW_STATUSBAR_TOGGLE,
-        .handler = show_statusbar_toggle_action,
+        .action   = ACTION_SHOW_STATUSBAR_TOGGLE,
+        .handler  = show_statusbar_toggle_action,
         .uithread = true
     },
 
@@ -194,11 +193,11 @@ void actions_display_register(void)
 void actions_display_setup_ui(void)
 {
     video_canvas_t *canvas;
-    const char *chip;
-    int enabled;
+    const char     *chip;
+    int             enabled = 0;
 
     canvas = ui_get_canvas_for_window(PRIMARY_WINDOW);
-    chip = canvas->videoconfig->chip_name;
+    chip   = canvas->videoconfig->chip_name;
 
     /* set fullscreen check button for primary window */
     resources_get_int_sprintf("%sFullscreen", &enabled, chip);
@@ -231,5 +230,4 @@ void actions_display_setup_ui(void)
                                                             SECONDARY_WINDOW,
                                                             enabled);
     }
-
 }

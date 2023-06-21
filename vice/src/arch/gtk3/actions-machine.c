@@ -64,7 +64,7 @@ static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 
 
 /** \brief  Quit emulator, possibly popping up a confirmation dialog */
-static void quit_action(void)
+static void quit_action(void *unused)
 {
     int confirm = FALSE;
 
@@ -83,7 +83,7 @@ static void quit_action(void)
 
 
 /** \brief  Open the monitor */
-static void monitor_open_action(void)
+static void monitor_open_action(void *unused)
 {
     int server = 0;
 
@@ -104,21 +104,21 @@ static void monitor_open_action(void)
 }
 
 /** \brief  Trigger soft reset of the machine */
-static void reset_soft_action(void)
+static void reset_soft_action(void *unused)
 {
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     ui_pause_disable();
 }
 
 /** \brief  Trigger hard reset of the machine */
-static void reset_hard_action(void)
+static void reset_hard_action(void *unused)
 {
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     ui_pause_disable();
 }
 
 /** \brief  Toggle PET userport diagnostic pin */
-static void diagnostic_pin_toggle_action(void)
+static void diagnostic_pin_toggle_action(void *unused)
 {
     int active = 0;
 
@@ -130,26 +130,26 @@ static void diagnostic_pin_toggle_action(void)
 /** \brief  List of machine-related actions */
 static const ui_action_map_t machine_actions[] = {
     {
-        .action = ACTION_QUIT,
+        .action  = ACTION_QUIT,
         .handler = quit_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_MONITOR_OPEN,
-        .handler = monitor_open_action,
+        .action   = ACTION_MONITOR_OPEN,
+        .handler  = monitor_open_action,
         .uithread = true
     },
     {
-        .action = ACTION_RESET_SOFT,
+        .action  = ACTION_RESET_SOFT,
         .handler = reset_soft_action
     },
     {
-        .action = ACTION_RESET_HARD,
+        .action  = ACTION_RESET_HARD,
         .handler = reset_hard_action
     },
     {
-        .action = ACTION_DIAGNOSTIC_PIN_TOGGLE,
+        .action  = ACTION_DIAGNOSTIC_PIN_TOGGLE,
         .handler = diagnostic_pin_toggle_action,
         /* no need for UI thread, the status bar code will update the LED when
          * it runs */

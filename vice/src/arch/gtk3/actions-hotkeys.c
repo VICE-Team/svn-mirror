@@ -49,14 +49,14 @@
 
 
 /** \brief  Clear all hotkeys */
-static void hotkeys_clear_action(void)
+static void hotkeys_clear_action(void *unused)
 {
     ui_display_statustext("Clearing all hotkeys.", 1);
     ui_hotkeys_remove_all();
 }
 
 /** \brief  Load default hotkeys */
-static void hotkeys_default_action(void)
+static void hotkeys_default_action(void *unused)
 {
     ui_display_statustext("Loading default hotkeys.", 1);
     ui_hotkeys_load_default();
@@ -66,7 +66,7 @@ static void hotkeys_default_action(void)
  *
  * Either load the file in "HotkeyFile" or load the default hotkeys.
  */
-static void hotkeys_load_action(void)
+static void hotkeys_load_action(void *unused)
 {
     const char *hotkeys_file = NULL;
 
@@ -83,7 +83,7 @@ static void hotkeys_load_action(void)
 }
 
 /** \brief  Pop up dialog to load hotkeys from a specific file */
-static void hotkeys_load_from_action(void)
+static void hotkeys_load_from_action(void *unused)
 {
     ui_hotkeys_load_dialog_show(NULL);
 }
@@ -92,7 +92,7 @@ static void hotkeys_load_from_action(void)
  *
  * If the default hotkeys are loaded, don't save anything
  */
-static void hotkeys_save_action(void)
+static void hotkeys_save_action(void *unused)
 {
     const char *hotkeyfile = NULL;
 
@@ -115,7 +115,7 @@ static void hotkeys_save_action(void)
 
 /** \brief  Pop up a dialog to save hotkeys to file
  */
-static void hotkeys_save_to_action(void)
+static void hotkeys_save_to_action(void *unused)
 {
     ui_hotkeys_save_dialog_show();
 }
@@ -123,37 +123,37 @@ static void hotkeys_save_to_action(void)
 /** \brief  List of actions for hotkeys management */
 static const ui_action_map_t hotkeys_actions[] = {
     {
-        .action = ACTION_HOTKEYS_CLEAR,
-        .handler = hotkeys_clear_action,
+        .action   = ACTION_HOTKEYS_CLEAR,
+        .handler  = hotkeys_clear_action,
         .uithread = true
     },
     {
-        .action = ACTION_HOTKEYS_DEFAULT,
-        .handler = hotkeys_default_action,
+        .action   = ACTION_HOTKEYS_DEFAULT,
+        .handler  = hotkeys_default_action,
         .uithread = true
     },
     {
-        .action = ACTION_HOTKEYS_LOAD,
-        .handler = hotkeys_load_action,
+        .action   = ACTION_HOTKEYS_LOAD,
+        .handler  = hotkeys_load_action,
         .uithread = true
     },
     {
-        .action = ACTION_HOTKEYS_LOAD_FROM,
-        .handler = hotkeys_load_from_action,
-        .blocks = true,
-        .dialog = true,
+        .action   = ACTION_HOTKEYS_LOAD_FROM,
+        .handler  = hotkeys_load_from_action,
+        .blocks   = true,
+        .dialog   = true,
         .uithread = true
     },
     {
-        .action = ACTION_HOTKEYS_SAVE,
-        .handler = hotkeys_save_action,
+        .action   = ACTION_HOTKEYS_SAVE,
+        .handler  = hotkeys_save_action,
         .uithread = true
     },
     {
-        .action = ACTION_HOTKEYS_SAVE_TO,
-        .handler = hotkeys_save_to_action,
-        .blocks = true,
-        .dialog = true,
+        .action   = ACTION_HOTKEYS_SAVE_TO,
+        .handler  = hotkeys_save_to_action,
+        .blocks   = true,
+        .dialog   = true,
         .uithread = true
     },
 

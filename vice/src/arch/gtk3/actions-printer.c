@@ -28,56 +28,42 @@
 
 #include "debug_gtk3.h"
 #include "printer.h"
+#include "types.h"
 #include "uiactions.h"
 
 #include "actions-printer.h"
 
 
-/** \brief  Send formfeed to printer #4 */
-static void printer_formfeed_4_action(void)
+/** \brief  Send formfeed to print action
+ *
+ * \param[in]   unit    printer unit (4-6, 3 for userport)
+ */
+static void printer_formfeed_action(void *unit)
 {
-    debug_gtk3("sending formfeed to printer #4.");
-    printer_formfeed(4);
-}
-
-/** \brief  Send formfeed to printer #5 */
-static void printer_formfeed_5_action(void)
-{
-    debug_gtk3("sending formfeed to printer #5.");
-    printer_formfeed(5);
-}
-
-/** \brief  Send formfeed to plotter #6 */
-static void printer_formfeed_6_action(void)
-{
-    debug_gtk3("sending formfeed to plotter #6.");
-    printer_formfeed(6);
-}
-
-/** \brief  Send formfeed to userport printer */
-static void printer_formfeed_userport_action(void)
-{
-    debug_gtk3("sending formfeed to userport printer.");
-    printer_formfeed(3);
+    printer_formfeed(vice_ptr_to_int(unit));
 }
 
 /** \brief  Printer actions */
 static const ui_action_map_t printer_actions[] = {
     {
         .action  = ACTION_PRINTER_FORMFEED_4,
-        .handler = printer_formfeed_4_action
+        .handler = printer_formfeed_action,
+        .param   = int_to_void_ptr(4)
     },
     {
         .action  = ACTION_PRINTER_FORMFEED_5,
-        .handler = printer_formfeed_5_action
+        .handler = printer_formfeed_action,
+        .param   = int_to_void_ptr(5)
     },
     {
         .action  = ACTION_PRINTER_FORMFEED_6,
-        .handler = printer_formfeed_6_action
+        .handler = printer_formfeed_action,
+        .param   = int_to_void_ptr(6)
     },
     {
         .action  = ACTION_PRINTER_FORMFEED_USERPORT,
-        .handler = printer_formfeed_userport_action
+        .handler = printer_formfeed_action,
+        .param   = int_to_void_ptr(3)
     },
 
     UI_ACTION_MAP_TERMINATOR

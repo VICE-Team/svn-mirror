@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "mainlock.h"
 #include "resources.h"
+#include "types.h"
 #include "uiactions.h"
 #include "uihotkeys.h"
 #include "uisettings.h"
@@ -93,7 +94,7 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
 }
 
 /** \brief  Show dialog to restore settings to default */
-static void settings_default_action(void)
+static void settings_default_action(void *unused)
 {
     vice_gtk3_message_confirm(
             restore_default_callback,
@@ -106,13 +107,13 @@ static void settings_default_action(void)
 }
 
 /** \brief  Show settings dialog */
-static void settings_dialog_action(void)
+static void settings_dialog_action(void *unused)
 {
     ui_settings_dialog_show(NULL);
 }
 
 /* Reload settings from current settings file */
-static void settings_load_action(void)
+static void settings_load_action(void *unused)
 {
     int result;
 
@@ -157,11 +158,11 @@ static void settings_load_filename_callback(GtkDialog *dialog,
 }
 
 
-/** \brief  Helper to pop up the load (extra) settings dialog
+/** \brief  Action to pop up the load from (extra) settings dialog
  *
  * \param[in]   load_extra  Load settings without resetting to default first
  */
-static void settings_load_helper(bool load_extra)
+static void settings_load_from_action(void *load_extra)
 {
     GtkWidget *dialog;
     char      *path;
@@ -169,7 +170,7 @@ static void settings_load_helper(bool load_extra)
     dialog = vice_gtk3_open_file_dialog("Load settings file",
                                         NULL, NULL, NULL,
                                         settings_load_filename_callback,
-                                        GINT_TO_POINTER((int)load_extra));
+                                        load_extra);
     path = get_config_file_path();
     if (path != NULL) {
         gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
@@ -184,20 +185,8 @@ static void settings_load_helper(bool load_extra)
     gtk_widget_show_all(dialog);
 }
 
-/** \brief  Load settings from user-specified file */
-static void settings_load_from_action(void)
-{
-    settings_load_helper(false);    /* reset before loading */
-}
-
-/** \brief  Load additional settings from user-specified file */
-static void settings_load_extra_action(void)
-{
-    settings_load_helper(true);     /* don't reset before loading */
-}
-
 /** \brief  Save current settings */
-static void settings_save_action(void)
+static void settings_save_action(void *unused)
 {
     int result;
 
@@ -218,8 +207,8 @@ static void settings_save_action(void)
  * \param[in]       unused      extra data (unused)
  */
 static void on_settings_save_to_filename(GtkDialog *dialog,
-                                         gchar *filename,
-                                         gpointer unused)
+                                         gchar     *filename,
+                                         gpointer   unused)
 {
     if (filename!= NULL) {
         mainlock_obtain();
@@ -239,7 +228,7 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
 }
 
 /** \brief  Pop up a dialog to save current settings to a file */
-static void settings_save_to_action(void)
+static void settings_save_to_action(void *unused)
 {
     GtkWidget *dialog;
     char      *path;
@@ -266,42 +255,44 @@ static void settings_save_to_action(void)
 /** \brief  List of actions for settings management */
 static const ui_action_map_t settings_actions[] = {
     {
-        .action = ACTION_SETTINGS_DEFAULT,
+        .action  = ACTION_SETTINGS_DEFAULT,
         .handler = settings_default_action
     },
     {
-        .action = ACTION_SETTINGS_DIALOG,
+        .action  = ACTION_SETTINGS_DIALOG,
         .handler = settings_dialog_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_SETTINGS_LOAD,
+        .action  = ACTION_SETTINGS_LOAD,
         .handler = settings_load_action,
-        .blocks = true
+        .blocks  = true
     },
     {
-        .action = ACTION_SETTINGS_LOAD_FROM,
+        .action  = ACTION_SETTINGS_LOAD_FROM,
         .handler = settings_load_from_action,
-        .blocks = true,
-        .dialog = true
+        .param   = int_to_void_ptr(0),  /* reset settings before loading */
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_SETTINGS_LOAD_EXTRA,
-        .handler = settings_load_extra_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_SETTINGS_LOAD_EXTRA,
+        .handler = settings_load_from_action,
+        .param   = int_to_void_ptr(1),  /* don't reset setting before loading */
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_SETTINGS_SAVE,
+        .action  = ACTION_SETTINGS_SAVE,
         .handler = settings_save_action,
-        .blocks = true
+        .blocks  = true
     },
     {
-        .action = ACTION_SETTINGS_SAVE_TO,
+        .action  = ACTION_SETTINGS_SAVE_TO,
         .handler = settings_save_to_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
 
     UI_ACTION_MAP_TERMINATOR

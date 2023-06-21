@@ -32,6 +32,7 @@
 
 #include "datasette.h"
 #include "tape.h"
+#include "types.h"
 #include "uiactions.h"
 #include "uitapeattach.h"
 #include "uitapecreate.h"
@@ -43,108 +44,54 @@
  *      1/2 for the port!
  */
 
-
-/* {{{ Datasette #1 actions */
-static void tape_attach_1_action(void)
+static void tape_attach_action(void *port)
 {
-    ui_tape_attach_show_dialog(1);
+    ui_tape_attach_show_dialog(vice_ptr_to_int(port));
 }
 
-static void tape_create_1_action(void)
+static void tape_create_action(void *port)
 {
-    ui_tape_create_dialog_show(1);
+    ui_tape_create_dialog_show(vice_ptr_to_int(port));
 }
 
-static void tape_detach_1_action(void)
+static void tape_detach_action(void *port)
 {
-    tape_image_detach(1);
+    tape_image_detach(vice_ptr_to_int(port));
 }
 
-static void tape_stop_1_action(void)
+static void tape_stop_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_STOP);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_STOP);
 }
 
-static void tape_play_1_action(void)
+static void tape_play_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_START);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_START);
 }
 
-static void tape_ffwd_1_action(void)
+static void tape_ffwd_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_FORWARD);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_FORWARD);
 }
 
-static void tape_rewind_1_action(void)
+static void tape_rewind_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_REWIND);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_REWIND);
 }
 
-static void tape_record_1_action(void)
+static void tape_record_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_RECORD);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_RECORD);
 }
 
-static void tape_reset_1_action(void)
+static void tape_reset_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_RESET);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_RESET);
 }
 
-static void tape_reset_counter_1_action(void)
+static void tape_reset_counter_action(void *port)
 {
-    datasette_control(0, DATASETTE_CONTROL_RESET_COUNTER);
-}
-/* }}} */
-
-/* {{{ Datasette #2 actions */
-static void tape_attach_2_action(void)
-{
-    ui_tape_attach_show_dialog(2);
-}
-
-static void tape_create_2_action(void)
-{
-    ui_tape_create_dialog_show(2);
-}
-
-static void tape_detach_2_action(void)
-{
-    tape_image_detach(2);
-}
-
-static void tape_stop_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_STOP);
-}
-
-static void tape_play_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_START);
-}
-
-static void tape_ffwd_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_FORWARD);
-}
-
-static void tape_rewind_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_REWIND);
-}
-
-static void tape_record_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_RECORD);
-}
-
-static void tape_reset_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_RESET);
-}
-
-static void tape_reset_counter_2_action(void)
-{
-    datasette_control(1, DATASETTE_CONTROL_RESET_COUNTER);
+    datasette_control(vice_ptr_to_int(port) - 1, DATASETTE_CONTROL_RESET_COUNTER);
 }
 /* }}} */
 
@@ -153,98 +100,118 @@ static void tape_reset_counter_2_action(void)
 static const ui_action_map_t datasette_actions[] = {
     /* Datasette #1 image actions */
     {
-        .action = ACTION_TAPE_ATTACH_1,
-        .handler = tape_attach_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_TAPE_ATTACH_1,
+        .handler = tape_attach_action,
+        .param   = int_to_void_ptr(1),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_TAPE_CREATE_1,
-        .handler = tape_create_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_TAPE_CREATE_1,
+        .handler = tape_create_action,
+        .param   = int_to_void_ptr(1),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_TAPE_DETACH_1,
-        .handler = tape_detach_1_action
+        .action  = ACTION_TAPE_DETACH_1,
+        .handler = tape_detach_action,
+        .param   = int_to_void_ptr(1)
     },
 
     /* Datasette #1 command actions */
     {
-        .action = ACTION_TAPE_STOP_1,
-        .handler = tape_stop_1_action
+        .action  = ACTION_TAPE_STOP_1,
+        .handler = tape_stop_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_PLAY_1,
-        .handler = tape_play_1_action
+        .action  = ACTION_TAPE_PLAY_1,
+        .handler = tape_play_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_FFWD_1,
-        .handler = tape_ffwd_1_action
+        .action  = ACTION_TAPE_FFWD_1,
+        .handler = tape_ffwd_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_REWIND_1,
-        .handler = tape_rewind_1_action
+        .action  = ACTION_TAPE_REWIND_1,
+        .handler = tape_rewind_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_RECORD_1,
-        .handler = tape_record_1_action
+        .action  = ACTION_TAPE_RECORD_1,
+        .handler = tape_record_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_RESET_1,
-        .handler = tape_reset_1_action
+        .action  = ACTION_TAPE_RESET_1,
+        .handler = tape_reset_action,
+        .param   = int_to_void_ptr(1)
     },
     {
-        .action = ACTION_TAPE_RESET_COUNTER_1,
-        .handler = tape_reset_counter_1_action
+        .action  = ACTION_TAPE_RESET_COUNTER_1,
+        .handler = tape_reset_counter_action,
+        .param   = int_to_void_ptr(1)
     },
 
     /* Datasette #2 image actions */
     {
-        .action = ACTION_TAPE_ATTACH_2,
-        .handler = tape_attach_2_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_TAPE_ATTACH_2,
+        .handler = tape_attach_action,
+        .param   = int_to_void_ptr(2),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_TAPE_CREATE_2,
-        .handler = tape_create_2_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_TAPE_CREATE_2,
+        .handler = tape_create_action,
+        .param   = int_to_void_ptr(2),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_TAPE_DETACH_2,
-        .handler = tape_detach_2_action
+        .action  = ACTION_TAPE_DETACH_2,
+        .handler = tape_detach_action,
+        .param   = int_to_void_ptr(2)
     },
 
     /* Datasette #2 command actions */
     {
-        .action = ACTION_TAPE_STOP_2,
-        .handler = tape_stop_2_action
+        .action  = ACTION_TAPE_STOP_2,
+        .handler = tape_stop_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_PLAY_2,
-        .handler = tape_play_2_action
+        .action  = ACTION_TAPE_PLAY_2,
+        .handler = tape_play_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_FFWD_2,
-        .handler = tape_ffwd_2_action
+        .action  = ACTION_TAPE_FFWD_2,
+        .handler = tape_ffwd_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_REWIND_2,
-        .handler = tape_rewind_2_action
+        .action  = ACTION_TAPE_REWIND_2,
+        .handler = tape_rewind_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_RECORD_2,
-        .handler = tape_record_2_action
+        .action  = ACTION_TAPE_RECORD_2,
+        .handler = tape_record_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_RESET_2,
-        .handler = tape_reset_2_action
+        .action  = ACTION_TAPE_RESET_2,
+        .handler = tape_reset_action,
+        .param   = int_to_void_ptr(2),
     },
     {
-        .action = ACTION_TAPE_RESET_COUNTER_2,
-        .handler = tape_reset_counter_2_action
+        .action  = ACTION_TAPE_RESET_COUNTER_2,
+        .handler = tape_reset_counter_action,
+        .param   = int_to_void_ptr(2),
     },
     UI_ACTION_MAP_TERMINATOR
 };
