@@ -883,6 +883,9 @@ void ui_actions_init(void)
  * \param[in]   dispatch    function to call with an action map as its argument
  *                          to have the UI actually invoke the handler on the
  *                          proper thread
+ *
+ * \note    Installing a dispatch handler is optional, when not installed an
+ *          action's handler is called directly by ui_action_trigger().
  */
 void ui_actions_set_dispatch(void (*dispatch)(ui_action_map_t *))
 {
@@ -895,6 +898,7 @@ void ui_actions_set_dispatch(void (*dispatch)(ui_action_map_t *))
 void ui_actions_shutdown(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDLUI) || defined(USE_SDL2UI)
+    /* NOP for now */
 #endif
 }
 
@@ -948,14 +952,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
  */
 void ui_action_trigger(int action)
 {
-    ui_action_map_t *map;
-
-    if (dispatch_handler == NULL) {
-        log_error(LOG_ERR, "action handler dispatcher not installed.");
-        return;
-    }
-
-    map = find_action_map(action);
+    ui_action_map_t *map = find_action_map(action);
     if (map != NULL) {
        /* handle blocking actions */
         if (map->blocks) {
@@ -976,13 +973,14 @@ void ui_action_trigger(int action)
         }
 
         /* pass to dispatch handler */
-        dispatch_handler(map);
+        if (dispatch_handler != NULL) {
+            dispatch_handler(map);
+        } else {
+            /* default handler: trigger directly */
+            map->handler(map->param);
+        }
     } else {
-        /* default handler: trigger directly */
-        map->handler(map->param);
-#if 0
         log_error(LOG_ERR, "no handler for action %d\n", action);
-#endif
     }
 }
 
