@@ -239,18 +239,21 @@ int init_cmdline_options(void)
  */
 static int main_init_hack(void)
 {
-    int n;
-    int dev;
+    /* The FileSystemDeviceX resources do not exist in VSID: */
+    if (machine_class != VICE_MACHINE_VSID) {
+        int n;
+        int dev;
 
-    /* When initializing FileSystemDeviceX resources, vdrive is not properly
-       initialized. Switching forth and back seems to solve the following:
-       - real device does not work when saved into vicerc
-       - real device does not work in xvic
-    */
-    for (n = 0; n < NUM_DISK_UNITS; n++) {
-        resources_get_int_sprintf("FileSystemDevice%d", &dev, n + 8);
-        resources_set_int_sprintf("FileSystemDevice%d", dev == 1 ? 0 : 1, n + 8);
-        resources_set_int_sprintf("FileSystemDevice%d", dev, n + 8);
+        /* When initializing FileSystemDeviceX resources, vdrive is not properly
+           initialized. Switching forth and back seems to solve the following:
+           - real device does not work when saved into vicerc
+           - real device does not work in xvic
+        */
+        for (n = 0; n < NUM_DISK_UNITS; n++) {
+            resources_get_int_sprintf("FileSystemDevice%d", &dev, n + 8);
+            resources_set_int_sprintf("FileSystemDevice%d", dev == 1 ? 0 : 1, n + 8);
+            resources_set_int_sprintf("FileSystemDevice%d", dev, n + 8);
+        }
     }
     return 0;
 }
