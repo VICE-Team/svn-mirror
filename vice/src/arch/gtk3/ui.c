@@ -152,7 +152,7 @@ static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
 static int window_index_from_param(void *param);
-static void ui_action_dispatch(const ui_action_map_t *);
+static void ui_action_dispatch(ui_action_map_t *);
 
 
 /*****************************************************************************
@@ -1092,41 +1092,38 @@ static int set_settings_node_path(const gchar *path, void *param)
 
 /* Dispatch function and its helper for the UI actions */
 
+
 /** \brief  GSourceFunc to call a UI action
  *
- * \param[in]   data    UI action function
+ * \param[in]   data    UI action map
  *
- * \return  `FALSE` to remove this timeout source
+ * \return  `G_SOURCE_REMOVE` to remove this timeout source
  */
 static gboolean ui_action_dispatch_impl(gpointer data)
 {
-    void (*handler)(void) = data;
-    debug_gtk3("Called with handler %p", (void*)handler);
-    handler();
-    return FALSE;
+    ui_action_map_t *map = data;
+
+    debug_gtk3("Called with handler %p, param %p)",
+               (void*)(map->handler), (void*)(map->param));
+    map->handler(map->param);
+    return G_SOURCE_REMOVE;
 }
 
 /** \brief  Dispatcher for UI actions
  *
- * Executes \a handler on the the UI thread.
+ * Executes UI action handler on the the UI thread if requested.
  *
- * \param[in]   handler handler to invoke
+ * \param[in]   map UI action map
  */
-static void ui_action_dispatch(const ui_action_map_t *map)
+static void ui_action_dispatch(ui_action_map_t *map)
 {
-    if (map->uithread || map->dialog) {
-        if (mainlock_is_vice_thread()) {
-            /* we're on the main thread, push to UI thread */
-            gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
-        } else {
-            /* we're already on the UI thread */
-            map->handler();
-        }
+    if ((map->uithread || map->dialog) && mainlock_is_vice_thread()) {
+        /* we're on the main thread and we need the UI thread: push to UI thread */
+        gdk_threads_add_timeout(0, ui_action_dispatch_impl, (void*)map);
     } else {
-        map->handler();
+        map->handler(map->param);
     }
 }
-
 
 
 /******************************************************************************

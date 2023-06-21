@@ -44,25 +44,25 @@
 
 /* {{{ Snapshit actions */
 /** \brief  Pop up dialog to load a snapshot */
-static void snapshot_load_action(void)
+static void snapshot_load_action(void *unused)
 {
     ui_snapshot_load_snapshot();
 }
 
 /** \brief  Pop up dialog to save a snapshot */
-static void snapshot_save_action(void)
+static void snapshot_save_action(void *unused)
 {
     ui_snapshot_save_snapshot();
 }
 
 /** \brief  Quickload snapshot */
-static void snapshot_quickload_action(void)
+static void snapshot_quickload_action(void *unused)
 {
     ui_snapshot_quickload_snapshot();
 }
 
 /** \brief  Quicksave snapshot */
-static void snapshot_quicksave_action(void)
+static void snapshot_quicksave_action(void *unused)
 {
     ui_snapshot_quicksave_snapshot();
 }
@@ -70,7 +70,7 @@ static void snapshot_quicksave_action(void)
 
 /* {{{ History actions */
 /** \brief  Start recording history */
-static void history_record_start_action(void)
+static void history_record_start_action(void *unused)
 {
     event_record_start();
     ui_display_recording(1);
@@ -78,7 +78,7 @@ static void history_record_start_action(void)
 }
 
 /** \brief  Stop recording history */
-static void history_record_stop_action(void)
+static void history_record_stop_action(void *unused)
 {
     event_record_stop();
     ui_display_recording(0);
@@ -86,25 +86,25 @@ static void history_record_stop_action(void)
 
 
 /** \brief  Start history playback */
-static void history_playback_start_action(void)
+static void history_playback_start_action(void *unused)
 {
     event_playback_start();
 }
 
 /** \brief  Stop history playback */
-static void history_playback_stop_action(void)
+static void history_playback_stop_action(void *unused)
 {
     event_playback_stop();
 }
 
 /** \brief  Set history milestone */
-static void history_milestone_set_action(void)
+static void history_milestone_set_action(void *unused)
 {
     event_record_set_milestone();
 }
 
 /** \brief  Rewind to history milestone */
-static void history_milestone_reset_action(void)
+static void history_milestone_reset_action(void *unused)
 {
     event_record_reset_milestone();
 }
@@ -115,53 +115,53 @@ static void history_milestone_reset_action(void)
 static const ui_action_map_t snapshot_actions[] = {
     /* Snapshot actions */
     {
-        .action = ACTION_SNAPSHOT_LOAD,
+        .action  = ACTION_SNAPSHOT_LOAD,
         .handler = snapshot_load_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_SNAPSHOT_SAVE,
+        .action  = ACTION_SNAPSHOT_SAVE,
         .handler = snapshot_save_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_SNAPSHOT_QUICKLOAD,
+        .action  = ACTION_SNAPSHOT_QUICKLOAD,
         .handler = snapshot_quickload_action
     },
     {
-        .action = ACTION_SNAPSHOT_QUICKSAVE,
+        .action  = ACTION_SNAPSHOT_QUICKSAVE,
         .handler = snapshot_quicksave_action
     },
 
     /* History actions */
     {
-        .action = ACTION_HISTORY_RECORD_START,
-        .handler = history_record_start_action,
+        .action   = ACTION_HISTORY_RECORD_START,
+        .handler  = history_record_start_action,
         .uithread = true
     },
     {
-        .action = ACTION_HISTORY_RECORD_STOP,
-        .handler = history_record_stop_action,
+        .action   = ACTION_HISTORY_RECORD_STOP,
+        .handler  = history_record_stop_action,
         .uithread = true
     },
     {
-        .action = ACTION_HISTORY_PLAYBACK_START,
-        .handler = history_playback_start_action,
+        .action   = ACTION_HISTORY_PLAYBACK_START,
+        .handler  = history_playback_start_action,
         .uithread = true
     },
     {
-        .action = ACTION_HISTORY_PLAYBACK_STOP,
-        .handler = history_playback_stop_action,
+        .action   = ACTION_HISTORY_PLAYBACK_STOP,
+        .handler  = history_playback_stop_action,
         .uithread = true
     },
     {
-        .action = ACTION_HISTORY_MILESTONE_SET,
+        .action  = ACTION_HISTORY_MILESTONE_SET,
         .handler = history_milestone_set_action
     },
     {
-        .action = ACTION_HISTORY_MILESTONE_RESET,
+        .action  = ACTION_HISTORY_MILESTONE_RESET,
         .handler = history_milestone_reset_action
     },
 

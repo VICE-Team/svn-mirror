@@ -50,12 +50,12 @@
  * \note    Keep the debug_gtk3() calls for now, this code hardly works on
  *          Windows at all and needs work.
  */
-static void help_manual_action(void)
+static void help_manual_action(void *unused)
 {
-    GError *error = NULL;
-    char *uri;
+    GError     *error = NULL;
+    char       *uri;
     const char *path;
-    gchar *final_uri;
+    gchar      *final_uri;
 
     /*
      * Get arch-dependent documentation dir (doesn't contain the HTML docs
@@ -127,19 +127,19 @@ static void help_manual_action(void)
 }
 
 /** \brief  Pop up dialog with command line options help */
-static void help_command_line_action(void)
+static void help_command_line_action(void *unused)
 {
     uicmdline_dialog_show();
 }
 
 /** \brief  Pop up dialog with compile time features help */
-static void help_compile_time_action(void)
+static void help_compile_time_action(void *unused)
 {
     uicompiletimefeatures_dialog_show();
 }
 
 /** \brief  Pop up setting dialog and activate the hotkeys editor */
-static void help_hotkeys_action(void)
+static void help_hotkeys_action(void *unused)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         ui_settings_dialog_show("host/hotkeys");
@@ -149,7 +149,7 @@ static void help_hotkeys_action(void)
 }
 
 /** \brief  Pop up About dialog */
-static void help_about_action(void)
+static void help_about_action(void *unused)
 {
     ui_about_dialog_show();
 }
@@ -158,25 +158,25 @@ static void help_about_action(void)
 /** \brief  List of help-related actions */
 static const ui_action_map_t help_actions[] = {
     {
-        .action = ACTION_HELP_MANUAL,
-        .handler = help_manual_action,
-        .blocks = true,
+        .action   = ACTION_HELP_MANUAL,
+        .handler  = help_manual_action,
+        .blocks   = true,
         .uithread = true
     },
     {
-        .action = ACTION_HELP_COMMAND_LINE,
+        .action  = ACTION_HELP_COMMAND_LINE,
         .handler = help_command_line_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true,
     },
     {
-        .action = ACTION_HELP_COMPILE_TIME,
+        .action  = ACTION_HELP_COMPILE_TIME,
         .handler = help_compile_time_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_HELP_HOTKEYS,
+        .action  = ACTION_HELP_HOTKEYS,
         .handler = help_hotkeys_action,
         /* FIXME:   Find a way for the settings dialog to signal it's going down
          *          without resorting to a ton of ui_action_finish(ACTION_FOO)
@@ -192,10 +192,10 @@ static const ui_action_map_t help_actions[] = {
         */
     },
     {
-        .action = ACTION_HELP_ABOUT,
+        .action  = ACTION_HELP_ABOUT,
         .handler = help_about_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
 
     UI_ACTION_MAP_TERMINATOR

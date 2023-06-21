@@ -819,8 +819,10 @@ static bool dialog_active = false;
 /** \brief  UI action dispatch handler
  *
  * Function to trigger the action handler on the proper thread in a UI.
+ * This can remain `NULL` in which case the handler of an action is called
+ * directly on the thread that called ui_action_trigger().
  */
-static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
+static void (*dispatch_handler)(ui_action_map_t *) = NULL;
 
 
 /** \brief  Find action mapping by action ID with valid handler
@@ -859,6 +861,7 @@ void ui_actions_init(void)
         /* explicitly initialize elements */
         map->action       = action; /* needed when passing a pointer into the array */
         map->handler      = NULL;
+        map->param        = NULL;
         map->blocks       = false;
         map->dialog       = false;
         map->uithread     = false;
@@ -881,7 +884,7 @@ void ui_actions_init(void)
  *                          to have the UI actually invoke the handler on the
  *                          proper thread
  */
-void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
+void ui_actions_set_dispatch(void (*dispatch)(ui_action_map_t *))
 {
     dispatch_handler = dispatch;
 }
@@ -921,6 +924,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
         entry = &action_mappings[map->action];
         entry->action   = map->action;
         entry->handler  = map->handler;
+        entry->param    = map->param;
         entry->blocks   = map->blocks;
         entry->dialog   = map->dialog;
         entry->uithread = map->uithread;
@@ -974,7 +978,11 @@ void ui_action_trigger(int action)
         /* pass to dispatch handler */
         dispatch_handler(map);
     } else {
+        /* default handler: trigger directly */
+        map->handler(map->param);
+#if 0
         log_error(LOG_ERR, "no handler for action %d\n", action);
+#endif
     }
 }
 

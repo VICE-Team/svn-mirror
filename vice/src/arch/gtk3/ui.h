@@ -30,11 +30,11 @@
 #define VICE_UI_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "videoarch.h"
 #include "palette.h"
+#include "types.h"
+#include "videoarch.h"
 
 
 /** \brief  Number of GtkWindow's in the ui_resources
@@ -73,7 +73,19 @@ enum {
  * \param[in]   U   unit number (8-11)
  * \param[in]   D   drive number (0 or 1)
  */
-#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+#define UNIT_DRIVE_TO_PTR(U, D) (int_to_void_ptr(((U) << 8) | ((D) & 0xff)))
+
+/** \brief  Convert pointer to unit number
+ *
+ * \param[in]   P   pointer obtained from UNIT_DRIVE_TO_PTR()
+ */
+#define UNIT_FROM_PTR(P)  (vice_ptr_to_int(P) & 0xff)
+
+/** \brief  Convert pointer to drive number
+ *
+ * \param[in]   P   pointer obtained from UNIT_DRIVE_TO_PTR()
+ */
+#define DRIVE_FROM_PTR(P) ((vice_ptr_to_int(P) >> 8) & 0xff)
 
 
 extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];

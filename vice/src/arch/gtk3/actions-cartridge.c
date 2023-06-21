@@ -44,7 +44,7 @@
 
 
 /** \brief  Show cartridge attach dialog */
-static void cart_attach_action(void)
+static void cart_attach_action(void *unused)
 {
     ui_cart_show_dialog();
 }
@@ -71,7 +71,7 @@ static void confirm_detach_callback(GtkDialog *dialog, gboolean result)
  *       work for carts not on "slot 1", these seem to their own "enabled"
  *       resources and do not use the CartridgeType/CartridgeFile resources.
  */
-static void cart_detach_action(void)
+static void cart_detach_action(void* unused)
 {
     int cartid = CARTRIDGE_NONE;
 
@@ -100,7 +100,7 @@ static void cart_detach_action(void)
 }
 
 /** \brief  Trigger the freeze button on the attached cartridge */
-static void cart_freeze_action(void)
+static void cart_freeze_action(void *unused)
 {
     cartridge_trigger_freeze();
 }

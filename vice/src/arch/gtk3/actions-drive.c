@@ -38,6 +38,8 @@
 #include "debug_gtk3.h"
 #include "drive.h"
 #include "fliplist.h"
+#include "types.h"
+#include "ui.h"
 #include "uiactions.h"
 #include "uidiskattach.h"
 #include "uidiskcreate.h"
@@ -48,119 +50,54 @@
 #include "actions-drive.h"
 
 
+/** \brief  Size of buffer used for status bar messages */
+#define MSGBUF_SIZE 1024
+
+/** \brief  Unpack P into assignments to `int unit` and `int drive`
+ *
+ * \param[in]   P   pointer value encoded with UNIT_DRIVE_TO_PTR()
+ */
+#define UNPACK_U_D(P) \
+    int unit = UNIT_FROM_PTR(P); \
+    int drive = DRIVE_FROM_PTR(P);
+
+
 /** \brief  Pop up smart attach dialog */
-static void smart_attach_action(void)
+static void smart_attach_action(void *unused)
 {
     ui_smart_attach_dialog_show();
 }
 
-/* {{{ attach actions */
-/** \brief  Pop up disk attach dialog for unit 8, drive 0 */
-static void drive_attach_8_0_action(void)
+/** \brief  Attach drive action for (unit, drive)
+ *
+ * \param[in]   unit_drive  unit and drive
+ */
+static void drive_attach_action(void *unit_drive)
 {
-    ui_disk_attach_dialog_show(8, 0);
+    UNPACK_U_D(unit_drive);
+    debug_gtk3("unit = %d, drive = %d", unit, drive);
+    ui_disk_attach_dialog_show(unit, drive);
 }
-
-/** \brief  Pop up disk attach dialog for unit 8, drive 1 */
-static void drive_attach_8_1_action(void)
-{
-    ui_disk_attach_dialog_show(8, 1);
-}
-
-/** \brief  Pop up disk attach dialog for unit 9, drive 0 */
-static void drive_attach_9_0_action(void)
-{
-    ui_disk_attach_dialog_show(9, 0);
-}
-
-/** \brief  Pop up disk attach dialog for unit 9, drive 1 */
-static void drive_attach_9_1_action(void)
-{
-    ui_disk_attach_dialog_show(9, 1);
-}
-
-/** \brief  Pop up disk attach dialog for unit 10, drive 0 */
-static void drive_attach_10_0_action(void)
-{
-    ui_disk_attach_dialog_show(10, 0);
-}
-
-/** \brief  Pop up disk attach dialog for unit 10, drive 1 */
-static void drive_attach_10_1_action(void)
-{
-    ui_disk_attach_dialog_show(10, 1);
-}
-
-/** \brief  Pop up disk attach dialog for unit 11, drive 0 */
-static void drive_attach_11_0_action(void)
-{
-    ui_disk_attach_dialog_show(11, 0);
-}
-
-/** \brief  Pop up disk attach dialog for unit 11, drive 1 */
-static void drive_attach_11_1_action(void)
-{
-    ui_disk_attach_dialog_show(11, 0);
-}
-/* }}} */
 
 /** \brief  Pop up dialog to create and attach a disk image */
-static void drive_create_action(void)
+static void drive_create_action(void *unused)
 {
     ui_disk_create_dialog_show(8);
 }
 
-/* {{{ detach actions */
-/** \brief  Detach disk image from unit 8, drive 0 */
-static void drive_detach_8_0_action(void)
+/** \brief  Detach disk image from (unit, drive)
+ *
+ * \param[in]   unit_drive  unit and drive
+ */
+static void drive_detach_action(void *unit_drive)
 {
-    file_system_detach_disk(8, 0);
-}
-
-/** \brief  Detach disk image from unit 8, drive 1 */
-static void drive_detach_8_1_action(void)
-{
-    file_system_detach_disk(8, 1);
-}
-
-/** \brief  Detach disk image from unit 9, drive 0 */
-static void drive_detach_9_0_action(void)
-{
-    file_system_detach_disk(9, 0);
-}
-
-/** \brief  Detach disk image from unit 9, drive 1 */
-static void drive_detach_9_1_action(void)
-{
-    file_system_detach_disk(9, 1);
-}
-
-/** \brief  Detach disk image from unit 10, drive 0 */
-static void drive_detach_10_0_action(void)
-{
-    file_system_detach_disk(10, 0);
-}
-
-/** \brief  Detach disk image from unit 10, drive 1 */
-static void drive_detach_10_1_action(void)
-{
-    file_system_detach_disk(10, 1);
-}
-
-/** \brief  Detach disk image from unit 11, drive 0 */
-static void drive_detach_11_0_action(void)
-{
-    file_system_detach_disk(11, 0);
-}
-
-/** \brief  Detach disk image from unit 11, drive 1 */
-static void drive_detach_11_1_action(void)
-{
-    file_system_detach_disk(11, 1);
+    UNPACK_U_D(unit_drive);
+    debug_gtk3("unit = %d, drive = %d", unit, drive);
+    file_system_detach_disk(unit, drive);
 }
 
 /** \brief  Detach all disk images from all units and drives */
-static void drive_detach_all_action(void)
+static void drive_detach_all_action(void *unused)
 {
     int unit;
 
@@ -169,47 +106,25 @@ static void drive_detach_all_action(void)
         file_system_detach_disk(unit, 1);
     }
 }
-/* }}} */
 
-/* {{{ drive reset actions */
-/** \brief  Trigger reset of unit 8 */
-static void reset_drive_8_action(void)
-{
-    drive_cpu_trigger_reset(0);
-}
-
-/** \brief  Trigger reset of unit 9 */
-static void reset_drive_9_action(void)
-{
-    drive_cpu_trigger_reset(1);
-}
-
-/** \brief  Trigger reset of unit 10 */
-static void reset_drive_10_action(void)
-{
-    drive_cpu_trigger_reset(2);
-}
-
-/** \brief  Trigger reset of unit 11 */
-static void reset_drive_11_action(void)
-{
-    drive_cpu_trigger_reset(3);
-}
-/* }}} */
-
-/* {{{ fliplist actions */
-
-/** \brief  Size of buffer used for status bar messages */
-#define MSGBUF_SIZE 1024
-
-/** \brief  Add current image to fliplist
+/** \brief  Drive reset action
  *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0-1)
+ * \param[in]   unit    drive unit number (8-11)
  */
-static void fliplist_add_helper(int unit, int drive)
+static void reset_drive_action(void *unit)
+{
+    int u = vice_ptr_to_int(unit) - DRIVE_UNIT_MIN;
+    drive_cpu_trigger_reset(u);
+}
+
+/** \brief  Add current image to fliplist action
+ *
+ * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
+ */
+static void fliplist_add_action(void *unit_drive)
 {
     char buffer[MSGBUF_SIZE];
+    UNPACK_U_D(unit_drive);
 
     if (fliplist_add_image(unit)) {
         g_snprintf(buffer, sizeof(buffer),
@@ -228,39 +143,15 @@ static void fliplist_add_helper(int unit, int drive)
     }
 }
 
-/** \brief  Add image in unit 8, drive 0 to fliplist */
-static void fliplist_add_8_0_action(void)
-{
-    fliplist_add_helper(8, 0);
-}
-
-/** \brief  Add image in unit 9, drive 0 to fliplist */
-static void fliplist_add_9_0_action(void)
-{
-    fliplist_add_helper(9, 0);
-}
-
-/** \brief  Add image in unit 10, drive 0 to fliplist */
-static void fliplist_add_10_0_action(void)
-{
-    fliplist_add_helper(10, 0);
-}
-
-/** \brief  Add image in unit 11, drive 0 to fliplist */
-static void fliplist_add_11_0_action(void)
-{
-    fliplist_add_helper(11, 0);
-}
-
-
-/** \brief  Remove current image from fliplist
+/** \brief  Remove current image from fliplist action
  *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0-1)
+ * \param[in]   unit_drive  unit number (8-11) and  drive number (0-1)
  */
-static void fliplist_remove_helper(int unit, int drive)
+static void fliplist_remove_action(void *unit_drive)
 {
+    UNPACK_U_D(unit_drive);
     const char *image = fliplist_get_head(unit);
+
     if (image != NULL) {
         char buffer[MSGBUF_SIZE];
 
@@ -274,38 +165,13 @@ static void fliplist_remove_helper(int unit, int drive)
     }
 }
 
-/** \brief  Remove current image in unit 8, drive 0 from the fliplist */
-static void fliplist_remove_8_0_action(void)
-{
-    fliplist_remove_helper(8, 0);
-}
-
-/** \brief  Remove current image in unit 9, drive 0 from the fliplist */
-static void fliplist_remove_9_0_action(void)
-{
-    fliplist_remove_helper(9, 0);
-}
-
-/** \brief  Remove current image in unit 10, drive 0 from the fliplist */
-static void fliplist_remove_10_0_action(void)
-{
-    fliplist_remove_helper(10, 0);
-}
-
-/** \brief  Remove current image in unit 11, drive 0 from the fliplist */
-static void fliplist_remove_11_0_action(void)
-{
-    fliplist_remove_helper(11, 0);
-}
-
-
-/** \brief  Attach next image in fliplist
+/** \brief  Attach next image in fliplist action
  *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0-1)
+ * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
  */
-static void fliplist_next_helper(int unit, int drive)
+static void fliplist_next_action(void *unit_drive)
 {
+    UNPACK_U_D(unit_drive);
     char buffer[MSGBUF_SIZE];
 
     if (fliplist_attach_head(unit, 1)) {
@@ -322,38 +188,13 @@ static void fliplist_next_helper(int unit, int drive)
     }
 }
 
-/** \brief  Attach next image in fliplist to unit 8 */
-static void fliplist_next_8_0_action(void)
-{
-    fliplist_next_helper(8, 0);
-}
-
-/** \brief  Attach next image in fliplist to unit 9 */
-static void fliplist_next_9_0_action(void)
-{
-    fliplist_next_helper(9, 0);
-}
-
-/** \brief  Attach next image in fliplist to unit 10 */
-static void fliplist_next_10_0_action(void)
-{
-    fliplist_next_helper(10, 0);
-}
-
-/** \brief  Attach next image in fliplist to unit 11 */
-static void fliplist_next_11_0_action(void)
-{
-    fliplist_next_helper(11, 0);
-}
-
-
-/** \brief  Attach next image in fliplist
+/** \brief  Attach previous image in fliplist action
  *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0-1)
+ * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
  */
-static void fliplist_previous_helper(int unit, int drive)
+static void fliplist_previous_action(void *unit_drive)
 {
+    UNPACK_U_D(unit_drive);
     char buffer[MSGBUF_SIZE];
 
     if (fliplist_attach_head(unit, 0)) {
@@ -370,38 +211,13 @@ static void fliplist_previous_helper(int unit, int drive)
     }
 }
 
-/** \brief  Attach previous image in fliplist to unit 8 */
-static void fliplist_previous_8_0_action(void)
-{
-    fliplist_previous_helper(8, 0);
-}
-
-/** \brief  Attach previous image in fliplist to unit 9 */
-static void fliplist_previous_9_0_action(void)
-{
-    fliplist_previous_helper(9, 0);
-}
-
-/** \brief  Attach previous image in fliplist to unit 10 */
-static void fliplist_previous_10_0_action(void)
-{
-    fliplist_previous_helper(10, 0);
-}
-
-/** \brief  Attach previous image in fliplist to unit 11 */
-static void fliplist_previous_11_0_action(void)
-{
-    fliplist_previous_helper(11, 0);
-}
-
-
-/** \brief  Clear fliplist
+/** \brief  Clear fliplist action
  *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0-1)
+ * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
  */
-static void fliplist_clear_helper(int unit, int drive)
+static void fliplist_clear_action(void *unit_drive)
 {
+    UNPACK_U_D(unit_drive);
     char buffer[MSGBUF_SIZE];
 
     fliplist_clear_list(unit);
@@ -411,81 +227,33 @@ static void fliplist_clear_helper(int unit, int drive)
     ui_display_statustext(buffer, 1);
 }
 
-/** \brief  Clear fliplist of unit 8 */
-static void fliplist_clear_8_0_action(void)
+/** \brief  Load fliplist action
+ *
+ * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
+ *
+ * \note    The drive number is ignored until the fliplist API supports
+ *          dual-drive devices.
+ */
+static void fliplist_load_action(void *unit_drive)
 {
-    fliplist_clear_helper(8, 0);
+    UNPACK_U_D(unit_drive);
+    (void)drive;
+    ui_fliplist_load_dialog_show(unit);
 }
 
-/** \brief  Clear fliplist of unit 9 */
-static void fliplist_clear_9_0_action(void)
+/** \brief  Save fliplist action
+ *
+ * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
+ *
+ * \note    The drive number is ignored until the fliplist API supports
+ *          dual-drive devices.
+ */
+static void fliplist_save_action(void *unit_drive)
 {
-    fliplist_clear_helper(9, 0);
+    UNPACK_U_D(unit_drive);
+    (void)drive;
+    ui_fliplist_save_dialog_show(unit);
 }
-
-/** \brief  Clear fliplist of unit 10 */
-static void fliplist_clear_10_0_action(void)
-{
-    fliplist_clear_helper(10, 0);
-}
-
-/** \brief  Clear fliplist of unit 11 */
-static void fliplist_clear_11_0_action(void)
-{
-    fliplist_clear_helper(11, 0);
-}
-
-
-/** \brief  Load fliplist from file for unit 8 */
-static void fliplist_load_8_0_action(void)
-{
-    ui_fliplist_load_dialog_show(8);
-}
-
-/** \brief  Load fliplist from file for unit 9*/
-static void fliplist_load_9_0_action(void)
-{
-    ui_fliplist_load_dialog_show(9);
-}
-
-/** \brief  Load fliplist from file for unit 10 */
-static void fliplist_load_10_0_action(void)
-{
-    ui_fliplist_load_dialog_show(10);
-}
-
-/** \brief  Load fliplist from file for unit 11 */
-static void fliplist_load_11_0_action(void)
-{
-    ui_fliplist_load_dialog_show(11);
-}
-
-
-/** \brief  Save fliplist to file for unit 8 */
-static void fliplist_save_8_0_action(void)
-{
-    ui_fliplist_save_dialog_show(8);
-}
-
-/** \brief  Save fliplist to file for unit 9 */
-static void fliplist_save_9_0_action(void)
-{
-    ui_fliplist_save_dialog_show(9);
-}
-
-/** \brief  Save fliplist to file for unit 10 */
-static void fliplist_save_10_0_action(void)
-{
-    ui_fliplist_save_dialog_show(10);
-}
-
-/** \brief  Save fliplist to file for unit 11 */
-static void fliplist_save_11_0_action(void)
-{
-    ui_fliplist_save_dialog_show(11);
-}
-
-/* }}} */
 
 
 /** \brief  List of drive-related actions */
@@ -500,116 +268,136 @@ static const ui_action_map_t drive_actions[] = {
 
     /* Attach disk actions */
     {
-        .action = ACTION_DRIVE_ATTACH_8_0,
-        .handler = drive_attach_8_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_8_0,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_8_1,
-        .handler = drive_attach_8_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_8_1,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 1),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_9_0,
-        .handler = drive_attach_9_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_9_0,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_9_1,
-        .handler = drive_attach_9_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_9_1,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 1),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_10_0,
-        .handler = drive_attach_10_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_10_0,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_10_1,
-        .handler = drive_attach_10_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_10_1,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 1),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_11_0,
-        .handler = drive_attach_11_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_11_0,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_DRIVE_ATTACH_11_1,
-        .handler = drive_attach_11_1_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_DRIVE_ATTACH_11_1,
+        .handler = drive_attach_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 1),
+        .blocks  = true,
+        .dialog  = true
     },
 
     /* Create and attach new image */
     {
-        .action = ACTION_DRIVE_CREATE,
+        .action  = ACTION_DRIVE_CREATE,
         .handler = drive_create_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
 
     /* Detach disk actions */
     {
-        .action = ACTION_DRIVE_DETACH_8_0,
-        .handler = drive_detach_8_0_action
+        .action  = ACTION_DRIVE_DETACH_8_0,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
         .action = ACTION_DRIVE_DETACH_8_1,
-        .handler = drive_detach_8_1_action
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 1)
     },
     {
-        .action = ACTION_DRIVE_DETACH_9_0,
-        .handler = drive_detach_9_0_action
+        .action  = ACTION_DRIVE_DETACH_9_0,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
     },
     {
-        .action = ACTION_DRIVE_DETACH_9_1,
-        .handler = drive_detach_9_1_action
+        .action  = ACTION_DRIVE_DETACH_9_1,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 1)
     },
     {
-        .action = ACTION_DRIVE_DETACH_10_0,
-        .handler = drive_detach_10_0_action
+        .action  = ACTION_DRIVE_DETACH_10_0,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
     {
-        .action = ACTION_DRIVE_DETACH_10_1,
-        .handler = drive_detach_10_1_action
+        .action  = ACTION_DRIVE_DETACH_10_1,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 1)
     },
     {
-        .action = ACTION_DRIVE_DETACH_11_0,
-        .handler = drive_detach_11_0_action
+        .action  = ACTION_DRIVE_DETACH_11_0,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
     {
-        .action = ACTION_DRIVE_DETACH_11_1,
-        .handler = drive_detach_11_1_action
+        .action  = ACTION_DRIVE_DETACH_11_1,
+        .handler = drive_detach_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 1)
     },
     {
-        .action = ACTION_DRIVE_DETACH_ALL,
+        .action  = ACTION_DRIVE_DETACH_ALL,
         .handler = drive_detach_all_action
     },
 
     /* Drive reset actions */
     {
-        .action = ACTION_RESET_DRIVE_8,
-        .handler = reset_drive_8_action
+        .action  = ACTION_RESET_DRIVE_8,
+        .handler = reset_drive_action,
+        .param   = int_to_void_ptr(8),
     },
     {
-        .action = ACTION_RESET_DRIVE_9,
-        .handler = reset_drive_9_action
+        .action  = ACTION_RESET_DRIVE_9,
+        .handler = reset_drive_action,
+        .param   = int_to_void_ptr(9),
     },
     {
-        .action = ACTION_RESET_DRIVE_10,
-        .handler = reset_drive_10_action
+        .action  = ACTION_RESET_DRIVE_10,
+        .handler = reset_drive_action,
+        .param   = int_to_void_ptr(10),
     },
     {
-        .action = ACTION_RESET_DRIVE_11,
-        .handler = reset_drive_11_action
+        .action  = ACTION_RESET_DRIVE_11,
+        .handler = reset_drive_action,
+        .param   = int_to_void_ptr(11),
     },
 
     /* Fliplist actions
@@ -620,136 +408,164 @@ static const ui_action_map_t drive_actions[] = {
      * bar code has its own locking mechanism.
      */
     {
-        .action = ACTION_FLIPLIST_ADD_8_0,
-        .handler = fliplist_add_8_0_action
+        .action  = ACTION_FLIPLIST_ADD_8_0,
+        .handler = fliplist_add_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
-        .action = ACTION_FLIPLIST_ADD_9_0,
-        .handler = fliplist_add_9_0_action
+        .action  = ACTION_FLIPLIST_ADD_9_0,
+        .handler = fliplist_add_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
     },
     {
-        .action = ACTION_FLIPLIST_ADD_10_0,
-        .handler = fliplist_add_10_0_action
+        .action  = ACTION_FLIPLIST_ADD_10_0,
+        .handler = fliplist_add_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
     {
-        .action = ACTION_FLIPLIST_ADD_11_0,
-        .handler = fliplist_add_11_0_action
+        .action  = ACTION_FLIPLIST_ADD_11_0,
+        .handler = fliplist_add_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
     {
-        .action = ACTION_FLIPLIST_REMOVE_8_0,
-        .handler = fliplist_remove_8_0_action
+        .action  = ACTION_FLIPLIST_REMOVE_8_0,
+        .handler = fliplist_remove_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
-        .action = ACTION_FLIPLIST_REMOVE_9_0,
-        .handler = fliplist_remove_9_0_action
+        .action  = ACTION_FLIPLIST_REMOVE_9_0,
+        .handler = fliplist_remove_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
     },
     {
-        .action = ACTION_FLIPLIST_REMOVE_10_0,
-        .handler = fliplist_remove_10_0_action
+        .action  = ACTION_FLIPLIST_REMOVE_10_0,
+        .handler = fliplist_remove_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
     {
-        .action = ACTION_FLIPLIST_REMOVE_11_0,
-        .handler = fliplist_remove_11_0_action
+        .action  = ACTION_FLIPLIST_REMOVE_11_0,
+        .handler = fliplist_remove_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
     {
-        .action = ACTION_FLIPLIST_NEXT_8_0,
-        .handler = fliplist_next_8_0_action
+        .action  = ACTION_FLIPLIST_NEXT_8_0,
+        .handler = fliplist_next_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
-        .action = ACTION_FLIPLIST_NEXT_9_0,
-        .handler = fliplist_next_9_0_action
+        .action  = ACTION_FLIPLIST_NEXT_9_0,
+        .handler = fliplist_next_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+    },
+    {
+        .action  = ACTION_FLIPLIST_NEXT_10_0,
+        .handler = fliplist_next_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
      {
-        .action = ACTION_FLIPLIST_NEXT_10_0,
-        .handler = fliplist_next_10_0_action
-    },
-     {
-        .action = ACTION_FLIPLIST_NEXT_11_0,
-        .handler = fliplist_next_11_0_action
+        .action  = ACTION_FLIPLIST_NEXT_11_0,
+        .handler = fliplist_next_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
     {
-        .action = ACTION_FLIPLIST_PREVIOUS_8_0,
-        .handler = fliplist_previous_8_0_action
+        .action  = ACTION_FLIPLIST_PREVIOUS_8_0,
+        .handler = fliplist_previous_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
-        .action = ACTION_FLIPLIST_PREVIOUS_9_0,
-        .handler = fliplist_previous_9_0_action
+        .action  = ACTION_FLIPLIST_PREVIOUS_9_0,
+        .handler = fliplist_previous_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
     },
     {
-        .action = ACTION_FLIPLIST_PREVIOUS_10_0,
-        .handler = fliplist_previous_10_0_action
+        .action  = ACTION_FLIPLIST_PREVIOUS_10_0,
+        .handler = fliplist_previous_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
     {
-        .action = ACTION_FLIPLIST_PREVIOUS_11_0,
-        .handler = fliplist_previous_11_0_action
+        .action  = ACTION_FLIPLIST_PREVIOUS_11_0,
+        .handler = fliplist_previous_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
     {
-        .action = ACTION_FLIPLIST_CLEAR_8_0,
-        .handler = fliplist_clear_8_0_action
+        .action  = ACTION_FLIPLIST_CLEAR_8_0,
+        .handler = fliplist_clear_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {
-        .action = ACTION_FLIPLIST_CLEAR_9_0,
-        .handler = fliplist_clear_9_0_action
+        .action  = ACTION_FLIPLIST_CLEAR_9_0,
+        .handler = fliplist_clear_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0)
     },
     {
-        .action = ACTION_FLIPLIST_CLEAR_10_0,
-        .handler = fliplist_clear_10_0_action
+        .action  = ACTION_FLIPLIST_CLEAR_10_0,
+        .handler = fliplist_clear_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0)
     },
     {
-        .action = ACTION_FLIPLIST_CLEAR_11_0,
-        .handler = fliplist_clear_11_0_action
-    },
-
-    {
-        .action = ACTION_FLIPLIST_LOAD_8_0,
-        .handler = fliplist_load_8_0_action,
-        .blocks = true,
-        .dialog = true
-    },
-    {
-        .action = ACTION_FLIPLIST_LOAD_9_0,
-        .handler = fliplist_load_9_0_action,
-        .blocks = true,
-        .dialog = true
-    },
-    {
-        .action = ACTION_FLIPLIST_LOAD_10_0,
-        .handler = fliplist_load_10_0_action,
-        .blocks = true,
-        .dialog = true
-    },
-    {
-        .action = ACTION_FLIPLIST_LOAD_11_0,
-        .handler = fliplist_load_11_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_FLIPLIST_CLEAR_11_0,
+        .handler = fliplist_clear_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
     {
-        .action = ACTION_FLIPLIST_SAVE_8_0,
-        .handler = fliplist_save_8_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_FLIPLIST_LOAD_8_0,
+        .handler = fliplist_load_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .blocks  = true,
+        .dialog  = true
+    },
+    {
+        .action  = ACTION_FLIPLIST_LOAD_9_0,
+        .handler = fliplist_load_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .blocks  = true,
+        .dialog  = true
+    },
+    {
+        .action  = ACTION_FLIPLIST_LOAD_10_0,
+        .handler = fliplist_load_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .blocks  = true,
+        .dialog  = true
+    },
+    {
+        .action  = ACTION_FLIPLIST_LOAD_11_0,
+        .handler = fliplist_load_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .blocks  = true,
+        .dialog  = true
+    },
+
+    {
+        .action  = ACTION_FLIPLIST_SAVE_8_0,
+        .handler = fliplist_save_action,
+        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
         .action = ACTION_FLIPLIST_SAVE_9_0,
-        .handler = fliplist_save_9_0_action,
-        .blocks = true,
-        .dialog = true
+        .handler = fliplist_save_action,
+        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_FLIPLIST_SAVE_10_0,
-        .handler = fliplist_save_10_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_FLIPLIST_SAVE_10_0,
+        .handler = fliplist_save_action,
+        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .blocks  = true,
+        .dialog  = true
     },
     {
-        .action = ACTION_FLIPLIST_SAVE_11_0,
-        .handler = fliplist_save_11_0_action,
-        .blocks = true,
-        .dialog = true
+        .action  = ACTION_FLIPLIST_SAVE_11_0,
+        .handler = fliplist_save_action,
+        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .blocks  = true,
+        .dialog  = true
     },
 
     UI_ACTION_MAP_TERMINATOR
@@ -761,3 +577,5 @@ void actions_drive_register(void)
 {
     ui_actions_register(drive_actions);
 }
+
+#undef  UNPACK_UD

@@ -45,7 +45,7 @@
 
 
 /** \brief  Copy emulated screen content to clipboard */
-static void edit_copy_action(void)
+static void edit_copy_action(void *unused)
 {
     char *text = clipboard_read_screen_output("\n");
 
@@ -86,7 +86,7 @@ static void paste_callback(GtkClipboard *clipboard,
  * Paste clipboard content into the emulated machine by translating the text to
  * PETSCII and feeding it to the keyboard buffer.
  */
-static void edit_paste_action(void)
+static void edit_paste_action(void *unused)
 {
     gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
 }
