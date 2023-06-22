@@ -47,9 +47,9 @@
 
  bit 4 - !game
  bit 3 - !exrom
- bit 2 - loram
+ bit 2 - charen
  bit 1 - hiram
- bit 0 - charen
+ bit 0 - loram
 
          8000      a000      d000      e000
 
