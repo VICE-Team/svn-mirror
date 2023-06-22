@@ -79,13 +79,13 @@ enum {
  *
  * \param[in]   P   pointer obtained from UNIT_DRIVE_TO_PTR()
  */
-#define UNIT_FROM_PTR(P)  (vice_ptr_to_int(P) & 0xff)
+#define UNIT_FROM_PTR(P)  ((vice_ptr_to_int(P) >> 8) & 0xff)
 
 /** \brief  Convert pointer to drive number
  *
  * \param[in]   P   pointer obtained from UNIT_DRIVE_TO_PTR()
  */
-#define DRIVE_FROM_PTR(P) ((vice_ptr_to_int(P) >> 8) & 0xff)
+#define DRIVE_FROM_PTR(P) (vice_ptr_to_int(P) & 0xff)
 
 
 extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
