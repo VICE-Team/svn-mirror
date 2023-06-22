@@ -638,12 +638,13 @@ static int context_memory_config(profiling_context_t *context) {
 
 static void print_context_id(profiling_context_t *context, int max_width) {
     char idstr[16];
-    snprintf(idstr, 16, "[%d] ", get_context_id(context));
+    snprintf(idstr, 16, "[%d]", get_context_id(context));
     mon_out("%*s", max_width, idstr);
 }
 
 static void print_context_name(profiling_context_t *context, int indent, int max_indent) {
-    print_context_id(context, indent + 7);
+    print_context_id(context, indent + 6);
+    mon_out(" ");
     if (context->pc_dst == 0) {
         mon_out("START   ");
         mon_out("%*s", min_label_width + max_indent - indent, "");
@@ -825,6 +826,26 @@ static void merge_all_memory_configs(profiling_context_t *context) {
     context->next_mem_config = NULL;
 }
 
+
+static bool is_branch_instruction(uint16_t mem_config, uint16_t addr, unsigned *opc_size, uint16_t *dest_addr) {
+    /* on 6502, an instruction is a conditional branch if the opcode is
+     * $x0, where x is odd */
+    uint8_t opc  = mon_get_mem_val_nosfx(e_comp_space, mem_config, addr);
+    int8_t  offset;
+
+    if ((opc & 0x1f) != 0x10) {
+        return false;
+    }
+
+    *opc_size = 2;
+
+    offset = mon_get_mem_val_nosfx(e_comp_space, mem_config, addr+1);
+
+    *dest_addr = (uint16_t)(addr + *opc_size + offset);
+    return true;
+}
+
+
 static void print_disass_context(profiling_context_t *context, bool print_contexts) {
     profiling_context_t *c;
     int num_memory_map_configs = 0;
@@ -897,24 +918,25 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
         merge_all_memory_configs(context); /* this is destructive */
     }
 
+    if (print_contexts && context->child == NULL) {
+        /* don't print context column if no children */
+        print_contexts = false;
+    }
+
     mon_out("\n\n");
 
-    addr_column = 37;
-    if (print_contexts) {
-        context_column = 7;
-        addr_column   += 7;
-    }
+    addr_column = 44;
+    context_column = 7;
+
     if (num_memory_map_configs > 1) {
         addr_column += 5;
     }
 
-    mon_out("       Cycles      %%         Times OPC");
-    if (print_contexts) mon_out(" Context");
+    mon_out("       Cycles      %%         Times OPC Branch%%");
     if (num_memory_map_configs > 1) mon_out(" Bank");
     mon_out(" Address  Disassembly\n");
 
-    mon_out("------------- ------ ------------- ---");
-    if (print_contexts) mon_out(" -------");
+    mon_out("------------- ------ ------------- --- -------");
     if (num_memory_map_configs > 1) mon_out(" ----");
     mon_out(" -------  -------------------------\n");
 
@@ -940,6 +962,7 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
                     if (page && (page->data[j].num_cycles > 0 || page->data[j].touched)) {
                         profiling_counter_t total_cycles = page->data[j].num_cycles;
                         unsigned opc_size;
+                        uint16_t dest_addr;
                         profiling_context_t *subcontext = NULL;
 
                         if (addr != next_addr && next_addr != 0) {
@@ -975,6 +998,33 @@ static void print_disass_context(profiling_context_t *context, bool print_contex
 
                         if (print_contexts && subcontext) {
                             print_context_id(subcontext, context_column);
+                        } else if (is_branch_instruction(c->memory_bank_config, addr, &opc_size, &dest_addr)) {
+                            uint16_t next_inst = addr + opc_size;
+
+                            /* 6502 specific:
+                             * - a skipped branch takes 2 cycles
+                             * - a taken branch takes 3 cycles if the destination
+                             *   address is in the same memory page as the
+                             *   instruction directly following the branch
+                             * - otherwise a branch takes 4 cycles
+                             *
+                             * Using this we can calculate the branch frequency.
+                             */
+                            double branch_frequency = (double)page->data[j].num_cycles / page->data[j].num_samples - 2;
+
+                            if ((dest_addr & 0xff00) !=
+                                (next_inst & 0xff00)) {
+                                /* branch across page boundary; branch takes 4
+                                 * cycles, so divide by 2 */
+                                branch_frequency /= 2;
+                            }
+
+                            if ((branch_frequency > 0.90 && branch_frequency < 1) ||
+                                (branch_frequency < 0.10 && branch_frequency > 0)) {
+                                mon_out(" %5.1f%%%*s", branch_frequency * 100, context_column - 7, "");
+                            } else {
+                                mon_out("   %3.0f%%%*s", branch_frequency * 100, context_column - 7, "");
+                            }
                         } else {
                             mon_out("%*s", context_column, "");
                         }
