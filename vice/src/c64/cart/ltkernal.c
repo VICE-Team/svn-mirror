@@ -864,7 +864,7 @@ uint8_t c128ltkernal_ram_store(uint16_t addr, uint8_t value)
             return 1;
         }
     }
- 
+
     return 0;
 }
 
