@@ -33053,18 +33053,23 @@ disk inverted to save data processing time.
  CA2     Pulses SCSI ACK (low to high)
 @end example
 
-MC6821 Port B connects to mostly the SCSI control bus. PB2.6 controls write 
-access to 16KiB SRAM. When low (0), no writes are permitted, when high (1) 
-writes are permitted to $8000-$9FFF AND $E000-$FFFF. Initially, this signal is 
-low, which keeps the boot ROM mapped to $8000-$9FFF (lower 4KiB for the C64, 
-upper 4KiB for the C128). Once a high (1) is written, the boot ROM is mapped 
-out permanently until a reset. CB2 controls which KERNAL is in place. A high 
-(1) uses the stock KERNAL while a low (0) maps in one of the 8K RAMs as the 
-KERNAL. The other RAM at $8000-$9FFF memory is ONLY mapped in when PB2.6 is 
-high (1). The HIRAM line from the PLA goes to the adaptor so it can determine 
-the proper write action to the main RAM or adaptor RAM. Writing a high (1) to 
-CB2 while PB2.6 is low (0) causes a system reset. The stock KERNAL is copied and 
-then patched by the LTK DOS on startup.
+MC6821 Port B connects to mostly the SCSI control bus. PB2.6 controls write
+access to 16KiB SRAM. When low (0), no writes are permitted, when high (1)
+writes are permitted to $8000-$9FFF AND $E000-$FFFF. Initially, this signal is
+low, which keeps the boot ROM mapped to $8000-$9FFF (lower 4KiB for the C64,
+upper 4KiB for the C128). Once a high (1) is written, the boot ROM is mapped
+out permanently until a reset. CB2 controls which KERNAL is in place. A high
+(1) uses the stock KERNAL while a low (0) maps in one of the 8K RAMs as the
+KERNAL. The other RAM at $8000-$9FFF memory is ONLY mapped in when PB2.6 is
+high (1). The HIRAM line from the PLA goes to the adaptor so it can determine
+the proper write action to the main RAM or adaptor RAM. Writing a high (1) to
+CB2 while PB2.6 is low (0) queues up a system reset. If CB2 is not set back
+to a low (0) or PB2.6 to a high (1), a reset will be asserted in 57 cycles.
+On startup, the existing kernal is copied and patched by the LTK DOS. On the
+C64, all known kernal versions work, however in C128 mode, only the original
+kernal is compatible with the latest LTK DOS (7.2). Make sure to use the
+318020-03 kernal (also known as the first version). The LTK DOS overwrites
+the new patches to the second and third kernal versions.
 
 @example
  signal  meaning
