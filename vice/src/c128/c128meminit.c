@@ -309,8 +309,8 @@ void c128meminit(int base)
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, ram_read);
                     mem_set_write_hook(j + base, i, ram_store);
-                    mem_read_base_set(j + base, i, mem_ram);
-                    mem_read_limit_set(j + base, i, 0xe000feff - 2);
+/*                    mem_read_base_set(j + base, i, mem_ram); */
+/*                    mem_read_limit_set(j + base, i, 0xe000feff - 2); */
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, top_shared_read);
