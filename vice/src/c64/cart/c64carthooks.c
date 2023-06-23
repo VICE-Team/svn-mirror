@@ -3084,6 +3084,9 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
         case CARTRIDGE_IDE64:
             ide64_mmu_translate(addr, base, start, limit);
             return;
+        case CARTRIDGE_LT_KERNAL:
+            ltkernal_mmu_translate(addr, base, start, limit);
+            return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
             return;

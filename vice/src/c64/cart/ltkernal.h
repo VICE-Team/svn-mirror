@@ -60,6 +60,18 @@ uint8_t ltkernal_romh_read(uint16_t addr);
 void ltkernal_roml_store(uint16_t addr, uint8_t value);
 void ltkernal_romh_store(uint16_t addr, uint8_t value);
 int ltkernal_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
+int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+
+int c128ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config);
+uint8_t c128ltkernal_roml_read(uint16_t addr, uint8_t *value);
+uint8_t c128ltkernal_roml_store(uint16_t addr, uint8_t value);
+uint8_t c128ltkernal_basic_hi_read(uint16_t addr, uint8_t *value);
+uint8_t c128ltkernal_basic_hi_store(uint16_t addr, uint8_t value);
+uint8_t c128ltkernal_hi_read(uint16_t addr, uint8_t *value);
+uint8_t c128ltkernal_hi_store(uint16_t addr, uint8_t value);
+uint8_t c128ltkernal_ram_read(uint16_t addr, uint8_t *value);
+uint8_t c128ltkernal_ram_store(uint16_t addr, uint8_t value);
+void c128ltkernal_switch_mode(int mode);
 
 int ltkernal_cmdline_options_init(void);
 int ltkernal_resources_init(void);

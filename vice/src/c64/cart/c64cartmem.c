@@ -2374,6 +2374,7 @@ static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
             break;
     }
 
+/* FIXME: if the kernal ROM is exposed here, it doesn't return it, just ram */
     switch (res) {
         case CART_READ_VALID:
             return value;
