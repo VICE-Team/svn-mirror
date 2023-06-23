@@ -337,6 +337,7 @@ static void mmu_switch_to_c64mode(void)
 #ifdef MMU_DEBUG
     log_message(mmu_log, "mmu_switch_to_c64mode\n");
 #endif
+#if 0
     if (force_c64_mode) {
 #ifdef MMU_DEBUG
         log_message(mmu_log, "mmu_switch_to_c64mode: force_c64_mode\n");
@@ -356,8 +357,8 @@ static void mmu_switch_to_c64mode(void)
         mmu[10] = 0;
         mmu_update_page01_pointers();
     }
+#endif
     machine_tape_init_c64();
-    mem_update_config(mmu_config64);
     if (in_c64_mode != 1) {
         mem_initialize_go64_memory_bank(mmu[6]);
         if (c128_full_banks) {
@@ -368,10 +369,14 @@ static void mmu_switch_to_c64mode(void)
         in_c64_mode = 1;
         z80mem_update_config(8 + (mmu_config64 & 7));
     }
+    /* make sure mem_initialize_go64_memory_bank() is run first */
+    mem_update_config(mmu_config64);
     keyboard_alternative_set(1);
     machine_kbdbuf_reset_c64();
     machine_autostart_reset_c64();
+#if 0
     force_c64_mode = 0;
+#endif
 }
 
 static void mmu_switch_to_c128mode(void)
@@ -496,10 +501,18 @@ void mmu_store(uint16_t address, uint8_t value)
                 if ((value & 1) ^ (oldvalue & 1)) {
                     mmu_switch_cpu(value & 1);
                 }
+                if (((value & 0x40) ^ (oldvalue & 0x40)) && (value & 0x40)) {
+                   /* tell carts we are in c64 mode */
+                   /* can't do this in mmu_switch_to_c64mode as cart_config calls it */
+                   c128cartridge_switch_mode(1);
+                   /* turn off the forced exrom signal in the mmu_read */
+                   force_c64_mode = 0;
+                }
                 c128fastiec_fast_cpu_direction(value & 8);
                 break;
             case 6: /* RAM configuration register (RCR).  */
                 mmu_set_dma_bank(value);
+                /* must call mmu_set_dma_bank before mem_set_ram_config */
                 mem_set_ram_config(value);
                 break;
             case 8:
@@ -562,7 +575,7 @@ uint8_t mmu_ffxx_read(uint16_t addr)
     if (addr >= 0xff00 && addr <= 0xff04) {
         vicii.last_cpu_val = mmu[addr & 0xf];
     } else if ((mmu[0] & 0x30) == 0x00) {
-        vicii.last_cpu_val = c128memrom_kernal_read(addr);
+        vicii.last_cpu_val = hi_read(addr);
     } else if ((mmu[0] & 0x30) == 0x10) {
         vicii.last_cpu_val = internal_function_rom_read(addr);
     } else if ((mmu[0] & 0x30) == 0x20) {
@@ -585,7 +598,7 @@ void mmu_ffxx_store(uint16_t addr, uint8_t value)
         if (addr <= 0xff04) {
             mmu_store(0, mmu[addr & 0xf]);
         } else {
-            top_shared_store(addr, value);
+            hi_store(addr, value);
         }
     }
 }
@@ -673,7 +686,11 @@ void mmu_reset(void)
     for (i = 0; i < 0xb; i++) {
         mmu[i] = 0;
     }
+    /* defaults */
+    mmu[7] = 0;
+    c128_mem_set_mmu_page_0(mmu[7]);
     mmu[9] = 1;
+    c128_mem_set_mmu_page_1(mmu[9]);
     mmu_update_page01_pointers();
     mmu_set_dma_bank(mmu[6]);
 
@@ -682,4 +699,6 @@ void mmu_reset(void)
                                  &key_ctrl_column4080, &key_flags_column4080);
 
     force_c64_mode = force_c64_mode_res;
+    /* tell carts we are in c128 mode, or c64 if forced */
+    c128cartridge_switch_mode(force_c64_mode);
 }

@@ -584,8 +584,8 @@ void mem_set_ram_config(uint8_t value)
 {
     unsigned int shared_size;
 
-    /* XXX: We only support 128K here.  */
-    vicii_set_ram_base(mem_ram + ((value & 0x40) << 10));
+    vicii_set_ram_base(dma_bank);
+    machine_update_memory_ptrs();
 
     DEBUG_PRINT(("MMU: Store RCR = $%02x\n", value));
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
@@ -1027,6 +1027,11 @@ void lo_store(uint16_t addr, uint8_t value)
 uint8_t ram_read(uint16_t addr)
 {
     uint16_t retval = 0;
+    uint8_t value;
+
+    if (c128cartridge_ram_read(addr, &value)) {
+        return vicii.last_cpu_val = value;
+    }
 
     if (mem_dma_rw) {
         vicii.last_cpu_val = dma_bank[addr];
@@ -1045,6 +1050,11 @@ uint8_t ram_read(uint16_t addr)
 uint8_t ram_peek(uint16_t addr)
 {
     uint16_t retval = 0;
+    uint8_t value;
+
+    if (c128cartridge_ram_read(addr, &value)) {
+        return value;
+    }
 
     retval = c128_mem_mmu_wrap_read(addr);
 
@@ -1057,6 +1067,11 @@ uint8_t ram_peek(uint16_t addr)
 void ram_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
+
+/* FIXME: basic replacement and dma? */
+    if (c128cartridge_ram_store(addr, value)) {
+        return;
+    }
 
     if (mem_dma_rw) {
         dma_bank[addr] = value;
@@ -1104,7 +1119,13 @@ void basic_lo_store(uint16_t addr, uint8_t value)
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
 uint8_t basic_hi_read(uint16_t addr)
 {
-    vicii.last_cpu_val = c128memrom_basic_rom[addr - 0x4000];
+    uint8_t value;
+
+    if (c128cartridge_basic_hi_read(addr, &value)) {
+        vicii.last_cpu_val = value;
+    } else {
+        vicii.last_cpu_val = c128memrom_basic_rom[addr - 0x4000];
+    }
     return vicii.last_cpu_val;
 }
 
@@ -1112,11 +1133,27 @@ void basic_hi_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
+/* FIXME: basic replacement and dma? */
+    if (c128cartridge_basic_hi_store(addr, value)) {
+        return;
+    }
+
     if (mem_dma_rw) {
         dma_bank[addr] = value;
     } else {
         ram_bank[addr] = value;
     }
+}
+
+static uint8_t basic_hi_peek(uint16_t addr)
+{
+    uint8_t value;
+
+    if (c128cartridge_basic_hi_read(addr, &value)) {
+    } else {
+        value = c128memrom_basic_rom[addr - 0x4000];
+    }
+    return value;
 }
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
@@ -1197,7 +1234,13 @@ void d7xx_store(uint16_t addr, uint8_t value)
 /* $E000 - $FFFF: RAM or Kernal.  */
 uint8_t hi_read(uint16_t addr)
 {
-    vicii.last_cpu_val = c128memrom_kernal_rom[addr & 0x1fff];
+    uint8_t value;
+
+    if (c128cartridge_hi_read(addr, &value)) {
+        vicii.last_cpu_val = value;
+    } else {
+        vicii.last_cpu_val = c128memrom_kernal_rom[addr & 0x1fff];
+    }
     return vicii.last_cpu_val;
 }
 
@@ -1205,11 +1248,27 @@ void hi_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
+/* FIXME: kernal replacement and dma? */
+    if (c128cartridge_hi_store(addr, value)) {
+        return;
+    }
+
     if (mem_dma_rw) {
         dma_bank[addr] = value;
     } else {
         STORE_TOP_SHARED(addr, value);
     }
+}
+
+static uint8_t hi_peek(uint16_t addr)
+{
+    uint8_t value;
+
+    if (c128cartridge_hi_read(addr, &value)) {
+    } else {
+        value = c128memrom_kernal_rom[addr & 0x1fff];
+    }
+    return value;
 }
 
 uint8_t top_shared_read(uint16_t addr)
@@ -1275,6 +1334,27 @@ uint8_t colorram_peek(uint16_t addr)
 
 /* c64 mode vicii vbank wrappers, so that p0/p1 translation will work as well */
 
+#define VICII_STORE_BOTTOM_SHARED(addr, value, func)                      \
+if ((addr) < bottom_shared_limit) {                                       \
+    /* store in shared ram00 */                                           \
+    if (mem_ram == dma_bank) {                                            \
+        /* vicii bank is ram00, store using vic function */               \
+        func((addr), (value));                                            \
+    } else {                                                              \
+        /* vicii in different bank, store into ram00 directly */          \
+        mem_ram[(addr)] = (value);                                        \
+    }                                                                     \
+} else {                                                                  \
+    /* store in ramXX */                                                  \
+    if (ram_bank == dma_bank) {                                           \
+        /* vicii and ramXX are in same bank, store using vic function */  \
+        func((addr), (value));                                            \
+    } else {                                                              \
+        /* vicii in different bank, store into ram00 directly */          \
+        ram_bank[(addr)] = (value);                                       \
+    }                                                                     \
+}
+
 static void c64mode_vicii_mem_vbank_39xx_lo_store(uint16_t adr, uint8_t val)
 {
     vicii.last_cpu_val = val;
@@ -1282,8 +1362,7 @@ static void c64mode_vicii_mem_vbank_39xx_lo_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_BOTTOM_SHARED(adr, val);
-        vicii_mem_vbank_39xx_store(adr, val);
+        VICII_STORE_BOTTOM_SHARED(adr,val,vicii_mem_vbank_39xx_store);
     }
 }
 
@@ -1294,8 +1373,7 @@ static void c64mode_vicii_mem_vbank_3fxx_lo_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_BOTTOM_SHARED(adr, val);
-        vicii_mem_vbank_3fxx_store(adr, val);
+        VICII_STORE_BOTTOM_SHARED(adr,val,vicii_mem_vbank_3fxx_store);
     }
 }
 
@@ -1306,9 +1384,18 @@ static void c64mode_vicii_mem_vbank_lo_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_BOTTOM_SHARED(adr, val);
-        vicii_mem_vbank_store(adr, val);
+        VICII_STORE_BOTTOM_SHARED(adr,val,vicii_mem_vbank_store);
     }
+}
+
+#define VICII_STORE_MIDDLE_SHARED(addr, value, func)                  \
+/* store in ramXX */                                                  \
+if (ram_bank == dma_bank) {                                           \
+    /* vicii and ramXX are in same bank, store using vic function */  \
+    func((addr), (value));                                            \
+} else {                                                              \
+    /* vicii in different bank, store into ram00 directly */          \
+    ram_bank[(addr)] = (value);                                       \
 }
 
 static void c64mode_vicii_mem_vbank_39xx_ram_store(uint16_t adr, uint8_t val)
@@ -1318,8 +1405,7 @@ static void c64mode_vicii_mem_vbank_39xx_ram_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        ram_bank[adr] = val;
-        vicii_mem_vbank_39xx_store(adr, val);
+        VICII_STORE_MIDDLE_SHARED(adr,val,vicii_mem_vbank_39xx_store);
     }
 }
 
@@ -1330,8 +1416,7 @@ static void c64mode_vicii_mem_vbank_3fxx_ram_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        ram_bank[adr] = val;
-        vicii_mem_vbank_3fxx_store(adr, val);
+        VICII_STORE_MIDDLE_SHARED(adr,val,vicii_mem_vbank_3fxx_store);
     }
 }
 
@@ -1342,9 +1427,29 @@ static void c64mode_vicii_mem_vbank_ram_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        ram_bank[adr] = val;
-        vicii_mem_vbank_store(adr, val);
+        VICII_STORE_MIDDLE_SHARED(adr,val,vicii_mem_vbank_store);
     }
+}
+
+#define VICII_STORE_TOP_SHARED(addr, value, func)                         \
+if ((addr) > top_shared_limit) {                                          \
+    /* store in shared ram00 */                                           \
+    if (mem_ram == dma_bank) {                                            \
+        /* vicii bank is ram00, store using vic function */               \
+        func((addr), (value));                                            \
+    } else {                                                              \
+        /* vicii in different bank, store into ram00 directly */          \
+        mem_ram[(addr)] = (value);                                        \
+    }                                                                     \
+} else {                                                                  \
+    /* store in ramXX */                                                  \
+    if (ram_bank == dma_bank) {                                           \
+        /* vicii and ramXX are in same bank, store using vic function */  \
+        func((addr), (value));                                            \
+    } else {                                                              \
+        /* vicii in different bank, store into ram00 directly */          \
+        ram_bank[(addr)] = (value);                                       \
+    }                                                                     \
 }
 
 static void c64mode_vicii_mem_vbank_39xx_top_shared_store(uint16_t adr, uint8_t val)
@@ -1354,8 +1459,7 @@ static void c64mode_vicii_mem_vbank_39xx_top_shared_store(uint16_t adr, uint8_t 
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_TOP_SHARED(adr, val);
-        vicii_mem_vbank_39xx_store(adr, val);
+        VICII_STORE_TOP_SHARED(adr,val,vicii_mem_vbank_39xx_store);
     }
 }
 
@@ -1366,8 +1470,7 @@ static void c64mode_vicii_mem_vbank_3fxx_top_shared_store(uint16_t adr, uint8_t 
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_TOP_SHARED(adr, val);
-        vicii_mem_vbank_3fxx_store(adr, val);
+        VICII_STORE_TOP_SHARED(adr,val,vicii_mem_vbank_3fxx_store);
     }
 }
 
@@ -1378,8 +1481,7 @@ static void c64mode_vicii_mem_vbank_top_shared_store(uint16_t adr, uint8_t val)
     if (mem_dma_rw) {
         dma_bank[adr] = val;
     } else if (c128_mem_mmu_wrap_store(adr, val)) {
-        STORE_TOP_SHARED(adr, val);
-        vicii_mem_vbank_store(adr, val);
+        VICII_STORE_TOP_SHARED(adr,val,vicii_mem_vbank_store);
     }
 }
 
@@ -1543,7 +1645,6 @@ void mem_initialize_memory(void)
         mem_read_tab[base + 11][i] = chargen_read;
         mem_read_tab[base + 26][i] = chargen_read;
         mem_read_tab[base + 27][i] = chargen_read;
-//        mem_read_base_tab[base + 1][i] = NULL;
         mem_read_base_tab[base + 1][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
         mem_read_base_tab[base + 2][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
         mem_read_base_tab[base + 3][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
@@ -1642,15 +1743,30 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
     uint32_t limits;
 
+/* uncomment to debug mmu related stuff */
+#if 0
+    *start = 0;
+    *limit = 0;
+    return;
+#endif
+
+    /* check the carts first because of kernal replacements */
+    if (!in_c64_mode) {
+        if (c128cartridge_mmu_translate(addr, base, start, limit, mem_config - NUM_CONFIGS64)) {
+            return;
+        }
+    }
+    /* move on to tables in case above doesn't work */
     if (p != NULL && addr > 1) {
         *base = p;
         limits = mem_read_limit_tab_ptr[addr >> 8];
         *start = limits >> 16;
         *limit = limits & 0xffff;
     } else if (in_c64_mode) {
+        /* then check c64 carts */
         cartridge_mmu_translate(addr, base, start, limit);
     } else {
-/* FIXME: c128 cart stuff here */
+        /* if nothing else, don't use mmu translation */
         *start = 0;
         *limit = 0;
     }
@@ -2361,12 +2477,12 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             break;
         case bank256_intfunc:
             if (addr >= 0x8000) {
-                return int_function_rom[addr & 0x7fff];
+                return internal_function_rom_read(addr);
             }
             break;
         case bank256_extfunc:
             if (addr >= 0x8000) {
-                return ext_function_rom[addr & 0x7fff];
+                return external_function_rom_read(addr);
             }
             break;
         case bank256_cart:
@@ -2409,6 +2525,7 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
     mmu_set_ram_bank(j);
 
     /* create a macro to simplify the restoration of the previous config */
+    /* since mmu_set_ram_bank() only changes ram_bank, this is safe. */
 #define result(var)        \
     res = var;           \
     ram_bank = old_bank; \
@@ -2450,7 +2567,7 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
         case 0xb:
             switch ((j >> 2) & 3) {
                 case 0:
-                    return c128memrom_basic_rom[addr - 0x4000];
+                    result(basic_hi_peek(addr));
                 case 1:
                     result(internal_function_rom_peek(addr));
                 case 2:
@@ -2460,6 +2577,21 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
             }
             break;
         case 0xc:
+            switch ((j >> 4) & 3) {
+                case 0:
+                    result(c128memrom_basic_rom[addr - 0x4000]);
+                case 1:
+                    result(internal_function_rom_peek(addr));
+                case 2:
+                    result(external_function_rom_peek(addr));
+                case 3:
+                    if ((j & 0xc0) == 0) {
+                        result(ram_peek(addr));
+                    } else {
+                        result(top_shared_peek(addr));
+                    }
+            }
+            break;
         case 0xe:
         case 0xf:
             if (addr >= 0xff00 && addr <= 0xff04) {
@@ -2467,7 +2599,7 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
             } else {
                 switch ((j >> 4) & 3) {
                     case 0:
-                        result(c128memrom_kernal_rom[addr & 0x3fff]);
+                        result(hi_peek(addr));
                     case 1:
                         result(internal_function_rom_peek(addr));
                     case 2:
@@ -2505,12 +2637,28 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
     result(0);
 }
 
+/* ram peek for c64 */
+/* dealing with all the cases while considering shared ram is a pain. instead
+   just use the CPU MMU tables to find the base and add the address. */
+static uint8_t ram_peek_c64(uint16_t addr)
+{
+    uint8_t *b = mem_read_base_tab[mem_config][addr >> 8];
+
+    if ((addr & 0xff) == 0) {
+        return zero_peek(addr);
+    } else if ((addr & 0xff) == 1) {
+        return one_peek(addr);
+    }
+
+    return b[addr];
+}
+
 /* "config" here is between 0 and 31 */
 static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context)
 {
     /* special case to read the CPU port of the 6510 */
     if (addr < 2) {
-        return ram_peek(addr);
+        return ram_peek_c64(addr);
     }
 
     /* we must check for which bank is currently active */
@@ -2533,7 +2681,7 @@ static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context
     if (c64meminit_io_config[config] == 2) {
         /* ultimax mode */
         if (/*addr >= 0x0000 &&*/ addr <= 0x0fff) {
-            return ram_peek(addr);
+            return ram_peek_c64(addr);
         }
         return cartridge_peek_mem(addr);
     }
@@ -2553,7 +2701,7 @@ static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context
             return mem_chargen_rom[addr & 0x0fff];
         }
     }
-    return ram_peek(addr);
+    return ram_peek_c64(addr);
 }
 
 uint8_t mem_peek_with_config(int config, uint16_t addr, void *context)
@@ -2579,12 +2727,24 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
     }
 
     switch (real_bank) {
-        case bank256_cpu:                   /* current */
-            return mem_peek_with_config_c128(mem_config - NUM_CONFIGS64, addr, context);
+        case bank256_cpu:
+            /* current for all machines */
+            return mem_peek_with_config(mem_config, addr, context);
             break;
-        case bank256_io:                   /* io */
+        case bank256_io:
+            /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
+            }
+            break;
+        case bank256_intfunc:
+            if (addr >= 0x8000) {
+                return internal_function_rom_peek(addr);
+            }
+            break;
+        case bank256_extfunc:
+            if (addr >= 0x8000) {
+                return external_function_rom_peek(addr);
             }
             break;
         case bank256_cart:

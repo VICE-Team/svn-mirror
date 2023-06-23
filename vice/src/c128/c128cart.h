@@ -47,5 +47,13 @@ uint8_t external_function_rom_read(uint16_t addr);
 void external_function_rom_store(uint16_t addr, uint8_t value);
 void external_function_top_shared_store(uint16_t addr, uint8_t value);
 uint8_t external_function_rom_peek(uint16_t addr);
+uint8_t c128cartridge_hi_read(uint16_t addr, uint8_t *value);
+uint8_t c128cartridge_hi_store(uint16_t addr, uint8_t value);
+uint8_t c128cartridge_basic_hi_read(uint16_t addr, uint8_t *value);
+uint8_t c128cartridge_basic_hi_store(uint16_t addr, uint8_t value);
+uint8_t c128cartridge_ram_read(uint16_t addr, uint8_t *value);
+uint8_t c128cartridge_ram_store(uint16_t addr, uint8_t value);
+int c128cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config);
+void c128cartridge_switch_mode(int mode);
 
 #endif
