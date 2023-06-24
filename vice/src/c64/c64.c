@@ -415,7 +415,7 @@ static io_source_t cia2_dd00_device = {
     "CIA2",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
-    0xdd00, 0xdd0f, 0x0f,  /* main registers */
+    0xdd00, 0xddff, 0x0f,  /* main registers */
     1,                     /* read is always valid */
     cia2_store,            /* store function */
     NULL,                  /* NO poke function */
