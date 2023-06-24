@@ -987,7 +987,7 @@ void store_bank_io(uint16_t addr, uint8_t byte)
             cia1_store(addr, byte);
             break;
         case 0xdd00:
-            c64io_d700_store(addr, byte);
+            c64io_dd00_store(addr, byte);
             break;
         case 0xde00:
             c64io_de00_store(addr, byte);
