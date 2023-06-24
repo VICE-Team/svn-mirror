@@ -256,7 +256,9 @@ static int standard = 0;
  */
 static bool is_pal(const char *chip)
 {
-    if (standard == MACHINE_SYNC_PAL || standard == MACHINE_SYNC_PALN) {
+    if ((standard == MACHINE_SYNC_PAL || standard == MACHINE_SYNC_PALN) &&
+        (chip[0] != 'C') /* not Crtc */ &&
+        (!(chip[0] == 'V' && chip[1] == 'D'))) /* not VDC */ {
         return true;
     }
     return false;
@@ -455,6 +457,9 @@ static int add_sliders(GtkGrid             *grid,
             if (!(info->emu_mask & machine_class)) {
                 continue;
             }
+            if (!(is_pal(chip)) && !(info->ntsc)) {
+                continue;
+            }
 
             label   = create_label(info->label, minimal);
 
@@ -481,6 +486,10 @@ static int add_sliders(GtkGrid             *grid,
             if (!(info->emu_mask & machine_class)) {
                 continue;
             }
+            if (!(is_pal(chip)) && !(info->ntsc)) {
+                continue;
+            }
+
 
             column = (i % 2) * 2;
             label  = create_label(info->label, minimal);
@@ -499,19 +508,6 @@ static int add_sliders(GtkGrid             *grid,
             data->scales[i] = scale;
             if (column > 0) {
                 row++;
-            }
-        }
-    }
-
-    /* Determine if we're using PAL or NTSC: the *PAL* resource sliders should be
-     * disabled when the video standard is NTSC: */
-    if (!is_pal(chip)) {
-        for (i = 0; i < RESOURCE_COUNT; i ++) {
-            bool ntsc = control_info[i].ntsc;
-
-            scale = data->scales[i];
-            if (scale != NULL) {
-                gtk_widget_set_sensitive(scale, ntsc);
             }
         }
     }
@@ -658,7 +654,8 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
 
     /* add U-only delayline check button */
     if ((machine_class != VICE_MACHINE_CBM6x0) &&
-        (machine_class != VICE_MACHINE_PET)) {
+        (machine_class != VICE_MACHINE_PET) &&
+        (is_pal(chip))) {
         data->delayline = create_delayline_widget(chip);
         if (minimal) {
             vice_gtk3_css_provider_add(data->delayline, checkbutton_css);
@@ -667,8 +664,6 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
             gtk_widget_set_margin_top(data->delayline, 8);
             gtk_grid_attach(GTK_GRID(grid), data->delayline, 0, row, 3, 1);
         }
-        /* enable if PAL */
-        gtk_widget_set_sensitive(data->delayline, is_pal(chip));
         row++;
     }
 
