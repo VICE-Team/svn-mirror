@@ -509,7 +509,11 @@ void vsync_do_end_of_line(void)
      */
 
     if (archdep_is_exiting()) {
-        mainlock_yield();
+        /* UI thread shutdown code can end up here ... :( */
+        if (mainlock_is_vice_thread()) {
+            mainlock_yield();
+        }
+        
         return;
     }
 
