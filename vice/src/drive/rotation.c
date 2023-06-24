@@ -120,7 +120,7 @@ void rotation_reset(drive_t *drive)
     rotation[dnr].accum = 0;
     rotation[dnr].seed = 0;
     rotation[dnr].xorShift32 = 0x1234abcd;
-    rotation[dnr].rotation_last_clk = *(drive->clk);
+    rotation[dnr].rotation_last_clk = *(drive->diskunit->clk_ptr);
     rotation[dnr].ue7_counter = 0;
     rotation[dnr].uf4_counter = 0;
     rotation[dnr].fr_randcount = 0;
@@ -294,8 +294,13 @@ inline static uint32_t RANDOM_nextUInt(rotation_t *rptr)
 
 void rotation_begins(drive_t *dptr)
 {
+    /*
+     * FIXME: does this mean that rotation of both drives in a unit is the same?
+     * Fortunately the dual drives are not emulated at this level;
+     * the 2nd CPU is emulated abstractly.
+     */
     unsigned int dnr = dptr->unit;
-    rotation[dnr].rotation_last_clk = *(dptr->clk);
+    rotation[dnr].rotation_last_clk = *(dptr->diskunit->clk_ptr);
     rotation[dnr].cycle_index = 0;
 }
 
@@ -303,7 +308,7 @@ void rotation_begins(drive_t *dptr)
 static void rotation_do_wobble(drive_t *dptr)
 {
     /* cpu cycles since last call */
-    CLOCK cpu_cycles = *(dptr->clk) - rotation[dptr->unit].rotation_last_clk;
+    CLOCK cpu_cycles = *(dptr->diskunit->clk_ptr) - rotation[dptr->unit].rotation_last_clk;
 
     /* FIXME: we should introduce random deviation too */
 #if 0
@@ -571,8 +576,9 @@ static void rotation_1541_gcr_cycle(drive_t *dptr)
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
     /* cpu cycles since last call */
-    cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
-    rptr->rotation_last_clk = *(dptr->clk);
+    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    cpu_cycles = clk - rptr->rotation_last_clk;
+    rptr->rotation_last_clk = clk;
     /* modulo, at least one revolution, but not more than two */
     while (cpu_cycles > one_rotation * 2) {
         cpu_cycles -= one_rotation;
@@ -942,8 +948,9 @@ static void rotation_1541_p64_cycle(drive_t *dptr)
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
     /* cpu cycles since last call */
-    cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
-    rptr->rotation_last_clk = *(dptr->clk);
+    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    cpu_cycles = clk - rptr->rotation_last_clk;
+    rptr->rotation_last_clk = clk;
     /* modulo, at least one revolution, but not more than two */
     while (cpu_cycles > one_rotation * 2) {
         cpu_cycles -= one_rotation;
@@ -975,7 +982,7 @@ static void rotation_1541_p64_cycle(drive_t *dptr)
 }
 
 /*******************************************************************************
- * very simple and fast emulation for perfect images like those comming from
+ * very simple and fast emulation for perfect images like those coming from
  * dxx files
  ******************************************************************************/
 static void rotation_1541_simple(drive_t *dptr)
@@ -993,8 +1000,9 @@ static void rotation_1541_simple(drive_t *dptr)
 
     /* Calculate the number of bits that have passed under the R/W head since
        the last time.  */
-    delta = *(dptr->clk) - rptr->rotation_last_clk;
-    rptr->rotation_last_clk = *(dptr->clk);
+    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    delta = clk - rptr->rotation_last_clk;
+    rptr->rotation_last_clk = clk;
 
     tmp += ((long)dptr->wobble_factor * 1000000L) / 3200000L;
     tmp *= 30000UL;
@@ -1135,14 +1143,16 @@ uint8_t rotation_sync_found(drive_t *dptr)
 
 void rotation_byte_read(drive_t *dptr)
 {
+    CLOCK clk = *(dptr->diskunit->clk_ptr);
+
     if (dptr->attach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY) {
+        if (clk - dptr->attach_clk < DRIVE_ATTACH_DELAY) {
             dptr->GCR_read = 0;
         } else {
             dptr->attach_clk = (CLOCK)0;
         }
     } else if (dptr->attach_detach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->attach_detach_clk < DRIVE_ATTACH_DETACH_DELAY) {
+        if (clk - dptr->attach_detach_clk < DRIVE_ATTACH_DETACH_DELAY) {
             dptr->GCR_read = 0;
         } else {
             dptr->attach_detach_clk = (CLOCK)0;
