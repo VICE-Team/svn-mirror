@@ -513,7 +513,7 @@ void vsync_do_end_of_line(void)
         if (mainlock_is_vice_thread()) {
             mainlock_yield();
         }
-        
+
         return;
     }
 
