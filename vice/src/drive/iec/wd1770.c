@@ -179,7 +179,7 @@ void wd1770d_init(diskunit_context_t *drv)
     }
 
     drv->wd1770 = lib_calloc(1, sizeof(wd1770_t));
-    drv->wd1770->myname = lib_msprintf("WD1770%d", drv->mynumber);
+    drv->wd1770->myname = lib_msprintf("WD1770%u", drv->mynumber);
     drv->wd1770->fdd = fdd_init(4 * drv->mynumber, drv->drives[0]);
     drv->wd1770->cpu_clk_ptr = drv->clk_ptr;
     drv->wd1770->is1772 = 0;

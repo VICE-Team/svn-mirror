@@ -251,7 +251,7 @@ void pc8477_setup_context(diskunit_context_t *drv)
 {
     int i;
     drv->pc8477 = lib_calloc(1, sizeof(pc8477_t));
-    drv->pc8477->myname = lib_msprintf("PC8477_%d", drv->mynumber);
+    drv->pc8477->myname = lib_msprintf("PC8477_%u", drv->mynumber);
     for (i = 0; i < 4; i++) {
         drv->pc8477->fdds[i].num = i;
         drv->pc8477->fdds[i].fdd = NULL;

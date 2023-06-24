@@ -290,12 +290,12 @@ void via4000_setup_context(diskunit_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    via->myname = lib_msprintf("4000Drive%dVia1", ctxptr->mynumber);
-    via->my_module_name = lib_msprintf("4000VIA1D%d", ctxptr->mynumber);
+    via->myname = lib_msprintf("4000Drive%uVia1", ctxptr->mynumber);
+    via->my_module_name = lib_msprintf("4000VIA1D%u", ctxptr->mynumber);
 
     viacore_setup_context(via);
 
-    via->my_module_name_alt1 = lib_msprintf("VIA1D%d", ctxptr->mynumber);
+    via->my_module_name_alt1 = lib_msprintf("VIA1D%u", ctxptr->mynumber);
     via->my_module_name_alt2 = lib_msprintf("VIA4000");
 
     via->irq_line = IK_IRQ;
