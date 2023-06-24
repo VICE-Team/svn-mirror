@@ -189,7 +189,6 @@ int drive_init(void)
         for (d = 0; d < NUM_DRIVES; d++) {
             drive = diskunit->drives[d];
 
-            drive->clk = &diskunit_clk[unit];
             drive->unit = unit;
             drive->drive = d;
             drive->diskunit = diskunit_context[unit];
@@ -251,8 +250,8 @@ int drive_init(void)
             drive->P64_image_loaded = 0;
             drive->P64_dirty = 0;
             drive->read_only = 0;
-            drive->led_last_change_clk = *(drive->clk);
-            drive->led_last_uiupdate_clk = *(drive->clk);
+            drive->led_last_change_clk = *(diskunit->clk_ptr);
+            drive->led_last_uiupdate_clk = *(diskunit->clk_ptr);
             drive->led_active_ticks = 0;
             drive->read_write_mode = 1;
 
@@ -604,8 +603,8 @@ void drive_reset(void)
         for (d = 0; d < NUM_DRIVES; d++) {
             drive_t *drive = unit->drives[d];
 
-            drive->led_last_change_clk = *(drive->clk);
-            drive->led_last_uiupdate_clk = *(drive->clk);
+            drive->led_last_change_clk = *(unit->clk_ptr);
+            drive->led_last_uiupdate_clk = *(unit->clk_ptr);
             drive->led_active_ticks = 0;
         }
         is_jammed[dnr] = false;
@@ -889,15 +888,15 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
         my_led_status = drive->led_status;
     }
 
-    /* Update remaining led clock ticks. TODO: move clk to diskunit. */
+    /* Update remaining led clock ticks. */
     if (drive->led_status & 1) {
-        drive->led_active_ticks += *(drive->clk)
+        drive->led_active_ticks += *(unit->clk_ptr)
                                    - drive->led_last_change_clk;
     }
-    drive->led_last_change_clk = *(drive->clk);
+    drive->led_last_change_clk = *(unit->clk_ptr);
 
-    led_period = *(drive->clk) - drive->led_last_uiupdate_clk;
-    drive->led_last_uiupdate_clk = *(drive->clk);
+    led_period = *(unit->clk_ptr) - drive->led_last_uiupdate_clk;
+    drive->led_last_uiupdate_clk = *(unit->clk_ptr);
 
     if (led_period == 0) {
         return;
