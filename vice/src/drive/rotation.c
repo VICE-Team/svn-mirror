@@ -576,7 +576,7 @@ static void rotation_1541_gcr_cycle(drive_t *dptr)
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
     /* cpu cycles since last call */
-    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    CLOCK clk = *(dptr->diskunit->clk_ptr);
     cpu_cycles = clk - rptr->rotation_last_clk;
     rptr->rotation_last_clk = clk;
     /* modulo, at least one revolution, but not more than two */
@@ -948,7 +948,7 @@ static void rotation_1541_p64_cycle(drive_t *dptr)
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
     /* cpu cycles since last call */
-    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    CLOCK clk = *(dptr->diskunit->clk_ptr);
     cpu_cycles = clk - rptr->rotation_last_clk;
     rptr->rotation_last_clk = clk;
     /* modulo, at least one revolution, but not more than two */
@@ -1000,7 +1000,7 @@ static void rotation_1541_simple(drive_t *dptr)
 
     /* Calculate the number of bits that have passed under the R/W head since
        the last time.  */
-    CLOCK clk = *(dptr->diskunit->clk_ptr); 
+    CLOCK clk = *(dptr->diskunit->clk_ptr);
     delta = clk - rptr->rotation_last_clk;
     rptr->rotation_last_clk = clk;
 
