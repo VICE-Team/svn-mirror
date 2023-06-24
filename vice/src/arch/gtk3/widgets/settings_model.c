@@ -52,6 +52,7 @@
 #include "cbm2memorysizewidget.h"
 #include "cbm2rammappingwidget.h"
 #include "ciamodelwidget.h"
+#include "crtcontrolwidget.h"
 #include "debug_gtk3.h"
 #include "kernalrevisionwidget.h"
 #include "machine.h"
@@ -72,6 +73,7 @@
 #include "resources.h"
 #include "sidmodelwidget.h"
 #include "superpetwidget.h"
+#include "uistatusbar.h"
 #include "v364speechwidget.h"
 #include "vdcmodelwidget.h"
 #include "vic20memoryexpansionwidget.h"
@@ -195,6 +197,37 @@ static GtkWidget *c64_discrete_radio = NULL;
 /** \brief  C64 "custom glue logic" radio button */
 static GtkWidget *c64_custom_radio = NULL;
 
+/** \brief  Current value of MachineVideoStandard resource
+ *
+ * Is set in the constructor and checked and updated in update_crt_controls()
+ */
+static int mvs_current = 0;
+
+
+/** \brief  Update CRT controls
+ *
+ * Checks old and new values for the "MachineVideoStandard" resource and if the
+ * values switched from PAL to NTSC or vice versa the status bar CRT widgets
+ * are recreated.
+ */
+static void update_crt_controls(void)
+{
+    int  mvs_new = 0;
+    bool pal_cur;
+    bool pal_new;
+
+    resources_get_int("MachineVideoStandard", &mvs_new);
+    debug_gtk3("called: machine sync was %d, is now %d\n", mvs_current, mvs_new);
+
+    pal_cur = (mvs_current == MACHINE_SYNC_PAL || mvs_current == MACHINE_SYNC_PALN);
+    pal_new = (mvs_new == MACHINE_SYNC_PAL || mvs_new == MACHINE_SYNC_PALN);
+
+    if (pal_cur != pal_new) {
+        debug_gtk3("recreating CRT controls");
+        ui_statusbar_recreate_crt_controls();
+    }
+    mvs_current = mvs_new;
+}
 
 
 /** \brief  Function called video model changes
@@ -208,6 +241,7 @@ static void video_model_callback(int model)
         if (machine_class == VICE_MACHINE_PLUS4) {
             plus4_debug_dump_resources();
         }
+        update_crt_controls();
     }
 }
 
@@ -933,8 +967,9 @@ static void machine_model_callback(int model)
             break;
         default:
             debug_gtk3("unsupported machine_class %d.", machine_class);
-            break;
+            return;
     }
+    update_crt_controls();
 }
 
 /** \brief  Handler for the 'toggled' event of the C64 "Glue Logic" radio buttons
@@ -1675,6 +1710,9 @@ GtkWidget *settings_model_widget_create(GtkWidget *parent)
 
     /* add callback */
     machine_model_widget_set_callback(machine_model_callback);
+
+    /* get current video standard */
+    resources_get_int("MachineVideoStandard", &mvs_current);
 
     gtk_widget_show_all(layout);
     return layout;

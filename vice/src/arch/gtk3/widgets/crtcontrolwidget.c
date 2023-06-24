@@ -607,7 +607,7 @@ static GtkWidget *create_header(const char         *chip,
 
 /** \brief  Create CRT control widget for \a chip
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  * \param[in]   chip    video chip name (all caps)
  * \param[in]   minimal reduce slider sizes for use in the status bar
  *
