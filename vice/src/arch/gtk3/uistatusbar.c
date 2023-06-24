@@ -63,6 +63,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "contentpreviewwidget.h"
+#include "crtcontrolwidget.h"
 #include "datasette.h"
 #include "dirmenupopup.h"
 #include "diskcontents.h"
@@ -3615,4 +3616,44 @@ gboolean ui_action_toggle_show_statusbar(void)
                                                  show);
     }
     return TRUE;
+}
+
+
+/** \brief  Recreate CRT controls on the status bars
+ *
+ * Destroy the old CRT controls and create new ones. To be called whenever the
+ * video standard changes.
+ */
+void ui_statusbar_recreate_crt_controls(void)
+{
+    int i;
+
+    mainlock_assert_is_not_vice_thread();
+
+    for (i = PRIMARY_WINDOW; i <= SECONDARY_WINDOW; i++) {
+        GtkWidget      *window;
+        GtkWidget      *grid;
+        GtkWidget      *controls;
+        video_canvas_t *canvas;
+        const char     *chip;
+
+        window   = ui_get_window_by_index(i);
+        if (window == NULL) {
+            continue;
+        }
+        canvas   = ui_get_canvas_for_window(i);
+        chip     = canvas->videoconfig->chip_name;
+        grid     = gtk_bin_get_child(GTK_BIN(window));
+        controls = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+        gtk_widget_destroy(controls);
+
+        controls = crt_control_widget_create(NULL, chip, TRUE);
+        gtk_grid_attach(GTK_GRID(grid), controls, 0, 3, 1, 1);
+
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(allocated_bars[i].crt))) {
+            gtk_widget_show(controls);
+        } else {
+            gtk_widget_hide(controls);
+        }
+    }
 }

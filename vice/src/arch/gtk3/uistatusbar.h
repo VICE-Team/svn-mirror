@@ -49,6 +49,7 @@ void ui_display_statustext(const char *text, int fadeout);
 
 gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window);
 gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window);
+void ui_statusbar_recreate_crt_controls(void);
 
 
 void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state);

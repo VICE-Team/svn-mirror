@@ -2738,9 +2738,7 @@ void ui_enable_crt_controls(int enabled)
          * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
          * window to the appropriate (minimum) size,
          */
-#if 0
         gtk_window_resize(GTK_WINDOW(window), 1, 1);
-#endif
     }
 }
 
@@ -2774,9 +2772,7 @@ void ui_enable_mixer_controls(int enabled)
          * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
          * window to the appropriate (minimum) size,
          */
-#if 0
         gtk_window_resize(GTK_WINDOW(window), 1, 1);
-#endif
     }
 }
 
