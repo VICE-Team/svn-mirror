@@ -131,7 +131,7 @@ void riot1_setup_context(diskunit_context_t *ctxptr)
 
     riotcore_setup_context(riot);
 
-    riot->myname = lib_msprintf("RIOT1D%d", ctxptr->mynumber);
+    riot->myname = lib_msprintf("RIOT1D%u", ctxptr->mynumber);
 
     riot->undump_pra = undump_pra;
     riot->undump_prb = undump_prb;

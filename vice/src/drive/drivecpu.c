@@ -91,8 +91,8 @@ void drivecpu_setup_context(struct diskunit_context_s *drv, int i)
     cpu->d_bank_start = 0;
     cpu->pageone = NULL;
     if (i) {
-        cpu->snap_module_name = lib_msprintf("DRIVECPU%d", drv->mynumber);
-        cpu->identification_string = lib_msprintf("DRIVE#%d", drv->mynumber + 8);
+        cpu->snap_module_name = lib_msprintf("DRIVECPU%u", drv->mynumber);
+        cpu->identification_string = lib_msprintf("DRIVE#%u", drv->mynumber + 8);
         cpu->monitor_interface = monitor_interface_new();
     }
     mi = cpu->monitor_interface;
@@ -512,7 +512,7 @@ static void drivecpu_jam(diskunit_context_t *drv)
             break;
     }
 
-    tmp = drive_jam(drv->mynumber, "%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (unsigned int)reg_pc);
+    tmp = drive_jam(drv->mynumber, "%s (%u) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (unsigned int)reg_pc);
     switch (tmp) {
         case JAM_RESET:
             reg_pc = 0xeaa0;

@@ -226,7 +226,7 @@ void tpid_setup_context(diskunit_context_t *ctxptr)
     tpi->rmw_flag = &(ctxptr->cpu->rmw_flag);
     tpi->clk_ptr = ctxptr->clk_ptr;
 
-    tpi->myname = lib_msprintf("Drive%dTPI", ctxptr->mynumber);
+    tpi->myname = lib_msprintf("Drive%uTPI", ctxptr->mynumber);
 
     tpicore_setup_context(tpi);
 

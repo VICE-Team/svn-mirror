@@ -295,7 +295,7 @@ void riot2_setup_context(diskunit_context_t *ctxptr)
 
     riotcore_setup_context(riot);
 
-    riot->myname = lib_msprintf("RIOT2D%d", ctxptr->mynumber);
+    riot->myname = lib_msprintf("RIOT2D%u", ctxptr->mynumber);
 
     riot2p->drives[0] = ctxptr->drives[0];
     riot2p->drives[1] = ctxptr->drives[1];

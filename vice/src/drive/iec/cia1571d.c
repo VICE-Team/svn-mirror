@@ -281,7 +281,7 @@ void cia1571_setup_context(diskunit_context_t *ctxptr)
 
     cia->prv = lib_malloc(sizeof(drivecia1571_context_t));
     cia1571p = (drivecia1571_context_t *)(cia->prv);
-    cia1571p->number = (unsigned int)(ctxptr->mynumber);
+    cia1571p->number = ctxptr->mynumber;
 
     cia->context = (void *)ctxptr;
 
@@ -294,7 +294,7 @@ void cia1571_setup_context(diskunit_context_t *ctxptr)
 
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;
-    cia->myname = lib_msprintf("CIA1571D%d", ctxptr->mynumber);
+    cia->myname = lib_msprintf("CIA1571D%u", ctxptr->mynumber);
 
     cia1571p->diskunit = ctxptr;
 

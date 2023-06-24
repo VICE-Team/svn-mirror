@@ -161,9 +161,9 @@ struct wd1770_s;
 struct cmdhd_context_s;
 
 typedef struct diskunit_context_s {
-    int mynumber;         /* init to [0123] */
-    CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
-    struct drive_s *drives[2];
+    unsigned int mynumber;    /* 0 ... NUM_DISK_UNITS-1 */
+    CLOCK *clk_ptr;           /* shortcut to drive_clk[mynumber] */
+    struct drive_s *drives[NUM_DRIVES];
 
     struct drivecpu_context_s *cpu;
     struct drivecpud_context_s *cpud;

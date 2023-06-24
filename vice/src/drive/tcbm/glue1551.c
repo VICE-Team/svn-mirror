@@ -148,7 +148,7 @@ void glue1551_init(diskunit_context_t *drv)
 {
     char *buffer;
 
-    buffer = lib_msprintf("GLUE1551D%i", drv->mynumber);
+    buffer = lib_msprintf("GLUE1551D%u", drv->mynumber);
 
     glue1551[drv->mynumber].timer_alarm = alarm_new(drv->cpu->alarm_context,
                                                     buffer, glue1551_timer,

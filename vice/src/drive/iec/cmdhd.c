@@ -1005,7 +1005,7 @@ void cmdhd_setup_context(diskunit_context_t *ctxptr)
     ctxptr->drives[0]->side = 0;
 
     ctxptr->cmdhd = lib_calloc(1, sizeof(cmdhd_context_t));
-    ctxptr->cmdhd->myname = lib_msprintf("CMDHD%d", ctxptr->mynumber);
+    ctxptr->cmdhd->myname = lib_msprintf("CMDHD%u", ctxptr->mynumber);
     ctxptr->cmdhd->mycontext = ctxptr;
 
     ctxptr->cmdhd->image = NULL;
@@ -1023,12 +1023,12 @@ void cmdhd_setup_context(diskunit_context_t *ctxptr)
     via10->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via10->clk_ptr = ctxptr->clk_ptr;
 
-    via10->myname = lib_msprintf("CMDHD%dVIA10", ctxptr->mynumber);
-    via10->my_module_name = lib_msprintf("CMDHD%dVIA10", ctxptr->mynumber);
+    via10->myname = lib_msprintf("CMDHD%uVIA10", ctxptr->mynumber);
+    via10->my_module_name = lib_msprintf("CMDHD%uVIA10", ctxptr->mynumber);
 
     viacore_setup_context(via10);
 
-    via10->my_module_name_alt1 = lib_msprintf("CMDHDVIA10-%d", ctxptr->mynumber);
+    via10->my_module_name_alt1 = lib_msprintf("CMDHDVIA10-%u", ctxptr->mynumber);
     via10->my_module_name_alt2 = lib_msprintf("CMDHDVIA10");
 
     via10->irq_line = IK_IRQ;
@@ -1062,12 +1062,12 @@ void cmdhd_setup_context(diskunit_context_t *ctxptr)
     via9->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via9->clk_ptr = ctxptr->clk_ptr;
 
-    via9->myname = lib_msprintf("CMDHD%dVIA9", ctxptr->mynumber);
-    via9->my_module_name = lib_msprintf("CMDHD%dVIA9", ctxptr->mynumber);
+    via9->myname = lib_msprintf("CMDHD%uVIA9", ctxptr->mynumber);
+    via9->my_module_name = lib_msprintf("CMDHD%uVIA9", ctxptr->mynumber);
 
     viacore_setup_context(via9);
 
-    via9->my_module_name_alt1 = lib_msprintf("CMDHDVIA9-%d", ctxptr->mynumber);
+    via9->my_module_name_alt1 = lib_msprintf("CMDHDVIA9-%u", ctxptr->mynumber);
     via9->my_module_name_alt2 = lib_msprintf("CMDHDVIA9");
 
     via9->irq_line = IK_IRQ;
@@ -1093,7 +1093,7 @@ void cmdhd_setup_context(diskunit_context_t *ctxptr)
     ctxptr->cmdhd->scsi = lib_calloc(1, sizeof(scsi_context_t));
     scsi = ctxptr->cmdhd->scsi;
     scsi->p = ctxptr->cmdhd;
-    scsi->myname = lib_msprintf("CMDHD%dSCSI", ctxptr->mynumber);
+    scsi->myname = lib_msprintf("CMDHD%uSCSI", ctxptr->mynumber);
 
     ctxptr->cmdhd->i8255a = lib_calloc(1, sizeof(i8255a_state));
     i8255a = ctxptr->cmdhd->i8255a;
@@ -1105,7 +1105,7 @@ void cmdhd_setup_context(diskunit_context_t *ctxptr)
     i8255a->get_pb = get_pb;
     i8255a->get_pc = get_pc;
 
-    name = lib_msprintf("CMDHD%dRTC", ctxptr->mynumber);
+    name = lib_msprintf("CMDHD%uRTC", ctxptr->mynumber);
     ctxptr->cmdhd->rtc = rtc72421_init(name);
     lib_free(name);
 
@@ -1229,7 +1229,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
 
     if (!hd->mycontext->parallel_cable && rlpresent) {
         hd->mycontext->parallel_cable = 1;
-        CRIT((ERR, "CMDHD: RAMLink detected. Drive %d 'parallel cable' set to 'standard'.",
+        CRIT((ERR, "CMDHD: RAMLink detected. Drive %u 'parallel cable' set to 'standard'.",
             hd->mycontext->mynumber + 8));
     }
 }
@@ -1303,7 +1303,7 @@ void cmdhd_reset(cmdhd_context_t *hd)
             CRIT((ERR, "CMDHD: Image size too small, starting up in installation mode."));
             if (hd->mycontext->parallel_cable) {
                 hd->mycontext->parallel_cable = 0;
-                CRIT((ERR, "CMDHD: Drive %d 'parallel cable' set to none. Set it back to 'standard' when",
+                CRIT((ERR, "CMDHD: Drive %u 'parallel cable' set to none. Set it back to 'standard' when",
                     hd->mycontext->mynumber + 8));
                 CRIT((ERR, "CMDHD: HDDOS installation is complete."));
             }
