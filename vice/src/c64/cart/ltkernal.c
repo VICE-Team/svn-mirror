@@ -553,7 +553,7 @@ int ltkernal_resources_init(void)
     LOG2((LOG, "LTK resource init"));
 
     if (ltkernal_check_scpu64()) {
-        return -1;
+        return 0;
     }
 
     ltk_serial = lib_strdup("00000000");
