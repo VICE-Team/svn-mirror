@@ -1833,7 +1833,7 @@ void mem_initialize_go64_memory_bank(uint8_t shared_mem)
         }
 
         /* $4000-$bfff is always current ram bank*/
-        for (j = 0x40; j <= 0xbd; j++) {
+        for (j = 0x40; j <= 0xbf; j++) {
             if (c64mem_read_base_tab[base + i][j]) {
                 mem_read_base_tab[base + i][j] = ram_bank;
             }
