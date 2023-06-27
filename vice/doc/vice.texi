@@ -2955,6 +2955,8 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Advance emulation one frame
 @item @code{cart-attach}
 @tab Attach cartridge
+@item @code{cart-attach-raw}
+@tab Attach cartridge (raw)
 @item @code{cart-detach}
 @tab Detach cartridge
 @item @code{cart-freeze}
