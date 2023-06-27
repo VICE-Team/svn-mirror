@@ -16,7 +16,7 @@ syn match vhkDebugArg   "\c\<\(enable\|disable\|on\|off\)\>"
 
 " Action names
 syn match vhkActionName "\<advance-frame\>"
-syn match vhkActionName "\<cart-attach\>"
+syn match vhkActionName "\<cart-attach\(-raw\)\?\>"
 syn match vhkActionName "\<cart-detach\>"
 syn match vhkActionName "\<cart-freeze\>"
 syn match vhkActionName "\<debug-autoplayback-frames\>"

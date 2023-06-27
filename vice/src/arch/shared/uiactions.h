@@ -109,7 +109,8 @@ enum {
     ACTION_INVALID = -1,
     ACTION_NONE = 0,
     ACTION_ADVANCE_FRAME,
-    ACTION_CART_ATTACH,
+    ACTION_CART_ATTACH,     /* Gtk3 has one dialog for CRT and RAW */
+    ACTION_CART_ATTACH_RAW, /* SDL has separate dialogs for CRT and RAW */
     ACTION_CART_DETACH,
     ACTION_CART_FREEZE,
     ACTION_DEBUG_AUTOPLAYBACK_FRAMES,

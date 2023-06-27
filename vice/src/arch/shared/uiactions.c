@@ -187,12 +187,14 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_TAPE_RESET_COUNTER_2,  "tape-reset-counter-2", "Reset datasette 2 counter",    VICE_MACHINE_PET },
 
     /* cartridge items */
-    { ACTION_CART_ATTACH,   "cart-attach",  "Attach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                 VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_DETACH,   "cart-detach",  "Detach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                 VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_FREEZE,   "cart-freeze",  "Press cartridge freeze button",    (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                 VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_ATTACH,       "cart-attach",      "Attach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_ATTACH_RAW,   "cart-attach-raw",  "Attach cartridge (raw)",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_DETACH,       "cart-detach",      "Detach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_FREEZE,       "cart-freeze",      "Press cartridge freeze button",    (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
 
     /* open monitor */
     { ACTION_MONITOR_OPEN,      "monitor-open",         "Open monitor",                         VICE_MACHINE_ALL },
