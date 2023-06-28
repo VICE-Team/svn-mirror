@@ -63,7 +63,6 @@ static void pause_toggle_action(void *unused)
     /* the pause LED gets updated in in the status bar update code */
 }
 
-
 /** \brief  Advance emulation a single frame if paused, pause otherwise */
 static void advance_frame_action(void *unused)
 {
@@ -75,7 +74,6 @@ static void advance_frame_action(void *unused)
     }
 }
 
-
 /** \brief  Toggle warp mode
  *
  * Toggles warp mode and updates UI elements.
@@ -86,7 +84,6 @@ static void warp_mode_toggle_action(void *unused)
     vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
                                              (gboolean)vsync_get_warp_mode());
 }
-
 
 /*
  * CPU speed and FPS
@@ -114,8 +111,8 @@ static void update_cpu_radio_buttons(void)
         case 50:
             action = ACTION_SPEED_CPU_50;
             break;
-        case 20:
-            action = ACTION_SPEED_CPU_20;
+        case 25:
+            action = ACTION_SPEED_CPU_25;
             break;
         case 10:
             action = ACTION_SPEED_CPU_10;
@@ -132,7 +129,6 @@ static void update_cpu_radio_buttons(void)
 #endif
     vhk_gtk_set_check_item_blocked_by_action(action, TRUE);
 }
-
 
 /** \brief  Update main menu FPS radio buttons based on "Speed" resource
  */
@@ -164,7 +160,6 @@ static void update_fps_radio_buttons(void)
     vhk_gtk_set_check_item_blocked_by_action(action, TRUE);
 }
 
-
 /** \brief  Set "Speed" resource and update UI elements
  *
  * Set new value for "Speed" resource: postive values are CPU speed in
@@ -185,6 +180,10 @@ static void set_speed_resource(int speed)
     }
 }
 
+/** \brief  Set CPU speed
+ *
+ * \param[in]   speed   speed in percentage (100 == 100%)
+ */
 static void speed_cpu_action(void *speed)
 {
     set_speed_resource(vice_ptr_to_int(speed));
@@ -206,7 +205,6 @@ static void speed_cpu_custom_callback(GtkDialog *dialog,
     /* notify the action system that the action (and its dialog) has finished */
     ui_action_finish(ACTION_SPEED_CPU_CUSTOM);
 }
-
 
 /** \brief  Set custom CPU speed
  *
@@ -251,7 +249,6 @@ static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
     ui_action_finish(ACTION_SPEED_FPS_CUSTOM);
 }
 
-
 /** \brief  Set FPS to a custom value using a dialog
  *
  * Pops up a dialog to set a custom FPS.
@@ -286,86 +283,72 @@ static void speed_fps_custom_action(void *unused)
     }
 }
 
-
 /** \brief  Speed-related UI action mappings
  */
 static const ui_action_map_t speed_actions[] = {
-    {
-        .action   = ACTION_PAUSE_TOGGLE,
+    {   .action   = ACTION_PAUSE_TOGGLE,
         .handler  = pause_toggle_action,
         .uithread = true
 
     },
-    {
-        .action   = ACTION_ADVANCE_FRAME,
+    {   .action   = ACTION_ADVANCE_FRAME,
         .handler  = advance_frame_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_WARP_MODE_TOGGLE,
+    {   .action   = ACTION_WARP_MODE_TOGGLE,
         .handler  = warp_mode_toggle_action,
         .uithread = true
     },
 
     /* CPU speed actions */
-    {
-        .action   = ACTION_SPEED_CPU_200,
+    {   .action   = ACTION_SPEED_CPU_200,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(200),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_CPU_100,
+    {   .action   = ACTION_SPEED_CPU_100,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(100),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_CPU_50,
+    {   .action   = ACTION_SPEED_CPU_50,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(50),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_CPU_20,
+    {   .action   = ACTION_SPEED_CPU_25,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(20),
+        .param    = int_to_void_ptr(25),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_CPU_10,
+    {   .action   = ACTION_SPEED_CPU_10,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(10),
         .uithread = true
     },
-    {
-        .action  = ACTION_SPEED_CPU_CUSTOM,
+    {   .action  = ACTION_SPEED_CPU_CUSTOM,
         .handler = speed_cpu_custom_action,
         .blocks  = true,
         .dialog  = true
     },
 
     /* FPS actions */
-    {
-        .action   = ACTION_SPEED_FPS_REAL,
+    {   .action   = ACTION_SPEED_FPS_REAL,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(100),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_FPS_50,
+    {   .action   = ACTION_SPEED_FPS_50,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(-50),
         .uithread = true
     },
-    {
-        .action   = ACTION_SPEED_FPS_60,
+    {   .action   = ACTION_SPEED_FPS_60,
         .handler  = speed_cpu_action,
         .param    = int_to_void_ptr(-60),
         .uithread = true
     },
-    {
-        .action  = ACTION_SPEED_FPS_CUSTOM,
+    {   .action  = ACTION_SPEED_FPS_CUSTOM,
         .handler = speed_fps_custom_action,
         .blocks  = true,
         .dialog  = true

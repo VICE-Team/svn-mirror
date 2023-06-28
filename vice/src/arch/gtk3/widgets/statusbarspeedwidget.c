@@ -57,13 +57,13 @@
 #include "statusbarspeedwidget.h"
 
 
-/** \brief  Predefined emulation speeds (taken from vice.texi)
+/** \brief  Predefined emulation speeds
  */
 static int emu_speeds[][2] = {
     { 200, ACTION_SPEED_CPU_200 },
     { 100, ACTION_SPEED_CPU_100 },
     {  50, ACTION_SPEED_CPU_50 },
-    {  20, ACTION_SPEED_CPU_20 },
+    {  25, ACTION_SPEED_CPU_25 },
     {  10, ACTION_SPEED_CPU_10 },
     {   0, ACTION_NONE }
 };
@@ -116,7 +116,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* cpu speed values */
     for (i = 0; emu_speeds[i][0] != 0; i++) {
-        g_snprintf(buffer, 256, "%d%%", emu_speeds[i][0]);
+        g_snprintf(buffer, sizeof(buffer), "%d%%", emu_speeds[i][0]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
         if (curr_speed == emu_speeds[i][0]) {
@@ -133,7 +133,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* custom speed */
     if (!found) {
-        g_snprintf(buffer, 256, "Custom CPU speed (%d%%) ...", curr_speed);
+        g_snprintf(buffer, sizeof(buffer), "Custom CPU speed (%d%%) ...", curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {
@@ -165,7 +165,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* predefined fps targets */
     for (i = 0; emu_fps_targets[i][0] != 0; i++) {
-        g_snprintf(buffer, 256, "%d FPS", emu_fps_targets[i][0]);
+        g_snprintf(buffer, sizeof(buffer), "%d FPS", emu_fps_targets[i][0]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
         if (curr_speed == 0 - emu_fps_targets[i][0]) {
@@ -182,7 +182,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* custom fps target */
     if (!found && curr_speed < 0) {
-        g_snprintf(buffer, 256, "Custom (%d FPS) ...", 0 - curr_speed);
+        g_snprintf(buffer, sizeof(buffer), "Custom (%d FPS) ...", 0 - curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {

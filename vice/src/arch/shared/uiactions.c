@@ -230,7 +230,7 @@ static const ui_action_info_private_t action_info_list[] = {
 
     /* CPU speed presets and custom speed */
     { ACTION_SPEED_CPU_10,      "speed-cpu-10",         "Set CPU speed to 10%",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_SPEED_CPU_20,      "speed-cpu-20",         "Set CPU speed to 20%",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_SPEED_CPU_25,      "speed-cpu-25",         "Set CPU speed to 25%",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SPEED_CPU_50,      "speed-cpu-50",         "Set CPU speed to 50%",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SPEED_CPU_100,     "speed-cpu-100",        "Set CPU speed to 100%",                VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SPEED_CPU_200,     "speed-cpu-200",        "Set CPU speed to 200%",                VICE_MACHINE_ALL^VICE_MACHINE_VSID },
@@ -240,7 +240,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_SPEED_FPS_50,      "speed-fps-50",         "Set video clock to 50Hz",              VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SPEED_FPS_60,      "speed-fps-60",         "Set video clock to 60Hz",              VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SPEED_FPS_CUSTOM,  "speed-fps-custom",     "Set custom video clock",               VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_SPEED_FPS_REAL,    "speed-fps-50",         "Set real video clock",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_SPEED_FPS_REAL,    "speed-fps-real",       "Set real video clock",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* fullscreen, fullscreen decs, restore display */
     { ACTION_FULLSCREEN_TOGGLE,             "fullscreen-toggle",                "Toggle fullscreen",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
