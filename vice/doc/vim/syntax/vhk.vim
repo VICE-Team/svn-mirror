@@ -128,6 +128,7 @@ syn match vhkActionName "\<psid-\(play\|pause\|stop\|ffwd\)\>"
 syn match vhkActionName "\<psid-loop-toggle\>"
 syn match vhkActionName "\<printer-formfeed-\(4\|5\|6\|userport\)\>"
 syn match vhkActionName "\<virtual-keyboard\>"
+syn match vhkActionName "\<show-statusbar\(-secondary\)\?-toggle\>"
 
 " Comments
 syn match vhkComment "[#;].*$" contains=vhkTodo

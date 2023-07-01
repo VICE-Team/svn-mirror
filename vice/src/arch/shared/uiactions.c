@@ -243,10 +243,11 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_SPEED_FPS_REAL,    "speed-fps-real",       "Set real video clock",                 VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* fullscreen, fullscreen decs, restore display */
-    { ACTION_FULLSCREEN_TOGGLE,             "fullscreen-toggle",                "Toggle fullscreen",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_FULLSCREEN_DECORATIONS_TOGGLE, "fullscreen-decorations-toggle",    "Show menu/status in fullscreen",           VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_SHOW_STATUSBAR_TOGGLE,         "show-statusbar-toggle",            "Show status bar",                          VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_RESTORE_DISPLAY,               "restore-display",                  "Resize application window to fit content", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_FULLSCREEN_TOGGLE,                 "fullscreen-toggle",                "Toggle fullscreen",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_FULLSCREEN_DECORATIONS_TOGGLE,     "fullscreen-decorations-toggle",    "Show menu/status in fullscreen",           VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_SHOW_STATUSBAR_TOGGLE,             "show-statusbar-toggle",            "Show status bar",                          VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,   "show-statusbar-secondary-toggle",  "Show secondary status bar",                VICE_MACHINE_C128 },
+    { ACTION_RESTORE_DISPLAY,                   "restore-display",                  "Resize application window to fit content", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* joystick, mouse etc */
     { ACTION_SWAP_CONTROLPORT_TOGGLE,   "swap-controlport-toggle",  "Swap controlport joysticks",   (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C64DTV|VICE_MACHINE_SCPU64|
