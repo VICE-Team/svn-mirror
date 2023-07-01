@@ -212,9 +212,7 @@ that area.
 $DF04 - $DF07:
 
 The LTK Port can be between 0 and 15. Only adaptors set to port 0 are allowed
-to change the host configuration. Any writes to this register while PB2.6 and
-CB2 are high (1), will result in the Lt. Kernal Host Adaptor being removed
-from the bus until a hard reset, essentially reconfiguring to a stock system.
+to change the host configuration.
 
     bit  meaning
     ---  -------
@@ -756,7 +754,6 @@ static void ltk_set_cb2(mc6821_state *ctx)
             LOG2((LOG, "LTK RESET SCHEDULED at 0x%04x", reg_pc));
             ltk_alarm_time = maincpu_clk + 57;
             alarm_set(ltk_alarm, ltk_alarm_time);
-/*        machine_trigger_reset(MACHINE_RESET_MODE_SOFT); */
         }
     }
 }
@@ -769,6 +766,8 @@ static void ltkernal_io_store(uint16_t addr, uint8_t value)
         IDBG((LOG, "--------------------"));
         if (addr & 0x4) {
             /* any writes to 4, 5, 6 or 7 turn off LTK I/O until reset */
+/* it turns out nothing happens when you write here. */
+/*
             if (ltk_ramwrite) {
                 ltk_on = 0;
                 ltk_ramwrite = 0;
@@ -777,6 +776,7 @@ static void ltkernal_io_store(uint16_t addr, uint8_t value)
                 ltk_ramh = 0;
                 LOG1((LOG, "LTK OFF at %04x", reg_pc));
             }
+*/
         } else {
             port = (addr >> 1) & 1; /* rs1 */
             reg = (addr >> 0) & 1;  /* rs0 */
