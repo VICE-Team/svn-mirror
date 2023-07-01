@@ -356,6 +356,9 @@ enum {
     ACTION_PRINTER_FORMFEED_6,
     ACTION_PRINTER_FORMFEED_USERPORT,
 
+    /* SDL UI only: show virtual keyboard on the emulated display */
+    ACTION_VIRTUAL_KEYBOARD,
+
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 
