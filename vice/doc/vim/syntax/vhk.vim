@@ -127,6 +127,7 @@ syn match vhkActionName "\<psid-subtune-\([1-9]\|\([12][0-9]\)\|30\|next\|previo
 syn match vhkActionName "\<psid-\(play\|pause\|stop\|ffwd\)\>"
 syn match vhkActionName "\<psid-loop-toggle\>"
 syn match vhkActionName "\<printer-formfeed-\(4\|5\|6\|userport\)\>"
+syn match vhkActionName "\<virtual-keyboard\>"
 
 " Comments
 syn match vhkComment "[#;].*$" contains=vhkTodo
