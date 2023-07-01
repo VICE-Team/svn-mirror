@@ -10003,7 +10003,7 @@ It is not recommended to change the REU, GEORAM, or RAMCard size as the
 CMD RAMDOS was not designed to detect this. Any changes should be followed
 by a machine reset.
 
-The RAMLink also has a "Normal/Disable" switch which can also be changed at
+The RAMLink also has a "Normal/Direct" switch which can also be changed at
 anytime.
 Normal, the default, only allows RAMLink access to the RAM port (REU, GEORAM,
 and RAMDrive); their registers are hidden otherwise.
@@ -33090,9 +33090,7 @@ the new patches to the second and third kernal versions.
 $DF04 - $DF07:
 
 The LTK Port can be between 0 and 15. Only adaptors set to port 0 are allowed 
-to change the host configuration. Any writes to this register while PB2.6 and 
-CA2 are high (1), will result in the Lt. Kernal Host Adaptor being removed from 
-the bus until a reset, essentially reconfiguring to a stock system.
+to change the host configuration.
 
 @example
     bit  meaning
