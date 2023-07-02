@@ -377,6 +377,12 @@ static const ui_action_info_private_t action_info_list[] = {
 
     { ACTION_VIRTUAL_KEYBOARD,          "virtual-keyboard",         "Activate virtual keyboard",            VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
+    /* Border modes (also invalid for x128's VDC window) */
+    { ACTION_BORDER_MODE_NORMAL,        "border-mode-normal",       "Set border mode to Normal",            VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+    { ACTION_BORDER_MODE_FULL,          "border-mode-full",         "Set border mode to Full",              VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+    { ACTION_BORDER_MODE_DEBUG,         "border-mode-debug",        "Set border mode to Debug",             VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+    { ACTION_BORDER_MODE_NONE,          "border-mode-none",         "Set border mode to None",              VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+
     { ACTION_INVALID, NULL, NULL, 0 }
 };
 

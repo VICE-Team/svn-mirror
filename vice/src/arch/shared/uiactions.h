@@ -359,6 +359,12 @@ enum {
     /* SDL UI only: show virtual keyboard on the emulated display */
     ACTION_VIRTUAL_KEYBOARD,
 
+    /* Border modes */
+    ACTION_BORDER_MODE_NORMAL,
+    ACTION_BORDER_MODE_FULL,
+    ACTION_BORDER_MODE_DEBUG,
+    ACTION_BORDER_MODE_NONE,
+
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 
