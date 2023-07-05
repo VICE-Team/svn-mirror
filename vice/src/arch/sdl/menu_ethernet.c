@@ -113,6 +113,7 @@ static UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
         ethernet_interface_dyn_menu[i].type = 0;
         ethernet_interface_dyn_menu[i].callback = NULL;
         ethernet_interface_dyn_menu[i].data = NULL;
+        rawnet_enumadapter_close();
     }
 
     return submenu_radio_callback(activated, param);
