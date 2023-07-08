@@ -70,7 +70,6 @@ libtoolarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	archdep.h \
-	coproc.h \
 	debug_headless.h \
 	kbd.h \
 	mousedrv.h \
