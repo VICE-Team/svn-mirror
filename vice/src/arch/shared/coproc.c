@@ -173,7 +173,8 @@ void kill_coproc(vice_pid_t pid)
 static int CreateChildProcess(
     TCHAR *szCmdline,
     HANDLE hChildStd_IN_Rd,
-    HANDLE hChildStd_OUT_Wr)
+    HANDLE hChildStd_OUT_Wr,
+    HANDLE *pid)
 {
     PROCESS_INFORMATION piProcInfo;
     STARTUPINFO siStartInfo;
@@ -197,7 +198,7 @@ static int CreateChildProcess(
         szCmdline,     /* command line */
         NULL,          /* process security attributes */
         NULL,          /* primary thread security attributes */
-        TRUE,          /* handles are inherited */
+        FALSE,         /* handles are inherited */
         0,             /* creation flags */
         NULL,          /* use parent's environment */
         NULL,          /* use parent's current directory */
@@ -222,7 +223,7 @@ static int CreateChildProcess(
     return 0;
 }
 
-int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, HANDLE pid)
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *pid)
 {
     HANDLE hChildStd_IN_Rd = NULL;
     HANDLE hChildStd_OUT_Wr = NULL;
@@ -262,7 +263,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, HANDLE pid)
     strcat(cmdline, cmd);
 
     /* Create the child process. */
-    if (CreateChildProcess(cmdline, hChildStd_IN_Rd, hChildStd_OUT_Wr) < 0) {
+    if (CreateChildProcess(cmdline, hChildStd_IN_Rd, hChildStd_OUT_Wr, pid) < 0) {
         lib_free(cmdline);
         return -1;
     }
@@ -278,9 +279,9 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, HANDLE pid)
 
 void kill_coproc(HANDLE pid)
 {
-    log_message(LOG_DEFAULT, "terminating child process id: %d", pid);
+    log_message(LOG_DEFAULT, "terminating child process id: %p", pid);
     if (TerminateProcess(pid, 0) != 0) {
-        log_error(LOG_DEFAULT, "terminating child process id %d failed.", pid);
+        log_error(LOG_DEFAULT, "terminating child process id %p failed.", pid);
     }
 }
 
