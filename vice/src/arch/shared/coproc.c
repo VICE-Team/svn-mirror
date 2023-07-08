@@ -212,6 +212,7 @@ static int CreateChildProcess(
         /* Close handles to the child process and its primary thread.
             Some applications might keep these handles to monitor the status
             of the child process, for example. */
+        *pid = piProcInfo.hProcess;
         CloseHandle(piProcInfo.hProcess);
         CloseHandle(piProcInfo.hThread);
 
@@ -277,7 +278,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *pid)
     return 0;
 }
 
-void kill_coproc(HANDLE pid)
+void kill_coproc(vice_pid_t pid)
 {
     log_message(LOG_DEFAULT, "terminating child process id: %p", pid);
     if (TerminateProcess(pid, 0) != 0) {
