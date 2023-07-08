@@ -29,8 +29,10 @@
 #define VICE_COPROC_H
 
 #if defined(WINDOWS_COMPILE)
+#include <windows.h>
 typedef HANDLE vice_pid_t;
 #else
+#include <sys/types.h>
 typedef pid_t vice_pid_t;
 #endif
 
