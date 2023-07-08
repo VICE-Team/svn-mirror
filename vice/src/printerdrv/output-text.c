@@ -55,6 +55,7 @@
 static char *PrinterDev[NUM_OUTPUT_SELECT] = { NULL, NULL, NULL };
 static int printer_device[NUM_OUTPUT_SELECT];
 static FILE *output_fd[NUM_OUTPUT_SELECT] = { NULL, NULL, NULL };
+static vice_pid_t output_pid[NUM_OUTPUT_SELECT] = { 0, 0, 0 };
 
 static int set_printer_device_name(const char *val, void *param)
 {
@@ -152,11 +153,11 @@ int output_text_init_cmdline_options(void)
  * 2022-04-03:  On systems where this isn't supported fork_coproc() logs an error
  *              and returns -1. --compyx
  */
-static FILE *fopen_or_pipe(char *name)
+static FILE *fopen_or_pipe(char *name, vice_pid_t *pid)
 {
     if (name[0] == '|') {
         int fd_rd, fd_wr;
-        if (fork_coproc(&fd_wr, &fd_rd, name + 1) < 0) {
+        if (fork_coproc(&fd_wr, &fd_rd, name + 1, pid) < 0) {
             log_error(LOG_DEFAULT, "fopen_or_pipe(): Cannot fork process '%s'.", name + 1);
             return NULL;
         }
@@ -182,11 +183,14 @@ static int output_text_open(unsigned int prnr,
 
             if (output_fd[printer_device[prnr]] == NULL) {
                 FILE *fd;
-                fd = fopen_or_pipe(PrinterDev[printer_device[prnr]]);
+                vice_pid_t pid;
+                output_pid[printer_device[prnr]] = 0;
+                fd = fopen_or_pipe(PrinterDev[printer_device[prnr]], &pid);
                 if (fd == NULL) {
                     return -1;
                 }
                 output_fd[printer_device[prnr]] = fd;
+                output_pid[printer_device[prnr]] = pid;
             }
             return 0;
         default:
@@ -200,6 +204,11 @@ static void output_text_close(unsigned int prnr)
         fclose(output_fd[printer_device[prnr]]);
     }
     output_fd[printer_device[prnr]] = NULL;
+
+    if (output_pid[printer_device[prnr]] != 0) {
+        kill_coproc(output_pid[printer_device[prnr]]);
+    }
+    output_pid[printer_device[prnr]] = 0;
 }
 
 static int output_text_putc(unsigned int prnr, uint8_t b)

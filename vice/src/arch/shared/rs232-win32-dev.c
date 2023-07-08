@@ -189,6 +189,7 @@ typedef struct rs232dev {
     DCB restore_dcb;    /**< status of the serial port before using it, for later restoration */
     int rts;            /**< current status of the serial port's RTS line */
     int dtr;            /**< current status of the serial port's DTR line */
+    vice_pid_t pid;     /**< process id if type = T_PROC */
 } rs232dev_t;
 
 /* type of open connection */
@@ -243,11 +244,13 @@ int rs232dev_open(int device)
 
     memset(&fds[i], 0, sizeof fds[0]);
 
+    fds[i].pid = NULL;
 #ifdef COPROC_SUPPORT
     if (rs232_devfile[device][0] == '|') {
         int fd_r, fd_w;
+        vice_pid_t pid;
         log_message(rs232dev_log, "rs232dev_open(): forking '%s'", rs232_devfile[device] + 1);
-        if (fork_coproc(&fd_w, &fd_r, rs232_devfile[device] + 1) < 0) {
+        if (fork_coproc(&fd_w, &fd_r, rs232_devfile[device] + 1, &pid) < 0) {
             log_error(rs232dev_log, "Cannot fork process '%s'.", rs232_devfile[device] + 1);
             return -1;
         }
@@ -255,6 +258,7 @@ int rs232dev_open(int device)
         fds[i].fd_r = (HANDLE)_get_osfhandle(fd_r);
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
+        fds[i].pid = pid;
         /* fds[i].file = rs232_devfile[device]; */
         ret = i;
     } else
@@ -395,6 +399,12 @@ void rs232dev_close(int fd)
     }
 
     CloseHandle(fds[fd].fd);
+
+    if ((fds[fd].type == T_PROC) && (fds[fd].pid != 0)) {
+        kill_coproc(fds[fd].pid);
+        fds[fd].pid = 0;
+    }
+
     fds[fd].inuse = 0;
 }
 
