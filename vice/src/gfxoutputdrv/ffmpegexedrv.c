@@ -264,6 +264,7 @@ static int video_height = -1;
 /* ffmpeg interface */
 static int ffmpeg_stdin = 0;
 static int ffmpeg_stdout = 0;
+static vice_pid_t ffmpeg_pid = 0;
 
 static vice_network_socket_t *ffmpeg_video_socket = NULL;
 static vice_network_socket_t *ffmpeg_audio_socket = NULL;
@@ -594,7 +595,7 @@ static int start_ffmpeg_executable(void)
     strcat(command, outfilename ? outfilename : "outfile.avi");
 
     /*DBG(("forking ffmpeg: '%s'", command));*/
-    if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command) < 0) {
+    if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command, &ffmpeg_pid) < 0) {
         log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
         return -1;
     }
@@ -715,6 +716,11 @@ static void close_stream(void)
     if (ffmpeg_stdout != -1) {
         close(ffmpeg_stdout);
         ffmpeg_stdout = -1;
+    }
+
+    if (ffmpeg_pid != 0) {
+        kill_coproc(ffmpeg_pid);
+        ffmpeg_pid = 0;
     }
 }
 

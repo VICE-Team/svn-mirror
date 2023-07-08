@@ -49,6 +49,13 @@
  * installing an ignoring handler.
  */
 
+/* this code is currently used to spawn sub processes in:
+   - gfxoutputdrv/ffmpegexedrv.c
+   - printerdrv/output-text.c
+   - arch/shared/rs232-unix-dev.c
+   - arch/shared/rs232-win32-dev.c
+*/
+
 #include "vice.h"
 
 /* TODO: Perhaps implement fork_coproc() on Haiku using Haiku-specific code
@@ -78,10 +85,10 @@
 
 static struct sigaction ignore;
 
-int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *childpid)
 {
     int fd1[2], fd2[2];
-    pid_t pid;
+    vice_pid_t pid;
 
     ignore.sa_handler = SIG_IGN;
     sigemptyset(&ignore.sa_mask);
@@ -131,8 +138,18 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
         *fd_rd = fd1[0];
         *fd_wr = fd2[1];
+        *childpid = pid;
+        log_message(LOG_DEFAULT, "forked process id is: %d", pid);
     }
     return 0;
+}
+
+void kill_coproc(vice_pid_t pid)
+{
+    log_message(LOG_DEFAULT, "terminating child process id: %d", pid);
+    if (kill(pid, SIGKILL) != 0) {
+        log_error(LOG_DEFAULT, "terminating child process id %d failed.", pid);
+    }
 }
 
 #elif defined(WINDOWS_COMPILE)
@@ -205,7 +222,7 @@ static int CreateChildProcess(
     return 0;
 }
 
-int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, HANDLE pid)
 {
     HANDLE hChildStd_IN_Rd = NULL;
     HANDLE hChildStd_OUT_Wr = NULL;
@@ -259,13 +276,26 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     return 0;
 }
 
+void kill_coproc(HANDLE pid)
+{
+    log_message(LOG_DEFAULT, "terminating child process id: %d", pid);
+    if (TerminateProcess(pid, 0) != 0) {
+        log_error(LOG_DEFAULT, "terminating child process id %d failed.", pid);
+    }
+}
+
 #else
 
 /* Stub for systems other than Unix, MacOS, Windows or Haiku: */
-int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *pid)
 {
     log_error(LOG_DEFAULT, "FIXME: fork_coproc() not implemented for this system.");
     return -1;
+}
+
+void kill_coproc(vice_pid_t pid)
+{
+    log_error(LOG_DEFAULT, "FIXME: kill_coproc() not implemented for this system.");
 }
 
 #endif

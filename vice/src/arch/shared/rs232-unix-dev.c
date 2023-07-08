@@ -197,6 +197,7 @@ typedef struct rs232 {
     int fd_w;      /* unix fd for writing */
     char *file;    /* filename */
     struct termios saved;
+    vice_pid_t pid;     /* process id of the child process when type = T_PROC */
 } rs232_t;
 
 /* Also document this crap */
@@ -333,12 +334,16 @@ int rs232dev_open(int device)
                 rs232_devfile[device], device);
 #endif
 
+    fds[i].pid = 0;
+
     if (rs232_devfile[device][0] == '|') {
-        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
+        vice_pid_t pid;
+        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1, &pid) < 0) {
             log_error(rs232dev_log, "Cannot fork process '%s'.", rs232_devfile[device] + 1);
             return -1;
         }
         fds[i].type = T_PROC;
+        fds[i].pid = pid;
         fds[i].inuse = 1;
         fds[i].file = rs232_devfile[device];
     } else {
@@ -385,6 +390,9 @@ void rs232dev_close(int fd)
     close(fds[fd].fd_r);
     if ((fds[fd].type == T_PROC) && (fds[fd].fd_r != fds[fd].fd_w)) {
         close(fds[fd].fd_w);
+    }
+    if ((fds[fd].type == T_PROC) && (fds[fd].pid != 0)) {
+        kill_coproc(fds[fd].pid);
     }
     fds[fd].inuse = 0;
 }
