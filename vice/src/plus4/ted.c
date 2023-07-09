@@ -903,7 +903,7 @@ int ted_dump(void)
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
     mon_out("Colors: Border: %02x BG: %02x\n", ted.regs[0x19], ted.regs[0x15]);
     mon_out("Scroll X/Y: %d/%d, RC %u,", ted.regs[0x07] & 0x07, ted.regs[0x06] & 0x07, ted.raster.ycounter);
-    mon_out(" %dx%d\n",38 + ((ted.regs[0x07] >> 3) & 1), 24 + ((ted.regs[0x06] >> 3) & 1));
+    mon_out(" %dx%d\n",38 + ((ted.regs[0x07] >> 2) & 2), 24 + ((ted.regs[0x06] >> 3) & 1));
     mon_out("Cursor X/Y: ");
     i = ((ted.regs[0x0c] & 0x03) << 8) | ted.regs[0x0d];
     if (i < 1000){
