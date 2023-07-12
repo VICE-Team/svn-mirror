@@ -168,6 +168,13 @@ int userport_wic64_resources_init(void)
     return userport_device_register(USERPORT_DEVICE_WIC64, &userport_wic64_device);
 }
 
+/** \brief  Free memory used by WIC64 resources
+ */
+void userport_wic64_resources_shutdown(void)
+{
+    lib_free(default_server_hostname);
+}
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-wic64server", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,

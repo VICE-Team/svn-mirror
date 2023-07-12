@@ -29,7 +29,8 @@
 
 #include "types.h"
 
-int userport_wic64_resources_init(void);
-int userport_wic64_cmdline_options_init(void);
+int  userport_wic64_resources_init(void);
+void userport_wic64_resources_shutdown(void);
+int  userport_wic64_cmdline_options_init(void);
 
 #endif
