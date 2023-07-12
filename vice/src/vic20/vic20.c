@@ -791,6 +791,9 @@ void machine_resources_shutdown(void)
     sampler_resources_shutdown();
     userport_rtc_58321a_resources_shutdown();
     userport_rtc_ds1307_resources_shutdown();
+#ifdef HAVE_LIBCURL
+    userport_wic64_resources_shutdown();
+#endif
     tapeport_resources_shutdown();
     joyport_resources_shutdown();
 }

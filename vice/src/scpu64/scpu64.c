@@ -738,6 +738,9 @@ void machine_resources_shutdown(void)
     rombanks_resources_shutdown();
     userport_rtc_58321a_resources_shutdown();
     userport_rtc_ds1307_resources_shutdown();
+#ifdef HAVE_LIBCURL
+    userport_wic64_resources_shutdown();
+#endif
     cartio_shutdown();
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
