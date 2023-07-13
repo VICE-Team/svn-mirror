@@ -3151,6 +3151,12 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Allow keyset joystick
 @item @code{media-record}
 @tab Record media
+@item @code{media-record-audio}
+@tab Record audio
+@item @code{media-record-screenshot}
+@tab Take screenshot
+@item @code{media-record-video}
+@tab Record video
 @item @code{media-stop}
 @tab Stop media recording
 @item @code{monitor-open}
