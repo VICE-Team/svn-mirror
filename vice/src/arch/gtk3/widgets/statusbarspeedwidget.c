@@ -559,14 +559,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         is_diagnostic_pin = pia1_get_diagnostic_pin();
     }
 
-    if (state->last_cpu_int != this_cpu_int ||
-            state->last_warp != vsync_metric_warp_enabled ||
-            state->last_shiftlock != is_shiftlock ||
-            state->last_mode4080 != is_mode4080 ||
-            state->last_capslock != is_capslock ||
-            state->last_diagnostic_pin != is_diagnostic_pin ||
-            state->last_paused != is_paused) {
-
+    if (state->last_cpu_int != this_cpu_int) {
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
 
@@ -577,38 +570,36 @@ void statusbar_speed_widget_update(GtkWidget *widget,
                    "%7." STR(CPU_DECIMAL_PLACES) "f%% cpu",
                    vsync_metric_cpu_percent);
         gtk_label_set_text(GTK_LABEL(label), buffer);
-
-        /* warp */
-        if (state->last_warp != vsync_metric_warp_enabled) {
-            warp_led_set_active(window_identity, vsync_metric_warp_enabled);
-        }
-        /* pause */
-        if (state->last_paused != is_paused) {
-            pause_led_set_active(window_identity, is_paused);
-        }
-        /* shiftlock */
-        if (state->last_shiftlock != is_shiftlock) {
-            shiftlock_led_set_active(window_identity, is_shiftlock);
-        }
-        /* 40/80 colums */
-        if (state->last_mode4080 != is_mode4080) {
-            mode4080_led_set_active(window_identity, is_mode4080);
-        }
-        /* capslock */
-        if (state->last_capslock != is_capslock) {
-            capslock_led_set_active(window_identity, is_capslock);
-        }
-        /* userport diagnostic pin */
-        if (state->last_diagnostic_pin != is_diagnostic_pin) {
-            diagnosticpin_led_set_active(window_identity, is_diagnostic_pin);
-        }
-
         state->last_cpu_int = this_cpu_int;
+    }
+    /* warp */
+    if (state->last_warp != vsync_metric_warp_enabled) {
+        warp_led_set_active(window_identity, vsync_metric_warp_enabled);
         state->last_warp = vsync_metric_warp_enabled;
+    }
+    /* pause */
+    if (state->last_paused != is_paused) {
+        pause_led_set_active(window_identity, is_paused);
         state->last_paused = is_paused;
+    }
+    /* shiftlock */
+    if (state->last_shiftlock != is_shiftlock) {
+        shiftlock_led_set_active(window_identity, is_shiftlock);
         state->last_shiftlock = is_shiftlock;
+    }
+    /* 40/80 colums */
+    if (state->last_mode4080 != is_mode4080) {
+        mode4080_led_set_active(window_identity, is_mode4080);
         state->last_mode4080 = is_mode4080;
+    }
+    /* capslock */
+    if (state->last_capslock != is_capslock) {
+        capslock_led_set_active(window_identity, is_capslock);
         state->last_capslock = is_capslock;
+    }
+    /* userport diagnostic pin */
+    if (state->last_diagnostic_pin != is_diagnostic_pin) {
+        diagnosticpin_led_set_active(window_identity, is_diagnostic_pin);
         state->last_diagnostic_pin = is_diagnostic_pin;
     }
 
