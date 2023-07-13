@@ -54,7 +54,7 @@
  */
 
 /* #define DEBUG_FFMPEG */
-/*#define DEBUG_FFMPEG_FRAMES*/
+/* #define DEBUG_FFMPEG_FRAMES */
 
 #include "vice.h"
 
@@ -82,6 +82,8 @@
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"
+
+/* #define VICE_IS_SERVER */
 
 #ifdef DEBUG_FFMPEG
 #define DBG(x) log_debug x
@@ -268,7 +270,10 @@ static vice_pid_t ffmpeg_pid = 0;
 
 static vice_network_socket_t *ffmpeg_video_socket = NULL;
 static vice_network_socket_t *ffmpeg_audio_socket = NULL;
-
+#ifdef VICE_IS_SERVER
+static vice_network_socket_t *ffmpeg_video_listen_socket = NULL;
+static vice_network_socket_t *ffmpeg_audio_listen_socket = NULL;
+#endif
 static char *outfilename = NULL;
 
 /******************************************************************************/
@@ -480,6 +485,76 @@ static int write_video_frame(VIDEOFrame *pic)
     return 0;
 }
 
+static void write_initial_video_frames(void)
+{
+    int len;
+    int frm;
+    /* clear frame */
+    len = INPUT_VIDEO_BPP * video_height * video_width;
+    DBG(("video len:%d (%d)", len, len * DUMMY_FRAMES_VIDEO));
+    memset(video_st_frame->data, 0, len);
+    for (frm = 0; frm < DUMMY_FRAMES_VIDEO; frm++) {
+        write_video_frame(video_st_frame);
+    }
+}
+
+static int write_initial_audio_frames(void)
+{
+    int len;
+    int frm;
+    int res;
+    /* clear frame */
+    len = (sizeof(uint16_t) * audio_input_sample_rate) / fps;
+    if (video_halve_framerate) {
+        len /= 2;
+    }
+    DBG(("audio len:%d (%d)", len, len * DUMMY_FRAMES_AUDIO));
+    memset(ffmpegexedrv_audio_in.buffer, 0, len);
+    for (frm = 0; frm < DUMMY_FRAMES_AUDIO; frm++) {
+        res = vice_network_send(ffmpeg_audio_socket, ffmpegexedrv_audio_in.buffer, len, 0 /* flags */);
+        if (res != len) {
+            log_error(LOG_DEFAULT, "ffmpegexedrv: Error writing to AUDIO socket");
+            return -1;
+        }
+        if (audio_input_channels == 2) {
+            /* stereo - send twice the amount of data */
+            res = vice_network_send(ffmpeg_audio_socket, ffmpegexedrv_audio_in.buffer, len, 0 /* flags */);
+            if (res != len) {
+                log_error(LOG_DEFAULT, "ffmpegexedrv: Error writing to AUDIO socket");
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
+
+#ifdef VICE_IS_SERVER
+/* Try to find two ports that we can use. This doesn't work as expected :/ */
+static void find_ports(void)
+{
+    int port;
+    for (port = 49152; port < 65535; port++) {
+        vice_network_socket_address_t *ad = NULL;
+        vice_network_socket_t *s = NULL;
+        ad = vice_network_address_generate("127.0.0.1", port);
+        if (!ad) {
+            log_error(LOG_DEFAULT, "Bad device name (port:%d).\n", port);
+        }
+        /* connect socket */
+        s = vice_network_server(ad);
+        if (!s) {
+            log_error(LOG_DEFAULT, "Bad port number (port:%d).\n", port);
+        } else {
+            /*log_error(LOG_DEFAULT, "Good port number (port:%d).\n", port);*/
+            vice_network_socket_close(s);
+        }
+        if (ad) {
+            vice_network_address_close(ad);
+        }
+    }
+}
+#endif
+
 static int start_ffmpeg_executable(void)
 {
     static char command[0x400];
@@ -487,9 +562,6 @@ static int start_ffmpeg_executable(void)
     int fpsint;
     int fpsfrac;
     int n;
-    int frm;
-    int len;
-    int res;
     int audio_connected = 0;
     int video_connected = 0;
 
@@ -529,7 +601,11 @@ static int start_ffmpeg_executable(void)
                 /*"-readrate 1 "*/                      /* Read input at native frame rate */
                 "-thread_queue_size 512 "
                 "-vsync 0 "
+#ifdef VICE_IS_SERVER
+                "-i tcp://127.0.0.1:%d "
+#else
                 "-i tcp://127.0.0.1:%d?listen "
+#endif
                 , fpsint, fpsfrac
                 , video_width, video_height
                 , SOCKETS_VIDEO_PORT
@@ -547,7 +623,11 @@ static int start_ffmpeg_executable(void)
                     "-ar %d "                       /* input audio stream sample rate */
                     "-ss %d "                       /* skip seconds at start */
                     "-thread_queue_size 512 "
+#ifdef VICE_IS_SERVER
+                    "-i tcp://127.0.0.1:%d "
+#else
                     "-i tcp://127.0.0.1:%d?listen "
+#endif
                     "-async 1 "
                     , audio_input_channels
                     , audio_input_channels
@@ -594,11 +674,13 @@ static int start_ffmpeg_executable(void)
     /* last not least the output file name */
     strcat(command, outfilename ? outfilename : "outfile.avi");
 
+#ifndef VICE_IS_SERVER
     /*DBG(("forking ffmpeg: '%s'", command));*/
     if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command, &ffmpeg_pid) < 0) {
         log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
         return -1;
     }
+#endif
 
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
@@ -609,8 +691,13 @@ static int start_ffmpeg_executable(void)
         }
         /* connect socket */
         for (n = 0; n < 200; n++) {
+#ifdef VICE_IS_SERVER
+            ffmpeg_video_listen_socket = vice_network_server(ad);
+            if (!ffmpeg_video_listen_socket) {
+#else
             ffmpeg_video_socket = vice_network_client(ad);
             if (!ffmpeg_video_socket) {
+#endif
                 /*log_error(LOG_DEFAULT, "ffmpegexedrv: Error connecting AUDIO socket");*/
                 archdep_usleep(1000);
             } else {
@@ -624,13 +711,10 @@ static int start_ffmpeg_executable(void)
             return -1;
         }
     }
-    /* clear frame */
-    len = INPUT_VIDEO_BPP * video_height * video_width;
-    DBG(("video len:%d (%d)", len, len * DUMMY_FRAMES_VIDEO));
-    memset(video_st_frame->data, 0, len);
-    for (frm = 0; frm < DUMMY_FRAMES_VIDEO; frm++) {
-        write_video_frame(video_st_frame);
-    }
+
+#ifndef VICE_IS_SERVER
+    write_initial_video_frames();
+#endif
 
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
@@ -641,8 +725,13 @@ static int start_ffmpeg_executable(void)
         }
         /* connect socket */
         for (n = 0; n < 200; n++) {
+#ifdef VICE_IS_SERVER
+            ffmpeg_audio_listen_socket = vice_network_server(ad);
+            if (!ffmpeg_audio_listen_socket) {
+#else
             ffmpeg_audio_socket = vice_network_client(ad);
             if (!ffmpeg_audio_socket) {
+#endif
                 /*log_error(LOG_DEFAULT, "ffmpegexedrv: Error connecting AUDIO socket");*/
                 archdep_usleep(1000);
             } else {
@@ -656,28 +745,52 @@ static int start_ffmpeg_executable(void)
             return -1;
         }
     }
-    /* clear frame */
-    len = (sizeof(uint16_t) * audio_input_sample_rate) / fps;
-    if (video_halve_framerate) {
-        len /= 2;
+
+#ifndef VICE_IS_SERVER
+    if (write_initial_audio_frames() < 0) {
+        return -1;
     }
-    DBG(("audio len:%d (%d)", len, len * DUMMY_FRAMES_AUDIO));
-    memset(ffmpegexedrv_audio_in.buffer, 0, len);
-    for (frm = 0; frm < DUMMY_FRAMES_AUDIO; frm++) {
-        res = vice_network_send(ffmpeg_audio_socket, ffmpegexedrv_audio_in.buffer, len, 0 /* flags */);
-        if (res != len) {
-            log_error(LOG_DEFAULT, "ffmpegexedrv: Error writing to AUDIO socket");
-            return -1;
-        }
-        if (audio_input_channels == 2) {
-            /* stereo - send twice the amount of data */
-            res = vice_network_send(ffmpeg_audio_socket, ffmpegexedrv_audio_in.buffer, len, 0 /* flags */);
-            if (res != len) {
-                log_error(LOG_DEFAULT, "ffmpegexedrv: Error writing to AUDIO socket");
-                return -1;
+#endif
+
+#ifdef VICE_IS_SERVER
+    /*DBG(("forking ffmpeg: '%s'", command));*/
+    if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command, &ffmpeg_pid) < 0) {
+        log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
+        return -1;
+    }
+
+    do {
+        int audio_available = 0;
+        int video_available = 0;
+
+        /*sleep(1);*/
+        if (ffmpeg_audio_socket != NULL) {
+            audio_available = vice_network_select_poll_one(ffmpeg_audio_socket);
+            DBG(("ffmpeg_audio_socket available: %d", audio_available));
+        } else if (ffmpeg_audio_listen_socket != NULL) {
+            /* we have no connection yet, allow for connection */
+
+            if (vice_network_select_poll_one(ffmpeg_audio_listen_socket)) {
+                ffmpeg_audio_socket = vice_network_accept(ffmpeg_audio_listen_socket);
+                write_initial_audio_frames();
             }
+            DBG(("ffmpeg_audio_socket connected: %p", ffmpeg_audio_socket));
         }
-    }
+        if (ffmpeg_video_socket != NULL) {
+            video_available = vice_network_select_poll_one(ffmpeg_video_socket);
+            DBG(("ffmpeg_video_socket available: %d", video_available));
+        } else if (ffmpeg_video_listen_socket != NULL) {
+            /* we have no connection yet, allow for connection */
+
+            if (vice_network_select_poll_one(ffmpeg_video_listen_socket)) {
+                ffmpeg_video_socket = vice_network_accept(ffmpeg_video_listen_socket);
+                write_initial_video_frames();
+            }
+            DBG(("ffmpeg_video_socket connected: %p", ffmpeg_video_socket));
+        }
+    } while ((ffmpeg_audio_socket == NULL) || (ffmpeg_video_socket == NULL));
+#endif
+
     log_message(LOG_DEFAULT, "ffmpegexedrv: pipes are ready");
     return 0;
 }
@@ -708,7 +821,16 @@ static void close_stream(void)
         vice_network_socket_close(ffmpeg_audio_socket);
         ffmpeg_audio_socket = NULL;
     }
-
+#ifdef VICE_IS_SERVER
+    if (ffmpeg_video_listen_socket != NULL) {
+        vice_network_socket_close(ffmpeg_video_listen_socket);
+        ffmpeg_video_listen_socket = NULL;
+    }
+    if (ffmpeg_audio_listen_socket != NULL) {
+        vice_network_socket_close(ffmpeg_audio_listen_socket);
+        ffmpeg_audio_listen_socket = NULL;
+    }
+#endif
     if (ffmpeg_stdin != -1) {
         close(ffmpeg_stdin);
         ffmpeg_stdin = -1;
@@ -814,7 +936,7 @@ static int ffmpegexe_soundmovie_encode(soundmovie_buffer_t *audio_in)
 #endif
 
     if (ffmpeg_audio_socket == 0) {
-        log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%"PRIu64")\n", audio_input_counter);
+        log_error(LOG_DEFAULT, "FFMPEG: ffmpegexe_soundmovie_encode ffmpeg_audio_socket is 0 (framecount:%"PRIu64")", audio_input_counter);
         return 0;
     }
 
