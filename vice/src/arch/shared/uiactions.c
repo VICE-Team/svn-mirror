@@ -275,7 +275,10 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_HISTORY_PLAYBACK_STOP,     "history-playback-stop",    "Stop playing back events",         VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_HISTORY_MILESTONE_SET,     "history-milestone-set",    "Set recording milestone",          VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_HISTORY_MILESTONE_RESET,   "history-milestone-reset",  "Return to recording milestone",    VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_MEDIA_RECORD,              "media-record",             "Record media",                     VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_MEDIA_RECORD,              "media-record",             "Start recording media",            VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_MEDIA_RECORD_AUDIO,        "media-record-audio",       "Start recording audio",            VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_MEDIA_RECORD_SCREENSHOT,   "media-record-screenshot",  "Take screenshot",                  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_MEDIA_RECORD_VIDEO,        "media-record-video",       "Start recording video",            VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_MEDIA_STOP,                "media-stop",               "Stop media recording",             VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SCREENSHOT_QUICKSAVE,      "screenshot-quicksave",     "Quiksave screenshot",              VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
