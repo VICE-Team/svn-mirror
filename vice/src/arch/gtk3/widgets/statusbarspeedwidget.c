@@ -572,6 +572,14 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         gtk_label_set_text(GTK_LABEL(label), buffer);
         state->last_cpu_int = this_cpu_int;
     }
+
+    /* Somehow the last state gets out of sync when pressing Alt+W and clicking
+     * the warp led, or when pressing Alt+P and clicking the pause led, nearly
+     * simultaneously, so we don't check for changes but always rerender the
+     * leds.
+     * See bug #1840: https://sourceforge.net/p/vice-emu/bugs/1840/
+     */
+#if 0
     /* warp */
     if (state->last_warp != vsync_metric_warp_enabled) {
         warp_led_set_active(window_identity, vsync_metric_warp_enabled);
@@ -602,6 +610,26 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         diagnosticpin_led_set_active(window_identity, is_diagnostic_pin);
         state->last_diagnostic_pin = is_diagnostic_pin;
     }
+#else
+    /* warp */
+    warp_led_set_active(window_identity, vsync_metric_warp_enabled);
+    state->last_warp = vsync_metric_warp_enabled;
+    /* pause */
+    pause_led_set_active(window_identity, is_paused);
+    state->last_paused = is_paused;
+    /* shiftlock */
+    shiftlock_led_set_active(window_identity, is_shiftlock);
+    state->last_shiftlock = is_shiftlock;
+    /* 40/80 colums */
+    mode4080_led_set_active(window_identity, is_mode4080);
+    state->last_mode4080 = is_mode4080;
+    /* capslock */
+    capslock_led_set_active(window_identity, is_capslock);
+    state->last_capslock = is_capslock;
+    /* userport diagnostic pin */
+    diagnosticpin_led_set_active(window_identity, is_diagnostic_pin);
+    state->last_diagnostic_pin = is_diagnostic_pin;
+#endif
 
     if (window_identity == PRIMARY_WINDOW) {
         if (state->last_fps_int != this_fps_int) {
