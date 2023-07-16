@@ -507,7 +507,7 @@ inline static int fetch_gap(int port, CLOCK *gap, int *direction, long read_tap)
 
     if ((current_image[port]->version == 0) || *gap) {
         /* in v0 tap files gaps > 255 produced an overflow and generally
-           produced 0 - which needs to be reinterpreted as a "long" gap. 
+           produced 0 - which needs to be reinterpreted as a "long" gap.
            "mtap" by Marcus Brenner, which probably the majority of tap v0 files
            are created with, uses 2500.
            We also add a constant number of cycles (default:1) to compensate
