@@ -267,7 +267,8 @@ static const resource_int_t resources_int[] = {
     { "DatasetteResetWithCPU", 1, RES_EVENT_SAME, NULL,
       &reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },
-    { "DatasetteZeroGapDelay", 20000, RES_EVENT_SAME, NULL,
+    /* mtap uses 2500, so we use the same */
+    { "DatasetteZeroGapDelay", 2500, RES_EVENT_SAME, NULL,
       &datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
     /* .tap v0 gap tuning value - apparently needs to be 1 for some .tap files,
@@ -506,8 +507,9 @@ inline static int fetch_gap(int port, CLOCK *gap, int *direction, long read_tap)
 
     if ((current_image[port]->version == 0) || *gap) {
         /* in v0 tap files gaps > 255 produced an overflow and generally
-           produced 0 - which needs to be reinterpreted as a "long" gap. The
-           "commonly agreed on" value for this seems to be 20000 cycles.
+           produced 0 - which needs to be reinterpreted as a "long" gap. 
+           "mtap" by Marcus Brenner, which probably the majority of tap v0 files
+           are created with, uses 2500.
            We also add a constant number of cycles (default:1) to compensate
            for tape speed variations. */
         *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
