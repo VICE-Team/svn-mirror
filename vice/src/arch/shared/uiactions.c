@@ -351,6 +351,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PSID_SUBTUNE_29,           "psid-subtune-29",          "Play subtune #29",         VICE_MACHINE_VSID },
     { ACTION_PSID_SUBTUNE_30,           "psid-subtune-30",          "Play subtune #30",         VICE_MACHINE_VSID },
 
+    { ACTION_PSID_SUBTUNE_DEFAULT,      "psid-subtune-default",     "Play default subtune",     VICE_MACHINE_VSID },
     { ACTION_PSID_SUBTUNE_NEXT,         "psid-subtune-next",        "Play next subtune",        VICE_MACHINE_VSID },
     { ACTION_PSID_SUBTUNE_PREVIOUS,     "psid-subtune-previous",    "Play previous subtune",    VICE_MACHINE_VSID },
 
