@@ -478,7 +478,8 @@ static const char *get_itemdata_for_action(ui_menu_entry_t *item)
             break;
 
         default:
-            printf("%s(): unhandled type %d for item %s without callback.",
+            log_error(LOG_ERR,
+                      "%s(): unhandled type %u for item %s without callback.",
                     __func__, item->type, item->string);
             itemdata = sdl_menu_text_unknown;
             break;
