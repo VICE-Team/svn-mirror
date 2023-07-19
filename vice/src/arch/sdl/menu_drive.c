@@ -35,6 +35,7 @@
 #include "fliplist.h"
 #include "iecdrive.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_drive.h"
@@ -49,6 +50,7 @@
 #include "util.h"
 #include "vdrive-internal.h"
 
+/* only LOAD and SAVE are valid, rest are handled by UI action handlers */
 enum {
     UI_FLIP_ADD,
     UI_FLIP_REMOVE,
@@ -236,63 +238,59 @@ static UI_MENU_CALLBACK(set_directory_callback)
     return NULL;
 }
 
+/* We need to keep this around for now since it's the "dialog" implementation.
+ * When the hotkeys and joystick also use UI actions we can refactor this into
+ * a public function without the `activated` check.
+ */
 static UI_MENU_CALLBACK(attach_disk_callback)
 {
-    char *name;
-
-    if (activated) {
-        name = sdl_ui_file_selection_dialog("Select disk image", FILEREQ_MODE_CHOOSE_FILE);
+    if (activated)  {
+        int unit   = UNIT_FROM_PTR(param);
+        int drive  = DRIVE_FROM_PTR(param);
+        char *name = sdl_ui_file_selection_dialog("Select disk image",
+                                                  FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
-            int device = vice_ptr_to_int(param) & 0xff;
-            int drive = (vice_ptr_to_int(param) >> 8) & 0xff;
-            if (file_system_attach_disk(device, drive, name) < 0) {
+           if (file_system_attach_disk(unit, drive, name) < 0) {
                 ui_error("Cannot attach disk image.");
             }
             lib_free(name);
         }
+        /* mark dialog finished so other dialogs can be activated again */
+        ui_action_finish(ui_action_id_drive_attach(unit, drive));
     }
     return NULL;
 }
 
+#if 0
 static UI_MENU_CALLBACK(detach_disk_callback)
 {
-    int parameter, i;
-
     if (activated) {
-        parameter = vice_ptr_to_int(param);
-        if (parameter == 0) {
+        int unit  = UNIT_FROM_PTR(param);
+        int drive = DRIVE_FROM_PTR(param);
+
+        if (unit == 0) {
             /* detach all disks in all drives */
-            for (i = 8; i < 12; i++) {
-                file_system_detach_disk(i, 0);
-                file_system_detach_disk(i, 1);
+            for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+                file_system_detach_disk(unit, 0);
+                file_system_detach_disk(unit, 1);
             }
         } else {
-            int device = parameter & 0xff;
-            int drive = (parameter >> 8) & 0xff;
-            file_system_detach_disk(device, drive);
+            file_system_detach_disk(unit, drive);
         }
     }
     return NULL;
 }
+#endif
 
+/* Only the the UI_FLIP_LOAD/SAVE cases are handled by this function, the rest
+ * are handled directly by the UI action handlers.
+ */
 static UI_MENU_CALLBACK(fliplist_callback)
 {
     char *name;
 
     if (activated) {
         switch (vice_ptr_to_int(param)) {
-            case UI_FLIP_ADD:
-                fliplist_add_image(8);
-                break;
-            case UI_FLIP_REMOVE:
-                fliplist_remove(8, NULL);
-                break;
-            case UI_FLIP_NEXT:
-                fliplist_attach_head(8, 1);
-                break;
-            case UI_FLIP_PREVIOUS:
-                fliplist_attach_head(8, 0);
-                break;
             case UI_FLIP_LOAD:
                 name = sdl_ui_file_selection_dialog("Select fliplist to load", FILEREQ_MODE_CHOOSE_FILE);
                 if (name != NULL) {
@@ -301,9 +299,9 @@ static UI_MENU_CALLBACK(fliplist_callback)
                     }
                     lib_free(name);
                 }
+                ui_action_finish(ACTION_FLIPLIST_LOAD_8_0);
                 break;
-            case UI_FLIP_SAVE:
-            default:
+            case UI_FLIP_SAVE:  /* weird fallthrough? */
                 name = sdl_ui_file_selection_dialog("Select fliplist to save", FILEREQ_MODE_SAVE_FILE);
                 if (name != NULL) {
                     util_add_extension(&name, "vfl");
@@ -312,7 +310,10 @@ static UI_MENU_CALLBACK(fliplist_callback)
                     }
                     lib_free(name);
                 }
+                ui_action_finish(ACTION_FLIPLIST_SAVE_8_0);
                 break;
+            default:
+                log_warning(LOG_DEFAULT, "%s(): shouldn't get here!", __func__);
         }
     }
     return NULL;
@@ -502,29 +503,34 @@ static UI_MENU_CALLBACK(set_par_callback)
     return NULL;
 }
 
-#define DRIVE_PARALLEL_MENU(x)                                   \
-    static ui_menu_entry_t drive_##x##_parallel_menu[] = {       \
-        { "None",                                                \
-          MENU_ENTRY_OTHER_TOGGLE,                               \
-          set_par_callback,                                      \
-          (ui_callback_data_t)(DRIVE_PC_NONE + (x << 16)) },     \
-        { "Standard",                                            \
-          MENU_ENTRY_OTHER_TOGGLE,                               \
-          set_par_callback,                                      \
-          (ui_callback_data_t)(DRIVE_PC_STANDARD + (x << 16)) }, \
-        { "Dolphin DOS",                                         \
-          MENU_ENTRY_OTHER_TOGGLE,                               \
-          set_par_callback,                                      \
-          (ui_callback_data_t)(DRIVE_PC_DD3 + (x << 16)) },      \
-        { "Formel 64",                                           \
-          MENU_ENTRY_OTHER_TOGGLE,                               \
-          set_par_callback,                                      \
-          (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x << 16)) }, \
-        { "21sec backup",                                        \
-          MENU_ENTRY_OTHER_TOGGLE,                               \
-          set_par_callback,                                      \
-          (ui_callback_data_t)(DRIVE_PC_21SEC_BACKUP + (x << 16)) }, \
-        SDL_MENU_LIST_END                                        \
+#define DRIVE_PARALLEL_MENU(x)                                                  \
+    static ui_menu_entry_t drive_##x##_parallel_menu[] = {                      \
+        {   .string   = "None",                                                 \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_par_callback,                                       \
+            .data     = (ui_callback_data_t)(DRIVE_PC_NONE + (x << 16))         \
+        },                                                                      \
+        {   .string   = "Standard",                                             \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_par_callback,                                       \
+            .data     = (ui_callback_data_t)(DRIVE_PC_STANDARD + (x << 16))     \
+        },                                                                      \
+        {   .string   = "Dolphin DOS",                                          \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_par_callback,                                       \
+            .data     = (ui_callback_data_t)(DRIVE_PC_DD3 + (x << 16))          \
+        },                                                                      \
+        {   .string   = "Formel 64",                                            \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_par_callback,                                       \
+            .data     = (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x << 16))     \
+        },                                                                      \
+        {   .string   = "21sec backup",                                         \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_par_callback,                                       \
+            .data     = (ui_callback_data_t)(DRIVE_PC_21SEC_BACKUP + (x << 16)) \
+        },                                                                      \
+        SDL_MENU_LIST_END                                                       \
     };
 
 DRIVE_PARALLEL_MENU(8)
@@ -702,6 +708,9 @@ static UI_MENU_CALLBACK(set_disk_type_callback)
     return NULL;
 }
 
+/* XXX: Can be refactored into a dialog implementation when UI actions are
+ *      supported by hotkeys/joymappings
+ */
 static UI_MENU_CALLBACK(create_disk_image_callback)
 {
     char *name = NULL;
@@ -747,89 +756,106 @@ static UI_MENU_CALLBACK(create_disk_image_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_DRIVE_CREATE);
     }
     return NULL;
 }
 
 static const ui_menu_entry_t create_disk_image_type_menu[] = {
-    { "D64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D64 },
-    { "D67",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D67 },
-    { "D71",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D71 },
-    { "D80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D80 },
-    { "D81",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D81 },
-    { "D82",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D82 },
-    { "D90",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D90 },
-    { "D1M",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D1M },
-    { "D2M",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D2M },
-    { "D4M",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D4M },
-    { "G64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_G64 },
-    { "G71",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_G71 },
-    { "P64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_P64 },
+    {   .string   = "D64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D64
+    },
+    {   .string   = "D67",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D67
+    },
+    {   .string   = "D71",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D71
+    },
+    {   .string   = "D80",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D80
+    },
+    {   .string   = "D81",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D81
+    },
+    {   .string   = "D82",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D82
+    },
+    {   .string   = "D90",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D90
+    },
+    {   .string   = "D1M",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D1M
+    },
+    {   .string   = "D2M",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D2M
+    },
+    {   .string   = "D4M",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_D4M
+    },
+    {   .string   = "G64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_G64
+    },
+    {   .string   = "G71",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_G71
+    },
+    {   .string   = "P64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_P64
+    },
 #ifdef HAVE_X64_IMAGE
-    { "X64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_X64 },
+    {   .string   = "X64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = set_disk_type_callback,
+        .data     = (ui_callback_data_t)DISK_IMAGE_TYPE_X64
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t create_disk_image_menu[] = {
-    { "Image type",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)create_disk_image_type_menu },
-    { "Create",
-      MENU_ENTRY_DIALOG,
-      create_disk_image_callback,
-      NULL },
+    {   .string   = "Image type",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)create_disk_image_type_menu
+    },
+    {   .action   = ACTION_DRIVE_CREATE,
+        .string   = "Create",
+        .type     =  MENU_ENTRY_DIALOG,
+        .callback = create_disk_image_callback
+    },
     SDL_MENU_LIST_END
 };
 
-#define DRIVE_TYPE_ITEM(text, data) \
-    { text,                         \
-      MENU_ENTRY_OTHER_TOGGLE,      \
-      set_drive_type_callback,      \
-      (ui_callback_data_t)(data) },
+#define DRIVE_TYPE_ITEM(text, _data)              \
+    {   .string   = text,                         \
+        .type     = MENU_ENTRY_OTHER_TOGGLE,      \
+        .callback = set_drive_type_callback,      \
+        .data     = (ui_callback_data_t)(_data) },
 
 #ifdef HAVE_REALDEVICE
 #define DRIVE_TYPE_ITEM_OPENCBM(text, data) DRIVE_TYPE_ITEM(text, data)
@@ -871,22 +897,26 @@ DRIVE_TYPE_MENU(11)
 
 #define DRIVE_FSDIR_MENU(x)                                   \
     static const ui_menu_entry_t drive_##x##_fsdir_menu[] = { \
-        { "Choose directory",                                 \
-          MENU_ENTRY_DIALOG,                                  \
-          set_directory_callback,                             \
-          (ui_callback_data_t)x },                            \
-        { "Read P00 files",                                   \
-          MENU_ENTRY_OTHER_TOGGLE,                            \
-          set_read_p00_files_callback,                        \
-          (ui_callback_data_t)x },                            \
-        { "Write P00 files",                                  \
-          MENU_ENTRY_OTHER_TOGGLE,                            \
-          set_write_p00_files_callback,                       \
-          (ui_callback_data_t)x },                            \
-        { "Hide non-P00 files",                               \
-          MENU_ENTRY_OTHER_TOGGLE,                            \
-          set_hide_p00_files_callback,                        \
-          (ui_callback_data_t)x },                            \
+        {   .string   = "Choose directory",                   \
+            .type     = MENU_ENTRY_DIALOG,                    \
+            .callback = set_directory_callback,               \
+            .data     = (ui_callback_data_t)x                 \
+        },                                                    \
+        {   .string   = "Read P00 files",                     \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,              \
+            .callback = set_read_p00_files_callback,          \
+            .data     = (ui_callback_data_t)x                 \
+        },                                                    \
+        {   .string   = "Write P00 files",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,              \
+            .callback = set_write_p00_files_callback,         \
+            .data     = (ui_callback_data_t)x                 \
+        },                                                    \
+        {   .string   = "Hide non-P00 files",                 \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,              \
+            .callback = set_hide_p00_files_callback,          \
+            .data     = (ui_callback_data_t)x                 \
+        },                                                    \
         SDL_MENU_LIST_END                                     \
     };
 
@@ -895,20 +925,23 @@ DRIVE_FSDIR_MENU(9)
 DRIVE_FSDIR_MENU(10)
 DRIVE_FSDIR_MENU(11)
 
-#define DRIVE_EXTEND_MENU(x)                                      \
-    static const ui_menu_entry_t drive_##x##_extend_menu[] = {    \
-        { "Never extend",                                         \
-          MENU_ENTRY_OTHER_TOGGLE,                                \
-          set_extend_callback,                                    \
-          (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (x << 8)) },  \
-        { "Ask on extend",                                        \
-          MENU_ENTRY_OTHER_TOGGLE,                                \
-          set_extend_callback,                                    \
-          (ui_callback_data_t)(DRIVE_EXTEND_ASK + (x << 8)) },    \
-        { "Extend on access",                                     \
-          MENU_ENTRY_OTHER_TOGGLE,                                \
-          set_extend_callback,                                    \
-          (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x << 8)) }, \
+#define DRIVE_EXTEND_MENU(x)                                                 \
+    static const ui_menu_entry_t drive_##x##_extend_menu[] = {               \
+        {   .string   = "Never extend",                                      \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                             \
+            .callback = set_extend_callback,                                 \
+            .data     =  (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (x << 8)) \
+        },                                                                   \
+        {   .string   = "Ask on extend",                                     \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                             \
+            .callback = set_extend_callback,                                 \
+            .data     = (ui_callback_data_t)(DRIVE_EXTEND_ASK + (x << 8))    \
+        },                                                                   \
+        {   .string   = "Extend on access",                                  \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                             \
+            .callback = set_extend_callback,                                 \
+            .data     = (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x << 8)) \
+        },                                                                   \
         SDL_MENU_LIST_END                                         \
     };
 
@@ -917,29 +950,34 @@ DRIVE_EXTEND_MENU(9)
 DRIVE_EXTEND_MENU(10)
 DRIVE_EXTEND_MENU(11)
 
-#define DRIVE_EXPAND_MENU(x)                                   \
-    static const ui_menu_entry_t drive_##x##_expand_menu[] = { \
-        { "RAM at $2000-$3FFF",                                \
-          MENU_ENTRY_OTHER_TOGGLE,                             \
-          set_expand_callback,                                 \
-          (ui_callback_data_t)(0x2000 + (x << 16)) },          \
-        { "RAM at $4000-$5FFF",                                \
-          MENU_ENTRY_OTHER_TOGGLE,                             \
-          set_expand_callback,                                 \
-          (ui_callback_data_t)(0x4000 + (x << 16)) },          \
-        { "RAM at $6000-$7FFF",                                \
-          MENU_ENTRY_OTHER_TOGGLE,                             \
-          set_expand_callback,                                 \
-          (ui_callback_data_t)(0x6000 + (x << 16)) },          \
-        { "RAM at $8000-$9FFF",                                \
-          MENU_ENTRY_OTHER_TOGGLE,                             \
-          set_expand_callback,                                 \
-          (ui_callback_data_t)(0x8000 + (x << 16)) },          \
-        { "RAM at $A000-$BFFF",                                \
-          MENU_ENTRY_OTHER_TOGGLE,                             \
-          set_expand_callback,                                 \
-          (ui_callback_data_t)(0xa000 + (x << 16)) },          \
-        SDL_MENU_LIST_END                                      \
+#define DRIVE_EXPAND_MENU(x)                                     \
+    static const ui_menu_entry_t drive_##x##_expand_menu[] = {   \
+        {   .string   = "RAM at $2000-$3FFF",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                 \
+            .callback = set_expand_callback,                     \
+            .data     = (ui_callback_data_t)(0x2000 + (x << 16)) \
+        },                                                       \
+        {   .string   = "RAM at $4000-$5FFF",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                 \
+            .callback = set_expand_callback,                     \
+            .data     = (ui_callback_data_t)(0x4000 + (x << 16)) \
+        },                                                       \
+        {   .string   = "RAM at $6000-$7FFF",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                 \
+            .callback = set_expand_callback,                     \
+            .data     = (ui_callback_data_t)(0x6000 + (x << 16)) \
+        },                                                       \
+        {   .string   = "RAM at $8000-$9FFF",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                 \
+            .callback =  set_expand_callback,                    \
+            .data     = (ui_callback_data_t)(0x8000 + (x << 16)) \
+        },                                                       \
+        {   .string   = "RAM at $A000-$BFFF",                    \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                 \
+            .callback = set_expand_callback,                     \
+            .data     = (ui_callback_data_t)(0xa000 + (x << 16)) \
+        },                                                       \
+        SDL_MENU_LIST_END                                        \
     };
 
 DRIVE_EXPAND_MENU(8)
@@ -950,25 +988,29 @@ DRIVE_EXPAND_MENU(11)
 UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
 UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
 
-#define DRIVE_EXBOARD_MENU(x)                                          \
-    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {        \
-        { "Professional DOS 1571",                                     \
-          MENU_ENTRY_OTHER_TOGGLE,                                     \
-          set_exboard_callback,                                        \
-          (ui_callback_data_t)(0 + (x << 16)) },                       \
-        { "Professional DOS 1571 ROM file",                            \
-          MENU_ENTRY_DIALOG,                                           \
-          file_string_DriveProfDOS1571Name_callback,                   \
-          (ui_callback_data_t)"Set Professional DOS 1571 ROM image" }, \
-        { "Supercard+",                                                \
-          MENU_ENTRY_OTHER_TOGGLE,                                     \
-          set_exboard_callback,                                        \
-          (ui_callback_data_t)(1 + (x << 16)) },                       \
-        { "Supercard+ ROM file",                                       \
-          MENU_ENTRY_DIALOG,                                           \
-          file_string_DriveSuperCardName_callback,                     \
-          (ui_callback_data_t)"Set Supercard+ ROM image" },            \
-        SDL_MENU_LIST_END                                              \
+#define DRIVE_EXBOARD_MENU(x)                                                     \
+    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
+        {   .string   = "Professional DOS 1571",                                  \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
+            .callback = set_exboard_callback,                                     \
+            .data     = (ui_callback_data_t)(0 + (x << 16))                       \
+        },                                                                        \
+        {   .string   = "Professional DOS 1571 ROM file",                         \
+            .type     = MENU_ENTRY_DIALOG,                                        \
+            .callback = file_string_DriveProfDOS1571Name_callback,                \
+            .data     = (ui_callback_data_t)"Set Professional DOS 1571 ROM image" \
+        },                                                                        \
+        {   .string   = "Supercard+",                                             \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
+            .callback = set_exboard_callback,                                     \
+            .data     = (ui_callback_data_t)(1 + (x << 16))                       \
+        },                                                                        \
+        {   .string   = "Supercard+ ROM file",                                    \
+            .type     = MENU_ENTRY_DIALOG,                                        \
+            .callback = file_string_DriveSuperCardName_callback,                  \
+            .data     = (ui_callback_data_t)"Set Supercard+ ROM image"            \
+        },                                                                        \
+        SDL_MENU_LIST_END                                                         \
     };
 
 DRIVE_EXBOARD_MENU(8)
@@ -976,21 +1018,24 @@ DRIVE_EXBOARD_MENU(9)
 DRIVE_EXBOARD_MENU(10)
 DRIVE_EXBOARD_MENU(11)
 
-#define DRIVE_IDLE_MENU(x)                                           \
-    static const ui_menu_entry_t drive_##x##_idle_menu[] = {         \
-        { "None",                                                    \
-          MENU_ENTRY_OTHER_TOGGLE,                                   \
-          set_idle_callback,                                         \
-          (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (x << 8)) },     \
-        { "Skip cycles",                                             \
-          MENU_ENTRY_OTHER_TOGGLE,                                   \
-          set_idle_callback,                                         \
-          (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (x << 8)) }, \
-        { "Trap idle",                                               \
-          MENU_ENTRY_OTHER_TOGGLE,                                   \
-          set_idle_callback,                                         \
-          (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x << 8)) },   \
-        SDL_MENU_LIST_END                                            \
+#define DRIVE_IDLE_MENU(x)                                                      \
+    static const ui_menu_entry_t drive_##x##_idle_menu[] = {                    \
+        {   .string   = "None",                                                 \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_idle_callback,                                      \
+            .data     = (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (x << 8))     \
+        },                                                                      \
+        {   .string   = "Skip cycles",                                          \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_idle_callback,                                      \
+            .data     = (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (x << 8)) \
+        },                                                                      \
+        {   .string   = "Trap idle",                                            \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_idle_callback,                                      \
+            .data     = (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x << 8))   \
+        },                                                                      \
+        SDL_MENU_LIST_END                                                       \
     };
 
 DRIVE_IDLE_MENU(8)
@@ -1036,77 +1081,72 @@ UI_MENU_DEFINE_STRING(Drive11FixedSize)
 #define DRIVE_SETTINGS_OFFSET_IEEE_END     16
 #define DRIVE_SETTINGS_OFFSET_DRIVE_RTC    19
 
-#define DRIVE_MENU(x)                                           \
-    static ui_menu_entry_t drive_##x##_menu[] = {               \
-/* 0  */{ "Drive " #x " type",                                  \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_type_callback,                       \
-          (ui_callback_data_t)drive_##x##_type_menu },          \
-/* 1  */{ "Drive " #x " dir settings",                          \
-          MENU_ENTRY_SUBMENU,                                   \
-          submenu_callback,                                     \
-          (ui_callback_data_t)drive_##x##_fsdir_menu },         \
-/* 2  */{ "Drive " #x " extra tracks handling",                 \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_extend_callback,                     \
-          (ui_callback_data_t)drive_##x##_extend_menu },        \
-/* 3  */{ "Drive " #x " expansion memory",                      \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_expand_callback,                     \
-          (ui_callback_data_t)drive_##x##_expand_menu },        \
-/* 4  */{ "Drive " #x " expansion board",                       \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_exboard_callback,                    \
-          (ui_callback_data_t)drive_##x##_exboard_menu },       \
-/* 5  */{ "Drive " #x " idle method",                           \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_idle_callback,                       \
-          (ui_callback_data_t)drive_##x##_idle_menu },          \
-/* 6  */{ "Drive " #x " parallel cable",                        \
-          MENU_ENTRY_SUBMENU,                                   \
-          drive_##x##_show_parallel_callback,                   \
-          (ui_callback_data_t)drive_##x##_parallel_menu },      \
-/* 7  */{ "Drive " #x " RPM*100",                               \
-          MENU_ENTRY_RESOURCE_INT,                              \
-          slider_Drive##x##RPM_callback,                        \
-          (ui_callback_data_t)"Set RPM (29500-30500)" },        \
-/* 8  */{ "Drive " #x " wobble frequency",                      \
-          MENU_ENTRY_RESOURCE_INT,                              \
-          slider_Drive##x##WobbleFrequency_callback,            \
-          (ui_callback_data_t)"Set Wobble frequency (0-10000)" }, \
-/* 9  */{ "Drive " #x " wobble amplitude",                      \
-          MENU_ENTRY_RESOURCE_INT,                              \
-          slider_Drive##x##WobbleAmplitude_callback,            \
-          (ui_callback_data_t)"Set Wobble (0-5000)" },          \
-/* 10 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 11 */{ "Attach Drive " #x" drive 0 read only",               \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_AttachDevice##x##d0Readonly_callback,          \
-          NULL },                                               \
-/* 12 */{ "Attach Drive " #x" drive 1 read only",               \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_AttachDevice##x##d1Readonly_callback,          \
-          NULL },                                               \
-/* 13 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 14 */{ "Drive " #x" True Drive Emulation",                   \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_Drive##x##TrueEmulation_callback,              \
-          NULL },                                               \
-/* 15 */{ "Drive " #x" Virtual Device",                         \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_VirtualDevice##x##_callback,                   \
-          NULL },                                               \
-/* 16 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 17 */{ "CMD HD fixed size",                                  \
-          MENU_ENTRY_RESOURCE_STRING,                           \
-          string_Drive##x##FixedSize_callback,                  \
-          (ui_callback_data_t)"Set CMD HD fixed size" },        \
-/* 18 */SDL_MENU_ITEM_SEPARATOR,                                \
-/* 19 */{ "Save Drive " #x" CMD RTC data",                      \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          toggle_Drive##x##RTCSave_callback,                    \
-          NULL },                                               \
-        SDL_MENU_LIST_END                                       \
+#define DRIVE_MENU(x)                                                           \
+    static ui_menu_entry_t drive_##x##_menu[] = {                               \
+/* 0  */{   .string   = "Drive " #x " type",                                    \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_type_callback,                         \
+            .data     = (ui_callback_data_t)drive_##x##_type_menu },            \
+/* 1  */{   .string   = "Drive " #x " dir settings",                            \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = submenu_callback,                                       \
+            .data     = (ui_callback_data_t)drive_##x##_fsdir_menu },           \
+/* 2  */{   .string   = "Drive " #x " extra tracks handling",                   \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_extend_callback,                       \
+            .data     = (ui_callback_data_t)drive_##x##_extend_menu },          \
+/* 3  */{   .string   = "Drive " #x " expansion memory",                        \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_expand_callback,                       \
+            .data     = (ui_callback_data_t)drive_##x##_expand_menu },          \
+/* 4  */{   .string   = "Drive " #x " expansion board",                         \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_exboard_callback,                      \
+            .data     = (ui_callback_data_t)drive_##x##_exboard_menu },         \
+/* 5  */{   .string   = "Drive " #x " idle method",                             \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_idle_callback,                         \
+            .data     = (ui_callback_data_t)drive_##x##_idle_menu },            \
+/* 6  */{   .string   = "Drive " #x " parallel cable",                          \
+            .type     = MENU_ENTRY_SUBMENU,                                     \
+            .callback = drive_##x##_show_parallel_callback,                     \
+            .data     = (ui_callback_data_t)drive_##x##_parallel_menu },        \
+/* 7  */{   .string   = "Drive " #x " RPM*100",                                 \
+            .type     = MENU_ENTRY_RESOURCE_INT,                                \
+            .callback = slider_Drive##x##RPM_callback,                          \
+            .data     = (ui_callback_data_t)"Set RPM (29500-30500)" },          \
+/* 8  */{   .string   = "Drive " #x " wobble frequency",                        \
+            .type     = MENU_ENTRY_RESOURCE_INT,                                \
+            .callback = slider_Drive##x##WobbleFrequency_callback,              \
+            .data     = (ui_callback_data_t)"Set Wobble frequency (0-10000)" }, \
+/* 9  */{   .string   = "Drive " #x " wobble amplitude",                        \
+            .type     = MENU_ENTRY_RESOURCE_INT,                                \
+            .callback = slider_Drive##x##WobbleAmplitude_callback,              \
+            .data     = (ui_callback_data_t)"Set Wobble (0-5000)" },            \
+/* 10 */SDL_MENU_ITEM_SEPARATOR,                                                \
+/* 11 */{   .string   = "Attach Drive " #x" drive 0 read only",                 \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+            .callback = toggle_AttachDevice##x##d0Readonly_callback },          \
+/* 12 */{   .string   = "Attach Drive " #x" drive 1 read only",                 \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+            .callback = toggle_AttachDevice##x##d1Readonly_callback },          \
+/* 13 */SDL_MENU_ITEM_SEPARATOR,                                                \
+/* 14 */{   .string   = "Drive " #x" True Drive Emulation",                     \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+            .callback = toggle_Drive##x##TrueEmulation_callback },              \
+/* 15 */{   .string   = "Drive " #x" Virtual Device",                           \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+            .callback = toggle_VirtualDevice##x##_callback },                   \
+/* 16 */SDL_MENU_ITEM_SEPARATOR,                                                \
+/* 17 */{   .string   = "CMD HD fixed size",                                    \
+            .type     = MENU_ENTRY_RESOURCE_STRING,                             \
+            .callback = string_Drive##x##FixedSize_callback,                    \
+            .data     = (ui_callback_data_t)"Set CMD HD fixed size" },          \
+/* 18 */SDL_MENU_ITEM_SEPARATOR,                                                \
+/* 19 */{   .string   = "Save Drive " #x" CMD RTC data",                        \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+            .callback = toggle_Drive##x##RTCSave_callback },                    \
+        SDL_MENU_LIST_END                                                       \
     };
 
 
@@ -1116,30 +1156,34 @@ DRIVE_MENU(10)
 DRIVE_MENU(11)
 
 static const ui_menu_entry_t fliplist_menu[] = {
-    { "Add current image to fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_ADD },
-    { "Remove current image from fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_REMOVE },
-    { "Attach next image in fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_NEXT },
-    { "Attach previous image in fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_PREVIOUS },
-    { "Load fliplist",
-      MENU_ENTRY_DIALOG,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_LOAD },
-    { "Save fliplist",
-      MENU_ENTRY_DIALOG,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_SAVE },
+    {   .action   = ACTION_FLIPLIST_ADD_8_0,
+        .string   = "Add current image to fliplist",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_FLIPLIST_REMOVE_8_0,
+        .string   = "Remove current image from fliplist",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_FLIPLIST_NEXT_8_0,
+        .string   = "Attach next image in fliplist",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_FLIPLIST_PREVIOUS_8_0,
+        .string   = "Attach previous image in fliplist",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_FLIPLIST_LOAD_8_0,
+        .string   = "Load fliplist",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = fliplist_callback,
+        .data     = (ui_callback_data_t)UI_FLIP_LOAD
+    },
+    {  .action    = ACTION_FLIPLIST_SAVE_8_0,
+       .string    = "Save fliplist",
+       .type      = MENU_ENTRY_DIALOG,
+       .callback  = fliplist_callback,
+       .data      = (ui_callback_data_t)UI_FLIP_SAVE
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1187,53 +1231,59 @@ static UI_MENU_CALLBACK(custom_AutostartDelay_callback)
 
 
 static const ui_menu_entry_t autostart_settings_menu[] = {
-    { "Handle TDE on autostart",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartHandleTrueDriveEmulation_callback,
-      NULL },
-    { "Autostart warp",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartWarp_callback,
-      NULL },
-    { "Autostart delay",
-      MENU_ENTRY_RESOURCE_INT,
-      custom_AutostartDelay_callback,
-      NULL },
-    { "Autostart random delay",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartDelayRandom_callback,
-      NULL },
-    { "Load to BASIC start (tape)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartTapeBasicLoad_callback,
-      NULL },
-    { "Load to BASIC start (disk)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartBasicLoad_callback,
-      NULL },
-    { "Use ':' with RUN",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartRunWithColon_callback,
-      NULL },
+    {   .string   = "Handle TDE on autostart",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartHandleTrueDriveEmulation_callback
+    },
+    {   .string   = "Autostart warp",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartWarp_callback
+    },
+    {   .string   = "Autostart delay",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = custom_AutostartDelay_callback
+    },
+    {   .string   = "Autostart random delay",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartDelayRandom_callback
+    },
+    {   .string   = "Load to BASIC start (tape)",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartTapeBasicLoad_callback
+    },
+    {   .string   = "Load to BASIC start (disk)",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartBasicLoad_callback
+    },
+    {   .string   = "Use ':' with RUN",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_AutostartRunWithColon_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Autostart PRG mode"),
-    { "VirtualFS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS },
-    { "Inject",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT },
-    { "Disk image",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK },
+    {   .string   = "VirtualFS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartPrgMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS
+    },
+    {   .string   = "Inject",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartPrgMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT
+    },
+    {   .string   = "Disk image",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartPrgMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autostart disk image",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AutostartPrgDiskImage_callback,
-      (ui_callback_data_t)"Disk image for autostarting PRG files" },
+
+    {   .string   = "Autostart disk image",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_AutostartPrgDiskImage_callback,
+        .data     = (ui_callback_data_t)"Disk image for autostarting PRG files"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1264,126 +1314,188 @@ ui_menu_entry_t drive_menu_no_iec[] = {
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 ui_menu_entry_t drive_menu_template[] = {
     /* start of hardcoded offsets in uidrive_menu_create() */
-/* 0  */{ "Attach disk image to drive 8",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)8 },
-/* 1  */{ "Attach disk image to drive 8:1",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)(8 | (1 << 8)), MENU_STATUS_NA },
-/* 2  */{ "Attach disk image to drive 9",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)9 },
-/* 3  */{ "Attach disk image to drive 9:1",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)(9 | (1 << 8)) },
-/* 4  */{ "Attach disk image to drive 10",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)10 },
-/* 5  */{ "Attach disk image to drive 10:1",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)(10 | (1 << 8)) },
-/* 6  */{ "Attach disk image to drive 11",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)11 },
-/* 7  */{ "Attach disk image to drive 11:1",
-          MENU_ENTRY_DIALOG,
-          attach_disk_callback,
-          (ui_callback_data_t)(11 | (1 << 8)) },
-        SDL_MENU_ITEM_SEPARATOR,
-/* 8  */{ "Detach disk image from drive 8",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)8 },
-/* 9  */{ "Detach disk image from drive 8:1",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)(8 | (1 << 8)) },
-/* 10 */{ "Detach disk image from drive 9",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)9 },
-/* 11 */{ "Detach disk image from drive 9:1",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)(9 | (1 << 8)) },
-/* 12 */{ "Detach disk image from drive 10",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)10 },
-/* 13 */{ "Detach disk image from drive 10:1",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)(10 | (1 << 8)) },
-/* 14 */{ "Detach disk image from drive 11",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)11 },
-/* 15 */{ "Detach disk image from drive 11:1",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)(11 | (1 << 8)) },
-        /* end of hardcoded offsets in uidrive_menu_create() */
-        SDL_MENU_ITEM_SEPARATOR,
-/* 16 */{ "Detach all disk images",
-          MENU_ENTRY_OTHER,
-          detach_disk_callback,
-          (ui_callback_data_t)0 },
-/* 17 */{ "Create new disk image",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)create_disk_image_menu },
-        SDL_MENU_ITEM_SEPARATOR,
-/* 18 */{ "Drive 8 settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)drive_8_menu },
-/* 19 */{ "Drive 9 settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)drive_9_menu },
-/* 20 */{ "Drive 10 settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)drive_10_menu },
-/* 21 */{ "Drive 11 settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)drive_11_menu },
-        SDL_MENU_ITEM_SEPARATOR,
-/* 22 */{ "Drive sound emulation",
-          MENU_ENTRY_RESOURCE_TOGGLE,
-          toggle_DriveSoundEmulation_callback,
-          NULL },
-/* 23 */{ "Drive sound Volume",
-          MENU_ENTRY_DIALOG,
-          custom_drive_volume_callback,
-          NULL },
-        SDL_MENU_ITEM_SEPARATOR,
-/* 24 */{ "FS-Device uses long names",
-          MENU_ENTRY_RESOURCE_TOGGLE,
-          toggle_FSDeviceLongNames_callback,
-          NULL },
-/* 25 */{ "FS-Device always overwrites",
-          MENU_ENTRY_RESOURCE_TOGGLE,
-          toggle_FSDeviceOverwrite_callback,
-          NULL },
-        SDL_MENU_ITEM_SEPARATOR,
-/* 26 */{ "Autostart settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)autostart_settings_menu },
-/* 27 */{ "Fliplist settings",
-          MENU_ENTRY_SUBMENU,
-          submenu_callback,
-          (ui_callback_data_t)fliplist_menu },
-        SDL_MENU_LIST_END
+/* 0  */
+    {   .action   = ACTION_DRIVE_ATTACH_8_0,
+        .string   = "Attach disk image to drive 8",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(8, 0)
+    },
+/* 1  */
+    {   .action   = ACTION_DRIVE_ATTACH_8_1,
+        .string   = "Attach disk image to drive 8:1",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(8, 1),
+        .status   = MENU_STATUS_NA
+    },
+/* 2  */
+    {   .action   = ACTION_DRIVE_ATTACH_9_0,
+        .string   = "Attach disk image to drive 9",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(9, 0)
+    },
+/* 3  */
+    {   .action   = ACTION_DRIVE_ATTACH_9_1,
+        .string   = "Attach disk image to drive 9:1",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(9, 1),
+        .status   = MENU_STATUS_NA
+    },
+/* 4  */
+    {   .action   = ACTION_DRIVE_ATTACH_10_0,
+        .string   = "Attach disk image to drive 10",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(10, 0),
+    },
+/* 5 */
+    {   .action   = ACTION_DRIVE_ATTACH_10_1,
+        .string   = "Attach disk image to drive 10:1",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(10, 1),
+        .status   = MENU_STATUS_NA
+    },
+/* 6  */
+    {   .action   = ACTION_DRIVE_ATTACH_11_0,
+        .string   = "Attach disk image to drive 11",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(11, 0),
+    },
+/* 7 */
+    {   .action   = ACTION_DRIVE_ATTACH_11_1,
+        .string   = "Attach disk image to drive 11:1",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_disk_callback,
+        .data     = UNIT_DRIVE_TO_PTR(11, 1),
+        .status   = MENU_STATUS_NA
+    },
+/* 8 */
+    {   .action   = ACTION_DRIVE_DETACH_8_0,
+        .string   = "Detach disk image from drive 8",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 9 */
+    {   .action   = ACTION_DRIVE_DETACH_8_1,
+        .string   = "Detach disk image from drive 8:1",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 10 */
+    {   .action   = ACTION_DRIVE_DETACH_9_0,
+        .string   = "Detach disk image from drive 9",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 11 */
+    {   .action   = ACTION_DRIVE_DETACH_9_1,
+        .string   = "Detach disk image from drive 9:1",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 12 */
+    {   .action   = ACTION_DRIVE_DETACH_10_0,
+        .string   = "Detach disk image from drive 10",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 13 */
+    {   .action   = ACTION_DRIVE_DETACH_10_1,
+        .string   = "Detach disk image from drive 10:1",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 14 */
+    {   .action   = ACTION_DRIVE_DETACH_11_0,
+        .string   = "Detach disk image from drive 11",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 15 */
+    {   .action   = ACTION_DRIVE_DETACH_11_1,
+        .string   = "Detach disk image from drive 11:1",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    /* end of hardcoded offsets in uidrive_menu_create() */
+    SDL_MENU_ITEM_SEPARATOR,
+
+    /* the comments below indicating menu index(?) appear to be incorrect and
+     * not count the menu item separators */
+/* 16 */
+    {   .action   = ACTION_DRIVE_DETACH_ALL,
+        .string   = "Detach all disk images",
+        .type     = MENU_ENTRY_OTHER,
+    },
+/* 17 */
+    {   .string   = "Create new disk image",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)create_disk_image_menu
+    },
+
+    SDL_MENU_ITEM_SEPARATOR,
+
+/* 18 */
+    {   .string   = "Drive 8 settings",
+        .type     =  MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)drive_8_menu
+    },
+/* 19 */
+    {   .string   = "Drive 9 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)drive_9_menu
+    },
+/* 20 */
+    {   .string   = "Drive 10 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)drive_10_menu
+    },
+/* 21 */
+    {   .string   = "Drive 11 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)drive_11_menu
+    },
+
+    SDL_MENU_ITEM_SEPARATOR,
+/* 22 */
+    {   .string   = "Drive sound emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DriveSoundEmulation_callback
+    },
+/* 23 */
+    {   .string   = "Drive sound Volume",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_drive_volume_callback
+    },
+
+    SDL_MENU_ITEM_SEPARATOR,
+/* 24 */
+    {   .string   = "FS-Device uses long names",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_FSDeviceLongNames_callback
+    },
+/* 25 */
+    {   .string   = "FS-Device always overwrites",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_FSDeviceOverwrite_callback
+    },
+
+    SDL_MENU_ITEM_SEPARATOR,
+/* 26 */
+    {   .string   = "Autostart settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)autostart_settings_menu
+    },
+/* 27 */
+    {   .string   = "Fliplist settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)fliplist_menu
+    },
+    SDL_MENU_LIST_END
 };
 
 ui_menu_entry_t drive_menu[sizeof(drive_menu_template) / sizeof(ui_menu_entry_t)];
@@ -1418,10 +1530,13 @@ void uidrive_menu_create(int has_driveport)
 
         /* First copy the template to the actual menu */
         for (i = 0; drive_menu_template[i].string != NULL; i++) {
-            drive_menu[i].string = drive_menu_template[i].string;
-            drive_menu[i].type = drive_menu_template[i].type;
-            drive_menu[i].callback = drive_menu_template[i].callback;
-            drive_menu[i].data = drive_menu_template[i].data;
+            drive_menu[i].string    = drive_menu_template[i].string;
+            drive_menu[i].type      = drive_menu_template[i].type;
+            drive_menu[i].callback  = drive_menu_template[i].callback;
+            drive_menu[i].data      = drive_menu_template[i].data;
+            drive_menu[i].action    = drive_menu_template[i].action;
+            drive_menu[i].activated = drive_menu_template[i].activated;
+            drive_menu[i].status    = drive_menu_template[i].status;
         }
         drive_menu[i].string = drive_menu_template[i].string;
         drive_menu[i].type = drive_menu_template[i].type;

@@ -28,13 +28,13 @@
 
 #include <stdio.h>
 
-#include "types.h"
-
+#include "joyport.h"
+#include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
-#include "joyport.h"
+#include "types.h"
+#include "uiactions.h"
 #include "uimenu.h"
-#include "lib.h"
 
 #include "menu_joyport.h"
 
@@ -95,17 +95,14 @@ static const char *joyport_dynmenu_helper(int port)
     if (joyport_port_is_active(port)) {
         devices = joyport_get_valid_devices(port, 1);
         for (i = 0; devices[i].name; ++i) {
-            entry[i].string = (char *)lib_strdup(devices[i].name);
-            entry[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            entry[i].action   = ACTION_NONE;
+            entry[i].string   = lib_strdup(devices[i].name);
+            entry[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             entry[i].callback = uijoyport_device_callbacks[port];
-            entry[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+            entry[i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
         }
 
         entry[i].string = NULL;
-        entry[i].type = 0;
-        entry[i].callback = NULL;
-        entry[i].data = NULL;
-
         lib_free(devices);
 
         return MENU_SUBMENU_STRING;
@@ -193,28 +190,27 @@ void uijoyport_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10, int p1
 
     if (machine_class != VICE_MACHINE_C64DTV) {
         if (p1 || p2) {
-            joyport_menu[j].string = "Save BBRTC data when changed";
-            joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
+            joyport_menu[j].action   = ACTION_NONE;
+            joyport_menu[j].string   = "Save BBRTC data when changed";
+            joyport_menu[j].type     = MENU_ENTRY_RESOURCE_TOGGLE;
             joyport_menu[j].callback = toggle_BBRTCSave_callback;
-            joyport_menu[j].data = NULL;
+            joyport_menu[j].data     = NULL;
             ++j;
         }
     }
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (port_ids[i] != 0) {
-            joyport_menu[j].string = (char *)joyport_get_port_name(i);
-            joyport_menu[j].type = MENU_ENTRY_DYNAMIC_SUBMENU;
+            joyport_menu[j].action   = ACTION_NONE;
+            joyport_menu[j].string   = (char *)joyport_get_port_name(i);
+            joyport_menu[j].type     = MENU_ENTRY_DYNAMIC_SUBMENU;
             joyport_menu[j].callback = uijoyport_callbacks[i];
-            joyport_menu[j].data = (ui_callback_data_t)joyport_dyn_menu[i];
+            joyport_menu[j].data     = (ui_callback_data_t)joyport_dyn_menu[i];
             ++j;
         }
     }
 
     joyport_menu[j].string = NULL;
-    joyport_menu[j].type = MENU_ENTRY_TEXT;
-    joyport_menu[j].callback = NULL;
-    joyport_menu[j].data = NULL;
 }
 
 

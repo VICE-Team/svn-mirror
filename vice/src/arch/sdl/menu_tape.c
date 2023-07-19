@@ -40,6 +40,7 @@
 #include "tape.h"
 #include "tapeport.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "uimsgbox.h"
@@ -74,16 +75,13 @@ static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        tapeport_dyn_menu[TAPEPORT_PORT_1][i].string = (char *)lib_strdup(devices[i].name);
-        tapeport_dyn_menu[TAPEPORT_PORT_1][i].type = MENU_ENTRY_RESOURCE_RADIO;
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].action   = ACTION_NONE;
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].string   = lib_strdup(devices[i].name);
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].type     = MENU_ENTRY_RESOURCE_RADIO;
         tapeport_dyn_menu[TAPEPORT_PORT_1][i].callback = radio_TapePort1Device_callback;
-        tapeport_dyn_menu[TAPEPORT_PORT_1][i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
-
     tapeport_dyn_menu[TAPEPORT_PORT_1][i].string = NULL;
-    tapeport_dyn_menu[TAPEPORT_PORT_1][i].type = 0;
-    tapeport_dyn_menu[TAPEPORT_PORT_1][i].callback = NULL;
-    tapeport_dyn_menu[TAPEPORT_PORT_1][i].data = NULL;
 
     lib_free(devices);
 
@@ -103,16 +101,13 @@ static UI_MENU_CALLBACK(TapePort2Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        tapeport_dyn_menu[TAPEPORT_PORT_2][i].string = (char *)lib_strdup(devices[i].name);
-        tapeport_dyn_menu[TAPEPORT_PORT_2][i].type = MENU_ENTRY_RESOURCE_RADIO;
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].action   = ACTION_NONE;
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].string   = (char *)lib_strdup(devices[i].name);
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].type     = MENU_ENTRY_RESOURCE_RADIO;
         tapeport_dyn_menu[TAPEPORT_PORT_2][i].callback = radio_TapePort2Device_callback;
-        tapeport_dyn_menu[TAPEPORT_PORT_2][i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
-
-    tapeport_dyn_menu[TAPEPORT_PORT_2][i].string = NULL;
-    tapeport_dyn_menu[TAPEPORT_PORT_2][i].type = 0;
-    tapeport_dyn_menu[TAPEPORT_PORT_2][i].callback = NULL;
-    tapeport_dyn_menu[TAPEPORT_PORT_2][i].data = NULL;
+    tapeport_dyn_menu[TAPEPORT_PORT_2][i].string   = NULL;
 
     lib_free(devices);
 
@@ -131,6 +126,7 @@ static UI_MENU_CALLBACK(attach_tape1_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_TAPE_ATTACH_1);
     }
     return NULL;
 }
@@ -147,42 +143,10 @@ static UI_MENU_CALLBACK(attach_tape2_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_TAPE_ATTACH_2);
     }
     return NULL;
 }
-
-static UI_MENU_CALLBACK(detach_tape1_callback)
-{
-    if (activated) {
-        tape_image_detach(TAPEPORT_PORT_1 + 1);
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(detach_tape2_callback)
-{
-    if (activated) {
-        tape_image_detach(TAPEPORT_PORT_2 + 1);
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(custom_datasette_control1_callback)
-{
-    if (activated) {
-        datasette_control(TAPEPORT_PORT_1, vice_ptr_to_int(param));
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(custom_datasette_control2_callback)
-{
-    if (activated) {
-        datasette_control(TAPEPORT_PORT_2, vice_ptr_to_int(param));
-    }
-    return NULL;
-}
-
 
 static UI_MENU_CALLBACK(create_tape_image_callback)
 {
@@ -204,6 +168,7 @@ static UI_MENU_CALLBACK(create_tape_image_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_TAPE_CREATE_1);
     }
     return NULL;
 }
@@ -218,111 +183,124 @@ UI_MENU_DEFINE_TOGGLE(DatasetteSound)
 UI_MENU_DEFINE_TOGGLE(VirtualDevice1)
 
 const ui_menu_entry_t tape_pet_menu[] = {
-    { "Attach tape image to Datasette 1",
-      MENU_ENTRY_DIALOG,
-      attach_tape1_callback,
-      NULL },
-    { "Attach tape image to Datasette 2",
-      MENU_ENTRY_DIALOG,
-      attach_tape2_callback,
-      NULL },
-    { "Detach tape image from Datasette 1",
-      MENU_ENTRY_OTHER,
-      detach_tape1_callback,
-      NULL },
-    { "Detach tape image from Datasette 2",
-      MENU_ENTRY_OTHER,
-      detach_tape2_callback,
-      NULL },
-    { "Create new tape image",
-      MENU_ENTRY_DIALOG,
-      create_tape_image_callback,
-      NULL },
+    {   .action   = ACTION_TAPE_ATTACH_1,
+        .string   = "Attach tape image to Datasette 1",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_tape1_callback
+    },
+    {   .action   = ACTION_TAPE_ATTACH_2,
+        .string   = "Attach tape image to Datasette 2",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_tape2_callback
+    },
+    {   .action   = ACTION_TAPE_DETACH_1,
+        .string   = "Detach tape image from Datasette 1",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_DETACH_2,
+        .string   = "Detach tape image from Datasette 2",
+        .type     = MENU_ENTRY_OTHER
+    },
+    /* unlike the Gtk3 UI, the SDL UI appears to only have a single "Create tape"
+     * menu item/action */
+    {   .action   = ACTION_TAPE_CREATE_1,
+        .string   = "Create new tape image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = create_tape_image_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Datasette 1 control"),
-    { "Stop",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
-    { "Play",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_START },
-    { "Forward",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
-    { "Rewind",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
-    { "Record",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
-    { "Reset",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    {   .action   = ACTION_TAPE_STOP_1,
+        .string   = "Stop",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_PLAY_1,
+        .string   = "Play",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_FFWD_1,
+        .string   = "Forward",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_REWIND_1,
+        .string   = "Rewind",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RECORD_1,
+        .string   = "Record",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RESET_1,
+        .string   = "Reset",
+        .type     = MENU_ENTRY_OTHER
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Datasette 2 control"),
-    { "Stop",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
-    { "Play",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_START },
-    { "Forward",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
-    { "Rewind",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
-    { "Record",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
-    { "Reset",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control2_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    {   .action   = ACTION_TAPE_STOP_2,
+        .string   = "Stop",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_PLAY_2,
+        .string   = "Play",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_FFWD_2,
+        .string   = "Forward",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_REWIND_2,
+        .string   = "Rewind",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RECORD_2,
+        .string   = "Record",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RESET_2,
+        .string   = "Reset",
+        .type     = MENU_ENTRY_OTHER
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Datasette speed tuning",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteSpeedTuning_callback,
-      (ui_callback_data_t)"Set datasette speed tuning" },
-    { "Datasette zero gap delay",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteZeroGapDelay_callback,
-      (ui_callback_data_t)"Set datasette zero gap delay" },
-    { "Datasette tape wobble frequency",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeWobbleFrequency_callback,
-      (ui_callback_data_t)"Set datasette tape wobble frequency" },
-    { "Datasette tape wobble amplitude",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeWobbleAmplitude_callback,
-      (ui_callback_data_t)"Set datasette tape wobble amplitude" },
-    { "Datasette tape alignment",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeAzimuthError_callback,
-      (ui_callback_data_t)"Set datasette alignment error" },
-    { "Reset Datasette on CPU Reset",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DatasetteResetWithCPU_callback,
-      NULL },
-    { "Enable Datasette sound",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DatasetteSound_callback,
-      NULL },
-    { "Enable virtual device (for t64)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice1_callback,
-      NULL },
+
+    {   .string   = "Datasette speed tuning",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteSpeedTuning_callback,
+        .data     = (ui_callback_data_t)"Set datasette speed tuning"
+    },
+    {   .string   = "Datasette zero gap delay",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteZeroGapDelay_callback,
+        .data     = (ui_callback_data_t)"Set datasette zero gap delay"
+    },
+    {   .string   = "Datasette tape wobble frequency",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeWobbleFrequency_callback,
+        .data     = (ui_callback_data_t)"Set datasette tape wobble frequency"
+    },
+    {   .string   = "Datasette tape wobble amplitude",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeWobbleAmplitude_callback,
+        .data     = (ui_callback_data_t)"Set datasette tape wobble amplitude"
+    },
+    {   .string   = "Datasette tape alignment",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeAzimuthError_callback,
+        .data     = (ui_callback_data_t)"Set datasette alignment error"
+    },
+    {   .string   = "Reset Datasette on CPU Reset",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DatasetteResetWithCPU_callback
+    },
+    {   .string   = "Enable Datasette sound",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DatasetteSound_callback
+    },
+    {   .string   = "Enable virtual device (for t64)",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice1_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -332,77 +310,86 @@ ui_menu_entry_t tape_menu_no_tapeport[] = {
 };
 
 const ui_menu_entry_t tape_menu_template[] = {
-    { "Attach tape image",
-      MENU_ENTRY_DIALOG,
-      attach_tape1_callback,
-      NULL },
-    { "Detach tape image",
-      MENU_ENTRY_OTHER,
-      detach_tape1_callback,
-      NULL },
-    { "Create new tape image",
-      MENU_ENTRY_DIALOG,
-      create_tape_image_callback,
-      NULL },
+    {   .action   = ACTION_TAPE_ATTACH_1,
+        .string   = "Attach tape image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_tape1_callback
+    },
+    {   .action   = ACTION_TAPE_DETACH_1,
+        .string   = "Detach tape image",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_CREATE_1,
+        .string   = "Create new tape image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = create_tape_image_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Datasette control"),
-    { "Stop",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
-    { "Play",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_START },
-    { "Forward",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
-    { "Rewind",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
-    { "Record",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
-    { "Reset",
-      MENU_ENTRY_OTHER,
-      custom_datasette_control1_callback,
-      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    {   .action   = ACTION_TAPE_STOP_1,
+        .string   = "Stop",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_PLAY_1,
+        .string   = "Play",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_FFWD_1,
+        .string   = "Forward",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_REWIND_1,
+        .string   = "Rewind",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RECORD_1,
+        .string   = "Record",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_TAPE_RESET_1,
+        .string   = "Reset",
+        .type     = MENU_ENTRY_OTHER
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Datasette speed tuning",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteSpeedTuning_callback,
-      (ui_callback_data_t)"Set datasette speed tuning" },
-    { "Datasette zero gap delay",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteZeroGapDelay_callback,
-      (ui_callback_data_t)"Set datasette zero gap delay" },
-    { "Datasette tape wobble frequency",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeWobbleFrequency_callback,
-      (ui_callback_data_t)"Set datasette tape wobble frequency" },
-    { "Datasette tape wobble amplitude",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeWobbleAmplitude_callback,
-      (ui_callback_data_t)"Set datasette tape wobble amplitude" },
-    { "Datasette tape alignment",
-      MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeAzimuthError_callback,
-      (ui_callback_data_t)"Set datasette alignment error" },
-    { "Reset Datasette on CPU Reset",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DatasetteResetWithCPU_callback,
-      NULL },
-    { "Enable Datasette sound",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DatasetteSound_callback,
-      NULL },
-    { "Enable virtual device (for t64)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice1_callback,
-      NULL },
+
+    {   .string   = "Datasette speed tuning",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteSpeedTuning_callback,
+        .data     = (ui_callback_data_t)"Set datasette speed tuning"
+    },
+    {   .string   = "Datasette zero gap delay",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteZeroGapDelay_callback,
+        .data     = (ui_callback_data_t)"Set datasette zero gap delay"
+    },
+    {   .string   = "Datasette tape wobble frequency",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeWobbleFrequency_callback,
+        .data     = (ui_callback_data_t)"Set datasette tape wobble frequency"
+    },
+    {   .string   = "Datasette tape wobble amplitude",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeWobbleAmplitude_callback,
+        .data     = (ui_callback_data_t)"Set datasette tape wobble amplitude"
+    },
+    {   .string   = "Datasette tape alignment",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_DatasetteTapeAzimuthError_callback,
+        .data     = (ui_callback_data_t)"Set datasette alignment error"
+    },
+    {   .string   = "Reset Datasette on CPU Reset",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DatasetteResetWithCPU_callback,
+    },
+    {   .string   = "Enable Datasette sound",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DatasetteSound_callback
+    },
+    {   .string   = "Enable virtual device (for t64)",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice1_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -411,10 +398,10 @@ ui_menu_entry_t tape_menu[sizeof(tape_menu_template) / sizeof(ui_menu_entry_t)];
 UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 
 const ui_menu_entry_t cpclockf83_device_menu[] = {
-    { "Save CP Clock F83 RTC data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CPClockF83Save_callback,
-      NULL },
+    {   .string   = "Save CP Clock F83 RTC data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CPClockF83Save_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -444,58 +431,66 @@ static UI_MENU_CALLBACK(tapecart_flush_callback)
 }
 
 const ui_menu_entry_t tapecart_submenu[] = {
-    { "Save tapecart data when changed",
-        MENU_ENTRY_RESOURCE_TOGGLE,
-        toggle_TapecartUpdateTCRT_callback,
-        NULL },
-    { "Optimize tapecart data when changed",
-        MENU_ENTRY_RESOURCE_TOGGLE,
-        toggle_TapecartOptimizeTCRT_callback,
-        NULL },
-    { "tapecart Log level",
-        MENU_ENTRY_RESOURCE_INT,
-        int_TapecartLoglevel_callback,
-        (ui_callback_data_t)"Set tapecart log level" },
-    { "TCRT filename",
-        MENU_ENTRY_DIALOG,
-        file_string_TapecartTCRTFilename_callback,
-        (ui_callback_data_t)"Select TCRT file" },
-    { "Flush current image",
-        MENU_ENTRY_OTHER,
-        tapecart_flush_callback,
-        NULL },
+    {   .string   = "Save tapecart data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_TapecartUpdateTCRT_callback
+    },
+    {   .string   = "Optimize tapecart data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_TapecartOptimizeTCRT_callback
+    },
+    {   .string   = "tapecart Log level",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_TapecartLoglevel_callback,
+        .data     = (ui_callback_data_t)"Set tapecart log level"
+    },
+    {   .string   = "TCRT filename",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_TapecartTCRTFilename_callback,
+        .data     = (ui_callback_data_t)"Select TCRT file"
+    },
+    {   .string   = "Flush current image",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = tapecart_flush_callback
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t tapeport_devices_menu[] = {
-    { "Tapeport devices",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      TapePort1Device_dynmenu_callback,
-      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1] },
-    { "CP Clock F83 device settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)cpclockf83_device_menu },
-    { "tapecart device settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapecart_submenu },
+    {   .string   = "Tapeport devices",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = TapePort1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1]
+    },
+    {   .string   = "CP Clock F83 device settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cpclockf83_device_menu
+    },
+    {   .string   = "tapecart device settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)tapecart_submenu
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t tapeport_pet_devices_menu[] = {
-    { "Tapeport 1 devices",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      TapePort1Device_dynmenu_callback,
-      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1] },
-    { "Tapeport 2 devices",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      TapePort2Device_dynmenu_callback,
-      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_2] },
-    { "CP Clock F83 device settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)cpclockf83_device_menu },
+    {   .string   = "Tapeport 1 devices",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = TapePort1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1]
+    },
+    {   .string   = "Tapeport 2 devices",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = TapePort2Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_2]
+    },
+    {   .string   = "CP Clock F83 device settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cpclockf83_device_menu
+    },
     SDL_MENU_LIST_END
 };
 
@@ -516,24 +511,13 @@ void uitape_menu_create(int has_tapeport)
 
     if (!has_tapeport) {
         /* copy over 'no tapeport' menu if there is no tapeport */
-        tape_menu[0].string = tape_menu_no_tapeport[0].string;
-        tape_menu[0].type = tape_menu_no_tapeport[0].type;
-        tape_menu[0].callback = tape_menu_no_tapeport[0].callback;
-        tape_menu[0].data = tape_menu_no_tapeport[0].data;
-        tape_menu[1].string = tape_menu_no_tapeport[1].string;
-        tape_menu[1].type = tape_menu_no_tapeport[1].type;
-        tape_menu[1].callback = tape_menu_no_tapeport[1].callback;
-        tape_menu[1].data = tape_menu_no_tapeport[1].data;
+        tape_menu[0] = tape_menu_no_tapeport[0];
+        tape_menu[1] = tape_menu_no_tapeport[1];
     } else {
         for (i = 0; tape_menu_template[i].string != NULL; i++) {
-            tape_menu[i].string = tape_menu_template[i].string;
-            tape_menu[i].type = tape_menu_template[i].type;
-            tape_menu[i].callback = tape_menu_template[i].callback;
-            tape_menu[i].data = tape_menu_template[i].data;
+            tape_menu[i] = tape_menu_template[i];
         }
-        tape_menu[i].string = tape_menu_template[i].string;
-        tape_menu[i].type = tape_menu_template[i].type;
-        tape_menu[i].callback = tape_menu_template[i].callback;
-        tape_menu[i].data = tape_menu_template[i].data;
+        /* terminate list */
+        tape_menu[i].string = NULL;
     }
 }

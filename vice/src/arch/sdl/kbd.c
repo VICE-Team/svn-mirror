@@ -49,6 +49,7 @@
 #include "sysfile.h"
 #include "ui.h"
 #include "uihotkey.h"
+#include "uihotkeys.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vkbd.h"
@@ -599,6 +600,14 @@ void kbd_arch_init(void)
 #endif
 
     sdlkbd_log = log_open("SDLKeyboard");
+
+    /* initialize generic hotkeys system
+     * (not sure it should be here, but seems early enough) */
+#ifdef USE_SDL2UI
+    ui_hotkeys_init("sdl2");
+#else
+    ui_hotkeys_init("sdl1");
+#endif
 
     sdlkbd_keyword_clear();
     /* first load the defaults, then patch them with the user defined hotkeys */

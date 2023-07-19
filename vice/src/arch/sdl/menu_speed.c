@@ -29,15 +29,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "actions-speed.h"
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_speed.h"
 #include "resources.h"
+#include "uiactions.h"
 #include "uimenu.h"
 #include "vsync.h"
-
-UI_MENU_DEFINE_TOGGLE(WarpMode)
-UI_MENU_DEFINE_RADIO(Speed)
 
 
 static UI_MENU_CALLBACK(custom_Speed_callback)
@@ -58,6 +57,7 @@ static UI_MENU_CALLBACK(custom_Speed_callback)
             }
             lib_free(value);
         }
+        ui_action_finish(ACTION_SPEED_CPU_CUSTOM);
     } else {
         if ((previous > 0) && (previous != 10) && (previous != 25) &&
             (previous != 50) && (previous != 100) && (previous != 200)) {
@@ -70,7 +70,7 @@ static UI_MENU_CALLBACK(custom_Speed_callback)
 
 static UI_MENU_CALLBACK(custom_Fps_callback)
 {
-    static char buf[20];
+    static char buf[32];
     char *value = NULL;
     int previous, new_value;
 
@@ -86,106 +86,131 @@ static UI_MENU_CALLBACK(custom_Fps_callback)
             }
             lib_free(value);
         }
+        ui_action_finish(ACTION_SPEED_FPS_CUSTOM);
     } else {
         if (previous < 0) {
-            sprintf(buf, "%i%%", -previous);
+            sprintf(buf, "%i Fps", -previous);
+            return buf;
         }
     }
     return NULL;
 }
 
-static UI_MENU_CALLBACK(set_warp_mode_callback)
-{
-    if (activated) {
-        vsync_set_warp_mode(!vsync_get_warp_mode());
-    }
-    return vsync_get_warp_mode() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
-}
 
 const ui_menu_entry_t speed_menu[] = {
-    { "Warp mode",
-      MENU_ENTRY_OTHER_TOGGLE,
-      set_warp_mode_callback,
-      NULL },
+    {   .action    = ACTION_WARP_MODE_TOGGLE,
+        .string    = "Warp mode",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = warp_mode_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Maximum CPU speed"),
-    { "10%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)10 },
-    { "25%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)25 },
-    { "50%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)50 },
-    { "100%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)100 },
-    { "200%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)200 },
-    { "Custom CPU speed",
-      MENU_ENTRY_DIALOG,
-      custom_Speed_callback,
-      NULL },
+    {   .action   = ACTION_SPEED_CPU_10,
+        .string   = "10%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)10,
+    },
+    {   .action   = ACTION_SPEED_CPU_25,
+        .string   = "25%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)25
+    },
+    {   .action   = ACTION_SPEED_CPU_50,
+        .string   = "50%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)50
+    },
+    {   .action   = ACTION_SPEED_CPU_100,
+        .string   = "100%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)100
+    },
+    {   .action   = ACTION_SPEED_CPU_200,
+        .string   = "200%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)200
+    },
+    {   .action   = ACTION_SPEED_CPU_CUSTOM,
+        .string   = "Custom CPU speed",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_Speed_callback   /* used to display the "dialog" and
+                                               the resource value */
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Target Fps"),
-    { "50 Fps",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)-50 },
-    { "60 Fps",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)-60 },
-    { "Custom Fps",
-      MENU_ENTRY_DIALOG,
-      custom_Fps_callback,
-      NULL },
+    {   .action   = ACTION_SPEED_FPS_50,
+        .string   = "50 Fps",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)-50
+    },
+    {   .action   = ACTION_SPEED_FPS_60,
+        .string   = "60 Fps",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)-60
+    },
+    {   .action   = ACTION_SPEED_FPS_CUSTOM,
+        .string   = "Custom Fps",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_Fps_callback     /* used to display the "dialog" and
+                                               the resource value */
+    },
     SDL_MENU_LIST_END
 };
 
 
 /* VSID specific speed menu */
 const ui_menu_entry_t speed_menu_vsid[] = {
-    { "Warp mode",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_WarpMode_callback,
-      NULL },
+    {   .action    = ACTION_WARP_MODE_TOGGLE,
+        .string    = "Warp mode",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = warp_mode_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Maximum speed"),
-    { "10%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)10 },
-    { "25%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)25 },
-    { "50%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)50 },
-    { "100%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)100 },
-    { "200%",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)200 },
-    { "No limit",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Speed_callback,
-      (ui_callback_data_t)0 },
-    { "Custom speed",
-      MENU_ENTRY_DIALOG,
-      custom_Speed_callback,
-      NULL },
+    {   .action   = ACTION_SPEED_CPU_10,
+        .string   = "10%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)10
+    },
+    {   .action   = ACTION_SPEED_CPU_25,
+        .string   = "25%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)25
+    },
+    {   .action   = ACTION_SPEED_CPU_50,
+        .string   = "50%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)50
+    },
+    {   .action   = ACTION_SPEED_CPU_100,
+        .string   = "100%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)100
+    },
+    {   .action   = ACTION_SPEED_CPU_200,
+        .string   = "200%",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .resource = "Speed",
+        .data     = (ui_callback_data_t)200
+    },
+    {   .action   = ACTION_SPEED_CPU_CUSTOM,
+        .string   = "Custom speed",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_Speed_callback
+    },
     SDL_MENU_LIST_END
 };

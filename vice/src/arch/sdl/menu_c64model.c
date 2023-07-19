@@ -76,110 +76,135 @@ static UI_MENU_CALLBACK(custom_C64Model_callback)
 }
 
 static const ui_menu_entry_t c64_model_submenu[] = {
-    { "C64 PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_PAL },
-    { "C64C PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64C_PAL },
-    { "C64 old PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_OLD_PAL },
-    { "C64 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_NTSC },
-    { "C64C NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64C_NTSC },
-    { "C64 old NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_OLD_NTSC },
-    { "Drean",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_PAL_N },
-    { "C64 SX PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64SX_PAL },
-    { "C64 SX NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64SX_NTSC },
-    { "Japanese",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_JAP },
-    { "C64 GS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_GS },
-    { "PET64 PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_PET64_PAL },
-    { "PET64 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_PET64_NTSC },
-    { "MAX Machine",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_ULTIMAX },
+    {   .string   = "C64 PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_PAL
+    },
+    {   .string   = "C64C PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64C_PAL
+    },
+    {   .string   = "C64 old PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_OLD_PAL
+    },
+    {   .string   = "C64 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_NTSC
+    },
+    {   .string   = "C64C NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64C_NTSC
+    },
+    {   .string   = "C64 old NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_OLD_NTSC
+    },
+    {   .string   = "Drean",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_PAL_N
+    },
+    {   .string   = "C64 SX PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64SX_PAL
+    },
+    {   .string   = "C64 SX NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64SX_NTSC
+    },
+    {   .string   = "Japanese",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_JAP
+    },
+    {   .string   = "C64 GS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_GS
+    },
+    {   .string   = "PET64 PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_PET64_PAL
+    },
+    {   .string   = "PET64 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_PET64_NTSC
+    },
+    {   .string   = "MAX Machine",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_ULTIMAX
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t scpu64_model_submenu[] = {
-    { "C64 PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_PAL },
-    { "C64C PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64C_PAL },
-    { "C64 old PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_OLD_PAL },
-    { "C64 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_NTSC },
-    { "C64C NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64C_NTSC },
-    { "C64 old NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_OLD_NTSC },
-    { "Drean",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_PAL_N },
-    { "C64 SX PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64SX_PAL },
-    { "C64 SX NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64SX_NTSC },
-    { "Japanese",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_JAP },
-    { "C64 GS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_C64_GS },
+    {   .string   = "C64 PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_PAL
+    },
+    {   .string   = "C64C PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64C_PAL
+    },
+    {   .string   = "C64 old PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_OLD_PAL
+    },
+    {   .string   = "C64 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_NTSC
+    },
+    {   .string   = "C64C NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64C_NTSC
+    },
+    {   .string   = "C64 old NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_OLD_NTSC
+    },
+    {   .string   = "Drean",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_PAL_N
+    },
+    {   .string   = "C64 SX PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64SX_PAL
+    },
+    {   .string   = "C64 SX NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64SX_NTSC
+    },
+    {   .string   = "Japanese",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_JAP
+    },
+    {   .string   = "C64 GS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_C64Model_callback,
+        .data     = (ui_callback_data_t)C64MODEL_C64_GS
+    },
     SDL_MENU_LIST_END
 };
 
@@ -193,14 +218,16 @@ static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
 #define CIA_MODEL_MENU(xyz)                                     \
     UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
     static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-        { "6526  (old)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526 },                 \
-        { "8521 (new)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526A },                \
+        {   .string   = "6526  (old)",                          \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526      \
+        },                                                      \
+        {   .string   = "8521 (new)",                           \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526A     \
+        },                                                      \
         SDL_MENU_LIST_END                                       \
     };
 
@@ -212,34 +239,41 @@ UI_MENU_DEFINE_TOGGLE(IECReset)
 UI_MENU_DEFINE_RADIO(KernalRev)
 
 static const ui_menu_entry_t kernal_rev_submenu[] = {
-    { "Rev 1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_REV1 },
-    { "Rev 2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_REV2 },
-    { "Rev 3",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_REV3 },
-    { "SX-64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_SX64 },
-    { "C64 GS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_GS64 },
-    { "4064",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_4064 },
-    { "Japanese",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KernalRev_callback,
-      (ui_callback_data_t)C64_KERNAL_JAP },
+    {   .string   = "Rev 1",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_REV1
+    },
+    {   .string   = "Rev 2",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_REV2
+    },
+    {   .string   = "Rev 3",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_REV3
+    },
+    {   .string   = "SX-64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_SX64
+    },
+    {   .string   = "C64 GS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_GS64
+    },
+    {   .string   = "4064",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_4064
+    },
+    {   .string   = "Japanese",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KernalRev_callback,
+        .data     = (ui_callback_data_t)C64_KERNAL_JAP
+    },
     SDL_MENU_LIST_END
 };
 
@@ -249,84 +283,104 @@ static const ui_menu_entry_t kernal_rev_submenu[] = {
 UI_MENU_DEFINE_RADIO(VICIIModel)
 
 static const ui_menu_entry_t viciisc_model_submenu[] = {
-    { "6569 (PAL)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_6569 },
-    { "8565 (PAL)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_8565 },
-    { "6569R1 (old PAL)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_6569R1 },
-    { "6567 (NTSC)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_6567 },
-    { "8562 (NTSC)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_8562 },
-    { "6567R56A (old NTSC)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_6567R56A },
-    { "6572 (PAL-N)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIModel_callback,
-      (ui_callback_data_t)VICII_MODEL_6572 },
+    {   .string   = "6569 (PAL)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_6569
+    },
+    {   .string   = "8565 (PAL)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_8565
+    },
+    {   .string   = "6569R1 (old PAL)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_6569R1
+    },
+    {   .string   = "6567 (NTSC)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_6567
+    },
+    {   .string   = "8562 (NTSC)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_8562
+    },
+    {   .string   = "6567R56A (old NTSC)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_6567R56A
+    },
+    {   .string   = "6572 (PAL-N)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VICIIModel_callback,
+        .data     = (ui_callback_data_t)VICII_MODEL_6572
+    },
     SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(GlueLogic)
 
 const ui_menu_entry_t c64sc_model_menu[] = {
-    { "C64 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)c64_model_submenu },
+    {   .string   = "C64 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)c64_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)viciisc_model_submenu },
+    {   .string   = "VICII model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)viciisc_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      custom_sidsubmenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
+
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = custom_sidsubmenu_callback,
+        .data     = (ui_callback_data_t)sid_c64_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("CIA models"),
-    { "CIA 1 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia1_model_submenu },
-    { "CIA 2 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia2_model_submenu },
+    {   .string   = "CIA 1 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "CIA 2 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia2_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Glue logic"),
-    { "Discrete",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_GlueLogic_callback,
-      (ui_callback_data_t)GLUE_LOGIC_DISCRETE },
-    { "Custom IC",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_GlueLogic_callback,
-      (ui_callback_data_t)GLUE_LOGIC_CUSTOM_IC },
+    {   .string   = "Discrete",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = radio_GlueLogic_callback,
+        .data     = (ui_callback_data_t)GLUE_LOGIC_DISCRETE
+    },
+    {   .string   = "Custom IC",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = radio_GlueLogic_callback,
+        .data     = (ui_callback_data_t)GLUE_LOGIC_CUSTOM_IC
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Reset goes to IEC",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECReset_callback,
-      NULL },
+
+    {   .string   = "Reset goes to IEC",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECReset_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Kernal revision",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)kernal_rev_submenu },
+
+    {   .string   = "Kernal revision",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)kernal_rev_submenu
+    },
     SDL_MENU_LIST_END
 };
 
@@ -334,45 +388,57 @@ const ui_menu_entry_t c64sc_model_menu[] = {
 /* xscpu64 */
 
 const ui_menu_entry_t scpu64_model_menu[] = {
-    { "C64 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)scpu64_model_submenu },
+    {   .string   = "C64 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)scpu64_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)viciisc_model_submenu },
+
+    {   .string   = "VICII model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)viciisc_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      custom_sidsubmenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
+
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = custom_sidsubmenu_callback,
+        .data     = (ui_callback_data_t)sid_c64_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("CIA models"),
-    { "CIA 1 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia1_model_submenu },
-    { "CIA 2 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia2_model_submenu },
+    {   .string   = "CIA 1 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "CIA 2 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia2_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Glue logic"),
-    { "Discrete",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_GlueLogic_callback,
-      (ui_callback_data_t)GLUE_LOGIC_DISCRETE },
-    { "Custom IC",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_GlueLogic_callback,
-      (ui_callback_data_t)GLUE_LOGIC_CUSTOM_IC },
+    {   .string   = "Discrete",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = radio_GlueLogic_callback,
+        .data     = (ui_callback_data_t)GLUE_LOGIC_DISCRETE
+    },
+    {   .string   = "Custom IC",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = radio_GlueLogic_callback,
+        .data     = (ui_callback_data_t)GLUE_LOGIC_CUSTOM_IC
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Reset goes to IEC",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECReset_callback,
-      NULL },
+
+    {   .string   = "Reset goes to IEC",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECReset_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -449,63 +515,79 @@ static const char *x64_ui_vicii_model(int activated, ui_callback_data_t param)
 }
 
 static const ui_menu_entry_t vicii_model_submenu[] = {
-    { "PAL-G",
-      MENU_ENTRY_RESOURCE_RADIO,
-      x64_ui_vicii_model,
-      (ui_callback_data_t)VICII_MODEL_PALG },
-    { "Old PAL-G",
-      MENU_ENTRY_RESOURCE_RADIO,
-      x64_ui_vicii_model,
-      (ui_callback_data_t)VICII_MODEL_PALG_OLD },
-    { "NTSC-M",
-      MENU_ENTRY_RESOURCE_RADIO,
-      x64_ui_vicii_model,
-      (ui_callback_data_t)VICII_MODEL_NTSCM },
-    { "Old NTSC-M",
-      MENU_ENTRY_RESOURCE_RADIO,
-      x64_ui_vicii_model,
-      (ui_callback_data_t)VICII_MODEL_NTSCM_OLD },
-    { "PAL-N",
-      MENU_ENTRY_RESOURCE_RADIO,
-      x64_ui_vicii_model,
-      (ui_callback_data_t)VICII_MODEL_PALN },
+    {   .string   = "PAL-G",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = x64_ui_vicii_model,
+        .data     = (ui_callback_data_t)VICII_MODEL_PALG
+    },
+    {   .string   = "Old PAL-G",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = x64_ui_vicii_model,
+        .data     = (ui_callback_data_t)VICII_MODEL_PALG_OLD
+    },
+    {   .string   = "NTSC-M",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = x64_ui_vicii_model,
+        .data     = (ui_callback_data_t)VICII_MODEL_NTSCM
+    },
+    {   .string   = "Old NTSC-M",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = x64_ui_vicii_model,
+        .data     = (ui_callback_data_t)VICII_MODEL_NTSCM_OLD
+    },
+    {   .string   = "PAL-N",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = x64_ui_vicii_model,
+        .data     = (ui_callback_data_t)VICII_MODEL_PALN
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t c64_model_menu[] = {
-    { "C64 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)c64_model_submenu },
+    {   .string   = "C64 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)c64_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_model_submenu },
+
+    {   .string   = "VICII model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      custom_sidsubmenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
+
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = custom_sidsubmenu_callback,
+        .data     = (ui_callback_data_t)sid_c64_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("CIA models"),
-    { "CIA 1 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia1_model_submenu },
-    { "CIA 2 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia2_model_submenu },
+    {   .string   = "CIA 1 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "CIA 2 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia2_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Reset goes to IEC",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECReset_callback,
-      NULL },
+
+    {   .string   = "Reset goes to IEC",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECReset_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Kernal revision",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)kernal_rev_submenu },
+
+    {   .string   = "Kernal revision",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)kernal_rev_submenu
+    },
     SDL_MENU_LIST_END
 };

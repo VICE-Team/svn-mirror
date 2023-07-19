@@ -55,8 +55,16 @@ extern const char *sdl_menu_text_tick;
 extern const char *sdl_menu_text_unknown;
 extern const char *sdl_menu_text_exit_ui;
 
-#define SDL_MENU_ITEM_SEPARATOR { "", MENU_ENTRY_TEXT, seperator_callback, NULL }
-#define SDL_MENU_ITEM_TITLE(title) { title, MENU_ENTRY_TEXT, seperator_callback, (ui_callback_data_t)1 }
+#define SDL_MENU_ITEM_SEPARATOR          \
+    {   .string   = "",                  \
+        .type     = MENU_ENTRY_TEXT,     \
+        .callback = seperator_callback }
+
+#define SDL_MENU_ITEM_TITLE(title)      \
+    {   .string = title,                \
+        .type = MENU_ENTRY_TEXT,        \
+        .callback = seperator_callback, \
+        .data = (ui_callback_data_t)1 }
 
 #define UI_MENU_CALLBACK(name) \
     const char *name(int activated, ui_callback_data_t param)
@@ -110,9 +118,5 @@ const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t par
 const char *sdl_ui_menu_slider_helper(int activated, ui_callback_data_t param, const char *resource_name, const int min, const int max);
 
 UI_MENU_CALLBACK(autostart_callback);
-UI_MENU_CALLBACK(pause_callback);
-UI_MENU_CALLBACK(advance_frame_callback);
-UI_MENU_CALLBACK(vkbd_callback);
-UI_MENU_CALLBACK(quit_callback);
 
 #endif

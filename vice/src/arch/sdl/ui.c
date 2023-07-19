@@ -40,6 +40,7 @@
 #include "archdep.h"
 #include "color.h"
 #include "fullscreenarch.h"
+#include "hotkeys.h"
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -53,6 +54,7 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uicolor.h"
 #include "uifilereq.h"
@@ -63,6 +65,26 @@
 #include "vkbd.h"
 #include "vsidui_sdl.h"
 #include "vsync.h"
+
+/* action handler includes, should be sorted with the rest later */
+#include "actions-cartridge.h"
+#include "debug.h"
+#ifdef DEBUG
+#include "actions-debug.h"
+#endif
+#include "actions-display.h"
+#include "actions-drive.h"
+#ifdef USE_SDL2UI
+#include "actions-edit.h"
+#endif
+#include "actions-help.h"
+#include "actions-joystick.h"
+#include "actions-machine.h"
+#include "actions-media.h"
+#include "actions-settings.h"
+#include "actions-snapshot.h"
+#include "actions-speed.h"
+#include "actions-tape.h"
 
 #ifndef SDL_DISABLE
 #define SDL_DISABLE SDL_IGNORE
@@ -696,6 +718,25 @@ static const cmdline_option_t statusbar_cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+#if 0
+/** \brief  UI action dispatch handler
+ *
+ * Calls the handler in \a map when a UI action is triggered from the UI actions
+ * system (from menu items, hoykeys or joystick buttons).
+ *
+ * \param[in]   map     action map
+ */
+static void action_dispatch(const ui_action_map_t *map)
+{
+    printf("%s(): calling handler for action %d (%s)\n",
+           __func__, map->action, ui_action_get_name(map->action));
+
+    /* no need to check for threading or other stuff, everything in SDL runs in
+     * the same thread */
+    map->handler(map->param);
+}
+#endif
+
 int ui_cmdline_options_init(void)
 {
     DBG(("%s", __func__));
@@ -726,12 +767,49 @@ int ui_init_finish(void)
     return 0;
 }
 
+
+
 int ui_init_finalize(void)
 {
     DBG(("%s", __func__));
 
     if (!console_mode) {
         sdl_ui_init_finalize();
+
+        /* Iterate menu structure and store pointers to items with action IDs.
+         * Not sure if this is the correct place to call it, might be too late.
+         */
+        hotkeys_iterate_menu();
+#if 0
+        /* set the UI action dispatch handler (currently not required, the
+         * default handler is sufficient for now) */
+        ui_actions_set_dispatch(action_dispatch);
+#endif
+        /* register actions valid for all emus (TODO: check for VSID-specific
+         * stuff?) */
+        actions_cartridge_register();
+#ifdef DEBUG
+        actions_debug_register();
+#endif
+        actions_display_register();
+        actions_drive_register();
+#ifdef USE_SDL2UI
+        actions_edit_register();
+#endif
+        actions_help_register();
+        actions_joystick_register();
+        actions_machine_register();
+        actions_media_register();
+        actions_settings_register();
+        actions_speed_register();
+        actions_snapshot_register();
+        actions_tape_register();
+        /* cannot register VSID actions here, that causes linker errors */
+#if 0
+        if (machine_class == VICE_MACHINE_VSID) {
+            actions_vsid_register();
+        }
+#endif
         sdl_ui_ready = 1;
     }
     return 0;

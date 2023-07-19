@@ -35,4 +35,6 @@ extern ui_menu_entry_t drive_menu[];
 
 void uidrive_menu_create(int has_driveport);
 
+void uidrive_attach_disk_dialog(void *param);
+
 #endif

@@ -1,5 +1,5 @@
 /** \file   actions-machine.c
- * \brief   UI action implementations for machine-related dialogs and settings
+ * \brief   UI action implementations for machine-related dialogs and settings (Gtk3)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

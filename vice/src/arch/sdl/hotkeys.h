@@ -29,4 +29,6 @@
 #ifndef VICE_HOTKEYS_H
 #define VICE_HOTKEYS_H
 
+void hotkeys_iterate_menu(void);
+
 #endif

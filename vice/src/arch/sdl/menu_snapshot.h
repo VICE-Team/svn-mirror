@@ -31,6 +31,9 @@
 
 #include "uimenu.h"
 
-extern const ui_menu_entry_t snapshot_menu[];
+extern ui_menu_entry_t snapshot_menu[];
+
+int menu_snapshot_get_save_disks(void);
+int menu_snapshot_get_save_roms(void);
 
 #endif

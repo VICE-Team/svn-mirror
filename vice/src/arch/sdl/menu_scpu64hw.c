@@ -63,6 +63,7 @@
 #include "menu_ethernetcart.h"
 #endif
 
+#include "uiactions.h"
 #include "uimenu.h"
 #include "userport.h"
 #include "util.h"
@@ -70,44 +71,52 @@
 UI_MENU_DEFINE_RADIO(BurstMod)
 
 const ui_menu_entry_t scpu64_burstmod_menu[] = {
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_BurstMod_callback,
-      (ui_callback_data_t)BURST_MOD_NONE },
-    { "CIA1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_BurstMod_callback,
-      (ui_callback_data_t)BURST_MOD_CIA1 },
-    { "CIA2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_BurstMod_callback,
-      (ui_callback_data_t)BURST_MOD_CIA2 },
+    {   .string   = "None",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_BurstMod_callback,
+        .data     = (ui_callback_data_t)BURST_MOD_NONE
+    },
+    {   .string   = "CIA1",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_BurstMod_callback,
+        .data     = (ui_callback_data_t)BURST_MOD_CIA1
+    },
+    {   .string   = "CIA2",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_BurstMod_callback,
+        .data     = (ui_callback_data_t)BURST_MOD_CIA2
+    },
     SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(SIMMSize)
 
 const ui_menu_entry_t scpu64_simmsize_menu[] = {
-    { "0 MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SIMMSize_callback,
-      (ui_callback_data_t)0 },
-    { "1 MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SIMMSize_callback,
-      (ui_callback_data_t)1 },
-    { "4 MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SIMMSize_callback,
-      (ui_callback_data_t)4 },
-    { "8 MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SIMMSize_callback,
-      (ui_callback_data_t)8 },
-    { "16 MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SIMMSize_callback,
-      (ui_callback_data_t)16 },
+    {   .string   = "0 MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SIMMSize_callback,
+        .data     = (ui_callback_data_t)0
+    },
+    {   .string   = "1 MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SIMMSize_callback,
+        .data     = (ui_callback_data_t)1
+    },
+    {   .string   = "4 MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SIMMSize_callback,
+        .data     = (ui_callback_data_t)4
+    },
+    {   .string   = "8 MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SIMMSize_callback,
+        .data     = (ui_callback_data_t)8
+    },
+    {   .string   = "16 MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SIMMSize_callback,
+        .data     = (ui_callback_data_t)16
+    },
     SDL_MENU_LIST_END
 };
 
@@ -115,84 +124,100 @@ UI_MENU_DEFINE_TOGGLE(JiffySwitch)
 UI_MENU_DEFINE_TOGGLE(SpeedSwitch)
 
 const ui_menu_entry_t scpu64_hardware_menu_template[] = {
-    { "Model settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)scpu64_model_menu },
-    { "SIMM size",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)scpu64_simmsize_menu },
-    { "Jiffy switch enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JiffySwitch_callback,
-      NULL },
-    { "Speed switch enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SpeedSwitch_callback,
-      NULL },
-    { "Joyport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joyport_menu },
-    { "Joystick settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_c64_menu },
+    {   .string   = "Model settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)scpu64_model_menu
+    },
+    {   .string   = "SIMM size",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)scpu64_simmsize_menu
+    },
+    {   .string   = "Jiffy switch enable",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JiffySwitch_callback
+    },
+    {   .string   = "Speed switch enable",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SpeedSwitch_callback
+    },
+    {   .string   = "Joyport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joyport_menu
+    },
+    {   .string   = "Joystick settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joystick_c64_menu
+    },
 #ifdef HAVE_MOUSE
-    { "Mouse emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mouse_menu },
+    {   .string   = "Mouse emulation",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)mouse_menu
+    },
 #endif
-    { "RAM pattern settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ram_menu },
-    { "ROM settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)scpu64_rom_menu },
+    {   .string   = "RAM pattern settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ram_menu
+    },
+    {   .string   = "ROM settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)scpu64_rom_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "RS232 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232_c64_menu },
+    {   .string   = "RS232 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)rs232_c64_menu
+    },
 #endif
-    { CARTRIDGE_NAME_DIGIMAX " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)digimax_menu },
-    { CARTRIDGE_NAME_DS12C887RTC " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ds12c887rtc_c64_menu },
+    {   .string   = CARTRIDGE_NAME_DIGIMAX " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)digimax_menu
+    },
+    {   .string   = CARTRIDGE_NAME_DS12C887RTC " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ds12c887rtc_c64_menu
+    },
 #ifdef HAVE_MIDI
-    { "MIDI settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)midi_c64_menu },
+    {   .string   = "MIDI settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)midi_c64_menu
+    },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernet_menu },
-    { CARTRIDGE_NAME_ETHERNETCART " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernetcart_menu },
+    {   .string   = "Ethernet settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ethernet_menu
+    },
+    {   .string   = CARTRIDGE_NAME_ETHERNETCART " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ethernetcart_menu
+    },
 #endif
-    { "Burst Mode Modification",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)scpu64_burstmod_menu },
-    { "Userport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)userport_menu },
+    {   .string   = "Burst Mode Modification",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)scpu64_burstmod_menu
+    },
+    {   .string   = "Userport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)userport_menu
+    },
     SDL_MENU_LIST_END
 };
 
@@ -207,22 +232,21 @@ void scpu64_create_machine_menu(void)
     for (i = 0; scpu64_hardware_menu_template[i].string != NULL; i++) {
         if (!util_strcasecmp(scpu64_hardware_menu_template[i].string, "Userport settings")) {
             if (has_userport) {
-                scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
-                scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
+                scpu64_hardware_menu[j].action   = ACTION_NONE;
+                scpu64_hardware_menu[j].string   = scpu64_hardware_menu_template[i].string;
+                scpu64_hardware_menu[j].type     = scpu64_hardware_menu_template[i].type;
                 scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
-                scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
+                scpu64_hardware_menu[j].data     = scpu64_hardware_menu_template[i].data;
                 j++;
             }
         } else {
-            scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
-            scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
+            scpu64_hardware_menu[j].action   = ACTION_NONE;
+            scpu64_hardware_menu[j].string   = scpu64_hardware_menu_template[i].string;
+            scpu64_hardware_menu[j].type     = scpu64_hardware_menu_template[i].type;
             scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
-            scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
+            scpu64_hardware_menu[j].data     = scpu64_hardware_menu_template[i].data;
             j++;
         }
     }
     scpu64_hardware_menu[j].string = scpu64_hardware_menu_template[i].string;
-    scpu64_hardware_menu[j].type = scpu64_hardware_menu_template[i].type;
-    scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
-    scpu64_hardware_menu[j].data = scpu64_hardware_menu_template[i].data;
 }

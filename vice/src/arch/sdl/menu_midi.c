@@ -30,15 +30,16 @@
 
 #include <stdio.h>
 
-#include "types.h"
-
+#include "c64-midi.h"
+#include "cartridge.h"
 #include "menu_common.h"
-#include "menu_midi.h"
+#include "mididrv.h"
+#include "types.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
-#include "cartridge.h"
-#include "mididrv.h"
-#include "c64-midi.h"
+#include "menu_midi.h"
+
 
 /* *nix MIDI settings */
 #if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
@@ -65,63 +66,72 @@ UI_MENU_DEFINE_STRING(MIDIName)
 UI_MENU_DEFINE_RADIO(MIDIDriver)
 
 static const ui_menu_entry_t midi_driver_menu[] = {
-    { "OSS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIDriver_callback,
-      (ui_callback_data_t)MIDI_DRIVER_OSS },
-    { "ALSA",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIDriver_callback,
-      (ui_callback_data_t)MIDI_DRIVER_ALSA },
+    {   .string   = "OSS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIDriver_callback,
+        .data     = (ui_callback_data_t)MIDI_DRIVER_OSS
+    },
+    {   .string   = "ALSA",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIDriver_callback,
+        .data     = (ui_callback_data_t)MIDI_DRIVER_ALSA
+    },
     SDL_MENU_LIST_END
 };
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS            \
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    { "Driver",                                \
-      MENU_ENTRY_SUBMENU,                      \
-      submenu_radio_callback,                  \
-      (ui_callback_data_t)midi_driver_menu },  \
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    SDL_MENU_ITEM_TITLE("ALSA client"),        \
-    { "Name",                                  \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIName_callback,                \
-      (ui_callback_data_t)"ALSA client name" },\
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    SDL_MENU_ITEM_TITLE("OSS driver devices"), \
-    { "MIDI-In",                               \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIInDev_callback,               \
-      (ui_callback_data_t)"MIDI-In device" },  \
-    { "MIDI-Out",                              \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIOutDev_callback,              \
-      (ui_callback_data_t)"MIDI-Out device" },
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                         \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    {   .string   = "Driver",                               \
+        .type     = MENU_ENTRY_SUBMENU,                     \
+        .callback = submenu_radio_callback,                 \
+        .data     = (ui_callback_data_t)midi_driver_menu    \
+    },                                                      \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    SDL_MENU_ITEM_TITLE("ALSA client"),                     \
+    {   .string   = "Name",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIName_callback,               \
+        .data     = (ui_callback_data_t)"ALSA client name"  \
+    },                                                      \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    SDL_MENU_ITEM_TITLE("OSS driver devices"),              \
+    {   .string   = "MIDI-In",                              \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIInDev_callback,              \
+        .data     = (ui_callback_data_t)"MIDI-In device"    \
+    },                                                      \
+    {   .string   = "MIDI-Out",                             \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIOutDev_callback,             \
+        .data     = (ui_callback_data_t)"MIDI-Out device"   \
+    },
 
 #elif defined (USE_ALSA)
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS            \
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    SDL_MENU_ITEM_TITLE("ALSA client"),        \
-    { "Name",                                  \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIName_callback,                \
-      (ui_callback_data_t)"ALSA client name" },
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                         \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    SDL_MENU_ITEM_TITLE("ALSA client"),                     \
+    {   .string   = "Name",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIName_callback,               \
+        .data     = (ui_callback_data_t)"ALSA client name"  \
+    },
 
 #elif defined(USE_OSS)
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS            \
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    SDL_MENU_ITEM_TITLE("OSS driver devices"), \
-    { "MIDI-In",                               \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIInDev_callback,               \
-      (ui_callback_data_t)"MIDI-In device" },  \
-    { "MIDI-Out",                              \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_MIDIOutDev_callback,              \
-      (ui_callback_data_t)"MIDI-Out device" },
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                         \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    SDL_MENU_ITEM_TITLE("OSS driver devices"),              \
+    {   .string   = "MIDI-In",                              \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIInDev_callback,              \
+        .data     = (ui_callback_data_t)"MIDI-In device"    \
+    },                                                      \
+    {   .string   = "MIDI-Out",                             \
+        .type     = MENU_ENTRY_RESOURCE_STRING,             \
+        .callback = string_MIDIOutDev_callback,             \
+        .data     = (ui_callback_data_t)"MIDI-Out device"   \
+    },
 
 #else
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS
@@ -143,20 +153,23 @@ void sdl_menu_midi_out_free(void)
 {
 }
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS                 \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    { "Client name",                                \
-      MENU_ENTRY_RESOURCE_STRING,                   \
-      string_MIDIName_callback,                     \
-      (ui_callback_data_t)"Name of MIDI client" },  \
-    { "MIDI-In",                                    \
-      MENU_ENTRY_RESOURCE_STRING,                   \
-      string_MIDIInName_callback,                   \
-      (ui_callback_data_t)"Name of MIDI-In Port" }, \
-    { "MIDI-Out",                                   \
-      MENU_ENTRY_RESOURCE_STRING,                   \
-      string_MIDIOutName_callback,                  \
-      (ui_callback_data_t)"Name of MIDI-Out Port" },
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                             \
+    SDL_MENU_ITEM_SEPARATOR,                                    \
+    {   .string   = "Client name",                              \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_MIDIName_callback,                   \
+        .data     = (ui_callback_data_t)"Name of MIDI client"   \
+    },                                                          \
+    {   .string   = "MIDI-In",                                  \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_MIDIInName_callback,                 \
+        .data     = (ui_callback_data_t)"Name of MIDI-In Port"  \
+    },                                                          \
+    {   .string   = "MIDI-Out",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_MIDIOutName_callback,                \
+        .data     = (ui_callback_data_t)"Name of MIDI-Out Port" \
+    },
 
 #endif /* defined(MACOS_COMPILE) */
 
@@ -211,28 +224,26 @@ UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback)
     }
 
     if (num_in == 0) {
-        midi_in_dyn_menu[i].string = (char *)lib_strdup("No Devices Present");
-        midi_in_dyn_menu[i].type = MENU_ENTRY_TEXT;
+        midi_in_dyn_menu[i].action   = ACTION_NONE;
+        midi_in_dyn_menu[i].string   = lib_strdup("No Devices Present");
+        midi_in_dyn_menu[i].type     = MENU_ENTRY_TEXT;
         midi_in_dyn_menu[i].callback = seperator_callback;
-        midi_in_dyn_menu[i].data = NULL;
+        midi_in_dyn_menu[i].data     = NULL;
         i++;
     } else {
         for (j = 0; (j < num_in) && (i < 20); j++) {
             ret = midiInGetDevCaps(j, &mic, sizeof(MIDIINCAPS));
             if (ret == MMSYSERR_NOERROR) {
-                midi_in_dyn_menu[i].string = (char *)lib_strdup(mic.szPname);
-                midi_in_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+                midi_in_dyn_menu[i].action   = ACTION_NONE;
+                midi_in_dyn_menu[i].string   = lib_strdup(mic.szPname);
+                midi_in_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
                 midi_in_dyn_menu[i].callback = radio_MIDIInDev_callback;
-                midi_in_dyn_menu[i].data = (ui_callback_data_t)(int_to_void_ptr(j));
+                midi_in_dyn_menu[i].data     = (ui_callback_data_t)(int_to_void_ptr(j));
                 i++;
             }
         }
     }
-
     midi_in_dyn_menu[i].string = NULL;
-    midi_in_dyn_menu[i].type = 0;
-    midi_in_dyn_menu[i].callback = NULL;
-    midi_in_dyn_menu[i].data = NULL;
 
     return MENU_SUBMENU_STRING;
 }
@@ -253,42 +264,42 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
     }
 
     if (num_out == 0) {
-        midi_out_dyn_menu[i].string = (char *)lib_strdup("No Devices Present");
-        midi_out_dyn_menu[i].type = MENU_ENTRY_TEXT;
+        midi_out_dyn_menu[i].action   = ACTION_NONE;
+        midi_out_dyn_menu[i].string   = lib_strdup("No Devices Present");
+        midi_out_dyn_menu[i].type     = MENU_ENTRY_TEXT;
         midi_out_dyn_menu[i].callback = seperator_callback;
-        midi_out_dyn_menu[i].data = NULL;
+        midi_out_dyn_menu[i].data     = NULL;
         i++;
     } else {
         for (j = 0; (j < num_out) && (i < 20); j++) {
             ret = midiOutGetDevCaps(j, &moc, sizeof(MIDIOUTCAPS));
             if (ret == MMSYSERR_NOERROR) {
-                midi_out_dyn_menu[i].string = (char *)lib_strdup(moc.szPname);
-                midi_out_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+                midi_out_dyn_menu[i].action   = ACTION_NONE;
+                midi_out_dyn_menu[i].string   = lib_strdup(moc.szPname);
+                midi_out_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
                 midi_out_dyn_menu[i].callback = radio_MIDIOutDev_callback;
-                midi_out_dyn_menu[i].data = (ui_callback_data_t)(int_to_void_ptr(j));
+                midi_out_dyn_menu[i].data     = (ui_callback_data_t)(int_to_void_ptr(j));
                 i++;
             }
         }
     }
-
     midi_out_dyn_menu[i].string = NULL;
-    midi_out_dyn_menu[i].type = 0;
-    midi_out_dyn_menu[i].callback = NULL;
-    midi_out_dyn_menu[i].data = NULL;
 
     return MENU_SUBMENU_STRING;
 }
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS           \
-    SDL_MENU_ITEM_SEPARATOR,                  \
-    { "MIDI-In",                              \
-      MENU_ENTRY_DYNAMIC_SUBMENU,             \
-      MIDIInDev_dynmenu_callback,             \
-      (ui_callback_data_t)midi_in_dyn_menu }, \
-    { "MIDI-Out",                             \
-      MENU_ENTRY_DYNAMIC_SUBMENU,             \
-      MIDIOutDev_dynmenu_callback,            \
-      (ui_callback_data_t)midi_out_dyn_menu },
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                         \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    {   .string   = "MIDI-In",                              \
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,             \
+        .callback = MIDIInDev_dynmenu_callback,             \
+        .data     = (ui_callback_data_t)midi_in_dyn_menu    \
+    },                                                      \
+    {   .string   = "MIDI-Out",                             \
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,             \
+        .callback = MIDIOutDev_dynmenu_callback,            \
+        .data     = (ui_callback_data_t)midi_out_dyn_menu   \
+    },
 
 #endif /* defined(WINDOWS_COMPILE) */
 
@@ -298,47 +309,53 @@ UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
 
 static const ui_menu_entry_t midi_type_menu[] = {
-    { CARTRIDGE_NAME_MIDI_SEQUENTIAL,
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIMode_callback,
-      (ui_callback_data_t)MIDI_MODE_SEQUENTIAL },
-    { CARTRIDGE_NAME_MIDI_PASSPORT,
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIMode_callback,
-      (ui_callback_data_t)MIDI_MODE_PASSPORT },
-    { CARTRIDGE_NAME_MIDI_DATEL,
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIMode_callback,
-      (ui_callback_data_t)MIDI_MODE_DATEL },
-    { CARTRIDGE_NAME_MIDI_NAMESOFT,
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIMode_callback,
-      (ui_callback_data_t)MIDI_MODE_NAMESOFT },
-    { CARTRIDGE_NAME_MIDI_MAPLIN,
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MIDIMode_callback,
-      (ui_callback_data_t)MIDI_MODE_MAPLIN },
+    {   .string   = CARTRIDGE_NAME_MIDI_SEQUENTIAL,
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIMode_callback,
+        .data     = (ui_callback_data_t)MIDI_MODE_SEQUENTIAL
+    },
+    {   .string   = CARTRIDGE_NAME_MIDI_PASSPORT,
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIMode_callback,
+        .data     = (ui_callback_data_t)MIDI_MODE_PASSPORT
+    },
+    {   .string   = CARTRIDGE_NAME_MIDI_DATEL,
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIMode_callback,
+        .data     = (ui_callback_data_t)MIDI_MODE_DATEL
+    },
+    {   .string   = CARTRIDGE_NAME_MIDI_NAMESOFT,
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIMode_callback,
+        .data     = (ui_callback_data_t)MIDI_MODE_NAMESOFT
+    },
+    {   .string   = CARTRIDGE_NAME_MIDI_MAPLIN,
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MIDIMode_callback,
+        .data     = (ui_callback_data_t)MIDI_MODE_MAPLIN
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t midi_c64_menu[] = {
-    { "MIDI emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MIDIEnable_callback,
-      NULL },
-    { "MIDI cart type",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)midi_type_menu },
+    {   .string   = "MIDI emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MIDIEnable_callback
+    },
+    {   .string   = "MIDI cart type",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)midi_type_menu
+    },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t midi_vic20_menu[] = {
-    { "MIDI emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MIDIEnable_callback,
-      NULL },
+    {   .string   = "MIDI emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MIDIEnable_callback
+    },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
     SDL_MENU_LIST_END
 };

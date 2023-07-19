@@ -25,23 +25,26 @@
  */
 
 #include "vice.h"
-#include "types.h"
 
 #include "fullscreenarch.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
-#include "menu_video.h"
 #include "palette.h"
 #include "resources.h"
 #include "ted.h"
+#include "types.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vic.h"
 #include "vicii.h"
 #include "videoarch.h"
+
+#include "menu_video.h"
+
 
 static ui_menu_entry_t *palette_dyn_menu1 = NULL;
 static ui_menu_entry_t *palette_dyn_menu2 = NULL;
@@ -57,67 +60,87 @@ static ui_menu_entry_t palette_menu2[4];
 
 /* Border mode menu */
 
-UI_MENU_DEFINE_RADIO(VICIIBorderMode)
-UI_MENU_DEFINE_RADIO(VICBorderMode)
-UI_MENU_DEFINE_RADIO(TEDBorderMode)
-
 static const ui_menu_entry_t vicii_border_menu[] = {
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_NORMAL_BORDERS },
-    { "Full",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_FULL_BORDERS },
-    { "Debug",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_DEBUG_BORDERS },
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_NO_BORDERS },
+    {   .action   = ACTION_BORDER_MODE_NORMAL,
+        .string   ="Normal",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VICII_NORMAL_BORDERS,
+        .resource = "VICIIBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_FULL,
+        .string   = "Full",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VICII_FULL_BORDERS,
+        .resource = "VICIIBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_DEBUG,
+        .string   = "Debug",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VICII_DEBUG_BORDERS,
+        .resource = "VICIIBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_NONE,
+        .string   = "None",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VICII_NO_BORDERS,
+        .resource = "VICIIBorderMode"
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t vic_border_menu[] = {
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICBorderMode_callback,
-      (ui_callback_data_t)VIC_NORMAL_BORDERS },
-    { "Full",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICBorderMode_callback,
-      (ui_callback_data_t)VIC_FULL_BORDERS },
-    { "Debug",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICBorderMode_callback,
-      (ui_callback_data_t)VIC_DEBUG_BORDERS },
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICBorderMode_callback,
-      (ui_callback_data_t)VIC_NO_BORDERS },
+    {   .action   = ACTION_BORDER_MODE_NORMAL,
+        .string   ="Normal",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VIC_NORMAL_BORDERS,
+        .resource = "VICBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_FULL,
+        .string   = "Full",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VIC_FULL_BORDERS,
+        .resource = "VICBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_DEBUG,
+        .string   = "Debug",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VIC_DEBUG_BORDERS,
+        .resource = "VICBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_NONE,
+        .string   = "None",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)VIC_NO_BORDERS,
+        .resource = "VICBorderMode"
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t ted_border_menu[] = {
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDBorderMode_callback,
-      (ui_callback_data_t)TED_NORMAL_BORDERS },
-    { "Full",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDBorderMode_callback,
-      (ui_callback_data_t)TED_FULL_BORDERS },
-    { "Debug",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDBorderMode_callback,
-      (ui_callback_data_t)TED_DEBUG_BORDERS },
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDBorderMode_callback,
-      (ui_callback_data_t)TED_NO_BORDERS },
+    {   .action   = ACTION_BORDER_MODE_NORMAL,
+        .string   ="Normal",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)TED_NORMAL_BORDERS,
+        .resource = "TEDBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_FULL,
+        .string   = "Full",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)TED_FULL_BORDERS,
+        .resource = "TEDBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_DEBUG,
+        .string   = "Debug",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)TED_DEBUG_BORDERS,
+        .resource = "TEDBorderMode"
+    },
+    {   .action   = ACTION_BORDER_MODE_NONE,
+        .string   = "None",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .data     = (ui_callback_data_t)TED_NO_BORDERS,
+        .resource = "TEDBorderMode"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -160,37 +183,43 @@ UI_MENU_DEFINE_SLIDER_VIDEO(TEDPALOddLineOffset, 0, 2000)
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALScanLineShade, 0, 1000)
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALBlur, 0, 1000)
 
-#define VICE_SDL_CRTEMU_MENU_ITEMS(chip)                        \
-    { "Scanline shade",                                         \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALScanLineShade_callback,                 \
-      (ui_callback_data_t)"Set PAL shade (0-1000)" },           \
-    { "Blur",                                                   \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALBlur_callback,                          \
-      (ui_callback_data_t)"Set PAL blur (0-1000)" }
+#define VICE_SDL_CRTEMU_MENU_ITEMS(chip)                                    \
+    {   .string   = "Scanline shade",                                       \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALScanLineShade_callback,               \
+        .data     = (ui_callback_data_t)"Set PAL shade (0-1000)"            \
+    },                                                                      \
+    {   .string   = "Blur",                                                 \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALBlur_callback,                        \
+        .data     = (ui_callback_data_t)"Set PAL blur (0-1000)"             \
+    }
 
-#define VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(chip)                \
-    { "Scanline shade",                                         \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALScanLineShade_callback,                 \
-      (ui_callback_data_t)"Set PAL shade (0-1000)" },           \
-    { "Blur",                                                   \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALBlur_callback,                          \
-      (ui_callback_data_t)"Set PAL blur (0-1000)" },            \
-    { "Oddline phase",                                          \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALOddLinePhase_callback,                  \
-      (ui_callback_data_t)"Set PAL oddline phase (0-2000)" },   \
-    { "Oddline offset",                                         \
-      MENU_ENTRY_RESOURCE_INT,                                  \
-      slider_##chip##PALOddLineOffset_callback,                 \
-      (ui_callback_data_t)"Set PAL oddline offset (0-2000)" },  \
-    { "U-only Delayline",                                       \
-      MENU_ENTRY_RESOURCE_TOGGLE,                               \
-      toggle_##chip##PALDelaylineType_callback,                 \
-      NULL }
+#define VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(chip)                            \
+    {   .string   = "Scanline shade",                                       \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALScanLineShade_callback,               \
+        .data     = (ui_callback_data_t)"Set PAL shade (0-1000)"            \
+    },                                                                      \
+    {   .string   = "Blur",                                                 \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALBlur_callback,                        \
+        .data     = (ui_callback_data_t)"Set PAL blur (0-1000)"             \
+    },                                                                      \
+    {   .string   = "Oddline phase",                                        \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALOddLinePhase_callback,                \
+        .data     = (ui_callback_data_t)"Set PAL oddline phase (0-2000)"    \
+    },                                                                      \
+    {   .string   = "Oddline offset",                                       \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##PALOddLineOffset_callback,               \
+        .data     = (ui_callback_data_t)"Set PAL oddline offset (0-2000)"   \
+    },                                                                      \
+    {   .string   = "U-only Delayline",                                     \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
+        .callback = toggle_##chip##PALDelaylineType_callback                \
+    }
 
 static const ui_menu_entry_t vic_crt_controls_menu[] = {
     VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(VIC),
@@ -250,27 +279,32 @@ UI_MENU_DEFINE_SLIDER_VIDEO(CrtcColorSaturation, 0, 2000)
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcColorContrast, 0, 2000)
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcColorBrightness, 0, 2000)
 
-#define VICE_SDL_COLOR_MENU_ITEMS(chip)                        \
-    { "Gamma",                                                 \
-      MENU_ENTRY_RESOURCE_INT,                                 \
-      slider_##chip##ColorGamma_callback,                      \
-      (ui_callback_data_t)"Set gamma (0-4000)" },              \
-    { "Tint",                                                  \
-      MENU_ENTRY_RESOURCE_INT,                                 \
-      slider_##chip##ColorTint_callback,                       \
-      (ui_callback_data_t)"Set tint (0-2000)" },               \
-    { "Saturation",                                            \
-      MENU_ENTRY_RESOURCE_INT,                                 \
-      slider_##chip##ColorSaturation_callback,                 \
-      (ui_callback_data_t)"Set saturation (0-2000)" },         \
-    { "Contrast",                                              \
-      MENU_ENTRY_RESOURCE_INT,                                 \
-      slider_##chip##ColorContrast_callback,                   \
-      (ui_callback_data_t)"Set contrast (0-2000)" },           \
-    { "Brightness",                                            \
-      MENU_ENTRY_RESOURCE_INT,                                 \
-      slider_##chip##ColorBrightness_callback,                 \
-      (ui_callback_data_t)"Set brightness (0-2000)" }
+#define VICE_SDL_COLOR_MENU_ITEMS(chip)                                     \
+    {   .string   = "Gamma",                                                \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##ColorGamma_callback,                     \
+        .data     = (ui_callback_data_t)"Set gamma (0-4000)"                \
+    },                                                                      \
+    {   .string   = "Tint",                                                 \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##ColorTint_callback,                      \
+        .data     = (ui_callback_data_t)"Set tint (0-2000)"                 \
+    },                                                                      \
+    {   .string   = "Saturation",                                           \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##ColorSaturation_callback,                \
+        .data     = (ui_callback_data_t)"Set saturation (0-2000)"           \
+    },                                                                      \
+    {   .string   = "Contrast",                                             \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##ColorContrast_callback,                  \
+        .data     = (ui_callback_data_t)"Set contrast (0-2000)"             \
+    },                                                                      \
+    {   .string   = "Brightness",                                           \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                \
+        .callback = slider_##chip##ColorBrightness_callback,                \
+        .data     = (ui_callback_data_t)"Set brightness (0-2000)"           \
+    }
 
 static const ui_menu_entry_t vic_color_controls_menu[] = {
     VICE_SDL_COLOR_MENU_ITEMS(VIC),
@@ -317,77 +351,87 @@ UI_MENU_DEFINE_INT(Window0Width)
 UI_MENU_DEFINE_INT(Window0Height)
 
 
-#define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
-    { "Double size",                                \
-      MENU_ENTRY_RESOURCE_TOGGLE,                   \
-      toggle_##chip##DoubleSize_callback,           \
-      NULL },
+#define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)                         \
+    {   .string   = "Double size",                                  \
+        .type     =  MENU_ENTRY_RESOURCE_TOGGLE,                    \
+        .callback = toggle_##chip##DoubleSize_callback              \
+    },
 
-#define VICE_SDL_SIZE_MENU_STRETCHVERTICAL(chip)    \
-    { "Stretch vertically",                         \
-      MENU_ENTRY_RESOURCE_TOGGLE,                   \
-      toggle_##chip##StretchVertical_callback,      \
-      NULL },
+#define VICE_SDL_SIZE_MENU_STRETCHVERTICAL(chip)                    \
+    {   .string   = "Stretch vertically",                           \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,                     \
+        .callback = toggle_##chip##StretchVertical_callback         \
+    },
 
-#define VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)       \
-    { "Double scan",                                \
-      MENU_ENTRY_RESOURCE_TOGGLE,                   \
-      toggle_##chip##DoubleScan_callback,           \
-      NULL },                                       \
-    { "Fullscreen",                                 \
-      MENU_ENTRY_RESOURCE_TOGGLE,                   \
-      toggle_##chip##Fullscreen_callback,           \
-      NULL },                                       \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),         \
-    { "Automatic",                                  \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##FullscreenMode_callback,     \
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },   \
-    { "Custom",                                     \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##FullscreenMode_callback,     \
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM }, \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Custom resolution"),       \
-    { "Width",                                      \
-      MENU_ENTRY_RESOURCE_INT,                      \
-      int_##chip##FullscreenCustomWidth_callback,   \
-      (ui_callback_data_t)"Set width" },            \
-    { "Height",                                     \
-      MENU_ENTRY_RESOURCE_INT,                      \
-      int_##chip##FullscreenCustomHeight_callback,  \
-      (ui_callback_data_t)"Set height" },
+#define VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)                       \
+    {   .string   = "Double scan",                                  \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,                     \
+        .callback = toggle_##chip##DoubleScan_callback              \
+    },                                                              \
+    {   .action   = ACTION_FULLSCREEN_TOGGLE,                       \
+        .string   = "Fullscreen",                                   \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,                     \
+        .resource = #chip"Fullscreen"                               \
+    },                                                              \
+    SDL_MENU_ITEM_SEPARATOR,                                        \
+    SDL_MENU_ITEM_TITLE("Fullscreen mode"),                         \
+    {   .string   = "Automatic",                                    \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+        .callback = radio_##chip##FullscreenMode_callback,          \
+        .data     = (ui_callback_data_t)FULLSCREEN_MODE_AUTO        \
+    },                                                              \
+    {   .string   = "Custom",                                       \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+        .callback = radio_##chip##FullscreenMode_callback,          \
+        .data     = (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM      \
+    },                                                              \
+    SDL_MENU_ITEM_SEPARATOR,                                        \
+    SDL_MENU_ITEM_TITLE("Custom resolution"),                       \
+    {   .string   = "Width",                                        \
+        .type     = MENU_ENTRY_RESOURCE_INT,                        \
+        .callback = int_##chip##FullscreenCustomWidth_callback,     \
+        .data     = (ui_callback_data_t)"Set width"                 \
+    },                                                              \
+    {   .string   = "Height",                                       \
+        .type     = MENU_ENTRY_RESOURCE_INT,                        \
+        .callback = int_##chip##FullscreenCustomHeight_callback,    \
+        .data     = (ui_callback_data_t)"Set height"                \
+    },
 #ifndef USE_SDL2UI
-#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)        \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Resolution limit mode"),   \
-    { "Off",                                        \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_OFF },     \
-    { "Max",                                        \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_MAX },     \
-    { "Fixed",                                      \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
+#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)                        \
+    SDL_MENU_ITEM_SEPARATOR,                                        \
+    SDL_MENU_ITEM_TITLE("Resolution limit mode"),                   \
+    {   .string   = "Off",                                          \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+        .callback = radio_SDLLimitMode_callback,                    \
+        .data     = (ui_callback_data_t)SDL_LIMIT_MODE_OFF          \
+    },                                                              \
+    {   .string   = "Max",                                          \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+        .callback = radio_SDLLimitMode_callback,                    \
+        .data     = (ui_callback_data_t)SDL_LIMIT_MODE_MAX          \
+    },                                                              \
+    {   .string   ="Fixed",                                         \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+        .callback = radio_SDLLimitMode_callback,                    \
+        .data     = (ui_callback_data_t)SDL_LIMIT_MODE_FIXED        \
+    },
 #else
 #define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
 #endif
-#define VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip) \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Initial resolution"),      \
-    { "Width",                                      \
-      MENU_ENTRY_RESOURCE_INT,                      \
-      int_Window0Width_callback,                    \
-      (ui_callback_data_t)"Set width" },            \
-    { "Height",                                     \
-      MENU_ENTRY_RESOURCE_INT,                      \
-      int_Window0Height_callback,                   \
-      (ui_callback_data_t)"Set height" },
+#define VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip)                 \
+    SDL_MENU_ITEM_SEPARATOR,                                        \
+    SDL_MENU_ITEM_TITLE("Initial resolution"),                      \
+    {   .string   = "Width",                                        \
+        .type     = MENU_ENTRY_RESOURCE_INT,                        \
+        .callback = int_Window0Width_callback,                      \
+        .data     = (ui_callback_data_t)"Set width"                 \
+    },                                                              \
+    {   .string   = "Height",                                       \
+        .type     = MENU_ENTRY_RESOURCE_INT,                        \
+        .callback = int_Window0Height_callback,                     \
+        .data     = (ui_callback_data_t)"Set height"                \
+    },
 
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
 VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)               \
@@ -402,17 +446,19 @@ UI_MENU_DEFINE_RADIO(VICGLFilter)
 UI_MENU_DEFINE_RADIO(VDCGLFilter)
 UI_MENU_DEFINE_RADIO(CrtcGLFilter)
 
-#define VICE_SDL_VIDEO_FILTERS(chip)                         \
-static const ui_menu_entry_t chip##filter_menu[] = {         \
-    { "Nearest",                                             \
-      MENU_ENTRY_RESOURCE_RADIO,                             \
-      radio_##chip##GLFilter_callback,                       \
-      (ui_callback_data_t)VIDEO_GLFILTER_NEAREST },          \
-    { "Linear",                                              \
-      MENU_ENTRY_RESOURCE_RADIO,                             \
-      radio_##chip##GLFilter_callback,                       \
-      (ui_callback_data_t)VIDEO_GLFILTER_BILINEAR },         \
-    SDL_MENU_LIST_END                                        \
+#define VICE_SDL_VIDEO_FILTERS(chip)                                    \
+static const ui_menu_entry_t chip##filter_menu[] = {                    \
+    {   .string   = "Nearest",                                          \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_##chip##GLFilter_callback,                    \
+        .data     = (ui_callback_data_t)VIDEO_GLFILTER_NEAREST          \
+    },                                                                  \
+    {   .string   = "Linear",                                           \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_##chip##GLFilter_callback,                    \
+        .data     = (ui_callback_data_t)VIDEO_GLFILTER_BILINEAR         \
+    },                                                                  \
+    SDL_MENU_LIST_END                                                   \
 };
 
 VICE_SDL_VIDEO_FILTERS(VICII)
@@ -448,48 +494,53 @@ UI_MENU_DEFINE_TOGGLE(CrtcVSync)
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "VSync",                                              \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_##chip##VSync_callback,                        \
-      NULL },                                               \
-    { "GL Filter",                                          \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)chip##filter_menu },              \
-    { "Flip X",                                             \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_##chip##FlipX_callback,                        \
-      NULL },                                               \
-    { "Flip Y",                                             \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_##chip##FlipY_callback,                        \
-      NULL },                                               \
-    { "Rotate 90degr",                                      \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_##chip##Rotate_callback,                       \
-      NULL },
+    {   .string   = "VSync",                                \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+        .callback = toggle_##chip##VSync_callback,          \
+    },                                                      \
+    {   .string   = "GL Filter",                            \
+        .type     = MENU_ENTRY_SUBMENU,                     \
+        .callback = submenu_radio_callback,                 \
+        .data     = (ui_callback_data_t)chip##filter_menu   \
+    },                                                      \
+    {   .string   = "Flip X",                               \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+        .callback = toggle_##chip##FlipX_callback,          \
+    },                                                      \
+    {   .string   = "Flip Y",                               \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+        .callback = toggle_##chip##FlipY_callback,          \
+    },                                                      \
+    {   .string   = "Rotate 90degr",                        \
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+        .callback = toggle_##chip##Rotate_callback,         \
+    },
 
-#endif
+#endif  /* defined(HAVE_HWSCALE) || defined(USE_SDL2UI) */
 
-#define VICE_SDL_SIZE_MENU_ASPECT(chip)             \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Aspect Ratio Mode"),       \
-    { "off",                                        \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##AspectMode_callback,            \
-      (ui_callback_data_t)VIDEO_ASPECT_MODE_NONE }, \
-    { "custom",                                     \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##AspectMode_callback,            \
-      (ui_callback_data_t)VIDEO_ASPECT_MODE_CUSTOM }, \
-    { "true",                                       \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##AspectMode_callback,            \
-      (ui_callback_data_t)VIDEO_ASPECT_MODE_TRUE }, \
-    { "Custom aspect ratio",                        \
-      MENU_ENTRY_RESOURCE_STRING,                   \
-      string_##chip##AspectRatio_callback,          \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
+#define VICE_SDL_SIZE_MENU_ASPECT(chip)                                 \
+    SDL_MENU_ITEM_SEPARATOR,                                            \
+    SDL_MENU_ITEM_TITLE("Aspect Ratio Mode"),                           \
+    {   .string   = "off",                                              \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_##chip##AspectMode_callback,                  \
+        .data     = (ui_callback_data_t)VIDEO_ASPECT_MODE_NONE          \
+    },                                                                  \
+    {   .string   = "custom",                                           \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_##chip##AspectMode_callback,                  \
+        .data     = (ui_callback_data_t)VIDEO_ASPECT_MODE_CUSTOM        \
+    },                                                                  \
+    {   .string   = "true",                                             \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_##chip##AspectMode_callback,                  \
+        .data     = (ui_callback_data_t)VIDEO_ASPECT_MODE_TRUE          \
+    },                                                                  \
+    {   .string   = "Custom aspect ratio",                              \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                         \
+        .callback = string_##chip##AspectRatio_callback,                \
+        .data     = (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)"  \
+    },
 
 /* VICII size menu */
 
@@ -499,7 +550,6 @@ UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_RADIO(VICIIAspectMode)
 UI_MENU_DEFINE_STRING(VICIIAspectRatio)
 
-UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_RADIO(VICIIFullscreenMode)
 
 static const ui_menu_entry_t vicii_size_menu[] = {
@@ -522,7 +572,6 @@ UI_MENU_DEFINE_RADIO(VDCAspectMode)
 UI_MENU_DEFINE_STRING(VDCAspectRatio)
 
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
 UI_MENU_DEFINE_RADIO(VDCFullscreenMode)
 
 static const ui_menu_entry_t vdc_size_menu[] = {
@@ -539,7 +588,6 @@ static const ui_menu_entry_t vdc_size_menu[] = {
 
 /* Crtc size menu */
 
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
 UI_MENU_DEFINE_RADIO(CrtcFullscreenMode)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
@@ -568,7 +616,6 @@ UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_RADIO(TEDAspectMode)
 UI_MENU_DEFINE_STRING(TEDAspectRatio)
 
-UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
 UI_MENU_DEFINE_RADIO(TEDFullscreenMode)
 
 static const ui_menu_entry_t ted_size_menu[] = {
@@ -590,7 +637,6 @@ UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_RADIO(VICAspectMode)
 UI_MENU_DEFINE_STRING(VICAspectRatio)
 
-UI_MENU_DEFINE_TOGGLE(VICFullscreen)
 UI_MENU_DEFINE_RADIO(VICFullscreenMode)
 
 static const ui_menu_entry_t vic_size_menu[] = {
@@ -611,21 +657,24 @@ UI_MENU_DEFINE_RADIO(VICFilter)
 UI_MENU_DEFINE_RADIO(VDCFilter)
 UI_MENU_DEFINE_RADIO(CrtcFilter)
 
-#define VICE_SDL_FILTER_MENU_ITEMS(chip)       \
-    { "None",                                  \
-      MENU_ENTRY_RESOURCE_RADIO,               \
-      radio_##chip##Filter_callback,           \
-      (ui_callback_data_t)VIDEO_FILTER_NONE }, \
-    { "CRT Emulation",                         \
-      MENU_ENTRY_RESOURCE_RADIO,               \
-      radio_##chip##Filter_callback,           \
-      (ui_callback_data_t)VIDEO_FILTER_CRT }
+#define VICE_SDL_FILTER_MENU_ITEMS(chip)                    \
+    {   .string    = "None",                                \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+        .callback = radio_##chip##Filter_callback,          \
+        .data     = (ui_callback_data_t)VIDEO_FILTER_NONE   \
+    },                                                      \
+    {   .string   = "CRT Emulation",                        \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+        .callback = radio_##chip##Filter_callback,          \
+        .data     = (ui_callback_data_t)VIDEO_FILTER_CRT    \
+    }
 
-#define VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(chip) \
-    { "Scale2x",                                 \
-      MENU_ENTRY_RESOURCE_RADIO,                 \
-      radio_##chip##Filter_callback,             \
-      (ui_callback_data_t)VIDEO_FILTER_SCALE2X }
+#define VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(chip)                \
+    {   .string   = "Scale2x",                                  \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+        .callback = radio_##chip##Filter_callback,              \
+        .data     = (ui_callback_data_t)VIDEO_FILTER_SCALE2X    \
+    }
 
 static const ui_menu_entry_t vicii_filter_menu[] = {
     VICE_SDL_FILTER_MENU_ITEMS(VICII),
@@ -669,15 +718,6 @@ UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
-
-static UI_MENU_CALLBACK(restore_size_callback)
-{
-    if (activated) {
-        sdl_video_restore_size();
-    }
-    return NULL;
-}
-
 UI_MENU_DEFINE_FILE_STRING(VICIIPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(VDCPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(CrtcPaletteFile)
@@ -736,102 +776,122 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 
 const ui_menu_entry_t c128_video_menu[] = {
     SDL_MENU_ITEM_TITLE("Video output"),
-    { "VICII (40 cols)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)VIDEO_OUTPUT_VICII },
-    { "VDC (80 cols)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)VIDEO_OUTPUT_VDC },
+    {   .string   = "VICII (40 cols)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VideoOutput_c128_callback,
+        .data     = (ui_callback_data_t)VIDEO_OUTPUT_VICII
+    },
+    {   .string   = "VDC (80 cols)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VideoOutput_c128_callback,
+        .data     = (ui_callback_data_t)VIDEO_OUTPUT_VDC
+    },
 #ifdef USE_SDL2UI
-    { "Dual Windows",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)VIDEO_OUTPUT_DUAL_WINDOW },
+    {   .string   = "Dual Windows",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VideoOutput_c128_callback,
+        .data     = (ui_callback_data_t)VIDEO_OUTPUT_DUAL_WINDOW
+    },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "VDC host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+
+    {   .string   = "VICII host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_size_menu
+    },
+    {   .string   = "VDC host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vdc_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
-    { "VICII Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_color_controls_menu },
-    { "VICII CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_crt_controls_menu },
-    { "VICII render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_filter_menu },
-    { "VICII colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "VICII Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIAudioLeak_callback,
-      NULL },
+
+    {   .string   = "VICII Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIVideoCache_callback
+    },
+    {   .string   = "VICII Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_color_controls_menu
+    },
+    {   .string   = "VICII CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_crt_controls_menu
+    },
+    {   .string   = "VICII render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_filter_menu
+    },
+    {   .string   = "VICII colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VICII Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VDC Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCVideoCache_callback,
-      NULL },
-    { "VDC Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_color_controls_menu },
-    { "VDC CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_crt_controls_menu },
-    { "VDC render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vdc_filter_menu },
-    { "VDC colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu2 },
-    { "VDC Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCAudioLeak_callback,
-      NULL },
+
+    {   .string   = "VDC Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VDCVideoCache_callback
+    },
+    {   .string   = "VDC Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vdc_color_controls_menu
+    },
+    {   .string   = "VDC CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vdc_crt_controls_menu
+    },
+    {   .string   = "VDC render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vdc_filter_menu
+    },
+    {   .string   = "VDC colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu2
+    },
+    {   .string   = "VDC Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VDCAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    {   .string   = "PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_PAL
+    },
+    {   .string   = "NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_NTSC
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable Sprite-Sprite collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSsColl_callback,
-      NULL },
-    { "Enable Sprite-Background collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSbColl_callback,
-      NULL },
+
+    {   .string   = "Enable Sprite-Sprite collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSsColl_callback
+    },
+    {   .string   = "Enable Sprite-Background collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSbColl_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -839,55 +899,66 @@ const ui_menu_entry_t c128_video_menu[] = {
 /* C64 video menu */
 
 const ui_menu_entry_t c64_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+
+    {   .string   = "VICII border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_border_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_filter_menu },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_filter_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "VICII Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIAudioLeak_callback,
-      NULL },
+
+    {   .string   = "VICII colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VICII Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable Sprite-Sprite collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSsColl_callback,
-      NULL },
-    { "Enable Sprite-Background collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSbColl_callback,
-      NULL },
+
+    {   .string   = "Enable Sprite-Sprite collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSsColl_callback
+    },
+    {   .string   = "Enable Sprite-Background collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSbColl_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -895,54 +966,64 @@ const ui_menu_entry_t c64_video_menu[] = {
 /* C64SC video menu */
 
 const ui_menu_entry_t c64sc_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+
+    {   .string   = "VICII border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_border_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_filter_menu },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_filter_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "VICII Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIAudioLeak_callback,
-      NULL },
-    { "VICII VSP-bug emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVSPBug_callback,
-      NULL },
+
+    {   .string   = "VICII colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VICII Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIAudioLeak_callback
+    },
+    {   .string   = "VICII VSP-bug emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIVSPBug_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable Sprite-Sprite collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSsColl_callback,
-      NULL },
-    { "Enable Sprite-Background collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSbColl_callback,
-      NULL },
+
+    {   .string   = "Enable Sprite-Sprite collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSsColl_callback
+    },
+    {   .string   = "Enable Sprite-Background collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSbColl_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -950,135 +1031,156 @@ const ui_menu_entry_t c64sc_video_menu[] = {
 /* C64DTV video menu */
 
 const ui_menu_entry_t c64dtv_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+
+    {   .string   = "VICII border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_border_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_filter_menu },
-#if 0   /* disabled until there are external DTV palette files available */
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
-#endif
-    { "VICII Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIAudioLeak_callback,
-      NULL },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_filter_menu
+    },
+    {   .string   = "VICII colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VICII Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    {   .string   = "PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_PAL
+    },
+    {   .string   = "NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_NTSC
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable Sprite-Sprite collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSsColl_callback,
-      NULL },
-    { "Enable Sprite-Background collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSbColl_callback,
-      NULL },
+
+    {   .string   = "Enable Sprite-Sprite collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSsColl_callback
+    },
+    {   .string   = "Enable Sprite-Background collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSbColl_callback
+    },
     SDL_MENU_LIST_END
 };
 
 /* CBM-II 5x0 video menu */
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+
+    {   .string   = "VICII border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_border_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_filter_menu },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vicii_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_filter_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "VICII Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIAudioLeak_callback,
-      NULL },
+
+    {   .string   = "VICII colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VICII Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIIAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    {   .string   = "PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_PAL
+    },
+    {   .string   = "NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_NTSC
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable Sprite-Sprite collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSsColl_callback,
-      NULL },
-    { "Enable Sprite-Background collisions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIICheckSbColl_callback,
-      NULL },
+
+    {   .string   = "Enable Sprite-Sprite collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSsColl_callback
+    },
+    {   .string   = "Enable Sprite-Background collisions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICIICheckSbColl_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1086,40 +1188,47 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
 /* CBM-II 6x0/7x0 video menu */
 
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CrtcVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)crtc_filter_menu },
-    { "CRTC colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "CRTC Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcAudioLeak_callback,
-      NULL },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)crtc_filter_menu
+    },
+    {   .string   = "CRTC colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "CRTC Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CrtcAudioLeak_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1127,40 +1236,47 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
 /* PET video menu */
 
 const ui_menu_entry_t pet_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CrtcVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)crtc_filter_menu },
-    { "CRTC colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "CRTC Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcAudioLeak_callback,
-      NULL },
+
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)crtc_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)crtc_filter_menu
+    },
+    {   .string   = "CRTC colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "CRTC Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CrtcAudioLeak_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1168,55 +1284,67 @@ const ui_menu_entry_t pet_video_menu[] = {
 /* PLUS4 video menu */
 
 const ui_menu_entry_t plus4_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ted_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_TEDVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "TED border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)ted_border_menu },
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)ted_filter_menu },
+
+    {   .string   = "TED border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)ted_border_menu
+    },
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ted_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ted_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)ted_filter_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "TED colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "TED Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDAudioLeak_callback,
-      NULL },
+
+    {   .string   = "TED colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "TED Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_TEDAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    {   .string   = "PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_PAL
+    },
+    {   .string   = "NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_NTSC
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1235,55 +1363,67 @@ static UI_MENU_CALLBACK(radio_MachineVideoStandard_vic20_callback)
 }
 
 const ui_menu_entry_t vic20_video_menu[] = {
-    { "Host rendering settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {   .string   = "Host rendering settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vic_size_menu
+    },
+    {   .action   = ACTION_RESTORE_DISPLAY,
+        .string   = "Restore window size",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICVideoCache_callback,
-      NULL },
+
+    {   .string   = "Video cache",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICVideoCache_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VIC border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vic_border_menu },
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_color_controls_menu },
-    { "CRT emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_crt_controls_menu },
-    { "Render filter",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vic_filter_menu },
+
+    {   .string   = "VIC border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vic_border_menu
+    },
+    {   .string   = "Color controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vic_color_controls_menu
+    },
+    {   .string   = "CRT emulation controls",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vic_crt_controls_menu
+    },
+    {   .string   = "Render filter",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vic_filter_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VIC colors",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)palette_menu1 },
-    { "VIC Audio Leak emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICAudioLeak_callback,
-      NULL },
+
+    {   .string   = "VIC colors",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)palette_menu1
+    },
+    {   .string   = "VIC Audio Leak emulation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VICAudioLeak_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_vic20_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_vic20_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    {   .string   = "PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_vic20_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_PAL
+    },
+    {   .string   = "NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineVideoStandard_vic20_callback,
+        .data     = (ui_callback_data_t)MACHINE_SYNC_NTSC
+    },
     SDL_MENU_LIST_END
 };
 
@@ -1348,11 +1488,11 @@ typedef struct name2func_s {
 } name2func_t;
 
 static const name2func_t name2func[] = {
-    { "VICII", toggle_VICIIExternalPalette_callback, file_string_VICIIPaletteFile_callback },
-    { "VDC", toggle_VDCExternalPalette_callback, file_string_VDCPaletteFile_callback },
-    { "Crtc", toggle_CrtcExternalPalette_callback, file_string_CrtcPaletteFile_callback },
-    { "TED", toggle_TEDExternalPalette_callback, file_string_TEDPaletteFile_callback },
-    { "VIC", toggle_VICExternalPalette_callback, file_string_VICPaletteFile_callback },
+    { "VICII",  toggle_VICIIExternalPalette_callback,   file_string_VICIIPaletteFile_callback },
+    { "VDC",    toggle_VDCExternalPalette_callback,     file_string_VDCPaletteFile_callback },
+    { "Crtc",   toggle_CrtcExternalPalette_callback,    file_string_CrtcPaletteFile_callback },
+    { "TED",    toggle_TEDExternalPalette_callback,     file_string_TEDPaletteFile_callback },
+    { "VIC",    toggle_VICExternalPalette_callback,     file_string_VICPaletteFile_callback },
     { NULL, NULL, NULL }
 };
 
@@ -1396,10 +1536,11 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
             const char *current;
             char *current2;
             const char *ext;
-            palette_dyn_menu1[i].string = (char *)lib_strdup(palettelist->name);
-            palette_dyn_menu1[i].type = MENU_ENTRY_OTHER_TOGGLE;
+            palette_dyn_menu1[i].action   = ACTION_NONE;
+            palette_dyn_menu1[i].string   = lib_strdup(palettelist->name);
+            palette_dyn_menu1[i].type     = MENU_ENTRY_OTHER_TOGGLE;
             palette_dyn_menu1[i].callback = external_palette_file1_callback;
-            palette_dyn_menu1[i].data = NULL;
+            palette_dyn_menu1[i].data     = NULL;
             resources_get_string_sprintf("%sPaletteFile", &current, video_chip1_used);
             if (current) {
                 /* if the <CHIP>PaletteFile resource points to a file,
@@ -1434,11 +1575,7 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
         }
         ++palettelist;
     }
-
-    palette_dyn_menu1[i].string = NULL;
-    palette_dyn_menu1[i].type = 0;
-    palette_dyn_menu1[i].callback = NULL;
-    palette_dyn_menu1[i].data = NULL;
+    palette_dyn_menu1[i].string   = NULL;
 
     if (video_chip2_used) {
         palettelist = palette_get_info_list();
@@ -1452,10 +1589,11 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
                 const char *current;
                 char *current2;
                 const char *ext;
-                palette_dyn_menu2[i].string = (char *)lib_strdup(palettelist->name);
-                palette_dyn_menu2[i].type = MENU_ENTRY_OTHER_TOGGLE;
+                palette_dyn_menu2[i].action   = ACTION_NONE;
+                palette_dyn_menu2[i].string   = lib_strdup(palettelist->name);
+                palette_dyn_menu2[i].type     = MENU_ENTRY_OTHER_TOGGLE;
                 palette_dyn_menu2[i].callback = external_palette_file2_callback;
-                palette_dyn_menu2[i].data = NULL;
+                palette_dyn_menu2[i].data     = NULL;
                 resources_get_string_sprintf("%sPaletteFile", &current, video_chip2_used);
                 if (current) {
                     /* if the <CHIP>PaletteFile resource points to a file,
@@ -1490,52 +1628,49 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
             }
             ++palettelist;
         }
-        palette_dyn_menu2[i].string = NULL;
-        palette_dyn_menu2[i].type = 0;
-        palette_dyn_menu2[i].callback = NULL;
-        palette_dyn_menu2[i].data = NULL;
+        palette_dyn_menu2[i].string   = NULL;
     }
 
-    palette_menu1[0].string = "External palette";
-    palette_menu1[0].type = MENU_ENTRY_RESOURCE_TOGGLE;
+    palette_menu1[0].action   = ACTION_NONE;
+    palette_menu1[0].string   = "External palette";
+    palette_menu1[0].type     = MENU_ENTRY_RESOURCE_TOGGLE;
     palette_menu1[0].callback = toggle_func1;
-    palette_menu1[0].data = NULL;
+    palette_menu1[0].data     = NULL;
 
-    palette_menu1[1].string = "Available palette files";
-    palette_menu1[1].type = MENU_ENTRY_SUBMENU;
+    palette_menu1[1].action   = ACTION_NONE;
+    palette_menu1[1].string   = "Available palette files";
+    palette_menu1[1].type     = MENU_ENTRY_SUBMENU;
     palette_menu1[1].callback = submenu_callback;
-    palette_menu1[1].data = (ui_callback_data_t)palette_dyn_menu1;
+    palette_menu1[1].data     = (ui_callback_data_t)palette_dyn_menu1;
 
-    palette_menu1[2].string = "Custom palette file";
-    palette_menu1[2].type = MENU_ENTRY_DIALOG;
+    palette_menu1[2].action   = ACTION_NONE;
+    palette_menu1[2].string   = "Custom palette file";
+    palette_menu1[2].type     = MENU_ENTRY_DIALOG;
     palette_menu1[2].callback = file_func1;
-    palette_menu1[2].data = (ui_callback_data_t)"Choose palette file";
+    palette_menu1[2].data     = (ui_callback_data_t)"Choose palette file";
 
-    palette_menu1[3].string = NULL;
-    palette_menu1[3].type = MENU_ENTRY_TEXT;
-    palette_menu1[3].callback = NULL;
-    palette_menu1[3].data = NULL;
+    palette_menu1[3].string   = NULL;
 
     if (video_chip2_used) {
-        palette_menu2[0].string = "External palette";
-        palette_menu2[0].type = MENU_ENTRY_RESOURCE_TOGGLE;
+        palette_menu2[0].action   = ACTION_NONE;
+        palette_menu2[0].string   = "External palette";
+        palette_menu2[0].type     = MENU_ENTRY_RESOURCE_TOGGLE;
         palette_menu2[0].callback = toggle_func2;
-        palette_menu2[0].data = NULL;
+        palette_menu2[0].data     = NULL;
 
-        palette_menu2[1].string = "Available palette files";
-        palette_menu2[1].type = MENU_ENTRY_SUBMENU;
+        palette_menu2[1].action   = ACTION_NONE;
+        palette_menu2[1].string   = "Available palette files";
+        palette_menu2[1].type     = MENU_ENTRY_SUBMENU;
         palette_menu2[1].callback = submenu_callback;
-        palette_menu2[1].data = (ui_callback_data_t)palette_dyn_menu2;
+        palette_menu2[1].data     = (ui_callback_data_t)palette_dyn_menu2;
 
-        palette_menu2[2].string = "Custom palette file";
-        palette_menu2[2].type = MENU_ENTRY_DIALOG;
+        palette_menu2[2].action   = ACTION_NONE;
+        palette_menu2[2].string   = "Custom palette file";
+        palette_menu2[2].type     = MENU_ENTRY_DIALOG;
         palette_menu2[2].callback = file_func2;
-        palette_menu2[2].data = (ui_callback_data_t)"Choose palette file";
+        palette_menu2[2].data     = (ui_callback_data_t)"Choose palette file";
 
-        palette_menu2[3].string = NULL;
-        palette_menu2[3].type = MENU_ENTRY_TEXT;
-        palette_menu2[3].callback = NULL;
-        palette_menu2[3].data = NULL;
+        palette_menu2[3].string   = NULL;
     }
 }
 

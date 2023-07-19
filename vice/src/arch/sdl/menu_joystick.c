@@ -26,23 +26,26 @@
  */
 
 #include "vice.h"
-#include "types.h"
 
-#include "vice_sdl.h"
-
+#include "actions-joystick.h"
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
-#include "menu_joystick.h"
 #include "mouse.h"
 #include "resources.h"
+#include "types.h"
+#include "uiactions.h"
 #include "uimenu.h"
 #include "uipoll.h"
 #include "userport_joystick.h"
 #include "util.h"
+#include "vice_sdl.h"
+
+#include "menu_joystick.h"
+
 
 UI_MENU_DEFINE_RADIO(JoyDevice1)
 UI_MENU_DEFINE_RADIO(JoyDevice2)
@@ -98,44 +101,46 @@ static const char *joystick_device_dynmenu_helper(int port)
     }
 
     if (joyport_has_mapping(port)) {
-        entry[j].string = (char *)lib_strdup("None");
-        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].action   = ACTION_NONE;
+        entry[j].string   = lib_strdup("None");
+        entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NONE);
+        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NONE);
         j++;
 
-        entry[j].string = (char *)lib_strdup("Numpad");
-        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].action   = ACTION_NONE;
+        entry[j].string   = lib_strdup("Numpad");
+        entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NUMPAD);
+        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NUMPAD);
         j++;
 
-        entry[j].string = (char *)lib_strdup("Keyset 1");
-        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].action   = ACTION_NONE;
+        entry[j].string   = lib_strdup("Keyset 1");
+        entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET1);
+        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET1);
         j++;
 
-        entry[j].string = (char *)lib_strdup("Keyset 2");
-        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].action   = ACTION_NONE;
+        entry[j].string   = lib_strdup("Keyset 2");
+        entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET2);
+        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET2);
         j++;
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
         joystick_ui_reset_device_list();
         while (j < JOYPORT_MAX_PORTS - 1 && (device_name = joystick_ui_get_next_device_name(&id)) != NULL) {
-            entry[j].string = (char *)lib_strdup(device_name);
-            entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+            entry[j].action   = ACTION_NONE;
+            entry[j].string   = lib_strdup(device_name);
+            entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
             entry[j].callback = uijoystick_device_callbacks[port];
-            entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_JOYSTICK);
+            entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_JOYSTICK);
             j++;
         }
 #endif
         entry[j].string = NULL;
-        entry[j].type = 0;
-        entry[j].callback = NULL;
-        entry[j].data = NULL;
 
         return MENU_SUBMENU_STRING;
     }
@@ -197,7 +202,6 @@ static UI_MENU_CALLBACK(Joystick11Device_dynmenu_callback)
     return joystick_device_dynmenu_helper(JOYPORT_11);
 }
 
-UI_MENU_DEFINE_TOGGLE(KeySetEnable)
 UI_MENU_DEFINE_TOGGLE(JoyOpposite)
 
 UI_MENU_DEFINE_TOGGLE(JoyStick1AutoFire)
@@ -238,14 +242,16 @@ UI_MENU_DEFINE_RADIO(JoyStick11AutoFireMode)
 
 #define VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_autofire_mode_menu[] = { \
-        { "Autofire when fire is pressed",                                      \
-          MENU_ENTRY_RESOURCE_RADIO,                                            \
-          radio_JoyStick##port##AutoFireMode_callback,                          \
-          (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PRESS },                   \
-        { "Autofire when fire is not pressed",                                  \
-          MENU_ENTRY_RESOURCE_RADIO,                                            \
-          radio_JoyStick##port##AutoFireMode_callback,                          \
-          (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PERMANENT },               \
+        {   .string   = "Autofire when fire is pressed",                        \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                              \
+            .callback = radio_JoyStick##port##AutoFireMode_callback,            \
+            .data     = (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PRESS        \
+        },                                                                      \
+        {   .string   = "Autofire when fire is not pressed",                    \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                              \
+            .callback = radio_JoyStick##port##AutoFireMode_callback,            \
+            .data     = (ui_callback_data_t)JOYSTICK_AUTOFIRE_MODE_PERMANENT    \
+        },                                                                      \
         SDL_MENU_LIST_END                                                       \
     };
 
@@ -261,21 +267,23 @@ VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(9)
 VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(10)
 VICE_SDL_JOYSTICK_AUTOFIRE_MODE_MENU(11)
 
-#define VICE_SDL_JOYSTICK_AUTOFIRE_MENU(port)                              \
-    static const ui_menu_entry_t joystick_port##port##_autofire_menu[] = { \
-        { "Enable autofire",                                               \
-          MENU_ENTRY_RESOURCE_TOGGLE,                                      \
-          toggle_JoyStick##port##AutoFire_callback,                        \
-          NULL },                                                          \
-        { "Autofire mode",                                                 \
-          MENU_ENTRY_SUBMENU,                                              \
-          submenu_radio_callback,                                          \
-          (ui_callback_data_t)joystick_port##port##_autofire_mode_menu },  \
-        { "Autofire speed",                                                \
-          MENU_ENTRY_RESOURCE_INT,                                         \
-          slider_JoyStick##port##AutoFireSpeed_callback,                   \
-          (ui_callback_data_t)"Set autofire speed (1 - 255)" },            \
-        SDL_MENU_LIST_END                                                  \
+#define VICE_SDL_JOYSTICK_AUTOFIRE_MENU(port)                                        \
+    static const ui_menu_entry_t joystick_port##port##_autofire_menu[] = {           \
+        {   .string   = "Enable autofire",                                           \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,                                  \
+            .callback = toggle_JoyStick##port##AutoFire_callback,                    \
+        },                                                                           \
+        {   .string   = "Autofire mode",                                             \
+            .type     = MENU_ENTRY_SUBMENU,                                          \
+            .callback = submenu_radio_callback,                                      \
+            .data     = (ui_callback_data_t)joystick_port##port##_autofire_mode_menu \
+        },                                                                           \
+        {   .string   = "Autofire speed",                                            \
+            .type     = MENU_ENTRY_RESOURCE_INT,                                     \
+            .callback = slider_JoyStick##port##AutoFireSpeed_callback,               \
+            .data     = (ui_callback_data_t)"Set autofire speed (1 - 255)"           \
+        },                                                                           \
+        SDL_MENU_LIST_END                                                            \
     };
 
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(1)
@@ -340,29 +348,19 @@ static UI_MENU_CALLBACK(joystick_autofire_dynmenu_callback)
     if (mappings) {
         for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
             if (joyport_has_mapping(i)) {
-                joystick_autofire_dyn_menu[j].string = util_concat(joyport_get_port_name(i), " Autofire", NULL);
-                joystick_autofire_dyn_menu[j].type = MENU_ENTRY_SUBMENU;
+                joystick_autofire_dyn_menu[j].action   = ACTION_NONE;
+                joystick_autofire_dyn_menu[j].string   = util_concat(joyport_get_port_name(i), " Autofire", NULL);
+                joystick_autofire_dyn_menu[j].type     = MENU_ENTRY_SUBMENU;
                 joystick_autofire_dyn_menu[j].callback = submenu_callback;
-                joystick_autofire_dyn_menu[j].data = (ui_callback_data_t)joystick_port_autofire_menus[i];
+                joystick_autofire_dyn_menu[j].data     = (ui_callback_data_t)joystick_port_autofire_menus[i];
                 j++;
             }
         }
         joystick_autofire_dyn_menu[j].string = NULL;
-        joystick_autofire_dyn_menu[j].type = 0;
-        joystick_autofire_dyn_menu[j].callback = NULL;
-        joystick_autofire_dyn_menu[j].data = NULL;
 
         return MENU_SUBMENU_STRING;
     }
     return MENU_NOT_AVAILABLE_STRING;
-}
-
-static UI_MENU_CALLBACK(custom_swap_ports_callback)
-{
-    if (activated) {
-        sdljoy_swap_ports();
-    }
-    return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
 }
 
 #ifdef USE_SDL2UI
@@ -397,103 +395,128 @@ static UI_MENU_CALLBACK(custom_keyset_callback)
 }
 
 static const ui_menu_entry_t define_keyset_menu[] = {
-    { "Keyset 1 Up",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1North" },
-    { "Keyset 1 Down",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1South" },
-    { "Keyset 1 Left",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1West" },
-    { "Keyset 1 Right",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1East" },
-    { "Keyset 1 Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire" },
-    { "Keyset 1 2nd Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire2" },
-    { "Keyset 1 3rd Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire3" },
-    { "Keyset 1 4th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire4" },
-    { "Keyset 1 5th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire5" },
-    { "Keyset 1 6th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire6" },
-    { "Keyset 1 7th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire7" },
-    { "Keyset 1 8th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet1Fire8" },
+    {   .string   = "Keyset 1 Up",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1North"
+    },
+    {   .string   = "Keyset 1 Down",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1South"
+    },
+    {   .string   = "Keyset 1 Left",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1West"
+    },
+    {   .string   = "Keyset 1 Right",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1East"
+    },
+    {   .string   = "Keyset 1 Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire"
+    },
+    {   .string   = "Keyset 1 2nd Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire2"
+    },
+    {   .string   = "Keyset 1 3rd Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire3"
+    },
+    {   .string   = "Keyset 1 4th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire4"
+    },
+    {   .string   = "Keyset 1 5th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire5"
+    },
+    {   .string   = "Keyset 1 6th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire6"
+    },
+    {   .string   = "Keyset 1 7th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire7"
+    },
+    {   .string   = "Keyset 1 8th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet1Fire8"
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Keyset 2 Up",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2North" },
-    { "Keyset 2 Down",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2South" },
-    { "Keyset 2 Left",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2West" },
-    { "Keyset 2 Right",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2East" },
-    { "Keyset 2 Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire" },
-    { "Keyset 2 2nd Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire2" },
-    { "Keyset 2 3rd Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire3" },
-    { "Keyset 2 4th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire4" },
-    { "Keyset 2 5th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire5" },
-    { "Keyset 2 6th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire6" },
-    { "Keyset 2 7th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire7" },
-    { "Keyset 2 8th Fire",
-      MENU_ENTRY_DIALOG,
-      custom_keyset_callback,
-      (ui_callback_data_t)"KeySet2Fire8" },
+
+    {   .string   = "Keyset 2 Up",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2North"
+    },
+    {   .string   = "Keyset 2 Down",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2South"
+    },
+    {   .string   = "Keyset 2 Left",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2West"
+    },
+    {   .string   = "Keyset 2 Right",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2East"
+    },
+    {   .string   = "Keyset 2 Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire"
+    },
+    {   .string   = "Keyset 2 2nd Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire2"
+    },
+    {   .string   = "Keyset 2 3rd Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire3"
+    },
+    {   .string   = "Keyset 2 4th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire4"
+    },
+    {   .string   = "Keyset 2 5th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire5"
+    },
+    {   .string   = "Keyset 2 6th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire6"
+    },
+    {   .string   = "Keyset 2 7th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire7"
+    },
+    {   .string   = "Keyset 2 8th Fire",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_keyset_callback,
+        .data     = (ui_callback_data_t)"KeySet2Fire8"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -640,23 +663,28 @@ UI_MENU_DEFINE_SLIDER(JoyThreshold, 0, 32767)
 UI_MENU_DEFINE_SLIDER(JoyFuzz, 0, 32767)
 
 static const ui_menu_entry_t define_joy_misc_menu[] = {
-    { "Menu activate",
-      MENU_ENTRY_DIALOG,
-      custom_joy_misc_callback,
-      (ui_callback_data_t)0 },
-    { "Map",
-      MENU_ENTRY_DIALOG,
-      custom_joy_misc_callback,
-      (ui_callback_data_t)1 },
+    {   .string   = "Menu activate",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_joy_misc_callback,
+        .data     = (ui_callback_data_t)0
+    },
+    {   .string   = "Map",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_joy_misc_callback,
+        .data     = (ui_callback_data_t)1
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Threshold",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_JoyThreshold_callback,
-      (ui_callback_data_t)"Set joystick threshold (0 - 32767)" },
-    { "Fuzz",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_JoyFuzz_callback,
-      (ui_callback_data_t)"Set joystick fuzz (0 - 32767)" },
+
+    {   .string   = "Threshold",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = slider_JoyThreshold_callback,
+        .data     = (ui_callback_data_t)"Set joystick threshold (0 - 32767)"
+    },
+    {   .string   = "Fuzz",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = slider_JoyFuzz_callback,
+        .data     = (ui_callback_data_t)"Set joystick fuzz (0 - 32767)"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -694,34 +722,34 @@ static const char *joystick_mapping_dynmenu_helper(int port)
         if (mappings != NULL) {
             if (mappings->pinmap != NULL) {
                 for (i = 0; mappings->pinmap[i].name; i++) {
-                    mapname = (char *)lib_strdup(mappings->pinmap[i].name);
-                    entry[j].string = mapname;
-                    entry[j].type = MENU_ENTRY_DIALOG;
+                    mapname = lib_strdup(mappings->pinmap[i].name);
+                    entry[j].action   = ACTION_NONE;
+                    entry[j].string   = mapname;
+                    entry[j].type     = MENU_ENTRY_DIALOG;
                     entry[j].callback = custom_joymap_callback;
-                    entry[j].data = (ui_callback_data_t)int_to_void_ptr((mappings->pinmap[i].pin | (port << 5)));
+                    entry[j].data     = (ui_callback_data_t)int_to_void_ptr((mappings->pinmap[i].pin | (port << 5)));
                     joy_pin[port][mappings->pinmap[i].pin] = mapname;
                     j++;
                 }
             }
             if (mappings->potmap != NULL) {
                 for (i = 0; mappings->potmap[i].name; i++) {
-                    entry[j].string = (char *)lib_strdup(mappings->potmap[i].name);
-                    entry[j].type = MENU_ENTRY_DIALOG;
+                    entry[j].action   = ACTION_NONE;
+                    entry[j].string   = lib_strdup(mappings->potmap[i].name);
+                    entry[j].type     = MENU_ENTRY_DIALOG;
                     entry[j].callback = custom_joymap_axis_callback;
-                    entry[j].data = (ui_callback_data_t)int_to_void_ptr((mappings->potmap[i].pin | (port << 5)));
+                    entry[j].data     = (ui_callback_data_t)int_to_void_ptr((mappings->potmap[i].pin | (port << 5)));
                     j++;
                 }
             }
-            entry[j].string = (char *)lib_strdup("Clear all mappings");
-            entry[j].type = MENU_ENTRY_DIALOG;
+            entry[j].action   = ACTION_NONE;
+            entry[j].string   = lib_strdup("Clear all mappings");
+            entry[j].type     = MENU_ENTRY_DIALOG;
             entry[j].callback = clear_joymap_callback;
-            entry[j].data = (ui_callback_data_t)int_to_void_ptr(port << 5);
+            entry[j].data     = (ui_callback_data_t)int_to_void_ptr(port << 5);
             j++;
         }
         entry[j].string = NULL;
-        entry[j].type = 0;
-        entry[j].callback = NULL;
-        entry[j].data = NULL;
 
         return MENU_SUBMENU_STRING;
     }
@@ -833,17 +861,15 @@ static UI_MENU_CALLBACK(joystick_host_mapping_dynmenu_callback)
     if (mappings) {
         for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
             if (joyport_has_mapping(i)) {
-                joystick_host_mapping_dyn_menu[j].string = util_concat("Host -> ", joyport_get_port_name(i), NULL);
-                joystick_host_mapping_dyn_menu[j].type = MENU_ENTRY_SUBMENU;
+                joystick_host_mapping_dyn_menu[j].action   = ACTION_NONE;
+                joystick_host_mapping_dyn_menu[j].string   = util_concat("Host -> ", joyport_get_port_name(i), NULL);
+                joystick_host_mapping_dyn_menu[j].type     = MENU_ENTRY_SUBMENU;
                 joystick_host_mapping_dyn_menu[j].callback = uijoystick_host_mapping_callbacks[i];
-                joystick_host_mapping_dyn_menu[j].data = (ui_callback_data_t)joystick_mapping_dyn_menu[i];
+                joystick_host_mapping_dyn_menu[j].data     = (ui_callback_data_t)joystick_mapping_dyn_menu[i];
                 j++;
             }
         }
         joystick_host_mapping_dyn_menu[j].string = NULL;
-        joystick_host_mapping_dyn_menu[j].type = 0;
-        joystick_host_mapping_dyn_menu[j].callback = NULL;
-        joystick_host_mapping_dyn_menu[j].data = NULL;
 
         return MENU_SUBMENU_STRING;
     }
@@ -852,247 +878,301 @@ static UI_MENU_CALLBACK(joystick_host_mapping_dynmenu_callback)
 #endif
 
 const ui_menu_entry_t joystick_menu[] = {
-    { "Native joystick port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick1Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[0] },
-    { "Native joystick port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick2Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[1] },
-    { "Joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
-    { "Swap native joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_ports_callback,
-      NULL },
+    {   .string   = "Native joystick port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[0]
+    },
+    {   .string   = "Native joystick port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick2Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[1]
+    },
+    {   .string   = "Joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
+    {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
+        .string    = "Swap native joystick ports",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = swap_controlport_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_c64_menu[] = {
-    { "Native joystick port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick1Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[0] },
-    { "Native joystick port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick2Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[1] },
-    { "Joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
-    { "Swap native joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_ports_callback,
-      NULL },
+    {   .string   = "Native joystick port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[0]
+    },
+    {   .string   = "Native joystick port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick2Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[1]
+    },
+    {   .string   = "Joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
+    {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
+        .string    = "Swap native joystick ports",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = swap_controlport_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback,
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_c64dtv_menu[] = {
-    { "Native joystick port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick1Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[0] },
-    { "Native joystick port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick2Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[1] },
-    { "Joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
-    { "Swap native joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_ports_callback,
-      NULL },
+    {   .string   = "Native joystick port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[0]
+    },
+    {   .string   = "Native joystick port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick2Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[1]
+    },
+    {   .string   = "Joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
+    {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
+        .string    = "Swap native joystick ports",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = swap_controlport_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
@@ -1100,268 +1180,291 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
 UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 
 const ui_menu_entry_t joystick_plus4_menu[] = {
-    { "Native joystick port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick1Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[0] },
-    { "Native joystick port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick2Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[1] },
-    { "Joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
-    { "SID cartridge joystick port",
-      MENU_ENTRY_SUBMENU,
-      Joystick11Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[10] },
-    { "Swap native joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_ports_callback,
-      NULL },
+    {   .string   = "Native joystick port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[0]
+    },
+    {   .string   = "Native joystick port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick2Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[1]
+    },
+    {   .string   = "Joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
+    {   .string   = "SID cartridge joystick port",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick11Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[10]
+    },
+    {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
+        .string    = "Swap native joystick ports",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = swap_controlport_toggle_display
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "SID Cart Joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SIDCartJoy_callback,
-      NULL },
+
+    {   .string   = "SID Cart Joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SIDCartJoy_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_vic20_menu[] = {
-    { "Native joystick port",
-      MENU_ENTRY_SUBMENU,
-      Joystick1Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[0] },
-    { "Joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
+    {   .string   = "Native joystick port",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick1Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[0]
+    },
+    {   .string   = "Joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback,
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_userport_only_menu[] = {
-    { "Userport joystick adapter port 1",
-      MENU_ENTRY_SUBMENU,
-      Joystick3Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[2] },
-    { "Userport joystick adapter port 2",
-      MENU_ENTRY_SUBMENU,
-      Joystick4Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[3] },
-    { "Userport joystick adapter port 3",
-      MENU_ENTRY_SUBMENU,
-      Joystick5Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[4] },
-    { "Userport joystick adapter port 4",
-      MENU_ENTRY_SUBMENU,
-      Joystick6Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[5] },
-    { "Userport joystick adapter port 5",
-      MENU_ENTRY_SUBMENU,
-      Joystick7Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[6] },
-    { "Userport joystick adapter port 6",
-      MENU_ENTRY_SUBMENU,
-      Joystick8Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[7] },
-    { "Userport joystick adapter port 7",
-      MENU_ENTRY_SUBMENU,
-      Joystick9Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[8] },
-    { "Userport joystick adapter port 8",
-      MENU_ENTRY_SUBMENU,
-      Joystick10Device_dynmenu_callback,
-      (ui_callback_data_t)joystick_device_dyn_menu[9] },
+    {   .string   = "Userport joystick adapter port 1",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick3Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[2]
+    },
+    {   .string   = "Userport joystick adapter port 2",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick4Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[3]
+    },
+    {   .string   = "Userport joystick adapter port 3",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick5Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[4]
+    },
+    {   .string   = "Userport joystick adapter port 4",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick6Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[5]
+    },
+    {   .string   = "Userport joystick adapter port 5",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick7Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[6]
+    },
+    {   .string   = "Userport joystick adapter port 6",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick8Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[7]
+    },
+    {   .string   = "Userport joystick adapter port 7",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick9Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[8]
+    },
+    {   .string   = "Userport joystick adapter port 8",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = Joystick10Device_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_device_dyn_menu[9]
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Allow opposite directions",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_JoyOpposite_callback,
-      NULL },
-    { "Allow keyset joystick",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_KeySetEnable_callback,
-      NULL },
-    { "Define keysets",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_keyset_menu },
+
+    {   .string   = "Allow opposite directions",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyOpposite_callback
+    },
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+        .string   = "Allow keyset joystick",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "KeySetEnable"
+    },
+    {   .string   = "Define keysets",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_keyset_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autofire options",
-      MENU_ENTRY_SUBMENU,
-      joystick_autofire_dynmenu_callback,
-      (ui_callback_data_t)joystick_autofire_dyn_menu },
+
+    {   .string   = "Autofire options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_autofire_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_autofire_dyn_menu
+    },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Host joystick mapping",
-      MENU_ENTRY_SUBMENU,
-      joystick_host_mapping_dynmenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+    {   .string   = "Host joystick mapping",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = joystick_host_mapping_dynmenu_callback,
+        .data     = (ui_callback_data_t)joystick_host_mapping_dyn_menu
+    },
 #ifdef USE_SDL2UI
-    { "Rescan host joysticks",
-      MENU_ENTRY_OTHER,
-      custom_rescan_joy_callback,
-      NULL },
+    {   .string   = "Rescan host joysticks",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_rescan_joy_callback
+    },
 #endif
-    { "Extra joystick options",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy_misc_menu },
+    {   .string   = "Extra joystick options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)define_joy_misc_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
 
-void uijoystick_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10, int p11)
-{
-#if 0
-    int i, j = 0;
-    int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10, p11 };
-
-    joyport_menu[j].string = "Save BBRTC data when changed";
-    joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
-    joyport_menu[j].callback = toggle_BBRTCSave_callback;
-    joyport_menu[j].data = NULL;
-    ++j;
-
-    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        if (port_ids[i] != 0) {
-            joyport_menu[j].string = (char *)joyport_get_port_name(i);
-            joyport_menu[j].type = MENU_ENTRY_DYNAMIC_SUBMENU;
-            joyport_menu[j].callback = uijoyport_callbacks[i];
-            joyport_menu[j].data = (ui_callback_data_t)joyport_dyn_menu[i];
-            ++j;
-        }
-    }
-
-    joyport_menu[j].string = NULL;
-    joyport_menu[j].type = MENU_ENTRY_TEXT;
-    joyport_menu[j].callback = NULL;
-    joyport_menu[j].data = NULL;
-#endif
-}
 
 void uijoystick_menu_shutdown(void)
 {

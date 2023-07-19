@@ -25,65 +25,24 @@
  */
 
 #include "vice.h"
-#include "vice_sdl.h"
-#include "machine.h"
+
 #include "menu_common.h"
+#include "uiactions.h"
+
 #include "menu_edit.h"
-#include "charset.h"
-#include "clipboard.h"
-#include "lib.h"
-#include "kbdbuf.h"
 
 #ifdef USE_SDL2UI
-/** \brief  Callback for the edit->paste menu item
- *
- * Copies the host clipboard into the emulated machine's screen
- *
- * \param[in]   widget  widget (unused)
- * \param[in]   data    extra data (unused)
- */
-UI_MENU_CALLBACK(edit_menu_paste_callback)
-{
-    char *text_in_petscii;
-    char *text = SDL_GetClipboardText();
-
-    if (activated) {
-        if (text == NULL) {
-            return NULL;
-        }
-        text_in_petscii = lib_strdup(text);
-
-        charset_petconvstring((unsigned char*)text_in_petscii, CONVERT_TO_PETSCII);
-        kbdbuf_feed(text_in_petscii);
-        lib_free(text_in_petscii);
-        SDL_free(text);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-/** \brief  Callback for the edit->copy menu item
- *
- * Copies the screen of the emulated machine into the host clipboard
- *
- * \param[in]   widget  widget (unused)
- * \param[in]   data    extra data (unused)
- */
-UI_MENU_CALLBACK(edit_menu_copy_callback)
-{
-    if (activated) {
-        char * text = clipboard_read_screen_output("\n");
-        if (text != NULL) {
-            SDL_SetClipboardText(text);
-            return sdl_menu_text_exit_ui;
-        }
-    }
-    return NULL;
-}
-
 const ui_menu_entry_t edit_menu[3] = {
-    { "Copy to Clipboard", MENU_ENTRY_DIALOG, edit_menu_copy_callback, NULL},
-    { "Paste from Clipboard", MENU_ENTRY_DIALOG, edit_menu_paste_callback, NULL},
+    {   .action    = ACTION_EDIT_COPY,
+        .string    = "Copy to Clipboard",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .action    = ACTION_EDIT_PASTE,
+        .string    = "Paste from Clipboard",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
     SDL_MENU_LIST_END
 };
 #endif

@@ -62,6 +62,34 @@ libarch_a_VERDEP_SOURCES = \
 endif
 
 libarch_a_SOURCES = \
+	actions-cartridge.c \
+	actions-cartridge.h \
+	actions-debug.c \
+	actions-debug.h \
+	actions-display.c \
+	actions-display.h \
+	actions-drive.c \
+	actions-drive.h \
+	actions-edit.c \
+	actions-edit.h \
+	actions-help.c \
+	actions-help.h \
+	actions-joystick.c \
+	actions-joystick.h \
+	actions-machine.c \
+	actions-machine.h \
+	actions-media.c \
+	actions-media.h \
+	actions-settings.c \
+	actions-settings.h \
+	actions-snapshot.c \
+	actions-snapshot.h \
+	actions-speed.c \
+	actions-speed.h \
+	actions-tape.c \
+	actions-tape.h \
+	actions-vsid.c \
+	actions-vsid.h \
 	archdep.c \
 	archdep.h \
 	fullscreen.c \

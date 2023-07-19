@@ -37,6 +37,7 @@
 #include "menu_common.h"
 #include "menu_help.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uimenu.h"
 #include "util.h"
 #include "version.h"
@@ -410,6 +411,7 @@ static UI_MENU_CALLBACK(about_callback)
                     break;
             }
         }
+        ui_action_finish(ACTION_HELP_ABOUT);
     }
     return NULL;
 }
@@ -463,6 +465,7 @@ static UI_MENU_CALLBACK(cmdline_callback)
         lib_free(options);
         show_text((const char *)options_n);
         lib_free(options_n);
+        ui_action_finish(ACTION_HELP_COMMAND_LINE);
     }
     return NULL;
 }
@@ -512,29 +515,32 @@ static UI_MENU_CALLBACK(warranty_callback)
 }
 
 const ui_menu_entry_t help_menu[] = {
-    { "About",
-      MENU_ENTRY_DIALOG,
-      about_callback,
-      NULL },
-    { "Command-line options",
-      MENU_ENTRY_DIALOG,
-      cmdline_callback,
-      NULL },
-    { "Compile time features",
-      MENU_ENTRY_DIALOG,
-      features_callback,
-      NULL },
-    { "Contributors",
-      MENU_ENTRY_DIALOG,
-      contributors_callback,
-      NULL },
-    { "License",
-      MENU_ENTRY_DIALOG,
-      license_callback,
-      NULL },
-    { "Warranty",
-      MENU_ENTRY_DIALOG,
-      warranty_callback,
-      NULL },
+    {   .action   = ACTION_HELP_ABOUT,
+        .string   = "About",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = about_callback
+    },
+    {   .action   = ACTION_HELP_COMMAND_LINE,
+        .string   = "Command-line options",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = cmdline_callback
+    },
+    {   .action   = ACTION_HELP_COMPILE_TIME,
+        .string   = "Compile time features",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = features_callback
+    },
+    {   .string   = "Contributors",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = contributors_callback
+    },
+    {   .string   = "License",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = license_callback
+    },
+    {   .string   = "Warranty",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = warranty_callback
+    },
     SDL_MENU_LIST_END
 };

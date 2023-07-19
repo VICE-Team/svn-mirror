@@ -35,11 +35,14 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_plus4cart.h"
-#include "plus4cart.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+
+#include "plus4cart.h"
+
 
 static UI_MENU_CALLBACK(attach_cart_callback)
 {
@@ -58,29 +61,24 @@ static UI_MENU_CALLBACK(attach_cart_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(detach_cart_callback)
-{
-    if (activated) {
-        cartridge_detach_image(-1);
-    }
-    return NULL;
-}
-
 UI_MENU_DEFINE_RADIO(IOCollisionHandling)
 
 static const ui_menu_entry_t iocollision_menu[] = {
-    { "Detach all",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL },
-    { "Detach last",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST },
-    { "AND values",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES },
+    {   .string   = "Detach all",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL
+    },
+    {   .string   = "Detach last",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST
+    },
+    {   .string   = "AND values",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES
+    },
     SDL_MENU_LIST_END
 };
 
@@ -106,61 +104,77 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 const ui_menu_entry_t plus4cart_menu[] = {
-    { "Attach CRT image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_CRT },
+    {   .action   = ACTION_CART_ATTACH,
+        .string   = "Attach CRT image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CRT
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Attach raw " CARTRIDGE_PLUS4_NAME_MAGIC " image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_MAGIC },
-    { "Attach raw " CARTRIDGE_PLUS4_NAME_MULTI " image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_MULTI },
-    { "Attach raw " CARTRIDGE_PLUS4_NAME_JACINT1MB " image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_JACINT1MB },
+
+    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MAGIC " image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_MAGIC
+    },
+    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MULTI " image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_MULTI
+    },
+    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_JACINT1MB " image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_JACINT1MB
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Attach full C1 image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1 },
-    { "Attach C1 low image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1LO },
-    { "Attach C1 high image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1HI },
-    { "Attach full C2 image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2 },
-    { "Attach C2 low image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2LO },
-    { "Attach C2 high image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2HI },
+
+    {   .string   = "Attach full C1 image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1
+    },
+    {   .string   = "Attach C1 low image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1LO
+    },
+    {   .string   = "Attach C1 high image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1HI
+    },
+    {   .string   = "Attach full C2 image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2
+    },
+    {   .string   = "Attach C2 low image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2LO
+    },
+    {   .string   = "Attach C2 high image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2HI
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Detach cartridge image",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      NULL },
+
+    {   .action   = ACTION_CART_DETACH,
+        .string   = "Detach cartridge image",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "I/O collision handling ($FD00-$FEFF)",
-      MENU_ENTRY_SUBMENU,
-      iocollision_show_type_callback,
-      (ui_callback_data_t)iocollision_menu },
-    { "Reset on cartridge change",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CartridgeReset_callback,
-      NULL },
+
+    {   .string   = "I/O collision handling ($FD00-$FEFF)",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = iocollision_show_type_callback,
+        .data     = (ui_callback_data_t)iocollision_menu
+    },
+    {   .string   = "Reset on cartridge change",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CartridgeReset_callback
+    },
     SDL_MENU_LIST_END
 };
