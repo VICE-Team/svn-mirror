@@ -1450,9 +1450,13 @@ bool sound_flush(void)
      * result is that the ui thread hangs forever.
      */
 
+    /* clang 15 warns the goto is never executed when compiling the headless
+     * or SDL UIs */
+#if defined(USE_GTK3UI)
     if (!mainlock_is_vice_thread()) {
         goto done;
     }
+#endif
 
     if (!playback_enabled) {
         if (sdev_open) {
