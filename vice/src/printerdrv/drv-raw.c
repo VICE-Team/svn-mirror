@@ -36,43 +36,11 @@
 
 /* #define DEBUG_PRINTER */
 
-struct raw_s {
-    int mode;
-};
-typedef struct raw_s raw_t;
-
-static raw_t drv_raw[NUM_OUTPUT_SELECT];
 static log_t drv_raw_log = LOG_ERR;
-
-static int print_char(raw_t *raw, unsigned int prnr, const uint8_t c)
-{
-    switch (c) {
-        case 17: /* lowercase */
-            if (raw->mode == 1) {
-                return 0;
-            }
-            raw->mode = 1;
-            break;
-        case 145: /* uppercase */
-            if (raw->mode == 0) {
-                return 0;
-            }
-            raw->mode = 0;
-            break;
-    }
-    if (output_select_putc(prnr, c) < 0) {
-        return -1;
-    }
-    return 0;
-}
 
 static int drv_raw_open(unsigned int prnr, unsigned int secondary)
 {
-    raw_t *raw = &drv_raw[prnr];
-
-    if (secondary == 7) {
-        print_char(raw, prnr, 17);
-    } else if (secondary == DRIVER_FIRST_OPEN) {
+    if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
         /* these are unused for non gfx output */
         output_parameter.maxcol = 480;
@@ -100,10 +68,9 @@ static int drv_raw_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
                 prnr + 4, secondary, b);
 #endif
 
-    if (print_char(&drv_raw[prnr], prnr, b) < 0) {
+    if (output_select_putc(prnr, b) < 0) {
         return -1;
     }
-
     return 0;
 }
 
