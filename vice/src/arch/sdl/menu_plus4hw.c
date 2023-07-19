@@ -50,6 +50,7 @@
 
 #include "menu_sid.h"
 #include "menu_tape.h"
+#include "uiactions.h"
 #include "uimenu.h"
 #include "userport.h"
 #include "util.h"
@@ -77,30 +78,36 @@ static UI_MENU_CALLBACK(custom_PLUS4Model_callback)
 }
 
 static const ui_menu_entry_t plus4_model_submenu[] = {
-    { "C16 PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_C16_PAL },
-    { "C16 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_C16_NTSC },
-    { "Plus4 PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_PLUS4_PAL },
-    { "Plus4 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_PLUS4_NTSC },
-    { "V364 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_V364_NTSC },
-    { "C232 NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_PLUS4Model_callback,
-      (ui_callback_data_t)PLUS4MODEL_232_NTSC },
+    {   .string   = "C16 PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_C16_PAL
+    },
+    {   .string   = "C16 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_C16_NTSC
+    },
+    {   .string   = "Plus4 PAL",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_PLUS4_PAL
+    },
+    {   .string   = "Plus4 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_PLUS4_NTSC
+    },
+    {   .string   = "V364 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_V364_NTSC
+    },
+    {   .string   = "C232 NTSC",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_PLUS4Model_callback,
+        .data     = (ui_callback_data_t)PLUS4MODEL_232_NTSC
+    },
     SDL_MENU_LIST_END
 };
 
@@ -108,14 +115,15 @@ UI_MENU_DEFINE_TOGGLE(SpeechEnabled)
 UI_MENU_DEFINE_FILE_STRING(SpeechImage)
 
 static const ui_menu_entry_t v364speech_menu[] = {
-    { "Enable V364 Speech",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SpeechEnabled_callback,
-      NULL },
-    { "ROM image file",
-      MENU_ENTRY_DIALOG,
-      file_string_SpeechImage_callback,
-      (ui_callback_data_t)"Select Speech ROM image" },
+    {   .string   = "Enable V364 Speech",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SpeechEnabled_callback
+    },
+    {   .string   = "ROM image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_SpeechImage_callback,
+        .data     = (ui_callback_data_t)"Select Speech ROM image"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -124,93 +132,112 @@ UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 
 const ui_menu_entry_t plus4_hardware_menu_template[] = {
-    { "Select Plus4 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)plus4_model_submenu },
-    { "Joyport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joyport_menu },
-    { "Joystick settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_plus4_menu },
+    {   .string   = "Select Plus4 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)plus4_model_submenu
+    },
+    {   .string   = "Joyport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joyport_menu
+    },
+    {   .string   = "Joystick settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joystick_plus4_menu
+    },
 #ifdef HAVE_MOUSE
-    { "Mouse emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mouse_menu },
+    {   .string   = "Mouse emulation",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)mouse_menu
+    },
 #endif
-    { "SID cart settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_plus4_menu },
-    { "V364 Speech settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)v364speech_menu },
-    { "RAM pattern settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ram_menu },
-    { "ROM settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)plus4_rom_menu },
-    { "ACIA installed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Acia1Enable_callback,
-      NULL },
+    {   .string   = "SID cart settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sid_plus4_menu
+    },
+    {   .string   = "V364 Speech settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)v364speech_menu
+    },
+    {   .string   = "RAM pattern settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ram_menu
+    },
+    {   .string   = "ROM settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)plus4_rom_menu
+    },
+    {   .string   = "ACIA installed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Acia1Enable_callback
+    },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "RS232 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232_nouser_menu },
+    {   .string   = "RS232 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)rs232_nouser_menu
+    },
 #endif
-    { "Userport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)userport_menu },
-    { "Tape port devices",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapeport_devices_menu },
+    {   .string   = "Userport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)userport_menu
+    },
+    {   .string   = "Tape port devices",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)tapeport_devices_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Memory"),
-    { "16KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)16 },
-    { "32KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)32 },
-    { "64KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)64 },
+    {   .string   = "16KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)16
+    },
+    {   .string   = "32KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)32
+    },
+    {   .string   = "64KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)64
+    },
     SDL_MENU_ITEM_TITLE("Memory expansion hack"),
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MemoryHack_callback,
-      (ui_callback_data_t)MEMORY_HACK_NONE},
-    { "256KiB (CSORY)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MemoryHack_callback,
-      (ui_callback_data_t)MEMORY_HACK_C256K},
-    { "256KiB (HANNES)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MemoryHack_callback,
-      (ui_callback_data_t)MEMORY_HACK_H256K },
-    { "1MiB (HANNES)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MemoryHack_callback,
-      (ui_callback_data_t)MEMORY_HACK_H1024K },
-    { "4MiB (HANNES)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MemoryHack_callback,
-      (ui_callback_data_t)MEMORY_HACK_H4096K },
+    {   .string   = "None",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MemoryHack_callback,
+        .data     = (ui_callback_data_t)MEMORY_HACK_NONE
+    },
+    {   .string   = "256KiB (CSORY)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MemoryHack_callback,
+        .data     = (ui_callback_data_t)MEMORY_HACK_C256K
+    },
+    {   .string   = "256KiB (HANNES)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MemoryHack_callback,
+        .data     = (ui_callback_data_t)MEMORY_HACK_H256K
+    },
+    {   .string   = "1MiB (HANNES)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MemoryHack_callback,
+        .data     = (ui_callback_data_t)MEMORY_HACK_H1024K
+    },
+    {   .string   = "4MiB (HANNES)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MemoryHack_callback,
+        .data     = (ui_callback_data_t)MEMORY_HACK_H4096K},
     SDL_MENU_LIST_END
 };
 
@@ -225,22 +252,21 @@ void plus4_create_machine_menu(void)
     for (i = 0; plus4_hardware_menu_template[i].string != NULL; i++) {
         if (!util_strcasecmp(plus4_hardware_menu_template[i].string, "Userport settings")) {
             if (has_userport) {
-                plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
-                plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
+                plus4_hardware_menu[j].action   = ACTION_NONE;
+                plus4_hardware_menu[j].string   = plus4_hardware_menu_template[i].string;
+                plus4_hardware_menu[j].type     = plus4_hardware_menu_template[i].type;
                 plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
-                plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
+                plus4_hardware_menu[j].data     = plus4_hardware_menu_template[i].data;
                 j++;
             }
         } else {
-            plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
-            plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
+            plus4_hardware_menu[j].action   = ACTION_NONE;
+            plus4_hardware_menu[j].string   = plus4_hardware_menu_template[i].string;
+            plus4_hardware_menu[j].type     = plus4_hardware_menu_template[i].type;
             plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
-            plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
+            plus4_hardware_menu[j].data     = plus4_hardware_menu_template[i].data;
             j++;
         }
     }
     plus4_hardware_menu[j].string = plus4_hardware_menu_template[i].string;
-    plus4_hardware_menu[j].type = plus4_hardware_menu_template[i].type;
-    plus4_hardware_menu[j].callback = plus4_hardware_menu_template[i].callback;
-    plus4_hardware_menu[j].data = plus4_hardware_menu_template[i].data;
 }

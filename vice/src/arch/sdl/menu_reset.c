@@ -31,137 +31,104 @@
 #include "drive.h"
 #include "machine.h"
 #include "menu_common.h"
+#include "uiactions.h"
 #include "uimenu.h"
 #include "vsync.h"
 
-static UI_MENU_CALLBACK(maincpu_hard_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(maincpu_soft_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(drive8cpu_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        drive_cpu_trigger_reset(0);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(drive9cpu_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        drive_cpu_trigger_reset(1);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(drive10cpu_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        drive_cpu_trigger_reset(2);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(drive11cpu_reset_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        drive_cpu_trigger_reset(3);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(drivencpu_reset_button_callback)
-{
-    if (activated) {
-        vsync_suspend_speed_eval();
-        drive_cpu_trigger_reset_button((vice_ptr_to_int(param)>>4)&15,vice_ptr_to_int(param)&15);
-        return sdl_menu_text_exit_ui;
-    }
-    return NULL;
-}
 
 ui_menu_entry_t reset_menu[] = {
-    { "Soft",
-      MENU_ENTRY_OTHER,
-      maincpu_soft_reset_callback,
-      NULL },
-    { "Hard",
-      MENU_ENTRY_OTHER,
-      maincpu_hard_reset_callback,
-      NULL },
+    /* reset machine */
+    {
+        .action    = ACTION_RESET_SOFT,
+        .string    = "Soft",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_HARD,
+        .string    = "Hard",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Drive 8",
-      MENU_ENTRY_OTHER,
-      drive8cpu_reset_callback,
-      NULL },
-    { "Drive 9",
-      MENU_ENTRY_OTHER,
-      drive9cpu_reset_callback,
-      NULL },
-    { "Drive 10",
-      MENU_ENTRY_OTHER,
-      drive10cpu_reset_callback,
-      NULL },
-    { "Drive 11",
-      MENU_ENTRY_OTHER,
-      drive11cpu_reset_callback,
-      NULL },
+
+    /* reset drive */
+    {
+        .action    = ACTION_RESET_DRIVE_8,
+        .string    = "Drive 8",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_9,
+        .string    = "Drive 9",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_10,
+        .string    = "Drive 10",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_11,
+        .string    = "Drive 11",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+
 /* options below this are enabled/disabled by uidrive_menu_create() drive_menu.c */
-    { "Drive 8 (in configuration mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void*) (0 << 4 | 1) },
-    { "Drive 8 (in installation mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void *) (0 << 4 | 6) },
-    { "Drive 9 (in configuration mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void*) (1 << 4 | 1) },
-    { "Drive 9 (in installation mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void *) (1 << 4 | 6) },
-    { "Drive 10 (in configuration mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void*) (2 << 4 | 1) },
-    { "Drive 10 (in installation mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void *) (2 << 4 | 6) },
-    { "Drive 11 (in configuration mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void*) (3 << 4 | 1) },
-    { "Drive 11 (in installation mode)",
-      MENU_ENTRY_OTHER,
-      drivencpu_reset_button_callback,
-      (void *) (3 << 4 | 6) },
+    {
+        .action    = ACTION_RESET_DRIVE_8_CONFIG,
+        .string    = "Drive 8  (in configuration mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_9_CONFIG,
+        .string    = "Drive 9  (in configuration mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_10_CONFIG,
+        .string    = "Drive 10 (in configuration mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_11_CONFIG,
+        .string    = "Drive 11 (in configuration mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+
+    {
+        .action    = ACTION_RESET_DRIVE_8_INSTALL,
+        .string    = "Drive 8  (in installation mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_9_INSTALL,
+        .string    = "Drive 9  (in installation mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_10_INSTALL,
+        .string    = "Drive 10 (in installation mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {
+        .action    = ACTION_RESET_DRIVE_11_INSTALL,
+        .string    = "Drive 11 (in installation mode)",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+
     SDL_MENU_LIST_END
 };

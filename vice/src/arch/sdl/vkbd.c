@@ -41,7 +41,9 @@
 #include "uimenu.h"
 #include "uipoll.h"
 #include "videoarch.h"
+
 #include "vkbd.h"
+
 
 int sdl_vkbd_state = 0;
 
@@ -79,42 +81,50 @@ static UI_MENU_CALLBACK(custom_shift_callback)
 }
 
 static const ui_menu_entry_t define_shift_options_menu[] = {
-    { "Virtual shift",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)0 },
-    { "Left shift",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)1 },
-    { "Right shift",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)2 },
-    { "Allow shift",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)3 },
-    { "Deshift shift",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)4 },
-    { "Allow other",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)5 },
-    { "Alt map",
-      MENU_ENTRY_OTHER,
-      custom_shift_callback,
-      (ui_callback_data_t)8 },
+    {   .string   = "Virtual shift",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)0
+    },
+    {   .string   = "Left shift",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)1
+    },
+    {   .string   = "Right shift",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)2
+    },
+    {   .string   = "Allow shift",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)3
+    },
+    {   .string   = "Deshift shift",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)4
+    },
+    {   .string   = "Allow other",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)5
+    },
+    {   .string   = "Alt map",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_shift_callback,
+        .data     = (ui_callback_data_t)8
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t shift_menu[] = {
-    { "Define shift options",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)define_shift_options_menu },
+    {   .string   = "Define shift options",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)define_shift_options_menu
+    },
     SDL_MENU_LIST_END
 };
 

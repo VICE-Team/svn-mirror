@@ -32,12 +32,15 @@
 
 #include "lib.h"
 #include "menu_common.h"
-#include "menu_sound.h"
 #include "resources.h"
 #include "sound.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "util.h"
+
+#include "menu_sound.h"
+
 
 UI_MENU_DEFINE_TOGGLE(Sound)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
@@ -143,16 +146,13 @@ static UI_MENU_CALLBACK(SoundOutput_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        sound_output_dyn_menu[i].string = (char *)lib_strdup(devices[i].description);
-        sound_output_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        sound_output_dyn_menu[i].action   = ACTION_NONE;
+        sound_output_dyn_menu[i].string   = lib_strdup(devices[i].description);
+        sound_output_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         sound_output_dyn_menu[i].callback = radio_SoundDeviceName_callback;
-        sound_output_dyn_menu[i].data = (ui_callback_data_t)lib_strdup(devices[i].name);
+        sound_output_dyn_menu[i].data     = (ui_callback_data_t)lib_strdup(devices[i].name);
     }
-
     sound_output_dyn_menu[i].string = NULL;
-    sound_output_dyn_menu[i].type = 0;
-    sound_output_dyn_menu[i].callback = NULL;
-    sound_output_dyn_menu[i].data = NULL;
 
     lib_free(devices);
 
@@ -160,90 +160,105 @@ static UI_MENU_CALLBACK(SoundOutput_dynmenu_callback)
 }
 
 static ui_menu_entry_t sound_output_mode_menu[] = {
-    { "System",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundOutput_callback,
-      (ui_callback_data_t)SOUND_OUTPUT_SYSTEM },
-    { "Mono",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundOutput_callback,
-      (ui_callback_data_t)SOUND_OUTPUT_MONO },
-    { "Stereo",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundOutput_callback,
-      (ui_callback_data_t)SOUND_OUTPUT_STEREO },
+    {   .string   = "System",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundOutput_callback,
+        .data     = (ui_callback_data_t)SOUND_OUTPUT_SYSTEM
+    },
+    {   .string   = "Mono",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundOutput_callback,
+        .data     = (ui_callback_data_t)SOUND_OUTPUT_MONO
+    },
+    {   .string   = "Stereo",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundOutput_callback,
+        .data     = (ui_callback_data_t)SOUND_OUTPUT_STEREO
+    },
     SDL_MENU_LIST_END
 };
 
 static ui_menu_entry_t fragment_size_menu[] = {
-    { "Very small",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundFragmentSize_callback,
-      (ui_callback_data_t)SOUND_FRAGMENT_VERY_SMALL },
-    { "Small",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundFragmentSize_callback,
-      (ui_callback_data_t)SOUND_FRAGMENT_SMALL },
-    { "Medium",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundFragmentSize_callback,
-      (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM },
-    { "Large",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundFragmentSize_callback,
-      (ui_callback_data_t)SOUND_FRAGMENT_LARGE },
-    { "Very large",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundFragmentSize_callback,
-      (ui_callback_data_t)SOUND_FRAGMENT_VERY_LARGE },
+    {   .string   = "Very small",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundFragmentSize_callback,
+        .data     = (ui_callback_data_t)SOUND_FRAGMENT_VERY_SMALL
+    },
+    {   .string   = "Small",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundFragmentSize_callback,
+        .data     = (ui_callback_data_t)SOUND_FRAGMENT_SMALL
+    },
+    {   .string   = "Medium",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundFragmentSize_callback,
+        .data     = (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM
+    },
+    {   .string   = "Large",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundFragmentSize_callback,
+        .data     = (ui_callback_data_t)SOUND_FRAGMENT_LARGE
+    },
+    {   .string   = "Very large",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundFragmentSize_callback,
+        .data     = (ui_callback_data_t)SOUND_FRAGMENT_VERY_LARGE
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sound_output_menu[] = {
-    { "Sound",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Sound_callback,
-      NULL },
-    { "Volume",
-      MENU_ENTRY_DIALOG,
-      custom_volume_callback,
-      NULL },
+    {   .string   = "Sound",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Sound_callback
+    },
+    {   .string   = "Volume",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_volume_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Output driver",
-      MENU_ENTRY_SUBMENU,
-      SoundOutput_dynmenu_callback,
-      (ui_callback_data_t)sound_output_dyn_menu },
-    { "Output Mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sound_output_mode_menu },
-    { "Buffer size",
-      MENU_ENTRY_DIALOG,
-      custom_buffer_size_callback,
-      NULL },
-    { "Fragment size",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)fragment_size_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Frequency"),
-    { "22050 Hz",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundSampleRate_callback,
-      (ui_callback_data_t)22050 },
-    { "44100 Hz",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundSampleRate_callback,
-      (ui_callback_data_t)44100 },
-    { "48000 Hz",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundSampleRate_callback,
-      (ui_callback_data_t)48000 },
-    { "Custom frequency",
-      MENU_ENTRY_DIALOG,
-      custom_frequency_callback,
-      NULL },
 
+    {   .string   = "Output driver",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = SoundOutput_dynmenu_callback,
+        .data     = (ui_callback_data_t)sound_output_dyn_menu
+    },
+    {   .string   = "Output Mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sound_output_mode_menu
+    },
+    {   .string   = "Buffer size",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_buffer_size_callback
+    },
+    {   .string   = "Fragment size",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)fragment_size_menu
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Frequency"),
+    {   .string   = "22050 Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundSampleRate_callback,
+        .data     = (ui_callback_data_t)22050
+    },
+    {   .string   = "44100 Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundSampleRate_callback,
+        .data     = (ui_callback_data_t)44100
+    },
+    {   .string   = "48000 Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SoundSampleRate_callback,
+        .data     = (ui_callback_data_t)48000
+    },
+    {   .string   = "Custom frequency",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_frequency_callback
+    },
     SDL_MENU_LIST_END
 };
 

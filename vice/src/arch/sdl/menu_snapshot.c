@@ -30,18 +30,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actions-snapshot.h"
 #include "archdep.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
-#include "menu_snapshot.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vice-event.h"
+
+#include "menu_snapshot.h"
+
 
 static int save_disks = 1;
 static int save_roms = 0;
@@ -81,6 +85,7 @@ static UI_MENU_CALLBACK(save_snapshot_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_SNAPSHOT_SAVE);
     }
     return NULL;
 }
@@ -105,6 +110,7 @@ static UI_MENU_CALLBACK(save_snapshot_slot_callback)
 }
 #endif
 
+#if 0
 static UI_MENU_CALLBACK(quickload_snapshot_callback)
 {
     if (activated) {
@@ -124,7 +130,9 @@ static UI_MENU_CALLBACK(quicksave_snapshot_callback)
     }
     return NULL;
 }
+#endif
 
+#if 0
 static UI_MENU_CALLBACK(start_stop_recording_history_callback)
 {
     int recording_new;
@@ -164,6 +172,7 @@ static UI_MENU_CALLBACK(start_stop_playback_history_callback)
     }
     return NULL;
 }
+#endif
 
 static UI_MENU_CALLBACK(load_snapshot_callback)
 {
@@ -177,6 +186,7 @@ static UI_MENU_CALLBACK(load_snapshot_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_SNAPSHOT_LOAD);
     }
     return NULL;
 }
@@ -199,7 +209,7 @@ static UI_MENU_CALLBACK(load_snapshot_slot_callback)
     return NULL;
 }
 #endif
-
+#if 0
 static UI_MENU_CALLBACK(set_milestone_callback)
 {
     if (activated) {
@@ -217,6 +227,7 @@ static UI_MENU_CALLBACK(return_to_milestone_callback)
     }
     return NULL;
 }
+#endif
 
 static UI_MENU_CALLBACK(select_history_files_callback)
 {
@@ -232,78 +243,135 @@ static UI_MENU_CALLBACK(select_history_files_callback)
 }
 
 static const ui_menu_entry_t save_snapshot_menu[] = {
-    { "Save currently attached disk images",
-      MENU_ENTRY_OTHER_TOGGLE,
-      toggle_save_disk_images_callback,
-      NULL },
-    { "Save currently attached ROM images",
-      MENU_ENTRY_OTHER_TOGGLE,
-      toggle_save_rom_images_callback,
-      NULL },
+    {   .string   = "Save currently attached disk images",
+        .type     = MENU_ENTRY_OTHER_TOGGLE,
+        .callback = toggle_save_disk_images_callback
+    },
+    {   .string   = "Save currently attached ROM images",
+        .type     = MENU_ENTRY_OTHER_TOGGLE,
+        .callback = toggle_save_rom_images_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Select filename and save snapshot",
-      MENU_ENTRY_DIALOG,
-      save_snapshot_callback,
-      NULL },
+
+    {   .string   = "Select filename and save snapshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_snapshot_callback
+    },
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t snapshot_menu[] = {
-    { "Load snapshot image",
-      MENU_ENTRY_DIALOG,
-      load_snapshot_callback,
-      NULL },
-    { "Save snapshot image",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)save_snapshot_menu },
-    { "Quickload snapshot.vsf",
-      MENU_ENTRY_DIALOG,
-      quickload_snapshot_callback,
-      NULL },
-    { "Quicksave snapshot.vsf",
-      MENU_ENTRY_DIALOG,
-      quicksave_snapshot_callback,
-      NULL },
+/* cannot be const, we're changing some items' status fields in UI actions */
+ui_menu_entry_t snapshot_menu[] = {
+    {   .action   = ACTION_SNAPSHOT_LOAD,
+        .string   = "Load snapshot image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = load_snapshot_callback
+    },
+    {   .action   = ACTION_SNAPSHOT_SAVE,
+        .string   = "Save snapshot image",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)save_snapshot_menu
+    },
+    {   .action    = ACTION_SNAPSHOT_QUICKLOAD,
+        .string    = "Quickload snapshot.vsf",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .action    = ACTION_SNAPSHOT_QUICKSAVE,
+        .string    = "Quicksave snapshot.vsf",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Start/stop recording history",
-      MENU_ENTRY_OTHER,
-      start_stop_recording_history_callback,
-      NULL },
-    { "Start/stop playback history",
-      MENU_ENTRY_OTHER,
-      start_stop_playback_history_callback,
-      NULL },
-    { "Set recording milestone",
-      MENU_ENTRY_OTHER,
-      set_milestone_callback,
-      NULL },
-    { "Return to milestone",
-      MENU_ENTRY_OTHER,
-      return_to_milestone_callback,
-      NULL },
+
+    {   .action    = ACTION_HISTORY_RECORD_START,
+        .string    = "Start recording history",
+        .type      = MENU_ENTRY_OTHER,
+        .status    = MENU_STATUS_ACTIVE,
+        .activated = MENU_EXIT_UI_STRING,
+        .displayed = history_record_display
+    },
+    {   .action    = ACTION_HISTORY_RECORD_STOP,
+        .string    = "Stop recording history",
+        .type      = MENU_ENTRY_OTHER,
+        .status    = MENU_STATUS_INACTIVE,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .action    = ACTION_HISTORY_PLAYBACK_START,
+        .string    = "Start playing back history",
+        .type      = MENU_ENTRY_OTHER,
+        .status    = MENU_STATUS_ACTIVE,
+        .activated = MENU_EXIT_UI_STRING,
+        .displayed = history_playback_display
+    },
+    {   .action    = ACTION_HISTORY_PLAYBACK_STOP,
+        .string    = "Stop playing back history",
+        .type      = MENU_ENTRY_OTHER,
+        .status    = MENU_STATUS_INACTIVE,
+        .activated = MENU_EXIT_UI_STRING
+    },
+
+    {   .action    = ACTION_HISTORY_MILESTONE_SET,
+        .string    = "Set recording milestone",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .action    = ACTION_HISTORY_MILESTONE_RESET,
+        .string    = "Return to milestone",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Record start mode"),
-    { "Save new snapshot",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_EventStartMode_callback,
-      (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE },
-    { "Load existing snapshot",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_EventStartMode_callback,
-      (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD },
-    { "Start with reset",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_EventStartMode_callback,
-      (ui_callback_data_t)EVENT_START_MODE_RESET },
-    { "Overwrite playback",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_EventStartMode_callback,
-      (ui_callback_data_t)EVENT_START_MODE_PLAYBACK },
+    {   .string   = "Save new snapshot",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_EventStartMode_callback,
+        .data     = (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE
+    },
+    {   .string   = "Load existing snapshot",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_EventStartMode_callback,
+        .data     = (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD
+    },
+    {   .string   = "Start with reset",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_EventStartMode_callback,
+        .data     = (ui_callback_data_t)EVENT_START_MODE_RESET
+    },
+    {   .string   = "Overwrite playback",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_EventStartMode_callback,
+        .data     = (ui_callback_data_t)EVENT_START_MODE_PLAYBACK
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Select history files/directory",
-      MENU_ENTRY_DIALOG,
-      select_history_files_callback,
-      NULL },
+
+    {   .string   = "Select history files/directory",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = select_history_files_callback
+    },
     SDL_MENU_LIST_END
 };
+
+
+/* The following are accessors for the snapshot action handlers */
+
+/** \brief  Determine if disk images need to be saved with snapshots
+ *
+ * \return  non-0 if true
+ */
+int menu_snapshot_get_save_disks(void)
+{
+    return save_disks;
+}
+
+/** \brief  Determine if ROM images need to be saved with snapshots
+ *
+ * \return  non-0 if true
+ */
+int menu_snapshot_get_save_roms(void)
+{
+    return save_roms;
+}
+

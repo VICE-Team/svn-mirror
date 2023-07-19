@@ -37,6 +37,7 @@
 #include "menu_ethernet.h"
 #include "rawnet.h"
 #include "resources.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
 #define MAXINTERFACES    20
@@ -90,14 +91,16 @@ static UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
     }
 
     if (!rawnet_enumadapter_open()) {
-        ethernet_interface_dyn_menu[0].string = (char *)lib_strdup("No Devices Present");
-        ethernet_interface_dyn_menu[0].type = MENU_ENTRY_TEXT;
+        ethernet_interface_dyn_menu[0].action   = ACTION_NONE;
+        ethernet_interface_dyn_menu[0].string   = lib_strdup("No Devices Present");
+        ethernet_interface_dyn_menu[0].type     = MENU_ENTRY_TEXT;
         ethernet_interface_dyn_menu[0].callback = seperator_callback;
-        ethernet_interface_dyn_menu[0].data = NULL;
-        ethernet_interface_dyn_menu[1].string = NULL;
-        ethernet_interface_dyn_menu[1].type = 0;
+        ethernet_interface_dyn_menu[0].data     = NULL;
+        ethernet_interface_dyn_menu[1].action   = ACTION_NONE;
+        ethernet_interface_dyn_menu[1].string   = NULL;
+        ethernet_interface_dyn_menu[1].type     = 0;
         ethernet_interface_dyn_menu[1].callback = NULL;
-        ethernet_interface_dyn_menu[1].data = NULL;
+        ethernet_interface_dyn_menu[1].data     = NULL;
     } else {
         for (i = 0; (rawnet_enumadapter(&pname, &pdescription)) && (i < MAXINTERFACES); i++) {
             if (pdescription) {
@@ -105,14 +108,16 @@ static UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
             } else {
                 ethernet_interface_dyn_menu[i].string = lib_strdup(pname);
             }
-            ethernet_interface_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            ethernet_interface_dyn_menu[i].action   = ACTION_NONE;
+            ethernet_interface_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             ethernet_interface_dyn_menu[i].callback = radio_ETHERNET_INTERFACE_callback;
-            ethernet_interface_dyn_menu[i].data = (ui_callback_data_t)pname;
+            ethernet_interface_dyn_menu[i].data     = (ui_callback_data_t)pname;
         }
-        ethernet_interface_dyn_menu[i].string = NULL;
-        ethernet_interface_dyn_menu[i].type = 0;
+        ethernet_interface_dyn_menu[i].action   = ACTION_NONE;
+        ethernet_interface_dyn_menu[i].string   = NULL;
+        ethernet_interface_dyn_menu[i].type     = 0;
         ethernet_interface_dyn_menu[i].callback = NULL;
-        ethernet_interface_dyn_menu[i].data = NULL;
+        ethernet_interface_dyn_menu[i].data     = NULL;
         rawnet_enumadapter_close();
     }
 
@@ -132,14 +137,16 @@ static UI_MENU_CALLBACK(ETHERNET_DRIVER_dynmenu_callback)
     }
 
     if (!rawnet_enumdriver_open()) {
-        ethernet_driver_dyn_menu[0].string = (char *)lib_strdup("No Drivers Present");
-        ethernet_driver_dyn_menu[0].type = MENU_ENTRY_TEXT;
+        ethernet_driver_dyn_menu[0].action   = ACTION_NONE;
+        ethernet_driver_dyn_menu[0].string   = lib_strdup("No Drivers Present");
+        ethernet_driver_dyn_menu[0].type     = MENU_ENTRY_TEXT;
         ethernet_driver_dyn_menu[0].callback = seperator_callback;
-        ethernet_driver_dyn_menu[0].data = NULL;
-        ethernet_driver_dyn_menu[1].string = NULL;
-        ethernet_driver_dyn_menu[1].type = 0;
+        ethernet_driver_dyn_menu[0].data     = NULL;
+        ethernet_driver_dyn_menu[1].action   = ACTION_NONE;
+        ethernet_driver_dyn_menu[1].string   = NULL;
+        ethernet_driver_dyn_menu[1].type     = 0;
         ethernet_driver_dyn_menu[1].callback = NULL;
-        ethernet_driver_dyn_menu[1].data = NULL;
+        ethernet_driver_dyn_menu[1].data     = NULL;
     } else {
         for (i = 0; (rawnet_enumdriver(&pname, &pdescription)) && (i < MAXDRIVERS); i++) {
             if (pdescription) {
@@ -147,14 +154,16 @@ static UI_MENU_CALLBACK(ETHERNET_DRIVER_dynmenu_callback)
             } else {
                 ethernet_driver_dyn_menu[i].string = lib_strdup(pname);
             }
-            ethernet_driver_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            ethernet_driver_dyn_menu[i].action   = ACTION_NONE;
+            ethernet_driver_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             ethernet_driver_dyn_menu[i].callback = radio_ETHERNET_DRIVER_callback;
-            ethernet_driver_dyn_menu[i].data = (ui_callback_data_t)pname;
+            ethernet_driver_dyn_menu[i].data     = (ui_callback_data_t)pname;
         }
-        ethernet_driver_dyn_menu[i].string = NULL;
-        ethernet_driver_dyn_menu[i].type = 0;
+        ethernet_driver_dyn_menu[i].action   = ACTION_NONE;
+        ethernet_driver_dyn_menu[i].string   = NULL;
+        ethernet_driver_dyn_menu[i].type     = 0;
         ethernet_driver_dyn_menu[i].callback = NULL;
-        ethernet_driver_dyn_menu[i].data = NULL;
+        ethernet_driver_dyn_menu[i].data     = NULL;
     }
 
     return submenu_radio_callback(activated, param);
@@ -172,18 +181,21 @@ static UI_MENU_CALLBACK(show_ETHERNET_DISABLED_callback)
 }
 
 const ui_menu_entry_t ethernet_menu[] = {
-    { "Ethernet support",
-      MENU_ENTRY_TEXT,
-      show_ETHERNET_DISABLED_callback,
-      (ui_callback_data_t)1 },
-    { "Driver",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      ETHERNET_DRIVER_dynmenu_callback,
-      (ui_callback_data_t)ethernet_driver_dyn_menu },
-    { "Interface",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      ETHERNET_INTERFACE_dynmenu_callback,
-      (ui_callback_data_t)ethernet_interface_dyn_menu },
+    {   .string   = "Ethernet support",
+        .type     = MENU_ENTRY_TEXT,
+        .callback = show_ETHERNET_DISABLED_callback,
+        .data     = (ui_callback_data_t)1
+    },
+    {   .string   = "Driver",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = ETHERNET_DRIVER_dynmenu_callback,
+        .data     = (ui_callback_data_t)ethernet_driver_dyn_menu
+    },
+    {   .string   = "Interface",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = ETHERNET_INTERFACE_dynmenu_callback,
+        .data     = (ui_callback_data_t)ethernet_interface_dyn_menu
+    },
     SDL_MENU_LIST_END
 };
 

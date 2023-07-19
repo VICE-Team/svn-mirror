@@ -70,18 +70,21 @@ static UI_MENU_CALLBACK(detach_cart_callback)
 UI_MENU_DEFINE_RADIO(IOCollisionHandling)
 
 static const ui_menu_entry_t iocollision_menu[] = {
-    { "Detach all",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL },
-    { "Detach last",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST },
-    { "AND values",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES },
+    {   .string   = "Detach all",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL
+    },
+    {   .string   = "Detach last",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST
+    },
+    {   .string   = "AND values",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES
+    },
     SDL_MENU_LIST_END
 };
 
@@ -105,16 +108,55 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 }
 
 const ui_menu_entry_t cbm2cart_menu[] = {
-    { "Load new Cart $1***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000 },
-    { "Unload Cart $1***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000 },
-    { "Load new Cart $2-3***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000 },
-    { "Unload Cart $2-3***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000 },
-    { "Load new Cart $4-5***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000 },
-    { "Unload Cart $4-5***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000 },
-    { "Load new Cart $6-7***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000 },
-    { "Unload Cart $6-7***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000 },
+    {   .string   = "Load new Cart $1***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000
+    },
+    {   .string   = "Unload Cart $1***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000
+    },
+    {   .string   = "Load new Cart $2-3***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000
+    },
+    {   .string   = "Unload Cart $2-3***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000
+    },
+    {   .string   = "Load new Cart $4-5***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000
+    },
+    {   .string   = "Unload Cart $4-5***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000
+    },
+    {   .string   = "Load new Cart $6-7***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000
+    },
+    {   .string   = "Unload Cart $6-7***",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "I/O collision handling ($D800-$DFFF)", MENU_ENTRY_SUBMENU, iocollision_show_type_callback, (ui_callback_data_t)iocollision_menu },
-    { "Reset on cartridge change", MENU_ENTRY_RESOURCE_TOGGLE, toggle_CartridgeReset_callback, NULL },
+
+    {   .string   = "I/O collision handling ($D800-$DFFF)",
+        .type     = MENU_ENTRY_SUBMENU, iocollision_show_type_callback,
+        .data     = (ui_callback_data_t)iocollision_menu
+    },
+    {   .string   = "Reset on cartridge change",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CartridgeReset_callback
+    },
     SDL_MENU_LIST_END
 };

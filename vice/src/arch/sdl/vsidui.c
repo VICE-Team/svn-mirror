@@ -37,6 +37,8 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "actions-speed.h"
+#include "actions-vsid.h"
 #include "c64mem.h"
 #include "c64rom.h"
 #include "lib.h"
@@ -62,11 +64,11 @@
 #include "vsidui_sdl.h"
 
 /* ---------------------------------------------------------------------*/
-/* static variables / functions */
+/* (static) variables / functions */
 
-static int sdl_vsid_tunes = 0;
-static int sdl_vsid_current_tune = 0;
-static int sdl_vsid_default_tune = 0;
+int sdl_vsid_tunes = 0;
+int sdl_vsid_current_tune = 0;
+int sdl_vsid_default_tune = 0;
 
 enum {
     VSID_CS_TITLE = 0,
@@ -107,12 +109,15 @@ static UI_MENU_CALLBACK(load_psid_callback)
             psid_init_driver();
             machine_play_psid(0);
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            ui_action_finish(ACTION_PSID_LOAD);
             return sdl_menu_text_exit_ui;
         }
+        ui_action_finish(ACTION_PSID_LOAD);
     }
     return NULL;
 }
 
+#if 0
 #define SDLUI_VSID_CMD_MASK     0x8000
 #define SDLUI_VSID_CMD_NEXT     0x8001
 #define SDLUI_VSID_CMD_PREV     0x8002
@@ -152,180 +157,314 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
     }
     return NULL;
 }
+#endif
 
 /* This menu is static so hotkeys can be assigned.
    Only 23 tunes are listed, which is hopefully enough for most cases. */
 
-/* FIXME: still generate this menu at runtime, there ARE .sid files with 256 tunes! */
+/* FIXME: still generate this menu at runtime, there ARE .sid files with 256 tunes!
+ *
+ * XXX: The data members are required for the `psid_subtune_display` to check
+ *      the current tune against the tune in the menu items.
+ */
 static const ui_menu_entry_t vsid_tune_menu[] = {
-    { "Tune 1",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)1 },
-    { "Tune 2",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)2 },
-    { "Tune 3",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)3 },
-    { "Tune 4",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)4 },
-    { "Tune 5",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)5 },
-    { "Tune 6",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)6 },
-    { "Tune 7",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)7 },
-    { "Tune 8",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)8 },
-    { "Tune 9",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)9 },
-    { "Tune 10",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)10 },
-    { "Tune 11",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)11 },
-    { "Tune 12",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)12 },
-    { "Tune 13",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)13 },
-    { "Tune 14",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)14 },
-    { "Tune 15",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)15 },
-    { "Tune 16",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)16 },
-    { "Tune 17",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)17 },
-    { "Tune 18",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)18 },
-    { "Tune 19",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)19 },
-    { "Tune 20",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)20 },
-    { "Tune 21",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)21 },
-    { "Tune 22",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)22 },
-    { "Tune 23",
-      MENU_ENTRY_OTHER_TOGGLE,
-      vsidui_tune_callback,
-      (ui_callback_data_t)23 },
+    {   .action    = ACTION_PSID_SUBTUNE_1,
+        .string    = "Tune 1",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)1,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_2,
+        .string    = "Tune 2",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)2,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_3,
+        .string    = "Tune 3",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)3,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_4,
+        .string    = "Tune 4",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)4,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_5,
+        .string    = "Tune 5",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)5,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_6,
+        .string    = "Tune 6",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)6,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_7,
+        .string    = "Tune 7",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)7,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_8,
+        .string    = "Tune 8",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)8,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_9,
+        .string    = "Tune 9",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)9,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_10,
+        .string    = "Tune 10",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)10,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_11,
+        .string    = "Tune 11",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)11,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_12,
+        .string    = "Tune 12",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)12,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_13,
+        .string    = "Tune 13",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)13,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_14,
+        .string    = "Tune 14",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)14,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_15,
+        .string    = "Tune 15",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)15,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_16,
+        .string    = "Tune 16",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)16,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_17,
+        .string    = "Tune 17",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)17,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_18,
+        .string    = "Tune 18",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)18,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_19,
+        .string    = "Tune 19",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)19,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_20,
+        .string    = "Tune 20",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)20,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_21,
+        .string    = "Tune 21",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)21,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_22,
+        .string    = "Tune 22",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)22,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_23,
+        .string    = "Tune 23",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)23,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_24,
+        .string    = "Tune 24",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)24,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_25,
+        .string    = "Tune 25",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)25,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_26,
+        .string    = "Tune 26",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)26,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_27,
+        .string    = "Tune 27",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)27,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_28,
+        .string    = "Tune 28",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)28,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_29,
+        .string    = "Tune 29",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)29,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
+    {   .action    = ACTION_PSID_SUBTUNE_30,
+        .string    = "Tune 30",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .data      = (ui_callback_data_t)30,
+        .checked   = psid_subtune_check,
+        .displayed = psid_subtune_display
+    },
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
-
 static const ui_menu_entry_t vsid_main_menu[] = {
-    { "Load PSID file",
-      MENU_ENTRY_DIALOG,
-      load_psid_callback,
-      NULL },
-    { "Select tune",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vsid_tune_menu },
-    { "Next tune",
-      MENU_ENTRY_OTHER,
-      vsidui_tune_callback,
-      (ui_callback_data_t)SDLUI_VSID_CMD_NEXT },
-    { "Previous tune",
-      MENU_ENTRY_OTHER,
-      vsidui_tune_callback,
-      (ui_callback_data_t)SDLUI_VSID_CMD_PREV },
-    { "Default tune",
-      MENU_ENTRY_OTHER,
-      vsidui_tune_callback,
-      (ui_callback_data_t)SDLUI_VSID_CMD_DEFAULT },
-    { "Override PSID settings",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PSIDKeepEnv_callback,
-      NULL },
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
-    { "Sound settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sound_output_menu },
-    { "Reset",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)reset_menu },
-    { "Action on CPU JAM",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)jam_menu },
-    { "Speed settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)speed_menu_vsid },
-    { "Pause",
-      MENU_ENTRY_OTHER_TOGGLE,
-      pause_callback,
-      NULL },
-    { "Monitor",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)monitor_menu },
+    {   .action   = ACTION_PSID_LOAD,
+        .string   = "Load PSID file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = load_psid_callback
+    },
+    {   .string   = "Select tune",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vsid_tune_menu
+    },
+    {   .action   = ACTION_PSID_SUBTUNE_NEXT,
+        .string   = "Next tune",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_PSID_SUBTUNE_PREVIOUS,
+        .string   = "Previous tune",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_PSID_SUBTUNE_DEFAULT,
+        .string   = "Default tune",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_PSID_OVERRIDE_TOGGLE,
+        .string   = "Override PSID settings",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "PSIDKeepEnv"
+    },
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sid_c64_menu
+    },
+    {   .string   = "Sound settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sound_output_menu
+    },
+    {   .string   = "Reset",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)reset_menu
+    },
+    {   .string   = "Action on CPU JAM",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)jam_menu
+    },
+    {   .string   = "Speed settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)speed_menu_vsid
+    },
+    {   .action    = ACTION_PAUSE_TOGGLE,
+        .string    = "Pause",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = pause_toggle_display
+    },
+    {   .string   = "Monitor",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)monitor_menu
+    },
 #ifdef DEBUG
-    { "Debug",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)debug_menu },
+    {   .string   = "Debug",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)debug_menu
+    },
 #endif
-    { "Help",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)help_menu },
-    { "Settings management",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)settings_manager_menu_vsid },
-    { "Quit emulator",
-      MENU_ENTRY_OTHER,
-      quit_callback,
-      NULL },
+    {   .string   = "Help",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)help_menu
+    },
+    {   .string   = "Settings management",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)settings_manager_menu_vsid
+    },
+    {   .action   = ACTION_QUIT,
+        .string   = "Quit emulator",
+        .type     = MENU_ENTRY_OTHER
+    },
     SDL_MENU_LIST_END
 };
 
@@ -410,6 +549,7 @@ int vsid_ui_init(void)
 
     memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
 
+    actions_vsid_register();
     return 0;
 }
 

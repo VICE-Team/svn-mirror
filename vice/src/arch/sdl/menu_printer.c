@@ -38,46 +38,55 @@
 
 UI_MENU_DEFINE_RADIO(UserportDevice)
 
-#define VICE_SDL_PRINTER_DRIVER_MENU(prn)                             \
-    UI_MENU_DEFINE_RADIO(Printer##prn##Driver)                        \
-    static const ui_menu_entry_t printer_##prn##_driver_submenu[] = { \
-        { "ASCII",                                                    \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"ascii" },                              \
-        { "Commodore 2022",                                           \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"2022" },                               \
-        { "Commodore 4023",                                           \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"4023" },                               \
-        { "Commodore 8023",                                           \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"8023" },                               \
-        { "MPS801",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"mps801" },                             \
-        { "MPS802",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"mps802" },                             \
-        { "MPS803",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"mps803" },                             \
-        { "NL10",                                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"nl10" },                               \
-        { "Raw",                                                      \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Driver_callback,                        \
-          (ui_callback_data_t)"raw" },                                \
-        SDL_MENU_LIST_END                                             \
+#define VICE_SDL_PRINTER_DRIVER_MENU(prn)                               \
+    UI_MENU_DEFINE_RADIO(Printer##prn##Driver)                          \
+    static const ui_menu_entry_t printer_##prn##_driver_submenu[] = {   \
+        {   .string   = "ASCII",                                        \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"ascii"                     \
+        },                                                              \
+        {   .string   = "Commodore 2022",                               \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"2022"                      \
+        },                                                              \
+        {   .string   = "Commodore 4023",                               \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"4023"                      \
+        },                                                              \
+        {   .string   = "Commodore 8023",                               \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"8023"                      \
+        },                                                              \
+        {   .string   = "MPS801",                                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"mps801"                    \
+        },                                                              \
+        {   .string   = "MPS802",                                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"mps802"                    \
+        },                                                              \
+        {   .string   = "MPS803",                                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"mps803"                    \
+        },                                                              \
+        {   .string   = "NL10",                                         \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"nl10"                      \
+        },                                                              \
+        {   .string   = "Raw",                                          \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Driver_callback,            \
+            .data     = (ui_callback_data_t)"raw"                       \
+        },                                                              \
+        SDL_MENU_LIST_END                                               \
     };
 
 VICE_SDL_PRINTER_DRIVER_MENU(4)
@@ -86,51 +95,59 @@ VICE_SDL_PRINTER_DRIVER_MENU(5)
 UI_MENU_DEFINE_RADIO(PrinterUserportDriver)
 
 static const ui_menu_entry_t printer_Userport_driver_submenu[] = {
-    { "ASCII",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_PrinterUserportDriver_callback,
-      (ui_callback_data_t)"ascii" },
-    { "NL10",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_PrinterUserportDriver_callback,
-      (ui_callback_data_t)"nl10" },
-    { "Raw",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_PrinterUserportDriver_callback,
-      (ui_callback_data_t)"raw" },
+    {   .string   = "ASCII",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_PrinterUserportDriver_callback,
+        .data     = (ui_callback_data_t)"ascii"
+    },
+    {   .string   = "NL10",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_PrinterUserportDriver_callback,
+        .data     = (ui_callback_data_t)"nl10"
+    },
+    {   .string   = "Raw",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_PrinterUserportDriver_callback,
+        .data     = (ui_callback_data_t)"raw"
+    },
     SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(Printer6Driver)
 
 static const ui_menu_entry_t printer_6_driver_submenu[] = {
-    { "1520",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Printer6Driver_callback,
-      (ui_callback_data_t)"1520" },
-    { "Raw",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Printer6Driver_callback,
-      (ui_callback_data_t)"raw" },
+    {   .string   = "1520",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_Printer6Driver_callback,
+        .data     = (ui_callback_data_t)"1520"
+    },
+    {   .string   = "Raw",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_Printer6Driver_callback,
+        .data     = (ui_callback_data_t)"raw"
+    },
     SDL_MENU_LIST_END
 };
 
-#define VICE_SDL_PRINTER_DEVICE_MENU(prn)                             \
-    UI_MENU_DEFINE_RADIO(Printer##prn##TextDevice)                    \
-    static const ui_menu_entry_t printer_##prn##_device_submenu[] = { \
-        { "1",                                                        \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)PRINTER_TEXT_DEVICE_1 },                \
-        { "2",                                                        \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)PRINTER_TEXT_DEVICE_2 },                \
-        { "3",                                                        \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##TextDevice_callback,                    \
-          (ui_callback_data_t)PRINTER_TEXT_DEVICE_3 },                \
-        SDL_MENU_LIST_END                                             \
+#define VICE_SDL_PRINTER_DEVICE_MENU(prn)                               \
+    UI_MENU_DEFINE_RADIO(Printer##prn##TextDevice)                      \
+    static const ui_menu_entry_t printer_##prn##_device_submenu[] = {   \
+        {   .string   = "1",                                            \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##TextDevice_callback,        \
+            .data     = (ui_callback_data_t)PRINTER_TEXT_DEVICE_1       \
+        },                                                              \
+        {   .string   = "2",                                            \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##TextDevice_callback,        \
+            .data     = (ui_callback_data_t)PRINTER_TEXT_DEVICE_2       \
+        },                                                              \
+        {   .string   = "3",                                            \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##TextDevice_callback,        \
+            .data     = (ui_callback_data_t)PRINTER_TEXT_DEVICE_3       \
+        },                                                              \
+        SDL_MENU_LIST_END                                               \
     };
 
 VICE_SDL_PRINTER_DEVICE_MENU(4)
@@ -139,18 +156,20 @@ VICE_SDL_PRINTER_DEVICE_MENU(6)
 VICE_SDL_PRINTER_DEVICE_MENU(Userport)
 
 
-#define VICE_SDL_PRINTER_OUTPUT_MENU(prn)                             \
-    UI_MENU_DEFINE_RADIO(Printer##prn##Output)                        \
-    static const ui_menu_entry_t printer_##prn##_output_submenu[] = { \
-        { "Text",                                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Output_callback,                        \
-          (ui_callback_data_t)"text" },                               \
-        { "Graphics",                                                 \
-          MENU_ENTRY_RESOURCE_RADIO,                                  \
-          radio_Printer##prn##Output_callback,                        \
-          (ui_callback_data_t)"graphics" },                           \
-        SDL_MENU_LIST_END                                             \
+#define VICE_SDL_PRINTER_OUTPUT_MENU(prn)                               \
+    UI_MENU_DEFINE_RADIO(Printer##prn##Output)                          \
+    static const ui_menu_entry_t printer_##prn##_output_submenu[] = {   \
+        {   .string   = "Text",                                         \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Output_callback,            \
+            .data     = (ui_callback_data_t)"text"                      \
+        },                                                              \
+        {   .string   = "Graphics",                                     \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                      \
+            .callback = radio_Printer##prn##Output_callback,            \
+            .data     = (ui_callback_data_t)"graphics"                  \
+        },                                                              \
+        SDL_MENU_LIST_END                                               \
     };
 
 VICE_SDL_PRINTER_OUTPUT_MENU(4)
@@ -163,32 +182,37 @@ VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 #define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn)                              \
     static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
-        { "None",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_NONE },                \
-        { "File system access",                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_FS },                  \
-        { "Real device access",                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_REAL },                \
+        {   .string   = "None",                                     \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_NONE     \
+        },                                                          \
+        {   .string   = "File system access",                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_FS       \
+        },                                                          \
+        {   .string   = "Real device access",                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_REAL     \
+        },                                                          \
         SDL_MENU_LIST_END                                           \
     };
 
 #define VICE_SDL_DEVICE_TYPE_MENU(prn)                              \
     UI_MENU_DEFINE_RADIO(Printer##prn)                              \
     static const ui_menu_entry_t device_##prn##_type_submenu[] = {  \
-        { "None",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_NONE },                \
-        { "Real device access",                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_REAL },                \
+        {   .string   = "None",                                     \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_NONE     \
+        },                                                          \
+        {   .string   = "Real device access",                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_REAL     \
+        },                                                          \
         SDL_MENU_LIST_END                                           \
     };
 
@@ -197,14 +221,15 @@ VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 #define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn)                              \
     static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
-        { "None",                                                   \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_NONE },                \
-        { "File system access",                                     \
-          MENU_ENTRY_RESOURCE_RADIO,                                \
-          radio_Printer##prn##_callback,                            \
-          (ui_callback_data_t)PRINTER_DEVICE_FS },                  \
+        {   .string   = "None",                                     \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_NONE     \
+        },                                                          \
+        {   .string   = "File system access",                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,                  \
+            .callback = radio_Printer##prn##_callback,              \
+            .data     = (ui_callback_data_t)PRINTER_DEVICE_FS },    \
         SDL_MENU_LIST_END                                           \
     };
 
@@ -236,162 +261,190 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
 }
 
 
-#define VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS          \
-    { "Printer #4 emulation",                         \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_4_type_submenu },   \
-    { "Printer #4 driver",                            \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_4_driver_submenu }, \
-    { "Printer #4 output type",                       \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_4_output_submenu }, \
-    { "Printer #4 output device",                     \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_4_device_submenu }, \
-    { "Printer #4 form feed",                         \
-      MENU_ENTRY_OTHER,                               \
-      uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)PRINTER_IEC_4 },
+#define VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS                        \
+    {   .string   = "Printer #4 emulation",                         \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_4_type_submenu      \
+    },                                                              \
+    {   .string   = "Printer #4 driver",                            \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_4_driver_submenu    \
+    },                                                              \
+    {   .string   = "Printer #4 output type",                       \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_4_output_submenu    \
+    },                                                              \
+    {   .string   = "Printer #4 output device",                     \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_4_device_submenu    \
+    },                                                              \
+    {   .string   = "Printer #4 form feed",                         \
+        .type     = MENU_ENTRY_OTHER,                               \
+        .callback = uiprinter_formfeed_callback,                    \
+        .data     = (ui_callback_data_t)PRINTER_IEC_4               \
+    },
 
-#define VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS          \
-    { "Printer #5 emulation",                         \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_5_type_submenu },   \
-    { "Printer #5 driver",                            \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_5_driver_submenu }, \
-    { "Printer #5 output type",                       \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_5_output_submenu }, \
-    { "Printer #5 output device",                     \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_5_device_submenu }, \
-    { "Printer #5 form feed",                         \
-      MENU_ENTRY_OTHER,                               \
-      uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)PRINTER_IEC_5 },
+#define VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS                        \
+    {   .string   = "Printer #5 emulation",                         \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_5_type_submenu      \
+    },                                                              \
+    {   .string   = "Printer #5 driver",                            \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_5_driver_submenu    \
+    },                                                              \
+    {   .string   = "Printer #5 output type",                       \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_5_output_submenu    \
+    },                                                              \
+    {   .string   = "Printer #5 output device",                     \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_5_device_submenu    \
+    },                                                              \
+    {   .string   = "Printer #5 form feed",                         \
+        .type     = MENU_ENTRY_OTHER,                               \
+        .callback = uiprinter_formfeed_callback,                    \
+        .data     = (ui_callback_data_t)PRINTER_IEC_5 \
+    },
 
-#define VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS          \
-    { "Printer #6 emulation",                         \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_6_type_submenu },   \
-    { "Printer #6 driver",                            \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_6_driver_submenu }, \
-    { "Printer #6 output type",                       \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_6_output_submenu }, \
-    { "Printer #6 output device",                     \
-      MENU_ENTRY_SUBMENU,                             \
-      submenu_radio_callback,                         \
-      (ui_callback_data_t)printer_6_device_submenu }, \
-    { "Printer #6 form feed",                         \
-      MENU_ENTRY_OTHER,                               \
-      uiprinter_formfeed_callback,                    \
-      (ui_callback_data_t)PRINTER_IEC_6 },
+#define VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS                        \
+    {   .string   = "Printer #6 emulation",                         \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_6_type_submenu      \
+    },                                                              \
+    {   .string   = "Printer #6 driver",                            \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_6_driver_submenu    \
+    },                                                              \
+    {   .string   = "Printer #6 output type",                       \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_6_output_submenu    \
+    },                                                              \
+    {   .string   = "Printer #6 output device",                     \
+        .type     = MENU_ENTRY_SUBMENU,                             \
+        .callback = submenu_radio_callback,                         \
+        .data     = (ui_callback_data_t)printer_6_device_submenu    \
+    },                                                              \
+    {   .string   = "Printer #6 form feed",                         \
+        .type     = MENU_ENTRY_OTHER,                               \
+        .callback = uiprinter_formfeed_callback,                    \
+        .data     = (ui_callback_data_t)PRINTER_IEC_6               \
+    },
 
 #ifdef HAVE_REALDEVICE
-#define VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS \
-    { "Device #7 emulation",                \
-      MENU_ENTRY_SUBMENU,                   \
-      submenu_radio_callback,               \
-      (ui_callback_data_t)device_7_type_submenu },
+#define VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS                     \
+    {   .string   = "Device #7 emulation",                      \
+        .type     = MENU_ENTRY_SUBMENU,                         \
+        .callback = submenu_radio_callback,                     \
+        .data     = (ui_callback_data_t)device_7_type_submenu   \
+    },
 #endif
 
-#define VICE_SDL_PRINTER_USERPORT_MENU_ITEMS                 \
-    { "Userport printer emulation",                          \
-      MENU_ENTRY_RESOURCE_RADIO,                             \
-      radio_UserportDevice_callback,                         \
-      (ui_callback_data_t)USERPORT_DEVICE_PRINTER },         \
-    { "Userport printer driver",                             \
-      MENU_ENTRY_SUBMENU,                                    \
-      submenu_radio_callback,                                \
-      (ui_callback_data_t)printer_Userport_driver_submenu }, \
-    { "Userport printer output type",                        \
-      MENU_ENTRY_SUBMENU,                                    \
-      submenu_radio_callback,                                \
-      (ui_callback_data_t)printer_Userport_output_submenu }, \
-    { "Userport printer output device",                      \
-      MENU_ENTRY_SUBMENU,                                    \
-      submenu_radio_callback,                                \
-      (ui_callback_data_t)printer_Userport_device_submenu }, \
-    { "Userport printer form feed",                          \
-      MENU_ENTRY_OTHER,                                      \
-      uiprinter_formfeed_callback,                           \
-      (ui_callback_data_t)PRINTER_USERPORT },
+#define VICE_SDL_PRINTER_USERPORT_MENU_ITEMS                            \
+    {   .string   = "Userport printer emulation",                       \
+        .type     = MENU_ENTRY_RESOURCE_RADIO,                          \
+        .callback = radio_UserportDevice_callback,                      \
+        .data     = (ui_callback_data_t)USERPORT_DEVICE_PRINTER         \
+    },                                                                  \
+    {   .string   = "Userport printer driver",                          \
+        .type     = MENU_ENTRY_SUBMENU,                                 \
+        .callback = submenu_radio_callback,                             \
+        .data     = (ui_callback_data_t)printer_Userport_driver_submenu \
+    },                                                                  \
+    {   .string   = "Userport printer output type",                     \
+        .type     = MENU_ENTRY_SUBMENU,                                 \
+        .callback = submenu_radio_callback,                             \
+        .data     = (ui_callback_data_t)printer_Userport_output_submenu \
+    },                                                                  \
+    {   .string   = "Userport printer output device",                   \
+        .type     = MENU_ENTRY_SUBMENU,                                 \
+        .callback = submenu_radio_callback,                             \
+        .data     = (ui_callback_data_t)printer_Userport_device_submenu \
+    },                                                                  \
+    {   .string   = "Userport printer form feed",                       \
+        .type     = MENU_ENTRY_OTHER,                                   \
+        .callback = uiprinter_formfeed_callback,                        \
+        .data     = (ui_callback_data_t)PRINTER_USERPORT                \
+    },
 
 UI_MENU_DEFINE_STRING(PrinterTextDevice1)
 UI_MENU_DEFINE_STRING(PrinterTextDevice2)
 UI_MENU_DEFINE_STRING(PrinterTextDevice3)
 
-#define VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS       \
-    { "Device 1",                                    \
-      MENU_ENTRY_RESOURCE_STRING,                    \
-      string_PrinterTextDevice1_callback,            \
-      (ui_callback_data_t)"Printer device 1 file" }, \
-    { "Device 2",                                    \
-      MENU_ENTRY_RESOURCE_STRING,                    \
-      string_PrinterTextDevice2_callback,            \
-      (ui_callback_data_t)"Printer device 2 file" }, \
-    { "Device 3",                                    \
-      MENU_ENTRY_RESOURCE_STRING,                    \
-      string_PrinterTextDevice3_callback,            \
-      (ui_callback_data_t)"Printer device 3 file" },
+#define VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS                  \
+    {   .string   = "Device 1",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_PrinterTextDevice1_callback,         \
+        .data     = (ui_callback_data_t)"Printer device 1 file" \
+    },                                                          \
+    {   .string   = "Device 2",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_PrinterTextDevice2_callback,         \
+        .data     = (ui_callback_data_t)"Printer device 2 file" \
+    },                                                          \
+    {   .string   = "Device 3",                                 \
+        .type     = MENU_ENTRY_RESOURCE_STRING,                 \
+        .callback = string_PrinterTextDevice3_callback,         \
+        .data     = (ui_callback_data_t)"Printer device 3 file" \
+    },
 
 const ui_menu_entry_t printer_iec_menu[] = {
     VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
-    { "Printer #4 enable virtual device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice4_callback,
-      NULL },
-    { "Printer #4 enable IEC device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECDevice4_callback,
-      NULL },
+    {   .string   = "Printer #4 enable virtual device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice4_callback
+    },
+    {   .string   = "Printer #4 enable IEC device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECDevice4_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
-    { "Printer #5 enable virtual device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice5_callback,
-      NULL },
-    { "Printer #5 enable IEC device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECDevice5_callback,
-      NULL },
+    {   .string   = "Printer #5 enable virtual device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice5_callback
+    },
+    {   .string   = "Printer #5 enable IEC device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECDevice5_callback,
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
-    { "Printer #6 enable virtual device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice6_callback,
-      NULL },
-    { "Printer #6 enable IEC device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECDevice6_callback,
-      NULL },
+    {   .string   = "Printer #6 enable virtual device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice6_callback
+    },
+    {   .string   = "Printer #6 enable IEC device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECDevice6_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
 #ifdef HAVE_REALDEVICE
     VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS
-    { "Device #7 enable virtual device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevice7_callback,
-      NULL },
-    { "Device #7 enable IEC device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IECDevice7_callback,
-      NULL },
+    {   .string   = "Device #7 enable virtual device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VirtualDevice7_callback
+    },
+    {   .string   = "Device #7 enable IEC device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IECDevice7_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
 #endif
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,

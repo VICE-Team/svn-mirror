@@ -35,6 +35,7 @@
 #include "ide64.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
 
@@ -44,76 +45,93 @@ UI_MENU_DEFINE_TOGGLE(DIGIMAX)
 UI_MENU_DEFINE_RADIO(DIGIMAXbase)
 
 const ui_menu_entry_t digimax_menu[] = {
-    { "Enable " CARTRIDGE_NAME_DIGIMAX,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DIGIMAX_callback,
-      NULL },
+    {   .string   = "Enable " CARTRIDGE_NAME_DIGIMAX,
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DIGIMAX_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Base address"),
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DE20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xde20 },
-    { "$DE40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xde40 },
-    { "$DE60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xde60 },
-    { "$DE80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xde80 },
-    { "$DEA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdea0 },
-    { "$DEC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdec0 },
-    { "$DEE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdee0 },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdf00 },
-    { "$DF20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdf20 },
-    { "$DF40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdf40 },
-    { "$DF60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdf60 },
-    { "$DF80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdf80 },
-    { "$DFA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdfa0 },
-    { "$DFC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdfc0 },
-    { "$DFE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DIGIMAXbase_callback,
-      (ui_callback_data_t)0xdfe0 },
+    {   .string   = "$DE00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde00
+    },
+    {   .string   = "$DE20",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde20
+    },
+    {   .string   = "$DE40",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde40
+    },
+    {   .string   = "$DE60",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde60
+    },
+    {   .string   = "$DE80",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde80
+    },
+    {   .string   = "$DEA0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdea0
+    },
+    {   .string   = "$DEC0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdec0
+    },
+    {   .string   = "$DEE0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdee0
+    },
+    {   .string   = "$DF00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdf00
+    },
+    {   .string   = "$DF20",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdf20
+    },
+    {   .string   = "$DF40",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdf40
+    },
+    {   .string   = "$DF60",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdf60
+    },
+    {   .string   = "$DF80",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdf80
+    },
+    {   .string   = "$DFA0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdfa0
+    },
+    {   .string   = "$DFC0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdfc0
+    },
+    {   .string   = "$DFE0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xdfe0
+    },
     SDL_MENU_LIST_END
 };
 
@@ -126,71 +144,81 @@ UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
 UI_MENU_DEFINE_TOGGLE(DS12C887RTCSave)
 
 const ui_menu_entry_t ds12c887rtc_c64_menu[] = {
-    { "Enable " CARTRIDGE_NAME_DS12C887RTC,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTC_callback,
-      NULL },
-    { "Start with running oscillator",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTCRunMode_callback,
-      NULL },
-    { "Save RTC data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTCSave_callback,
-      NULL },
+    {   .string   = "Enable " CARTRIDGE_NAME_DS12C887RTC,
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTC_callback
+    },
+    {   .string   = "Start with running oscillator",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTCRunMode_callback
+    },
+    {   .string   = "Save RTC data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTCSave_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Base address"),
-    { "$D500",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xd500 },
-    { "$D600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xd600 },
-    { "$D700",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xd700 },
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xdf00 },
+    {   .string   = "$D500",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xd500
+    },
+    {   .string   = "$D600",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xd600
+    },
+    {   .string   = "$D700",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xd700
+    },
+    {   .string   = "$DE00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xde00
+    },
+    {   .string   = "$DF00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xdf00
+    },
     SDL_MENU_LIST_END
 };
 
 
 const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
-    { "Enable " CARTRIDGE_NAME_DS12C887RTC,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTC_callback,
-      NULL },
-    { "Start with running oscillator",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTCRunMode_callback,
-      NULL },
-    { "Save RTC data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DS12C887RTCSave_callback,
-      NULL },
+    {   .string   = "Enable " CARTRIDGE_NAME_DS12C887RTC,
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTC_callback
+    },
+    {   .string   = "Start with running oscillator",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTCRunMode_callback
+    },
+    {   .string   = "Save RTC data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_DS12C887RTCSave_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Base address"),
-    { "$D700",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xd700 },
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DS12C887RTCbase_callback,
-      (ui_callback_data_t)0xdf00 },
+    {   .string   = "$D700",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xd700
+    },
+    {   .string   = "$DE00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xde00
+    },
+    {   .string   = "$DF00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DS12C887RTCbase_callback,
+        .data     = (ui_callback_data_t)0xdf00
+    },
     SDL_MENU_LIST_END
 };
 
@@ -228,109 +256,129 @@ UI_MENU_DEFINE_INT(IDE64Sectors4)
 
 static const ui_menu_entry_t ide64_menu_HD_1[] = {
     SDL_MENU_ITEM_TITLE("ATA device 1 settings"),
-    { "Device 1 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image1_callback,
-      (ui_callback_data_t)"Select Device 1 image" },
+    {   .string   = "Device 1 image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_IDE64Image1_callback,
+        .data     = (ui_callback_data_t)"Select Device 1 image"
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Device 1 geometry"),
-    { "Autodetect geometry",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64AutodetectSize1_callback,
-      NULL },
-    { "Cylinders",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Cylinders1_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-65535)" },
-    { "Heads",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Heads1_callback,
-      (ui_callback_data_t)"Enter amount of heads (1-16)" },
-    { "Sectors",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Sectors1_callback,
-      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
+    {   .string   = "Autodetect geometry",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64AutodetectSize1_callback
+    },
+    {   .string   = "Cylinders",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Cylinders1_callback,
+        .data     = (ui_callback_data_t)"Enter amount of cylinders (1-65535)"
+    },
+    {   .string   = "Heads",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Heads1_callback,
+        .data     = (ui_callback_data_t)"Enter amount of heads (1-16)"
+    },
+    {   .string   = "Sectors",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Sectors1_callback,
+        .data     = (ui_callback_data_t)"Enter amount of sectors (1-63)"
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t ide64_menu_HD_2[] = {
     SDL_MENU_ITEM_TITLE("ATA device 2 settings"),
-    { "Device 2 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image2_callback,
-      (ui_callback_data_t)"Select Device 2 image" },
+    {   .string   = "Device 2 image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_IDE64Image2_callback,
+        .data     = (ui_callback_data_t)"Select Device 2 image"
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Device 2 geometry"),
-    { "Autodetect geometry",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64AutodetectSize2_callback,
-      NULL },
-    { "Cylinders",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Cylinders2_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
-    { "Heads",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Heads2_callback,
-      (ui_callback_data_t)"Enter amount of heads (1-16)" },
-    { "Sectors",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Sectors2_callback,
-      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
+    {   .string   = "Autodetect geometry",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64AutodetectSize2_callback
+    },
+    {   .string   = "Cylinders",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Cylinders2_callback,
+        .data     = (ui_callback_data_t)"Enter amount of cylinders (1-1024)"
+    },
+    {   .string   = "Heads",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Heads2_callback,
+        .data     = (ui_callback_data_t)"Enter amount of heads (1-16)"
+    },
+    {   .string   = "Sectors",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Sectors2_callback,
+        .data     = (ui_callback_data_t)"Enter amount of sectors (1-63)"
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t ide64_menu_HD_3[] = {
     SDL_MENU_ITEM_TITLE("ATA device 3 settings"),
-    { "Device 3 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image3_callback,
-      (ui_callback_data_t)"Select Device 3 image" },
+    {   .string   = "Device 3 image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_IDE64Image3_callback,
+        .data     = (ui_callback_data_t)"Select Device 3 image"
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Device 3 geometry"),
-    { "Autodetect geometry",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64AutodetectSize3_callback,
-      NULL },
-    { "Cylinders",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Cylinders3_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
-    { "Heads",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Heads3_callback,
-      (ui_callback_data_t)"Enter amount of heads (1-16)" },
-    { "Sectors",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Sectors3_callback,
-      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
+    {   .string   = "Autodetect geometry",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64AutodetectSize3_callback
+    },
+    {   .string   = "Cylinders",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Cylinders3_callback,
+        .data     = (ui_callback_data_t)"Enter amount of cylinders (1-1024)"
+    },
+    {   .string   = "Heads",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Heads3_callback,
+        .data     = (ui_callback_data_t)"Enter amount of heads (1-16)"
+    },
+    {   .string   = "Sectors",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Sectors3_callback,
+        .data     = (ui_callback_data_t)"Enter amount of sectors (1-63)"
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t ide64_menu_HD_4[] = {
     SDL_MENU_ITEM_TITLE("ATA device 4 settings"),
-    { "Device 4 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image4_callback,
-      (ui_callback_data_t)"Select Device 4 image" },
+    {   .string   = "Device 4 image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_IDE64Image4_callback,
+        .data     = (ui_callback_data_t)"Select Device 4 image"
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Device 4 geometry"),
-    { "Autodetect geometry",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64AutodetectSize4_callback,
-      NULL },
-    { "Cylinders",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Cylinders4_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
-    { "Heads",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Heads4_callback,
-      (ui_callback_data_t)"Enter amount of heads (1-16)" },
-    { "Sectors",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Sectors4_callback,
-      (ui_callback_data_t)"Enter amount of sectors (1-63)" },
+    {   .string   = "Autodetect geometry",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64AutodetectSize4_callback
+    },
+    {   .string   = "Cylinders",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Cylinders4_callback,
+        .data     = (ui_callback_data_t)"Enter amount of cylinders (1-1024)"
+    },
+    {   .string   = "Heads",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Heads4_callback,
+        .data     = (ui_callback_data_t)"Enter amount of heads (1-16)"
+    },
+    {   .string   = "Sectors",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_IDE64Sectors4_callback,
+        .data     = (ui_callback_data_t)"Enter amount of sectors (1-63)"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -339,20 +387,23 @@ UI_MENU_DEFINE_RADIO(SBDIGIMAXbase)
 
 static const ui_menu_entry_t ide64_digimax_menu[] = {
     SDL_MENU_ITEM_TITLE(CARTRIDGE_NAME_DIGIMAX " settings"),
-    { "Enable " CARTRIDGE_NAME_DIGIMAX " device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SBDIGIMAX_callback,
-      NULL },
+    {   .string   = "Enable " CARTRIDGE_NAME_DIGIMAX " device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SBDIGIMAX_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE(CARTRIDGE_NAME_DIGIMAX " device address"),
-    { "$de40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SBDIGIMAXbase_callback,
-      (ui_callback_data_t)0xde40 },
-    { "$de48",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SBDIGIMAXbase_callback,
-      (ui_callback_data_t)0xde48 },
+    {   .string   = "$de40",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SBDIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde40
+    },
+    {   .string   = "$de48",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SBDIGIMAXbase_callback,
+        .data     = (ui_callback_data_t)0xde48
+    },
     SDL_MENU_LIST_END
 };
 
@@ -362,91 +413,110 @@ UI_MENU_DEFINE_RADIO(SBETFEbase)
 
 static const ui_menu_entry_t ide64_etfe_menu[] = {
     SDL_MENU_ITEM_TITLE("ETFE settings"),
-    { "Enable ETFE device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SBETFE_callback,
-      NULL },
+    {   .string   = "Enable ETFE device",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SBETFE_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("ETFE device address"),
-    { "$de00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SBETFEbase_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$de10",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SBETFEbase_callback,
-      (ui_callback_data_t)0xde10 },
-    { "$df00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SBETFEbase_callback,
-      (ui_callback_data_t)0xdf00 },
+    {   .string   = "$de00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SBETFEbase_callback,
+        .data     = (ui_callback_data_t)0xde00
+    },
+    {   .string   = "$de10",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SBETFEbase_callback,
+        .data     = (ui_callback_data_t)0xde10
+    },
+    {   .string   = "$df00",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_SBETFEbase_callback,
+        .data     = (ui_callback_data_t)0xdf00
+    },
     SDL_MENU_LIST_END
 };
 #endif
 
 const ui_menu_entry_t ide64_menu[] = {
     SDL_MENU_ITEM_TITLE("Cartridge version"),
-    { "V3",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IDE64version_callback,
-      (ui_callback_data_t)IDE64_VERSION_3 },
-    { "V4.1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IDE64version_callback,
-      (ui_callback_data_t)IDE64_VERSION_4_1 },
-    { "V4.2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IDE64version_callback,
-      (ui_callback_data_t)IDE64_VERSION_4_2 },
+    {   .string   = "V3",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IDE64version_callback,
+        .data     = (ui_callback_data_t)IDE64_VERSION_3
+    },
+    {   .string   = "V4.1",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IDE64version_callback,
+        .data     = (ui_callback_data_t)IDE64_VERSION_4_1
+    },
+    {   .string   = "V4.2",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IDE64version_callback,
+        .data     = (ui_callback_data_t)IDE64_VERSION_4_2
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save RTC data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64RTCSave_callback,
-      NULL },
+
+    {   .string   = "Save RTC data when changed",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64RTCSave_callback
+    },
 #ifdef HAVE_NETWORK
-    { "Enable USB server",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64USBServer_callback,
-      NULL },
-    { "USB server address",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_IDE64USBServerAddress_callback,
-      (ui_callback_data_t)"Set USB server address" },
+    {   .string   = "Enable USB server",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IDE64USBServer_callback
+    },
+    {   .string   = "USB server address",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_IDE64USBServerAddress_callback,
+        .data     = (ui_callback_data_t)"Set USB server address"
+    },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("ATA Device settings"),
-    { "ATA Device 1 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_menu_HD_1 },
-    { "ATA Device 2 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_menu_HD_2 },
-    { "ATA Device 3 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_menu_HD_3 },
-    { "ATA Device 4 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_menu_HD_4 },
+    {   .string   = "ATA Device 1 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_menu_HD_1
+    },
+    {   .string   = "ATA Device 2 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_menu_HD_2
+    },
+    {   .string   = "ATA Device 3 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_menu_HD_3
+    },
+    {   .string   = "ATA Device 4 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_menu_HD_4
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Clockport device",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_clockport_device_menu },
+
+    {   .string   = "Clockport device",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_clockport_device_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Shortbus Device settings"),
-    { CARTRIDGE_NAME_DIGIMAX " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_digimax_menu },
+    {   .string   = CARTRIDGE_NAME_DIGIMAX " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_digimax_menu
+    },
 #ifdef HAVE_RAWNET
-    { "ETFE settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ide64_etfe_menu },
+    {   .string   = "ETFE settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ide64_etfe_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
@@ -456,14 +526,16 @@ void uiclockport_ide64_menu_create(void)
     int i;
 
     for (i = 0; clockport_supported_devices[i].name; ++i) {
-        ide64_clockport_device_menu[i].string = clockport_supported_devices[i].name;
-        ide64_clockport_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        ide64_clockport_device_menu[i].action   = ACTION_NONE;
+        ide64_clockport_device_menu[i].string   = clockport_supported_devices[i].name;
+        ide64_clockport_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         ide64_clockport_device_menu[i].callback = radio_IDE64ClockPort_callback;
-        ide64_clockport_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+        ide64_clockport_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
     }
 
-    ide64_clockport_device_menu[i].string = NULL;
-    ide64_clockport_device_menu[i].type = MENU_ENTRY_TEXT;
+    ide64_clockport_device_menu[i].action   = ACTION_NONE;
+    ide64_clockport_device_menu[i].string   = NULL;
+    ide64_clockport_device_menu[i].type     = MENU_ENTRY_TEXT;
     ide64_clockport_device_menu[i].callback = NULL;
-    ide64_clockport_device_menu[i].data = NULL;
+    ide64_clockport_device_menu[i].data     = NULL;
 }

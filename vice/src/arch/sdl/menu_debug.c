@@ -38,6 +38,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "resources.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
 static UI_MENU_CALLBACK(custom_auto_playback_frames)
@@ -65,6 +66,7 @@ static UI_MENU_CALLBACK(custom_auto_playback_frames)
     return NULL;
 }
 
+#if 0
 UI_MENU_DEFINE_TOGGLE(MainCPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(IEC_TRACE)
 UI_MENU_DEFINE_TOGGLE(IEEE_TRACE)
@@ -72,6 +74,7 @@ UI_MENU_DEFINE_TOGGLE(Drive0CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive1CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive2CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive3CPU_TRACE)
+#endif
 UI_MENU_DEFINE_RADIO(TraceMode)
 
 static UI_MENU_CALLBACK(show_font_callback)
@@ -148,134 +151,164 @@ static UI_MENU_CALLBACK(show_font_callback)
 
 const ui_menu_entry_t debug_menu[] = {
     SDL_MENU_ITEM_TITLE("Trace mode"),
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_NORMAL },
-    { "Small",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_SMALL },
-    { "History",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_HISTORY },
-    { "History autoplay",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_AUTOPLAY },
+    {   .string   = "Normal",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_NORMAL
+    },
+    {   .string   = "Small",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_SMALL
+    },
+    {   .string   = "History",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_HISTORY
+    },
+    {   .string   = "History autoplay",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_AUTOPLAY
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Auto playback frames",
-      MENU_ENTRY_DIALOG,
-      custom_auto_playback_frames,
-      NULL },
+
+    {   .action   = ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
+        .string   = "Auto playback frames",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_auto_playback_frames
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Main CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MainCPU_TRACE_callback,
-      NULL },
-    { "IEC bus trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IEC_TRACE_callback,
-      NULL },
-    { "IEEE-488 bus trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IEEE_TRACE_callback,
-      NULL },
-    { "Drive0 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive0CPU_TRACE_callback,
-      NULL },
-    { "Drive1 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive1CPU_TRACE_callback,
-      NULL },
-    { "Drive2 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive2CPU_TRACE_callback,
-      NULL },
-    { "Drive3 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive3CPU_TRACE_callback,
-      NULL },
+
+    {   .action    = ACTION_DEBUG_TRACE_CPU_TOGGLE,
+        .string    = "Main CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "MainCPU_TRACE",
+    },
+    {   .action    = ACTION_DEBUG_TRACE_IEC_TOGGLE,
+        .string    = "IEC bus trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "IEC_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_IEEE488_TOGGLE,
+        .string    = "IEEE-488 bus trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "IEEE_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,
+        .string    = "Drive0 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "Drive0CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,
+        .string    = "Drive1 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "Drive1CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,
+        .string    = "Drive2 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "Drive2CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,
+        .string    = "Drive3 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "Drive3CPU_TRACE"
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Show font",
-      MENU_ENTRY_DIALOG,
-      show_font_callback,
-      NULL },
+    {   .string   = "Show font",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = show_font_callback,
+    },
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(DtvBlitterLog)
-UI_MENU_DEFINE_TOGGLE(DtvDMALog)
-UI_MENU_DEFINE_TOGGLE(DtvFlashLog)
-
 const ui_menu_entry_t debug_menu_dtv[] = {
     SDL_MENU_ITEM_TITLE("Trace mode"),
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_NORMAL },
-    { "Small",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_SMALL },
-    { "History",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_HISTORY },
-    { "History autoplay",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TraceMode_callback,
-      (ui_callback_data_t)DEBUG_AUTOPLAY },
+    {   .string   = "Normal",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_NORMAL
+    },
+    {   .string   = "Small",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_SMALL
+    },
+    {   .string   = "History",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_HISTORY
+    },
+    {   .string   = "History autoplay",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_TraceMode_callback,
+        .data     = (ui_callback_data_t)DEBUG_AUTOPLAY
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Auto playback frames",
-      MENU_ENTRY_DIALOG,
-      custom_auto_playback_frames,
-      NULL },
+
+    {   .action    = ACTION_DEBUG_TRACE_CPU_TOGGLE,
+        .string    = "Main CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "MainCPU_TRACE"
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Main CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MainCPU_TRACE_callback,
-      NULL },
-    { "IEC bus trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IEC_TRACE_callback,
-      NULL },
-    { "Drive0 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive0CPU_TRACE_callback,
-      NULL },
-    { "Drive1 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive1CPU_TRACE_callback,
-      NULL },
-    { "Drive2 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive2CPU_TRACE_callback,
-      NULL },
-    { "Drive3 CPU trace",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Drive3CPU_TRACE_callback,
-      NULL },
+
+    {   .action    = ACTION_DEBUG_TRACE_IEC_TOGGLE,
+        .string    = "IEC bus trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "IEC_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,
+        .string    = "Drive0 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DRIVE0CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,
+        .string    = "Drive1 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DRIVE1CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,
+        .string    = "Drive2 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DRIVE2CPU_TRACE"
+    },
+    {   .action    = ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,
+        .string    = "Drive3 CPU trace",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DRIVE3CPU_TRACE"
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Blitter Log",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DtvBlitterLog_callback,
-      NULL },
-    { "DMA Log",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DtvDMALog_callback,
-      NULL },
-    { "Flash Log",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DtvFlashLog_callback,
-      NULL },
+
+    {   .action    = ACTION_DEBUG_BLITTER_LOG_TOGGLE,
+        .string    = "Blitter Log",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DtvBlitterLog"
+    },
+    {   .action    = ACTION_DEBUG_DMA_LOG_TOGGLE,
+        .string    = "DMA Log",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DtvDmaLog"
+    },
+    {   .action    = ACTION_DEBUG_FLASH_LOG_TOGGLE,
+        .string    = "Flash Log",
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource  = "DtvFlashLog"
+    },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Show font",
-      MENU_ENTRY_DIALOG,
-      show_font_callback,
-      NULL },
+
+    {   .string    = "Show font",
+        .type      = MENU_ENTRY_DIALOG,
+        .callback  = show_font_callback
+    },
     SDL_MENU_LIST_END
 };
 

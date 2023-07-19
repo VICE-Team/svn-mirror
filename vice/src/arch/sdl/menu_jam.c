@@ -33,11 +33,35 @@
 UI_MENU_DEFINE_RADIO(JAMAction)
 
 const ui_menu_entry_t jam_menu[] = {
-    { "Ask", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_DIALOG },
-    { "Continue", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_CONTINUE },
-    { "Start monitor", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR },
-    { "Reset", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_RESET },
-    { "Hard reset", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET },
-    { "Quit emulator", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT },
+    {   .string   = "Ask",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_DIALOG
+    },
+    {   .string   = "Continue",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_CONTINUE
+    },
+    {   .string   = "Start monitor",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR
+    },
+    {   .string   = "Reset",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_RESET
+    },
+    {   .string   = "Hard reset",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET
+    },
+    {   .string   = "Quit emulator",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_JAMAction_callback,
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT
+    },
     SDL_MENU_LIST_END
 };

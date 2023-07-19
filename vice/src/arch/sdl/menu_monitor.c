@@ -29,12 +29,16 @@
 #include <stdio.h>
 
 #include "menu_common.h"
-#include "menu_monitor.h"
 #include "monitor.h"
 #include "types.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
+#include "menu_monitor.h"
+
+
+#if 0
 static UI_MENU_CALLBACK(monitor_callback)
 {
     if (activated) {
@@ -56,6 +60,7 @@ static UI_MENU_CALLBACK(monitor_callback)
     }
     return NULL;
 }
+#endif
 
 #ifdef ALLOW_NATIVE_MONITOR
 UI_MENU_DEFINE_TOGGLE(NativeMonitor)
@@ -77,59 +82,66 @@ UI_MENU_DEFINE_INT(MonitorChisLines)
 #endif
 
 const ui_menu_entry_t monitor_menu[] = {
-    { "Start monitor",
-      MENU_ENTRY_OTHER,
-      monitor_callback,
-      NULL },
+    {   .action   = ACTION_MONITOR_OPEN,
+        .string   = "Start monitor",
+        .type     = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
 #ifdef ALLOW_NATIVE_MONITOR
-    { "Native monitor",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_NativeMonitor_callback,
-      NULL },
-    { "Refresh display after command",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RefreshOnBreak_callback,
-      NULL },
+    {   .string   = "Native monitor",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_NativeMonitor_callback,
+    },
+    {   .string   = "Refresh display after command",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_RefreshOnBreak_callback
+    },
 #endif
 #ifdef HAVE_NETWORK
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Remote monitor"),
-    { "Enable remote monitor",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MonitorServer_callback,
-      NULL },
-    { "Monitor address",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_MonitorServerAddress_callback,
-      (ui_callback_data_t)"Set remote monitor server address" },
+    {   .string   = "Enable remote monitor",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MonitorServer_callback
+    },
+    {   .string   = "Monitor address",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_MonitorServerAddress_callback,
+        .data     = (ui_callback_data_t)"Set remote monitor server address"
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Binary remote monitor"),
-    { "Enable binary remote monitor",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_BinaryMonitorServer_callback,
-      NULL },
-    { "Monitor address",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_BinaryMonitorServerAddress_callback,
-      (ui_callback_data_t)"Set remote binary monitor server address" },
+    {   .string   = "Enable binary remote monitor",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_BinaryMonitorServer_callback
+    },
+    {   .string   = "Monitor address",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_BinaryMonitorServerAddress_callback,
+        .data     = (ui_callback_data_t)"Set remote binary monitor server address"
+    },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Logging"),
-    { "Enable logging to a file",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MonitorLogEnabled_callback,
-      NULL },
-    { "Logfile name",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_MonitorLogFileName_callback,
-      (ui_callback_data_t)"Set monitor logfile" },
+    {   .string   = "Enable logging to a file",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MonitorLogEnabled_callback
+    },
+    {   .string   = "Logfile name",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_MonitorLogFileName_callback,
+        .data     = (ui_callback_data_t)"Set monitor logfile"
+    },
 #ifdef FEATURE_CPUMEMHISTORY
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("CPU History"),
-    { "Number of lines",
-      MENU_ENTRY_RESOURCE_INT,
-      int_MonitorChisLines_callback,
-      (ui_callback_data_t)"Set number of lines in CPU history" },
+    {   .string   = "Number of lines",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_MonitorChisLines_callback,
+        .data     = (ui_callback_data_t)"Set number of lines in CPU history"
+    },
 #endif
     SDL_MENU_LIST_END
 };

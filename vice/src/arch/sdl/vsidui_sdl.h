@@ -33,6 +33,10 @@
 #define SDL_VSID_REPAINT (1 << 1)
 extern int sdl_vsid_state;
 
+extern int sdl_vsid_tunes;
+extern int sdl_vsid_current_tune;
+extern int sdl_vsid_default_tune;
+
 typedef void (*ui_draw_func_t) (void);
 
 void sdl_vsid_activate(void);

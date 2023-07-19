@@ -28,13 +28,13 @@
 
 #include <stdio.h>
 
-#include "types.h"
-
-#include "menu_sampler.h"
 #include "menu_common.h"
 #include "sampler.h"
+#include "types.h"
+#include "uiactions.h"
 #include "uimenu.h"
 
+#include "menu_sampler.h"
 
 /* DIGIMAX MENU */
 
@@ -45,18 +45,21 @@ UI_MENU_DEFINE_FILE_STRING(SampleName)
 static ui_menu_entry_t sampler_device_menu[SAMPLER_MAX_DEVICES + 1];
 
 ui_menu_entry_t sampler_menu[] = {
-    { "Sampler device",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sampler_device_menu },
-    { "Sampler gain",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SamplerGain_callback,
-      (ui_callback_data_t)"Enter sampler gain (1-200)" },
-    { "Sampler input media file",
-      MENU_ENTRY_DIALOG,
-      file_string_SampleName_callback,
-      (ui_callback_data_t)"Select sampler input media file" },
+    {   .string   = "Sampler device",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sampler_device_menu
+    },
+    {   .string   = "Sampler gain",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_SamplerGain_callback,
+        .data     = (ui_callback_data_t)"Enter sampler gain (1-200)"
+    },
+    {   .string   = "Sampler input media file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_SampleName_callback,
+        .data     = (ui_callback_data_t)"Select sampler input media file"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -66,14 +69,12 @@ void uisampler_menu_create(void)
     int i;
 
     for (i = 0; devices[i].name; ++i) {
-        sampler_device_menu[i].string = (char*)devices[i].name;
-        sampler_device_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        sampler_device_menu[i].action   = ACTION_NONE;
+        sampler_device_menu[i].string   = (char*)devices[i].name;   /* yuck! */
+        sampler_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         sampler_device_menu[i].callback = radio_SamplerDevice_callback;
-        sampler_device_menu[i].data = (ui_callback_data_t)int_to_void_ptr(i);
+        sampler_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(i);
     }
 
     sampler_device_menu[i].string = NULL;
-    sampler_device_menu[i].type = MENU_ENTRY_TEXT;
-    sampler_device_menu[i].callback = NULL;
-    sampler_device_menu[i].data = NULL;
 }

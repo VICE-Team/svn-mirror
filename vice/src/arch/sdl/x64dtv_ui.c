@@ -31,6 +31,8 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "actions-display.h"
+#include "actions-speed.h"
 #include "c64mem.h"
 #include "c64rom.h"
 #include "c64ui.h"
@@ -59,147 +61,138 @@
 #include "menu_userport.h"
 #include "menu_video.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifonts.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "vkbd.h"
 
-static UI_MENU_CALLBACK(toggle_VICIIShowStatusbar_callback)
-{
-    const char *n;
-
-    n = sdl_ui_menu_toggle_helper(activated, "VICIIShowStatusbar");
-    if (n != NULL) {
-        uistatusbar_open();
-    } else {
-        uistatusbar_close();
-    }
-    return n;
-}
-
-static UI_MENU_CALLBACK(pause_callback_wrapper);
 
 static ui_menu_entry_t x64dtv_main_menu[] = {
-    { "Autostart image",
-      MENU_ENTRY_DIALOG,
-      autostart_callback,
-      NULL },
-    { "Drive",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_menu },
+    {   .action    = ACTION_SMART_ATTACH,
+        .string    = "Autostart image",
+        .type      = MENU_ENTRY_DIALOG,
+        .callback  = autostart_callback,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .string   = "Drive",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)drive_menu
+    },
     /* no tape support */
     /* no cartridge support */
-    { "Printer",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)printer_iec_nouserport_menu },
-    { "Machine settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64dtv_hardware_menu },
-    { "Video settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64dtv_video_menu },
-    { "Sound settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sound_output_menu },
-    { "Sampler settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sampler_menu },
-    { "Snapshot",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)snapshot_menu },
-    { "Save media file",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)media_menu },
-    { "Speed settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)speed_menu },
-    { "Reset",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)reset_menu },
-    { "Action on CPU JAM",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)jam_menu },
+    {   .string   = "Printer",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)printer_iec_nouserport_menu
+    },
+    {   .string   = "Machine settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)c64dtv_hardware_menu
+    },
+    {   .string   = "Video settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)c64dtv_video_menu
+    },
+    {   .string   = "Sound settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sound_output_menu
+    },
+    {   .string   = "Sampler settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sampler_menu
+    },
+    {   .string   = "Snapshot",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)snapshot_menu
+    },
+    {   .string   = "Save media file",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)media_menu
+    },
+    {   .string   = "Speed settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)speed_menu
+    },
+    {   .string   = "Reset",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)reset_menu
+    },
+    {   .string   = "Action on CPU JAM",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)jam_menu
+    },
 #ifdef HAVE_NETWORK
-    { "Network",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)network_menu },
+    {   .string   = "Network",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)network_menu
+    },
 #endif
-    { "Pause",
-      MENU_ENTRY_OTHER_TOGGLE,
-      pause_callback_wrapper,
-      NULL },
-    /* Caution: index is hardcoded below */
-    { "Advance Frame",
-      MENU_ENTRY_OTHER,
-      advance_frame_callback,
-      NULL },
-    { "Monitor",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)monitor_menu },
-    /* Caution: index is hardcoded below */
-    { "Virtual keyboard",
-      MENU_ENTRY_OTHER,
-      vkbd_callback,
-      NULL },
-    { "Statusbar",
-      MENU_ENTRY_OTHER_TOGGLE,
-      toggle_VICIIShowStatusbar_callback,
-      NULL },
+    {   .action    = ACTION_PAUSE_TOGGLE,
+        .string    = "Pause",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = pause_toggle_display
+    },
+    {   .action   = ACTION_ADVANCE_FRAME,
+        .string   = "Advance Frame",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .string   = "Monitor",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)monitor_menu
+    },
+    {   .action    = ACTION_VIRTUAL_KEYBOARD,
+        .string    = "Virtual keyboard",
+        .type      = MENU_ENTRY_OTHER,
+        .activated = MENU_EXIT_UI_STRING
+    },
+    {   .action    = ACTION_SHOW_STATUSBAR_TOGGLE,
+        .string    = "Statusbar",
+        .type      = MENU_ENTRY_OTHER_TOGGLE,
+        .displayed = show_statusbar_toggle_display
+    },
 #ifdef DEBUG
-    { "Debug",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)debug_menu_dtv },
+    {   .string   = "Debug",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)debug_menu_dtv
+    },
 #endif
-    { "Help",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)help_menu },
-    { "Settings management",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)settings_manager_menu },
+    {   .string   = "Help",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)help_menu
+    },
+    {   .string   = "Settings management",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)settings_manager_menu
+    },
 #ifdef USE_SDL2UI
-    { "Edit",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)edit_menu },
+    {   .string   = "Edit",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)edit_menu
+    },
 #endif
-    { "Quit emulator",
-      MENU_ENTRY_OTHER,
-      quit_callback,
-      NULL },
+    {   .action   = ACTION_QUIT,
+        .string   = "Quit emulator",
+        .type     = MENU_ENTRY_OTHER,
+    },
     SDL_MENU_LIST_END
 };
-
-#ifdef HAVE_NETWORK
-# define MENU_ADVANCE_FRAME_IDX      14
-# define MENU_VIRTUAL_KEYBOARD_IDX   16
-#else
-# define MENU_ADVANCE_FRAME_IDX      13
-# define MENU_VIRTUAL_KEYBOARD_IDX   15
-#endif
-static UI_MENU_CALLBACK(pause_callback_wrapper)
-{
-    x64dtv_main_menu[MENU_ADVANCE_FRAME_IDX].status =
-        sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
-    x64dtv_main_menu[MENU_VIRTUAL_KEYBOARD_IDX].status =
-        sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;
-    return pause_callback(activated, param);
-}
 
 static void c64dtvui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
@@ -239,11 +232,11 @@ int c64dtvui_init(void)
     sdl_ui_set_menu_params = c64dtvui_set_menu_params;
 
     uijoyport_menu_create(1, 1, 1, 1, 1, 0);
-    uijoystick_menu_create(1, 1, 1, 1, 1, 0);
     uiuserport_menu_create(0);
     uisampler_menu_create();
     uidrive_menu_create(1);
     uikeyboard_menu_create();
+    uipalette_menu_create("VICII", NULL);
     uisid_menu_create();
     uimedia_menu_create();
 
@@ -262,6 +255,7 @@ void c64dtvui_shutdown(void)
     uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
+    uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
     uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();

@@ -64,14 +64,16 @@ UI_MENU_DEFINE_TOGGLE(RamC)
 #define CIA_MODEL_MENU(xyz)                                     \
     UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
     static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-        { "6526  (old)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526 },                 \
-        { "8521 (new)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526A },                \
+        {   .string   = "6526  (old)",                          \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526      \
+        },                                                      \
+        {   .string   = "8521 (new)",                           \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526A     \
+        },                                                      \
         SDL_MENU_LIST_END                                       \
     };
 
@@ -99,111 +101,137 @@ static UI_MENU_CALLBACK(select_cbm2_model_callback)
 }
 
 static const ui_menu_entry_t cbm5x0_model_menu[] = {
-    { "CBM 510 (PAL)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_510_PAL },
-    { "CBM 510 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_510_NTSC },
+    {   .string   = "CBM 510 (PAL)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_cbm2_model_callback,
+        .data     = (ui_callback_data_t)CBM2MODEL_510_PAL
+    },
+    {   .string   = "CBM 510 (NTSC)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_cbm2_model_callback,
+        .data     = (ui_callback_data_t)CBM2MODEL_510_NTSC
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t cbm5x0_memory_menu[] = {
     SDL_MENU_ITEM_TITLE("CBM2 memory size"),
-    { "64KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)64 },
-    { "128KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)128 },
-    { "256KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)256 },
-    { "512KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)512 },
-    { "1MiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RamSize_callback,
-      (ui_callback_data_t)1024 },
+    {   .string   = "64KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)64
+    },
+    {   .string   = "128KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)128
+    },
+    {   .string   = "256KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)256
+    },
+    {   .string   = "512KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)512
+    },
+    {   .string   = "1MiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_RamSize_callback,
+        .data     = (ui_callback_data_t)1024
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("CBM2 memory blocks"),
-    { "RAM at $0800-$0FFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Ram08_callback,
-      NULL },
-    { "RAM at $1000-$1FFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Ram1_callback,
-      NULL },
-    { "RAM at $2000-$3FFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Ram2_callback,
-      NULL },
-    { "RAM at $4000-$5FFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Ram4_callback,
-      NULL },
-    { "RAM at $6000-$7FFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Ram6_callback,
-      NULL },
-    { "RAM at $C000-$CFFF",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RamC_callback,
-      NULL },
+    {   .string   = "RAM at $0800-$0FFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Ram08_callback
+    },
+    {   .string   = "RAM at $1000-$1FFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Ram1_callback
+    },
+    {   .string   = "RAM at $2000-$3FFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Ram2_callback
+    },
+    {   .string   = "RAM at $4000-$5FFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Ram4_callback
+    },
+    {   .string   = "RAM at $6000-$7FFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Ram6_callback
+    },
+    {   .string   = "RAM at $C000-$CFFF",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_RamC_callback
+    },
     SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t cbm5x0_hardware_menu[] = {
-    { "Select CBM2 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cbm5x0_model_menu },
+    {   .string   = "Select CBM2 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cbm5x0_model_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Tape port devices",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapeport_devices_menu },
-    { "Joyport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joyport_menu },
-    { "Joystick settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_menu },
+
+    {   .string   = "Tape port devices",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)tapeport_devices_menu
+    },
+    {   .string   = "Joyport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joyport_menu
+    },
+    {   .string   = "Joystick settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joystick_menu
+    },
 #ifdef HAVE_MOUSE
-    { "Mouse emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mouse_menu },
+    {   .string   = "Mouse emulation",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)mouse_menu
+    },
 #endif
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_cbm2_menu },
-    { "CIA model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia1_model_submenu },
-    { "RAM pattern settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ram_menu },
-    { "ROM settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)cbm2_rom_menu },
-    { "CBM2 memory setting",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)cbm5x0_memory_menu },
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sid_cbm2_menu
+    },
+    {   .string   = "CIA model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "RAM pattern settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ram_menu
+    },
+    {   .string   = "ROM settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cbm2_rom_menu
+    },
+    {   .string   = "CBM2 memory setting",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cbm5x0_memory_menu
+    },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "RS232 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232_nouser_menu },
+    {   .string   = "RS232 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)rs232_nouser_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };

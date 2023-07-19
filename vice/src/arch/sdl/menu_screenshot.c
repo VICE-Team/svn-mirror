@@ -80,565 +80,665 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
 }
 
 static const ui_menu_entry_t koala_tedlum_handling_menu[] = {
-    { "Ignore",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE },
-    { "Best cell colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER },
+    {   .string   = "Ignore",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE
+    },
+    {   .string   = "Best cell colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t koala_undersize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE },
-    { "Borderize",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE
+    },
+    {   .string   = "Borderize",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t koala_oversize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE },
-    { "Crop left top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP },
-    { "Crop middle top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP },
-    { "Crop right top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP },
-    { "Crop left center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER },
-    { "Crop middle center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER },
-    { "Crop right center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER },
-    { "Crop left bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM },
-    { "Crop middle bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM },
-    { "Crop right bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE
+    },
+    {   .string   = "Crop left top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP
+    },
+    {   .string   = "Crop middle top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP
+    },
+    {   .string   = "Crop right top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP
+    },
+    {   .string   = "Crop left center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER
+    },
+    {   .string   = "Crop middle center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER
+    },
+    {   .string   = "Crop right center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER
+    },
+    {   .string   = "Crop left bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM
+    },
+    {   .string   = "Crop middle bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM
+    },
+    {   .string   = "Crop right bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_KoalaOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_tedlum_handling_menu[] = {
-    { "Ignore",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE },
-    { "Best cell colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER },
+    {   .string   = "Ignore",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE
+    },
+    {   .string   = "Best cell colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_undersize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE },
-    { "Borderize",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE
+    },
+    {   .string   = "Borderize",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_oversize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE },
-    { "Crop left top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP },
-    { "Crop middle top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP },
-    { "Crop right top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP },
-    { "Crop left center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER },
-    { "Crop middle center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER },
-    { "Crop right center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER },
-    { "Crop left bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM },
-    { "Crop middle bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM },
-    { "Crop right bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MinipaintOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE
+    },
+    {   .string   = "Crop left top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP
+    },
+    {   .string   = "Crop middle top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP
+    },
+    {   .string   = "Crop right top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP
+    },
+    {   .string   = "Crop left center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER
+    },
+    {   .string   = "Crop middle center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER
+    },
+    {   .string   = "Crop right center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER
+    },
+    {   .string   = "Crop left bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM
+    },
+    {   .string   = "Crop middle bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM
+    },
+    {   .string   = "Crop right bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MinipaintOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_tedlum_handling_menu[] = {
-    { "Ignore",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE },
-    { "Best cell colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPTEDLumHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER },
+    {   .string   = "Ignore",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE
+    },
+    {   .string   = "Best cell colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPTEDLumHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_multicolor_handling_menu[] = {
-    { "Black & white",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPMultiColorHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_MC2HR_BLACK_WHITE },
-    { "2 colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPMultiColorHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_MC2HR_2_COLORS },
-    { "4 colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPMultiColorHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_MC2HR_4_COLORS },
-    { "Gray scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPMultiColorHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_MC2HR_GRAY },
-    { "Best cell colors",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPMultiColorHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_MC2HR_DITHER },
+    {   .string   = "Black & white",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPMultiColorHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_MC2HR_BLACK_WHITE
+    },
+    {   .string   = "2 colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPMultiColorHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_MC2HR_2_COLORS
+    },
+    {   .string   = "4 colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPMultiColorHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_MC2HR_4_COLORS
+    },
+    {   .string   = "Gray scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPMultiColorHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_MC2HR_GRAY
+    },
+    {   .string   = "Best cell colors",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPMultiColorHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_MC2HR_DITHER
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_undersize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE },
-    { "Borderize",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPUndersizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE
+    },
+    {   .string   = "Borderize",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPUndersizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_oversize_handling_menu[] = {
-    { "Scale",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE },
-    { "Crop left top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP },
-    { "Crop middle top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP },
-    { "Crop right top",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP },
-    { "Crop left center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER },
-    { "Crop middle center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER },
-    { "Crop right center",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER },
-    { "Crop left bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM },
-    { "Crop middle bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM },
-    { "Crop right bottom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_OCPOversizeHandling_callback,
-      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
+    {   .string   = "Scale",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE
+    },
+    {   .string   = "Crop left top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP
+    },
+    {   .string   = "Crop middle top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP
+    },
+    {   .string   = "Crop right top",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP
+    },
+    {   .string   = "Crop left center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER
+    },
+    {   .string   = "Crop middle center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER
+    },
+    {   .string   = "Crop right center",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER
+    },
+    {   .string   = "Crop left bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM
+    },
+    {   .string   = "Crop middle bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM
+    },
+    {   .string   = "Crop right bottom",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_OCPOversizeHandling_callback,
+        .data     = (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t koala_settings_vic_vicii_vdc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_undersize_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_undersize_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t koala_settings_ted_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_undersize_handling_menu },
-    { "TED luminosity handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_tedlum_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_undersize_handling_menu
+    },
+    {   .string   = "TED luminosity handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_tedlum_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t koala_settings_crtc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_undersize_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)koala_undersize_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_settings_vic_vicii_vdc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_undersize_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_undersize_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_settings_ted_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_undersize_handling_menu },
-    { "TED luminosity handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_tedlum_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_undersize_handling_menu
+    },
+    {   .string   = "TED luminosity handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_tedlum_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t minipaint_settings_crtc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)minipaint_undersize_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)minipaint_undersize_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_settings_vic_vicii_vdc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_undersize_handling_menu },
-    { "Multicolor handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_multicolor_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_undersize_handling_menu
+    },
+    {   .string   = "Multicolor handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_multicolor_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t artstudio_settings_ted_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_undersize_handling_menu },
-    { "Multicolor handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_multicolor_handling_menu },
-    { "TED luminosity handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_tedlum_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_undersize_handling_menu
+    },
+    {   .string   = "Multicolor handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_multicolor_handling_menu
+    },
+    {   .string   = "TED luminosity handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_tedlum_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 
 static const ui_menu_entry_t artstudio_settings_crtc_menu[] = {
-    { "Oversize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_oversize_handling_menu },
-    { "Undersize handling",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)artstudio_undersize_handling_menu },
+    {   .string   = "Oversize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_oversize_handling_menu
+    },
+    {   .string   = "Undersize handling",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)artstudio_undersize_handling_menu
+    },
     SDL_MENU_LIST_END
 };
 
 
 const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
     /* settings */
-    { "Artstudio screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)artstudio_settings_vic_vicii_vdc_menu },
-    { "Koalapainter screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)koala_settings_vic_vicii_vdc_menu },
-    { "Minipaint screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)minipaint_settings_vic_vicii_vdc_menu },
-
+    {   .string   = "Artstudio screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)artstudio_settings_vic_vicii_vdc_menu
+    },
+    {   .string   = "Koalapainter screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)koala_settings_vic_vicii_vdc_menu
+    },
+    {   .string   = "Minipaint screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)minipaint_settings_vic_vicii_vdc_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
     /* Commodore-native formats */
-    { "Save Artstudio screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"ARTSTUDIO" },
-    { "Save Koalapainter screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA" },
-    { "Save GoDot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
-    { "Save Minipaint screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"MINIPAINT" },
-
+    {   .string   = "Save Artstudio screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"ARTSTUDIO"
+    },
+    {   .string   = "Save Koalapainter screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"KOALA"
+    },
+    {   .string   = "Save GoDot screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"4BT"
+    },
+    {   .string   = "Save Minipaint screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"MINIPAINT"
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
     /* PC formats */
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
+    {   .string   = "Save BMP screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"BMP"
+    },
 #ifdef HAVE_GIF
-    { "Save GIF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"GIF" },
+    {   .string   = "Save GIF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"GIF"
+    },
 #endif
-    { "Save IFF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"IFF" },
-    { "Save PCX screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PCX" },
+    {   .string   = "Save IFF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"IFF"
+    },
+    {   .string   = "Save PCX screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PCX"
+    },
 #ifdef HAVE_PNG
-    { "Save PNG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PNG" },
+    {   .string   = "Save PNG screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PNG"
+    },
 #endif
-    { "Save PPM screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PPM" },
-
+    {   .string   = "Save PPM screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PPM"
+    },
     SDL_MENU_LIST_END
 };
 
 
 const ui_menu_entry_t screenshot_ted_menu[] = {
-    { "Artstudio screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)artstudio_settings_ted_menu },
-    { "Koalapainter screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)koala_settings_ted_menu },
-    { "Minipaint screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)minipaint_settings_ted_menu },
-
+    {   .string   = "Artstudio screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)artstudio_settings_ted_menu
+    },
+    {   .string   = "Koalapainter screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)koala_settings_ted_menu
+    },
+    {   .string   = "Minipaint screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)minipaint_settings_ted_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
-    { "Save Artstudio screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"ARTSTUDIO" },
-    { "Save Koalapainter screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA" },
-    { "Save GoDot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
-    { "Save Minipaint screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"MINIPAINT" },
-
+    {   .string   = "Save Artstudio screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"ARTSTUDIO"
+    },
+    {   .string   = "Save Koalapainter screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"KOALA"
+    },
+    {   .string   = "Save GoDot screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"4BT"
+    },
+    {   .string   = "Save Minipaint screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"MINIPAINT"
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
+    {   .string   = "Save BMP screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"BMP"
+    },
 #ifdef HAVE_GIF
-    { "Save GIF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"GIF" },
+    {   .string   = "Save GIF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"GIF"
+    },
 #endif
-    { "Save IFF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"IFF" },
-    { "Save PCX screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PCX" },
+    {   .string   = "Save IFF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"IFF"
+    },
+    {   .string   = "Save PCX screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PCX"
+    },
 #ifdef HAVE_PNG
-    { "Save PNG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PNG" },
+    {   .string   = "Save PNG screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PNG"
+    },
 #endif
-    { "Save PPM screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PPM" },
-
+    {   .string   = "Save PPM screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PPM"
+    },
     SDL_MENU_LIST_END
 };
 
 
 const ui_menu_entry_t screenshot_crtc_menu[] = {
-    { "Artstudio screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)artstudio_settings_crtc_menu },
-    { "Koalapainter screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)koala_settings_crtc_menu },
-    { "Minipaint screenshot settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)minipaint_settings_crtc_menu },
-
+    {   .string   = "Artstudio screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)artstudio_settings_crtc_menu
+    },
+    {   .string   = "Koalapainter screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)koala_settings_crtc_menu
+    },
+    {   .string   = "Minipaint screenshot settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)minipaint_settings_crtc_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
-    { "Save Artstudio screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"ARTSTUDIO" },
-    { "Save Koalapainter screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA" },
-    { "Save GoDot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
-    { "Save Minipaint screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"MINIPAINT" },
-
+    {   .string   = "Save Artstudio screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"ARTSTUDIO"
+    },
+    {   .string   = "Save Koalapainter screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"KOALA"
+    },
+    {   .string   = "Save GoDot screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"4BT"
+    },
+    {   .string   = "Save Minipaint screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"MINIPAINT"
+    },
     SDL_MENU_ITEM_SEPARATOR,
 
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
+    {   .string   = "Save BMP screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"BMP"
+    },
 #ifdef HAVE_GIF
-    { "Save GIF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"GIF" },
+    {   .string   = "Save GIF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"GIF"
+    },
 #endif
-    { "Save IFF screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"IFF" },
-    { "Save PCX screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PCX" },
+    {   .string   = "Save IFF screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"IFF"
+    },
+    {   .string   = "Save PCX screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PCX"
+    },
 #ifdef HAVE_PNG
-    { "Save PNG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PNG" },
+    {   .string   = "Save PNG screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PNG"
+    },
 #endif
-    { "Save PPM screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"PPM" },
-
+    {   .string   = "Save PPM screenshot",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_screenshot_callback,
+        .data     = (ui_callback_data_t)"PPM"
+    },
     SDL_MENU_LIST_END
 };

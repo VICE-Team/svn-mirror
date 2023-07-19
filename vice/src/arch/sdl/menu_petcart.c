@@ -31,11 +31,13 @@
 #include <string.h>
 
 #include "cartio.h"
-#include "menu_petcart.h"
 #include "menu_common.h"
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
+
+#include "menu_petcart.h"
+
 
 UI_MENU_DEFINE_FILE_STRING(RomModule9Name)
 UI_MENU_DEFINE_FILE_STRING(RomModuleAName)
@@ -52,18 +54,21 @@ static UI_MENU_CALLBACK(detach_cart_callback)
 UI_MENU_DEFINE_RADIO(IOCollisionHandling)
 
 static const ui_menu_entry_t iocollision_menu[] = {
-    { "Detach all",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL },
-    { "Detach last",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST },
-    { "AND values",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_IOCollisionHandling_callback,
-      (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES },
+    {   .string   = "Detach all",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL
+    },
+    {   .string   = "Detach last",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST
+    },
+    {   .string   = "AND values",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_IOCollisionHandling_callback,
+        .data     = (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES
+    },
     SDL_MENU_LIST_END
 };
 
@@ -87,34 +92,42 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 }
 
 const ui_menu_entry_t petcart_menu[] = {
-    { "Attach ROM 9",
-      MENU_ENTRY_DIALOG,
-      file_string_RomModule9Name_callback,
-      (ui_callback_data_t)"Select ROM 9 image" },
-    { "Detach ROM 9",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"RomModule9Name" },
-    { "Attach ROM A",
-      MENU_ENTRY_DIALOG,
-      file_string_RomModuleAName_callback,
-      (ui_callback_data_t)"Select ROM A image" },
-    { "Detach ROM A",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"RomModuleAName" },
-    { "Attach ROM B",
-      MENU_ENTRY_DIALOG,
-      file_string_RomModuleBName_callback,
-      (ui_callback_data_t)"Select ROM B image" },
-    { "Detach ROM B",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"RomModuleBName" },
+    {   .string   = "Attach ROM 9",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_RomModule9Name_callback,
+        .data     = (ui_callback_data_t)"Select ROM 9 image"
+    },
+    {   .string   = "Detach ROM 9",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)"RomModule9Name"
+    },
+    {   .string   = "Attach ROM A",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_RomModuleAName_callback,
+        .data     = (ui_callback_data_t)"Select ROM A image"
+    },
+    {   .string   = "Detach ROM A",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)"RomModuleAName"
+    },
+    {   .string   = "Attach ROM B",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_RomModuleBName_callback,
+        .data     = (ui_callback_data_t)"Select ROM B image"
+    },
+    {   .string   = "Detach ROM B",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = detach_cart_callback,
+        .data     = (ui_callback_data_t)"RomModuleBName"
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "I/O collision handling ($8800-$8FFF/$E900-$EEFF)",
-      MENU_ENTRY_SUBMENU,
-      iocollision_show_type_callback,
-      (ui_callback_data_t)iocollision_menu },
+
+    {   .string   = "I/O collision handling ($8800-$8FFF/$E900-$EEFF)",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = iocollision_show_type_callback,
+        .data     = (ui_callback_data_t)iocollision_menu
+    },
     SDL_MENU_LIST_END
 };

@@ -32,12 +32,20 @@
 
 #include "vice.h"
 
+#include "vice_sdl.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "archdep.h"
 #include "interrupt.h"
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "raster.h"
@@ -46,8 +54,8 @@
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uihotkey.h"
-#include "uimenu.h"
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
@@ -55,12 +63,8 @@
 #include "vsidui_sdl.h"
 #include "vsync.h"
 
-#include "vice_sdl.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
+#include "uimenu.h"
+
 
 #ifdef DBGSDLMENU
 #define DBG(x) printf x
@@ -377,6 +381,111 @@ int sdl_ui_set_default_colors(void)
     return color;
 }
 
+/** \brief  Determine the `itemdata` value for a menu item
+ *
+ * Menu items with an action ID, and thus an action handler, do not have a
+ * callback for the SDL menu code to use to provide a string to display after
+ * the item. Providing that string is done here, replacing what the callback
+ * would have done in its `activated==0` code path.
+ *
+ * \param[in]   item    menu item
+ *
+ * \return  string to display
+ */
+static const char *get_itemdata_for_action(ui_menu_entry_t *item)
+{
+    const char  *itemdata = NULL;
+    const char  *sval = NULL;
+    int          ival = 0;
+    static char  itembuf[64];
+
+#if 0
+    printf("%s(): UI action path for item '%s' (action = %d, '%s')\n",
+           __func__, item->string, item->action, ui_action_get_name(item->action));
+#endif
+    if (item->action <= ACTION_NONE) {
+        log_warning(LOG_DEFAULT, "No valid action ID for item without UI callback");
+        return NULL;
+    }
+
+    if (item->displayed != NULL) {
+        return item->displayed(item);
+    }
+
+    switch (item->type) {
+        case MENU_ENTRY_OTHER:
+            /* normal activatable item, nothing to display */
+            break;
+
+        case MENU_ENTRY_RESOURCE_TOGGLE:
+            /* assume only integer resources are used for toggleable items */
+            if (resources_get_int(item->resource, &ival) == 0) {
+                itemdata = ival ? sdl_menu_text_tick : NULL;
+            } else {
+                itemdata = sdl_menu_text_unknown;
+            }
+            break;
+
+        case MENU_ENTRY_OTHER_TOGGLE:
+            /* Use the function in the data field to get the proper string
+             * to display. For now this appears to be sufficient, but there
+             * might be cases where we need both the function and the data
+             * field. */
+            if (item->displayed == NULL) {
+                log_warning(LOG_DEFAULT,
+                            "%s(): UI action %d (%s) is `MENU_ENTRY_OTHER_TOGGLE`"
+                            " but the display() function has not been specified,"
+                            " defaulting to `NULL`",
+                            __func__, item->action, ui_action_get_name(item->action));
+                itemdata = NULL;
+            }
+            break;
+
+        case MENU_ENTRY_RESOURCE_RADIO:
+            /* The following assumes there are only integer and string resources */
+            if (resources_query_type(item->resource) == RES_INTEGER) {
+                if (resources_get_int(item->resource, &ival) == 0) {
+                    if (vice_ptr_to_int(item->data) == ival) {
+                        itemdata = sdl_menu_text_tick;
+                    }
+                }
+            } else {
+                if (resources_get_string(item->resource, &sval) == 0) {
+                    if (sval != NULL && item->data != NULL &&
+                        strcmp((const char*)(item->data), sval) == 0) {
+                        itemdata = sdl_menu_text_tick;
+                    }
+                }
+            }
+            break;
+
+        case MENU_ENTRY_RESOURCE_INT:
+            if (resources_get_int(item->resource, &ival) == 0) {
+                snprintf(itembuf, sizeof itembuf, "%d", ival);
+                itembuf[sizeof itembuf - 1] = '\0';
+                itemdata = itembuf;
+            } else {
+                itemdata = sdl_menu_text_unknown;
+            }
+            break;
+
+        case MENU_ENTRY_RESOURCE_STRING:
+            if (resources_get_string(item->resource, &sval) == 0) {
+                 itemdata = sval;
+            } else {
+                itemdata = sdl_menu_text_unknown;
+            }
+            break;
+
+        default:
+            printf("%s(): unhandled type %d for item %s without callback.",
+                    __func__, item->type, item->string);
+            itemdata = sdl_menu_text_unknown;
+            break;
+    }
+    return itemdata;
+}
+
 static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offset, int iscursor)
 {
     int n, i = 0;
@@ -411,7 +520,14 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
                 (item->type == MENU_ENTRY_RESOURCE_RADIO) ||
                 (item->type == MENU_ENTRY_OTHER_TOGGLE);
 
-    itemdata = item->callback(0, item->data);
+    /* Do we have a callback? */
+    if (item->callback != NULL) {
+        /* call callback to retrieve display string, if any */
+        itemdata = item->callback(0, item->data);
+    } else {
+        /* No: must have UI action handler then */
+        itemdata = get_itemdata_for_action(item);
+    }
 
     if ((itemdata != NULL) && !strcmp(itemdata, MENU_NOT_AVAILABLE_STRING)) {
         /* menu is not available */
@@ -747,18 +863,30 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
     }
 
     switch (item->type) {
-        case MENU_ENTRY_OTHER:
-        case MENU_ENTRY_OTHER_TOGGLE:
-        case MENU_ENTRY_DIALOG:
-        case MENU_ENTRY_RESOURCE_TOGGLE:
-        case MENU_ENTRY_RESOURCE_RADIO:
-        case MENU_ENTRY_RESOURCE_INT:
+        case MENU_ENTRY_OTHER:              /* fall through */
+        case MENU_ENTRY_OTHER_TOGGLE:       /* fall through */
+        case MENU_ENTRY_DIALOG:             /* fall through */
+        case MENU_ENTRY_RESOURCE_TOGGLE:    /* fall through */
+        case MENU_ENTRY_RESOURCE_RADIO:     /* fall through */
+        case MENU_ENTRY_RESOURCE_INT:       /* fall through */
         case MENU_ENTRY_RESOURCE_STRING:
-            p = item->callback(1, item->data);
-            if (p == sdl_menu_text_exit_ui) {
+            /* check for menu action ID */
+            if (item->action > ACTION_NONE) {
+                /* UI action: trigger */
+#if 0
+                DBG(("%s(): got action ID %d (%s)\n",
+                     __func__, item->action, ui_action_get_name(item->action)));
+#endif
+                ui_action_trigger(item->action);
+                p = item->activated;
+            } else {
+                p = item->callback(1, item->data);
+            }
+            if (p != NULL && strcmp(sdl_menu_text_exit_ui, p) == 0) {
                 return MENU_RETVAL_EXIT_UI;
             }
             break;
+
         case MENU_ENTRY_SUBMENU:
             return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string, 1);
             break;
@@ -1879,5 +2007,61 @@ void sdl_ui_menu_shutdown(void)
 
     if (menu_offsets != NULL) {
         lib_free(menu_offsets);
+    }
+}
+
+/*
+ * Additions for UI actions
+ */
+
+/** \brief  Activate menu item by action ID
+ *
+ * Look up action map and trigger its menu item's callback.
+ * Only tested with a file selection dialog so far.
+ *
+ * \param[in]   action  UI action ID
+ */
+void sdl_ui_menu_item_activate_by_action(int action)
+{
+    ui_action_map_t *map = ui_action_map_get(action);
+#if 0
+    printf("%s(): map = %p\n", __func__, (const void *)map);
+#endif
+    if (map != NULL) {
+        ui_menu_entry_t *item = map->menu_item[0];
+#if 0
+        printf("%s(): item = %p\n", __func__, (const void *)item);
+#endif
+        if (item != NULL) {
+            if (sdl_menu_state) {
+                /* Menu is already active.
+                 * We can't call sdl_ui_menu_item_activate() because that would trigger
+                 * the action again */
+                if (item->callback != NULL) {
+                    item->callback(1 /*activated*/, item->data);
+                } else {
+                    log_error(LOG_ERR, "%s(): no callback to trigger!\n", __func__);
+                }
+            } else {
+                /* menu isn't active, set trap */
+                interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
+            }
+        }
+    }
+}
+
+
+/** \brief  Set menu item status field by action ID
+ *
+ * \param[in]   action  UI action ID
+ * \param[in]   status  status for menu item
+ */
+void sdl_ui_menu_item_set_status_by_action(int                   action,
+                                           ui_menu_status_type_t status)
+{
+    ui_action_map_t *map = ui_action_map_get(action);
+    if (map != NULL && map->menu_item[0] != NULL) {
+        ui_menu_entry_t *item = map->menu_item[0];
+        item->status = status;
     }
 }

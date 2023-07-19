@@ -25,7 +25,7 @@
  *
  */
 
-/** \file   src/arch/sdl/menu_media.c
+/** \file   menu_media.c
  * \brief   Media submenu for SDL
  *
  * Organizes media recording into screenshot, sound and video.
@@ -41,11 +41,14 @@
 #include "menu_ffmpeg.h"
 #include "menu_screenshot.h"
 #include "menu_sound.h"
-#include "menu_media.h"
 #include "resources.h"
 #include "sound.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "util.h"
+
+#include "menu_media.h"
+
 
 static UI_MENU_CALLBACK(start_recording_callback)
 {
@@ -104,16 +107,13 @@ static UI_MENU_CALLBACK(SoundRecord_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        sound_record_dyn_menu[i].string = (char *)util_concat("Start a ", devices[i].description, NULL);
-        sound_record_dyn_menu[i].type = MENU_ENTRY_DIALOG;
+        sound_record_dyn_menu[i].action   = ACTION_NONE;
+        sound_record_dyn_menu[i].string   = util_concat("Start a ", devices[i].description, NULL);
+        sound_record_dyn_menu[i].type     = MENU_ENTRY_DIALOG;
         sound_record_dyn_menu[i].callback = start_recording_callback;
-        sound_record_dyn_menu[i].data = (ui_callback_data_t)lib_strdup(devices[i].name);
+        sound_record_dyn_menu[i].data     = (ui_callback_data_t)lib_strdup(devices[i].name);
     }
-
     sound_record_dyn_menu[i].string = NULL;
-    sound_record_dyn_menu[i].type = 0;
-    sound_record_dyn_menu[i].callback = NULL;
-    sound_record_dyn_menu[i].data = NULL;
 
     lib_free(devices);
 
@@ -159,30 +159,38 @@ static UI_MENU_CALLBACK(custom_video_driver_callback)
 }
 
 ui_menu_entry_t media_menu[] = {
-    { "Create screenshot",
-        MENU_ENTRY_SUBMENU,
-        submenu_callback,
-        NULL },             /* set by uimedia_menu_create() */
-    { "Create sound recording",
-        MENU_ENTRY_SUBMENU,
-        SoundRecord_dynmenu_callback,
-        (ui_callback_data_t)sound_record_dyn_menu },
-    { "Create video recording",
-        MENU_ENTRY_SUBMENU,
-        submenu_callback,
-        (ui_callback_data_t)ffmpeg_menu },
+    {   .action   = ACTION_MEDIA_RECORD_SCREENSHOT,
+        .string   = "Create screenshot",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = NULL    /* set by uimedia_menu_create() */
+    },
+    {   .action   = ACTION_MEDIA_RECORD_AUDIO,
+        .string   = "Create sound recording",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = SoundRecord_dynmenu_callback,
+        .data     = (ui_callback_data_t)sound_record_dyn_menu
+    },
+    {   .action   = ACTION_MEDIA_RECORD_VIDEO,
+        .string   = "Create video recording",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ffmpeg_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Video driver"),
 #ifdef HAVE_FFMPEG
-    { "FFMPEG (Library)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_video_driver_callback,
-      (ui_callback_data_t)"FFMPEG" },
+    {   .string   = "FFMPEG (Library)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_video_driver_callback,
+        .data     = (ui_callback_data_t)"FFMPEG" },
 #endif
-    { "FFMPEG (Executable)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_video_driver_callback,
-      (ui_callback_data_t)"FFMPEGEXE" },
+    {   .string   = "FFMPEG (Executable)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_video_driver_callback,
+        .data     = (ui_callback_data_t)"FFMPEGEXE"
+    },
     SDL_MENU_LIST_END
 };
 
@@ -203,22 +211,17 @@ int uimedia_menu_create(void)
         case VICE_MACHINE_VIC20:    /* fallthrough */
         case VICE_MACHINE_SCPU64:   /* fallthrough */
         case VICE_MACHINE_CBM5x0:
-            /* here be dragons: change the index if changing the order of the
-             * items in `media_menu`
-             */
             media_menu[0].data = (ui_callback_data_t)screenshot_vic_vicii_vdc_menu;
             break;
 
         /* CRTC */
         case VICE_MACHINE_PET:      /* fallthrough */
         case VICE_MACHINE_CBM6x0:
-            /* again: nuclear missiles might launch if changing this */
             media_menu[0].data = (ui_callback_data_t)screenshot_crtc_menu;
             break;
 
         /* TED */
         case VICE_MACHINE_PLUS4:
-            /* your C64 might change into a speccy if you change this */
             media_menu[0].data = (ui_callback_data_t)screenshot_ted_menu;
             break;
         default:

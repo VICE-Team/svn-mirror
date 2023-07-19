@@ -41,6 +41,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "util.h"
@@ -116,30 +117,35 @@ static UI_MENU_CALLBACK(save_movie_callback)
 }
 
 ui_menu_entry_t ffmpeg_menu[] = {
-    { "Format",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)format_menu },
-    { "Video codec",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)video_codec_menu },
-    { "Audio codec",
-      MENU_ENTRY_DYNAMIC_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)audio_codec_menu },
-    { "Video bitrate",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_FFMPEGVideoBitrate_callback,
-      (ui_callback_data_t)"Set video bitrate" },
-    { "Audio bitrate",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_FFMPEGAudioBitrate_callback,
-      (ui_callback_data_t)"Set audio bitrate" },
-    { "Save movie",
-      MENU_ENTRY_DIALOG,
-      save_movie_callback,
-      NULL },
+    {   .string   = "Format",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)format_menu
+    },
+    {   .string   =  "Video codec",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)video_codec_menu
+    },
+    {   .string   = "Audio codec",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)audio_codec_menu
+    },
+    {   .string   = "Video bitrate",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = slider_FFMPEGVideoBitrate_callback,
+        .data     = (ui_callback_data_t)"Set video bitrate"
+    },
+    {   .string   = "Audio bitrate",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = slider_FFMPEGAudioBitrate_callback,
+        .data     = (ui_callback_data_t)"Set audio bitrate"
+    },
+    {   .string   = "Save movie",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = save_movie_callback
+    },
     SDL_MENU_LIST_END
 };
 
@@ -213,10 +219,12 @@ static void update_codec_menus(const char *current_format)
 
         codec_found = 0;
         while (codec && codec->name) {
-            video_codec_menu[i].string = (char *)(codec->name);
-            video_codec_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            video_codec_menu[i].action   = ACTION_NONE;
+            /* FIXME: don't cast away const! */
+            video_codec_menu[i].string   = (char *)(codec->name);
+            video_codec_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             video_codec_menu[i].callback = radio_FFMPEGVideoCodec_callback;
-            video_codec_menu[i].data = int_to_void_ptr(codec->id);
+            video_codec_menu[i].data     = int_to_void_ptr(codec->id);
 #ifdef SDL_DEBUG
             fprintf(stderr, "%s: video codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
@@ -257,10 +265,12 @@ static void update_codec_menus(const char *current_format)
         resources_get_int("FFMPEGAudioCodec", &audio_codec_id);
         codec_found = 0;
         while (codec && codec->name) {
-            audio_codec_menu[i].string = (char *)(codec->name);
-            audio_codec_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            audio_codec_menu[i].action   = ACTION_NONE;
+            /* FIXME: don't cast away const! */
+            audio_codec_menu[i].string   = (char *)(codec->name);
+            audio_codec_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             audio_codec_menu[i].callback = radio_FFMPEGAudioCodec_callback;
-            audio_codec_menu[i].data = int_to_void_ptr(codec->id);
+            audio_codec_menu[i].data     = int_to_void_ptr(codec->id);
 #ifdef SDL_DEBUG
             fprintf(stderr, "%s: audio codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
@@ -329,10 +339,11 @@ void sdl_menu_ffmpeg_init(void)
 
         if (ffmpegdrv_formatlist[i].audio_codecs != NULL &&
                 ffmpegdrv_formatlist[i].video_codecs != NULL) {
-            format_menu[k].string = name;
-            format_menu[k].type = MENU_ENTRY_RESOURCE_RADIO;
+            format_menu[k].action   = ACTION_NONE;
+            format_menu[k].string   = name;
+            format_menu[k].type     = MENU_ENTRY_RESOURCE_RADIO;
             format_menu[k].callback = custom_FFMPEGFormat_callback;
-            format_menu[k].data = (ui_callback_data_t)(name);
+            format_menu[k].data     = (ui_callback_data_t)(name);
 #ifdef SDL_DEBUG
             fprintf(stderr, "%s: format %i: %s selected\n",
                     __func__, i, name ? name : "(NULL)");

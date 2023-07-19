@@ -69,14 +69,16 @@
 #define CIA_MODEL_MENU(xyz)                                     \
     UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
     static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-        { "6526  (old)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526 },                 \
-        { "8521 (new)",                                        \
-          MENU_ENTRY_RESOURCE_TOGGLE,                           \
-          radio_CIA##xyz##Model_callback,                       \
-          (ui_callback_data_t)CIA_MODEL_6526A },                \
+        {   .string   = "6526  (old)",                          \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526      \
+        },                                                      \
+        {   .string   = "8521 (new)",                           \
+            .type     = MENU_ENTRY_RESOURCE_TOGGLE,             \
+            .callback = radio_CIA##xyz##Model_callback,         \
+            .data     = (ui_callback_data_t)CIA_MODEL_6526A     \
+        },                                                      \
         SDL_MENU_LIST_END                                       \
     };
 
@@ -105,12 +107,36 @@ static UI_MENU_CALLBACK(select_c128_model_callback)
 }
 
 static const ui_menu_entry_t c128_model_menu[] = {
-    { "C128 (PAL)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128_PAL },
-    { "C128 D (PAL)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128D_PAL },
-    { "C128 DCR (PAL)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128DCR_PAL },
-    { "C128 (NTSC)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128_NTSC },
-    { "C128 D (NTSC)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128D_NTSC },
-    { "C128 DCR (NTSC)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128DCR_NTSC },
+    {   .string   = "C128 (PAL)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128_PAL
+    },
+    {   .string   = "C128 D (PAL)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128D_PAL
+    },
+    {   .string   = "C128 DCR (PAL)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128DCR_PAL
+    },
+    {   .string   = "C128 (NTSC)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128_NTSC
+    },
+    {   .string   = "C128 D (NTSC)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128D_NTSC
+    },
+    {   .string   = "C128 DCR (NTSC)",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = select_c128_model_callback,
+        .data     = (ui_callback_data_t)C128MODEL_C128DCR_NTSC
+    },
     SDL_MENU_LIST_END
 };
 
@@ -119,66 +145,80 @@ UI_MENU_DEFINE_RADIO(VDCRevision)
 
 static const ui_menu_entry_t vdc_menu[] = {
     SDL_MENU_ITEM_TITLE("VDC revision"),
-    { "Rev 0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDCRevision_callback,
-      (ui_callback_data_t)VDC_REVISION_0 },
-    { "Rev 1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDCRevision_callback,
-      (ui_callback_data_t)VDC_REVISION_1 },
-    { "Rev 2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDCRevision_callback,
-      (ui_callback_data_t)VDC_REVISION_2 },
+    {   .string   = "Rev 0",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VDCRevision_callback,
+        .data     = (ui_callback_data_t)VDC_REVISION_0
+    },
+    {   .string   = "Rev 1",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VDCRevision_callback,
+        .data     = (ui_callback_data_t)VDC_REVISION_1
+    },
+    {   .string   = "Rev 2",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VDCRevision_callback,
+        .data     = (ui_callback_data_t)VDC_REVISION_2
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("VDC memory size"),
-    { "16KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDC64KB_callback,
-      (ui_callback_data_t)VDC_16KB },
-    { "64KiB",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDC64KB_callback,
-      (ui_callback_data_t)VDC_64KB },
+    {   .string   = "16KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VDC64KB_callback,
+        .data     = (ui_callback_data_t)VDC_16KB
+    },
+    {   .string   = "64KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_VDC64KB_callback,
+        .data     = (ui_callback_data_t)VDC_64KB
+    },
     SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(MachineType)
 
 static const ui_menu_entry_t machine_type_menu[] = {
-    { "International",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_INT },
-    { "Finnish",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_FINNISH },
-    { "French",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_FRENCH },
-    { "German",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_GERMAN },
-    { "Italian",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_ITALIAN },
-    { "Norwegian",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_NORWEGIAN },
-    { "Swedish",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_SWEDISH },
-    { "Swiss",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineType_callback,
-      (ui_callback_data_t)C128_MACHINE_SWISS },
+    {   .string   = "International",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_INT
+    },
+    {   .string   = "Finnish",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_FINNISH
+    },
+    {   .string   = "French",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_FRENCH
+    },
+    {   .string   = "German",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_GERMAN
+    },
+    {   .string   = "Italian",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_ITALIAN
+    },
+    {   .string   =  "Norwegian",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_NORWEGIAN
+    },
+    {   .string   = "Swedish",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_SWEDISH
+    },
+    {   .string   = "Swiss",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachineType_callback,
+        .data     = (ui_callback_data_t)C128_MACHINE_SWISS
+    },
     SDL_MENU_LIST_END
 };
 
@@ -187,107 +227,130 @@ UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(Go64Mode)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
-    { "Select C128 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)c128_model_menu },
-    { "Select machine type",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)machine_type_menu },
+    {   .string   = "Select C128 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)c128_model_menu
+    },
+    {   .string   = "Select machine type",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)machine_type_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Joyport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joyport_menu },
-    { "Joystick settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_c64_menu },
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_c128_menu },
+
+    {   .string   = "Joyport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joyport_menu
+    },
+    {   .string   = "Joystick settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)joystick_c64_menu
+    },
+    {   .string   = "SID settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)sid_c128_menu
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("CIA models"),
-    { "CIA 1 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia1_model_submenu },
-    { "CIA 2 model",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)cia2_model_submenu },
+    {   .string   = "CIA 1 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "CIA 2 model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cia2_model_submenu
+    },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VDC settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_menu },
+
+    {   .string   = "VDC settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vdc_menu
+    },
 #ifdef HAVE_MOUSE
-    { "Mouse emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mouse_menu },
+    {   .string   = "Mouse emulation",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)mouse_menu
+    },
 #endif
-    { "RAM pattern settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ram_menu },
-    { "RAM banks 2 and 3",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_C128FullBanks_callback,
-      NULL },
-    { "ROM settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c128_rom_menu },
-    { "Switch to C64 mode on reset",
-        MENU_ENTRY_RESOURCE_TOGGLE,
-        toggle_Go64Mode_callback,
-        NULL },
+    {   .string   = "RAM pattern settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ram_menu
+    },
+    {   .string   = "RAM banks 2 and 3",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_C128FullBanks_callback
+    },
+    {   .string   = "ROM settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)c128_rom_menu
+    },
+    {   .string   = "Switch to C64 mode on reset",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Go64Mode_callback
+    },
     SDL_MENU_ITEM_SEPARATOR,
+
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "RS232 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232_c128_menu },
+    {   .string   = "RS232 settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)rs232_c128_menu
+    },
 #endif
-    { CARTRIDGE_NAME_DIGIMAX " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)digimax_menu },
-    { CARTRIDGE_NAME_DS12C887RTC " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ds12c887rtc_c128_menu },
-    { CARTRIDGE_NAME_IEEE488,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IEEE488_callback,
-      NULL },
-    { "Userport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)userport_menu },
-    { "Tape port devices",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapeport_devices_menu },
+    {   .string   = CARTRIDGE_NAME_DIGIMAX " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)digimax_menu
+    },
+    {   .string   = CARTRIDGE_NAME_DS12C887RTC " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ds12c887rtc_c128_menu
+    },
+    {   .string   = CARTRIDGE_NAME_IEEE488,
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_IEEE488_callback
+    },
+    {   .string   = "Userport settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)userport_menu
+    },
+    {   .string   = "Tape port devices",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)tapeport_devices_menu
+    },
 #ifdef HAVE_MIDI
-    { "MIDI settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)midi_c64_menu },
+    {   .string   = "MIDI settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)midi_c64_menu
+    },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernet_menu },
-    { CARTRIDGE_NAME_ETHERNETCART " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernetcart_menu },
+    {   .string   = "Ethernet settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ethernet_menu
+    },
+    {   .string   = CARTRIDGE_NAME_ETHERNETCART " settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ethernetcart_menu
+    },
 #endif
     SDL_MENU_LIST_END
 };
