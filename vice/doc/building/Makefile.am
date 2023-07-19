@@ -9,7 +9,6 @@ BUILDING_DOX = \
 	macOS-Xcode-Howto.txt \
 	Linux-GTK3-Howto.txt \
 	GTK3-cross-build-setup.md \
-	GTK3-debian-frankenvice.md \
 	GTK3-Fedora-cross-build-setup.md \
 	NetBSD-howto.txt
 

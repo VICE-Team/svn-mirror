@@ -3503,8 +3503,6 @@ fi
 AC_OUTPUT([Makefile
            build/Makefile
            build/beos/Makefile
-           build/mingw/Makefile
-           build/mingw/frankenvice/Makefile
            data/Makefile
            data/C128/Makefile
            data/C64/Makefile
