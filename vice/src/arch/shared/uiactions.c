@@ -160,8 +160,6 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_FLIPLIST_SAVE_11_1,        "fliplist-save-11:1",       "Save fliplist of unit 11, drive 1",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_FLIPLIST_CLEAR_11_1,       "fliplist-clear-11:1",      "Clear fliplist of unit 11, drive 1",                       VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
-
-
     /* datasette image */
     { ACTION_TAPE_ATTACH_1,     "tape-attach-1",        "Attach tape to datasette 1",               VICE_MACHINE_ALL^VICE_MACHINE_C64DTV^VICE_MACHINE_SCPU64^VICE_MACHINE_VSID },
     { ACTION_TAPE_ATTACH_2,     "tape-attach-2",        "Attach tape to datasette 2",               VICE_MACHINE_PET },
@@ -187,14 +185,29 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_TAPE_RESET_COUNTER_2,  "tape-reset-counter-2", "Reset datasette 2 counter",    VICE_MACHINE_PET },
 
     /* cartridge items */
-    { ACTION_CART_ATTACH,       "cart-attach",      "Attach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_ATTACH_RAW,   "cart-attach-raw",  "Attach cartridge (raw)",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_DETACH,       "cart-detach",      "Detach cartridge",                 (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_FREEZE,       "cart-freeze",      "Press cartridge freeze button",    (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
-                                                                                         VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_ATTACH,               "cart-attach",              "Attach CRT cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                                             VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_ATTACH_RAW,           "cart-attach-raw",          "Attach raw cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                                             VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_ATTACH_RAW_1000,      "cart-attach-raw-1000",     "Attach raw cartridge image at $1000",  VICE_MACHINE_CBM6x0 },
+    { ACTION_CART_ATTACH_RAW_2000,      "cart-attach-raw-2000",     "Attach raw cartridge image at $2000",  VICE_MACHINE_CBM6x0|VICE_MACHINE_VIC20 },
+    { ACTION_CART_ATTACH_RAW_4000,      "cart-attach-raw-4000",     "Attach raw cartridge image at $4000",  VICE_MACHINE_CBM6x0|VICE_MACHINE_VIC20 },
+    { ACTION_CART_ATTACH_RAW_6000,      "cart-attach-raw-6000",     "Attach raw cartridge image at $6000",  VICE_MACHINE_CBM6x0|VICE_MACHINE_VIC20 },
+    { ACTION_CART_ATTACH_RAW_A000,      "cart-attach-raw-a000",     "Attach raw cartridge image at $A000",  VICE_MACHINE_VIC20 },
+    { ACTION_CART_ATTACH_RAW_B000,      "cart-attach-raw-b000",     "Attach raw cartridge image at $B000",  VICE_MACHINE_VIC20 },
+    { ACTION_CART_ATTACH_RAW_1MB,       "cart-attach-raw-1mb",      "Attach 1MB Cartridge image",           VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_MAGIC,     "cart-attach-raw-magic",    "Attach c264 magic cart image",         VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_MULTI,     "cart-attach-raw-multi",    "Attach multi cart image",              VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C1_FULL,   "cart-attach-raw-c1-full",  "Attach full C1 cartridge image",       VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C1_LOW,    "cart-attach-raw-c1-low",   "Attach low C1 cartridge image",        VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C1_HIGH,   "cart-attach-raw-c1-high",  "Attach high C1 cartridge image",       VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C2_FULL,   "cart-attach-raw-c2-full",  "Attach full C2 cartridge image",       VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C2_LOW,    "cart-attach-raw-c2-low",   "Attach low C2 cartridge image",        VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_C2_HIGH,   "cart-attach-raw-c2-high",  "Attach high C2 cartridge image",       VICE_MACHINE_PLUS4 },
+    { ACTION_CART_DETACH,               "cart-detach",              "Detach cartridge",                     (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                                             VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_FREEZE,               "cart-freeze",              "Press cartridge freeze button",        (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+                                                                                                             VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
 
     /* open monitor */
     { ACTION_MONITOR_OPEN,      "monitor-open",         "Open monitor",                         VICE_MACHINE_ALL },

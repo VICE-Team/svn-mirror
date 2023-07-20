@@ -2957,6 +2957,36 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Attach cartridge
 @item @code{cart-attach-raw}
 @tab Attach cartridge (raw)
+@item @code{cart-attach-raw-1000}
+@tab Attach raw cartridge image at $1000
+@item @code{cart-attach-raw-2000}
+@tab Attach raw cartridge image at $2000
+@item @code{cart-attach-raw-4000}
+@tab Attach raw cartridge image at $4000
+@item @code{cart-attach-raw-6000}
+@tab Attach raw cartridge image at $6000
+@item @code{cart-attach-raw-a000}
+@tab Attach raw cartridge image at $A000
+@item @code{cart-attach-raw-b000}
+@tab Attach raw cartridge image at $B000
+@item @code{cart-attach-raw-1mb}
+@tab Attach 1MB Cartridge image
+@item @code{cart-attach-raw-magic}
+@tab Attach c264 magic cart image
+@item @code{cart-attach-raw-multi}
+@tab Attach multi cart image
+@item @code{cart-attach-raw-c1-full}
+@tab Attach full C1 cartridge image
+@item @code{cart-attach-raw-c1-low}
+@tab Attach low C1 cartridge image
+@item @code{cart-attach-raw-c1-high}
+@tab Attach high C1 cartridge image
+@item @code{cart-attach-raw-c2-full}
+@tab Attach full C2 cartridge image
+@item @code{cart-attach-raw-c2-low}
+@tab Attach low C2 cartridge image
+@item @code{cart-attach-raw-c2-high}
+@tab Attach high C2 cartridge image
 @item @code{cart-detach}
 @tab Detach cartridge
 @item @code{cart-freeze}
