@@ -46,16 +46,18 @@
 
 static UI_MENU_CALLBACK(attach_cart_callback)
 {
-    char *title;
-    char *name = NULL;
+    const char *title;
+    char       *name   = NULL;
+    int         action = ACTION_NONE;
 
     if (activated) {
         switch (vice_ptr_to_int(param)) {
             case CARTRIDGE_CRT:
-                title = "Select cartridge image";
+                title  = "Select cartridge image";
+                action = ACTION_CART_ATTACH;
                 break;
             case CARTRIDGE_VIC20_BEHRBONZ:
-                title = "Select " CARTRIDGE_VIC20_NAME_BEHRBONZ " image";
+                title  = "Select " CARTRIDGE_VIC20_NAME_BEHRBONZ " image";
                 break;
             case CARTRIDGE_VIC20_UM:
                 title = "Select " CARTRIDGE_VIC20_NAME_UM " image";
@@ -69,19 +71,28 @@ static UI_MENU_CALLBACK(attach_cart_callback)
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
                 title = "Select " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image";
                 break;
-            case CARTRIDGE_VIC20_DETECT:
+            case CARTRIDGE_VIC20_DETECT:    /* fall through */
             case CARTRIDGE_VIC20_GENERIC:
                 title = "Select cartridge image";
                 break;
             case CARTRIDGE_VIC20_16KB_2000:
+                title  = "Select 4/8/16KiB image";
+                action = ACTION_CART_ATTACH_RAW_2000;
+                break;
             case CARTRIDGE_VIC20_16KB_4000:
+                title  = "Select 4/8/16KiB image";
+                action = ACTION_CART_ATTACH_RAW_4000;
+                break;
             case CARTRIDGE_VIC20_16KB_6000:
-                title = "Select 4/8/16KiB image";
+                title  = "Select 4/8/16KiB image";
+                action = ACTION_CART_ATTACH_RAW_6000;
                 break;
             case CARTRIDGE_VIC20_8KB_A000:
-                title = "Select 4/8KiB image";
+                title  = "Select 4/8KiB image";
+                action = ACTION_CART_ATTACH_RAW_A000;
                 break;
             case CARTRIDGE_VIC20_4KB_B000:
+                action = ACTION_CART_ATTACH_RAW_B000;   /* fall through */
             default:
                 title = "Select 4KiB image";
                 break;
@@ -92,6 +103,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
                 ui_error("Cannot load cartridge image.");
             }
             lib_free(name);
+        }
+        if (action > ACTION_NONE) {
+            ui_action_finish(action);
         }
     }
     return NULL;
@@ -107,27 +121,32 @@ static const ui_menu_entry_t add_to_generic_cart_submenu[] = {
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_DETECT
     },
-    {   .string   = "Attach 4/8/16KiB image at $2000",
+    {   .action   = ACTION_CART_ATTACH_RAW_2000,
+        .string   = "Attach 4/8/16KiB image at $2000",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000
     },
-    {   .string   = "Attach 4/8/16KiB image at $4000",
+    {   .action   = ACTION_CART_ATTACH_RAW_4000,
+        .string   = "Attach 4/8/16KiB image at $4000",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_16KB_4000
     },
-    {   .string   = "Attach 4/8/16KiB image at $6000",
+    {   .action   = ACTION_CART_ATTACH_RAW_6000,
+        .string   = "Attach 4/8/16KiB image at $6000",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_16KB_6000
     },
-    {   .string   = "Attach 4/8KiB image at $A000",
+    {   .action   = ACTION_CART_ATTACH_RAW_A000,
+        .string   = "Attach 4/8KiB image at $A000",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_8KB_A000
     },
-    {   .string   = "Attach 4KiB image at $B000",
+    {   .action   = ACTION_CART_ATTACH_RAW_B000,
+        .string   = "Attach 4KiB image at $B000",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000
