@@ -689,6 +689,13 @@ static CLOCK datasette_read_gap(int port, int direction)
     return gap;
 }
 
+/* FIXME: the .tap header specifies the system and video system of the computer
+          the .tap was captured with, which implicitly tells the clockrate a
+          "tap byte" refers to. this is no problem as long as the .tap is played
+          on the same system it was created with - however when eg a PAL tap is
+          played back on a NTSC machine, the pulses must be scaled accordingly
+          - which is not happening right now. */
+
 /* this is the alarm function */
 static void datasette_read_bit(CLOCK offset, void *data)
 {
@@ -714,6 +721,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
         return;
     }
 
+    /* there is no image attached */
     if (current_image[port] == NULL) {
         switch (notape_mode[port]) {
             case DATASETTE_CONTROL_START:
@@ -732,6 +740,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
         return;
     }
 
+    /* an image is attached */
     switch (current_image[port]->mode) {
         case DATASETTE_CONTROL_START:
             direction = 1;
@@ -977,6 +986,11 @@ static char *cmdstr[8] = {
 };
 #endif
 
+static void tap_reset_gap(int port)
+{
+    last_write_clk[port] = (CLOCK)0;
+}
+
 static void datasette_control_internal(int port, int command)
 {
     DBG(("datasette_control_internal (%s) (image present:%s)", cmdstr[command], current_image[port] ? "yes" : "no"));
@@ -993,14 +1007,14 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(0, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 break;
             case DATASETTE_CONTROL_START:
                 current_image[port]->mode = DATASETTE_CONTROL_START;
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1011,7 +1025,7 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1022,7 +1036,7 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1033,7 +1047,7 @@ static void datasette_control_internal(int port, int command)
                     if (datasette_enabled[port]) {
                         tapeport_set_tape_sense(1, port);
                     }
-                    last_write_clk[port] = (CLOCK)0;
+                    tap_reset_gap(port);
                 }
                 break;
         }
@@ -1051,14 +1065,14 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(0, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 break;
             case DATASETTE_CONTROL_START:
                 notape_mode[port] = DATASETTE_CONTROL_START;
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1069,7 +1083,7 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1080,7 +1094,7 @@ static void datasette_control_internal(int port, int command)
                 if (datasette_enabled[port]) {
                     tapeport_set_tape_sense(1, port);
                 }
-                last_write_clk[port] = (CLOCK)0;
+                tap_reset_gap(port);
                 if (datasette_motor[port]) {
                     datasette_start_motor(port);
                 }
@@ -1122,7 +1136,7 @@ static void datasette_set_motor(int port, int flag)
         motor_stop_clk[port] = 0;
         DBG(("datasette_set_motor(flag=1 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
         if (!datasette_motor[port]) {
-            last_write_clk[port] = (CLOCK)0;
+            tap_reset_gap(port);
             datasette_start_motor(port);
             ui_display_tape_motor_status(port, 1);
             datasette_motor[port] = 1;
@@ -1143,6 +1157,8 @@ static void datasette_set_motor(int port, int flag)
         }
     }
 }
+
+/* FIXME: right now we always write v1 .tap files (falling edges only), even for xplus4 */
 
 inline static void bit_write(int port)
 {
@@ -1174,6 +1190,7 @@ inline static void bit_write(int port)
             log_debug("datasette bit_write failed.");
         }
         current_image[port]->current_file_seek_position++;
+        /* in v1/v2 .tap the next 3 bytes are the exact length of the gap in cycles */
         if (current_image[port]->version >= 1) {
             uint8_t long_gap[3];
             int bytes_written;
@@ -1207,11 +1224,22 @@ inline static void bit_write(int port)
     datasette_update_ui_counter(port);
 }
 
+/* BUG: when the motor is started when the write line is 0, then the first
+        pulse will not end up in the .tap file
+
+        see https://sourceforge.net/p/vice-emu/bugs/1598/ */
+
 static void datasette_toggle_write_bit(int port, int write_bit)
 {
-    if (current_image[port] != NULL && write_bit
-        && current_image[port]->mode == DATASETTE_CONTROL_RECORD) {
-        if (datasette_motor[port]) {
+    if ((current_image[port] != NULL) && /* there is a tape image */
+        (current_image[port]->mode == DATASETTE_CONTROL_RECORD) && /* record is pressed */
+        (datasette_motor[port] != 0)) { /* motor is running */
+
+        /* FIXME: right now we always write v1 .tap files (falling edges only),
+                  even for xplus4 */
+
+        if (write_bit != 0) {
+            /* this writes a falling edge (0->1 transtion on the write line) */
             if (last_write_clk[port] == (CLOCK)0) {
                 last_write_clk[port] = maincpu_clk;
             } else {
