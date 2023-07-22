@@ -48,15 +48,21 @@
 #include "actions-hotkeys.h"
 
 
-/** \brief  Clear all hotkeys */
-static void hotkeys_clear_action(void *unused)
+/** \brief  Clear all hotkeys action
+ *
+ * \param[in]   self    action map
+ */
+static void hotkeys_clear_action(ui_action_map_t *self)
 {
     ui_display_statustext("Clearing all hotkeys.", 1);
     ui_hotkeys_remove_all();
 }
 
-/** \brief  Load default hotkeys */
-static void hotkeys_default_action(void *unused)
+/** \brief  Load default hotkeys action
+ *
+ * \param[in]   self    action map
+ */
+static void hotkeys_default_action(ui_action_map_t *self)
 {
     ui_display_statustext("Loading default hotkeys.", 1);
     ui_hotkeys_load_default();
@@ -65,8 +71,10 @@ static void hotkeys_default_action(void *unused)
 /** \brief  Reload current hotkeys file
  *
  * Either load the file in "HotkeyFile" or load the default hotkeys.
+ *
+ * \param[in]   self    action map
  */
-static void hotkeys_load_action(void *unused)
+static void hotkeys_load_action(ui_action_map_t *self)
 {
     const char *hotkeys_file = NULL;
 
@@ -82,17 +90,22 @@ static void hotkeys_load_action(void *unused)
     }
 }
 
-/** \brief  Pop up dialog to load hotkeys from a specific file */
-static void hotkeys_load_from_action(void *unused)
+/** \brief  Pop up dialog to load hotkeys from a specific file
+ *
+ * \param[in]   self    action map
+ */
+static void hotkeys_load_from_action(ui_action_map_t *self)
 {
     ui_hotkeys_load_dialog_show(NULL);
 }
 
 /** \brief  Save hotkeys to current hotkeys file
  *
- * If the default hotkeys are loaded, don't save anything
+ * If the default hotkeys are loaded, don't save anything.
+ *
+ * \param[in]   self    action map
  */
-static void hotkeys_save_action(void *unused)
+static void hotkeys_save_action(ui_action_map_t *self)
 {
     const char *hotkeyfile = NULL;
 
@@ -114,11 +127,14 @@ static void hotkeys_save_action(void *unused)
 }
 
 /** \brief  Pop up a dialog to save hotkeys to file
+ *
+ * \param[in]   self    action map
  */
-static void hotkeys_save_to_action(void *unused)
+static void hotkeys_save_to_action(ui_action_map_t *self)
 {
     ui_hotkeys_save_dialog_show();
 }
+
 
 /** \brief  List of actions for hotkeys management */
 static const ui_action_map_t hotkeys_actions[] = {

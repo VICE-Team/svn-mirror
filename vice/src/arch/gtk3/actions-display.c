@@ -64,13 +64,11 @@
  * If fullscreen is enabled and there are no window decorations requested for
  * fullscreen mode, the mouse pointer is hidden until fullscreen is disabled.
  *
- * FIXME:   Currently doesn't properly update the fullscreen check menu items
- *          in case of x128: each window can be individually fullscreened but
- *          the check items will be set/unset in both windows' menus.
+ * \param[in]   self    action map
  */
-static void fullscreen_toggle_action(void *unused)
+static void fullscreen_toggle_action(ui_action_map_t *self)
 {
-    gboolean enabled;
+    gboolean enabled = 0;
     gint     index = ui_get_main_window_index();
 
     if (index != PRIMARY_WINDOW && index != SECONDARY_WINDOW) {
@@ -80,30 +78,30 @@ static void fullscreen_toggle_action(void *unused)
     /* flip fullscreen mode */
     enabled = !ui_is_fullscreen();
     ui_set_fullscreen_enabled(enabled);
-
-    vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
-                                                        index,
-                                                        enabled);
+    vhk_gtk_set_check_item_blocked_by_action_for_window(self->action, index, enabled);
     ui_update_fullscreen_decorations();
 }
 
-/** \brief Toggles fullscreen window decorations */
-static void fullscreen_decorations_toggle_action(void *unused)
+/** \brief Toggles fullscreen window decorations
+ *
+ * \param[in]   self    action map
+ */
+static void fullscreen_decorations_toggle_action(ui_action_map_t *self)
 {
     gboolean decorations = !ui_fullscreen_has_decorations();
 
     resources_set_int("FullscreenDecorations", decorations);
-
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-                                             decorations);
+    vhk_gtk_set_check_item_blocked_by_action(self->action, decorations);
     ui_update_fullscreen_decorations();
 }
 
 /** \brief  Attempt to restore the active window's size to its "natural" size
  *
  * Also unmaximizes and unfullscreens the window.
+ *
+ * \param[in]   self    action map
  */
-static void restore_display_action(void *unused)
+static void restore_display_action(ui_action_map_t *self)
 {
     GtkWindow *window = ui_get_active_window();
 
@@ -122,13 +120,22 @@ static void restore_display_action(void *unused)
     }
 }
 
-/** \brief  Toggle status bar visibility for the active window */
-static void show_statusbar_toggle_action(void *unused)
+/** \brief  Toggle status bar visibility for the active window
+ *
+ * \param[in]   self    action map
+ *
+ * \todo    Needs to updated, currently this work since actions are only triggered
+ *          by hotkeys or menu items from the current window, but when we can
+ *          trigger actions from joystick buttons there is no valid active window,
+ *          so we need to support the \c ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE
+ *          action for x128's VDC window.
+ */
+static void show_statusbar_toggle_action(ui_action_map_t *self)
 {
     video_canvas_t *canvas = ui_get_active_canvas();
     if (canvas != NULL) {
-        GtkWindow *window;
-        int show = 0;
+        GtkWindow * window;
+        int         show = 0;
         const char *chip_name = canvas->videoconfig->chip_name;
 
         resources_get_int_sprintf("%sShowStatusbar", &show, chip_name);
@@ -154,26 +161,23 @@ static void show_statusbar_toggle_action(void *unused)
 
 /** \brief  List of display-related actions */
 static const ui_action_map_t display_actions[] = {
-    {
-        .action   = ACTION_FULLSCREEN_TOGGLE,
+    {   .action   = ACTION_FULLSCREEN_TOGGLE,
         .handler  = fullscreen_toggle_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+    {   .action   = ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
         .handler  = fullscreen_decorations_toggle_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_RESTORE_DISPLAY,
+    {   .action   = ACTION_RESTORE_DISPLAY,
         .handler  = restore_display_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_SHOW_STATUSBAR_TOGGLE,
+    {   .action   = ACTION_SHOW_STATUSBAR_TOGGLE,
         .handler  = show_statusbar_toggle_action,
         .uithread = true
     },
+    /* TODO: Add ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE */
 
     UI_ACTION_MAP_TERMINATOR
 };

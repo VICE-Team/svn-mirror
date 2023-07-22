@@ -55,8 +55,8 @@ typedef struct ui_action_map_s {
      * Action handler data
      */
 
-    void (*handler)(void*); /**< function handling the action */
-    void  *param;           /**< optional parameter for \c handler */
+    void (*handler)(struct ui_action_map_s*); /**< function handling the action */
+    void  *data;            /**< optional user data */
 
 
     /* modes */

@@ -37,26 +37,33 @@
 #include "actions-debug.h"
 
 
-static void autoplayback_frames_action(void *unused)
+/** \brief  Autoplayback frames dialog action
+ *
+ * \param[in]   self    action map
+ */
+static void autoplayback_frames_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_DEBUG_AUTOPLAYBACK_FRAMES);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Toggle resource action
  *
- * \param[in]   resource    resource name
+ * \param[in]   self    action map
+ *
+ * \todo    Generalize into public function?
  */
-static void resource_toggle_action(void *resource)
+static void resource_toggle_action(ui_action_map_t *self)
 {
-    const char *name  = resource;
-    int         value = 0;
+    const char *resource = self->data;
+    int         value    = 0;
 
-    resources_get_int(name, &value);
-    resources_set_int(name, value ? 0 : 1);
+    resources_get_int(resource, &value);
+    resources_set_int(resource, !value);
 }
 
 
-/** \brief  List of mappings for debugging actions */
+/** \brief  List of mappings for debugging actions for all emulators
+ */
 static const ui_action_map_t debug_actions[] = {
     {   .action  = ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
         .handler = autoplayback_frames_action,
@@ -64,48 +71,58 @@ static const ui_action_map_t debug_actions[] = {
     },
     {   .action  = ACTION_DEBUG_TRACE_CPU_TOGGLE,
         .handler = resource_toggle_action,
-        .param   = "MainCPU_TRACE"
+        .data    = (void*)"MainCPU_TRACE"
     },
-    {   .action  = ACTION_DEBUG_TRACE_IEC_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "IEC_TRACE"
-    },
-    {   .action  = ACTION_DEBUG_TRACE_IEEE488_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "IEEE_TRACE"
-    },
-    {   .action  = ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "Drive0CPU_TRACE"
-    },
-    {   .action  = ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "Drive1CPU_TRACE"
-    },
-    {   .action  = ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "Drive2CPU_TRACE"
-    },
-    {   .action  = ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,
-        .handler = resource_toggle_action,
-        .param   = "Drive3CPU_TRACE"
-    },
+    UI_ACTION_MAP_TERMINATOR
+};
 
-    /* DTV-specific actions */
+/** \brief  List of mappings for additional debugging actions for C64 DTV
+ */
+static const ui_action_map_t debug_actions_c64dtv[] = {
     {   .action  = ACTION_DEBUG_BLITTER_LOG_TOGGLE,
         .handler = resource_toggle_action,
-        .param   = "DtvBlitterLog"
+        .data    = (void*)"DtvBlitterLog"
     },
     {   .action  = ACTION_DEBUG_DMA_LOG_TOGGLE,
         .handler = resource_toggle_action,
-        .param   = "DtvDmaLog"
+        .data    = (void*)"DtvDmaLog"
     },
-
     {   .action  = ACTION_DEBUG_FLASH_LOG_TOGGLE,
         .handler = resource_toggle_action,
-        .param   = "DtvFlashLog"
+        .data    = (void*)"DtvFlashLog"
     },
+    UI_ACTION_MAP_TERMINATOR
+};
 
+/** \brief  List of mappings for additional debugging actions for drives
+ *
+ * All emulators except VSID.
+ */
+static const ui_action_map_t debug_actions_drives[] = {
+    {   .action  = ACTION_DEBUG_TRACE_IEC_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"IEC_TRACE"
+    },
+    {   .action  = ACTION_DEBUG_TRACE_IEEE488_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"IEEE_TRACE"
+    },
+    {   .action  = ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"Drive0CPU_TRACE"
+    },
+    {   .action  = ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"Drive1CPU_TRACE"
+    },
+    {   .action  = ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"Drive2CPU_TRACE"
+    },
+    {   .action  = ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,
+        .handler = resource_toggle_action,
+        .data    = (void*)"Drive3CPU_TRACE"
+    },
     UI_ACTION_MAP_TERMINATOR
 };
 
@@ -114,6 +131,12 @@ static const ui_action_map_t debug_actions[] = {
 void actions_debug_register(void)
 {
     ui_actions_register(debug_actions);
+    if (machine_class != VICE_MACHINE_VSID) {
+        ui_actions_register(debug_actions_drives);
+    }
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        ui_actions_register(debug_actions_c64dtv);
+    }
 }
 
 #endif

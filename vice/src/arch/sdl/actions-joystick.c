@@ -41,9 +41,11 @@
 #ifdef HAVE_MOUSE
 /** \brief  Toggle mouse grab action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
+ *
+ * \todo    refactor into generic 'toggle-resource-action'
  */
-static void mouse_grab_toggle_action(void *unused)
+static void mouse_grab_toggle_action(ui_action_map_t *self)
 {
     int mouse = 0;
 
@@ -54,18 +56,20 @@ static void mouse_grab_toggle_action(void *unused)
 
 /** \brief  Toggle control port devices swap action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void swap_controlport_toggle_action(void *unused)
+static void swap_controlport_toggle_action(ui_action_map_t *self)
 {
     sdljoy_swap_ports();
 }
 
 /** \brief  Toggle keyset joysticks action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
+ *
+ * \todo    refactor into generic 'toggle-resource-action'
  */
-static void keyset_joystick_toggle_action(void *unused)
+static void keyset_joystick_toggle_action(ui_action_map_t *self)
 {
     int keyset = 0;
 

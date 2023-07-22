@@ -40,7 +40,7 @@
 
 /** \brief  Unpack void pointer into `int unit` and `int drive` assignments
  *
- * \param[in]   P   pointer value encoded with UNIT_DRIVE_TO_PTR()
+ * \data [in]   P   pointer value encoded with UNIT_DRIVE_TO_PTR()
  */
 #define UNPACK_U_D(P) \
     int unit  = UNIT_FROM_PTR(P); \
@@ -49,56 +49,46 @@
 
 /** \brief  Attach disk to drive action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0-3)
+ * Attach disk to a drive, the unit and drive number are available in the \c data
+ * member of \a self.
+ *
+ * \data [in]   self    action map
  */
-static void drive_attach_action(void *unit_drive)
+static void drive_attach_action(ui_action_map_t *self)
 {
-    int              action;
-    int              unit;
-    int              drive;
-
-    /* this blows, it would be nice to just have the action ID available and not
-     * have to go through this mess */
-    unit   = UNIT_FROM_PTR(unit_drive);
-    drive  = DRIVE_FROM_PTR(unit_drive);
-    action = ui_action_id_drive_attach(unit, drive);
-#if 0
-    printf("%s(): unit %d, drive %d, action %d (%s)\n",
-           __func__, unit, drive, action, ui_action_get_name(action));
-#endif
-    sdl_ui_menu_item_activate_by_action(action);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Create disk image action
  *
  * Shows dialog to create a disk image and optionally attach to a disk drive.
  *
- * \param[in]   unused  unused
+ * \data [in]   self    action map
  */
-static void drive_create_action(void *unused)
+static void drive_create_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_DRIVE_CREATE);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Detach disk from drive action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  *
  * XXX: Can probably be merged with the Gtk3 version
  */
-static void drive_detach_action(void *unit_drive)
+static void drive_detach_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     file_system_detach_disk(unit, drive);
 }
 
 /** \brief Detach all disks in all drives action
  *
- * \param[in]   unused  unused
+ * \data [in]   self    action map
  *
  * XXX: Can probably be merged with the Gtk3 version
  */
-static void drive_detach_all_action(void *unused)
+static void drive_detach_all_action(ui_action_map_t *self)
 {
     int unit;
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
@@ -110,92 +100,98 @@ static void drive_detach_all_action(void *unused)
 /* ATN: drive (cpu) functions are indexed-based rather than unit number-based,
  * so  0-3 instead of 8-11 */
 
-static void drive_reset_action(void *unit)
+/** \brief  Drive reset action
+ *
+ * \data [in]   self    action map
+ */
+static void drive_reset_action(ui_action_map_t *self)
 {
     vsync_suspend_speed_eval();
-    drive_cpu_trigger_reset(vice_ptr_to_int(unit) - DRIVE_UNIT_MIN);
+    drive_cpu_trigger_reset(vice_ptr_to_int(self->data) - DRIVE_UNIT_MIN);
 }
 
-static void drive_reset_config_action(void *unit)
+/** \brief  Drive reset into configuration mode action
+ *
+ * \data [in]   self    action map
+ */
+static void drive_reset_config_action(ui_action_map_t *self)
 {
     vsync_suspend_speed_eval();
-    drive_cpu_trigger_reset_button(vice_ptr_to_int(unit) - DRIVE_UNIT_MIN,
+    drive_cpu_trigger_reset_button(vice_ptr_to_int(self->data) - DRIVE_UNIT_MIN,
                                    DRIVE_BUTTON_WRITE_PROTECT);
 }
 
-static void drive_reset_install_action(void *unit)
+/** \brief  Drive reset into installation mode action
+ *
+ * \data [in]   self    action map
+ */
+static void drive_reset_install_action(ui_action_map_t *self)
 {
     vsync_suspend_speed_eval();
-    drive_cpu_trigger_reset_button(vice_ptr_to_int(unit) - DRIVE_UNIT_MIN,
+    drive_cpu_trigger_reset_button(vice_ptr_to_int(self->data) - DRIVE_UNIT_MIN,
                                    DRIVE_BUTTON_SWAP_8|DRIVE_BUTTON_SWAP_9);
 }
 
 /** \brief  Add current image to fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_add_action(void *unit_drive)
+static void fliplist_add_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     fliplist_add_image(unit);
 }
 
 /** \brief  Remove current image from fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_remove_action(void *unit_drive)
+static void fliplist_remove_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     fliplist_remove(unit, NULL);
 }
 
 /** \brief  Add next image in fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_next_action(void *unit_drive)
+static void fliplist_next_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     fliplist_attach_head(unit, 1);
 }
 
 /** \brief  Attach previous image in fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_previous_action(void *unit_drive)
+static void fliplist_previous_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     fliplist_attach_head(unit, 0);
 }
 
 /** \brief  Load fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_load_action(void *unit_drive)
+static void fliplist_load_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
-    int action = ui_action_id_fliplist_load(unit, drive);
-
-    sdl_ui_menu_item_activate_by_action(action);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Save fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0 or 1)
+ * \data [in]   self    action map
  */
-static void fliplist_save_action(void *unit_drive)
+static void fliplist_save_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
-    int action = ui_action_id_fliplist_save(unit, drive);
-
-    sdl_ui_menu_item_activate_by_action(action);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 
@@ -204,42 +200,42 @@ static const ui_action_map_t drive_actions[] = {
     /* attach disk */
     {   .action  = ACTION_DRIVE_ATTACH_8_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_8_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 1),
+        .data    = UNIT_DRIVE_TO_PTR(8, 1),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_9_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .data    = UNIT_DRIVE_TO_PTR(9, 0),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_9_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 1),
+        .data    = UNIT_DRIVE_TO_PTR(9, 1),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_10_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .data    = UNIT_DRIVE_TO_PTR(10, 0),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_10_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 1),
+        .data    = UNIT_DRIVE_TO_PTR(10, 1),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_11_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .data    = UNIT_DRIVE_TO_PTR(11, 0),
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_11_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 1),
+        .data    = UNIT_DRIVE_TO_PTR(11, 1),
         .dialog  = true
     },
 
@@ -253,35 +249,35 @@ static const ui_action_map_t drive_actions[] = {
     /* detach disk from drive */
     {   .action  = ACTION_DRIVE_DETACH_8_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
     },
     {   .action  = ACTION_DRIVE_DETACH_8_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 1),
+        .data    = UNIT_DRIVE_TO_PTR(8, 1),
     },
     {   .action  = ACTION_DRIVE_DETACH_9_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .data    = UNIT_DRIVE_TO_PTR(9, 0),
     },
     {   .action  = ACTION_DRIVE_DETACH_9_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 1),
+        .data    = UNIT_DRIVE_TO_PTR(9, 1),
     },
     {   .action  = ACTION_DRIVE_DETACH_10_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .data    = UNIT_DRIVE_TO_PTR(10, 0),
     },
     {   .action  = ACTION_DRIVE_DETACH_10_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 1),
+        .data    = UNIT_DRIVE_TO_PTR(10, 1),
     },
     {   .action  = ACTION_DRIVE_DETACH_11_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .data    = UNIT_DRIVE_TO_PTR(11, 0),
     },
     {   .action  = ACTION_DRIVE_DETACH_11_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 1),
+        .data    = UNIT_DRIVE_TO_PTR(11, 1),
     },
     {   .action  = ACTION_DRIVE_DETACH_ALL,
         .handler = drive_detach_all_action,
@@ -290,82 +286,82 @@ static const ui_action_map_t drive_actions[] = {
     /* normal reset */
     {   .action  = ACTION_RESET_DRIVE_8,
         .handler = drive_reset_action,
-        .param   = int_to_void_ptr(8)
+        .data    = int_to_void_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9,
         .handler = drive_reset_action,
-        .param   = int_to_void_ptr(9)
+        .data    = int_to_void_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10,
         .handler = drive_reset_action,
-        .param   = int_to_void_ptr(10)
+        .data    = int_to_void_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11,
         .handler = drive_reset_action,
-        .param   = int_to_void_ptr(11)
+        .data    = int_to_void_ptr(11)
     },
 
     /* reset in configuration mode */
     {   .action  = ACTION_RESET_DRIVE_8_CONFIG,
         .handler = drive_reset_config_action,
-        .param   = int_to_void_ptr(8)
+        .data    = int_to_void_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9_CONFIG,
         .handler = drive_reset_config_action,
-        .param   = int_to_void_ptr(9)
+        .data    = int_to_void_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10_CONFIG,
         .handler = drive_reset_config_action,
-        .param   = int_to_void_ptr(10)
+        .data    = int_to_void_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11_CONFIG,
         .handler = drive_reset_config_action,
-        .param   = int_to_void_ptr(11)
+        .data    = int_to_void_ptr(11)
     },
 
     /* reset in installation mode */
     {   .action  = ACTION_RESET_DRIVE_8_INSTALL,
         .handler = drive_reset_install_action,
-        .param   = int_to_void_ptr(8)
+        .data    = int_to_void_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9_INSTALL,
         .handler = drive_reset_install_action,
-        .param   = int_to_void_ptr(9)
+        .data    = int_to_void_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10_INSTALL,
         .handler = drive_reset_install_action,
-        .param   = int_to_void_ptr(10)
+        .data    = int_to_void_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11_INSTALL,
         .handler = drive_reset_install_action,
-        .param   = int_to_void_ptr(11)
+        .data    = int_to_void_ptr(11)
     },
 
     /* fliplist (unit #8 only for now) */
     {   .action  = ACTION_FLIPLIST_ADD_8_0,
         .handler = fliplist_add_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {   .action  = ACTION_FLIPLIST_REMOVE_8_0,
         .handler = fliplist_remove_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {   .action  = ACTION_FLIPLIST_NEXT_8_0,
         .handler = fliplist_next_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {   .action  = ACTION_FLIPLIST_PREVIOUS_8_0,
         .handler = fliplist_previous_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {   .action  = ACTION_FLIPLIST_LOAD_8_0,
         .handler = fliplist_load_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .dialog  = true
     },
     {   .action  = ACTION_FLIPLIST_SAVE_8_0,
         .handler = fliplist_save_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .dialog  = true
     },
     /* SDL UI doesn't provide a "clear" option, so we won't provide one here */

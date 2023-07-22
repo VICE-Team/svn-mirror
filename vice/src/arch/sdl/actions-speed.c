@@ -42,43 +42,41 @@
 
 /** \brief  Toggle warp mode action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void warp_mode_toggle_action(void *unused)
+static void warp_mode_toggle_action(ui_action_map_t *self)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
 }
-
-
 
 /** \brief  Set Speed resource value
  *
  * Set Speed resource to set emulated CPU speed (positive values) or FPS target
  * (negative values).
  *
- * \param[in]   speed   new value for Speed resource
+ * \param[in]   self    action map
  */
-static void set_speed_resource(void *speed)
+static void set_speed_resource(ui_action_map_t *self)
 {
-    resources_set_int("Speed", vice_ptr_to_int(speed));
+    resources_set_int("Speed", vice_ptr_to_int(self->data));
 }
 
 /** \brief  Show custom speed dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void speed_cpu_custom_action(void *unused)
+static void speed_cpu_custom_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SPEED_CPU_CUSTOM);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Show custom FPS dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void speed_fps_custom_action(void *unused)
+static void speed_fps_custom_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SPEED_FPS_CUSTOM);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Update status of "Advance frame" based on pause state
@@ -115,9 +113,9 @@ static void update_virtual_keyboard_status(void)
 
 /** \brief  Pause toggle action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void pause_toggle_action(void *unused)
+static void pause_toggle_action(ui_action_map_t *self)
 {
     /* madness: two differents pause states */
     if (sdl_menu_state) {
@@ -135,13 +133,11 @@ static void pause_toggle_action(void *unused)
     }
 }
 
-
-
 /** \brief  Advance frame action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void advance_frame_action(void *unused)
+static void advance_frame_action(ui_action_map_t *self)
 {
     if (sdl_menu_state) {
         /* in menu */
@@ -176,23 +172,23 @@ static const ui_action_map_t speed_actions[] = {
     /* CPU speed radio buttons */
     {   .action  = ACTION_SPEED_CPU_10,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(10)
+        .data    = int_to_void_ptr(10)
     },
     {   .action  = ACTION_SPEED_CPU_25,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(25)
+        .data    = int_to_void_ptr(25)
     },
     {   .action  = ACTION_SPEED_CPU_50,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(50)
+        .data    = int_to_void_ptr(50)
     },
     {   .action  = ACTION_SPEED_CPU_100,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(100)
+        .data    = int_to_void_ptr(100)
     },
     {   .action  = ACTION_SPEED_CPU_200,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(200)
+        .data    = int_to_void_ptr(200)
     },
     /* Custom CPU speed dialog */
     {   .action  = ACTION_SPEED_CPU_CUSTOM,
@@ -203,11 +199,11 @@ static const ui_action_map_t speed_actions[] = {
     /* FPS targets */
     {   .action  = ACTION_SPEED_FPS_50,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(-50)
+        .data    = int_to_void_ptr(-50)
     },
     {   .action  = ACTION_SPEED_FPS_60,
         .handler = set_speed_resource,
-        .param   = int_to_void_ptr(-60)
+        .data    = int_to_void_ptr(-60)
     },
     {   .action  = ACTION_SPEED_FPS_CUSTOM,
         .handler = speed_fps_custom_action,

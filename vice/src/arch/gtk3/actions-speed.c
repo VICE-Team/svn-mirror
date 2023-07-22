@@ -54,34 +54,41 @@
 /** \brief  Toggle pause
  *
  * Toggles pause and updates UI elements.
+ *
+ * \param[in]   self    action map
  */
-static void pause_toggle_action(void *unused)
+static void pause_toggle_action(ui_action_map_t *self)
 {
     ui_pause_toggle();
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(self->action,
                                              (gboolean)ui_pause_active());
     /* the pause LED gets updated in in the status bar update code */
 }
 
-/** \brief  Advance emulation a single frame if paused, pause otherwise */
-static void advance_frame_action(void *unused)
+/** \brief  Advance emulation a single frame if paused, pause otherwise
+ *
+ * \param[in]   self    action map
+ */
+static void advance_frame_action(ui_action_map_t *self)
 {
     if (ui_pause_active()) {
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        vhk_gtk_set_check_item_blocked_by_action(ACTION_PAUSE_TOGGLE, TRUE);
+        vhk_gtk_set_check_item_blocked_by_action(self->action, TRUE);
     }
 }
 
 /** \brief  Toggle warp mode
  *
  * Toggles warp mode and updates UI elements.
+ *
+ * \param[in]   self    action map
  */
-static void warp_mode_toggle_action(void *unused)
+static void warp_mode_toggle_action(ui_action_map_t *self)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+    vhk_gtk_set_check_item_blocked_by_action(self->action,
                                              (gboolean)vsync_get_warp_mode());
 }
 
@@ -182,11 +189,11 @@ static void set_speed_resource(int speed)
 
 /** \brief  Set CPU speed
  *
- * \param[in]   speed   speed in percentage (100 == 100%)
+ * \param[in]   self    action map
  */
-static void speed_cpu_action(void *speed)
+static void speed_cpu_action(ui_action_map_t *self)
 {
-    set_speed_resource(vice_ptr_to_int(speed));
+    set_speed_resource(vice_ptr_to_int(self->data));
 }
 
 /** \brief  Callback for custom speed
@@ -210,11 +217,11 @@ static void speed_cpu_custom_callback(GtkDialog *dialog,
  *
  * Pops up a dialog to set a custom emulation speed.
  */
-static void speed_cpu_custom_action(void *unused)
+static void speed_cpu_custom_action(ui_action_map_t *self)
 {
     GtkWidget *widget;
 
-    widget = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
+    widget = vhk_gtk_get_menu_item_by_action_for_window(self->action,
                                                         ui_get_main_window_index());
     if (widget != NULL) {
         int curval = 0;
@@ -229,8 +236,7 @@ static void speed_cpu_custom_action(void *unused)
                 1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
-                   ACTION_SPEED_CPU_CUSTOM,
-                   ui_action_get_name(ACTION_SPEED_CPU_CUSTOM));
+                   self->action, ui_action_get_name(self->action));
     }
 }
 
@@ -252,14 +258,16 @@ static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
 /** \brief  Set FPS to a custom value using a dialog
  *
  * Pops up a dialog to set a custom FPS.
+ *
+ * \param[in]   self    action map
  */
-static void speed_fps_custom_action(void *unused)
+static void speed_fps_custom_action(ui_action_map_t *self)
 {
     GtkWidget *widget;
 
     /* only show the dialog when the radio/check button is toggled ON */
-    widget = vhk_gtk_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_CUSTOM,
-                                                   ui_get_main_window_index());
+    widget = vhk_gtk_get_menu_item_by_action_for_window(self->action,
+                                                        ui_get_main_window_index());
     if (widget != NULL) {
         int curval = 0;
 
@@ -278,8 +286,7 @@ static void speed_fps_custom_action(void *unused)
                 1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
-                   ACTION_SPEED_FPS_CUSTOM,
-                   ui_action_get_name(ACTION_SPEED_FPS_CUSTOM));
+                   self->action, ui_action_get_name(self->action));
     }
 }
 
@@ -303,27 +310,27 @@ static const ui_action_map_t speed_actions[] = {
     /* CPU speed actions */
     {   .action   = ACTION_SPEED_CPU_200,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(200),
+        .data     = int_to_void_ptr(200),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_100,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(100),
+        .data     = int_to_void_ptr(100),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_50,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(50),
+        .data     = int_to_void_ptr(50),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_25,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(25),
+        .data     = int_to_void_ptr(25),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_10,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(10),
+        .data     = int_to_void_ptr(10),
         .uithread = true
     },
     {   .action  = ACTION_SPEED_CPU_CUSTOM,
@@ -335,17 +342,17 @@ static const ui_action_map_t speed_actions[] = {
     /* FPS actions */
     {   .action   = ACTION_SPEED_FPS_REAL,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(100),
+        .data     = int_to_void_ptr(100),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_FPS_50,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(-50),
+        .data     = int_to_void_ptr(-50),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_FPS_60,
         .handler  = speed_cpu_action,
-        .param    = int_to_void_ptr(-60),
+        .data     = int_to_void_ptr(-60),
         .uithread = true
     },
     {   .action  = ACTION_SPEED_FPS_CUSTOM,

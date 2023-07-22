@@ -1103,9 +1103,7 @@ static gboolean ui_action_dispatch_impl(gpointer data)
 {
     ui_action_map_t *map = data;
 
-    debug_gtk3("Called with handler %p, param %p)",
-               (void*)(map->handler), (void*)(map->param));
-    map->handler(map->param);
+    map->handler(map);
     return G_SOURCE_REMOVE;
 }
 
@@ -1121,7 +1119,7 @@ static void ui_action_dispatch(ui_action_map_t *map)
         /* we're on the main thread and we need the UI thread: push to UI thread */
         gdk_threads_add_timeout(0, ui_action_dispatch_impl, (void*)map);
     } else {
-        map->handler(map->param);
+        map->handler(map);
     }
 }
 
