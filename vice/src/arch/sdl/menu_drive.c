@@ -245,10 +245,10 @@ static UI_MENU_CALLBACK(set_directory_callback)
 static UI_MENU_CALLBACK(attach_disk_callback)
 {
     if (activated)  {
-        int unit   = UNIT_FROM_PTR(param);
-        int drive  = DRIVE_FROM_PTR(param);
-        char *name = sdl_ui_file_selection_dialog("Select disk image",
-                                                  FILEREQ_MODE_CHOOSE_FILE);
+        int   unit  = UNIT_FROM_PTR(param);
+        int   drive = DRIVE_FROM_PTR(param);
+        char *name  = sdl_ui_file_selection_dialog("Select disk image",
+                                                   FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
            if (file_system_attach_disk(unit, drive, name) < 0) {
                 ui_error("Cannot attach disk image.");

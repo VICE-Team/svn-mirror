@@ -47,32 +47,9 @@
     int drive = DRIVE_FROM_PTR(P);
 
 
-/** \brief  Attach disk to drive action
- *
- * Attach disk to a drive, the unit and drive number are available in the \c data
- * member of \a self.
- *
- * \data [in]   self    action map
- */
-static void drive_attach_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Create disk image action
- *
- * Shows dialog to create a disk image and optionally attach to a disk drive.
- *
- * \data [in]   self    action map
- */
-static void drive_create_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Detach disk from drive action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  *
  * XXX: Can probably be merged with the Gtk3 version
  */
@@ -84,7 +61,7 @@ static void drive_detach_action(ui_action_map_t *self)
 
 /** \brief Detach all disks in all drives action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  *
  * XXX: Can probably be merged with the Gtk3 version
  */
@@ -102,7 +79,7 @@ static void drive_detach_all_action(ui_action_map_t *self)
 
 /** \brief  Drive reset action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void drive_reset_action(ui_action_map_t *self)
 {
@@ -112,7 +89,7 @@ static void drive_reset_action(ui_action_map_t *self)
 
 /** \brief  Drive reset into configuration mode action
  *
- * \data [in]   self    action map
+ * \pram[in]   self    action map
  */
 static void drive_reset_config_action(ui_action_map_t *self)
 {
@@ -123,7 +100,7 @@ static void drive_reset_config_action(ui_action_map_t *self)
 
 /** \brief  Drive reset into installation mode action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void drive_reset_install_action(ui_action_map_t *self)
 {
@@ -134,7 +111,7 @@ static void drive_reset_install_action(ui_action_map_t *self)
 
 /** \brief  Add current image to fliplist action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void fliplist_add_action(ui_action_map_t *self)
 {
@@ -145,7 +122,7 @@ static void fliplist_add_action(ui_action_map_t *self)
 
 /** \brief  Remove current image from fliplist action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void fliplist_remove_action(ui_action_map_t *self)
 {
@@ -156,7 +133,7 @@ static void fliplist_remove_action(ui_action_map_t *self)
 
 /** \brief  Add next image in fliplist action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void fliplist_next_action(ui_action_map_t *self)
 {
@@ -167,7 +144,7 @@ static void fliplist_next_action(ui_action_map_t *self)
 
 /** \brief  Attach previous image in fliplist action
  *
- * \data [in]   self    action map
+ * \param[in]   self    action map
  */
 static void fliplist_previous_action(ui_action_map_t *self)
 {
@@ -176,73 +153,48 @@ static void fliplist_previous_action(ui_action_map_t *self)
     fliplist_attach_head(unit, 0);
 }
 
-/** \brief  Load fliplist action
- *
- * \data [in]   self    action map
- */
-static void fliplist_load_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Save fliplist action
- *
- * \data [in]   self    action map
- */
-static void fliplist_save_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 
 /** \brief  List of mappings for machine-related actions */
 static const ui_action_map_t drive_actions[] = {
-    /* attach disk */
+    /* Attach disk actions. The unit and drive number are obtained in the menu
+     * item callback from its `data` member. */
     {   .action  = ACTION_DRIVE_ATTACH_8_0,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(8, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_8_1,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(8, 1),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_9_0,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(9, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_9_1,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(9, 1),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_10_0,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(10, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_10_1,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(10, 1),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_11_0,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(11, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_DRIVE_ATTACH_11_1,
-        .handler = drive_attach_action,
-        .data    = UNIT_DRIVE_TO_PTR(11, 1),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
 
     /* create (and optionally attach) disk image, unit selection is done in
      * the dialog */
     {   .action  = ACTION_DRIVE_CREATE,
-        .handler = drive_create_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
 
@@ -355,13 +307,11 @@ static const ui_action_map_t drive_actions[] = {
         .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
     {   .action  = ACTION_FLIPLIST_LOAD_8_0,
-        .handler = fliplist_load_action,
-        .data    = UNIT_DRIVE_TO_PTR(8, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_FLIPLIST_SAVE_8_0,
-        .handler = fliplist_save_action,
-        .data    = UNIT_DRIVE_TO_PTR(8, 0),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     /* SDL UI doesn't provide a "clear" option, so we won't provide one here */

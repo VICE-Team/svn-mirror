@@ -37,6 +37,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "uiactions.h"
 #include "videoarch.h"
 
 /* not sure these belong here, might have to move them to generic code to share
@@ -226,7 +227,11 @@ void sdl_ui_create_draw_buffer_backup(void);
 void sdl_ui_restore_draw_buffer_backup(void);
 void sdl_ui_destroy_draw_buffer_backup(void);
 
-void sdl_ui_menu_item_activate_by_action(int action);
+void sdl_ui_menu_item_activate_by_action  (int action);
 void sdl_ui_menu_item_set_status_by_action(int action, ui_menu_status_type_t status);
+
+/* Public UI action handlers */
+void sdl_ui_activate_item_action  (ui_action_map_t *map);
+void sdl_ui_toggle_resource_action(ui_action_map_t *map);
 
 #endif

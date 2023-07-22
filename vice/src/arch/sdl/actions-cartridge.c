@@ -36,39 +36,6 @@
 #include "actions-cartridge.h"
 
 
-/** \brief  Attach cartridge (.crt) action
- *
- * Show file selector to attach a .crt image file.
- *
- * \param[in]   self    action map
- */
-static void cart_attach_crt_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Attach raw cartridge action
- *
- * Show submenu to attach raw cartridge images.
- *
- * \param[in]   self    action map
- */
-static void cart_attach_raw_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Attach raw cartridge at specific memory address action
- *
- * Show dialog to attach a raw cartridge image at \a address.
- *
- * \param[in]   self    action map
- */
-static void cart_attach_raw_address_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Detach cartridge action
  *
  * \param[in]   self    action map
@@ -96,34 +63,34 @@ static void cart_freeze_action(ui_action_map_t *self)
  */
 static const ui_action_map_t cartridge_actions[] = {
     {   .action  = ACTION_CART_ATTACH,
-        .handler = cart_attach_crt_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_CART_ATTACH_RAW,
-        .handler = cart_attach_raw_action,
+        .handler = sdl_ui_activate_item_action,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_1000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_2000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_4000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_6000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_A000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_B000,
-        .handler = cart_attach_raw_address_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
     {   .action  = ACTION_CART_DETACH,

@@ -61,24 +61,6 @@ static void set_speed_resource(ui_action_map_t *self)
     resources_set_int("Speed", vice_ptr_to_int(self->data));
 }
 
-/** \brief  Show custom speed dialog action
- *
- * \param[in]   self    action map
- */
-static void speed_cpu_custom_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Show custom FPS dialog action
- *
- * \param[in]   self    action map
- */
-static void speed_fps_custom_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Update status of "Advance frame" based on pause state
  *
  * If pause isn't active the SDL UI disables the "Advance frame" item.
@@ -192,7 +174,7 @@ static const ui_action_map_t speed_actions[] = {
     },
     /* Custom CPU speed dialog */
     {   .action  = ACTION_SPEED_CPU_CUSTOM,
-        .handler = speed_cpu_custom_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
 
@@ -206,7 +188,7 @@ static const ui_action_map_t speed_actions[] = {
         .data    = int_to_void_ptr(-60)
     },
     {   .action  = ACTION_SPEED_FPS_CUSTOM,
-        .handler = speed_fps_custom_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
 

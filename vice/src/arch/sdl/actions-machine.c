@@ -36,19 +36,6 @@
 #include "actions-machine.h"
 
 
-/** \brief  Smart-attach action
- *
- * Attach an image and try to autodetect its type and start it.
- * This is called "Autostart image" in the SDL UI. Since it can attach disk,
- * tape and cartridge images, it makes sense to put it in machine actions, kinda.
- *
- * \param[in]   self    action map
- */
-static void smart_attach_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Trigger reset of the machine
  *
  * The reset mode is available in the \c data member of \a self.
@@ -99,7 +86,7 @@ static void quit_action(ui_action_map_t *self)
 /** \brief  List of mappings for machine-related actions */
 static const ui_action_map_t machine_actions[] = {
     {   .action  = ACTION_SMART_ATTACH,
-        .handler = smart_attach_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_RESET_SOFT,

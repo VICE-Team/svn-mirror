@@ -51,15 +51,6 @@
 #define DS_PC(p, c) (int_to_void_ptr((p) | (c << 8)))
 
 
-/** \brief  Attach tape dialog action
- *
- * \param[in]   self    action map
- */
-static void tape_attach_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Detach tape dialog action
  *
  * \param[in]   self    action map
@@ -67,15 +58,6 @@ static void tape_attach_action(ui_action_map_t *self)
 static void tape_detach_action(ui_action_map_t *self)
 {
     tape_image_detach(vice_ptr_to_int(self->data));
-}
-
-/** \brief  Create tape dialog action
- *
- * \param[in]   self    action map
- */
-static void tape_create_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Datasette button action
@@ -97,8 +79,7 @@ static void tape_control_action(ui_action_map_t *self)
 static const ui_action_map_t tape_actions[] = {
     /* datasette 1 image operations */
     {   .action  = ACTION_TAPE_ATTACH_1,
-        .handler = tape_attach_action,
-        .data    = int_to_void_ptr(ACTION_TAPE_ATTACH_1),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_1,
@@ -106,7 +87,7 @@ static const ui_action_map_t tape_actions[] = {
         .data    = int_to_void_ptr(ACTION_TAPE_DETACH_1),
     },
     {   .action  = ACTION_TAPE_CREATE_1,
-        .handler = tape_create_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     /* datasette 1 controls */
@@ -141,8 +122,7 @@ static const ui_action_map_t tape_actions[] = {
 
     /* datasette 2 image operations */
     {   .action  = ACTION_TAPE_ATTACH_2,
-        .handler = tape_attach_action,
-        .data    = int_to_void_ptr(ACTION_TAPE_ATTACH_2),
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_2,
@@ -178,10 +158,7 @@ static const ui_action_map_t tape_actions[] = {
         .handler = tape_control_action,
         .data    = DS_PC(2, DATASETTE_CONTROL_RESET_COUNTER)
     },
-
-
     UI_ACTION_MAP_TERMINATOR
-
 };
 
 

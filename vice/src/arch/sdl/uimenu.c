@@ -2029,25 +2029,7 @@ void sdl_ui_menu_item_activate_by_action(int action)
     printf("%s(): map = %p\n", __func__, (const void *)map);
 #endif
     if (map != NULL) {
-        ui_menu_entry_t *item = map->menu_item[0];
-#if 0
-        printf("%s(): item = %p\n", __func__, (const void *)item);
-#endif
-        if (item != NULL) {
-            if (sdl_menu_state) {
-                /* Menu is already active.
-                 * We can't call sdl_ui_menu_item_activate() because that would trigger
-                 * the action again */
-                if (item->callback != NULL) {
-                    item->callback(1 /*activated*/, item->data);
-                } else {
-                    log_error(LOG_ERR, "%s(): no callback to trigger!\n", __func__);
-                }
-            } else {
-                /* menu isn't active, set trap */
-                interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
-            }
-        }
+        sdl_ui_activate_item_action(map);
     }
 }
 
@@ -2064,5 +2046,57 @@ void sdl_ui_menu_item_set_status_by_action(int                   action,
     if (map != NULL && map->menu_item[0] != NULL) {
         ui_menu_entry_t *item = map->menu_item[0];
         item->status = status;
+    }
+}
+
+
+/** \brief  Public UI action handler to activate a menu item
+ *
+ * Activates the \c activated path of a menu item's callback. Any action that
+ * is marked as blocking and/or a dialog must call \c ui_action_finish() inside
+ * the menu item's callback.
+ *
+ * \param[in]   map action map
+ */
+void sdl_ui_activate_item_action(ui_action_map_t *map)
+{
+    ui_menu_entry_t *item = map->menu_item[0];
+#if 0
+    printf("%s(): item = %p\n", __func__, (const void *)item);
+#endif
+    if (item != NULL) {
+        if (sdl_menu_state) {
+            /* Menu is already active.
+             * We can't call sdl_ui_menu_item_activate() because that would trigger
+             * the action again */
+            if (item->callback != NULL) {
+                item->callback(1 /*activated*/, item->data);
+            } else {
+                log_error(LOG_ERR, "%s(): no callback to trigger!\n", __func__);
+            }
+        } else {
+            /* menu isn't active, set trap */
+            interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
+        }
+    }
+}
+
+/** \brief  Public UI action handler to toggle a resource
+ *
+ * Toggles resource in the \c data member of \a map.
+ *
+ * \param[in]   map action map
+ */
+void sdl_ui_toggle_resource_action(ui_action_map_t *map)
+{
+    const char *resource = map->data;
+    int         value    = 0;
+
+    resources_get_int(resource, &value);
+    resources_set_int(resource, !value);
+    /* shouldn't be required, but some resource toggles can be expensive, so
+     * we might have to mark some actions blocking */
+    if (map->blocks) {
+        ui_action_finish(map->action);
     }
 }
