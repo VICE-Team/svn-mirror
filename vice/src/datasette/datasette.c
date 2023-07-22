@@ -59,7 +59,8 @@
 #define DBG(x)
 #endif
 
-#define MOTOR_DELAY         32000
+#define MOTOR_DELAY         32000   /* for PLAY and RECORD */
+#define MOTOR_DELAY_FAST     1000   /* for fast forward/reverse */
 #define TAP_BUFFER_LENGTH   100000
 
 /* at least every DATASETTE_MAX_GAP cycle there should be an alarm */
@@ -689,6 +690,25 @@ static CLOCK datasette_read_gap(int port, int direction)
     return gap;
 }
 
+static void datasette_alarm_set(int port, CLOCK offset)
+{
+#ifdef DEBUG_TAPE
+    if (!datasette_alarm_pending[port]) {
+        log_debug("datasette_alarm_set: %"PRIu64"", offset);
+    } else {
+        log_debug("datasette_alarm_set: %"PRIu64" (WARNING: another alarm was pending!)", offset);
+    }
+#endif
+    alarm_set(datasette_alarm[port], offset);
+    datasette_alarm_pending[port] = 1;
+}
+
+static void datasette_alarm_unset(int port)
+{
+    alarm_unset(datasette_alarm[port]);
+    datasette_alarm_pending[port] = 0;
+}
+
 /* FIXME: the .tap header specifies the system and video system of the computer
           the .tap was captured with, which implicitly tells the clockrate a
           "tap byte" refers to. this is no problem as long as the .tap is played
@@ -704,16 +724,22 @@ static void datasette_read_bit(CLOCK offset, void *data)
     long gap;
     int port = vice_ptr_to_int(data);
 
-    alarm_unset(datasette_alarm[port]);
-    datasette_alarm_pending[port] = 0;
+    datasette_alarm_unset(port);
 
-    DBG(("datasette_read_bit(motor:%d) %lu>=%lu (image present:%s)", datasette_motor[port], maincpu_clk, motor_stop_clk[port], current_image[port] ? "yes" : "no"));
+    DBG(("datasette_read_bit(motor:%d) maincpu_clk:%lu motor_stop_clk:%lu (image present:%s)",
+         datasette_motor[port], maincpu_clk, motor_stop_clk[port], current_image[port] ? "yes" : "no"));
 
     /* check for delay of motor stop */
-    if (motor_stop_clk[port] > 0 && maincpu_clk >= motor_stop_clk[port]) {
-        motor_stop_clk[port] = 0;
-        ui_display_tape_motor_status(port, 0);
-        datasette_motor[port] = 0;
+    if (motor_stop_clk[port] > 0) {
+        if (maincpu_clk >= motor_stop_clk[port]) {
+            motor_stop_clk[port] = 0;
+            ui_display_tape_motor_status(port, 0);
+            datasette_motor[port] = 0;
+        } else {
+            /* we cleared the alarm above, setup a new one further into the
+               future that will trigger the motor stop */
+            datasette_alarm_set(port, motor_stop_clk[port]);
+        }
     }
     DBG(("datasette_read_bit(motor:%d)", datasette_motor[port]));
 
@@ -731,8 +757,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
                 break;
             case DATASETTE_CONTROL_STOP:
                 if (motor_stop_clk[port] > 0) {
-                    alarm_set(datasette_alarm[port], motor_stop_clk[port]);
-                    datasette_alarm_pending[port] = 1;
+                    datasette_alarm_set(port, motor_stop_clk[port]);
                 }
                 break;
         }
@@ -816,14 +841,11 @@ static void datasette_read_bit(CLOCK offset, void *data)
     gap -= offset;
 
     if (gap > 0) {
-        alarm_set(datasette_alarm[port], maincpu_clk +
-                  (CLOCK)(gap * (DS_V_PLAY / speed_of_tape)));
-        datasette_alarm_pending[port] = 1;
+        datasette_alarm_set(port, maincpu_clk + (CLOCK)(gap * (DS_V_PLAY / speed_of_tape)));
     } else {
         /* If the offset is geater than the gap to the next flux
            change, the change happend during DMA.  Schedule it now.  */
-        alarm_set(datasette_alarm[port], maincpu_clk);
-        datasette_alarm_pending[port] = 1;
+        datasette_alarm_set(port, maincpu_clk);
     }
     datasette_update_ui_counter(port);
 }
@@ -891,11 +913,9 @@ static void datasette_forward(int port)
 
     if (mode == DATASETTE_CONTROL_START ||
         mode == DATASETTE_CONTROL_REWIND) {
-        alarm_unset(datasette_alarm[port]);
-        datasette_alarm_pending[port] = 0;
+        datasette_alarm_unset(port);
     }
-    alarm_set(datasette_alarm[port], maincpu_clk + 1000);
-    datasette_alarm_pending[port] = 1;
+    datasette_alarm_set(port, maincpu_clk + MOTOR_DELAY_FAST);
 }
 
 static void datasette_rewind(int port)
@@ -906,11 +926,9 @@ static void datasette_rewind(int port)
 
     if (mode == DATASETTE_CONTROL_START ||
         mode == DATASETTE_CONTROL_FORWARD) {
-        alarm_unset(datasette_alarm[port]);
-        datasette_alarm_pending[port] = 0;
+        datasette_alarm_unset(port);
     }
-    alarm_set(datasette_alarm[port], maincpu_clk + 1000);
-    datasette_alarm_pending[port] = 1;
+    datasette_alarm_set(port, maincpu_clk + MOTOR_DELAY_FAST);
 }
 
 
@@ -927,8 +945,7 @@ static void datasette_internal_reset(int port)
     if (mode == DATASETTE_CONTROL_START ||
         mode == DATASETTE_CONTROL_FORWARD ||
         mode == DATASETTE_CONTROL_REWIND) {
-        alarm_unset(datasette_alarm[port]);
-        datasette_alarm_pending[port] = 0;
+        datasette_alarm_unset(port);
     }
     datasette_control(port, current_image[port] ? DATASETTE_CONTROL_STOP : notape_mode[port]);
     if (current_image[port] != NULL) {
@@ -942,10 +959,11 @@ static void datasette_internal_reset(int port)
     datasette_long_gap_elapsed[port] = 0;
     datasette_last_direction[port] = 0;
     motor_stop_clk[port] = 0;
+    fullwave[port] = 0;
+    /* update the UI */
     datasette_update_ui_counter(port);
     ui_display_tape_motor_status(port, 0);
     ui_display_reset(port + 1, 0);
-    fullwave[port] = 0;
 }
 
 void datasette_reset(void)
@@ -969,8 +987,7 @@ static void datasette_start_motor(int port)
         fseek(current_image[port]->fd, current_image[port]->current_file_seek_position + current_image[port]->offset, SEEK_SET);
     }
     if (!datasette_alarm_pending[port]) {
-        alarm_set(datasette_alarm[port], maincpu_clk + MOTOR_DELAY);
-        datasette_alarm_pending[port] = 1;
+        datasette_alarm_set(port, maincpu_clk + MOTOR_DELAY);
     }
 }
 
@@ -1121,20 +1138,21 @@ void datasette_control(int port, int command)
     }
 }
 
-static void datasette_set_motor(int port, int flag)
+/* "set motor line" function used by tapeport API */
+static void datasette_set_motor(int port, int motor)
 {
     DBG(("datasette_set_motor(%d) (image present:%s) datasette_motor: %d motor_stop_clk: %lu",
-         flag, current_image[port] ? "yes" : "no", datasette_motor[port], motor_stop_clk[port]));
+         motor, current_image[port] ? "yes" : "no", datasette_motor[port], motor_stop_clk[port]));
 
     if (datasette_alarm[port] == NULL) {
         DBG(("datasette_set_motor (datasette_alarm[port] == NULL)"));
         return;
     }
 
-    if (flag) {
+    if (motor) {
         /* abort pending motor stop */
         motor_stop_clk[port] = 0;
-        DBG(("datasette_set_motor(flag=1 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
+        DBG(("datasette_set_motor(motor=1 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
         if (!datasette_motor[port]) {
             tap_reset_gap(port);
             datasette_start_motor(port);
@@ -1146,11 +1164,10 @@ static void datasette_set_motor(int port, int flag)
     } else {
         if (datasette_motor[port] && motor_stop_clk[port] == 0) {
             motor_stop_clk[port] = maincpu_clk + MOTOR_DELAY;
-            DBG(("datasette_set_motor(flag=0 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
+            DBG(("datasette_set_motor(motor=0 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
             if (!datasette_alarm_pending[port]) {
                 /* make sure that the motor will stop */
-                alarm_set(datasette_alarm[port], motor_stop_clk[port]);
-                datasette_alarm_pending[port] = 1;
+                datasette_alarm_set(port, motor_stop_clk[port]);
             }
         } else {
             DBG(("datasette_set_motor() not stopping motor"));
