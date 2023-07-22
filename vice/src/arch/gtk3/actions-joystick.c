@@ -64,11 +64,14 @@ bool ui_get_controlport_swapped(void)
 }
 
 
-/** \brief  Swap joysticks and their associated devices */
-static void swap_controlport_toggle_action(void *unused)
+/** \brief  Swap joysticks and their associated devices
+ *
+ * \param[in]   self    action map
+ */
+static void swap_controlport_toggle_action(ui_action_map_t *self)
 {
-    int joy1 = -1;
-    int joy2 = -1;
+    int joy1  = -1;
+    int joy2  = -1;
     int type1 = -1;
     int type2 = -1;
 
@@ -99,38 +102,39 @@ static void swap_controlport_toggle_action(void *unused)
     resources_get_int("JoyDevice2", &joy2);
     resources_set_int("JoyDevice1", joy2);
     resources_set_int("JoyDevice2", joy1);
-
     controlport_swapped = !controlport_swapped;
-
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
-                                             controlport_swapped);
+    vhk_gtk_set_check_item_blocked_by_action(self->action, controlport_swapped);
 }
 
-/** \brief  Toggle keyset joysticks */
-static void keyset_joystick_toggle_action(void *unused)
+/** \brief  Toggle keyset joysticks
+ *
+ * \param[in]   self    action map
+ */
+static void keyset_joystick_toggle_action(ui_action_map_t *self)
 {
-    int enable = 0;
+    int enabled = 0;
 
-    resources_get_int("KeySetEnable", &enable);
-    resources_set_int("KeySetEnable", !enable);
-
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
-                                             !enable);
+    resources_get_int("KeySetEnable", &enabled);
+    resources_set_int("KeySetEnable", !enabled);
+    vhk_gtk_set_check_item_blocked_by_action(self->action, !enabled);
 }
 
-/** \brief  Toggle mouse grab */
-static void mouse_grab_toggle_action(void *unused)
+/** \brief  Toggle mouse grab
+ *
+ * \param[in]   self    action map
+ */
+static void mouse_grab_toggle_action(ui_action_map_t *self)
 {
     GtkWidget *window;
     gchar      title[256];
     int        mouse = 0;
 
     resources_get_int("Mouse", &mouse);
-    resources_set_int("Mouse", !mouse);
     mouse = !mouse;
+    resources_set_int("Mouse", mouse);
 
     if (mouse) {
-        gchar *name = vhk_gtk_get_accel_label_by_action(ACTION_MOUSE_GRAB_TOGGLE);
+        gchar *name = vhk_gtk_get_accel_label_by_action(self->action);
         g_snprintf(title, sizeof(title),
                    "VICE (%s) (Use %s to disable mouse grab)",
                    machine_get_name(), name);
@@ -147,29 +151,24 @@ static void mouse_grab_toggle_action(void *unused)
     if (window != NULL) {
         gtk_window_set_title(GTK_WINDOW(window), title);
     }
-
-    vhk_gtk_set_check_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
+    vhk_gtk_set_check_item_blocked_by_action(self->action, mouse);
 }
 
 
 /** \brief  List of joystick/mouse avtions */
 static const ui_action_map_t joystick_actions[] = {
-    {
-        .action   = ACTION_SWAP_CONTROLPORT_TOGGLE,
+    {   .action   = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .handler  = swap_controlport_toggle_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
+    {   .action   = ACTION_KEYSET_JOYSTICK_TOGGLE,
         .handler  = keyset_joystick_toggle_action,
         .uithread = true
     },
-    {
-        .action   = ACTION_MOUSE_GRAB_TOGGLE,
+    {   .action   = ACTION_MOUSE_GRAB_TOGGLE,
         .handler  = mouse_grab_toggle_action,
         .uithread = true
     },
-
     UI_ACTION_MAP_TERMINATOR
 };
 
@@ -187,7 +186,7 @@ void actions_joystick_register(void)
  */
 void actions_joystick_setup_ui(void)
 {
-    int enabled;
+    int enabled = 0;
 
     /* mouse grab */
     resources_get_int("Mouse", &enabled);

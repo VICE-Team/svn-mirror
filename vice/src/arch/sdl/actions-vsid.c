@@ -42,11 +42,11 @@
  *
  * Show dialog to load a PSID file.
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void psid_load_action(void *unused)
+static void psid_load_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_PSID_LOAD);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Play subtune helper
@@ -65,27 +65,27 @@ static void play_subtune(int tune)
 
 /** \brief  Play subtune action
  *
- * \param[in]   tune    tune number
+ * \param[in]   self    action map
  */
-static void psid_subtune_action(void *tune)
+static void psid_subtune_action(ui_action_map_t *self)
 {
-    play_subtune(vice_ptr_to_int(tune));
+    play_subtune(vice_ptr_to_int(self->data));
 }
 
 /** \brief  Play default subtune action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void psid_subtune_default_action(void *unused)
+static void psid_subtune_default_action(ui_action_map_t *self)
 {
     play_subtune(sdl_vsid_default_tune);
 }
 
 /** \brief  Play next subtune action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void psid_subtune_next_action(void *unused)
+static void psid_subtune_next_action(ui_action_map_t *self)
 {
     sdl_vsid_current_tune++;
     if (sdl_vsid_current_tune > sdl_vsid_tunes) {
@@ -96,9 +96,9 @@ static void psid_subtune_next_action(void *unused)
 
 /** \brief  Play next subtune action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void psid_subtune_previous_action(void *unused)
+static void psid_subtune_previous_action(ui_action_map_t *self)
 {
     sdl_vsid_current_tune--;
     if (sdl_vsid_current_tune < 1) {
@@ -109,9 +109,9 @@ static void psid_subtune_previous_action(void *unused)
 
 /** \brief  PSID environment override toggle action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void psid_override_toggle_action(void *unused)
+static void psid_override_toggle_action(ui_action_map_t *self)
 {
     int keepenv = 0;
 
@@ -126,123 +126,123 @@ static const ui_action_map_t vsid_actions[] = {
     /* {{{ Subtunes 1-30 */
     {   .action  = ACTION_PSID_SUBTUNE_1,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(1)
+        .data    = int_to_void_ptr(1)
     },
     {   .action  = ACTION_PSID_SUBTUNE_2,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(2)
+        .data    = int_to_void_ptr(2)
     },
     {   .action  = ACTION_PSID_SUBTUNE_3,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(3)
+        .data    = int_to_void_ptr(3)
     },
     {   .action  = ACTION_PSID_SUBTUNE_4,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(4)
+        .data    = int_to_void_ptr(4)
     },
     {   .action  = ACTION_PSID_SUBTUNE_5,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(5)
+        .data    = int_to_void_ptr(5)
     },
     {   .action  = ACTION_PSID_SUBTUNE_6,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(6)
+        .data    = int_to_void_ptr(6)
     },
     {   .action  = ACTION_PSID_SUBTUNE_7,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(7)
+        .data    = int_to_void_ptr(7)
     },
     {   .action  = ACTION_PSID_SUBTUNE_8,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(8)
+        .data    = int_to_void_ptr(8)
     },
     {   .action  = ACTION_PSID_SUBTUNE_9,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(9)
+        .data    = int_to_void_ptr(9)
     },
     {   .action  = ACTION_PSID_SUBTUNE_10,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(10)
+        .data    = int_to_void_ptr(10)
     },
     {   .action  = ACTION_PSID_SUBTUNE_11,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(11)
+        .data    = int_to_void_ptr(11)
     },
     {   .action  = ACTION_PSID_SUBTUNE_12,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(12)
+        .data    = int_to_void_ptr(12)
     },
     {   .action  = ACTION_PSID_SUBTUNE_13,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(13)
+        .data    = int_to_void_ptr(13)
     },
     {   .action  = ACTION_PSID_SUBTUNE_14,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(14)
+        .data    = int_to_void_ptr(14)
     },
     {   .action  = ACTION_PSID_SUBTUNE_15,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(15)
+        .data    = int_to_void_ptr(15)
     },
     {   .action  = ACTION_PSID_SUBTUNE_16,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(16)
+        .data    = int_to_void_ptr(16)
     },
     {   .action  = ACTION_PSID_SUBTUNE_17,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(17)
+        .data    = int_to_void_ptr(17)
     },
     {   .action  = ACTION_PSID_SUBTUNE_18,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(18)
+        .data    = int_to_void_ptr(18)
     },
     {   .action  = ACTION_PSID_SUBTUNE_19,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(19)
+        .data    = int_to_void_ptr(19)
     },
     {   .action  = ACTION_PSID_SUBTUNE_20,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(20)
+        .data    = int_to_void_ptr(20)
     },
     {   .action  = ACTION_PSID_SUBTUNE_21,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(21)
+        .data    = int_to_void_ptr(21)
     },
     {   .action  = ACTION_PSID_SUBTUNE_22,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(22)
+        .data    = int_to_void_ptr(22)
     },
     {   .action  = ACTION_PSID_SUBTUNE_23,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(23)
+        .data    = int_to_void_ptr(23)
     },
     {   .action  = ACTION_PSID_SUBTUNE_24,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(24)
+        .data    = int_to_void_ptr(24)
     },
     {   .action  = ACTION_PSID_SUBTUNE_25,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(25)
+        .data    = int_to_void_ptr(25)
     },
     {   .action  = ACTION_PSID_SUBTUNE_26,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(26)
+        .data    = int_to_void_ptr(26)
     },
     {   .action  = ACTION_PSID_SUBTUNE_27,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(27)
+        .data    = int_to_void_ptr(27)
     },
     {   .action  = ACTION_PSID_SUBTUNE_28,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(28)
+        .data    = int_to_void_ptr(28)
     },
     {   .action  = ACTION_PSID_SUBTUNE_29,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(29)
+        .data    = int_to_void_ptr(29)
     },
     {   .action  = ACTION_PSID_SUBTUNE_30,
         .handler = psid_subtune_action,
-        .param   = int_to_void_ptr(30)
+        .data    = int_to_void_ptr(30)
     },
     /* }}} */
 

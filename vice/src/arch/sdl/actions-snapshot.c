@@ -42,39 +42,39 @@
 
 /** \brief  Load snapshot action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void snapshot_load_action(void *unused)
+static void snapshot_load_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SNAPSHOT_LOAD);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Save snapshot action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void snapshot_save_action(void *unused)
+static void snapshot_save_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SNAPSHOT_SAVE);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Quickload snapshot action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void snapshot_quickload_action(void *unused)
+static void snapshot_quickload_action(ui_action_map_t *self)
 {
     if (machine_read_snapshot("snapshot.vsf", 0) < 0) {
         snapshot_display_error();
     }
-    ui_action_finish(ACTION_SNAPSHOT_QUICKLOAD);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Quicksave snapshot action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void snapshot_quicksave_action(void *unused)
+static void snapshot_quicksave_action(ui_action_map_t *self)
 {
     if (machine_write_snapshot("snapshot.vsf",
                                menu_snapshot_get_save_roms(),
@@ -82,15 +82,15 @@ static void snapshot_quicksave_action(void *unused)
                                0) < 0) {
         snapshot_display_error();
     }
-    ui_action_finish(ACTION_SNAPSHOT_QUICKSAVE);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Update status of the playback menu items
  *
  * Due to the SDL UI using traps to start/stop playback/recording of items the
- * `event_playback_active()` and `event_record_active()` functions cannot be used
- * while the UI is still active, so we hardcode the item enable/disable stuff
- * here.
+ * \c event_playback_active() and \c event_record_active() functions cannot be
+ * used while the UI is still active, so we hardcode the item enable/disable
+ * stuff here.
  *
  * \param[in]   start   enable start
  * \param[in]   stop    enable stop
@@ -108,9 +108,9 @@ static void update_playback_items(bool start, bool stop)
 /** \brief  Update status of the recording menu items
  *
  * Due to the SDL UI using traps to start/stop playback/recording of items the
- * `event_playback_active()` and `event_record_active()` functions cannot be used
- * while the UI is still active, so we hardcode the item enable/disable stuff
- * here.
+ * \c event_playback_active() and \c event_record_active() functions cannot be
+ * used while the UI is still active, so we hardcode the item enable/disable
+ * stuff here.
  *
  * \param[in]   start   enable start
  * \param[in]   stop    enable stop
@@ -127,74 +127,74 @@ static void update_recording_items(bool start, bool stop)
 
 /** \brief  Start history playback action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_playback_start_action(void *unused)
+static void history_playback_start_action(ui_action_map_t *self)
 {
     if (!event_playback_active() && !event_record_active()) {
         event_playback_start();
         update_playback_items(false, true);
         update_recording_items(false, false);
     }
-    ui_action_finish(ACTION_HISTORY_PLAYBACK_START);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Stop history playback action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_playback_stop_action(void *unused)
+static void history_playback_stop_action(ui_action_map_t *self)
 {
     if (event_playback_active() && !event_record_active()) {
         event_playback_stop();
         update_playback_items(true, false);
         update_recording_items(true, false);
     }
-    ui_action_finish(ACTION_HISTORY_PLAYBACK_STOP);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Start history recording action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_record_start_action(void *unused)
+static void history_record_start_action(ui_action_map_t *self)
 {
     if (!event_record_active() && !event_playback_active()) {
         event_record_start();
         update_playback_items(false, false);
         update_recording_items(false, true);
     }
-    ui_action_finish(ACTION_HISTORY_RECORD_START);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Stop history recording action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_record_stop_action(void *unused)
+static void history_record_stop_action(ui_action_map_t *self)
 {
     if (event_record_active() && !event_playback_active()) {
         event_record_stop();
         update_playback_items(true, false);
         update_recording_items(true, false);
     }
-    ui_action_finish(ACTION_HISTORY_RECORD_STOP);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Set history milestone action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_milestone_set_action(void *unused)
+static void history_milestone_set_action(ui_action_map_t *self)
 {
     event_record_set_milestone();
 }
 
 /** \brief  Reset history to milestone action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void history_milestone_reset_action(void *unused)
+static void history_milestone_reset_action(ui_action_map_t *self)
 {
     event_record_reset_milestone();
 }

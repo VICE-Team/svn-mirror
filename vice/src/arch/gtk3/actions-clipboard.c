@@ -44,8 +44,11 @@
 #include "actions-clipboard.h"
 
 
-/** \brief  Copy emulated screen content to clipboard */
-static void edit_copy_action(void *unused)
+/** \brief  Copy emulated screen content to clipboard
+ *
+ * \param[in]   self    action map
+ */
+static void edit_copy_action(ui_action_map_t *self)
 {
     char *text = clipboard_read_screen_output("\n");
 
@@ -65,8 +68,8 @@ static void edit_copy_action(void *unused)
  * \param[in]   data        extra event data (unused)
  */
 static void paste_callback(GtkClipboard *clipboard,
-                           const gchar *text,
-                           gpointer data)
+                           const gchar  *text,
+                           gpointer      data)
 {
     char *text_in_petscii;
 
@@ -85,8 +88,10 @@ static void paste_callback(GtkClipboard *clipboard,
  *
  * Paste clipboard content into the emulated machine by translating the text to
  * PETSCII and feeding it to the keyboard buffer.
+ *
+ * \param[in]   self    action map
  */
-static void edit_paste_action(void *unused)
+static void edit_paste_action(ui_action_map_t *self)
 {
     gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
 }
@@ -94,13 +99,11 @@ static void edit_paste_action(void *unused)
 
 /** \brief  List of clipboard actions */
 static const ui_action_map_t clipboard_actions[] = {
-    {
-        .action = ACTION_EDIT_COPY,
+    {   .action = ACTION_EDIT_COPY,
         .handler = edit_copy_action,
         .uithread = true
     },
-    {
-        .action = ACTION_EDIT_PASTE,
+    {   .action = ACTION_EDIT_PASTE,
         .handler = edit_paste_action,
         .uithread = true
     },

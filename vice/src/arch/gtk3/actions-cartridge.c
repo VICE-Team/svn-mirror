@@ -43,8 +43,11 @@
 #include "actions-cartridge.h"
 
 
-/** \brief  Show cartridge attach dialog */
-static void cart_attach_action(void *unused)
+/** \brief  Show cartridge attach dialog
+ *
+ * \param[in]   self    action map
+ */
+static void cart_attach_action(ui_action_map_t *self)
 {
     ui_cart_show_dialog();
 }
@@ -67,11 +70,13 @@ static void confirm_detach_callback(GtkDialog *dialog, gboolean result)
 
 /** \brief  Detach all cartridge images
  *
- * TODO: The question about removing the default enabled cartridge doesn't
- *       work for carts not on "slot 1", these seem to their own "enabled"
- *       resources and do not use the CartridgeType/CartridgeFile resources.
+ * \param[in]   self    action map
+ *
+ * \todo    The question about removing the default enabled cartridge doesn't
+ *          work for carts not on "slot 1", these seem to their own "enabled"
+ *          resources and do not use the CartridgeType/CartridgeFile resources.
  */
-static void cart_detach_action(void* unused)
+static void cart_detach_action(ui_action_map_t *self)
 {
     int cartid = CARTRIDGE_NONE;
 
@@ -99,8 +104,11 @@ static void cart_detach_action(void* unused)
     cartridge_detach_image(-1);    /* detach all cartridges */
 }
 
-/** \brief  Trigger the freeze button on the attached cartridge */
-static void cart_freeze_action(void *unused)
+/** \brief  Trigger the freeze button on the attached cartridge
+ *
+ * \param[in]   self    action map
+ */
+static void cart_freeze_action(ui_action_map_t *self)
 {
     cartridge_trigger_freeze();
 }
@@ -108,20 +116,17 @@ static void cart_freeze_action(void *unused)
 
 /** \brief  List of cartridge-related actions */
 static const ui_action_map_t cartridge_actions[] = {
-    {
-        .action = ACTION_CART_ATTACH,
+    {   .action = ACTION_CART_ATTACH,
         .handler = cart_attach_action,
         .blocks = true,
         .dialog = true
     },
-    {
-        .action = ACTION_CART_DETACH,
+    {   .action  = ACTION_CART_DETACH,
         .handler = cart_detach_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
-    {
-        .action = ACTION_CART_FREEZE,
+    {   .action  = ACTION_CART_FREEZE,
         .handler = cart_freeze_action
     },
 

@@ -42,38 +42,30 @@
  * This is called "Autostart image" in the SDL UI. Since it can attach disk,
  * tape and cartridge images, it makes sense to put it in machine actions, kinda.
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void smart_attach_action(void *unused)
+static void smart_attach_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SMART_ATTACH);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
-/** \brief  Trigger soft reset of the machine
+/** \brief  Trigger reset of the machine
  *
- * \param[in]   unused  unused
+ * The reset mode is available in the \c data member of \a self.
+ *
+ * \param[in]   self    action map
  */
-static void reset_soft_action(void *unused)
+static void reset_action(ui_action_map_t *self)
 {
     vsync_suspend_speed_eval();
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-}
-
-/** \brief  Trigger hard reset of the machine
- *
- * \param[in]   unused  unused
- */
-static void reset_hard_action(void *unused)
-{
-    vsync_suspend_speed_eval();
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(vice_ptr_to_int(self->data));
 }
 
 /** \brief  Open monitor action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void monitor_open_action(void *unused)
+static void monitor_open_action(ui_action_map_t *self)
 {
     /* Are we called from the menu? */
     if (sdl_menu_state) {
@@ -96,9 +88,9 @@ static void monitor_open_action(void *unused)
  *
  * Exit the emulator.
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void quit_action(void *unused)
+static void quit_action(ui_action_map_t *self)
 {
     ui_sdl_quit();
 }
@@ -110,13 +102,13 @@ static const ui_action_map_t machine_actions[] = {
         .handler = smart_attach_action,
         .dialog  = true
     },
-    {
-        .action  = ACTION_RESET_SOFT,
-        .handler = reset_soft_action,
+    {   .action  = ACTION_RESET_SOFT,
+        .handler = reset_action,
+        .data    = int_to_void_ptr(MACHINE_RESET_MODE_SOFT)
     },
-    {
-        .action  = ACTION_RESET_HARD,
-        .handler = reset_hard_action,
+    {   .action  = ACTION_RESET_HARD,
+        .handler = reset_action,
+        .data    = int_to_void_ptr(MACHINE_RESET_MODE_HARD)
     },
     {   .action  = ACTION_MONITOR_OPEN,
         .handler = monitor_open_action

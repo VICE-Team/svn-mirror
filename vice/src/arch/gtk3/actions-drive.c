@@ -62,42 +62,51 @@
     int drive = DRIVE_FROM_PTR(P);
 
 
-/** \brief  Pop up smart attach dialog */
-static void smart_attach_action(void *unused)
+/** \brief  Pop up smart attach dialog
+ *
+ * \param[in]   self    action map
+ */
+static void smart_attach_action(ui_action_map_t *self)
 {
     ui_smart_attach_dialog_show();
 }
 
 /** \brief  Attach drive action for (unit, drive)
  *
- * \param[in]   unit_drive  unit and drive
+ * \param[in]   self    action map
  */
-static void drive_attach_action(void *unit_drive)
+static void drive_attach_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     debug_gtk3("unit = %d, drive = %d", unit, drive);
     ui_disk_attach_dialog_show(unit, drive);
 }
 
-/** \brief  Pop up dialog to create and attach a disk image */
-static void drive_create_action(void *unused)
+/** \brief  Pop up dialog to create and attach a disk image
+ *
+ * \param[in]   self    action map
+ */
+static void drive_create_action(ui_action_map_t *self)
 {
     ui_disk_create_dialog_show(8);
 }
 
 /** \brief  Detach disk image from (unit, drive)
  *
- * \param[in]   unit_drive  unit and drive
+ * \param[in]   self    action map
  */
-static void drive_detach_action(void *unit_drive)
+static void drive_detach_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     debug_gtk3("unit = %d, drive = %d", unit, drive);
     file_system_detach_disk(unit, drive);
 }
 
-/** \brief  Detach all disk images from all units and drives */
-static void drive_detach_all_action(void *unused)
+/** \brief  Detach all disk images from all units and drives
+ *
+ * \param[in]   self    action map
+ */
+static void drive_detach_all_action(ui_action_map_t *self)
 {
     int unit;
 
@@ -109,22 +118,22 @@ static void drive_detach_all_action(void *unused)
 
 /** \brief  Drive reset action
  *
- * \param[in]   unit    drive unit number (8-11)
+ * \param[in]   self    action map
  */
-static void reset_drive_action(void *unit)
+static void reset_drive_action(ui_action_map_t *self)
 {
-    int u = vice_ptr_to_int(unit) - DRIVE_UNIT_MIN;
-    drive_cpu_trigger_reset(u);
+    int unit = vice_ptr_to_int(self->data) - DRIVE_UNIT_MIN;
+    drive_cpu_trigger_reset(unit);
 }
 
 /** \brief  Add current image to fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
+ * \param[in]   self    action map
  */
-static void fliplist_add_action(void *unit_drive)
+static void fliplist_add_action(ui_action_map_t *self)
 {
     char buffer[MSGBUF_SIZE];
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
 
     if (fliplist_add_image(unit)) {
         g_snprintf(buffer, sizeof(buffer),
@@ -145,11 +154,11 @@ static void fliplist_add_action(void *unit_drive)
 
 /** \brief  Remove current image from fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and  drive number (0-1)
+ * \param[in]   self    action map
  */
-static void fliplist_remove_action(void *unit_drive)
+static void fliplist_remove_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     const char *image = fliplist_get_head(unit);
 
     if (image != NULL) {
@@ -167,11 +176,11 @@ static void fliplist_remove_action(void *unit_drive)
 
 /** \brief  Attach next image in fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
+ * \param[in]   self    action map
  */
-static void fliplist_next_action(void *unit_drive)
+static void fliplist_next_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     char buffer[MSGBUF_SIZE];
 
     if (fliplist_attach_head(unit, 1)) {
@@ -190,11 +199,11 @@ static void fliplist_next_action(void *unit_drive)
 
 /** \brief  Attach previous image in fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) and drive number (0-1)
+ * \param[in]   self    action map
  */
-static void fliplist_previous_action(void *unit_drive)
+static void fliplist_previous_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     char buffer[MSGBUF_SIZE];
 
     if (fliplist_attach_head(unit, 0)) {
@@ -213,11 +222,11 @@ static void fliplist_previous_action(void *unit_drive)
 
 /** \brief  Clear fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
+ * \param[in]   self    action map
  */
-static void fliplist_clear_action(void *unit_drive)
+static void fliplist_clear_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     char buffer[MSGBUF_SIZE];
 
     fliplist_clear_list(unit);
@@ -229,28 +238,28 @@ static void fliplist_clear_action(void *unit_drive)
 
 /** \brief  Load fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
+ * \param[in]   self    action map
  *
  * \note    The drive number is ignored until the fliplist API supports
  *          dual-drive devices.
  */
-static void fliplist_load_action(void *unit_drive)
+static void fliplist_load_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     ui_fliplist_load_dialog_show(unit);
 }
 
 /** \brief  Save fliplist action
  *
- * \param[in]   unit_drive  unit number (8-11) drive number (0-1)
+ * \param[in]   self    action map
  *
  * \note    The drive number is ignored until the fliplist API supports
  *          dual-drive devices.
  */
-static void fliplist_save_action(void *unit_drive)
+static void fliplist_save_action(ui_action_map_t *self)
 {
-    UNPACK_U_D(unit_drive);
+    UNPACK_U_D(self->data);
     (void)drive;
     ui_fliplist_save_dialog_show(unit);
 }
@@ -259,145 +268,122 @@ static void fliplist_save_action(void *unit_drive)
 /** \brief  List of drive-related actions */
 static const ui_action_map_t drive_actions[] = {
     /* Smart attach, technically not just disk-related, but let's put it here */
-    {
-        .action = ACTION_SMART_ATTACH,
+    {   .action  = ACTION_SMART_ATTACH,
         .handler = smart_attach_action,
-        .blocks = true,
-        .dialog = true
+        .blocks  = true,
+        .dialog  = true
     },
 
     /* Attach disk actions */
-    {
-        .action  = ACTION_DRIVE_ATTACH_8_0,
+    {   .action  = ACTION_DRIVE_ATTACH_8_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_8_1,
+    {   .action  = ACTION_DRIVE_ATTACH_8_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 1),
+        .data    = UNIT_DRIVE_TO_PTR(8, 1),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_9_0,
+    {   .action  = ACTION_DRIVE_ATTACH_9_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .data    = UNIT_DRIVE_TO_PTR(9, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_9_1,
+    {   .action  = ACTION_DRIVE_ATTACH_9_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 1),
+        .data    = UNIT_DRIVE_TO_PTR(9, 1),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_10_0,
+    {   .action  = ACTION_DRIVE_ATTACH_10_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .data    = UNIT_DRIVE_TO_PTR(10, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_10_1,
+    {   .action  = ACTION_DRIVE_ATTACH_10_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 1),
+        .data    = UNIT_DRIVE_TO_PTR(10, 1),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_11_0,
+    {   .action  = ACTION_DRIVE_ATTACH_11_0,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .data    = UNIT_DRIVE_TO_PTR(11, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_DRIVE_ATTACH_11_1,
+    {   .action  = ACTION_DRIVE_ATTACH_11_1,
         .handler = drive_attach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 1),
+        .data    = UNIT_DRIVE_TO_PTR(11, 1),
         .blocks  = true,
         .dialog  = true
     },
 
     /* Create and attach new image */
-    {
-        .action  = ACTION_DRIVE_CREATE,
+    {   .action  = ACTION_DRIVE_CREATE,
         .handler = drive_create_action,
         .blocks  = true,
         .dialog  = true
     },
 
     /* Detach disk actions */
-    {
-        .action  = ACTION_DRIVE_DETACH_8_0,
+    {   .action  = ACTION_DRIVE_DETACH_8_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action = ACTION_DRIVE_DETACH_8_1,
+    {   .action = ACTION_DRIVE_DETACH_8_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 1)
+        .data    = UNIT_DRIVE_TO_PTR(8, 1)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_9_0,
+    {   .action  = ACTION_DRIVE_DETACH_9_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_9_1,
+    {   .action  = ACTION_DRIVE_DETACH_9_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 1)
+        .data    = UNIT_DRIVE_TO_PTR(9, 1)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_10_0,
+    {   .action  = ACTION_DRIVE_DETACH_10_0,
+        .handler    = drive_detach_action,
+        .data   = UNIT_DRIVE_TO_PTR(10, 0)
+    },
+    {   .action  = ACTION_DRIVE_DETACH_10_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 1)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_10_1,
+    {   .action  = ACTION_DRIVE_DETACH_11_0,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 1)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_11_0,
+    {   .action  = ACTION_DRIVE_DETACH_11_1,
         .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 1)
     },
-    {
-        .action  = ACTION_DRIVE_DETACH_11_1,
-        .handler = drive_detach_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 1)
-    },
-    {
-        .action  = ACTION_DRIVE_DETACH_ALL,
+    {   .action  = ACTION_DRIVE_DETACH_ALL,
         .handler = drive_detach_all_action
     },
 
     /* Drive reset actions */
-    {
-        .action  = ACTION_RESET_DRIVE_8,
+    {   .action  = ACTION_RESET_DRIVE_8,
         .handler = reset_drive_action,
-        .param   = int_to_void_ptr(8),
+        .data   = int_to_void_ptr(8),
     },
-    {
-        .action  = ACTION_RESET_DRIVE_9,
+    {   .action  = ACTION_RESET_DRIVE_9,
         .handler = reset_drive_action,
-        .param   = int_to_void_ptr(9),
+        .data    = int_to_void_ptr(9),
     },
-    {
-        .action  = ACTION_RESET_DRIVE_10,
+    {   .action  = ACTION_RESET_DRIVE_10,
         .handler = reset_drive_action,
-        .param   = int_to_void_ptr(10),
+        .data    = int_to_void_ptr(10),
     },
-    {
-        .action  = ACTION_RESET_DRIVE_11,
+    {   .action  = ACTION_RESET_DRIVE_11,
         .handler = reset_drive_action,
-        .param   = int_to_void_ptr(11),
+        .data    = int_to_void_ptr(11),
     },
 
     /* Fliplist actions
@@ -407,163 +393,135 @@ static const ui_action_map_t drive_actions[] = {
      * `ui_display_statustext()` can be called from any thread since the status
      * bar code has its own locking mechanism.
      */
-    {
-        .action  = ACTION_FLIPLIST_ADD_8_0,
+    {   .action  = ACTION_FLIPLIST_ADD_8_0,
         .handler = fliplist_add_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_ADD_9_0,
+    {   .action  = ACTION_FLIPLIST_ADD_9_0,
         .handler = fliplist_add_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_ADD_10_0,
+    {   .action  = ACTION_FLIPLIST_ADD_10_0,
         .handler = fliplist_add_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_ADD_11_0,
+    {   .action  = ACTION_FLIPLIST_ADD_11_0,
         .handler = fliplist_add_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_REMOVE_8_0,
+    {   .action  = ACTION_FLIPLIST_REMOVE_8_0,
         .handler = fliplist_remove_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_REMOVE_9_0,
+    {   .action  = ACTION_FLIPLIST_REMOVE_9_0,
         .handler = fliplist_remove_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_REMOVE_10_0,
+    {   .action  = ACTION_FLIPLIST_REMOVE_10_0,
         .handler = fliplist_remove_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_REMOVE_11_0,
+    {   .action  = ACTION_FLIPLIST_REMOVE_11_0,
         .handler = fliplist_remove_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
-    {
-        .action  = ACTION_FLIPLIST_NEXT_8_0,
+    {   .action  = ACTION_FLIPLIST_NEXT_8_0,
         .handler = fliplist_next_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_NEXT_9_0,
+    {   .action  = ACTION_FLIPLIST_NEXT_9_0,
         .handler = fliplist_next_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_NEXT_10_0,
+    {   .action  = ACTION_FLIPLIST_NEXT_10_0,
         .handler = fliplist_next_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 0)
     },
-     {
-        .action  = ACTION_FLIPLIST_NEXT_11_0,
+    {   .action  = ACTION_FLIPLIST_NEXT_11_0,
         .handler = fliplist_next_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_PREVIOUS_8_0,
+    {   .action  = ACTION_FLIPLIST_PREVIOUS_8_0,
         .handler = fliplist_previous_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_PREVIOUS_9_0,
+    {   .action  = ACTION_FLIPLIST_PREVIOUS_9_0,
         .handler = fliplist_previous_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_PREVIOUS_10_0,
+    {   .action  = ACTION_FLIPLIST_PREVIOUS_10_0,
         .handler = fliplist_previous_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_PREVIOUS_11_0,
+    {   .action  = ACTION_FLIPLIST_PREVIOUS_11_0,
         .handler = fliplist_previous_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
-    {
-        .action  = ACTION_FLIPLIST_CLEAR_8_0,
+    {   .action  = ACTION_FLIPLIST_CLEAR_8_0,
         .handler = fliplist_clear_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0)
+        .data    = UNIT_DRIVE_TO_PTR(8, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_CLEAR_9_0,
+    {   .action  = ACTION_FLIPLIST_CLEAR_9_0,
         .handler = fliplist_clear_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0)
+        .data    = UNIT_DRIVE_TO_PTR(9, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_CLEAR_10_0,
+    {   .action  = ACTION_FLIPLIST_CLEAR_10_0,
         .handler = fliplist_clear_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0)
+        .data    = UNIT_DRIVE_TO_PTR(10, 0)
     },
-    {
-        .action  = ACTION_FLIPLIST_CLEAR_11_0,
+    {   .action  = ACTION_FLIPLIST_CLEAR_11_0,
         .handler = fliplist_clear_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0)
+        .data    = UNIT_DRIVE_TO_PTR(11, 0)
     },
 
-    {
-        .action  = ACTION_FLIPLIST_LOAD_8_0,
+    {   .action  = ACTION_FLIPLIST_LOAD_8_0,
         .handler = fliplist_load_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_FLIPLIST_LOAD_9_0,
+    {   .action  = ACTION_FLIPLIST_LOAD_9_0,
         .handler = fliplist_load_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .data    = UNIT_DRIVE_TO_PTR(9, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_FLIPLIST_LOAD_10_0,
+    {   .action  = ACTION_FLIPLIST_LOAD_10_0,
         .handler = fliplist_load_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .data    = UNIT_DRIVE_TO_PTR(10, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_FLIPLIST_LOAD_11_0,
+    {   .action  = ACTION_FLIPLIST_LOAD_11_0,
         .handler = fliplist_load_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .data    = UNIT_DRIVE_TO_PTR(11, 0),
         .blocks  = true,
         .dialog  = true
     },
 
-    {
-        .action  = ACTION_FLIPLIST_SAVE_8_0,
+    {   .action  = ACTION_FLIPLIST_SAVE_8_0,
         .handler = fliplist_save_action,
-        .param   = UNIT_DRIVE_TO_PTR(8, 0),
+        .data    = UNIT_DRIVE_TO_PTR(8, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action = ACTION_FLIPLIST_SAVE_9_0,
+    {   .action = ACTION_FLIPLIST_SAVE_9_0,
         .handler = fliplist_save_action,
-        .param   = UNIT_DRIVE_TO_PTR(9, 0),
+        .data    = UNIT_DRIVE_TO_PTR(9, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_FLIPLIST_SAVE_10_0,
+    {   .action  = ACTION_FLIPLIST_SAVE_10_0,
         .handler = fliplist_save_action,
-        .param   = UNIT_DRIVE_TO_PTR(10, 0),
+        .data    = UNIT_DRIVE_TO_PTR(10, 0),
         .blocks  = true,
         .dialog  = true
     },
-    {
-        .action  = ACTION_FLIPLIST_SAVE_11_0,
+    {   .action  = ACTION_FLIPLIST_SAVE_11_0,
         .handler = fliplist_save_action,
-        .param   = UNIT_DRIVE_TO_PTR(11, 0),
+        .data    = UNIT_DRIVE_TO_PTR(11, 0),
         .blocks  = true,
         .dialog  = true
     },

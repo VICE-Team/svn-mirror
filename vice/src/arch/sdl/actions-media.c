@@ -40,36 +40,36 @@
 
 /** \brief  Show dialog to record audio action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void media_record_audio_action(void *unused)
+static void media_record_audio_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_MEDIA_RECORD_AUDIO);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Show dialog to take screenshot action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void media_record_screenshot_action(void *unused)
+static void media_record_screenshot_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_MEDIA_RECORD_SCREENSHOT);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Show dialog to record video action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void media_record_video_action(void *unused)
+static void media_record_video_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_MEDIA_RECORD_VIDEO);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Stop recording audio/video action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void media_stop_action(void *unused)
+static void media_stop_action(ui_action_map_t *self)
 {
     if (sound_is_recording()) {
         sound_stop_recording();

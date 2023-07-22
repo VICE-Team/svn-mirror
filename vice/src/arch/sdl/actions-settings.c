@@ -37,68 +37,68 @@
 
 /** \brief  Restore settings to default action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_default_action(void *unused)
+static void settings_default_action(ui_action_map_t *self)
 {
     resources_set_defaults();
     ui_message("Default settings restored.");
-    ui_action_finish(ACTION_SETTINGS_DEFAULT);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Load settings from default file action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_load_action(void *unused)
+static void settings_load_action(ui_action_map_t *self)
 {
     if (resources_reset_and_load(NULL) < 0) {
         ui_error("Cannot load settings.");
     } else {
         ui_message("Settings loaded.");
     }
-    ui_action_finish(ACTION_SETTINGS_LOAD);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Load settings from file action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_load_from_action(void *unused)
+static void settings_load_from_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SETTINGS_LOAD_FROM);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Load additional settings from file action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_load_extra_action(void *unused)
+static void settings_load_extra_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SETTINGS_LOAD_EXTRA);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Save settings to default file action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_save_action(void *unused)
+static void settings_save_action(ui_action_map_t *self)
 {
     if (resources_save(NULL) != 0) {
         ui_error("Cannot save current settings.");
     } else {
         ui_message("Settings saved.");
     }
-    ui_action_finish(ACTION_SETTINGS_SAVE);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Save settings to custom file action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void settings_save_to_action(void *unused)
+static void settings_save_to_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_SETTINGS_SAVE_TO);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 

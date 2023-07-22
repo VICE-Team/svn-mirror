@@ -35,31 +35,31 @@
 
 /** \brief  About dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void help_about_action(void *unused)
+static void help_about_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_HELP_ABOUT);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Command line options dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void help_command_line_action(void *unused)
+static void help_command_line_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_HELP_COMMAND_LINE);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Compile time features dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-
-static void help_compile_time_action(void *unused)
+static void help_compile_time_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_HELP_COMPILE_TIME);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
+
 
 /** \brief  List of mappings for help actions */
 static const ui_action_map_t help_actions[] = {

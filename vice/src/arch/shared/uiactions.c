@@ -538,7 +538,7 @@ ui_action_info_t *ui_action_get_info_list(void)
     action = action_info_list;
     while (action->name != NULL) {
         if (is_current_machine_action(action)) {
-            list[index].id = action->id;
+            list[index].id   = action->id;
             list[index].name = action->name;
             list[index].desc = action->desc;
             index++;
@@ -889,7 +889,7 @@ void ui_actions_init(void)
         /* explicitly initialize elements */
         map->action       = action; /* needed when passing a pointer into the array */
         map->handler      = NULL;
-        map->param        = NULL;
+        map->data         = NULL;
         map->blocks       = false;
         map->dialog       = false;
         map->uithread     = false;
@@ -956,7 +956,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
         entry = &action_mappings[map->action];
         entry->action   = map->action;
         entry->handler  = map->handler;
-        entry->param    = map->param;
+        entry->data     = map->data;
         entry->blocks   = map->blocks;
         entry->dialog   = map->dialog;
         entry->uithread = map->uithread;
@@ -1005,7 +1005,7 @@ void ui_action_trigger(int action)
             dispatch_handler(map);
         } else {
             /* default handler: trigger directly */
-            map->handler(map->param);
+            map->handler(map);
         }
     } else {
         log_error(LOG_ERR, "no handler for action %d\n", action);

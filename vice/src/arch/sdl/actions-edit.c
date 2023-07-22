@@ -45,9 +45,9 @@
  * Paste the host's clipboard contents into the emulated machine by feeding
  * the content to the machine's keyboard buffer.
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void edit_paste_action(void *unused)
+static void edit_paste_action(ui_action_map_t *self)
 {
     char *text_in_petscii;
     char *text = SDL_GetClipboardText();
@@ -67,9 +67,9 @@ static void edit_paste_action(void *unused)
  *
  * Copy the emulated machine's screen contents to the host's clipboard.
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void edit_copy_action(void *unused)
+static void edit_copy_action(ui_action_map_t *self)
 {
     char *text = clipboard_read_screen_output("\n");
     if (text != NULL) {

@@ -41,9 +41,9 @@
 
 /** \brief  Activate virtual keyboard action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void virtual_keyboard_action(void *unused)
+static void virtual_keyboard_action(ui_action_map_t *self)
 {
     sdl_vkbd_activate();
 }
@@ -123,23 +123,23 @@ static void set_show_statusbar_for_canvas(int index, bool show)
 
 /** \brief  Toggle {CHIP}ShowStatusbar resource action
  *
- * \param[in]   index   canvas index
+ * \param[in]   self    action map
  */
-static void show_statusbar_toggle_action(void *index)
+static void show_statusbar_toggle_action(ui_action_map_t *self)
 {
-    int  idx  = vice_ptr_to_int(index);
-    bool show = get_show_statusbar_for_canvas(idx);
+    int  index = vice_ptr_to_int(self->data);
+    bool show  = get_show_statusbar_for_canvas(index);
 
     show = !show;
-    set_show_statusbar_for_canvas(idx, show);
+    set_show_statusbar_for_canvas(index, show);
     if (show) {
-        if (idx == 0) {
+        if (index == 0) {
             uistatusbar_open();
         } else {
             uistatusbar_open_vdc();
         }
     } else {
-        if (idx == 0) {
+        if (index == 0) {
             uistatusbar_close();
         } else {
             uistatusbar_close_vdc();
@@ -149,30 +149,32 @@ static void show_statusbar_toggle_action(void *index)
 
 /** \brief  Set border mode action
  *
- * \param[in]   mode    border mode
+ * \param[in]   self    action map
  */
-static void border_mode_action(void *mode)
+static void border_mode_action(ui_action_map_t *self)
 {
     /* VDC doesn't have the BorderMode resource, so we can just use 0 here */
     const char *chip = get_chip_name_for_canvas(0);
 
-    resources_set_int_sprintf("%sBorderMode", vice_ptr_to_int(mode), chip);
+    resources_set_int_sprintf("%sBorderMode", vice_ptr_to_int(self->data), chip);
 }
 
 /** \brief  Restore display action
  *
  * Resize display (window) to optimal size for emulated screen and render options.
+ *
+ *  \param[in]   self    action map
  */
-static void restore_display_action(void *unused)
+static void restore_display_action(ui_action_map_t *self)
 {
     sdl_video_restore_size();
 }
 
 /** \brief  Toggle fullscreen action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void fullscreen_toggle_action(void *unused)
+static void fullscreen_toggle_action(ui_action_map_t *self)
 {
     const char *chip_name  = sdl_active_canvas->videoconfig->chip_name;
     int         fullscreen = 0;
@@ -187,33 +189,32 @@ static const ui_action_map_t display_actions[] = {
     {   .action  = ACTION_VIRTUAL_KEYBOARD,
         .handler = virtual_keyboard_action
     },
-
     {   .action  = ACTION_SHOW_STATUSBAR_TOGGLE,
         .handler = show_statusbar_toggle_action,
-        .param   = int_to_void_ptr(0)
+        .data    = int_to_void_ptr(0)   /* canvas index */
     },
     {   .action  = ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
         .handler = show_statusbar_toggle_action,
-        .param   = int_to_void_ptr(1)
+        .data    = int_to_void_ptr(1)   /* canvas index */
     },
 
     /* Border modes (we use the VICII constants here, the TED and VIC constants
      * map to the same values) */
     {   .action  = ACTION_BORDER_MODE_NORMAL,
         .handler = border_mode_action,
-        .param   = int_to_void_ptr(VICII_NORMAL_BORDERS)
+        .data    = int_to_void_ptr(VICII_NORMAL_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_FULL,
         .handler = border_mode_action,
-        .param   = int_to_void_ptr(VICII_FULL_BORDERS)
+        .data    = int_to_void_ptr(VICII_FULL_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_DEBUG,
         .handler = border_mode_action,
-        .param   = int_to_void_ptr(VICII_DEBUG_BORDERS)
+        .data    = int_to_void_ptr(VICII_DEBUG_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_NONE,
         .handler = border_mode_action,
-        .param   = int_to_void_ptr(VICII_NO_BORDERS)
+        .data    = int_to_void_ptr(VICII_NO_BORDERS)
     },
 
     {   .action  = ACTION_RESTORE_DISPLAY,

@@ -37,80 +37,59 @@
 #include "actions-tape.h"
 
 
-/** \brief  Encode port number and button number as pointer value
+/** \brief  Encode datasette port number and control code in void pointer
  *
- * \param[in]   port    port number
- * \param[in]   button  button number
+ * Encode \a p | \a c << 8 as a void pointer for use in UI action map data.
  *
- * \return  void*
+ * \param[in]   p   port number (1-2)
+ * \param[in]   c   control code
  *
- * \see src/datasette/datasette.h for the values for \a button
+ * \return  void pointer for use as the \c data member of a \c ui_action_map_t
+ *
+ * \see     \c src/datasette/datasette.h for control codes
  */
-#define PORT_BUTTON_TO_PTR(port, button) int_to_void_ptr(((port) << 8) | (button))
-
-/** \brief  Decode port number from pointer value
- *
- * \param[in]   ptr pointer value encoded with PORT_BUTTON_TO_PTR()
- *
- * \return  port number
- */
-#define PORT_FROM_PTR(ptr)      (vice_ptr_to_int(ptr) >> 8)
-
-/** \brief  Decode button number from pointer value
- *
- * \param[in]   ptr pointer value encoded with PORT_BUTTON_TO_PTR()
- *
- * \return  button number
- */
-#define BUTTON_FROM_PTR(ptr)    (vice_ptr_to_int(ptr) & 0xff)
-
-/** \brief  Unpack \a ptr into assignments to `int port` and `int button`
- *
- * \param[in]   ptr pointer value encodded with PORT_BUTTON_TO_PTR()
- */
-#define UNPACK_P_B(ptr) \
-    int port   = PORT_FROM_PTR(ptr); \
-    int button = BUTTON_FROM_PTR(ptr);
+#define DS_PC(p, c) (int_to_void_ptr((p) | (c << 8)))
 
 
 /** \brief  Attach tape dialog action
  *
- * \param[in]   action  UI action ID to look up callback with
+ * \param[in]   self    action map
  */
-static void tape_attach_action(void *action)
+static void tape_attach_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(vice_ptr_to_int(action));
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Detach tape dialog action
  *
- * \param[in]   port    tape port number (1 or 2)
+ * \param[in]   self    action map
  */
-static void tape_detach_action(void *port)
+static void tape_detach_action(ui_action_map_t *self)
 {
-    tape_image_detach(vice_ptr_to_int(port));
+    tape_image_detach(vice_ptr_to_int(self->data));
 }
 
 /** \brief  Create tape dialog action
  *
- * \param[in]   unused  unused
+ * \param[in]   self    action map
  */
-static void tape_create_action(void *unused)
+static void tape_create_action(ui_action_map_t *self)
 {
-    sdl_ui_menu_item_activate_by_action(ACTION_TAPE_CREATE_1);
+    sdl_ui_menu_item_activate_by_action(self->action);
 }
 
 /** \brief  Datasette button action
  *
  * Emulate a button push on a datasette.
  *
- * \param[in]   port_button port number and button number (encoded with
- *                          PORT_BUTTON_TO_PTR()
+ * \param[in]   self    action map
  */
-static void tape_control_action(void *port_button)
+static void tape_control_action(ui_action_map_t *self)
 {
-    UNPACK_P_B(port_button);
-    datasette_control(port - 1, button);
+    int port    = vice_ptr_to_int(self->data) & 0xff;
+    int control = vice_ptr_to_int(self->data) >> 8;
+
+    datasette_control(port - 1, control);
 }
 
 
@@ -119,12 +98,12 @@ static const ui_action_map_t tape_actions[] = {
     /* datasette 1 image operations */
     {   .action  = ACTION_TAPE_ATTACH_1,
         .handler = tape_attach_action,
-        .param   = int_to_void_ptr(ACTION_TAPE_ATTACH_1),
+        .data    = int_to_void_ptr(ACTION_TAPE_ATTACH_1),
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_1,
         .handler = tape_detach_action,
-        .param   = int_to_void_ptr(ACTION_TAPE_DETACH_1),
+        .data    = int_to_void_ptr(ACTION_TAPE_DETACH_1),
     },
     {   .action  = ACTION_TAPE_CREATE_1,
         .handler = tape_create_action,
@@ -133,71 +112,71 @@ static const ui_action_map_t tape_actions[] = {
     /* datasette 1 controls */
     {   .action  = ACTION_TAPE_STOP_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_STOP)
+        .data    = DS_PC(1, DATASETTE_CONTROL_STOP)
     },
     {   .action  = ACTION_TAPE_PLAY_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_START)
+        .data    = DS_PC(1, DATASETTE_CONTROL_START)
     },
     {   .action  = ACTION_TAPE_FFWD_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_FORWARD)
+        .data    = DS_PC(1, DATASETTE_CONTROL_FORWARD)
     },
     {   .action  = ACTION_TAPE_REWIND_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_REWIND)
+        .data    = DS_PC(1, DATASETTE_CONTROL_REWIND)
     },
     {   .action  = ACTION_TAPE_RECORD_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_RECORD)
+        .data    = DS_PC(1, DATASETTE_CONTROL_RECORD)
     },
     {   .action  = ACTION_TAPE_RESET_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_RESET)
+        .data    = DS_PC(1, DATASETTE_CONTROL_RESET)
     },
     {   .action  = ACTION_TAPE_RESET_COUNTER_1,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(1, DATASETTE_CONTROL_RESET_COUNTER)
+        .data    = DS_PC(1, DATASETTE_CONTROL_RESET_COUNTER)
     },
 
     /* datasette 2 image operations */
     {   .action  = ACTION_TAPE_ATTACH_2,
         .handler = tape_attach_action,
-        .param   = int_to_void_ptr(ACTION_TAPE_ATTACH_2),
+        .data    = int_to_void_ptr(ACTION_TAPE_ATTACH_2),
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_2,
         .handler = tape_detach_action,
-        .param   = int_to_void_ptr(ACTION_TAPE_DETACH_2),
+        .data    = int_to_void_ptr(ACTION_TAPE_DETACH_2),
     },
     /* datasette 2 controls */
     {   .action  = ACTION_TAPE_STOP_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_STOP)
+        .data    = DS_PC(2, DATASETTE_CONTROL_STOP)
     },
     {   .action  = ACTION_TAPE_PLAY_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_START)
+        .data    = DS_PC(2, DATASETTE_CONTROL_START)
     },
     {   .action  = ACTION_TAPE_FFWD_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_FORWARD)
+        .data    = DS_PC(2, DATASETTE_CONTROL_FORWARD)
     },
     {   .action  = ACTION_TAPE_REWIND_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_REWIND)
+        .data    = DS_PC(2, DATASETTE_CONTROL_REWIND)
     },
     {   .action  = ACTION_TAPE_RECORD_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_RECORD)
+        .data    = DS_PC(2, DATASETTE_CONTROL_RECORD)
     },
     {   .action  = ACTION_TAPE_RESET_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_RESET)
+        .data    = DS_PC(2, DATASETTE_CONTROL_RESET)
     },
     {   .action  = ACTION_TAPE_RESET_COUNTER_2,
         .handler = tape_control_action,
-        .param   = PORT_BUTTON_TO_PTR(2, DATASETTE_CONTROL_RESET_COUNTER)
+        .data    = DS_PC(2, DATASETTE_CONTROL_RESET_COUNTER)
     },
 
 

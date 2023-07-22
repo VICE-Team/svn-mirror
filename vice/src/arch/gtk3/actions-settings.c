@@ -93,8 +93,11 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
     ui_action_finish(ACTION_SETTINGS_DEFAULT);
 }
 
-/** \brief  Show dialog to restore settings to default */
-static void settings_default_action(void *unused)
+/** \brief  Show dialog to restore settings to default
+ *
+ * \param[in]   self    action map
+ */
+static void settings_default_action(ui_action_map_t *self)
 {
     vice_gtk3_message_confirm(
             restore_default_callback,
@@ -106,14 +109,20 @@ static void settings_default_action(void *unused)
             " exiting VICE.");
 }
 
-/** \brief  Show settings dialog */
-static void settings_dialog_action(void *unused)
+/** \brief  Show settings dialog
+ *
+ * \param[in]   self    action map
+ */
+static void settings_dialog_action(ui_action_map_t *self)
 {
     ui_settings_dialog_show(NULL);
 }
 
-/* Reload settings from current settings file */
-static void settings_load_action(void *unused)
+/** \brief  Reload settings from current settings file
+ *
+ * \param[in]   self    action map
+ */
+static void settings_load_action(ui_action_map_t *self)
 {
     int result;
 
@@ -130,13 +139,13 @@ static void settings_load_action(void *unused)
 
 /** \brief  Callback for the load-settings dialog
  *
- * \param[in,out]   dialog      dialog
- * \param[in,out]   filename    filename
- * \param[in]       data        mode (0: reset and load, 1: add extra settings)
+ * \param[in]   dialog      dialog
+ * \param[in]   filename    filename
+ * \param[in]   data        mode (0: reset and load, 1: add extra settings)
  */
 static void settings_load_filename_callback(GtkDialog *dialog,
-                                            gchar *filename,
-                                            gpointer data)
+                                            gchar     *filename,
+                                            gpointer   data)
 {
     if (filename!= NULL) {
         int result;
@@ -160,9 +169,9 @@ static void settings_load_filename_callback(GtkDialog *dialog,
 
 /** \brief  Action to pop up the load from (extra) settings dialog
  *
- * \param[in]   load_extra  Load settings without resetting to default first
+ * \param[in]   self    action map
  */
-static void settings_load_from_action(void *load_extra)
+static void settings_load_from_action(ui_action_map_t *self)
 {
     GtkWidget *dialog;
     char      *path;
@@ -170,7 +179,7 @@ static void settings_load_from_action(void *load_extra)
     dialog = vice_gtk3_open_file_dialog("Load settings file",
                                         NULL, NULL, NULL,
                                         settings_load_filename_callback,
-                                        load_extra);
+                                        self->data);
     path = get_config_file_path();
     if (path != NULL) {
         gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
@@ -185,8 +194,11 @@ static void settings_load_from_action(void *load_extra)
     gtk_widget_show_all(dialog);
 }
 
-/** \brief  Save current settings */
-static void settings_save_action(void *unused)
+/** \brief  Save current settings
+ *
+ * \param[in]   self    action map
+ */
+static void settings_save_action(ui_action_map_t *self)
 {
     int result;
 
@@ -195,9 +207,9 @@ static void settings_save_action(void *unused)
     mainlock_release();
     if (result != 0) {
         vice_gtk3_message_error("VICE core error",
-                "Failed to save default settings file");
+                                "Failed to save default settings file");
     }
-    ui_action_finish(ACTION_SETTINGS_SAVE);
+    ui_action_finish(self->action);
 }
 
 /** \brief  Callback for the save-to settings dialog
@@ -227,8 +239,11 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
     ui_action_finish(ACTION_SETTINGS_SAVE_TO);
 }
 
-/** \brief  Pop up a dialog to save current settings to a file */
-static void settings_save_to_action(void *unused)
+/** \brief  Pop up a dialog to save current settings to a file
+ *
+ * \param[in]   self    action map
+ */
+static void settings_save_to_action(ui_action_map_t *self)
 {
     GtkWidget *dialog;
     char      *path;
@@ -272,14 +287,14 @@ static const ui_action_map_t settings_actions[] = {
     {
         .action  = ACTION_SETTINGS_LOAD_FROM,
         .handler = settings_load_from_action,
-        .param   = int_to_void_ptr(0),  /* reset settings before loading */
+        .data    = int_to_void_ptr(0),  /* reset settings before loading */
         .blocks  = true,
         .dialog  = true
     },
     {
         .action  = ACTION_SETTINGS_LOAD_EXTRA,
         .handler = settings_load_from_action,
-        .param   = int_to_void_ptr(1),  /* don't reset setting before loading */
+        .data    = int_to_void_ptr(1),  /* don't reset setting before loading */
         .blocks  = true,
         .dialog  = true
     },
