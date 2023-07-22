@@ -60,24 +60,6 @@ static void settings_load_action(ui_action_map_t *self)
     ui_action_finish(self->action);
 }
 
-/** \brief  Load settings from file action
- *
- * \param[in]   self    action map
- */
-static void settings_load_from_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Load additional settings from file action
- *
- * \param[in]   self    action map
- */
-static void settings_load_extra_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Save settings to default file action
  *
  * \param[in]   self    action map
@@ -92,15 +74,6 @@ static void settings_save_action(ui_action_map_t *self)
     ui_action_finish(self->action);
 }
 
-/** \brief  Save settings to custom file action
- *
- * \param[in]   self    action map
- */
-static void settings_save_to_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 
 /** \brief  List of mappings for settings actions */
 static const ui_action_map_t settings_actions[] = {
@@ -113,11 +86,11 @@ static const ui_action_map_t settings_actions[] = {
         .dialog  = true     /* shows message box */
     },
     {   .action  = ACTION_SETTINGS_LOAD_FROM,
-        .handler = settings_load_from_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_SETTINGS_LOAD_EXTRA,
-        .handler = settings_load_extra_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_SETTINGS_SAVE,
@@ -125,7 +98,7 @@ static const ui_action_map_t settings_actions[] = {
         .dialog  = true     /* shows message box */
     },
     {   .action  = ACTION_SETTINGS_SAVE_TO,
-        .handler = settings_save_to_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     UI_ACTION_MAP_TERMINATOR

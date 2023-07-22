@@ -38,17 +38,6 @@
 #include "actions-vsid.h"
 
 
-/** \brief  Load PSID action
- *
- * Show dialog to load a PSID file.
- *
- * \param[in]   self    action map
- */
-static void psid_load_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Play subtune helper
  *
  * Initialize driver, start playback of \a tune.
@@ -105,18 +94,6 @@ static void psid_subtune_previous_action(ui_action_map_t *self)
         sdl_vsid_current_tune = sdl_vsid_tunes;
     }
     play_subtune(sdl_vsid_current_tune);
-}
-
-/** \brief  PSID environment override toggle action
- *
- * \param[in]   self    action map
- */
-static void psid_override_toggle_action(ui_action_map_t *self)
-{
-    int keepenv = 0;
-
-    resources_get_int("PSIDKeepEnv", &keepenv);
-    resources_set_int("PSIDKeepEnv", !keepenv);
 }
 
 
@@ -247,7 +224,7 @@ static const ui_action_map_t vsid_actions[] = {
     /* }}} */
 
     {   .action  = ACTION_PSID_LOAD,
-        .handler = psid_load_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_PSID_SUBTUNE_NEXT,
@@ -260,7 +237,8 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_subtune_default_action
     },
     {   .action  = ACTION_PSID_OVERRIDE_TOGGLE,
-        .handler = psid_override_toggle_action
+        .handler = sdl_ui_toggle_resource_action,
+        .data    = (void*)"PSIDKeepEnv"
     },
 
     UI_ACTION_MAP_TERMINATOR

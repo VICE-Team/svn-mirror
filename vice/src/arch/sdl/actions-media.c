@@ -38,33 +38,6 @@
 #include "actions-media.h"
 
 
-/** \brief  Show dialog to record audio action
- *
- * \param[in]   self    action map
- */
-static void media_record_audio_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Show dialog to take screenshot action
- *
- * \param[in]   self    action map
- */
-static void media_record_screenshot_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Show dialog to record video action
- *
- * \param[in]   self    action map
- */
-static void media_record_video_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Stop recording audio/video action
  *
  * \param[in]   self    action map
@@ -83,15 +56,15 @@ static void media_stop_action(ui_action_map_t *self)
 /** \brief  List of mappings for media recording actions */
 static const ui_action_map_t media_actions[] = {
     {   .action  = ACTION_MEDIA_RECORD_AUDIO,
-        .handler = media_record_audio_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_MEDIA_RECORD_SCREENSHOT,
-        .handler = media_record_screenshot_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_MEDIA_RECORD_VIDEO,
-        .handler = media_record_video_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_MEDIA_STOP,

@@ -32,27 +32,11 @@
 
 #include "joy.h"
 #include "menu_common.h"
-#include "resources.h"
 #include "uiactions.h"
 #include "uimenu.h"
 
 #include "actions-joystick.h"
 
-#ifdef HAVE_MOUSE
-/** \brief  Toggle mouse grab action
- *
- * \param[in]   self    action map
- *
- * \todo    refactor into generic 'toggle-resource-action'
- */
-static void mouse_grab_toggle_action(ui_action_map_t *self)
-{
-    int mouse = 0;
-
-    resources_get_int("Mouse", &mouse);
-    resources_set_int("Mouse", !mouse);
-}
-#endif
 
 /** \brief  Toggle control port devices swap action
  *
@@ -63,34 +47,24 @@ static void swap_controlport_toggle_action(ui_action_map_t *self)
     sdljoy_swap_ports();
 }
 
-/** \brief  Toggle keyset joysticks action
- *
- * \param[in]   self    action map
- *
- * \todo    refactor into generic 'toggle-resource-action'
- */
-static void keyset_joystick_toggle_action(ui_action_map_t *self)
-{
-    int keyset = 0;
-
-    resources_get_int("KeySetEnable", &keyset);
-    resources_set_int("KeySetEnable", !keyset);
-}
-
 
 /** \brief  List of mappings for joystick and mouse actions
  */
 static const ui_action_map_t joystick_actions[] = {
 #ifdef HAVE_MOUSE
     {   .action  = ACTION_MOUSE_GRAB_TOGGLE,
-        .handler = mouse_grab_toggle_action
+        /* There's no visible indication of mouse grab being active like in the
+         * Gtk3 UI, so just toggling the resource will suffice. */
+        .handler = sdl_ui_toggle_resource_action,
+        .data    = (void*)"Mouse"
     },
 #endif
     {   .action  = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .handler = swap_controlport_toggle_action
     },
     {   .action  = ACTION_KEYSET_JOYSTICK_TOGGLE,
-        .handler = keyset_joystick_toggle_action
+        .handler = sdl_ui_toggle_resource_action,
+        .data    = (void*)"KeySetEnable"
     },
     UI_ACTION_MAP_TERMINATOR
 };

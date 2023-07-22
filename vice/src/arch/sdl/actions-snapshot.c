@@ -40,24 +40,6 @@
 #include "actions-snapshot.h"
 
 
-/** \brief  Load snapshot action
- *
- * \param[in]   self    action map
- */
-static void snapshot_load_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Save snapshot action
- *
- * \param[in]   self    action map
- */
-static void snapshot_save_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
 /** \brief  Quickload snapshot action
  *
  * \param[in]   self    action map
@@ -203,11 +185,11 @@ static void history_milestone_reset_action(ui_action_map_t *self)
 /** \brief  List of mappings for snapshot and history actions */
 static const ui_action_map_t snapshot_actions[] = {
     {   .action  = ACTION_SNAPSHOT_LOAD,
-        .handler = snapshot_load_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_SNAPSHOT_SAVE,
-        .handler = snapshot_save_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_SNAPSHOT_QUICKLOAD,

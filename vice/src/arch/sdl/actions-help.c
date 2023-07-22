@@ -33,46 +33,18 @@
 #include "actions-help.h"
 
 
-/** \brief  About dialog action
- *
- * \param[in]   self    action map
- */
-static void help_about_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Command line options dialog action
- *
- * \param[in]   self    action map
- */
-static void help_command_line_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-/** \brief  Compile time features dialog action
- *
- * \param[in]   self    action map
- */
-static void help_compile_time_action(ui_action_map_t *self)
-{
-    sdl_ui_menu_item_activate_by_action(self->action);
-}
-
-
 /** \brief  List of mappings for help actions */
 static const ui_action_map_t help_actions[] = {
     {   .action  = ACTION_HELP_ABOUT,
-        .handler = help_about_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_HELP_COMMAND_LINE,
-        .handler = help_command_line_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     {   .action  = ACTION_HELP_COMPILE_TIME,
-        .handler = help_compile_time_action,
+        .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
     UI_ACTION_MAP_TERMINATOR
