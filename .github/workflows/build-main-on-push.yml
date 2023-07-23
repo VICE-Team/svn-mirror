@@ -208,7 +208,6 @@ jobs:
             zip
             p7zip
             subversion
-            git
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -237,7 +236,6 @@ jobs:
             zip
             p7zip
             subversion
-            git
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -267,7 +265,6 @@ jobs:
             zip
             p7zip
             subversion
-            git
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -286,7 +283,6 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          echo "DEBUG: github.ref = ${{ github.ref }}"
           MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/github-actions/build-msys2.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
           echo "zip_path=$(cygpath -w -a vice/*.zip)"       >> $GITHUB_OUTPUT
           echo "zip_name=$(basename vice/*.zip)"            >> $GITHUB_OUTPUT
