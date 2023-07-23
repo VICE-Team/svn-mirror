@@ -58,18 +58,23 @@ static UI_MENU_CALLBACK(attach_cart_callback)
                 break;
             case CARTRIDGE_VIC20_BEHRBONZ:
                 title  = "Select " CARTRIDGE_VIC20_NAME_BEHRBONZ " image";
+                action = ACTION_CART_ATTACH_RAW_BEHRBONZ;
                 break;
             case CARTRIDGE_VIC20_UM:
-                title = "Select " CARTRIDGE_VIC20_NAME_UM " image";
+                title  = "Select " CARTRIDGE_VIC20_NAME_UM " image";
+                action = ACTION_CART_ATTACH_RAW_ULTIMEM;
                 break;
             case CARTRIDGE_VIC20_FP:
-                title = "Select " CARTRIDGE_VIC20_NAME_FP " image";
+                title  = "Select " CARTRIDGE_VIC20_NAME_FP " image";
+                action = ACTION_CART_ATTACH_RAW_VICFP;
                 break;
             case CARTRIDGE_VIC20_MEGACART:
-                title = "Select " CARTRIDGE_VIC20_NAME_MEGACART " image";
+                title  = "Select " CARTRIDGE_VIC20_NAME_MEGACART " image";
+                action = ACTION_CART_ATTACH_RAW_MEGACART;
                 break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
-                title = "Select " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image";
+                title  = "Select " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image";
+                action = ACTION_CART_ATTACH_RAW_FINAL;
                 break;
             case CARTRIDGE_VIC20_DETECT:    /* fall through */
             case CARTRIDGE_VIC20_GENERIC:
@@ -531,27 +536,32 @@ const ui_menu_entry_t vic20cart_menu[] = {
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC
     },
-    {   .string   = "Attach " CARTRIDGE_VIC20_NAME_BEHRBONZ " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_BEHRBONZ,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_BEHRBONZ " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_BEHRBONZ
     },
-    {   .string   = "Attach " CARTRIDGE_VIC20_NAME_MEGACART " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_MEGACART,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_MEGACART " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART
     },
-    {   .string   = "Attach " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_FINAL,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION
     },
-    {   .string   = "Attach " CARTRIDGE_VIC20_NAME_UM " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_ULTIMEM,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_UM " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_UM
     },
-    {   .string   = "Attach " CARTRIDGE_VIC20_NAME_FP " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_VICFP,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_FP " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FP
