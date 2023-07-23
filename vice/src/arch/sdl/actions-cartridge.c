@@ -56,12 +56,8 @@ static void cart_freeze_action(ui_action_map_t *self)
 }
 
 
-/** \brief  List of mappings for machine-related actions
- *
- * XXX:     Might have to split this list into machine-specific lists with a
- *          `machine_class` check in `action_cartridge_register()`.
- */
-static const ui_action_map_t cartridge_actions[] = {
+/** \brief  List of mappings for cartridge actions - C64 & C128 */
+static const ui_action_map_t cartridge_actions_c64[] = {
     {   .action  = ACTION_CART_ATTACH,
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
@@ -69,9 +65,23 @@ static const ui_action_map_t cartridge_actions[] = {
     {   .action  = ACTION_CART_ATTACH_RAW,
         .handler = sdl_ui_activate_item_action,
     },
-    {   .action  = ACTION_CART_ATTACH_RAW_1000,
+    {   .action  = ACTION_CART_DETACH,
+        .handler = cart_detach_action
+    },
+    {   .action  = ACTION_CART_FREEZE,
+        .handler = cart_freeze_action
+    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
+/** \brief  List of mappings for cartridge actions - VIC20 */
+static const ui_action_map_t cartridge_actions_vic20[] = {
+    {   .action  = ACTION_CART_ATTACH,
         .handler = sdl_ui_activate_item_action,
-        .dialog  = true,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW,
+        .handler = sdl_ui_activate_item_action,
     },
     {   .action  = ACTION_CART_ATTACH_RAW_2000,
         .handler = sdl_ui_activate_item_action,
@@ -93,12 +103,41 @@ static const ui_action_map_t cartridge_actions[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true,
     },
+    {   .action  = ACTION_CART_ATTACH_RAW_BEHRBONZ,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_FINAL,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_MEGACART,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_ULTIMEM,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_VICFP,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
     {   .action  = ACTION_CART_DETACH,
         .handler = cart_detach_action
     },
-    {   .action  = ACTION_CART_FREEZE,
-        .handler = cart_freeze_action
-    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
+/** \brief  List of mappings for cartridge actions - Plus/4 */
+static const ui_action_map_t cartridge_actions_plus4[] = {
+    /* TODO */
+    UI_ACTION_MAP_TERMINATOR
+};
+
+/** \brief  List of mappings for cartridge actions - CBM-II */
+static const ui_action_map_t cartridge_actions_cbm2[] = {
+    /* TODO */
     UI_ACTION_MAP_TERMINATOR
 };
 
@@ -106,5 +145,24 @@ static const ui_action_map_t cartridge_actions[] = {
 /** \brief  Register cartridge actions */
 void actions_cartridge_register(void)
 {
-    ui_actions_register(cartridge_actions);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:
+            ui_actions_register(cartridge_actions_c64);
+            break;
+        case VICE_MACHINE_VIC20:
+            ui_actions_register(cartridge_actions_vic20);
+            break;
+        case VICE_MACHINE_PLUS4:
+            ui_actions_register(cartridge_actions_plus4);
+            break;
+        case VICE_MACHINE_CBM6x0:
+            ui_actions_register(cartridge_actions_cbm2);
+            break;
+        default:
+            /* no cartridge support for the remaining machines */
+            break;
+    }
 }
