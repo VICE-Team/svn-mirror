@@ -200,7 +200,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_CART_ATTACH_RAW_MEGACART,  "cart-attach-raw-megacart", "Attach Mega-Cart image",               VICE_MACHINE_VIC20 },
     { ACTION_CART_ATTACH_RAW_ULTIMEM,   "cart-attach-raw-ultimem",  "Attach UltiMem cartridge image",       VICE_MACHINE_VIC20 },
     { ACTION_CART_ATTACH_RAW_VICFP,     "cart-attach-raw-vicfp",    "Attach Vic Flash Plugin cartridge image", VICE_MACHINE_VIC20 },
-    { ACTION_CART_ATTACH_RAW_1MB,       "cart-attach-raw-1mb",      "Attach 1MB Cartridge image",           VICE_MACHINE_PLUS4 },
+    { ACTION_CART_ATTACH_RAW_JACINT1MB, "cart-attach-raw-jacint1mb", "Attach 1MB Cartridge image",           VICE_MACHINE_PLUS4 },
     { ACTION_CART_ATTACH_RAW_MAGIC,     "cart-attach-raw-magic",    "Attach c264 magic cart image",         VICE_MACHINE_PLUS4 },
     { ACTION_CART_ATTACH_RAW_MULTI,     "cart-attach-raw-multi",    "Attach multi cart image",              VICE_MACHINE_PLUS4 },
     { ACTION_CART_ATTACH_RAW_C1_FULL,   "cart-attach-raw-c1-full",  "Attach full C1 cartridge image",       VICE_MACHINE_PLUS4 },
