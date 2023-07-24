@@ -213,6 +213,10 @@ static const ui_action_info_private_t action_info_list[] = {
                                                                                                              VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
     { ACTION_CART_FREEZE,               "cart-freeze",              "Press cartridge freeze button",        (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
                                                                                                              VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
+    { ACTION_CART_DETACH_1000,          "cart-detach-1000",         "Detach cartridge image at $1000",      VICE_MACHINE_CBM6x0 },
+    { ACTION_CART_DETACH_2000,          "cart-detach-2000",         "Detach cartridge image at $2000",      VICE_MACHINE_CBM6x0 },
+    { ACTION_CART_DETACH_4000,          "cart-detach-4000",         "Detach cartridge image at $4000",      VICE_MACHINE_CBM6x0 },
+    { ACTION_CART_DETACH_6000,          "cart-detach-6000",         "Detach cartridge image at $6000",      VICE_MACHINE_CBM6x0 },
 
     /* open monitor */
     { ACTION_MONITOR_OPEN,      "monitor-open",         "Open monitor",                         VICE_MACHINE_ALL },

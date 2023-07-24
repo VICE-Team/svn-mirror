@@ -22,7 +22,7 @@ syn match vhkActionName "\<cart-attach-raw-\(1000\|2000\|4000\|6000\|a000\|b000\
 syn match vhkActionName "\<cart-attach-raw-\(jacint1mb\|magic\|multi\)\>"
 syn match vhkActionName "\<cart-attach-raw-\(c[12]-\(full\|low\|high\)\)\>"
 syn match vhkActionName "\<cart-attach-raw-\(behrbonz\|final\|megacart\|ultimem\|vicfp\)\>"
-syn match vhkActionName "\<cart-detach\>"
+syn match vhkActionName "\<cart-detach\(-[1246]000\)\?\>"
 syn match vhkActionName "\<cart-freeze\>"
 syn match vhkActionName "\<debug-autoplayback-frames\>"
 syn match vhkActionName "\<debug-blitter-log-toggle\>"

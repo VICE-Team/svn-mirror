@@ -37,6 +37,7 @@
 #include "menu_common.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 
@@ -53,16 +54,6 @@ static UI_MENU_CALLBACK(attach_cart_callback)
             }
             lib_free(name);
         }
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(detach_cart_callback)
-{
-    int m;
-    m = vice_ptr_to_int(param);
-    if (activated) {
-        cartridge_detach_image(m);
     }
     return NULL;
 }
@@ -108,45 +99,43 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 }
 
 const ui_menu_entry_t cbm2cart_menu[] = {
-    {   .string   = "Load new Cart $1***",
+    {   .action   = ACTION_CART_ATTACH_RAW_1000,
+        .string   = "Load new Cart $1***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000
     },
-    {   .string   = "Unload Cart $1***",
+    {   .action   = ACTION_CART_DETACH_1000,
+        .string   = "Unload Cart $1***",
         .type     = MENU_ENTRY_OTHER,
-        .callback = detach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000
     },
-    {   .string   = "Load new Cart $2-3***",
+    {   .action   = ACTION_CART_ATTACH_RAW_2000,
+        .string   = "Load new Cart $2-3***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000
     },
-    {   .string   = "Unload Cart $2-3***",
+    {   .action   = ACTION_CART_DETACH_2000,
+        .string   = "Unload Cart $2-3***",
         .type     = MENU_ENTRY_OTHER,
-        .callback = detach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000
     },
-    {   .string   = "Load new Cart $4-5***",
+    {   .action   = ACTION_CART_ATTACH_RAW_4000,
+        .string   = "Load new Cart $4-5***",
         .type     = MENU_ENTRY_OTHER,
-        .callback = attach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000
     },
-    {   .string   = "Unload Cart $4-5***",
+    {   .action   = ACTION_CART_DETACH_4000,
+        .string   = "Unload Cart $4-5***",
         .type     = MENU_ENTRY_OTHER,
-        .callback = detach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000
     },
-    {   .string   = "Load new Cart $6-7***",
+    {   .action   = ACTION_CART_ATTACH_RAW_6000,
+        .string   = "Load new Cart $6-7***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000
     },
-    {   .string   = "Unload Cart $6-7***",
+    {   .action   = ACTION_CART_DETACH_6000,
+        .string   = "Unload Cart $6-7***",
         .type     = MENU_ENTRY_OTHER,
-        .callback = detach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000
     },
     SDL_MENU_ITEM_SEPARATOR,
 
