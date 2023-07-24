@@ -54,6 +54,25 @@ enum {
 /* at FF/REWIND, Datasette-counter makes ~4 rounds per second */
 #define DS_RPS_FAST 4.00
 
+#define TAP_ZERO_GAP_DELAY_MAX          5000
+#define TAP_ZERO_GAP_DELAY_DEFAULT      2500
+
+#define TAP_SPEED_TUNING_ONE            100000
+#define TAP_SPEED_TUNING_MAX            (TAP_SPEED_TUNING_ONE / 2)  /* +/-50% */
+#define TAP_SPEED_TUNING_DEFAULT        0
+
+#define TAP_WOBBLE_FREQ_ONE             1000
+#define TAP_WOBBLE_FREQ_MAX             (TAP_WOBBLE_FREQ_ONE * 50) /* 50Hz */
+#define TAP_WOBBLE_FREQ_DEFAULT         (TAP_WOBBLE_FREQ_ONE * 3) /* 3Hz */
+
+#define TAP_WOBBLE_AMPLITUDE_ONE        100000
+#define TAP_WOBBLE_AMPLITUDE_MAX        (TAP_WOBBLE_AMPLITUDE_ONE / 2)  /* +/-50% */
+#define TAP_WOBBLE_AMPLITUDE_DEFAULT    (TAP_WOBBLE_AMPLITUDE_ONE / 200)  /* +/-0.5% */
+
+#define TAP_AZIMUTH_ERROR_ONE           1000
+#define TAP_AZIMUTH_ERROR_MAX           (TAP_AZIMUTH_ERROR_ONE * 10) /* +/- 10 cycles */
+#define TAP_AZIMUTH_ERROR_DEFAULT       0
+
 struct tap_s;
 
 extern int datasette_sound_emulation;
