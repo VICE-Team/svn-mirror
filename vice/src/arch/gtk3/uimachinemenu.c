@@ -324,12 +324,12 @@ static const ui_menu_item_t file_menu_tape_xpet[] = {
 };
 /* }}} */
 
-/* {{{ file_menu_cart */
-/** \brief  'File' menu - cartridge section
+/* {{{ file_menu_cart_freeze */
+/** \brief  'File' menu - cartridge section for C64/C128
  *
- * All machines except C64DTV and PET.
+ * C64, SCPU64 and C128, containing "Cartridge freeze".
  */
-static const ui_menu_item_t file_menu_cart[] = {
+static const ui_menu_item_t file_menu_cart_freeze[] = {
     /* cart */
     { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_CART_ATTACH,
@@ -340,12 +340,29 @@ static const ui_menu_item_t file_menu_cart[] = {
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_CART_FREEZE,
       NULL, false },
-
     UI_MENU_SEPARATOR,
-
     UI_MENU_TERMINATOR
 };
 /* }}} */
+
+/* {{{ file_menu_cart_no_freeze */
+/** \brief  'File' menu - cartridge section for Plus/4, VIC-20 and CBM-II
+ *
+ * Plus/4, VIC-20, CBM-II, not containing "Cartridge freeze".
+ */
+static const ui_menu_item_t file_menu_cart_no_freeze[] = {
+    /* cart */
+    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_CART_ATTACH,
+      NULL, true },
+    { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_CART_DETACH,
+      NULL, false },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+/* }}} */
+
 
 /* {{{ printer_submenu */
 /** \brief  'File' menu - printer submenu (with userport printer)
@@ -879,7 +896,7 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_freeze;
             file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
@@ -890,41 +907,40 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
             break;
 
         case VICE_MACHINE_SCPU64:
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_freeze;
             file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_C128:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_freeze;
             file_menu_printer_section = file_menu_printer;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_VIC20:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_no_freeze;
             file_menu_printer_section = file_menu_printer;
             break;
 
         case VICE_MACHINE_PLUS4:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_no_freeze;
             file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM5x0:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
             file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM6x0:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart;
+            file_menu_cart_section    = file_menu_cart_no_freeze;
             file_menu_printer_section = file_menu_printer;
             break;
 
