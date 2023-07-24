@@ -2969,7 +2969,7 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Attach raw cartridge image at $A000
 @item @code{cart-attach-raw-b000}
 @tab Attach raw cartridge image at $B000
-@item @code{cart-attach-raw-1mb}
+@item @code{cart-attach-raw-jacint1mb}
 @tab Attach 1MB Cartridge image
 @item @code{cart-attach-raw-magic}
 @tab Attach c264 magic cart image
@@ -2987,6 +2987,16 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Attach low C2 cartridge image
 @item @code{cart-attach-raw-c2-high}
 @tab Attach high C2 cartridge image
+@item @code{cart-attach-raw-behrbonz}
+@tab Attach Behr Bonz cartridge image
+@item @code{cart-attach-raw-final}
+@tab Attach Final Expansion cartridge image
+@item @code{cart-attach-raw-megacart}
+@tab Attach Mega-Cart image
+@item @code{cart-attach-raw-ultimem}
+@tab Attach UltiMem cartridge image
+@item @code{cart-attach-raw-vicfp}
+@tab Attach Vic Flash Plugin cartridge image
 @item @code{cart-detach}
 @tab Detach cartridge
 @item @code{cart-freeze}
