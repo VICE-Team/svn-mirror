@@ -131,7 +131,47 @@ static const ui_action_map_t cartridge_actions_vic20[] = {
 
 /** \brief  List of mappings for cartridge actions - Plus/4 */
 static const ui_action_map_t cartridge_actions_plus4[] = {
-    /* TODO */
+    {   .action  = ACTION_CART_ATTACH,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_MAGIC,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_MULTI,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_JACINT1MB,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C1_FULL,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C1_LOW,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C1_HIGH,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C2_FULL,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C2_LOW,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_C2_HIGH,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+
     UI_ACTION_MAP_TERMINATOR
 };
 

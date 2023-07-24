@@ -50,12 +50,52 @@ static UI_MENU_CALLBACK(attach_cart_callback)
     int type = vice_ptr_to_int(param);
 
     if (activated) {
+        int action = ACTION_NONE;
         name = sdl_ui_file_selection_dialog("Select cartridge image", FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
             if (cartridge_attach_image(type, name) < 0) {
                 ui_error("Cannot load cartridge image.");
             }
             lib_free(name);
+        }
+        /* mark the appropriate UI action finished
+         * TODO: there has to be a more elegant way than this ;) */
+        switch (type) {
+            case CARTRIDGE_CRT:
+                action = ACTION_CART_ATTACH;
+                break;
+            case CARTRIDGE_PLUS4_MAGIC:
+                action = ACTION_CART_ATTACH_RAW_MAGIC;
+                break;
+            case CARTRIDGE_PLUS4_MULTI:
+                action = ACTION_CART_ATTACH_RAW_MULTI;
+                break;
+            case CARTRIDGE_PLUS4_JACINT1MB:
+                action = ACTION_CART_ATTACH_RAW_JACINT1MB;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C1:
+                action = ACTION_CART_ATTACH_RAW_C1_FULL;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C1LO:
+                action = ACTION_CART_ATTACH_RAW_C1_LOW;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C1HI:
+                action = ACTION_CART_ATTACH_RAW_C1_HIGH;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C2:
+                action = ACTION_CART_ATTACH_RAW_C2_FULL;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C2LO:
+                action = ACTION_CART_ATTACH_RAW_C2_LOW;
+                break;
+            case CARTRIDGE_PLUS4_GENERIC_C2HI:
+                action = ACTION_CART_ATTACH_RAW_C2_HIGH;
+                break;
+            default:
+                break;
+        }
+        if (action > ACTION_NONE) {
+            ui_action_finish(action);
         }
     }
     return NULL;
@@ -112,49 +152,58 @@ const ui_menu_entry_t plus4cart_menu[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MAGIC " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_MAGIC,
+        .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MAGIC " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_MAGIC
     },
-    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MULTI " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_MULTI,
+        .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_MULTI " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_MULTI
     },
-    {   .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_JACINT1MB " image",
+    {   .action   = ACTION_CART_ATTACH_RAW_JACINT1MB,
+        .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_JACINT1MB " image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_JACINT1MB
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = "Attach full C1 image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C1_FULL,
+        .string   = "Attach full C1 image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1
     },
-    {   .string   = "Attach C1 low image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C1_LOW,
+        .string   = "Attach C1 low image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1LO
     },
-    {   .string   = "Attach C1 high image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C1_HIGH,
+        .string   = "Attach C1 high image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C1HI
     },
-    {   .string   = "Attach full C2 image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C2_FULL,
+        .string   = "Attach full C2 image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2
     },
-    {   .string   = "Attach C2 low image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C2_LOW,
+        .string   = "Attach C2 low image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2LO
     },
-    {   .string   = "Attach C2 high image",
+    {   .action   = ACTION_CART_ATTACH_RAW_C2_HIGH,
+        .string   = "Attach C2 high image",
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_GENERIC_C2HI
