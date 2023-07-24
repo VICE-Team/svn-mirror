@@ -82,6 +82,9 @@ static int datasette_motor[TAPEPORT_MAX_PORTS];
 /* Last time we have recorded a flux change.  */
 static CLOCK last_write_clk[TAPEPORT_MAX_PORTS];
 
+/* last state of the write line */
+static int last_write_bit[TAPEPORT_MAX_PORTS] = { -1, -1 };
+
 /* Motor stop is delayed.  */
 static CLOCK motor_stop_clk[TAPEPORT_MAX_PORTS];
 
@@ -726,7 +729,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
 
     datasette_alarm_unset(port);
 
-    DBG(("datasette_read_bit(motor:%d) maincpu_clk:%lu motor_stop_clk:%lu (image present:%s)",
+    DBG(("datasette_read_bit(motor:%d) maincpu_clk: 0x%"PRIx64" motor_stop_clk: 0x%"PRIx64" (image present:%s)",
          datasette_motor[port], maincpu_clk, motor_stop_clk[port], current_image[port] ? "yes" : "no"));
 
     /* check for delay of motor stop */
@@ -989,6 +992,18 @@ static void datasette_start_motor(int port)
     if (!datasette_alarm_pending[port]) {
         datasette_alarm_set(port, maincpu_clk + MOTOR_DELAY);
     }
+
+    if (last_write_clk[port] == (CLOCK)0) {
+        /* FIXME: the first pulse should start when the motor is actually running
+                  (after the MOTOR_DELAY - however, due to how the delay is currently
+                  implemented at motor start, this causes weird side effects) */
+        DBG(("datasette_start_motor: first pulse starts at maincpu_clk: 0x%"PRIx64"", maincpu_clk));
+        last_write_clk[port] = maincpu_clk;
+        /* HACK: we start "as if" the write line was 0 when recording started, this
+                 way the first written 1 will always produce a (likely "long") gap
+                 at the start of the tape */
+        last_write_bit[port] = 0;
+    }
 }
 
 #ifdef DEBUG_TAPE
@@ -1008,6 +1023,7 @@ static void tap_reset_gap(int port)
     last_write_clk[port] = (CLOCK)0;
 }
 
+/* "press" the buttons on the c2n */
 static void datasette_control_internal(int port, int command)
 {
     DBG(("datasette_control_internal (%s) (image present:%s)", cmdstr[command], current_image[port] ? "yes" : "no"));
@@ -1141,7 +1157,7 @@ void datasette_control(int port, int command)
 /* "set motor line" function used by tapeport API */
 static void datasette_set_motor(int port, int motor)
 {
-    DBG(("datasette_set_motor(%d) (image present:%s) datasette_motor: %d motor_stop_clk: %lu",
+    DBG(("datasette_set_motor(%d) (image present:%s) datasette_motor: %d motor_stop_clk: 0x%"PRIx64"",
          motor, current_image[port] ? "yes" : "no", datasette_motor[port], motor_stop_clk[port]));
 
     if (datasette_alarm[port] == NULL) {
@@ -1152,7 +1168,7 @@ static void datasette_set_motor(int port, int motor)
     if (motor) {
         /* abort pending motor stop */
         motor_stop_clk[port] = 0;
-        DBG(("datasette_set_motor(motor=1 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
+        DBG(("datasette_set_motor(motor=1 maincpu_clk: 0x%"PRIx64" motor_stop_clk: 0x%"PRIx64")", maincpu_clk, motor_stop_clk[port]));
         if (!datasette_motor[port]) {
             tap_reset_gap(port);
             datasette_start_motor(port);
@@ -1164,7 +1180,7 @@ static void datasette_set_motor(int port, int motor)
     } else {
         if (datasette_motor[port] && motor_stop_clk[port] == 0) {
             motor_stop_clk[port] = maincpu_clk + MOTOR_DELAY;
-            DBG(("datasette_set_motor(motor=0 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
+            DBG(("datasette_set_motor(motor=0 maincpu_clk: 0x%"PRIx64" motor_stop_clk: 0x%"PRIx64")", maincpu_clk, motor_stop_clk[port]));
             if (!datasette_alarm_pending[port]) {
                 /* make sure that the motor will stop */
                 datasette_alarm_set(port, motor_stop_clk[port]);
@@ -1183,6 +1199,9 @@ inline static void bit_write(int port)
     uint8_t write_gap;
 
     write_time = maincpu_clk - last_write_clk[port];
+    DBG(("bit_write last_write_clk: 0x%"PRIx64" maincpu_clk: 0x%"PRIx64" write_time: 0x%"PRIx64" tap: 0x%"PRIx64"",
+         last_write_clk[port], maincpu_clk, write_time,
+         (write_time / (CLOCK)8) > 0xff ? write_time : (write_time / (CLOCK)8)));
     last_write_clk[port] = maincpu_clk;
 
     /* C16 TAPs use half the machine clock as base cycle */
@@ -1195,16 +1214,24 @@ inline static void bit_write(int port)
     }
 
     if (write_time < (CLOCK)(255 * 8 + 7)) {
+        /* this is a normal short/one byte gap */
         write_gap = (uint8_t)(write_time / (CLOCK)8);
         if (fwrite(&write_gap, 1, 1, current_image[port]->fd) < 1) {
+            log_error(datasette_log, "datasette bit_write failed (stopping tape).");
             datasette_control(port, DATASETTE_CONTROL_STOP);
             return;
         }
+        DBG(("bit_write v0 value 0x%02x at position 0x%04x",
+             write_gap, (unsigned int)current_image[port]->current_file_seek_position));
         current_image[port]->current_file_seek_position++;
     } else {
+        /* this is a long gap, v0 tap only stores a zero for this, in v1 the zero
+           is followed by the exact length - so write the zero first */
         write_gap = 0;
         if (fwrite(&write_gap, 1, 1, current_image[port]->fd) != 1) {
-            log_debug("datasette bit_write failed.");
+            log_error(datasette_log, "datasette bit_write failed (stopping tape).");
+            datasette_control(port, DATASETTE_CONTROL_STOP);
+            return;
         }
         current_image[port]->current_file_seek_position++;
         /* in v1/v2 .tap the next 3 bytes are the exact length of the gap in cycles */
@@ -1216,13 +1243,17 @@ inline static void bit_write(int port)
             long_gap[2] = (uint8_t)((write_time >> 16) & 0xff);
             write_time &= 0xffffff;
             bytes_written = (int)fwrite(long_gap, 1, 3, current_image[port]->fd);
+            DBG(("bit_write v1 gap 0x%"PRIx64" at position 0x%04x",
+                write_time, (unsigned int)current_image[port]->current_file_seek_position - 1));
             current_image[port]->current_file_seek_position += bytes_written;
             if (bytes_written < 3) {
+                log_error(datasette_log, "datasette bit_write failed (stopping tape).");
                 datasette_control(port, DATASETTE_CONTROL_STOP);
                 return;
             }
         }
     }
+    /* adjust file size */
     if (current_image[port]->size < current_image[port]->current_file_seek_position) {
         current_image[port]->size = current_image[port]->current_file_seek_position;
     }
@@ -1248,6 +1279,8 @@ inline static void bit_write(int port)
 
 static void datasette_toggle_write_bit(int port, int write_bit)
 {
+    DBG(("datasette_toggle_write_bit: last_write_bit:%d write_bit:%d maincpu_clk: 0x%"PRIx64"",
+         last_write_bit[port] ? 1 : 0, write_bit ? 1 : 0, maincpu_clk));
     if ((current_image[port] != NULL) && /* there is a tape image */
         (current_image[port]->mode == DATASETTE_CONTROL_RECORD) && /* record is pressed */
         (datasette_motor[port] != 0)) { /* motor is running */
@@ -1255,15 +1288,18 @@ static void datasette_toggle_write_bit(int port, int write_bit)
         /* FIXME: right now we always write v1 .tap files (falling edges only),
                   even for xplus4 */
 
-        if (write_bit != 0) {
-            /* this writes a falling edge (0->1 transtion on the write line) */
-            if (last_write_clk[port] == (CLOCK)0) {
+        /* check if this is a falling edge (0->1 transtion on the write line) */
+        if ((last_write_bit[port] == 0) && (write_bit != 0)) {
+            if (last_write_clk[port] >= maincpu_clk) {
+                /* HACK: should the last write time be in the future, adjust it to be now */
+                DBG(("datasette_toggle_write_bit: first pulse starts at maincpu_clk: 0x%"PRIx64"", maincpu_clk));
                 last_write_clk[port] = maincpu_clk;
             } else {
                 bit_write(port);
             }
         }
     }
+    last_write_bit[port] = write_bit;
 }
 
 /*******************************************************************************
