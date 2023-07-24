@@ -45,6 +45,15 @@ static void cart_detach_action(ui_action_map_t *self)
     cartridge_detach_image(-1);
 }
 
+/** \brief  Detach cartridge from memory address action
+ *
+ * \param[in]   self    action map
+ */
+static void cart_detach_address_action(ui_action_map_t *self)
+{
+    cartridge_detach_image(vice_ptr_to_int(self->data));
+}
+
 /** \brief  Trigger freeze action
  *
  * \param[in]   self    action map
@@ -171,13 +180,43 @@ static const ui_action_map_t cartridge_actions_plus4[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
-
     UI_ACTION_MAP_TERMINATOR
 };
 
 /** \brief  List of mappings for cartridge actions - CBM-II */
 static const ui_action_map_t cartridge_actions_cbm2[] = {
-    /* TODO */
+    {   .action  = ACTION_CART_ATTACH_RAW_1000,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_2000,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_4000,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_ATTACH_RAW_6000,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
+    {   .action  = ACTION_CART_DETACH_1000,
+        .handler = cart_detach_address_action,
+        .data    = int_to_void_ptr(CARTRIDGE_CBM2_8KB_1000)
+    },
+    {   .action  = ACTION_CART_DETACH_2000,
+        .handler = cart_detach_address_action,
+        .data    = int_to_void_ptr(CARTRIDGE_CBM2_8KB_2000)
+    },
+    {   .action  = ACTION_CART_DETACH_4000,
+        .handler = cart_detach_address_action,
+        .data    = int_to_void_ptr(CARTRIDGE_CBM2_16KB_4000)
+    },
+    {   .action  = ACTION_CART_DETACH_6000,
+        .handler = cart_detach_address_action,
+        .data    = int_to_void_ptr(CARTRIDGE_CBM2_16KB_6000)
+    },
     UI_ACTION_MAP_TERMINATOR
 };
 

@@ -2999,6 +2999,14 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Attach Vic Flash Plugin cartridge image
 @item @code{cart-detach}
 @tab Detach cartridge
+@item @code{cart-detach-1000}
+@tab Detach cartridge from $1000
+@item @code{cart-detach-2000}
+@tab Detach cartridge from $2000
+@item @code{cart-detach-4000}
+@tab Detach cartridge from $4000
+@item @code{cart-detach-6000}
+@tab Detach cartridge from $6000
 @item @code{cart-freeze}
 @tab Press cartridge freeze button
 @item @code{debug-autoplayback-frames}
