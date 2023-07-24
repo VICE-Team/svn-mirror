@@ -45,6 +45,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "datasette.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
@@ -284,16 +285,20 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_sound, 2, row, 2, 1);
     row++;
 
-    label      = label_helper("Zero gap delay");
+    label      = label_helper("TAP v0 Zero gap delay");
     ds_zerogap = vice_gtk3_resource_spin_int_new("DatasetteZeroGapDelay",
-                                                 0, 50000, 100);
+                                                 0, TAP_ZERO_GAP_DELAY_MAX, 1);
     gtk_widget_set_margin_bottom(ds_zerogap, 8);
     gtk_grid_attach(GTK_GRID(grid), label,      0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, row, 1, 1);
 
-    label    = label_helper("TAP v0 gap speed tuning");
+    label    = label_helper("Tape speed tuning");
+    /* FIXME: this should show -50...+50 percent instead of the resource value.
+              To scale accordingly use TAP_SPEED_TUNING_ONE, which equals 100% */
     ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
-                                               0, 50, 1);
+                                               -TAP_SPEED_TUNING_MAX,
+                                                TAP_SPEED_TUNING_MAX,
+                                                TAP_SPEED_TUNING_MAX / 1000);
     gtk_widget_set_margin_bottom(ds_speed, 8);
     gtk_grid_attach(GTK_GRID(grid), label,    2, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, row, 1, 1);
@@ -301,21 +306,29 @@ static GtkWidget *create_datasette_widget(void)
 
     label = label_helper("Wobble frequency");
     ds_wobblefreq = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleFrequency",
-                                                    0, 5000, 10);
+                                                    0,
+                                                    TAP_WOBBLE_FREQ_MAX,
+                                                    TAP_WOBBLE_FREQ_MAX / 1000);
     gtk_widget_set_margin_bottom(ds_wobblefreq, 8);
     gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, row, 1, 1);
 
     label    = label_helper("Alignment error");
     ds_align = vice_gtk3_resource_spin_int_new("DatasetteTapeAzimuthError",
-                                               0, 25000, 100);
+                                               0,
+                                               TAP_AZIMUTH_ERROR_MAX,
+                                               TAP_AZIMUTH_ERROR_MAX / 1000);
     gtk_grid_attach(GTK_GRID(grid), label,    2, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_align, 3, row, 1, 1);
     row++;
 
     label        = label_helper("Wobble amplitude");
+    /* FIXME: this should show 0...50 percent instead of the resource value.
+              To scale accordingly use TAP_WOBBLE_AMPLITUDE_ONE, which equals 100% */
     ds_wobbleamp = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleAmplitude",
-                                                   0, 5000, 10);
+                                                   0,
+                                                   TAP_WOBBLE_AMPLITUDE_MAX,
+                                                   TAP_WOBBLE_AMPLITUDE_MAX / 1000);
     gtk_grid_attach(GTK_GRID(grid), label,        0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 1, row, 1, 1);
 

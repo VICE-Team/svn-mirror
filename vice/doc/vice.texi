@@ -6539,23 +6539,28 @@ Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
 @vindex DatasetteZeroGapDelay
 @item DatasetteZeroGapDelay
 Integer specifying the delay in cycles for a zero gap length in the tap. Mostly
-relevant for v0 .tap files which could not properly encode gaps > 255.
+relevant for v0 .tap files which could not properly encode gaps > 255. The default
+is 2500, which is what "mtap" is using.
 
 @vindex DatasetteSpeedTuning
 @item DatasetteSpeedTuning
-Integer specifying the number of cycles added to each gap in a v0 tap file.
+Integer specifying the deviation from the correct motor speed. 100000 equals 100%
+deviation. Default is 0.
 
 @vindex DatasetteTapeWobbleFrequency
 @item DatasetteTapeWobbleFrequency
-Integer specifying the tape wobble frequency
+Integer specifying the tape wobble frequency. 1000 equals 1Hz, default is 3Hz.
 
 @vindex DatasetteTapeWobbleAmplitude
 @item DatasetteTapeWobbleAmplitude
-Integer specifying the tape wobble amplitude
+Integer specifying the tape wobble amplitude. 100000 equals 100% deviation of the
+correct motor speed. Default is 0.5%.
 
 @vindex DatasetteTapeAzimuthError
 @item DatasetteTapeAzimuthError
-Integer specifying the amount of azimuth alignment error
+Integer specifying the amount of azimuth alignment error. This is right now very
+inaccurately simulated by adding a random amount of cycles. 1000 equals +/- one
+cycle. Default is 0.
 
 @vindex DatasetteSound
 @item DatasetteSound
@@ -6584,22 +6589,23 @@ which could not properly encode gaps > 255.
 
 @findex -dsspeedtuning
 @item -dsspeedtuning <value>
-Set number of cycles added to each gap in a v0 tap file.
+Set amount of deviation from the correct motor speed. 100000 equals 100% deviation.
 (@code{DatasetteSpeedTuning}).
 
 @findex -dstapewobblefreq
 @item -dstapewobblefreq <value>
-Set tape wobble frequency
+Set tape wobble frequency. 1000 equals 1Hz, default is 3Hz.
 (@code{DatasetteTapeWobbleFrequency}).
 
 @findex -dstapewobbleamp
 @item -dstapewobbleamp <value>
-Set tape wobble amplitude
+Set tape wobble amplitude. 100000 equals 100% deviation of the correct motor speed.
 (@code{DatasetteTapeWobbleAmplitude}).
 
 @findex -dstapeerror
 @item -dstapeerror <value>
-Set tape alignment error
+Set tape alignment error. This is right now very inaccurately simulated by adding
+a random amount of cycles. 1000 equals +/- one cycle.
 (@code{DatasetteTapeAzimuthError}).
 
 @findex -datasettesound, +datasettesound

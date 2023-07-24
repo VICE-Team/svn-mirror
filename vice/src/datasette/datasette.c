@@ -186,7 +186,7 @@ static int set_reset_datasette_with_maincpu(int val, void *param)
 
 static int set_datasette_zero_gap_delay(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < 0) || (val > TAP_ZERO_GAP_DELAY_MAX)) {
         return -1;
     }
     datasette_zero_gap_delay = val;
@@ -196,7 +196,7 @@ static int set_datasette_zero_gap_delay(int val, void *param)
 
 static int set_datasette_speed_tuning(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < -TAP_SPEED_TUNING_MAX) || (val > TAP_SPEED_TUNING_MAX)) {
         return -1;
     }
 
@@ -207,7 +207,7 @@ static int set_datasette_speed_tuning(int val, void *param)
 
 static int set_datasette_tape_wobble_frequency(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < 0) || (val > TAP_WOBBLE_FREQ_MAX)) {
         return -1;
     }
 
@@ -218,7 +218,7 @@ static int set_datasette_tape_wobble_frequency(int val, void *param)
 
 static int set_datasette_tape_wobble_amplitude(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < 0) || (val > TAP_WOBBLE_AMPLITUDE_MAX)) {
         return -1;
     }
 
@@ -229,7 +229,7 @@ static int set_datasette_tape_wobble_amplitude(int val, void *param)
 
 static int set_datasette_tape_azimuth_error(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < 0) || (val > TAP_AZIMUTH_ERROR_MAX)) {
         return -1;
     }
 
@@ -272,21 +272,19 @@ static const resource_int_t resources_int[] = {
       &reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },
     /* mtap uses 2500, so we use the same */
-    { "DatasetteZeroGapDelay", 2500, RES_EVENT_SAME, NULL,
+    { "DatasetteZeroGapDelay", TAP_ZERO_GAP_DELAY_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
-    /* .tap v0 gap tuning value - apparently needs to be 1 for some .tap files,
-       see bug #1477 https://sourceforge.net/p/vice-emu/bugs/1477/ */
-    { "DatasetteSpeedTuning", 1, RES_EVENT_SAME, NULL,
+    { "DatasetteSpeedTuning", TAP_SPEED_TUNING_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
-    { "DatasetteTapeWobbleFrequency", 1000, RES_EVENT_SAME, NULL,
+    { "DatasetteTapeWobbleFrequency", TAP_WOBBLE_FREQ_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_tape_wobble_frequency,
       set_datasette_tape_wobble_frequency, NULL },
-    { "DatasetteTapeWobbleAmplitude", 1000, RES_EVENT_SAME, NULL,
+    { "DatasetteTapeWobbleAmplitude", TAP_WOBBLE_AMPLITUDE_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_tape_wobble_amplitude,
       set_datasette_tape_wobble_amplitude, NULL },
-    { "DatasetteTapeAzimuthError", 0, RES_EVENT_SAME, NULL,
+    { "DatasetteTapeAzimuthError", TAP_AZIMUTH_ERROR_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_tape_azimuth_error,
       set_datasette_tape_azimuth_error, NULL },
     { "DatasetteSound", 0, RES_EVENT_SAME, NULL,
@@ -434,36 +432,37 @@ inline static int datasette_move_buffer_back(int port, int offset)
     return 1;
 }
 
-/* calculate tape wobble */
+/* calculate tape wobble, add speed tuning */
 static CLOCK tape_do_wobble(int port, CLOCK gap)
 {
     /* cpu cycles since last call */
-    static CLOCK last_cycle_counter;
     static float wobble_sin_count;
     float wobble_factor;
-    CLOCK curr_cycle_counter = current_image[port]->cycle_counter_total;
-    CLOCK cpu_cycles;
+    CLOCK cpu_cycles = current_image[port]->cycle_counter_total;
     signed long newgap;
     float newgapf;
     static float restf = 0.0f;
-    float amplitude = (float)datasette_tape_wobble_amplitude / 200000.0f;
+    float amplitude;
+    float tuning;
+    float freq;
 
-    /* handle wraparound */
-    if (last_cycle_counter > curr_cycle_counter) {
-        cpu_cycles = last_cycle_counter - curr_cycle_counter;
-    } else {
-        cpu_cycles = curr_cycle_counter - last_cycle_counter;
-    }
-
-    if ((cpu_cycles == 0) || (datasette_tape_wobble_frequency == 0) || (datasette_tape_wobble_amplitude == 0)) {
+    if (((datasette_tape_wobble_frequency == 0) || (datasette_tape_wobble_amplitude == 0)) &&
+        (datasette_speed_tuning == 0)) {
         return gap;
     }
 
-    wobble_sin_count += ((uint64_t)cpu_cycles * (datasette_tape_wobble_frequency)) / 10000000000000.0f;
+    /* convert resource values to floats */
+    freq = (float)datasette_tape_wobble_frequency / (float)TAP_WOBBLE_FREQ_ONE;
+    amplitude = (float)datasette_tape_wobble_amplitude / (float)TAP_WOBBLE_AMPLITUDE_ONE;
+    tuning = (float)datasette_speed_tuning / (float)TAP_SPEED_TUNING_ONE;
+
+    wobble_sin_count += freq * (((uint64_t)cpu_cycles / ((float)datasette_cycles_per_second / 1000000.0f)) / (10000000000.0f * (2.0f * M_PI)));
+
     if (wobble_sin_count > (2 * M_PI)) {
         wobble_sin_count -= (2 * M_PI);
     }
-    wobble_factor = 1.0f + (sinf(wobble_sin_count) * amplitude);
+
+    wobble_factor = 1.0f + (sinf(wobble_sin_count) * amplitude) + tuning;
 
     newgapf = restf + (wobble_factor * gap);
     newgap = (int)(newgapf + 0.5f);
@@ -473,8 +472,9 @@ static CLOCK tape_do_wobble(int port, CLOCK gap)
     }
     restf = newgapf - newgap;
 #if 0
-    printf("gap: %4d factor: % 1.4f newgapf: % 3.2f rest: % 3.2f newgap: %4d cycles: %8d sincnt: % 2.2f\n",
-           (int)gap, (float)wobble_factor, (float)newgapf, (float)restf, (int)newgap, (int)cpu_cycles, (float)wobble_sin_count);
+    printf("gap: %4d factor: % 1.4f newgapf: % 3.2f rest: % 4.2f newgap: %4d cycles: %8d sincnt: % 2.2f  freq: % 2.2f amplitude:% 2.2f tuning:% 2.2f\r",
+           (int)gap, (float)wobble_factor, (float)newgapf, (float)restf, (int)newgap,
+           (int)cpu_cycles, (float)wobble_sin_count, (float)freq, amplitude, tuning);
 #endif
     return (CLOCK)newgap;
 }
@@ -489,12 +489,12 @@ static CLOCK tape_do_misalignment(CLOCK gap)
     }
 
     tapeerror = lib_unsigned_rand(-datasette_tape_azimuth_error, datasette_tape_azimuth_error);
-    newgapf = (gap * 1000) + tapeerror + resterror;
-    newgap = (newgapf + 500) / 1000;
+    newgapf = (gap * TAP_AZIMUTH_ERROR_ONE) + tapeerror + resterror;
+    newgap = (newgapf + 500) / TAP_AZIMUTH_ERROR_ONE;
     if (newgap < 1) {
         newgap = 1;
     }
-    resterror = newgapf - (newgap * 1000);
+    resterror = newgapf - (newgap * TAP_AZIMUTH_ERROR_ONE);
 #if 0
     printf("gap: %4d tapeerror: % 4d resterror: % 4d newgap: %4d\n", (int)gap, tapeerror, resterror, newgap);
 #endif
@@ -516,8 +516,7 @@ inline static int fetch_gap(int port, CLOCK *gap, int *direction, long read_tap)
            are created with, uses 2500.
            We also add a constant number of cycles (default:1) to compensate
            for tape speed variations. */
-        *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
-               + (CLOCK)datasette_speed_tuning;
+        *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay);
     } else {
         if (read_tap >= last_tap[port] - 3) {
             return -1;
