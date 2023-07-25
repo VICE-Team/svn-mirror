@@ -322,7 +322,7 @@ static const cmdline_option_t cmdline_options[] =
       "<value>", "Set delay in cycles for a zero in a v0 tap file" },
     { "-dsspeedtuning", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteSpeedTuning", NULL,
-      "<value>", "Set number of cycles added to each gap in a v0 tap file" },
+      "<value>", "Set constant deviation from correct motor speed" },
     { "-dstapewobblefreq", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteTapeWobbleFrequency", NULL,
       "<value>", "Set tape wobble frequency" },
