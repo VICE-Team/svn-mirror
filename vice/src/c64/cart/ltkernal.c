@@ -1200,8 +1200,6 @@ void ltkernal_config_init(void)
 
 void ltkernal_config_setup(uint8_t *rawcart)
 {
-    int32_t i;
-
     LOG2((LOG, "LTK config setup"));
 
     /* copy supplied ROM image to memory */
