@@ -1207,21 +1207,9 @@ void ltkernal_config_setup(uint8_t *rawcart)
     /* copy supplied ROM image to memory */
     memcpy(roml_banks, rawcart, 0x2000);
 
-    /* copy out the LTK serial number */
-    for (i = 0; i < 8; i++) {
-        ltk_serial[i] = rawcart[10 + i];
-    }
-
-    /* show it */
-    LOG1((LOG, "LTK serial = '%s'", ltk_serial));
-
-    /* warn user in case the 64 and 128 numbers don't match */
-    for (i = 0; i < 8; i++) {
-        if (rawcart[10 + i] != rawcart[4096 + 10 + i]) {
-            CRIT((ERR, "LTK C64 and C128 serial numbers don't match in supplied ROM/CRT."));
-            break;
-        }
-    }
+    /* copy in the LTK serial number */
+    memcpy(&(roml_banks[10]), ltk_serial, 8);
+    memcpy(&(roml_banks[4096 + 10]), ltk_serial, 8);
 
     /* set default cart mode depending on machine type */
     if ( machine_class == VICE_MACHINE_C64SC ||
