@@ -9097,7 +9097,7 @@ How generating the pattern works is easily described in three simple steps:
 
 3. Every @code{RAMInitRepeatRandom} bytes @code{RAMInitStartRandom} bytes are
    randomly inverted ("xored"). Additionally every bit is randomly inverted with
-   a @code{RAMInitRandomChance} : 4096 chance. This step creates the typical
+   a @code{RAMInitRandomChance} : 10000 chance. This step creates the typical
    random bytes that have been observed with some boards/ICs.
 
 @c @node FIXME

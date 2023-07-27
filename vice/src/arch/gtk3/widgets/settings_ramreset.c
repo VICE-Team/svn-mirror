@@ -248,8 +248,16 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     label = gtk_label_new("Global random chance");
     gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+#if 0
     chance_random_widget = vice_gtk3_resource_spin_int_new(
-            "RAMInitRandomChance", 0, 0xfff, 1);
+            "RAMInitRandomChance", 0, RAM_INIT_RANDOM_CHANCE_MAX, 1);
+#else
+    chance_random_widget = vice_gtk3_resource_spin_custom_new("RAMInitRandomChance",
+                                                       0, RAM_INIT_RANDOM_CHANCE_MAX,
+                                                       0.0, 100.0, 0.1,
+                                                       "%3.2f%%");
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(chance_random_widget), 2);
+#endif
     gtk_grid_attach(GTK_GRID(grid), label, 0, 8, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chance_random_widget, 1, 8, 1, 1);
 

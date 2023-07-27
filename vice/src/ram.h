@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+#define RAM_INIT_RANDOM_CHANCE_MAX      10000  /* 100% */
+#define RAM_INIT_RANDOM_CHANCE_DEFAULT     10  /* 0.1% */
+
 typedef struct _RAMINITPARAM {
     int start_value;/* first value of the base pattern (byte value) */
     int value_invert; /* number of bytes until start value is inverted */
