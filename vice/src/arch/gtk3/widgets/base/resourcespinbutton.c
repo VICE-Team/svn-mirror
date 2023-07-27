@@ -50,7 +50,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include "math.h"
+#include <math.h>
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
@@ -649,3 +649,276 @@ void vice_gtk3_resource_spin_double_set_digits(GtkWidget *spin, guint digits)
 {
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), digits);
 }
+
+
+
+/******************************************************************************
+ *   Spin button for displaying custom values based on alternate ranges and   *
+ *   using format strings to display affixes.                                 *
+ *****************************************************************************/
+
+/** \brief  Custom spin button state object
+ *
+ * Provides the ranges, stepping, resource name and display format string for
+ * the events/methods of the custom spin button.
+ */
+typedef struct cs_state_s {
+    gchar   *res_name;  /**< resource name */
+    gint     res_min;   /**< resource minimum value */
+    gint     res_max;   /**< resource maximum value */
+    gdouble  disp_min;  /**< displayed minimum value */
+    gdouble  disp_max;  /**< displayed maximum value */
+    gdouble  disp_step; /**< stepping for displayed value */
+    gchar   *disp_fmt;  /**< format string for displayed value */
+} cs_state_t;
+
+
+/** \brief  Create internal state object for custom spin button
+ *
+ * \param[in]   resource_name   resource name
+ * \param[in]   resource_min    resource minimum value
+ * \param[in]   resource_max    resource maximum value
+ * \param[in]   display_min     displayed minimum value
+ * \param[in]   display_max     displayed maximum value
+ * \param[in]   display_step    displayed value stepping
+ * \param[in]   display_format  format string for displayed value
+ *
+ * \return  new custom spin state
+ */
+static cs_state_t *cs_state_new(const gchar *resource_name,
+                                gint         resource_min,
+                                gint         resource_max,
+                                gdouble      display_min,
+                                gdouble      display_max,
+                                gdouble      display_step,
+                                const gchar *display_format)
+{
+    cs_state_t *state = g_malloc(sizeof *state);
+
+    state->res_name  = g_strdup(resource_name);
+    state->res_min   = resource_min;
+    state->res_max   = resource_max;
+    state->disp_min  = display_min;
+    state->disp_max  = display_max;
+    state->disp_step = display_step;
+    state->disp_fmt  = g_strdup(display_format);
+
+    return state;
+}
+
+/** \brief  Free custom spin state object and its members
+ *
+ * \param[in]   state   custom spin state
+ */
+static void cs_state_free(cs_state_t *state)
+{
+    g_free(state->res_name);
+    g_free(state->disp_fmt);
+    g_free(state);
+}
+
+/** \brief  Determine ratio of resource range:display range
+ *
+ * \param[in]   state   custom spin state
+ *
+ * \return  ratio to use when translating between resource and display values
+ */
+static gdouble cs_state_ratio(const cs_state_t *state)
+{
+    /* incorrect: should be +1 for the integer range */
+    return ((gdouble)(state->res_max) - (gdouble)(state->res_min)) /
+           (state->disp_max - state->disp_min);
+}
+
+/** \brief  Calculate display value from resource value
+ *
+ * \param[in]   value   resource value
+ * \param[in]   state   custom spin state
+ *
+ * \return  resource value
+ */
+static gdouble cs_state_resource_to_display(int value, const cs_state_t *state)
+{
+    return ((gdouble)(value - state->res_min) / cs_state_ratio(state)) + state->disp_min;
+}
+
+/** \brief  Calculate resource value from display value
+ *
+ * \param[in]   value   display value
+ * \param[in]   state   custom spin state
+ *
+ * \return  resource value
+ */
+static int cs_state_display_to_resource(gdouble value, const cs_state_t *state)
+{
+    return round((value - state->disp_min) * cs_state_ratio(state)) + state->res_min;
+}
+
+/** \brief  Handler for the 'destroy' event of a custom spin button
+ *
+ * Frees the internal state object.
+ *
+ * \param[in]   self    custom spin button
+ * \param[in]   data    custom spin state
+ */
+static void on_custom_spin_destroy(GtkWidget *self, gpointer data)
+{
+    if (data != NULL) {
+        cs_state_free(data);
+    }
+}
+
+/** \brief  Handler for the 'output' event of a custom spin button
+ *
+ * Format the value according to the \c display_format provided in the widget's
+ * constructor.
+ *
+ * \param[in]   self    custom spin button
+ * \param[in]   data    custom spin state
+ */
+static gboolean on_custom_spin_output(GtkSpinButton *self, gpointer data)
+{
+    GtkAdjustment *adjustment;
+    gchar          buffer[64];
+    cs_state_t    *state = data;
+    gdouble        value;
+
+    adjustment = gtk_spin_button_get_adjustment(self);
+    value      = gtk_adjustment_get_value(adjustment);
+    g_snprintf(buffer, sizeof(buffer), state->disp_fmt, value);
+#if 0
+    debug_gtk3("Setting spin button display to '%s'\n", buffer);
+#endif
+    gtk_entry_set_text(GTK_ENTRY(self), buffer);
+    return TRUE;
+}
+
+/** \brief  Handler for the 'input' event of a custom spin button
+ *
+ * Convert string entered by user to double and store in \a value.
+ *
+ * \param[in]   self    custom spin button
+ * \param[out]  value   converted value
+ * \param[in]   data    custom spin state (unused)
+ */
+static gint on_custom_spin_input(GtkSpinButton *self, gdouble *value, gpointer data)
+{
+    const char *text;
+    gdouble     result;
+    char       *endptr = NULL;
+
+    text   = gtk_entry_get_text(GTK_ENTRY(self));
+    result = strtod(text, &endptr);
+#if 0
+    debug_gtk3("Spin button text: '%s', result = %f\n", text, result);
+#endif
+    *value = result;
+    return TRUE;
+}
+
+/** \brief  Handler for the 'value-changed' event of a custom spin button
+ *
+ * Convert displayed value to resource value and update resource.
+ *
+ * \param[in]   self    custom spin button
+ * \param[in]   data    custom spin state
+ */
+static void on_custom_spin_value_changed(GtkSpinButton *self, gpointer data)
+{
+    cs_state_t *state = data;
+    gdouble     dvalue; /* displayed value */
+    int         rvalue; /* resource value */
+
+    dvalue = gtk_spin_button_get_value(self);
+    rvalue = cs_state_display_to_resource(dvalue, state);
+#if 0
+    debug_gtk3("Display value: %4.1f, resource value: %d", dvalue, rvalue);
+#endif
+    if (rvalue < state->res_min) {
+        rvalue = state->res_min;
+    } else if (rvalue > state->res_max) {
+        rvalue = state->res_max;
+    }
+    resources_set_int(state->res_name, rvalue);
+}
+
+
+/** \brief  Create a resource-bound spin button with custom range and formatting
+ *
+ * Create spin button that displays values between \a display_min and
+ * \a display_max but internally uses \a resource_min and \a resource_max for
+ * the resource.
+ * The \a display_format string is used to format the displayed value, and while
+ * the resource is an \c int the displayed value is a \c double, so the format
+ * string should reflect this. When displaying and setting the resource, scaling
+ * is applied to translate between the resource range and value and its displayed
+ * value and range.
+ *
+ * \param[in]   resource_name   resource name
+ * \param[in]   resource_min    resource minimum value
+ * \param[in]   resource_max    resource maximum value
+ * \param[in]   display_min     displayed minimum value
+ * \param[in]   display_max     displayed maximum value
+ * \param[in]   display_step    displayed value stepping
+ * \param[in]   display_format  format string for displayed value
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
+                                              gint         resource_min,
+                                              gint         resource_max,
+                                              gdouble      display_min,
+                                              gdouble      display_max,
+                                              gdouble      display_step,
+                                              const gchar *display_format)
+{
+    GtkWidget  *spin;
+    cs_state_t *state;
+    int         rvalue = 0; /* resource value */
+    gdouble     dvalue = 0; /* resource value converted to display value */
+
+    spin  = gtk_spin_button_new_with_range(display_min, display_max, display_step);
+    state = cs_state_new(resource_name, resource_min, resource_max,
+                         display_min, display_max, display_step, display_format);
+
+    /* No resource mediator here, we have to convert between displayed and
+     * resource values so most of the mediator's methods won't work. */
+    resources_get_int(resource_name, &rvalue);
+    dvalue = cs_state_resource_to_display(rvalue, state);
+#if 0
+    debug_gtk3("Setting \"%s\" to %d (resource), %4.1f (display)",
+               resource_name, rvalue, dvalue);
+#endif
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), dvalue);
+    /* Without this any custom formatting of output will fail and result in an
+     * empty widget! */
+    gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(spin), FALSE);
+    /* TODO: Fix width of internal GtkEntry to account for any characters added
+     *       by affixes or the like in `display_format.
+     */
+
+    /* connect signal handlers, most don't touch the resource and can be connected
+     * "unlocked" */
+    g_signal_connect_unlocked(G_OBJECT(spin),
+                              "destroy",
+                              G_CALLBACK(on_custom_spin_destroy),
+                              (gpointer)state);
+    g_signal_connect_unlocked(G_OBJECT(spin),
+                              "output",
+                              G_CALLBACK(on_custom_spin_output),
+                              (gpointer)state);
+    g_signal_connect_unlocked(G_OBJECT(spin),
+                              "input",
+                              G_CALLBACK(on_custom_spin_input),
+                              (gpointer)state);
+    g_signal_connect(G_OBJECT(spin),
+                     "value-changed",
+                     G_CALLBACK(on_custom_spin_value_changed),
+                     (gpointer)state);
+
+    return spin;
+}
+
+/*
+ * No setters/getters or sync/reset methods, not required at the moment.
+ */
