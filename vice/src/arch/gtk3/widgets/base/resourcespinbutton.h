@@ -71,4 +71,13 @@ gboolean vice_gtk3_resource_spin_double_factory   (GtkWidget *spin);
 gboolean vice_gtk3_resource_spin_double_sync      (GtkWidget *spin);
 void     vice_gtk3_resource_spin_double_set_digits(GtkWidget *spin,
                                                    guint      digits);
+
+GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
+                                              gint         resource_min,
+                                              gint         resource_max,
+                                              gdouble      display_min,
+                                              gdouble      display_max,
+                                              gdouble      display_step,
+                                              const gchar *display_format);
+
 #endif
