@@ -20590,6 +20590,15 @@ the file.  If address is given, the file is loaded to the specified
 address and the first two bytes read from the file are skipped.  If
 device is 0, the file is read from the file system.
 
+@item loadbasic "<filename>" <device> [<address>]
+@itemx ldb "<filename>" <device> [<address>]
+Load the specified file into memory and set BASIC pointers as if the file was
+loaded by the Kernal.  If no address is given, the file
+is loaded to the address specified by the first two bytes read from
+the file.  If address is given, the file is loaded to the specified
+address and the first two bytes read from the file are skipped.  If
+device is 0, the file is read from the file system.
+
 @item bload "<filename>" <device> <address>
 @itemx bl "<filename>" <device> <address>
 Load the specified file into memory at the specified address.

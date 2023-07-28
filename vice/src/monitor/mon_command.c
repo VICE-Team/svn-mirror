@@ -664,6 +664,15 @@ static const mon_cmds_t mon_cmd_array[] = {
 
     { "load", "l",
       "\"<filename>\" <device> [<address>]",
+      "Load the specified file into memory at the specified address.\n"
+      "Use (otherwise ignored) two-byte load address from file if no address\n"
+      "specified.\n"
+      "If device is 0, the file is read from the file system.",
+      FILENAME_ARG
+    },
+
+    { "loadbasic", "ldb",
+      "\"<filename>\" <device> [<address>]",
       "Load the specified file into memory at the specified address. Set BASIC\n"
       "pointers appropriately if loaded into computer memory (not all emulators).\n"
       "Use (otherwise ignored) two-byte load address from file if no address\n"
