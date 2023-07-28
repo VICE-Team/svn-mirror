@@ -29,7 +29,8 @@
 
 #include "monitor.h"
 
-void mon_file_load(const char *filename, int device, MON_ADDR start_addr, bool is_bload);
+void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
+                   bool is_binary, bool set_pointers);
 void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
                    MON_ADDR end_addr, bool is_bsave);
 

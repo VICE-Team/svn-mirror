@@ -196,6 +196,7 @@ HDIGIT  [0-9a-f]
         keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
         list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
+        loadbasic|ldb   { BEGIN(FNAME);         return CMD_BASICLOAD; }
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
         log             { BEGIN(INITIAL);       return CMD_LOG; }
         logname         { BEGIN(FNAME);         return CMD_LOGNAME; }
