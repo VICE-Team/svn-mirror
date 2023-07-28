@@ -293,21 +293,13 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, row, 1, 1);
 
     label    = label_helper("Tape speed tuning");
-    /* FIXME: this should show -50...+50 percent instead of the resource value.
-              To scale accordingly use TAP_SPEED_TUNING_ONE, which equals 100% */
-#if 0
-    ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
-                                               -TAP_SPEED_TUNING_MAX,
-                                                TAP_SPEED_TUNING_MAX,
-                                                TAP_SPEED_TUNING_MAX / 1000);
-#else
     ds_speed = vice_gtk3_resource_spin_custom_new("DatasetteSpeedTuning",
                                                   -TAP_SPEED_TUNING_MAX,
                                                   TAP_SPEED_TUNING_MAX,
                                                   -50.0,
                                                   50.0,
                                                   1.0,
-                                                  "%+4.1f%%");
+                                                  "%4.1f%%");
     /* FIXME: Hack to get a little more space: since we use a custom "output"
      * signal handler. Gtk doesn't know about the suffix and allocates just
      * enough space for the number of characters required for the largest value
@@ -319,25 +311,17 @@ static GtkWidget *create_datasette_widget(void)
      * Gtk allocate more space for the GtkSpinButton's internal GtkEntry.
      */
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_speed), 3);
-#endif
     gtk_widget_set_margin_bottom(ds_speed, 8);
     gtk_grid_attach(GTK_GRID(grid), label,    2, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, row, 1, 1);
     row++;
 
     label = label_helper("Wobble frequency");
-#if 0
-    ds_wobblefreq = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleFrequency",
-                                                    0,
-                                                    TAP_WOBBLE_FREQ_MAX,
-                                                    TAP_WOBBLE_FREQ_MAX / 1000);
-#else
     ds_wobblefreq = vice_gtk3_resource_spin_custom_new("DatasetteTapeWobbleFrequency",
                                                        0, TAP_WOBBLE_FREQ_MAX,
                                                        0.0, 50.0, 1.0,
                                                        "%4.1fHz");
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_wobblefreq), 3);
-#endif
     gtk_widget_set_margin_bottom(ds_wobblefreq, 8);
     gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, row, 1, 1);
@@ -352,20 +336,11 @@ static GtkWidget *create_datasette_widget(void)
     row++;
 
     label        = label_helper("Wobble amplitude");
-#if 0
-    /* FIXME: this should show 0...50 percent instead of the resource value.
-              To scale accordingly use TAP_WOBBLE_AMPLITUDE_ONE, which equals 100% */
-    ds_wobbleamp = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleAmplitude",
-                                                   0,
-                                                   TAP_WOBBLE_AMPLITUDE_MAX,
-                                                   TAP_WOBBLE_AMPLITUDE_MAX / 1000);
-#else
     ds_wobbleamp = vice_gtk3_resource_spin_custom_new("DatasetteTapeWobbleAmplitude",
                                                       0, TAP_WOBBLE_AMPLITUDE_MAX,
                                                       0.0, 50.0, 0.5,
-                                                      "%+5.1f%%");
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_wobbleamp), 4);
-#endif
+                                                      "%5.1f%%");
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_wobbleamp), 3);
     gtk_grid_attach(GTK_GRID(grid), label,        0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 1, row, 1, 1);
 
