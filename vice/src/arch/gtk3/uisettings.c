@@ -2597,9 +2597,8 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
         settings_ypos = cfg->y;
 
         /* check dialog size */
-        log_message(LOG_DEFAULT,
-                    "Settings UI: New dialog size is %dx%d (requested %dx%d).",
-                    cfg->width, cfg->height, DIALOG_WIDTH, DIALOG_HEIGHT);
+        debug_gtk3("New dialog size is %dx%d (requested %dx%d).",
+                   cfg->width, cfg->height, DIALOG_WIDTH, DIALOG_HEIGHT);
 #ifdef HAVE_DEBUG_GTK3UI
         if (cfg->width > max_width || cfg->height > max_height) {
             debug_gtk3("New dialog size of %dx%d exceeds tolerance of %dx%d.",
