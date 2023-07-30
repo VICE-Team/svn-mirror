@@ -319,6 +319,7 @@ static GtkWidget *create_datasette_widget(void)
                                                0,
                                                TAP_AZIMUTH_ERROR_MAX,
                                                TAP_AZIMUTH_ERROR_MAX / 1000);
+    gtk_widget_set_margin_bottom(ds_align, 8);
     gtk_grid_attach(GTK_GRID(grid), label,    2, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_align, 3, row, 1, 1);
     row++;
