@@ -300,17 +300,6 @@ static GtkWidget *create_datasette_widget(void)
                                                   50.0,
                                                   1.0,
                                                   "%4.1f%%");
-    /* FIXME: Hack to get a little more space: since we use a custom "output"
-     * signal handler. Gtk doesn't know about the suffix and allocates just
-     * enough space for the number of characters required for the largest value
-     * we set via the min/max arguments.
-     * So we set a number of digits for the fraction to force a little more
-     * space for the custom suffix.
-     * The number of digits set does not influence the format string above, it
-     * just influences the default "output" handler's number of digits, making
-     * Gtk allocate more space for the GtkSpinButton's internal GtkEntry.
-     */
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_speed), 3);
     gtk_widget_set_margin_bottom(ds_speed, 8);
     gtk_grid_attach(GTK_GRID(grid), label,    2, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, row, 1, 1);
@@ -321,7 +310,6 @@ static GtkWidget *create_datasette_widget(void)
                                                        0, TAP_WOBBLE_FREQ_MAX,
                                                        0.0, 50.0, 1.0,
                                                        "%4.1fHz");
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_wobblefreq), 3);
     gtk_widget_set_margin_bottom(ds_wobblefreq, 8);
     gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, row, 1, 1);
@@ -340,7 +328,6 @@ static GtkWidget *create_datasette_widget(void)
                                                       0, TAP_WOBBLE_AMPLITUDE_MAX,
                                                       0.0, 50.0, 0.5,
                                                       "%5.1f%%");
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(ds_wobbleamp), 3);
     gtk_grid_attach(GTK_GRID(grid), label,        0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 1, row, 1, 1);
 
