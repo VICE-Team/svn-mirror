@@ -66,7 +66,6 @@ typedef struct spin_s {
     float       valmin;     /**< spin button minimum value */
     float       valmax;     /**< spin button maximum value */
     float       step;       /**< spin button stepping */
-    int         digits;     /**< number of digits to display */
 } spin_t;
 
 /** \brief  Spin button declarations for the RPM resources
@@ -74,11 +73,10 @@ typedef struct spin_s {
  * Please note I pulled the following values from my backside, so feel free to
  * alter them to more sensible values   -- compyx
  */
-
 static const spin_t spinners[] = {
-    { "Drive RPM",        "Drive%dRPM",             "%3.2f",   26000, 34000,                    260.0f, 340.0f, 0.5f, 2 },
-    { "Wobble frequency", "Drive%dWobbleFrequency", "%2.3fHz",     0, DRIVE_WOBBLE_FREQ_MAX,      0.0f,  50.0f, 0.1f, 3  },
-    { "Wobble Amplitude", "Drive%dWobbleAmplitude", "%1.2fRPM",    0, DRIVE_WOBBLE_AMPLITUDE_MAX, 0.0f,   5.0f, 0.1f, 2  }
+    { "Drive RPM",        "Drive%dRPM",             "%6.2f",   26000, 34000,                    260.0f, 340.0f, 0.5f },
+    { "Wobble frequency", "Drive%dWobbleFrequency", "%6.3fHz",     0, DRIVE_WOBBLE_FREQ_MAX,      0.0f,  50.0f, 0.1f },
+    { "Wobble Amplitude", "Drive%dWobbleAmplitude", "%4.2fRPM",    0, DRIVE_WOBBLE_AMPLITUDE_MAX, 0.0f,   5.0f, 0.1f }
 };
 
 /** \brief  Create widget to control drive RPM and wobble
@@ -91,7 +89,6 @@ GtkWidget *drive_rpm_widget_create(int unit)
 {
     GtkWidget *grid;
     int        i;
-    char       temp[32];
 
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RPM settings", 2);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
@@ -102,14 +99,11 @@ GtkWidget *drive_rpm_widget_create(int unit)
 
         label = gtk_label_new(spinners[i].label);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-
-        sprintf(temp, spinners[i].format, unit);
-        spin = vice_gtk3_resource_spin_custom_new(temp,
-                                                        spinners[i].min, spinners[i].max,
-                                                        spinners[i].valmin, spinners[i].valmax, spinners[i].step,
-                                                        spinners[i].valfmt);
-        gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), spinners[i].digits);
-
+        spin = vice_gtk3_resource_spin_custom_new_sprintf(spinners[i].format,
+                                                          spinners[i].min, spinners[i].max,
+                                                          spinners[i].valmin, spinners[i].valmax, spinners[i].step,
+                                                          spinners[i].valfmt,
+                                                          unit);
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), spin,  1, i + 1, 1, 1);
     }
