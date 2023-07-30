@@ -54,6 +54,7 @@
 #include "partner128.h"
 #include "warpspeed128.h"
 #include "ltkernal.h"
+#include "ramlink.h"
 
 #define DBGC128CART
 
@@ -653,8 +654,18 @@ void external_function_rom_set_bank(int value)
 /* ROML and ROMH reads at the cartridge port */
 uint8_t external_function_rom_read(uint16_t addr)
 {
-    int type = cartridge_get_id(0);
+    int type = cart_getid_slot0();
     uint8_t val;
+    /* do slot0 first */
+    switch(type) {
+        case CARTRIDGE_RAMLINK:
+            if (c128ramlink_roml_read(addr, &val)) {
+                vicii.last_cpu_val = val;
+                return vicii.last_cpu_val;
+            }
+    }
+    /* then do slotmain */
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
             val = c128gmod2_roml_read(addr);
@@ -779,9 +790,20 @@ uint8_t c128cartridge_basic_hi_store(uint16_t addr, uint8_t value)
 /* kernal replacement reads at the cartridge port */
 uint8_t c128cartridge_hi_read(uint16_t addr, uint8_t *value)
 {
-    int type = cartridge_get_id(0);
+    int type = cart_getid_slot0();
     uint8_t ret = 0;
     /* return 1 if the read was successful */
+    switch(type) {
+        case CARTRIDGE_RAMLINK:
+            ret = c128ramlink_hi_read(addr, value);
+            break;
+        default:
+            break;
+    }
+    if (ret) {
+        return ret;
+    }
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_LT_KERNAL:
             ret = c128ltkernal_hi_read(addr, value);
@@ -843,11 +865,21 @@ uint8_t c128cartridge_ram_store(uint16_t addr, uint8_t value)
 /* mmu translation: return 0 if no translation applied, leave it for the tables */
 int c128cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config)
 {
-    int type = cartridge_get_id(0);
+    int type = cart_getid_slot0();
 #if 0
     /* disable all the mmu translation stuff for testing */
     return 0;
 #endif
+    switch(type) {
+        case CARTRIDGE_RAMLINK:
+            if (c128ramlink_mmu_translate(addr, base, start, limit, mem_config)) {
+                return 1;
+            }
+            break;
+        default:
+            break;
+    }
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_LT_KERNAL:
             return c128ltkernal_mmu_translate(addr, base, start, limit, mem_config);
@@ -861,7 +893,16 @@ int c128cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, i
 /* notify cartridge of mode change */
 void c128cartridge_switch_mode(int mode)
 {
-    int type = cartridge_get_id(0);
+    int type = cart_getid_slot0();
+    switch(type) {
+        case CARTRIDGE_RAMLINK:
+            c128ramlink_switch_mode(mode);
+            break;
+        default:
+            break;
+    }
+
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_LT_KERNAL:
             c128ltkernal_switch_mode(mode);
@@ -869,5 +910,6 @@ void c128cartridge_switch_mode(int mode)
         default:
             break;
     }
+
     return;
 }
