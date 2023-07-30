@@ -61,7 +61,7 @@
 #include "drive/iec/cmdhd.h"
 
 /* #define RLLOG1 */
-/* #define RLLOG2 */
+#define RLLOG2
 /* #define RLDEBUGIO */
 /* #define RLDEBUGMEM */
 
@@ -120,6 +120,9 @@ static int rl_normal = 1; /* either 1=normal, 0=direct */
 static int rl_rtcsave = 0;
 static char *rl_filename = NULL;
 static char *rl_bios_filename = NULL;
+
+#define rl_kernbase64  (2*0x4000)
+#define rl_kernbase128 (3*0x4000)
 
 /* internal stuff */
 static uint8_t rl_on = 0;
@@ -860,7 +863,7 @@ static int set_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    LOG2((LOG, "RAMLINK: set_enabled"));
+    LOG2((LOG, "RAMLINK: set_enabled %d", val));
 
     if ((!val) && (rl_enabled)) {
         cart_power_off();
@@ -1194,7 +1197,7 @@ static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
    PB3 is ERROR LED (1=on)
    PB2 is SWAP9 button control
    PB1 is SWAP8 button control
-   PB0 is ???
+   PB0 is system mode (1=128, 0=64)
 */
 static void set_pb(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 {
@@ -1202,6 +1205,13 @@ static void set_pb(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 
     ramlink_sync_cpus();
 
+    /* see if bit 0 toggles */
+    if ((rl_i8255a_o[1] ^ byte) & 0x01) {
+        /* use older value to avoid inversion */
+        c128ramlink_switch_mode(rl_i8255a_o[1] & 0x01);
+    }
+
+    /* check for patn change */
     old = rl_i8255a_o[1] & 0x20 ? 0 : 1;
     new = byte & 0x20 ? 0 : 1;
 
@@ -1478,6 +1488,187 @@ static int ramlink_io2_dump(void)
 }
 
 /* ---------------------------------------------------------------------*/
+int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config)
+{
+#if 0
+/* for no-mmu testing */
+    *base = 0;
+    *start = 0;
+    *limit = 0;
+    return 1;
+#endif
+
+    /* unlike the c64 mmu_translate, here we only apply what we can and move
+       on. return a 1 if we did, or 0 if we didn't apply anything. */
+    if (!rl_mapped || !rl_enabled) {
+        return 0;
+    }
+
+    if (addr >= 0x8000 && addr <= 0x9fff && ((mem_config & 0x0c) == 0x08)) {
+        if (rl_dos) {
+            *base = rl_rom + rl_rombase - 0x8000;
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return 1;
+        }
+    } else if (addr >= 0xa000 && addr <= 0xbfff && ((mem_config & 0x0c) == 0x08)) {
+        if (rl_dos) {
+            *base = rl_rom + rl_rombase + 0x2000 - 0xa000;
+            *start = 0xa000;
+            *limit = 0xbffd;
+            return 1;
+        }
+    } else if (addr >= 0xe000 && ((mem_config & 0x30) == 0x00)) {
+        if (rl_on) {
+            *base = rl_rom + rl_kernbase128 - 0xe000;
+            *start = 0xe000;
+            *limit = 0xfffd;
+        /* on the 128, RL doesn't map $fd00-$ff0f to avoid dealing with
+           international keyboard differences in all the ROMs */
+        } else if (addr < 0xfd00) {
+            *base = rl_rom + rl_kernbase128 + 0x2000 - 0xe000;
+            *start = 0xe000;
+            *limit = 0xfcfd;
+        } else if (addr >= 0xff10) {
+            *base = rl_rom + rl_kernbase128 + 0x2000 - 0xe000;
+            *start = 0xff10;
+            *limit = 0xfffd;
+        } else {
+            return 0;
+        }
+        return 1;
+    } else if (addr >= 0xe000 && ((mem_config & 0x30) == 0x20)) {
+        if (rl_on) {
+    /* switched kernal */
+    /* for $e000-$ffff, ramlink exposes the switched kernal, but there are a couple holes:
+       $ff05-$ff0f, $fff0-$ffff */
+            *base = rl_rom + rl_kernbase128 - 0xe000;
+            if (addr < 0xff00) {
+                *start = 0xe000;
+                *limit = 0xff00 - 3;
+            } else if (addr >= 0xff10 && addr < 0xfff0 ) {
+                *start = 0xff10;
+                *limit = 0xfff0 - 3;
+            } else {
+                return 0;
+            }
+        } else {
+    /* main kernal */
+    /* for $e000-$ffff, ramlink exposes the main kernal, but there are a few holes:
+       $eb00-$ecff, $f7a0-$f7af, $fd00-$feff, $ff05-$ff0f, $ff50-$ff5f, $fff0-$ffff */
+            *base = rl_rom + rl_kernbase128 + 0x2000 - 0xe000;
+            if        (addr >= 0xe000 && addr < 0xeb00) {
+                *start = 0xe000;
+                *limit = 0xeb00 - 3;
+            } else if (addr >= 0xed00 && addr < 0xf7a0) {
+                *start = 0xed00;
+                *limit = 0xf7a0 - 3;
+            } else if (addr >= 0xf7b0 && addr < 0xfd00) {
+                *start = 0xf7b0;
+                *limit = 0xfd00 - 3;
+            } else if (addr >= 0xff10 && addr < 0xff50) {
+                *start = 0xff10;
+                *limit = 0xff50 - 3;
+            } else if (addr >= 0xff60 && addr < 0xfff0) {
+                *start = 0xff60;
+                *limit = 0xfff0 - 3;
+            } else {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    return 0;
+}
+
+uint8_t c128ramlink_hi_read(uint16_t addr, uint8_t *value)
+{
+    /* check IO if not done already */
+    if (!rl_scanned) {
+        ramlink_scan_io();
+        ramlink_off();
+    }
+
+    if (rl_mapped) {
+        /* other wise pull from one of the ROMS */
+        if (!rl_enabled) {
+            return 0;
+        } else if (rl_on) {
+            *value = rl_rom[rl_kernbase128 | (addr & 0x1fff)];
+        /* on the 128, RL doesn't map $fd00-$ff0f to avoid dealing with
+           international keyboard differences in all the ROMs */
+        } else if (addr < 0xfd00 || addr >= 0xff10) {
+            *value = rl_rom[rl_kernbase128 | 0x2000 | (addr & 0x1fff)];
+        } else {
+            return 0;
+        }
+        MDBG((LOG, "RAMLINK: c128ramlink_hi_read %04x = %02x", (int)addr, (int)*value));
+        return 1;
+    }
+
+    return 0;
+}
+
+uint8_t c128ramlink_roml_read(uint16_t addr, uint8_t *value)
+{
+    /* check IO if not done already */
+    if (!rl_scanned) {
+        ramlink_scan_io();
+        ramlink_off();
+    }
+
+    /* only expose ramlink banks if function rom is enabled */
+    if (addr >= 0x8000 && addr <= 0xbfff && rl_mapped && rl_dos && rl_enabled) {
+        *value = rl_rom[rl_rombase | (addr & 0x3fff)];
+        MDBG((LOG, "RAMLINK: c128ramlink_roml_read %04x = %02x", addr, *value));
+        return 1;
+    }
+
+    if (rl_mapped && rl_enabled && addr >= 0xe000) {
+        if (rl_on) {
+    /* switched kernal */
+    /* for $e000-$ffff, ramlink exposes the switched kernal, but there are a couple holes:
+       $ff05-$ff0f, $fff0-$ffff */
+            if ((addr >= 0xff00 && addr <= 0xff0f ) ||
+                (addr >= 0xfff0 )) {
+                return 0;
+            }
+            *value = rl_rom[rl_kernbase128 | (addr & 0x1fff)];
+            return 1;
+        } else {
+    /* main kernal */
+    /* for $e000-$ffff, ramlink exposes the main kernal, but there are a few holes:
+       $eb00-$ecff, $f7a0-$f7af, $fd00-$feff, $ff05-$ff0f, $ff50-$ff5f, $fff0-$ffff */
+            if ((addr >= 0xeb00 && addr <= 0xecff ) ||
+                (addr >= 0xf7a0 && addr <= 0xf7af ) ||
+                (addr >= 0xfd00 && addr <= 0xfeff ) ||
+                (addr >= 0xff00 && addr <= 0xff0f ) ||
+                (addr >= 0xff50 && addr <= 0xff5f ) ||
+                (addr >= 0xfff0 )) {
+                return 0;
+            }
+            *value = rl_rom[rl_kernbase128 | 0x2000 | (addr & 0x1fff)];
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void c128ramlink_switch_mode(int mode)
+{
+    LOG2((LOG, "RAMLINK: switch mode %d", mode));
+
+    if ( mode ) {
+        /* reconfigure for c64 mode */
+        cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
+    } else {
+        /* reconfigure for c128 mode */
+        cart_config_changed_slot0(CMODE_RAM, CMODE_RAM, CMODE_READ);
+    }
+}
+
 /* read 8000-9fff */
 int ramlink_roml_read(uint16_t addr, uint8_t *value)
 {
@@ -1510,15 +1701,17 @@ int ramlink_romh_read(uint16_t addr, uint8_t *value)
         ramlink_off();
     }
 
-    /* It seems that rl_on has higher priority over $1 */
+    /* It seems that rl_on has higher priority over $1, but NOT on addresses
+       0xff00 - 0xff10 and 0xfff0 - 0xffff. */
     if (rl_mapped) {
+        int p = (pport.dir & pport.data) | (~pport.dir & 7);
         /* other wise pull from one of the ROMS */
         if (!rl_enabled) {
             return CART_READ_THROUGH;
-        } else if (rl_on) {
-            *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
-        } else if ((~pport.dir | pport.data) & 2) {
-            *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
+        } else if (rl_on && (addr < 0xff00 || (addr >= 0xff10 && addr < 0xfff0))) {
+            *value = rl_rom[rl_kernbase64 | (addr & 0x1fff)];
+        } else if (p & 2) {
+            *value = rl_rom[rl_kernbase64 | 0x2000 | (addr & 0x1fff)];
         } else {
             return CART_READ_THROUGH;
         }
@@ -1577,9 +1770,9 @@ int ramlink_peek_mem(uint16_t addr, uint8_t *value)
     /* It seems that rl_on has higher priority over $1 */
     } else if (addr >= 0xe000) {
         if (rl_on) {
-            *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
+            *value = rl_rom[rl_kernbase64 | (addr & 0x1fff)];
         } else if ((~pport.dir | pport.data) & 2) {
-            *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
+            *value = rl_rom[rl_kernbase64 | 0x2000 | (addr & 0x1fff)];
         } else {
             return CART_READ_THROUGH;
         }
@@ -1617,27 +1810,36 @@ int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *li
         if (rl_dos) {
             *base = rl_rom + rl_rombase - 0x8000;
             *start = 0x8000;
-            *limit = 0x9ffd;
+            *limit = 0xa000 - 3;
             return CART_READ_VALID;
         }
     } else if (addr >= 0xa000 && addr <= 0xbfff) {
         if (rl_dos) {
             *base = rl_rom + rl_rombase + 0x2000 - 0xa000;
             *start = 0xa000;
-            *limit = 0xbffd;
+            *limit = 0xc000 - 3;
             return CART_READ_VALID;
         }
-    /* It seems that rl_on has higher priority over $1 */
+    /* It seems that rl_on has higher priority over $1, but NOT on addresses
+       0xff00 - 0xff10 and 0xfff0 - 0xffff. */
     } else if (addr >= 0xe000) {
-        if (rl_on) {
-            *base = rl_rom + rl_kernbase - 0xe000;
-        } else if ((~pport.dir | pport.data) & 2) {
-            *base = rl_rom + rl_kernbase + 0x2000 - 0xe000;
+        int p = (pport.dir & pport.data) | (~pport.dir & 7);
+        if (rl_on && (addr < 0xff00 || (addr >= 0xff10 && addr < 0xfff0))) {
+            *base = rl_rom + rl_kernbase64 - 0xe000;
+            if (addr < 0xff00) {
+                *start = 0xe000;
+                *limit = 0xff00 - 3;
+            } else {
+                *start = 0xff10;
+                *limit = 0xfff0 - 3;
+            }
+        } else if (p & 2) {
+            *base = rl_rom + rl_kernbase64 + 0x2000 - 0xe000;
+            *start = 0xe000;
+            *limit = 0x10000 - 3;
         } else {
             return CART_READ_THROUGH;
         }
-        *start = 0xe000;
-        *limit = 0xfffd;
         return CART_READ_VALID;
     }
 
@@ -1676,10 +1878,12 @@ void ramlink_config_init(export_t *ex)
     rl_extexrom = ex->exrom;
     rl_extgame = ex->game;
 
-    /* future code will have 128 stuff in here too once we have a cart API */
-    if ( machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C64 ) {
-        cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
+    /* set default cart mode depending on machine type */
+    if ( machine_class == VICE_MACHINE_C128 ) {
+        c128ramlink_switch_mode(0);
+    } else {
+        /* everything else */
+        c128ramlink_switch_mode(1);
     }
 
     for (i = 0; i < 0x2000; i++) {
@@ -1712,16 +1916,13 @@ void ramlink_config_setup(uint8_t *rawcart)
     /* copy supplied ROM image to memory */
     memcpy(rl_rom, rawcart, 0x10000);
 
-    /* set the base address for kernal access */
+    /* set default cart mode depending on machine type */
     if ( machine_class == VICE_MACHINE_C128 ) {
-        rl_kernbase = 3*0x4000;
+        c128ramlink_switch_mode(0);
     } else {
-        /* anything else 64 */
-        rl_kernbase = 2*0x4000;
+        /* everything else */
+        c128ramlink_switch_mode(1);
     }
-
-    /* setup the cart */
-    cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -56,6 +56,11 @@ int ramlink_peek_mem(uint16_t addr, uint8_t *value);
 int ramlink_romh_phi1_read(uint16_t addr, uint8_t *value);
 int ramlink_romh_phi2_read(uint16_t addr, uint8_t *value);
 int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+void c128ramlink_switch_mode(int mode);
+int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config);
+uint8_t c128ramlink_hi_read(uint16_t addr, uint8_t *value);
+uint8_t c128ramlink_roml_read(uint16_t addr, uint8_t *value);
+
 void ramlink_passthrough_changed(export_t *ex);
 int ramlink_cart_mode(void);
 
