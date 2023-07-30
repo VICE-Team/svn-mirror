@@ -949,6 +949,49 @@ GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
     return spin;
 }
 
+
+/** \brief  Create a resource-bound spin button with custom range and formatting
+ *
+ * This version allows using a printf-style format string for the resource name.
+ * See the non-printf vice_gtk3_resource_spin_custom_new() for documentation.
+ *
+ * \param[in]   resource_format resource name format string
+ * \param[in]   resource_min    resource minimum value
+ * \param[in]   resource_max    resource maximum value
+ * \param[in]   display_min     displayed minimum value
+ * \param[in]   display_max     displayed maximum value
+ * \param[in]   display_step    displayed value stepping
+ * \param[in]   display_format  format string for displayed value
+ * \param[in]   ...             arguments for the \a resource_format
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *vice_gtk3_resource_spin_custom_new_sprintf(const gchar *resource_format,
+                                                      gint         resource_min,
+                                                      gint         resource_max,
+                                                      gdouble      display_min,
+                                                      gdouble      display_max,
+                                                      gdouble      display_step,
+                                                      const gchar *display_format,
+                                                      ...)
+{
+    char    resource_name[256];
+    va_list args;
+
+    va_start(args, display_format);
+    g_vsnprintf(resource_name, sizeof resource_name, resource_format, args);
+    va_end(args);
+
+    return vice_gtk3_resource_spin_custom_new(resource_name,
+                                              resource_min,
+                                              resource_max,
+                                              display_min,
+                                              display_max,
+                                              display_step,
+                                              display_format);
+}
+
+
 /*
  * No setters/getters or sync/reset methods, not required at the moment.
  */

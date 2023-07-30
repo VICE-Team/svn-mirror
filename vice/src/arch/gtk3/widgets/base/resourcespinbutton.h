@@ -80,4 +80,13 @@ GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
                                               gdouble      display_step,
                                               const gchar *display_format);
 
+GtkWidget *vice_gtk3_resource_spin_custom_new_sprintf(const gchar *resource_format,
+                                                      gint         resource_min,
+                                                      gint         resource_max,
+                                                      gdouble      display_min,
+                                                      gdouble      display_max,
+                                                      gdouble      display_step,
+                                                      const gchar *display_format,
+                                                      ...);
+
 #endif
