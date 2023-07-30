@@ -657,6 +657,15 @@ void vice_gtk3_resource_spin_double_set_digits(GtkWidget *spin, guint digits)
  *   using format strings to display affixes.                                 *
  *****************************************************************************/
 
+/** \brief  Size of buffer for formatting the display value
+ *
+ * Three chars for '-0.', 53 for mantissa and 1023 for exponent for the smallest
+ * negative value of an IEEE 64-bit float, 1 for terminating '\0', and a random
+ * number of characters for the custom formatting such as a prefix or suffix.
+ */
+#define CS_BUFSIZE  (3 + DBL_MANT_DIG + (-DBL_MIN_EXP) + 42 + 1)
+
+
 /** \brief  Custom spin button state object
  *
  * Provides the ranges, stepping, resource name and display format string for
@@ -779,7 +788,7 @@ static void on_custom_spin_destroy(GtkWidget *self, gpointer data)
 static gboolean on_custom_spin_output(GtkSpinButton *self, gpointer data)
 {
     GtkAdjustment *adjustment;
-    gchar          buffer[64];
+    gchar          buffer[CS_BUFSIZE];
     cs_state_t    *state = data;
     gdouble        value;
 
@@ -842,6 +851,28 @@ static void on_custom_spin_value_changed(GtkSpinButton *self, gpointer data)
     resources_set_int(state->res_name, rvalue);
 }
 
+/** \brief  Get minimum width required for the largest values of the widget
+ *
+ * Determine the minimum width in characters required for the displayed values.
+ *
+ * \param[in]   state   custom spin state
+ *
+ * \return  width in characters
+ */
+static int cs_get_minimum_width(const cs_state_t *state)
+{
+    char buffer[CS_BUFSIZE];
+    int  len_minval;
+    int  len_maxval;
+
+    /* print minimum and maximum values into buffer to see which one provides
+     * the largest string */
+    len_minval = g_snprintf(buffer, sizeof(buffer), state->disp_fmt, state->disp_min);
+    len_maxval = g_snprintf(buffer, sizeof(buffer), state->disp_fmt, state->disp_max);
+    /* return largest value of the two */
+    return len_maxval > len_minval ? len_maxval : len_minval;
+}
+
 
 /** \brief  Create a resource-bound spin button with custom range and formatting
  *
@@ -893,9 +924,8 @@ GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
     /* Without this any custom formatting of output will fail and result in an
      * empty widget! */
     gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(spin), FALSE);
-    /* TODO: Fix width of internal GtkEntry to account for any characters added
-     *       by affixes or the like in `display_format.
-     */
+    /* set minimum size of the entry to account for the custom formatting */
+    gtk_entry_set_width_chars(GTK_ENTRY(spin), cs_get_minimum_width(state));
 
     /* connect signal handlers, most don't touch the resource and can be connected
      * "unlocked" */
