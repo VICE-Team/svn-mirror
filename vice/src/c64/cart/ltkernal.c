@@ -967,7 +967,6 @@ void c128ltkernal_switch_mode(int mode)
 
 int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-//printf("LTK MMU: %02x %d %d %d\n",addr,ltk_rom,ltk_raml,ltk_ramh);
     /* the callers take care of most stuff here, but since this is both a
        standard cart and ultimax, we have to handle those situations.
        NOTE that the caller doesn't process the return value, so we have to
