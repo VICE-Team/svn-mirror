@@ -61,7 +61,7 @@
 #include "drive/iec/cmdhd.h"
 
 /* #define RLLOG1 */
-#define RLLOG2
+/* #define RLLOG2 */
 /* #define RLDEBUGIO */
 /* #define RLDEBUGMEM */
 
