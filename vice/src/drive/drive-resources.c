@@ -307,6 +307,10 @@ static int set_drive_rpm(int val, void *param)
     unsigned int dnr;
     drive_t *drive, *drive1;
 
+    if ((val < 0) || (val > DRIVE_RPM_MAX)) {
+        return -1;
+    }
+
     dnr = vice_ptr_to_uint(param);
     drive = diskunit_context[dnr]->drives[0];
     drive1 = diskunit_context[dnr]->drives[1];
@@ -322,6 +326,10 @@ static int set_drive_wobble_frequency(int val, void *param)
     unsigned int dnr;
     drive_t *drive, *drive1;
 
+    if ((val < 0) || (val > DRIVE_WOBBLE_FREQ_MAX)) {
+        return -1;
+    }
+
     dnr = vice_ptr_to_uint(param);
     drive = diskunit_context[dnr]->drives[0];
     drive1 = diskunit_context[dnr]->drives[1];
@@ -335,6 +343,10 @@ static int set_drive_wobble_amplitude(int val, void *param)
 {
     unsigned int dnr;
     drive_t *drive, *drive1;
+
+    if ((val < 0) || (val > DRIVE_WOBBLE_AMPLITUDE_MAX)) {
+        return -1;
+    }
 
     dnr = vice_ptr_to_uint(param);
     drive = diskunit_context[dnr]->drives[0];
@@ -371,11 +383,11 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_extend_image_policy, NULL },
     { NULL, DRIVE_IDLE_NO_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
-    { NULL, 30000, RES_EVENT_SAME, NULL,
+    { NULL, DRIVE_RPM_DEFAULT, RES_EVENT_SAME, NULL,
       NULL, set_drive_rpm, NULL },
-    { NULL, 5000, RES_EVENT_SAME, NULL,
+    { NULL, DRIVE_WOBBLE_FREQ_DEFAULT, RES_EVENT_SAME, NULL,
       NULL, set_drive_wobble_frequency, NULL },
-    { NULL, 2000, RES_EVENT_SAME, NULL,
+    { NULL, DRIVE_WOBBLE_AMPLITUDE_DEFAULT, RES_EVENT_SAME, NULL,
       NULL, set_drive_wobble_amplitude, NULL },
     { NULL, 1, RES_EVENT_STRICT, NULL,
       NULL, set_drive_true_emulation, NULL },
