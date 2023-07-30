@@ -199,6 +199,18 @@
 
 #define DRIVE_PC_NUM 5
 
+#define DRIVE_RPM_ONE                    100        /* 1 RPM */
+#define DRIVE_RPM_MAX                  32000        /* 320 RPM */
+#define DRIVE_RPM_DEFAULT              30000        /* 300 RPM */
+
+#define DRIVE_WOBBLE_FREQ_ONE           1000        /* 1 Hz */
+#define DRIVE_WOBBLE_FREQ_MAX          50000        /* 50 Hz */
+#define DRIVE_WOBBLE_FREQ_DEFAULT         75        /* .075 Hz */
+
+#define DRIVE_WOBBLE_AMPLITUDE_ONE      1000        /* +/- 1 RPM */
+#define DRIVE_WOBBLE_AMPLITUDE_MAX      5000        /* +/- 5 RPM */
+#define DRIVE_WOBBLE_AMPLITUDE_DEFAULT   200        /* +/- 0.2 RPM */
+
 /* ------------------------------------------------------------------------- */
 
 typedef struct drive_type_info_s {

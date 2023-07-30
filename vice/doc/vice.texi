@@ -6946,7 +6946,7 @@ Integers specifying the rotation speed of the drive, multiplied by 100, so
 @itemx Drive9WobbleFrequency
 @itemx Drive10WobbleFrequency
 @itemx Drive11WobbleFrequency
-Integers specifying the drive wobble frequency
+Integers specifying the drive wobble frequency. 1000 equals 1Hz.
 
 @vindex Drive8WobbleAmplitude
 @vindex Drive9WobbleAmplitude
@@ -6956,7 +6956,7 @@ Integers specifying the drive wobble frequency
 @itemx Drive9WobbleAmplitude
 @itemx Drive10WobbleAmplitude
 @itemx Drive11WobbleAmplitude
-Integers specifying the drive wobble amplitude
+Integers specifying the drive wobble amplitude. 1000 equals +/- 1 RPM.
 
 @vindex Drive8FixedSize
 @vindex Drive9FixedSize
@@ -7171,7 +7171,7 @@ equal 30000.
 @itemx -drive9wobblefrequency <frequency>
 @itemx -drive10wobblefrequency <frequency>
 @itemx -drive11wobblefrequency <frequency>
-Specifies frequency of the drive wobble
+Specifies frequency of the drive wobble. 1000 equals 1Hz.
 
 @findex -drive8wobbleamplitude
 @findex -drive9wobbleamplitude
@@ -7181,7 +7181,7 @@ Specifies frequency of the drive wobble
 @itemx -drive9wobbleamplitude <amplitude>
 @itemx -drive10wobbleamplitude <amplitude>
 @itemx -drive11wobbleamplitude <amplitude>
-Specifies amplitude of the drive wobble
+Specifies amplitude of the drive wobble. 1000 equals +/- 1RPM.
 
 @findex -drive8fixedsize
 @findex -drive9fixedsize

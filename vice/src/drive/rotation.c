@@ -324,11 +324,11 @@ static void rotation_do_wobble(drive_t *dptr)
     }
     dptr->wobble_factor = (int)((dptr->wobble_amplitude + cyclesrand) * sinf(dptr->wobble_sin_count));
 #else
-    dptr->wobble_sin_count += ((uint64_t)cpu_cycles * (dptr->wobble_frequency)) / 10000000000.0f;
+    dptr->wobble_sin_count += dptr->wobble_frequency * ((((uint64_t)cpu_cycles) * (2.0f * M_PI)) / 1000000000.0f);
     if (dptr->wobble_sin_count > (2 * M_PI)) {
         dptr->wobble_sin_count -= (2 * M_PI);
     }
-    dptr->wobble_factor = (int)((dptr->wobble_amplitude) * sinf(dptr->wobble_sin_count));
+    dptr->wobble_factor = (int)(0.5f + ((sinf(dptr->wobble_sin_count) * ((float)dptr->wobble_amplitude * 32.0f)) / 3.0f));
 #endif
 }
 

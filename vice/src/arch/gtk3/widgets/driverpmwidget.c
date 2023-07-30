@@ -46,6 +46,8 @@
 #include "drivewidgethelpers.h"
 #include "vice_gtk3.h"
 
+#include "drive.h"
+
 #include "driverpmwidget.h"
 
 
@@ -58,9 +60,12 @@
 typedef struct spin_s {
     const char *label;      /**< label to put next to the spin button */
     const char *format;     /**< resource name format string */
-    int         min;        /**< spin button minimum value */
-    int         max;        /**< spin button maximum value */
-    int         step;       /**< spin button stepping */
+    const char *valfmt;     /**< display format string */
+    int         min;        /**< resource minimum value */
+    int         max;        /**< resource maximum value */
+    float       valmin;     /**< spin button minimum value */
+    float       valmax;     /**< spin button maximum value */
+    float       step;       /**< spin button stepping */
     int         digits;     /**< number of digits to display */
 } spin_t;
 
@@ -69,12 +74,12 @@ typedef struct spin_s {
  * Please note I pulled the following values from my backside, so feel free to
  * alter them to more sensible values   -- compyx
  */
-static const spin_t spinners[] = {
-    { "Drive RPM",        "Drive%dRPM",             26000, 34000, 100, 2 },
-    { "Wobble frequency", "Drive%dWobbleFrequency",     0, 10000,  10, 0 },
-    { "Wobble Amplitude", "Drive%dWobbleAmplitude",     0,  5000,  10, 0 }
-};
 
+static const spin_t spinners[] = {
+    { "Drive RPM",        "Drive%dRPM",             "%3.2f",   26000, 34000,                    260.0f, 340.0f, 0.5f, 2 },
+    { "Wobble frequency", "Drive%dWobbleFrequency", "%2.3fHz",     0, DRIVE_WOBBLE_FREQ_MAX,      0.0f,  50.0f, 0.1f, 3  },
+    { "Wobble Amplitude", "Drive%dWobbleAmplitude", "%1.2fRPM",    0, DRIVE_WOBBLE_AMPLITUDE_MAX, 0.0f,   5.0f, 0.1f, 2  }
+};
 
 /** \brief  Create widget to control drive RPM and wobble
  *
@@ -86,6 +91,7 @@ GtkWidget *drive_rpm_widget_create(int unit)
 {
     GtkWidget *grid;
     int        i;
+    char       temp[32];
 
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RPM settings", 2);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
@@ -97,12 +103,12 @@ GtkWidget *drive_rpm_widget_create(int unit)
         label = gtk_label_new(spinners[i].label);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-        spin = vice_gtk3_resource_spin_int_new_sprintf(spinners[i].format,
-                                                       spinners[i].min,
-                                                       spinners[i].max,
-                                                       spinners[i].step,
-                                                       unit);
-        vice_gtk3_resource_spin_int_set_fake_digits(spin, spinners[i].digits);
+        sprintf(temp, spinners[i].format, unit);
+        spin = vice_gtk3_resource_spin_custom_new(temp,
+                                                        spinners[i].min, spinners[i].max,
+                                                        spinners[i].valmin, spinners[i].valmax, spinners[i].step,
+                                                        spinners[i].valfmt);
+        gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), spinners[i].digits);
 
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), spin,  1, i + 1, 1, 1);
