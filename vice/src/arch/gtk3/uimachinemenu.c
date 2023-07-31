@@ -36,6 +36,7 @@
 #include "archdep.h"
 #include "debug.h"
 #include "machine.h"
+#include "ui.h"
 #include "uiactions.h"
 #include "uimenu.h"
 
@@ -363,7 +364,6 @@ static const ui_menu_item_t file_menu_cart_no_freeze[] = {
 };
 /* }}} */
 
-
 /* {{{ printer_submenu */
 /** \brief  'File' menu - printer submenu (with userport printer)
  *
@@ -534,6 +534,7 @@ static ui_menu_item_t snapshot_menu[] = {
 };
 /* }}} */
 
+/* {{{ speed_submenu[] */
 /** \brief  Index in the speed submenu for the "$MACHINE_NAME FPS" item
  *
  * Bit of a hack since the menu item labels are reused for all emus and we can't
@@ -541,6 +542,7 @@ static ui_menu_item_t snapshot_menu[] = {
  */
 #define MACHINE_FPS_INDEX   7
 
+/** \brief  Settings -> Speed submenu */
 static const ui_menu_item_t speed_submenu[] = {
     { "200% CPU", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_CPU_200,
@@ -578,10 +580,10 @@ static const ui_menu_item_t speed_submenu[] = {
 
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
 /* {{{ settings_menu_head[] */
-/** \brief  'Settings' menu - head section
- */
+/** \brief  Settings menu - head section */
 static const ui_menu_item_t settings_menu_head[] = {
     { "Fullscreen", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_FULLSCREEN_TOGGLE,
@@ -592,12 +594,13 @@ static const ui_menu_item_t settings_menu_head[] = {
     { "Show menu/status in fullscreen", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
       NULL, true },
-    { "Show status bar", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_SHOW_STATUSBAR_TOGGLE,
-      NULL, true },
+    UI_MENU_TERMINATOR
+};
+/* }}} */
 
-    UI_MENU_SEPARATOR,
-
+/* {{{ settings_menu_speed[] */
+/** \brief  Settings menu - speed section */
+static const ui_menu_item_t settings_menu_speed[] = {
     { "Warp mode", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_WARP_MODE_TOGGLE,
       NULL, false },
@@ -607,19 +610,50 @@ static const ui_menu_item_t settings_menu_head[] = {
     { "Advance frame", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_ADVANCE_FRAME,
       NULL, false },
-
     UI_MENU_SEPARATOR,
 
     { "Emulation speed", UI_MENU_TYPE_SUBMENU,
       0,
       speed_submenu, false },
-
     UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+/* }}} */
 
-    { "Mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_MOUSE_GRAB_TOGGLE,
-      NULL, false },
+/* {{{ settings_menu_statusbar_primary[] */
+/** \brief  Settings menu - show statusbar (primary) item */
+static const ui_menu_item_t settings_menu_statusbar_primary[] = {
+    {   .action_id = ACTION_SHOW_STATUSBAR_TOGGLE,
+        .label     = "Show status bar",
+        .type      = UI_MENU_TYPE_ITEM_CHECK,
+        .unlocked  = false,
+    },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+/* }}} */
 
+/* {{{ settings_menu_statusbar_secondary[] */
+/** \brief  Settings menu - show statusbar (secondary) item */
+static const ui_menu_item_t settings_menu_statusbar_secondary[] = {
+    {   .action_id = ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
+        .label     = "Show status bar",
+        .type      = UI_MENU_TYPE_ITEM_CHECK,
+        .unlocked  = false
+    },
+    UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+/* }}} */
+
+/* {{{ settings_menu_mouse[] */
+/** \brief  Settings menu - mouse items */
+static const ui_menu_item_t settings_menu_mouse[] = {
+    {   .action_id = ACTION_MOUSE_GRAB_TOGGLE,
+        .label     = "Mouse grab",
+        .type      = UI_MENU_TYPE_ITEM_CHECK,
+        .unlocked  = false
+    },
     UI_MENU_TERMINATOR
 };
 /* }}} */
@@ -688,7 +722,6 @@ static const ui_menu_item_t settings_menu_tail[] = {
 /* }}} */
 
 #ifdef DEBUG
-
 /* {{{ debug_menu[] */
 /** \brief  'Debug' menu items for emu's except x64dtv
  */
@@ -798,7 +831,6 @@ static const ui_menu_item_t debug_menu_c64dtv[] = {
 /* }}} */
 #endif
 
-
 /* {{{ help_menu[] */
 /** \brief  'Help' menu items
  */
@@ -822,6 +854,7 @@ static const ui_menu_item_t help_menu[] = {
     UI_MENU_TERMINATOR
 };
 /* }}} */
+
 
 /** \brief  'File' menu - tape section pointer
  *
@@ -956,7 +989,6 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
             break;
     }
 
-
     /* add items to the File menu */
     ui_menu_add(file_submenu, file_menu_head, window_id);
     if (file_menu_tape_section != NULL) {
@@ -977,6 +1009,14 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
 
     /* add items to the Settings menu */
     ui_menu_add(settings_submenu, settings_menu_head, window_id);
+    /* different UI actions for "show-statusbar-toggle" */
+    if (window_id == PRIMARY_WINDOW) {
+        ui_menu_add(settings_submenu, settings_menu_statusbar_primary, window_id);
+    } else {
+        ui_menu_add(settings_submenu, settings_menu_statusbar_secondary, window_id);
+    }
+    ui_menu_add(settings_submenu, settings_menu_speed, window_id);
+    ui_menu_add(settings_submenu, settings_menu_mouse, window_id);
     if (settings_menu_joy_section != NULL) {
         ui_menu_add(settings_submenu, settings_menu_joy_section, window_id);
     }
