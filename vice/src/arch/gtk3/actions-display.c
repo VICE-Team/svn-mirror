@@ -53,6 +53,7 @@
 #include "uiactions.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
+#include "vicii.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -174,6 +175,23 @@ static void show_statusbar_secondary_toggle_action(ui_action_map_t *self)
     gtk_window_resize(GTK_WINDOW(window), 1, 1);
 }
 
+/** \brief  Set border mode action
+ *
+ * Set border mode for current video chip, the \c data member of \a self contains
+ * the border mode.
+ *
+ * \param[in]   self    action map
+ */
+static void border_mode_action(ui_action_map_t *self)
+{
+    /* x128's VDC doesn't support border mode, so we can simply use the
+     * primary window index here */
+    video_canvas_t *canvas = ui_get_canvas_for_window(PRIMARY_WINDOW);
+    const char     *chip   = canvas->videoconfig->chip_name;
+
+    resources_set_int_sprintf("%sBorderMode", vice_ptr_to_int(self->data), chip);
+}
+
 
 /** \brief  List of display-related actions */
 static const ui_action_map_t display_actions[] = {
@@ -200,11 +218,57 @@ static const ui_action_map_t display_actions[] = {
     UI_ACTION_MAP_TERMINATOR
 };
 
+/** \brief  Border mode actions
+ *
+ * UI action maps for setting border mode.
+ * Since all ${CHIP}_${MODE}_BORDER constants are the same for each CHIP, we
+ * simply use the constants for VICII here, should that ever change we'll need
+ * separate lists for each CHIP.
+ */
+static const ui_action_map_t border_mode_actions[] = {
+    {   .action   = ACTION_BORDER_MODE_NONE,
+        .handler  = border_mode_action,
+        .data     = int_to_void_ptr(VICII_NO_BORDERS),
+        .uithread = true
+    },
+    {   .action   = ACTION_BORDER_MODE_NORMAL,
+        .handler  = border_mode_action,
+        .data     = int_to_void_ptr(VICII_NORMAL_BORDERS),
+        .uithread = true
+    },
+    {   .action   = ACTION_BORDER_MODE_FULL,
+        .handler  = border_mode_action,
+        .data     = int_to_void_ptr(VICII_FULL_BORDERS),
+        .uithread = true
+    },
+    {   .action   = ACTION_BORDER_MODE_DEBUG,
+        .handler  = border_mode_action,
+        .data     = int_to_void_ptr(VICII_DEBUG_BORDERS),
+        .uithread = true
+    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
 
 /** \brief  Register display-related UI actions */
 void actions_display_register(void)
 {
     ui_actions_register(display_actions);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_VIC20:
+            ui_actions_register(border_mode_actions);
+            break;
+        default:
+            /* no BorderMode resource for other emulator */
+            break;
+    }
 }
 
 
