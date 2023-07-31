@@ -616,6 +616,8 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 /** \brief  Set/update hotkey in accelerator group, connect to item(s), if any
  *
  * \param[in]   action  UI action ID
+ *
+ * \todo    Simplify this function, it does too much.
  */
 static void dialog_accept_handler(int action)
 {
@@ -643,6 +645,7 @@ static void dialog_accept_handler(int action)
         debug_gtk3("Removing old accelerator: %s from action %d (%s)",
                    accel, map->action, ui_action_get_name(map->action));
         ui_action_map_clear_hotkey(map);
+        vhk_gtk_remove_accelerator(hotkey_keysym, hotkey_mask & accepted_mods);
         remove_treeview_hotkey(accel);
     }
 
