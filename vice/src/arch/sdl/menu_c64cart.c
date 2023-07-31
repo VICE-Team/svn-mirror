@@ -2039,6 +2039,11 @@ ui_menu_entry_t c128cart_menu[] = {
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)ltk_cart_menu
     },
+    {   .string   =  CARTRIDGE_NAME_RAMLINK,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)ramlink_menu
+    },
     {   .string   = CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
