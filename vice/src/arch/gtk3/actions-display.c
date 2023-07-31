@@ -120,21 +120,16 @@ static void restore_display_action(ui_action_map_t *self)
     }
 }
 
-/** \brief  Toggle status bar visibility for the active window
+/** \brief  Toggle status bar visibility for the primary window action
  *
  * \param[in]   self    action map
- *
- * \todo    Needs to updated, currently this work since actions are only triggered
- *          by hotkeys or menu items from the current window, but when we can
- *          trigger actions from joystick buttons there is no valid active window,
- *          so we need to support the \c ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE
- *          action for x128's VDC window.
  */
 static void show_statusbar_toggle_action(ui_action_map_t *self)
 {
-    video_canvas_t *canvas = ui_get_active_canvas();
-    if (canvas != NULL) {
-        GtkWindow * window;
+    GtkWidget      *window = ui_get_window_by_index(PRIMARY_WINDOW);
+    video_canvas_t *canvas = ui_get_canvas_for_window(PRIMARY_WINDOW);
+
+    if (window != NULL && canvas != NULL ) {
         int         show = 0;
         const char *chip_name = canvas->videoconfig->chip_name;
 
@@ -143,19 +138,40 @@ static void show_statusbar_toggle_action(ui_action_map_t *self)
         resources_set_int_sprintf("%sShowStatusbar", show, chip_name);
         debug_gtk3("%sShowStatusbar => %s.", chip_name, show ? "True" : "False");
 
-        window = ui_get_active_window();
-        ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);
+        ui_statusbar_set_visible_for_window(window, show);
         /* update menu item's toggled state */
-        if (machine_class == VICE_MACHINE_C128) {
-            /* x128 is special since it has two windows and thus two status bars */
-            vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
-                                                                canvas->window_index,
-                                                                show);
-        } else {
-            vhk_gtk_set_check_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
-                                                     show);
-        }
+        vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                            PRIMARY_WINDOW,
+                                                            show);
+        gtk_window_resize(GTK_WINDOW(window), 1, 1);
     }
+}
+
+/** \brief  Toggle status bar visibility for the secondary window action
+ *
+ * Toggle visibility of the status bar of the VDC window of x128.
+ *
+ * \param[in]   self    action map
+ */
+static void show_statusbar_secondary_toggle_action(ui_action_map_t *self)
+{
+    GtkWidget *window;
+    int        show = 0;
+
+    window = ui_get_window_by_index(SECONDARY_WINDOW);
+    if (window == NULL) {
+        return;
+    }
+    /* only x128 has a secondary window, so no need to get the chip name from
+     * the canvas */
+    resources_get_int("VDCShowStatusbar", &show);
+    show = !show;
+    resources_set_int("VDCShowStatusbar", show);
+    ui_statusbar_set_visible_for_window(window, show);
+    vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
+                                                        SECONDARY_WINDOW,
+                                                        show);
+    gtk_window_resize(GTK_WINDOW(window), 1, 1);
 }
 
 
@@ -177,8 +193,10 @@ static const ui_action_map_t display_actions[] = {
         .handler  = show_statusbar_toggle_action,
         .uithread = true
     },
-    /* TODO: Add ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE */
-
+    {   .action   = ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
+        .handler  = show_statusbar_secondary_toggle_action,
+        .uithread = true
+    },
     UI_ACTION_MAP_TERMINATOR
 };
 
@@ -230,7 +248,7 @@ void actions_display_setup_ui(void)
                                                         enabled);
     if (machine_class == VICE_MACHINE_C128) {
         resources_get_int("VDCShowStatusbar", &enabled);
-        vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+        vhk_gtk_set_check_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
                                                             SECONDARY_WINDOW,
                                                             enabled);
     }
