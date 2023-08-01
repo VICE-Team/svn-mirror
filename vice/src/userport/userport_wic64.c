@@ -713,6 +713,7 @@ static void do_command_01(void)
             http_prot = "https://";
         } else {
             DBG(("malformed URL:%s", commandbuffer));
+            send_reply("!E");
             return;
         }
     }
@@ -763,9 +764,14 @@ static void do_command_01(void)
     /* see below, noprintables need to be overruled, otherwise libcure complains */
     p = strstr(path, "&pid=");
     if (p != NULL) {
-        DBG(("%s: patching &pid=XY", __FUNCTION__));
-        *(p + 5) = 'X';
-        *(p + 6) = 'Y';
+        if (!isprint(*(p+5))) {
+            DBG(("%s: patching &pid=X.", __FUNCTION__));
+            *(p + 5) = 'X';
+        }
+        if (!isprint(*(p+6))) {
+            DBG(("%s: patching &pid=.Y", __FUNCTION__));
+            *(p + 6) = 'Y';
+        }
     }
 
     /* now strip trailing whitspaces of path */
