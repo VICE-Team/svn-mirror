@@ -280,7 +280,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-SDL_image
 
       - name: Update Git
-        shell: cmd.exe
+        shell: cmd
         run: git update
 
       - name: Build
