@@ -148,13 +148,13 @@ endif MACOS_COMPILE
 if WINDOWS_COMPILE
 if USE_GTK3UI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTMLDOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTMLDOCS) $(SVN_REVISION_OVERRIDE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 
 bindist7zip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 endif USE_GTK3UI
 
 if USE_SDLUI

@@ -26,8 +26,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs>
-#                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10     $11       $12        $13
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs> <svn-revision-override
+#                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10     $11       $12        $13         $14
 #
 
 STRIP=$1
@@ -52,6 +52,9 @@ COMPILER=$9
 shift
 HTML_DOCS=$9
 
+shift
+SVN_REV_OVERRIDE=$9
+
 
 # Try to get the SVN revision
 
@@ -72,6 +75,10 @@ if test "$SVN_SUFFIX" = ""; then
   GIT_SVN_COMMIT_HASH=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty=format:"%H")
   if test "$GIT_SVN_COMMIT_HASH" != ""; then
     SVN_SUFFIX="-r$(git svn find-rev $GIT_SVN_COMMIT_HASH)"
+  fi
+  # fall back to SVN_REV_OVERRIDE
+  if test "$SVN_SUFFIX" = "-r"; then
+    SVN_SUFFIX="-r$SVN_REV_OVERRIDE"
   fi
 fi
 
