@@ -739,6 +739,8 @@ if test x"$SVN_REVISION_OVERRIDE" != "x"; then
   AM_CONDITIONAL(USE_SVN_REVISION_OVERRIDE,true)
   AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
   AC_DEFINE(USE_SVN_REVISION_OVERRIDE,,[define when using an svn revision passed to configure via SVN_REVISION_OVERRIDE env var])
+  dnl Make SVN revision override available in Makefiles so we can pass the revision
+  dnl to make-bindist scripts:
   AC_SUBST([SVN_REVISION_OVERRIDE], [$SVN_REVISION_OVERRIDE])
 else
   if test x"$SVN" != "x"; then

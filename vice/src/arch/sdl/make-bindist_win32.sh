@@ -29,6 +29,7 @@
 # Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3> <zip|nozip=$4> <unzipbin=$5>
 #                        <x64-included=$6> <top-srcdir=$7> <top-builddir=$8> <cpu=$9> <SDL-version=$10>
 #                        <sdl-config=$11> <cross=$12> <objdump=$13> <compiler=$14> <--enable-html-docs=$15>
+#                        [<svn-revision-override=$16>]
 #
 
 STRIP=$1
@@ -59,6 +60,9 @@ COMPILER=$9
 shift   # $15
 HTML_DOCS=$9
 
+shift   # $16
+SVN_REVISION_OVERRIDE=$9
+
 
 # Try to get the SVN revision
 
@@ -75,10 +79,9 @@ if test "$?" = "0"; then
 fi
 
 if test "$SVN_SUFFIX" = ""; then
-  # No svnversion found, checking if there is a git svn ref
-  GIT_SVN_COMMIT_HASH=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty=format:"%H")
-  if test "$GIT_SVN_COMMIT_HASH" != ""; then
-    SVN_SUFFIX="-r$(git svn find-rev $GIT_SVN_COMMIT_HASH)"
+  # No svnversion found, fall back to the revision override, if available
+  if test "x$SVN_REVISION_OVERRIDE" != "x"; then
+    SVN_SUFFIX="-r$SVN_REVISION_OVERRIDE"
   fi
 fi
 
