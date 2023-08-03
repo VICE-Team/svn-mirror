@@ -26,7 +26,7 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs> <svn-revision-override
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs> [<svn-revision-override>]
 #                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10     $11       $12        $13         $14
 #
 
@@ -53,7 +53,7 @@ shift
 HTML_DOCS=$9
 
 shift
-SVN_REV_OVERRIDE=$9
+SVN_REVISION_OVERRIDE=$9
 
 
 # Try to get the SVN revision
@@ -71,14 +71,9 @@ if test "$?" = "0"; then
 fi
 
 if test "$SVN_SUFFIX" = ""; then
-  # No svnversion found, checking if there is a git svn ref
-  GIT_SVN_COMMIT_HASH=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty=format:"%H")
-  if test "$GIT_SVN_COMMIT_HASH" != ""; then
-    SVN_SUFFIX="-r$(git svn find-rev $GIT_SVN_COMMIT_HASH)"
-  fi
-  # fall back to SVN_REV_OVERRIDE
-  if test "$SVN_SUFFIX" = "-r"; then
-    SVN_SUFFIX="-r$SVN_REV_OVERRIDE"
+  # No svnversion found, fall back to the revision override, if available
+  if test "x$SVN_REVISION_OVERRIDE" != "x"; then
+    SVN_SUFFIX="-r$SVN_REVISION_OVERRIDE"
   fi
 fi
 

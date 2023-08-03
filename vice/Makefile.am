@@ -159,24 +159,24 @@ endif USE_GTK3UI
 
 if USE_SDLUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 
 bindist7zip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 endif USE_SDLUI
 
 if USE_SDL2UI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 
 bindist7zip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip @UNZIPBIN@ $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS) $(SVN_REVISION_OVERRIDE)
 endif USE_SDL2UI
 
 if USE_HEADLESSUI
