@@ -1,5 +1,5 @@
 #   File:		README-docker-mingw32-build.md
-#   Date:		Wed Jul  8 23:24:04 2020
+#   Date:		Thu Aug  3 22:26:28 2023
 #   Author:		pottendo (pottendo)
 
 A simple setup to for a docker-supported host to build vice cross for
@@ -21,10 +21,10 @@ group and added your user to this group (no sudo prefix is required
 then)
 
 Setup your container:
-  docker build --tag vice-buildcontainer:0.2 .
+  docker build --tag vice-buildcontainer:0.3 .
   
 Start the build process:
-  ./doch-run.sh [-i] [-su] vice-checkout-directory
+  ./dock-run.sh [-i] [-su] vice-checkout-directory
 
 The parameter shall point to the directory you've checked out vice
 from sourceforge. Normally this contains two files:
@@ -32,15 +32,23 @@ from sourceforge. Normally this contains two files:
 
 if option -i is given, the container is run interactively and vice is
 not built. This is useful to check different configure options, or
-adding of packages.
+adding of missing Fedora packages.
 
 if option -su is given, the user within the container runs with super
 user privileges. This is useful in conjunction with -i, if you want to
 check and install missing fedora packages. Ultimately missing packages
 need to be added to the install commands in 'Dockerfile' .
 
-Currently vice is built with this configure commandline:
-  ../vice/configure -v --host=x86_64-w64-mingw32 --enable-native-gtk3ui --enable-cpuhistory --enable-arch=no 2>&1 |tee conf.log
+Currently the build takes the 'shared' configure options but removes a
+few as the respective mingw prebuilt packages are not (yet) available
+on Fedora. These are:
+  --with-unzip-bin
+  --enable-ethernet
+  --with-lame
+  --with-vorbis
+  --with-gif
+
+The host system is --host=x86_64-w64-mingw32
 
 If all went well, you'll find packaged binary distro (.zip) for
 win32/64bit under vice-checkout-directory/docker-build
