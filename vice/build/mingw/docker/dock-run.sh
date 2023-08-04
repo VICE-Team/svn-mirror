@@ -1,6 +1,6 @@
 #/bin/bash
 # in case you need to rebuild the container image use: 
-#   docker build --tag vice-buildcontainer:0.2 .
+#   docker build --tag vice-buildcontainer:0.3 .
 
 if test x"$1" = "x" ; then
     echo "Usage: $0 [-i] <vice-checkout-dir>"
@@ -46,7 +46,7 @@ docker run -a STDOUT -a STDERR -it \
        --env HOME='/tmp' \
        --name vice-build \
        --mount type=bind,source="${base}",target=/vice \
-       vice-buildcontainer:0.2 \
+       vice-buildcontainer:0.3 \
        ${cmd}
 
 
