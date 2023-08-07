@@ -945,7 +945,11 @@ int main(int argc, char **argv)
     int wr_mode = 0, version = B_7;         /* best defaults */
     unsigned int load_addr = 0;
     int ctrls = -1, hdr = -1, show_words = 0;
-    int fil = 0, outf = 0, overwrt = 0, textmode = 0;
+    int fil = 0, outf = 0, textmode = 0;
+    /* temporarily commented out to avoid set-but-unused warning by clang */
+#if 0
+    int overwrt = 0;
+#endif
     int flg = 0;                            /* files on stdin */
 
     /* Parse arguments */
@@ -1001,7 +1005,9 @@ int main(int argc, char **argv)
             hdr = 0;
             continue;
         } else if (!strcmp(argv[0], "-f")) {      /* force overwrite */
+#if 0
             ++overwrt;
+#endif
             continue;
         } else if (!strcmp(argv[0], "-o")) {
             if (argc > 1) {
