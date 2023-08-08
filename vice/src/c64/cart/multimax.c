@@ -46,6 +46,7 @@
 #include "types.h"
 #include "util.h"
 #include "crt.h"
+#include "vicii-phi1.h"
 
 /*
     MultiMAX
@@ -61,6 +62,11 @@
     bit 7       when set, the register is disabled and can only be
                 reenabled by reset
     bit 0-5     select ROM bank 0-63
+
+    NOTE: The binary (and menu source) provided on http://www.multimax.co never
+    sets bit 7 of the register, which means extra RAM is never enabled, and
+    MAX Basic will not work. Whether this is a bug in the menu software, or the
+    hardware works differently than described, is still to be determined.
 */
 
 #define CART_RAM_SIZE (2 * 1024)
@@ -68,9 +74,10 @@
 static uint8_t currbank = 0;
 static uint8_t reg_enabled = 1;
 
+/* this is used on regular C64s */
 static void multimax_io1_store(uint16_t addr, uint8_t value)
 {
-    /* printf("io1 %04x %02x\n", addr, value); */
+    /*printf("io1 w %04x %02x\n", addr, value);*/
     if (reg_enabled) {
         currbank = value & 0x3f;
         reg_enabled = ((value >> 7) & 1) ^ 1;
@@ -111,16 +118,23 @@ static const export_resource_t export_res = {
 
 uint8_t multimax_0800_0fff_read(uint16_t addr)
 {
-    return export_ram0[addr & 0x07ff];
+    if (reg_enabled == 0) {
+        /*printf("ram r %04x %02x\n", addr, export_ram0[addr & 0x07ff]);*/
+        return export_ram0[addr & 0x07ff];
+    }
+    return vicii_read_phi1();
 }
 
 void multimax_0800_0fff_store(uint16_t addr, uint8_t value)
 {
     if (reg_enabled) {
+        /*printf("reg w %04x %02x\n", addr, value);*/
         currbank = value & 0x7f;
         reg_enabled = ((value >> 7) & 1) ^ 1;
+    } else {
+        /*printf("ram w %04x %02x\n", addr, value);*/
+        export_ram0[addr & 0x07ff] = value;
     }
-    export_ram0[addr & 0x07ff] = value;
 }
 
 uint8_t multimax_roml_read(uint16_t addr)
