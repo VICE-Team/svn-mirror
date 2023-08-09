@@ -57,16 +57,25 @@
     2K RAM
     - RAM is mapped to $0800
 
-    one register in the entire I/O1 space:
+    One register in the entire I/O1 (or extended RAM for the MAX Machine) space.
+    The register latches the lowbyte of the *address* (not the value written):
 
-    bit 7       when set, the register is disabled and can only be
-                reenabled by reset
+    bit 7       when set, a) the register is disabled and can only be
+                re-enabled by reset and b) the extra RAM is enabled and replaces
+                the register latch.
     bit 0-5     select ROM bank 0-63
 
-    NOTE: The binary (and menu source) provided on http://www.multimax.co never
-    sets bit 7 of the register, which means extra RAM is never enabled, and
-    MAX Basic will not work. Whether this is a bug in the menu software, or the
-    hardware works differently than described, is still to be determined.
+    The menu software does this:
+
+    lda $05 ; bank number
+    tax
+    sta $de80,x
+    sta $0880,x
+
+    ... so it stores the bank number as a value and address, which indicates
+    that during development it was changed from value to address - which would
+    also explain the inconsistent documentation.
+
 */
 
 #define CART_RAM_SIZE (2 * 1024)
@@ -79,14 +88,17 @@ static void multimax_io1_store(uint16_t addr, uint8_t value)
 {
     /*printf("io1 w %04x %02x\n", addr, value);*/
     if (reg_enabled) {
-        currbank = value & 0x3f;
-        reg_enabled = ((value >> 7) & 1) ^ 1;
+        currbank = addr & 0x3f;
+        reg_enabled = ((addr >> 7) & 1) ^ 1;
+        /*printf("Bank: %02x Register: %s RAM: %s\n", currbank,
+               reg_enabled ? "enabled" : "disabled", reg_enabled ? "disabled" : "enabled");*/
     }
 }
 
 static int multimax_dump(void)
 {
     mon_out("Register is %s.\n", reg_enabled ? "enabled" : "disabled");
+    mon_out("Extra RAM is %s.\n", reg_enabled ? "disabled" : "enabled");
     mon_out("ROM Bank: %d\n", currbank);
     return 0;
 }
@@ -129,8 +141,10 @@ void multimax_0800_0fff_store(uint16_t addr, uint8_t value)
 {
     if (reg_enabled) {
         /*printf("reg w %04x %02x\n", addr, value);*/
-        currbank = value & 0x7f;
-        reg_enabled = ((value >> 7) & 1) ^ 1;
+        currbank = addr & 0x7f;
+        reg_enabled = ((addr >> 7) & 1) ^ 1;
+        /*printf("Bank: %02x Register: %s RAM: %s\n", currbank,
+               reg_enabled ? "enabled" : "disabled", reg_enabled ? "disabled" : "enabled");*/
     } else {
         /*printf("ram w %04x %02x\n", addr, value);*/
         export_ram0[addr & 0x07ff] = value;
