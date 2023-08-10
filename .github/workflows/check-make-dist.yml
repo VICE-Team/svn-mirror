@@ -61,10 +61,14 @@ jobs:
           make -j2 -s --no-print-directory dist
           echo "tarball=$(basename vice-*.tar.gz)" >> $GITHUB_OUTPUT
           echo "tardir=$(basename -s .tar.gz vice-*.tar.gz)" >> $GITHUB_OUTPUT
-          echo "artifact_name=$(basename -s .tar.gz vice-*.tar.gz)-${{ matrix.source.name }}-${{ matrix.target.name }}.tar.gz" >> $GITHUB_OUTPUT
+          echo "artifact_name=$(basename -s .tar.gz vice-*.tar.gz)-${{ matrix.source.name }}.tar.gz" >> $GITHUB_OUTPUT
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
+        # This makes sure we only upload artifacts for the different configure
+        # options used when creating the tarballs, not every combination of
+        # source and target:
+        if: matrix.source.name == matrix.target.name
         with:
           name: ${{ steps.make_dist.outputs.artifact_name }}
           path: vice/${{ steps.make_dist.outputs.tarball }}
