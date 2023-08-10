@@ -1,8 +1,4 @@
-# vim: set noet ts=8 sw=8 sts=8:
-#
 # Makefile.am to build liblinenoise-ng.a for VICE
-#
-#
 
 AM_CPPFLAGS = @VICE_CPPFLAGS@
 AM_CFLAGS = @VICE_CFLAGS@

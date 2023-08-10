@@ -1,4 +1,3 @@
-# vim: set noet ts=8:
 if WINDOWS_COMPILE
 
 # Create Windows .ico files
