@@ -120,6 +120,7 @@ jobs:
   diff_dists:
     name: Check dist tarballs for content differences
     runs-on: ubuntu-latest
+    needs: make_dist
     strategy:
       fail-fast: true
 
