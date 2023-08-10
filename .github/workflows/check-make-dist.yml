@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.make_dist.outputs.artifact_name }}
-          path: ${{ steps.make_dist.outputs.artifact_name }}
+          path: ${{ steps.make_dist.outputs.tarball }}
           retention-days: 7
 
       - name: Install Target Dependencies
