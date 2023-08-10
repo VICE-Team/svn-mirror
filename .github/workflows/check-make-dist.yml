@@ -61,6 +61,14 @@ jobs:
           make -j2 -s --no-print-directory dist
           echo "tarball=$(basename vice-*.tar.gz)" >> $GITHUB_OUTPUT
           echo "tardir=$(basename -s .tar.gz vice-*.tar.gz)" >> $GITHUB_OUTPUT
+          echo "artifact_name=$(basename -s .tar.gz vice-*.tar.gz)-${{ matrix.source.name }}-${{ matrix.target.name }}.tar.gz" >> $GITHUB_OUTPUT
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.make_dist.outputs.artifact_name }}
+          path: ${{ steps.make_dist,outputs.artifact_name }}
+          retention-days: 7
 
       - name: Install Target Dependencies
         shell: bash
