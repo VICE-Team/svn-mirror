@@ -4,8 +4,3 @@
 # handled here.
 
 SUBDIRS = macos unix win32
-
-
-
-
-# vim: set noet ts=8 sts=8 sw=8:

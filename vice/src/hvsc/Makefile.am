@@ -1,5 +1,3 @@
-# vim: set noet ts=8 sw=8 sts=8:
-
 noinst_LIBRARIES = libhvsc.a
 
 libhvsc_a_SOURCES = \
