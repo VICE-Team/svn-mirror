@@ -115,3 +115,23 @@ jobs:
         shell: bash
         run: |
           ./vice/build/github-actions/irc-message.sh "make dist => make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}"
+
+
+  diff_dists:
+    name: Check dist tarballs for content differences
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Download Dist Tarballs
+        uses: actions/download-artifact@v3
+          # we don't specify an artifact name or download path so we download
+          # all artifacts to the current working directory
+
+      - name: Check Dist Tarballs
+        shell: bash
+        run: ls -R
