@@ -17,12 +17,12 @@
 ls -1 vice-*.tar.gz
 
 dists=$(ls -1 vice-*.tar.gz | sed -n 's/^vice-.*-\(.*\)\.tar.gz$/\1/p')
-
+echo "dists = $dist"
 # Dump tarball contents to text files
 for dist in $dists; do
 
     echo -n "Get list of files in $dist tarball: "
-    tar --list -zf vice-*-$dist.tar.gz | sort > "$dist-files.txt"
+    tar --list -zf vice-*-$dist.tar.gz/vice-*.tar.gz | sort > "$dist-files.txt"
     if [ $? -eq 0 ]; then
         echo "OK"
     else
