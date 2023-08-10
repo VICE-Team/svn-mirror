@@ -14,9 +14,7 @@
 
 
 # Get list of dist names
-ls -1 vice-*.tar.gz
-
-dists=$(ls -1 vice-*.tar.gz | sed -n 's/^vice-.*-\(.*\)\.tar.gz$/\1/p')
+dists=$(find . -type d -name 'vice-*-*.tar.gz' | sed -n 's/^\.\/vice-.*-\(.*\)\.tar.gz$/\1/p')
 echo "dists = $dist"
 # Dump tarball contents to text files
 for dist in $dists; do
