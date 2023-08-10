@@ -1,5 +1,10 @@
 commondir = $(VICE_DATADIR)/common
 
+GRESOURCE_TARGET = $(builddir)/vice.gresource
+GRESOURCE_XML = $(srcdir)/vice.gresource.xml
+
+BUILT_SOURCES = $(GRESOURCE_TARGET)
+
 gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
 	       gtk3-hotkeys-cartridge-mac.vhk \
 	       gtk3-hotkeys-debug.vhk \
@@ -123,15 +128,10 @@ EXTRA_DIST = $(common_DATA) \
 	      vice.gresource.xml
 
 
-#all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)
-#
 
 if USE_GTK3UI
 
 # Generate gresource binary file, required by all Gtk3 emus
-GRESOURCE_TARGET = $(builddir)/vice.gresource
-GRESOURCE_XML = $(srcdir)/vice.gresource.xml
-
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
