@@ -3,8 +3,6 @@ commondir = $(VICE_DATADIR)/common
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 
-BUILT_SOURCES = $(GRESOURCE_TARGET)
-
 gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
 	       gtk3-hotkeys-cartridge-mac.vhk \
 	       gtk3-hotkeys-debug.vhk \
