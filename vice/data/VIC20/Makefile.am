@@ -39,7 +39,8 @@ sdl_keymaps = \
 	sdl_pos_fi.vkm
 
 sdl_hotkeys = \
-	sdl-hotkeys.vhk
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-mac.vhk
 
 if USE_SDLUI
 vic20_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)

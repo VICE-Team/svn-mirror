@@ -81,12 +81,6 @@ void sdlkbd_release(SDLKey key, SDLMod mod);
 ui_menu_action_t sdlkbd_press_for_menu_action(SDLKey key, SDLMod mod);
 ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod);
 
-void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value);
-
-int sdlkbd_hotkeys_load(const char *filename);
-int sdlkbd_hotkeys_load(const char *filename);
-int sdlkbd_hotkeys_dump(const char *filename);
-
 int sdlkbd_init_resources(void);
 void sdlkbd_resources_shutdown(void);
 
@@ -98,7 +92,5 @@ void kbd_focus_change(void);
 extern int sdl_ui_menukeys[];
 
 char *kbd_get_menu_keyname(void);
-
-char *kbd_get_path_keyname(char *path);
 
 #endif

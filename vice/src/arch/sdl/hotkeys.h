@@ -29,6 +29,14 @@
 #ifndef VICE_HOTKEYS_H
 #define VICE_HOTKEYS_H
 
-void hotkeys_iterate_menu(void);
+#include <stdbool.h>
+#include <stdint.h>
+#include "uimenu.h"
+
+void     hotkeys_iterate_menu(void);
+bool     hotkeys_set_hotkey_from_menu(uint32_t         arch_keysym,
+                                      uint32_t         arch_modmask,
+                                      ui_menu_entry_t *item);
+uint32_t hotkeys_allowed_modifiers(uint32_t modmask);
 
 #endif

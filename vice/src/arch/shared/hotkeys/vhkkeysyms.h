@@ -372,6 +372,8 @@
 uint32_t    vhk_keysym_from_name  (const char *name);
 const char *vhk_keysym_name       (uint32_t vice_keysym);
 uint32_t    vhk_modifier_from_name(const char *name, const char **endptr);
+const char *vhk_modifier_name     (uint32_t vice_modifier);
 char       *vhk_modmask_name      (uint32_t vice_modmask);
+char       *vhk_hotkey_label      (uint32_t vice_keysym, uint32_t vice_modmask);
 
 #endif

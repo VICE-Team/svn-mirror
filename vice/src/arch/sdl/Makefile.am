@@ -74,6 +74,8 @@ libarch_a_SOURCES = \
 	actions-edit.h \
 	actions-help.c \
 	actions-help.h \
+	actions-hotkeys.c \
+	actions-hotkeys.h \
 	actions-joystick.c \
 	actions-joystick.h \
 	actions-machine.c \

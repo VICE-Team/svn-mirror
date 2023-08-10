@@ -75,7 +75,8 @@ sdl_keymaps = \
 	sdl_v128.vkm
 
 sdl_hotkeys = \
-	sdl-hotkeys.vhk
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-mac.vhk
 
 if USE_SDLUI
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)

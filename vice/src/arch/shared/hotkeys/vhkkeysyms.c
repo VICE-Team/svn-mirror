@@ -41,6 +41,9 @@
 #include "vhkkeysyms.h"
 
 
+#define ARR_ELEMENTS(arr)   (sizeof arr / sizeof arr[0])
+
+
 /** \brief  Mapping of key name to value */
 typedef struct vhk_key_s {
     const char *name;   /**< name, X11 macro name without the lead 'XK_' */
@@ -232,4 +235,114 @@ char *vhk_modmask_name(uint32_t vice_modmask)
     }
     *curpos = '\0';
     return name;
+}
+
+
+/** \brief  Get modifier name
+ *
+ * Get a string representing a keyboard modifier. The returned string is the
+ * unadorned name, so no '\<' or '\>' around the name like in the hotkeys files.
+ *
+ * \param[in]   vice_modifier   VICE modifier
+ *
+ * \return  modifier name
+ */
+const char *vhk_modifier_name(uint32_t vice_modifier)
+{
+    size_t m;
+
+    if (vice_modifier == 0) {
+        return NULL;
+    }
+    for (m = 0 ; ARR_ELEMENTS(vhk_modifier_list); m++) {
+        if (vice_modifier == vhk_modifier_list[m].mask) {
+            return vhk_modifier_list[m].name;
+        }
+    }
+    return NULL;
+}
+
+
+/** \brief  Order in which modifier names should appear in hotkey labels
+ *
+ */
+static const uint32_t mod_order[] = {
+    VHK_MOD_CONTROL,
+    VHK_MOD_ALT,
+    VHK_MOD_OPTION,
+    VHK_MOD_SHIFT,
+    VHK_MOD_COMMAND,
+    VHK_MOD_SUPER,
+    VHK_MOD_META,
+    VHK_MOD_HYPER
+};
+
+
+/** \brief  Get accelerator label for a hotkey
+ *
+ * Create a string to present a hotkey's key name and modifier mask to the user.
+ * This function is very much like \c gtk_accelerator_get_label() and meant for
+ * UI toolkits that do not provide such a function, such as SDL.
+ *
+ * \param[in]   vice_keysym     VICE keysym
+ * \param[in]   vice_modmask    VICE modifier mask
+ *
+ * \return  heap-allocated string, free with \c lib_free()
+ *
+ * \note    returns \c NULL for invalid \a vice_keysym values
+ */
+char *vhk_hotkey_label(uint32_t vice_keysym, uint32_t vice_modmask)
+{
+    const char *modname;
+    size_t      modlen;
+    const char *keyname;
+    size_t      namelen;
+    char       *buffer;
+    char       *bufpos;
+    size_t      bufsize;
+    size_t      i;
+
+    /* get keyname and exit early if invalid */
+    keyname = vhk_keysym_name(vice_keysym);
+    if (keyname == NULL) {
+        return NULL;
+    }
+    /* check if we have any modifiers at all */
+    if (vice_modmask == 0) {
+        /* no modifier, just return the key name */
+        return lib_strdup(keyname);
+    }
+    namelen = strlen(keyname);
+
+    /* determine size of buffer to allocate for label */
+    bufsize = 0;
+    for (i = 0; i < ARR_ELEMENTS(mod_order); i++) {
+        if (vice_modmask & mod_order[i]) {
+            modname = vhk_modifier_name(mod_order[i]);
+            if (modname != NULL) {
+                bufsize += strlen(modname) + 1u; /* +1 for trailing '+' */
+            }
+        }
+    }
+    bufsize += namelen + 1; /* +1 for terminating '\0' */
+
+    /* allocate buffer for label */
+    bufpos = buffer = lib_malloc(bufsize);
+
+    /* iterate modifiers again, adding them to the buffer */
+    for (i = 0; i < ARR_ELEMENTS(mod_order); i++) {
+        if (vice_modmask & mod_order[i]) {
+            modname = vhk_modifier_name(mod_order[i]);
+            if (modname != NULL) {
+                modlen = strlen(modname);
+                strncpy(bufpos, modname, bufsize - (size_t)(bufpos - buffer));
+                bufpos += modlen;
+                *bufpos++ = '+';
+            }
+        }
+    }
+    /* add key name plus terminating \0' character */
+    memcpy(bufpos, keyname, namelen + 1u);
+
+    return buffer;
 }
