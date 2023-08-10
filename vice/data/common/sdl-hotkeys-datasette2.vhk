@@ -1,0 +1,10 @@
+# VICE SDL Hotkeys for datasette 2
+#
+# Author:   Bas Wassink
+# Updated:  2023-07-31
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+; tape-attach-2       <Control><Alt>t
+; tape-detach-2       <Control><Alt><Shift>t
+; tape-create-2

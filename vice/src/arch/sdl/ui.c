@@ -78,6 +78,7 @@
 #include "actions-edit.h"
 #endif
 #include "actions-help.h"
+#include "actions-hotkeys.h"
 #include "actions-joystick.h"
 #include "actions-machine.h"
 #include "actions-media.h"
@@ -433,7 +434,7 @@ void ui_set_mouse_grab_window_title(int enabled)
 {
     char title[256];
     char name[32];
-    char *mouse_key = kbd_get_path_keyname("Machine settings&Mouse emulation&Grab mouse events");
+    char *mouse_key = ui_action_get_hotkey_label(ACTION_MOUSE_GRAB_TOGGLE);
 
     if (machine_class != VICE_MACHINE_C64SC) {
         strcpy(name, machine_get_name());
@@ -632,7 +633,6 @@ int ui_resources_init(void)
 void ui_resources_shutdown(void)
 {
     DBG(("%s", __func__));
-    sdlkbd_resources_shutdown();
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -785,26 +785,31 @@ int ui_init_finalize(void)
          * default handler is sufficient for now) */
         ui_actions_set_dispatch(action_dispatch);
 #endif
-        /* register actions valid for all emus (TODO: check for VSID-specific
-         * stuff?) */
-        actions_cartridge_register();
+        /* register actions valid for all emus including VSID */
 #ifdef DEBUG
         actions_debug_register();
 #endif
-        actions_display_register();
-        actions_drive_register();
-#ifdef USE_SDL2UI
-        actions_edit_register();
-#endif
         actions_help_register();
-        actions_joystick_register();
+        actions_hotkeys_register();
         actions_machine_register();
-        actions_media_register();
         actions_settings_register();
-        actions_speed_register();
-        actions_snapshot_register();
-        actions_tape_register();
-        /* cannot register VSID actions here, that causes linker errors */
+
+        /* register actions valid for all emus except VSID */
+        if (machine_class != VICE_MACHINE_VSID) {
+            actions_cartridge_register();
+            actions_display_register();
+            actions_drive_register();
+            /* only SDL2 supports clipboard operations */
+#ifdef USE_SDL2UI
+            actions_edit_register();
+#endif
+            actions_joystick_register();
+            actions_media_register();
+            actions_speed_register();
+            actions_snapshot_register();
+            actions_tape_register();
+        }
+        /* cannot register VSID-specific actions here, that causes linker errors */
 #if 0
         if (machine_class == VICE_MACHINE_VSID) {
             actions_vsid_register();

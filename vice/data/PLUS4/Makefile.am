@@ -41,7 +41,8 @@ sdl_keymaps = \
 	sdl_pos.vkm
 
 sdl_hotkeys = \
-	sdl-hotkeys.vhk
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-mac.vhk
 
 if USE_SDLUI
 plus4_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)

@@ -94,7 +94,9 @@ sdl_keymaps = \
 
 sdl_hotkeys = \
 	sdl-hotkeys.vhk \
-	sdl-hotkeys-vsid.vhk
+	sdl-hotkeys-mac.vhk \
+	sdl-vsid-hotkeys.vhk \
+	sdl-vsid-hotkeys-mac.vhk
 
 sym_file = \
 	c64mem.sym

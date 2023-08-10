@@ -65,7 +65,6 @@
 
 #include "uimenu.h"
 
-
 #ifdef DBGSDLMENU
 #define DBG(x) printf x
 #else
@@ -835,8 +834,17 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 in_menu = 0;
                 break;
             case MENU_ACTION_MAP:
-                if (allow_mapping && sdl_ui_hotkey_map(&(menu[cur + cur_offset]))) {
-                    sdl_ui_menu_redraw(menu, title, cur_offset, value_offsets, cur);
+                if (allow_mapping) {
+                    ui_menu_entry_t *item = &(menu[cur + cur_offset]);
+
+                    if (ui_action_is_valid(item->action)) {
+                        if (sdl_ui_hotkey_map(item)) {
+                            sdl_ui_menu_redraw(menu, title, cur_offset, value_offsets, cur);
+                        }
+                    } else {
+                        ui_error("Cannot assign hotkey to item: no valid UI action ID.");
+                        sdl_ui_menu_redraw(menu, title, cur_offset, value_offsets, cur);
+                    }
                 }
                 break;
             default:
@@ -871,8 +879,12 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
         case MENU_ENTRY_RESOURCE_RADIO:     /* fall through */
         case MENU_ENTRY_RESOURCE_INT:       /* fall through */
         case MENU_ENTRY_RESOURCE_STRING:
-            /* check for menu action ID */
-            if (item->action > ACTION_NONE) {
+            /* First check for callback. This function call be called from
+             * an action handler to activate a dialog, so we don't want to
+             * trigger the UI action handler again. */
+            if (item->callback != NULL) {
+                p = item->callback(1, item->data);
+            } else if (item->action > ACTION_NONE) {
                 /* UI action: trigger */
 #if 0
                 DBG(("%s(): got action ID %d (%s)\n",
@@ -880,8 +892,6 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 #endif
                 ui_action_trigger(item->action);
                 p = item->activated;
-            } else {
-                p = item->callback(1, item->data);
             }
             if (p != NULL && strcmp(sdl_menu_text_exit_ui, p) == 0) {
                 return MENU_RETVAL_EXIT_UI;
@@ -2061,11 +2071,10 @@ void sdl_ui_menu_item_set_status_by_action(int                   action,
 void sdl_ui_activate_item_action(ui_action_map_t *map)
 {
     ui_menu_entry_t *item = map->menu_item[0];
-#if 0
     printf("%s(): item = %p\n", __func__, (const void *)item);
-#endif
     if (item != NULL) {
         if (sdl_menu_state) {
+            printf("%s(): menu is active, call the callback\n", __func__);
             /* Menu is already active.
              * We can't call sdl_ui_menu_item_activate() because that would trigger
              * the action again */
@@ -2076,8 +2085,11 @@ void sdl_ui_activate_item_action(ui_action_map_t *map)
             }
         } else {
             /* menu isn't active, set trap */
+            printf("%s(): menu isn't active, set CPU trap\n", __func__);
             interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
         }
+    } else {
+        printf("%s(): ERROR: item is NULL\n", __func__);
     }
 }
 

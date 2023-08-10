@@ -80,7 +80,8 @@ sdl_keymaps = \
 	sdl_grus_pos_de.vkm
 
 sdl_hotkeys = \
-	sdl-hotkeys.vhk
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-mac.vhk
 
 if USE_SDLUI
 pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)

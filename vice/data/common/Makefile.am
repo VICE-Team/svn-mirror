@@ -1,4 +1,3 @@
-# vim: set noet ts=8 sw=8 sts=8:
 commondir = $(VICE_DATADIR)/common
 
 gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
@@ -19,6 +18,25 @@ gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
 	       gtk3-hotkeys-settings-mac.vhk \
 	       gtk3-hotkeys-snapshot.vhk \
 	       gtk3-hotkeys-snapshot-mac.vhk
+
+sdl_hotkeys = sdl-hotkeys-cartridge.vhk \
+	      sdl-hotkeys-cartridge-mac.vhk \
+	      sdl-hotkeys-debug.vhk \
+	      sdl-hotkeys-debug-mac.vhk \
+	      sdl-hotkeys-drive.vhk \
+	      sdl-hotkeys-drive-mac.vhk \
+	      sdl-hotkeys-datasette1.vhk \
+	      sdl-hotkeys-datasette1-mac.vhk \
+	      sdl-hotkeys-datasette2.vhk \
+	      sdl-hotkeys-datasette2-mac.vhk \
+	      sdl-hotkeys-fliplist.vhk \
+	      sdl-hotkeys-fliplist-mac.vhk \
+	      sdl-hotkeys-help.vhk \
+	      sdl-hotkeys-help-mac.vhk \
+	      sdl-hotkeys-settings.vhk \
+	      sdl-hotkeys-settings-mac.vhk \
+	      sdl-hotkeys-snapshot.vhk \
+	      sdl-hotkeys-snapshot-mac.vhk
 
 common_DATA = CBM_Logo.svg \
 	      C64_Pro_Mono-STYLE.ttf \
@@ -148,8 +166,19 @@ CLEANFILES = \
 	xcbm5x0.res \
 	vsid.res
 
-else !USE_GTK3UI
+EXTRA_DIST += $(sdl_hotkeys)
+endif
 
+if USE_SDLUI
+common_DATA += $(sdl_hotkeys)
 EXTRA_DIST += $(gtk3_hotkeys)
+endif
 
-endif !USE_GTK3UI
+if USE_SDL2UI
+common_DATA += $(sdl_hotkeys)
+EXTRA_DIST += $(gtk3_hotkeys)
+endif
+
+if USE_HEADLESSUI
+EXTRA_DIST += $(gtk3_hotkeys) $(sdl_hotkeys)
+endif

@@ -453,4 +453,7 @@ void             ui_action_map_set_hotkey_by_map     (ui_action_map_t *map,
                                                       uint32_t         arch_keysym,
                                                       uint32_t         arch_modmask);
 
+char            *ui_action_map_get_hotkey_label      (ui_action_map_t *map);
+char            *ui_action_get_hotkey_label          (int action);
+
 #endif

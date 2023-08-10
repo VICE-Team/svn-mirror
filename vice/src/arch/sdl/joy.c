@@ -153,11 +153,6 @@ static const cmdline_option_t cmdline_options[] =
 
 int joy_sdl_resources_init(void)
 {
-    /* Init the keyboard resources here before resources_set_defaults is called */
-    if (sdlkbd_init_resources() < 0) {
-        return -1;
-    }
-
 #ifdef HAVE_SDL_NUMJOYSTICKS
     if (resources_register_int(resources_int) < 0) {
         return -1;
@@ -174,10 +169,6 @@ int joy_sdl_cmdline_options_init(void)
         return -1;
     }
 #endif
-
-    if (sdlkbd_init_cmdline() < 0) {
-        return -1;
-    }
     return 0;
 }
 

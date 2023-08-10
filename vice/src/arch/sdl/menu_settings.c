@@ -41,6 +41,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uifilereq.h"
+#include "uihotkeys.h"
 #include "uimenu.h"
 #include "uipoll.h"
 #include "uistatusbar.h"
@@ -339,24 +340,6 @@ static UI_MENU_CALLBACK(load_pos_keymap_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(save_hotkeys_callback)
-{
-    const char *file = NULL;
-    if (activated) {
-        if (resources_get_string("HotkeyFile", &file)) {
-            ui_error("Cannot find resource.");
-            return NULL;
-        }
-
-        if (sdlkbd_hotkeys_dump(file)) {
-            ui_error("Cannot save hotkeys.");
-        } else {
-            ui_message("Hotkeys saved.");
-        }
-    }
-    return NULL;
-}
-
 static UI_MENU_CALLBACK(save_hotkeys_to_callback)
 {
     if (activated) {
@@ -365,35 +348,21 @@ static UI_MENU_CALLBACK(save_hotkeys_to_callback)
         name = sdl_ui_file_selection_dialog("Choose hotkey file", FILEREQ_MODE_SAVE_FILE);
 
         if (name != NULL) {
-            if (sdlkbd_hotkeys_dump(name) < 0) {
-                ui_error("Cannot save current hotkeys.");
+            if (ui_hotkeys_export(name)) {
+                ui_message("Hotkeys saved to '%s'.", name);
             } else {
-                ui_message("Hotkeys saved.");
+                ui_error("Failed to save hotkeys to '%s.", name);
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_HOTKEYS_SAVE_TO);
     }
     return NULL;
 }
 
-static UI_MENU_CALLBACK(load_hotkeys_callback)
-{
-    const char *file = NULL;
-    if (activated) {
-        if (resources_get_string("HotkeyFile", &file)) {
-            ui_error("Cannot find resource.");
-            return NULL;
-        }
-
-        if (sdlkbd_hotkeys_load(file)) {
-            ui_error("Cannot load hotkeys.");
-        } else {
-            ui_message("Hotkeys loaded.");
-        }
-    }
-    return NULL;
-}
-
+/* Load hotkeys file by setting "HotkeyFile" resource, and mark UI action
+ * finished.
+ */
 static UI_MENU_CALLBACK(load_hotkeys_from_callback)
 {
     if (activated) {
@@ -409,6 +378,7 @@ static UI_MENU_CALLBACK(load_hotkeys_from_callback)
             }
             lib_free(name);
         }
+        ui_action_finish(ACTION_HOTKEYS_LOAD_FROM);
     }
     return NULL;
 }
@@ -529,7 +499,7 @@ static const ui_menu_entry_t define_ui_keyset_menu[] = {
         .callback = custom_ui_keyset_callback,
         .data     = (ui_callback_data_t)"MenuKeyDown"
     },
-    {   .string   =  "Menu left",
+    {   .string   = "Menu left",
         .type     = MENU_ENTRY_DIALOG,
         .callback = custom_ui_keyset_callback,
         .data     = (ui_callback_data_t)"MenuKeyLeft"
@@ -654,22 +624,33 @@ ui_menu_entry_t settings_manager_menu[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = "Save hotkeys",
+    {   .action   = ACTION_HOTKEYS_SAVE,
+        .string   = "Save hotkeys",
         .type     = MENU_ENTRY_OTHER,
-        .callback = save_hotkeys_callback
     },
-    {   .string   = "Save hotkeys to",
+    {   .action   = ACTION_HOTKEYS_SAVE_TO,
+        .string   = "Save hotkeys to",
         .type     = MENU_ENTRY_OTHER,
         .callback = save_hotkeys_to_callback
     },
-    {   .string   = "Load hotkeys from",
+    {   .action   = ACTION_HOTKEYS_LOAD,
+        .string   = "Load hotkeys",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    {   .action   = ACTION_HOTKEYS_LOAD_FROM,
+        .string   = "Load hotkeys from",
         .type     = MENU_ENTRY_OTHER,
         .callback = load_hotkeys_from_callback
     },
-    {   .string   = "Load hotkeys",
-        .type     = MENU_ENTRY_OTHER,
-        .callback = load_hotkeys_callback
+    {   .action   = ACTION_HOTKEYS_DEFAULT,
+        .string   = "Load default hotkeys",
+        .type     = MENU_ENTRY_OTHER
     },
+    {   .action   = ACTION_HOTKEYS_CLEAR,
+        .string   = "Clear hotkeys",
+        .type     = MENU_ENTRY_OTHER
+    },
+
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -742,21 +723,30 @@ ui_menu_entry_t settings_manager_menu_vsid[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = "Save hotkeys",
+    {   .action   = ACTION_HOTKEYS_SAVE,
+        .string   = "Save hotkeys",
         .type     = MENU_ENTRY_OTHER,
-        .callback = save_hotkeys_callback
     },
-    {   .string   = "Save hotkeys to",
+    {   .action   = ACTION_HOTKEYS_SAVE_TO,
+        .string   = "Save hotkeys to",
         .type     = MENU_ENTRY_OTHER,
         .callback = save_hotkeys_to_callback
     },
-    {   .string   = "Load hotkeys from",
+    {   .action   = ACTION_HOTKEYS_LOAD,
+        .string   = "Load hotkeys from",
         .type     = MENU_ENTRY_OTHER,
-        .callback = load_hotkeys_from_callback
     },
-    {   .string   = "Load hotkeys",
+    {   .action   = ACTION_HOTKEYS_LOAD_FROM,
+        .string   = "Load hotkeys",
         .type     = MENU_ENTRY_OTHER,
-        .callback = load_hotkeys_callback
+    },
+    {   .action   = ACTION_HOTKEYS_DEFAULT,
+        .string   = "Load default hotkeys",
+        .type     = MENU_ENTRY_OTHER
+    },
+    {   .action   = ACTION_HOTKEYS_CLEAR,
+        .string   = "Clear hotkeys",
+        .type     = MENU_ENTRY_OTHER
     },
     SDL_MENU_ITEM_SEPARATOR,
 

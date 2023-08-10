@@ -1,0 +1,10 @@
+# VICE SDL Hotkeys for cartridges
+#
+# Author:   Bas Wassink
+# Updated:  2023-07-31
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+cart-attach         <Alt>C
+cart-detach         <Alt><Shift>C
+cart-freeze         <Alt>Z

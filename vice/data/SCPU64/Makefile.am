@@ -80,7 +80,8 @@ sdl_keymaps = \
 	sdl_sym_da.vkm
 
 sdl_hotkeys = \
-	sdl-hotkeys.vhk
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-mac.vhk
 
 sym_file = \
 	scpu64mem.sym

@@ -30,13 +30,15 @@
 #include "vice.h"
 #include "types.h"
 
+#include <stdbool.h>
+
 #include "uimenu.h"
 
 #define SDL_UI_HOTKEY_DELIM "&"
 
 ui_menu_entry_t *sdl_ui_hotkey_action(char *path);
 char *sdl_ui_hotkey_path(ui_menu_entry_t *action);
-int sdl_ui_hotkey_map(ui_menu_entry_t *item);
+bool sdl_ui_hotkey_map(ui_menu_entry_t *item);
 
 int sdl_ui_hotkey(ui_menu_entry_t *item); /* implemented in uimenu.c */
 

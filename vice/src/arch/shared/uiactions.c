@@ -43,6 +43,7 @@
 #include "log.h"
 #include "machine.h"
 #include "uiapi.h"
+#include "vhkkeysyms.h"
 
 #include "uiactions.h"
 
@@ -911,6 +912,7 @@ void ui_actions_init(void)
         map->menu_item[1] = NULL;
         map->user_data    = NULL;
     }
+    dialog_active = false;
 #endif
 }
 
@@ -991,10 +993,17 @@ void ui_action_trigger(int action)
 {
     ui_action_map_t *map = find_action_map(action);
     if (map != NULL) {
+#ifdef DEBUG_ACTIONS
+        const char *name = ui_action_get_name(action);
+#endif
+
        /* handle blocking actions */
         if (map->blocks) {
             if (map->is_busy) {
                 /* action is still busy, skip */
+#ifdef DEBUG_ACTIONS
+                printf("%s(): blocking action %s is still busy\n", __func__, name);
+#endif
                 return;
             }
             /* mark action busy */
@@ -1003,9 +1012,18 @@ void ui_action_trigger(int action)
 
         /* handle dialogs, only one can be active at a time */
         if (map->dialog) {
+#ifdef DEBUG_ACTIONS
+            printf("%s(): dialog action %s\n", __func__, name);
+#endif
             if (dialog_active) {
+#ifdef DEBUG_ACTIONS
+                printf("%s(): a dialog is already active, exiting\n", __func__);
+#endif
                 return;
             }
+#ifdef DEBUG_ACTIONS
+            printf("%s(): setting `dialog_active = true`\n", __func__);
+#endif
             dialog_active = true;
         }
 
@@ -1014,6 +1032,9 @@ void ui_action_trigger(int action)
             dispatch_handler(map);
         } else {
             /* default handler: trigger directly */
+#ifdef DEBUG_ACTIONS
+            printf("%s(): calling handler for %s directly\n", __func__, name);
+#endif
             map->handler(map);
         }
     } else {
@@ -1035,20 +1056,20 @@ void ui_action_finish(int action)
 #ifdef DEBUG_ACTIONS
     const char *name = ui_action_get_name(action);
 
-    log_debug("%s(): called for %d (%s).",
-              __func__, action, name != NULL ? name : "<no name>");
+    printf("%s(): called for %d (%s).",
+           __func__, action, name != NULL ? name : "<no name>");
 #endif
 
     if (map != NULL) {
         /* clear all state flags for the action */
 #ifdef DEBUG_ACTIONS
-        log_debug("%s(): clearing state flags.", __func__);
+        printf("%s(): clearing state flags.", __func__);
 #endif
         map->is_busy = false;
         /* clear global dialog flag */
         if (map->dialog) {
 #ifdef DEBUG_ACTIONS
-            log_debug("%s(): clearing global dialog-active flag.", __func__);
+            printf("%s(): clearing global dialog-active flag.", __func__);
 #endif
             dialog_active = false;
         }
@@ -1221,4 +1242,32 @@ void ui_action_map_set_hotkey_by_map(ui_action_map_t *map,
     map->vice_modmask = vice_modmask;
     map->arch_keysym  = arch_keysym;
     map->arch_modmask = arch_modmask;
+}
+
+
+/** \brief  Get hotkey label for action map
+ *
+ * \param[in]   map     UI action map
+ *
+ * \return  label for hotkey, free with \c lib_free()
+ */
+char *ui_action_map_get_hotkey_label(ui_action_map_t *map)
+{
+    return vhk_hotkey_label(map->vice_keysym, map->vice_modmask);
+}
+
+
+/** \brief  Get hotkey label for action ID
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  label for hotkey, free with \c lib_free()
+ */
+char *ui_action_get_hotkey_label(int action)
+{
+    ui_action_map_t *map = ui_action_map_get(action);
+    if (map != NULL) {
+        return ui_action_map_get_hotkey_label(map);
+    }
+    return NULL;
 }
