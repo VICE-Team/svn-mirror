@@ -135,4 +135,7 @@ jobs:
 
       - name: Check Dist Tarballs
         shell: bash
-        run: vice/build/github-actions/compare-dists.sh
+        run: |
+          pwd
+          ls -l
+          vice/build/github-actions/compare-dists.sh
