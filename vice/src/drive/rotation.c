@@ -983,123 +983,6 @@ static void rotation_1541_p64_cycle(drive_t *dptr)
 }
 
 /*******************************************************************************
- * very simple and fast emulation for perfect images like those coming from
- * dxx files
- ******************************************************************************/
-static void rotation_1541_simple(drive_t *dptr)
-{
-    rotation_t *rptr;
-    CLOCK delta;
-    CLOCK tdelta;
-    int bits_moved = 0;
-    uint64_t tmp = 1000000UL;
-    unsigned long rpmscale;
-
-    dptr->req_ref_cycles = 0;
-
-    rptr = &rotation[dptr->diskunit->mynumber];
-
-    /* Calculate the number of bits that have passed under the R/W head since
-       the last time.  */
-    CLOCK clk = *(dptr->diskunit->clk_ptr);
-    delta = clk - rptr->rotation_last_clk;
-    rptr->rotation_last_clk = clk;
-
-    tmp += ((long)dptr->wobble_factor * 1000000L) / 3200000L;
-    tmp *= 30000UL;
-    tmp /= dptr->rpm;
-    rpmscale = (unsigned long)(tmp);
-
-    while (delta > 0) {
-        tdelta = delta > 1000 ? 1000 : delta;
-        delta -= tdelta;
-        rptr->accum += rot_speed_bps[rptr->frequency][rptr->speed_zone] * tdelta;
-        bits_moved += rptr->accum / rpmscale;
-        rptr->accum %= rpmscale;
-    }
-
-    if (dptr->read_write_mode) {
-        int off = dptr->GCR_head_offset;
-        unsigned int byte, last_read_data = rptr->last_read_data << 7;
-        unsigned int bit_counter = rptr->bit_counter;
-
-        /* if no image is attached or track does not exists, read 0 */
-        if (dptr->GCR_image_loaded == 0 || dptr->GCR_track_start_ptr == NULL) {
-            byte = 0;
-        } else {
-            byte = dptr->GCR_track_start_ptr[off >> 3] << (off & 7);
-        }
-
-        while (bits_moved-- != 0) {
-            byte <<= 1; off++;
-            if (!(off & 7)) {
-                if ((off >> 3) >= (int)dptr->GCR_current_track_size) {
-                    off = 0;
-                }
-                /* if no image is attached or track does not exists, read 0 */
-                if (dptr->GCR_image_loaded == 0 || dptr->GCR_track_start_ptr == NULL) {
-                    byte = 0;
-                } else {
-                    byte = dptr->GCR_track_start_ptr[off >> 3];
-                }
-            }
-
-            last_read_data <<= 1;
-            last_read_data |= byte & 0x80;
-            rptr->last_write_data <<= 1;
-
-            /* is sync? reset bit counter, don't move data, etc. */
-            if (~last_read_data & 0x1ff80) {
-                if (++bit_counter == 8) {
-                    bit_counter = 0;
-                    dptr->GCR_read = (uint8_t) (last_read_data >> 7);
-                    /* tlr claims that the write register is loaded at every
-                     * byte boundary, and since the bus is shared, it's reasonable
-                     * to guess that it would be loaded with whatever was last read. */
-                    rptr->last_write_data = dptr->GCR_read;
-                    if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
-                        dptr->byte_ready_edge = 1;
-                        dptr->byte_ready_level = 1;
-                    }
-                }
-            } else {
-                bit_counter = 0;
-            }
-        }
-        rptr->last_read_data = (last_read_data >> 7) & 0x3ff;
-        rptr->bit_counter = bit_counter;
-        dptr->GCR_head_offset = off;
-        if (!dptr->GCR_read) {    /* can only happen if on a half or unformatted track */
-            dptr->GCR_read = 0x11; /* should be good enough, there's no data after all */
-        }
-    } else {
-        /* When writing, the first byte after transition is going to echo the
-         * bits from the last read value.
-         */
-        while (bits_moved-- != 0) {
-            rptr->last_read_data = (rptr->last_read_data << 1) & 0x3fe;
-            if ((rptr->last_read_data & 0xf) == 0) {
-                rptr->last_read_data |= 1;
-            }
-
-            write_next_bit(dptr, rptr->last_write_data & 0x80);
-            rptr->last_write_data <<= 1;
-
-            if (++rptr->bit_counter == 8) {
-                rptr->bit_counter = 0;
-                rptr->last_write_data = dptr->GCR_write_value;
-                if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
-                    dptr->byte_ready_edge = 1;
-                    dptr->byte_ready_level = 1;
-                }
-            }
-        }
-        /* TODO: only if we introduced more than two 0 bits in a row */
-        dptr->complicated_image_loaded = 1;
-    }
-}
-
-/*******************************************************************************
  * Rotate the disk according to the current value of `drive_clk[]'.
  * If `mode_change' is non-zero, there has been a Read -> Write mode switch.
  ******************************************************************************/
@@ -1112,16 +995,12 @@ void rotation_rotate_disk(drive_t *dptr)
 
     rotation_do_wobble(dptr);
 
-    if (dptr->complicated_image_loaded) {
-        /* stuff that needs complex and slow emulation */
-        if (dptr->P64_image_loaded) {
-            rotation_1541_p64_cycle(dptr);
-        } else {
-            rotation_1541_gcr_cycle(dptr);
-        }
+    if (dptr->P64_image_loaded) {
+        rotation_1541_p64_cycle(dptr);
     } else {
-        rotation_1541_simple(dptr);
+        rotation_1541_gcr_cycle(dptr);
     }
+
 }
 
 /******************************************************************************/
