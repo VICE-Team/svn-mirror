@@ -258,10 +258,10 @@ static int set_sid_resid_sampling(int val, void *param)
 
 static int set_sid_resid_passband(int i, void *param)
 {
-    if (i < 0) {
-        i = 0;
-    } else if (i > 90) {
-        i = 90;
+    if (i < RESID_6581_PASSBAND_MIN) {
+        i = RESID_6581_PASSBAND_MIN;
+    } else if (i > RESID_6581_PASSBAND_MAX) {
+        i = RESID_6581_PASSBAND_MAX;
     }
 
     sid_resid_passband = i;
@@ -271,10 +271,10 @@ static int set_sid_resid_passband(int i, void *param)
 
 static int set_sid_resid_gain(int i, void *param)
 {
-    if (i < 90) {
-        i = 90;
-    } else if (i > 100) {
-        i = 100;
+    if (i < RESID_6581_FILTER_GAIN_MIN) {
+        i = RESID_6581_FILTER_GAIN_MIN;
+    } else if (i > RESID_6581_FILTER_GAIN_MAX) {
+        i = RESID_6581_FILTER_GAIN_MAX;
     }
 
     sid_resid_gain = i;
@@ -284,10 +284,10 @@ static int set_sid_resid_gain(int i, void *param)
 
 static int set_sid_resid_filter_bias(int i, void *param)
 {
-    if (i < -5000) {
-        i = -5000;
-    } else if (i > 5000) {
-        i = 5000;
+    if (i < RESID_6581_FILTER_BIAS_MIN) {
+        i = RESID_6581_FILTER_BIAS_MIN;
+    } else if (i > RESID_6581_FILTER_BIAS_MAX) {
+        i = RESID_6581_FILTER_BIAS_MAX;
     }
 
     sid_resid_filter_bias = i;
@@ -297,10 +297,10 @@ static int set_sid_resid_filter_bias(int i, void *param)
 
 static int set_sid_resid_8580_passband(int i, void *param)
 {
-    if (i < 0) {
-        i = 0;
-    } else if (i > 90) {
-        i = 90;
+    if (i < RESID_8580_PASSBAND_MIN) {
+        i = RESID_8580_PASSBAND_MIN;
+    } else if (i > RESID_8580_PASSBAND_MAX) {
+        i = RESID_8580_PASSBAND_MAX;
     }
 
     sid_resid_8580_passband = i;
@@ -310,10 +310,10 @@ static int set_sid_resid_8580_passband(int i, void *param)
 
 static int set_sid_resid_8580_gain(int i, void *param)
 {
-    if (i < 90) {
-        i = 90;
-    } else if (i > 100) {
-        i = 100;
+    if (i < RESID_8580_FILTER_GAIN_MIN) {
+        i = RESID_8580_FILTER_GAIN_MIN;
+    } else if (i > RESID_8580_FILTER_GAIN_MAX) {
+        i = RESID_8580_FILTER_GAIN_MAX;
     }
 
     sid_resid_8580_gain = i;
@@ -323,10 +323,10 @@ static int set_sid_resid_8580_gain(int i, void *param)
 
 static int set_sid_resid_8580_filter_bias(int i, void *param)
 {
-    if (i < -5000) {
-        i = -5000;
-    } else if (i > 5000) {
-        i = 5000;
+    if (i < RESID_8580_FILTER_BIAS_MIN) {
+        i = RESID_8580_FILTER_BIAS_MIN;
+    } else if (i > RESID_8580_FILTER_BIAS_MAX) {
+        i = RESID_8580_FILTER_BIAS_MAX;
     }
 
     sid_resid_8580_filter_bias = i;
@@ -384,17 +384,17 @@ static const resource_int_t resid_resources_int[] = {
       &sid_resid_enable_raw_output, set_sid_resid_enable_raw_output, NULL },
     { "SidResidSampling", SID_RESID_SAMPLING_RESAMPLING, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
-    { "SidResidPassband", 90, RES_EVENT_NO, NULL,
+    { "SidResidPassband", RESID_6581_PASSBAND_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_passband, set_sid_resid_passband, NULL },
-    { "SidResidGain", 97, RES_EVENT_NO, NULL,
+    { "SidResidGain", RESID_6581_FILTER_GAIN_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_gain, set_sid_resid_gain, NULL },
-    { "SidResidFilterBias", 500, RES_EVENT_NO, NULL,
+    { "SidResidFilterBias", RESID_6581_FILTER_BIAS_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_filter_bias, set_sid_resid_filter_bias, NULL },
-    { "SidResid8580Passband", 90, RES_EVENT_NO, NULL,
+    { "SidResid8580Passband", RESID_8580_PASSBAND_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_8580_passband, set_sid_resid_8580_passband, NULL },
-    { "SidResid8580Gain", 97, RES_EVENT_NO, NULL,
+    { "SidResid8580Gain", RESID_8580_FILTER_GAIN_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_8580_gain, set_sid_resid_8580_gain, NULL },
-    { "SidResid8580FilterBias", 0, RES_EVENT_NO, NULL,
+    { "SidResid8580FilterBias", RESID_8580_FILTER_BIAS_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_8580_filter_bias, set_sid_resid_8580_filter_bias, NULL },
     RESOURCE_INT_LIST_END
 };

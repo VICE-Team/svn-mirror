@@ -115,7 +115,7 @@ static int set_drive_sound_emulation(int val, void *param)
 
 static int set_drive_sound_emulation_volume(int val, void *param)
 {
-    if ((val < 0) || (val > 4000)) {
+    if ((val < 0) || (val > DRIVE_SOUND_VOLUME_MAX)) {
         return -1;
     }
     drive_sound_emulation_volume = val;

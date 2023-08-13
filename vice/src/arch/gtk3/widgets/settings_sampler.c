@@ -41,10 +41,6 @@
 #include "settings_sampler.h"
 
 
-/** \brief  Minimum value for the gain slider */
-#define GAIN_MIN    0
-/** \brief  Maximum value for the gain slider */
-#define GAIN_MAX    250
 /** \brief  Stepping for the gain slider (when using cursor left/right) */
 #define GAIN_STEP   25
 
@@ -136,11 +132,19 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
 
     /* sampler gain */
     label = create_label("Sampler gain");
-    gain  = vice_gtk3_resource_scale_int_new("SamplerGain",
-                                             GTK_ORIENTATION_HORIZONTAL,
-                                             GAIN_MIN,
-                                             GAIN_MAX,
-                                             GAIN_STEP);
+
+    gain = vice_gtk3_resource_scale_custom_new_printf("%s",
+                                                       GTK_ORIENTATION_HORIZONTAL,
+                                                       0,
+                                                       SAMPLER_GAIN_MAX,
+                                                       0,
+                                                       (SAMPLER_GAIN_MAX * 100) / SAMPLER_GAIN_ONE,
+                                                       GAIN_STEP,
+                                                       "%3.0f%%",
+                                                       "SamplerGain");
+    gtk_widget_set_hexpand(gain, TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(gain), GTK_POS_RIGHT);
+
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain,  1, 2, 1, 1);
 

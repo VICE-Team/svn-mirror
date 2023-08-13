@@ -276,9 +276,11 @@ static GtkWidget *create_label(const char *text,
 
 /** \brief  Create a customized GtkScale for \a resource
  *
- * \param[in]   resource    resource name without the video \a chip name prefix
+ * \param[in]   resource    resource name
  * \param[in]   low         lower bound
  * \param[in]   high        upper bound
+ * \param[in]   reslow      resource lower bound
+ * \param[in]   reshigh     resource upper bound
  * \param[in]   step        step used to increase/decrease slider value
  * \param[in]   minimal     reduce slider size to be used in the statusbar
  *
@@ -286,13 +288,22 @@ static GtkWidget *create_label(const char *text,
  */
 static GtkWidget *create_slider(
         const char *resource,
-        int low, int high, int step,
+        const char *resfmt,
+        int low, int high,
+        int reslow, int reshigh, float step,
         gboolean minimal)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_new(resource,
-            GTK_ORIENTATION_HORIZONTAL, low, high, step);
+    scale = vice_gtk3_resource_scale_custom_new_printf("%s",
+                                                       GTK_ORIENTATION_HORIZONTAL,
+                                                       reslow,
+                                                       reshigh,
+                                                       low,
+                                                       high,
+                                                       step,
+                                                       resfmt,
+                                                       resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     /* vice_gtk3_resource_scale_int_set_marks(scale, step); */
@@ -365,7 +376,7 @@ static GtkWidget *create_spin(
  */
 static GtkWidget *create_volume_widget(gboolean minimal)
 {
-    return create_slider("SoundVolume", 0, 100, 5, minimal);
+    return create_slider("SoundVolume", "%3.0f%%", 0, MASTER_VOLUME_MAX, 0, MASTER_VOLUME_MAX, 1, minimal);
 }
 
 
@@ -396,7 +407,9 @@ static GtkWidget *create_lowpass_widget(gboolean minimal)
  */
 static GtkWidget *create_passband6581_widget(gboolean minimal)
 {
-    return create_slider("SidResidPassBand", 0, 90, 5, minimal);
+    return create_slider("SidResidPassBand", "%3.0f%%",
+                         RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX,
+                         RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, 1, minimal);
 }
 
 
@@ -408,7 +421,9 @@ static GtkWidget *create_passband6581_widget(gboolean minimal)
  */
 static GtkWidget *create_gain6581_widget(gboolean minimal)
 {
-    return create_slider("SidResidGain", 90, 100, 1, minimal);
+    return create_slider("SidResidGain", "%3.0f%%",
+                         RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX,
+                         RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, 1, minimal);
 }
 
 
@@ -420,7 +435,10 @@ static GtkWidget *create_gain6581_widget(gboolean minimal)
  */
 static GtkWidget *create_bias6581_widget(gboolean minimal)
 {
-    return create_slider("SidResidFilterBias", -5000, 5000, 1000, minimal);
+    return create_slider("SidResidFilterBias", "%+1.2fmV",
+                         (RESID_6581_FILTER_BIAS_MIN / RESID_6581_FILTER_BIAS_ONE),
+                         (RESID_6581_FILTER_BIAS_MAX / RESID_6581_FILTER_BIAS_ONE),
+                         RESID_6581_FILTER_BIAS_MIN, RESID_6581_FILTER_BIAS_MAX, 0.01f, minimal);
 }
 
 /** \brief  Create slider for ReSID 8580 passband
@@ -431,7 +449,9 @@ static GtkWidget *create_bias6581_widget(gboolean minimal)
  */
 static GtkWidget *create_passband8580_widget(gboolean minimal)
 {
-    return create_slider("SidResid8580PassBand", 0, 90, 5, minimal);
+    return create_slider("SidResid8580PassBand", "%3.0f%%",
+                         RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX,
+                         RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, 1, minimal);
 }
 
 
@@ -443,7 +463,9 @@ static GtkWidget *create_passband8580_widget(gboolean minimal)
  */
 static GtkWidget *create_gain8580_widget(gboolean minimal)
 {
-    return create_slider("SidResid8580Gain", 90, 100, 1, minimal);
+    return create_slider("SidResid8580Gain", "%3.0f%%",
+                         RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX,
+                         RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, 1, minimal);
 }
 
 
@@ -455,7 +477,10 @@ static GtkWidget *create_gain8580_widget(gboolean minimal)
  */
 static GtkWidget *create_bias8580_widget(gboolean minimal)
 {
-    return create_slider("SidResid8580FilterBias", -5000, 5000, 1000, minimal);
+    return create_slider("SidResid8580FilterBias", "%+1.2fmV",
+                         (RESID_8580_FILTER_BIAS_MIN / RESID_8580_FILTER_BIAS_ONE),
+                         (RESID_8580_FILTER_BIAS_MAX / RESID_8580_FILTER_BIAS_ONE),
+                         RESID_8580_FILTER_BIAS_MIN, RESID_8580_FILTER_BIAS_MAX, 0.01f, minimal);
 }
 #endif  /* ifdef HAVE_RESID */
 
@@ -581,6 +606,11 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), bias6581label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias6581, 1, row, 1, 1);
     row++;
+
+    /*
+     * 8580 ReSID resources
+     */
+
     passband8580label = create_label("ReSID 8580 Passband", minimal, alignment);
     passband8580 = create_passband8580_widget(minimal);
     gtk_widget_set_sensitive(passband8580, sid_present);
@@ -588,10 +618,6 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), passband8580label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband8580, 1, row, 1, 1);
     row++;
-
-    /*
-     * 8580 ReSID resources
-     */
 
     gain8580label = create_label("ReSID 8580 Gain", minimal, alignment);
     gain8580 = create_gain8580_widget(minimal);

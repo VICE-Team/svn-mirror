@@ -228,10 +228,15 @@ static GtkWidget *create_autofire_speed_widget(int joy)
 {
     GtkWidget *widget;
 
-    widget = vice_gtk3_resource_scale_int_new_sprintf("JoyStick%dAutoFireSpeed",
-                                                      GTK_ORIENTATION_HORIZONTAL,
-                                                      1, 255, 10,
-                                                      joy);
+    widget = vice_gtk3_resource_scale_custom_new_printf("JoyStick%dAutoFireSpeed",
+                                                       GTK_ORIENTATION_HORIZONTAL,
+                                                       JOYSTICK_AUTOFIRE_SPEED_MIN,
+                                                       JOYSTICK_AUTOFIRE_SPEED_MAX,
+                                                       JOYSTICK_AUTOFIRE_SPEED_MIN,
+                                                       JOYSTICK_AUTOFIRE_SPEED_MAX,
+                                                       5,
+                                                       "%3.0fHz",
+                                                       joy);
     gtk_scale_set_value_pos(GTK_SCALE(widget), GTK_POS_RIGHT);
     return widget;
 }

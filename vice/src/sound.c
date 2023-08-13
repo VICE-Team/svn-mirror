@@ -670,11 +670,11 @@ static int set_volume(int val, void *param)
         volume = 0;
     }
 
-    if (volume > 100) {
-        volume = 100;
+    if (volume > MASTER_VOLUME_MAX) {
+        volume = MASTER_VOLUME_MAX;
     }
 
-    amp = (int)((exp((double)volume / 100.0 * log(2.0)) - 1.0) * 4096.0);
+    amp = (int)((exp((double)volume / ((double)MASTER_VOLUME_ONE) * log(2.0)) - 1.0) * 4096.0);
 
     ui_display_volume(volume);
 
@@ -703,7 +703,7 @@ static const resource_int_t resources_int[] = {
       (void *)&buffer_size, set_buffer_size, NULL },
     { "SoundFragmentSize", SOUND_FRAGMENT_SIZE, RES_EVENT_NO, NULL,
       (void *)&fragment_size, set_fragment_size, NULL },
-    { "SoundVolume", 100, RES_EVENT_NO, NULL,
+    { "SoundVolume", MASTER_VOLUME_DEFAULT, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
     { "SoundOutput", ARCHDEP_SOUND_OUTPUT_MODE, RES_EVENT_NO, NULL,
       (void *)&output_option, set_output_option, NULL },

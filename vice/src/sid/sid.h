@@ -124,6 +124,37 @@ enum {
 #define SID_MACHINE_MAX_SID_VSID    3
 
 
+#define RESID_6581_PASSBAND_MIN             0
+#define RESID_6581_PASSBAND_MAX             90
+#define RESID_6581_PASSBAND_ONE             1
+#define RESID_6581_PASSBAND_DEFAULT         90
+
+#define RESID_6581_FILTER_GAIN_MIN          90
+#define RESID_6581_FILTER_GAIN_MAX          100
+#define RESID_6581_FILTER_GAIN_ONE          1
+#define RESID_6581_FILTER_GAIN_DEFAULT      97
+
+#define RESID_6581_FILTER_BIAS_MIN          -5000
+#define RESID_6581_FILTER_BIAS_MAX          5000
+#define RESID_6581_FILTER_BIAS_ONE          1000
+#define RESID_6581_FILTER_BIAS_DEFAULT      500
+
+#define RESID_8580_PASSBAND_MIN             0
+#define RESID_8580_PASSBAND_MAX             90
+#define RESID_8580_PASSBAND_ONE             1
+#define RESID_8580_PASSBAND_DEFAULT         90
+
+#define RESID_8580_FILTER_GAIN_MIN          90
+#define RESID_8580_FILTER_GAIN_MAX          100
+#define RESID_8580_FILTER_GAIN_ONE          1
+#define RESID_8580_FILTER_GAIN_DEFAULT      97
+
+#define RESID_8580_FILTER_BIAS_MIN          -5000
+#define RESID_8580_FILTER_BIAS_MAX          5000
+#define RESID_8580_FILTER_BIAS_ONE          1000
+#define RESID_8580_FILTER_BIAS_DEFAULT      0
+
+
 void machine_sid2_enable(int val);
 
 uint8_t sid_read(uint16_t address);

@@ -6763,7 +6763,7 @@ Boolean controlling whether the drive noise emulation is turned on
 @item DriveSoundEmulationVolume
 Integer specifying the volume of the drive noise emulation
 (all emulators except vsid).
-(0..4000)
+(0..4000, 4000 equals 100.0%.)
 
 @vindex Drive8Type
 @vindex Drive9Type
@@ -7064,8 +7064,8 @@ Enable/disable drive sound emulation
 
 @findex -drivesoundvolume
 @item -drivesoundvolume <Volume>
-Set the volume of the drive sound emulation
-(@code{DriveSoundEmulationVolume=1}, @code{DriveSoundEmulationVolume=0})
+Set the volume of the drive sound emulation. (4000 equals 100.0%.)
+(@code{DriveSoundEmulationVolume=0..4000})
 (all emulators except vsid).
 
 @findex -drive8type
@@ -12314,7 +12314,7 @@ Integer that specifies reSID gain in percent [97] (90..100) for 6581.
 @vindex SidResidFilterBias
 @item SidResidFilterBias
 Integer that specifies reSID filter bias for 6581, which can be used to adjust DAC bias
-in millivolts. [0] (-5000..5000)
+in millivolts. [0] (-5000..5000, 1000 equals 1mV)
 
 @vindex SidResid8580Passband
 @item SidResid8580Passband
@@ -12328,7 +12328,7 @@ Integer that specifies reSID gain in percent [97] (90..100) for 8580.
 @vindex SidResid8580FilterBias
 @item SidResid8580FilterBias
 Integer that specifies reSID filter bias for 8580, which can be used to adjust DAC bias
-in millivolts. [0] (-5000..5000)
+in millivolts. [0] (-5000..5000, 1000 equals 1mV)
 
 @vindex SidResidEnableRawOutput
 @item SidResidEnableRawOutput

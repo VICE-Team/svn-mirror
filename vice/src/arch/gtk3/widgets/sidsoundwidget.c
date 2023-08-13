@@ -83,7 +83,9 @@ typedef struct slider_s {
     const char *format;     /**< format string for Gtk.Scale::draw_value */
     int         min;        /**< scale minimum value */
     int         max;        /**< scale maximum value */
-    int         step;       /**< scale stepping */
+    int         resmin;     /**< resource minimum value */
+    int         resmax;     /**< resource maximum value */
+    float        step;       /**< scale stepping */
 } slider_t;
 
 /** \brief  ReSID filter sliders for 6581
@@ -92,18 +94,24 @@ typedef struct slider_s {
  * touching the text.
  */
 static const slider_t sliders_6581[] = {
-    { "6581 passband", "SidResidPassband",       " %5.0f",      0,   90, 5 },
-    { "6581 gain",     "SidResidGain",           " %5.0f",     90,  100, 1 },
-    { "6581 bias",     "SidResidFilterBias",     " %+5.0f", -5000, 5000, 1 },
-    { NULL,            NULL,                     NULL,          0,    0, 0 }
+    { "6581 passband", "SidResidPassband",       " %5.0f%%",
+      RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, 1 },
+    { "6581 gain",     "SidResidGain",           " %5.0f%%",
+      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, 1 },
+    { "6581 bias",     "SidResidFilterBias",     " %+1.2fmV",
+      (RESID_6581_FILTER_BIAS_MIN / RESID_6581_FILTER_BIAS_ONE), (RESID_6581_FILTER_BIAS_MAX / RESID_6581_FILTER_BIAS_ONE), RESID_6581_FILTER_BIAS_MIN, RESID_6581_FILTER_BIAS_MAX, 0.01f },
+    { NULL,            NULL,                     NULL,          0,    0, 0,    0, 0 }
 };
 
 /** \brief  ReSID filter sliders for 8580 */
 static const slider_t sliders_8580[] = {
-    { "8580 passband", "SidResid8580Passband",   " %5.0f",      0,   90, 5 },
-    { "8580 gain",     "SidResid8580Gain",       " %5.0f",     90,  100, 1 },
-    { "8580 bias",     "SidResid8580FilterBias", " %+5.0f", -5000, 5000, 1 },
-    { NULL,            NULL,                     NULL,          0,    0, 0 }
+    { "8580 passband", "SidResid8580Passband",   " %5.0f%%",
+      RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, 1 },
+    { "8580 gain",     "SidResid8580Gain",       " %5.0f%%",
+      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, 1 },
+    { "8580 bias",     "SidResid8580FilterBias", " %+1.2fmV",
+      (RESID_8580_FILTER_BIAS_MIN / RESID_8580_FILTER_BIAS_ONE), (RESID_8580_FILTER_BIAS_MAX / RESID_8580_FILTER_BIAS_ONE), RESID_8580_FILTER_BIAS_MIN, RESID_8580_FILTER_BIAS_MAX, 0.01f },
+    { NULL,            NULL,                     NULL,          0,    0,0,    0,  0 }
 };
 
 /** \brief  Values for the "SidResidSampling" resource
@@ -326,22 +334,6 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 #ifdef HAVE_RESID
-/** \brief  Virtual method '::format_value' of the GtkScale widgets
- *
- * Format \a value printed next to the \a scale, to keep all sliders equal
- * in length.
- *
- * \param[in]   scale   scale widget
- * \param[in]   value   value to format
- *
- * \return  heap-allocated string, freed by the GtkScale
- */
-static gchar *on_format_value(GtkScale *scale, gdouble value)
-{
-    const char *format = g_object_get_data(G_OBJECT(scale), "FormatString");
-
-    return g_strdup_printf(format, value);
-}
 
 /** \brief  Handler for the 'clicked' event of a reset button
  *
@@ -415,29 +407,24 @@ static GtkWidget *create_sliders(const slider_t *slider_decls,
 
         decl   = &slider_decls[i];
         label  = label_helper(decl->label);
-        scale  = vice_gtk3_resource_scale_int_new(decl->resource,
-                                                  GTK_ORIENTATION_HORIZONTAL,
-                                                  decl->min,
-                                                  decl->max,
-                                                  decl->step);
+        scale = vice_gtk3_resource_scale_custom_new_printf("%s",
+                                                        GTK_ORIENTATION_HORIZONTAL,
+                                                        decl->resmin,
+                                                        decl->resmax,
+                                                        decl->min,
+                                                        decl->max,
+                                                        decl->step,
+                                                        decl->format,
+                                                        decl->resource);
         button = create_reset_button(scale);
 
         /* needed since we use no-show-all */
         gtk_widget_show(label);
         gtk_widget_show(button);
+        gtk_widget_show(scale);
 
         gtk_widget_set_hexpand(scale, TRUE);
-        gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
         gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-        vice_gtk3_css_provider_add(scale, provider);
-        /* store pointer to format string in the object keystore so we can
-         * access the string in the format_value virtual method: */
-        g_object_set_data(G_OBJECT(scale), "FormatString", (gpointer)decl->format);
-        g_signal_connect_unlocked(G_OBJECT(scale),
-                                  "format-value",
-                                  G_CALLBACK(on_format_value),
-                                  NULL);    /* cannot use data arg, not used
-                                               in virtual method */
 
         gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), scale,  1, row, 1, 1);

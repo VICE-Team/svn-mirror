@@ -1798,7 +1798,7 @@ static int set_joystick_autofire_speed(int val, void *param)
 {
     int port_idx = vice_ptr_to_int(param);
 
-    if (val < 1 || val > 255) {
+    if ((val < JOYSTICK_AUTOFIRE_SPEED_MIN) || (val > JOYSTICK_AUTOFIRE_SPEED_MAX)) {
         return -1;
     }
 
