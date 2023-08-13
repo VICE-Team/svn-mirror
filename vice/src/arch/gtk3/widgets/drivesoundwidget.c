@@ -35,6 +35,7 @@
 
 #include "vice_gtk3.h"
 
+#include "drive.h"
 #include "drivesoundwidget.h"
 
 
@@ -77,7 +78,7 @@ GtkWidget *drive_sound_widget_create(void)
     gtk_widget_set_margin_start(label, 32);
     scale = vice_gtk3_resource_scale_int_new("DriveSoundEmulationVolume",
                                              GTK_ORIENTATION_HORIZONTAL,
-                                             0, 4000, 200);
+                                             0, DRIVE_SOUND_VOLUME_MAX, 200);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     g_signal_connect_unlocked(scale,

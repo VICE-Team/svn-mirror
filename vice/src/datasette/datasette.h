@@ -73,6 +73,10 @@ enum {
 #define TAP_AZIMUTH_ERROR_MAX           (TAP_AZIMUTH_ERROR_ONE * 10) /* +/- 10 cycles */
 #define TAP_AZIMUTH_ERROR_DEFAULT       0
 
+#define TAPE_SOUND_VOLUME_ONE           2048
+#define TAPE_SOUND_VOLUME_MAX           4096
+#define TAPE_SOUND_VOLUME_DEFAULT       1024
+
 struct tap_s;
 
 extern int datasette_sound_emulation;

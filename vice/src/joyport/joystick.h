@@ -231,5 +231,7 @@ void joy_delete_extra_mapping(int type);
 #define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1    /* autofire only when fire is NOT pressed */
 
 #define JOYSTICK_AUTOFIRE_SPEED_DEFAULT    10   /* default autofire speed, button will be on this many times per second */
+#define JOYSTICK_AUTOFIRE_SPEED_MIN        1
+#define JOYSTICK_AUTOFIRE_SPEED_MAX        255
 
 #endif

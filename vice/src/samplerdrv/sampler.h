@@ -39,6 +39,11 @@
 #define SAMPLER_CLOSED   0
 #define SAMPLER_STARTED  1
 
+#define SAMPLER_GAIN_ONE        100     /* 100% */
+#define SAMPLER_GAIN_MIN          1
+#define SAMPLER_GAIN_MAX        200     /* 200% */
+#define SAMPLER_GAIN_DEFAULT    SAMPLER_GAIN_ONE
+
 enum {
     SAMPLER_DEVICE_FILE = 0,
     SAMPLER_DEVICE_PORTAUDIO,

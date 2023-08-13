@@ -211,6 +211,10 @@
 #define DRIVE_WOBBLE_AMPLITUDE_MAX      5000        /* +/- 5 RPM */
 #define DRIVE_WOBBLE_AMPLITUDE_DEFAULT   200        /* +/- 0.2 RPM */
 
+#define DRIVE_SOUND_VOLUME_ONE          4000        /* 100% */
+#define DRIVE_SOUND_VOLUME_MAX          4000        /* 100% */
+#define DRIVE_SOUND_VOLUME_DEFAULT      1000        /* 25% */
+
 /* ------------------------------------------------------------------------- */
 
 typedef struct drive_type_info_s {

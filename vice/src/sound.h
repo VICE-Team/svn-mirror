@@ -384,4 +384,8 @@ int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int 
 void sound_stop_recording(void);
 int sound_is_recording(void);
 
+#define MASTER_VOLUME_MAX       100 /* 100% */
+#define MASTER_VOLUME_ONE       100 /* 100% */
+#define MASTER_VOLUME_DEFAULT   MASTER_VOLUME_MAX
+
 #endif

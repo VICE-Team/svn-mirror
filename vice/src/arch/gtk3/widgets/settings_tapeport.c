@@ -13,6 +13,8 @@
  * $VICERES DatasetteZeroGapDelay   -xscpu64 -vsid
  * $VICERES DatasetteSpeedTuning    -xscpu64 -vsid
  * $VICERES DatasetteTapeWobble     -xscpu64 -vsid
+ * $VICERES DatasetteSound          -xscpu64 -vsid
+ * $VICERES DatasetteSoundVolume    -xscpu64 -vsid
  * $VICERES CPClockF83Save          -xscpu64 -vsid
  * $VICERES TapecartUpdateTCRT      x64 x64sc x128
  * $VICERES TapecartOptimizeTCRT    x64 x64sc x128
@@ -251,6 +253,7 @@ static GtkWidget *create_datasette_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    GtkWidget *scale;
     int        row = 0;
 
     grid = gtk_grid_new();
@@ -279,10 +282,26 @@ static GtkWidget *create_datasette_widget(void)
                                                    "Reset datasette with CPU");
     gtk_widget_set_margin_bottom(ds_reset, 8);
     gtk_grid_attach(GTK_GRID(grid), ds_reset, 0, row, 2, 1);
+
+    row++;
+
     ds_sound = vice_gtk3_resource_check_button_new("DatasetteSound",
                                                    "Datasette sound");
     gtk_widget_set_margin_bottom(ds_sound, 8);
-    gtk_grid_attach(GTK_GRID(grid), ds_sound, 2, row, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_sound, 0, row, 1, 1);
+
+    scale = vice_gtk3_resource_scale_custom_new_printf("%s",
+                                                       GTK_ORIENTATION_HORIZONTAL,
+                                                       0,
+                                                       TAPE_SOUND_VOLUME_MAX,
+                                                       0,
+                                                       (TAPE_SOUND_VOLUME_MAX * 100) / TAPE_SOUND_VOLUME_ONE,
+                                                       10,
+                                                       "%3.0f%%",
+                                                       "DatasetteSoundVolume");
+    gtk_widget_set_hexpand(scale, TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    gtk_grid_attach(GTK_GRID(grid), scale, 1, row, 3, 1);
     row++;
 
     label      = label_helper("TAP v0 Zero gap delay");

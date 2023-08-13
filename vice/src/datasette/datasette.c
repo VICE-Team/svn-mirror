@@ -258,7 +258,7 @@ static int set_datasette_sound_emulation(int val, void *param)
 
 static int set_datasette_sound_emulation_volume(int val, void *param)
 {
-    if (val < 0) {
+    if ((val < 0) || (val > TAPE_SOUND_VOLUME_MAX)) {
         return -1;
     }
 
@@ -290,7 +290,7 @@ static const resource_int_t resources_int[] = {
     { "DatasetteSound", 0, RES_EVENT_SAME, NULL,
       &datasette_sound_emulation,
       set_datasette_sound_emulation, NULL },
-    { "DatasetteSoundVolume", 1024, RES_EVENT_SAME, NULL,
+    { "DatasetteSoundVolume", TAPE_SOUND_VOLUME_DEFAULT, RES_EVENT_SAME, NULL,
       &datasette_sound_emulation_volume,
       set_datasette_sound_emulation_volume, NULL },
     RESOURCE_INT_LIST_END
