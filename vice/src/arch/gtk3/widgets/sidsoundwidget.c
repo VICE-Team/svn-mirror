@@ -85,7 +85,7 @@ typedef struct slider_s {
     int         max;        /**< scale maximum value */
     int         resmin;     /**< resource minimum value */
     int         resmax;     /**< resource maximum value */
-    float        step;       /**< scale stepping */
+    float       step;       /**< scale stepping */
 } slider_t;
 
 /** \brief  ReSID filter sliders for 6581
@@ -94,23 +94,31 @@ typedef struct slider_s {
  * touching the text.
  */
 static const slider_t sliders_6581[] = {
-    { "6581 passband", "SidResidPassband",       " %5.0f%%",
-      RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, 1 },
-    { "6581 gain",     "SidResidGain",           " %5.0f%%",
-      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, 1 },
-    { "6581 bias",     "SidResidFilterBias",     " %+1.2fmV",
-      (RESID_6581_FILTER_BIAS_MIN / RESID_6581_FILTER_BIAS_ONE), (RESID_6581_FILTER_BIAS_MAX / RESID_6581_FILTER_BIAS_ONE), RESID_6581_FILTER_BIAS_MIN, RESID_6581_FILTER_BIAS_MAX, 0.01f },
+    { "6581 passband", "SidResidPassband",       "%3.0f%%",
+      RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX,
+      RESID_6581_PASSBAND_MIN, RESID_6581_PASSBAND_MAX, 1 },
+    { "6581 gain",     "SidResidGain",           "%3.0f%%",
+      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX,
+      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, 1 },
+    { "6581 bias",     "SidResidFilterBias",     "%+1.2fmV",
+      (RESID_6581_FILTER_BIAS_MIN / RESID_6581_FILTER_BIAS_ONE),
+      (RESID_6581_FILTER_BIAS_MAX / RESID_6581_FILTER_BIAS_ONE),
+      RESID_6581_FILTER_BIAS_MIN, RESID_6581_FILTER_BIAS_MAX, 0.01f },
     { NULL,            NULL,                     NULL,          0,    0, 0,    0, 0 }
 };
 
 /** \brief  ReSID filter sliders for 8580 */
 static const slider_t sliders_8580[] = {
-    { "8580 passband", "SidResid8580Passband",   " %5.0f%%",
-      RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, 1 },
-    { "8580 gain",     "SidResid8580Gain",       " %5.0f%%",
-      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, 1 },
-    { "8580 bias",     "SidResid8580FilterBias", " %+1.2fmV",
-      (RESID_8580_FILTER_BIAS_MIN / RESID_8580_FILTER_BIAS_ONE), (RESID_8580_FILTER_BIAS_MAX / RESID_8580_FILTER_BIAS_ONE), RESID_8580_FILTER_BIAS_MIN, RESID_8580_FILTER_BIAS_MAX, 0.01f },
+    { "8580 passband", "SidResid8580Passband",   "%3.0f%%",
+      RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX,
+      RESID_8580_PASSBAND_MIN, RESID_8580_PASSBAND_MAX, 1 },
+    { "8580 gain",     "SidResid8580Gain",       "%3.0f%%",
+      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX,
+      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, 1 },
+    { "8580 bias",     "SidResid8580FilterBias", "%+1.2fmV",
+      (RESID_8580_FILTER_BIAS_MIN / RESID_8580_FILTER_BIAS_ONE),
+      (RESID_8580_FILTER_BIAS_MAX / RESID_8580_FILTER_BIAS_ONE),
+      RESID_8580_FILTER_BIAS_MIN, RESID_8580_FILTER_BIAS_MAX, 0.01f },
     { NULL,            NULL,                     NULL,          0,    0,0,    0,  0 }
 };
 
