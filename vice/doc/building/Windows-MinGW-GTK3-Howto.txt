@@ -71,47 +71,14 @@ DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.
 Run the following command lines to install the prerequisites:
 
 $ pacman -S --noconfirm --needed base-devel pactoys
-$ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3 glew giflib icoutils flac mpg123
+$ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3 glew giflib icoutils flac mpg123 xa65
 
 (Note: type the colons that you see in the second command; they are important.
  Hit enter for the default on all the prompts, then wait for a lot of stuff
  to download and install.)
 
 
-4. Then you need the xa 6502 cross-assembler, which is used to assemble the
-"driver" program for vsid (the SID player that comes with VICE). It can be found
-here: http://www.floodgap.com/retrotech/xa/
-
-Don't log out of the shell.  After you download xa, go back to the shell.
-
-Alternatively, use wget (in the shell) to download it:
-
-$ cd /c/Users/<login-name>/Downloads/
-$ wget https://www.floodgap.com/retrotech/xa/dists/xa-2.3.13.tar.gz
-
-Make the directory "/usr/local/src/".
-Use tar to unpack xa (use the MSYS2 path to where you downloaded it):
-
-$ cd /usr/local
-$ mkdir -p src
-$ cd src
-$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.13.tar.gz
-
-NOTE: if fetching the above mentioned tarball fails, then probably XA was
-      updated, have a look at https://www.floodgap.com/retrotech/xa/dists/ and
-      change the name of the tarball accordingly.
-
-      A mirror of the xa source packages is available via Github:
-      https://github.com/fachat/xa65/archive/refs/tags/xa-2.3.13.tar.gz
-
-Then build and install it:
-
-$ cd xa-2.3.13
-$ make mingw install
-$ mv ../../bin/xa.exe ../../bin/xa65.exe
-
-
-5. Get MiKTeX, in order to build the PDF documentation (optional).
+4. Get MiKTeX, in order to build the PDF documentation (optional).
 NOTE: if you skip this step, you will need to ./configure with --disable-pdf-docs
 
 Download and install it, see: https://miktex.org/howto/install-miktex
@@ -136,7 +103,7 @@ If you change your ".bash_profile" exit from the shell and relaunch that
 shell (it will use your updated profile).
 
 
-6. Get VICE's source code.
+5. Get VICE's source code.
 To check out the source with Subversion (into "~/vice-trunk/", for example),
 you could type:
 
@@ -144,7 +111,7 @@ $ cd ~
 $ svn checkout http://svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
 
 
-7. Now, you can try to build VICE:
+6. Now, you can try to build VICE:
 
 $ cd ~/vice-trunk/vice
 $ ./autogen.sh
@@ -158,12 +125,12 @@ with:
 $ ./configure -C --enable-gtk3ui --enable-debug-gtk3ui --enable-debug
 
 
-8. If it got through all those steps, you should have some executables to play
+7. If it got through all those steps, you should have some executables to play
 with in "GTK3VICE-3.?-win??-*/" (the "win??" part of that name tells you which
 type [32-bit or 64-bit] you built).
 
 
-9. You can build the 32-bit version of VICE and/or the 64-bit version.  You
+8. You can build the 32-bit version of VICE and/or the 64-bit version.  You
 make the choice by choosing to run a particular one of the MSYS2 MinGW shells
 (its environment variables control VICE's configuration).
 
@@ -177,7 +144,7 @@ $ make -s --no-print-dir
 $ make -s --no-print-dir bindist
 
 
-10. If you want the distribution in a ZIP or a 7z archive instead of a
+9. If you want the distribution in a ZIP or a 7z archive instead of a
 subdirectory then use one of these commands (instead of "make -s --no-print-dir bindist").
 Use this for a ZIP-format bindist:
 
@@ -194,12 +161,11 @@ the last four commands in step 9.  That will make VICE use the
 newly-installed libraries.)
 
 
-11. Optional features
+10. Optional features
 
-11.1. This will let VICE use PortAudio:
+10.1. This will let VICE use PortAudio:
 
 $ pacboy sync portaudio
-
 
 
 
