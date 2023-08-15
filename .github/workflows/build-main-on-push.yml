@@ -220,6 +220,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-libusb
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-gtk3
+            mingw-w64-${{ matrix.arch.arch }}-xa65
 
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
@@ -249,6 +250,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+            mingw-w64-${{ matrix.arch.arch }}-xa65
 
       - name: Install SDL1 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL1' }}
@@ -278,6 +280,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-SDL
             mingw-w64-${{ matrix.arch.arch }}-SDL_image
+            mingw-w64-${{ matrix.arch.arch }}-xa65
 
       - name: Build
         id: build
