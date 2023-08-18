@@ -205,24 +205,13 @@ GtkWidget *dir_menu_popup_create(
         struct disk_image_s *diskimg = NULL;
         autostart_diskimage = NULL;
 
-        debug_gtk3("Getting disk_image reference for unit #%d, drive %u", unit, drv);
         diskimg = file_system_get_image(unit, drv);
-        if (diskimg == NULL) {
-            debug_gtk3("failed: got NULL.");
-        } else {
-            debug_gtk3("OK, Getting fsimage from disk image.");
+        if (diskimg != NULL) {
             autostart_diskimage = diskimg->media.fsimage->name;
-            if (autostart_diskimage == NULL) {
-                debug_gtk3("failed: got NULL.");
-            } else {
-                debug_gtk3("Got '%s'.", autostart_diskimage);
-            }
         }
-
-       debug_gtk3("fsimage is %s.", autostart_diskimage);
     } else {
         int port = unit == TAPEPORT_UNIT_2 ? TAPEPORT_PORT_2 : TAPEPORT_PORT_1;
-        debug_gtk3("Tape #%d requested.", unit);
+
         /* tape image */
         if (tape_image_dev[port] == NULL) {
             item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
@@ -263,17 +252,14 @@ GtkWidget *dir_menu_popup_create(
         lib_free(tmp);
     }
 
-    debug_gtk3("Did we get some image?");
     if (autostart_diskimage != NULL) {
         /* read dir and add them as menu items */
         contents = content_func(autostart_diskimage);
         if (contents == NULL) {
-            debug_gtk3("content reading function failed!");
             item = gtk_menu_item_new_with_label(
                     "Failed to read directory");
             gtk_container_add(GTK_CONTAINER(menu), item);
         } else {
-            debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
 
             tmp = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
@@ -351,7 +337,6 @@ GtkWidget *dir_menu_popup_create(
             image_contents_destroy(contents);
         }
     } else {
-        debug_gtk3("autostart_diskimage is NULL");
         item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
         gtk_container_add(GTK_CONTAINER(menu), item);
     }

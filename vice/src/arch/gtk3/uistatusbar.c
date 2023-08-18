@@ -950,9 +950,6 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 
     mainlock_assert_is_not_vice_thread();
 
-    debug_gtk3("Got drive menu popup for unit #%d, drive #%d.",
-               i + DRIVE_UNIT_MIN, drive);
-
     drive_menu = allocated_bars[0].drive_menu[i][drive];
 
     /* set "Attach" item label based on dual-drive status */
@@ -3607,7 +3604,6 @@ gboolean ui_action_toggle_show_statusbar(void)
         resources_get_int_sprintf("%sShowStatusbar", &show, chip_name);
         show = !show;
         resources_set_int_sprintf("%sShowStatusbar", show, chip_name);
-        debug_gtk3("%sShowStatusbar => %s.", chip_name, show ? "True" : "False");
 
         window = ui_get_active_window();
         ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);

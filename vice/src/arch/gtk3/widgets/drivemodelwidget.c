@@ -317,8 +317,6 @@ static void on_combo_changed(GtkWidget *self, gpointer data)
     if (combo_val != resource_val) {
         void (*callback)(GtkWidget *, gpointer);
 
-        debug_gtk3("New value %d differs from resource %d: triggering callback.",
-                   combo_val, resource_val);
         if (resources_set_int_sprintf("Drive%dType", combo_val, unit) < 0) {
             /* TODO: flip combo back to previous value? */
             debug_gtk3("Failed to set resource Drive%dType to %d.", unit, combo_val);
