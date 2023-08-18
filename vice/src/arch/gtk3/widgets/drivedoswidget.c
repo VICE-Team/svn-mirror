@@ -89,8 +89,6 @@ static int get_drive_type(GtkWidget *self);
 
 static void on_combo_changed(GtkWidget *self, gpointer data)
 {
-    debug_gtk3("Called.");
-
     if (gtk_combo_box_get_active(GTK_COMBO_BOX(self)) >= 0) {
         GtkTreeModel *model;
         GtkTreeIter iter;
@@ -109,14 +107,12 @@ static void on_combo_changed(GtkWidget *self, gpointer data)
                                -1);
 
             if (expansions[index].resource != NULL) {
-                debug_gtk3("Enabling %s for unit #%d.", name, unit);
                 resources_set_int_sprintf(expansions[index].resource, 1, unit);
             }
 
             /* disable other expansions */
             for (int i = 0; expansions[i].name != NULL; i++) {
                 if (expansions[i].resource != NULL && i != index) {
-                    debug_gtk3("Disabling %s for unit #%d.", expansions[i].name, unit);
                     resources_set_int_sprintf(expansions[i].resource, 0, unit);
                 }
             }
@@ -240,11 +236,9 @@ static void disable_invalid_expansions(GtkWidget *self)
     int unit = get_unit_number(self);
     int type = get_drive_type(self);
 
-    debug_gtk3("Disabling invalid expansions for new drive type %d:", type);
     for (int i = 0; expansions[i].name != NULL; i++) {
         if (expansions[i].resource != NULL) {
             if (!expansions[i].valid(type)) {
-                debug_gtk3("Setting %s to disabled.", expansions[i].name);
                 resources_set_int_sprintf(expansions[i].resource, 0, unit);
             }
         }
@@ -276,7 +270,6 @@ void drive_dos_widget_sync_combo(GtkWidget *widget)
     if (curr_type != model_type) {
         GtkListStore *new_model;
 
-        debug_gtk3("New drive type %d doesn't match the model's type %d.", curr_type, model_type);
         disable_invalid_expansions(widget);
 
         new_model = create_combo_model(widget);
@@ -305,11 +298,9 @@ void drive_dos_widget_sync_combo(GtkWidget *widget)
                                COL_INDEX, &index,
                                -1);
 
-            debug_gtk3("Name '%s', Index %d.", name, index);
             if (expansions[index].resource != NULL) {
                 resources_get_int_sprintf(expansions[index].resource, &enabled, unit);
                 if (enabled) {
-                    debug_gtk3("Selecting DOS expansion '%s'.", name);
                     gtk_combo_box_set_active_iter(GTK_COMBO_BOX(widget), &iter);
                     g_free(name);
                     break;
