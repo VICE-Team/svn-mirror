@@ -47,6 +47,8 @@
 
 #include "c64dtvflash.h"
 
+/* #define DEBUG */
+
 #define DTVROM_PALV2_NAME_DEFAULT   "dtvrom.bin" /* FIXME: rename (who made this?) */
 #define DTVROM_PALV3_NAME_DEFAULT   "dtvrom.bin" /* FIXME: rename (who made this?) */
 #define DTVROM_NTSCV2_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
@@ -463,6 +465,7 @@ static int c64dtvflash_load_rom(int idx)
 #ifdef DEBUG
             log_message(c64dtvflash_log, "Read C64DTV ROM image:%d '%s'.", idx, c64dtvflash_filename[idx]);
 #endif
+            retval = 0; /* no error, sysfile_load returns file length */
         }
     } else {
 #ifdef DEBUG
@@ -470,7 +473,6 @@ static int c64dtvflash_load_rom(int idx)
 #endif
         retval = -2;
     }
-
 
     /* copy ROMs to Flash ROM emulation if no image file specified */
     if (retval) {
