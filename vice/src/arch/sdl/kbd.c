@@ -252,11 +252,6 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
         return;
     }
 
-    /* translate key to proper SDL2 keycode again if configured for SDL2 */
-#ifdef USE_SDL2UI
-    key = SDL1x_to_SDL2x_Keys(key);
-#endif
-
     /* This iterates an array of ~270 elements at the time of writing, exiting
      * early when a map is found for the hotkey, otherwise iterating the full
      * array.
