@@ -196,6 +196,18 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         }
         return NULL;
     } else {
+        unsigned int isdir = 0;
+
+        /* make sure we're not opening a directory */
+        archdep_stat(p, NULL, &isdir);
+        if (isdir) {
+            log_error(LOG_ERR, "'%s' is a directory, not a file.", p);
+            if (complete_path_return != NULL) {
+                *complete_path_return = NULL;
+            }
+            return NULL;
+        }
+
         f = fopen(p, open_mode);
 
         if (f == NULL || complete_path_return == NULL) {
