@@ -149,6 +149,7 @@ struct menu_draw_s {
 
     uint8_t color_active_grey;
     uint8_t color_inactive_grey;
+    uint8_t color_disabled_grey;
 };
 typedef struct menu_draw_s menu_draw_t;
 

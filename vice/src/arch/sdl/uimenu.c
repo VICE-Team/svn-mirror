@@ -112,8 +112,8 @@ static menu_draw_t menu_draw = {
     0, 1,   /* color_back, color_front */
     0, 1,   /* color_default_back, color_default_front */
     6, 0,   /* color_cursor_back, color_cursor_revers */
-    13, 2,  /* color_active_green, color_inactive_red */
-    15, 11  /* color_active_grey, color_inactive_grey */
+    13, 10,  /* color_active_green, color_inactive_red */
+    15, 12, 11  /* color_active_grey, color_inactive_grey, color_disabled_grey */
 };
 
 /* charset #1 - standard ascii. this is used by the menus and file browser */
@@ -369,7 +369,8 @@ int sdl_ui_set_toggle_colors(int state)
 static int sdl_ui_set_item_colors(int status)
 {
     uint8_t color = menu_draw.color_front;
-    menu_draw.color_front = (status == MENU_STATUS_INACTIVE) ? menu_draw.color_inactive_grey : menu_draw.color_default_front;
+    menu_draw.color_front = (status == MENU_STATUS_INACTIVE) ? menu_draw.color_inactive_grey :
+                            (status == MENU_STATUS_NA) ? menu_draw.color_disabled_grey : menu_draw.color_default_front;
     return color;
 }
 
@@ -516,6 +517,8 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     if (iscursor) {
         oldbg = sdl_ui_set_cursor_colors();
     }
+
+    /* Do we want to print a tick-mark? */
     istoggle = (item->type == MENU_ENTRY_RESOURCE_TOGGLE) ||
                 (item->type == MENU_ENTRY_RESOURCE_RADIO) ||
                 (item->type == MENU_ENTRY_OTHER_TOGGLE);
@@ -540,10 +543,12 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
         }
     }
 
+    /* set color for the tickmark */
     if (!iscursor) {
         oldfg = sdl_ui_set_tickmark_colors(status);
     }
 
+    /* print the first 3 characters in the line (tick-mark, padding) */
     if ((n = sdl_ui_print(string, MENU_FIRST_X+i, y_pos + MENU_FIRST_Y)) < 0) {
         goto dispitemexit;
     }
@@ -554,6 +559,8 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
         sdl_ui_reset_tickmark_colors(oldfg);
         if (istoggle) {
             sdl_ui_set_toggle_colors(status);
+        } else if ((status == MENU_STATUS_NA) || (item->status == MENU_STATUS_NA)) {
+            sdl_ui_set_item_colors(MENU_STATUS_NA);
         } else {
             sdl_ui_set_item_colors(item->status);
         }
@@ -867,7 +874,8 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 {
     const char *p = NULL;
 
-    if (item->status == MENU_STATUS_INACTIVE) {
+    /* inactive or not available items can never be activated */
+    if ((item->status == MENU_STATUS_INACTIVE) || (item->status == MENU_STATUS_NA)) {
         return MENU_RETVAL_DEFAULT;
     }
 
