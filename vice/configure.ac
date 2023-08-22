@@ -3579,6 +3579,7 @@ AC_OUTPUT([Makefile
            src/lib/Makefile
            src/lib/p64/Makefile
            src/lib/linenoise-ng/Makefile
+           src/lib/libzmbv/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile
