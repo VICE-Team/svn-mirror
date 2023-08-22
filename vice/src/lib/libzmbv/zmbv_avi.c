@@ -28,6 +28,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#ifndef O_CLOEXEC
+#define O_CLOEXEC 0
+#endif
 
 #define AVI_HEADER_SIZE  (500)
 
