@@ -123,19 +123,23 @@ static UI_MENU_CALLBACK(SoundRecord_dynmenu_callback)
 /** \brief  Generic media menu */
 
 #ifdef HAVE_FFMPEG
-#define MAX_VIDEO_DRIVERS   2
+#define MAX_VIDEO_DRIVERS   3
 #else
-#define MAX_VIDEO_DRIVERS   1
+#define MAX_VIDEO_DRIVERS   2
 #endif
 
+/* FIXME: the list of drivers and -menu items should be generated at runtime,
+          using the list of registered video drivers */
 static int video_driver_index = 0;
 static const char *video_driver_names[MAX_VIDEO_DRIVERS] = {
+    "ZMBV",
 #ifdef HAVE_FFMPEG
     "FFMPEG",
 #endif
-    "FFMPEGEXE"
+    "FFMPEGEXE",
 };
 
+/* called to (re)build the list/menu of video(movie) drivers */
 static UI_MENU_CALLBACK(custom_video_driver_callback)
 {
     int driver;
@@ -144,6 +148,7 @@ static UI_MENU_CALLBACK(custom_video_driver_callback)
         video_driver_index = 0;
         for (driver = 0; driver < MAX_VIDEO_DRIVERS; driver++) {
             if (!strcmp(video_driver_names[driver], param)) {
+                /* specific driver activated */
                 video_driver_index = driver;
                 sdl_menu_ffmpeg_set_driver(video_driver_names[driver]);
                 break;
@@ -180,11 +185,17 @@ ui_menu_entry_t media_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
 
     SDL_MENU_ITEM_TITLE("Video driver"),
+    {   .string   = "ZMBV (Library)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = custom_video_driver_callback,
+        .data     = (ui_callback_data_t)"ZMBV"
+    },
 #ifdef HAVE_FFMPEG
     {   .string   = "FFMPEG (Library)",
         .type     = MENU_ENTRY_RESOURCE_RADIO,
         .callback = custom_video_driver_callback,
-        .data     = (ui_callback_data_t)"FFMPEG" },
+        .data     = (ui_callback_data_t)"FFMPEG"
+    },
 #endif
     {   .string   = "FFMPEG (Executable)",
         .type     = MENU_ENTRY_RESOURCE_RADIO,

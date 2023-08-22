@@ -203,18 +203,29 @@ static gfxoutputdrv_codec_t none_codeclist[] = {
 };
 #endif
 
+#define VIDEO_OPTIONS \
+    (GFXOUTPUTDRV_HAS_AUDIO_CODECS | \
+     GFXOUTPUTDRV_HAS_VIDEO_CODECS | \
+     GFXOUTPUTDRV_HAS_AUDIO_BITRATE | \
+     GFXOUTPUTDRV_HAS_VIDEO_BITRATE | \
+     GFXOUTPUTDRV_HAS_HALF_VIDEO_FRAMERATE)
+
+#define AUDIO_OPTIONS \
+    (GFXOUTPUTDRV_HAS_AUDIO_CODECS | \
+     GFXOUTPUTDRV_HAS_AUDIO_BITRATE)
+
 /* formatlist is filled from with available formats and codecs at init time */
 gfxoutputdrv_format_t *ffmpegexedrv_formatlist = NULL;
 static gfxoutputdrv_format_t output_formats_to_test[] =
 {
-    { "mp4",        mp4_audio_codeclist, mp4_video_codeclist },
-    { "ogg",        ogg_audio_codeclist, ogg_video_codeclist },
-    { "avi",        avi_audio_codeclist, avi_video_codeclist },
-    { "matroska",   mp4_audio_codeclist, mp4_video_codeclist },
-    { "wav",        avi_audio_codeclist, NULL },
-    { "mp3",        mp3_audio_codeclist, NULL }, /* formats expects png which fails in VICE */
-    { "mp2",        mp2_audio_codeclist, NULL },
-    { NULL, NULL, NULL }
+    { "mp4",        mp4_audio_codeclist, mp4_video_codeclist, VIDEO_OPTIONS },
+    { "ogg",        ogg_audio_codeclist, ogg_video_codeclist, VIDEO_OPTIONS },
+    { "avi",        avi_audio_codeclist, avi_video_codeclist, VIDEO_OPTIONS },
+    { "matroska",   mp4_audio_codeclist, mp4_video_codeclist, VIDEO_OPTIONS },
+    { "wav",        avi_audio_codeclist, NULL,                AUDIO_OPTIONS },
+    { "mp3",        mp3_audio_codeclist, NULL,                AUDIO_OPTIONS }, /* formats expects png which fails in VICE */
+    { "mp2",        mp2_audio_codeclist, NULL,                AUDIO_OPTIONS },
+    { NULL, NULL, NULL, 0 }
 };
 #endif
 
@@ -1354,6 +1365,7 @@ static void get_formats_and_codecs(void)
                 video_codec_list[vi].name = NULL;
             }
             if (((audio_codec_list == NULL) || (ai > 0)) && ((video_codec_list == NULL) || (vi > 0))) {
+                ffmpegexedrv_formatlist[f].flags = output_formats_to_test[i].flags;
                 ffmpegexedrv_formatlist[f].name = lib_strdup(output_formats_to_test[i].name);
                 DBG(("ffmpegexedrv_formatlist[%d].name='%s'", f, ffmpegexedrv_formatlist[f].name));
                 ffmpegexedrv_formatlist[f].audio_codecs = audio_codec_list;

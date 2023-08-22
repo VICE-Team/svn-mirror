@@ -37,10 +37,18 @@ typedef struct gfxoutputdrv_codec_s {
     const char *name;
 } gfxoutputdrv_codec_t;
 
+/* bits for flags in gfxoutputdrv_format_t */
+#define GFXOUTPUTDRV_HAS_AUDIO_CODECS           (1 << 0)
+#define GFXOUTPUTDRV_HAS_VIDEO_CODECS           (1 << 1)
+#define GFXOUTPUTDRV_HAS_AUDIO_BITRATE          (1 << 2)
+#define GFXOUTPUTDRV_HAS_VIDEO_BITRATE          (1 << 3)
+#define GFXOUTPUTDRV_HAS_HALF_VIDEO_FRAMERATE   (1 << 4)
+
 typedef struct gfxoutputdrv_format_s {
     char *name;
     gfxoutputdrv_codec_t *audio_codecs;
     gfxoutputdrv_codec_t *video_codecs;
+    unsigned int flags;
 } gfxoutputdrv_format_t;
 
 typedef struct gfxoutputdrv_s {
