@@ -349,7 +349,7 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_init(void)
           not use this table for vsid */
 gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
 {
-    { NULL, NULL, NULL }
+    { NULL, NULL, NULL, 0 }
 };
 
 

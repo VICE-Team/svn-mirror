@@ -261,9 +261,9 @@ static GtkWidget *undersize_widget = NULL;
 static GtkWidget *multicolor_widget = NULL;
 /** \brief  Screenshot "TED luma" widget reference */
 static GtkWidget *ted_luma_widget = NULL;
+
 /** \brief  FFMPEG video driver options grid reference */
 static GtkWidget *video_driver_options_grid = NULL;
-
 
 /*****************************************************************************
  *                              Event handlers                               *
@@ -304,6 +304,26 @@ static void update_screenshot_options_grid(GtkWidget *new)
             gtk_widget_destroy(old);
         }
         gtk_grid_attach(GTK_GRID(screenshot_options_grid), new, 0, 1, 1, 1);
+    }
+}
+
+
+/** \brief  Set new widget for the movie options, replacing the old one
+ *
+ * Destroys any widget present before setting the \a new widget.
+ *
+ * \param[in]   new     new widget
+ */
+static void update_video_driver_options_grid(GtkWidget *new)
+{
+    GtkWidget *old;
+
+    if (new != NULL) {
+        old = gtk_grid_get_child_at(GTK_GRID(video_driver_options_grid), 0, 1);
+        if (old != NULL) {
+            gtk_widget_destroy(old);
+        }
+        gtk_grid_attach(GTK_GRID(video_driver_options_grid), new, 0, 1, 1, 1);
     }
 }
 
@@ -395,6 +415,8 @@ static void on_audio_driver_toggled(GtkWidget *widget, gpointer data)
 static void on_video_driver_toggled(GtkWidget *widget, gpointer data)
 {
     video_driver = (char*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
+
+    update_video_driver_options_grid(ffmpeg_widget_create(video_driver));
 }
 
 /*****************************************************************************
@@ -805,7 +827,7 @@ static int driver_is_video(const char *name)
 {
     int result;
 
-    result = (strcmp(name, "FFMPEG") == 0) || (strcmp(name, "FFMPEGEXE") == 0);
+    result = (strcmp(name, "FFMPEG") == 0) || (strcmp(name, "FFMPEGEXE") == 0) || (strcmp(name, "ZMBV") == 0);
     return result;
 }
 
@@ -1110,6 +1132,7 @@ static GtkWidget *create_video_widget(void)
             -1, -1, "Driver selection", 2);
     gtk_widget_set_margin_top(selection_grid, 8);
     gtk_widget_set_margin_start(selection_grid, 16);
+    gtk_widget_set_margin_end(selection_grid, 16);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(selection_grid), 8);
     gtk_grid_attach(GTK_GRID(selection_grid), label, 0, 1, 1, 1);
@@ -1123,6 +1146,7 @@ static GtkWidget *create_video_widget(void)
             -1, -1, "Driver options", 1);
     gtk_widget_set_margin_top(options_grid, 8);
     gtk_widget_set_margin_start(options_grid, 16);
+    gtk_widget_set_margin_end(options_grid, 16);
     gtk_grid_set_column_spacing(GTK_GRID(options_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(options_grid), 8);
 

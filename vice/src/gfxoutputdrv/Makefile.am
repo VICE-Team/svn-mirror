@@ -5,6 +5,7 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib/libzmbv \
 	-I$(top_srcdir)/src/arch/shared/sounddrv \
 	@FFMPEG_INCLUDES@ \
 	@ARCH_INCLUDES@
@@ -27,7 +28,9 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 	gifdrv.c \
 	gifdrv.h \
 	pngdrv.c \
-	pngdrv.h
+	pngdrv.h \
+	zmbvdrv.c \
+	zmbvdrv.h
 
 # These sources are always built.
 libgfxoutputdrv_a_SOURCES = \
@@ -48,7 +51,9 @@ libgfxoutputdrv_a_SOURCES = \
 	pcxdrv.c \
 	pcxdrv.h \
 	ppmdrv.c \
-	ppmdrv.h
+	ppmdrv.h \
+	zmbvdrv.c \
+	zmbvdrv.h
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
