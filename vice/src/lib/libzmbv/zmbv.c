@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef ZMBV_USE_ZLIB
+#ifndef ZMBV_USE_MINIZ
 # include <zlib.h>
 # define mz_deflateInit   deflateInit
 # define mz_inflateInit   inflateInit
@@ -630,7 +630,7 @@ int zmvb_encode_finish_frame (zmbv_codec_t zc) {
 }
 
 
-#ifndef ZMBV_EXCLUDE_DECODER
+#ifdef ZMBV_INCLUDE_DECODER
 /******************************************************************************/
 int zmbv_decode_setup (zmbv_codec_t zc, int width, int height) {
   if (zc != NULL && width > 0 && height > 0 && width <= 16384 && height <= 16384) {
@@ -667,11 +667,9 @@ zmbv_format_t zmbv_get_decoded_format (zmbv_codec_t zc) {
   return (zc != NULL ? zc->format : ZMBV_FORMAT_NONE);
 }
 
-#if 0   /* FIXME: unused? */
 int zmbv_decode_palette_changed (zmbv_codec_t zc, const void *framedata, int size) {
   return (zc != NULL && framedata != NULL && size > 0 ? (((const uint8_t *)framedata)[0]&FRAME_MASK_DELTA_PALETTE) != 0 : 0);
 }
-#endif
 
 /******************************************************************************/
 int zmbv_decode_frame (zmbv_codec_t zc, const void *framedata, int size) {
@@ -747,4 +745,4 @@ int zmbv_decode_frame (zmbv_codec_t zc, const void *framedata, int size) {
   }
   return -1;
 }
-#endif
+#endif /* ZMBV_INCLUDE_DECODER */

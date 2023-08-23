@@ -25,13 +25,6 @@ extern "C" {
 
 #include <stdint.h>
 
-/* uncomment this to exclude decoding functions */
-/*#define ZMBV_EXCLUDE_DECODER*/
-
-/* uncomment this to use system zlib instead of miniz */
-/*#define ZMBV_USE_ZLIB*/
-
-
 typedef enum {
   ZMBV_FORMAT_NONE  = 0x00,
   /*ZMBV_FORMAT_1BPP  = 0x01,*/
@@ -91,7 +84,7 @@ static inline int zmbv_encode_line (zmbv_codec_t zc, const void *line_data) { re
 extern int zmvb_encode_finish_frame (zmbv_codec_t zc);
 
 
-#ifndef ZMBV_EXCLUDE_DECODER
+#ifdef ZMBV_INCLUDE_DECODER
 /* return <0 on error; 0 on ok */
 extern int zmbv_decode_setup (zmbv_codec_t zc, int width, int height);
 /* return <0 on error; 0 on ok */
