@@ -291,7 +291,7 @@ static void zmbvdrv_close_audio(void)
 
     audio_is_open = 0;
     if(zmbvdrv_audio_in.buffer != NULL) {
-        free(zmbvdrv_audio_in.buffer);
+        lib_free(zmbvdrv_audio_in.buffer);
     }
     zmbvdrv_audio_in.buffer = NULL;
     zmbvdrv_audio_in.size = 0;
