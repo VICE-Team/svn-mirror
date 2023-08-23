@@ -71,7 +71,7 @@
 
 #define VIDEO_BPP           8
 
-#define MAX_AUDIO_BUFFER_SIZE   ((44800 * 2) / 50)
+#define MAX_AUDIO_BUFFER_SIZE   (((44800 * 2) / 50) * 2)
 
 /* each KEYFRAME_INTERVAL frame will be key one */
 #define KEYFRAME_INTERVAL  (300)
@@ -263,9 +263,9 @@ static int zmbvdrv_open_audio(int speed, int channels)
 {
     LOG(("zmbvdrv_open_audio(speed:%d channels:%d", speed, channels));
 
-    zmbvdrv_audio_in.buffer = lib_malloc(MAX_AUDIO_BUFFER_SIZE * 2);    /* is this correct? */
+    zmbvdrv_audio_in.buffer = lib_malloc(MAX_AUDIO_BUFFER_SIZE);    /* is this correct? */
     if (zmbvdrv_audio_in.buffer == NULL) {
-        log_error(LOG_DEFAULT, "zmbvdrv: Error allocating audio buffer (%u bytes)", (unsigned)MAX_AUDIO_BUFFER_SIZE * 2);
+        log_error(LOG_DEFAULT, "zmbvdrv: Error allocating audio buffer (%u bytes)", (unsigned)MAX_AUDIO_BUFFER_SIZE);
         return -1;
     }
     zmbvdrv_audio_in.size = (audio_freq / video_framerate);
@@ -322,14 +322,15 @@ static int zmbv_soundmovie_encode(soundmovie_buffer_t *audio_in)
 {
     int ret = 0;
 
-    LOGFRAMES(("zmbv_soundmovie_encode(used:%d channels:%d)",  audio_in->used, audio_channels));
+    LOGFRAMES(("zmbv_soundmovie_encode(size:%d used:%d channels:%d)",
+               audio_in->size, audio_in->used, audio_channels));
 
     /* FIXME: we might have an endianess problem here, we might have to swap lo/hi on BE machines */
     if (audio_channels == 1) {
         int i, o;
 #if 1
         /* convert mono -> stereo */
-        for (i = o = 0; i < audio_in->used * 2; i++, o+=2) {
+        for (i = o = 0; i < audio_in->used; i++, o+=2) {
             cur_audio[o] = audio_in->buffer[i];
             cur_audio[o+1] = audio_in->buffer[i];
         }
