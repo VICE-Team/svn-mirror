@@ -47,12 +47,6 @@
 #include "soundmovie.h"
 #include "zmbvdrv.h"
 
-/* FIXME: we need to compile the libzmbv files with these defined */
-#ifdef HAVE_ZLIB
-#define ZMBV_USE_ZLIB
-#endif
-#define ZMBV_EXCLUDE_DECODER
-
 #include "zmbv.h"
 #include "zmbv_avi.h"
 

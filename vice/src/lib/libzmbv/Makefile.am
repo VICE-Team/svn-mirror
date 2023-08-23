@@ -13,6 +13,5 @@ libzmbv_a_SOURCES = \
 
 EXTRA_DIST = \
 	     zmbv_avi.h \
-	     zmbv.h \
-	     miniz.c
+	     zmbv.h
 
