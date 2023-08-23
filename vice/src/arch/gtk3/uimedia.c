@@ -423,6 +423,15 @@ static void on_video_driver_toggled(GtkWidget *widget, gpointer data)
  *                              Helpers functions                            *
  ****************************************************************************/
 
+/* hack to deal with coexistence of old (lib) and new (exe) FFMPEG drivers,
+   we use this to wrap usages of videodriver when producing resource names - in
+   that case we use "FFMPEG" also when the videodriver name is "FFMPEGEXE". */
+static const char* ffmpeg_kludges(const char *name)
+{
+    if (!strcmp(name, "FFMPEGEXE")) return "FFMPEG";
+    return name;
+}
+
 /** \brief  Create a string in the format 'yyyymmddHHMMssffffff' of the current time
  *
  * \return  string owned by GLib, free with g_free()
@@ -761,7 +770,7 @@ static void save_video_recording_handler(GtkWidget *parent)
 #endif
     /* we don't have a format->extension mapping, so the format name itself is
        better than `video_driver_list[video_driver_index].ext' */
-    resources_get_string("FFMPEGFormat", &ext);
+    resources_get_string_sprintf("%sFormat", &ext, ffmpeg_kludges(video_driver));
 
     title = lib_msprintf("Save %s file", video_driver ? video_driver : "NULL");
     proposed = create_proposed_video_recording_name(ext);
