@@ -78,7 +78,7 @@ static void update_codec_menus(const char *current_format);
    that case we use "FFMPEG" also when the videodriver name is "FFMPEGEXE". */
 static const char* ffmpeg_kludges(const char *name)
 {
-    if (!strcmp(name, "FFMPEGEXE")) return "FFMPEG";
+    if (!strcmp(name, "FFMPEGEXE")) { return "FFMPEG"; }
     return name;
 }
 
