@@ -32,6 +32,10 @@
 #define O_CLOEXEC 0
 #endif
 
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
 #define AVI_HEADER_SIZE  (500)
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -85,7 +89,7 @@ zmbv_avi_t zmbv_avi_start (const char *fname, int width, int height, int fps, in
     zavi->indexused = 8;
     zavi->index = malloc(zavi->indexsize);
     if (zavi->index == NULL) goto error;
-    zavi->fd = open(fname, O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0644);
+    zavi->fd = open(fname, O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_BINARY, 0644);
     if (zavi->fd < 0) goto error;
     zavi->width = width;
     zavi->height = height;
