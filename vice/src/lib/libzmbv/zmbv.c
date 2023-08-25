@@ -47,6 +47,14 @@
 # define mz_inflateReset(_strm)  ({ int res = mz_inflateEnd(_strm); if (res == MZ_OK) res = mz_inflateInit(_strm); res; })
 #endif
 
+#ifdef __clang__
+#define ATTR_PACKED __attribute__((packed))
+#elif defined(__GNUC__)
+#define ATTR_PACKED __attribute__((packed,gcc_struct))
+#else
+#warn "make sure to define ATTR_PACKED for your compiler"
+#define ATTR_PACKED
+#endif
 
 /******************************************************************************/
 #define DBZV_VERSION_HIGH  (0)
@@ -103,7 +111,7 @@ typedef struct {
 } zmbv_codec_vector_t;
 
 
-typedef struct __attribute__((packed,gcc_struct)) {
+typedef struct ATTR_PACKED {
   uint8_t high_version;
   uint8_t low_version;
   uint8_t compression;
