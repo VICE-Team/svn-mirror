@@ -429,7 +429,7 @@ static void drivecpu65c02_set_bank_base(void *context)
 /* ------------------------------------------------------------------------- */
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int drivecpu65c02_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
 {
