@@ -228,6 +228,7 @@ void userport_wic64_resources_shutdown(void)
     lib_free(default_server_hostname);
     lib_free(wic64_mac_address);
     lib_free(wic64_internal_ip);
+    lib_free(wic64_sec_token);
 }
 
 static const cmdline_option_t cmdline_options[] =
