@@ -534,7 +534,8 @@ static gboolean on_window_delete_event(GtkWidget *window,
 
     pthread_mutex_unlock(&fixed.lock);
 
-    return gtk_widget_hide_on_delete(window);
+    gtk_widget_hide(window);
+    return TRUE;
 }
 
 /* \brief Block until some monitor input event happens */
@@ -609,6 +610,15 @@ static void on_window_configure_event(GtkWidget *window,
     glong cwidth, cheight;
     glong newwidth, newheight;
 
+    if (!gtk_widget_get_visible(window)) {
+        /* bail out, otherwise Gdk will somehow restore the window position
+         * the way it was when the window was created and thus we'll get the
+         * Xpos/Ypos values from vicerc restored and the changed position will
+         * never be saved in the settings.
+         */
+        return;
+    }
+
     gtk_window_get_size (GTK_WINDOW(fixed.window), &width, &height);
     gtk_window_get_position(GTK_WINDOW(fixed.window), &xpos, &ypos);
     cwidth = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
@@ -631,7 +641,6 @@ static void on_window_configure_event(GtkWidget *window,
         resources_set_int("MonitorWidth", width);
         resources_set_int("MonitorHeight", height);
     }
-
 
     vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
 }
@@ -828,17 +837,16 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      &hints,
                                      GDK_HINT_RESIZE_INC |
                                      GDK_HINT_MIN_SIZE |
-                                     GDK_HINT_BASE_SIZE);
+                                     GDK_HINT_BASE_SIZE |
+                                     GDK_HINT_USER_POS |
+                                     GDK_HINT_USER_SIZE);
 
-         if (xpos > INT_MIN && ypos > INT_MIN) {
-             debug_gtk3("Moving monitor window to (%d,%d)", xpos, ypos);
+        if (xpos > INT_MIN && ypos > INT_MIN) {
             gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
         }
         if (width >= 0 && height >= 0) {
-            debug_gtk3("Setting window size to %dx%d", width, height);
             gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
         }
-
 
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
                 gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
@@ -877,10 +885,10 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                   NULL);
 
         /* cannot be connected unlocked, we're setting resources here */
-        g_signal_connect(G_OBJECT(fixed.window),
-                         "configure-event",
-                         G_CALLBACK(on_window_configure_event),
-                         NULL);
+        g_signal_connect_unlocked(G_OBJECT(fixed.window),
+                                  "configure-event",
+                                  G_CALLBACK(on_window_configure_event),
+                                  NULL);
 
         vte_console.console_can_stay_open = 1;
 
@@ -911,7 +919,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data)
      * window. This makes the monitor window show when the emulated machine
      * window is in fullscreen mode. (only tested on Windows 10)
      */
-    gtk_window_present(GTK_WINDOW(fixed.window));
+    //gtk_window_present(GTK_WINDOW(fixed.window));
 
     return FALSE;
 }
