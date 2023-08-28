@@ -415,7 +415,7 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
     }
 }
 
-static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+static gboolean on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 #ifdef MACOS_COMPILE
 static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidget *terminal)
@@ -435,15 +435,23 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
             return TRUE;
         case GDK_KEY_w:
         case GDK_KEY_W:
-            close_window(terminal, NULL, NULL);
+            on_window_delete_event(terminal, NULL, NULL);
             return TRUE;
     }
 }
 #endif
 
-static gboolean key_press_event (GtkWidget   *widget,
-                                 GdkEventKey *event,
-                                 gpointer     user_data)
+/** \brief  Handler for the 'key-press-event' event of the the VTE terminal
+ *
+ * \param[in]   widget      VTE terminal
+ * \param[in]   event       event information
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  \c TRUE to stop propagation of event, or \c FALSE to propagate further
+ */
+static gboolean on_term_key_press_event(GtkWidget   *widget,
+                                        GdkEventKey *event,
+                                        gpointer     user_data)
 {
     GdkModifierType state = 0;
     gboolean retval = FALSE;
@@ -481,10 +489,17 @@ done:
     return retval;
 }
 
-
-static gboolean button_press_event(GtkWidget *widget,
-                            GdkEvent  *event,
-                            gpointer   user_data)
+/** \brief  Handler for the 'button-press-event' event of the the VTE terminal
+ *
+ * \param[in]   widget      VTE terminal
+ * \param[in]   event       event information
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  \c TRUE to stop propagation of event, or \c FALSE to propagate further
+ */
+static gboolean on_term_button_press_event(GtkWidget *widget,
+                                           GdkEvent  *event,
+                                           gpointer   user_data)
 {
     GdkEventButton *button_event = (GdkEventButton*)event;
 
@@ -500,7 +515,17 @@ static gboolean button_press_event(GtkWidget *widget,
     return TRUE;
 }
 
-static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+/** \brief  Handler for the 'delete-event' event of monitor window
+ *
+ * \param[in]   window      monitor window
+ * \param[in]   event       event information (unused)
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  \c TRUE to stop propagating the event further
+ */
+static gboolean on_window_delete_event(GtkWidget *window,
+                                       GdkEvent  *event,
+                                       gpointer   user_data)
 {
     pthread_mutex_lock(&fixed.lock);
 
@@ -509,7 +534,7 @@ static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_d
 
     pthread_mutex_unlock(&fixed.lock);
 
-    return gtk_widget_hide_on_delete(widget);
+    return gtk_widget_hide_on_delete(window);
 }
 
 /* \brief Block until some monitor input event happens */
@@ -551,8 +576,13 @@ static void get_terminal_size_in_chars(VteTerminal *terminal,
     *height = vte_terminal_get_row_count(terminal);
 }
 
-static void screen_resize_window_cb (VteTerminal *terminal,
-                         gpointer* window)
+/** \brief  Handler for the 'text-modified event of the VTE terminal
+ *
+ * \param[in]   terminal    VTE terminal
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_term_text_modified(VteTerminal *terminal,
+                                 gpointer      user_data)
 {
     glong width, height;
     get_terminal_size_in_chars(terminal, &width, &height);
@@ -560,9 +590,18 @@ static void screen_resize_window_cb (VteTerminal *terminal,
     vte_console.console_yres = (unsigned int)height;
 }
 
-/* resize the terminal when the window is resized */
-static void screen_resize_window_cb2 (VteTerminal *terminal,
-                         gpointer* window)
+/** \brief  Handler for the 'configure-event' event of the monitor window
+ *
+ * Resize the terminal when the window is resized, and store monitor window
+ * geometry in resources.
+ *
+ * \param[in]   window      terminal window (unused)
+ * \param[in]   event       event information (unused)
+ * \param[in]   user_data   extra event data (unused
+ */
+static void on_window_configure_event(GtkWidget *window,
+                                      GdkEvent  *event,
+                                      gpointer   user_data)
 {
     gint width, height;
     gint xpos;
@@ -792,9 +831,11 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_BASE_SIZE);
 
          if (xpos > INT_MIN && ypos > INT_MIN) {
+             debug_gtk3("Moving monitor window to (%d,%d)", xpos, ypos);
             gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
         }
         if (width >= 0 && height >= 0) {
+            debug_gtk3("Setting window size to %dx%d", width, height);
             gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
         }
 
@@ -815,20 +856,31 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                 FALSE, FALSE, 0);
 #endif
 
-        g_signal_connect(G_OBJECT(fixed.window), "delete-event",
-            G_CALLBACK(close_window), NULL);
+        g_signal_connect(G_OBJECT(fixed.window),
+                        "delete-event",
+                        G_CALLBACK(on_window_delete_event),
+                        NULL);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.term), "key-press-event",
-            G_CALLBACK(key_press_event), NULL);
+        g_signal_connect_unlocked(G_OBJECT(fixed.term),
+                                  "key-press-event",
+                                  G_CALLBACK(on_term_key_press_event),
+                                  NULL);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.term), "button-press-event",
-            G_CALLBACK(button_press_event), NULL);
+        g_signal_connect_unlocked(G_OBJECT(fixed.term),
+                                  "button-press-event",
+                                  G_CALLBACK(on_term_button_press_event),
+                                  NULL);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.term), "text-modified",
-            G_CALLBACK (screen_resize_window_cb), NULL);
+        g_signal_connect_unlocked(G_OBJECT(fixed.term),
+                                  "text-modified",
+                                  G_CALLBACK(on_term_text_modified),
+                                  NULL);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.window), "configure-event",
-            G_CALLBACK (screen_resize_window_cb2), NULL);
+        /* cannot be connected unlocked, we're setting resources here */
+        g_signal_connect(G_OBJECT(fixed.window),
+                         "configure-event",
+                         G_CALLBACK(on_window_configure_event),
+                         NULL);
 
         vte_console.console_can_stay_open = 1;
 
@@ -852,7 +904,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
 static gboolean uimon_window_resume_impl(gpointer user_data)
 {
     gtk_widget_show_all(fixed.window);
-    screen_resize_window_cb (VTE_TERMINAL(fixed.term), NULL);
+    on_term_text_modified(VTE_TERMINAL(fixed.term), NULL);
 
     /*
      * Make the monitor window appear on top of the active emulated machine
