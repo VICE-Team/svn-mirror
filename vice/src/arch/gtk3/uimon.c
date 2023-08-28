@@ -3,6 +3,7 @@
  *
  * \author  Fabrizio Gennari <fabrizio.ge@tiscali.it>
  * \author  David Hogan <david.q.hogan@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * TODO:    Properly document this, please.
  */
@@ -802,7 +803,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
-        if (xpos < 0 && ypos < 0) {
+        if (xpos == INT_MIN || ypos == INT_MIN) {
             /* Only center if we didn't get either a previous position or
              * the position was set via the command line.
              */
@@ -854,15 +855,10 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         horizontal_container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
 
-#if 0
-        gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
-        gtk_container_add(GTK_CONTAINER(horizontal_container), scrollbar);
-#else
         gtk_box_pack_start(GTK_BOX(horizontal_container), fixed.term,
                 TRUE, TRUE, 0);
         gtk_box_pack_end(GTK_BOX(horizontal_container), scrollbar,
                 FALSE, FALSE, 0);
-#endif
 
         g_signal_connect(G_OBJECT(fixed.window),
                         "delete-event",
@@ -884,7 +880,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                   G_CALLBACK(on_term_text_modified),
                                   NULL);
 
-        /* cannot be connected unlocked, we're setting resources here */
+        /* can this actually be connected unlocked, we're setting resources here? */
         g_signal_connect_unlocked(G_OBJECT(fixed.window),
                                   "configure-event",
                                   G_CALLBACK(on_window_configure_event),
@@ -919,7 +915,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data)
      * window. This makes the monitor window show when the emulated machine
      * window is in fullscreen mode. (only tested on Windows 10)
      */
-    //gtk_window_present(GTK_WINDOW(fixed.window));
+    gtk_window_present(GTK_WINDOW(fixed.window));
 
     return FALSE;
 }
