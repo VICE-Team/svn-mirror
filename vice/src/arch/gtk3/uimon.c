@@ -787,22 +787,19 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     GdkGeometry hints;
     GdkPixbuf *icon;
     int sblines;
-    int xpos = -1;
-    int ypos = -1;
-    int width = -1;
-    int height = -1;
+    int xpos = INT_MIN;
+    int ypos = INT_MIN;
 
     pthread_mutex_lock(&fixed.lock);
 
     resources_get_int("MonitorScrollbackLines", &sblines);
-    resources_get_int("MonitorXPos", &xpos);
-    resources_get_int("MonitorYPos", &ypos);
-    resources_get_int("MonitorHeight", &height);
-    resources_get_int("MonitorWidth", &width);
 
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
+
+        resources_get_int("MonitorXpos", &xpos);
+        resources_get_int("MonitorYpos", &ypos);
         if (xpos == INT_MIN || ypos == INT_MIN) {
             /* Only center if we didn't get either a previous position or
              * the position was set via the command line.
@@ -841,13 +838,6 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_BASE_SIZE |
                                      GDK_HINT_USER_POS |
                                      GDK_HINT_USER_SIZE);
-
-        if (xpos > INT_MIN && ypos > INT_MIN) {
-            gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
-        }
-        if (width >= 0 && height >= 0) {
-            gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
-        }
 
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
                 gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
@@ -907,8 +897,25 @@ static gboolean uimon_window_open_impl(gpointer user_data)
 
 static gboolean uimon_window_resume_impl(gpointer user_data)
 {
+    int xpos;
+    int ypos;
+    int height;
+    int width;
+
+    resources_get_int("MonitorXPos",   &xpos);
+    resources_get_int("MonitorYPos",   &ypos);
+    resources_get_int("MonitorHeight", &height);
+    resources_get_int("MonitorWidth",  &width);
+
     gtk_widget_show_all(fixed.window);
     on_term_text_modified(VTE_TERMINAL(fixed.term), NULL);
+
+    if (xpos > INT_MIN && ypos > INT_MIN) {
+        gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
+    }
+    if (width >= 0 && height >= 0) {
+        gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
+    }
 
     /*
      * Make the monitor window appear on top of the active emulated machine

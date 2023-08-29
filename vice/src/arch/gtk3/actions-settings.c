@@ -38,6 +38,7 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "types.h"
+#include "ui.h"
 #include "uiactions.h"
 #include "uihotkeys.h"
 #include "uisettings.h"
@@ -132,6 +133,9 @@ static void settings_load_action(ui_action_map_t *self)
     if (result != 0) {
         vice_gtk3_message_error("VICE core error",
                                 "Failed to load default settings file");
+    } else {
+        /* set window geometries from resources, if present */
+        ui_set_window_geometries();
     }
     ui_action_finish(ACTION_SETTINGS_LOAD);
 }
@@ -153,12 +157,16 @@ static void settings_load_filename_callback(GtkDialog *dialog,
         mainlock_obtain();
         result = (data == NULL) ? resources_reset_and_load(filename)
                                 : resources_load(filename);
+        mainlock_release();
         if (result != 0) {
             vice_gtk3_message_error("VICE core error",
                                     "Failed to load settings from '%s'",
                                     filename);
+        } else {
+            /* set window geometries from resources, if present */
+            ui_set_window_geometries();
         }
-        mainlock_release();
+
         lastdir_update(GTK_WIDGET(dialog), &last_dir, &last_file);
         g_free(filename);
     }

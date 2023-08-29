@@ -148,4 +148,6 @@ GtkWidget *ui_get_main_window_by_index(gint index);
 
 gboolean ui_get_autostart_on_doubleclick(void);
 
+void ui_set_window_geometries(void);
+
 #endif
