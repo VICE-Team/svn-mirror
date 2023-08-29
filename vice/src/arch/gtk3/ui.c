@@ -1664,6 +1664,54 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
     return FALSE;
 }
 
+/** \brief  Set window geomeotry of a window by index from resources
+ *
+ * \param[in]   index   window index (\c PRIMARY_WINDOW or \c SECONDARY_WINDOW)
+ *
+ * \return  \c true if the geomeotry for the given \a index was set due to the
+ *          resources not containing their default values
+ */
+static bool set_window_geometry_from_resources(int index)
+{
+    GtkWidget *window;
+    bool       restored = false;
+
+    window = ui_resources.window_widget[index];
+    if (window != NULL) {
+        int xpos;
+        int ypos;
+        int width;
+        int height;
+
+        resources_get_int_sprintf("Window%dXpos",   &xpos,   index);
+        resources_get_int_sprintf("Window%dYpos",   &ypos,   index);
+        resources_get_int_sprintf("Window%dWidth",  &width,  index);
+        resources_get_int_sprintf("Window%dHeight", &height, index);
+
+        if (xpos > INT_MIN && ypos > INT_MIN) {
+            gtk_window_move(GTK_WINDOW(window), xpos, ypos);
+            restored = true;
+        }
+        if (width > 0 && height > 0) {
+            gtk_window_resize(GTK_WINDOW(window), width, height);
+            restored = true;
+        }
+    }
+    return restored;
+}
+
+
+/** \brief  Set geometry of (both) emulated display window(s) from resources
+ *
+ * Attempt to set the size and position of the display window(s) from resources.
+ */
+void ui_set_window_geometries(void)
+{
+    set_window_geometry_from_resources(PRIMARY_WINDOW);
+    if (machine_class == VICE_MACHINE_C128) {
+        set_window_geometry_from_resources(SECONDARY_WINDOW);
+    }
+}
 
 
 /** \brief  Create a toplevel window to represent a video canvas
@@ -1696,16 +1744,10 @@ void ui_create_main_window(video_canvas_t *canvas)
     int mouse_grab = 0;
 
     GdkPixbuf *icon;
-
-    int xpos = -1;
-    int ypos = -1;
-    int width = 0;
-    int height = 0;
-
     gchar title[256];
 
     int minimized = 0;
-    int restored = 0;
+    bool restored = false;
 
     if (machine_class != VICE_MACHINE_VSID) {
         resources_get_int("Mouse", &mouse_grab);
@@ -1847,24 +1889,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Try to restore windows position and size
      */
-    if (resources_get_int_sprintf("Window%dXpos", &xpos, target_window) < 0) {
-        log_error(LOG_ERR, "No for Window%dXpos", target_window);
-    }
-    resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
-    resources_get_int_sprintf("Window%dwidth", &width, target_window);
-    resources_get_int_sprintf("Window%dheight", &height, target_window);
-#if 0
-    debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
-#endif
-    if (xpos > INT_MIN && ypos > INT_MIN) {
-        gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
-        restored = 1;
-    }
-    if (width > 0 && height > 0) {
-        gtk_window_resize(GTK_WINDOW(new_window), width, height);
-        restored = 1;
-    }
-
+    restored = set_window_geometry_from_resources(target_window);
     if (!restored) {
         /*
          * If not restoring location and size from config, attempt to place
@@ -1875,7 +1900,6 @@ void ui_create_main_window(video_canvas_t *canvas)
          */
         gtk_window_set_position(GTK_WINDOW(new_window), GTK_WIN_POS_CENTER);
     }
-
 
     /*
      * Do we start minimized?
