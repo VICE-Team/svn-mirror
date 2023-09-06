@@ -187,12 +187,13 @@ cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BINDIST_DIR
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $BINDIST_DIR
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BINDIST_DIR
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
-rm -f `find $BINDIST_DIR -name "Makefile*"`
-rm -f `find $BINDIST_DIR -name "gtk3_*"`
+rm -f `find $BINDIST_DIR -name 'Makefile*'`
+rm -f `find $BINDIST_DIR -name 'gtk3*'`
+mkdir $BINDIST_DIR/common
+cp -a $TOPSRCDIR/data/common/sdl*.vhk $BINDIST_DIR/common
 
 # Icon files for SDL1
 if test x"$SDLVERSION" = "x1"; then
-    mkdir $BINDIST_DIR/common
     cp -a $TOPSRCDIR/data/common/*_32.png $BINDIST_DIR/common
 fi
 
