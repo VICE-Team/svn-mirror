@@ -94,9 +94,9 @@ ROM_vsid=C64
 
 # files to remove from ROM directory
 if [ "$UI_TYPE" = "GTK3" ]; then
-  ROM_REMOVE="sdl_*.v?m"
+  ROM_REMOVE="sdl*.v?m"
 elif [ "$UI_TYPE" = "SDL2" ]; then
-  ROM_REMOVE="gtk3_*.v?m"
+  ROM_REMOVE="gtk3*.v?m"
 fi
 
 # define droppable file types
@@ -595,13 +595,18 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   cp data/common/vice.gresource "$APP_COMMON/"
 
   # --- copy hotkeys files ---
-  cp "$TOP_DIR/data/common/"*.vhk "$APP_COMMON/"
+  cp "$TOP_DIR/data/common/"gtk3*.vhk "$APP_COMMON/"
 
   # --- copy GLSL shaders ---
   mkdir -p "$APP_GLSL"
   for shader in $(find "$TOP_DIR/data/GLSL/" -type f -name '*.vert' -or -name '*.frag'); do
     cp "$shader" "$APP_GLSL/"
   done
+fi
+
+if [ "$UI_TYPE" = "SDL2" ]; then
+  # --- copy hotkeys files ---
+  cp "$TOP_DIR/data/common/"sdl*.vhk "$APP_COMMON/"
 fi
 
 
