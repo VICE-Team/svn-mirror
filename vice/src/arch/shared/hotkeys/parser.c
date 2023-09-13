@@ -29,9 +29,16 @@
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
+#include "archdep_defs.h"
+#include "archdep_get_vice_hotkeysdir.h"
+#include "archdep_path_is_relative.h"
+#include "boolexpr.h"
+#include "ifstack.h"
 #include "lib.h"
 #include "log.h"
+#include "symtab.h"
 #include "textfilereader.h"
 #include "uiactions.h"
 #include "uiapi.h"
@@ -45,6 +52,9 @@
 /* #define DEBUG_VHK */
 #include "vhkdebug.h"
 
+/* Define this to dump the symbol table on stdout when parsing a hotkeys file */
+/* #define DUMP_SYMTAB */
+
 
 /** \brief  Array length helper
  *
@@ -52,14 +62,18 @@
  */
 #define ARRAY_LEN(arr)  (sizeof (arr) / sizeof (arr[0]) )
 
-
-
 /** \brief  Object for mapping of !DEBUG arguments to boolean
  */
 typedef struct debug_args_s {
     const char *symbol; /**< string literal */
     bool        value;  /**< boolean value */
 } debug_args_t;
+
+/** \brief  Predefined symbol declaration */
+typedef struct predef_symbol_s {
+    const char *name;   /**< symbol name */
+    bool        value;  /**< symbol value */
+} predef_symbol_t;
 
 
 /** \brief  Hotkeys parser keyword list
@@ -77,17 +91,17 @@ static const vhk_keyword_t vhk_keyword_list[] = {
       "!DEBUG <enable|disable|on|off>",
       "Turn debugging output on or off" },
 
+    { "else",       VHK_KW_ID_ELSE,     0, 0,
+      "!ELSE",
+      "Execute following statement(s) if the preceding !IF <condition> is not met" },
+
     { "endif",      VHK_KW_ID_ENDIF,    0, 0,
       "!ENDIF",
-      "End of !IF[N]DEF" },
+      "End of !if [!else] block" },
 
-    { "ifdef",      VHK_KW_ID_IFDEF,    1, 1,
-      "!IFDEF <condition>",
+    { "if",         VHK_KW_ID_IF,       1, 1,
+      "!IF <condition>",
       "Execute following statement(s) if <condition> is met" },
-
-    { "ifndef",      VHK_KW_ID_IFNDEF,  1, 1,
-      "!IFNDEF <condition>",
-      "Execute following statement(s) if <condition> is not met" },
 
     { "include",    VHK_KW_ID_INCLUDE,  1, 1,
       "!INCLUDE <path>",
@@ -95,9 +109,12 @@ static const vhk_keyword_t vhk_keyword_list[] = {
 
     { "undef",      VHK_KW_ID_UNDEF,    1, 1,
       "!UNDEF <modifiers+key>",
-      "Undefine a hotkey by <modifiers+key>" }
-};
+      "Undefine a hotkey by <modifiers+key>" },
 
+    { "warning",    VHK_KW_ID_WARNING,  1, 1,
+      "!WARNING <message>",
+      "Show warning in hotkeys log" }
+};
 
 /** \brief  Mapping of !DEBUG arguments to boolean
  */
@@ -108,11 +125,42 @@ static const debug_args_t debug_arglist[] = {
     { "off",        false }
 };
 
-
 /** \brief  Debug messages enable flag
  */
 static bool vhk_debug = false;
 
+/** \brief  Global text file reader instance
+ *
+ * Stack based file reader, initialized and cleaned up in \c vhk_parser_parse().
+ */
+textfile_reader_t reader;
+
+/** \brief  Buffer for identifiers found in conditionals */
+static char identbuf[256];
+
+
+/** \brief  Log error message
+ *
+ * Log error message on vhk log using printf-style format string, including the
+ * current filename and line number.
+ *
+ * \param[in]   fmt     format string
+ * \param[in]   ...     arguments for \a fmt (optional)
+ */
+static void vhk_parser_error(const char *fmt, ...)
+{
+    char    buffer[1024];
+    va_list args;
+
+    va_start(args, fmt);
+    vsnprintf(buffer, sizeof buffer, fmt, args);
+    log_error(vhk_log,
+              "%s:%ld: %s",
+              textfile_reader_filename(&reader),
+              textfile_reader_linenum(&reader),
+              buffer);
+    va_end(args);
+}
 
 /** \brief  Strip leading and trailing whitespace
  *
@@ -144,6 +192,53 @@ static char *vhk_parser_strtrim(const char *s)
         t[p - s] = '\0';
     }
     return t;
+}
+
+/** \brief  Check if string only contains whitespace or an inline comment
+ *
+ * \param[in]   s   string to check
+ *
+ * \return  \c true if only whitespace or comment
+ */
+static bool no_more_tokens(const char *s)
+{
+    while (*s != '\0' && isspace((unsigned char)*s)) {
+        s++;
+    }
+    return (bool)(*s == '\0' || *s == VHK_COMMENT || *s == VHK_COMMENT_ALT);
+}
+
+/** \brief  Open file, optionally using the VICE hotkeys dir as search path
+ *
+ * Try opening \a path as-is first, if that fails prepend the VICE hotkeys
+ * directory, if \a path is relative, and try that.
+ *
+ * \param[in]   path    path to file to open
+ *
+ * \return  \c true on success
+ */
+static bool vhk_parser_open_file(const char *path)
+{
+    bool result = false;
+
+    /* try opening as-is */
+    result = textfile_reader_open(&reader, path);
+    if (!result) {
+        if (archdep_path_is_relative(path)) {
+            char *fullpath;
+            char *hotkeysdir = archdep_get_vice_hotkeysdir();
+
+            fullpath = util_join_paths(hotkeysdir, path, NULL);
+            lib_free(hotkeysdir);
+            result = textfile_reader_open(&reader, fullpath);
+            lib_free(fullpath);
+        }
+    }
+    if (!result) {
+        vhk_parser_error("failed to open '%s': errno %d (%s)",
+                         path, errno, strerror(errno));
+    }
+    return result;
 }
 
 /* currently unused, but might be required again later, so do not delete */
@@ -241,7 +336,8 @@ static char *vhk_parser_strsubst(const char *original,
  *
  * \return  keyword ID when found, -1 otherwise
  */
-static vhk_keyword_id_t vhk_parser_get_keyword_id(const char *name)
+static vhk_keyword_id_t vhk_parser_get_keyword_id(const char  *name,
+                                                  const char **endptr)
 {
     size_t i = 0;
 
@@ -251,7 +347,7 @@ static vhk_keyword_id_t vhk_parser_get_keyword_id(const char *name)
     for (i = 0; i < ARRAY_LEN(vhk_keyword_list); i++) {
         int k = 0;
         const vhk_keyword_t *kw = &(vhk_keyword_list[i]);
-        const char *kwname = kw->name;
+        const char          *kwname = kw->name;
 #if 0
         debug_vhk("Checking against '%s'.", kw->name);
 #endif
@@ -263,12 +359,18 @@ static vhk_keyword_id_t vhk_parser_get_keyword_id(const char *name)
         }
         if (kwname[k] == '\0' && name[k] == '\0') {
             /* full match, return id */
+            if (endptr != NULL) {
+                *endptr = name + k;
+            }
             return kw->id;
         } else if (kwname[k] == '\0') {
             /* input matched keyword so far, but input contains more
              * characters */
             if (isspace((unsigned char)name[k])) {
                 /* remaining input cannot be part of a keyword: match */
+                if (endptr != NULL) {
+                    *endptr = name + k;
+                }
                 return kw->id;
             }
         } else if (name[k] == '\0') {
@@ -299,37 +401,6 @@ static vhk_keyword_id_t vhk_parser_get_keyword_id(const char *name)
 static uint32_t parser_get_modifier(const char *s, const char **endptr)
 {
     return vhk_modifier_from_name(s, endptr);
-#if 0
-    size_t i;
-
-    if (s == NULL || *s == '\0') {
-        return VHK_MOD_NONE;
-    }
-
-    for (i = 0; ARRAY_LEN(vhk_modifier_list); i++) {
-        const vhk_modifier_t *mod;
-        const char           *name;
-        int                   k = 0;
-
-        mod  = &(vhk_modifier_list[i]);
-        name = mod->name;
-
-        while (name[k] != '\0'
-                && s[k] != '\0' && s[k] != VHK_MODIFIER_CLOSE
-                && tolower((unsigned char)s[k]) == tolower((unsigned char)name[k])) {
-            k++;
-        }
-
-        if (name[k] == '\0' && s[k] == VHK_MODIFIER_CLOSE) {
-            /* end of name in table and closing bracket: match */
-            if (endptr != NULL) {
-                *endptr = s + k;
-            }
-            return mod->mask;
-        }
-    }
-    return VHK_MOD_NONE;
-#endif
 }
 
 /** \brief  Parse string for keysym and optional modifiers
@@ -343,13 +414,12 @@ static uint32_t parser_get_modifier(const char *s, const char **endptr)
  *
  * \return  `true` on success
  */
-static bool vhk_parser_get_keysym_and_modmask(const char         *line,
-                                              const char        **endptr,
-                                              textfile_reader_t  *reader,
-                                              uint32_t           *vice_keysym,
-                                              uint32_t           *vice_modmask,
-                                              uint32_t           *arch_keysym,
-                                              uint32_t           *arch_modmask)
+static bool vhk_parser_get_keysym_and_modmask(const char  *line,
+                                              const char **endptr,
+                                              uint32_t    *vice_keysym,
+                                              uint32_t    *vice_modmask,
+                                              uint32_t    *arch_keysym,
+                                              uint32_t    *arch_modmask)
 {
     const char *curpos;
     const char *oldpos;
@@ -389,10 +459,7 @@ static bool vhk_parser_get_keysym_and_modmask(const char         *line,
         curpos++;   /* skip '<' */
         v_mod = parser_get_modifier(curpos, &end);
         if (v_mod == VHK_MOD_NONE) {
-            log_message(vhk_log,
-                        "Hotkeys: %s:%ld: parse error unknown modifier.",
-                        textfile_reader_filename(reader),
-                        textfile_reader_linenum(reader));
+            vhk_parser_error("parse error: unknown modifier '%s'", curpos);
             return false;
         }
         /* add found modifier to final mask */
@@ -411,18 +478,13 @@ static bool vhk_parser_get_keysym_and_modmask(const char         *line,
     keylen = curpos - oldpos;
     if (keylen == 0) {
         /* error, no key name found */
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: parser error: no keyname found.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("parse error: no key name found");
         return false;
     }
     if (keylen >= (ptrdiff_t)sizeof keyname) {
         /* key name is way too long, will never match */
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: parse error: key name exceeds allowed size.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("parse error: key name exceeds allow size (%"PRI_SIZE_T")",
+                         sizeof keyname - 1u);
         return false;
     }
     memcpy(keyname, oldpos, keylen);
@@ -430,6 +492,10 @@ static bool vhk_parser_get_keysym_and_modmask(const char         *line,
 
     /* set results */
     v_key = vhk_keysym_from_name(keyname);
+    if (v_key == 0) {
+        vhk_parser_error("parse error: unknown key name '%s'", keyname);
+        return false;
+    }
     a_key = ui_hotkeys_arch_keysym_to_arch(v_key);
 
     debug_vhk("VICE vhk key name  = \"%s\"",keyname);
@@ -465,19 +531,24 @@ static bool vhk_parser_get_keysym_and_modmask(const char         *line,
  * Clears all hotkeys registered.
  *
  * \param[in]   line    text to parse (unused)
- * \param[in]   reader  textfile reader (unused)
  *
  * \return  bool
  */
-static bool vhk_parser_do_clear(const char *line, textfile_reader_t *reader)
+static bool vhk_parser_do_clear(const char *line)
 {
-    if (vhk_debug) {
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: !CLEAR -> clearing all hotkeys.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+    if (!no_more_tokens(line)) {
+        vhk_parser_error("syntax error: trailing tokens after !clear");
+        return false;
     }
-    ui_hotkeys_remove_all();
+    if (ifstack_true()) {
+        if (vhk_debug) {
+            log_message(vhk_log,
+                        "Hotkeys: %s:%ld: !clear -> clearing all hotkeys.",
+                        textfile_reader_filename(&reader),
+                        textfile_reader_linenum(&reader));
+        }
+        ui_hotkeys_remove_all();
+    }
     return true;
 }
 
@@ -486,11 +557,10 @@ static bool vhk_parser_do_clear(const char *line, textfile_reader_t *reader)
  * Enable/disable debugging messages.
  *
  * \param[in]   line    text to parse (unused)
- * \param[in]   reader  textfile reader (unused)
  *
  * \return  bool
  */
-static bool vhk_parser_do_debug(const char *line, textfile_reader_t *reader)
+static bool vhk_parser_do_debug(const char *line)
 {
     const char *arg;
     size_t i;
@@ -505,51 +575,36 @@ static bool vhk_parser_do_debug(const char *line, textfile_reader_t *reader)
              *       '!debug off' at the start of a vhk file won't trigger a
              *       debugging message.
              */
-            vhk_debug = debug_arglist[i].value;
+            if (ifstack_true()) {
+                vhk_debug = debug_arglist[i].value;
+            }
             return true;
         }
     }
     /* no match */
-    log_message(vhk_log,
-                "Hotkeys: %s:%ld: syntax error: unknown argument to !DEBUG, assuming False",
-                textfile_reader_filename(reader),
-                textfile_reader_linenum(reader));
-    vhk_debug = false;
-    return true;
+    vhk_parser_error("syntax error: unknown argument to !debug: '%s'", arg);
+    return false;
 }
 
-/** \brief  Handler for the '!INCLUDE' a keyword
+/** \brief  Parse quoted argument, removing any (escaped) quotes
  *
- * \param[in]   line    text to parse, must start *after* "!INCLUDE"
- * \param[in]   reader  textfile reader
+ * \param[in]   text    text to parse
  *
- * \return  bool
- *
- * \note    errors are reported with log_message()
+ * \return  path stripped from quotes or \c NULL on error
+ * \note    free result with \c lib_free() after use
  */
-static bool vhk_parser_do_include(const char *line, textfile_reader_t *reader)
+static char *parse_quoted_argument(const char *text)
 {
-    const char *s;
-    char       *arg;
+    const char *s = text;
+    char       *arg = NULL;
     char       *a;
-    bool        result;
-
-    s = util_skip_whitespace(line);
-    if (*s == '\0') {
-        /* missing argument */
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: error: missing argument for !INCLUDE",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
-        return false;
-    }
 
     /* quotes? */
     if (*s == VHK_QUOTE) {
         /* allocate memory for resulting arg:
          * -2 to skip enclosing quotes,
          * +1 for terminating nul */
-        arg = a = lib_malloc(strlen(line) - 2 + 1);
+        arg = a = lib_malloc(strlen(text) - 2 + 1);
 
         /* copy string, turning any '\"' sequence into '"' */
         s++;    /* move after opening quote */
@@ -558,13 +613,9 @@ static bool vhk_parser_do_include(const char *line, textfile_reader_t *reader)
                 s++;
                 if (*s == '\0') {
                     /* end of string, but escape token active */
-                    log_message(vhk_log,
-                                "Hotkeys: %s:%ld: "
-                                "parse error: unexpected end of line.",
-                                textfile_reader_filename(reader),
-                                textfile_reader_linenum(reader));
+                    vhk_parser_error("parse error: unexpected end of line");
                     lib_free(arg);
-                    return false;
+                    return NULL;
                 }
                 *a++ = *s++;
             } else if (*s == VHK_QUOTE) {
@@ -576,55 +627,57 @@ static bool vhk_parser_do_include(const char *line, textfile_reader_t *reader)
         }
         if (*s != VHK_QUOTE) {
             /* error, no closing quote */
-            log_message(vhk_log,
-                        "Hotkeys: %s:%ld: "
-                        "parse error: missing closing quote.",
-                        textfile_reader_filename(reader),
-                        textfile_reader_linenum(reader));
+            vhk_parser_error("syntax error: missing closing quote");
             lib_free(arg);
-            return false;
+            return NULL;
         }
         /* terminate result */
         *a = '\0';
     } else {
         /* no quotes, copy until first whitespace character */
-        arg = a = lib_malloc(strlen(line) + 1);
+        arg = a = lib_malloc(strlen(text) + 1);
         while (*s != '\0' && !isspace((unsigned char)*s)) {
             *a++ = *s++;
         }
         *a = '\0';
     }
+    return arg;
+}
 
-    /* Fuck with the path separators to work around crappy findpath()
-     *
-     * With the $VICEDIR stuff in place we would pass in an absolute path to
-     * sysfile_open()/findpath(), but with that removed findpath() fucks up
-     * on directory separators in its argument and considers anything with a
-     * separator in it to be relative to the user's directory, not the vice dir.
-     *
-     * So in order to fool findpath() we change the OS-native directory separators
-     * to the non-native separators */
-    for (int i = 0; arg[i] != '\0'; i++) {
-#ifdef WINDOWS_COMPILE
-        if (arg[i] == '\\') {
-            arg[i] = '/';
-        }
-#else
-        if (arg[i] == '/') {
-            arg[i] = '\\';
-        }
-#endif
+/** \brief  Handler for the '!INCLUDE' a keyword
+ *
+ * \param[in]   line    text to parse, must start *after* "!INCLUDE"
+ *
+ * \return  bool
+ *
+ * \note    errors are reported with \c vhk_parser_error()
+ */
+static bool vhk_parser_do_include(const char *line)
+{
+    bool  result;
+    char *path;
+
+    line = util_skip_whitespace(line);
+    if (*line == '\0') {
+        /* missing argument */
+        vhk_parser_error("syntax error: missing argument for !include");
+        return false;
     }
 
-    result = textfile_reader_open(reader, arg);
-    lib_free(arg);
+    path = parse_quoted_argument(line);
+    if (path == NULL) {
+        /* error already logged */
+        return false;
+    }
+    result = vhk_parser_open_file(path);
+    /* any error opening the file is already reported */
+    lib_free(path);
     return result;
 }
 
-/** \brief  Handler for the '!UNDEF' a keyword
+/** \brief  Handler for the '!UNDEF' keyword
  *
  * \param[in]   line    text to parse
- * \param[in]   reader  textfile reader
  *
  * \return  bool
  *
@@ -632,7 +685,7 @@ static bool vhk_parser_do_include(const char *line, textfile_reader_t *reader)
  *
  * \todo    Support two windows for x128
  */
-static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
+static bool vhk_parser_do_undef(const char *line)
 {
     const char       *curpos;
     const char       *oldpos;
@@ -645,16 +698,13 @@ static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
     curpos = util_skip_whitespace(line);
     if (*curpos == '\0') {
         /* error: missing argument */
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: error: missing argument for !UNDEF",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("syntax error: missing argument for !undef");
         return true;
     }
 
     /* get combined modifier masks and keyval */
     oldpos = curpos;
-    if (!vhk_parser_get_keysym_and_modmask(curpos, &curpos, reader,
+    if (!vhk_parser_get_keysym_and_modmask(curpos, &curpos,
                                            &vice_mask, &vice_key,
                                            &arch_mask, &arch_key)) {
         /* error already logged */
@@ -663,48 +713,205 @@ static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
     if (vhk_debug) {
         log_message(vhk_log,
                     "Hotkeys %s:%ld: VICE key: %04x, VICE mask: %08x, keyname: %s.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader),
+                    textfile_reader_filename(&reader),
+                    textfile_reader_linenum(&reader),
                     vice_key,
                     vice_mask,
                     vhk_keysym_name(vice_key));
     }
 
     /* lookup map for hotkey */
-    map = ui_action_map_get_by_hotkey(vice_key, vice_mask);
-    if (map != NULL) {
-        if (vhk_debug) {
-            log_message(vhk_log,
-                        "Hotkeys: %s:%ld: found hotkey defined for action %d (%s),"
-                        " clearing.",
-                        textfile_reader_filename(reader),
-                        textfile_reader_linenum(reader),
-                        map->action, ui_action_get_name(map->action));
-        }
-    ui_action_map_clear_hotkey(map);
-    } else {
-        /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
-         * a display and thus no GdkKeymap. :( */
+    if (ifstack_true()) {
+        map = ui_action_map_get_by_hotkey(vice_key, vice_mask);
+        if (map != NULL) {
+            if (vhk_debug) {
+                log_message(vhk_log,
+                            "Hotkeys: %s:%ld: found hotkey defined for action %d (%s),"
+                            " clearing.",
+                            textfile_reader_filename(&reader),
+                            textfile_reader_linenum(&reader),
+                            map->action, ui_action_get_name(map->action));
+            }
+            ui_action_map_clear_hotkey(map);
+        } else {
+            /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
+             * a display and thus no GdkKeymap. :( */
 #if 0
 
-        char *accel_name = gtk_accelerator_name(keyval, mask);
+            char *accel_name = gtk_accelerator_name(keyval, mask);
 #endif
-        /* do it the hard way: copy argument without trailing crap */
-        char   accel_name[256];
-        size_t accel_len;
+            /* do it the hard way: copy argument without trailing crap */
+            char   accel_name[256];
+            size_t accel_len;
 
-        accel_len = (size_t)(curpos - oldpos);
-        if (accel_len >= sizeof(accel_name)) {
-            accel_len = sizeof(accel_name) - 1;
+            accel_len = (size_t)(curpos - oldpos);
+            if (accel_len >= sizeof(accel_name)) {
+                accel_len = sizeof(accel_name) - 1;
+            }
+            memcpy(accel_name, oldpos, accel_len);
+            accel_name[accel_len] = '\0';
+
+            log_message(vhk_log,
+                        "Hotkeys: %s:%ld: warning: hotkey '%s' not found, ignoring.",
+                        textfile_reader_filename(&reader),
+                        textfile_reader_linenum(&reader),
+                        accel_name);
         }
-        memcpy(accel_name, oldpos, accel_len);
-        accel_name[accel_len] = '\0';
+    }
+    return true;
+}
 
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: warning: hotkey '%s' not found!",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader),
-                    accel_name);
+
+/** \brief  Get identifier and return its token ID
+ *
+ * Parse \a text for an identifier in the form [a-zA-Z_][a-zA-Z0-9_]+
+ *
+ * \param[in]   text    text to parse
+ * \param[in]   endptr  pointer to first non-identifier character in \a text
+ *
+ * \return  \c BEXPR_FALSE or \c BEXPR_TRUE, or \c BEXPR_INVALID (-1) on error
+ */
+static int get_identifier(const char *text, const char **endptr)
+{
+    const char *old;
+    symbol_t   *node;
+
+    old = text++;
+    while (*text != '\0' && (isalnum((unsigned char)*text) || *text == '_')) {
+        text++;
+    }
+    *endptr = text;
+    if ((size_t)(text - old + 1) > sizeof identbuf) {
+        /* identifier too long */
+        vhk_parser_error("syntax error: identifier exceeds maximum length of %" PRI_SIZE_T,
+                         sizeof identbuf - 1u);
+        return BEXPR_INVALID;
+    }
+    memcpy(identbuf, old, (size_t)(text - old));
+    identbuf[text - old] = '\0';
+
+    /* look up identifier to determine value */
+    node = symbol_find(identbuf);
+    if (node == NULL) {
+        vhk_parser_error("syntax error: unknown identifier '%s'", identbuf);
+        return BEXPR_INVALID;
+    }
+    return node->value ? BEXPR_TRUE : BEXPR_FALSE;
+}
+
+/** \brief  Handler for the !IF keyword
+ *
+ * Parse \a line for condition and push condition on the if-stack. A condition
+ * may consist of predefined identifiers (such as "C64", "GTK3" or "UNIX"),
+ * boolean operators "!" (not), "||" (or) or "&&" (and). Parentheses are
+ * supported as are the special identifiers "false" and "true".
+ * Nesting of IF/ELSE is supported.
+ *
+ * See documentation (TODO) for a more thorough explanation.
+ *
+ * \param[in]   line    text after the keyword
+ *
+ * \return  \c true on success
+ */
+static bool vhk_parser_do_if(const char *line)
+{
+    const char *curpos;
+    const char *endptr;
+    bool        result;
+
+    /* tokenize expression */
+    bexpr_reset();
+    curpos = line;
+    while (*curpos != '\0') {
+        int token;
+
+        curpos = util_skip_whitespace(curpos);
+        if (*curpos == '\0') {
+            break;
+        }
+
+        if (isalpha((unsigned char)*curpos) || *curpos == '_') {
+            /* might be identifier */
+            token = get_identifier(curpos, &endptr);
+            if (token < 0) {
+                return false;
+            }
+        } else {
+            token = bexpr_token_parse(curpos, &endptr);
+            if (token < 0) {
+                vhk_parser_error("parse error: %s", bexpr_strerror(bexpr_errno));
+                return false;
+            }
+        }
+        bexpr_token_add(token);
+        curpos = endptr;
+    }
+
+    /* evaluate expression */
+    if (bexpr_evaluate(&result)) {
+        ifstack_if(result);
+        return true;
+    }
+    vhk_parser_error("syntax error: %s", bexpr_strerror(bexpr_errno));
+    return false;
+}
+
+/** \brief  Handler for the !ELSE keyword
+ *
+ * \param[in]   line    text after the keyword (ignored)
+ *
+ * \return  \c true on success
+ */
+static bool vhk_parser_do_else(const char *line)
+{
+    /* only whitespace or comment allowed after '!else' */
+    if (!no_more_tokens(line)) {
+        vhk_parser_error("syntax error: trailing tokens after !else");
+        return false;
+    }
+
+    if (ifstack_else()) {
+        return true;
+    } else {
+        vhk_parser_error("syntax error: %s", ifstack_strerror(ifstack_errno));
+        return false;
+    }
+}
+
+/** \brief  Handler for the !ENDIF keyword
+ *
+ * \param[in]   line    text after the keyword (ignored)
+ *
+ * \return  \c true on success
+ */
+static bool vhk_parser_do_endif(const char *line)
+{
+    /* only whitespace or comment allowed after '!endif' */
+    if (!no_more_tokens(line)) {
+        vhk_parser_error("syntax error: trailing tokens after !endif");
+        return false;
+    }
+
+    if (ifstack_endif()) {
+        return true;
+    } else {
+        vhk_parser_error("syntax error: %s", ifstack_strerror(ifstack_errno));
+        return false;
+    }
+}
+
+/** \brief  Handler for the !WARNING keyword
+ *
+ * Log warning on stdout using \a line as its text.
+ *
+ * \param[in]   line    text after the keyword
+ *
+ * \return  \c true on success
+ */
+static bool vhk_parser_do_warning(const char *line)
+{
+    if (ifstack_true()) {
+        log_warning(vhk_log, "%s", util_skip_whitespace(line));
     }
     return true;
 }
@@ -712,74 +919,75 @@ static bool vhk_parser_do_undef(const char *line, textfile_reader_t *reader)
 /** \brief  Handle a keyword
  *
  * \param[in]   line    text to parse, must start *after* the '!' indicator
- * \param[in]   reader  textfile reader
  *
  * \return  bool
  *
  * \note    errors are reported with log_message()
  */
-static bool vhk_parser_handle_keyword(const char *line, textfile_reader_t *reader)
+static bool vhk_parser_handle_keyword(const char *line)
 {
     bool result = true;
 
     if (*line == '\0') {
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: syntax error, missing keyword after '!'.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("syntax error: missing keyword after '!'");
         result =  false;
     } else if (!isalpha((unsigned char)*line)) {
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: syntax error, illegal character after '!'.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("syntax error: illegal character after '!'");
         result = false;
     } else {
         /* get keyword ID */
-        vhk_keyword_id_t id = vhk_parser_get_keyword_id(line);
+        const char *endptr = NULL;
 
+        vhk_keyword_id_t id = vhk_parser_get_keyword_id(line, &endptr);
+
+        /* TODO: replace magic numbers with symbol constants, or make
+         *       vhk_parser_get_keyword_id() accept an 'endptr' argument so
+         *       we can use that instead of these magic numbers.
+         */
         switch (id) {
             case VHK_KW_ID_CLEAR:
                 /* handle CLEAR */
-                result = vhk_parser_do_clear(line, reader);
+                result = vhk_parser_do_clear(endptr);
                 break;
 
             case VHK_KW_ID_DEBUG:
                 /* handle DEBUG */
-                result = vhk_parser_do_debug(line + 6, reader);
+                result = vhk_parser_do_debug(endptr);
                 break;
 
             case VHK_KW_ID_INCLUDE:
                 /* handle INCLUDE */
-                result = vhk_parser_do_include(line + 8, reader);
+                result = vhk_parser_do_include(endptr);
                 break;
 
             case VHK_KW_ID_UNDEF:
                 /* handle UNDEF */
-                result = vhk_parser_do_undef(line + 6, reader);
+                result = vhk_parser_do_undef(endptr);
                 break;
 
-            case VHK_KW_ID_IFDEF:
-                /* handle IFDEF */
-                log_message(vhk_log, "Hotkeys: TODO: handle !IFDEF.");
+            case VHK_KW_ID_IF:
+                /* always handle IF */
+                result = vhk_parser_do_if(endptr);
                 break;
 
-            case VHK_KW_ID_IFNDEF:
-                /* handle IFNDEF */
-                log_message(vhk_log, "Hotkeys: TODO: handle !IFNDEF.");
+            case VHK_KW_ID_ELSE:
+                /* always handle ELSE */
+                result = vhk_parser_do_else(endptr);
                 break;
 
             case VHK_KW_ID_ENDIF:
-                /* handle ENDIF */
-                log_message(vhk_log, "Hotkeys: TODO: handle !ENDIF.");
+                /* always handle ENDIF */
+                result = vhk_parser_do_endif(endptr);
+                break;
+
+            case VHK_KW_ID_WARNING:
+                /* show warning in log */
+                result = vhk_parser_do_warning(endptr);
                 break;
 
             default:
                 /* unknown keyword */
-                log_message(vhk_log,
-                            "Hotkeys: %s:%ld: syntax error, unknown keyword.",
-                            textfile_reader_filename(reader),
-                            textfile_reader_linenum(reader));
+                vhk_parser_error("syntax error: unknown keyword '!%s'", line);
                 result = false;
         }
     }
@@ -791,19 +999,18 @@ static bool vhk_parser_handle_keyword(const char *line, textfile_reader_t *reade
  * Parse \a line for a hotkey mapping, set hotkey on success.
  *
  * \param[in]   line    string to parse, expected to be trimmed
- * \param[in]   reader  textfile reader
  *
  * \return  bool
  *
  * \note    errors are reported with log_message()
  */
-static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reader)
+static bool vhk_parser_handle_mapping(const char *line)
 {
+    ui_action_map_t *map;
     const char      *curpos;
     const char      *oldpos;
     char             action_name[256];
     ptrdiff_t        namelen;
-    ui_action_map_t *map;
     int              action_id    = ACTION_INVALID;
     uint32_t         vice_keysym  = 0;
     uint32_t         vice_modmask = 0;
@@ -820,17 +1027,12 @@ static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reade
     /* check for errors */
     if (curpos == oldpos) {
         /* no valid action name tokens found */
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: error: missing action name.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("syntax error: missing action name");
         return false;
     }
     if (curpos - oldpos >= sizeof(action_name)) {
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: error: action name is too long.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
+        vhk_parser_error("syntax error: action name exceeds allow length of %" PRI_SIZE_T,
+                         sizeof action_name - 1u);
         return false;
     }
 
@@ -842,7 +1044,7 @@ static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reade
     curpos = util_skip_whitespace(curpos);
 
     /* get combined modifier masks and keyval */
-    if (!vhk_parser_get_keysym_and_modmask(curpos, &curpos, reader,
+    if (!vhk_parser_get_keysym_and_modmask(curpos, &curpos,
                                            &vice_keysym, &vice_modmask,
                                            &arch_keysym, &arch_modmask)) {
         /* error already logged */
@@ -858,24 +1060,25 @@ static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reade
     /* finally try to register the hotkey */
     action_id = ui_action_get_id(action_name);
     if (action_id <= ACTION_NONE) {
-        log_message(vhk_log,
-                    "Hotkeys: %s:%ld: error: unknown action '%s'.",
-                    textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader),
-                    action_name);
+        vhk_parser_error("syntax error: unknown action '%s'", action_name);
         /* allow parsing to continue */
-        return true;
+        return false;
     }
 
-    /* register mapping, first try looking up the item */
-    map = ui_action_map_set_hotkey(action_id,
-                                   vice_keysym, vice_modmask,
-                                   arch_keysym, arch_modmask);
-    if (map != NULL) {
-        /* set hotkey for menu item, if it exists */
-        /* call arch-specific "virtual method" */
-        debug_vhk("calling ui_hotkeys_install_by_map()");
-        ui_hotkeys_install_by_map(map);
+    if (ifstack_true()) {
+        /* register mapping, first try looking up the item */
+        map = ui_action_map_set_hotkey(action_id,
+                                       vice_keysym, vice_modmask,
+                                       arch_keysym, arch_modmask);
+        if (map != NULL) {
+            /* set hotkey for menu item, if it exists */
+            /* call arch-specific "virtual method" */
+            debug_vhk("calling ui_hotkeys_install_by_map()");
+            ui_hotkeys_install_by_map(map);
+        } else {
+            vhk_parser_error("invalid action '%s' for current emulator", action_name);
+            return false;
+        }
     }
     return true;
 }
@@ -885,21 +1088,25 @@ static bool vhk_parser_handle_mapping(const char *line, textfile_reader_t* reade
  *
  * \param[in]   path    path to hotkeys file
  *
- * \return  bool
+ * \return  \c true on success
  */
 bool vhk_parser_parse(const char *path)
 {
-    textfile_reader_t reader;
-    bool              status = true;
+    bool status = true;
 
-    /* disable debugging */
+    /* disable debugging by default */
     vhk_debug = false;
 #if 0
     hotkeys_log_timestamp();
 #endif
+
+    /* initialize if stack */
+    ifstack_reset();
+
     /* initialize file stack and open the file */
     textfile_reader_init(&reader);
-    if (textfile_reader_open(&reader, path)) {
+
+    if (vhk_parser_open_file(path)) {
         /* main hotkeys file */
 
         while (true) {
@@ -910,7 +1117,8 @@ bool vhk_parser_parse(const char *path)
                 char *trimmed  = vhk_parser_strtrim(line);
 
                 if (vhk_debug) {
-                    log_debug("LINE %3ld: '%s'",
+                    log_debug("(%s) LINE %3ld: '%s'",
+                              ifstack_true() ? "TRUE " : "FALSE",
                               textfile_reader_linenum(&reader),
                               line);
                 }
@@ -921,19 +1129,20 @@ bool vhk_parser_parse(const char *path)
                     /* empty line or comment, skip */
                     parse_ok = true;
                 } else if (*trimmed == VHK_KEYWORD) {
-                    /* found keyword */
-                    parse_ok = vhk_parser_handle_keyword(trimmed + 1, &reader);
+                    /* found keyword, need to handle at least if/else/endif for
+                     * correct conditional handling */
+                    parse_ok = vhk_parser_handle_keyword(trimmed + 1);
                 } else {
                     /* assume hotkey definition */
-                    parse_ok = vhk_parser_handle_mapping(trimmed, &reader);
+                    parse_ok = vhk_parser_handle_mapping(trimmed);
                 }
 
                 /* free trimmed line and check for parse result of line */
                 lib_free(trimmed);
                 if (!parse_ok) {
                     /* assume error already logged */
-                    textfile_reader_free(&reader);
-                    return false;
+                    status = false;
+                    goto cleanup;
                 }
             } else {
                 /* TODO: check if EOF or error */
@@ -943,10 +1152,155 @@ bool vhk_parser_parse(const char *path)
 
         textfile_reader_close(&reader);
 
+        /* check for unterminated IF */
+        if (!ifstack_is_empty()) {
+            /* cannot use vhk_parser_error() here, there's no open file anymore */
+            log_error(vhk_log, "syntax error: unterminated !if at end of input");
+            status = false;
+            goto cleanup;
+        }
+
     } else {
-        /* failed to open main file */
+        /* error already reported by vhk_parser_open_file() */
         status = false;
     }
+cleanup:
     textfile_reader_free(&reader);
     return status;
+}
+
+
+
+/** \brief  List of predefined symbols known at compile time
+ *
+ * This doesn't include the machine names, since those need to be determined
+ * at runtime :(
+ */
+static const predef_symbol_t predef_symbols[] = {
+    /* useful for `#if 0` like constructs */
+    {   "false",    false },
+    {   "true",     true  },
+
+    {   "GTK3",
+#ifdef USE_GTK3UI
+        true
+#else
+        false
+#endif
+    },
+    {   "SDL1",
+#ifdef USE_SDLUI
+        true
+#else
+        false
+#endif
+    },
+    {   "SDL2",
+#ifdef USE_SDL2UI
+        true
+#else
+        false
+#endif
+    },
+    {   "HAVE_DEBUG",
+#ifdef DEBUG
+        true
+#else
+        false
+#endif
+    },
+    {   "HAVE_FFMPEG",
+#ifdef HAVE_FFMPEG
+        true
+#else
+        false
+#endif
+    },
+    {   "UNIX",
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
+        true
+#else
+        false
+#endif
+    },
+    {   "MACOS",
+#ifdef MACOS_COMPILE
+        true
+#else
+        false
+#endif
+    },
+    {   "WINDOWS",
+#ifdef WINDOWS_COMPILE
+        true
+#else
+        false
+#endif
+    }
+};
+
+/** \brief  Add compile time predefined symbols */
+static void add_predef_symbols(void)
+{
+    size_t i = 0;
+
+    for (i = 0; i < ARRAY_LEN(predef_symbols); i++) {
+        if (!symbol_add(predef_symbols[i].name, predef_symbols[i].value)) {
+            log_error(LOG_ERR,
+                      "Predefined symbol '%s' already in table.",
+                      predef_symbols[i].name);
+            return;
+        }
+    }
+}
+
+/** \brief  Add runtime predefined symbols */
+static void add_machine_symbols(void)
+{
+    symbol_add("C64",    (bool)(machine_class == VICE_MACHINE_C64));
+    symbol_add("C64SC",  (bool)(machine_class == VICE_MACHINE_C64SC));
+    symbol_add("SCPU64", (bool)(machine_class == VICE_MACHINE_SCPU64));
+    symbol_add("C64DTV", (bool)(machine_class == VICE_MACHINE_C64DTV));
+    symbol_add("C128",   (bool)(machine_class == VICE_MACHINE_C128));
+    symbol_add("CBM5X0", (bool)(machine_class == VICE_MACHINE_CBM5x0));
+    symbol_add("CBM6X0", (bool)(machine_class == VICE_MACHINE_CBM6x0));
+    symbol_add("PET",    (bool)(machine_class == VICE_MACHINE_PET));
+    symbol_add("PLUS4",  (bool)(machine_class == VICE_MACHINE_PLUS4));
+    symbol_add("VIC20",  (bool)(machine_class == VICE_MACHINE_VIC20));
+    symbol_add("VSID",   (bool)(machine_class == VICE_MACHINE_VSID));
+}
+
+
+/** \brief  Initialize parser for use
+ *
+ * Set up and fill the symbol table. This function should only be called once,
+ * during general init, and *not* before each call to \c vkh_parser_parse().
+ */
+void vhk_parser_init(void)
+{
+    /* initialize symbol table and add symbols */
+    symbol_table_init();
+    add_predef_symbols();
+    add_machine_symbols();
+#ifdef DUMP_SYMTAB
+    symbol_table_dump();
+#endif
+
+    /* initialize expression evaluator */
+    bexpr_init();
+    /* initialize if-stack */
+    ifstack_init();
+}
+
+
+/** \brief  Clean up resources used by the parser
+ *
+ * Free symbol table. This function should only be called once, during general
+ * shutdown, and *not* before each call to \c vkh_parser_parse().
+ */
+void vhk_parser_shutdown(void)
+{
+    symbol_table_free();
+    bexpr_free();
+    ifstack_free();
 }

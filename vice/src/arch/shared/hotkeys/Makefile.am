@@ -21,15 +21,21 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libhotkeys.a
 
 libhotkeys_a_SOURCES = \
+	boolexpr.c \
+	ifstack.c \
 	parser.c \
+	symtab.c \
 	textfilereader.c \
 	vhkdebug.c \
 	vhkkeysyms.c \
 	uihotkeys.c
 
 EXTRA_DIST = \
+	boolexpr.h \
 	hotkeystypes.h \
+	ifstack.h \
 	parser.h \
+	symtab.h \
 	textfilereader.h \
 	vhkdebug.h \
 	vhkkeysyms.h \

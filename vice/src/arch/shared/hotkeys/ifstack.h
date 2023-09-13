@@ -1,5 +1,6 @@
-/** \file   parser.h
- * \brief   Parsing functions for hotkeys - header
+/** \file   ifstack.h
+ * \brief   IF stack implementation - header
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -23,13 +24,30 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_HOTKEYS_PARSER_H
-#define VICE_HOTKEYS_PARSER_H
+#ifndef VICE_HOTKEYS_IFSTACK_H
+#define VICE_HOTKEYS_IFSTACK_H
 
 #include <stdbool.h>
 
-void vhk_parser_init    (void);
-void vhk_parser_shutdown(void);
-bool vhk_parser_parse   (const char *path);
+enum {
+    IFSTACK_ERR_OK,
+    IFSTACK_ERR_ELSE_WITHOUT_IF,
+    IFSTACK_ERR_ENDIF_WITHOUT_IF
+};
+
+extern int ifstack_errno;
+
+void ifstack_init(void);
+void ifstack_reset(void);
+void ifstack_free(void);
+void ifstack_print(void);
+
+void ifstack_if(bool state);
+bool ifstack_else(void);
+bool ifstack_endif(void);
+bool ifstack_true(void);
+bool ifstack_is_empty(void);
+
+const char *ifstack_strerror(int errnum);
 
 #endif

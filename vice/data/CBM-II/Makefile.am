@@ -42,10 +42,6 @@ palettes = \
 	green.vpl \
 	white.vpl
 
-gtk3_hotkeys = \
-	gtk3-hotkeys.vhk \
-	gtk3-hotkeys-mac.vhk
-
 gtk3_keymaps = \
 	gtk3_pos.vkm \
 	gtk3_pos_de.vkm \
@@ -56,26 +52,22 @@ sdl_keymaps = \
 	sdl_sym.vkm \
 	sdl_pos.vkm
 
-sdl_hotkeys = \
-	sdl-hotkeys.vhk \
-	sdl-hotkeys-mac.vhk
-
 if USE_SDLUI
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps)
 endif
 
 if USE_SDL2UI
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps)
 endif
 
 if USE_GTK3UI
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
-EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps)
 endif
 
 if USE_HEADLESSUI
 cbm2_DATA = $(roms) $(romsets) $(palettes)
-EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
+EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(gtk3_keymaps)
 endif

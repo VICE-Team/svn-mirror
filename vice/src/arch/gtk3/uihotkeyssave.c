@@ -69,7 +69,7 @@ static void save_callback(GtkDialog *dialog, gchar *filename, gpointer data)
     if (filename != NULL) {
         char buffer[1024];
 
-        if (ui_hotkeys_export(filename)) {
+        if (ui_hotkeys_save_as(filename)) {
             g_snprintf(buffer, sizeof(buffer),
                        "Saved hotkeys as %s", filename);
         } else {

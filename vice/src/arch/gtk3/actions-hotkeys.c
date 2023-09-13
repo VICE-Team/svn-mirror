@@ -65,7 +65,7 @@ static void hotkeys_clear_action(ui_action_map_t *self)
 static void hotkeys_default_action(ui_action_map_t *self)
 {
     ui_display_statustext("Loading default hotkeys.", 1);
-    ui_hotkeys_load_default();
+    ui_hotkeys_load_vice_default();
 }
 
 /** \brief  Reload current hotkeys file
@@ -76,18 +76,9 @@ static void hotkeys_default_action(ui_action_map_t *self)
  */
 static void hotkeys_load_action(ui_action_map_t *self)
 {
-    const char *hotkeys_file = NULL;
-
     ui_display_statustext("Reloading current hotkeys.", 1);
     ui_hotkeys_remove_all();
-
-    resources_get_string("HotkeyFile", &hotkeys_file);
-    if (hotkeys_file != NULL && *hotkeys_file != '\0') {
-        /* parse the custom hotkeys file */
-        ui_hotkeys_parse(hotkeys_file);
-    } else {
-        ui_hotkeys_load_default();
-    }
+    ui_hotkeys_reload();
 }
 
 /** \brief  Pop up dialog to load hotkeys from a specific file
@@ -107,22 +98,11 @@ static void hotkeys_load_from_action(ui_action_map_t *self)
  */
 static void hotkeys_save_action(ui_action_map_t *self)
 {
-    const char *hotkeyfile = NULL;
-
-    resources_get_string("HotkeyFile", &hotkeyfile);
-    if (hotkeyfile != NULL && *hotkeyfile != '\0') {
-        char buffer[1024];
-
-        if (ui_hotkeys_export(hotkeyfile)) {
-            g_snprintf(buffer, sizeof(buffer),
-                       "Succesfully wrote hotkeys to %s", hotkeyfile);
-        } else {
-            g_snprintf(buffer, sizeof(buffer),
-                       "Failed to write hotkeys to %s", hotkeyfile);
-        }
-        ui_display_statustext(buffer, 1);
+    if (ui_hotkeys_save()) {
+        ui_display_statustext("Hotkeys saved succesfully.", 1);
     } else {
-        ui_display_statustext("Writing hotkeys to default file is not allowed", 1);
+        /* TODO: a little more info on why it failed perhaps? */
+        ui_display_statustext("Failed to save hotkeys.", 1);
     }
 }
 

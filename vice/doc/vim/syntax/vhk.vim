@@ -8,7 +8,7 @@ if exists("b:current_syntax")
 endif
 
 " Keywords, special identifiers
-syn match vhkKeyword    "\c!\(DEBUG\|CLEAR\|ENDIF\|INCLUDE\|IFDEF\|\IFNDEF\|UNDEF\)"
+syn match vhkKeyword    "\c!\(clear\|debug\|else\|endif\|if\|include\|undef\|warning\)"
 syn keyword vhkTodo     TODO FIXME XXX
 syn match vhkModifier   "\c<\(alt\|command\|control\|hyper\|option\|shift\|super\)>"
 syn match vhkVariable   "\$\(USERDIR\|VICEDIR\)"

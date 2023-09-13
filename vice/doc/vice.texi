@@ -1864,7 +1864,7 @@ files}).
 @menu
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
-* Gtk3 Hotkeys files::          Files defining Gtk3 UI hotkeys.
+* Hotkeys files::               Files defining UI hotkeys.
 * Palette files::               Files defining the machine's colors.
 * Romset files::                Files defining the machine's ROM set.
 @end menu
@@ -2726,18 +2726,21 @@ select the given item from the current romset archive
 @end table
 
 
-@node Gtk3 Hotkeys files
-@section Gtk3 Hotkeys files
-@anchor{#gtk3-hotkeys-files}
-The Gtk3 port of VICE allows setting custom keyboard shortcuts, which we
-refer to as hotkeys. These hotkeys can be set either through the user
-interface or by editing hotkeys files, which are stored either in the
-VICE data directory or in the user's VICE configuration directory.
+@node Hotkeys files
+@section Hotkeys files
+@anchor{#hotkeys-files}
+VICE allows setting custom keyboard shortcuts, which we refer to as hotkeys.
+These hotkeys can be set either through the user interface or by editing hotkeys
+files, which are stored in the VICE data directory, in the user's VICE
+configuration directory or at a custom location.
+Hotkeys files have the @code{.vhk} extension.
 
 VICE's hotkeys files are read from VICE's data directory, which we'll
 refer to as @code{$VICEDIR} and the (optional) user's hotkeys will be in
 the user's VICE configuration directory, which we'll refer to as
-@code{$USERDIR}.
+@code{$USERDIR}. When saving hotkeys without explicitly specifying a custom
+path, the name of the user's hotkeys file will be in the form
+@code{$UI-hotkeys-$MACHINE.vhk}, for example "gtk3-hotkeys-C64SC.vhk".
 
 On Unix, @code{$VICEDIR} will point to @code{/usr/local/share/vice/},
 when using the default install prefix, and @code{$USERDIR} will point to
@@ -2750,12 +2753,18 @@ A custom path can be specified by using the command line interface:
 @code{x64sc -hotkeyfile <some-file>}, or by using the UI
 (@strong{TODO}).
 
-@menu
-* Syntax of the hotkeys files::
-@end menu
+@subsection Hotkeys command line options
 
-@node Syntax of the hotkeys files
-@section Syntax of the hotkeys files
+@table @code
+
+@findex -hotkeyfile
+@item -hotkeyfile <File>
+Load the given hotkeys file
+
+@end table
+
+@c @node Syntax of the hotkeys files
+@subsection Syntax of the hotkeys files
 @anchor{#syntax-of-the-hotkeys-files}
 The syntax of the hotkeys files is pretty straightforward, a file can
 contain mappings, directives and comments. Leading and trailing
@@ -2769,7 +2778,7 @@ whitespace is ignored by the parser.
 @end menu
 
 @node Comments
-@subsection Comments
+@subsubsection Comments
 @anchor{#comments}
 Comments are started with either @code{;} or @code{#} and occupy the
 rest of the line, they can also appear inline after a directive or
@@ -2784,7 +2793,7 @@ monitor-open    <Alt>h      # This is an inline comment
 @end verbatim
 
 @node Directives
-@subsection Directives
+@subsubsection Directives
 @anchor{#directives}
 Directives are special commands for the parser. They start with
 @strong{@code{!}} and are case-insensitive.
@@ -2792,14 +2801,15 @@ Directives are special commands for the parser. They start with
 @menu
 * !CLEAR::
 * !DEBUG::
+* !ELSE::
+* !ENDIF::
+* !IF::
 * !INCLUDE::
 * !UNDEF::
+* !WARNING::
 @end menu
 
-@node !CLEAR
-@subsubsection !CLEAR
-@anchor{#clear}
-Syntax
+@strong{!CLEAR}
 @quotation
 
 @verbatim
@@ -2810,10 +2820,7 @@ Syntax
 Clear all registered hotkeys. Best used as the first directive in the
 (main) hotkeys file.
 
-@node !DEBUG
-@subsubsection !DEBUG
-@anchor{#debug}
-Syntax
+@strong{!DEBUG}
 @quotation
 
 @verbatim
@@ -2824,10 +2831,113 @@ Syntax
 Enable or disable debugging messages via VICE's log system. Messages
 will be prefixed with 'Hotkeys:'. Debugging is disabled by default.
 
-@node !INCLUDE
-@subsubsection !INCLUDE
-@anchor{#include}
-Syntax
+@strong{!ELSE}
+@quotation
+
+@verbatim
+!else
+@end verbatim
+
+@end quotation
+Take the false branch of an @code{!if} condition.
+See @strong{!IF} for more on conditionals in hotkeys files.
+
+@strong{!ENDIF}
+@quotation
+
+@verbatim
+!endif
+@end verbatim
+
+@end quotation
+Close @code{!if} [@code{!else}] condition body.
+See @strong{!IF} for more on condtionals in hotkeys.
+
+@strong{!IF}
+@quotation
+
+@verbatim
+@!if <condition>
+@end verbatim
+
+@end quotation
+Conditionally execute hotkeys file contents. If @i{condition} is true, the
+lines following @code{!if} will be executed. May be followed by @code{!else} to
+specify lines that must be executed when @i{condition} is false. Must be
+followed by @code{!endif} to end the conditional execution of lines.
+
+Conditions can contain boolean expressions: the boolean operators @code{!} (not),
+@code{||} (or) and @code{&&} (and) are supported, as well as parenthesis to
+change (or emphasize) precedence. Conditionals can be nested.
+
+Only predefined boolean symbolic constants are available for use in the expressions,
+these are:
+
+@table @code
+@item true
+@itemx false
+Boolean literals, useful for commenting out multiple lines of a hotkeys file,
+akin to the @code{#if 0} construct in C.
+
+@item C64
+The current emulator is x64
+
+@item C64SC
+The current emulator is x64sc
+
+@item C64DTV
+The current emulator is x64dtv
+
+@item SCPU64
+The current emulator is xscpu64
+
+@item C128
+The current emulator is x128
+
+@item PET
+The current emulator is xpet
+
+@item PLUS4
+The current emulator is xplus4
+
+@item CBM5X0
+The current emulator is xcbm5x0
+
+@item CBM6X0
+The current emulator is xcbm2
+
+@item VIC20
+The current emulator is xvic
+
+@item SDL1
+@itemx SDL2
+@itemx GTK3
+UI identifiers. The can be used to only assign certain hotkeys for certain UIs.
+Please note that to check for SDL regardless of library version the condition
+@code{SDL1 || SDL2} must be used.
+
+@item MACOS
+@itemx UNIX
+@itemx WINDOWS
+Operation system identifiers. Since MacOS is genetically Unix, the @code{UNIX}
+identifier includes MacOS, while the @code{MACOS} identifier is only valid for
+MacOS. To register a hotkey for all Unix except MacOs use @code{UNIX && !MACOS}.
+
+@end table
+
+@strong{Some examples of using conditionals}
+
+@example
+!if MACOS
+    # map hotkey if the host OS is MacOS
+    monitor-open    <Command>h
+!else
+    # map hotkey if not MacOS
+    monitor-open    <Alt>h
+!endif
+@end example
+
+@strong{!INCLUDE}
 @quotation
 
 @verbatim
@@ -2841,24 +2951,19 @@ argument can be inside quotes (@code{"}) to be able to use paths or
 filenames with spaces in them, and quotes inside quotes can be used by
 escaping them with @code{\}, for example:
 @code{!include "foo \"bar\".vhk"}.
-Special variables
-As mentioned before, a few special variables exist to use in the
-argument to the @code{!include} directive: @code{$VICEDIR} and
-@code{$USERDIR}. These can be used to avoid hardcoded, absolute paths.
+
+@strong{TODO: document search order/logic for included files}
 
 For example:
 
 @verbatim
-!include "$VICEDIR/common/gtk3-hotkeys-drive.vhk"
+!include "hotkeys-drive.vhk"
 @end verbatim
 
-will include @code{/usr/local/share/vice/common/gtk3-hotkeys-drive.vhk},
+will include @code{/usr/local/share/vice/hotkeys/hotkeys-drive.vhk},
 assuming the default install prefix for VICE was used.
 
-@node !UNDEF
-@subsubsection !UNDEF
-@anchor{#undef}
-Syntax
+@strong{!UNDEF}
 @quotation
 
 @verbatim
@@ -2876,16 +2981,10 @@ reset-soft  <Alt>r      # Map Alt+r to soft reset
 @end verbatim
 
 @node Hotkey mappings
-@subsection Hotkey mappings
+@subsubsection Hotkey mappings
 @anchor{#hotkey-mappings}
 
-@menu
-* Syntax::
-@end menu
-
-@node Syntax
-@subsubsection Syntax
-@anchor{#syntax-4}
+@strong{Syntax}
 @quotation
 
 @verbatim
@@ -2906,16 +3005,13 @@ settings-open   KP_Divide       # map '/' on the keypad to the settings dialog
 edit-paste      <Control><Alt>Insert
 @end verbatim
 
-The key names are case-sensitive and map directly to the symbolic
-constants GDK uses, but without the leading @code{GDK_KEY_} component.
-In the above example the string 'Insert' would map to
-@code{GDK_KEY_Insert}.
+The key names are case-sensitive and are taken from the key names X11 uses.
+See @code{src/arch/shared/hotkeys/vhkkeysyms.h}
+for a list of the symbolic constants for the keys, the names are the same as
+the symbolic constants, excluding the @code{VHK_KEY_} prefix.
 
-For a list of available symbolic key names, see the @code{gdkkeysyms.h}
-header of the GDK development headers. On a Debian system the file is
-located at @code{/usr/include/gtk-3.0/gdk/gdkkeysyms.h}. It can also be
-viewed online at
-@uref{https://gitlab.gnome.org/GNOME/gtk/blob/master/gdk/gdkkeysyms.h,https://gitlab.gnome.org/GNOME/gtk/blob/master/gdk/gdkkeysyms.h}
+In the above example the string 'Insert' would map to
+@code{VHK_KEY_Insert}.
 
 @subsection List of modifiers
 @multitable @columnfractions 0.33 0.33 0.33

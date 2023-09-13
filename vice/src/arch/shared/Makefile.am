@@ -56,7 +56,6 @@ libarchdep_a_SOURCES = \
 	archdep_current_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
 	archdep_default_fliplist_file_name.c \
-	archdep_default_hotkey_file_name.c \
 	archdep_default_joymap_file_name.c \
 	archdep_default_logfile.c \
 	archdep_default_logger.c \
@@ -85,6 +84,7 @@ libarchdep_a_SOURCES = \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
 	archdep_get_vice_drivesdir.c \
+	archdep_get_vice_hotkeysdir.c \
 	archdep_get_vice_machinedir.c \
 	archdep_getcwd.c \
 	archdep_home_path.c \
@@ -166,7 +166,6 @@ EXTRA_DIST = \
 	archdep_current_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \
 	archdep_default_fliplist_file_name.h \
-	archdep_default_hotkey_file_name.h \
 	archdep_default_joymap_file_name.h \
 	archdep_default_logfile.h \
 	archdep_default_logger.h \
@@ -196,6 +195,7 @@ EXTRA_DIST = \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
 	archdep_get_vice_drivesdir.h \
+	archdep_get_vice_hotkeysdir.h \
 	archdep_get_vice_machinedir.h \
 	archdep_getcwd.h \
 	archdep_home_path.h \

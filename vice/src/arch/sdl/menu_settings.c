@@ -348,7 +348,7 @@ static UI_MENU_CALLBACK(save_hotkeys_to_callback)
         name = sdl_ui_file_selection_dialog("Choose hotkey file", FILEREQ_MODE_SAVE_FILE);
 
         if (name != NULL) {
-            if (ui_hotkeys_export(name)) {
+            if (ui_hotkeys_save_as(name)) {
                 ui_message("Hotkeys saved to '%s'.", name);
             } else {
                 ui_error("Failed to save hotkeys to '%s.", name);

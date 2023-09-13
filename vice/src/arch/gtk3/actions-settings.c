@@ -86,7 +86,7 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
 {
     if (result) {
         mainlock_obtain();
-        ui_hotkeys_load_default();
+        ui_hotkeys_load_vice_default();
         resources_set_defaults();
         mainlock_release();
     }
