@@ -298,11 +298,16 @@ void ui_hotkeys_shutdown(void)
  */
 void ui_hotkeys_load_vice_default(void)
 {
-    const char *filename = ui_hotkeys_vhk_filename_vice();
+    const char *filename   = ui_hotkeys_vhk_filename_vice();
+    char       *hotkeysdir = archdep_get_vice_hotkeysdir();
+    char       *fullpath;
 
+    fullpath = util_join_paths(hotkeysdir, filename, NULL);
+    lib_free(hotkeysdir);
     log_message(vhk_log,
                 "parsing default file '%s' for machine %s",
-                filename, machine_name);
+                fullpath, machine_name);
+    lib_free(fullpath);
 
     if (ui_hotkeys_load(filename)) {
         log_message(vhk_log, "OK.");
@@ -324,6 +329,7 @@ bool ui_hotkeys_load_user_default(void)
     char *path = ui_hotkeys_vhk_full_path_user();
 
     if (!archdep_file_exists(path)) {
+        lib_free(path);
         return false;
     }
     log_message(vhk_log,
@@ -335,6 +341,7 @@ bool ui_hotkeys_load_user_default(void)
     } else {
         log_message(vhk_log, "failed, continuing anyway.");
     }
+    lib_free(path);
     return true;
 }
 
@@ -756,6 +763,9 @@ static void update_vhk_source_type(const char *path)
     } else {
        vhk_source = VHK_SOURCE_RESOURCE;
     }
+
+    lib_free(user_path);
+    lib_free(vice_path);
 }
 
 
