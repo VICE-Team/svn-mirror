@@ -358,8 +358,7 @@ static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
     size_t tmp = httpbufferptr + n * l;
 
-    if (tmp > HTTPREPLY_MAXLEN)
-    {
+    if (tmp >= HTTPREPLY_MAXLEN) {
         log_message(LOG_DEFAULT, "libcurl reply too long, dropping %"PRI_SIZE_T" bytes.\n", tmp - HTTPREPLY_MAXLEN);
         return CURLE_WRITE_ERROR;
     }
