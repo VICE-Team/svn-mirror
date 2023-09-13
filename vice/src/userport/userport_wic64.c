@@ -356,11 +356,11 @@ static void hexdump(const char *buf, int len)
 
 static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
-    int tmp = httpbufferptr + n * l;
+    size_t tmp = httpbufferptr + n * l;
 
     if (HTTPREPLY_MAXLEN - tmp < 0)
     {
-        log_message(LOG_DEFAULT, "libcurl reply too long, dropping %d bytes.\n", tmp - HTTPREPLY_MAXLEN);
+        log_message(LOG_DEFAULT, "libcurl reply too long, dropping %"PRI_SIZE_T" bytes.\n", tmp - HTTPREPLY_MAXLEN);
         return CURLE_WRITE_ERROR;
     }
     memcpy(&httpbuffer[httpbufferptr], data, n * l);
