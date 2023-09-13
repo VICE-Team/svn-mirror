@@ -356,6 +356,13 @@ static void hexdump(const char *buf, int len)
 
 static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
+    int tmp = httpbufferptr + n * l;
+
+    if (HTTPREPLY_MAXLEN - tmp < 0)
+    {
+        log_message(LOG_DEFAULT, "libcurl reply too long, dropping %d bytes.\n", tmp - HTTPREPLY_MAXLEN);
+        return CURLE_WRITE_ERROR;
+    }
     memcpy(&httpbuffer[httpbufferptr], data, n * l);
     httpbufferptr += (n * l);
     return n*l;
@@ -542,7 +549,7 @@ uint8_t wic64_inputmode = 1;
 uint16_t input_length = 0, commandptr = 0;
 uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 
-char replybuffer[0x10010];
+char replybuffer[HTTPREPLY_MAXLEN + 16]; /* length an a bit spare */
 uint16_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
 
