@@ -243,9 +243,10 @@ cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BUILDPATH
 rm -f `find $BUILDPATH -name "Makefile*"`
 rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
+mkdir $BUILDPATH/hotkeys
 cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
-cp $TOPSRCDIR/data/common/*.vhk $BUILDPATH/common
+cp $TOPSRCDIR/data/hotkeys/*.vhk $BUILDPATH/hotkeys
 
 #if test x"$HTML_DOCS" = "xyes"; then
 #    cp -a $TOPSRCDIR/doc/html $BUILDPATH

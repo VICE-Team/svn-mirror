@@ -3,44 +3,6 @@ commondir = $(VICE_DATADIR)/common
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 
-gtk3_hotkeys = gtk3-hotkeys-cartridge.vhk \
-	       gtk3-hotkeys-cartridge-mac.vhk \
-	       gtk3-hotkeys-debug.vhk \
-	       gtk3-hotkeys-debug-mac.vhk \
-	       gtk3-hotkeys-drive.vhk \
-	       gtk3-hotkeys-drive-mac.vhk \
-	       gtk3-hotkeys-datasette1.vhk \
-	       gtk3-hotkeys-datasette1-mac.vhk \
-	       gtk3-hotkeys-datasette2.vhk \
-	       gtk3-hotkeys-datasette2-mac.vhk \
-	       gtk3-hotkeys-fliplist.vhk \
-	       gtk3-hotkeys-fliplist-mac.vhk \
-	       gtk3-hotkeys-help.vhk \
-	       gtk3-hotkeys-help-mac.vhk \
-	       gtk3-hotkeys-settings.vhk \
-	       gtk3-hotkeys-settings-mac.vhk \
-	       gtk3-hotkeys-snapshot.vhk \
-	       gtk3-hotkeys-snapshot-mac.vhk
-
-sdl_hotkeys = sdl-hotkeys-cartridge.vhk \
-	      sdl-hotkeys-cartridge-mac.vhk \
-	      sdl-hotkeys-debug.vhk \
-	      sdl-hotkeys-debug-mac.vhk \
-	      sdl-hotkeys-drive.vhk \
-	      sdl-hotkeys-drive-mac.vhk \
-	      sdl-hotkeys-datasette1.vhk \
-	      sdl-hotkeys-datasette1-mac.vhk \
-	      sdl-hotkeys-datasette2.vhk \
-	      sdl-hotkeys-datasette2-mac.vhk \
-	      sdl-hotkeys-fliplist.vhk \
-	      sdl-hotkeys-fliplist-mac.vhk \
-	      sdl-hotkeys-help.vhk \
-	      sdl-hotkeys-help-mac.vhk \
-	      sdl-hotkeys-settings.vhk \
-	      sdl-hotkeys-settings-mac.vhk \
-	      sdl-hotkeys-snapshot.vhk \
-	      sdl-hotkeys-snapshot-mac.vhk
-
 common_DATA = CBM_Logo.svg \
 	      C64_Pro_Mono-STYLE.ttf \
 	      icon1024x1024.png \
@@ -133,8 +95,7 @@ if USE_GTK3UI
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
-common_DATA += $(GRESOURCE_TARGET) \
-	       $(gtk3_hotkeys)
+common_DATA += $(GRESOURCE_TARGET)
 
 # The *.ico and *.res files are currently generated in
 # src/arch/gtk3/data/win32/Makefile.am, but the plan is to move that to here
@@ -164,19 +125,4 @@ CLEANFILES = \
 	xcbm5x0.res \
 	vsid.res
 
-EXTRA_DIST += $(sdl_hotkeys)
-endif
-
-if USE_SDLUI
-common_DATA += $(sdl_hotkeys)
-EXTRA_DIST += $(gtk3_hotkeys)
-endif
-
-if USE_SDL2UI
-common_DATA += $(sdl_hotkeys)
-EXTRA_DIST += $(gtk3_hotkeys)
-endif
-
-if USE_HEADLESSUI
-EXTRA_DIST += $(gtk3_hotkeys) $(sdl_hotkeys)
 endif

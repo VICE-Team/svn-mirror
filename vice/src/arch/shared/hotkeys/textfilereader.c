@@ -35,10 +35,12 @@
 #include <string.h>
 #include <errno.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "sysfile.h"
+#include "util.h"
 
 #include "textfilereader.h"
 
@@ -156,7 +158,7 @@ void textfile_reader_free(textfile_reader_t *reader)
 bool textfile_reader_open(textfile_reader_t *reader, const char *path)
 {
     textfile_entry_t *current;
-    char *complete_path = NULL;
+    textfile_entry_t *new;
 
     /* get top of stack */
     current = reader->entries;
@@ -164,33 +166,23 @@ bool textfile_reader_open(textfile_reader_t *reader, const char *path)
 
         if (reader->fp == NULL) {
             debug_vhk("ERROR: file entry on stack, but no open FP.");
+        } else {
+            /* remember position in current file */
+            current->pos = ftell(reader->fp);
+            /* close current file */
+            fclose(reader->fp);
+            reader->fp = NULL;
         }
-        /* remember position in current file */
-        current->pos = ftell(reader->fp);
-        /* close current file */
-        fclose(reader->fp);
-        reader->fp = NULL;
     }
 
     /* try to open new file */
-    /*  debug_vhk("calling sysfile_open(%s, %s)", path, machine_name); */
-    /* first try DATADIR/$MACHINE */
-    reader->fp = sysfile_open(path, machine_name, &complete_path, "rb");
-    if (reader->fp == NULL) {
-        /*  debug_vhk("Failed, trying without machine_name %s", machine_name); */
-        /* try DATADIR (without $MACHINE) */
-        reader->fp = sysfile_open(path, "", &complete_path, "rb");
-        if (reader->fp == NULL) {
-            /* give up */
-            /*  debub_vhk("Failed, giving up.");   */
-            return false;
-        }
-    }
-    /*  debug_vhk("OK: %s", complete_path); */
 
-    /* add new file to stack */
-    textfile_entry_t *new = textfile_entry_new(complete_path);
-    lib_free(complete_path);
+    /* first try plain path (for -hotkeyfile) */
+    reader->fp = fopen(path, "rb");
+    if (reader->fp == NULL) {
+        return false;
+    }
+    new = textfile_entry_new(path);
     new->next = current;
     reader->entries = new;
 

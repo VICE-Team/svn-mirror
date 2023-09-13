@@ -35,6 +35,9 @@
 
 #include "archdep_defs.h"
 #include "archdep_exit.h"
+#include "archdep_file_exists.h"
+#include "archdep_get_vice_hotkeysdir.h"
+#include "archdep_user_config_path.h"
 #include "cmdline.h"
 #include "hotkeystypes.h"
 #include "lib.h"
@@ -58,18 +61,18 @@
 #include "vhkdebug.h"
 
 
-/** \brief  Length of the filename string for VICE machine dir hotkeys files
+/** \brief  Length of the filename string for VICE user-defined hotkeys files
  *
- * This excludes the prefix set by ui_hotkeys_init() and the terminating nul.
+ * This excludes the prefix set by ui_hotkeys_init(), the machine name and the
+ * terminating null
  *
- * "-hotkeys[-mac].vhk"
+ * "{prefix}-hotkeys-{machine}.vhk"
  */
-#ifndef MACOS_COMPILE
-#define VHK_FILENAME_LEN   (1 + 7 + 4)
-#else
-/* adds "-mac" */
-#define VHK_FILENAME_LEN   (1 + 7 + 1 + 3 + 4)
-#endif
+#define VHK_FILENAME_LEN   (1u + 7u + 1u + 4u)
+
+
+/* Forward declarations */
+static void update_vhk_source_type(const char *path);
 
 
 /** \brief  Log for the hotkeys system
@@ -110,6 +113,26 @@ static bool vhk_file_pending = false;
  */
 static bool vhk_init_done = false;
 
+/** \brief  The command line option -default was used
+ *
+ * When \c -default is used we want to load the default VICE-provided hotkeys,
+ * not custom hotkeys in the user config dir, nor what the resource "HotkeyFile"
+ * contains.
+ */
+static bool vhk_default_requested = false;
+
+/** \brief  Source of vhk file parsed
+ *
+ * Enum indicating the source of the last succesfully parsed hotkeys file.
+ * Initially this will be \c VHK_SOURCE_NONE, indicating no hotkeys file has
+ * been loaded. If a hotkeys file is succesfully parsed it will be set to
+ * either \c VHK_SOURCE_VICE for hotkeys loaded from the VICE data dir,
+ * \c VHK_SOURCE_USER for hotkeys loaded from the user's configuration dir, or
+ * \c VHK_SOURCE_RESOURCE for hotkeys loaded from a custom file specified in
+ * the "HotkeyFile" resource.
+ */
+static vhk_source_t vhk_source = VHK_SOURCE_NONE;
+
 
 /* VICE resources, command line options and their handlers */
 
@@ -135,8 +158,8 @@ static int vhk_filename_set(const char *val, void *param)
     if (val != NULL && *val != '\0') {
         if (vhk_init_done) {
             /* UI is properly initialized, directly parse the hotkeys file */
-            log_message(vhk_log, "Hotkeys: parsing '%s':", val);
-            ui_hotkeys_parse(val);
+            log_message(vhk_log, "Parsing '%s':", val);
+            ui_hotkeys_load(val);
             vhk_file_pending = false;
         } else {
             /* UI is not yet fully initialized, mark parsing of hotkeys file
@@ -187,7 +210,24 @@ int ui_hotkeys_cmdline_options_init(void)
 
 /** \brief  Initialize hotkeys system
  *
- * \param[in]   prefix  prefix for .vhk filenames
+ * Initialize the hotkeys system, setting a UI prefix for user-defined hotkeys
+ * files and loading hotkeys.
+ * Although all UIs share the VICE-provided hotkeys files, we need a
+ * prefix per UI so saving custom hotkeys in the user's configuration directory
+ * can be done from multiple UIs.
+ *
+ * Predence of hotkeys file to parse:
+ * - When \c -default is used on the command line we load the VICE-provided file
+ *   "hotkeys.vhk" in VICE_DATADIR/hotkeys.
+ * - When the "HotkeyFile" resource contains a non-empty string, we load that
+ *   file.
+ * - When a user-defined hotkeys file for the current emulator and UI is found
+ *   in the user's config dir (say "~/.config/vice/gtk3-hotkeys-PET.vhk"), we
+ *   load that file.
+ * - When none of the above is true we load the VICE-provided file "hotkeys.vhk"
+ *   in VICE_DATADIR/hotkeys.
+ *
+ * \param[in]   prefix  UI name prefix for user-defined .vhk files
  */
 void ui_hotkeys_init(const char *prefix)
 {
@@ -200,18 +240,34 @@ void ui_hotkeys_init(const char *prefix)
         archdep_vice_exit(1);
     }
     vhk_prefix = lib_strdup(prefix);
+    vhk_source = VHK_SOURCE_NONE;
 
-    /* When we get to there the UI has been initialized */
+    vhk_parser_init();
+
+    /* When we get to here the UI has been initialized */
     vhk_init_done = true;
 
-    /* TODO: replace with `vhk_file` */
-    if (vhk_filename == NULL || *vhk_filename == '\0') {
-        ui_hotkeys_load_default();
+    /* determine which file to load */
+    if (vhk_default_requested) {
+        /* user specific -default on the command line: ignore HotkeyFile and
+         * any custom hotkeys file in the user's config dir
+         */
+        ui_hotkeys_load_vice_default();
     } else {
-        if (vhk_file_pending) {
-            /* We have a pending hotkeys file to parse */
-            ui_hotkeys_parse(vhk_filename);
-            vhk_file_pending = false;
+        if (vhk_filename == NULL || *vhk_filename == '\0') {
+            /* no -hotkeyfile, first try to load the custom hotkeys from their
+             * user config dir */
+            if (!ui_hotkeys_load_user_default()) {
+                /* no hotkeys file present, load VICE defaults */
+                ui_hotkeys_load_vice_default();
+            }
+        } else {
+            if (vhk_file_pending) {
+                /* We have a pending hotkeys file to parse */
+                ui_hotkeys_load(vhk_filename);
+                vhk_file_pending = false;
+                vhk_source = VHK_SOURCE_RESOURCE;
+            }
         }
     }
 }
@@ -228,6 +284,7 @@ void ui_hotkeys_shutdown(void)
     log_message(vhk_log, "shutting down.");
     /* call virtual method before tearing down the generic hotkeys data */
     ui_hotkeys_arch_shutdown();
+    vhk_parser_shutdown();
     lib_free(vhk_prefix);
     lib_free(vhk_filename);
     log_close(vhk_log);
@@ -239,48 +296,71 @@ void ui_hotkeys_shutdown(void)
  * Parse the VICE-provided hotkey files, clearing any user-defined hotkeys.
  * Also set the "HotkeyFile" resource to "".
  */
-void ui_hotkeys_load_default(void)
+void ui_hotkeys_load_vice_default(void)
 {
-    char *filename = ui_hotkeys_vhk_filename_vice();
+    const char *filename = ui_hotkeys_vhk_filename_vice();
 
     log_message(vhk_log,
                 "parsing default file '%s' for machine %s",
                 filename, machine_name);
 
-    if (ui_hotkeys_parse(filename)) {
+    if (ui_hotkeys_load(filename)) {
         log_message(vhk_log, "OK.");
         /* clear the custom hotkeys file resource */
         resources_set_string("HotkeyFile", "");
+        vhk_source = VHK_SOURCE_VICE;
     } else {
         log_message(vhk_log, "failed, continuing anyway.");
     }
+}
 
-    lib_free(filename);
+
+/** \brief  Try to load user-defined hotkeys from the default user file
+ *
+ * \return  \c false if the default user file doesn't exist, \c true otherwise
+ */
+bool ui_hotkeys_load_user_default(void)
+{
+    char *path = ui_hotkeys_vhk_full_path_user();
+
+    if (!archdep_file_exists(path)) {
+        return false;
+    }
+    log_message(vhk_log,
+                "parsing user-defined hotkeys in '%s'",
+                path);
+    if (ui_hotkeys_load(path)) {
+        log_message(vhk_log, "OK.");
+        vhk_source = VHK_SOURCE_USER;
+    } else {
+        log_message(vhk_log, "failed, continuing anyway.");
+    }
+    return true;
 }
 
 
 /*
- * Export current hotkeys to file
+ * Save current hotkeys to file
  */
 
 /** \brief  Helper: log I/O error
  *
  * Logs libc I/O errors to the hotkeys log, including errno and description.
  */
-static void export_log_io_error(void)
+static void save_log_io_error(void)
 {
     log_error(vhk_log,
               "Hotkeys: I/O error (%d: %s).",
                errno, strerror(errno));
 }
 
-/** \brief  Output the header for an exported hotkeys file
+/** \brief  Output the header for a custom hotkeys file
  *
  * \param[in]   fp  file descriptor
  *
- * \return  true on success
+ * \return  \c true on success
  */
-static bool export_header(FILE *fp)
+static bool save_header(FILE *fp)
 {
     const struct tm *tinfo;
     time_t           t;
@@ -293,7 +373,7 @@ static bool export_header(FILE *fp)
 "# TODO: Add documentation of .vhk format\n"
 "\n", machine_get_name());
     if (result < 0) {
-        export_log_io_error();
+        save_log_io_error();
         return false;
     }
 
@@ -304,7 +384,7 @@ static bool export_header(FILE *fp)
         strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M%z", tinfo);
         result = fprintf(fp, "# Generated on %s\n", buffer);
         if (result < 0) {
-            export_log_io_error();
+            save_log_io_error();
             return false;
         }
     }
@@ -317,7 +397,7 @@ static bool export_header(FILE *fp)
     result = fprintf(fp, "# Generated by VICE %s\n", VERSION);
 #endif
      if (result < 0) {
-        export_log_io_error();
+        save_log_io_error();
         return false;
     }
 
@@ -328,21 +408,25 @@ static bool export_header(FILE *fp)
 "# User-defined hotkeys:\n"
 "\n");
     if (result < 0) {
-        export_log_io_error();
+        save_log_io_error();
         return false;
     }
     return true;
 }
 
 
-/** \brief  Export all currently registered hotkeys to file \a path
+/** \brief  Save all currently registered hotkeys to file
  *
- * \param[in]   path    filename of .vhk file to generate
+ * Generate file \a path and write all currently defined hotkeys to it. This
+ * file will contain hotkeys specific to the current emulator, UI and OS,
+ * meaning files generated on MacOS will lead to weird results when used on
+ * non-MacOS, and vice-versa.
  *
+ * \param[in]   path    filename of vhk file to generate
  *
- * \return  bool
+ * \return  \c true on success
  */
-bool ui_hotkeys_export(const char *path)
+bool ui_hotkeys_save_as(const char *path)
 {
     FILE *fp;
     int   action;
@@ -357,7 +441,7 @@ bool ui_hotkeys_export(const char *path)
         return false;
     }
 
-    if (!export_header(fp)) {
+    if (!save_header(fp)) {
         fclose(fp);
         return false;
     }
@@ -386,10 +470,14 @@ bool ui_hotkeys_export(const char *path)
             lib_free(modmask_name);
 
             if (result < 0) {
-                export_log_io_error();
+                save_log_io_error();
                 fclose(fp);
                 return false;
             }
+        }
+        update_vhk_source_type(path);
+        if (vhk_source == VHK_SOURCE_RESOURCE) {
+            util_string_set(&vhk_filename, path);
         }
     }
 
@@ -524,51 +612,48 @@ void ui_hotkeys_remove_all(void)
 }
 
 
-/** \brief  Parse hotkeys file
+/** \brief  Load hotkeys file
  *
  * \param[in]   path    path to hotkeys file
  *
- * \return  bool
+ * \return  \c true on success
  */
-bool ui_hotkeys_parse(const char *path)
+bool ui_hotkeys_load(const char *path)
 {
-    /* we might want to do something with `path` at a future time, but right
-     * now just call the parse function */
-    return vhk_parser_parse(path);
+    bool result;
+
+    if (path == NULL || *path == '\0') {
+        log_error(vhk_log, "Could not load hotkeys: missing filename.");
+        return false;
+    }
+
+    result = vhk_parser_parse(path);
+    if (result) {
+        /* update source type */
+        update_vhk_source_type(path);
+        /* set resource */
+        if (vhk_source == VHK_SOURCE_RESOURCE) {
+            /* not loaded from either VICE dir or user config dir, set resource */
+            util_string_set(&vhk_filename, path);
+        }
+    }
+    return result;
 }
 
 
-/** \brief  Generate filename for .vhk files in machine dirs
+/** \brief  Generate default hotkeys file name
  *
- * Generate string in the form "$ARCH-hotkeys[-mac].vhk".
+ * Returns either "hotkeys.vhk" (non-VSID) or "hotkeys-vsid.vhk (VSID).
  *
- * \return  filename, free with lib_free()
+ * \return  filename
  */
-char *ui_hotkeys_vhk_filename_vice(void)
+const char *ui_hotkeys_vhk_filename_vice(void)
 {
-    char   *name;
-    size_t  size;
-
-    size = strlen(vhk_prefix) + VHK_FILENAME_LEN + 1;
     if (machine_class == VICE_MACHINE_VSID) {
-        size += 5;  /* "vsid-" */
-    }
-    name = lib_malloc(size);
-
-#ifndef MACOS_COMPILE
-    if (machine_class == VICE_MACHINE_VSID) {
-        snprintf(name, size, "%s-vsid-hotkeys.vhk", vhk_prefix);
+        return "hotkeys-vsid.vhk";
     } else {
-        snprintf(name, size, "%s-hotkeys.vhk", vhk_prefix);
+        return "hotkeys.vhk";
     }
-#else
-    if (machine_class == VICE_MACHINE_VSID) {
-        snprintf(name, size, "%s-vsid-hotkeys-mac.vhk", vhk_prefix);
-    } else {
-        snprintf(name, size, "%s-hotkeys-mac.vhk", vhk_prefix);
-    }
-#endif
-    return name;
 }
 
 
@@ -576,7 +661,8 @@ char *ui_hotkeys_vhk_filename_vice(void)
  *
  * Generate string in the form "$ARCH-hotkeys[-mac]-$MACHINE.vhk".
  *
- * \return  filename, free with lib_free()
+ * \return  filename for user-defined hotkeys
+ * \note    Free result with \c lib_free() after use
  */
 char *ui_hotkeys_vhk_filename_user(void)
 {
@@ -586,21 +672,186 @@ char *ui_hotkeys_vhk_filename_user(void)
     size_t      mlen;
     size_t      size;
 
+    /* Fix machine names: x64, x64sc and vsid use "C64", xcbm5x0 and xcbm2
+     * use "CBM-II", while we want to be able to differentiate between all emus.
+     */
     if (machine_class == VICE_MACHINE_VSID) {
         suffix = "VSID";    /* machine_name == "C64" */
     } else if (machine_class == VICE_MACHINE_C64SC) {
         suffix = "C64SC";   /* machine_name == "C64" */
+    } else if (machine_class == VICE_MACHINE_CBM5x0) {
+        suffix = "CBM5x0";  /* machine_name == "CBM-II" */
+    } else if (machine_class == VICE_MACHINE_CBM6x0) {
+        suffix = "CBM6x0";
     } else {
         suffix = machine_name;
     }
     plen = strlen(vhk_prefix);
     mlen = strlen(suffix);
-    size = plen + VHK_FILENAME_LEN + 1 + mlen + 1;
+    size = plen + VHK_FILENAME_LEN + mlen + 1u;
     name = lib_malloc(size);
-#ifndef MACOS_COMPILE
     snprintf(name, size, "%s-hotkeys-%s.vhk", vhk_prefix, suffix);
-#else
-    snprintf(name, size, "%s-hotkeys-mac-%s.vhk", vhk_prefix, suffix);
-#endif
     return name;
+}
+
+
+/** \brief  Get full path to user-defined hotkeys for machine and UI
+ *
+ * Generate full path to user-defined hotkeys in the user config directory for
+ * the current emulator and UI/arch.
+ * For example: \c /home/billy-bob/.config/vice/gtk3-hotkeys-C64SC.vhk
+ *
+ * \return  full path to user-defined hotkeys
+ * \note    Free result with \c lib_free() after use
+ */
+char *ui_hotkeys_vhk_full_path_user(void)
+{
+    char *path;
+    char *name;
+
+    name = ui_hotkeys_vhk_filename_user();
+    path = util_join_paths(archdep_user_config_path(), name, NULL);
+    lib_free(name);
+    return path;
+}
+
+
+/** \brief  Get full path to VICE-provided hotkeys for machine and UI
+ *
+ * \return  full path to hotkeys file in VICE data dir
+ * \note    Free result with \c lib_free() after use
+ */
+char *ui_hotkeys_vhk_full_path_vice(void)
+{
+    char *fullpath;
+    char *hotkeysdir;
+
+    hotkeysdir = archdep_get_vice_hotkeysdir();
+    fullpath   = util_join_paths(hotkeysdir, ui_hotkeys_vhk_filename_vice(), NULL);
+    lib_free(hotkeysdir);
+    return fullpath;
+}
+
+
+/** \brief  Update vhk source type
+ *
+ * Check \a path against the default hotkeys file path in VICE's data directory
+ * and against the UI and emu-specific hotkeys file path in the user's
+ * configuration directory and set \c vhk_source accordingly.
+ *
+ * \param[in]   path    path to hotkeys file
+ */
+static void update_vhk_source_type(const char *path)
+{
+    char *user_path;
+    char *vice_path;
+
+    user_path = ui_hotkeys_vhk_full_path_user();
+    vice_path = ui_hotkeys_vhk_full_path_vice();
+
+    if (strcmp(user_path, path) == 0) {
+        vhk_source = VHK_SOURCE_USER;
+    } else if (strcmp(vice_path, path) == 0) {
+        vhk_source = VHK_SOURCE_VICE;
+    } else {
+       vhk_source = VHK_SOURCE_RESOURCE;
+    }
+}
+
+
+/** \brief  Get source type of last succesfully parsed hotkeys file
+ *
+ * \return  enum indicating source
+ *
+ * \see Enum vhk_source_t in \c shared/hotkeys/hotkeystypes.h
+ */
+vhk_source_t ui_hotkeys_vhk_source_type(void)
+{
+    return vhk_source;
+}
+
+
+/** \brief  Get full path to current hotkeys source
+ *
+ * Determine which hotkeys file was last succesfully parsed.
+ *
+ * \return  path to hotkeys file
+ * \note    free with \c lib_free() after use
+ */
+char *ui_hotkeys_vhk_source_path(void)
+{
+    char *path = NULL;
+
+    switch (vhk_source) {
+        case VHK_SOURCE_VICE:
+            path = ui_hotkeys_vhk_full_path_vice();
+            break;
+        case VHK_SOURCE_USER:
+            path = ui_hotkeys_vhk_full_path_user();
+            break;
+        case VHK_SOURCE_RESOURCE:
+            path = lib_strdup(vhk_filename);
+            break;
+        default:
+            path = NULL;
+    }
+    return path;
+}
+
+
+/** \brief  Set flag indicating whether the -default command line was used
+ *
+ * If the default setting were requested with the \c -default command line option
+ * we don't want to load the custom hotkeys in the user config directory, if
+ * present, nor the hotkeys file in the "HotkeyFile" resource,  but load the
+ * VICE-provided hotkeys instead.
+ *
+ * \param[in]   requested   the default settings were requested
+ */
+void ui_hotkeys_set_default_requested(bool requested)
+{
+    vhk_default_requested = requested;
+}
+
+
+/** \brief  Reload hotkeys
+ *
+ * (Re)load hotkeys, using the same order as when starting the emulator, except
+ * we're skipping the \c -default check.
+ *
+ * \see ui_hotkeys_init() for an explanation of logic used to determine which
+ *      file to load.
+ */
+void ui_hotkeys_reload(void)
+{
+    if (vhk_filename != NULL && *vhk_filename != '\0') {
+        ui_hotkeys_load(vhk_filename);
+    } else if (!ui_hotkeys_load_user_default()) {
+        ui_hotkeys_load_vice_default();
+    }
+}
+
+
+/** \brief  Save current hotkeys
+ *
+ * Save current hotkeys to either the filename in the resource "HotkeyFile"
+ * or to the UI+emu-specific filename in the user's configuration directory.
+ *
+ * \return  \c true on success
+ */
+bool ui_hotkeys_save(void)
+{
+    bool result;
+
+    if (vhk_filename != NULL && *vhk_filename != '\0') {
+        /* save to file in "HotkeyFile" resource */
+        result = ui_hotkeys_save_as(vhk_filename);
+    } else {
+        /* save to user config dir */
+        char *filename = ui_hotkeys_vhk_full_path_user();
+
+        result = ui_hotkeys_save_as(filename);
+        lib_free(filename);
+    }
+    return result;
 }

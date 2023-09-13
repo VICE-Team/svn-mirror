@@ -12,10 +12,6 @@ romsets = \
 palettes = \
 	spiff.vpl
 
-gtk3_hotkeys = \
-	gtk3-hotkeys.vhk \
-	gtk3-hotkeys-mac.vhk
-
 gtk3_keymaps = \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
@@ -61,29 +57,25 @@ sdl_keymaps = \
 	sdl_sym_tr.vkm \
 	sdl_sym_da.vkm
 
-sdl_hotkeys = \
-	sdl-hotkeys.vhk \
-	sdl-hotkeys-mac.vhk
-
 sym_file = \
 	c64mem.sym
 
 if USE_SDLUI
-c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
-EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps)
 endif
 
 if USE_SDL2UI
-c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
-EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps)
 endif
 
 if USE_GTK3UI
-c64dtv_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file) $(gtk3_hotkeys)
-EXTRA_DIST = $(c64dtv_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
+EXTRA_DIST = $(c64dtv_DATA) $(sdl_keymaps)
 endif
 
 if USE_HEADLESSUI
 c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sym_file)
-EXTRA_DIST = $(c64dtv_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
+EXTRA_DIST = $(c64dtv_DATA) $(sdl_keymaps) $(gtk3_keymaps)
 endif

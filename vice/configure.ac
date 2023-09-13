@@ -3519,6 +3519,7 @@ AC_OUTPUT([Makefile
            data/VIC20/Makefile
            data/common/Makefile
            data/GLSL/Makefile
+           data/hotkeys/Makefile
            doc/Makefile
            doc/building/Makefile
            doc/html/Makefile

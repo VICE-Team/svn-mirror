@@ -94,9 +94,9 @@ ROM_vsid=C64
 
 # files to remove from ROM directory
 if [ "$UI_TYPE" = "GTK3" ]; then
-  ROM_REMOVE="sdl*.v?m"
+  ROM_REMOVE="sdl_*.v?m"
 elif [ "$UI_TYPE" = "SDL2" ]; then
-  ROM_REMOVE="gtk3*.v?m"
+  ROM_REMOVE="gtk3_*.v?m"
 fi
 
 # define droppable file types
@@ -149,6 +149,7 @@ APP_RESOURCES=$APP_CONTENTS/Resources
 APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
 APP_COMMON=$APP_SHARE/vice/common
+APP_HOTKEYS=$APP_SHARE/vice/hotkeys
 APP_GLSL=$APP_SHARE/vice/GLSL
 APP_ICONS=$APP_SHARE/vice/icons
 APP_ROMS=$APP_SHARE/vice
@@ -217,6 +218,7 @@ echo -n "[dirs] "
 mkdir -p $APP_ETC
 mkdir -p $APP_SHARE
 mkdir -p $APP_COMMON
+mkdir -p $APP_HOTKEYS
 mkdir -p $APP_ICONS
 mkdir -p $APP_ROMS
 mkdir -p $APP_DOCS
@@ -594,9 +596,6 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   echo "  copying vice.gresource"
   cp data/common/vice.gresource "$APP_COMMON/"
 
-  # --- copy hotkeys files ---
-  cp "$TOP_DIR/data/common/"gtk3*.vhk "$APP_COMMON/"
-
   # --- copy GLSL shaders ---
   mkdir -p "$APP_GLSL"
   for shader in $(find "$TOP_DIR/data/GLSL/" -type f -name '*.vert' -or -name '*.frag'); do
@@ -604,10 +603,8 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   done
 fi
 
-if [ "$UI_TYPE" = "SDL2" ]; then
-  # --- copy hotkeys files ---
-  cp "$TOP_DIR/data/common/"sdl*.vhk "$APP_COMMON/"
-fi
+# --- copy hotkeys files ---
+cp "$TOP_DIR/data/hotkeys/"*.vhk "$APP_HOTKEYS/"
 
 
 # --- wtf permissions. ---------------------------------------------------------

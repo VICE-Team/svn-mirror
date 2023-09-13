@@ -122,6 +122,9 @@ int main_program(int argc, char **argv)
 #ifdef WINDOWS_COMPILE
     bool no_redirect_streams = false;
 #endif
+#ifndef USE_HEADLESSUI
+    bool default_requested = false;
+#endif
 
 #ifdef USE_VICE_THREAD
     /*
@@ -197,6 +200,10 @@ int main_program(int argc, char **argv)
             }
         } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
             loadconfig = 0;
+#ifndef USE_HEADLESSUI
+            /* don't load custom hotkeys file in user config dir if present */
+            default_requested = true;
+#endif
         } else if ((!strcmp(argv[i], "-verbose")) || (!strcmp(argv[i], "--verbose"))) {
             log_set_silent(0);
             log_set_verbose(1);
@@ -295,6 +302,11 @@ int main_program(int argc, char **argv)
             }
         }
     }
+
+    /* signal the hotkeys system if the user requested default settings */
+#ifndef USE_HEADLESSUI
+    ui_hotkeys_set_default_requested(default_requested);
+#endif
 
     if (log_init() < 0) {
         const char *logfile = NULL;

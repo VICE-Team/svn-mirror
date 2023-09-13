@@ -37,29 +37,37 @@
 #include "uiactions.h"
 
 
-void        ui_hotkeys_init    (const char *prefix);
-void        ui_hotkeys_shutdown(void);
-void        ui_hotkeys_remove_all(void);
-bool        ui_hotkeys_parse(const char *path);
-bool        ui_hotkeys_export(const char *path);
+void          ui_hotkeys_init    (const char *prefix);
+void          ui_hotkeys_shutdown(void);
+void          ui_hotkeys_remove_all(void);
 
-void        ui_hotkeys_install_by_map  (ui_action_map_t *map);
-void        ui_hotkeys_update_by_map   (ui_action_map_t *map,
-                                        uint32_t         vice_keysym,
-                                        uint32_t         vice_modmask);
-void        ui_hotkeys_update_by_action(int      action,
-                                        uint32_t vice_keysym,
-                                        uint32_t vice_modmask);
-void        ui_hotkeys_remove_by_map   (ui_action_map_t *map);
-void        ui_hotkeys_remove_by_action(int action);
+void          ui_hotkeys_install_by_map  (ui_action_map_t *map);
+void          ui_hotkeys_update_by_map   (ui_action_map_t *map,
+                                          uint32_t         vice_keysym,
+                                          uint32_t         vice_modmask);
+void          ui_hotkeys_update_by_action(int      action,
+                                          uint32_t vice_keysym,
+                                          uint32_t vice_modmask);
+void          ui_hotkeys_remove_by_map   (ui_action_map_t *map);
+void          ui_hotkeys_remove_by_action(int action);
 
-int         ui_hotkeys_resources_init(void);
-int         ui_hotkeys_cmdline_options_init(void);
+int           ui_hotkeys_resources_init(void);
+int           ui_hotkeys_cmdline_options_init(void);
+void          ui_hotkeys_set_default_requested(bool requested);
 
-void        ui_hotkeys_load_default(void);
+bool          ui_hotkeys_load(const char *path);
+void          ui_hotkeys_load_vice_default(void);
+bool          ui_hotkeys_load_user_default(void);
+void          ui_hotkeys_reload(void);
+bool          ui_hotkeys_save(void);
+bool          ui_hotkeys_save_as(const char *path);
 
-char       *ui_hotkeys_vhk_filename_vice(void);
-char       *ui_hotkeys_vhk_filename_user(void);
+const char   *ui_hotkeys_vhk_filename_vice(void);
+char         *ui_hotkeys_vhk_filename_user(void);
+char         *ui_hotkeys_vhk_full_path_user(void);
+char         *ui_hotkeys_vhk_full_path_vice(void);
+vhk_source_t  ui_hotkeys_vhk_source_type(void);
+char         *ui_hotkeys_vhk_source_path(void);
 
 #endif  /* ifndef USE_HEADLESS_UI */
 #endif

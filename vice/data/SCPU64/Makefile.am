@@ -30,10 +30,6 @@ palettes = \
 	rgb.vpl \
 	the64.vpl
 
-gtk3_hotkeys = \
-	gtk3-hotkeys.vhk \
-	gtk3-hotkeys-mac.vhk
-
 gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_pos.vkm \
@@ -79,29 +75,25 @@ sdl_keymaps = \
 	sdl_sym_tr.vkm \
 	sdl_sym_da.vkm
 
-sdl_hotkeys = \
-	sdl-hotkeys.vhk \
-	sdl-hotkeys-mac.vhk
-
 sym_file = \
 	scpu64mem.sym
 
 if USE_SDLUI
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys) $(sym_file)
-EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps)
 endif
 
 if USE_SDL2UI
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys) $(sym_file)
-EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps)
 endif
 
 if USE_GTK3UI
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_hotkeys) $(gtk3_keymaps) $(sym_file)
-EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+scpu64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
+EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps)
 endif
 
 if USE_HEADLESSUI
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(sym_file)
-EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_hotkeys) $(gtk3_keymaps)
+EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps) $(gtk3_keymaps)
 endif

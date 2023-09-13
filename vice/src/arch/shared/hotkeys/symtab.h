@@ -1,5 +1,5 @@
-/** \file   parser.h
- * \brief   Parsing functions for hotkeys - header
+/** \file   symtab.h
+ * \brief   Symbol table for hotkeys - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -23,13 +23,29 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_HOTKEYS_PARSER_H
-#define VICE_HOTKEYS_PARSER_H
+#ifndef VICE_HOTKEYS_SYMTAB_H
+#define VICE_HOTKEYS_SYMTAB_H
 
 #include <stdbool.h>
 
-void vhk_parser_init    (void);
-void vhk_parser_shutdown(void);
-bool vhk_parser_parse   (const char *path);
+
+/** \brief  Symbol table node
+ *
+ * Binary search tree node making up the symbol table.
+ */
+typedef struct symbol_s {
+    char *           name;  /**< node name, allocated with lib_strdup() */
+    bool             value; /**< node value */
+    struct symbol_s *left;  /**< left leaf node */
+    struct symbol_s *right; /**< right leaf node */
+} symbol_t;
+
+
+void      symbol_table_init(void);
+void      symbol_table_free(void);
+void      symbol_table_dump(void);
+
+bool      symbol_add (const char *name, bool value);
+symbol_t *symbol_find(const char *name);
 
 #endif

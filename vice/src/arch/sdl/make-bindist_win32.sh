@@ -189,8 +189,8 @@ cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BINDIST_DIR
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
 rm -f `find $BINDIST_DIR -name 'Makefile*'`
 rm -f `find $BINDIST_DIR -name 'gtk3*'`
-mkdir $BINDIST_DIR/common
-cp -a $TOPSRCDIR/data/common/sdl*.vhk $BINDIST_DIR/common
+mkdir $BINDIST_DIR/hotkeys
+cp -a $TOPSRCDIR/data/hotkeys/*.vhk $BINDIST_DIR/hotkeys
 
 # Icon files for SDL1
 if test x"$SDLVERSION" = "x1"; then

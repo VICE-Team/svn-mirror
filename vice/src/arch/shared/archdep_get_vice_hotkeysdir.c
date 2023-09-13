@@ -1,5 +1,6 @@
-/** \file   parser.h
- * \brief   Parsing functions for hotkeys - header
+/** \file   archdep_get_vice_hotkeysdir.c
+ * \brief   Get path to VICE's hotkeys dir
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -21,15 +22,30 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_HOTKEYS_PARSER_H
-#define VICE_HOTKEYS_PARSER_H
+#include "vice.h"
+#include "archdep_get_vice_datadir.h"
+#include "lib.h"
+#include "util.h"
 
-#include <stdbool.h>
+#include "archdep_get_vice_hotkeysdir.h"
 
-void vhk_parser_init    (void);
-void vhk_parser_shutdown(void);
-bool vhk_parser_parse   (const char *path);
 
-#endif
+/** \brief  Get directory of VICE hotkeys files
+ *
+ * \return  path to hotkeys directory
+ *
+ * \note    free result with \c lib_free() after use
+ */
+char *archdep_get_vice_hotkeysdir(void)
+{
+    char *datadir;
+    char *hotkeysdir;
+
+    datadir    = archdep_get_vice_datadir();
+    hotkeysdir = util_join_paths(datadir, "hotkeys", NULL);
+    lib_free(datadir);
+    return hotkeysdir;
+}

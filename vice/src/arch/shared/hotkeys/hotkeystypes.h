@@ -62,10 +62,11 @@ typedef enum vhk_keyword_id_e {
     VHK_KW_ID_CLEAR,        /**< clear all hotkeys */
     VHK_KW_ID_DEBUG,        /**< enable/disable debuging messages */
     VHK_KW_ID_INCLUDE,      /**< include "file" */
-    VHK_KW_ID_UNDEF,        /**< undefine a modifiers+key combo */
-    VHK_KW_ID_IFDEF,        /**< check if modifiers+key is defined (TODO) */
-    VHK_KW_ID_IFNDEF,       /**< check if modifiers_key is not defined (TODO) */
-    VHK_KW_ID_ENDIF         /**< end of !IF[N]DEF block (TODO) */
+    VHK_KW_ID_IF,           /**< check condition (TODO) */
+    VHK_KW_ID_ELSE,         /**< inverse branch of conditional block (TODO) */
+    VHK_KW_ID_ENDIF,        /**< end of conditional block (TODO) */
+    VHK_KW_ID_UNDEF,        /**< clear hotkey */
+    VHK_KW_ID_WARNING       /**< show warning in hotkeys log */
 } vhk_keyword_id_t;
 
 /** \brief  Parser keyword data object
@@ -120,6 +121,17 @@ typedef struct textfile_reader_s {
     textfile_entry_t *  entries;    /**< stack of files */
 } textfile_reader_t;
 
+/** \brief Source of vhk file
+ *
+ * Source of the vhk file parsed, used in the UI to display proper path and
+ * enable/disable widgets.
+ */
+typedef enum vhk_source_e {
+    VHK_SOURCE_NONE,    /**< no source (no vhk file loaded) */
+    VHK_SOURCE_VICE,    /**< default location in VICE data dir */
+    VHK_SOURCE_USER,    /**< UI and emu-specific file in user config dir */
+    VHK_SOURCE_RESOURCE /**< path in resource "HotkeyFile */
+} vhk_source_t;
 
 /* The hotkeys log, perhaps turn this into an accessor instead of this ugly
  * extern declaration? */
