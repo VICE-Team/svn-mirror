@@ -1289,7 +1289,7 @@ static void usage_types(void)
     printf("\nC128 cartridge types:\n\n"
            "c128     Generic 8KiB/16KiB .crt file\n"
     );
-    print_types(VICE_MACHINE_C128, cart_info);
+    print_types(VICE_MACHINE_C128, cart_info_c128);
 
 /* FIXME: cbm2 */
 
