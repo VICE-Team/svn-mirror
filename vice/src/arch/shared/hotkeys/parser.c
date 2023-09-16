@@ -1065,6 +1065,12 @@ static bool vhk_parser_handle_mapping(const char *line)
         return false;
     }
 
+    /* is the action valid for the current machine? */
+    if (!ui_action_is_valid(action_id)) {
+        vhk_parser_error("invalid action '%s' for current emulator", action_name);
+        return false;
+    }
+
     if (ifstack_true()) {
         /* register mapping, first try looking up the item */
         map = ui_action_map_set_hotkey(action_id,
