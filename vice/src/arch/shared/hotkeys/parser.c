@@ -939,11 +939,6 @@ static bool vhk_parser_handle_keyword(const char *line)
         const char *endptr = NULL;
 
         vhk_keyword_id_t id = vhk_parser_get_keyword_id(line, &endptr);
-
-        /* TODO: replace magic numbers with symbol constants, or make
-         *       vhk_parser_get_keyword_id() accept an 'endptr' argument so
-         *       we can use that instead of these magic numbers.
-         */
         switch (id) {
             case VHK_KW_ID_CLEAR:
                 /* handle CLEAR */
@@ -957,7 +952,9 @@ static bool vhk_parser_handle_keyword(const char *line)
 
             case VHK_KW_ID_INCLUDE:
                 /* handle INCLUDE */
-                result = vhk_parser_do_include(endptr);
+                if (ifstack_true()) {
+                    result = vhk_parser_do_include(endptr);
+                }
                 break;
 
             case VHK_KW_ID_UNDEF:
@@ -1065,13 +1062,13 @@ static bool vhk_parser_handle_mapping(const char *line)
         return false;
     }
 
-    /* is the action valid for the current machine? */
-    if (!ui_action_is_valid(action_id)) {
-        vhk_parser_error("invalid action '%s' for current emulator", action_name);
-        return false;
-    }
-
     if (ifstack_true()) {
+        /* is the action valid for the current machine? */
+        if (!ui_action_is_valid(action_id)) {
+            vhk_parser_error("invalid action '%s' for current emulator", action_name);
+            return false;
+        }
+
         /* register mapping, first try looking up the item */
         map = ui_action_map_set_hotkey(action_id,
                                        vice_keysym, vice_modmask,
@@ -1082,6 +1079,7 @@ static bool vhk_parser_handle_mapping(const char *line)
             debug_vhk("calling ui_hotkeys_install_by_map()");
             ui_hotkeys_install_by_map(map);
         } else {
+            /* shouldn't get here */
             vhk_parser_error("invalid action '%s' for current emulator", action_name);
             return false;
         }
