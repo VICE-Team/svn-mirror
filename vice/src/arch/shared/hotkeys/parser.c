@@ -957,9 +957,7 @@ static bool vhk_parser_handle_keyword(const char *line)
 
             case VHK_KW_ID_INCLUDE:
                 /* handle INCLUDE */
-                if (ifstack_true()) {
-                    result = vhk_parser_do_include(endptr);
-                }
+                result = vhk_parser_do_include(endptr);
                 break;
 
             case VHK_KW_ID_UNDEF:

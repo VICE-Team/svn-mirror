@@ -225,9 +225,22 @@ bool ifstack_else(void)
     stack->in_else = true;
     stack->state   = !stack->state;
 
-    /* if previous condition present AND false: DON'T invert global condition */
-    if (!(stack->down != NULL && !(stack->down->state))) {
-        current_state = !current_state;
+    /* global true?: invert */
+    if (current_state) {
+        current_state = false;
+    } else {
+        /* global false */
+        /* previous condition? */
+        if (stack->down != NULL) {
+            if (stack->down->state) {
+                /* previous condition is true: set current state true */
+                current_state = true;
+            }
+            /* previous condition is false: ignore */
+        } else {
+            /* no previous condition, current was false, so invert: */
+            current_state = true;
+        }
     }
 
     return true;
