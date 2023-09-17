@@ -9899,6 +9899,8 @@ Diashow-Maker
 @item
 Dinamic
 @item
+Drean
+@item
 Easy Calc
 @item
 EasyFlash
@@ -9929,7 +9931,7 @@ GMod2
 @item
 GMod3
 @item
-H.E.R.O. bootleg
+Hyper-BASIC
 @item
 IDE64 (@uref{http://www.ide64.org})
 @item
@@ -10355,7 +10357,7 @@ The following cartridge types are valid:
 @item
 73: RAMLink
 @item
-74: H.E.R.O. bootleg
+74: Drean
 @item
 75: IEEE Flash! 64
 @item
@@ -10364,6 +10366,8 @@ The following cartridge types are valid:
 77: Freeze Frame MK2
 @item
 78: Partner 64
+@item
+79: Hyper-BASIC
 @end itemize
 
 @vindex CartridgeFile
@@ -11044,9 +11048,13 @@ Attach raw 8KiB Game Killer cartridge image.
 @item -cartgs <name>
 Attach raw 512KiB Game System cartridge image.
 
+@findex -carthyper
+@item -carthyper <name>
+Attach raw 64KiB Hyper-BASIC cartridge image.
+
 @findex -cartdrean
 @item -cartdrean <name>
-Attach raw 32KiB H.E.R.O. bootleg cartridge image
+Attach raw 32KiB Drean (eg H.E.R.O. bootleg) cartridge image
 
 @findex -cartide64
 @item -cartide64 <name>
@@ -22874,6 +22882,8 @@ GMod2 .crt file
 GMod3 .crt file
 @item gs
 C64 Games System .crt file
+@item hyper
+Hyper-Basic .crt file
 @item ide64
 IDE64 .crt file
 @item ieee
@@ -29589,6 +29599,8 @@ $0010- xxxx - ROM data
 @tab Freeze Frame MK2
 @item 78
 @tab Partner 64
+@item 79
+@tab Hyper-BASIC
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
@@ -33621,6 +33633,69 @@ incorrect, any further information and/or corrections are appreciated.
 
 This cartridge has 16KiB of ROM and 8KiB of RAM. It starts in ultimax mode with
 ROML at $8000, ROMH at $e000 and the extra RAM at $a000.
+
+@c @node FIXME
+@subsubsection 79 - Hyper-BASIC
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64KiB (8 banks of 8KiB)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8KiB Game
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 4F 00 01 00 00 00 00 00 00  ...@...O........
+0020: 48 79 70 65 72 2D 42 41 53 49 43 00 00 00 00 00  Hyper-BASIC.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP............
+0050: 44 CF 4C 4F 4F D0 45 58 49 D4 43 41 53 C5 47 4B  D.LOO.EXI.CAS.GK
+@dots{}
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP............
+2060: A9 FF 2C A9 01 85 FF A5 D6 48 A5 D3 48 20 9E B7  ..,.............
+@dots{}
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP.. ....... .
+4070: A9 01 A0 A1 A2 A1 20 BD FF A0 0F A2 04 20 BA FF  .. ... .. ... ..
+@dots{}
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP.. ....... .
+6080: 09 80 BC FE C3 C2 CD 38 30 A2 FF 8E 02 DC E8 8E  .......80.......
+@dots{}
+8080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP.. ....... .
+8090: A0 0F B9 40 80 99 00 01 88 10 F7 AE 01 08 E0 09   ..@............
+@dots{}
+A090: 43 48 49 50 00 00 20 10 00 00 00 05 80 00 20 00  CHIP.. ....... .
+A0A0: A0 00 B9 00 9E 99 00 9E B9 00 9F 99 00 9F C8 D0   ...............
+@dots{}
+C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 80 00 20 00  CHIP.. ....... .
+C0B0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF  ................
+@dots{}
+E0B0: 43 48 49 50 00 00 20 10 00 00 00 07 80 00 20 00  CHIP.. ....... .
+E0C0: 2C CA 91 AD 0A 03 AE 0B 03 8D B8 02 8E B9 02 A9  ,...............
+@end example
+
+    This cartridge is  organized  in  8KiB  ($2000)  banks  located  at  $8000-$9FFF.  Bank
+    switching is done by writing to the register at $de00, which is mirrored across the
+    entire IO1 range. Somewhat uncommon is that the register directly exposes the chip-enable
+    for the two ROMs.
+
+@example
+    bit 0 - _CE for ROM2, 0 = enable (don't select both)
+    bit 1 - _CE for ROM1, 0 = enable (don't select both)
+    (bit 2 - probably unused)
+    (bit 3 - probably unused)
+    bit 4 - A13
+    bit 5 - A14
+    bit 6 and/or 7 - _EXROM,  0 = make cart visible
+@end example
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics
