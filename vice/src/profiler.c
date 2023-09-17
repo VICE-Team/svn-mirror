@@ -112,7 +112,8 @@ static void callstack_push(uint16_t pc_dst, uint16_t pc_src, uint8_t sp) {
 
 /* check if we should pop the callstack */
 static void callstack_pop_check(uint8_t sp) {
-    while (callstack_size != 0 && sp >= callstack_sp[callstack_size-1]) {
+    while (callstack_size != 0 && sp >= callstack_sp[callstack_size-1]
+           && callstack_sp[callstack_size-1] > 0x01) {
         callstack_size--;
     }
 
