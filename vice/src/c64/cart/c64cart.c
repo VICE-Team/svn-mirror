@@ -76,6 +76,7 @@
 #include "delaep7x8.h"
 #include "diashowmaker.h"
 #include "dinamic.h"
+#include "drean.h"
 #include "easycalc.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
@@ -93,7 +94,7 @@
 #include "gmod2.h"
 #include "gmod3.h"
 #include "gs.h"
-#include "drean.h"
+#include "hyperbasic.h"
 #include "ide64.h"
 #include "ieeeflash64.h"
 #include "isepic.h"
@@ -257,6 +258,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_DELA_EP7x8,          CARTRIDGE_DELA_EP7x8,          CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_DIASHOW_MAKER,       CARTRIDGE_DIASHOW_MAKER,       CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_DINAMIC,             CARTRIDGE_DINAMIC,             CARTRIDGE_GROUP_GAME },
+    { CARTRIDGE_NAME_DREAN,               CARTRIDGE_DREAN,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_EASYCALC,            CARTRIDGE_EASYCALC,            CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_EASYFLASH,           CARTRIDGE_EASYFLASH,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_EPYX_FASTLOAD,       CARTRIDGE_EPYX_FASTLOAD,       CARTRIDGE_GROUP_UTIL },
@@ -274,7 +276,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_GMOD2,               CARTRIDGE_GMOD2,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GMOD3,               CARTRIDGE_GMOD3,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GS,                  CARTRIDGE_GS,                  CARTRIDGE_GROUP_GAME },
-    { CARTRIDGE_NAME_DREAN,               CARTRIDGE_DREAN,               CARTRIDGE_GROUP_GAME },
+    { CARTRIDGE_NAME_HYPERBASIC,          CARTRIDGE_HYPERBASIC,          CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IDE64,               CARTRIDGE_IDE64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEE488,             CARTRIDGE_IEEE488,             CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEEFLASH64,         CARTRIDGE_IEEEFLASH64,         CARTRIDGE_GROUP_UTIL },
@@ -432,6 +434,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_DELA_EP256:
         case CARTRIDGE_DIASHOW_MAKER:
         case CARTRIDGE_DINAMIC:
+        case CARTRIDGE_DREAN:
         case CARTRIDGE_EASYCALC:
         case CARTRIDGE_EASYFLASH:
         case CARTRIDGE_EASYFLASH_XBANK:
@@ -450,7 +453,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_GMOD2:
         case CARTRIDGE_GMOD3:
         case CARTRIDGE_GS:
-        case CARTRIDGE_DREAN:
+        case CARTRIDGE_HYPERBASIC:
         case CARTRIDGE_IEEE488:
         case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_IDE64:
@@ -803,6 +806,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = dqbb_crt_attach(fd, rawcart, filename);
                 break;
 #endif
+            case CARTRIDGE_DREAN:
+                rc = drean_crt_attach(fd, rawcart);
+                break;
             case CARTRIDGE_EASYCALC:
                 rc = easycalc_crt_attach(fd, rawcart);
                 break;
@@ -854,8 +860,8 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_GS:
                 rc = gs_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_DREAN:
-                rc = drean_crt_attach(fd, rawcart);
+            case CARTRIDGE_HYPERBASIC:
+                rc = hyperbasic_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_IDE64:
                 rc = ide64_crt_attach(fd, rawcart);

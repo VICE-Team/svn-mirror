@@ -261,18 +261,19 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
 #define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
 #define CARTRIDGE_PARTNER64            78 /* partner64.c */
-#define CARTRIDGE_LAST                 78 /* cartconv: last cartridge in list */
+#define CARTRIDGE_HYPERBASIC           79 /* hyperbasic.c */
+#define CARTRIDGE_LAST                 79 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
    should be capitalized. because of that we go by the following rules:
    - if even the actual spelling and/or naming is unclear, then the most "common"
-     variant is choosen ("Expert Cartridge" vs "The Expert")
+     variant is chosen ("Expert Cartridge" vs "The Expert")
    - in many cases the name is printed all uppercase both on screen and in other
      sources (manual, adverts). we refrain from doing the same here and convert
      to Camel Case ("ACTION REPLAY V5" -> "Action Replay V5"), *except* if the
      cart name constitutes an actual name (as in noun) by itself ("ISEPIC", "EXOS").
-     additionally common abrevations such as RAM or EPROM will get written uppercase
+     additionally common abbreviations such as RAM or EPROM will get written uppercase
      if in doubt.
    - although generally these cartridge names should never get translated, some
      generic stuff is translated to english ("EPROM Karte" -> "EPROM Cart")
@@ -292,6 +293,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_CPM                "CP/M cartridge"
+#define CARTRIDGE_NAME_DREAN              "Drean"
 #define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
 #define CARTRIDGE_NAME_DEBUGCART          "Debug Cartridge"
 #define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"
@@ -322,7 +324,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_GMOD2              "GMod2" /* http://wiki.icomp.de/wiki/GMod2 */
 #define CARTRIDGE_NAME_GMOD3              "GMod3" /* http://wiki.icomp.de/wiki/GMod3 */
-#define CARTRIDGE_NAME_DREAN              "Drean"
+#define CARTRIDGE_NAME_HYPERBASIC         "Hyper-BASIC"
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_IEEEFLASH64        "IEEE Flash! 64"

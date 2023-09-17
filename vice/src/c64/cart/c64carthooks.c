@@ -82,6 +82,7 @@
 #include "digimax.h"
 #include "dinamic.h"
 #include "dqbb.h"
+#include "drean.h"
 #include "ds12c887rtc.h"
 #include "easycalc.h"
 #include "easyflash.h"
@@ -101,7 +102,7 @@
 #include "gs.h"
 #include "gmod2.h"
 #include "gmod3.h"
-#include "drean.h"
+#include "hyperbasic.h"
 #include "ide64.h"
 #include "ieeeflash64.h"
 #include "isepic.h"
@@ -272,6 +273,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartdqbb", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_DQBB, NULL, NULL,
       "<Name>", "Attach raw 16KiB Double Quick Brown Box cartridge image" },
+    { "-cartdrean", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_DREAN, NULL, NULL,
+      "<Name>", "Attach raw 32KiB " CARTRIDGE_NAME_DREAN " cartridge image" },
     { "-carteasy", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_EASYFLASH, NULL, NULL,
       "<Name>", "Attach raw EasyFlash cartridge image" },
@@ -327,9 +331,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartgs", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_GS, NULL, NULL,
       "<Name>", "Attach raw 512KiB Game System cartridge image" },
-    { "-cartdrean", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      cart_attach_cmdline, (void *)CARTRIDGE_DREAN, NULL, NULL,
-      "<Name>", "Attach raw 32KiB Hero cartridge image" },
+    { "-carthyper", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_HYPERBASIC, NULL, NULL,
+      "<Name>", "Attach raw 64KiB " CARTRIDGE_NAME_HYPERBASIC " cartridge image" },
     { "-cartide64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
       "<Name>", "Attach raw 64KiB IDE64 cartridge image" },
@@ -929,6 +933,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return dsm_bin_attach(filename, rawcart);
         case CARTRIDGE_DINAMIC:
             return dinamic_bin_attach(filename, rawcart);
+        case CARTRIDGE_DREAN:
+            return drean_bin_attach(filename, rawcart);
         case CARTRIDGE_EASYCALC:
             return easycalc_bin_attach(filename, rawcart);
         case CARTRIDGE_EASYFLASH:
@@ -967,8 +973,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return gmod3_bin_attach(filename, rawcart);
         case CARTRIDGE_GS:
             return gs_bin_attach(filename, rawcart);
-        case CARTRIDGE_DREAN:
-            return drean_bin_attach(filename, rawcart);
+        case CARTRIDGE_HYPERBASIC:
+            return hyperbasic_bin_attach(filename, rawcart);
         case CARTRIDGE_IDE64:
             return ide64_bin_attach(filename, rawcart);
         case CARTRIDGE_KCS_POWER:
@@ -1157,6 +1163,9 @@ void cart_attach(int type, uint8_t *rawcart)
         case CARTRIDGE_DINAMIC:
             dinamic_config_setup(rawcart);
             break;
+        case CARTRIDGE_DREAN:
+            drean_config_setup(rawcart);
+            break;
         case CARTRIDGE_EASYCALC:
             easycalc_config_setup(rawcart);
             break;
@@ -1211,8 +1220,8 @@ void cart_attach(int type, uint8_t *rawcart)
         case CARTRIDGE_GS:
             gs_config_setup(rawcart);
             break;
-        case CARTRIDGE_DREAN:
-            drean_config_setup(rawcart);
+        case CARTRIDGE_HYPERBASIC:
+            hyperbasic_config_setup(rawcart);
             break;
         case CARTRIDGE_IDE64:
             ide64_config_setup(rawcart);
@@ -1747,6 +1756,9 @@ void cart_detach(int type)
         case CARTRIDGE_DINAMIC:
             dinamic_detach();
             break;
+        case CARTRIDGE_DREAN:
+            drean_detach();
+            break;
         case CARTRIDGE_EASYCALC:
             easycalc_detach();
             break;
@@ -1801,8 +1813,8 @@ void cart_detach(int type)
         case CARTRIDGE_GS:
             gs_detach();
             break;
-        case CARTRIDGE_DREAN:
-            drean_detach();
+        case CARTRIDGE_HYPERBASIC:
+            hyperbasic_detach();
             break;
         case CARTRIDGE_IDE64:
             ide64_detach();
@@ -2038,6 +2050,9 @@ void cartridge_init_config(void)
             case CARTRIDGE_DINAMIC:
                 dinamic_config_init();
                 break;
+            case CARTRIDGE_DREAN:
+                drean_config_init();
+                break;
             case CARTRIDGE_EASYCALC:
                 easycalc_config_init();
                 break;
@@ -2092,8 +2107,8 @@ void cartridge_init_config(void)
             case CARTRIDGE_GS:
                 gs_config_init();
                 break;
-            case CARTRIDGE_DREAN:
-                drean_config_init();
+            case CARTRIDGE_HYPERBASIC:
+                hyperbasic_config_init();
                 break;
             case CARTRIDGE_IDE64:
                 ide64_config_init();
@@ -2335,6 +2350,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_GMOD3:
             gmod3_reset();
+            break;
+        case CARTRIDGE_HYPERBASIC:
+            hyperbasic_reset();
             break;
         case CARTRIDGE_IDE64:
             ide64_reset();
@@ -3344,6 +3362,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_DREAN:
+                if (drean_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EASYCALC:
                 if (easycalc_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3431,8 +3454,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_DREAN:
-                if (drean_snapshot_write_module(s) < 0) {
+            case CARTRIDGE_HYPERBASIC:
+                if (hyperbasic_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -3920,6 +3943,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
+            case CARTRIDGE_DREAN:
+                if (drean_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
             case CARTRIDGE_EASYCALC:
                 if (easycalc_snapshot_read_module(s) < 0) {
                     goto fail2;
@@ -4007,8 +4035,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
-            case CARTRIDGE_DREAN:
-                if (drean_snapshot_read_module(s) < 0) {
+            case CARTRIDGE_HYPERBASIC:
+                if (hyperbasic_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
