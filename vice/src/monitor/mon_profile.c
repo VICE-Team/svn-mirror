@@ -425,7 +425,7 @@ static void array_compact(context_array_t * output, context_array_t const* sourc
         aggregate->pc_dst = source->data[i]->pc_dst;
         aggregate->memory_bank_config = source->data[i]->memory_bank_config;
         /* HACK, store parent->dst as source pointer */
-        aggregate->pc_src = source->data[i]->parent->pc_dst;
+        aggregate->pc_src = parent_function(source->data[i]);
         merge_aggregate_contexts(aggregate, source->data[i]);
 
         /* merge all compatible contexts */
