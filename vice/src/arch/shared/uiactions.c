@@ -71,7 +71,7 @@ typedef struct ui_action_info_private_s {
  */
 static const ui_action_info_private_t action_info_list[] = {
     /* smart attach */
-    { ACTION_SMART_ATTACH,      "smart-attach",         "Attach a medium to the emulator inspecting its type", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_SMART_ATTACH,      "smart-attach",         "Smart-attach a medium to the emulator", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* disk image attach */
     { ACTION_DRIVE_ATTACH_8_0,  "drive-attach-8:0",     "Attach disk to unit 8, drive 0",   VICE_MACHINE_ALL^VICE_MACHINE_VSID },
@@ -270,7 +270,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_FULLSCREEN_DECORATIONS_TOGGLE,     "fullscreen-decorations-toggle",    "Show menu/status in fullscreen",           VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SHOW_STATUSBAR_TOGGLE,             "show-statusbar-toggle",            "Show status bar",                          VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,   "show-statusbar-secondary-toggle",  "Show secondary status bar",                VICE_MACHINE_C128 },
-    { ACTION_RESTORE_DISPLAY,                   "restore-display",                  "Resize application window to fit content", VICE_MACHINE_ALL^VICE_MACHINE_VSID },
+    { ACTION_RESTORE_DISPLAY,                   "restore-display",                  "Resize window to fit content",             VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
     /* joystick, mouse etc */
     { ACTION_SWAP_CONTROLPORT_TOGGLE,   "swap-controlport-toggle",  "Swap controlport joysticks",   (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C64DTV|VICE_MACHINE_SCPU64|
@@ -281,10 +281,10 @@ static const ui_action_info_private_t action_info_list[] = {
     /* settings items */
     { ACTION_SETTINGS_DIALOG,       "settings-dialog",      "Open settings",                        VICE_MACHINE_ALL },
     { ACTION_SETTINGS_LOAD,         "settings-load",        "Load settings",                        VICE_MACHINE_ALL },
-    { ACTION_SETTINGS_LOAD_FROM,    "settings-load-from",   "Load settings from alternate file",    VICE_MACHINE_ALL },
+    { ACTION_SETTINGS_LOAD_FROM,    "settings-load-from",   "Load settings from custom file",       VICE_MACHINE_ALL },
     { ACTION_SETTINGS_LOAD_EXTRA,   "settings-load-extra",  "Load additional settings",             VICE_MACHINE_ALL },
     { ACTION_SETTINGS_SAVE,         "settings-save",        "Save settings",                        VICE_MACHINE_ALL },
-    { ACTION_SETTINGS_SAVE_TO,      "settings-save-to",     "Save settings to alternate file",      VICE_MACHINE_ALL },
+    { ACTION_SETTINGS_SAVE_TO,      "settings-save-to",     "Save settings to custom file",         VICE_MACHINE_ALL },
     { ACTION_SETTINGS_DEFAULT,      "settings-default",     "Restore default settings",             VICE_MACHINE_ALL },
 
     /* snapshots, media recording, events */
@@ -388,9 +388,9 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PSID_PLAYLIST_PREVIOUS,    "psid-playlist-previous",   "Play previous tune in the playlist",   VICE_MACHINE_VSID },
     { ACTION_PSID_PLAYLIST_NEXT,        "psid-playlist-next",       "Play next tune in the playlist",       VICE_MACHINE_VSID },
     { ACTION_PSID_PLAYLIST_LAST,        "psid-playlist-last",       "Play last tune in the playlist",       VICE_MACHINE_VSID },
-    { ACTION_PSID_PLAYLIST_ADD,         "psid-playlist-add",        "Show dialog to add files to the playlist", VICE_MACHINE_VSID },
-    { ACTION_PSID_PLAYLIST_LOAD,        "psid-playlist-load",       "Show dialog to load a playlist",       VICE_MACHINE_VSID },
-    { ACTION_PSID_PLAYLIST_SAVE,        "psid-playlist-save",       "Show dialog to save the playlist",     VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_ADD,         "psid-playlist-add",        "Add files to the playlist",            VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_LOAD,        "psid-playlist-load",       "Load a playlist",                      VICE_MACHINE_VSID },
+    { ACTION_PSID_PLAYLIST_SAVE,        "psid-playlist-save",       "Save the playlist",                    VICE_MACHINE_VSID },
     { ACTION_PSID_PLAYLIST_CLEAR,       "psid-playlist-clear",      "Clear the playlist",                   VICE_MACHINE_VSID },
 
     /* xpet */
