@@ -162,6 +162,29 @@ static void vhk_parser_error(const char *fmt, ...)
     va_end(args);
 }
 
+/** \brief  Log warning
+ *
+ * Log warning on vhk log using printf-style format string, including the
+ * current filename and line number.
+ *
+ * \param[in]   fmt     format string
+ * \param[in]   ...     arguments for \a fmt (optional)
+ */
+static void vhk_parser_warning(const char *fmt, ...)
+{
+    char    buffer[1024];
+    va_list args;
+
+    va_start(args, fmt);
+    vsnprintf(buffer, sizeof buffer, fmt, args);
+    log_warning(vhk_log,
+                "%s:%ld: %s",
+                textfile_reader_filename(&reader),
+                textfile_reader_linenum(&reader),
+                buffer);
+    va_end(args);
+}
+
 /** \brief  Strip leading and trailing whitespace
  *
  * Remove leading and trailing whitespace from string \a s.
@@ -459,7 +482,7 @@ static bool vhk_parser_get_keysym_and_modmask(const char  *line,
         curpos++;   /* skip '<' */
         v_mod = parser_get_modifier(curpos, &end);
         if (v_mod == VHK_MOD_NONE) {
-            vhk_parser_error("parse error: unknown modifier '%s'", curpos);
+            vhk_parser_error("parse error: unknown modifier '%s'.", curpos);
             return false;
         }
         /* add found modifier to final mask */
@@ -478,7 +501,7 @@ static bool vhk_parser_get_keysym_and_modmask(const char  *line,
     keylen = curpos - oldpos;
     if (keylen == 0) {
         /* error, no key name found */
-        vhk_parser_error("parse error: no key name found");
+        vhk_parser_error("parse error: no key name found.");
         return false;
     }
     if (keylen >= (ptrdiff_t)sizeof keyname) {
@@ -493,7 +516,7 @@ static bool vhk_parser_get_keysym_and_modmask(const char  *line,
     /* set results */
     v_key = vhk_keysym_from_name(keyname);
     if (v_key == 0) {
-        vhk_parser_error("parse error: unknown key name '%s'", keyname);
+        vhk_parser_error("parse error: unknown key name '%s'.", keyname);
         return false;
     }
     a_key = ui_hotkeys_arch_keysym_to_arch(v_key);
@@ -537,7 +560,7 @@ static bool vhk_parser_get_keysym_and_modmask(const char  *line,
 static bool vhk_parser_do_clear(const char *line)
 {
     if (!no_more_tokens(line)) {
-        vhk_parser_error("syntax error: trailing tokens after !clear");
+        vhk_parser_error("syntax error: trailing tokens after !clear.");
         return false;
     }
     if (ifstack_true()) {
@@ -582,7 +605,7 @@ static bool vhk_parser_do_debug(const char *line)
         }
     }
     /* no match */
-    vhk_parser_error("syntax error: unknown argument to !debug: '%s'", arg);
+    vhk_parser_error("syntax error: invalid argument to !debug: '%s'.", arg);
     return false;
 }
 
@@ -613,7 +636,7 @@ static char *parse_quoted_argument(const char *text)
                 s++;
                 if (*s == '\0') {
                     /* end of string, but escape token active */
-                    vhk_parser_error("parse error: unexpected end of line");
+                    vhk_parser_error("parse error: unexpected end of line.");
                     lib_free(arg);
                     return NULL;
                 }
@@ -627,7 +650,7 @@ static char *parse_quoted_argument(const char *text)
         }
         if (*s != VHK_QUOTE) {
             /* error, no closing quote */
-            vhk_parser_error("syntax error: missing closing quote");
+            vhk_parser_error("syntax error: missing closing quote.");
             lib_free(arg);
             return NULL;
         }
@@ -660,7 +683,7 @@ static bool vhk_parser_do_include(const char *line)
     line = util_skip_whitespace(line);
     if (*line == '\0') {
         /* missing argument */
-        vhk_parser_error("syntax error: missing argument for !include");
+        vhk_parser_error("syntax error: missing argument for !include.");
         return false;
     }
 
@@ -698,7 +721,7 @@ static bool vhk_parser_do_undef(const char *line)
     curpos = util_skip_whitespace(line);
     if (*curpos == '\0') {
         /* error: missing argument */
-        vhk_parser_error("syntax error: missing argument for !undef");
+        vhk_parser_error("syntax error: missing argument for !undef.");
         return true;
     }
 
@@ -751,11 +774,7 @@ static bool vhk_parser_do_undef(const char *line)
             memcpy(accel_name, oldpos, accel_len);
             accel_name[accel_len] = '\0';
 
-            log_message(vhk_log,
-                        "Hotkeys: %s:%ld: warning: hotkey '%s' not found, ignoring.",
-                        textfile_reader_filename(&reader),
-                        textfile_reader_linenum(&reader),
-                        accel_name);
+            vhk_parser_warning("hotkey '%s' not found, ignoring.");
         }
     }
     return true;
@@ -783,7 +802,8 @@ static int get_identifier(const char *text, const char **endptr)
     *endptr = text;
     if ((size_t)(text - old + 1) > sizeof identbuf) {
         /* identifier too long */
-        vhk_parser_error("syntax error: identifier exceeds maximum length of %" PRI_SIZE_T,
+        vhk_parser_error("syntax error: identifier exceeds maximum length"
+                         " of %" PRI_SIZE_T ".",
                          sizeof identbuf - 1u);
         return BEXPR_INVALID;
     }
@@ -793,7 +813,7 @@ static int get_identifier(const char *text, const char **endptr)
     /* look up identifier to determine value */
     node = symbol_find(identbuf);
     if (node == NULL) {
-        vhk_parser_error("syntax error: unknown identifier '%s'", identbuf);
+        vhk_parser_error("syntax error: unknown identifier '%s'.", identbuf);
         return BEXPR_INVALID;
     }
     return node->value ? BEXPR_TRUE : BEXPR_FALSE;
@@ -839,7 +859,7 @@ static bool vhk_parser_do_if(const char *line)
         } else {
             token = bexpr_token_parse(curpos, &endptr);
             if (token < 0) {
-                vhk_parser_error("parse error: %s", bexpr_strerror(bexpr_errno));
+                vhk_parser_error("parse error: %s.", bexpr_strerror(bexpr_errno));
                 return false;
             }
         }
@@ -852,7 +872,7 @@ static bool vhk_parser_do_if(const char *line)
         ifstack_if(result);
         return true;
     }
-    vhk_parser_error("syntax error: %s", bexpr_strerror(bexpr_errno));
+    vhk_parser_error("syntax error: %s.", bexpr_strerror(bexpr_errno));
     return false;
 }
 
@@ -866,14 +886,14 @@ static bool vhk_parser_do_else(const char *line)
 {
     /* only whitespace or comment allowed after '!else' */
     if (!no_more_tokens(line)) {
-        vhk_parser_error("syntax error: trailing tokens after !else");
+        vhk_parser_error("syntax error: trailing tokens after !else.");
         return false;
     }
 
     if (ifstack_else()) {
         return true;
     } else {
-        vhk_parser_error("syntax error: %s", ifstack_strerror(ifstack_errno));
+        vhk_parser_error("syntax error: %s.", ifstack_strerror(ifstack_errno));
         return false;
     }
 }
@@ -888,14 +908,14 @@ static bool vhk_parser_do_endif(const char *line)
 {
     /* only whitespace or comment allowed after '!endif' */
     if (!no_more_tokens(line)) {
-        vhk_parser_error("syntax error: trailing tokens after !endif");
+        vhk_parser_error("syntax error: trailing tokens after !endif.");
         return false;
     }
 
     if (ifstack_endif()) {
         return true;
     } else {
-        vhk_parser_error("syntax error: %s", ifstack_strerror(ifstack_errno));
+        vhk_parser_error("syntax error: %s.", ifstack_strerror(ifstack_errno));
         return false;
     }
 }
@@ -929,10 +949,10 @@ static bool vhk_parser_handle_keyword(const char *line)
     bool result = true;
 
     if (*line == '\0') {
-        vhk_parser_error("syntax error: missing keyword after '!'");
+        vhk_parser_error("syntax error: missing keyword after '!'.");
         result =  false;
     } else if (!isalpha((unsigned char)*line)) {
-        vhk_parser_error("syntax error: illegal character after '!'");
+        vhk_parser_error("syntax error: illegal character after '!'.");
         result = false;
     } else {
         /* get keyword ID */
@@ -984,7 +1004,7 @@ static bool vhk_parser_handle_keyword(const char *line)
 
             default:
                 /* unknown keyword */
-                vhk_parser_error("syntax error: unknown keyword '!%s'", line);
+                vhk_parser_error("syntax error: unknown keyword '!%s'.", line);
                 result = false;
         }
     }
@@ -1024,11 +1044,12 @@ static bool vhk_parser_handle_mapping(const char *line)
     /* check for errors */
     if (curpos == oldpos) {
         /* no valid action name tokens found */
-        vhk_parser_error("syntax error: missing action name");
+        vhk_parser_error("syntax error: missing action name.");
         return false;
     }
     if (curpos - oldpos >= sizeof(action_name)) {
-        vhk_parser_error("syntax error: action name exceeds allow length of %" PRI_SIZE_T,
+        vhk_parser_error("syntax error: action name exceeds allowed"
+                         " length of %" PRI_SIZE_T ".",
                          sizeof action_name - 1u);
         return false;
     }
@@ -1057,16 +1078,18 @@ static bool vhk_parser_handle_mapping(const char *line)
     /* finally try to register the hotkey */
     action_id = ui_action_get_id(action_name);
     if (action_id <= ACTION_NONE) {
-        vhk_parser_error("syntax error: unknown action '%s'", action_name);
+        vhk_parser_warning("unknown action '%s', continuing anyway.", action_name);
         /* allow parsing to continue */
-        return false;
+        return true;
     }
 
     if (ifstack_true()) {
         /* is the action valid for the current machine? */
         if (!ui_action_is_valid(action_id)) {
-            vhk_parser_error("invalid action '%s' for current emulator", action_name);
-            return false;
+            vhk_parser_warning("invalid action '%s' for current emulator, continuing anyway.",
+                               action_name);
+            /* allow parsing to continue >*/
+            return true;
         }
 
         /* register mapping, first try looking up the item */
@@ -1159,7 +1182,7 @@ bool vhk_parser_parse(const char *path)
         /* check for unterminated IF */
         if (!ifstack_is_empty()) {
             /* cannot use vhk_parser_error() here, there's no open file anymore */
-            log_error(vhk_log, "syntax error: unterminated !if at end of input");
+            log_error(vhk_log, "syntax error: unterminated !if at end of input.");
             status = false;
             goto cleanup;
         }
