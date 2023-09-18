@@ -767,8 +767,6 @@ int ui_init_finish(void)
     return 0;
 }
 
-
-
 int ui_init_finalize(void)
 {
     DBG(("%s", __func__));
@@ -892,6 +890,15 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     }
     return UI_JAM_NONE;
 }
+
+
+/** \brief  Activate the menu from a joystick button
+ */
+void arch_ui_activate(void)
+{
+    sdl_ui_activate();
+}
+
 
 /* ----------------------------------------------------------------- */
 /* uicolor.h */

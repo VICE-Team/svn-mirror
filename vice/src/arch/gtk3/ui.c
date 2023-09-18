@@ -2470,6 +2470,14 @@ void ui_dispatch_events(void)
 {
 }
 
+/** \brief  Show settings dialog from a joystick button
+ */
+void arch_ui_activate(void)
+{
+    /* Use actions system to avoid popping up multiple dialogs on multiple
+     * button presses: */
+    ui_action_trigger(ACTION_SETTINGS_DIALOG);
+}
 
 /** \brief  Error dialog handler for the threaded UI
  *
