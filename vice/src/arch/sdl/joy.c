@@ -582,7 +582,9 @@ void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)
 
     if (joyevent != NULL) {
         joyevent->action = UI_FUNCTION;
-        joyevent->value.ui_function = value;
+        if (value->action > ACTION_NONE) {
+            joyevent->value.ui_action = value->action;
+        }
     }
 }
 

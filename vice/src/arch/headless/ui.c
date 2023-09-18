@@ -53,7 +53,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "menu-activate.h"
 #include "lightpen.h"
 #include "resources.h"
 #include "util.h"
@@ -386,15 +385,20 @@ void arch_ui_activate(void)
 {
 }
 
-void arch_ui_perform_action(int action)
+/* Temporary stubs for the UI action system, due to the joystick code being
+ * built with the headless UI
+ */
+
+const char *ui_action_get_name(int action)
 {
+    return "";
 }
 
-void arch_hotkey_path_to_file(FILE* file, int action)
+int ui_action_get_id(const char *name)
 {
-}
-
-int arch_hotkey_action(char* path) {
     return 0;
 }
 
+void ui_action_trigger(int action)
+{
+}

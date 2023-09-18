@@ -61,4 +61,12 @@ void ui_update_lightpen(void);
 void ui_enable_crt_controls(int enabled);
 void ui_enable_mixer_controls(int enabled);
 
+/* Temporary stubs for the UI action system, due to the joystick code being
+ * built with the headless UI
+ */
+
+const char *ui_action_get_name(int action);
+int         ui_action_get_id(const char *name);
+void        ui_action_trigger(int action);
+
 #endif

@@ -181,12 +181,7 @@ typedef struct joystick_mapping_s {
 
         /* key[0] = row, key[1] = column */
         int key[2];
-#if (defined USE_SDLUI ||defined USE_SDL2UI)
-        /* pointer to the menu item */
-        ui_menu_entry_t *ui_function;
-#else
-        int ui_function;
-#endif
+        int ui_action;
     } value;
     /* Previous state of input */
     uint8_t prev;

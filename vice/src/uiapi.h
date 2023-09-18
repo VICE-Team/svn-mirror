@@ -103,9 +103,11 @@ void ui_display_event_time(unsigned int current, unsigned int total);
 
 /* Joystick UI */
 void ui_display_joyport(uint16_t *joyport);
+void arch_ui_activate(void);
 
 /* Volume UI */
 void ui_display_volume(int vol);
+
 
 
 /* Hotkeys
