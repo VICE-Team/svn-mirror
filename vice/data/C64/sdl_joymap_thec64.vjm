@@ -26,7 +26,7 @@
 # 2 row col       keyboard
 # 3               map
 # 4               UI activate
-# 5 path&to&item  UI function
+# 5 action-name   UI function
 # 6 pot           potentiometer (1=pot x, 2=pot y)
 #
 
