@@ -1270,7 +1270,7 @@ static void mapping_dump_header(FILE *fp)
             "# 2 row col       keyboard\n"
             "# 3               map\n"
             "# 4               UI activate\n"
-            "# 5 path&to&item  UI function\n"
+            "# 5 action-name   UI function\n"
             "# 6 pot           potentiometer (1=pot x, 2=pot y)\n"
             "#\n\n"
             );
