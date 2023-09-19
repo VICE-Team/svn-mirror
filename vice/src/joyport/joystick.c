@@ -1237,27 +1237,9 @@ void joy_delete_extra_mapping(int type)
 }
 #endif
 
-int joy_arch_mapping_dump(const char *filename)
+
+static void mapping_dump_header(FILE *fp)
 {
-    FILE *fp;
-    int i, k;
-    int j;
-    joystick_action_t t;
-
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
-
-    if (filename == NULL) {
-        return -1;
-    }
-
-    fp = fopen(filename, MODE_WRITE_TEXT);
-
-    if (fp == NULL) {
-        return -1;
-    }
-
     fprintf(fp, "# VICE joystick mapping file\n"
             "#\n"
             "# A joystick map is read in as patch to the current map.\n"
@@ -1292,173 +1274,117 @@ int joy_arch_mapping_dump(const char *filename)
             "# 6 pot           potentiometer (1=pot x, 2=pot y)\n"
             "#\n\n"
             );
+}
+
+/** \brief Dump mapping of host controller input to emulator input
+ *
+ * Dump mapping of a host axis, button or hat to an emulator key, joystick
+ * button or UI action.
+ *
+ * \param[in]   fp              file pointer of the .vjm file
+ * \param[in]   device_index    host device index
+ * \param[in]   input_type      input type (axis, button, hat)
+ * \param[in]   map_index       sub index of mapping of \a input_type
+ * \param[in]   map             mapping to dump
+ */
+static void mapping_dump_map(FILE               *fp,
+                             int                 device_index,
+                             unsigned int        input_type,
+                             int                 map_index,
+                             joystick_mapping_t *map)
+{
+    fprintf(fp, "%i %u %i %u", device_index, input_type, map_index, map->action);
+    switch (map->action) {
+        case JOYSTICK:
+            fprintf(fp, " %i", map->value.joy_pin);
+            break;
+        case KEYBOARD:
+            fprintf(fp, " %i %i", map->value.key[0], map->value.key[1]);
+            break;
+        case UI_FUNCTION:
+            fprintf(fp, " %s", ui_action_get_name(map->value.ui_action));
+            break;
+        default:
+            break;
+    }
+    fprintf(fp, "\n");
+}
+
+
+int joy_arch_mapping_dump(const char *filename)
+{
+    FILE *fp;
+    int   dev_idx;
+    int   map_idx;
+
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s\n", __func__);
+#endif
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fp = fopen(filename, MODE_WRITE_TEXT);
+    if (fp == NULL) {
+        return -1;
+    }
+
+    mapping_dump_header(fp);
 
     fprintf(fp, "!CLEAR\n\n");
 
-    for (i = 0; i < num_joystick_devices; ++i) {
-        k = 0;
-        fprintf(fp, "# %s\n", joystick_devices[i].jname);
-        for (j = 0; j < joystick_devices[i].num_axes; j++) {
-            if (joystick_devices[i].axis_mapping[j].pot > 0) {
-                fprintf(fp, "%i %u %i %u %u\n", i, 0u, j, 6u, joystick_devices[i].axis_mapping[j].pot);
-            } else {
-                t = joystick_devices[i].axis_mapping[j].positive_direction.action;
-                fprintf(fp, "%i %u %i %u", i, 0u, k, t);
-                switch (t) {
-                    case JOYSTICK:
-                        fprintf(fp, " %i",
-                                joystick_devices[i].axis_mapping[j].positive_direction.value.joy_pin
-                                );
-                        break;
-                    case KEYBOARD:
-                        fprintf(fp, " %i %i",
-                                joystick_devices[i].axis_mapping[j].positive_direction.value.key[0],
-                                joystick_devices[i].axis_mapping[j].positive_direction.value.key[1]
-                                );
-                        break;
-                    case UI_FUNCTION:
-                        fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].axis_mapping[j].positive_direction.value.ui_action));
-                        break;
-                    default:
-                        break;
-                }
-                fprintf(fp, "\n");
-                t = joystick_devices[i].axis_mapping[j].negative_direction.action;
-                fprintf(fp, "%i %u %i %u", i, 0u, k + 1, t);
-                switch (t) {
-                    case JOYSTICK:
-                        fprintf(fp, " %i",
-                                joystick_devices[i].axis_mapping[j].negative_direction.value.joy_pin
-                                );
-                        break;
-                    case KEYBOARD:
-                        fprintf(fp, " %i %i",
-                                joystick_devices[i].axis_mapping[j].negative_direction.value.key[0],
-                                joystick_devices[i].axis_mapping[j].negative_direction.value.key[1]
-                                );
-                        break;
-                    case UI_FUNCTION:
-                        fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].axis_mapping[j].negative_direction.value.ui_action));
-                    default:
-                        break;
-                }
-                fprintf(fp, "\n");
-            }
+    for (dev_idx = 0; dev_idx < num_joystick_devices; dev_idx++) {
+        joystick_device_t *device = &joystick_devices[dev_idx];
+        int                row    = 0;
 
-            fprintf(fp, "\n");
-            k += 2;
-        }
-        for (j = 0; j < joystick_devices[i].num_buttons; j++) {
-            t = joystick_devices[i].button_mapping[j].action;
-            fprintf(fp, "%i %u %i %u", i, 1u, j, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].button_mapping[j].value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].button_mapping[j].value.key[0],
-                            joystick_devices[i].button_mapping[j].value.key[1]
-                            );
-                    break;
-                case UI_FUNCTION:
-                    fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].button_mapping[j].value.ui_action));
-                default:
-                    break;
+        fprintf(fp, "# %s\n", device->jname);
+
+        /* dump axis mappings */
+        for (map_idx = 0; map_idx < device->num_axes; map_idx++) {
+            joystick_axis_mapping_t *axis = &(device->axis_mapping[map_idx]);
+
+            /* 0u means axis here */
+            if (axis->pot > 0) {
+                fprintf(fp, "%i %u %i %u %u\n", dev_idx, 0u, map_idx, 6u /* POT_AXIS */, axis->pot);
+            } else {
+                mapping_dump_map(fp, dev_idx, 0u, row + 0, &(axis->positive_direction));
+                mapping_dump_map(fp, dev_idx, 0u, row + 1, &(axis->negative_direction));
             }
             fprintf(fp, "\n");
+            row += 2;
+        }
+
+        /* dump button mappings */
+        for (map_idx = 0; map_idx < device->num_buttons; map_idx++) {
+            joystick_mapping_t *button = &(device->button_mapping[map_idx]);
+
+            /* 1u means button here */
+            mapping_dump_map(fp, dev_idx, 1u, map_idx, button);
         }
         fprintf(fp, "\n");
-        k = 0;
-        for (j = 0; j < joystick_devices[i].num_hats; j++) {
-            t = joystick_devices[i].hat_mapping[j].up.action;
-            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].hat_mapping[j].up.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].hat_mapping[j].up.value.key[0],
-                            joystick_devices[i].hat_mapping[j].up.value.key[1]
-                            );
-                    break;
-                case UI_FUNCTION:
-                    fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].hat_mapping[j].up.value.ui_action));
-                default:
-                    break;
-            }
-            fprintf(fp, "\n");
-            t = joystick_devices[i].hat_mapping[j].down.action;
-            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].hat_mapping[j].down.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].hat_mapping[j].down.value.key[0],
-                            joystick_devices[i].hat_mapping[j].down.value.key[1]
-                            );
-                    break;
-                case UI_FUNCTION:
-                    fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].hat_mapping[j].down.value.ui_action));
-                default:
-                    break;
-            }
-            fprintf(fp, "\n");
-            t = joystick_devices[i].hat_mapping[j].left.action;
-            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].hat_mapping[j].left.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].hat_mapping[j].left.value.key[0],
-                            joystick_devices[i].hat_mapping[j].left.value.key[1]
-                            );
-                    break;
-                case UI_FUNCTION:
-                    fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].hat_mapping[j].left.value.ui_action));
-                default:
-                    break;
-            }
-            fprintf(fp, "\n");
-            t = joystick_devices[i].hat_mapping[j].right.action;
-            fprintf(fp, "%i %u %i %u", i, 2u, k++, t);
-            switch (t) {
-                case JOYSTICK:
-                    fprintf(fp, " %i",
-                            joystick_devices[i].hat_mapping[j].right.value.joy_pin
-                            );
-                    break;
-                case KEYBOARD:
-                    fprintf(fp, " %i %i",
-                            joystick_devices[i].hat_mapping[j].right.value.key[0],
-                            joystick_devices[i].hat_mapping[j].right.value.key[1]
-                            );
-                    break;
-                case UI_FUNCTION:
-                    fprintf(fp, " %s", ui_action_get_name(joystick_devices[i].hat_mapping[j].right.value.ui_action));
-                default:
-                    break;
-            }
-            fprintf(fp, "\n");
+
+        /* dump hat mappings */
+        row = 0;
+        for (map_idx = 0; map_idx < device->num_hats; map_idx++) {
+            joystick_hat_mapping_t *hat = &(device->hat_mapping[map_idx]);
+
+            /* 2u means hat here, indexes 0-3 are hardcoded to up, down, left
+             * and right */
+            mapping_dump_map(fp, dev_idx, 2u, row + 0, &(hat->up));
+            mapping_dump_map(fp, dev_idx, 2u, row + 1, &(hat->down));
+            mapping_dump_map(fp, dev_idx, 2u, row + 2, &(hat->left));
+            mapping_dump_map(fp, dev_idx, 2u, row + 3, &(hat->right));
+            row += 4;
         }
-        fprintf(fp, "\n\n");
+
+        /* avoid printing newlines at end of dump */
+        if (dev_idx < num_joystick_devices - 1) {
+            fprintf(fp, "\n\n");
+        }
     }
 
     fclose(fp);
-
     return 0;
 }
 
