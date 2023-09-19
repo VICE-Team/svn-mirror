@@ -171,6 +171,14 @@ typedef enum joystick_action_e {
     POT_AXIS = 6
 } joystick_action_t;
 
+/** \brief  Joystick input types used by the vjm files
+ */
+typedef enum joystick_input_e {
+    JOY_INPUT_AXIS   = 0,   /**< map host axis input */
+    JOY_INPUT_BUTTON = 1,   /**< map host button input */
+    JOY_INPUT_HAT    = 2    /**< map host hat input */
+} joystick_input_type_t;
+
 /* Input mapping for each direction/button/etc */
 typedef struct joystick_mapping_s {
     /* Action to perform */

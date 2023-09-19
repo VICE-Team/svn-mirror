@@ -1287,11 +1287,11 @@ static void mapping_dump_header(FILE *fp)
  * \param[in]   map_index       sub index of mapping of \a input_type
  * \param[in]   map             mapping to dump
  */
-static void mapping_dump_map(FILE               *fp,
-                             int                 device_index,
-                             unsigned int        input_type,
-                             int                 map_index,
-                             joystick_mapping_t *map)
+static void mapping_dump_map(FILE                  *fp,
+                             int                    device_index,
+                             joystick_input_type_t  input_type,
+                             int                    map_index,
+                             joystick_mapping_t    *map)
 {
     fprintf(fp, "%i %u %i %u", device_index, input_type, map_index, map->action);
     switch (map->action) {
@@ -1344,12 +1344,12 @@ int joy_arch_mapping_dump(const char *filename)
         for (map_idx = 0; map_idx < device->num_axes; map_idx++) {
             joystick_axis_mapping_t *axis = &(device->axis_mapping[map_idx]);
 
-            /* 0u means axis here */
             if (axis->pot > 0) {
-                fprintf(fp, "%i %u %i %u %u\n", dev_idx, 0u, map_idx, 6u /* POT_AXIS */, axis->pot);
+                fprintf(fp, "%i %u %i %u %u\n",
+                        dev_idx, JOY_INPUT_AXIS, map_idx, POT_AXIS, axis->pot);
             } else {
-                mapping_dump_map(fp, dev_idx, 0u, row + 0, &(axis->positive_direction));
-                mapping_dump_map(fp, dev_idx, 0u, row + 1, &(axis->negative_direction));
+                mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 0, &(axis->positive_direction));
+                mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 1, &(axis->negative_direction));
             }
             fprintf(fp, "\n");
             row += 2;
@@ -1359,8 +1359,7 @@ int joy_arch_mapping_dump(const char *filename)
         for (map_idx = 0; map_idx < device->num_buttons; map_idx++) {
             joystick_mapping_t *button = &(device->button_mapping[map_idx]);
 
-            /* 1u means button here */
-            mapping_dump_map(fp, dev_idx, 1u, map_idx, button);
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_BUTTON, map_idx, button);
         }
         fprintf(fp, "\n");
 
@@ -1369,12 +1368,11 @@ int joy_arch_mapping_dump(const char *filename)
         for (map_idx = 0; map_idx < device->num_hats; map_idx++) {
             joystick_hat_mapping_t *hat = &(device->hat_mapping[map_idx]);
 
-            /* 2u means hat here, indexes 0-3 are hardcoded to up, down, left
-             * and right */
-            mapping_dump_map(fp, dev_idx, 2u, row + 0, &(hat->up));
-            mapping_dump_map(fp, dev_idx, 2u, row + 1, &(hat->down));
-            mapping_dump_map(fp, dev_idx, 2u, row + 2, &(hat->left));
-            mapping_dump_map(fp, dev_idx, 2u, row + 3, &(hat->right));
+            /* indexes 0-3 are hardcoded to up, down, left and right */
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 0, &(hat->up));
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 1, &(hat->down));
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 2, &(hat->left));
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 3, &(hat->right));
             row += 4;
         }
 
