@@ -351,7 +351,7 @@ static joystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
         case SDL_JOYBUTTONDOWN:
             joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jbutton.which);
             if (joynum != -1) {
-                retval = joy_get_button_mapping(joynum, e.jbutton.button);
+                retval = joy_get_button_mapping_not_setting_value(joynum, e.jbutton.button, e.jbutton.state);
             }
             break;
         default:
@@ -510,13 +510,14 @@ ui_menu_action_t sdljoy_axis_event_for_menu_action(Uint8 joynum, Uint8 axis, Sin
 }
 
 ui_menu_action_t sdljoy_button_event_for_menu_action(Uint8 joynum, Uint8 button, Uint8 value) {
-    joystick_mapping_t *mapping = joy_get_button_mapping(joynum, button);
-    ui_menu_action_t retval;
+    joystick_mapping_t *prev_mapping = joy_get_button_mapping(joynum, button, value, NULL); 
+    joystick_mapping_t *cur_mapping = joy_get_button_mapping_not_setting_value(joynum, button, value);
+    ui_menu_action_t retval = MENU_ACTION_NONE;
 
-    if (mapping) {
-        retval = sdljoy_perform_event_for_menu_action(mapping, value);
-    } else {
-        retval = MENU_ACTION_NONE;
+    if (cur_mapping) {
+        retval = sdljoy_perform_event_for_menu_action(cur_mapping, 1);
+    } else if (prev_mapping) {
+        retval = sdljoy_perform_event_for_menu_action(prev_mapping, 0);
     }
     return retval;
 }
