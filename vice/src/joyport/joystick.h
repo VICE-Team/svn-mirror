@@ -191,8 +191,6 @@ typedef struct joystick_mapping_s {
         int key[2];
         int ui_action;
     } value;
-    /* Previous state of input */
-    uint8_t prev;
 } joystick_mapping_t;
 
 void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
@@ -211,9 +209,10 @@ char *get_joy_pin_mapping_string(int joystick_device, int pin);
 char *get_joy_extra_mapping_string(int which);
 joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev);
 joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
-joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button);
+joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button, uint8_t value, uint8_t* prev);
+joystick_mapping_t* joy_get_button_mapping_not_setting_value(uint8_t joynum, uint8_t button, uint8_t value);
 joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat);
-joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, joystick_axis_value_t* prev);
+joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, uint8_t* prev);
 joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value);
 void joy_set_pot_mapping(int joystick_device_num, int axis, int pot);
 void joy_delete_pin_mapping(int joystick_device, int pin);
