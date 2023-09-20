@@ -228,7 +228,7 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
     ui_action_map_t *map;
 
 #ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(SDL1x_to_SDL2x_Keys(key)), mod);
 #endif
 #ifdef WINDOWS_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
@@ -256,7 +256,7 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
      * early when a map is found for the hotkey, otherwise iterating the full
      * array.
      */
-    map = ui_action_map_get_by_arch_hotkey(key, mod);
+    map = ui_action_map_get_by_arch_hotkey(SDL1x_to_SDL2x_Keys(key), mod);
     if (map != NULL) {
 #ifdef SDL_DEBUG
         printf("Hotkey pressed for %d (%s)\n", map->action, ui_action_get_name(map->action));
@@ -334,10 +334,6 @@ ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod)
 
 void kbd_arch_init(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: hotkey table size %d (%lu bytes)\n", __func__, SDLKBD_UI_HOTKEYS_MAX, SDLKBD_UI_HOTKEYS_MAX * sizeof(ui_menu_entry_t *));
-#endif
-
     sdlkbd_log = log_open("SDLKeyboard");
 
     /* initialize generic hotkeys system
