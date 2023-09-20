@@ -510,7 +510,7 @@ ui_menu_action_t sdljoy_axis_event_for_menu_action(Uint8 joynum, Uint8 axis, Sin
 }
 
 ui_menu_action_t sdljoy_button_event_for_menu_action(Uint8 joynum, Uint8 button, Uint8 value) {
-    joystick_mapping_t *prev_mapping = joy_get_button_mapping(joynum, button, value, NULL); 
+    joystick_mapping_t *prev_mapping = joy_get_button_mapping(joynum, button, value, NULL);
     joystick_mapping_t *cur_mapping = joy_get_button_mapping_not_setting_value(joynum, button, value);
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
