@@ -1345,7 +1345,7 @@ int joy_arch_mapping_dump(const char *filename)
             joystick_axis_mapping_t *axis = &(device->axis_mapping[map_idx]);
 
             if (axis->pot > 0) {
-                fprintf(fp, "%i %u %i %u %u\n",
+                fprintf(fp, "%i %i %i %i %u\n",
                         dev_idx, JOY_INPUT_AXIS, map_idx, POT_AXIS, axis->pot);
             } else {
                 mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 0, &(axis->positive_direction));
