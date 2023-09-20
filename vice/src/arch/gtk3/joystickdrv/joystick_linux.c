@@ -112,7 +112,11 @@ static void linux_joystick_close(void *priv)
 }
 
 
-/** \brief  Object used to register driver for devices */
+/** \brief  Object used to register driver for devices
+ *
+ * The address of this object is used in the joystick code, it isn't copied,
+ * so we cannot move this into `linux_joystick_init()` to use for registration.
+ */
 static joystick_driver_t driver = {
     .poll  = linux_joystick_poll,
     .close = linux_joystick_close
