@@ -2536,9 +2536,9 @@ void register_joystick_driver(
     log_message(LOG_DEFAULT, "registered controller '%s' with %d axes, %d hats, %d buttons",
                 new_joystick_device->jname, num_axes, num_hats, num_buttons);
 
-    new_joystick_device->axis_mapping = (joystick_axis_mapping_t*)lib_calloc(num_axes, sizeof(joystick_axis_mapping_t));
-    new_joystick_device->button_mapping = (joystick_button_mapping_t *)lib_calloc(num_buttons, sizeof(joystick_button_mapping_t));
-    new_joystick_device->hat_mapping = (joystick_hat_mapping_t *)lib_calloc(num_hats, sizeof(joystick_hat_mapping_t));
+    new_joystick_device->axis_mapping = lib_calloc(num_axes, sizeof *(new_joystick_device->axis_mapping));
+    new_joystick_device->button_mapping = lib_calloc(num_buttons, sizeof *(new_joystick_device->button_mapping));
+    new_joystick_device->hat_mapping = lib_calloc(num_hats, sizeof *(new_joystick_device->hat_mapping));
 
     new_joystick_device->joyport = -1;
     new_joystick_device->priv = priv;
