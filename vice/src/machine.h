@@ -69,9 +69,11 @@ struct machine_timing_s {
 typedef struct machine_timing_s machine_timing_t;
 
 extern int machine_class;
+/* These variable live in src/main.c: */
 extern int console_mode;
 extern int video_disabled_mode;
 extern int help_requested;
+extern int default_settings_requested;
 
 #define MACHINE_JAM_ACTION_DIALOG       0
 #define MACHINE_JAM_ACTION_CONTINUE     1
