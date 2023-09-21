@@ -2079,10 +2079,9 @@ void sdl_ui_menu_item_set_status_by_action(int                   action,
 void sdl_ui_activate_item_action(ui_action_map_t *map)
 {
     ui_menu_entry_t *item = map->menu_item[0];
-    printf("%s(): item = %p\n", __func__, (const void *)item);
+
     if (item != NULL) {
         if (sdl_menu_state) {
-            printf("%s(): menu is active, call the callback\n", __func__);
             /* Menu is already active.
              * We can't call sdl_ui_menu_item_activate() because that would trigger
              * the action again */
@@ -2093,11 +2092,10 @@ void sdl_ui_activate_item_action(ui_action_map_t *map)
             }
         } else {
             /* menu isn't active, set trap */
-            printf("%s(): menu isn't active, set CPU trap\n", __func__);
             interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
         }
     } else {
-        printf("%s(): ERROR: item is NULL\n", __func__);
+        fprintf(stderr, "%s(): ERROR: item is NULL\n", __func__);
     }
 }
 
