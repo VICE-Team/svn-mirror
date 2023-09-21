@@ -1363,9 +1363,9 @@ int joy_arch_mapping_dump(const char *filename)
 
         /* dump button mappings */
         for (map_idx = 0; map_idx < device->num_buttons; map_idx++) {
-            joystick_mapping_t *button = &(device->button_mapping[map_idx]);
+            joystick_button_mapping_t *button = &(device->button_mapping[map_idx]);
 
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_BUTTON, map_idx, button);
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_BUTTON, map_idx, &button->mapping);
         }
         fprintf(fp, "\n");
 
@@ -2537,7 +2537,7 @@ void register_joystick_driver(
                 new_joystick_device->jname, num_axes, num_hats, num_buttons);
 
     new_joystick_device->axis_mapping = (joystick_axis_mapping_t*)lib_calloc(num_axes, sizeof(joystick_axis_mapping_t));
-    new_joystick_device->button_mapping = (joystick_mapping_t *)lib_calloc(num_buttons, sizeof(joystick_mapping_t));
+    new_joystick_device->button_mapping = (joystick_button_mapping_t *)lib_calloc(num_buttons, sizeof(joystick_button_mapping_t));
     new_joystick_device->hat_mapping = (joystick_hat_mapping_t *)lib_calloc(num_hats, sizeof(joystick_hat_mapping_t));
 
     new_joystick_device->joyport = -1;
