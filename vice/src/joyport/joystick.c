@@ -2451,7 +2451,10 @@ int joystick_init(void)
         }
     }
 
-    joy_arch_mapping_load(joymap_file);
+    /* do not load joymap file when -default was passed on the command line */
+    if (!default_settings_requested) {
+        joy_arch_mapping_load(joymap_file);
+    }
 
     return 1;
 }
