@@ -113,6 +113,7 @@ static bool vhk_file_pending = false;
  */
 static bool vhk_init_done = false;
 
+#if 0
 /** \brief  The command line option -default was used
  *
  * When \c -default is used we want to load the default VICE-provided hotkeys,
@@ -120,6 +121,7 @@ static bool vhk_init_done = false;
  * contains.
  */
 static bool vhk_default_requested = false;
+#endif
 
 /** \brief  Source of vhk file parsed
  *
@@ -248,7 +250,7 @@ void ui_hotkeys_init(const char *prefix)
     vhk_init_done = true;
 
     /* determine which file to load */
-    if (vhk_default_requested) {
+    if (default_settings_requested) {
         /* user specific -default on the command line: ignore HotkeyFile and
          * any custom hotkeys file in the user's config dir
          */
@@ -808,7 +810,7 @@ char *ui_hotkeys_vhk_source_path(void)
     return path;
 }
 
-
+#if 0
 /** \brief  Set flag indicating whether the -default command line was used
  *
  * If the default setting were requested with the \c -default command line option
@@ -822,7 +824,7 @@ void ui_hotkeys_set_default_requested(bool requested)
 {
     vhk_default_requested = requested;
 }
-
+#endif
 
 /** \brief  Reload hotkeys
  *

@@ -90,6 +90,14 @@ int video_disabled_mode = 0;
  */
 int help_requested = 0;
 
+/** \brief  Default setting were requested on the command line
+ *
+ * The command line contained \c -default, which has implications for loading
+ * of configuration and ROM files from certain user directories.
+ */
+int default_settings_requested = 0;
+
+
 void main_loop_forever(void);
 
 #ifdef USE_VICE_THREAD
@@ -121,9 +129,6 @@ int main_program(int argc, char **argv)
     char *cmdline;
 #ifdef WINDOWS_COMPILE
     bool no_redirect_streams = false;
-#endif
-#ifndef USE_HEADLESSUI
-    bool default_requested = false;
 #endif
 
 #ifdef USE_VICE_THREAD
@@ -202,7 +207,7 @@ int main_program(int argc, char **argv)
             loadconfig = 0;
 #ifndef USE_HEADLESSUI
             /* don't load custom hotkeys file in user config dir if present */
-            default_requested = true;
+            default_settings_requested = 1;
 #endif
         } else if ((!strcmp(argv[i], "-verbose")) || (!strcmp(argv[i], "--verbose"))) {
             log_set_silent(0);
@@ -302,11 +307,6 @@ int main_program(int argc, char **argv)
             }
         }
     }
-
-    /* signal the hotkeys system if the user requested default settings */
-#ifndef USE_HEADLESSUI
-    ui_hotkeys_set_default_requested(default_requested);
-#endif
 
     if (log_init() < 0) {
         const char *logfile = NULL;
