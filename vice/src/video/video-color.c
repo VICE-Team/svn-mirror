@@ -932,21 +932,26 @@ int video_color_update_palette(struct video_canvas_s *canvas)
                                      canvas->videoconfig->external_palette_name);
 
         if (!palette) {
-            return -1;
+            /* loading the external palette did not work (file not found?), so
+               disable the external palette and use the internal palette instead */
+            canvas->videoconfig->external_palette = 0;
+        } else {
+            video_calc_gammatable(&canvas->videoconfig->color_tables, video_resources, video);
+            ycbcr = video_ycbcr_palette_create(palette->num_entries);
+            video_palette_to_ycbcr(palette, ycbcr, video);
+            video_calc_ycbcrtable(video_resources, ycbcr, &canvas->videoconfig->color_tables, video);
+            /* if (canvas->videoconfig->filter == VIDEO_FILTER_CRT) */ {
+                palette_free(palette);
+                palette = video_calc_palette(canvas, ycbcr, video);
+            }
+            /* additional table for odd lines */
+            video_palette_to_ycbcr_oddlines(palette, ycbcr, video);
+            video_calc_ycbcrtable_oddlines(video_resources, ycbcr, &canvas->videoconfig->color_tables, video);
         }
-
-        video_calc_gammatable(&canvas->videoconfig->color_tables, video_resources, video);
-        ycbcr = video_ycbcr_palette_create(palette->num_entries);
-        video_palette_to_ycbcr(palette, ycbcr, video);
-        video_calc_ycbcrtable(video_resources, ycbcr, &canvas->videoconfig->color_tables, video);
-        /* if (canvas->videoconfig->filter == VIDEO_FILTER_CRT) */ {
-            palette_free(palette);
-            palette = video_calc_palette(canvas, ycbcr, video);
-        }
-        /* additional table for odd lines */
-        video_palette_to_ycbcr_oddlines(palette, ycbcr, video);
-        video_calc_ycbcrtable_oddlines(video_resources, ycbcr, &canvas->videoconfig->color_tables, video);
-    } else {
+    }
+    /* Use calculated internal palette. Don't put this into an "else" block, so
+       it can be used as fallback when the above fails. */
+    if (canvas->videoconfig->external_palette == 0) {
         video_calc_gammatable(&canvas->videoconfig->color_tables, video_resources, video);
         ycbcr = video_ycbcr_palette_create(canvas->videoconfig->cbm_palette->num_entries);
         video_cbm_palette_to_ycbcr(canvas->videoconfig->cbm_palette, ycbcr, video);
