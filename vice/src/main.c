@@ -79,8 +79,14 @@
 #define DBG(x)
 #endif
 
-int console_mode = 0;
-int video_disabled_mode = 0;
+/** \brief  Console mode requested on the command line
+ *
+ * The command line contained \c -console
+ */
+bool console_mode = false;
+
+/* FIXME: currently never set to true */
+bool video_disabled_mode = false;
 
 /** \brief  Help was requested on the command line
  *
@@ -88,14 +94,14 @@ int video_disabled_mode = 0;
  *
  * Include "machine.h" to use this variable.
  */
-int help_requested = 0;
+bool help_requested = false;
 
 /** \brief  Default setting were requested on the command line
  *
  * The command line contained \c -default, which has implications for loading
  * of configuration and ROM files from certain user directories.
  */
-int default_settings_requested = 0;
+bool default_settings_requested = false;
 
 
 void main_loop_forever(void);
@@ -122,7 +128,6 @@ int main_program(int argc, char **argv)
 {
     int i, n;
     const char *program_name;
-    int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
     int reserr;
@@ -130,8 +135,9 @@ int main_program(int argc, char **argv)
 #ifdef WINDOWS_COMPILE
     bool no_redirect_streams = false;
 #endif
+    bool loadconfig = true;
 
-#ifdef USE_VICE_THREAD
+#ifdef USE_VICE_THREA
     /*
      * The init lock guarantees that all main thread init outcomes are visible
      * to the VICE thread.
@@ -186,7 +192,7 @@ int main_program(int argc, char **argv)
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
         if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
-            console_mode = 1;
+            console_mode = true;
             /* video_disabled_mode = 1;  Breaks exitscreenshot */
         } else if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version"))) {
 #ifdef USE_SVN_REVISION
@@ -201,10 +207,10 @@ int main_program(int argc, char **argv)
         } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
                 vice_config_file = lib_strdup(argv[++i]);
-                loadconfig = 1;
+                loadconfig = true;
             }
         } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
-            loadconfig = 0;
+            loadconfig = false;
 #ifndef USE_HEADLESSUI
             /* don't load custom hotkeys file in user config dir if present */
             default_settings_requested = 1;
@@ -238,7 +244,7 @@ int main_program(int argc, char **argv)
                    (!strcmp(argv[i], "--help")) ||
                    (!strcmp(argv[i], "-h")) ||
                    (!strcmp(argv[i], "-?"))) {
-            help_requested = 1;
+            help_requested = true;
         }
     }
 
@@ -263,7 +269,7 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-    gfxoutput_early_init(help_requested);
+    gfxoutput_early_init((int)help_requested);
     gfxoutput_resources_init();
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
