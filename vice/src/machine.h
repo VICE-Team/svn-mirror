@@ -29,6 +29,7 @@
 #define VICE_MACHINE_H
 
 #include "types.h"
+#include <stdbool.h>
 
 /* The following stuff must be defined once per every emulated CBM machine.  */
 
@@ -70,10 +71,10 @@ typedef struct machine_timing_s machine_timing_t;
 
 extern int machine_class;
 /* These variable live in src/main.c: */
-extern int console_mode;
-extern int video_disabled_mode;
-extern int help_requested;
-extern int default_settings_requested;
+extern bool console_mode;
+extern bool video_disabled_mode;
+extern bool help_requested;
+extern bool default_settings_requested;
 
 #define MACHINE_JAM_ACTION_DIALOG       0
 #define MACHINE_JAM_ACTION_CONTINUE     1
