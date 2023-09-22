@@ -1666,16 +1666,19 @@ int joy_arch_mapping_load(const char *filename)
 
     do {
         buffer[0] = 0;
-        if (fgets(buffer, 999, fp)) {
-            char *p;
+        if (fgets(buffer, sizeof buffer - 1u, fp)) {
+            size_t  len;
+            char   *p;
 
-            if (strlen(buffer) == 0) {
+            len = strlen(buffer);
+            if (len == 0) {
                 break;
             }
 
-            buffer[strlen(buffer) - 1] = 0; /* remove newline */
+            buffer[len - 1u] = 0; /* remove newline */
 
             /* remove comments */
+            /* What if a comment contains '#' (e.g. `# map button to "#"`)? */
             if ((p = strchr(buffer, '#'))) {
                 *p = 0;
             }
@@ -1699,6 +1702,8 @@ int joy_arch_mapping_load(const char *filename)
                     break;
             }
         }
+        /* Should we get an I/O error during fgets(), this will loop forever:
+         * fgets() will return NULL but feof(fp) will be false. */
     } while (!feof(fp));
     fclose(fp);
 
