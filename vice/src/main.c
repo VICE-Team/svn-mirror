@@ -137,7 +137,7 @@ int main_program(int argc, char **argv)
 #endif
     bool loadconfig = true;
 
-#ifdef USE_VICE_THREA
+#ifdef USE_VICE_THREAD
     /*
      * The init lock guarantees that all main thread init outcomes are visible
      * to the VICE thread.
