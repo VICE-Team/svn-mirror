@@ -166,7 +166,7 @@ static GtkWidget *create_combo_box(void)
 
     resources_get_string_sprintf("%sPaletteFile", &current, chip_name);
 
-    if (current) {
+    if (current && *current != '\0') {
         /*printf("create_combo_box (%sPaletteFile) current:'%s'\n", chip_name, current);*/
         /* if the <CHIP>PaletteFile resource points to a file,
            - create an alternative name without extension, if the file has a
@@ -218,7 +218,7 @@ static GtkWidget *create_combo_box(void)
 
     /* if we didn't find `current` in the list of VICE palette files, add it as
      * a custom user-defined file */
-    if ((!found) && current != NULL) {
+    if ((!found) && current != NULL && *current != '\0') {
         gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(combo), 0, current, current);
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     }
