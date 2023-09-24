@@ -39,6 +39,7 @@
 #include "lib.h"
 #include "log.h"
 #include "symtab.h"
+#include "sysfile.h"
 #include "textfilereader.h"
 #include "uiactions.h"
 #include "uiapi.h"
@@ -149,16 +150,21 @@ static char identbuf[256];
  */
 static void vhk_parser_error(const char *fmt, ...)
 {
-    char    buffer[1024];
-    va_list args;
+    char        buffer[1024];
+    va_list     args;
+    const char *filename;
+    long        linenum;
+
+    filename = textfile_reader_filename(&reader);
+    linenum  = textfile_reader_linenum(&reader);
 
     va_start(args, fmt);
     vsnprintf(buffer, sizeof buffer, fmt, args);
-    log_error(vhk_log,
-              "%s:%ld: %s",
-              textfile_reader_filename(&reader),
-              textfile_reader_linenum(&reader),
-              buffer);
+    if (filename != NULL && linenum > 0) {
+        log_error(vhk_log, "%s:%ld: %s", filename, linenum, buffer);
+    } else {
+        log_error(vhk_log, "%s", buffer);
+    }
     va_end(args);
 }
 
@@ -248,13 +254,17 @@ static bool vhk_parser_open_file(const char *path)
     result = textfile_reader_open(&reader, path);
     if (!result) {
         if (archdep_path_is_relative(path)) {
-            char *fullpath;
-            char *hotkeysdir = archdep_get_vice_hotkeysdir();
+            char *fullpath = NULL;
 
-            fullpath = util_join_paths(hotkeysdir, path, NULL);
-            lib_free(hotkeysdir);
-            result = textfile_reader_open(&reader, fullpath);
-            lib_free(fullpath);
+            /* try to locate the file in the vice data dir (which is the root
+             * directory of a VICE distribution on Windows) */
+            if (sysfile_locate(path, NULL, &fullpath) == 0) {
+                result = textfile_reader_open(&reader, fullpath);
+                lib_free(fullpath);
+            } else if (sysfile_locate(path, "hotkeys", &fullpath) == 0) {
+                result = textfile_reader_open(&reader, fullpath);
+                lib_free(fullpath);
+            }
         }
     }
     if (!result) {
