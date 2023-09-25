@@ -12,9 +12,8 @@ vhk_files = hotkeys.vhk \
 	    hotkeys-vsid.vhk \
 	    hotkeys-winvice-legacy.vhk
 
-# Do not install hotkeys files when configured for headless
-if USE_HEADLESSUI
 EXTRA_DIST = $(vhk_files)
-else
+# Do not install hotkeys files when configured for headless
+if !USE_HEADLESSUI
 hotkeys_DATA = $(vhk_files)
 endif
