@@ -175,8 +175,10 @@ plus            5 0 0
 minus           5 3 0
 period          5 4 0
 greater         5 4 1
-colon           5 5 0
+bracketleft     5 5 1
+colon           5 5 16
 ae              5 5 1
+at              5 6 0
 aring           5 6 0
 comma           5 7 0
 less            5 7 1
@@ -186,15 +188,17 @@ less            5 7 1
 
 dead_acute      6 0 0
 dead_grave      6 0 1
-asterisk        6 1 0
-semicolon       6 2 0
+sterling        6 0 16
+asterisk        6 1 16
+bracketright    6 2 1
+semicolon       6 2 16
 oslash          6 2 1
 Home            6 3 8
 Shift_R         6 4 4
 equal           6 5 0
 dead_circumflex 6 6 1
 dead_diaeresis  6 6 0
-slash           6 7 0
+slash           6 7 16
 question        6 7 1
 
 #####################
