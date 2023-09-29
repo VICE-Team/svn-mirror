@@ -1895,7 +1895,6 @@ static bool parser_set_hat(const parser_state_t *state)
         joystick_hat_mapping_t *hat = &(dev->hat_mapping[index]);
         joystick_mapping_t     *mapping;
 
-        /* TODO: use symbolic constants for the direction IDs */
         switch (direction) {
             case JOY_HAT_UP:
                 mapping = &(hat->up);
