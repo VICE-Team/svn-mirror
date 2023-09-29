@@ -454,7 +454,7 @@ static ui_menu_action_t sdljoy_perform_event_for_menu_action(joystick_mapping_t*
 {
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
-    if (event->action == JOYSTICK) {
+    if (event->action == JOY_ACTION_JOYSTICK) {
         if (use_joysticks_for_menu) {
             switch (event->value.joy_pin) {
                 case 0x01:
@@ -476,9 +476,9 @@ static ui_menu_action_t sdljoy_perform_event_for_menu_action(joystick_mapping_t*
                     break;
             }
         }
-    } else if (event->action == UI_ACTIVATE) {
+    } else if (event->action == JOY_ACTION_UI_ACTIVATE) {
         retval = MENU_ACTION_CANCEL;
-    } else if (event->action == MAP) {
+    } else if (event->action == JOY_ACTION_MAP) {
         retval = MENU_ACTION_MAP;
     }
     if (!value) {
@@ -545,7 +545,7 @@ static ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
     ui_menu_entry_t *retval = NULL;
     sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
-    if ((joyevent != NULL) && (joyevent->action == UI_FUNCTION)) {
+    if ((joyevent != NULL) && (joyevent->action == JOY_ACTION_UI_FUNCTION)) {
         retval = joyevent->value.ui_function;
     }
 
@@ -558,7 +558,7 @@ void sdljoy_set_joystick(SDL_Event e, int bits)
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
     if (joyevent != NULL) {
-        joyevent->action = JOYSTICK;
+        joyevent->action = JOY_ACTION_JOYSTICK;
         joyevent->value.joy_pin = (uint16_t)bits;
     }
 }
@@ -582,7 +582,7 @@ void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
     if (joyevent != NULL) {
-        joyevent->action = UI_FUNCTION;
+        joyevent->action = JOY_ACTION_UI_FUNCTION;
         if (value->action > ACTION_NONE) {
             joyevent->value.ui_action = value->action;
         }
@@ -594,7 +594,7 @@ void sdljoy_set_keypress(SDL_Event e, int row, int col)
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
     if (joyevent != NULL) {
-        joyevent->action = KEYBOARD;
+        joyevent->action = JOY_ACTION_KEYBOARD;
         joyevent->value.key[0] = row;
         joyevent->value.key[1] = col;
     }
@@ -605,7 +605,7 @@ void sdljoy_set_extra(SDL_Event e, int type)
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
     if (joyevent != NULL) {
-        joyevent->action = type ? MAP : UI_ACTIVATE;
+        joyevent->action = type ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE;
     }
 }
 
@@ -614,7 +614,7 @@ void sdljoy_unset(SDL_Event e)
     joystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
     if (joyevent != NULL) {
-        joyevent->action = NONE;
+        joyevent->action = JOY_ACTION_NONE;
     }
 }
 

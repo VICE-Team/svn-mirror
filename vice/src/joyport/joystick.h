@@ -148,27 +148,38 @@ typedef enum joystick_axis_value_e {
    JOY_AXIS_NEGATIVE
 } joystick_axis_value_t;
 
+/** \brief  Hat direction joystick input index values
+ */
+typedef enum joystick_hat_direction_e {
+    JOY_HAT_UP    = 0,
+    JOY_HAT_DOWN  = 1,
+    JOY_HAT_LEFT  = 2,
+    JOY_HAT_RIGHT = 3
+} joystick_hat_direction_t;
+
 /* Actions to perform on joystick input */
 typedef enum joystick_action_e {
-    NONE = 0,
+    JOY_ACTION_NONE = 0,
 
     /* Joystick movement or button press */
-    JOYSTICK = 1,
+    JOY_ACTION_JOYSTICK = 1,
 
     /* Keyboard key press */
-    KEYBOARD = 2,
+    JOY_ACTION_KEYBOARD = 2,
 
     /* Map button */
-    MAP = 3,
+    JOY_ACTION_MAP = 3,
 
     /* (De)Activate UI */
-    UI_ACTIVATE = 4,
+    JOY_ACTION_UI_ACTIVATE = 4,
 
     /* Call UI function */
-    UI_FUNCTION = 5,
+    JOY_ACTION_UI_FUNCTION = 5,
 
     /* Joystick axis used for potentiometers */
-    POT_AXIS = 6
+    JOY_ACTION_POT_AXIS = 6,
+
+    JOY_ACTION_MAX = JOY_ACTION_POT_AXIS
 } joystick_action_t;
 
 /** \brief  Joystick input types used by the vjm files
@@ -176,8 +187,11 @@ typedef enum joystick_action_e {
 typedef enum joystick_input_e {
     JOY_INPUT_AXIS   = 0,   /**< map host axis input */
     JOY_INPUT_BUTTON = 1,   /**< map host button input */
-    JOY_INPUT_HAT    = 2    /**< map host hat input */
-} joystick_input_type_t;
+    JOY_INPUT_HAT    = 2,   /**< map host hat input */
+    JOY_INPUT_BALL   = 3,   /**< map host ball input */
+
+    JOY_INPUT_MAX    = JOY_INPUT_BALL
+} joystick_input_t;
 
 /* Input mapping for each direction/button/etc */
 typedef struct joystick_mapping_s {
@@ -187,8 +201,8 @@ typedef struct joystick_mapping_s {
     union {
         uint16_t joy_pin;
 
-        /* key[0] = row, key[1] = column */
-        int key[2];
+        /* key[0] = row, key[1] = column, key[1] = flags */
+        int key[3];
         int ui_action;
     } value;
 } joystick_mapping_t;
