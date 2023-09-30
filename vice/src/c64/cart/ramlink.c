@@ -878,13 +878,13 @@ static int set_enabled(int value, void *param)
         /* activate ramlink */
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
-            LOG1(("RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
+            LOG1((LOG, "RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
             if (rl_bios_filename) {
                 if (*rl_bios_filename) {
                     /* try .crt image first */
                     if ((cartridge_attach_image(CARTRIDGE_CRT, rl_bios_filename) < 0) &&
                         (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0)) {
-                        LOG1(("RAMLINK: set_enabled(1) did not register"));
+                        LOG1((LOG, "RAMLINK: set_enabled(1) did not register"));
                         return -1;
                     }
                     /* rl_enabled = 1; */ /* cartridge_attach_image will end up calling set_enabled again */
@@ -964,7 +964,7 @@ static int set_bios_filename(const char *name, void *param)
             return -1;
         }
     }
-    LOG1(("RAMLINK: set_bios_filename: %d '%s'", rl_enabled, rl_bios_filename));
+    LOG1((LOG, "RAMLINK: set_bios_filename: %d '%s'", rl_enabled, rl_bios_filename));
 
     util_string_set(&rl_bios_filename, name);
     resources_get_int("RAMLINK", &enabled);
@@ -972,10 +972,10 @@ static int set_bios_filename(const char *name, void *param)
     if (set_enabled(enabled, (void*)1) < 0) {
         lib_free(rl_bios_filename);
         rl_bios_filename = NULL;
-        LOG1(("RAMLINK: set_bios_filename done: %d '%s'", rl_enabled, rl_bios_filename));
+        LOG1((LOG, "RAMLINK: set_bios_filename done: %d 'NULL'", rl_enabled));
         return -1;
     }
-    LOG1(("RAMLINK: set_bios_filename done: %d '%s'", rl_enabled, rl_bios_filename));
+    LOG1((LOG, "RAMLINK: set_bios_filename done: %d '%s'", rl_enabled, rl_bios_filename));
 
     return 0;
 }
@@ -1716,7 +1716,7 @@ int ramlink_romh_read(uint16_t addr, uint8_t *value)
             return CART_READ_THROUGH;
         }
         MDBG((LOG, "RAMLINK: romh_read %04x = %02x pport=%02x",
-            (int)addr, (int)*value, (int)(~pport.dir | pport.data)));
+            (unsigned int)addr, (unsigned int)*value, (unsigned int)(~pport.dir | pport.data)));
         return CART_READ_VALID;
     }
 
