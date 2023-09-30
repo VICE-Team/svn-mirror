@@ -947,12 +947,17 @@ int resources_set_defaults(void)
     for (i = 0; i < num_resources; i++) {
         DBG(("setting default for '%s'\n", resources[i].name));
         switch (resources[i].type) {
+            /* CAUTION: the following MUST NOT fail and NOT return early when resetting
+                        a resource fails - else we get strange side effects in the case
+                        that a default value is eg. the name of a ROM file that does
+                        not exist (and thus can not be loaded when the resource value
+                        changes). see #1948 */
             case RES_INTEGER:
                 if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].factory_value),
                                                  resources[i].param) < 0) {
                     log_verbose("Cannot set int resource '%s' to default '%d'",
                                 resources[i].name, vice_ptr_to_int(resources[i].factory_value));
-                    return -1;
+                    /*return -1;*/
                 }
                 break;
             case RES_STRING:
@@ -960,7 +965,7 @@ int resources_set_defaults(void)
                                                     resources[i].param) < 0) {
                     log_verbose("Cannot set string resource '%s' to default '%s'",
                                 resources[i].name, (const char *)(resources[i].factory_value));
-                    return -1;
+                    /*return -1;*/
                 }
                 break;
         }
