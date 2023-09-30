@@ -3010,6 +3010,15 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 /* ------------------------------------------------------------------------- */
 
 
+/* Array used to avoid "stuck" pins and pins being released too soon when two
+ * or more physical (host) buttons are mapped to the same emulated pins.
+ *
+ * FIXME: The name of this array and the functions handling it are a misnomer:
+ * this code is always used, not just for Gtk.
+ * A better solution would be to handle many-to-one mappings in the host side
+ * code: activate pin when *any* of the host buttons are pressed, deactive pin
+ * when *all* of the host buttons are released.
+ */
 static int gtkjoy_pins[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS];
 
 void register_joystick_driver(
