@@ -70,16 +70,6 @@ static int joystick_threshold;
 /* Joystick fuzz (0..32767) */
 static int joystick_fuzz;
 
-/* Different types of joystick input */
-typedef enum {
-    AXIS = 0,
-    BUTTON = 1,
-    HAT = 2,
-    BALL = 3,
-    NUM_INPUT_TYPES
-} sdljoystick_input_t;
-
-
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 /* ------------------------------------------------------------------------- */
@@ -360,16 +350,12 @@ static joystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
     return retval;
 }
 
-static int sdljoy_pins[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS] = { 0 };
 
 void sdljoy_clear_presses(void)
 {
-    int i, j;
+    int i;
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        for (j = 0; j < JOYPORT_MAX_PINS; j++) {
-            sdljoy_pins[i][j] = 0;
-        }
         joystick_set_value_and(i, 0);
     }
 }
