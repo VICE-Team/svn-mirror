@@ -1768,8 +1768,10 @@ static void parser_set_mapping(const parser_state_t *state,
     mapping->action = state->action;
 
     switch (state->action) {
-        case JOY_ACTION_NONE:
-            /* Why do we have JOY_ACTION_NONE? */
+        case JOY_ACTION_NONE:           /* fall through */
+        case JOY_ACTION_MAP:            /* fall through */
+        case JOY_ACTION_UI_ACTIVATE:
+            /* no arguments required */
             break;
         case JOY_ACTION_JOYSTICK:
             mapping->value.joy_pin = state->args.pin;
@@ -1778,16 +1780,6 @@ static void parser_set_mapping(const parser_state_t *state,
             mapping->value.key[0] = state->args.key.row;
             mapping->value.key[1] = state->args.key.column;
             mapping->value.key[2] = state->args.key.flags;
-            break;
-        case JOY_ACTION_MAP:
-            parser_log_error(state,
-                             "unimplemented action 'JOY_ACTION_MAP' (%d).",
-                             state->action);
-            break;
-        case JOY_ACTION_UI_ACTIVATE:
-            parser_log_error(state,
-                             "unimplemented action 'JOY_ACTION_UI_ACTIVATE' (%d).",
-                             state->action);
             break;
         case JOY_ACTION_UI_FUNCTION:
             mapping->value.ui_action = state->args.ui_action_id;
