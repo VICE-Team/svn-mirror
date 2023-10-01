@@ -3363,19 +3363,28 @@ void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value)
 }
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis) {
+joystick_axis_value_t joy_axis_prev(uint8_t joynum, uint8_t axis)
+{
     return joystick_devices[joynum].axis_mapping[axis].prev;
 }
 
-joystick_mapping_t* joy_get_axis_mapping(uint8_t joynum, uint8_t axis, joystick_axis_value_t value, joystick_axis_value_t* prev) {
-    joystick_mapping_t* retval = joy_get_axis_mapping_not_setting_value(joynum, axis, joystick_devices[joynum].axis_mapping[axis].prev);
+joystick_mapping_t *joy_get_axis_mapping(uint8_t                joynum,
+                                         uint8_t                axis,
+                                         joystick_axis_value_t  value,
+                                         joystick_axis_value_t *prev)
+{
+    joystick_mapping_t *retval = joy_get_axis_mapping_not_setting_value(
+            joynum, axis, joystick_devices[joynum].axis_mapping[axis].prev);
     if (prev)
         *prev = joystick_devices[joynum].axis_mapping[axis].prev;
     joystick_devices[joynum].axis_mapping[axis].prev = value;
     return retval;
 }
 
-joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8_t axis, joystick_axis_value_t value) {
+joystick_mapping_t *joy_get_axis_mapping_not_setting_value(uint8_t               joynum,
+                                                           uint8_t               axis,
+                                                           joystick_axis_value_t value)
+{
     if (value == JOY_AXIS_POSITIVE) {
         return &joystick_devices[joynum].axis_mapping[axis].positive_direction;
     }
@@ -3385,15 +3394,23 @@ joystick_mapping_t* joy_get_axis_mapping_not_setting_value(uint8_t joynum, uint8
     return NULL;
 }
 
-joystick_mapping_t* joy_get_button_mapping(uint8_t joynum, uint8_t button, uint8_t value, uint8_t* prev) {
-    joystick_mapping_t* retval = joy_get_button_mapping_not_setting_value(joynum, button, joystick_devices[joynum].button_mapping[button].prev);
+joystick_mapping_t *joy_get_button_mapping(uint8_t  joynum,
+                                           uint8_t  button,
+                                           uint8_t  value,
+                                           uint8_t *prev)
+{
+    joystick_mapping_t *retval = joy_get_button_mapping_not_setting_value(
+            joynum, button, joystick_devices[joynum].button_mapping[button].prev);
      if (prev)
         *prev = joystick_devices[joynum].button_mapping[button].prev;
     joystick_devices[joynum].button_mapping[button].prev = value;
     return retval;
 }
 
-joystick_mapping_t* joy_get_button_mapping_not_setting_value(uint8_t joynum, uint8_t button, uint8_t value) {
+joystick_mapping_t *joy_get_button_mapping_not_setting_value(uint8_t joynum,
+                                                             uint8_t button,
+                                                             uint8_t value)
+{
     if (value)
         return &joystick_devices[joynum].button_mapping[button].mapping;
     return NULL;
@@ -3403,16 +3420,24 @@ joystick_axis_value_t joy_hat_prev(uint8_t joynum, uint8_t hat) {
     return joystick_devices[joynum].hat_mapping[hat].prev;
 }
 
-joystick_mapping_t* joy_get_hat_mapping(uint8_t joynum, uint8_t hat, uint8_t value, uint8_t* prev) {
-    joystick_mapping_t* retval = joy_get_hat_mapping_not_setting_value(joynum, hat, joystick_devices[joynum].hat_mapping[hat].prev);
+joystick_mapping_t *joy_get_hat_mapping(uint8_t  joynum,
+                                        uint8_t  hat,
+                                        uint8_t  value,
+                                        uint8_t *prev)
+{
+    joystick_mapping_t *retval = joy_get_hat_mapping_not_setting_value(
+            joynum, hat, joystick_devices[joynum].hat_mapping[hat].prev);
      if (prev)
         *prev = joystick_devices[joynum].hat_mapping[hat].prev;
     joystick_devices[joynum].hat_mapping[hat].prev = value;
     return retval;
 }
 
-joystick_mapping_t* joy_get_hat_mapping_not_setting_value(uint8_t joynum, uint8_t hat, uint8_t value) {
-    joystick_mapping_t* mapping = NULL;
+joystick_mapping_t *joy_get_hat_mapping_not_setting_value(uint8_t joynum,
+                                                          uint8_t hat,
+                                                          uint8_t value) {
+    joystick_mapping_t *mapping = NULL;
+
     if (value & JOYSTICK_DIRECTION_UP) {
         mapping = &joystick_devices[joynum].hat_mapping[hat].up;
     } else if (value & JOYSTICK_DIRECTION_DOWN) {
@@ -3477,4 +3502,3 @@ void joystick_resources_shutdown(void)
         joymap_file = NULL;
     }
 }
-
