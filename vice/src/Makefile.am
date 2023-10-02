@@ -1535,6 +1535,9 @@ $(vsid_lib):
 $(vsidstubs_lib):
 	@echo "making libvsidstubs.a in c64"
 	@(cd c64 && $(MAKE) libvsidstubs.a)
+$(zmbv_lib):
+	@echo "making all in lib/libzmbv"
+	@(cd lib/libzmbv && $(MAKE))
 
 
 clean: clean-recursive

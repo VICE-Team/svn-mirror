@@ -11,3 +11,8 @@ noinst_HEADERS = \
 
 libp64:
 	(cd p64; $(MAKE))
+
+.PHONY: libzmbv
+
+libzmbv:
+	(cd libzmbv; $(MAKE))

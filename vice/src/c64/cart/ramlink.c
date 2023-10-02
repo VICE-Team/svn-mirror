@@ -1178,7 +1178,7 @@ static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
     }
 #endif
     ramlink_sync_cpus();
-    if (reg==0) {
+    if (reg == 0) {
         /* if reg is 0, it is an actual read from the register */
         data = cmdbus.data;
     } else {
@@ -1249,6 +1249,7 @@ static void set_pc(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     cart_port_config_changed_slot0();
 }
 
+/* FIXME: SWAP8 and SWAP9 are ignored for now */
 static uint8_t get_pc(struct _i8255a_state *ctx, int8_t reg)
 {
     uint8_t data = 0xff;
@@ -1894,6 +1895,11 @@ void ramlink_config_init(export_t *ex)
     rl_i8255a_i[0] = 0xff;
     rl_i8255a_i[1] = 0xff;
     rl_i8255a_i[2] = 0xff;
+
+    /* reset "previous" values */
+    rl_i8255a_o[0] = 0xff;
+    rl_i8255a_o[1] = 0xff;
+    rl_i8255a_o[2] = 0xff;
 
     /* setup I8255A */
     rl_i8255a.set_pa = set_pa;
