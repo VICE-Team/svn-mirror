@@ -32,10 +32,10 @@
 
 #include "vice.h"
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
 
 #include "archdep.h"
 #include "drive.h"
