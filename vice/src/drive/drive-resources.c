@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "attach.h"
 #include "drive-check.h"
 #include "drive-resources.h"
 #include "drive.h"
@@ -152,6 +153,13 @@ static int drive_resources_type(int val, void *param)
 
     type = (unsigned int)val;
     busses = iec_available_busses();
+
+    /* first of all, detach any disk images, so we don't end up with images
+       attached to drives that do not support them */
+    if (file_system_get_vdrive(dnr + 8) != NULL) {
+        file_system_detach_disk(dnr + 8, 0);
+        file_system_detach_disk(dnr + 8, 1);
+    }
 
     /* if bus for drive type is not allowed, set to default value for bus */
     if (!drive_check_bus(type, busses)) {
