@@ -48,10 +48,12 @@
 #endif
 
 #include "archdep.h"
+#include "attach.h"
 #include "cartridge.h"
 #include "lib.h"
 #include "log.h"
 #include "network.h"
+#include "tape.h"
 #include "util.h"
 #include "uiapi.h"
 #include "vice-event.h"
@@ -943,6 +945,10 @@ int resources_set_defaults(void)
        the respective functions of the cartridge system here */
     cartridge_unset_default();
     cartridge_detach_image(-1);
+
+    /* detach disk- and tape images, these are not saved in resources */
+    file_system_detach_disk_all();
+    tape_image_detach_all();
 
     for (i = 0; i < num_resources; i++) {
         DBG(("setting default for '%s'\n", resources[i].name));

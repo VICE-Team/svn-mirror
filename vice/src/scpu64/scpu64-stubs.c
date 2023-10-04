@@ -81,6 +81,10 @@ int tape_image_detach(unsigned int unit)
     return 0;
 }
 
+void tape_image_detach_all(void)
+{
+}
+
 int tap_seek_start(tap_t *tap)
 {
     return 0;

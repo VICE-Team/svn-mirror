@@ -52,6 +52,7 @@ int file_system_cmdline_options_init(void);
 const char *file_system_get_disk_name(unsigned int unit, unsigned int drive);
 int file_system_attach_disk(unsigned int unit, unsigned int drive, const char *filename);
 void file_system_detach_disk(unsigned int unit, unsigned int drive);
+void file_system_detach_disk_all(void);
 void file_system_detach_disk_shutdown(void);
 struct vdrive_s *file_system_get_vdrive(unsigned int unit);
 struct disk_image_s *file_system_get_image(unsigned int unit, unsigned int drive);
