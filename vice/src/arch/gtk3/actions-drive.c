@@ -108,12 +108,7 @@ static void drive_detach_action(ui_action_map_t *self)
  */
 static void drive_detach_all_action(ui_action_map_t *self)
 {
-    int unit;
-
-    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        file_system_detach_disk(unit, 0);
-        file_system_detach_disk(unit, 1);
-    }
+    file_system_detach_disk_all();
 }
 
 /** \brief  Drive reset action

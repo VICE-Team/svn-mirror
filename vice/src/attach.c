@@ -37,6 +37,7 @@
 #include "cmdline.h"
 #include "diskimage.h"
 #include "driveimage.h"
+#include "drive.h"
 #include "fsdevice.h"
 #include "fliplist.h"
 #include "lib.h"
@@ -748,6 +749,20 @@ void file_system_detach_disk(unsigned int unit, unsigned int drive)
     }
 
     file_system_detach_disk_internal(unit, drive);
+}
+
+void file_system_detach_disk_all(void)
+{
+    int unit;
+
+    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+        /* detaching will restore the vdrive hooks, so we must test if vdrive
+           is not NULL */
+        if (file_system_get_vdrive(unit) != NULL) {
+            file_system_detach_disk(unit, 0);
+            file_system_detach_disk(unit, 1);
+        }
+    }
 }
 
 void file_system_detach_disk_shutdown(void)
