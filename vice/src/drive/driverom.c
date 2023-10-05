@@ -35,6 +35,7 @@
 #include "drivetypes.h"
 #include "driverom.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "machine-drive.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -101,7 +102,18 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
         if (size != NULL) {
             *size = 0;
         }
-        *loaded = 0;
+        if (loaded != NULL) {
+            *loaded = 0;
+        }
+        /* disable the drives that used the ROM which could not be loaded */
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+            diskunit_context_t *unit = diskunit_context[dnr];
+            if (unit->type == type) {
+                unit->type = DRIVE_TYPE_NONE;
+                drive_disable(diskunit_context[dnr]);
+                machine_bus_status_drivetype_set(dnr + 8, 0);
+            }
+        }
         return -1;
     }
 
