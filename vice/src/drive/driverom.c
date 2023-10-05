@@ -101,6 +101,7 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
         if (size != NULL) {
             *size = 0;
         }
+        *loaded = 0;
         return -1;
     }
 
