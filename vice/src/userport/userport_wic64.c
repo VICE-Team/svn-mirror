@@ -270,19 +270,6 @@ uint8_t curl_buf[240];          /* this slows down by smaller chunks sent to C64
 uint8_t curl_send_buf[COMMANDBUFFER_MAXLEN];
 uint16_t curl_send_len;
 
-/* timezone mapping
-   C64 sends just a number 0-31, bcd little endian in commandbuffer.
-   offsets can then be calculated.
-   TBD, Fixme for day-wraparounds incl. dates
-*/
-typedef struct tzones
-{
-    int idx;
-    char *tz_name;
-    int hour_offs;
-    int min_offs;
-    int dst;                    /* add DST or not, still not perfekt */
-} tzones_t;
 
 static tzones_t timezones[] = {
     { 0, "Greenwich Mean Time", 0, 0, 1},
@@ -319,6 +306,18 @@ static tzones_t timezones[] = {
     { 31, "Dont Know Time", 0, 0, 0 },
     { 99, "Juptier Vice Time", -42, 42, 1 },
 };
+
+/** \brief  Get list of timezones
+ *
+ * \param[out]  num_zones   number of elements in the list
+ *
+ * \return  list of timezones, without sentinel value to indicate end-of-list
+ */
+const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
+{
+    *num_zones = sizeof timezones / sizeof timezones[0];
+    return timezones;
+}
 
 static void hexdump(const char *buf, int len)
 {

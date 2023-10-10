@@ -32,6 +32,9 @@
 #include "c64/cart/clockport.h"
 #include "cartridge.h"
 #include "mididrv.h"
+#ifdef HAVE_LIBCURL
+#include "userport_wic64.h"
+#endif
 
 /* dummy function to satisfy the global cartridge system */
 int cartridge_attach_image(int type, const char *name)
@@ -149,3 +152,14 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 *******************************************************************************/
 
 clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
+/******************************************************************************
+ *                                   Userport                                 *
+ *****************************************************************************/
+
+#ifdef HAVE_LIBCURL
+const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
+{
+    return NULL;
+}
+#endif

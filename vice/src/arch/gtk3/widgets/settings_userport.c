@@ -40,6 +40,9 @@
 #include "machine.h"
 #include "resources.h"
 #include "userport.h"
+#ifdef HAVE_LIBCURL
+#include "userport_wic64.h"
+#endif
 #include "vice_gtk3.h"
 
 #include "settings_userport.h"
@@ -67,6 +70,21 @@ static GtkWidget *rtc_58321a_save = NULL;
 /** \brief  ds1307 save enable toggle button */
 static GtkWidget *rtc_ds1307_save = NULL;
 
+
+/** \brief  Create left-aligned label with Pango markup
+ *
+ * \param[in]   markup  text using Pango markup
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const char *markup)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), markup);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
 
 /** \brief  Create widget for the "UserportRTC58321aSave" resource
  *
@@ -284,6 +302,129 @@ static GtkWidget *create_device_combobox(void)
 }
 
 
+#ifdef HAVE_LIBCURL
+
+/* Columns in the WIC64 timezone combobox */
+enum {
+    TZ_COL_IDX,     /**< ID of the timezone */
+    TZ_COL_NAME     /**< name of the timezone */
+};
+
+/** \brief  Create combobox for WIC64 timezone selection
+ *
+ * \return  GtkComboBox
+ */
+static GtkWidget *create_wic64_timezone_combo(void)
+{
+    GtkWidget      *combo;
+    const tzones_t *zones;
+    size_t          znum;
+    size_t          zidx;
+    char            buffer[256];
+
+    combo = vice_gtk3_resource_combo_int_new("WIC64Timezone", NULL);
+    zones = userport_wic64_get_timezones(&znum);
+    for (zidx = 0; zidx < znum; zidx++) {
+        g_snprintf(buffer, sizeof buffer, "%d: %s",
+                   zones[zidx].idx, zones[zidx].tz_name);
+        vice_gtk3_resource_combo_int_append(combo, zones[zidx].idx, buffer);
+    }
+    vice_gtk3_resource_combo_int_sync(combo);
+
+    return combo;
+}
+
+/** \brief  Handler for the 'toggled' event of the "Show security token" checkbox
+ *
+ * Toggle visibility of the WIC64 security token.
+ *
+ * \param[in]   self    toggle button
+ * \param[in]   data    security token entry
+ */
+static void on_sec_token_visible_toggled(GtkToggleButton *self, gpointer data)
+{
+    gtk_entry_set_visibility(GTK_ENTRY(data),
+                             gtk_toggle_button_get_active(self));
+}
+
+/** \brief  Append WIC64 widgets to the main grid
+ *
+ * \param[in]   parent_grid main grid
+ * \param[in]   parent_row  row in \a parent_grid to add widgets
+ *
+ * \return  row in \a parent_grid for additional widgets
+ */
+static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *server;
+    GtkWidget *mac_addr;
+    GtkWidget *ip_addr;
+    GtkWidget *timezone;
+    GtkWidget *sec_token;
+    GtkWidget *sec_token_visible;
+    int        row = 0;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    gtk_widget_set_margin_top(grid, 32);
+
+    label = label_helper("<b>WiC64 settings</b>");
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row++, 2, 1);
+
+    label  = label_helper("Default server");
+    server = vice_gtk3_resource_entry_new("WIC64DefaultServer");
+    gtk_widget_set_hexpand(server, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), server, 1, row, 1, 1);
+    row++;
+
+    label    = label_helper("MAC address");
+    mac_addr = vice_gtk3_resource_entry_new("WIC64MACAddress");
+    gtk_widget_set_hexpand(mac_addr, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,    0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mac_addr, 1, row, 1, 1);
+    row++;
+
+    label   = label_helper("IP address");
+    ip_addr = vice_gtk3_resource_entry_new("WIC64IPAddress");
+    gtk_widget_set_hexpand(ip_addr, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,   0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ip_addr, 1, row, 1, 1);
+    row++;
+
+    label    = label_helper("Timezone");
+    timezone = create_wic64_timezone_combo();
+    gtk_widget_set_hexpand(timezone, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,    0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), timezone, 1, row, 1, 1);
+    row++;
+
+    label     = label_helper("Security token");
+    sec_token = vice_gtk3_resource_entry_new("WIC64SecToken");
+    gtk_widget_set_hexpand(sec_token, TRUE);
+    gtk_entry_set_input_purpose(GTK_ENTRY(sec_token), GTK_INPUT_PURPOSE_PASSWORD);
+    gtk_entry_set_visibility(GTK_ENTRY(sec_token), FALSE);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), sec_token, 1, row, 1, 1);
+    row++;
+
+    sec_token_visible = gtk_check_button_new_with_label("Show security token");
+    gtk_grid_attach(GTK_GRID(grid), sec_token_visible, 1, row, 1, 1);
+    g_signal_connect(G_OBJECT(sec_token_visible),
+                     "toggled",
+                     G_CALLBACK(on_sec_token_visible_toggled),
+                     (gpointer)sec_token);
+
+    gtk_grid_attach(GTK_GRID(parent_grid), grid, 0, parent_row, 2, 1);
+    return parent_row + 1;
+}
+#endif
+
+
 /** \brief  Create widget to select userport devices
  *
  * \param[in]   parent  parent widget (unused)
@@ -298,12 +439,13 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
     int        device_id = 0;
     int        row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
     /* combobox with the userport devices */
-    label = gtk_label_new("Userport device");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    label = label_helper("Userport device");
     combo = create_device_combobox();
+    gtk_widget_set_hexpand(combo, TRUE);
     gtk_widget_set_margin_bottom(label, 16);
     gtk_widget_set_margin_bottom(combo, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
@@ -340,6 +482,14 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
                         0, row, 2, 1);
         row++;
     }
+#ifdef HAVE_LIBCURL
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_VIC20) {
+        row = append_wic64_widgets(grid, row);
+    }
+#endif
 
     /* set the active item using the resource */
     if (resources_get_int("UserportDevice", &device_id) == 0) {

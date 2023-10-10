@@ -34,6 +34,9 @@
 #include "cartridge.h"
 #include "mididrv.h"
 #include "pet/petpia.h"
+#ifdef HAVE_LIBCURL
+#include "userport_wic64.h"
+#endif
 
 #ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
@@ -56,3 +59,14 @@ bool pia1_get_diagnostic_pin(void)
 {
     return false;
 }
+
+/******************************************************************************
+ *                                   Userport                                 *
+ *****************************************************************************/
+
+#ifdef HAVE_LIBCURL
+const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
+{
+    return NULL;
+}
+#endif
