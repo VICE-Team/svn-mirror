@@ -334,17 +334,34 @@ static GtkWidget *create_wic64_timezone_combo(void)
     return combo;
 }
 
-/** \brief  Handler for the 'toggled' event of the "Show security token" checkbox
+/** \brief  Handler for the 'icon-press' event of the "Security token" entry
  *
- * Toggle visibility of the WIC64 security token.
+ * Toggle visibility of the WIC64 security token when clicking the "eye" icon
+ * in the left corner of the widget.
  *
- * \param[in]   self    toggle button
- * \param[in]   data    security token entry
+ * \param[in]   self        security token entry
+ * \param[in]   icon_pos    icon position
+ * \param[in]   event       button press event data (unused)
+ * \param[in]   data        extra event data (unused)
  */
-static void on_sec_token_visible_toggled(GtkToggleButton *self, gpointer data)
+static void on_sec_token_icon_press(GtkEntry             *self,
+                                    GtkEntryIconPosition  icon_pos,
+                                    GdkEvent             *event,
+                                    gpointer              data)
 {
-    gtk_entry_set_visibility(GTK_ENTRY(data),
-                             gtk_toggle_button_get_active(self));
+    if (icon_pos == GTK_ENTRY_ICON_PRIMARY) {
+        const char *name;
+        gboolean    visible = gtk_entry_get_visibility(self);
+
+        visible = !visible;
+        gtk_entry_set_visibility(self, visible);
+        if (visible) {
+            name = "view-conceal-symbolic";
+        } else {
+            name = "view-reveal-symbolic";
+        }
+        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_PRIMARY, name);
+    }
 }
 
 /** \brief  Append WIC64 widgets to the main grid
@@ -363,7 +380,6 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *ip_addr;
     GtkWidget *timezone;
     GtkWidget *sec_token;
-    GtkWidget *sec_token_visible;
     int        row = 0;
 
     grid = gtk_grid_new();
@@ -408,16 +424,19 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_widget_set_hexpand(sec_token, TRUE);
     gtk_entry_set_input_purpose(GTK_ENTRY(sec_token), GTK_INPUT_PURPOSE_PASSWORD);
     gtk_entry_set_visibility(GTK_ENTRY(sec_token), FALSE);
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(sec_token),
+                                      GTK_ENTRY_ICON_PRIMARY,
+                                      "view-reveal-symbolic");
+    gtk_entry_set_icon_sensitive(GTK_ENTRY(sec_token),
+                                 GTK_ENTRY_ICON_PRIMARY,
+                                 TRUE);
+    g_signal_connect(G_OBJECT(sec_token),
+                     "icon-press",
+                     G_CALLBACK(on_sec_token_icon_press),
+                     NULL);
     gtk_grid_attach(GTK_GRID(grid), label,     0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sec_token, 1, row, 1, 1);
     row++;
-
-    sec_token_visible = gtk_check_button_new_with_label("Show security token");
-    gtk_grid_attach(GTK_GRID(grid), sec_token_visible, 1, row, 1, 1);
-    g_signal_connect(G_OBJECT(sec_token_visible),
-                     "toggled",
-                     G_CALLBACK(on_sec_token_visible_toggled),
-                     (gpointer)sec_token);
 
     gtk_grid_attach(GTK_GRID(parent_grid), grid, 0, parent_row, 2, 1);
     return parent_row + 1;
