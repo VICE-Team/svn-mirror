@@ -41,6 +41,9 @@
 #include "snapshot.h"
 #include "tapecart.h"
 #include "tapeport.h"
+#ifdef HAVE_LIBCURL
+#include "userport_wic64.h"
+#endif
 
 
 tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
@@ -229,3 +232,14 @@ bool pia1_get_diagnostic_pin(void)
 {
     return false;
 }
+
+/******************************************************************************
+ *                                   Userport                                 *
+ *****************************************************************************/
+
+#ifdef HAVE_LIBCURL
+const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
+{
+    return NULL;
+}
+#endif

@@ -36,6 +36,9 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_io_sim.h"
+#ifdef HAVE_LIBCURL
+#include "userport_wic64.h"
+#endif
 
 
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
@@ -64,11 +67,18 @@ bool pia1_get_diagnostic_pin(void)
     return false;
 }
 
-/*******************************************************************************
-    userport
-*******************************************************************************/
+/******************************************************************************
+ *                                   Userport                                 *
+ *****************************************************************************/
 
 int userport_device_register(int id, userport_device_t *device)
 {
     return -1;
 }
+
+#ifdef HAVE_LIBCURL
+const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
+{
+    return NULL;
+}
+#endif
