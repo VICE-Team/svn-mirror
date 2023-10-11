@@ -2236,9 +2236,7 @@ static int chain_cmd(int nargs, char **args)
 
     } while (track > 0);
 
-    if (track > 0) {
-        printf("%u\n", sector);
-    }
+    printf("%u\n", sector);     /* # bytes used in last block */
 #if 0
     printf("Dumping links:\n");
     link_print(link);
