@@ -142,7 +142,7 @@ if test x"$CROSS" != "xtrue"; then
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
-  cp --parents -a share/icons/Adwaita/{index.*,scalable} $BUILDPATH
+  cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
   rm -r $BUILDPATH/share/icons/Adwaita/scalable/emotes
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
