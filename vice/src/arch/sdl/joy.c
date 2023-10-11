@@ -308,6 +308,7 @@ int sdljoy_get_joynum_for_event(VICE_SDL_JoystickID event_device_id)
         if (joy_ordinal_to_id[i] == event_device_id) {
             return i;
         }
+        i++;
     }
 
     return -1;
