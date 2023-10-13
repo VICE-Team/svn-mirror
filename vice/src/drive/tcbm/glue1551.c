@@ -161,8 +161,11 @@ void glue1551_init(diskunit_context_t *drv)
 void glue1551_reset(diskunit_context_t *drv)
 {
     alarm_unset(glue1551[drv->mynumber].timer_alarm);
-    alarm_set(glue1551[drv->mynumber].timer_alarm,
-              *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
+
+    if (drv->type == DRIVE_TYPE_1551) {
+        alarm_set(glue1551[drv->mynumber].timer_alarm,
+                  *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
+    }
     glue1551[drv->mynumber].irq_line = 0;
 
     drv->drives[0]->led_status = 1;
