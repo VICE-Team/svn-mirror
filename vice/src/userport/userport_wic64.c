@@ -236,6 +236,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64server", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64DefaultServer", NULL,
       "<URL>", "Specify default server URL" },
+    { "-wic64timezone", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64Timezone", NULL,
+      "<TZ>", "Specify default timezone as offset to GMT" },
     CMDLINE_LIST_END
 };
 
