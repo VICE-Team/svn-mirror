@@ -8853,39 +8853,48 @@ Set the device attached to the userport (see table below):
 @tab Synergy userport joy adapter
 @tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
 @item 11
-@tab Userport DAC
+@tab Wheel of joystick 8-joy userport joy adapter
 @tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
 @item 12
+@tab Userport DAC
+@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@item 13
 @tab Userport DigiMAX
 @tab x64, x64sc, x128, xscpu64, xcbm2
-@item 13
+@item 14
 @tab Userport 4bit sampler
 @tab x64, x64sc, x128, xscpu64, xcbm2
-@item 14
+@item 15
 @tab Userport 8bit stereo sampler
 @tab x64, x64sc, x128, xscpu64, xcbm2
-@item 15
+@item 16
 @tab Userport RTC (RTC58321A)
 @tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
-@item 16
+@item 17
 @tab Userport RTC (DS1307)
 @tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
-@item 17
+@item 18
 @tab Userport Petscii SNES pad
 @tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
-@item 18
+@item 19
 @tab Userport SuperPad64
 @tab x64, x64sc, x128, xscpu64, xcbm2
 @item 20
+@tab Userport Diag 586220 Harness
+@tab x64, x64sc, x128, xscpu64
+@item 21
 @tab Userport parallel drive cable
 @tab x64, x64sc, x128, xscpu64, xplus4
-@item 21
+@item 22
 @tab Userport I/O Simulation
 @tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
 @item 23
-@tab Joystick Adapter (Spaceballs)
+@tab Userport WiC64 Simulation
 @tab x64, x64sc, x128, xscpu64, xvic
 @item 24
+@tab Joystick Adapter (Spaceballs)
+@tab x64, x64sc, x128, xscpu64, xvic
+@item 25
 @tab Userport Stupid Pet Tricks joystick adapter
 @tab x64, x64sc, x128, xscpu64, xcbm2, xpet, xvic
 @end multitable
@@ -8905,6 +8914,28 @@ Boolean specifying whether the userport RTC data is saved when changed or not
 @vindex WIC64DefaultServer
 @item WIC64DefaultServer
 String specifying the default server URL used by the wic64 emulation.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64Timezone
+@item WIC64Timezone
+Integer specifying the default timezone used by the wic64 emulation.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64SecToken
+@item WIC64SecToken
+String specifying the security token used by the wic64 emulation for
+identifying the user at the WiC64 portal.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64MACAddress
+@item WIC64MACAddress
+String specifying the pseudo MAC address used by the wic64 emulation for
+identifying the user at the WiC64 portal.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64IPAddress
+@item WIC64IPAddress
+String specifying the IP address used by the wic64 emulation.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
@@ -8933,8 +8964,13 @@ Disable/enable saving of the userport RTC data when changed
 (xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64server
-@item -wic64server <name>
+@item -wic64server <URL>
 String specifying the default server URL used by the wic64 emulation, @code{WIC64DefaultServer}.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64timezone
+@item -wic64timezone <TZ>
+String specifying the default timezone used by the wic64 emulation, @code{WIC64Timezone}.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
