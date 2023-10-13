@@ -384,7 +384,7 @@ static void on_sec_token_icon_press(GtkEntry             *self,
  * \param[in]   widget      button triggering the event
  * \param[in]   user_data   n/a
  */
-static void on_wic64_reset_settgins_clicked(GtkWidget *widget, gpointer p)
+static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
 {
     int tz;
     char *defserver;
@@ -482,7 +482,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     reset = gtk_button_new_with_label("Reset WiC64");
     g_signal_connect(reset,
                      "clicked",
-                     G_CALLBACK(on_wic64_reset_settgins_clicked),
+                     G_CALLBACK(on_wic64_reset_settings_clicked),
                      0);
     gtk_grid_attach(GTK_GRID(grid), reset, 0, row, 1, 1);
     row++;
