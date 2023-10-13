@@ -599,7 +599,7 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     GLuint view_size_uniform;
     GLuint source_size_uniform;
     GLuint this_frame_uniform;
-    GLuint last_frame_uniform;
+    GLuint last_frame_uniform = 0;
 
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     filter = canvas->videoconfig->glfilter;

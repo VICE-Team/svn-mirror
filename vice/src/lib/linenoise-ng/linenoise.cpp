@@ -186,6 +186,7 @@ static char *ln_strdup(const char *s)
 #include "ConvertUTF.h"
 #include "wcwidth.h"
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <memory>
@@ -194,8 +195,6 @@ using std::string;
 using std::vector;
 using std::unique_ptr;
 using namespace linenoise_ng;
-
-typedef unsigned char char8_t;
 
 static ConversionResult copyString8to32(char32_t* dst, size_t dstSize,
                                         size_t& dstCount, const char* src) {
@@ -219,7 +218,7 @@ static ConversionResult copyString8to32(char32_t* dst, size_t dstSize,
 }
 
 static ConversionResult copyString8to32(char32_t* dst, size_t dstSize,
-                                        size_t& dstCount, const char8_t* src) {
+                                        size_t& dstCount, const uint8_t* src) {
   return copyString8to32(dst, dstSize, dstCount,
                          reinterpret_cast<const char*>(src));
 }
@@ -234,12 +233,12 @@ static size_t strlen32(const char32_t* str) {
   return ptr - str;
 }
 
-static size_t strlen8(const char8_t* str) {
+static size_t strlen8(const uint8_t* str) {
   return strlen(reinterpret_cast<const char*>(str));
 }
 
-static char8_t* strdup8(const char* src) {
-  return reinterpret_cast<char8_t*>(strdup(src));
+static uint8_t* strdup8(const char* src) {
+  return reinterpret_cast<uint8_t*>(strdup(src));
 }
 
 #ifdef _WIN32
@@ -509,7 +508,7 @@ class Utf32String {
     copyString8to32(_data, len + 1, _length, src);
   }
 
-  explicit Utf32String(const char8_t* src) : _length(0), _data(nullptr) {
+  explicit Utf32String(const uint8_t* src) : _length(0), _data(nullptr) {
     size_t len = strlen(reinterpret_cast<const char*>(src));
     // note: parens intentional, _data must be properly initialized
     _data = new char32_t[len + 1]();
@@ -1012,7 +1011,7 @@ static int atexit_registered = 0; /* register atexit just 1 time */
 static int historyMaxLen = LINENOISE_DEFAULT_HISTORY_MAX_LEN;
 static int historyLen = 0;
 static int historyIndex = 0;
-static char8_t** history = NULL;
+static uint8_t** history = NULL;
 
 // used to emulate Windows command prompt on down-arrow after a recall
 // we use -2 as our "not set" value because we add 1 to the previous index on
@@ -1437,10 +1436,10 @@ void InputBuffer::refreshLine(PromptBase& pi) {
  * @return  char32_t Unicode character
  */
 static char32_t readUnicodeCharacter(void) {
-  static char8_t utf8String[5];
+  static uint8_t utf8String[5];
   static size_t utf8Count = 0;
   while (true) {
-    char8_t c;
+    uint8_t c;
 
     /* Continue reading if interrupted by signal. */
     ssize_t nread;
@@ -3334,19 +3333,19 @@ int linenoiseHistoryAdd(const char* line) {
   }
   if (history == NULL) {
     history =
-        reinterpret_cast<char8_t**>(malloc(sizeof(char8_t*) * historyMaxLen));
+        reinterpret_cast<uint8_t**>(malloc(sizeof(uint8_t*) * historyMaxLen));
     if (history == NULL) {
       return 0;
     }
     memset(history, 0, (sizeof(char*) * historyMaxLen));
   }
-  char8_t* linecopy = strdup8(line);
+  uint8_t* linecopy = strdup8(line);
   if (!linecopy) {
     return 0;
   }
 
   // convert newlines in multi-line code to spaces before storing
-  char8_t* p = linecopy;
+  uint8_t* p = linecopy;
   while (*p) {
     if (*p == '\n') {
       *p = ' ';
@@ -3382,8 +3381,8 @@ int linenoiseHistorySetMaxLen(int len) {
   }
   if (history) {
     int tocopy = historyLen;
-    char8_t** newHistory =
-        reinterpret_cast<char8_t**>(malloc(sizeof(char8_t*) * len));
+    uint8_t** newHistory =
+        reinterpret_cast<uint8_t**>(malloc(sizeof(uint8_t*) * len));
     if (newHistory == NULL) {
       return 0;
     }
@@ -3391,7 +3390,7 @@ int linenoiseHistorySetMaxLen(int len) {
       tocopy = len;
     }
     memcpy(newHistory, history + historyMaxLen - tocopy,
-           sizeof(char8_t*) * tocopy);
+           sizeof(uint8_t*) * tocopy);
     free(history);
     history = newHistory;
   }
