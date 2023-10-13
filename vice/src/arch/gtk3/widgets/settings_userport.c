@@ -70,6 +70,14 @@ static GtkWidget *rtc_58321a_save = NULL;
 /** \brief  ds1307 save enable toggle button */
 static GtkWidget *rtc_ds1307_save = NULL;
 
+#ifdef HAVE_LIBCURL
+/** \brief  WiC64 save enable settigns */
+static GtkWidget *wic64_save = NULL;
+
+static GtkWidget *wic64_server_save = NULL;
+static GtkWidget *wic64_tz_save = NULL;
+
+#endif
 
 /** \brief  Create left-aligned label with Pango markup
  *
@@ -106,13 +114,13 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
                                                "Enable RTC (DS1307) saving");
 }
 
-/** \brief  Set the RTC checkboxes' sensitivity based on device ID
+/** \brief  Set the RTC checkboxes' or WiC64 settings sensitivity based on device ID
  *
- * Use userport device \a id to determine which RTC checkboxes to 'grey-out'.
+ * Use userport device \a id to determine which widget to 'grey-out'.
  *
  * \param[in]   id  userport device ID
  */
-static void set_rtc_widgets_sensitivity(int id)
+static void set_widgets_sensitivity(int id)
 {
     if (rtc_58321a_save != NULL) {
         gtk_widget_set_sensitive(rtc_58321a_save, id == USERPORT_DEVICE_RTC_58321A);
@@ -120,6 +128,11 @@ static void set_rtc_widgets_sensitivity(int id)
     if (rtc_ds1307_save != NULL) {
         gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
     }
+#ifdef HAVE_LIBCURL
+    if (wic64_save != NULL) {
+        gtk_widget_set_sensitive(wic64_save, id == USERPORT_DEVICE_WIC64);
+    }
+#endif
 }
 
 /** \brief  Handler for the 'changed' event of the device combobox
@@ -145,7 +158,7 @@ static void on_device_changed(GtkComboBox *combo, gpointer user_data)
                            COL_DEVICE_NAME, &name,
                            -1);
         resources_set_int("UserportDevice", id);
-        set_rtc_widgets_sensitivity(id);
+        set_widgets_sensitivity(id);
         g_free(name);
     }
 }
@@ -198,8 +211,8 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
         } while (gtk_tree_model_iter_next(model, &iter));
     }
 
-    /* set RTC checkboxes "greyed-out" state */
-    set_rtc_widgets_sensitivity(id);
+    /* set RTC checkboxes or WiC64 settings "greyed-out" state */
+    set_widgets_sensitivity(id);
 
     /* unblock signal, if blocked */
     if (blocked) {
@@ -334,6 +347,7 @@ static GtkWidget *create_wic64_timezone_combo(void)
     return combo;
 }
 
+#if 0
 /** \brief  Handler for the 'icon-press' event of the "Security token" entry
  *
  * Toggle visibility of the WIC64 security token when clicking the "eye" icon
@@ -363,6 +377,27 @@ static void on_sec_token_icon_press(GtkEntry             *self,
         gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_PRIMARY, name);
     }
 }
+#endif
+
+/** \brief   Handler for the 'clicked' event of the 'reset' buttons
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   n/a
+ */
+static void on_wic64_reset_settgins_clicked(GtkWidget *widget, gpointer p)
+{
+    int tz;
+    char *defserver;
+
+    resources_get_default_value("WIC64Timezone", (void *)&tz);
+    resources_get_default_value("WIC64DefaultServer", (void *)&defserver);
+
+    resources_set_int("WIC64Timezone", tz);
+    resources_set_string("WIC64DefaultServer", defserver);
+
+    vice_gtk3_resource_entry_factory(wic64_server_save);
+    vice_gtk3_resource_combo_int_sync(wic64_tz_save);
+}
 
 /** \brief  Append WIC64 widgets to the main grid
  *
@@ -376,10 +411,13 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *server;
+    GtkWidget *timezone;
+#if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
-    GtkWidget *timezone;
     GtkWidget *sec_token;
+#endif
+    GtkWidget *reset;
     int        row = 0;
 
     grid = gtk_grid_new();
@@ -392,12 +430,13 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row++, 2, 1);
 
     label  = label_helper("Default server");
-    server = vice_gtk3_resource_entry_new("WIC64DefaultServer");
+    wic64_server_save = server = vice_gtk3_resource_entry_new("WIC64DefaultServer");
     gtk_widget_set_hexpand(server, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server, 1, row, 1, 1);
     row++;
 
+#if 0
     label    = label_helper("MAC address");
     mac_addr = vice_gtk3_resource_entry_new("WIC64MACAddress");
     gtk_widget_set_hexpand(mac_addr, TRUE);
@@ -411,14 +450,16 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), label,   0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ip_addr, 1, row, 1, 1);
     row++;
+#endif
 
     label    = label_helper("Timezone");
-    timezone = create_wic64_timezone_combo();
+    wic64_tz_save = timezone = create_wic64_timezone_combo();
     gtk_widget_set_hexpand(timezone, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label,    0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), timezone, 1, row, 1, 1);
     row++;
 
+#if 0
     label     = label_helper("Security token");
     sec_token = vice_gtk3_resource_entry_new("WIC64SecToken");
     gtk_widget_set_hexpand(sec_token, TRUE);
@@ -437,7 +478,16 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), label,     0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sec_token, 1, row, 1, 1);
     row++;
+#endif
+    reset = gtk_button_new_with_label("Reset WiC64");
+    g_signal_connect(reset,
+                     "clicked",
+                     G_CALLBACK(on_wic64_reset_settgins_clicked),
+                     0);
+    gtk_grid_attach(GTK_GRID(grid), reset, 0, row, 1, 1);
+    row++;
 
+    wic64_save = grid;
     gtk_grid_attach(GTK_GRID(parent_grid), grid, 0, parent_row, 2, 1);
     return parent_row + 1;
 }
@@ -505,7 +555,8 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
     if (machine_class == VICE_MACHINE_C64 ||
         machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_VIC20) {
+        machine_class == VICE_MACHINE_VIC20 ||
+        machine_class == VICE_MACHINE_SCPU64) {
         row = append_wic64_widgets(grid, row);
     }
 #endif
