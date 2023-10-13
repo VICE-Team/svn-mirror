@@ -206,7 +206,7 @@ static int wic64_set_sectoken(const char *val, void *v)
 static int wic64_set_timezone(int val, void *param)
 {
     current_tz = val;
-    return current_tz;
+    return 0;
 }
 
 int userport_wic64_resources_init(void)
