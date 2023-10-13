@@ -347,7 +347,7 @@ static GtkWidget *create_wic64_timezone_combo(void)
     return combo;
 }
 
-#if 0
+#if 0 /* disabled, as security token editable actually makes no sense */
 /** \brief  Handler for the 'icon-press' event of the "Security token" entry
  *
  * Toggle visibility of the WIC64 security token when clicking the "eye" icon
@@ -459,7 +459,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), timezone, 1, row, 1, 1);
     row++;
 
-#if 0
+#if 0 /* keep it for now, as it was @compyx's fun to hack it ;-) */
     label     = label_helper("Security token");
     sec_token = vice_gtk3_resource_entry_new("WIC64SecToken");
     gtk_widget_set_hexpand(sec_token, TRUE);
