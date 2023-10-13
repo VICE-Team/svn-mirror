@@ -137,8 +137,8 @@ static char *default_server_hostname = NULL;
 
 #define WLAN_SSID   "VICE WiC64 emulation"
 #define WLAN_RSSI   "123"
-static unsigned char *wic64_mac_address = NULL; //[6] = { 0x00, 0xd8, 0x61, 0xdd, 0xee, 0xff }; /* 4 latter bytes will be overwritten by randoms */
-static unsigned char *wic64_internal_ip = NULL; //[4] = { 192, 168, 42, 42 }; /* just something meaningful */
+static char *wic64_mac_address = NULL; /* c-string std. notation e.g 0a:02:0b:04:05:0c */
+static char *wic64_internal_ip = NULL; /* c-string std. notation e.g. 192.168.1.10 */
 static unsigned char wic64_external_ip[4] = { 0, 0, 0, 0 }; /* just a dummy, report not implemented to user cmd 0x13 */
 static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
@@ -742,9 +742,13 @@ static void do_command_01(void)
         strncpy(temppath, path, p - path);
         temppath[p - path] = 0;
         /* add the MAC address */
-        sprintf(macstring, "%02x%02x%02x%02x%02x%02x%s",
-                wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2],
-                wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5],
+        sprintf(macstring, "%c%c%c%c%c%c%c%c%c%c%c%c%s",
+                wic64_mac_address[0], wic64_mac_address[1],
+                wic64_mac_address[3], wic64_mac_address[4],
+                wic64_mac_address[6], wic64_mac_address[7],
+                wic64_mac_address[9], wic64_mac_address[10],
+                wic64_mac_address[12], wic64_mac_address[13],
+                wic64_mac_address[15], wic64_mac_address[16],
                 sess);
         strcat(temppath, macstring);
         strcat(temppath, p + 4);
@@ -809,8 +813,7 @@ static void do_command_06(void)
     char buffer[0x20];
     /* FIXME: update the internal IP */
     DBG(("%s: get wic64 IP address - returning dummy address", __FUNCTION__));
-    sprintf(buffer, "%d.%d.%d.%d", wic64_internal_ip[0], wic64_internal_ip[1],
-            wic64_internal_ip[2], wic64_internal_ip[3]);
+    sprintf(buffer, "%s", wic64_internal_ip);
     send_reply(buffer);
 }
 
@@ -926,9 +929,7 @@ static void do_command_14(void)
 {
     char buffer[0x20];
     DBG(("%s: get wic64 MAC address", __FUNCTION__));
-    sprintf(buffer, "%02x:%02x:%02x:%02x:%02x:%02x",
-            wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2],
-            wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5]);
+    sprintf(buffer, "%s", wic64_mac_address);
     send_reply(buffer);
 }
 
@@ -1401,7 +1402,7 @@ static void userport_wic64_store_pa2(uint8_t value)
 
 static void userport_wic64_reset(void)
 {
-    unsigned char *tmp;
+    char *tmp;
     int tmp_tz;
     /* DBG(("userport_wic64_reset")); */
     commandptr = input_command = input_state = input_length = 0;
@@ -1412,14 +1413,11 @@ static void userport_wic64_reset(void)
     if ((resources_get_string("WIC64MACAddress", (const char **)&tmp) == -1) ||
         (tmp == NULL) ||
         (strcmp((const char*)tmp, "DEADBE") == 0)) {
-        wic64_mac_address = lib_malloc(7);
-        wic64_mac_address[0] = 33;
-        wic64_mac_address[1] = 35;
-        wic64_mac_address[2] = lib_unsigned_rand(35, 127);
-        wic64_mac_address[3] = lib_unsigned_rand(35, 127);
-        wic64_mac_address[4] = lib_unsigned_rand(35, 127);
-        wic64_mac_address[5] = lib_unsigned_rand(35, 127);
-        wic64_mac_address[6] = '\0';
+        wic64_mac_address = lib_malloc(32);
+        snprintf(wic64_mac_address, 32, "08:d1:f9:%02x:%02x:%02x",
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15));
         DBG(("WIC64: generated MAC: %s", wic64_mac_address));
     } else {
         wic64_mac_address = tmp;
@@ -1428,12 +1426,10 @@ static void userport_wic64_reset(void)
     if ((resources_get_string("WIC64IPAddress", (const char **)&tmp) == -1) ||
         (tmp == NULL) ||
         (strcmp((const char *)tmp, "AAAA") == 0)) {
-        wic64_internal_ip = lib_malloc(5);
-        wic64_internal_ip[0] = 65;
-        wic64_internal_ip[1] = 65;
-        wic64_internal_ip[2] = lib_unsigned_rand(35, 127);
-        wic64_internal_ip[3] = lib_unsigned_rand(35, 127);
-        wic64_internal_ip[4] = '\0';
+        wic64_internal_ip = lib_malloc(16);
+        snprintf(wic64_internal_ip, 16, "192.168.%u.%u",
+                 lib_unsigned_rand(1, 254),
+                 lib_unsigned_rand(1, 254));
         DBG(("WIC64: generated internal IP: %s", wic64_internal_ip));
     } else {
         wic64_internal_ip = tmp;
