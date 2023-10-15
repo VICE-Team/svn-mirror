@@ -411,7 +411,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *server;
-    GtkWidget *timezone;
+    GtkWidget *tz_widget;
 #if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
@@ -453,10 +453,10 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
 #endif
 
     label    = label_helper("Timezone");
-    wic64_tz_save = timezone = create_wic64_timezone_combo();
-    gtk_widget_set_hexpand(timezone, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label,    0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), timezone, 1, row, 1, 1);
+    wic64_tz_save = tz_widget = create_wic64_timezone_combo();
+    gtk_widget_set_hexpand(tz_widget, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label,     0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tz_widget, 1, row, 1, 1);
     row++;
 
 #if 0 /* keep it for now, as it was @compyx's fun to hack it ;-) */
