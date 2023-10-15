@@ -480,11 +480,6 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
             DBG(("%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
                  curl_easy_strerror(res)));
         }
-        if (response == 404) {
-            log_message(LOG_DEFAULT, "WiC64: URL '%s' not found (http code: %ld)", url, response);
-            goto out;
-        }
-        /* Fixme: check if curl_easy... needs cleanup, or if code below is sufficient */
     }
     if (response == 201) {
         /* prefs update requested, handles replies */
