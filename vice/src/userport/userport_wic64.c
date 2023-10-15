@@ -580,8 +580,11 @@ static void reply_next_byte(void)
         reply_port_value = replybuffer[replyptr];
         /* DBG(("reply_next_byte: %3d/%3d - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
         replyptr++;
+        if (replyptr == reply_length) {
+            replyptr = reply_length = 0;
+        }
     } else {
-        reply_length = 0;
+        replyptr = reply_length = 0;
     }
 }
 
