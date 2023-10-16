@@ -699,6 +699,7 @@ static void do_command_01(void)
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    big_load = 0;
 
     /* sanity check if URL is OK in principle */
     for (i = 0; i < commandptr; i++) {
@@ -1199,7 +1200,6 @@ static void do_command_25(void)
     /* this command sends no reply */
     big_load = 1;
     do_command_01();
-    big_load = 0;
     /* send_reply("!E"); */
 }
 
