@@ -249,7 +249,7 @@ int userport_wic64_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define HTTPREPLY_MAXLEN    (0x18000)
+#define HTTPREPLY_MAXLEN    (1024 * 1024) /* 1MB should be more than enough */
 #define COMMANDBUFFER_MAXLEN    0x1000
 
 static size_t httpbufferptr = 0;
@@ -548,8 +548,8 @@ uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 char replybuffer[HTTPREPLY_MAXLEN + 16]; /* length an a bit spare */
 uint16_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
-
 static struct alarm_s *flag2_alarm = NULL;
+static int big_load = 0;
 
 static void flag2_alarm_handler(CLOCK offset, void *data)
 {
@@ -595,11 +595,24 @@ static void send_reply(const char * reply)
 
 static void send_binary_reply(const uint8_t *reply, size_t len)
 {
+    int offs;
+
     /* highbyte first! */
-    replybuffer[1] = len & 0xff;
-    replybuffer[0] = (len >> 8) & 0xff;
-    memcpy((char*)replybuffer + 2, reply, len);
-    reply_length = len + 2;
+    if (big_load) {
+        offs = 4;
+        replybuffer[3] = len & 0xff;
+        replybuffer[2] = (len >> 8) & 0xff;
+        replybuffer[1] = (len >> 16) & 0xff;
+        replybuffer[0] = (len >> 24) & 0xff;
+
+    } else {
+        offs = 2;
+        replybuffer[1] = len & 0xff;
+        replybuffer[0] = (len >> 8) & 0xff;
+    }
+
+    memcpy((char*)replybuffer + offs, reply, len);
+    reply_length = len + offs;
     replyptr = 0;
     if (len > 0) {
         DBG(("%s: sending", __FUNCTION__));
@@ -1181,10 +1194,13 @@ static void do_command_24(void)
 
 static void do_command_25(void)
 {
-    DBG(("%s: big loader - not implemented", __FUNCTION__));
+    /* DBG(("%s: big loader - not implemented", __FUNCTION__)); */
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     /* this command sends no reply */
-    send_reply("!E");
+    big_load = 1;
+    do_command_01();
+    big_load = 0;
+    /* send_reply("!E"); */
 }
 
 /* factory reset */
