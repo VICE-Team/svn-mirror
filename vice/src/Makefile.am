@@ -667,8 +667,8 @@ vsid_libs =  \
 	$(joystickdrv_lib) \
 	$(hvsc_lib) \
 	$(datasette_lib) \
-	$(vsidstubs_lib) \
-	$(hotkeys_lib)
+	$(hotkeys_lib) \
+	$(vsidstubs_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)
@@ -811,7 +811,6 @@ x64dtv_libs =  \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
-	$(userport_lib) \
 	$(diag_lib) \
 	$(vdrive_lib) \
 	$(sid_dtv_lib) \
@@ -829,7 +828,8 @@ x64dtv_libs =  \
 	$(rtc_lib) \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \
-	$(zmbv_lib)
+	$(zmbv_lib)\
+	$(userport_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
@@ -925,8 +925,8 @@ x128_libs =  \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
-	$(userport_lib) \
 	$(diag_lib) \
+	$(userport_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1021,18 +1021,18 @@ xpet_libs =  \
 	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
-	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(userport_lib) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
-	$(petstubs_lib) \
 	$(resid_libs) \
 	$(rtc_lib) \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \
-	$(zmbv_lib)
+	$(zmbv_lib) \
+	$(petstubs_lib)
 
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPET_RES)
@@ -1073,17 +1073,17 @@ xplus4_libs =  \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(rtc_lib) \
-	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(userport_lib) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
-	$(plus4stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \
-	$(zmbv_lib)
+	$(zmbv_lib) \
+	$(plus4stubs_lib)
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPLUS4_RES)
@@ -1122,8 +1122,8 @@ xcbm2_libs = \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(userport_lib) \
 	$(common_libs) \
+	$(userport_lib) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
@@ -1174,10 +1174,10 @@ xcbm5x0_libs = \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(xcbm5x0stubs_lib) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
-	$(xcbm5x0stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \

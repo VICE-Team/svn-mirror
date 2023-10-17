@@ -59,14 +59,3 @@ bool pia1_get_diagnostic_pin(void)
 {
     return false;
 }
-
-/******************************************************************************
- *                                   Userport                                 *
- *****************************************************************************/
-
-#ifdef HAVE_LIBCURL
-const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
-{
-    return NULL;
-}
-#endif
