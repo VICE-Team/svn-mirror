@@ -639,12 +639,12 @@ int machine_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* ... while the other CBM-II use the CRTC retrace signal. */
 
-static void cbm2_crtc_signal(unsigned int signal)
+static void cbm2_crtc_signal(unsigned int signal, CLOCK offset)
 {
     if (signal) {
-        SIGNAL_VERT_BLANK_ON
+        SIGNAL_VERT_BLANK_ON    /* TODO: use offset */
     } else {
-        SIGNAL_VERT_BLANK_OFF
+        SIGNAL_VERT_BLANK_OFF   /* TODO: use offset */
     }
 }
 
