@@ -76,7 +76,7 @@ uint8_t *petdww_crtc_get_active_bitmap(void);
  *      approach, I'd be glad to hear/see it    -- compyx, 2017-08-17
  */
 uint8_t petdwwpia_peek(uint16_t addr);
-void petdwwpia_signal(int line, int edge);
+void petdwwpia_signal(int line, int edge, CLOCK offset);
 void petdwwpia_init(void);
 
 #endif
