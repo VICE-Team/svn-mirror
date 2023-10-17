@@ -152,14 +152,3 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 *******************************************************************************/
 
 clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
-
-/******************************************************************************
- *                                   Userport                                 *
- *****************************************************************************/
-
-#ifdef HAVE_LIBCURL
-const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
-{
-    return NULL;
-}
-#endif
