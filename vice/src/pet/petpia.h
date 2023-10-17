@@ -51,7 +51,7 @@ int pia1_cmdline_options_init(void);
 
 void pia1_init(void);
 void pia1_reset(void);
-void pia1_signal(int line, int edge);
+void pia1_signal(int line, int edge, CLOCK offset);
 void pia1_store(uint16_t addr, uint8_t value);
 uint8_t pia1_read(uint16_t addr);
 uint8_t pia1_peek(uint16_t addr);
@@ -67,7 +67,7 @@ int pia1_snapshot_write_module(struct snapshot_s *);
 
 void pia2_init(void);
 void pia2_reset(void);
-void pia2_signal(int line, int edge);
+void pia2_signal(int line, int edge, CLOCK offset);
 void pia2_store(uint16_t addr, uint8_t value);
 uint8_t pia2_read(uint16_t addr);
 uint8_t pia2_peek(uint16_t addr);
