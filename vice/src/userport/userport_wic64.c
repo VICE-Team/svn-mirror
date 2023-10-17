@@ -132,6 +132,7 @@ static const char *TOKEN_NAME = "sectokenname";
 static void handshake_flag2(void);
 static void send_binary_reply(const uint8_t *reply, size_t len);
 static void send_reply(const char *reply);
+static void send_reply_(const char *reply); /* raw send supporting big_load */
 static void userport_wic64_reset(void);
 static char *default_server_hostname = NULL;
 
@@ -165,6 +166,10 @@ static const resource_int_t wic64_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+#define HTTPREPLY_MAXLEN ((unsigned)(16 * 1024 * 1024)) /* 16MB needed for potential large images to flash via bigloader */
+static size_t httpbufferptr = 0;
+static uint8_t *httpbuffer = NULL;
+
 /* ------------------------------------------------------------------------- */
 
 static int userport_wic64_enable(int value)
@@ -176,6 +181,13 @@ static int userport_wic64_enable(int value)
     }
 
     userport_wic64_enabled = val;
+    if (val) {
+        httpbuffer = lib_malloc(HTTPREPLY_MAXLEN);
+        DBG(("%s: httpreplybuffer allocated 0x%xkB", __FUNCTION__, HTTPREPLY_MAXLEN / 1024));
+    } else {
+        lib_free(httpbuffer);
+        DBG(("%s: httpreplybuffer freed", __FUNCTION__));
+    }
     return 0;
 }
 
@@ -249,11 +261,8 @@ int userport_wic64_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-#define HTTPREPLY_MAXLEN    (1024 * 1024) /* 1MB should be more than enough */
 #define COMMANDBUFFER_MAXLEN    0x1000
 
-static size_t httpbufferptr = 0;
-static uint8_t httpbuffer[HTTPREPLY_MAXLEN];
 static char encoded_helper[COMMANDBUFFER_MAXLEN];
 
 #include <errno.h>
@@ -329,7 +338,7 @@ static void hexdump(const char *buf, int len)
     int idx = 0;
     int lines = 0;
     while (len > 0) {
-        printf("%04x: ", (unsigned) idx);
+        printf("%08x: ", (unsigned) idx);
         if (lines++ > 7) {      /* just print 8 lines */
             printf("...\n");
             break;
@@ -471,7 +480,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         if (res != CURLE_OK) {
             DBG(("%s: curl_easy_getinfo(...&response failed: %s", __FUNCTION__,
                  curl_easy_strerror(res)));
-            send_reply("!0");   /* maybe wrong here */
+            send_reply_("!0");   /* maybe wrong here, raw send supporting big_load */
             goto out;
         }
         res = curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
@@ -490,12 +499,12 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     if (response == 200) {
         DBG(("%s: got %lu bytes, URL: '%s', http code = %ld",
              __FUNCTION__, httpbufferptr, url, response));
-        send_binary_reply(httpbuffer, httpbufferptr);
+        send_binary_reply(httpbuffer, httpbufferptr); /* raw send, supporting big_load */
     } else {
         DBG(("%s: http code = %ld, sending '!0' back.", __FUNCTION__, response));
         log_message(LOG_DEFAULT, "WiC64: URL '%s' returned %lu bytes (http code: %ld)",
                     url, httpbufferptr, response);
-        send_reply("!0");
+        send_reply_("!0");      /* raw send supporting big_load */
     }
 
   out:
@@ -546,7 +555,7 @@ uint16_t input_length = 0, commandptr = 0;
 uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 
 char replybuffer[HTTPREPLY_MAXLEN + 16]; /* length an a bit spare */
-uint16_t replyptr = 0, reply_length = 0;
+uint32_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
 static struct alarm_s *flag2_alarm = NULL;
 static int big_load = 0;
@@ -588,8 +597,16 @@ static void reply_next_byte(void)
     }
 }
 
+/* raw send, where big_load may be used */
+static void send_reply_(const char * reply)
+{
+    send_binary_reply((uint8_t *)reply, strlen(reply));
+}
+
+/* all other replies, not to send as big_load reply */
 static void send_reply(const char * reply)
 {
+    big_load = 0;
     send_binary_reply((uint8_t *)reply, strlen(reply));
 }
 
@@ -699,7 +716,6 @@ static void do_command_01(void)
 
     DBG(("%s:", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    big_load = 0;
 
     /* sanity check if URL is OK in principle */
     for (i = 0; i < commandptr; i++) {
@@ -1109,6 +1125,7 @@ static void tcp_get_alarm_handler(CLOCK offset, void *data)
         if (nread) {
             DBG(("%s: nread = %lu, total_read = %lu", __FUNCTION__, nread, total_read));
         }
+        big_load = 0;
         send_binary_reply(curl_buf, total_read);
     } else {
         DBG(("%s: curl_easy_recv: %s", __FUNCTION__, curl_easy_strerror(res)));
@@ -1195,12 +1212,11 @@ static void do_command_24(void)
 
 static void do_command_25(void)
 {
-    /* DBG(("%s: big loader - not implemented", __FUNCTION__)); */
+    DBG(("%s: big loader", __FUNCTION__));
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
     /* this command sends no reply */
     big_load = 1;
     do_command_01();
-    /* send_reply("!E"); */
 }
 
 /* factory reset */
@@ -1215,6 +1231,7 @@ static void do_command(void)
 {
     switch (input_command) {
     case 0x01: /* http get */
+        big_load = 0;
         do_command_01();
         break;
     case 0x02: /* set wlan ssid + password */
@@ -1261,6 +1278,7 @@ static void do_command(void)
         do_command_0e();
         break;
     case 0x0f: /* send http with decoded url for PHP */
+        big_load = 0;
         do_command_0f();
         do_command_01();
         break;
@@ -1410,7 +1428,7 @@ static void userport_wic64_store_pa2(uint8_t value)
     if ((wic64_inputmode == 1)
         && (value == 0)
         && (reply_length)) {
-        DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length));
+        DBG(("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %u)", value, value ? "sends" : "receives", reply_length));
         handshake_flag2();
     }
     wic64_inputmode = value;
@@ -1435,7 +1453,7 @@ static void userport_wic64_reset(void)
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15));
-        DBG(("WIC64: generated MAC: %s", wic64_mac_address));
+        /* DBG(("WIC64: generated MAC: %s", wic64_mac_address)); */
     } else {
         wic64_mac_address = tmp;
     }
@@ -1447,7 +1465,7 @@ static void userport_wic64_reset(void)
         snprintf(wic64_internal_ip, 16, "192.168.%u.%u",
                  lib_unsigned_rand(1, 254),
                  lib_unsigned_rand(1, 254));
-        DBG(("WIC64: generated internal IP: %s", wic64_internal_ip));
+        /* DBG(("WIC64: generated internal IP: %s", wic64_internal_ip)); */
     } else {
         wic64_internal_ip = tmp;
     }
