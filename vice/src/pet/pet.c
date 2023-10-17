@@ -643,11 +643,11 @@ int machine_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define SIGNAL_VERT_BLANK_OFF   pia1_signal(PIA_SIG_CB1, PIA_SIG_RISE);
+#define SIGNAL_VERT_BLANK_OFF   pia1_signal(PIA_SIG_CB1, PIA_SIG_RISE, offset);
 
-#define SIGNAL_VERT_BLANK_ON    pia1_signal(PIA_SIG_CB1, PIA_SIG_FALL);
+#define SIGNAL_VERT_BLANK_ON    pia1_signal(PIA_SIG_CB1, PIA_SIG_FALL, offset);
 
-static void pet_crtc_signal(unsigned int signal)
+static void pet_crtc_signal(unsigned int signal, CLOCK offset)
 {
     if (signal) {
         SIGNAL_VERT_BLANK_ON

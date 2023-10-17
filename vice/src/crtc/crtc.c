@@ -817,7 +817,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if ((bool)crtc.vsync != (bool)new_vsync) {
             crtc.off_screen = new_vsync != 0;
             if (crtc.retrace_callback) {
-                crtc.retrace_callback(crtc.off_screen);
+                crtc.retrace_callback(crtc.off_screen, offset);
             }
         }
     } else {        /* PETs without CRTC */
@@ -825,7 +825,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if (crtc.venable != new_venable) {
             crtc.off_screen = !new_venable;
             if (crtc.retrace_callback) {
-                crtc.retrace_callback(crtc.off_screen);
+                crtc.retrace_callback(crtc.off_screen, offset);
             }
         }
 #endif /* CRTC_BEAM_RACING */
@@ -921,7 +921,7 @@ static void crtc_adjusted_retrace_alarm_handler(CLOCK offset, void *data)
      * off_screen = !venable, we must omit the negation.
      */
     crtc.off_screen = crtc.venable;
-    crtc.retrace_callback(crtc.off_screen);
+    crtc.retrace_callback(crtc.off_screen, offset);
 }
 
 /*

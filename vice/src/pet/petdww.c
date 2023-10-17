@@ -83,10 +83,6 @@ static void petdww_DRAW_40(uint8_t *p, int xstart, int xend, int scr_rel, int ym
 static void petdww_DRAW_80(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8);
 static void petdww_DRAW_blank(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8);
 
-#if 0
-static void petdwwpia_signal(int line, int edge);
-static uint8_t petdwwpia_peek(uint16_t addr);
-#endif
 static int petdwwpia_snapshot_write_module(snapshot_t *);
 static int petdwwpia_snapshot_read_module(snapshot_t *);
 
@@ -535,7 +531,7 @@ static piareg mypia;
 /* ------------------------------------------------------------------------- */
 /* CPU binding */
 
-static void my_set_int(unsigned int pia_int_num, int a)
+static void my_set_int(unsigned int pia_int_num, int a, CLOCK offset)
 {
 }
 

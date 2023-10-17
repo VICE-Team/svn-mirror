@@ -36,7 +36,7 @@
 
 #include "types.h"
 
-typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
+typedef void (*machine_crtc_retrace_signal_t)(unsigned int, CLOCK offset);
 typedef void (*crtc_hires_draw_t)(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8);
 
 struct snapshot_s;
