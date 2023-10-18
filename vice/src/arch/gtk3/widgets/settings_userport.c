@@ -317,6 +317,26 @@ static GtkWidget *create_device_combobox(void)
 
 #ifdef HAVE_LIBCURL
 
+/** \brief  Create widget for the "WIC64Logenabled" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_wic64_logenabled_widget(void)
+{
+    return vice_gtk3_resource_check_button_new("WIC64Logenabled",
+                                               "Enable WIC64 tracing");
+}
+
+/** \brief  Create widget for the "WIC64Logenabled" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_wic64_resetuser_widget(void)
+{
+    return vice_gtk3_resource_check_button_new("WIC64Resetuser",
+                                               "Reset User when resetting WIC64");
+}
+
 /* Columns in the WIC64 timezone combobox */
 enum {
     TZ_COL_IDX,     /**< ID of the timezone */
@@ -387,6 +407,7 @@ static void on_sec_token_icon_press(GtkEntry             *self,
 static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
 {
     int tz;
+    int reset_user;
     char *defserver;
 
     resources_get_default_value("WIC64Timezone", (void *)&tz);
@@ -395,6 +416,16 @@ static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
     resources_set_int("WIC64Timezone", tz);
     resources_set_string("WIC64DefaultServer", defserver);
 
+    resources_get_int("WIC64Resetuser", &reset_user);
+    if (reset_user) {
+        char tmp[32];
+        snprintf(tmp, 32, "08:d1:f9:%02x:%02x:%02x",
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15));
+        resources_set_string("WIC64MACAddress", tmp);
+        resources_set_string("WIC64SecToken", "0123456789ab");
+    }
     vice_gtk3_resource_entry_factory(wic64_server_save);
     vice_gtk3_resource_combo_int_sync(wic64_tz_save);
 }
@@ -412,6 +443,8 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *label;
     GtkWidget *server;
     GtkWidget *tz_widget;
+    GtkWidget *tracing;
+    GtkWidget *resetuser;
 #if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
@@ -428,6 +461,11 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     label = label_helper("<b>WiC64 settings</b>");
     gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row++, 2, 1);
+
+    /* enable WiC64 tracing */
+    tracing = create_wic64_logenabled_widget();
+    gtk_grid_attach(GTK_GRID(grid), tracing,     0, row, 1, 1);
+    row++;
 
     label  = label_helper("Default server");
     wic64_server_save = server = vice_gtk3_resource_entry_new("WIC64DefaultServer");
@@ -485,6 +523,9 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
                      G_CALLBACK(on_wic64_reset_settings_clicked),
                      0);
     gtk_grid_attach(GTK_GRID(grid), reset, 0, row, 1, 1);
+    /* enable WiC64 tracing */
+    resetuser = create_wic64_resetuser_widget();
+    gtk_grid_attach(GTK_GRID(grid), resetuser, 1, row, 1, 1);
     row++;
 
     wic64_save = grid;
