@@ -215,9 +215,4 @@ extern crtc_t crtc;
 #define CRTC_EXTRA_COLS         6
 #define CRTC_EXTRA_RASTERLINES  16
 
-/* Private function calls, used by the other VIC-II modules.  FIXME:
-   Prepend names with `_'?  */
-int crtc_load_palette(const char *name);
-void crtc_resize(void);
-
 #endif

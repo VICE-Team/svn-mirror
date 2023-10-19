@@ -564,14 +564,14 @@ void crtc_reset(void)
     crtc.prev_rl_sync = crtc.rl_sync;
     crtc.prev_rl_len = crtc.rl_len;
 
-    crtc.rl_start = maincpu_clk;
-    crtc.frame_start = maincpu_clk;
+    crtc.rl_start = maincpu_clk + 1;
+    crtc.frame_start = maincpu_clk + 1;
 
     crtc_reset_screen_ptr();
 
-    crtc.raster.ycounter = 0;
+    crtc.raster.ycounter = 0;           /* scan line within a text line (0..7) */
     crtc.current_charline = 0;
-    crtc.current_line = 0;
+    crtc.current_line = 0;              /* scan line */
     /* expected number of rasterlines for next frame */
     crtc.framelines = (crtc.regs[CRTC_REG_VTOTAL] + 1) * (crtc.regs[CRTC_REG_SCANLINE] + 1)
                       + crtc.regs[CRTC_REG_VTOTALADJ];
@@ -685,19 +685,22 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
     crtc.rl_sync = crtc.regs[CRTC_REG_HSYNC];
     crtc.rl_len = crtc.regs[CRTC_REG_HTOTAL];
 
-    crtc.rl_start = maincpu_clk - offset;
+    /*
+     * Alarm handlers for cycle N run after cpu accesses for cycle N.
+     * viacore.c contains code to confirm this, conditioned on
+     * CHECK_CPU_VS_ALARM_CLOCKS.
+     * So the start of the next line counts as being the next cycle: + 1.
+     */
+    crtc.rl_start = maincpu_clk - offset + 1;
 
     /******************************************************************
      * handle the rasterline numbering
      */
 
-    crtc.current_line++;
-    /* FIXFRAME; crtc.framelines --;
-
-    if (crtc.framelines == crtc.screen_yoffset) {}
-*/
+    crtc.current_line++;        /* Set it to the next line's number */
     vsync_do_end_of_line();
 
+    /* Did we create as many scan lines as the last time? */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
@@ -706,6 +709,16 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     {
         /* FIXME: charheight */
+        /*
+         * The screen starts at the first scan line of the first char of the
+         * first character line.  In each scan line, the text part is followed
+         * by right border, horizontal sync/retrace, left border.
+         * The text lines are followed by a bottom border, vertical retrace
+         * (which includes vertical sync), and top border. This total number of
+         * scan lines is expressed in VTOTAL text lines + VTOTALADJ scan lines.
+         * 
+         * Are we past the end of the screen, i.e. the top border?
+         */
         if (crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
 #if CRTC_BEAM_RACING
             if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
@@ -713,21 +726,21 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 /* Set the retrace/vertical blank alarm, to end the IRQ,
                  * at the rhs of the visible text area but 1 line above it.
                  * Non-crtc timings are fixed so we might as well use the
-                 * more efficient expression to check for the top line.
-                 * Include some propagation delay through the PIA. */
+                 * more efficient expression to check for the top line. */
                 alarm_set(crtc.adjusted_retrace_alarm,
-                          crtc.rl_start + crtc.rl_visible + 1);
+                          crtc.rl_start + crtc.rl_visible);
             }
 #endif
+            /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
             if ((crtc.raster.ycounter + 1) >= crtc.regs[CRTC_REG_VTOTALADJ]) {
                 long cycles;
 
-                /* Do vsync stuff.  */
+                /* Do vsync stuff. Reset line counters to top (0). */
                 /* printf("new screen at clk=%d\n",crtc.rl_start); */
                 crtc_reset_screen_ptr();
                 crtc.raster.ycounter = 0;
                 crtc.current_charline = 0;
-                new_venable = 1;
+                new_venable = 1;        /* Re-enable video */
 
                 /* expected number of rasterlines for next frame */
                 crtc.framelines = crtc.current_line;
@@ -751,8 +764,11 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 crtc.frame_start = crtc.rl_start;
             } else {
                 crtc.raster.ycounter++;
+                crtc.raster.ycounter &= 0x1f;
             }
         } else {
+            /* Are we NOT at the bottom most scan line of a character,
+             * i.e still inside it? */
             if (crtc.raster.ycounter != crtc.regs[CRTC_REG_SCANLINE]) {
 #if CRTC_BEAM_RACING
                 if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
@@ -762,15 +778,15 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     /* Set the retrace/vertical blank alarm, to cause an IRQ,
                      * at the end/rhs of the visible text area.
                      * Non-crtc timings are fixed so we might as well use the
-                     * more efficient expression to check for the bottom line.
-                     * Include some propagation delay through the PIA. */
+                     * more efficient expression to check for the bottom line. */
                     alarm_set(crtc.adjusted_retrace_alarm,
-                              crtc.rl_start + crtc.rl_visible + 1);
+                              crtc.rl_start + crtc.rl_visible);
                 }
 #endif
                 crtc.raster.ycounter++;
                 crtc.raster.ycounter &= 0x1f;
             } else {
+                /* Start a new character line */
                 crtc.raster.ycounter = 0;
                 crtc.cursor_lines = 0;
                 crtc.current_charline++;
@@ -779,11 +795,13 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 if (crtc.henable) {
                     crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
                 }
+                /* Are we past the text area? */
                 if (crtc.current_charline == crtc.regs[CRTC_REG_VDISP]) {
-                    new_venable = 0;
+                    new_venable = 0;            /* disable video */
                 }
+                /* Should the vertical sync signal start? */
                 if (crtc.current_charline == crtc.regs[CRTC_REG_VSYNC]) {
-                    /* printf("hsync starts at clk=%d\n",crtc.rl_start); */
+                    /* printf("vsync starts at clk=%d\n",crtc.rl_start); */
                     new_vsync = (crtc.regs[CRTC_REG_SYNCWIDTH] >> 4) & 0x0f;
                     if (!new_vsync) {
                         new_vsync = 16;
@@ -791,6 +809,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     new_vsync++;  /* compensate for the first decrease below */
                 }
             }
+            /* Enable or disable the cursor, if it is in the next character line */
             if (crtc.raster.ycounter == (unsigned int)(crtc.regs[CRTC_REG_CURSORSTART] & 0x1f)) {
                 crtc.cursor_lines = 1;
             } else if (crtc.raster.ycounter == (unsigned int)((crtc.regs[CRTC_REG_CURSOREND] + 1) & 0x1f)) {
@@ -799,6 +818,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
             crtc.henable = 1;
         }
+        /* If we're in the vertical sync area, count down how many lines are left. */
         if (new_vsync) {
             new_vsync--;
         }
@@ -872,10 +892,12 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                                   || !new_venable;
 
     /******************************************************************
-     * set up new alarm
+     * Set up new alarm.
+     * Note that rl_start was set to maincpu_clk + 1 above, so the total
+     * time between scanline alarms is properly rl_len + 1 cycles.
      */
 
-    alarm_set(crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
+    alarm_set(crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len);
 }
 
 #if CRTC_BEAM_RACING
@@ -949,8 +971,20 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
              * 40 cols: 1 character takes 1 clock cycle.
              * 80 cols: 2 characters take 1 clock cycle.
              * Expected values: 0...<frame duration at most>.
+             *
+             * We correct the cpu clock for the CRTC_STORE_OFFSET, but this
+             * happens to be cancelled out with the 1 cycle delay caused by the
+             * character ROM lookup.
              */
-            int beampos = (int)(maincpu_clk - crtc.rl_start) * crtc.hw_cols;
+            int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
+                               crtc.hw_cols;
+            /*
+             * For some as yet unexplained reason, on a tested 8032 (compared
+             * to 4032) you can store a screen value 1 cycle later and it will
+             * still be displayed instead of the old value.
+             */
+            if (crtc.hw_cols == 2)
+                beampos -= 2;
 
             if (xpos >= beampos) {
                 /* Character is still to be displayed in the current scan line */
@@ -963,7 +997,8 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
     }
 #if SNOW
     /* snow ... */
-    int beampos = (int)(maincpu_clk - crtc.rl_start) * crtc.hw_cols;
+    int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
+                       crtc.hw_cols;
     int width =  crtc.rl_visible * crtc.hw_cols;
 
     if (beampos >= 0 && beampos < width) {
@@ -982,6 +1017,11 @@ void crtc_shutdown(void)
 
 int crtc_offscreen(void)
 {
+    /*
+     * We currently shouldn't need to run pending alarms here, since this is
+     * called from viacore.c which does that already in viacore_read() for
+     * VIA_PRB.  For PETs (the only users) that's good enough.
+     */
     return crtc.off_screen;
 }
 

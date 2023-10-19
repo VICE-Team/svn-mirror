@@ -98,4 +98,11 @@ uint8_t *crtc_get_active_bitmap(void);
 void crtc_update_prefetch(uint16_t addr, uint8_t value);
 #endif
 
+/*
+ * The CRTC is only used on machines with the non-SC core, so CPU stores
+ * happen with the clock already incremented. To get the real clock value,
+ * subtract 1.
+ */
+#define CRTC_STORE_OFFSET       1
+
 #endif
