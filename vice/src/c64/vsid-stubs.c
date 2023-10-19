@@ -1199,6 +1199,10 @@ const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
 {
     return NULL;
 }
+
+void userport_wic64_factory_reset(void)
+{
+}
 #endif
 
 /*******************************************************************************
