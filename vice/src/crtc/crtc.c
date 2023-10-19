@@ -716,7 +716,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
          * The text lines are followed by a bottom border, vertical retrace
          * (which includes vertical sync), and top border. This total number of
          * scan lines is expressed in VTOTAL text lines + VTOTALADJ scan lines.
-         * 
+         *
          * Are we past the end of the screen, i.e. the top border?
          */
         if (crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
