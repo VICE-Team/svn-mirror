@@ -53,7 +53,7 @@ void crtc_store(uint16_t addr, uint8_t value)
      * The current raster line starts at the left edge of the text area.
      * That is also when the raster draw alarm is called.
      */
-    current_cycle = maincpu_clk - crtc.rl_start;
+    current_cycle = maincpu_clk - CRTC_STORE_OFFSET - crtc.rl_start;
 
     addr &= 1;
 
