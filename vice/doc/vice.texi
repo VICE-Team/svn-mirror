@@ -8938,6 +8938,17 @@ identifying the user at the WiC64 portal.
 String specifying the IP address used by the wic64 emulation.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@vindex WIC64Logenabled
+@item WIC64Logenabled
+Integer, 1: user selected WiC64 tracing, 0: no tracing.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64Resetuser
+@item WIC64Resetuser
+Integer 1: user credentials shall be reseted if WiC64 is reseted, 0:
+user credentials are preseved.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @end table
 
 @c @node FIXME
@@ -8969,8 +8980,8 @@ String specifying the default server URL used by the wic64 emulation, @code{WIC6
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64timezone
-@item -wic64timezone <TZ>
-String specifying the default timezone used by the wic64 emulation, @code{WIC64Timezone}.
+@item -wic64timezone <0..31>
+Integer to specify default timezone index, e.g. 2: European Central Time", @code{WIC64Timezone}.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table

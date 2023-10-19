@@ -99,6 +99,7 @@ static int wic64_set_sectoken(const char *val, void *p);
 static int wic64_set_timezone(int val, void *param);
 static int wic64_setlogenabled(int val, void *param);
 static int wic64_setresetuser(int val, void *param);
+static void wic64_log(const char *fmt, ...);
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -195,6 +196,7 @@ static int userport_wic64_enable(int value)
         DBG(("%s: httpreplybuffer allocated 0x%xkB", __FUNCTION__, HTTPREPLY_MAXLEN / 1024));
     } else {
         lib_free(httpbuffer);
+        httpbuffer = NULL;
         DBG(("%s: httpreplybuffer freed", __FUNCTION__));
     }
     return 0;
@@ -258,10 +260,14 @@ int userport_wic64_resources_init(void)
  */
 void userport_wic64_resources_shutdown(void)
 {
+    wic64_log("%s: shutting down wic64", __FUNCTION__);
     lib_free(default_server_hostname);
     lib_free(wic64_mac_address);
     lib_free(wic64_internal_ip);
     lib_free(wic64_sec_token);
+    if (httpbuffer) {
+        lib_free(httpbuffer);
+    }
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -271,7 +277,10 @@ static const cmdline_option_t cmdline_options[] =
       "<URL>", "Specify default server URL" },
     { "-wic64timezone", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64Timezone", NULL,
-      "<TZ>", "Specify default timezone as offset to GMT" },
+      "<0..31>", "Specify default timezone index, e.g. 2: European Central Time" },
+    { "-wic64trace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "WIC64Logenabled", (void *)1,
+      NULL, "Enable WiC64 tracing" },
     CMDLINE_LIST_END
 };
 
@@ -352,6 +361,29 @@ const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
     return timezones;
 }
 
+void userport_wic64_factory_reset(void)
+{
+    int tz;
+    int reset_user;
+    char *defserver;
+
+    resources_get_default_value("WIC64Timezone", (void *)&tz);
+    resources_get_default_value("WIC64DefaultServer", (void *)&defserver);
+
+    resources_set_int("WIC64Timezone", tz);
+    resources_set_string("WIC64DefaultServer", defserver);
+
+    resources_get_int("WIC64Resetuser", &reset_user);
+    if (reset_user) {
+        char tmp[32];
+        snprintf(tmp, 32, "08:d1:f9:%02x:%02x:%02x",
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15));
+        resources_set_string("WIC64MACAddress", tmp);
+        resources_set_string("WIC64SecToken", "0123456789ab");
+    }
+}
 
 /** \brief  log message to console (or wic64 widget)
  *
@@ -674,7 +706,7 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
     reply_length = len + offs;
     replyptr = 0;
     if (len > 0) {
-        DBG(("%s: sending", __FUNCTION__));
+        wic64_log("WiC64 sends...");
         hexdump(replybuffer, reply_length);
     }
     handshake_flag2();
@@ -1259,6 +1291,7 @@ static void do_command_63(void)
 {
     wic64_log("%s:", __FUNCTION__);
     userport_wic64_reset();
+    userport_wic64_factory_reset();
     /* this command sends no reply */
 }
 

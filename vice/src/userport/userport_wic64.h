@@ -46,6 +46,7 @@ typedef struct tzones
 int  userport_wic64_resources_init(void);
 void userport_wic64_resources_shutdown(void);
 int  userport_wic64_cmdline_options_init(void);
+void userport_wic64_factory_reset(void);
 
 const tzones_t *userport_wic64_get_timezones(size_t *num_zones);
 

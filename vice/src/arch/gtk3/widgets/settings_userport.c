@@ -324,7 +324,7 @@ static GtkWidget *create_device_combobox(void)
 static GtkWidget *create_wic64_logenabled_widget(void)
 {
     return vice_gtk3_resource_check_button_new("WIC64Logenabled",
-                                               "Enable WIC64 tracing");
+                                               "Enable WiC64 tracing");
 }
 
 /** \brief  Create widget for the "WIC64Logenabled" resource
@@ -334,7 +334,7 @@ static GtkWidget *create_wic64_logenabled_widget(void)
 static GtkWidget *create_wic64_resetuser_widget(void)
 {
     return vice_gtk3_resource_check_button_new("WIC64Resetuser",
-                                               "Reset User when resetting WIC64");
+                                               "Reset User when resetting WiC64");
 }
 
 /* Columns in the WIC64 timezone combobox */
@@ -406,26 +406,7 @@ static void on_sec_token_icon_press(GtkEntry             *self,
  */
 static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
 {
-    int tz;
-    int reset_user;
-    char *defserver;
-
-    resources_get_default_value("WIC64Timezone", (void *)&tz);
-    resources_get_default_value("WIC64DefaultServer", (void *)&defserver);
-
-    resources_set_int("WIC64Timezone", tz);
-    resources_set_string("WIC64DefaultServer", defserver);
-
-    resources_get_int("WIC64Resetuser", &reset_user);
-    if (reset_user) {
-        char tmp[32];
-        snprintf(tmp, 32, "08:d1:f9:%02x:%02x:%02x",
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15));
-        resources_set_string("WIC64MACAddress", tmp);
-        resources_set_string("WIC64SecToken", "0123456789ab");
-    }
+    userport_wic64_factory_reset();
     vice_gtk3_resource_entry_factory(wic64_server_save);
     vice_gtk3_resource_combo_int_sync(wic64_tz_save);
 }
