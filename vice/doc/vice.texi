@@ -127,7 +127,7 @@ notice identical to this one.
 
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Martin Pottendorfer
+Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Pottendo
 Copyright @copyright{} 2005-__VICE_CURRENT_YEAR__ Marco van den Heuvel
 Copyright @copyright{} 2007-__VICE_CURRENT_YEAR__ Fabrizio Gennari
 Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Groepaz
@@ -35041,12 +35041,9 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Martin Pottendorfer}
-Implemented the Gnome Port based on Oliver Schaertels GTK+
-port. Added support code for internationalization based on
-gettext. Improved the *nix fullscreen support. Added multi-
-threaded GUI display for *nix. Translated the UI to German.
-Implemented the fliplists + UI (*nix).
+@b{Pottendo}
+Fixed WiC64 support. Most of the former contributions (pre V3.x) have
+been taken over and/or replaced by other's contributions.
 
 @item
 @b{Marco van den Heuvel}
@@ -35397,7 +35394,7 @@ Internationalization Team:
 Copyright @copyright{} 2009-2017
 Provided the Danish user interface translations and fixed a few monitor bugs.
 
-@b{Martin Pottendorfer}
+@b{Pottendo}
 Copyright @copyright{} 2000-2017
 Provided the German user interface translations.
 
@@ -36011,7 +36008,7 @@ for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Martin Pottendorfer
+Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Pottendo
 @item
 Copyright @copyright{} 2005-__VICE_CURRENT_YEAR__ Marco van den Heuvel
 @item
