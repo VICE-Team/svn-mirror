@@ -80,7 +80,7 @@ CA1     CB1     B (FLAG2) |  I     device asserts high->low transition when data
 #else
 #define DBG(x)
 #endif
-
+static log_t wic64_loghandle = LOG_ERR;
 static int userport_wic64_enabled = 0;
 
 /* Some prototypes are needed */
@@ -246,6 +246,7 @@ static int wic64_setresetuser(int val, void *param)
 
 int userport_wic64_resources_init(void)
 {
+    wic64_loghandle = log_open("WiC64");
     if (resources_register_string(wic64_resources) < 0) {
         return -1;
     }
@@ -401,7 +402,7 @@ static void wic64_log(const char *fmt, ...)
     }
     va_start(args, fmt);
     vsnprintf(t, 256, fmt, args);
-    log_message(LOG_DEFAULT, "WiC64: %s", t);
+    log_message(wic64_loghandle, "%s", t);
 }
 
 static void hexdump(const char *buf, int len)
@@ -454,7 +455,7 @@ static size_t write_cb(char *data, size_t n, size_t l, void *userp)
     size_t tmp = httpbufferptr + n * l;
 
     if (tmp >= HTTPREPLY_MAXLEN) {
-        log_message(LOG_DEFAULT, "libcurl reply too long, dropping %"PRI_SIZE_T" bytes.\n", tmp - HTTPREPLY_MAXLEN);
+        wic64_log("libcurl reply too long, dropping %"PRI_SIZE_T" bytes.\n", tmp - HTTPREPLY_MAXLEN);
         return CURLE_WRITE_ERROR;
     }
     memcpy(&httpbuffer[httpbufferptr], data, n * l);
@@ -793,9 +794,8 @@ static void do_command_01(void)
     /* sanity check if URL is OK in principle */
     for (i = 0; i < commandptr; i++) {
         if (!isprint(commandbuffer[i])) {
-            log_message(LOG_DEFAULT,
-                        "WIC64: bad char '0x%02x' detected in URL at offet %d, %s",
-                        commandbuffer[i], i, commandbuffer);
+            wic64_log("bad char '0x%02x' detected in URL at offet %d, %s",
+                      commandbuffer[i], i, commandbuffer);
         }
     }
 
@@ -941,7 +941,6 @@ static void do_command_09(void)
 {
     wic64_log("%s: output to stdout", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    log_message(LOG_DEFAULT, "WIC64: %s", commandbuffer);
     /* this command sends no reply */
 }
 
