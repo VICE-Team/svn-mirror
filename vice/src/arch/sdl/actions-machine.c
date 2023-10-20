@@ -89,11 +89,11 @@ static const ui_action_map_t machine_actions[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
-    {   .action  = ACTION_RESET_SOFT,
+    {   .action  = ACTION_MACHINE_RESET_BUTTON,
         .handler = reset_action,
         .data    = int_to_void_ptr(MACHINE_RESET_MODE_SOFT)
     },
-    {   .action  = ACTION_RESET_HARD,
+    {   .action  = ACTION_MACHINE_POWER_CYCLE,
         .handler = reset_action,
         .data    = int_to_void_ptr(MACHINE_RESET_MODE_HARD)
     },

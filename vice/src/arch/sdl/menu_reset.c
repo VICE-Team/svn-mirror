@@ -39,14 +39,14 @@
 ui_menu_entry_t reset_menu[] = {
     /* reset machine */
     {
-        .action    = ACTION_RESET_SOFT,
-        .string    = "Soft",
+        .action    = ACTION_MACHINE_RESET_BUTTON,
+        .string    = "Trigger reset button",
         .type      = MENU_ENTRY_OTHER,
         .activated = MENU_EXIT_UI_STRING
     },
     {
-        .action    = ACTION_RESET_HARD,
-        .string    = "Hard",
+        .action    = ACTION_MACHINE_POWER_CYCLE,
+        .string    = "Power cycle machine",
         .type      = MENU_ENTRY_OTHER,
         .activated = MENU_EXIT_UI_STRING
     },

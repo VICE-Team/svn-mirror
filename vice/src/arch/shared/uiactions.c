@@ -223,8 +223,8 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_MONITOR_OPEN,      "monitor-open",         "Open monitor",                         VICE_MACHINE_ALL },
 
     /* reset items */
-    { ACTION_RESET_SOFT,        "reset-soft",           "Soft-reset the machine",               VICE_MACHINE_ALL },
-    { ACTION_RESET_HARD,        "reset-hard",           "Hard-reset the machine",               VICE_MACHINE_ALL },
+    { ACTION_MACHINE_RESET_BUTTON,   "machine-reset-button",    "Reset the machine",                    VICE_MACHINE_ALL },
+    { ACTION_MACHINE_POWER_CYCLE,    "machine-power-cycle",     "Power cycle the machine",              VICE_MACHINE_ALL },
 
     { ACTION_RESET_DRIVE_8,          "reset-drive-8",           "Reset drive 8",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_RESET_DRIVE_8_CONFIG,   "reset-drive-8-config",    "Reset drive 8 in configuration mode",  VICE_MACHINE_ALL^VICE_MACHINE_VSID },
