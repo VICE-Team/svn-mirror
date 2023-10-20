@@ -20,17 +20,17 @@
 
 # File - Generic items
 !if !MACOS
-    smart-attach    <Alt>a
-    monitor-open    <Alt>h
-    reset-soft      <Alt>F9
-    reset-hard      <Alt>F12
-    quit            <Alt>q
+    smart-attach            <Alt>a
+    monitor-open            <Alt>h
+    machine-reset-button    <Alt>F9
+    machine-power-cycle     <Alt>F12
+    quit                    <Alt>q
 !else
-    smart-attach    <Command>a
-    monitor-open    <Command>h
-    reset-soft      <Command>F9
-    reset-hard      <Command>F12
-    quit            <Command>q
+    smart-attach            <Command>a
+    monitor-open            <Command>h
+    machine-reset-button    <Command>F9
+    machine-power-cycle     <Command>F12
+    quit                    <Command>q
 !endif
 
 # File - Drive items
