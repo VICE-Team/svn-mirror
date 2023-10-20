@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /* FIXME: remove more unneeded stuff
  *
@@ -74,6 +75,14 @@
 machine_context_t machine_context;
 
 const char machine_name[] = "C64"; /* FIXME: this must be c64 currently, else the roms can not be loaded */
+
+/** \brief  PSID file loaded from commandline
+ *
+ * The UI needs to attempt to retrieve STIL info for a file "autostarted" from
+ * the command line.
+ */
+char *psid_autostart_image = NULL;
+
 /* Moved to c64mem.c/c64memsc.c/vsidmem.c
 int machine_class = VICE_MACHINE_VSID;
 */
@@ -90,6 +99,9 @@ static uint8_t *vsid_autostart_data = NULL;
 static uint16_t vsid_autostart_length = 0;
 
 /* ------------------------------------------------------------------------ */
+
+
+
 
 /* C64-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
@@ -436,6 +448,7 @@ int machine_autodetect_psid(const char *name)
         /* FIXME: show error message box */
         return -1;
     }
+    psid_autostart_image = lib_strdup(name);
     return 0;
 }
 

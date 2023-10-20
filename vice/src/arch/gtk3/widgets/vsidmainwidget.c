@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -47,6 +48,9 @@
 #include "sid.h"
 
 #include "vsidmainwidget.h"
+
+
+extern char *psid_autostart_image;
 
 
 /** \brief  Main widget grid */
@@ -334,6 +338,7 @@ GtkWidget *vsid_main_widget_create(void)
 #if 0
     GtkWidget *view;
 #endif
+    char fullpath[ARCHDEP_PATH_MAX];
 
     grid = vice_gtk3_grid_new_spaced(32, 8);
     gtk_widget_set_margin_top(grid, 16);
@@ -439,5 +444,21 @@ GtkWidget *vsid_main_widget_create(void)
 
     main_widget = grid;
     gtk_widget_show_all(grid);
+
+    /* Try to load STIL info for a file passed on the command line.
+     *
+     * FIXME: This currently only works for files in the HVSC directory since we
+     * look up files by path, not by MD5 sum.
+     */
+    if (psid_autostart_image != NULL) {
+        if (archdep_real_path(psid_autostart_image, fullpath)) {
+            debug_gtk3("Looking up STIL info for PSID specified on command line: %s",
+                       fullpath);
+            hvsc_stil_widget_set_psid(fullpath);
+        }
+        lib_free(psid_autostart_image);
+        psid_autostart_image = NULL;
+    }
+
     return grid;
 }
