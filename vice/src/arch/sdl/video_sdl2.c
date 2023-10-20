@@ -11,7 +11,7 @@
  *  Ettore Perazzoli
  *  Andre Fachat
  *  Oliver Schaertel
- *  Martin Pottendorfer
+ *  pottendo
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

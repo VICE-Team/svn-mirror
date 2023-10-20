@@ -6,7 +6,7 @@
  *
  * Based on code by
  *  Andreas Boose <viceteam@t-online.de>
- *  Martin Pottendorfer <pottendo@utanet.at>
+ *  pottendo
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
