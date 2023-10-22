@@ -119,6 +119,7 @@
 #include <ctype.h>
 
 #include "cmdline.h"
+#include "drive.h"
 #include "joyport.h"
 #include "lib.h"
 #include "log.h"
@@ -253,6 +254,9 @@ static int userport_reset_started = 0;
 /* attach device 'id' to the userport */
 static int userport_set_device(int id)
 {
+    int hasparcable = 0;
+    int dnr;
+
     /* 1st some sanity checks */
     if (id < USERPORT_DEVICE_NONE || id >= USERPORT_MAX_DEVICES) {
         return -1;
@@ -292,6 +296,30 @@ static int userport_set_device(int id)
         }
     }
     userport_current_device = id;
+
+    /* check if any drive has a parallel cable enabled */
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        int cable;
+        resources_get_int_sprintf("Drive%iParallelCable", &cable, dnr + 8);
+        if (cable != DRIVE_PC_NONE) {
+            hasparcable = 1;
+        }
+    }
+
+    if ((userport_current_device == USERPORT_DEVICE_DRIVE_PAR_CABLE) && (hasparcable == 0)) {
+        /* show a message if parallel cable was enabled on the user port, but no drive has it enabled */
+        ui_message("Remember that you'll have to select a parallel cable in the drive settings.\n");
+    } else if ((userport_current_device == USERPORT_DEVICE_NONE) && (hasparcable == 1)) {
+        /* if parallel cable was removed from user port, disable it in the drive settings as well */
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+            resources_set_int_sprintf("Drive%iParallelCable", 0, dnr + 8);
+        }
+    } else if ((userport_current_device != USERPORT_DEVICE_DRIVE_PAR_CABLE) && (hasparcable == 1)) {
+        /* if user port device was set to something that isn't parallel cable, and any drive has
+           parallel cable enabled, show a message */
+        ui_message("Some drive(s) still have parallel cable enabled - remember you'll have to change this setting "
+                   "back to parallel cable in order to use it\n");
+    }
 
     return 0;
 }
