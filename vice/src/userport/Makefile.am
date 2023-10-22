@@ -8,7 +8,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/samplerdrv \
-	-I$(top_srcdir)/src/diag
+	-I$(top_srcdir)/src/diag \
+	-I$(top_srcdir)/src/drive
 
 AM_CFLAGS = @VICE_CFLAGS@
 
