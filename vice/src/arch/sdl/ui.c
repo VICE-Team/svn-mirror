@@ -761,12 +761,6 @@ int ui_init(void)
     return 0;
 }
 
-int ui_init_finish(void)
-{
-    DBG(("%s", __func__));
-    return 0;
-}
-
 int ui_init_finalize(void)
 {
     DBG(("%s", __func__));
