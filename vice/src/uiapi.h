@@ -54,7 +54,6 @@ int ui_resources_init(void);
 void ui_resources_shutdown(void);
 int ui_cmdline_options_init(void);
 void ui_init_with_args(int *argc, char **argv);
-int ui_init_finish(void);
 int ui_init_finalize(void);
 void ui_shutdown(void);
 int ui_init(void);
