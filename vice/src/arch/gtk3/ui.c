@@ -2501,6 +2501,26 @@ void ui_error(const char *format, ...)
 }
 
 
+/** \brief  Message dialog handler for the threaded UI
+ *
+ * \param[in]   user_data   message
+ *
+ * \return  FALSE
+ */
+static gboolean ui_message_impl(gpointer user_data)
+{
+    char *buffer = (char *)user_data;
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_message_info("VICE Message", "%s", buffer);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+
+    lib_free(buffer);
+
+    return FALSE;
+}
+
+
 /** \brief  Display a message through the UI
  *
  * \param[in]   format  format string for message
@@ -2514,8 +2534,8 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    vice_gtk3_message_info("VICE Message", "%s", buffer);
-    lib_free(buffer);
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, ui_message_impl, (gpointer)buffer);
 }
 
 
