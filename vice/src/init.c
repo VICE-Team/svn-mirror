@@ -67,6 +67,14 @@
 #define DBG(x)
 #endif
 
+static int init_done = 0;
+
+/* returns true once everything is initialized and the UI has started up */
+int init_main_is_done(void)
+{
+    return init_done;
+}
+
 void init_resource_fail(const char *module)
 {
     archdep_startup_log_error("Cannot initialize %s resources.\n",
@@ -301,6 +309,8 @@ int init_main(void)
     ui_init_finalize();
 
     main_init_hack();
+
+    init_done = 1;
 
     return 0;
 }
