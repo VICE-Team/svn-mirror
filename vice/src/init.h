@@ -30,6 +30,7 @@
 int init_resources(void);
 int init_cmdline_options(void);
 int init_main(void);
+int init_main_is_done(void);
 
 void init_resource_fail(const char *module);
 void init_cmdline_options_fail(const char *module);
