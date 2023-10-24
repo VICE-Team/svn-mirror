@@ -39,6 +39,7 @@
 #include "uiapi.h"
 #include "util.h"
 #include "userport.h"
+#include "init.h"
 
 
 static char *profdos_1571_name = NULL;
@@ -89,8 +90,10 @@ static int set_drive_parallel_cable(int val, void *param)
         if (userport_device == USERPORT_DEVICE_NONE) {
             resources_set_int("UserportDevice", USERPORT_DEVICE_DRIVE_PAR_CABLE);
         } else if (userport_device != USERPORT_DEVICE_DRIVE_PAR_CABLE) {
-            ui_message("Warning: the user port is already being used for another device.\n"
-                        "To be able to use the parallel cable, you must also set up the user port accordingly.");
+            if (init_main_is_done()) {
+                ui_message("Warning: the user port is already being used for another device.\n"
+                            "To be able to use the parallel cable, you must also set up the user port accordingly.");
+            }
         }
     }
 

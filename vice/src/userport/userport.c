@@ -129,6 +129,7 @@
 #include "uiapi.h"
 #include "userport.h"
 #include "util.h"
+#include "init.h"
 
 
 typedef struct type2text_s {
@@ -307,18 +308,22 @@ static int userport_set_device(int id)
     }
 
     if ((userport_current_device == USERPORT_DEVICE_DRIVE_PAR_CABLE) && (hasparcable == 0)) {
-        /* show a message if parallel cable was enabled on the user port, but no drive has it enabled */
-        ui_message("Remember that you'll have to select a parallel cable in the drive settings.\n");
+        if (init_main_is_done()) {
+            /* show a message if parallel cable was enabled on the user port, but no drive has it enabled */
+            ui_message("Remember that you'll have to select a parallel cable in the drive settings.\n");
+        }
     } else if ((userport_current_device == USERPORT_DEVICE_NONE) && (hasparcable == 1)) {
         /* if parallel cable was removed from user port, disable it in the drive settings as well */
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             resources_set_int_sprintf("Drive%iParallelCable", 0, dnr + 8);
         }
     } else if ((userport_current_device != USERPORT_DEVICE_DRIVE_PAR_CABLE) && (hasparcable == 1)) {
-        /* if user port device was set to something that isn't parallel cable, and any drive has
-           parallel cable enabled, show a message */
-        ui_message("Some drive(s) still have parallel cable enabled - remember you'll have to change this setting "
-                   "back to parallel cable in order to use it\n");
+        if (init_main_is_done()) {
+            /* if user port device was set to something that isn't parallel cable, and any drive has
+            parallel cable enabled, show a message */
+            ui_message("Some drive(s) still have parallel cable enabled - remember you'll have to change this setting "
+                    "back to parallel cable in order to use it\n");
+        }
     }
 
     return 0;
