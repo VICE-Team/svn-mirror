@@ -211,10 +211,14 @@ static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
 
 static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
 {
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     char *src, *dest, *tmp, *realsrc;
     unsigned int format = 0, rc;
 
     DBG(("fsdevice_flush_rename '%s'\n", realarg));
+
+    fsdevice_dev[dnr].track = 0;
+    fsdevice_dev[dnr].sector = 0;
 
     tmp = strchr(realarg, '=');
 
@@ -268,12 +272,13 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     /* FIXME: we need to handle a comma seperated list of files to scratch */
     DBG(("fsdevice_flush_scratch '%s'\n", realarg));
 
+    /* set number of scratched files = 0 */
+    fsdevice_dev[dnr].track = 0;
+    fsdevice_dev[dnr].sector = 0;
+
     if (realarg == NULL || *realarg == '\0') {
         return CBMDOS_IPE_SYNTAX;
     }
-
-    /* set number of scratched files = 0 */
-    fsdevice_dev[dnr].track = 0;
 
     if (fsdevice_convert_p00_enabled[(vdrive->unit) - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_P00;
