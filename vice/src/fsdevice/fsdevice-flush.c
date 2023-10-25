@@ -262,6 +262,7 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
 
 static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 {
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int format = 0, rc;
 
     /* FIXME: we need to handle a comma seperated list of files to scratch */
@@ -270,6 +271,9 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     if (realarg == NULL || *realarg == '\0') {
         return CBMDOS_IPE_SYNTAX;
     }
+
+    /* set number of scratched files = 0 */
+    fsdevice_dev[dnr].track = 0;
 
     if (fsdevice_convert_p00_enabled[(vdrive->unit) - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_P00;
@@ -283,9 +287,11 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     switch (rc) {
         case FILEIO_FILE_PERMISSION:
             return CBMDOS_IPE_PERMISSION;
-        case FILEIO_FILE_NOT_FOUND: /* fall through */
+        case FILEIO_FILE_NOT_FOUND:
             /* return "files scratched" even when no files were scratched */
+            return CBMDOS_IPE_DELETED;
         case FILEIO_FILE_SCRATCHED:
+            fsdevice_dev[dnr].track = 1;    /* FIXME: number of files that were scratched */
             return CBMDOS_IPE_DELETED;
     }
 
