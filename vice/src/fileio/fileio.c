@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUGFILEIO */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -35,6 +37,11 @@
 #include "types.h"
 #include "util.h"
 
+#ifdef DEBUGFILEIO
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 fileio_info_t *fileio_open(const char *file_name, const char *path,
                            unsigned int format, unsigned int command,
@@ -177,6 +184,8 @@ unsigned int fileio_rename(const char *src_name, const char *dest_name,
                            const char *path, unsigned int format)
 {
     unsigned int rc = FILEIO_FILE_NOT_FOUND;
+
+    DBG(("fileio_rename '%s' to '%s'\n", src_name, dest_name));
 
     if (format & FILEIO_FORMAT_P00) {
         rc = p00_rename(src_name, dest_name, path);
