@@ -963,7 +963,7 @@ int video_resources_chip_init(const char *chipname,
            cranking up brightness/saturation/contrast if needed? */
 #if 1
         if (!strcmp(chipname, "VIC")) {
-            resources_chip_colors[0].factory_value = 1500; /* saturation */
+            resources_chip_colors[0].factory_value = 1250; /* saturation */
             resources_chip_colors[1].factory_value = 1250; /* contrast */
         } else if (!strcmp(chipname, "VICII")) {
             resources_chip_colors[0].factory_value = 1250; /* saturation */
