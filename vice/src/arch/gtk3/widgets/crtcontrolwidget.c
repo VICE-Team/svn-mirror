@@ -220,8 +220,8 @@ static const crt_control_info_t control_info[RESOURCE_COUNT] = {
     { "Saturation",     "ColorSaturation",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
     { "Tint",           "ColorTint",        true,  0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f%%",     VICE_MACHINE_ALL },
     { "Gamma",          "ColorGamma",       true,  0, 4000, 200,   0.0,   4.0, 0.01, "%6.2f",        VICE_MACHINE_ALL },
-    { "Blur",           "PALBlur",          false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Scanline shade", "PALScanLineShade", false, 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Blur",           "PALBlur",          true,  0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Scanline shade", "PALScanLineShade", true,  0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
     { "Oddline phase",  "PALOddLinePhase",  false, 0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0", VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
     { "Oddline offset", "PALOddLineOffset", false, 0, 2000, 100, -50.0,  50.0,  0.1, "%+4.1f%%",     VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET }
 };
