@@ -660,9 +660,8 @@ static int attach_cart_image(int type, int id, const char *path)
     /* printf("call cartridge_attach_image(id:%d path:%s)\n", id, path); */
     if ((cartridge_attach_image(id, path) == 0)) {
         /* check 'set default' */
-        if ((cart_set_default_widget != NULL)
-                & (gtk_toggle_button_get_active(
-                        GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
+        if ((cart_set_default_widget != NULL) &&
+                (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
             /* set cart as default, there's no return value, so let's assume
              * this works */
             cartridge_set_default();
