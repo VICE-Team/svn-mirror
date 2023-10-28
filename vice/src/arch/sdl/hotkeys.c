@@ -207,6 +207,9 @@ static const keysym_t keysym_table[]= {
 
     /* SDL 1.x */
 
+    /* NOTE: some keys are commented out, because the SDL defines do not exist,
+       and we don't know the correct raw values */
+
     /* 0-9 */
     { SDLK_0,           VHK_KEY_0 },
     { SDLK_1,           VHK_KEY_1 },
@@ -264,7 +267,7 @@ static const keysym_t keysym_table[]= {
     { SDLK_LEFTPAREN,   VHK_KEY_parenleft },
     { SDLK_LESS,        VHK_KEY_less },
     { SDLK_MINUS,       VHK_KEY_minus },
-//    { SDLK_PERCENT,     VHK_KEY_percent },
+    /* { SDLK_PERCENT,     VHK_KEY_percent }, */
     { SDLK_PERIOD,      VHK_KEY_period },
     { SDLK_PLUS,        VHK_KEY_plus },
     { SDLK_QUESTION,    VHK_KEY_question },
@@ -289,10 +292,10 @@ static const keysym_t keysym_table[]= {
     { SDLK_PAGEDOWN,    VHK_KEY_Page_Down },
     { SDLK_PAGEUP,      VHK_KEY_Page_Up },
     { SDLK_PAUSE,       VHK_KEY_Pause },
-//    { SDLK_PRINTSCREEN, VHK_KEY_Print },
+    { 316,              VHK_KEY_Print },
     { SDLK_RETURN,      VHK_KEY_Return },
     { SDLK_RIGHT,       VHK_KEY_Right },
-//    { SDLK_SCROLLLOCK,  VHK_KEY_Scroll_Lock },
+    { 302,              VHK_KEY_Scroll_Lock },
     { SDLK_SYSREQ,      VHK_KEY_Sys_Req },
     { SDLK_TAB,         VHK_KEY_Tab },
     { SDLK_UP,          VHK_KEY_Up },
@@ -308,17 +311,17 @@ static const keysym_t keysym_table[]= {
     { SDLK_KP7,         VHK_KEY_KP_7 },
     { SDLK_KP8,         VHK_KEY_KP_8 },
     { SDLK_KP9,         VHK_KEY_KP_9 },
-//    { SDLK_KP_COMMA,    VHK_KEY_KP_Separator },
-//    { SDLK_KP_DECIMAL,  VHK_KEY_KP_Decimal },
+    /* { SDLK_KP_COMMA,    VHK_KEY_KP_Separator }, */
+    /* { SDLK_KP_DECIMAL,  VHK_KEY_KP_Decimal }, */
     { SDLK_KP_DIVIDE,   VHK_KEY_KP_Divide },
     { SDLK_KP_ENTER,    VHK_KEY_KP_Enter },
     { SDLK_KP_EQUALS,   VHK_KEY_KP_Equal },
     { SDLK_KP_MINUS,    VHK_KEY_KP_Subtract },
     { SDLK_KP_MULTIPLY, VHK_KEY_KP_Multiply },
     { SDLK_KP_PLUS,     VHK_KEY_KP_Add },
-//    { SDLK_KP_SPACE,    VHK_KEY_KP_Space },
-//    { SDLK_KP_TAB,      VHK_KEY_KP_Tab }
-//
+    /* { SDLK_KP_SPACE,    VHK_KEY_KP_Space }, */
+    /* { SDLK_KP_TAB,      VHK_KEY_KP_Tab } */
+
     /* Function keys */
     { 282,              VHK_KEY_F1 },
     { 283,              VHK_KEY_F2 },
@@ -516,8 +519,8 @@ uint32_t ui_hotkeys_arch_modmask_from_arch(uint32_t arch_modmask)
         mask |= VHK_MOD_COMMAND;
 # else
         mask |= VHK_MOD_META;
-    }
 # endif
+    }
 #endif
 
     return mask;
