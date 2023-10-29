@@ -186,9 +186,9 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_TAPE_RESET_COUNTER_2,  "tape-reset-counter-2", "Reset datasette 2 counter",    VICE_MACHINE_PET },
 
     /* cartridge items */
-    { ACTION_CART_ATTACH,               "cart-attach",              "Attach CRT cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+    { ACTION_CART_ATTACH,               "cart-attach",              "Attach CRT cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|VICE_MACHINE_C128|
                                                                                                              VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_ATTACH_RAW,           "cart-attach-raw",          "Attach raw cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
+    { ACTION_CART_ATTACH_RAW,           "cart-attach-raw",          "Attach raw cartridge image",           (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|VICE_MACHINE_C128|
                                                                                                              VICE_MACHINE_VIC20|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
     { ACTION_CART_ATTACH_RAW_1000,      "cart-attach-raw-1000",     "Attach raw cartridge image at $1000",  VICE_MACHINE_CBM6x0 },
     { ACTION_CART_ATTACH_RAW_2000,      "cart-attach-raw-2000",     "Attach raw cartridge image at $2000",  VICE_MACHINE_CBM6x0|VICE_MACHINE_VIC20 },
@@ -212,8 +212,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_CART_ATTACH_RAW_C2_HIGH,   "cart-attach-raw-c2-high",  "Attach high C2 cartridge image",       VICE_MACHINE_PLUS4 },
     { ACTION_CART_DETACH,               "cart-detach",              "Detach cartridge",                     (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|
                                                                                                              VICE_MACHINE_C128|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM6x0) },
-    { ACTION_CART_FREEZE,               "cart-freeze",              "Press cartridge freeze button",        (VICE_MACHINE_C64|VICE_MACHINE_C64SC|
-                                                                                                             VICE_MACHINE_SCPU64|VICE_MACHINE_C128) },
+    { ACTION_CART_FREEZE,               "cart-freeze",              "Press cartridge freeze button",        (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|VICE_MACHINE_C128) },
     { ACTION_CART_DETACH_1000,          "cart-detach-1000",         "Detach cartridge image at $1000",      VICE_MACHINE_CBM6x0 },
     { ACTION_CART_DETACH_2000,          "cart-detach-2000",         "Detach cartridge image at $2000",      VICE_MACHINE_CBM6x0 },
     { ACTION_CART_DETACH_4000,          "cart-detach-4000",         "Detach cartridge image at $4000",      VICE_MACHINE_CBM6x0 },
