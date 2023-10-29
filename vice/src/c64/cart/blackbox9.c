@@ -76,7 +76,7 @@
     - addr bit 0 is 1
 */
 
-/*#define BB9DEBUG*/
+/* #define BB9DEBUG */
 
 #ifdef BB9DEBUG
 #define DBG(x) log_debug x
@@ -129,14 +129,22 @@ static uint8_t blackbox9_io1_read(uint16_t addr)
     if (cart_enabled) {
         currbank = (addr >> 7) & 1;
         currmode = ((addr >> 5) & 2) | ((addr & 1) ^ 1);
-        cart_config_changed_slotmain(CMODE_RAM, (currbank << CMODE_BANK_SHIFT) | currmode, CMODE_READ);
+        /* weird hack to prevent ultimax mode in the powerup screen */
+        if ((currmode == CMODE_ULTIMAX) && ((addr & 0x40) == 0x40) && ((addr & 0x01) == 0x00)) {
+            DBG(("ultimax mode ignored"));
+        } else {
+            cart_config_changed_slotmain(CMODE_RAM, (currbank << CMODE_BANK_SHIFT) | currmode, CMODE_READ);
+        }
         if (addr == 0x41) {
             cart_enabled = 0;
             DBG(("disabling cart"));
         }
+#if 0
         if ((addr != 0x41) && ((currbank == 0) && (currmode == 3))) {
-            DBG(("IO1 read  %04x bank:%d mode:%d", addr, currbank, currmode));
+            DBG(("IO1 read  %04x value:%02x  bank:%d mode:%d",
+                 addr, roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)], currbank, currmode));
         }
+#endif
         return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
     }
     return vicii_read_phi1();
