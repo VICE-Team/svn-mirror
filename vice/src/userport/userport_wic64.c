@@ -99,7 +99,9 @@ static int wic64_set_sectoken(const char *val, void *p);
 static int wic64_set_timezone(int val, void *param);
 static int wic64_setlogenabled(int val, void *param);
 static int wic64_setresetuser(int val, void *param);
+static int wic64_cmdl_reset(const char *val, void *param);
 static void wic64_log(const char *fmt, ...);
+static void wic64_reset_user_helper(void);
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -189,6 +191,9 @@ static int userport_wic64_enable(int value)
     if (userport_wic64_enabled == val) {
         return 0;
     }
+    if (wic64_loghandle == LOG_ERR) {
+        wic64_loghandle = log_open("WiC64");
+    }
 
     userport_wic64_enabled = val;
     if (val) {
@@ -244,9 +249,21 @@ static int wic64_setresetuser(int val, void *param)
     return 0;
 }
 
+static int wic64_cmdl_reset(const char *val, void *param)
+{
+    if (param == (void *)2) {
+        /* cmdline option to reset user */
+        log_message(wic64_loghandle, "cmdline option: factory reset");
+        int save = wic64_resetuser;
+        wic64_resetuser = 1;
+        userport_wic64_factory_reset();
+        wic64_resetuser = save;
+    }
+    return 0;
+}
+
 int userport_wic64_resources_init(void)
 {
-    wic64_loghandle = log_open("WiC64");
     if (resources_register_string(wic64_resources) < 0) {
         return -1;
     }
@@ -282,6 +299,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64trace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WIC64Logenabled", (void *)1,
       NULL, "Enable WiC64 tracing" },
+    { "+wic64trace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "WIC64Logenabled", (void *)0,
+      NULL, "Disable WiC64 tracing" },
+    { "-wic64reset", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
+      wic64_cmdl_reset, (void *)2, NULL, NULL,
+      NULL, "Reset WiC64 to factory defaults" },
     CMDLINE_LIST_END
 };
 
@@ -362,6 +385,17 @@ const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
     return timezones;
 }
 
+static void wic64_reset_user_helper(void)
+{
+    char tmp[32];
+    snprintf(tmp, 32, "08:d1:f9:%02x:%02x:%02x",
+             lib_unsigned_rand(0, 15),
+             lib_unsigned_rand(0, 15),
+             lib_unsigned_rand(0, 15));
+    resources_set_string("WIC64MACAddress", tmp);
+    resources_set_string("WIC64SecToken", "0123456789ab");
+}
+
 void userport_wic64_factory_reset(void)
 {
     int tz;
@@ -376,13 +410,7 @@ void userport_wic64_factory_reset(void)
 
     resources_get_int("WIC64Resetuser", &reset_user);
     if (reset_user) {
-        char tmp[32];
-        snprintf(tmp, 32, "08:d1:f9:%02x:%02x:%02x",
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15));
-        resources_set_string("WIC64MACAddress", tmp);
-        resources_set_string("WIC64SecToken", "0123456789ab");
+        wic64_reset_user_helper();
     }
 }
 

@@ -8984,6 +8984,16 @@ String specifying the default server URL used by the wic64 emulation, @code{WIC6
 Integer to specify default timezone index, e.g. 2: European Central Time", @code{WIC64Timezone}.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@findex -wic64reset
+@item -wic64reset
+Resets wic64 related resources to factory defaults (including user credentials).
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64trace, +wic64trace
+@item -wic64trace
+@itemx +wic64trace
+Enable/disable WIC64 tracing on the console.
+(vic20, x64, x64sc, xscpu64 and x128 only).
 @end table
 
 @c -----------------------------------------------------------------------------
