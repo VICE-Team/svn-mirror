@@ -1065,12 +1065,6 @@ static void set_std_9tof(void)
         }
     }
 
-    /* Possibly set up the Double-W HiRes board at $9000 - $9FFF. */
-    if (petdww_enabled && petdww_mem_at_9000()) {
-        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab,
-                                 _mem_read_base_tab, mem_read_limit_tab);
-    }
-
     /* Setup RAM/ROM at $A000 - $AFFF. */
     fetch = ramA ? ram_read : rom_read;
     for (i = 0xa0; i < 0xb0; i++) {
@@ -1078,6 +1072,12 @@ static void set_std_9tof(void)
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+    }
+
+    /* Possibly set up the Double-W HiRes board at $9000 - $AFFF. */
+    if (petdww_enabled && petdww_mem_at_9000()) {
+        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab,
+                                 _mem_read_base_tab, mem_read_limit_tab);
     }
 
     /* Setup RAM/ROM at $B000 - $DFFF: Basic. */

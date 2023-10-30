@@ -684,11 +684,11 @@ static void store_pa(uint8_t byte)
     hires_off = byte & 0x10;
     charrom_on = byte & 0x08;
 #if DWW_DEBUG_REG || DWW_DEBUG_RAM
-    log_message(petdww_log, "mem_bank    = %04x", mem_bank);
+    log_message(petdww_log, "mem_bank    = %04x", (uint16_t)mem_bank);
 #endif
 #if DWW_DEBUG_REG
-    log_message(petdww_log, "hires_off   = %04x", hires_off);
-    log_message(petdww_log, "charrom_on  = %04x", charrom_on);
+    log_message(petdww_log, "hires_off   = %04x", (uint16_t)hires_off);
+    log_message(petdww_log, "charrom_on  = %04x", (uint16_t)charrom_on);
 #endif
     if (petdww_enabled) {
         if (hires_off) {
