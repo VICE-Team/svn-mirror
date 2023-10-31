@@ -514,15 +514,15 @@ static void drivecpu_jam(diskunit_context_t *drv)
 
     tmp = drive_jam(drv->mynumber, "%s (%u) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (unsigned int)reg_pc);
     switch (tmp) {
-        case JAM_RESET:
+        case JAM_RESET_CPU:
             reg_pc = 0xeaa0;
             drivecpu_set_bank_base((void *)drv);
-            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
             break;
-        case JAM_HARD_RESET:
+        case JAM_POWER_CYCLE:
             reg_pc = 0xeaa0;
             drivecpu_set_bank_base((void *)drv);
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
             break;
         case JAM_MONITOR:
             monitor_startup(drv->cpu->monspace);

@@ -224,7 +224,7 @@ int set_plus60k_enabled(int value, int disable_reset)
         }
 
         if (!disable_reset) {
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
         }
         plus60k_enabled = 0;
         return 0;
@@ -234,7 +234,7 @@ int set_plus60k_enabled(int value, int disable_reset)
         }
         plus60k_enabled = 1;
         if (!disable_reset) {
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
         }
         return 0;
     }

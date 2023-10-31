@@ -673,7 +673,7 @@ static void store_super_io(uint16_t addr, uint8_t value)
             if (!spet_ctrlwp) {
                 if (!(value & 1)) {
                     log_error(pet_mem_log, "SuperPET: switching to 6809 not emulated!");
-                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+                    machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
                 }
                 spet_ramwp = !(value & 0x2);    /* IF hardware w/p switch is PROG */
                 /* printf("spet_ramwp := %d\n", spet_ramwp); */

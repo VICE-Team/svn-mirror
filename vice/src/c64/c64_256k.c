@@ -195,7 +195,7 @@ int set_c64_256k_enabled(int value, int disable_reset)
             return -1;
         }
         if (!disable_reset) {
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
         }
         io_source_unregister(c64_256k_list_item);
         c64_256k_list_item = NULL;
@@ -206,7 +206,7 @@ int set_c64_256k_enabled(int value, int disable_reset)
             return -1;
         }
         if (!disable_reset) {
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
         }
         c64_256k_list_item = io_source_register(&c64_256k_device);
         c64_256k_enabled = 1;

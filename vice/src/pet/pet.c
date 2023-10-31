@@ -938,7 +938,7 @@ void machine_change_timing(int timeval, int border_mode)
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
 
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */

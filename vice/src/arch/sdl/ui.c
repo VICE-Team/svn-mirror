@@ -200,7 +200,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
                 if (psid_init_func != NULL && psid_play_func != NULL) {
                     psid_init_func();
                     psid_play_func(0);
-                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+                    machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
                 }
             }
             break;
@@ -868,10 +868,10 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     retval = message_box("VICE CPU JAM", "a CPU JAM has occured, choose the action to take", MESSAGE_CPUJAM);
     if (retval == 0) {
-        return UI_JAM_RESET;
+        return UI_JAM_RESET_CPU;
     }
     if (retval == 1) {
-        return UI_JAM_HARD_RESET;
+        return UI_JAM_POWER_CYCLE;
     }
     if (retval == 2) {
         return UI_JAM_NONE;

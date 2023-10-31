@@ -180,7 +180,7 @@ static int set_board_type(int val, void *param)
     }
     board_type = val;
     if (old_board_type != board_type) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     return 0;
 }

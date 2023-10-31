@@ -1309,7 +1309,7 @@ void mon_reset_machine(int type)
 {
     switch (type) {
         case 1:
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
             exit_mon = 1;
             break;
         case 8:
@@ -1319,7 +1319,7 @@ void mon_reset_machine(int type)
             drive_cpu_trigger_reset(type - 8);
             break;
         default:
-            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
             exit_mon = 1;
             break;
     }

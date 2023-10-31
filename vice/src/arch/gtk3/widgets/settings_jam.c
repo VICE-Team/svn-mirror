@@ -40,13 +40,13 @@
 /** \brief  List of possible actions on a CPU JAM
  */
 static const vice_gtk3_radiogroup_entry_t actions[] = {
-    { "Show dialog",        MACHINE_JAM_ACTION_DIALOG },
-    { "Continue emulation", MACHINE_JAM_ACTION_CONTINUE },
-    { "Start monitor",      MACHINE_JAM_ACTION_MONITOR },
-    { "Soft RESET",         MACHINE_JAM_ACTION_RESET },
-    { "Hard RESET",         MACHINE_JAM_ACTION_HARD_RESET },
-    { "Quit emulator",      MACHINE_JAM_ACTION_QUIT },
-    { NULL,                 -1 }
+    { "Show dialog",            MACHINE_JAM_ACTION_DIALOG },
+    { "Continue emulation",     MACHINE_JAM_ACTION_CONTINUE },
+    { "Start monitor",          MACHINE_JAM_ACTION_MONITOR },
+    { "Reset machine CPU",      MACHINE_JAM_ACTION_RESET_CPU },
+    { "Power cycle machine",    MACHINE_JAM_ACTION_POWER_CYCLE },
+    { "Quit emulator",          MACHINE_JAM_ACTION_QUIT },
+    { NULL,                     -1 }
 };
 
 

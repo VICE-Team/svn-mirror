@@ -145,16 +145,16 @@ unsigned int machine_jam(const char *format, ...)
         archdep_vice_exit(EXIT_SUCCESS);
     } else {
         int actions[4] = {
-            -1, UI_JAM_MONITOR, UI_JAM_RESET, UI_JAM_HARD_RESET
+            -1, UI_JAM_MONITOR, UI_JAM_RESET_CPU, UI_JAM_POWER_CYCLE
         };
         ret = actions[jam_action - 1];
     }
 
     switch (ret) {
-        case UI_JAM_RESET:
-            return JAM_RESET;
-        case UI_JAM_HARD_RESET:
-            return JAM_HARD_RESET;
+        case UI_JAM_RESET_CPU:
+            return JAM_RESET_CPU;
+        case UI_JAM_POWER_CYCLE:
+            return JAM_POWER_CYCLE;
         case UI_JAM_MONITOR:
             return JAM_MONITOR;
         default:
@@ -183,11 +183,11 @@ static void machine_trigger_reset_internal(const unsigned int mode)
     }
 
     switch (mode) {
-        case MACHINE_RESET_MODE_HARD:
+        case MACHINE_RESET_MODE_POWER_CYCLE:
             mem_initialized = 0; /* force memory initialization */
             machine_specific_powerup();
         /* Fall through.  */
-        case MACHINE_RESET_MODE_SOFT:
+        case MACHINE_RESET_MODE_RESET_CPU:
             maincpu_trigger_reset();
             break;
     }
@@ -432,8 +432,8 @@ static int set_jam_action(int val, void *param)
         case MACHINE_JAM_ACTION_DIALOG:
         case MACHINE_JAM_ACTION_CONTINUE:
         case MACHINE_JAM_ACTION_MONITOR:
-        case MACHINE_JAM_ACTION_RESET:
-        case MACHINE_JAM_ACTION_HARD_RESET:
+        case MACHINE_JAM_ACTION_RESET_CPU:
+        case MACHINE_JAM_ACTION_POWER_CYCLE:
         case MACHINE_JAM_ACTION_QUIT:
             break;
         default:

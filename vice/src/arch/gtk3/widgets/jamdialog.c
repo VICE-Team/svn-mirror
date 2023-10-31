@@ -44,7 +44,7 @@
  */
 enum {
     RESPONSE_NONE = 1,      /**< don't do anything */
-    RESPONSE_RESET_BUTTON,  /**< trigger reset button */
+    RESPONSE_RESET_CPU,     /**< reset machine CPU */
     RESPONSE_POWER_CYCLE,   /**< power cycle machine */
     RESPONSE_MONITOR,       /**< open monitor */
     RESPONSE_QUIT           /**< quit emulator */
@@ -72,7 +72,7 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
     dialog = gtk_dialog_new_with_buttons("D'OH!", GTK_WINDOW(parent),
             GTK_DIALOG_MODAL,
             "Continue",             RESPONSE_NONE,
-            "Trigger reset button", RESPONSE_RESET_BUTTON,
+            "Reset machine CPU",    RESPONSE_RESET_CPU,
             "Power cycle machine",  RESPONSE_POWER_CYCLE,
             "Activate monitor",     RESPONSE_MONITOR,
             "Quit",                 RESPONSE_QUIT,
@@ -94,11 +94,11 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
         case GTK_RESPONSE_DELETE_EVENT:
             result = UI_JAM_NONE;
             break;
-        case RESPONSE_RESET_BUTTON:
-            result = UI_JAM_RESET;
+        case RESPONSE_RESET_CPU:
+            result = UI_JAM_RESET_CPU;
             break;
         case RESPONSE_POWER_CYCLE:
-            result = UI_JAM_HARD_RESET;
+            result = UI_JAM_POWER_CYCLE;
             break;
         case RESPONSE_MONITOR:
             result = UI_JAM_MONITOR;

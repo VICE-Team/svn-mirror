@@ -338,7 +338,7 @@ static void ltkernal_alarm_handler(CLOCK offset, void *data)
 {
     ltkernal_cancel_alarm();
     LOG2((LOG, "LTK RESET at 0x%04x", reg_pc));
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 }
 
 static int ltkernal_registerio(void)

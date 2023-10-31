@@ -344,7 +344,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         if (new6809mode != old6809mode) {
             log_error(pet_snapshot_log,
                       "Snapshot for different CPU. Re-load the snapshot.");
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
             return -1;
         }
         /* set banked or flat memory mapping */

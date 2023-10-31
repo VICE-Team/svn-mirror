@@ -457,6 +457,6 @@ void petmodel_set(int model)
     if (pet_init_ok) {
         /* mem_load(); - not needed as resources now load */
         vsync_suspend_speed_eval();
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     }
 }

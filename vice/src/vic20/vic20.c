@@ -1267,7 +1267,7 @@ void machine_change_timing(int timeval, int border_mode)
 
     rsuser_change_timing(machine_timing.cycles_per_sec);
 
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 }
 
 /* ------------------------------------------------------------------------- */
