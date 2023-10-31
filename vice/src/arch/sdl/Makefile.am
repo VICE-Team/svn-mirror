@@ -204,6 +204,8 @@ libarch_a_SOURCES = \
 	menu_vic20hw.h \
 	menu_video.c \
 	menu_video.h \
+	menu_wic64.c \
+	menu_wic64.h \
 	mousedrv.c \
 	mousedrv.h \
 	sdlmain.c \

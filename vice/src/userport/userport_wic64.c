@@ -182,10 +182,44 @@ static const resource_int_t wic64_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+static tzones_t timezones[] = {
+    { 0, "Greenwich Mean Time", 0, 0, 1},
+    { 1, "Greenwich Mean Time", 0, 0, 1},
+    { 2, "European Central Time", 1, 0, 1 },
+    { 3, "Eastern European Time", 2, 0, 1 },
+    { 4, "Arabic Egypt Time", 2, 0, 1 },
+    { 5, "Arabic Egypt Time", 2, 0, 1 },
+    { 6, "Arabic Egypt Time", 2, 0, 1 },
+    { 7, "Near East Time", 4, 0, 1 },
+    { 8, "India Standard Time", 5, 30, 0 },
+    { 9, "Dont Know Time", 6, 0, 0 },
+    { 10, "Dont Know Time", 7, 0, 0 },
+    { 11, "China Standard Time", 8, 0, 0 },
+    { 12, "Korean Standard Time", 9, 0, 0 },
+    { 13, "Japan Standard Time", 9, 0, 0},
+    { 14, "Australia Central Time", 9, 30, 0 },
+    { 15, "Australia Eastern Time", 10, 0, 0 },
+    { 16, "Dont Know Time", 11, 0,0 },
+    { 17, "New Zealand Standart Time", 12, 0, 0 },
+    { 18, "Midway Islands Time", -11, 0, 0 },
+    { 19, "Hawaii Standard Time", -10, 0, 0 },
+    { 20, "Alaska Standard Time", -8, 0, 0 },
+    { 21, "Pacific Standard Time", -7, 0, 0 },
+    { 22, "Phoenix Standard Time", -7, 0, 0 },
+    { 23, "Mountain Standard Time", -6, 0, 0 },
+    { 24, "Central Standard Time", -5, 0, 0 },
+    { 25, "Eastern Standard Time", -4, 0, 0 },
+    { 26, "Indiana Eastern Standard Time", -5, 0, 0 },
+    { 27, "Puerto Rico Virg. Island Time", -4, 0, 0 },
+    { 28, "Canada Newfoundland Time", -2, -30, 0 },
+    { 29, "Dont Know Time", -2, 0, 0 },
+    { 30, "Dont Know Time", -1, 0, 0 },
+    { 31, "Dont Know Time", 0, 0, 0 },
+};
+
 #define HTTPREPLY_MAXLEN ((unsigned)(16 * 1024 * 1024)) /* 16MB needed for potential large images to flash via bigloader */
 static size_t httpbufferptr = 0;
 static uint8_t *httpbuffer = NULL;
-
 /* ------------------------------------------------------------------------- */
 
 static int userport_wic64_enable(int value)
@@ -350,42 +384,6 @@ uint8_t curl_send_buf[COMMANDBUFFER_MAXLEN];
 uint16_t curl_send_len;
 
 
-static tzones_t timezones[] = {
-    { 0, "Greenwich Mean Time", 0, 0, 1},
-    { 1, "Greenwich Mean Time", 0, 0, 1},
-    { 2, "European Central Time", 1, 0, 1 },
-    { 3, "Eastern European Time", 2, 0, 1 },
-    { 4, "Arabic Egypt Time", 2, 0, 1 },
-    { 5, "Arabic Egypt Time", 2, 0, 1 },
-    { 6, "Arabic Egypt Time", 2, 0, 1 },
-    { 7, "Near East Time", 4, 0, 1 },
-    { 8, "India Standard Time", 5, 30, 0 },
-    { 9, "Dont Know Time", 6, 0, 0 },
-    { 10, "Dont Know Time", 7, 0, 0 },
-    { 11, "China Standard Time", 8, 0, 0 },
-    { 12, "Korean Standard Time", 9, 0, 0 },
-    { 13, "Japan Standard Time", 9, 0, 0},
-    { 14, "Australia Central Time", 9, 30, 0 },
-    { 15, "Australia Eastern Time", 10, 0, 0 },
-    { 16, "Dont Know Tme", 11, 0,0 },
-    { 17, "New Zealand Standart Time", 12, 0, 0 },
-    { 18, "Midway Islands Time", -11, 0, 0 },
-    { 19, "Hawaii Standard Time", -10, 0, 0 },
-    { 20, "Alaska Standard Time", -8, 0, 0 },
-    { 21, "Pacific Standard Time", -7, 0, 0 },
-    { 22, "Phoenix Standard Time", -7, 0, 0 },
-    { 23, "Mountain Standard Time", -6, 0, 0 },
-    { 24, "Central Standard Time", -5, 0, 0 },
-    { 25, "Eastern Standard Time", -4, 0, 0 },
-    { 26, "Indiana Eastern Standard Time", -5, 0, 0 },
-    { 27, "Puerto Rico Virg. Island Time", -4, 0, 0 },
-    { 28, "Canada Newfoundland Time", -2, -30, 0 },
-    { 29, "Dont Know Time", -2, 0, 0 },
-    { 30, "Dont Know Time", -1, 0, 0 },
-    { 31, "Dont Know Time", 0, 0, 0 },
-    { 99, "Juptier Vice Time", -42, 42, 1 },
-};
-
 /** \brief  Get list of timezones
  *
  * \param[out]  num_zones  number of elements in the list
@@ -430,8 +428,6 @@ void userport_wic64_factory_reset(void)
 /** \brief  log message to console
  *
  * \param[in]  typical printf format string
- *
- * \return  list of timezones, without sentinel value to indicate end-of-list
  */
 static void wic64_log(const char *fmt, ...)
 {
