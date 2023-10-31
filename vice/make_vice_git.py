@@ -20,10 +20,11 @@
 #
 # TODO: Tag migration. Extracting testprogs and techdocs as their own
 #       independent repos. Any kind of safety or usability testing.
+#       It should not be necessary to delete vice-git if it hasn't
+#       otherwise been touched, so that incremental updates are cheap.
 
 import os
 import os.path
-import shutil
 import subprocess
 import sys
 
@@ -108,10 +109,7 @@ print(f"Syncing {repo_url} to {SVN_REMOTE_PATH}")
 subprocess.run([svnsync, 'sync', repo_url], check=True)
 
 print(f"Extracting author list")
-subprocess.run([svn, 'co', repo_url, GIT_TARGET_PATH], check=True, capture_output=True)
-curdir = os.getcwd()
-os.chdir(GIT_TARGET_PATH)
-changelog = subprocess.run([svn, 'log', '-q'], check=True, capture_output=True)
+changelog = subprocess.run([svn, 'log', '-q', repo_url], check=True, capture_output=True)
 authors = {"(no author)": "(no author) <no_email>"}
 for line in changelog.stdout.decode('utf-8').split('\n'):
     if '|' in line:
@@ -119,7 +117,6 @@ for line in changelog.stdout.decode('utf-8').split('\n'):
         if author not in authors:
             authors[author] = f"{author} <{author}@sf.net>"
 
-os.chdir(curdir)
 print("Author transform list:")
 f = open("authors-transform.txt", "w")
 for x in authors:
@@ -127,6 +124,5 @@ for x in authors:
     f.write(f"{x} = {authors[x]}\n")
 f.close()
 
-print(f"Creating git edition of SVN repo")
-shutil.rmtree(GIT_TARGET_PATH)
+print(f"Creating git edition of SVN repo at {GIT_TARGET_PATH}")
 subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', 'authors-transform.txt', GIT_TARGET_PATH], check=True)
