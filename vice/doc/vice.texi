@@ -8913,12 +8913,12 @@ Boolean specifying whether the userport RTC data is saved when changed or not
 
 @vindex WIC64DefaultServer
 @item WIC64DefaultServer
-String specifying the default server URL used by the wic64 emulation.
+String specifying the default server URL used by the wic64 emulation
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64Timezone
 @item WIC64Timezone
-Integer specifying the default timezone used by the wic64 emulation.
+Integer specifying the default timezone used by the wic64 emulation
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64SecToken
@@ -8930,23 +8930,28 @@ identifying the user at the WiC64 portal.
 @vindex WIC64MACAddress
 @item WIC64MACAddress
 String specifying the pseudo MAC address used by the wic64 emulation for
-identifying the user at the WiC64 portal.
+identifying the user at the WiC64 portal
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64IPAddress
 @item WIC64IPAddress
-String specifying the IP address used by the wic64 emulation.
+String specifying the IP address used by the wic64 emulation
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64Logenabled
 @item WIC64Logenabled
-Integer, 1: user selected WiC64 tracing, 0: no tracing.
+Integer, 1: user selected WiC64 tracing, 0: no tracing
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64Resetuser
 @item WIC64Resetuser
 Integer 1: user credentials shall be reseted if WiC64 is reseted, 0:
-user credentials are preseved.
+user credentials are preseved
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64HexdumpLines
+@item WIC64HexdumpLines
+Integer number of lines to hexdump, 0: unlimited
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
@@ -8976,24 +8981,30 @@ Disable/enable saving of the userport RTC data when changed
 
 @findex -wic64server
 @item -wic64server <URL>
-String specifying the default server URL used by the wic64 emulation, @code{WIC64DefaultServer}.
+String specifying the default server URL used by the wic64 emulation,
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64timezone
 @item -wic64timezone <0..31>
-Integer to specify default timezone index, e.g. 2: European Central Time", @code{WIC64Timezone}.
+Integer to specify default timezone index, e.g. 2: European Central Time",
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64reset
 @item -wic64reset
-Resets wic64 related resources to factory defaults (including user credentials).
+Resets wic64 related resources to factory defaults (including user credentials)
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64trace, +wic64trace
 @item -wic64trace
 @itemx +wic64trace
-Enable/disable WIC64 tracing on the console.
+Enable/disable WIC64 tracing on the console
 (vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64hexdumplines
+@item -wic64hexdumplines <value>
+Integer to specify number of lines to hexdump, 0: unlimited,
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @end table
 
 @c -----------------------------------------------------------------------------
