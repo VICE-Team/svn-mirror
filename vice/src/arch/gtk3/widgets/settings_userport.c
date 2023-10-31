@@ -426,6 +426,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *tz_widget;
     GtkWidget *tracing;
     GtkWidget *resetuser;
+    GtkWidget *lines_widget;
 #if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
@@ -446,6 +447,14 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     /* enable WiC64 tracing */
     tracing = create_wic64_logenabled_widget();
     gtk_grid_attach(GTK_GRID(grid), tracing,     0, row, 1, 1);
+
+    label = gtk_label_new("Hexdump Lines\n(0: unlimited)");
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    lines_widget = vice_gtk3_resource_spin_int_new(
+        "WIC64HexdumpLines", 0, 32768, 1);
+    gtk_grid_attach(GTK_GRID(grid), lines_widget, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
     row++;
 
     label  = label_helper("Default server");

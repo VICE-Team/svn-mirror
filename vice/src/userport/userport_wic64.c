@@ -97,8 +97,9 @@ static int wic64_set_macaddress(const char *val, void *p);
 static int wic64_set_ipaddress(const char *val, void *p);
 static int wic64_set_sectoken(const char *val, void *p);
 static int wic64_set_timezone(int val, void *param);
-static int wic64_setlogenabled(int val, void *param);
-static int wic64_setresetuser(int val, void *param);
+static int wic64_set_logenabled(int val, void *param);
+static int wic64_set_resetuser(int val, void *param);
+static int wic64_set_hexdumplines(int val, void *param);
 static int wic64_cmdl_reset(const char *val, void *param);
 static void wic64_log(const char *fmt, ...);
 static void wic64_reset_user_helper(void);
@@ -153,6 +154,7 @@ static char *wic64_sec_token = NULL;
 static int current_tz = 2;
 static int wic64_logenabled = 1;
 static int wic64_resetuser = 0;
+static int wic64_hexdumplines = 0;
 static int big_load = 0;
 
 static const resource_string_t wic64_resources[] =
@@ -172,9 +174,11 @@ static const resource_int_t wic64_resources_int[] = {
     { "WIC64Timezone", 2, RES_EVENT_NO, NULL,
       &current_tz, wic64_set_timezone, NULL },
     { "WIC64Logenabled", 1, RES_EVENT_NO, NULL,
-      &wic64_logenabled, wic64_setlogenabled, NULL },
+      &wic64_logenabled, wic64_set_logenabled, NULL },
     { "WIC64Resetuser", 0, RES_EVENT_NO, NULL,
-      &wic64_resetuser, wic64_setresetuser, NULL },
+      &wic64_resetuser, wic64_set_resetuser, NULL },
+    { "WIC64HexdumpLines", 8, RES_EVENT_NO, NULL,
+      &wic64_hexdumplines, wic64_set_hexdumplines, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -237,15 +241,21 @@ static int wic64_set_timezone(int val, void *param)
     return 0;
 }
 
-static int wic64_setlogenabled(int val, void *param)
+static int wic64_set_logenabled(int val, void *param)
 {
     wic64_logenabled = val;
     return 0;
 }
 
-static int wic64_setresetuser(int val, void *param)
+static int wic64_set_resetuser(int val, void *param)
 {
     wic64_resetuser = val;
+    return 0;
+}
+
+static int wic64_set_hexdumplines(int val, void *param)
+{
+    wic64_hexdumplines = val;
     return 0;
 }
 
@@ -305,6 +315,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64reset", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       wic64_cmdl_reset, (void *)2, NULL, NULL,
       NULL, "Reset WiC64 to factory defaults" },
+    { "-wic64hexdumplines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Wic64hexdumpLines", NULL,
+      "<value>", "Limit WiC64 hexdump lines (0: unlimited)" },
     CMDLINE_LIST_END
 };
 
@@ -375,7 +388,7 @@ static tzones_t timezones[] = {
 
 /** \brief  Get list of timezones
  *
- * \param[out]  num_zones   number of elements in the list
+ * \param[out]  num_zones  number of elements in the list
  *
  * \return  list of timezones, without sentinel value to indicate end-of-list
  */
@@ -414,7 +427,7 @@ void userport_wic64_factory_reset(void)
     }
 }
 
-/** \brief  log message to console (or wic64 widget)
+/** \brief  log message to console
  *
  * \param[in]  typical printf format string
  *
@@ -433,6 +446,10 @@ static void wic64_log(const char *fmt, ...)
     log_message(wic64_loghandle, "%s", t);
 }
 
+/** \brief  formatted hexdump, lines limited by value of "WIC64HexdumpLines"
+ *
+ * \param[in]  buf, len
+ */
 static void hexdump(const char *buf, int len)
 {
     int i;
@@ -447,7 +464,7 @@ static void hexdump(const char *buf, int len)
             snprintf(linestr, 256, "%04x: ", (unsigned) idx);
         }
 
-        if (lines++ > 7) {      /* just print 8 lines */
+        if (wic64_hexdumplines && lines++ >= wic64_hexdumplines) {
             strcat(linestr, "...");
             wic64_log(linestr);
             break;
