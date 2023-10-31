@@ -85,7 +85,7 @@ static UI_MENU_CALLBACK(UserportDevice_dynmenu_callback)
     return MENU_SUBMENU_STRING;
 }
 
-ui_menu_entry_t userport_menu[5];
+ui_menu_entry_t userport_menu[6];
 
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
