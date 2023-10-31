@@ -1153,7 +1153,7 @@ void cart_power_off(void)
 {
     if (c64cartridge_reset) {
         /* "Turn off machine before removing cartridge" */
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
 }
 

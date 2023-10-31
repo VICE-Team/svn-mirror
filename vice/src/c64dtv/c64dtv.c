@@ -937,7 +937,7 @@ void machine_change_timing(int timeval, int border_mode)
                     (int)machine_timing.cycles_per_sec,
                     (int)machine_timing.power_freq);
 
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 }
 
 /* ------------------------------------------------------------------------- */

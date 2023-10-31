@@ -598,7 +598,7 @@ int psid_ui_set_tune(int tune, void *param)
 
     psid_set_tune(psid_tune);
     vsync_suspend_speed_eval();
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 
     return 0;
 }

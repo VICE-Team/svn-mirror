@@ -85,7 +85,7 @@ static int cbm2_set_model(const char *model, void *extra)
 
         mem_powerup();
         mem_load();
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
         return 0;
     }
     return -1;

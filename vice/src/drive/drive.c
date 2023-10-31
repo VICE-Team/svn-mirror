@@ -659,16 +659,16 @@ unsigned int drive_jam(int mynumber, const char *format, ...)
         archdep_vice_exit(EXIT_SUCCESS);
     } else {
         int actions[4] = {
-            -1, UI_JAM_MONITOR, UI_JAM_RESET, UI_JAM_HARD_RESET
+            -1, UI_JAM_MONITOR, UI_JAM_RESET_CPU, UI_JAM_POWER_CYCLE
         };
         ret = actions[jam_action - 1];
     }
 
     switch (ret) {
-        case UI_JAM_RESET:
-            return JAM_RESET;
-        case UI_JAM_HARD_RESET:
-            return JAM_HARD_RESET;
+        case UI_JAM_RESET_CPU:
+            return JAM_RESET_CPU;
+        case UI_JAM_POWER_CYCLE:
+            return JAM_POWER_CYCLE;
         case UI_JAM_MONITOR:
             return JAM_MONITOR;
         default:

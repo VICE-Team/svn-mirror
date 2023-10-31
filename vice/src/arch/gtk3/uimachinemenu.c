@@ -207,8 +207,8 @@ static const ui_menu_item_t datasette_2_control_submenu[] = {
 /** \brief  File->Reset submenu
  */
 static const ui_menu_item_t reset_submenu[] = {
-    { "Trigger reset button", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_MACHINE_RESET_BUTTON,
+    { "Reset machine CPU", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_MACHINE_RESET_CPU,
       NULL, false },
     { "Power cycle machine", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MACHINE_POWER_CYCLE,

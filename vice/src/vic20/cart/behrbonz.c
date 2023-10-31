@@ -127,7 +127,7 @@ static void behrbonz_io3_store(uint16_t addr, uint8_t value)
     if (write_once) {
         bank_reg = value & 0x7f;
         reset_mode = SOFTWARE_RESET;
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     }
     write_once = 0;
 }

@@ -49,7 +49,7 @@ static void play_subtune(int tune)
     psid_init_driver();
     machine_play_psid(tune);
     sdl_vsid_current_tune = tune;
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 }
 
 /** \brief  Play subtune action

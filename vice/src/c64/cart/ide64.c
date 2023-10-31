@@ -587,7 +587,7 @@ static int set_version(int value, void *param)
             return -1;
         }
         usbserver_activate(settings_usbserver);
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     return 0;
 }

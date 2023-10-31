@@ -2976,8 +2976,8 @@ Remove a hotkey from whatever action it is mapped to.
 For example:
 
 @verbatim
-!undef <Alt>r                   # Unmap Alt+r from 'restore display'
-machine-reset-buttonn <Alt>r    # Map Alt+r to reset
+!undef <Alt>r               # Unmap Alt+r from 'restore display'
+machine-reset-cpu   <Alt>r  # Map Alt+r to reset
 @end verbatim
 
 @node Hotkey mappings
@@ -3429,8 +3429,8 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Reset drive 9
 @item @code{machine-power-cycle}
 @tab Power cycle the machine
-@item @code{machine-reset-button}
-@tab Trigger reset button
+@item @code{machine-reset-cpu}
+@tab Reset machine CPU
 @item @code{restore-display}
 @tab Resize application window to fit contents
 @item @code{screenshot-quicksave}

@@ -147,13 +147,13 @@ static const ui_action_map_t machine_actions[] = {
         .handler  = monitor_open_action,
         .uithread = true
     },
-    {   .action  = ACTION_MACHINE_RESET_BUTTON,
+    {   .action  = ACTION_MACHINE_RESET_CPU,
         .handler = machine_reset_action,
-        .data    = int_to_void_ptr(MACHINE_RESET_MODE_SOFT)
+        .data    = int_to_void_ptr(MACHINE_RESET_MODE_RESET_CPU)
     },
     {   .action  = ACTION_MACHINE_POWER_CYCLE,
         .handler = machine_reset_action,
-        .data    = int_to_void_ptr(MACHINE_RESET_MODE_HARD)
+        .data    = int_to_void_ptr(MACHINE_RESET_MODE_POWER_CYCLE)
     },
     {   .action  = ACTION_DIAGNOSTIC_PIN_TOGGLE,
         .handler = diagnostic_pin_toggle_action,

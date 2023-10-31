@@ -418,7 +418,7 @@ static int removepressedkey(GdkEvent *report, int *key, int *mod)
  */
 static gboolean isresethotkey(GdkEvent *report)
 {
-    int checkaccel[2] = { ACTION_MACHINE_RESET_BUTTON, ACTION_MACHINE_POWER_CYCLE };
+    int checkaccel[2] = { ACTION_MACHINE_RESET_CPU, ACTION_MACHINE_POWER_CYCLE };
     gboolean res = FALSE;
     int i;
     char *this_accel = gtk_accelerator_get_label(report->key.keyval,

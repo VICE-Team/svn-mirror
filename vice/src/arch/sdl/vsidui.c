@@ -108,7 +108,7 @@ static UI_MENU_CALLBACK(load_psid_callback)
             lib_free(name);
             psid_init_driver();
             machine_play_psid(0);
-            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
             ui_action_finish(ACTION_PSID_LOAD);
             return sdl_menu_text_exit_ui;
         }

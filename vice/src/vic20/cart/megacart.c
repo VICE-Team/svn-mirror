@@ -368,7 +368,7 @@ static void megacart_io3_store(uint16_t addr, uint8_t value)
     if ((addr & 0x200) == 0x200) { /* $9e00 */
         /* perform reset */
         reset_mode = SOFTWARE_RESET;
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     }
 }
 

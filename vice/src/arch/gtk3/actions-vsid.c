@@ -98,7 +98,7 @@ static void play_current_tune(void)
     debug_gtk3("calling machine_play_psid(%d).", current);
     machine_play_psid(current);
     debug_gtk3("calling machine_trigger_reset(SOFT).");
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     ui_pause_disable();
     vsid_control_widget_set_state(VSID_PLAYING);
 }
@@ -184,7 +184,7 @@ static void psid_play_action(ui_action_map_t *self)
 
         psid_init_driver();
         machine_play_psid(current);
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     } else {
         /* return emulation speed back to 100% */
         vsid_state_unlock();
@@ -219,7 +219,7 @@ static void psid_stop_action(ui_action_map_t *self)
 
     psid_init_driver();
     machine_play_psid(-1);
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     vsid_control_widget_set_state(VSID_STOPPED);
 }
 

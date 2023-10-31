@@ -547,7 +547,7 @@ static void vic_um_io3_store(uint16_t addr, uint8_t value)
             case 0:
                 value |= ultimem_reset[0];
                 if (value & 0x40) {
-                    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+                    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
                 }
                 break;
             case 3:

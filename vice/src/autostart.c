@@ -1434,7 +1434,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     }
     DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %"PRIu64, autostart_initial_delay_cycles));
 
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
 
     /* enable warp before reset */
     if (mode != AUTOSTART_HASSNAPSHOT) {

@@ -34,7 +34,11 @@
 #include <stdint.h>
 
 typedef enum {
-    UI_JAM_INVALID = -1, UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
+    UI_JAM_INVALID = -1,    /**< error */
+    UI_JAM_RESET_CPU,       /**< reset machine/drivee CPU */
+    UI_JAM_POWER_CYCLE,     /**< power cycle macine/drive */
+    UI_JAM_MONITOR,         /**< break into the monitor */
+    UI_JAM_NONE             /**< don't do anything */
 } ui_jam_action_t;
 
 typedef enum {

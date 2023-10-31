@@ -707,7 +707,7 @@ static int set_turbomaster_rom1_filename(const char *name, void *param)
 
     util_string_set(&turbomaster_rom1_filename, name);
     if (turbomaster_s1_cpu_started && turbomaster_s2_rom == 1) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
 
     return 0;
@@ -731,7 +731,7 @@ static int set_turbomaster_rom2_filename(const char *name, void *param)
 
     util_string_set(&turbomaster_rom2_filename, name);
     if (turbomaster_s1_cpu_started && turbomaster_s2_rom == 2) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
 
     return 0;
@@ -904,10 +904,10 @@ void turbomaster_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_
         EXPORT_REGISTERS();                                           \
         tmp = machine_jam("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
         switch (tmp) {                                                \
-            case JAM_RESET:                                           \
+            case JAM_RESET_CPU:                                       \
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \
-            case JAM_HARD_RESET:                                      \
+            case JAM_POWER_CYCLE:                                     \
                 mem_powerup();                                        \
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \

@@ -603,7 +603,7 @@ static int set_c64dtvflash_filename(const char *name, void *param)
 
     /* for now always reset machine, later can become optional */
     if (!retval) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
 
     return 0;

@@ -98,7 +98,7 @@ static int set_kernal_rom_name(const char *val, void *param)
     /* load kernal without a kernal overriding buffer */
     ret = c64rom_load_kernal(kernal_rom_name, NULL);
     if (changed) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     return ret;
 }
@@ -114,7 +114,7 @@ static int set_basic_rom_name(const char *val, void *param)
     }
     ret = c64rom_load_basic(basic_rom_name);
     if (changed) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     return ret;
 }
@@ -127,7 +127,7 @@ static int set_board_type(int val, void *param)
     }
     board_type = val;
     if (old_board_type != board_type) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     return 0;
 }
@@ -293,7 +293,7 @@ static int set_kernal_revision(int val, void *param)
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
 
     if (kernal_revision != rev) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
     }
     /* restore traps */
     if (machine_class != VICE_MACHINE_VSID) {

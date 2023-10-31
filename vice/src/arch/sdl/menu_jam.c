@@ -48,15 +48,15 @@ const ui_menu_entry_t jam_menu[] = {
         .callback = radio_JAMAction_callback,
         .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR
     },
-    {   .string   = "Reset",
+    {   .string   = "Reset CPU",
         .type     = MENU_ENTRY_RESOURCE_RADIO,
         .callback = radio_JAMAction_callback,
-        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_RESET
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_RESET_CPU
     },
-    {   .string   = "Hard reset",
+    {   .string   = "Power cycle machine",
         .type     = MENU_ENTRY_RESOURCE_RADIO,
         .callback = radio_JAMAction_callback,
-        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET
+        .data     = (ui_callback_data_t)MACHINE_JAM_ACTION_POWER_CYCLE
     },
     {   .string   = "Quit emulator",
         .type     = MENU_ENTRY_RESOURCE_RADIO,

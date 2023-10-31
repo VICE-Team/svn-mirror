@@ -39,8 +39,8 @@
 ui_menu_entry_t reset_menu[] = {
     /* reset machine */
     {
-        .action    = ACTION_MACHINE_RESET_BUTTON,
-        .string    = "Trigger reset button",
+        .action    = ACTION_MACHINE_RESET_CPU,
+        .string    = "Reset machine CPU",
         .type      = MENU_ENTRY_OTHER,
         .activated = MENU_EXIT_UI_STRING
     },

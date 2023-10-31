@@ -79,8 +79,8 @@ extern bool default_settings_requested;
 #define MACHINE_JAM_ACTION_DIALOG       0
 #define MACHINE_JAM_ACTION_CONTINUE     1
 #define MACHINE_JAM_ACTION_MONITOR      2
-#define MACHINE_JAM_ACTION_RESET        3
-#define MACHINE_JAM_ACTION_HARD_RESET   4
+#define MACHINE_JAM_ACTION_RESET_CPU    3
+#define MACHINE_JAM_ACTION_POWER_CYCLE  4
 #define MACHINE_JAM_ACTION_QUIT         5
 #define MACHINE_NUM_JAM_ACTIONS         6
 
@@ -107,8 +107,8 @@ void machine_maincpu_init(void);
 void machine_maincpu_shutdown(void);
 
 /* Reset the machine.  */
-#define MACHINE_RESET_MODE_SOFT 0
-#define MACHINE_RESET_MODE_HARD 1
+#define MACHINE_RESET_MODE_RESET_CPU    0
+#define MACHINE_RESET_MODE_POWER_CYCLE  1
 
 void machine_trigger_reset(const unsigned int reset_mode);
 void machine_reset(void);
@@ -185,10 +185,10 @@ struct canvas_refresh_s;
 int machine_screenshot(struct screenshot_s *screenshot, struct video_canvas_s *canvas);
 int machine_canvas_async_refresh(struct canvas_refresh_s *ref, struct video_canvas_s *canvas);
 
-#define JAM_NONE       0
-#define JAM_RESET      1
-#define JAM_HARD_RESET 2
-#define JAM_MONITOR    3
+#define JAM_NONE        0
+#define JAM_RESET_CPU   1
+#define JAM_POWER_CYCLE 2
+#define JAM_MONITOR     3
 
 unsigned int machine_jam(const char *format, ...) VICE_ATTR_PRINTF;
 bool machine_is_jammed(void);

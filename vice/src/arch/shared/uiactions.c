@@ -222,7 +222,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_MONITOR_OPEN,      "monitor-open",         "Open monitor",                         VICE_MACHINE_ALL },
 
     /* reset items */
-    { ACTION_MACHINE_RESET_BUTTON,   "machine-reset-button",    "Reset the machine",                    VICE_MACHINE_ALL },
+    { ACTION_MACHINE_RESET_CPU,      "machine-reset-cpu",       "Reset the machine CPU",                VICE_MACHINE_ALL },
     { ACTION_MACHINE_POWER_CYCLE,    "machine-power-cycle",     "Power cycle the machine",              VICE_MACHINE_ALL },
 
     { ACTION_RESET_DRIVE_8,          "reset-drive-8",           "Reset drive 8",                        VICE_MACHINE_ALL^VICE_MACHINE_VSID },
