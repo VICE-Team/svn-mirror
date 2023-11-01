@@ -51,8 +51,9 @@ else:
     GIT_TARGET_PATH = os.path.dirname(SVN_REPO_PATH) + "/vice-git"
 
 if os.path.exists(GIT_TARGET_PATH):
-    print(f"Error: {GIT_TARGET_PATH} already exists")
-    sys.exit(1)
+    if not os.path.isdir(GIT_TARGET_PATH + "/.git"):
+        print(f"Error: {GIT_TARGET_PATH} already exists, and it's not a Git repo")
+        sys.exit(1)
 
 def find_program(prog):
     proc = subprocess.run(['which', prog], capture_output=True)
@@ -124,5 +125,11 @@ for x in authors:
     f.write(f"{x} = {authors[x]}\n")
 f.close()
 
-print(f"Creating git edition of SVN repo at {GIT_TARGET_PATH}")
-subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', 'authors-transform.txt', GIT_TARGET_PATH], check=True)
+if os.path.exists(GIT_TARGET_PATH):
+    print(f"Updating git repo")
+    os.chdir(GIT_TARGET_PATH)
+    subprocess.run(['git', 'svn', 'fetch'], check=True)
+    subprocess.run(['git', 'merge', 'svn/trunk'], check=True)
+else:
+    print(f"Creating git edition of SVN repo at {GIT_TARGET_PATH}")
+    subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', 'authors-transform.txt', GIT_TARGET_PATH], check=True)
