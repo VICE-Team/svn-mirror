@@ -796,7 +796,7 @@ cond_expr: cond_expr COND_OP cond_expr
                $$ = new_cond; $$->is_parenthized = FALSE;
                $$->child1 = $1; $$->child2 = $3; $$->operation = $2;
            }
-      	 | cond_expr COND_OP error
+         | cond_expr COND_OP error
            { return ERR_INCOMPLETE_COND_OP; }
          | L_PAREN cond_expr R_PAREN
            { $$ = $2; $$->is_parenthized = TRUE; }
@@ -818,16 +818,32 @@ cond_operand: register    { $$ = new_cond;
                             $$->value = $1; $$->is_reg = FALSE; $$->banknum=-1;
                             $$->child1 = NULL; $$->child2 = NULL;
                           }
-               |  '@' BANKNAME ':' address {$$=new_cond;
-                            $$->operation=e_INV;
+                            /* Example: break load 0 $ffff if @cpu:(pc) < $80 */
+               |  '@' BANKNAME ':' L_PAREN cond_expr R_PAREN {
+                            $$ = new_cond;
+                            $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
                             $$->banknum = mon_banknum_from_bank(e_default_space, $2);
                             if ($$->banknum < 0) {
                                 return ERR_ILLEGAL_INPUT;
                             }
-                            $$->value = $4; $$->is_reg = FALSE;
+                            $$->value = 0;
+                            $$->is_reg = FALSE;
+                            $$->child1 = $5;
+                            $$->child2 = NULL;
+                        }
+               |  '@' BANKNAME ':' address {
+                            $$ = new_cond;
+                            $$->operation = e_INV;
+                            $$->is_parenthized = FALSE;
+                            $$->banknum = mon_banknum_from_bank(e_default_space, $2);
+                            if ($$->banknum < 0) {
+                                return ERR_ILLEGAL_INPUT;
+                            }
+                            $$->value = $4;
+                            $$->is_reg = FALSE;
                             $$->child1 = NULL; $$->child2 = NULL;  
-                        }                        
+                        }
                ;
 
 data_list: data_list opt_sep data_element
