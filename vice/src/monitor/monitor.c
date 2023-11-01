@@ -2592,9 +2592,16 @@ void mon_print_conditional(cond_node_t *cnode)
             mon_out("%s", register_string[reg_regid(cnode->reg_num)]);
         }
         else if (cnode->banknum >= 0) {
-            mon_out("@:%s:$%04x",
-                    mon_get_bank_name_for_bank(default_memspace,cnode->banknum),
-                    (unsigned int)cnode->value);
+	    if (cnode->child1) {
+		mon_out("@%s:(",
+			mon_get_bank_name_for_bank(default_memspace,cnode->banknum));
+		mon_print_conditional(cnode->child1);
+		mon_out(")");
+	    } else {
+		mon_out("@%s:$%04x",
+			mon_get_bank_name_for_bank(default_memspace,cnode->banknum),
+			(unsigned int)cnode->value);
+	    }
         } else {
             mon_out("$%02x", (unsigned int)cnode->value);
         }
@@ -2686,9 +2693,14 @@ int mon_evaluate_conditional(cond_node_t *cnode)
             cnode->value = (monitor_cpu_for_memspace[reg_memspace(cnode->reg_num)]->mon_register_get_val)
                                (reg_memspace(cnode->reg_num),
                                reg_regid(cnode->reg_num));
-        } else if(cnode->banknum >= 0) {
+        } else if (cnode->banknum >= 0) {
             MEMSPACE src_mem = e_comp_space;
-            uint16_t start = addr_location(cnode->value);
+            uint16_t start;
+	    if (cnode->child1 != NULL) {
+		start = mon_evaluate_conditional(cnode->child1);
+	    } else {
+		start = addr_location(cnode->value);
+	    }
             uint8_t byte1;
             int old_sidefx = sidefx; /*we need to store current value*/
             sidefx = 0; /*make sure we peek when doing the break point, otherwise weird stuff will happen*/

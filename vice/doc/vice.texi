@@ -20617,13 +20617,19 @@ Full expressions are also supported (+, -, *, /, &, |, &&, ||). This lets
 you for example check specific bits in the FL register using the bitwise
 boolean operators (& and |). Parentheses are also supported in the expression.
 Registers can be the registers of other devices; this is denoted by
-a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:
-Examples: A == $0, X == Y, 8:X == X)
+a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:)
+Examples: A == $0, X == Y, 8:X == X
+
 You can also compare against the value of a memory location in a specific
 bank, i.e you can break only if the vic register $d020 is $f0.
 use the form @@[bankname]:[$<address>] | [.label].
-Note this is for the C : memspace only.
+Note this is for the C: memspace only.
 Examples : if @@io:$d020 == $f0, if @@io:.vicBorder == $f0
+
+As an extension as the previous case, you can also dereference an expression,
+using the form @@[bankname]:(expression) . The parentheses around the expression
+distinguish it from the previous form.
+Example: break load 0 $ffff if @@cpu:(pc - $1) == $37
 
 @item delete <checknum>
 @itemx del <checknum>
