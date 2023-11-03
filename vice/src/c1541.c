@@ -4490,6 +4490,31 @@ static int internal_write_geos_file(int unit, FILE* f)
     return FD_OK;
 }
 
+/* do some sanity checks, reject files that are clearly not valid convert files */
+static int check_geos_convert_file(FILE *f)
+{
+    uint8_t dirBlock[256];
+    int c = 0;
+    int n;
+
+    /* First block of cvt file is the directory entry, rest padded with zeros */
+    for (n = 0; n < 254; n++) {
+        c = fgetc(f);
+        dirBlock[n] = (unsigned char)c;
+    }
+
+    /* check if this is a valid convert file */
+    if (((memcmp(&dirBlock[0x1e], "PRG", 3) != 0) && (memcmp(&dirBlock[0x1e], "SEQ", 3) != 0)) ||
+        (memcmp(&dirBlock[0x21], " formatted GEOS file V1.0", 25) != 0)) {
+        fprintf(stderr, "not a valid GEOS convert file\n");
+        return -1;
+    }
+
+    /* reset file position */
+    fseek(f, 0, SEEK_SET);
+
+    return 0;
+}
 
 /* Author:      DiSc
  * Date:        2000-07-28
@@ -4518,6 +4543,10 @@ static int write_geos_cmd(int nargs, char **args)
     if (f == NULL) {
         fprintf(stderr,
                 "cannot read file `%s': %s\n", args[1], strerror(errno));
+        return FD_NOTRD;
+    }
+
+    if (check_geos_convert_file(f) < 0) {
         return FD_NOTRD;
     }
 
