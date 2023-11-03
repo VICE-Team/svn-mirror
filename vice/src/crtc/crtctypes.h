@@ -65,6 +65,7 @@ struct crtc_s {
     int hw_cursor;
     int hw_cols;        /* 1 or 2, number of chars per cycle */
     int hw_blank;
+    int beam_offset;    /* mystery correction offset... */
     int vaddr_mask;     /* how many bits (mask) in the video base address are
                          * connected to hardware. */
     int vaddr_mask_eff;     /* how many effective address bits we can generate;
