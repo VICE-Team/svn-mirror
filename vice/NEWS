@@ -18,13 +18,257 @@ Before reporting bugs, always try with a clean config: Run the emulator
 with the "-default" command line argument or use "restore default config"
 in the UI).
 
-* Changes in Vice 3.7.2
-=======================
+
+* Changes in Vice 3.8
+=====================
 
 ** general
 ----------
 
 - added WIC64 support for C64,C128,SCPU64
+- virtual device (host directory) fixes (Scratch command correctly returns
+  number of scratched files, Rename command produces "file exists" error if the
+  destination file exists)
+- added video capture in ZMBV format. This will produce lossless videos at correct
+  emulated FPS.
+- the old FFMPEG support was deprecated and is disabled by default. New experimental
+  code was added that will work with external ffmpeg executable instead.
+- reSID: fixed a Noise Init problem
+- reSID: filter tweaks
+- reSID: The 6581 saw+pulse waveform was wrong
+- reSID: tweak shift register reset time for 6581
+- reSID: 8580 Filter ringing fix
+- made raw printer driver pass through all bytes 1:1
+- Tape: changed default zero-gap delay from the rather weird (and way too large)
+  value 20000 to the more sane 2500 which MTAP uses
+- RS232: handle RI line in IP232 (requires updated tcpser, see
+  ​https://github.com/go4retro/tcpser/pull/24.
+  - Add option to invert the RI line. This should help to make some more obscure
+    BBS programs work
+- RS232: removed undocumented feature to use unix domain sockets when the first
+  character of a rs232 device is a pipe character, and instead used pipes, like
+  it will be done on windows too
+- Drives: fixed 1571CR emulation
+- Drives: allow up to 83 tracks for 3.5inch mechs
+- Drives: fixed clock rollover in rotation code
+- Added PaperclipE, PaperclipSC, and Paperclip2 dongle support.
+- Added woj userport joystick adapter emulation.
+- provide fake sid hooks so hardsid can be used when fastsid is disabled
+- Printer: new reworked emulation handles various CBM Printers: 2022, 4023, 8023,
+  MPS801, MPS801, MPS803
+- Printer: tweaked MPS page height, now allows print shop to print a greetings
+  card on a single page.
+- Printer: do not produce any output for non-printable codes
+- Printer: when using the graphic output driver, only produce a new file when
+  actually doing a formfeed.
+- Build the list of available palette files at runtime, scan system path/dirs as
+  needed. Also read extra info from the .vpl files. New palettes can now be just
+  dropped into the data dir and they will appear in the UIs.
+- allow color controls to be used with external palette and when no crt emulation
+  is active.
+- Added more realistic vicii color ram init code.
+- CIA: shiftregister fixes
+- CIA: fixed ICR timing/behaviour (This fixes the dd0dtest from the testbench)
+- Support for ISA/PCI devices that were accessed via direct I/O was removed,
+  since this would not work in any sane modern OS anymore. The affected devices
+  are: parsid (windows), ssi2001 (all)
+- Z80: OUT, OUTD, OUTI, OTIR, OTDR instruction fixes
+- Fixed -initbreak reset so that the first instruction doesn't run
+
+
+** Buildsystem
+--------------
+
+- changed configure switch `--enable-lame` to `--with-lame`
+- configure: change `--with-zip-bin` to `--with-unzip-bin`
+- remove the configure switch --with-readline/--without-readline.
+
+- Do not build PDF docs unless --enable-pdf-docs
+- Fixed macOS bindist. Probably doesn't work without code signing, however an
+  attempt is now made to detect and use a signing identity.
+- when installing with x64 not enabled, install a symlink x64->s64sc instead
+- Add unzip.exe and its deps to Gtk3 bindist
+
+
+** C64 fixes
+------------
+
+- Blackbox 9 garbled screen problem was fixed
+- added 'Hyper-Basic' cartridge support
+- fixed "MAX-BASIC" cartridge support in "MultiMAX" emulation
+- more correct memory map for the "Max Machine"
+- fix attaching 8k ultimax .bin cartridge images
+
+
+** C128 fixes
+------------
+
+- Cartridge system now supports cartridges that work in both C128 and C64 mode
+- added "RAM-Link" support
+- added LTK support, as well as other kernal replacements carts
+- comal-80 (c128) fixed
+- MMU fixes
+  - Keep currently set c128 bank when changing the c64mode mmu bit.
+  - Fix x128 c64 mode p0/p1 relocation
+  - Added proper z80 mmu control
+- add a 'SCART' VDC palette, which contains 'dark yellow' instead of the (correct) brown
+- Fix x128 VDC mirroring
+- x128 properly starts with Z80 and then transfers control to 8502
+- Z80: various I/O mapping fixes
+- use separate resources for localized chargen and c64 kernal
+
+
+** VIC20 fixes
+--------------
+
+- fixed NTSC colors
+
+
+** PLUS4 fixes
+--------------
+
+- Map out pio-1 and only handle datasette sense in the fd10-fd1f range when
+  c16/c116/c232 model is selected.
+
+Keymaps:
+- added reference image of native Plus4 keyboard layout
+- added reference image of Plus4, positional, US layout
+- added reference image of Plus4, positional, german layout
+
+
+** C64DTV fixes
+---------------
+
+- loading flash image was broken
+- use DTV model specific flash ROM content
+
+
+** SCPU64 fixes
+---------------
+
+- Do not call dma or clock stretch functions when a dma is already going on,
+  dma is done at 1mhz speeds.
+
+
+** PET fixes
+------------
+
+- Implement some beam-racing timing improvements for pre-CRTC PETs
+- Add a PET palette that approximates the slightly blue white of the 2001 model.
+- Monitor: handle SuperPET 6809 banking correctly
+
+
+** CBM-II fixes
+---------------
+
+- CRTC: Esc+U / Esc+S - underscore cursori on / off: now works.
+- Fix monitor watchpoints on indirect accesses to a zero page.
+
+Keymaps:
+- added reference image of native CBM2 keyboard layout
+- added reference image of CBM2, positional, US layout
+- added reference image of CBM2, positional, german layout
+
+
+** Monitor fixes
+----------------
+
+- Added indirections to the expression evaluator for breakpoint conditions.
+- made regular 'load' command never set Kernal pointers
+- added new 'loadbasic'/'ldb' command that always sets Kernal pointers.
+- Display correct column count for VICII and TED
+- Add detailed TED register info for the IO monitor command
+- added profiler support in the monitor, right now supports only 6502
+- add monitor io dump for wd1770 and pc8477
+- implement monitor io dump for 6532 (RIOT)
+- fixed Disassembly of 6809 instructions
+- make  monitor D and M command see the same memory (as set by the monitor's
+  "bank" command), while single step, breakpoints, cpu history and debug cpu
+  trace see the memory as the cpu sees it at that time.
+- fixed crash when using an invalid DOS command with @, documented limitations
+  of the @ command
+- fixed crash when accessing a non existent directory
+
+
+** C1541 fixes
+--------------
+
+- Fixed chain command to print from the last sector how many bytes are used.
+- make opencbm available in c1541 by using "opencbm" as the filename
+
+
+** cartconv fixes
+-----------------
+
+- better support for VIC20 cartridges
+
+
+** petcat fixes
+--------------
+
+- Added new BASIC 65 keywords
+
+
+** GTK fixes
+------------
+
+- Fixed saving monitor position and size and restoring on boot
+- All numeric values are displayed in proper units
+- make dropping files on the main window work like it did in winvice - hold
+  shift to just mount a new disk.
+- VSID: Look up STIL info for file passed on command line
+- macOS: Use Command+W to close monitor window
+- Open file manager to view directory containing vice.log, instead of opening
+  vice.log with an editor
+- Settings: remember directory/filename in load/save dialogs
+
+Keymaps:
+
+- Added C128 KeyrahV3, US layout
+- Added C128 KeyrahV3, german layout
+- Added CBM2 positional, US layout
+- Added CBM2 positional, german layout
+- Added Plus4 Spanish positional
+- Added Plus4 Positional, german layout
+- fix C64 danish symbolic
+- fix C128 Positional, US layout
+- fix C128 Positional, german layout
+- fix PET Positional, US layout
+- fix PET Positional, german layout
+- fix PET Symbolic, US layout
+- fix Plus4 Positional, US layout
+
+
+** macOS fixes
+--------------
+
+- fix scrolling in the monitor
+
+
+** Windows fixes
+----------------
+
+- Add -no-direct-streams command line option on Windows. With -no-direct-streams
+  the stream direction code that reconnects the standard streams stdin, stdout
+  and stderr to VICE is not called. This will mostly be useful for debugging
+  weird issues on Windows.
+- fixed issues with mouse warping
+- fixed loading of the opencbm- and libusb DLLs
+
+
+** BSD fixes
+------------
+
+- Fix nasty buzz on sun/netbsd sound driver
+
+
+* Changes in Vice 3.7.1
+=======================
+
+This is a quick bugfix release
+
+- Fixed macOS layout incompatibility with GTK 3.24.36
+- macOS Ventura fixes
 
 
 * Changes in Vice 3.7
