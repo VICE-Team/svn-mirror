@@ -1010,9 +1010,16 @@ void pet_crtc_set_screen(void)
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
                 vmask, cols, petres.model.crtc);
 */
+    int hwflag = (cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0;
+    /* Note: see bug #1954.
+     * The real cause for the timing difference is unknown so far.
+     * If found, the condition below will probably change. */
+    if (cols == 80 && petres.map != PET_MAP_8296) {
+        hwflag |= CRTC_HW_LATE_BEAM;
+    }
     crtc_set_screen_options(cols, 25 * 10);
     crtc_set_screen_addr(mem_ram + 0x8000);
-    crtc_set_hw_options((cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0,
+    crtc_set_hw_options(hwflag,
                         vmask,
                         0x2000,         /* vchar: MA13 */
                         512,            /* vcoffset */

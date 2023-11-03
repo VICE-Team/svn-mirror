@@ -60,6 +60,7 @@ void crtc_set_screen_options(int num_cols, int rasterlines);
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset, int vrevmask);
 #define CRTC_HW_CURSOR          1       /* do we have a hardware cursor */
 #define CRTC_HW_DOUBLE_CHARS    2       /* 2 chars per cycle */
+#define CRTC_HW_LATE_BEAM       4       /* 1 cycle more time to catch the beam */
 void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
 void crtc_set_retrace_type(int type);
 #define CRTC_RETRACE_TYPE_DISCRETE      0
