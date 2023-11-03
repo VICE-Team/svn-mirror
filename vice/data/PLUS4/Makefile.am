@@ -16,7 +16,10 @@ romsets = \
 palettes = \
 	yape-pal.vpl \
 	yape-ntsc.vpl \
-	colodore_ted.vpl
+	colodore_ted.vpl \
+	ITU-R_BT601_CRT.vpl \
+	ITU-R_BT709_HDTV.vpl \
+	ITU-R_BT2020.vpl
 
 gtk3_keymaps = \
 	gtk3_pos.vkm \
