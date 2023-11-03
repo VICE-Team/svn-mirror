@@ -92,6 +92,7 @@ crtc_t crtc = {
     .hw_cursor =        0,
     .hw_cols =          1,
     .hw_blank =         0,
+    .beam_offset =      0,
     .vaddr_mask =       0x3ff,
     .vaddr_charswitch = 0x2000,
     .vaddr_charoffset = 512,
@@ -418,6 +419,7 @@ void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
            hwflag, vmask, vchar, vcoffset, vrevmask); */
     crtc.hw_cursor = hwflag & CRTC_HW_CURSOR;
     crtc.hw_cols = (hwflag & CRTC_HW_DOUBLE_CHARS) ? 2 : 1;
+    crtc.beam_offset = (hwflag & CRTC_HW_LATE_BEAM) ? crtc.hw_cols : 0;
     crtc.vaddr_mask = vmask;
     crtc.vaddr_mask_eff = (hwflag & CRTC_HW_DOUBLE_CHARS) ? (vmask << 1) | 1
                                                           : vmask;
@@ -977,14 +979,13 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
              * character ROM lookup.
              */
             int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
-                               crtc.hw_cols;
+                               crtc.hw_cols
+                          - crtc.beam_offset;
             /*
              * For some as yet unexplained reason, on a tested 8032 (compared
              * to 4032) you can store a screen value 1 cycle later and it will
-             * still be displayed instead of the old value.
+             * still be displayed instead of the old value. See bug #1954.
              */
-            if (crtc.hw_cols == 2)
-                beampos -= 2;
 
             if (xpos >= beampos) {
                 /* Character is still to be displayed in the current scan line */
@@ -998,7 +999,8 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
 #if SNOW
     /* snow ... */
     int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
-                       crtc.hw_cols;
+                       crtc.hw_cols
+                  - crtc.beam_offset;
     int width =  crtc.rl_visible * crtc.hw_cols;
 
     if (beampos >= 0 && beampos < width) {
