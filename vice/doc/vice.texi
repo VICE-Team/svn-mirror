@@ -19989,6 +19989,16 @@ Integer specifying the current FFMPEG video codec.
 @item FFMPEGVideoHalveFramerate
 Boolean, if true record only every other frame.
 
+@vindex ZMBVFormat
+@item ZMBVFormat
+String specifying the current ZMBV output driver.
+@vindex ZMBVAudioCodec
+@item ZMBVAudioCodec
+Integer specifying the current ZMBV audio codec.
+@vindex ZMBVVideoCodec
+@item ZMBVVideoCodec
+Integer specifying the current ZMBV video codec.
+
 @end table
 
 @c @node FIXME
