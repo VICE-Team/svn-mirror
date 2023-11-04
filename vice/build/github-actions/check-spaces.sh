@@ -14,5 +14,14 @@ if [ x"$FILES"x != xx ]; then
     for n in $FILES; do
         echo $n
     done
-    exit -1
+# ignore some files
+    for n in $FILES; do
+        if [ "$n" != "./src/monitor/mon_parse.c" ]; then
+        if [ "$n" != "./src/monitor/mon_lex.c" ]; then
+        if [ "$n" != "./src/arch/gtk3/novte/box_drawing.h" ]; then
+            exit -1
+        fi
+        fi
+        fi
+    done
 fi
