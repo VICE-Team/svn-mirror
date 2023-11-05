@@ -872,8 +872,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         flip |= SDL_FLIP_VERTICAL;
     }
 
-    /* FIXME: when the texture is rotated, the host window should resize accordingly */
     angle = canvas->videoconfig->rotate ? 90.0f : 0.0f;
+
     if (canvas->videoconfig->interlaced && !sdl_menu_state) {
         /*
          * Interlaced mode: Re-render last frame to render new frame over.
@@ -886,7 +886,34 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     } else {
         SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_NONE);
     }
-    SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, angle, NULL, flip);
+
+    if (canvas->videoconfig->rotate) {
+        /* FIXME: when the output is rotated 90degrees, the texture must be scaled accordingly.
+                  somehow this doesnt work without doing fancy magic like this... */
+        int tw;
+        int th;
+        int curr_w;
+        int curr_h;
+        float scale;
+        SDL_Rect rect = {0, 0, 0, 0};
+
+        SDL_QueryTexture(canvas->texture, NULL, NULL, &tw, &th);
+        SDL_GetWindowSize(canvas->container->window, &curr_w, &curr_h);
+
+        scale = (double)curr_h / (double)tw;
+        /* scale = (double)th / (double)curr_w; */
+        /* scale /= 2.0f; */
+
+        rect.x = (tw - th) / 2 - 1;
+        rect.y = (th - (tw * scale)) / 2;
+        rect.w = th;
+        rect.h = tw * scale;
+
+        DBG(("video_canvas_refresh angle:%f scale:%f", angle, scale));
+        SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, &rect, angle, NULL, flip);
+    } else {
+        SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, angle, NULL, flip);
+    }
 
     SDL_RenderPresent(canvas->container->renderer);
 
@@ -974,7 +1001,7 @@ static void sdl_correct_logical_size(void)
                 corrected_width = sdl_active_canvas->width * aspect;
                 corrected_height = sdl_active_canvas->height;
             }
-
+            DBG(("sdl_correct_logical_size w:%d h:%d", corrected_width, corrected_height));
             SDL_RenderSetLogicalSize(container->renderer, corrected_width, corrected_height);
         }
     }
@@ -994,6 +1021,7 @@ static void sdl_correct_logical_and_minimum_size(void)
                 int width, height;
                 sdl_correct_logical_size();
                 SDL_RenderGetLogicalSize(container->renderer, &width, &height);
+                DBG(("sdl_correct_logical_and_minimum_size w:%d h:%d", width, height));
                 SDL_SetWindowMinimumSize(container->window, width, height);
             }
         }
