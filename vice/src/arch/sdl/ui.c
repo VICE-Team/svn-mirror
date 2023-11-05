@@ -127,17 +127,32 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 {
 #ifdef USE_SDL2UI
     int capslock;
-
+    int wx, wy;
+#ifdef SDL_DEBUG
+    int wh, ww;
+#endif
     if (e.type == SDL_WINDOWEVENT) {
         SDL_Window* window = SDL_GetWindowFromID(e.window.windowID);
         video_canvas_t* canvas = (video_canvas_t*)(SDL_GetWindowData(window, VIDEO_SDL2_CANVAS_INDEX_KEY));
-
+        DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT"));
         switch (e.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
-                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)",
-                     e.window.data1, e.window.data2));
+#ifdef SDL_DEBUG
+                SDL_GetWindowSize(window, &ww, &wh);
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d) (%d,%d) Window %u Canvas: %d",
+                     e.window.data1, e.window.data2, ww, wh, e.window.windowID, canvas->index));
+#endif
                 sdl2_video_resize_event(canvas->index, (unsigned int)e.window.data1, (unsigned int)e.window.data2);
                 video_canvas_refresh_all(sdl_active_canvas);
+                /*resources_set_int_sprintf("Window%dWidth", ww, canvas->index);
+                resources_set_int_sprintf("Window%dHeight", wh, canvas->index);*/
+                break;
+            case SDL_WINDOWEVENT_MOVED:
+                SDL_GetWindowPosition(window, &wx, &wy);
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_MOVED (%d,%d)  (%d,%d) Window %u Canvas: %d",
+                        e.window.data1, e.window.data2, wx, wy, e.window.windowID, canvas->index));
+                resources_set_int_sprintf("Window%dXpos", wx, canvas->index);
+                resources_set_int_sprintf("Window%dYpos", wy, canvas->index);
                 break;
             case SDL_WINDOWEVENT_FOCUS_GAINED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_GAINED"));
@@ -161,7 +176,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
                 ui_sdl_quit();
                 break;
         }
-    }
+    } else {
 #endif
     switch (e.type) {
         case SDL_QUIT:
@@ -217,6 +232,9 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: unhandled"));
             break;
     }
+#ifdef USE_SDL2UI
+    } /* not SDL_WINDOWEVENT */
+#endif
 }
 
 /* Main event handler */
