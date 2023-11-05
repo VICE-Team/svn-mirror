@@ -1008,8 +1008,8 @@ char *util_join_paths(const char *path, ...)
 int util_strcasecmp(const char *s1, const char *s2)
 {
     while (*s1 != '\0' && *s2 != '\0') {
-        int c1 = tolower((int)*s1);
-        int c2 = tolower((int)*s2);
+        int c1 = tolower((unsigned char)*s1);
+        int c2 = tolower((unsigned char)*s2);
 
         if (c1 < c2) {
             return -1;
@@ -1045,8 +1045,8 @@ int util_strcasecmp(const char *s1, const char *s2)
 int util_strncasecmp(const char *s1, const char *s2, size_t n)
 {
     while (*s1 != '\0' && *s2 != '\0' && n > 0) {
-        int c1 = tolower((int)*s1);
-        int c2 = tolower((int)*s2);
+        int c1 = tolower((unsigned char)*s1);
+        int c2 = tolower((unsigned char)*s2);
 
         if (c1 < c2) {
             return -1;

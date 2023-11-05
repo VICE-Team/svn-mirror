@@ -2422,7 +2422,7 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
 
         if (codesnocase) {
             for (p = wordlist[token], q = (char *)line, j = 0;
-                 *p && *q && (tolower(*p) == tolower(*q));
+                 *p && *q && (tolower((unsigned char)*p) == tolower((unsigned char)*q));
                  p++, q++, j++) {}
         } else {
             for (p = wordlist[token], q = (char *)line, j = 0;
