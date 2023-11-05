@@ -118,7 +118,7 @@ GtkWidget *sid_engine_model_widget_create(void)
 #elif defined(HAVE_FASTSID)
 # define GRID_TITLE "<b>FastSID model</b>"
 #else
-# define GRID_TITLE "<b>I am a <big>BUG!</big</b>"
+# define GRID_TITLE "<b>I am a <big>BUG!</big></b>"
 #endif
     grid  = gtk_grid_new();
     label = gtk_label_new(NULL);
