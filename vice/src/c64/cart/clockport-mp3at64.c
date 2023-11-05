@@ -212,7 +212,7 @@ static int clockport_mp3at64_sound_machine_channels(void)
 
 #ifdef SOUND_SYSTEM_FLOAT
 /* stereo mixing placement of the ClockPort MP3@64 sound */
-static sound_chip_mixing_spec_t *clockport_mp3at64_sound_mixing_spec = {
+static sound_chip_mixing_spec_t *clockport_mp3at64_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] = {
     {
         100, /* left channel volume % in case of stereo output, default output to both */
         100  /* right channel volume % in case of stereo output, default output to both */
