@@ -84,6 +84,10 @@ static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
 
+/* Initial x/y for windowed display */
+static int sdl_initial_xpos[2] = { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED };
+static int sdl_initial_ypos[2] = { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED };
+
 /* Initial w/h for windowed display */
 static int sdl_initial_width[2] = { 0, 0 };
 static int sdl_initial_height[2] = { 0, 0 };
@@ -150,6 +154,20 @@ int ui_set_fullscreen_custom_height(int h, void *canvas)
             video_viewport_resize(cv, 1);
         }
     }
+    return 0;
+}
+
+static int set_sdl_initial_xpos(int x, void *param)
+{
+    int idx = vice_ptr_to_int(param);
+    sdl_initial_xpos[idx] = x;
+    return 0;
+}
+
+static int set_sdl_initial_ypos(int y, void *param)
+{
+    int idx = vice_ptr_to_int(param);
+    sdl_initial_ypos[idx] = y;
     return 0;
 }
 
@@ -377,6 +395,12 @@ static const resource_int_t resources_int[] = {
     /* FIXME: this is a generic (not SDL specific) resource */
     { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_initial_height[0], set_sdl_initial_height, (void*)0 },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window0Xpos", SDL_WINDOWPOS_CENTERED, RES_EVENT_NO, NULL,
+      &sdl_initial_xpos[0], set_sdl_initial_xpos, (void*)0 },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window0Ypos", SDL_WINDOWPOS_CENTERED, RES_EVENT_NO, NULL,
+      &sdl_initial_ypos[0], set_sdl_initial_ypos, (void*)0 },
     RESOURCE_INT_LIST_END
 };
 
@@ -387,6 +411,12 @@ static const resource_int_t resources_int_c128[] = {
     /* FIXME: this is a generic (not SDL specific) resource */
     { "Window1Height", 0, RES_EVENT_NO, NULL,
       &sdl_initial_height[1], set_sdl_initial_height, (void*)1 },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window1Xpos", SDL_WINDOWPOS_CENTERED, RES_EVENT_NO, NULL,
+      &sdl_initial_xpos[1], set_sdl_initial_xpos, (void*)1 },
+    /* FIXME: this is a generic (not SDL specific) resource */
+    { "Window1Ypos", SDL_WINDOWPOS_CENTERED, RES_EVENT_NO, NULL,
+      &sdl_initial_ypos[1], set_sdl_initial_ypos, (void*)1 },
     RESOURCE_INT_LIST_END
 };
 
@@ -451,6 +481,14 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set initial window height" },
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialx", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window0Xpos", NULL,
+      "<xpos>", "Set initial horizontal window position" },
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialy", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window0Ypos", NULL,
+      "<ypos>", "Set initial vertical window position" },
     CMDLINE_LIST_END
 };
 
@@ -464,6 +502,14 @@ static const cmdline_option_t cmdline_options_c128[] =
     { "-sdlinitialh1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Height", NULL,
       "<height>", "Set initial window height" },
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialx1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window1Xpos", NULL,
+      "<xpos>", "Set initial horizontal window position" },
+    /* FIXME: this could be a generic (not SDL specific) option */
+    { "-sdlinitialy1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window1Ypos", NULL,
+      "<ypos>", "Set initial vertical window position" },
     CMDLINE_LIST_END
 };
 
@@ -579,6 +625,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
     int it, l;
     int drv_index;
     unsigned int window_width = 0, window_height = 0;
+    int window_x = 0, window_y = 0;
     unsigned int width = 0, height = 0;
     SDL_RendererInfo info;
     video_canvas_t* canvas = sdl_canvaslist[canvas_idx];
@@ -600,16 +647,22 @@ static video_container_t* sdl_container_create(int canvas_idx)
     window_width = width;
     window_height = height;
 
+    DBG(("sdl_container_create calculated width:%u height:%u\n", window_width, window_height));
+
+    window_x = sdl_initial_xpos[canvas_idx];
+    window_y = sdl_initial_ypos[canvas_idx];
+
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    if (sdl_initial_width[canvas_idx] > window_width) {
+    if ((sdl_initial_width[canvas_idx] != 0) || (sdl_initial_height[canvas_idx] != 0)) {
         window_width = sdl_initial_width[canvas_idx];
-    }
-    if (sdl_initial_height[canvas_idx] > window_height) {
         window_height = sdl_initial_height[canvas_idx];
     }
 
+    DBG(("sdl_container_create width:%u height:%u x:%d y:%d\n",
+           window_width, window_height, window_x, window_y));
+
     container->window = SDL_CreateWindow("",
-                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                         window_x, window_y,
                                          window_width, window_height,
                                          flags);
     if (container->window == NULL) {
@@ -692,6 +745,9 @@ static video_container_t* sdl_container_create(int canvas_idx)
 
     /* Enable file/text drag and drop support */
     SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
+    SDL_SetWindowPosition(container->window, window_x, window_y);
+    SDL_SetWindowSize(container->window, window_width, window_height);
 
     /* Explicitly minimize if the window was created minimized */
     if ((flags & SDL_WINDOW_MINIMIZED) != 0) {
@@ -1242,12 +1298,21 @@ void sdl_ui_init_finalize(void)
     /* Setup the primary window using the active canvas */
     container = sdl_container_create(sdl_active_canvas->index);
 
-    for (int i = 0; i < sdl_num_screens; i++) {
-        video_canvas_t* canvas = sdl_canvaslist[i];
-        canvas->container = container;
-        video_canvas_resize(sdl_canvaslist[i], 1);
-        /* FIXME: we should restore the saved window position here */
-        SDL_SetWindowPosition(container->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+    if (dual_windows) {
+            video_canvas_t* canvas = sdl_canvaslist[VIDEO_CANVAS_IDX_VICII];
+            canvas->container = container;
+            video_canvas_resize(sdl_canvaslist[VIDEO_CANVAS_IDX_VICII], 1);
+            SDL_SetWindowPosition(container->window, sdl_initial_xpos[VIDEO_CANVAS_IDX_VICII], sdl_initial_ypos[VIDEO_CANVAS_IDX_VICII]);
+            SDL_SetWindowSize(container->window, sdl_initial_width[VIDEO_CANVAS_IDX_VICII], sdl_initial_height[VIDEO_CANVAS_IDX_VICII]);
+    } else {
+        for (int i = 0; i < sdl_num_screens; i++) {
+            video_canvas_t* canvas = sdl_canvaslist[i];
+            canvas->container = container;
+            video_canvas_resize(sdl_canvaslist[i], 1);
+            /* restore the saved window position */
+            SDL_SetWindowPosition(container->window, sdl_initial_xpos[i], sdl_initial_ypos[i]);
+            SDL_SetWindowSize(container->window, sdl_initial_width[i], sdl_initial_height[i]);
+        }
     }
 
     /* If we're setup for dual windows, then we need to allocate a new container
@@ -1265,8 +1330,9 @@ void sdl_ui_init_finalize(void)
 
         vdc_canvas->container = container;
         video_canvas_resize(vdc_canvas, 1);
-        /* FIXME: we should restore the saved window position here */
-        SDL_SetWindowPosition(container->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+        /* restore the saved window position */
+        SDL_SetWindowPosition(container->window, sdl_initial_xpos[VIDEO_CANVAS_IDX_VDC], sdl_initial_ypos[VIDEO_CANVAS_IDX_VDC]);
+        SDL_SetWindowSize(container->window, sdl_initial_width[VIDEO_CANVAS_IDX_VDC], sdl_initial_height[VIDEO_CANVAS_IDX_VDC]);
 
         /* Explicitly raise the VIC-II window in dual head mode -- creating the
          * windows in reverse order still results in the VDC window being on top
