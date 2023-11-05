@@ -1256,7 +1256,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     GtkWidget *misc_widget;
 
     /* wrap machine model and machine type widgets in a single widget */
-//    machine_wrapper = vice_gtk3_grid_new_spaced(0, 16);
+    /* machine_wrapper = vice_gtk3_grid_new_spaced(0, 16); */
 
     /* add machine model widget (2 rows) */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);

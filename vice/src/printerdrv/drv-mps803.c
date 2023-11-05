@@ -449,14 +449,14 @@ static void convert_rom_char_mps801(mps_t *mps, int offs)
     /* uppercase/graphics mode */
     convert_rom_char(mps, offs+0x000, (32*1), 32);
     convert_rom_char(mps, offs+0x100, (32*2), 32);
-    convert_rom_char(mps, offs+0x300, (32*3), 32); // 4 extra chars here!
+    convert_rom_char(mps, offs+0x300, (32*3), 32); /* 4 extra chars here! */
 
     convert_rom_char(mps, offs+0x200, (32*5), 32);
     convert_rom_char(mps, offs+0x300, (32*6), 32);
     convert_rom_char(mps, offs+0x200, (32*7), 32);
     convert_rom_char(mps, offs+0x300+ (30*bytes_per_char), (32*7)+31, 1); /* pi */
 
-    // lowercase/business mode
+    /* lowercase/business mode */
     convert_rom_char(mps, offs+0x000,256+ (32*1), 32);
     convert_rom_char(mps, offs+0x500,256+ (32*2), 32);
     convert_rom_char(mps, offs+0x100,256+ (32*3), 32);

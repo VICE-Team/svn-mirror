@@ -381,7 +381,7 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     /* buttons */
     set_default_button = gtk_button_new_with_label("Set current cartidge as default");
     gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
-    //gtk_widget_set_hexpand(set_default_button, TRUE);
+    /* gtk_widget_set_hexpand(set_default_button, TRUE); */
     gtk_grid_attach(GTK_GRID(grid), set_default_button, 1, 6, 1, 1);
 
     /* set sensitivity of buttons (ie grey-out or not) */

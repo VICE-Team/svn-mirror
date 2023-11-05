@@ -413,7 +413,7 @@ GtkWidget *settings_netplay_widget_create(GtkWidget *parent)
     combo_netplay  = create_combo_box();
     netplay_enable = create_netplay_enable_widget();
     gtk_widget_set_hexpand(combo_netplay, TRUE);
-    //gtk_widget_set_halign(combo_netplay, GTK_ALIGN_START);
+    /* gtk_widget_set_halign(combo_netplay, GTK_ALIGN_START); */
     gtk_grid_attach(GTK_GRID(grid), label,          0, row, 1,            1);
     gtk_grid_attach(GTK_GRID(grid), combo_netplay,  1, row, NUM_COLS - 2, 1);
     gtk_grid_attach(GTK_GRID(grid), netplay_enable, 4, row, 1,            1);
