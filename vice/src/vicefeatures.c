@@ -35,14 +35,6 @@
 
 
 static const feature_list_t featurelist[] = {
-#ifdef UNIX_COMPILE /* unix */
-    { "BSD_JOYSTICK", "Enable support for BSD style joysticks.",
-#ifndef BSD_JOYSTICK
-        0 },
-#else
-        1 },
-#endif
-#endif
 /* all */
     { "DEBUG", "Enable debugging code",
 #ifndef DEBUG
@@ -230,13 +222,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-/* (all) */
-    { "HAVE_PANGO", "Enable support for Pango",
-#ifndef HAVE_PANGO
-        0 },
-#else
-        1 },
-#endif
 #if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
     { "HAVE_PARSID", "Support for ParSID.",
 #ifndef HAVE_PARSID
@@ -269,7 +254,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #ifdef HAVE_RESID
 /* (all) */
-    { "HAVE_NEW_8580_FILTER", "Enable experimental new 8580 Filter emulation.",
+    { "HAVE_NEW_8580_FILTER", "Enable new 8580 Filter emulation.",
 #ifndef HAVE_NEW_8580_FILTER
         0 },
 #else
@@ -484,7 +469,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 
-/* Gtk3UI debubbing support */
+/* Gtk3UI debugging support */
     { "HAVE_DEBUG_GTK3UI", "Enable debugging messages in the Gtk3 UI.",
 #ifndef HAVE_DEBUG_GTK3UI
         0 },
