@@ -209,6 +209,44 @@ static ui_menu_entry_t xpet_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
+#define STRINGIFY(x) STRINGIFY2(x)
+#define STRINGIFY2(x) #x
+
+static UI_MENU_CALLBACK(custom_cb2_lowpass_filter_callback)
+{
+    static char buf[20];
+    char *value = NULL;
+    int previous, new_value;
+
+    resources_get_int("CB2Lowpass", &previous);
+
+    if (activated) {
+        sprintf(buf, "%i", previous);
+        value = sdl_ui_text_input_dialog("Enter cutoff frequency in Hz (1.."
+                                         STRINGIFY(SOUND_SAMPLE_RATE)
+                                         ")", buf);
+        if (value) {
+            new_value = (int)strtol(value, NULL, 0);
+            if (new_value != previous &&
+                new_value >= 1 &&
+                new_value <= SOUND_SAMPLE_RATE) {
+                resources_set_int("CB2Lowpass", new_value);
+            }
+            lib_free(value);
+        }
+    } else {
+        sprintf(buf, "%i Hz", previous);
+        return buf;
+    }
+    return NULL;
+}
+
+const ui_menu_entry_t pet_cb2_lowpass =
+    {   .string   = "CB2 lowpass filter",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = custom_cb2_lowpass_filter_callback,
+    };
+
 /* FIXME: support all PET keyboards (see pet-resources.h) */
 
 static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
@@ -254,6 +292,65 @@ int petui_init_early(void)
     return 0;
 }
 
+static int patched_main_menu_item = -1;
+
+/** \brief  Adapt the Sound menu by insterting a PET-only item.
+ *
+ * \return  void
+ */
+static void pet_sound_menu_fixup(void)
+{
+    int num_items = 0;
+    const ui_menu_entry_t *menu = sound_output_menu;
+    ui_menu_entry_t *new_menu;
+    int i, j;
+
+    /* Count the size of the sound_output_menu */
+    while (menu[num_items].string != NULL) {
+        ++num_items;
+    }
+
+    /* Allocate a new version, 1 item bigger, 1 terminator */
+    new_menu = lib_calloc(num_items + 2, sizeof(ui_menu_entry_t));
+
+    /* Insert a new item into it, while copying all original items */
+    for (i = j = 0; menu[i].string; i++, j++) {
+        new_menu[j] = menu[i];
+
+        /* Insert our new item after "Volume" */
+        if (strcmp(menu[i].string, "Volume") == 0) {
+            j++;
+            new_menu[j] = pet_cb2_lowpass;
+        }
+    }
+
+    /* Copy terminating entry */
+    new_menu[j] = menu[i];
+
+    /* Replace the old sound_output_menu (in the main menu) with our new one */
+    for (i = 0; xpet_main_menu[i].string; i++) {
+        if (xpet_main_menu[i].data == (ui_callback_data_t)menu) {
+            xpet_main_menu[i].data = (ui_callback_data_t)new_menu;
+            patched_main_menu_item = i;
+            break;
+        }
+    }
+}
+
+/** \brief  Undo the effect of pet_sound_menu_fixup().
+ *
+ * \return  void
+ */
+static void pet_sound_menu_shutdown(void)
+{
+    if (patched_main_menu_item >= 0) {
+        lib_free(xpet_main_menu[patched_main_menu_item].data);
+        xpet_main_menu[patched_main_menu_item].data =
+            (ui_callback_data_t)sound_output_menu;
+        patched_main_menu_item = -1;
+    }
+}
+
 /** \brief  Initialize the UI
  *
  * \return  0 on success, -1 on failure
@@ -275,6 +372,7 @@ int petui_init(void)
     uipalette_menu_create("Crtc", NULL);
     uisid_menu_create();
     uimedia_menu_create();
+    pet_sound_menu_fixup();
 
     sdl_ui_set_main_menu(xpet_main_menu);
     sdl_ui_font_init(PET_CHARGEN2_NAME, 0, 0x400, 0);
@@ -296,6 +394,7 @@ void petui_shutdown(void)
     uiuserport_menu_shutdown();
     uitapeport_menu_shutdown();
     uimedia_menu_shutdown();
+    pet_sound_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
