@@ -635,7 +635,7 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
 
     if (activated) {
         target = lib_msprintf("%s (del clears mappings)", type ? "Map" : "Menu activate");
-        e = sdl_ui_poll_event("joystick", target, -1, 1, 1, 0, 5); // TODO joystick
+        e = sdl_ui_poll_event("joystick", target, -1, 1, 1, 0, 5); /* TODO joystick */
         lib_free(target);
 
         switch (e.type) {

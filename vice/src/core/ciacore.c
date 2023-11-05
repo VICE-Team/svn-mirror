@@ -889,7 +889,7 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
                     }
                     changed = cia_context->c_cia[addr] != byte;
                     if (changed) {
-                        // Flip AM/PM on hour 12 on the rising edge of the comparator
+                        /* Flip AM/PM on hour 12 on the rising edge of the comparator */
                         if ((addr == CIA_TOD_HR) && ((byte & 0x1f) == 0x12))
                             byte ^= 0x80;
                         cia_context->c_cia[addr] = byte;

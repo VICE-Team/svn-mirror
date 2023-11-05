@@ -53,11 +53,6 @@ static CLOCK t1_last_restart;
 static CLOCK t2_last_restart;
 static CLOCK t3_last_restart;
 
-// static unsigned int t1_running;
-// static unsigned int t2_running;
-// static unsigned int t3_running;
-
-
 static CLOCK t1_value;
 static CLOCK t2_value;
 static CLOCK t3_value;
