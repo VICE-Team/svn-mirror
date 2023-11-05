@@ -273,7 +273,7 @@ static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
         old_keymap = keymap;
     }
 
-#define RGB(r,g,b,) (((r)<<5)|((g)<<2)|(b))
+#define RGB(r,g,b) (((r)<<5)|((g)<<2)|(b))
 
     /* CRTC */
     switch (pet_colour_type) {
