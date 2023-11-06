@@ -32,6 +32,10 @@
 
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
+#ifdef HAVE_EXPERIMENTAL_DEVICES
+#define JOYPORT_EXPERIMENTAL_DEVICES
+#endif
+
 #define JOYPORT_ID_UNKNOWN             -1   /* used with joyport_display_joyport() */
 
 /* IMPORTANT: Do NOT put #ifdef's in this enum,
