@@ -42,6 +42,9 @@
 #include "snapshot.h"
 #include "tapecart.h"
 #include "tapeport.h"
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
+#include "tape_diag_586220_harness.h"
+#endif
 #include "uiapi.h"
 #include "util.h"
 
