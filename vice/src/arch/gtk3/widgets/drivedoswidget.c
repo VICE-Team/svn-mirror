@@ -73,7 +73,7 @@ typedef struct drive_dos_exp_s {
 static const drive_dos_exp_t expansions[] = {
     { "None",               NULL,               NULL },
     /* XXX: Emulation of ProDOS is broken, see bug #759 */
-#if 0
+#ifdef DRIVE_EXPERIMENTAL_DEVICES
     { "Professional DOS",   "Drive%dProfDOS",   drive_check_profdos },
 #endif
     { "StarDOS",            "Drive%dStarDOS",   drive_check_stardos },
