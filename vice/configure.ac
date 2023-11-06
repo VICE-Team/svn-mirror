@@ -82,88 +82,86 @@ VICE_ARG_INIT()
 dnl
 dnl Sound options
 dnl
-VICE_ARG_WITH_LIST(alsa,                [  --without-alsa          do not use the ALSA sound system])
-VICE_ARG_WITH_LIST(fastsid,             [  --with-fastsid          use the FastSID engine])
-VICE_ARG_WITH_LIST(flac,                [  --with-flac             use FLAC support])
-VICE_ARG_WITH_LIST(mpg123,              [  --with-mpg123           use MPG123 for MP3 decoding])
-VICE_ARG_WITH_LIST(oss,                 [  --with-oss              use the OSS sound system])
-VICE_ARG_WITH_LIST(pulse,               [  --without-pulse         do not use PulseAudio sound system])
-VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use the reSID engine])
-VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
-VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
-VICE_ARG_WITH_LIST(vorbis,              [  --with-vorbis           use Ogg/Vorbis support])
-VICE_ARG_WITH_LIST(lame,                [  --with-lame             use LAME for MP3 encoding])
-VICE_ARG_WITH_LIST(static-lame,         [  --with-static-lame      statically link LAME MP3])
-VICE_ARG_ENABLE_LIST(catweasel,         [  --enable-catweasel      enables CatWeasel (PCI/Zorro/Clockport SID card) support])
-VICE_ARG_ENABLE_LIST(hardsid,           [  --disable-hardsid       disables HardSID support])
-VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
-VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter disable new 8580 filters])
-VICE_ARG_ENABLE_LIST(parsid,            [  --enable-parsid         enables ParSID support])
-VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables PortAudio support])
-
+VICE_ARG_WITH_LIST(alsa,                    [  --without-alsa          do not use the ALSA sound system])
+VICE_ARG_WITH_LIST(fastsid,                 [  --with-fastsid          use the FastSID engine])
+VICE_ARG_WITH_LIST(flac,                    [  --with-flac             use FLAC support])
+VICE_ARG_WITH_LIST(mpg123,                  [  --with-mpg123           use MPG123 for MP3 decoding])
+VICE_ARG_WITH_LIST(oss,                     [  --with-oss              use the OSS sound system])
+VICE_ARG_WITH_LIST(pulse,                   [  --without-pulse         do not use PulseAudio sound system])
+VICE_ARG_WITH_LIST(resid,                   [  --without-resid         do not use the reSID engine])
+VICE_ARG_WITH_LIST(sdlsound,                [  --with-sdlsound         use SDL sound system])
+VICE_ARG_WITH_LIST(sun,                     [  --without-sun           do not use the sun/netbsd sound system])
+VICE_ARG_WITH_LIST(vorbis,                  [  --with-vorbis           use Ogg/Vorbis support])
+VICE_ARG_WITH_LIST(lame,                    [  --with-lame             use LAME for MP3 encoding])
+VICE_ARG_WITH_LIST(static-lame,             [  --with-static-lame      statically link LAME MP3])
+VICE_ARG_ENABLE_LIST(catweasel,             [  --enable-catweasel      enables CatWeasel (PCI/Zorro/Clockport SID card) support])
+VICE_ARG_ENABLE_LIST(hardsid,               [  --disable-hardsid       disables HardSID support])
+VICE_ARG_ENABLE_LIST(midi,                  [  --enable-midi           enable MIDI support])
+VICE_ARG_ENABLE_LIST(new8580filter,         [  --disable-new8580filter disable new 8580 filters])
+VICE_ARG_ENABLE_LIST(parsid,                [  --enable-parsid         enables ParSID support])
+VICE_ARG_ENABLE_LIST(portaudio,             [  --disable-portaudio     disables PortAudio support])
 
 dnl
 dnl Graphics options
 dnl
-VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF screenshot system])
-VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
-VICE_ARG_ENABLE_LIST(ffmpeg,            [  --enable-ffmpeg         enable FFmpeg support])
+VICE_ARG_WITH_LIST(gif,                     [  --with-gif              use GIF screenshot system])
+VICE_ARG_WITH_LIST(png,                     [  --without-png           do not use the PNG screenshot system])
+VICE_ARG_ENABLE_LIST(ffmpeg,                [  --enable-ffmpeg         enable FFmpeg support])
 dnl Only supported for SDL1
-VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
-
+VICE_ARG_ENABLE_LIST(hwscale,               [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
 
 dnl
 dnl Misc build options
 dnl
-
-VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
-VICE_ARG_WITH_LIST(unzip-bin,           [  --with-unzip-bin        enables distribution of unzip.exe in the windows bindist])
-VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
-VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
-VICE_ARG_ENABLE_LIST(ethernet,          [  --enable-ethernet       enables The Final Ethernet emulation])
-VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
-VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
-VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
-VICE_ARG_ENABLE_LIST(realdevice,        [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
-VICE_ARG_ENABLE_LIST(rs232,             [  --disable-rs232         disable RS232 support])
-VICE_ARG_ENABLE_LIST(openmp,            [  --disable-openmp        disable OpenMP acceleration])
+VICE_ARG_WITH_LIST(zlib,                    [  --without-zlib          do not use the zlib support])
+VICE_ARG_WITH_LIST(unzip-bin,               [  --with-unzip-bin        enables distribution of unzip.exe in the windows bindist])
+VICE_ARG_ENABLE_LIST(arch,                  [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
+VICE_ARG_ENABLE_LIST(cpuhistory,            [  --disable-cpuhistory    disable the 65xx cpu history feature])
+VICE_ARG_ENABLE_LIST(ethernet,              [  --enable-ethernet       enables The Final Ethernet emulation])
+VICE_ARG_ENABLE_LIST(ipv6,                  [  --disable-ipv6          disables the checking for IPv6 compatibility])
+VICE_ARG_ENABLE_LIST(libieee1284,           [  --enable-libieee1284    enables libieee1284 support])
+VICE_ARG_ENABLE_LIST(no-pic,                [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
+VICE_ARG_ENABLE_LIST(realdevice,            [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
+VICE_ARG_ENABLE_LIST(rs232,                 [  --disable-rs232         disable RS232 support])
+VICE_ARG_ENABLE_LIST(openmp,                [  --disable-openmp        disable OpenMP acceleration])
 
 dnl
 dnl Developer options
 dnl
-VICE_ARG_ENABLE_LIST(cmake,             [  --enable-cmake          enable generation of CMakeLists.txt files [[default=no]]])
-VICE_ARG_ENABLE_LIST(debug,             [  --enable-debug          enable debug source options])
-VICE_ARG_ENABLE_LIST(debug-gtk3ui,      [  --enable-debug-gtk3ui   enables debugging for the GTK3 UI])
-VICE_ARG_ENABLE_LIST(debug-threads,     [  --enable-debug-threads  enable debug messages about the threading code [[default=no]]])
-VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
-VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
-VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
-VICE_ARG_ENABLE_LIST(extra-warnings,    [  --enable-extra-warnings enable anal warnings [[default=no]]])
-VICE_ARG_ENABLE_LIST(io-simulation,     [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
+VICE_ARG_ENABLE_LIST(cmake,                 [  --enable-cmake          enable generation of CMakeLists.txt files [[default=no]]])
+VICE_ARG_ENABLE_LIST(debug,                 [  --enable-debug          enable debug source options])
+VICE_ARG_ENABLE_LIST(debug-gtk3ui,          [  --enable-debug-gtk3ui   enables debugging for the GTK3 UI])
+VICE_ARG_ENABLE_LIST(debug-threads,         [  --enable-debug-threads  enable debug messages about the threading code [[default=no]]])
+VICE_ARG_ENABLE_LIST(x64,                   [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
+VICE_ARG_ENABLE_LIST(x64-image,             [  --enable-x64-image      enable X64 image support [[default=no]]])
+VICE_ARG_ENABLE_LIST(optimization,          [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
+VICE_ARG_ENABLE_LIST(extra-warnings,        [  --enable-extra-warnings enable anal warnings [[default=no]]])
+VICE_ARG_ENABLE_LIST(io-simulation,         [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
+VICE_ARG_ENABLE_LIST(experimental-devices,  [  --enable-experimental-devices    enable experimental device emulation [[default=no]]])
 
 dnl Needed for WIC64
-VICE_ARG_WITH_LIST(libcurl,             [  --with-libcurl          enable libcurl support [[default=no]]])
+VICE_ARG_WITH_LIST(libcurl,                 [  --with-libcurl          enable libcurl support [[default=no]]])
 
 dnl
 dnl UI options
 dnl
-VICE_ARG_ENABLE_LIST(headlessui,        [  --enable-headlessui     enables building without a UI])
-VICE_ARG_ENABLE_LIST(sdl1ui,            [  --enable-sdl1ui         enables SDL 1.2 UI support])
-VICE_ARG_ENABLE_LIST(sdl2ui,            [  --enable-sdl2ui         enables SDL 2.x UI support])
-VICE_ARG_ENABLE_LIST(gtk3ui,            [  --enable-gtk3ui         enables GTK3 UI support])
+VICE_ARG_ENABLE_LIST(headlessui,            [  --enable-headlessui     enables building without a UI])
+VICE_ARG_ENABLE_LIST(sdl1ui,                [  --enable-sdl1ui         enables SDL 1.2 UI support])
+VICE_ARG_ENABLE_LIST(sdl2ui,                [  --enable-sdl2ui         enables SDL 2.x UI support])
+VICE_ARG_ENABLE_LIST(gtk3ui,                [  --enable-gtk3ui         enables GTK3 UI support])
 
 dnl If enabled, tries to install XDG .desktop files for running the binaries
 dnl from a desktop menu. Only supported for Unix with the exception of MacOS.
 dnl Gtk3 only.
-VICE_ARG_ENABLE_LIST(desktop-files,     [  --enable-desktop-files  enable installation of XDG desktop files (GTK3 UI only)])
-VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
+VICE_ARG_ENABLE_LIST(desktop-files,         [  --enable-desktop-files  enable installation of XDG desktop files (GTK3 UI only)])
+VICE_ARG_ENABLE_LIST(hidmgr,                [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 
 dnl
 dnl Documentation options
 dnl
-VICE_ARG_ENABLE_LIST(html-docs,         [  --disable-html-docs     do not generate the HTML documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(platformdox,       [  --enable-platformdox    enable generating of documentation specific to the current host])
+VICE_ARG_ENABLE_LIST(html-docs,             [  --disable-html-docs     do not generate the HTML documentation [[default=no]]])
+VICE_ARG_ENABLE_LIST(pdf-docs,              [  --enable-pdf-docs       generate the PDF documentation [[default=no]]])
+VICE_ARG_ENABLE_LIST(platformdox,           [  --enable-platformdox    enable generating of documentation specific to the current host])
 
 
 
@@ -494,6 +492,7 @@ USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
 HAVE_LIBCURL_SUPPORT="no "
+HAVE_EXPERIMENTAL_DEVICES_SUPPORT="no "
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -512,6 +511,13 @@ AM_CONDITIONAL(NETBSD_COMPILE, false)
 AM_CONDITIONAL(OPENBSD_COMPILE, false)
 AM_CONDITIONAL(DRAGONFLYBSD_COMPILE, false)
 
+
+dnl Enable experimental emulation of certain devices
+AS_IF([test x"$enable_experimental_devices" = "xyes"],
+  [
+    AC_DEFINE(HAVE_EXPERIMENTAL_DEVICES,,[Enable experimental devices emulation.])
+    HAVE_EXPERIMENTAL_DEVICES_SUPPORT="yes"
+  ])
 
 AS_IF([test x"$enable_cpuhistory" != "xno"],
   [
@@ -3879,12 +3885,13 @@ echo ""
 echo "MISC"
 echo "----"
 
-echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
-echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
-echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
-echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
-echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
-echo "icotool for Windows found  : $ICOTOOL"
+echo "65xx CPU history support      : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
+echo "Debug support                 : $DEBUG_SUPPORT (--enable/disable-debug)"
+echo "Threading debug support       : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
+echo "Build old x64 emulator        : $X64_INCLUDED (--enable/--disable-x64)"
+echo "Install XDG .desktop files    : $USE_DESKTOP_FILES"
+echo "icotool for Windows found     : $ICOTOOL"
+echo "Experimental devices emulation: $HAVE_EXPERIMENTAL_DEVICES_SUPPORT (--enable-experimental-devices)"
 
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"
