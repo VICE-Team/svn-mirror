@@ -29,6 +29,12 @@
 #ifndef VICE_DRIVE_H
 #define VICE_DRIVE_H
 
+/* #define DRIVE_EXPERIMENTAL_DEVICES */
+
+#ifdef HAVE_EXPERIMENTAL_DEVICES
+#define DRIVE_EXPERIMENTAL_DEVICES
+#endif
+
 #include "types.h"
 #include "ds1216e.h"
 #include "p64.h"
