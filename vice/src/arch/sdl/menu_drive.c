@@ -585,6 +585,11 @@ static UI_MENU_CALLBACK(set_expand_callback)
     return NULL;
 }
 
+#define MENUIDX_PROFDOS     0
+#define MENUIDX_STARDOS     1
+#define MENUIDX_SUPERCARD   2
+
+/* called with param = (drive << 16) | (menuidx) */
 static UI_MENU_CALLBACK(set_exboard_callback)
 {
     int drive;
@@ -599,11 +604,15 @@ static UI_MENU_CALLBACK(set_exboard_callback)
     type = drive_get_type_by_devnr(drive);
 
     switch (parameter) {
-        case 0:
+        case MENUIDX_PROFDOS:
             available = drive_check_profdos(type);
             resources_get_int_sprintf("Drive%iProfDOS", &memory, drive);
             break;
-        case 1:
+        case MENUIDX_STARDOS:
+            available = drive_check_supercard(type);
+            resources_get_int_sprintf("Drive%iStarDOS", &memory, drive);
+            break;
+        case MENUIDX_SUPERCARD:
             available = drive_check_supercard(type);
             resources_get_int_sprintf("Drive%iSuperCard", &memory, drive);
             break;
@@ -612,10 +621,13 @@ static UI_MENU_CALLBACK(set_exboard_callback)
     if (activated) {
         if (available) {
             switch (parameter) {
-                case 0:
+                case MENUIDX_PROFDOS:
                     resources_set_int_sprintf("Drive%iProfDOS", !memory, drive);
                     break;
-                case 1:
+                case MENUIDX_STARDOS:
+                    resources_set_int_sprintf("Drive%iStarDOS", !memory, drive);
+                    break;
+                case MENUIDX_SUPERCARD:
                     resources_set_int_sprintf("Drive%iSuperCard", !memory, drive);
                     break;
             }
@@ -985,25 +997,43 @@ DRIVE_EXPAND_MENU(9)
 DRIVE_EXPAND_MENU(10)
 DRIVE_EXPAND_MENU(11)
 
-UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
 UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
+UI_MENU_DEFINE_FILE_STRING(DriveStarDOSName)
 
-#define DRIVE_EXBOARD_MENU(x)                                                     \
-    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
+#ifdef DRIVE_EXPERIMENTAL_DEVICES
+UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
+#define DRIVE_EXBOARD_EXPERIMENTAL(x) \
         {   .string   = "Professional DOS 1571",                                  \
             .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
             .callback = set_exboard_callback,                                     \
-            .data     = (ui_callback_data_t)(0 + (x << 16))                       \
+            .data     = (ui_callback_data_t)(MENUIDX_PROFDOS + (x << 16))         \
         },                                                                        \
         {   .string   = "Professional DOS 1571 ROM file",                         \
             .type     = MENU_ENTRY_DIALOG,                                        \
             .callback = file_string_DriveProfDOS1571Name_callback,                \
             .data     = (ui_callback_data_t)"Set Professional DOS 1571 ROM image" \
+        },
+#else
+#define DRIVE_EXBOARD_EXPERIMENTAL(x)
+#endif
+
+#define DRIVE_EXBOARD_MENU(x)                                                     \
+    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
+        DRIVE_EXBOARD_EXPERIMENTAL(x)                                             \
+        {   .string   = "StarDOS",                                                \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
+            .callback = set_exboard_callback,                                     \
+            .data     = (ui_callback_data_t)(MENUIDX_STARDOS + (x << 16))         \
+        },                                                                        \
+        {   .string   = "StarDOS ROM file",                                       \
+            .type     = MENU_ENTRY_DIALOG,                                        \
+            .callback = file_string_DriveStarDOSName_callback,                    \
+            .data     = (ui_callback_data_t)"Set StarDOS ROM image"               \
         },                                                                        \
         {   .string   = "Supercard+",                                             \
             .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
             .callback = set_exboard_callback,                                     \
-            .data     = (ui_callback_data_t)(1 + (x << 16))                       \
+            .data     = (ui_callback_data_t)(MENUIDX_SUPERCARD + (x << 16))       \
         },                                                                        \
         {   .string   = "Supercard+ ROM file",                                    \
             .type     = MENU_ENTRY_DIALOG,                                        \
