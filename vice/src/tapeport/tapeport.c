@@ -347,9 +347,11 @@ static int tapeport_device_resources_init(int amount)
 
     /* Only use tapecart device and dtl basic dongle on c64/c128 */
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64SC) {
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
         if (dtlbasic_dongle_resources_init(amount) < 0) {
             return -1;
         }
+#endif
 
         if (tapecart_resources_init(amount) < 0) {
             return -1;
