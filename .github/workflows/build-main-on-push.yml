@@ -126,7 +126,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix
-          sudo apt-get -y install texinfo texlive-fonts-recommended texlive-latex-extra libpcap-dev
+          sudo apt-get -y install texinfo texlive-fonts-recommended texlive-latex-extra libpcap-dev libcurl4-openssl-dev
 
       - name: Build
         id: build
