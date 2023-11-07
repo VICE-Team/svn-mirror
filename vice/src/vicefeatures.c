@@ -50,7 +50,7 @@ static const feature_list_t featurelist[] = {
         0 },
 #endif
 /* (all) */
-    { "FEATURE_CPUMEMHISTORY", "Use the memmap feature.",
+    { "FEATURE_CPUMEMHISTORY", "Enable the memmap/chis feature in the monitor.",
 #ifndef FEATURE_CPUMEMHISTORY
         0 },
 #else
@@ -65,7 +65,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #ifdef UNIX_COMPILE /* (unix) */
-    { "HAS_USB_JOYSTICK", "Enable emulation for USB joysticks.",
+    { "HAS_USB_JOYSTICK", "Enable emulation for USB joysticks. (deprecated)",
 #ifndef HAS_USB_JOYSTICK
         0 },
 #else
@@ -90,7 +90,7 @@ static const feature_list_t featurelist[] = {
 #endif
 
 #ifdef WINDOWS_COMPILE /* (windows) */
-    { "HAVE_DINPUT", "Use DirectInput joystick driver",
+    { "HAVE_DINPUT", "Use the DirectInput joystick driver",
 #ifndef HAVE_DINPUT
         0 },
 #else
@@ -98,7 +98,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/osx/windows) */
-    { "HAVE_DYNLIB_SUPPORT", "Support for dynamic library loading.",
+    { "HAVE_DYNLIB_SUPPORT", "Support dynamic library loading.",
 #ifndef HAVE_DYNLIB_SUPPORT
         0 },
 #else
@@ -106,42 +106,49 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
  /* (all) */
-    { "HAVE_FFMPEG", "Have FFMPEG av* libs available",
+    { "HAVE_EXPERIMENTAL_DEVICES", "Enable experimental devices",
+#ifndef HAVE_EXPERIMENTAL_DEVICES
+        0 },
+#else
+        1 },
+#endif
+ /* (all) */
+    { "HAVE_FFMPEG", "Have FFMPEG av* libs available (deprecated)",
 #ifndef HAVE_FFMPEG
         0 },
 #else
         1 },
 #endif
  /* (all) */
-    { "HAVE_FFMPEG_HEADER_SUBDIRS", "FFMPEG uses subdirs for headers",
+    { "HAVE_FFMPEG_HEADER_SUBDIRS", "FFMPEG uses subdirs for headers (deprecated)",
 #ifndef HAVE_FFMPEG_HEADER_SUBDIRS
         0 },
 #else
         1 },
 #endif
  /* (all) */
-    { "HAVE_FFMPEG_SWSCALE", "Have FFMPEG swscale lib available",
+    { "HAVE_FFMPEG_SWSCALE", "Have FFMPEG swscale lib available (deprecated)",
 #ifndef HAVE_FFMPEG_SWSCALE
         0 },
 #else
         1 },
 #endif
  /* (all) */
-    { "HAVE_FFMPEG_SWRESAMPLE", "Have FFMPEG swresample lib available",
+    { "HAVE_FFMPEG_SWRESAMPLE", "Have FFMPEG swresample lib available (deprecated)",
 #ifndef HAVE_FFMPEG_SWRESAMPLE
         0 },
 #else
         1 },
 #endif
  /* (all) */
-    { "HAVE_FFMPEG_AVRESAMPLE", "Have FFMPEG avresample lib available",
+    { "HAVE_FFMPEG_AVRESAMPLE", "Have FFMPEG avresample lib available (deprecated)",
 #ifndef HAVE_FFMPEG_AVRESAMPLE
         0 },
 #else
         1 },
 #endif
  /* (all) */
-    { "HAVE_GIF", "Can we use the GIF or UNGIF library?",
+    { "HAVE_GIF", "Use the GIF or UNGIF library",
 #ifndef HAVE_GIF
         0 },
 #else
@@ -156,7 +163,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(USE_SDLUI) /* (optional only in sdl1) */
-    { "HAVE_HWSCALE", "Enable arbitrary window scaling",
+    { "HAVE_HWSCALE", "Enable arbitrary window scaling (deprecated)",
 #ifndef HAVE_HWSCALE
         0 },
 #else
@@ -164,21 +171,21 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_IPV6", "Define if ipv6 can be used",
+    { "HAVE_IPV6", "Support IPv6",
 #ifndef HAVE_IPV6
         0 },
 #else
         1 },
 #endif
 /* All? */
-    { "HAVE_LIBCURL", "Enable libcurl for WiC64",
+    { "HAVE_LIBCURL", "Use the libcurl library",
 #ifndef HAVE_LIBCURL
         0 },
 #else
         1 },
 #endif
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
-    { "HAVE_LIBIEEE1284", "Define to 1 if you have the `ieee1284' library", /* (-lieee1284) */
+    { "HAVE_LIBIEEE1284", "Enable IEEE1284 library for parallel port", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284
         0 },
 #else
@@ -231,7 +238,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_PNG", "Can we use the PNG library?",
+    { "HAVE_PNG", "Use the PNG library.",
 #ifndef HAVE_PNG
         0 },
 #else
@@ -239,7 +246,7 @@ static const feature_list_t featurelist[] = {
 #endif
 
 /* (all) */
-    { "HAVE_FASTSID", "Enable FASTSID support.",
+    { "HAVE_FASTSID", "Enable FASTSID support. (deprecated)",
 #ifndef HAVE_FASTSID
         0 },
 #else
@@ -283,7 +290,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #if defined(USE_SDLUI) || defined(USE_SDL2UI) /* (sdl) */
-    { "HAVE_SDL_NUMJOYSTICKS", "Define to 1 if you have the `SDL_NumJoysticks' function.",
+    { "HAVE_SDL_NUMJOYSTICKS", "The SDL_NumJoysticks function is available",
 #ifndef HAVE_SDL_NUMJOYSTICKS
         0 },
 #else
@@ -291,7 +298,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_SYS_AUDIO_H", "Define to 1 if you have the <sys/audio.h> header file.",
+    { "HAVE_SYS_AUDIO_H", "The <sys/audio.h> header file is available.",
 #ifndef HAVE_SYS_AUDIO_H
         0 },
 #else
@@ -299,7 +306,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_SYS_AUDIOIO_H", "Define to 1 if you have the <sys/audioio.h> header file.",
+    { "HAVE_SYS_AUDIOIO_H", "The <sys/audioio.h> header file is available.",
 #ifndef HAVE_SYS_AUDIOIO_H
         0 },
 #else
@@ -314,7 +321,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
-    { "HAVE_PCAP", "Support for PCAP library.",
+    { "HAVE_PCAP", "Use the PCAP library.",
 #ifndef HAVE_PCAP
         0 },
 #else
@@ -336,7 +343,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_X64_IMAGE", "Support for X64 image files",
+    { "HAVE_X64_IMAGE", "Support for X64 image files (deprecated)",
 #ifndef HAVE_X64_IMAGE
       0 },
 #else
@@ -344,7 +351,7 @@ static const feature_list_t featurelist[] = {
 #endif
 
 /* (all) */
-    { "HAVE_ZLIB", "Can we use the ZLIB compression library?",
+    { "HAVE_ZLIB", "Use the ZLIB compression library.",
 #ifndef HAVE_ZLIB
         0 },
 #else
@@ -367,7 +374,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(UNIX_COMPILE) /* (unix) */
-    { "USE_ALSA", "Enable alsa support.",
+    { "USE_ALSA", "Enable ALSA support.",
 #ifndef USE_ALSA
         0 },
 #else
@@ -383,7 +390,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(WINDOWS_COMPILE) /* (windows) */
-    { "USE_DXSOUND", "Enable directx sound support.",
+    { "USE_DXSOUND", "Enable DirectX sound support.",
 #ifndef USE_DXSOUND
         0 },
 #else
@@ -405,14 +412,14 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
-    { "USE_MPG123", "Enable mp3 decoding support.",
+    { "USE_MPG123", "Enable MP3 decoding support.",
 #ifndef USE_MPG123
         0 },
 #else
         1 },
 #endif
 /* (all) */
-    { "USE_FLAC", "Enable flac support.",
+    { "USE_FLAC", "Enable FLAC support.",
 #ifndef USE_FLAC
         0 },
 #else
@@ -426,7 +433,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #if defined(UNIX_COMPILE) /* (unix) */
-    { "USE_OSS", "Enable oss support.",
+    { "USE_OSS", "Enable OSS support.",
 #ifndef USE_OSS
         0 },
 #else
@@ -462,7 +469,7 @@ static const feature_list_t featurelist[] = {
  * Used in Gtk3 for Unix. Gtk3 can also use fontconfig as a backend on MacOS
  * and Windows.
  */
-    { "HAVE_FONTCONFIG", "Fontconfig support for dynamical font loading.",
+    { "HAVE_FONTCONFIG", "Support dynamic font loading via Fontconfig.",
 #ifndef HAVE_FONTCONFIG
         0 },
 #else
