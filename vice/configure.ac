@@ -140,7 +140,7 @@ VICE_ARG_ENABLE_LIST(io-simulation,         [  --enable-io-simulation  enable i/
 VICE_ARG_ENABLE_LIST(experimental-devices,  [  --enable-experimental-devices    enable experimental device emulation [[default=no]]])
 
 dnl Needed for WIC64
-VICE_ARG_WITH_LIST(libcurl,                 [  --with-libcurl          enable libcurl support [[default=no]]])
+VICE_ARG_WITH_LIST(libcurl,                 [  --without-libcurl       disable libcurl support [[default=no]]])
 
 dnl
 dnl UI options
@@ -2170,7 +2170,7 @@ AC_SUBST(ZLIB_LIBS)
 
 
 dnl --- Curl / WIC64 ---
-if test x"$with_libcurl" = "xyes"; then
+if test x"$with_libcurl" != "xno"; then
   PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
   if test x"$have_libcurl" = "xno"; then
     AC_MSG_ERROR([libcurl support requested, but libcurl was not found.])
