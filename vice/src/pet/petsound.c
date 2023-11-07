@@ -246,7 +246,7 @@ static void init_lowpass_table(int alpha)
             DBG("%d\t%f\n", i, sample);
         }
 
-        sample = dlowpass(alpha, sample, LP_SCALE);
+        sample = dlowpass(alpha, sample, LP_SCALE - 1);
     }
 }
 
@@ -260,6 +260,8 @@ static void init_lowpass_table(int alpha)
  *
  * Instead of repeating, it uses a table lookup. The table was prepared
  * in init_lowpass_table() for the desired value of ALPHA.
+ * The resulting value isn't always exactly the same as the loop: the loop
+ * suffers from repeated rounding errors and the lookup only once.
  *
  * https://www.embeddedrelated.com/showarticle/779.php
  * https://helpful.knobs-dials.com/index.php/Low-pass_filter
@@ -306,6 +308,8 @@ static float pet_makesample(void)
          * A high-pass filter is like taking the signal and subtracting lower
          * frequencies, i.e. subtracting a low-pass version of the signal.
          * That's why the code for both looks so similar! Just this subtract is extra.
+         * Note: the range of sample grows to [-MAX_SAMPLE, +MAX_SAMPLE] this way.
+         * That doesn't seem to matter.
          */
         sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
@@ -346,6 +350,8 @@ static sample_t pet_makesample(void)
          * A high-pass filter is like taking the signal and subtracting lower
          * frequencies, i.e. subtracting a low-pass version of the signal.
          * That's why the code for both looks so similar! Just this subtract is extra.
+         * Note: the range of sample grows to [-MAX_SAMPLE, +MAX_SAMPLE] this way.
+         * That doesn't seem to matter.
          */
         sample -= snd.highpass_prev;
 #endif /* HIGHPASS */
@@ -484,6 +490,9 @@ void petsound_store_manual(bool value, CLOCK rclk)
  * Calculate the alpha parameter for the low-pass filter.
  * Multiply it with scale_factor to make it more precise, in fixed-point
  * (the samples themselves can use a different fixed-point offset).
+ *
+ * TODO: with lower values for limit_freq, there is a noticable attenuation
+ * of the sound, so that should be corrected somehow.
  */
 static int calculate_alpha(int sample_freq, int limit_freq, int scale_factor)
 {
