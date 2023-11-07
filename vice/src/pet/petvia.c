@@ -167,11 +167,12 @@ static inline bool IS_SR_SHIFT_OUT_BY_T2(uint8_t acr)
 /*
  * Cut out extremely high frequencies that are not properly
  * suppressed by the low-pass filter, by requiring a minimum
- * value for T2L.
+ * value for T2L of 0.
+ * TODO: make the low-pass filter more effective.
  */
 static inline bool SOUND_ACTIVE(uint8_t acr, uint8_t t2ll)
 {
-    return !IS_SR_SHIFT_OUT_BY_T2(acr) || (t2ll > 1);
+    return !IS_SR_SHIFT_OUT_BY_T2(acr) || t2ll;
 }
 
 /*
