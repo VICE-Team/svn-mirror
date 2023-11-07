@@ -89,7 +89,7 @@ in the UI).
 - Do not build PDF docs unless --enable-pdf-docs
 - Fixed macOS bindist. Probably doesn't work without code signing, however an
   attempt is now made to detect and use a signing identity.
-- when installing with x64 not enabled, install a symlink x64->s64sc instead
+- when installing with x64 not enabled, install a symlink x64->x64sc instead
 - Add unzip.exe and its deps to Gtk3 bindist
 
 
