@@ -79,6 +79,9 @@ in the UI).
 ** Buildsystem
 --------------
 
+- add configure switch `--enable-experimental-devices` to enable experimental
+  emulation of some devices.
+- changed configure switch `--with-libcurl` to `--without-libcurl`.
 - changed configure switch `--enable-lame` to `--with-lame`
 - configure: change `--with-zip-bin` to `--with-unzip-bin`
 - remove the configure switch --with-readline/--without-readline.
