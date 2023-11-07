@@ -17659,9 +17659,11 @@ Use PAL-N sync factor
 @node Platform-specific features, Snapshots, Machine-specific features, Top
 @chapter Platform-specific features
 
-This section lists the settings and commands that are platform specific.
+This section lists the settings and commands that are platform specificm, ie which
+control the behaviour and appearance of the host user interface.
 
 @menu
+* Common features::
 @ifset platformsdl
 * SDL-specific features::
 @end ifset
@@ -17669,6 +17671,89 @@ This section lists the settings and commands that are platform specific.
 * GTK3 specific features::
 @end ifset
 @end menu
+
+@node Common features
+@section Common features
+
+@subsection Common command line options
+
+@table @code
+
+@findex -windowxpos
+@item -windowxpos <xpos>
+Set initial horizontal window position.
+(@code{Window0Xpos}).
+
+@findex -windowypos
+@item -windowypos <ypos>
+Set initial vertical window position.
+(@code{Window0Ypos}).
+
+@findex -windowxpos1
+@item -windowxpos1 <xpos>
+Set initial horizontal window position for the second window (C128).
+(@code{Window1Xpos}).
+
+@findex -windowypos1
+@item -windowypos1 <ypos>
+Set initial vertical window position for the second window (C128).
+(@code{Window1Ypos}).
+
+@findex -windowwidth
+@item -windowwidth <width>
+Set initial window width.
+(@code{Window0Width}).
+
+@findex -windowheight
+@item -windowheight <height>
+Set initial window height.
+(@code{Window0Height}).
+
+@findex -windowwidth1
+@item -windowwidth1 <width>
+Set initial window width for the second window (C128),
+(@code{Window1Width}).
+
+@findex -windowheight1
+@item -windowheight1 <height>
+Set initial window height for the second window (C128),
+(@code{Window1Height}).
+
+@end table
+
+@subsection Common resources
+
+@table @code
+
+@vindex Window0Xpos
+@vindex Window0Ypos
+@item Window0Xpos
+@itemx Window0Ypos
+Integers specifying the position of the (first) emulator window
+(all emulators except vsid).
+
+@vindex Window1Xpos
+@vindex Window1Ypos
+@item Window1Xpos
+@itemx Window1Ypos
+Integers specifying the position of the (second) emulator window
+(all emulators except vsid).
+
+@vindex Window0Width
+@vindex Window0Height
+@item Window0Width
+@itemx Window0Height
+Integers specifying the size of the (first) emulator window
+(all emulators except vsid).
+
+@vindex Window1Width
+@vindex Window1Height
+@item Window1Width
+@itemx Window1Height
+Integers specifying the size of the (second) emulator window
+(all emulators except vsid).
+
+@end table
 
 @c -----------------------------------------------------------------
 
@@ -17973,26 +18058,6 @@ Set the preferred SDL2 backend
 See startup log for available backends, valid ones might be eg: software, opengl,
 direct3d, direct3d11, opengles2)
 
-@findex -sdlinitialw
-@item -sdlinitialw <width>
-Set initial window width.
-(@code{Window0Width}).
-
-@findex -sdlinitialh
-@item -sdlinitialh <height>
-Set initial window height.
-(@code{Window0Height}).
-
-@findex -sdlinitialw1
-@item -sdlinitialw1 <width>
-Set initial window width for the second window (C128),
-(@code{Window1Width}).
-
-@findex -sdlinitialh1
-@item -sdlinitialh1 <height>
-Set initial window height for the second window (C128),
-(@code{Window1Height}).
-
 @findex -CRTCfullmode
 @item -CRTCfullmode <Mode>
 Set the fullscreen mode
@@ -18162,20 +18227,6 @@ Boolean specifying wheter to pause the emulation when triggering the settings
 dialog. If set, the emulation will pause when triggering the settings dialog.
 When closing the settings dialog the pause state will revert to its state before
 triggering the settings UI.
-
-@vindex Window0Xpos
-@vindex Window0Ypos
-@item Window0Xpos
-@itemx Window0Ypos
-Integers specifying the position of the (first) emulator window
-(all emulators except vsid).
-
-@vindex Window1Xpos
-@vindex Window1Ypos
-@item Window1Xpos
-@itemx Window1Ypos
-Integers specifying the position of the (first) emulator window
-(all emulators except vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1

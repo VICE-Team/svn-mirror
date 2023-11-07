@@ -473,20 +473,17 @@ static const cmdline_option_t cmdline_options[] =
     { "+dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DualWindow", (void *)0,
       NULL, "Disable dual window rendering"},
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    /* Note: the following options are common/the same in GTK port */
+    { "-windowwidth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Width", NULL,
       "<width>", "Set initial window width" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowheight", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Height", NULL,
       "<height>", "Set initial window height" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialx", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowxpos", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Xpos", NULL,
       "<xpos>", "Set initial horizontal window position" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialy", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowypos", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window0Ypos", NULL,
       "<ypos>", "Set initial vertical window position" },
     CMDLINE_LIST_END
@@ -494,20 +491,17 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_c128[] =
 {
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialw1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    /* Note: the following options are common/the same in GTK port */
+    { "-windowwidth1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Width", NULL,
       "<width>", "Set initial window width" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialh1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowheight1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Height", NULL,
       "<height>", "Set initial window height" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialx1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowxpos1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Xpos", NULL,
       "<xpos>", "Set initial horizontal window position" },
-    /* FIXME: this could be a generic (not SDL specific) option */
-    { "-sdlinitialy1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-windowypos1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Window1Ypos", NULL,
       "<ypos>", "Set initial vertical window position" },
     CMDLINE_LIST_END

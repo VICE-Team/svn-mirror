@@ -154,7 +154,6 @@ static int set_settings_node_path(const gchar *path, void *unused);
 static int window_index_from_param(void *param);
 static void ui_action_dispatch(ui_action_map_t *);
 
-
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
@@ -416,7 +415,31 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-monitorheight", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_height, (void*)MONITOR_WINDOW, "MonitorHeight", NULL,
         "height", "Set monitor window height" },
-
+    /* Note: the following options are common/the same in SDL port */
+    { "-windowxpos", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_xpos, (void*)PRIMARY_WINDOW, "Window0XPos", NULL,
+        "X", "Set window X position" },
+    { "-windowypos", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_ypos, (void*)PRIMARY_WINDOW, "Window0YPos", NULL,
+        "Y", "Set window Y position" },
+    { "-windowwidth", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_width, (void*)PRIMARY_WINDOW, "Window0Width", NULL,
+        "width", "Set window width" },
+    { "-windowheight", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_height, (void*)PRIMARY_WINDOW, "Window0Height", NULL,
+        "height", "Set window height" },
+    { "-windowxpos1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_xpos, (void*)SECONDARY_WINDOW, "Window1XPos", NULL,
+        "X", "Set secondary window X position" },
+    { "-windowypos1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_ypos, (void*)SECONDARY_WINDOW, "Window1YPos", NULL,
+        "Y", "Set secondary window Y position" },
+    { "-windowwidth1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_width, (void*)SECONDARY_WINDOW, "Window1Width", NULL,
+        "width", "Set secondary window width" },
+    { "-windowheight1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_height, (void*)SECONDARY_WINDOW, "Window1Height", NULL,
+        "height", "Set secondary window height" },
     CMDLINE_LIST_END
 };
 
@@ -653,7 +676,6 @@ static int set_window_height(gint height, void *window_index)
 static int set_window_xpos(gint xpos, void *window_index)
 {
     int index = window_index_from_param(window_index);
-
     if (index < 0) {
         return -1;
     }
@@ -678,7 +700,7 @@ static int set_window_ypos(gint ypos, void *window_index)
     return 0;
 }
 
-/** \brief  Cmdline handler for -monitorxpos
+/** \brief  Cmdline handler for -monitorxpos, -windowxpos, -windowxpos1
  *
  * \param[in]   xpos            xpos in pixels as string
  * \param[in]   window_index    window index
@@ -697,7 +719,7 @@ static int set_monitor_xpos(const gchar *xpos, void *window_index)
     return set_window_xpos((gint)result, window_index);
 }
 
-/** \brief  Cmdline handler for -monitorypos
+/** \brief  Cmdline handler for -monitorypos, -windowypos, -windowypos1
  *
  * \param[in]   ypos            ypos in pixels as string
  * \param[in]   window_index    window index
@@ -716,7 +738,7 @@ static int set_monitor_ypos(const gchar *ypos, void *window_index)
     return set_window_ypos((gint)result, window_index);
 }
 
-/** \brief  Cmdline handler for -monitorwidth
+/** \brief  Cmdline handler for -monitorwidth, -windowwidth, -windowwidth1
  *
  * \param[in]   width           width in pixels as string
  * \param[in]   window_index    window index
@@ -735,7 +757,7 @@ static int set_monitor_width(const gchar *width, void *window_index)
     return set_window_width((gint)result, window_index);
 }
 
-/** \brief  Cmdline handler for -monitorheight
+/** \brief  Cmdline handler for -monitorheight, -windowheight, -windowheight1
  *
  * \param[in]   height          height in pixels as string
  * \param[in]   window_index    window index
