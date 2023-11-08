@@ -69,6 +69,14 @@ Plus4:
 Plus4 Layout:
 http://www.keyboard-layout-editor.com/#/gists/939ff653d1c4a11a4fd852fa21d413f0
 
+Plus4 symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/d1426ed13ed6f9179f542af831526ce9
+
+Plus4 symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/f88993d44226e4c2d36abaa3432ec9f6
+
 Plus4 positional (US):
 
 http://www.keyboard-layout-editor.com/#/gists/ba3e5aa1e19745b5ca2eff7bbbc226d2
