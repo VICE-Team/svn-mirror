@@ -2170,10 +2170,11 @@ AC_SUBST(ZLIB_LIBS)
 
 
 dnl --- Curl / WIC64 ---
+dnl We need at least version 7.77.1 for `CURLSSLOPT_NATIVE_CA`
 if test x"$with_libcurl" != "xno"; then
-  PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
+  PKG_CHECK_MODULES(libcurl, [libcurl >= 7.71.0], [have_libcurl=yes], [have_libcurl=no])
   if test x"$have_libcurl" = "xno"; then
-    AC_MSG_ERROR([libcurl support requested, but libcurl was not found.])
+    AC_MSG_ERROR([libcurl (>=7.71.0) support requested, but libcurl (>=7.71.0) was not found.])
   fi
   HAVE_LIBCURL_SUPPORT="yes"
   VICE_CFLAGS="$VICE_CFLAGS $libcurl_CFLAGS"
