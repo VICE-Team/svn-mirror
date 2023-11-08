@@ -169,6 +169,7 @@ BackSpace 0 0 8
 # Caps Lock = Shift Lock
 Caps_Lock 1 7 64
 Delete 0 0 8
+Insert 0 0 1
 Down 5 0 8
 # End -> Run/Stop
 End 7 7 8
@@ -184,7 +185,7 @@ F7 0 3 1
 F8 0 3 8
 # Home = Clear/Home
 Home 7 1 8
-Insert 0 0 1
+#Insert 0 0 1
 Left 6 0 8
 Return 0 1 8
 Right 6 3 8
@@ -197,7 +198,7 @@ Page_Up 0 2 8
 
 ampersand 2 3 1
 apostrophe 3 0 1
-asciicircum 4 3 1
+#asciicircum 4 3 1
 asterisk 6 1 16
 # @ sign
 at 0 7 16
@@ -217,15 +218,24 @@ colon 5 5 16
 comma 5 7 8
 dollar 1 3 1
 equal 6 5 8
+End   6 5 1
+# page down -> arrow up
+# page down+shift -> pi
+# arrow up - 0
+Page_Down   4 3 0x021
+# = , arrow left, pi
+Page_Down   6 5 0x890
 exclam 7 0 1
 
-# ~ -> Pi (CBM-equals)
-asciitilde 6 5 2064
-dead_perispomeni 6 5 2064
-dead_tilde       6 5 2064
-# ` -> left-arrow (Shift-equals)
-grave 6 5 1
-dead_grave       6 5 1
+# ~(+shift) -> left-arrow
+asciitilde 6 5 0x1
+# ~(+shift) ->  left-arrow
+dead_perispomeni 6 5 1
+dead_tilde       6 5 1
+# ` -> '
+grave       3 0 1
+# ` -> '
+dead_grave  3 0 1
 
 greater 5 4 1
 less 5 7 1
@@ -245,6 +255,11 @@ sterling 0 2 8
 # underscore -> CBM-@ graphic
 underscore 0 7 2064
 
+# Dead keys support for those using US-International keyboard layout.
+dead_acute       3 0 1  # '
+dead_circumflex  4 3 8  # arrow up
+dead_diaeresis   7 3 1  # "
+
 0 4 3 8
 1 7 0 8
 2 7 3 8
@@ -252,7 +267,7 @@ underscore 0 7 2064
 4 1 3 8
 5 2 0 8
 6 2 3 8
-7 3 0 8
+7 3 0 0
 8 3 3 8
 9 4 0 8
 A 1 2 8
@@ -311,11 +326,8 @@ z 1 4 8
 # Restore-key mappings
 #Page_Up -3 0
 #Prior -3 1
-
-# Dead keys support for those using US-International keyboard layout.
-dead_acute       3 0 1  # '
-dead_circumflex  4 3 8  # arrow up
-dead_diaeresis   7 3 1  # "
+Page_Up      6 4 8
+F12          6 4 8
 
 #
 # joyport attached keypad

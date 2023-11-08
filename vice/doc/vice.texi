@@ -1060,8 +1060,14 @@ setting.
 
 This mapping applies to the Plus4 emulator
 
+@subsubsection Symbolic (US)
+@image{html/images/vice-plus4-symbolic-keymap-us-small}
+
 @subsubsection Positional (US)
 @image{html/images/vice-plus4-positional-keymap-us-small}
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-plus4-symbolic-keymap-de-small}
 
 @subsubsection Positional (DE)
 @image{html/images/vice-plus4-positional-keymap-de-small}

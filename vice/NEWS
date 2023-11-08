@@ -135,6 +135,8 @@ in the UI).
 
 Keymaps:
 - added reference image of native Plus4 keyboard layout
+- added reference image of Plus4, symbolic, US layout
+- added reference image of Plus4, symbolic, german layout
 - added reference image of Plus4, positional, US layout
 - added reference image of Plus4, positional, german layout
 
@@ -260,6 +262,8 @@ Keymaps:
 - fix PET Positional, german layout
 - fix PET Symbolic, US layout
 - fix Plus4 Positional, US layout
+- fix Plus4 Symbolic, US layout
+- fix Plus4 Symbolic, DE layout
 
 
 ** SDL Fixes
