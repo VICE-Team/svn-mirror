@@ -337,8 +337,8 @@ static GtkWidget *create_printer_widget(int index)
 
     device = child->device;
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
-    gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
+    gtk_grid_set_column_homogeneous(GTK_GRID(grid), FALSE);
 
     /* create widgets */
     if (child->has_type) {
