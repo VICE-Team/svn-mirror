@@ -39,7 +39,7 @@ $ sudo apt-get install dos2unix             # only used when doing `make dist`
 $ sudo apt-get install libpulse-dev         # for Pulse Audio sound support
 $ sudo apt-get install libasound2-dev       # for ALSA sound support
 $ sudo apt-get install libglew-dev          # for OpenGL hardware scaling support
-$ sudo apt-get install libcurl4-openssl-dev
+$ sudo apt-get install libcurl4-openssl-dev # for WiC64, >= 7.71.0 is required
 
 If you plan on building the PDF documentation, you will also need to install
 whatever package includes "epsf.tex". It was recently in "texlive-plain-generic".
