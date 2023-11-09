@@ -28,27 +28,22 @@ import os.path
 import subprocess
 import sys
 
-SVN_REPO_PATH = None
 SVN_REMOTE_PATH = "svn://svn.code.sf.net/p/vice-emu/code"
+MIRROR_PATH = None
+SVN_REPO_PATH = None
 GIT_TARGET_PATH = None
 
 if len(sys.argv) < 2:
-    print(f"Usage: {sys.argv[0]} <SVN-REPO-DIR> [SVN-REMOTE-URL] [GIT-TARGET-DIR]")
+    print(f"Usage: {sys.argv[0]} <SVN-MIRROR-DIR>")
     sys.exit(1)
 
-SVN_REPO_PATH = os.path.realpath(sys.argv[1])
-while SVN_REPO_PATH != "" and SVN_REPO_PATH != "/" and os.path.basename(SVN_REPO_PATH) == "":
-    SVN_REPO_PATH = os.path.dirname(SVN_REPO_PATH)
-if SVN_REPO_PATH == "" or SVN_REPO_PATH == "/":
-    print("Error: Repo path may not be empty or root")
+MIRROR_PATH = os.path.realpath(sys.argv[1])
+if os.path.exists(MIRROR_PATH) and not os.path.isdir(MIRROR_PATH):
+    print(f"{MIRROR_PATH} exists and is not a directory; aborting")
     sys.exit(1)
 
-if len(sys.argv) > 2:
-    SVN_REMOTE_PATH = sys.argv[2]
-if len(sys.argv) > 3:
-    GIT_TARGET_PATH = os.path.realpath(sys.argv[3])
-else:
-    GIT_TARGET_PATH = os.path.dirname(SVN_REPO_PATH) + "/vice-git"
+SVN_REPO_PATH = MIRROR_PATH + "/svn-mirror"
+GIT_TARGET_PATH = MIRROR_PATH + "/vice-git"
 
 if os.path.exists(GIT_TARGET_PATH):
     if not os.path.isdir(GIT_TARGET_PATH + "/.git"):
@@ -119,7 +114,8 @@ for line in changelog.stdout.decode('utf-8').split('\n'):
             authors[author] = f"{author} <{author}@sf.net>"
 
 print("Author transform list:")
-f = open("authors-transform.txt", "w")
+AUTHORS_LIST = MIRROR_PATH + "/authors-transform.txt"
+f = open(AUTHORS_LIST, "w")
 for x in authors:
     print(f"{x} = {authors[x]}")
     f.write(f"{x} = {authors[x]}\n")
@@ -132,4 +128,4 @@ if os.path.exists(GIT_TARGET_PATH):
     subprocess.run(['git', 'merge', 'svn/trunk'], check=True)
 else:
     print(f"Creating git edition of SVN repo at {GIT_TARGET_PATH}")
-    subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', 'authors-transform.txt', GIT_TARGET_PATH], check=True)
+    subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', AUTHORS_LIST, GIT_TARGET_PATH], check=True)
