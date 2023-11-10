@@ -1120,9 +1120,13 @@ This Layout is used for all CBM2 machines:
 
 @image{html/images/cbm2-layout-small}
 
+@subsubsection Symbolic (US)
+@image{html/images/vice-cbm2-symbolic-keymap-us-small}
 @subsubsection Positional (US)
 @image{html/images/vice-cbm2-positional-keymap-us-small}
 
+@subsubsection Symbolic (DE)
+@image{html/images/vice-cbm2-symbolic-keymap-de-small}
 @subsubsection Positional (DE)
 @image{html/images/vice-cbm2-positional-keymap-de-small}
 

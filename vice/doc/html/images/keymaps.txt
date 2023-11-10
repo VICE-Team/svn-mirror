@@ -141,6 +141,14 @@ CBM2 layout:
 
 http://www.keyboard-layout-editor.com/#/gists/792e442a5c236bf9338b0aa3e36fd34d
 
+CBM2 symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/5bbb932a2c271ba8de83d45e49278f0c
+
+CBM2 symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/a505d11391d45671984ff7b875311637
+
 CBM2 positional (US):
 
 http://www.keyboard-layout-editor.com/#/gists/97c8478526b116a3f3ba0f86686091b0

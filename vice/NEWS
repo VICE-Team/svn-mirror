@@ -171,7 +171,9 @@ Keymaps:
 
 Keymaps:
 - added reference image of native CBM2 keyboard layout
+- added reference image of CBM2, symbolic, US layout
 - added reference image of CBM2, positional, US layout
+- added reference image of CBM2, symbolic, german layout
 - added reference image of CBM2, positional, german layout
 
 
@@ -258,6 +260,8 @@ Keymaps:
 - fix C64 danish symbolic
 - fix C128 Positional, US layout
 - fix C128 Positional, german layout
+- fix CBM2 Symbolic, US layout
+- fix CBM2 Symbolic, german layout
 - fix PET Positional, US layout
 - fix PET Positional, german layout
 - fix PET Symbolic, US layout
