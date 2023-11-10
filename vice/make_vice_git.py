@@ -28,10 +28,6 @@ import os.path
 import subprocess
 import sys
 
-SVN_REMOTE_PATH = "svn://svn.code.sf.net/p/vice-emu/code"
-MIRROR_PATH = None
-SVN_REPO_PATH = None
-GIT_TARGET_PATH = None
 
 if len(sys.argv) < 2:
     print(f"Usage: {sys.argv[0]} <SVN-MIRROR-DIR>")
@@ -42,13 +38,21 @@ if os.path.exists(MIRROR_PATH) and not os.path.isdir(MIRROR_PATH):
     print(f"{MIRROR_PATH} exists and is not a directory; aborting")
     sys.exit(1)
 
+SVN_REMOTE_PATH = "svn://svn.code.sf.net/p/vice-emu/code"
 SVN_REPO_PATH = MIRROR_PATH + "/svn-mirror"
 GIT_TARGET_PATH = MIRROR_PATH + "/vice-git"
+GIT_TECHDOCS_PATH = MIRROR_PATH + "/techdocs-git"
+GIT_TESTPROGS_PATH = MIRROR_PATH + "/testprogs-git"
 
-if os.path.exists(GIT_TARGET_PATH):
-    if not os.path.isdir(GIT_TARGET_PATH + "/.git"):
-        print(f"Error: {GIT_TARGET_PATH} already exists, and it's not a Git repo")
-        sys.exit(1)
+def check_git(target_path):
+    if os.path.exists(target_path):
+        if not os.path.isdir(target_path + "/.git"):
+            print(f"Error: {target_path} already exists, and it's not a Git repo")
+            sys.exit(1)
+
+check_git(GIT_TARGET_PATH)
+check_git(GIT_TECHDOCS_PATH)
+check_git(GIT_TESTPROGS_PATH)
 
 def find_program(prog):
     proc = subprocess.run(['which', prog], capture_output=True)
@@ -121,11 +125,31 @@ for x in authors:
     f.write(f"{x} = {authors[x]}\n")
 f.close()
 
-if os.path.exists(GIT_TARGET_PATH):
-    print(f"Updating git repo")
-    os.chdir(GIT_TARGET_PATH)
-    subprocess.run(['git', 'svn', 'fetch'], check=True)
-    subprocess.run(['git', 'merge', 'svn/trunk'], check=True)
-else:
-    print(f"Creating git edition of SVN repo at {GIT_TARGET_PATH}")
-    subprocess.run(['git', 'svn', 'clone', repo_url, '--prefix=svn/', '--stdlayout', f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', AUTHORS_LIST, GIT_TARGET_PATH], check=True)
+def git_update(target_path, subrepo=None):
+    if os.path.exists(target_path):
+        if subrepo == None:
+            branchname = "VICE"
+            branch = "svn/trunk"
+        else:
+            branchname = subrepo[1:]
+            branch = "svn/git-svn"
+        print(f"Updating git repo \"{branchname}\"")
+        os.chdir(target_path)
+        subprocess.run(['git', 'svn', 'fetch'], check=True)
+        subprocess.run(['git', 'merge', branch], check=True)
+    else:
+        args = ['git', 'svn', 'clone']
+        if subrepo == None:
+            branchname = "VICE"
+            args += [repo_url, '--prefix=svn/', '--stdlayout']
+        else:
+            branchname = subrepo[1:]
+            args += [repo_url + subrepo, '--prefix=svn/']
+
+        print(f"Creating git edition of {branchname} at {target_path}")
+
+        subprocess.run(args + [f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', AUTHORS_LIST, target_path], check=True)
+
+git_update(GIT_TARGET_PATH)
+git_update(GIT_TECHDOCS_PATH, '/techdocs')
+git_update(GIT_TESTPROGS_PATH, '/testprogs')
