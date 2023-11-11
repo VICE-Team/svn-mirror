@@ -364,9 +364,9 @@ static void driver_radio_callback(GtkWidget  *radio,
     gtk_widget_set_sensitive(widget, (gboolean)(text && graphics));
     /* if only text or graphics is supported, select that mode */
     if (text && (!graphics)) {
-        printer_output_mode_widget_set_mode(widget, 0);
+        printer_output_mode_widget_set_mode(widget, "text");
     } else if ((!text) && graphics) {
-        printer_output_mode_widget_set_mode(widget, 1);
+        printer_output_mode_widget_set_mode(widget, "graphics");
     }
 }
 

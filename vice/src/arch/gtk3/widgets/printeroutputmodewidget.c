@@ -37,10 +37,18 @@
 #include <string.h>
 
 #include "log.h"
+#include "printer.h"
 #include "resources.h"
 #include "vice_gtk3.h"
 
 #include "printeroutputmodewidget.h"
+
+
+/* Output mode radio button rows */
+enum {
+    ROW_TEXT_MODE     = 1,
+    ROW_GRAPHICS_MODE = 2
+};
 
 
 /** \brief  Handler for the 'toggled' event of the radio buttons
@@ -117,8 +125,8 @@ GtkWidget *printer_output_mode_widget_create(int device)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gfx), TRUE);
     }
 
-    gtk_grid_attach(GTK_GRID(grid), text, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gfx,  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), text, 0, ROW_TEXT_MODE,     1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gfx,  0, ROW_GRAPHICS_MODE, 1, 1);
 
     g_signal_connect(text,
                      "toggled",
@@ -136,12 +144,16 @@ GtkWidget *printer_output_mode_widget_create(int device)
 /** \brief  Set printer output mode
  *
  * \param[in]   widget  printer output mode widget
- * \param[in]   mode    mode (0 = text, 1 = graphics)
+ * \param[in]   mode    mode ("text or "graphics")
  */
-void printer_output_mode_widget_set_mode(GtkWidget *widget, int mode)
+void printer_output_mode_widget_set_mode(GtkWidget *widget, const char *mode)
 {
-    if (mode >= 0 && mode <= 1) {
-        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, mode + 1);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+    GtkWidget *radio;
+
+    if (g_strcmp0(mode, "text") == 0) {
+        radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, ROW_TEXT_MODE);
+    } else {
+        radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, ROW_GRAPHICS_MODE);
     }
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
 }
