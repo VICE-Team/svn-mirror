@@ -38,19 +38,10 @@
 #include "drv-ascii.h"
 #include "lib.h"
 #include "log.h"
+#include "printer.h"
 #include "resources.h"
 #include "types.h"
 #include "util.h"
-
-
-/** \brief  First printer on IEC/IEEE-488 bus */
-#define PRNR_PRINTER_1  0
-/** \brief  Second printer on IEC/IEEE-488 bus */
-#define PRNR_PRINTER_2  1
-/** \brief  Plotter on IEC/IEEE-488 bus */
-#define PRNR_PLOTTER    2
-/** \brief  Printer on userport */
-#define PRNR_USERPORT   3
 
 
 static log_t driver_select_log = LOG_ERR;
@@ -217,15 +208,15 @@ static int set_printer_driver(const char *name, void *param)
         return -1;
     }
 
-    if ((prnr == PRNR_PRINTER_1) || (prnr == PRNR_PRINTER_2)) {
+    if ((prnr == PRINTER_IEC_4) || (prnr == PRINTER_IEC_5)) {
         if (!driver_select_is_printer(name)) {
             return -1;
         }
-    } else if (prnr == PRNR_PLOTTER) {
+    } else if (prnr == PRINTER_IEC_6) {
         if (!driver_select_is_plotter(name)) {
             return -1;
         }
-    } else if (prnr == PRNR_USERPORT) {
+    } else if (prnr == PRINTER_USERPORT) {
         if (!driver_select_has_userport(name)) {
             return -1;
         }
