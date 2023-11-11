@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *printer_output_mode_widget_create  (int device);
-void       printer_output_mode_widget_set_mode(GtkWidget *widget, int mode);
+void       printer_output_mode_widget_set_mode(GtkWidget  *widget,
+                                               const char *mode);
 
 #endif
