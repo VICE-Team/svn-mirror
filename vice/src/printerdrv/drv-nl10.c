@@ -1999,17 +1999,25 @@ static int drv_nl10_formfeed(unsigned int prnr)
 
 int drv_nl10_init_resources(void)
 {
-    driver_select_t driver_select;
+    driver_select_t driver_select = {
+        .drv_name     = "nl10",
+        .ui_name      = "NL10",
+        .drv_select   = NULL,
+        .drv_open     = drv_nl10_open,
+        .drv_close    = drv_nl10_close,
+        .drv_putc     = drv_nl10_putc,
+        .drv_getc     = drv_nl10_getc,
+        .drv_flush    = drv_nl10_flush,
+        .drv_formfeed = drv_nl10_formfeed,
 
-    driver_select.drv_name = "nl10";
-    driver_select.drv_select = NULL;
-    driver_select.drv_open = drv_nl10_open;
-    driver_select.drv_close = drv_nl10_close;
-    driver_select.drv_putc = drv_nl10_putc;
-    driver_select.drv_getc = drv_nl10_getc;
-    driver_select.drv_flush = drv_nl10_flush;
-    driver_select.drv_formfeed = drv_nl10_formfeed;
-
+        .printer      = true,
+        .plotter      = false,
+        .iec          = true,
+        .ieee488      = false,
+        .userport     = true,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
     return 0;

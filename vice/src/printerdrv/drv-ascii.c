@@ -26,6 +26,7 @@
  */
 
 #include "vice.h"
+#include <stdbool.h>
 
 #include "archdep.h"
 #include "charset.h"
@@ -204,17 +205,26 @@ static int drv_ascii_select(unsigned int prnr)
 
 int drv_ascii_init_resources(void)
 {
-    driver_select_t driver_select;
+    driver_select_t driver_select = {
+        .drv_name     = "ascii",
+        .ui_name      = "ASCII",
+        .drv_open     = drv_ascii_open,
 
-    driver_select.drv_name = "ascii";
-    driver_select.drv_open = drv_ascii_open;
-    driver_select.drv_close = drv_ascii_close;
-    driver_select.drv_putc = drv_ascii_putc;
-    driver_select.drv_getc = drv_ascii_getc;
-    driver_select.drv_flush = drv_ascii_flush;
-    driver_select.drv_formfeed = drv_ascii_formfeed;
-    driver_select.drv_select = drv_ascii_select;
+        .drv_close    = drv_ascii_close,
+        .drv_putc     = drv_ascii_putc,
+        .drv_getc     = drv_ascii_getc,
+        .drv_flush    = drv_ascii_flush,
+        .drv_formfeed = drv_ascii_formfeed,
+        .drv_select   = drv_ascii_select,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = true,
+        .ieee488      = true,
+        .userport     = true,
+        .text         = true,
+        .graphics     = false
+    };
     driver_select_register(&driver_select);
 
     return 0;

@@ -1333,80 +1333,161 @@ static int drv_mps803_formfeed(unsigned int prnr)
     return output_select_formfeed(prnr);;
 }
 
+
+/** \brief  Register drivers
+ *
+ * Register printer drivers.
+ *
+ *  - Commodore MPS 801
+ *  - Commodore MPS 802
+ *  - Commodore MPS 803
+ *  - Commodore 2022
+ *  - Commodore 4034
+ *  - Commodore 8034
+ *
+ * \return  0
+ */
 int drv_mps803_init_resources(void)
 {
     driver_select_t driver_select;
 
-    driver_select.drv_name = "mps801";
-    driver_select.drv_select = drv_mps801_select;
-    driver_select.drv_open = drv_mps801_open;
+    /* Commodore MPS 801 */
+    driver_select = (driver_select_t){
+        .drv_name     = "mps801",
+        .ui_name      = "Commodore MPS 801",
+        .drv_select   = drv_mps801_select,
+        .drv_open     = drv_mps801_open,
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = true,
+        .ieee488      = false,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
-    driver_select.drv_name = "mps802";
-    driver_select.drv_select = drv_mps802_select;
-    driver_select.drv_open = drv_mps802_open;
+    /* Commodore MPS 802 */
+    driver_select     = (driver_select_t){
+        .drv_name     = "mps802",
+        .ui_name      = "Commodore MPS 802",
+        .drv_select   = drv_mps802_select,
+        .drv_open     = drv_mps802_open,
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = true,
+        .ieee488      = false,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
-    driver_select.drv_name = "mps803";
-    driver_select.drv_select = drv_mps803_select;
-    driver_select.drv_open = drv_mps803_open;
+    /* Commodore MPS 803 */
+    driver_select = (driver_select_t){
+        .drv_name     = "mps803",
+        .ui_name      = "Commodore MPS 803",
+        .drv_select   = drv_mps803_select,
+        .drv_open     = drv_mps803_open,
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = true,
+        .ieee488      = false,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
-    driver_select.drv_name = "2022";
-    driver_select.drv_select = drv_2022_select;
-    driver_select.drv_open = drv_2022_open;
+    /* Commodore 2022 */
+    driver_select = (driver_select_t){
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_name     = "2022",
+        .ui_name      = "Commodore 2022",
+        .drv_select   = drv_2022_select,
+        .drv_open     = drv_2022_open,
 
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
+
+        .printer      = true,
+        .plotter      = false,
+        .iec          = false,
+        .ieee488      = true,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
-    driver_select.drv_name = "4023";
-    driver_select.drv_select = drv_4023_select;
-    driver_select.drv_open = drv_4023_open;
+    /* Commodore 4023 */
+    driver_select = (driver_select_t){
+        .drv_name     = "4023",
+        .ui_name      = "Commodore 4023",
+        .drv_select   = drv_4023_select,
+        .drv_open     = drv_4023_open,
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = false,
+        .ieee488      = true,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
-    driver_select.drv_name = "8023";
-    driver_select.drv_select = drv_8023_select;
-    driver_select.drv_open = drv_8023_open;
+    /* Commodore 8023 */
+    driver_select = (driver_select_t){
+        .drv_name     = "8023",
+        .ui_name      = "Commodore 8023",
+        .drv_select   = drv_8023_select,
+        .drv_open     = drv_8023_open,
 
-    driver_select.drv_close = drv_mps803_close;
-    driver_select.drv_putc = drv_mps803_putc;
-    driver_select.drv_getc = drv_mps803_getc;
-    driver_select.drv_flush = drv_mps803_flush;
-    driver_select.drv_formfeed = drv_mps803_formfeed;
+        .drv_close    = drv_mps803_close,
+        .drv_putc     = drv_mps803_putc,
+        .drv_getc     = drv_mps803_getc,
+        .drv_flush    = drv_mps803_flush,
+        .drv_formfeed = drv_mps803_formfeed,
 
+        .printer      = true,
+        .plotter      = false,
+        .iec          = false,
+        .ieee488      = true,
+        .userport     = false,
+        .text         = true,
+        .graphics     = true
+    };
     driver_select_register(&driver_select);
 
     return 0;
