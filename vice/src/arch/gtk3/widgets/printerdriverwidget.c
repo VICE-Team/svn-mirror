@@ -44,50 +44,6 @@
 
 #include "printerdriverwidget.h"
 
-#if 0
-/** \brief  Radio buttons for a device */
-typedef struct driver_radio_s {
-    const char *label;  /**< radio button label */
-    const char *value;  /**< resource value */
-} driver_radio_t;
-
-/** \brief  Resource and resource data for a device */
-typedef struct driver_resource_s {
-    const char           *name;     /**< resource name */
-    const driver_radio_t *drivers;  /**< driver radio buttons for device */
-} driver_resource_t;
-#endif
-
-#if 0
-/** \brief  Drivers for printer 4 & 5 */
-static const driver_radio_t printer_drivers[] = {
-    { "ASCII",                "ascii" },
-    { "Commodore 2022",       "2022" },
-    { "Commodore 4023",       "4023" },
-    { "Commodore 8023",       "8023" },
-    { "MPS-801",              "mps801" },
-    { "MPS-802",              "mps802" },
-    { "MPS-803",              "mps803" },
-    { "NL10",                 "nl10" },
-    { "RAW",                  "raw" },
-    { NULL,                   NULL }
-};
-
-/** \brief  Drivers for plotter 6 */
-static const driver_radio_t plotter_drivers[] = {
-    { "VIC-1520",   "1520" },
-    { "RAW",        "raw" },
-    { NULL,         NULL }
-};
-
-/** \brief  Drivers for printer 4 & 5 */
-static const driver_radio_t userport_drivers[] = {
-    { "ASCII",      "ascii" },
-    { "NL10",       "nl10" },
-    { "RAW",        "raw" },
-    { NULL,         NULL }
-};
-#endif
 
 /** \brief  Resources names per device
  *
@@ -100,6 +56,9 @@ static const char *driver_resource_names[4] = {
     "Printer5Driver",
     "Printer6Driver"
 };
+
+/** \brief  Function to call when a driver radio button is selected */
+static void (*extra_radio_callback)(GtkWidget *, int, const char *) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the radio buttons
@@ -114,14 +73,19 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
         GtkWidget  *parent;
         const char *resource;
         const char *driver;
+        int         device;
 
         parent   = gtk_widget_get_parent(radio);
         resource = resource_widget_get_resource_name(parent);
         driver   = g_object_get_data(G_OBJECT(radio), "Driver");
+        device   = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(radio), "Device"));
 #if 0
         debug_gtk3("Setting resource '%s' to '%s'", resource, driver);
 #endif
         resources_set_string(resource, driver);
+        if (extra_radio_callback != NULL) {
+            extra_radio_callback(radio, device, driver);
+        }
     }
 }
 
@@ -138,11 +102,15 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  * Printer 6    : [1520, raw]
  * Userport (3) : [ascii, nl10, raw]
  *
- * \param[in]   device  device number (4-6) or 3 for userport
+ * \param[in]   device      device number (4-6) or 3 for userport
+ * \param[in]   callback    function to call on radio button selection (optional)
  *
  * \return  GtkGrid
  */
-GtkWidget *printer_driver_widget_create(int device)
+GtkWidget *printer_driver_widget_create(int device,
+                                        void (*callback)(GtkWidget  *radio,
+                                                         int         device,
+                                                         const char *drv_name))
 {
     GtkWidget                  *grid;
     GtkWidget                  *last;
@@ -151,6 +119,8 @@ GtkWidget *printer_driver_widget_create(int device)
     const char                 *current = NULL;
     int                         index;
     int                         row;
+
+    extra_radio_callback = callback;
 
     /* sanity check */
     if (device < 3 || device > 6) {
@@ -199,6 +169,7 @@ GtkWidget *printer_driver_widget_create(int device)
              * value, but we also need the value for the update() function to work
              */
             g_object_set_data(G_OBJECT(radio), "Driver", (gpointer)drv_name);
+            g_object_set_data(G_OBJECT(radio), "Device", GINT_TO_POINTER(device));
 
             if (last != NULL) {
                 gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),

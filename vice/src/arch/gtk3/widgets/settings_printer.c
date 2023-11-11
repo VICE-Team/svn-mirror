@@ -54,6 +54,7 @@
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
+#include "driver-select.h"
 #include "resources.h"
 #include "machine.h"
 #include "printer.h"
@@ -153,6 +154,29 @@ static const child_t children[] = {
         .has_formfeed = true
     }
 };
+
+/** \brief  Output mode widgets */
+static GtkWidget *output_mode_widget[sizeof children / sizeof children[0]];
+
+
+/** \brief  Get tab child index for device number
+ *
+ * \param[in]   device  device number (4-5: printer, 6: plotter, 7: opencbm,
+ *                      3: userport)
+ *
+ * \return  tab child index or -1 on error
+ */
+static int get_child_index_for_device(int device)
+{
+    size_t index;
+
+    for (index = 0; index < sizeof children / sizeof children[0]; index++) {
+        if (children[index].device == device) {
+            return (int)index;
+        }
+    }
+    return -1;
+}
 
 
 /** \brief  Current machine has IEC bus support
@@ -313,6 +337,39 @@ static GtkWidget *create_formfeed_button(const child_t *child)
     return button;
 }
 
+/** \brief  Callback for driver changes
+ *
+ * \param[in]   radio       driver radio button (unused)
+ * \param[in]   device      device number (4-7, 3)
+ * \param[in]   drv_name    driver name
+ */
+static void driver_radio_callback(GtkWidget  *radio,
+                                  int         device,
+                                  const char *drv_name)
+{
+    GtkWidget *widget;
+    bool       text;
+    bool       graphics;
+    int        index;
+
+    index    = get_child_index_for_device(device);
+    text     = driver_select_has_text_output(drv_name);
+    graphics = driver_select_has_graphics_output(drv_name);
+    widget   = output_mode_widget[index];
+
+    debug_gtk3("device = %d, drv_name = '%s', text = %s, graphics = %s",
+               device, drv_name, text ? "true" : "false", graphics ? "true" : "false");
+
+    /* only allow mode selection if both text and graphics are supported */
+    gtk_widget_set_sensitive(widget, (gboolean)(text && graphics));
+    /* if only text or graphics is supported, select that mode */
+    if (text && (!graphics)) {
+        printer_output_mode_widget_set_mode(widget, 0);
+    } else if ((!text) && graphics) {
+        printer_output_mode_widget_set_mode(widget, 1);
+    }
+}
+
 /** \brief  Create a widget for the settings of printer # \a device
  *
  * Creates a widget for \a device to control its resource. The widget for
@@ -329,7 +386,7 @@ static GtkWidget *create_printer_widget(int index)
     GtkWidget *virtdev  = NULL;
     GtkWidget *iec      = NULL;
     GtkWidget *driver   = NULL;
-    GtkWidget *outmode  = NULL;
+    //GtkWidget *outmode  = NULL;
     GtkWidget *outdev   = NULL;
     GtkWidget *formfeed = NULL;
     int        device;
@@ -359,10 +416,10 @@ static GtkWidget *create_printer_widget(int index)
         iec = create_iec_check_button(device);
     }
     if (child->has_driver) {
-        driver = printer_driver_widget_create(device);
+        driver = printer_driver_widget_create(device, driver_radio_callback);
     }
     if (child->has_outmode) {
-        outmode = printer_output_mode_widget_create(device);
+        output_mode_widget[index] = printer_output_mode_widget_create(device);
     }
     if (child->has_outdev) {
         outdev = printer_output_device_widget_create(device);
@@ -387,8 +444,8 @@ static GtkWidget *create_printer_widget(int index)
     if (driver != NULL) {
         gtk_grid_attach(GTK_GRID(grid), driver, 1, 1, 1, 1);
     }
-    if (outmode != NULL) {
-        gtk_grid_attach(GTK_GRID(grid), outmode, 2, 1, 1, 1);
+    if (output_mode_widget[index] != NULL) {
+        gtk_grid_attach(GTK_GRID(grid), output_mode_widget[index], 2, 1, 1, 1);
     }
     if (outdev != NULL) {
         gtk_grid_attach(GTK_GRID(grid), outdev, 3, 1, 1, 1);
