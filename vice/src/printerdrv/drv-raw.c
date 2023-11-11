@@ -102,17 +102,25 @@ static int drv_raw_select(unsigned int prnr)
 
 int drv_raw_init_resources(void)
 {
-    driver_select_t driver_select;
+    driver_select_t driver_select = {
+        .drv_name     = "raw",
+        .ui_name      = "RAW",
+        .drv_open     = drv_raw_open,
+        .drv_close    = drv_raw_close,
+        .drv_putc     = drv_raw_putc,
+        .drv_getc     = drv_raw_getc,
+        .drv_flush    = drv_raw_flush,
+        .drv_formfeed = drv_raw_formfeed,
+        .drv_select   = drv_raw_select,
 
-    driver_select.drv_name = "raw";
-    driver_select.drv_open = drv_raw_open;
-    driver_select.drv_close = drv_raw_close;
-    driver_select.drv_putc = drv_raw_putc;
-    driver_select.drv_getc = drv_raw_getc;
-    driver_select.drv_flush = drv_raw_flush;
-    driver_select.drv_formfeed = drv_raw_formfeed;
-    driver_select.drv_select = drv_raw_select;
-
+        .printer      = true,
+        .plotter      = true,
+        .iec          = true,
+        .ieee488      = true,
+        .userport     = true,
+        .text         = true,
+        .graphics     = false
+    };
     driver_select_register(&driver_select);
 
     return 0;

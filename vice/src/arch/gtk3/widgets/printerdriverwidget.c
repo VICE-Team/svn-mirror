@@ -37,13 +37,14 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "driver-select.h"
 #include "log.h"
 #include "resources.h"
 #include "vice_gtk3.h"
 
 #include "printerdriverwidget.h"
 
-
+#if 0
 /** \brief  Radio buttons for a device */
 typedef struct driver_radio_s {
     const char *label;  /**< radio button label */
@@ -55,8 +56,9 @@ typedef struct driver_resource_s {
     const char           *name;     /**< resource name */
     const driver_radio_t *drivers;  /**< driver radio buttons for device */
 } driver_resource_t;
+#endif
 
-
+#if 0
 /** \brief  Drivers for printer 4 & 5 */
 static const driver_radio_t printer_drivers[] = {
     { "ASCII",                "ascii" },
@@ -85,16 +87,18 @@ static const driver_radio_t userport_drivers[] = {
     { "RAW",        "raw" },
     { NULL,         NULL }
 };
+#endif
 
-/** \brief  Resources and values per device
+/** \brief  Resources names per device
  *
- * Note: index 0 is device 3/userport, index 1-3 are printer 4, 5 and plotter 6
+ * \note    Index 0 is device 3/userport, index 1-2 are printer 4 and 5 and
+ *          index 3 is plotter 6.
  */
-static const driver_resource_t driver_resources[] = {
-    { "PrinterUserportDriver",  userport_drivers },
-    { "Printer4Driver",         printer_drivers },
-    { "Printer5Driver",         printer_drivers },
-    { "Printer6Driver",         plotter_drivers }
+static const char *driver_resource_names[4] = {
+    "PrinterUserportDriver",
+    "Printer4Driver",
+    "Printer5Driver",
+    "Printer6Driver"
 };
 
 
@@ -129,7 +133,8 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  * Uses a custom property "Driver" for the radio buttons and stores the
  * resource name for \a device as the "ResourceName" property.
  *
- * Printer 4/5  : [ascii, mps803, nl10, raw]
+ * The following device lists are obtained dynamically:
+ * Printer 4/5  : [ascii, mps 801/802/803, cbm 2022/4023/8023, nl10, raw]
  * Printer 6    : [1520, raw]
  * Userport (3) : [ascii, nl10, raw]
  *
@@ -139,14 +144,13 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  */
 GtkWidget *printer_driver_widget_create(int device)
 {
-    GtkWidget            *grid;
-    GtkWidget            *last;
-    GSList               *group;
-    const driver_radio_t *drivers;
-    const char           *current = NULL;
-    int                   index;
-    int                   drv;
-    int                   row;
+    GtkWidget                  *grid;
+    GtkWidget                  *last;
+    GSList                     *group;
+    const driver_select_list_t *drv_node;
+    const char                 *current = NULL;
+    int                         index;
+    int                         row;
 
     /* sanity check */
     if (device < 3 || device > 6) {
@@ -156,50 +160,65 @@ GtkWidget *printer_driver_widget_create(int device)
                   __func__, device);
         return NULL;
     }
-    index = device - 3;
-
+    index = device - 3; /* index in the resource names array */
 
     /* build grid */
     grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Driver", 1);
     vice_gtk3_grid_set_title_margin(grid, 8);
 
     /* get current resource value */
-    resources_get_string(driver_resources[index].name, &current);
-
+    resources_get_string(driver_resource_names[index], &current);
     /* set resource name to allow the update function to work */
-    resource_widget_set_resource_name(grid, driver_resources[index].name);
+    resource_widget_set_resource_name(grid, driver_resource_names[index]);
 
     /* create radio buttons */
-    drivers = driver_resources[index].drivers;
-    last    = NULL;
-    group   = NULL;
-    row     = 1;
-    for (drv = 0; drivers[drv].label != NULL; drv++) {
-        GtkWidget *radio = gtk_radio_button_new_with_label(group,
-                                                           drivers[drv].label);
+    last     = NULL;
+    group    = NULL;
+    row      = 1;
+    drv_node = driver_select_get_drivers();
 
-        /* No need to use g_strdup() since the string is always available.
-         * We could use the signal handler's `data` argument to pass this
-         * value, but we also need the value for the update() function to work
-         */
-        g_object_set_data(G_OBJECT(radio), "Driver", (gpointer)drivers[drv].value);
+    while (drv_node != NULL) {
+        GtkWidget  *radio = NULL;
+        char       *drv_name;   /* cannot be const since we cast this to gpointer */
+        const char *ui_name;
 
-        if (last != NULL) {
-            gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
-                                        GTK_RADIO_BUTTON(last));
+        drv_name = drv_node->driver_select.drv_name;
+        ui_name  = drv_node->driver_select.ui_name;
+
+        if ((device == 4 || device == 5) && driver_select_is_printer(drv_name)) {
+            radio = gtk_radio_button_new_with_label(group, ui_name);
+        } else if ((device == 6) && driver_select_is_plotter(drv_name)) {
+            radio = gtk_radio_button_new_with_label(group, ui_name);
+        } else if ((device == 3) && driver_select_has_userport(drv_name)) {
+            radio = gtk_radio_button_new_with_label(group, ui_name);
         }
-        if (g_strcmp0(current, drivers[drv].value) == 0) {
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+
+        if (radio != NULL) {
+            /* No need to use g_strdup() since the string is always available.
+             * We could use the signal handler's `data` argument to pass this
+             * value, but we also need the value for the update() function to work
+             */
+            g_object_set_data(G_OBJECT(radio), "Driver", (gpointer)drv_name);
+
+            if (last != NULL) {
+                gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
+                                            GTK_RADIO_BUTTON(last));
+            }
+            if (g_strcmp0(current, drv_name) == 0) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            }
+
+            g_signal_connect(G_OBJECT(radio),
+                             "toggled",
+                             G_CALLBACK(on_radio_toggled),
+                             NULL);
+
+            gtk_grid_attach(GTK_GRID(grid), radio, 0, row, 1, 1);
+            row++;
+            last = radio;
         }
 
-        g_signal_connect(G_OBJECT(radio),
-                         "toggled",
-                         G_CALLBACK(on_radio_toggled),
-                         NULL);
-
-        gtk_grid_attach(GTK_GRID(grid), radio, 0, row, 1, 1);
-        row++;
-        last = radio;
+        drv_node = drv_node->next;
     }
 
     gtk_widget_show_all(grid);

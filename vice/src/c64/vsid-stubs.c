@@ -47,6 +47,7 @@
 #include "drive.h"
 #include "drive-check.h"
 #include "driveimage.h"
+#include "driver-select.h"
 #include "drivetypes.h"
 #include "ds1602.h"
 #include "fileio.h"
@@ -1226,6 +1227,51 @@ uint8_t sampler_get_sample(int channel)
 {
     return 0;
 }
+
+/*******************************************************************************
+ *  Printer                                                                    *
+ ******************************************************************************/
+
+const driver_select_list_t *driver_select_get_drivers(void)
+{
+    return NULL;
+}
+
+bool driver_select_is_printer(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_is_plotter(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_has_iec_bus(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_has_ieee488_bus(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_has_userport(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_has_text_output(const char *drv_name)
+{
+    return false;
+}
+
+bool driver_select_has_graphics_output(const char *drv_name)
+{
+    return false;
+}
+
 
 /*******************************************************************************
     UI
