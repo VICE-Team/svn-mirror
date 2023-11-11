@@ -31,7 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-
-GtkWidget *printer_output_mode_widget_create(int device);
+GtkWidget *printer_output_mode_widget_create  (int device);
+void       printer_output_mode_widget_set_mode(GtkWidget *widget, int mode);
 
 #endif

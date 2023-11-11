@@ -132,3 +132,16 @@ GtkWidget *printer_output_mode_widget_create(int device)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+/** \brief  Set printer output mode
+ *
+ * \param[in]   widget  printer output mode widget
+ * \param[in]   mode    mode (0 = text, 1 = graphics)
+ */
+void printer_output_mode_widget_set_mode(GtkWidget *widget, int mode)
+{
+    if (mode >= 0 && mode <= 1) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, mode + 1);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+    }
+}

@@ -31,7 +31,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * printer_driver_widget_create(int device);
+GtkWidget * printer_driver_widget_create(int device,
+                                         void (*callback)(GtkWidget *, int, const char *));
 void        printer_driver_widget_update(GtkWidget *widget, const char *driver);
 
 #endif
