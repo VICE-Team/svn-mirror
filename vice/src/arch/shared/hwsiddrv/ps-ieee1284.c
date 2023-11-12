@@ -43,6 +43,12 @@
 #include "sid-resources.h"
 #include "types.h"
 
+#if defined(WINDOWS_COMPILE)
+#include "ps-win32.h"
+#else
+#include "ps-unix.h"
+#endif
+
 #define MAXSID 3
 
 static int sids_found = -1;
