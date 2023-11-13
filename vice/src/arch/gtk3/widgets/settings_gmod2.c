@@ -5,8 +5,8 @@
  */
 
 /*
- * $VICERES GMOD2EEPROMImage    x64 x64sc xscpu64 x128
- * $VICERES GMOD2EEPROMRW       x64 x64sc xscpu64 x128
+ * $VICERES GMod2EEPROMImage    x64 x64sc xscpu64 x128
+ * $VICERES GMod2EEPROMRW       x64 x64sc xscpu64 x128
  * $VICERES GMod2FlashWrite     x64 x64sc xscpu64 x128
  */
 
@@ -65,7 +65,7 @@ GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
                                     TRUE                    /* save button */
                                     );
     cart_image_widget_append_check(primary,
-                                   "GMOD2FlashWrite",
+                                   "GMod2FlashWrite",
                                    "Save image when changed");
 
     /* secondary image: 2KB eeprom */
@@ -73,11 +73,11 @@ GtkWidget *settings_gmod2_widget_create(GtkWidget *parent)
                                       CARTRIDGE_NAME_GMOD2,
                                       CART_IMAGE_SECONDARY,
                                       "EEPROM",
-                                      "GMOD2EEPROMImage",
+                                      "GMod2EEPROMImage",
                                       TRUE,
                                       TRUE);
     cart_image_widget_append_check(secondary,
-                                   "GMOD2EEPROMRW",
+                                   "GMod2EEPROMRW",
                                    "Enable writes to " CARTRIDGE_NAME_GMOD2
                                    " EEPROM image");
 
