@@ -1020,23 +1020,23 @@ existing ones), see @pxref{Keymap files}.
 
 @subsection C64 & VIC20 Keyboard Map
 
-@image{html/images/c64-layout-small}
+@image{html/images/c64-layout,155mm}
 
 This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-c64-symbolic-keymap-us-small}
+@image{html/images/vice-c64-symbolic-keymap-us,155mm}
 @subsubsection Positional (US)
-@image{html/images/vice-c64-positional-keymap-us-small}
+@image{html/images/vice-c64-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-c64-symbolic-keymap-de-small}
+@image{html/images/vice-c64-symbolic-keymap-de,155mm}
 @subsubsection Positional (DE)
-@image{html/images/vice-c64-positional-keymap-de-small}
+@image{html/images/vice-c64-positional-keymap-de,155mm}
 
 @subsection C128 Keyboard Map
 
-@image{html/images/c128-layout-small}
+@image{html/images/c128-layout,155mm}
 
 This mapping applies to the C128 emulator. It is for a large part identical with
 the respective C64 mapping, plus the added function- and extra keys.
@@ -1045,90 +1045,90 @@ Note that to use the numpad, you will have to disable the "allow keyset joystick
 setting.
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-c128-symbolic-keymap-us-small}
+@image{html/images/vice-c128-symbolic-keymap-us,155mm}
 @subsubsection Positional (US)
-@image{html/images/vice-c128-positional-keymap-us-small}
+@image{html/images/vice-c128-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-c128-symbolic-keymap-de-small}
+@image{html/images/vice-c128-symbolic-keymap-de,155mm}
 @subsubsection Positional (DE)
-@image{html/images/vice-c128-positional-keymap-de-small}
+@image{html/images/vice-c128-positional-keymap-de,155mm}
 
 @subsection C16 & Plus4 Keyboard Map
 
-@image{html/images/plus4-layout-small}
+@image{html/images/plus4-layout,155mm}
 
 This mapping applies to the Plus4 emulator
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-plus4-symbolic-keymap-us-small}
+@image{html/images/vice-plus4-symbolic-keymap-us,155mm}
 
 @subsubsection Positional (US)
-@image{html/images/vice-plus4-positional-keymap-us-small}
+@image{html/images/vice-plus4-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-plus4-symbolic-keymap-de-small}
+@image{html/images/vice-plus4-symbolic-keymap-de,155mm}
 
 @subsubsection Positional (DE)
-@image{html/images/vice-plus4-positional-keymap-de-small}
+@image{html/images/vice-plus4-positional-keymap-de,155mm}
 
 @subsection PET Graphics Keyboard Map
 
 The PET2001 uses the original graphics keyboard made from "chiclet" keys:
 
-@image{html/images/pet-chiclet-layout-small}
+@image{html/images/pet-chiclet-layout,155mm}
 
 The 3032 and 4032 use "real" graphics keyboard, which is based on the same keyboard
 matrix and looks like this:
 
-@image{html/images/pet-graphical-layout-small}
+@image{html/images/pet-graphical-layout,155mm}
 
 For practical reasons, there is no extra keymap for the chiclet keyboard - any
 attempt to somehow reproduce that would end up too similar to what we are using
 now for the graphics keyboard anyway:
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-pet-graphical-symbolic-keymap-us-small}
+@image{html/images/vice-pet-graphical-symbolic-keymap-us,155mm}
 @subsubsection Positional (US)
-@image{html/images/vice-pet-graphical-positional-keymap-us-small}
+@image{html/images/vice-pet-graphical-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-pet-graphical-symbolic-keymap-de-small}
+@image{html/images/vice-pet-graphical-symbolic-keymap-de,155mm}
 @subsubsection Positional (DE)
-@image{html/images/vice-pet-graphical-positional-keymap-de-small}
+@image{html/images/vice-pet-graphical-positional-keymap-de,155mm}
 
 @subsection PET Business Keyboard Map
 
 This Layout is used for the "big" PET models, like the 8032. The matrix is not
 compatible to the graphics keyboard:
 
-@image{html/images/pet-business-uk-layout-small}
+@image{html/images/pet-business-uk-layout,155mm}
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-pet-business-uk-symbolic-keymap-us-small}
+@image{html/images/vice-pet-business-uk-symbolic-keymap-us,155mm}
 @subsubsection Positional (US)
-@image{html/images/vice-pet-business-uk-positional-keymap-us-small}
+@image{html/images/vice-pet-business-uk-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-pet-business-uk-symbolic-keymap-de-small}
+@image{html/images/vice-pet-business-uk-symbolic-keymap-de,155mm}
 @subsubsection Positional (DE)
-@image{html/images/vice-pet-business-uk-positional-keymap-de-small}
+@image{html/images/vice-pet-business-uk-positional-keymap-de,155mm}
 
 @subsection CBM2 Keyboard Map
 
 This Layout is used for all CBM2 machines:
 
-@image{html/images/cbm2-layout-small}
+@image{html/images/cbm2-layout,155mm}
 
 @subsubsection Symbolic (US)
-@image{html/images/vice-cbm2-symbolic-keymap-us-small}
+@image{html/images/vice-cbm2-symbolic-keymap-us,155mm}
 @subsubsection Positional (US)
-@image{html/images/vice-cbm2-positional-keymap-us-small}
+@image{html/images/vice-cbm2-positional-keymap-us,155mm}
 
 @subsubsection Symbolic (DE)
-@image{html/images/vice-cbm2-symbolic-keymap-de-small}
+@image{html/images/vice-cbm2-symbolic-keymap-de,155mm}
 @subsubsection Positional (DE)
-@image{html/images/vice-cbm2-positional-keymap-de-small}
+@image{html/images/vice-cbm2-positional-keymap-de,155mm}
 
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
