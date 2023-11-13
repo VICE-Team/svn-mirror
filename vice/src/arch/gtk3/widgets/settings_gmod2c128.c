@@ -5,8 +5,8 @@
  */
 
 /*
- * $VICERES GMOD128EEPROMImage    x128
- * $VICERES GMOD128EEPROMRW       x128
+ * $VICERES GMod128EEPROMImage    x128
+ * $VICERES GMod128EEPROMRW       x128
  * $VICERES GMod128FlashWrite     x128
  */
 
@@ -111,7 +111,7 @@ static void eeprom_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     if (filename != NULL) {
-        if (resources_set_string("GMOD128EEPROMImage", filename) < 0) {
+        if (resources_set_string("GMod128EEPROMImage", filename) < 0) {
             vice_gtk3_message_error("Failed to load EEPROM file",
                     "Failed to load EEPROM image file '%s'",
                     filename);
@@ -198,7 +198,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_start(label, 16);
 
-    eeprom_entry = vice_gtk3_resource_entry_new("GMOD128EEPROMImage");
+    eeprom_entry = vice_gtk3_resource_entry_new("GMod128EEPROMImage");
     gtk_widget_set_hexpand(eeprom_entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");
@@ -209,7 +209,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_grid_attach(GTK_GRID(grid), eeprom_entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    write_enable = vice_gtk3_resource_check_button_new("GMOD128EEPROMRW",
+    write_enable = vice_gtk3_resource_check_button_new("GMod128EEPROMRW",
             "Enable writes to GMod2-C128 EEPROM image");
     gtk_widget_set_margin_start(write_enable, 16);
     gtk_grid_attach(GTK_GRID(grid), write_enable, 0, 2, 3, 1);
