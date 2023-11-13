@@ -214,6 +214,15 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+
+/* (all) */
+    { "HAVE_NANOSLEEP", "Use nanosleep instead of usleep",
+#ifndef HAVE_NANOSLEEP
+        0 },
+#else
+        1 },
+#endif
+
 /* (all) */
     { "HAVE_NETWORK", "Enable netplay support",
 #ifndef HAVE_NETWORK
@@ -221,6 +230,17 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+
+/* FIXME: support for libnet < 1.1 should get removed */
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "VICE_USE_LIBNET_1_1", "Enable support for libnet 1.1",
+#ifndef VICE_USE_LIBNET_1_1
+        0 },
+#else
+        1 },
+#endif
+#endif
+
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_REALDEVICE", "Support for OpenCBM", /* (former CBM4Linux). */
 #ifndef HAVE_REALDEVICE
@@ -237,6 +257,16 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
+
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_PORTSID", "Support for file device based access to ParSID.",
+#ifndef HAVE_PORTSID
+        0 },
+#else
+        1 },
+#endif
+#endif
+
 /* (all) */
     { "HAVE_PNG", "Use the PNG library.",
 #ifndef HAVE_PNG
@@ -320,6 +350,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+
 /* (all) */
     { "HAVE_PCAP", "Use the PCAP library.",
 #ifndef HAVE_PCAP
@@ -327,13 +358,16 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-/* (all) */
+
+#if !defined(WINDOWS_COMPILE) /* not windows */
     { "HAVE_TUNTAP", "Support for TUN/TAP virtual network interface.",
 #ifndef HAVE_TUNTAP
         0 },
 #else
         1 },
 #endif
+#endif
+
 #if defined(UNIX_COMPILE) /* (unix) */
     { "HAVE_CAPABILITIES", "Support for POSIX 1003.1e capabilities",
 #ifndef HAVE_CAPABILITIES
@@ -454,16 +488,13 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if 0
-# ifdef UNIX_COMPILE /* (unix) */
-    { "USE_UI_THREADS", "Enable multithreaded UI.",
-#  ifndef USE_UI_THREADS
+
+    { "USE_VICE_THREAD", "UI and emu each on different threads.",
+#  ifndef USE_VICE_THREAD
         0 },
 #  else
         1 },
 #  endif
-# endif
-#endif
 
 /*
  * Used in Gtk3 for Unix. Gtk3 can also use fontconfig as a backend on MacOS
@@ -491,3 +522,33 @@ const feature_list_t *vice_get_feature_list(void)
 {
     return &featurelist[0];
 }
+
+#if 0
+/* FIXME: appear in config.h but are not used in code: */
+
+/* Support for direct PCI I/O access Catweasel MKIII. */
+#define HAVE_CATWEASELMKIII_IO /**/
+/* Enable Fullscreen support. */
+/* #undef HAVE_FULLSCREEN */
+/* Support for PCI/ISA HardSID. */
+#define HAVE_HARDSID_IO /**/
+/* Enable support for BSD style joysticks. */
+/* #undef BSD_JOYSTICK */
+/* Define if building universal (internal helper macro) */
+/* #undef AC_APPLE_UNIVERSAL_BUILD */
+/* WARNING win32 and osx bindist greps for this in config.h! */
+/* External FFMPEG libraries are used */
+#define EXTERNAL_FFMPEG /**/
+/* WARNING and osx bindist greps for this in config.h! */
+/* External linking for lame libs */
+#define HAVE_EXTERNAL_LAME /**/
+/* WARNING: seems to be used in makefiles all over the place */
+/* Enable the readline library */
+/* #undef HAVE_READLINE */
+
+/* appear in code, but should get removed */
+
+/* FIXME: support for libnet < 1.1 should get removed (unix) */
+/* Enable support for libnet 1.1 */
+#define VICE_USE_LIBNET_1_1
+#endif
