@@ -1795,9 +1795,7 @@ sub do_url { &anchor('', $_[0], $_[0]) }
 
 # handle the @image tag
 sub do_image {
-    local($url);
-# get the image url
-    $url = $_[0];
+    local($url, $width) = split(/,\s*/, $_[0]);
 # remove the html/ prefix that is used in vice.texi
     $url =~ s/html\///;
 # remove the -small suffix that is used in the texi for the small .png that
