@@ -9,12 +9,14 @@
  * $VICERES VirtualDevice2          -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
  * $VICERES TapePort1Device         -xscpu64 -vsid
  * $VICERES TapePort2Device         -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
- * $VICERES DatasetteResetWithCPU   -xscpu64 -vsid
- * $VICERES DatasetteZeroGapDelay   -xscpu64 -vsid
- * $VICERES DatasetteSpeedTuning    -xscpu64 -vsid
- * $VICERES DatasetteTapeWobble     -xscpu64 -vsid
- * $VICERES DatasetteSound          -xscpu64 -vsid
- * $VICERES DatasetteSoundVolume    -xscpu64 -vsid
+ * $VICERES DatasetteResetWithCPU           -xscpu64 -vsid
+ * $VICERES DatasetteSound                  -xscpu64 -vsid
+ * $VICERES DatasetteSoundVolume            -xscpu64 -vsid
+ * $VICERES DatasetteSpeedTuning            -xscpu64 -vsid
+ * $VICERES DatasetteTapeAzimuthError       -xscpu64 -vsid
+ * $VICERES DatasetteTapeWobbleAmplitude    -xscpu64 -vsid
+ * $VICERES DatasetteTapeWobbleFrequency    -xscpu64 -vsid
+ * $VICERES DatasetteZeroGapDelay           -xscpu64 -vsid
  * $VICERES CPClockF83Save          -xscpu64 -vsid
  * $VICERES TapecartUpdateTCRT      x64 x64sc x128
  * $VICERES TapecartOptimizeTCRT    x64 x64sc x128
