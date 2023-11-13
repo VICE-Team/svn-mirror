@@ -152,7 +152,7 @@ static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
 static char *wic64_sec_token = NULL;
 static int current_tz = 2;
-static int wic64_logenabled = 1;
+static int wic64_logenabled = 0;
 static int wic64_resetuser = 0;
 static int wic64_hexdumplines = 0;
 static int big_load = 0;
@@ -173,7 +173,7 @@ static const resource_string_t wic64_resources[] =
 static const resource_int_t wic64_resources_int[] = {
     { "WIC64Timezone", 2, RES_EVENT_NO, NULL,
       &current_tz, wic64_set_timezone, NULL },
-    { "WIC64Logenabled", 1, RES_EVENT_NO, NULL,
+    { "WIC64Logenabled", 0, RES_EVENT_NO, NULL,
       &wic64_logenabled, wic64_set_logenabled, NULL },
     { "WIC64Resetuser", 0, RES_EVENT_NO, NULL,
       &wic64_resetuser, wic64_set_resetuser, NULL },
