@@ -582,11 +582,14 @@ static void create_pet_layout(GtkWidget *left_grid,
                               int        right_row,
                               int        unit)
 {
+#if 0
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
-
+#endif
     /* Left column widgets */
 
     /* IEEE/Virtual device type combo box */
+    /* No virtual devices, so no IEEE device type? */
+#if 0
     drive_device_type_label[index] = create_left_aligned_label("IEEE device type");
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_widget_set_margin_top(drive_device_type_label[index], 8);
@@ -594,7 +597,7 @@ static void create_pet_layout(GtkWidget *left_grid,
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type_label[index], 0, left_row, 1, 1);
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type[index],       1, left_row, 1, 1);
     left_row++;
-
+#endif
     /* Right column widgets (none at the moment) */
 }
 
@@ -646,9 +649,11 @@ static int create_left_layout(GtkWidget *grid, int unit)
     row++;
 
     /* Virtual Device */
-    drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(grid), drive_virtualdev[index],   0, row, 2, 1);
-    row++;
+    if (has_iec()) {
+        drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
+        gtk_grid_attach(GTK_GRID(grid), drive_virtualdev[index],   0, row, 2, 1);
+        row++;
+    }
 
     drive_model_widget_add_callback(drive_model[index],
                                     on_model_changed,
@@ -798,25 +803,27 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     /* set sensitivity of the filesystem-type comboboxes, depending on the
      * IECDevice (not for VIC20 and PET/CBM-II) and VirtualDevice resource
      */
-    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        int iecdev = 0;
-        int virtdev = 0;
-        int index = unit - DRIVE_UNIT_MIN;  /* index in the widget arrays */
+    if (has_iec()) {
+        for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+            int iecdev = 0;
+            int virtdev = 0;
+            int index = unit - DRIVE_UNIT_MIN;  /* index in the widget arrays */
 
-        /* FIXME: xvic doesn't use IEDevice (yet), uses its own iecbus code */
-        if (machine_class != VICE_MACHINE_VIC20 &&
-                machine_class != VICE_MACHINE_PET &&
-                machine_class != VICE_MACHINE_CBM5x0 &&
-                machine_class != VICE_MACHINE_CBM6x0) {
-            resources_get_int_sprintf("IECDevice%d", &iecdev, unit);
+            /* FIXME: xvic doesn't use IEDevice (yet), uses its own iecbus code */
+            if (machine_class != VICE_MACHINE_VIC20 &&
+                    machine_class != VICE_MACHINE_PET &&
+                    machine_class != VICE_MACHINE_CBM5x0 &&
+                    machine_class != VICE_MACHINE_CBM6x0) {
+                resources_get_int_sprintf("IECDevice%d", &iecdev, unit);
+            }
+            resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit);
+            /* try to set sensitive, regardless of if the widget actually
+             * exists, this helps with debugging since Gtk will print a warning
+             * on the console.
+             */
+            gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
+            gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
         }
-        resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit);
-        /* try to set sensitive, regardless of if the widget actually
-         * exists, this helps with debugging since Gtk will print a warning
-         * on the console.
-         */
-        gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
-        gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
     }
     gtk_widget_show_all(layout);
     return layout;
