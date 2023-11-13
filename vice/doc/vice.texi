@@ -3505,7 +3505,6 @@ settings on exit'' item from the options menu.
 @c * RS232 settings::              Settings for the RS232 emulation.
 @c * Ethernet settings::           Settings for the Ethernet emulation.
 @c * Monitor settings::            Settings for the built-in monitor.
-@c * Misc settings::               Other settings.
 @c @end menu
 
 @node Resource files, Resources and command-line, Settings and resources, Settings and resources
@@ -19928,7 +19927,6 @@ the settings.
 * File commands::
 * Command file commands::
 * Label commands::
-* Miscellaneous commands::
 @end menu
 
 @node Terminology, Machine state commands, Monitor, Monitor
