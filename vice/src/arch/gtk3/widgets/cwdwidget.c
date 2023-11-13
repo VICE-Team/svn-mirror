@@ -5,7 +5,7 @@
  * the current working directory.
  * Failures of g_chdir() will be marked by squiggly crimson lines under the text.
  *
- * /author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
