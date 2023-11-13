@@ -3437,23 +3437,23 @@ command from the file menu.  There are two types of reset:
 
 @itemize @bullet
 @item
-@dfn{soft reset}, which simply resets the CPU and all the other chips;
+@dfn{Reset}, which simply resets the CPU and all the other chips;
 @item
-@dfn{hard reset}, which also clears up the contents of RAM.
+@dfn{Power cycle}, which also clears up the contents of RAM.
 @end itemize
 
-A @dfn{soft reset} is the same as a hardware reset achieved by pulling
-the @sc{reset} line down; a @dfn{hard reset} is more like a power
+A @dfn{Reset} is the same as a hardware reset achieved by pulling
+the @sc{reset} line down; a @dfn{Power cycle} is more like a power
 on/power off sequence in that it makes sure the whole RAM is cleared.
 
-It is possible that a soft reset may not be enough to take the machine
+It is possible that a reset may not be enough to take the machine
 to the OS initialization sequence: in such cases, you will have to do a
-hard reset instead.
+power cycle instead.
 
 This is especially the case for the CBM-II emulators.  Those machines
 examine a memory location and if they find a certain "magic" value they
 only do what you know from the C64 as @code{Run/Stop-Restore}.
-Therefore, to really reset a CBM-II use hard reset.
+Therefore, to really reset a CBM-II use power cycle.
 
 @node Settings and resources, Machine-specific features, Basics, Top
 @chapter Settings and resources
@@ -6744,6 +6744,33 @@ String specifying the filename of the Supercard ROM image
 String specifying the filename of the image of the lower half of the StarDOS ROM
 (x64, x64sc, xscpu64 and x128 only).
 
+@vindex FliplistName
+@item FliplistName
+String specifying the filename of the current flip list. (Drive 8 only)
+(all emulators except vsid).
+
+@vindex AttachDevice8d0Readonly
+@vindex AttachDevice9d0Readonly
+@vindex AttachDevice10d0Readonly
+@vindex AttachDevice11d0Readonly
+@item AttachDevice8d0Readonly
+@itemx AttachDevice9d0Readonly
+@itemx AttachDevice10d0Readonly
+@itemx AttachDevice11d0Readonly
+Booleans that specify whether to attach images on drives 8 to 11 read-only or not
+(all emulators except vsid).
+
+@vindex AttachDevice8d1Readonly
+@vindex AttachDevice9d1Readonly
+@vindex AttachDevice10d1Readonly
+@vindex AttachDevice11d1Readonly
+@item AttachDevice8d1Readonly
+@itemx AttachDevice9d1Readonly
+@itemx AttachDevice10d1Readonly
+@itemx AttachDevice11d1Readonly
+Booleans that specify whether to attach images on the second drive of dual-drives 8 to 11 read-only or not
+(all emulators except vsid).
+
 @end table
 
 @node Drive options,  , Drive resources, Drive settings
@@ -7144,6 +7171,12 @@ half using the -dos1541 option.)
 (@code{DriveStarDosName})
 (x64, x64sc, xscpu64 and x128 only).
 
+@findex -flipname
+@item -flipname <name>
+Specify name of the flip list file image (Drive 8 only)
+(@code{FliplistName})
+(all emulators except vsid).
+
 @end table
 
 
@@ -7454,12 +7487,6 @@ Enable/disable whether filenames will get converted to 16 character long short n
 Enable/disable whether existing files in the file system can be overwritten
 by default. Using @code{OPEN} or @code{SAVE"@@:name"} this is always possible.
 (@code{FSDeviceOverwrite=1}, @code{FSDeviceOverwrite=0})
-(all emulators except vsid).
-
-@findex -flipname
-@item -flipname <name>
-Specify name of the flip list file image
-(@code{FliplistName})
 (all emulators except vsid).
 
 @end table
@@ -9206,193 +9233,8 @@ Specify what resources are controlled by the server or the client (see above)
 
 @c ----------------------------------------------------------------
 
-@node Misc settings,  , Monitor settings, Settings and resources
-@section Miscellaneous settings
-
-This section lists generic resources that do not fit in the other
-categories.
-
-@menu
-* Misc resources::
-* Misc options::
-@end menu
-
-@node Misc resources, Misc options, Misc settings, Misc settings
-@subsection Miscellaneous resources
-
-@table @code
-
-@vindex Window0Width
-@vindex Window0Height
-@item Window0Width
-@itemx Window0Height
-Integers specifying the size of the (first) emulator window
-(all emulators except vsid).
-
-@vindex Window1Width
-@vindex Window1Height
-@item Window1Width
-@itemx Window1Height
-Integers specifying the size of the (second) emulator window
-(x128 only).
-
-@vindex SaveResourcesOnExit
-@item SaveResourcesOnExit
-Boolean specifying whether the emulator should save changed settings
-before exiting. If this is enabled, the user will be always prompted
-first, in case the settings have changed.
-
-@vindex ConfirmOnExit
-@item ConfirmOnExit
-Boolean specifying whether to show a confirmation dialog on exit.
-
-@vindex KbdStatusbar
-@item KbdStatusbar
-Boolean specifying whether the keyboard-status bar is enabled.
-
-@vindex StartMinimized
-@item StartMinimized
-Boolean specifying whether the emulator should start minimized
-
-@vindex JAMAction
-@item JAMAction
-Integer specifying the action to take when the CPU encounters a 'JAM' opcode.
-(0: show dialog, 1: continue emulation, 2: start monitor, 3: soft reset, 4: hard reset, 5: quit emulator)
-
-@vindex Directory
-@item Directory
-String specifying the search path for system files.  It is defined as a
-sequence of directory names, separated by colons (@samp{:}), just like
-the @code{PATH} variable in the shell. The special string @samp{$$}
-stands for the default search path.
-
-@c FIXME: add the following section to archdep stuff:
-@ifset dummy
-, which is initialized at startup to
-the following value:
-
-@example
-LIBDIR/EMUID:$HOME/.vice/EMUID:BOOTPATH/EMUID:LIBDIR/DRIVES:$HOME/.vice/DRIVES:BOOTPATH/DRIVES
-@end example
-
-where:
-
-@itemize @bullet
-@item
-@code{LIBDIR} is the VICE installation directory (usually
-@file{/usr/local/lib/vice}, @file{/usr/lib/vice} or
-@file{/opt/vice/lib});
-@item
-@code{EMUID} is the emulation identification
-string (@code{C64}, @code{C128}, @code{VIC20} or @code{PET});
-@item
-@code{BOOTPATH} is the directory where the binary lies (usually
-@file{/usr/local/bin}, @file{/usr/bin} or @code{/opt/vice/bin}).
-@item
-@code{DRIVES} is the directory called "DRIVES", where the disk drive ROMs are.
-(The disk drive ROMs are used by all emulators, so there is an extra
-directory for them.)
-@end itemize
-
-Notice that the middle entry points to a default location in
-the user's home directory. Here private ROM versions (e.g.
-speeddos or JiffyDos) can be stored for example.
-
-@xref{System files}. for a description of the method used to load the
-emulator's system files.
-
-@end ifset
-
-@vindex DoCoreDump
-@item DoCoreDump
-Boolean specifying whether the emulator should dump core when it gets a signal
-(all emulators except vsid).
-
-@vindex LogFileName
-@item LogFileName
-String specifying the filename of the current log file.
-
-@vindex ExitScreenshotName
-@item ExitScreenshotName
-String specifying the filename of a screenshot file that will be written when the emulator exits.
-
-@vindex ExitScreenshotName1
-@item ExitScreenshotName1
-String specifying the filename of a screenshot file that will be written when the emulator exits. (x128)
-
-@vindex FliplistName
-@item FliplistName
-String specifying the filename of the current flip list. (Drive 8 only)
-(all emulators except vsid).
-
-@vindex AttachDevice8d0Readonly
-@vindex AttachDevice9d0Readonly
-@vindex AttachDevice10d0Readonly
-@vindex AttachDevice11d0Readonly
-@item AttachDevice8d0Readonly
-@itemx AttachDevice9d0Readonly
-@itemx AttachDevice10d0Readonly
-@itemx AttachDevice11d0Readonly
-Booleans that specify whether to attach images on drives 8 to 11 read-only or not
-(all emulators except vsid).
-
-@vindex AttachDevice8d1Readonly
-@vindex AttachDevice9d1Readonly
-@vindex AttachDevice10d1Readonly
-@vindex AttachDevice11d1Readonly
-@item AttachDevice8d1Readonly
-@itemx AttachDevice9d1Readonly
-@itemx AttachDevice10d1Readonly
-@itemx AttachDevice11d1Readonly
-Booleans that specify whether to attach images on the second drive of dual-drives 8 to 11 read-only or not
-(all emulators except vsid).
-
-@end table
-
-@node Misc options,  , Misc resources, Misc settings
-@subsection Miscellaneous command-line options
-
-@table @code
-
-@findex -saveres, +saveres
-@item -saveres
-@itemx +saveres
-Enable/disable automatic saving of settings on exit
-(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
-
-@findex -confirmonexit, +confirmonexit
-@item -confirmonexit
-Confirm quitting VICE
-(@code{ConfirmOnExit=1}).
-@item +confirmonexit
-Never confirm quitting VICE
-(@code{ConfirmOnExit=0}).
-
-@findex -kbdstatusbar, +kbdstatusbar
-@item -kbdstatusbar
-@itemx +kbdstatusbar
-Enable/Disable keyboard-status bar (when status bar is enabled)
-(@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
-
-@findex -minimized, +minimized
-@item -minimized
-@itemx +minimized
-Start/Do not start with minimized window
-(@code{StartMinimized=1}, @code{StartMinimized=0}).
-
-@findex -jamaction
-@item -jamaction <Type>
-Specify the action to take when the CPU encounters a 'JAM' opcode
-(@code{JAMAction})
-(0: Show dialog, 1: continue emulation, 2: start monitor, 3: soft reset, 4: hard reset, 5: quit emulator).
-
-@findex -directory
-@item -directory <Path>
-Specify the system file search path
-(@code{Directory}).
-
-@end table
-
+@c @node Misc settings,  , Monitor settings, Settings and resources
+@c @section Miscellaneous settings
 
 @node Machine-specific features, Platform-specific features, Settings and resources, Top
 @chapter Machine-specific features
@@ -17333,6 +17175,43 @@ Set initial window width for the second window (C128),
 Set initial window height for the second window (C128),
 (@code{Window1Height}).
 
+@findex -saveres, +saveres
+@item -saveres
+@itemx +saveres
+Enable/disable automatic saving of settings on exit
+(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@findex -confirmonexit, +confirmonexit
+@item -confirmonexit
+Confirm quitting VICE
+(@code{ConfirmOnExit=1}).
+@item +confirmonexit
+Never confirm quitting VICE
+(@code{ConfirmOnExit=0}).
+
+@findex -kbdstatusbar, +kbdstatusbar
+@item -kbdstatusbar
+@itemx +kbdstatusbar
+Enable/Disable keyboard-status bar (when status bar is enabled)
+(@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
+
+@findex -minimized, +minimized
+@item -minimized
+@itemx +minimized
+Start/Do not start with minimized window
+(@code{StartMinimized=1}, @code{StartMinimized=0}).
+
+@findex -jamaction
+@item -jamaction <Type>
+Specify the action to take when the CPU encounters a 'JAM' opcode
+(@code{JAMAction})
+(0: Show dialog, 1: Continue emulation, 2: Start monitor, 3: Reset, 4: Power cycle, 5: Quit emulator).
+
+@findex -directory
+@item -directory <Path>
+Specify the system file search path
+(@code{Directory}).
+
 @end table
 
 @subsection Common resources
@@ -17366,6 +17245,90 @@ Integers specifying the size of the (first) emulator window
 @itemx Window1Height
 Integers specifying the size of the (second) emulator window
 (all emulators except vsid).
+
+@vindex DoCoreDump
+@item DoCoreDump
+Boolean specifying whether the emulator should dump core when it gets a signal
+(all emulators except vsid).
+
+@vindex LogFileName
+@item LogFileName
+String specifying the filename of the current log file.
+
+@vindex ExitScreenshotName
+@item ExitScreenshotName
+String specifying the filename of a screenshot file that will be written when the emulator exits.
+
+@vindex ExitScreenshotName1
+@item ExitScreenshotName1
+String specifying the filename of a screenshot file that will be written when the emulator exits. (x128)
+
+@vindex SaveResourcesOnExit
+@item SaveResourcesOnExit
+Boolean specifying whether the emulator should save changed settings
+before exiting. If this is enabled, the user will be always prompted
+first, in case the settings have changed.
+
+@vindex ConfirmOnExit
+@item ConfirmOnExit
+Boolean specifying whether to show a confirmation dialog on exit.
+
+@vindex KbdStatusbar
+@item KbdStatusbar
+Boolean specifying whether the keyboard-status bar is enabled.
+
+@vindex StartMinimized
+@item StartMinimized
+Boolean specifying whether the emulator should start minimized
+
+@vindex JAMAction
+@item JAMAction
+Integer specifying the action to take when the CPU encounters a 'JAM' opcode.
+(0: Show dialog, 1: Continue emulation, 2: Start monitor, 3: Reset, 4: Power cycle, 5: Quit emulator)
+
+@vindex Directory
+@item Directory
+String specifying the search path for system files.  It is defined as a
+sequence of directory names, separated by colons (@samp{:}), just like
+the @code{PATH} variable in the shell. The special string @samp{$$}
+stands for the default search path.
+
+@c FIXME: add the following section to archdep stuff:
+@ifset dummy
+, which is initialized at startup to
+the following value:
+
+@example
+LIBDIR/EMUID:$HOME/.vice/EMUID:BOOTPATH/EMUID:LIBDIR/DRIVES:$HOME/.vice/DRIVES:BOOTPATH/DRIVES
+@end example
+
+where:
+
+@itemize @bullet
+@item
+@code{LIBDIR} is the VICE installation directory (usually
+@file{/usr/local/lib/vice}, @file{/usr/lib/vice} or
+@file{/opt/vice/lib});
+@item
+@code{EMUID} is the emulation identification
+string (@code{C64}, @code{C128}, @code{VIC20} or @code{PET});
+@item
+@code{BOOTPATH} is the directory where the binary lies (usually
+@file{/usr/local/bin}, @file{/usr/bin} or @code{/opt/vice/bin}).
+@item
+@code{DRIVES} is the directory called "DRIVES", where the disk drive ROMs are.
+(The disk drive ROMs are used by all emulators, so there is an extra
+directory for them.)
+@end itemize
+
+Notice that the middle entry points to a default location in
+the user's home directory. Here private ROM versions (e.g.
+speeddos or JiffyDos) can be stored for example.
+
+@xref{System files}. for a description of the method used to load the
+emulator's system files.
+
+@end ifset
 
 @end table
 
@@ -19793,7 +19756,7 @@ Do not change any settings during recording or playback!
 The following is a list of the user interaction that will be recorded:
 - Joystick movement and button
 - Keyboard
-- Resetting the machine (hard and soft)
+- Resetting the machine (Reset and power cycle)
 - Attaching or detaching disk/tape images (see 8. Limitations)
 - Datasette controls
 
@@ -19962,7 +19925,7 @@ the settings.
 * Assembly commands::
 * Checkpoint commands::
 * General commands::
-* Disk commands::
+* File commands::
 * Command file commands::
 * Label commands::
 * Miscellaneous commands::
@@ -20051,6 +20014,70 @@ An optional argument.
 
 @end table
 
+@node General commands, File commands, Checkpoint commands, Monitor
+@section General commands
+
+
+@table @code
+
+@item help [<command>]
+If no argument is given, prints out a list of all available commands.
+If an argument is given, prints out specific help for that command.
+
+@item print <expression>
+@itemx p <expression>
+Evaluate the specified expression and output the result.
+
+@item ~ <number>
+Display the specified number in decimal, hex, octal and binary.
+
+@end table
+
+@c @node Monitor state commands, Memory commands, Terminology, Monitor
+@section Monitor state commands
+
+@table @code
+
+@item device [c:|8:|9:|10:|11:]
+@itemx dev [c:|8:|9:|10:|11:]
+Set the default address space to either the computer (@code{c:}) or
+the disk (@code{8:|9:|10:|11:}).
+Switches to computer when not given a device.
+
+@item sidefx [on|off|toggle]
+@itemx sfx [on|off|toggle]
+Control how monitor generated reads affect memory locations that have
+read side-effects, like CIA interrupt registers for example.
+If the argument is 'on' then reads may cause side-effects.  If the
+argument is 'off' then reads don't cause side-effects.  If the
+argument is 'toggle' then the current mode is switched.  No argument
+displays the current state.
+
+@item log [on|off|toggle]
+Control whether the monitor output is logged into a logfile. If the
+argument is 'on' then all output will be written into the logfile. If
+the argument is 'off' then no log is produced. If the argument is
+'toggle' then the current mode is switched. No argument displays the
+current state.
+
+@item logname "<filename>"
+Sets the filename of the logfile.
+
+@item exit
+@itemx x
+Leave the monitor and return to execution.
+
+@item quit
+@itemx q
+Exit the emulator immediately.
+
+@item radix [H|D|O|B]
+@itemx rad [H|D|O|B]
+Set the default radix to hex, decimal, octal, or binary.  With no
+argument, the current radix is printed.
+
+@end table
+
 @node Machine state commands, Memory commands, Terminology, Monitor
 @section Machine state commands
 
@@ -20061,6 +20088,13 @@ An optional argument.
 Print JSR call chain (most recent call first). Stack offset
 relative to SP+1 is printed in parentheses. This is a best guess
 only.
+
+@item bank [<bankname>]
+Without a bankname, display all available banks for the current
+address_space. With a bankname given, switch to the specified
+bank. If a bank is not completely filled (ROM banks for example)
+normally the @code{ram} bank is used where the bank has holes.
+The @code{cpu} bank uses the bank currently used by the CPU.
 
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
 @itemx chis [<count>] [c:] [8:] [9:] [10:] [11:]
@@ -20098,7 +20132,7 @@ display register values.
 
 @item reset [<type>]
 Reset the machine or drive.
-@code{type}: 0 = soft, 1 = hard, 8-11 = drive.
+@code{type}: 0 = reset, 1 = power cycle, 8-11 = drive.
 
 @item return
 @itemx ret
@@ -20120,6 +20154,22 @@ Read a snapshot of the machine from the file specified.
 Turn warp mode on or off. If the argument is 'toggle' then the current mode
 is toggled. When no argument is given the current mode is displayed.
 
+
+@item cartfreeze
+Use cartridge freeze.
+
+@item cpu <type>
+Specify the type of CPU currently used (6502/z80).
+
+@item export
+@itemx exp
+Print out list of attached expansion port devices.
+
+@item keybuf "<string>"
+Put the specified string into the keyboard buffer. Note that you can specify
+specific keycodes by using C-style escaped hexcodes ("\x0a").
+
+
 @end table
 
 
@@ -20129,24 +20179,11 @@ is toggled. When no argument is given the current mode is displayed.
 
 @table @code
 
-@item bank [<bankname>]
-Without a bankname, display all available banks for the current
-address_space. With a bankname given, switch to the specified
-bank. If a bank is not completely filled (ROM banks for example)
-normally the @code{ram} bank is used where the bank has holes.
-The @code{cpu} bank uses the bank currently used by the CPU.
-
 @item compare <address_range> <address>
 @itemx c <address_range> <address>
 Compare memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.  Any
 values that miscompare are displayed using the default displaytype.
-
-@item device [c:|8:|9:|10:|11:]
-@itemx dev [c:|8:|9:|10:|11:]
-Set the default address space to either the computer `c:' or the
-specified drive `8:', `9:', `10:' or `11:'.
-Switches to computer when not given a device.
 
 @item fill <address_range> <data_list>
 @itemx f <address_range> <data_list>
@@ -20213,15 +20250,6 @@ destination specified by the address.  The regions may overlap.
 @item screen
 @itemx sc
 Displays the contents of the screen.
-
-@item sidefx [on|off|toggle]
-@itemx sfx [on|off|toggle]
-Control how monitor generated reads affect memory locations that have
-read side-effects, like CIA interrupt registers for example.
-If the argument is 'on' then reads may cause side-effects.  If the
-argument is 'off' then reads don't cause side-effects.  If the
-argument is 'toggle' then the current mode is switched.  No argument
-displays the current state.
 
 @item > [<address>] <data_list>
 Write the specified data at @code{address}.
@@ -20358,19 +20386,14 @@ mode is switched.  No argument displays the current state.
 @end table
 
 
-@node General commands, Disk commands, Checkpoint commands, Monitor
-@section General commands
 
+@node File commands, Command file commands, General commands, Monitor
+@section File commands
 
 @table @code
 
 @item cd <directory>
 Change the working directory.
-
-@item device [c:|8:|9:]
-@itemx dev [c:|8:|9:]
-Set the default address space to either the computer (@code{c:}) or
-the disk (@code{8:|9:}).
 
 @item dir [<directory>]
 @itemx ls [<directory>]
@@ -20384,29 +20407,6 @@ Create directory.
 
 @item rmdir <directory>
 Remove directory.
-
-@item radix [H|D|O|B]
-@itemx rad [H|D|O|B]
-Set the default radix to hex, decimal, octal, or binary.  With no
-argument, the current radix is printed.
-
-@item log [on|off|toggle]
-Control whether the monitor output is logged into a logfile. If the
-argument is 'on' then all output will be written into the logfile. If
-the argument is 'off' then no log is produced. If the argument is
-'toggle' then the current mode is switched. No argument displays the
-current state.
-
-@item logname "<filename>"
-Sets the filename of the logfile.
-
-@end table
-
-
-@node Disk commands, Command file commands, General commands, Monitor
-@section Disk commands
-
-@table @code
 
 @item attach <filename> <device>
 Attach file to device. (device 32 = cart)
@@ -20481,10 +20481,20 @@ device is 0, the file is read from the file system.
 Compare the specified file with memory at the specified address.
 If device is 0, the file is read from the file system.
 
+@item tapectrl <command>
+Control the datasette. @code{command}:
+0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,
+5 = reset, 6 = reset counter.
+
+@item screenshot "<filename>" [<format>]
+@itemx scrsh "<filename>" [<format>]
+Take a screenshot. @code{format}:
+default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
+
 @end table
 
 
-@node Command file commands, Label commands, Disk commands, Monitor
+@node Command file commands, Label commands, File commands, Monitor
 @section Command file commands
 
 
@@ -20502,6 +20512,13 @@ file until the STOP command is entered.
 
 @item stop
 Stop recording commands.  See @code{record}.
+
+@item ; <text>
+Add a comment to a file to be read by the monitor. For example:
+@example
+; Set border and background to black
+> d020 00 00
+@end example
 
 @end table
 
@@ -20594,44 +20611,10 @@ Clears all profiling stats for a function.
 @end table
 
 
-@node Miscellaneous commands,  , Profiling commands, Monitor
-@section Miscellaneous commands
-
+@c @node Miscellaneous commands,  , Profiling commands, Monitor
+@section Resources commands
 
 @table @code
-
-@item ; <text>
-Add a comment to a file to be read by the monitor. For example:
-@example
-; Set border and background to black
-> d020 00 00
-@end example
-
-@item cartfreeze
-Use cartridge freeze.
-
-@item cpu <type>
-Specify the type of CPU currently used (6502/z80).
-
-@item exit
-@itemx x
-Leave the monitor and return to execution.
-
-@item export
-@itemx exp
-Print out list of attached expansion port devices.
-
-@item help [<command>]
-If no argument is given, prints out a list of all available commands.
-If an argument is given, prints out specific help for that command.
-
-@item keybuf "<string>"
-Put the specified string into the keyboard buffer. Note that you can specify
-specific keycodes by using C-style escaped hexcodes ("\x0a").
-
-@item print <expression>
-@itemx p <expression>
-Evaluate the specified expression and output the result.
 
 @item resourceget "<resource>"
 @itemx resget "<resource>"
@@ -20648,23 +20631,6 @@ Load resources from @code{file}.
 @item save_resources "<file>"
 @itemx ressave "<file>"
 Save resources to @code{file}.
-
-@item screenshot "<filename>" [<format>]
-@itemx scrsh "<filename>" [<format>]
-Take a screenshot. @code{format}:
-default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
-
-@item tapectrl <command>
-Control the datasette. @code{command}:
-0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,
-5 = reset, 6 = reset counter.
-
-@item quit
-@itemx q
-Exit the emulator immediately.
-
-@item ~ <number>
-Display the specified number in decimal, hex, octal and binary.
 
 @end table
 
@@ -21874,8 +21840,8 @@ Command body:
 @item byte 0: What to reset
 
 @itemize
-@item 0x00: Soft reset system
-@item 0x01: Hard reset system
+@item 0x00: Reset system
+@item 0x01: Power cycle system
 @item 0x08 - 0x0b: Reset drives 8 - 11
 @end itemize
 

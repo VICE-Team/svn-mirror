@@ -539,7 +539,7 @@ const feature_list_t *vice_get_feature_list(void)
 /* WARNING win32 and osx bindist greps for this in config.h! */
 /* External FFMPEG libraries are used */
 #define EXTERNAL_FFMPEG /**/
-/* WARNING and osx bindist greps for this in config.h! */
+/* WARNING osx bindist greps for this in config.h! */
 /* External linking for lame libs */
 #define HAVE_EXTERNAL_LAME /**/
 /* WARNING: seems to be used in makefiles all over the place */

@@ -506,7 +506,7 @@ static const cmdline_option_t cmdline_options_c128[] =
 {
     { "-jamaction", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JAMAction", NULL,
-      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Power cycle, 5: Quit Emulator)" },
     { "-exitscreenshot", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ExitScreenshotName", NULL,
       "<Name>", "Set name of screenshot to save when emulator exits." },
@@ -520,7 +520,7 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-jamaction", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JAMAction", NULL,
-      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Power cycle, 5: Quit Emulator)" },
     { "-exitscreenshot", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ExitScreenshotName", NULL,
       "<Name>", "Set name of screenshot to save when emulator exits." },
@@ -531,7 +531,7 @@ static const cmdline_option_t cmdline_options_vsid[] =
 {
     { "-jamaction", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JAMAction", NULL,
-      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Power cycle, 5: Quit Emulator)" },
     CMDLINE_LIST_END
 };
 
