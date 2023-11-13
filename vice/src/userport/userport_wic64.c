@@ -443,6 +443,8 @@ static void wic64_log(const char *fmt, ...)
 }
 
 /** \brief  formatted hexdump, lines limited by value of "WIC64HexdumpLines"
+ * Attention: '%' char is also plotted as '.' - to avoid unwanted format string
+ *            in wic64_log(...)!
  *
  * \param[in]  buf, len
  */
@@ -478,7 +480,12 @@ static void hexdump(const char *buf, int len)
         for (i = 0; i < 16; i++) {
             if (i < len) {
                 char t[2];
-                snprintf(t, 2, "%c", isprint(buf[idx + i]) ? buf[idx + i] : '.');
+                char c;
+                c = isprint(buf[idx + i]) ? buf[idx + i] : '.';
+                if (c == '%') {
+                    c = '.';    /* replace to avoid unwanted formatting in wic64_log(...) */
+                }
+                snprintf(t, 2, "%c", c);
                 strcat(linestr, t);
             } else {
                 strcat(linestr, " ");
@@ -703,7 +710,7 @@ static void reply_next_byte(void)
 {
     if (replyptr < reply_length) {
         reply_port_value = replybuffer[replyptr];
-        /* DBG(("reply_next_byte: %3d/%3d - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
+        /* DBG(("reply_next_byte: %3u/%3u - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
         replyptr++;
         if (replyptr == reply_length) {
             replyptr = reply_length = 0;
@@ -1520,7 +1527,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 {
     uint8_t retval = reply_port_value;
     /* FIXME: what do we have to do with original value? */
-    /* wic64_log("%s: orig = %02x retval = %02x", __FUNCTION__, orig, retval)); */
+    /* DBG(("%s: orig = %02x retval = %02x", __FUNCTION__, orig, retval)); */
     /* FIXME: trigger mainloop */
     return retval;
 }
@@ -1528,15 +1535,22 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 /* PA2 interrupt toggles input/output mode */
 static void userport_wic64_store_pa2(uint8_t value)
 {
-    /* wic64_log("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %d)", value, value ? "sends" : "receives", reply_length)); */
+    DBG(("userport_wic64_store_pa2 val:%02x (host %s, wic64_inputmode = %u, rl = %u)",
+         value,
+         value ? "sends" : "receives",
+         wic64_inputmode,
+         reply_length));
 
-    if ((wic64_inputmode == 1)
-        && (value == 0)
-        && (reply_length)) {
-        wic64_log("userport_wic64_store_pa2 val:%02x (c64 %s - rl = %u)", value, value ? "sends" : "receives", reply_length);
+    if ((wic64_inputmode == 1) &&
+        (value == 0) &&
+        (reply_length)) {
+        DBG(("userport_wic64_store_pa2 val:%02x (host %s - rl = %u)", value, value ? "sends" : "receives", reply_length));
         handshake_flag2();
     }
     wic64_inputmode = value;
+    if (wic64_inputmode == 1) {
+        replyptr = reply_length = 0; /* host decided to send, truncate outputbuffer */
+    }
 }
 
 static void userport_wic64_reset(void)
