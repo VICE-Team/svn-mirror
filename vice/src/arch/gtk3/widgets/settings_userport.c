@@ -10,7 +10,7 @@
  * $VICERES UserportDS1307Save      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES WIC64DefaultServer      x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64HexdumpLines       x64 x64sc xscpu64 x128 xvic
- * $VICERES WIC64LogEnabled         x64 x64sc xscpu64 x128 xvic
+ * $VICERES WIC64Logenabled         x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Resetuser          x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Timezone           x64 x64sc xscpu64 x128 xvic
  *
