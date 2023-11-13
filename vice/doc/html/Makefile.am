@@ -138,7 +138,7 @@ vice.texi: $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
 
 $(GEN_HTML): vice.texi $(srcdir)/texi2html
 	@echo "generating html documentation..."
-	$(PERL) "$(srcdir)"/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
+	$(PERL) "$(srcdir)"/texi2html -I .. -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
 endif
 
 $(TEXT_FILES): %: $(top_srcdir)/%
