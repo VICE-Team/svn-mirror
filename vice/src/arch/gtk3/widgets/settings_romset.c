@@ -11,24 +11,26 @@
  * $VICERES BasicName           x64 x64sc xscpu64 xvic xplus4 xcbm5x0 xcbm2 xpet
  * $VICERES ChargenName         x64 x64sc xscpu64 xvic xcbm5x0 xcbm2 xpet
  * $VICERES SCPU64Name          xscpu64
- * $VICERES KernalIntName       x128
+ * $VICERES KernalCHName        x128
  * $VICERES KernalDEName        x128
  * $VICERES KernalFIName        x128
  * $VICERES KernalFRName        x128
  * $VICERES KernalITName        x128
+ * $VICERES KernalIntName       x128
  * $VICERES KernalNOName        x128
  * $VICERES KernalSEName        x128
- * $VICERES KernalCHName        x128
  * $VICERES BasicLoName         x128
  * $VICERES BasicHiName         x128
  * $VICERES Kernal64Name        x128
  * $VICERES Basic64Name         x128
- * $VICERES ChargenIntName      x128
- * $VICERES ChargenDEName       x128
- * $VICERES ChargenFRName       x128
- * $VICERES ChargenSEName       x128
  * $VICERES ChargenCHName       x128
+ * $VICERES ChargenDEName       x128
+ * $VICERES ChargenFIName       x128
+ * $VICERES ChargenFRName       x128
+ * $VICERES ChargenITName       x128
+ * $VICERES ChargenIntName      x128
  * $VICERES ChargenNOName       x128
+ * $VICERES ChargenSEName       x128
  * $VICERES FunctionLowName     xplus4
  * $VICERES FunctionHighName    xplus4
  * $VICERES c1loName            xplus4
