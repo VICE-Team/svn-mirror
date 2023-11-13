@@ -11,6 +11,22 @@
  * $VICERES VDCFullscreen           x128
  * $VICERES VICFullscreen           xvic
  * $VICERES VICIIFullscreen         x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES MonitorBG               all
+ * $VICERES MonitorFG               all
+ * $VICERES MonitorFont             all
+ * $VICERES MonitorXPos             all
+ * $VICERES MonitorYPos             all
+ * $VICERES MonitorWidth            all
+ * $VICERES MonitorHeight           all
+ * $VICERES Window0Height           -vsid
+ * $VICERES Window0Width            -vsid
+ * $VICERES Window0Xpos             -vsid
+ * $VICERES Window0Ypos             -vsid
+ * $VICERES Window1Height           x128
+ * $VICERES Window1Width            x128
+ * $VICERES Window1Xpos             x128
+ * $VICERES Window1Ypos             x128
+
  */
 
 /*
