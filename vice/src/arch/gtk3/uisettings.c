@@ -63,6 +63,7 @@
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
+#include "rommanager.h"
 #include "ui.h"
 #include "uiactions.h"
 #include "uimachinewindow.h"
@@ -878,6 +879,11 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },

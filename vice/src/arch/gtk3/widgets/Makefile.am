@@ -104,6 +104,7 @@ libwidgets_a_SOURCES = \
 	printeremulationtypewidget.c \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
+	rommanager.c \
 	romsetmanagerwidget.c \
 	settings_autofire.c \
 	settings_autostart.c \
@@ -275,6 +276,7 @@ EXTRA_DIST = \
 	printeremulationtypewidget.h \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
+	rommanager.h \
 	romsetmanagerwidget.h \
 	settings_autofire.h \
 	settings_autostart.h \
