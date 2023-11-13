@@ -168,7 +168,9 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     rom_manager_add_drive_rom("1001",       "DosName1001");
     rom_manager_add_drive_rom("D9060/90",   "DosName9000");
 
+#ifdef HAVE_EXPERIMENTAL_DEVICES
     rom_manager_add_drive_exp_rom("ProfDOS 1571",   "DriveProfDOS1571Name");
+#endif
     rom_manager_add_drive_exp_rom("Supercard",      "DriveSuperCardName");
     rom_manager_add_drive_exp_rom("StarDOS",        "DriveStarDosName");
 

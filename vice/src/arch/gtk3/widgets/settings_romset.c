@@ -321,7 +321,9 @@ static const romset_entry_t c128_drive_roms[] = {
  * Expansion roms for 1540, 1541, 1541-II and 1571.
  */
 static const romset_entry_t c64_c128_drive_exp_roms[] = {
+#ifdef HAVE_EXPERIMENTAL_DEVICES
     { "DriveProfDOS1571Name",   "ProfDOS 1571", NULL },
+#endif
     { "DriveSuperCardName",     "Supercard",    NULL },
     { "DriveStarDosName",       "StarDOS",      NULL },
     { NULL,                     NULL,           NULL }
