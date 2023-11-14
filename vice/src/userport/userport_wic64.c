@@ -443,8 +443,6 @@ static void wic64_log(const char *fmt, ...)
 }
 
 /** \brief  formatted hexdump, lines limited by value of "WIC64HexdumpLines"
- * Attention: '%' char is also plotted as '.' - to avoid unwanted format string
- *            in wic64_log(...)!
  *
  * \param[in]  buf, len
  */
@@ -464,7 +462,7 @@ static void hexdump(const char *buf, int len)
 
         if (wic64_hexdumplines && lines++ >= wic64_hexdumplines) {
             strcat(linestr, "...");
-            wic64_log(linestr);
+            wic64_log("%s", linestr);
             break;
         }
         for (i = 0; i < 16; i++) {
@@ -482,9 +480,6 @@ static void hexdump(const char *buf, int len)
                 char t[2];
                 char c;
                 c = isprint(buf[idx + i]) ? buf[idx + i] : '.';
-                if (c == '%') {
-                    c = '.';    /* replace to avoid unwanted formatting in wic64_log(...) */
-                }
                 snprintf(t, 2, "%c", c);
                 strcat(linestr, t);
             } else {
@@ -492,7 +487,7 @@ static void hexdump(const char *buf, int len)
             }
         }
         strcat(linestr, "|");
-        wic64_log(linestr);
+        wic64_log("%s", linestr);
         idx += 16;
         len -= 16;
     }
@@ -609,11 +604,12 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
             send_reply_("!0");   /* maybe wrong here, raw send supporting big_load */
             goto out;
         }
-        res = curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        res = curl_easy_getinfo(msg->easy_handle, CURLINFO_EFFECTIVE_URL, &url);
         if (res != CURLE_OK) {
             /* ignore problem, URL is only for debugging */
-            DBG(("%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
-                 curl_easy_strerror(res)));
+            wic64_log("%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
+                      curl_easy_strerror(res));
+            url = "<unknown>";
         }
     }
     if (response == 201) {
@@ -870,7 +866,7 @@ static void do_command_01(void)
         if (!strncmp(p, "https://", 8)) {
             http_prot = "https://";
         } else {
-            wic64_log("malformed URL:%s", commandbuffer);
+            wic64_log("malformed URL: %s", commandbuffer);
             send_reply("!E");
             return;
         }
@@ -1571,7 +1567,7 @@ static void userport_wic64_reset(void)
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15));
-        /* wic64_log("WIC64: generated MAC: %s", wic64_mac_address)); */
+        /* wic64_log("WIC64: generated MAC: %s", wic64_mac_address); */
     } else {
         wic64_mac_address = tmp;
     }
@@ -1583,7 +1579,7 @@ static void userport_wic64_reset(void)
         snprintf(wic64_internal_ip, 16, "192.168.%u.%u",
                  lib_unsigned_rand(1, 254),
                  lib_unsigned_rand(1, 254));
-        /* wic64_log("WIC64: generated internal IP: %s", wic64_internal_ip)); */
+        /* wic64_log("WIC64: generated internal IP: %s", wic64_internal_ip); */
     } else {
         wic64_internal_ip = tmp;
     }
