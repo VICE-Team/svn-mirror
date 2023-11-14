@@ -13,7 +13,7 @@ A million repetitions of "a"
 */
 
 /* #define LITTLE_ENDIAN * This should be #define'd already, if true. */
-/* #define SHA1HANDSOFF * Copies data before messing with it. */
+#define SHA1HANDSOFF /* Copies data before messing with it. */
 
 #define SHA1HANDSOFF
 
@@ -51,9 +51,9 @@ A million repetitions of "a"
 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
 
-void SHA1Transform(
+static void SHA1TransformPtr(
     uint32_t state[5],
-    const unsigned char buffer[64]
+    const unsigned char *buffer
 )
 {
     uint32_t a, b, c, d, e;
@@ -176,6 +176,15 @@ void SHA1Transform(
 #endif
 }
 
+/* NOTE: originally SHA1TransformPtr had this signature. interestingly, wrapping
+   it like this removes an annoying "cast specifies array type" warning. */
+void SHA1Transform(
+    uint32_t state[5],
+    const unsigned char buffer[64]
+)
+{
+    SHA1TransformPtr(state, (unsigned char*)&buffer[0]);
+}
 
 /* SHA1Init - Initialize new context */
 
