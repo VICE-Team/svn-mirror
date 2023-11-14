@@ -200,27 +200,28 @@ jobs:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
-            git
-            base-devel
             autotools
-            mingw-w64-${{ matrix.arch.arch }}-toolchain
-            unzip
-            zip
-            p7zip
-            subversion
-            mingw-w64-${{ matrix.arch.arch }}-pkg-config
-            mingw-w64-${{ matrix.arch.arch }}-ntldd
-            mingw-w64-${{ matrix.arch.arch }}-glew
-            mingw-w64-${{ matrix.arch.arch }}-giflib
-            mingw-w64-${{ matrix.arch.arch }}-lame
-            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            base-devel
+            git
+            mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
             mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-lame
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-curl
-            mingw-w64-${{ matrix.arch.arch }}-gtk3
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
+            p7zip
+            subversion
+            unzip
+            zip
 
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
@@ -229,28 +230,29 @@ jobs:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
-            git
-            base-devel
             autotools
-            mingw-w64-${{ matrix.arch.arch }}-toolchain
-            unzip
-            zip
-            p7zip
-            subversion
-            mingw-w64-${{ matrix.arch.arch }}-pkg-config
-            mingw-w64-${{ matrix.arch.arch }}-ntldd
-            mingw-w64-${{ matrix.arch.arch }}-glew
-            mingw-w64-${{ matrix.arch.arch }}-giflib
-            mingw-w64-${{ matrix.arch.arch }}-lame
-            mingw-w64-${{ matrix.arch.arch }}-libvorbis
-            mingw-w64-${{ matrix.arch.arch }}-flac
-            mingw-w64-${{ matrix.arch.arch }}-icoutils
-            mingw-w64-${{ matrix.arch.arch }}-libpcap
-            mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-curl
+            base-devel
+            git
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+            mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-libusb
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
+            p7zip
+            subversion
+            unzip
+            zip
 
       - name: Install SDL1 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL1' }}
@@ -259,28 +261,29 @@ jobs:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
-            git
-            base-devel
             autotools
-            mingw-w64-${{ matrix.arch.arch }}-toolchain
-            unzip
-            zip
-            p7zip
-            subversion
-            mingw-w64-${{ matrix.arch.arch }}-pkg-config
-            mingw-w64-${{ matrix.arch.arch }}-ntldd
-            mingw-w64-${{ matrix.arch.arch }}-glew
-            mingw-w64-${{ matrix.arch.arch }}-giflib
-            mingw-w64-${{ matrix.arch.arch }}-lame
-            mingw-w64-${{ matrix.arch.arch }}-libvorbis
-            mingw-w64-${{ matrix.arch.arch }}-flac
-            mingw-w64-${{ matrix.arch.arch }}-icoutils
-            mingw-w64-${{ matrix.arch.arch }}-libpcap
-            mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-curl
+            base-devel
+            git
             mingw-w64-${{ matrix.arch.arch }}-SDL
             mingw-w64-${{ matrix.arch.arch }}-SDL_image
+            mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-libusb
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
+            p7zip
+            subversion
+            unzip
+            zip
 
       - name: Build
         id: build
