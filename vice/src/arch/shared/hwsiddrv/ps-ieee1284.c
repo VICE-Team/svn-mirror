@@ -31,7 +31,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#if !defined(WINDOWS_COMPILE)
 #include <sys/ioctl.h>
+#endif
 #include <errno.h>
 
 #undef HAVE_IEEE1284_H
