@@ -113,7 +113,7 @@ GtkWidget *sid_engine_model_widget_create(void)
 
     grid  = gtk_grid_new();
     label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<SID engine and model</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>SID engine and model</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
