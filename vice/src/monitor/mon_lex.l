@@ -242,7 +242,15 @@ HDIGIT  [0-9a-f]
         verify|v        { BEGIN(FNAME);         return CMD_VERIFY; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
         warp            { BEGIN(INITIAL);       return CMD_WARP; }
-        yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
+
+        yydebug         {
+                BEGIN(INITIAL);
+#if YYDEBUG
+                return CMD_YYDEBUG;
+#else
+                return 0;
+#endif
+            }
         maincpu_trace   { BEGIN(INITIAL);       return CMD_MAINCPU_TRACE; }
 }
  /* this is not a real command, but could be a label name for a label assignment */
