@@ -88,6 +88,8 @@ void free_buffer(void);
 void make_buffer(char *str);
 int yylex(void);
 
+void set_yydebug(int val);
+
 #define ERR_ILLEGAL_INPUT 1     /* Generic error as returned by yacc.  */
 #define ERR_RANGE_BAD_START 2
 #define ERR_RANGE_BAD_END 3
@@ -108,7 +110,13 @@ int yylex(void);
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == addr_mask(x))
 
+/* set to 1 to get parser debugging via "yydebug" command, requires to
+   set_yydebug(1) in monitor.c:monitor_init */
+#define YYDEBUG 0
+
+#ifdef DEBUG
 #define YYDEBUG 1
+#endif
 
 %}
 
@@ -531,6 +539,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      { mon_quit(); YYACCEPT; }
                    | CMD_EXIT end_cmd
                      { mon_exit(); YYACCEPT; }
+                   | CMD_MAINCPU_TRACE end_cmd
+                     { mon_maincpu_trace(); }
                    | CMD_MAINCPU_TRACE TOGGLE end_cmd
                      { mon_maincpu_toggle_trace($2); }
                    ;
@@ -670,7 +680,11 @@ data_entry_rules: CMD_ENTER_DATA address data_list end_cmd
                 ;
 
 monitor_debug_rules: CMD_YYDEBUG end_cmd
-                     { yydebug = 1; }
+                     {
+#if YYDEBUG
+                     yydebug = 1;
+#endif
+                     }
                    ;
 
 rest_of_line: R_O_L { $$ = $1; }
@@ -1254,6 +1268,14 @@ int parse_and_execute_line(char *input)
    free_buffer();
 
    return rc;
+}
+
+void set_yydebug(int val)
+{
+#if YYDEBUG
+    yydebug = val;
+#else
+#endif
 }
 
 static int yyerror(char *s)

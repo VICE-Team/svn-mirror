@@ -335,6 +335,7 @@ void mon_export(void);
 
 void mon_stopwatch_show(const char* prefix, const char* suffix);
 void mon_stopwatch_reset(void);
+void mon_maincpu_trace(void);
 void mon_maincpu_toggle_trace(int state);
 
 void mon_breakpoint_set_dummy_state(MEMSPACE mem, int state);
