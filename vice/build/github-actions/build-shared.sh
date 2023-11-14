@@ -17,6 +17,7 @@ ARGS="
     --enable-cpuhistory \
     --with-unzip-bin \
     --with-libcurl \
+    --with-mpg23 \
     "
 
 # Set configure options, check UI, set OTHER_UI
