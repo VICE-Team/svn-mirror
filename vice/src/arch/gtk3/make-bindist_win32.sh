@@ -143,7 +143,6 @@ if test x"$CROSS" != "xtrue"; then
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
   cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
-  rm -r $BUILDPATH/share/icons/Adwaita/scalable/emotes
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
@@ -215,7 +214,6 @@ else
 # Empty line after even the last entry is required, otherwise the parser fails. A little sucky.
 EOF
   cp --parents -a share/icons/Adwaita/{index.*,scalable} $BUILDPATH
-  rm -r -f $BUILDPATH/share/icons/Adwaita/scalable/emotes
   # Breaks: no hicolor/ in either Debian or Fedora, but doesn't seem to matter
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
