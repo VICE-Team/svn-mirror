@@ -35,6 +35,12 @@ palettes = \
 	cjam.vpl \
 	rgb.vpl \
 	the64.vpl \
+	palette_6569R1_v1r.vpl \
+	palette_6569R5_v1r.vpl \
+	palette_8565R2_v1r.vpl \
+	palette_C64_amber.vpl \
+	palette_C64_cyan.vpl \
+	palette_C64_green.vpl \
 	vice.vpl \
 	palette.vpl \
 	pixcen.vpl \
