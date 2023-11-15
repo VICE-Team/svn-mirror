@@ -198,6 +198,12 @@ now we can build/install extra libraries:
 
 10.2 libieee1284 (required for parsid)
 
+We need some tools for libieee1284 to build:
+
+# This assumes compiling for x86_64:
+$ pacman -S xmlto mingw-w64-x86_64-docbook-xml
+$ export XML_CATALOG_FILES="/mingw64/etc/xml/catalog"
+
 $ mkdir ~/work && cd ~/work
 $ git clone https://github.com/twaugh/libieee1284 .
 $ ./bootstrap && ./configure --without-python && make -s && make -s install
