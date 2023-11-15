@@ -110,12 +110,12 @@ void set_yydebug(int val);
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == addr_mask(x))
 
-/* set to 1 to get parser debugging via "yydebug" command, requires to
+/* set to YYDEBUG 1 to get parser debugging via "yydebug" command, requires to
    set_yydebug(1) in monitor.c:monitor_init */
-#define YYDEBUG 0
-
 #ifdef DEBUG
 #define YYDEBUG 1
+#else
+#define YYDEBUG 0
 #endif
 
 %}
