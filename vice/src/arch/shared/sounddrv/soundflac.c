@@ -33,6 +33,7 @@
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "vicedate.h"
 
@@ -40,7 +41,7 @@
 #define PCM_BUFFER_SIZE (SOUND_OUTPUT_CHANNELS_MAX * 1024 * 1024)
 
 static int stereo = 0;
-static FLAC__int32 pcm_buffer[PCM_BUFFER_SIZE];
+static FLAC__int32 *pcm_buffer = NULL;
 static FLAC__StreamEncoder *encoder = NULL;
 static FLAC__StreamMetadata *metadata[2];
 static unsigned int samples = 0;
@@ -72,6 +73,13 @@ static int flac_init(const char *param,
     encoder = FLAC__stream_encoder_new();
     if (!encoder) {
         return 1;
+    }
+
+    if (pcm_buffer == NULL) {
+        pcm_buffer = lib_malloc(sizeof(FLAC__int32) * PCM_BUFFER_SIZE);
+        if (pcm_buffer == NULL) {
+            return 1;
+        }
     }
 
     ok &= FLAC__stream_encoder_set_verify(encoder, true);
@@ -125,6 +133,10 @@ static int flac_write(int16_t *pbuf, size_t nr)
     unsigned int i;
     unsigned int amount = (unsigned int)((stereo == 1) ? nr / 2 : nr);
 
+    if (pcm_buffer == NULL) {
+        return 1;
+    }
+
     for (i = 0; i < nr; ++i) {
         pcm_buffer[i] = (FLAC__int32)(pbuf[i]);
     }
@@ -149,6 +161,11 @@ static void flac_close(void)
     FLAC__metadata_object_delete(metadata[0]);
     FLAC__metadata_object_delete(metadata[1]);
     FLAC__stream_encoder_delete(encoder);
+
+    if (pcm_buffer != NULL) {
+        lib_free(pcm_buffer);
+        pcm_buffer = NULL;
+    }
 }
 
 static const sound_device_t flac_device =
