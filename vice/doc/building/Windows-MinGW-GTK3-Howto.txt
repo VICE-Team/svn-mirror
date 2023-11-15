@@ -175,7 +175,7 @@ If you install any of these packages after you have built VICE, rerun
 "./configure" (using the respective options) and "make" to produce updated
 binaries that make use of the new options.
 
-$ pacboy sync libcurl (needed for wic64, reconfigure with --with-libcurl)
+$ pacboy sync curl (needed for wic64, reconfigure with --with-libcurl)
 $ pacboy sync portaudio (needed for sampler input, reconfigure with --enable-portaudio)
 $ pacboy sync giflib (reconfigure with --with-gif)
 $ pacboy sync flac (reconfigure with --with-flac)
