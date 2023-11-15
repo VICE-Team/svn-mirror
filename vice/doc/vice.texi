@@ -8640,6 +8640,11 @@ Resets wic64 related resources to factory defaults (including user credentials)
 Enable/disable WIC64 tracing on the console
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@findex -wic64tracelevel
+@item -wic64tracelevel <0..2>
+Integer to specify WIC64 trace level (0: off, 1: commands, 2: debug), implicitly turns on/off WiC64 tracing.
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @findex -wic64hexdumplines
 @item -wic64hexdumplines <value>
 Integer to specify number of lines to hexdump, 0: unlimited,

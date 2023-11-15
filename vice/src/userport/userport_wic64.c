@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_WIC64 */
+#define DEBUG_WIC64
 
 /* - WiC64 (C64/C128)
 
@@ -98,10 +98,12 @@ static int wic64_set_ipaddress(const char *val, void *p);
 static int wic64_set_sectoken(const char *val, void *p);
 static int wic64_set_timezone(int val, void *param);
 static int wic64_set_logenabled(int val, void *param);
+static int wic64_set_loglevel(int val, void *param);
 static int wic64_set_resetuser(int val, void *param);
 static int wic64_set_hexdumplines(int val, void *param);
 static int wic64_cmdl_reset(const char *val, void *param);
 static void wic64_log(const char *fmt, ...);
+static void _wic64_log(const int lv, const char *fmt, ...);
 static void wic64_reset_user_helper(void);
 
 static userport_device_t userport_wic64_device = {
@@ -153,6 +155,7 @@ static uint16_t wic64_tcp_port = 0;
 static char *wic64_sec_token = NULL;
 static int current_tz = 2;
 static int wic64_logenabled = 0;
+static int wic64_loglevel = 0;
 static int wic64_resetuser = 0;
 static int wic64_hexdumplines = 0;
 static int big_load = 0;
@@ -175,6 +178,8 @@ static const resource_int_t wic64_resources_int[] = {
       &current_tz, wic64_set_timezone, NULL },
     { "WIC64Logenabled", 0, RES_EVENT_NO, NULL,
       &wic64_logenabled, wic64_set_logenabled, NULL },
+    { "WIC64LogLevel", 0, RES_EVENT_NO, NULL,
+      &wic64_loglevel, wic64_set_loglevel, NULL },
     { "WIC64Resetuser", 0, RES_EVENT_NO, NULL,
       &wic64_resetuser, wic64_set_resetuser, NULL },
     { "WIC64HexdumpLines", 8, RES_EVENT_NO, NULL,
@@ -236,11 +241,11 @@ static int userport_wic64_enable(int value)
     userport_wic64_enabled = val;
     if (val) {
         httpbuffer = lib_malloc(HTTPREPLY_MAXLEN);
-        DBG(("%s: httpreplybuffer allocated 0x%xkB", __FUNCTION__, HTTPREPLY_MAXLEN / 1024));
+        _wic64_log(2, "%s: httpreplybuffer allocated 0x%xkB", __FUNCTION__, HTTPREPLY_MAXLEN / 1024);
     } else {
         lib_free(httpbuffer);
         httpbuffer = NULL;
-        DBG(("%s: httpreplybuffer freed", __FUNCTION__));
+        _wic64_log(2, "%s: httpreplybuffer freed", __FUNCTION__);
     }
     return 0;
 }
@@ -278,6 +283,17 @@ static int wic64_set_timezone(int val, void *param)
 static int wic64_set_logenabled(int val, void *param)
 {
     wic64_logenabled = val;
+    return 0;
+}
+
+static int wic64_set_loglevel(int val, void *param)
+{
+    wic64_loglevel = val;
+    if (wic64_loglevel == 0) {
+        wic64_logenabled = 0;
+        return 0;
+    }
+    wic64_logenabled = 1;
     return 0;
 }
 
@@ -346,6 +362,9 @@ static const cmdline_option_t cmdline_options[] =
     { "+wic64trace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WIC64Logenabled", (void *)0,
       NULL, "Disable WiC64 tracing" },
+    { "-wic64tracelevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64LogLevel", NULL,
+      "<0..2>", "Set WiC64 tracing level (0: off, 1: cmd-level, 2: debug-level" },
     { "-wic64reset", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       wic64_cmdl_reset, (void *)2, NULL, NULL,
       NULL, "Reset WiC64 to factory defaults" },
@@ -442,6 +461,22 @@ static void wic64_log(const char *fmt, ...)
     log_message(wic64_loghandle, "%s", t);
 }
 
+/** \brief  debug log message to console
+ *
+ * \param[in]  typical printf format string
+ */
+static void _wic64_log(const int lv, const char *fmt, ...)
+{
+    char t[256];
+    va_list args;
+
+    if (wic64_loglevel < lv)
+        return;
+    va_start(args, fmt);
+    vsnprintf(t, 256, fmt, args);
+    wic64_log("%s", t);
+}
+
 /** \brief  formatted hexdump, lines limited by value of "WIC64HexdumpLines"
  *
  * \param[in]  buf, len
@@ -492,6 +527,20 @@ static void hexdump(const char *buf, int len)
         len -= 16;
     }
 }
+
+#if 0 /* prepared for potential use */
+/** \brief  formatted hexdump, lines limited by value of "WIC64HexdumpLines" for debug level
+ *
+ * \param[in]  lv, buf, len
+ */
+static void _hexdump(const int lv, const char *buf, int len)
+{
+    if (wic64_loglevel < lv) {
+        return;
+    }
+    hexdump(buf, len);
+}
+#endif
 
 static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
@@ -580,10 +629,10 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         wic64_log("%s: curl_multi_perform failed: %s", __FUNCTION__, curl_multi_strerror(r));
         msg = curl_multi_info_read(cm, &msgs_left);
         if (msg) {
-            DBG(("%s: msg: %u, %s", __FUNCTION__, msg->data.result, curl_easy_strerror(msg->data.result)));
+            _wic64_log(2, "%s: msg: %u, %s", __FUNCTION__, msg->data.result, curl_easy_strerror(msg->data.result));
             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
-            DBG(("%s, R: %u - %s <%s>", __FUNCTION__,
-                 msg->data.result, curl_easy_strerror(msg->data.result), url));
+            _wic64_log(2, "%s, R: %u - %s <%s>", __FUNCTION__,
+                 msg->data.result, curl_easy_strerror(msg->data.result), url);
         }
         send_reply("!0");       /* maybe wrong here */
         goto out;
@@ -643,7 +692,7 @@ static void do_http_get(const char *prot, char *hostname, char *path, unsigned s
     strcat(thisurl, hostname);
     strcat(thisurl, "/");
     strcat(thisurl, path);
-    DBG(("%s: URL = '%s'", __FUNCTION__, thisurl));
+    _wic64_log(2, "%s: URL = '%s'", __FUNCTION__, thisurl);
 
     curl_global_init(CURL_GLOBAL_ALL);
     cm = curl_multi_init();
@@ -706,7 +755,7 @@ static void reply_next_byte(void)
 {
     if (replyptr < reply_length) {
         reply_port_value = replybuffer[replyptr];
-        /* DBG(("reply_next_byte: %3u/%3u - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
+        /* _wic64_log(2, "reply_next_byte: %3u/%3u - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
         replyptr++;
         if (replyptr == reply_length) {
             replyptr = reply_length = 0;
@@ -917,7 +966,7 @@ static void do_command_01(void)
         strcat(temppath, p + 4);
         /* copy back to path buffer */
         strcpy(path, temppath);
-        DBG(("temppath:%s", temppath));
+        _wic64_log(2, "temppath:%s", temppath);
     }
     /* see below, noprintables need to be overruled, otherwise libcure complains */
     p = strstr(path, "&pid=");
@@ -1464,14 +1513,17 @@ static void do_command(void)
 /* PC2 irq (pulse) triggers when C64 reads/writes to userport */
 static void userport_wic64_store_pbx(uint8_t value, int pulse)
 {
-    /* wic64_log("%s: val = %02x pulse = %d", __FUNCTION__, value, pulse)); */
     if (pulse == 1) {
         if (wic64_inputmode) {
+            _wic64_log(2, "receiving '%c'/0x%02x, input_state = %d",
+                       isprint(value) ? value : '.',
+                       value,
+                       input_state);
             switch (input_state) {
             case 0:
                 input_length = 0;
                 commandptr = 0;
-                if (value == 0x57) {    /* 'w' */
+                if (value == 0x57) {    /* 'W' */
                     input_state++;
                 }
                 handshake_flag2();
@@ -1500,12 +1552,8 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 handshake_flag2();
                 break;
             }
-#if 0
-            DBG(("%s: input_state: %d input_length: %d input_command: %02x commandptr: %02x",
-                 __FUNCTION__,
-                 input_state, input_length, input_command, commandptr));
-#endif
             if ((input_state == 4) && ((commandptr + 4) >= input_length)) {
+                _wic64_log(2, "command 0x%02x (len=%d)", input_command, input_length);
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
                 memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
@@ -1523,7 +1571,10 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 {
     uint8_t retval = reply_port_value;
     /* FIXME: what do we have to do with original value? */
-    /* DBG(("%s: orig = %02x retval = %02x", __FUNCTION__, orig, retval)); */
+    _wic64_log(2, "sending '%c'/0x%02x, input_state = %d",
+               isprint(retval) ? retval : '.',
+               retval);
+
     /* FIXME: trigger mainloop */
     return retval;
 }
@@ -1531,20 +1582,21 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 /* PA2 interrupt toggles input/output mode */
 static void userport_wic64_store_pa2(uint8_t value)
 {
-    DBG(("userport_wic64_store_pa2 val:%02x (host %s, wic64_inputmode = %u, rl = %u)",
-         value,
-         value ? "sends" : "receives",
-         wic64_inputmode,
-         reply_length));
+    _wic64_log(2, "host %s...", value ? "sends" : "receives");
 
     if ((wic64_inputmode == 1) &&
         (value == 0) &&
         (reply_length)) {
-        DBG(("userport_wic64_store_pa2 val:%02x (host %s - rl = %u)", value, value ? "sends" : "receives", reply_length));
+        _wic64_log(2, "userport_wic64_store_pa2 val:%02x (host %s - rl = %u)", value, value ? "sends" : "receives", reply_length);
         handshake_flag2();
     }
     wic64_inputmode = value;
     if (wic64_inputmode == 1) {
+        if (reply_length > 0) {
+            replyptr--;         /* rewind by 1 byte */
+            wic64_log("discarding %d bytes, which were not sent to host", (reply_length - replyptr));
+            hexdump(&replybuffer[replyptr], (reply_length - replyptr));
+        }
         replyptr = reply_length = 0; /* host decided to send, truncate outputbuffer */
     }
 }
