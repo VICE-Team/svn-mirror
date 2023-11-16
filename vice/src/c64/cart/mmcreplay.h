@@ -57,6 +57,9 @@ void mmcreplay_a000_bfff_store(uint16_t addr, uint8_t value);
 uint8_t mmcreplay_c000_cfff_read(uint16_t addr);
 void mmcreplay_c000_cfff_store(uint16_t addr, uint8_t value);
 
+uint8_t mmcreplay_c128_read(uint16_t addr, uint8_t *value);
+void mmcreplay_c128_switch_mode(int mode);
+
 int mmcreplay_romh_phi1_read(uint16_t addr, uint8_t *value);
 int mmcreplay_romh_phi2_read(uint16_t addr, uint8_t *value);
 
@@ -91,3 +94,4 @@ int mmcreplay_snapshot_read_module(struct snapshot_s *s);
 int mmcreplay_snapshot_write_module(struct snapshot_s *s);
 
 #endif
+
