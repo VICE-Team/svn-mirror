@@ -94,12 +94,12 @@ VICE_ARG_WITH_LIST(sun,                     [  --without-sun           do not us
 VICE_ARG_WITH_LIST(vorbis,                  [  --with-vorbis           use Ogg/Vorbis support])
 VICE_ARG_WITH_LIST(lame,                    [  --with-lame             use LAME for MP3 encoding])
 VICE_ARG_WITH_LIST(static-lame,             [  --with-static-lame      statically link LAME MP3])
+VICE_ARG_WITH_LIST(portaudio,               [  --with-portaudio        use PortAudio for sound input])
 VICE_ARG_ENABLE_LIST(catweasel,             [  --enable-catweasel      enables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,               [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(midi,                  [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(new8580filter,         [  --disable-new8580filter disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(parsid,                [  --enable-parsid         enables ParSID support])
-VICE_ARG_ENABLE_LIST(portaudio,             [  --disable-portaudio     disables PortAudio support])
 
 dnl
 dnl Graphics options
@@ -3160,8 +3160,7 @@ AC_SUBST(GFXOUTPUT_LIBS)
 AC_SUBST(JOYSTICK_DRIVERS)
 
 dnl PortAudio support checks
-
-if test x"$enable_portaudio" != "xno"; then
+if test x"$with_portaudio" = "xyes"; then
   AC_CHECK_HEADERS(portaudio.h, PA_HEADERS="yes", PA_HEADERS="no")
 
   if test x"$PA_HEADERS" = "xyes"; then
@@ -3178,8 +3177,8 @@ if test x"$enable_portaudio" != "xno"; then
     fi
   fi
 
-  if test x"$enable_portaudio" = "xyes" -a x"$USE_PORTAUDIO_SUPPORT" != "xyes"; then
-    AC_MSG_ERROR([PortAudio support is missing])
+  if test x"$with_portaudio" = "xyes" -a x"$USE_PORTAUDIO_SUPPORT" != "xyes"; then
+    AC_MSG_ERROR([PortAudio support requested (--with-portaudio), but PortAudio headers are missing])
   fi
 fi
 
@@ -3717,7 +3716,7 @@ echo "-----"
 echo "FastSID support              : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
 echo "ReSID support                : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "New 8580 filter support      : $USE_NEW_8580_FILTER (--enable/disable-new8580filter)"
-echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--enable/disable-portaudio)"
+echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--with/without-portaudio)"
 
 if test x"$real_arch" = "xUnix"; then
     echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
