@@ -412,6 +412,9 @@ int petui_init(void)
 
 void petui_shutdown(void)
 {
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s\n", __func__);
+#endif
     uisound_output_menu_shutdown();
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
@@ -422,11 +425,6 @@ void petui_shutdown(void)
     uitapeport_menu_shutdown();
     uimedia_menu_shutdown();
     pet_sound_menu_shutdown();
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
-
     sdl_menu_ffmpeg_shutdown();
-
     sdl_ui_font_shutdown();
 }
