@@ -218,6 +218,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-portaudio
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
             p7zip
@@ -252,6 +253,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-portaudio
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
             p7zip
@@ -286,6 +288,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-ntldd
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-portaudio
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
             p7zip

@@ -21,6 +21,7 @@ ARGS="
     --with-libieee1284 \
     --enable-parsid \
     --enable-catweasel \
+    --with-portaudio \
     "
 
 # Set configure options, check UI, set OTHER_UI
