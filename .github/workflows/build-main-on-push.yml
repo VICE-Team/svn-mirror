@@ -306,8 +306,8 @@ jobs:
           export XML_CATALOG_FILES="/${{ matrix.arch.prefix }}/etc/xml/catalog"
           ./bootstrap
           ./configure --without-python
-          make -j2 -s
-          make -j2 -s install
+          make -j2
+          make -j2 install
           cd "$OLDDIR"
 
       - name: Build
