@@ -204,6 +204,7 @@ jobs:
             base-devel
             git
             mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xml
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -221,6 +222,7 @@ jobs:
             p7zip
             subversion
             unzip
+            xmlto
             zip
 
       - name: Install SDL2 Dependencies if Applicable
@@ -236,6 +238,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
             mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xml
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -252,6 +255,7 @@ jobs:
             p7zip
             subversion
             unzip
+            xmlto
             zip
 
       - name: Install SDL1 Dependencies if Applicable
@@ -267,6 +271,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-SDL
             mingw-w64-${{ matrix.arch.arch }}-SDL_image
             mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xml
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -283,7 +288,23 @@ jobs:
             p7zip
             subversion
             unzip
+            xmlto
             zip
+
+      - name: Build and install libieee1284
+        id: build_libieee1284
+        shell: msys2 {0}
+        run: |
+          OLDDIR=$(pwd)
+          mkdir ~/work/
+          cd ~/work
+          git clone https://github.com/twaugh/libieee1284
+          cd libieee1284
+          ./bootstrap
+          ./configure --without-python
+          make -j2 -s
+          make -j2 -s install
+          cd "$OLDDIR"
 
       - name: Build
         id: build
