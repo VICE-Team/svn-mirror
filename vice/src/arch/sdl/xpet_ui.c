@@ -273,7 +273,7 @@ static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
         old_keymap = keymap;
     }
 
-#define RGB(r,g,b) (((r)<<5)|((g)<<2)|(b))
+#define RGB_encode(r,g,b) (((r)<<5)|((g)<<2)|(b))
 
     /* CRTC */
     switch (pet_colour_type) {
@@ -288,14 +288,14 @@ static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
             menu_draw->color_inactive_grey = 1;
             break;
         case PET_COLOUR_TYPE_ANALOG:
-            menu_draw->color_front = menu_draw->color_default_front = RGB(7,7,3);
-            menu_draw->color_back = menu_draw->color_default_back = RGB(0,0,0);
-            menu_draw->color_cursor_back = RGB(0,0,3);
-            menu_draw->color_cursor_revers = RGB(0,0,0);
-            menu_draw->color_active_green = RGB(0,7,0);
-            menu_draw->color_inactive_red = RGB(7,0,0);
-            menu_draw->color_active_grey = RGB(4,4,2);
-            menu_draw->color_inactive_grey = RGB(3,3,1);
+            menu_draw->color_front = menu_draw->color_default_front = RGB_encode(7,7,3);
+            menu_draw->color_back = menu_draw->color_default_back = RGB_encode(0,0,0);
+            menu_draw->color_cursor_back = RGB_encode(0,0,3);
+            menu_draw->color_cursor_revers = RGB_encode(0,0,0);
+            menu_draw->color_active_green = RGB_encode(0,7,0);
+            menu_draw->color_inactive_red = RGB_encode(7,0,0);
+            menu_draw->color_active_grey = RGB_encode(4,4,2);
+            menu_draw->color_inactive_grey = RGB_encode(3,3,1);
             break;
         default:
             menu_draw->color_front = menu_draw->color_default_front = 1;
