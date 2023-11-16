@@ -18,6 +18,9 @@ ARGS="
     --with-unzip-bin \
     --with-libcurl \
     --with-mpg123 \
+    --with-libieee1284 \
+    --enable-parsid \
+    --enable-catweasel \
     "
 
 # Set configure options, check UI, set OTHER_UI
