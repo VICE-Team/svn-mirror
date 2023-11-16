@@ -177,8 +177,8 @@ jobs:
       fail-fast: false
       matrix:
         arch:
-        - { msystem: MINGW64, arch: x86_64 }
-        - { msystem: MINGW32, arch: i686 }
+        - { msystem: MINGW64, arch: x86_64, prefix: mingw64 }
+        - { msystem: MINGW32, arch: i686,   prefix: mingw32 }
         ui: [ GTK3, SDL2, SDL1 ]
     steps:
       - run: git config --global core.autocrlf input
@@ -300,6 +300,7 @@ jobs:
           cd ~/work
           git clone https://github.com/twaugh/libieee1284
           cd libieee1284
+          export XML_CATALOG_FILES="/${{ matrix.arch.prefix }}/etc/xml/catalog"
           ./bootstrap
           ./configure --without-python
           make -j2 -s
