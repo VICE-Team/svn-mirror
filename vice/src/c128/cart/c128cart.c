@@ -655,7 +655,7 @@ void external_function_rom_set_bank(int value)
 uint8_t external_function_rom_read(uint16_t addr)
 {
     int type = cart_getid_slot0();
-    uint8_t val;
+    uint8_t val = vicii_read_phi1();
     /* do slot0 first */
     switch(type) {
         case CARTRIDGE_RAMLINK:
@@ -677,11 +677,16 @@ uint8_t external_function_rom_read(uint16_t addr)
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
             val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            if (mmcreplay_c128_read(addr, &val)) {
+                break;
+            }
+            break;
         case CARTRIDGE_LT_KERNAL:
             if (c128ltkernal_roml_read(addr, &val)) {
                 break;
             }
-            /* FALL THROUGH */
+            break;
         default:
             val = vicii_read_phi1();
             break;
@@ -694,7 +699,8 @@ uint8_t external_function_rom_read(uint16_t addr)
 uint8_t external_function_rom_peek(uint16_t addr)
 {
     int type = cartridge_get_id(0);
-    uint8_t val;
+    /* FIXME: What should we return here? is vicii_read_phi1() safe for a peek? */
+    uint8_t val = 0;
     switch(type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
 /* FIXME: gmod2 needs a peek */
@@ -708,15 +714,18 @@ uint8_t external_function_rom_peek(uint16_t addr)
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
             val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            if (mmcreplay_c128_read(addr, &val)) {
+                break;
+            }
+            break;
         case CARTRIDGE_LT_KERNAL:
             if (c128ltkernal_roml_read(addr, &val)) {
                 break;
             }
-            /* FALL THROUGH */
+            break;
         default:
-/* FIXME: What should we return here? is vicii_read_phi1() safe for a peek? */
-/*            val = vicii_read_phi1(); */
-            val = 0;
+            /* default value above */
             break;
     }
     return val;
@@ -906,6 +915,9 @@ void c128cartridge_switch_mode(int mode)
     switch(type) {
         case CARTRIDGE_LT_KERNAL:
             c128ltkernal_switch_mode(mode);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_c128_switch_mode(mode);
             break;
         default:
             break;
