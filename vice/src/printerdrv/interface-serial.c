@@ -88,7 +88,7 @@ static int set_printer_enabled(int flag, void *param)
     }
 
     prnr = vice_ptr_to_uint(param);
-
+    DBG(("set_printer_enabled device:%u flag:%d", prnr, flag));
     if (prnr >= NUM_PRINTER_DEVICE_NUMBERS) {
         return -1;
     }
@@ -473,6 +473,8 @@ static int interface_serial_attach(unsigned int prnr)
 {
     int err;
 
+    DBG(("interface_serial_attach device:%u", 4 + prnr));
+
     inuse_secadr[prnr] = 0;
 
     switch (prnr) {
@@ -508,6 +510,8 @@ static int interface_serial_attach(unsigned int prnr)
 
 static int interface_serial_detach(unsigned int prnr)
 {
+    DBG(("interface_serial_detach device:%u", 4 + prnr));
+
     if (prnr < NUM_PRINTERS && inuse_secadr[prnr]) {
         int i;
         for (i = 0; i < 8; i++) {

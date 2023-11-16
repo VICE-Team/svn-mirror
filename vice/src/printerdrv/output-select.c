@@ -243,11 +243,13 @@ void output_select_register(output_select_t *outp_select)
 int output_select_open(unsigned int prnr,
                        struct output_parameter_s *output_parameter)
 {
+    DBG(("output_select_open:%u", prnr));
     return output_select[prnr].output_open(prnr, output_parameter);
 }
 
 void output_select_close(unsigned int prnr)
 {
+    DBG(("output_select_close:%u", prnr));
     output_select[prnr].output_close(prnr);
 }
 
@@ -263,12 +265,12 @@ int output_select_getc(unsigned int prnr, uint8_t *b)
 
 int output_select_flush(unsigned int prnr)
 {
-    DBG(("output_select_flush:%d", prnr));
+    DBG(("output_select_flush:%u", prnr));
     return output_select[prnr].output_flush(prnr);
 }
 
 int output_select_formfeed(unsigned int prnr)
 {
-    DBG(("output_select_formfeed:%d", prnr));
+    DBG(("output_select_formfeed:%ud", prnr));
     return output_select[prnr].output_formfeed(prnr);
 }
