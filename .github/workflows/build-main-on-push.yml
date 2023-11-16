@@ -205,6 +205,7 @@ jobs:
             git
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-docbook-xml
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -239,6 +240,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-docbook-xml
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -272,6 +274,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-SDL_image
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-docbook-xml
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
