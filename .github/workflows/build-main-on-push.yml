@@ -398,7 +398,7 @@ jobs:
                       --enable-ethernet --disable-pdf-docs --disable-html-docs \
                       --with-fastsid --with-resid --enable-cpuhistory --with-gif \
                       --with-png --with-vorbis --with-flac --with-mpg123 --with-lame \
-                      --enable-midi --with-alsa --with-libcurl --enable-libieee1284 \
+                      --enable-midi --with-alsa --with-libcurl --with-libieee1284 \
                       --enable-catweasel --enable-parsid ${{ matrix.ui.conf }}
           make -j2 -s --no-print-directory SVN_REVISION_OVERRIDE=$(echo "${{ github.ref }}" | sed 's/^.*r//')
           # Don't use install-strip, we want symbols intact for backtraces

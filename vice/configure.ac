@@ -115,11 +115,11 @@ dnl Misc build options
 dnl
 VICE_ARG_WITH_LIST(zlib,                    [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(unzip-bin,               [  --with-unzip-bin        enables distribution of unzip.exe in the windows bindist])
+VICE_ARG_WITH_LIST(libieee1284,             [  --with-libieee1284      use the libieee1284 parallel port library])
 VICE_ARG_ENABLE_LIST(arch,                  [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,            [  --disable-cpuhistory    disable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(ethernet,              [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,                  [  --disable-ipv6          disables the checking for IPv6 compatibility])
-VICE_ARG_ENABLE_LIST(libieee1284,           [  --enable-libieee1284    enables libieee1284 support])
 VICE_ARG_ENABLE_LIST(no-pic,                [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(realdevice,            [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(rs232,                 [  --disable-rs232         disable RS232 support])
@@ -798,7 +798,7 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     AM_CONDITIONAL(HAVE_PARSID, true)
     HAVE_PARSID_SUPPORT="yes"
 
-    if test x"$enable_libieee1284" = "xyes"; then
+    if test x"$with_libieee1284" = "xyes"; then
       LIBIEEE1284_HEADERS_PRESENT=yes
 
       dnl Check for needed io headers
@@ -866,7 +866,7 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     AM_CONDITIONAL(HAVE_PARSID, true)
     HAVE_PARSID_SUPPORT="yes"
 
-    if test x"$enable_libieee1284" = "xyes"; then
+    if test x"$with_libieee1284" = "xyes"; then
       LIBIEEE1284_HEADERS_PRESENT=yes
 
       dnl Check for needed io headers
@@ -2895,7 +2895,7 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$enable_parsid" = "xyes" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" = "xyes"; then
 
-    if test x"$enable_libieee1284" = "xyes"; then
+    if test x"$with_libieee1284" = "xyes"; then
       LIBIEEE1284_HEADERS_PRESENT=yes
     else
       LIBIEEE1284_HEADERS_PRESENT=no
@@ -2911,7 +2911,7 @@ if test x"$is_unix" = "xyes"; then
     PCIUTILS_LIB_PRESENT=no
 
     dnl Check for needed io headers
-    if test x"$enable_libieee1284" = "xyes"; then
+    if test x"$with_libieee1284" = "xyes"; then
       AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
     fi
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
@@ -2943,7 +2943,7 @@ if test x"$is_unix" = "xyes"; then
         AC_MSG_ERROR([libieee1284 is missing])
       fi
     else
-      if test x"$enable_libieee1284" = "xyes"; then
+      if test x"$with_libieee1284" = "xyes"; then
         AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
@@ -3858,7 +3858,7 @@ fi
 echo "zlib support                      : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
 
 if test x"$real_arch" = "xUnix"; then
-    echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT"
+    echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT (--with/--wihout-libieee1284)"
 fi
 
 
