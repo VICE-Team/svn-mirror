@@ -67,7 +67,7 @@
     see https://www.freepascal.org/~daniel/gmod2/
 */
 
-#define DEBUGGMOD2
+/* #define DEBUGGMOD2 */
 
 #ifdef DEBUGGMOD2
 #define DBG(x)  printf x

@@ -46,7 +46,7 @@
 #include "crt.h"
 #include "partner128.h"
 
-#define DBGPARTNER
+/* #define DBGPARTNER */
 
 #ifdef DBGPARTNER
 #define DBG(x) printf x

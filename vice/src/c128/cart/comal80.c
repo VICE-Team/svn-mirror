@@ -43,7 +43,7 @@
 #include "crt.h"
 #include "comal80.h"
 
-#define DBGCOMAL80
+/* #define DBGCOMAL80 */
 
 #ifdef DBGCOMAL80
 #define DBG(x) printf x
