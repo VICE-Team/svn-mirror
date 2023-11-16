@@ -311,6 +311,7 @@ static int get_bit_from_rom(mps_t *mps, int offs, int ch, int col, int row)
 
 #ifdef DEBUG_MPS803
 static void dump_printer_charset(mps_t *mps) {
+#if 0
     int bytes_per_char = mps->char_width;
     int ch;
     int row, col, bit;
@@ -331,6 +332,7 @@ static void dump_printer_charset(mps_t *mps) {
         }
         printf("\n");
     }
+#endif
 }
 #endif
 
@@ -1299,6 +1301,7 @@ static int drv_mps803_select(unsigned int prnr)
 
 static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 {
+    DBG(("drv_mps803_close(%u,%u)", prnr, secondary));
     output_select_close(prnr);
 }
 

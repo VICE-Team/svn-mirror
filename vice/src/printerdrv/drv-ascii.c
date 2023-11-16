@@ -52,6 +52,12 @@ static ascii_t drv_ascii[NUM_OUTPUT_SELECT];
 
 static log_t drv_ascii_log = LOG_ERR;
 
+#ifdef DEBUG_PRINTER
+#define DBG(x) log_debug x
+#else
+#define DBG(x)
+#endif
+
 /*
 * a unix line ending is "LF", ie: 0x0a / "\n"
 * a win/dos line ending is "CRLF", ie: 0x0d, 0x0a / "\r\n"
@@ -139,6 +145,7 @@ static int print_char(ascii_t *ascii, unsigned int prnr, uint8_t c)
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
+    DBG(("drv_ascii_open device:%u", 4 + prnr));
     if (secondary == 7) {
         print_char(&drv_ascii[prnr], prnr, 17);
     } else if (secondary == DRIVER_FIRST_OPEN) {
@@ -158,6 +165,7 @@ static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 
 static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 {
+    DBG(("drv_ascii_close device:%u", 4 + prnr));
     if (secondary == DRIVER_LAST_CLOSE) {
         output_select_close(prnr);
     }
@@ -200,6 +208,7 @@ static int drv_ascii_formfeed(unsigned int prnr)
 
 static int drv_ascii_select(unsigned int prnr)
 {
+    DBG(("drv_ascii_select device:%u", 4 + prnr));
     return 0;
 }
 
