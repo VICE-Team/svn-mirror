@@ -618,7 +618,7 @@ static void hexdump(const char *buf, int len)
             if (i < len) {
                 char t[2];
                 char c;
-                c = isprint(buf[idx + i]) ? buf[idx + i] : '.';
+                c = isprint((unsigned char)buf[idx + i]) ? buf[idx + i] : '.';
                 snprintf(t, 2, "%c", c);
                 strcat(linestr, t);
             } else {
@@ -858,7 +858,7 @@ static void reply_next_byte(void)
 {
     if (replyptr < reply_length) {
         reply_port_value = replybuffer[replyptr];
-        /* _wic64_log(2, "reply_next_byte: %3u/%3u - %02x'%c'", replyptr, reply_length, reply_port_value, isprint(reply_port_value)?reply_port_value:'.')); */
+        /* _wic64_log(2, "reply_next_byte: %3u/%3u - %02x'%c'", replyptr, reply_length, reply_port_value, isprint((unsigned char)reply_port_value)?reply_port_value:'.')); */
         replyptr++;
         if (replyptr == reply_length) {
             replyptr = reply_length = 0;
@@ -1107,25 +1107,25 @@ static void do_command_01(void)
     /* see below, noprintables need to be overruled, otherwise libcure complains */
     p = strstr(path, "&pid=");
     if (p != NULL) {
-        if (!isprint(*(p+5))) {
+        if (!isprint((unsigned char)*(p+5))) {
             wic64_log("%s: patching &pid=X.", __FUNCTION__);
             *(p + 5) = 'X';
         }
-        if (!isprint(*(p+6))) {
+        if (!isprint((unsigned char)*(p+6))) {
             wic64_log("%s: patching &pid=.Y", __FUNCTION__);
             *(p + 6) = 'Y';
         }
     }
 
-    /* now strip trailing whitspaces of path */
+    /* now strip trailing whitespaces of path */
     p = path + strlen(path) - 1;
-    while (isspace(*p)) {
+    while (isspace((unsigned char)*p)) {
         *p = '\0';
         p--;
     }
     /* remove trailing nonprintables - otherwise libcurl rejects the URL
        probably a bug on the app side, fixes at least artillery duel */
-    while (!isprint(*p)) {
+    while (!isprint((unsigned char)*p)) {
         *p = '\0';
         p--;
     }
