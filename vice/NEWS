@@ -83,6 +83,8 @@ in the UI).
   emulation of some devices.
 - changed configure switch `--with-libcurl` to `--without-libcurl`.
 - changed configure switch `--enable-lame` to `--with-lame`
+- changed configure switch `--enable-libieee1284` to `--with-libieee1284`
+- changed configure switch `--enable-portaudio` to `--with-portaudio`
 - configure: change `--with-zip-bin` to `--with-unzip-bin`
 - remove the configure switch --with-readline/--without-readline.
 
