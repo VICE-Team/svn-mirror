@@ -153,8 +153,8 @@ jobs:
       fail-fast: false
       matrix:
         arch:
-        - { msystem: MINGW64, arch: x86_64 }
-        - { msystem: MINGW32, arch: i686 }
+        - { msystem: MINGW64, arch: x86_64, prefix: mingw64 }
+        - { msystem: MINGW32, arch: i686,   prefix: mingw32 }
         ui: [ GTK3, SDL2 ]
     steps:
       - run: git config --global core.autocrlf input
@@ -198,28 +198,32 @@ jobs:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
-            git
-            base-devel
             autotools
-            mingw-w64-${{ matrix.arch.arch }}-toolchain
-            unzip
-            zip
-            p7zip
-            subversion
+            base-devel
             git
-            mingw-w64-${{ matrix.arch.arch }}-pkg-config
-            mingw-w64-${{ matrix.arch.arch }}-ntldd
-            mingw-w64-${{ matrix.arch.arch }}-glew
-            mingw-w64-${{ matrix.arch.arch }}-giflib
-            mingw-w64-${{ matrix.arch.arch }}-lame
-            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xml
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
             mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
             mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-lame
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-curl
-            mingw-w64-${{ matrix.arch.arch }}-gtk3
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-portaudio
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
+            p7zip
+            subversion
+            unzip
+            xmlto
+            zip
 
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
@@ -228,29 +232,49 @@ jobs:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
-            git
-            base-devel
             autotools
-            mingw-w64-${{ matrix.arch.arch }}-toolchain
-            unzip
-            zip
-            p7zip
-            subversion
+            base-devel
             git
-            mingw-w64-${{ matrix.arch.arch }}-pkg-config
-            mingw-w64-${{ matrix.arch.arch }}-ntldd
-            mingw-w64-${{ matrix.arch.arch }}-glew
-            mingw-w64-${{ matrix.arch.arch }}-giflib
-            mingw-w64-${{ matrix.arch.arch }}-lame
-            mingw-w64-${{ matrix.arch.arch }}-libvorbis
-            mingw-w64-${{ matrix.arch.arch }}-flac
-            mingw-w64-${{ matrix.arch.arch }}-icoutils
-            mingw-w64-${{ matrix.arch.arch }}-libpcap
-            mingw-w64-${{ matrix.arch.arch }}-libusb
-            mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+            mingw-w64-${{ matrix.arch.arch }}-curl
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xml
+            mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-libusb
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-portaudio
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
             mingw-w64-${{ matrix.arch.arch }}-xa65
+            p7zip
+            subversion
+            unzip
+            xmlto
+            zip
+
+      - name: Build and install libieee1284
+        id: build_libieee1284
+        shell: msys2 {0}
+        run: |
+          OLDDIR=$(pwd)
+          mkdir ~/work/
+          cd ~/work
+          git clone https://github.com/twaugh/libieee1284
+          cd libieee1284
+          export XML_CATALOG_FILES="/${{ matrix.arch.prefix }}/etc/xml/catalog"
+          ./bootstrap
+          ./configure --without-python
+          make
+          make install
+          cd "$OLDDIR"
 
       - name: Build
         id: build
