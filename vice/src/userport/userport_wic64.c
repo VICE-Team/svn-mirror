@@ -107,6 +107,7 @@ static int wic64_cmdl_reset(const char *val, void *param);
 static void wic64_log(const char *fmt, ...);
 static void _wic64_log(const int lv, const char *fmt, ...);
 static void wic64_reset_user_helper(void);
+static void wic64_set_status(const char *status);
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -162,6 +163,7 @@ static int wic64_resetuser = 0;
 static int wic64_hexdumplines = 0;
 static int wic64_protocol = 0;
 static int big_load = 0;
+static char wic64_last_status[40]; /* according spec 40 bytes, hold status string. incl. \0 */
 
 static const resource_string_t wic64_resources[] =
 {
@@ -326,7 +328,7 @@ static size_t httpbufferptr = 0;
 static uint8_t *httpbuffer = NULL;
 static char *replybuffer = NULL;
 
-#define COMMANDBUFFER_MAXLEN    0x1000
+#define COMMANDBUFFER_MAXLEN    0x10001
 static char *encoded_helper = NULL;
 
 #include <errno.h>
@@ -372,6 +374,8 @@ static int userport_wic64_enable(int value)
         curl_send_buf = lib_malloc(COMMANDBUFFER_MAXLEN);
         _wic64_log(2, "%s: curl_send_buf allocated 0x%xkB", __FUNCTION__, COMMANDBUFFER_MAXLEN / 1014);
 
+        wic64_set_status("enabled.");
+
     } else {
         lib_free(httpbuffer);
         httpbuffer = NULL;
@@ -382,6 +386,7 @@ static int userport_wic64_enable(int value)
         lib_free(curl_send_buf);
         curl_send_buf = NULL;
         _wic64_log(2, "%s: httpreplybuffer/replybuffer/encoded_helper/curl_send_buf freed", __FUNCTION__);
+        wic64_set_status("disabled.");
     }
     return 0;
 }
@@ -535,6 +540,12 @@ void userport_wic64_factory_reset(void)
     if (reset_user) {
         wic64_reset_user_helper();
     }
+}
+
+void wic64_set_status(const char *status)
+{
+    strncpy(wic64_last_status, status, 39);
+    wic64_last_status[strlen(status)] = '\0';
 }
 
 /** \brief  log message to console
@@ -860,7 +871,11 @@ static void reply_next_byte(void)
 /* raw send, where big_load may be used */
 static void send_reply_(const char * reply)
 {
-    send_binary_reply((uint8_t *)reply, strlen(reply));
+    int add = 0;
+    if (wic64_protocol > 1) {
+        add = 1;                /* terminating \0 */
+    }
+    send_binary_reply((uint8_t *)reply, strlen(reply) + add);
 }
 
 /* all other replies, not to send as big_load reply */
@@ -888,6 +903,19 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
         replybuffer[0] = (len >> 8) & 0xff;
     }
 
+    memcpy((char*)replybuffer + offs, reply, len);
+    reply_length = len + offs;
+    replyptr = 0;
+    if (len > 0) {
+        wic64_log("WiC64 sends...");
+        hexdump(replybuffer, reply_length);
+    }
+    handshake_flag2();
+}
+
+static void send_binary_reply_raw(const uint8_t *reply, size_t len)
+{
+    int offs = 0;
     memcpy((char*)replybuffer + offs, reply, len);
     reply_length = len + offs;
     replyptr = 0;
@@ -1486,6 +1514,11 @@ static void do_command_25(void)
     do_command_01();
 }
 
+static void cmd_get_status(void)
+{
+    send_reply(wic64_last_status);
+}
+
 /* factory reset */
 static void do_command_63(void)
 {
@@ -1495,10 +1528,16 @@ static void do_command_63(void)
     /* this command sends no reply */
 }
 
+static void cmd_echo(void)
+{
+    send_binary_reply_raw(commandbuffer, commandptr);
+}
+
 static void do_command(void)
 {
     switch (input_command) {
     case WIC64_CMD_GET_VERSION_STRING:
+    case WIC64_CMD_GET_VERSION_NUMBERS:
         cmd_get_version(input_command);
         break;
     case 0x0f: /* send http with decoded url for PHP */
@@ -1592,7 +1631,7 @@ static void do_command(void)
     case 0x20: /* set tcp port */
         do_command_20();
         break;
-    case 0x21: /* connect TCP */
+    case WIC64_CMD_TCP_OPEN: /* connect TCP */
         do_command_21();
         break;
     case 0x22: /* get tcp1 */
@@ -1607,14 +1646,18 @@ static void do_command(void)
     case 0x25: /* loading bigttp  */
         do_command_25();
         break;
-    case 0x26: /* getVersion  */
-        do_command_07(); /* same as cmd07 here */
+    case WIC64_CMD_GET_STATUS_MESSAGE:
+        cmd_get_status();
         break;
     case 0x63: /* factory reset */
         do_command_63();
         break;
+    case WIC64_CMD_ECHO:
+        cmd_echo();
+        break;
     default:
-        wic64_log("WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
+        wic64_log("WiC64: unsupported command 0x%02x (len: %d/0x%x)",
+                  input_command, input_length, input_length);
         input_state = 0;
         send_reply("!E");
         break;
@@ -1701,7 +1744,8 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             }
             handshake_flag2();
             if ((input_state == 4) && ((commandptr + 4) >= input_length)) {
-                wic64_log("command 0x%02x (len=%d)", input_command, input_length);
+                wic64_log("command 0x%02x (len=%d/0x%x)", input_command,
+                          input_length, input_length);
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
                 memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
@@ -1719,10 +1763,11 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 {
     uint8_t retval = reply_port_value;
     /* FIXME: what do we have to do with original value? */
+    /* CIA read is triggered once more by wic64 lib on the host,
+       even if all bytes are sent, so the last byte seems to be sent twice */
     _wic64_log(2, "sending '%c'/0x%02x, input_state = %d",
                isprint(retval) ? retval : '.',
                retval);
-
     /* FIXME: trigger mainloop */
     return retval;
 }
@@ -1730,7 +1775,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 /* PA2 interrupt toggles input/output mode */
 static void userport_wic64_store_pa2(uint8_t value)
 {
-    _wic64_log(2, "host %s...", value ? "sends" : "receives");
+    _wic64_log(2, "host %s...(len = %d)", value ? "sends" : "receives", reply_length);
 
     if ((wic64_inputmode == 1) &&
         (value == 0) &&
@@ -1806,6 +1851,8 @@ static void userport_wic64_reset(void)
     } else {
         current_tz = tmp_tz;
     }
+
+    wic64_set_status("reset.");
 }
 
 /* ---------------------------------------------------------------------*/
