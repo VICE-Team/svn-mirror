@@ -17,8 +17,8 @@
     media-record            <Shift><Alt>r
     media-stop              <Shift><Alt>s
     monitor-open            <Alt>h
-    reset-soft              <Alt>F9
-    reset-hard              <Alt>F12
+    machine-reset-cpu       <Alt>F9
+    machine-power-cycle     <Alt>F12
     quit                    <Alt>q
 
     psid-override-toggle    <Alt>x
@@ -77,8 +77,8 @@
     media-record            <Shift><Command>r
     media-stop              <Shift><Command>s
     monitor-open            <Command>h
-    reset-soft              <Command>F9
-    reset-hard              <Command>F12
+    machine-reset-cpu       <Command>F9
+    machine-power-cycle     <Command>F12
     quit                    <Command>q
 
     psid-override-toggle    <Command>x
