@@ -668,7 +668,10 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
+    /* work around bug 1964 (https://sourceforge.net/p/vice-emu/bugs/1964/) */
+#ifdef CURLSSLOPT_NATIVE_CA
     curl_easy_setopt(eh, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+#endif
     /* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
     curl_easy_setopt(eh, CURLOPT_USERAGENT, "ESP32HTTPClient");
     curl_multi_add_handle(cmulti, eh);

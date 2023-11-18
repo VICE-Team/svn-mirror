@@ -2171,10 +2171,14 @@ AC_SUBST(ZLIB_LIBS)
 
 dnl --- Curl / WIC64 ---
 dnl We need at least version 7.77.1 for `CURLSSLOPT_NATIVE_CA`
+dnl
+dnl 2023-11-18: check relaxed to accept any version, the wic64 code uses an
+dnl #ifdef to check for `CURLSSLOPT_NATIVE_CA` to see if the option can be
+dnl enabled. See https://sourceforge.net/p/vice-emu/bugs/1964/
 if test x"$with_libcurl" != "xno"; then
-  PKG_CHECK_MODULES(libcurl, [libcurl >= 7.71.0], [have_libcurl=yes], [have_libcurl=no])
+  PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
   if test x"$have_libcurl" = "xno"; then
-    AC_MSG_ERROR([libcurl (>=7.71.0) support requested, but libcurl (>=7.71.0) was not found.])
+    AC_MSG_ERROR([libcurl support requested, but libcurl was not found.])
   fi
   HAVE_LIBCURL_SUPPORT="yes"
   VICE_CFLAGS="$VICE_CFLAGS $libcurl_CFLAGS"
