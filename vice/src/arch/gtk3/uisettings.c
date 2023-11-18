@@ -823,7 +823,6 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 static ui_settings_tree_node_t main_nodes_vsid[] = {
     { "Sound driver", "sound-driver", settings_sound_widget_create, NULL },
     { "SID",        "sid",      settings_soundchip_widget_create,   NULL },
-    { "Speed",      "speed",    settings_speed_widget_create,       NULL },
     /* XXX: basically a selection between 'PAL'/'NTSC' (50/60Hz) */
     { "Model",      "model",    settings_model_widget_create,       NULL },
     { "Monitor",    "monitor",  settings_monitor_widget_create,     NULL },
