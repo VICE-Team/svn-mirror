@@ -290,6 +290,20 @@ static void speed_fps_custom_action(ui_action_map_t *self)
     }
 }
 
+/** \brief  Speed-related UI action mappings for VSID */
+static const ui_action_map_t speed_actions_vsid[] = {
+    {   .action   = ACTION_PAUSE_TOGGLE,
+        .handler  = pause_toggle_action,
+        .uithread = true
+
+    },
+    {   .action   = ACTION_WARP_MODE_TOGGLE,
+        .handler  = warp_mode_toggle_action,
+        .uithread = true
+    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
 /** \brief  Speed-related UI action mappings
  */
 static const ui_action_map_t speed_actions[] = {
@@ -369,7 +383,11 @@ static const ui_action_map_t speed_actions[] = {
  */
 void actions_speed_register(void)
 {
-    ui_actions_register(speed_actions);
+    if (machine_class == VICE_MACHINE_VSID) {
+        ui_actions_register(speed_actions_vsid);
+    } else {
+        ui_actions_register(speed_actions);
+    }
 }
 
 
