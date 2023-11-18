@@ -2281,6 +2281,7 @@ int ui_init_finalize(void)
             /* VSID-specific actions */
             actions_machine_register(); /* reset, monitor & quit */
             actions_settings_register();
+            actions_speed_register();
 #ifdef DEBUG
             actions_debug_register();
 #endif
