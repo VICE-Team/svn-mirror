@@ -161,7 +161,7 @@ Keymaps:
 ** PET fixes
 ------------
 
-- Implement some beam-racing timing improvements for pre-CRTC PETs
+- Implement some beam-racing timing improvements for models with and without CRTC
 - Add a PET palette that approximates the slightly blue white of the 2001 model.
 - Monitor: handle SuperPET 6809 banking correctly
 
