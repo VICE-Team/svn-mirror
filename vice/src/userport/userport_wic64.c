@@ -244,7 +244,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "WIC64Logenabled", (void *)0,
       NULL, "Disable WiC64 tracing" },
     { "-wic64tracelevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "WIC64LogLevel", SET_RESOURCE,
+      NULL, NULL, "WIC64LogLevel", NULL,
       "<0..2>", "Set WiC64 tracing level (0: off, 1: cmd-level, 2: debug-level" },
     { "-wic64reset", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       wic64_cmdl_reset, (void *)2, NULL, NULL,
@@ -907,7 +907,7 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
     }
 
     memcpy((char*)replybuffer + offs, reply, len);
-    reply_length = len + offs;
+    reply_length = (uint32_t)(len + offs);
     replyptr = 0;
     if (len > 0) {
         wic64_log("WiC64 sends...");
@@ -920,7 +920,7 @@ static void send_binary_reply_raw(const uint8_t *reply, size_t len)
 {
     int offs = 0;
     memcpy((char*)replybuffer + offs, reply, len);
-    reply_length = len + offs;
+    reply_length = (uint32_t)(len + offs);
     replyptr = 0;
     if (len > 0) {
         wic64_log("WiC64 sends...");
