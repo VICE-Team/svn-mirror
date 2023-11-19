@@ -242,8 +242,10 @@ for rom in $ROM_COMMON ; do
 done
 
 # copy manual into bundle
-echo -n "[manual] "
-cp "doc/vice.pdf" "$APP_DOCS"
+if [ -f doc/vice.pdf ]; then
+  echo -n "[manual] "
+  cp doc/vice.pdf "$APP_DOCS"
+fi
 
 # any config files from /etc?
 if [ -d etc ]; then
@@ -576,7 +578,9 @@ echo "  copying documents"
 
 mkdir $BUILD_DIR/doc
 cp README $BUILD_DIR/doc/README.txt
-cp doc/vice.pdf $BUILD_DIR/doc/
+if [ -f doc/vice.pdf ]; then
+  cp doc/vice.pdf $BUILD_DIR/doc/
+fi
 
 # Readme-GTK3.txt is pointless but the others have content
 if [ "$UI_TYPE" != "GTK3" ]; then
@@ -714,6 +718,16 @@ if test x"$ENABLEARCH" = "xyes"; then
     ****
     Warning: binaries are optimized for your system and might not run on a different system,
     use --enable-arch=no to avoid this.
+    ****
+
+HEREDOC
+fi
+
+if [ ! -e doc/vice.pdf ]; then
+  cat <<HEREDOC | sed 's/^ *//'
+    
+    ****
+    Warning: This binary distribution does not include vice.pdf as it was not built.
     ****
 
 HEREDOC
