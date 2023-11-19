@@ -235,6 +235,15 @@ static void pport_store(uint16_t addr, uint8_t value)
     }
 }
 
+/* reads zeropage, 0/1 comes from RAM */
+uint8_t zero_read_dma(uint16_t addr)
+{
+    addr &= 0xff;
+
+    return mem_ram[addr & 0xff];
+}
+
+/* reads zeropage, 0/1 comes from CPU port */
 uint8_t zero_read(uint16_t addr)
 {
     addr &= 0xff;
@@ -246,12 +255,19 @@ uint8_t zero_read(uint16_t addr)
             return pport.data_read;
     }
 
-    return mem_ram[addr & 0xff];
+    return zero_read_dma(addr);
 }
 
-void zero_store(uint16_t addr, uint8_t value)
+/* store zeropage, 0/1 goes to RAM */
+void zero_store_dma(uint16_t addr, uint8_t value)
 {
     mem_sram[addr] = value;
+}
+
+/* store zeropage, 0/1 goes to CPU port */
+void zero_store(uint16_t addr, uint8_t value)
+{
+    zero_store_dma(addr, value);
 
     if (addr == 1) {
         pport_store(addr, (uint8_t)(value & 7));
@@ -409,12 +425,18 @@ uint8_t scpu64rom_scpu64_read(uint16_t addr)
 
 /* ------------------------------------------------------------------------- */
 
-/* DMA memory access, on c64 this is the same as generic memory access.  */
+/* DMA memory access, this is the same as generic memory access, but needs to
+   bypass the CPU port, so it accesses RAM at $00/$01 */
 
 void mem_dma_store(uint16_t addr, uint8_t value)
 {
     dma_in_progress = 1;
-    _mem_write_tab_ptr[addr >> 8](addr, value);
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        zero_store_dma(addr, value);
+    } else {
+        _mem_write_tab_ptr[addr >> 8](addr, value);
+    }
     dma_in_progress = 0;
 }
 
@@ -423,7 +445,12 @@ uint8_t mem_dma_read(uint16_t addr)
     uint8_t retval = 0;
 
     dma_in_progress = 1;
-    retval = _mem_read_tab_ptr[addr >> 8](addr);
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        retval = zero_read_dma(addr);
+    } else {
+        retval = _mem_read_tab_ptr[addr >> 8](addr);
+    }
     dma_in_progress = 0;
 
     return retval;

@@ -74,8 +74,8 @@ void mem_inject(uint32_t addr, uint8_t value);
    contains the keyboard buffer and "number of keys in buffer" */
 void mem_inject_key(uint16_t addr, uint8_t value);
 
-extern read_func_t rom_read, rom_trap_read, zero_read;
-extern store_func_t rom_store, rom_trap_store, zero_store;
+extern read_func_t rom_read, rom_trap_read, zero_read, zero_read_dma;
+extern store_func_t rom_store, rom_trap_store, zero_store, zero_store_dma;
 
 extern read_func_t mem_read;
 extern store_func_t mem_store;
