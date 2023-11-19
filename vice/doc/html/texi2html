@@ -1219,13 +1219,9 @@ while (@lines) {
 	next;
     }
     #
-    # simple style substitutions
-    #
-    $_ = &substitute_style($_);
-    #
     # xref
     #
-    while (/\@(x|px|info|)ref\{($XREFRE)(}?)/o) {
+    while (/\@(x|px|info|)ref\{($XREFRE)(}?)/) {
 	# note: Texinfo may accept other characters
 	($type, $nodes, $full) = ($1, $2, $3);
 	($before, $after) = ($`, $');
@@ -1287,6 +1283,10 @@ while (@lines) {
 	    $_ = "$before$;0xref{$nodes}$after";
 	}
     }
+    #
+    # simple style substitutions
+    #
+    $_ = substitute_style($_);
     #
     # try to guess bibliography references or glossary terms
     #
