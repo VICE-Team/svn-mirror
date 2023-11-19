@@ -51,6 +51,7 @@ in the UI).
 - Drives: fixed 1571CR emulation
 - Drives: allow up to 83 tracks for 3.5inch mechs
 - Drives: fixed clock rollover in rotation code
+- REU: fixed DMA access to C64 RAM at $00/$01
 - Added PaperclipE, PaperclipSC, and Paperclip2 dongle support.
 - Added woj userport joystick adapter emulation.
 - provide fake sid hooks so hardsid can be used when fastsid is disabled

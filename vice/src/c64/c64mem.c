@@ -219,6 +219,29 @@ void mem_pla_config_changed(void)
     maincpu_resync_limits();
 }
 
+/* reads zeropage, 0/1 comes from RAM */
+uint8_t zero_read_dma(uint16_t addr)
+{
+    addr &= 0xff;
+#ifdef FEATURE_CPUMEMHISTORY
+    if (!(memmap_state & MEMMAP_STATE_IGNORE)) {
+        monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+        memmap_state &= ~(MEMMAP_STATE_OPCODE);
+    }
+#endif
+
+    if (c64_256k_enabled) {
+        return c64_256k_ram_segment0_read(addr);
+    } else {
+        if (plus256k_enabled) {
+            return plus256k_ram_low_read(addr);
+        } else {
+            return mem_ram[addr & 0xff];
+        }
+    }
+}
+
+/* reads zeropage, 0/1 comes from CPU port */
 uint8_t zero_read(uint16_t addr)
 {
     uint8_t retval;
@@ -267,17 +290,32 @@ uint8_t zero_read(uint16_t addr)
             return retval;
     }
 
-    if (c64_256k_enabled) {
-        return c64_256k_ram_segment0_read(addr);
-    } else {
-        if (plus256k_enabled) {
-            return plus256k_ram_low_read(addr);
+    return zero_read_dma(addr);
+}
+
+/* store zeropage, 0/1 goes to RAM */
+void zero_store_dma(uint16_t addr, uint8_t value)
+{
+    addr &= 0xff;
+#ifdef FEATURE_CPUMEMHISTORY
+    monitor_memmap_store(addr, MEMMAP_RAM_W);
+#endif
+    if (vbank == 0) {
+        if (c64_256k_enabled) {
+            c64_256k_ram_segment0_store(addr, value);
         } else {
-            return mem_ram[addr & 0xff];
+            if (plus256k_enabled) {
+                plus256k_ram_low_store(addr, value);
+            } else {
+                vicii_mem_vbank_store(addr, value);
+            }
         }
+    } else {
+        mem_ram[addr] = value;
     }
 }
 
+/* store zeropage, 0/1 goes to CPU port */
 void zero_store(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
@@ -363,19 +401,8 @@ void zero_store(uint16_t addr, uint8_t value)
             }
             break;
         default:
-            if (vbank == 0) {
-                if (c64_256k_enabled) {
-                    c64_256k_ram_segment0_store(addr, value);
-                } else {
-                    if (plus256k_enabled) {
-                        plus256k_ram_low_store(addr, value);
-                    } else {
-                        vicii_mem_vbank_store(addr, value);
-                    }
-                }
-            } else {
-                mem_ram[addr] = value;
-            }
+            zero_store_dma(addr, value);
+            break;
     }
 }
 
@@ -427,15 +454,25 @@ static void void_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-/* DMA memory access, on c64 this is the same as generic memory access.  */
+/* DMA memory access, this is the same as generic memory access, but needs to
+   bypass the CPU port, so it accesses RAM at $00/$01 */
 
 void mem_dma_store(uint16_t addr, uint8_t value)
 {
-    _mem_write_tab_ptr[addr >> 8](addr, value);
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        zero_store_dma(addr, value);
+    } else {
+        _mem_write_tab_ptr[addr >> 8](addr, value);
+    }
 }
 
 uint8_t mem_dma_read(uint16_t addr)
 {
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        return zero_read_dma(addr);
+    }
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 

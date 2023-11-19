@@ -651,6 +651,27 @@ static int mem_caps_key_event(int pressed)
 
 /* ------------------------------------------------------------------------- */
 
+/* reads zeropage, 0/1 comes from RAM */
+uint8_t zero_read_dma(uint16_t addr)
+{
+    uint16_t retval = 0;
+    addr &= 0xff;
+
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+        vicii.last_cpu_val = dma_bank[addr];
+    } else {
+        retval = c128_mem_mmu_wrap_read_zero(addr);
+        if (retval == 0x100) {
+            vicii.last_cpu_val = mem_page_zero[addr];
+        } else {
+            vicii.last_cpu_val = (uint8_t)retval;
+        }
+    }
+
+    return vicii.last_cpu_val;
+}
+
 /* $00/$01 unused bits emulation
 
    - There are 2 different unused bits, 1) the output bits, 2) the input bits
@@ -668,9 +689,9 @@ static int mem_caps_key_event(int pressed)
     see testprogs/CPU/cpuport for details and tests
 */
 
+/* reads zeropage, 0/1 comes from CPU port */
 uint8_t zero_read(uint16_t addr)
 {
-    uint16_t retval = 0;
     addr &= 0xff;
 
     switch ((uint8_t)addr) {
@@ -697,17 +718,8 @@ uint8_t zero_read(uint16_t addr)
             }
             break;
         default:
-            if (mem_dma_rw) {
-                /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
-                vicii.last_cpu_val = dma_bank[addr];
-            } else {
-                retval = c128_mem_mmu_wrap_read_zero(addr);
-                if (retval == 0x100) {
-                    vicii.last_cpu_val = mem_page_zero[addr];
-                } else {
-                    vicii.last_cpu_val = (uint8_t)retval;
-                }
-            }
+            vicii.last_cpu_val = zero_read_dma(addr);
+            break;
     }
 
     return vicii.last_cpu_val;
@@ -732,6 +744,22 @@ static uint8_t zero_peek(uint16_t addr)
     }
 }
 
+/* store zeropage, 0/1 goes to RAM */
+void zero_store_dma(uint16_t addr, uint8_t value)
+{
+    addr &= 0xff;
+
+    vicii.last_cpu_val = value;
+
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+        dma_bank[addr] = value;
+    } else if (c128_mem_mmu_wrap_store(addr, value)) {
+        mem_page_zero[addr] = value;
+    }
+}
+
+/* store zeropage, 0/1 goes to CPU port */
 void zero_store(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
@@ -779,12 +807,8 @@ void zero_store(uint16_t addr, uint8_t value)
             }
             break;
         default:
-            if (mem_dma_rw) {
-                /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
-                dma_bank[addr] = value;
-            } else if (c128_mem_mmu_wrap_store(addr, value)) {
-                mem_page_zero[addr] = value;
-            }
+            zero_store_dma(addr, value);
+            break;
     }
 }
 
@@ -896,12 +920,18 @@ void chargen_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-/* DMA memory access.  */
+/* DMA memory access, this is the same as generic memory access, but needs to
+   bypass the CPU port, so it accesses RAM at $00/$01 */
 
 void mem_dma_store(uint16_t addr, uint8_t value)
 {
     mem_dma_rw = 1;
-    _mem_write_tab_ptr[addr >> 8](addr, value);
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        zero_store_dma(addr, value);
+    } else {
+        _mem_write_tab_ptr[addr >> 8](addr, value);
+    }
     mem_dma_rw = 0;
 }
 
@@ -910,7 +940,12 @@ uint8_t mem_dma_read(uint16_t addr)
     uint8_t retval = 0;
 
     mem_dma_rw = 1;
-    retval = _mem_read_tab_ptr[addr >> 8](addr);
+    if ((addr & 0xff00) == 0) {
+        /* exception: 0/1 accesses RAM! */
+        retval = zero_read_dma(addr);
+    } else {
+        retval = _mem_read_tab_ptr[addr >> 8](addr);
+    }
     mem_dma_rw = 0;
     return retval;
 }
