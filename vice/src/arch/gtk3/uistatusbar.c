@@ -30,6 +30,8 @@
  * $VICERES VDCHideStatusbar    x128
  * $VICERES VICHideStatusbar    xvic
  * $VICERES VICIIHideStatusbar  x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES DiagPin             xpet
+ * $VICERES SpeedSwitch         xscpu64
  *
  */
 
