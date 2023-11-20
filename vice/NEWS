@@ -251,6 +251,9 @@ Keymaps:
   assigned.
 - Hotkey action to toggle status bars split into "show-statusbar-toggle" and
   "show-statusbar-toggle-secondary" (x128 VDC only) actions.
+- Add status bar LEDs to control SCPU Speed (labeled "turbo"), and JiffyDOS
+  switches (xscpu64 only).
+- Add default hotkey Alt+H/Command+H to toggle SCPU Turbo mode (xscpu64 only).
 
 Keymaps:
 
