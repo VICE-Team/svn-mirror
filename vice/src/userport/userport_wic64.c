@@ -107,6 +107,7 @@ static void wic64_log(const char *fmt, ...);
 static void _wic64_log(const int lv, const char *fmt, ...);
 static void wic64_reset_user_helper(void);
 static void wic64_set_status(const char *status);
+static void prep_wic64_str(void);
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -146,8 +147,6 @@ static void send_reply_(const char *reply); /* raw send supporting big_load */
 static void userport_wic64_reset(void);
 static char *default_server_hostname = NULL;
 
-#define WLAN_SSID   "VICE WiC64 emulation"
-#define WLAN_RSSI   "123"
 static char *wic64_mac_address = NULL; /* c-string std. notation e.g 0a:02:0b:04:05:0c */
 static char *wic64_internal_ip = NULL; /* c-string std. notation e.g. 192.168.1.10 */
 static unsigned char wic64_external_ip[4] = { 0, 0, 0, 0 }; /* just a dummy, report not implemented to user cmd 0x13 */
@@ -315,12 +314,23 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_PROT_REVISED 'R'
 #define WIC64_PROT_EXTENDED 'E'
 
+static const char *cmd2string[256];
+/* WiC64 return codes */
+static uint8_t SUCCESS          = 0;
+/*
+static uint8_t INTERNAL_ERROR   = 1;
+static uint8_t CLIENT_ERROR     = 2;
+static uint8_t CONNECTION_ERROR = 3;
+static uint8_t NETWORK_ERROR    = 4;
+static uint8_t SERVER_ERROR     = 5;
+*/
+
 #define HTTPREPLY_MAXLEN ((unsigned)(16 * 1024 * 1024)) /* 16MB needed for potential large images to flash via bigloader */
 static size_t httpbufferptr = 0;
 static uint8_t *httpbuffer = NULL;
 static char *replybuffer = NULL;
 
-#define COMMANDBUFFER_MAXLEN    0x10001
+#define COMMANDBUFFER_MAXLEN    0x10010
 static char *encoded_helper = NULL;
 
 #include <errno.h>
@@ -380,6 +390,8 @@ static int userport_wic64_enable(int value)
         _wic64_log(2, "%s: httpreplybuffer/replybuffer/encoded_helper/curl_send_buf freed", __FUNCTION__);
         wic64_set_status("disabled.");
     }
+
+    prep_wic64_str();
     return 0;
 }
 
@@ -616,6 +628,66 @@ static void hexdump(const char *buf, int len)
         idx += 16;
         len -= 16;
     }
+}
+
+static void prep_wic64_str(void)
+{
+    cmd2string[WIC64_CMD_GET_VERSION_STRING] = "WIC64_CMD_GET_VERSION_STRING";
+    cmd2string[WIC64_CMD_GET_VERSION_NUMBERS] = "WIC64_CMD_GET_VERSION_NUMBERS";
+
+    cmd2string[WIC64_CMD_SCAN_WIFI_NETWORKS] = "WIC64_CMD_SCAN_WIFI_NETWORKS";
+    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_STRING] = "WIC64_CMD_CONNECT_WITH_SSID_STRING";
+
+    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_INDEX] = "WIC64_CMD_CONNECT_WITH_SSID_INDEX";
+    cmd2string[WIC64_CMD_IS_CONNECTED] = "WIC64_CMD_IS_CONNECTED";
+    cmd2string[WIC64_CMD_GET_MAC] = "WIC64_CMD_GET_MAC";
+    cmd2string[WIC64_CMD_GET_SSID] = "WIC64_CMD_GET_SSID";
+    cmd2string[WIC64_CMD_GET_RSSI] = "WIC64_CMD_GET_RSSI";
+    cmd2string[WIC64_CMD_GET_IP] = "WIC64_CMD_GET_IP";
+
+    cmd2string[WIC64_CMD_HTTP_GET] = "WIC64_CMD_HTTP_GET";
+    cmd2string[WIC64_CMD_HTTP_GET_ENCODED] = "WIC64_CMD_HTTP_GET_ENCODED";
+    cmd2string[WIC64_CMD_HTTP_POST_URL] = "WIC64_CMD_HTTP_POST_URL";
+    cmd2string[WIC64_CMD_HTTP_POST_DATA] = "WIC64_CMD_HTTP_POST_DATA";
+
+    cmd2string[WIC64_CMD_TCP_OPEN] = "WIC64_CMD_TCP_OPEN";
+    cmd2string[WIC64_CMD_TCP_READ] = "WIC64_CMD_TCP_READ";
+    cmd2string[WIC64_CMD_TCP_WRITE] = "WIC64_CMD_TCP_WRITE";
+    cmd2string[WIC64_CMD_TCP_CLOSE] = "WIC64_CMD_TCP_CLOSE";
+
+    cmd2string[WIC64_CMD_GET_SERVER] = "WIC64_CMD_GET_SERVER";
+    cmd2string[WIC64_CMD_SET_SERVER] = "WIC64_CMD_SET_SERVER";
+
+    cmd2string[WIC64_CMD_GET_TIMEZONE] = "WIC64_CMD_GET_TIMEZONE";
+    cmd2string[WIC64_CMD_SET_TIMEZONE] = "WIC64_CMD_SET_TIMEZONE";
+    cmd2string[WIC64_CMD_GET_LOCAL_TIME] = "WIC64_CMD_GET_LOCAL_TIME";
+
+    cmd2string[WIC64_CMD_UPDATE_FIRMWARE] = "WIC64_CMD_UPDATE_FIRMWARE";
+    cmd2string[WIC64_CMD_REBOOT] = "WIC64_CMD_REBOOT";
+
+    cmd2string[WIC64_CMD_GET_STATUS_MESSAGE] = "WIC64_CMD_GET_STATUS_MESSAGE";
+    cmd2string[WIC64_CMD_SET_TIMEOUT] = "WIC64_CMD_SET_TIMEOUT";
+    cmd2string[WIC64_CMD_ECHO] = "WIC64_CMD_ECHO";
+
+    /* deprecated commands */
+    cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03";
+    cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_04] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_04";
+    cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_05] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_05";
+    cmd2string[WIC64_CMD_DEPRECATED_FIRMWARE_UPDATE_REQUIRED_18] = "WIC64_CMD_DEPRECATED_FIRMWARE_UPDATE_REQUIRED_18";
+    cmd2string[WIC64_CMD_DEPRECATED_GET_STATS_07] = "WIC64_CMD_DEPRECATED_GET_STATS_07";
+    cmd2string[WIC64_CMD_DEPRECATED_LOG_TO_SERIAL_CONSOLE_09] = "WIC64_CMD_DEPRECATED_LOG_TO_SERIAL_CONSOLE_09";
+    cmd2string[WIC64_CMD_DEPRECATED_GET_UPD_0A] = "WIC64_CMD_DEPRECATED_GET_UPD_0A";
+    cmd2string[WIC64_CMD_DEPRECATED_SEND_UPD_0B] = "WIC64_CMD_DEPRECATED_SEND_UPD_0B";
+    cmd2string[WIC64_CMD_DEPRECATED_SET_UPD_PORT_0E] = "WIC64_CMD_DEPRECATED_SET_UPD_PORT_0E";
+    cmd2string[WIC64_CMD_DEPRECATED_GET_UPD_DUPLICATE_1E] = "WIC64_CMD_DEPRECATED_GET_UPD_DUPLICATE_1E";
+    cmd2string[WIC64_CMD_DEPRECATED_SEND_UPD_DUPLICATE_1F] = "WIC64_CMD_DEPRECATED_SEND_UPD_DUPLICATE_1F";
+    cmd2string[WIC64_CMD_DEPRECATED_GET_EXTERNAL_IP_13] = "WIC64_CMD_DEPRECATED_GET_EXTERNAL_IP_13";
+    cmd2string[WIC64_CMD_DEPRECATED_GET_PREFERENCES_19] = "WIC64_CMD_DEPRECATED_GET_PREFERENCES_19";
+    cmd2string[WIC64_CMD_DEPRECATED_SET_PREFERENCES_1A] = "WIC64_CMD_DEPRECATED_SET_PREFERENCES_1A";
+    cmd2string[WIC64_CMD_DEPRECATED_SET_TCP_PORT_20] = "WIC64_CMD_DEPRECATED_SET_TCP_PORT_20";
+    cmd2string[WIC64_CMD_DEPRECATED_BIG_LOADER_25] = "WIC64_CMD_DEPRECATED_BIG_LOADER_25";
+    cmd2string[WIC64_CMD_DEPRECATED_FACTORY_RESET_63] = "WIC64_CMD_DEPRECATED_FACTORY_RESET_63";
+    cmd2string[WIC64_CMD_DEPRECATED_LEGACY_HTTP_POST_24] = "WIC64_CMD_DEPRECATED_LEGACY_HTTP_POST_24";
 }
 
 #if 0 /* prepared for potential use */
@@ -860,11 +932,7 @@ static void reply_next_byte(void)
 /* raw send, where big_load may be used */
 static void send_reply_(const char * reply)
 {
-    int add = 0;
-    if (wic64_protocol > 1) {
-        add = 1;                /* terminating \0 */
-    }
-    send_binary_reply((uint8_t *)reply, strlen(reply) + add);
+    send_binary_reply((uint8_t *)reply, strlen(reply));
 }
 
 /* all other replies, not to send as big_load reply */
@@ -902,17 +970,40 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
     handshake_flag2();
 }
 
-static void send_binary_reply_raw(const uint8_t *reply, size_t len)
+static void send_reply_revised(const uint8_t rcode, const char *msg, const uint8_t *payload, size_t len, const char *legacy_msg)
 {
     int offs = 0;
-    memcpy((char*)replybuffer + offs, reply, len);
-    reply_length = (uint32_t)(len + offs);
-    replyptr = 0;
-    if (len > 0) {
-        wic64_log("WiC64 sends %d/0x%xbytes...", len);
-        hexdump(replybuffer, reply_length);
+
+    wic64_set_status(msg);
+
+    if (wic64_protocol != WIC64_PROT_LEGACY) {
+        replybuffer[0] = rcode;
+        replybuffer[1] = len & 0xff; /* little endian */
+        replybuffer[2] = (len >> 8) & 0xff;
+        if (wic64_protocol == WIC64_PROT_EXTENDED) {
+            offs = 2;
+            replybuffer[3] = (len >> 16) & 0xff;
+            replybuffer[4] = (len >> 24) & 0xff;
+        }
+        memcpy((char *) &replybuffer[3 + offs], (const char *)payload, len);
+        wic64_log("WiC64 sends header...");
+        hexdump(replybuffer, 3 + offs);
+        wic64_log("WiC64 sends payload %d/0x%xbytes...", len, len);
+        hexdump(&replybuffer[3 + offs], len);
+        reply_length = len + 3 + offs;
+        handshake_flag2();
+    } else {
+        if (payload) {
+            send_binary_reply(payload, len);
+            if (legacy_msg) {
+                wic64_log("protocol error: can't send payload and legacy message: '%s' discarded.", legacy_msg);
+                return;
+            }
+        }
+        if (legacy_msg) {
+            send_reply(legacy_msg);
+        }
     }
-    handshake_flag2();
 }
 
 /* ----------- WiC64 commands ----------- */
@@ -925,9 +1016,9 @@ static void cmd_get_version(int variant)
         WIC64_VERSION_DEVEL,
     };
     if (variant == WIC64_CMD_GET_VERSION_STRING) {
-        send_reply(VICEWIC64VERSION);
+        send_reply_revised(SUCCESS, "OK", (uint8_t *)VICEWIC64VERSION, strlen(VICEWIC64VERSION) + 1, NULL);
     } else {
-        send_binary_reply(version, 4);
+        send_reply_revised(SUCCESS, "OK", version, 4, NULL);
     }
 }
 
@@ -1006,7 +1097,6 @@ static void do_command_01(void)
     char *http_prot = NULL;
     int i;
 
-    wic64_log("%s:", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
 
     /* sanity check if URL is OK in principle */
@@ -1122,27 +1212,54 @@ static void do_command_01(void)
 }
 
 /* set wlan ssid + password */
-static void do_command_02(void)
+static void cmd_wifi(int cmd)
 {
-    wic64_log("%s: set wlan ssid + password", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-    send_reply("Wlan config changed");
+
+    switch (cmd) {
+    case WIC64_CMD_SCAN_WIFI_NETWORKS:
+        send_reply_revised(SUCCESS, "OK",
+                           (uint8_t *) "00\001vice-emulation\00199\001",
+                           strlen("00\001vice-emulation\00199\001") + 1,
+                           NULL);
+        break;
+    case WIC64_CMD_CONNECT_WITH_SSID_STRING:
+    case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
+    case WIC64_CMD_IS_CONNECTED:
+        send_reply_revised(SUCCESS, "OK", NULL, 0, "0");
+        break;
+    case WIC64_CMD_GET_SSID:
+        send_reply_revised(SUCCESS, "OK",
+                           (uint8_t*) "vice-emulation",
+                           strlen("vice-emulation") + 1,
+                           NULL);
+        break;
+    case WIC64_CMD_GET_RSSI:
+        send_reply_revised(SUCCESS, "OK",
+                           (uint8_t *) "99", strlen("99") + 1, NULL);
+        break;
+    default:
+        break;
+    }
 }
 
+
 /* get wic64 ip address */
-static void do_command_06(void)
+static void cmd_get_network(int cmd)
 {
     char buffer[0x20];
-    /* FIXME: update the internal IP */
-    wic64_log("%s: get wic64 IP address - returning dummy address", __FUNCTION__);
-    sprintf(buffer, "%s", wic64_internal_ip);
-    send_reply(buffer);
+    if (cmd == WIC64_CMD_GET_MAC) {
+        sprintf(buffer, "%s", wic64_mac_address);
+    }
+    if (cmd == WIC64_CMD_GET_IP) {
+        sprintf(buffer, "%s", wic64_internal_ip);
+    }
+    send_reply_revised(SUCCESS, "OK", (uint8_t *)buffer, strlen(buffer) + 1, NULL);
 }
 
 /* get firmware stats */
 static void do_command_07(void)
 {
-    wic64_log("%s: get firmware stats", __FUNCTION__);
     send_reply(__DATE__ " " __TIME__);
 }
 
@@ -1180,21 +1297,6 @@ static void do_command_0b(void)
     /* this command sends no reply */
 }
 
-/* get list of all detected wlan ssids */
-static void do_command_0c(void)
-{
-    /* index, sep, ssid, sep, rssi, sep */
-    wic64_log("%s: get list of WLAN ssids", __FUNCTION__);
-    send_reply("0\001vice\001255\001");
-}
-
-/* set wlan via scan id */
-static void do_command_0d(void)
-{
-    wic64_log("%s: set WLAN ssid - just return OK.", __FUNCTION__);
-    send_reply("vice: use your host OS, wlan unchanged");
-}
-
 /* set udp port */
 static void do_command_0e(void)
 {
@@ -1204,20 +1306,6 @@ static void do_command_0e(void)
     wic64_udp_port += commandbuffer[1] << 8;
     wic64_log("$s: set udp port to %d", __FUNCTION__, wic64_udp_port);
     /* this command sends no reply */
-}
-
-/* get connected wlan name */
-static void do_command_10(void)
-{
-    wic64_log("%s: get connected WLAN dummy name '%s'", __FUNCTION__, WLAN_SSID);
-    send_reply(WLAN_SSID);
-}
-
-/* get wlan rssi signal level */
-static void do_command_11(void)
-{
-    wic64_log("%s: get wlan dummy rssi signal level '%s'", __FUNCTION__, WLAN_RSSI);
-    send_reply(WLAN_RSSI);
 }
 
 /* get default server */
@@ -1238,15 +1326,6 @@ static void do_command_13(void)
             wic64_external_ip[0], wic64_external_ip[1],
             wic64_external_ip[2], wic64_external_ip[3]);
     wic64_log("%s: get external IP address, returning %s", __FUNCTION__, buffer);
-    send_reply(buffer);
-}
-
-/* get wic64 MAC address */
-static void do_command_14(void)
-{
-    char buffer[0x20];
-    sprintf(buffer, "%s", wic64_mac_address);
-    wic64_log("%s: get wic64 MAC address, returning %s", __FUNCTION__, buffer);
     send_reply(buffer);
 }
 
@@ -1525,7 +1604,7 @@ static void do_command_63(void)
 
 static void cmd_echo(void)
 {
-    send_binary_reply_raw(commandbuffer, commandptr);
+    send_reply_revised(SUCCESS, "OK", commandbuffer, commandptr, NULL);
 }
 
 static void do_command(void)
@@ -1541,8 +1620,13 @@ static void do_command(void)
         big_load = 0;
         do_command_01();
         break;
-    case 0x02: /* set wlan ssid + password */
-        do_command_02();
+    case WIC64_CMD_SCAN_WIFI_NETWORKS:
+    case WIC64_CMD_CONNECT_WITH_SSID_STRING:
+    case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
+    case WIC64_CMD_IS_CONNECTED:
+    case WIC64_CMD_GET_SSID:
+    case WIC64_CMD_GET_RSSI:
+        cmd_wifi(input_command);
         break;
     case 0x03: /* standard firmware update */
         wic64_log("command 03: standard firmware update");
@@ -1550,15 +1634,15 @@ static void do_command(void)
         break;
     case 0x04: /* developer firmware update */
         wic64_log("command 04: developer firmware update");
-        /* this command sends no reply */
         send_reply("OK");
         break;
     case 0x05: /* developer special update */
         wic64_log("command 05: developer special update");
         /* this command sends no reply */
         break;
-    case 0x06: /* get wic64 ip address */
-        do_command_06();
+    case WIC64_CMD_GET_IP:
+    case WIC64_CMD_GET_MAC:
+        cmd_get_network(input_command);
         break;
     case 0x07: /* get firmware stats */
         do_command_07();
@@ -1575,29 +1659,14 @@ static void do_command(void)
     case 0x0b: /* send udp package */
         do_command_0b();
         break;
-    case 0x0c: /* get list of all detected wlan ssids */
-        do_command_0c();
-        break;
-    case 0x0d: /* set wlan via scan id */
-        do_command_0d();
-        break;
     case 0x0e: /* set udp port */
         do_command_0e();
-        break;
-    case 0x10: /* get connected wlan name */
-        do_command_10();
-        break;
-    case 0x11: /* get wlan rssi signal level */
-        do_command_11();
         break;
     case 0x12: /* get default server */
         do_command_12();
         break;
     case 0x13: /* get external ip address */
         do_command_13();
-        break;
-    case 0x14: /* get wic64 MAC address */
-        do_command_14();
         break;
     case 0x15: /* get timezone+time */
         do_command_15();
@@ -1786,7 +1855,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             handshake_flag2();
             if ((input_state == INPUT_EXP_ARGS) &&
                 (commandptr == input_length)) {
-                wic64_log("command 0x%02x (len=%d/0x%x)", input_command,
+                wic64_log("command %s (len=%d/0x%x)", cmd2string[input_command],
                           input_length, input_length);
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
@@ -1807,9 +1876,11 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     /* FIXME: what do we have to do with original value? */
     /* CIA read is triggered once more by wic64 lib on the host,
        even if all bytes are sent, so the last byte seems to be sent twice */
-    _wic64_log(2, "sending '%c'/0x%02x",
+
+    _wic64_log(2, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
                isprint(retval) ? retval : '.',
-               retval);
+               retval, replyptr, reply_length, reply_length);
+
     /* FIXME: trigger mainloop */
     return retval;
 }
@@ -1827,7 +1898,8 @@ static void userport_wic64_store_pa2(uint8_t value)
     }
     wic64_inputmode = value;
     if (wic64_inputmode == 1) {
-        if (reply_length > 0) {
+        if ((reply_length > 0) &&
+            (replyptr > 0)) {
             replyptr--;         /* rewind by 1 byte */
             wic64_log("discarding %d bytes, which were not sent to host", (reply_length - replyptr));
             hexdump(&replybuffer[replyptr], (reply_length - replyptr));
