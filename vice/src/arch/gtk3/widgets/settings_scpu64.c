@@ -34,6 +34,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "ui.h"
+#include "uistatusbar.h"
 #include "vice_gtk3.h"
 
 #include "settings_scpu64.h"
@@ -50,6 +52,18 @@ static const vice_gtk3_combo_entry_int_t simm_sizes[] = {
     { NULL,            -1 }
 };
 
+
+/** \brief  Callback for the SuperCPU Speed switch
+ *
+ * Update statusbar "turbo" LED when the switch is toggled.
+ *
+ * \param[in]   self    resource switch (ignored)
+ * \param[in]   active  new state of switch
+ */
+static void speed_switch_callback(GtkWidget *self, gboolean active)
+{
+    supercpu_turbo_led_set_active(PRIMARY_WINDOW, active);
+}
 
 /** \brief  Create left-aligned label
  *
@@ -85,6 +99,7 @@ GtkWidget *settings_scpu64_widget_create(GtkWidget *parent)
 
     label = create_label("Speed switch");
     speed = vice_gtk3_resource_switch_new("SpeedSwitch");
+    vice_gtk3_resource_switch_add_callback(speed, speed_switch_callback);
     gtk_widget_set_halign(speed, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), speed, 1, 0, 1, 1);
