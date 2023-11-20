@@ -65,6 +65,18 @@ static void speed_switch_callback(GtkWidget *self, gboolean active)
     supercpu_turbo_led_set_active(PRIMARY_WINDOW, active);
 }
 
+/** \brief  Callback for the SuperCPU JiffyDOS switch
+ *
+ * Update statusbar "JiffyDOS" LED when the switch is toggled.
+ *
+ * \param[in]   self    resource switch (ignored)
+ * \param[in]   active  new state of switch
+ */
+static void jiffy_switch_callback(GtkWidget *self, gboolean active)
+{
+    supercpu_jiffy_led_set_active(PRIMARY_WINDOW, active);
+}
+
 /** \brief  Create left-aligned label
  *
  * \param[in]   text    text for the label
@@ -106,6 +118,7 @@ GtkWidget *settings_scpu64_widget_create(GtkWidget *parent)
 
     label = create_label("JiffyDOS switch");
     jiffy = vice_gtk3_resource_switch_new("JiffySwitch");
+    vice_gtk3_resource_switch_add_callback(jiffy, jiffy_switch_callback);
     gtk_widget_set_halign(jiffy, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), jiffy, 1, 1, 1, 1);
