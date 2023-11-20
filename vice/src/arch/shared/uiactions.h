@@ -394,6 +394,10 @@ enum {
     ACTION_BORDER_MODE_DEBUG,
     ACTION_BORDER_MODE_NONE,
 
+    /* SCPU64 switches */
+    ACTION_SCPU_JIFFY_SWITCH_TOGGLE,
+    ACTION_SCPU_SPEED_SWITCH_TOGGLE,
+
     ACTION_ID_COUNT     /**< number of action IDs */
 };
 

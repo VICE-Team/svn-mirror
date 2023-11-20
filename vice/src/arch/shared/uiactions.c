@@ -409,6 +409,10 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_BORDER_MODE_DEBUG,         "border-mode-debug",        "Set border mode to Debug",             VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
     { ACTION_BORDER_MODE_NONE,          "border-mode-none",         "Set border mode to None",              VICE_MACHINE_ALL^VICE_MACHINE_VSID^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
 
+    /* SCPU64 switches */
+    { ACTION_SCPU_JIFFY_SWITCH_TOGGLE,  "scpu-jiffy-switch-toggle", "Toggle SCPU JiffyDOS switch",          VICE_MACHINE_SCPU64 },
+    { ACTION_SCPU_SPEED_SWITCH_TOGGLE,  "scpu-speed-switch-toggle", "Toggle SCPU Speed switch",             VICE_MACHINE_SCPU64 },
+
     { ACTION_INVALID, NULL, NULL, 0 }
 };
 

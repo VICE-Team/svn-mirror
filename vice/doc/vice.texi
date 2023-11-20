@@ -3047,6 +3047,10 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Reset machine CPU
 @item @code{restore-display}
 @tab Resize application window to fit contents
+@item @code{scpu-jiffy-switch-toggle}
+@tab Toggle SuperCPU JiffyDOS switch
+@item @code{scpu-speed-switch-toggle}
+@tab Toggle SuperCPU Speed switch
 @item @code{screenshot-quicksave}
 @tab Save screenshot in current working directory
 @item @code{settings-default}

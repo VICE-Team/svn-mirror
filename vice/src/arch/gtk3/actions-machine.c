@@ -39,6 +39,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
+#include "uistatusbar.h"
 #include "vsync.h"
 
 #include "actions-machine.h"
@@ -135,6 +136,36 @@ static void diagnostic_pin_toggle_action(ui_action_map_t *self)
     resources_set_int("DiagPin", !active);
 }
 
+/** \brief  Toggle SuperCPU JiffyDOS switch
+ *
+ * \param[in]   self    action map
+ */
+static void scpu_jiffy_switch_toggle_action(ui_action_map_t *self)
+{
+    int jiffy = 0;
+
+    resources_get_int("JiffySwitch", &jiffy);
+    jiffy = !jiffy;
+    resources_set_int("JiffySwitch", jiffy);
+    /* update status bar LED */
+    supercpu_jiffy_led_set_active(PRIMARY_WINDOW, jiffy ? TRUE : FALSE);
+}
+
+/** \brief  Toggle SuperCPU Speed switch
+ *
+ * \param[in]   self    action map
+ */
+static void scpu_speed_switch_toggle_action(ui_action_map_t *self)
+{
+    int speed = 0;
+
+    resources_get_int("SpeedSwitch", &speed);
+    speed = !speed;
+    resources_set_int("SpeedSwitch", speed);
+    /* update status bar LED */
+    supercpu_turbo_led_set_active(PRIMARY_WINDOW, speed ? TRUE : FALSE);
+}
+
 
 /** \brief  List of machine-related actions */
 static const ui_action_map_t machine_actions[] = {
@@ -164,8 +195,28 @@ static const ui_action_map_t machine_actions[] = {
     UI_ACTION_MAP_TERMINATOR
 };
 
+/** \brief  List of additional actions for xscpu64 */
+static const ui_action_map_t machine_actions_xscpu64[] = {
+    {   .action   = ACTION_SCPU_JIFFY_SWITCH_TOGGLE,
+        .handler  = scpu_jiffy_switch_toggle_action,
+        /* LED is not updated in the status bar sync code, so we need to guard
+         * this: */
+        .uithread = true
+    },
+    {   .action   = ACTION_SCPU_SPEED_SWITCH_TOGGLE,
+        .handler  = scpu_speed_switch_toggle_action,
+        /* LED is not updated in the status bar sync code, so we need to guard
+         * this: */
+        .uithread = true
+    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
 
 void actions_machine_register(void)
 {
     ui_actions_register(machine_actions);
+    if (machine_class == VICE_MACHINE_SCPU64) {
+        ui_actions_register(machine_actions_xscpu64);
+    }
 }
