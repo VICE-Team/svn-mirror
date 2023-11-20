@@ -429,6 +429,9 @@ typedef struct ui_statusbar_s {
     /** \brief  Userport diagnostic pin widget (PET) */
     GtkWidget *diagnosticpin_led;
 
+    /** \brief  Turbo led (SCPU64) */
+    GtkWidget *supercpu_turbo_led;
+
     /** \brief  Widget displaying CPU speed and FPS
      *
      * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
@@ -1241,6 +1244,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
     bar->mode4080_led = NULL;
     bar->capslock_led = NULL;
     bar->diagnosticpin_led = NULL;
+    bar->supercpu_turbo_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -2180,6 +2184,52 @@ void diagnosticpin_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Callback for the SuperCPU turbo LED
+ *
+ * Set resource "SpeedSwitch" to \a active.
+ *
+ * \param[in]   self    turbo LED (ignored)
+ * \param[in]   active  new LED state
+ */
+static void supercpu_turbo_led_callback(GtkWidget *self, gboolean active)
+{
+    resources_set_int("SpeedSwitch", active ? 1 : 0);
+}
+
+/** \brief  Create SuperCPU "turbo" led widget
+ *
+ * \return  LED widget
+ */
+static GtkWidget *supercpu_turbo_led_create(void)
+{
+    GtkWidget *led;
+    int        speed = 0;
+
+    /* according to images of the actual SuperCPU it has a red LED to indicate
+     * turbo mode */
+    led = statusbar_led_widget_create("turbo:", "#ff0000", "#000");
+    resources_get_int("SpeedSwitch", &speed);
+    statusbar_led_widget_set_active(led, speed);
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, supercpu_turbo_led_callback);
+    gtk_widget_show_all(led);
+    return led;
+}
+
+/** \brief  Set SCPU64 turbo led state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  new state for led
+ */
+void supercpu_turbo_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led = allocated_bars[bar].supercpu_turbo_led;
+
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
 
 /** \brief  Get status bar index for \a window
  *
@@ -2380,9 +2430,10 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *warp_led;
     GtkWidget *pause_led;
     GtkWidget *shiftlock_led = NULL;
-    GtkWidget *mode4080_led = NULL;
-    GtkWidget *capslock_led = NULL;
-    GtkWidget *diagpin_led = NULL;
+    GtkWidget *mode4080_led  = NULL;
+    GtkWidget *capslock_led  = NULL;
+    GtkWidget *diagpin_led   = NULL;
+    GtkWidget *turbo_led     = NULL;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2516,6 +2567,13 @@ GtkWidget *ui_statusbar_create(int window_identity)
         statusbar_append_led(i, diagpin_led, FALSE);
     }
     allocated_bars[i].diagnosticpin_led = diagpin_led;
+
+    if (machine_class == VICE_MACHINE_SCPU64) {
+        /* SuperCPU SPEED switch (turbo/normal) */
+        turbo_led = supercpu_turbo_led_create();
+        statusbar_append_led(i, turbo_led, FALSE);
+    }
+    allocated_bars[i].supercpu_turbo_led = turbo_led;
 
     /*
      * Add widgets to the widgets row
