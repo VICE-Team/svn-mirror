@@ -32,6 +32,7 @@
  * $VICERES VICIIHideStatusbar  x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES DiagPin             xpet
  * $VICERES SpeedSwitch         xscpu64
+ * $VICERES JiffySwitch         xscpu64
  *
  */
 
@@ -431,8 +432,11 @@ typedef struct ui_statusbar_s {
     /** \brief  Userport diagnostic pin widget (PET) */
     GtkWidget *diagnosticpin_led;
 
-    /** \brief  Turbo led (SCPU64) */
+    /** \brief  Turbo LED widget (SCPU64) */
     GtkWidget *supercpu_turbo_led;
+
+    /** \brief  JiffyDOS LED widget (SCPU64) */
+    GtkWidget *supercpu_jiffy_led;
 
     /** \brief  Widget displaying CPU speed and FPS
      *
@@ -1247,6 +1251,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
     bar->capslock_led = NULL;
     bar->diagnosticpin_led = NULL;
     bar->supercpu_turbo_led = NULL;
+    bar->supercpu_jiffy_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -2232,6 +2237,52 @@ void supercpu_turbo_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Callback for the SuperCPU JiffyDOS LED
+ *
+ * Set resource "SpeedSwitch" to \a active.
+ *
+ * \param[in]   self    turbo LED (ignored)
+ * \param[in]   active  new LED state
+ */
+static void supercpu_jiffy_led_callback(GtkWidget *self, gboolean active)
+{
+    resources_set_int("JiffySwitch", active ? 1 : 0);
+}
+
+/** \brief  Create SuperCPU JiffyDOS LED widget
+ *
+ * \return  LED widget
+ */
+static GtkWidget *supercpu_jiffy_led_create(void)
+{
+    GtkWidget *led;
+    int        jiffy = 0;
+
+    /* according to images of the actual SuperCPU it has a red LED to indicate
+     * turbo mode */
+    led = statusbar_led_widget_create("JiffyDOS:", "#00ff00", "#000");
+    resources_get_int("JiffySwitch", &jiffy);
+    statusbar_led_widget_set_active(led, jiffy);
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, supercpu_jiffy_led_callback);
+    gtk_widget_show_all(led);
+    return led;
+}
+
+/** \brief  Set SCPU64 JiffyDOS LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  new state for led
+ */
+void supercpu_jiffy_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led = allocated_bars[bar].supercpu_jiffy_led;
+
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
 
 /** \brief  Get status bar index for \a window
  *
@@ -2436,6 +2487,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *capslock_led  = NULL;
     GtkWidget *diagpin_led   = NULL;
     GtkWidget *turbo_led     = NULL;
+    GtkWidget *jiffy_led     = NULL;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2574,8 +2626,12 @@ GtkWidget *ui_statusbar_create(int window_identity)
         /* SuperCPU SPEED switch (turbo/normal) */
         turbo_led = supercpu_turbo_led_create();
         statusbar_append_led(i, turbo_led, FALSE);
+        /* SuperCPU JiffyDOS switch */
+        jiffy_led = supercpu_jiffy_led_create();
+        statusbar_append_led(i, jiffy_led, FALSE);
     }
     allocated_bars[i].supercpu_turbo_led = turbo_led;
+    allocated_bars[i].supercpu_jiffy_led = jiffy_led;
 
     /*
      * Add widgets to the widgets row
