@@ -228,7 +228,7 @@ static gboolean on_led_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
  * \param[in]   event   event data
  * \param[in]   data    extra event data (unused)
  *
- * \return  FALSE, don't propagate further
+ * \return  `GDK_EVENT_PROPAGATE`
  */
 static gboolean on_button_press_event(GtkWidget *self,
                                       GdkEvent *event,
@@ -252,7 +252,7 @@ static gboolean on_button_press_event(GtkWidget *self,
             }
         }
     }
-    return FALSE;
+    return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -267,7 +267,7 @@ static gboolean on_button_press_event(GtkWidget *self,
  * \note    Gtk docs incorrectly state the second argument should be
  *          `GdkEventCrossing event`, this doesn't work.
  *
- * \return  FALSE to propagate the event further
+ * \return  `GDK_EVENT_PROPAGATE`
  */
 static gboolean on_crossing_event(GtkWidget *self,
                                   GdkEvent *event,
@@ -303,7 +303,7 @@ static gboolean on_crossing_event(GtkWidget *self,
                 __FILE__, __LINE__, __func__);
     }
 
-    return FALSE;   /* propagate the event further */
+    return GDK_EVENT_PROPAGATE; /* propagate the event further */
 }
 
 
