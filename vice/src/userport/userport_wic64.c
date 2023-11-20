@@ -102,7 +102,6 @@ static int wic64_set_logenabled(int val, void *param);
 static int wic64_set_loglevel(int val, void *param);
 static int wic64_set_resetuser(int val, void *param);
 static int wic64_set_hexdumplines(int val, void *param);
-static int wic64_set_protocol(int val, void *param);
 static int wic64_cmdl_reset(const char *val, void *param);
 static void wic64_log(const char *fmt, ...);
 static void _wic64_log(const int lv, const char *fmt, ...);
@@ -161,7 +160,7 @@ static int wic64_logenabled = 0;
 static int wic64_loglevel = 0;
 static int wic64_resetuser = 0;
 static int wic64_hexdumplines = 0;
-static int wic64_protocol = 0;
+static char wic64_protocol = 'U'; /* invalid, so we see in trace even the legacy */
 static int big_load = 0;
 static char wic64_last_status[40]; /* according spec 40 bytes, hold status string. incl. \0 */
 
@@ -189,8 +188,6 @@ static const resource_int_t wic64_resources_int[] = {
       &wic64_resetuser, wic64_set_resetuser, NULL },
     { "WIC64HexdumpLines", 8, RES_EVENT_NO, NULL,
       &wic64_hexdumplines, wic64_set_hexdumplines, NULL },
-    { "WIC64Protocol", 1, RES_EVENT_NO, NULL,
-      &wic64_protocol, wic64_set_protocol, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -252,9 +249,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64hexdumplines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64HexdumpLines", NULL,
       "<value>", "Limit WiC64 hexdump lines (0: unlimited)" },
-    { "-wic64protocol", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "WIC64Protocol", NULL,
-      "<1,2,3>", "WIC64 Protocol to use (1: legacy, 2: revised, 3: extended)" },
     CMDLINE_LIST_END
 };
 
@@ -320,8 +314,6 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_PROT_LEGACY 'W'
 #define WIC64_PROT_REVISED 'R'
 #define WIC64_PROT_EXTENDED 'E'
-
-static char prot_magic = WIC64_PROT_REVISED;
 
 #define HTTPREPLY_MAXLEN ((unsigned)(16 * 1024 * 1024)) /* 16MB needed for potential large images to flash via bigloader */
 static size_t httpbufferptr = 0;
@@ -447,12 +439,6 @@ static int wic64_set_resetuser(int val, void *param)
 static int wic64_set_hexdumplines(int val, void *param)
 {
     wic64_hexdumplines = val;
-    return 0;
-}
-
-static int wic64_set_protocol(int val, void *param)
-{
-    wic64_protocol = val;
     return 0;
 }
 
@@ -662,7 +648,7 @@ static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 static void add_transfer(CURLM *cmulti, char *url)
 {
     CURL *eh = curl_easy_init();
-    if (wic64_loglevel > 2) {
+    if (wic64_loglevel > 1) {
         curl_easy_setopt(eh, CURLOPT_VERBOSE, 1L);
     }
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
@@ -910,7 +896,7 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
     reply_length = (uint32_t)(len + offs);
     replyptr = 0;
     if (len > 0) {
-        wic64_log("WiC64 sends...");
+        wic64_log("WiC64 sends %d/0x%xbytes...", len);
         hexdump(replybuffer, reply_length);
     }
     handshake_flag2();
@@ -923,7 +909,7 @@ static void send_binary_reply_raw(const uint8_t *reply, size_t len)
     reply_length = (uint32_t)(len + offs);
     replyptr = 0;
     if (len > 0) {
-        wic64_log("WiC64 sends...");
+        wic64_log("WiC64 sends %d/0x%xbytes...", len);
         hexdump(replybuffer, reply_length);
     }
     handshake_flag2();
@@ -1384,7 +1370,7 @@ static void do_connect(void)
     }
 }
 
-static void do_command_21(void)
+static void cmd_tcp_open(void)
 {
     wic64_log("%s: connect TCP", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
@@ -1432,7 +1418,7 @@ static void tcp_get_alarm_handler(CLOCK offset, void *data)
     total_read = 0;
 }
 
-static void do_command_22(void)
+static void cmd_tcp_read(void)
 {
     if (commandptr > 0) {
         wic64_log("%s: get TCP1", __FUNCTION__);
@@ -1482,7 +1468,7 @@ static void tcp_send_alarm_handler(CLOCK offset, void *data)
     }
 }
 
-static void do_command_23(void)
+static void cmd_tcp_write(void)
 {
     wic64_log("%s: send TCP1", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
@@ -1497,6 +1483,12 @@ static void do_command_23(void)
     alarm_unset(tcp_send_alarm);
     alarm_set(tcp_send_alarm, maincpu_clk + (312 * 65));
     /* no reply here, but from alarm handler */
+}
+
+static void cmd_tcp_close(void)
+{
+    wic64_log("%s: close TCP", __FUNCTION__);
+    send_reply("0");
 }
 
 static void do_command_24(void)
@@ -1635,13 +1627,13 @@ static void do_command(void)
         do_command_20();
         break;
     case WIC64_CMD_TCP_OPEN: /* connect TCP */
-        do_command_21();
+        cmd_tcp_open();
         break;
-    case 0x22: /* get tcp1 */
-        do_command_22();
+    case WIC64_CMD_TCP_READ: /* get tcp1 */
+        cmd_tcp_read();
         break;
-    case 0x23: /* send tcp1  */
-        do_command_23();
+    case WIC64_CMD_TCP_WRITE: /* send tcp1  */
+        cmd_tcp_write();
         break;
     case 0x24: /* httppost  */
         do_command_24();
@@ -1651,6 +1643,9 @@ static void do_command(void)
         break;
     case WIC64_CMD_GET_STATUS_MESSAGE:
         cmd_get_status();
+        break;
+    case WIC64_CMD_TCP_CLOSE:
+        cmd_tcp_close();
         break;
     case 0x63: /* factory reset */
         do_command_63();
@@ -1667,7 +1662,8 @@ static void do_command(void)
     }
 }
 
-static void wic64_legacyprot_state(uint8_t value)
+#if 0
+static int wic64_legacyprot_state(uint8_t value)
 {
     switch (input_state) {
     case 0:
@@ -1694,39 +1690,54 @@ static void wic64_legacyprot_state(uint8_t value)
             commandbuffer[commandptr] = value;
             commandptr++;
             commandbuffer[commandptr] = 0;
+        } else {
+            return 1;
         }
         break;
     }
+    return 0;
 }
+#endif
+
+#define INPUT_EXP_PROT 0
+#define INPUT_EXP_CMD 1
+#define INPUT_EXP_LL 2
+#define INPUT_EXP_LH 3
+#define INPUT_EXP_ARGS 4
 
 static void wic64_prot_state(uint8_t value)
 {
     switch (input_state) {
-    case 0:
-        input_length = 0;
-        commandptr = 0;
-        if (value == prot_magic) {
-            input_state++;
+    case INPUT_EXP_CMD:         /* command */
+        input_command = value;
+        if (wic64_protocol != WIC64_PROT_LEGACY) {
+            input_state = INPUT_EXP_LL;
+        } else {
+            input_state = INPUT_EXP_ARGS;
         }
         break;
-    case 1: /* command */
-        input_command = value;
-        input_state++;
+    case INPUT_EXP_LL:
+        input_length = value;   /* len low byte */
+        input_state = INPUT_EXP_LH;
         break;
-    case 2: /* lenght low byte */
-        input_length = value;
-        input_state++;
+    case INPUT_EXP_LH:          /* len high byte */
+        input_length = (value << 8) | input_length;
+        if (wic64_protocol != WIC64_PROT_LEGACY) {
+            input_state = INPUT_EXP_ARGS;
+        } else {
+            input_state = INPUT_EXP_CMD;
+            input_length -= 4;
+        }
         break;
-    case 3: /* lenght high byte */
-        input_length |= (value << 8);
-        input_state++;
-        break;
-    default:    /* additional data depending on command */
-        if ((commandptr + 4) < input_length) {
+    case INPUT_EXP_ARGS:
+        if (commandptr < input_length) {
             commandbuffer[commandptr] = value;
             commandptr++;
             commandbuffer[commandptr] = 0;
         }
+        break;
+    default:
+        _wic64_log(2, "unknown input state %d", input_state);
         break;
     }
 }
@@ -1740,13 +1751,41 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                        isprint(value) ? value : '.',
                        value,
                        input_state);
-            if (wic64_protocol == 1) {
-                wic64_legacyprot_state(value);
+
+            if (input_state == INPUT_EXP_PROT) {
+                int old_prot = wic64_protocol;
+                wic64_protocol = value;
+                switch (value) {
+                case WIC64_PROT_LEGACY:
+                    input_state = INPUT_EXP_LL;
+                    break;
+                case WIC64_PROT_REVISED:
+                case WIC64_PROT_EXTENDED:
+                    input_state = INPUT_EXP_CMD;
+                    break;
+                default:
+                    wic64_log("unknown protocol '%c', using revised.", value);
+                    wic64_protocol = WIC64_PROT_REVISED;
+                    input_state = INPUT_EXP_CMD;
+                    break;
+                }
+
+                if (old_prot != wic64_protocol) {
+                    wic64_log("using %s protocol",
+                              (wic64_protocol == WIC64_PROT_LEGACY) ? "legacy" :
+                              (wic64_protocol == WIC64_PROT_REVISED) ? "revised" :
+                              (wic64_protocol == WIC64_PROT_EXTENDED) ? "extended" :
+                              "unknown");
+                }
+                input_length = 0;
+                commandptr = 0;
             } else {
                 wic64_prot_state(value);
             }
+
             handshake_flag2();
-            if ((input_state == 4) && ((commandptr + 4) >= input_length)) {
+            if ((input_state == INPUT_EXP_ARGS) &&
+                (commandptr == input_length)) {
                 wic64_log("command 0x%02x (len=%d/0x%x)", input_command,
                           input_length, input_length);
                 do_command();
@@ -1768,7 +1807,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     /* FIXME: what do we have to do with original value? */
     /* CIA read is triggered once more by wic64 lib on the host,
        even if all bytes are sent, so the last byte seems to be sent twice */
-    _wic64_log(2, "sending '%c'/0x%02x, input_state = %d",
+    _wic64_log(2, "sending '%c'/0x%02x",
                isprint(retval) ? retval : '.',
                retval);
     /* FIXME: trigger mainloop */
@@ -1820,22 +1859,6 @@ static void userport_wic64_reset(void)
     } else {
         wic64_mac_address = tmp;
     }
-
-    switch (wic64_protocol) {
-    case 1:
-        prot_magic = WIC64_PROT_LEGACY;
-        break;
-    case 2:
-        prot_magic = WIC64_PROT_REVISED;
-        break;
-    case 3:
-        prot_magic = WIC64_PROT_EXTENDED;
-        break;
-    default:
-        prot_magic = WIC64_PROT_REVISED; /* best choice in case the something is wrong */
-        break;
-    }
-    wic64_log("setting protocol: %c", prot_magic);
 
     if ((resources_get_string("WIC64IPAddress", (const char **)&tmp) == -1) ||
         (tmp == NULL) ||
