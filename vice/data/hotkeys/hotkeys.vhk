@@ -130,3 +130,13 @@
 
 # Help - About dialog, hotkeys editor, manual, etc
 !include hotkeys-help.vhk
+
+# SCPU-specific hotkeys
+# No hotkey for the JiffyDOS switch, Alt+J is mapped to "Swap joysticks" :(
+!if SCPU64
+    !if !MACOS
+        scpu-speed-switch-toggle    <Alt>t
+    !else
+        scpu-speed-switch-toggle    <Command>t
+    !endif
+!endif

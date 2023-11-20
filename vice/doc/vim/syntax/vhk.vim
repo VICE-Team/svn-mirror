@@ -135,6 +135,7 @@ syn match vhkActionName "\<printer-formfeed-\(4\|5\|6\|userport\)\>"
 syn match vhkActionName "\<virtual-keyboard\>"
 syn match vhkActionName "\<show-statusbar\(-secondary\)\?-toggle\>"
 syn match vhkActionName "\<border-mode-\(normal\|full\|debug\|none\)\>"
+syn match vhkActionName "\<scpu-\(jiffy\|speed\)-switch-toggle\>"
 
 " Comments
 syn match vhkComment "[#;].*$" contains=vhkTodo
