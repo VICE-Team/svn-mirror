@@ -1386,8 +1386,6 @@ if test x"$check_sdl2" = "xyes"; then
     dnl actually require tests.
     if test x"$enable_sdl2ui" != "xno"; then
       AC_DEFINE(USE_SDL2UI,,[Enable SDL 2.x UI support.])
-      AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
-      HAVE_FULLSCREEN_SUPPORT="yes"
       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
       HAVE_HWSCALE_SUPPORT="yes"
 
@@ -1524,9 +1522,6 @@ if test x"$check_sdl1" = "xyes"; then
 
       dnl only continue if SDL headers/libs are present
       if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" = "xyes"; then
-        AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
-        HAVE_FULLSCREEN_SUPPORT="yes"
-
         AC_CHECK_FUNCS(SDL_NumJoysticks)
 
         if test x"$enable_hwscale" != "xno"; then
