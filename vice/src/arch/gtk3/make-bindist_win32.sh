@@ -147,9 +147,6 @@ if test x"$CROSS" != "xtrue"; then
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
   cd - >/dev/null
-  if grep -q '^#define EXTERNAL_FFMPEG ' $TOPBUILDDIR/src/config.h
-    then cp -u `ntldd -R $MINGW_PREFIX/bin/avfilter-*.dll|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
-  fi
 
   # drop unzip.exe and its dependencies in the bin/ =)
   if test x"$UNZIPBIN" != "xno"; then
