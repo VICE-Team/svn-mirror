@@ -2982,13 +2982,11 @@ if test x"$is_unix" = "xyes"; then
       fi
       if test x"$enable_catweasel" = "xyes"; then
         AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-        AC_DEFINE(HAVE_CATWEASELMKIII_IO,,[Support for direct PCI I/O access Catweasel MKIII.])
         AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
         HAVE_CATWEASELMKIII_SUPPORT="yes"
       fi
       if test x"$enable_hardsid" != "xno"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-        AC_DEFINE(HAVE_HARDSID_IO,,[Support for PCI/ISA HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
       fi
     else
