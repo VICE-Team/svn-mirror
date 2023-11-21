@@ -136,6 +136,7 @@ int main_program(int argc, char **argv)
     bool no_redirect_streams = false;
 #endif
     bool loadconfig = true;
+    char *datadir;
 
 #ifdef USE_VICE_THREAD
     /*
@@ -397,6 +398,11 @@ int main_program(int argc, char **argv)
     lib_rand_printseed(); /* log the random seed */
     log_message(LOG_DEFAULT, "command line was: %s", cmdline);
     lib_free(cmdline);
+
+    /* log VICE system file directory */
+    datadir = archdep_get_vice_datadir();
+    log_message(LOG_DEFAULT, "VICE system file directory: %s.", datadir);
+    lib_free(datadir);
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
