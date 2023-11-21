@@ -432,7 +432,6 @@ is_win32_gtk3=no
 is_beos=no
 
 
-BSD_JOYSTICK_SUPPORT="no "
 DEBUG_SUPPORT="no "
 DEBUG_THREADS_SUPPORT="no "
 FEATURE_CPUMEMHISTORY_SUPPORT="no "
@@ -2059,22 +2058,6 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl
                               [Enable support for Linux style joysticks.])
                         JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux.o";
                    ],[],[#include <linux/joystick.h>])],)
-
-  AC_CHECK_HEADER(machine/joystick.h,
-                  [ BSD_JOYSTICK_SUPPORT="yes";
-                    AC_DEFINE(HAVE_MACHINE_JOYSTICK_H,,
-                              [Define to 1 if you have the <machine/joystick.h> header file.])
-                    AC_DEFINE(BSD_JOYSTICK,,
-                              [Enable support for BSD style joysticks.])],)
-
-  if test x"$ac_cv_header_machine_joystick_h" != "xyes"; then
-    AC_CHECK_HEADER(sys/joystick.h,
-                    [ BSD_JOYSTICK_SUPPORT="yes";
-                      AC_DEFINE(HAVE_SYS_JOYSTICK_H,,
-                                [Define to 1 if you have the <sys/joystick.h> header file.])
-                      AC_DEFINE(BSD_JOYSTICK,,
-                                [Enable support for BSD style joysticks.])],)
-  fi
 
   dnl NetBSD/FreeBSD USB joystick support
   usbhid_header=no
@@ -3797,7 +3780,6 @@ echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
 if test x"$real_arch" = "xUnix"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
         echo "Linux style joystick support: $LINUX_JOYSTICK_SUPPORT"
-        echo "BSD style joystick support  : $BSD_JOYSTICK_SUPPORT"
         echo "USB joystick support        : $HAS_USB_JOYSTICK_SUPPORT"
     fi
 fi
