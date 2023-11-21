@@ -989,8 +989,8 @@ static void send_reply_revised(const uint8_t rcode, const char *msg, const uint8
         wic64_log("WiC64 sends header...");
         hexdump(replybuffer, 3 + offs);
         wic64_log("WiC64 sends payload %d/0x%xbytes...", len, len);
-        hexdump(&replybuffer[3 + offs], len);
-        reply_length = len + 3 + offs;
+        hexdump(&replybuffer[3 + offs], (int)len);
+        reply_length = (uint32_t)(len + 3 + offs);
         handshake_flag2();
     } else {
         if (payload) {
