@@ -3250,9 +3250,6 @@ if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared"
-  if test x"$ac_cv_lib_readline_readline" = "xyes"; then
-    AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
-  fi
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
@@ -3299,9 +3296,6 @@ if test x"$enable_gtk3ui" = "xyes"; then
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
   fi
-  if test x"$ac_cv_lib_readline_readline" = "xyes"; then
-    AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
-  fi
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
@@ -3338,9 +3332,6 @@ if test x"$enable_headlessui" = "xyes"; then
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
-  fi
-  if test x"$ac_cv_lib_readline_readline" = "xyes"; then
-    AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
   fi
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
@@ -3409,7 +3400,6 @@ if test x"$GCC" = "xyes" ; then
 fi
 
 
-AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)
 AC_SUBST(ARCH_DIR)

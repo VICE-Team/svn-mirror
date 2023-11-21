@@ -87,8 +87,4 @@ int native_console_petscii_out(console_t *log, const char *format, ...) VICE_ATT
 int native_console_flush(console_t *log);
 char *native_console_in(console_t *log, const char *prompt);
 
-# ifndef HAVE_READLINE
-char *readline(const char *prompt);
-# endif
-
 #endif
