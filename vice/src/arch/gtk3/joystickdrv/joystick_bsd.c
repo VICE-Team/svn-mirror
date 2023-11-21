@@ -217,11 +217,11 @@ static void usb_joystick(int jp, void* priv)
                 /* Autodect if 0 is neutral, or 8 */
                 if (it->min_val < 0) {
                     if (val == 0) {
-                    it->min_val = 0;
+                        it->min_val = 0;
                     } else if (val == 8) {
-                    it->min_val = 1;
+                        it->min_val = 1;
                     } else {
-                    /* Not yet autodetected */
+                        /* Not yet autodetected */
                     }
                     /* Report neutral position for now */
                     joy_hat_event(jp, it->ordinal_number, 0);
@@ -326,10 +326,10 @@ void usb_joystick_init(void)
                                 ordinal_to_assign = next_ordinal_to_assign;
                             }
                             if (usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS) == 0) {
-                               axes++;
-                                 if (!found_x) {
-                                   found_x = 1;
-                                  } else {
+                                axes++;
+                                if (!found_x) {
+                                    found_x = 1;
+                                } else {
                                     next_ordinal_to_assign++;
                                 }
                             }
@@ -343,9 +343,9 @@ void usb_joystick_init(void)
                             }
                             if (usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS) == 0) {
                                 axes++;
-                                 if (!found_y) {
-                                   found_y = 1;
-                                  } else {
+                                if (!found_y) {
+                                    found_y = 1;
+                                } else {
                                     next_ordinal_to_assign++;
                                 }
                             }
