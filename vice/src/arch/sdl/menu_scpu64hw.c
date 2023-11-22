@@ -120,8 +120,6 @@ const ui_menu_entry_t scpu64_simmsize_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(JiffySwitch)
-UI_MENU_DEFINE_TOGGLE(SpeedSwitch)
 
 const ui_menu_entry_t scpu64_hardware_menu_template[] = {
     {   .string   = "Model settings",
@@ -134,13 +132,15 @@ const ui_menu_entry_t scpu64_hardware_menu_template[] = {
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)scpu64_simmsize_menu
     },
-    {   .string   = "Jiffy switch enable",
+    {   .action   = ACTION_SCPU_JIFFY_SWITCH_TOGGLE,
+        .string   = "Jiffy switch enable",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_JiffySwitch_callback
+        .resource = "JiffySwitch"
     },
-    {   .string   = "Speed switch enable",
+    {   .action   = ACTION_SCPU_SPEED_SWITCH_TOGGLE,
+        .string   = "Speed switch enable",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_SpeedSwitch_callback
+        .resource = "SpeedSwitch"
     },
     {   .string   = "Joyport settings",
         .type     = MENU_ENTRY_SUBMENU,
@@ -232,19 +232,11 @@ void scpu64_create_machine_menu(void)
     for (i = 0; scpu64_hardware_menu_template[i].string != NULL; i++) {
         if (!util_strcasecmp(scpu64_hardware_menu_template[i].string, "Userport settings")) {
             if (has_userport) {
-                scpu64_hardware_menu[j].action   = ACTION_NONE;
-                scpu64_hardware_menu[j].string   = scpu64_hardware_menu_template[i].string;
-                scpu64_hardware_menu[j].type     = scpu64_hardware_menu_template[i].type;
-                scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
-                scpu64_hardware_menu[j].data     = scpu64_hardware_menu_template[i].data;
+                scpu64_hardware_menu[j] = scpu64_hardware_menu_template[i];
                 j++;
             }
         } else {
-            scpu64_hardware_menu[j].action   = ACTION_NONE;
-            scpu64_hardware_menu[j].string   = scpu64_hardware_menu_template[i].string;
-            scpu64_hardware_menu[j].type     = scpu64_hardware_menu_template[i].type;
-            scpu64_hardware_menu[j].callback = scpu64_hardware_menu_template[i].callback;
-            scpu64_hardware_menu[j].data     = scpu64_hardware_menu_template[i].data;
+            scpu64_hardware_menu[j] = scpu64_hardware_menu_template[i];
             j++;
         }
     }

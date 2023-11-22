@@ -29,6 +29,7 @@
 
 #include "machine.h"
 #include "monitor.h"
+#include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
 #include "vsync.h"
@@ -82,6 +83,30 @@ static void quit_action(ui_action_map_t *self)
     ui_sdl_quit();
 }
 
+/** \brief  Toggle SCPU Speed switch action
+ *
+ * \param[in]   self    action map
+ */
+static void scpu_speed_switch_toggle_action(ui_action_map_t *self)
+{
+    int speed = 0;
+
+    resources_get_int("SpeedSwitch", &speed);
+    resources_set_int("SpeedSwitch", !speed);
+}
+
+/** \brief  Toggle SCPU JiffyDOS switch action
+ *
+ * \param[in]   self    action map
+ */
+static void scpu_jiffy_switch_toggle_action(ui_action_map_t *self)
+{
+    int jiffy = 0;
+
+    resources_get_int("JiffySwitch", &jiffy);
+    resources_set_int("JiffySwitch", !jiffy);
+}
+
 
 /** \brief  List of mappings for machine-related actions */
 static const ui_action_map_t machine_actions[] = {
@@ -106,9 +131,23 @@ static const ui_action_map_t machine_actions[] = {
     UI_ACTION_MAP_TERMINATOR
 };
 
+/** \brief  List of xscpu64-specific machine actions */
+static const ui_action_map_t machine_actions_xscpu64[] = {
+    {   .action  = ACTION_SCPU_JIFFY_SWITCH_TOGGLE,
+        .handler = scpu_jiffy_switch_toggle_action
+    },
+    {   .action  = ACTION_SCPU_SPEED_SWITCH_TOGGLE,
+        .handler = scpu_speed_switch_toggle_action
+    },
+    UI_ACTION_MAP_TERMINATOR
+};
+
 
 /** \brief  Register machine actions */
 void actions_machine_register(void)
 {
     ui_actions_register(machine_actions);
+    if (machine_class == VICE_MACHINE_SCPU64) {
+        ui_actions_register(machine_actions_xscpu64);
+    }
 }
