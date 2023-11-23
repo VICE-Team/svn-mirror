@@ -282,7 +282,7 @@ const command_t command_list[] = {
     { "?",
       "? [<command>]",
       "Explain specified command.  If no command is specified, "
-      "list available\n"      "ones.",
+      "list available\nones.",
       0, 1,
       help_cmd },
     { "attach",
@@ -5711,10 +5711,32 @@ int main(int argc, char **argv)
         linenoiseHistoryFree();
     } else {
         while (i < argc) {
-            args[0] = argv[i] + 1;
+            int match = 0, minargs = 0/*, maxargs = 0*/;
+            int n;
+            args[0] = argv[i] + 1;  /* only cmd word without leading - */
+            match = lookup_command(args[0]);
             nargs = 1;
             i++;
-            for (; i < argc && *argv[i] != '-'; i++) {
+            if (match >= 0) {
+                /* this was a valid command */
+                const command_t *cp = &command_list[match];
+                minargs = cp->min_args;
+                /*maxargs = cp->max_args;*/
+            }
+            /* first copy mandatory arguments, - is allowed without restrictions */
+            for (n = 0; (i < argc) && (n < minargs); n++, i++) {
+                args[nargs++] = argv[i];
+            }
+            /* copy rest of arguments (optional), - is allowed only when not the
+               same as a command */
+            for (; i < argc; i++) {
+                if (*argv[i] == '-') {
+                    if (lookup_command(argv[i] + 1) >= 0) {
+                        /* same as a command */
+                        break;
+                    }
+                }
+                /* valid optional argument */
                 args[nargs++] = argv[i];
             }
             if (lookup_and_execute_command(nargs, args) < 0) {
