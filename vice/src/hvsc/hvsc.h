@@ -111,12 +111,13 @@ typedef enum hvsc_stil_field_type_e {
 /** \brief  Handle for the text file reader functions
  */
 typedef struct hvsc_text_file_s {
-    FILE *  fp;     /**< file pointer */
-    char *  path;   /**< copy of the path of the file (for error messages) */
-    long    lineno; /**< line number in file */
+    FILE   *fp;         /**< file pointer */
+    char   *path;       /**< copy of the path of the file (for error messages) */
+    long    lineno;     /**< line number in file */
     size_t  linelen;    /**< line length */
-    char *  buffer; /**< buffer for line data, grows when required */
-    size_t  buflen; /**< size of buffer, grows when needed */
+    char   *buffer;     /**< buffer for line data, grows when required */
+    char   *prevbuf;    /**< previous content of buffer (for path lookup via md5sum) */
+    size_t  buflen;     /**< size of buffer, grows when needed */
 } hvsc_text_file_t;
 
 
@@ -162,6 +163,7 @@ typedef struct hvsc_stil_block_s {
 typedef struct hvsc_stil_s {
     hvsc_text_file_t    stil;           /**< handle for the STIL.txt file */
     char *              psid_path;      /**< path to PSID file */
+    char                md5sum[33];     /**< md5sum as hexadecimal string */
     char **             entry_buffer;   /**< content of the STIL entry */
     size_t              entry_bufmax;   /**< number of available entries in
                                              the entry_buffer */
@@ -329,12 +331,10 @@ void        hvsc_perror(const char *prefix);
  * sldb.c stuff
  */
 
-#ifdef HVSC_USE_MD5
 char *      hvsc_sldb_get_entry_md5(const char *psid);
-#endif
 char *      hvsc_sldb_get_entry_txt(const char *psid);
 int         hvsc_sldb_get_lengths(const char *psid, long **lengths);
-
+char *      hvsc_sldb_get_path_for_md5(const char *digest);
 
 /*
  * stil.c stuff

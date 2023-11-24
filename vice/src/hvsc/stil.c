@@ -23,6 +23,8 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*
  */
 
+#define HVSC_DEBUG
+
 #ifndef HVSC_STANDALONE
 # include "vice.h"
 #endif
@@ -42,6 +44,7 @@
 #include "base.h"
 
 #include "stil.h"
+
 
 
 /*
@@ -340,7 +343,7 @@ static void stil_block_add_field(hvsc_stil_block_t *block,
                                  hvsc_stil_field_t *field)
 {
     hvsc_dbg("max = %" PRI_SIZE_T ", used = %" PRI_SIZE_T "\n",
-            `block->fields_max, block->fields_used);
+             block->fields_max, block->fields_used);
     /* do we need to resize the array? */
     if (block->fields_max == block->fields_used) {
         /* yep */
@@ -359,14 +362,14 @@ static void stil_block_add_field(hvsc_stil_block_t *block,
 static void stil_init_handle(hvsc_stil_t *handle)
 {
     hvsc_text_file_init_handle(&(handle->stil));
-    handle->psid_path = NULL;
-    handle->entry_buffer = NULL;
-    handle->entry_bufmax = 0;
+    handle->psid_path     = NULL;
+    handle->entry_buffer  = NULL;
+    handle->entry_bufmax  = 0;
     handle->entry_bufused = 0;
-    handle->sid_comment = NULL;
-    handle->blocks = NULL;
-    handle->blocks_max = 0;
-    handle->blocks_used = 0;
+    handle->sid_comment   = NULL;
+    handle->blocks        = NULL;
+    handle->blocks_max    = 0;
+    handle->blocks_used   = 0;
 }
 
 
@@ -455,8 +458,33 @@ bool hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
         return false;
     }
 
-    /* make copy of psid, ripping off the HVSC root directory */
-    handle->psid_path = hvsc_path_strip_root(psid);
+    /* get MD5 sum for the given file */
+    memset(handle->md5sum, 0, sizeof handle->md5sum);
+    if (hvsc_md5_digest(psid, handle->md5sum)) {
+        hvsc_dbg("got MD5 sum: %s\n", handle->md5sum);
+    } else {
+        hvsc_dbg("failed to get MD5 sum for file '%s'\n", psid);
+    }
+
+    /* make copy of psid path, ripping off the HVSC root directory */
+    if (hvsc_path_is_hvsc(psid)) {
+        hvsc_dbg("path %s is in HVSC base directory\n", psid);
+        handle->psid_path = hvsc_path_strip_root(psid);
+    } else {
+        /* not a HVSC base path, look up HVSC base-relative path in SLDB */
+        char *path;
+
+        hvsc_dbg("path %s is NOT in HVSC base directory or base directory not set\n",
+                 psid);
+        path = hvsc_sldb_get_path_for_md5(handle->md5sum);
+        if (path != NULL) {
+            hvsc_dbg("path for md5 hash %s is %s\n", handle->md5sum, path);
+            handle->psid_path = path;
+        } else {
+            hvsc_dbg("couldn't find path for md5 hash %s\n", handle->md5sum);
+            handle->psid_path = hvsc_strdup(psid);
+        }
+    }
 #ifdef WINDOWS_COMPILE
     /* fix directory separators */
     hvsc_path_fix_separators(handle->psid_path);

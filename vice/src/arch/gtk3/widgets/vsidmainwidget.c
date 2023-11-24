@@ -445,16 +445,13 @@ GtkWidget *vsid_main_widget_create(void)
     main_widget = grid;
     gtk_widget_show_all(grid);
 
-    /* Try to load STIL info for a file passed on the command line.
-     *
-     * FIXME: This currently only works for files in the HVSC directory since we
-     * look up files by path, not by MD5 sum.
-     */
+    /* Try to load STIL info and SLDB data for a file passed on the command line */
     if (psid_autostart_image != NULL) {
         if (archdep_real_path(psid_autostart_image, fullpath)) {
-            debug_gtk3("Looking up STIL info for PSID specified on command line: %s",
+            debug_gtk3("Looking up STIL/SLDB info for PSID specified on command line: %s",
                        fullpath);
             hvsc_stil_widget_set_psid(fullpath);
+            vsid_tune_info_widget_set_song_lengths(fullpath);
         }
         lib_free(psid_autostart_image);
         psid_autostart_image = NULL;
