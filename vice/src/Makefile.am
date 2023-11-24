@@ -580,6 +580,7 @@ imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
+md5_lib = $(top_builddir)/src/lib/md5/libmd5.a
 mididrv_lib = $(top_builddir)/src/arch/shared/mididrv/libmididrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
@@ -668,7 +669,8 @@ vsid_libs =  \
 	$(hvsc_lib) \
 	$(datasette_lib) \
 	$(hotkeys_lib) \
-	$(vsidstubs_lib)
+	$(vsidstubs_lib) \
+	$(md5_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)

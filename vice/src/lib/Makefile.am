@@ -1,4 +1,4 @@
-SUBDIRS = p64 linenoise-ng libzmbv
+SUBDIRS = p64 linenoise-ng libzmbv md5
 
 AM_CFLAGS = @VICE_CFLAGS@
 

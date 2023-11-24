@@ -87,6 +87,7 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle);
 void        hvsc_text_file_close(hvsc_text_file_t *handle);
 
 char *      hvsc_path_strip_root(const char *path);
+bool        hvsc_path_is_hvsc(const char *path);
 void        hvsc_path_fix_separators(char *path);
 bool        hvsc_string_is_empty(const char *s);
 bool        hvsc_string_is_comment(const char *s);
@@ -97,5 +98,7 @@ const char *hvsc_get_field_display(int type);
 void        hvsc_get_word_be(uint16_t *dest, const uint8_t *src);
 void        hvsc_get_word_le(uint16_t *dest, const uint8_t *src);
 void        hvsc_get_longword_be(uint32_t *dest, const uint8_t *src);
+
+bool        hvsc_md5_digest(const char *psid, char *digest);
 
 #endif

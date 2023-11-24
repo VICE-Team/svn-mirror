@@ -22,7 +22,8 @@ EXTRA_DIST = \
 	stil.h
 
 AM_CPPFLAGS = @VICE_CPPFLAGS@ \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib/md5
 
 AM_CFLAGS = -pedantic @VICE_CFLAGS@
 
