@@ -112,7 +112,7 @@ static void _wic64_log(const int lv, const char *fmt, ...);
 static void wic64_reset_user_helper(void);
 static void wic64_set_status(const char *status);
 static void prep_wic64_str(void);
-static void do_connect(uint8_t *url, int post);
+static void do_connect(uint8_t *url);
 static void cmd_tcp_write(void);
 
 static userport_device_t userport_wic64_device = {
@@ -141,6 +141,7 @@ static userport_device_t userport_wic64_device = {
 };
 
 static struct alarm_s *http_get_alarm = NULL;
+static struct alarm_s *http_post_alarm = NULL;
 static struct alarm_s *tcp_get_alarm = NULL;
 static struct alarm_s *tcp_send_alarm = NULL;
 static char sec_token[32];
@@ -169,6 +170,10 @@ static int wic64_hexdumplines = 0;
 static char wic64_protocol = 'U'; /* invalid, so we see in trace even the legacy */
 static int big_load = 0;
 static char wic64_last_status[40]; /* according spec 40 bytes, hold status string. incl. \0 */
+static char *post_data = NULL;
+static size_t post_data_rcvd;
+static size_t post_data_size;
+static int post_error;
 
 static const resource_string_t wic64_resources[] =
 {
@@ -263,9 +268,10 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_CMD_GET_VERSION_NUMBERS 0x26
 
 #define WIC64_CMD_SCAN_WIFI_NETWORKS       0x0c
+#define WIC64_CMD_IS_CONFIGURED            0x2f
+#define WIC64_CMD_IS_CONNECTED             0x2c
 #define WIC64_CMD_CONNECT_WITH_SSID_STRING 0x02
 #define WIC64_CMD_CONNECT_WITH_SSID_INDEX  0x0d
-#define WIC64_CMD_IS_CONNECTED             0x2c
 
 #define WIC64_CMD_GET_MAC  0x14
 #define WIC64_CMD_GET_SSID 0x10
@@ -278,6 +284,7 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_CMD_HTTP_POST_DATA   0x2b
 
 #define WIC64_CMD_TCP_OPEN  0x21
+#define WIC64_CMD_TCP_AVAILABLE 0x30
 #define WIC64_CMD_TCP_READ  0x22
 #define WIC64_CMD_TCP_WRITE 0x23
 #define WIC64_CMD_TCP_CLOSE 0x2e
@@ -295,6 +302,8 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_CMD_GET_STATUS_MESSAGE 0x2a
 #define WIC64_CMD_SET_TIMEOUT 0x2d
 
+#define WIC64_CMD_FORCE_TIMEOUT 0xfc
+#define WIC64_CMD_FORCE_ERROR 0xfd
 #define WIC64_CMD_ECHO 0xfe
 
 // Deprecated commands
@@ -396,6 +405,16 @@ static int userport_wic64_enable(int value)
         lib_free(curl_send_buf);
         curl_send_buf = NULL;
         _wic64_log(2, "%s: httpreplybuffer/replybuffer/encoded_helper/curl_send_buf freed", __FUNCTION__);
+
+        if (post_data) {
+            lib_free(post_data);
+        }
+
+        if (curl) {
+            /* connection closed */
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
+        }
         wic64_set_status("disabled.");
     }
 
@@ -644,10 +663,11 @@ static void prep_wic64_str(void)
     cmd2string[WIC64_CMD_GET_VERSION_NUMBERS] = "WIC64_CMD_GET_VERSION_NUMBERS";
 
     cmd2string[WIC64_CMD_SCAN_WIFI_NETWORKS] = "WIC64_CMD_SCAN_WIFI_NETWORKS";
-    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_STRING] = "WIC64_CMD_CONNECT_WITH_SSID_STRING";
-
-    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_INDEX] = "WIC64_CMD_CONNECT_WITH_SSID_INDEX";
     cmd2string[WIC64_CMD_IS_CONNECTED] = "WIC64_CMD_IS_CONNECTED";
+    cmd2string[WIC64_CMD_IS_CONFIGURED] = "WIC64_CMD_IS_CONFIGURED";
+    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_STRING] = "WIC64_CMD_CONNECT_WITH_SSID_STRING";
+    cmd2string[WIC64_CMD_CONNECT_WITH_SSID_INDEX] = "WIC64_CMD_CONNECT_WITH_SSID_INDEX";
+
     cmd2string[WIC64_CMD_GET_MAC] = "WIC64_CMD_GET_MAC";
     cmd2string[WIC64_CMD_GET_SSID] = "WIC64_CMD_GET_SSID";
     cmd2string[WIC64_CMD_GET_RSSI] = "WIC64_CMD_GET_RSSI";
@@ -659,6 +679,7 @@ static void prep_wic64_str(void)
     cmd2string[WIC64_CMD_HTTP_POST_DATA] = "WIC64_CMD_HTTP_POST_DATA";
 
     cmd2string[WIC64_CMD_TCP_OPEN] = "WIC64_CMD_TCP_OPEN";
+    cmd2string[WIC64_CMD_TCP_AVAILABLE] = "WIC64_CMD_TCP_AVAILABLE";
     cmd2string[WIC64_CMD_TCP_READ] = "WIC64_CMD_TCP_READ";
     cmd2string[WIC64_CMD_TCP_WRITE] = "WIC64_CMD_TCP_WRITE";
     cmd2string[WIC64_CMD_TCP_CLOSE] = "WIC64_CMD_TCP_CLOSE";
@@ -676,6 +697,8 @@ static void prep_wic64_str(void)
     cmd2string[WIC64_CMD_GET_STATUS_MESSAGE] = "WIC64_CMD_GET_STATUS_MESSAGE";
     cmd2string[WIC64_CMD_SET_TIMEOUT] = "WIC64_CMD_SET_TIMEOUT";
     cmd2string[WIC64_CMD_ECHO] = "WIC64_CMD_ECHO";
+    cmd2string[WIC64_CMD_FORCE_TIMEOUT]= "WIC64_CMD_FORCE_TIMEOUT";
+    cmd2string[WIC64_CMD_FORCE_ERROR] = "WIC64_CMD_FORCE_ERROR";
 
     /* deprecated commands */
     cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03";
@@ -1099,6 +1122,19 @@ static int http_expand_url(char *final_url)
 
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
 
+    /* see below, noprintables in pid=.. need to be overruled, otherwise libcure complains */
+    p = strstr((const char *)commandbuffer, "&pid=");
+    if (p != NULL) {
+        if (!isprint((unsigned char)*(p+5))) {
+            wic64_log("%s: patching &pid=X.", __FUNCTION__);
+            *(p + 5) = 'X';
+        }
+        if (!isprint((unsigned char)*(p+6))) {
+            wic64_log("%s: patching &pid=.Y", __FUNCTION__);
+            *(p + 6) = 'Y';
+        }
+    }
+
     /* sanity check if URL is OK in principle */
     for (i = 0; i < commandptr; i++) {
         if (!isprint(commandbuffer[i])) {
@@ -1190,19 +1226,6 @@ static int http_expand_url(char *final_url)
         strcpy(cur, temppath);
         _wic64_log(2, "temppath:%s", temppath);
     }
-    /* see below, noprintables need to be overruled, otherwise libcure complains */
-    p = strstr(cur, "&pid=");
-    if (p != NULL) {
-        if (!isprint((unsigned char)*(p+5))) {
-            wic64_log("%s: patching &pid=X.", __FUNCTION__);
-            *(p + 5) = 'X';
-        }
-        if (!isprint((unsigned char)*(p+6))) {
-            wic64_log("%s: patching &pid=.Y", __FUNCTION__);
-            *(p + 6) = 'Y';
-        }
-    }
-
     /* now strip trailing whitespaces of path */
     p = cur + strlen(cur) - 1;
     while (isspace((unsigned char)*p)) {
@@ -1235,25 +1258,57 @@ static void cmd_http_get(void)
     do_http_get(url);
 }
 
-/*
-static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *userdata)
+static void http_post_alarm_handler(CLOCK offset, void *data)
 {
-    wic64_log("%s: size = %d", __FUNCTION__, size);
-    hexdump(buffer, size);
-    return size;
+    alarm_set(http_post_alarm, maincpu_clk + (312 * 65 * 30));
+    if ((post_data_rcvd >= post_data_size) ||
+        (post_error)) {
+        /* done receiving */
+        alarm_unset(http_post_alarm);
+        if (post_error) {
+            send_reply_revised(CLIENT_ERROR, "RESPONSE TRUNCATED", (uint8_t *)post_data, post_data_rcvd, NULL);
+        } else {
+            send_reply_revised(SUCCESS, "OK", (uint8_t *)post_data, post_data_rcvd, NULL);
+        }
+        lib_free(post_data);
+        post_data = NULL;
+        post_error = 0;
+        wic64_log("http post done");
+    }
 }
 
-static size_t post_read_func(char *buffer, size_t size, size_t nitems, void *userdata)
+static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *userdata)
 {
-    wic64_log("%s: size = %d", __FUNCTION__, size);
-    hexdump(buffer, size);
-    return size;
+
+    CURLcode res;
+    curl_off_t cl;
+    size_t ret;
+
+    wic64_log("http_post returned %d/0x%x bytes...", size * nitems);
+    ret = size * nitems;
+    res = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl);
+    if(res != CURLE_OK) {
+        _wic64_log(2, "post callback failed to read length");
+        goto out;
+    }
+    post_data_size = cl;
+
+    if ((post_data_rcvd + ret) > HTTPREPLY_MAXLEN) {
+        post_error = 1;
+        ret = HTTPREPLY_MAXLEN - post_data_rcvd;
+    }
+    memcpy(post_data + post_data_rcvd, buffer, ret);
+    post_data_rcvd += ret;
+    hexdump(buffer, ret);
+  out:
+    return ret;
 }
-*/
 
 static void cmd_http_post(int cmd)
 {
     CURLcode res;
+    static curl_mime *mime;
+    static curl_mimepart *part;
 
     if (cmd == WIC64_CMD_HTTP_POST_URL) {
         char url[URL_MAXLEN];
@@ -1261,37 +1316,51 @@ static void cmd_http_post(int cmd)
         if (http_expand_url(url) < 0) {
             return;
         }
-        do_connect((uint8_t *)url, true);
-    } else {
-        hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
-
-        res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, commandbuffer);
-        if (res != CURLE_OK) {
-            wic64_log("post failed: %s", curl_easy_strerror(res));
+        //do_connect((uint8_t *)url, true);
+        if (!curl) {
+            curl = curl_easy_init();
         }
-        res = curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, commandptr);
-        if (res != CURLE_OK) {
-            wic64_log("perform failed: %s", curl_easy_strerror(res));
+
+        if (wic64_loglevel > 1) {
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
         }
         res = curl_easy_setopt(curl, CURLOPT_USERAGENT, http_user_agent);
         if (res != CURLE_OK) {
-            wic64_log("perform failed: %s", curl_easy_strerror(res));
+            wic64_log("curl set user agent failed: %s", curl_easy_strerror(res));
         }
-/*
-        res = curl_easy_setopt(curl, CURLOPT_READFUNCTION, post_write_func);
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        res = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, post_write_func);
         if (res != CURLE_OK) {
             wic64_log("perform failed: %s", curl_easy_strerror(res));
         }
-        res = curl_easy_setopt(curl, CURLOPT_READFUNCTION, post_read_func);
-        if (res != CURLE_OK) {
-            wic64_log("perform failed: %s", curl_easy_strerror(res));
+
+        send_reply_revised(SUCCESS, "OK", NULL, 0, NULL);
+    } else {
+        hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
+
+        post_data_rcvd = post_error = 0;
+        post_data_size = HTTPREPLY_MAXLEN;
+        /* first time prepare for receiving post resonses */
+        post_data = lib_malloc(HTTPREPLY_MAXLEN);
+        if (!post_data) {
+            send_reply_revised(INTERNAL_ERROR, "OUT OF MEMORY", NULL, 0, NULL);
         }
-*/
+        mime = curl_mime_init(curl);
+        part = curl_mime_addpart(mime);
+        curl_mime_data(part, (const char *) commandbuffer, (size_t) commandptr);
+        /* Build an HTTP form with a single field named "data", */
+        curl_mime_name(part, "data");
+        curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             wic64_log("perform failed: %s", curl_easy_strerror(res));
         }
-        send_reply_revised(SUCCESS, "OK", NULL, 0, NULL);
+        if (http_post_alarm == NULL) {
+            http_post_alarm = alarm_new(maincpu_alarm_context, "HTTPPostAlarm",
+                                        http_post_alarm_handler, NULL);
+        }
+        alarm_unset(http_post_alarm);
+        alarm_set(http_post_alarm, maincpu_clk + (312 * 65));
     }
 }
 
@@ -1308,6 +1377,9 @@ static void cmd_wifi(int cmd)
                            (uint8_t *) "00\001vice-emulation\00199\001",
                            strlen("00\001vice-emulation\00199\001") + l,
                            NULL);
+        break;
+    case WIC64_CMD_IS_CONFIGURED:
+        send_reply_revised(SUCCESS, "OK", NULL, 0, NULL);
         break;
     case WIC64_CMD_CONNECT_WITH_SSID_STRING:
     case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
@@ -1395,7 +1467,7 @@ static void cmd_get_timezone(void)
 }
 
 /* open a curl connection */
-static void do_connect(uint8_t *buffer, int post)
+static void do_connect(uint8_t *buffer)
 {
     CURLcode res;
 
@@ -1407,11 +1479,7 @@ static void do_connect(uint8_t *buffer, int post)
     curl_easy_setopt(curl, CURLOPT_URL, buffer);
     /* Do not do the transfer - only connect to host */
     curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
-    if (post) {
-        res = curl_easy_setopt(curl, CURLOPT_POST, 1L);
-    } else {
-        res = curl_easy_perform(curl);
-    }
+    res = curl_easy_perform(curl);
 
     wic64_log("%s: curl_easy_perform: %s",__FUNCTION__, curl_easy_strerror(res));
     if (res != CURLE_OK) {
@@ -1423,7 +1491,6 @@ static void do_connect(uint8_t *buffer, int post)
 
 static void cmd_tcp_open(void)
 {
-    wic64_log("%s: connect TCP", __FUNCTION__);
     hexdump((const char *)commandbuffer, commandptr); /* commands may contain '0' */
 
     char tmp[COMMANDBUFFER_MAXLEN];
@@ -1432,7 +1499,13 @@ static void cmd_tcp_open(void)
     memcpy(tmp + 9, commandbuffer, commandptr + 1); /* copy '\0' */
     commandptr += 9;
     memcpy(commandbuffer, tmp, commandptr + 1);
-    do_connect(commandbuffer, false);
+    do_connect(commandbuffer);
+}
+
+static void cmd_tcp_available(void)
+{
+    wic64_log("%s not implemented", cmd2string[WIC64_CMD_TCP_AVAILABLE]);
+    send_reply_revised(CLIENT_ERROR, "NOT IMPLEMENTED", NULL, 0, NULL);
 }
 
 static void tcp_get_alarm_handler(CLOCK offset, void *data)
@@ -1693,6 +1766,9 @@ static void do_command(void)
     case WIC64_CMD_TCP_OPEN:
         cmd_tcp_open();
         break;
+    case WIC64_CMD_TCP_AVAILABLE:
+        cmd_tcp_available();
+        break;
     case WIC64_CMD_TCP_READ:
         cmd_tcp_read();
         break;
@@ -1916,7 +1992,7 @@ static void userport_wic64_reset(void)
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15),
                  lib_unsigned_rand(0, 15));
-        /* wic64_log("WIC64: generated MAC: %s", wic64_mac_address); */
+        _wic64_log(2, "WIC64: generated MAC: %s", wic64_mac_address);
     } else {
         wic64_mac_address = tmp;
     }
@@ -1928,7 +2004,7 @@ static void userport_wic64_reset(void)
         snprintf(wic64_internal_ip, 16, "192.168.%u.%u",
                  lib_unsigned_rand(1, 254),
                  lib_unsigned_rand(1, 254));
-        /* wic64_log("WIC64: generated internal IP: %s", wic64_internal_ip); */
+        _wic64_log(2, "WIC64: generated internal IP: %s", wic64_internal_ip);
     } else {
         wic64_internal_ip = tmp;
     }
