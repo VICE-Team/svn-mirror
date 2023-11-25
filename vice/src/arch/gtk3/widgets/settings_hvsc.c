@@ -26,7 +26,6 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
@@ -62,7 +61,6 @@ static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-
 /** \brief  Handler for the 'clicked' event of the HVSC root "browse" button
  *
  * \param[in]   widget  browse button (ignored)
@@ -70,22 +68,19 @@ static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkWidget *dialog;
+    GtkWidget  *dialog;
     const char *current = NULL;
 
     /* try to get the current HVSC root dir */
-    if (resources_get_string("HSVCRoot", &current) != 0) {
-        current = NULL;
-    }
+    resources_get_string("HVSCRoot", &current);
 
     /* pop up dialog */
-    dialog = vice_gtk3_select_directory_dialog(
-            "Select HVSC root directory",
-            current,
-            FALSE,
-            NULL,
-            browse_callback,
-            NULL);
+    dialog = vice_gtk3_select_directory_dialog("Select HVSC root directory",
+                                               current,
+                                               FALSE,
+                                               NULL,
+                                               browse_callback,
+                                               NULL);
     gtk_widget_show(dialog);
 }
 
