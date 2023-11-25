@@ -121,7 +121,7 @@ def find_vice_installs_under_commit(commit):
     return full_hashes, partial_hashes
 
 
-# ---------- MAIN PRORAM FUNCTIONS ----------
+# ---------- MAIN PROGRAM FUNCTIONS ----------
 
 
 # Phase 1 interrogates the git repository to collect complete commit
@@ -207,9 +207,11 @@ def perform_phase_1():
 
 def perform_phase_2(index):
     # Construct a map of tree-hash-to-trunk-commit
-    print("Content indexing trunk...")
+    print("Content-indexing trunk...")
     trunk_tree_hashes = {}
     trunk_commits = set()
+    merged_branches = {}
+    copied_tags = {}
     for commit in index['branch_history']['svn/trunk']:
         trunk_commits.add(commit)
         hashes = index['commit_trees'][commit]['full']
@@ -218,28 +220,76 @@ def perform_phase_2(index):
             continue
         trunk_tree_hashes[hashes['/']] = commit
 
-    # Search through all non-trunk commits to match them with trunk commits.
-    print("Cross-checking all branch and tag commits with trunk...")
-    branch_links = {}
-    for commit in index['commit_trees']:
-        if commit in trunk_commits:
+    # Construct per-subbranch histories of each branch and tag
+    print("Content-indexing branches and sub-branches...")
+    subhistories = {}
+    for branch, commits in index['branch_history'].items():
+        if branch == 'svn/trunk':
             continue
-        installs = index['commit_trees'][commit]['full']
-        for path in installs:
-            path_hash = installs[path]
-            if path_hash in trunk_tree_hashes:
-                trunk_commit = trunk_tree_hashes[path_hash]
-                if trunk_commit not in branch_links:
-                    branch_links[trunk_commit] = {}
-                if path not in branch_links[trunk_commit]:
-                    branch_links[trunk_commit][path] = []
-                branch_links[trunk_commit][path].append(commit)
-    # Clean up branch_links to turn the innermost maps into lists
-    clean_links = {}
-    for trunk_commit in branch_links:
-        clean_links[trunk_commit] = list(branch_links[trunk_commit].items())
-    return clean_links
+        for commit in commits:
+            hashes = index['commit_trees'][commit]['full']
+            for path, branch_hash in hashes.items():
+                full_name = f"{branch}{path}"
+                if full_name not in subhistories:
+                    subhistories[full_name] = {'history': [branch_hash]}
+                elif subhistories[full_name]['history'][-1] != branch_hash:
+                    subhistories[full_name]['history'].append(branch_hash)
 
+    # Match up the endpoints, and report anomalies
+    for subbranch, branchdata in subhistories.items():
+        first_hash = branchdata['history'][-1]
+        last_hash = branchdata['history'][0]
+        branchdata['branched_from'] = trunk_tree_hashes.get(first_hash)
+        branchdata['merged_to'] = trunk_tree_hashes.get(last_hash)
+
+    # Collect all tags corresponding to releases, and then find the commit,
+    # if any, they correspond to.
+    version_names = []
+    for branch in subhistories:
+        # One weird case where v2.4.2 was released wrong
+        if branch == 'svn/tags/v2.4/v2.4.1/trunk/':
+            version_names.append(((2,4,2), branch))
+            continue
+        subbranch = branch.split('/')[-1]
+        if subbranch == "":
+            subbranch = branch.split('/')[-2]
+        if subbranch[0] != 'v':
+            continue
+        try:
+            versions = tuple([int(x) for x in subbranch[1:].split('.')])
+            version_names.append((versions, branch))
+        except ValueError:
+            # Some branch off a specific version, doesn't count
+            pass
+    version_names.sort()
+
+    # Go through version names in order, and find the latest commit in
+    # each subhistory that has a corresponding trunk hash. If no such
+    # commit exists, and there's only one to begin with, use that.
+    # Otherwise, scream for manual overrides.
+    release_history = []
+    for version_code, branch in version_names:
+        git_tag = "v" + ".".join([str(i) for i in version_code])
+        commits = subhistories[branch]['history']
+        ok = False
+        for commit in commits:
+            if commit in trunk_tree_hashes:
+                release_history.append({'version': git_tag,
+                                        'tree_hash': commit,
+                                        'trunk_commit': trunk_tree_hashes[commit]})
+                ok = True
+                break
+        if not ok:
+            if len(commits) == 1:
+                release_history.append({'version': git_tag,
+                                        'tree_hash': commits[0],
+                                        'trunk_commit': None})
+                ok = True
+        if not ok:
+            print(f"Version {git_tag} needs special attention!")
+
+    subhistories['release_history'] = release_history
+    return subhistories
 
 if __name__ == '__main__':
     index = perform_phase_1()
