@@ -811,9 +811,9 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
  *
  * \param[in]   psid    SID file
  *
- * \return  non-0 if a songlenghts entry was found
+ * \return  \c true if a songlengths entry was found
  */
-int vsid_tune_info_widget_set_song_lengths(const char *psid)
+bool vsid_tune_info_widget_set_song_lengths(const char *psid)
 {
     int num;
 
@@ -824,10 +824,28 @@ int vsid_tune_info_widget_set_song_lengths(const char *psid)
     num = hvsc_sldb_get_lengths(psid, &song_lengths);
     if (num < 0) {
         log_warning(LOG_DEFAULT, "failed to get song lengths.");
-        return 0;
+        return false;
     }
     song_lengths_count = num;
-    return 1;
+    return true;
+}
+
+
+bool vsid_tune_info_widget_set_song_lengths_md5(const char *digest)
+{
+    int num;
+
+    if (song_lengths != NULL) {
+        lib_free(song_lengths);
+    }
+
+    num = hvsc_sldb_get_lengths_md5(digest, &song_lengths);
+    if (num < 0) {
+        log_warning(LOG_DEFAULT, "VSID: failed to get song lengths.");
+        return false;
+    }
+    song_lengths_count = num;
+    return true;
 }
 
 

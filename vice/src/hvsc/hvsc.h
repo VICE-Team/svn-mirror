@@ -325,7 +325,7 @@ extern int hvsc_errno;
 
 const char *hvsc_strerror(int n);
 void        hvsc_perror(const char *prefix);
-
+bool        hvsc_md5_digest(const char *psid, char *digest);
 
 /*
  * sldb.c stuff
@@ -334,6 +334,7 @@ void        hvsc_perror(const char *prefix);
 char *      hvsc_sldb_get_entry_md5(const char *psid);
 char *      hvsc_sldb_get_entry_txt(const char *psid);
 int         hvsc_sldb_get_lengths(const char *psid, long **lengths);
+int         hvsc_sldb_get_lengths_md5(const char *digest, long **lengths);
 char *      hvsc_sldb_get_path_for_md5(const char *digest);
 
 /*
@@ -341,6 +342,7 @@ char *      hvsc_sldb_get_path_for_md5(const char *digest);
  */
 
 bool        hvsc_stil_open(const char *psid, hvsc_stil_t *handle);
+bool        hvsc_stil_open_md5(const char *digest, hvsc_stil_t *handle);
 void        hvsc_stil_close(hvsc_stil_t *handle);
 bool        hvsc_stil_read_entry(hvsc_stil_t *handle);
 void        hvsc_stil_dump_entry(hvsc_stil_t *handle);
@@ -352,7 +354,8 @@ void        hvsc_stil_dump(hvsc_stil_t *handle);
  * This combines calls of stil_open(), stil_read_entry() and stil_parse_entry()
  * It's probably best to make those functions static and leave this one.
  * */
-bool        hvsc_stil_get(hvsc_stil_t *stil, const char *path);
+bool        hvsc_stil_get    (hvsc_stil_t *stil, const char *path);
+bool        hvsc_stil_get_md5(hvsc_stil_t *stil, const char *digest);
 
 bool        hvsc_stil_get_tune_entry(const hvsc_stil_t *handle,
                                      hvsc_stil_tune_entry_t *entry,

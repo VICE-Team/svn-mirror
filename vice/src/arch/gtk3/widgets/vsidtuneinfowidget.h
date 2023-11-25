@@ -30,6 +30,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 
 GtkWidget *vsid_tune_info_widget_create(void);
@@ -51,7 +52,8 @@ void vsid_tune_info_widget_set_init_addr(uint16_t addr);
 void vsid_tune_info_widget_set_play_addr(uint16_t addr);
 void vsid_tune_info_widget_set_data_size(uint16_t size);
 
-int  vsid_tune_info_widget_set_song_lengths(const char *sid);
+bool vsid_tune_info_widget_set_song_lengths(const char *sid);
+bool vsid_tune_info_widget_set_song_lengths_md5(const char *digest);
 int  vsid_tune_info_widget_get_song_lengths(long **dest);
 
 

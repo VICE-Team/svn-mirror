@@ -193,44 +193,25 @@ GtkWidget *hvsc_stil_widget_create(void)
 
 
 
-/** \brief  Set new PSID file
- *
- * \param[in]   psid    path to .sid file
- *
- * \return  boolean
- */
-int hvsc_stil_widget_set_psid(const char *psid)
+
+static gboolean stil_widget_populate(hvsc_stil_t *stil)
 {
-    hvsc_stil_t stil;
-    size_t t;
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
-    char line[1024];
+    GtkTextBuffer *buffer;
+    GtkTextIter    start;
+    GtkTextIter    end;
+    char           line[1024];
+    size_t         t;
 
-    GtkTextIter start;
-    GtkTextIter end;
-
-    if (!hvsc_stil_get(&stil, psid)) {
-        debug_gtk3("failed: %d: %s.", hvsc_errno, hvsc_strerror(hvsc_errno));
-        /* check hvsc error code to see if either loading the STIL failed or
-         * there was no STIL entry for the tune requested */
-        if (hvsc_errno == HVSC_ERR_NOT_FOUND) {
-            gtk_text_buffer_set_text(buffer, "No STIL entry found.", -1);
-        } else {
-            gtk_text_buffer_set_text(buffer, "Failed to load STIL.", -1);
-        }
-        return 0;
-    }
-
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
     gtk_text_buffer_set_text(buffer, "", -1);
     gtk_text_buffer_get_bounds(buffer, &start, &end);
     gtk_text_buffer_apply_tag_by_name(buffer, "main", &start, &end);
 
-    if (stil.sid_comment != NULL) {
-
+    if (stil->sid_comment != NULL) {
         gtk_text_buffer_insert_with_tags_by_name(
                 buffer,
                 &end,
-                stil.sid_comment,
+                stil->sid_comment,
                 -1,
                 "main-comment",
                 NULL);
@@ -239,11 +220,11 @@ int hvsc_stil_widget_set_psid(const char *psid)
     }
 
     /* now add info on each subtune */
-    for (t = 0; t < stil.blocks_used; t++) {
-        size_t f;
+    for (t = 0; t < stil->blocks_used; t++) {
         hvsc_stil_block_t *block;
+        size_t             f;
 
-        block = stil.blocks[t];
+        block = stil->blocks[t];
 
         if (t == 0 && block->fields_used == 0) {
             continue;
@@ -254,7 +235,7 @@ int hvsc_stil_widget_set_psid(const char *psid)
             continue;
         }
 
-        g_snprintf(line, 1024, "tune #%d:\n", block->tune);
+        g_snprintf(line, sizeof line, "tune #%d:\n", block->tune);
 
         gtk_text_buffer_insert_with_tags_by_name(
                 buffer,
@@ -293,7 +274,7 @@ int hvsc_stil_widget_set_psid(const char *psid)
             if (block->fields[f]->timestamp.from >= 0) {
                 /* yup */
                 long from = block->fields[f]->timestamp.from;
-                long to = block->fields[f]->timestamp.to;
+                long to   = block->fields[f]->timestamp.to;
 
                 if (to < 0) {
                     g_snprintf(line, sizeof line,
@@ -389,13 +370,72 @@ int hvsc_stil_widget_set_psid(const char *psid)
         }
 
         /* add newlines when not last subtune */
-        if (t < stil.blocks_used - 1) {
+        if (t < stil->blocks_used - 1) {
             gtk_text_buffer_insert(buffer, &end, "\n", -1);
         }
     }
 
-    hvsc_stil_close(&stil);
-    return 1;
+
+    return TRUE;
+}
+
+
+static void stil_widget_show_error(void)
+{
+    GtkTextBuffer *buffer;
+
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
+    debug_gtk3("failed: %d: %s.", hvsc_errno, hvsc_strerror(hvsc_errno));
+
+    /* check hvsc error code to see if either loading the STIL failed or
+     * there was no STIL entry for the tune requested */
+    if (hvsc_errno == HVSC_ERR_NOT_FOUND) {
+        gtk_text_buffer_set_text(buffer, "No STIL entry found.", -1);
+    } else {
+        gtk_text_buffer_set_text(buffer, "Failed to load STIL.", -1);
+    }
+}
+
+
+/** \brief  Set new PSID file
+ *
+ * \param[in]   psid    path to .sid file
+ *
+ * \return  \c TRUE if a STIL entry was found
+ */
+gboolean hvsc_stil_widget_set_psid(const char *filename)
+{
+    hvsc_stil_t stil;
+
+    if (hvsc_stil_get(&stil, filename)) {
+        stil_widget_populate(&stil);
+        hvsc_stil_close(&stil);
+        return TRUE;
+    } else {
+        stil_widget_show_error();
+        return FALSE;
+    }
+}
+
+
+/** \brief  Set new PSID fill
+ *
+ * \param[in]   digest  md5 digest of .sid file
+ *
+ * \return  \c TRUE if a STIL entry was found
+ */
+gboolean hvsc_stil_widget_set_psid_md5(const char *digest)
+{
+    hvsc_stil_t stil;
+
+    if (hvsc_stil_get_md5(&stil, digest)) {
+        stil_widget_populate(&stil);
+        hvsc_stil_close(&stil);
+        return TRUE;
+    } else {
+        stil_widget_show_error();
+        return FALSE;
+    }
 }
 
 

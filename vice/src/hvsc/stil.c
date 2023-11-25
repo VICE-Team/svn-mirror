@@ -431,8 +431,8 @@ static void stil_handle_add_block(hvsc_stil_t *handle, hvsc_stil_block_t *block)
 
 /** \brief  Open STIL and look for PSID file \a psid
  *
- * \param[in]       psid    path to PSID file
- * \param[in,out]   handle  STIL handle
+ * \param[in]   psid    path to PSID file
+ * \param[out]  handle  STIL handle
  *
  * \return  bool
  */
@@ -511,6 +511,63 @@ bool hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
 #ifndef HVSC_STANDALONE
             log_message(LOG_DEFAULT,
                     "Vsid: Found '%s' at line %ld.", line, handle->stil.lineno);
+#endif
+            return true;
+        }
+    }
+}
+
+
+bool hvsc_stil_open_md5(const char *digest, hvsc_stil_t *handle)
+{
+    char *path;
+
+    stil_init_handle(handle);
+
+    handle->entry_bufmax  = HVSC_STIL_BUFFER_INIT;
+    handle->entry_bufused = 0;
+    handle->entry_buffer  = hvsc_malloc(handle->entry_bufmax *
+                                        sizeof *(handle->entry_buffer));
+    memcpy(handle->md5sum, digest, sizeof handle->md5sum);
+
+    if (!hvsc_text_file_open(hvsc_stil_path, &(handle->stil))) {
+        hvsc_dbg("failed to open STIL.");
+        return false;
+    }
+
+    /* we need to look up the HVSC-relative path for the md5 digest in the SLDB
+     * in order to find the STIL entry by filename (yeah...) */
+    hvsc_dbg("looking up filename in SLDB for digest %s\n", digest);
+    path = hvsc_sldb_get_path_for_md5(handle->md5sum);
+    if (path != NULL) {
+        hvsc_dbg("OK: found %s.", path);
+        handle->psid_path = path;
+    } else {
+        hvsc_dbg("FAIL.\n");
+        hvsc_stil_close(handle);
+        return false;
+    }
+
+    /* look up entry */
+    while (true) {
+        const char *line = hvsc_text_file_read(&(handle->stil));
+
+        if (line == NULL) {
+            if (feof(handle->stil.fp)) {
+                /* EOF, OK */
+                hvsc_errno = HVSC_ERR_NOT_FOUND;
+#ifndef HVSC_STANDALONE
+                log_message(LOG_DEFAULT, "VSID: No STIL entry found.");
+#endif
+            }
+            hvsc_stil_close(handle);
+            return false;
+        }
+
+        if (strcmp(line, handle->psid_path) == 0) {
+#ifndef HVSC_STANDALONE
+            log_message(LOG_DEFAULT,
+                    "VSID: Found '%s' at line %ld.", line, handle->stil.lineno);
 #endif
             return true;
         }
@@ -1029,8 +1086,8 @@ void hvsc_stil_dump_tune_entry(const hvsc_stil_tune_entry_t *entry)
  *
  * Get full STIL info PSID file \a path.
  *
- * \param[in,out]   stil    STIL handle
- * \param[in]       path    absolute path to PSID file
+ * \param[out]  stil    STIL handle
+ * \param[in]   path    absolute path to PSID file
  *
  * \return  true if STIL info found and parsed
  */
@@ -1048,6 +1105,22 @@ bool hvsc_stil_get(hvsc_stil_t *stil, const char *path)
     }
 
     /* parse text */
+    hvsc_stil_parse_entry(stil);
+    return true;
+}
+
+
+bool hvsc_stil_get_md5(hvsc_stil_t *stil, const char *digest)
+{
+    if (!hvsc_stil_open_md5(digest, stil)) {
+        return false;
+    }
+
+    if (!hvsc_stil_read_entry(stil)) {
+        hvsc_stil_close(stil);
+        return false;
+    }
+
     hvsc_stil_parse_entry(stil);
     return true;
 }

@@ -34,6 +34,7 @@
 
 #include "vice_gtk3.h"
 #include "debug.h"
+#include "hvsc.h"
 #include "machine.h"
 #include "lib.h"
 #include "log.h"
@@ -448,10 +449,18 @@ GtkWidget *vsid_main_widget_create(void)
     /* Try to load STIL info and SLDB data for a file passed on the command line */
     if (psid_autostart_image != NULL) {
         if (archdep_real_path(psid_autostart_image, fullpath)) {
+            char digest[33];
+
             debug_gtk3("Looking up STIL/SLDB info for PSID specified on command line: %s",
                        fullpath);
-            hvsc_stil_widget_set_psid(fullpath);
-            vsid_tune_info_widget_set_song_lengths(fullpath);
+            if (hvsc_md5_digest(fullpath, digest)) {
+                debug_gtk3("setting STIL and SLDB info for md5 digest %s", digest);
+                hvsc_stil_widget_set_psid_md5(digest);
+                vsid_tune_info_widget_set_song_lengths_md5(digest);
+            } else {
+                /* normally won't happen */
+                debug_gtk3("failed to get md5 digest for %s", fullpath);
+            }
         }
         lib_free(psid_autostart_image);
         psid_autostart_image = NULL;

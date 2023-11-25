@@ -28,13 +28,12 @@
 #ifndef VICE_HVSCSTILWIDGET_H
 #define VICE_HVSCSTILWIDGET_H
 
-
 #include "vice.h"
 #include <gtk/gtk.h>
 
-
-GtkWidget * hvsc_stil_widget_create(void);
-int         hvsc_stil_widget_set_psid(const char *filename);
-GtkWidget * hvsc_stil_widget_get_view(void);
+GtkWidget *hvsc_stil_widget_create      (void);
+GtkWidget *hvsc_stil_widget_get_view    (void);
+gboolean   hvsc_stil_widget_set_psid    (const char *filename);
+gboolean   hvsc_stil_widget_set_psid_md5(const char *digest);
 
 #endif

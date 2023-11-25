@@ -238,6 +238,7 @@ static void vsid_window_create(video_canvas_t *canvas)
 int ui_vsid_window_load_psid(const char *filename)
 {
     vsid_state_t *state;
+    char          digest[33];
 
     vsync_suspend_speed_eval();
 
@@ -256,11 +257,15 @@ int ui_vsid_window_load_psid(const char *filename)
     memset(state->tunes_played, 0, sizeof state->tunes_played);
     vsid_state_unlock();
 
+    /* get md5 digest for PSID file */
+    hvsc_md5_digest(filename, digest);
+
     psid_init_driver();
     machine_play_psid(0);
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
-    vsid_tune_info_widget_set_song_lengths(filename);
-    hvsc_stil_widget_set_psid(filename);
+
+    vsid_tune_info_widget_set_song_lengths_md5(digest);
+    hvsc_stil_widget_set_psid_md5(digest);
     ui_pause_disable();
     vsid_control_widget_set_state(VSID_PLAYING);
 #ifdef DEBUG
