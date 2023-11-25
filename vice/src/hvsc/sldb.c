@@ -303,6 +303,31 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
 }
 
 
+/** \brief  Get a list of song lengths for PSID file md5 \a digest
+ *
+ * \param[in]   digest  md5 digest of PSID file
+ * \param[out]  lengths object to store pointer to array of song lengths
+ *
+ * \return  number of songs or -1 on error
+ *
+ * \note    The caller is responsible for freeing \a lengths after use.
+ */
+int hvsc_sldb_get_lengths_md5(const char *digest, long **lengths)
+{
+    char *entry;
+    int   result = -1;
+
+    *lengths = NULL;
+    entry = find_sldb_entry_md5(digest);
+    if (entry != NULL) {
+        hvsc_dbg("got entry for md5 digest %s: %s\n", digest, entry);
+        result = parse_sldb_entry(entry, lengths);
+        hvsc_free(entry);
+    }
+    return result;
+}
+
+
 /** \brief  Get a list of song lengths for PSID file \a psid
  *
  * \param[in]   psid    path to PSID file
@@ -333,6 +358,7 @@ int hvsc_sldb_get_lengths(const char *psid, long **lengths)
     hvsc_free(entry);
     return result;
 }
+
 
 
 /** \brief  Get relative HVSC path for md5 digest in SLDB
