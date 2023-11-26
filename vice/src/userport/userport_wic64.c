@@ -161,7 +161,7 @@ static unsigned char wic64_external_ip[4] = { 0, 0, 0, 0 }; /* just a dummy, rep
 static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
-static uint8_t wic64_timeout = 1;
+static uint8_t wic64_timeout = 2;
 static int force_timeout = 0;
 static char *wic64_sec_token = NULL;
 static int current_tz = 2;
@@ -962,11 +962,9 @@ static void reply_next_byte(void)
         replyptr++;
         if (replyptr == reply_length) {
             replyptr = reply_length = 0;
-            cmd_timeout(0);
         }
     } else {
         replyptr = reply_length = 0;
-        cmd_timeout(0);
     }
 }
 
@@ -1012,15 +1010,13 @@ static void cmd_timeout(int arm)
     if (wic64_protocol == WIC64_PROT_LEGACY) {
         return;                 /* legacy won't support timeouts */
     }
+    if (cmd_timeout_alarm == NULL) {
+        cmd_timeout_alarm = alarm_new(maincpu_alarm_context, "CMDTimoutAlarm",
+                                      cmd_timeout_alarm_handler, NULL);
+    }
+    alarm_unset(cmd_timeout_alarm);
     if (arm) {
-        if (cmd_timeout_alarm == NULL) {
-            cmd_timeout_alarm = alarm_new(maincpu_alarm_context, "CMDTimoutAlarm",
-                                          cmd_timeout_alarm_handler, NULL);
-        }
-        alarm_unset(cmd_timeout_alarm);
         alarm_set(cmd_timeout_alarm, maincpu_clk + wic64_timeout * machine_get_cycles_per_second());
-    } else {
-        alarm_unset(cmd_timeout_alarm);
     }
 }
 
@@ -1919,8 +1915,6 @@ static void wic64_prot_state(uint8_t value)
                 return;
             }
             commandbuffer[commandptr] = 0;
-        } else {
-            cmd_timeout(0);
         }
         break;
     default:
@@ -1950,13 +1944,11 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 case WIC64_PROT_REVISED:
                 case WIC64_PROT_EXTENDED:
                     input_state = INPUT_EXP_CMD;
-                    cmd_timeout(1);
                     break;
                 default:
                     wic64_log("unknown protocol '%c', using revised.", value);
                     wic64_protocol = WIC64_PROT_REVISED;
                     input_state = INPUT_EXP_CMD;
-                    cmd_timeout(1);
                     break;
                 }
 
@@ -1973,11 +1965,13 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 wic64_prot_state(value);
             }
 
+            cmd_timeout(1);
             handshake_flag2();
             if ((input_state == INPUT_EXP_ARGS) &&
                 (commandptr == input_length)) {
                 wic64_log("command %s (len=%d/0x%x)", cmd2string[input_command],
                           input_length, input_length);
+                cmd_timeout(0);
                 do_command();
                 commandptr = input_state = input_length = 0;
                 memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
@@ -2001,7 +1995,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     _wic64_log(3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
                isprint(retval) ? retval : '.',
                retval, replyptr, reply_length, reply_length);
-
+    cmd_timeout(0);
     /* FIXME: trigger mainloop */
     return retval;
 }
