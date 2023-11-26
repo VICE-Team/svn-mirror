@@ -8598,6 +8598,11 @@ user credentials are preseved
 Integer number of lines to hexdump, 0: unlimited
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@vindex WIC64ColorizeLog
+@item WIC64ColorizeLog
+Integer, 1: WiC64 tracing using ANSI colorizing, 0: no colorizing
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @end table
 
 @c @node FIXME
@@ -8652,6 +8657,12 @@ Integer to specify WIC64 trace level (0: off, 1: commands, 2: debug), implicitly
 @findex -wic64hexdumplines
 @item -wic64hexdumplines <value>
 Integer to specify number of lines to hexdump, 0: unlimited,
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64colorizelog
+@item -wic64colorizelog
+Uses ANSI color codes for terminals to colorize the WiC64 log for
+better readability
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
