@@ -139,8 +139,8 @@ struct vdc_s {
     unsigned int charwidth;
 
     /* Value to add to `mem_counter' after the graphics has been painted.  */
-    unsigned int mem_counter_inc;	/* FIXME - always the same as screen_text_cols! */
-    unsigned int skip_after_line;	/* derived from reg27 */
+    unsigned int mem_counter_inc;   /* FIXME - always the same as screen_text_cols! */
+    unsigned int skip_after_line;   /* derived from reg27 */
 
     /* All the VDC logging goes here.  */
     signed int log;
