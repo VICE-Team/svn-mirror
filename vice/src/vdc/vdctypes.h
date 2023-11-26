@@ -139,7 +139,8 @@ struct vdc_s {
     unsigned int charwidth;
 
     /* Value to add to `mem_counter' after the graphics has been painted.  */
-    unsigned int mem_counter_inc;
+    unsigned int mem_counter_inc;	/* FIXME - always the same as screen_text_cols! */
+    unsigned int skip_after_line;	/* derived from reg27 */
 
     /* All the VDC logging goes here.  */
     signed int log;
@@ -193,6 +194,7 @@ struct vdc_s {
     current_x_pixel = pixels_per_line / (vdc.xsync_increment >> 16) * (current_cycle - vdc_line_start) */
 
     /* record register 27 in case of a change between raster updates */
+    /* FIXME - never used! */
     int old_reg27;
 
     /* Row counter (required for comparison with reg[6] - number of visible screen rows - to know if we are at the end of the visible data) */
