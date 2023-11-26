@@ -44,6 +44,7 @@
 static ui_menu_entry_t *dyn_menu_wic64;
 
 UI_MENU_DEFINE_TOGGLE(WIC64Logenabled)
+UI_MENU_DEFINE_TOGGLE(WIC64ColorizeLog)
 UI_MENU_DEFINE_INT(WIC64Hexdumplines);
 UI_MENU_DEFINE_STRING(WIC64DefaultServer)
 UI_MENU_DEFINE_TOGGLE(WIC64Resetuser)
@@ -91,7 +92,7 @@ static UI_MENU_CALLBACK(custom_wic64_reset_callback)
     return NULL;
 }
 
-ui_menu_entry_t wic64_menu[9];
+ui_menu_entry_t wic64_menu[10];
 
 ui_callback_data_t uiwic64_menu_create(void)
 {
@@ -126,6 +127,13 @@ ui_callback_data_t uiwic64_menu_create(void)
     wic64_menu[j].string   = "Hexdump lines (0=unlimited):";
     wic64_menu[j].type     = MENU_ENTRY_RESOURCE_INT;
     wic64_menu[j].callback = int_WIC64Hexdumplines_callback;
+    wic64_menu[j].data     = NULL;
+    j++;
+
+    wic64_menu[j].action   = ACTION_NONE;
+    wic64_menu[j].string   = "Colorized tracing";
+    wic64_menu[j].type     = MENU_ENTRY_RESOURCE_TOGGLE;
+    wic64_menu[j].callback = toggle_WIC64ColorizeLog_callback;
     wic64_menu[j].data     = NULL;
     j++;
 

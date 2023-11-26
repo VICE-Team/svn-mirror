@@ -339,6 +339,16 @@ static GtkWidget *create_wic64_logenabled_widget(void)
                                                "Enable WiC64 tracing");
 }
 
+/** \brief  Create widget for the "WIC64ColorizeLog" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_wic64_colorizedlog_widget(void)
+{
+    return vice_gtk3_resource_check_button_new("WIC64ColorizeLog",
+                                               "Enable WiC64 colorized tracing");
+}
+
 /** \brief  Create widget for the "WIC64Logenabled" resource
  *
  * \return  GtkCheckButton
@@ -437,6 +447,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *server;
     GtkWidget *tz_widget;
     GtkWidget *tracing;
+    GtkWidget *colorized;
     GtkWidget *resetuser;
     GtkWidget *lines_widget;
 #if 0
@@ -467,6 +478,10 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
         "WIC64HexdumpLines", 0, 32768, 1);
     gtk_grid_attach(GTK_GRID(grid), lines_widget, 1, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    row++;
+
+    colorized = create_wic64_colorizedlog_widget();
+    gtk_grid_attach(GTK_GRID(grid), colorized,     0, row, 1, 1);
     row++;
 
     label  = label_helper("Default server");
