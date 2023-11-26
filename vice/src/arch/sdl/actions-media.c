@@ -33,6 +33,7 @@
 #include "sound.h"
 #include "screenshot.h"
 #include "uiactions.h"
+#include "uimedia.h"
 #include "uimenu.h"
 
 #include "actions-media.h"
@@ -52,6 +53,14 @@ static void media_stop_action(ui_action_map_t *self)
     }
 }
 
+/** \brief  Save screenshot with auto-generated filename
+ *
+ * \param[in]   self    action map
+ */
+static void screenshot_quicksave_action(ui_action_map_t *self)
+{
+    ui_media_auto_screenshot();
+}
 
 /** \brief  List of mappings for media recording actions */
 static const ui_action_map_t media_actions[] = {
@@ -69,6 +78,11 @@ static const ui_action_map_t media_actions[] = {
     },
     {   .action  = ACTION_MEDIA_STOP,
         .handler = media_stop_action
+    },
+    {   /* Needs to run on the UI thread (calls ui_get_active_canvas()) */
+        .action   = ACTION_SCREENSHOT_QUICKSAVE,
+        .handler  = screenshot_quicksave_action,
+        .uithread = true
     },
     UI_ACTION_MAP_TERMINATOR
 };

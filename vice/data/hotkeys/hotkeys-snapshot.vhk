@@ -19,9 +19,7 @@
     # Audio, video recording, screenshots
     media-record            <Alt><Shift>r
     media-stop              <Alt><Shift>s
-    !if GTK3
-        screenshot-quicksave    Pause
-    !endif
+    screenshot-quicksave    Pause
 !else
     snapshot-load           <Command>l
     snapshot-save           <Command>s
@@ -35,7 +33,5 @@
     # Audio, video recording, screenshots
     media-record            <Command><Shift>r
     media-stop              <Command><Shift>s
-    !if GTK3
-        screenshot-quicksave    Pause
-    !endif
+    screenshot-quicksave    Pause
 !endif
