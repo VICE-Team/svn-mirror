@@ -507,7 +507,6 @@ static int calculate_alpha(int sample_freq, int limit_freq, int scale_factor)
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG("### pet_sound_machine_init: speed %d cycles_per_sec %d\n", speed, cycles_per_sec);
-    pet_sound_reset(psid, maincpu_clk);
 
     snd.cycles_per_sec = cycles_per_sec;
     snd.speed = speed;
