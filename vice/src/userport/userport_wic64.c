@@ -269,9 +269,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64hexdumplines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64HexdumpLines", NULL,
       "<value>", "Limit WiC64 hexdump lines (0: unlimited)" },
-    { "-wic64colorizelog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+    { "-wic64colorizetrace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WIC64colorizelog", (void *)1,
-      NULL, "Enable WiC64 colors on terminal" },
+      NULL, "Enable WiC64 colorized trace on terminal" },
+    { "+wic64colorizetrace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "WIC64colorizelog", (void *)0,
+      NULL, "Disable WiC64 colorize trace on terminal" },
     CMDLINE_LIST_END
 };
 
@@ -1605,6 +1608,9 @@ static void tcp_get_alarm_handler(CLOCK offset, void *data)
     size_t nread;
     static size_t total_read;
 
+    if (!curl) {
+        return;                 /* connection might be closed */
+    }
     res = curl_easy_recv(curl,
                          curl_buf + total_read,
                          sizeof(curl_buf) - total_read,
@@ -1661,6 +1667,9 @@ static void tcp_send_alarm_handler(CLOCK offset, void *data)
     size_t nsent;
     static size_t nsent_total;
 
+    if (!curl) {
+        return;                 /* connection might be closed */
+    }
     alarm_set(tcp_send_alarm, maincpu_clk + (312 * 65));
 
     nsent = 0;
@@ -1713,6 +1722,8 @@ static void cmd_tcp_close(void)
         curl_global_cleanup();
         curl = NULL;
     }
+    alarm_unset(tcp_send_alarm);
+    alarm_unset(tcp_get_alarm);
     send_reply_revised(SUCCESS, "OK", NULL, 0, "0");
 }
 

@@ -8650,8 +8650,8 @@ Enable/disable WIC64 tracing on the console
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64tracelevel
-@item -wic64tracelevel <0..2>
-Integer to specify WIC64 trace level (0: off, 1: commands, 2: debug), implicitly turns on/off WiC64 tracing.
+@item -wic64tracelevel <0..3>
+Integer to specify WIC64 trace level (0: off, 1: commands, >2: debug), implicitly turns on/off WiC64 tracing.
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64hexdumplines
@@ -8659,9 +8659,10 @@ Integer to specify WIC64 trace level (0: off, 1: commands, 2: debug), implicitly
 Integer to specify number of lines to hexdump, 0: unlimited,
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
-@findex -wic64colorizelog
-@item -wic64colorizelog
-Uses ANSI color codes for terminals to colorize the WiC64 log for
+@findex -wic64colorizetrace
+@item -wic64colorizetrace
+@itemx +wic64colorizetrace
+Enable/disable ANSI color codes for terminals to colorize the WiC64 log for
 better readability
 (vic20, x64, x64sc, xscpu64 and x128 only).
 

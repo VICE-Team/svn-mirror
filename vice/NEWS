@@ -25,7 +25,7 @@ in the UI).
 ** general
 ----------
 
-- added WIC64 support for C64,C128,SCPU64
+- added WIC64 support for C64,C128,SCPU64,VIC20
 - virtual device (host directory) fixes (Scratch command correctly returns
   number of scratched files, Rename command produces "file exists" error if the
   destination file exists)
