@@ -219,7 +219,7 @@ typedef struct via_context_s {
     void (*restore_int)(struct via_context_s *, unsigned int, int);
     void (*set_ca2)(struct via_context_s *, int state);
     void (*set_cb1)(struct via_context_s *, int state);
-    void (*set_cb2)(struct via_context_s *, int state);
+    void (*set_cb2)(struct via_context_s *, int state, int offset);
     void (*reset)(struct via_context_s *);
 } via_context_t;
 

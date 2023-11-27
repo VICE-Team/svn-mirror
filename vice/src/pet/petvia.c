@@ -71,10 +71,10 @@ static void set_ca2(via_context_t *via_context, int state)
 }
 
 /* switching userport strobe with CB2 */
-static void set_cb2(via_context_t *via_context, int state)
+static void set_cb2(via_context_t *via_context, int state, int offset)
 {
     store_userport_pa2((uint8_t)state);
-    petsound_store_manual(state, *via_context->clk_ptr);
+    petsound_store_manual(state, *via_context->clk_ptr - offset);
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num,
