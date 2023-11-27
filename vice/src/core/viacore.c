@@ -1739,7 +1739,17 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
                  * later CB1 goes low.
                  */
                 via_context->cb2_out_state = cb2;
+                /*
+                 * For sound output we need to have an accurate clock, with offset
+                 * taken into account. So we should pass the offset value along.
+                 * However, until we've added that to all occurrences of set_cb2,
+                 * we use this hack instead.
+                 */
+                CLOCK *old_ptr = via_context->clk_ptr;
+                CLOCK offset_clock = *old_ptr - offset;
+                via_context->clk_ptr = &offset_clock;
                 (via_context->set_cb2)(via_context, cb2);
+                via_context->clk_ptr = old_ptr;
             }
         } else {
             /* Odd state: set CB1 high, in the right modes. */
