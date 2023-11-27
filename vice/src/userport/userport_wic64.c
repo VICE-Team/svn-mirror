@@ -77,13 +77,14 @@
 
 #ifdef HAVE_LIBCURL
 
-#define VICEWIC64VERSION "2.0.0-vice"
+#define VICEWIC64VERSION PACKAGE"-"VERSION
 #define WIC64_VERSION_MAJOR 2
 #define WIC64_VERSION_MINOR 0
 #define WIC64_VERSION_PATCH 0
 #define WIC64_VERSION_DEVEL 128
-#define WIC64_SHORT_VERSION "2.0.0-128"
-#define HTTP_AGENT_REVISED "WiC64/"WIC64_SHORT_VERSION
+#define WIC64_SHORT_VERSION "2.0.0-v"VERSION
+#define WIC64_VERSION_STRING "2.0.0-"VICEWIC64VERSION
+#define HTTP_AGENT_REVISED "WiC64/"WIC64_SHORT_VERSION"("PACKAGE")"
 #define HTTP_AGENT_LEGACY "ESP32HTTPClient"
 static char *http_user_agent = HTTP_AGENT_REVISED;
 
@@ -1113,7 +1114,9 @@ static void cmd_get_version(int variant)
         WIC64_VERSION_DEVEL,
     };
     if (variant == WIC64_CMD_GET_VERSION_STRING) {
-        send_reply_revised(SUCCESS, "OK", (uint8_t *)VICEWIC64VERSION, strlen(VICEWIC64VERSION) + 1, NULL);
+        send_reply_revised(SUCCESS, "OK",
+                           (uint8_t *)WIC64_VERSION_STRING,
+                           strlen(WIC64_VERSION_STRING) + 1, NULL);
     } else {
         send_reply_revised(SUCCESS, "OK", version, 4, NULL);
     }
