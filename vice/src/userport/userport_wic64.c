@@ -1367,7 +1367,7 @@ static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *us
     }
     memcpy(post_data + post_data_rcvd, buffer, ret);
     post_data_rcvd += ret;
-    _hexdump(CONS_COL_NO, 2, buffer, ret);
+    _hexdump(CONS_COL_NO, 2, buffer, (int)ret);
   out:
     return ret;
 }
