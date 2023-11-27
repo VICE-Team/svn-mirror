@@ -78,7 +78,7 @@ static void set_ca2(via_context_t *via_context, int state)
 {
 }
 
-static void set_cb2(via_context_t *via_context, int state)
+static void set_cb2(via_context_t *via_context, int state, int offset)
 {
     if (!via_context->cb2_is_input) {
         /* CB2 goes to userport pin M */

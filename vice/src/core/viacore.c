@@ -192,7 +192,7 @@ static void viacore_t2_underflow_alarm(CLOCK offset, void *data);
 static void do_shiftregister(CLOCK offset, via_context_t *via_context);
 inline static void schedule_t2_zero_alarm(via_context_t *via_context, CLOCK rclk);
 static void viacore_cache_cb12_io_status(via_context_t *via_context);
-static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr);
+static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr, int offset);
 
 
 static void via_restore_int(via_context_t *via_context, int value)
@@ -421,7 +421,7 @@ void viacore_reset(via_context_t *via_context)
     via_context->cb1_out_state = true;
     via_context->cb2_out_state = true;
     (via_context->set_ca2)(via_context, via_context->ca2_out_state);      /* input = high */
-    (via_context->set_cb2)(via_context, via_context->cb2_out_state);      /* input = high */
+    (via_context->set_cb2)(via_context, via_context->cb2_out_state, 0);   /* input = high */
 
     if (via_context->reset) {
         (via_context->reset)(via_context);
@@ -696,11 +696,11 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             }
             if (IS_CB2_HANDSHAKE()) {
                 via_context->cb2_out_state = 0;
-                (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+                (via_context->set_cb2)(via_context, via_context->cb2_out_state, via_context->write_offset);
                 if (IS_CB2_PULSE_MODE()) {
                     /* FIXME: This pulse is a bit short... */
                     via_context->cb2_out_state = 1;
-                    (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+                    (via_context->set_cb2)(via_context, via_context->cb2_out_state, 0);
                 }
             }
             if (via_context->ier & (VIA_IM_CB1 | VIA_IM_CB2)) {
@@ -929,7 +929,8 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                     via_context->ifr &= ~VIA_IM_SR;
                     update_myviairq_rclk(via_context, rclk);
                 }
-                set_cb2_output_state(via_context, via_context->via[VIA_PCR]);
+                set_cb2_output_state(via_context, via_context->via[VIA_PCR],
+                                     via_context->write_offset);
                 break;
             case VIA_ACR_SR_IN_T2:
             case VIA_ACR_SR_OUT_T2:
@@ -1002,7 +1003,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             /* Shift register control overrides CB2 control */
             if ((via_context->via[VIA_ACR] & VIA_ACR_SR_CONTROL) ==
                     VIA_ACR_SR_DISABLED) {
-                set_cb2_output_state(via_context, byte);
+                set_cb2_output_state(via_context, byte, via_context->write_offset);
             }
 
             (via_context->store_pcr)(via_context, byte, addr);
@@ -1334,7 +1335,7 @@ static void viacore_t1_zero_alarm(CLOCK offset, void *data)
  * Set the state of the CB2 output, if not controlled by the
  * shift register.
  */
-static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr)
+static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr, int offset)
 {
     uint8_t mode = pcr & VIA_PCR_CB2_CONTROL;
 
@@ -1344,7 +1345,7 @@ static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr)
          * for if somebody is listening.
          */
         via_context->cb2_out_state = true;
-        (via_context->set_cb2)(via_context, true);
+        (via_context->set_cb2)(via_context, true, offset);
     } else {
         switch (mode) {
         case VIA_PCR_CB2_LOW_OUTPUT:
@@ -1359,7 +1360,7 @@ static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr)
             via_context->cb2_out_state = true;
             break;
         }
-        (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+        (via_context->set_cb2)(via_context, via_context->cb2_out_state, offset);
     }
 }
 
@@ -1473,7 +1474,7 @@ to shift/count the next Bit.
         if (data == edge) {
             if (IS_CB2_TOGGLE_MODE() && !(via_context->cb2_out_state)) {
                 via_context->cb2_out_state = 1;
-                (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+                (via_context->set_cb2)(via_context, via_context->cb2_out_state, 0);
             }
             /* Trigger CB1 interrupt */
             via_context->ifr |= VIA_IM_CB1;
@@ -1741,15 +1742,9 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
                 via_context->cb2_out_state = cb2;
                 /*
                  * For sound output we need to have an accurate clock, with offset
-                 * taken into account. So we should pass the offset value along.
-                 * However, until we've added that to all occurrences of set_cb2,
-                 * we use this hack instead.
+                 * taken into account.
                  */
-                CLOCK *old_ptr = via_context->clk_ptr;
-                CLOCK offset_clock = *old_ptr - offset;
-                via_context->clk_ptr = &offset_clock;
-                (via_context->set_cb2)(via_context, cb2);
-                via_context->clk_ptr = old_ptr;
+                (via_context->set_cb2)(via_context, cb2, (int)offset);
             }
         } else {
             /* Odd state: set CB1 high, in the right modes. */
