@@ -1164,8 +1164,7 @@ static void cmd_http_get_encoded(void)
     int len;
     int l;
 
-    wic64_log(CONS_COL_NO, "%s: encode URL", __FUNCTION__);
-    hexdump(CONS_COL_NO, (const char *)commandbuffer, commandptr); /* commands may contain '0' */
+    hexdump(CONS_COL_BLUE, (const char *)commandbuffer, commandptr);
 
     /* if encode is enabled, there might be binary data after <$, which is
        then encoded as a stream of hex digits */
@@ -1178,7 +1177,7 @@ static void cmd_http_get_encoded(void)
            (cptr < endmarker)) {
         l = (int)(p - cptr);
         len += l;
-        wic64_log(CONS_COL_NO, "%s: escape sequence found, offset %d", __FUNCTION__, len);
+        _wic64_log(CONS_COL_NO, 2, "%s: escape sequence found, offset %d", __FUNCTION__, len);
         /* copy string before <$ */
         memcpy(tptr, cptr, (size_t)l);
         tptr += l;
@@ -1903,7 +1902,10 @@ static void do_command(void)
         cmd_get_version(input_command);
         break;
     case WIC64_CMD_HTTP_GET_ENCODED: /* send http with decoded url for PHP */
-        cmd_http_get_encoded(); /* fall through */
+        cmd_http_get_encoded();
+        /* show in log that we're entering http_get */
+        wic64_log(CONS_COL_BLUE, "URL decoded, proceed with %s", cmd2string[WIC64_CMD_HTTP_GET]);
+        /* fall through */
     case WIC64_CMD_HTTP_GET:
         big_load = 0;
         cmd_http_get();
@@ -1915,6 +1917,7 @@ static void do_command(void)
     case WIC64_CMD_SCAN_WIFI_NETWORKS:
     case WIC64_CMD_CONNECT_WITH_SSID_STRING:
     case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
+    case WIC64_CMD_IS_CONFIGURED:
     case WIC64_CMD_IS_CONNECTED:
     case WIC64_CMD_GET_SSID:
     case WIC64_CMD_GET_RSSI:
