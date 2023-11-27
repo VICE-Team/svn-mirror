@@ -79,6 +79,10 @@ static int set_iosize(int val, void *param)
 static int set_crtc_enabled(int val, void *param)
 {
     petres.model.crtc = val ? 1 : 0;
+    /*
+     * When disabled, could turn off 80 columns.
+     * When enabled, could turn off screenmirrors2001.
+     */
 
     return 0;
 }
@@ -458,7 +462,7 @@ static const resource_int_t resources_int[] = {
       &pet_colour_type, set_pet_colour, NULL },
     { "PETColourBG", 0, RES_EVENT_SAME, NULL,
       &pet_colour_analog_bg, set_pet_colour_bg, NULL },
-    { "CB2Lowpass", 16000, RES_EVENT_SAME, NULL,
+    { "CB2Lowpass", 8000, RES_EVENT_SAME, NULL,
       &cb2_lowpass, set_cb2_lowpass, NULL },
     RESOURCE_INT_LIST_END
 };
