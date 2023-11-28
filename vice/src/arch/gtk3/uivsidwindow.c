@@ -51,6 +51,7 @@
 #include "videomodelwidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidmainwidget.h"
+#include "vsidmixerwidget.h"
 #include "vsidstate.h"
 #include "vsidtuneinfowidget.h"
 #include "vsidui.h"
@@ -263,6 +264,7 @@ int ui_vsid_window_load_psid(const char *filename)
     psid_init_driver();
     machine_play_psid(0);
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
+    vsid_mixer_widget_update();
 
     vsid_tune_info_widget_set_song_lengths_md5(digest);
     hvsc_stil_widget_set_psid_md5(digest);
