@@ -183,6 +183,7 @@ static char *post_data = NULL;
 static size_t post_data_rcvd;
 static size_t post_data_size;
 static int post_error;
+static int cheatlen = 0;
 
 static const resource_string_t wic64_resources[] =
 {
@@ -919,7 +920,17 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     if (response == 200) {
         wic64_log(CONS_COL_NO, "%s: got %lu bytes, URL: '%s', http code = %ld", __FUNCTION__,
                   httpbufferptr, url, response);
+        if (wic64_protocol == WIC64_PROT_LEGACY) {
+            char *t;
+            /* check weird .prg -> cheat length */
+            t = strrchr(url, '.');
+            if ((t != NULL) && (strcmp(t, ".prg") == 0)){
+                cheatlen = -2;
+                wic64_log(CONS_COL_GREEN, "prg URL -> reducing reported len by 2");
+            }
+        }
         send_reply_revised(SUCCESS, "Success", httpbuffer, httpbufferptr, NULL); /* raw send, supporting big_load */
+        cheatlen = 0;
     } else if (response >= 400) {
         char t[32];
         wic64_log(CONS_COL_RED, "URL '%s' returned %lu bytes (http code: %ld)", url, httpbufferptr, response);
@@ -1031,16 +1042,18 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
 
     } else {
         offs = 2;
-        replybuffer[1] = len & 0xff;
-        replybuffer[0] = (len >> 8) & 0xff;
+        replybuffer[1] = (len + cheatlen) & 0xff;
+        replybuffer[0] = ((len + cheatlen) >> 8) & 0xff;
     }
 
     memcpy((char*)replybuffer + offs, reply, len);
     reply_length = (uint32_t)(len + offs);
     replyptr = 0;
     if (len > 0) {
-        wic64_log(CONS_COL_GREEN, "sends %d/0x%xbytes...", len);
+        wic64_log(CONS_COL_GREEN, "sends %d/0x%x bytes...", len, len);
         hexdump(CONS_COL_GREEN, replybuffer, reply_length);
+    } else {
+        wic64_log(CONS_COL_GREEN, "handshake flag2");
     }
     handshake_flag2();
 }
@@ -1938,7 +1951,7 @@ static void do_command(void)
     case WIC64_CMD_SET_SERVER:
         wic64_log(CONS_COL_NO, "set default server '%s'", commandbuffer);
         resources_set_string("WIC64DefaultServer", (char *)commandbuffer);
-        send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
+        send_reply_revised(SUCCESS, "Success", NULL, 0, "0");
         break;
     case WIC64_CMD_GET_LOCAL_TIME:
         cmd_get_local_time();
