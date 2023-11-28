@@ -94,6 +94,8 @@ static GtkCssProvider *label_css_provider;
 /** \brief  CSS provider for a scale  */
 static GtkCssProvider *scale_css_provider;
 
+static GtkWidget *main_grid;
+
 /** \brief  Currently active scales
  *
  * Currently used scales, depending on SID engine and model. These references
@@ -102,6 +104,9 @@ static GtkCssProvider *scale_css_provider;
 static GtkWidget *scale_widgets[NUM_SCALES];
 
 #endif
+
+static int old_sid_model = -1;
+static int new_sid_model = -1;
 
 
 /** \brief  Handler for the 'destroy' event of the mixer widget
@@ -257,6 +262,7 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
         }
 
         /* create new widgets */
+        debug_gtk3("adding scale %s at row %d", scales[i].resource_name, row + i);
         label = create_label(scales[i].label);
         scale = vice_gtk3_resource_scale_custom_new(scales[i].resource_name,
                                                     GTK_ORIENTATION_HORIZONTAL,
@@ -276,8 +282,8 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
         vice_gtk3_css_provider_add(label, label_css_provider);
         vice_gtk3_css_provider_add(scale, scale_css_provider);
 
-        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), scale, 1, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, row + i, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), scale, 1, row + i, 1, 1);
 
         /* the "old" 8580 filter implementation doesn't have customizable
          * filter settings, so we disable the sliders if "old" and 8580 */
@@ -286,11 +292,12 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
             gtk_widget_set_sensitive(scale, FALSE);
         }
 #endif
+        gtk_widget_show(label);
+        gtk_widget_show(scale);
         scale_widgets[i] = scale;
-        row++;
     }
 
-    return row;
+    return row + i;
 }
 
 #endif  /* ifdef HAVE_RESID */
@@ -308,13 +315,13 @@ GtkWidget *vsid_mixer_widget_create(void)
     int        row = 0;
 #ifdef HAVE_RESID
     GtkWidget *label;
-    int        model;
 
     label_css_provider = vice_gtk3_css_provider_new(LABEL_CSS);
     scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
-    resources_get_int("SidModel", &model);
 #endif
     resources_get_int("SidEngine", &engine);
+    resources_get_int("SidModel", &new_sid_model);
+    old_sid_model = new_sid_model;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -325,7 +332,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
-    row = add_resid_scales(grid, row, model);
+    row = add_resid_scales(grid, row, new_sid_model);
 #endif
 
     /* FIXME: does this make sense for non-ReSID? */
@@ -342,5 +349,24 @@ GtkWidget *vsid_mixer_widget_create(void)
                               NULL);
 
     gtk_widget_show_all(grid);
+    main_grid = grid;
     return grid;
+}
+
+
+/** \brief  Update mixer widget
+ *
+ * Update the ReSID filter scales if the model has changed.
+ */
+void vsid_mixer_widget_update(void)
+{
+#ifdef HAVE_RESID
+    resources_get_int("SidModel", &new_sid_model);
+    debug_gtk3("old model = %d, new model = %d", old_sid_model, new_sid_model);
+    if (new_sid_model != old_sid_model) {
+        debug_gtk3("model has changed: updating scale widgets");
+        old_sid_model = new_sid_model;
+        add_resid_scales(main_grid, 1, new_sid_model);
+    }
+#endif
 }

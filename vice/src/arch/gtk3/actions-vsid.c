@@ -47,6 +47,7 @@
 #include "uiactions.h"
 #include "uisidattach.h"
 #include "vsidcontrolwidget.h"
+#include "vsidmixerwidget.h"
 #include "vsidplaylistwidget.h"
 #include "vsidstate.h"
 
@@ -185,6 +186,7 @@ static void psid_play_action(ui_action_map_t *self)
         psid_init_driver();
         machine_play_psid(current);
         machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
+        vsid_mixer_widget_update();
     } else {
         /* return emulation speed back to 100% */
         vsid_state_unlock();

@@ -32,5 +32,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *vsid_mixer_widget_create(void);
+void       vsid_mixer_widget_update(void);
 
 #endif
