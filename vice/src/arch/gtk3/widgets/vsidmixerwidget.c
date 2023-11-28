@@ -39,7 +39,6 @@
 
 
 #include "vice.h"
-
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
@@ -63,8 +62,14 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; }"
-
+#define SLIDER_CSS \
+    "scale {\n" \
+    "  margin-top:    -2px;\n" \
+    "  margin-bottom: -2px;\n" \
+    "}\n" \
+    "scale value {\n" \
+    "  min-width: 6em;\n" \
+    "}"
 
 /** \brief  CSS for the labels
  *
@@ -72,22 +77,51 @@
  *
  * Here Be Dragons!
  */
-#define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
+#define LABEL_CSS \
+   "label {\n" \
+   "  margin-top:    -2px;\n" \
+   "  margin-bottom: -2px;\n" \
+   "}"
 
 
 #ifdef HAVE_RESID
 
-/** \brief  ReSID passband slider */
-static GtkWidget *passband;
+/** \brief  Number of GtkScale widgets used for the mixer */
+#define NUM_SCALES  3
 
-/** \brief  ReSID gain slider */
-static GtkWidget *gain;
+/** \brief  CSS provider for a label */
+static GtkCssProvider *label_css_provider;
+/** \brief  CSS provider for a scale  */
+static GtkCssProvider *scale_css_provider;
 
-/** \brief  ReSID filter bias slider */
-static GtkWidget *bias;
+/** \brief  Currently active scales
+ *
+ * Currently used scales, depending on SID engine and model. These references
+ * are used to reset the scales to default with the "Reset" button.
+ */
+static GtkWidget *scale_widgets[NUM_SCALES];
 
 #endif
 
+
+/** \brief  Handler for the 'destroy' event of the mixer widget
+ *
+ * Unref CSS providers.
+ *
+ * \param[in]   self    mixer widget (ignored)
+ * \param[in]   data    extra event data (ignored)
+ */
+static void on_destroy(GtkWidget *self, gpointer data)
+{
+    if (label_css_provider != NULL) {
+        g_object_unref(label_css_provider);
+        label_css_provider = NULL;
+    }
+    if (scale_css_provider != NULL) {
+        g_object_unref(scale_css_provider);
+        scale_css_provider = NULL;
+    }
+}
 
 /** \brief  Handler for the 'clicked' event of the reset button
  *
@@ -99,10 +133,9 @@ static GtkWidget *bias;
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
 #ifdef HAVE_RESID
-    int value;
     int model;
+    int i;
 #endif
-
 
 #ifdef HAVE_RESID
 
@@ -111,33 +144,15 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         model = 0;
     }
 
-    if (model == SID_MODEL_6581) {
-        resources_get_default_value("SidResidPassband", &value);
-    } else {
-        /* this includes DTVSID, which may not be correct */
-        resources_get_default_value("SidResid8580Passband", &value);
+    for (i = 0; i < NUM_SCALES; i++) {
+        vice_gtk3_resource_scale_custom_reset(scale_widgets[i]);
     }
-    gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
-
-    if (model == 0) {
-        resources_get_default_value("SidResidGain", &value);
-    } else {
-        resources_get_default_value("SidResid8580Gain", &value);
-    }
-    gtk_range_set_value(GTK_RANGE(gain), (gdouble)value);
-
-    if (model == 0) {
-        resources_get_default_value("SidResidFilterBias", &value);
-    } else {
-        resources_get_default_value("SidResid8580FilterBias", &value);
-    }
-    gtk_range_set_value(GTK_RANGE(bias), (gdouble)value);
 
 #ifndef HAVE_NEW_8580_FILTER
     if (model > 0) {
-        gtk_widget_set_sensitive(passband, FALSE);
-        gtk_widget_set_sensitive(gain, FALSE);
-        gtk_widget_set_sensitive(bias, FALSE);
+        for (i = 0; i < NUM_SCALES; i++) {
+            gtk_widget_set_sensitive(scale_widgets[i], FALSE);
+        }
     }
 #endif
 
@@ -145,177 +160,186 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-#ifdef HAVE_RESID
-/** \brief  Create a right-align label
+/** \brief  Create a right-align label using Pango markup
  *
- * \param[in]   text    text for the label
- * \param[in]   minimal use CSS to reduce size of use as statusbar widget
+ * \param[in]   markup  Pango markup for the label
  *
  * \return  GtkLabel
  */
-static GtkWidget *create_label(const char *text)
+static GtkWidget *create_label(const char *markup)
 {
     GtkWidget *label;
 
-    label = gtk_label_new(text);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), markup);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
-#endif
-
-
-#ifdef HAVE_RESID
-/** \brief  Create a customized GtkScale for \a resource
- *
- * \param[in]   resource    resource name without the video \a chip name prefix
- * \param[in]   low         lower bound
- * \param[in]   high        upper bound
- * \param[in]   step        step used to increase/decrease slider value
- * \param[in]   minimal     reduce slider size to be used in the statusbar
- *
- * \return  GtkScale
- */
-static GtkWidget *create_slider(
-        const char *resource,
-        int low, int high, int step)
-{
-    GtkWidget *scale;
-
-    scale = vice_gtk3_resource_scale_int_new(resource,
-            GTK_ORIENTATION_HORIZONTAL, low, high, step);
-    gtk_widget_set_hexpand(scale, TRUE);
-    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-
-    gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
-    return scale;
-}
-#endif
-
-
-#if 0
-/** \brief  Create slider for main volume
- *
- * \param[in]   minimal resize slider to minimal size
- *
- * \return  GtkScale
- */
-static GtkWidget *create_volume_widget(void)
-{
-    return create_slider("SoundVolume", 0, 100, 5);
-}
-#endif
 
 
 #ifdef HAVE_RESID
 
-/** \brief  Create slider for ReSID passband
- *
- * \return  GtkScale
+/** \brief  Information on a scale for the ReSID filter settings
  */
-static GtkWidget *create_passband_widget(int model)
+typedef struct mixer_scale_s {
+    const char     *label;              /**< label in front of the scale */
+    const char     *resource_name;      /**< resource name */
+    const char     *display_format;     /**< format string for the custom value */
+    gint            resource_low;       /**< resource value lower bound*/
+    gint            resource_high;      /**< resource value upper bound */
+    gdouble         display_low;        /**< displayed value lower bound */
+    gdouble         display_high;       /**< displayed value upper bound */
+    gdouble         display_step;       /**< stepping for the scale */
+} mixer_scale_t;
+
+/** \brief  Custom scale configuration for 6581 */
+static const mixer_scale_t scales_6581[NUM_SCALES] = {
+    { "Passband", "SidResidPassband",   "%3.0f%%",
+      RESID_6581_PASSBAND_MIN,   RESID_6581_PASSBAND_MAX,
+      RESID_6581_PASSBAND_MIN,   RESID_6581_PASSBAND_MAX,     1.0f },
+    { "Gain",     "SidResidGain",       "%3.0f%%",
+      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX,
+      RESID_6581_FILTER_GAIN_MIN, RESID_6581_FILTER_GAIN_MAX, 1.0f },
+    { "Bias",     "SidResidFilterBias", "%+1.2fmV",
+      RESID_6581_FILTER_BIAS_MIN, RESID_6581_FILTER_BIAS_MAX,
+      (RESID_6581_FILTER_BIAS_MIN / RESID_6581_FILTER_BIAS_ONE),
+      (RESID_6581_FILTER_BIAS_MAX / RESID_6581_FILTER_BIAS_ONE),
+      0.01f }
+};
+
+/** \brief  Custom scale configuration for 8580[D] */
+static const mixer_scale_t scales_8580[NUM_SCALES] = {
+    { "Passband", "SidResid8580Passband",   "%3.0f%%",
+      RESID_8580_PASSBAND_MIN,   RESID_8580_PASSBAND_MAX,
+      RESID_8580_PASSBAND_MIN,   RESID_8580_PASSBAND_MAX,     1.0f },
+    { "Gain",     "SidResid8580Gain",       "%3.0f%%",
+      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX,
+      RESID_8580_FILTER_GAIN_MIN, RESID_8580_FILTER_GAIN_MAX, 1.0f },
+    { "Bias",     "SidResid8580FilterBias", "%+1.2fmV",
+      RESID_8580_FILTER_BIAS_MIN, RESID_8580_FILTER_BIAS_MAX,
+      (RESID_8580_FILTER_BIAS_MIN / RESID_8580_FILTER_BIAS_ONE),
+      (RESID_8580_FILTER_BIAS_MAX / RESID_8580_FILTER_BIAS_ONE),
+      0.01f }
+};
+
+
+/** \brief  Add custom resource-bound GtkScales to the grid
+ *
+ * \param[in]   grid    main grid
+ * \param[in]   row     row in \a grid to start adding widgets
+ * \param[in]   model   SID model
+ *
+ * \return  row in \a grid for additional widgets
+ */
+static int add_resid_scales(GtkWidget *grid, int row, int model)
 {
-    if (model == 0) {
-        return create_slider("SidResidPassband", 0, 90, 5);
+    const mixer_scale_t *scales;
+    int                  i;
+
+    if (model == SID_MODEL_6581) {
+        scales = scales_6581;
     } else {
-        return create_slider("SidResid8580Passband", 0, 90, 5);
+        scales = scales_8580;
     }
+
+    for (i = 0; i < NUM_SCALES; i++) {
+        GtkWidget *label;
+        GtkWidget *scale;
+
+        /* destroy old widgets, if present */
+        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, row + i);
+        if (label != NULL) {
+            gtk_widget_destroy(label);
+        }
+        scale = gtk_grid_get_child_at(GTK_GRID(grid), 1, row + i);
+        if (scale != NULL) {
+            gtk_widget_destroy(scale);
+        }
+
+        /* create new widgets */
+        label = create_label(scales[i].label);
+        scale = vice_gtk3_resource_scale_custom_new(scales[i].resource_name,
+                                                    GTK_ORIENTATION_HORIZONTAL,
+                                                    scales[i].resource_low,
+                                                    scales[i].resource_high,
+                                                    scales[i].display_low,
+                                                    scales[i].display_high,
+                                                    scales[i].display_step,
+                                                    scales[i].display_format);
+        gtk_widget_set_hexpand(scale, TRUE);
+        gtk_widget_set_halign(scale, GTK_ALIGN_FILL);
+        gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+        gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
+
+        /* use CSS to customize appearance a bit: make sure the custom formatted
+         * values don't result in different widths for the scales themselves */
+        vice_gtk3_css_provider_add(label, label_css_provider);
+        vice_gtk3_css_provider_add(scale, scale_css_provider);
+
+        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), scale, 1, row, 1, 1);
+
+        /* the "old" 8580 filter implementation doesn't have customizable
+         * filter settings, so we disable the sliders if "old" and 8580 */
+#ifndef HAVE_NEW_8580_FILTER
+        if (model == SID_MODEL_8580 || model == SID_MODEL_8580P) {
+            gtk_widget_set_sensitive(scale, FALSE);
+        }
+#endif
+        scale_widgets[i] = scale;
+        row++;
+    }
+
+    return row;
 }
 
-
-/** \brief  Create slider for ReSID gain
- *
- * \return  GtkScale
- */
-static GtkWidget *create_gain_widget(int model)
-{
-    if (model == 0) {
-        return create_slider("SidResidGain", 90, 100, 1);
-    } else {
-        return create_slider("SidResid8580Gain", 90, 100, 1);
-    }
-}
-
-
-/** \brief  Create slider for ReSID filter bias
- *
- * \return  GtkScale
- */
-static GtkWidget *create_bias_widget(int model)
-{
-    if (model == 0) {
-        return create_slider("SidResidFilterBias", -5000, 5000, 1000);
-    } else {
-        return create_slider("SidResid8580FilterBias", -5000, 5000, 1000);
-    }
-}
 #endif  /* ifdef HAVE_RESID */
 
 
 /** \brief  Create VSID mixer widget
  *
  * \return  GtkGrid
- *
  */
 GtkWidget *vsid_mixer_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *button;
-
-    int engine;
-
+    int        engine;
+    int        row = 0;
 #ifdef HAVE_RESID
     GtkWidget *label;
-    int model;
+    int        model;
 
+    label_css_provider = vice_gtk3_css_provider_new(LABEL_CSS);
+    scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
     resources_get_int("SidModel", &model);
 #endif
-
     resources_get_int("SidEngine", &engine);
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
-    gtk_widget_set_margin_end(grid, 16);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_widget_set_hexpand(grid, TRUE);
 
 #ifdef HAVE_RESID
+    label = create_label("<b>ReSID settings</b>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
 
-    label = gtk_label_new(NULL);
-    if (model == SID_MODEL_6581) {
-        gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 6581 settings</b>");
-    } else {
-        gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 8580 settings</b>");
-    }
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
-
-
-    label = create_label("Passband");
-    passband = create_passband_widget(model);
-    gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
-
-    label = create_label("Gain");
-    gain = create_gain_widget(model);
-    gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
-
-    label = create_label("Bias");
-    bias = create_bias_widget(model);
-    gtk_widget_set_hexpand(bias, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
-
-    if (engine != SID_ENGINE_RESID) {
-        gtk_widget_set_sensitive(passband, FALSE);
-        gtk_widget_set_sensitive(gain, FALSE);
-        gtk_widget_set_sensitive(bias, FALSE);
-    }
-
+    row = add_resid_scales(grid, row, model);
 #endif
 
+    /* FIXME: does this make sense for non-ReSID? */
     button = gtk_button_new_with_label("Reset to defaults");
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 2, 1);
-    g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, row, 2, 1);
+
+    g_signal_connect(G_OBJECT(button),
+                     "clicked",
+                     G_CALLBACK(on_reset_clicked),
+                     NULL);
+    g_signal_connect_unlocked(G_OBJECT(grid),
+                              "destroy",
+                              G_CALLBACK(on_destroy),
+                              NULL);
 
     gtk_widget_show_all(grid);
     return grid;
