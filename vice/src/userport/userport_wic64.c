@@ -1117,19 +1117,21 @@ static void send_reply_revised(const uint8_t rcode, const char *msg, const uint8
         cmd_timeout(1);         /* arm alarm handler */
         handshake_flag2();
     } else {
-        if (payload) {
-            send_binary_reply(payload, len);
-            if (legacy_msg) {
-                wic64_log(CONS_COL_RED,
-                          "protocol error: can't send payload and legacy message: '%s' discarded.",
-                          legacy_msg);
-                return;
-            }
+        /* legacy protocol */
+        if (legacy_msg && payload) {
+            wic64_log(CONS_COL_RED,
+                      "protocol error: can't send both payload and legacy message: '%s' discarded.",
+                      legacy_msg);
+            return;
         }
         if (legacy_msg) {
-            send_binary_reply((uint8_t *)legacy_msg, strlen(legacy_msg));
+            /* legacy_msg becomes the payload */
+            payload = (uint8_t *)legacy_msg;
+            len = strlen(legacy_msg);
         }
-        /* no reply for this command */
+        /* always send a response, even if payload == NULL and len == 0,
+           so that a response header is always send, even if it's [$00, $00] */
+        send_binary_reply(payload, len);
     }
 }
 
