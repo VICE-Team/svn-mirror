@@ -612,8 +612,8 @@ void userport_wic64_factory_reset(void)
 
 void wic64_set_status(const char *status)
 {
-    strncpy(wic64_last_status, status, 39);
-    wic64_last_status[strlen(status)] = '\0';
+    strncpy(wic64_last_status, status, sizeof wic64_last_status);
+    wic64_last_status[sizeof wic64_last_status - 1u] = '\0';
 }
 
 /** \brief  log message to console
