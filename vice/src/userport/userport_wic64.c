@@ -1796,7 +1796,7 @@ static void cmd_get_statusmsg(void)
     }
 
     for (i = 0; i < strlen(wic64_last_status); i++) {
-        t[i] = upcase ? toupper(wic64_last_status[i]) : wic64_last_status[i];
+        t[i] = upcase ? toupper((unsigned char)wic64_last_status[i]) : wic64_last_status[i];
         t[i] = charset_p_topetcii(t[i]);
     }
     t[i] = '\0';
