@@ -40,6 +40,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -767,6 +768,18 @@ int resources_get_value(const char *name, void *value_return)
     }
 
     return 0;
+}
+
+
+/** \brief  Determine if a resource exists
+ *
+ * \param[in]   name    resource name
+ *
+ * \return  \c true if \a resource name exists
+ */
+bool resources_exists(const char *name)
+{
+    return lookup(name) == NULL ? false : true;
 }
 
 

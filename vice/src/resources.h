@@ -29,7 +29,7 @@
 #define VICE_RESOURCES_H
 
 #include <stdio.h>
-
+#include <stdbool.h>
 
 typedef enum resource_type_s {
     RES_INTEGER,
@@ -157,6 +157,7 @@ int resources_set_string_sprintf(const char *name, const char *value, ...) VICE_
 int resources_set_value_string(const char *name, const char *value);
 int resources_toggle(const char *name, int *new_value_return);
 int resources_touch(const char *name);
+bool resources_exists(const char *name);
 int resources_get_value(const char *name, void *value_return);
 int resources_get_int(const char *name, int *value_return);
 int resources_get_string(const char *name, const char **value_return);
