@@ -416,7 +416,7 @@ static int find_cpu_type_from_string(const char *cpu_string)
     }
 }
 
-static monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
+static monitor_cpu_type_t *monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
 {
     supported_cpu_type_list_t *ptr;
     if (mem == e_default_space) {
@@ -1194,9 +1194,9 @@ void mon_backtrace(void)
     }
 }
 
-void mon_screenshot_save(const char* filename, int format)
+void mon_screenshot_save(const char *filename, int format)
 {
-    const char* drvname;
+    const char *drvname;
 
     switch (format) {
         case 1:
@@ -1289,7 +1289,7 @@ void mon_resource_get(const char *name)
     }
 }
 
-void mon_resource_set(const char *name, const char* value)
+void mon_resource_set(const char *name, const char *value)
 {
     switch (resources_query_type(name)) {
         case RES_INTEGER:
@@ -1418,10 +1418,10 @@ void mon_export(void)
     }
 }
 
-void mon_stopwatch_show(const char* prefix, const char* suffix)
+void mon_stopwatch_show(const char *prefix, const char *suffix)
 {
     unsigned long t;
-    monitor_interface_t* vice_interface;
+    monitor_interface_t *vice_interface;
     vice_interface = mon_interfaces[default_memspace];
     t = (unsigned long)
         (*vice_interface->clk - stopwatch_start_time[default_memspace]);
@@ -1430,14 +1430,14 @@ void mon_stopwatch_show(const char* prefix, const char* suffix)
 
 void mon_stopwatch_reset(void)
 {
-    monitor_interface_t* vice_interface;
+    monitor_interface_t *vice_interface;
     vice_interface = mon_interfaces[default_memspace];
     stopwatch_start_time[default_memspace] = *vice_interface->clk;
     mon_out("Stopwatch reset to 0.\n");
 }
 
 /* Local helper functions for building the lists */
-static monitor_cpu_type_t* find_monitor_cpu_type(CPU_TYPE_t cputype)
+static monitor_cpu_type_t *find_monitor_cpu_type(CPU_TYPE_t cputype)
 {
     monitor_cpu_type_list_t *list_ptr = monitor_cpu_type_list;
     while (list_ptr->monitor_cpu_type.cpu_type != cputype) {
@@ -1484,7 +1484,7 @@ static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_pt
 
 /* *** MISC COMMANDS *** */
 
-monitor_cpu_type_t* monitor_find_cpu_type_from_string(const char *cpu_type)
+monitor_cpu_type_t *monitor_find_cpu_type_from_string(const char *cpu_type)
 {
     int cpu;
     cpu = find_cpu_type_from_string(cpu_type);
@@ -2358,9 +2358,9 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
     return -1;
 }
 
-char* mon_prepend_dot_to_name(char* name)
+char * mon_prepend_dot_to_name(char *name)
 {
-    char* s = malloc(strlen(name) + 2);
+    char *s = malloc(strlen(name) + 2);
     strcpy(s, ".");
     strcat(s, name);
     lib_free(name);
@@ -2739,12 +2739,12 @@ void mon_delete_conditional(cond_node_t *cnode)
 /* *** SNAPSHOTS *** */
 
 
-int mon_write_snapshot(const char* name, int save_roms, int save_disks, int even_mode)
+int mon_write_snapshot(const char *name, int save_roms, int save_disks, int even_mode)
 {
     return machine_write_snapshot(name, save_roms, save_disks, even_mode);
 }
 
-int mon_read_snapshot(const char* name, int even_mode)
+int mon_read_snapshot(const char *name, int even_mode)
 {
     int ret;
 
