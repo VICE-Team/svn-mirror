@@ -110,6 +110,7 @@
 #include "archdep_set_current_drive.h"
 #include "archdep_set_openmp_wait_policy.h"
 #include "archdep_signals.h"
+#include "archdep_socketpeek.h"
 #include "archdep_sound.h"
 #include "archdep_spawn.h"
 #include "archdep_startup_log_error.h"
