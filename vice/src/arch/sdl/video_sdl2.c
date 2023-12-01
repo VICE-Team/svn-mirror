@@ -991,9 +991,9 @@ static void sdl_correct_logical_size(void)
             if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_NONE) {
                 SDL_GetWindowSize(container->window, &corrected_width, &corrected_height);
             } else {
-                double aspect = (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_CUSTOM) ? canvas->videoconfig->aspect_ratio : sdl_active_canvas->geometry->pixel_aspect_ratio;
-                corrected_width = sdl_active_canvas->width * aspect;
-                corrected_height = sdl_active_canvas->height;
+                double aspect = (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_CUSTOM) ? canvas->videoconfig->aspect_ratio : canvas->geometry->pixel_aspect_ratio;
+                corrected_width = canvas->width * aspect;
+                corrected_height = canvas->height;
             }
             DBG(("sdl_correct_logical_size w:%d h:%d", corrected_width, corrected_height));
             SDL_RenderSetLogicalSize(container->renderer, corrected_width, corrected_height);
