@@ -641,7 +641,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
     window_width = width;
     window_height = height;
 
-    DBG(("sdl_container_create calculated width:%u height:%u\n", window_width, window_height));
+    DBG(("sdl_container_create calculated width:%u height:%u", window_width, window_height));
 
     window_x = sdl_initial_xpos[canvas_idx];
     window_y = sdl_initial_ypos[canvas_idx];
@@ -652,7 +652,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
         window_height = sdl_initial_height[canvas_idx];
     }
 
-    DBG(("sdl_container_create width:%u height:%u x:%d y:%d\n",
+    DBG(("sdl_container_create width:%u height:%u x:%d y:%d",
            window_width, window_height, window_x, window_y));
 
     container->window = SDL_CreateWindow("",
@@ -942,7 +942,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     SDL_PixelFormat *fmt;
 
-    DBG(("video_canvas_set_palette canvas: %p", canvas));
+    DBG(("video_canvas_set_palette canvas: %p (index:%d)", canvas, canvas->index));
 
     if (palette == NULL) {
         return 0; /* no palette, nothing to do */
@@ -956,11 +956,20 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     }
     fmt = canvas->screen->format;
 
-    /* Fixme: needs further investigation how it can reach here without being fully initialized */
-    if (canvas != sdl_active_canvas || canvas->width != canvas->screen->w) {
-        DBG(("video_canvas_set_palette not active canvas or window not created, don't update hw palette"));
+    /* FIXME: needs further investigation how it can reach here without being fully initialized */
+    /* NOTE: check removed in r44823 - with the check x128 can not properly set
+             the palette for the VDC window. The original reason for having it
+             doesn't seem to exist anymore either (see bug #788) */
+#if 0
+    if (canvas != sdl_active_canvas) {
+        DBG(("video_canvas_set_palette: not active canvas, don't update hw palette"));
         return 0;
     }
+    if (canvas->width != canvas->screen->w) {
+        DBG(("video_canvas_set_palette: window not created, don't update hw palette"));
+        return 0;
+    }
+#endif
 
     for (i = 0; i < palette->num_entries; i++) {
         if (canvas->depth % 8 == 0) {
