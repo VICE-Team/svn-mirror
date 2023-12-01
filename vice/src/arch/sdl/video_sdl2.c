@@ -226,8 +226,8 @@ int ui_set_aspect_ratio(double aspect_ratio, void *canvas)
     double old_aspect = cv->videoconfig->aspect_ratio;
 
     if (old_aspect != aspect_ratio) {
-        if (sdl_active_canvas) {
-            video_viewport_resize(sdl_active_canvas, 1);
+        if (canvas) {
+            video_viewport_resize(canvas, 1);
             sdl_correct_logical_and_minimum_size();
         }
     }
