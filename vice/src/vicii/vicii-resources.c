@@ -49,7 +49,9 @@
    this apparently breaks the rendering of the second (VDC) window in x128 for
    some reason. */
 
-#define OLDCODE
+/* NOTE: this should be fixed after r44823 */
+
+/* #define OLDCODE */
 
 #ifdef OLDCODE
 static int next_border_mode;
