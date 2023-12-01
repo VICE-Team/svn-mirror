@@ -795,6 +795,13 @@ const ui_menu_entry_t c128_video_menu[] = {
 #endif
     SDL_MENU_ITEM_SEPARATOR,
 
+    {   .string   = "VICII border mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)vicii_border_menu
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
     {   .string   = "VICII host rendering settings",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
