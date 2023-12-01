@@ -57,9 +57,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef HAVE_SYS_IOCTL_H         /* will move to archdep, once tested, or other workaround found */
-#include <sys/ioctl.h>          /* check windows! */
-#endif
 
 #include "alarm.h"
 #include "cmdline.h"
@@ -1647,17 +1644,13 @@ static void cmd_tcp_available(void)
         return;
     }
 
-#if defined(HAVE_SYS_IOCTL_H) && defined(FIONREAD) /* will move to archdep, once tested */
-    if (ioctl(sockfd, FIONREAD, &bytes_available) < 0) {
+    if (archdep_socketpeek(sockfd, &bytes_available) < 0) {
         send_reply_revised(NETWORK_ERROR, "NETWORK ERROR", NULL, 0, NULL);
         return;
     }
     t[0] = bytes_available & 0xff;
     t[1] = (bytes_available >> 8) & 0xff;
     send_reply_revised(SUCCESS, "Success", t, 2, NULL);
-#else
-    send_reply_revised(NETWORK_ERROR, "NOT IMPLEMENTED", NULL, 0, NULL);
-#endif
 }
 
 static void tcp_get_alarm_handler(CLOCK offset, void *data)
