@@ -2146,8 +2146,13 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             handshake_flag2();
             if ((input_state == INPUT_EXP_ARGS) &&
                 (commandptr == input_length)) {
-                wic64_log(CONS_COL_BLUE, "command %s (len=%d/0x%x)", cmd2string[input_command],
-                          input_length, input_length);
+                wic64_log(CONS_COL_BLUE, "command %s (len=%d/0x%x, using %s protocol)",
+                          cmd2string[input_command],
+                          input_length, input_length,
+                          (wic64_protocol == WIC64_PROT_LEGACY) ? "legacy" :
+                          (wic64_protocol == WIC64_PROT_REVISED) ? "revised" :
+                          (wic64_protocol == WIC64_PROT_EXTENDED) ? "extended" :
+                          "unknown");
                 cmd_timeout(0);
                 do_command();
                 commandptr = input_state = input_length = 0;
