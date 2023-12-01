@@ -42,6 +42,19 @@
 #include "video.h"
 #include "vsync.h"
 
+/* The old code, before r43758, also delays the change of the actual resource
+   value until the next vblank. This breaks eg the SDL menus (and is generally
+   wrong). The new code changes the resource value immediately, and only delays
+   the update of the internal state (which is the correct thing to do). However,
+   this apparently breaks the rendering of the second (VDC) window in x128 for
+   some reason. */
+
+#define OLDCODE
+
+#ifdef OLDCODE
+static int next_border_mode;
+#endif
+
 vicii_resources_t vicii_resources = { 0, 0, 0, 0, 0 };
 static video_chip_cap_t video_chip_cap;
 
@@ -53,7 +66,14 @@ static void on_vsync_set_border_mode(void *unused)
         sync = MACHINE_SYNC_PAL;
     }
 
-    machine_change_timing(sync, vicii_resources.border_mode);
+#ifdef OLDCODE
+    if (vicii_resources.border_mode != next_border_mode) {
+        vicii_resources.border_mode = next_border_mode;
+#endif
+        machine_change_timing(sync, vicii_resources.border_mode);
+#ifdef OLDCODE
+    }
+#endif
 }
 
 static int set_border_mode(int val, void *param)
@@ -68,7 +88,11 @@ static int set_border_mode(int val, void *param)
             return -1;
     }
 
+#ifdef OLDCODE
+    next_border_mode = val;
+#else
     vicii_resources.border_mode = val;
+#endif
     vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
 
     return 0;
