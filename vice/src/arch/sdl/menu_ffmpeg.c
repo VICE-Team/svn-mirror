@@ -249,7 +249,6 @@ static void update_codec_menus(const char *current_format)
     int codec_found;
     const char *videodriver = get_video_driver();
 
-    printf("update_codec_menus:%s\n", current_format);
     video_codec_menu[0].string = NULL;
     audio_codec_menu[0].string = NULL;
 

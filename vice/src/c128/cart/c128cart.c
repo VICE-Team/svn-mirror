@@ -56,15 +56,13 @@
 #include "ltkernal.h"
 #include "ramlink.h"
 
-#define DBGC128CART
+/* #define DBGC128CART */
 
 #ifdef DBGC128CART
 #define DBG(x) printf x
 #else
 #define DBG(x)
 #endif
-
-
 
 extern c128cartridge_interface_t *c128cartridge; /* lives in c64cart.c */
 
