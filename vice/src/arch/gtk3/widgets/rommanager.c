@@ -29,16 +29,133 @@
  *  02111-1307  USA.
  */
 
-
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
 #include "debug_gtk3.h"
+#include "drive.h"
+#include "resources.h"
 #include "resourcewidgetmediator.h"
 #include "vice_gtk3.h"
 
 #include "rommanager.h"
 
+
+/** \brief  Array length helper
+ *
+ * \param[in]   arr array
+ *
+ * \return  length of \a arr in number of elements
+ */
+#define ARRAY_LEN(arr)  (sizeof arr / sizeof arr[0])
+
+/** \brief  Machine ROM information */
+typedef struct machine_rom_s {
+    const char   *name;     /**< ROM name for the UI */
+    const char   *resource; /**< resource name for the ROM file */
+} machine_rom_t;
+
+/** \brief  Drive ROM information */
+typedef struct drive_rom_s {
+    int         type;       /**< drive type */
+    const char *name;       /**< drive name for the UI */
+    const char *resource;   /**< resource name for the ROM file */
+} drive_rom_t;
+
+/** \brief  Drive expansion ROM information */
+typedef struct drive_exp_rom_s {
+    const char   *name;     /**< ROM name for the UI */
+    const char   *resource; /**< resource name for the ROM file */
+} drive_exp_rom_t;
+
+
+/** \brief  List of machine ROM names and resources */
+static const machine_rom_t machine_rom_list[] = {
+    /* Kernals */
+
+    /* C64, C64DTV, VIC20, Plus/4, PET, CBM II */
+    { "Kernal",                 "KernalName" },
+    /* C128 kernals in UI description order */
+    { "International kernal",   "KernalIntName" },
+    { "Finish kernal",          "KernalFIName" },
+    { "French kernal",          "KernalFRName" },
+    { "German kernal",          "KernalDEName" },
+    { "Italian kernal",         "KernalITName" },
+    { "Norwegian kernal",       "KernalNOName" },
+    { "Swedish kernal",         "KernalSEName" },
+    { "Swiss kernal",           "KernalCHName" },
+    { "C64 mode kernal",        "Kernal64Name" },
+
+    /* Basics */
+
+    /* C64, C64DTV, VIC20, Plus/4. PET, CBM II */
+    { "Basic",                  "BasicName" },
+    /* C128 */
+    { "Basic low",              "BasicLoName" },
+    { "Basic high",             "BasicHiName" },
+    { "C64 mode Basic",         "Basic64Name" },
+
+    /* Chargen, others */
+
+    /* C64, C64DTV, VIC20, Plus/4, PET, CBM II */
+    { "Chargen",                "ChargenName" },
+    { "International chargen",  "ChargenINTName" },     /* C128 */
+    { "Finish chargen",         "ChargenFIName" },      /* C128 */
+    { "French chargen",         "ChargenFRName" },      /* C128 */
+    { "German chargen",         "ChargenDEName" },      /* C128 */
+    { "Italian chargen",        "ChargenITName" },      /* C128 */
+    { "Norwegian chargen",      "ChargenNOName" },      /* C128 */
+    { "Swedish chargen",        "ChargenSEName" },      /* C128 */
+    { "Swiss chargen",          "ChargenCHName" },      /* C128 */
+    { "Function low",           "FunctionLowName" },    /* Plus/4 */
+    { "Function high",          "FunctionHighName" },   /* Plus/4 */
+    { "C1 low",                 "c1loName" },           /* Plus/4 */
+    { "C1 high",                "c1hiName" },           /* Plus/4 */
+    { "C2 low",                 "c2loName" },           /* Plus/4 */
+    { "C2 high",                "c2hiName" },           /* Plus/4 */
+    { "Editor",                 "EditorName" },         /* PET */
+    { "$9000-$9FFF ROM",        "RomModule9Name" },     /* PET */
+    { "$A000-$AFFF ROM",        "RomModuleAName" },     /* PET */
+    { "$B000-$BFFF ROM",        "RomModuleBName" },     /* PET */
+    { "H6809 ROM A",            "H6809RomAName" },      /* PET */
+    { "H6809 ROM B",            "H6809RomBName" },      /* PET */
+    { "H6809 ROM C",            "H6809RomCName" },      /* PET */
+    { "H6809 ROM D",            "H6809RomDName" },      /* PET */
+    { "H6809 ROM E",            "H6809RomEName" },      /* PET */
+    { "H6809 ROM F",            "H6809RomFName" },      /* PET */
+};
+
+/** \brief  List of drive ROM IDs, names and resources
+ *
+ * FIXME: shouldn't be here but somewhere in core code, but alas.
+ */
+static const drive_rom_t drive_rom_list[] = {
+    { DRIVE_TYPE_1540,      DRIVE_NAME_1540,    "DosName1540" },
+    { DRIVE_TYPE_1541,      DRIVE_NAME_1541,    "DosName1541" },
+    { DRIVE_TYPE_1541II,    DRIVE_NAME_1541II,  "DosName1541ii" },
+    { DRIVE_TYPE_1551,      DRIVE_NAME_1551,    "DosName1551" },
+    { DRIVE_TYPE_1571,      DRIVE_NAME_1571,    "DosName1571" },
+    { DRIVE_TYPE_1571CR,    DRIVE_NAME_1571CR,  "DosName1571cr" },
+    { DRIVE_TYPE_1581,      DRIVE_NAME_1581,    "DosName1581" },
+    { DRIVE_TYPE_2000,      DRIVE_NAME_2000,    "DosName2000" },
+    { DRIVE_TYPE_4000,      DRIVE_NAME_4000,    "DosName4000" },
+    { DRIVE_TYPE_2031,      DRIVE_NAME_2031,    "DosName2023" },
+    { DRIVE_TYPE_2040,      DRIVE_NAME_2040,    "DosName2040" },
+    { DRIVE_TYPE_3040,      DRIVE_NAME_3040,    "DosName3040" },
+    { DRIVE_TYPE_4040,      DRIVE_NAME_4040,    "DosName4040" },
+    { DRIVE_TYPE_1001,      DRIVE_NAME_1001,    "DosName1001" },
+    { DRIVE_TYPE_8050,      DRIVE_NAME_8050,    NULL },
+    { DRIVE_TYPE_8250,      DRIVE_NAME_8250,    NULL },
+    { DRIVE_TYPE_9000,      DRIVE_NAME_9000,    "DosName9000" },
+    { DRIVE_TYPE_CMDHD,     DRIVE_NAME_CMDHD,   "DosNameCMDHD" }
+};
+
+/** \brief  List of drive expansion ROMs names and resources */
+static const drive_exp_rom_t drive_exp_rom_list[] = {
+    { "Professional DOS 1571",  "DriveProfDOS1571Name" },
+    { "Supercard+",             "DriveSuperCardName" },
+    { "StarDOS",                "DriveStarDosName" },
+};
 
 /** \brief  Patterns for the file chooser widgets */
 static const char *chooser_patterns[] = { "*.bin", "*.rom", NULL };
@@ -118,6 +235,7 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     GtkWidget *label;
     GtkWidget *scrolled;
     GtkWidget *expander;
+    size_t     i;
     int        row = 0;
 
     grid = gtk_grid_new();
@@ -144,35 +262,29 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     gtk_container_add(GTK_CONTAINER(root_list), drive_roms);
     gtk_container_add(GTK_CONTAINER(root_list), drive_exp_roms);
 
-    /* add C64 machine ROMs */
-    rom_manager_add_machine_rom("Kernal",  "KernalName");
-    rom_manager_add_machine_rom("Basic",   "BasicName");
-    rom_manager_add_machine_rom("Chargen", "ChargenName");
+    /* add machine ROMs */
+    for (i = 0; i < ARRAY_LEN(machine_rom_list); i++) {
+        if (resources_exists(machine_rom_list[i].resource)) {
+            rom_manager_add_machine_rom(machine_rom_list[i].name,
+                                        machine_rom_list[i].resource);
+        }
+    }
 
-    /* add C64 drive ROMs */
-    rom_manager_add_drive_rom("1540",       "DosName1540");
-    rom_manager_add_drive_rom("1541",       "DosName1541");
-    rom_manager_add_drive_rom("1541-II",    "DosName1541ii");
-    rom_manager_add_drive_rom("1570",       "DosName1570");
-    rom_manager_add_drive_rom("1571",       "DosName1571");
-    rom_manager_add_drive_rom("1581",       "DosName1581");
+    /* add drive ROMs */
+    for (i = 0; i < ARRAY_LEN(drive_rom_list); i++) {
+        if (resources_exists(drive_rom_list[i].resource)) {
+            rom_manager_add_drive_rom(drive_rom_list[i].name,
+                                      drive_rom_list[i].resource);
+        }
+    }
 
-    rom_manager_add_drive_rom("FD-2000",    "DosName2000");
-    rom_manager_add_drive_rom("FD-4000",    "DosName4000");
-    rom_manager_add_drive_rom("CMD HD",     "DosNameCMDHD");
-
-    rom_manager_add_drive_rom("2031",       "DosName2031");
-    rom_manager_add_drive_rom("2040",       "DosName2040");
-    rom_manager_add_drive_rom("3040",       "DosName3040");
-    rom_manager_add_drive_rom("4040",       "DosName4040");
-    rom_manager_add_drive_rom("1001",       "DosName1001");
-    rom_manager_add_drive_rom("D9060/90",   "DosName9000");
-
-#ifdef HAVE_EXPERIMENTAL_DEVICES
-    rom_manager_add_drive_exp_rom("ProfDOS 1571",   "DriveProfDOS1571Name");
-#endif
-    rom_manager_add_drive_exp_rom("Supercard",      "DriveSuperCardName");
-    rom_manager_add_drive_exp_rom("StarDOS",        "DriveStarDosName");
+    /* add drive expansion ROMs */
+    for (i = 0; i < ARRAY_LEN(drive_exp_rom_list); i++) {
+        if (resources_exists(drive_exp_rom_list[i].resource)) {
+            rom_manager_add_drive_exp_rom(drive_exp_rom_list[i].name,
+                                          drive_exp_rom_list[i].resource);
+        }
+    }
 
     /* expand the machine ROMs by default */
     expander = gtk_bin_get_child(GTK_BIN(machine_roms));
@@ -245,7 +357,7 @@ static void add_rom_chooser(GtkWidget  *list,
 
     /* set up the label: we need to use xalign here to force left alignment
      * since we set a fixed size and the normal alignment is ignored */
-    gtk_widget_set_size_request(label, 100, -1);
+    gtk_widget_set_size_request(label, 150, -1);
     gtk_label_set_xalign(GTK_LABEL(label), 0.0);
     gtk_widget_set_margin_start(label, 8);
 

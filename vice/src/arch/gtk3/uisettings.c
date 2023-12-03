@@ -1017,6 +1017,11 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1131,6 +1136,11 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1272,6 +1282,11 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1399,6 +1414,11 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1534,6 +1554,11 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "ROM",
       "rom",
        settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1656,6 +1681,11 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1778,6 +1808,11 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
@@ -1897,6 +1932,11 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "ROM",
       "rom",
       settings_romset_widget_create, NULL },
+#ifdef HAVE_DEBUG_GTK3UI
+    { "ROM Manager (WIP!)",
+      "rom-manager",
+      rom_manager_new, NULL },
+#endif
     { "RAM",
       "ram",
       settings_ramreset_widget_create, NULL },
