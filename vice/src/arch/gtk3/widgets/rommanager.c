@@ -34,6 +34,7 @@
 
 #include "debug_gtk3.h"
 #include "drive.h"
+#include "lib.h"
 #include "resources.h"
 #include "resourcewidgetmediator.h"
 #include "vice_gtk3.h"
@@ -67,6 +68,15 @@ typedef struct drive_exp_rom_s {
     const char   *name;     /**< ROM name for the UI */
     const char   *resource; /**< resource name for the ROM file */
 } drive_exp_rom_t;
+
+
+typedef struct rom_resource_s {
+    const char *name;
+    const char *value;
+} rom_resource_t;
+
+
+static rom_resource_t *expandable_list_get_resources(GtkWidget *list);
 
 
 /** \brief  List of machine ROM names and resources */
@@ -182,6 +192,35 @@ static GtkWidget *drive_roms;
 static GtkWidget *drive_exp_roms;
 
 
+static void on_load_romset_clicked(GtkButton *self, gpointer data)
+{
+    debug_gtk3("clicked");
+}
+
+static void on_save_romset_clicked(GtkButton *self, gpointer data)
+{
+    rom_resource_t *roms;
+    int             i;
+
+    debug_gtk3("clicked");
+    roms = expandable_list_get_resources(drive_roms);
+    if (roms == NULL) {
+        return;
+    }
+
+    for (i = 0; roms[i].name != NULL; i++) {
+        debug_gtk3("%s=\"%s\"", roms[i].name, roms[i].value);
+    }
+    lib_free(roms);
+}
+
+static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
+{
+    debug_gtk3("clicked");
+}
+
+
+
 /** \brief  Create horizontally aligned label using Pango markup
  *
  * \param[in]   markup  Pango markup text for the label
@@ -222,6 +261,54 @@ static GtkWidget *expandable_list_new(const char *title)
     return listrow;
 }
 
+/** \brief  Get list of resource name and value pairs for a ROM list
+ *
+ * \param[in]   list    ROM list (GtkListBoxRow)
+ *
+ * \return  list of ROM resources in the list, terminated by \c .name being \c NULL
+ *
+ * \note    Free the list after use with \c lib_free()
+ */
+static rom_resource_t *expandable_list_get_resources(GtkWidget *list)
+{
+    GtkWidget      *expander;
+    GtkWidget      *listbox;
+    GList          *rows;
+    GList          *row;
+    rom_resource_t *roms;
+    guint           num_rows;
+    guint           i;
+
+    expander = gtk_bin_get_child(GTK_BIN(list));
+    listbox  = gtk_bin_get_child(GTK_BIN(expander));
+    rows     = gtk_container_get_children(GTK_CONTAINER(listbox));
+    if (rows == NULL) {
+        return NULL;
+    }
+    num_rows = g_list_length(rows);
+    roms     = lib_malloc((num_rows + 1u) * sizeof *roms);
+
+    i = 0;
+    for (row = rows; row != NULL; row = row->next) {
+        GtkWidget  *grid;
+        GtkWidget  *chooser;
+        mediator_t *mediator;
+
+        grid          = gtk_bin_get_child(GTK_BIN(row->data));
+        chooser       = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
+        mediator      = mediator_for_widget(chooser);
+        roms[i].name  = mediator_get_name(mediator);
+        roms[i].value = mediator_get_resource_string(mediator);
+        i++;
+    }
+    roms[i].name  = NULL;
+    roms[i].value = NULL;
+
+    g_list_free(rows);
+
+    return roms;
+}
+
 
 /** \brief  Create ROM manager widget
  *
@@ -235,6 +322,8 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     GtkWidget *label;
     GtkWidget *scrolled;
     GtkWidget *expander;
+    GtkWidget *button_box;
+    GtkWidget *button;
     size_t     i;
     int        row = 0;
 
@@ -254,6 +343,7 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
                                    GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolled), root_list);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, row, 1, 1);
+    row++;
 
     machine_roms   = expandable_list_new("Machine ROMs");
     drive_roms     = expandable_list_new("Drive ROMs");
@@ -289,6 +379,29 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     /* expand the machine ROMs by default */
     expander = gtk_bin_get_child(GTK_BIN(machine_roms));
     gtk_expander_set_expanded(GTK_EXPANDER(expander), TRUE);
+
+    /* add buttons */
+    button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    button = gtk_button_new_with_label("Load ROM set");
+    g_signal_connect(G_OBJECT(button),
+                     "clicked",
+                     G_CALLBACK(on_load_romset_clicked),
+                     NULL);
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
+    button = gtk_button_new_with_label("Save ROM set");
+    g_signal_connect(G_OBJECT(button),
+                     "clicked",
+                     G_CALLBACK(on_save_romset_clicked),
+                     NULL);
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
+    button = gtk_button_new_with_label("Reset to defaults");
+    g_signal_connect(G_OBJECT(button),
+                     "clicked",
+                     G_CALLBACK(on_reset_to_defaults_clicked),
+                     NULL);
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
+
+    gtk_grid_attach(GTK_GRID(grid), button_box, 0, row, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
