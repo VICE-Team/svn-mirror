@@ -54,6 +54,9 @@
    calculated as 65536 * drive_clk / clk_[main machine] */
 static int sync_factor;
 
+/* Frequency of the power grid in Hz */
+static int power_freq = 1;
+
 /* Type of machine.  */
 static int machine_type;
 
@@ -543,19 +546,42 @@ static int set_sync_factor(int val, void *param)
 
     switch (val) {
         case MACHINE_SYNC_PAL:
-            sync_factor = val;
-            if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_PAL, vicii_resources.border_mode);
-            }
-            break;
         case MACHINE_SYNC_NTSC:
-            sync_factor = val;
-            if (change_timing) {
-                machine_change_timing(MACHINE_SYNC_NTSC, vicii_resources.border_mode);
-            }
             break;
         default:
             return -1;
+    }
+
+    sync_factor = val;
+    if (change_timing) {
+        if (power_freq > 0) {
+            machine_change_timing(val, power_freq, vicii_resources.border_mode);
+        }
+    }
+
+    return 0;
+}
+
+static int set_power_freq(int val, void *param)
+{
+    int change_timing = 0;
+
+    if (power_freq != val) {
+        change_timing = 1;
+    }
+
+    switch (val) {
+        case 50:
+        case 60:
+            break;
+        default:
+            return -1;
+    }
+    power_freq = val;
+    if (change_timing) {
+        if (sync_factor > 0) {
+            machine_change_timing(sync_factor, val, vicii_resources.border_mode);
+        }
     }
 
     return 0;
@@ -619,6 +645,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
+    { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
+      &power_freq, set_power_freq, NULL },
     { "BoardType", BOARD_C128D, RES_EVENT_SAME, NULL,
       &board_type, set_board_type, NULL },
     { "MachineType", C128_MACHINE_INT, RES_EVENT_SAME, NULL,

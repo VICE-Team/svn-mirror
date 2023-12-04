@@ -12663,6 +12663,11 @@ Integer that specifies the base address of the 256KiB RAM expansion.
 Integer that specifies the video standard of the emulated machine
 (1: PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
 
+@vindex MachinePowerFrequency
+@item MachinePowerFrequency
+Integer that specifies the frequency of the power grid in Hz (50, 60). This is
+used to determine the tick frequency for the TOD clocks.
+
 @vindex CPMCart
 @item CPMCart
 Boolean that specifies if a CP/M cartridge is attached.
@@ -12740,10 +12745,20 @@ Use old NTSC sync factor
 Use PAL-N sync factor
 (@code{MachineVideoStandard=4}).
 
+@findex -power50
+@item -power50
+Use 50Hz power grid frequency.
+(@code{MachinePowerFrequency=50}).
+
+@findex -power60
+@item -power60
+Use 60Hz power grid frequency.
+(@code{MachinePowerFrequency=60}).
+
 @findex -model
 @item -model <Model>
 Set the C64 model
-(@code{VICIIModel}, @code{CIA1Model}, @code{CIA2Model}, @code{GlueLogic}, @code{BoardType}, @code{IECReset}, @code{KernalRev},
+(@code{MachineVideoStandard}, @code{MachinePowerFrequency}, @code{VICIIModel}, @code{CIA1Model}, @code{CIA2Model}, @code{GlueLogic}, @code{BoardType}, @code{IECReset}, @code{KernalRev},
 @code{ChargenName}, @code{SidEngine}, @code{SidModel})
 (x64 and x64sc only).
 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)
@@ -13416,6 +13431,11 @@ Integer specifying the C128 machine type.
 Integer that specifies the video standard of the emulated machine
 (1: PAL, 2: NTSC).
 
+@vindex MachinePowerFrequency
+@item MachinePowerFrequency
+Integer that specifies the frequency of the power grid in Hz (50, 60). This is
+used to determine the tick frequency for the TOD clocks.
+
 @vindex C128HideVDC
 @item C128HideVDC
 Boolean to enable/disable the VDC display window.
@@ -13459,10 +13479,20 @@ Use PAL sync factor
 Use NTSC sync factor
 (@code{MachineVideoStandard=2}).
 
+@findex -power50
+@item -power50
+Use 50Hz power grid frequency.
+(@code{MachinePowerFrequency=50}).
+
+@findex -power60
+@item -power60
+Use 60Hz power grid frequency.
+(@code{MachinePowerFrequency=60}).
+
 @findex -model
 @item -model <Model>
 Set the C128 model
-(@code{MachineVideoStandard}, @code{CIA1Model}, @code{CIA2Model}, @code{VICIINewLuminances}, @code{VDCRevision},
+(@code{MachineVideoStandard}, @code{MachinePowerFrequency}, @code{CIA1Model}, @code{CIA2Model}, @code{VICIINewLuminances}, @code{VDCRevision},
 @code{VDC64KB}, @code{SidEngine}, @code{SidModel}).
 (c128/c128dcr, pal/ntsc)
 
@@ -13837,6 +13867,11 @@ String specifying the name of the SCPU64 ROM (default @file{scpu64}).
 Integer that specifies the video standard of the emulated machine
 (4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
 
+@vindex MachinePowerFrequency
+@item MachinePowerFrequency
+Integer that specifies the frequency of the power grid in Hz (50, 60). This is
+used to determine the tick frequency for the TOD clocks.
+
 @vindex IECReset
 @item IECReset
 Integer specifying if the IEC bus resets when the CPU resets.
@@ -13885,7 +13920,7 @@ Specify filename of the SCPU64 ROM file
 @findex -model
 @item -model <Model>
 Set the C64 model
-(@code{MachineVideoStandard}, @code{CIA1Model}, @code{CIA2Model},
+(@code{MachineVideoStandard}, @code{MachinePowerFrequency}, @code{CIA1Model}, @code{CIA2Model},
 @code{VICIINewLuminances}, @code{IECReset}, @code{ChargenName},
 @code{SidEngine}, @code{SidModel}).
 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)
@@ -13909,6 +13944,16 @@ Use old NTSC sync factor
 @item -paln
 Use PAL-N sync factor
 (@code{MachineVideoStandard=4}).
+
+@findex -power50
+@item -power50
+Use 50Hz power grid frequency.
+(@code{MachinePowerFrequency=50}).
+
+@findex -power60
+@item -power60
+Use 60Hz power grid frequency.
+(@code{MachinePowerFrequency=60}).
 
 @findex -iecreset
 @item -iecreset <value>
@@ -16811,6 +16856,11 @@ String specifying the name of the Basic ROM
 Integer that specifies the video standard of the emulated machine
 (1: PAL, 2: NTSC).
 
+@vindex MachinePowerFrequency
+@item MachinePowerFrequency
+Integer that specifies the frequency of the power grid in Hz (50, 60). This is
+used to determine the tick frequency for the TOD clocks.
+
 @end table
 
 Choosing a common CBM-II model is done from the right-button menu instead,
@@ -16918,6 +16968,16 @@ Use PAL sync factor
 Use NTSC sync factor
 (@code{MachineVideoStandard=2}).
 
+@findex -power50
+@item -power50
+Use 50Hz power grid frequency.
+(@code{MachinePowerFrequency=50}).
+
+@findex -power60
+@item -power60
+Use 60Hz power grid frequency.
+(@code{MachinePowerFrequency=60}).
+
 @findex -ramsize
 @item -ramsize <ramsize>
 Specify size of RAM
@@ -16964,7 +17024,7 @@ Enable/disable RAM mapping in bank 15 at address $C000-$CFFF
 @findex -model
 @item -model <modelnumber>
 Specify CBM-II model to emulate
-(@code{ModelLine}, @code{MachineVideoStandard}, @code{RamSize}, @code{KernalName}, @code{BasicName}, @code{ChargenName}).
+(@code{ModelLine}, @code{MachineVideoStandard}, @code{MachinePowerFrequency}, @code{RamSize}, @code{KernalName}, @code{BasicName}, @code{ChargenName}).
 xcbm2: (610, 620, 620+, 710, 720, 720+)
 xcbm5x0: (510)
 
@@ -17063,6 +17123,11 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') (901246-01)
 Integer that specifies the video standard of the emulated machine
 (1: PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
 
+@vindex MachinePowerFrequency
+@item MachinePowerFrequency
+Integer that specifies the frequency of the power grid in Hz (50, 60). This is
+used to determine the tick frequency for the TOD clocks.
+
 @end table
 
 @c @node FIXME
@@ -17127,6 +17192,16 @@ Use old NTSC sync factor
 @item -paln
 Use PAL-N sync factor
 (@code{MachineVideoStandard=4}).
+
+@findex -power50
+@item -power50
+Use 50Hz power grid frequency.
+(@code{MachinePowerFrequency=50}).
+
+@findex -power60
+@item -power60
+Use 60Hz power grid frequency.
+(@code{MachinePowerFrequency=60}).
 
 @end table
 

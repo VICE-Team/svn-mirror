@@ -1395,7 +1395,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-void machine_change_timing(int timeval, int border_mode)
+void machine_change_timing(int timeval, int powerfreq, int border_mode)
 {
     switch (timeval) {
         case MACHINE_SYNC_PAL:
@@ -1404,7 +1404,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
-            machine_timing.power_freq = 50;
+            machine_timing.power_freq = powerfreq;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
@@ -1412,7 +1412,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
-            machine_timing.power_freq = 60;
+            machine_timing.power_freq = powerfreq;
             break;
         case MACHINE_SYNC_NTSCOLD:
             machine_timing.cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
@@ -1420,7 +1420,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_NTSCOLD_SCREEN_LINES;
-            machine_timing.power_freq = 60;
+            machine_timing.power_freq = powerfreq;
             break;
         case MACHINE_SYNC_PALN:
             machine_timing.cycles_per_sec = C64_PALN_CYCLES_PER_SEC;
@@ -1428,7 +1428,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = C64_PALN_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_PALN_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_PALN_SCREEN_LINES;
-            machine_timing.power_freq = 50;
+            machine_timing.power_freq = powerfreq;
             break;
         default:
             log_error(c64_log, "Unknown machine timing.");

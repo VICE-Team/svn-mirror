@@ -175,7 +175,7 @@ int machine_sid7_check_range(unsigned int sid_adr);
 int machine_sid8_check_range(unsigned int sid_adr);
 
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
-void machine_change_timing(int timeval, int border_mode);
+void machine_change_timing(int timeval, int powerfreq, int border_mode);
 
 /* Get screenshot data.  */
 struct screenshot_s;

@@ -58,6 +58,9 @@
    calculated as 65536 * drive_clk / clk_[main machine] */
 static int sync_factor;
 
+/* Frequency of the power grid in Hz */
+static int power_freq = 1;
+
 /* Name of the character ROM.  */
 static char *chargen_rom_name = NULL;
 
@@ -314,9 +317,9 @@ static int set_sync_factor(int val, void *param)
 
     switch (val) {
         case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
         case MACHINE_SYNC_NTSC:
         case MACHINE_SYNC_NTSCOLD:
-        case MACHINE_SYNC_PALN:
             break;
         default:
             return -1;
@@ -324,7 +327,35 @@ static int set_sync_factor(int val, void *param)
     sync_factor = val;
     if (change_timing) {
         vicii_comply_with_video_standard(val);
-        machine_change_timing(val, vicii_resources.border_mode);
+        if (power_freq > 0) {
+            machine_change_timing(val, power_freq, vicii_resources.border_mode);
+        }
+    }
+
+    return 0;
+}
+
+static int set_power_freq(int val, void *param)
+{
+    int change_timing = 0;
+
+    if (power_freq != val) {
+        change_timing = 1;
+    }
+
+    switch (val) {
+        case 50:
+        case 60:
+            break;
+        default:
+            return -1;
+    }
+    power_freq = val;
+    if (change_timing) {
+        /*vicii_comply_with_video_standard(sync_factor);*/
+        if (sync_factor > 0) {
+            machine_change_timing(sync_factor, val, vicii_resources.border_mode);
+        }
     }
 
     return 0;
@@ -346,6 +377,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
+    { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
+      &power_freq, set_power_freq, NULL },
     { "BoardType", BOARD_C64, RES_EVENT_SAME, NULL,
       &board_type, set_board_type, NULL },
     { "IECReset", 0, RES_EVENT_SAME, NULL,

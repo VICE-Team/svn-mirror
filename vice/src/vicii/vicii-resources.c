@@ -63,16 +63,27 @@ static video_chip_cap_t video_chip_cap;
 static void on_vsync_set_border_mode(void *unused)
 {
     int sync;
+    int pf;
 
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }
-
+    if (resources_get_int("MachinePowerFrequency", &pf) < 0) {
+        switch (sync) {
+            case MACHINE_SYNC_PAL:
+            case MACHINE_SYNC_PALN:
+                pf = 50;
+            break;
+            default:
+                pf = 60;
+            break;
+        }
+    }
 #ifdef OLDCODE
     if (vicii_resources.border_mode != next_border_mode) {
         vicii_resources.border_mode = next_border_mode;
 #endif
-        machine_change_timing(sync, vicii_resources.border_mode);
+        machine_change_timing(sync, pf, vicii_resources.border_mode);
 #ifdef OLDCODE
     }
 #endif

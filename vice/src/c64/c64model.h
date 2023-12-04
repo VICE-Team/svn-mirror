@@ -91,12 +91,16 @@ enum {
 #define NO_CIA2  0
 #define HAS_CIA2 1
 
+#define CIATICK_NET     0
+#define CIATICK_60HZ    1
+
 typedef struct {
     int vicii_model;
     int sid_model;
     int glue_logic; /* x64sc only */
     int cia1_model;
     int cia2_model;
+    int cia_tick;
     int board; /* 0: normal, 1: ultimax */
     int iecreset; /* 1: reset goes to IEC bus (old) 0: only reset IEC on hard reset (new) */
     const char *kernal;
