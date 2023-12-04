@@ -70,13 +70,9 @@ typedef struct drive_exp_rom_s {
 } drive_exp_rom_t;
 
 
-typedef struct rom_resource_s {
-    const char *name;
-    const char *value;
-} rom_resource_t;
-
-
-static rom_resource_t *expandable_list_get_resources(GtkWidget *list);
+/* Forward declarations */
+static const char **string_list_append_list(const char **list1, const char **list2);
+static const char **expandable_list_get_resources(GtkWidget *list);
 
 
 /** \brief  List of machine ROM names and resources */
@@ -199,17 +195,26 @@ static void on_load_romset_clicked(GtkButton *self, gpointer data)
 
 static void on_save_romset_clicked(GtkButton *self, gpointer data)
 {
-    rom_resource_t *roms;
-    int             i;
+    const char **roms;
+    const char **droms;
+    const char **dxroms;
+    int          i;
 
-    debug_gtk3("clicked");
-    roms = expandable_list_get_resources(drive_roms);
+    roms   = expandable_list_get_resources(machine_roms);
+    droms  = expandable_list_get_resources(drive_roms);
+    dxroms = expandable_list_get_resources(drive_exp_roms);
+
+    roms = string_list_append_list(roms, droms);
+    lib_free(droms);
+    roms = string_list_append_list(roms, dxroms);
+    lib_free(dxroms);
+
     if (roms == NULL) {
         return;
     }
 
-    for (i = 0; roms[i].name != NULL; i++) {
-        debug_gtk3("%s=\"%s\"", roms[i].name, roms[i].value);
+    for (i = 0; roms[i] != NULL; i++) {
+        debug_gtk3("%s", roms[i]);
     }
     lib_free(roms);
 }
@@ -220,6 +225,47 @@ static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
 }
 
 
+/** \brief  Append list of strings to another list of strings
+ *
+ * Reallocate \a to to make space for all elements of \a from and append
+ * all elements from \a from to \a to.
+ *
+ * \param[in]   to      list of strings to append to
+ * \param[in]   from    list of strings to append
+ *
+ * \return  \a to, possibly relocated
+ */
+static const char **string_list_append_list(const char **to, const char **from)
+{
+    if (to == NULL && from != NULL) {
+        /* make copy of `from` so calling code can unconditionally free `from`
+         * after calling this function */
+        size_t n;
+
+        for (n = 0; from[n] != NULL; n++) { /* NOP */ }
+        to = lib_malloc((n + 1u) * sizeof *to);
+        for (n = 0; from[n] != NULL; n++) {
+            to[n] = from[n];
+        }
+        to[n] = NULL;
+    } else if (to != NULL && from != NULL) {
+        size_t nt;
+        size_t nf;
+        size_t i;
+
+        /* count elements in lists */
+        for (nt = 0; to[nt]   != NULL; nt++) { /* NOP */ }
+        for (nf = 0; from[nf] != NULL; nf++) { /* NOP */ }
+
+        /* append elements in `from` to `to` */
+        to = lib_realloc(to, (nt + nf + 1u) * sizeof *to);
+        /* copy elements *including* terminating NULL */
+        for (i = 0; i <= nf; i++) {
+            to[nt + i] = from[i];
+        }
+    }
+    return to;
+}
 
 /** \brief  Create horizontally aligned label using Pango markup
  *
@@ -265,19 +311,19 @@ static GtkWidget *expandable_list_new(const char *title)
  *
  * \param[in]   list    ROM list (GtkListBoxRow)
  *
- * \return  list of ROM resources in the list, terminated by \c .name being \c NULL
+ * \return  list of ROM resources in the list, \c NULL terminated
  *
  * \note    Free the list after use with \c lib_free()
  */
-static rom_resource_t *expandable_list_get_resources(GtkWidget *list)
+static const char **expandable_list_get_resources(GtkWidget *list)
 {
-    GtkWidget      *expander;
-    GtkWidget      *listbox;
-    GList          *rows;
-    GList          *row;
-    rom_resource_t *roms;
-    guint           num_rows;
-    guint           i;
+    GtkWidget   *expander;
+    GtkWidget   *listbox;
+    GList       *rows;
+    GList       *row;
+    const char **roms;
+    guint        num_rows;
+    guint        i;
 
     expander = gtk_bin_get_child(GTK_BIN(list));
     listbox  = gtk_bin_get_child(GTK_BIN(expander));
@@ -292,18 +338,13 @@ static rom_resource_t *expandable_list_get_resources(GtkWidget *list)
     for (row = rows; row != NULL; row = row->next) {
         GtkWidget  *grid;
         GtkWidget  *chooser;
-        mediator_t *mediator;
 
-        grid          = gtk_bin_get_child(GTK_BIN(row->data));
-        chooser       = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
-        mediator      = mediator_for_widget(chooser);
-        roms[i].name  = mediator_get_name(mediator);
-        roms[i].value = mediator_get_resource_string(mediator);
+        grid     = gtk_bin_get_child(GTK_BIN(row->data));
+        chooser  = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
+        roms[i]  = mediator_get_name_w(chooser);
         i++;
     }
-    roms[i].name  = NULL;
-    roms[i].value = NULL;
-
+    roms[i] = NULL;
     g_list_free(rows);
 
     return roms;
