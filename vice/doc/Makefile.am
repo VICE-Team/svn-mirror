@@ -7,7 +7,8 @@ MISC_DOX = \
 	Doxygen-Howto.txt \
 	iec-bus.txt \
 	Release-Howto.txt \
-	vice.texi
+	vice.texi \
+	gpl.texi
 
 TEXI_TOOLS = \
 	fixdates.sh
