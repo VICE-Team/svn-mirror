@@ -42,7 +42,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y autoconf automake build-essential byacc dos2unix \
-                              flex xa65 libasound2-dev libpulse-dev \
+                              flex xa65 libasound2-dev libpulse-dev curl \
                               ${{ matrix.source.deps }}
 
       - name: Configure Dist
