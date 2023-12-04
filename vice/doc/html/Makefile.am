@@ -63,6 +63,8 @@ IMAGES_FILES = \
 	images/vice-c64-symbolic-keymap-us.png \
 	images/vice-cbm2-positional-keymap-de.png \
 	images/vice-cbm2-positional-keymap-us.png \
+	images/vice-cbm2-symbolic-keymap-de.png \
+	images/vice-cbm2-symbolic-keymap-us.png \
 	images/vice-logo-black.png \
 	images/vice-logo.svg \
 	images/vice-pet-business-uk-positional-keymap-de.png \
@@ -74,7 +76,10 @@ IMAGES_FILES = \
 	images/vice-pet-graphical-symbolic-keymap-de.png \
 	images/vice-pet-graphical-symbolic-keymap-us.png \
 	images/vice-plus4-positional-keymap-de.png \
-	images/vice-plus4-positional-keymap-us.png
+	images/vice-plus4-positional-keymap-us.png \
+	images/vice-plus4-symbolic-keymap-de.png \
+	images/vice-plus4-symbolic-keymap-us.png
+
 
 EXTRA_DIST = \
 	checklinks.sh \
