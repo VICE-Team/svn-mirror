@@ -1040,7 +1040,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-void machine_change_timing(int timeval, int border_mode)
+void machine_change_timing(int timeval, int powerfreq, int border_mode)
 {
     switch (timeval) {
         case MACHINE_SYNC_PAL:
@@ -1049,7 +1049,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = PLUS4_PAL_SCREEN_LINES;
-            machine_timing.power_freq = 50;
+            machine_timing.power_freq = powerfreq;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
@@ -1057,7 +1057,7 @@ void machine_change_timing(int timeval, int border_mode)
             machine_timing.rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = PLUS4_NTSC_SCREEN_LINES;
-            machine_timing.power_freq = 60;
+            machine_timing.power_freq = powerfreq;
             break;
         default:
             log_error(plus4_log, "Unknown machine timing.");

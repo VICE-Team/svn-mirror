@@ -197,6 +197,7 @@ void c128model_set(int model)
     int old_drive = DRIVE_TYPE_NONE;
     int new_sid_model;
     int new_type;
+    int pf;
 
     old_model = c128model_get();
 
@@ -205,6 +206,17 @@ void c128model_set(int model)
     }
 
     resources_set_int("MachineVideoStandard", c128models[model].video);
+    /* Determine the power net frequency for this model. */
+    switch(c128models[model].video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            pf = 50;
+            break;
+        default:
+            pf = 60;
+            break;
+    }
+    resources_set_int("MachinePowerFrequency", pf);
     resources_set_int("CIA1Model", c128models[model].cia);
     resources_set_int("CIA2Model", c128models[model].cia);
     resources_set_int("VDCRevision", c128models[model].vdc);
