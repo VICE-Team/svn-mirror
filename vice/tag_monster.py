@@ -138,13 +138,6 @@ def find_vice_installs_under_commit(commit):
 #       results, do a much cheaper incremental update on it and write
 #       out the updated results.
 def perform_phase_1():
-    try:
-        # Just load results of a previous run if it's there.
-        return json.load(open("tag_monster_0.json"))
-    except:
-        # Cached results are missing or corrupt, actually do the work
-        pass
-
     repo_data = {}
 
     # Get the history of the svn/trunk branch. These commits are special
@@ -176,9 +169,24 @@ def perform_phase_1():
 
     # Search each commit for VICE installs and create a comprehensive catalog.
     vice_hashes = {}
-    for i, commit in enumerate(commits):
+
+    # If a previous run produced a tag_monster list, load it in to save us a
+    # lot of tedious tree-hash searching
+    try:
+        previous_run = json.load(open("tag_monster_0.json"))
+        vice_hashes = previous_run['commit_trees']
+    except:
+        # Cached results are missing or corrupt, actually do the work
+        pass
+    # Drop our reference to nay previous run; we don't need the old branch
+    # history since we refreshed that ourselves.
+    previous_run = None
+    new_commits = set(x for x in commits if x not in vice_hashes)
+    print(f"{len(new_commits)} new commits to search.")
+
+    for i, commit in enumerate(new_commits):
         if fancy_text:
-            print(f"\rSearching {commit} for VICE source trees ({i+1}/{len(commits)})...", end='', flush=True)
+            print(f"\rSearching {commit} for VICE source trees ({i+1}/{len(new_commits)})...", end='', flush=True)
         full, partial = find_vice_installs_under_commit(commit)
         vice_hashes[commit] = {'full': full, 'partial': partial}
     if fancy_text:
