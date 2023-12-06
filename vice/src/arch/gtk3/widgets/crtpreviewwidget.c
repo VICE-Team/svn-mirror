@@ -311,7 +311,11 @@ void crt_preview_widget_update(const gchar *path)
      */
     if (machine_class != VICE_MACHINE_C64
             && machine_class != VICE_MACHINE_C64SC
-            && machine_class != VICE_MACHINE_C128)
+            && machine_class != VICE_MACHINE_C128
+            /*&& machine_class != VICE_MACHINE_CBM5x0
+            && machine_class != VICE_MACHINE_CBM6x0*/   /* TODO: enable once implemented */
+            && machine_class != VICE_MACHINE_PLUS4
+            && machine_class != VICE_MACHINE_VIC20)
     {
         return;
     }
@@ -324,6 +328,7 @@ void crt_preview_widget_update(const gchar *path)
         gtk_label_set_text(GTK_LABEL(crtname_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(exrom_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(game_label), "<unknown>");
+        chip_packets_clear();
         return;
     }
 

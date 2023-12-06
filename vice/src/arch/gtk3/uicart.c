@@ -943,7 +943,12 @@ static GtkWidget *create_preview_widget(void)
 {
     if ((machine_class != VICE_MACHINE_C64)
             && (machine_class != VICE_MACHINE_C64SC)
-            && (machine_class != VICE_MACHINE_C128)) {
+            && (machine_class != VICE_MACHINE_SCPU64)
+            && (machine_class != VICE_MACHINE_C128)
+            /*&& (machine_class != VICE_MACHINE_CBM5x0)
+            && (machine_class != VICE_MACHINE_CBM6x0)*/   /* TODO: enable once implemented */
+            && (machine_class != VICE_MACHINE_PLUS4)
+            && (machine_class != VICE_MACHINE_VIC20)) {
         GtkWidget *grid = NULL;
         GtkWidget *label;
         grid = gtk_grid_new();
