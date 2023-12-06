@@ -136,3 +136,11 @@ jobs:
       - name: Check Dist Tarballs
         shell: bash
         run: vice/build/github-actions/compare-dists.sh
+
+      - name: Report Failure
+        env:
+          IRC_PASS: ${{ secrets.IRC_PASS }}
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          ./vice/build/github-actions/irc-message.sh "Dist tarballs do not match. See log of 'Weekly Check Dist' github action."
