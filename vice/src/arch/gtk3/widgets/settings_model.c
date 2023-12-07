@@ -1273,8 +1273,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     /* C64 misc. model settings */
     misc_widget = create_c64_misc_widget();
     if (machine_class == VICE_MACHINE_SCPU64) {
-        /* TODO: set row to 1 once power frequency is added */
-        gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 1, 1, 1);
     } else {
         gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 2, 1, 1);
     }
