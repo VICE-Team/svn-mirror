@@ -57,6 +57,7 @@
 #include "kernalrevisionwidget.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
+#include "machinepowerfrequencywidget.h"
 #include "petiosizewidget.h"
 #include "petkeyboardtypewidget.h"
 #include "petmiscwidget.h"
@@ -130,6 +131,9 @@ static GtkWidget *cia_widget = NULL;
 /** \brief  Video model widget
  */
 static GtkWidget *video_widget = NULL;
+
+/** \brief  Machine power frequency widget */
+static GtkWidget *power_frequency_widget;
 
 /** \brief  RAM widget */
 static GtkWidget *ram_widget = NULL;
@@ -316,6 +320,19 @@ static void iec_callback(GtkWidget *widget, gpointer data)
  */
 static void cia_model_callback(int cia_num, int cia_model)
 {
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget, false);
+    }
+}
+
+/** \brief  Callback for machine power frequency changes
+ *
+ * \param[in]   self        radio group with the frequency radio buttons (ignored)
+ * \param[in]   frequency   new frequency of the "MachinePowerFrequency" resource (ignored)
+ */
+static void power_frequency_callback(GtkWidget *self, int frequency)
+{
+    debug_gtk3("called with frequency %d", frequency);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget, false);
     }
@@ -611,6 +628,12 @@ static void machine_model_handler_c64(int model)
     if (machine_class != VICE_MACHINE_SCPU64) {
         kernal_revision_widget_sync(kernal_widget);
     }
+
+    /* synchronize power frequency widget */
+    if (power_frequency_widget != NULL) {
+        machine_power_frequency_widget_sync(power_frequency_widget);
+    }
+
     /* synchronize misc widget */
     c64_misc_widget_sync();
 }
@@ -668,6 +691,9 @@ static void machine_model_handler_c128(int model)
 
     /* synchronize CIA widget */
     cia_model_widget_sync(cia_widget);
+
+    /* synchronize machine power frequency widget */
+    machine_power_frequency_widget_sync(power_frequency_widget);
 }
 
 /*
@@ -1234,13 +1260,25 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
         kernal_revision_widget_add_callback(kernal_revision_callback);
     }
 
+    /* machine power frequency */
+    power_frequency_widget = machine_power_frequency_widget_new();
+    machine_power_frequency_widget_add_callback(power_frequency_widget,
+                                                power_frequency_callback);
+    if (machine_class == VICE_MACHINE_SCPU64) {
+        gtk_grid_attach(GTK_GRID(grid), power_frequency_widget, 2, 0, 1, 1);
+    } else {
+        gtk_grid_attach(GTK_GRID(grid), power_frequency_widget, 2, 1, 1, 1);
+    }
+
     /* C64 misc. model settings */
     misc_widget = create_c64_misc_widget();
     if (machine_class == VICE_MACHINE_SCPU64) {
+        /* TODO: set row to 1 once power frequency is added */
         gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 0, 1, 1);
     } else {
-        gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 2, 1, 1);
     }
+
     return grid;
 }
 
@@ -1288,9 +1326,15 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 1, 2, 2, 1);
 
+    /* machine power frequency */
+    power_frequency_widget = machine_power_frequency_widget_new();
+    machine_power_frequency_widget_add_callback(power_frequency_widget,
+                                                power_frequency_callback);
+    gtk_grid_attach(GTK_GRID(grid), power_frequency_widget, 1, 3, 2, 1);
+
     /* Misc widget */
     misc_widget = create_c128_misc_widget();
-    gtk_grid_attach(GTK_GRID(grid), misc_widget, 1, 3, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), misc_widget, 1, 4, 2, 1);
     return grid;
 }
 
