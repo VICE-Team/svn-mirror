@@ -583,3 +583,18 @@ void vice_gtk3_resource_filechooser_set_callback(GtkWidget *widget,
         state->callback = callback;
     }
 }
+
+
+/** \brief  Synchronize resource file chooser with its resource
+ *
+ * \param[in]   widget  resource file chooser
+ */
+void vice_gtk3_resource_filechooser_sync(GtkWidget *widget)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+    if (mediator != NULL) {
+        const char *value = mediator_get_resource_string(mediator);
+
+        gtk_entry_set_text(GTK_ENTRY(widget), value != NULL ? value : "");
+    }
+}

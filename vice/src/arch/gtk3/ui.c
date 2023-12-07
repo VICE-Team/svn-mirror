@@ -94,6 +94,9 @@
 #include "mainlock.h"
 #include "mixerwidget.h"
 #include "monitor.h"
+#ifdef HAVE_DEBUG_GTK3UI
+#include "rommanager.h"
+#endif
 #include "resources.h"
 #include "settings_keyboard.h"
 #include "types.h"
@@ -2417,6 +2420,9 @@ void ui_shutdown(void)
     cart_image_widgets_shutdown();
     settings_keyboard_widget_shutdown();
     actions_settings_shutdown();
+#ifdef HAVE_DEBUG_GTK3UI
+    rom_manager_shutdown();
+#endif
     /* hotkeys are shut down in src/main.c */
 }
 
