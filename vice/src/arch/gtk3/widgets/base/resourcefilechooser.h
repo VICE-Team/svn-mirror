@@ -49,4 +49,6 @@ void       vice_gtk3_resource_filechooser_set_custom_title(GtkWidget  *widget,
 void       vice_gtk3_resource_filechooser_set_callback(GtkWidget *widget,
                                                        void (*callback)(GtkEntry *, gchar *));
 
+void       vice_gtk3_resource_filechooser_sync(GtkWidget *widget);
+
 #endif

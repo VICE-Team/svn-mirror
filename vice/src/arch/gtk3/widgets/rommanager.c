@@ -34,9 +34,12 @@
 
 #include "debug_gtk3.h"
 #include "drive.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "resources.h"
 #include "resourcewidgetmediator.h"
+#include "romset.h"
+#include "uiapi.h"
 #include "vice_gtk3.h"
 
 #include "rommanager.h"
@@ -72,7 +75,9 @@ typedef struct drive_exp_rom_s {
 
 /* Forward declarations */
 static const char **string_list_append_list(const char **list1, const char **list2);
+static const char **get_all_resource_names(void);
 static const char **expandable_list_get_resources(GtkWidget *list);
+static void         expandable_list_sync_resources(GtkWidget *list);
 
 
 /** \brief  List of machine ROM names and resources */
@@ -163,8 +168,11 @@ static const drive_exp_rom_t drive_exp_rom_list[] = {
     { "StarDOS",                "DriveStarDosName" },
 };
 
-/** \brief  Patterns for the file chooser widgets */
-static const char *chooser_patterns[] = { "*.bin", "*.rom", NULL };
+/** \brief  Patterns for the ROM file chooser widgets */
+static const char *rom_patterns[] = { "*.bin", "*.rom", NULL };
+
+/** \brief  Patterns for the ROM set file dialogs */
+static const char *romset_patterns[] = { "*.vrs", NULL };
 
 /** \brief  Main GtkListBox */
 static GtkWidget *root_list;
@@ -187,41 +195,102 @@ static GtkWidget *drive_roms;
  */
 static GtkWidget *drive_exp_roms;
 
+/** \brief  Last directory used in a ROM set file dialog */
+static gchar *last_directory;
 
-static void on_load_romset_clicked(GtkButton *self, gpointer data)
+/** \brief  Last filename used in a ROM set file dialog */
+static gchar *last_filename;
+
+
+/** \brief  Callback for the ROM set open dialog
+ *
+ * \param[in]   dialog      ROM set load dialog
+ * \param[in]   filename    filename (or \a NULL when canceled)
+ * \param[in]   data        extra callback data (ignored)
+ */
+static void on_load_romset_callback(GtkDialog *dialog,
+                                    gchar     *filename,
+                                    gpointer   data)
 {
-    debug_gtk3("clicked");
+    debug_gtk3("filename = %s", filename != NULL ? filename : "NULL");
+
+    if (filename != NULL) {
+        lastdir_update(GTK_WIDGET(dialog), &last_directory, &last_filename);
+
+        if (romset_file_load(filename) != 0) {
+            ui_error("Failed to load ROM set file %s.", filename);
+        }
+        /* ROM set loading is not atomic, it can fail after having already
+         * set one or more resources, so we need to sync unconditionally */
+        expandable_list_sync_resources(machine_roms);
+        expandable_list_sync_resources(drive_roms);
+        expandable_list_sync_resources(drive_exp_roms);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+/** \brief  Handler for the 'clicked' event of the "Load ROM set" button
+ *
+ * Shows dialog to open a ROM set file.
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_load_romset_clicked(GtkButton *self, gpointer data)
+{
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_open_file_dialog("Select a ROM set file to load",
+                                        "ROM set files",
+                                        romset_patterns,
+                                        NULL,
+                                        on_load_romset_callback,
+                                        NULL);
+    lastdir_set(dialog, &last_directory, &last_filename);
+    gtk_widget_show(dialog);
+}
+
+/** \brief  Handler for the 'clicked' event of the "Save ROM set" button
+ *
+ * Shows dialog to save a ROM set file.
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_save_romset_clicked(GtkButton *self, gpointer data)
 {
-    const char **roms;
-    const char **droms;
-    const char **dxroms;
-    int          i;
+    const char **roms = get_all_resource_names();
 
-    roms   = expandable_list_get_resources(machine_roms);
-    droms  = expandable_list_get_resources(drive_roms);
-    dxroms = expandable_list_get_resources(drive_exp_roms);
+    if (roms != NULL) {
+        int i;
 
-    roms = string_list_append_list(roms, droms);
-    lib_free(droms);
-    roms = string_list_append_list(roms, dxroms);
-    lib_free(dxroms);
-
-    if (roms == NULL) {
-        return;
+        for (i = 0; roms[i] != NULL; i++) {
+            debug_gtk3("%s", roms[i]);
+        }
+        lib_free(roms);
     }
-
-    for (i = 0; roms[i] != NULL; i++) {
-        debug_gtk3("%s", roms[i]);
-    }
-    lib_free(roms);
 }
 
 static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
 {
+    const char **roms;
+
     debug_gtk3("clicked");
+    roms = get_all_resource_names();
+    if (roms != NULL) {
+        int i;
+
+        for (i = 0; roms[i] != NULL; i++) {
+            const char *factory = NULL;
+
+            if (resources_get_default_value(roms[i], &factory) == 0) {
+                debug_gtk3("resetting resource %s to factory value \"%s\"",
+                           roms[i], factory);
+                resources_set_string(roms[i], factory);
+            }
+        }
+    }
 }
 
 
@@ -267,6 +336,25 @@ static const char **string_list_append_list(const char **to, const char **from)
     return to;
 }
 
+/** \brief  Get list of all resource names for valid ROMs
+ *
+ * \return  list of resource names, \a NULL terminated
+ * \note    free list after use with \a lib_free()
+ */
+static const char **get_all_resource_names(void)
+{
+    const char **allroms   = expandable_list_get_resources(machine_roms);
+    const char **driveroms = expandable_list_get_resources(drive_roms);
+    const char **drexproms = expandable_list_get_resources(drive_exp_roms);
+
+    allroms = string_list_append_list(allroms, driveroms);
+    lib_free(driveroms);
+    allroms = string_list_append_list(allroms, drexproms);
+    lib_free(drexproms);
+
+    return allroms;
+}
+
 /** \brief  Create horizontally aligned label using Pango markup
  *
  * \param[in]   markup  Pango markup text for the label
@@ -307,6 +395,24 @@ static GtkWidget *expandable_list_new(const char *title)
     return listrow;
 }
 
+
+/** \brief  Get list of GtkListBoxRows for a given ROM widget list
+ *
+ * \param[in]   list    ROM widget list
+ *
+ * \return  all children of \a list
+ * \note    free after use with \a g_list_free()
+ */
+static GList *get_list_children(GtkWidget *list)
+{
+    GtkWidget *expander;
+    GtkWidget *listbox;
+
+    expander = gtk_bin_get_child(GTK_BIN(list));
+    listbox  = gtk_bin_get_child(GTK_BIN(expander));
+    return gtk_container_get_children(GTK_CONTAINER(listbox));
+}
+
 /** \brief  Get list of resource name and value pairs for a ROM list
  *
  * \param[in]   list    ROM list (GtkListBoxRow)
@@ -317,17 +423,13 @@ static GtkWidget *expandable_list_new(const char *title)
  */
 static const char **expandable_list_get_resources(GtkWidget *list)
 {
-    GtkWidget   *expander;
-    GtkWidget   *listbox;
     GList       *rows;
     GList       *row;
     const char **roms;
     guint        num_rows;
     guint        i;
 
-    expander = gtk_bin_get_child(GTK_BIN(list));
-    listbox  = gtk_bin_get_child(GTK_BIN(expander));
-    rows     = gtk_container_get_children(GTK_CONTAINER(listbox));
+    rows = get_list_children(list);
     if (rows == NULL) {
         return NULL;
     }
@@ -348,6 +450,29 @@ static const char **expandable_list_get_resources(GtkWidget *list)
     g_list_free(rows);
 
     return roms;
+}
+
+/** \brief  Synchronize all widgets in a ROM widget list with their resources
+ *
+ * \param[in]   list    ROM widget list
+ */
+static void expandable_list_sync_resources(GtkWidget *list)
+{
+    GList *rows;
+    GList *row;
+
+    rows = get_list_children(list);
+    for (row = rows; row != NULL; row = row->next) {
+        GtkWidget *grid;
+        GtkWidget *chooser;
+
+        grid    = gtk_bin_get_child(GTK_BIN(row->data));
+        chooser = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
+        debug_gtk3("synchronizing widget for resource %s",
+                   mediator_get_name_w(chooser));
+        vice_gtk3_resource_filechooser_sync(chooser);
+    }
+    g_list_free(rows);
 }
 
 
@@ -518,7 +643,7 @@ static void add_rom_chooser(GtkWidget  *list,
     /* set up the file chooser widget */
     vice_gtk3_resource_filechooser_set_filter(chooser,
                                              "ROM files",
-                                             chooser_patterns,
+                                             rom_patterns,
                                              TRUE);
     vice_gtk3_resource_filechooser_set_custom_title(chooser, "Select ROM file");
     gtk_widget_set_halign(chooser, GTK_ALIGN_FILL);
@@ -555,4 +680,17 @@ void rom_manager_add_drive_exp_rom(const char *label_text,
                                    const char *resource_name)
 {
     add_rom_chooser(drive_exp_roms, label_text, resource_name);
+}
+
+
+/** \brief  Free resources used by the ROM manager
+ *
+ * Frees the last used directory and filename of the file dialogs.
+ */
+void rom_manager_shutdown(void)
+{
+    g_free(last_directory);
+    g_free(last_filename);
+    last_directory = NULL;
+    last_filename = NULL;
 }
