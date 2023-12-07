@@ -87,6 +87,7 @@ libwidgets_a_SOURCES = \
 	keysetdialog.c \
 	logfilewidget.c \
 	machinemodelwidget.c \
+	machinepowerfrequencywidget.c \
 	mididevicewidget.c \
 	mixerwidget.c \
 	petdiagnosticpinwidget.c \
@@ -259,6 +260,7 @@ EXTRA_DIST = \
 	keysetdialog.h \
 	logfilewidget.h \
 	machinemodelwidget.h \
+	machinepowerfrequencywidget.h \
 	mididevicewidget.h \
 	mixerwidget.h \
 	petdiagnosticpinwidget.h \
