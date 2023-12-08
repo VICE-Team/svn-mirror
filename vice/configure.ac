@@ -770,7 +770,7 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
   ac_cv_prog_gcc=yes
   GCC=yes
 
-  AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h], [], [], [#include <windows.h>])
+  AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h winsock.h], [], [], [#include <windows.h>])
 
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
