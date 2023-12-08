@@ -202,6 +202,7 @@ static gchar *last_directory;
 static gchar *last_filename;
 
 
+/* {{{ Event handlers */
 /** \brief  Callback for the ROM set open dialog
  *
  * \param[in]   dialog      ROM set load dialog
@@ -348,6 +349,43 @@ static void on_reset_icon_clicked(GtkWidget *self, gpointer data)
     }
 }
 
+/** \brief  Handler for the 'drag-data-received' event of a resource file chooser
+ *
+ * \param[in]   self        resource file chooser
+ * \param[in]   context     drag context
+ * \param[in]   x           ignored
+ * \param[in]   y           ignored
+ * \param[in]   data        drag data
+ * \param[in]   info        ignored
+ * \param[in]   time        timestamp of drag event
+ * \param[in]   user_data   extra event data (ignored)
+ */
+static void on_chooser_drag_data_received(GtkWidget        *self,
+                                          GdkDragContext   *context,
+                                          gint              x,
+                                          gint              y,
+                                          GtkSelectionData *data,
+                                          guint             info,
+                                          guint             time,
+                                          gpointer          user_data)
+{
+    if (gtk_selection_data_get_length(data) > 0) {
+        const char *filename;
+
+        filename = (const char *)gtk_selection_data_get_data(data);
+#ifdef HAVE_DEBUG_GTK3UI
+        debug_gtk3("Setting resource \"%s\" to \"%s\"",
+                   mediator_get_name_w(self), filename);
+#endif
+        vice_gtk3_resource_filechooser_set(self, filename);
+        /* mark the drop finish so we don't end up with weird data like
+         * "org.ibus.bla" in the entry */
+        gtk_drag_finish(context, TRUE, FALSE /* don't delete source */, time);
+    }
+}
+/* }}} */
+
+/* {{{ Helper functions */
 /** \brief  Append list of strings to another list of strings
  *
  * Reallocate \a to to make space for all elements of \a from and append
@@ -449,7 +487,6 @@ static GtkWidget *expandable_list_new(const char *title)
     return listrow;
 }
 
-
 /** \brief  Get list of GtkListBoxRows for a given ROM widget list
  *
  * \param[in]   list    ROM widget list
@@ -457,7 +494,7 @@ static GtkWidget *expandable_list_new(const char *title)
  * \return  all children of \a list
  * \note    free after use with \a g_list_free()
  */
-static GList *get_list_children(GtkWidget *list)
+static GList *expandable_list_get_children(GtkWidget *list)
 {
     GtkWidget *expander;
     GtkWidget *listbox;
@@ -483,7 +520,7 @@ static const char **expandable_list_get_resources(GtkWidget *list)
     guint        num_rows;
     guint        i;
 
-    rows = get_list_children(list);
+    rows = expandable_list_get_children(list);
     if (rows == NULL) {
         return NULL;
     }
@@ -495,10 +532,9 @@ static const char **expandable_list_get_resources(GtkWidget *list)
         GtkWidget  *grid;
         GtkWidget  *chooser;
 
-        grid     = gtk_bin_get_child(GTK_BIN(row->data));
-        chooser  = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
-        roms[i]  = mediator_get_name_w(chooser);
-        i++;
+        grid      = gtk_bin_get_child(GTK_BIN(row->data));
+        chooser   = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
+        roms[i++] = mediator_get_name_w(chooser);
     }
     roms[i] = NULL;
     g_list_free(rows);
@@ -515,7 +551,7 @@ static void expandable_list_sync_resources(GtkWidget *list)
     GList *rows;
     GList *row;
 
-    rows = get_list_children(list);
+    rows = expandable_list_get_children(list);
     for (row = rows; row != NULL; row = row->next) {
         GtkWidget *grid;
         GtkWidget *chooser;
@@ -526,6 +562,68 @@ static void expandable_list_sync_resources(GtkWidget *list)
     }
     g_list_free(rows);
 }
+
+/** \brief  Add resource file chooser with label to a ROMs section
+ *
+ * \param[in]   list            ROMs section
+ * \param[in]   label_text      text for the label
+ * \param[in]   resource_name   resource name for the resource file chooser
+ */
+static void add_rom_chooser(GtkWidget  *list,
+                            const char *label_text,
+                            const char *resource_name)
+{
+    GtkWidget *listrow;
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *chooser;
+    GtkWidget *reset;
+    GtkWidget *expander;
+    GtkWidget *rom_list;
+
+    listrow = gtk_list_box_row_new();
+    grid    = gtk_grid_new();
+    label   = label_helper(label_text, GTK_ALIGN_START);
+    chooser = vice_gtk3_resource_filechooser_new(resource_name,
+                                                 GTK_FILE_CHOOSER_ACTION_OPEN);
+
+    /* set up the label: we need to use xalign here to force left alignment
+     * since we set a fixed size and the normal alignment is ignored */
+    gtk_widget_set_size_request(label, 150, -1);
+    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+    gtk_widget_set_margin_start(label, 8);
+
+    /* set up the file chooser widget */
+    vice_gtk3_resource_filechooser_set_filter(chooser,
+                                             "ROM files",
+                                             rom_patterns,
+                                             TRUE);
+    vice_gtk3_resource_filechooser_set_custom_title(chooser, "Select ROM file");
+    gtk_widget_set_halign(chooser, GTK_ALIGN_FILL);
+    g_signal_connect(G_OBJECT(chooser),
+                     "drag-data-received",
+                     G_CALLBACK(on_chooser_drag_data_received),
+                     NULL);
+
+    /* set up reset-to-default button */
+    reset = gtk_button_new_from_icon_name("view-refresh-symbolic",
+                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
+    gtk_widget_set_tooltip_text(reset, "Reset to default value");
+    g_signal_connect(G_OBJECT(reset),
+                     "clicked",
+                     G_CALLBACK(on_reset_icon_clicked),
+                     (gpointer)chooser);
+
+    /* put everthing together */
+    expander = gtk_bin_get_child(GTK_BIN(list));
+    rom_list = gtk_bin_get_child(GTK_BIN(expander));
+    gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), reset,   2, 0, 1, 1);
+    gtk_container_add(GTK_CONTAINER(listrow), grid);
+    gtk_list_box_insert(GTK_LIST_BOX(rom_list), listrow, -1);
+}
+/* }}} */
 
 
 /** \brief  Create ROM manager widget
@@ -573,24 +671,27 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     /* add machine ROMs */
     for (i = 0; i < ARRAY_LEN(machine_rom_list); i++) {
         if (resources_exists(machine_rom_list[i].resource)) {
-            rom_manager_add_machine_rom(machine_rom_list[i].name,
-                                        machine_rom_list[i].resource);
+            add_rom_chooser(machine_roms,
+                            machine_rom_list[i].name,
+                            machine_rom_list[i].resource);
         }
     }
 
     /* add drive ROMs */
     for (i = 0; i < ARRAY_LEN(drive_rom_list); i++) {
         if (resources_exists(drive_rom_list[i].resource)) {
-            rom_manager_add_drive_rom(drive_rom_list[i].name,
-                                      drive_rom_list[i].resource);
+            add_rom_chooser(drive_roms,
+                            drive_rom_list[i].name,
+                            drive_rom_list[i].resource);
         }
     }
 
     /* add drive expansion ROMs */
     for (i = 0; i < ARRAY_LEN(drive_exp_rom_list); i++) {
         if (resources_exists(drive_exp_rom_list[i].resource)) {
-            rom_manager_add_drive_exp_rom(drive_exp_rom_list[i].name,
-                                          drive_exp_rom_list[i].resource);
+            add_rom_chooser(drive_exp_roms,
+                            drive_exp_rom_list[i].name,
+                            drive_exp_rom_list[i].resource);
         }
     }
 
@@ -623,126 +724,6 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-/** \brief  Handler for the 'drag-data-received' event of a resource file chooser
- *
- * \param[in]   self        resource file chooser
- * \param[in]   context     drag context
- * \param[in]   x           ignored
- * \param[in]   y           ignored
- * \param[in]   data        drag data
- * \param[in]   info        ignored
- * \param[in]   time        timestamp of drag event
- * \param[in]   user_data   extra event data (ignored)
- */
-static void on_drag_data_received(GtkWidget        *self,
-                                  GdkDragContext   *context,
-                                  gint              x,
-                                  gint              y,
-                                  GtkSelectionData *data,
-                                  guint             info,
-                                  guint             time,
-                                  gpointer          user_data)
-{
-    if (gtk_selection_data_get_length(data) > 0) {
-        const char *filename;
-
-        filename = (const char *)gtk_selection_data_get_data(data);
-#ifdef HAVE_DEBUG_GTK3UI
-        debug_gtk3("Setting resource \"%s\" to \"%s\"",
-                   mediator_get_name_w(self), filename);
-#endif
-        vice_gtk3_resource_filechooser_set(self, filename);
-        /* mark the drop finish so we don't end up with weird data like
-         * "org.ibus.bla" in the entry */
-        gtk_drag_finish(context, TRUE, FALSE /* don't delete source */, time);
-    }
-}
-
-
-/** \brief  Add resource file chooser with label to a ROMs section
- *
- * \param[in]   list            ROMs section
- * \param[in]   label_text      text for the label
- * \param[in]   resource_name   resource name for the resource file chooser
- */
-static void add_rom_chooser(GtkWidget  *list,
-                            const char *label_text,
-                            const char *resource_name)
-{
-    GtkWidget *listrow;
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *chooser;
-    GtkWidget *reset;
-    GtkWidget *expander;
-    GtkWidget *rom_list;
-
-    listrow = gtk_list_box_row_new();
-    grid    = gtk_grid_new();
-    label   = label_helper(label_text, GTK_ALIGN_START);
-    chooser = vice_gtk3_resource_filechooser_new(resource_name,
-                                                 GTK_FILE_CHOOSER_ACTION_OPEN);
-
-//    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-
-    /* set up the label: we need to use xalign here to force left alignment
-     * since we set a fixed size and the normal alignment is ignored */
-    gtk_widget_set_size_request(label, 150, -1);
-    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
-    gtk_widget_set_margin_start(label, 8);
-
-    /* set up the file chooser widget */
-    vice_gtk3_resource_filechooser_set_filter(chooser,
-                                             "ROM files",
-                                             rom_patterns,
-                                             TRUE);
-    vice_gtk3_resource_filechooser_set_custom_title(chooser, "Select ROM file");
-    gtk_widget_set_halign(chooser, GTK_ALIGN_FILL);
-    g_signal_connect(G_OBJECT(chooser),
-                     "drag-data-received",
-                     G_CALLBACK(on_drag_data_received),
-                     NULL);
-
-    /* set up reset-to-default button */
-    reset = gtk_button_new_from_icon_name("view-refresh-symbolic",
-                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
-    gtk_widget_set_tooltip_text(reset, "Reset to default value");
-    g_signal_connect(G_OBJECT(reset),
-                     "clicked",
-                     G_CALLBACK(on_reset_icon_clicked),
-                     (gpointer)chooser);
-
-    /* put everthing together */
-    expander = gtk_bin_get_child(GTK_BIN(list));
-    rom_list = gtk_bin_get_child(GTK_BIN(expander));
-    gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), reset,   2, 0, 1, 1);
-    gtk_container_add(GTK_CONTAINER(listrow), grid);
-    gtk_list_box_insert(GTK_LIST_BOX(rom_list), listrow, -1);
-}
-
-
-void rom_manager_add_machine_rom(const char *label_text,
-                                 const char *resource_name)
-{
-    add_rom_chooser(machine_roms, label_text, resource_name);
-}
-
-
-void rom_manager_add_drive_rom(const char *label_text,
-                               const char *resource_name)
-{
-    add_rom_chooser(drive_roms, label_text, resource_name);
-}
-
-
-void rom_manager_add_drive_exp_rom(const char *label_text,
-                                   const char *resource_name)
-{
-    add_rom_chooser(drive_exp_roms, label_text, resource_name);
 }
 
 

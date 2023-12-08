@@ -28,13 +28,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *rom_manager_new              (GtkWidget *parent);
-void       rom_manager_add_machine_rom  (const char *label_text,
-                                         const char *resource_name);
-void       rom_manager_add_drive_rom    (const char *label_text,
-                                         const char *resource_name);
-void       rom_manager_add_drive_exp_rom(const char *label_text,
-                                         const char *resource_name);
-void       rom_manager_shutdown         (void);
+GtkWidget *rom_manager_new     (GtkWidget *parent);
+void       rom_manager_shutdown(void);
 
 #endif
