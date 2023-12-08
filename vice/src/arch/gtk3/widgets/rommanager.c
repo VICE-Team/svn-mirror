@@ -320,9 +320,33 @@ static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
                 resources_set_string(roms[i], factory);
             }
         }
+        expandable_list_sync_resources(machine_roms);
+        expandable_list_sync_resources(drive_roms);
+        expandable_list_sync_resources(drive_exp_roms);
     }
 }
 
+/** \brief  Handler for the 'clicked' event of the reset-to-default icon button
+ *
+ * Reset a ROM resource to its default value
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    resource file chooser for the ROM
+ */
+static void on_reset_icon_clicked(GtkWidget *self, gpointer data)
+{
+    GtkWidget  *chooser;
+    const char *resource;
+    const char *factory = NULL;
+
+    chooser  = data;
+    resource = mediator_get_name_w(chooser);
+    resources_get_default_value(resource, (void*)&factory);
+    if (factory != NULL) {
+        resources_set_string(resource, factory);
+        vice_gtk3_resource_filechooser_sync(chooser);
+    }
+}
 
 /** \brief  Append list of strings to another list of strings
  *
@@ -651,6 +675,7 @@ static void add_rom_chooser(GtkWidget  *list,
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *chooser;
+    GtkWidget *reset;
     GtkWidget *expander;
     GtkWidget *rom_list;
 
@@ -660,7 +685,7 @@ static void add_rom_chooser(GtkWidget  *list,
     chooser = vice_gtk3_resource_filechooser_new(resource_name,
                                                  GTK_FILE_CHOOSER_ACTION_OPEN);
 
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+//    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
     /* set up the label: we need to use xalign here to force left alignment
      * since we set a fixed size and the normal alignment is ignored */
@@ -680,11 +705,21 @@ static void add_rom_chooser(GtkWidget  *list,
                      G_CALLBACK(on_drag_data_received),
                      NULL);
 
+    /* set up reset-to-default button */
+    reset = gtk_button_new_from_icon_name("view-refresh-symbolic",
+                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
+    gtk_widget_set_tooltip_text(reset, "Reset to default value");
+    g_signal_connect(G_OBJECT(reset),
+                     "clicked",
+                     G_CALLBACK(on_reset_icon_clicked),
+                     (gpointer)chooser);
+
     /* put everthing together */
     expander = gtk_bin_get_child(GTK_BIN(list));
     rom_list = gtk_bin_get_child(GTK_BIN(expander));
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), reset,   2, 0, 1, 1);
     gtk_container_add(GTK_CONTAINER(listrow), grid);
     gtk_list_box_insert(GTK_LIST_BOX(rom_list), listrow, -1);
 }
