@@ -251,6 +251,29 @@ static void on_load_romset_clicked(GtkButton *self, gpointer data)
     gtk_widget_show(dialog);
 }
 
+/** \brief  Callback for the ROM set save dialog
+ *
+ * \param[in]   dialog      ROM set save dialog
+ * \param[in]   filename    filename (or \a NULL when canceled)
+ * \param[in]   data        extra callback data (ignored)
+ */
+static void on_romset_save_callback(GtkDialog *dialog,
+                                    gchar     *filename,
+                                    gpointer   data)
+{
+    if (filename != NULL) {
+        const char **roms = get_all_resource_names();
+
+        if (romset_file_save(filename, roms) != 0) {
+            ui_error("Failed to save ROM set file %s.", filename);
+        }
+        lib_free(roms);
+        g_free(filename);
+    }
+
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 /** \brief  Handler for the 'clicked' event of the "Save ROM set" button
  *
  * Shows dialog to save a ROM set file.
@@ -260,24 +283,29 @@ static void on_load_romset_clicked(GtkButton *self, gpointer data)
  */
 static void on_save_romset_clicked(GtkButton *self, gpointer data)
 {
-    const char **roms = get_all_resource_names();
+    GtkWidget *dialog;
 
-    if (roms != NULL) {
-        int i;
-
-        for (i = 0; roms[i] != NULL; i++) {
-            debug_gtk3("%s", roms[i]);
-        }
-        lib_free(roms);
-    }
+    dialog = vice_gtk3_save_file_dialog("Enter or select ROM set file to save",
+                                        "romset.vrs",
+                                        TRUE,
+                                        NULL,
+                                        on_romset_save_callback,
+                                        NULL);
+    lastdir_set(dialog, &last_directory, &last_filename);
+    gtk_widget_show(dialog);
 }
 
+/** \brief  Handler for the 'clicked' event of the "Reset to defaults" button
+ *
+ * Resets all ROM resources to factory values.
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
 {
-    const char **roms;
+    const char **roms = get_all_resource_names();
 
-    debug_gtk3("clicked");
-    roms = get_all_resource_names();
     if (roms != NULL) {
         int i;
 
@@ -285,8 +313,10 @@ static void on_reset_to_defaults_clicked(GtkButton *self, gpointer data)
             const char *factory = NULL;
 
             if (resources_get_default_value(roms[i], &factory) == 0) {
+#if 0
                 debug_gtk3("resetting resource %s to factory value \"%s\"",
                            roms[i], factory);
+#endif
                 resources_set_string(roms[i], factory);
             }
         }
@@ -468,8 +498,6 @@ static void expandable_list_sync_resources(GtkWidget *list)
 
         grid    = gtk_bin_get_child(GTK_BIN(row->data));
         chooser = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
-        debug_gtk3("synchronizing widget for resource %s",
-                   mediator_get_name_w(chooser));
         vice_gtk3_resource_filechooser_sync(chooser);
     }
     g_list_free(rows);
