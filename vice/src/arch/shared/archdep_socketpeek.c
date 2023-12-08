@@ -33,20 +33,30 @@
 #include <sys/ioctl.h>
 #endif
 
-#if !defined(HAVE_SYS_IOCTL_H) || !defined(FIONREAD)
+#ifdef HAVE_WINSOCK_H
+#include <windows.h>
+#include <winsock.h>
+#endif
+
+#if defined(HAVE_WINSOCK_H) && defined(FIONREAD)
 
 int archdep_socketpeek(int fd, int *bytes_available)
 {
-    return -1;                  /* not yet implemented */
+    return ioctlsocket((SOCKET) fd, FIONREAD, (u_long *)bytes_available);
 }
 
-#endif
-
-#if defined(HAVE_SYS_IOCTL_H) && defined(FIONREAD)
+#elif defined(HAVE_SYS_IOCTL_H) && defined(FIONREAD)
 
 int archdep_socketpeek(int fd, int *bytes_available)
 {
     return ioctl(fd, FIONREAD, bytes_available);
+}
+
+#else
+
+int archdep_socketpeek(int fd, int *bytes_available)
+{
+    return -1; /* not implemented */
 }
 
 #endif
