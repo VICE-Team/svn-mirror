@@ -316,6 +316,7 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_CMD_REBOOT 0x29
 #define WIC64_CMD_GET_STATUS_MESSAGE 0x2a
 #define WIC64_CMD_SET_TIMEOUT 0x2d
+#define WIC64_CMD_IS_HARDWARE 0x31
 
 #define WIC64_CMD_FORCE_TIMEOUT 0xfc
 #define WIC64_CMD_FORCE_ERROR 0xfd
@@ -742,6 +743,7 @@ static void prep_wic64_str(void)
 
     cmd2string[WIC64_CMD_GET_STATUS_MESSAGE] = "WIC64_CMD_GET_STATUS_MESSAGE";
     cmd2string[WIC64_CMD_SET_TIMEOUT] = "WIC64_CMD_SET_TIMEOUT";
+    cmd2string[WIC64_CMD_IS_HARDWARE] = "WIC64_CMD_IS_HARDWARE";
     cmd2string[WIC64_CMD_ECHO] = "WIC64_CMD_ECHO";
     cmd2string[WIC64_CMD_FORCE_TIMEOUT]= "WIC64_CMD_FORCE_TIMEOUT";
     cmd2string[WIC64_CMD_FORCE_ERROR] = "WIC64_CMD_FORCE_ERROR";
@@ -1994,6 +1996,9 @@ static void do_command(void)
         wic64_timeout = commandbuffer[0]; /* timeout in secs */
         wic64_log(CONS_COL_NO, "setting cmd timeout to %ds", wic64_timeout);
         send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
+        break;
+    case WIC64_CMD_IS_HARDWARE:
+        send_reply_revised(INTERNAL_ERROR, "WiC64 is emulated", NULL, 0, NULL);
         break;
     case WIC64_CMD_FORCE_ERROR:
         wic64_log(CONS_COL_RED, "forcing error...");
