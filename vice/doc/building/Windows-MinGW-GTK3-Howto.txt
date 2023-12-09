@@ -61,11 +61,17 @@ $ whoami
 dqh
 
 
-3. Install the stuff that you need to build VICE:
-Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
-(use the one that matches the version of MSYS2 that you installed).
-
-DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.
+*******************************************************************************
+* 3. Install the stuff that you need to build VICE:                           *
+*                                                                             *
+* Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell  *
+* (use the one that matches the version of MSYS2 that you installed).         *
+*                                                                             *
+* DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.                              *
+*                                                                             *
+* To check if the correct shell is used, run `echo $MSYSTEM`, it should print *
+* "MINGW64" (or "MINGW32"), if it prints "MSYS" you're using the wrong shell. *
+*******************************************************************************
 
 
 Run the following command lines to install the prerequisites:
