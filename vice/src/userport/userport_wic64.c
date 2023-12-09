@@ -29,16 +29,16 @@
 
 /* - WiC64 (C64/C128)
 
-   PET    VIC20  C64/C128   |  I/O
+   PET     VIC20  C64/C128   |  I/O
    --------------------------------
-   C (PB0)   |  I/O   databits from/to C64
-   D (PB1)   |  I/O
-   E (PB2)   |  I/O
-   F (PB3)   |  I/O
-   H (PB4)   |  I/O
-   J (PB5)   |  I/O
-   K (PB6)   |  I/O
-   L (PB7)   |  I/O
+   C                 (PB0)   |  I/O   databits from/to C64
+   D                 (PB1)   |  I/O
+   E                 (PB2)   |  I/O
+   F                 (PB3)   |  I/O
+   H                 (PB4)   |  I/O
+   J                 (PB5)   |  I/O
+   K                 (PB6)   |  I/O
+   L                 (PB7)   |  I/O
    READ(1) PA6(2)  8 (PC2)   |  O     C64 triggers PC2 IRQ whenever data is read or write
    CB2     CB2     M (PA2)   |  O     Low=device sends data High=C64 sends data (powerup=high)
    CA1     CB1     B (FLAG2) |  I     device asserts high->low transition when databyte sent to c64 is ready (triggers irq)
@@ -262,7 +262,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable WiC64 tracing" },
     { "-wic64tracelevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64LogLevel", NULL,
-      "<0..2>", "Set WiC64 tracing level (0: off, 1: cmd-level, 2: debug-level" },
+      "<0..3>", "Set WiC64 tracing level (0: off, 1: cmd-level, >2: debug-level), implicitly turns on/off WiC64 tracing" },
     { "-wic64reset", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       wic64_cmdl_reset, (void *)2, NULL, NULL,
       NULL, "Reset WiC64 to factory defaults" },
@@ -274,7 +274,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Enable WiC64 colorized trace on terminal" },
     { "+wic64colorizetrace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WIC64colorizelog", (void *)0,
-      NULL, "Disable WiC64 colorize trace on terminal" },
+      NULL, "Disable WiC64 colorized trace on terminal" },
     CMDLINE_LIST_END
 };
 
