@@ -427,6 +427,9 @@ jobs:
                               libpng-dev \
                               libvorbis-dev \
                               portaudio19-dev \
+                              texinfo \
+                              texlive-fonts-recommended \
+                              texlive-latex-extra \
                               xa65
           sudo apt install -y ${{ matrix.ui.deps }}
 
@@ -443,12 +446,12 @@ jobs:
                       ${{ matrix.ui.conf }} \
                       --disable-arch \
                       --disable-html-docs \
-                      --disable-pdf-docs \
                       --enable-catweasel \
                       --enable-cpuhistory \
                       --enable-ethernet \
                       --enable-midi \
                       --enable-parsid \
+                      --enable-pdf-docs \
                       --with-alsa \
                       --with-fastsid \
                       --with-flac \
