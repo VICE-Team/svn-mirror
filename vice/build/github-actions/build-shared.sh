@@ -7,21 +7,21 @@
 ARGS="
     --disable-arch \
     --disable-pdf-docs \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --enable-ethernet \
-    --with-lame \
-    --enable-midi \
-    --enable-cpuhistory \
-    --with-unzip-bin \
-    --with-libcurl \
-    --with-mpg123 \
-    --with-libieee1284 \
-    --enable-parsid \
     --enable-catweasel \
+    --enable-cpuhistory \
+    --enable-ethernet \
+    --enable-midi \
+    --enable-parsid \
+    --with-flac \
+    --with-gif \
+    --with-lame \
+    --with-libcurl \
+    --with-libieee1284 \
+    --with-mpg123 \
+    --with-png \
     --with-portaudio \
+    --with-unzip-bin \
+    --with-vorbis \
     "
 
 # Set configure options, check UI, set OTHER_UI
