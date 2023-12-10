@@ -356,7 +356,7 @@ static const cmdline_option_t cmdline_options[] =
 #define CONS_COL_NO ""
 #define CONS_COL_RED "\x1B[31m"
 #define CONS_COL_GREEN "\x1B[32m"
-#define CONS_COL_BLUE "\x1B[34m"
+#define CONS_COL_BLUE "\x1B[36m"
 #define CONS_COL_OFF "\033[0m\t\t"
 
 static const char *cmd2string[256];
@@ -495,7 +495,14 @@ static int wic64_set_logenabled(int val, void *param)
 
 static int wic64_set_loglevel(int val, void *param)
 {
+    if (val > WIC64_MAXTRACELEVEL) {
+      val = WIC64_MAXTRACELEVEL;
+    }
+    if (val < 0) {
+      val = 0;
+    }
     wic64_loglevel = val;
+    wic64_log(CONS_COL_NO, "setting log level to %d", wic64_loglevel);
     if (wic64_loglevel == 0) {
         wic64_logenabled = 0;
         return 0;
@@ -506,6 +513,12 @@ static int wic64_set_loglevel(int val, void *param)
 
 static int wic64_set_resetuser(int val, void *param)
 {
+    if (val > 32767) {
+      val = 32767;
+    }
+    if (val < 0) {
+      val = 0;
+    }
     wic64_resetuser = val;
     return 0;
 }
@@ -1533,7 +1546,7 @@ static void cmd_get_local_time(void)
     int dst;
 
     static char timestr[64];
-    long t = time(NULL);
+    time_t t = time(NULL);
     struct tm *tm = localtime(&t);
 
     if ((tm == NULL) ||
@@ -2093,7 +2106,7 @@ static void wic64_prot_state(uint8_t value)
         }
         break;
     default:
-        _wic64_log(CONS_COL_NO, 2, "unknown input state %d", input_state);
+        _wic64_log(CONS_COL_RED, 2, "unknown input state %d", input_state);
         break;
     }
 }
@@ -2104,7 +2117,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
     if ((pulse == 1) &&
         (!force_timeout)) {
         if (wic64_inputmode) {
-            _wic64_log(CONS_COL_NO, 3, "receiving '%c'/0x%02x, input_state = %d",
+            _wic64_log(CONS_COL_BLUE, 3, "receiving '%c'/0x%02x, input_state = %d",
                        isprint(value) ? value : '.',
                        value,
                        input_state);
@@ -2172,7 +2185,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     /* CIA read is triggered once more by wic64 lib on the host,
        even if all bytes are sent, so the last byte seems to be sent twice */
 
-    _wic64_log(CONS_COL_NO, 3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
+    _wic64_log(CONS_COL_GREEN, 3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
                isprint(retval) ? retval : '.',
                retval, replyptr, reply_length, reply_length);
     cmd_timeout(0);
@@ -2251,7 +2264,7 @@ static void userport_wic64_reset(void)
 
     wic64_set_status("RESET");
     if (wic64_colorize_log) {
-        wic64_log(CONS_COL_BLUE, "blue color: host -> WiC64 communication");
+        wic64_log(CONS_COL_BLUE, "cyan color: host -> WiC64 communication");
         wic64_log(CONS_COL_GREEN, "green color: WiC64 -> host communication");
         wic64_log(CONS_COL_RED, "red color: some error");
         wic64_log(CONS_COL_NO, "no color: other information");

@@ -11,6 +11,7 @@
  * $VICERES WIC64DefaultServer      x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64HexdumpLines       x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Logenabled         x64 x64sc xscpu64 x128 xvic
+ * $VICERES WIC64LogLevel           x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Resetuser          x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Timezone           x64 x64sc xscpu64 x128 xvic
  *
@@ -450,6 +451,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *colorized;
     GtkWidget *resetuser;
     GtkWidget *lines_widget;
+    GtkWidget *trace_level;
 #if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
@@ -482,6 +484,14 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
 
     colorized = create_wic64_colorizedlog_widget();
     gtk_grid_attach(GTK_GRID(grid), colorized,     0, row, 1, 1);
+
+    label = gtk_label_new("Trace level\n(0: off)");
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    trace_level = vice_gtk3_resource_spin_int_new(
+        "WIC64LogLevel", 0, WIC64_MAXTRACELEVEL, 1);
+    gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
     row++;
 
     label  = label_helper("Default server");

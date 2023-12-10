@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+#define WIC64_MAXTRACELEVEL 3   /* adjust if needed more */
 /* timezone mapping
    C64 sends just a number 0-31, bcd little endian in commandbuffer.
    offsets can then be calculated.
