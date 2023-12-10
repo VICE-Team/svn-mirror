@@ -46,6 +46,7 @@ static ui_menu_entry_t *dyn_menu_wic64;
 UI_MENU_DEFINE_TOGGLE(WIC64Logenabled)
 UI_MENU_DEFINE_TOGGLE(WIC64ColorizeLog)
 UI_MENU_DEFINE_INT(WIC64Hexdumplines);
+UI_MENU_DEFINE_INT(WIC64LogLevel);
 UI_MENU_DEFINE_STRING(WIC64DefaultServer)
 UI_MENU_DEFINE_TOGGLE(WIC64Resetuser)
 UI_MENU_DEFINE_RADIO(WIC64Timezone);
@@ -92,11 +93,13 @@ static UI_MENU_CALLBACK(custom_wic64_reset_callback)
     return NULL;
 }
 
-ui_menu_entry_t wic64_menu[10];
+#define MENTRIES 11
+ui_menu_entry_t wic64_menu[MENTRIES];
 
 ui_callback_data_t uiwic64_menu_create(void)
 {
     int j = 0;
+    static char tl[64];
 
     if (dyn_menu_wic64 == NULL) {
         wic64_timezones_menu_new();
@@ -138,6 +141,14 @@ ui_callback_data_t uiwic64_menu_create(void)
     j++;
 
     wic64_menu[j].action   = ACTION_NONE;
+    sprintf(tl, "Trace level (0..%d, 0: off)", WIC64_MAXTRACELEVEL);
+    wic64_menu[j].string   = tl;
+    wic64_menu[j].type     = MENU_ENTRY_RESOURCE_INT;
+    wic64_menu[j].callback = int_WIC64LogLevel_callback;
+    wic64_menu[j].data     = NULL;
+    j++;
+
+    wic64_menu[j].action   = ACTION_NONE;
     wic64_menu[j].string   = "Default server:";
     wic64_menu[j].type     = MENU_ENTRY_RESOURCE_STRING;
     wic64_menu[j].callback = string_WIC64DefaultServer_callback;
@@ -165,6 +176,9 @@ ui_callback_data_t uiwic64_menu_create(void)
     wic64_menu[j].data     = NULL;
     j++;
     wic64_menu[j].string = NULL;
+    if (j >= MENTRIES) {
+        log_error(LOG_ERR, "internal error: %s, %d >= MENTRIES(%d)", __FUNCTION__, j, MENTRIES);
+    }
     return (ui_callback_data_t) wic64_menu;
 }
 
