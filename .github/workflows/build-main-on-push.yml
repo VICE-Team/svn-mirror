@@ -125,8 +125,18 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix
-          sudo apt-get -y install texinfo texlive-fonts-recommended texlive-latex-extra libpcap-dev libcurl4-openssl-dev
+          sudo apt-get -y install autoconf \
+                                  automake \
+                                  build-essential \
+                                  byacc \
+                                  dos2unix \
+                                  flex \
+                                  libcurl4-openssl-dev \
+                                  libpcap-dev \
+                                  texinfo \
+                                  texlive-fonts-recommended \
+                                  texlive-latex-extra \
+                                  xa65
 
       - name: Build
         id: build
@@ -135,7 +145,13 @@ jobs:
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          ./configure --enable-headlessui --enable-pdf-docs --enable-html-docs --without-pulse --without-alsa --without-png
+          ./configure --enable-option-checking=fatal \
+                      --enable-headlessui \
+                      --enable-html-docs \
+                      --enable-pdf-docs \
+                      --without-alsa \
+                      --without-png \
+                      --without-pulse
           make stylecheck
           make
 
