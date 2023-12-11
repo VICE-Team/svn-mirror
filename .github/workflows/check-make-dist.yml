@@ -41,8 +41,16 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt install -y autoconf automake build-essential byacc dos2unix \
-                              flex xa65 libasound2-dev libpulse-dev libcurl4-openssl-dev \
+          sudo apt install -y autoconf \
+                              automake \
+                              build-essential \
+                              byacc \
+                              dos2unix \
+                              flex \
+                              libasound2-dev \
+                              libcurl4-openssl-dev \
+                              libpulse-dev \
+                              xa65 \
                               ${{ matrix.source.deps }}
 
       - name: Configure Dist
@@ -50,8 +58,11 @@ jobs:
         run: |
           cd vice
           ./autogen.sh
-          ./configure --enable-option-checking=fatal ${{ matrix.source.conf }} \
-                      --with-resid --disable-html-docs --disable-pdf-docs
+          ./configure --enable-option-checking=fatal \
+                      ${{ matrix.source.conf }} \
+                      --disable-html-docs \
+                      --disable-pdf-docs
+                      --with-resid
 
       - name: Make Dist
         id: make_dist
