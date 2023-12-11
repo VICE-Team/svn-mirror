@@ -1380,12 +1380,14 @@ static void cmd_http_get(void)
 static void http_post_alarm_handler(CLOCK offset, void *data)
 {
     alarm_set(http_post_alarm, maincpu_clk + (312 * 65 * 30));
+    _wic64_log(CONS_COL_NO, 2, "%s: post_data_rcvd = %d, expected = %d", __FUNCTION__, post_data_rcvd, post_data_size);
     if ((post_data_rcvd >= post_data_size) ||
         (post_error)) {
         /* done receiving */
         alarm_unset(http_post_alarm);
         if (post_error) {
-            send_reply_revised(CLIENT_ERROR, "RESPONSE TRUNCATED", (uint8_t *)post_data,
+            send_reply_revised(SERVER_ERROR, "Response truncated",
+                               (uint8_t *)post_data,
                                post_data_rcvd, NULL);
         } else {
             send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, post_data_rcvd, NULL);
@@ -1399,20 +1401,19 @@ static void http_post_alarm_handler(CLOCK offset, void *data)
 
 static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *userdata)
 {
-
     CURLcode res;
     curl_off_t cl;
     size_t ret;
 
-    _wic64_log(CONS_COL_NO, 2, "http_post returned %d/0x%x bytes...", size * nitems);
     ret = size * nitems;
     res = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl);
-    if(res != CURLE_OK) {
+    _wic64_log(CONS_COL_NO, 2, "http_post returned %d/0x%x bytes, expected len = %d...", ret, ret, cl);
+    if ((res != CURLE_OK) ||
+        (cl < 0)) {
         _wic64_log(CONS_COL_NO, 2, "post callback failed to read length");
-        send_reply_revised(SERVER_ERROR, "Failed to fetch response headers", NULL, 0, "!0");
+        post_error = 1;
         goto out;
     }
-    post_data_size = cl;
 
     if ((post_data_rcvd + ret) > HTTPREPLY_MAXLEN) {
         post_error = 1;
@@ -1422,8 +1423,16 @@ static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *us
     post_data_rcvd += ret;
     _hexdump(CONS_COL_NO, 2, buffer, (int)ret);
   out:
+    post_data_size = cl;
     return ret;
 }
+
+static int closesocket_callback(void *clientp, curl_socket_t item)
+{
+    _wic64_log(CONS_COL_NO, 2, "http post socket closed");
+    return 0;
+}
+
 
 static void cmd_http_post(int cmd)
 {
@@ -1466,7 +1475,7 @@ static void cmd_http_post(int cmd)
         /* first time prepare for receiving post resonses */
         post_data = lib_malloc(HTTPREPLY_MAXLEN);
         if (!post_data) {
-            send_reply_revised(INTERNAL_ERROR, "OUT OF MEMORY", NULL, 0, NULL);
+            send_reply_revised(INTERNAL_ERROR, "Out of memory", NULL, 0, NULL);
             return;
         }
         mime = curl_mime_init(curl);
@@ -1475,6 +1484,7 @@ static void cmd_http_post(int cmd)
         /* Build an HTTP form with a single field named "data", */
         curl_mime_name(part, "data");
         curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+        curl_easy_setopt(curl, CURLOPT_CLOSESOCKETFUNCTION, closesocket_callback);
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             wic64_log(CONS_COL_NO, "perform failed: %s", curl_easy_strerror(res));
