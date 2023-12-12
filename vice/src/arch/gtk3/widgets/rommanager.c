@@ -36,6 +36,7 @@
 #include "drive.h"
 #include "lastdir.h"
 #include "lib.h"
+#include "petrom.h"
 #include "resources.h"
 #include "resourcewidgetmediator.h"
 #include "romset.h"
@@ -78,6 +79,8 @@ static const char **string_list_append_list(const char **list1, const char **lis
 static const char **get_all_resource_names(void);
 static const char **expandable_list_get_resources(GtkWidget *list);
 static void         expandable_list_sync_resources(GtkWidget *list);
+static GtkWidget   *expandable_list_get_chooser_by_resource(GtkWidget  *list,
+                                                            const char *resource);
 
 
 /** \brief  List of machine ROM names and resources */
@@ -401,6 +404,27 @@ static void on_chooser_drag_data_received(GtkWidget        *self,
         gtk_drag_finish(context, TRUE, FALSE /* don't delete source */, time);
     }
 }
+
+/** \brief  Handler for the 'clicked' event of a PET charset selection button
+ *
+ * Load a chargen ROM by setting the resource "ChargenName" to \a data.
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    new value for the "ChargenName" resource
+ */
+static void on_pet_charset_load_clicked(GtkWidget *self, gpointer data)
+{
+    GtkWidget  *chooser;
+    const char *charset;
+
+    chooser = expandable_list_get_chooser_by_resource(machine_roms, "ChargenName");
+    charset = data;
+    debug_gtk3("resource value = %s, chooser = %p", charset, (const void*)chooser);
+    resources_set_string("ChargenName", charset);
+    if (chooser != NULL) {
+        vice_gtk3_resource_filechooser_sync(chooser);
+    }
+}
 /* }}} */
 
 /* {{{ Helper functions */
@@ -581,6 +605,38 @@ static void expandable_list_sync_resources(GtkWidget *list)
     g_list_free(rows);
 }
 
+/** \brief  Find a resource filechooser in a ROMs list widget by resource name
+ *
+ * \param[in]   list        ROMs list
+ * \param[in]   resource    resource name
+ *
+ * \return  resource filechooser widget or \c NULL if not found
+ */
+static GtkWidget *expandable_list_get_chooser_by_resource(GtkWidget  *list,
+                                                          const char *resource)
+{
+    GtkWidget *chooser;
+    GList     *rows;
+    GList     *row;
+
+    rows    = expandable_list_get_children(list);
+    chooser = NULL;
+    for (row = rows; row != NULL; row = row->next) {
+        GtkWidget *grid;
+        GtkWidget *widget;
+
+        grid   = gtk_bin_get_child(GTK_BIN(row->data));
+        widget = gtk_grid_get_child_at(GTK_GRID(grid), 1, 0);
+        /* debug_gtk3("g_strcmp0(%s, %s)", resource, mediator_get_name_w(widget)); */
+        if (g_strcmp0(resource, mediator_get_name_w(widget)) == 0) {
+            chooser = widget;
+            break;
+        }
+    }
+    g_list_free(rows);
+    return chooser;
+}
+
 /** \brief  Add resource file chooser with label to a ROMs section
  *
  * \param[in]   list            ROMs section
@@ -737,28 +793,53 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
         row++;
     }
 
-    /* add buttons */
+    /* add normal buttons */
     button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_button_box_set_layout(GTK_BUTTON_BOX(button_box), GTK_BUTTONBOX_END);
+    gtk_box_set_spacing(GTK_BOX(button_box), 8);
     button = gtk_button_new_with_label("Load ROM set");
     g_signal_connect(G_OBJECT(button),
                      "clicked",
                      G_CALLBACK(on_load_romset_clicked),
                      NULL);
-    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 0);
     button = gtk_button_new_with_label("Save ROM set");
     g_signal_connect(G_OBJECT(button),
                      "clicked",
                      G_CALLBACK(on_save_romset_clicked),
                      NULL);
-    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 0);
     button = gtk_button_new_with_label("Reset to defaults");
     g_signal_connect(G_OBJECT(button),
                      "clicked",
                      G_CALLBACK(on_reset_to_defaults_clicked),
                      NULL);
-    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 8);
-
+    gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 0);
     gtk_grid_attach(GTK_GRID(grid), button_box, 0, row, 1, 1);
+    row++;
+
+    /* add PET-specific buttons */
+    if (machine_class == VICE_MACHINE_PET) {
+        button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+        gtk_button_box_set_layout(GTK_BUTTON_BOX(button_box), GTK_BUTTONBOX_END);
+        gtk_box_set_spacing(GTK_BOX(button_box), 8);
+
+        /* load original charset button */
+        button = gtk_button_new_with_label("Load original charset");
+        g_signal_connect(G_OBJECT(button),
+                         "clicked",
+                         G_CALLBACK(on_pet_charset_load_clicked),
+                         (gpointer)PET_CHARGEN2_NAME);
+        gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 0);
+        /* load DE charset button */
+        button = gtk_button_new_with_label("Load German charset");
+        g_signal_connect(G_OBJECT(button),
+                         "clicked",
+                         G_CALLBACK(on_pet_charset_load_clicked),
+                         (gpointer)PET_CHARGEN_DE_NAME);
+        gtk_box_pack_start(GTK_BOX(button_box), button, TRUE, FALSE, 0);
+        gtk_grid_attach(GTK_GRID(grid), button_box, 0, row, 1, 1);
+    }
 
     gtk_widget_show_all(grid);
     return grid;
