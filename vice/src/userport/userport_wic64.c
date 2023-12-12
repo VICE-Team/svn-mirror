@@ -181,6 +181,7 @@ static char *post_data = NULL;
 static size_t post_data_rcvd;
 static size_t post_data_new;
 static size_t post_data_size;
+static char *post_url = NULL;
 static int post_error;
 static int cheatlen = 0;
 
@@ -452,6 +453,10 @@ static int userport_wic64_enable(int value)
             curl_easy_cleanup(curl);
             curl_global_cleanup();
             curl = NULL;
+        }
+        if (post_url) {
+            lib_free(post_url);
+            post_url = NULL;
         }
         wic64_set_status("disabled.");
     }
@@ -1403,7 +1408,7 @@ static void http_post_alarm_handler(CLOCK offset, void *data)
                            post_data_rcvd, NULL);
         goto out;
     }
-    if (post_data_rcvd >= post_data_size){
+    if (post_data_rcvd >= post_data_size) { /* post_data_size is size_t so unsigned */
         send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, post_data_rcvd, NULL);
         goto out;
     }
@@ -1426,6 +1431,7 @@ static void http_post_alarm_handler(CLOCK offset, void *data)
     return;
 
 out:
+    alarm_unset(http_post_endalarm);
     alarm_unset(http_post_alarm);
     lib_free(post_data);
     post_data = NULL;
@@ -1464,16 +1470,22 @@ static void cmd_http_post(int cmd)
     CURLcode res;
     static curl_mime *mime;
     static curl_mimepart *part;
-    static char url[URL_MAXLEN];
 
     if (cmd == WIC64_CMD_HTTP_POST_URL) {
-
-        if (http_expand_url(url) < 0) {
+        if (post_url == NULL) {
+            post_url = lib_malloc(URL_MAXLEN);
+        }
+        if (http_expand_url(post_url) < 0) {
             return;
         }
         send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
     } else {
         hexdump(CONS_COL_BLUE, (const char *)commandbuffer, commandptr);
+
+        if (post_url == NULL) {
+            send_reply_revised(CLIENT_ERROR, "URL not specified", NULL, 0, "!0");
+            return;
+        }
 
         if (!curl) {
             curl = curl_easy_init();
@@ -1490,7 +1502,7 @@ static void cmd_http_post(int cmd)
             send_reply_revised(NETWORK_ERROR, "Failed to open connection", NULL, 0, "!0");
             return;
         }
-        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_URL, post_url);
         res = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, post_write_func);
         if (res != CURLE_OK) {
             wic64_log(CONS_COL_NO, "perform failed: %s", curl_easy_strerror(res));
@@ -2318,6 +2330,10 @@ static void userport_wic64_reset(void)
         curl = NULL;
     }
     curl_global_init(CURL_GLOBAL_ALL);
+    if (post_url) {
+        lib_free(post_url);
+        post_url = NULL;
+    }
 }
 
 /* ---------------------------------------------------------------------*/
