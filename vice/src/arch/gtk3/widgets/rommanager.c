@@ -349,6 +349,24 @@ static void on_reset_icon_clicked(GtkWidget *self, gpointer data)
     }
 }
 
+/** \brief  Handler for the 'clicked' event of the eject icon button
+ *
+ * "Eject" a ROM by clearing a resource.
+ *
+ * \param[in]   self    button (ignored)
+ * \param[in]   data    resource file chooser for the ROM
+ */
+static void on_eject_icon_clicked(GtkWidget *self, gpointer data)
+{
+    GtkWidget  *chooser;
+    const char *resource;
+
+    chooser  = data;
+    resource = mediator_get_name_w(chooser);
+    resources_set_string(resource, "");
+    vice_gtk3_resource_filechooser_sync(chooser);
+}
+
 /** \brief  Handler for the 'drag-data-received' event of a resource file chooser
  *
  * \param[in]   self        resource file chooser
@@ -578,6 +596,7 @@ static void add_rom_chooser(GtkWidget  *list,
     GtkWidget *label;
     GtkWidget *chooser;
     GtkWidget *reset;
+    GtkWidget *eject;
     GtkWidget *expander;
     GtkWidget *rom_list;
 
@@ -614,12 +633,22 @@ static void add_rom_chooser(GtkWidget  *list,
                      G_CALLBACK(on_reset_icon_clicked),
                      (gpointer)chooser);
 
+    /* set up unload button */
+    eject = gtk_button_new_from_icon_name("media-eject-symbolic",
+                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
+    gtk_widget_set_tooltip_text(eject, "Unload ROM");
+    g_signal_connect(G_OBJECT(eject),
+                     "clicked",
+                     G_CALLBACK(on_eject_icon_clicked),
+                     (gpointer)chooser);
+
     /* put everthing together */
     expander = gtk_bin_get_child(GTK_BIN(list));
     rom_list = gtk_bin_get_child(GTK_BIN(expander));
     gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), reset,   2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), eject,   3, 0, 1, 1);
     gtk_container_add(GTK_CONTAINER(listrow), grid);
     gtk_list_box_insert(GTK_LIST_BOX(rom_list), listrow, -1);
 }
@@ -698,6 +727,15 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     /* expand the machine ROMs by default */
     expander = gtk_bin_get_child(GTK_BIN(machine_roms));
     gtk_expander_set_expanded(GTK_EXPANDER(expander), TRUE);
+
+    if (machine_class == VICE_MACHINE_PET) {
+        /* add PET v1 kernal IEEE-488 patch */
+        GtkWidget *check = vice_gtk3_resource_check_button_new("Basic1",
+                "Patch kernal v1 to make the IEEE-488 interface work");
+
+        gtk_grid_attach(GTK_GRID(grid), check, 0, row, 1, 1);
+        row++;
+    }
 
     /* add buttons */
     button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
