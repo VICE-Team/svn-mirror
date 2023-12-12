@@ -150,6 +150,7 @@ static userport_device_t userport_wic64_device = {
 
 static struct alarm_s *http_get_alarm = NULL;
 static struct alarm_s *http_post_alarm = NULL;
+static struct alarm_s *http_post_endalarm = NULL;
 static struct alarm_s *tcp_get_alarm = NULL;
 static struct alarm_s *tcp_send_alarm = NULL;
 static struct alarm_s *cmd_timeout_alarm = NULL;
@@ -178,6 +179,7 @@ static int big_load = 0;
 static char wic64_last_status[40]; /* according spec 40 bytes, hold status string. incl. \0 */
 static char *post_data = NULL;
 static size_t post_data_rcvd;
+static size_t post_data_new;
 static size_t post_data_size;
 static int post_error;
 static int cheatlen = 0;
@@ -813,6 +815,8 @@ static void add_transfer(CURLM *cmulti, char *url)
     CURL *eh = curl_easy_init();
     if (wic64_loglevel > 1) {
         curl_easy_setopt(eh, CURLOPT_VERBOSE, 1L);
+    } else {
+        curl_easy_setopt(eh, CURLOPT_VERBOSE, 0L);
     }
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
@@ -966,7 +970,6 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
 
 static void do_http_get(char *url)
 {
-    curl_global_init(CURL_GLOBAL_ALL);
     cm = curl_multi_init();
     if (!cm) {
         send_reply_revised(CONNECTION_ERROR, "Can't send HTTP request", NULL, 0, "!0");
@@ -1377,26 +1380,57 @@ static void cmd_http_get(void)
     do_http_get(url);
 }
 
+static void http_post_endalarm_handler(CLOCK offset, void *data)
+{
+    _wic64_log(CONS_COL_NO, 2, "http post endalarm triggered...");
+    send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, post_data_rcvd, NULL);
+    alarm_unset(http_post_endalarm);
+    alarm_unset(http_post_alarm);
+    lib_free(post_data);
+    post_data = NULL;
+    post_error = post_data_rcvd = post_data_new = 0;
+    _wic64_log(CONS_COL_NO, 2, "http post done");
+}
+
 static void http_post_alarm_handler(CLOCK offset, void *data)
 {
-    alarm_set(http_post_alarm, maincpu_clk + (312 * 65 * 30));
-    _wic64_log(CONS_COL_NO, 2, "%s: post_data_rcvd = %d, expected = %d", __FUNCTION__, post_data_rcvd, post_data_size);
-    if ((post_data_rcvd >= post_data_size) ||
-        (post_error)) {
-        /* done receiving */
-        alarm_unset(http_post_alarm);
-        if (post_error) {
-            send_reply_revised(SERVER_ERROR, "Response truncated",
-                               (uint8_t *)post_data,
-                               post_data_rcvd, NULL);
-        } else {
-            send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, post_data_rcvd, NULL);
-        }
-        lib_free(post_data);
-        post_data = NULL;
-        post_error = 0;
-        _wic64_log(CONS_COL_NO, 2, "http post done");
+    _wic64_log(CONS_COL_NO, 2, "%s: post_data_rcvd = %d, expected = %d",
+               __FUNCTION__, post_data_rcvd, post_data_size);
+
+    if (post_error) {
+        send_reply_revised(SERVER_ERROR, "Server error",
+                           (uint8_t *)post_data,
+                           post_data_rcvd, NULL);
+        goto out;
     }
+    if (post_data_rcvd >= post_data_size){
+        send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, post_data_rcvd, NULL);
+        goto out;
+    }
+    if (post_data_size == -1) {
+        /* reply header didn't tell us the size, so read up to 64kB */
+        if (post_data_rcvd > 0xffff) {
+            send_reply_revised(SUCCESS, "Success", (uint8_t *)post_data, 0xffff, NULL);
+            goto out;
+        }
+        /* if new data has arrived, re-arm end-timeout */
+        if (post_data_new != post_data_rcvd) {
+            alarm_unset(http_post_endalarm);
+            /* reset alarm to 33% of wic64 timeout - should be fine in general */
+            alarm_set(http_post_endalarm,
+                      maincpu_clk + wic64_timeout * machine_get_cycles_per_second() / 3);
+            post_data_new = post_data_rcvd;
+        }
+    }
+    alarm_set(http_post_alarm, maincpu_clk +  machine_get_cycles_per_second() / 2);
+    return;
+
+out:
+    alarm_unset(http_post_alarm);
+    lib_free(post_data);
+    post_data = NULL;
+    post_error = post_data_new = post_data_rcvd = 0;
+    _wic64_log(CONS_COL_NO, 2, "http post done");
 }
 
 static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *userdata)
@@ -1408,13 +1442,11 @@ static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *us
     ret = size * nitems;
     res = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl);
     _wic64_log(CONS_COL_NO, 2, "http_post returned %d/0x%x bytes, expected len = %d...", ret, ret, cl);
-    if ((res != CURLE_OK) ||
-        (cl < 0)) {
+    if (res != CURLE_OK) {
         _wic64_log(CONS_COL_NO, 2, "post callback failed to read length");
         post_error = 1;
         goto out;
     }
-
     if ((post_data_rcvd + ret) > HTTPREPLY_MAXLEN) {
         post_error = 1;
         ret = HTTPREPLY_MAXLEN - post_data_rcvd;
@@ -1423,35 +1455,34 @@ static size_t post_write_func(char *buffer, size_t size, size_t nitems, void *us
     post_data_rcvd += ret;
     _hexdump(CONS_COL_NO, 2, buffer, (int)ret);
   out:
-    post_data_size = cl;
+    post_data_size = (size_t) cl; /* if -1 => largest size_t, so unknown */
     return ret;
 }
-
-static int closesocket_callback(void *clientp, curl_socket_t item)
-{
-    _wic64_log(CONS_COL_NO, 2, "http post socket closed");
-    return 0;
-}
-
 
 static void cmd_http_post(int cmd)
 {
     CURLcode res;
     static curl_mime *mime;
     static curl_mimepart *part;
+    static char url[URL_MAXLEN];
 
     if (cmd == WIC64_CMD_HTTP_POST_URL) {
-        char url[URL_MAXLEN];
 
         if (http_expand_url(url) < 0) {
             return;
         }
+        send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
+    } else {
+        hexdump(CONS_COL_BLUE, (const char *)commandbuffer, commandptr);
+
         if (!curl) {
             curl = curl_easy_init();
         }
 
         if (wic64_loglevel > 1) {
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        } else {
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
         }
         res = curl_easy_setopt(curl, CURLOPT_USERAGENT, http_user_agent);
         if (res != CURLE_OK) {
@@ -1466,11 +1497,7 @@ static void cmd_http_post(int cmd)
             send_reply_revised(NETWORK_ERROR, "Failed to open connection", NULL, 0, "!0");
             return;
         }
-        send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
-    } else {
-        hexdump(CONS_COL_BLUE, (const char *)commandbuffer, commandptr);
-
-        post_data_rcvd = post_error = 0;
+        post_data_rcvd = post_data_new = post_error = 0;
         post_data_size = HTTPREPLY_MAXLEN;
         /* first time prepare for receiving post resonses */
         post_data = lib_malloc(HTTPREPLY_MAXLEN);
@@ -1484,7 +1511,6 @@ static void cmd_http_post(int cmd)
         /* Build an HTTP form with a single field named "data", */
         curl_mime_name(part, "data");
         curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
-        curl_easy_setopt(curl, CURLOPT_CLOSESOCKETFUNCTION, closesocket_callback);
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             wic64_log(CONS_COL_NO, "perform failed: %s", curl_easy_strerror(res));
@@ -1493,6 +1519,10 @@ static void cmd_http_post(int cmd)
         if (http_post_alarm == NULL) {
             http_post_alarm = alarm_new(maincpu_alarm_context, "HTTPPostAlarm",
                                         http_post_alarm_handler, NULL);
+        }
+        if (http_post_endalarm == NULL) {
+            http_post_endalarm = alarm_new(maincpu_alarm_context, "HTTPPostAlarm",
+                                           http_post_endalarm_handler, NULL);
         }
         alarm_unset(http_post_alarm);
         alarm_set(http_post_alarm, maincpu_clk + (312 * 65));
@@ -1621,6 +1651,8 @@ static void do_connect(uint8_t *buffer)
 
     if (wic64_loglevel > 1) {
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    } else {
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, buffer);
@@ -2279,6 +2311,13 @@ static void userport_wic64_reset(void)
         wic64_log(CONS_COL_RED, "red color: some error");
         wic64_log(CONS_COL_NO, "no color: other information");
     }
+    if (curl) {
+        /* connection closed */
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+        curl = NULL;
+    }
+    curl_global_init(CURL_GLOBAL_ALL);
 }
 
 /* ---------------------------------------------------------------------*/
