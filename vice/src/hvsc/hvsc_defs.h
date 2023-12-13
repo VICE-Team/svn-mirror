@@ -59,7 +59,7 @@
  * was added. Set via the Makefile.
  */
 #ifndef HVSC_LIB_VERSION_MIN
-#define HVSC_LIB_VERSION_MIN    1
+#define HVSC_LIB_VERSION_MIN    2
 #endif
 
 /** \brief  Library version number revision
@@ -82,39 +82,29 @@
  */
 #define HVSC_SLDB_FILE  "DOCUMENTS/Songlengths.md5"
 
-
 /** \brief  Path to the STIL file, relative to the HVSC root
  */
 #define HVSC_STIL_FILE  "DOCUMENTS/STIL.txt"
-
 
 /** \brief  Path to the BUGlist file, relative to the HVSC root
  */
 #define HVSC_BUGS_FILE  "DOCUMENTS/BUGlist.txt"
 
-
 /** \brief  MD5 digest size in bytes
  */
-#define HVSC_DIGEST_SIZE    16
-
-
-
-
+#define HVSC_DIGEST_SIZE                16
 
 /** \brief  Number of initial entries in the STIL buffer
  */
-#define HVSC_STIL_BUFFER_INIT    32
-
-
+#define HVSC_STIL_BUFFER_INIT           32
 
 /** \brief  Initial size of the fields array in a hvsc_stil_block_t
  */
-#define HVSC_STIL_BLOCK_FIELDS_INIT    32
-
+#define HVSC_STIL_BLOCK_FIELDS_INIT     32
 
 /** \brief  Initial size of blocks array in a handle
  */
-#define HVSC_HANDLE_BLOCKS_INIT    32
+#define HVSC_HANDLE_BLOCKS_INIT         32
 
 
 #include "hvsc.h"
@@ -122,21 +112,17 @@
 /** \brief  STIL parser state
  */
 typedef struct hvsc_stil_parser_state_s {
-    hvsc_stil_t *           handle;     /**< STIL handle */
-    hvsc_stil_field_t *     field;      /**< STIL field object */
-    int                     tune;       /**< current tune number */
-    size_t                  lineno;     /**< line number in STIL text buffer */
-    hvsc_stil_block_t *     block;      /**< temporary STIL block */
-
-    hvsc_stil_timestamp_t   ts;         /**< temporary timestamp object */
-    size_t                  linelen;    /**< remaining length of the current
-                                             line after parsing out the
-                                             optional sub fields
-                                             (timestamp, album) */
-
-    char *                  album;      /**< album/cover string */
-    size_t                  album_len;  /**< length of album string */
+    hvsc_stil_t *          handle;      /**< STIL handle */
+    hvsc_stil_field_t     *field;       /**< STIL field object */
+    int                    tune;        /**< current tune number */
+    size_t                 lineno;      /**< line number in STIL text buffer */
+    hvsc_stil_block_t     *block;       /**< temporary STIL block */
+    hvsc_stil_timestamp_t  ts;          /**< temporary timestamp object */
+    size_t                 linelen;     /**< remaining length of the current
+                                             line after parsing out the optional
+                                             sub fields (timestamp, album) */
+    char                  *album;       /**< album/cover string */
+    size_t                 album_len;   /**< length of album string */
 } hvsc_stil_parser_state_t;
-
 
 #endif

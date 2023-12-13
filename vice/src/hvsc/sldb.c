@@ -23,7 +23,7 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*
  */
 
-#define HVSC_DEBUG
+#undef HVSC_DEBUG
 
 #include "vice.h"
 
@@ -58,20 +58,17 @@
  */
 static bool create_md5_hash(const char *psid, unsigned char *digest)
 {
+    gcry_md_hd_t   handle;
+    gcry_error_t   err;
     unsigned char *data;
-    long size;
-    gcry_md_hd_t handle;
-    gcry_error_t err;
     unsigned char *d;
+    long           size;
 
     /* attempt to open file */
-    hvsc_dbg("reading '%s\n", psid);
     size = hvsc_read_file(&data, psid);
     if (size < 0) {
-        fprintf(stderr, "failed!\n");
         return false;
     }
-    hvsc_dbg("got %ld bytes\n", size);
 
     /*
      * calculate MD5 hash
@@ -105,18 +102,18 @@ static bool create_md5_hash(const char *psid, unsigned char *digest)
  */
 static char *find_sldb_entry_md5(const char *digest)
 {
-    hvsc_text_file_t handle;
-    const char *line;
+    hvsc_text_file_t  handle;
+    const char       *line;
 
     if (!hvsc_text_file_open(hvsc_sldb_path, &handle)) {
         return NULL;
     }
 
-    while (1) {
+    while (true) {
         line = hvsc_text_file_read(&handle);
         if (line == NULL) {
             hvsc_text_file_close(&handle);
-    return NULL;
+            return NULL;
         }
 #if 0
         printf("%s\n", line);
@@ -135,7 +132,6 @@ static char *find_sldb_entry_md5(const char *digest)
 */
 }
 
-
 /** \brief  Find song length entry by PSID name in the comments
  *
  * \param[in]   path    relative path in the HVSC to the SID
@@ -144,15 +140,16 @@ static char *find_sldb_entry_md5(const char *digest)
  */
 static char *find_sldb_entry_txt(const char *path)
 {
-    hvsc_text_file_t handle;
-    size_t plen;
-    const char *line;
+    hvsc_text_file_t  handle;
+    size_t            plen;
+    const char       *line;
+
 #ifndef HVSC_STANDALONE
-    log_message(LOG_DEFAULT, "Vsid: Opening '%s'.", hvsc_sldb_path);
+    log_message(LOG_DEFAULT, "VSID: Opening '%s'.", hvsc_sldb_path);
 #endif
     if (!hvsc_text_file_open(hvsc_sldb_path, &handle)) {
 #ifndef HVSC_STANDALONE
-        log_warning(LOG_DEFAULT, "Vsid: Failed to open the SLDB.");
+        log_warning(LOG_DEFAULT, "VSID: Failed to open the SLDB.");
 #endif
         return NULL;
     }
@@ -165,7 +162,7 @@ static char *find_sldb_entry_txt(const char *path)
             hvsc_text_file_close(&handle);
 #ifndef HVSC_STANDALONE
             log_warning(LOG_DEFAULT,
-                    "Vsid: Could not find song length data for current SID.");
+                    "VSID: Could not find song length data for current SID.");
 #endif
             return NULL;
         }
@@ -194,8 +191,6 @@ static char *find_sldb_entry_txt(const char *path)
 #endif
 }
 
-
-
 /** \brief  Parse SLDB entry
  *
  * The song lengths array is heap-allocated and should freed after use.
@@ -210,8 +205,8 @@ static int parse_sldb_entry(char *line, long **lengths)
     char *p;
     char *endptr;
     long *entries;
-    int i = 0;
-    long secs;
+    long  secs;
+    int   i = 0;
 
     entries = hvsc_malloc(256 * sizeof *entries);
     if (entries == NULL) {
@@ -242,7 +237,6 @@ static int parse_sldb_entry(char *line, long **lengths)
     *lengths = entries;
     return i;
 }
-
 
 
 /** \brief  Get the SLDB entry for PSID file \a psid
@@ -296,7 +290,7 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
     if (entry != NULL) {
         /* hvsc_dbg("Got it: %s\n", entry); */
 #ifndef HVSC_STANDALONE
-        log_message(LOG_DEFAULT, "Vsid: Song length(s): %s.", entry);
+        log_message(LOG_DEFAULT, "VSID: Song length(s): %s.", entry);
 #endif
     }
     return entry;
@@ -340,7 +334,7 @@ int hvsc_sldb_get_lengths_md5(const char *digest, long **lengths)
 int hvsc_sldb_get_lengths(const char *psid, long **lengths)
 {
     char *entry;
-    int result;
+    int   result;
 
     *lengths = NULL;
 
@@ -358,7 +352,6 @@ int hvsc_sldb_get_lengths(const char *psid, long **lengths)
     hvsc_free(entry);
     return result;
 }
-
 
 
 /** \brief  Get relative HVSC path for md5 digest in SLDB

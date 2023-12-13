@@ -394,11 +394,11 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle)
  */
 long hvsc_read_file(uint8_t **dest, const char *path)
 {
+    FILE    *fd;
     uint8_t *data;
-    FILE *fd;
-    size_t offset = 0;
-    size_t size = READFILE_BLOCK_SIZE;
-    size_t result;
+    size_t   result;
+    size_t   offset = 0;
+    size_t   size   = READFILE_BLOCK_SIZE;
 
     fd = fopen(path, "rb");
     if (fd == NULL) {
@@ -414,7 +414,7 @@ long hvsc_read_file(uint8_t **dest, const char *path)
         if (offset == size) {
             /* yup */
             size *= 2;
-            data = hvsc_realloc(data, size);
+            data  = hvsc_realloc(data, size);
         }
         result = fread(data + offset, 1, READFILE_BLOCK_SIZE, fd);
         if (result < READFILE_BLOCK_SIZE) {
@@ -468,11 +468,11 @@ char *hvsc_strdup(const char *s)
 #ifndef HVSC_STANDALONE
     return lib_strdup(s);
 #else
-    char *t;
-    size_t len = strlen(s);
+    char   *t;
+    size_t  len = strlen(s);
 
-    t = hvsc_malloc(len + 1);
-    memcpy(t, s, len + 1);
+    t = hvsc_malloc(len + 1u);
+    memcpy(t, s, len + 1u);
     return t;
 #endif
 }
@@ -497,9 +497,9 @@ char *hvsc_paths_join(const char *p1, const char *p2)
 #ifndef HVSC_STANDALONE
     return util_join_paths(p1, p2, NULL);
 #else
-    char *result;
-    size_t len1;
-    size_t len2;
+    char   *result;
+    size_t  len1;
+    size_t  len2;
 
     if (p1 == NULL || p2 == NULL) {
         return NULL;
@@ -508,14 +508,14 @@ char *hvsc_paths_join(const char *p1, const char *p2)
     len1 = strlen(p1);
     len2 = strlen(p2);
 
-    result = hvsc_malloc(len1 + len2 + 2);   /* +2 for / and '\0' */
+    result = hvsc_malloc(len1 + len2 + 2u);   /* +2 for / and '\0' */
     memcpy(result, p1, len1);
 # ifdef WINDOWS_COMPILE
     *(result + len1) = '\\';
 # else
     *(result + len1) = '/';
 # endif
-    memcpy(result + len1 + 1, p2, len2 + 1);    /* add p2 including '\0' */
+    memcpy(result + len1 + 1u, p2, len2 + 1u);    /* add p2 including '\0' */
     return result;
 #endif
 }
@@ -578,9 +578,9 @@ void hvsc_free_paths(void)
  */
 char *hvsc_path_strip_root(const char *path)
 {
-    size_t plen = strlen(path);             /* length of path */
-    size_t rlen = (hvsc_root_path == NULL) ? 0 : strlen(hvsc_root_path);   /* length of HSVC root path */
-    char *result;
+    size_t  plen = strlen(path);             /* length of path */
+    size_t  rlen = (hvsc_root_path == NULL) ? 0 : strlen(hvsc_root_path);   /* length of HSVC root path */
+    char   *result;
 
     if (rlen == 0) {
         result = hvsc_strdup(path);
@@ -588,8 +588,8 @@ char *hvsc_path_strip_root(const char *path)
         result = hvsc_strdup(path);
     } else if (memcmp(path, hvsc_root_path, rlen) == 0) {
         /* got HSVC root path */
-        result = hvsc_malloc(plen - rlen + 1);
-        memcpy(result, path + rlen, plen - rlen + 1);
+        result = hvsc_malloc(plen - rlen + 1u);
+        memcpy(result, path + rlen, plen - rlen + 1u);
     } else {
         result = hvsc_strdup(path);
     }
@@ -691,10 +691,10 @@ bool hvsc_string_is_comment(const char *s)
  */
 long hvsc_parse_simple_timestamp(char *t, char **endptr)
 {
-    long m = 0; /* minutes */
-    long s = 0; /* seconds */
-    long f = 0; /* fractional seconds (ie milliseconds) */
-    int fd = 0; /* number of fractional digits */
+    long m  = 0;    /* minutes */
+    long s  = 0;    /* seconds */
+    long f  = 0;    /* fractional seconds (ie milliseconds) */
+    int  fd = 0;    /* number of fractional digits */
 
     /* minutes */
     while (isdigit((unsigned char)*t)) {
@@ -703,7 +703,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
     }
     if (*t != ':') {
         /* error */
-        *endptr = t;
+        *endptr    = t;
         hvsc_errno = HVSC_ERR_TIMESTAMP;
         return -1;
     }
@@ -726,7 +726,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
         /* parse fractional part */
         t++;
         fd = 0;
-        f = 0;
+        f  = 0;
 
         while (isdigit((unsigned char)*t) && fd < 3) {
             fd++;
