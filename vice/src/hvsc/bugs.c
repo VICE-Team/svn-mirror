@@ -48,10 +48,9 @@ static void bugs_init_handle(hvsc_bugs_t *handle)
 {
     hvsc_text_file_init_handle(&(handle->bugs));
     handle->psid_path = NULL;
-    handle->text = NULL;
-    handle->user = NULL;
+    handle->text      = NULL;
+    handle->user      = NULL;
 }
-
 
 /** \brief  Free all members of \a handle but not \a handle itself
  *
@@ -67,7 +66,6 @@ static void bugs_free_handle(hvsc_bugs_t *handle)
         hvsc_free(handle->user);
     }
 }
-
 
 /** \brief  Parse the BUGlist for a BUG: field and the (username) field
  *
@@ -104,13 +102,13 @@ static bool bugs_parse(hvsc_bugs_t *handle)
             return false;
         }
 
-        if (strncmp("         ", line, 9) == 0) {
+        if (strncmp("         ", line, 9u) == 0) {
             /* new line for the bug field */
             size_t len;
 
             /* strip off 8 spaces, leaving one to add to the result */
-            len = strlen(line) - 8;
-            bug = hvsc_realloc(bug, strlen(bug) + len + 1);
+            len = strlen(line) - 8u;
+            bug = hvsc_realloc(bug, strlen(bug) + len + 1u);
             strcat(bug, line + 8);
         } else {
             /* store bug in handle */

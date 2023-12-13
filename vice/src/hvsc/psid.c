@@ -245,31 +245,21 @@ bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 
     psid_handle_init(handle);
 
-    hvsc_dbg("Attempting to read %s .. ", path);
-
     size = hvsc_read_file(&data, path);
     /* check for errors */
     if (size < 0) {
-#ifdef HVSC_DBG
-        hvsc_perror("failed");
-#endif
         return false;
     }
 
     /* check size */
     if (size < HVSC_PSID_HEADER_MIN_SIZE) {
-#ifdef HVSC_DBG
-        hvsc_perror("failed");
-#endif
         hvsc_errno = HVSC_ERR_INVALID;
         hvsc_free(data);
         return false;
     }
-    hvsc_dbg("OK, got %ld bytes\n", size);
 
     /* check header */
     if (!psid_header_is_valid(data)) {
-        hvsc_dbg("got invalid header magic\n");
         hvsc_errno = HVSC_ERR_INVALID;
         hvsc_free(data);
         return false;
@@ -494,9 +484,7 @@ bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     }
     /* write binary data */
     size = handle->size - handle->data_offset;
-    hvsc_dbg("writing %" PRI_SIZE_T " bytes\n", size);
     result = fwrite(handle->data + handle->data_offset, 1U, size, fp);
-    hvsc_dbg("wrote %" PRI_SIZE_T " bytes\n", result);
     if (result != size) {
         hvsc_errno = HVSC_ERR_IO;
         fclose(fp);
