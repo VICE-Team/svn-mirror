@@ -738,7 +738,13 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
 
     root_list = gtk_list_box_new();
     scrolled  = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(scrolled, 400, 400);
+    if (machine_class == VICE_MACHINE_PET) {
+        /* We add a check button and buttons to load a chargen to xpet, so the
+         * scrolled window must be slightly less tall */
+        gtk_widget_set_size_request(scrolled, 400, 370);
+    } else {
+        gtk_widget_set_size_request(scrolled, 400, 420);
+    }
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
                                    GTK_POLICY_NEVER,
                                    GTK_POLICY_AUTOMATIC);
