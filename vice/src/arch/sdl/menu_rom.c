@@ -31,6 +31,8 @@
 #include "functionrom.h"
 #include "menu_common.h"
 #include "menu_drive_rom.h"
+#include "petrom.h"
+#include "resources.h"
 #include "types.h"
 #include "uimenu.h"
 
@@ -345,6 +347,14 @@ UI_MENU_DEFINE_FILE_STRING(H6809RomEName)
 UI_MENU_DEFINE_FILE_STRING(H6809RomFName)
 
 UI_MENU_DEFINE_TOGGLE(Basic1)
+static UI_MENU_CALLBACK(custom_ChargenName_callback)
+{
+    if (activated) {
+        resources_set_string("ChargenName", (const char *)param);
+    }
+    return NULL;
+}
+
 
 const ui_menu_entry_t pet_rom_menu[] = {
     {   .string   = "Drive ROMs",
@@ -380,6 +390,18 @@ const ui_menu_entry_t pet_rom_menu[] = {
     {   .string   = "Patch Kernal v1 to make the IEEE-488 interface work",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_Basic1_callback
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Load normal character set ROM",
+        .type     = MENU_ENTRY_OTHER,
+        .callback = custom_ChargenName_callback,
+        .data     = (void*)PET_CHARGEN1_NAME
+    },
+    {   .string   = "Load German character set ROM",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = custom_ChargenName_callback,
+        .data     = (void*)PET_CHARGEN_DE_NAME
     },
     SDL_MENU_ITEM_SEPARATOR,
 
