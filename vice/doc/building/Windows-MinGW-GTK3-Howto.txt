@@ -77,7 +77,7 @@ dqh
 Run the following command lines to install the prerequisites:
 
 $ pacman -S --noconfirm --needed base-devel pactoys
-$ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3 glew icoutils xa65
+$ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3 glew icoutils xa65 curl
 
 (Note: type the colons that you see in the second command; they are important.
  Hit enter for the default on all the prompts, then wait for a lot of stuff
@@ -85,7 +85,7 @@ $ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3
 
 if you want to get all the extras right now as well, add
 
-$ pacboy sync libcurl portaudio giflib flac mpg123 libvorbis lame
+$ pacboy sync portaudio giflib flac mpg123 libvorbis lame
 
 See further below for details; some options require adding flags to configure.
 
