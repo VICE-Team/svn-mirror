@@ -344,6 +344,8 @@ UI_MENU_DEFINE_FILE_STRING(H6809RomDName)
 UI_MENU_DEFINE_FILE_STRING(H6809RomEName)
 UI_MENU_DEFINE_FILE_STRING(H6809RomFName)
 
+UI_MENU_DEFINE_TOGGLE(Basic1)
+
 const ui_menu_entry_t pet_rom_menu[] = {
     {   .string   = "Drive ROMs",
         .type     = MENU_ENTRY_SUBMENU,
@@ -372,6 +374,12 @@ const ui_menu_entry_t pet_rom_menu[] = {
         .type     = MENU_ENTRY_DIALOG,
         .callback = file_string_EditorName_callback,
         .data     = (ui_callback_data_t)"Select editor ROM image"
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Patch Kernal v1 to make the IEEE-488 interface work",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_Basic1_callback
     },
     SDL_MENU_ITEM_SEPARATOR,
 
