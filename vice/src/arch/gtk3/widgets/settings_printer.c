@@ -360,6 +360,18 @@ static void driver_radio_callback(GtkWidget  *radio,
     debug_gtk3("device = %d, drv_name = '%s', text = %s, graphics = %s",
                device, drv_name, text ? "true" : "false", graphics ? "true" : "false");
 
+    /* FIXME: Ugly hack for RAW plotter driver.
+     *        The RAW driver is a driver for printer AND plotter and it can only
+     *        do text for printers and only graphics for plotters, so the logic
+     *        using the capabilities in `driver_select_t` breaks down for RAW
+     *        plotters.
+     */
+    if ((device) == 6 && (g_strcmp0(drv_name, "raw") == 0)) {
+        gtk_widget_set_sensitive(widget, FALSE);
+        printer_output_mode_widget_set_mode(widget, "graphics");
+        return;
+    }
+
     /* only allow mode selection if both text and graphics are supported */
     gtk_widget_set_sensitive(widget, (gboolean)(text && graphics));
     /* if only text or graphics is supported, select that mode */
@@ -381,18 +393,15 @@ static void driver_radio_callback(GtkWidget  *radio,
  */
 static GtkWidget *create_printer_widget(int index)
 {
-    GtkWidget *grid;
-    GtkWidget *type     = NULL;
-    GtkWidget *virtdev  = NULL;
-    GtkWidget *iec      = NULL;
-    GtkWidget *driver   = NULL;
-    //GtkWidget *outmode  = NULL;
-    GtkWidget *outdev   = NULL;
-    GtkWidget *formfeed = NULL;
-    int        device;
-    const child_t *child = &children[index];
-
-    device = child->device;
+    GtkWidget     *grid;
+    GtkWidget     *type     = NULL;
+    GtkWidget     *virtdev  = NULL;
+    GtkWidget     *iec      = NULL;
+    GtkWidget     *driver   = NULL;
+    GtkWidget     *outdev   = NULL;
+    GtkWidget     *formfeed = NULL;
+    const child_t *child    = &children[index];
+    int            device   = child->device;
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), FALSE);
@@ -445,6 +454,15 @@ static GtkWidget *create_printer_widget(int index)
         gtk_grid_attach(GTK_GRID(grid), driver, 1, 1, 1, 1);
     }
     if (output_mode_widget[index] != NULL) {
+        /* make sure the initial "show only valid output selection" is done */
+        const char *drv_name = NULL;
+
+        if ((device >= 4) && device <= 6) {
+            resources_get_string_sprintf("Printer%dDriver", &drv_name, device);
+        } else {
+            resources_get_string("PrinterUserportDriver", &drv_name);
+        }
+        driver_radio_callback(NULL, device, drv_name);
         gtk_grid_attach(GTK_GRID(grid), output_mode_widget[index], 2, 1, 1, 1);
     }
     if (outdev != NULL) {
