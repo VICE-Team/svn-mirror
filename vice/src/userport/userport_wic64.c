@@ -345,6 +345,8 @@ static const cmdline_option_t cmdline_options[] =
 #define WIC64_CMD_DEPRECATED_FACTORY_RESET_63 0x63
 #define WIC64_CMD_DEPRECATED_LEGACY_HTTP_POST_24 0x24
 
+#define WIC64_CMD_NONE 0xff
+
 #define WIC64_PROT_LEGACY 'W'
 #define WIC64_PROT_REVISED 'R'
 #define WIC64_PROT_EXTENDED 'E'
@@ -427,7 +429,8 @@ static int userport_wic64_enable(int value)
         _wic64_log(CONS_COL_NO, 2, "%s: curl_send_buf allocated 0x%xkB", __FUNCTION__,
                    COMMANDBUFFER_MAXLEN / 1014);
 
-        wic64_set_status("enabled.");
+        wic64_set_status("enabled");
+        log_message(wic64_loghandle, "WiC64 enabled");
 
         prep_wic64_str();
 
@@ -458,7 +461,32 @@ static int userport_wic64_enable(int value)
             lib_free(post_url);
             post_url = NULL;
         }
-        wic64_set_status("disabled.");
+        if (http_get_alarm) {
+            alarm_destroy(http_get_alarm);
+            http_get_alarm = NULL;
+        }
+        if (http_post_alarm) {
+            alarm_destroy(http_post_alarm);
+            http_post_alarm = NULL;
+        }
+        if (http_post_endalarm) {
+            alarm_destroy(http_post_endalarm);
+            http_post_endalarm = NULL;
+        }
+        if (tcp_get_alarm) {
+            alarm_destroy(tcp_get_alarm);
+            tcp_get_alarm = NULL;
+        }
+        if (tcp_send_alarm) {
+            alarm_destroy(tcp_send_alarm);
+            tcp_send_alarm = NULL;
+        }
+        if (cmd_timeout_alarm) {
+            alarm_destroy(cmd_timeout_alarm);
+            cmd_timeout_alarm = NULL;
+        }
+        wic64_set_status("disabled");
+        log_message(wic64_loghandle, "WiC64 disabled");
     }
 
     return 0;
@@ -509,12 +537,13 @@ static int wic64_set_loglevel(int val, void *param)
       val = 0;
     }
     wic64_loglevel = val;
-    wic64_log(CONS_COL_NO, "setting log level to %d", wic64_loglevel);
     if (wic64_loglevel == 0) {
+        wic64_log(CONS_COL_NO, "setting log level to %d", wic64_loglevel);
         wic64_logenabled = 0;
         return 0;
     }
     wic64_logenabled = 1;
+    wic64_log(CONS_COL_NO, "setting log level to %d", wic64_loglevel);
     return 0;
 }
 
@@ -768,6 +797,7 @@ static void prep_wic64_str(void)
     cmd2string[WIC64_CMD_FORCE_TIMEOUT]= "WIC64_CMD_FORCE_TIMEOUT";
     cmd2string[WIC64_CMD_FORCE_ERROR] = "WIC64_CMD_FORCE_ERROR";
 
+    cmd2string[WIC64_CMD_NONE] = "unknown";
     /* deprecated commands */
     cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_03";
     cmd2string[WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_04] = "WIC64_CMD_DEPRECATED_UPDATE_FIRMWARE_04";
@@ -1002,7 +1032,7 @@ static void do_http_get(char *url)
 #define FLAG2_INACTIVE  1
 #define FLAG2_TOGGLE_DELAY 3    /* delay in cycles to toggle flag2 */
 
-static uint8_t input_state = 0, input_command = 0;
+static uint8_t input_state = 0, input_command = WIC64_CMD_NONE;
 static uint8_t wic64_inputmode = 1;
 static uint32_t input_length = 0, commandptr = 0;
 static uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
@@ -1080,7 +1110,7 @@ static void send_binary_reply(const uint8_t *reply, size_t len)
 
 static void cmd_timeout_alarm_handler(CLOCK offset, void *data)
 {
-    wic64_log(CONS_COL_RED, "timeout expired to send reply for %s", cmd2string[input_command]);
+    wic64_log(CONS_COL_RED, "timed out - '%s' command", cmd2string[input_command]);
     replyptr = reply_length = force_timeout = 0;
     input_state = INPUT_EXP_PROT;
     commandptr = 0;
@@ -2160,7 +2190,7 @@ static void wic64_prot_state(uint8_t value)
         }
         break;
     default:
-        _wic64_log(CONS_COL_RED, 2, "unknown input state %d", input_state);
+        wic64_log(CONS_COL_RED, "unknown input state %d", input_state);
         break;
     }
 }
@@ -2188,7 +2218,8 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                     input_state = INPUT_EXP_CMD;
                     break;
                 default:
-                    wic64_log(CONS_COL_RED, "unknown protocol '%c', using revised.", value);
+                    wic64_log(CONS_COL_RED, "unknown protocol '%c'/0x%02x, using revised.",
+                              isprint(value) ? value: '.', value);
                     wic64_protocol = WIC64_PROT_REVISED;
                     input_state = INPUT_EXP_CMD;
                     break;
@@ -2221,6 +2252,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 cmd_timeout(0);
                 do_command();
                 commandptr = input_state = input_length = 0;
+                input_command = WIC64_CMD_NONE;
                 memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
             }
         } else {
@@ -2280,7 +2312,8 @@ static void userport_wic64_reset(void)
     int tmp_tz;
 
     wic64_log(CONS_COL_NO, "%s", __FUNCTION__);
-    commandptr = input_command = input_state = input_length = 0;
+    commandptr = input_state = input_length = 0;
+    input_command = WIC64_CMD_NONE;
     wic64_inputmode = 1;
     memset(sec_token, 0, 32);
     sec_init = 0;
@@ -2316,12 +2349,23 @@ static void userport_wic64_reset(void)
         current_tz = tmp_tz;
     }
 
-    wic64_set_status("RESET");
-    if (wic64_colorize_log) {
-        wic64_log(CONS_COL_BLUE, "cyan color: host -> WiC64 communication");
-        wic64_log(CONS_COL_GREEN, "green color: WiC64 -> host communication");
-        wic64_log(CONS_COL_RED, "red color: some error");
-        wic64_log(CONS_COL_NO, "no color: other information");
+    if (http_get_alarm) {
+        alarm_unset(http_get_alarm);
+    }
+    if (http_post_alarm) {
+        alarm_unset(http_post_alarm);
+    }
+    if (http_post_endalarm) {
+        alarm_unset(http_post_endalarm);
+    }
+    if (tcp_get_alarm) {
+        alarm_unset(tcp_get_alarm);
+    }
+    if (tcp_send_alarm) {
+        alarm_unset(tcp_send_alarm);
+    }
+    if (cmd_timeout_alarm) {
+        alarm_unset(cmd_timeout_alarm);
     }
     if (curl) {
         /* connection closed */
@@ -2333,6 +2377,13 @@ static void userport_wic64_reset(void)
     if (post_url) {
         lib_free(post_url);
         post_url = NULL;
+    }
+    wic64_set_status("RESET");
+    if (wic64_colorize_log) {
+        wic64_log(CONS_COL_BLUE, "cyan color: host -> WiC64 communication");
+        wic64_log(CONS_COL_GREEN, "green color: WiC64 -> host communication");
+        wic64_log(CONS_COL_RED, "red color: some error");
+        wic64_log(CONS_COL_NO, "no color: other information");
     }
 }
 
