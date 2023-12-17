@@ -155,6 +155,7 @@ int output_text_init_cmdline_options(void)
  */
 static FILE *fopen_or_pipe(char *name, vice_pid_t *pid)
 {
+    *pid = 0; /* always return PID=0, unless we actually spawned a child */
     if (name[0] == '|') {
         int fd_rd, fd_wr;
         if (fork_coproc(&fd_wr, &fd_rd, name + 1, pid) < 0) {
