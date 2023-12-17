@@ -23,13 +23,13 @@ def usage():
     print()
     print('    help        show this text')
     print('    markdown    output markdown table of all UI actions')
+    print('    texinfo     output texinfo table of all UI actions')
     print('    vim         output Vim syntax rules for all UI actions')
 
 
 def markdown(actions, namewidth, descwidth):
     """
-    Output markdown table with UI action names, descriptions and emulator
-    support on stdout.
+    Output markdown table with UI action names and descriptions on stdout.
 
     @param actions: dict with UI actions
     @param namewidth: maximum width of an action name
@@ -39,14 +39,23 @@ def markdown(actions, namewidth, descwidth):
     # output rows
     for key in sorted(actions):
         action = actions[key]
-
         print('| {0:{namewidth}} | {1:{descwidth}} |'.format(
             '`' + action['name'] + '`', action['desc'],
             namewidth=namewidth + 2, descwidth=descwidth))
 
 
-def wiki(actions):
-    pass
+def texinfo(actions):
+    """
+    Output texinfo table with UI action names and descriptions on stdout.
+
+    @param actions: dict with UI actions
+    """
+
+    for key in sorted(actions):
+        action = actions[key]
+        print('@item @code{{{0}}}'.format(action['name']))
+        print('@tab {0}'.format(action['desc']))
+
 
 def vim(actions):
     """
@@ -71,7 +80,7 @@ def main():
         sys.exit(0)
 
     command = sys.argv[1]
-    if command not in ['markdown', 'vim']:
+    if command not in ['markdown', 'texinfo', 'vim']:
         print('error: unknown command \'{0}\''.format(command))
         sys.exit(1)
 
@@ -99,6 +108,8 @@ def main():
     # print("maxlen_name = {0}, maxlen_desc = {1}".format(maxlen_name, maxlen_desc))
     if command == 'markdown':
         markdown(actions, maxlen_name, maxlen_desc)
+    elif command == 'texinfo':
+        texinfo(actions)
     elif command == 'vim':
         vim(actions)
 
