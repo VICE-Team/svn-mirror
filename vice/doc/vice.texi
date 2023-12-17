@@ -2663,10 +2663,18 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab @b{description}
 @item @code{advance-frame}
 @tab Advance emulation one frame
+@item @code{border-mode-debug}
+@tab Set border mode to Debug
+@item @code{border-mode-full}
+@tab Set border mode to Full
+@item @code{border-mode-none}
+@tab Set border mode to None
+@item @code{border-mode-normal}
+@tab Set border mode to Normal
 @item @code{cart-attach}
-@tab Attach cartridge
+@tab Attach CRT cartridge image
 @item @code{cart-attach-raw}
-@tab Attach cartridge (raw)
+@tab Attach raw cartridge image
 @item @code{cart-attach-raw-1000}
 @tab Attach raw cartridge image at $1000
 @item @code{cart-attach-raw-2000}
@@ -2679,30 +2687,30 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Attach raw cartridge image at $A000
 @item @code{cart-attach-raw-b000}
 @tab Attach raw cartridge image at $B000
+@item @code{cart-attach-raw-behrbonz}
+@tab Attach Behr Bonz cartridge image
+@item @code{cart-attach-raw-c1-full}
+@tab Attach full C1 cartridge image
+@item @code{cart-attach-raw-c1-high}
+@tab Attach high C1 cartridge image
+@item @code{cart-attach-raw-c1-low}
+@tab Attach low C1 cartridge image
+@item @code{cart-attach-raw-c2-full}
+@tab Attach full C2 cartridge image
+@item @code{cart-attach-raw-c2-high}
+@tab Attach high C2 cartridge image
+@item @code{cart-attach-raw-c2-low}
+@tab Attach low C2 cartridge image
+@item @code{cart-attach-raw-final}
+@tab Attach Final Expansion cartridge image
 @item @code{cart-attach-raw-jacint1mb}
 @tab Attach 1MB Cartridge image
 @item @code{cart-attach-raw-magic}
 @tab Attach c264 magic cart image
-@item @code{cart-attach-raw-multi}
-@tab Attach multi cart image
-@item @code{cart-attach-raw-c1-full}
-@tab Attach full C1 cartridge image
-@item @code{cart-attach-raw-c1-low}
-@tab Attach low C1 cartridge image
-@item @code{cart-attach-raw-c1-high}
-@tab Attach high C1 cartridge image
-@item @code{cart-attach-raw-c2-full}
-@tab Attach full C2 cartridge image
-@item @code{cart-attach-raw-c2-low}
-@tab Attach low C2 cartridge image
-@item @code{cart-attach-raw-c2-high}
-@tab Attach high C2 cartridge image
-@item @code{cart-attach-raw-behrbonz}
-@tab Attach Behr Bonz cartridge image
-@item @code{cart-attach-raw-final}
-@tab Attach Final Expansion cartridge image
 @item @code{cart-attach-raw-megacart}
 @tab Attach Mega-Cart image
+@item @code{cart-attach-raw-multi}
+@tab Attach multi cart image
 @item @code{cart-attach-raw-ultimem}
 @tab Attach UltiMem cartridge image
 @item @code{cart-attach-raw-vicfp}
@@ -2710,33 +2718,53 @@ system/window manager. Mappings using @code{<Alt>} or
 @item @code{cart-detach}
 @tab Detach cartridge
 @item @code{cart-detach-1000}
-@tab Detach cartridge from $1000
+@tab Detach cartridge image at $1000
 @item @code{cart-detach-2000}
-@tab Detach cartridge from $2000
+@tab Detach cartridge image at $2000
 @item @code{cart-detach-4000}
-@tab Detach cartridge from $4000
+@tab Detach cartridge image at $4000
 @item @code{cart-detach-6000}
-@tab Detach cartridge from $6000
+@tab Detach cartridge image at $6000
 @item @code{cart-freeze}
 @tab Press cartridge freeze button
 @item @code{debug-autoplayback-frames}
 @tab Set autoplayback frames
+@item @code{debug-blitter-log-toggle}
+@tab Toggle blitter logging
 @item @code{debug-core-dump-toggle}
 @tab Toggle saving core dump
+@item @code{debug-dma-log-toggle}
+@tab Toggle DMA logging
+@item @code{debug-flash-log-toggle}
+@tab Toggle Flash logging
 @item @code{debug-trace-cpu-toggle}
 @tab Toggle CPU trace
 @item @code{debug-trace-drive-10-toggle}
-@tab Toggle Drive 10 CPU trace
+@tab Toggle drive 10 CPU trace
 @item @code{debug-trace-drive-11-toggle}
-@tab Toggle Drive 11 CPU trace
+@tab Toggle drive 11 CPU trace
 @item @code{debug-trace-drive-8-toggle}
-@tab Toggle Drive 8 CPU trace
+@tab Toggle drive 8 CPU trace
 @item @code{debug-trace-drive-9-toggle}
-@tab Toggle Drive 9 CPU trace
+@tab Toggle drive 9 CPU trace
 @item @code{debug-trace-iec-toggle}
 @tab Toggle IEC bus trace
+@item @code{debug-trace-ieee488-toggle}
+@tab Toggle IEEE-488 bus trace
+@item @code{debug-trace-mode}
+@tab Select machine/drive CPU trace mode
 @item @code{diagnostic-pin-toggle}
-@tab Toggle userport diagnostic pin
+@tab Toggle PET userport diagnostic pin
+@item @code{drive-attach-10:0}
+@tab Attach disk to unit 10, drive 0
+@item @code{drive-attach-10:1}
+@tab Attach disk to unit 10, drive 1
+@item @code{drive-attach-11:0}
+@tab Attach disk to unit 11, drive 0
+@item @code{drive-attach-11:1}
+@tab Attach disk to unit 11, drive 1
+@item @code{drive-attach-8:0}
+@tab Attach disk to unit 8, drive 0
 @item @code{drive-attach-8:1}
 @tab Attach disk to unit 8, drive 1
 @item @code{drive-attach-9:0}
@@ -2761,36 +2789,26 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Detach disk from unit 9, drive 0
 @item @code{drive-detach-9:1}
 @tab Detach disk from unit 9, drive 1
-@item @code{drive-detach-all}
-@tab Detach all disks
 @item @code{edit-copy}
 @tab Copy screen content to clipboard
 @item @code{edit-paste}
 @tab Paste clipboard content into machine
-@item @code{fliplist-add-8:0}
-@tab Add current disk to fliplist of unit 8, drive 0
-@item @code{fliplist-add-8:1}
-@tab Add current disk to fliplist of unit 8, drive 1
-@item @code{fliplist-add-9:0}
-@tab Add current disk to fliplist of unit 9, drive 0
-@item @code{fliplist-add-9:1}
-@tab Add current disk to fliplist of unit 9, drive 1
 @item @code{fliplist-add-10:0}
-@tab Add current disk to fliplist of unit 10, drive 0
+@tab Add current disk in unit 10, drive 0 to fliplist
 @item @code{fliplist-add-10:1}
-@tab Add current disk to fliplist of unit 10, drive 1
+@tab Add current disk in unit 10, drive 1 to fliplist
 @item @code{fliplist-add-11:0}
-@tab Add current disk to fliplist of unit 11, drive 0
+@tab Add current disk in unit 11, drive 0 to fliplist
 @item @code{fliplist-add-11:1}
-@tab Add current disk to fliplist of unit 11, drive 1
-@item @code{fliplist-clear-8:0}
-@tab Clear fliplist of unit 8, drive 0
-@item @code{fliplist-clear-8:1}
-@tab Clear fliplist of unit 8, drive 1
-@item @code{fliplist-clear-9:0}
-@tab Clear fliplist of unit 9, drive 0
-@item @code{fliplist-clear-9:1}
-@tab Clear fliplist of unit 9, drive 1
+@tab Add current disk in unit 11, drive 1 to fliplist
+@item @code{fliplist-add-8:0}
+@tab Add current disk in unit 8, drive 0 to fliplist
+@item @code{fliplist-add-8:1}
+@tab Add current disk in unit 8, drive 1 to fliplist
+@item @code{fliplist-add-9:0}
+@tab Add current disk in unit 9, drive 0 to fliplist
+@item @code{fliplist-add-9:1}
+@tab Add current disk in unit 9, drive 1 to fliplist
 @item @code{fliplist-clear-10:0}
 @tab Clear fliplist of unit 10, drive 0
 @item @code{fliplist-clear-10:1}
@@ -2799,14 +2817,14 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Clear fliplist of unit 11, drive 0
 @item @code{fliplist-clear-11:1}
 @tab Clear fliplist of unit 11, drive 1
-@item @code{fliplist-load-8:0}
-@tab Load fliplist for unit 8, drive 0
-@item @code{fliplist-load-8:1}
-@tab Load fliplist for unit 8, drive 1
-@item @code{fliplist-load-9:0}
-@tab Load fliplist for unit 9, drive 0
-@item @code{fliplist-load-9:1}
-@tab Load fliplist for unit 9, drive 1
+@item @code{fliplist-clear-8:0}
+@tab Clear fliplist of unit 8, drive 0
+@item @code{fliplist-clear-8:1}
+@tab Clear fliplist of unit 8, drive 1
+@item @code{fliplist-clear-9:0}
+@tab Clear fliplist of unit 9, drive 0
+@item @code{fliplist-clear-9:1}
+@tab Clear fliplist of unit 9, drive 1
 @item @code{fliplist-load-10:0}
 @tab Load fliplist for unit 10, drive 0
 @item @code{fliplist-load-10:1}
@@ -2815,62 +2833,62 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Load fliplist for unit 11, drive 0
 @item @code{fliplist-load-11:1}
 @tab Load fliplist for unit 11, drive 1
-@item @code{fliplist-next-8:0}
-@tab Attach next disk in fliplist of unit 8, drive 0
-@item @code{fliplist-next-8:1}
-@tab Attach next disk in fliplist of unit 8, drive 1
-@item @code{fliplist-next-9:0}
-@tab Attach next disk in fliplist of unit 9, drive 0
-@item @code{fliplist-next-9:1}
-@tab Attach next disk in fliplist of unit 9, drive 1
+@item @code{fliplist-load-8:0}
+@tab Load fliplist for unit 8, drive 0
+@item @code{fliplist-load-8:1}
+@tab Load fliplist for unit 8, drive 1
+@item @code{fliplist-load-9:0}
+@tab Load fliplist for unit 9, drive 0
+@item @code{fliplist-load-9:1}
+@tab Load fliplist for unit 9, drive 1
 @item @code{fliplist-next-10:0}
-@tab Attach next disk in fliplist of unit 10, drive 0
+@tab Attach next disk in fliplist to unit 10, drive 0
 @item @code{fliplist-next-10:1}
-@tab Attach next disk in fliplist of unit 10, drive 1
+@tab Attach next disk in fliplist to unit 10, drive 1
 @item @code{fliplist-next-11:0}
-@tab Attach next disk in fliplist of unit 11, drive 0
+@tab Attach next disk in fliplist to unit 11, drive 0
 @item @code{fliplist-next-11:1}
-@tab Attach next disk in fliplist of unit 11, drive 1
-@item @code{fliplist-previous-8:0}
-@tab Attach previous disk in fliplist of unit 8, drive 0
-@item @code{fliplist-previous-8:1}
-@tab Attach previous disk in fliplist of unit 8, drive 1
-@item @code{fliplist-previous-9:0}
-@tab Attach previous disk in fliplist of unit 9, drive 0
-@item @code{fliplist-previous-9:1}
-@tab Attach previous disk in fliplist of unit 9, drive 1
+@tab Attach next disk in fliplist to unit 11, drive 1
+@item @code{fliplist-next-8:0}
+@tab Attach next disk in fliplist to unit 8, drive 0
+@item @code{fliplist-next-8:1}
+@tab Attach next disk in fliplist to unit 8, drive 1
+@item @code{fliplist-next-9:0}
+@tab Attach next disk in fliplist to unit 9, drive 0
+@item @code{fliplist-next-9:1}
+@tab Attach next disk in fliplist to unit 9, drive 1
 @item @code{fliplist-previous-10:0}
-@tab Attach previous disk in fliplist of unit 10, drive 0
+@tab Attach previous disk in fliplist to unit 10, drive 0
 @item @code{fliplist-previous-10:1}
-@tab Attach previous disk in fliplist of unit 10, drive 1
+@tab Attach previous disk in fliplist to unit 10, drive 1
 @item @code{fliplist-previous-11:0}
-@tab Attach previous disk in fliplist of unit 11, drive 0
+@tab Attach previous disk in fliplist to unit 11, drive 0
 @item @code{fliplist-previous-11:1}
-@tab Attach previous disk in fliplist of unit 11, drive 1
-@item @code{fliplist-remove-8:0}
-@tab Remove current disk from fliplist of unit 8, drive 0
-@item @code{fliplist-remove-8:1}
-@tab Remove current disk from fliplist of unit 8, drive 1
-@item @code{fliplist-remove-9:0}
-@tab Remove current disk from fliplist of unit 9, drive 0
-@item @code{fliplist-remove-9:1}
-@tab Remove current disk from fliplist of unit 9, drive 1
+@tab Attach previous disk in fliplist to unit 11, drive 1
+@item @code{fliplist-previous-8:0}
+@tab Attach previous disk in fliplist to unit 8, drive 0
+@item @code{fliplist-previous-8:1}
+@tab Attach previous disk in fliplist to unit 8, drive 1
+@item @code{fliplist-previous-9:0}
+@tab Attach previous disk in fliplist to unit 9, drive 0
+@item @code{fliplist-previous-9:1}
+@tab Attach previous disk in fliplist to unit 9, drive 1
 @item @code{fliplist-remove-10:0}
-@tab Remove current disk from fliplist of unit 10, drive 0
+@tab Remove current disk in unit 10, drive 0 from fliplist
 @item @code{fliplist-remove-10:1}
-@tab Remove current disk from fliplist of unit 10, drive 1
+@tab Remove current disk in unit 10, drive 1 from fliplist
 @item @code{fliplist-remove-11:0}
-@tab Remove current disk from fliplist of unit 11, drive 0
+@tab Remove current disk in unit 11, drive 0 from fliplist
 @item @code{fliplist-remove-11:1}
-@tab Remove current disk from fliplist of unit 11, drive 1
-@item @code{fliplist-save-8:0}
-@tab Save fliplist of unit 8, drive 0
-@item @code{fliplist-save-8:1}
-@tab Save fliplist of unit 8, drive 1
-@item @code{fliplist-save-9:0}
-@tab Save fliplist of unit 9, drive 0
-@item @code{fliplist-save-9:1}
-@tab Save fliplist of unit 9, drive 1
+@tab Remove current disk in unit 11, drive 1 from fliplist
+@item @code{fliplist-remove-8:0}
+@tab Remove current disk in unit 8, drive 0 from fliplist
+@item @code{fliplist-remove-8:1}
+@tab Remove current disk in unit 8, drive 1 from fliplist
+@item @code{fliplist-remove-9:0}
+@tab Remove current disk in unit 9, drive 0 from fliplist
+@item @code{fliplist-remove-9:1}
+@tab Remove current disk in unit 9, drive 1 from fliplist
 @item @code{fliplist-save-10:0}
 @tab Save fliplist of unit 10, drive 0
 @item @code{fliplist-save-10:1}
@@ -2879,18 +2897,26 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Save fliplist of unit 11, drive 0
 @item @code{fliplist-save-11:1}
 @tab Save fliplist of unit 11, drive 1
+@item @code{fliplist-save-8:0}
+@tab Save fliplist of unit 8, drive 0
+@item @code{fliplist-save-8:1}
+@tab Save fliplist of unit 8, drive 1
+@item @code{fliplist-save-9:0}
+@tab Save fliplist of unit 9, drive 0
+@item @code{fliplist-save-9:1}
+@tab Save fliplist of unit 9, drive 1
 @item @code{fullscreen-decorations-toggle}
 @tab Show menu/status in fullscreen
 @item @code{fullscreen-toggle}
 @tab Toggle fullscreen
 @item @code{help-about}
-@tab Show about dialog
+@tab Show About dialog
 @item @code{help-command-line}
-@tab Command line options
+@tab Show command line options
 @item @code{help-compile-time}
-@tab Compile time features
+@tab Show compile time features
 @item @code{help-hotkeys}
-@tab Hotkeys
+@tab Show hotkeys
 @item @code{help-manual}
 @tab Browse VICE manual
 @item @code{history-milestone-reset}
@@ -2905,24 +2931,6 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Start recording events
 @item @code{history-record-stop}
 @tab Stop recording events
-@item @code{keyset-joystick-enable}
-@tab Allow keyset joystick
-@item @code{media-record}
-@tab Record media
-@item @code{media-record-audio}
-@tab Record audio
-@item @code{media-record-screenshot}
-@tab Take screenshot
-@item @code{media-record-video}
-@tab Record video
-@item @code{media-stop}
-@tab Stop media recording
-@item @code{monitor-open}
-@tab Open monitor
-@item @code{mouse-grab-toggle}
-@tab Toggle Mouse Grab
-@item @code{pause-toggle}
-@tab Toggle Pause
 @item @code{hotkeys-clear}
 @tab Clear all hotkeys
 @item @code{hotkeys-default}
@@ -2935,140 +2943,186 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Save hotkeys to current file
 @item @code{hotkeys-save-to}
 @tab Save hotkeys to custom file
+@item @code{keyset-joystick-toggle}
+@tab Allow keyset joysticks
+@item @code{machine-power-cycle}
+@tab Power cycle the machine
+@item @code{machine-reset-cpu}
+@tab Reset the machine CPU
+@item @code{media-record}
+@tab Start recording media
+@item @code{media-record-audio}
+@tab Start recording audio
+@item @code{media-record-screenshot}
+@tab Take screenshot
+@item @code{media-record-video}
+@tab Start recording video
+@item @code{media-stop}
+@tab Stop media recording
+@item @code{monitor-open}
+@tab Open monitor
+@item @code{mouse-grab-toggle}
+@tab Toggle Mouse Grab
+@item @code{pause-toggle}
+@tab Toggle Pause
+@item @code{printer-formfeed-4}
+@tab Send form feed to printer #4
+@item @code{printer-formfeed-5}
+@tab Send form feed to printer #5
+@item @code{printer-formfeed-6}
+@tab Send form feed to plotter #6
+@item @code{printer-formfeed-userport}
+@tab Send form feed to userport printer
+@item @code{psid-ffwd}
+@tab Fast forward
 @item @code{psid-load}
 @tab Load PSID file
+@item @code{psid-loop-toggle}
+@tab Toggle looping
 @item @code{psid-override-toggle}
 @tab Override PSID settings
+@item @code{psid-pause}
+@tab Pause playback
+@item @code{psid-play}
+@tab Play
+@item @code{psid-playlist-add}
+@tab Add files to the playlist
+@item @code{psid-playlist-clear}
+@tab Clear the playlist
+@item @code{psid-playlist-first}
+@tab Play first tune in the playlist
+@item @code{psid-playlist-last}
+@tab Play last tune in the playlist
+@item @code{psid-playlist-load}
+@tab Load a playlist
+@item @code{psid-playlist-next}
+@tab Play next tune in the playlist
+@item @code{psid-playlist-previous}
+@tab Play previous tune in the playlist
+@item @code{psid-playlist-save}
+@tab Save the playlist
+@item @code{psid-stop}
+@tab Stop playback
 @item @code{psid-subtune-1}
-@tab Play PSID subtune #1
-@item @code{psid-subtune-2}
-@tab Play PSID subtune #2
-@item @code{psid-subtune-3}
-@tab Play PSID subtune #3
-@item @code{psid-subtune-4}
-@tab Play PSID subtune #4
-@item @code{psid-subtune-5}
-@tab Play PSID subtune #5
-@item @code{psid-subtune-6}
-@tab Play PSID subtune #6
-@item @code{psid-subtune-7}
-@tab Play PSID subtune #7
-@item @code{psid-subtune-8}
-@tab Play PSID subtune #8
-@item @code{psid-subtune-9}
-@tab Play PSID subtune #9
+@tab Play subtune #1
 @item @code{psid-subtune-10}
-@tab Play PSID subtune #10
+@tab Play subtune #10
 @item @code{psid-subtune-11}
-@tab Play PSID subtune #11
+@tab Play subtune #11
 @item @code{psid-subtune-12}
-@tab Play PSID subtune #12
+@tab Play subtune #12
 @item @code{psid-subtune-13}
-@tab Play PSID subtune #13
+@tab Play subtune #13
 @item @code{psid-subtune-14}
-@tab Play PSID subtune #14
+@tab Play subtune #14
 @item @code{psid-subtune-15}
-@tab Play PSID subtune #15
+@tab Play subtune #15
 @item @code{psid-subtune-16}
-@tab Play PSID subtune #16
+@tab Play subtune #16
 @item @code{psid-subtune-17}
-@tab Play PSID subtune #17
+@tab Play subtune #17
 @item @code{psid-subtune-18}
-@tab Play PSID subtune #18
+@tab Play subtune #18
 @item @code{psid-subtune-19}
-@tab Play PSID subtune #19
+@tab Play subtune #19
+@item @code{psid-subtune-2}
+@tab Play subtune #2
 @item @code{psid-subtune-20}
-@tab Play PSID subtune #20
+@tab Play subtune #20
 @item @code{psid-subtune-21}
-@tab Play PSID subtune #21
+@tab Play subtune #21
 @item @code{psid-subtune-22}
-@tab Play PSID subtune #22
+@tab Play subtune #22
 @item @code{psid-subtune-23}
-@tab Play PSID subtune #23
+@tab Play subtune #23
 @item @code{psid-subtune-24}
-@tab Play PSID subtune #24
+@tab Play subtune #24
 @item @code{psid-subtune-25}
-@tab Play PSID subtune #25
+@tab Play subtune #25
 @item @code{psid-subtune-26}
-@tab Play PSID subtune #26
+@tab Play subtune #26
 @item @code{psid-subtune-27}
-@tab Play PSID subtune #27
+@tab Play subtune #27
 @item @code{psid-subtune-28}
-@tab Play PSID subtune #28
+@tab Play subtune #28
 @item @code{psid-subtune-29}
-@tab Play PSID subtune #29
+@tab Play subtune #29
+@item @code{psid-subtune-3}
+@tab Play subtune #3
 @item @code{psid-subtune-30}
-@tab Play PSID subtune #30
+@tab Play subtune #30
+@item @code{psid-subtune-4}
+@tab Play subtune #4
+@item @code{psid-subtune-5}
+@tab Play subtune #5
+@item @code{psid-subtune-6}
+@tab Play subtune #6
+@item @code{psid-subtune-7}
+@tab Play subtune #7
+@item @code{psid-subtune-8}
+@tab Play subtune #8
+@item @code{psid-subtune-9}
+@tab Play subtune #9
 @item @code{psid-subtune-default}
 @tab Play default subtune
 @item @code{psid-subtune-next}
 @tab Play next subtune
 @item @code{psid-subtune-previous}
 @tab Play previous subtune
-@item @code{psid-play}
-@tab Play
-@item @code{psid-pause}
-@tab Pause playback
-@item @code{psid-stop}
-@tab Stop playback
-@item @code{psid-ffwd}
-@tab Fast forward
-@item @code{psid-loop-toggle}
-@tab Toggle looping
-@item @code{psid-playlist-first}
-@tab Play first tune in the playlist
-@item @code{psid-playlist-previous}
-@tab Play previous tune in the playlist
-@item @code{psid-playlist-next}
-@tab Play next tune in the playlist
-@item @code{psid-playlist-last}
-@tab Play last tune in the playlist
-@item @code{psid-playlist-add}
-@tab Show dialog to add files to the playlist
-@item @code{psid-playlist-load}
-@tab Show dialog to load a platlist
-@item @code{psid-playlist-save}
-@tab Show dialog to save the playlist
-@item @code{psid-playlist-clear}
-@tab Clear the playlist
 @item @code{quit}
 @tab Quit emulator
 @item @code{reset-drive-10}
 @tab Reset drive 10
+@item @code{reset-drive-10-config}
+@tab Reset drive 10 in configuration mode
+@item @code{reset-drive-10-install}
+@tab Reset drive 10 in installation mode
 @item @code{reset-drive-11}
 @tab Reset drive 11
+@item @code{reset-drive-11-config}
+@tab Reset drive 11 in configuration mode
+@item @code{reset-drive-11-install}
+@tab Reset drive 11 in installation mode
 @item @code{reset-drive-8}
 @tab Reset drive 8
+@item @code{reset-drive-8-config}
+@tab Reset drive 8 in configuration mode
+@item @code{reset-drive-8-install}
+@tab Reset drive 8 in installation mode
 @item @code{reset-drive-9}
 @tab Reset drive 9
-@item @code{machine-power-cycle}
-@tab Power cycle the machine
-@item @code{machine-reset-cpu}
-@tab Reset machine CPU
+@item @code{reset-drive-9-config}
+@tab Reset drive 9 in configuration mode
+@item @code{reset-drive-9-install}
+@tab Reset drive 9 in installation mode
 @item @code{restore-display}
-@tab Resize application window to fit contents
+@tab Resize window to fit content
 @item @code{scpu-jiffy-switch-toggle}
-@tab Toggle SuperCPU JiffyDOS switch
+@tab Toggle SCPU JiffyDOS switch
 @item @code{scpu-speed-switch-toggle}
-@tab Toggle SuperCPU Speed switch
+@tab Toggle SCPU Speed switch
 @item @code{screenshot-quicksave}
-@tab Save screenshot in current working directory
+@tab Quiksave screenshot
 @item @code{settings-default}
 @tab Restore default settings
 @item @code{settings-dialog}
-@tab Open settings dialog
+@tab Open settings
 @item @code{settings-load}
 @tab Load settings
 @item @code{settings-load-extra}
 @tab Load additional settings
 @item @code{settings-load-from}
-@tab Load settings from alternate file
+@tab Load settings from custom file
 @item @code{settings-save}
 @tab Save settings
 @item @code{settings-save-to}
-@tab Save settings to alternate file
+@tab Save settings to custom file
+@item @code{show-statusbar-secondary-toggle}
+@tab Show secondary status bar
+@item @code{show-statusbar-toggle}
+@tab Show status bar
 @item @code{smart-attach}
-@tab Attach a medium to the emulator inspecting its type
+@tab Smart-attach a medium to the emulator
 @item @code{snapshot-load}
 @tab Load snapshot file
 @item @code{snapshot-quickload}
@@ -3077,6 +3131,26 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Quicksave snapshot
 @item @code{snapshot-save}
 @tab Save snapshot file
+@item @code{speed-cpu-10}
+@tab Set CPU speed to 10%
+@item @code{speed-cpu-100}
+@tab Set CPU speed to 100%
+@item @code{speed-cpu-200}
+@tab Set CPU speed to 200%
+@item @code{speed-cpu-25}
+@tab Set CPU speed to 25%
+@item @code{speed-cpu-50}
+@tab Set CPU speed to 50%
+@item @code{speed-cpu-custom}
+@tab Set custom CPU speed
+@item @code{speed-fps-50}
+@tab Set video clock to 50Hz
+@item @code{speed-fps-60}
+@tab Set video clock to 60Hz
+@item @code{speed-fps-custom}
+@tab Set custom video clock
+@item @code{speed-fps-real}
+@tab Set real video clock
 @item @code{swap-controlport-toggle}
 @tab Swap controlport joysticks
 @item @code{tape-attach-1}
@@ -3105,7 +3179,7 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Press RECORD on datasette 2
 @item @code{tape-reset-1}
 @tab Reset datasette 1
-@item @code{tape-reset-1}
+@item @code{tape-reset-2}
 @tab Reset datasette 2
 @item @code{tape-reset-counter-1}
 @tab Reset datasette 1 counter
@@ -3119,12 +3193,14 @@ system/window manager. Mappings using @code{<Alt>} or
 @tab Press STOP on datasette 1
 @item @code{tape-stop-2}
 @tab Press STOP on datasette 2
+@item @code{virtual-keyboard}
+@tab Activate virtual keyboard
 @item @code{warp-mode-toggle}
 @tab Toggle Warp Mode
 @end multitable
 
 To see which emulators support which actions please look at
-@code{doc/gtk3-hotkeys.md} or @code{src/arch/gtk3/uiactions.h}.
+@code{src/arch/shared/uiactions.c} or use "Help" -> "Hotkeys" in an emulator.
 
 @node Syntax highlighting
 @subsection Syntax highlighting
