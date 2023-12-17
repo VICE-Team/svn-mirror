@@ -5,11 +5,9 @@
 #
 # @author:  Bas Wassink <b.wassink@ziggo.nl>
 
-
 import sys
 import os.path
 import re
-import pprint
 
 
 def usage():
@@ -91,7 +89,6 @@ def main():
 
     with open('src/arch/shared/uiactions.c', 'r') as infile:
         for line in infile:
-            print(line)
             result = define.search(line)
             if result:
                 symbol = result.group(1)
