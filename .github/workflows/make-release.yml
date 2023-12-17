@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev
+          sudo apt-get -y install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev libcurl4-openssl-dev
 
       - name: Build
         id: build
