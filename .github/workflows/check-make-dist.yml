@@ -61,7 +61,7 @@ jobs:
           ./configure --enable-option-checking=fatal \
                       ${{ matrix.source.conf }} \
                       --disable-html-docs \
-                      --disable-pdf-docs
+                      --disable-pdf-docs \
                       --with-resid
 
       - name: Make Dist
