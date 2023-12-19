@@ -122,6 +122,7 @@ static void auto_screenshot_vsync_callback(void *param)
         log_error(LOG_ERR, "Failed to autosave screenshot.");
         ui_error("Error autosaving screenshot.");
     }
+    lib_free(filename);
 }
 
 
