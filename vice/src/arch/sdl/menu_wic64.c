@@ -82,6 +82,8 @@ void wic64_timezones_menu_free(void)
     for (z = 0; dyn_menu_wic64 && (dyn_menu_wic64[z].string != NULL); z++) {
         lib_free(dyn_menu_wic64[z].string);
     }
+    lib_free(dyn_menu_wic64);
+    dyn_menu_wic64 = NULL;
 }
 
 static UI_MENU_CALLBACK(custom_wic64_reset_callback)
