@@ -206,12 +206,10 @@ def perform_phase_1():
 # realized with ordinary git tags targeting specific trunk commits.
 # Strangenesses in the history will also be laid out.
 #
-# TODO: Accept an override list (possibly loaded from a file) that will
-#       resolve strangenesses. One major known issue is that v2.4.2 was
-#       not copied into tags/v2.4 as v2.4.2, but rather as v.2.4.1/trunk.
-#
 # TODO: Use 'partial' commit trees (for when someone copied 'vice' instead
 #       of 'trunk') to cross-check and extend results.
+# TODO: Map each unique tree in a sub branch to the "top level" commit
+#       that created that branch, so that we can extract commit info
 
 def perform_phase_2(index):
     # Construct a map of tree-hash-to-trunk-commit
@@ -298,6 +296,72 @@ def perform_phase_2(index):
 
     subhistories['release_history'] = release_history
     return subhistories
+
+def parse_user(user):
+    (token, rest) = user.split(' ', 1)
+    rest = rest.strip()
+    email_start = rest.index('<') + 1
+    email_end = rest.rindex('>')
+    name = rest[:email_start-1].strip()
+    email = rest[email_start:email_end].strip()
+    time = rest[email_end+1:].strip()
+    return {'name': name, 'email': email, 'time': time}
+
+
+def commit_info(commit):
+    data = subprocess.run(['git', 'cat-file', '-p', commit], check=True, capture_output=True).stdout.decode('latin-1')
+    (attrs, commit_msg) = data.split('\n\n', 1)
+    result = {'commit_msg': commit_msg.strip()}
+    for attr in attrs.split('\n'):
+        tokens = attr.split()
+        if len(tokens) == 0:
+            continue
+        elif tokens[0] == 'tree':
+            result['tree'] = tokens[1]
+        elif tokens[0] == 'parent':
+            if 'parent' not in result:
+                result['parent'] = []
+            result['parent'].append(tokens[1])
+        elif tokens[0] == 'author' or tokens[0] == 'committer':
+            result[tokens[0]] = parse_user(attr)
+        else:
+            print(f"Unknown commit attribute: {attr}")
+    return result
+
+# Phase 3 takes the complete release and branch history and turns these
+# into proper branches and tags in their own right. If a release is part
+# of trunk already, it will just tag that commit directly. Pre-trunk
+# releases will be stacked, in release order, in the "legacy_releases"
+# branch and tagged there.
+def perform_phase_3(index):
+    prev_commit = None
+    our_env = os.environ.copy()
+    # TODO: These need to be real accounts/addresses for legacy releases
+    our_env['GIT_AUTHOR_NAME'] = 'Tag Monster'
+    our_env['GIT_AUTHOR_EMAIL'] = 'tagmonster@sf.net'
+    our_env['GIT_COMMITTER_NAME'] = 'Tag Monster'
+    our_env['GIT_COMMITTER_EMAIL'] = 'tagmonster@sf.net'
+
+    for elt in index:
+        our_version = elt['version']
+        if elt["trunk_commit"] is not None:
+            our_commit = elt['trunk_commit']
+        else:
+            commit_msg = f"Legacy release {elt['version']}"
+            cmd = ['git', 'commit-tree', elt['tree_hash']]
+            if prev_commit is not None:
+                cmd += ['-p', prev_commit]
+            # print(" ".join(cmd))
+            result = subprocess.run(cmd, input=commit_msg, capture_output=True, encoding="UTF-8", env=our_env, check=True)
+            our_commit = result.stdout.strip()
+            prev_commit = our_commit
+        # print(f"git tag release/{ourversion} {our_commit}")
+        subprocess.run(['git', 'tag', f"release/{our_version}", our_commit], check=True)
+    subprocess.run(['git', 'branch', 'legacy_releases', prev_commit], check=True)
+    # TODO: Create the branch commits, and recreate their commit data and
+    #       timestamps as described in the original
+    # TODO: Handle branches and tages where the copy point was inside the
+    #       vice/ directory instead of just above it
 
 if __name__ == '__main__':
     index = perform_phase_1()
