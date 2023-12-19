@@ -1314,6 +1314,7 @@ static void auto_screenshot_vsync_callback(void *param)
     if (screenshot_save("PNG", filename, canvas) < 0) {
         log_error(LOG_ERR, "Failed to autosave screenshot.");
     }
+    lib_free(filename);
 }
 
 
