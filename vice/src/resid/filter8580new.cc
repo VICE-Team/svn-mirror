@@ -508,10 +508,11 @@ Filter::Filter()
 
         // kVg_Vx = k*Vg - Vx
         // I.e. if k != 1.0, Vg must be scaled accordingly.
-        for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
+        for (int i = 0; i < (1 << 16); i++) {
+          int kVg_Vx = i - (1 << 15);
           double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
           // Scaled by m*2^15
-          vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
+          vcr_n_Ids_term[i] = (unsigned short)(n_Is*log_term*log_term);
         }
       } else {
         // 8580 only
