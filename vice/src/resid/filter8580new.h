@@ -1799,10 +1799,8 @@ int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc, model_filter_
   int kVg = vcr_kVg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 16];
 
   // VCR voltages for EKV model table lookup.
-  int Vgs = kVg - vx;
-  if (Vgs < 0) Vgs = 0;
-  int Vgd = kVg - vi;
-  if (Vgd < 0) Vgd = 0;
+  int Vgs = kVg - vx + (1 << 15);
+  int Vgd = kVg - vi + (1 << 15);
 
   // VCR current, scaled by m*2^15*2^15 = m*2^30
   int n_I_vcr = int(unsigned(vcr_n_Ids_term[Vgs] - vcr_n_Ids_term[Vgd]) << 15);
