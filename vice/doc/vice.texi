@@ -1426,6 +1426,9 @@ are emulating.
 @item
 the @dfn{romset files}, text files describing the different ROMs to load.
 
+@item
+the @dfn{hotkey files}, text files with keyboard shortcuts.
+
 @end itemize
 
 The place where they will be searched for depends on the value of the
@@ -1434,7 +1437,7 @@ path list, like the @sc{unix} @code{PATH} environment variable.  The
 default value is
 
 @example
-$HOME/.local/share/vice/EMU:PREFIX/lib/vice/EMU:BOOTPATH/EMU
+$HOME/.local/share/vice/EMU:PREFIX/share/vice/EMU:BOOTPATH/EMU
 @end example
 
 Where @code{PREFIX} is the installation prefix (usually
@@ -1453,7 +1456,7 @@ For example, if you have the C64 emulator installed in
 then the value will be
 
 @example
-$HOME/.local/share/vice/C64:/usr/local/lib/vice/C64:/usr/local/bin/C64
+$HOME/.local/share/vice/C64:/usr/local/share/vice/C64:/usr/local/bin/C64
 @end example
 
 And system files will be searched for under the following directories,
@@ -1463,7 +1466,7 @@ in the specified order:
 @item
 @code{$HOME/.local/share/vice/C64}
 @item
-@code{/usr/local/lib/VICE/C64}
+@code{/usr/local/share/vice/C64}
 @item
 @code{/usr/local/bin/C64}
 @end enumerate
