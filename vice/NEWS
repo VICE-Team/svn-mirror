@@ -38,6 +38,7 @@ in the UI).
 - reSID: The 6581 saw+pulse waveform was wrong
 - reSID: tweak shift register reset time for 6581
 - reSID: 8580 Filter ringing fix
+- reSID: 6581 filters: allow negative values for kVg-Vx
 - made raw printer driver pass through all bytes 1:1
 - Tape: changed default zero-gap delay from the rather weird (and way too large)
   value 20000 to the more sane 2500 which MTAP uses
