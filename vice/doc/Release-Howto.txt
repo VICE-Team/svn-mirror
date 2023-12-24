@@ -43,7 +43,7 @@ $ ./src/buildtools/genvicedate_h.sh
   propagate to various files, and then commit the changed files.
 
 $ make all
-$ svn commit -m "preparing release"
+$ svn commit -m "preparing release - no more committing until after the release is done!"
 
 - ANNOUNCE A CODE FREEZE ;)
 
