@@ -202,12 +202,12 @@
 
 32 7 4 8               /*        Space -> Space        */
 
-/* alternative set (c64 mode) */
+# alternative set (c64 mode)
 273 0 7 0x101          /*           Up -> CRSR UP      */
 274 0 7 0x108          /*         Down -> CRSR DOWN    */
 275 0 2 0x108          /*        Right -> CRSR RIGHT   */
 276 0 2 0x101          /*         Left -> CRSR LEFT    */
-/* normal set (c128 mode) */
+# normal set (c128 mode)
 273 10 3 0x008         /*           Up -> A.UP         */
 274 10 4 0x008         /*         Down -> A.DOWN       */
 275 10 6 0x008         /*        Right -> A.RIGHT      */
@@ -237,7 +237,7 @@
 266 10 2 8              /*     Numpad . -> Numpad .     */
 271 9 4 8               /* Numpad Enter -> Numpad Enter */
 
-/* top row */
+# top row
 282 0 4 8              /*           F1 -> F1           */
 283 0 5 8              /*           F2 -> F3           */
 284 0 6 8              /*           F3 -> F5           */

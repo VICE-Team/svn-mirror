@@ -286,12 +286,12 @@
 121 3 1 8              /*            Y -> Y            */
 122 1 4 8              /*            Z -> Z            */
 
-/* alternative set (c64 mode) */
+# alternative set (c64 mode)
 273 0 7 0x101          /*           Up -> CRSR UP      */
 274 0 7 0x108          /*         Down -> CRSR DOWN    */
 275 0 2 0x108          /*        Right -> CRSR RIGHT   */
 276 0 2 0x101          /*         Left -> CRSR LEFT    */
-/* normal set (c128 mode) */
+# normal set (c128 mode)
 273 10 3 0x008         /*           Up -> A.UP         */
 274 10 4 0x008         /*         Down -> A.DOWN       */
 275 10 6 0x008         /*        Right -> A.RIGHT      */
@@ -343,4 +343,3 @@
 267 -4 0               /*     NumPad / -> 40/80        */
 # no scroll
 268 10 7 8             /*     NumPad * -> NO SCROLL    */
-
