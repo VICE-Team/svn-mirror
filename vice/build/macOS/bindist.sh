@@ -91,18 +91,16 @@ BUILD_FLAGS="\
     --with-gif \
     --with-vorbis \
     --with-flac \
+    --with-lame
     --enable-ethernet \
     --enable-new8580filter \
-    --enable-lame \
     --enable-midi \
-    --enable-ffmpeg \
     "
 
 if [ "$(uname -m)" == "x86_64" ]; then
-    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=10.10"
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=12.0"
 else
-    # First Apple silicon shipped with macOS 11
-    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=11.0"
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=12.0"
 fi
 
 THREADS=$(sysctl -n hw.ncpu)
