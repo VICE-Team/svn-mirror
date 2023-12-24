@@ -180,14 +180,14 @@ Prior           7 0 8         /*      Page up -> Run/Stop          */
 F12             7 0 8         /*          F12 -> Run/Stop          */
 Next            6 0 8
 
-/* top row, no shift */
+# top row, no shift
 grave           1 5 16    /* ` -> */
 dead_grave      1 5 16    /* US-Int. dead key support */
 minus           1 2 0
 equal           2 1 0
 BackSpace       3 3 8
 
-/* top row, with shift */
+# top row, with shift
 asciitilde          2 2 16    /* ~ -> arrow left */
 dead_tilde          2 2 16    /* US-Int. dead key support */
 dead_perispomeni    2 2 16    /* US-Int. dead key support */
@@ -205,26 +205,26 @@ parenright      1 1 1
 underscore      2 2 16
 plus            2 1 1
 
-/* 2nd row, no shift */
+# 2nd row, no shift
 bracketleft     1 4 0
 bracketright    2 3 0
 backslash       2 2 0   /* \ -> pound */
 
-/* 2nd row, with shift */
+# 2nd row, with shift
 bar             2 2 1   /* | -> arrow left */
 
-/* 3rd row, no shift */
+# 3rd row, no shift
 semicolon       0 4 0
 apostrophe      1 5 0
 dead_acute      1 5 0     /* US-Int. dead key support */
 Return          2 4 0
 
-/* 3rd row, with shift */
+# 3rd row, with shift
 colon           0 4 1
 quotedbl        1 5 1
 dead_diaeresis  1 5 1     /* US-Int. dead key support */
 
-/* 4th row, no shift */
+# 4th row, no shift
 comma          15 4 0
 period         15 5 0
 question        0 5 0x21
@@ -232,7 +232,7 @@ slash           0 5 0x20
 slash           4 1 0x0400     /* ctrl+/ -> KP ? + shift */
 question        4 1 0x0401     /* ctrl+/ -> KP ? + shift */
 
-/* 4th row, with shift */
+# 4th row, with shift
 less           15 4 1
 greater        15 5 1
 #question        4 1 0
@@ -317,7 +317,7 @@ F8             15 0 8
 F9              0 0 8
 F10             1 0 8
 
-/* numeric keypad */
+# numeric keypad
 
 KP_0            4 5 8
 KP_Insert       4 5 8         /*         KP 0 -> KP 0 + Shift */
@@ -340,7 +340,7 @@ KP_Up           5 2 8         /*         KP 8 -> KP 8 + Shift */
 KP_9            6 2 8
 KP_Page_Up      6 2 8         /*         KP 9 -> KP 9 + Shift */
 
-/* Seperator and Decimal are really the same thing for all practical purposes */
+# Seperator and Decimal are really the same thing for all practical purposes
 KP_Separator    5 5 8
 KP_Decimal      5 5 8
 KP_Delete       5 5 8         /*         KP , -> KP , + Shift     */
