@@ -87,14 +87,20 @@ function notarise {
 BUILD_FLAGS="\
     --enable-option-checking \
     --disable-arch \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --with-lame
+    --disable-html-docs \
+    --enable-cpuhistory \
     --enable-ethernet \
-    --enable-new8580filter \
     --enable-midi \
+    --enable-parsid \
+    --enable-pdf-docs \
+    --with-fastsid \
+    --with-flac \
+    --with-gif \
+    --with-lame \
+    --with-libcurl \
+    --with-png \
+    --with-resid \
+    --with-vorbis \
     "
 
 if [ "$(uname -m)" == "x86_64" ]; then
