@@ -2547,7 +2547,7 @@ MacOS. To register a hotkey for all Unix except MacOs use @code{UNIX && !MACOS}.
 @example
 !if MACOS
     # map hotkey if the host OS is MacOS
-    monitor-open    <Command>h
+    monitor-open    <Command>Escape
 !else
     # map hotkey if not MacOS
     monitor-open    <Alt>h
