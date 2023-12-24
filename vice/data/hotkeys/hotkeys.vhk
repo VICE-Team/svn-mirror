@@ -27,7 +27,7 @@
     quit                    <Alt>q
 !else
     smart-attach            <Command>a
-    monitor-open            <Command>h
+    monitor-open            <Command>Escape
     machine-reset-cpu       <Command>F9
     machine-power-cycle     <Command>F12
     quit                    <Command>q
