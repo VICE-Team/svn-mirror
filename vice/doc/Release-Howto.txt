@@ -50,7 +50,7 @@ $ svn commit -m "preparing release - no more committing until after the release 
 - make sure the version in configure.ac is updated:
 
     m4_define(vice_version_major, 3)
-    m4_define(vice_version_minor, 6)
+    m4_define(vice_version_minor, 8)
     m4_define(vice_version_build, 0)
 
   These three defines are all that is needed for a version number, the absence
@@ -60,6 +60,7 @@ $ svn commit -m "preparing release - no more committing until after the release 
 
   The BUILD number is bumped by one on each point release, except when we do
   our "traditional" Christmas release, then we bump MINOR and reset BUILD to 0.
+
   For massive changes we can decide to bump MAJOR and set MINOR and BUILD to 0,
   for example when merging the 'vice-4' branch somewhere in the future.
 
@@ -78,7 +79,7 @@ while at it, also check the following:
 
 Make sure everything is fine, and commit the release
 
-$ svn commit -m "this is the 3.6.0 release - merry xmas"
+$ svn commit -m "this is the 3.8.0 release - merry xmas"
 
 
 ****************************************
@@ -104,7 +105,7 @@ $ svn commit -m "this is the 3.6.0 release - merry xmas"
 
   The file in .github/workflows/make-release.yml implements a release process that
   will create the dist tarball and then windows builds from that tarball. To trigger it,
-  push a git tag like v3.6.0 to our github mirror. This will create a release on Github
+  push a git tag like v3.8.0 to our github mirror. This will create a release on Github
   which can be seen at https://github.com/VICE-Team/svn-mirror/releases. The build
   process can be observed at https://github.com/VICE-Team/svn-mirror/actions.
 
@@ -117,7 +118,7 @@ $ svn commit -m "this is the 3.6.0 release - merry xmas"
   Github. Make sure that the commit has synchronised over to Github before you trigger the
   build process.
 
-  $ RELEASE=3.6.0
+  $ RELEASE=3.8.0
 
   $ git clone --branch clean --depth 1 git@github.com:VICE-Team/svn-mirror.git
      or if that doesnt work because github doesnt have your ssh key:
@@ -128,7 +129,7 @@ $ svn commit -m "this is the 3.6.0 release - merry xmas"
   $ git tag $RELEASE
   $ git push origin $RELEASE
 
-  Pushing the tag triggers the release build, and creates a 'release' on Github called 3.6.0.
+  Pushing the tag triggers the release build, and creates a 'release' on Github called 3.8.0.
   Annoyingly, this release will automatically include a zip and tgz of the source for that
   commit, without any way to prevent it.
 
