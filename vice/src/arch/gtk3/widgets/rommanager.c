@@ -29,6 +29,69 @@
  *  02111-1307  USA.
  */
 
+/* Resources manipulated in this file:
+ *
+ * $VICERES Basic64Name             x128
+ * $VICERES BasicHiName             x128
+ * $VICERES BasicLoName             x128
+ * $VICERES BasicName               -vsid
+ * $VICERES ChargenCHName           x128
+ * $VICERES ChargenDEName           x128
+ * $VICERES ChargenFIName           x128
+ * $VICERES ChargenFIName           x128
+ * $VICERES ChargenFRName           x128
+ * $VICERES ChargenITName           x128
+ * $VICERES ChargenIntName          x128
+ * $VICERES ChargenNOName           x128
+ * $VICERES ChargenName             -xplus4 -vsid
+ * $VICERES ChargenSEName           x128
+ * $VICERES DosName1540             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName1541             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName1541ii           x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName1551             xplus4
+ * $VICERES DosName1571             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName1571cr           x128
+ * $VICERES DosName1581             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName2031             -vsid
+ * $VICERES DosName2040             -vsid
+ * $VICERES DosName3040             -vsid
+ * $VICERES DosName4040             -vsid
+ * $VICERES DosName9000             -vsid
+ * $VICERES DosNameCMDHD            x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES Dosname1001             -vsid
+ * $VICERES Dosname2000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES Dosname4000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DriveProFDOS1571Name    x64 x64sc x64dtv xscpu64 x128
+ * $VICERES DriveStarDosName        x64 x64sc x64dtv xscpu64 x128
+ * $VICERES DriveSuperCardName      x64 x64sc x64dtv xscpu64 x128
+ * $VICERES EditorName              xpet
+ * $VICERES FunctionHighName        xplus4
+ * $VICERES FunctionLowName         xplus4
+ * $VICERES H6809RomAName           xpet
+ * $VICERES H6809RomBName           xpet
+ * $VICERES H6809RomCName           xpet
+ * $VICERES H6809RomDName           xpet
+ * $VICERES H6809RomEName           xpet
+ * $VICERES H6809RomFName           xpet
+ * $VICERES Kernal64Name            x128
+ * $VICERES KernalCHName            x128
+ * $VICERES KernalDEName            x128
+ * $VICERES KernalFIName            x128
+ * $VICERES KernalFRName            x128
+ * $VICERES KernalITName            x128
+ * $VICERES KernalIntName           x128
+ * $VICERES KernalNOName            x128
+ * $VICERES KernalName              -vsid
+ * $VICERES KernalSEName            x128
+ * $VICERES RomModule9Name          xpet
+ * $VICERES RomModuleAName          xpet
+ * $VICERES RomModuleBName          xpet
+ * $VICERES c1hiName                xplus4
+ * $VICERES c1loName                xplus4
+ * $VICERES c2hiName                xplus4
+ * $VICERES c2loName                xplus4
+ */
+
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -111,9 +174,9 @@ static const machine_rom_t machine_rom_list[] = {
 
     /* Chargen, others */
 
-    /* C64, C64DTV, VIC20, Plus/4, PET, CBM II */
+    /* C64, C64DTV, VIC20, PET, CBM II */
     { "Chargen",                "ChargenName" },
-    { "International chargen",  "ChargenINTName" },     /* C128 */
+    { "International chargen",  "ChargenIntName" },     /* C128 */
     { "Finish chargen",         "ChargenFIName" },      /* C128 */
     { "French chargen",         "ChargenFRName" },      /* C128 */
     { "German chargen",         "ChargenDEName" },      /* C128 */
@@ -153,7 +216,7 @@ static const drive_rom_t drive_rom_list[] = {
     { DRIVE_TYPE_1581,      DRIVE_NAME_1581,    "DosName1581" },
     { DRIVE_TYPE_2000,      DRIVE_NAME_2000,    "DosName2000" },
     { DRIVE_TYPE_4000,      DRIVE_NAME_4000,    "DosName4000" },
-    { DRIVE_TYPE_2031,      DRIVE_NAME_2031,    "DosName2023" },
+    { DRIVE_TYPE_2031,      DRIVE_NAME_2031,    "DosName2031" },
     { DRIVE_TYPE_2040,      DRIVE_NAME_2040,    "DosName2040" },
     { DRIVE_TYPE_3040,      DRIVE_NAME_3040,    "DosName3040" },
     { DRIVE_TYPE_4040,      DRIVE_NAME_4040,    "DosName4040" },
