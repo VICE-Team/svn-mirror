@@ -1186,6 +1186,10 @@ if test x"$check_gtk3" = "xyes"; then
       AC_MSG_ERROR([GTK3 UI requested, but GTK3 support packages are missing])
     fi
   fi
+  dnl error out if gtk3 support is requested but zlib is disabled
+  if test x"$enable_gtk3ui" = "xyes" -a x"$with_zlib" = "xno"; then
+    AC_MSG_ERROR([GTK3 UI requested, but zlib is explicitly disabled])
+  fi
 
   dnl Used to compile the vice.gresource.xml file
   AC_CHECK_PROG(GLIB_COMPILE_RESOURCES, [glib-compile-resources], [glib-compile-resources], [no])
