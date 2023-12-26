@@ -52,6 +52,7 @@
 
 #include "vsidmixerwidget.h"
 
+#ifdef HAVE_RESID
 
 /** \brief  CSS for the scales
  *
@@ -84,8 +85,6 @@
    "}"
 
 
-#ifdef HAVE_RESID
-
 /** \brief  Number of GtkScale widgets used for the mixer */
 #define NUM_SCALES  3
 
@@ -103,11 +102,8 @@ static GtkWidget *main_grid;
  */
 static GtkWidget *scale_widgets[NUM_SCALES];
 
-#endif
-
 static int old_sid_model = -1;
 static int new_sid_model = -1;
-
 
 /** \brief  Handler for the 'destroy' event of the mixer widget
  *
@@ -137,12 +133,8 @@ static void on_destroy(GtkWidget *self, gpointer data)
  */
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
-#ifdef HAVE_RESID
     int model;
     int i;
-#endif
-
-#ifdef HAVE_RESID
 
     if (resources_get_int("SidModel", &model) < 0) {
         /* assume 6581 */
@@ -153,17 +145,13 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         vice_gtk3_resource_scale_custom_reset(scale_widgets[i]);
     }
 
-#ifndef HAVE_NEW_8580_FILTER
     if (model > 0) {
         for (i = 0; i < NUM_SCALES; i++) {
             gtk_widget_set_sensitive(scale_widgets[i], FALSE);
         }
     }
-#endif
 
-#endif
 }
-
 
 /** \brief  Create a right-align label using Pango markup
  *
@@ -181,8 +169,6 @@ static GtkWidget *create_label(const char *markup)
     return label;
 }
 
-
-#ifdef HAVE_RESID
 
 /** \brief  Information on a scale for the ReSID filter settings
  */
@@ -300,9 +286,6 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
     return row + i;
 }
 
-#endif  /* ifdef HAVE_RESID */
-
-
 /** \brief  Create VSID mixer widget
  *
  * \return  GtkGrid
@@ -313,12 +296,11 @@ GtkWidget *vsid_mixer_widget_create(void)
     GtkWidget *button;
     int        engine;
     int        row = 0;
-#ifdef HAVE_RESID
     GtkWidget *label;
 
     label_css_provider = vice_gtk3_css_provider_new(LABEL_CSS);
     scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
-#endif
+
     resources_get_int("SidEngine", &engine);
     resources_get_int("SidModel", &new_sid_model);
     old_sid_model = new_sid_model;
@@ -327,13 +309,11 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_widget_set_hexpand(grid, TRUE);
 
-#ifdef HAVE_RESID
     label = create_label("<b>ReSID settings</b>");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     row = add_resid_scales(grid, row, new_sid_model);
-#endif
 
     /* FIXME: does this make sense for non-ReSID? */
     button = gtk_button_new_with_label("Reset to defaults");
@@ -343,6 +323,7 @@ GtkWidget *vsid_mixer_widget_create(void)
                      "clicked",
                      G_CALLBACK(on_reset_clicked),
                      NULL);
+
     g_signal_connect_unlocked(G_OBJECT(grid),
                               "destroy",
                               G_CALLBACK(on_destroy),
@@ -350,8 +331,21 @@ GtkWidget *vsid_mixer_widget_create(void)
 
     gtk_widget_show_all(grid);
     main_grid = grid;
+
     return grid;
 }
+#else
+GtkWidget *vsid_mixer_widget_create(void)
+{
+    GtkWidget *grid;
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_widget_set_hexpand(grid, TRUE);
+
+    return grid;
+}
+
+#endif  /* ifdef HAVE_RESID */
 
 
 /** \brief  Update mixer widget
