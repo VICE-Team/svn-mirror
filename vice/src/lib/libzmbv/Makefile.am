@@ -14,11 +14,11 @@ noinst_LIBRARIES = libzmbv.a
 
 libzmbv_a_SOURCES = \
 			   zmbv.c \
-			   miniz.c \
 			   zmbv_avi.c
 
 EXTRA_DIST = \
 	     zmbv_avi.h \
 	     miniz.h \
+	     miniz.c \
 	     zmbv.h
 
