@@ -2144,6 +2144,13 @@ if test x"$with_zlib" != "xno" ; then
   fi
 fi
 
+if test x"$HAVE_ZLIB_SUPPORT" = "xyes" ; then
+  AM_CONDITIONAL(HAVE_ZLIB, true)
+else
+  AC_DEFINE(HAVE_ZLIB,, [Can we use the ZLIB compression library?])
+  AM_CONDITIONAL(HAVE_ZLIB, false)
+fi
+
 AC_SUBST(ZLIB_LIBS)
 
 

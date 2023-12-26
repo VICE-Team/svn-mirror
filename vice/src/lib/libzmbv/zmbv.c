@@ -318,7 +318,6 @@ static inline void zmbv_unxor_frame_##_pxsize (zmbv_codec_t zc) { \
 }
 
 /* generate functions */
-#if 0
 ZMBV_UNXOR_BLOCK_TPL(uint8_t,  8)
 ZMBV_UNXOR_BLOCK_TPL(uint16_t,16)
 ZMBV_UNXOR_BLOCK_TPL(uint32_t,32)
@@ -330,7 +329,7 @@ ZMBV_COPY_BLOCK_TPL(uint32_t,32)
 ZMBV_UNXOR_FRAME_TPL(uint8_t,  8)
 ZMBV_UNXOR_FRAME_TPL(uint16_t,16)
 ZMBV_UNXOR_FRAME_TPL(uint32_t,32)
-#endif
+
 
 /******************************************************************************/
 static void zmbv_create_vector_table (zmbv_codec_t zc) {
@@ -629,7 +628,7 @@ int zmvb_encode_finish_frame (zmbv_codec_t zc) {
       zc->zstream.avail_out = zc->compress.outbuf_size-zc->compress.write_done;
       zc->zstream.total_out = 0;
       if (mz_deflate(&zc->zstream, MZ_SYNC_FLUSH) != MZ_OK) return -1; /* the thing that should not be */
-      return zc->compress.write_done+(int)(zc->zstream.total_out);
+      return zc->compress.write_done+zc->zstream.total_out;
     } else {
       memcpy(zc->compress.outbuf+zc->compress.write_done, zc->work, zc->workUsed);
       return zc->workUsed+zc->compress.write_done;
