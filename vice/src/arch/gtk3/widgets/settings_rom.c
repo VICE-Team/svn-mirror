@@ -1,4 +1,4 @@
-/** \file   rommanager.c
+/** \file   settings_rom.c
  * \brief   Settings dialog to manage ROMs
  *
  * Presents a GtkListBox with expandable rows for machine, drive and drive
@@ -106,7 +106,7 @@
 #include "uiapi.h"
 #include "vice_gtk3.h"
 
-#include "rommanager.h"
+#include "settings_rom.h"
 
 
 /** \brief  Array length helper
@@ -745,7 +745,7 @@ static void add_rom_chooser(GtkWidget  *list,
 
     /* set up reset-to-default button */
     reset = gtk_button_new_from_icon_name("view-refresh-symbolic",
-                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
+                                          GTK_ICON_SIZE_SMALL_TOOLBAR);
     gtk_widget_set_tooltip_text(reset, "Reset to default value");
     g_signal_connect(G_OBJECT(reset),
                      "clicked",
@@ -754,7 +754,7 @@ static void add_rom_chooser(GtkWidget  *list,
 
     /* set up unload button */
     eject = gtk_button_new_from_icon_name("media-eject-symbolic",
-                                          GTK_ICON_SIZE_LARGE_TOOLBAR);
+                                          GTK_ICON_SIZE_SMALL_TOOLBAR);
     gtk_widget_set_tooltip_text(eject, "Unload ROM");
     g_signal_connect(G_OBJECT(eject),
                      "clicked",
@@ -774,16 +774,15 @@ static void add_rom_chooser(GtkWidget  *list,
 /* }}} */
 
 
-/** \brief  Create ROM manager widget
+/** \brief  Create ROM settings widget
  *
  * \param[in]   parent  unused
  *
  * \return  GtkGrid
  */
-GtkWidget *rom_manager_new(GtkWidget *parent)
+GtkWidget *settings_rom_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *scrolled;
     GtkWidget *expander;
     GtkWidget *button_box;
@@ -794,10 +793,6 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    label = label_helper("<b>ROM Manager (experimental!)</b>", GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, row, 0, 1, 1);
-    row++;
 
     root_list = gtk_list_box_new();
     scrolled  = gtk_scrolled_window_new(NULL, NULL);
@@ -915,11 +910,11 @@ GtkWidget *rom_manager_new(GtkWidget *parent)
 }
 
 
-/** \brief  Free resources used by the ROM manager
+/** \brief  Free resources used by the ROM settings
  *
  * Frees the last used directory and filename of the file dialogs.
  */
-void rom_manager_shutdown(void)
+void settings_rom_widget_shutdown(void)
 {
     g_free(last_directory);
     g_free(last_filename);
