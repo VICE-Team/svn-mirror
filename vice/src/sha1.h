@@ -1,4 +1,3 @@
-
 #ifndef SHA1_H
 #define SHA1_H
 
@@ -10,7 +9,7 @@
     slightly edited to match VICE codestyle, SHA1String function added
 */
 
-#include "stdint.h"
+#include <stdint.h>
 
 #if defined(__cplusplus)
 extern "C" {
