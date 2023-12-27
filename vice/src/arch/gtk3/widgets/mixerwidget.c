@@ -223,7 +223,10 @@ void mixer_widget_sid_type_changed(void)
  */
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
-    int value;
+    int value = 0;
+#ifdef HAVE_RESID
+    int model = 0;
+#endif
 
     mixer_widget_sid_type_changed();
     resources_get_default_value("SoundVolume", &value);
@@ -233,19 +236,17 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         vice_gtk3_resource_exp_range_set_value(GTK_RANGE(lowpass), (gdouble)value);
     }
 #ifdef HAVE_RESID
-    /* FIXME: Maybe only reset the current SID model? */
-    resources_get_default_value("SidResid8580Passband", &value);
-    gtk_range_set_value(GTK_RANGE(passband8580), (gdouble)value);
-    resources_get_default_value("SidResid8580Gain", &value);
-    gtk_range_set_value(GTK_RANGE(gain8580), (gdouble)value);
-    resources_get_default_value("SidResid8580FilterBias", &value);
-    gtk_range_set_value(GTK_RANGE(bias8580), (gdouble)value);
-    resources_get_default_value("SidResidPassband", &value);
-    gtk_range_set_value(GTK_RANGE(passband6581), (gdouble)value);
-    resources_get_default_value("SidResidGain", &value);
-    gtk_range_set_value(GTK_RANGE(gain6581), (gdouble)value);
-    resources_get_default_value("SidResidFilterBias", &value);
-    gtk_range_set_value(GTK_RANGE(bias6581), (gdouble)value);
+
+    resources_get_int("SidModel", &model);
+    if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
+        vice_gtk3_resource_scale_custom_factory(passband8580);
+        vice_gtk3_resource_scale_custom_factory(gain8580);
+        vice_gtk3_resource_scale_custom_factory(bias8580);
+    } else if (model == SID_MODEL_6581) {
+        vice_gtk3_resource_scale_custom_factory(passband6581);
+        vice_gtk3_resource_scale_custom_factory(gain6581);
+        vice_gtk3_resource_scale_custom_factory(bias6581);
+    }
 #endif
 }
 
