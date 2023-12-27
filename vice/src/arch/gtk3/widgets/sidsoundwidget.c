@@ -350,7 +350,7 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
  */
 static void on_reset_clicked(GtkWidget *button, gpointer slider)
 {
-    vice_gtk3_resource_scale_int_reset(GTK_WIDGET(slider));
+    vice_gtk3_resource_scale_custom_factory(GTK_WIDGET(slider));
 }
 
 /** \brief  Create "Reset" (to factory) button for a slider
