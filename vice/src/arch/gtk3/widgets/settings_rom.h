@@ -1,6 +1,5 @@
-/** \file   romsetmanagerwidget.h
- * \brief   GTK3 ROM set manager widget - header
- *
+/** \file   settings_rom.h
+ * \brief   Settings dialog to manage ROMs - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -24,13 +23,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_ROMSETMANAGERWIDGET_H
-#define VICE_ROMSETMANAGERWIDGET_H
+#ifndef VICE_SETTINGS_ROM_H
+#define VICE_SETTINGS_ROM_H
 
-#include "vice_gtk3.h"
+#include <gtk/gtk.h>
 
-GtkWidget *romset_manager_widget_create(
-        const vice_gtk3_combo_entry_str_t *predefs);
-
+GtkWidget *settings_rom_widget_create(GtkWidget *parent);
+void       settings_rom_widget_shutdown(void);
 
 #endif
