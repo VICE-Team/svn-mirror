@@ -33,7 +33,7 @@ import os
 import subprocess
 import sys
 
-verbose = True
+verbose = False
 
 # ---------- UTILITY FUNCTIONS ----------
 
@@ -408,12 +408,6 @@ def perform_phase_3(index):
             print(f"{branch} was already merged into trunk", file=sys.stderr)
             continue
         prev_commit = branchdata['branched_from']
-        # TODO: Special-case weird branches:
-        #       - marco/v2.1-turkish-danish-intl's first commit follows
-        #         marco/v2.1-turkish-intl's last commit
-        #       - amatthies/current starts as a remote copy from v1.22.22
-        #       We'll need to delay processing these so that we have the
-        #       actual commit to hand to link them up
         for tree, commit in zip(reversed(branchdata['history']), reversed(branchdata['commit_history'])):
             info = commit_info(commit)
             # These defaults will control if values are missing
@@ -439,7 +433,10 @@ def perform_phase_3(index):
             if prev_commit is not None:
                 cmd += ['-p', prev_commit]
             else:
-                print(f"Warning: Branch {branch} has no detectable start point", file=sys.stderr)
+                # Some of these we'll handle later
+                if branch not in ['svn/marco/v2.1-turkish-danish-intl/',
+                        'svn/amatthies/current/']:
+                    print(f"Warning: Branch {branch} has no detectable start point", file=sys.stderr)
             if verbose:
                 print(" ".join(cmd))
             result = subprocess.run(cmd, input=commit_msg, capture_output=True, encoding="UTF-8", env=our_env, check=True)
@@ -448,6 +445,15 @@ def perform_phase_3(index):
         if verbose:
             print(f"git branch {branch[4:-1]} {prev_commit}")
         subprocess.run(['git', 'branch', branch[4:-1], prev_commit], check=True)
+
+    # Handle two weird branches where the history link was cut in SVN
+    if verbose:
+        print(f"git rebase --no-keep-empty marco/v2.1-turkish-intl marco/v2.1-turkish-danish-intl")
+    subprocess.run(['git', 'rebase', '--no-keep-empty', 'marco/v2.1-turkish-intl', 'marco/v2.1-turkish-danish-intl'], check=True)
+    if verbose:
+        print(f"git rebase --no-keep-empty release/v1.22.22 amatthies/current")
+    subprocess.run(['git', 'rebase', '--no-keep-empty', 'release/v1.22.22', 'amatthies/current'])
+
     # TODO: Handle branches and tags where the copy point was inside the
     #       vice/ directory instead of just above it
 
