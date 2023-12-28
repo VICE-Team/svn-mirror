@@ -393,8 +393,8 @@ static char *encoded_helper = NULL;
 #define MAX_PARALLEL 1 /* number of simultaneous transfers */
 #define NUM_URLS 10
 static int still_alive = 0;
-static CURLM *cm;                      /* used for http(s) */
-static CURL *curl;                     /* used for telnet */
+static CURLM *cm = NULL;               /* used for http(s) */
+static CURL *curl = NULL;              /* used for telnet */
 static uint8_t curl_buf[240];          /* this slows down by smaller chunks sent to C64, improves BBSs  */
 static uint8_t *curl_send_buf = NULL;
 static uint16_t curl_send_len;
@@ -435,22 +435,26 @@ static int userport_wic64_enable(int value)
         prep_wic64_str();
 
     } else {
-        lib_free(httpbuffer);
-        httpbuffer = NULL;
-        lib_free(replybuffer);
-        replybuffer = NULL;
-        lib_free(encoded_helper);
-        encoded_helper = NULL;
-        lib_free(curl_send_buf);
-        curl_send_buf = NULL;
-        _wic64_log(CONS_COL_NO, 2, "%s: httpreplybuffer/replybuffer/encoded_helper/curl_send_buf freed",
-                   __FUNCTION__);
-
+        if (httpbuffer) {
+            lib_free(httpbuffer);
+            httpbuffer = NULL;
+        }
+        if (replybuffer) {
+            lib_free(replybuffer);
+            replybuffer = NULL;
+        }
+        if (encoded_helper) {
+            lib_free(encoded_helper);
+            encoded_helper = NULL;
+        }
+        if (curl_send_buf) {
+            lib_free(curl_send_buf);
+            curl_send_buf = NULL;
+        }
         if (post_data) {
             lib_free(post_data);
             post_data = NULL;
         }
-
         if (curl) {
             /* connection closed */
             curl_easy_cleanup(curl);
@@ -485,6 +489,9 @@ static int userport_wic64_enable(int value)
             alarm_destroy(cmd_timeout_alarm);
             cmd_timeout_alarm = NULL;
         }
+        _wic64_log(CONS_COL_NO, 2, "%s: several WiC64 dynamic buffers freed",
+                   __FUNCTION__);
+
         wic64_set_status("disabled");
         log_message(wic64_loghandle, "WiC64 disabled");
     }
@@ -982,7 +989,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         }
         send_reply_revised(SUCCESS, "Success", httpbuffer, httpbufferptr, NULL); /* raw send, supporting big_load */
         cheatlen = 0;
-    } else if (response >= 400) {
+    } else if (response >= 301) {
         char t[32];
         wic64_log(CONS_COL_RED, "URL '%s' returned %lu bytes (http code: %ld)", url, httpbufferptr, response);
         snprintf(t, 31, "http response: %ld", response);
@@ -2342,7 +2349,6 @@ static void userport_wic64_reset(void)
     } else {
         wic64_internal_ip = tmp;
     }
-
     if (resources_get_int("WIC64Timezone", &tmp_tz) == -1) {
         current_tz = 2;
     } else {
