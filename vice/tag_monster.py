@@ -113,7 +113,7 @@ def find_vice_installs_under_commit(commit):
                 break
             if len(subdir) == 4 and subdir[1] == 'blob' and subdir[3] == 'README':
                 ok = True
-                partial_hashes[cwd] = subdir[2]
+                partial_hashes[cwd] = tree_hash
                 break
         if ok:
             continue
@@ -135,10 +135,6 @@ def find_vice_installs_under_commit(commit):
 # This is an extremely time-consuming process (about 20 minutes on my
 # admittedly old-and-cheap dev machine), so the results of this are
 # serialized as tag_monster_0.json at the end.
-#
-# TODO: Instead of returning immediately after deserializing cached
-#       results, do a much cheaper incremental update on it and write
-#       out the updated results.
 def perform_phase_1():
     repo_data = {}
 
@@ -207,16 +203,12 @@ def perform_phase_1():
 # branches with trunk. It produces a list of candidate tags that can be
 # realized with ordinary git tags targeting specific trunk commits.
 # Strangenesses in the history will also be laid out.
-#
-# TODO: Use 'partial' commit trees (for when someone copied 'vice' instead
-#       of 'trunk') to cross-check and extend results.
-# TODO: Map each unique tree in a sub branch to the "top level" commit
-#       that created that branch, so that we can extract commit info
 
 def perform_phase_2(index):
     # Construct a map of tree-hash-to-trunk-commit
     print("Content-indexing trunk...")
     trunk_tree_hashes = {}
+    trunk_partial_hashes = {}
     trunk_commits = set()
     merged_branches = {}
     copied_tags = {}
@@ -227,6 +219,8 @@ def perform_phase_2(index):
             # Something from very early in the cvs2svn process, ignore it
             continue
         trunk_tree_hashes[hashes['/']] = commit
+        hashes = index['commit_trees'][commit]['partial']
+        trunk_partial_hashes[hashes['/vice/']] = commit
 
     # Construct per-subbranch histories of each branch and tag
     print("Content-indexing branches and sub-branches...")
@@ -241,7 +235,22 @@ def perform_phase_2(index):
                 if full_name not in subhistories:
                     subhistories[full_name] = {'history': [branch_hash],
                             'svn_branch': branch,
-                            'svn_path': path}
+                            'svn_path': path,
+                            'partial': False}
+                elif subhistories[full_name]['history'][-1] != branch_hash:
+                    subhistories[full_name]['history'].append(branch_hash)
+            partials = index['commit_trees'][commit]['partial']
+            for path, branch_hash in partials.items():
+                full_name = f"{branch}{path}"
+                if full_name.endswith('/vice/'):
+                    # This is part of a full branch
+                    continue
+                if full_name not in subhistories:
+                    print(f"Branch {full_name} is partial", file=sys.stderr)
+                    subhistories[full_name] = {'history': [branch_hash],
+                            'svn_branch': branch,
+                            'svn_path': path,
+                            'partial': True}
                 elif subhistories[full_name]['history'][-1] != branch_hash:
                     subhistories[full_name]['history'].append(branch_hash)
 
@@ -249,8 +258,12 @@ def perform_phase_2(index):
     for subbranch, branchdata in subhistories.items():
         first_hash = branchdata['history'][-1]
         last_hash = branchdata['history'][0]
-        branchdata['branched_from'] = trunk_tree_hashes.get(first_hash)
-        branchdata['merged_to'] = trunk_tree_hashes.get(last_hash)
+        if branchdata['partial']:
+            branchdata['branched_from'] = trunk_partial_hashes.get(first_hash)
+            branchdata['merged_to'] = trunk_partial_hashes.get(last_hash)
+        else:
+            branchdata['branched_from'] = trunk_tree_hashes.get(first_hash)
+            branchdata['merged_to'] = trunk_tree_hashes.get(last_hash)
 
     # From the standpoint of the git repository, each svn branch is just a
     # subdirectory of the "real" branch (which is our svn branch category.)
@@ -270,18 +283,17 @@ def perform_phase_2(index):
             if tree_index < 0:
                 break
             target = tree_history[tree_index]
-            commit_trees = index['commit_trees'][commit]['full']
+            if branchdata['partial']:
+                commit_trees = index['commit_trees'][commit]['partial']
+            else:
+                commit_trees = index['commit_trees'][commit]['full']
             if target == commit_trees.get(svn_subbranch_path, None):
                 commit_history.append(commit)
                 tree_index -= 1
         if tree_index >= 0:
-            print(f"Subbranch f{subbranch} couldn't find commits for all history! {tree_index+1} commits remain.")
+            print(f"Subbranch f{subbranch} couldn't find commits for all history! {tree_index+1} commits remain.", file=sys.stderr)
         commit_history.reverse()
         branchdata['commit_history'] = commit_history
-
-    # TODO: Handle all of that history creation and trunk-matching above,
-    #       but cover the cases where the branch only exists under
-    #       'partial' instead of under 'full'.
 
     # Collect all tags corresponding to releases, and then find the commit,
     # if any, they correspond to.
@@ -398,9 +410,39 @@ def perform_phase_3(index):
         print(f"git branch legacy_releases {prev_commit}")
     subprocess.run(['git', 'branch', 'legacy_releases', prev_commit], check=True)
 
+    # Convert partial branches into full branches by synthesizing trees to
+    # contain them. This is not a place of honor. No highly esteemed algorithm
+    # is implemented here. What is here is dangerous and repulsive to us.
     for branch, branchdata in index['branch_histories'].items():
-        # We handled tags seperately
-        if branch.startswith('svn/tags/'):
+        if not branchdata['partial']:
+            continue
+        if verbose:
+            print(f"Filling out partial branch {branch}")
+        commits = branchdata['history']
+        for i in range(len(commits)):
+            if verbose:
+                print("git read-tree --empty")
+            subprocess.run(['git', 'read-tree', '--empty'], check=True)
+            if verbose:
+                print("git update-index --add --cacheinfo 100644 b80b8142b86d51f9a0322280585dafddc660002b svn-instructions.txt")
+            subprocess.run(['git', 'update-index', '--add', '--cacheinfo', '100644', 'b80b8142b86d51f9a0322280585dafddc660002b', 'svn-instructions.txt'], check=True)
+            if verbose:
+                print(f"git read-tree -i --prefix=vice {commits[i]}")
+            subprocess.run(['git', 'read-tree', '-i', '--prefix=vice', commits[i]], check=True)
+            if verbose:
+                print("git write-tree")
+            full_hash = subprocess.run(['git', 'write-tree'], check=True, capture_output=True, encoding="UTF-8").stdout.strip()
+            commits[i] = full_hash
+        branchdata['partial'] = False
+    # Dispose of the evidence that anything happened here, so later high-level
+    # operations do not freak out
+    if verbose:
+        print("git restore --staged .")
+    subprocess.run(['git', 'restore', '--staged', '.'])
+
+    for branch, branchdata in index['branch_histories'].items():
+        # We handled release tags seperately
+        if branch.startswith('svn/tags/v') and branch[10].isdigit():
             continue
         # Comment out this check if we want to preserve the history of
         # merged branches
@@ -448,14 +490,14 @@ def perform_phase_3(index):
 
     # Handle two weird branches where the history link was cut in SVN
     if verbose:
-        print(f"git rebase --no-keep-empty marco/v2.1-turkish-intl marco/v2.1-turkish-danish-intl")
+        print("git rebase --no-keep-empty marco/v2.1-turkish-intl marco/v2.1-turkish-danish-intl")
     subprocess.run(['git', 'rebase', '--no-keep-empty', 'marco/v2.1-turkish-intl', 'marco/v2.1-turkish-danish-intl'], check=True)
     if verbose:
-        print(f"git rebase --no-keep-empty release/v1.22.22 amatthies/current")
-    subprocess.run(['git', 'rebase', '--no-keep-empty', 'release/v1.22.22', 'amatthies/current'])
-
-    # TODO: Handle branches and tags where the copy point was inside the
-    #       vice/ directory instead of just above it
+        print("git rebase --no-keep-empty release/v1.22.22 amatthies/current")
+    subprocess.run(['git', 'rebase', '--no-keep-empty', 'release/v1.22.22', 'amatthies/current'], check=True)
+    if verbose:
+        print("git switch master")
+    subprocess.run(['git', 'switch', 'master'], check=True)
 
 if __name__ == '__main__':
     index = perform_phase_1()
