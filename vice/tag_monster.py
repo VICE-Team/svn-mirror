@@ -29,9 +29,11 @@
 
 
 import json
+import os
 import subprocess
 import sys
 
+verbose = True
 
 # ---------- UTILITY FUNCTIONS ----------
 
@@ -237,7 +239,9 @@ def perform_phase_2(index):
             for path, branch_hash in hashes.items():
                 full_name = f"{branch}{path}"
                 if full_name not in subhistories:
-                    subhistories[full_name] = {'history': [branch_hash]}
+                    subhistories[full_name] = {'history': [branch_hash],
+                            'svn_branch': branch,
+                            'svn_path': path}
                 elif subhistories[full_name]['history'][-1] != branch_hash:
                     subhistories[full_name]['history'].append(branch_hash)
 
@@ -247,6 +251,37 @@ def perform_phase_2(index):
         last_hash = branchdata['history'][0]
         branchdata['branched_from'] = trunk_tree_hashes.get(first_hash)
         branchdata['merged_to'] = trunk_tree_hashes.get(last_hash)
+
+    # From the standpoint of the git repository, each svn branch is just a
+    # subdirectory of the "real" branch (which is our svn branch category.)
+    # The history of each branch is thus a succession of tree hashes, not
+    # commits. However, we need those commits in order to get authors, dates,
+    # and commit messages, so we build up a list of those too.
+    for subbranch, branchdata in subhistories.items():
+        # Start at the end of the list and move BACK TO THE FUTURE, recording
+        # commits as their trees first match our path's tree. This should
+        # cover even cases where a change is backed out after being made.
+        svn_history = index['branch_history'][branchdata['svn_branch']]
+        svn_subbranch_path = branchdata['svn_path']
+        tree_history = branchdata['history']
+        tree_index = len(tree_history)-1
+        commit_history = []
+        for commit in reversed(svn_history):
+            if tree_index < 0:
+                break
+            target = tree_history[tree_index]
+            commit_trees = index['commit_trees'][commit]['full']
+            if target == commit_trees.get(svn_subbranch_path, None):
+                commit_history.append(commit)
+                tree_index -= 1
+        if tree_index >= 0:
+            print(f"Subbranch f{subbranch} couldn't find commits for all history! {tree_index+1} commits remain.")
+        commit_history.reverse()
+        branchdata['commit_history'] = commit_history
+
+    # TODO: Handle all of that history creation and trunk-matching above,
+    #       but cover the cases where the branch only exists under
+    #       'partial' instead of under 'full'.
 
     # Collect all tags corresponding to releases, and then find the commit,
     # if any, they correspond to.
@@ -294,8 +329,8 @@ def perform_phase_2(index):
         if not ok:
             print(f"Version {git_tag} needs special attention!")
 
-    subhistories['release_history'] = release_history
-    return subhistories
+    return {'branch_histories': subhistories,
+            'release_history': release_history}
 
 def parse_user(user):
     (token, rest) = user.split(' ', 1)
@@ -342,7 +377,7 @@ def perform_phase_3(index):
     our_env['GIT_COMMITTER_NAME'] = 'Tag Monster'
     our_env['GIT_COMMITTER_EMAIL'] = 'tagmonster@sf.net'
 
-    for elt in index:
+    for elt in index['release_history']:
         our_version = elt['version']
         if elt["trunk_commit"] is not None:
             our_commit = elt['trunk_commit']
@@ -351,16 +386,69 @@ def perform_phase_3(index):
             cmd = ['git', 'commit-tree', elt['tree_hash']]
             if prev_commit is not None:
                 cmd += ['-p', prev_commit]
-            # print(" ".join(cmd))
+            if verbose:
+                print(" ".join(cmd))
             result = subprocess.run(cmd, input=commit_msg, capture_output=True, encoding="UTF-8", env=our_env, check=True)
             our_commit = result.stdout.strip()
             prev_commit = our_commit
-        # print(f"git tag release/{ourversion} {our_commit}")
+        if verbose:
+            print(f"git tag release/{our_version} {our_commit}")
         subprocess.run(['git', 'tag', f"release/{our_version}", our_commit], check=True)
+    if verbose:
+        print(f"git branch legacy_releases {prev_commit}")
     subprocess.run(['git', 'branch', 'legacy_releases', prev_commit], check=True)
-    # TODO: Create the branch commits, and recreate their commit data and
-    #       timestamps as described in the original
-    # TODO: Handle branches and tages where the copy point was inside the
+
+    for branch, branchdata in index['branch_histories'].items():
+        # We handled tags seperately
+        if branch.startswith('svn/tags/'):
+            continue
+        # Comment out this check if we want to preserve the history of
+        # merged branches
+        if branchdata['merged_to'] is not None:
+            print(f"{branch} was already merged into trunk", file=sys.stderr)
+            continue
+        prev_commit = branchdata['branched_from']
+        # TODO: Special-case weird branches:
+        #       - marco/v2.1-turkish-danish-intl's first commit follows
+        #         marco/v2.1-turkish-intl's last commit
+        #       - amatthies/current starts as a remote copy from v1.22.22
+        #       We'll need to delay processing these so that we have the
+        #       actual commit to hand to link them up
+        for tree, commit in zip(reversed(branchdata['history']), reversed(branchdata['commit_history'])):
+            info = commit_info(commit)
+            # These defaults will control if values are missing
+            # TODO: Better defaults
+            our_env['GIT_AUTHOR_NAME'] = 'Tag Monster'
+            our_env['GIT_AUTHOR_EMAIL'] = 'tagmonster@sf.net'
+            if 'GIT_AUTHOR_DATE' in our_env:
+                del our_env['GIT_AUTHOR_DATE']
+            our_env['GIT_COMMITTER_NAME'] = 'Tag Monster'
+            our_env['GIT_COMMITTER_EMAIL'] = 'tagmonster@sf.net'
+            if 'GIT_COMMITTER_DATE' in our_env:
+                del our_env['GIT_COMMITTER_DATE']
+            if 'author' in info:
+                our_env['GIT_AUTHOR_NAME'] = info['author']['name']
+                our_env['GIT_AUTHOR_EMAIL'] = info['author']['email']
+                our_env['GIT_AUTHOR_DATE'] = info['author']['time']
+            if 'committer' in info:
+                our_env['GIT_COMMITTER_NAME'] = info['committer']['name']
+                our_env['GIT_COMMITTER_EMAIL'] = info['committer']['email']
+                our_env['GIT_COMMITTER_DATE'] = info['committer']['time']
+            commit_msg = info['commit_msg']
+            cmd = ['git', 'commit-tree', tree]
+            if prev_commit is not None:
+                cmd += ['-p', prev_commit]
+            else:
+                print(f"Warning: Branch {branch} has no detectable start point", file=sys.stderr)
+            if verbose:
+                print(" ".join(cmd))
+            result = subprocess.run(cmd, input=commit_msg, capture_output=True, encoding="UTF-8", env=our_env, check=True)
+            our_commit = result.stdout.strip()
+            prev_commit = our_commit
+        if verbose:
+            print(f"git branch {branch[4:-1]} {prev_commit}")
+        subprocess.run(['git', 'branch', branch[4:-1], prev_commit], check=True)
+    # TODO: Handle branches and tags where the copy point was inside the
     #       vice/ directory instead of just above it
 
 if __name__ == '__main__':
@@ -368,4 +456,5 @@ if __name__ == '__main__':
     index_2 = perform_phase_2(index)
     # This is fast enough that we don't need special staging data. Still,
     # JSON output is easier to look at.
-    print(json.dumps(index_2, indent=4))
+    # print(json.dumps(index_2, indent=4))
+    perform_phase_3(index_2)
