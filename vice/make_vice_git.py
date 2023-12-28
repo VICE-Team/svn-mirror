@@ -18,10 +18,11 @@
 # email addresses are synthesized as SF.net addresses and may not be
 # real at this point, but it's the best we can do with CVS and SVN.
 #
-# TODO: Tag migration. Extracting testprogs and techdocs as their own
-#       independent repos. Any kind of safety or usability testing.
-#       It should not be necessary to delete vice-git if it hasn't
-#       otherwise been touched, so that incremental updates are cheap.
+# Breaking the cloned repository into properly organized branches and
+# tags is in progress, and the current WIP is in tag_monster.py
+#
+# TODO: Any kind of safety or usability testing. Merge with pre-existing
+#       email management. Further TODOs within tag_monster.
 
 import os
 import os.path
@@ -141,7 +142,7 @@ def git_update(target_path, subrepo=None):
         args = ['git', 'svn', 'clone']
         if subrepo == None:
             branchname = "VICE"
-            args += [repo_url, '--prefix=svn/', '--stdlayout']
+            args += [repo_url, '--prefix=svn/', '--stdlayout', '--no-follow-parent']
         else:
             branchname = subrepo[1:]
             args += [repo_url + subrepo, '--prefix=svn/']
