@@ -32,11 +32,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-/** \brief  SuperPET enable toggle button */
-extern GtkWidget *superpet_enable_widget;
-
 GtkWidget *superpet_widget_create(void);
-void pet_superpet_enable_widget_sync(GtkWidget *widget);
-void pet_superpet_widget_set_superpet_enable_callback(void (*func)(int));
+void       pet_superpet_enable_widget_sync(void);
+void       pet_superpet_widget_set_superpet_enable_callback(void (*func)(int));
 
 #endif

@@ -954,7 +954,7 @@ static void machine_model_handler_pet(int model)
     pet_io_size_widget_sync(pet_io_widget);
     pet_ram9_widget_sync(pet_ram9_widget);
     pet_rama_widget_sync(pet_rama_widget);
-    pet_superpet_enable_widget_sync(superpet_enable_widget);
+    pet_superpet_enable_widget_sync();
     pet_set_ram9a_sensitivity();
 }
 
