@@ -206,7 +206,6 @@ static GtkWidget *create_acia_device_widget(void)
     radio_group = vice_gtk3_resource_radiogroup_new("Acia1Dev",
                                                     acia_device_list,
                                                     GTK_ORIENTATION_VERTICAL);
-    gtk_widget_set_margin_start(radio_group, 8);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
