@@ -96,7 +96,7 @@ static GtkWidget *create_superpet_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new("SuperPET", "I/O Enable (disables x96");
+    check = vice_gtk3_resource_check_button_new("SuperPET", "I/O Enable (disables 8x96)");
     vice_gtk3_resource_check_button_add_callback(check, superpet_enable_callback);
     gtk_widget_set_valign(check, GTK_ALIGN_START);
 
