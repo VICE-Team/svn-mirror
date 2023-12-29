@@ -35,11 +35,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "lib.h"
-#include "log.h"
 #include "resources.h"
-#include "ui.h"
 #include "vice_gtk3.h"
 
 #include "aciawidget.h"
@@ -48,14 +45,6 @@
 /** \brief  Reference to baud rates list
  */
 static int *acia_baud_rates;
-
-
-/** \brief  References to the ACIA GtkEntry widgets
- *
- * I wish there was a better solution.
- */
-static GtkWidget *acia_entries[2];
-
 
 /** \brief  List of baud rates
  *
@@ -91,13 +80,12 @@ static void generate_baud_rate_list(void)
     baud_rate_list = lib_malloc((i + 1) * sizeof *baud_rate_list);
     for (i = 0; acia_baud_rates[i] > 0; i++) {
         baud_rate_list[i].name = lib_msprintf("%d", acia_baud_rates[i]);
-        baud_rate_list[i].id = acia_baud_rates[i];
+        baud_rate_list[i].id   = acia_baud_rates[i];
     }
     /* terminate list */
     baud_rate_list[i].name = NULL;
-    baud_rate_list[i].id = -1;
+    baud_rate_list[i].id   = -1;
 }
-
 
 /** \brief  Free memory used by `baud_rate_list`
  */
@@ -112,7 +100,6 @@ static void free_baud_rate_list(void)
     baud_rate_list = NULL;
 }
 
-
 /** \brief  Handler for the 'destroy' event of the main widget
  *
  * Frees memory used by the baud rate list
@@ -125,68 +112,19 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
     free_baud_rate_list();
 }
 
-
-/** \brief  Handler for the 'changed' event of a serial device text box
+/** \brief  Create left-aligned label using Pango markup
  *
- * \param[in]   widget      text box triggering the event
- * \param[in]   user_data   serial device number (`int`)
- */
-static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
-{
-    int device = GPOINTER_TO_INT(user_data);
-    const gchar *text = gtk_entry_get_text(GTK_ENTRY(widget));
-    resources_set_string_sprintf("RsDevice%d", text, device);
-}
-
-
-/** \brief  Callback for the SuperPET ACIA host serial device path browser
+ * \param[in]   markup  text of the label using Pango markup
  *
- * \param[in,out]   dialog      open-file dialog
- * \param[in]       filename    path to host serial device
- * \param[in]       data        device number (1 or 2)
+ * \return  GtkLabel
  */
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
+static GtkWidget *label_helper(const char *markup)
 {
-    if (filename != NULL) {
-        int device = GPOINTER_TO_INT(data);
+    GtkWidget *label = gtk_label_new(NULL);
 
-        if (device != 1 && device != 2) {
-            log_error(LOG_ERR, "%s:%d:%s(): invalid CIA device number: %d",
-                    __FILE__, __LINE__, __func__, device);
-        } else {
-            GtkWidget *entry = acia_entries[device - 1];
-
-            /* update text entry box, forces an update of the resource */
-            gtk_entry_set_text(GTK_ENTRY(entry), filename);
-        }
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the 'clicked' event of the 'browse' buttons
- *
- * \param[in]   widget      button triggering the event
- * \param[in]   user_data   device number (`int`)
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer device)
-{
-    const char *flist[] = { "ttyS*", NULL };
-    gchar       title[256];
-    int         devnum;
-
-    devnum = GPOINTER_TO_INT(device);
-    g_snprintf(title, sizeof title, "Select serial device #%d", devnum);
-
-    vice_gtk3_open_file_dialog(title,
-                               "Serial ports",
-                               flist,
-                               "/dev",
-                               browse_filename_callback,
-                               device);
+    gtk_label_set_markup(GTK_LABEL(label), markup);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
 }
 
 /** \brief  Create an ACIA device widget
@@ -198,15 +136,19 @@ static void on_browse_clicked(GtkWidget *widget, gpointer device)
 static GtkWidget *create_acia_device_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *label;
+    GtkWidget *group;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "Acia device", 2);
-    gtk_widget_set_margin_bottom(gtk_grid_get_child_at(GTK_GRID(grid), 0, 0), 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    radio_group = vice_gtk3_resource_radiogroup_new("Acia1Dev",
-                                                    acia_device_list,
-                                                    GTK_ORIENTATION_VERTICAL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    label = label_helper("<b>Acia device</b>");
+    group = vice_gtk3_resource_radiogroup_new("Acia1Dev",
+                                              acia_device_list,
+                                              GTK_ORIENTATION_VERTICAL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -220,58 +162,31 @@ static GtkWidget *create_acia_device_widget(void)
 static GtkWidget *create_acia_serial_device_widget(int num)
 {
     GtkWidget  *grid;
-    GtkWidget  *entry;
-    GtkWidget  *browse;
+    GtkWidget  *chooser;
     GtkWidget  *label;
     GtkWidget  *combo;
-    const char *path;
     char        buffer[256];
 
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+
     g_snprintf(buffer, sizeof buffer, "Serial %d device", num);
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, buffer, 4);
-    g_object_set_data(G_OBJECT(grid), "SerialDevice", GINT_TO_POINTER(num));
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    label = label_helper(buffer);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    /* add "RsDevice" property to widget to allow the event handlers to set
-     * the proper resources
-     */
-    g_object_set_data(G_OBJECT(grid), "RsDevice", GINT_TO_POINTER(num));
-
-    entry = gtk_entry_new();
-    gtk_widget_set_hexpand(entry, TRUE);
-    gtk_widget_set_margin_start(entry, 8);
-    browse = gtk_button_new_with_label("Browse");
-    g_signal_connect(browse,
-                     "clicked",
-                     G_CALLBACK(on_browse_clicked),
-                     GINT_TO_POINTER(num));
-    /* lame, I know */
-    acia_entries[num - 1] = entry;
-
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 1, 1, 1, 1);
+    chooser = vice_gtk3_resource_filechooser_new_sprintf("RsDevice%d",
+                                                         GTK_FILE_CHOOSER_ACTION_OPEN,
+                                                         num);
+    gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
 
     label = gtk_label_new("Baud");
-    gtk_widget_set_margin_start(label, 8);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_halign(label, GTK_ALIGN_END);
 
     g_snprintf(buffer, sizeof buffer, "RsDevice%dBaud", num);
     combo = vice_gtk3_resource_combo_int_new(buffer, baud_rate_list);
 
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo, 3, 1, 1, 1);
-
-    /* set resources*/
-    resources_get_string_sprintf("RsDevice%d", &path, num);
-    if (path != NULL && *path != '\0') {
-        gtk_entry_set_text(GTK_ENTRY(entry), path);
-    }
-
-    /* connect handlers */
-    g_signal_connect(entry,
-                     "changed",
-                     G_CALLBACK(on_serial_device_changed),
-                     GINT_TO_POINTER(num));
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo, 3, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -289,6 +204,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
 GtkWidget *acia_widget_create(int *baud)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     GtkWidget *device_widget;
     GtkWidget *serial1_widget;
     GtkWidget *serial2_widget;
@@ -296,22 +212,21 @@ GtkWidget *acia_widget_create(int *baud)
     acia_baud_rates = baud;
     generate_baud_rate_list();
 
-    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "ACIA settings", 3);
-    vice_gtk3_grid_set_title_margin(grid, 8);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    device_widget = create_acia_device_widget();
-    gtk_widget_set_margin_start(device_widget, 8);
-    gtk_grid_attach(GTK_GRID(grid), device_widget, 0, 1, 1, 2);
-
+    label          = label_helper("<b>ACIA settings</b>");
+    device_widget  = create_acia_device_widget();
     serial1_widget = create_acia_serial_device_widget(1);
-    gtk_grid_attach(GTK_GRID(grid), serial1_widget, 1, 1, 1, 1);
-
     serial2_widget = create_acia_serial_device_widget(2);
-    gtk_widget_set_margin_top(serial2_widget, 8);
-    gtk_grid_attach(GTK_GRID(grid), serial2_widget, 1, 2, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), label,          0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), device_widget,  0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), serial1_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), serial2_widget, 0, 3, 1, 1);
 
     g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
-
     gtk_widget_show_all(grid);
     return grid;
 }
