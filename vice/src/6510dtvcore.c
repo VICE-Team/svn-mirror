@@ -860,7 +860,7 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             ANE_LOGGING(0);                                         \
             reg_a_write = (uint8_t)((reg_a_read | ANE_MAGIC) & reg_x & p1); \
         }                                                           \
-        LOCAL_SET_NZ(reg_a_read);                                   \
+        LOCAL_SET_NZ(reg_a_write);                                  \
         INC_PC(2);                                                  \
         /* Pretend to be NOP #$nn to not trigger the special case   \
            when cycles are stolen after the second fetch */         \
@@ -1307,7 +1307,7 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
             LXA_LOGGING(0);                                         \
             reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_MAGIC) & p1); \
         }                                                           \
-        LOCAL_SET_NZ(reg_a_read);                                   \
+        LOCAL_SET_NZ(reg_a_write);                                  \
         INC_PC(2);                                                  \
         /* Pretend to be NOP #$nn to not trigger the special case   \
            when cycles are stolen after the second fetch */         \
