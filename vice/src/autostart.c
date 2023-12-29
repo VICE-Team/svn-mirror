@@ -202,6 +202,9 @@ static int AutostartPrgMode = AUTOSTART_PRG_MODE_VFS;
 
 static char *AutostartPrgDiskImage = NULL;
 
+static int AutostartDropMode = AUTOSTART_DROP_MODE_RUN;
+
+
 static const char * const AutostartRunCommandsAvailable[] = {
     "RUN\r", "RUN:\r"
 };
@@ -331,6 +334,51 @@ static int set_autostart_prg_disk_image(const char *val, void *param)
     return 0;
 }
 
+/** \brief  Resource setter for "AutostartDropMode" resource
+ *
+ * \param[in]   mode    new mode
+ * \param[in]   unused  unused
+ *
+ * \return  0 on success, -1 on error
+ */
+static int set_autostart_drop_mode(int mode, void *unused)
+{
+    int result = 0;
+
+    switch (mode) {
+        case AUTOSTART_DROP_MODE_ATTACH:    /* fall through */
+        case AUTOSTART_DROP_MODE_LOAD:      /* fall through */
+        case AUTOSTART_DROP_MODE_RUN:
+            AutostartDropMode = mode;
+            break;
+        default:
+            result = 1;
+            break;
+    }
+    return result;
+}
+
+/** \brief  Command line resource setter for "AutostartDropMode" resource
+ *
+ * \param[in]   value   new mode (0, 1, 2 or "attach", "load", "run")
+ * \param[in]   unused  unused
+ *
+ * \return  0 on success, -1 on error
+ */
+static int cmdline_set_autostart_drop_mode(const char *value, void *unused)
+{
+    if ((strcmp(value, "0") == 0) || (strcmp(value, "attach") == 0)) {
+        AutostartDropMode = AUTOSTART_DROP_MODE_ATTACH;
+    } else if ((strcmp(value, "1") == 0) || (strcmp(value, "load") == 0)) {
+        AutostartDropMode = AUTOSTART_DROP_MODE_LOAD;
+    } else if ((strcmp(value, "2") == 0) || (strcmp(value, "run") == 0)) {
+        AutostartDropMode = AUTOSTART_DROP_MODE_RUN;
+    } else {
+        return -1;
+    }
+    return 0;
+}
+
 /*! \brief string resources used by autostart */
 static resource_string_t resources_string[] = {
     /* caution: position is hardcoded below */
@@ -358,6 +406,8 @@ static resource_int_t resources_int[] = {
       &AutostartDelay, set_autostart_delay, NULL },
     { "AutostartDelayRandom", 1, RES_EVENT_NO, (resource_value_t)0,
       &AutostartDelayRandom, set_autostart_delayrandom, NULL },
+    { "AutostartDropMode",  AUTOSTART_DROP_MODE_RUN, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartDropMode, set_autostart_drop_mode, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -458,6 +508,10 @@ static const cmdline_option_t cmdline_options[] =
     { "-autostarttapoffset", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       &cmdline_set_tap_offset, NULL, NULL, NULL,
       "<value>", "Set initial offset in .tap file" },
+    { "-autostart-drop-mode", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      &cmdline_set_autostart_drop_mode, NULL, NULL, NULL, "<Mode>",
+      "Set autostart drop mode (0/attach: attach only, 1/load: attach and load, "
+      "2/run: attach, load and run)" },
     CMDLINE_LIST_END
 };
 

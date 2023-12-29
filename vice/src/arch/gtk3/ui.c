@@ -836,20 +836,25 @@ static gboolean on_drag_drop(GtkWidget *widget,
  * \param[in]   info        int declared in the targets array (unclear)
  * \param[in]   time        no idea
  */
-static void on_drag_data_received(GtkWidget *widget,
-                                  GdkDragContext *context,
-                                  gint x,
-                                  gint y,
+static void on_drag_data_received(GtkWidget        *widget,
+                                  GdkDragContext   *context,
+                                  gint              x,
+                                  gint              y,
                                   GtkSelectionData *data,
-                                  guint info,
-                                  guint time)
+                                  guint             info,
+                                  guint             time)
 {
-    gchar **uris;
-    gchar *filename = NULL;
-    gchar **files = NULL;
-    guchar *text = NULL;
-    GdkDragAction action = gdk_drag_context_get_selected_action (context);
+    gchar         **uris;
+    gchar          *filename  = NULL;
+    gchar         **files     = NULL;
+    guchar         *text      = NULL;
+    int             drop_mode = 0;
+    GdkDragAction   action;
 
+    action = gdk_drag_context_get_selected_action(context);
+    resources_get_int("AutostartDropMode", &drop_mode);
+
+    /* TODO: move this filename extraction into separate function */
     switch (info) {
 
         case DT_URI_LIST:
@@ -928,6 +933,7 @@ static void on_drag_data_received(GtkWidget *widget,
 
     /* can we attempt autostart? */
     if (filename != NULL) {
+#if 0
         if (action != GDK_ACTION_MOVE) {
             /* drop with alt ("link") -> only load, not run */
             int mode = (action == GDK_ACTION_LINK) ? AUTOSTART_MODE_LOAD : AUTOSTART_MODE_RUN;
@@ -939,6 +945,40 @@ static void on_drag_data_received(GtkWidget *widget,
             if (file_system_attach_disk(8, 0, filename) < 0) {
                 /* TODO: add proper UI error */
             }
+        }
+#endif
+        /* determine autostart behaviour */
+        switch (action) {
+            case GDK_ACTION_COPY:
+                /* no modifier key held, use the resource value */
+                break;
+            case GDK_ACTION_MOVE:
+                /* Shift ("move"): attach image */
+                drop_mode = AUTOSTART_DROP_MODE_ATTACH;
+                break;
+            case GDK_ACTION_LINK:
+                /* Alt ("link"): attach and load  */
+                drop_mode = AUTOSTART_DROP_MODE_LOAD;
+                break;
+            default:
+                log_warning(LOG_DEFAULT,
+                            "Unhandled GdkDragAction %d, attaching only.", action);
+                drop_mode = AUTOSTART_DROP_MODE_ATTACH;
+                break;
+        }
+
+        switch (drop_mode) {
+            case AUTOSTART_DROP_MODE_ATTACH:
+                file_system_attach_disk(8, 0, filename);
+                break;
+            case AUTOSTART_DROP_MODE_LOAD:
+                autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_LOAD);
+                break;
+            case AUTOSTART_DROP_MODE_RUN:
+                autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN);
+                break;
+            default:
+                break;
         }
         g_free(filename);
     }

@@ -35,6 +35,13 @@
 #define AUTOSTART_MODE_RUN  0
 #define AUTOSTART_MODE_LOAD 1
 
+/** \brief  Behaviour for autostart when dropping media onto the emulator window */
+enum {
+    AUTOSTART_DROP_MODE_ATTACH, /**< attach only */
+    AUTOSTART_DROP_MODE_LOAD,   /**< attach and load */
+    AUTOSTART_DROP_MODE_RUN,    /**< attach, load and run */
+};
+
 int autostart_resources_init(void);
 void autostart_resources_shutdown(void);
 int autostart_cmdline_options_init(void);
