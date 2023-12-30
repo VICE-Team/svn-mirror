@@ -142,14 +142,14 @@ def git_update(target_path, subrepo=None):
         args = ['git', 'svn', 'clone']
         if subrepo == None:
             branchname = "VICE"
-            args += [repo_url, '--prefix=svn/', '--stdlayout', '--no-follow-parent']
+            args += [repo_url, f'--rewrite-root={SVN_REMOTE_PATH}', '--prefix=svn/', '--stdlayout', '--no-follow-parent']
         else:
             branchname = subrepo[1:]
-            args += [repo_url + subrepo, '--prefix=svn/']
+            args += [repo_url + subrepo, f'--rewrite-root={SVN_REMOTE_PATH}{subrepo}', '--prefix=svn/']
 
         print(f"Creating git edition of {branchname} at {target_path}")
 
-        subprocess.run(args + [f'--rewrite-root={SVN_REMOTE_PATH}', '--authors-file', AUTHORS_LIST, target_path], check=True)
+        subprocess.run(args + ['--authors-file', AUTHORS_LIST, target_path], check=True)
 
 git_update(GIT_TARGET_PATH)
 git_update(GIT_TECHDOCS_PATH, '/techdocs')
