@@ -16,20 +16,28 @@
 #    their own. For non-release tags that do not correspond to any commit in
 #    trunk or any branch, turn them into top-level branches. For branches that
 #    hold multiple VICE installs within them, break them out into multiple Git
-#    branches.
-# 4. Assign Git tags to every commit that corresponds to an old SVN tag. Fix
-#    the branch references by removing branches and tags that do not match
+#    branches. Assign Git tags to every commit that corresponds to an old SVN
+#    tag. 
+# 4. Fix the branch references by removing branches and tags that do not match
 #    the intended directory structure, preserving their contents in the
 #    branches created in step 3.
 #
-# TODO: This script is incomplete. Phase 1 is largely done, but needs to be
-#       made incremental (it takes forever). Phase 2 is partially done. Phases
-#       3 and 4 are yet to be written and, since they alter the repository,
-#       cannot sanely be made incremental.
+# TODO: Instead of actually calling these "phase 1", "phase 2", etc. in the
+#       program, give them sensible names so the above explanatory text is
+#       not required
+#
+# TODO: More dignified names for this stuff in general. "Tag Monster" is
+#       funny but only as an internal stopgap name.
+#
+# TODO: Merge this with make_vice_git.py so that it's a simpler workflow.
+#
+# TODO: More consistent metadata in legacy_releases so repos are more
+#       replicable.
 
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 
@@ -123,6 +131,42 @@ def find_vice_installs_under_commit(commit):
     return full_hashes, partial_hashes
 
 
+# Extracts the user, email, and timestamp from an "author" or "committer"
+# field in a Git Commit.
+def parse_user(user):
+    (token, rest) = user.split(' ', 1)
+    rest = rest.strip()
+    email_start = rest.index('<') + 1
+    email_end = rest.rindex('>')
+    name = rest[:email_start-1].strip()
+    email = rest[email_start:email_end].strip()
+    time = rest[email_end+1:].strip()
+    return {'name': name, 'email': email, 'time': time}
+
+
+# Given a commit hash, interrogate the git repo and return an object
+# describing the tree, parents, author, and committer for that hash.
+def commit_info(commit):
+    data = subprocess.run(['git', 'cat-file', '-p', commit], check=True, capture_output=True).stdout.decode('latin-1')
+    (attrs, commit_msg) = data.split('\n\n', 1)
+    result = {'commit_msg': commit_msg.strip()}
+    for attr in attrs.split('\n'):
+        tokens = attr.split()
+        if len(tokens) == 0:
+            continue
+        elif tokens[0] == 'tree':
+            result['tree'] = tokens[1]
+        elif tokens[0] == 'parent':
+            if 'parent' not in result:
+                result['parent'] = []
+            result['parent'].append(tokens[1])
+        elif tokens[0] == 'author' or tokens[0] == 'committer':
+            result[tokens[0]] = parse_user(attr)
+        else:
+            print(f"Unknown commit attribute: {attr}")
+    return result
+
+
 # ---------- MAIN PROGRAM FUNCTIONS ----------
 
 
@@ -176,7 +220,7 @@ def perform_phase_1():
     except:
         # Cached results are missing or corrupt, actually do the work
         pass
-    # Drop our reference to nay previous run; we don't need the old branch
+    # Drop our reference to any previous run; we don't need the old branch
     # history since we refreshed that ourselves.
     previous_run = None
     new_commits = set(x for x in commits if x not in vice_hashes)
@@ -344,37 +388,6 @@ def perform_phase_2(index):
     return {'branch_histories': subhistories,
             'release_history': release_history}
 
-def parse_user(user):
-    (token, rest) = user.split(' ', 1)
-    rest = rest.strip()
-    email_start = rest.index('<') + 1
-    email_end = rest.rindex('>')
-    name = rest[:email_start-1].strip()
-    email = rest[email_start:email_end].strip()
-    time = rest[email_end+1:].strip()
-    return {'name': name, 'email': email, 'time': time}
-
-
-def commit_info(commit):
-    data = subprocess.run(['git', 'cat-file', '-p', commit], check=True, capture_output=True).stdout.decode('latin-1')
-    (attrs, commit_msg) = data.split('\n\n', 1)
-    result = {'commit_msg': commit_msg.strip()}
-    for attr in attrs.split('\n'):
-        tokens = attr.split()
-        if len(tokens) == 0:
-            continue
-        elif tokens[0] == 'tree':
-            result['tree'] = tokens[1]
-        elif tokens[0] == 'parent':
-            if 'parent' not in result:
-                result['parent'] = []
-            result['parent'].append(tokens[1])
-        elif tokens[0] == 'author' or tokens[0] == 'committer':
-            result[tokens[0]] = parse_user(attr)
-        else:
-            print(f"Unknown commit attribute: {attr}")
-    return result
-
 # Phase 3 takes the complete release and branch history and turns these
 # into proper branches and tags in their own right. If a release is part
 # of trunk already, it will just tag that commit directly. Pre-trunk
@@ -383,11 +396,10 @@ def commit_info(commit):
 def perform_phase_3(index):
     prev_commit = None
     our_env = os.environ.copy()
-    # TODO: These need to be real accounts/addresses for legacy releases
-    our_env['GIT_AUTHOR_NAME'] = 'Tag Monster'
-    our_env['GIT_AUTHOR_EMAIL'] = 'tagmonster@sf.net'
-    our_env['GIT_COMMITTER_NAME'] = 'Tag Monster'
-    our_env['GIT_COMMITTER_EMAIL'] = 'tagmonster@sf.net'
+    our_env['GIT_AUTHOR_NAME'] = 'VICE Team'
+    our_env['GIT_AUTHOR_EMAIL'] = 'vice-emu-mail@lists.sourceforge.net'
+    our_env['GIT_COMMITTER_NAME'] = 'VICE Team'
+    our_env['GIT_COMMITTER_EMAIL'] = 'vice-emu-mail@lists.sourceforge.net'
 
     for elt in index['release_history']:
         our_version = elt['version']
@@ -528,13 +540,12 @@ def perform_phase_3(index):
         for tree, commit in zip(reversed(branchdata['history']), reversed(branchdata['commit_history'])):
             info = commit_info(commit)
             # These defaults will control if values are missing
-            # TODO: Better defaults
-            our_env['GIT_AUTHOR_NAME'] = 'Tag Monster'
-            our_env['GIT_AUTHOR_EMAIL'] = 'tagmonster@sf.net'
+            our_env['GIT_AUTHOR_NAME'] = 'VICE Team'
+            our_env['GIT_AUTHOR_EMAIL'] = 'vice-emu-mail@lists.sourceforge.net'
             if 'GIT_AUTHOR_DATE' in our_env:
                 del our_env['GIT_AUTHOR_DATE']
-            our_env['GIT_COMMITTER_NAME'] = 'Tag Monster'
-            our_env['GIT_COMMITTER_EMAIL'] = 'tagmonster@sf.net'
+            our_env['GIT_COMMITTER_NAME'] = 'VICE Team'
+            our_env['GIT_COMMITTER_EMAIL'] = 'vice-emu-mail@lists.sourceforge.net'
             if 'GIT_COMMITTER_DATE' in our_env:
                 del our_env['GIT_COMMITTER_DATE']
             if 'author' in info:
@@ -570,10 +581,24 @@ def perform_phase_3(index):
         print("git switch master")
     subprocess.run(['git', 'switch', 'master'], check=True)
 
+
+def perform_phase_4():
+    # Delete all the SVN remote branches we no longer need
+    branches = subprocess.run(['git', 'branch', '-r'], capture_output=True, encoding="UTF-8", check=True).stdout
+    branches = [branch.strip() for branch in branches.split('\n') if branch.strip() != '']
+    for branch in branches:
+        subprocess.run(['git', 'branch', '-rd', branch], check=True)
+    # Wipe out the git-svn configuration links from the repository
+    subprocess.run(['git', 'config', '--remove-section', 'svn'], check=True)
+    subprocess.run(['git', 'config', '--remove-section', 'svn-remote.svn'], check=True)
+    # Clear out the remaining git-svn cruft
+    shutil.rmtree('.git/svn')
+    # Garbage-collect any dead objects from the tree.
+    subprocess.run(['git', 'gc'], check=True)
+
+
 if __name__ == '__main__':
     index = perform_phase_1()
     index_2 = perform_phase_2(index)
-    # This is fast enough that we don't need special staging data. Still,
-    # JSON output is easier to look at.
-    # print(json.dumps(index_2, indent=4))
     perform_phase_3(index_2)
+    perform_phase_4()
