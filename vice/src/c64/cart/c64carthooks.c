@@ -760,6 +760,8 @@ int cart_type_enabled(int type)
             return ds12c887rtc_cart_enabled();
         case CARTRIDGE_GEORAM:
             return georam_cart_enabled();
+        case CARTRIDGE_CPM:
+            return cpmcart_cart_enabled();
 #ifdef HAVE_MIDI
         case CARTRIDGE_MIDI_PASSPORT:
             return c64_midi_pp_cart_enabled();
@@ -1440,6 +1442,9 @@ int cartridge_enable(int type)
         case CARTRIDGE_GEORAM:
             georam_enable();
             break;
+        case CARTRIDGE_CPM:
+            cpmcart_enable();
+            break;
 #ifdef HAVE_MIDI
         case CARTRIDGE_MIDI_PASSPORT:
         case CARTRIDGE_MIDI_DATEL:
@@ -1537,6 +1542,9 @@ int cartridge_disable(int type)
             break;
         case CARTRIDGE_GEORAM:
             georam_disable();
+            break;
+        case CARTRIDGE_CPM:
+            cpmcart_disable();
             break;
 #ifdef HAVE_MIDI
         case CARTRIDGE_MIDI_PASSPORT:
