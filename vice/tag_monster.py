@@ -440,16 +440,25 @@ def perform_phase_3(index):
         print("git restore --staged .")
     subprocess.run(['git', 'restore', '--staged', '.'])
 
+    # Manually hook up some loose branches to the releases they forked from
+    branch_subst = {'svn/amatthies/current/': 'release/v1.22.22',
+            'svn/fabrizio/v2.1.3-remove_ui_h_and_videoarch_h_from_generic_code/': 'release/v2.1.3',
+            'svn/fabrizio/v2.1-gtkfilefilters/': 'release/v2.1'}
+
     for branch, branchdata in index['branch_histories'].items():
         # We handled release tags seperately
         if branch.startswith('svn/tags/v') and branch[10].isdigit():
             continue
+        # TODO: Handle all other tags as tags if possible
         # Comment out this check if we want to preserve the history of
         # merged branches
         if branchdata['merged_to'] is not None:
             print(f"{branch} was already merged into trunk", file=sys.stderr)
             continue
         prev_commit = branchdata['branched_from']
+        if branch in branch_subst:
+            prev_commit = subprocess.run(['git', 'merge-base', '--independent', branch_subst[branch]], capture_output=True, check=True, encoding="UTF-8").stdout.strip()
+
         for tree, commit in zip(reversed(branchdata['history']), reversed(branchdata['commit_history'])):
             info = commit_info(commit)
             # These defaults will control if values are missing
@@ -475,9 +484,8 @@ def perform_phase_3(index):
             if prev_commit is not None:
                 cmd += ['-p', prev_commit]
             else:
-                # Some of these we'll handle later
-                if branch not in ['svn/marco/v2.1-turkish-danish-intl/',
-                        'svn/amatthies/current/']:
+                # We'll handle this one later; a rename confused it so we'll rebase it at the end
+                if branch != 'svn/marco/v2.1-turkish-danish-intl/':
                     print(f"Warning: Branch {branch} has no detectable start point", file=sys.stderr)
             if verbose:
                 print(" ".join(cmd))
@@ -488,13 +496,10 @@ def perform_phase_3(index):
             print(f"git branch {branch[4:-1]} {prev_commit}")
         subprocess.run(['git', 'branch', branch[4:-1], prev_commit], check=True)
 
-    # Handle two weird branches where the history link was cut in SVN
+    # Handle a weird branch where the history link was cut in SVN
     if verbose:
         print("git rebase --no-keep-empty marco/v2.1-turkish-intl marco/v2.1-turkish-danish-intl")
     subprocess.run(['git', 'rebase', '--no-keep-empty', 'marco/v2.1-turkish-intl', 'marco/v2.1-turkish-danish-intl'], check=True)
-    if verbose:
-        print("git rebase --no-keep-empty release/v1.22.22 amatthies/current")
-    subprocess.run(['git', 'rebase', '--no-keep-empty', 'release/v1.22.22', 'amatthies/current'], check=True)
     if verbose:
         print("git switch master")
     subprocess.run(['git', 'switch', 'master'], check=True)
