@@ -181,11 +181,11 @@ static void ui_action_dispatch(ui_action_map_t *);
  * mime-types.
  */
 GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT] = {
-    { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
-                                           box with Mate */
-    { "text/uri",       0, DT_URI },
-    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Windows
-                                               Explorer or macOS Finder */
+    { "text/plain",     0, DT_TEXT_PLAIN    },  /* we get this on at least my
+                                                   Linux box with Mate */
+    { "text/uri",       0, DT_TEXT_URI      },  /* not yet encountered */
+    { "text/uri-list",  0, DT_TEXT_URI_LIST }   /* we get this using Windows
+                                                   Explorer or macOS Finder */
 };
 
 
@@ -823,6 +823,57 @@ static gboolean on_drag_drop(GtkWidget *widget,
     return TRUE;
 }
 
+/** \brief  Extract filename from drag data
+ *
+ * \param[in]   data    drag data from dropping media onto the emulator window
+ * \param[in]   info    drag target mime type info
+ *
+ * \return  filename or \c NULL
+ * \note    the filename should be freed with \c g_free() after use
+ *
+ * \todo    Perhaps make public, VSID uses duplicate code.
+ */
+static gchar *drag_data_get_filename(GtkSelectionData *data,
+                                     guint             info)
+{
+    guchar  *text;
+    gchar  **uri_list = NULL;
+    gchar   *filename = NULL;
+
+    switch (info) {
+
+        case DT_TEXT_URI_LIST:  /* 'text/uri-list */
+            /* Windows and MacOS */
+            uri_list = gtk_selection_data_get_uris(data);
+           break;
+
+        case DT_TEXT_PLAIN:     /* 'text/plain' */
+            /* Qt- and Gtk-based WM's on Linux */
+            text = gtk_selection_data_get_text(data);
+            /* text contains newline-separated lines of 'file://' URIs and a
+             * trailing newline */
+            g_strchomp((gchar *)text);
+            uri_list = g_strsplit((const gchar *)text, "\n", -1);
+            g_free(text);
+            break;
+
+        case DT_TEXT_URI:       /* fall through ('text/uri') */
+        default:
+            log_error(LOG_ERR, "Unhandled drag target %u", info);
+            break;
+    }
+
+    if (uri_list != NULL) {
+        if (uri_list[0] != NULL) {
+            /* grab first URI in list */
+            filename = g_filename_from_uri(uri_list[0], NULL, NULL);
+        }
+        g_strfreev(uri_list);
+    }
+
+    return filename;
+}
+
 /** \brief  Handler for the 'drag-data-received' event
  *
  * Autostarts an image/prg when valid. Please note that VSID now has its own
@@ -844,109 +895,15 @@ static void on_drag_data_received(GtkWidget        *widget,
                                   guint             info,
                                   guint             time)
 {
-    gchar         **uris;
-    gchar          *filename  = NULL;
-    gchar         **files     = NULL;
-    guchar         *text      = NULL;
-    int             drop_mode = 0;
-    GdkDragAction   action;
+    gchar *filename = drag_data_get_filename(data, info);
 
-    action = gdk_drag_context_get_selected_action(context);
-    resources_get_int("AutostartDropMode", &drop_mode);
-
-    /* TODO: move this filename extraction into separate function */
-    switch (info) {
-
-        case DT_URI_LIST:
-            /*
-             * This branch appears to be taken on both Windows and macOS.
-             */
-
-            /* got possible list of URI's */
-            uris = gtk_selection_data_get_uris(data);
-            if (uris != NULL) {
-                /* keep this debugging output, drag'n'drop is pretty flaky */
-#if 0
-                /* dump URI's on stdout */
-                debug_gtk3("got URI's:");
-                for (i = 0; uris[i] != NULL; i++) {
-
-                    debug_gtk3("URI: '%s'\n", uris[i]);
-                    filename = g_filename_from_uri(uris[i], NULL, NULL);
-                    debug_gtk3("filename: '%s'.", filename);
-                    if (filename != NULL) {
-                        g_free(filename);
-                    }
-                }
-#endif
-
-                /* use the first/only entry as the autostart file
-                 *
-                 * XXX: perhaps add any additional files to the fliplist
-                 *      if Dxx?
-                 */
-                if (uris[0] != NULL) {
-                    filename = g_filename_from_uri(uris[0], NULL, NULL);
-                } else {
-                    filename = NULL;
-                }
-
-                g_strfreev(uris);
-            }
-            break;
-
-        case DT_TEXT:
-            /*
-             * this branch appears to be taken on both Gtk and Qt based WM's
-             * on Linux
-             */
-
-
-            /* text will contain a newline separated list of 'file://' URIs,
-             * and a trailing newline */
-            text = gtk_selection_data_get_text(data);
-            /* remove trailing whitespace */
-            g_strchomp((gchar *)text);
-
-            files = g_strsplit((const gchar *)text, "\n", -1);
-            g_free(text);
-
-#if 0
-# ifdef HAVE_DEBUG_GTK3UI
-            for (i = 0; files[i] != NULL; i++) {
-                /* keep this as well */
-                gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
-                debug_gtk3("URI: '%s', filename: '%s'.",
-                        files[i], tmp);
-            }
-# endif
-#endif
-            /* now grab the first file */
-            filename = g_filename_from_uri(files[0], NULL, NULL);
-            g_strfreev(files);
-            break;
-
-        default:
-            filename = NULL;
-            break;
-    }
-
-    /* can we attempt autostart? */
     if (filename != NULL) {
-#if 0
-        if (action != GDK_ACTION_MOVE) {
-            /* drop with alt ("link") -> only load, not run */
-            int mode = (action == GDK_ACTION_LINK) ? AUTOSTART_MODE_LOAD : AUTOSTART_MODE_RUN;
-            if (autostart_autodetect(filename, NULL, 0, mode) != 0) {
-                /* TODO: add proper UI error */
-            }
-        } else {
-            /* drop with shift ("move") -> only mount the disk */
-            if (file_system_attach_disk(8, 0, filename) < 0) {
-                /* TODO: add proper UI error */
-            }
-        }
-#endif
+        GdkDragAction action;
+        int           drop_mode = 0;
+
+        action = gdk_drag_context_get_selected_action(context);
+        resources_get_int("AutostartDropMode", &drop_mode);
+
         /* determine autostart behaviour */
         switch (action) {
             case GDK_ACTION_COPY:

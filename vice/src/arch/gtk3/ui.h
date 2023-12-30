@@ -56,12 +56,11 @@ enum {
 #define UI_DRAG_TARGETS_COUNT   3
 
 
-/** \brief  Drag-n-drop 'target' types
- */
+/** \brief  Drag-n-drop 'target' mime types */
 enum {
-    DT_TEXT,        /**< simple text (text/plain) */
-    DT_URI,         /**< haven't seen this one get triggered (yet) */
-    DT_URI_LIST     /**< used by Windows Explorer / macOS Finder */
+    DT_TEXT_PLAIN,      /**< "text/plain" */
+    DT_TEXT_URI,        /**< "text/uri" - haven't seen this one (yet) */
+    DT_TEXT_URI_LIST    /**< "text/uri-list" - Windows Explorer / macOS Finder */
 };
 
 
