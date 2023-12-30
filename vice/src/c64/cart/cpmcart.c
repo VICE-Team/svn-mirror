@@ -138,6 +138,16 @@ static int set_cpmcart_enabled(int value, void *param)
     return 0;
 }
 
+int cpmcart_enable(void)
+{
+    return set_cpmcart_enabled(1, (void*)1);
+}
+
+int cpmcart_disable(void)
+{
+    return set_cpmcart_enabled(0, (void*)1);
+}
+
 static const resource_int_t resources_int[] = {
     { "CPMCart", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &cpmcart_enabled, set_cpmcart_enabled, NULL },
