@@ -440,16 +440,82 @@ def perform_phase_3(index):
         print("git restore --staged .")
     subprocess.run(['git', 'restore', '--staged', '.'])
 
-    # Manually hook up some loose branches to the releases they forked from
+    # Manually hook up loose branches to the releases they forked from
     branch_subst = {'svn/amatthies/current/': 'release/v1.22.22',
             'svn/fabrizio/v2.1.3-remove_ui_h_and_videoarch_h_from_generic_code/': 'release/v2.1.3',
-            'svn/fabrizio/v2.1-gtkfilefilters/': 'release/v2.1'}
+            'svn/fabrizio/v2.1-gtkfilefilters/': 'release/v2.1',
+            'svn/tags/amatthies/v2.1.3-win32dx9/': 'release/v2.1.3',
+            'svn/tags/amatthies/v2.0-winshortcuts/': 'release/v2.0',
+            'svn/tags/amatthies/2.0.4+irq/': 'release/v2.0.4',
+            'svn/tags/chris/v2.1.9-dynlib-ffmpeg/': 'release/v2.1.9',
+            'svn/tags/chris/v2.1.13-autostart-prg/': 'release/v2.1.13',
+            'svn/tags/chris/v2.1-quicktime/': 'release/v2.1',
+            'svn/tags/chris/v2.0.9-cocoa/': 'release/v2.0.9',
+            'svn/tags/chris/v2.0.8-cocoa/': 'release/v2.0.8',
+            'svn/tags/chris/v2.0.8-cocoa-fix/': 'release/v2.0.8',
+            'svn/tags/chris/v2.0.7-joytoggle/': 'release/v2.0.7',
+            'svn/tags/chris/v2.0.6-macmidi/': 'release/v2.0.6',
+            'svn/tags/chris/v2.0.5-macjoyupdate/': 'release/v2.0.5',
+            'svn/tags/chris/v2.0.2-mac-x64dtv/': 'release/v2.0.2',
+            'svn/tags/chris/v2.0-mac-ppc-x11-fixes/': 'release/v2.0',
+            'svn/tags/chris/v1.22.27-final-pre2.0/': 'release/v1.22.27',
+            'svn/tags/chris/v1.22.11-cocoa-port1/': 'release/v1.22.11',
+            'svn/tags/chris/v1.22.15-cocoa-port/': 'release/v1.22.15',
+            'svn/tags/contributions/v2.2.2-mmcreplay/': 'release/v2.2.2',
+            'svn/tags/contributions/v2.1.9-monitor/': 'release/v2.1.9',
+            'svn/tags/contributions/v2.1-paddle/': 'release/v2.1',
+            'svn/tags/contributions/v2.0.8-gp2x-improvements/': 'release/v2.0.8',
+            'svn/tags/contributions/v2.0.4-palemurewrite/': 'release/v2.0.4',
+            'svn/tags/contributions/v2.0.3-resid-fp/': 'release/v2.0.3',
+            'svn/tags/fabrizio/v2.1.2-windowsmouse/': 'release/v2.1.2',
+            'svn/tags/fabrizio/v2.1.3-gtkfilefilters/': 'release/v2.1.3',
+            'svn/tags/fabrizio/v2.1-gtkfilefilters/': 'release/v2.1',
+            'svn/tags/fabrizio/v2.1-imageselector/': 'release/v2.1',
+            'svn/tags/marco/v2.1.5-win64/': 'release/v2.1.5',
+            'svn/tags/marco/v2.1-turkish-danish-intl/': 'release/v2.1',
+            'svn/tags/marco/v2.0.8-isepic-dqbb/': 'release/v2.0.8',
+            'svn/tags/marco/v2.0.6-intl-unification/': 'release/v2.0.6',
+            'svn/tags/marco/v2.0.3-win32menucleanup-datacleanup-monpo/': 'release/v2.0.3',
+            'svn/tags/marco/v2.0.1-vpauthors-makedistfix-logintlcleanup-frpo/': 'release/v2.0.1',
+            'svn/tags/marco/v1.22.21-hu-intl-win32sc-makebindist/': 'release/v1.22.1',
+            'svn/tags/marco/v1.22.18-fixes-newpalcheck-mint/': 'release/v1.22.18',
+            'svn/tags/marco/v1.22.16-fixes-vp-memmap/': 'release/v1.22.16',
+            'svn/tags/marco/v1.22.17-fixes-palemu-carts-interleave/': 'release/v1.22.17',
+            'svn/tags/marco/v1.22.15-warning-fixes/': 'release/v1.22.15',
+            'svn/tags/marco/v1.22.13-fontfixing/': 'release/v1.22.13',
+            'svn/tags/pottendo/v2.0.8-fixunixfs/': 'release/v2.0.8',
+            'svn/tags/pottendo/v2.0.8-fixunixfs+fixcmdline/': 'release/v2.0.8',
+            'svn/tags/pottendo/martin-2.0+vsync+32bit/': 'release/v2.0',
+            'svn/tags/spiro/v1.22.18-reu/': 'release/v1.22.18',
+            'svn/tags/spiro/2.1.3-networking-20092/': 'release/v2.1.3',
+            'svn/tags/tibor/vice-2.0.1.dinput/': 'release/v2.0.1',
+            'svn/tags/tlr/v2.1.5-x64dtv_blit_speed/': 'release/v2.1.5',
+            'svn/tags/tlr/v2.1.16-xvic-cartridge/': 'release/v2.1.16',
+            'svn/tags/tlr/v2.1.14-xvic-cartridge/': 'release/v2.1.14',
+            'svn/tags/tlr/v2.0.9-vic20-pixelexact/': 'release/v2.0.9',
+            'svn/tags/viceplus/v2.2.8-unbundle/': 'release/v2.2.8',
+            'svn/tags/viceplus/v2.2.1-x64sc/': 'release/v2.2.1',
+            'svn/tags/viceplus/v2.1.15-xvic/': 'release/v2.1.15',
+            'svn/tags/viceplus/v2.1.15-fe-easyflash/': 'release/v2.1.15',
+            'svn/tags/viceplus/v2.1.14-lightpen/': 'release/v2.1.14',
+            'svn/tags/viceplus/v2.1-resid-dtv/': 'release/v2.1',
+            'svn/tags/viceplus/v2.0.7-x64dtv/': 'release/v2.0.7',
+            'svn/tags/viceplus/v2.0-x64dtv/': 'release/v2.0',
+            'svn/tags/viceplus/2.0.4-midi/': 'release/v2.0.4'}
 
     for branch, branchdata in index['branch_histories'].items():
         # We handled release tags seperately
         if branch.startswith('svn/tags/v') and branch[10].isdigit():
             continue
-        # TODO: Handle all other tags as tags if possible
+        # If it's a tag but not a release tag, turn it into a tag on trunk if
+        # it corresponds to a commit there. Otherwise, we'll treat it like
+        # any other branch.
+        if branch.startswith('svn/tags/'):
+            if branchdata['merged_to'] is not None:
+                if verbose:
+                    print(f"git tag tag/{branch[9:-1]} {branchdata['merged_to']}")
+                subprocess.run(['git', 'tag', f'tag/{branch[9:-1]}', branchdata['merged_to']], check=True)
+                continue
         # Comment out this check if we want to preserve the history of
         # merged branches
         if branchdata['merged_to'] is not None:
