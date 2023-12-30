@@ -190,7 +190,7 @@ static void on_drag_data_received(
 
     switch (info) {
 
-        case DT_URI_LIST:
+        case DT_TEXT_URI_LIST:
             /*
              * This branch appears to be taken on both Windows and macOS.
              */
@@ -220,7 +220,7 @@ static void on_drag_data_received(
             }
             break;
 
-        case DT_TEXT:
+        case DT_TEXT_PLAIN:
             /*
              * this branch appears to be taken on both Gtk and Qt based WM's
              * on Linux
