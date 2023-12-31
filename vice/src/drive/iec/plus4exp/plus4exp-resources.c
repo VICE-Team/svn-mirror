@@ -80,7 +80,7 @@ int plus4exp_resources_init(void)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
         res_drive[0].value_ptr = &(diskunit_context[dnr]->parallel_cable);
-        res_drive[0].param = uint_to_void_ptr(dnr);
+        res_drive[0].param = vice_uint_to_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0) {
             return -1;

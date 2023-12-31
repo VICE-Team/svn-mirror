@@ -99,7 +99,7 @@ static const char *joyport_dynmenu_helper(int port)
             entry[i].string   = lib_strdup(devices[i].name);
             entry[i].type     = MENU_ENTRY_RESOURCE_RADIO;
             entry[i].callback = uijoyport_device_callbacks[port];
-            entry[i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+            entry[i].data     = (ui_callback_data_t)vice_int_to_ptr(devices[i].id);
         }
 
         entry[i].string = NULL;

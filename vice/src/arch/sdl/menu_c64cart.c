@@ -91,7 +91,7 @@ static void makegroup(cartridge_info_t *cartlist, ui_menu_entry_t *entry, int fl
     while(cartlist->name) {
         if (cartlist->flags & flags) {
             ui_c64cart_entry.string = cartlist->name;
-            ui_c64cart_entry.data = (ui_callback_data_t)(int_to_void_ptr(cartlist->crtid));
+            ui_c64cart_entry.data = (ui_callback_data_t)(vice_int_to_ptr(cartlist->crtid));
             memcpy(entry, &ui_c64cart_entry, sizeof(ui_menu_entry_t));
             entry++;
         }
@@ -2198,19 +2198,19 @@ void uiclockport_rr_mmc_menu_create(void)
         mmc64_clockport_device_menu[i].string   = clockport_supported_devices[i].name;
         mmc64_clockport_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         mmc64_clockport_device_menu[i].callback = radio_MMC64ClockPort_callback;
-        mmc64_clockport_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+        mmc64_clockport_device_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(clockport_supported_devices[i].id);
 
         mmcreplay_clockport_device_menu[i].action   = ACTION_NONE;
         mmcreplay_clockport_device_menu[i].string   = clockport_supported_devices[i].name;
         mmcreplay_clockport_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         mmcreplay_clockport_device_menu[i].callback = radio_MMCRClockPort_callback;
-        mmcreplay_clockport_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+        mmcreplay_clockport_device_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(clockport_supported_devices[i].id);
 
         retroreplay_clockport_device_menu[i].action   = ACTION_NONE;
         retroreplay_clockport_device_menu[i].string   = clockport_supported_devices[i].name;
         retroreplay_clockport_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         retroreplay_clockport_device_menu[i].callback = radio_RRClockPort_callback;
-        retroreplay_clockport_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+        retroreplay_clockport_device_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(clockport_supported_devices[i].id);
     }
 
     mmc64_clockport_device_menu[i].action   = ACTION_NONE;

@@ -470,7 +470,7 @@ static int set_tapeport_cmdline_device(const char *param, void *extra_param)
         temp = atoi(param);
     }
 
-    return set_tapeport_device(temp, int_to_void_ptr(port));
+    return set_tapeport_device(temp, vice_int_to_ptr(port));
 }
 
 /* ------------------------------------------------------------------------- */

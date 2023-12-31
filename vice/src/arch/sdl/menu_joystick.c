@@ -105,28 +105,28 @@ static const char *joystick_device_dynmenu_helper(int port)
         entry[j].string   = lib_strdup("None");
         entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NONE);
+        entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_NONE);
         j++;
 
         entry[j].action   = ACTION_NONE;
         entry[j].string   = lib_strdup("Numpad");
         entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NUMPAD);
+        entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_NUMPAD);
         j++;
 
         entry[j].action   = ACTION_NONE;
         entry[j].string   = lib_strdup("Keyset 1");
         entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET1);
+        entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_KEYSET1);
         j++;
 
         entry[j].action   = ACTION_NONE;
         entry[j].string   = lib_strdup("Keyset 2");
         entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
-        entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET2);
+        entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_KEYSET2);
         j++;
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -136,7 +136,7 @@ static const char *joystick_device_dynmenu_helper(int port)
             entry[j].string   = lib_strdup(device_name);
             entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
             entry[j].callback = uijoystick_device_callbacks[port];
-            entry[j].data     = (ui_callback_data_t)int_to_void_ptr(JOYDEV_JOYSTICK);
+            entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_JOYSTICK);
             j++;
         }
 #endif
@@ -727,7 +727,7 @@ static const char *joystick_mapping_dynmenu_helper(int port)
                     entry[j].string   = mapname;
                     entry[j].type     = MENU_ENTRY_DIALOG;
                     entry[j].callback = custom_joymap_callback;
-                    entry[j].data     = (ui_callback_data_t)int_to_void_ptr((mappings->pinmap[i].pin | (port << 5)));
+                    entry[j].data     = (ui_callback_data_t)vice_int_to_ptr((mappings->pinmap[i].pin | (port << 5)));
                     joy_pin[port][mappings->pinmap[i].pin] = mapname;
                     j++;
                 }
@@ -738,7 +738,7 @@ static const char *joystick_mapping_dynmenu_helper(int port)
                     entry[j].string   = lib_strdup(mappings->potmap[i].name);
                     entry[j].type     = MENU_ENTRY_DIALOG;
                     entry[j].callback = custom_joymap_axis_callback;
-                    entry[j].data     = (ui_callback_data_t)int_to_void_ptr((mappings->potmap[i].pin | (port << 5)));
+                    entry[j].data     = (ui_callback_data_t)vice_int_to_ptr((mappings->potmap[i].pin | (port << 5)));
                     j++;
                 }
             }
@@ -746,7 +746,7 @@ static const char *joystick_mapping_dynmenu_helper(int port)
             entry[j].string   = lib_strdup("Clear all mappings");
             entry[j].type     = MENU_ENTRY_DIALOG;
             entry[j].callback = clear_joymap_callback;
-            entry[j].data     = (ui_callback_data_t)int_to_void_ptr(port << 5);
+            entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(port << 5);
             j++;
         }
         entry[j].string = NULL;

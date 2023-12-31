@@ -30,6 +30,7 @@
 
 #include "menu_common.h"
 #include "resources.h"
+#include "types.h"
 #include "uiactions.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
@@ -191,30 +192,30 @@ static const ui_action_map_t display_actions[] = {
     },
     {   .action  = ACTION_SHOW_STATUSBAR_TOGGLE,
         .handler = show_statusbar_toggle_action,
-        .data    = int_to_void_ptr(0)   /* canvas index */
+        .data    = vice_int_to_ptr(0)   /* canvas index */
     },
     {   .action  = ACTION_SHOW_STATUSBAR_SECONDARY_TOGGLE,
         .handler = show_statusbar_toggle_action,
-        .data    = int_to_void_ptr(1)   /* canvas index */
+        .data    = vice_int_to_ptr(1)   /* canvas index */
     },
 
     /* Border modes (we use the VICII constants here, the TED and VIC constants
      * map to the same values) */
     {   .action  = ACTION_BORDER_MODE_NORMAL,
         .handler = border_mode_action,
-        .data    = int_to_void_ptr(VICII_NORMAL_BORDERS)
+        .data    = vice_int_to_ptr(VICII_NORMAL_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_FULL,
         .handler = border_mode_action,
-        .data    = int_to_void_ptr(VICII_FULL_BORDERS)
+        .data    = vice_int_to_ptr(VICII_FULL_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_DEBUG,
         .handler = border_mode_action,
-        .data    = int_to_void_ptr(VICII_DEBUG_BORDERS)
+        .data    = vice_int_to_ptr(VICII_DEBUG_BORDERS)
     },
     {   .action  = ACTION_BORDER_MODE_NONE,
         .handler = border_mode_action,
-        .data    = int_to_void_ptr(VICII_NO_BORDERS)
+        .data    = vice_int_to_ptr(VICII_NO_BORDERS)
     },
 
     {   .action  = ACTION_RESTORE_DISPLAY,

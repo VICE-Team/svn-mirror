@@ -137,7 +137,7 @@ void render_thread_push_job(render_thread_t thread, render_job_t job)
         return;
     }
 
-    g_thread_pool_push(thread->executor, int_to_void_ptr(job), NULL);
+    g_thread_pool_push(thread->executor, vice_int_to_ptr(job), NULL);
 
     UNLOCK();
 }

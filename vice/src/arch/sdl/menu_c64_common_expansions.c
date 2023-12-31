@@ -530,7 +530,7 @@ void uiclockport_ide64_menu_create(void)
         ide64_clockport_device_menu[i].string   = clockport_supported_devices[i].name;
         ide64_clockport_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         ide64_clockport_device_menu[i].callback = radio_IDE64ClockPort_callback;
-        ide64_clockport_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(clockport_supported_devices[i].id);
+        ide64_clockport_device_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(clockport_supported_devices[i].id);
     }
 
     ide64_clockport_device_menu[i].action   = ACTION_NONE;

@@ -69,7 +69,7 @@ void wic64_timezones_menu_new(void)
         dyn_menu_wic64[z].string   = lib_msprintf("%d: %s", zones[z].idx, zones[z].tz_name);
         dyn_menu_wic64[z].type     = MENU_ENTRY_RESOURCE_RADIO;
         dyn_menu_wic64[z].callback = radio_WIC64Timezone_callback;
-        dyn_menu_wic64[z].data     = int_to_void_ptr(zones[z].idx);
+        dyn_menu_wic64[z].data     = vice_int_to_ptr(zones[z].idx);
     }
     dyn_menu_wic64[z].string = NULL;
 }

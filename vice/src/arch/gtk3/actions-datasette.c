@@ -51,7 +51,7 @@
  *
  * \see     \c src/datasette/datasette.h for control codes
  */
-#define DS_PC(p, c) (int_to_void_ptr((p) | (c << 8)))
+#define DS_PC(p, c) (vice_int_to_ptr((p) | (c << 8)))
 
 
 /** \brief  Send control command to datasette action
@@ -104,19 +104,19 @@ static const ui_action_map_t datasette_actions[] = {
     /* Datasette #1 image actions */
     {   .action  = ACTION_TAPE_ATTACH_1,
         .handler = tape_attach_action,
-        .data    = int_to_void_ptr(1),
+        .data    = vice_int_to_ptr(1),
         .blocks  = true,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_CREATE_1,
         .handler = tape_create_action,
-        .data    = int_to_void_ptr(1),
+        .data    = vice_int_to_ptr(1),
         .blocks  = true,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_1,
         .handler = tape_detach_action,
-        .data    = int_to_void_ptr(1)
+        .data    = vice_int_to_ptr(1)
     },
 
     /* Datasette #1 command actions */
@@ -152,19 +152,19 @@ static const ui_action_map_t datasette_actions[] = {
     /* Datasette #2 image actions */
     {   .action  = ACTION_TAPE_ATTACH_2,
         .handler = tape_attach_action,
-        .data    = int_to_void_ptr(2),
+        .data    = vice_int_to_ptr(2),
         .blocks  = true,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_CREATE_2,
         .handler = tape_create_action,
-        .data    = int_to_void_ptr(2),
+        .data    = vice_int_to_ptr(2),
         .blocks  = true,
         .dialog  = true
     },
     {   .action  = ACTION_TAPE_DETACH_2,
         .handler = tape_detach_action,
-        .data    = int_to_void_ptr(2)
+        .data    = vice_int_to_ptr(2)
     },
 
     /* Datasette #2 command actions */

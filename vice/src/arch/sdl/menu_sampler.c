@@ -73,7 +73,7 @@ void uisampler_menu_create(void)
         sampler_device_menu[i].string   = (char*)devices[i].name;   /* yuck! */
         sampler_device_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         sampler_device_menu[i].callback = radio_SamplerDevice_callback;
-        sampler_device_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(i);
+        sampler_device_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(i);
     }
 
     sampler_device_menu[i].string = NULL;

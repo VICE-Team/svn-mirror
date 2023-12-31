@@ -30,6 +30,7 @@
 #include "cartridge.h"
 #include "keyboard.h"
 #include "log.h"
+#include "types.h"
 #include "uiactions.h"
 #include "uimenu.h"
 
@@ -203,19 +204,19 @@ static const ui_action_map_t cartridge_actions_cbm2[] = {
     },
     {   .action  = ACTION_CART_DETACH_1000,
         .handler = cart_detach_address_action,
-        .data    = int_to_void_ptr(CARTRIDGE_CBM2_8KB_1000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_8KB_1000)
     },
     {   .action  = ACTION_CART_DETACH_2000,
         .handler = cart_detach_address_action,
-        .data    = int_to_void_ptr(CARTRIDGE_CBM2_8KB_2000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_8KB_2000)
     },
     {   .action  = ACTION_CART_DETACH_4000,
         .handler = cart_detach_address_action,
-        .data    = int_to_void_ptr(CARTRIDGE_CBM2_16KB_4000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_16KB_4000)
     },
     {   .action  = ACTION_CART_DETACH_6000,
         .handler = cart_detach_address_action,
-        .data    = int_to_void_ptr(CARTRIDGE_CBM2_16KB_6000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_16KB_6000)
     },
     UI_ACTION_MAP_TERMINATOR
 };

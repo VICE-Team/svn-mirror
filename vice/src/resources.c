@@ -286,7 +286,7 @@ int resources_register_int(const resource_int_t *r)
 
         dp->name = lib_strdup(sp->name);
         dp->type = RES_INTEGER;
-        dp->factory_value = uint_to_void_ptr(sp->factory_value);
+        dp->factory_value = vice_uint_to_ptr(sp->factory_value);
         dp->value_ptr = (void *)(sp->value_ptr);
         dp->event_relevant = sp->event_relevant;
         dp->event_strict_value = sp->event_strict_value;
@@ -614,7 +614,7 @@ int resources_set_int(const char *name, int value)
     /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
        record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
-        resource_record_event(r, uint_to_void_ptr(value));
+        resource_record_event(r, vice_uint_to_ptr(value));
         return 0;
     }
 
@@ -662,7 +662,7 @@ void resources_set_value_event(void *data, int size)
         log_error(LOG_DEFAULT, "resources_set_value_event: resource '%s' does not exist.", name);
     } else {
         if (r->type == RES_INTEGER) {
-            resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
+            resources_set_value_internal(r, (resource_value_t) vice_uint_to_ptr(*(uint32_t *)valueptr));
         } else {
             resources_set_value_internal(r, (resource_value_t)valueptr);
         }
@@ -900,7 +900,7 @@ int resources_set_default_int(const char *name, int value)
         return -1;
     }
 
-    r->factory_value = uint_to_void_ptr(value);
+    r->factory_value = vice_uint_to_ptr(value);
     return 0;
 }
 
@@ -1085,7 +1085,7 @@ int resources_toggle(const char *name, int *new_value_return)
     /* if netplay is connected, and resource is tagged RES_EVENT_SAME,
        record the resource change event so it will be distributed to the client */
     if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
-        resource_record_event(r, uint_to_void_ptr(value));
+        resource_record_event(r, vice_uint_to_ptr(value));
         return 0;
     }
 
@@ -1395,7 +1395,7 @@ static char *string_resource_item(int num, const char *delim)
 
     switch (resources[num].type) {
         case RES_INTEGER:
-            v = (resource_value_t) uint_to_void_ptr(*(int *)resources[num].value_ptr);
+            v = (resource_value_t) vice_uint_to_ptr(*(int *)resources[num].value_ptr);
             line = lib_msprintf("%s=%d%s", resources[num].name, vice_ptr_to_int(v), delim);
             break;
         case RES_STRING:
@@ -1438,7 +1438,7 @@ static int resource_item_isdefault(int num)
 
     switch (resources[num].type) {
         case RES_INTEGER:
-            v = (resource_value_t) uint_to_void_ptr(*(int *)resources[num].value_ptr);
+            v = (resource_value_t) vice_uint_to_ptr(*(int *)resources[num].value_ptr);
             i1 = vice_ptr_to_int(v);
             i2 = vice_ptr_to_int(resources[num].factory_value);
             if (i1 == i2) {

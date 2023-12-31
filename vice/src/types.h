@@ -81,9 +81,9 @@ typedef uint64_t CLOCK;
 #endif
 
 
-#define vice_ptr_to_int(x) ((int)(intptr_t)(x))
+#define vice_ptr_to_int(x)  ((int)(intptr_t)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(uintptr_t)(x))
-#define int_to_void_ptr(x) ((void *)(intptr_t)(x))
-#define uint_to_void_ptr(x) ((void *)(uintptr_t)(x))
+#define vice_int_to_ptr(x)  ((void *)(intptr_t)(x))
+#define vice_uint_to_ptr(x) ((void *)(uintptr_t)(x))
 
 #endif

@@ -146,7 +146,7 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
 
         if (tune != sdl_vsid_current_tune) {
             sdl_vsid_current_tune = tune;
-            sdl_ui_menu_radio_helper(1, (ui_callback_data_t)int_to_void_ptr(tune), "PSIDTune");
+            sdl_ui_menu_radio_helper(1, (ui_callback_data_t)vice_int_to_ptr(tune), "PSIDTune");
         }
     } else {
         if (command_or_tune == sdl_vsid_current_tune) {

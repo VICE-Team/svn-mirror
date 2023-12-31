@@ -63,6 +63,7 @@
 #include "script64_dongle.h"
 #include "spaceballs.h"
 #include "trapthem_snespad.h"
+#include "types.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vizawrite64_dongle.h"
@@ -1693,7 +1694,7 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
         temp = atoi(param);
     }
 
-    return set_joyport_device(temp, int_to_void_ptr(port));
+    return set_joyport_device(temp, vice_int_to_ptr(port));
 }
 
 /* ------------------------------------------------------------------------- */

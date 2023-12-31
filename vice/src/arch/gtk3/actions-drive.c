@@ -366,19 +366,19 @@ static const ui_action_map_t drive_actions[] = {
     /* Drive reset actions */
     {   .action  = ACTION_RESET_DRIVE_8,
         .handler = reset_drive_action,
-        .data   = int_to_void_ptr(8),
+        .data   = vice_int_to_ptr(8),
     },
     {   .action  = ACTION_RESET_DRIVE_9,
         .handler = reset_drive_action,
-        .data    = int_to_void_ptr(9),
+        .data    = vice_int_to_ptr(9),
     },
     {   .action  = ACTION_RESET_DRIVE_10,
         .handler = reset_drive_action,
-        .data    = int_to_void_ptr(10),
+        .data    = vice_int_to_ptr(10),
     },
     {   .action  = ACTION_RESET_DRIVE_11,
         .handler = reset_drive_action,
-        .data    = int_to_void_ptr(11),
+        .data    = vice_int_to_ptr(11),
     },
 
     /* Fliplist actions

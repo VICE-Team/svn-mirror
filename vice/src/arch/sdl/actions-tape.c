@@ -48,7 +48,7 @@
  *
  * \see     \c src/datasette/datasette.h for control codes
  */
-#define DS_PC(p, c) (int_to_void_ptr((p) | (c << 8)))
+#define DS_PC(p, c) (vice_int_to_ptr((p) | (c << 8)))
 
 
 /** \brief  Detach tape dialog action
@@ -84,7 +84,7 @@ static const ui_action_map_t tape_actions[] = {
     },
     {   .action  = ACTION_TAPE_DETACH_1,
         .handler = tape_detach_action,
-        .data    = int_to_void_ptr(ACTION_TAPE_DETACH_1),
+        .data    = vice_int_to_ptr(ACTION_TAPE_DETACH_1),
     },
     {   .action  = ACTION_TAPE_CREATE_1,
         .handler = sdl_ui_activate_item_action,
@@ -127,7 +127,7 @@ static const ui_action_map_t tape_actions[] = {
     },
     {   .action  = ACTION_TAPE_DETACH_2,
         .handler = tape_detach_action,
-        .data    = int_to_void_ptr(ACTION_TAPE_DETACH_2),
+        .data    = vice_int_to_ptr(ACTION_TAPE_DETACH_2),
     },
     /* datasette 2 controls */
     {   .action  = ACTION_TAPE_STOP_2,

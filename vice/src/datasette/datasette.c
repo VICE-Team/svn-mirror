@@ -861,7 +861,7 @@ void datasette_init(void)
 
     for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
         datasette_alarm[i] = alarm_new(maincpu_alarm_context, "Datasette",
-                                       datasette_read_bit, int_to_void_ptr(i));
+                                       datasette_read_bit, vice_int_to_ptr(i));
     }
 
     datasette_cycles_per_second = machine_get_cycles_per_second();
