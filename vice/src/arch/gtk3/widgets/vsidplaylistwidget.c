@@ -439,7 +439,7 @@ static void playlist_load_callback(GtkDialog *dialog,
         lastdir_update(GTK_WIDGET(dialog), &playlist_last_dir, NULL);
 
         g_snprintf(buf, sizeof buf, "Loading playlist %s", filename);
-        ui_display_statustext(buf, 1);
+        ui_display_statustext(buf, true);
 
         if (m3u_open(filename, playlist_entry_handler, playlist_directive_handler)) {
             /* clear playlist now */
@@ -451,7 +451,7 @@ static void playlist_load_callback(GtkDialog *dialog,
             /* run the parser to populate the playlist */
             if (!m3u_parse()) {
                 g_snprintf(buf, sizeof buf, "Error parsing %s.", filename);
-                ui_display_statustext(buf, 0);
+                ui_display_statustext(buf, false);
             }
             /* remember path for the playlist-save dialog */
             vsid_playlist_set_path(filename);
@@ -718,7 +718,7 @@ static void on_row_activated(GtkTreeView *view,
         char msg[1024];
 
         g_snprintf(msg, sizeof(msg), "'%s' is not a valid PSID file", filename);
-        ui_display_statustext(msg, 10);
+        ui_display_statustext(msg, true);
     }
     update_current_and_total();
 
@@ -1549,7 +1549,7 @@ void vsid_playlist_save(void)
     /* don't try to save an empty playlist */
     rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
     if (rows < 1) {
-        ui_display_statustext("Error: cannot save empty playlist.", 1);
+        ui_display_statustext("Error: cannot save empty playlist.", true);
         return;
     }
 

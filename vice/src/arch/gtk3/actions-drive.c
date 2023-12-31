@@ -40,12 +40,12 @@
 #include "fliplist.h"
 #include "types.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uiactions.h"
 #include "uidiskattach.h"
 #include "uidiskcreate.h"
 #include "uifliplist.h"
 #include "uismartattach.h"
-#include "uistatusbar.h"
 
 #include "actions-drive.h"
 
@@ -131,19 +131,19 @@ static void fliplist_add_action(ui_action_map_t *self)
     UNPACK_U_D(self->data);
 
     if (fliplist_add_image(unit)) {
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: added image to unit %d, drive %d: %s.",
                    unit, drive, fliplist_get_head(unit));
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     } else {
         /* Display proper error message once we have a decent
          * get_image_filename(unit) function which returns NULL on non-attached
          * images.
          */
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: failed to add image to unit %d, drive %d.",
                    unit, drive);
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     }
 }
 
@@ -160,12 +160,12 @@ static void fliplist_remove_action(ui_action_map_t *self)
         char buffer[MSGBUF_SIZE];
 
         fliplist_remove(unit, NULL);
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: removed image from unit %d, drive %d: %s.",
                    unit, drive, image);
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     } else {
-        ui_display_statustext("Fliplist: nothing to remove.", 1);
+        ui_display_statustext("Fliplist: nothing to remove.", true);
     }
 }
 
@@ -180,15 +180,15 @@ static void fliplist_next_action(ui_action_map_t *self)
 
     if (fliplist_attach_head(unit, 1)) {
 
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: attached next image to unit %d, drive %d: %s.",
                    unit, drive, fliplist_get_head(unit));
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     } else {
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: failed to attach next image to unit %d, drive %d.",
                    unit, drive);
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     }
 }
 
@@ -203,15 +203,15 @@ static void fliplist_previous_action(ui_action_map_t *self)
 
     if (fliplist_attach_head(unit, 0)) {
 
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Fliplist: attached previous image to unit %d, drive %d: %s.",
                    unit, drive, fliplist_get_head(unit));
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     } else {
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                   "Fliplist: failed to attach previous image to unit %d, drive %d.",
                   unit, drive);
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     }
 }
 
@@ -225,10 +225,10 @@ static void fliplist_clear_action(ui_action_map_t *self)
     char buffer[MSGBUF_SIZE];
 
     fliplist_clear_list(unit);
-    g_snprintf(buffer, sizeof(buffer),
+    g_snprintf(buffer, sizeof buffer,
               "Fliplist: Cleared for unit %d, drive %d.",
               unit, drive);
-    ui_display_statustext(buffer, 1);
+    ui_display_statustext(buffer, true);
 }
 
 /** \brief  Load fliplist action

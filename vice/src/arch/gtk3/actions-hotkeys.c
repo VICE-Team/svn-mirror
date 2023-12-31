@@ -40,10 +40,10 @@
 #include "hotkeys.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uiapi.h"
 #include "uihotkeys.h"
 #include "uihotkeysload.h"
 #include "uihotkeyssave.h"
-#include "uistatusbar.h"
 
 #include "actions-hotkeys.h"
 
@@ -54,7 +54,7 @@
  */
 static void hotkeys_clear_action(ui_action_map_t *self)
 {
-    ui_display_statustext("Clearing all hotkeys.", 1);
+    ui_display_statustext("Clearing all hotkeys.", true);
     ui_hotkeys_remove_all();
 }
 
@@ -64,7 +64,7 @@ static void hotkeys_clear_action(ui_action_map_t *self)
  */
 static void hotkeys_default_action(ui_action_map_t *self)
 {
-    ui_display_statustext("Loading default hotkeys.", 1);
+    ui_display_statustext("Loading default hotkeys.", true);
     ui_hotkeys_load_vice_default();
 }
 
@@ -76,7 +76,7 @@ static void hotkeys_default_action(ui_action_map_t *self)
  */
 static void hotkeys_load_action(ui_action_map_t *self)
 {
-    ui_display_statustext("Reloading current hotkeys.", 1);
+    ui_display_statustext("Reloading current hotkeys.", true);
     ui_hotkeys_remove_all();
     ui_hotkeys_reload();
 }
@@ -99,10 +99,10 @@ static void hotkeys_load_from_action(ui_action_map_t *self)
 static void hotkeys_save_action(ui_action_map_t *self)
 {
     if (ui_hotkeys_save()) {
-        ui_display_statustext("Hotkeys saved succesfully.", 1);
+        ui_display_statustext("Hotkeys saved succesfully.", true);
     } else {
         /* TODO: a little more info on why it failed perhaps? */
-        ui_display_statustext("Failed to save hotkeys.", 1);
+        ui_display_statustext("Failed to save hotkeys.", true);
     }
 }
 

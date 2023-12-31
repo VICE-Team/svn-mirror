@@ -133,12 +133,12 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
 
             g_snprintf(text, sizeof text, "Opening '%s'", filename);
-            ui_display_statustext(text, 10);
+            ui_display_statustext(text, true);
             if (ui_vsid_window_load_psid(filename) < 0) {
                 g_snprintf(text, sizeof text,
                            "Error: '%s' is not a valid PSID file",
                            filename);
-                ui_display_statustext(text, 10);
+                ui_display_statustext(text, true);
             }
             ui_pause_disable();
 
