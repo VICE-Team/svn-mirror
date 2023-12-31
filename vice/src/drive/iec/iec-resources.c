@@ -366,19 +366,19 @@ int iec_resources_init(void)
 
         res_drive[0].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
         res_drive[0].value_ptr = &(unit->drive_ram2_enabled);
-        res_drive[0].param = uint_to_void_ptr(dnr);
+        res_drive[0].param = vice_uint_to_ptr(dnr);
         res_drive[1].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
         res_drive[1].value_ptr = &(unit->drive_ram4_enabled);
-        res_drive[1].param = uint_to_void_ptr(dnr);
+        res_drive[1].param = vice_uint_to_ptr(dnr);
         res_drive[2].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
         res_drive[2].value_ptr = &(unit->drive_ram6_enabled);
-        res_drive[2].param = uint_to_void_ptr(dnr);
+        res_drive[2].param = vice_uint_to_ptr(dnr);
         res_drive[3].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
         res_drive[3].value_ptr = &(unit->drive_ram8_enabled);
-        res_drive[3].param = uint_to_void_ptr(dnr);
+        res_drive[3].param = vice_uint_to_ptr(dnr);
         res_drive[4].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
         res_drive[4].value_ptr = &(unit->drive_rama_enabled);
-        res_drive[4].param = uint_to_void_ptr(dnr);
+        res_drive[4].param = vice_uint_to_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0) {
             return -1;
@@ -392,7 +392,7 @@ int iec_resources_init(void)
 
         res_string[0].name = lib_msprintf("Drive%iFixedSize", dnr + 8);
         res_string[0].value_ptr = &(unit->fixed_size_text);
-        res_string[0].param = uint_to_void_ptr(dnr);
+        res_string[0].param = vice_uint_to_ptr(dnr);
         unit->fixed_size_text = NULL;
         unit->fixed_size = 0;
 

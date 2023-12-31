@@ -79,7 +79,7 @@ static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
         tapeport_dyn_menu[TAPEPORT_PORT_1][i].string   = lib_strdup(devices[i].name);
         tapeport_dyn_menu[TAPEPORT_PORT_1][i].type     = MENU_ENTRY_RESOURCE_RADIO;
         tapeport_dyn_menu[TAPEPORT_PORT_1][i].callback = radio_TapePort1Device_callback;
-        tapeport_dyn_menu[TAPEPORT_PORT_1][i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].data     = (ui_callback_data_t)vice_int_to_ptr(devices[i].id);
     }
     tapeport_dyn_menu[TAPEPORT_PORT_1][i].string = NULL;
 
@@ -105,7 +105,7 @@ static UI_MENU_CALLBACK(TapePort2Device_dynmenu_callback)
         tapeport_dyn_menu[TAPEPORT_PORT_2][i].string   = (char *)lib_strdup(devices[i].name);
         tapeport_dyn_menu[TAPEPORT_PORT_2][i].type     = MENU_ENTRY_RESOURCE_RADIO;
         tapeport_dyn_menu[TAPEPORT_PORT_2][i].callback = radio_TapePort2Device_callback;
-        tapeport_dyn_menu[TAPEPORT_PORT_2][i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].data     = (ui_callback_data_t)vice_int_to_ptr(devices[i].id);
     }
     tapeport_dyn_menu[TAPEPORT_PORT_2][i].string   = NULL;
 

@@ -238,55 +238,55 @@ static const ui_action_map_t drive_actions[] = {
     /* normal reset */
     {   .action  = ACTION_RESET_DRIVE_8,
         .handler = drive_reset_action,
-        .data    = int_to_void_ptr(8)
+        .data    = vice_int_to_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9,
         .handler = drive_reset_action,
-        .data    = int_to_void_ptr(9)
+        .data    = vice_int_to_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10,
         .handler = drive_reset_action,
-        .data    = int_to_void_ptr(10)
+        .data    = vice_int_to_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11,
         .handler = drive_reset_action,
-        .data    = int_to_void_ptr(11)
+        .data    = vice_int_to_ptr(11)
     },
 
     /* reset in configuration mode */
     {   .action  = ACTION_RESET_DRIVE_8_CONFIG,
         .handler = drive_reset_config_action,
-        .data    = int_to_void_ptr(8)
+        .data    = vice_int_to_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9_CONFIG,
         .handler = drive_reset_config_action,
-        .data    = int_to_void_ptr(9)
+        .data    = vice_int_to_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10_CONFIG,
         .handler = drive_reset_config_action,
-        .data    = int_to_void_ptr(10)
+        .data    = vice_int_to_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11_CONFIG,
         .handler = drive_reset_config_action,
-        .data    = int_to_void_ptr(11)
+        .data    = vice_int_to_ptr(11)
     },
 
     /* reset in installation mode */
     {   .action  = ACTION_RESET_DRIVE_8_INSTALL,
         .handler = drive_reset_install_action,
-        .data    = int_to_void_ptr(8)
+        .data    = vice_int_to_ptr(8)
     },
     {   .action  = ACTION_RESET_DRIVE_9_INSTALL,
         .handler = drive_reset_install_action,
-        .data    = int_to_void_ptr(9)
+        .data    = vice_int_to_ptr(9)
     },
     {   .action  = ACTION_RESET_DRIVE_10_INSTALL,
         .handler = drive_reset_install_action,
-        .data    = int_to_void_ptr(10)
+        .data    = vice_int_to_ptr(10)
     },
     {   .action  = ACTION_RESET_DRIVE_11_INSTALL,
         .handler = drive_reset_install_action,
-        .data    = int_to_void_ptr(11)
+        .data    = vice_int_to_ptr(11)
     },
 
     /* fliplist (unit #8 only for now) */

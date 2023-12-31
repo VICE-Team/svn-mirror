@@ -299,7 +299,7 @@ static resource_int_t resources_i[] = {
     { "Acia1Mode", ACIA_MODE_SWIFTLINK, RES_EVENT_NO, NULL,
       &acia.mode, acia_set_mode, NULL },
     /* CAUTION: position is hardcoded below */
-    { "Acia1Base", 0xffff, RES_EVENT_STRICT, int_to_void_ptr(0xffff),
+    { "Acia1Base", 0xffff, RES_EVENT_STRICT, vice_int_to_ptr(0xffff),
       &acia_base, set_acia_base, NULL },
     RESOURCE_INT_LIST_END
 };

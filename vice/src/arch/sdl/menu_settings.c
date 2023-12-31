@@ -266,7 +266,7 @@ void uikeyboard_update_mapping_menu(void)
     while(num) {
         if (!(keyboard_is_hosttype_valid(kbdlist->mapping) < 0)) {
             ui_keyboard_mapping_entry.string = kbdlist->name;
-            ui_keyboard_mapping_entry.data = (ui_callback_data_t)(int_to_void_ptr(kbdlist->mapping));
+            ui_keyboard_mapping_entry.data = (ui_callback_data_t)(vice_int_to_ptr(kbdlist->mapping));
             memcpy(entry, &ui_keyboard_mapping_entry, sizeof(ui_menu_entry_t));
             entry++;
         }

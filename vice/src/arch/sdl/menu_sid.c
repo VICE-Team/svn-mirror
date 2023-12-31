@@ -34,6 +34,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "sidcart.h"
+#include "types.h"
 #include "uiactions.h"
 #include "uimenu.h"
 
@@ -928,7 +929,7 @@ void uisid_menu_create(void)
         sid_model_menu[i].string   = (char*)list[i]->name;
         sid_model_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         sid_model_menu[i].callback = custom_SidModel_callback;
-        sid_model_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(list[i]->value);
+        sid_model_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(list[i]->value);
     }
     sid_model_menu[i].string = NULL;
 

@@ -47,19 +47,19 @@ static void printer_formfeed_action(ui_action_map_t *self)
 static const ui_action_map_t printer_actions[] = {
     {   .action  = ACTION_PRINTER_FORMFEED_4,
         .handler = printer_formfeed_action,
-        .data    = int_to_void_ptr(4)
+        .data    = vice_int_to_ptr(4)
     },
     {   .action  = ACTION_PRINTER_FORMFEED_5,
         .handler = printer_formfeed_action,
-        .data   = int_to_void_ptr(5)
+        .data   = vice_int_to_ptr(5)
     },
     {   .action  = ACTION_PRINTER_FORMFEED_6,
         .handler = printer_formfeed_action,
-        .data    = int_to_void_ptr(6)
+        .data    = vice_int_to_ptr(6)
     },
     {   .action  = ACTION_PRINTER_FORMFEED_USERPORT,
         .handler = printer_formfeed_action,
-        .data    = int_to_void_ptr(3)
+        .data    = vice_int_to_ptr(3)
     },
 
     UI_ACTION_MAP_TERMINATOR

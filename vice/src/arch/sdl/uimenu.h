@@ -42,7 +42,7 @@
 
 /* not sure these belong here, might have to move them to generic code to share
  * with the same macros for Gtk3 */
-#define UNIT_DRIVE_TO_PTR(U, D) (int_to_void_ptr(((U) << 8) | ((D) & 0xff)))
+#define UNIT_DRIVE_TO_PTR(U, D) (vice_int_to_ptr(((U) << 8) | ((D) & 0xff)))
 #define UNIT_FROM_PTR(P)        ((vice_ptr_to_int(P) >> 8) & 0xff)
 #define DRIVE_FROM_PTR(P)       (vice_ptr_to_int(P) & 0xff)
 

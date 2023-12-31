@@ -228,22 +228,22 @@ static const ui_action_map_t display_actions[] = {
 static const ui_action_map_t border_mode_actions[] = {
     {   .action   = ACTION_BORDER_MODE_NONE,
         .handler  = border_mode_action,
-        .data     = int_to_void_ptr(VICII_NO_BORDERS),
+        .data     = vice_int_to_ptr(VICII_NO_BORDERS),
         .uithread = true
     },
     {   .action   = ACTION_BORDER_MODE_NORMAL,
         .handler  = border_mode_action,
-        .data     = int_to_void_ptr(VICII_NORMAL_BORDERS),
+        .data     = vice_int_to_ptr(VICII_NORMAL_BORDERS),
         .uithread = true
     },
     {   .action   = ACTION_BORDER_MODE_FULL,
         .handler  = border_mode_action,
-        .data     = int_to_void_ptr(VICII_FULL_BORDERS),
+        .data     = vice_int_to_ptr(VICII_FULL_BORDERS),
         .uithread = true
     },
     {   .action   = ACTION_BORDER_MODE_DEBUG,
         .handler  = border_mode_action,
-        .data     = int_to_void_ptr(VICII_DEBUG_BORDERS),
+        .data     = vice_int_to_ptr(VICII_DEBUG_BORDERS),
         .uithread = true
     },
     UI_ACTION_MAP_TERMINATOR

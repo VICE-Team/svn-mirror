@@ -295,14 +295,14 @@ static const ui_action_map_t settings_actions[] = {
     {
         .action  = ACTION_SETTINGS_LOAD_FROM,
         .handler = settings_load_from_action,
-        .data    = int_to_void_ptr(0),  /* reset settings before loading */
+        .data    = vice_int_to_ptr(0),  /* reset settings before loading */
         .blocks  = true,
         .dialog  = true
     },
     {
         .action  = ACTION_SETTINGS_LOAD_EXTRA,
         .handler = settings_load_from_action,
-        .data    = int_to_void_ptr(1),  /* don't reset setting before loading */
+        .data    = vice_int_to_ptr(1),  /* don't reset setting before loading */
         .blocks  = true,
         .dialog  = true
     },

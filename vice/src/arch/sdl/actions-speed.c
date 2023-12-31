@@ -154,23 +154,23 @@ static const ui_action_map_t speed_actions[] = {
     /* CPU speed radio buttons */
     {   .action  = ACTION_SPEED_CPU_10,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(10)
+        .data    = vice_int_to_ptr(10)
     },
     {   .action  = ACTION_SPEED_CPU_25,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(25)
+        .data    = vice_int_to_ptr(25)
     },
     {   .action  = ACTION_SPEED_CPU_50,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(50)
+        .data    = vice_int_to_ptr(50)
     },
     {   .action  = ACTION_SPEED_CPU_100,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(100)
+        .data    = vice_int_to_ptr(100)
     },
     {   .action  = ACTION_SPEED_CPU_200,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(200)
+        .data    = vice_int_to_ptr(200)
     },
     /* Custom CPU speed dialog */
     {   .action  = ACTION_SPEED_CPU_CUSTOM,
@@ -181,11 +181,11 @@ static const ui_action_map_t speed_actions[] = {
     /* FPS targets */
     {   .action  = ACTION_SPEED_FPS_50,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(-50)
+        .data    = vice_int_to_ptr(-50)
     },
     {   .action  = ACTION_SPEED_FPS_60,
         .handler = set_speed_resource,
-        .data    = int_to_void_ptr(-60)
+        .data    = vice_int_to_ptr(-60)
     },
     {   .action  = ACTION_SPEED_FPS_CUSTOM,
         .handler = sdl_ui_activate_item_action,

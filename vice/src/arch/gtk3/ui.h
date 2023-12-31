@@ -72,7 +72,7 @@ enum {
  * \param[in]   U   unit number (8-11)
  * \param[in]   D   drive number (0 or 1)
  */
-#define UNIT_DRIVE_TO_PTR(U, D) (int_to_void_ptr(((U) << 8) | ((D) & 0xff)))
+#define UNIT_DRIVE_TO_PTR(U, D) (vice_int_to_ptr(((U) << 8) | ((D) & 0xff)))
 
 /** \brief  Convert pointer to unit number
  *

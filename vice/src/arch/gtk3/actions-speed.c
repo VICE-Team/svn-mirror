@@ -324,27 +324,27 @@ static const ui_action_map_t speed_actions[] = {
     /* CPU speed actions */
     {   .action   = ACTION_SPEED_CPU_200,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(200),
+        .data     = vice_int_to_ptr(200),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_100,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(100),
+        .data     = vice_int_to_ptr(100),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_50,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(50),
+        .data     = vice_int_to_ptr(50),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_25,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(25),
+        .data     = vice_int_to_ptr(25),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_CPU_10,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(10),
+        .data     = vice_int_to_ptr(10),
         .uithread = true
     },
     {   .action  = ACTION_SPEED_CPU_CUSTOM,
@@ -356,17 +356,17 @@ static const ui_action_map_t speed_actions[] = {
     /* FPS actions */
     {   .action   = ACTION_SPEED_FPS_REAL,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(100),
+        .data     = vice_int_to_ptr(100),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_FPS_50,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(-50),
+        .data     = vice_int_to_ptr(-50),
         .uithread = true
     },
     {   .action   = ACTION_SPEED_FPS_60,
         .handler  = speed_cpu_action,
-        .data     = int_to_void_ptr(-60),
+        .data     = vice_int_to_ptr(-60),
         .uithread = true
     },
     {   .action  = ACTION_SPEED_FPS_CUSTOM,

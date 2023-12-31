@@ -76,7 +76,7 @@ static UI_MENU_CALLBACK(UserportDevice_dynmenu_callback)
         userport_dyn_menu[i].string   = lib_strdup(devices[i].name);
         userport_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
         userport_dyn_menu[i].callback = radio_UserportDevice_callback;
-        userport_dyn_menu[i].data     = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        userport_dyn_menu[i].data     = (ui_callback_data_t)vice_int_to_ptr(devices[i].id);
     }
     userport_dyn_menu[i].string = NULL;
 

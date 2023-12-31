@@ -234,10 +234,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "Speed", NULL,
       "<percent or negative fps>", "Limit emulation speed to specified value" },
     { "-warp", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_initial_warp_mode_cmdline, int_to_void_ptr(1), NULL, NULL,
+      set_initial_warp_mode_cmdline, vice_int_to_ptr(1), NULL, NULL,
       NULL, "Initially enable warp mode" },
     { "+warp", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_initial_warp_mode_cmdline, int_to_void_ptr(0), NULL, NULL,
+      set_initial_warp_mode_cmdline, vice_int_to_ptr(0), NULL, NULL,
       NULL, "Do not initially enable warp mode (default)" },
     CMDLINE_LIST_END
 };
