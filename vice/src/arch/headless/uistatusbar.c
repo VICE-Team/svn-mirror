@@ -14,7 +14,7 @@
  *
  *  \author Marco van den Heuvel <blackystardust68@yahoo.com>
  *  \author Michael C. Martin <mcmartin@gmail.com>
- *  \auhtor Bas Wassink <b.wassink@ziggo.nl>
+ *  \author Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -49,6 +49,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "uiapi.h"
 #include "uistatusbar.h"
@@ -103,11 +104,11 @@ void ui_display_recording(int recording_status)
 
 /** \brief  Statusbar API function to display a message in the status bar.
  *
- *  \param  text        The text to display.
- *  \param  fade_out    If nonzero, erase the text after five seconds
- *                      unless it has already been replaced.
+ *  \param  text    The text to display.
+ *  \param  fadeout Erase the text after five seconds unless it has already
+ *                  been replaced.
  */
-void ui_display_statustext(const char *text, int fade_out)
+void ui_display_statustext(const char *text, bool fadeout)
 {
     /* printf("%s\n", __func__); */
 }
