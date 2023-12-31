@@ -513,12 +513,12 @@ void statusbar_speed_widget_update(GtkWidget *widget,
             lib_free(temp);
 #endif
             jammed = true;
-            ui_display_statustext(machine_jam_reason(), 0);
+            ui_display_statustext(machine_jam_reason(), false);
         }
         return;
     } else if (jammed) {
         /* machine is not jammed, but was jammed before */
-        ui_display_statustext("", 0);
+        ui_display_statustext("", false);
         jammed = false;
     }
 
@@ -526,11 +526,11 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         if (drive_is_jammed(drv)) {
             if (drivejammed[drv] == false) {
                 drivejammed[drv] = true;
-                ui_display_statustext(drive_jam_reason(drv), 0);
+                ui_display_statustext(drive_jam_reason(drv), false);
             }
         } else if (drivejammed[drv] == true) {
             /* drive is not jammed, but was jammed before */
-            ui_display_statustext("", 0);
+            ui_display_statustext("", false);
             drivejammed[drv] = false;
         }
     }

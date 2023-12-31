@@ -41,8 +41,8 @@
 #include "savefiledialog.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uiapi.h"
 #include "uihotkeys.h"
-#include "uistatusbar.h"
 #include "util.h"
 
 #include "uihotkeyssave.h"
@@ -70,13 +70,13 @@ static void save_callback(GtkDialog *dialog, gchar *filename, gpointer data)
         char buffer[1024];
 
         if (ui_hotkeys_save_as(filename)) {
-            g_snprintf(buffer, sizeof(buffer),
+            g_snprintf(buffer, sizeof buffer,
                        "Saved hotkeys as %s", filename);
         } else {
-            g_snprintf(buffer, sizeof(buffer),
+            g_snprintf(buffer, sizeof buffer,
                        "Failed to save hotkeys as %s", filename);
         }
-        ui_display_statustext(buffer, 1);
+        ui_display_statustext(buffer, true);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }

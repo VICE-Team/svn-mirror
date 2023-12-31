@@ -2890,21 +2890,21 @@ void ui_display_recording(int recording_status)
 
 /** \brief  Statusbar API function to display a message in the status bar.
  *
- *  \param  text        The text to display.
- *  \param  fade_out    If nonzero, erase the text after five* seconds
- *                      unless it has already been replaced.
+ *  \param  text    The text to display.
+ *  \param  fadeout Erase the text after five* seconds unless it has already
+ *                  been replaced.
  *
  * \note    Safe to call from VICE thread.
  * \see     #MESSAGE_TIMEOUT for the actual timeout in seconds
  */
-void ui_display_statustext(const char *text, int fade_out)
+void ui_display_statustext(const char *text, bool fadeout)
 {
     ui_sb_state_t *sb_state = lock_sb_state();
 
     strncpy(sb_state->message_text, text, MESSAGE_TEXT_SIZE);
     /* strncpy() doesn't add a 0 when len(text) == buflen: */
     sb_state->message_text[MESSAGE_TEXT_SIZE - 1] = '\0';
-    sb_state->message_fadeout = (bool)fade_out;
+    sb_state->message_fadeout = fadeout;
     sb_state->message_pending = true;
 
     unlock_sb_state();

@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -421,7 +422,7 @@ static int network_test_delay(void)
     tick_t packet_delay[NUM_OF_TESTPACKETS];
     char st[256];
 
-    ui_display_statustext("Testing best frame delay...", 0);
+    ui_display_statustext("Testing best frame delay...", false);
 
     buf = (unsigned char*)&pkt;
 
@@ -481,7 +482,7 @@ exiterror:
     network_init_frame_event_list();
     sprintf(st, "Using %d frames delay.", frame_delta);
     log_debug("netplay connected with %d frames delta.", frame_delta);
-    ui_display_statustext(st, 1);
+    ui_display_statustext(st, true);
     return ret;
 }
 
@@ -516,7 +517,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
         }
         fclose(f);
 
-        ui_display_statustext("Sending snapshot to client...", 0);
+        ui_display_statustext("Sending snapshot to client...", false);
         util_int_to_le_buf4(send_size4, (int)buf_size);
         if ((i = network_send_buffer(network_socket, send_size4, 4)) < 0) {
         } else {
@@ -525,7 +526,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
         lib_free(buf);
         if (i < 0) {
             ui_error("Cannot send snapshot to client");
-            ui_display_statustext("", 0);
+            ui_display_statustext("", false);
             lib_free(snapshotfilename);
             return;
         }
@@ -738,13 +739,13 @@ int network_start_server(void)
         vsync_suspend_speed_eval();
         sound_suspend();
 
-        ui_display_statustext("Server is waiting for a client...", 0);
+        ui_display_statustext("Server is waiting for a client...", false);
 
         ret = 0;
     } while (0);
 
     if (network_mode == NETWORK_SERVER_CONNECTED) {
-        ui_display_statustext("Client connected...", 1);
+        ui_display_statustext("Client connected...", true);
     }
 
     if (server_addr) {
@@ -795,7 +796,7 @@ int network_connect_client(void)
         return -1;
     }
 
-    ui_display_statustext("Receiving snapshot from server...", 0);
+    ui_display_statustext("Receiving snapshot from server...", false);
     if (network_recv_buffer(network_socket, recv_buf4, 4) < 0) {
         lib_free(snapshotfilename);
         vice_network_socket_close(network_socket);
@@ -833,7 +834,7 @@ void network_disconnect(void)
         vice_network_socket_close(listen_socket);
         network_mode = NETWORK_IDLE;
     }
-    ui_display_statustext("Netplay disconnected...", 1);
+    ui_display_statustext("Netplay disconnected...", true);
 }
 
 void network_suspend(void)
@@ -871,10 +872,10 @@ static void network_hook_connected_send(void)
 
     util_int_to_le_buf4(send_len4, (int)send_len);
     if (network_send_buffer(network_socket, send_len4, 4) < 0) {
-        ui_display_statustext("Remote host disconnected.", 1);
+        ui_display_statustext("Remote host disconnected.", true);
         network_disconnect();
     } else if (network_send_buffer(network_socket, local_event_buf, send_len) < 0) {
-        ui_display_statustext("Remote host disconnected.", 1);
+        ui_display_statustext("Remote host disconnected.", true);
         network_disconnect();
     }
 #ifdef NETWORK_TRAFFIC_DEBUG
@@ -903,7 +904,7 @@ static void network_hook_connected_receive(void)
     if (frame_buffer_full) {
         do {
             if (network_recv_buffer(network_socket, recv_len4, 4) < 0) {
-                ui_display_statustext("Remote host disconnected.", 1);
+                ui_display_statustext("Remote host disconnected.", true);
                 network_disconnect();
                 return;
             }
@@ -911,14 +912,14 @@ static void network_hook_connected_receive(void)
             recv_len = util_le_buf4_to_int(recv_len4);
             if (recv_len == 0 && suspended == 0) {
                 /* remote host suspended emulation */
-                ui_display_statustext("Remote host suspending...", 0);
+                ui_display_statustext("Remote host suspending...", false);
                 suspended = 1;
                 vsync_suspend_speed_eval();
             }
         } while (recv_len == 0);
 
         if (suspended == 1) {
-            ui_display_statustext("", 0);
+            ui_display_statustext("", false);
         }
 
         remote_event_buf = lib_malloc(recv_len);

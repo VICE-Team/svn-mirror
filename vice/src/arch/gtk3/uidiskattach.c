@@ -57,7 +57,6 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
-#include "uistatusbar.h"
 
 #include "uidiskattach.h"
 
@@ -252,15 +251,15 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
         * through file types is 'smart', but hell, it works */
     if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
         /* failed */
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Unit #%d: failed to attach '%s'",
                    unit_number, filename);
     } else {
-        g_snprintf(buffer, sizeof(buffer),
+        g_snprintf(buffer, sizeof buffer,
                    "Unit #%d: attached '%s'",
                    unit_number, filename);
     }
-    ui_display_statustext(buffer, 1);
+    ui_display_statustext(buffer, true);
     g_free(filename_locale);
 }
 

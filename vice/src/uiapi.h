@@ -69,7 +69,7 @@ void ui_message(const char *format, ...) VICE_ATTR_PRINTF;
 void ui_error(const char *format, ...) VICE_ATTR_PRINTF;
 
 /* Display a mesage without interrupting emulation */
-void ui_display_statustext(const char *text, int fade_out);
+void ui_display_statustext(const char *text, bool fadeout);
 
 /* Let the user browse for a filename; display format as a titel */
 char* ui_get_file(const char *format, ...) VICE_ATTR_PRINTF;
