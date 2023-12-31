@@ -152,7 +152,7 @@ jobs:
                       --without-png \
                       --without-pulse
           make -j2
-          echo ::set-output name=pdf_path::$(echo $(pwd)/doc/vice.pdf)
+          echo "pdf_path=$(echo $(pwd)/doc/vice.pdf)" >> $GITHUB_OUTPUT
 
       - name: Upload
         uses: actions/upload-artifact@v3
@@ -297,10 +297,10 @@ jobs:
         shell: msys2 {0}
         run: |
           MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/github-actions/build-msys2.sh ${{ matrix.ui }} "release"
-          echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
-          echo ::set-output name=zip_name::$(basename vice/*.zip)
-          echo ::set-output name=seven_zip_path::$(cygpath -w -a vice/*.7z)
-          echo ::set-output name=seven_zip_name::$(basename vice/*.7z)
+          echo "zip_path=$(cygpath -w -a vice/*.zip)"       >> $GITHUB_OUTPUT
+          echo "zip_name=$(basename vice/*.zip)"            >> $GITHUB_OUTPUT
+          echo "seven_zip_path=$(cygpath -w -a vice/*.7z)"  >> $GITHUB_OUTPUT
+          echo "seven_zip_name=$(basename vice/*.7z)"       >> $GITHUB_OUTPUT
 
       - name: Upload Zip
         id: upload-zip
