@@ -428,13 +428,13 @@ static UI_MENU_CALLBACK(radio_FFMPEGAudioCodec_callback)
         resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
         update_codec_menus(w);
     } else {
-        int w;
+        int w = 0;
 
         resources_get_int_sprintf("%sAudioCodec", &w, ffmpeg_kludges(videodriver));
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, ffmpeg_kludges(videodriver), w);
 #endif
-        if (w) {
+        if (w == vice_ptr_to_int(param)) {
             return sdl_menu_text_tick;
         }
     }
@@ -455,13 +455,13 @@ static UI_MENU_CALLBACK(radio_FFMPEGVideoCodec_callback)
         resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
         update_codec_menus(w);
     } else {
-        int w;
+        int w = 0;
 
         resources_get_int_sprintf("%sVideoCodec", &w, ffmpeg_kludges(videodriver));
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, ffmpeg_kludges(videodriver), w);
 #endif
-        if (w) {
+        if (w == vice_ptr_to_int(param)) {
             return sdl_menu_text_tick;
         }
     }
