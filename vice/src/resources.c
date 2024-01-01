@@ -1438,8 +1438,7 @@ static int resource_item_isdefault(int num)
 
     switch (resources[num].type) {
         case RES_INTEGER:
-            v = (resource_value_t) vice_uint_to_ptr(*(int *)resources[num].value_ptr);
-            i1 = vice_ptr_to_int(v);
+            i1 = *(int*)resources[num].value_ptr;
             i2 = vice_ptr_to_int(resources[num].factory_value);
             if (i1 == i2) {
                 return 1;
@@ -1448,9 +1447,9 @@ static int resource_item_isdefault(int num)
             break;
         case RES_STRING:
             v = *resources[num].value_ptr;
-            s1 = (char *)v == NULL ? "" : (char *)v;
-            s2 = (char *)resources[num].factory_value == NULL ? "" : (char *)resources[num].factory_value;
-            if (!strcmp(s1, s2)) {
+            s1 = v == NULL ? "" : v;
+            s2 = resources[num].factory_value == NULL ? "" : resources[num].factory_value;
+            if (strcmp(s1, s2) == 0) {
                 return 1;
             }
             DBG(("%s = (string) default: \"%s\" is: \"%s\"\n", resources[num].name, s2, s1));
