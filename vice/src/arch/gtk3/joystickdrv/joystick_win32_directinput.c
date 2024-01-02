@@ -348,6 +348,21 @@ static joystick_driver_t win32_directinput_joystick_driver = {
     .close = joystick_release_joystick
 };
 
+
+#ifdef HAVE_DEBUG_GTK3UI
+static void dump_guid(GUID guid)
+{
+    printf(".Data1 (ulong)    = %08lx\n", guid.Data1);
+    printf(".Data2 (ushort)   = %04x\n", guid.Data2);
+    printf(".Data3 (ushort)   = %04x\n", guid.Data3);
+    printf(".Data4 (uchar[8]) =");
+    for (size_t i = 0; i < sizeof guid.Data4; i++) {
+        printf(" %02x", guid.Data4[i]);
+    }
+    printf("\n");
+}
+#endif
+
 static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
 {
     JoyInfo *new_joystick;
@@ -355,6 +370,14 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
 
     new_joystick = lib_malloc(sizeof(JoyInfo));
     memcpy(&new_joystick->guid, &lpddi->guidInstance, sizeof(GUID));
+
+#ifdef HAVE_DEBUG_GTK3UI
+    printf("%s(): lpddi.guidProduct:\n", __func__);
+    dump_guid(lpddi->guidProduct);
+    printf("%s(): lpddi.guidInstance:\n", __func__);
+    dump_guid(lpddi->guidInstance);
+#endif
+
     new_joystick->axes = NULL;
     new_joystick->buttons = NULL;
     new_joystick->numPOVs = 0;
