@@ -3154,6 +3154,8 @@ void register_joystick_driver(
         new_joystick_device->button_mapping[n].mapping.value.joy_pin = 16;
         n++;
     }
+    /* Disabled after discussion on IRC --compyx 2024-01-02 */
+#if 0
     if (num_buttons > n) {
         new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_JOYSTICK;
         new_joystick_device->button_mapping[n].mapping.value.joy_pin = 32;
@@ -3180,6 +3182,7 @@ void register_joystick_driver(
                 break;
         }
     }
+#endif
     memset(gtkjoy_pins, 0, sizeof(int) * JOYPORT_MAX_PORTS * JOYPORT_MAX_PINS);
 #if 0 /* for testing */
     new_joystick_device->button_mapping[0].action = JOY_ACTION_KEYBOARD;
