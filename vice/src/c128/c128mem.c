@@ -2679,9 +2679,9 @@ static uint8_t ram_peek_c64(uint16_t addr)
 {
     uint8_t *b = mem_read_base_tab[mem_config][addr >> 8];
 
-    if ((addr & 0xff) == 0) {
+    if ((addr & 0xff00) == 0x0000) {
         return zero_peek(addr);
-    } else if ((addr & 0xff) == 1) {
+    } else if ((addr & 0xff00) == 0x0100) {
         return one_peek(addr);
     }
 
