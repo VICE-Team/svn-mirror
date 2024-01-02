@@ -203,6 +203,7 @@ static UI_MENU_CALLBACK(Joystick11Device_dynmenu_callback)
 }
 
 UI_MENU_DEFINE_TOGGLE(JoyOpposite)
+UI_MENU_DEFINE_TOGGLE(JoyMenuControl)
 
 UI_MENU_DEFINE_TOGGLE(JoyStick1AutoFire)
 UI_MENU_DEFINE_TOGGLE(JoyStick2AutoFire)
@@ -944,6 +945,10 @@ const ui_menu_entry_t joystick_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
     },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
+    },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
@@ -1044,6 +1049,10 @@ const ui_menu_entry_t joystick_c64_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
     },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
+    },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
@@ -1143,6 +1152,10 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
         .string   = "Allow keyset joystick",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
+    },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
     },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
@@ -1251,6 +1264,10 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
     },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
+    },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
@@ -1347,6 +1364,10 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
     },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
+    },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
@@ -1431,6 +1452,10 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
         .string   = "Allow keyset joystick",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .resource = "KeySetEnable"
+    },
+    {   .string   = "Enable joystick menu navigation",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_JoyMenuControl_callback
     },
     {   .string   = "Define keysets",
         .type     = MENU_ENTRY_SUBMENU,
