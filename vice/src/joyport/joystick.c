@@ -3243,13 +3243,19 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             keyboard_set_keyarr_any(event->value.key[0], event->value.key[1], value);
             break;
         case JOY_ACTION_UI_ACTIVATE:
-            if (value) {
-                arch_ui_activate();
+            DBG(("%s (JOY_ACTION_UI_ACTIVATE) joyport: %d value: %d\n", __func__, joyport, value));
+            if ((joyport >= 0) && (joyport < JOYPORT_MAX_PORTS)) {
+                if (value) {
+                    arch_ui_activate();
+                }
             }
             break;
         case JOY_ACTION_UI_FUNCTION:
-            if (value && event->value.ui_action > ACTION_NONE) {
-                ui_action_trigger(event->value.ui_action);
+            DBG(("%s (JOY_ACTION_UI_FUNCTION) joyport: %d value: %d\n", __func__, joyport, value));
+            if ((joyport >= 0) && (joyport < JOYPORT_MAX_PORTS)) {
+                if (value && event->value.ui_action > ACTION_NONE) {
+                    ui_action_trigger(event->value.ui_action);
+                }
             }
 #if 0   /* FIXME */
         case MENUACTION:
@@ -3257,7 +3263,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
                  joyport, value,event->value.action));
             break;
 #endif
-        case JOY_ACTION_NONE:
+        case JOY_ACTION_NONE:   /* fall through */
         default:
             break;
     }
