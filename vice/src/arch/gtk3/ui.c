@@ -919,7 +919,7 @@ static void on_drag_data_received(GtkWidget        *widget,
                 break;
             default:
                 log_warning(LOG_DEFAULT,
-                            "Unhandled GdkDragAction %d, attaching only.", action);
+                            "Unhandled GdkDragAction %u, attaching only.", action);
                 drop_mode = AUTOSTART_DROP_MODE_ATTACH;
                 break;
         }
