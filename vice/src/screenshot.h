@@ -28,6 +28,7 @@
 #ifndef VICE_SCREENSHOT_H
 #define VICE_SCREENSHOT_H
 
+#include "vice.h"
 #include <stdio.h>
 
 #include "types.h"
@@ -36,7 +37,11 @@
 /* Default quickscreenshot format, must be one of the
  * valid / available gfxoutput driver formats
  */
+#ifdef HAVE_PNG
 #define SCREENSHOT_DEFAULT_QUICKSCREENSHOT_FORMAT "PNG"
+#else
+#define SCREENSHOT_DEFAULT_QUICKSCREENSHOT_FORMAT "BMP"
+#endif
 
 struct palette_s;
 struct video_canvas_s;
