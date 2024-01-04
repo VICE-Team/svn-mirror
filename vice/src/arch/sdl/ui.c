@@ -992,3 +992,10 @@ void sdl_vsid_set_play_func(void (*func)(int))
 {
     psid_play_func = func;
 }
+
+
+/* FIXME: should there be a standard function with this name? */
+video_canvas_t *ui_get_active_canvas(void)
+{
+    return sdl_active_canvas;
+}

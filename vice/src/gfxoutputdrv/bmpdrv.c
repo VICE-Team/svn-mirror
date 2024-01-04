@@ -462,6 +462,7 @@ static int bmpdrv_memmap_save(const char *filename, int x_size, int y_size, uint
 
 static gfxoutputdrv_t bmp_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE,
     "BMP",
     "BMP screenshot",
     "bmp",

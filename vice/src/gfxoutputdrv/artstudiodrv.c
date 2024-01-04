@@ -653,6 +653,7 @@ static int artstudiodrv_save(screenshot_t *screenshot, const char *filename)
 
 static gfxoutputdrv_t artstudio_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_NATIVE,
     "ARTSTUDIO",
     "OCP Artstudio screenshot",
     "ocp",

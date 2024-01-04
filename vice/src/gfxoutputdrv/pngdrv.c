@@ -278,6 +278,7 @@ static int pngdrv_save_memmap(const char *filename, int x_size, int y_size, uint
 
 static gfxoutputdrv_t png_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE,
     "PNG",
     "PNG screenshot",
     "png",

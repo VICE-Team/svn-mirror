@@ -33,8 +33,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "gfxoutput.h"
 #include "vice-event.h"
 #include "vice_gtk3.h"
+#include "uimedia.h"
 
 #include "settings_snapshot.h"
 
@@ -64,6 +66,8 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
     GtkWidget *label;
     GtkWidget *histdir;
     GtkWidget *recmode;
+    GtkWidget *quickformat;
+    gfxoutputdrv_t *driver;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -87,6 +91,24 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), label,   0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), recmode, 1, 1, 2, 1);
+
+
+    label = gtk_label_new("Quicksave screenshot format");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
+    quickformat = vice_gtk3_resource_combo_str_new("QuicksaveScreenshotFormat", NULL);
+
+    driver = gfxoutput_drivers_iter_init();
+    while (driver != NULL) {
+        if (driver->type == GFXOUTPUTDRV_TYPE_SCREENSHOT_NATIVE ||
+            driver->type == GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE) {
+            vice_gtk3_resource_combo_str_append(quickformat, driver->name, driver->displayname);
+        }
+        driver = gfxoutput_drivers_iter_next();
+    }
+    vice_gtk3_resource_combo_str_sync(quickformat);
+    gtk_grid_attach(GTK_GRID(grid), label,       0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), quickformat, 1, 2, 2, 1);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -817,6 +817,7 @@ static int minipaintdrv_save(screenshot_t *screenshot, const char *filename)
 
 static gfxoutputdrv_t minipaint_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_NATIVE,
     "MINIPAINT",
     "MiniPaint screenshot",
     "prg",

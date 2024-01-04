@@ -33,6 +33,11 @@
 #include "types.h"
 #include "viewport.h"
 
+/* Default quickscreenshot format, must be one of the
+ * valid / available gfxoutput driver formats
+ */
+#define SCREENSHOT_DEFAULT_QUICKSCREENSHOT_FORMAT "PNG"
+
 struct palette_s;
 struct video_canvas_s;
 struct gfxoutputdrv_data_s;
@@ -132,6 +137,12 @@ void screenshot_stop_recording(void);
 int screenshot_is_recording(void);
 void screenshot_prepare_reopen(void);
 void screenshot_try_reopen(void);
+const char *screenshot_get_fext_for_format(const char *format);
+const char *screenshot_get_quickscreenshot_format(void);
+char *screenshot_create_datetime_string(void);
+char *screenshot_create_quickscreenshot_filename(const char *format);
+int screenshot_resources_init(void);
+void screenshot_ui_auto_screenshot(void);
 
 #ifdef FEATURE_CPUMEMHISTORY
 int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette);

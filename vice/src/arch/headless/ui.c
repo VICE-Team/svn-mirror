@@ -384,3 +384,9 @@ int ui_action_get_id(const char *name)
 void ui_action_trigger(int action)
 {
 }
+
+/* FIXME: should there be a standard function with this name? */
+video_canvas_t *ui_get_active_canvas(void)
+{
+    return NULL;
+}

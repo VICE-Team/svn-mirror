@@ -212,6 +212,8 @@ ui_menu_entry_t media_menu[] = {
  */
 int uimedia_menu_create(void)
 {
+    uiscreenshot_menu_create();
+
     switch (machine_class) {
 
         /* VIC/VICII/VDC */
@@ -248,6 +250,8 @@ int uimedia_menu_create(void)
  */
 void uimedia_menu_shutdown(void)
 {
+    uiscreenshot_menu_shutdown();
+
     if (sound_record_dyn_menu_init) {
         sdl_menu_sound_record_free();
     }

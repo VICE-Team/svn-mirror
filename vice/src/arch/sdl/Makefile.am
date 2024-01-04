@@ -218,8 +218,6 @@ libarch_a_SOURCES = \
 	uifilereq.h \
 	uihotkey.c \
 	uihotkey.h \
-	uimedia.c \
-	uimedia.h \
 	uimenu.c \
 	uimenu.h \
 	uimon.c \

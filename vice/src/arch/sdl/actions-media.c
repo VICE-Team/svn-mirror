@@ -31,10 +31,9 @@
 #include <stdbool.h>
 
 #include "sound.h"
-#include "screenshot.h"
 #include "uiactions.h"
-#include "uimedia.h"
 #include "uimenu.h"
+#include "screenshot.h"
 
 #include "actions-media.h"
 
@@ -59,7 +58,7 @@ static void media_stop_action(ui_action_map_t *self)
  */
 static void screenshot_quicksave_action(ui_action_map_t *self)
 {
-    ui_media_auto_screenshot();
+    screenshot_ui_auto_screenshot();
 }
 
 /** \brief  List of mappings for media recording actions */
