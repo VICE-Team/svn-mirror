@@ -464,6 +464,13 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
+
+    /* Initialize the machine specific I/O */
+    /* We need to call this before `plus4_resources_init()` otherwise the
+     * "MemoryHack" resource setter tries to unregister an IO source that isn't
+     * registered yet. */
+    plus4io_init();
+
     if (plus4_resources_init() < 0) {
         init_resource_fail("plus4");
         return -1;
@@ -928,9 +935,6 @@ int machine_specific_init(void)
     plus4iec_init();
 
     machine_drive_stub();
-
-    /* Initialize the machine specific I/O */
-    plus4io_init();
 
     return 0;
 }
