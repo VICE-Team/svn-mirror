@@ -83,12 +83,9 @@ int screenshot_init(void)
  */
 void screenshot_shutdown(void)
 {
-    if (reopen_recording_drivername != NULL) {
-        lib_free(reopen_recording_drivername);
-    }
-    if (reopen_filename != NULL) {
-        lib_free(reopen_filename);
-    }
+    lib_free(reopen_recording_drivername);
+    lib_free(reopen_filename);
+    lib_free(autosave_screenshot_format);
 }
 
 
