@@ -348,6 +348,7 @@ static int iffdrv_save_memmap(const char *filename, int x_size, int y_size, uint
 
 static gfxoutputdrv_t iff_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE,
     "IFF",
     "IFF screenshot",
     "iff",

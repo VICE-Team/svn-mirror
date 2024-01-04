@@ -1270,6 +1270,7 @@ static int ffmpegexedrv_write(screenshot_t *screenshot)
 /******************************************************************************/
 
 static gfxoutputdrv_t ffmpegexe_drv = {
+    GFXOUTPUTDRV_TYPE_VIDEO,
     "FFMPEGEXE",
     "FFMPEG (Executable)",
     NULL,

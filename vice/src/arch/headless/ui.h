@@ -69,4 +69,6 @@ const char *ui_action_get_name(int action);
 int         ui_action_get_id(const char *name);
 void        ui_action_trigger(int action);
 
+video_canvas_t *ui_get_active_canvas(void);
+
 #endif

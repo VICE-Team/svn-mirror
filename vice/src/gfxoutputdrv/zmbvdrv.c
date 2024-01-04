@@ -634,6 +634,7 @@ static void zmbvdrv_shutdown(void);
 
 
 static gfxoutputdrv_t zmbv_drv = {
+    GFXOUTPUTDRV_TYPE_VIDEO,
     "ZMBV",
     "ZMBV (Library)",
     NULL,

@@ -1029,6 +1029,7 @@ static void ffmpegdrv_shutdown(void);
 
 
 static gfxoutputdrv_t ffmpeg_drv = {
+    GFXOUTPUTDRV_TYPE_VIDEO,
     "FFMPEG",
     "FFMPEG (Library)",
     NULL,

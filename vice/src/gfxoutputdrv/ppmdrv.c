@@ -217,6 +217,7 @@ static int ppmdrv_save_memmap(const char *filename, int x_size, int y_size, uint
 
 static gfxoutputdrv_t ppm_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE,
     "PPM",
     "PPM screenshot",
     "ppm",

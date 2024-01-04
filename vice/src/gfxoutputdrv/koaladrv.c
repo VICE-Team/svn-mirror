@@ -661,6 +661,7 @@ static int koaladrv_save(screenshot_t *screenshot, const char *filename)
 
 static gfxoutputdrv_t koala_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_NATIVE,
     "KOALA",
     "Koalapainter screenshot",
     "koa",

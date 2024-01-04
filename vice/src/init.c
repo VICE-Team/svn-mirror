@@ -100,6 +100,10 @@ int init_resources(void)
         init_resource_fail("romset");
         return -1;
     }
+    if (screenshot_resources_init() < 0) {
+        init_resource_fail("screenshot");
+        return -1;
+    }
     if (ui_resources_init() < 0) {
         init_resource_fail("UI");
         return -1;

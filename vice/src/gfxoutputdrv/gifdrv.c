@@ -278,6 +278,7 @@ static int gifdrv_save_memmap(const char *filename, int x_size, int y_size, uint
 
 static gfxoutputdrv_t gif_drv =
 {
+    GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE,
     "GIF",
     "GIF screenshot",
     "gif",
