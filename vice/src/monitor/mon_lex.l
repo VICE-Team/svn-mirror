@@ -235,6 +235,7 @@ HDIGIT  [0-9a-f]
         stop            { BEGIN(INITIAL);       return CMD_MON_STOP; }
         stopwatch|sw    { BEGIN(INITIAL);       return CMD_STOPWATCH; }
         tapectrl        { BEGIN(INITIAL);       return CMD_TAPECTRL; }
+        tapeoffs        { BEGIN(INITIAL);       return CMD_TAPEOFFS; }
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
         undump          { BEGIN(FNAME);         return CMD_UNDUMP; }

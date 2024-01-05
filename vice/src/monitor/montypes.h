@@ -269,6 +269,7 @@ void mon_show_pwd(void);
 void mon_make_dir(const char *path);
 void mon_remove_dir(const char *path);
 void mon_tape_ctrl(int port, int command);
+void mon_tape_offs(int port, int command);
 void mon_display_screen(long addr);
 void mon_instructions_step(int count);
 void mon_instructions_next(int count);

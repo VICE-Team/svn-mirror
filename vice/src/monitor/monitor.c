@@ -83,6 +83,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "sysfile.h"
+#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
@@ -1330,6 +1331,17 @@ void mon_tape_ctrl(int port, int command)
         mon_out("Unknown command.\n");
     } else {
         datasette_control(port, command);
+    }
+}
+
+void mon_tape_offs(int port, int offset)
+{
+    tape_image_t *tape_image = tape_image_dev[port];
+    if (tape_image && tape_image->data) {
+        mon_out("Setting tape to offset: %d\n", offset);
+        tape_seek_to_offset(tape_image, offset);
+    } else {
+        mon_out("No tape attached.\n");
     }
 }
 
