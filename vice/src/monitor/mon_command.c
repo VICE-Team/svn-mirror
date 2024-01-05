@@ -791,6 +791,12 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "tapeoffs", "",
+      "<Offset>",
+      "Sets attached .tap to given offset.\n",
+      NO_FILENAME_ARG
+    },
+
     { "", "",
       "",
       "Command file commands:",
