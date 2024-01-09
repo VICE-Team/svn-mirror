@@ -92,6 +92,9 @@ static const char *joystick_device_dynmenu_helper(int port)
     int j = 0, id;
     ui_menu_entry_t *entry = joystick_device_dyn_menu[port];
     const char *device_name;
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    int n;
+#endif
 
     /* rebuild menu if it already exists. */
     if (joystick_device_dyn_menu_init[port] != 0) {
@@ -130,14 +133,16 @@ static const char *joystick_device_dynmenu_helper(int port)
         j++;
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
+        n = 0;
         joystick_ui_reset_device_list();
         while (j < JOYPORT_MAX_PORTS - 1 && (device_name = joystick_ui_get_next_device_name(&id)) != NULL) {
             entry[j].action   = ACTION_NONE;
             entry[j].string   = lib_strdup(device_name);
             entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
             entry[j].callback = uijoystick_device_callbacks[port];
-            entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_JOYSTICK);
+            entry[j].data     = (ui_callback_data_t)vice_int_to_ptr(JOYDEV_JOYSTICK + n);
             j++;
+            n++;
         }
 #endif
         entry[j].string = NULL;
