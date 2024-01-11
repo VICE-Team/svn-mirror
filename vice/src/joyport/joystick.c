@@ -2813,8 +2813,12 @@ void register_joystick_driver(
     new_joystick_device->num_hats = num_hats;
     new_joystick_device->num_buttons = num_buttons;
 
-    log_message(LOG_DEFAULT, "registered controller '%s' with %d axes, %d hats, %d buttons",
-                new_joystick_device->jname, num_axes, num_hats, num_buttons);
+    log_message(LOG_DEFAULT,
+                "registered controller '%s' with %d %s, %d %s, %d %s",
+                new_joystick_device->jname,
+                num_axes, num_axes == 1 ? "axis" : "axes",
+                num_hats, num_hats == 1 ? "hat" : "hats",
+                num_buttons, num_buttons == 1 ? "button" : "buttons");
 
     new_joystick_device->axis_mapping = lib_calloc(num_axes, sizeof *(new_joystick_device->axis_mapping));
     new_joystick_device->button_mapping = lib_calloc(num_buttons, sizeof *(new_joystick_device->button_mapping));
