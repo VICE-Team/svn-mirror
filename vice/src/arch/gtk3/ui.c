@@ -902,12 +902,13 @@ static void on_drag_data_received(GtkWidget        *widget,
         int           drop_mode = 0;
 
         action = gdk_drag_context_get_selected_action(context);
-        resources_get_int("AutostartDropMode", &drop_mode);
 
         /* determine autostart behaviour */
         switch (action) {
-            case GDK_ACTION_COPY:
+            case GDK_ACTION_COPY: /* fall through */
+            default:
                 /* no modifier key held, use the resource value */
+                resources_get_int("AutostartDropMode", &drop_mode);
                 break;
             case GDK_ACTION_MOVE:
                 /* Shift ("move"): attach image */
@@ -916,11 +917,6 @@ static void on_drag_data_received(GtkWidget        *widget,
             case GDK_ACTION_LINK:
                 /* Alt ("link"): attach and load  */
                 drop_mode = AUTOSTART_DROP_MODE_LOAD;
-                break;
-            default:
-                log_warning(LOG_DEFAULT,
-                            "Unhandled GdkDragAction %u, attaching only.", action);
-                drop_mode = AUTOSTART_DROP_MODE_ATTACH;
                 break;
         }
 
