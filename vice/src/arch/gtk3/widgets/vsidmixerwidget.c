@@ -144,7 +144,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 
 #ifndef HAVE_NEW_8580_FILTER
     resources_get_int("SidModel", &model);
-    if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580d)) {
+    if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
         for (i = 0; i < NUM_SCALES; i++) {
             gtk_widget_set_sensitive(scale_widgets[i], FALSE);
         }
