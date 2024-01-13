@@ -133,24 +133,23 @@ static void on_destroy(GtkWidget *self, gpointer data)
  */
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
-    int model;
+#ifndef HAVE_NEW_8580_FILTER
+    int model = 0;
+#endif
     int i;
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        /* assume 6581 */
-        model = 0;
-    }
-
     for (i = 0; i < NUM_SCALES; i++) {
-        vice_gtk3_resource_scale_custom_reset(scale_widgets[i]);
+        vice_gtk3_resource_scale_custom_factory(scale_widgets[i]);
     }
 
-    if (model > 0) {
+#ifndef HAVE_NEW_8580_FILTER
+    resources_get_int("SidModel", &model);
+    if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580d)) {
         for (i = 0; i < NUM_SCALES; i++) {
             gtk_widget_set_sensitive(scale_widgets[i], FALSE);
         }
     }
-
+#endif
 }
 
 /** \brief  Create a right-align label using Pango markup
@@ -274,7 +273,7 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
         /* the "old" 8580 filter implementation doesn't have customizable
          * filter settings, so we disable the sliders if "old" and 8580 */
 #ifndef HAVE_NEW_8580_FILTER
-        if (model == SID_MODEL_8580 || model == SID_MODEL_8580P) {
+        if (model == SID_MODEL_8580 || model == SID_MODEL_8580D) {
             gtk_widget_set_sensitive(scale, FALSE);
         }
 #endif
