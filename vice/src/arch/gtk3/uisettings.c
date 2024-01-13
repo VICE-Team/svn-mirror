@@ -772,6 +772,20 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 };
 /* }}} */
 
+/* {{{ cbm2_io_extensions */
+/** \brief  List of CBM2 I/O extensions
+ */
+static ui_settings_tree_node_t cbm2_io_extensions[] = {
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ pet_io_extensions */
 /** \brief  List of PET I/O extensions
  */
@@ -1872,6 +1886,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_cbm5x0 },
     { "Input devices",      "input",        NULL,   input_nodes_cbm5x0 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm5x0 },
+    { "Cartridges",         "cartridges",   NULL,   cbm2_io_extensions },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1994,6 +2009,7 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_cbm6x0 },
     { "Input devices",      "input",        NULL,   input_nodes_cbm6x0 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm6x0 },
+    { "Cartridges",         "cartridges",   NULL,   cbm2_io_extensions },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

@@ -93,11 +93,11 @@ typedef enum ui_cart_type_e {
     UICART_PLUS4_UTIL,
 
     /* CBM2 cart types */
-    /*UICART_CBM2_SMART,*/
-    UICART_CBM2_8KB_1000,
+    UICART_CBM2_SMART,
+    UICART_CBM2_4KB_1000,
     UICART_CBM2_8KB_2000,
-    UICART_CBM2_16KB_4000,
-    UICART_CBM2_16KB_6000
+    UICART_CBM2_8KB_4000,
+    UICART_CBM2_8KB_6000
     /* FIXME: add the groups */
 
 } ui_cart_type_t;
@@ -193,11 +193,11 @@ static const cart_type_list_t plus4_cart_types[] = {
 /** \brief  List of CBM-II cart types
  */
 static const cart_type_list_t cbm2_cart_types[] = {
-    /*{ "Smart-attach",               UICART_CBM2_SMART },*/
-    { "8KiB at $1000",              UICART_CBM2_8KB_1000 },
+    { "Smart-attach",               UICART_CBM2_SMART },
+    { "4KiB at $1000",              UICART_CBM2_4KB_1000 },
     { "8KiB at $2000",              UICART_CBM2_8KB_2000 },
-    { "16KiB at $4000",             UICART_CBM2_16KB_4000 },
-    { "16KiB at $6000",             UICART_CBM2_16KB_6000 },
+    { "8KiB at $4000",              UICART_CBM2_8KB_4000 },
+    { "8KiB at $6000",              UICART_CBM2_8KB_6000 },
     /* FIXME: add the groups */
     { NULL, -1 }
 };
@@ -629,19 +629,21 @@ static int attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_CBM5x0:   /* fall through */
         case VICE_MACHINE_CBM6x0:
             switch (type) {
-                /*case UICART_CBM2_SMART:
-                    return (crt_attach_func(CARTRIDGE_CBM2_DETECT, path) == 0);*/
-                case UICART_CBM2_8KB_1000:
-                    id = CARTRIDGE_CBM2_8KB_1000;
+                case UICART_CBM2_SMART:
+                    /*return (crt_attach_func(CARTRIDGE_CBM2_DETECT, path) == 0);*/
+                    id = CARTRIDGE_CRT;
+                    break;
+                case UICART_CBM2_4KB_1000:
+                    id = CARTRIDGE_CBM2_GENERIC_C1;
                     break;
                 case UICART_CBM2_8KB_2000:
-                    id = CARTRIDGE_CBM2_8KB_2000;
+                    id = CARTRIDGE_CBM2_GENERIC_C2;
                     break;
-                case UICART_CBM2_16KB_4000:
-                    id = CARTRIDGE_CBM2_16KB_4000;
+                case UICART_CBM2_8KB_4000:
+                    id = CARTRIDGE_CBM2_GENERIC_C4;
                     break;
-                case UICART_CBM2_16KB_6000:
-                    id = CARTRIDGE_CBM2_16KB_6000;
+                case UICART_CBM2_8KB_6000:
+                    id = CARTRIDGE_CBM2_GENERIC_C6;
                     break;
                 /* FIXME: add groups */
                 default:
@@ -891,6 +893,8 @@ static GtkWidget *create_extra_widget(gboolean set_default)
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
         case VICE_MACHINE_VIC20:
             cart_set_default_widget = gtk_check_button_new_with_label(
                     "Set cartridge as default");
@@ -945,8 +949,8 @@ static GtkWidget *create_preview_widget(void)
             && (machine_class != VICE_MACHINE_C64SC)
             && (machine_class != VICE_MACHINE_SCPU64)
             && (machine_class != VICE_MACHINE_C128)
-            /*&& (machine_class != VICE_MACHINE_CBM5x0)
-            && (machine_class != VICE_MACHINE_CBM6x0)*/   /* TODO: enable once implemented */
+            && (machine_class != VICE_MACHINE_CBM5x0)
+            && (machine_class != VICE_MACHINE_CBM6x0)
             && (machine_class != VICE_MACHINE_PLUS4)
             && (machine_class != VICE_MACHINE_VIC20)) {
         GtkWidget *grid = NULL;
@@ -982,7 +986,7 @@ static GtkWidget *create_preview_widget(void)
 static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
 {
     gchar *path = NULL;
-
+printf("update_preview\n");
     path = gtk_file_chooser_get_filename(file_chooser);
     if (path != NULL) {
         gchar *path_locale = file_chooser_convert_to_locale(path);
@@ -1041,6 +1045,8 @@ static GtkWidget *cart_dialog_internal(gboolean set_as_default,
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
         case VICE_MACHINE_PLUS4:
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin);

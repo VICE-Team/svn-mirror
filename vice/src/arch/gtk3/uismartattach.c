@@ -257,7 +257,9 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             /* failed */
             log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
         }
-    } else if (machine_class == VICE_MACHINE_VIC20) {
+    } else if ((machine_class == VICE_MACHINE_VIC20)
+            || (machine_class == VICE_MACHINE_CBM5x0)
+            || (machine_class == VICE_MACHINE_CBM6x0)) {
         if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0

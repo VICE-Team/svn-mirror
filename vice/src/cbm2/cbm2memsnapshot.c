@@ -29,8 +29,10 @@
 
 #include <stdio.h>
 
+#include "cartridge.h"
 #include "cbm2-resources.h"
 #include "cbm2.h"
+#include "cbm2cart.h"
 #include "cbm2mem.h"
 #include "cbm2memsnapshot.h"
 #include "cbm2rom.h"
@@ -438,6 +440,7 @@ int cbm2_snapshot_write_module(snapshot_t *p, int save_roms)
 {
     if (mem_write_ram_snapshot_module(p) < 0
         || mem_write_rom_snapshot_module(p, save_roms) < 0
+        || cartridge_snapshot_write_modules(p) < 0
         ) {
         return -1;
     }
@@ -447,7 +450,9 @@ int cbm2_snapshot_write_module(snapshot_t *p, int save_roms)
 int cbm2_snapshot_read_module(snapshot_t *p)
 {
     if (mem_read_ram_snapshot_module(p) < 0
-        || mem_read_rom_snapshot_module(p) < 0) {
+        || mem_read_rom_snapshot_module(p) < 0
+        || cartridge_snapshot_read_modules(p) < 0
+        ) {
         return -1;
     }
 

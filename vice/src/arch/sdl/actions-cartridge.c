@@ -181,6 +181,9 @@ static const ui_action_map_t cartridge_actions_plus4[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
+    {   .action  = ACTION_CART_DETACH,
+        .handler = cart_detach_action
+    },
     UI_ACTION_MAP_TERMINATOR
 };
 
@@ -204,19 +207,22 @@ static const ui_action_map_t cartridge_actions_cbm2[] = {
     },
     {   .action  = ACTION_CART_DETACH_1000,
         .handler = cart_detach_address_action,
-        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_8KB_1000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_GENERIC_C1)
     },
     {   .action  = ACTION_CART_DETACH_2000,
         .handler = cart_detach_address_action,
-        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_8KB_2000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_GENERIC_C2)
     },
     {   .action  = ACTION_CART_DETACH_4000,
         .handler = cart_detach_address_action,
-        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_16KB_4000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_GENERIC_C4)
     },
     {   .action  = ACTION_CART_DETACH_6000,
         .handler = cart_detach_address_action,
-        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_16KB_6000)
+        .data    = vice_int_to_ptr(CARTRIDGE_CBM2_GENERIC_C6)
+    },
+    {   .action  = ACTION_CART_DETACH,
+        .handler = cart_detach_action
     },
     UI_ACTION_MAP_TERMINATOR
 };
@@ -238,6 +244,7 @@ void actions_cartridge_register(void)
         case VICE_MACHINE_PLUS4:
             ui_actions_register(cartridge_actions_plus4);
             break;
+        case VICE_MACHINE_CBM5x0:
         case VICE_MACHINE_CBM6x0:
             ui_actions_register(cartridge_actions_cbm2);
             break;

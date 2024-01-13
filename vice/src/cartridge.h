@@ -561,12 +561,20 @@ void cartridge_sound_chip_init(void);
 /*
  * cbm2 cartridge system
  */
+#define CARTRIDGE_CBM2_GENERIC         -2 /* cbm2-generic.c */
 /* #define CARTRIDGE_NONE               -1 */
-/* #define CARTRIDGE_CBM2_DETECT          0x9000 */ /* not implemented yet */
-#define CARTRIDGE_CBM2_8KB_1000        0x9001
-#define CARTRIDGE_CBM2_8KB_2000        0x9002
-#define CARTRIDGE_CBM2_16KB_4000       0x9004
-#define CARTRIDGE_CBM2_16KB_6000       0x9008
+#define CARTRIDGE_CBM2_LAST            0
+
+#define CARTRIDGE_CBM2_DETECT          0x8200 /* not implemented yet */
+
+#define CARTRIDGE_CBM2_GENERIC_TYPE_MASK    0x000f
+
+#define CARTRIDGE_CBM2_IS_GENERIC(x)   (((x) & 0xff00) == 0x8200)
+
+#define CARTRIDGE_CBM2_GENERIC_C1   0x8201  /* 4kb at 0x1000 */
+#define CARTRIDGE_CBM2_GENERIC_C2   0x8202  /* 8kb at 0x2000 */
+#define CARTRIDGE_CBM2_GENERIC_C4   0x8204  /* 8kb at 0x4000 */
+#define CARTRIDGE_CBM2_GENERIC_C6   0x8208  /* 8kb at 0x6000 */
 
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
 #define CARTRIDGE_SIZE_2KB     0x00000800
