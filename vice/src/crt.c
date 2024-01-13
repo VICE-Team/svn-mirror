@@ -55,6 +55,7 @@
                                       /*1234567890123456*/
 static const char CRT_HEADER_C64[]   = "C64 CARTRIDGE   ";
 static const char CRT_HEADER_C128[]  = "C128 CARTRIDGE  ";
+static const char CRT_HEADER_CBM2[]  = "CBM2 CARTRIDGE  ";
 static const char CRT_HEADER_VIC20[] = "VIC20 CARTRIDGE ";
 static const char CRT_HEADER_PLUS4[] = "PLUS4 CARTRIDGE ";
 
@@ -70,6 +71,10 @@ static void expected_header_error(void)
             break;
         case VICE_MACHINE_C128:
             log_error(LOG_DEFAULT, "CRT header invalid (expected:'%s' or '%s').", CRT_HEADER_C64, CRT_HEADER_C128);
+            break;
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            log_error(LOG_DEFAULT, "CRT header invalid (expected:'%s').", CRT_HEADER_CBM2);
             break;
         case VICE_MACHINE_VIC20:
             log_error(LOG_DEFAULT, "CRT header invalid (expected:'%s').", CRT_HEADER_VIC20);
@@ -120,6 +125,14 @@ FILE *crt_open(const char *filename, crt_header_t *header)
             DBG(("Found header: '%s'\n", CRT_HEADER_C128));
             header->machine = VICE_MACHINE_C128;
             if (!(machine_class == VICE_MACHINE_C128)) {
+                expected_header_error();
+                break;
+            }
+        } else if (memcmp(crt_header, CRT_HEADER_CBM2, 16) == 0) {
+            DBG(("Found header: '%s'\n", CRT_HEADER_CBM2));
+            header->machine = VICE_MACHINE_CBM6x0;
+            if (!((machine_class == VICE_MACHINE_CBM5x0) ||
+                  (machine_class == VICE_MACHINE_CBM6x0))) {
                 expected_header_error();
                 break;
             }

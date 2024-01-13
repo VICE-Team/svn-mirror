@@ -29,6 +29,15 @@
 
 #include "types.h"
 
+/* Cartridge ROM limit = 32kB */
+#define CBM2CART_ROM_LIMIT (1024 * 32)
+
+/* Cartridge RAM limit = 32kB */
+#define CBM2CART_RAM_LIMIT (32 * 1024)
+
+/* maximum size of a full "all inclusive" cartridge image */
+#define CBM2CART_IMAGE_LIMIT (CBM2CART_ROM_LIMIT + CBM2CART_RAM_LIMIT)
+
 /* Expansion port signals.  */
 
 /*

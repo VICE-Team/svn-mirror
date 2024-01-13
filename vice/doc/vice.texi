@@ -34121,7 +34121,7 @@ c1lo first, then all banks of c1hi, c2lo, c2hi.
 @c @node FIXME
 @subsubsection 0 - generic cartridge
 
-generic cartridges can use 4 different ROM spaces, which are c1lo, c1hi, c2lo,
+Generic cartridges can use 4 different ROM spaces, which are c1lo, c1hi, c2lo,
 c2hi. most cartridges will use c1lo only, c2 is really uncommon. to indicate
 which chip chunk goes where, the bank number is used - bank 1 means c2.
 
@@ -34229,13 +34229,19 @@ This cartridge has one banking register at $fe00.
 @c @node FIXME
 @subsection CBM2 Cartridge Specifics
 
-@b{TODO}
+
+@multitable @columnfractions .1 .9
+@item @b{CRT ID}
+@tab @b{Cartridge Type}
+@item 0
+@tab generic cartridge
+@end multitable
 
 @c @node FIXME
 @subsubsection 0 - generic cartridge
 
-@b{TODO}
-
+Generic cartridges can use 4 different ROM spaces, one 4k block at $1000, and 3
+8k blocks at $2000, $4000 and $6000 respectively.
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

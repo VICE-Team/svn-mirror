@@ -872,6 +872,8 @@ void machine_specific_reset(void)
                 machine_timing.cycles_per_rfsh * delay));
 
     sampler_reset();
+
+    cartridge_reset();
 }
 
 void machine_specific_powerup(void)
@@ -879,6 +881,7 @@ void machine_specific_powerup(void)
     userport_powerup();
     tapeport_powerup();
     joyport_powerup();
+    cartridge_powerup();
 }
 
 void machine_specific_shutdown(void)

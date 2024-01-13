@@ -34,6 +34,8 @@ cartconv_SOURCES = \
 	c64-saver.c \
 	c128-cartridges.c \
 	c128-saver.c \
+	cbm2-cartridges.c \
+	cbm2-saver.c \
 	plus4-cartridges.c \
 	plus4-saver.c \
 	vic20-cartridges.c \
@@ -47,6 +49,8 @@ EXTRA_DIST = \
 	c64-saver.h \
 	c128-cartridges.h \
 	c128-saver.h \
+	cbm2-cartridges.h \
+	cbm2-saver.h \
 	plus4-cartridges.h \
 	plus4-saver.h \
 	vic20-cartridges.h \

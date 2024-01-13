@@ -99,11 +99,19 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 }
 
 const ui_menu_entry_t cbm2cart_menu[] = {
+    {   .action   = ACTION_CART_ATTACH,
+        .string   = "Attach CRT image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CRT
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
     {   .action   = ACTION_CART_ATTACH_RAW_1000,
         .string   = "Load new Cart $1***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_GENERIC_C1
     },
     {   .action   = ACTION_CART_DETACH_1000,
         .string   = "Unload Cart $1***",
@@ -113,7 +121,7 @@ const ui_menu_entry_t cbm2cart_menu[] = {
         .string   = "Load new Cart $2-3***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_GENERIC_C2
     },
     {   .action   = ACTION_CART_DETACH_2000,
         .string   = "Unload Cart $2-3***",
@@ -122,6 +130,8 @@ const ui_menu_entry_t cbm2cart_menu[] = {
     {   .action   = ACTION_CART_ATTACH_RAW_4000,
         .string   = "Load new Cart $4-5***",
         .type     = MENU_ENTRY_OTHER,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_GENERIC_C4
     },
     {   .action   = ACTION_CART_DETACH_4000,
         .string   = "Unload Cart $4-5***",
@@ -131,10 +141,16 @@ const ui_menu_entry_t cbm2cart_menu[] = {
         .string   = "Load new Cart $6-7***",
         .type     = MENU_ENTRY_OTHER,
         .callback = attach_cart_callback,
-        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000
+        .data     = (ui_callback_data_t)CARTRIDGE_CBM2_GENERIC_C6
     },
     {   .action   = ACTION_CART_DETACH_6000,
         .string   = "Unload Cart $6-7***",
+        .type     = MENU_ENTRY_OTHER,
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .action   = ACTION_CART_DETACH,
+        .string   = "Detach cartridge image",
         .type     = MENU_ENTRY_OTHER,
     },
     SDL_MENU_ITEM_SEPARATOR,

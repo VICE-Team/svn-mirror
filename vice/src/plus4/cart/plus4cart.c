@@ -852,7 +852,7 @@ int cartridge_type_enabled(int crtid)
     Snapshot reading and writing
 */
 
-/* FIXME: due to the snapshots being generally broken as a while, none of this
+/* FIXME: due to the snapshots being generally broken as a whole, none of this
           could be tested */
 
 #define PLUS4CART_DUMP_MAX_CARTS  1
