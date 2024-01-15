@@ -574,7 +574,8 @@ void drive_cpu_trigger_reset(unsigned int dnr)
 {
     diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+    if (unit->type == DRIVE_TYPE_2000 ||
+        unit->type == DRIVE_TYPE_4000 ||
         unit->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_trigger_reset(dnr);
     } else {
@@ -592,7 +593,8 @@ void drive_reset(void)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+        if (unit->type == DRIVE_TYPE_2000 ||
+            unit->type == DRIVE_TYPE_4000 ||
             unit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_reset(diskunit_context[dnr]);
         } else {

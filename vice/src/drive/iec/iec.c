@@ -83,6 +83,7 @@ void iec_drive_init(struct diskunit_context_s *drv)
     cmdhd_init(drv);
 }
 
+/* called by machine_drive_reset() */
 void iec_drive_reset(struct diskunit_context_s *drv)
 {
     if (drv->type == DRIVE_TYPE_1540
