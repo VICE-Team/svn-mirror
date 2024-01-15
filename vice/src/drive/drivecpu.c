@@ -190,6 +190,7 @@ void drivecpu_reset_clk(diskunit_context_t *drv)
     drv->cpu->stop_clk = 0;
 }
 
+/* called by drive_reset() (via machine_specific_reset()) */
 void drivecpu_reset(diskunit_context_t *drv)
 {
     int preserve_monitor;
@@ -209,6 +210,7 @@ void drivecpu_reset(diskunit_context_t *drv)
     interrupt_trigger_reset(drv->cpu->int_status, *(drv->clk_ptr));
 }
 
+/* called by drive_cpu_trigger_reset() */
 void drivecpu_trigger_reset(unsigned int dnr)
 {
     interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], diskunit_clk[dnr] + 1);
