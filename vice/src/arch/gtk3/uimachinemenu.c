@@ -967,6 +967,7 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
 
         case VICE_MACHINE_CBM5x0:
             file_menu_tape_section    = file_menu_tape;
+            file_menu_cart_section    = file_menu_cart_no_freeze;
             file_menu_printer_section = file_menu_printer_no_userport;
             settings_menu_joy_section = settings_menu_joy_swap;
             break;
