@@ -278,7 +278,7 @@ void usb_joystick_init(void)
             continue;
         }
 
-#if defined(USB_GET_REPORT_IDusb_joy_add_item) && !defined(DRAGONFLYBSD_COMPILE)
+#if defined(USB_GET_REPORT_ID) && !defined(DRAGONFLYBSD_COMPILE)
         if (ioctl(fd, USB_GET_REPORT_ID, &id) < 0) {
             log_warning(bsd_joystick_log, "Cannot get report id for joystick device `%s'.", dev);
             close(fd);
