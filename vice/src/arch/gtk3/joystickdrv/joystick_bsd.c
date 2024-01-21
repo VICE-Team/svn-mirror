@@ -134,16 +134,12 @@ typedef struct bsd_joystick_priv_s {
     int usb_joy_size;
 } bsd_joystick_priv_t;
 
-static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int orval, int type)
+static void usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int orval, int type)
 {
     struct usb_joy_item *it;
     int w;
 
-    if ((it=malloc(sizeof(*it))) == NULL) {
-        /* XXX */
-        return -1;
-    }
-
+    it = lib_malloc(sizeof *it);
     it->next = *item;
     *item = it;
 
@@ -165,8 +161,6 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int
             it->min_val = -1;   /* mapping not autodetected yet */
             break;
     }
-
-    return 0;
 }
 
 static void usb_free_item(struct usb_joy_item **item)
@@ -177,7 +171,7 @@ static void usb_free_item(struct usb_joy_item **item)
     while (it) {
         it2 = it;
         it = it->next;
-        free(it2);
+        lib_free(it2);
     }
     *item = NULL;
 }
@@ -325,13 +319,12 @@ void usb_joystick_init(void)
                             } else {
                                 ordinal_to_assign = next_ordinal_to_assign;
                             }
-                            if (usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS) == 0) {
-                                axes++;
-                                if (!found_x) {
-                                    found_x = 1;
-                                } else {
-                                    next_ordinal_to_assign++;
-                                }
+                            usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS);
+                            axes++;
+                            if (!found_x) {
+                                found_x = 1;
+                            } else {
+                                next_ordinal_to_assign++;
                             }
                             break;
                         case HUG_Y:
@@ -341,26 +334,23 @@ void usb_joystick_init(void)
                             } else {
                                 ordinal_to_assign = next_ordinal_to_assign;
                             }
-                            if (usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS) == 0) {
-                                axes++;
-                                if (!found_y) {
-                                    found_y = 1;
-                                } else {
-                                    next_ordinal_to_assign++;
-                                }
+                            usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS);
+                            axes++;
+                            if (!found_y) {
+                                found_y = 1;
+                            } else {
+                                next_ordinal_to_assign++;
                             }
                             break;
                         case HUG_HAT_SWITCH:
-                            if (usb_joy_add_item(&priv->usb_joy_item, &h, hats, ITEM_HAT) == 0) {
-                                hats++;
-                            }
+                            usb_joy_add_item(&priv->usb_joy_item, &h, hats, ITEM_HAT);
+                            hats++;
                             break;
                     }
                     break;
                 case HUP_BUTTON:
-                    if (usb_joy_add_item(&priv->usb_joy_item, &h, buttons, ITEM_BUTTON) == 0) {
-                        buttons++;
-                    }
+                    usb_joy_add_item(&priv->usb_joy_item, &h, buttons, ITEM_BUTTON);
+                    buttons++;
                     break;
             }
         }
