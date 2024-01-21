@@ -86,7 +86,9 @@ static log_t bsd_joystick_log;
 #include <libusbhid.h>
 #endif
 
-#define MAX_DEV 10   /* number of uhid devices to try */
+#define MAX_DEV 16   /* number of uhid devices to try (NetBSD 9.3 has 16
+                        /dev/uhid* nodes) */
+
 
 /*
  * This hat map was created from values observed on NetBSD 9.2
