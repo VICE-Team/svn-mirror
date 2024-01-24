@@ -198,7 +198,7 @@ typedef struct joystick_mapping_s {
     union {
         uint16_t joy_pin;
 
-        /* key[0] = row, key[1] = column, key[1] = flags */
+        /* key[0] = row, key[1] = column, key[2] = flags */
         int key[3];
         int ui_action;
     } value;
