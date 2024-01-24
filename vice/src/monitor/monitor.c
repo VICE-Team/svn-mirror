@@ -1337,9 +1337,15 @@ void mon_tape_ctrl(int port, int command)
 void mon_tape_offs(int port, int offset)
 {
     tape_image_t *tape_image = tape_image_dev[port];
+
     if (tape_image && tape_image->data) {
-        mon_out("Setting tape to offset: %d\n", offset);
-        tape_seek_to_offset(tape_image, offset);
+        if (offset < 0) {
+            offset = tape_get_offset(tape_image);
+            mon_out("Current tape offset is: %d\n", offset);
+        } else {
+            mon_out("Setting tape to offset: %d\n", offset);
+            tape_seek_to_offset(tape_image, offset);
+        }
     } else {
         mon_out("No tape attached.\n");
     }

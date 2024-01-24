@@ -587,6 +587,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_reset_machine($3); }
                   | CMD_TAPECTRL opt_sep expression end_cmd
                     { mon_tape_ctrl(TAPEPORT_PORT_1, $3); }  /* FIXME: hardcoded to port 1 for now */
+                  | CMD_TAPEOFFS end_cmd
+                    { mon_tape_offs(TAPEPORT_PORT_1, -1); }  /* FIXME: hardcoded to port 1 for now */
                   | CMD_TAPEOFFS opt_sep expression end_cmd
                     { mon_tape_offs(TAPEPORT_PORT_1, $3); }  /* FIXME: hardcoded to port 1 for now */
                   | CMD_CARTFREEZE end_cmd

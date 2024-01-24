@@ -178,6 +178,15 @@ int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset)
     return -1;
 }
 
+unsigned long tape_get_offset(tape_image_t *tape_image)
+{
+    switch (tape_image->type) {
+        case TAPE_TYPE_TAP:
+            return tap_get_offset((tap_t *)tape_image->data);
+    }
+    return -1;
+}
+
 /* used by virtual devices */
 int tape_read(tape_image_t *tape_image, uint8_t *buf, size_t size)
 {

@@ -123,6 +123,7 @@ int tap_create(const char *name);
 int tap_seek_start(tap_t *tap);
 int tap_seek_to_file(tap_t *tap, unsigned int file_number);
 int tap_seek_to_offset(tap_t *tap, unsigned long offset);
+unsigned long tap_get_offset(tap_t *tap);
 int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind);
 void tap_get_header(tap_t *tap, uint8_t *name);
 struct tape_file_record_s *tap_get_current_file_record(tap_t *tap);

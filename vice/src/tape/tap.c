@@ -1659,6 +1659,11 @@ int tap_seek_to_offset(tap_t *tap, unsigned long offset)
     return -1;
 }
 
+unsigned long tap_get_offset(tap_t *tap)
+{
+    return tap->current_file_seek_position;
+}
+
 void tap_get_header(tap_t *tap, uint8_t *name)
 {
     memcpy(name, tap->name, 12);

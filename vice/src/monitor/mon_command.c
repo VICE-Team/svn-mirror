@@ -793,7 +793,7 @@ static const mon_cmds_t mon_cmd_array[] = {
 
     { "tapeoffs", "",
       "<Offset>",
-      "Sets attached .tap to given offset.\n",
+      "Sets attached .tap to given offset. When no offset is given, show the current offset.\n",
       NO_FILENAME_ARG
     },
 
