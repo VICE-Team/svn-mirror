@@ -30,9 +30,6 @@
 
 #include "types.h"
 #include "joyport.h" /* for JOYPORT_MAX_PORTS */
-#if (defined USE_SDLUI ||defined USE_SDL2UI)
-#include "uimenu.h"
-#endif
 
 int joystick_init(void);
 int joystick_resources_init(void);
