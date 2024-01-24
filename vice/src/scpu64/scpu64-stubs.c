@@ -72,6 +72,11 @@ int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset)
     return 0;
 }
 
+unsigned long tape_get_offset(tape_image_t *tape_image)
+{
+    return -1;
+}
+
 void tape_image_event_playback(unsigned int unit, const char *filename)
 {
 }

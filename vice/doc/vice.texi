@@ -20673,7 +20673,7 @@ Control the datasette. @code{command}:
 5 = reset, 6 = reset counter.
 
 @item tapeoffs <offset>
-Set the attached .tap to the given @code{offset}.
+Set the attached .tap to the given @code{offset}. When no offset is given, show the current offset.
 
 @item screenshot "<filename>" [<format>]
 @itemx scrsh "<filename>" [<format>]

@@ -110,6 +110,7 @@ int tape_seek_start(tape_image_t *tape_image);
 int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number);
 int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind);
 int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset);
+unsigned long tape_get_offset(tape_image_t *tape_image);
 int tape_read(tape_image_t *tape_image, uint8_t *buf, size_t size);
 
 int tape_internal_close_tape_image(tape_image_t *tape_image);
