@@ -55,7 +55,8 @@ palettes = \
 	palette_8565R2_v1r.vpl \
 	palette_C64_amber.vpl \
 	palette_C64_cyan.vpl \
-	palette_C64_green.vpl
+	palette_C64_green.vpl \
+	lemon64.vpl
 
 gtk3_keymaps = \
 	gtk3_sym.vkm \
