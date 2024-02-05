@@ -109,6 +109,15 @@
 #include "settings_rom.h"
 
 
+/** \brief  CSS for the GtkListBoxes used for the ROMs
+ *
+ * We use the theme background color to avoid ugly white (light theme) or
+ * black areas (dark theme) areas around the widgets and in the unused space
+ * of the GtkScrolledWindow.
+ */
+#define LISTBOX_CSS "list { background-color: @theme_bg_color; }"
+
+
 /** \brief  Array length helper
  *
  * \param[in]   arr array
@@ -266,6 +275,9 @@ static gchar *last_directory;
 
 /** \brief  Last filename used in a ROM set file dialog */
 static gchar *last_filename;
+
+/** \brief  CSS provided used for the GtkListBox widgets */
+static GtkCssProvider *listbox_css_provider;
 
 
 /* {{{ Event handlers */
@@ -587,6 +599,8 @@ static GtkWidget *expandable_list_new(const char *title)
     expander = gtk_expander_new(title);
     list     = gtk_list_box_new();
 
+    vice_gtk3_css_provider_add(list, listbox_css_provider);
+
     gtk_container_add(GTK_CONTAINER(expander), list);
     gtk_container_add(GTK_CONTAINER(listrow), expander);
     return listrow;
@@ -790,12 +804,17 @@ GtkWidget *settings_rom_widget_create(GtkWidget *parent)
     size_t     i;
     int        row = 0;
 
+    listbox_css_provider  = vice_gtk3_css_provider_new(LISTBOX_CSS);
+
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     root_list = gtk_list_box_new();
+    gtk_widget_set_vexpand(root_list, TRUE);
     scrolled  = gtk_scrolled_window_new(NULL, NULL);
+    vice_gtk3_css_provider_add(root_list, listbox_css_provider);
+
     if (machine_class == VICE_MACHINE_PET) {
         /* We add a check button and buttons to load a chargen to xpet, so the
          * scrolled window must be slightly less tall */
@@ -919,5 +938,7 @@ void settings_rom_widget_shutdown(void)
     g_free(last_directory);
     g_free(last_filename);
     last_directory = NULL;
-    last_filename = NULL;
+    last_filename  = NULL;
+    g_object_unref(listbox_css_provider);
+    listbox_css_provider  = NULL;
 }
