@@ -2052,6 +2052,7 @@ AC_SUBST(DYNLIB_LIBS)
 
 dnl ----- Joystick support -----
 JOY_LIBS=
+AM_CONDITIONAL(HAVE_LINUX_EVDEV, false)
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [
@@ -2073,8 +2074,6 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl
     VICE_CXXFLAGS="$VICE_CXXFLAGS $libevdev_CXXFLAGS"
     LIBS="$LIBS $libevdev_LIBS"
     AM_CONDITIONAL(HAVE_LINUX_EVDEV, true)
-  else
-    AM_CONDITIONAL(HAVE_LINUX_EVDEV, false)
   fi
 
   dnl NetBSD/FreeBSD USB joystick support
