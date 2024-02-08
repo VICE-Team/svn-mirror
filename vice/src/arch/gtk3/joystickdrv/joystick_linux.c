@@ -33,7 +33,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#if defined LINUX_JOYSTICK
+#if defined(LINUX_JOYSTICK) && !defined(HAVE_LINUX_EVDEV)
 
 #include <fcntl.h>
 #include <linux/joystick.h>
@@ -216,4 +216,4 @@ void linux_joystick_init(void)
     }
 }
 
-#    endif  /* LINUX_JOYSTICK */
+#    endif  /* LINUX_JOYSTICK && !HAVE_LINUX_EVDEV */

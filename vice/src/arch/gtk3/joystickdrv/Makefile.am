@@ -7,6 +7,10 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
+if HAVE_LINUX_EVDEV
+AM_CPPFLAGS += -D_XOPEN_SOURCE=700
+endif
+
 AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
@@ -23,6 +27,7 @@ libjoystickdrv_a_SOURCES = \
 # These sources are conditionally linked
 EXTRA_libjoystickdrv_a_SOURCES = \
 	joystick_bsd.c \
+	joystick_linux_evdev.c \
 	joystick_osx.c \
 	joystick_win32_directinput.c
 

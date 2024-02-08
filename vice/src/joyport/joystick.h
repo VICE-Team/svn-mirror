@@ -60,6 +60,7 @@ void joystick_register_delay(unsigned int delay);
 int joystick_joyport_register(void);
 
 void linux_joystick_init(void);
+void linux_joystick_evdev_init(void);
 void usb_joystick_init(void);
 void joy_hidlib_init(void);
 void joy_hidlib_exit(void);

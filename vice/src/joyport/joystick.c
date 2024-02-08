@@ -2695,8 +2695,10 @@ int joystick_init(void)
     kbd_initialize_numpad_joykeys(joykeys[0]);
 #endif
 
-#ifdef LINUX_JOYSTICK
+#if defined(LINUX_JOYSTICK) && !defined(HAVE_LINUX_EVDEV)
     linux_joystick_init();
+#elif defined(HAVE_LINUX_EVDEV)
+    linux_joystick_evdev_init();
 #elif defined HAS_USB_JOYSTICK
     usb_joystick_init();
 #elif defined MAC_JOYSTICK
