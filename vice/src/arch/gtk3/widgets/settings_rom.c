@@ -939,6 +939,8 @@ void settings_rom_widget_shutdown(void)
     g_free(last_filename);
     last_directory = NULL;
     last_filename  = NULL;
-    g_object_unref(listbox_css_provider);
-    listbox_css_provider  = NULL;
+    if (listbox_css_provider != NULL) {
+        g_object_unref(listbox_css_provider);
+        listbox_css_provider  = NULL;
+    }
 }
