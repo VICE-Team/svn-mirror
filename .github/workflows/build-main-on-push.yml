@@ -13,7 +13,7 @@ jobs:
     name: Cleanup Previous Builds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
@@ -89,7 +89,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_id: ${{ steps.create_release.outputs.release_id }}
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         id: create_release
         env:
           TAG_NAME: ${{ github.ref }}
@@ -120,7 +120,7 @@ jobs:
         run: git config --global core.autocrlf input
 
       - name: Checkout Source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Dependencies
         shell: bash
@@ -157,14 +157,14 @@ jobs:
           make
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vice-pdf
           path: vice/doc/vice.pdf
           retention-days: 1
 
       - name: Upload Release Asset
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: vice/doc/vice.pdf
@@ -342,7 +342,7 @@ jobs:
 
       - name: Upload Zip
         id: upload-zip
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.build.outputs.zip_path }}
@@ -366,7 +366,7 @@ jobs:
 
       - name: Upload 7Zip
         id: upload-7zip
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.build.outputs.seven_zip_path }}
@@ -492,7 +492,7 @@ jobs:
 
       - name: Upload Deb
         id: upload_deb
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.make_deb.outputs.deb_path }}
@@ -519,7 +519,7 @@ jobs:
     needs: [create_release, build, build_deb]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
