@@ -696,9 +696,18 @@ uint8_t external_function_rom_read(uint16_t addr)
 /* ROML and ROMH peeks at the cartridge port */
 uint8_t external_function_rom_peek(uint16_t addr)
 {
-    int type = cartridge_get_id(0);
+    int type = cart_getid_slot0();
     /* FIXME: What should we return here? is vicii_read_phi1() safe for a peek? */
     uint8_t val = 0;
+    /* do slot0 first */
+    switch(type) {
+        case CARTRIDGE_RAMLINK:
+            if (c128ramlink_roml_read(addr, &val)) {
+                return val;
+            }
+    }
+    /* then do slotmain */
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
 /* FIXME: gmod2 needs a peek */

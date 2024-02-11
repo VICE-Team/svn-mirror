@@ -1505,14 +1505,16 @@ int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int
         return 0;
     }
 
-    if (addr >= 0x8000 && addr <= 0x9fff && ((mem_config & 0x0c) == 0x08)) {
+    if (addr >= 0x8000 && addr <= 0x9fff &&
+        ( ((mem_config & 0x0c) == 0x08) || ((mem_config & 0x0c) == 0x04) ) ) {
         if (rl_dos) {
             *base = rl_rom + rl_rombase - 0x8000;
             *start = 0x8000;
             *limit = 0x9ffd;
             return 1;
         }
-    } else if (addr >= 0xa000 && addr <= 0xbfff && ((mem_config & 0x0c) == 0x08)) {
+    } else if (addr >= 0xa000 && addr <= 0xbfff &&
+        ( ((mem_config & 0x0c) == 0x08) || ((mem_config & 0x0c) == 0x04) ) ) {
         if (rl_dos) {
             *base = rl_rom + rl_rombase + 0x2000 - 0xa000;
             *start = 0xa000;
@@ -1538,7 +1540,8 @@ int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int
             return 0;
         }
         return 1;
-    } else if (addr >= 0xe000 && ((mem_config & 0x30) == 0x20)) {
+    } else if (addr >= 0xe000 &&
+        ( ((mem_config & 0x30) == 0x20) || ((mem_config & 0x30) == 0x10) ) ) {
         if (rl_on) {
     /* switched kernal */
     /* for $e000-$ffff, ramlink exposes the switched kernal, but there are a couple holes:
