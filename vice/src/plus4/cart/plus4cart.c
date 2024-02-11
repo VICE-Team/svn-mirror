@@ -105,12 +105,13 @@ static int mem_cartridge_type = CARTRIDGE_NONE;  /* Type of the cartridge attach
 
 static cartridge_info_t cartlist[] = {
     /* standard cartridges with CRT ID = 0 */
-/*
     { "Raw 16KiB C1LO",                       CARTRIDGE_PLUS4_GENERIC_C1LO,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C1HI",                       CARTRIDGE_PLUS4_GENERIC_C1HI,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C2LO",                       CARTRIDGE_PLUS4_GENERIC_C2LO,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C2HI",                       CARTRIDGE_PLUS4_GENERIC_C2HI,      CARTRIDGE_GROUP_GENERIC },
-*/
+    { "Raw 32KiB C1",                         CARTRIDGE_PLUS4_GENERIC_C1,        CARTRIDGE_GROUP_GENERIC },
+    { "Raw 32KiB C2",                         CARTRIDGE_PLUS4_GENERIC_C2,        CARTRIDGE_GROUP_GENERIC },
+
     /* all cartridges with a CRT ID > 0, alphabetically sorted */
     { CARTRIDGE_PLUS4_NAME_JACINT1MB,         CARTRIDGE_PLUS4_JACINT1MB,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_PLUS4_NAME_MAGIC,             CARTRIDGE_PLUS4_MAGIC,             CARTRIDGE_GROUP_UTIL },
