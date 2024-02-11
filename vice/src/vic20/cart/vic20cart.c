@@ -106,6 +106,32 @@ static int cartres_flags = 0;
 
 static int cartridge_attach_from_resource(int type, const char *filename);
 
+static cartridge_info_t cartlist[] = {
+    /* standard cartridges with CRT ID = 0 */
+    { "Auto detect",                        CARTRIDGE_VIC20_DETECT,             CARTRIDGE_GROUP_GENERIC },
+
+    { "32KiB cartridge at $2000",           CARTRIDGE_VIC20_32KB_2000,          CARTRIDGE_GROUP_GENERIC },
+    { "4/8/16KiB cartridge at $2000",       CARTRIDGE_VIC20_16KB_2000,          CARTRIDGE_GROUP_GENERIC },
+    { "4/8/16KiB cartridge at $4000",       CARTRIDGE_VIC20_16KB_4000,          CARTRIDGE_GROUP_GENERIC },
+    { "4/8/16KiB cartridge at $6000",       CARTRIDGE_VIC20_16KB_6000,          CARTRIDGE_GROUP_GENERIC },
+    { "4/8KiB cartridge at $A000",          CARTRIDGE_VIC20_8KB_A000,           CARTRIDGE_GROUP_GENERIC },
+    { "4KiB cartridge at $B000",            CARTRIDGE_VIC20_4KB_B000,           CARTRIDGE_GROUP_GENERIC },
+
+    /* all cartridges with a CRT ID > 0, alphabetically sorted */
+    { CARTRIDGE_VIC20_NAME_MEGACART,        CARTRIDGE_VIC20_MEGACART,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_BEHRBONZ,        CARTRIDGE_VIC20_BEHRBONZ,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_FP,              CARTRIDGE_VIC20_FP,                 CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_UM,              CARTRIDGE_VIC20_UM,                 CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, CARTRIDGE_VIC20_FINAL_EXPANSION,    CARTRIDGE_GROUP_UTIL },
+
+    { NULL, 0, 0 }
+};
+
+cartridge_info_t *cartridge_get_info_list(void)
+{
+    return &cartlist[0];
+}
+
 void reset_try_flags(void)
 {
     cartres_flags = 0;
@@ -841,11 +867,6 @@ int cartridge_can_save_image(int crtid)
 int cartridge_can_save_secondary_image(int crtid)
 {
     return 0;
-}
-
-cartridge_info_t *cartridge_get_info_list(void)
-{
-    return NULL;
 }
 
 /* return cartridge type of main slot

@@ -104,12 +104,11 @@ uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 
 static cartridge_info_t cartlist[] = {
     /* standard cartridges with CRT ID = 0 */
-/*
     { "Raw 4KiB C1",                       CARTRIDGE_CBM2_GENERIC_C1,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 8KiB C2",                       CARTRIDGE_CBM2_GENERIC_C2,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 8KiB C4",                       CARTRIDGE_CBM2_GENERIC_C4,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 8KiB C6",                       CARTRIDGE_CBM2_GENERIC_C6,      CARTRIDGE_GROUP_GENERIC },
-*/
+
     /* all cartridges with a CRT ID > 0, alphabetically sorted */
 
     { NULL, 0, 0 }
