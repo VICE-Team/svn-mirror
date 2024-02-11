@@ -40,8 +40,12 @@
 #include "types.h"
 #include "util.h"
 #include "viciitypes.h"
+#include "vicii-phi1.h"
 #include "cartridge.h"
+#include "c64cart.h"
+#include "c64cartsystem.h"
 #include "ltkernal.h"
+#include "ramlink.h"
 
 #define INTERNAL_FUNCTION_ROM_SIZE 0x8000
 
@@ -202,16 +206,23 @@ static int functionrom_load_internal(void)
 
 uint8_t internal_function_rom_read(uint16_t addr)
 {
+    vicii.last_cpu_val = vicii_read_phi1();
     /* LTK MMU modification prioritises over internal function rom */
     if (cartridge_get_id(0) == CARTRIDGE_LT_KERNAL) {
         if (c128ltkernal_ram_read(addr, &(vicii.last_cpu_val))) {
             return vicii.last_cpu_val;
         }
     }
-
+    /* RAMLINK ignores internal function ROMs somehow */
+    if (cart_getid_slot0() == CARTRIDGE_RAMLINK) {
+        if (c128ramlink_roml_read(addr, &(vicii.last_cpu_val))) {
+            return vicii.last_cpu_val;
+        }
+    }
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
         vicii.last_cpu_val = bq4830y_read(rtc1_context, (uint16_t)(addr & 0x7fff));
-    } else {
+    } else if (internal_function_rom_enabled != INT_FUNCTION_NONE) {
+        /* only do this if we are in ROM or RAM mode */
         vicii.last_cpu_val = int_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)];
     }
     return vicii.last_cpu_val;
@@ -236,6 +247,7 @@ void internal_function_rom_store(uint16_t addr, uint8_t value)
             return;
         }
     }
+    /* RAMLINK doesn't allow writes; should move on */
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
         bq4830y_store(rtc1_context, (uint16_t)(addr & 0x7fff), value);
         ram_store(addr, value);
