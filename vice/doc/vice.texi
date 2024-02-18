@@ -8690,6 +8690,11 @@ user credentials are preseved
 Integer number of lines to hexdump, 0: unlimited
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@vindex WIC64RemoteTimout
+@item WIC64RemoteTimout
+Timeout to wait for URLs in seconds, 1 - 255
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
 @vindex WIC64ColorizeLog
 @item WIC64ColorizeLog
 Integer, 1: WiC64 tracing using ANSI colorizing, 0: no colorizing
@@ -8749,6 +8754,11 @@ Integer to specify WIC64 trace level (0: off, 1: commands, >2: debug), implicitl
 @findex -wic64hexdumplines
 @item -wic64hexdumplines <value>
 Integer to specify number of lines to hexdump, 0: unlimited,
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64remotetimeout
+@item -wic64remotetimeout <value>
+Timeout to wait for URLs in seconds, 1 - 255
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @findex -wic64colorizetrace
