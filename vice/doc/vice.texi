@@ -8681,7 +8681,7 @@ Integer, 1: user selected WiC64 tracing, 0: no tracing
 
 @vindex WIC64Resetuser
 @item WIC64Resetuser
-Integer 1: user credentials shall be reseted if WiC64 is reseted, 0:
+Integer, 1: user credentials shall be reseted if WiC64 is reseted, 0:
 user credentials are preseved
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
@@ -8690,14 +8690,20 @@ user credentials are preseved
 Integer number of lines to hexdump, 0: unlimited
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
-@vindex WIC64RemoteTimout
-@item WIC64RemoteTimout
-Timeout to wait for URLs in seconds, 1 - 255
+@vindex WIC64RemoteTimeout
+@item WIC64RemoteTimeout
+Integer, 1-255: Timeout to wait for URLs in seconds
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64ColorizeLog
 @item WIC64ColorizeLog
 Integer, 1: WiC64 tracing using ANSI colorizing, 0: no colorizing
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64LogLevel
+@item WIC64LogLevel
+Integer, WiC64 trace level, 0: no trace, 1: standard, 2: verbose,
+3: debug
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
