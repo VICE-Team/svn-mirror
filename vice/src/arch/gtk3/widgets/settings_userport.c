@@ -89,6 +89,7 @@ static GtkWidget *rtc_ds1307_save = NULL;
 static GtkWidget *wic64_save = NULL;
 
 static GtkWidget *wic64_server_save = NULL;
+static GtkWidget *wic64_remote_timeout_save = NULL;
 static GtkWidget *wic64_tz_save = NULL;
 
 #endif
@@ -432,6 +433,7 @@ static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
 {
     userport_wic64_factory_reset();
     vice_gtk3_resource_entry_factory(wic64_server_save);
+    vice_gtk3_resource_spin_int_factory(wic64_remote_timeout_save);
     vice_gtk3_resource_combo_int_sync(wic64_tz_save);
 }
 
@@ -498,9 +500,9 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     label = gtk_label_new("Remote Timeout\n(1 - 255)");
     gtk_widget_set_margin_start(label, 4);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    trace_level = vice_gtk3_resource_spin_int_new(
+    wic64_remote_timeout_save = vice_gtk3_resource_spin_int_new(
         "WIC64RemoteTimeout", 1, 255, 1);
-    gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wic64_remote_timeout_save, 1, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
     row++;
 
