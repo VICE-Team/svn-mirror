@@ -684,6 +684,7 @@ void userport_wic64_factory_reset(void)
 
     resources_set_int("WIC64Timezone", tz);
     resources_set_string("WIC64DefaultServer", defserver);
+    resources_set_int("WIC64RemoteTimeout", WIC64_DEFAULT_REMOTE_TIMEOUT);
 
     resources_get_int("WIC64Resetuser", &reset_user);
     if (reset_user) {
@@ -2174,7 +2175,7 @@ static void do_command(void)
             wic64_log(CONS_COL_NO, "setting transfer timeout to %ds", wic64_timeout);
         } else {
             remote_to = commandbuffer[0]; /* timeout in secs */
-            wic64_log(CONS_COL_NO, "setting remote timeout to %ds", wic64_remote_timeout);
+            wic64_log(CONS_COL_NO, "setting remote timeout to %ds", remote_to);
         }
         send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
         break;
