@@ -14,6 +14,7 @@
  * $VICERES WIC64LogLevel           x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Resetuser          x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Timezone           x64 x64sc xscpu64 x128 xvic
+ * $VICERES WIC64RemoteTimout       x64 x64sc xscpu64 x128 xvic
  *
  * The following resources are not user-configurable, but set indirectly via
  * the WiC64 code, so we list them here for `gtk3-resources.py` to find:
@@ -490,6 +491,15 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     trace_level = vice_gtk3_resource_spin_int_new(
         "WIC64LogLevel", 0, WIC64_MAXTRACELEVEL, 1);
+    gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    row++;
+
+    label = gtk_label_new("Remote Timeout\n(1 - 255)");
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    trace_level = vice_gtk3_resource_spin_int_new(
+        "WIC64RemoteTimeout", 1, 255, 1);
     gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
     row++;
