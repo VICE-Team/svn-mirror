@@ -1340,7 +1340,7 @@ void mon_tape_offs(int port, int offset)
 
     if (tape_image && tape_image->data) {
         if (offset < 0) {
-            offset = tape_get_offset(tape_image);
+            offset = (int)tape_get_offset(tape_image);
             mon_out("Current tape offset is: %d\n", offset);
         } else {
             mon_out("Setting tape to offset: %d\n", offset);
