@@ -628,7 +628,7 @@ int zmvb_encode_finish_frame (zmbv_codec_t zc) {
       zc->zstream.avail_out = zc->compress.outbuf_size-zc->compress.write_done;
       zc->zstream.total_out = 0;
       if (mz_deflate(&zc->zstream, MZ_SYNC_FLUSH) != MZ_OK) return -1; /* the thing that should not be */
-      return zc->compress.write_done+zc->zstream.total_out;
+      return (int)(zc->compress.write_done+zc->zstream.total_out);
     } else {
       memcpy(zc->compress.outbuf+zc->compress.write_done, zc->work, zc->workUsed);
       return zc->workUsed+zc->compress.write_done;
