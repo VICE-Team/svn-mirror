@@ -78,7 +78,7 @@ struct cpuhistory_s {
    uint8_t reg_x;
    uint8_t reg_y;
    uint8_t reg_sp;
-   int8_t origin;
+   MEMSPACE origin;
 };
 typedef struct cpuhistory_s cpuhistory_t;
 
@@ -114,8 +114,7 @@ int monitor_cpuhistory_allocate(int lines)
         memset((void *)cpuhistory, 0, sizeof(cpuhistory_t) * (size_t)lines);
         /* flag lines so they won't output anything after startup */
         for (i = 0; i < lines ; i++) {
-            /* don't use -1 */
-            cpuhistory[i].origin = -2;
+            cpuhistory[i].origin = e_invalid_space;
         }
     }
 
@@ -132,7 +131,7 @@ void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op,
                               uint8_t reg_y,
                               uint8_t reg_sp,
                               unsigned int reg_st,
-                              uint8_t origin)
+                              MEMSPACE origin)
 {
     if (machine_is_jammed()) {
         return;
@@ -176,7 +175,11 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     /* the filterX is 0 = no value, 1 = cpu, 2 = drive 8, etc */
 
     /* if nothing passed, set the first filter to the default device */
-    if (filter1 + filter2 + filter3 + filter4 + filter5 == 0) {
+    if ((filter1 == e_invalid_space) &&
+        (filter2 == e_invalid_space) &&
+        (filter3 == e_invalid_space) &&
+        (filter4 == e_invalid_space) &&
+        (filter5 == e_invalid_space)) {
         filter1 = default_memspace;
     }
 
@@ -193,12 +196,12 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     /* find out where we need to start */
     while (i < count) {
         /* make sure the record matches */
-        if (cpuhistory[pos].origin >= 0
-            && (filter1 - 1 == cpuhistory[pos].origin
-                || filter2 - 1 == cpuhistory[pos].origin
-                || filter3 - 1 == cpuhistory[pos].origin
-                || filter4 - 1 == cpuhistory[pos].origin
-                || filter5 - 1 == cpuhistory[pos].origin)) {
+        if ((cpuhistory[pos].origin != e_invalid_space)
+            && ((filter1 == cpuhistory[pos].origin)
+                || (filter2 == cpuhistory[pos].origin)
+                || (filter3 == cpuhistory[pos].origin)
+                || (filter4 == cpuhistory[pos].origin)
+                || (filter5 == cpuhistory[pos].origin))) {
             i++;
         }
         pos--;
@@ -219,24 +222,24 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
         /* adjust our buffer circular reference */
         pos = ( pos + 1) % cpuhistory_lines;
         /* make sure the record matches */
-        if (cpuhistory[pos].origin >= 0
-            && (filter1 - 1 == cpuhistory[pos].origin
-                || filter2 - 1 == cpuhistory[pos].origin
-                || filter3 - 1 == cpuhistory[pos].origin
-                || filter4 - 1 == cpuhistory[pos].origin
-                || filter5 - 1 == cpuhistory[pos].origin)) {
+        if ((cpuhistory[pos].origin != e_invalid_space)
+            && ((filter1 == cpuhistory[pos].origin)
+                || (filter2 == cpuhistory[pos].origin)
+                || (filter3 == cpuhistory[pos].origin)
+                || (filter4 == cpuhistory[pos].origin)
+                || (filter5 == cpuhistory[pos].origin))) {
             cycle = cpuhistory[pos].cycle;
             addr = cpuhistory[pos].addr;
             op = cpuhistory[pos].op;
             p1 = cpuhistory[pos].p1;
             p2 = cpuhistory[pos].p2;
 
-            mem = cpuhistory[pos].origin + 1;
+            mem = cpuhistory[pos].origin;
             loc = addr_location(addr);
 
             dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode, &opc_size);
 
-            strncpy(otext, mon_memspace_string[cpuhistory[pos].origin + 1], 4);
+            strncpy(otext, mon_memspace_string[mem], 4);
 
             /* Print the disassembled instruction */
             mon_out(".%s:%04x  %-26s A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %12"PRIu64"\n",
