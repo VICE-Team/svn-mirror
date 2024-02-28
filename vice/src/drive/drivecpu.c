@@ -367,7 +367,7 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 #define reg_p   (cpu->cpu_regs.p)
 #define flag_z  (cpu->cpu_regs.z)
 #define flag_n  (cpu->cpu_regs.n)
-#define origin  (drv->mynumber + 1)
+#define ORIGIN_MEMSPACE  (drv->mynumber + e_disk8_space)
 
     cpu = drv->cpu;
 

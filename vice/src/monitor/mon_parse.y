@@ -236,27 +236,27 @@ machine_state_rules: CMD_BANK end_cmd
                    | CMD_CPU CPUTYPE end_cmd
                      { monitor_cpu_type_set($2); }
                    | CMD_CPUHISTORY end_cmd
-                     { mon_cpuhistory(-1,  0,  0,  0,   0,   0); }
+                     { mon_cpuhistory(-1, e_invalid_space,  e_invalid_space, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep memspace end_cmd
-                     { mon_cpuhistory(-1, $3,  0,  0,   0,   0); }
+                     { mon_cpuhistory(-1, $3, e_invalid_space, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory(-1, $3, $5,  0,   0,   0); }
+                     { mon_cpuhistory(-1, $3, $5, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory(-1, $3, $5, $7,   0,   0); }
+                     { mon_cpuhistory(-1, $3, $5, $7, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory(-1, $3, $5, $7,  $9,   0); }
+                     { mon_cpuhistory(-1, $3, $5, $7,  $9, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
                      { mon_cpuhistory(-1, $3, $5, $7,  $9, $11); }
                    | CMD_CPUHISTORY opt_sep d_number end_cmd
-                     { mon_cpuhistory($3,  0,  0,  0,   0,   0); }
+                     { mon_cpuhistory($3, e_invalid_space, e_invalid_space, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep d_number opt_sep memspace end_cmd
-                     { mon_cpuhistory($3, $5,  0,  0,   0,   0); }
+                     { mon_cpuhistory($3, $5, e_invalid_space, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep d_number opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory($3, $5, $7,  0,   0,   0); }
+                     { mon_cpuhistory($3, $5, $7, e_invalid_space, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep d_number opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory($3, $5, $7, $9,   0,   0); }
+                     { mon_cpuhistory($3, $5, $7, $9, e_invalid_space, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep d_number opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
-                     { mon_cpuhistory($3, $5, $7, $9, $11,   0); }
+                     { mon_cpuhistory($3, $5, $7, $9, $11, e_invalid_space); }
                    | CMD_CPUHISTORY opt_sep d_number opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace opt_sep memspace end_cmd
                      { mon_cpuhistory($3, $5, $7, $9, $11, $13); }
                    | CMD_RETURN end_cmd

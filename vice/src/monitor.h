@@ -242,7 +242,7 @@ extern monitor_cartridge_commands_t mon_cart_cmd;
 /* CPU history/memmap prototypes */
 void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2,
                               uint8_t reg_a, uint8_t reg_x, uint8_t reg_y,
-                              uint8_t reg_sp, unsigned int reg_st, uint8_t origin);
+                              uint8_t reg_sp, unsigned int reg_st, MEMSPACE origin);
 void monitor_cpuhistory_fix_p2(unsigned int p2);
 void monitor_memmap_store(unsigned int addr, unsigned int type);
 
