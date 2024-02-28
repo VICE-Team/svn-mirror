@@ -172,8 +172,6 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     CLOCK cycle;
     char otext[10];
 
-    /* the filterX is 0 = no value, 1 = cpu, 2 = drive 8, etc */
-
     /* if nothing passed, set the first filter to the default device */
     if ((filter1 == e_invalid_space) &&
         (filter2 == e_invalid_space) &&
