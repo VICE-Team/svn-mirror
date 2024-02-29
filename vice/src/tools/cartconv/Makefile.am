@@ -3,9 +3,9 @@
 
 # Make sure we use Windows' console mode since this is a command line tool
 if WINDOWS_COMPILE
-cartconv_LDFLAGS = -mconsole
+cartconv_LDFLAGS = -mconsole -Wl,-Map=cartconv.map
 else
-cartconv_LDFLAGS =
+cartconv_LDFLAGS = -Wl,-Map=cartconv.map
 endif
 
 if USE_SVN_REVISION

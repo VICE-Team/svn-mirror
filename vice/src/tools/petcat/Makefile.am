@@ -3,9 +3,9 @@
 
 # Make sure we use Windows' console mode since this is a command line tool
 if WINDOWS_COMPILE
-petcat_LDFLAGS = -mconsole
+petcat_LDFLAGS = -mconsole -Wl,-Map=petcat.map
 else
-petcat_LDFLAGS =
+petcat_LDFLAGS = -Wl,-Map=petcat.map
 endif
 
 LIBS =
