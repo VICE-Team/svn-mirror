@@ -676,7 +676,7 @@ vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)
 
 vsid_DEPENDENCIES = $(vsid_libs)
-vsid_LDFLAGS = @vsid_LDFLAGS@
+vsid_LDFLAGS = @vsid_LDFLAGS@ -Wl,-Map=vsid.map
 
 .PHONY: vsid-all vsid-program
 vsid-all:
@@ -727,7 +727,7 @@ x64_libs =  \
 x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64_RES)
 x64_DEPENDENCIES = $(x64_libs)
-x64_LDFLAGS = @x64_LDFLAGS@
+x64_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64.map
 
 .PHONY: x64-all x64-program
 x64-all:
@@ -778,7 +778,7 @@ x64sc_libs =  \
 x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64SC_RES)
 x64sc_DEPENDENCIES = $(x64sc_libs)
-x64sc_LDFLAGS = @x64_LDFLAGS@
+x64sc_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64sc.map
 
 .PHONY: x64sc-all x64sc-program
 x64sc-all:
@@ -836,7 +836,7 @@ x64dtv_libs =  \
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
-x64dtv_LDFLAGS = @x64_LDFLAGS@
+x64dtv_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64dtv.map
 
 .PHONY: x64dtv-all x64dtv-program
 x64dtv-all:
@@ -887,7 +887,7 @@ xscpu64_libs =  \
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XSCPU64_RES)
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
-xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
+xscpu64_LDFLAGS = @xscpu64_LDFLAGS@ -Wl,-Map=xscpu64.map
 
 .PHONY: xscpu64-all xscpu64-program
 xscpu64-all:
@@ -942,7 +942,7 @@ x128_libs =  \
 x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X128_RES)
 x128_DEPENDENCIES = $(x128_libs)
-x128_LDFLAGS = @x128_LDFLAGS@
+x128_LDFLAGS = @x128_LDFLAGS@ -Wl,-Map=x128.map
 
 .PHONY: x128-all x128-program
 x128-all:
@@ -991,7 +991,7 @@ xvic_libs =  \
 xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ $(XVIC_RES)
 xvic_DEPENDENCIES = $(xvic_libs)
-xvic_LDFLAGS = @xvic_LDFLAGS@
+xvic_LDFLAGS = @xvic_LDFLAGS@ -Wl,-Map=xvic.map
 
 .PHONY: xvic-all xvic-program
 xvic-all:
@@ -1039,7 +1039,7 @@ xpet_libs =  \
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPET_RES)
 xpet_DEPENDENCIES = $(xpet_libs)
-xpet_LDFLAGS = @xpet_LDFLAGS@
+xpet_LDFLAGS = @xpet_LDFLAGS@ -Wl,-Map=xpet.map
 
 .PHONY: xpet-all xpet-program
 xpet-all:
@@ -1090,7 +1090,7 @@ xplus4_libs =  \
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPLUS4_RES)
 xplus4_DEPENDENCIES = $(xplus4_libs)
-xplus4_LDFLAGS = @xplus4_LDFLAGS@
+xplus4_LDFLAGS = @xplus4_LDFLAGS@ -Wl,-Map=xplus4.map
 
 .PHONY: xplus4-all xplus4-program
 xplus4-all:
@@ -1139,7 +1139,7 @@ xcbm2_libs = \
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM2_RES)
 xcbm2_DEPENDENCIES = $(xcbm2_libs)
-xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
+xcbm2_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-Map=xcbm2.map
 
 .PHONY: xcbm2-all xcbm2-program
 xcbm2-all:
@@ -1188,7 +1188,7 @@ xcbm5x0_libs = \
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM5x0_RES)
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs)
-xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
+xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-Map=xcbm5x0.map
 
 .PHONY: xcbm5x0-all xcbm5x0-program
 xcbm5x0-all:
@@ -1239,9 +1239,10 @@ c1541_LDADD = \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
 if WINDOWS_COMPILE
-c1541_LDFLAGS = -mconsole
+c1541_LDFLAGS = -mconsole -Wl,-Map=c1541.map
+else
+C1541_LDFLAGS = -Wl,-Map=c1541.map
 endif
-
 
 .PHONY: c1541-all c1541-program
 c1541-all:
