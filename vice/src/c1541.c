@@ -5634,7 +5634,15 @@ int main(int argc, char **argv)
         if ((i - 1) == NUM_DISK_UNITS) {
             fprintf(stderr, "Ignoring disk image `%s'\n", argv[i]);
         } else {
-            open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + 8));
+            if (open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + 8)) != 0) {
+                /* error: clean up and exit */
+                for (i = 0; i < NUM_DISK_UNITS; i++) {
+                    lib_free(drives[i]);
+                }
+                archdep_shutdown();
+                log_close_all();
+                return EXIT_FAILURE;
+            }
         }
     }
 
