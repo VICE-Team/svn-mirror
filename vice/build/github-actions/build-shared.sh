@@ -10,7 +10,6 @@ ARGS="
     --enable-catweasel \
     --enable-cpuhistory \
     --enable-ethernet \
-    --enable-ffmpeg \
     --enable-midi \
     --enable-parsid \
     --with-flac \

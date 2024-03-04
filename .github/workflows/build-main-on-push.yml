@@ -223,7 +223,6 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-docbook-xml
             mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
-            mingw-w64-${{ matrix.arch.arch }}-ffmpeg4.4
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
@@ -259,7 +258,6 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-curl
             mingw-w64-${{ matrix.arch.arch }}-docbook-xml
             mingw-w64-${{ matrix.arch.arch }}-docbook-xsl
-            mingw-w64-${{ matrix.arch.arch }}-ffmpeg4.4
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-giflib
             mingw-w64-${{ matrix.arch.arch }}-glew
