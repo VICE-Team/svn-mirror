@@ -5636,6 +5636,9 @@ int main(int argc, char **argv)
         } else {
             if (open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + 8)) != 0) {
                 /* error: clean up and exit */
+                while (--i >= 1) {
+                    close_disk_image(drives[i - 1], (unsigned int)(i - 1 + 8));
+                }
                 for (i = 0; i < NUM_DISK_UNITS; i++) {
                     lib_free(drives[i]);
                 }
