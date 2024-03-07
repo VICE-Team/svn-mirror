@@ -394,7 +394,7 @@ jobs:
       matrix:
           ui: [ { name: 'GTK3',
                   conf: '--enable-gtk3ui --with-pulse',
-                  deps: 'libglew-dev libgtk-3-dev libpulse-dev' },
+                  deps: 'libevdev-dev libglew-dev libgtk-3-dev libpulse-dev' },
                 { name: 'SDL2',
                   conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
                   deps: 'libsdl2-dev libsdl2-image-dev' },
