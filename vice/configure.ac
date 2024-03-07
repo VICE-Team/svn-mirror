@@ -143,7 +143,7 @@ dnl Needed for WIC64
 VICE_ARG_WITH_LIST(libcurl,                 [  --without-libcurl       disable libcurl support [[default=no]]])
 
 dnl Linux evdev joysticks
-VICE_ARG_WITH_LIST(evdev,                   [  --with-evdev            enable Linux evdev joystick driver [[default=no]]])
+VICE_ARG_WITH_LIST(evdev,                   [  --without-evdev         disable Linux evdev joystick driver [[default=no]]])
 
 dnl
 dnl UI options
@@ -2063,7 +2063,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl
                         JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux.o";
                    ],[],[#include <linux/joystick.h>])],)
   dnl Linux evdev joystick driver
-  if test x"$with_evdev" = "xyes"; then
+  if test x"$with_evdev" != "xno"; then
     PKG_CHECK_MODULES([libevdev],
                       [libevdev],
                       [AC_DEFINE(HAVE_LINUX_EVDEV,,[Enable support for Linux evdev joysticks.])
