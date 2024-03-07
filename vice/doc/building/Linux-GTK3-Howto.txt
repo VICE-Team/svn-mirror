@@ -7,8 +7,9 @@ earlier, though you may be able to manually download and compile GTK3.22 for
 your platform (untested).
 
 Tested on:  Linux Mint 19, 20
-            Ubuntu 17.10.1, 18.04, 19.04, 20.04.3-LTS
-            Debian 9.0-9.8, 10.0, 10.3, 10.4, 10.5, 10.6, 11.0, 11.1, 11.2
+            Ubuntu 17.10.1, 18.04, 19.04, 20.04.3-LTS 22.04 22.10 23.04 23.10
+            Debian 9.0-9.8, 10.0, 10.3, 10.4, 10.5, 10.6, 11.0, 11.1, 11.2 11.3
+                   11.4 11.5 11.6 11.7 12.0
 
 --------------------------------------------------------------------------------
 1. adhoc build from SVN
@@ -40,6 +41,9 @@ $ sudo apt-get install libpulse-dev         # for Pulse Audio sound support
 $ sudo apt-get install libasound2-dev       # for ALSA sound support
 $ sudo apt-get install libglew-dev          # for OpenGL hardware scaling support
 $ sudo apt-get install libcurl4-openssl-dev # for WiC64, >= 7.71.0 is required
+$ sudo apt-get install libevdev-dev         # for Linux evdev joystick driver,
+                                            # can be omitted if `--without-evdev`
+                                            # was passed to configure
 
 If you plan on building the PDF documentation, you will also need to install
 whatever package includes "epsf.tex". It was recently in "texlive-plain-generic".
