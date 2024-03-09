@@ -30,7 +30,10 @@ gtk3_keymaps = \
 sdl_keymaps = \
 	sdl_sym.vkm \
 	sdl_sym_de.vkm \
+	sdl_sym_uk.vkm \
 	sdl_pos.vkm \
+	sdl_pos_de.vkm \
+	sdl_pos_uk.vkm \
 	sdl_pos_fr.vkm \
 	sdl_pos_fi.vkm
 

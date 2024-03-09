@@ -277,7 +277,7 @@
 122 1 4 8              /*             Z -> Z            */
 
 # Restore key mappings
-280 -3 0               /*       Page Up -> RESTORE      */
+280 -3 0               /*      Page Up -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0               /*      NumLock  -> keypad x0    */

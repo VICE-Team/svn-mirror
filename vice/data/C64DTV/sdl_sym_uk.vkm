@@ -122,7 +122,6 @@
 !LCTRL 7 2
 !VCTRL LCTRL
 
-#279 7 1 8              /*          End -> Left Arrow   */
 #92 4 4 33              /*            \ -> shift m      */
 #92 6 0 129             /*            | -> up arrow     */
 
@@ -137,7 +136,7 @@
 53 2 0 8               /*            5 -> 5 %          */
 
 54 2 3 32              /*            6 -> 6 &          */
-54 6 6 144             /*            ^ -> power of     */
+54 6 6 144             /*            ^ -> Arrow up     */
 
 55 3 0 32              /*            7 -> 7 '          */
 55 2 3 129             /*            & -> &            */
@@ -225,11 +224,13 @@
 276 0 2 1              /*         Left -> CRSR LEFT    */
 275 0 2 8              /*        Right -> CRSR RIGHT   */
 274 0 7 8              /*         Down -> CRSR DOWN    */
+
 277 0 0 1              /*       Insert -> INS          */
 127 0 0 8              /*       Delete -> DEL          */
+279 7 1 8              /*          End -> Left Arrow   */
 
 # Restore key mappings
-280 -3 0
+280 -3 0               /*      Page Up -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */

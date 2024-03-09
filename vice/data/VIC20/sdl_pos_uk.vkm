@@ -75,77 +75,75 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# SDL symbolic map for the C64, the SCPU64, and the C64DTV
+# Positional Mapping, UK Layout, VIC20, SDL
 
 # note: For some reason SDL does not get keyboard events for "dead keys" at all,
 #       so a "nodeadkeys" layout must be used. CAUTION: apparently SDL generates
 #       some tables internally at startup - switching the host layout while
 #       the emulator is running produces unpredictable results (broken keycodes)
 
-# C64 keyboard matrix:
+# VIC20 Keyboard matrix
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 0| DEL |Retrn|C_L/R|  F7 |  F1 |  F3 |  F5 |C_U/D|
+# |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 1| 3 # |  W  |  A  | 4 $ |  Z  |  S  |  E  | S_L |
+# |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 2| 5 % |  R  |  D  | 6 & |  C  |  F  |  T  |  X  |
+# |Bit 2| 5 % |  R  |  D  |  X  |  C  |  F  |  T  | 6 & |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 3| 7 ' |  Y  |  G  | 8 ( |  B  |  H  |  U  |  V  |
+# |Bit 3| 7 ' |  Y  |  G  |  V  |  B  |  H  |  U  | 8 ( |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 4| 9 ) |  I  |  J  |  0  |  M  |  K  |  O  |  N  |
+# |Bit 4| 9 ) |  I  |  J  |  N  |  M  |  K  |  O  |  0  |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 5|  +  |  P  |  L  |  -  | . > | : [ |  @  | , < |
+# |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 6|POUND|  *  | ; ] | HOME| S_R |  =  | A_UP| / ? |
+# |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 7| 1 ! |A_LFT| CTRL| 2 " |SPACE|  C= |  Q  | R/S |
+# |Bit 7| DEL |Retrn|C_L/R|C_U/D|  F1 |  F3 |  F5 |  F7 |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
 
-# C64 Keyboard layout:
+# to convert from C64 to VIC20:
+# change rows 7 -> 0, 0 -> 7
+# change columns 7 -> 3, 3 -> 7
+
+# VIC20 Keyboard layout:
 #
 #   arrow 1!  2"  3#  4$  5%  6&  7'  8(  9)  0   +   -   pound clr del     f1/f2
 #    ctrl   q   w   e   r   t   y   u   i   o   p   @   *   ^   restore     f3/f4
 #   r/s SL    a   s   d   f   g   h   j   k   l   :[  ;]  =   return        f5/f6
 #   CBM LS      z   x   c   v   b   n   m   ,<  .>  /?  RS  u/d l/r         f7/f8
-#                               space
+#                           space
 
 !CLEAR
-!LSHIFT 1 7
+!LSHIFT 1 3
 !RSHIFT 6 4
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
-!LCBM 7 5
+!LCBM 0 5
 !VCBM LCBM
-!LCTRL 7 2
+!LCTRL 0 2
 !VCTRL LCTRL
 
-27 7 7 8               /*          ESC -> Run/Stop     */
-49 7 0 8               /*            1 -> 1            */
-50 7 3 32              /*            2 -> 2            */
-50 5 6 144             /*            @ -> @            */
+27 0 3 8               /*          ESC -> Run/Stop     */
+96 0 1 8               /*            ` -> Left Arrow   */
+49 0 0 8               /*            1 -> 1            */
+50 0 7 8               /*            2 -> 2            */
 51 1 0 8               /*            3 -> 3            */
-52 1 3 8               /*            4 -> 4            */
+52 1 7 8               /*            4 -> 4            */
 53 2 0 8               /*            5 -> 5            */
-54 2 3 32              /*            6 -> 6            */
-54 6 6 144             /*            ^ -> ^            */
-55 3 0 32              /*            7 -> 7            */
-55 2 3 129             /*            & -> &            */
-56 3 3 32              /*            8 -> 8            */
-56 6 1 144             /*            * -> *            */
-57 4 0 32              /*            9 -> 9            */
-57 3 3 129             /*            ( -> (            */
-48 4 3 32              /*            0 -> 0            */
-48 4 0 129             /*            ) -> )            */
-45 5 3 32              /*        Minus -> Minus        */
-45 5 6 2192            /*            _ -> _            */
-61 6 5 32              /*            = -> =            */
-61 5 0 144             /*            + -> +            */
-8 0 0 8                /*    Backspace -> DEL          */
-9 7 5 8192             /*          Tab -> CBM          */
-113 7 6 8              /*            Q -> Q            */
+54 2 7 8               /*            6 -> 6            */
+55 3 0 8               /*            7 -> 7            */
+56 3 7 8               /*            8 -> 8            */
+57 4 0 8               /*            9 -> 9            */
+48 4 7 8               /*            0 -> 0            */
+45 5 0 8               /*        Minus -> Plus         */
+61 5 7 8               /*        Equal -> Minus        */
+8 7 0 8                /*    Backspace -> Del          */
+
+9 0 2 16392            /*          TAB -> Ctrl         */
+113 0 6 8              /*            Q -> Q            */
 119 1 1 8              /*            W -> W            */
 101 1 6 8              /*            E -> E            */
 114 2 1 8              /*            R -> R            */
@@ -155,10 +153,11 @@
 105 4 1 8              /*            I -> I            */
 111 4 6 8              /*            O -> O            */
 112 5 1 8              /*            P -> P            */
-91 5 5 1               /*            [ -> [            */
-93 6 2 1               /*            ] -> ]            */
-13 0 1 8               /*       Return -> Return       */
-306 7 2 16384          /*    Left Ctrl -> Ctrl         */
+91 5 6 8               /*            [ -> @            */
+93 6 1 8               /*            ] -> *            */
+13 7 1 8               /*       Return -> Return       */
+
+301 1 3 64             /*    Caps Lock -> Shift Lock   */
 97 1 2 8               /*            A -> A            */
 115 1 5 8              /*            S -> S            */
 100 2 2 8              /*            D -> D            */
@@ -168,47 +167,48 @@
 106 4 2 8              /*            J -> J            */
 107 4 5 8              /*            K -> K            */
 108 5 2 8              /*            L -> L            */
-59 6 2 32              /*            ; -> ;            */
-59 5 5 144             /*            : -> :            */
-39 3 0 33              /*            ' -> '            */
-39 7 3 129             /*            " -> "            */
-96 3 0 33              /*            ` -> `            */
-96 7 1 129             /*            ~ -> Arrow Left   */
-92 6 0 32              /*            \ -> Pound        */
-304 1 7 2              /*   Left Shift -> Left Shift   */
-301 1 7 64             /*    Caps Lock -> Shift Lock   */
+59 5 5 8               /*            ; -> :            */
+39 6 2 8               /*            ' -> ;            */
+35 6 5 8               /*            # -> =            */
+
+304 1 3 2              /*   Left Shift -> Left Shift   */
+92 6 0 8               /*            \ -> Pound        */
 122 1 4 8              /*            Z -> Z            */
-120 2 7 8              /*            X -> X            */
+120 2 3 8              /*            X -> X            */
 99 2 4 8               /*            C -> C            */
-118 3 7 8              /*            V -> V            */
+118 3 3 8              /*            V -> V            */
 98 3 4 8               /*            B -> B            */
-110 4 7 8              /*            N -> N            */
+110 4 3 8              /*            N -> N            */
 109 4 4 8              /*            M -> M            */
-44 5 7 8               /*            , -> ,            */
+44 5 3 8               /*            , -> ,            */
 46 5 4 8               /*            . -> .            */
-47 6 7 8               /*            / -> /            */
+47 6 3 8               /*            / -> /            */
 303 6 4 4              /*  Right Shift -> Right Shift  */
-32 7 4 8               /*        Space -> Space        */
-282 0 4 8              /*           F1 -> F1           */
-283 0 4 1              /*           F2 -> F2           */
-284 0 5 8              /*           F3 -> F3           */
-285 0 5 1              /*           F4 -> F4           */
-286 0 6 8              /*           F5 -> F5           */
-287 0 6 1              /*           F6 -> F6           */
-288 0 3 8              /*           F7 -> F7           */
-289 0 3 1              /*           F8 -> F8           */
-278 6 3 8              /*         Home -> CLR/HOME     */
-273 0 7 1              /*           Up -> CRSR UP      */
-276 0 2 1              /*         Left -> CRSR LEFT    */
-275 0 2 8              /*        Right -> CRSR RIGHT   */
-274 0 7 8              /*         Down -> CRSR DOWN    */
-277 0 0 1              /*       Insert -> INS          */
-127 0 0 8              /*       Delete -> DEL          */
-279 7 1 8              /*          End -> Left Arrow   */
-281 6 6 8              /*    Page Down -> Arrow up      */
+
+306 0 5 8200           /*    Left Ctrl -> CBM          */
+32 0 4 8               /*        Space -> Space        */
+
+282 7 4 8              /*           F1 -> F1           */
+283 7 4 1              /*           F2 -> F2           */
+284 7 5 8              /*           F3 -> F3           */
+285 7 5 1              /*           F4 -> F4           */
+286 7 6 8              /*           F5 -> F5           */
+287 7 6 1              /*           F6 -> F6           */
+288 7 7 8              /*           F7 -> F7           */
+289 7 7 1              /*           F8 -> F8           */
+
+278 6 7 8              /*         Home -> CLR/HOME     */
+273 7 3 1              /*           Up -> CRSR UP      */
+276 7 2 1              /*         Left -> CRSR LEFT    */
+275 7 2 8              /*        Right -> CRSR RIGHT   */
+274 7 3 8              /*         Down -> CRSR DOWN    */
+
+277 7 0 1              /*           Ins -> Ins          */
+127 7 0 8              /*           Del -> Del          */
+279 6 6 8              /*           End -> Up Arrow     */
 
 # Restore key mappings
-280 -3 0               /*      Page Up -> RESTORE      */
+280 -3 0               /*      Page up -> Restore      */
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */

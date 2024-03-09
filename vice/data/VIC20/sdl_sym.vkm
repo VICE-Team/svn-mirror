@@ -127,6 +127,8 @@
 !VCTRL LCTRL
 
 27 0 3 8               /*          ESC -> Run/Stop     */
+
+96 0 1 129             /*            ~ -> Arrow Left   */
 49 0 0 8               /*            1 -> 1            */
 50 0 7 32              /*            2 -> 2            */
 50 5 6 144             /*            @ -> @            */
@@ -148,6 +150,7 @@
 61 6 5 32              /*            = -> =            */
 61 5 0 144             /*            + -> +            */
 8 7 0 8                /*    Backspace -> DEL          */
+
 9 0 5 8192             /*          Tab -> CBM          */
 113 0 6 8              /*            Q -> Q            */
 119 1 1 8              /*            W -> W            */
@@ -161,8 +164,10 @@
 112 5 1 8              /*            P -> P            */
 91 5 5 1               /*            [ -> [            */
 93 6 2 1               /*            ] -> ]            */
+92 6 0 8               /*            \ -> Pound        */
 13 7 1 8               /*       Return -> Return       */
-306 0 2 16384          /*    Left Ctrl -> Ctrl         */
+
+301 1 3 64             /*    Caps Lock -> Shift Lock   */
 97 1 2 8               /*            A -> A            */
 115 1 5 8              /*            S -> S            */
 100 2 2 8              /*            D -> D            */
@@ -177,10 +182,8 @@
 39 3 0 33              /*            ' -> '            */
 39 0 7 129             /*            " -> "            */
 96 3 0 33              /*            ` -> `            */
-96 0 1 129             /*            ~ -> Arrow Left   */
-92 6 0 8               /*            \ -> Pound        */
+
 304 1 3 2              /*   Left Shift -> Left Shift   */
-301 1 3 64             /*    Caps Lock -> Shift Lock   */
 122 1 4 8              /*            Z -> Z            */
 120 2 3 8              /*            X -> X            */
 99 2 4 8               /*            C -> C            */
@@ -192,7 +195,10 @@
 46 5 4 8               /*            . -> .            */
 47 6 3 8               /*            / -> /            */
 303 6 4 4              /*  Right Shift -> Right Shift  */
+
+306 0 2 16384          /*    Left Ctrl -> Ctrl         */
 32 0 4 8               /*        Space -> Space        */
+
 282 7 4 8              /*           F1 -> F1           */
 283 7 4 1              /*           F2 -> F2           */
 284 7 5 8              /*           F3 -> F3           */
@@ -212,7 +218,7 @@
 281 6 6 8              /*    Page down -> Arrow Up     */
 
 # Restore key mappings
-280 -3 0
+280 -3 0               /*       Page Up -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */
