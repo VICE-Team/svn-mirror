@@ -120,9 +120,7 @@
 !LCTRL 7 2
 !VCTRL LCTRL
 
-#279 0 0 8              /*          End ->              */
-#281 0 0 8              /*    Page down ->              */
-#92 0 0 8               /*            \ ->              */
+92 6 0 8               /*            \ -> Pound        */
 
 9 7 2 16392            /*          TAB -> Ctrl         */
 13 0 1 8               /*       Return -> Return       */
@@ -200,13 +198,13 @@
 275 0 2 8              /*        Right -> CRSR RIGHT   */
 274 0 7 8              /*         Down -> CRSR DOWN    */
 
-277 6 0 8              /*          Ins -> Pound        */
-127 6 6 8              /*          Del -> Up Arrow /pi */
+127 0 0 8              /*          Ins -> Ins          */
+277 0 0 1              /*          Del -> Del          */
 278 6 3 8              /*         Home -> CLR/HOME     */
-
+279 6 6 8              /*          End -> Up Arrow     */
 
 # Restore key mappings
-280 -3 0
+280 -3 0               /*      Page Up -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */

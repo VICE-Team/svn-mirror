@@ -183,7 +183,7 @@
 
 # 32+1 not shifted on host, shifted on c64
 60 5 7 33              /*             < -> <            */
-# 128 shifted on host, shifted on c64
+# 32+128 shifted on host, shifted on c64
 60 5 4 160             /*             > -> >            */
 60 6 0 0x210           /*        altr+< -> pound        */
 
@@ -277,7 +277,7 @@
 122 1 4 8              /*             Z -> Z            */
 
 # Restore key mappings
-280 -3 0               /*       Page Up -> RESTORE      */
+280 -3 0               /*      Page Up -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0               /*      NumLock  -> keypad x0    */
