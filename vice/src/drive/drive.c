@@ -570,45 +570,38 @@ void drive_cpu_early_init_all(void)
     }
 }
 
+/* reset one drive only */
 void drive_cpu_trigger_reset(unsigned int dnr)
 {
+    unsigned int d;
     diskunit_context_t *unit = diskunit_context[dnr];
 
     if (unit->type == DRIVE_TYPE_2000 ||
         unit->type == DRIVE_TYPE_4000 ||
         unit->type == DRIVE_TYPE_CMDHD) {
-        drivecpu65c02_trigger_reset(dnr);
+        drivecpu65c02_reset(diskunit_context[dnr]);
     } else {
-        drivecpu_trigger_reset(dnr);
+        drivecpu_reset(diskunit_context[dnr]);
     }
+
+    for (d = 0; d < NUM_DRIVES; d++) {
+        drive_t *drive = unit->drives[d];
+
+        drive->led_last_change_clk = *(unit->clk_ptr);
+        drive->led_last_uiupdate_clk = *(unit->clk_ptr);
+        drive->led_active_ticks = 0;
+    }
+
     is_jammed[dnr] = false;
 }
 
 /* called by machine_specific_reset() */
+/* reset all drives */
 void drive_reset(void)
 {
     unsigned int dnr;
-    unsigned int d;
-
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        diskunit_context_t *unit = diskunit_context[dnr];
-
-        if (unit->type == DRIVE_TYPE_2000 ||
-            unit->type == DRIVE_TYPE_4000 ||
-            unit->type == DRIVE_TYPE_CMDHD) {
-            drivecpu65c02_reset(diskunit_context[dnr]);
-        } else {
-            drivecpu_reset(diskunit_context[dnr]);
-        }
-
-        for (d = 0; d < NUM_DRIVES; d++) {
-            drive_t *drive = unit->drives[d];
-
-            drive->led_last_change_clk = *(unit->clk_ptr);
-            drive->led_last_uiupdate_clk = *(unit->clk_ptr);
-            drive->led_active_ticks = 0;
-        }
-        is_jammed[dnr] = false;
+        drive_cpu_trigger_reset(dnr);
     }
 }
 
