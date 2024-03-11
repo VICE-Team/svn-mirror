@@ -16,22 +16,22 @@ jobs:
       matrix:
         source: [ { name: 'headless',
                     conf: '--enable-headlessui',
-                    deps: '' },
+                    deps: 'libevdev-dev' },
                   { name: 'sdl2',
                    conf: '--enable-sdl2ui',
                     deps: 'libsdl2-dev libsdl2-image-dev' },
                   { name: 'gtk3',
                     conf: '--enable-gtk3ui',
-                    deps: 'libgtk-3-dev libglew-dev' } ]
+                    deps: 'libevdev-dev libgtk-3-dev libglew-dev' } ]
         target: [ { name: 'headless',
                     conf: '--enable-headlessui',
-                    deps: '' },
+                    deps: 'libevdev-dev' },
                   { name: 'sdl2',
                     conf: '--enable-sdl2ui',
                     deps: 'libsdl2-dev libsdl2-image-dev' },
                   { name: 'gtk3',
                     conf: '--enable-gtk3ui',
-                    deps: 'libgtk-3-dev libglew-dev' } ]
+                    deps: 'libevdev-dev libgtk-3-dev libglew-dev' } ]
 
     steps:
       - name: Checkout Source
