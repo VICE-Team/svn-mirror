@@ -89,19 +89,20 @@ static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer da
  */
 static void on_response_integer(GtkDialog *dialog, gint response_id, gpointer data)
 {
+    gboolean valid  = FALSE;
+    int      result = 0;
+
     if (response_id == GTK_RESPONSE_ACCEPT) {
         GtkWidget *entry = data;
-        int result;
 
         /* try to convert entry box contents to integer */
         if (entry_get_int(entry, &result)) {
             /* OK */
-            integer_cb(dialog, result, TRUE);
-        } else {
-            /* fail */
-            integer_cb(dialog, 0, FALSE);
+            valid = TRUE;
         }
     }
+    /* always trigger the callback, UI actions rely on this */
+    integer_cb(dialog, result, valid);
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
