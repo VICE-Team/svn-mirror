@@ -77,18 +77,15 @@ static GtkWidget *tune_submenu = NULL;
  */
 static GtkWidget *settings_submenu = NULL;
 
-
 #ifdef DEBUG
 /** \brief  Debug submenu, only available when --enable-debug was specified
  */
 static GtkWidget *debug_submenu = NULL;
 #endif
 
-
 /** \brief  Help submenu
  */
 static GtkWidget *help_submenu = NULL;
-
 
 /** \brief  List of items in the tune submenu
  */
@@ -98,24 +95,27 @@ static GSList *tune_submenu_group = NULL;
 /** \brief  File->Reset submenu
  */
 static const ui_menu_item_t reset_submenu[] = {
-    { "Reset machine CPU", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_MACHINE_RESET_CPU,
-      NULL, true },
-    { "Power cycle machine", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_MACHINE_POWER_CYCLE,
-      NULL, true },
-
+    {   .label    = "Reset machine CPU",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_MACHINE_RESET_CPU,
+        .unlocked = true
+    },
+    {   .label    = "Power cycle machine",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_MACHINE_POWER_CYCLE,
+        .unlocked = true
+    },
     UI_MENU_TERMINATOR
 };
-
 
 /** \brief  'File' menu
  */
 static const ui_menu_item_t file_menu[] = {
-    { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_LOAD,
-      NULL, true },
-
+    {   .label    = "Load PSID file...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_LOAD,
+        .unlocked = true
+    },
     UI_MENU_SEPARATOR,
 #if 0
     /* XXX: this item might need its own dialog that only
@@ -132,22 +132,23 @@ static const ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 #endif
     /* monitor */
-    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_MONITOR_OPEN,
-      NULL, false },
-
+    {   .label    = "Activate monitor",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_MONITOR_OPEN
+    },
     UI_MENU_SEPARATOR,
 
-    { "Reset", UI_MENU_TYPE_SUBMENU,
-      0,
-      reset_submenu, false },
-
+    {   .label    = "Reset",
+        .type     = UI_MENU_TYPE_SUBMENU,
+        .submenu  = reset_submenu
+    },
     UI_MENU_SEPARATOR,
 
-    { "Exit player", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_QUIT,
-      NULL, true },
-
+    {   .label    = "Exit player",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_QUIT,
+        .unlocked = true
+    },
     UI_MENU_TERMINATOR
 };
 
@@ -163,31 +164,39 @@ static ui_menu_item_t tune_menu[] = {
 
 /** \brief  Playlist menu items */
 static const ui_menu_item_t playlist_menu[] = {
-    { "Load playlist...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_LOAD,
-      NULL, true },
-    { "Save playlist...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_SAVE,
-      NULL, true },
-    { "Clear playlist", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_CLEAR,
-      NULL, true },
-
+    {   .label    = "Load playlist...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_LOAD,
+        .unlocked = true
+    },
+    {   .label    = "Save playlist...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_SAVE,
+        .unlocked = true
+    },
+    {   .label    = "Clear playlist",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_CLEAR,
+        .unlocked = true
+    },
     UI_MENU_SEPARATOR,
 
-    { "Play first tune", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_FIRST,
-      NULL, false },
-    { "Play previous tune", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_PREVIOUS,
-      NULL, false },
-    { "Play next tune", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_NEXT,
-      NULL, false },
-    { "Play last tune", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_PSID_PLAYLIST_LAST,
-      NULL, false },
-
+    {   .label    = "Play first tune",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_FIRST
+    },
+    {   .label    = "Play previous tune",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_PREVIOUS
+    },
+    {   .label    = "Play next tune",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_NEXT
+    },
+    {   .label    = "Play last tune",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_PSID_PLAYLIST_LAST
+    },
     UI_MENU_TERMINATOR
 };
 
@@ -197,10 +206,10 @@ static const ui_menu_item_t settings_menu[] = {
     /* XXX: this item should perhaps be removed and its functionality
      *      added to the settings dialog
      */
-    { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_PSID_OVERRIDE_TOGGLE,
-      NULL, false },
-
+    {   .label  = "Override PSID settings",
+        .type   = UI_MENU_TYPE_ITEM_CHECK,
+        .action = ACTION_PSID_OVERRIDE_TOGGLE
+    },
     UI_MENU_TERMINATOR
 };
 
@@ -208,25 +217,26 @@ static const ui_menu_item_t settings_menu[] = {
  */
 #ifdef DEBUG
 static const ui_menu_item_t debug_menu[] = {
-    { "Trace mode...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_DEBUG_TRACE_MODE,
-      NULL, false },
-
+    {   .label  = "Trace mode...",
+        .type   = UI_MENU_TYPE_ITEM_ACTION,
+        .action = ACTION_DEBUG_TRACE_MODE
+    },
     UI_MENU_SEPARATOR,
 
-    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_DEBUG_TRACE_CPU_TOGGLE,
-      NULL, false },
-
+    {   .label  = "Main CPU trace",
+        .type   = UI_MENU_TYPE_ITEM_CHECK,
+        .action = ACTION_DEBUG_TRACE_CPU_TOGGLE
+    },
     UI_MENU_SEPARATOR,
 
-    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
-      NULL, false },
-    { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_DEBUG_CORE_DUMP_TOGGLE,
-      NULL, false },
-
+    {   .label  = "Autoplay playback frames...",
+        .type   = UI_MENU_TYPE_ITEM_ACTION,
+        .action = ACTION_DEBUG_AUTOPLAYBACK_FRAMES
+    },
+    {   .label  = "Save core dump",
+        .type   = UI_MENU_TYPE_ITEM_CHECK,
+        .action = ACTION_DEBUG_CORE_DUMP_TOGGLE
+    },
     UI_MENU_TERMINATOR
 };
 #endif
@@ -234,22 +244,31 @@ static const ui_menu_item_t debug_menu[] = {
 /** \brief  'Help' menu items
  */
 static const ui_menu_item_t help_menu[] = {
-    { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_MANUAL,
-      NULL, true },
-    { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_COMMAND_LINE,
-      NULL, true },
-    { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_COMPILE_TIME,
-      NULL, true },
-    { "Hotkeys ...", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_HOTKEYS,
-      NULL, true },
-    { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_ABOUT,
-      NULL, true },
-
+    {   .label    = "Browse manual...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_HELP_MANUAL,
+        .unlocked = true
+    },
+    {   .label    = "Command line options...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_HELP_COMMAND_LINE,
+        .unlocked = true
+    },
+    {   .label    = "Compile time features...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_HELP_COMPILE_TIME,
+        .unlocked = true
+    },
+    {   .label    = "Hotkeys...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_HELP_HOTKEYS,
+        .unlocked = true
+    },
+    {   .label    = "About VICE...",
+        .type     = UI_MENU_TYPE_ITEM_ACTION,
+        .action   = ACTION_HELP_ABOUT,
+        .unlocked = true
+    },
     UI_MENU_TERMINATOR
 };
 
