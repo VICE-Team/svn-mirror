@@ -628,47 +628,49 @@ static ui_menu_item_t snapshot_menu[] = {
 
 /** \brief  Settings -> Speed submenu */
 static const ui_menu_item_t speed_submenu[] = {
-    {   .label  = "200% CPU",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_200
+    {   .label    = "200% CPU",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_200
     },
-    {   .label  = "100% CPU",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_100
+    {   .label    = "100% CPU",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_100
     },
-    {   .label  = "50% CPU",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_50
+    {   .label    = "50% CPU",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_50
     },
-    {   .label  = "25% CPU",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_25
+    {   .label    = "25% CPU",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_25
     },
-    {   .label  = "10% CPU",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_10
+    {   .label    = "10% CPU",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_10
     },
-    {   .label  = "Custom CPU speed...",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_CPU_CUSTOM
+    {   .label    = "Custom CPU speed...",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_CPU_CUSTOM,
+        .activate = true
     },
     UI_MENU_SEPARATOR,
 
-    {   .label  = "MACHINE_NAME FPS",   /* gets replaced during runtime */
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_FPS_REAL
+    {   .label    = "MACHINE_NAME FPS",   /* gets replaced during runtime */
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_FPS_REAL
     },
-    {   .label  = "50 FPS",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_FPS_50
+    {   .label    = "50 FPS",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_FPS_50
     },
-    {   .label  = "60 FPS",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_FPS_60
+    {   .label    = "60 FPS",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_FPS_60
     },
-    {   .label  = "Custom FPS",
-        .type   = UI_MENU_TYPE_ITEM_RADIO_INT,
-        .action = ACTION_SPEED_FPS_CUSTOM
+    {   .label    = "Custom FPS",
+        .type     = UI_MENU_TYPE_ITEM_RADIO_INT,
+        .action   = ACTION_SPEED_FPS_CUSTOM,
+        .activate = true
     },
     UI_MENU_TERMINATOR
 };

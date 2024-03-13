@@ -104,6 +104,15 @@ typedef struct ui_menu_item_s {
      */
     bool unlocked;
 
+    /** \brief  Use the 'activate' signal instead of the 'toggled' signal
+     *
+     * If a menu item is radio button, use the 'activate' signal instead of the
+     * 'toggled' signal so radio buttons that are already selected (e.g
+     * "Custom FPS" still activate their dialog when selected again.
+     * Has no meaning for other types of menu items.
+     */
+    bool activate;
+
 } ui_menu_item_t;
 
 
