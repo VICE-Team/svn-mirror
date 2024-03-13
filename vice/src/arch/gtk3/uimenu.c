@@ -140,7 +140,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
     size_t i = 0;
     GSList *group = NULL;
 
-    while (items[i].label != NULL || items[i].type >= 0) {
+    while (items[i].label != NULL || items[i].type != UI_MENU_TYPE_GUARD) {
         GtkWidget *item = NULL;
         GtkWidget *submenu;
         gulong handler_id = 0;
@@ -186,7 +186,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
                 break;
         }
 
-        if (items[i].action_id > ACTION_NONE) {
+        if (items[i].action > ACTION_NONE) {
             /* radio buttons use the "toggled" event */
             if (items[i].type == UI_MENU_TYPE_ITEM_RADIO_INT ||
                     items[i].type == UI_MENU_TYPE_ITEM_RADIO_STR) {
@@ -194,24 +194,24 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
                     handler_id = g_signal_connect_unlocked(
                             item, "toggled",
                             G_CALLBACK(on_menu_item_toggled),
-                            GINT_TO_POINTER(items[i].action_id));
+                            GINT_TO_POINTER(items[i].action));
                 } else {
                     handler_id = g_signal_connect(
                             item, "toggled",
                             G_CALLBACK(on_menu_item_toggled),
-                            GINT_TO_POINTER(items[i].action_id));
+                            GINT_TO_POINTER(items[i].action));
                 }
             } else {
                 if (items[i].unlocked) {
                     handler_id = g_signal_connect_unlocked(
                             item, "activate",
                             G_CALLBACK(on_menu_item_activate),
-                            GINT_TO_POINTER(items[i].action_id));
+                            GINT_TO_POINTER(items[i].action));
                 } else {
                     handler_id = g_signal_connect(
                             item, "activate",
                             G_CALLBACK(on_menu_item_activate),
-                            GINT_TO_POINTER(items[i].action_id));
+                            GINT_TO_POINTER(items[i].action));
                 }
             }
         }
@@ -239,14 +239,14 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
             /* set action name */
             g_object_set_data(G_OBJECT(item),
                               "ActionID",
-                              GINT_TO_POINTER(items[i].action_id));
+                              GINT_TO_POINTER(items[i].action));
 
             /* add item to table of references if it triggers a UI action */
-            if (items[i].action_id > ACTION_NONE) {
+            if (items[i].action > ACTION_NONE) {
                 ui_action_map_t *action_map;        /* ui-agnostic data */
 
                 /* add to hotkey maps or update */
-                action_map = ui_action_map_get(items[i].action_id);
+                action_map = ui_action_map_get(items[i].action);
                 if (action_map != NULL) {
                     vhk_gtk_map_t *arch_map;    /* gtk3-specific data */
 
