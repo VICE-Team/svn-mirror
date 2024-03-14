@@ -36,11 +36,6 @@
 #define INITGUID
 #include <dinput.h>
 
-/* not defined in DirectInput headers prior to 8 */
-#ifndef DIDFT_OPTIONAL
-#define DIDFT_OPTIONAL 0x80000000
-#endif
-
 typedef struct _JoyAxis {
     struct _JoyAxis *next;
     DWORD id;
@@ -63,65 +58,10 @@ typedef struct _JoyInfo {
     LPDIRECTINPUTDEVICE8 di_device;
 } JoyInfo;
 
-#ifndef HAVE_DINPUT_LIB
-static DIOBJECTDATAFORMAT joystick_objects[] = {
-    { &GUID_XAxis, 0, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_YAxis, 4, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_ZAxis, 8, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_RxAxis, 0x0c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_RyAxis, 0x10, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_RzAxis, 0x14, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_Slider, 0x18, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_Slider, 0x1c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-    { &GUID_POV, 0x20, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-    { &GUID_POV, 0x24, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-    { &GUID_POV, 0x28, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-    { &GUID_POV, 0x2c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-    { NULL, 0x30, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x31, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x32, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x33, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x34, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x35, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x36, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x37, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x38, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x39, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x3f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x40, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x41, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x42, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x43, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x44, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x45, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x46, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x47, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x48, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x49, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-    { NULL, 0x4f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 }
-};
-
-static DIDATAFORMAT data_format_struct = {
-    sizeof(DIDATAFORMAT),
-    sizeof(DIOBJECTDATAFORMAT),
-    DIDF_ABSAXIS,
-    sizeof(DIJOYSTATE),
-    sizeof(joystick_objects) / sizeof(*joystick_objects),
-    joystick_objects
-};
-#endif
 
 static LPDIRECTINPUT8 di = NULL;
+
+
 static BOOL CALLBACK EnumJoyAxes(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef)
 {
     JoyAxis *axis;
@@ -213,7 +153,7 @@ static void joystick_release_buttons(JoyButton *button)
     }
 }
 
-static void joystick_di5_update(int joyport, void* priv)
+static void joystick_di8_update(int joyport, void* priv)
 {
     BYTE value;
     int i;
@@ -344,7 +284,7 @@ static void joystick_release_joystick(void* priv)
 }
 
 static joystick_driver_t win32_directinput_joystick_driver = {
-    .poll = joystick_di5_update,
+    .poll  = joystick_di8_update,
     .close = joystick_release_joystick
 };
 
@@ -384,11 +324,7 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
     new_joystick->numaxes = 0;
     new_joystick->numbuttons = 0;
     IDirectInput8_CreateDevice(di, &new_joystick->guid, &new_joystick->di_device, NULL);
-#ifdef HAVE_DINPUT_LIB
     IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &c_dfDIJoystick);
-#else
-    IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &data_format_struct);
-#endif
     IDirectInputDevice8_SetCooperativeLevel(new_joystick->di_device,
         (HWND)ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
     IDirectInputDevice8_Acquire(new_joystick->di_device);
@@ -408,25 +344,10 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
 
 int win32_directinput_joystick_init(void)
 {
-#ifndef HAVE_DINPUT_LIB
-    HRESULT res;
-#endif
-
     HINSTANCE winmain_instance = GetModuleHandle(NULL); /* FIXME */
-#ifdef HAVE_DINPUT_LIB
     if (DirectInput8Create(winmain_instance, DIRECTINPUT_VERSION, &IID_IDirectInput8, (LPVOID*)&di, NULL) != DI_OK) {
         return 0;
     }
-#else
-    res = CoCreateInstance(&CLSID_DirectInput8, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput8, (PVOID*)&di);
-    if (res != S_OK) {
-        return 0;
-    }
-    if (IDirectInput8_Initialize(di, winmain_instance, DIRECTINPUT_VERSION) != S_OK) {
-        IDirectInput8_Release(di);
-        return 0;
-    }
-#endif
     IDirectInput8_EnumDevices(di, DIDEVTYPE_JOYSTICK, EnumCallBack, NULL, DIEDFL_ALLDEVICES);
     return 1;
 }
