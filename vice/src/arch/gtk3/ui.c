@@ -2174,6 +2174,12 @@ int ui_init(void)
     variant = g_variant_new("b", TRUE);
     /* floating ref is consumed here */
     g_settings_set_value(settings, "sort-directories-first", variant);
+
+    /* disable the "Recent files" crap when opening without explicitly setting
+     * a directory */
+    variant = g_variant_new("s", "cwd");
+    g_settings_set_value(settings, "startup-mode", variant);
+
     /* this should be unref'ed after use */
     g_object_unref(settings);
 
