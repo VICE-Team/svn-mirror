@@ -95,10 +95,11 @@ time_t rtc_set_latched_century(int year, time_t latch, int bcd);       /* 19 - 2
 time_t rtc_set_latched_weekday(int day, time_t latch);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
 time_t rtc_set_latched_day_of_year(int day, time_t latch);             /* 0 - 365 */
 
-void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset);
+void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset, int day_offset);
 int rtc_load_context(char *device, int ram_size, int reg_size);
 uint8_t *rtc_get_loaded_ram(void);
 time_t rtc_get_loaded_offset(void);
+int rtc_get_loaded_day_offset(void);
 uint8_t *rtc_get_loaded_clockregs(void);
 
 #endif

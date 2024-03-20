@@ -208,6 +208,10 @@
  *               this register can only be accessed in BCD mode
  */
 
+/* TODO: day of week is not an independent variable; it is derived from the
+   date. Other modules have corrected this, but it hasn't been done here
+   as there is no tester. */
+
 /* This module is currently used in the following emulated hardware:
    - C64/C128/VIC20 DS12C887 RTC cartridge
  */
@@ -252,7 +256,7 @@ void ds12c887_destroy(rtc_ds12c887_t *context, int save)
         if (memcmp(context->ram, context->old_ram, DS12C887_RAM_SIZE) ||
             memcmp(context->clock_regs, context->old_clock_regs, DS12C887_REG_SIZE) ||
             context->offset != context->old_offset) {
-            rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+            rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset, 0);
         }
     }
     lib_free(context->ram);

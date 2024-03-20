@@ -99,10 +99,13 @@ rtc_72421_t *rtc72421_init(char *device)
 
     if (loaded) {
         retval->offset = rtc_get_loaded_offset();
+        retval->day_offset = rtc_get_loaded_day_offset();
     } else {
         retval->offset = 0;
+        retval->day_offset = 0;
     }
     retval->old_offset = retval->offset;
+    retval->day = ( 7 + rtc_get_weekday(rtc_get_latch(retval->offset)) + retval->day_offset ) % 7;
 
     retval->hour24 = 0;
     retval->device = lib_strdup(device);
@@ -114,7 +117,8 @@ void rtc72421_destroy(rtc_72421_t *context, int save)
 {
     if (save) {
         if (context->old_offset != context->offset) {
-            rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+            rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset,
+                             context->day_offset);
         }
     }
     lib_free(context->device);
@@ -150,7 +154,7 @@ uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address)
                 retval = rtc_get_hour(latch, 0);
             } else {
                 retval = rtc_get_hour_am_pm(latch, 0);
-                retval &= 0x1f;
+                retval &= 0x0f;
             }
             retval %= 10;
             break;
@@ -158,11 +162,10 @@ uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address)
             if (context->hour24) {
                 retval = rtc_get_hour(latch, 0);
                 retval /= 10;
-                retval |= 8;
             } else {
                 retval = rtc_get_hour_am_pm(latch, 0);
-                if (retval > 23) {
-                    retval = (retval - 32) / 10;
+                if (retval >= 32) {
+                    retval = (retval & 31) / 10;
                     retval |= 4;
                 } else {
                     retval /= 10;
@@ -171,8 +174,11 @@ uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address)
             break;
         case RTC72421_REGISTER_WEEKDAYS:
             retval = rtc_get_weekday(latch);
-            if (retval > 6) {
-                retval = 6;
+            /* apply day offset */
+            if (context->stop) {
+                retval = ( 7 + retval + context->day_latch ) % 7;
+            } else {
+                retval = ( 7 + retval + context->day_offset ) % 7;
             }
             break;
         case RTC72421_REGISTER_MONTHDAYS:
@@ -220,6 +226,7 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
     time_t latch = (context->stop) ? context->latch : rtc_get_latch(context->offset);
     uint8_t real_data = data & 0xf;
     uint8_t new_data;
+    int8_t day;
 
     switch (address & 0xf) {
         case RTC72421_REGISTER_SECONDS:
@@ -295,6 +302,7 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
             }
             break;
         case RTC72421_REGISTER_10HOURS:
+            /* FIXME: I don't think this is correct */
             if (real_data & 8) {
                 new_data = rtc_get_hour(latch, 0);
                 new_data %= 10;
@@ -325,11 +333,14 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
             }
             break;
         case RTC72421_REGISTER_WEEKDAYS:
-            if (context->stop) {
-                context->latch = rtc_set_latched_weekday(((real_data + 1) & 7), latch);
-            } else {
-                context->offset = rtc_set_weekday(((real_data + 1) & 7), context->offset);
+            /* We can't figure out the offset until the full date is set, and
+                we don't know how the date will be filled, so we keep a short
+                term register "day" to remember and adjust the day_offset on
+                every other register write. Eventually, it will be set correctly. */
+            if (real_data > 6) {
+                real_data = 6;
             }
+            context->day = real_data;
             break;
         case RTC72421_REGISTER_MONTHDAYS:
             new_data = rtc_get_day_of_month(latch, 0);
@@ -419,6 +430,13 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
             }
             break;
     }
+    /* after every register write, recalculate the day_offset */
+    day = rtc_get_weekday(latch);
+    if (context->stop) {
+        context->day_latch = context->day - day;
+    } else {
+        context->day_offset = context->day - day;
+    }
 }
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -429,6 +447,9 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
    --------------------------------
    BYTE   | stop          | stop flag
    BYTE   | 24 hours      | 24 hours flag
+   BYTE   | day offset    | offset for day of week
+   BYTE   | day latch     | latch for day of week
+   BYTE   | day           | day of week (needed for above 2)
    DWORD  | latch hi      | high DWORD of latch offset
    DWORD  | latch lo      | low DWORD of latch offset
    DWORD  | offset hi     | high DWORD of RTC offset
@@ -475,6 +496,9 @@ int rtc72421_write_snapshot(rtc_72421_t *context, snapshot_t *s)
     if (0
         || SMW_B(m, (uint8_t)context->stop) < 0
         || SMW_B(m, (uint8_t)context->hour24) < 0
+        || SMW_B(m, (uint8_t)context->day_offset) < 0
+        || SMW_B(m, (uint8_t)context->day_latch) < 0
+        || SMW_B(m, (uint8_t)context->day) < 0
         || SMW_DW(m, latch_hi) < 0
         || SMW_DW(m, latch_lo) < 0
         || SMW_DW(m, offset_hi) < 0
@@ -514,6 +538,9 @@ int rtc72421_read_snapshot(rtc_72421_t *context, snapshot_t *s)
     if (0
         || SMR_B_INT(m, &context->stop) < 0
         || SMR_B_INT(m, &context->hour24) < 0
+        || SMR_B_INT(m, &context->day_offset) < 0
+        || SMR_B_INT(m, &context->day_latch) < 0
+        || SMR_B(m, &context->day) < 0
         || SMR_DW(m, &latch_hi) < 0
         || SMR_DW(m, &latch_lo) < 0
         || SMR_DW(m, &offset_hi) < 0

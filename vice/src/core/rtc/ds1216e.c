@@ -71,6 +71,9 @@
  *              bit  4   reset control
  *              bit  3   0
  *              bits 2-0 day of week (1-7, mon-sun)
+ *                       ^^^ CMDFD uses 0-6, sun-sat
+ *                       I can't find reliable data on the use of 1-7, but there
+ *                       are many examples of using 0-6.
  *
  * register 5: bits 7-6 0
  *             bits 5-4 10 day of month
@@ -97,9 +100,11 @@ rtc_ds1216e_t *ds1216e_init(char *device)
 
     if (loaded) {
         retval->offset = rtc_get_loaded_offset();
+        retval->day_offset = rtc_get_loaded_day_offset();
         retval->clock_regs = rtc_get_loaded_clockregs();
     } else {
         retval->offset = 0;
+        retval->day_offset = 0;
         retval->clock_regs = lib_calloc(1, DS1216E_REG_SIZE);
     }
     retval->old_offset = retval->offset;
@@ -115,7 +120,7 @@ void ds1216e_destroy(rtc_ds1216e_t *context, int save)
     if (save) {
         if (memcmp(context->clock_regs, context->old_clock_regs, DS1216E_REG_SIZE) ||
             context->offset != context->old_offset) {
-            rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset);
+            rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset, context->day_offset);
         }
     }
     lib_free(context->clock_regs);
@@ -151,7 +156,12 @@ static void ds1216e_latch_regs(rtc_ds1216e_t *context)
     }
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] = (context->inactive) ? 0x20 : 0;
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= (context->reset) ? 0x10 : 0;
-    context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= ((rtc_get_weekday(latch) - 1) % 7) + 1;
+    /* apply a day offset if necessary */
+    if (context->inactive) {
+        context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= ( (7 + rtc_get_weekday(latch) + context->day_latch ) % 7);
+    } else {
+        context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= ( (7 + rtc_get_weekday(latch) + context->day_offset ) % 7);
+    }
     context->clock_regs[DS1216E_REGISTER_MONTHDAYS] = rtc_get_day_of_month(latch, 1);
     context->clock_regs[DS1216E_REGISTER_MONTHS] = rtc_get_month(latch, 1);
     context->clock_regs[DS1216E_REGISTER_YEARS] = rtc_get_year(latch, 1);
@@ -194,6 +204,7 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
     int new_osc;
     int new_reset;
     int new_12;
+    int8_t rday,uday;
 
     /* setting centiseconds has no effect on the offset used for the clock,
        as this is defined in seconds, so any changes to the centiseconds
@@ -224,9 +235,6 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
         if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
             context->latch = rtc_set_latched_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->latch, 1);
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
-            context->latch = rtc_set_latched_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7, context->latch);
-        }
         if (context->clock_regs_changed[DS1216E_REGISTER_HOURS]) {
             if (new_12) {
                 context->latch = rtc_set_latched_hour_am_pm(context->clock_regs[DS1216E_REGISTER_HOURS], context->latch, 1);
@@ -240,8 +248,14 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
         if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
             context->latch = rtc_set_latched_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->latch, 1);
         }
+        /* since the whole date is latched after the transfer, we can determine
+            the day offset easily unlike the rtc-72421. */
+        uday = context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7;
+        rday = rtc_get_weekday(rtc_get_latch(context->latch));
+        context->day_latch = uday - rday;
         if (!new_osc) {
             context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
+            context->day_offset = context->day_latch;
             context->inactive = 0;
         }
     } else {
@@ -253,9 +267,6 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
         }
         if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
             context->offset = rtc_set_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->offset, 1);
-        }
-        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
-            context->offset = rtc_set_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7, context->offset);
         }
         if (context->clock_regs_changed[DS1216E_REGISTER_HOURS]) {
             if (new_12) {
@@ -270,8 +281,14 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
         if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
             context->offset = rtc_set_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->offset, 1);
         }
+        /* since the whole date is latched after the transfer, we can determine
+            the day offset easily unlike the rtc-72421. */
+        uday = context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7;
+        rday = rtc_get_weekday(rtc_get_latch(context->offset));
+        context->day_offset = uday - rday;
         if (new_osc) {
             context->latch = rtc_get_latch(context->offset);
+            context->day_latch = context->day_offset;
             context->inactive = new_osc;
         }
     }
@@ -364,6 +381,8 @@ uint8_t ds1216e_read(rtc_ds1216e_t *context, uint16_t address, uint8_t origbyte)
    BYTE   | pattern ignore     | pattern ignore flag
    BYTE   | output             | current output bit
    BYTE   | output pos         | current output position
+   BYTE   | day offset         | day of week offset
+   BYTE   | day latch          | day of week latch
    DWORD  | latch hi           | high DWORD of the latch offset
    DWORD  | latch lo           | low DWORD of the latch offset
    DWORD  | offset hi          | high DWORD of the RTC offset
@@ -418,6 +437,8 @@ int ds1216e_write_snapshot(rtc_ds1216e_t *context, snapshot_t *s)
         || SMW_B(m, (uint8_t)context->pattern_ignore) < 0
         || SMW_B(m, (uint8_t)context->output) < 0
         || SMW_B(m, (uint8_t)context->output_pos) < 0
+        || SMW_B(m, (uint8_t)context->day_offset) < 0
+        || SMW_B(m, (uint8_t)context->day_latch) < 0
         || SMW_DW(m, latch_hi) < 0
         || SMW_DW(m, latch_lo) < 0
         || SMW_DW(m, offset_hi) < 0
@@ -465,6 +486,8 @@ int ds1216e_read_snapshot(rtc_ds1216e_t *context, snapshot_t *s)
         || SMR_B_INT(m, &context->pattern_ignore) < 0
         || SMR_B_INT(m, &context->output) < 0
         || SMR_B_INT(m, &context->output_pos) < 0
+        || SMR_B_INT(m, &context->day_offset) < 0
+        || SMR_B_INT(m, &context->day_latch) < 0
         || SMR_DW(m, &latch_hi) < 0
         || SMR_DW(m, &latch_lo) < 0
         || SMR_DW(m, &offset_hi) < 0

@@ -101,7 +101,7 @@ void ds1602_destroy(rtc_ds1602_t *context, int save)
 {
     if (save) {
         if (context->offset != context->old_offset) {
-            rtc_save_context(NULL, DS1602_RAM_SIZE, NULL, DS1602_REG_SIZE, context->device, context->offset);
+            rtc_save_context(NULL, DS1602_RAM_SIZE, NULL, DS1602_REG_SIZE, context->device, context->offset, 0);
         }
     }
     lib_free(context->device);

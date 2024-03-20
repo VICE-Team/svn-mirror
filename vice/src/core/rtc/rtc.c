@@ -161,8 +161,11 @@ uint8_t rtc_get_weekday(time_t time_val)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
-
-    return (uint8_t)local->tm_wday;
+    uint8_t val = local->tm_wday;
+    if (val > 6) {
+        val = 6;
+    }
+    return val;
 }
 
 /* get the day of the year from time value
@@ -258,12 +261,12 @@ time_t rtc_set_hour_am_pm(int hours, time_t offset, int bcd)
     struct tm *local = localtime(&now);
     time_t offset_now;
     int real_hours = (bcd) ? bcd_to_int(hours & 0x1f) : hours & 0x1f;
-    int pm = (hours & 0x20) >> 5;
+    int pm = (hours >= 32) ? 1 : 0;
 
     if (real_hours == 12 && !pm) {
         real_hours = 0;
     } else if (real_hours == 12 && pm) {
-    } else {
+    } else if (pm) {
         real_hours += 12;
     }
 
@@ -386,6 +389,7 @@ time_t rtc_set_century(int century, time_t offset, int bcd)
     return offset + (offset_now - now);
 }
 
+/* FIXME: should avoid this function as it changes the date */
 /* set weekday and returns new offset
    0 - 6 */
 time_t rtc_set_weekday(int day, time_t offset)
@@ -491,12 +495,12 @@ time_t rtc_set_latched_hour_am_pm(int hours, time_t latch, int bcd)
     struct tm *local = localtime(&now);
     time_t offset_now;
     int real_hours = (bcd) ? bcd_to_int(hours & 0x1f) : hours & 0x1f;
-    int pm = (hours & 0x20) >> 5;
+    int pm = (hours >= 32) ? 1 : 0;
 
     if (real_hours == 12 && !pm) {
         real_hours = 0;
     } else if (real_hours == 12 && pm) {
-    } else {
+    } else if (pm) {
         real_hours += 12;
     }
 
@@ -619,6 +623,7 @@ time_t rtc_set_latched_century(int century, time_t latch, int bcd)
     return offset_now;
 }
 
+/* FIXME: should avoid this function as it changes the date */
 /* set weekday and returns new latched value
    0 - 6 */
 time_t rtc_set_latched_weekday(int day, time_t latch)
@@ -697,7 +702,7 @@ static int rtc_is_empty(uint8_t *array, int size)
 
 static const char *machine_id = machine_name;
 
-static void rtc_write_data(FILE *outfile, uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset)
+static void rtc_write_data(FILE *outfile, uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset, int day_offset)
 {
     char *ram_string = NULL;
     char *reg_string = NULL;
@@ -705,6 +710,7 @@ static void rtc_write_data(FILE *outfile, uint8_t *ram, int ram_size, uint8_t *r
     fprintf(outfile, "[%s]\n", machine_id);
     fprintf(outfile, "(%s)\n", device);
     fprintf(outfile, "{%d}\n", (int)offset);
+    fprintf(outfile, "*%d*\n", day_offset);
     if (ram_size) {
         if (rtc_is_empty(ram, ram_size)) {
             fprintf(outfile, "<x>\n");
@@ -733,11 +739,12 @@ static void rtc_write_data(FILE *outfile, uint8_t *ram, int ram_size, uint8_t *r
     }
 }
 
-static void rtc_write_direct(FILE *outfile, char *ram, char *regs, char *emulator, char *device, char *offset)
+static void rtc_write_direct(FILE *outfile, char *ram, char *regs, char *emulator, char *device, char *offset, char *day_offset)
 {
     fprintf(outfile, "[%s]\n", emulator);
     fprintf(outfile, "(%s)\n", device);
     fprintf(outfile, "{%s}\n", offset);
+    fprintf(outfile, "*%s*\n", day_offset);
     fprintf(outfile, "<%s>\n", ram);
     fprintf(outfile, "\"%s\"\n\n", regs);
 }
@@ -746,6 +753,7 @@ typedef struct rtc_item_s {
     char *emulator;
     char *device;
     char *offset;
+    char *day_offset;
     char *ram_data;
     char *reg_data;
 } rtc_item_t;
@@ -784,6 +792,21 @@ static int rtc_parse_buffer(char *buffer)
         SEARCH_CHAR('}')
         buf[0] = 0;
         buf++;
+        /* day_offset was added and the older files likely won't have it
+           stored so we have to accommodate for it not being there */
+        while (buf[0] != 0 && buf[0] != '*' && buf[0] != '<') {
+            buf++;
+        }
+        if (buf[0] == '*') {
+            buf++;
+            rtc_items[i].day_offset = buf;
+            SEARCH_CHAR('*')
+            buf[0] = 0;
+            buf++;
+        } else {
+            rtc_items[i].day_offset = NULL;
+        }
+        /* continue searching for next entry */
         SEARCH_CHAR('<')
         buf++;
         rtc_items[i].ram_data = buf;
@@ -811,7 +834,7 @@ static int rtc_parse_buffer(char *buffer)
     return 0;
 }
 
-void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset)
+void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, char *device, time_t offset, int day_offset)
 {
     FILE *outfile = NULL;
     FILE *infile = NULL;
@@ -848,17 +871,17 @@ void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, c
         if (ok) {
             for (i = 0; rtc_items[i].emulator; i++) {
                 if (!strcmp(machine_id, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
-                    rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+                    rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset, day_offset);
                     ok = 0;
                 } else {
-                    rtc_write_direct(outfile, rtc_items[i].ram_data, rtc_items[i].reg_data, rtc_items[i].emulator, rtc_items[i].device, rtc_items[i].offset);
+                    rtc_write_direct(outfile, rtc_items[i].ram_data, rtc_items[i].reg_data, rtc_items[i].emulator, rtc_items[i].device, rtc_items[i].offset, rtc_items[i].day_offset);
                 }
             }
             if (ok) {
-                rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+                rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset, day_offset);
             }
         } else {
-            rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+            rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset, day_offset);
         }
         fclose(outfile);
     }
@@ -871,6 +894,7 @@ void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, c
 static uint8_t *loaded_ram = NULL;
 static uint8_t *loaded_regs = NULL;
 static time_t loaded_offset = 0;
+static int loaded_day_offset = 0;
 
 int rtc_load_context(char *device, int ram_size, int reg_size)
 {
@@ -886,6 +910,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
     loaded_ram = NULL;
     loaded_regs = NULL;
     loaded_offset = 0;
+    loaded_day_offset = 0;
 
     if (util_file_exists(filename)) {
         infile = fopen(filename, "rb");
@@ -921,6 +946,9 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
                         }
                     }
                     loaded_offset = atoi(rtc_items[i].offset);
+                    if (rtc_items[i].day_offset) {
+                        loaded_day_offset = atoi(rtc_items[i].day_offset);
+                    }
                     ok = 0;
                 }
             }
@@ -950,4 +978,9 @@ uint8_t *rtc_get_loaded_clockregs(void)
 time_t rtc_get_loaded_offset(void)
 {
     return loaded_offset;
+}
+
+int rtc_get_loaded_day_offset(void)
+{
+    return loaded_day_offset;
 }

@@ -84,6 +84,10 @@
  * register F : bits 3-0 0 (SS1 register)
  */
 
+/* TODO: day of week is not an independent variable; it is derived from the
+   date. Other modules have corrected this, but it hasn't been done here
+   as there is no tester. */
+
 /* This module is currently used in the following emulated hardware:
    - userport RTC (58321a) device
  */
@@ -112,7 +116,7 @@ void rtc58321a_destroy(rtc_58321a_t *context, int save)
 {
     if (save) {
         if (context->old_offset != context->offset) {
-            rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+            rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset, 0);
         }
     }
     lib_free(context->device);
