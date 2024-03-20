@@ -468,17 +468,17 @@ static uint8_t joyport_mouse_smart_value(int port)
 {
     uint8_t retval = 0xff;
 
-    if (_mouse_enabled) {
-        retval = (uint8_t)((~mouse_digital_val) & smart_mouse_read());
-        if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(port, JOYPORT_ID_MOUSE_SMART, (uint16_t)(~retval));
-        }
+    /* ensure that the RTC is still accessible even if the mouse is not "attached" */
+    retval = (uint8_t)((~mouse_digital_val) & smart_mouse_read());
+    if (retval != (uint8_t)~mouse_digital_val) {
+        joyport_display_joyport(port, JOYPORT_ID_MOUSE_SMART, (uint16_t)(~retval));
     }
     return retval;
 }
 
 void smart_mouse_store(int port, uint8_t val)
 {
+    /* ensure that the RTC is still accessible even if the mouse is not "attached" */
     ds1202_1302_set_lines(ds1202, !(val & JOYPORT_RIGHT), !!(val & JOYPORT_DOWN), !!(val & JOYPORT_LEFT));
 }
 
