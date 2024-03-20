@@ -35,10 +35,13 @@
 typedef struct rtc_72421_s {
     int stop;
     int hour24;
+    int day_offset;
+    int day_latch;
     time_t latch;
     time_t offset;
     time_t old_offset;
     uint8_t control[3];
+    uint8_t day;
     char *device;
 } rtc_72421_t;
 

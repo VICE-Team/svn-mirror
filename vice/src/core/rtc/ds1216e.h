@@ -42,6 +42,8 @@ typedef struct rtc_ds1216e_s {
     int pattern_ignore;
     int output;
     int output_pos;
+    int day_offset;
+    int day_latch;
     time_t latch;
     time_t offset;
     time_t old_offset;

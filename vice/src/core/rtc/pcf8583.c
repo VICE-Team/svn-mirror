@@ -104,6 +104,10 @@
  * registers 16-255: RAM
  */
 
+/* TODO: day of week is not an independent variable; it is derived from the
+   date. Other modules have corrected this, but it hasn't been done here
+   as there is no tester. */
+
 /* This module is currently used in the following emulated hardware:
    CP CLock F83
  */
@@ -163,7 +167,7 @@ void pcf8583_destroy(rtc_pcf8583_t *context, int save)
         if (memcmp(context->ram, context->old_ram, PCF8583_RAM_SIZE) ||
             memcmp(context->clock_regs, context->old_clock_regs, PCF8583_REG_SIZE) ||
             context->offset != context->old_offset) {
-            rtc_save_context(context->ram, PCF8583_RAM_SIZE, context->clock_regs, PCF8583_REG_SIZE, context->device, context->offset);
+            rtc_save_context(context->ram, PCF8583_RAM_SIZE, context->clock_regs, PCF8583_REG_SIZE, context->device, context->offset, 0);
         }
     }
     lib_free(context->ram);

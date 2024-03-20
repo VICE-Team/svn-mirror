@@ -82,6 +82,10 @@
  *                  bits 3-0 years
  */
 
+/* TODO: day of week is not an independent variable; it is derived from the
+   date. Other modules have corrected this, but it hasn't been done here
+   as there is no tester. */
+
 /* This module is currently used in the following emulated hardware:
    - C128 internal/external function RAM+RTC expansion
  */
@@ -117,7 +121,7 @@ void bq4830y_destroy(rtc_bq4830y_t *context, int save)
         if (memcmp(context->ram, context->old_ram, BQ4830Y_RAM_SIZE) ||
             memcmp(context->clock_regs, context->old_clock_regs, BQ4830Y_REG_SIZE) ||
             context->offset != context->old_offset) {
-            rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device, context->offset);
+            rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device, context->offset, 0);
         }
     }
     lib_free(context->ram);
