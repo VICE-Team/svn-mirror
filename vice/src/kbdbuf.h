@@ -34,6 +34,7 @@ int kbdbuf_is_empty(void);
 int kbdbuf_queue_is_empty(void);
 void kbdbuf_init(int location, int plocation, int buffer_size, CLOCK mincycles);
 void kbdbuf_shutdown(void);
+void kbdbuf_abort(void);
 void kbdbuf_reset(int location, int plocation, int buffer_size, CLOCK mincycles);
 int kbdbuf_feed(const char *s);
 int kbdbuf_feed_runcmd(const char *string);
