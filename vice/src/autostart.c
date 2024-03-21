@@ -392,9 +392,10 @@ static resource_int_t resources_int[] = {
     /* caution: position is hardcoded below */
     { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
       &autostart_basic_load, set_autostart_basic_load, NULL },
-    { "AutostartTapeBasicLoad", 1, RES_EVENT_NO, (resource_value_t)1,
+    /* caution: position is hardcoded below */
+    { "AutostartTapeBasicLoad", 0, RES_EVENT_NO, (resource_value_t)1,
       &autostart_tape_basic_load, set_autostart_tape_basic_load, NULL },
-    { "AutostartRunWithColon", 1, RES_EVENT_NO, (resource_value_t)1,
+    { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)1,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
     { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartHandleTrueDriveEmulation, set_autostart_handle_tde, NULL },
@@ -426,6 +427,7 @@ int autostart_resources_init(void)
     if ((machine_class == VICE_MACHINE_VIC20) ||
         (machine_class == VICE_MACHINE_PET)) {
         resources_int[0].factory_value = 1;
+        resources_int[1].factory_value = 1;
     }
 
     if (resources_register_string(resources_string) < 0) {
@@ -1026,28 +1028,32 @@ static void advance_hastape(void)
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
+            /* NOTE: when loading from tape, we can not easily force to load
+                     absolute or to BASIC start, because:
+                     a) when the tape header type is = 1, then the kernal will
+                        load to the basic start, except when secondary address 1
+                        is used.
+                     b) when the header type is = 3, then the kernal will always
+                        load absolute (even if secondary address is 0)
+                     c) PET and CBM2 machines will always load absolute
+
+                     So the best thing we can do here is to always load without
+                     secondary address (which will then respect what the header
+                     type says), and to force header type = 1 (in tape.c) when
+                     loading to basic start was requested.
+            */
             log_message(autostart_log, "Loading file.");
             if (autostart_tape_unit == 2) {
                 if (autostart_program_name) {
-                    tmp = util_concat("LOAD\"", autostart_program_name, "\"",
-                                    autostart_tape_basic_load ? "" : ",2,1", ",2\r", NULL);
+                    tmp = util_concat("LOAD\"", autostart_program_name, "\",2\r", NULL);
                 } else {
-                    if (autostart_tape_basic_load) {
-                        tmp = lib_strdup("LOAD\"\",2\r");
-                    } else {
-                        tmp = lib_strdup("LOAD\"\",2,1\r");
-                    }
+                    tmp = lib_strdup("LOAD\"\",2\r");
                 }
             } else {
                 if (autostart_program_name) {
-                    tmp = util_concat("LOAD\"", autostart_program_name, "\"",
-                                    autostart_tape_basic_load ? "" : ",1,1", "\r", NULL);
+                    tmp = util_concat("LOAD\"", autostart_program_name, "\"\r", NULL);
                 } else {
-                    if (autostart_tape_basic_load) {
-                        tmp = lib_strdup("LOAD\r");
-                    } else {
-                        tmp = lib_strdup("LOAD\"\",1,1\r");
-                    }
+                    tmp = lib_strdup("LOAD\r");
                 }
             }
             kbdbuf_feed(tmp);

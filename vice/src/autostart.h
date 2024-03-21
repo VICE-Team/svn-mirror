@@ -74,6 +74,7 @@ void autostart_advance(void);
 void autostart_reset(void);
 
 extern int autostart_ignore_reset;
+extern int autostart_tape_basic_load;
 
 int autostart_in_progress(void);
 

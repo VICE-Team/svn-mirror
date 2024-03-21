@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "autostart.h"
 #include "datasette.h"
 #include "lib.h"
 #include "log.h"
@@ -214,6 +215,19 @@ int tape_deinstall(void)
    install its own ones, by passing an appropriate `trap_list' to
    `tape_init()'.  */
 
+/* NOTE: When loading from tape, the kernal will always load absolute when the
+         tape header type is 3 (except on PET and CBM2 - which will always load
+         absolute, no matter what). Because of this we will change the default
+         header type to type 1 IF autostart is in progress AND loading to basic
+         start was requested by the respective option. */
+static int default_tape_header_type(void)
+{
+    if (autostart_in_progress() && (autostart_tape_basic_load == 1)) {
+        return TAPE_CAS_TYPE_BAS;
+    }
+    return machine_tape_type_default();
+}
+
 /* Find the next Tape Header and load it onto the Tape Buffer.  */
 int tape_find_header_trap(void)
 {
@@ -243,7 +257,7 @@ int tape_find_header_trap(void)
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
-            cassette_buffer[CAS_TYPE_OFFSET] = machine_tape_type_default();
+            cassette_buffer[CAS_TYPE_OFFSET] = default_tape_header_type();
             cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr & 0xff;
             cassette_buffer[CAS_STAD_OFFSET + 1] = rec->start_addr >> 8;
             cassette_buffer[CAS_ENAD_OFFSET] = rec->end_addr & 0xff;
@@ -310,7 +324,7 @@ int tape_find_header_trap_plus4(void)
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
-            mem_store(0xF8, TAPE_CAS_TYPE_BAS);
+            mem_store(0xF8, default_tape_header_type());
             cassette_buffer[CAS_STAD_OFFSET - 1] = rec->start_addr & 0xff;
             cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr >> 8;
             cassette_buffer[CAS_ENAD_OFFSET - 1] = rec->end_addr & 0xff;
