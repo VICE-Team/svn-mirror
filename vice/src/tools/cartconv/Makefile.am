@@ -5,7 +5,11 @@
 if WINDOWS_COMPILE
 cartconv_LDFLAGS = -mconsole -Wl,-Map=cartconv.map
 else
+if MACOS_COMPILE
+cartconv_LDFLAGS = -Wl,-map -Wl,cartconv.map
+else
 cartconv_LDFLAGS = -Wl,-Map=cartconv.map
+endif
 endif
 
 if USE_SVN_REVISION

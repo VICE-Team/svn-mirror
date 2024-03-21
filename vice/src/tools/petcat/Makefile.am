@@ -5,7 +5,11 @@
 if WINDOWS_COMPILE
 petcat_LDFLAGS = -mconsole -Wl,-Map=petcat.map
 else
+if MACOS_COMPILE
+petcat_LDFLAGS = -Wl,-map -Wl,petcat.map
+else
 petcat_LDFLAGS = -Wl,-Map=petcat.map
+endif
 endif
 
 LIBS =
