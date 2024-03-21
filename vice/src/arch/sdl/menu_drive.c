@@ -1259,28 +1259,34 @@ static UI_MENU_CALLBACK(custom_AutostartDelay_callback)
     return NULL;
 }
 
-
-static const ui_menu_entry_t autostart_settings_menu[] = {
+/* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
+static ui_menu_entry_t autostart_settings_menu[] = {
+/* 0  */
     {   .string   = "Handle TDE on autostart",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_AutostartHandleTrueDriveEmulation_callback
     },
+/* 1  */
     {   .string   = "Autostart warp",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_AutostartWarp_callback
     },
+/* 2  */
     {   .string   = "Autostart delay",
         .type     = MENU_ENTRY_RESOURCE_INT,
         .callback = custom_AutostartDelay_callback
     },
+/* 3  */
     {   .string   = "Autostart random delay",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_AutostartDelayRandom_callback
     },
+/* 4  */
     {   .string   = "Load to BASIC start (tape)",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_AutostartTapeBasicLoad_callback
     },
+/* 5  */
     {   .string   = "Load to BASIC start (disk)",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_AutostartBasicLoad_callback
@@ -1538,6 +1544,14 @@ void uidrive_menu_create(int has_driveport)
     int ieee_bus = iec_available_busses() & IEC_BUS_IEEE;
 
     had_driveport = has_driveport;
+
+    if ((machine_class == VICE_MACHINE_CBM5x0) ||
+        (machine_class == VICE_MACHINE_CBM6x0) ||
+        (machine_class == VICE_MACHINE_PET)) {
+        autostart_settings_menu[4].type = MENU_ENTRY_TEXT;
+        autostart_settings_menu[4].status = MENU_STATUS_INACTIVE;
+        autostart_settings_menu[4].callback = seperator_callback;
+    }
 
     if (!has_driveport && !ieee_bus) {
 
