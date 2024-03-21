@@ -388,13 +388,24 @@ static resource_string_t resources_string[] = {
 };
 
 /*! \brief integer resources used by autostart */
-static resource_int_t resources_int[] = {
+static resource_int_t resources_int_basicload[] = {
     /* caution: position is hardcoded below */
     { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
       &autostart_basic_load, set_autostart_basic_load, NULL },
     /* caution: position is hardcoded below */
     { "AutostartTapeBasicLoad", 0, RES_EVENT_NO, (resource_value_t)1,
       &autostart_tape_basic_load, set_autostart_tape_basic_load, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+static resource_int_t resources_int_basicload_pet[] = {
+    /* caution: position is hardcoded below */
+    { "AutostartBasicLoad", 1, RES_EVENT_NO, (resource_value_t)0,
+      &autostart_basic_load, set_autostart_basic_load, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+static resource_int_t resources_int[] = {
     { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)1,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
     { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
@@ -424,10 +435,21 @@ int autostart_resources_init(void)
     autostart_default_diskimage = archdep_default_autostart_disk_image_file_name();
     resources_string[0].factory_value = autostart_default_diskimage;
 
-    if ((machine_class == VICE_MACHINE_VIC20) ||
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_int_basicload[0].factory_value = 1;
+        resources_int_basicload[1].factory_value = 1;
+    }
+
+    if ((machine_class == VICE_MACHINE_CBM5x0) ||
+        (machine_class == VICE_MACHINE_CBM6x0) ||
         (machine_class == VICE_MACHINE_PET)) {
-        resources_int[0].factory_value = 1;
-        resources_int[1].factory_value = 1;
+        if (resources_register_int(resources_int_basicload_pet) < 0) {
+            return -1;
+        }
+    } else {
+        if (resources_register_int(resources_int_basicload) < 0) {
+            return -1;
+        }
     }
 
     if (resources_register_string(resources_string) < 0) {
@@ -460,7 +482,7 @@ static int cmdline_set_tap_offset(const char *arg, void *param)
     return 0;
 }
 
-static const cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options_basicload[] =
 {
     { "-basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartBasicLoad", (resource_value_t)1,
@@ -474,6 +496,22 @@ static const cmdline_option_t cmdline_options[] =
     { "+tapebasicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartTapeBasicLoad", (resource_value_t)0,
       NULL, "On autostart from tape, load with ',1'" },
+    CMDLINE_LIST_END
+};
+
+static const cmdline_option_t cmdline_options_basicload_pet[] =
+{
+    { "-basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "AutostartBasicLoad", (resource_value_t)1,
+      NULL, "On autostart from disk, load to BASIC start (without ',1')" },
+    { "+basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "AutostartBasicLoad", (resource_value_t)0,
+      NULL, "On autostart from disk, load with ',1'" },
+    CMDLINE_LIST_END
+};
+
+static const cmdline_option_t cmdline_options[] =
+{
     { "-autostartwithcolon", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
       NULL, "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'" },
@@ -527,6 +565,18 @@ static const cmdline_option_t cmdline_options[] =
 */
 int autostart_cmdline_options_init(void)
 {
+    if ((machine_class == VICE_MACHINE_CBM5x0) ||
+        (machine_class == VICE_MACHINE_CBM6x0) ||
+        (machine_class == VICE_MACHINE_PET)) {
+        if (cmdline_register_options(cmdline_options_basicload_pet) < 0) {
+            return -1;
+        }
+    } else {
+        if (cmdline_register_options(cmdline_options_basicload) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 

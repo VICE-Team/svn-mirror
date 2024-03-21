@@ -11,7 +11,7 @@
  * $VICERES AutostartPrgDiskImage               -vsid
  * $VICERES AutostartRunWithColon               -vsid
  * $VICERES AutostartBasicLoad                  -vsid
- * $VICERES AutostartTapeBasicLoad              -vsid
+ * $VICERES AutostartTapeBasicLoad              -vsid -xpet -xcbm2 -xcbm5x0
  * $VICERES AutostartWarp                       -vsid
  * $VICERES AutostartHandleTrueDriveEmulation   -vsid
  * $VICERES AutostartOnDoubleClick              -vsid
@@ -163,10 +163,14 @@ static int create_prg_layout(GtkWidget *grid, int row, int columns)
     row++;
 
     /* BASIC start load for tape */
-    tapebasic = vice_gtk3_resource_check_button_new("AutostartTapeBasicLoad",
-                                                    "Load to BASIC start (Tape)");
-    gtk_grid_attach(GTK_GRID(grid), tapebasic, 0, row, columns, 1);
-    row++;
+    if ((machine_class != VICE_MACHINE_CBM5x0) &&
+        (machine_class != VICE_MACHINE_CBM6x0) &&
+        (machine_class != VICE_MACHINE_PET)) {
+        tapebasic = vice_gtk3_resource_check_button_new("AutostartTapeBasicLoad",
+                                                        "Load to BASIC start (Tape)");
+        gtk_grid_attach(GTK_GRID(grid), tapebasic, 0, row, columns, 1);
+        row++;
+    }
 
     /* BASIC start load for disk */
     diskbasic = vice_gtk3_resource_check_button_new("AutostartBasicLoad",
