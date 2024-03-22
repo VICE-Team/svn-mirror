@@ -491,6 +491,7 @@ int tape_image_detach_internal(unsigned int unit)
         case TAPE_TYPE_TAP:
             log_message(tape_log,
                         "Detaching TAP image `%s'.", tape_image_dev[unit - 1]->name);
+            datasette_control(unit - 1, DATASETTE_CONTROL_STOP);
             datasette_set_tape_image(unit - 1, NULL);
 
             tape_traps_install();
@@ -582,7 +583,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         case TAPE_TYPE_T64:
             log_message(tape_log, "T64 image '%s' attached.", name);
             /* Tape attached: press play button.  */
-            datasette_set_tape_sense(unit - 1, 1);
+            /*datasette_set_tape_sense(unit - 1, 1);*/
             break;
         case TAPE_TYPE_TAP:
             datasette_set_tape_image(unit - 1, (tap_t *)tape_image_dev[unit - 1]->data);
