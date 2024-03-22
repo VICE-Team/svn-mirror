@@ -90,6 +90,7 @@
  * $VICERES c1loName                xplus4
  * $VICERES c2hiName                xplus4
  * $VICERES c2loName                xplus4
+ * $VICERES SCPU64Name              xscpu64
  */
 
 #include <gtk/gtk.h>
@@ -171,6 +172,8 @@ static const machine_rom_t machine_rom_list[] = {
     { "Swedish kernal",         "KernalSEName" },
     { "Swiss kernal",           "KernalCHName" },
     { "C64 mode kernal",        "Kernal64Name" },
+    /* SCPU64 */
+    { "SCPU64",                 "SCPU64Name" },
 
     /* Basics */
 
