@@ -60,6 +60,11 @@ static uint8_t reg_f2 = 0;
 static uint8_t reg_h2 = 0;
 static uint8_t reg_l2 = 0;
 
+static uint8_t iff1_1 = 0;
+static uint8_t iff2_1 = 0;
+static uint8_t iff1_2 = 0;
+static uint8_t iff2_2 = 0;
+
 static void z80core_reset(void)
 {
     z80_reg_pc = 0;
@@ -67,6 +72,10 @@ static void z80core_reset(void)
     iff1 = 0;
     iff2 = 0;
     im_mode = 0;
+    iff1_1 = 0;
+    iff2_1 = 0;
+    iff1_2 = 0;
+    iff2_2 = 0;
 }
 
 #define opcode_t uint32_t
@@ -407,10 +416,13 @@ static void export_registers(void)
                                                                                           \
         if (ik & (IK_IRQ | IK_NMI)) {                                                     \
             if ((ik & IK_NMI) && 0) {                                                     \
-            } else if ((ik & IK_IRQ) && iff1 && !OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) { \
+            } else if ((ik & IK_IRQ) && iff1) {                                           \
                 uint16_t jumpdst;                                                             \
                 if (monitor_mask[e_comp_space] & (MI_STEP)) {                             \
                     monitor_check_icount_interrupt();                                     \
+                }                                                                         \
+                if (LAST_OPCODE_INFO == 0x76) {                                           \
+                    INC_PC(1);                                                            \
                 }                                                                         \
                 CLK_ADD(CLK, 4);                                                          \
                 --reg_sp;                                                                 \
@@ -420,6 +432,10 @@ static void export_registers(void)
                 STORE((reg_sp), ((uint8_t)(z80_reg_pc & 0xff)));                             \
                 iff1 = 0;                                                                 \
                 iff2 = 0;                                                                 \
+                iff1_1 = 0;                                                               \
+                iff2_1 = 0;                                                               \
+                iff1_2 = 0;                                                               \
+                iff2_2 = 0;                                                               \
                 if (im_mode == 1) {                                                       \
                     jumpdst = 0x38;                                                       \
                     CLK_ADD(CLK, 4);                                                      \
@@ -432,6 +448,7 @@ static void export_registers(void)
                     JUMP(jumpdst);                                                        \
                     CLK_ADD(CLK, 3);                                                      \
                 }                                                                         \
+                interrupt_ack_irq(cpu_int_status);                                        \
             }                                                                             \
         }                                                                                 \
         if (ik & (IK_TRAP | IK_RESET)) {                                                  \
@@ -747,8 +764,8 @@ static void export_registers(void)
 
 #define DI(clk_inc, pc_inc)    \
     do {                       \
-        iff1 = 0;              \
-        iff2 = 0;              \
+        iff1_2 = 0;            \
+        iff2_2 = 0;            \
         OPCODE_DISABLES_IRQ(); \
         CLK_ADD(CLK, clk_inc); \
         INC_PC(pc_inc);        \
@@ -756,11 +773,12 @@ static void export_registers(void)
 
 #define EI(clk_inc, pc_inc)    \
     do {                       \
-        iff1 = 1;              \
-        iff2 = 1;              \
-        OPCODE_DISABLES_IRQ(); \
+        iff1_2 = 1;            \
+        iff2_2 = 1;            \
+        OPCODE_ENABLES_IRQ();  \
         CLK_ADD(CLK, clk_inc); \
         INC_PC(pc_inc);        \
+        OPCODE_DELAYS_INTERRUPT();\
     } while (0)
 
 #define EXAFAF(clk_inc, pc_inc) \
@@ -5431,8 +5449,14 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
             }
         }
 
-        SET_LAST_ADDR(reg_pc);
+        SET_LAST_ADDR(z80_reg_pc);
         FETCH_OPCODE(opcode);
+
+        /* delay IFFs 2 instructions */
+        iff1 = iff1_1;
+        iff2 = iff2_1;
+        iff1_1 = iff1_2;
+        iff2_1 = iff2_2;
 
 #ifdef DEBUG
         if (debug.maincpu_traceflg) {
