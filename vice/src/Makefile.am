@@ -1307,7 +1307,7 @@ c1541_LDADD = \
 if WINDOWS_COMPILE
 c1541_LDFLAGS = -mconsole
 else
-c1541_LDFLAGS = 
+c1541_LDFLAGS =
 endif
 
 if HAVE_DEBUG

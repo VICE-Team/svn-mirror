@@ -5,7 +5,7 @@
 if WINDOWS_COMPILE
 cartconv_LDFLAGS = -mconsole
 else
-cartconv_LDFLAGS = 
+cartconv_LDFLAGS =
 endif
 
 if HAVE_DEBUG
