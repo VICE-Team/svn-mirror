@@ -473,11 +473,15 @@ int tape_image_detach_internal(unsigned int unit)
     int retval = 0;
     char event_data[2];
 
-    if (unit != 1 && unit != 2) {
+    if ((unit != 1) && (unit != 2)) {
         return -1;
     }
 
-    if (tape_image_dev[unit - 1] == NULL || tape_image_dev[unit - 1]->name == NULL) {
+    /* before detaching the tape image, press STOP */
+    datasette_control(unit - 1, DATASETTE_CONTROL_STOP);
+
+    if ((tape_image_dev[unit - 1] == NULL) ||
+        (tape_image_dev[unit - 1]->name == NULL)) {
         return 0;
     }
 
@@ -485,13 +489,10 @@ int tape_image_detach_internal(unsigned int unit)
         case TAPE_TYPE_T64:
             log_message(tape_log,
                         "Detaching T64 image `%s'.", tape_image_dev[unit - 1]->name);
-            /* Tape detached: release play button.  */
-            datasette_set_tape_sense(unit - 1, 0);
             break;
         case TAPE_TYPE_TAP:
             log_message(tape_log,
                         "Detaching TAP image `%s'.", tape_image_dev[unit - 1]->name);
-            datasette_control(unit - 1, DATASETTE_CONTROL_STOP);
             datasette_set_tape_image(unit - 1, NULL);
 
             tape_traps_install();
@@ -573,6 +574,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         return -1;
     }
 
+    /* detach any attached image, this will also press STOP */
     tape_image_detach_internal(unit);
 
     memcpy(tape_image_dev[unit - 1], &tape_image, sizeof(tape_image_t));
@@ -582,8 +584,6 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
     switch (tape_image_dev[unit - 1]->type) {
         case TAPE_TYPE_T64:
             log_message(tape_log, "T64 image '%s' attached.", name);
-            /* Tape attached: press play button.  */
-            /*datasette_set_tape_sense(unit - 1, 1);*/
             break;
         case TAPE_TYPE_TAP:
             datasette_set_tape_image(unit - 1, (tap_t *)tape_image_dev[unit - 1]->data);
