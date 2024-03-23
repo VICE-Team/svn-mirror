@@ -5,7 +5,7 @@
 if WINDOWS_COMPILE
 petcat_LDFLAGS = -mconsole
 else
-petcat_LDFLAGS = 
+petcat_LDFLAGS =
 endif
 
 if HAVE_DEBUG
