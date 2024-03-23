@@ -676,10 +676,12 @@ vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)
 
 vsid_DEPENDENCIES = $(vsid_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 vsid_LDFLAGS = @vsid_LDFLAGS@ -Wl,-map -Wl,vsid.map
 else
 vsid_LDFLAGS = @vsid_LDFLAGS@ -Wl,-Map=vsid.map
+endif
 endif
 
 .PHONY: vsid-all vsid-program
@@ -731,10 +733,12 @@ x64_libs =  \
 x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64_RES)
 x64_DEPENDENCIES = $(x64_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 x64_LDFLAGS = @x64_LDFLAGS@ -Wl,-map -Wl,x64.map
 else
 x64_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64.map
+endif
 endif
 
 .PHONY: x64-all x64-program
@@ -786,10 +790,12 @@ x64sc_libs =  \
 x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64SC_RES)
 x64sc_DEPENDENCIES = $(x64sc_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 x64sc_LDFLAGS = @x64_LDFLAGS@ -Wl,-map -Wl,x64sc.map
 else
 x64sc_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64sc.map
+endif
 endif
 
 .PHONY: x64sc-all x64sc-program
@@ -848,10 +854,12 @@ x64dtv_libs =  \
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 x64dtv_LDFLAGS = @x64_LDFLAGS@ -Wl,-map -Wl,x64dtv.map
 else
 x64dtv_LDFLAGS = @x64_LDFLAGS@ -Wl,-Map=x64dtv.map
+endif
 endif
 
 .PHONY: x64dtv-all x64dtv-program
@@ -903,10 +911,12 @@ xscpu64_libs =  \
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XSCPU64_RES)
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@ -Wl,-map -Wl,xscpu64.map
 else
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@ -Wl,-Map=xscpu64.map
+endif
 endif
 
 .PHONY: xscpu64-all xscpu64-program
@@ -962,10 +972,12 @@ x128_libs =  \
 x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X128_RES)
 x128_DEPENDENCIES = $(x128_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 x128_LDFLAGS = @x128_LDFLAGS@ -Wl,-map -Wl,x128.map
 else
 x128_LDFLAGS = @x128_LDFLAGS@ -Wl,-Map=x128.map
+endif
 endif
 
 .PHONY: x128-all x128-program
@@ -1015,10 +1027,12 @@ xvic_libs =  \
 xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ $(XVIC_RES)
 xvic_DEPENDENCIES = $(xvic_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xvic_LDFLAGS = @xvic_LDFLAGS@ -Wl,-map -Wl,xvic.map
 else
 xvic_LDFLAGS = @xvic_LDFLAGS@ -Wl,-Map=xvic.map
+endif
 endif
 
 .PHONY: xvic-all xvic-program
@@ -1067,10 +1081,12 @@ xpet_libs =  \
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPET_RES)
 xpet_DEPENDENCIES = $(xpet_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xpet_LDFLAGS = @xpet_LDFLAGS@ -Wl,-map -Wl,xpet.map
 else
 xpet_LDFLAGS = @xpet_LDFLAGS@ -Wl,-Map=xpet.map
+endif
 endif
 
 .PHONY: xpet-all xpet-program
@@ -1122,10 +1138,12 @@ xplus4_libs =  \
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPLUS4_RES)
 xplus4_DEPENDENCIES = $(xplus4_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xplus4_LDFLAGS = @xplus4_LDFLAGS@ -Wl,-map -Wl,xplus4.map
 else
 xplus4_LDFLAGS = @xplus4_LDFLAGS@ -Wl,-Map=xplus4.map
+endif
 endif
 
 .PHONY: xplus4-all xplus4-program
@@ -1175,10 +1193,12 @@ xcbm2_libs = \
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM2_RES)
 xcbm2_DEPENDENCIES = $(xcbm2_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-map -Wl,xcbm2.map
 else
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-Map=xcbm2.map
+endif
 endif
 
 .PHONY: xcbm2-all xcbm2-program
@@ -1228,10 +1248,12 @@ xcbm5x0_libs = \
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XCBM5x0_RES)
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs)
+if HAVE_DEBUG
 if MACOS_COMPILE
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-map -Wl,xcbm5x0.map
 else
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@ -Wl,-Map=xcbm5x0.map
+endif
 endif
 
 .PHONY: xcbm5x0-all xcbm5x0-program
@@ -1283,12 +1305,16 @@ c1541_LDADD = \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
 if WINDOWS_COMPILE
-c1541_LDFLAGS = -mconsole -Wl,-Map=c1541.map
+c1541_LDFLAGS = -mconsole
 else
+c1541_LDFLAGS = 
+endif
+
+if HAVE_DEBUG
 if MACOS_COMPILE
-c1541_LDFLAGS = -Wl,-map -Wl,c1541.map
+c1541_LDFLAGS = @c1541_LDFLAGS@ -Wl,-map -Wl,c1541.map
 else
-c1541_LDFLAGS = -Wl,-Map=c1541.map
+c1541_LDFLAGS = @c1541_LDFLAGS@ -Wl,-Map=c1541.map
 endif
 endif
 
