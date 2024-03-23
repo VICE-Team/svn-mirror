@@ -3355,13 +3355,16 @@ from its name and size, and attaches it to the most reasonable device.
 Supported formats are @code{D64}, @code{G64}, @code{P64} for disk images
 (devices 8, 9, 10 and 11) and @code{T64} and @code{TAP} for tape images.  
 
-The ancient @code{X64} format is deprecated and subject for removal.
+The ancient @code{X64} format is deprecated and subject for removal (and support
+for it is disabled at compile time by default).
 
-Notice that @code{T64} support is @emph{read-only}, and that the cassette is 
+The legacy @code{T64} format is supported partially, and it has several drawbacks. (@pxref{T64})
+It is only supported @emph{read-only}, and the cassette is
 automatically rewound when you reach its end. Most importantly @code{T64} support
-is only available via virtual device traps, which have to be permanently enabled
-for multiload programs running from these containers. For actually emulating tape, the
-@code{TAP} format is highly recommended.
+is only available via virtual device traps, which have to be enabled in the options.
+(The emulator will temporarily enable it when autostarting programs from these containers.)
+
+For actually emulating tape, the @code{TAP} format is highly recommended.
 
 You can attach a disk for which you do not have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
@@ -23175,6 +23178,11 @@ supported by the emulators.
 * P00::                         The P00 image format
 @end menu
 
+@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+@c FIXME: add D4M FD4000 ED disk image file structure
+
 @node TAP, T64, File formats, File formats
 @section The raw tape image format
 
@@ -23327,21 +23335,18 @@ and start counting whenever a 0->1 transition happens.
 @node T64, G64, TAP, File formats
 @section The T64 tape image format
 
-(This section was taken from the C64S distribution.)
+(This section is based on the documentation of the C64S distribution, and contains
+extra information and edits added by the VICE authors.)
 
 The @code{T64} File Structure was developed by Miha Peternel for use in the
-C64S emulator. It is easy to use and allows future extensions.
+C64S emulator. Since the format has various drawbacks (see further below), we
+recommend to use other formats (D64, TAP, P00 - depending on the usecase).
 
 @menu
 * T64 file structure::
 * T64 tape record::
 * T64 file record::
 @end menu
-
-@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-@c FIXME: add D4M FD4000 ED disk image file structure
 
 @node T64 file structure, T64 tape record, T64, T64
 @subsection T64 File structure
@@ -23352,7 +23357,7 @@ C64S emulator. It is easy to use and allows future extensions.
 @tab @b{Description}
 @item 0
 @tab 64
-@tab tape record
+@tab tape record (T64 header)
 @item 64
 @tab 32*n
 @tab file records for n directory entries
@@ -23362,7 +23367,7 @@ C64S emulator. It is easy to use and allows future extensions.
 @end multitable
 
 @node T64 tape record, T64 file record, T64 file structure, T64
-@subsection Tape Record
+@subsection Tape Record (T64 header)
 
 @multitable @columnfractions .1 .1 .8
 @item @b{Offset}
@@ -23370,22 +23375,22 @@ C64S emulator. It is easy to use and allows future extensions.
 @tab @b{Description}
 @item 0
 @tab 32
-@tab DOS tape description + EOF (for type)
+@tab "C64S tape image file", padded with zeros
 @item 32
 @tab 2
-@tab tape version ($0200)
+@tab T64 format version (v1.0: $0100, v1.1: $0101, v2.0: $0200)
 @item 34
 @tab 2
-@tab number of directory entries
+@tab number of directory entries (C64S supports a maximum of 63 files only)
 @item 36
 @tab 2
-@tab number of used entries (can be 0 in my loader)
+@tab number of used entries
 @item 38
 @tab 2
 @tab free
 @item 40
 @tab 24
-@tab user description as displayed in tape menu
+@tab user description (displayed in C64S tape menu), padded with spaces ($20)
 @end multitable
 
 @node T64 file record,  , T64 tape record, T64
@@ -23400,13 +23405,13 @@ C64S emulator. It is easy to use and allows future extensions.
 @tab entry type (see below)
 @item 1
 @tab 1
-@tab C64 file type
+@tab CBM file type (0x82 for PRG, 0x81 for  SEQ,  etc). 0 indicates the special C64S "FRZ" session snapshot.
 @item 2
 @tab 2
-@tab start address
+@tab start address. 0 if the files is a C64S session snapshot.
 @item 4
 @tab 2
-@tab end address
+@tab end address. 0 if the files is a C64S session snapshot. (*)
 @item 6
 @tab 2
 @tab free
@@ -23418,8 +23423,13 @@ C64S emulator. It is easy to use and allows future extensions.
 @tab free
 @item 16
 @tab 16
-@tab C64 file name
+@tab CBM file name, padded with spaces ($20)
 @end multitable
+
+(*) In the early days of emulation, an utility called "conv64" was around, which
+created faulty T64 files that had an end address of $c3c6 regardless of the actual
+file size. Since these files are still around, VICE tries to detect and fix this when
+such T64 file is attached.
 
 Valid entry types are:
 
@@ -23431,23 +23441,37 @@ Valid entry types are:
 @item @code{1}
 @tab normal tape file
 @item @code{2}
-@tab tape file with header: header is saved just before file data
+@tab tape file with header: header is saved just before file data (added in v1.1)
 @item @code{3}
-@tab memory snapshot v0.9, uncompressed
+@tab memory snapshot v0.9, uncompressed (C64S specific)
 @item @code{4}
-@tab tape block
+@tab tape block (added in v2.0)
 @item @code{5}
-@tab digitized stream
-@item @code{6} @dots{} @code{255}
-@tab reserved
+@tab digitized stream (added in v2.0)
 @end multitable
+
+VICE only supports file type @code{1}. This also seems to be the only type
+that is in wide use "in the wild". All other types are unsupported in VICE, and
+practically non existent.
 
 Notes:
 
 @itemize @bullet
-@item VICE only supports file type @code{1}.
-@item Types @code{3}, @code{4} and @code{5} are subject to change (and
-are rarely  used).
+@item The actual CBM tape format has info on whether a file is "relocatable" (BASIC
+programs, tape header type 1) or "binary" (tape header type 3). Since the T64 format
+does not contain this info, it is not really suited for actual tape emulation (like what
+VICE does - C64S originally only used them as containers for loading single files).
+VICE will always use "binary" by default, unless "load to basic start (tape)" is
+selected in the autostart options, which will make it switch to "BASIC" type only for the
+first file that is being loaded. Note that originally C64S did not support multi-load
+programs using T64 at all!
+@item Handling of empty directory entries (ie deleting a file) from a T64 was poorly
+handled by C64S - the directory entry must be completely removed.
+@item While in theory all CBM filetypes can be used, in practise only PRG and SEQ will
+actually work.
+@item Since file names are padded with spaces ($20) rather than shifted spaces ($A0) like on disk,
+the file names can't have trailing spaces.
+@item Zero length files are not allowed (minimum length is 2 bytes).
 @end itemize
 
 @node G64, D64 , T64, File formats
