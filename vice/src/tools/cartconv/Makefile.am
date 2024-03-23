@@ -3,12 +3,16 @@
 
 # Make sure we use Windows' console mode since this is a command line tool
 if WINDOWS_COMPILE
-cartconv_LDFLAGS = -mconsole -Wl,-Map=cartconv.map
+cartconv_LDFLAGS = -mconsole
 else
+cartconv_LDFLAGS = 
+endif
+
+if HAVE_DEBUG
 if MACOS_COMPILE
-cartconv_LDFLAGS = -Wl,-map -Wl,cartconv.map
+cartconv_LDFLAGS = @cartconv_LDFLAGS@ -Wl,-map -Wl,cartconv.map
 else
-cartconv_LDFLAGS = -Wl,-Map=cartconv.map
+cartconv_LDFLAGS = @cartconv_LDFLAGS@ -Wl,-Map=cartconv.map
 endif
 endif
 

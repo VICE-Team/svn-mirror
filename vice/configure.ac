@@ -1070,6 +1070,7 @@ dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   have_backtrace_symbols="no"
   DEBUGBUILD=1
+  AM_CONDITIONAL(HAVE_DEBUG, true)
   STRIP=":"
   DEBUG_SUPPORT="yes"
   AC_CHECK_HEADERS(execinfo.h,,)
@@ -1098,6 +1099,7 @@ else
   dnl Disable asserts
   VICE_CPPFLAGS="$VICE_CPPFLAGS -DNDEBUG"
   DEBUGBUILD=0
+  AM_CONDITIONAL(HAVE_DEBUG, false)
   dnl Remove super annoying horrible terminal window on Windows
   dnl (but not when using the headless 'UI')
   if test x"$is_win32" = "xyes" -a x"$enable_headlessui" != "xyes"; then
