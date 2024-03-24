@@ -207,7 +207,7 @@ now we can build/install extra libraries:
 We need some tools for libieee1284 to build:
 
 # This assumes compiling for x86_64:
-$ pacman -S xmlto mingw-w64-x86_64-docbook-{xml,xsl}
+$ pacman -S libtool xmlto mingw-w64-x86_64-docbook-{xml,xsl}
 $ export XML_CATALOG_FILES="/mingw64/etc/xml/catalog"
 
 $ mkdir ~/work && cd ~/work
