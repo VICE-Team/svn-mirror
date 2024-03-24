@@ -1041,7 +1041,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     } else {
         /* firmeare handles codes: 301, 302, 307, 308 - check if needed with libcurl */
         char m[64];
-        snprintf(m, 64, "Unhandled http response %ld, received %lu bytes", response, httpbufferptr);
+        snprintf(m, 64, "Unhandled http response %ld, received %"PRI_SIZE_T" bytes", response, httpbufferptr);
         wic64_log(CONS_COL_RED, m);
         if (httpbufferptr > 0) {
             send_reply_revised(SUCCESS, "Success", httpbuffer,
