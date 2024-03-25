@@ -98,7 +98,7 @@ static struct console_private_s {
     size_t output_buffer_used_size;
 } fixed;
 
-static console_t vte_console;
+static console_t vte_console = { 40, 25, 0, 1, NULL }; /* bare minimum */
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
@@ -644,6 +644,10 @@ static void on_window_configure_event(GtkWidget *window,
     }
 
     vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
+    /* printf("on_window_configure_event %lix%li\n", newwidth, newheight); */
+    /* update the console size */
+    vte_console.console_xres = (unsigned int)newwidth;
+    vte_console.console_yres = (unsigned int)newheight;
 }
 
 /** \brief  Create an icon by loading it from the vice.gresource file
