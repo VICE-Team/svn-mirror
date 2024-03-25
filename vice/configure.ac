@@ -430,6 +430,7 @@ AC_CONFIG_HEADERS([src/config.h])
 is_unix=no
 is_unix_x11=no
 is_unix_macosx=no
+is_unix_linux=no
 is_win32=no
 is_win32_gtk3=no
 is_beos=no
@@ -1047,6 +1048,7 @@ dnl All other UN*X systems
   linux*)
     AC_DEFINE(LINUX_COMPILE,,[Are we compiling for Linux?])
     AM_CONDITIONAL(LINUX_COMPILE, true)
+    is_unix_linux=yes
     ;;
   esac
 
@@ -2065,7 +2067,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl
                         JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux.o";
                    ],[],[#include <linux/joystick.h>])],)
   dnl Linux evdev joystick driver
-  if test x"$with_evdev" != "xno"; then
+  if test x"$with_evdev" != "xno" -a x"$is_unix_linux" = "xyes"; then
     PKG_CHECK_MODULES([libevdev],
                       [libevdev],
                       [AC_DEFINE(HAVE_LINUX_EVDEV,,[Enable support for Linux evdev joysticks.])
