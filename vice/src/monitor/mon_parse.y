@@ -376,13 +376,13 @@ memory_rules: CMD_MOVE address_range opt_sep address end_cmd
             | CMD_SPRITE_DISPLAY end_cmd
               { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
             | CMD_TEXT_DISPLAY address_opt_range end_cmd
-              { mon_memory_display(0, $2[0], $2[1], DF_PETSCII); }
+              { mon_memory_display(e_text, $2[0], $2[1], DF_PETSCII); }
             | CMD_TEXT_DISPLAY end_cmd
-              { mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
+              { mon_memory_display(e_text, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
             | CMD_SCREENCODE_DISPLAY address_opt_range end_cmd
-              { mon_memory_display(0, $2[0], $2[1], DF_SCREEN_CODE); }
+              { mon_memory_display(e_text, $2[0], $2[1], DF_SCREEN_CODE); }
             | CMD_SCREENCODE_DISPLAY end_cmd
-              { mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_SCREEN_CODE); }
+              { mon_memory_display(e_text, BAD_ADDR, BAD_ADDR, DF_SCREEN_CODE); }
             | CMD_MEMMAPZAP end_cmd
               { mon_memmap_zap(); }
             | CMD_MEMMAPSHOW end_cmd

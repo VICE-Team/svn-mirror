@@ -139,7 +139,8 @@ enum t_conditional {
 typedef enum t_conditional CONDITIONAL;
 
 enum t_radixtype {
-    e_default_radix,
+    e_text = -1,
+    e_default_radix = 0,
     e_hexadecimal,
     e_decimal,
     e_octal,
