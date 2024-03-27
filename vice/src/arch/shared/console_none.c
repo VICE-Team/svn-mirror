@@ -51,7 +51,15 @@ int native_console_out(console_t *log, const char *format, ...)
     return 0;
 }
 
-int native_console_petscii_out(console_t *log, const char *format, ...)
+int native_console_petscii_out(int maxlen, console_t *log, const char *format, ...)
+{
+#ifdef DEBUG_CONSOLE
+    fprintf(stderr, "%s - remove this\n", __func__);
+#endif
+    return 0;
+}
+
+int native_console_scrcode_out(int maxlen, console_t *log, const char *format, ...)
 {
 #ifdef DEBUG_CONSOLE
     fprintf(stderr, "%s - remove this\n", __func__);

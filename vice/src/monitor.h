@@ -199,6 +199,8 @@ int monitor_diskspace_dnr(int mem);
 int monitor_diskspace_mem(int dnr);
 
 int mon_out(const char *format, ...) VICE_ATTR_PRINTF;
+int mon_petscii_out(int maxlen, const char *format, ...) VICE_ATTR_PRINTF2;
+int mon_scrcode_out(int maxlen, const char *format, ...) VICE_ATTR_PRINTF2;
 
 /** Breakpoint interface.  */
 

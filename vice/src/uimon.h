@@ -39,6 +39,8 @@ struct console_s *uimon_window_resume(void);
 void uimon_window_close(void);
 
 int uimon_out(const char *buffer);
+int uimon_petscii_out(const char *buffer, int len);
+int uimon_scrcode_out(const char *buffer, int len);
 
 char *uimon_in(const char *prompt);
 

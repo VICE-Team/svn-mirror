@@ -51,6 +51,7 @@
 static char *bigbuffer = NULL;
 static const unsigned int bigbuffersize = 10000;
 static unsigned int bigbufferwrite = 0;
+static unsigned int bigbuffermode = 0; /* 0: ascii, 1: petscii, 2: scrcode */
 
 static FILE *mon_log_file = NULL;
 
@@ -109,8 +110,18 @@ static int mon_buffer_flush(void)
     int rv = 0;
 
     if (bigbuffer && bigbufferwrite) {
+        switch (bigbuffermode) {
+            case 0:
+                rv = uimon_out(bigbuffer);
+                break;
+            case 1:
+                rv = uimon_petscii_out(bigbuffer, bigbufferwrite);
+                break;
+            case 2:
+                rv = uimon_scrcode_out(bigbuffer, bigbufferwrite);
+                break;
+        }
         bigbufferwrite = 0;
-        rv = uimon_out(bigbuffer);
     }
 
     return rv;
@@ -165,16 +176,41 @@ void mon_event_closed(void) {
     #endif
 }
 
-static int mon_out_buffered(const char *buffer)
+static int mon_out_buffered(const char *buffer, int mode, int maxlen)
 {
     int rv = 0;
+    int len;
 
     if (!console_log || console_log->console_cannot_output) {
+
+        if (mode != bigbuffermode) {
+            rv = mon_buffer_flush();
+            bigbuffermode = mode;
+        }
+
         mon_buffer_alloc();
-        mon_buffer_add(buffer, (unsigned int)strlen(buffer));
+        /* FIXME: convert to mode */
+        if (mode == 0) {
+            len = strlen(buffer);
+        } else {
+            len = maxlen;
+        }
+        mon_buffer_add(buffer, (unsigned int)len);
     } else {
+        /* flush buffer in old mode */
         rv = mon_buffer_flush();
-        rv = uimon_out(buffer) || rv;
+        bigbuffermode = mode;
+        switch (mode) {
+            case 0:
+                rv = uimon_out(buffer) || rv;
+                break;
+            case 1:
+                rv = uimon_petscii_out(buffer, maxlen) || rv;
+                break;
+            case 2:
+                rv = uimon_scrcode_out(buffer, maxlen) || rv;
+                break;
+        }
     }
 
     return rv;
@@ -195,7 +231,69 @@ int mon_out(const char *format, ...)
         rc = monitor_network_transmit(buffer, strlen(buffer));
     } else {
 #endif
-        rc = mon_out_buffered(buffer);
+        rc = mon_out_buffered(buffer, 0, strlen(buffer));
+#ifdef HAVE_NETWORK
+    }
+#endif
+    mon_log_file_out(buffer);
+
+    lib_free(buffer);
+
+    if (rc < 0) {
+        monitor_abort();
+    }
+
+    return rc;
+}
+
+int mon_petscii_out(int maxlen, const char *format, ...)
+{
+    va_list ap;
+    char *buffer;
+    int rc = 0;
+
+    va_start(ap, format);
+    buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+#ifdef HAVE_NETWORK
+    if (monitor_is_remote()) {
+        /* FIXME: convert to ASCII before transferring */
+        rc = monitor_network_transmit(buffer, maxlen);
+    } else {
+#endif
+        rc = mon_out_buffered(buffer, 1, maxlen);
+#ifdef HAVE_NETWORK
+    }
+#endif
+    mon_log_file_out(buffer);
+
+    lib_free(buffer);
+
+    if (rc < 0) {
+        monitor_abort();
+    }
+
+    return rc;
+}
+
+int mon_scrcode_out(int maxlen, const char *format, ...)
+{
+    va_list ap;
+    char *buffer;
+    int rc = 0;
+
+    va_start(ap, format);
+    buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+#ifdef HAVE_NETWORK
+    if (monitor_is_remote()) {
+        /* FIXME: convert to ASCII before transferring */
+        rc = monitor_network_transmit(buffer, maxlen);
+    } else {
+#endif
+        rc = mon_out_buffered(buffer, 2, maxlen);
 #ifdef HAVE_NETWORK
     }
 #endif
