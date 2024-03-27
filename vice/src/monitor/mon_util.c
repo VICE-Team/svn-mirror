@@ -120,6 +120,9 @@ static int mon_buffer_flush(void)
             case 2:
                 rv = uimon_scrcode_out(bigbuffer, bigbufferwrite);
                 break;
+            case 3:
+                rv = uimon_petscii_upper_out(bigbuffer, bigbufferwrite);
+                break;
         }
         bigbufferwrite = 0;
     }
@@ -210,6 +213,9 @@ static int mon_out_buffered(const char *buffer, int mode, int maxlen)
             case 2:
                 rv = uimon_scrcode_out(buffer, maxlen) || rv;
                 break;
+            case 3:
+                rv = uimon_petscii_upper_out(buffer, maxlen) || rv;
+                break;
         }
     }
 
@@ -263,6 +269,37 @@ int mon_petscii_out(int maxlen, const char *format, ...)
     } else {
 #endif
         rc = mon_out_buffered(buffer, 1, maxlen);
+#ifdef HAVE_NETWORK
+    }
+#endif
+    mon_log_file_out(buffer);
+
+    lib_free(buffer);
+
+    if (rc < 0) {
+        monitor_abort();
+    }
+
+    return rc;
+}
+
+int mon_petscii_upper_out(int maxlen, const char *format, ...)
+{
+    va_list ap;
+    char *buffer;
+    int rc = 0;
+
+    va_start(ap, format);
+    buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+#ifdef HAVE_NETWORK
+    if (monitor_is_remote()) {
+        /* FIXME: convert to ASCII before transferring */
+        rc = monitor_network_transmit(buffer, maxlen);
+    } else {
+#endif
+        rc = mon_out_buffered(buffer, 3, maxlen);
 #ifdef HAVE_NETWORK
     }
 #endif

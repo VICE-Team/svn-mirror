@@ -42,6 +42,7 @@ void uimonfb_window_suspend(void);
 console_t *uimonfb_window_resume(void);
 int uimonfb_out(const char *buffer);
 int uimonfb_petscii_out(const char *buffer, int len);
+int uimonfb_petscii_upper_out(const char *buffer, int len);
 int uimonfb_scrcode_out(const char *buffer, int len);
 char *uimonfb_get_in(char **ppchCommandLine, const char *prompt);
 void uimonfb_notify_change(void);

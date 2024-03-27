@@ -1267,10 +1267,10 @@ void mon_show_dir(const char *path)
             if (isdir) {
                 mon_out("     <dir> %s\n", name);
             } else {
-                mon_out("%"PRI_SIZE_T" %s\n", len, name);
+                mon_out("%10"PRI_SIZE_T" %s\n", len, name);
             }
         } else {
-            mon_out("%-20s?????\n", name);
+            mon_out("     %-20s ?????\n", name);
         }
     }
     lib_free(mpath);

@@ -320,6 +320,111 @@ int uimon_petscii_out(const char *buffer, int len)
     return 0;
 }
 
+int uimon_petscii_upper_out(const char *buffer, int len)
+{
+    unsigned char *utf = NULL;
+    uint8_t b;
+    int n = 0;
+    uint8_t c;
+
+    if (native_monitor()) {
+        return uimonfb_petscii_upper_out(buffer, len);
+    }
+
+    while (n < len) {
+        c = buffer[n];
+
+        /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
+        if (/* (c >= 0x00) && */ (c <= 0x1f)) {
+            b = c + 0x40; // lower
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* 20-3f  !"#...=>? */
+        } else if ((c >= 0x20) && (c <= 0x2f)) {
+        } else if ((c >= 0x30) && (c <= 0x3f)) {
+        /* 40-5f  @ab...\]  */
+        } else if ((c >= 0x40) && (c <= 0x5f)) {
+            if (c == 0x40) {
+                c = '@';
+            }
+            else if (c == 0x5b) {
+                c = '[';
+            } else if (c == 0x5c) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0x5d) {
+                c = ']';
+            } else if (c == 0x5e) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0x5f) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                // upper
+            }
+        /* 60-7f   AB...|}~ */
+        } else if ((c >= 0x60) && (c <= 0x7f)) {
+        /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
+        } else if ((c >= 0x80) && (c <= 0x9f)) {
+            b = c - 0x20; // upper
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* a0-bf  gfx chars */
+        } else if ((c >= 0xa0) && (c <= 0xbf)) {
+            b = c;
+            utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* c0-df   AB...|}~ */
+        } else if ((c >= 0xc0) && (c <= 0xdf)) {
+            if (c == 0xc0) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xdc) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xdd) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xde) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xdf) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                b = c - 0x60;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            }
+        /* e0-ff -> a0 -> 60-7f gfx chars */
+        } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
+            b = c;
+            utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        }
+
+        if (utf) {
+            lib_free(utf);
+            utf = NULL;
+        } else {
+            uimon_write_to_terminal(&fixed, (const char*)&c, 1);
+        }
+        n++;
+    }
+
+    return 0;
+}
+
+
 int uimon_scrcode_out(const char *buffer, int len)
 {
     int n = 0;
