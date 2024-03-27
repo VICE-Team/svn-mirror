@@ -29,6 +29,7 @@
 
 #include "vice.h"
 
+#include "charset.h"
 #include "console.h"
 #if defined(UNIX_COMPILE)
 #include "fullscreenarch.h"
@@ -129,7 +130,7 @@ int uimon_out(const char *buffer)
         int i = 0;
         char c;
 
-        sdl_ui_set_active_font(MENU_FONT_MONITOR);
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
 
         while ((c = p[i]) != 0) {
             if (c == '\n') {
@@ -154,15 +155,152 @@ int uimon_out(const char *buffer)
             x_pos += sdl_ui_print(p, x_pos, y);
         }
 
-        sdl_ui_set_active_font(MENU_FONT_ASCII);
+        /* sdl_ui_set_active_font(MENU_FONT_ASCII); */
 
     } else {
         if (console_log_local) {
-            rc = native_console_petscii_out(console_log_local, "%s", buffer);
+            rc = native_console_out(console_log_local, "%s", buffer);
         }
     }
 
     lib_free(buf);
+
+    return rc;
+}
+
+/* petscii layout:
+ 00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted (ctrl)
+ 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 40 @abcdefghijklmnopqrstuvwxyz[ ]^
+ 60  !"#$%&´()*+,-./0123456789:;<=>?
+ 80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted (Ctrl)
+ A0 ................................
+ C0  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
+ E0 ................................
+*/
+/* monitor charset:
+ 00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted
+ 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 40 @abcdefghijklmnopqrstuvwxyz[ ]^
+ 60  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
+ 80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted
+ A0 ................................
+ C0  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
+ E0 ................................
+ */
+
+int uimon_petscii_out(const char *buffer, int num)
+{
+    int rc = 0;
+
+    if (using_ui_monitor) {
+        int y = menu_draw->max_text_y - 1;
+        const char *p = buffer;
+        int i = 0;
+        uint8_t c;
+
+        sdl_ui_set_active_font(MENU_FONT_MONITOR);
+
+        /* CAUTION: there is another level of indirection going on in uimenu.c */
+        while (i < num) {
+            c = p[i];
+            /* 00-1f control codes 00-1f (shown as inverted 00-1f, ie 80-9f */
+            /* 20-3f  !"#...=>? */
+            /* 40-5f  @ab...\]  */
+            /* 60-7f   AB...|}~ */
+            if ((c >= 0x60) && (c <= 0x7f)) {
+            /* 80-9f control codes 80-9f (shown as inverted 60-7f, ie e0-ff */
+            /* a0-bf  gfx chars */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
+            /* c0-df   AB...|}~ */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                c -= 0x60;
+            /* e0-ff -> a0 -> 60-7f gfx chars */
+            } else if ((c >= 0xe0) && (c <= 0xff)) {
+                c -= 0x40;
+            }
+            sdl_ui_putchar(c, x_pos, y);
+            ++x_pos;
+            ++i;
+        }
+
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
+
+    } else {
+        if (console_log_local) {
+            rc = native_console_petscii_out(num, console_log_local, "%s", buffer);
+        }
+    }
+
+    return rc;
+}
+
+/* screencode layout:
+ 00 @abcdefghijklmnopqrstuvwxyz[ ]^
+ 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 40  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
+ 60 ................................
+ 80-FF inverted version of the above
+ */
+
+/* monitor charset:
+ 00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted
+ 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 40 @abcdefghijklmnopqrstuvwxyz[ ]^
+ 60  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
+ 80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted
+ A0 ................................
+
+ */
+
+int uimon_scrcode_out(const char *buffer, int num)
+{
+    int rc = 0;
+
+    if (using_ui_monitor) {
+        int y = menu_draw->max_text_y - 1;
+        const char *p = buffer;
+        int i = 0;
+        uint8_t c;
+
+        sdl_ui_set_active_font(MENU_FONT_MONITOR);
+
+        /* CAUTION: there is another level of indirection going on in uimenu.c */
+        while (i < num) {
+            c = p[i];
+            /* 00-1f -> 40-5f */
+            if ((c >= 0x00) && (c <= 0x1f)) {
+                c += 0x40;
+            /* 20-3f -> 20-3f */
+            /* 40-5f -> 60-7f */
+            } else if ((c >= 0x40) && (c <= 0x5f)) {
+                c += 0x20;
+            /* 60-7f -> a0-bf */
+            } else if ((c >= 0x60) && (c <= 0x7f)) {
+                c += 0x40;
+            /* 80-9f -> 00-1f */
+            } else if ((c >= 0x80) && (c <= 0x9f)) {
+                c -= 0x80;
+            /* a0-bf -> c0-df */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
+                c += 0x20;
+            /* c0-df -> 80-9f */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                c -= 0x40;
+            }
+            /* e0-ff -> e0-ff */
+            sdl_ui_putchar(c, x_pos, y);
+            ++x_pos;
+            ++i;
+        }
+
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
+
+    } else {
+        if (console_log_local) {
+            rc = native_console_scrcode_out(num, console_log_local, "%s", buffer);
+        }
+    }
 
     return rc;
 }

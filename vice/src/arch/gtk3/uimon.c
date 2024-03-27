@@ -75,6 +75,7 @@
 #include "mon_command.h"
 #include "vsync.h"
 #include "vsyncapi.h"
+#include "widgethelpers.h"
 #include "uidata.h"
 
 static gboolean uimon_window_open_impl(gpointer user_data);
@@ -207,6 +208,191 @@ int uimon_out(const char *buffer)
         line = line_end + 1;
     }
 
+    return 0;
+}
+
+int uimon_petscii_out(const char *buffer, int len)
+{
+    unsigned char *utf = NULL;
+    uint8_t b;
+    int n = 0;
+    uint8_t c;
+
+    if (native_monitor()) {
+        return uimonfb_petscii_out(buffer, len);
+    }
+
+    while (n < len) {
+        c = buffer[n];
+
+        /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
+        if (/* (c >= 0x00) && */ (c <= 0x1f)) {
+            b = c + 0x40; // lower
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* 20-3f  !"#...=>? */
+        } else if ((c >= 0x20) && (c <= 0x3f)) {
+        /* 40-5f  @ab...\]  */
+        } else if ((c >= 0x40) && (c <= 0x5f)) {
+            if (c == 0x40) {
+                c = '@';
+            } else if (c == 0x5b) {
+                c = '[';
+            } else if (c == 0x5c) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0x5d) {
+                c = ']';
+            } else if (c == 0x5e) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0x5f) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                c += 0x20;  // lower
+            }
+        /* 60-7f   AB...|}~ */
+        } else if ((c >= 0x60) && (c <= 0x7f)) {
+            if (c == 0x60) {
+                b = '@' + 0x40; // upper
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if ((c >= 0x7b) && (c <= 0x7f)) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                c -= 0x20;  // upper
+            }
+        /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
+        } else if ((c >= 0x80) && (c <= 0x9f)) {
+            b = c - 0x20; // upper
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* a0-bf  gfx chars */
+        } else if ((c >= 0xa0) && (c <= 0xbf)) {
+            b = c;
+            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* c0-df   AB...|}~ */
+        } else if ((c >= 0xc0) && (c <= 0xdf)) {
+            if (c == 0xc0) {
+                c = '@';
+            } else if (c == 0xdb) {
+                c = '[';
+            } else if (c == 0xdc) {
+                b = c - 0x80;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xdd) {
+                c = ']';
+            } else if (c == 0xde) {
+                b = c - 0x80;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if (c == 0xdf) {
+                b = c - 0x80;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                c -= 0x60;
+            }
+        /* e0-ff -> a0 -> 60-7f gfx chars */
+        } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
+            b = c;
+            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        }
+
+        if (utf) {
+            lib_free(utf);
+            utf = NULL;
+        } else {
+            uimon_write_to_terminal(&fixed, (const char*)&c, 1);
+        }
+        n++;
+    }
+
+    return 0;
+}
+
+int uimon_scrcode_out(const char *buffer, int len)
+{
+    int n = 0;
+    unsigned char *utf = NULL;
+    uint8_t b;
+    uint8_t c;
+
+    if (native_monitor()) {
+        return uimonfb_scrcode_out(buffer, len);
+    }
+
+    while (n < len) {
+        c = buffer[n];
+
+        /* 00-1f -> 40-5f */
+        if (/*(c >= 0x00) && */ (c <= 0x1f)) {
+            if (c == 0) {
+                c = '@';
+            } else if ((c >= 0x1b) && ( c <= 0x1f)) {
+                b = c + 0x40;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                c += 0x60;  // lower
+            }
+        /* 20-3f -> 20-3f */
+        /* 40-5f -> 60-7f */
+        } else if ((c >= 0x40) && (c <= 0x5f)) {
+            if ((c >= 0x5b) && ( c <= 0x5f)) {
+                b = c + 0x20;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            }
+
+        /* 60-7f -> a0-bf */
+        } else if ((c >= 0x60) && (c <= 0x7f)) {
+            b = c + 0x40; // lower
+            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* 80-9f -> 80-9f */
+        } else if ((c >= 0x80) && (c <= 0x9f)) {
+            b = c - 0x40; // lower
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* a0-bf -> c0-df */
+        } else if ((c >= 0xa0) && (c <= 0xbf)) {
+            b = c - 0x80;
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* c0-df -> 80-9f */
+        } else if ((c >= 0xc0) && (c <= 0xdf)) {
+            b = c - 0x60; // upper
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        /* e0-ff -> e0-ff */
+        } else if ((c >= 0xe0) && (c <= 0xfe)) {
+            b = c;
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        } else if ((c == 0xff) /*&& (c <= 0xff) */) {
+            b = 0xbf;
+            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        }
+
+        if (utf) {
+            lib_free(utf);
+            utf = NULL;
+        } else {
+            uimon_write_to_terminal(&fixed, (const char*)&c, 1);
+        }
+        n++;
+    }
     return 0;
 }
 
@@ -672,11 +858,34 @@ console_t *uimonfb_window_open(void);
  *
  * \return  boolean
  */
+
+static void printfontinfo(PangoFontDescription* desc, char *name)
+{
+    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s)",
+                name,
+                pango_font_description_get_family(desc),
+                pango_font_description_get_size(desc),
+                pango_font_description_get_variations(desc));
+}
+
+static PangoFontDescription* getfontdesc(const char *name)
+{
+    PangoFontDescription* desc = pango_font_description_from_string(name);
+
+    if (desc == NULL) {
+        log_warning(LOG_ERR, "Failed to parse Pango font description '%s'", name);
+        return NULL;
+    }
+
+    return desc;
+}
+
 bool uimon_set_font(void)
 {
     const PangoFontDescription *desc_tmp;
     PangoFontDescription* desc;
     const char *monitor_font = NULL;
+    char *using_font = NULL;
     GList *widgets;
     GList *box;
     const char *bg;
@@ -693,19 +902,33 @@ bool uimon_set_font(void)
         return false;
     }
 
+    /* NOTE: the Pango API is kindof of weird, in that it never lets us know if
+             a font does actually exist, or if a font description (string)
+             matches whatever. We can only guess... */
+
     /* try to set monitor font */
-    desc = pango_font_description_from_string(monitor_font);
+    desc = getfontdesc(monitor_font);
     if (desc == NULL) {
         /* fall back */
-        log_warning(LOG_ERR, "Failed to parse Pango font description, falling"
-                " back to default font.");
 
-        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
-        desc = pango_font_description_copy_static(desc_tmp);
-        pango_font_description_set_family(desc, "Consolas,monospace");
-        pango_font_description_set_size(desc, 11 * PANGO_SCALE);
+        /* if we didn't try to set the default C64 font, try it now */
+        if (!strcmp("C64 Pro Mono Regular 11", monitor_font)) {
+            desc = getfontdesc("C64 Pro Regular 11");
+        }
+
+        if (desc == NULL) {
+            /* last resort, monospace 11 */
+            desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+            desc = pango_font_description_copy_static(desc_tmp);
+            pango_font_description_set_family(desc, "Consolas,monospace");
+            pango_font_description_set_size(desc, 11 * PANGO_SCALE);
+        }
     }
     vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
+
+    using_font = pango_font_description_to_string(desc);
+    printfontinfo(desc, using_font);
+    g_free(using_font);
     pango_font_description_free(desc);
 
     /* try background color */

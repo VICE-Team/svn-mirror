@@ -1911,6 +1911,12 @@ void mon_display_screen(long addr)
     uint8_t rows, cols;
     unsigned int r, c;
     int bank;
+    /* FIXME: this should really be handled by the UI instead, ie the UI should
+              always just give us valid numbers */
+    static int last_known_xres = 40;
+    if (console_log) {
+        last_known_xres = console_log->console_xres;
+    }
 #if 0
     printf("Address = %ld\n", addr);
 #endif
@@ -1930,10 +1936,9 @@ void mon_display_screen(long addr)
     mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
 
     for (r = 0; r < rows; r++) {
-        /* Only show addresses of each line in non-SDL */
-#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
-        mon_out("%04x  ", base);
-#endif
+        if ((cols + 9) < last_known_xres) {
+            mon_out("*C:%04x  ", base);
+        }
         for (c = 0; c < cols; c++) {
             uint8_t data;
 
@@ -1941,9 +1946,7 @@ void mon_display_screen(long addr)
                Do we want monitor sidefx in a function that's *supposed*
                to just read from screen memory? */
             data = mon_get_mem_val_ex_nosfx(e_comp_space, bank, (uint16_t)ADDR_LIMIT(base++));
-            data = charset_p_toascii(charset_screencode_to_petcii(data), CONVERT_WITH_CTRLCODES);
-
-            mon_out("%c", data);
+            mon_scrcode_out(1, "%c", data);
         }
         mon_out("\n");
     }

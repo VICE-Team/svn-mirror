@@ -101,6 +101,4 @@ void sdl_ui_set_menu_font(uint8_t *font, int w, int h);
 void sdl_ui_set_image_font(uint8_t *font, int w, int h);
 void sdl_ui_set_monitor_font(uint8_t *font, int w, int h);
 
-void sdl_ui_copy_ui_font(uint8_t *dest);
-
 #endif

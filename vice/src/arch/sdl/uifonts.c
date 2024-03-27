@@ -56,7 +56,7 @@ static const unsigned char uichars[8 * MENUCHARSNUM] = {
     0x18, 0x00, 0x18, 0x18, 0x18, 0x7e, 0x3c, 0x18  /* 13 scrollbar down arrow */
 };
 
-void sdl_ui_copy_ui_font(uint8_t *dest)
+static void sdl_ui_copy_ui_font(uint8_t *dest)
 {
     memcpy(dest, uichars, 8 * MENUCHARSNUM);
 }
@@ -75,6 +75,7 @@ static unsigned char sdlextrachars[8 * 4] = {
     0x60, 0x92, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, /* ~ */
 };
 
+/* read (num_chars * 8) bytes from charset */
 static int loadcharset(FILE *f, unsigned char * dest, int num_chars) {
     if(fread(dest, 1, num_chars * 8, f) != num_chars * 8) {
         return -1;
@@ -100,21 +101,26 @@ static int loadchar(FILE *f, int initial_offset, int asc_offset, char load_every
     unsigned int i;
     int res = 0;
 
-    for(i = 0; i < SDLFONTSIZE; i+=2) {
+    /* clear entire char with $55/$aa pattern */
+    for(i = 0; i < SDLFONTSIZE; i += 2) {
         sdlfontasc[i] = 0x55;
         sdlfontasc[i + 1] = 0xaa;
     }
     memcpy(sdlfontpet, sdlfontasc, SDLFONTSIZE);
     memcpy(sdlfontmon, sdlfontasc, SDLFONTSIZE);
 
+    /* PETSCII font (uppercase), for directories */
     fseek(f, initial_offset, SEEK_SET);
     res |= load_every_second_char
         ? loadcharset_every_second_char(f, sdlfontpet, 128)
         : loadcharset(f, sdlfontpet, 128);
+    /* PETSCII font (lowercase), for monitor */
+/* fseek(f, initial_offset, SEEK_SET); */
     fseek(f, asc_offset, SEEK_SET);
     res |= load_every_second_char
         ? loadcharset_every_second_char(f, sdlfontmon, 128)
         : loadcharset(f, sdlfontmon, 128);
+    /* ASCII font, for menus */
     fseek(f, asc_offset, SEEK_SET);
     res |= load_every_second_char
         ? loadcharset_every_second_char(f, sdlfontasc, 128 - 37)
@@ -130,6 +136,7 @@ static int loadchar(FILE *f, int initial_offset, int asc_offset, char load_every
     return res;
 }
 
+/* load CHARGEN ROM and create a charset from it */
 int sdl_ui_font_init(const char *name, int initial_offset, int asc_offset, char load_every_second_char)
 {
     int i;
