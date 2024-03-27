@@ -84,6 +84,7 @@ int native_console_close_all(void);
 
 int native_console_out(console_t *log, const char *format, ...) VICE_ATTR_PRINTF2;
 int native_console_petscii_out(int maxlen, console_t *log, const char *format, ...) VICE_ATTR_PRINTF3;
+int native_console_petscii_upper_out(int maxlen, console_t *log, const char *format, ...) VICE_ATTR_PRINTF3;
 int native_console_scrcode_out(int maxlen, console_t *log, const char *format, ...) VICE_ATTR_PRINTF3;
 
 int native_console_flush(console_t *log);

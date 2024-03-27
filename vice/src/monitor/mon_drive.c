@@ -195,19 +195,23 @@ void mon_drive_list(int drive_unit)
     listing = diskcontents_block_read(vdrive, 0);
 
     if (listing != NULL) {
-        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
+        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_PETSCII);
         image_contents_file_list_t *element = listing->file_list;
 
-        mon_out("%s\n", string);
+        /* disk header */
+        /* FIXME: the string should ideally be shown in reverse */
+        mon_petscii_upper_out(strlen(string), "%s", string);    /* FIXME: do not use strlen */
         lib_free(string);
+        mon_out("\n");
 
         if (element == NULL) {
             mon_out("Empty image\n");
         } else {
             do {
-                string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
-                mon_out("%s\n", string);
+                string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_PETSCII);
+                mon_petscii_upper_out(strlen(string), "%s", string);    /* FIXME: do not use strlen */
                 lib_free(string);
+                mon_out("\n");
             }
             while ((element = element->next) != NULL);
         }

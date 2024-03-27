@@ -170,6 +170,11 @@ int uimonfb_petscii_out(const char *buffer, int len)
     return native_console_petscii_out(len, console_log_local, "%s", buffer);
 }
 
+int uimonfb_petscii_upper_out(const char *buffer, int len)
+{
+    return native_console_petscii_upper_out(len, console_log_local, "%s", buffer);
+}
+
 int uimonfb_scrcode_out(const char *buffer, int len)
 {
     return native_console_scrcode_out(len, console_log_local, "%s", buffer);
