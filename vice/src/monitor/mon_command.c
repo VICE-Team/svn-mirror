@@ -973,7 +973,7 @@ static void print_help_topics(const char *filter)
     int len;
     int longest;
     int max_col;
-    int filter_len = 0;
+    size_t filter_len = 0;
     int isfirst = 1;
     int count = 0;
     int cmd_num = 0;
