@@ -200,7 +200,7 @@ void mon_drive_list(int drive_unit)
 
         /* disk header */
         /* FIXME: the string should ideally be shown in reverse */
-        mon_petscii_upper_out(strlen(string), "%s", string);    /* FIXME: do not use strlen */
+        mon_petscii_upper_out((int)strlen(string), "%s", string);    /* FIXME: do not use strlen */
         lib_free(string);
         mon_out("\n");
 
@@ -209,7 +209,7 @@ void mon_drive_list(int drive_unit)
         } else {
             do {
                 string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_PETSCII);
-                mon_petscii_upper_out(strlen(string), "%s", string);    /* FIXME: do not use strlen */
+                mon_petscii_upper_out((int)strlen(string), "%s", string);    /* FIXME: do not use strlen */
                 lib_free(string);
                 mon_out("\n");
             }

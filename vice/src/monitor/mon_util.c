@@ -194,7 +194,7 @@ static int mon_out_buffered(const char *buffer, int mode, int maxlen)
         mon_buffer_alloc();
         /* FIXME: convert to mode */
         if (mode == 0) {
-            len = strlen(buffer);
+            len = (int)strlen(buffer);
         } else {
             len = maxlen;
         }
@@ -237,7 +237,7 @@ int mon_out(const char *format, ...)
         rc = monitor_network_transmit(buffer, strlen(buffer));
     } else {
 #endif
-        rc = mon_out_buffered(buffer, 0, strlen(buffer));
+        rc = mon_out_buffered(buffer, 0, (int)strlen(buffer));
 #ifdef HAVE_NETWORK
     }
 #endif
