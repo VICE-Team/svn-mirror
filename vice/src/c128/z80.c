@@ -101,6 +101,7 @@ static int z80_half_cycle = 0;
 
 inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
 {
+/*
     CLOCK tmp_clock = clock;
     int left = amount;
 
@@ -113,14 +114,21 @@ inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
             z80_half_cycle += left;
         }
     }
+*/
+    CLOCK tmp_clock = z80_half_cycle + amount;
+    z80_half_cycle = tmp_clock & 1;
+    tmp_clock = clock + (tmp_clock >> 1);
 
     return tmp_clock;
 }
 
+/* There doesn't seem to be any clock stretching in Z80 mode as each memory
+   or IO transaction operates at 1MHz. */
 void z80_clock_stretch(void)
 {
+/*
     CLK++;
-    z80_half_cycle = 0;
+*/
 }
 #endif
 
@@ -139,5 +147,15 @@ void z80_resync_limits(void)
 
 void z80_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context)
 {
+    /* Ensure Z80 starts on a full 1MHz cycle */
+    if (z80_half_cycle) {
+        CLK++;
+        z80_half_cycle = 0;
+    }
     z80_maincpu_loop(cpu_int_status, cpu_alarm_context);
+    /* Ensure Z80 ends on a full 1MHz cycle */
+    if (z80_half_cycle) {
+        CLK++;
+        z80_half_cycle = 0;
+    }
 }
