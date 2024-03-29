@@ -37,6 +37,26 @@
 
 #include "settings_vicflashplugin.h"
 
+/** \brief  Create widget to load/save VIC Flash Plugin image file
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_primary_image_widget(void)
+{
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_VIC20_FP,
+                                  CARTRIDGE_VIC20_NAME_FP,
+                                  CART_IMAGE_PRIMARY,
+                                  "Flash ROM", /* dialog header tag */
+                                  NULL, /* image file resource */
+                                  TRUE, /* flush button */
+                                  TRUE); /* save as button */
+    cart_image_widget_append_check(image,
+                                   "VicFlashPluginWriteBack",
+                                   "Write image on detach/emulator exit");
+    return image;
+}
 
 /** \brief  Create widget to control Vic Flash whatever
  *
@@ -50,10 +70,10 @@ GtkWidget *settings_vicflashplugin_widget_create(GtkWidget *parent)
     GtkWidget *check;
 
     grid = gtk_grid_new();
-    check = vice_gtk3_resource_check_button_new("VicFlashPluginWriteBack",
-                                                "Enable " CARTRIDGE_VIC20_NAME_FP
-                                                " image write-back"),
+    check = create_primary_image_widget();
+
     gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }
