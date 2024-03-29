@@ -1719,7 +1719,7 @@ void novte_terminal_copy_clipboard(NoVteTerminal *terminal)
  *
  * Since: 0.50
  */
-void vte_terminal_copy_clipboard_format(NoVteTerminal *terminal,
+void novte_terminal_copy_clipboard_format(NoVteTerminal *terminal,
                                    VteFormat format)
 {
     g_return_if_fail(VTE_IS_TERMINAL(terminal));

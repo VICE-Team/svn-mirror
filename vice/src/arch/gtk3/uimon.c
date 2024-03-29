@@ -43,6 +43,7 @@
 #define vte_terminal_feed novte_terminal_feed
 #define vte_terminal_get_column_count novte_terminal_get_column_count
 #define vte_terminal_copy_clipboard novte_terminal_copy_clipboard
+#define vte_terminal_copy_clipboard_format novte_terminal_copy_clipboard_format
 #define vte_terminal_get_row_count novte_terminal_get_row_count
 #define vte_terminal_set_scrollback_lines novte_terminal_set_scrollback_lines
 #define vte_terminal_set_scroll_on_output novte_terminal_set_scroll_on_output
@@ -695,9 +696,7 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
 #ifndef MACOS_COMPILE
         case GDK_KEY_c:
         case GDK_KEY_C:
-            vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
-            /* _format only exists in bleeding edge VTE 0.50 */
-            /* vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT); */
+            vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT);
             return TRUE;
         case GDK_KEY_v:
         case GDK_KEY_V:
@@ -717,9 +716,7 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
             return FALSE;
         case GDK_KEY_c:
         case GDK_KEY_C:
-            vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
-            /* _format only exists in bleeding edge VTE 0.50 */
-            /* vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT); */
+            vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT);
             return TRUE;
         case GDK_KEY_v:
         case GDK_KEY_V:
@@ -869,6 +866,81 @@ static void get_terminal_size_in_chars(VteTerminal *terminal,
     *height = vte_terminal_get_row_count(terminal);
 }
 
+static void printfontinfo(PangoFontDescription* desc, char *name, gfloat scale)
+{
+    const char *variations = pango_font_description_get_variations(desc);
+    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s) Scale:%f",
+                name,
+                pango_font_description_get_family(desc),
+                pango_font_description_get_size(desc) / PANGO_SCALE,
+                variations ? variations : "-",
+                scale);
+}
+
+static gboolean on_term_scrolled(VteTerminal *terminal, GdkEvent  *event,
+                                 gpointer      user_data)
+{
+
+
+    const PangoFontDescription *desc_tmp;
+    PangoFontDescription* desc;
+    char *using_font = NULL;
+    GdkEventScroll scrollevent = *((GdkEventScroll*)event);
+
+    if (scrollevent.state & GDK_CONTROL_MASK) {
+        /* with control pressed, mouse wheel will scale the terminal/font */
+        gdouble scale = vte_terminal_get_font_scale(VTE_TERMINAL(fixed.term));
+#if 0
+        /* change the font size */
+        static int size = -1;
+        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+        desc = pango_font_description_copy_static(desc_tmp);
+        if (size == -1) {
+            size = (pango_font_description_get_size(desc) / PANGO_SCALE);
+            if (size <= 0) {
+                size = 11;  /* default fallback size */
+            }
+        }
+
+        size -= scrollevent.delta_y;
+        if (size < 3) {
+            size = 3;
+        } else if (size > 100) {
+            size = 100;
+        }
+
+        pango_font_description_set_size(desc, size * PANGO_SCALE);
+        vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
+#else
+        /* use vte scaling */
+        scale -= ((scrollevent.delta_y * 50.0f) / PANGO_SCALE);
+        if (scale < ((3 * 100.0f) / PANGO_SCALE)) {
+            scale = ((3 * 100.0f) / PANGO_SCALE);
+        } else if (scale > ((100 * 100.0f) / PANGO_SCALE)) {
+            scale = ((100 * 100.0f) / PANGO_SCALE);
+        }
+        vte_terminal_set_font_scale(VTE_TERMINAL(fixed.term), scale);
+
+        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+        desc = pango_font_description_copy_static(desc_tmp);
+#endif
+        using_font = pango_font_description_to_string(desc);
+        printfontinfo(desc, using_font, scale);
+        g_free(using_font);
+        return FALSE;
+    } else {
+        /* mouse wheel scrolls the terminal (scrollback) forth/back */
+        GtkAdjustment* vadj = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term));
+        gdouble value = gtk_adjustment_get_value(vadj);
+        value += scrollevent.delta_y * 3;
+        gtk_adjustment_set_value(vadj, value);
+        gtk_scrollable_set_vadjustment(GTK_SCROLLABLE(fixed.term), vadj);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 /** \brief  Handler for the 'text-modified event of the VTE terminal
  *
  * \param[in]   terminal    VTE terminal
@@ -964,15 +1036,6 @@ console_t *uimonfb_window_open(void);
  * \return  boolean
  */
 
-static void printfontinfo(PangoFontDescription* desc, char *name)
-{
-    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s)",
-                name,
-                pango_font_description_get_family(desc),
-                pango_font_description_get_size(desc),
-                pango_font_description_get_variations(desc));
-}
-
 static PangoFontDescription* getfontdesc(const char *name)
 {
     PangoFontDescription* desc = pango_font_description_from_string(name);
@@ -1025,14 +1088,14 @@ bool uimon_set_font(void)
             /* last resort, monospace 11 */
             desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
             desc = pango_font_description_copy_static(desc_tmp);
-            pango_font_description_set_family(desc, "Consolas,monospace");
+            pango_font_description_set_family(desc, "Console,monospace");
             pango_font_description_set_size(desc, 11 * PANGO_SCALE);
         }
     }
     vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
 
     using_font = pango_font_description_to_string(desc);
-    printfontinfo(desc, using_font);
+    printfontinfo(desc, using_font, 1.0f);
     g_free(using_font);
     pango_font_description_free(desc);
 
@@ -1200,6 +1263,11 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         g_signal_connect_unlocked(G_OBJECT(fixed.term),
                                   "text-modified",
                                   G_CALLBACK(on_term_text_modified),
+                                  NULL);
+
+        g_signal_connect_unlocked(G_OBJECT(fixed.term),
+                                  "scroll-event",
+                                  G_CALLBACK(on_term_scrolled),
                                   NULL);
 
         /* can this actually be connected unlocked, we're setting resources here? */
