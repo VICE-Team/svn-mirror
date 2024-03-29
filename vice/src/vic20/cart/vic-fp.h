@@ -46,11 +46,13 @@ void vic_fp_powerup(void);
 
 void vic_fp_config_setup(uint8_t *rawcart);
 int vic_fp_bin_attach(const char *filename);
-
 /* int vic_fp_bin_attach(const char *filename, uint8_t *rawcart); */
-
-int vic_fp_crt_attach(FILE *fd, uint8_t *rawcart);
+int vic_fp_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 void vic_fp_detach(void);
+
+int vic_fp_bin_save(const char *filename);
+int vic_fp_crt_save(const char *filename);
+int vic_fp_flush_image(void);
 
 int vic_fp_resources_init(void);
 void vic_fp_resources_shutdown(void);

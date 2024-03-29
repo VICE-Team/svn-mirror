@@ -48,11 +48,13 @@ void finalexpansion_powerup(void);
 
 void finalexpansion_config_setup(uint8_t *rawcart);
 int finalexpansion_bin_attach(const char *filename);
-
 /* int finalexpansion_bin_attach(const char *filename, uint8_t *rawcart); */
-
-int finalexpansion_crt_attach(FILE *fd, uint8_t *rawcart);
+int finalexpansion_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 void finalexpansion_detach(void);
+
+int finalexpansion_bin_save(const char *filename);
+int finalexpansion_crt_save(const char *filename);
+int finalexpansion_flush_image(void);
 
 int finalexpansion_resources_init(void);
 void finalexpansion_resources_shutdown(void);

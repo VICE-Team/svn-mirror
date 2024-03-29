@@ -49,8 +49,12 @@ int vic_um_bin_attach(const char *filename);
 
 /* int vic_um_bin_attach(const char *filename, uint8_t *rawcart); */
 
-int vic_um_crt_attach(FILE *fd, uint8_t *rawcart);
+int vic_um_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 void vic_um_detach(void);
+
+int vic_um_bin_save(const char *filename);
+int vic_um_crt_save(const char *filename);
+int vic_um_flush_image(void);
 
 int vic_um_resources_init(void);
 void vic_um_resources_shutdown(void);

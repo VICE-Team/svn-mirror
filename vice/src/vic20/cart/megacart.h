@@ -50,6 +50,10 @@ int megacart_bin_attach(const char *filename);
 int megacart_crt_attach(FILE *fd, uint8_t *rawcart);
 void megacart_detach(void);
 
+int megacart_save_nvram(const char *filename);
+int megacart_can_flush_nvram(void);
+int megacart_flush_nvram(void);
+
 int megacart_resources_init(void);
 void megacart_resources_shutdown(void);
 int megacart_cmdline_options_init(void);

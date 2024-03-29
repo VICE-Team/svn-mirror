@@ -2972,7 +2972,7 @@ int cartridge_crt_save(int type, const char *filename)
             return rrnetmk3_crt_save(filename);
 #endif
     }
-    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.\n", type);
+    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.", type);
     return -1;
 }
 

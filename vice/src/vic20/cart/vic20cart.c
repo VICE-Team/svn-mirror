@@ -422,13 +422,13 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             ret = behrbonz_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_VIC20_FP:
-            ret = vic_fp_crt_attach(fd, rawcart);
+            ret = vic_fp_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_VIC20_UM:
-            ret = vic_um_crt_attach(fd, rawcart);
+            ret = vic_um_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            ret = finalexpansion_crt_attach(fd, rawcart);
+            ret = finalexpansion_crt_attach(fd, rawcart, filename);
             break;
         default:
             archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
@@ -766,12 +766,17 @@ int cartridge_bin_save(int type, const char *filename)
     switch (type) {
         case CARTRIDGE_VIC20_GEORAM:
             return georam_bin_save(filename);
+        case CARTRIDGE_VIC20_FP:
+            return vic_fp_bin_save(filename);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_bin_save(filename);
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            return finalexpansion_bin_save(filename);
     }
+    log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.", type);
     return -1;
 }
 
-/* FIXME: this can be used once we implement a crt like format for vic20 */
-#if 0
 /*
     save cartridge to crt file
 
@@ -783,10 +788,16 @@ int cartridge_bin_save(int type, const char *filename)
 int cartridge_crt_save(int type, const char *filename)
 {
     switch (type) {
+        case CARTRIDGE_VIC20_FP:
+            return vic_fp_crt_save(filename);
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_crt_save(filename);
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            return finalexpansion_crt_save(filename);
     }
+    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.", type);
     return -1;
 }
-#endif
 
 /*
     flush cart image
@@ -798,29 +809,40 @@ int cartridge_flush_image(int type)
     switch (type) {
         case CARTRIDGE_VIC20_GEORAM:
             return georam_flush_image();
+        case CARTRIDGE_VIC20_FP:
+            return vic_fp_flush_image();
+        case CARTRIDGE_VIC20_UM:
+            return vic_um_flush_image();
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            return finalexpansion_flush_image();
     }
     return -1;
 }
 
 int cartridge_flush_secondary_image(int type)
 {
+    switch (type) {
+        case CARTRIDGE_VIC20_MEGACART:
+            return megacart_flush_nvram();
+    }
     return -1;
 }
 
 int cartridge_save_image(int type, const char *filename)
 {
-/* FIXME: this can be used once we implement a crt like format for vic20 */
-#if 0
     char *ext = util_get_extension((char *)filename);
     if (ext != NULL && !strcmp(ext, "crt")) {
         return cartridge_crt_save(type, filename);
     }
-#endif
     return cartridge_bin_save(type, filename);
 }
 
 int cartridge_save_secondary_image(int type, const char *filename)
 {
+    switch (type) {
+        case CARTRIDGE_VIC20_MEGACART:
+            return megacart_save_nvram(filename);
+    }
     return -1;
 }
 
@@ -852,6 +874,14 @@ int cartridge_can_flush_image(int crtid)
 
 int cartridge_can_flush_secondary_image(int crtid)
 {
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+
+    switch (crtid) {
+        case CARTRIDGE_VIC20_MEGACART:
+            return megacart_can_flush_nvram();
+    }
     return 0;
 }
 
@@ -866,6 +896,14 @@ int cartridge_can_save_image(int crtid)
 
 int cartridge_can_save_secondary_image(int crtid)
 {
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+
+    switch (crtid) {
+        case CARTRIDGE_VIC20_MEGACART:
+            return 1;
+    }
     return 0;
 }
 
@@ -873,7 +911,9 @@ int cartridge_can_save_secondary_image(int crtid)
    returns 0 (CARTRIDGE_CRT) if crt file */
 int cartridge_get_id(int slot)
 {
-    return CARTRIDGE_NONE;
+    int type = cartridge_type;
+    /*DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type));*/
+    return type;
 }
 
 /* FIXME: slot arg is ignored right now.
@@ -895,11 +935,13 @@ char *cartridge_get_filename_by_slot(int slot)
 */
 char *cartridge_get_secondary_filename_by_slot(int slot)
 {
+    log_error(LOG_DEFAULT, "FIXME: cartridge_get_secondary_filename_by_slot not implemented yet");
     return NULL;
 }
 
 void cartridge_trigger_freeze(void)
 {
+    /* We have no freezer on VIC20 :) */
 }
 
 /* ------------------------------------------------------------------------- */
