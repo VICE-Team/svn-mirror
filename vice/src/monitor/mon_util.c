@@ -35,6 +35,7 @@
 #include "ui.h"
 
 #include "archdep.h"
+#include "charset.h"
 #include "console.h"
 #include "lib.h"
 #include "mem.h"
@@ -264,7 +265,10 @@ int mon_petscii_out(int maxlen, const char *format, ...)
 
 #ifdef HAVE_NETWORK
     if (monitor_is_remote()) {
-        /* FIXME: convert to ASCII before transferring */
+        int n;
+        for (n = 0; n < maxlen; n++) {
+            buffer[n] = charset_p_toascii(buffer[n], CONVERT_WITH_CTRLCODES);
+        }
         rc = monitor_network_transmit(buffer, maxlen);
     } else {
 #endif
@@ -295,7 +299,16 @@ int mon_petscii_upper_out(int maxlen, const char *format, ...)
 
 #ifdef HAVE_NETWORK
     if (monitor_is_remote()) {
-        /* FIXME: convert to ASCII before transferring */
+        int n, c;
+        for (n = 0; n < maxlen; n++) {
+            c = buffer[n];
+            if ((c >= 0x01) && (c <= 0x1a)) {
+                c += 0x60; /* upper */
+            } else if ((c >= 0x41) && (c <= 0x5a)) {
+                c += 0x20; /* upper */
+            }
+            buffer[n] = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        }
         rc = monitor_network_transmit(buffer, maxlen);
     } else {
 #endif
@@ -326,7 +339,11 @@ int mon_scrcode_out(int maxlen, const char *format, ...)
 
 #ifdef HAVE_NETWORK
     if (monitor_is_remote()) {
-        /* FIXME: convert to ASCII before transferring */
+        int n, c;
+        for (n = 0; n < maxlen; n++) {
+            c = charset_screencode_to_petcii(buffer[n]);
+            buffer[n] = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        }
         rc = monitor_network_transmit(buffer, maxlen);
     } else {
 #endif
