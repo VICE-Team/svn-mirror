@@ -53,10 +53,18 @@ FILE *crt_open(const char *filename, crt_header_t *header);
 int crt_getid(const char *filename);
 int crt_read_chip_header(crt_chip_header_t *header, FILE *fd);
 int crt_read_chip(uint8_t *rawcart, int offset, crt_chip_header_t *chip, FILE *fd);
-FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name);
 int crt_write_chip(uint8_t *data, crt_chip_header_t *header, FILE *fd);
+
+/* create classic v1.0 header */
+FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name);
 
 /* create v1.1 header with sub type */
 FILE *crt_create_v11(const char *filename, int type, int subtype, int exrom, int game, const char *name);
+
+/* create 2.0 header */
+FILE *crt_create_v20(const char *filename, int type, int subtype, int exrom, int game, const char *name, int machine);
+
+/* convenience functions for VIC20 etc */
+FILE *crt_create_vic20(const char *filename, int type, int subtype, const char *name);
 
 #endif
