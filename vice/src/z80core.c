@@ -65,6 +65,8 @@ static uint8_t iff2_1 = 0;
 static uint8_t iff1_2 = 0;
 static uint8_t iff2_2 = 0;
 
+static uint8_t halt = 0;
+
 static void z80core_reset(void)
 {
     z80_reg_pc = 0;
@@ -76,6 +78,7 @@ static void z80core_reset(void)
     iff2_1 = 0;
     iff1_2 = 0;
     iff2_2 = 0;
+    halt = 0;
 }
 
 #define opcode_t uint32_t
@@ -410,6 +413,8 @@ static void export_registers(void)
 
 /* Interrupt handling.  */
 
+/* FIXME: Only IM 1 is really supported; don't trust others or their timing. */
+
 #define DO_INTERRUPT(int_kind)                                                            \
     do {                                                                                  \
         uint8_t ik = (int_kind);                                                             \
@@ -421,13 +426,11 @@ static void export_registers(void)
                 if (monitor_mask[e_comp_space] & (MI_STEP)) {                             \
                     monitor_check_icount_interrupt();                                     \
                 }                                                                         \
-                if (LAST_OPCODE_INFO == 0x76) {                                           \
-                    INC_PC(1);                                                            \
-                }                                                                         \
-                CLK_ADD(CLK, 4);                                                          \
+                halt = 0;                                                                 \
+                CLK_ADD(CLK, 7);                                                          \
                 --reg_sp;                                                                 \
                 STORE((reg_sp), ((uint8_t)(z80_reg_pc >> 8)));                               \
-                CLK_ADD(CLK, 4);                                                          \
+                CLK_ADD(CLK, 3);                                                          \
                 --reg_sp;                                                                 \
                 STORE((reg_sp), ((uint8_t)(z80_reg_pc & 0xff)));                             \
                 iff1 = 0;                                                                 \
@@ -438,15 +441,14 @@ static void export_registers(void)
                 iff2_2 = 0;                                                               \
                 if (im_mode == 1) {                                                       \
                     jumpdst = 0x38;                                                       \
-                    CLK_ADD(CLK, 4);                                                      \
-                    JUMP(jumpdst);                                                        \
                     CLK_ADD(CLK, 3);                                                      \
+                    JUMP(jumpdst);                                                        \
                 } else {                                                                  \
                     jumpdst = (LOAD(reg_i << 8) << 8);                                    \
-                    CLK_ADD(CLK, 4);                                                      \
+                    CLK_ADD(CLK, 3);                                                      \
                     jumpdst |= (LOAD((reg_i << 8) + 1));                                  \
                     JUMP(jumpdst);                                                        \
-                    CLK_ADD(CLK, 3);                                                      \
+                    CLK_ADD(CLK, 6);                                                      \
                 }                                                                         \
                 interrupt_ack_irq(cpu_int_status);                                        \
             }                                                                             \
@@ -766,15 +768,27 @@ static void export_registers(void)
     do {                       \
         iff1_2 = 0;            \
         iff2_2 = 0;            \
+        iff1_1 = 0;            \
+        iff2_1 = 0;            \
+        iff1 = 0;              \
+        iff2 = 0;              \
         OPCODE_DISABLES_IRQ(); \
         CLK_ADD(CLK, clk_inc); \
         INC_PC(pc_inc);        \
     } while (0)
 
+/* Back to back EIs results in interrupts being delayed until one instruction after the last EI. 
+   So we set iff1_1 and iff2_1 to 0.
+   See:
+   http://www.visual6502.org/JSSim/expert-z80.html?a=0&d=ed56fbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfb0000000000000000&a=38&d=c9&int0=48&steps=200&graphics=false
+*/
+
 #define EI(clk_inc, pc_inc)    \
     do {                       \
         iff1_2 = 1;            \
         iff2_2 = 1;            \
+        iff1_1 = 0;            \
+        iff2_1 = 0;            \
         OPCODE_ENABLES_IRQ();  \
         CLK_ADD(CLK, clk_inc); \
         INC_PC(pc_inc);        \
@@ -857,6 +871,8 @@ static void export_registers(void)
 #define HALT()           \
     do {                 \
         CLK_ADD(CLK, 4); \
+        INC_PC(1);       \
+        halt = 1;        \
     } while (0)
 
 #define IM(value)        \
@@ -995,7 +1011,7 @@ static void export_registers(void)
         LOCAL_SET_NADDSUB(0);            \
         LOCAL_SET_PARITY(reg_b | reg_c); \
         LOCAL_SET_HALFCARRY(0);          \
-        CLK_ADD(CLK, 12);                \
+        CLK_ADD(CLK, 8);                 \
         INC_PC(2);                       \
     } while (0)
 
@@ -1010,13 +1026,14 @@ static void export_registers(void)
         DEC_BC_WORD();              \
         DE_FUNC;                    \
         HL_FUNC;                    \
-        CLK_ADD(CLK, 13);           \
+        CLK_ADD(CLK, 8);            \
         if (!(BC_WORD())) {         \
             LOCAL_SET_NADDSUB(0);   \
             LOCAL_SET_PARITY(0);    \
             LOCAL_SET_HALFCARRY(0); \
-            CLK_ADD(CLK, 5);        \
             INC_PC(2);              \
+        } else {                    \
+            CLK_ADD(CLK, 5);        \
         }                           \
     } while (0)
 
@@ -3907,10 +3924,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
 {
     switch (ip1) {
         case 0x40: /* IN B BC */
-            INBC(reg_b, 4, 8, 2);
+            INBC(reg_b, 10, 2, 2);
             break;
         case 0x41: /* OUT BC B */
-            OUTBC(reg_b, 4, 8, 2);
+            OUTBC(reg_b, 10, 2, 2);
             break;
         case 0x42: /* SBC HL BC */
             SBCHLREG(reg_b, reg_c);
@@ -3931,10 +3948,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             LDREG(reg_i, reg_a, 6, 3, 2);
             break;
         case 0x48: /* IN C BC */
-            INBC(reg_c, 4, 8, 2);
+            INBC(reg_c, 10, 2, 2);
             break;
         case 0x49: /* OUT BC C */
-            OUTBC(reg_c, 4, 8, 2);
+            OUTBC(reg_c, 10, 2, 2);
             break;
         case 0x4a: /* ADC HL BC */
             ADCHLREG(reg_b, reg_c);
@@ -3949,10 +3966,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             NOP(8, 2);
             break;
         case 0x50: /* IN D BC */
-            INBC(reg_d, 4, 8, 2);
+            INBC(reg_d, 10, 2, 2);
             break;
         case 0x51: /* OUT BC D */
-            OUTBC(reg_d, 4, 8, 2);
+            OUTBC(reg_d, 10, 2, 2);
             break;
         case 0x52: /* SBC HL DE */
             SBCHLREG(reg_d, reg_e);
@@ -3967,10 +3984,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             LDAIR(reg_i);
             break;
         case 0x58: /* IN E BC */
-            INBC(reg_e, 4, 8, 2);
+            INBC(reg_e, 10, 2, 2);
             break;
         case 0x59: /* OUT BC E */
-            OUTBC(reg_e, 4, 8, 2);
+            OUTBC(reg_e, 10, 2, 2);
             break;
         case 0x5a: /* ADC HL DE */
             ADCHLREG(reg_d, reg_e);
@@ -3985,10 +4002,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             LDAIR((uint8_t)(CLK & 0xff));
             break;
         case 0x60: /* IN H BC */
-            INBC(reg_h, 4, 8, 2);
+            INBC(reg_h, 10, 2, 2);
             break;
         case 0x61: /* OUT BC H */
-            OUTBC(reg_h, 4, 8, 2);
+            OUTBC(reg_h, 10, 2, 2);
             break;
         case 0x62: /* SBC HL HL */
             SBCHLREG(reg_h, reg_l);
@@ -4000,10 +4017,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             RRD();
             break;
         case 0x68: /* IN L BC */
-            INBC(reg_l, 4, 8, 2);
+            INBC(reg_l, 10, 2, 2);
             break;
         case 0x69: /* OUT BC L */
-            OUTBC(reg_l, 4, 8, 2);
+            OUTBC(reg_l, 10, 2, 2);
             break;
         case 0x6a: /* ADC HL HL */
             ADCHLREG(reg_h, reg_l);
@@ -4015,10 +4032,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             RLD();
             break;
         case 0x70: /* IN F BC */
-            INBC0(4, 8, 2);
+            INBC0(10, 2, 2);
             break;
         case 0x71: /* OUT BC #0 */
-            OUTBC(0, 4, 8, 2);
+            OUTBC(0, 10, 2, 2);
             break;
         case 0x72: /* SBC HL SP */
             SBCHLSP();
@@ -4027,10 +4044,10 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             STSPW(ip23, 4, 13, 3, 4);
             break;
         case 0x78: /* IN A BC */
-            INBC(reg_a, 4, 8, 2);
+            INBC(reg_a, 10, 2, 2);
             break;
         case 0x79: /* OUT BC A */
-            OUTBC(reg_a, 4, 8, 2);
+            OUTBC(reg_a, 10, 2, 2);
             break;
         case 0x7a: /* ADC HL SP */
             ADCHLSP();
@@ -5449,14 +5466,20 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
             }
         }
 
-        SET_LAST_ADDR(z80_reg_pc);
-        FETCH_OPCODE(opcode);
-
         /* delay IFFs 2 instructions */
         iff1 = iff1_1;
         iff2 = iff2_1;
         iff1_1 = iff1_2;
         iff2_1 = iff2_2;
+
+        if (halt) {
+            CLK_ADD(CLK, 4);
+            cpu_int_status->num_dma_per_opcode = 0;
+            continue;
+        }
+
+        SET_LAST_ADDR(z80_reg_pc);
+        FETCH_OPCODE(opcode);
 
 #ifdef DEBUG
         if (debug.maincpu_traceflg) {
@@ -6122,7 +6145,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 RET_COND(LOCAL_CARRY(), 4, 4, 2, 5, 1);
                 break;
             case 0xd9: /* EXX */
-                EXX(8, 1);
+                EXX(4, 1);
                 break;
             case 0xda: /* JP C */
                 JMP_COND(p12, LOCAL_CARRY(), 10, 10);
