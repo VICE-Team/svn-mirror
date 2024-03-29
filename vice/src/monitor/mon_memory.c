@@ -283,14 +283,21 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
 
         mem_get_screen_parameter(&base, &rows, &screen_width, &bank);
         max_width = screen_width;
-        if (max_width > (last_known_xres - (8 + 2))) {
-            max_width = (last_known_xres - (8 + 2));
+        if (max_width > (last_known_xres - (7 + 2))) {
+            max_width = (last_known_xres - (7 + 2));
+            /* to make the output easier to read, make sure the number of items
+            each line equals a power of two */
+            m = 1;
+            while ((m * 2) <= max_width)  {
+                m *= 2;
+            }
+            max_width = m;
         } else {
     /* NOTE: show N multiples of screens width, disable this again if it
             turns out thats not what we want */
 #if 1
             /* FIXME: limit width vs console width */
-            while ((8 + 2) + (max_width * 2) + (((max_width * 2) + (screen_width - 1)) / screen_width) <= last_known_xres)  {
+            while ((7 + 2) + (max_width * 2) + (((max_width * 2) + (screen_width - 1)) / screen_width) <= last_known_xres)  {
                 max_width *= 2;
             }
 #endif
