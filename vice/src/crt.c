@@ -290,10 +290,9 @@ int crt_write_chip(uint8_t *data, crt_chip_header_t *header, FILE *fd)
 
     return 0;
 }
-/*
-    Create crt file with header, return NULL on fault, fd otherwise
-*/
-FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name)
+
+/* create v2.0 header with machine id */
+FILE *crt_create_v20(const char *filename, int type, int subtype, int exrom, int game, const char *name, int machine)
 {
     uint8_t crt_header[0x40];
     FILE *fd;
@@ -309,12 +308,34 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     }
 
     memset(&crt_header, 0, sizeof(crt_header));
-    memcpy(crt_header, CRT_HEADER_C64, 16); /* FIXME */
+
+    switch (machine) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            memcpy(crt_header, CRT_HEADER_C64, 16);
+            break;
+        case VICE_MACHINE_C128:
+            memcpy(crt_header, CRT_HEADER_C128, 16);
+            break;
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            memcpy(crt_header, CRT_HEADER_CBM2, 16);
+            break;
+        case VICE_MACHINE_VIC20:
+            memcpy(crt_header, CRT_HEADER_VIC20, 16);
+            break;
+        case VICE_MACHINE_PLUS4:
+            memcpy(crt_header, CRT_HEADER_PLUS4, 16);
+            break;
+    }
+
     util_dword_to_be_buf(&crt_header[0x10], sizeof(crt_header));
-    util_word_to_be_buf(&crt_header[0x14], 0x100); /* version */
+    util_word_to_be_buf(&crt_header[0x14], 0x0200); /* version */
     util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
+    crt_header[0x1a] = subtype;
     strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
 
     if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
@@ -324,6 +345,10 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
 
     return fd;
 }
+
+FILE *crt_create_vic20(const char *filename, int type, int subtype, const char *name) {
+    return crt_create_v20(filename, type, subtype, 0, 0, name, VICE_MACHINE_VIC20);
+};
 
 /* create v1.1 header with sub type */
 FILE *crt_create_v11(const char *filename, int type, int subtype, int exrom, int game, const char *name)
@@ -349,6 +374,41 @@ FILE *crt_create_v11(const char *filename, int type, int subtype, int exrom, int
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
     crt_header[0x1a] = subtype;
+    strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
+
+    if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
+        fclose(fd);
+        return NULL;
+    }
+
+    return fd;
+}
+
+/*
+    Create crt v1.0 file with header, return NULL on fault, fd otherwise
+*/
+FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name)
+{
+    uint8_t crt_header[0x40];
+    FILE *fd;
+
+    if (filename == NULL) {
+        return NULL;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return NULL;
+    }
+
+    memset(&crt_header, 0, sizeof(crt_header));
+    memcpy(crt_header, CRT_HEADER_C64, 16); /* FIXME */
+    util_dword_to_be_buf(&crt_header[0x10], sizeof(crt_header));
+    util_word_to_be_buf(&crt_header[0x14], 0x100); /* version */
+    util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
+    crt_header[0x18] = exrom ? 1 : 0;
+    crt_header[0x19] = game ? 1 : 0;
     strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
 
     if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
