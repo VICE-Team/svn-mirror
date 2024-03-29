@@ -38,6 +38,26 @@
 
 #include "settings_megacart.h"
 
+/** \brief  Create widget to load/save NVRAM image file
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_secondary_image_widget(void)
+{
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_VIC20_MEGACART,
+                                  CARTRIDGE_VIC20_NAME_MEGACART,
+                                  CART_IMAGE_SECONDARY,
+                                  "NvRAM", /* dialog header tag */
+                                  "MegaCartNvRAMfilename", /* image file resource */
+                                  TRUE, /* flush button */
+                                  TRUE); /* save as button */
+    cart_image_widget_append_check(image,
+                                   "MegaCartNvRAMWriteBack",
+                                   "Write image on detach/emulator exit");
+    return image;
+}
 
 /** \brief  Create Mega Cart settings widget
  *
@@ -50,30 +70,11 @@
 GtkWidget *settings_megacart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *write_back;
-    GtkWidget *label;
     GtkWidget *chooser;
 
     grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    label = gtk_label_new("NvRAM image file");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-
-    chooser = vice_gtk3_resource_filechooser_new("MegaCartNvRAMfilename",
-                                                GTK_FILE_CHOOSER_ACTION_SAVE);
-    vice_gtk3_resource_filechooser_set_custom_title(chooser,
-                                                    "Select " CARTRIDGE_VIC20_NAME_MEGACART
-                                                    " NvRAM image file");
-    gtk_grid_attach(GTK_GRID(grid), label,   0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), chooser, 1, 0, 1, 1);
-
-    write_back = vice_gtk3_resource_check_button_new("MegaCartNvRAMWriteBack",
-                                                     "Enable "
-                                                     CARTRIDGE_VIC20_NAME_MEGACART
-                                                     " NvRAM write back");
-    gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 2, 1);
+    chooser = create_secondary_image_widget();
+    gtk_grid_attach(GTK_GRID(grid), chooser, 0, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

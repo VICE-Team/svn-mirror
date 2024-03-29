@@ -37,6 +37,26 @@
 
 #include "settings_ultimem.h"
 
+/** \brief  Create widget to load/save Ultimem image file
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_primary_image_widget(void)
+{
+    GtkWidget *image;
+
+    image = cart_image_widget_new(CARTRIDGE_VIC20_UM,
+                                  CARTRIDGE_VIC20_NAME_UM,
+                                  CART_IMAGE_PRIMARY,
+                                  "Flash ROM", /* dialog header tag */
+                                  NULL, /* image file resource */
+                                  TRUE, /* flush button */
+                                  TRUE); /* save as button */
+    cart_image_widget_append_check(image,
+                                   "UltiMemWriteBack",
+                                   "Write image on detach/emulator exit");
+    return image;
+}
 
 /** \brief  Create widget to control VIC-20 Ultimem resources
  *
@@ -50,9 +70,7 @@ GtkWidget *settings_ultimem_widget_create(GtkWidget *parent)
     GtkWidget *check;
 
     grid  = gtk_grid_new();
-    check = vice_gtk3_resource_check_button_new("UltiMemWriteBack",
-                                                "Enable " CARTRIDGE_VIC20_NAME_UM
-                                                " image write-back"),
+    check = create_primary_image_widget();
     gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
