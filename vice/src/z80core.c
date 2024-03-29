@@ -777,7 +777,7 @@ static void export_registers(void)
         INC_PC(pc_inc);        \
     } while (0)
 
-/* Back to back EIs results in interrupts being delayed until one instruction after the last EI. 
+/* Back to back EIs results in interrupts being delayed until one instruction after the last EI.
    So we set iff1_1 and iff2_1 to 0.
    See:
    http://www.visual6502.org/JSSim/expert-z80.html?a=0&d=ed56fbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfb0000000000000000&a=38&d=c9&int0=48&steps=200&graphics=false
