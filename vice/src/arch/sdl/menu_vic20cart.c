@@ -43,6 +43,166 @@
 
 #include "menu_vic20cart.h"
 
+/* FIXME: we need an error reporting system, so all this
+          stuff can go away. */
+typedef struct vic20_cart_flush_s {
+    int cartid;
+    char *enable_res;
+    char *image_res;
+} vic20_cart_flush_t;
+
+static vic20_cart_flush_t carts[] = {
+    { CARTRIDGE_VIC20_FP,              "VicFlashPluginWriteBack", NULL },
+    { CARTRIDGE_VIC20_UM,              "UltiMemWriteBack",        NULL },
+    { CARTRIDGE_VIC20_FINAL_EXPANSION, "FinalExpansionWriteBack", NULL },
+    { 0,                               NULL,                      NULL }
+};
+
+static vic20_cart_flush_t carts_secondary[] = {
+    { CARTRIDGE_VIC20_MEGACART,        "MegaCartNvRAMWriteBack",  "MegaCartNvRAMfilename" },
+    { 0,                               NULL,                      NULL }
+};
+
+static void cartmenu_update_flush(void);
+static void cartmenu_update_save(void);
+
+static UI_MENU_CALLBACK(vic20_cart_flush_callback)
+{
+    int i;
+    int found = 0;
+    int enabled = 1;
+    const char *filename = "a";
+
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+
+        if (cartridge_flush_image(cartid) < 0) {
+            /* find cartid in carts */
+            for (i = 0; carts[i].cartid != 0 && !found; i++) {
+                if (carts[i].cartid == cartid) {
+                    found = 1;
+                }
+            }
+            i--;
+
+            /* check if cart was enabled */
+            if (found) {
+                if (carts[i].enable_res) {
+                    resources_get_int(carts[i].enable_res, &enabled);
+                }
+            }
+
+            /* check if cart has image */
+            if (found) {
+                if (carts[i].image_res) {
+                    resources_get_string(carts[i].image_res, &filename);
+                }
+            }
+
+            if (!enabled) {
+                ui_error("Cartridge is not enabled.");
+            } else if (!filename) {
+                ui_error("No name defined for cart image.");
+            } else if (!*filename) {
+                ui_error("No name defined for cart image.");
+            } else {
+                ui_error("Cannot save cartridge image.");
+            }
+        }
+    } else {
+        cartmenu_update_flush();
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(vic20_cart_flush_secondary_callback)
+{
+    int i;
+    int found = 0;
+    int enabled = 1;
+    const char *filename = "a";
+
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+
+        if (cartridge_flush_secondary_image(cartid) < 0) {
+            /* find cartid in carts_secondary */
+            for (i = 0; carts_secondary[i].cartid != 0 && !found; i++) {
+                if (carts_secondary[i].cartid == cartid) {
+                    found = 1;
+                }
+            }
+            i--;
+
+            /* check if cart was enabled */
+            if (found) {
+                if (carts_secondary[i].enable_res) {
+                    resources_get_int(carts_secondary[i].enable_res, &enabled);
+                }
+            }
+
+            /* check if cart has image */
+            if (found) {
+                if (carts_secondary[i].image_res) {
+                    resources_get_string(carts_secondary[i].image_res, &filename);
+                }
+            }
+
+            if (!enabled) {
+                ui_error("Cartridge is not enabled.");
+            } else if (!filename) {
+                ui_error("No name defined for secondary image.");
+            } else if (!*filename) {
+                ui_error("No name defined for secondary image.");
+            } else {
+                ui_error("Cannot save secondary image.");
+            }
+        }
+    } else {
+        cartmenu_update_flush();
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(vic20_cart_save_callback)
+{
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose cartridge file", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (cartridge_save_image(cartid, name) < 0) {
+                ui_error("Cannot save cartridge image.");
+            }
+            lib_free(name);
+        }
+    } else {
+        cartmenu_update_save();
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(vic20_cart_save_secondary_callback)
+{
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose secondary image file", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (cartridge_save_secondary_image(cartid, name) < 0) {
+                ui_error("Cannot save secondary image.");
+            }
+            lib_free(name);
+        }
+    } else {
+        cartmenu_update_save();
+    }
+    return NULL;
+}
 
 static UI_MENU_CALLBACK(attach_cart_callback)
 {
@@ -175,41 +335,102 @@ static UI_MENU_CALLBACK(unset_cart_default_callback)
     return NULL;
 }
 
-static void cartmenu_update_flush(void);
-static void cartmenu_update_save(void);
+UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
+UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
+UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
+UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
 
-static UI_MENU_CALLBACK(vic20_cart_flush_callback)
-{
-    printf("\nvic20_cart_flush_callback\n");
-    if (activated) {
-        int cartid = vice_ptr_to_int(param);
-        if (cartridge_flush_image(cartid) < 0) {
-        }
-    } else {
-        cartmenu_update_flush();
-    }
-    return NULL;
-}
+#define OFFS_FLUSH_FE   2
+#define OFFS_FLUSH_UM   2
+#define OFFS_FLUSH_FP   2
+#define OFFS_FLUSH_MEGACART   3
 
-static UI_MENU_CALLBACK(vic20_cart_save_callback)
-{
-    if (activated) {
-        int cartid = vice_ptr_to_int(param);
-        char *name = NULL;
+#define OFFS_SAVE_FE    3
+#define OFFS_SAVE_UM    3
+#define OFFS_SAVE_FP    3
+#define OFFS_SAVE_MEGACART   4
 
-        name = sdl_ui_file_selection_dialog("Choose cartridge file", FILEREQ_MODE_SAVE_FILE);
+static ui_menu_entry_t finalexpansion_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " settings"),
+    {   .string   = "Save image on detach.",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_FinalExpansionWriteBack_callback
+    },
+    {   .string   = "Save image now", /* 2 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_flush_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION
+    },
+    {   .string   = "Save image as", /* 3 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_save_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION
+    },
+    SDL_MENU_LIST_END
+};
 
-        if (name != NULL) {
-            if (cartridge_save_image(cartid, name) < 0) {
-                ui_error("Cannot save cartridge image.");
-            }
-            lib_free(name);
-        }
-    } else {
-        cartmenu_update_save();
-    }
-    return NULL;
-}
+static ui_menu_entry_t vic_um_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_UM " settings"),
+    {   .string   = "Save image on detach.",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_UltiMemWriteBack_callback
+    },
+    {   .string   = "Save image now", /* 2 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_flush_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_UM
+    },
+    {   .string   = "Save image as", /* 3 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_save_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_UM
+    },
+    SDL_MENU_LIST_END
+};
+
+static ui_menu_entry_t vic_fp_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_FP " settings"),
+    {   .string   = "Save image on detach.",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_VicFlashPluginWriteBack_callback
+    },
+    {   .string   = "Save image now", /* 2 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_flush_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FP
+    },
+    {   .string   = "Save image as", /* 3 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_save_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_FP
+    },
+    SDL_MENU_LIST_END
+};
+
+static ui_menu_entry_t megacart_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_MEGACART " settings"),
+    {   .string   = "NvRAM Image file",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_MegaCartNvRAMfilename_callback,
+        .data     = (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MEGACART " NvRAM image"
+    },
+    {   .string   = "Save NvRAM image on detach.",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MegaCartNvRAMWriteBack_callback
+    },
+    {   .string   = "Save NvRAM image now", /* 3 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_flush_secondary_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART
+    },
+    {   .string   = "Save NvRAM image as", /* 4 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_save_secondary_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART
+    },
+    SDL_MENU_LIST_END
+};
 
 /* GEORAM */
 
@@ -503,22 +724,24 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 static void cartmenu_update_flush(void)
 {
     georam_menu[12].status = cartridge_can_flush_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    megacart_cart_menu[OFFS_FLUSH_MEGACART].status = cartridge_can_flush_secondary_image(CARTRIDGE_VIC20_MEGACART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    vic_um_cart_menu[OFFS_FLUSH_UM].status = cartridge_can_flush_image(CARTRIDGE_VIC20_UM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    vic_fp_cart_menu[OFFS_FLUSH_FP].status = cartridge_can_flush_image(CARTRIDGE_VIC20_FP) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    finalexpansion_cart_menu[OFFS_FLUSH_FE].status = cartridge_can_flush_image(CARTRIDGE_VIC20_FINAL_EXPANSION) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 static void cartmenu_update_save(void)
 {
     georam_menu[13].status = cartridge_can_save_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    megacart_cart_menu[OFFS_SAVE_FE].status = cartridge_can_save_secondary_image(CARTRIDGE_VIC20_MEGACART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    vic_um_cart_menu[OFFS_SAVE_UM].status = cartridge_can_save_image(CARTRIDGE_VIC20_UM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    vic_fp_cart_menu[OFFS_SAVE_FP].status = cartridge_can_save_image(CARTRIDGE_VIC20_FP) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    finalexpansion_cart_menu[OFFS_SAVE_FE].status = cartridge_can_save_image(CARTRIDGE_VIC20_FINAL_EXPANSION) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 /* Cartridge menu */
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
-UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
-UI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
-UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
-UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
-UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
-
 UI_MENU_DEFINE_TOGGLE(IO2RAM)
 UI_MENU_DEFINE_TOGGLE(IO3RAM)
 
@@ -598,26 +821,25 @@ const ui_menu_entry_t vic20cart_menu[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " write back",
-        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_FinalExpansionWriteBack_callback
+    {   .string   = CARTRIDGE_VIC20_NAME_FINAL_EXPANSION,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)finalexpansion_cart_menu
     },
-    {   .string   = CARTRIDGE_VIC20_NAME_UM " write back",
-        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_UltiMemWriteBack_callback
+    {   .string   = CARTRIDGE_VIC20_NAME_UM,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vic_um_cart_menu
     },
-    {   .string   = CARTRIDGE_VIC20_NAME_FP " write back",
-        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VicFlashPluginWriteBack_callback
+    {   .string   = CARTRIDGE_VIC20_NAME_FP,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)vic_fp_cart_menu
     },
-    {   .string   = CARTRIDGE_VIC20_NAME_MEGACART " NvRAM write back",
-        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_MegaCartNvRAMWriteBack_callback
-    },
-    {   .string   = CARTRIDGE_VIC20_NAME_MEGACART " NvRAM file",
-        .type     = MENU_ENTRY_DIALOG,
-        .callback = file_string_MegaCartNvRAMfilename_callback,
-        .data     = (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MEGACART " NvRAM image"
+    {   .string   = CARTRIDGE_VIC20_NAME_MEGACART,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)megacart_cart_menu
     },
     {   .string   = "I/O-2 RAM",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
