@@ -216,7 +216,7 @@ int uimon_petscii_out(const char *buffer, int num)
             } else if ((c >= 0xc0) && (c <= 0xdf)) {
                 c -= 0x60;
             /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) && (c <= 0xff)) {
+            } else if ((c >= 0xe0) /*&& (c <= 0xff)*/) {
                 c -= 0x40;
             }
             sdl_ui_putchar(c, x_pos, y);
@@ -262,7 +262,7 @@ int uimon_petscii_upper_out(const char *buffer, int num)
             } else if ((c >= 0xc0) && (c <= 0xdf)) {
                 c -= 0x60;
             /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) && (c <= 0xff)) {
+            } else if ((c >= 0xe0) /*&& (c <= 0xff)*/) {
                 c -= 0x40;
             }
             sdl_ui_putchar(c, x_pos, y);
@@ -316,7 +316,7 @@ int uimon_scrcode_out(const char *buffer, int num)
         while (i < num) {
             c = p[i];
             /* 00-1f -> 40-5f */
-            if ((c >= 0x00) && (c <= 0x1f)) {
+            if (/*(c >= 0x00) &&*/ (c <= 0x1f)) {
                 c += 0x40;
             /* 20-3f -> 20-3f */
             /* 40-5f -> 60-7f */
