@@ -435,6 +435,26 @@ static int try_nvram_save(const char *filename)
     return ret;
 }
 
+
+int megacart_save_nvram(const char *filename)
+{
+    return try_nvram_save(filename);
+}
+
+int megacart_flush_nvram(void)
+{
+    /* try to write back NvRAM contents if cartridge is not from a snapshot */
+    if (!cartridge_is_from_snapshot) {
+        return try_nvram_save(nvram_filename);
+    }
+    return -1;
+}
+
+int megacart_can_flush_nvram(void)
+{
+    return (nvram_filename != NULL) && !cartridge_is_from_snapshot;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: this still needs to be tweaked to match the hardware */
