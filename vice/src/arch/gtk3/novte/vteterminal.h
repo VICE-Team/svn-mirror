@@ -90,7 +90,7 @@ struct _VteTerminalClass {
     void (*resize_window)(VteTerminal* terminal, guint width, guint height);
     void (*move_window)(VteTerminal* terminal, guint x, guint y);
 
-    /* FIXME: should these return gboolean and have defaul thandlers
+    /* FIXME: should these return gboolean and have default handlers
      *        settings the "scale" property?
      */
     void (*increase_font_size)(VteTerminal* terminal);
