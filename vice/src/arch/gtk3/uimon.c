@@ -61,6 +61,7 @@
 #endif
 
 #include "archdep.h"
+#include "charset.h"
 #include "console.h"
 #include "debug_gtk3.h"
 #include "machine.h"
@@ -104,6 +105,7 @@ static console_t vte_console = { 40, 25, 0, 1, NULL }; /* bare minimum */
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
+static bool font_is_c64_pro = false;
 
 /* FIXME: this should perhaps be done using some function from archdep */
 static int is_dir(struct dirent *de)
@@ -226,87 +228,94 @@ int uimon_petscii_out(const char *buffer, int len)
     while (n < len) {
         c = buffer[n];
 
-        /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
-        if (/* (c >= 0x00) && */ (c <= 0x1f)) {
-            b = c + 0x40; // lower
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* 20-3f  !"#...=>? */
-        } else if ((c >= 0x20) && (c <= 0x3f)) {
-        /* 40-5f  @ab...\]  */
-        } else if ((c >= 0x40) && (c <= 0x5f)) {
-            if (c == 0x40) {
-                c = '@';
-            } else if (c == 0x5b) {
-                c = '[';
-            } else if (c == 0x5c) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0x5d) {
-                c = ']';
-            } else if (c == 0x5e) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0x5f) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                c += 0x20;  // lower
-            }
-        /* 60-7f   AB...|}~ */
-        } else if ((c >= 0x60) && (c <= 0x7f)) {
-            if (c == 0x60) {
-                b = '@' + 0x40; // upper
+        if (!font_is_c64_pro) {
+            /* regular ASCII font */
+            c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        } else {
+            /* regular PETSCII capable ("C64 Pro") font */
+
+            /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
+            if (/* (c >= 0x00) && */ (c <= 0x1f)) {
+                b = c + 0x40; /* lower */
                 utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if ((c >= 0x7b) && (c <= 0x7f)) {
+            /* 20-3f  !"#...=>? */
+            } else if ((c >= 0x20) && (c <= 0x3f)) {
+            /* 40-5f  @ab...\]  */
+            } else if ((c >= 0x40) && (c <= 0x5f)) {
+                if (c == 0x40) {
+                    c = '@';
+                } else if (c == 0x5b) {
+                    c = '[';
+                } else if (c == 0x5c) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0x5d) {
+                    c = ']';
+                } else if (c == 0x5e) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0x5f) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    c += 0x20;  /* lower */
+                }
+            /* 60-7f   AB...|}~ */
+            } else if ((c >= 0x60) && (c <= 0x7f)) {
+                if (c == 0x60) {
+                    b = '@' + 0x40; /* upper */
+                    utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if ((c >= 0x7b) && (c <= 0x7f)) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    c -= 0x20;  /* upper */
+                }
+            /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
+            } else if ((c >= 0x80) && (c <= 0x9f)) {
+                b = c - 0x20; /* upper */
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* a0-bf  gfx chars */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
                 b = c;
                 utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                c -= 0x20;  // upper
+            /* c0-df   AB...|}~ */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                if (c == 0xc0) {
+                    c = '@';
+                } else if (c == 0xdb) {
+                    c = '[';
+                } else if (c == 0xdc) {
+                    b = c - 0x80;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xdd) {
+                    c = ']';
+                } else if (c == 0xde) {
+                    b = c - 0x80;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xdf) {
+                    b = c - 0x80;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    c -= 0x60;
+                }
+            /* e0-ff -> a0 -> 60-7f gfx chars */
+            } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
-        /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
-        } else if ((c >= 0x80) && (c <= 0x9f)) {
-            b = c - 0x20; // upper
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* a0-bf  gfx chars */
-        } else if ((c >= 0xa0) && (c <= 0xbf)) {
-            b = c;
-            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* c0-df   AB...|}~ */
-        } else if ((c >= 0xc0) && (c <= 0xdf)) {
-            if (c == 0xc0) {
-                c = '@';
-            } else if (c == 0xdb) {
-                c = '[';
-            } else if (c == 0xdc) {
-                b = c - 0x80;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xdd) {
-                c = ']';
-            } else if (c == 0xde) {
-                b = c - 0x80;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xdf) {
-                b = c - 0x80;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                c -= 0x60;
-            }
-        /* e0-ff -> a0 -> 60-7f gfx chars */
-        } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
-            b = c;
-            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         }
 
         if (utf) {
@@ -335,82 +344,95 @@ int uimon_petscii_upper_out(const char *buffer, int len)
     while (n < len) {
         c = buffer[n];
 
-        /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
-        if (/* (c >= 0x00) && */ (c <= 0x1f)) {
-            b = c + 0x40; // lower
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* 20-3f  !"#...=>? */
-        } else if ((c >= 0x20) && (c <= 0x2f)) {
-        } else if ((c >= 0x30) && (c <= 0x3f)) {
-        /* 40-5f  @ab...\]  */
-        } else if ((c >= 0x40) && (c <= 0x5f)) {
-            if (c == 0x40) {
-                c = '@';
+        if (!font_is_c64_pro) {
+            /* regular ASCII font */
+            c = buffer[n];
+            if ((c >= 0x01) && (c <= 0x1a)) {
+                c += 0x60; /* upper */
+            } else if ((c >= 0x41) && (c <= 0x5a)) {
+                c += 0x20; /* upper */
             }
-            else if (c == 0x5b) {
-                c = '[';
-            } else if (c == 0x5c) {
+            c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        } else {
+            /* regular PETSCII capable ("C64 Pro") font */
+
+            /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
+            if (/* (c >= 0x00) && */ (c <= 0x1f)) {
+                b = c + 0x40; /* lower */
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* 20-3f  !"#...=>? */
+            } else if ((c >= 0x20) && (c <= 0x2f)) {
+            } else if ((c >= 0x30) && (c <= 0x3f)) {
+            /* 40-5f  @ab...\]  */
+            } else if ((c >= 0x40) && (c <= 0x5f)) {
+                if (c == 0x40) {
+                    c = '@';
+                }
+                else if (c == 0x5b) {
+                    c = '[';
+                } else if (c == 0x5c) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0x5d) {
+                    c = ']';
+                } else if (c == 0x5e) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0x5f) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    /* upper */
+                }
+            /* 60-7f   AB...|}~ */
+            } else if ((c >= 0x60) && (c <= 0x7f)) {
+            /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
+            } else if ((c >= 0x80) && (c <= 0x9f)) {
+                b = c - 0x20; /* upper */
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* a0-bf  gfx chars */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
                 b = c;
                 utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0x5d) {
-                c = ']';
-            } else if (c == 0x5e) {
+            /* c0-df   AB...|}~ */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                if (c == 0xc0) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xdc) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xdd) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xde) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else if (c == 0xdf) {
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    b = c - 0x60;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                }
+            /* e0-ff -> a0 -> 60-7f gfx chars */
+            } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
                 b = c;
                 utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0x5f) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                // upper
             }
-        /* 60-7f   AB...|}~ */
-        } else if ((c >= 0x60) && (c <= 0x7f)) {
-        /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
-        } else if ((c >= 0x80) && (c <= 0x9f)) {
-            b = c - 0x20; // upper
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* a0-bf  gfx chars */
-        } else if ((c >= 0xa0) && (c <= 0xbf)) {
-            b = c;
-            utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* c0-df   AB...|}~ */
-        } else if ((c >= 0xc0) && (c <= 0xdf)) {
-            if (c == 0xc0) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xdc) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xdd) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xde) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else if (c == 0xdf) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                b = c - 0x60;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            }
-        /* e0-ff -> a0 -> 60-7f gfx chars */
-        } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
-            b = c;
-            utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         }
 
         if (utf) {
@@ -440,55 +462,63 @@ int uimon_scrcode_out(const char *buffer, int len)
     while (n < len) {
         c = buffer[n];
 
-        /* 00-1f -> 40-5f */
-        if (/*(c >= 0x00) && */ (c <= 0x1f)) {
-            if (c == 0) {
-                c = '@';
-            } else if ((c >= 0x1b) && ( c <= 0x1f)) {
-                b = c + 0x40;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            } else {
-                c += 0x60;  // lower
-            }
-        /* 20-3f -> 20-3f */
-        /* 40-5f -> 60-7f */
-        } else if ((c >= 0x40) && (c <= 0x5f)) {
-            if ((c >= 0x5b) && ( c <= 0x5f)) {
-                b = c + 0x20;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            }
+        if (!font_is_c64_pro) {
+            /* regular ASCII font */
+            c = charset_screencode_to_petcii(c);
+            c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        } else {
+            /* regular PETSCII capable ("C64 Pro") font */
 
-        /* 60-7f -> a0-bf */
-        } else if ((c >= 0x60) && (c <= 0x7f)) {
-            b = c + 0x40; // lower
-            utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* 80-9f -> 80-9f */
-        } else if ((c >= 0x80) && (c <= 0x9f)) {
-            b = c - 0x40; // lower
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* a0-bf -> c0-df */
-        } else if ((c >= 0xa0) && (c <= 0xbf)) {
-            b = c - 0x80;
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* c0-df -> 80-9f */
-        } else if ((c >= 0xc0) && (c <= 0xdf)) {
-            b = c - 0x60; // upper
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        /* e0-ff -> e0-ff */
-        } else if ((c >= 0xe0) && (c <= 0xfe)) {
-            b = c;
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-        } else if ((c == 0xff) /*&& (c <= 0xff) */) {
-            b = 0xbf;
-            utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
-            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* 00-1f -> 40-5f */
+            if (/*(c >= 0x00) && */ (c <= 0x1f)) {
+                if (c == 0) {
+                    c = '@';
+                } else if ((c >= 0x1b) && ( c <= 0x1f)) {
+                    b = c + 0x40;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                } else {
+                    c += 0x60;  /* lower */
+                }
+            /* 20-3f -> 20-3f */
+            /* 40-5f -> 60-7f */
+            } else if ((c >= 0x40) && (c <= 0x5f)) {
+                if ((c >= 0x5b) && ( c <= 0x5f)) {
+                    b = c + 0x20;
+                    utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+                }
+
+            /* 60-7f -> a0-bf */
+            } else if ((c >= 0x60) && (c <= 0x7f)) {
+                b = c + 0x40; /* lower */
+                utf = vice_gtk3_petscii_to_utf8(&b ,false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* 80-9f -> 80-9f */
+            } else if ((c >= 0x80) && (c <= 0x9f)) {
+                b = c - 0x40; /* lower */
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* a0-bf -> c0-df */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
+                b = c - 0x80;
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* c0-df -> 80-9f */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                b = c - 0x60; /* upper */
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            /* e0-ff -> e0-ff */
+            } else if ((c >= 0xe0) && (c <= 0xfe)) {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else if ((c == 0xff) /*&& (c <= 0xff) */) {
+                b = 0xbf;
+                utf = vice_gtk3_petscii_to_utf8(&b ,true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            }
         }
 
         if (utf) {
@@ -866,15 +896,63 @@ static void get_terminal_size_in_chars(VteTerminal *terminal,
     *height = vte_terminal_get_row_count(terminal);
 }
 
-static void printfontinfo(PangoFontDescription* desc, char *name, gfloat scale)
+static void printfontinfo(const PangoFontDescription* desc, const char *name)
 {
     const char *variations = pango_font_description_get_variations(desc);
-    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s) Scale:%f",
+    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s) PETSCII:%s Terminal Scale:%f",
                 name,
                 pango_font_description_get_family(desc),
                 pango_font_description_get_size(desc) / PANGO_SCALE,
                 variations ? variations : "-",
-                scale);
+                font_is_c64_pro ? "yes" : "no",
+                vte_terminal_get_font_scale(VTE_TERMINAL(fixed.term)));
+}
+
+static void scale_terminal_set(gdouble scale)
+{
+    /* use vte scaling */
+    if (scale < ((3 * 100.0f) / PANGO_SCALE)) {
+        scale = ((3 * 100.0f) / PANGO_SCALE);
+    } else if (scale > ((100 * 100.0f) / PANGO_SCALE)) {
+        scale = ((100 * 100.0f) / PANGO_SCALE);
+    }
+    vte_terminal_set_font_scale(VTE_TERMINAL(fixed.term), scale);
+}
+
+static void scale_terminal(gdouble delta)
+{
+    gdouble curr_scaling = vte_terminal_get_font_scale(VTE_TERMINAL(fixed.term));
+#if 0
+    /* change the font size */
+    static int size = -1;
+    desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+    desc = pango_font_description_copy_static(desc_tmp);
+    if (size == -1) {
+        size = (pango_font_description_get_size(desc) / PANGO_SCALE);
+        if (size <= 0) {
+            size = 11;  /* default fallback size */
+        }
+    }
+
+    size -= scrollevent.delta_y;
+    if (size < 3) {
+        size = 3;
+    } else if (size > 100) {
+        size = 100;
+    }
+
+    pango_font_description_set_size(desc, size * PANGO_SCALE);
+    vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
+#else
+    /* use vte scaling */
+    curr_scaling -= delta;
+    if (curr_scaling < ((3 * 100.0f) / PANGO_SCALE)) {
+        curr_scaling = ((3 * 100.0f) / PANGO_SCALE);
+    } else if (curr_scaling > ((100 * 100.0f) / PANGO_SCALE)) {
+        curr_scaling = ((100 * 100.0f) / PANGO_SCALE);
+    }
+    vte_terminal_set_font_scale(VTE_TERMINAL(fixed.term), curr_scaling);
+#endif
 }
 
 static gboolean on_term_scrolled(VteTerminal *terminal, GdkEvent  *event,
@@ -889,43 +967,14 @@ static gboolean on_term_scrolled(VteTerminal *terminal, GdkEvent  *event,
 
     if (scrollevent.state & GDK_CONTROL_MASK) {
         /* with control pressed, mouse wheel will scale the terminal/font */
-        gdouble scale = vte_terminal_get_font_scale(VTE_TERMINAL(fixed.term));
-#if 0
-        /* change the font size */
-        static int size = -1;
-        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
-        desc = pango_font_description_copy_static(desc_tmp);
-        if (size == -1) {
-            size = (pango_font_description_get_size(desc) / PANGO_SCALE);
-            if (size <= 0) {
-                size = 11;  /* default fallback size */
-            }
-        }
-
-        size -= scrollevent.delta_y;
-        if (size < 3) {
-            size = 3;
-        } else if (size > 100) {
-            size = 100;
-        }
-
-        pango_font_description_set_size(desc, size * PANGO_SCALE);
-        vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
-#else
-        /* use vte scaling */
-        scale -= ((scrollevent.delta_y * 50.0f) / PANGO_SCALE);
-        if (scale < ((3 * 100.0f) / PANGO_SCALE)) {
-            scale = ((3 * 100.0f) / PANGO_SCALE);
-        } else if (scale > ((100 * 100.0f) / PANGO_SCALE)) {
-            scale = ((100 * 100.0f) / PANGO_SCALE);
-        }
-        vte_terminal_set_font_scale(VTE_TERMINAL(fixed.term), scale);
+        scale_terminal((scrollevent.delta_y * (100.0f / 3.0f)) / PANGO_SCALE);
 
         desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
         desc = pango_font_description_copy_static(desc_tmp);
-#endif
+
         using_font = pango_font_description_to_string(desc);
-        printfontinfo(desc, using_font, scale);
+        printfontinfo(desc, using_font);
+
         g_free(using_font);
         return FALSE;
     } else {
@@ -935,6 +984,7 @@ static gboolean on_term_scrolled(VteTerminal *terminal, GdkEvent  *event,
         value += scrollevent.delta_y * 3;
         gtk_adjustment_set_value(vadj, value);
         gtk_scrollable_set_vadjustment(GTK_SCROLLABLE(fixed.term), vadj);
+
         return FALSE;
     }
 
@@ -1060,6 +1110,8 @@ bool uimon_set_font(void)
     const char *fg;
     GdkRGBA color;
 
+    font_is_c64_pro = false;
+
     if (resources_get_string("MonitorFont", &monitor_font) < 0) {
         log_error(LOG_ERR, "Failed to read 'MonitorFont' resource.");
         return false;
@@ -1080,23 +1132,36 @@ bool uimon_set_font(void)
         /* fall back */
 
         /* if we didn't try to set the default C64 font, try it now */
-        if (!strcmp("C64 Pro Mono Regular 11", monitor_font)) {
-            desc = getfontdesc("C64 Pro Regular 11");
+        if (!strcmp("C64 Pro", monitor_font)) {
+            desc = getfontdesc("C64 Pro Mono Regular 9");
         }
 
         if (desc == NULL) {
-            /* last resort, monospace 11 */
+            /* last resort, some Monospace 11pt */
             desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
             desc = pango_font_description_copy_static(desc_tmp);
-            pango_font_description_set_family(desc, "Console,monospace");
+            pango_font_description_set_family(desc, "Mono");
             pango_font_description_set_size(desc, 11 * PANGO_SCALE);
         }
     }
     vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
 
-    using_font = pango_font_description_to_string(desc);
-    printfontinfo(desc, using_font, 1.0f);
+    desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+    using_font = pango_font_description_to_string(desc_tmp);
+    if(!strncasecmp("c64 pro", using_font, 7)) {
+        log_message(LOG_DEFAULT, "'C64 Pro*' font found, enabling PETSCII output.");
+        font_is_c64_pro = true;
+    }
+    scale_terminal_set(1.0f);
+    printfontinfo(desc_tmp, using_font);
+
+    if (resources_set_string("MonitorFont", using_font) < 0) {
+        log_error(LOG_ERR, "Failed to set 'MonitorFont' resource.");
+        return false;
+    }
+
     g_free(using_font);
+
     pango_font_description_free(desc);
 
     /* try background color */

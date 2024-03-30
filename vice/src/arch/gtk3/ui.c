@@ -262,8 +262,8 @@ enum {
  */
 static const resource_string_t resources_string[] = {
     /* VTE-monitor font */
-    /* { "MonitorFont", "monospace 11", RES_EVENT_NO, NULL, */
-    { "MonitorFont", "C64 Pro Mono Regular 11", RES_EVENT_NO, NULL,
+    /* { "MonitorFont", "Mono 11", RES_EVENT_NO, NULL, */
+    { "MonitorFont", "C64 Pro Mono Regular 9", RES_EVENT_NO, NULL,
         &ui_resources.monitor_font, set_monitor_font, NULL },
     { "MonitorFG", "#ffffff", RES_EVENT_NO, NULL,
         &ui_resources.monitor_fg, set_monitor_fg, NULL },
