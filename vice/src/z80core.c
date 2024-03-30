@@ -890,6 +890,17 @@ static void export_registers(void)
         INC_PC(pc_inc);                        \
     } while (0)
 
+#ifdef Z80_4MHZ
+#define INBC(reg_val, clk_inc1, clk_inc2, pc_inc)    \
+    do {                                             \
+        uint8_t tmp = z80_half_cycle;                \
+        CLK_ADD(CLK, (clk_inc1 + tmp) );             \
+        reg_val = IN(BC_WORD());                     \
+        reg_f = SZP[reg_val & 0xffu] | LOCAL_CARRY(); \
+        CLK_ADD(CLK, (clk_inc2 - tmp) );             \
+        INC_PC(pc_inc);                              \
+    } while (0)
+#else
 #define INBC(reg_val, clk_inc1, clk_inc2, pc_inc)    \
     do {                                             \
         CLK_ADD(CLK, clk_inc1);                      \
@@ -898,6 +909,7 @@ static void export_registers(void)
         CLK_ADD(CLK, clk_inc2);                      \
         INC_PC(pc_inc);                              \
     } while (0)
+#endif
 
 #define INBC0(clk_inc1, clk_inc2, pc_inc) \
     do {                                  \
@@ -1122,6 +1134,16 @@ static void export_registers(void)
         INC_PC(pc_inc);                         \
     } while (0)
 
+#ifdef Z80_4MHZ
+#define OUTBC(value, clk_inc1, clk_inc2, pc_inc)    \
+    do {                                            \
+        uint8_t tmp = z80_half_cycle;               \
+        CLK_ADD(CLK, (clk_inc1 + tmp) );            \
+        OUT(BC_WORD(), value);                      \
+        CLK_ADD(CLK, (clk_inc2 - tmp) );            \
+        INC_PC(pc_inc);                             \
+    } while (0)
+#else
 #define OUTBC(value, clk_inc1, clk_inc2, pc_inc) \
     do {                                         \
         CLK_ADD(CLK, clk_inc1);                  \
@@ -1129,6 +1151,7 @@ static void export_registers(void)
         CLK_ADD(CLK, clk_inc2);                  \
         INC_PC(pc_inc);                          \
     } while (0)
+#endif
 
 #define OUTDI(HL_FUNC)          \
     do {                        \
