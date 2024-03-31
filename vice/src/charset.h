@@ -46,12 +46,12 @@
 
 uint8_t *charset_petconvstring(uint8_t *c, int mode);
 uint8_t charset_p_toascii(uint8_t c, int mode);
-uint8_t charset_p_topetcii(uint8_t c);
+uint8_t charset_p_topetscii(uint8_t c);
 
-uint8_t charset_screencode_to_petcii(uint8_t code);
+uint8_t charset_screencode_to_petscii(uint8_t code);
 
-uint8_t charset_petcii_to_screencode(uint8_t code, unsigned int reverse_mode);
-void charset_petcii_to_screencode_line(const uint8_t *line, uint8_t **buf,
+uint8_t charset_petscii_to_screencode(uint8_t code, unsigned int reverse_mode);
+void charset_petscii_to_screencode_line(const uint8_t *line, uint8_t **buf,
                                        unsigned int *len);
 
 int charset_petscii_to_ucs(uint8_t c);

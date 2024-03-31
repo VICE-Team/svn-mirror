@@ -3142,6 +3142,34 @@ static void monitor_open(void)
         mon_interfaces[default_memspace]->current_bank = monbank; /* restore value used in monitor */
         disassemble_on_entry = 0;
     }
+
+#if 0
+    /* FIXME: the first time the console opens the font might not be initialized
+       correctly, so close and repopen the monitor once */
+    {
+        int i;
+        char str[2] = { 0, 0 };
+        mon_out("petscii:\n");
+        for (i = 0; i < 0x100; i++) {
+            if ((i && !(i & 0x0f))) { mon_out("\n"); }
+            str[0] = i;
+            mon_petscii_out(1, "%s", str);
+        }
+        mon_out("\n\npetscii (upper):\n");
+        for (i = 0; i < 0x100; i++) {
+            if ((i && !(i & 0x0f))) { mon_out("\n"); }
+            str[0] = i;
+            mon_petscii_upper_out(1, "%s", str);
+        }
+        mon_out("\n\nscrcode:\n");
+        for (i = 0; i < 0x100; i++) {
+            if ((i && !(i & 0x0f))) { mon_out("\n"); }
+            str[0] = i;
+            mon_scrcode_out(1, "%s", str);
+        }
+        mon_out("\n");
+    }
+#endif
 }
 
 static int monitor_process(char *cmd)

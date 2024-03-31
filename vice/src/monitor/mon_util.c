@@ -341,7 +341,7 @@ int mon_scrcode_out(int maxlen, const char *format, ...)
     if (monitor_is_remote()) {
         int n, c;
         for (n = 0; n < maxlen; n++) {
-            c = charset_screencode_to_petcii(buffer[n]);
+            c = charset_screencode_to_petscii(buffer[n]);
             buffer[n] = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
         }
         rc = monitor_network_transmit(buffer, maxlen);

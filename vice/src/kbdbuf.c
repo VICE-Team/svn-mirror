@@ -153,12 +153,12 @@ static void kbd_buf_parse_string(const char *string)
             /* printf("esc:%s\n", &string[i]); */
             if((i < (len - 1)) && (string[i + 1] == '\\')) {
                 /* escaped backslash "\\" */
-                kbd_buf_string[j] = charset_p_topetcii('\\');
+                kbd_buf_string[j] = charset_p_topetscii('\\');
                 i += 1;
                 j++;
             } else if((i < (len - 1)) && (string[i + 1] == 'n')) {
                 /* escaped line ending "\n" */
-                kbd_buf_string[j] = charset_p_topetcii('\n');
+                kbd_buf_string[j] = charset_p_topetscii('\n');
                 i += 1;
                 j++;
             } else if((i < (len - 3)) && (string[i + 1] == 'x') && isxdigit((unsigned char)string[i + 2]) && isxdigit((unsigned char)string[i + 3])) {
@@ -176,7 +176,7 @@ static void kbd_buf_parse_string(const char *string)
         } else {
             /* printf("chr:%s\n", &string[i]); */
             /* regular character, convert to petscii */
-            kbd_buf_string[j] = charset_p_topetcii(string[i]);
+            kbd_buf_string[j] = charset_p_topetscii(string[i]);
             j++;
         }
     }

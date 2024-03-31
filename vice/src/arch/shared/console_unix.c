@@ -213,7 +213,7 @@ int native_console_scrcode_out(int maxlen, console_t *log, const char *format, .
     if (buf) {
         for (i = 0; i < maxlen; i++) {
             c = buf[i];
-            c = charset_screencode_to_petcii(c);
+            c = charset_screencode_to_petscii(c);
             if ((c == '\t') || (c == '\r') || (c == '\n')){
                 c = '.';
             } else if (c == 0) {

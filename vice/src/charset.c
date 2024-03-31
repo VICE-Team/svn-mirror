@@ -73,7 +73,7 @@ uint8_t *charset_petconvstring(uint8_t *c, int mode)
                     *d++ = 0x0d; /* petscii CR */
                     s += ch;
                 } else {
-                    *d++ = charset_p_topetcii(*s);
+                    *d++ = charset_p_topetscii(*s);
                     s++;
                 }
             }
@@ -171,7 +171,7 @@ uint8_t charset_p_toascii(uint8_t c, int mode)
 /* #define PETSCII_UNMAPPED 0x2e */     /* petscii "." */
 #define PETSCII_UNMAPPED 0x3f     /* petscii "?" */
 
-uint8_t charset_p_topetcii(uint8_t c)
+uint8_t charset_p_topetscii(uint8_t c)
 {
     /* map ascii to petscii */
     if (c == '\n') {
@@ -199,7 +199,7 @@ uint8_t charset_p_topetcii(uint8_t c)
     return petcii_fix_dupes(c);
 }
 
-uint8_t charset_screencode_to_petcii(uint8_t code)
+uint8_t charset_screencode_to_petscii(uint8_t code)
 {
     code &= 0x7f; /* mask inverse bit */
     if (code <= 0x1f) {
@@ -210,7 +210,7 @@ uint8_t charset_screencode_to_petcii(uint8_t code)
     return code;
 }
 
-uint8_t charset_petcii_to_screencode(uint8_t code, unsigned int reverse_mode)
+uint8_t charset_petscii_to_screencode(uint8_t code, unsigned int reverse_mode)
 {
     uint8_t rev = (reverse_mode ? 0x80 : 0x00);
 
@@ -228,7 +228,7 @@ uint8_t charset_petcii_to_screencode(uint8_t code, unsigned int reverse_mode)
     return code | rev;
 }
 
-void charset_petcii_to_screencode_line(const uint8_t *line, uint8_t **buf,
+void charset_petscii_to_screencode_line(const uint8_t *line, uint8_t **buf,
                                        unsigned int *len)
 {
     size_t linelen, i;
@@ -237,7 +237,7 @@ void charset_petcii_to_screencode_line(const uint8_t *line, uint8_t **buf,
     *buf = lib_malloc(linelen);
 
     for (i = 0; i < linelen; i++) {
-        (*buf)[i] = charset_petcii_to_screencode(line[i], 0);
+        (*buf)[i] = charset_petscii_to_screencode(line[i], 0);
     }
     *len = (unsigned int)linelen;
 }
@@ -328,7 +328,7 @@ uint8_t *charset_petconv_stralloc(uint8_t *in, int mode)
                     *d++ = 0x0d; /* PETSCII CR */
                     s += ch;
                 } else {
-                    *d++ = charset_p_topetcii(*s);
+                    *d++ = charset_p_topetscii(*s);
                     s++;
                 }
             }
