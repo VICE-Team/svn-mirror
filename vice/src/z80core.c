@@ -616,7 +616,7 @@ static void export_registers(void)
                                                                     \
             dest_addr = z80_reg_pc + pc_inc + (signed char)(value); \
             z80_reg_pc = dest_addr & 0xffff;                        \
-            CLK_ADD(CLK, 7);                                        \
+            CLK_ADD(CLK, 12);                                        \
         } else {                                                    \
             CLK_ADD(CLK, 7);                                        \
             INC_PC(pc_inc);                                         \
@@ -761,6 +761,7 @@ static void export_registers(void)
 #define DJNZ(value, pc_inc)           \
     do {                              \
         reg_b--;                      \
+        CLK_ADD(CLK, 1);              \
         BRANCH(reg_b, value, pc_inc); \
     } while (0)
 
@@ -1281,7 +1282,7 @@ static void export_registers(void)
         reg_sp += 2;                    \
         iff1 = iff2;                    \
         JUMP(tmp);                      \
-        CLK_ADD(CLK, 2);                \
+        CLK_ADD(CLK, 6);                \
     } while (0)
 
 #define RL(reg_val)                               \
@@ -3962,6 +3963,12 @@ static void opcode_ed(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint16_t ip12, uint
             NEG();
             break;
         case 0x45: /* RETN */
+        case 0x55: /* undoc RETN */
+        case 0x5d: /* undoc RETN */
+        case 0x65: /* undoc RETN */
+        case 0x6d: /* undoc RETN */
+        case 0x75: /* undoc RETN */
+        case 0x7d: /* undoc RETN */
             RETNI();
             break;
         case 0x46: /* IM0 */
@@ -6093,7 +6100,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CP(reg_a, 0, 4, 1);
                 break;
             case 0xc0: /* RET NZ */
-                RET_COND(!LOCAL_ZERO(), 4, 4, 2, 5, 1);
+                RET_COND(!LOCAL_ZERO(), 5, 3, 3, 5, 1);
                 break;
             case 0xc1: /* POP BC */
                 POP(reg_b, reg_c, 1);
@@ -6105,7 +6112,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 JMP(p12, 10);
                 break;
             case 0xc4: /* CALL NZ */
-                CALL_COND(p12, !LOCAL_ZERO(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, !LOCAL_ZERO(), 3, 3, 11, 10, 3);
                 break;
             case 0xc5: /* PUSH BC */
                 PUSH(reg_b, reg_c, 1);
@@ -6117,7 +6124,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x00, 3, 3, 5, 1);
                 break;
             case 0xc8: /* RET Z */
-                RET_COND(LOCAL_ZERO(), 4, 4, 2, 5, 1);
+                RET_COND(LOCAL_ZERO(), 5, 3, 3, 5, 1);
                 break;
             case 0xc9: /* RET */
                 RET(4, 4, 2);
@@ -6129,7 +6136,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 opcode_cb((uint8_t)p1, (uint8_t)p2, (uint8_t)p3, (uint16_t)p12, (uint16_t)p23);
                 break;
             case 0xcc: /* CALL Z */
-                CALL_COND(p12, LOCAL_ZERO(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, LOCAL_ZERO(), 3, 3, 11, 10, 3);
                 break;
             case 0xcd: /* CALL */
                 CALL(p12, 3, 3, 11, 3);
@@ -6141,7 +6148,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x08, 3, 3, 5, 1);
                 break;
             case 0xd0: /* RET NC */
-                RET_COND(!LOCAL_CARRY(), 4, 4, 2, 5, 1);
+                RET_COND(!LOCAL_CARRY(), 5, 3, 3, 5, 1);
                 break;
             case 0xd1: /* POP DE */
                 POP(reg_d, reg_e, 1);
@@ -6153,7 +6160,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 OUTA(p1, 4, 7, 2);
                 break;
             case 0xd4: /* CALL NC */
-                CALL_COND(p12, !LOCAL_CARRY(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, !LOCAL_CARRY(), 3, 3, 11, 10, 3);
                 break;
             case 0xd5: /* PUSH DE */
                 PUSH(reg_d, reg_e, 1);
@@ -6165,7 +6172,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x10, 3, 3, 5, 1);
                 break;
             case 0xd8: /* RET C */
-                RET_COND(LOCAL_CARRY(), 4, 4, 2, 5, 1);
+                RET_COND(LOCAL_CARRY(), 5, 3, 3, 5, 1);
                 break;
             case 0xd9: /* EXX */
                 EXX(4, 1);
@@ -6177,7 +6184,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 INA(p1, 4, 7, 2);
                 break;
             case 0xdc: /* CALL C */
-                CALL_COND(p12, LOCAL_CARRY(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, LOCAL_CARRY(), 3, 3, 11, 10, 3);
                 break;
             case 0xdd: /*  OPCODE DD */
                 opcode_dd((uint8_t)p1, (uint8_t)p2, (uint8_t)p3, (uint16_t)p12, (uint16_t)p23);
@@ -6189,7 +6196,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x18, 3, 3, 5, 1);
                 break;
             case 0xe0: /* RET PO */
-                RET_COND(!LOCAL_PARITY(), 4, 4, 2, 5, 1);
+                RET_COND(!LOCAL_PARITY(), 5, 3, 3, 5, 1);
                 break;
             case 0xe1: /* POP HL */
                 POP(reg_h, reg_l, 1);
@@ -6201,7 +6208,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 EXXXSP(reg_h, reg_l, 4, 4, 4, 4, 3, 1);
                 break;
             case 0xe4: /* CALL PO */
-                CALL_COND(p12, !LOCAL_PARITY(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, !LOCAL_PARITY(), 3, 3, 11, 10, 3);
                 break;
             case 0xe5: /* PUSH HL */
                 PUSH(reg_h, reg_l, 1);
@@ -6213,7 +6220,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x20, 3, 3, 5, 1);
                 break;
             case 0xe8: /* RET PE */
-                RET_COND(LOCAL_PARITY(), 4, 4, 2, 5, 1);
+                RET_COND(LOCAL_PARITY(), 5, 3, 3, 5, 1);
                 break;
             case 0xe9: /* LD PC HL */
                 JMP((HL_WORD()), 4);
@@ -6225,7 +6232,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 EXDEHL(4, 1);
                 break;
             case 0xec: /* CALL PE */
-                CALL_COND(p12, LOCAL_PARITY(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, LOCAL_PARITY(), 3, 3, 11, 10, 3);
                 break;
             case 0xed: /* OPCODE ED */
                 opcode_ed((uint8_t)p1, (uint8_t)p2, (uint8_t)p3, (uint16_t)p12, (uint16_t)p23);
@@ -6237,7 +6244,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x28, 3, 3, 5, 1);
                 break;
             case 0xf0: /* RET P */
-                RET_COND(!LOCAL_SIGN(), 4, 4, 2, 5, 1);
+                RET_COND(!LOCAL_SIGN(), 5, 3, 3, 5, 1);
                 break;
             case 0xf1: /* POP AF */
                 POP(reg_a, reg_f, 1);
@@ -6249,7 +6256,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 DI(4, 1);
                 break;
             case 0xf4: /* CALL P */
-                CALL_COND(p12, !LOCAL_SIGN(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, !LOCAL_SIGN(), 3, 3, 11, 10, 3);
                 break;
             case 0xf5: /* PUSH AF */
                 PUSH(reg_a, reg_f, 1);
@@ -6261,7 +6268,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 CALL(0x30, 3, 3, 5, 1);
                 break;
             case 0xf8: /* RET M */
-                RET_COND(LOCAL_SIGN(), 4, 4, 2, 5, 1);
+                RET_COND(LOCAL_SIGN(), 5, 3, 3, 5, 1);
                 break;
             case 0xf9: /* LD SP HL */
                 LDSP(HL_WORD(), 4, 2, 1);
@@ -6273,7 +6280,7 @@ static void z80_maincpu_loop(interrupt_cpu_status_t *cpu_int_status, alarm_conte
                 EI(4, 1);
                 break;
             case 0xfc: /* CALL M */
-                CALL_COND(p12, LOCAL_SIGN(), 3, 3, 4, 10, 3);
+                CALL_COND(p12, LOCAL_SIGN(), 3, 3, 11, 10, 3);
                 break;
             case 0xfd: /* OPCODE FD */
                 opcode_fd((uint8_t)p1, (uint8_t)p2, (uint8_t)p3, (uint16_t)p12, (uint16_t)p23);
