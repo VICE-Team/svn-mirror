@@ -102,7 +102,7 @@ static int mon_file_open(const char *filename,
             /* convert filename to petscii */
             s = filename;
             for (i = 0; (i < 16) && (*s); ++i) {
-                pname[i] = charset_p_topetcii(*s);
+                pname[i] = charset_p_topetscii(*s);
                 ++s;
             }
             pname[i] = 0;

@@ -106,8 +106,9 @@ typedef enum {
 
 /**
  * VteFormat:
- * @VTE_FORMAT_TEXT: Export as plain text
+ * @VTE_FORMAT_TEXT: Export as plain text (utf8)
  * @VTE_FORMAT_HTML: Export as HTML formatted text
+ * @VTE_FORMAT_ASCII: Export as ASCII text
  *
  * An enumeratio type that can be used to specify the format the selection
  * should be copied to the clipboard in.
@@ -116,7 +117,8 @@ typedef enum {
  */
 typedef enum {
     VTE_FORMAT_TEXT = 1,
-    VTE_FORMAT_HTML = 2
+    VTE_FORMAT_HTML = 2,
+    VTE_FORMAT_ASCII = 3
 } VteFormat;
 
 G_END_DECLS

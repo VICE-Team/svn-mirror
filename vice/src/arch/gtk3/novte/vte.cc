@@ -4673,6 +4673,175 @@ GString* VteTerminalPrivate::attributes_to_html(GString* text_string, GArray* at
     return string;
 }
 
+/*
+ * VteTerminalPrivate::attributes_to_ascii:
+ * @text: A string as returned by the vte_terminal_get_* family of functions.
+ * @attrs: (array) (element-type Vte.CharAttributes): text attributes, as created by vte_terminal_get_*
+ *
+ * Converts the given text into ASCII (only).
+ *
+ * This is the function to fix/update when something is wrong with what characters are being copied
+ * into the clipboard :) Specific support for every font must be added here!
+ *
+ * Returns: (transfer full): a newly allocated text string, or %NULL.
+ */
+GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* attrs)
+{
+    GString *string;
+    guint from,to;
+    /* const VteCellAttr *attr; */
+    unsigned int ch;
+
+    char const* text = text_string->str;
+    auto len = text_string->len;
+    g_assert_cmpuint(len, ==, attrs->len);
+
+    /* Initial size fits perfectly if the text has no attributes and no
+     * characters that need to be escaped
+     */
+    string = g_string_sized_new (len + 11);
+
+    /* Find streches with equal attributes. Newlines are treated specially,
+     * so that the <span> do not cover multiple lines.
+     */
+    from = to = 0;
+    while (text[from] != '\0') {
+        g_assert(from == to);
+        /* attr = char_to_cell_attr(&g_array_index(attrs, VteCharAttributes, from)); */
+        ch = text[from];
+
+        if (ch & 0x100) {
+            unsigned int ch2 = text[from + 1] & 0xff;
+            unsigned int ch3 = text[from + 2] & 0xff;
+            ch = ch & 0xff;
+            /*printf("(%02x)", ch);*/
+            if (ch == 0xee) {
+                int codepoint = ((ch2 & 0x3f) << 6) | (ch3 & 0x3f);
+                int codeh = codepoint >> 8;
+                int codel = codepoint & 0xff;
+                if (!strncasecmp("c64 pro", pango_font_description_get_family(m_fontdesc), 7)) {
+                    /*printf("[A:%04x]", codepoint);*/
+                    /* C64 Pro codepoints:
+
+                    0xe000-0xe0ff codepoints cover the regular, uppercase, petscii codes
+                                    in ranges 0x20-0x7f and 0xa0-0xff
+                    0xe100-0xe1ff codepoints cover the regular, lowercase, petscii codes
+                                    in ranges 0x20-0x7f and 0xa0-0xff
+                    0xe200-0xe2ff codepoints cover the same characters, but contain the
+                                    respective inverted glyphs.
+                    0xe300-0xe3ff codepoints cover the same characters, but contain the
+                                    respective inverted lowercase glyphs. */
+                    switch (codeh) {
+                        case 0: /* uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                            /* simple petscii -> ascii conversion */
+                            if ((codel >= 0x20) && (codel <= 0x3f)) {
+                                ch = codel;
+                            } else if (codel == 0x40) {
+                                ch = '@';
+                            } else if ((codel >= 0x41) && (codel <= 0x5a)) {
+                                ch = codel + 0x20; /* upper */
+                            } else if ((codel >= 0x5b) && (codel <= 0x5f)) {
+                                ch = codel + 0x20;
+                            } else {
+                                ch = '.';
+                            }
+                            break;
+                        case 1: /* lowercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                            /* simple petscii -> ascii conversion */
+                            if ((codel >= 0x20) && (codel <= 0x3f)) {
+                                ch = codel;
+                            } else if (codel == 0x40) {
+                                ch = '@';
+                            } else if ((codel >= 0x41) && (codel <= 0x5a)) {
+                                ch = codel + 0x20; /* upper */
+                            } else if ((codel >= 0x5b) && (codel <= 0x5f)) {
+                                ch = codel;
+                            } else if ((codel >= 0x61) && (codel <= 0x7a)) {
+                                ch = codel - 0x20; /* upper */
+                            } else {
+                                ch = '.';
+                            }
+                            break;
+                        case 2: /* inverted uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                            ch = '.';
+                            break;
+                        case 3: /* inverted lowercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                            ch = '.';
+                            break;
+                    }
+                } else if (!strncasecmp("pet me", pango_font_description_get_family(m_fontdesc), 6)) {
+                    /*printf("[B:%04x]", codepoint);*/
+                    /*
+                        Pet Me 64, Pet Me 64 2Y, Pet Me 128, and Pet Me 128 2Y, code points:
+                            0xE000-0xE1FF encode the complete Commodore 64 character set.
+                            0xE200-0xE3FF encode the complete Commodore 128 English character set
+                            0xE400-0xE5FF encode the complete Commodore 128 Swedish character set.
+                    */
+                    switch (codeh) {
+                        case 0: /* uppercase */
+                            /* simple screencode -> ascii conversion */
+                            if (codel == 0) {
+                                ch = '@';
+                            } else if ((codel >= 0x01) && (codel <= 0x1a)) {
+                                ch = codel + 0x60; /* upper */
+                            } else if (codel == 0x1b) {
+                                ch = '[';
+                            } else if (codel == 0x1c) {
+                                ch = '\\'; /* pound */
+                            } else if (codel == 0x1d) {
+                                ch = ']';
+                            } else if (codel == 0x1e) {
+                                ch = '^';
+                            } else if (codel == 0x1f) {
+                                ch = '_';
+                            } else if ((codel >= 0x20) && (codel <= 0x3f)) {
+                                ch = codel;
+                            } else if ((codel >= 0x41) && (codel <= 0x5a)) {
+                                ch = codel;
+                            } else {
+                                ch = '.';
+                            }
+                            break;
+                        case 1: /* lowercase */
+                            /* simple screencode -> ascii conversion */
+                            if (codel == 0) {
+                                ch = '@';
+                            } else if ((codel >= 0x01) && (codel <= 0x1a)) {
+                                ch = codel + 0x60; /* upper */
+                            } else if (codel == 0x1b) {
+                                ch = '[';
+                            } else if (codel == 0x1c) {
+                                ch = '\\'; /* pound */
+                            } else if (codel == 0x1d) {
+                                ch = ']';
+                            } else if (codel == 0x1e) {
+                                ch = '^';
+                            } else if (codel == 0x1f) {
+                                ch = '_';
+                            } else if ((codel >= 0x20) && (codel <= 0x3f)) {
+                                ch = codel;
+                            } else if ((codel >= 0x41) && (codel <= 0x5a)) {
+                                ch = codel;
+                            } else {
+                                ch = '.';
+                            }
+                            break;
+                    }
+                }
+            } else {
+                ch = '.';
+            }
+            to++;
+            to++;
+        }
+        /*printf("%c", ch);*/
+        g_string_append_c(string, ch);
+        from = ++to;
+    }
+
+    return string;
+}
+
 static GtkTargetEntry* targets_for_format(VteFormat format, int *n_targets)
 {
     switch (format) {
@@ -4723,7 +4892,7 @@ static GtkTargetEntry* targets_for_format(VteFormat format, int *n_targets)
 void VteTerminalPrivate::widget_copy(VteSelection sel, VteFormat format)
 {
     /* Only put HTML on the CLIPBOARD, not PRIMARY */
-    g_assert(sel == VTE_SELECTION_CLIPBOARD || format == VTE_FORMAT_TEXT);
+    g_assert(sel == VTE_SELECTION_CLIPBOARD || format != VTE_FORMAT_HTML);
 
     /* Chuck old selected text and retrieve the newly-selected text. */
     GArray *attributes = g_array_new(FALSE, TRUE, sizeof(struct _VteCharAttributes));
@@ -4744,6 +4913,10 @@ void VteTerminalPrivate::widget_copy(VteSelection sel, VteFormat format)
     if (format == VTE_FORMAT_HTML) {
         m_selection[sel] = attributes_to_html(selection, attributes);
         g_string_free(selection, TRUE);
+    } else if (format == VTE_FORMAT_ASCII) {
+        m_selection[sel] = attributes_to_ascii(selection, attributes);
+        g_string_free(selection, TRUE);
+        format = VTE_FORMAT_TEXT;
     } else {
         m_selection[sel] = selection;
     }
