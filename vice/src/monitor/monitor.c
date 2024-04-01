@@ -3167,6 +3167,12 @@ static void monitor_open(void)
             str[0] = i;
             mon_scrcode_out(1, "%s", str);
         }
+        mon_out("\n\nscrcode (upper):\n");
+        for (i = 0; i < 0x100; i++) {
+            if ((i && !(i & 0x0f))) { mon_out("\n"); }
+            str[0] = i;
+            mon_scrcode_upper_out(1, "%s", str);
+        }
         mon_out("\n");
     }
 #endif
