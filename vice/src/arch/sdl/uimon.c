@@ -352,6 +352,58 @@ int uimon_scrcode_out(const char *buffer, int num)
     return rc;
 }
 
+int uimon_scrcode_upper_out(const char *buffer, int num)
+{
+    int rc = 0;
+
+    if (using_ui_monitor) {
+        int y = menu_draw->max_text_y - 1;
+        const char *p = buffer;
+        int i = 0;
+        uint8_t c;
+
+        sdl_ui_set_active_font(MENU_FONT_IMAGES);
+
+        /* CAUTION: there is another level of indirection going on in uimenu.c */
+        while (i < num) {
+            c = p[i];
+            /* 00-1f -> 40-5f */
+            if (/*(c >= 0x00) &&*/ (c <= 0x1f)) {
+                c += 0x40;
+            /* 20-3f -> 20-3f */
+            /* 40-5f -> 60-7f */
+            } else if ((c >= 0x40) && (c <= 0x5f)) {
+                c += 0x20;
+            /* 60-7f -> a0-bf */
+            } else if ((c >= 0x60) && (c <= 0x7f)) {
+                c += 0x40;
+            /* 80-9f -> 00-1f */
+            } else if ((c >= 0x80) && (c <= 0x9f)) {
+                c -= 0x80;
+            /* a0-bf -> c0-df */
+            } else if ((c >= 0xa0) && (c <= 0xbf)) {
+                c += 0x20;
+            /* c0-df -> 80-9f */
+            } else if ((c >= 0xc0) && (c <= 0xdf)) {
+                c -= 0x40;
+            }
+            /* e0-ff -> e0-ff */
+            sdl_ui_putchar(c, x_pos, y);
+            ++x_pos;
+            ++i;
+        }
+
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
+
+    } else {
+        if (console_log_local) {
+            rc = native_console_scrcode_out(num, console_log_local, "%s", buffer);
+        }
+    }
+
+    return rc;
+}
+
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     if (using_ui_monitor) {
