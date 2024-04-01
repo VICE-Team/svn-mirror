@@ -85,16 +85,4 @@ void vice_gtk3_grid_set_margins(GtkWidget *grid,
                                 gint bottom,
                                 gint left,
                                 gint right);
-
-unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
-                                         bool inverted,
-                                         bool lowercase);
-
-unsigned char *vice_gtk3_petscii_to_utf8_petme(unsigned char *s,
-                                         bool inverted,
-                                         bool lowercase);
-unsigned char *vice_gtk3_scrcode_to_utf8_petme(unsigned char *s,
-                                         bool inverted,
-                                         bool lowercase);
-
 #endif

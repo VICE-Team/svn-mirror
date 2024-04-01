@@ -72,6 +72,7 @@
 #include "log.h"
 #include "ui.h"
 #include "linenoise.h"
+#include "unicodehelpers.h"
 #include "uimon.h"
 #include "uimon-fallback.h"
 #include "mon_command.h"
@@ -108,6 +109,7 @@ static linenoiseCompletions need_filename_lc = {0, NULL};
 #define FONT_TYPE_ASCII     0
 #define FONT_TYPE_C64PRO    1
 #define FONT_TYPE_PETME     2 /* https://www.kreativekorp.com/software/fonts/c64/ */
+#define FONT_TYPE_PETME64   3 /* https://www.kreativekorp.com/software/fonts/c64/ */
 static int font_type = FONT_TYPE_ASCII;
 
 /* FIXME: this should perhaps be done using some function from archdep */
@@ -236,92 +238,50 @@ int uimon_petscii_out(const char *buffer, int len)
             c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
         } else if (font_type == FONT_TYPE_C64PRO) {
             /* regular PETSCII capable ("C64 Pro") font */
-
-            /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
-            if (/* (c >= 0x00) && */ (c <= 0x1f)) {
-                b = c + 0x40; /* lower */
-                utf = vice_gtk3_petscii_to_utf8(&b, true, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            /* 20-3f  !"#...=>? */
-            } else if ((c >= 0x20) && (c <= 0x3f)) {
-            /* 40-5f  @ab...\]  */
-            } else if ((c >= 0x40) && (c <= 0x5f)) {
-                if (c == 0x40) {
-                    c = '@';
-                } else if (c == 0x5b) {
-                    c = '[';
-                } else if (c == 0x5c) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0x5d) {
-                    c = ']';
-                } else if (c == 0x5e) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0x5f) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else {
-                    c += 0x20;  /* lower */
-                }
-            /* 60-7f   AB...|}~ */
-            } else if ((c >= 0x60) && (c <= 0x7f)) {
-                if (c == 0x60) {
-                    b = '@' + 0x40; /* upper */
-                    utf = vice_gtk3_petscii_to_utf8(&b, true, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if ((c >= 0x7b) && (c <= 0x7f)) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else {
-                    c -= 0x20;  /* upper */
-                }
-            /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
-            } else if ((c >= 0x80) && (c <= 0x9f)) {
-                b = c - 0x20; /* upper */
-                utf = vice_gtk3_petscii_to_utf8(&b, true, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            /* a0-bf  gfx chars */
-            } else if ((c >= 0xa0) && (c <= 0xbf)) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+#if 0
             /* c0-df   AB...|}~ */
             } else if ((c >= 0xc0) && (c <= 0xdf)) {
                 if (c == 0xc0) {
                     c = '@';
                 } else if (c == 0xdb) {
                     c = '[';
-                } else if (c == 0xdc) {
-                    b = c - 0x80;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 } else if (c == 0xdd) {
                     c = ']';
-                } else if (c == 0xde) {
-                    b = c - 0x80;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0xdf) {
-                    b = c - 0x80;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
+#endif
+            /* 20-3f  !"#...=>? */
+            if (((c >= 0x20) && (c <= 0x2f)) ||
+                ((c >= 0x30) && (c <= 0x3f))
+            ) {
+                /* exclude some ranges from utf conversion */
+            /* 40-5a  @ab... */
+            } else if (c == 0x40) {
+                    c = '@';
+            } else if ((c >= 0x41) && (c <= 0x5a)) {
+                c += 0x20;
+            } else if (c == 0x5b) {
+                c = '[';
+            } else if (c == 0x5d) {
+                c = ']';
+            /* 60-7f   AB...|}~ */
+            } else if ((c >= 0x61) && (c <= 0x7a)) {
+                c -= 0x20;
+            } else {
+                /* convert the rest to utf8 */
+                if (c == 0) {
+                    /* 0 is a petscii control code, which we display as inverted @ */
+                    c = '@';
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b, true, true);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 } else {
-                    c -= 0x60;
+                    b = c;
+                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
+                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 }
-            /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b, false, true);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         } else if (font_type == FONT_TYPE_PETME) {
-            /* FIXME */
             if (c == 0) {
+                /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
                 b = c;
                 utf = vice_gtk3_petscii_to_utf8_petme(&b, true, true);
@@ -329,6 +289,18 @@ int uimon_petscii_out(const char *buffer, int len)
             } else {
                 b = c;
                 utf = vice_gtk3_petscii_to_utf8_petme(&b, false, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            }
+        } else if (font_type == FONT_TYPE_PETME64) {
+            if (c == 0) {
+                /* 0 is a petscii control code, which we display as inverted @ */
+                c = '@';
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8_petme64(&b, true, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                b = c;
+                utf = vice_gtk3_petscii_to_utf8_petme64(&b, false, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         }
@@ -363,7 +335,7 @@ int uimon_petscii_upper_out(const char *buffer, int len)
             /* regular ASCII font */
             c = buffer[n];
             if ((c >= 0x01) && (c <= 0x1a)) {
-                c += 0x60; /* upper */
+                c += 0x60; /* lower */
             } else if ((c >= 0x41) && (c <= 0x5a)) {
                 c += 0x20; /* upper */
             }
@@ -371,93 +343,61 @@ int uimon_petscii_upper_out(const char *buffer, int len)
         } else if (font_type == FONT_TYPE_C64PRO) {
             /* regular PETSCII capable ("C64 Pro") font */
 
-            /* 00-1f control codes 00-1f (shown as inverted 40-5f) */
-            if (/* (c >= 0x00) && */ (c <= 0x1f)) {
-                b = c + 0x40; /* lower */
-                utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             /* 20-3f  !"#...=>? */
-            } else if ((c >= 0x20) && (c <= 0x2f)) {
-            } else if ((c >= 0x30) && (c <= 0x3f)) {
-            /* 40-5f  @ab...\]  */
-            } else if ((c >= 0x40) && (c <= 0x5f)) {
-                if (c == 0x40) {
+            if (((c >= 0x20) && (c <= 0x2f)) ||
+                ((c >= 0x30) && (c <= 0x3f))
+            ) {
+                /* exclude some ranges from utf conversion */
+            /* 40-5a  @ab... */
+            } else if (c == 0x40) {
+                c = '@';
+            } else if ((c >= 0x41) && (c <= 0x5a)) {
+                c += 0x20;
+            } else if (c == 0x5b) {
+                c = '[';
+            } else if (c == 0x5d) {
+                c = ']';
+            /* 51-7a  AB... */
+            } else if ((c >= 0x61) && (c <= 0x7a)) {
+                c -= 0x20;
+            } else {
+                /* convert the rest to utf8 */
+                if (c == 0) {
+                    /* 0 is a petscii control code, which we display as inverted @ */
                     c = '@';
-                }
-                else if (c == 0x5b) {
-                    c = '[';
-                } else if (c == 0x5c) {
                     b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0x5d) {
-                    c = ']';
-                } else if (c == 0x5e) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0x5f) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    utf = vice_gtk3_petscii_upper_to_utf8(&b, true);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 } else {
-                    /* upper */
-                }
-            /* 60-7f   AB...|}~ */
-            } else if ((c >= 0x60) && (c <= 0x7f)) {
-            /* 80-9f control codes 80-9f (shown as inverted 60-7f) */
-            } else if ((c >= 0x80) && (c <= 0x9f)) {
-                b = c - 0x20; /* upper */
-                utf = vice_gtk3_petscii_to_utf8(&b ,true, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            /* a0-bf  gfx chars */
-            } else if ((c >= 0xa0) && (c <= 0xbf)) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-            /* c0-df   AB...|}~ */
-            } else if ((c >= 0xc0) && (c <= 0xdf)) {
-                if (c == 0xc0) {
                     b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0xdc) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0xdd) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0xde) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else if (c == 0xdf) {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                    uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
-                } else {
-                    b = c - 0x60;
-                    utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
+                    utf = vice_gtk3_petscii_upper_to_utf8(&b, false);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 }
-            /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) /* && (c <= 0xff) */) {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8(&b ,false, false);
-                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         } else if (font_type == FONT_TYPE_PETME) {
             /* FIXME */
             if (c == 0) {
+                /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
                 b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme(&b, true, false);
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             } else {
                 b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme(&b, false, false);
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, false);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            }
+        } else if (font_type == FONT_TYPE_PETME64) {
+            /* FIXME */
+            if (c == 0) {
+                /* 0 is a petscii control code, which we display as inverted @ */
+                c = '@';
+                b = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, true);
+                uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+            } else {
+                b = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, false);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         }
@@ -495,25 +435,35 @@ int uimon_scrcode_out(const char *buffer, int len)
             c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
         } else if (font_type == FONT_TYPE_C64PRO) {
             /* regular PETSCII capable ("C64 Pro") font */
-            if ((c >= 0x60) && (c <= 0x7f)) {
-                b = c + 0x40;
-            } else if ((c >= 0xe0) && (c <= 0xfe)) {
-                b = c;
-            } else if ((c == 0xff) /*&& (c <= 0xff) */) {
-                b = 0xbf;
+            b = c;
+            if (c == 0x00) {
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8(&b, c & 0x80 ? true : false, true);
             } else {
-                b = charset_screencode_to_petscii(c);
+                utf = vice_gtk3_scrcode_to_utf8(&b, c & 0x80 ? true : false, true);
             }
-            utf = vice_gtk3_petscii_to_utf8(&b, c & 0x80 ? true : false, true);
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         } else if (font_type == FONT_TYPE_PETME) {
             /* FIXME: regular PETSCII capable ("PET Me") font */
             int ch = c & 0x7f;
             b = ch;
             if (ch == 0x00) {
-                b = '@';
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8_petme(&b, c & 0x80 ? true : false, true);
+            } else {
+                utf = vice_gtk3_scrcode_to_utf8_petme(&b, c & 0x80 ? true : false, true);
             }
-            utf = vice_gtk3_scrcode_to_utf8_petme(&b, c & 0x80 ? true : false, true);
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        } else if (font_type == FONT_TYPE_PETME64) {
+            /* FIXME: regular PETSCII capable ("PET Me") font */
+            int ch = c & 0x7f;
+            b = ch;
+            if (ch == 0x00) {
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8_petme64(&b, c & 0x80 ? true : false, true);
+            } else {
+                utf = vice_gtk3_scrcode_to_utf8_petme64(&b, c & 0x80 ? true : false, true);
+            }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         }
 
@@ -528,6 +478,69 @@ int uimon_scrcode_out(const char *buffer, int len)
     return 0;
 }
 
+/* output screencode, uppercase */
+int uimon_scrcode_upper_out(const char *buffer, int len)
+{
+    int n = 0;
+    unsigned char *utf = NULL;
+    uint8_t b;
+    uint8_t c;
+
+    if (native_monitor()) {
+        return uimonfb_scrcode_out(buffer, len);
+    }
+
+    while (n < len) {
+        c = buffer[n];
+
+        if (font_type == FONT_TYPE_ASCII) {
+            /* regular ASCII font */
+            c = charset_screencode_to_petscii(c);
+            c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        } else if (font_type == FONT_TYPE_C64PRO) {
+            /* regular PETSCII capable ("C64 Pro") font */
+            b = c;
+            if (c == 0x00) {
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8(&b, c & 0x80 ? true : false);
+            } else {
+                utf = vice_gtk3_scrcode_upper_to_utf8(&b, c & 0x80 ? true : false);
+            }
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        } else if (font_type == FONT_TYPE_PETME) {
+            /* FIXME: regular PETSCII capable ("PET Me") font */
+            int ch = c & 0x7f;
+            b = ch;
+            if (ch == 0x00) {
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, c & 0x80 ? true : false);
+            } else {
+                utf = vice_gtk3_scrcode_upper_to_utf8_petme(&b, c & 0x80 ? true : false);
+            }
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        } else if (font_type == FONT_TYPE_PETME64) {
+            /* FIXME: regular PETSCII capable ("PET Me") font */
+            int ch = c & 0x7f;
+            b = ch;
+            if (ch == 0x00) {
+                b = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, c & 0x80 ? true : false);
+            } else {
+                utf = vice_gtk3_scrcode_upper_to_utf8_petme64(&b, c & 0x80 ? true : false);
+            }
+            uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
+        }
+
+        if (utf) {
+            lib_free(utf);
+            utf = NULL;
+        } else {
+            uimon_write_to_terminal(&fixed, (const char*)&c, 1);
+        }
+        n++;
+    }
+    return 0;
+}
 
 int uimon_get_columns(struct console_private_s *t)
 {
@@ -981,7 +994,7 @@ static gboolean on_term_scrolled(VteTerminal *terminal, GdkEvent  *event,
         /* mouse wheel scrolls the terminal (scrollback) forth/back */
         GtkAdjustment* vadj = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term));
         gdouble value = gtk_adjustment_get_value(vadj);
-        value += scrollevent.delta_y * 3;
+        value += scrollevent.delta_y * 1;
         gtk_adjustment_set_value(vadj, value);
         gtk_scrollable_set_vadjustment(GTK_SCROLLABLE(fixed.term), vadj);
 
@@ -1151,6 +1164,10 @@ bool uimon_set_font(void)
     if(!strncasecmp("c64 pro", using_font, 7)) {
         log_message(LOG_DEFAULT, "'C64 Pro*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_C64PRO;
+    } else if(!strncasecmp("pet me 64", using_font, 9) ||
+              !strncasecmp("pet me 128", using_font, 10)) {
+        log_message(LOG_DEFAULT, "'PET Me 64/128*' font found, enabling PETSCII output.");
+        font_type = FONT_TYPE_PETME64;
     } else if(!strncasecmp("pet me", using_font, 6)) {
         log_message(LOG_DEFAULT, "'PET Me*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_PETME;
