@@ -92,6 +92,15 @@ int uimon_scrcode_out(const char *buffer, int num)
     return 0;
 }
 
+int uimon_scrcode_upper_out(const char *buffer, int num)
+{
+    /* printf("%s\n", __func__); */
+
+    log_message(LOG_DEFAULT, "Monitor (SCRCODE): %s", buffer);
+
+    return 0;
+}
+
 void uimon_window_close(void)
 {
     /* printf("%s\n", __func__); */
