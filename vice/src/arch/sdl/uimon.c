@@ -216,8 +216,10 @@ int uimon_petscii_out(const char *buffer, int num)
             } else if ((c >= 0xc0) && (c <= 0xdf)) {
                 c -= 0x60;
             /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) /*&& (c <= 0xff)*/) {
+            } else if ((c >= 0xe0) && (c <= 0xfe)) {
                 c -= 0x40;
+            } else if (c == 0xff) {
+                c = 0x7e;
             }
             sdl_ui_putchar(c, x_pos, y);
             ++x_pos;
@@ -262,8 +264,10 @@ int uimon_petscii_upper_out(const char *buffer, int num)
             } else if ((c >= 0xc0) && (c <= 0xdf)) {
                 c -= 0x60;
             /* e0-ff -> a0 -> 60-7f gfx chars */
-            } else if ((c >= 0xe0) /*&& (c <= 0xff)*/) {
+            } else if ((c >= 0xe0) && (c <= 0xfe)) {
                 c -= 0x40;
+            } else if (c == 0xff) {
+                c = 0x7e;
             }
             sdl_ui_putchar(c, x_pos, y);
             ++x_pos;
