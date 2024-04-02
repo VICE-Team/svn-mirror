@@ -3147,30 +3147,30 @@ static void monitor_open(void)
     /* FIXME: the first time the console opens the font might not be initialized
        correctly, so close and repopen the monitor once */
     {
-        int i;
+        int ch;
         char str[2] = { 0, 0 };
         mon_out("petscii:\n");
-        for (i = 0; i < 0x100; i++) {
-            if ((i && !(i & 0x0f))) { mon_out("\n"); }
-            str[0] = i;
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
             mon_petscii_out(1, "%s", str);
         }
         mon_out("\n\npetscii (upper):\n");
-        for (i = 0; i < 0x100; i++) {
-            if ((i && !(i & 0x0f))) { mon_out("\n"); }
-            str[0] = i;
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
             mon_petscii_upper_out(1, "%s", str);
         }
         mon_out("\n\nscrcode:\n");
-        for (i = 0; i < 0x100; i++) {
-            if ((i && !(i & 0x0f))) { mon_out("\n"); }
-            str[0] = i;
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
             mon_scrcode_out(1, "%s", str);
         }
         mon_out("\n\nscrcode (upper):\n");
-        for (i = 0; i < 0x100; i++) {
-            if ((i && !(i & 0x0f))) { mon_out("\n"); }
-            str[0] = i;
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
             mon_scrcode_upper_out(1, "%s", str);
         }
         mon_out("\n");
