@@ -51,8 +51,8 @@ static menu_draw_t *menu_draw;
 /* in the actual charset, the places that would cover the alternative petscii
    positions are used by something else, so replace them by the regular codes.
    FIXME: this seems a bit ugly, perhaps a separate print function for petscii
-   can be made, which deals with this internally */
-   */
+   can be made, which deals with this internally.
+*/
 static void petscii_replace_alternatives(unsigned char *b) {
     while (*b) {
         if ((*b >= 0xc0) && (*b <= 0xdf)) {
