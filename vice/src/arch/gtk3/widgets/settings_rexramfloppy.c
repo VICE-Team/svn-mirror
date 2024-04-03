@@ -43,14 +43,14 @@
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_primary_image_widget(void)
+static GtkWidget *create_secondary_image_widget(void)
 {
     GtkWidget *image;
 
     image = cart_image_widget_new(CARTRIDGE_REX_RAMFLOPPY,
                                   CARTRIDGE_NAME_REX_RAMFLOPPY,
-                                  CART_IMAGE_PRIMARY,
-                                  "cartridge",
+                                  CART_IMAGE_SECONDARY,
+                                  "RAM",
                                   "RRFfilename",
                                   TRUE,
                                   TRUE);
@@ -71,7 +71,7 @@ GtkWidget *settings_rexramfloppy_widget_create(GtkWidget *parent)
 {
     GtkWidget *primary;
 
-    primary = create_primary_image_widget();
+    primary = create_secondary_image_widget();
     gtk_widget_show_all(primary);
     return primary;
 }

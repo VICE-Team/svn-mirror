@@ -82,7 +82,7 @@ static GtkWidget *create_ramcart_image_widget(void)
     image = cart_image_widget_new(CARTRIDGE_RAMCART,
                                   CARTRIDGE_NAME_RAMCART,
                                   CART_IMAGE_PRIMARY,
-                                  "cartridge",
+                                  "RAM",
                                   "RAMCARTfilename",
                                   TRUE,
                                   TRUE);

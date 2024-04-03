@@ -81,7 +81,7 @@ static GtkWidget *create_georam_image_widget(void)
     image = cart_image_widget_new(CARTRIDGE_GEORAM,
                                   CARTRIDGE_NAME_GEORAM,
                                   CART_IMAGE_PRIMARY,
-                                  "cartridge",
+                                  "RAM",
                                   "GEORAMfilename",
                                   TRUE,
                                   TRUE);

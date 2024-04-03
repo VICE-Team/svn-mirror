@@ -658,7 +658,7 @@ int cartridge_enable(int type)
     if (cart_type_enabled(type)) {
         return 0;
     }
-    log_error(LOG_ERR, "Failed to enable cartridge with ID %d.\n", type);
+    log_error(LOG_ERR, "Failed to enable cartridge with ID %d.", type);
     return -1;
 #endif
     return 0;

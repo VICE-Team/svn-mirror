@@ -1113,16 +1113,16 @@ static int set_magicvoice_enabled(int value, void *param)
     } else if (!magicvoice_sound_chip.chip_enabled && val) {
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
-            if (magicvoice_filename) {
-                if (*magicvoice_filename) {
-                    if ((cartridge_attach_image(CARTRIDGE_CRT, magicvoice_filename) < 0) &&
-                        (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0)) {
-                        DBG(("MV: set_enabled did not register\n"));
-                        return -1;
-                    }
-                    /* magicvoice_sound_chip.chip_enabled = 1; */ /* cartridge_attach_image will end up calling set_magicvoice_enabled again */
-                    return 0;
+            if ((magicvoice_filename != NULL) && (*magicvoice_filename != 0)) {
+                if ((cartridge_attach_image(CARTRIDGE_CRT, magicvoice_filename) < 0) &&
+                    (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0)) {
+                    DBG(("MV: set_enabled did not register\n"));
+                    return -1; /* loading the default was requested, but file could not be loaded */
                 }
+                /* magicvoice_sound_chip.chip_enabled = 1; */ /* cartridge_attach_image will end up calling set_magicvoice_enabled again */
+                return 0;
+            } else {
+                return -1; /* loading the default was requested, but no filename was set */
             }
         } else {
             cart_power_off();

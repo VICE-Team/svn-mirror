@@ -73,6 +73,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEE488) < 0) {
             log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_IEEE488 ".");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEE488) < 0) {

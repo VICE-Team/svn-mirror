@@ -10836,23 +10836,25 @@ Attach CBM IEEE-488 cartridge image.
 @findex -ieee488, +ieee488
 @item -ieee488
 @itemx +ieee488
-Enable/disable emulation of the IEEE488 interface
+Enable/disable emulation of the IEEE488 interface.
+Remember to attach a suitable ROM image before enabling the module.
 (@code{IEEE488=1}, @code{IEEE488=0}).
 
 @findex -ieee488image
 @item -ieee488image <name>
-Set IEEE488 interface image name
+Set IEEE488 interface ROM image name
 (@code{IEEE488Image}).
 
 @findex -ieeeflash64, +ieeeflash64
 @item -ieeeflash64
 @itemx +ieeeflash64
-Enable/disable IEEE Flash! 64 interface
+Enable/disable IEEE Flash! 64 interface.
+Remember to attach a suitable ROM image before enabling the module.
 (@code{IEEEFlash64}).
 
 @findex -ieeeflash64image
 @item -ieeeflash64image
-Set IEEE Flash! 64 ROM image name
+Set IEEE Flash! 64 ROM image name.
 (@code{IEEEFlash64Image}).
 
 @findex -ieeeflash64dev8, +ieeeflash64dev8
@@ -11103,7 +11105,8 @@ Specify Magic Voice cartridge ROM image filename
 @findex -magicvoice, +magicvoice
 @item -magicvoice
 @itemx +magicvoice
-Enable/disable Magic Voice cartridge
+Enable/disable Magic Voice cartridge.
+Remember to attach a suitable Magic Voice ROM image before enabling the module.
 (@code{MagicVoiceCartridgeEnabled=1}, @code{MagicVoiceCartridgeEnabled=0}).
 
 @findex -cartocean
@@ -11163,7 +11166,8 @@ Set the RamCart switch to read-only
 @item -ramlink
 @itemx +ramlink
 Enable/disable emulation of the RAMLink module. This option emulates the
-behavior of the enable/disable switch on the unit
+behavior of the enable/disable switch on the unit.
+Remember to attach a suitable BIOS image before enabling the module.
 (@code{RAMLINK=1}, @code{RAMLINK=0}).
 
 @findex -cartramlink
@@ -11175,25 +11179,20 @@ Attach the raw 64 KiB ROM image.
 Specify name of RAMLink BIOS image
 (@code{RAMLINKBIOSfilename}).
 
-@findex -ramlinkbios
-@item -ramlinkbios <name>
-Specify name of RAMLink BIOS image
-(@code{RAMLINKBIOSfilename}).
-
 @findex -ramlinkimage
 @item -ramlinkimage <name>
-Specify name of RAMLink RAMCard image
+Specify name of RAMLink RAM image
 (@code{RAMLINKfilename}).
 
 @findex -ramlinkimagerw, +ramlinkimagerw
 @item -ramlinkimagerw
 @itemx +ramlinkimagerw
-Allow/disallow writing to RAMCard image on detach
+Allow/disallow writing to RAMLink RAM image on detach
 (@code{RAMLINKImageWrite=1}, @code{RAMLINKImageWrite=0}).
 
 @findex -ramlinksize
 @item -ramlinksize <size in MiB>
-Size of the RAMCard unit
+Size of the RAMLink RAM
 (@code{RAMLINKsize}).
 (0..16; default is 0)
 
