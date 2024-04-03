@@ -475,21 +475,21 @@ static int set_ieeeflash64_enabled(int value, void *param)
         }
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
-            if (ieeeflash64_filename) {
-                if (*ieeeflash64_filename) {
-                    DBG(("IEEEFlash64: attach default image\n"));
-                    /* try .crt first */
-                    if ((cartridge_attach_image(CARTRIDGE_CRT, ieeeflash64_filename) < 0) &&
-                        (cartridge_attach_image(CARTRIDGE_IEEEFLASH64, ieeeflash64_filename) < 0)) {
-                        DBG(("IEEEFlash64: set_enabled did not register (attach image failed)\n"));
-                        lib_free(ieeeflash64_rom);
-                        ieeeflash64_rom = NULL;
-                        return -1;
-                    }
-                    /* ieeeflash64_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieeeflash64_enabled again */
-                    DBG(("IEEEFlash64: attach succeeded\n"));
-                    return 0;
+            if ((ieeeflash64_filename != NULL) && (*ieeeflash64_filename != 0)) {
+                DBG(("IEEEFlash64: attach default image\n"));
+                /* try .crt first */
+                if ((cartridge_attach_image(CARTRIDGE_CRT, ieeeflash64_filename) < 0) &&
+                    (cartridge_attach_image(CARTRIDGE_IEEEFLASH64, ieeeflash64_filename) < 0)) {
+                    DBG(("IEEEFlash64: set_enabled did not register (attach image failed)\n"));
+                    lib_free(ieeeflash64_rom);
+                    ieeeflash64_rom = NULL;
+                    return -1; /* loading the default was requested, but file could not be loaded */
                 }
+                /* ieeeflash64_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieeeflash64_enabled again */
+                DBG(("IEEEFlash64: attach succeeded\n"));
+                return 0;
+            } else {
+                return -1; /* loading the default was requested, but no filename was set */
             }
         } else {
             cart_power_off();

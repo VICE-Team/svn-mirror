@@ -752,7 +752,7 @@ int ramlink_can_flush_ram_image(void)
 }
 
 /* save RAMCard image file if set to by resource */
-static int ramlink_save_image(void)
+static int ramlink_save_ram_image(void)
 {
     if (rl_write_image) {
         return ramlink_flush_ram_image();
@@ -761,8 +761,8 @@ static int ramlink_save_image(void)
     return 0;
 }
 
-/* load RAMCard image file */
-static int ramlink_load_image(void)
+/* load RAMLINK RAM image file */
+static int ramlink_load_ram_image(void)
 {
     if (rl_card == NULL) {
         return -1;
@@ -835,7 +835,7 @@ static int ramlink_activate(void)
 
     LOG1((LOG, "RAMLINK: %dMiB unit installed.", rl_cardsizemb));
 
-    return ramlink_load_image();
+    return ramlink_load_ram_image();
 }
 
 static int ramlink_deactivate(void)
@@ -851,7 +851,7 @@ static int ramlink_deactivate(void)
         return 0;
     }
 
-    res = ramlink_save_image();
+    res = ramlink_save_ram_image();
 
     lib_free(rl_card);
     rl_card = NULL;
@@ -879,17 +879,17 @@ static int set_enabled(int value, void *param)
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
             LOG1((LOG, "RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
-            if (rl_bios_filename) {
-                if (*rl_bios_filename) {
-                    /* try .crt image first */
-                    if ((cartridge_attach_image(CARTRIDGE_CRT, rl_bios_filename) < 0) &&
-                        (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0)) {
-                        LOG1((LOG, "RAMLINK: set_enabled(1) did not register"));
-                        return -1;
-                    }
-                    /* rl_enabled = 1; */ /* cartridge_attach_image will end up calling set_enabled again */
-                    return 0;
+            if ((rl_bios_filename != NULL) && (*rl_bios_filename != 0)) {
+                /* try .crt image first */
+                if ((cartridge_attach_image(CARTRIDGE_CRT, rl_bios_filename) < 0) &&
+                    (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0)) {
+                    LOG1((LOG, "RAMLINK: set_enabled(1) did not register"));
+                    return -1; /* loading the default was requested, file coult not be loaded */
                 }
+                /* rl_enabled = 1; */ /* cartridge_attach_image will end up calling set_enabled again */
+                return 0;
+            } else {
+                return -1; /* loading the default was requested, but no filename was set */
             }
         } else {
             cart_power_off();
@@ -969,6 +969,7 @@ static int set_bios_filename(const char *name, void *param)
     util_string_set(&rl_bios_filename, name);
     resources_get_int("RAMLINK", &enabled);
 
+    /* if we are enabled, this will reload the BIOS */
     if (set_enabled(enabled, (void*)1) < 0) {
         lib_free(rl_bios_filename);
         rl_bios_filename = NULL;
@@ -1992,6 +1993,7 @@ void ramlink_detach(void)
 
 int ramlink_enable(void)
 {
+    /* this will reload the BIOS */
     return set_enabled(1, (void*)1);
 }
 

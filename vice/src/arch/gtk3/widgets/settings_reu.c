@@ -67,7 +67,7 @@ static GtkWidget *create_reu_image_widget(void)
     image = cart_image_widget_new(CARTRIDGE_REU,
                                   CARTRIDGE_NAME_REU,
                                   CART_IMAGE_PRIMARY,
-                                  "cartridge",
+                                  "RAM",
                                   "REUfilename",
                                   TRUE,
                                   TRUE);

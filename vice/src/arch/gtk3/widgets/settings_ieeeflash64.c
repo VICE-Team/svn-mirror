@@ -77,6 +77,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEEFLASH64) < 0) {
             log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_IEEEFLASH64 ".");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEEFLASH64) < 0) {
@@ -125,7 +126,7 @@ GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent)
                      G_CALLBACK(on_enable_toggled),
                      NULL);
 
-    chlabel = gtk_label_new(CARTRIDGE_NAME_IEEEFLASH64 " KERNAL ROM Image");
+    chlabel = gtk_label_new(CARTRIDGE_NAME_IEEEFLASH64 " ROM Image");
     gtk_widget_set_halign(chlabel, GTK_ALIGN_START);
     chooser = vice_gtk3_resource_filechooser_new("IEEEFlash64Image",
                                                  GTK_FILE_CHOOSER_ACTION_OPEN);

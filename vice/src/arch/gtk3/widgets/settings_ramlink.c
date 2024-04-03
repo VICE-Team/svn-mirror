@@ -40,6 +40,7 @@
 #include "carthelpers.h"
 #include "cartridge.h"
 #include "debug_gtk3.h"
+#include "log.h"
 #include "ramlink.h"
 #include "resources.h"
 #include "vice_gtk3.h"
@@ -69,6 +70,47 @@ static GtkWidget *label_helper(const char *text)
     gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
+}
+
+/** \brief  Handler for the 'toggled' event of the 'enable' check button
+ *
+ * Toggles the 'enabled' state of the RAMlink adapter/cart, but only if a
+ * ROM image has been specified, otherwise when trying to set the check
+ * button to 'true', an error message is displayed and the check button is
+ * reverted to 'off'.
+ *
+ * \param[in,out]   widget  check button
+ * \param[in]       data    unused
+ */
+static void on_enable_toggled(GtkWidget *widget, gpointer data)
+{
+    gboolean state;
+
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    if (state) {
+        const char *image = NULL;
+
+        resources_get_string("RAMLINKBIOSfilename", &image);
+        if (image == NULL || *image == '\0') {
+            /* no image */
+            vice_gtk3_message_error(CARTRIDGE_NAME_RAMLINK " Error",
+                                    "Cannot enable " CARTRIDGE_NAME_RAMLINK ","
+                                    " no BIOS image has been selected.");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
+            state = FALSE;
+        }
+    }
+
+    if (state) {
+        if (cartridge_enable(CARTRIDGE_RAMLINK) < 0) {
+            log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_RAMLINK ".");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
+        }
+    } else {
+        if (cartridge_disable(CARTRIDGE_RAMLINK) < 0) {
+            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_RAMLINK ".");
+        }
+    }
 }
 
 /** \brief  Create RAMLink BIOS image widget
@@ -126,14 +168,29 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     GtkWidget *size;
     GtkWidget *wrapper;
     int        row = 0;
+    const char *image = NULL;
+    int         cart_enabled;
+
+    resources_get_string("RAMLINKfilename", &image);
+    cart_enabled = cartridge_type_enabled(CARTRIDGE_RAMLINK);
 
     grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     /* create 'enable ramlink' checkbox */
-    enable    = vice_gtk3_resource_check_button_new("RAMLINK",
-                                                    "Enable " CARTRIDGE_NAME_RAMLINK
-                                                    " emulation");
+    /* we can't use a `resource_check_button` here, since toggling the resource
+     * depends on whether an image file is specified
+     */
+    enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_RAMLINK " emulation");
+    /* only set state to true if both the state is true and an image is given */
+    if (cart_enabled && (image != NULL && *image != '\0')) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable), TRUE);
+    }
+    g_signal_connect(enable,
+                     "toggled",
+                     G_CALLBACK(on_enable_toggled),
+                     NULL);
+
     primary   = create_primary_image_widget();
     secondary = create_secondary_image_widget();
 

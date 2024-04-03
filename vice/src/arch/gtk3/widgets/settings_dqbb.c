@@ -51,7 +51,7 @@ static GtkWidget *create_dqbb_image_widget(void)
     image = cart_image_widget_new(CARTRIDGE_DQBB,
                                   CARTRIDGE_NAME_DQBB,
                                   CART_IMAGE_PRIMARY,
-                                  "cartridge",
+                                  "RAM",
                                   "DQBBfilename",
                                   TRUE,
                                   TRUE);

@@ -91,7 +91,7 @@ static GtkWidget *create_expert_image_widget(void)
     image = cart_image_widget_new(CARTRIDGE_EXPERT,
                                   CARTRIDGE_NAME_EXPERT,
                                   CART_IMAGE_PRIMARY,
-                                  NULL,
+                                  "RAM",
                                   "Expertfilename",
                                   TRUE,
                                   TRUE);
