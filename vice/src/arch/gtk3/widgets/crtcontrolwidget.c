@@ -191,6 +191,7 @@ typedef struct crt_control_info_s {
     bool        ntsc;       /**< resource is valid for NTSC */
     int         low;        /**< lowest value for resource */
     int         high;       /**< highest value for resource */
+    int         neutral;    /**< neutral value for resource */
     int         step;       /**< stepping for the spin button */
     double      disp_low;   /**< display low */
     double      disp_high;  /**< display high */
@@ -215,15 +216,15 @@ typedef struct crt_control_data_s {
 /** \brief  List of CRT emulation resources
  */
 static const crt_control_info_t control_info[RESOURCE_COUNT] = {
-    { "Brightness",     "ColorBrightness",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Contrast",       "ColorContrast",    true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Saturation",     "ColorSaturation",  true,  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Tint",           "ColorTint",        true,  0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f%%",     VICE_MACHINE_ALL },
-    { "Gamma",          "ColorGamma",       true,  0, 4000, 200,   0.0,   4.0, 0.01, "%6.2f",        VICE_MACHINE_ALL },
-    { "Blur",           "PALBlur",          true,  0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Scanline shade", "PALScanLineShade", true,  0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
-    { "Oddline phase",  "PALOddLinePhase",  false, 0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0", VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
-    { "Oddline offset", "PALOddLineOffset", false, 0, 2000, 100, -50.0,  50.0,  0.1, "%+4.1f%%",     VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET }
+    { "Brightness",     "ColorBrightness",  true,  0, 2000, 1000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Contrast",       "ColorContrast",    true,  0, 2000, 1000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Saturation",     "ColorSaturation",  true,  0, 2000, 1000, 100,   0.0, 200.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Tint",           "ColorTint",        true,  0, 2000, 1000, 100, -25.0,  25.0,  0.1, "%+5.1f%%",     VICE_MACHINE_ALL },
+    { "Gamma",          "ColorGamma",       true,  0, 4000, 1000, 200,   0.0,   4.0, 0.01, "%6.2f",        VICE_MACHINE_ALL },
+    { "Blur",           "PALBlur",          true,  0, 1000,    0,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Scanline shade", "PALScanLineShade", true,  0, 1000, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%",      VICE_MACHINE_ALL },
+    { "Oddline phase",  "PALOddLinePhase",  false, 0, 2000, 1000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0", VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET },
+    { "Oddline offset", "PALOddLineOffset", false, 0, 2000, 1000, 100, -50.0,  50.0,  0.1, "%+4.1f%%",     VICE_MACHINE_ALL^VICE_MACHINE_CBM6x0^VICE_MACHINE_PET }
 };
 
 
@@ -281,6 +282,22 @@ static void reset_sliders(crt_control_data_t *data)
     }
 }
 
+/** \brief  Reset all sliders to their neutral value
+ *
+ * \param[in]   data    crt control data
+ */
+static void reset_sliders_neutral(crt_control_data_t *data)
+{
+    int i;
+
+    for (i = 0; i < RESOURCE_COUNT; i++) {
+        GtkWidget *scale = data->scales[i];
+        if (scale != NULL) {
+            vice_gtk3_resource_scale_custom_set(scale, control_info[i].neutral);
+        }
+    }
+}
+
 /** \brief  Reset all sliders to their factory value
  *
  * \param[in]   button  reset button
@@ -289,6 +306,18 @@ static void reset_sliders(crt_control_data_t *data)
 static void on_reset_clicked(GtkWidget *button, gpointer data)
 {
     reset_sliders(data);
+}
+
+static gboolean on_reset_right_clicked (GtkWidget* self, GdkEventButton *event, gpointer data) {
+    guint button = event->button;
+    GdkModifierType state = event->state;
+    if ((button == 3) || (state & GDK_BUTTON3_MASK) ||
+        (state & GDK_SHIFT_MASK) || (state & GDK_CONTROL_MASK)) {
+        /* right button, or click+shift/control */
+        reset_sliders_neutral(data);
+        return TRUE;
+    }
+    return FALSE; /* propagate further, on_reset_clicked() handles regular left clicks */
 }
 
 /** \brief  Clean up memory used by the internal state of \a widget
@@ -598,6 +627,10 @@ static GtkWidget *create_header(const char         *chip,
                      "clicked",
                      G_CALLBACK(on_reset_clicked),
                      (gpointer)data);
+    g_signal_connect(button,
+                     "button-release-event",
+                     G_CALLBACK(on_reset_right_clicked),
+                     (gpointer)data);
 
     gtk_grid_attach(GTK_GRID(grid), label,  0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
@@ -675,24 +708,6 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Custom callback for the resource widget manager
- *
- * This calls the reset methods on the various CRT sliders.
- *
- * \param[in]   widget  CRT control widget
- *
- * \return  bool
- */
-gboolean crt_control_widget_reset(GtkWidget *widget)
-{
-    crt_control_data_t *data;
-
-    data = g_object_get_data(G_OBJECT(widget), "InternalState");
-    reset_sliders(data);
-    return TRUE;
 }
 
 
