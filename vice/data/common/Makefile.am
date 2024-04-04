@@ -73,7 +73,14 @@ icon_files = icon1024x1024.png \
 logo_files = CBM_Logo.svg \
 	     vice-logo-black.svg
 
-font_files = C64_Pro_Mono-STYLE.ttf
+font_files = C64_Pro_Mono-STYLE.ttf \
+             PetMe1282Y.ttf \
+             PetMe128.ttf \
+             PetMe2X.ttf \
+             PetMe2Y.ttf \
+             PetMe642Y.ttf \
+             PetMe64.ttf \
+             PetMe.ttf
 
 common_DATA = $(icon_files) \
 	      $(logo_files) \
@@ -82,6 +89,7 @@ common_DATA = $(icon_files) \
 EXTRA_DIST = $(icon_files) \
 	     $(logo_files) \
 	     $(font_files) \
+             PetMe-FreeLicense.txt \
 	     x64.rc \
 	     x64sc.rc \
 	     x64dtv.rc \
