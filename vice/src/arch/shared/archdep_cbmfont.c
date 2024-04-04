@@ -43,6 +43,18 @@
  */
 #define VICE_CBM_FONT_TTF "C64_Pro_Mono-STYLE.ttf"
 
+/** \brief  List of fonts to register with the OS */
+static const char *font_files[] = {
+    "C64_Pro_Mono-STYLE.ttf",
+    "PetMe1282Y.ttf",
+    "PetMe128.ttf",
+    "PetMe2X.ttf",
+    "PetMe2Y.ttf",
+    "PetMe642Y.ttf",
+    "PetMe64.ttf",
+    "PetMe.ttf"
+};
+
 
 /** \fn  int archdep_register_cbmfont(void)
  * \brief    Try to register the CBM font with the OS
@@ -100,22 +112,32 @@ int archdep_register_cbmfont(void)
 int archdep_register_cbmfont(void)
 {
     FcConfig *fc_config;
-    int result;
-    char *path;
+    char     *path;
+    size_t    i;
 
     if (!FcInit()) {
         return 0;
     }
 
     fc_config = FcConfigGetCurrent();
-    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
-        log_error(LOG_ERR, "failed to find resource data '%s'.",
-                VICE_CBM_FONT_TTF);
-        return 0;
+
+    for (i = 0; i < sizeof font_files / sizeof font_files[0]; i++) {
+        if (sysfile_locate(font_files[i], "common", &path) < 0) {
+            log_error(LOG_ERR,
+                      "failed to find resource data '%s'.",
+                      font_files[i]);
+            return 0;
+        }
+        if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {
+            lib_free(path);
+            return 0;
+        } else {
+            log_message(LOG_DEFAULT, "registered font '%s'.", path);
+            lib_free(path);
+        }
     }
-    result = FcConfigAppFontAddFile(fc_config, (FcChar8 *)path) ? 1 : 0;
-    lib_free(path);
-    return result;
+
+    return 1;
 }
 
 #  else     /* HAVE_FONTCONFIG */
