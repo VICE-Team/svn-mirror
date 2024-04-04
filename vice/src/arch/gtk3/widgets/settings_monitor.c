@@ -101,6 +101,22 @@ static void on_font_set(GtkFontButton *button, gpointer user_data)
     }
 }
 
+/** \brief  Filter function for font selection dialog
+ *
+ * \param[in]   family  font family
+ * \param[in]   face    font face (unused)
+ * \param[in]   data    optional user data (unused)
+ *
+ * \return  \c TRUE if font is monospace and should be shown in the dialog
+ */
+static gboolean font_button_filter(const PangoFontFamily *family,
+                                   const PangoFontFace   *face,
+                                   gpointer               data)
+{
+    /* we have to cast away const due to shitty API */
+    return pango_font_family_is_monospace((PangoFontFamily*)family);
+}
+
 
 /** \brief  Create widget to control monitor resources
  *
@@ -231,6 +247,10 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 
     /* create button that pops up a font selector */
     font_button = gtk_font_button_new();
+    gtk_font_chooser_set_filter_func(GTK_FONT_CHOOSER(font_button),
+                                     font_button_filter,
+                                     NULL,  /* extra data */
+                                     NULL   /* destroy callback for extra data */);
     gtk_font_button_set_use_font(GTK_FONT_BUTTON(font_button), TRUE);
     if (font_name != NULL) {
         gtk_font_chooser_set_font(GTK_FONT_CHOOSER(font_button), font_name);
