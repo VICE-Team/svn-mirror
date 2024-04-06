@@ -119,7 +119,7 @@ static int reu_mapping;
 static int rr_hw_flashjumper = 0;
 static int rr_hw_bankjumper = 0;
 static int rr_bios_write = 0;
-static int rr_revision = 0;
+static int rr_revision = RR_REV_RETRO_REPLAY;
 static int export_ram_at_a000 = 0;
 
 static unsigned int rom_offset = 0x10000;
@@ -1172,9 +1172,7 @@ int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename, uin
     retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
     retroreplay_filename = lib_strdup(filename);
 
-    if (revision > 0) {
-        rr_revision = RR_REV_NORDIC_REPLAY;
-    }
+    rr_revision = (revision > 0) ? RR_REV_NORDIC_REPLAY : RR_REV_RETRO_REPLAY;
 
     return retroreplay_common_attach();
 }
