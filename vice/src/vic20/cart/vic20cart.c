@@ -28,7 +28,7 @@
  *
  */
 
-/* #define DEBUGCART */
+#define DEBUGCART
 
 #include "vice.h"
 
@@ -42,30 +42,16 @@
 #endif
 
 #include "archdep.h"
-#include "behrbonz.h"
-#include "c64acia.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
-#include "debugcart.h"
-#include "digimax.h"
-#include "ds12c887rtc.h"
 #include "export.h"
-#include "finalexpansion.h"
-#include "georam.h"
-#include "ioramcart.h"
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
-#include "ultimem.h"
-#include "vic-fp.h"
-#include "megacart.h"
 #include "monitor.h"
 #include "resources.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
 #include "sid-snapshot.h"
-#include "sidcart.h"
 #include "snapshot.h"
 #ifdef HAVE_RAWNET
 #define CARTRIDGE_INCLUDE_PRIVATE_API
@@ -82,6 +68,22 @@
 #include "vic20-ieee488.h"
 #include "vic20-midi.h"
 #include "zfile.h"
+
+#include "behrbonz.h"
+#include "c64acia.h"
+#include "debugcart.h"
+#include "digimax.h"
+#include "ds12c887rtc.h"
+#include "finalexpansion.h"
+#include "georam.h"
+#include "ioramcart.h"
+#include "megacart.h"
+#include "rabbit.h"
+#include "sfx_soundexpander.h"
+#include "sfx_soundsampler.h"
+#include "sidcart.h"
+#include "ultimem.h"
+#include "vic-fp.h"
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x
@@ -123,6 +125,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_VIC20_NAME_FP,              CARTRIDGE_VIC20_FP,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_UM,              CARTRIDGE_VIC20_UM,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, CARTRIDGE_VIC20_FINAL_EXPANSION,    CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_RABBIT,          CARTRIDGE_VIC20_RABBIT,             CARTRIDGE_GROUP_UTIL },
 
     { NULL, 0, 0 }
 };
@@ -157,14 +160,17 @@ static int set_cartridge_type(int val, void *param)
     DBG(("set_cartridge_type '%d'\n", val));
     switch (val) {
         case CARTRIDGE_NONE:
-        case CARTRIDGE_VIC20_BEHRBONZ:
         case CARTRIDGE_VIC20_GENERIC:
+
+        case CARTRIDGE_VIC20_BEHRBONZ:
         case CARTRIDGE_VIC20_MEGACART:
+        case CARTRIDGE_VIC20_RABBIT:
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
         case CARTRIDGE_VIC20_UM:
         case CARTRIDGE_VIC20_FP:
         case CARTRIDGE_VIC20_IEEE488:
         case CARTRIDGE_VIC20_SIDCART:
+
         case CARTRIDGE_VIC20_DETECT:
         case CARTRIDGE_VIC20_4KB_2000:
         case CARTRIDGE_VIC20_8KB_2000:
@@ -328,6 +334,10 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartfp", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FP, NULL, NULL,
       "<Name>", "Specify Vic Flash Plugin extension ROM name" },
+    { "-cartrabbit", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_RABBIT, NULL, NULL,
+      "<Name>", "Specify Rabit Tape extension ROM name" },
+
     { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       detach_cartridge_cmdline, NULL, NULL, NULL,
       NULL, "Disable default cartridge" },
@@ -430,6 +440,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
             ret = finalexpansion_crt_attach(fd, rawcart, filename);
             break;
+        case CARTRIDGE_VIC20_RABBIT:
+            ret = rabbit_crt_attach(fd, rawcart);
+            break;
         default:
             archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
             ret = -1;
@@ -471,17 +484,20 @@ static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
         case CARTRIDGE_VIC20_BEHRBONZ:
             ret = behrbonz_bin_attach(filename);
             break;
-        case CARTRIDGE_VIC20_UM:
-            ret = vic_um_bin_attach(filename);
-            break;
         case CARTRIDGE_VIC20_FP:
             ret = vic_fp_bin_attach(filename);
+            break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            ret = finalexpansion_bin_attach(filename);
             break;
         case CARTRIDGE_VIC20_MEGACART:
             ret = megacart_bin_attach(filename);
             break;
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            ret = finalexpansion_bin_attach(filename);
+        case CARTRIDGE_VIC20_RABBIT:
+            ret = rabbit_bin_attach(filename);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_bin_attach(filename);
             break;
     }
     DBG(("cart_bin_attach type: %d ret: %d\n", type, ret));

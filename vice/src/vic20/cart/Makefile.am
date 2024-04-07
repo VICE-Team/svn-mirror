@@ -29,6 +29,8 @@ libvic20cart_a_SOURCES = \
 	ioramcart.h \
 	megacart.c \
 	megacart.h \
+	rabbit.c \
+	rabbit.h \
 	ultimem.c \
 	ultimem.h \
 	vic-fp.c \

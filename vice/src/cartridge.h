@@ -458,8 +458,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_FP              3   /* vic-fp.c */
 #define CARTRIDGE_VIC20_UM              4   /* ultimem.c */
 #define CARTRIDGE_VIC20_FINAL_EXPANSION 5   /* finalexpansion.c */
+#define CARTRIDGE_VIC20_RABBIT          6   /* rabbit.c */
 
-#define CARTRIDGE_VIC20_LAST            5   /* cartconv: last cartridge in list */
+#define CARTRIDGE_VIC20_LAST            6   /* cartconv: last cartridge in list */
 
 /*
  * VIC20 Generic cartridges
@@ -524,6 +525,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_NAME_IEEE488         "VIC-1112 IEEE-488 Interface"  /*https://sleepingelephant.com/denial/wiki/index.php/File:Chipitos.be-VIC-1112.jpg */
 #define CARTRIDGE_VIC20_NAME_MIDI            "MIDI"
 #define CARTRIDGE_VIC20_NAME_SIDCART         "SIDCART"
+#define CARTRIDGE_VIC20_NAME_RABBIT          "Rabbit Tape"
 
 /*
  * plus4 cartridge system

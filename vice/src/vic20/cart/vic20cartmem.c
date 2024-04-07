@@ -29,22 +29,11 @@
 #include "vice.h"
 
 #include <stdio.h>
-
-#include "behrbonz.h"
-#include "c64acia.h"
 #include "cartridge.h"
-#include "digimax.h"
-#include "ds12c887rtc.h"
-#include "finalexpansion.h"
-#include "georam.h"
-#include "ioramcart.h"
-#include "megacart.h"
+
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
-#include "sidcart.h"
 #ifdef HAVE_RAWNET
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
@@ -53,7 +42,6 @@
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 #endif
 #include "types.h"
-#include "ultimem.h"
 #include "vic20mem.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
@@ -61,6 +49,20 @@
 #include "vic20-ieee488.h"
 #include "vic20-midi.h"
 #include "vic-fp.h"
+
+#include "behrbonz.h"
+#include "c64acia.h"
+#include "digimax.h"
+#include "ds12c887rtc.h"
+#include "finalexpansion.h"
+#include "georam.h"
+#include "ioramcart.h"
+#include "megacart.h"
+#include "rabbit.h"
+#include "sfx_soundexpander.h"
+#include "sfx_soundsampler.h"
+#include "sidcart.h"
+#include "ultimem.h"
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x
@@ -412,9 +414,9 @@ void cartridge_store_blk5(uint16_t addr, uint8_t value)
 void cartridge_init(void)
 {
     behrbonz_init();
+    finalexpansion_init();
     generic_init();
     megacart_init();
-    finalexpansion_init();
     vic_fp_init();
 #ifdef HAVE_RAWNET
     ethernetcart_init();
@@ -533,6 +535,7 @@ static void cart_detach_all(void)
     finalexpansion_detach();
     ioramcart_io2_detach();
     ioramcart_io3_detach();
+    rabbit_detach();
     megacart_detach();
     vic_um_detach();
     vic20_ieee488_detach();
@@ -579,6 +582,9 @@ void cartridge_detach(int type)
             break;
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
             finalexpansion_detach();
+            break;
+        case CARTRIDGE_VIC20_RABBIT:
+            rabbit_detach();
             break;
     }
     mem_cartridge_type = CARTRIDGE_NONE;
