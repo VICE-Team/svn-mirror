@@ -58,6 +58,7 @@
 #include "georam.h"
 #include "ioramcart.h"
 #include "megacart.h"
+#include "mikroassembler.h"
 #include "rabbit.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
@@ -96,6 +97,9 @@ uint8_t cartridge_read_ram123(uint16_t addr)
         case CARTRIDGE_VIC20_MEGACART:
             vic20_cpu_last_data = megacart_ram123_read(addr);
             break;
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            vic20_cpu_last_data = mikroassembler_ram123_read(addr);
+            break;
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             vic20_cpu_last_data = superexpander_ram123_read(addr);
             break;
@@ -120,6 +124,8 @@ uint8_t cartridge_peek_ram123(uint16_t addr)
             return vic_fp_ram123_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
             return megacart_ram123_read(addr);
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            return mikroassembler_ram123_read(addr);
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             return superexpander_ram123_read(addr);
         default:
@@ -146,6 +152,9 @@ void cartridge_store_ram123(uint16_t addr, uint8_t value)
             break;
         case CARTRIDGE_VIC20_MEGACART:
             megacart_ram123_store(addr, value);
+            break;
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            mikroassembler_ram123_store(addr, value);
             break;
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             superexpander_ram123_store(addr, value);
@@ -298,14 +307,17 @@ uint8_t cartridge_read_blk3(uint16_t addr)
         case CARTRIDGE_VIC20_UM:
             vic20_cpu_last_data = vic_um_blk23_read(addr);
             break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            vic20_cpu_last_data = finalexpansion_blk3_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk23_read(addr);
             break;
         case CARTRIDGE_VIC20_MEGACART:
             vic20_cpu_last_data = megacart_blk123_read(addr);
             break;
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            vic20_cpu_last_data = finalexpansion_blk3_read(addr);
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            vic20_cpu_last_data = mikroassembler_blk3_read(addr);
             break;
     }
     return vic20_cpu_last_data;
@@ -372,6 +384,9 @@ uint8_t cartridge_read_blk5(uint16_t addr)
             break;
         case CARTRIDGE_VIC20_MEGACART:
             vic20_cpu_last_data = megacart_blk5_read(addr);
+            break;
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            vic20_cpu_last_data = mikroassembler_blk5_read(addr);
             break;
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             vic20_cpu_last_data = superexpander_blk5_read(addr);

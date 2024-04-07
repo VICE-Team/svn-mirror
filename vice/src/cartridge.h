@@ -460,8 +460,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_FINAL_EXPANSION 5   /* finalexpansion.c */
 #define CARTRIDGE_VIC20_RABBIT          6   /* rabbit.c */
 #define CARTRIDGE_VIC20_SUPEREXPANDER   7   /* superexpander.c */
+#define CARTRIDGE_VIC20_MIKRO_ASSEMBLER 8   /* mikroassembler.c */
 
-#define CARTRIDGE_VIC20_LAST            7   /* cartconv: last cartridge in list */
+#define CARTRIDGE_VIC20_LAST            8   /* cartconv: last cartridge in list */
 
 /*
  * VIC20 Generic cartridges
@@ -528,6 +529,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_NAME_SIDCART         "SIDCART"
 #define CARTRIDGE_VIC20_NAME_RABBIT          "Rabbit Tape"
 #define CARTRIDGE_VIC20_NAME_SUPEREXPANDER   "Super Expander"
+#define CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER "Mikro Assembler"
 
 /*
  * plus4 cartridge system
