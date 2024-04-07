@@ -457,15 +457,14 @@ static void z80mem_editor_rom_area_store(uint16_t adr, uint8_t val)
 static uint8_t z80mem_chargen_rom_area_read(uint16_t adr)
 {
     switch ((mmu[0] & 0x30) >> 4) {
-        case Z80_C128_ROM:
-            return chargen_read(adr);
-            break;
         case Z80_C128_INT_FUNC:
             return internal_function_rom_read(adr);
             break;
         case Z80_C128_EXT_FUNC:
             return external_function_rom_read(adr);
             break;
+/* Z80 in 128 mode can't see charrom; see bug #1987 */
+        case Z80_C128_ROM:
         case Z80_C128_RAM:
             return top_shared_read(adr);
             break;
@@ -476,15 +475,14 @@ static uint8_t z80mem_chargen_rom_area_read(uint16_t adr)
 static uint8_t z80mem_chargen_rom_area_peek(uint16_t adr)
 {
     switch ((mmu[0] & 0x30) >> 4) {
-        case Z80_C128_ROM:
-            return mem_chargen_rom_ptr[adr & 0x0fff];
-            break;
         case Z80_C128_INT_FUNC:
             return internal_function_rom_peek(adr);
             break;
         case Z80_C128_EXT_FUNC:
             return external_function_rom_peek(adr);
             break;
+/* Z80 in 128 mode can't see charrom; see bug #1987 */
+        case Z80_C128_ROM:
         case Z80_C128_RAM:
             return top_shared_peek(adr);
             break;
