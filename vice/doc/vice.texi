@@ -14244,6 +14244,8 @@ The following cartridge types are valid:
 @item
      6: Rabbit tape turbo
 @item
+     7: Super Expander
+@item
   - 10: SID Cartridge
 @item
   - 11: IEEE-4888
@@ -22928,6 +22930,8 @@ Final Expansion
 Mega-Cart
 @item rabbit
 Rabbit tape turbo
+@item se
+Super Expander
 @item um
 UltiMem
 @item vicfp
@@ -34175,6 +34179,36 @@ be started by SYS38912.
 
 @c FIXME: cartridge details
 
+@c @node FIXME
+@subsubsection 7 - Super Expander
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4KiB (ROM)
+@tab 3KiB (RAM)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+ 0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE
+ 0010: 00 00 00 40 02 00 00 07 00 00 00 00 00 00 00 00  ...@............
+ 0020: 53 75 70 65 72 20 45 78 70 61 6e 64 65 72 00 00  Super Expander..
+ 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+ 0040: 43 48 49 50 00 00 10 10 00 00 00 00 a0 00 10 00  CHIP............
+ 0050: 09 a0 a8 a0 41 30 c3 c2 cd 20 8d fd 20 52 fd 20  ....A0... .. R.
+ 0060: f9 fd 20 18 e5 ad 84 02 c9 21 b0 0a a0 10 a2 00  .. ......!......
+ 0070: 20 7b fe 4c 35 a0 a0 20 a2 00 20 8a fe a9 1e 8d   ..L5.. .. .....
+ 0080: 88 02 20 18 e5 a9 35 8d d8 02 20 f7 ad a9 04 8d  .. ...5... .....
+ 0090: d5 02 a9 01 8d b0 02 a9 03 8d b1 02 a9 00 8d b5  ................
+@dots{}
+ 1030: 34 a7 4c 67 a8 4c 57 a8 4c fc a7 4c cc a8 4c 71  4.Lg.LW.L..L..Lq
+ 1040: a9 4c d3 a9 4c 31 ab 4c a6 a8 4c 89 a8 4c 8b af  .L..L1.L..L..L..
+@end example
+
+This cartridge maps 4KiB ROM into block5 ($a000-$afff), and 3Kib RAM to RAM123 ($0400 - $0fff).
+
+@c FIXME: cartridge details
 
 @c @node FIXME
 @subsection PLUS4 Cartridge Specifics

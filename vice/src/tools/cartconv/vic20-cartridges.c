@@ -27,7 +27,8 @@ const cart_t cart_info_vic20[] = {
            CARTRIDGE_SIZE_8MB |
            CARTRIDGE_SIZE_16MB,    0x2000, 0xa000,   0, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_UM,                 "um", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_512KB,   0x2000, 0xa000,  64, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_FINAL_EXPANSION,   "fe3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_2KB,     0x0800, 0x9800,   0, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_RABBIT,         "rabbit", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_2KB,     0x0800, 0x9800,   1, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_RABBIT,         "rabbit", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_4KB,     0x1000, 0xa000,   1, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_SUPEREXPANDER,      "se", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

@@ -62,6 +62,7 @@
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "sidcart.h"
+#include "superexpander.h"
 #include "ultimem.h"
 
 #ifdef DEBUGCART
@@ -86,14 +87,17 @@ uint8_t cartridge_read_ram123(uint16_t addr)
         case CARTRIDGE_VIC20_UM:
             vic20_cpu_last_data = vic_um_ram123_read(addr);
             break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            vic20_cpu_last_data = finalexpansion_ram123_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_ram123_read(addr);
             break;
         case CARTRIDGE_VIC20_MEGACART:
             vic20_cpu_last_data = megacart_ram123_read(addr);
             break;
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            vic20_cpu_last_data = finalexpansion_ram123_read(addr);
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+            vic20_cpu_last_data = superexpander_ram123_read(addr);
             break;
         default:
             vic20_cpu_last_data = vic20_v_bus_last_data;
@@ -110,12 +114,14 @@ uint8_t cartridge_peek_ram123(uint16_t addr)
             return generic_ram123_read(addr);
         case CARTRIDGE_VIC20_UM:
             return vic_um_ram123_read(addr);
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            return finalexpansion_ram123_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_ram123_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
             return megacart_ram123_read(addr);
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            return finalexpansion_ram123_read(addr);
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+            return superexpander_ram123_read(addr);
         default:
             break;
     }
@@ -132,14 +138,17 @@ void cartridge_store_ram123(uint16_t addr, uint8_t value)
         case CARTRIDGE_VIC20_UM:
             vic_um_ram123_store(addr, value);
             break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            finalexpansion_ram123_store(addr, value);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic_fp_ram123_store(addr, value);
             break;
         case CARTRIDGE_VIC20_MEGACART:
             megacart_ram123_store(addr, value);
             break;
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            finalexpansion_ram123_store(addr, value);
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+            superexpander_ram123_store(addr, value);
             break;
     }
     vic20_mem_v_bus_store(addr);
@@ -355,14 +364,17 @@ uint8_t cartridge_read_blk5(uint16_t addr)
         case CARTRIDGE_VIC20_UM:
             vic20_cpu_last_data = vic_um_blk5_read(addr);
             break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            vic20_cpu_last_data = finalexpansion_blk5_read(addr);
+            break;
         case CARTRIDGE_VIC20_FP:
             vic20_cpu_last_data = vic_fp_blk5_read(addr);
             break;
         case CARTRIDGE_VIC20_MEGACART:
             vic20_cpu_last_data = megacart_blk5_read(addr);
             break;
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            vic20_cpu_last_data = finalexpansion_blk5_read(addr);
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+            vic20_cpu_last_data = superexpander_blk5_read(addr);
             break;
     }
     return vic20_cpu_last_data;
@@ -377,12 +389,14 @@ uint8_t cartridge_peek_blk5(uint16_t addr)
             return generic_blk5_read(addr);
         case CARTRIDGE_VIC20_UM:
             return vic_um_blk5_read(addr);
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            return finalexpansion_blk5_read(addr);
         case CARTRIDGE_VIC20_FP:
             return vic_fp_blk5_read(addr);
         case CARTRIDGE_VIC20_MEGACART:
             return megacart_blk5_read(addr);
-        case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            return finalexpansion_blk5_read(addr);
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+            return superexpander_blk5_read(addr);
     }
     return 0;
 }
@@ -413,10 +427,11 @@ void cartridge_store_blk5(uint16_t addr, uint8_t value)
 
 void cartridge_init(void)
 {
+    generic_init();
     behrbonz_init();
     finalexpansion_init();
-    generic_init();
     megacart_init();
+    superexpander_init();
     vic_fp_init();
 #ifdef HAVE_RAWNET
     ethernetcart_init();
