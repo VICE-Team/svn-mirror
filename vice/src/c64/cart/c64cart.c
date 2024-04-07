@@ -139,7 +139,7 @@
 #include "zippcode48.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
-/* #define DEBUGCART */
+#define DEBUGCART
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x; fflush(stdout);
@@ -1098,7 +1098,7 @@ int cartridge_attach_image(int type, const char *filename)
         DBG(("CART: attach BIN ID: %d '%s'\n", carttype, filename));
         cartid = carttype;
         /* if this is x128 and the ID is a C128-only cart, use c128 specific function */
-        DBG(("%d %d %d\n",cartid,(machine_class == VICE_MACHINE_C128), (CARTRIDGE_C128_ISID(cartid)) ));
+        DBG(("cartid: %d c128?:%d c128id:%d\n", cartid, (machine_class == VICE_MACHINE_C128), (CARTRIDGE_C128_ISID(cartid)) ));
         if ((machine_class == VICE_MACHINE_C128) && (CARTRIDGE_C128_ISID(cartid))) {
             DBG(("trying C128 exclusive function\n"));
             if (c128cartridge->bin_attach(carttype, abs_filename, rawcart) < 0) {

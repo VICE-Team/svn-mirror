@@ -14242,6 +14242,8 @@ The following cartridge types are valid:
 @item
      5: Final Expansion
 @item
+     6: Rabbit tape turbo
+@item
   - 10: SID Cartridge
 @item
   - 11: IEEE-4888
@@ -22924,6 +22926,8 @@ Behr Bonz
 Final Expansion
 @item mega
 Mega-Cart
+@item rabbit
+Rabbit tape turbo
 @item um
 UltiMem
 @item vicfp
@@ -22953,7 +22957,10 @@ Plus4 multi cart
 
 @b{CBM2 cartridges:}
 
-@b{TODO - not implemented yet}
+@table @code
+@item cbm2
+Generic 4KiB/8KiB/16KiB/24KiB/32KiB cartridge
+@end table
 
 @c @node FIXME
 @section cartconv examples
@@ -34134,6 +34141,37 @@ $9c03
     bit 1  1: block1 off
     bit 0  1: block0 off
 @end example
+
+@c FIXME: cartridge details
+
+@c @node FIXME
+@subsubsection 6 - Rabbit tape turbo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2KiB (ROM)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+ 0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE
+ 0010: 00 00 00 40 02 00 00 06 00 00 00 00 00 00 00 00  ...@............
+ 0020: 52 61 62 62 69 74 20 54 61 70 65 00 00 00 00 00  Rabbit Tape.....
+ 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+ 0040: 43 48 49 50 00 00 08 10 00 00 00 00 98 00 08 00  CHIP............
+ 0050: a9 4c 85 73 a9 12 85 74 a9 98 85 75 a2 00 20 f9  .L.s...t...u.. .
+ 0060: 9b 60 ea e6 7a d0 02 e6 7b 86 fb ba bd 01 01 c9  .`..z...........
+ 0070: 8c d0 21 bd 02 01 c9 c4 d0 1a a5 7a d0 18 a5 7b  ..!........z....
+ 0080: c9 02 d0 12 a0 00 b1 7a c9 2a d0 0a 20 6c 98 a0  .......z.*.. l..
+ 0090: 00 98 91 7a a6 fb ad 8f 99 c9 4c d0 0d c6 7a a5  ...z......L...z.
+@dots{}
+ 0830: aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa  ................
+ 0840: aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa fe  ................
+@end example
+
+This cartridge maps 2KiB ROM into the IO2 and IO3 area ($9800 - $9fff). It can
+be started by SYS38912.
 
 @c FIXME: cartridge details
 
