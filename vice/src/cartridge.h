@@ -517,6 +517,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_32KB_2000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  1, 1, 1, 1)
 
 /* list of canonical names for the VIC20 cartridges: */
+#define CARTRIDGE_VIC20_NAME_GENERIC         "generic cartridge ROM"
 #define CARTRIDGE_VIC20_NAME_BEHRBONZ        "Behr Bonz"
 #define CARTRIDGE_VIC20_NAME_FINAL_EXPANSION "Final Expansion"
 #define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */

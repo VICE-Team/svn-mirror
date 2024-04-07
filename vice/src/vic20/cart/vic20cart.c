@@ -358,6 +358,7 @@ int cartridge_cmdline_options_init(void)
 {
     mon_cart_cmd.cartridge_attach_image = cartridge_attach_image;
     mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
+    mon_cart_cmd.export_dump = export_dump;
 
     if (cmdline_register_options(cmdline_options) < 0
         || finalexpansion_cmdline_options_init() < 0
@@ -1053,13 +1054,8 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_VIC20_IO2_RAM:
-                if (ioramcart_io2_snapshot_write_module(s) < 0) {
-                    return -1;
-                }
-                break;
-            case CARTRIDGE_VIC20_IO3_RAM:
-                if (ioramcart_io3_snapshot_write_module(s) < 0) {
+            case CARTRIDGE_VIC20_FP:
+                if (vic_fp_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1068,8 +1064,34 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+                if (mikroassembler_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_RABBIT:
+                if (rabbit_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_SUPEREXPANDER:
+                if (superexpander_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_VIC20_UM:
                 if (vic_um_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_VIC20_IO2_RAM:
+                if (ioramcart_io2_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IO3_RAM:
+                if (ioramcart_io3_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1087,11 +1109,6 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
 #endif
             case CARTRIDGE_VIC20_SIDCART:
                 if (sidcart_snapshot_write_module(s) < 0) {
-                    return -1;
-                }
-                break;
-            case CARTRIDGE_VIC20_FP:
-                if (vic_fp_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1225,13 +1242,8 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_VIC20_IO2_RAM:
-                if (ioramcart_io2_snapshot_read_module(s) < 0) {
-                    return -1;
-                }
-                break;
-            case CARTRIDGE_VIC20_IO3_RAM:
-                if (ioramcart_io3_snapshot_read_module(s) < 0) {
+            case CARTRIDGE_VIC20_FP:
+                if (vic_fp_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1240,8 +1252,34 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+                if (mikroassembler_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_RABBIT:
+                if (rabbit_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_SUPEREXPANDER:
+                if (superexpander_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_VIC20_UM:
                 if (vic_um_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_VIC20_IO2_RAM:
+                if (ioramcart_io2_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_VIC20_IO3_RAM:
+                if (ioramcart_io3_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1259,11 +1297,6 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
 #endif
             case CARTRIDGE_VIC20_SIDCART:
                 if (sidcart_snapshot_read_module(s) < 0) {
-                    return -1;
-                }
-                break;
-            case CARTRIDGE_VIC20_FP:
-                if (vic_fp_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;

@@ -32,6 +32,8 @@
 #include "assert.h"
 #include "export.h"
 #include "lib.h"
+#include "monitor.h"
+#include "vic20mem.h"
 
 /* #define DEBUGEXPORT */
 
@@ -54,7 +56,52 @@ export_list_t *export_query_list(export_list_t *item)
 
 void export_dump(void)
 {
-    /* TODO */
+    export_list_t *current = NULL;
+    io_source_t *io;
+    int cartid;
+    int exrom;
+
+    current = export_query_list(current);
+
+    if (current == NULL) {
+        mon_out("No expansion port devices.\n");
+    } else {
+               /*----- --------- --------- ----- ------------------------ */
+        mon_out("CRT-ID IO2-usage IO3-usage R1235 Name\n");
+        while (current != NULL) {
+            cartid = ((int)current->device->cartid);
+            if (cartid < 0) {
+                mon_out("0/%4d ", cartid);
+            } else {
+                mon_out("%6d ", cartid);
+            }
+            io = current->device->io1;
+            if (io) {
+                mon_out("%04x-%04x ", io->start_address, io->end_address);
+            } else {
+                mon_out("     none ");
+            }
+            io = current->device->io2;
+            if (io) {
+                mon_out("%04x-%04x ", io->start_address, io->end_address);
+            } else {
+                mon_out("     none ");
+            }
+
+            exrom = current->device->exrom;
+
+            mon_out("%c", (exrom & VIC_CART_RAM123) ? '*' : ' ');
+            mon_out("%c", (exrom & VIC_CART_BLK1) ? '*' : ' ');
+            mon_out("%c", (exrom & VIC_CART_BLK2) ? '*' : ' ');
+            mon_out("%c", (exrom & VIC_CART_BLK3) ? '*' : ' ');
+            mon_out("%c", (exrom & VIC_CART_BLK5) ? '*' : ' ');
+
+            mon_out(" %s\n", current->device->name);
+
+            current = current->next;
+        }
+    }
+
 }
 
 int export_add(const export_resource_t *export_res)

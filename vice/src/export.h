@@ -33,9 +33,9 @@
 typedef struct export_resource_s {
     const char *name;
     unsigned int game;
-    unsigned int exrom;
-    io_source_t *io1;
-    io_source_t *io2;
+    unsigned int exrom; /* VIC20: export "blocks" flags */
+    io_source_t *io1;   /* VIC20: IO2 device */
+    io_source_t *io2;   /* VIC20: IO3 device */
     unsigned int cartid;
 } export_resource_t;
 
