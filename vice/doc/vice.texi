@@ -14246,6 +14246,8 @@ The following cartridge types are valid:
 @item
      7: Super Expander
 @item
+     8: Mikro Assembler
+@item
   - 10: SID Cartridge
 @item
   - 11: IEEE-4888
@@ -22928,6 +22930,8 @@ Behr Bonz
 Final Expansion
 @item mega
 Mega-Cart
+@item ma
+Mikro Assembler
 @item rabbit
 Rabbit tape turbo
 @item se
@@ -34207,6 +34211,37 @@ be started by SYS38912.
 @end example
 
 This cartridge maps 4KiB ROM into block5 ($a000-$afff), and 3Kib RAM to RAM123 ($0400 - $0fff).
+
+@c FIXME: cartridge details
+
+@c @node FIXME
+@subsubsection 8 - Mikro Assembler
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8KiB (ROM)
+@tab 3KiB (RAM)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+ 0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE
+ 0010: 00 00 00 40 02 00 00 08 00 00 00 00 00 00 00 00  ...@............
+ 0020: 4d 69 6b 72 6f 20 41 73 73 65 6d 62 6c 65 72 00  Mikro Assembler.
+ 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+ 0040: 43 48 49 50 00 00 10 10 00 00 00 00 60 00 10 00  CHIP........`...
+ 0050: 01 0d 39 55 61 00 00 00 69 75 00 7d 00 8d 91 95  ..9Ua...iu......
+ 0060: 00 a5 b5 d1 00 00 ed 00 00 00 f1 44 43 47 61 4e  ...........DCGaN
+ 0070: 44 52 61 53 4c 5d 61 43 43 90 00 43 53 b0 00 45  DRaSL]aCC..CS..E
+ 0080: 51 f0 00 49 54 68 61 4d 49 30 00 4e 45 d0 00 50  Q..IThaMI0.NE..P
+ 0090: 4c 10 00 52 4b 00 00 56 43 50 00 56 53 70 00 59  L..RK..VCP.VSp.Y
+@dots{}
+ 2040: a7 69 aa 69 ad 69 b0 69 de 6a f3 6a 53 4d 20 20  .i.i.i.i.j.jSM
+ 2050: 07 01 04 f9 7f 20 20 20 20 00 05 33 02 88 00 00  .....    ..3....
+@end example
+
+This cartridge maps 4KiB ROM into block3 and 5 ($6000-$6fff, $a000-$afff), and 3Kib RAM to RAM123 ($0400 - $0fff).
 
 @c FIXME: cartridge details
 

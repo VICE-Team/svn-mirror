@@ -78,6 +78,7 @@
 #include "georam.h"
 #include "ioramcart.h"
 #include "megacart.h"
+#include "mikroassembler.h"
 #include "rabbit.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
@@ -121,13 +122,14 @@ static cartridge_info_t cartlist[] = {
     { "4KiB cartridge at $B000",            CARTRIDGE_VIC20_4KB_B000,           CARTRIDGE_GROUP_GENERIC },
 
     /* all cartridges with a CRT ID > 0, alphabetically sorted */
-    { CARTRIDGE_VIC20_NAME_MEGACART,        CARTRIDGE_VIC20_MEGACART,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_BEHRBONZ,        CARTRIDGE_VIC20_BEHRBONZ,           CARTRIDGE_GROUP_UTIL },
-    { CARTRIDGE_VIC20_NAME_FP,              CARTRIDGE_VIC20_FP,                 CARTRIDGE_GROUP_UTIL },
-    { CARTRIDGE_VIC20_NAME_UM,              CARTRIDGE_VIC20_UM,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, CARTRIDGE_VIC20_FINAL_EXPANSION,    CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_FP,              CARTRIDGE_VIC20_FP,                 CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_MEGACART,        CARTRIDGE_VIC20_MEGACART,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER, CARTRIDGE_VIC20_MIKRO_ASSEMBLER,    CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_RABBIT,          CARTRIDGE_VIC20_RABBIT,             CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_VIC20_NAME_SUPEREXPANDER,   CARTRIDGE_VIC20_SUPEREXPANDER,      CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_VIC20_NAME_UM,              CARTRIDGE_VIC20_UM,                 CARTRIDGE_GROUP_UTIL },
 
     { NULL, 0, 0 }
 };
@@ -342,6 +344,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartse", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_SUPEREXPANDER, NULL, NULL,
       "<Name>", "Specify " CARTRIDGE_VIC20_NAME_SUPEREXPANDER " cartridge ROM name" },
+    { "-cartma", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_MIKRO_ASSEMBLER, NULL, NULL,
+      "<Name>", "Specify " CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER " cartridge ROM name" },
 
     { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       detach_cartridge_cmdline, NULL, NULL, NULL,
@@ -430,9 +435,6 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 new_crttype = ret;
             }
             break;
-        case CARTRIDGE_VIC20_MEGACART:
-            ret = megacart_crt_attach(fd, rawcart);
-            break;
         case CARTRIDGE_VIC20_BEHRBONZ:
             ret = behrbonz_crt_attach(fd, rawcart);
             break;
@@ -442,14 +444,20 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
         case CARTRIDGE_VIC20_FP:
             ret = vic_fp_crt_attach(fd, rawcart, filename);
             break;
-        case CARTRIDGE_VIC20_UM:
-            ret = vic_um_crt_attach(fd, rawcart, filename);
+        case CARTRIDGE_VIC20_MEGACART:
+            ret = megacart_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            ret = mikroassembler_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_VIC20_RABBIT:
             ret = rabbit_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             ret = superexpander_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_crt_attach(fd, rawcart, filename);
             break;
         default:
             archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
@@ -500,6 +508,9 @@ static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_VIC20_MEGACART:
             ret = megacart_bin_attach(filename);
+            break;
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
+            ret = mikroassembler_bin_attach(filename);
             break;
         case CARTRIDGE_VIC20_RABBIT:
             ret = rabbit_bin_attach(filename);
