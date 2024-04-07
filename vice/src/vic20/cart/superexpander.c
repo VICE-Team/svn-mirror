@@ -78,7 +78,7 @@ static uint8_t *cart_rom = NULL;
 static log_t superexpander_log = LOG_ERR;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_VIC20_NAME_SUPEREXPANDER, 0, 0, NULL, NULL, CARTRIDGE_VIC20_SUPEREXPANDER
+    CARTRIDGE_VIC20_NAME_SUPEREXPANDER, 0, VIC_CART_RAM123 | VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_SUPEREXPANDER
 };
 
 /* ------------------------------------------------------------------------- */

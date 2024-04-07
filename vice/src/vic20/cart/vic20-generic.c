@@ -38,6 +38,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
@@ -80,6 +81,22 @@ static char *cartfile6 = NULL;
 static char *cartfileA = NULL;
 static char *cartfileB = NULL;
 
+static export_resource_t export_res2 = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, VIC_CART_BLK1, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
+static export_resource_t export_res4 = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, VIC_CART_BLK2, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
+static export_resource_t export_res6 = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, VIC_CART_BLK3, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
+static export_resource_t export_resA = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
+static export_resource_t export_resB = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -112,6 +129,9 @@ static uint8_t *cart_rom = NULL;
 int generic_ram_blocks = 0;
 int generic_rom_blocks = 0;
 
+static export_resource_t export_res = {
+    CARTRIDGE_VIC20_NAME_GENERIC, 0, 0, NULL, NULL, CARTRIDGE_VIC20_GENERIC
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -338,26 +358,41 @@ static int attach_image(int type, const char *filename)
         case CARTRIDGE_VIC20_32KB_2000: /* fall through */
         case CARTRIDGE_VIC20_4KB_3000:
             util_string_set(&cartfile2, filename);
+            if (export_add(&export_res2) < 0) {
+                return -1;
+            }
             break;
         case CARTRIDGE_VIC20_4KB_4000:  /* fall through */
         case CARTRIDGE_VIC20_8KB_4000:  /* fall through */
         case CARTRIDGE_VIC20_16KB_4000: /* fall through */
         case CARTRIDGE_VIC20_4KB_5000:
             util_string_set(&cartfile4, filename);
+            if (export_add(&export_res4) < 0) {
+                return -1;
+            }
             break;
         case CARTRIDGE_VIC20_4KB_6000:  /* fall through */
         case CARTRIDGE_VIC20_8KB_6000:  /* fall through */
         case CARTRIDGE_VIC20_16KB_6000: /* fall through */
         case CARTRIDGE_VIC20_4KB_7000:
             util_string_set(&cartfile6, filename);
+            if (export_add(&export_res6) < 0) {
+                return -1;
+            }
             break;
         case CARTRIDGE_VIC20_4KB_A000:  /* fall through */
         case CARTRIDGE_VIC20_8KB_A000:
             util_string_set(&cartfileA, filename);
+            if (export_add(&export_resA) < 0) {
+                return -1;
+            }
             break;
         case CARTRIDGE_VIC20_2KB_B000: /* fall through */
         case CARTRIDGE_VIC20_4KB_B000:
             util_string_set(&cartfileB, filename);
+            if (export_add(&export_resB) < 0) {
+                return -1;
+            }
             break;
         default:
             DBG(("attach_image error (string set), len=%ld.\n", len));
@@ -630,6 +665,10 @@ int generic_crt_attach(FILE *fd, uint8_t *rawcart)
     {
         if (crt_read_chip_header(&chip, fd)) {
             if (idx > 0) {
+                export_res.exrom = generic_ram_blocks | generic_rom_blocks;
+                if (export_add(&export_res) < 0) {
+                    goto exiterror;
+                }
                 mem_cart_blocks = generic_ram_blocks | generic_rom_blocks;
                 mem_initialize_memory();
                 return CARTRIDGE_VIC20_GENERIC;
@@ -678,6 +717,13 @@ void generic_detach(void)
     lib_free(cart_rom);
     cart_ram = NULL;
     cart_rom = NULL;
+
+    export_remove(&export_res);
+    export_remove(&export_res2);
+    export_remove(&export_res4);
+    export_remove(&export_res6);
+    export_remove(&export_resA);
+    export_remove(&export_resB);
 
     util_string_set(&cartfile2, NULL);
     util_string_set(&cartfile4, NULL);

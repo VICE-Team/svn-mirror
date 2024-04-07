@@ -193,7 +193,9 @@ static io_source_t finalexpansion_device = {
 static io_source_list_t *finalexpansion_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, 0, 0, NULL, &finalexpansion_device, CARTRIDGE_VIC20_FINAL_EXPANSION
+    CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, 0,
+    VIC_CART_RAM123 | VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5,
+    NULL, &finalexpansion_device, CARTRIDGE_VIC20_FINAL_EXPANSION
 };
 
 /* ------------------------------------------------------------------------- */

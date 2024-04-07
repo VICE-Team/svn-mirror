@@ -109,7 +109,7 @@ static const export_resource_t export_res_io2 = {
 };
 
 static const export_resource_t export_res_io3 = {
-    CARTRIDGE_VIC20_NAME_IO2_RAM, 0, 0, NULL, &ram_io3_device, CARTRIDGE_VIC20_IO3_RAM
+    CARTRIDGE_VIC20_NAME_IO3_RAM, 0, 0, NULL, &ram_io3_device, CARTRIDGE_VIC20_IO3_RAM
 };
 
 /* ---------------------------------------------------------------------*/

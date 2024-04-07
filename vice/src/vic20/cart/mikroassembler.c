@@ -80,7 +80,7 @@ static uint8_t *cart_rom = NULL;
 static log_t mikroassembler_log = LOG_ERR;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER, 0, 0, NULL, NULL, CARTRIDGE_VIC20_MIKRO_ASSEMBLER
+    CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER, 0, VIC_CART_RAM123 | VIC_CART_BLK3 | VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_MIKRO_ASSEMBLER
 };
 
 /* ------------------------------------------------------------------------- */

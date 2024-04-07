@@ -207,7 +207,9 @@ static io_source_list_t *io2_list_item = NULL;
 static io_source_list_t *io3_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_VIC20_NAME_UM, 0, 0, &ultimem_io2, &ultimem_io2, CARTRIDGE_VIC20_UM
+    CARTRIDGE_VIC20_NAME_UM, 0,
+    VIC_CART_RAM123 | VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5,
+    &ultimem_io2, &ultimem_io3, CARTRIDGE_VIC20_UM
 };
 
 /* ------------------------------------------------------------------------- */
