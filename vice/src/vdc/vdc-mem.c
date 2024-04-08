@@ -44,6 +44,7 @@
 #include "vdctypes.h"
 #include "vdc-draw.h"
 #include "videoarch.h"
+#include "vdc-resources.h"
 
 static CLOCK vdc_status_clear_clock = 0;
 
@@ -66,9 +67,9 @@ static void vdc_write_data(void)
     ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
     /* Write data byte to update address. */
-    vdc_ram_store(ptr & vdc.vdc_address_mask, vdc.regs[31]);
+    vdc_ram_store(ptr, vdc.regs[31]);
 #ifdef REG_DEBUG
-    log_message(vdc.log, "STORE %04i %02x", ptr & vdc.vdc_address_mask,
+    log_message(vdc.log, "STORE %04i %02x", ptr,
                 vdc.regs[31]);
 #endif
     ptr += 1;
@@ -320,7 +321,7 @@ void vdc_store(uint16_t addr, uint8_t value)
 
         case 14:
         case 15:                /* R14-5 Cursor location HI/LO */
-            vdc.crsrpos = ((vdc.regs[14] << 8) | vdc.regs[15]) & vdc.vdc_address_mask;
+            vdc.crsrpos = (vdc.regs[14] << 8) | vdc.regs[15];
             break;
 
         case 16:                /* R16/17 Light Pen hi/lo */
@@ -331,7 +332,7 @@ void vdc_store(uint16_t addr, uint8_t value)
 
         case 18:                /* R18/19 Update Address hi/lo */
         case 19:
-            vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19]) & vdc.vdc_address_mask;
+            vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19]);
             /* writing to 18/19 forces the vdc to go read its memory, which takes a while */
             if (vdc.display_enable) {
                 vdc_status_clear_clock = maincpu_clk + 43;  /* The VDC is 'busier' when in the active display area */
@@ -466,7 +467,7 @@ void vdc_store(uint16_t addr, uint8_t value)
 
         case 28:                /* Character pattern address and memory type */
             /* FIXME reg28 bit 4 sets RAM addressing. it does *not* show how much ram is installed */
-            vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000) & vdc.vdc_address_mask;
+            vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000);
 #ifdef REG_DEBUG
             log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
 #endif
@@ -529,8 +530,7 @@ uint8_t vdc_read(uint16_t addr)
 
         if (vdc.update_reg == 31) {
             retval = vdc_ram_read((vdc.regs[18] << 8) + vdc.regs[19]);
-            ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8))
-                  & vdc.vdc_address_mask;
+            ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8));
             vdc.regs[18] = (ptr >> 8) & 0xff;
             vdc.regs[19] = ptr & 0xff;
             /* Set the clock for when the vdc status will be clear after this operation */
@@ -601,8 +601,8 @@ uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers *
     }
 }
 
-/* address translation function for a 64KB VDC in 16KB mode, used by below 2 functions */
-static uint16_t vdc_64k_to_16k_map(uint16_t address)
+/* address translation function for a 16KB VDC in 64KB mode, used by read/write functions below */
+static uint16_t vdc_16k_to_64k_map(uint16_t address)
 {
     uint16_t new_address = address & 0x80ff;
     uint16_t tmp = address & 0x3f00;
@@ -614,22 +614,57 @@ static uint16_t vdc_64k_to_16k_map(uint16_t address)
     return new_address;
 }
 
-uint8_t vdc_ram_read(uint16_t addr)
+/* address translation function for a 64KB VDC in 16KB mode, used by read/write functions below */
+static uint16_t vdc_64k_to_16k_map(uint16_t address)
 {
-    /* Use 16KB memory map when the RAM chip type register #28 bit 4 is 0 for 4416 chips */
-    if (!(vdc.regs[28] & 0x10)) {
-        return vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)];
+    uint16_t new_address = address & 0x00ff;
+    uint16_t tmp = address & 0x7e00;
+
+    tmp >>= 1;
+    new_address |= tmp;
+    return new_address;
+}
+
+uint8_t vdc_ram_read(uint16_t addr)
+{   /* perform necessary address translations when memory configuration doesn't match memory addressing */
+    if (vdc.regs[28] & 0x10) {
+        if (vdc_resources.vdc_64kb_expansion) {
+            /* 64KB addressing, 4464 chips 64KB */
+            return vdc.ram[addr];
+        } else {
+            /* 64KB addressing, 4416 chips 16KB */
+            return vdc.ram[vdc_64k_to_16k_map(addr)];
+        }
+    } else {
+        if (vdc_resources.vdc_64kb_expansion) {
+            /* 16KB addressing, 4464 chips 64KB */
+            return vdc.ram[vdc_16k_to_64k_map(addr)];
+        } else {
+            /* 16KB addressing, 4416 chips 16KB */
+            return vdc.ram[addr & 0x3fff];
+        }
     }
-    /* otherwise return the default linear memory layout for the 4464 chip setting */
-    return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
 void vdc_ram_store(uint16_t addr, uint8_t value)
 {   /* as above but for storing to VDC ram with appropriate address translation*/
-    if (!(vdc.regs[28] & 0x10)) {
-        vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)] = value;
-    } else
-    vdc.ram[addr & vdc.vdc_address_mask] = value;
+    if (vdc.regs[28] & 0x10) {
+        if (vdc_resources.vdc_64kb_expansion) {
+            /* 64KB addressing, 4464 chips 64KB */
+            vdc.ram[addr] = value;
+        } else {
+            /* 64KB addressing, 4416 chips 16KB */
+            vdc.ram[vdc_64k_to_16k_map(addr)] = value;
+        }
+    } else {
+        if (vdc_resources.vdc_64kb_expansion) {
+            /* 16KB addressing, 4464 chips 64KB */
+            vdc.ram[vdc_16k_to_64k_map(addr)] = value;
+        } else {
+            /* 16KB addressing, 4416 chips 16KB */
+            vdc.ram[addr & 0x3fff] = value;
+        }
+    }
 }
 
 
@@ -660,10 +695,12 @@ int vdc_dump(void)
     mon_out("\nStatus         : ");
     mon_out(maincpu_clk > vdc_status_clear_clock ? "Ready" : "Busy");
     mon_out("\nActive Register: %d", vdc.update_reg);
+    mon_out("\nAddress Mask   : $%04x",
+            (unsigned int)vdc.vdc_address_mask);
     mon_out("\nMemory Address : $%04x",
-            (unsigned int)(((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask));
+            (unsigned int)((vdc.regs[18] << 8) + vdc.regs[19]));
     mon_out("\nBlockCopySource: $%04x",
-            (unsigned int)(((vdc.regs[32] << 8) + vdc.regs[33]) & vdc.vdc_address_mask));
+            (unsigned int)((vdc.regs[32] << 8) + vdc.regs[33]));
     mon_out("\nDisplay Mode   : ");
     mon_out(vdc.regs[25] & 0x80 ? "Bitmap" : "Text");
     mon_out(vdc.regs[25] & 0x40 ? " & Attributes" : ", no Attributes");
@@ -691,24 +728,24 @@ int vdc_dump(void)
                                     VDC_DOT_CLOCK / ((vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1) * ((vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1) + (vdc.regs[5] & 0x1f))));
     }
 
-    location = ((vdc.regs[12] << 8) + vdc.regs[13]) & vdc.vdc_address_mask;
+    location = ((vdc.regs[12] << 8) + vdc.regs[13]);
     if (vdc.regs[25] & 0x80 ) {
         size = vdc.regs[1] * vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);  /* bitmap size */
     } else {
         size = vdc.regs[1] * vdc.regs[6];   /* text mode size */
     }
-    mon_out("\nScreen Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
+    mon_out("\nScreen Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1), size);
 
-    location = ((vdc.regs[20] << 8) + vdc.regs[21]) & vdc.vdc_address_mask;
+    location = ((vdc.regs[20] << 8) + vdc.regs[21]);
     size = vdc.regs[1] * vdc.regs[6];
-    mon_out("\nAttrib Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
+    mon_out("\nAttrib Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1), size);
 
-    location = ((vdc.regs[28] & 0xE0) << 8) & vdc.vdc_address_mask;
+    location = ((vdc.regs[28] & 0xE0) << 8);
     size = 0x200 * vdc.bytes_per_char; /* 0x2000 or 0x4000, depending on character height */
-    mon_out("\nCharset Memory : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
+    mon_out("\nCharset Memory : $%04x-$%04x (Size $%04x)", location, (location + size - 1), size);
 
     mon_out("\nCursor Address : $%04x",
-            (unsigned int)(((vdc.regs[14] << 8) + vdc.regs[15]) & vdc.vdc_address_mask));
+            (unsigned int)(((vdc.regs[14] << 8) + vdc.regs[15])));
     mon_out("\n");
     return 0;
 }

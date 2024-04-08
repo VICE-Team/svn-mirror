@@ -512,7 +512,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs, unsigned int *x
     /* r=return value, cursor_pos=the cursor position in screen memory so that it can be drawn correctly */
     int r, cursor_pos;
 
-    cursor_pos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
+    cursor_pos = ( vdc.crsrpos & vdc.vdc_address_mask ) - vdc.screen_adr - vdc.mem_counter;
 
     if (vdc.regs[25] & 0x40) {
         /* attribute mode */
@@ -520,7 +520,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs, unsigned int *x
         r = cache_data_fill_attr_text(cache->foreground_data,
                                       vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                       vdc.ram + vdc.attribute_adr + vdc.mem_counter,
-                                      vdc.ram + vdc.chargen_adr,
+                                      vdc.ram + (vdc.chargen_adr & vdc.vdc_address_mask),
                                       vdc.bytes_per_char,
                                       vdc.screen_text_cols,
                                       vdc.raster.ycounter,
@@ -541,7 +541,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs, unsigned int *x
         r = cache_data_fill_attr_text_const(cache->foreground_data,
                                             vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                             (uint8_t)(vdc.regs[26] & 0x0f),
-                                            vdc.ram + vdc.chargen_adr,
+                                            vdc.ram + (vdc.chargen_adr & vdc.vdc_address_mask),
                                             vdc.bytes_per_char,
                                             (int)vdc.screen_text_cols,
                                             vdc.raster.ycounter,
@@ -665,7 +665,7 @@ static void draw_std_text(void)
     unsigned int cpos = 0xFFFF;
     int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
 
-    cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
+    cpos = ( vdc.crsrpos & vdc.vdc_address_mask ) - vdc.screen_adr - vdc.mem_counter;
 
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
         if (vdc.charwidth > 16) {   /* Is there inter character spacing to render? */
@@ -687,7 +687,7 @@ static void draw_std_text(void)
     attr_ptr = &vdc.attrbuf[vdc.attrbufdraw];
     /* screen_ptr = vdc.ram + ((vdc.screen_adr + vdc.mem_counter) & vdc.vdc_address_mask);*/ /* as above */
     screen_ptr = &vdc.scrnbuf[vdc.attrbufdraw];
-    char_index = vdc.chargen_adr + vdc.raster.ycounter;
+    char_index = (vdc.chargen_adr & vdc.vdc_address_mask) + vdc.raster.ycounter;
 
     calculate_draw_masks();
 
