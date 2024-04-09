@@ -57,7 +57,7 @@ GtkWidget *settings_vicioram_widget_create(GtkWidget *parent)
                                                  " ($9800-$9BFF)"),
     io3ram = vice_gtk3_resource_check_button_new("IO3RAM",
                                                  "Enable IO-3 RAM Cartridge"
-                                                 " ($9C00-$FBFF)"),
+                                                 " ($9C00-$9FFF)"),
     gtk_grid_attach(GTK_GRID(grid), io2ram, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), io3ram, 0, 1, 1, 1);
 
