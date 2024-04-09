@@ -482,7 +482,8 @@ static gboolean save_screenshot_error_impl(gpointer data)
 {
     char *filename = data;
 
-    vice_gtk3_message_error("Screenshot error",
+    vice_gtk3_message_error(NULL,
+                            "Screenshot error",
                             "Failed to write screenshot file '%s.'",
                             filename);
     lib_free(filename);
@@ -699,8 +700,10 @@ static void on_save_video_filename(GtkDialog *dialog,
         /* printf("on_save_video_filename video_driver:'%s'\n", video_driver); */
         /* TODO: add extension if not present? */
         if (screenshot_save(video_driver, filename_locale, ui_get_active_canvas()) < 0) {
-            vice_gtk3_message_error("VICE Error",
-                    "Failed to write video file '%s'", filename);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE Error",
+                                    "Failed to write video file '%s'",
+                                    filename);
         }
         g_free(filename);
         g_free(filename_locale);

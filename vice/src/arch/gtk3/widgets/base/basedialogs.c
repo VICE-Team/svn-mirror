@@ -140,11 +140,13 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
  *
  * \return  GtkMessageDialog
  */
-static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
-                                const char *title, const char *text)
+static GtkWidget *create_dialog(GtkWindow      *parent,
+                                GtkMessageType  type,
+                                GtkButtonsType  buttons,
+                                const char     *title,
+                                const char     *text)
 {
     GtkWidget *dialog;
-    GtkWindow *parent = ui_get_active_window();
     gboolean no_parent = FALSE;
 
     if (parent == NULL) {
@@ -155,7 +157,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
     dialog = gtk_message_dialog_new(
             parent,
-            GTK_DIALOG_DESTROY_WITH_PARENT,
+            /* GTK_DIALOG_DESTROY_WITH_PARENT */ 0,
             type, buttons, NULL);
     gtk_window_set_title(GTK_WINDOW(dialog), title);
     gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), text);
@@ -194,7 +196,7 @@ GtkWidget *vice_gtk3_message_info(const char *title,
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
+    dialog = create_dialog(NULL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
 
     lib_free(buffer);
 
@@ -228,7 +230,7 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
+    dialog = create_dialog(NULL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
 
     lib_free(buffer);
@@ -245,41 +247,56 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
 
 /** \brief  Create 'error' dialog
  *
- * \param[in]   title       dialog title
- * \param[in]   fmt         message format string and arguments
+ * Create modal error dialog with either \a parent as parentm or if \a parent
+ * is \c NULL the active emu window as parent or if that one isn't created yet,
+ * a temporary empty (non-visible) parent window.
+ *
+ * \param[in]   parent  parent window/dialog
+ * \param[in]   title   dialog title
+ * \param[in]   fmt     message format string and arguments
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_message_error(const char *title,
+GtkWidget *vice_gtk3_message_error(GtkWindow  *parent,
+                                   const char *title,
                                    const char *fmt, ...)
 {
-    GtkWindow *active_window;
+    GtkWindow *active_window = NULL;
     GtkWidget *dialog;
-    va_list args;
-    char *buffer;
+    va_list    args;
+    char      *buffer;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
+    dialog = create_dialog(parent, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
 
     lib_free(buffer);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response_error), NULL);
-
-    active_window = ui_get_active_window();
-
-    if (active_window) {
+    if (parent == NULL) {
+        /* no parent: assume active emu window */
+        active_window = ui_get_active_window();
+    } else {
+        /* we have a proper parent: */
+        active_window = parent;
+    }
+    if (active_window != NULL) {
         gtk_window_set_transient_for(GTK_WINDOW(dialog), active_window);
         gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
         gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
     } else {
+        /* no emu window present yet (UI hasn't  properly started), center on
+         * screen (if the WM accept this) */
         gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
     }
 
-    gtk_widget_show(dialog);
+    g_signal_connect_unlocked(G_OBJECT(dialog),
+                              "response",
+                              G_CALLBACK(on_response_error),
+                              NULL);
 
+    gtk_widget_show(dialog);
     return dialog;
 }
 

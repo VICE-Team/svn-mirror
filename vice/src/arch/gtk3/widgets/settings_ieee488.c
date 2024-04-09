@@ -62,7 +62,8 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         resources_get_string("IEEE488Image", &image);
         if (image == NULL || *image == '\0') {
             /* no image */
-            vice_gtk3_message_error(CARTRIDGE_NAME_IEEE488 " Error",
+            vice_gtk3_message_error(NULL,
+                                    CARTRIDGE_NAME_IEEE488 " Error",
                                     "Cannot enable " CARTRIDGE_NAME_IEEE488 ","
                                     " no image has been selected.");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);

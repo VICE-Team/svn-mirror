@@ -66,7 +66,8 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         resources_get_string("IEEEFlash64Image", &image);
         if (image == NULL || *image == '\0') {
             /* no image */
-            vice_gtk3_message_error(CARTRIDGE_NAME_IEEEFLASH64 " Error",
+            vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
+                                    CARTRIDGE_NAME_IEEEFLASH64 " Error",
                                     "Cannot enable " CARTRIDGE_NAME_IEEEFLASH64
                                     ", no image specified.");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);

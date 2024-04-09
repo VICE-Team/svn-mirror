@@ -1482,7 +1482,8 @@ static void save_as_callback(GtkDialog *dialog, gchar *path, gpointer data)
                                    "Hotkeys succesfully saved as '%s'.",
                                    fullpath);
         } else {
-            vice_gtk3_message_error("Hotkeys error",
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "Hotkeys error",
                                     "Failed to save hotkeys as '%s'.",
                                     fullpath);
         }
@@ -1527,7 +1528,8 @@ static void on_save_clicked(GtkButton *button, gpointer unused)
         lib_free(path);
     } else {
         /* FIXME: perhaps some info on what happened to make it fail? */
-        vice_gtk3_message_error("Hotkeys error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+                                "Hotkeys error",
                                 "Failed to save hotkeys.");
     }
     update_hotkeys_info();

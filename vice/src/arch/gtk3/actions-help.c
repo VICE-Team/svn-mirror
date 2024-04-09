@@ -110,10 +110,10 @@ static void help_manual_action(ui_action_map_t *self)
         debug_gtk3("Calling xgd-open");
         if (archdep_spawn("xdg-open", args, &tmp_name, NULL) < 0) {
             debug_gtk3("xdg-open Failed!");
-            vice_gtk3_message_error(
-                    "Failed to load PDF",
-                    "Error message: %s",
-                    error != NULL ? error->message : "<no message>");
+            vice_gtk3_message_error(NULL, /* use current emu window as parent */
+                                    "Failed to load PDF",
+                                    "Error message: %s",
+                                    error != NULL ? error->message : "<no message>");
         } else {
             debug_gtk3("OK");
         }

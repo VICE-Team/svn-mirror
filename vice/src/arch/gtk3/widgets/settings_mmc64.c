@@ -89,7 +89,8 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 
     if (enabled && (bios == NULL || *bios == '\0')) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-        vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+                                CARTRIDGE_NAME_MMC64 " Error",
                                 "Cannot enable " CARTRIDGE_NAME_MMC64
                                 " due to missing BIOS file.");
         return;
@@ -127,7 +128,8 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_MMC64, filename) < 0) {
-            vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    CARTRIDGE_NAME_MMC64 " Error",
                                     "Failed to save image as '%s'.",
                                     filename);
         }
@@ -160,7 +162,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
-        vice_gtk3_message_error(CARTRIDGE_NAME_MMC64 " Error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+                                CARTRIDGE_NAME_MMC64 " Error",
                                 "Failed to flush image.");
     }
 }

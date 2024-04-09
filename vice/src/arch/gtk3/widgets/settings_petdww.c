@@ -64,7 +64,8 @@ static void on_dww_toggled(GtkWidget *widget, gpointer user_data)
 
     /* only enable when I/O size is 2048 bytes */
     if (active && (io_size < 2048)) {
-        vice_gtk3_message_error("Cannot enable DWW",
+        vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
+                "Cannot enable DWW",
                 "To be able to use DWW, the I/O size of the machine "
                 " needs to be 2048 bytes."
                 " The current I/O size is %d bytes.\n\n"
