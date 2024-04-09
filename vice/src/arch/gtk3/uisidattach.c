@@ -115,15 +115,11 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
  * \param[in]   user_data   extra data (unused)
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
-    char text[1024];
+    char   text[1024];
 
     switch (response_id) {
 

@@ -245,7 +245,10 @@ int ui_vsid_window_load_psid(const char *filename)
 
     if (machine_autodetect_psid(filename) < 0) {
         vsid_control_widget_set_state(VSID_ERROR);
-        ui_error("'%s' is not a valid PSID file.", filename);
+        vice_gtk3_message_error(NULL,
+                                "PSID error",
+                                "'%s' is not a valid PSID file.",
+                                filename);
         return -1;
     }
 

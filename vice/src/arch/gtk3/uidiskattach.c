@@ -223,7 +223,10 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostart disk attach failed.");
-        ui_error("Autostart disk attach failed.");
+        vice_gtk3_message_error(GTK_WINDOW(widget),
+                                "Autostart failure",
+                                "Autostarting disk image '%s' failed.",
+                                filename);
     }
     g_free(filename);
     g_free(filename_locale);

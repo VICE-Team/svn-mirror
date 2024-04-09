@@ -103,17 +103,17 @@ static GtkWidget *autostart_button;
 
 /** \brief  Trigger autostart
  *
- * \param[in]   widget      dialog
+ * \param[in]   dialog      dialog
  * \param[in]   index       file index in the directory preview
  * \param[in]   autostart   flag: 0: just load, 1: autostart
  */
-static void do_autostart(GtkWidget *widget, int index, int autostart)
+static void do_autostart(GtkWidget *dialog, int index, int autostart)
 {
     gchar *filename;
     gchar *filename_locale;
 
-    lastdir_update(widget, &last_dir, &last_file);
-    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    lastdir_update(dialog, &last_dir, &last_file);
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
     filename_locale = file_chooser_convert_to_locale(filename);
 
     /* if this function exists, why is there no attach_autodetect()
@@ -125,13 +125,10 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                            in the preview widget to load the proper
                            file in an image */
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
-        /* oeps
-         *
-         * I currently can't find a way to use a non-blocking Gtk Error dialog
-         * to report the error, so this will have to do, for now. -- compyx
-         */
-        log_error(LOG_ERR, "Failed to smart attach '%s'", filename_locale);
-        ui_error("Failed to smart attach '%s'", filename_locale);
+        vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                "Autodetect error",
+                                "Failed to smart attach '%s'",
+                                filename_locale);
     }
     g_free(filename);
     g_free(filename_locale);
@@ -366,10 +363,8 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
  * \param[in]   user_data   unit number
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
+ 
+ * TODO:    proper (error) messages
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
