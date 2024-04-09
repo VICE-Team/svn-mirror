@@ -237,14 +237,14 @@ static char *screenshot_filename = NULL;
  */
 static char *screenshot_driver = NULL;
 
-
+/** \brief  Reference to the dialog for the vysnc callback */
+static GtkWidget *main_dialog = NULL;
 
 /** \brief  Reference to the GtkStack containing the media types
  *
  * Used in the dialog response callback to determine recording mode and params
  */
 static GtkWidget *stack;
-
 
 /** \brief  Pause state when activating the dialog
  */
@@ -287,6 +287,7 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
         ui_pause_disable();
     }
     ui_action_finish(ACTION_MEDIA_RECORD);
+    main_dialog = NULL;
 }
 
 
@@ -482,7 +483,7 @@ static gboolean save_screenshot_error_impl(gpointer data)
 {
     char *filename = data;
 
-    vice_gtk3_message_error(NULL,
+    vice_gtk3_message_error(GTK_WINDOW(main_dialog),
                             "Screenshot error",
                             "Failed to write screenshot file '%s.'",
                             filename);
@@ -1186,7 +1187,6 @@ static GtkWidget *create_content_widget(void)
  */
 void ui_media_dialog_show(void)
 {
-    GtkWidget *dialog;
     GtkWidget *content;
 
     /*
@@ -1204,27 +1204,26 @@ void ui_media_dialog_show(void)
         create_video_driver_list();
     }
 
-    dialog = gtk_dialog_new_with_buttons(
-            "Record media file",
-            ui_get_active_window(),
-            GTK_DIALOG_MODAL,
-            "Save", RESPONSE_SAVE,
-            "Close", GTK_RESPONSE_DELETE_EVENT,
-            NULL);
+    main_dialog = gtk_dialog_new_with_buttons("Record media file",
+                                               ui_get_active_window(),
+                                               GTK_DIALOG_MODAL,
+                                               "Save", RESPONSE_SAVE,
+                                               "Close", GTK_RESPONSE_DELETE_EVENT,
+                                                NULL);
 
     /* add content widget */
-    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    content = gtk_dialog_get_content_area(GTK_DIALOG(main_dialog));
     if (machine_class != VICE_MACHINE_VSID) {
         gtk_container_add(GTK_CONTAINER(content), create_content_widget());
     } else {
         gtk_container_add(GTK_CONTAINER(content), create_sound_widget());
     }
 
-    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), (gpointer)dialog);
-    g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
+    gtk_window_set_resizable(GTK_WINDOW(main_dialog), FALSE);
+    g_signal_connect(main_dialog, "response", G_CALLBACK(on_response), (gpointer)main_dialog);
+    g_signal_connect_unlocked(main_dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
-    gtk_widget_show_all(dialog);
+    gtk_widget_show_all(main_dialog);
 }
 
 

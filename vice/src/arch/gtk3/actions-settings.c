@@ -131,7 +131,7 @@ static void settings_load_action(ui_action_map_t *self)
     result = resources_reset_and_load(NULL);
     mainlock_release();
     if (result != 0) {
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent? */
+        vice_gtk3_message_error(NULL, /* current emu window as parent */
                                 "VICE core error",
                                 "Failed to load default settings file");
     } else {
@@ -216,7 +216,7 @@ static void settings_save_action(ui_action_map_t *self)
     result = resources_save(NULL);
     mainlock_release();
     if (result != 0) {
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+        vice_gtk3_message_error(NULL, /* current emu window as parent */
                                 "VICE core error",
                                 "Failed to save default settings file");
     }

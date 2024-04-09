@@ -2506,21 +2506,16 @@ void arch_ui_activate(void)
 
 /** \brief  Error dialog handler for the threaded UI
  *
- * \param[in]   user_data   error message
+ * \param[in]   user_data   error message (allocated by VICE)
  *
- * \return  FALSE
+ * \return  \c G_SOURCE_REMOVE to only run once
  */
 static gboolean ui_error_impl(gpointer user_data)
 {
-    char *buffer = (char *)user_data;
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_message_error(NULL, "VICE Error", "%s", buffer);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-
-    lib_free(buffer);
-
-    return FALSE;
+    vice_gtk3_message_error(NULL, /* current emu window as parent */
+                            "VICE Error", "%s", (const char*)user_data);
+    lib_free(user_data);
+    return G_SOURCE_REMOVE;
 }
 
 
@@ -2550,15 +2545,9 @@ void ui_error(const char *format, ...)
  */
 static gboolean ui_message_impl(gpointer user_data)
 {
-    char *buffer = (char *)user_data;
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_message_info("VICE Message", "%s", buffer);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-
-    lib_free(buffer);
-
-    return FALSE;
+    vice_gtk3_message_info("VICE Message", "%s", (const char *)user_data);
+    lib_free(user_data);
+    return G_SOURCE_REMOVE;
 }
 
 
