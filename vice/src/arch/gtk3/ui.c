@@ -2515,7 +2515,7 @@ static gboolean ui_error_impl(gpointer user_data)
     char *buffer = (char *)user_data;
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_message_error("VICE Error", "%s", buffer);
+    dialog = vice_gtk3_message_error(NULL, "VICE Error", "%s", buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
 
     lib_free(buffer);

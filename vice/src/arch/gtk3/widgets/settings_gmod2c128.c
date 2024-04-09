@@ -60,9 +60,10 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128), filename) < 0) {
-            vice_gtk3_message_error("Saving failed",
-                    "Failed to save cartridge image '%s'",
-                    filename);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "Saving failed",
+                                    "Failed to save cartridge image '%s'",
+                                    filename);
         }
         g_free(filename);
     }
@@ -94,8 +95,9 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128)) < 0) {
-        vice_gtk3_message_error("Flushing failed",
-                    "Failed to fush cartridge image");
+        vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
+                                "Flushing failed",
+                                "Failed to fush cartridge image");
     }
 }
 
@@ -107,14 +109,15 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  * \param[in]       data        extra data (unused)
  */
 static void eeprom_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
+                                     gchar     *filename,
+                                     gpointer   data)
 {
     if (filename != NULL) {
         if (resources_set_string("GMod128EEPROMImage", filename) < 0) {
-            vice_gtk3_message_error("Failed to load EEPROM file",
-                    "Failed to load EEPROM image file '%s'",
-                    filename);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "Failed to load EEPROM file",
+                                    "Failed to load EEPROM image file '%s'",
+                                    filename);
         } else {
             gtk_entry_set_text(GTK_ENTRY(eeprom_entry), filename);
         }

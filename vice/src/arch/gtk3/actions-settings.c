@@ -131,7 +131,8 @@ static void settings_load_action(ui_action_map_t *self)
     result = resources_reset_and_load(NULL);
     mainlock_release();
     if (result != 0) {
-        vice_gtk3_message_error("VICE core error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent? */
+                                "VICE core error",
                                 "Failed to load default settings file");
     } else {
         /* set window geometries from resources, if present */
@@ -159,7 +160,8 @@ static void settings_load_filename_callback(GtkDialog *dialog,
                                 : resources_load(filename);
         mainlock_release();
         if (result != 0) {
-            vice_gtk3_message_error("VICE core error",
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE core error",
                                     "Failed to load settings from '%s'",
                                     filename);
         } else {
@@ -214,7 +216,8 @@ static void settings_save_action(ui_action_map_t *self)
     result = resources_save(NULL);
     mainlock_release();
     if (result != 0) {
-        vice_gtk3_message_error("VICE core error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+                                "VICE core error",
                                 "Failed to save default settings file");
     }
     ui_action_finish(self->action);
@@ -233,7 +236,8 @@ static void on_settings_save_to_filename(GtkDialog *dialog,
     if (filename!= NULL) {
         mainlock_obtain();
         if (resources_save(filename) != 0) {
-            vice_gtk3_message_error("VICE core error",
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE core error",
                                     "Failed to save settings as '%s'",
                                     filename);
         }

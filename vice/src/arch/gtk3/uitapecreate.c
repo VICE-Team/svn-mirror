@@ -128,8 +128,10 @@ static gboolean create_tape_image(const char *filename, int port)
 
     /* try to create the image */
     if (cbmimage_create_image(fname_copy, DISK_IMAGE_TYPE_TAP) < 0) {
-        vice_gtk3_message_error("VICE error",
-                "Failed to create tape image '%s'", fname_copy);
+        vice_gtk3_message_error(NULL,   /* FIXME: get proper parent? */
+                                "VICE error",
+                                "Failed to create tape image '%s'",
+                                fname_copy);
         status = FALSE;
     } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
         /* try to attach the image */

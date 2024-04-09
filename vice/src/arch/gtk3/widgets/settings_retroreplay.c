@@ -68,7 +68,8 @@ static void save_filename_callback(GtkDialog *dialog,
 {
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
-            vice_gtk3_message_error(CARTRIDGE_NAME_RETRO_REPLAY " Error",
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    CARTRIDGE_NAME_RETRO_REPLAY " Error",
                                     "Failed to save image as '%s'.",
                                     filename);
         }
@@ -105,7 +106,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_RETRO_REPLAY) < 0) {
-        vice_gtk3_message_error(CARTRIDGE_NAME_RETRO_REPLAY " Error",
+        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+                                CARTRIDGE_NAME_RETRO_REPLAY " Error",
                                 "Failed to flush current image.");
     }
 }

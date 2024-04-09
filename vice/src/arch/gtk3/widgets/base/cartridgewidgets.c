@@ -157,7 +157,7 @@ static void on_save_response(GtkDialog *self, gint response, gpointer data)
             char title[256];
 
             g_snprintf(title, sizeof title, "%s Error", state->cart_name);
-            vice_gtk3_message_error(title,
+            vice_gtk3_message_error(GTK_WINDOW(self), title,
                                     "Failed to save %s %s image as '%s'.",
                                     state->cart_name, state->image_tag, filename);
         }
@@ -211,7 +211,7 @@ static void on_flush_clicked(GtkButton *self, gpointer data)
         char title[256];
 
         g_snprintf(title, sizeof title, "%s Error", state->cart_name);
-        vice_gtk3_message_error(title,
+        vice_gtk3_message_error(NULL, title,
                                 "Failed to flush %s %s image",
                                 state->cart_name, state->image_tag);
     }
@@ -411,7 +411,7 @@ static gboolean update_resource(ci_state_t *state, const char *filename)
         char title[256];
 
         g_snprintf(title, sizeof title, "%s Error", state->cart_name);
-        vice_gtk3_message_error(title,
+        vice_gtk3_message_error(NULL, title,
                                 "Failed to set '%s' as the %s image file.",
                                 filename, state->image_tag);
     }

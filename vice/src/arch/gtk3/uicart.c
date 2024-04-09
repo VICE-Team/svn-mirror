@@ -312,18 +312,22 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 
                 result = attach_cart_image(get_cart_type(), get_cart_id(), filename_locale);
                 if (!result) {
-                    vice_gtk3_message_error("VICE Error",
-                            "Failed to smart-attach '%s'", filename);
+                    vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                            "VICE Error",
+                                            "Failed to attach image '%s'",
+                                            filename);
+                    /* we don't destroy the dialog here to allow the user to
+                     * select another (hopefully valid) image. */
                 } else {
                     /* call optional extra callback */
                     if (extra_attach_callback != NULL) {
                         extra_attach_callback();
                     }
+                    gtk_widget_destroy(dialog);
                 }
                 g_free(filename);
                 g_free(filename_locale);
             }
-            gtk_widget_destroy(dialog);
             break;
     }
 

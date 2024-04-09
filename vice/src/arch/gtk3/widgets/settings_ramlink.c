@@ -93,7 +93,8 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         resources_get_string("RAMLINKBIOSfilename", &image);
         if (image == NULL || *image == '\0') {
             /* no image */
-            vice_gtk3_message_error(CARTRIDGE_NAME_RAMLINK " Error",
+            vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
+                                    CARTRIDGE_NAME_RAMLINK " Error",
                                     "Cannot enable " CARTRIDGE_NAME_RAMLINK ","
                                     " no BIOS image has been selected.");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);

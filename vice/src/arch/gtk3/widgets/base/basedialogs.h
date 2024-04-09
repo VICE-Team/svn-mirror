@@ -53,8 +53,9 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
                                      const char *title,
                                      const char *fmt, ...) VICE_ATTR_PRINTF3;
 
-GtkWidget *vice_gtk3_message_error(const char *title,
-                                   const char *fmt, ...) VICE_ATTR_PRINTF2;
+GtkWidget *vice_gtk3_message_error(GtkWindow  *parent,
+                                   const char *title,
+                                   const char *fmt, ...) VICE_ATTR_PRINTF3;
 
 GtkWidget *vice_gtk3_integer_input_box(
         void (*callback)(GtkDialog *, int, gboolean),
