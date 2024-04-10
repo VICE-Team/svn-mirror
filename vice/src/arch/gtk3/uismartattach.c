@@ -363,7 +363,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
  * \param[in]   user_data   unit number
- 
+ *
  * TODO:    proper (error) messages
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
