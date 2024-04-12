@@ -84,7 +84,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_RRNETMK3) < 0) {
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+        vice_gtk3_message_error(GTK_WINDOW(gtk_widget_get_toplevel(widget)),
                                 CARTRIDGE_NAME_RRNETMK3 " Error",
                                 "Failed to flush image.");
     }

@@ -48,6 +48,10 @@
 #include "settings_mmc64.h"
 
 
+/** \brief  Temporary define to make editing easier */
+#define CARTNAME    CARTRIDGE_NAME_MMC64
+
+
 /** \brief  List of revisions
  */
 static const vice_gtk3_radiogroup_entry_t revisions[] = {
@@ -81,37 +85,41 @@ static GtkWidget *card_filename = NULL;
  */
 static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 {
+    GtkWidget  *parent;
     gboolean    enabled;
     const char *bios;
 
     enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     bios    = gtk_entry_get_text(GTK_ENTRY(bios_filename));
+    parent  = gtk_widget_get_toplevel(check);
+    if (!GTK_IS_WINDOW(parent)) {
+        parent = NULL;
+    }
 
     if (enabled && (bios == NULL || *bios == '\0')) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
-                                CARTRIDGE_NAME_MMC64 " Error",
-                                "Cannot enable " CARTRIDGE_NAME_MMC64
-                                " due to missing BIOS file.");
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                CARTNAME " Error",
+                                "Cannot enable " CARTNAME " due to missing BIOS file.");
         return;
     }
 
-    /* TODO: this requires proper logging or error dialogs, not debug_gtk3() */
     if (enabled && bios != NULL && *bios != '\0') {
         if (cartridge_enable(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
             log_error(LOG_ERR,
-                      "failed to activate " CARTRIDGE_NAME_MMC64 ", please set BIOS file.");
-        }
-        /* doesn't work, attaching for example a KCS Power Cart will still
-         * return 37 (MMC64) */
-        if (!cartridge_type_enabled(CARTRIDGE_MMC64)) {
-            debug_gtk3("failed to attach MMC64.");
+                      "failed to enable " CARTNAME ", please set BIOS file.");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Failed to enable " CARTNAME ", please set BIOS file.");
         }
     } else if (!enabled) {
         if (cartridge_disable(CARTRIDGE_MMC64) < 0) {
-            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_MMC64 ".");
+            log_error(LOG_ERR, "failed to disable " CARTNAME ".");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Failed to disable " CARTNAME ", please set BIOS file.");
         }
     }
 }
@@ -161,9 +169,14 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
+    GtkWidget *parent = gtk_widget_get_toplevel(widget);
+
+    if (!GTK_IS_WINDOW(parent)) {
+        parent = NULL;  /* make error dialog default to active window */
+    }
     if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
-                                CARTRIDGE_NAME_MMC64 " Error",
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                CARTNAME " Error",
                                 "Failed to flush image.");
     }
 }
@@ -177,11 +190,11 @@ static GtkWidget *create_mmc64_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_MMC64 " emulation");
+    check = gtk_check_button_new_with_label("Enable " CARTNAME " emulation");
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
                                  cartridge_type_enabled(CARTRIDGE_MMC64));
-    g_signal_connect(check,
+    g_signal_connect(G_OBJECT(check),
                      "toggled",
                      G_CALLBACK(on_enable_toggled),
                      NULL);
@@ -299,7 +312,7 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     /* header */
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label),
-                         "<b>" CARTRIDGE_NAME_MMC64 " SD/MMC Card</b>");
+                         "<b>" CARTNAME " SD/MMC Card</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_margin_top(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
@@ -310,7 +323,7 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     card_filename = vice_gtk3_resource_filechooser_new("MMC64Imagefilename",
                                                        GTK_FILE_CHOOSER_ACTION_OPEN);
-    title = "Select " CARTRIDGE_NAME_MMC64 " SD/MMC card image file";
+    title = "Select " CARTNAME " SD/MMC card image file";
     vice_gtk3_resource_filechooser_set_custom_title(card_filename, title);
     gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
     gtk_grid_attach(GTK_GRID(grid), card_filename, 1, row, columns - 1, 1);
@@ -369,7 +382,7 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     /* jumper switch and label */
     jumper_wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(jumper_wrapper), 16);
-    jumper_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " Flash jumper");
+    jumper_label   = gtk_label_new(CARTNAME " Flash jumper");
     jumper_widget  = create_mmc64_jumper_widget();
     gtk_widget_set_halign(jumper_label, GTK_ALIGN_END);
     gtk_widget_set_hexpand(jumper_label, TRUE);
@@ -394,7 +407,7 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), clockport_widget, 1, row, 1, 1);
     row++;
 
-    revision_label   = gtk_label_new(CARTRIDGE_NAME_MMC64 " Revision");
+    revision_label   = gtk_label_new(CARTNAME " Revision");
     revision_widget  = create_mmc64_revision_widget();
     gtk_widget_set_halign(revision_label, GTK_ALIGN_START);
     gtk_widget_set_valign(revision_widget, GTK_ALIGN_START);
@@ -405,3 +418,5 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+#undef CARTNAME

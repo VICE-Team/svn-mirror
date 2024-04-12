@@ -208,10 +208,19 @@ static void on_flush_clicked(GtkButton *self, gpointer data)
     }
     if (result != 0) {
         /* show error dialog */
-        char title[256];
+        GtkWidget *parent;
+        char       title[256];
 
+        /* get parent window (usually the settings dialog) */
+        parent = gtk_widget_get_toplevel(GTK_WIDGET(self));
+        if (!GTK_IS_WINDOW(parent)) {
+            /* widget isn't being used in the settings dialog, use active
+             * emulator window as parent */
+            parent = NULL;
+        }
         g_snprintf(title, sizeof title, "%s Error", state->cart_name);
-        vice_gtk3_message_error(NULL, title,
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                title,
                                 "Failed to flush %s %s image",
                                 state->cart_name, state->image_tag);
     }
@@ -408,10 +417,19 @@ static gboolean update_resource(ci_state_t *state, const char *filename)
 
     result = mediator_update_string(mediator, filename);
     if (!result) {
-        char title[256];
+        char       title[256];
+        GtkWidget *parent;
 
+        /* get parent window (usually the settings dialog) */
+        parent = gtk_widget_get_toplevel(mediator->widget);
+        if (!GTK_IS_WINDOW(parent)) {
+            /* widget isn't being used in the settings dialog, use active
+             * emulator window as parent */
+            parent = NULL;
+        }
         g_snprintf(title, sizeof title, "%s Error", state->cart_name);
-        vice_gtk3_message_error(NULL, title,
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                title,
                                 "Failed to set '%s' as the %s image file.",
                                 filename, state->image_tag);
     }

@@ -44,6 +44,9 @@
 
 #include "settings_ieeeflash64.h"
 
+/** \brief  Temporary define to make editing easier */
+#define CARTNAME    CARTRIDGE_NAME_IEEEFLASH64
+
 
 /** \brief  Handler for the "toggled" event of the 'enable' check button
  *
@@ -57,8 +60,13 @@
  */
 static void on_enable_toggled(GtkWidget *widget, gpointer data)
 {
-    gboolean state;
+    GtkWidget *parent;
+    gboolean   state;
 
+    parent = gtk_widget_get_toplevel(widget);
+    if (!GTK_IS_WINDOW(widget)) {
+        parent = NULL;
+    }
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (state) {
         const char *image = NULL;
@@ -66,10 +74,9 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         resources_get_string("IEEEFlash64Image", &image);
         if (image == NULL || *image == '\0') {
             /* no image */
-            vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
-                                    CARTRIDGE_NAME_IEEEFLASH64 " Error",
-                                    "Cannot enable " CARTRIDGE_NAME_IEEEFLASH64
-                                    ", no image specified.");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Cannot enable " CARTNAME ", no image specified.");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
             state = 0;
         }
@@ -77,12 +84,18 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEEFLASH64) < 0) {
-            log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_IEEEFLASH64 ".");
+            log_error(LOG_ERR, "failed to enable " CARTNAME ".");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Failed to enable " CARTNAME ".");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEEFLASH64) < 0) {
-            log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_IEEEFLASH64 ".");
+            log_error(LOG_ERR, "failed to disable " CARTNAME ".");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME" Error",
+                                    "Failed to enable " CARTNAME ".");
         }
     }
 }
@@ -116,7 +129,7 @@ GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent)
     /* we can't use a `resource_check_button` here, since toggling the resource
      * depends on whether an image file is specified
      */
-    enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_IEEEFLASH64 " emulation");
+    enable = gtk_check_button_new_with_label("Enable " CARTNAME " emulation");
     gtk_widget_set_margin_bottom(enable, 16);
     /* only set state to true if both the state is true and an image is given */
     if (cart_enabled && (image != NULL && *image != '\0')) {
@@ -127,7 +140,7 @@ GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent)
                      G_CALLBACK(on_enable_toggled),
                      NULL);
 
-    chlabel = gtk_label_new(CARTRIDGE_NAME_IEEEFLASH64 " ROM Image");
+    chlabel = gtk_label_new(CARTNAME " ROM Image");
     gtk_widget_set_halign(chlabel, GTK_ALIGN_START);
     chooser = vice_gtk3_resource_filechooser_new("IEEEFlash64Image",
                                                  GTK_FILE_CHOOSER_ACTION_OPEN);
@@ -154,3 +167,5 @@ GtkWidget *settings_ieeeflash64_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+#undef CARTNAME
