@@ -206,6 +206,12 @@ static GtkWidget *accepted_mods_grid;
 #endif
 
 
+/** \brief  Create left-aligned label using Pango markup
+ *
+ * \param[in]   text    text using Pango markup
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *label_helper(const char *text)
 {
     GtkWidget *label = gtk_label_new(NULL);
@@ -214,7 +220,6 @@ static GtkWidget *label_helper(const char *text)
     gtk_label_set_markup(GTK_LABEL(label), text);
     return label;
 }
-
 
 /** \brief  Clear all hotkeys and update the view
  */
@@ -232,7 +237,6 @@ static void clear_all_hotkeys(void)
         } while (gtk_tree_model_iter_next(model, &iter));
     }
 }
-
 
 /** \brief  Update hotkeys path and source widgets */
 static void update_hotkeys_info(void)
@@ -259,88 +263,6 @@ static void update_hotkeys_info(void)
     }
     gtk_label_set_text(GTK_LABEL(hotkeys_source), source);
 }
-
-
-/* Will be replaced with UI actions */
-#if 0
-/** \brief  Callback for the 'Export' button
- *
- * Save current hotkeys to \a filename and close \a dialog.
- *
- * \param[in]   dialog      Save dialog
- * \param[in]   filename    filename (`NULL` == cancel)
- * \param[in]   data        extra data (unused)
- */
-static void export_callback(GtkDialog *dialog, gchar *filename, gpointer data)
-{
-    if (filename != NULL) {
-        if (ui_hotkeys_export(filename)) {
-            debug_gtk3("OK, '%s' was written succesfully.", filename);
-        } else {
-            ui_error("Failed to write '%s' to filesystem.", filename);
-        }
-    } else {
-        debug_gtk3("Canceled.");
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the 'clicked' event of the export button
- *
- * \param[in]   button  widget triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_export_clicked(GtkWidget *button, gpointer data)
-{
-    GtkWidget *dialog;
-    const char *path = NULL;
-    char *fname = NULL;
-    char *dname = NULL;
-
-    /* split path into basename and directory component */
-    if ((resources_get_string("HotkeyFile", &path)) == 0 && path != NULL) {
-        util_fname_split(path, &dname, &fname);
-    }
-
-    dialog = vice_gtk3_save_file_dialog("Save current hotkeys to file",
-                                        fname,
-                                        TRUE,
-                                        dname,
-                                        export_callback,
-                                        NULL);
-    gtk_widget_show(dialog);
-
-    /* clean up */
-    if (fname != NULL) {
-        lib_free(fname);
-    }
-    if (dname != NULL) {
-        lib_free(dname);
-    }
-}
-
-
-/** \brief  Create widget to select the user-defined hotkeys file
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_browse_widget(void)
-{
-    GtkWidget *widget;
-    const char * const patterns[] = { "*.vhk", NULL };
-
-    widget = vice_gtk3_resource_browser_new("HotkeyFile",
-                                            patterns,
-                                            "VICE hotkeys",
-                                            "Select VICE hotkeys file",
-                                            "Custom hotkeys file:",
-                                            NULL);
-    return widget;
-}
-#endif
-
-
 
 
 /** \brief  Create model for the hotkeys table
