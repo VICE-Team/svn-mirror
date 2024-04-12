@@ -56,21 +56,26 @@ static GtkWidget *chooser = NULL;
  */
 static void on_dww_toggled(GtkWidget *widget, gpointer user_data)
 {
-    gboolean active;
-    int      io_size = 0;
+    GtkWidget *parent;
+    gboolean   active;
+    int        io_size = 0;
 
     active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     resources_get_int("IOSize", &io_size);
+    parent = gtk_widget_get_toplevel(widget);
+    if (!GTK_IS_WINDOW(widget)) {
+        parent = NULL;  /* default to current emulator window */
+    }
 
     /* only enable when I/O size is 2048 bytes */
     if (active && (io_size < 2048)) {
-        vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
-                "Cannot enable DWW",
-                "To be able to use DWW, the I/O size of the machine "
-                " needs to be 2048 bytes."
-                " The current I/O size is %d bytes.\n\n"
-                "Use the model settings dialog to set I/O size",
-                io_size);
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                "Cannot enable DWW",
+                                "To be able to use DWW, the I/O size of the machine "
+                                " needs to be 2048 bytes."
+                                " The current I/O size is %d bytes.\n\n"
+                                "Use the model settings dialog to set I/O size",
+                                io_size);
         active = FALSE;
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
     } else {

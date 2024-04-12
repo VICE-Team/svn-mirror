@@ -1449,8 +1449,16 @@ static void on_save_clicked(GtkButton *button, gpointer unused)
                                path);
         lib_free(path);
     } else {
+        GtkWidget *parent;
         /* FIXME: perhaps some info on what happened to make it fail? */
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
+
+        /* get settings dialog */
+        parent = gtk_widget_get_toplevel(GTK_WIDGET(button));
+        if (!GTK_IS_WINDOW(parent)) {
+            /* revert to current emulator window */
+            parent = NULL;
+        }
+        vice_gtk3_message_error(GTK_WINDOW(parent),
                                 "Hotkeys error",
                                 "Failed to save hotkeys.");
     }

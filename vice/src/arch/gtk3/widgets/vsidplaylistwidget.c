@@ -1217,7 +1217,7 @@ gboolean vsid_playlist_append_file(const gchar *path)
 
     /* Attempt to parse sid header for title & composer */
     if (!hvsc_psid_open(path, &psid)) {
-        vice_gtk3_message_error(NULL,   /* FIXME: might need proper parent */
+        vice_gtk3_message_error(NULL,   /* use VSID window as parent */
                                 "VSID",
                                 "Failed to parse PSID header of '%s'.",
                                 path);

@@ -48,6 +48,10 @@
 #include "settings_ramlink.h"
 
 
+/** \brief  Temporary define to ease typing and copy/paste */
+#define CARTNAME    CARTRIDGE_NAME_RAMLINK
+
+
 /** \brief  RAMLINK modes
  */
 static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
@@ -84,18 +88,24 @@ static GtkWidget *label_helper(const char *text)
  */
 static void on_enable_toggled(GtkWidget *widget, gpointer data)
 {
-    gboolean state;
+    GtkWidget *parent;
+    gboolean  state;
 
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    state  = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    parent = gtk_widget_get_toplevel(widget);
+    if (!GTK_IS_WINDOW(parent)) {
+        parent = NULL;  /* default to current emulator window */
+    }
+
     if (state) {
         const char *image = NULL;
 
         resources_get_string("RAMLINKBIOSfilename", &image);
         if (image == NULL || *image == '\0') {
             /* no image */
-            vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
-                                    CARTRIDGE_NAME_RAMLINK " Error",
-                                    "Cannot enable " CARTRIDGE_NAME_RAMLINK ","
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME" Error",
+                                    "Cannot enable " CARTNAME ","
                                     " no BIOS image has been selected.");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
             state = FALSE;
@@ -105,11 +115,18 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
     if (state) {
         if (cartridge_enable(CARTRIDGE_RAMLINK) < 0) {
             log_error(LOG_ERR, "failed to enable " CARTRIDGE_NAME_RAMLINK ".");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Failed to enable " CARTNAME ".");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
+
         }
     } else {
         if (cartridge_disable(CARTRIDGE_RAMLINK) < 0) {
             log_error(LOG_ERR, "failed to disable " CARTRIDGE_NAME_RAMLINK ".");
+            vice_gtk3_message_error(GTK_WINDOW(parent),
+                                    CARTNAME " Error",
+                                    "Failed to disable " CARTNAME ".");
         }
     }
 }
@@ -231,3 +248,5 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+#undef CARTNAME

@@ -95,7 +95,15 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128)) < 0) {
-        vice_gtk3_message_error(NULL, /* FIXME: need proper parent */
+        GtkWidget *parent;
+
+        /* get settings dialog */
+        parent = gtk_widget_get_toplevel(widget);
+        if (!GTK_IS_WINDOW(parent)) {
+            /* revert to current emulator window */
+            parent = NULL;
+        }
+        vice_gtk3_message_error(GTK_WINDOW(parent),
                                 "Flushing failed",
                                 "Failed to fush cartridge image");
     }

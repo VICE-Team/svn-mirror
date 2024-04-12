@@ -47,6 +47,10 @@
 #include "settings_retroreplay.h"
 
 
+/** \brief  Temporary define to ease typing and copy/paste */
+#define CARTNAME    CARTRIDGE_NAME_RETRO_REPLAY
+
+
 /** \brief  List of Retro Replay revisions
  */
 static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
@@ -69,7 +73,7 @@ static void save_filename_callback(GtkDialog *dialog,
     if (filename != NULL) {
         if (cartridge_save_image(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
             vice_gtk3_message_error(GTK_WINDOW(dialog),
-                                    CARTRIDGE_NAME_RETRO_REPLAY " Error",
+                                    CARTNAME " Error",
                                     "Failed to save image as '%s'.",
                                     filename);
         }
@@ -87,7 +91,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_RETRO_REPLAY
+    dialog = vice_gtk3_save_file_dialog("Save " CARTNAME
                                         " image as",
                                         NULL,
                                         TRUE,
@@ -106,8 +110,14 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (cartridge_flush_image(CARTRIDGE_RETRO_REPLAY) < 0) {
-        vice_gtk3_message_error(NULL,   /* FIXME: need proper parent */
-                                CARTRIDGE_NAME_RETRO_REPLAY " Error",
+        GtkWidget *parent;
+
+        parent = gtk_widget_get_toplevel(widget);
+        if (!GTK_IS_WINDOW(widget)) {
+            parent = NULL;  /* default to current emulator window */
+        }
+        vice_gtk3_message_error(GTK_WINDOW(parent),
+                                CARTNAME " Error",
                                 "Failed to flush current image.");
     }
 }
@@ -200,8 +210,7 @@ GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 
     /* RRBiosWrite */
     bios_write = vice_gtk3_resource_check_button_new("RRBiosWrite",
-            "Write back " CARTRIDGE_NAME_RETRO_REPLAY " Flash ROM image"
-            " automatically");
+            "Write back " CARTNAME " Flash ROM image automatically");
     gtk_widget_set_valign(bios_write, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 4, 3, 1);
 
@@ -232,3 +241,5 @@ GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+#undef CARTNAME
