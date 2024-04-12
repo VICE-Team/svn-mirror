@@ -506,8 +506,8 @@ static GtkWidget *create_save_content_area(void)
  * \param[in]   data        extra event data (ignored)
  */
 static void playlist_save_dialog_callback(GtkDialog *dialog,
-                                          gchar *filename,
-                                          gpointer data)
+                                          gchar     *filename,
+                                          gpointer   data)
 {
     if (filename != NULL) {
         GtkTreeIter iter;
@@ -534,7 +534,10 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
 
         /* try to open playlist file for writing */
         if (!m3u_create(filename_ext)) {
-            ui_error("Failed to open '%s' for writing.", filename_ext);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE error",
+                                    "Failed to open '%s' for writing.",
+                                    filename_ext);
             lib_free(filename_ext);
             gtk_widget_destroy(GTK_WIDGET(dialog));
             return;
@@ -610,7 +613,9 @@ static void playlist_save_dialog_callback(GtkDialog *dialog,
     return;
 
 save_error:
-    ui_error("I/O error while writing playlist.");
+    vice_gtk3_message_error(GTK_WINDOW(dialog),
+                            "VICE error",
+                            "I/O error while writing playlist.");
     m3u_close();
     gtk_widget_destroy(GTK_WIDGET(dialog));
     ui_action_finish(ACTION_PSID_PLAYLIST_SAVE);

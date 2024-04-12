@@ -300,7 +300,10 @@ static void on_load_romset_callback(GtkDialog *dialog,
         lastdir_update(GTK_WIDGET(dialog), &last_directory, &last_filename);
 
         if (romset_file_load(filename) != 0) {
-            ui_error("Failed to load ROM set file %s.", filename);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE error",
+                                    "Failed to load ROM set file %s.",
+                                    filename);
         }
         /* ROM set loading is not atomic, it can fail after having already
          * set one or more resources, so we need to sync unconditionally */
@@ -347,7 +350,10 @@ static void on_romset_save_callback(GtkDialog *dialog,
         const char **roms = get_all_resource_names();
 
         if (romset_file_save(filename, roms) != 0) {
-            ui_error("Failed to save ROM set file %s.", filename);
+            vice_gtk3_message_error(GTK_WINDOW(dialog),
+                                    "VICE error",
+                                    "Failed to save ROM set file %s.",
+                                    filename);
         }
         lib_free(roms);
         g_free(filename);
