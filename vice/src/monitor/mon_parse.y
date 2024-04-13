@@ -292,7 +292,7 @@ machine_state_rules: CMD_BANK end_cmd
                      }
                    | CMD_WARP TOGGLE end_cmd
                      {
-                        vsync_set_warp_mode(!vsync_get_warp_mode());
+                        vsync_set_warp_mode((($2 == e_TOGGLE) ? (vsync_get_warp_mode() ^ 1) : $2));
                      }
                    | register_mod
                    ;
