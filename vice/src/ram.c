@@ -133,7 +133,7 @@ static int set_random_chance(int val, void *param)
           emulator/machine.
 */
 /* RAM-related resources. */
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
     { "RAMInitValueOffset", 2, RES_EVENT_SAME, NULL,
       &mainramparam.value_offset, set_value_offset, NULL },
     { "RAMInitStartValue", 0, RES_EVENT_SAME, NULL,
@@ -157,6 +157,28 @@ static const resource_int_t resources_int[] = {
 int ram_resources_init(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
+        /* FIXME: tweak and test defaults for the various machines */
+        if (machine_class == VICE_MACHINE_C64) {
+            /* see testprogs/c64/raminitpattern */
+            resources_int[0].factory_value = 2;     /* RAMInitValueOffset */
+            resources_int[1].factory_value = 0;     /* RAMInitStartValue */
+            resources_int[2].factory_value = 4;     /* RAMInitValueInvert */
+            resources_int[3].factory_value = 16384; /* RAMInitPatternInvert */
+            resources_int[4].factory_value = 255;   /* RAMInitPatternInvertValue */
+            resources_int[5].factory_value = 0;     /* RAMInitStartRandom */
+            resources_int[6].factory_value = 0;     /* RAMInitRepeatRandom */
+            resources_int[7].factory_value = RAM_INIT_RANDOM_CHANCE_DEFAULT;     /* RAMInitRandomChance */
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            /* see testprogs/vic20/raminitpattern */
+            resources_int[0].factory_value = 0;     /* RAMInitValueOffset */
+            resources_int[1].factory_value = 255;   /* RAMInitStartValue */
+            resources_int[2].factory_value = 1;     /* RAMInitValueInvert */
+            resources_int[3].factory_value = 0;     /* RAMInitPatternInvert */
+            resources_int[4].factory_value = 0;     /* RAMInitPatternInvertValue */
+            resources_int[5].factory_value = 0;     /* RAMInitStartRandom */
+            resources_int[6].factory_value = 0;     /* RAMInitRepeatRandom */
+            resources_int[7].factory_value = RAM_INIT_RANDOM_CHANCE_DEFAULT;     /* RAMInitRandomChance */
+        }
         return resources_register_int(resources_int);
     }
     return 0;
