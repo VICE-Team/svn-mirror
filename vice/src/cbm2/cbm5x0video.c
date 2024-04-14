@@ -43,7 +43,7 @@ int machine_video_resources_init(void)
 
 struct video_canvas_s *machine_video_canvas_get(unsigned int window)
 {
-    if (window == 1) {
+    if (window == 0) {
         return vicii_get_canvas();
     }
     return NULL;
