@@ -38,11 +38,13 @@
 #include "cbm2rom.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "sysfile.h"
 #include "util.h"
 
 #include "cbm2-generic.h"
@@ -62,6 +64,31 @@ static char *cart_2_name = NULL;
 static char *cart_4_name = NULL;
 static char *cart_6_name = NULL;
 
+#define CBM2_C1_ROM_SIZE    0x1000
+#define CBM2_C2_ROM_SIZE    0x2000
+#define CBM2_C4_ROM_SIZE    0x2000
+#define CBM2_C6_ROM_SIZE    0x2000
+
+static unsigned char c1_rom[CBM2_C1_ROM_SIZE];
+static unsigned char c2_rom[CBM2_C2_ROM_SIZE];
+static unsigned char c4_rom[CBM2_C4_ROM_SIZE];
+static unsigned char c6_rom[CBM2_C6_ROM_SIZE];
+
+static export_resource_t export_res1 = {
+    CARTRIDGE_CBM2_NAME_GENERIC, 0, CBM2_CART_BLK1, NULL, NULL, CARTRIDGE_CBM2_GENERIC
+};
+static export_resource_t export_res2 = {
+    CARTRIDGE_CBM2_NAME_GENERIC, 0, CBM2_CART_BLK2, NULL, NULL, CARTRIDGE_CBM2_GENERIC
+};
+static export_resource_t export_res4 = {
+    CARTRIDGE_CBM2_NAME_GENERIC, 0, CBM2_CART_BLK4, NULL, NULL, CARTRIDGE_CBM2_GENERIC
+};
+static export_resource_t export_res6 = {
+    CARTRIDGE_CBM2_NAME_GENERIC, 0, CBM2_CART_BLK6, NULL, NULL, CARTRIDGE_CBM2_GENERIC
+};
+
+/******************************************************************************/
+
 /*
     unlike in the other emulators, there are no separate arrays for the cartridge
     images, we'll have to use the mem_rom array with offsets instead:
@@ -73,32 +100,66 @@ static char *cart_6_name = NULL;
 #define MEMPTR_CART4    (mem_rom + 0x4000)  /* 8k */
 #define MEMPTR_CART6    (mem_rom + 0x6000)  /* 8k */
 
-#define CBM2_C1_ROM_SIZE    0x1000
-#define CBM2_C2_ROM_SIZE    0x2000
-#define CBM2_C4_ROM_SIZE    0x2000
-#define CBM2_C6_ROM_SIZE    0x2000
+/* in the global memory array:
+   - initialize "blank" cart rom areas
+   - copy cartridge rom in used areas */
+int generic_cartrom_to_mem_hack(void)
+{
+    memset(mem_rom + 0x1000, 0xff, 0x7000);
+    export_remove(&export_res1);
+    export_remove(&export_res2);
+    export_remove(&export_res4);
+    export_remove(&export_res6);
 
-/* FIXME: this function must check the actual generic type and then
-          update C1/C2/C4/C6 accordingly */
+    if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C1) {
+        memcpy(MEMPTR_CART1, c1_rom, CBM2_C1_ROM_SIZE);
+        if (export_add(&export_res1) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C2) {
+        memcpy(MEMPTR_CART2, c2_rom, CBM2_C2_ROM_SIZE);
+        if (export_add(&export_res2) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C4) {
+        memcpy(MEMPTR_CART4, c4_rom, CBM2_C4_ROM_SIZE);
+        if (export_add(&export_res4) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C6) {
+        memcpy(MEMPTR_CART6, c6_rom, CBM2_C6_ROM_SIZE);
+        if (export_add(&export_res6) < 0) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+/******************************************************************************/
+
 void generic_config_setup(uint8_t *rawcart)
 {
     DBG(("generic_config_setup"));
     if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C1) {
-        memcpy(MEMPTR_CART1, rawcart + 0x1000, CBM2_C1_ROM_SIZE);
+        memcpy(c1_rom, rawcart + 0x1000, CBM2_C1_ROM_SIZE);
         DBG(("generic_config_setup c1"));
     }
     if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C2) {
-        memcpy(MEMPTR_CART2, rawcart + 0x2000, CBM2_C2_ROM_SIZE);
+        memcpy(c2_rom, rawcart + 0x2000, CBM2_C2_ROM_SIZE);
         DBG(("generic_config_setup c2"));
     }
     if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C4) {
-        memcpy(MEMPTR_CART4, rawcart + 0x4000, CBM2_C4_ROM_SIZE);
+        memcpy(c4_rom, rawcart + 0x4000, CBM2_C4_ROM_SIZE);
         DBG(("generic_config_setup c4"));
     }
     if ((generic_type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK) & CARTRIDGE_CBM2_GENERIC_C6) {
-        memcpy(MEMPTR_CART6, rawcart + 0x6000, CBM2_C6_ROM_SIZE);
+        memcpy(c6_rom, rawcart + 0x6000, CBM2_C6_ROM_SIZE);
         DBG(("generic_config_setup c6"));
     }
+    generic_cartrom_to_mem_hack();
 }
 
 /* FIXME: alloc ROMs here */
@@ -236,27 +297,24 @@ int generic_crt_attach(FILE *fd, uint8_t *rawcart)
     return generic_common_attach();
 }
 
+/* NOTE_: clearing the name/resource will trigger clearing the ROM array */
 void generic_detach(int type)
 {
     DBG(("generic_detach type: '%04x'", (unsigned)type));
     if (type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK & CARTRIDGE_CBM2_GENERIC_C1) {
         resources_set_string("Cart1Name", "");
-        memset(MEMPTR_CART1, 0xff, CBM2_C1_ROM_SIZE);
     }
     if (type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK & CARTRIDGE_CBM2_GENERIC_C2) {
         resources_set_string("Cart2Name", "");
-        memset(MEMPTR_CART2, 0xff, CBM2_C2_ROM_SIZE);
     }
     if (type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK & CARTRIDGE_CBM2_GENERIC_C4) {
         resources_set_string("Cart4Name", "");
-        memset(MEMPTR_CART4, 0xff, CBM2_C4_ROM_SIZE);
     }
     if (type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK & CARTRIDGE_CBM2_GENERIC_C6) {
         resources_set_string("Cart6Name", "");
-        memset(MEMPTR_CART6, 0xff, CBM2_C6_ROM_SIZE);
     }
 
-    generic_type &= ~(type & CARTRIDGE_CBM2_GENERIC_TYPE_MASK);
+    generic_cartrom_to_mem_hack();
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -281,6 +339,65 @@ int generic_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+static int cbm2rom_load_cart_1(const char *rom_name)
+{
+    memset(c1_rom, 0xff, 0x1000);
+    generic_type &= ~CARTRIDGE_CBM2_GENERIC_C1;
+    if (!util_check_null_string(rom_name)) {
+        if ((sysfile_load(rom_name, machine_name, c1_rom, 0x1000, 0x1000) < 0)) {
+            log_error(LOG_DEFAULT, "Couldn't load ROM `%s'.", rom_name);
+        } else {
+            generic_type |= CARTRIDGE_CBM2_GENERIC_C1;
+        }
+    }
+    generic_cartrom_to_mem_hack();
+    return 0;
+}
+
+static int cbm2rom_load_cart_2(const char *rom_name)
+{
+    memset(c2_rom, 0xff, 0x2000);
+    generic_type &= ~CARTRIDGE_CBM2_GENERIC_C2;
+    if (!util_check_null_string(rom_name)) {
+        if ((sysfile_load(rom_name, machine_name, c2_rom, 0x2000, 0x2000) < 0)) {
+            log_error(LOG_DEFAULT, "Couldn't load ROM `%s'.", rom_name);
+        } else {
+            generic_type |= CARTRIDGE_CBM2_GENERIC_C2;
+        }
+    }
+    generic_cartrom_to_mem_hack();
+    return 0;
+}
+
+static int cbm2rom_load_cart_4(const char *rom_name)
+{
+    memset(c4_rom, 0xff, 0x2000);
+    generic_type &= ~CARTRIDGE_CBM2_GENERIC_C4;
+    if (!util_check_null_string(rom_name)) {
+        if ((sysfile_load(rom_name, machine_name, c4_rom, 0x2000, 0x2000) < 0)) {
+            log_error(LOG_DEFAULT, "Couldn't load ROM `%s'.", rom_name);
+        } else {
+            generic_type |= CARTRIDGE_CBM2_GENERIC_C4;
+        }
+    }
+    generic_cartrom_to_mem_hack();
+    return 0;
+}
+
+static int cbm2rom_load_cart_6(const char *rom_name)
+{
+    memset(c6_rom, 0xff, 0x2000);
+    generic_type &= ~CARTRIDGE_CBM2_GENERIC_C6;
+    if (!util_check_null_string(rom_name)) {
+        if ((sysfile_load(rom_name, machine_name, c6_rom, 0x2000, 0x2000) < 0)) {
+            log_error(LOG_DEFAULT, "Couldn't load ROM `%s'.", rom_name);
+        } else {
+            generic_type |= CARTRIDGE_CBM2_GENERIC_C6;
+        }
+    }
+    generic_cartrom_to_mem_hack();
+    return 0;
+}
 
 static int set_cart1_rom_name(const char *val, void *param)
 {

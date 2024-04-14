@@ -842,6 +842,8 @@ void mem_powerup(void)
 
     ram_init(mem_ram, CBM2_RAM_SIZE);
 
+    /* FIXME: this appears to be some odd hack to simulate "no ROM".
+              also see similar thing in mem_load() */
     for (i = 0; i < 0x800; i += 0x80) {
         memset(mem_rom + i, 0, 0x40);
         memset(mem_rom + i + 0x40, 0xff, 0x40);

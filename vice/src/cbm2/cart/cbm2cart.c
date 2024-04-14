@@ -35,6 +35,7 @@
 #include "cbm2cart.h"
 #include "cbm2mem.h"
 #include "cbm2rom.h"
+#include "export.h"
 #include "crt.h"
 #include "lib.h"
 #include "log.h"
@@ -75,16 +76,35 @@ static int cartridge_type = CARTRIDGE_NONE; /* (resource) is == CARTRIDGE_CRT (0
 /* actually in use */
 static char *cartfile = NULL; /* file name */
 static int cbm2cart_type = CARTRIDGE_NONE; /* is == CARTRIDGE_CRT (0) if CRT file */
-static int crttype = CARTRIDGE_NONE; /* contains CRT ID if plus4cart_type == 0 */
+static int crttype = CARTRIDGE_NONE; /* contains CRT ID if cbm2cart_type == 0 */
 
 static int mem_cartridge_type = CARTRIDGE_NONE;  /* Type of the cartridge attached. */
 
+/* ---------------------------------------------------------------------*/
+
+/* FIXME: these probably shouldn't be here */
 int cart08_ram = 0;
 int cart1_ram = 0;
 int cart2_ram = 0;
 int cart4_ram = 0;
 int cart6_ram = 0;
 int cartC_ram = 0;
+
+static export_resource_t export_res08 = {
+    "RAM" , 0, CBM2_CART_BLK08, NULL, NULL, 0
+};
+static export_resource_t export_res1 = {
+    "RAM" , 0, CBM2_CART_BLK1, NULL, NULL, 0
+};
+static export_resource_t export_res2 = {
+    "RAM" , 0, CBM2_CART_BLK2, NULL, NULL, 0
+};
+static export_resource_t export_res4 = {
+    "RAM" , 0, CBM2_CART_BLK4, NULL, NULL, 0
+};
+static export_resource_t export_res6 = {
+    "RAM" , 0, CBM2_CART_BLK6, NULL, NULL, 0
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -169,18 +189,27 @@ int cartridge_cmdline_options_init(void)
 #if 0
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
-    mon_cart_cmd.export_dump = cbm2export_dump;
 #endif
+    mon_cart_cmd.export_dump = export_dump;
     return cmdline_register_options(cmdline_options);
 }
 
 /* ---------------------------------------------------------------------*/
 
+/* FIXME: these probably shouldn't be here */
 
 static int set_cart08_ram(int val, void *param)
 {
     cart08_ram = val ? 1 : 0;
 
+    export_remove(&export_res08);
+    if (cart08_ram) {
+        if (export_add(&export_res08) < 0) {
+            return -1;
+        }
+    }
+
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }
@@ -189,6 +218,14 @@ static int set_cart1_ram(int val, void *param)
 {
     cart1_ram = val ? 1 : 0;
 
+    export_remove(&export_res1);
+    if (cart1_ram) {
+        if (export_add(&export_res1) < 0) {
+            return -1;
+        }
+    }
+
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }
@@ -197,6 +234,14 @@ static int set_cart2_ram(int val, void *param)
 {
     cart2_ram = val ? 1 : 0;
 
+    export_remove(&export_res2);
+    if (cart2_ram) {
+        if (export_add(&export_res2) < 0) {
+            return -1;
+        }
+    }
+
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }
@@ -205,6 +250,14 @@ static int set_cart4_ram(int val, void *param)
 {
     cart4_ram = val ? 1 : 0;
 
+    export_remove(&export_res4);
+    if (cart4_ram) {
+        if (export_add(&export_res4) < 0) {
+            return -1;
+        }
+    }
+
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }
@@ -213,6 +266,14 @@ static int set_cart6_ram(int val, void *param)
 {
     cart6_ram = val ? 1 : 0;
 
+    export_remove(&export_res6);
+    if (cart6_ram) {
+        if (export_add(&export_res6) < 0) {
+            return -1;
+        }
+    }
+
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }
@@ -220,7 +281,16 @@ static int set_cart6_ram(int val, void *param)
 static int set_cartC_ram(int val, void *param)
 {
     cartC_ram = val ? 1 : 0;
-
+#if 0
+    /* FIXME: block C is not available at the expansion port? */
+    export_remove(&export_resC);
+    if (cartC_ram) {
+        if (export_add(&export_resC) < 0) {
+            return -1;
+        }
+    }
+#endif
+    generic_cartrom_to_mem_hack();
     mem_initialize_memory_bank(15);
     return 0;
 }

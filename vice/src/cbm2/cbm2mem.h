@@ -32,12 +32,21 @@
 
 #define CBM2_RAM_SIZE           0x100000        /* maximum 1M */
 #define CBM2_ROM_SIZE           0x10000         /* complete bank 15 */
+
+extern uint8_t mem_rom[CBM2_ROM_SIZE];
+
+/* new cart system */
+#define CBM2_CART_BLK08   (1 << 0)
+#define CBM2_CART_BLK1    (1 << 1)
+#define CBM2_CART_BLK2    (1 << 2)
+#define CBM2_CART_BLK4    (1 << 3)
+#define CBM2_CART_BLK6    (1 << 4)
+
 /* 8k ROM (2 banks of 4k), every other 2k is "seen" inverted by the CRTC due
    to some extra logic on the board. we generate a "ROM" that is twice the
    original size at load time so we dont need extra code for this at runtime */
 #define CBM2_CHARGEN_ROM_SIZE   0x4000
 
-extern uint8_t mem_rom[CBM2_ROM_SIZE];
 extern uint8_t mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 
 void cbm2mem_set_bank_exec(int val);

@@ -583,6 +583,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_CBM2_GENERIC_C4   0x8204  /* 8kb at 0x4000 */
 #define CARTRIDGE_CBM2_GENERIC_C6   0x8208  /* 8kb at 0x6000 */
 
+/* list of canonical names for the CBM2 cartridges: */
+#define CARTRIDGE_CBM2_NAME_GENERIC         "generic cartridge ROM"
+
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
 #define CARTRIDGE_SIZE_2KB     0x00000800
 #define CARTRIDGE_SIZE_4KB     0x00001000
