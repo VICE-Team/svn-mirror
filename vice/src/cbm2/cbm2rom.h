@@ -31,10 +31,6 @@
 int cbm2rom_load_chargen(const char *rom_name);
 int cbm2rom_load_kernal(const char *rom_name);
 int cbm2rom_load_basic(const char *rom_name);
-int cbm2rom_load_cart_1(const char *rom_name);
-int cbm2rom_load_cart_2(const char *rom_name);
-int cbm2rom_load_cart_4(const char *rom_name);
-int cbm2rom_load_cart_6(const char *rom_name);
 
 int cbm2rom_checksum(void);
 

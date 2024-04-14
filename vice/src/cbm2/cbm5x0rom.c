@@ -32,6 +32,7 @@
 
 #include "autostart.h"
 #include "cbm2.h"
+#include "cbm2-generic.h"
 #include "cbm2mem.h"
 #include "cbm2rom.h"
 #include "kbdbuf.h"
@@ -149,70 +150,6 @@ int cbm2rom_load_basic(const char *rom_name)
     return 0;
 }
 
-int cbm2rom_load_cart_1(const char *rom_name)
-{
-    if (!rom_loaded) {
-        return 0;  /* init not far enough */
-    }
-    if (!util_check_null_string(rom_name)) {
-        if ((sysfile_load(rom_name, machine_name, mem_rom + 0x1000, 0x1000, 0x1000) < 0)) {
-            log_error(cbm2rom_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(mem_rom + 0x1000, 0xff, 0x1000);
-    }
-    return 0;
-}
-
-int cbm2rom_load_cart_2(const char *rom_name)
-{
-    if (!rom_loaded) {
-        return 0;  /* init not far enough */
-    }
-    if (!util_check_null_string(rom_name)) {
-        if ((sysfile_load(rom_name, machine_name, mem_rom + 0x2000, 0x2000, 0x2000) < 0)) {
-            log_error(cbm2rom_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(mem_rom + 0x2000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
-int cbm2rom_load_cart_4(const char *rom_name)
-{
-    if (!rom_loaded) {
-        return 0;  /* init not far enough */
-    }
-    if (!util_check_null_string(rom_name)) {
-        if ((sysfile_load(rom_name, machine_name, mem_rom + 0x4000, 0x2000, 0x2000) < 0)) {
-            log_error(cbm2rom_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(mem_rom + 0x4000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
-int cbm2rom_load_cart_6(const char *rom_name)
-{
-    if (!rom_loaded) {
-        return 0;  /* init not far enough */
-    }
-    if (!util_check_null_string(rom_name)) {
-        if ((sysfile_load(rom_name, machine_name, mem_rom + 0x6000, 0x2000, 0x2000) < 0)) {
-            log_error(cbm2rom_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(mem_rom + 0x6000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
 /* Load memory image files. */
 int mem_load(void)
 {
@@ -225,16 +162,17 @@ int mem_load(void)
 
     rom_loaded = 1;
 
+    /* FIXME: shouldn't we be able to load this from a file too? */
+    /* Init Disk ROM with 'unused address' values. */
+    for (i = 0x800; i < 0x1000; i++) {
+        mem_rom[i] = 0xff;
+    }
+
     if (resources_get_string("ChargenName", &rom_name) < 0) {
         return -1;
     }
     if (cbm2rom_load_chargen(rom_name) < 0) {
         return -1;
-    }
-
-    /* Init Disk/Cartridge ROM with 'unused address' values.  */
-    for (i = 0x800; i < 0x8000; i++) {
-        mem_rom[i] = 0xff;
     }
 
     if (resources_get_string("KernalName", &rom_name) < 0) {
@@ -251,34 +189,7 @@ int mem_load(void)
         return -1;
     }
 
-    /* Load extension ROMs.  */
-    if (resources_get_string("Cart1Name", &rom_name) < 0) {
-        return -1;
-    }
-    if (cbm2rom_load_cart_1(rom_name) < 0) {
-        return -1;
-    }
-
-    if (resources_get_string("Cart2Name", &rom_name) < 0) {
-        return -1;
-    }
-    if (cbm2rom_load_cart_2(rom_name) < 0) {
-        return -1;
-    }
-
-    if (resources_get_string("Cart4Name", &rom_name) < 0) {
-        return -1;
-    }
-    if (cbm2rom_load_cart_4(rom_name) < 0) {
-        return -1;
-    }
-
-    if (resources_get_string("Cart6Name", &rom_name) < 0) {
-        return -1;
-    }
-    if (cbm2rom_load_cart_6(rom_name) < 0) {
-        return -1;
-    }
+    generic_cartrom_to_mem_hack();
 
     /* FIXME: VIC-II config */
 

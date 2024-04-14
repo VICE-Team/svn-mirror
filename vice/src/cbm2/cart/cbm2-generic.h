@@ -28,6 +28,8 @@
 #ifndef VICE_CBM2GENERICCART_H
 #define VICE_CBM2GENERICCART_H
 
+#include "snapshot.h"
+
 void generic_config_setup(uint8_t *rawcart);
 
 int generic_crt_attach(FILE *fd, uint8_t *rawcart);
@@ -41,5 +43,7 @@ int generic_cmdline_options_init(void);
 
 int generic_snapshot_write_module(snapshot_t *s);
 int generic_snapshot_read_module(snapshot_t *s);
+
+int generic_cartrom_to_mem_hack(void);
 
 #endif
