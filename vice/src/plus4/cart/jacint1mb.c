@@ -43,6 +43,7 @@
 #include "cartridge.h"
 #include "cartio.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "monitor.h"
 #include "plus4cart.h"
@@ -89,6 +90,12 @@ static io_source_t jacint1mb_device = {
 
 static io_source_list_t *jacint1mb_list_item = NULL;
 
+static const export_resource_t export_res = {
+    CARTRIDGE_PLUS4_NAME_JACINT1MB, 0, PLUS4_CART_C1LO, NULL, &jacint1mb_device, CARTRIDGE_PLUS4_JACINT1MB
+};
+
+/* ------------------------------------------------------------------------- */
+
 static int jacint1mb_dump(void)
 {
     mon_out("ROM bank: %d\n", bankreg);
@@ -129,6 +136,9 @@ static int jacint1mb_common_attach(void)
     }
 
     jacint1mb_list_item = io_source_register(&jacint1mb_device);
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -177,6 +187,7 @@ int jacint1mb_crt_attach(FILE *fd, uint8_t *rawcart)
 void jacint1mb_detach(void)
 {
     DBG(("jacint1mb_detach\n"));
+    export_remove(&export_res);
     if (jacint1mb_list_item) {
         io_source_unregister(jacint1mb_list_item);
     }

@@ -31,8 +31,10 @@
 #include <string.h>
 
 #include "cartio.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "digiblaster.h"
+#include "export.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "plus4mem.h"
@@ -117,7 +119,7 @@ static io_source_t digiblaster_fd5e_device = {
     digiblaster_read,     /* read function */
     NULL,                 /* TODO: peek function */
     NULL,                 /* nothing to dump */
-    IO_CART_ID_NONE,      /* not a cartridge */
+    CARTRIDGE_PLUS4_DIGIBLASTER,      /* cartridge id */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
     0,                    /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE        /* NO mirroring */
@@ -134,7 +136,7 @@ static io_source_t digiblaster_fe9e_device = {
     digiblaster_read,     /* read function */
     NULL,                 /* TODO: peek function */
     NULL,                 /* nothing to dump */
-    IO_CART_ID_NONE,      /* not a cartridge */
+    CARTRIDGE_PLUS4_DIGIBLASTER,      /* cartridge id */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
     0,                    /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE        /* NO mirroring */
@@ -142,14 +144,30 @@ static io_source_t digiblaster_fe9e_device = {
 
 static io_source_list_t *digiblaster_list_item = NULL;
 
+static const export_resource_t export_res1 = {
+    CARTRIDGE_PLUS4_NAME_DIGIBLASTER, 0, 0, &digiblaster_fd5e_device, NULL, CARTRIDGE_PLUS4_DIGIBLASTER
+};
+
+static const export_resource_t export_res2 = {
+    CARTRIDGE_PLUS4_NAME_DIGIBLASTER, 0, 0, NULL, &digiblaster_fe9e_device, CARTRIDGE_PLUS4_DIGIBLASTER
+};
+
 void digiblaster_set_address(uint16_t addr)
 {
     if (digiblaster_sound_chip.chip_enabled) {
         io_source_unregister(digiblaster_list_item);
+        export_remove(&export_res1);
+        export_remove(&export_res2);
         if (addr == 0xfd40) {
             digiblaster_list_item = io_source_register(&digiblaster_fd5e_device);
+            if (export_add(&export_res1) < 0) {
+                return -1;
+            }
         } else {
             digiblaster_list_item = io_source_register(&digiblaster_fe9e_device);
+            if (export_add(&export_res2) < 0) {
+                return -1;
+            }
         }
     }
 }
@@ -168,10 +186,18 @@ static int set_digiblaster_enabled(int value, void *param)
     }
 
     if (val) {
+        export_remove(&export_res1);
+        export_remove(&export_res2);
         if (sidcart_address == 0xfd40) {
             digiblaster_list_item = io_source_register(&digiblaster_fd5e_device);
+            if (export_add(&export_res1) < 0) {
+                return -1;
+            }
         } else {
             digiblaster_list_item = io_source_register(&digiblaster_fe9e_device);
+            if (export_add(&export_res2) < 0) {
+                return -1;
+            }
         }
         sampler_start(SAMPLER_OPEN_MONO, "DigiBlaster");
     } else {

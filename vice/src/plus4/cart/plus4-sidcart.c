@@ -31,8 +31,10 @@
 #include <string.h>
 
 #include "cartio.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "digiblaster.h"
+#include "export.h"
 #include "joyport.h"
 #include "keyboard.h"
 #include "plus4.h"
@@ -116,7 +118,7 @@ static io_source_t sidcart_fd40_device = {
     sid_read,             /* read function */
     sid_peek,             /* peek function */
     sid_dump,             /* device state information dump function */
-    IO_CART_ID_NONE,      /* not a cartridge */
+    CARTRIDGE_PLUS4_SIDCART,      /* cartridge id */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
     0,                    /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE        /* NO mirroring */
@@ -133,10 +135,18 @@ static io_source_t sidcart_fe80_device = {
     sid_read,             /* read function */
     sid_peek,             /* peek function */
     sid_dump,             /* device state information dump function */
-    IO_CART_ID_NONE,      /* not a cartridge */
+    CARTRIDGE_PLUS4_SIDCART,      /* cartridge id */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
     0,                    /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE        /* NO mirroring */
+};
+
+static const export_resource_t export_res1 = {
+    CARTRIDGE_PLUS4_NAME_SIDCART, 0, 0, &sidcart_fd40_device, NULL, CARTRIDGE_PLUS4_SIDCART
+};
+
+static const export_resource_t export_res2 = {
+    CARTRIDGE_PLUS4_NAME_SIDCART, 0, 0, NULL, &sidcart_fe80_device, CARTRIDGE_PLUS4_SIDCART
 };
 
 static io_source_t sidcart_joy_device = {
@@ -150,10 +160,14 @@ static io_source_t sidcart_joy_device = {
     sidcartjoy_read,          /* read function */
     NULL,                     /* TODO: peek function */
     NULL,                     /* TODO: device state information dump function */
-    IO_CART_ID_NONE,          /* not a cartridge */
+    CARTRIDGE_PLUS4_SIDCART,      /* cartridge id */
     IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
     0,                        /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE            /* NO mirroring */
+};
+
+static const export_resource_t export_res_joy = {
+    CARTRIDGE_PLUS4_NAME_SIDCART, 0, 0, &sidcart_joy_device, NULL, CARTRIDGE_PLUS4_SIDCART
 };
 
 static io_source_list_t *sidcartjoy_list_item = NULL;
@@ -172,11 +186,19 @@ static int set_sidcart_enabled(int value, void *param)
         return 0;
     }
 
+    export_remove(&export_res1);
+    export_remove(&export_res2);
     if (val) {
         if (sidcart_address == 0xfd40) {
             sidcart_list_item = io_source_register(&sidcart_fd40_device);
+            if (export_add(&export_res1) < 0) {
+                return -1;
+            }
         } else {
             sidcart_list_item = io_source_register(&sidcart_fe80_device);
+            if (export_add(&export_res2) < 0) {
+                return -1;
+            }
         }
     } else {
         io_source_unregister(sidcart_list_item);
@@ -204,12 +226,20 @@ static int set_sid_address(int val, void *param)
         return 0;
     }
 
+    export_remove(&export_res1);
+    export_remove(&export_res2);
     if (sidcart_sound_chip.chip_enabled) {
         io_source_unregister(sidcart_list_item);
         if (val == 0xfd40) {
             sidcart_list_item = io_source_register(&sidcart_fd40_device);
+            if (export_add(&export_res1) < 0) {
+                return -1;
+            }
         } else {
             sidcart_list_item = io_source_register(&sidcart_fe80_device);
+            if (export_add(&export_res2) < 0) {
+                return -1;
+            }
         }
     }
 
@@ -244,8 +274,13 @@ static int set_sidcartjoy_enabled(int value, void *param)
         return 0;
     }
 
+    export_remove(&export_res_joy);
+
     if (val) {
         sidcartjoy_list_item = io_source_register(&sidcart_joy_device);
+        if (export_add(&export_res_joy) < 0) {
+            return -1;
+        }
         joystick_adapter_set_add_ports(1);
     } else {
         io_source_unregister(sidcartjoy_list_item);

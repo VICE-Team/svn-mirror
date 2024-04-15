@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "plus4cart.h"
 #include "plus4mem.h"
 #include "lib.h"
@@ -206,8 +207,8 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
 #if 0
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
-    mon_cart_cmd.export_dump = plus4export_dump;
 #endif
+    mon_cart_cmd.export_dump = export_dump;
     if (generic_cmdline_options_init() < 0) {
         return -1;
     }

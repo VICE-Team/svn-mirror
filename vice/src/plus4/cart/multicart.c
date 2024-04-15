@@ -43,6 +43,7 @@
 #include "cartridge.h"
 #include "cartio.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "monitor.h"
 #include "plus4cart.h"
@@ -90,6 +91,12 @@ static io_source_t multicart_device = {
 };
 
 static io_source_list_t *multicart_list_item = NULL;
+
+static const export_resource_t export_res = {
+    CARTRIDGE_PLUS4_NAME_MULTI, 0, PLUS4_CART_C1LO | PLUS4_CART_C1HI, &multicart_device, NULL, CARTRIDGE_PLUS4_MULTI
+};
+
+/* ------------------------------------------------------------------------- */
 
 static int multicart_dump(void)
 {
@@ -142,6 +149,9 @@ static int multicart_common_attach(void)
     }
 
     multicart_list_item = io_source_register(&multicart_device);
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -225,6 +235,7 @@ int multicart_crt_attach(FILE *fd, uint8_t *rawcart)
 void multicart_detach(void)
 {
     DBG(("multicart_detach\n"));
+    export_remove(&export_res);
     if (multicart_list_item) {
         io_source_unregister(multicart_list_item);
     }
