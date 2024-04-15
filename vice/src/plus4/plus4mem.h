@@ -53,6 +53,14 @@ extern pport_t pport;
 #define PLUS4_CART8K_SIZE     0x2000
 #define PLUS4_CART16K_SIZE    0x4000
 
+/* new cart system */
+#define PLUS4_CART_C0LO    (1 << 0)
+#define PLUS4_CART_C0HI    (1 << 1)
+#define PLUS4_CART_C1LO    (1 << 2)
+#define PLUS4_CART_C1HI    (1 << 3)
+#define PLUS4_CART_C2LO    (1 << 4)
+#define PLUS4_CART_C2HI    (1 << 5)
+
 extern unsigned int mem_config;
 
 extern uint8_t extromlo1[PLUS4_C0LO_ROM_SIZE];

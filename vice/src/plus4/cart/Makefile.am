@@ -4,6 +4,9 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/plus4 \
+	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/arch/shared
 
 AM_CFLAGS = @VICE_CFLAGS@
@@ -20,8 +23,11 @@ libplus4cart_a_SOURCES = \
 	plus4cart.c \
 	debugcart.h \
 	debugcart.c \
+	digiblaster.c \
+	digiblaster.h \
 	plus4-generic.h \
 	plus4-generic.c \
+	plus4-sidcart.c \
 	jacint1mb.h \
 	jacint1mb.c \
 	magiccart.h \

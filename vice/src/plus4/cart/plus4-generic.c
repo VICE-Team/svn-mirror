@@ -37,6 +37,7 @@
 #include "cartio.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -74,6 +75,21 @@ static char *c1hi_rom_name = NULL;
 /* FIXME: allocate dynamically */
 uint8_t extromlo2[PLUS4_C1LO_ROM_SIZE];
 uint8_t extromhi2[PLUS4_C1HI_ROM_SIZE];
+
+static export_resource_t export_res1l = {
+    CARTRIDGE_PLUS4_NAME_GENERIC, 0, PLUS4_CART_C1LO, NULL, NULL, CARTRIDGE_PLUS4_GENERIC
+};
+static export_resource_t export_res1h = {
+    CARTRIDGE_PLUS4_NAME_GENERIC, 0, PLUS4_CART_C1HI, NULL, NULL, CARTRIDGE_PLUS4_GENERIC
+};
+static export_resource_t export_res2l = {
+    CARTRIDGE_PLUS4_NAME_GENERIC, 0, PLUS4_CART_C2LO, NULL, NULL, CARTRIDGE_PLUS4_GENERIC
+};
+static export_resource_t export_res2h = {
+    CARTRIDGE_PLUS4_NAME_GENERIC, 0, PLUS4_CART_C2HI, NULL, NULL, CARTRIDGE_PLUS4_GENERIC
+};
+
+/* ------------------------------------------------------------------------- */
 
 uint8_t generic_c1lo_read(uint16_t addr)
 {
@@ -120,6 +136,26 @@ void generic_config_setup(uint8_t *rawcart)
 static int generic_common_attach(void)
 {
     DBG(("generic_common_attach (type :%04x)", (unsigned)generic_type));
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1LO) {
+        if (export_add(&export_res1l) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1HI) {
+        if (export_add(&export_res1h) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C2LO) {
+        if (export_add(&export_res2l) < 0) {
+            return -1;
+        }
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C2HI) {
+        if (export_add(&export_res2h) < 0) {
+            return -1;
+        }
+    }
 
     return generic_type;
 }
@@ -290,18 +326,22 @@ void generic_detach(int type)
     if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C1LO) {
         resources_set_string("c1loName", "");
         memset(extromlo2, 0xff, PLUS4_CART16K_SIZE);
+        export_remove(&export_res1l);
     }
     if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C1HI) {
         resources_set_string("c1hiName", "");
         memset(extromhi2, 0xff, PLUS4_CART16K_SIZE);
+        export_remove(&export_res1h);
     }
     if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C2LO) {
         resources_set_string("c2loName", "");
         memset(extromlo3, 0xff, PLUS4_CART16K_SIZE);
+        export_remove(&export_res2l);
     }
     if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C2HI) {
         resources_set_string("c2hiName", "");
         memset(extromhi3, 0xff, PLUS4_CART16K_SIZE);
+        export_remove(&export_res2h);
     }
 
     generic_type &= ~(type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK);

@@ -36,13 +36,10 @@ libplus4stubs_a_SOURCES = \
 	plus4-stubs.c
 
 libplus4_a_SOURCES = \
-	digiblaster.c \
-	digiblaster.h \
 	plus4-cmdline-options.c \
 	plus4-cmdline-options.h \
 	plus4-resources.c \
 	plus4-resources.h \
-	plus4-sidcart.c \
 	plus4-snapshot.c \
 	plus4-snapshot.h \
 	plus4.c \
@@ -53,6 +50,7 @@ libplus4_a_SOURCES = \
 	plus4cpu.c \
 	plus4datasette.c \
 	plus4drive.c \
+	plus4export.c \
 	plus4iec.c \
 	plus4iec.h \
 	plus4io.c \
