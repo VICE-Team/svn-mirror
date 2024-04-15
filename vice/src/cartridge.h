@@ -536,6 +536,9 @@ void cartridge_sound_chip_init(void);
  * plus4 cartridge system
  */
 
+#define CARTRIDGE_PLUS4_DIGIBLASTER   -201 /* digiblaster.c */
+#define CARTRIDGE_PLUS4_SIDCART       -200 /* plus4-sidcart.c */
+
 #define CARTRIDGE_PLUS4_GENERIC         -2 /* plus4-generic.c */
 
 /* #define CARTRIDGE_NONE               -1 */
@@ -561,6 +564,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS4_GENERIC_ALL     (CARTRIDGE_PLUS4_GENERIC_C1 | CARTRIDGE_PLUS4_GENERIC_C2)
 
 /* list of canonical names for the Plus4 cartridges: */
+#define CARTRIDGE_PLUS4_NAME_GENERIC    "generic cartridge ROM"
+#define CARTRIDGE_PLUS4_NAME_DIGIBLASTER    "Digiblaster Add-on"
+#define CARTRIDGE_PLUS4_NAME_SIDCART        "SID cartridge"
 #define CARTRIDGE_PLUS4_NAME_JACINT1MB  "1MB Cartridge"
 #define CARTRIDGE_PLUS4_NAME_MAGIC      "c264 magic cart"
 #define CARTRIDGE_PLUS4_NAME_MULTI      "Plus4 multi cart"
