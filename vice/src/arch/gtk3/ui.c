@@ -2545,7 +2545,7 @@ void ui_error(const char *format, ...)
  */
 static gboolean ui_message_impl(gpointer user_data)
 {
-    vice_gtk3_message_info("VICE Message", "%s", (const char *)user_data);
+    vice_gtk3_message_info(NULL, "VICE Message", "%s", (const char *)user_data);
     lib_free(user_data);
     return G_SOURCE_REMOVE;
 }
