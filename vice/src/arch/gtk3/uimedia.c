@@ -572,16 +572,16 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
  */
 static void save_screenshot_handler(GtkWidget *parent)
 {
-    GtkWidget *dialog;
+    GtkWidget  *dialog;
     const char *display;
-    char *title;
-    char *proposed;
-    const char *ext;
+    const char *format;
+    char       *title;
+    char       *proposed;
 
-    ext = video_driver_list[screenshot_driver_index].ext;
-    display = video_driver_list[screenshot_driver_index].display;
-    title = lib_msprintf("Save %s file", display);
-    proposed = screenshot_create_quickscreenshot_filename(ext);
+    format   = video_driver_list[screenshot_driver_index].name;
+    display  = video_driver_list[screenshot_driver_index].display;
+    title    = lib_msprintf("Save %s file", display);
+    proposed = screenshot_create_quickscreenshot_filename(format);
 
     dialog = vice_gtk3_save_file_dialog(
             title, proposed, TRUE, NULL,
