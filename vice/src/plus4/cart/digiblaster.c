@@ -152,7 +152,7 @@ static const export_resource_t export_res2 = {
     CARTRIDGE_PLUS4_NAME_DIGIBLASTER, 0, 0, NULL, &digiblaster_fe9e_device, CARTRIDGE_PLUS4_DIGIBLASTER
 };
 
-void digiblaster_set_address(uint16_t addr)
+int digiblaster_set_address(uint16_t addr)
 {
     if (digiblaster_sound_chip.chip_enabled) {
         io_source_unregister(digiblaster_list_item);
@@ -170,6 +170,7 @@ void digiblaster_set_address(uint16_t addr)
             }
         }
     }
+    return 0;
 }
 
 int digiblaster_enabled(void)
