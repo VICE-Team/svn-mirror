@@ -87,7 +87,7 @@ static void sdl_ui_image_file_selector_redraw(image_contents_t *contents, const 
 
         j = MENU_FIRST_X;
         name = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
-        petscii_replace_alternatives(name);
+        petscii_replace_alternatives((unsigned char *)name);
         j += sdl_ui_print(name, j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
 
         if (i == cur_offset) {
@@ -119,7 +119,7 @@ static void sdl_ui_image_file_selector_redraw_cursor(image_contents_t *contents,
             }
             j = MENU_FIRST_X;
             name = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
-            petscii_replace_alternatives(name);
+            petscii_replace_alternatives((unsigned char *)name);
             j += sdl_ui_print(name, j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
 
             sdl_ui_print_eol(j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
