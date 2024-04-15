@@ -46,8 +46,9 @@ enum {
 };
 
 
-GtkWidget *vice_gtk3_message_info(const char *title,
-                                  const char *fmt, ...) VICE_ATTR_PRINTF2;
+GtkWidget *vice_gtk3_message_info(GtkWindow *parent,
+                                  const char *title,
+                                  const char *fmt, ...) VICE_ATTR_PRINTF3;
 
 GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
                                      const char *title,

@@ -1400,7 +1400,8 @@ static void save_as_callback(GtkDialog *dialog, gchar *path, gpointer data)
         g_free(path);
 
         if (ui_hotkeys_save_as(fullpath)) {
-            vice_gtk3_message_info("Hotkeys saved",
+            vice_gtk3_message_info(GTK_WINDOW(dialog),
+                                   "Hotkeys saved",
                                    "Hotkeys succesfully saved as '%s'.",
                                    fullpath);
         } else {
@@ -1442,22 +1443,23 @@ static void on_save_as_clicked(GtkButton *button, gpointer unused)
  */
 static void on_save_clicked(GtkButton *button, gpointer unused)
 {
+    GtkWidget *parent;
+
+    /* try to set settings dialog as parent */
+    parent = gtk_widget_get_toplevel(GTK_WIDGET(button));
+    if (!GTK_IS_WINDOW(parent)) {
+        parent = NULL;  /* revert to active emulator window */
+    }
+
     if (ui_hotkeys_save()) {
         char *path = ui_hotkeys_vhk_source_path();
-        vice_gtk3_message_info("Hotkeys saved",
+
+        vice_gtk3_message_info(GTK_WINDOW(parent),
+                               "Hotkeys saved",
                                "Hotkeys saved succesfully as '%s'.",
                                path);
         lib_free(path);
     } else {
-        GtkWidget *parent;
-        /* FIXME: perhaps some info on what happened to make it fail? */
-
-        /* get settings dialog */
-        parent = gtk_widget_get_toplevel(GTK_WIDGET(button));
-        if (!GTK_IS_WINDOW(parent)) {
-            /* revert to current emulator window */
-            parent = NULL;
-        }
         vice_gtk3_message_error(GTK_WINDOW(parent),
                                 "Hotkeys error",
                                 "Failed to save hotkeys.");

@@ -133,6 +133,7 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 
 /** \brief  Create a GtkMessageDialog
  *
+ * \param[in]   parent      parent window (can be \c NULL)
  * \param[in]   type        message type
  * \param[in]   buttons     buttons to use
  * \param[in]   title       dialog title
@@ -172,37 +173,51 @@ static GtkWidget *create_dialog(GtkWindow      *parent,
 }
 
 
-/* XXX: All the following functions use the same function signature, even if
- *      returning a `gboolean` doesn't really make sense, that way they can
- *      be used with a generic function-pointer, should we require that.
- */
-
-
 /** \brief  Create 'info' dialog
  *
+ * \param[in]   parent  parent window (can be \c NULL)
  * \param[in]   title   dialog title
  * \param[in]   fmt     message format string and arguments
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_message_info(const char *title,
+GtkWidget *vice_gtk3_message_info(GtkWindow  *parent,
+                                  const char *title,
                                   const char *fmt, ...)
 {
+    GtkWindow *active_window = NULL;
     GtkWidget *dialog;
-    va_list args;
-    char *buffer;
+    va_list    args;
+    char      *buffer;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(NULL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
+    dialog = create_dialog(parent, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
 
     lib_free(buffer);
 
-    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    if (parent == NULL) {
+        /* no parent provided, assume active emulator window */
+        active_window = ui_get_active_window();
+    } else {
+        active_window = parent;
+    }
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response_info), NULL);
+    if (active_window != NULL) {
+        gtk_window_set_transient_for(GTK_WINDOW(dialog), active_window);
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+        gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    } else {
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+    }
+
+    g_signal_connect_unlocked(G_OBJECT(dialog),
+                              "response",
+                              G_CALLBACK(on_response_info),
+                              NULL);
+
     gtk_widget_show(dialog);
     return dialog;
 }

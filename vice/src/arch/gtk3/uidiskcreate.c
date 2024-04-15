@@ -247,13 +247,6 @@ static gboolean create_disk_image(GtkWindow *parent, const char *filename)
     }
 
     vdr_text = util_concat(name_vice, ",", id_vice, NULL);
-#if 0
-    vice_gtk3_message_info("Creating disk image",
-            "Attaching '%s' at unit #%d, type %d, name '%s', ID '%s'\n"
-            "Passing \"%s\" to vdrive",
-            filename, unit_number, image_type, name_gtk3, id_gtk3,
-            vdr_text);
-#endif
 
     /* create image */
     if (vdrive_internal_create_format_disk_image(fname_copy, vdr_text,
