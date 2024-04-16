@@ -274,6 +274,8 @@ clear		{ return CLEAR; }
 
 load { yylval.i = e_load; return MEM_OP; }
 store { yylval.i = e_store; return MEM_OP; }
+read { yylval.i = e_load; return MEM_OP; }
+write { yylval.i = e_store; return MEM_OP; }
 exec { yylval.i = e_exec; return MEM_OP; }
 
 reset		{ return RESET; }
