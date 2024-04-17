@@ -8893,7 +8893,7 @@ Integer specifying the Gtk3 VTE-monitor window's height.
 Execute the commands from the file <Name> in the monitor after starting up. All
 monitor commands are supported, including playback of other command files via
 @code{pb}. By default, the monitor opens and starts executing the commands just
-before the kernal reset routine starts. The kernal starup sequence may interfere
+before the kernal reset routine starts. The kernal startup sequence may interfere
 with what you are trying to achieve, for example by clearing any basic listing
 you may have loaded. In this case, use the @code{-initbreak} option to control
 when the monitor will open and execute your script. You can choose an address,
