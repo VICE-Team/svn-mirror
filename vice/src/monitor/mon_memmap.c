@@ -84,7 +84,8 @@ typedef struct cpuhistory_s cpuhistory_t;
 
 /* CPU history variables */
 static cpuhistory_t *cpuhistory = NULL;
-static int cpuhistory_lines = 0;
+static int cpuhistory_buffer_lines = 0;     /* actual size of the cyclic buffer */
+static int cpuhistory_show_lines = 0;       /* number of lines to show in the monitor */
 static int cpuhistory_i = 0;
 
 
@@ -102,10 +103,30 @@ int monitor_cpuhistory_allocate(int lines)
         return -1;
     }
 
+    cpuhistory_show_lines = lines;
+
+    /* HACK HACK HACK
+       since all CPUs are sharing one cyclic buffer for the history, we must make
+       sure that one CPU can not "flush out" the history of another CPU. For this
+       to work we need to buffer at least one frame, since the emulation is synced
+       at least once per frame.
+
+       312 lines * 65 cycles makes 20280 cycles per frame, that 10140 NOPs
+
+       For now, we use this number as minimum, and multiply by the number of
+       CPUs when the buffer is actually allocated.
+
+       also see https://sourceforge.net/p/vice-emu/bugs/1994/
+    */
+    if (lines < 10140) {
+        lines = 10140;
+    }
+    lines *= 5;
+
     cpuhistory = lib_realloc(cpuhistory, (size_t)lines * sizeof(cpuhistory_t));
 
     /* do we resize the array? */
-    if (cpuhistory_lines != lines) {
+    if (cpuhistory_buffer_lines != lines) {
         /* Initialize array to avoid mon_memmap_store() using unitialized
          * data when reading the RESET vector on boot.
          * WHY reading the RESET vector causes a STORE is another issue.
@@ -118,7 +139,7 @@ int monitor_cpuhistory_allocate(int lines)
         }
     }
 
-    cpuhistory_lines = lines;
+    cpuhistory_buffer_lines = lines;
     cpuhistory_i = 0;
     return 0;
 }
@@ -138,7 +159,7 @@ void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op,
     }
 
     ++cpuhistory_i;
-    if (cpuhistory_i == cpuhistory_lines) {
+    if (cpuhistory_i == cpuhistory_buffer_lines) {
         cpuhistory_i = 0;
     }
     cpuhistory[cpuhistory_i].cycle = cycle;
@@ -182,8 +203,10 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     }
 
     /* determine the actual maximum records to go through */
-    if ((count < 1) || (count > cpuhistory_lines)) {
-        count = cpuhistory_lines;
+    if (count < 1) {
+        count = cpuhistory_show_lines;
+    } else if (count > cpuhistory_buffer_lines) {
+        count = cpuhistory_buffer_lines;
     }
 
     /* 'i' is the actual counter */
@@ -204,7 +227,7 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
         }
         pos--;
         if (pos < 0) {
-            pos += cpuhistory_lines;
+            pos += cpuhistory_buffer_lines;
         }
         /* stop if we hit the starting point */
         /* this is totally possible since the emulation runs each CPU in
@@ -218,7 +241,7 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     /* loop through all entries until we find the number records requested */
     while (i > 0) {
         /* adjust our buffer circular reference */
-        pos = ( pos + 1) % cpuhistory_lines;
+        pos = ( pos + 1) % cpuhistory_buffer_lines;
         /* make sure the record matches */
         if ((cpuhistory[pos].origin != e_invalid_space)
             && ((filter1 == cpuhistory[pos].origin)
