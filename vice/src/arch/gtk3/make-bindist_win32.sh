@@ -240,7 +240,7 @@ rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
 mkdir $BUILDPATH/hotkeys
 cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
-cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
+cp $TOPSRCDIR/data/common/*.ttf $BUILDPATH/common
 cp $TOPSRCDIR/data/hotkeys/*.vhk $BUILDPATH/hotkeys
 
 #if test x"$HTML_DOCS" = "xyes"; then
