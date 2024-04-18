@@ -86,12 +86,12 @@ static void cart_detach_action(ui_action_map_t *self)
     resources_get_int("CartridgeType", &cartid);
     if (cartid != CARTRIDGE_NONE) {
         /* default is set, ask to remove it */
-        vice_gtk3_message_confirm(
-                confirm_detach_callback,
-                "Detach cartridge",
-                "You're detaching the default cartridge.\n\n"
-                "Would you also like to unregister this cartridge"
-                " as the default cartridge?");
+        vice_gtk3_message_confirm(NULL, /* active window as parent */
+                                  confirm_detach_callback,
+                                  "Detach cartridge",
+                                  "You're detaching the default cartridge.\n\n"
+                                  "Would you also like to unregister this cartridge"
+                                  " as the default cartridge?");
     } else {
         /* no dialog used, finish immediately */
         ui_action_finish(ACTION_CART_DETACH);

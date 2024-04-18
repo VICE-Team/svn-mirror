@@ -42,10 +42,6 @@
 static gboolean entry_get_int(GtkWidget *entry, int *value);
 
 
-/** \brief  Callback function for the confirm dialog
- */
-static void (*confirm_cb)(GtkDialog *, gboolean);
-
 /** \brief  Callback function for the integer input dialog
  */
 static void (*integer_cb)(GtkDialog *, int, gboolean);
@@ -68,15 +64,13 @@ static void on_response_info(GtkWidget *dialog, gint response_id, gpointer data)
  *
  * \param[in,out]   dialog          Info dialog
  * \param[in]       response_id     response ID (ignored)
- * \param[in]       data            extra event data (ignored)
+ * \param[in]       callback        user-defined callback
  */
-static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer data)
+static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer callback)
 {
-    if (response_id == GTK_RESPONSE_OK) {
-        confirm_cb(dialog, TRUE);
-    } else {
-        confirm_cb(dialog, FALSE);
-    }
+    void (*cb)(GtkDialog *, gboolean) = callback;
+
+    cb(dialog, response_id == GTK_RESPONSE_OK);
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
@@ -148,7 +142,7 @@ static GtkWidget *create_dialog(GtkWindow      *parent,
                                 const char     *text)
 {
     GtkWidget *dialog;
-    gboolean no_parent = FALSE;
+    gboolean   no_parent = FALSE;
 
     if (parent == NULL) {
         /* set up a temporary parent to avoid Gtk warnings */
@@ -225,36 +219,48 @@ GtkWidget *vice_gtk3_message_info(GtkWindow  *parent,
 
 /** \brief  Create 'confirm' dialog
  *
+ * \param[in]   parent      parent window (can be \c NULL)
  * \param[in]   callback    callback function to accept the dialog's result
  * \param[in]   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
+GtkWidget *vice_gtk3_message_confirm(GtkWindow *parent,
+                                     void (*callback)(GtkDialog *, gboolean),
                                      const char *title,
                                      const char *fmt, ...)
 {
+    GtkWindow *active_window;
     GtkWidget *dialog;
-    va_list args;
-    char *buffer;
-
-    confirm_cb = callback;
+    va_list    args;
+    char      *buffer;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(NULL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
+    dialog = create_dialog(parent, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
-
     lib_free(buffer);
 
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
-    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    if (parent == NULL) {
+        active_window = ui_get_active_window();
+    } else {
+        active_window = parent;
+    }
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response_confirm),
-            NULL);
+    if (active_window != NULL) {
+        gtk_window_set_transient_for(GTK_WINDOW(dialog), active_window);
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+        gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    } else {
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+    }
+    g_signal_connect(G_OBJECT(dialog),
+                     "response",
+                     G_CALLBACK(on_response_confirm),
+                     (gpointer)callback);
     gtk_widget_show(dialog);
     return dialog;
 }

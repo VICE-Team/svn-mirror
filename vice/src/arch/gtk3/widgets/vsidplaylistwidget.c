@@ -753,6 +753,7 @@ static void clear_playlist_callback(GtkDialog *dialog, gboolean result)
 {
     if (result) {
         vsid_playlist_clear();
+        update_current_and_total();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
     ui_action_finish(ACTION_PSID_PLAYLIST_CLEAR);
@@ -1506,16 +1507,12 @@ void vsid_playlist_add(void)
  */
 void vsid_playlist_clear(void)
 {
-    GtkWidget *dialog;
-
     mainlock_assert_is_not_vice_thread();
 
-    dialog = vice_gtk3_message_confirm(
-            clear_playlist_callback,
-            "VSID",
-            "Are you sure you wish to clear the playlist?");
-    gtk_widget_show_all(dialog);
-    update_current_and_total();
+    vice_gtk3_message_confirm(NULL, /* VSID window as parent */
+                              clear_playlist_callback,
+                              "VSID",
+                              "Are you sure you wish to clear the playlist?");
 }
 
 
