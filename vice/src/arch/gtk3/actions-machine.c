@@ -82,10 +82,10 @@ static void quit_action(ui_action_map_t *self)
         return;
     }
 
-    vice_gtk3_message_confirm(
-            confirm_exit_callback,
-            "Exit VICE",
-            "Do you really wish to exit VICE?");
+    vice_gtk3_message_confirm(NULL, /* current window as parent */
+                             confirm_exit_callback,
+                             "Exit VICE",
+                             "Do you really wish to exit VICE?");
 }
 
 /** \brief  Open the monitor action

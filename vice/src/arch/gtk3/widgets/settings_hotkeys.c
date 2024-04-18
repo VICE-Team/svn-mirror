@@ -1132,7 +1132,8 @@ static void clear_dialog_callback(GtkDialog *dialog, gboolean result)
  */
 static void show_clear_all_confirm_dialog(void)
 {
-    vice_gtk3_message_confirm(clear_dialog_callback,
+    vice_gtk3_message_confirm(NULL, /* use active emu window as parent */
+                              clear_dialog_callback,
                               "Clear all hotkeys",
                               "Are you sure you want to clear all hotkeys? "
                               "This action cannot be undone.");

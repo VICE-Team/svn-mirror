@@ -100,14 +100,14 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
  */
 static void settings_default_action(ui_action_map_t *self)
 {
-    vice_gtk3_message_confirm(
-            restore_default_callback,
-            "Reset all settings to default",
-            "Are you sure you wish to reset all settings to their default"
-            " values?\n\n"
-            "The new settings will not be saved until using the 'Save"
-            " settings' menu item, or having 'Save on exit' enabled and"
-            " exiting VICE.");
+    vice_gtk3_message_confirm(NULL, /* current emulator window as parent */
+                              restore_default_callback,
+                              "Reset all settings to default",
+                              "Are you sure you wish to reset all settings to"
+                              " their default  values?\n\n"
+                              "The new settings will not be saved until using"
+                              " the 'Save settings' menu item, or having"
+                              " 'Save on exit' enabled and exiting VICE.");
 }
 
 /** \brief  Show settings dialog

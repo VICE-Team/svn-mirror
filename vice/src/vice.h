@@ -134,12 +134,15 @@
 #define VICE_ATTR_PRINTF2   __attribute__((format(printf, 2, 3)))
 /* two extra param on the left, func(param, param, format, ...) */
 #define VICE_ATTR_PRINTF3   __attribute__((format(printf, 3, 4)))
+/* three extra param on the left, func(param, param, param, format, ...) */
+#define VICE_ATTR_PRINTF4   __attribute__((format(printf, 4, 5)))
 /* one extra param after the format, func(format, param, ...) (used for resource sprintf) */
 #define VICE_ATTR_RESPRINTF __attribute__((format(printf, 1, 3)))
 #else
 #define VICE_ATTR_PRINTF
 #define VICE_ATTR_PRINTF2
 #define VICE_ATTR_PRINTF3
+#define VICE_ATTR_PRINTF4
 #define VICE_ATTR_RESPRINTF
 #endif
 
