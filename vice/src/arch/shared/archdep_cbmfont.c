@@ -179,19 +179,38 @@ static bool font_registered = false;
 
 int archdep_register_cbmfont(void)
 {
-    char *path;
-    int result;
+    size_t i;
+    int    nfonts = 0;
 
     log_message(LOG_DEFAULT,
-                "%s(): Registering CBM font using Pango %s",
+                "%s(): Registering CBM fonts using Pango %s",
                 __func__, pango_version_string());
 
-    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
-        log_error(LOG_ERR, "failed to find resource data '%s'.",
-                VICE_CBM_FONT_TTF);
-        return 0;
+    for (i = 0; i < sizeof font_files / sizeof font_files[0]; i++) {
+        char *path = NULL;
+
+        if (sysfile_locate(font_files[i], "common", &path) < 0) {
+            log_warning(LOG_DEFAULT,
+                        "failed to find resource data '%s', continuing...",
+                        font_files[i]);
+        } else {
+            int result = AddFontResourceA(path);
+            
+            if (result > 0) {
+                font_registered = true;
+                log_message(LOG_DEFAULT,
+                            "succesfully registered %d font(s) from %s.",
+                            result, path);
+                lib_free(path);
+                nfonts += result;
+            } else {
+                log_warning(LOG_DEFAULT, "no fonts found in %s.", path);
+            }
+        }
     }
 
+    log_message(LOG_DEFAULT, "registered %d font(s) total.", nfonts);
+#if 0
     /* Work around the fact that Pango, starting with 1.50.12, has switched to
        (only) using DirectWrite for enumarating fonts, and DirectWrite doesn't
        find fonts added with AddFontResourceEx().
@@ -225,7 +244,8 @@ int archdep_register_cbmfont(void)
     log_warning(LOG_DEFAULT,
                 "%s(): According to Windows, registering the font failed",
                 __func__);
-    return 0;
+#endif
+    return 1;
 }
 
 #  else
@@ -247,6 +267,7 @@ int archdep_register_cbmfont(void)
 void archdep_unregister_cbmfont(void)
 {
 # ifdef WINDOWS_COMPILE
+#if 0
     if (font_registered) {
         char *path;
 
@@ -283,7 +304,8 @@ void archdep_unregister_cbmfont(void)
 #endif
         }
         lib_free(path);
-    }
+   }
+#endif
 # endif
 }
 # else  /* !USE_GTK3UI */
