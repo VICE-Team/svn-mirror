@@ -195,7 +195,7 @@ int archdep_register_cbmfont(void)
                         font_files[i]);
         } else {
             int result = AddFontResourceA(path);
- 
+
             if (result > 0) {
                 font_registered = true;
                 log_message(LOG_DEFAULT,
