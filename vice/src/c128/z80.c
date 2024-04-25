@@ -83,6 +83,7 @@ inline static int z80mem_read_limit(int addr)
         z80_reg_pc = (addr);                            \
         z80_bank_base = z80mem_read_base(z80_reg_pc);   \
         z80_bank_limit = z80mem_read_limit(z80_reg_pc); \
+        reg_wz = addr;                                  \
     } while (0)
 
 #define LOAD(addr) ((uint32_t)(*_z80mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr)))
