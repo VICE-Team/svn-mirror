@@ -260,7 +260,7 @@ static const char * const cond_op_string[] = {
 
 const char * const mon_memspace_string[] = { "default", "C", "8", "9", "10", "11" };
 
-/* must match order in enum t_reg_id */
+/* CAUTION: must match order in enum t_reg_id, and contain all of its elements */
 static const char * const register_string[] = {
 /* 6502/65c02 */
     "A",
@@ -328,6 +328,8 @@ static const char * const register_string[] = {
 
     "RL",   /* Rasterline */
     "CY",   /* Cycle in line */
+    "P00",  /* CPU port DDR (6510) */
+    "P01"   /* CPU port Data (6510) */
 };
 
 bool monitor_is_inside_monitor(void)

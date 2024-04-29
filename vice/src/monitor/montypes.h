@@ -45,8 +45,9 @@
    658xx: 65802/65816
    6x09: 6809/6309
 
-   These values are used in the binary monitor API, so it
-   is important that they remain consistent.
+   CAUTION: These values are used in the binary monitor API, so it is important
+   that they remain consistent (and the order is not changed).
+   Also make sure this matches register_string[]
  */
 enum t_reg_id       {
     e_A            = 0x00, /* 65xx/c64dtv/658xx/6x09/z80 */
