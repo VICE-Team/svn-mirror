@@ -923,7 +923,7 @@ static void export_registers(void)
         LOCAL_SET_HALFCARRY(1);                         \
         LOCAL_SET_ZERO(!tmp);                           \
         LOCAL_SET_PARITY(!tmp);                         \
-        reg_f = (reg_f & !(S_FLAG | U35_FLAG)) | (tmp & S_FLAG) | ((reg_wz >> 8) & U35_FLAG); \
+        reg_f = (reg_f & ~(S_FLAG | U35_FLAG)) | (tmp & S_FLAG) | ((reg_wz >> 8) & U35_FLAG); \
         CLK_ADD(CLK, clk_inc2);                         \
         INC_PC(pc_inc);                                 \
     } while (0)
@@ -5020,6 +5020,12 @@ fetchmore:
 
         cpu_int_status->num_dma_per_opcode = 0;
         inst_mode = INST_NONE;
+
+        if (maincpu_clk_limit && (CLK > maincpu_clk_limit)) {
+            log_error(LOG_DEFAULT, "cycle limit reached.");
+            archdep_vice_exit(1);
+        }
+
     } while (Z80_LOOP_COND);
 
     export_registers();
