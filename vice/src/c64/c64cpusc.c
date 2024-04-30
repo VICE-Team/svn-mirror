@@ -114,7 +114,7 @@ int maincpu_ba_low_flags = 0;
 
 /* HACK: memmap updates for the reg_pc < bank_limit case */
 #ifdef FEATURE_CPUMEMHISTORY
-#define MEMMAP_UPDATE(addr) memmap_mem_update(addr, 0)
+#define MEMMAP_UPDATE(addr) memmap_mem_update(addr, 0, 0) /* FIXME: is this a dummy access or not? */
 #else
 #define MEMMAP_UPDATE(addr)
 #endif

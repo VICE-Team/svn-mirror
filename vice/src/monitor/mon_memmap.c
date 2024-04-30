@@ -36,6 +36,7 @@
 #endif
 
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "mon_disassemble.h"
 #include "mon_memmap.h"
@@ -289,12 +290,13 @@ static int mon_memmap_picx;
 static int mon_memmap_picy;
 static unsigned int mon_memmap_mask;
 
-
+/* mmzap */
 void mon_memmap_zap(void)
 {
     memset(mon_memmap, 0, mon_memmap_size * sizeof(MEMMAP_ELEM));
 }
 
+/* mmsh */
 void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
 {
     unsigned int addr;
@@ -315,10 +317,10 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         mon_out("  addr: IO  ROM RAM\n");
-        line_fmt = "%06x: %c%c%c %c%c%c %c%c%c\n";
+        line_fmt = "%06x: %c%c%c %c%c%c %c%c%c%s%s%s\n";
     } else {
         mon_out("addr: IO  ROM RAM\n");
-        line_fmt = "%04x: %c%c%c %c%c%c %c%c%c\n";
+        line_fmt = "%04x: %c%c%c %c%c%c %c%c%c%s%s%s\n";
     }
 
     for (addr = start_addr; addr <= end_addr; ++addr) {
@@ -337,13 +339,19 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
                 (b & MEMMAP_ROM_X) ? 'x' : '-',
                 (b & MEMMAP_RAM_R) ? 'r' : '-',
                 (b & MEMMAP_RAM_W) ? 'w' : '-',
-                (b & MEMMAP_RAM_X) ? 'x' : '-');
+                (b & MEMMAP_RAM_X) ? 'x' : '-',
+                (b & MEMMAP_RAM_R) && (!(b & MEMMAP_REGULAR_READ)) ? " (dummy)" : "",
+                (b & MEMMAP_UNINITIALIZED_READ) ? " (uninitialized read)" : "",
+                (b & MEMMAP_UNINITIALIZED_EXEC) ? " (uninitialized exec)" : ""
+                );
     }
 }
 
+/* this is called per memory access, so it should only do whats really needed */
 void monitor_memmap_store(unsigned int addr, unsigned int type)
 {
-    uint8_t op = cpuhistory[cpuhistory_i].op;
+    /* uint8_t op = cpuhistory[cpuhistory_i].op; */
+    unsigned int last;
 #if 0
     static int repeat = 0;
 
@@ -356,7 +364,7 @@ void monitor_memmap_store(unsigned int addr, unsigned int type)
     if (memmap_state & MEMMAP_STATE_IN_MONITOR) {
         return;
     }
-
+#if 0 /* FIXME: why would we do this? */
     /* Ignore reg_pc+2 reads on branches & JSR
        and return address read on RTS */
     if (type & (MEMMAP_ROM_R | MEMMAP_RAM_R)
@@ -364,10 +372,19 @@ void monitor_memmap_store(unsigned int addr, unsigned int type)
       || ((op == OP_RTS) && ((addr > 0x1ff) || (addr < 0x100))))) {
         return;
     }
-
+#endif
+    last = mon_memmap[addr & mon_memmap_mask];
+    if (!(last & MEMMAP_RAM_W)) { /* if this address was not written to yet */
+        if (type & MEMMAP_REGULAR_READ) { /* and this is a regular, non dummy, read */
+            if (type & MEMMAP_RAM_R) {
+                type |= MEMMAP_UNINITIALIZED_READ; /* mark as non-initialized read in the history */
+            } else if (type & MEMMAP_RAM_X) {
+                type |= MEMMAP_UNINITIALIZED_EXEC; /* mark as non-initialized execute in the history */
+            }
+        }
+    }
     mon_memmap[addr & mon_memmap_mask] |= type;
 }
-
 
 void mon_memmap_save(const char *filename, int format)
 {

@@ -89,6 +89,10 @@
 #ifdef FEATURE_CPUMEMHISTORY
 #ifndef C64DTV /* FIXME: fix DTV and remove this */
 
+/* NOTE: the functions called here are in src/plus4/plus4cpu.c, src/c128/c128cpu.c,
+ * src/cbm2/cbm2cpu.c, src/c64/vsidcpu.c, src/c64/c64cpu.c, src/pet/petcpu.c,
+ * src/c64dtv/c64dtvcpu.c */
+
 /* map access functions to memmap hooks */
 #ifndef STORE
 #define STORE(addr, value) \
