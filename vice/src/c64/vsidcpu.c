@@ -52,6 +52,10 @@
 */
 
 #ifdef FEATURE_CPUMEMHISTORY
+
+/* FIXME: the following functions should handle IO/RAM/ROM and -dummy accesses
+ * for the memmap feature - see mainc64cpu.c */
+
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     if ((addr >= 0xd000) && (addr <= 0xdfff)) {

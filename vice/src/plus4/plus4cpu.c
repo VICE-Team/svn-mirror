@@ -37,6 +37,10 @@
 #define CPU_DELAY_CLK ted_delay_clk();
 
 #ifdef FEATURE_CPUMEMHISTORY
+
+/* FIXME: the following functions should handle IO/RAM/ROM and -dummy accesses
+ * for the memmap feature - see mainc64cpu.c */
+
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);

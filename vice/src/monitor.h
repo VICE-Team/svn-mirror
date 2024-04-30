@@ -251,6 +251,9 @@ void monitor_cpuhistory_fix_p2(unsigned int p2);
 void monitor_memmap_store(unsigned int addr, unsigned int type);
 
 /* memmap defines */
+#define MEMMAP_UNINITIALIZED_EXEC (1 << 11)  /* was executed before written to */
+#define MEMMAP_UNINITIALIZED_READ (1 << 10)  /* was read before written to */
+#define MEMMAP_REGULAR_READ       (1 << 9)   /* NOT just a dummy read */
 #define MEMMAP_I_O_R    (1 << 8)
 #define MEMMAP_I_O_W    (1 << 7)
 #define MEMMAP_I_O_X    (1 << 6)

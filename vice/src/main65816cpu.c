@@ -74,6 +74,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: implementation of cpu-history and memmap is missing (see mainc64cpu.c) */
+
 #ifndef STORE
 #define STORE(addr, value) \
     (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))

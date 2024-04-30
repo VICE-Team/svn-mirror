@@ -112,6 +112,10 @@ inline static void c128cpu_memory_refresh_alarm_handler(void)
 #define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk = 11
 
 #ifdef FEATURE_CPUMEMHISTORY
+
+/* FIXME: the following functions should handle IO/RAM/ROM and -dummy accesses
+ * for the memmap feature - see mainc64cpu.c */
+
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);

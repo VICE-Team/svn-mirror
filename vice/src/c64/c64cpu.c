@@ -57,6 +57,9 @@
 #ifdef FEATURE_CPUMEMHISTORY
 /* FIXME do proper ROM/RAM/IO tests */
 
+/* FIXME: the following functions should handle IO/RAM/ROM and -dummy accesses
+ * for the memmap feature - see mainc64cpu.c */
+
 inline static void memmap_mem_update(unsigned int addr, int write)
 {
     unsigned int type = MEMMAP_RAM_R;

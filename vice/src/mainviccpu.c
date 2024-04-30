@@ -79,14 +79,20 @@ CLOCK stolen_cycles;
 
 #ifdef FEATURE_CPUMEMHISTORY
 
-inline static void memmap_mem_update(unsigned int addr, int write)
+/* this is called per memory access, so it should only do whats really needed */
+inline static void memmap_mem_update(unsigned int addr, int write, int dummy)
 {
     unsigned int type = MEMMAP_RAM_R;
     unsigned int a_m = addr >> 8;
 
-    if (((a_m >= 0x90) && (a_m <= 0x93)) || ((addr >= 0x98) && (addr <= 0x9f))) {
+    if (((a_m >= 0x90) && (a_m <= 0x93)) ||
+        ((a_m >= 0x98) && (a_m <= 0x9f))) {
+        /* FIXME: IO2 or IO3 could be RAM */
         type = MEMMAP_I_O_R;
-    } else if (((a_m >= 0x80) && (a_m <= 0x8f)) || (a_m >= 0xc0)) {
+    } else if (((a_m >= 0x60) && (a_m <= 0x7f)) ||
+               ((a_m >= 0x80) && (a_m <= 0x8f)) || /* chargen */
+                (a_m >= 0xa0)) {
+        /* FIXME: blocks 1,2,3 could be ROM also */
         type = MEMMAP_ROM_R;
     }
 
@@ -98,9 +104,14 @@ inline static void memmap_mem_update(unsigned int addr, int write)
             /* HACK: transform R to X */
             type >>= 2;
             memmap_state &= ~(MEMMAP_STATE_OPCODE);
+#if 0
         } else if (memmap_state & MEMMAP_STATE_INSTR) {
             /* ignore operand reads */
             type = 0;
+#endif
+        }
+        if (dummy == 0) {
+            type |= MEMMAP_REGULAR_READ;
         }
     }
 
@@ -110,25 +121,25 @@ inline static void memmap_mem_update(unsigned int addr, int write)
 
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
-    memmap_mem_update(addr, 1);
+    memmap_mem_update(addr, 1, 0);
     (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
 
 static void memmap_mem_store_dummy(unsigned int addr, unsigned int value)
 {
-    memmap_mem_update(addr, 1);
+    memmap_mem_update(addr, 1, 1);
     (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
 
 static uint8_t memmap_mem_read(unsigned int addr)
 {
-    memmap_mem_update(addr, 0);
+    memmap_mem_update(addr, 0, 0);
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 
 static uint8_t memmap_mem_read_dummy(unsigned int addr)
 {
-    memmap_mem_update(addr, 0);
+    memmap_mem_update(addr, 0, 1);
     return (*_mem_read_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr));
 }
 
@@ -184,6 +195,12 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
     memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
+/* Route stack operations through memmap */
+
+#define PUSH(val) memmap_mem_store((0x100 + (reg_sp--)), (uint8_t)(val))
+#define PULL()    memmap_mem_read(0x100 + (++reg_sp))
+#define STACK_PEEK()  memmap_mem_read_dummy(0x100 + reg_sp)
+
 #endif /* FEATURE_CPUMEMHISTORY */
 
 #ifndef STORE
@@ -236,6 +253,19 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
 #ifndef LOAD_ZERO_DUMMY
 #define LOAD_ZERO_DUMMY(addr) \
     (*_mem_read_tab_ptr_dummy[0])((uint16_t)(addr))
+#endif
+
+/* Route stack operations through read/write handlers */
+#ifndef PUSH
+#define PUSH(val) (*_mem_write_tab_ptr[0x01])((uint16_t)(0x100 + (reg_sp--)), (uint8_t)(val))
+#endif
+
+#ifndef PULL
+#define PULL()    (*_mem_read_tab_ptr[0x01])((uint16_t)(0x100 + (++reg_sp)))
+#endif
+
+#ifndef STACK_PEEK
+#define STACK_PEEK()  (*_mem_read_tab_ptr_dummy[0x01])((uint16_t)(0x100 + reg_sp))
 #endif
 
 #ifndef DMA_FUNC
