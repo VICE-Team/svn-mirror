@@ -57,7 +57,6 @@ export_list_t *export_query_list(export_list_t *item)
 void export_dump(void)
 {
     export_list_t *current = NULL;
-    io_source_t *io;
     int cartid;
     int exrom;
 
