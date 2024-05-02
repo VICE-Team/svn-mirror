@@ -160,7 +160,7 @@ unsigned char *vice_gtk3_scrcode_to_utf8(unsigned char *s,
             *s = *s + 0x40;
         } else if ((*s >= 0xe0) && (*s <= 0xfe)) {
             *s = *s;
-        } else if ((*s == 0xff) /*&& (*s <= 0xff) */) {
+        } else if /*(*/ (*s == 0xff) /*&& (*s <= 0xff)) */ {
             *s = 0xbf;
         } else {
             *s = charset_screencode_to_petscii(*s);
