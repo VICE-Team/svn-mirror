@@ -181,7 +181,6 @@ void monitor_vsync_hook(void);
 
 void monitor_abort(void);
 
-int monitor_force_import(MEMSPACE mem);
 void monitor_check_icount(uint16_t a);
 void monitor_check_icount_interrupt(void);
 void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc);

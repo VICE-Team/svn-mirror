@@ -153,7 +153,6 @@ static void mon_register_set_val(int mem, int reg_id, uint16_t val)
             log_error(LOG_ERR, "Unknown register!");
             return;
     }
-    force_array[mem] = 1;
 }
 
 /* TODO: should use mon_register_list_get */

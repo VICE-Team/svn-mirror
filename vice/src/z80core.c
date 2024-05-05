@@ -757,22 +757,22 @@ static void export_registers(void)
             }                                                                             \
         }                                                                                 \
         if (ik & (IK_MONITOR)) {                                                          \
-            if (monitor_force_import(e_comp_space)) {                                     \
+            if (monitor_mask[e_comp_space] & (MI_STEP)) {                                 \
+                export_registers();                                                       \
+                monitor_check_icount((uint16_t)z80_reg_pc);                               \
                 import_registers();                                                       \
             }                                                                             \
-            if (monitor_mask[e_comp_space]) {                                             \
-                export_registers();                                                       \
-            }                                                                             \
-            if (monitor_mask[e_comp_space] & (MI_STEP)) {                                 \
-                monitor_check_icount((uint16_t)z80_reg_pc);                                   \
-            }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_BREAK)) {                                \
-                if (monitor_check_breakpoints(e_comp_space, (uint16_t)z80_reg_pc)) {          \
+                export_registers();                                                       \
+                if (monitor_check_breakpoints(e_comp_space, (uint16_t)z80_reg_pc)) {      \
                     monitor_startup(e_comp_space);                                        \
                 }                                                                         \
+                import_registers();                                                       \
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_WATCH)) {                                \
-                monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)z80_reg_pc);            \
+                export_registers();                                                       \
+                monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)z80_reg_pc);        \
+                import_registers();                                                       \
             }                                                                             \
         }                                                                                 \
     } while (0)

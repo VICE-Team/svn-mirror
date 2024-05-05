@@ -136,6 +136,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
     return 0;
 }
 
+/* assinged to mon_register_set_val() in the monitor interface struct */
 static void mon_register_set_val(int mem, int reg_id, uint16_t val)
 {
     mos6510_regs_t *reg_ptr;
@@ -175,7 +176,6 @@ static void mon_register_set_val(int mem, int reg_id, uint16_t val)
             log_error(LOG_ERR, "Unknown register!");
             return;
     }
-    force_array[mem] = 1;
 }
 
 /* TODO: should use mon_register_list_get */

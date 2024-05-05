@@ -187,7 +187,6 @@ static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
 static CLOCK stopwatch_start_time[NUM_MEMSPACES];
-bool force_array[NUM_MEMSPACES];
 monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
@@ -2853,17 +2852,6 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
 
 
 /* *** CPU INTERFACES *** */
-
-
-int monitor_force_import(MEMSPACE mem)
-{
-    bool result;
-
-    result = force_array[mem];
-    force_array[mem] = false;
-
-    return result;
-}
 
 /* called by cpu core */
 void monitor_check_icount(uint16_t pc)
