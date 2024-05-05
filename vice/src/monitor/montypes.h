@@ -248,7 +248,6 @@ extern MON_ADDR dot_addr[NUM_MEMSPACES];
 extern const char * const mon_memspace_string[];
 extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
-extern bool force_array[NUM_MEMSPACES];
 extern unsigned char data_buf[256];
 extern unsigned char data_mask_buf[256];
 extern unsigned int data_buf_len;
