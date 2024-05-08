@@ -34,6 +34,7 @@
 #include "log.h"
 #include "output-select.h"
 #include "output.h"
+#include "printer.h"
 #include "types.h"
 
 #ifdef DEBUG_PRINTER
@@ -99,6 +100,9 @@ static int drv_raw_formfeed(unsigned int prnr)
 static int drv_raw_select(unsigned int prnr)
 {
     DBG(("drv_raw_select device:%u", 4 + prnr));
+    if (prnr == PRINTER_USERPORT) {
+        return drv_raw_open(prnr, DRIVER_FIRST_OPEN);
+    }
     return 0;
 }
 
