@@ -68,8 +68,8 @@ int printer_resources_init(void)
 
 int printer_userport_resources_init(void)
 {
-    if (driver_select_userport_init_resources() < 0
-        || output_select_userport_init_resources() < 0) {
+    if (output_select_userport_init_resources() < 0
+        || driver_select_userport_init_resources() < 0) {
         return -1;
     }
     return 0;

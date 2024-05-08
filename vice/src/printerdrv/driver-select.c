@@ -384,8 +384,8 @@ int driver_select_formfeed(unsigned int prnr)
 #ifdef DEBUG_PRINTER
     log_message(driver_select_log, "Formfeed device #%u", prnr + 4);
 #endif
-    if (driver_select[prnr].drv_formfeed)
+    if (driver_select[prnr].drv_formfeed) {
         return driver_select[prnr].drv_formfeed(prnr);
-    else
-        return 0;
+    }
+    return 0;
 }

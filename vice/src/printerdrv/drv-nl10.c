@@ -2003,6 +2003,9 @@ static int drv_nl10_formfeed(unsigned int prnr)
 static int drv_nl10_select(unsigned int prnr)
 {
     DBG(("drv_nl10_select device:%u", 4 + prnr));
+    if (prnr == PRINTER_USERPORT) {
+        return drv_nl10_open(prnr, DRIVER_FIRST_OPEN);
+    }
     return 0;
 }
 
