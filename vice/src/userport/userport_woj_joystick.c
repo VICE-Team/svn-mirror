@@ -126,7 +126,7 @@ int userport_joystick_woj_resources_init(void)
 
 static uint8_t userport_joystick_woj_read_pbx(uint8_t orig)
 {
-    return ~read_joyport_dig(JOYPORT_3 + userport_joystick_woj_select);
+    return read_joyport_dig(JOYPORT_3 + userport_joystick_woj_select);
 }
 
 static void userport_joystick_woj_store_pbx(uint8_t value, int pulse)
