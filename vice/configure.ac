@@ -541,7 +541,11 @@ AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes" -a x"$enable_silent_rules"
 
 user_cflags=$CFLAGS
 
+dnl Make sure we have pkg-config >- 0.9.0
 PKG_PROG_PKG_CONFIG
+if test -z "$PKG_CONFIG"; then
+  AC_MSG_ERROR([Could not locate pkg-config, please install pkg-config])
+fi
 
 SOUND_DRIVERS=""
 
