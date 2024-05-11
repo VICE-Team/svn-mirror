@@ -175,7 +175,8 @@ static int get_child_index_for_device(int device)
             return (int)index;
         }
     }
-    return -1;
+    debug_gtk3("shouldn't get here: didn't find index for device %d", device);
+    return 0;
 }
 
 
