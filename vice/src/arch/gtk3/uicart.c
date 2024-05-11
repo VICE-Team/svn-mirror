@@ -815,7 +815,10 @@ static GtkWidget *create_cart_type_combo_box(void)
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_cart_type_changed), NULL);
+    g_signal_connect_unlocked(G_OBJECT(combo),
+                              "changed",
+                              G_CALLBACK(on_cart_type_changed),
+                              NULL);
     return combo;
 }
 
