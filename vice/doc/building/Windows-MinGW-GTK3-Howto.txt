@@ -212,7 +212,9 @@ $ export XML_CATALOG_FILES="/mingw64/etc/xml/catalog"
 
 $ mkdir ~/work && cd ~/work
 $ git clone https://github.com/twaugh/libieee1284 .
-$ ./bootstrap && ./configure --without-python && make -s && make -s install
+$ ./bootstrap
+$ ./configure --without-python
+$ make CFLAGS="-Wno-incompatible-pointer-types" -s && make -s install
 $ cd .. && rm -rf work
 
 reconfigure with --enable-parsid --enable-libieee1284

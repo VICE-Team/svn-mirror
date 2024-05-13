@@ -323,7 +323,7 @@ jobs:
           export XML_CATALOG_FILES="/${{ matrix.arch.prefix }}/etc/xml/catalog"
           ./bootstrap
           ./configure --without-python
-          make
+          make CFLAGS="-Wno-incompatible-pointer-types"
           make install
           cd "$OLDDIR"
 
