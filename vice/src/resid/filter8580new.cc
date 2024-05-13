@@ -204,7 +204,7 @@ static model_filter_init_t model_filter_init[2] = {
     opamp_voltage_8580,
     sizeof(opamp_voltage_8580)/sizeof(*opamp_voltage_8580),
     // FIXME: Measure for the 8580.
-    0.30,
+    0.24,
     // FIXME: Measure for the 8580.
     4.84,
     // Capacitor value.
