@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "driver-select.h"
 #include "interface-userport.h"
+#include "log.h"
 #include "output-select.h"
 #include "printer.h"
 #include "resources.h"
@@ -40,6 +41,14 @@
 #include "types.h"
 #include "joyport.h"
 #include "userport.h"
+
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 /*
 C64/C128 | CBM2 | PET | VIC20 | CENTRONICS  | NOTES
@@ -97,10 +106,14 @@ static int userport_printer_enable(int val)
 {
     int newval = val ? 1 : 0;
 
+    DBG(("userport_printer_enable(val:%d)", val));
+
     if (newval && !userport_printer_enabled) {
         /* Switch printer on.  */
-        if (driver_select_open(USERPORT_OUTPUT, 4) >= 0) {
-            userport_printer_enabled = 1;
+        if (driver_select_open(USERPORT_OUTPUT, DRIVER_FIRST_OPEN) >= 0) {
+            if (driver_select_open(USERPORT_OUTPUT, 4) >= 0) {
+                userport_printer_enabled = 1;
+            }
         }
     }
     if (userport_printer_enabled && !newval) {
@@ -113,6 +126,7 @@ static int userport_printer_enable(int val)
 
 int interface_userport_init_resources(void)
 {
+    DBG(("interface_userport_init_resources()"));
     return userport_device_register(USERPORT_DEVICE_PRINTER, &printer_device);
 }
 

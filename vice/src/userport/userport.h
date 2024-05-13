@@ -337,6 +337,8 @@ typedef struct userport_desc_s {
 void userport_port_register(userport_port_props_t *props);
 int userport_device_register(int id, userport_device_t *device);
 
+int userport_get_device(void);
+
 uint8_t read_userport_pbx(uint8_t orig);
 void store_userport_pbx(uint8_t val, int pulse);
 uint8_t read_userport_pa2(uint8_t orig);

@@ -43,6 +43,7 @@
 #include "sysfile.h"
 #include "types.h"
 #include "lib.h"
+#include "userport.h"
 
 #ifdef DEBUG_PRINTER
 #define DBG(x)  log_debug x
@@ -1931,8 +1932,8 @@ static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 {
     nl10_t *nl10 = &(drv_nl10[prnr]);
 
-    DBG(("drv_nl10_open:%u DRIVER_FIRST_OPEN", 4 + prnr));
     if (secondary == DRIVER_FIRST_OPEN) {
+        DBG(("drv_nl10_open(prnr:%u secondary:DRIVER_FIRST_OPEN) device:%u", prnr, 4 + prnr));
         output_parameter_t output_parameter;
 
         output_parameter.maxcol = MAX_COL;
@@ -1947,7 +1948,7 @@ static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 
         return output_select_open(prnr, &output_parameter);
     }
-    DBG(("drv_nl10_open:%u", 4+ prnr));
+    DBG(("drv_nl10_open(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
 
     if (secondary == 7) {
         set_mode(nl10, NL10_CBMTEXT);
@@ -1962,7 +1963,7 @@ static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 
 static void drv_nl10_close(unsigned int prnr, unsigned int secondary)
 {
-    DBG(("drv_nl10_close:%u", 4 + prnr));
+    DBG(("drv_nl10_close(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
     /* cannot call output_select_close() here since it would eject the
        current page, which is not what "close"ing a channel to a real
        printer does */
@@ -1986,13 +1987,13 @@ static int drv_nl10_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 
 static int drv_nl10_flush(unsigned int prnr, unsigned int secondary)
 {
-    DBG(("drv_nl10_flush:%u", 4 + prnr));
+    DBG(("drv_nl10_flush(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
     return 0;
 }
 
 static int drv_nl10_formfeed(unsigned int prnr)
 {
-    DBG(("drv_nl10_formfeed:%u", 4 + prnr));
+    DBG(("drv_nl10_formfeed(prnr:%u) device:%u", prnr, 4 + prnr));
     nl10_t *nl10 = &(drv_nl10[prnr]);
     if (nl10->isopen) {
         formfeed(nl10, prnr);
@@ -2002,8 +2003,8 @@ static int drv_nl10_formfeed(unsigned int prnr)
 
 static int drv_nl10_select(unsigned int prnr)
 {
-    DBG(("drv_nl10_select device:%u", 4 + prnr));
-    if (prnr == PRINTER_USERPORT) {
+    DBG(("drv_nl10_select(prnr:%u) device:%u", prnr, 4 + prnr));
+    if ((prnr == PRINTER_USERPORT) && (userport_get_device() == USERPORT_DEVICE_PRINTER)) {
         return drv_nl10_open(prnr, DRIVER_FIRST_OPEN);
     }
     return 0;

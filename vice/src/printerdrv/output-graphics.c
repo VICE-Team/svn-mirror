@@ -226,7 +226,7 @@ static int output_graphics_open(unsigned int prnr,
 
 static void output_graphics_close(unsigned int prnr)
 {
-    DBG(("output_graphics_close(%d) isopen:%d\n", prnr, output_gfx[prnr].isopen));
+    DBG(("output_graphics_close(%u) isopen:%u", prnr, output_gfx[prnr].isopen));
     /* The layer that calls us does that for each CLOSE on the bus, this is not
        very useful */
 #if 0
@@ -303,7 +303,7 @@ static int output_graphics_getc(unsigned int prnr, uint8_t *b)
 
 static int output_graphics_flush(unsigned int prnr)
 {
-    DBG(("output_graphics_flush:%d", prnr));
+    DBG(("output_graphics_flush(prnr:%u) device:%u", prnr, prnr + 4));
     /* We can't really update the output partially, so we do nothing and rely on
        the rest of the code doing it as needed */
     return 0;
@@ -312,7 +312,7 @@ static int output_graphics_flush(unsigned int prnr)
 static int output_graphics_formfeed(unsigned int prnr)
 {
     output_gfx_t *o = &(output_gfx[prnr]);
-    DBG(("output_graphics_formfeed:%d", prnr));
+    DBG(("output_graphics_formfeed(prnr:%u) device:%u", prnr, prnr + 4));
 #if 0
     /*
      * Will finish writing current file, and leaves open

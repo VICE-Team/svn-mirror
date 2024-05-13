@@ -1057,7 +1057,7 @@ static int drv_2022_open(unsigned int prnr, unsigned int secondary)
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
 
-        DBG(("drv_2022_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_2022_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
         output_parameter.maxcol = 80 * 6;
         output_parameter.maxrow = 66 * 7;
         output_parameter.dpi_x = 72;
@@ -1082,6 +1082,7 @@ static int drv_2022_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 2;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_2022_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 
@@ -1096,7 +1097,7 @@ static int drv_4023_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
-        DBG(("drv_4023_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_4023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
 
         output_parameter.maxcol = 80 * 8;
         output_parameter.maxrow = 66 * 8;
@@ -1123,6 +1124,7 @@ static int drv_4023_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 1;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_4023_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 
@@ -1137,7 +1139,7 @@ static int drv_8023_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
-        DBG(("drv_8023_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_8023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
 
         output_parameter.maxcol = 136 * 6;
         output_parameter.maxrow = 66 * 7;
@@ -1164,6 +1166,7 @@ static int drv_8023_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 1;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_8023_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 
@@ -1178,7 +1181,7 @@ static int drv_mps801_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
-        DBG(("drv_mps801_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_mps801_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
 
         output_parameter.maxcol = 80 * 6;
         output_parameter.maxrow = 66 * 7;
@@ -1206,6 +1209,7 @@ static int drv_mps801_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 0;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_mps801_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 
@@ -1220,7 +1224,7 @@ static int drv_mps802_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
-        DBG(("drv_mps802_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_mps802_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
 
         output_parameter.maxcol = 80 * 8;
         output_parameter.maxrow = 66 * 8;
@@ -1246,6 +1250,7 @@ static int drv_mps802_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 1;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_mps802_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 
@@ -1261,7 +1266,7 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
     if (secondary == DRIVER_FIRST_OPEN) {
         output_parameter_t output_parameter;
 
-        DBG(("drv_mps803_open(%u,DRIVER_FIRST_OPEN)", prnr));
+        DBG(("drv_mps803_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
         output_parameter.maxcol = MPS803_PAGE_WIDTH_DOTS;
         output_parameter.maxrow = MPS803_PAGE_HEIGHT_DOTS;
         output_parameter.dpi_x = 60;    /* mps803 has different horizontal & vertical dpi - see pg 49 of the manual part H. */
@@ -1287,6 +1292,7 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
         drv_mps803[prnr].lookup_method = 0;
         return output_select_open(prnr, &output_parameter);
     }
+    DBG(("drv_mps803_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
 }
 

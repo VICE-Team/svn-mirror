@@ -251,6 +251,10 @@ int userport_device_register(int id, userport_device_t *device)
 
 static int userport_reset_started = 0;
 
+int userport_get_device(void)
+{
+    return userport_current_device;
+}
 
 /* attach device 'id' to the userport */
 static int userport_set_device(int id)

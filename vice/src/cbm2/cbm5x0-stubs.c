@@ -76,6 +76,11 @@ int userport_device_register(int id, userport_device_t *device)
     return -1;
 }
 
+int userport_get_device(void)
+{
+    return -1;
+}
+
 #ifdef HAVE_LIBCURL
 const tzones_t *userport_wic64_get_timezones(size_t *num_zones)
 {
