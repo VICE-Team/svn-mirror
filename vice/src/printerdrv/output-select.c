@@ -243,13 +243,13 @@ void output_select_register(output_select_t *outp_select)
 int output_select_open(unsigned int prnr,
                        struct output_parameter_s *output_parameter)
 {
-    DBG(("output_select_open:%u", prnr));
+    DBG(("output_select_open(prnr:%u) device:%u", prnr, prnr + 4));
     return output_select[prnr].output_open(prnr, output_parameter);
 }
 
 void output_select_close(unsigned int prnr)
 {
-    DBG(("output_select_close:%u", prnr));
+    DBG(("output_select_close(prnr:%u) device:%u", prnr, prnr + 4));
     output_select[prnr].output_close(prnr);
 }
 
@@ -265,12 +265,12 @@ int output_select_getc(unsigned int prnr, uint8_t *b)
 
 int output_select_flush(unsigned int prnr)
 {
-    DBG(("output_select_flush:%u", prnr));
+    DBG(("output_select_flush(prnr:%u) device:%u", prnr, prnr + 4));
     return output_select[prnr].output_flush(prnr);
 }
 
 int output_select_formfeed(unsigned int prnr)
 {
-    DBG(("output_select_formfeed:%ud", prnr));
+    DBG(("output_select_formfeed(prnr:%u) device:%u", prnr, prnr + 4));
     return output_select[prnr].output_formfeed(prnr);
 }

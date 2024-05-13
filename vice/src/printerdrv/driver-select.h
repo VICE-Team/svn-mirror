@@ -72,6 +72,7 @@ int driver_select_userport_init_cmdline_options(void);
 
 void driver_select_register(driver_select_t *driver_select);
 
+int driver_select(unsigned int prnr);
 int driver_select_open(unsigned int prnr, unsigned int secondary);
 void driver_select_close(unsigned int prnr, unsigned int secondary);
 int driver_select_putc(unsigned int prnr, unsigned int secondary, uint8_t b);

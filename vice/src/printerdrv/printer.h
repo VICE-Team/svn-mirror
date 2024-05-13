@@ -51,9 +51,9 @@ void printer_shutdown(void);
 #define PRINTER_TEXT_DEVICE_2   1
 #define PRINTER_TEXT_DEVICE_3   2
 
-#define PRINTER_IEC_4    0
-#define PRINTER_IEC_5    1
-#define PRINTER_IEC_6    2
+#define PRINTER_IEC_4    0  /* CBM devnr 4 */
+#define PRINTER_IEC_5    1  /* CBM devnr 5 */
+#define PRINTER_IEC_6    2  /* CBM devnr 6 */
 #define PRINTER_USERPORT 3
 
 int printer_serial_init_resources(void);

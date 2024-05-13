@@ -47,7 +47,7 @@
 static log_t driver_select_log = LOG_ERR;
 
 /* Currently used printer driver.  */
-static driver_select_t driver_select[NUM_DRIVER_SELECT];
+static driver_select_t driver[NUM_DRIVER_SELECT];
 
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
@@ -226,13 +226,16 @@ static int set_printer_driver(const char *name, void *param)
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
-            memcpy(&(driver_select[prnr]), &(list->driver_select), sizeof(driver_select_t));
-            if(driver_select[prnr].drv_select) {
+            memcpy(&(driver[prnr]), &(list->driver_select), sizeof(driver_select_t));
+            if(driver[prnr].drv_select) {
 #ifdef DEBUG_PRINTER
-                log_debug(driver_select_log, "driver_select[%d].drv_select != NULL", prnr);
+                log_message(driver_select_log, "driver[%d].drv_select != NULL", prnr);
 #endif
-                driver_select[prnr].drv_select(prnr);
+                return driver[prnr].drv_select(prnr);
             }
+#ifdef DEBUG_PRINTER
+            log_message(driver_select_log, "driver[%d].drv_select == NULL", prnr);
+#endif
             return 0;
         }
         list = list->next;
@@ -243,17 +246,17 @@ static int set_printer_driver(const char *name, void *param)
 
 static const resource_string_t resources_string[] = {
     { "Printer4Driver", "mps803", RES_EVENT_NO, NULL,
-      (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
+      (char **)&driver[0].drv_name, set_printer_driver, (void *)0 },
     { "Printer5Driver", "ascii", RES_EVENT_NO, NULL,
-      (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
+      (char **)&driver[1].drv_name, set_printer_driver, (void *)1 },
     { "Printer6Driver", "1520", RES_EVENT_NO, NULL,
-      (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
+      (char **)&driver[2].drv_name, set_printer_driver, (void *)2 },
     RESOURCE_STRING_LIST_END
 };
 
 static const resource_string_t resources_string_userport[] = {
     { "PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
-      (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
+      (char **)&driver[3].drv_name, set_printer_driver, (void *)3 },
     RESOURCE_STRING_LIST_END
 };
 
@@ -343,39 +346,53 @@ void driver_select_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+int driver_select(unsigned int prnr)
+{
+    if(driver[prnr].drv_select) {
+#ifdef DEBUG_PRINTER
+        log_message(driver_select_log, "driver[%d].drv_select != NULL", prnr);
+#endif
+        return driver[prnr].drv_select(prnr);
+    }
+#ifdef DEBUG_PRINTER
+    log_message(driver_select_log, "driver[%d].drv_select == NULL", prnr);
+#endif
+    return 0;
+}
+
 int driver_select_open(unsigned int prnr, unsigned int secondary)
 {
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "Open device #%i secondary %i.", prnr + 4, secondary);
+    log_message(driver_select_log, "Open prnr:%u device #%u secondary %u.", prnr, prnr + 4, secondary);
 #endif
-    return driver_select[prnr].drv_open(prnr, secondary);
+    return driver[prnr].drv_open(prnr, secondary);
 }
 
 void driver_select_close(unsigned int prnr, unsigned int secondary)
 {
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "Close device #%i secondary %i.", prnr + 4, secondary);
+    log_message(driver_select_log, "Close prnr:%u device #%u secondary %u.", prnr, prnr + 4, secondary);
 #endif
-    driver_select[prnr].drv_close(prnr, secondary);
+    driver[prnr].drv_close(prnr, secondary);
 }
 
 int driver_select_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
-    return driver_select[prnr].drv_putc(prnr, secondary, b);
+    return driver[prnr].drv_putc(prnr, secondary, b);
 }
 
 int driver_select_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
-    return driver_select[prnr].drv_getc(prnr, secondary, b);
+    return driver[prnr].drv_getc(prnr, secondary, b);
 }
 
 int driver_select_flush(unsigned int prnr, unsigned int secondary)
 {
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "Flush device #%u secondary %u.",
-            prnr + 4, secondary);
+    log_message(driver_select_log, "Flush prnr:%udevice #%u secondary %u.",
+            prnr, prnr + 4, secondary);
 #endif
-    return driver_select[prnr].drv_flush(prnr, secondary);
+    return driver[prnr].drv_flush(prnr, secondary);
 }
 
 /* called by printer.c:printer_formfeed() */
@@ -384,8 +401,8 @@ int driver_select_formfeed(unsigned int prnr)
 #ifdef DEBUG_PRINTER
     log_message(driver_select_log, "Formfeed device #%u", prnr + 4);
 #endif
-    if (driver_select[prnr].drv_formfeed) {
-        return driver_select[prnr].drv_formfeed(prnr);
+    if (driver[prnr].drv_formfeed) {
+        return driver[prnr].drv_formfeed(prnr);
     }
     return 0;
 }
