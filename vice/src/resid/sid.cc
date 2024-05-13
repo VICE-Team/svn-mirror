@@ -50,6 +50,11 @@ inline short clip(int input)
     return (short)input;
 }
 
+inline short amplify(int input, int scaleFactor)
+{
+    return clip((scaleFactor * input) / 2);
+}
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -76,6 +81,8 @@ SID::SID()
   write_pipeline = 0;
 
   databus_ttl = 0;
+
+  scaleFactor = 3;
 
   raw_debug_output = false;
 }
@@ -109,6 +116,8 @@ void SID::set_chip_model(chip_model model)
 
    */
   databus_ttl = sid_model == MOS8580 ? 0xa2000 : 0x1d00;
+
+  scaleFactor = sid_model == MOS8580 ? 5 : 3;
 
   for (int i = 0; i < 3; i++) {
     voice[i].set_chip_model(model);
@@ -872,7 +881,7 @@ int SID::clock_fast(cycle_count& delta_t, short* buf, int n, int interleave)
     }
 
     sample_offset = (next_sample_offset & FIXP_MASK) - (1 << (FIXP_SHIFT - 1));
-    buf[s*interleave] = output();
+    buf[s*interleave] = amplify(output(), scaleFactor);
   }
 
   return s;
@@ -904,7 +913,7 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n, int interlea
       clock();
       if (unlikely(i <= 2)) {
         sample_prev = sample_now;
-        sample_now = output();
+        sample_now = clip(output());
       }
     }
 
@@ -915,8 +924,10 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n, int interlea
 
     sample_offset = next_sample_offset & FIXP_MASK;
 
-    buf[s*interleave] =
-      sample_prev + (sample_offset*(sample_now - sample_prev) >> FIXP_SHIFT);
+    buf[s*interleave] = amplify(
+      sample_prev + (sample_offset*(sample_now - sample_prev) >> FIXP_SHIFT),
+      scaleFactor
+    );
   }
 
   return s;
@@ -1016,7 +1027,7 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n, int interleave)
 
     v >>= FIR_SHIFT;
 
-    buf[s*interleave] = clip(v);
+    buf[s*interleave] = amplify(v, scaleFactor);
   }
 
   return s;
@@ -1040,7 +1051,7 @@ int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n, int int
 
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
-      sample[sample_index] = sample[sample_index + RINGSIZE] = output();
+      sample[sample_index] = sample[sample_index + RINGSIZE] = clip(output());
       ++sample_index &= RINGMASK;
     }
 
@@ -1063,7 +1074,7 @@ int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n, int int
 
     v >>= FIR_SHIFT;
 
-    buf[s*interleave] = clip(v);
+    buf[s*interleave] = amplify(v, scaleFactor);
   }
 
   return s;
