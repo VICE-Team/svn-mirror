@@ -68,7 +68,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     MEMSPACE mem;
     uint16_t loc;
     int const prefix[3] = { -1, 0x10, 0x11 };
-    uint8_t opc[5];
+    uint8_t opc[5] = { 0 };
     int opc_offset;
     int prefixlen;
 
@@ -229,7 +229,8 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
         opc[opc_offset++] = prefix[j];
     }
     opc[opc_offset++] = opcode;
-    if (operand_mode == ASM_ADDR_MODE_INDEXED) {
+    if (operand_mode == ASM_ADDR_MODE_INDEXED ||
+        operand_mode == ASM_ADDR_MODE_H6309_INDEXED) {
         opc[opc_offset++] = (uint8_t)operand_submode;
     }
 
