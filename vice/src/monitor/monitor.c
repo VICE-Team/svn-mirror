@@ -1796,7 +1796,7 @@ static const resource_int_t resources_int[] = {
     { "MonitorChisLines", 8192, RES_EVENT_NO, NULL,
       &monitorchislines, set_monitor_chis_lines, NULL },
 #endif
-    { "MonitorScrollbackLines", 4096, RES_EVENT_NO, NULL,
+    { "MonitorScrollbackLines", 8192, RES_EVENT_NO, NULL,
       &monitorscrollbacklines, set_monitor_scrollback_lines, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -3013,6 +3013,9 @@ void monitor_abort(void)
     mon_stop_output = 1;
 }
 
+#define TTY_COLUMNS 80
+#define TTY_ROWS    25
+
 static void monitor_open(void)
 {
     supported_cpu_type_list_t *slist, *slist_next;
@@ -3025,10 +3028,10 @@ static void monitor_open(void)
 
     if (console_mode) {
         /* Shitty hack. We should support the console size etc. */
-        static console_t console_log_console = { 80, 25, 0, 0, NULL };
+        static console_t console_log_console = { TTY_COLUMNS, TTY_ROWS, 0, 0, NULL };
         console_log = &console_log_console;
     } else if (monitor_is_remote() || monitor_is_binary()) {
-        static console_t console_log_remote = { 80, 25, 0, 0, NULL };
+        static console_t console_log_remote = { TTY_COLUMNS, TTY_ROWS, 0, 0, NULL };
         console_log = &console_log_remote;
     } else {
         if (console_log) {

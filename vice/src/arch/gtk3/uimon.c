@@ -102,7 +102,10 @@ static struct console_private_s {
     size_t output_buffer_used_size;
 } fixed;
 
-static console_t vte_console = { 40, 25, 0, 1, NULL }; /* bare minimum */
+#define DEFAULT_COLUMNS     80
+#define DEFAULT_ROWS        50
+
+static console_t vte_console = { DEFAULT_COLUMNS, DEFAULT_ROWS, 0, 1, NULL }; /* bare minimum */
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
@@ -547,7 +550,7 @@ int uimon_get_columns(struct console_private_s *t)
     if(t->term) {
         return (int)vte_terminal_get_column_count(VTE_TERMINAL(t->term));
     }
-    return 80;
+    return DEFAULT_COLUMNS;
 }
 
 static char* append_char_to_input_buffer(char *old_input_buffer, char new_char)
@@ -1318,6 +1321,8 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_BASE_SIZE |
                                      GDK_HINT_USER_POS |
                                      GDK_HINT_USER_SIZE);
+
+        vte_terminal_set_size(VTE_TERMINAL(fixed.term), DEFAULT_COLUMNS, DEFAULT_ROWS);
 
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
                 gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
