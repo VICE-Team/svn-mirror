@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "charset.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "montypes.h"
@@ -51,6 +52,13 @@
 
 #include "mon_file.h"
 
+/* #define DEBUG_MONITOR */
+
+#ifdef DEBUG_MONITOR
+#define DBG(x)  log_debug   x
+#else
+#define DBG(x)
+#endif
 
 #define ADDR_LIMIT(x) ((uint16_t)(addr_mask(x)))
 
@@ -73,6 +81,9 @@ static int mon_file_open(const char *filename,
     char *fullpath;
 
     fp = NULL;
+
+    DBG(("mon_file_open(filename:%s, secondary:%u, device:%d\n",
+         filename, secondary, device));
 
     switch (device) {
         case 0:
@@ -179,7 +190,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     int origbank = 0;
 
     if (mon_file_open(filename, 0, device) < 0) {
-        mon_out("Cannot open %s.\n", filename);
+        mon_out("Cannot open '%s'.\n", filename);
         return;
     }
 
@@ -209,7 +220,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
         mem = addr_memspace(start_addr);
     }
 
-    mon_out("Loading %s from %04X ", filename, adr);
+    mon_out("Loading '%s' from %04X ", filename, adr);
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         origbank = curbank;
@@ -282,14 +293,14 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
     }
 
     if (mon_file_open(filename, 1, device) < 0) {
-        mon_out("Cannot open %s.\n", filename);
+        mon_out("Cannot open '%s'.\n", filename);
         return;
     }
 
     if (is_bsave == FALSE) {
         if (mon_file_write((uint8_t)(adr & 0xff), 1, device) < 0
             || mon_file_write((uint8_t)((adr >> 8) & 0xff), 1, device) < 0) {
-            mon_out("Saving for `%s' failed.\n", filename);
+            mon_out("Saving for '%s' failed.\n", filename);
             mon_file_close(1, device);
             return;
         }
@@ -300,14 +311,14 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
 
         save_byte = mon_get_mem_val(mem, (uint16_t)(adr + ch));
         if (mon_file_write(save_byte, 1, device) < 0) {
-            mon_out("Saving for `%s' failed.\n", filename);
+            mon_out("Saving for '%s' failed.\n", filename);
             mon_file_close(1, device);
             return;
         }
         ch++;
     } while ((adr + ch) <= end);
 
-    mon_out("Saving file `%s' from $%04x to $%04x\n",
+    mon_out("Saving file '%s' from $%04x to $%04x\n",
             filename, addr_location(start_addr), addr_location(end_addr));
 
 
@@ -324,7 +335,7 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr, bool
     int diffcount = 0;
 
     if (mon_file_open(filename, 0, device) < 0) {
-        mon_out("Cannot open %s.\n", filename);
+        mon_out("Cannot open '%s'.\n", filename);
         return;
     }
 
@@ -351,7 +362,7 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr, bool
     adr = addr_location(start_addr);
     mem = addr_memspace(start_addr);
 
-    mon_out("Verifying %s from %04X ", filename, adr);
+    mon_out("Verifying '%s' from %04X ", filename, adr);
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         origbank = curbank;
