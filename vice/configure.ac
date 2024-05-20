@@ -423,6 +423,8 @@ AM_PROG_AS
 
 dnl Other build environment checks
 AC_SYS_LARGEFILE
+AC_TYPE_SSIZE_T
+
 
 AC_CONFIG_HEADERS([src/config.h])
 
