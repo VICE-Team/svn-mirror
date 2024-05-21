@@ -126,14 +126,17 @@ typedef enum ted_video_mode_s ted_video_mode_t;
    guaranteed to be always correct. */
 #define TED_RASTER_Y(clk)           ((unsigned int)((ted.ted_raster_counter \
                                                      + (((clk) - ted.last_emulate_line_clk) \
-                                                        >= 114 ? (ted.ted_raster_counter == ted.screen_height - 1 \
+                                                        >= 114 ? (ted.ted_raster_counter == (ted.screen_height - 1) \
                                                                   ? 1 - ted.screen_height : 1) : 0)) & 0x1ff))
 
 /* Cycle # within the current line.  */
-#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
+/*#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))*/
+#define TED_RASTER_CYCLE(clk)       ((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0))
 
 /* `clk' value for the beginning of the current line.  */
-#define TED_LINE_START_CLK(clk)     ((unsigned int)(ted.last_emulate_line_clk + (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
+/* FIXME: assigned to (CLOCK)ted.raster_irq_clk in ted-irq.c:ted_irq_set_raster_line() */
+/* FIXME: assigned to (CLOCK)ted.raster_irq_clk in ted-mem.c:ted1c1d_store() */
+#define TED_LINE_START_CLK(clk)     ((unsigned int)(ted.last_emulate_line_clk + (((clk) - ted.last_emulate_line_clk) >= 114UL ? 114UL : 0UL)))
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 /* FIXME not always true, previous line can be 511 */

@@ -50,8 +50,7 @@ inline static void line_becomes_good(int cycle)
     if (cycle > 0) {
         ted.raster.draw_idle_state = ted.idle_state = 0;
         ted.idle_data_location = IDLE_NONE;
-        if (cycle > TED_FETCH_CYCLE + 2
-            && !ted.ycounter_reset_checked) {
+        if ((cycle > (TED_FETCH_CYCLE + 2)) && !ted.ycounter_reset_checked) {
             /*ted.raster.ycounter = 0;*/
             ted.ycounter_reset_checked = 1;
         }
