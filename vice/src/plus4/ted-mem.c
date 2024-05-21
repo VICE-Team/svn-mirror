@@ -259,10 +259,10 @@ inline static void check_lower_upper_border(const uint8_t value,
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
             if (!ted.raster.blank && line == ted.row_25_start_line
-                && cycle > 0) {
+                && (cycle > 0)) {
                 ted.raster.blank_enabled = 0;
             } else {
-                if (line == ted.row_25_stop_line && cycle > 0) {
+                if ((line == ted.row_25_stop_line) && (cycle > 0)) {
                     ted.raster.blank_enabled = 1;
                 }
             }
@@ -450,19 +450,32 @@ inline static void ted08_store(const uint8_t value)
     ted.kbdval = val;
 }
 
+/* IRQ Status
+
+   write bits = 1 to ACK IRQ
+
+   bit 0
+   bit 1    raster compare irq
+   bit 2
+   bit 3    timer 1
+   bit 4    timer 2
+   bit 5
+   bit 6    timer 3
+   bit 7    any IRQ triggered
+ */
 inline static void ted09_store(const uint8_t value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
         ted.irq_status &= ~((ted.last_read & 0x5e) | 0x80);
-        if (maincpu_clk - 1 > ted.raster_irq_clk
-            && ted.raster_irq_line < (unsigned int)ted.screen_height) {
+        if (((maincpu_clk - 1) > (ted.raster_irq_clk)) &&
+            (ted.raster_irq_line < ted.screen_height)) {
             ted_irq_next_frame();
         }
     }
 
-    if ((value & 2) && maincpu_clk > ted.raster_irq_clk
-        && ted.raster_irq_line < (unsigned int)ted.screen_height) {
+    if ((value & 2) && (maincpu_clk > ted.raster_irq_clk)
+        && (ted.raster_irq_line < ted.screen_height)) {
         ted_irq_next_frame();
     }
 
@@ -472,6 +485,17 @@ inline static void ted09_store(const uint8_t value)
     TED_DEBUG_REGISTER(("IRQ flag register: $%02X", ted.irq_status));
 }
 
+/* IRQ Mask
+
+   bit 0    bit 8 of raster irq compare value
+   bit 1    raster compare irq
+   bit 2
+   bit 3    timer 1
+   bit 4    timer 2
+   bit 5
+   bit 6    timer 3
+   bit 7    0: clear mask 1: set mask
+ */
 inline static void ted0a_store(uint8_t value)
 {
     ted.regs[0x0a] = value & 0x5f;
@@ -483,6 +507,7 @@ inline static void ted0a_store(uint8_t value)
     TED_DEBUG_REGISTER(("IRQ mask register: $%02X", ted.regs[0x0a]));
 }
 
+/* bit 0-7: bit 0-7 of raster irq compare value */
 inline static void ted0b_store(uint8_t value)
 {
     TED_DEBUG_REGISTER(("Raster compare register: $%02X", value));
@@ -700,7 +725,7 @@ inline static void ted1c1d_store(uint16_t addr, uint8_t value)
         alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
     }
 
-    if (ted.raster_irq_line < (unsigned int)ted.screen_height) {
+    if (ted.raster_irq_line < ted.screen_height) {
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                               + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                               + (ted.cycles_per_line
@@ -895,6 +920,17 @@ inline static uint8_t ted08_read(void)
     return ted.kbdval;
 }
 
+/* IRQ Status
+
+   bit 0
+   bit 1    raster compare irq
+   bit 2
+   bit 3    timer 1
+   bit 4    timer 2
+   bit 5
+   bit 6    timer 3
+   bit 7    any IRQ triggered
+ */
 inline static uint8_t ted09_read(void)
 {
     /* Manually set raster IRQ flag if the opcode reading $09 has crossed
@@ -914,6 +950,17 @@ inline static uint8_t ted09_read(void)
     return ted.last_read;
 }
 
+/* IRQ Mask
+
+   bit 0
+   bit 1    raster compare irq
+   bit 2
+   bit 3    timer 1
+   bit 4    timer 2
+   bit 5
+   bit 6    timer 3
+   bit 7
+ */
 inline static uint8_t ted0a_read(void)
 {
     return (ted.regs[0x0a] & 0x5f) | 0xa0;

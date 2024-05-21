@@ -193,7 +193,7 @@ inline void ted_handle_pending_alarms(CLOCK num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler((CLOCK)(maincpu_clk - ted.draw_clk), NULL);
+                ted_raster_draw_alarm_handler(maincpu_clk - ted.draw_clk, NULL);
                 f = 1;
             }
             if (maincpu_clk > ted.fetch_clk + 1) {
@@ -765,7 +765,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* DO VSYNC if the raster_counter in the TED reached the VSYNC signal */
     /* Also do VSYNC if oversized screen reached a certain threashold, this will result in rolling screen just like on the real thing */
-    if (((signed int)(ted.tv_current_line - ted.screen_height) > 40) || (ted.ted_raster_counter == ted.vsync_line )) {
+    if (((signed int)(ted.tv_current_line - ted.screen_height) > 40) ||
+        (ted.ted_raster_counter == ted.vsync_line )) {
         if (ted.tv_current_line < ted.screen_height) {
             ted.raster.current_line = 0;
             raster_canvas_handle_end_of_frame(&ted.raster);
@@ -818,8 +819,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (ted.ted_raster_counter == ted.first_dma_line) {
         ted.allow_bad_lines = !ted.raster.blank;
     }
-    if (ted.allow_bad_lines
-        && (ted.ted_raster_counter & 7) == (unsigned int)((ted.raster.ysmooth + 1) & 7)) {
+    if (ted.allow_bad_lines &&
+        ((ted.ted_raster_counter & 7) == ((ted.raster.ysmooth + 1) & 7))) {
         memcpy(ted.cbuf, ted.cbuf_tmp, ted.mem_counter_inc);
     }
     /* FIXME */
@@ -879,6 +880,8 @@ int ted_dump(void)
 
     int video_mode, m_mcm, m_bmm, m_ecm;
     unsigned int cgen, bmap , vram;
+    int rasterx;
+    int i;
 
     video_mode = ((ted.regs[0x06] & 0x60) | (ted.regs[0x07] & 0x10)) >> 4;
 
@@ -886,28 +889,41 @@ int ted_dump(void)
     m_bmm = (video_mode & 2) >> 1;  /* 0 text, 1 bitmap */
     m_mcm = video_mode & 1;         /* 0 hires, 1 multi */
 
-    int i;
-
-    i = ((int)TED_RASTER_CYCLE(maincpu_clk) - 16) * 4;  /* x raster position */
-    if (i < 0) {
-        i = ted.cycles_per_line * 4 + i;
+    rasterx = ((int)TED_RASTER_CYCLE(maincpu_clk) - 16) * 4;  /* x raster position */
+    if (rasterx < 0) {
+        rasterx = ted.cycles_per_line * 4 + rasterx;
     }
 
-    mon_out("Timer 1 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 3) & 0x01)? "on" : "off", (ted.timer_running[0]) ? "yes" : "no");
+    mon_out("Timer 1 IRQ: enabled: %s  pending: %s  running: %s \n",
+            ((ted.regs[0x0a] >> 3) & 0x01)? "yes" : "no",
+            ((ted.irq_status >> 3) & 0x01)? "yes" : "no",
+            (ted.timer_running[0]) ? "yes" : "no");
     mon_out("Timer 1: $%04x (latched $%04"PRIx64")\n", (unsigned int)((ted_timer_read(0x01) << 8) | ted_timer_read(0x00)), ted.t1_start);
-    mon_out("Timer 2 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 4) & 0x01)? "on" : "off", (ted.timer_running[1]) ? "yes" : "no");
+    mon_out("Timer 2 IRQ: enabled: %s  pending: %s  running: %s \n",
+            ((ted.regs[0x0a] >> 4) & 0x01)? "yes" : "no",
+            ((ted.irq_status >> 4) & 0x01)? "yes" : "no",
+            (ted.timer_running[1]) ? "yes" : "no");
     mon_out("Timer 2: $%04x\n", (unsigned int)((ted_timer_read(0x03) << 8) | ted_timer_read(0x02)));
-    mon_out("Timer 3 IRQ: %s  running: %s \n",((ted.regs[0x0a] >> 6) & 0x01)? "on" : "off", (ted.timer_running[2]) ? "yes" : "no");
+    mon_out("Timer 3 IRQ: enabled: %s  pending: %s  running: %s \n",
+            ((ted.regs[0x0a] >> 6) & 0x01)? "yes" : "no",
+            ((ted.irq_status >> 6) & 0x01)? "yes" : "no",
+            (ted.timer_running[2]) ? "yes" : "no");
     mon_out("Timer 3: $%04x\n\n", (unsigned int)((ted_timer_read(0x05) << 8) | ted_timer_read(0x04)));
-    mon_out("Raster X/Y: %u/%u\t IRQ: %u\n", (unsigned int)i, TED_RASTER_Y(maincpu_clk),(unsigned int)(ted.regs[0x0b] | ((ted.regs[0x0a] & 1) << 8)));
+
+    mon_out("Raster IRQ line: %u  enabled: %s  pending: %s\n",
+            (unsigned int)(ted.regs[0x0b] | ((ted.regs[0x0a] & 1) << 8)),
+            ((ted.regs[0x0a] >> 1) & 0x01)? "yes" : "no",
+            ((ted.irq_status >> 1) & 0x01)? "yes" : "no");
+    mon_out("Raster X/Y: %u/%u\n\n", (unsigned int)rasterx, TED_RASTER_Y(maincpu_clk));
+
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
-    mon_out("Colors: Border: %02x BG: %02x\n", ted.regs[0x19], ted.regs[0x15]);
+    mon_out("Colors: Border: $%02x BG: $%02x\n", ted.regs[0x19], ted.regs[0x15]);
     mon_out("Scroll X/Y: %d/%d, RC %u,", ted.regs[0x07] & 0x07, ted.regs[0x06] & 0x07, ted.raster.ycounter);
     mon_out(" %dx%d\n",38 + ((ted.regs[0x07] >> 2) & 2), 24 + ((ted.regs[0x06] >> 3) & 1));
     mon_out("Cursor X/Y: ");
     i = ((ted.regs[0x0c] & 0x03) << 8) | ted.regs[0x0d];
     if (i < 1000){
-        mon_out("%d/%d ", i % 40, (int) (i/40));
+        mon_out("%d/%d ", i % 40, (int) (i / 40));
     } else {
         mon_out("-/- ");
     }
