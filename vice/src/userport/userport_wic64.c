@@ -1330,10 +1330,12 @@ static void cmd_http_get_encoded(void)
         /* copy string before <$ */
         memcpy(tptr, cptr, (size_t)l);
         tptr += l;
-        l = p[2];
-        l += p[3] << 8;
+        l = (unsigned char) p[2];
+        l += (((unsigned char) p[3]) << 8);
         p += 4; /* skip escape sequence and len */
+        _wic64_log(CONS_COL_NO, 2, "%s: length to encode = %d", __FUNCTION__, l);
         l = _encode(&p, l);
+        _wic64_log(CONS_COL_NO, 2, "%s: encoded length = %d", __FUNCTION__, l);
         memcpy(tptr, encoded_helper, l);
         len += l;
         cptr = p;
