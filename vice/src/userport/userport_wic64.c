@@ -774,7 +774,12 @@ static void hexdump(const char *col, const char *buf, int len)
             if (i < len) {
                 char t[2];
                 char c;
-                c = isprint((unsigned char)buf[idx + i]) ? buf[idx + i] : '.';
+                if (((unsigned char)buf[idx + i] > 31) && /* avoid tabs and other printable ctrl chars) */
+                    isprint((unsigned char)buf[idx + i])) {
+                    c= buf[idx + i];
+                } else {
+                    c = '.';
+                }
                 snprintf(t, 2, "%c", c);
                 strcat(linestr, t);
             } else {
