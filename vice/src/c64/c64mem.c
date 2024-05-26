@@ -83,7 +83,8 @@ uint8_t mem_ram[C64_RAM_SIZE];
 uint8_t mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
-static uint8_t mem_color_ram[0x400];
+#define COLORRAM_SIZE   0x400
+static uint8_t mem_color_ram[COLORRAM_SIZE];
 uint8_t *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
