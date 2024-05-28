@@ -1003,7 +1003,7 @@ static GtkWidget *create_preview_widget(void)
  *
  * \return  GtkGrid
  */
-static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
+static void update_preview(GtkFileChooser *file_chooser, gpointer data)
 {
     gchar *path = NULL;
 
@@ -1086,11 +1086,20 @@ static GtkWidget *cart_dialog_internal(gboolean set_as_default,
     }
 
     extra_attach_callback = callback;
-    cart_dialog = dialog;
+    cart_dialog           = dialog;
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "update-preview", G_CALLBACK(update_preview), NULL);
-    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect(G_OBJECT(dialog),
+                     "response",
+                     G_CALLBACK(on_response),
+                     NULL);
+    g_signal_connect_unlocked(G_OBJECT(dialog),
+                              "update-preview",
+                              G_CALLBACK(update_preview),
+                              NULL);
+    g_signal_connect_unlocked(G_OBJECT(dialog),
+                     "destroy",
+                     G_CALLBACK(on_destroy),
+                     NULL);
 
     /* those should be hidden by default */
     if (cart_id_label) {

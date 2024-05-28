@@ -327,7 +327,9 @@ void crt_preview_widget_update(const gchar *path)
 
     fd = crt_open(path, &header);
     if (fd == NULL) {
+#if 0
         debug_gtk3("failed to open crt image");
+#endif
         gtk_label_set_text(GTK_LABEL(crtid_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(crtrevision_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(crtname_label), "<unknown>");
@@ -371,13 +373,15 @@ void crt_preview_widget_update(const gchar *path)
 
 
     while (1) {
-        long pos;
+        long     pos;
         uint32_t skip;
 #if 0
         debug_gtk3("reading packet #%d.", packets++);
 #endif
         if (crt_read_chip_header(&chip, fd) != 0) {
+#if 0
             debug_gtk3("couldn't read further CHIP packets, exiting.");
+#endif
             break;
         }
         skip = chip.size;
