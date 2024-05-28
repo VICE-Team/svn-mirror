@@ -110,6 +110,7 @@ GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
                                  (gboolean)cartridge_type_enabled(cart_id));
 
+    /* cannot connect unlocked: the signal handler sets a resource */
     handler_id = g_signal_connect(check,
                                   "toggled",
                                   G_CALLBACK(on_cart_enable_check_button_toggled),
