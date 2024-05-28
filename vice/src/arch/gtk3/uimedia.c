@@ -925,13 +925,14 @@ static GtkWidget *create_screenshot_widget(void)
     for (index = 0; video_driver_list[index].name != NULL; index++) {
         if (video_driver_list[index].type == GFXOUTPUTDRV_TYPE_SCREENSHOT_NATIVE ||
             video_driver_list[index].type == GFXOUTPUTDRV_TYPE_SCREENSHOT_IMAGE) {
+
             const char *display = video_driver_list[index].display;
-            const char *name = video_driver_list[index].name;
+            const char *name    = video_driver_list[index].name;
 
             radio = gtk_radio_button_new_with_label(group, display);
             gtk_widget_set_margin_start(radio, 8);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
-                    GTK_RADIO_BUTTON(last));
+                                        GTK_RADIO_BUTTON(last));
             gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, grid_index, 1, 1);
 
             /* Make PNG default (doesn't look we have any numeric define to
@@ -957,10 +958,10 @@ static GtkWidget *create_screenshot_widget(void)
 
             /* connect signal *after* setting a radio button's state, to avoid
              * triggering the handler before the UI is properly set up. */
-            g_signal_connect(radio, "toggled",
-                    G_CALLBACK(on_screenshot_driver_toggled),
-                    GINT_TO_POINTER(index));
-
+            g_signal_connect_unlocked(G_OBJECT(radio),
+                                      "toggled",
+                                      G_CALLBACK(on_screenshot_driver_toggled),
+                                       GINT_TO_POINTER(index));
             last = radio;
             grid_index++;
         }
@@ -1031,9 +1032,10 @@ static GtkWidget *create_sound_widget(void)
             }
         }
 
-        g_signal_connect(radio, "toggled",
-                G_CALLBACK(on_audio_driver_toggled),
-                GINT_TO_POINTER(index));
+        g_signal_connect_unlocked(G_OBJECT(radio),
+                                  "toggled",
+                                  G_CALLBACK(on_audio_driver_toggled),
+                                  GINT_TO_POINTER(index));
 
         last = radio;
     }
@@ -1086,7 +1088,10 @@ static GtkWidget *create_video_widget(void)
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_video_driver_toggled), NULL);
+    g_signal_connect_unlocked(G_OBJECT(combo),
+                              "changed",
+                              G_CALLBACK(on_video_driver_toggled),
+                              NULL);
     video_driver = (char*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
 
     selection_grid = vice_gtk3_grid_new_spaced_with_label(
@@ -1220,8 +1225,14 @@ void ui_media_dialog_show(void)
     }
 
     gtk_window_set_resizable(GTK_WINDOW(main_dialog), FALSE);
-    g_signal_connect(main_dialog, "response", G_CALLBACK(on_response), (gpointer)main_dialog);
-    g_signal_connect_unlocked(main_dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
+    g_signal_connect(G_OBJECT(main_dialog),
+                              "response",
+                              G_CALLBACK(on_response),
+                              (gpointer)main_dialog);
+    g_signal_connect_unlocked(G_OBJECT(main_dialog),
+                              "destroy",
+                              G_CALLBACK(on_dialog_destroy),
+                              NULL);
 
     gtk_widget_show_all(main_dialog);
 }
