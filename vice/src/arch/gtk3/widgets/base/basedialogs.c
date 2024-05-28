@@ -159,8 +159,10 @@ static GtkWidget *create_dialog(GtkWindow      *parent,
 
     /* set up signal handler to destroy the temporary parent window */
     if (no_parent) {
-        g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy),
-                (gpointer)parent);
+        g_signal_connect_unlocked(G_OBJECT(dialog),
+                                  "destroy",
+                                  G_CALLBACK(on_dialog_destroy),
+                                  (gpointer)parent);
     }
 
     return dialog;
@@ -257,6 +259,8 @@ GtkWidget *vice_gtk3_message_confirm(GtkWindow *parent,
     } else {
         gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
     }
+
+    /* cannot connect unlocked: the user's callback might set a resource */
     g_signal_connect(G_OBJECT(dialog),
                      "response",
                      G_CALLBACK(on_response_confirm),
@@ -360,10 +364,10 @@ static gboolean entry_get_int(GtkWidget *entry, int *value)
  */
 static gboolean on_integer_key_press_event(GtkEntry *entry,
                                            GdkEvent *event,
-                                           gpointer data)
+                                           gpointer  data)
 {
-    GtkWidget *dialog = data;
-    GdkEventKey *keyev = (GdkEventKey *)event;
+    GtkWidget   *dialog = data;
+    GdkEventKey *keyev  = (GdkEventKey *)event;
 
     if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
         /* got Enter */
@@ -447,10 +451,17 @@ GtkWidget *vice_gtk3_integer_input_box(
     gtk_widget_show_all(grid);
     gtk_box_pack_start(GTK_BOX(content), grid, TRUE, TRUE, 8);
 
-    g_signal_connect(dialog, "key-press-event",
-            G_CALLBACK(on_integer_key_press_event), (gpointer)dialog);
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response_integer),
-            (gpointer)entry);
+    /* cannot connect unlocked: this handler emits the "accept" signal of the
+     * dialog and the callback could set a resource */
+    g_signal_connect(G_OBJECT(dialog),
+                     "key-press-event",
+                     G_CALLBACK(on_integer_key_press_event),
+                     (gpointer)dialog);
+    /* cannot connect unlocked either */
+    g_signal_connect(G_OBJECT(dialog),
+                     "response",
+                     G_CALLBACK(on_response_integer),
+                     (gpointer)entry);
     gtk_widget_show(dialog);
     return dialog;
 }
