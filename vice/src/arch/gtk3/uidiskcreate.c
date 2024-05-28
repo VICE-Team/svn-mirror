@@ -322,11 +322,14 @@ static GtkWidget *create_disk_image_type_widget(void)
     renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
-            "text", 0, NULL);
+                                   "text", 0,
+                                   NULL);
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_disk_image_type_changed),
-            NULL);
+    g_signal_connect_unlocked(G_OBJECT(combo),
+                              "changed",
+                              G_CALLBACK(on_disk_image_type_changed),
+                              NULL);
     return combo;
 }
 
@@ -410,14 +413,13 @@ void ui_disk_create_dialog_show(gint unit)
     }
     unit_number = unit;
 
-    dialog = gtk_file_chooser_dialog_new(
-            "Create and attach a new disk image",
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_SAVE,
-            /* buttons */
-            "Save", GTK_RESPONSE_ACCEPT,
-            "Close", GTK_RESPONSE_REJECT,
-            NULL, NULL);
+    dialog = gtk_file_chooser_dialog_new("Create and attach a new disk image",
+                                         ui_get_active_window(),
+                                         GTK_FILE_CHOOSER_ACTION_SAVE,
+                                         /* buttons */
+                                         "Save", GTK_RESPONSE_ACCEPT,
+                                         "Close", GTK_RESPONSE_REJECT,
+                                         NULL);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog, unit));
@@ -428,7 +430,13 @@ void ui_disk_create_dialog_show(gint unit)
     filter = create_file_chooser_filter(file_chooser_filter_disk, FALSE);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect(G_OBJECT(dialog),
+                     "response",
+                     G_CALLBACK(on_response),
+                     NULL);
+    g_signal_connect_unlocked(G_OBJECT(dialog),
+                              "destroy",
+                              G_CALLBACK(on_destroy),
+                              NULL);
     gtk_widget_show(dialog);
 }
