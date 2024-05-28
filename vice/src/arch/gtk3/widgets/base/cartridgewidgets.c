@@ -535,7 +535,8 @@ static GtkWidget *create_filename_entry(ci_state_t *state)
         gtk_entry_set_text(GTK_ENTRY(entry), path);
     }
 
-    /* set up signal handlers */
+    /* set up signal handlers (all of these can set resources and thus cannot
+     * be connected unlocked) */
     g_signal_connect(G_OBJECT(entry),
                      "focus-out-event",
                      G_CALLBACK(on_filename_focus_out_event),
