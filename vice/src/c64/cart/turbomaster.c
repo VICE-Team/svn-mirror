@@ -908,7 +908,7 @@ void turbomaster_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \
             case JAM_POWER_CYCLE:                                     \
-                mem_powerup();                                        \
+                machine_powerup();                                    \
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \
             case JAM_MONITOR:                                         \

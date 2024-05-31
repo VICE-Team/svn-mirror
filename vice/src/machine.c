@@ -90,7 +90,6 @@
 #endif
 
 static int machine_init_was_called = 0;
-static int mem_initialized = 0;
 static bool is_jammed = false;
 static char *jam_reason = NULL;
 static int jam_action = MACHINE_JAM_ACTION_DIALOG;
@@ -173,6 +172,20 @@ char *machine_jam_reason(void)
     return jam_reason;
 }
 
+void machine_powerup(void)
+{
+    static CLOCK powerup_clk = CLOCK_MAX;
+
+    machine_specific_powerup();
+
+    /* some functions we can omit, if the cpu did not run since last call */
+    if (maincpu_clk != powerup_clk) {
+        mem_powerup();
+    }
+
+    powerup_clk = maincpu_clk;
+}
+
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
     is_jammed = false;
@@ -184,8 +197,7 @@ static void machine_trigger_reset_internal(const unsigned int mode)
 
     switch (mode) {
         case MACHINE_RESET_MODE_POWER_CYCLE:
-            mem_initialized = 0; /* force memory initialization */
-            machine_specific_powerup();
+            machine_powerup();
         /* Fall through.  */
         case MACHINE_RESET_MODE_RESET_CPU:
             maincpu_trigger_reset();
@@ -214,6 +226,14 @@ void machine_reset_event_playback(CLOCK offset, void *data)
     machine_trigger_reset_internal(((unsigned int*)data)[0]);
 }
 
+/* called via cpu_reset() */
+/* CAUTION: this function is only called when the CPU core is "clocked" (ie the
+   emulated machine is running). In particular that means that multiple calls
+   to the machine_trigger_reset() function will not result in multiple calls
+   to this function (if the cpu core is not running). */
+/* NOTE: To make sure things work "as expected", really only deal with "reset"
+   in the function below - anything related to "powerup" should go into
+   machine_powerup() instead */
 void machine_reset(void)
 {
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
@@ -226,11 +246,6 @@ void machine_reset(void)
     }
 
     /* Do machine-specific initialization.  */
-    if (!mem_initialized) {
-        mem_powerup();
-        mem_initialized = 1;
-    }
-
     machine_specific_reset();
 
     kbdbuf_abort();
