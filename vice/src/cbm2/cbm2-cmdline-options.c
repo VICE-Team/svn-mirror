@@ -82,10 +82,14 @@ static int cbm2_set_model(const char *model, void *extra)
         if (!cbm2_init_ok) {
             return 0;
         }
-
+#if 0
         mem_powerup();
         mem_load();
         machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
+#else
+        machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
+        mem_load();
+#endif
         return 0;
     }
     return -1;

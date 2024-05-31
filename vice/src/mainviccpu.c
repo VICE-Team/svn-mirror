@@ -551,7 +551,7 @@ void maincpu_mainloop(void)
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \
             case JAM_POWER_CYCLE:                                     \
-                mem_powerup();                                        \
+                machine_powerup();                                    \
                 DO_INTERRUPT(IK_RESET);                               \
                 break;                                                \
             case JAM_MONITOR:                                         \

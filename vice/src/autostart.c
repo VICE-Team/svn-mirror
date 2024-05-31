@@ -1519,7 +1519,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         lib_free(temp_name);
     }
 
-    mem_powerup();
+    /* mem_powerup(); */ /* power cycle takes care of this */
 
     autostart_ignore_reset = 1;
     deallocate_program_name();

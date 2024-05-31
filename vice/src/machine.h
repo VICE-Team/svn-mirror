@@ -116,6 +116,7 @@ void machine_specific_reset(void);
 void machine_reset_event_playback(CLOCK offset, void *data);
 
 /* Power-up the machine.  */
+void machine_powerup(void);
 void machine_specific_powerup(void);
 
 /* Shutdown the emachine.  */
