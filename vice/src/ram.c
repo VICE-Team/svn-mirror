@@ -38,6 +38,14 @@
 #include "resources.h"
 #include "types.h"
 
+/* #define DEBUG_RAMINIT */
+
+#ifdef DEBUG_RAMINIT
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 static RAMINITPARAM mainramparam = {
     .start_value = 255,         /* RAMInitStartValue - first value of the base pattern (byte value) */
     .value_invert = 128,        /* RAMInitValueInvert - number of bytes until start value is inverted */
@@ -255,6 +263,8 @@ void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *
     unsigned int random_mask_initial = 0;
     double log_1mp = -INFINITY;
     unsigned int random_next = UINT_MAX;
+
+    DBG(("ram_init_with_pattern ramsize:%08x\n", ramsize));
 
     if (ramparam->random_chance <= 0) {
         /* flipping no bits */

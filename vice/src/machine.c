@@ -174,7 +174,13 @@ char *machine_jam_reason(void)
 
 void machine_powerup(void)
 {
-    static CLOCK powerup_clk = CLOCK_MAX;
+    /* HACK: using 0 as the initial compare value allows us to skip the multiple
+       calls to this function that happen at startup, due to the default values
+       for resources being initialized. The actual first reset, which also
+       triggers a powerup call, will happen at clock value 6, so this is safe */
+    static CLOCK powerup_clk = 0;
+
+    DBG(("machine_powerup clk:%08x %s\n", maincpu_clk, (maincpu_clk == powerup_clk) ? "(skip mem init)":"init memory" ));
 
     machine_specific_powerup();
 
@@ -188,6 +194,8 @@ void machine_powerup(void)
 
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
+    DBG(("machine_trigger_reset_internal (%s)\n", mode == MACHINE_RESET_MODE_POWER_CYCLE ? "power cycle":"reset"));
+
     is_jammed = false;
 
     if (jam_reason) {
@@ -261,9 +269,12 @@ void machine_reset(void)
 
     vsync_reset_hook();
 
-    /* If this is the first machine reset, kick off any requested autostart */
+    /* Handle the first machine reset */
     if (is_first_reset) {
         is_first_reset = false;
+        /* extra power-up initialization */
+        machine_powerup();
+        /* kick off any requested autostart */
         initcmdline_check_attach();
     }
 }
