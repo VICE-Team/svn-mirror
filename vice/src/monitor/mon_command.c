@@ -267,7 +267,7 @@ static const mon_cmds_t mon_cmd_array[] = {
 
     { "reset", "",
       "[<Type>]",
-      "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive.",
+      "Reset the machine or drive. Type: 0 = reset, 1 = power cycle, 8-11 = reset drive.",
       NO_FILENAME_ARG
     },
 
