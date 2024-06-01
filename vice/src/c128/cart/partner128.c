@@ -117,7 +117,7 @@ static io_source_t partner128_io1_device = {
     partner128_io1_read,            /* read function */
     partner128_io1_peek,            /* peek function */
     partner128_dump,                /* device state information dump function */
-    CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128),      /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0,                              /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                  /* NO mirroring */
@@ -135,7 +135,7 @@ static io_source_t partner128_iod6_device = {
     NULL,                           /* NO read function */
     partner128_iod6_peek,           /* peek function */
     partner128_dump,                /* device state information dump function */
-    CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128),      /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0,                              /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                  /* NO mirroring */
@@ -143,7 +143,7 @@ static io_source_t partner128_iod6_device = {
 static io_source_list_t *partner128_iod6_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_C128_NAME_PARTNER128, 1, 1, &partner128_io1_device, NULL, CARTRIDGE_C128_PARTNER128
+    CARTRIDGE_C128_NAME_PARTNER128, 1, 1, &partner128_io1_device, NULL, CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128)
 };
 
 /* ---------------------------------------------------------------------*/
@@ -351,4 +351,58 @@ void partner128_powerup(void)
     isdefreezing = 0;
     nmivector_restore();
     memset(rambanks, 0xff, PARTNER_RAM_SIZE);
+}
+
+/* ---------------------------------------------------------------------*/
+
+/* PARTNER128 snapshot module format:
+
+    FIXME
+ */
+
+static char snap_module_name[] = "PARTNER128";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+int partner128_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* FIXME */
+
+    return snapshot_module_close(m);
+}
+
+int partner128_snapshot_read_module(snapshot_t *s)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    /* FIXME */
+
+    snapshot_module_close(m);
+
+    return partner128_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

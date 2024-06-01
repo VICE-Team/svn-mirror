@@ -35,4 +35,9 @@ void magicdesk128_reset(void);
 
 void magicdesk128_config_setup(uint8_t *rawcart);
 
+struct snapshot_s;
+
+int magicdesk128_snapshot_write_module(struct snapshot_s *s);
+int magicdesk128_snapshot_read_module(struct snapshot_s *s);
+
 #endif

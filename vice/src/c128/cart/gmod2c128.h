@@ -55,7 +55,6 @@ int c128gmod2_cmdline_options_init(void);
 int c128gmod2_resources_init(void);
 void c128gmod2_resources_shutdown(void);
 
-/* FIXME: snapshot stuff is not implemented yet */
 int c128gmod2_snapshot_write_module(struct snapshot_s *s);
 int c128gmod2_snapshot_read_module(struct snapshot_s *s);
 

@@ -98,7 +98,7 @@ static io_source_t magicdesk128_io1_device = {
     magicdesk128_io1_read,        /* read function */
     magicdesk128_io1_peek,        /* peek function */
     magicdesk128_dump,            /* device state information dump function */
-    CARTRIDGE_C128_MAGICDESK128,  /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128),  /* cartridge ID */
     IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
     0,                            /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                /* NO mirroring */
@@ -107,7 +107,7 @@ static io_source_t magicdesk128_io1_device = {
 static io_source_list_t *magicdesk128_io1_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_C128_NAME_MAGICDESK128, 1, 1, &magicdesk128_io1_device, NULL, CARTRIDGE_C128_MAGICDESK128
+    CARTRIDGE_C128_NAME_MAGICDESK128, 1, 1, &magicdesk128_io1_device, NULL, CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128)
 };
 
 /* ---------------------------------------------------------------------*/
@@ -251,4 +251,58 @@ void magicdesk128_reset(void)
     md128reg = 0;
     rombank = 0;
     external_function_rom_set_bank(0);
+}
+
+/* ---------------------------------------------------------------------*/
+
+/* MAGICDESK128 snapshot module format:
+
+    FIXME
+ */
+
+static char snap_module_name[] = "MAGICDESK128";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+int magicdesk128_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* FIXME */
+
+    return snapshot_module_close(m);
+}
+
+int magicdesk128_snapshot_read_module(snapshot_t *s)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    /* FIXME */
+
+    snapshot_module_close(m);
+
+    return magicdesk128_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
