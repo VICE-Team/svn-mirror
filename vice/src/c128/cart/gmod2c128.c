@@ -117,7 +117,7 @@ static io_source_t c128gmod2_io1_device = {
     c128gmod2_io1_read,             /* read function */
     c128gmod2_io1_peek,             /* peek function */
     c128gmod2_dump,                 /* device state information dump function */
-    CARTRIDGE_C128_GMOD2C128,       /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128),       /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0,                              /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                  /* NO mirroring */
@@ -126,7 +126,7 @@ static io_source_t c128gmod2_io1_device = {
 static io_source_list_t *c128gmod2_io1_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_C128_NAME_GMOD2C128, 0, 0, &c128gmod2_io1_device, NULL, CARTRIDGE_C128_GMOD2C128
+    CARTRIDGE_C128_NAME_GMOD2C128, 0, 0, &c128gmod2_io1_device, NULL, CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128)
 };
 
 /* ---------------------------------------------------------------------*/

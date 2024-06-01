@@ -86,7 +86,7 @@ static io_source_t c128comal80_io1_device = {
     c128comal80_io1_read,           /* read function */
     c128comal80_io1_peek,           /* peek function */
     c128comal80_dump,               /* device state information dump function */
-    CARTRIDGE_C128_COMAL80,         /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80),         /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0,                              /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                  /* NO mirroring */
@@ -103,7 +103,7 @@ static io_source_t c128comal80_io2_device = {
     c128comal80_io2_read,           /* read function */
     c128comal80_io2_peek,           /* peek function */
     c128comal80_dump,               /* device state information dump function */
-    CARTRIDGE_C128_COMAL80,         /* cartridge ID */
+    CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80),         /* cartridge ID */
     IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0,                              /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE                  /* NO mirroring */
@@ -113,7 +113,7 @@ static io_source_list_t *c128comal80_io1_list_item = NULL;
 static io_source_list_t *c128comal80_io2_list_item = NULL;
 
 static const export_resource_t export_res = {
-    CARTRIDGE_C128_NAME_COMAL80, 1, 1, &c128comal80_io1_device, &c128comal80_io2_device, CARTRIDGE_C128_COMAL80
+    CARTRIDGE_C128_NAME_COMAL80, 1, 1, &c128comal80_io1_device, &c128comal80_io2_device, CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80)
 };
 
 /* ---------------------------------------------------------------------*/
@@ -264,3 +264,67 @@ void c128comal80_reset(void)
     DBG(("c128comal80_reset\n"));
     external_function_rom_set_bank(0);
 }
+
+/* ---------------------------------------------------------------------*/
+
+/* COMAL80C128 snapshot module format:
+
+    FIXME
+ */
+
+static char snap_module_name[] = "COMAL80C128";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
+
+int c128comal80_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (uint8_t)comal80_register) < 0)
+        || (SMW_BA(m, &ext_function_rom[0x4000], (0x8000 * 5) + 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
+}
+
+int c128comal80_snapshot_read_module(snapshot_t *s)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &comal80_register) < 0)
+        || (SMR_BA(m, &ext_function_rom[0x4000], (0x8000 * 5) + 0x4000) < 0)) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    return c128comal80_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+

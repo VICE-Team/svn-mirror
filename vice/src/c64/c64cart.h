@@ -92,6 +92,8 @@ extern export_t export;
 #include <stdio.h>
 #include "cartridge.h"
 
+#include "snapshot.h"
+
 struct c128cartridge_interface_s {
     int (*attach_crt)(int type, FILE *fd, const char *filename, uint8_t *rawcart);
     int (*bin_attach)(int type, const char *filename, uint8_t *rawcart);
@@ -112,6 +114,8 @@ struct c128cartridge_interface_s {
     int (*can_flush_secondary_image)(int type);
     int (*can_save_image)(int type);
     int (*can_save_secondary_image)(int type);
+    int (*snapshot_read)(int type, snapshot_t *s);
+    int (*snapshot_write)(int type, snapshot_t *s);
 };
 typedef struct c128cartridge_interface_s c128cartridge_interface_t;
 

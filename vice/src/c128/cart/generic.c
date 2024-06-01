@@ -51,7 +51,7 @@
 #endif
 
 static const export_resource_t export_res = {
-    CARTRIDGE_C128_NAME_GENERIC, 1, 1, NULL, NULL, CARTRIDGE_C128_GENERIC
+    CARTRIDGE_C128_NAME_GENERIC, 1, 1, NULL, NULL, CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC)
 };
 
 void c128generic_config_setup(uint8_t *rawcart)
@@ -175,4 +175,65 @@ void c128generic_detach(void)
 void c128generic_reset(void)
 {
     DBG(("c128generic_reset\n"));
+}
+
+/* ---------------------------------------------------------------------*/
+
+/* CART128GENERIC snapshot module format:
+
+    FIXME
+ */
+
+static char snap_module_name[] = "CART128GENERIC";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
+
+int c128generic_snapshot_write_module(snapshot_t *s, int type)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_BA(m, ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    return snapshot_module_close(m);
+}
+
+int c128generic_snapshot_read_module(snapshot_t *s, int type)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || (SMR_BA(m, ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE) < 0)) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    return c128generic_common_attach();
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

@@ -547,6 +547,45 @@ static void c128cartridge_powerup(void)
     }
 }
 
+static int c128cartridge_snapshot_read(int type, snapshot_t *s)
+{
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+            return c128generic_snapshot_read_module(s, type);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+            return c128comal80_snapshot_read_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            return magicdesk128_snapshot_read_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+            return partner128_snapshot_read_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            return warpspeed128_snapshot_read_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_snapshot_read_module(s);
+    }
+    return -1;
+}
+
+static int c128cartridge_snapshot_write(int type, snapshot_t *s)
+{
+    DBG(("c128cartridge_snapshot_write\n"));
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+            return c128generic_snapshot_write_module(s, type);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+            return c128comal80_snapshot_write_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            return magicdesk128_snapshot_write_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+            return partner128_snapshot_write_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            return warpspeed128_snapshot_write_module(s);
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_snapshot_write_module(s);
+    }
+    return -1;
+}
+
 void c128cartridge_setup_interface(void)
 {
     DBG(("c128cartridge_setup_interface\n"));
@@ -570,6 +609,8 @@ void c128cartridge_setup_interface(void)
     c128interface.can_save_image = c128cartridge_can_save_image;
     c128interface.can_flush_secondary_image = c128cartridge_can_flush_secondary_image;
     c128interface.can_save_secondary_image = c128cartridge_can_save_secondary_image;
+    c128interface.snapshot_read = c128cartridge_snapshot_read;
+    c128interface.snapshot_write = c128cartridge_snapshot_write;
     c128cartridge = &c128interface;
 }
 

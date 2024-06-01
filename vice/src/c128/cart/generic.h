@@ -35,4 +35,9 @@ void c128generic_reset(void);
 
 void c128generic_config_setup(uint8_t *rawcart);
 
+struct snapshot_s;
+
+int c128generic_snapshot_write_module(struct snapshot_s *s, int type);
+int c128generic_snapshot_read_module(struct snapshot_s *s, int type);
+
 #endif

@@ -397,7 +397,8 @@ void cartridge_sound_chip_init(void);
 
 /* since the C128 cartridge system must coexist with the C64 cartridge
    system, we add a constant offset using the following macros */
-#define CARTRIDGE_C128_MAKEID(x)        ((x) + CARTRIDGE_C128_FIRST_UNIQUE)
+#define CARTRIDGE_C128_MAKEID(x)        ((x) + CARTRIDGE_C128_FIRST_UNIQUE)  /* from CRT ID to internal ID */
+#define CARTRIDGE_C128_CRTID(x)         ((x) - CARTRIDGE_C128_FIRST_UNIQUE)  /* from internal ID to CRT ID (for display) */
 #define CARTRIDGE_C128_ISID(x)          ((x) >= CARTRIDGE_C128_FIRST_UNIQUE)
 
 /* the following must match the CRT IDs */
