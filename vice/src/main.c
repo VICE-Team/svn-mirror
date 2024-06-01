@@ -439,6 +439,7 @@ int main_program(int argc, char **argv)
 
 void main_loop_forever(void)
 {
+    log_message(LOG_DEFAULT, "");
     log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
 
     /* This doesn't return. The thread will directly exit when requested. */

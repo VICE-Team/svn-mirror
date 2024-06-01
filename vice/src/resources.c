@@ -951,6 +951,9 @@ int resources_set_defaults(void)
 {
     unsigned int i;
 
+    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "Initializing resources...");
+
     /* the cartridge system uses internal state variables so the default cartridge
        can be unset without changing the attached cartridge and/or attach another
        cartridge without changing the default. to completely restore the default,
@@ -1300,6 +1303,7 @@ static int load_resource_file(const char *fname)
         return RESERR_FILE_NOT_FOUND;
     }
 
+    log_message(LOG_DEFAULT, "");
     log_message(LOG_DEFAULT, "Reading configuration file `%s'.", fname);
 
     /* Find the start of the configuration section for this emulator.  */

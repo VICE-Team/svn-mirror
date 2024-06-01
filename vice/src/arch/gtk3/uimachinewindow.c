@@ -702,15 +702,16 @@ static void machine_window_create(video_canvas_t *canvas)
 #if 1
     log_debug("chip_name: %s", canvas->videoconfig->chip_name);
     log_debug(" screen_size: %u x %u", canvas->geometry->screen_size.width, canvas->geometry->screen_size.height);
-    log_debug(" first/lastline: %u x %u", canvas->viewport->first_line, canvas->viewport->last_line);
+    /*log_debug(" first/lastline: %u x %u", canvas->viewport->first_line, canvas->viewport->last_line);*/
     log_debug(" gfx_size: %u x %u", canvas->geometry->gfx_size.width, canvas->geometry->gfx_size.height);
     log_debug(" gfx_position: %u x %u", canvas->geometry->gfx_position.x, canvas->geometry->gfx_position.y);
     log_debug(" first/last displayed line: %u x %u", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
     log_debug(" extra offscreen border left/right: %u x %u", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
-    log_debug(" screen_display_wh: %f x %f", (float)canvas->screen_display_w, (float)canvas->screen_display_h);
-    log_debug(" canvas_physical_wh: %u x %u", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
-    log_debug(" scalexy: %d x %d", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
-    log_debug(" sizexy: %u x %u", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
+    /*log_debug(" screen_display_wh: %f x %f", (float)canvas->screen_display_w, (float)canvas->screen_display_h);*/
+    /*log_debug(" canvas_physical_wh: %u x %u", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);*/
+    log_debug(" scalexy: %d x %d sizexy: %u x %u",
+              canvas->videoconfig->scalex, canvas->videoconfig->scaley,
+              canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
     log_debug(" rmode: %u", canvas->videoconfig->cap->single_mode.rmode);
     log_debug(" aspect ratio: %f", (float)canvas->geometry->pixel_aspect_ratio);
 #endif
@@ -727,8 +728,7 @@ static void machine_window_create(video_canvas_t *canvas)
         /* vstretch = 1; */ /* HACK: for some reason that doesn't give the wanted result */
     }
 #if 1
-    log_debug(" hstretch: %u", hstretch);
-    log_debug(" vstretch: %u", vstretch);
+    log_debug(" hstretch: %u vstretch: %u", hstretch, vstretch);
 #endif
     /* calculate the initial size from the values we have
        WARNING: terrible hacks coming up

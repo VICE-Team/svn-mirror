@@ -441,9 +441,12 @@ static int mididrv_alsa_in(uint8_t *b)
 /** a function to destroy ALSA MIDI objects */
 static void mididrv_alsa_shutdown(void)
 {
+#if 0
 #ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_shutdown");
 #endif
+#endif
+    log_message(mididrv_log, "closed ALSA MIDI sequencer port '%s'", midi_name);
 
     if (fd_in >= 0) {
         mididrv_alsa_in_close();
@@ -499,7 +502,7 @@ static void mididrv_alsa_init(void)
         log_error(mididrv_log, "could not create ALSA sequencer port");
         return;
     }
-    log_message(mididrv_log, "opened ALSA sequencer port '%s'", midi_name);
+    log_message(mididrv_log, "opened ALSA MIDI sequencer port '%s'", midi_name);
 
     /* create event parser */
     if ((alsa_err = snd_midi_event_new(RINGBUFFER_SIZE, &midi_event_parser)) < 0) {
