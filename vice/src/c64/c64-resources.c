@@ -56,10 +56,10 @@
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
    calculated as 65536 * drive_clk / clk_[main machine] */
-static int sync_factor;
+static int sync_factor = -1;
 
 /* Frequency of the power grid in Hz */
-static int power_freq = 1;
+static int power_freq = -1;
 
 /* Name of the character ROM.  */
 static char *chargen_rom_name = NULL;
@@ -90,7 +90,11 @@ static int set_chargen_rom_name(const char *val, void *param)
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    int ret, changed = 1;
+    int ret;
+    /* CAUTION: make sure to only trigger a power cycle when the name changed
+                AND it was not null before (in that case we are setting the
+                default value) */
+    int changed = 0;
     log_verbose("set_kernal_rom_name val:%s.", val);
     if ((val != NULL) && (kernal_rom_name != NULL)) {
         changed = (strcmp(val, kernal_rom_name) != 0);
@@ -108,7 +112,11 @@ static int set_kernal_rom_name(const char *val, void *param)
 
 static int set_basic_rom_name(const char *val, void *param)
 {
-    int ret, changed = 1;
+    int ret;
+    /* CAUTION: make sure to only trigger a power cycle when the name changed
+                AND it was not null before (in that case we are setting the
+                default value) */
+    int changed = 0;
     if ((val != NULL) && (basic_rom_name != NULL)) {
         changed = (strcmp(val, basic_rom_name) != 0);
     }
