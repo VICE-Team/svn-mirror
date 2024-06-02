@@ -68,10 +68,8 @@
    calculated as 65536 * drive_clk / clk_[main machine] */
 static int sync_factor;
 
-#if 0
 /* Frequency of the power grid in Hz */
 static int power_freq = 1;
-#endif
 
 /* Name of the character ROM.  */
 static char *chargen_rom_name = NULL;
@@ -210,7 +208,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-#if 0
 static int set_power_freq(int val, void *param)
 {
     int change_timing = 0;
@@ -234,7 +231,6 @@ static int set_power_freq(int val, void *param)
     }
     return 0;
 }
-#endif
 
 static int set_hvsc_root(const char *path, void *param)
 {
@@ -275,10 +271,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#if 0
     { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
       &power_freq, set_power_freq, NULL },
-#endif
     { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
       &kernal_revision, set_kernal_revision, NULL },
     { "Sid2AddressStart", 0xde00, RES_EVENT_SAME, NULL,

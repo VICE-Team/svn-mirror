@@ -171,10 +171,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#if 0
-    { "MachinePowerFrequency", 0, RES_EVENT_SAME, NULL,
-      &power_freq, set_power_freq, NULL },
-#endif
     { "HummerADC", 0, RES_EVENT_SAME, NULL,
       (int *)&c64dtv_hummer_adc_enabled, c64dtv_hummer_adc_set, NULL },
     RESOURCE_INT_LIST_END

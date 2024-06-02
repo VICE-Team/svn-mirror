@@ -100,6 +100,22 @@ static UI_MENU_CALLBACK(select_cbm2_model_callback)
     return NULL;
 }
 
+UI_MENU_DEFINE_RADIO(MachinePowerFrequency)
+
+static const ui_menu_entry_t power_freq_submenu[] = {
+    {   .string   = "50Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)50
+    },
+    {   .string   = "60Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)60
+    },
+    SDL_MENU_LIST_END
+};
+
 static const ui_menu_entry_t cbm5x0_model_menu[] = {
     {   .string   = "CBM 510 (PAL)",
         .type     = MENU_ENTRY_OTHER,
@@ -210,6 +226,11 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback,
         .data     = (ui_callback_data_t)cia1_model_submenu
+    },
+    {   .string   = "Power grid frequency",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)power_freq_submenu
     },
     {   .string   = "RAM pattern settings",
         .type     = MENU_ENTRY_SUBMENU,

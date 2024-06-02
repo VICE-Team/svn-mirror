@@ -1225,6 +1225,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
+/* NOTE: power-grid freq is not used in the vic20 */
 void machine_change_timing(int timeval, int powerfreq, int border_mode)
 {
     switch (timeval) {

@@ -51,10 +51,8 @@
 
 static int sync_factor;
 
-#if 0
 /* Frequency of the power grid in Hz */
 static int power_freq = 1;
-#endif
 
 static char *kernal_rom_name = NULL;
 static char *chargen_name = NULL;
@@ -189,7 +187,6 @@ static int cbm6x0_set_sync_factor(int val, void *param)
     return 0;
 }
 
-#if 0
 static int set_power_freq(int val, void *param)
 {
     int change_timing = 0;
@@ -214,7 +211,6 @@ static int set_power_freq(int val, void *param)
 
     return 0;
 }
-#endif
 
 static const resource_string_t cbm6x0_resources_string[] = {
     { "ChargenName", CBM2_CHARGEN600_NAME, RES_EVENT_NO, NULL,
@@ -231,10 +227,8 @@ static const resource_string_t cbm6x0_resources_string[] = {
 static const resource_int_t cbm6x0_resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, cbm6x0_set_sync_factor, NULL },
-#if 0
     { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
       &power_freq, set_power_freq, NULL },
-#endif
     { "RamSize", 128, RES_EVENT_SAME, NULL,
       &ramsize, set_ramsize, NULL },
     { "ModelLine", LINE_6x0_50HZ, RES_EVENT_SAME, NULL,

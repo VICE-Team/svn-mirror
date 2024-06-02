@@ -151,19 +151,7 @@ void dtvmodel_set(int model)
     }
 
     resources_set_int("MachineVideoStandard", dtvmodels[model].video);
-#if 0
-    /* Determine the power net frequency for this model. */
-    switch(dtvmodels[model].video) {
-        case MACHINE_SYNC_PAL:
-        case MACHINE_SYNC_PALN:
-            pf = 50;
-            break;
-        default:
-            pf = 60;
-            break;
-    }
-    resources_set_int("MachinePowerFrequency", pf);
-#endif
+
     resources_set_int("DtvRevision", dtvmodels[model].asic);
     resources_set_int("HummerADC", dtvmodels[model].hummeradc);
     resources_set_int("DTVFlashRevision", dtvmodels[model].rom_revision);

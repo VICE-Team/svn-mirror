@@ -238,6 +238,23 @@ UI_MENU_DEFINE_TOGGLE(IECReset)
 
 UI_MENU_DEFINE_RADIO(KernalRev)
 
+UI_MENU_DEFINE_RADIO(MachinePowerFrequency)
+
+static const ui_menu_entry_t power_freq_submenu[] = {
+    {   .string   = "50Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)50
+    },
+    {   .string   = "60Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)60
+    },
+    SDL_MENU_LIST_END
+};
+
+
 static const ui_menu_entry_t kernal_rev_submenu[] = {
     {   .string   = "Rev 1",
         .type     = MENU_ENTRY_RESOURCE_RADIO,
@@ -381,6 +398,13 @@ const ui_menu_entry_t c64sc_model_menu[] = {
         .callback = submenu_radio_callback,
         .data     = (ui_callback_data_t)kernal_rev_submenu
     },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Power grid frequency",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)power_freq_submenu
+    },
     SDL_MENU_LIST_END
 };
 
@@ -438,6 +462,13 @@ const ui_menu_entry_t scpu64_model_menu[] = {
     {   .string   = "Reset goes to IEC",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_IECReset_callback
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Power grid frequency",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)power_freq_submenu
     },
     SDL_MENU_LIST_END
 };
@@ -588,6 +619,13 @@ const ui_menu_entry_t c64_model_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback,
         .data     = (ui_callback_data_t)kernal_rev_submenu
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Power grid frequency",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)power_freq_submenu
     },
     SDL_MENU_LIST_END
 };

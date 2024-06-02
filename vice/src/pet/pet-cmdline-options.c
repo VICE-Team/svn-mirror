@@ -45,7 +45,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-#if 0
+#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
     { "-power50", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachinePowerFrequency", (void *)50,
       NULL, "Use 50Hz Power-grid frequency" },
