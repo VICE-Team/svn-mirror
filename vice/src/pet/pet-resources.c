@@ -47,7 +47,7 @@
 
 static int sync_factor;
 
-#if 0
+#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
 /* Frequency of the power grid in Hz */
 static int power_freq = 1;
 #endif
@@ -333,7 +333,7 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-#if 0
+#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
 static int set_power_freq(int val, void *param)
 {
     int change_timing = 0;
@@ -466,7 +466,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#if 0
+#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
     { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
       &power_freq, set_power_freq, NULL },
 #endif

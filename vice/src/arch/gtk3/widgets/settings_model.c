@@ -910,6 +910,8 @@ static void machine_model_handler_cbm5x0(int model)
 {
     video_model_widget_update(video_widget);
     cbm2_memory_size_widget_update(ram_widget);
+    /* synchronize machine power frequency widget */
+    machine_power_frequency_widget_sync(power_frequency_widget);
 }
 
 /** \brief  Callback for CBM 6x0/7x0 model changes
@@ -920,6 +922,8 @@ static void machine_model_handler_cbm6x0(int model)
 {
     video_model_widget_update(video_widget);
     cbm2_memory_size_widget_update(ram_widget);
+    /* synchronize machine power frequency widget */
+    machine_power_frequency_widget_sync(power_frequency_widget);
 }
 
 /** \brief  Set sensitivity of PET Ram9 and RamA widgets
@@ -1576,6 +1580,12 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
             cbm2_switches_callback);
     gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 0, 1, 1);
 
+    /* machine power frequency */
+    power_frequency_widget = machine_power_frequency_widget_new();
+    machine_power_frequency_widget_add_callback(power_frequency_widget,
+                                                power_frequency_callback);
+    gtk_grid_attach(GTK_GRID(grid), power_frequency_widget, 2, 1, 2, 1);
+
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     sid_model_widget_set_callback(sid_widget, sid_model_callback);
@@ -1627,6 +1637,12 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
     cbm2_hardwired_switches_widget_set_callback(switches_widget,
                                                 cbm2_switches_callback);
     gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 0, 1, 1);
+
+    /* machine power frequency */
+    power_frequency_widget = machine_power_frequency_widget_new();
+    machine_power_frequency_widget_add_callback(power_frequency_widget,
+                                                power_frequency_callback);
+    gtk_grid_attach(GTK_GRID(grid), power_frequency_widget, 2, 1, 2, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);

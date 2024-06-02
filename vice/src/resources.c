@@ -951,7 +951,7 @@ int resources_set_defaults(void)
 {
     unsigned int i;
 
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
     log_message(LOG_DEFAULT, "Initializing resources...");
 
     /* the cartridge system uses internal state variables so the default cartridge
@@ -1303,7 +1303,7 @@ static int load_resource_file(const char *fname)
         return RESERR_FILE_NOT_FOUND;
     }
 
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
     log_message(LOG_DEFAULT, "Reading configuration file `%s'.", fname);
 
     /* Find the start of the configuration section for this emulator.  */

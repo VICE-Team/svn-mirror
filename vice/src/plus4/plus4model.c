@@ -147,19 +147,7 @@ void plus4model_set(int model)
     }
 
     resources_set_int("MachineVideoStandard", plus4models[model].video);
-#if 0
-    /* Determine the power net frequency for this model. */
-    switch(plus4models[model].video) {
-        case MACHINE_SYNC_PAL:
-        case MACHINE_SYNC_PALN:
-            pf = 50;
-            break;
-        default:
-            pf = 60;
-            break;
-    }
-    resources_set_int("MachinePowerFrequency", pf);
-#endif
+
     resources_set_int("RamSize", plus4models[model].ramsize);
 
     resources_set_string("KernalName", plus4models[model].kernalname);

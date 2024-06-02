@@ -63,20 +63,23 @@ static video_chip_cap_t video_chip_cap;
 static void on_vsync_set_border_mode(void *unused)
 {
     int sync;
-    int pf;
+    int pf = 0;
 
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }
-    if (resources_get_int("MachinePowerFrequency", &pf) < 0) {
-        switch (sync) {
-            case MACHINE_SYNC_PAL:
-            case MACHINE_SYNC_PALN:
-                pf = 50;
-            break;
-            default:
-                pf = 60;
-            break;
+
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        if (resources_get_int("MachinePowerFrequency", &pf) < 0) {
+            switch (sync) {
+                case MACHINE_SYNC_PAL:
+                case MACHINE_SYNC_PALN:
+                    pf = 50;
+                break;
+                default:
+                    pf = 60;
+                break;
+            }
         }
     }
 #ifdef OLDCODE

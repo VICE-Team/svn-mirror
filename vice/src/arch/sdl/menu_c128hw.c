@@ -226,6 +226,22 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(Go64Mode)
 
+UI_MENU_DEFINE_RADIO(MachinePowerFrequency)
+
+static const ui_menu_entry_t power_freq_submenu[] = {
+    {   .string   = "50Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)50
+    },
+    {   .string   = "60Hz",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_MachinePowerFrequency_callback,
+        .data     = (ui_callback_data_t)60
+    },
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t c128_hardware_menu[] = {
     {   .string   = "Select C128 model",
         .type     = MENU_ENTRY_SUBMENU,
@@ -266,6 +282,13 @@ const ui_menu_entry_t c128_hardware_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback,
         .data     = (ui_callback_data_t)cia2_model_submenu
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "Power grid frequency",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)power_freq_submenu
     },
     SDL_MENU_ITEM_SEPARATOR,
 

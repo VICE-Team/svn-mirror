@@ -46,27 +46,12 @@ static video_chip_cap_t video_chip_cap;
 static void on_vsync_set_border_mode(void *unused)
 {
     int sync;
-    int pf;
 
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }
-#if 0
-    if (resources_get_int("MachinePowerFrequency", &pf) < 0)
-#endif
-    {
-        switch (sync) {
-            case MACHINE_SYNC_PAL:
-            case MACHINE_SYNC_PALN:
-                pf = 50;
-            break;
-            default:
-                pf = 60;
-            break;
-        }
-    }
 
-    machine_change_timing(sync, pf, ted_resources.border_mode);
+    machine_change_timing(sync, 0 /* power freq unused */, ted_resources.border_mode);
 }
 
 static int set_border_mode(int val, void *param)
