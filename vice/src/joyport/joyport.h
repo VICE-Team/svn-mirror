@@ -84,6 +84,7 @@ enum {
     JOYPORT_ID_PAPERCLIP64E,
     JOYPORT_ID_PAPERCLIP64SC,
     JOYPORT_ID_PAPERCLIP2,
+    JOYPORT_ID_POWERPAD,
 
     /* This item always needs to be at the end */
     JOYPORT_MAX_DEVICES

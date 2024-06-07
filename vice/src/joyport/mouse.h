@@ -75,6 +75,7 @@ enum {
     MOUSE_TYPE_MICROMYS,
     MOUSE_TYPE_KOALAPAD,
     MOUSE_TYPE_MF_JOY,
+    MOUSE_TYPE_POWERPAD,
 
     /* This item always needs to be at the end */
     MOUSE_TYPE_NUM
