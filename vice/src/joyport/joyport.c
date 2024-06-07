@@ -55,6 +55,7 @@
 #include "paperclip64.h"
 #include "paperclip64e.h"
 #include "paperclip64sc.h"
+#include "powerpad.h"
 #include "protopad.h"
 #include "resources.h"
 #include "rushware_keypad.h"
@@ -1178,6 +1179,12 @@ static joyport_init_t joyport_devices_init[] = {
     { JOYPORT_ID_KOALAPAD,             /* device id */
       VICE_MACHINE_NATIVE_5V_JOYPORTS, /* emulators this device works on */
       koalapad_register,               /* resources init function */
+      NULL,                            /* resources shutdown function */
+      NULL                             /* cmdline options init function */
+    },
+    { JOYPORT_ID_POWERPAD,             /* device id */
+      VICE_MACHINE_NATIVE_5V_JOYPORTS, /* emulators this device works on */
+      powerpad_register,               /* resources init function */
       NULL,                            /* resources shutdown function */
       NULL                             /* cmdline options init function */
     },

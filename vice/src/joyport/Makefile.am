@@ -62,6 +62,8 @@ libjoyport_a_SOURCES = \
 	paperclip64sc.h \
 	paperclip2.c \
 	paperclip2.h \
+	powerpad.c \
+	powerpad.h \
 	protopad.c \
 	protopad.h \
 	rushware_keypad.c \
