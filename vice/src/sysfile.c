@@ -189,7 +189,11 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
      * subpath  - path tail component, will be appended to the resulting path
      */
     p = findpath(name, expanded_system_path, subpath, ARCHDEP_ACCESS_R_OK);
+    // // char *p = malloc(PATH_MAX);
+    // // strcat(p, "/apps/Vice/share/vice/C64/");
+    // // strcat(p, name);
 
+    //     printf("Vice file opened (%s) with mode %s",p,open_mode );
     if (p == NULL) {
         if (complete_path_return != NULL) {
             *complete_path_return = NULL;
@@ -217,6 +221,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         if (complete_path_return != NULL) {
             *complete_path_return = p;
         }
+                    
         return f;
     }
 }
@@ -225,12 +230,16 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
    found and is readable, or -1 if an error occurs.  */
 int sysfile_locate(const char *name, const char *subpath, char **complete_path_return)
 {
+    
+    // subpath= lib_strdup("sd:/apps/Vice/Share/vice/C64");
+    // printf("VICE path %s/%s",subpath,name);
     FILE *f = sysfile_open(name, subpath, complete_path_return, MODE_READ);
 
     if (f != NULL) {
         fclose(f);
         return 0;
     } else {
+        // printf("VICE file not found %s",name);
         return -1;
     }
 }
@@ -311,6 +320,7 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
 
     fclose(fp);
     lib_free(complete_path);
+    // log_message(LOG_DEFAULT, "file size `%d'.", rsize);
     return (int)rsize;  /* return ok */
 
 fail:

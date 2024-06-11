@@ -562,7 +562,7 @@ static int set_native_monitor(int val, void *param)
  */
 static int set_start_minimized(int val, void *param)
 {
-    start_minimized = val ? 1 : 0;
+    start_minimized = val ? 0 : 1;
     return 0;
 }
 

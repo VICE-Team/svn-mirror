@@ -45,7 +45,11 @@
 #include <sys/socket.h>
 #endif
 
+#ifdef GEKKO
+#include <network.h>
+#else
 #include <sys/un.h>
+#endif
 
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
@@ -87,7 +91,7 @@ typedef struct timeval TIMEVAL;
 #define INADDR_NONE ((unsigned long)-1)
 #endif
 
-#ifndef HAVE_IN_ADDR_T
+#if !defined(HAVE_IN_ADDR_T) && !defined(GEKKO)
 typedef unsigned long in_addr_t;
 #endif
 

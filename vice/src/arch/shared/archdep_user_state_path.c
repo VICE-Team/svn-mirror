@@ -117,6 +117,7 @@ const char *archdep_user_state_path(void)
 #else
     user_state_dir = lib_strdup(archdep_boot_path());
 #endif
+    // printf("USERSTATEDIR=%s",user_state_dir);
     return user_state_dir;
 }
 

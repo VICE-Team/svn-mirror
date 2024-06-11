@@ -38,5 +38,9 @@
  */
 char *archdep_default_logfile(void)
 {
+// #ifndef GEKKO
     return util_join_paths(archdep_user_state_path(), "vice.log", NULL);
+// #else
+    // return util_join_paths("sd:/apps/Vice/share", "vice.log", NULL);
+// #endif
 }

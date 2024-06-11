@@ -59,7 +59,7 @@
 
 #include "init.h"
 
-/* #define DBGINIT */
+#define DBGINIT 1
 
 #ifdef DBGINIT
 #define DBG(x)  printf x

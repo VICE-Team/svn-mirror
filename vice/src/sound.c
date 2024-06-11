@@ -1242,7 +1242,7 @@ int sound_open(void)
         lib_free(err);
         return 1;
     }
-
+;
     /* now the playback sound device is open */
     sdev_open = TRUE;
     sound_state_changed = FALSE;

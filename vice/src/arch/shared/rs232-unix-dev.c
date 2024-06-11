@@ -103,7 +103,85 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifndef GEKKO
 #include <termios.h>
+#else
+typedef unsigned int tcflag_t;
+typedef unsigned char cc_t;
+typedef unsigned int speed_t;
+
+#define NCCS 32
+
+struct termios {
+    tcflag_t c_iflag;    /* input modes */
+    tcflag_t c_oflag;    /* output modes */
+    tcflag_t c_cflag;    /* control modes */
+    tcflag_t c_lflag;    /* local modes */
+    cc_t c_cc[NCCS];     /* control characters */
+    speed_t c_ispeed;    /* input speed */
+    speed_t c_ospeed;    /* output speed */
+};
+int tcgetattr(int fd, struct termios *termios_p) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int cfsetispeed(struct termios *termios_p, speed_t speed) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int cfsetospeed(struct termios *termios_p, speed_t speed) {
+    errno = ENOTTY;
+    return -1;
+}
+
+#define TCSAFLUSH 2
+
+/* Baud rate constants */
+#define B300 300
+#define B600 600
+#define B1200 1200
+#define B1800 1800
+#define B2400 2400
+#define B4800 4800
+#define B9600 9600
+#define B19200 19200
+#define B38400 38400
+#define B57600 57600
+#define B115200 115200
+
+/* Control modes */
+#define CSIZE 0x00000030
+#define PARENB 0x00000100
+#define CS8 0x00000030
+
+/* Local modes */
+#define ECHO 0x00000008
+#define ICANON 0x00000100
+#define IEXTEN 0x00008000
+#define ISIG 0x00000080
+
+/* Input modes */
+#define BRKINT 0x00000002
+#define ICRNL 0x00000100
+#define INPCK 0x00000010
+#define ISTRIP 0x00000020
+#define IXON 0x00000400
+
+/* Output modes */
+#define OPOST 0x00000001
+
+/* Control characters */
+#define VMIN 6
+#define VTIME 5
+#endif
+
 
 #include <unistd.h>
 
@@ -427,6 +505,12 @@ int rs232dev_putc(int fd, uint8_t b)
     return 0;
 }
 
+#ifdef GEKKO
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout) {
+    // Just return 0 to indicate no file descriptors are ready
+    return 0;
+}
+#endif
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
 int rs232dev_getc(int fd, uint8_t * b)
 {

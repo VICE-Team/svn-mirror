@@ -30,7 +30,7 @@
  *
  */
 
-/* #define DEBUG_MAIN */
+#define DEBUG_MAIN 1
 
 #include "vice.h"
 
@@ -72,6 +72,8 @@
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
+
+#define DEBUG_MAIN 1
 
 #ifdef DEBUG_MAIN
 #define DBG(x)  printf x
@@ -135,9 +137,10 @@ int main_program(int argc, char **argv)
 #ifdef WINDOWS_COMPILE
     bool no_redirect_streams = false;
 #endif
-    bool loadconfig = true;
+    bool loadconfig = false;
     char *datadir;
 
+  
 #ifdef USE_VICE_THREAD
     /*
      * The init lock guarantees that all main thread init outcomes are visible
@@ -150,7 +153,7 @@ int main_program(int argc, char **argv)
 
     mainlock_init();
 #endif
-
+ 
     archdep_set_openmp_wait_policy();
 
     lib_init();
@@ -163,6 +166,7 @@ int main_program(int argc, char **argv)
         cmdline = util_concat(p, " ", argv[i], NULL);
         lib_free(p); /* free old pointer */
     }
+  
 
 #ifdef WINDOWS_COMPILE
     /* make stdin, stdout and stderr available on Windows when compiling with
@@ -190,6 +194,7 @@ int main_program(int argc, char **argv)
        -silent => no logging
        -seed => set the random seed
     */
+
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
         if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
@@ -207,7 +212,9 @@ int main_program(int argc, char **argv)
             exit(EXIT_SUCCESS);
         } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
-                vice_config_file = lib_strdup(argv[++i]);
+            DBG(("main:cmdline(argv[]:%s)\n", argv[i+1]));
+                vice_config_file = lib_strdup(argv[++i]);   
+                DBG(("main:cmdline(config file:%s)\n", vice_config_file));
                 loadconfig = true;
             }
         } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
@@ -230,6 +237,7 @@ int main_program(int argc, char **argv)
             break;
         }
     }
+
     /* remove the already handled items from the commandline, else they will
        get parsed again later, which causes surprising effects. */
     for (n = 1; i < argc; n++, i++) {
@@ -248,6 +256,7 @@ int main_program(int argc, char **argv)
             help_requested = true;
         }
     }
+
 
     DBG(("main:archdep_init(argc:%d)\n", argc));
     if (archdep_init(&argc, argv) != 0) {

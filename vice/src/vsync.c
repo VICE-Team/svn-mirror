@@ -521,7 +521,7 @@ void vsync_do_end_of_line(void)
     tick_now = tick_now_after(last_sync_tick);
 
     if (sync_reset) {
-        log_message(LOG_DEFAULT, "Sync reset");
+        // log_message(LOG_DEFAULT, "Sync reset");  
         sync_reset = false;
         metrics_reset = true;
 
@@ -583,7 +583,7 @@ void vsync_do_end_of_line(void)
 
                 mainlock_yield();
 
-                log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
+                // log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
             } else {
                 /* We are running slow - make sure we still yield to the UI thread if it's waiting */

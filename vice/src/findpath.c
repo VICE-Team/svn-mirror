@@ -164,20 +164,22 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
             l = s ? (int)(s - path) : (int)strlen(path);
 
             if (l + cl + spl > ARCHDEP_PATH_MAX - 5) {
+                path = s ? s + 1 : NULL;
                 continue;
             }
 
             memcpy(buf + 1, path, l);
+            p = buf + 1 + l;
 
-            p = buf + l;  /* buf + 1 + l - 1 */
-
-            if (*p++ != '/') {
+            if (*(p - 1) != '/') {
                 *p++ = '/';
             }
             if (subpath != NULL) {
                 memcpy(p, subpath, spl - 1);
                 p += spl - 1;
-                *p++ = '/';
+                if (*(p - 1) != '/') {
+                    *p++ = '/';
+                }
             }
 
             memcpy(p, cmd, cl);
@@ -194,7 +196,7 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
                     *c = '/';
                 }
 #else
-#error directory seperator for this platform not handled correctly, FIX NEEDED!
+#error directory separator for this platform not handled correctly, FIX NEEDED!
 #endif
 #endif
             }

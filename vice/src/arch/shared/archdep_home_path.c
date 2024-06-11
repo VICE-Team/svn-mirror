@@ -96,7 +96,11 @@ const char *archdep_home_path(void)
     if (home == NULL) {
         struct passwd *pwd;
 
+#ifndef GEKKO
         pwd = getpwuid(getuid());
+#else  
+        pwd=NULL;
+#endif        
         if (pwd == NULL) {
             home = ".";
         } else {
@@ -121,6 +125,7 @@ const char *archdep_home_path(void)
     /* all others: */
     home_dir = lib_strdup(".");
 #endif
+    // printf("homedir = %s ", home_dir);
     return home_dir;
 }
 

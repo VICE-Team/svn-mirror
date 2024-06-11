@@ -60,7 +60,12 @@
 
 /* TODO: Perhaps implement fork_coproc() on Haiku using Haiku-specific code
  *       instead of relying on the POSIX compatibility layer? */
-#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
+#ifdef GEKKO
+#include <sys/types.h>
+typedef pid_t vice_pid_t;
+#endif
+
+#if (defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)) && !defined(GEKKO)
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -152,7 +157,7 @@ void kill_coproc(vice_pid_t pid)
     }
 }
 
-#elif defined(WINDOWS_COMPILE)
+#elif defined(WINDOWS_COMPILE) && !defined(GEKKO)
 
 #include "archdep.h"
 #include "coproc.h"
@@ -287,7 +292,11 @@ void kill_coproc(vice_pid_t pid)
 }
 
 #else
-
+#include <stdio.h> 
+#define LOG_DEFAULT stderr
+// Define log_error macro
+#define log_error(log_level, message) \
+    fprintf(stderr, "Error (level %d): %s\n", log_level, message)
 /* Stub for systems other than Unix, MacOS, Windows or Haiku: */
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *pid)
 {

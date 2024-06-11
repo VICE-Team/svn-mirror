@@ -63,5 +63,6 @@ char *archdep_current_dir(void)
             return NULL;
         }
     }
+    // printf("CWD = %s",p);
     return p;
 }

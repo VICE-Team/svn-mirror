@@ -36,7 +36,9 @@
 #include "log.h"
 
 #ifdef UNIX_COMPILE
+#ifndef GEKKO
 # include <sys/utsname.h>
+#endif
 #elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 # include <versionhelpers.h>
@@ -108,7 +110,9 @@ static BOOL os_is_win64(void)
 bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 {
 #ifdef UNIX_COMPILE
+#ifndef GEKKO
     struct utsname buf;
+#endif
 #endif
 #ifdef WINDOWS_COMPILE
     const char *name;
@@ -122,6 +126,7 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
     memset(info->machine, 0, ARCHDEP_RUNTIME_STRMAX);
 
 #ifdef UNIX_COMPILE
+#ifndef GEKKO
     if (uname(&buf) == 0) {
         /* OK */
         printf("sysname = '%s'\n", buf.sysname);
@@ -135,6 +140,9 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         strncpy(info->machine, buf.machine, ARCHDEP_RUNTIME_STRMAX - 1U);
         return true;
     }
+#else
+    return true;
+#endif
 #elif defined(WINDOWS_COMPILE)
 
     version.dwOSVersionInfoSize = sizeof(version);

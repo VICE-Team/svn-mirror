@@ -164,19 +164,97 @@ static char *ln_strdup(const char *s)
 #define STDIN_FILENO 0
 
 #else /* _WIN32 */
-
 #include <signal.h>
+#ifndef GEKKO
 #include <termios.h>
+#include <sys/ioctl.h>
+#endif
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/ioctl.h>
+
 #include <sys/stat.h>
 #include <cctype>
 #include <wctype.h>
-
 #endif /* _WIN32 */
+
+#ifdef GEKKO
+#include <errno.h>
+typedef unsigned int speed_t;
+#define CS8 0x00000030
+#define ECHO 0x00000008
+#define ICANON 0x00000100
+#define IEXTEN 0x00008000
+#define ISIG 0x00000080
+#define VMIN 0
+#define VTIME 1
+#define TCSADRAIN 1
+
+// Define the winsize structure if not already defined
+struct winsize {
+    unsigned short ws_row;  // rows, in characters
+    unsigned short ws_col;  // columns, in characters
+    unsigned short ws_xpixel; // horizontal size, pixels
+    unsigned short ws_ypixel; // vertical size, pixels
+};
+
+#define TIOCGWINSZ 0x5413
+
+int fake_ioctl(int fd, unsigned long request, void *arg) {
+    if (request == TIOCGWINSZ) {
+        struct winsize *ws = (struct winsize *)arg;
+        ws->ws_row = 24; // Set default rows
+        ws->ws_col = 80; // Set default columns
+        ws->ws_xpixel = 0; // Not used
+        ws->ws_ypixel = 0; // Not used
+        return 0;
+    }
+    return -1;
+}
+
+// Use a macro to replace ioctl with fake_ioctl for testing
+#define ioctl(fd, request, arg) fake_ioctl(fd, request, arg)
+
+
+
+
+/* Input modes */
+#define BRKINT 0x00000002
+#define ICRNL 0x00000100
+#define INPCK 0x00000010
+#define ISTRIP 0x00000020
+#define IXON 0x00000400
+// Define a fake termios structure
+struct termios {
+    unsigned int c_iflag;  // input modes
+    unsigned int c_oflag;  // output modes
+    unsigned int c_cflag;  // control modes
+    unsigned int c_lflag;  // local modes
+    unsigned char c_cc[32]; // control characters
+};
+
+int tcgetattr(int fd, struct termios *termios_p) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int cfsetispeed(struct termios *termios_p, speed_t speed) {
+    errno = ENOTTY;
+    return -1;
+}
+
+int cfsetospeed(struct termios *termios_p, speed_t speed) {
+    errno = ENOTTY;
+    return -1;
+}
+
+#endif
 
 #include <stdio.h>
 #include <errno.h>
@@ -3508,6 +3586,13 @@ void linenoisePrintKeyCodes(void) {
 static void WindowSizeChanged(int) {
   // do nothing here but setting this flag
   gotResize = true;
+}
+#endif
+
+#ifdef GEKKO
+int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact) {
+    // Always return success since we're stubbing it out
+    return 0;
 }
 #endif
 

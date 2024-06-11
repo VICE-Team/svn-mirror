@@ -72,6 +72,23 @@
 
 #ifdef UNIX_COMPILE
 
+#ifdef GEKKO
+int execvp(const char *file, char *const argv[]) {
+    // Stub function, returns -1 indicating failure
+    return -1;
+}
+
+pid_t waitpid(pid_t pid, int *status, int options) {
+    // Stub implementation that always returns the given pid
+    // and sets the status to 0 (assuming the process exited successfully)
+    if (status != NULL) {
+        *status = 0;
+    }
+    return pid;
+}
+
+#endif
+
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
 {

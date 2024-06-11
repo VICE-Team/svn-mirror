@@ -50,6 +50,10 @@
 #endif
 #endif
 
+#ifdef GEKKO
+#include <network.h>
+#endif
+
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
@@ -110,6 +114,41 @@ typedef size_t socklen_t;
  *
  * However, in practice, this approach works.
  */
+
+#include <network.h>
+#define SOCK_STREAM     1
+#define AF_INET				2
+#define PF_INET				AF_INET
+#define IPPROTO_TCP			6
+#define INADDR_ANY			0
+struct in_addr {
+  uint32_t s_addr;
+};
+
+struct sockaddr {
+  uint8_t sa_len;
+  uint8_t sa_family;
+  int8_t sa_data[14];
+};
+
+struct sockaddr_in {
+  uint8_t sin_len;
+  uint8_t sin_family;
+  uint16_t sin_port;
+  struct in_addr sin_addr;
+  int8_t sin_zero[8];
+};
+
+struct hostent {
+  char    *h_name;          /* official name of host */
+  char    **h_aliases;      /* alias list */
+  uint16_t h_addrtype;      /* host address type */
+  uint16_t h_length;        /* length of address */
+  char    **h_addr_list;    /* list of addresses from name server */
+};
+
+
+
 union socket_addresses_u {
     struct sockaddr generic;     /*!< the generic type needed for calling the socket API */
 
@@ -399,12 +438,83 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
      socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
      Thus, server_address must not be NULL.
 */
-vice_network_socket_t *vice_network_server(
-        const vice_network_socket_address_t * server_address)
+#ifndef GEKKO
+    vice_network_socket_t *vice_network_server(
+            const vice_network_socket_address_t * server_address)
+    {
+    #if defined(SO_REUSEADDR) || defined(TCP_NODELAY)
+        const int so_setting = 1;
+    #endif
+        int sockfd = INVALID_SOCKET;
+        int error = 1;
+        int err;
+
+        assert(server_address != NULL);
+
+        do {
+            if (socket_init() < 0) {
+                log_error(LOG_DEFAULT,
+                    "vice_network_server(): socket_init() failed");
+                break;
+            }
+
+            sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+            if (sockfd == INVALID_SOCKET) {
+                err = errno;
+                log_error(LOG_DEFAULT,
+                    "vice_network_server(): socket() returned INVALID_SOCKET: %s",
+                    strerror(err));
+                break;
+            }
+
+            /*
+                Fix the "Address In Use" error upon reconnecting to tcp socket monitor port
+                by setting SO_REUSEPORT/ADDR options on socket before bind()
+
+                Ignore setsockopt() failures - just continue - the socket is still valid.
+            */
+    #ifdef HAVE_IPV6
+            if ((server_address->domain == PF_INET) || (server_address->domain == PF_INET6)) {
+    #else
+            if ((server_address->domain == PF_INET)) {
+    #endif
+    #if defined(SO_REUSEADDR)
+                setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&so_setting, sizeof(so_setting));
+    #endif
+    #if defined(TCP_NODELAY)
+                setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&so_setting, sizeof(so_setting));
+    #endif
+            }
+
+            if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
+                err = errno;
+                log_error(LOG_DEFAULT,
+                    "vice_network_server(): bind() failed: %s",
+                    strerror(err));
+                break;
+            }
+            if (listen(sockfd, 2) < 0) {
+                err = errno;
+                log_error(LOG_DEFAULT,
+                    "vice_network_server(): listen() failed: %s",
+                    strerror(err));
+                break;
+            }
+            error = 0;
+        } while (0);
+
+        if (error) {
+            if (sockfd != INVALID_SOCKET) {
+                closesocket(sockfd);
+            }
+            sockfd = INVALID_SOCKET;
+        }
+
+        return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
+    }
+    #else
+vice_network_socket_t *vice_network_server(const vice_network_socket_address_t *server_address)
 {
-#if defined(SO_REUSEADDR) || defined(TCP_NODELAY)
-    const int so_setting = 1;
-#endif
     int sockfd = INVALID_SOCKET;
     int error = 1;
     int err;
@@ -412,66 +522,49 @@ vice_network_socket_t *vice_network_server(
     assert(server_address != NULL);
 
     do {
-        if (socket_init() < 0) {
-            log_error(LOG_DEFAULT,
-                "vice_network_server(): socket_init() failed");
+        // Initialize network stack
+        net_init();
+        
+        // Create socket
+        sockfd = net_socket(AF_INET, SOCK_STREAM, 0); // 0 here for protocol is fine
+        
+        if (sockfd < 0) {
+            log_error(LOG_DEFAULT, "vice_network_server(): net_socket() failed");
             break;
         }
 
-        sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
-        if (sockfd == INVALID_SOCKET) {
-            err = errno;
-            log_error(LOG_DEFAULT,
-                "vice_network_server(): socket() returned INVALID_SOCKET: %s",
-                strerror(err));
+        // Configure server address
+        struct sockaddr_in server_addr;
+        memset(&server_addr, 0, sizeof(server_addr));
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_port = htons(80);
+        server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+        // Bind socket
+        if (net_bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+            log_error(LOG_DEFAULT, "vice_network_server(): net_bind() failed");
             break;
         }
 
-        /*
-            Fix the "Address In Use" error upon reconnecting to tcp socket monitor port
-            by setting SO_REUSEPORT/ADDR options on socket before bind()
-
-            Ignore setsockopt() failures - just continue - the socket is still valid.
-        */
-#ifdef HAVE_IPV6
-        if ((server_address->domain == PF_INET) || (server_address->domain == PF_INET6)) {
-#else
-        if ((server_address->domain == PF_INET)) {
-#endif
-#if defined(SO_REUSEADDR)
-            setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&so_setting, sizeof(so_setting));
-#endif
-#if defined(TCP_NODELAY)
-            setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&so_setting, sizeof(so_setting));
-#endif
-        }
-
-        if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
-            err = errno;
-            log_error(LOG_DEFAULT,
-                "vice_network_server(): bind() failed: %s",
-                strerror(err));
+        // Listen for connections
+        if (net_listen(sockfd, 2) < 0) {
+            log_error(LOG_DEFAULT, "vice_network_server(): net_listen() failed");
             break;
         }
-        if (listen(sockfd, 2) < 0) {
-            err = errno;
-            log_error(LOG_DEFAULT,
-                "vice_network_server(): listen() failed: %s",
-                strerror(err));
-            break;
-        }
+
         error = 0;
     } while (0);
 
     if (error) {
         if (sockfd != INVALID_SOCKET) {
-            closesocket(sockfd);
+            net_close(sockfd);
         }
         sockfd = INVALID_SOCKET;
     }
 
     return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
+#endif
 
 /*! \brief Open a socket and initialise it for client operation
 
@@ -486,6 +579,7 @@ vice_network_socket_t *vice_network_server(
      The server_address variable determines the type of
      socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
 */
+#ifndef GEKKO
 vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address)
 {
     int sockfd = INVALID_SOCKET;
@@ -523,6 +617,46 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
 
     return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
+#else
+vice_network_socket_t *vice_network_client(const vice_network_socket_address_t *server_address)
+{
+    int sockfd = INVALID_SOCKET;
+    int error = 1;
+
+    assert(server_address != NULL);
+
+    do {
+        if (socket_init() < 0) {
+            break;
+        }
+
+        sockfd = (int)net_socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+
+        if (sockfd == INVALID_SOCKET) {
+            break;
+        }
+
+#if defined(TCP_NODELAY)
+        net_setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&error, sizeof(error)); /* just an integer with 1, not really an error */
+#endif
+
+        if (net_connect(sockfd, &server_address->address.generic, server_address->len) < 0) {
+            break;
+        }
+        error = 0;
+    } while (0);
+
+    if (error) {
+        if (sockfd != INVALID_SOCKET) {
+            net_close(sockfd);
+        }
+        sockfd = INVALID_SOCKET;
+    }
+
+    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
+}
+
+#endif
 
 /*! \internal \brief Generate an IPv4 socket address
 
@@ -607,7 +741,13 @@ static int vice_network_address_generate_ipv4(
                 break;
             }
 
-            host_entry = gethostbyname(address_part);
+#ifdef GEKKO
+#include <network.h>
+    host_entry = net_gethostbyname(address_part);
+#else
+    host_entry = gethostbyname(address_part);
+#endif
+
 
             if (host_entry != NULL && host_entry->h_addrtype == AF_INET) {
                 if (host_entry->h_length != sizeof socket_address->address.ipv4.sin_addr.s_addr) {
@@ -927,6 +1067,7 @@ void vice_network_address_close(vice_network_socket_address_t * address)
   \return
      A new socket that can be used for transmission on this this connection.
 */
+#ifndef GEKKO
 vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 {
     SOCKET newsocket = INVALID_SOCKET;
@@ -937,7 +1078,18 @@ vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 
     return newsocket == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(newsocket);
 }
+#else
+vice_network_socket_t *vice_network_accept(vice_network_socket_t *sockfd)
+{
+    SOCKET newsocket = INVALID_SOCKET;
 
+    initialize_socket_address(&sockfd->address);
+
+    newsocket = net_accept(sockfd->sockfd, &sockfd->address.address.generic, &sockfd->address.len);
+
+    return newsocket == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(newsocket);
+}
+#endif
 /*! \brief Close a socket
 
   This function closes the socket that has been
@@ -996,6 +1148,7 @@ int vice_network_socket_close(vice_network_socket_t * sockfd)
   \note Amazing there's docs on this, but send() returns size_t, not int, so
         properly checking the return type could fail.
 */
+#ifndef GEKKO
 int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
                          size_t buffer_length, int flags)
 {
@@ -1009,6 +1162,21 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
     signals_pipe_unset();
     return (int)ret;
 }
+#else
+int vice_network_send(vice_network_socket_t *sockfd, const void *buffer,
+                      size_t buffer_length, int flags)
+{
+    ssize_t ret;
+    signals_pipe_set();
+    ret = net_send(sockfd->sockfd, buffer, buffer_length, flags);
+    if (ret > buffer_length) {
+        log_error(LOG_DEFAULT, "vice_network_send: internal error");
+        ret = -1; /* signal error */
+    }
+    signals_pipe_unset();
+    return (int)ret;
+}
+#endif
 
 /*! \brief Receive data from a connected socket
 
@@ -1040,6 +1208,7 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
 
      In case of an error, -1 is returned.
 */
+#ifndef GEKKO
 int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
 {
     size_t ret;
@@ -1048,7 +1217,16 @@ int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t b
     signals_pipe_unset();
     return (int)ret;
 }
-
+#else
+int vice_network_receive(vice_network_socket_t *sockfd, void *buffer, size_t buffer_length, int flags)
+{
+    ssize_t ret;
+    signals_pipe_set();
+    ret = net_recv(sockfd->sockfd, buffer, buffer_length, flags);
+    signals_pipe_unset();
+    return (int)ret;
+}
+#endif
 /*! \brief Check if a socket has incoming data to receive
 
   This function is called in order to determine if there is
@@ -1062,6 +1240,7 @@ int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t b
      1 if the specified socket has data; 0 if it does not contain
      any data, and -1 in case of an error.
 */
+#ifndef GEKKO
 int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
 {
     TIMEVAL timeout = { 0, 0 };
@@ -1073,6 +1252,19 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
 
     return select( readsockfd->sockfd + 1, &fdsockset, NULL, NULL, &timeout);
 }
+#else
+int vice_network_select_poll_one(vice_network_socket_t *readsockfd)
+{
+    TIMEVAL timeout = { 0, 0 };
+
+    fd_set fdsockset;
+
+    FD_ZERO(&fdsockset);
+    FD_SET(readsockfd->sockfd, &fdsockset);
+
+    return net_select(readsockfd->sockfd + 1, &fdsockset, NULL, NULL, &timeout);
+}
+#endif
 
 /*! \brief Monitor multiple sockets
 
@@ -1086,6 +1278,7 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
      1 if the specified socket has data; 0 if it does not contain
      any data, and -1 in case of an error.
 */
+#ifndef GEKKO
 int vice_network_select_multiple(vice_network_socket_t ** readsockfd)
 {
     fd_set fdsockset;
@@ -1107,6 +1300,32 @@ int vice_network_select_multiple(vice_network_socket_t ** readsockfd)
 
     return select(max_sockfd + 1, &fdsockset, NULL, NULL, &time);
 }
+#else
+int vice_network_select_multiple(vice_network_socket_t **readsockfd)
+{
+    fd_set fdsockset;
+    SOCKET max_sockfd = INVALID_SOCKET;
+    TIMEVAL time = {0, 250000};
+
+    FD_ZERO(&fdsockset);
+    while (*readsockfd != NULL)
+    {
+        FD_SET((*readsockfd)->sockfd, &fdsockset);
+        if ((*readsockfd)->sockfd > max_sockfd)
+        {
+            max_sockfd = (*readsockfd)->sockfd;
+        }
+        readsockfd++;
+    }
+
+    if (max_sockfd == INVALID_SOCKET)
+    {
+        return -1;
+    }
+
+    return net_select(max_sockfd + 1, &fdsockset, NULL, NULL, &time);
+}
+#endif
 
 /*! \brief Get the error of the last socket operation
 

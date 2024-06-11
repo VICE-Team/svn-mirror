@@ -41,9 +41,55 @@
 /* FIXME: Ugly hack for preventing SDL crash using -help */
 int sdl_help_shutdown = 0;
 
+#ifdef GEKKO
+#define __wii__ 1 //needed for libfar ??? I defined it in Makefile so not sure if still needed
+#include <debug.h>
+#include <fat.h>
+#endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+
 int main(int argc, char **argv)
 {
+
+#ifdef GEKKO    
+
+    printf("VICE WII is starting");
+    VIDEO_Init();
++    MOUSE_Init();
++    KEYBOARD_Init(NULL); 
+    // DEBUG_Init(1, 1);
+	if (!fatInitDefault()) {
+		printf("fatInitDefault failure: terminating\n");
+		main_exit();
+	}    
+
+//   Allocate space for new arguments
+    // const char* newArgv[] = {
+    //     "x64", // program name
+    //     "--config",
+    //     "sd:/apps/Vice/share/sdl-vicerc"
+    // };
+    //  
+    // const char* newArgv[] = {
+    //     "x64", // program name
+    //     "-autostart",
+    //     "sd:/apps/Vice/share/vice/C64/brucelee.d64"
+    // };   
+    const char* newArgv[] = {"x64.elf"};
+    int newArgc = 1;
+  
+    return main_program(newArgc, (char **)newArgv);
+#endif 
     return main_program(argc, argv);
+ 
 }
 
 void main_exit(void)
