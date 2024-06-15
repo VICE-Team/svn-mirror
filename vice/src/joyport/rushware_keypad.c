@@ -110,7 +110,7 @@ ENTER            0     0    0    0    0
 #define KEYPAD_KEY_7    ROW_COL(0,0)
 #define KEYPAD_KEY_8    ROW_COL(0,1)
 #define KEYPAD_KEY_9    ROW_COL(0,2)
-#define KEYPAD_KEY_MULT ROW_COL(0,4)
+#define KEYPAD_KEY_MULT ROW_COL(0,3)
 #define KEYPAD_KEY_4    ROW_COL(1,0)
 #define KEYPAD_KEY_5    ROW_COL(1,1)
 #define KEYPAD_KEY_6    ROW_COL(1,2)
