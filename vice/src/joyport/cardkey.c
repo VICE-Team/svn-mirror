@@ -43,7 +43,7 @@
      2   | KEY1   |  I
      3   | KEY2   |  I
      4   | KEY3   |  I
-     5   | PRESS  |  I
+     6   | PRESS  |  I
      8   | GND    |  Ground
 
 Works on:
@@ -98,7 +98,7 @@ KEY PRESSED   KEY3 KEY2 KEY1 KEY0
 .               0    0    0    1
 Enter           0    0    0    0
 
-The PRESS (POT AY) line is used to indicate a key press.
+The PRESS (Fire) line is used to indicate a key press.
  */
 
 #define ROW_COL(x, y) ((x * 4) + y)
@@ -172,72 +172,61 @@ static uint8_t cardkey_read_dig(int port)
     unsigned int retval = 0;
     unsigned int tmp;
 
-    /* KEY3 */
-    tmp = keys[KEYPAD_KEY_0] |
-          keys[KEYPAD_KEY_1] |
-          keys[KEYPAD_KEY_2] |
-          keys[KEYPAD_KEY_3] |
-          keys[KEYPAD_KEY_4] |
-          keys[KEYPAD_KEY_5] |
-          keys[KEYPAD_KEY_6] |
-          keys[KEYPAD_KEY_7];
+    /* KEY3   8 9 + - / * p r */
+    tmp = keys[KEYPAD_KEY_8] |
+          keys[KEYPAD_KEY_9] |
+          keys[KEYPAD_KEY_PLUS] |
+          keys[KEYPAD_KEY_MINUS] |
+          keys[KEYPAD_KEY_DIV] |
+          keys[KEYPAD_KEY_MULT] |
+          keys[KEYPAD_KEY_DOT] |
+          keys[KEYPAD_KEY_ENTER];
     tmp <<= JOYPORT_RIGHT_BIT;   /* output key 3 on the joyport 'right' pin */
     retval |= tmp;
 
-    /* KEY2 */
-    tmp = keys[KEYPAD_KEY_0] |
-          keys[KEYPAD_KEY_1] |
-          keys[KEYPAD_KEY_2] |
-          keys[KEYPAD_KEY_3] |
-          keys[KEYPAD_KEY_8] |
-          keys[KEYPAD_KEY_9] |
-          keys[KEYPAD_KEY_PLUS] |
-          keys[KEYPAD_KEY_MINUS];
+    /* KEY2   4 5 6 7 / * p r */
+    tmp = keys[KEYPAD_KEY_4] |
+          keys[KEYPAD_KEY_5] |
+          keys[KEYPAD_KEY_6] |
+          keys[KEYPAD_KEY_7] |
+          keys[KEYPAD_KEY_DIV] |
+          keys[KEYPAD_KEY_MULT] |
+          keys[KEYPAD_KEY_DOT] |
+          keys[KEYPAD_KEY_ENTER];
     tmp <<= JOYPORT_LEFT_BIT;   /* output key 2 on the joyport 'left' pin */
     retval |= tmp;
 
-    /* KEY1 */
-    tmp = keys[KEYPAD_KEY_0] |
-          keys[KEYPAD_KEY_1] |
-          keys[KEYPAD_KEY_8] |
-          keys[KEYPAD_KEY_9] |
-          keys[KEYPAD_KEY_4] |
-          keys[KEYPAD_KEY_5] |
-          keys[KEYPAD_KEY_DIV] |
-          keys[KEYPAD_KEY_MULT];
+    /* KEY1   2 3 6 7 * - p r */
+    tmp = keys[KEYPAD_KEY_2] |
+          keys[KEYPAD_KEY_3] |
+          keys[KEYPAD_KEY_6] |
+          keys[KEYPAD_KEY_7] |
+          keys[KEYPAD_KEY_PLUS] |
+          keys[KEYPAD_KEY_MINUS] |
+          keys[KEYPAD_KEY_DOT] |
+          keys[KEYPAD_KEY_ENTER];
     tmp <<= JOYPORT_DOWN_BIT;   /* output key 1 on the joyport 'down' pin */
     retval |= tmp;
 
-    /* KEY0 */
-    tmp = keys[KEYPAD_KEY_0] |
-          keys[KEYPAD_KEY_8] |
-          keys[KEYPAD_KEY_4] |
-          keys[KEYPAD_KEY_DIV] |
-          keys[KEYPAD_KEY_2] |
-          keys[KEYPAD_KEY_PLUS] |
-          keys[KEYPAD_KEY_6] |
-          keys[KEYPAD_KEY_DOT];
+    /* KEY0  1 3 5 7 9 - * r */
+    tmp = keys[KEYPAD_KEY_1] |
+          keys[KEYPAD_KEY_3] |
+          keys[KEYPAD_KEY_5] |
+          keys[KEYPAD_KEY_7] |
+          keys[KEYPAD_KEY_9] |
+          keys[KEYPAD_KEY_MINUS] |
+          keys[KEYPAD_KEY_MULT] |
+          keys[KEYPAD_KEY_ENTER];
     retval |= tmp;   /* output key 0 on the joyport 'up' pin */
-
-    retval |= 0xf0;
-
-    joyport_display_joyport(port, JOYPORT_ID_CARDCO_KEYPAD, (uint16_t)~retval);
-
-    return (uint8_t)retval;
-}
-
-static uint8_t cardkey_read_pot(int port)
-{
-    int i;
-
-    /* if any of the keys is pressed return 0xff */
-    for (i = 0; i < 16; ++i) {
-        if (keys[i]) {
-            return 0xff;
-        }
+    
+    /* output key pressed on 'fire' pin. */
+    if (retval != 0 || keys[KEYPAD_KEY_0]) {
+        retval |= JOYPORT_FIRE;
     }
 
-    return 0;
+    joyport_display_joyport(port, JOYPORT_ID_CARDCO_KEYPAD, (uint16_t)retval);
+
+    return (uint8_t)~retval;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -255,7 +244,7 @@ static joyport_t joyport_cardkey_device = {
     cardkey_read_dig,            /* digital line read function */
     NULL,                        /* NO digital line store function */
     NULL,                        /* NO pot-x read function */
-    cardkey_read_pot,            /* pot-y read function */
+    NULL,                        /* NO pot-y read function */
     NULL,                        /* NO powerup function */
     NULL,                        /* NO device write snapshot function */
     NULL,                        /* NO device read snapshot function */
