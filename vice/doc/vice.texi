@@ -1251,7 +1251,8 @@ Set the random seed (for debugging).
 
 @findex -keybuf
 @item -keybuf <string>
-Put the specified string into the keyboard buffer.
+Put the specified string into the keyboard buffer. Note that you can specify
+specific keycodes by using C-style escaped hexcodes ("\x0a").
 
 @findex -console
 @item -console
