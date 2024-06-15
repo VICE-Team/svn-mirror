@@ -218,7 +218,7 @@ static uint8_t cardkey_read_dig(int port)
           keys[KEYPAD_KEY_MULT] |
           keys[KEYPAD_KEY_ENTER];
     retval |= tmp;   /* output key 0 on the joyport 'up' pin */
-    
+
     /* output key pressed on 'fire' pin. */
     if (retval != 0 || keys[KEYPAD_KEY_0]) {
         retval |= JOYPORT_FIRE;
