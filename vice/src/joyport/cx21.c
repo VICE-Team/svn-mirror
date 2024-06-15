@@ -44,8 +44,8 @@
      2   | KEYROW2 |  O
      3   | KEYROW3 |  O
      4   | KEYROW4 |  O
-     5   | KEYCOL3 |  I
-     6   | KEYCOL2 |  I
+     5   | KEYCOL2 |  I
+     6   | KEYCOL3 |  I
      9   | KEYCOL1 |  I
 
 Works on:
@@ -56,13 +56,13 @@ The keypad has the following layout:
 
 KEYPAD          KEYMAP KEYS
 -------------   ----------------
-| 3 | 2 | 1 |   |  1 |  2 |  3 |
+| 1 | 2 | 3 |   |  1 |  2 |  3 |
 -------------   ----------------
-| 6 | 5 | 4 |   |  6 |  7 |  8 |
+| 4 | 5 | 6 |   |  6 |  7 |  8 |
 -------------   ----------------
-| 9 | 8 | 7 |   | 11 | 12 | 13 |
+| 7 | 8 | 9 |   | 11 | 12 | 13 |
 -------------   ----------------
-| # | 0 | * |   | 16 | 17 | 18 |
+| * | 0 | # |   | 16 | 17 | 18 |
 -------------   ----------------
 
 The keypad connects a row to a column.
@@ -71,35 +71,35 @@ The following logic is used:
 
 key pin pin comments
 --- --- --- --------
- 3   1   6  A0 <-> FIRE
- 2   1   9  A0 <-> POT AX
  1   1   5  A0 <-> POT AY
- 6   2   6  A1 <-> FIRE
- 5   2   9  A1 <-> POT AX
+ 2   1   9  A0 <-> POT AX
+ 3   1   6  A0 <-> FIRE
  4   2   5  A1 <-> POT AY
- 9   3   6  A2 <-> FIRE
- 8   3   9  A2 <-> POT AX
+ 5   2   9  A1 <-> POT AX
+ 6   2   6  A1 <-> FIRE
  7   3   5  A2 <-> POT AY
- #   4   6  A3 <-> FIRE
- 0   4   9  A3 <-> POT AX
+ 8   3   9  A2 <-> POT AX
+ 9   3   6  A2 <-> FIRE
  *   4   5  A3 <-> POT AY
+ 0   4   9  A3 <-> POT AX
+ #   4   6  A3 <-> FIRE
  */
 
-#define KEYPAD_KEY_3      0
+#define KEYPAD_KEY_1      0
 #define KEYPAD_KEY_2      1
-#define KEYPAD_KEY_1      2
+#define KEYPAD_KEY_3      2
 
-#define KEYPAD_KEY_6      3
+#define KEYPAD_KEY_4      3
 #define KEYPAD_KEY_5      4
-#define KEYPAD_KEY_4      5
+#define KEYPAD_KEY_6      5
 
-#define KEYPAD_KEY_9      6
+#define KEYPAD_KEY_7      6
 #define KEYPAD_KEY_8      7
-#define KEYPAD_KEY_7      8
+#define KEYPAD_KEY_9      8
 
-#define KEYPAD_KEY_HASH   9
+#define KEYPAD_KEY_MULT   9
 #define KEYPAD_KEY_0      10
-#define KEYPAD_KEY_MULT   11
+#define KEYPAD_KEY_HASH   11
 
 #define KEYPAD_NUM_KEYS   12
 
@@ -193,32 +193,32 @@ static uint8_t cx21_read_potx(int joyport)
     /* set output to 0 only if row 0 is selected and '2' is pressed */
     if (keys[KEYPAD_KEY_2]) {
         if (port & 1) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 1 is selected and '5' is pressed */
     if (keys[KEYPAD_KEY_5]) {
         if (port & 2) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 2 is selected and '8' is pressed */
     if (keys[KEYPAD_KEY_8]) {
         if (port & 4) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 3 is selected and '0' is pressed */
     if (keys[KEYPAD_KEY_0]) {
         if (port & 8) {
-            return 0;
+            return 0xff;
         }
     }
 
-    return 0xff;
+    return 0;
 }
 
 static uint8_t cx21_read_poty(int joyport)
@@ -226,32 +226,32 @@ static uint8_t cx21_read_poty(int joyport)
     /* set output to 0 only if row 0 is selected and '1' is pressed */
     if (keys[KEYPAD_KEY_1]) {
         if (port & 1) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 1 is selected and '4' is pressed */
     if (keys[KEYPAD_KEY_4]) {
         if (port & 2) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 2 is selected and '7' is pressed */
     if (keys[KEYPAD_KEY_7]) {
         if (port & 4) {
-            return 0;
+            return 0xff;
         }
     }
 
     /* set output to 0 only if row 3 is selected and '*' is pressed */
     if (keys[KEYPAD_KEY_MULT]) {
         if (port & 8) {
-            return 0;
+            return 0xff;
         }
     }
 
-    return 0xff;
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
