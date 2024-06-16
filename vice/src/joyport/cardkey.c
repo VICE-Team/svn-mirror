@@ -74,7 +74,7 @@ The following logic is used:
 
 KEY3 = 8 || 9 || + || - || / || * || dot || ret
 KEY2 = 4 || 5 || 6 || 7 || / || * || dot || ret
-KEY1 = 2 || 3 || 6 || 7 || * || - || dot || ret
+KEY1 = 2 || 3 || 6 || 7 || + || - || dot || ret
 KEY0 = 1 || 3 || 5 || 7 || 9 || - || *   || ret
 
 which results in:
@@ -91,10 +91,10 @@ KEY PRESSED   KEY3 KEY2 KEY1 KEY0
 7               0    1    1    1
 8               1    0    0    0
 9               1    0    0    1
-+               1    0    0    0        <- FIXME: should be 1 0 1 0 ?
++               1    0    1    0
 -               1    0    1    1
 /               1    1    0    0
-*               1    1    1    1        <- FIXME: should be 1 1 0 1 ?
+*               1    1    0    1
 .               1    1    1    0
 Enter           1    1    1    1
 
@@ -196,7 +196,7 @@ static uint8_t cardkey_read_dig(int port)
     tmp <<= JOYPORT_LEFT_BIT;   /* output key 2 on the joyport 'left' pin */
     retval |= tmp;
 
-    /* KEY1   2 3 6 7 * - dot ret */
+    /* KEY1   2 3 6 7 + - dot ret */
     tmp = keys[KEYPAD_KEY_2] |
           keys[KEYPAD_KEY_3] |
           keys[KEYPAD_KEY_6] |
