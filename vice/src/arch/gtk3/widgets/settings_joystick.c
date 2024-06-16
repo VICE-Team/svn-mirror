@@ -90,13 +90,8 @@
 #define ADAPTER_PORT_COUNT_VIC20    8
 
 /** \brief  Number of joystick adapter ports for Plus4
- *
- * The xplus4 code currently supports three userport joysticks and one joystick
- * via the SIDCard expansion.
- *
- * Should this change in the future, just change the value (to 8).
  */
-#define ADAPTER_PORT_COUNT_PLUS4    3
+#define ADAPTER_PORT_COUNT_PLUS4    8
 
 /** \brief  Number of joystick adapter ports for CBM-II 5x0/P
  */
