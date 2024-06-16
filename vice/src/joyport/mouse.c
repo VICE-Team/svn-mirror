@@ -419,10 +419,6 @@ static void mouse_button_right(int pressed)
         case MOUSE_TYPE_NEOS:
             mouse_neos_button_right(pressed);
             break;
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_ST:
-            mouse_amiga_st_button_right(pressed);
-            break;
         default:
             break;
     }
@@ -433,10 +429,6 @@ static void mouse_button_middle(int pressed)
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
             micromys_mouse_button_middle(pressed);
-            break;
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_ST:
-            mouse_amiga_st_button_right(pressed);
             break;
         default:
             break;
