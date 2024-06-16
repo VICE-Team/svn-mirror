@@ -67,7 +67,7 @@ static int userport_joystick_woj_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_woj_enable(int value);
 
 static userport_device_t woj_device = {
-    "WOJ userport joy adapter",                  /* device name */
+    "WheelOfJoy userport joy adapter",           /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT,        /* this is a joystick adapter */
     USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER,       /* device is a joystick adapter */
     userport_joystick_woj_enable,                /* enable function */
