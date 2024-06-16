@@ -34,7 +34,5 @@ int mouse_st_register(void);
 void mouse_amiga_st_init(void);
 
 void mouse_amiga_st_button_left(int pressed);
-void mouse_amiga_st_button_right(int pressed);
-void mouse_amiga_st_button_middle(int pressed);
 
 #endif

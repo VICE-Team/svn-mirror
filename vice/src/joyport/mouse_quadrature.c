@@ -47,6 +47,10 @@
    - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
 
+   Note: right and middle button are "open/floating" when not pressed, and connected
+   to GND when pressed. Since there is no pullup resistor in the mouse, the C64 can
+   not distinguish between the two states.
+
    cport | cx22        | I/O
    -------------------------
      1   | X direction |  I
@@ -77,6 +81,11 @@
    - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0/xplus4)
    - inception joystick adapter ports (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
    - sidcart joystick adapter port (xplus4)
+
+   Note: right button is "open/floating" when not pressed, and connected to GND
+   when pressed. Since there is no pullup resistor in the mouse, the C64 can
+   not distinguish between the two states.
+
 */
 
 /* #define DEBUG_QUADRATURE */
@@ -165,40 +174,12 @@ static uint8_t joyport_mouse_poll_value(int port)
     return retval;
 }
 
-static uint8_t joyport_mouse_amiga_st_read_potx(int port)
-{
-    return _mouse_enabled ? ((amiga_and_atarist_buttons & 1) ? 0xff : 0) : 0xff;
-}
-
-static uint8_t joyport_mouse_amiga_st_read_poty(int port)
-{
-    return _mouse_enabled ? ((amiga_and_atarist_buttons & 2) ? 0xff : 0) : 0xff;
-}
-
-void mouse_amiga_st_button_right(int pressed)
-{
-    if (pressed) {
-        amiga_and_atarist_buttons |= JOYPORT_UP;
-    } else {
-        amiga_and_atarist_buttons &= ~JOYPORT_UP;
-    }
-}
-
 void mouse_amiga_st_button_left(int pressed)
 {
     if (pressed) {
         mouse_digital_val |= JOYPORT_FIRE_1;
     } else {
         mouse_digital_val &= (uint8_t)~JOYPORT_FIRE_1;
-    }
-}
-
-void  mouse_amiga_st_button_middle(int pressed)
-{
-    if (pressed) {
-        amiga_and_atarist_buttons |= JOYPORT_DOWN;
-    } else {
-        amiga_and_atarist_buttons &= ~JOYPORT_DOWN;
     }
 }
 
@@ -250,8 +231,8 @@ static joyport_t mouse_amiga_joyport_device = {
     joyport_mouse_set_enabled,        /* device enable/disable function */
     joyport_mouse_poll_value,         /* digital line read function */
     NULL,                             /* NO digital line store function */
-    joyport_mouse_amiga_st_read_potx, /* pot-x read function */
-    joyport_mouse_amiga_st_read_poty, /* pot-y read function */
+    NULL,                             /* pot-x read function */
+    NULL,                             /* pot-y read function */
     NULL,                             /* NO powerup function */
     mouse_amiga_write_snapshot,       /* device write snapshot function */
     mouse_amiga_read_snapshot,        /* device read snapshot function */
@@ -301,8 +282,8 @@ static joyport_t mouse_st_joyport_device = {
     joyport_mouse_set_enabled,        /* device enable/disable function */
     joyport_mouse_poll_value,         /* digital line read function */
     NULL,                             /* NO digital line store function */
-    joyport_mouse_amiga_st_read_potx, /* pot-x read function */
-    joyport_mouse_amiga_st_read_poty, /* pot-y read function */
+    NULL,                             /* pot-x read function */
+    NULL,                             /* pot-y read function */
     NULL,                             /* NO powerup function */
     mouse_st_write_snapshot,          /* device write snapshot function */
     mouse_st_read_snapshot,           /* device read snapshot function */
