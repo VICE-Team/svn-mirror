@@ -321,5 +321,6 @@ KP_Subtract -5 14
 Print       -5 15
 KP_0        -5 16
 KP_Delete   -5 17
+KP_Decimal  -5 17
 KP_Enter    -5 18
 KP_Add      -5 19
