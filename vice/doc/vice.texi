@@ -20186,9 +20186,7 @@ the respective register at the time it is used, and thus can not be used as
 a regular label.
 
 @item prompt
-The prompt has the format [x:y].  If x is -, memory reads from the
-monitor do not have side effects.  Otherwise, x is S.  The second part
-of the prompt, y, shows the default address space.
+The prompt has the format (address space:current address).
 
 @item checkpoint
 The monitor has the ability to setup triggers that perform an action
