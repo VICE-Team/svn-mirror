@@ -23270,46 +23270,46 @@ derived from the given computer platform and video standard, as in the following
 @tab @b{Timer clock speed}
 @item 0 = C64
 @tab 0 = PAL
-@tab 985248 kHz
+@tab 985248 Hz
 @item
 @tab 1 = NTSC
-@tab 1022730 kHz
+@tab 1022730 Hz
 @item
 @tab 2 = OLD NTSC
-@tab 1022730 kHz
+@tab 1022730 Hz
 @item
 @tab 3 = PAL N
-@tab 1023440 kHz
+@tab 1023440 Hz
 @item 1 = VIC-20
 @tab 0 = PAL
-@tab 1108405 kHz
+@tab 1108405 Hz
 @item
 @tab 1 = NTSC
-@tab 1022727 kHz
+@tab 1022727 Hz
 @item 2 = C16 / Plus4 (*)
 @tab 0 = PAL
-@tab 886724 kHz
+@tab 886724 Hz
 @item
 @tab 1 = NTSC
-@tab 894886 kHz
+@tab 894886 Hz
 @item 3 = PET
 @tab 0 = PAL
-@tab 1000000 kHz
+@tab 1000000 Hz
 @item
 @tab 1 = NTSC
-@tab 1000000 kHz
+@tab 1000000 Hz
 @item 4 = C5x0
 @tab 0 = PAL
-@tab 985248 kHz
+@tab 985248 Hz
 @item
 @tab 1 = NTSC
-@tab 1022730 kHz
+@tab 1022730 Hz
 @item 5 = C6x0 / C7x0
 @tab 0 = PAL
-@tab 2000000 kHz
+@tab 2000000 Hz
 @item
 @tab 1 = NTSC
-@tab 2000000 kHz
+@tab 2000000 Hz
 @end multitable
 
 (*) The TED timers always run with the slower clock rate (886724 Hz for PAL
