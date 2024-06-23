@@ -215,7 +215,7 @@ void rs232net_close(int fd)
 /* sends a byte to the RS232 line */
 static int _rs232net_putc(int fd, uint8_t b)
 {
-    int n;
+    ssize_t n;
 
     if (fd < 0 || fd >= RS232_NUM_DEVICES) {
         log_error(rs232net_log, "Attempt to write to invalid fd %d.", fd);
@@ -248,7 +248,7 @@ static int _rs232net_putc(int fd, uint8_t b)
 static int _rs232net_getc(int fd, uint8_t * b)
 {
     int ret;
-    int no_of_read_byte = -1;
+    ssize_t no_of_read_byte = -1;
 
     do {
         if (fd < 0 || fd >= RS232_NUM_DEVICES) {
@@ -290,7 +290,7 @@ static int _rs232net_getc(int fd, uint8_t * b)
         }
     } while (0);
 
-    return no_of_read_byte;
+    return (int)no_of_read_byte;
 }
 
 /* sends a byte to the RS232 line */

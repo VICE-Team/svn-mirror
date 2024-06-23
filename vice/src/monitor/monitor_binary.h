@@ -44,7 +44,7 @@ void monitor_binary_event_closed(void);
 
 void monitor_check_binary(void);
 
-int monitor_binary_receive(unsigned char *buffer, size_t buffer_length);
+ssize_t monitor_binary_receive(unsigned char *buffer, size_t buffer_length);
 int monitor_binary_transmit(const unsigned char *buffer, size_t buffer_length);
 int monitor_binary_get_command_line(void);
 

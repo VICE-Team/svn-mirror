@@ -219,24 +219,26 @@ static void monitor_binary_quit(void)
     connected_socket = NULL;
 }
 
-int monitor_binary_receive(unsigned char *buffer, size_t buffer_length)
+ssize_t monitor_binary_receive(unsigned char *buffer, size_t buffer_length)
 {
-    int bytes_received = 0;
-    int total_bytes_received = 0;
+    ssize_t bytes_received = 0;
+    ssize_t total_bytes_received = 0;
 
     while (buffer_length && connected_socket) {
         bytes_received = vice_network_receive(connected_socket, buffer, buffer_length, 0);
 
         if (bytes_received <= 0) {
-            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned %d, breaking connection", bytes_received);
+            log_message(LOG_DEFAULT,
+                        "monitor_binary_receive(): vice_network_receive() returned %"PRI_SSIZE_T", breaking connection",
+                        bytes_received);
             monitor_binary_quit();
             break;
         }
 
         if (bytes_received < buffer_length) {
             log_message(LOG_DEFAULT,
-                    "monitor_binary_receive(): received %d of %"PRI_SIZE_T,
-                    bytes_received, buffer_length);
+                        "monitor_binary_receive(): received %"PRI_SSIZE_T" of %"PRI_SIZE_T,
+                        bytes_received, buffer_length);
         }
 
         total_bytes_received += bytes_received;
@@ -1677,7 +1679,7 @@ int monitor_binary_get_command_line(void)
         uint8_t api_version;
         unsigned int remaining_header_size = 5;
         unsigned int command_size;
-        int n;
+        ssize_t n;
 
         if (!buffer) {
             buffer = lib_malloc(300);
@@ -1700,7 +1702,7 @@ int monitor_binary_get_command_line(void)
         n = 0;
 
         while (n < sizeof(api_version) + sizeof(body_length)) {
-            int o = monitor_binary_receive(&buffer[1 + n], (sizeof(api_version) + sizeof(body_length)) - n);
+            ssize_t o = monitor_binary_receive(&buffer[1 + n], (sizeof(api_version) + sizeof(body_length)) - n);
             if (o <= 0) {
                 monitor_binary_quit();
                 return 0;
@@ -1727,7 +1729,7 @@ int monitor_binary_get_command_line(void)
         n = 0;
 
         while (n < remaining_header_size + body_length) {
-            int o = monitor_binary_receive(&buffer[6 + n], remaining_header_size + body_length - n);
+            ssize_t o = monitor_binary_receive(&buffer[6 + n], remaining_header_size + body_length - n);
             if (o <= 0) {
                 monitor_binary_quit();
                 return 0;

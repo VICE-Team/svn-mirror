@@ -40,7 +40,7 @@ void monitor_network_resources_shutdown(void);
 int monitor_network_cmdline_options_init(void);
 
 void monitor_check_remote(void);
-int monitor_network_receive(char * buffer, size_t buffer_length);
+ssize_t monitor_network_receive(char * buffer, size_t buffer_length);
 int monitor_network_transmit(const char * buffer, size_t buffer_length);
 int monitor_network_get_command_line(char **prompt);
 
