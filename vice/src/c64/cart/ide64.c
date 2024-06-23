@@ -113,7 +113,7 @@ static vice_network_socket_t * usbserver_socket = NULL;
 static vice_network_socket_t * usbserver_asocket = NULL;
 static int settings_usbserver;
 static uint8_t ft245_rx[256], ft245_tx[128];
-static int ft245_rxp, ft245_rxl, ft245_txp;
+static ssize_t ft245_rxp, ft245_rxl, ft245_txp;
 #else
 #define usbserver_activate(a) {}
 #endif
@@ -1099,8 +1099,7 @@ static void usb_receive(void)
             usbserver_asocket = vice_network_accept(usbserver_socket);
         }
         while (usbserver_asocket && vice_network_select_poll_one(usbserver_asocket) && reconnect--) {
-            int r;
-            r = vice_network_receive(usbserver_asocket, ft245_rx, sizeof(ft245_rx), 0);
+            ssize_t r = vice_network_receive(usbserver_asocket, ft245_rx, sizeof(ft245_rx), 0);
             if (r <= 0) {
                 vice_network_socket_close(usbserver_asocket);
                 if (vice_network_select_poll_one(usbserver_socket)) {
@@ -1129,7 +1128,7 @@ static void usb_send(void)
             usbserver_asocket = vice_network_accept(usbserver_socket);
         }
         while (usbserver_asocket && reconnect--) {
-            int r = vice_network_send(usbserver_asocket, ft245_tx, ft245_txp, 0);
+            ssize_t r = vice_network_send(usbserver_asocket, ft245_tx, ft245_txp, 0);
             if (r > 0 && vice_network_send(usbserver_asocket, ft245_tx, 0, 0) < 0) {
                 r = -1;
             }

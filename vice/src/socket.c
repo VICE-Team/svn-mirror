@@ -996,10 +996,13 @@ int vice_network_socket_close(vice_network_socket_t * sockfd)
   \note Amazing there's docs on this, but send() returns size_t, not int, so
         properly checking the return type could fail.
 */
-int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
-                         size_t buffer_length, int flags)
+ssize_t vice_network_send(vice_network_socket_t *sockfd,
+                          const void            *buffer,
+                          size_t                 buffer_length,
+                          int                    flags)
 {
-    size_t ret;
+    ssize_t ret;
+
     signals_pipe_set();
     ret = send(sockfd->sockfd, buffer, buffer_length, flags);
     if (ret > buffer_length) {
@@ -1007,7 +1010,7 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
         ret = -1; /* signal error */
     }
     signals_pipe_unset();
-    return (int)ret;
+    return ret;
 }
 
 /*! \brief Receive data from a connected socket
@@ -1040,13 +1043,15 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
 
      In case of an error, -1 is returned.
 */
-int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
+ssize_t vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
 {
-    size_t ret;
+    ssize_t ret;
+
     signals_pipe_set();
     ret = recv(sockfd->sockfd, buffer, buffer_length, flags);
     signals_pipe_unset();
-    return (int)ret;
+
+    return ret;
 }
 
 /*! \brief Check if a socket has incoming data to receive

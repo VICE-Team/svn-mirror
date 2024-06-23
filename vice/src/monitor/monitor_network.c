@@ -76,9 +76,9 @@ static void monitor_network_quit(void)
     connected_socket = NULL;
 }
 
-int monitor_network_receive(char * buffer, size_t buffer_length)
+ssize_t monitor_network_receive(char * buffer, size_t buffer_length)
 {
-    int count = 0;
+    ssize_t count = 0;
 
     do {
         if (!connected_socket) {
@@ -183,8 +183,8 @@ int monitor_network_get_command_line(char **prompt)
     do {
         /* Do not read more from network until all commands in current buffer is fully processed */
         if (bufferpos == 0) {
-            int n = monitor_network_receive(buffer + bufferpos,
-                            sizeof buffer - (size_t)(bufferpos - 1));
+            ssize_t n = monitor_network_receive(buffer + bufferpos,
+                                                sizeof buffer - (size_t)(bufferpos - 1));
 
             if (n > 0) {
                 bufferpos += n;
