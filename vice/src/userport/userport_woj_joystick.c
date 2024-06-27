@@ -26,6 +26,10 @@
 
 /* WOJ userport joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
 
+https://github.com/SukkoPera/WheelOfJoy
+
+NOTE: This device CAN NOT work on other computers than the Plus4 (without rewiring)
+
 C64/C128 | CBM2 | PET | PLUS4 | VIC20 | I/O | NOTES
 ---------------------------------------------------
     C    |  14  |  C  |   B   |   C   |  I  | PB0 <- JOY1/2/3 UP
