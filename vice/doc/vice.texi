@@ -521,7 +521,9 @@ C64 keyboard).  Likewise, pressing @key{'} on the same U.S. keyboard
 without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
 keys should be typed to obtain all the symbols. @dfn{The key printed on the 
-host keyboard will be pressed in the emulator}. 
+host keyboard will be pressed in the emulator}. (A not so obvious exception to
+this rule are keypads attached to the joystick port - since various different
+devices with different layouts exist, these are always mapped "positional".)
  
  Note that while these mappings will allow easier typing if you are used
  to your host keymap, it might cause various problems in the emulation and not all
@@ -590,6 +592,13 @@ correct positions. On the other hand it can be quite confusing if you are not
 very familiar with the original emulated keyboards. Also not all keys can be
 mapped exactly this way either, which means some of them still need to be
 mapped to other keys (see further down).
+
+One perhaps not so obvious exception to the above is the mapping of the cursor-up
+(mapped to arrow-up) and cursor-left (mapped to arrow-left) keys. These are still
+mapped "symbolic" - which means the virtual shift might lead to odd unexpected
+behaviour. Because of this, if you require the shift keys to work exactly like
+on the real hardware, please use shift+arrow-down and shift+arrow-right - just
+like you would do on the real thing.
 
 Like with symbolic mapping, some keys really need to be mapped specially
 regardless (eg @key{RUN/STOP}). The exact mapping depends on your host layout,
