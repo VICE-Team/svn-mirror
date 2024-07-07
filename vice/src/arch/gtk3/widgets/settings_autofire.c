@@ -165,14 +165,14 @@ static int create_plus4_layout(GtkWidget *layout, int row)
                     1, row, 1, 1);
     row++;
 
-    /* Userport 1-3 (joy 3-5) */
-    row = add_userport_widgets(layout, row, 3);
+    /* Userport 1-8 (joy 3-10) */
+    row = add_userport_widgets(layout, row, 8);
 
-    /* SID Card joyport (joy 6) */
-    if (joyport_has_mapping(5)) {
+    /* SID Card joyport (joy 11) */
+    if (joyport_has_mapping(10)) {
         gtk_grid_attach(GTK_GRID(layout),
-                        joystick_autofire_widget_create(6, "SIDCard Joystick"),
-                        1, row - 1, 1, 1);
+                        joystick_autofire_widget_create(11, "SIDCard Joystick"),
+                        0, row, 1, 1);
     }
     return row;
 }
