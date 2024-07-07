@@ -328,11 +328,11 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
  */
 static int layout_add_sidcard_port(GtkGrid *layout, int row)
 {
-    /* not JOYPORT_5 because the API is retarded: JOYPORT_5 == 4 */
-    if (joyport_has_mapping(5)) {
-        device_widgets[JOYPORT_5] = joystick_device_widget_create(
-                JOYPORT_5, "SIDCard Joystick");
-        gtk_grid_attach(layout, device_widgets[JOYPORT_5], 0, row, 1, 1);
+    /* not JOYPORT_PLUS4_SIDCART because the API is retarded: JOYPORT_PLUS4_SIDCART == JOYPORT_11 == 10 */
+    if (joyport_has_mapping(10)) {
+        device_widgets[JOYPORT_PLUS4_SIDCART] = joystick_device_widget_create(
+                JOYPORT_PLUS4_SIDCART, "SIDCard Joystick");
+        gtk_grid_attach(layout, device_widgets[JOYPORT_PLUS4_SIDCART], 0, row, 1, 1);
     }
     return row + 1;
 }
