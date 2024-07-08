@@ -109,9 +109,7 @@
 #include "userport.h"
 #include "userport_hummer_joystick.h"
 #include "userport_io_sim.h"
-#include "userport_joystick.h"
 #include "userport_petscii_snespad.h"
-#include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_woj_joystick.h"
 #include "vice-event.h"
@@ -549,6 +547,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_hummer_resources_init() < 0) {
         init_resource_fail("userport hummer joystick");
+        return -1;
+    }
+    if (userport_joystick_synergy_resources_init() < 0) {
+        init_resource_fail("userport synergy joystick");
         return -1;
     }
     if (userport_joystick_woj_resources_init() < 0) {
