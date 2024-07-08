@@ -28,7 +28,14 @@
 
 https://github.com/SukkoPera/WheelOfJoy
 
-NOTE: This device CAN NOT work on other computers than the Plus4 (without rewiring)
+FIXME: The original pinout of this device was not compatible as-is with the Plus4
+       userport. However, the hardware designer adapted the "re-wiring" that resulted
+       from the VICE internal "re-wiring" to make the real device work with a real
+       Plus4.
+
+       As a consequence, when the userport system will be fixed to no more rely
+       on such "internal adapter", the code must be changed accordingly to use
+       a different pinout for Plus4.
 
 C64/C128 | CBM2 | PET | PLUS4 | VIC20 | I/O | NOTES
 ---------------------------------------------------
