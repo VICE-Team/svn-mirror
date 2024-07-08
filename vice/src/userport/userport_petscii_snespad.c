@@ -24,13 +24,13 @@
  *
  */
 
-/* - PETSCII SNES PAD (C64/C128/PET/VIC20)
+/* - PETSCII SNES PAD (C64/C128/PET/VIC20/Plus4)
 
-C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
--------------------------------------------------------
- F (PB3) | F (PA3) | F (PB3) |  11  |   CLOCK  |  O
- J (PB5) | J (PA5) | J (PB5) |   9  |   LATCH  |  O
- K (PB6) | K (PA6) | K (PB6) |   8  |   DATA   |  I
+C64/C128 |  Plus4  |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
+-----------------------------------------------------------------
+ F (PB3) | F (P7)  | F (PA3) | F (PB3) |  11  |   CLOCK  |  O
+ J (PB5) | J (P6)  | J (PA5) | J (PB5) |   9  |   LATCH  |  O
+ K (PB6) | K (P1)  | K (PA6) | K (PB6) |   8  |   DATA   |  I
 */
 
 #include "vice.h"
@@ -137,6 +137,18 @@ static void userport_snespad_store_pbx(uint8_t value, int pulse)
     uint8_t new_clock = 0;
     uint8_t new_latch = 0;
 
+    /* FIXME: Currently the userport system ignores the different pinout of the
+       Plus4 userport, and instead "re-wires" the userport lines so all C64 port B
+       lines go to respective Plus 4 port lines. The following reverts this, since
+       the actual "Petscii SNES Adapter" can be plugged into a Plus 4 as is and
+       requires no extra re-wiring at all.
+       The following code should be removed once the Userport system is fixed tp
+       no more do such "re-wiring" */
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        value = (((value >> 7) & 1) << 3) |
+                (((value >> 6) & 1) << 5);
+    }
+
     new_clock = (value & 0x08) >> 3;
     new_latch = (value & 0x20) >> 4;
 
@@ -210,6 +222,17 @@ static uint8_t userport_snespad_read_pbx(uint8_t orig)
     }
 
     retval <<= 6;
+
+    /* FIXME: Currently the userport system ignores the different pinout of the
+       Plus4 userport, and instead "re-wires" the userport lines so all C64 port B
+       lines go to respective Plus 4 port lines. The following reverts this, since
+       the actual "Petscii SNES Adapter" can be plugged into a Plus 4 as is and
+       requires no extra re-wiring at all.
+       The following code should be removed once the Userport system is fixed tp
+       no more do such "re-wiring" */
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        retval = (((retval >> 6) & 1) << 1);
+    }
 
     return (~retval);
 }
