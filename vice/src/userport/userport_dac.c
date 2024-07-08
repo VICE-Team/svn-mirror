@@ -26,18 +26,18 @@
  *
  */
 
-/* 8bit userport DAC (C64/C128/CBM2/PET/PLUS4/VIC20)
+/* 8bit userport DAC (C64/C128/CBM2/PET/VIC20)
 
-C64/C128 | CBM2 | PET | PLUS4 | VIC20 | NAME
---------------------------------------------
-    C    |  14  |  C  |   B   |   C   | PB0 -> D0
-    D    |  13  |  D  |   K   |   D   | PB1 -> D1
-    E    |  12  |  E  |   4   |   E   | PB2 -> D2
-    F    |  11  |  F  |   5   |   F   | PB3 -> D3
-    H    |  10  |  H  |   6   |   H   | PB4 -> D4
-    J    |   9  |  J  |   7   |   J   | PB5 -> D5
-    K    |   8  |  K  |   J   |   K   | PB6 -> D6
-    L    |   7  |  L  |   F   |   L   | PB7 -> D7
+C64/C128 | CBM2 | PET | VIC20 | NAME
+------------------------------------
+    C    |  14  |  C  |   C   | PB0 -> D0
+    D    |  13  |  D  |   D   | PB1 -> D1
+    E    |  12  |  E  |   E   | PB2 -> D2
+    F    |  11  |  F  |   F   | PB3 -> D3
+    H    |  10  |  H  |   H   | PB4 -> D4
+    J    |   9  |  J  |   J   | PB5 -> D5
+    K    |   8  |  K  |   K   | PB6 -> D6
+    L    |   7  |  L  |   L   | PB7 -> D7
 */
 
 #include "vice.h"
