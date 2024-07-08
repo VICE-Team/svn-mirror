@@ -111,6 +111,7 @@
 #include "userport_hummer_joystick.h"
 #include "userport_io_sim.h"
 #include "userport_joystick.h"
+#include "userport_petscii_snespad.h"
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_woj_joystick.h"
@@ -573,6 +574,10 @@ int machine_resources_init(void)
     }
     if (userport_dac_resources_init() < 0) {
         init_resource_fail("userport dac");
+        return -1;
+    }
+    if (userport_petscii_snespad_resources_init() < 0) {
+        init_resource_fail("userport petscii snes pad");
         return -1;
     }
     if (userport_io_sim_resources_init() < 0) {
