@@ -62,32 +62,32 @@ C64/C128 | CBM2 | PET | VIC20 | 74LS257 | JOY1 | JOY2 | NOTES
     -    |   -  |  -  |   -   |   13    |  -   |  4   | JOYx RIGHT INPUT 1 <- JOY2 RIGHT
 */
 
-/* PET userport joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
+/* PET userport joystick adapter (C64/C128/CBM2/PET/VIC20)
 
-C64/C128 | CBM2 | PET | PLUS4 | VIC20 | JOY1 | JOY2 | NOTES
------------------------------------------------------------
-    C    |  14  |  C  |   B   |   C   |  1   |  -   | PB0 <- JOY1 UP
-    D    |  13  |  D  |   K   |   D   |  2   |  -   | PB1 <- JOY1 DOWN
-    E    |  12  |  E  |   4   |   E   |  3   |  -   | PB2 <- JOY1 LEFT
-    F    |  11  |  F  |   5   |   F   |  4   |  -   | PB3 <- JOY1 RIGHT
-    H    |  10  |  H  |   6   |   H   |  -   |  1   | PB4 <- JOY2 UP
-    J    |   9  |  J  |   7   |   J   |  -   |  2   | PB5 <- JOY2 DOWN
-    K    |   8  |  K  |   J   |   K   |  -   |  3   | PB6 <- JOY2 LEFT
-    L    |   7  |  L  |   F   |   L   |  -   |  4   | PB7 <-> JOY2 RIGHT
+C64/C128 | CBM2 | PET | VIC20 | JOY1 | JOY2 | NOTES
+---------------------------------------------------
+    C    |  14  |  C  |   C   |  1   |  -   | PB0 <- JOY1 UP
+    D    |  13  |  D  |   D   |  2   |  -   | PB1 <- JOY1 DOWN
+    E    |  12  |  E  |   E   |  3   |  -   | PB2 <- JOY1 LEFT
+    F    |  11  |  F  |   F   |  4   |  -   | PB3 <- JOY1 RIGHT
+    H    |  10  |  H  |   H   |  -   |  1   | PB4 <- JOY2 UP
+    J    |   9  |  J  |   J   |  -   |  2   | PB5 <- JOY2 DOWN
+    K    |   8  |  K  |   K   |  -   |  3   | PB6 <- JOY2 LEFT
+    L    |   7  |  L  |   L   |  -   |  4   | PB7 <-> JOY2 RIGHT
 
 JOY1 FIRE is hooked up to pull down both JOY1 LEFT & JOY1 RIGHT
 JOY2 FIRE is hooked up to pull down both JOY2 LEFT & JOY2 RIGHT
 */
 
-/* VIC20 OEM userport joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
+/* VIC20 OEM userport joystick adapter (C64/C128/CBM2/PET/VIC20)
 
-C64/C128 | CBM2 | PET | PLUS4 | VIC20 | JOY | NOTES
----------------------------------------------------
-    F    |  11  |  F  |   5   |   F   |  6  | PB3 <- JOY FIRE
-    H    |  10  |  H  |   6   |   H   |  4  | PB4 <- JOY RIGHT
-    J    |   9  |  J  |   7   |   J   |  3  | PB5 <- JOY LEFT
-    K    |   8  |  K  |   J   |   K   |  2  | PB6 <- JOY DOWN
-    L    |   7  |  L  |   F   |   L   |  1  | PB7 <- JOY UP
+C64/C128 | CBM2 | PET | VIC20 | JOY | NOTES
+-------------------------------------------
+    F    |  11  |  F  |   F   |  6  | PB3 <- JOY FIRE
+    H    |  10  |  H  |   H   |  4  | PB4 <- JOY RIGHT
+    J    |   9  |  J  |   J   |  3  | PB5 <- JOY LEFT
+    K    |   8  |  K  |   K   |  2  | PB6 <- JOY DOWN
+    L    |   7  |  L  |   L   |  1  | PB7 <- JOY UP
 */
 
 /* ------------------------------------------------------------------------- */
