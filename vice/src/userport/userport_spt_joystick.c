@@ -24,7 +24,7 @@
  *
  */
 
-/* Userport Stupid Pet Tricks joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
+/* Userport Stupid Pet Tricks joystick adapter (C64/C128/CBM2/PET/VIC20)
 
 C64/C128 | CBM2 | PET | VIC20 | NAME
 ------------------------------------
