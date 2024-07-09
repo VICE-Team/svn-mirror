@@ -24,15 +24,15 @@
  *
  */
 
-/* C64DTV HUMMER userport joystick adapter (C64/C128/C64DTV/CBM2/PET/PLUS4/VIC20)
+/* C64DTV HUMMER userport joystick adapter (C64DTV)
 
-C64/C128 | C64DTV | CBM2 | PET | PLUS4 | VIC20 | JOY | NOTES
-------------------------------------------------------------
-    C    |  USR0  |  14  |  C  |   B   |   C   |  1  | PB0 <- JOY UP
-    D    |  USR1  |  13  |  D  |   K   |   D   |  2  | PB1 <- JOY DOWN
-    E    |  USR2  |  12  |  E  |   4   |   E   |  3  | PB2 <- JOY LEFT
-    F    |  USR3  |  11  |  F  |   5   |   F   |  4  | PB3 <- JOY RIGHT
-    H    |  USR4  |  10  |  H  |   6   |   H   |  6  | PB4 <- JOY FIRE
+ C64DTV | JOY | NOTES
+---------------------
+  USR0  |  1  | PB0 <- JOY UP
+  USR1  |  2  | PB1 <- JOY DOWN
+  USR2  |  3  | PB2 <- JOY LEFT
+  USR3  |  4  | PB3 <- JOY RIGHT
+  USR4  |  6  | PB4 <- JOY FIRE
 
 The c64dtv uses 3.3v, so NO +5VDC pin is supported on the userport.
 
