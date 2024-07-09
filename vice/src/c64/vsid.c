@@ -258,6 +258,10 @@ int machine_specific_init(void)
 }
 
 /* C64-specific reset sequence.  */
+/* NOTE: this function is called a second time during startup, via initcmdline_check_attach(),
+         to make sure the psid driver is copied to RAM after the RAM was initialized with the
+         startup pattern. what really should be done is that the psid file is loaded just like
+         any other autostarted program at the respective time - but that is not easily done. */
 void machine_specific_reset(void)
 {
     ciacore_reset(machine_context.cia1);
