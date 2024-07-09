@@ -614,6 +614,13 @@ void initcmdline_check_attach(void)
             log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
                       startup_tape_image[TAPEPORT_PORT_2]);
         }
+    } else {
+        /* HACK: call machine specific reset (only) for vsid here, which makes sure
+                 the vsid "driver" code is copied to RAM _after_ the initial startup
+                 sequence initialized the RAM with the init pattern. what should really
+                 happen is that the psid file is loaded here instead - but that is not
+                 trivially done. */
+        machine_specific_reset();
     }
 
     cmdline_free_autostart_string();
