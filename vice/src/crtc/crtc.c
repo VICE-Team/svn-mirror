@@ -734,6 +734,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 #endif
         /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
         if ((crtc.raster.ycounter + 1) >= crtc.regs[CRTC_REG_VTOTALADJ]) {
+hack:
             long cycles;
 
             /* Do vsync stuff. Reset line counters to top (0). */
@@ -808,6 +809,14 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     new_vsync = 16;
                 }
                 new_vsync++;  /* compensate for the first decrease below */
+            }
+            /*
+             * This is a horrible hack and a better flow of control should
+             * be possible!
+             */
+            if (crtc.regs[CRTC_REG_VTOTALADJ] == 0 && 
+                    crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
+                goto hack;
             }
         }
         /* Enable or disable the cursor, if it is in the next character line */
