@@ -814,7 +814,7 @@ hack:
              * This is a horrible hack and a better flow of control should
              * be possible!
              */
-            if (crtc.regs[CRTC_REG_VTOTALADJ] == 0 && 
+            if (crtc.regs[CRTC_REG_VTOTALADJ] == 0 &&
                     crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
                 goto hack;
             }
