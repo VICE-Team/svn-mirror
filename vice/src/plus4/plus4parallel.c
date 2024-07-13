@@ -36,6 +36,22 @@
 #include "types.h"
 #include "userport.h"
 
+/* Standard drive parallel cable (PLUS4)
+
+ PLUS4 |  NOTES
+---------------
+   B   |  P0 <-> Drive VIA1 PA0
+   K   |  P1 <-> Drive VIA1 PA1
+   4   |  P2 <-> Drive VIA1 PA2
+   5   |  P3 <-> Drive VIA1 PA3
+   6   |  P4 <-> Drive VIA1 PA4
+   7   |  P5 <-> Drive VIA1 PA5
+   J   |  P6 <-> Drive VIA1 PA6
+   F   |  P7 <-> Drive VIA1 PA7
+
+  Note that this is NOT the "SpeedDOS" cable, the pinout is different!
+*/
+
 static uint8_t parallel_cable_cpu_value = 0xff;
 static uint8_t parallel_cable_drive_value[NUM_DISK_UNITS] = { 0xff, 0xff, 0xff, 0xff };
 

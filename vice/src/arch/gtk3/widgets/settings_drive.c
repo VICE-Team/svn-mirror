@@ -541,6 +541,7 @@ static void create_plus4_layout(GtkWidget *left_grid,
                                 int        right_row,
                                 int        unit)
 {
+    GtkWidget *label;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
 
     /* Left column widgets */
@@ -566,6 +567,15 @@ static void create_plus4_layout(GtkWidget *left_grid,
 
 
     /* Right column widgets (none at the moment) */
+
+    /* Parallel cable */
+    label = create_left_aligned_label("Parallel cable");
+    drive_parallel[index] = drive_parallel_cable_widget_create(unit);
+    gtk_widget_set_margin_top(label, 8);
+    gtk_widget_set_margin_top(drive_parallel[index], 8);
+    gtk_grid_attach(GTK_GRID(right_grid), label,                 0, right_row, 1, 1);
+    gtk_grid_attach(GTK_GRID(right_grid), drive_parallel[index], 1, right_row, 1, 1);
+    right_row++;
 }
 
 /** \brief  Create layout for xpet, xcbm5x0 and xcbm2
