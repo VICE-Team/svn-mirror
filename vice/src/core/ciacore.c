@@ -2576,7 +2576,7 @@ int ciacore_dump(cia_context_t *cia_context)
     mon_out("\nTimer A IRQ: %s  running: %s  mode: %s\n",
             (cia_context->c_cia[CIA_ICR] & 1) ? "on" : "off",
             ciacore_peek(cia_context, 0x0e) & 1 ? "yes" : "no",
-            ciacore_peek(cia_context, 0x0e) & (1 << 3) ? "one-shot" : "continues");
+            ciacore_peek(cia_context, 0x0e) & (1 << 3) ? "one-shot" : "continuous");
     mon_out("Timer A counts: %s  PB6 output: %s (%s)\n",
             ciacore_peek(cia_context, 0x0e) & (1 << 5) ? "CNT transitions" : "System clock",
             ciacore_peek(cia_context, 0x0e) & (1 << 1) ? "yes" : "no",
@@ -2588,7 +2588,7 @@ int ciacore_dump(cia_context_t *cia_context)
     mon_out("Timer B IRQ: %s  running: %s  mode: %s\n",
             (cia_context->c_cia[CIA_ICR] & (1 << 1)) ? "on" : "off",
             ciacore_peek(cia_context, 0x0f) & 1 ? "yes" : "no",
-            ciacore_peek(cia_context, 0x0f) & (1 << 3) ? "one-shot" : "continues");
+            ciacore_peek(cia_context, 0x0f) & (1 << 3) ? "one-shot" : "continuous");
     switch (ciacore_peek(cia_context, 0x0f) & (3 << 5)) {
         default:
         case (0 << 5): s = "System clock"; break;
