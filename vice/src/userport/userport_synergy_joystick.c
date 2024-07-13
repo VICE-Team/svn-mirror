@@ -24,18 +24,18 @@
  *
  */
 
-/* Synergy userport joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
+/* Synergy userport joystick adapter (PLUS4)
 
-C64/C128 | CBM2 | PET | PLUS4 | VIC20 | I/O | NOTES
----------------------------------------------------
-    C    |  14  |  C  |   B   |   C   |  I  | PB0 <- JOY1/2/3 UP
-    D    |  13  |  D  |   K   |   D   |  I  | PB1 <- JOY1/2/3 DOWN
-    E    |  12  |  E  |   4   |   E   |  I  | PB2 <- JOY1/2/3 LEFT
-    F    |  11  |  F  |   5   |   F   |  I  | PB3 <- JOY1/2/3 RIGHT
-    H    |  10  |  H  |   6   |   H   |  I  | PB4 <- JOY1/2/3 FIRE
-    J    |   9  |  J  |   7   |   J   |  O  | PB5 -> JOY1 SELECT
-    K    |   8  |  K  |   J   |   K   |  O  | PB6 -> JOY2 SELECT
-    L    |   7  |  L  |   F   |   L   |  O  | PB7 -> JOY3 SELECT
+ PLUS4 | I/O | NOTES
+--------------------
+   B   |  I  | PB0 <- JOY1/2/3 UP
+   K   |  I  | PB1 <- JOY1/2/3 DOWN
+   4   |  I  | PB2 <- JOY1/2/3 LEFT
+   5   |  I  | PB3 <- JOY1/2/3 RIGHT
+   6   |  I  | PB4 <- JOY1/2/3 FIRE
+   7   |  O  | PB5 -> JOY1 SELECT
+   J   |  O  | PB6 -> JOY2 SELECT
+   F   |  O  | PB7 -> JOY3 SELECT
 */
 
 #include "vice.h"
