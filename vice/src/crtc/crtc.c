@@ -717,58 +717,8 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
      * The text lines are followed by a bottom border, vertical retrace
      * (which includes vertical sync), and top border. This total number of
      * scan lines is expressed in VTOTAL text lines + VTOTALADJ scan lines.
-     *
-     * Are we past the end of the screen, i.e. the top border?
      */
-    if (crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
-#if CRTC_BEAM_RACING
-        if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
-            crtc.current_line == 32*8 + 4 - 1) {
-            /* Set the retrace/vertical blank alarm, to end the IRQ,
-             * at the rhs of the visible text area but 1 line above it.
-             * Non-crtc timings are fixed so we might as well use the
-             * more efficient expression to check for the top line. */
-            alarm_set(crtc.adjusted_retrace_alarm,
-                      crtc.rl_start + crtc.rl_visible);
-        }
-#endif
-        /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
-        if ((crtc.raster.ycounter + 1) >= crtc.regs[CRTC_REG_VTOTALADJ]) {
-hack:
-            long cycles;
-
-            /* Do vsync stuff. Reset line counters to top (0). */
-            /* printf("new screen at clk=%d\n",crtc.rl_start); */
-            crtc_reset_screen_ptr();
-            crtc.raster.ycounter = 0;
-            crtc.current_charline = 0;
-            new_venable = 1;        /* Re-enable video */
-
-            /* expected number of rasterlines for next frame */
-            crtc.framelines = crtc.current_line;
-            crtc.current_line = 0;
-
-            /* hardware cursor handling */
-            if (crtc.crsrmode & 2) {
-                crtc.crsrcnt--;
-                if (!crtc.crsrcnt) {
-                    crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
-                    crtc.crsrstate ^= 1;
-                }
-            }
-
-            /* cycles per frame, for speed adjustments */
-            cycles = crtc.rl_start - crtc.frame_start;
-            if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
-                machine_set_cycles_per_frame(cycles);
-                crtc.cycles_per_frame = cycles;
-            }
-            crtc.frame_start = crtc.rl_start;
-        } else {
-            crtc.raster.ycounter++;
-            crtc.raster.ycounter &= 0x1f;
-        }
-    } else {
+    if (crtc.current_charline <= crtc.regs[CRTC_REG_VTOTAL]) {
         /* Are we NOT at the bottom most scan line of a character,
          * i.e still inside it? */
         if (crtc.raster.ycounter != crtc.regs[CRTC_REG_SCANLINE]) {
@@ -810,14 +760,6 @@ hack:
                 }
                 new_vsync++;  /* compensate for the first decrease below */
             }
-            /*
-             * This is a horrible hack and a better flow of control should
-             * be possible!
-             */
-            if (crtc.regs[CRTC_REG_VTOTALADJ] == 0 &&
-                    crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
-                goto hack;
-            }
         }
         /* Enable or disable the cursor, if it is in the next character line */
         if (crtc.raster.ycounter == (unsigned int)(crtc.regs[CRTC_REG_CURSORSTART] & 0x1f)) {
@@ -827,6 +769,60 @@ hack:
         }
 
         crtc.henable = 1;
+    }
+    /*
+     * This is not structured as the else-part of the previous condition,
+     * because this condition can become true in the previous then-part.
+     *
+     * Are we past the end of the screen, i.e. the top border?
+     */
+    if (crtc.current_charline > crtc.regs[CRTC_REG_VTOTAL]) {
+#if CRTC_BEAM_RACING
+        if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
+            crtc.current_line == 32*8 + 4 - 1) {
+            /* Set the retrace/vertical blank alarm, to end the IRQ,
+             * at the rhs of the visible text area but 1 line above it.
+             * Non-crtc timings are fixed so we might as well use the
+             * more efficient expression to check for the top line. */
+            alarm_set(crtc.adjusted_retrace_alarm,
+                      crtc.rl_start + crtc.rl_visible);
+        }
+#endif
+        /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
+        if (crtc.raster.ycounter >= crtc.regs[CRTC_REG_VTOTALADJ]) {
+            long cycles;
+
+            /* Do vsync stuff. Reset line counters to top (0). */
+            /* printf("new screen at clk=%d\n",crtc.rl_start); */
+            crtc_reset_screen_ptr();
+            crtc.raster.ycounter = 0;
+            crtc.current_charline = 0;
+            new_venable = 1;        /* Re-enable video */
+
+            /* expected number of rasterlines for next frame */
+            crtc.framelines = crtc.current_line;
+            crtc.current_line = 0;
+
+            /* hardware cursor handling */
+            if (crtc.crsrmode & 2) {
+                crtc.crsrcnt--;
+                if (!crtc.crsrcnt) {
+                    crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
+                    crtc.crsrstate ^= 1;
+                }
+            }
+
+            /* cycles per frame, for speed adjustments */
+            cycles = crtc.rl_start - crtc.frame_start;
+            if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
+                machine_set_cycles_per_frame(cycles);
+                crtc.cycles_per_frame = cycles;
+            }
+            crtc.frame_start = crtc.rl_start;
+        } else {
+            crtc.raster.ycounter++;
+            crtc.raster.ycounter &= 0x1f;
+        }
     }
     /* If we're in the vertical sync area, count down how many lines are left. */
     if (new_vsync) {
