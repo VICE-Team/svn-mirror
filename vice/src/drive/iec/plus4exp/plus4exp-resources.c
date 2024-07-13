@@ -30,17 +30,21 @@
 
 #include "drive.h"
 #include "drivemem.h"
+#include "init.h"
 #include "lib.h"
 #include "plus4exp-resources.h"
 #include "resources.h"
+#include "uiapi.h"
+#include "userport.h"
 
 
 static void set_drive_ram(unsigned int dnr)
 {
     diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (unit->type != DRIVE_TYPE_1570 && unit->type != DRIVE_TYPE_1571
-        && unit->type != DRIVE_TYPE_1571CR) {
+    if ((unit->type != DRIVE_TYPE_1570) &&
+        (unit->type != DRIVE_TYPE_1571) &&
+        (unit->type != DRIVE_TYPE_1571CR)) {
         return;
     }
 
@@ -52,6 +56,7 @@ static void set_drive_ram(unsigned int dnr)
 static int set_drive_parallel_cable(int val, void *param)
 {
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
+    int userport_device = -1;
 
     switch (val) {
         case DRIVE_PC_NONE:
@@ -63,6 +68,35 @@ static int set_drive_parallel_cable(int val, void *param)
 
     unit->parallel_cable = val;
     set_drive_ram(vice_ptr_to_uint(param));
+
+    /* some magic to automatically insert or remove the parallel cable into/from the user port */
+    resources_get_int("UserportDevice", &userport_device);
+
+    if ((val == DRIVE_PC_NONE) && (userport_device == USERPORT_DEVICE_DRIVE_PAR_CABLE)) {
+        int hasparcable = 0;
+        int dnr;
+        /* check if any drive has a parallel cable enabled */
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+            int cable;
+            resources_get_int_sprintf("Drive%iParallelCable", &cable, dnr + 8);
+            if (cable != DRIVE_PC_NONE) {
+                hasparcable = 1;
+            }
+        }
+        /* if no drive uses parallel cable, disable it in the userport settings */
+        if (hasparcable == 0) {
+            resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
+        }
+    } else if (val != DRIVE_PC_NONE) {
+        if (userport_device == USERPORT_DEVICE_NONE) {
+            resources_set_int("UserportDevice", USERPORT_DEVICE_DRIVE_PAR_CABLE);
+        } else if (userport_device != USERPORT_DEVICE_DRIVE_PAR_CABLE) {
+            if (init_main_is_done()) {
+                ui_message("Warning: the user port is already being used for another device.\n"
+                            "To be able to use the parallel cable, you must also set up the user port accordingly.");
+            }
+        }
+    }
 
     return 0;
 }
