@@ -820,6 +820,14 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
             }
             crtc.frame_start = crtc.rl_start;
         } else {
+            /* It could be argued that because of this increment, which
+             * also happens if we just left the first VTOTAL text lines
+             * and ycounter has been made 0, that ycounter counts
+             * differently in this area (effectively starting at 1 when
+             * in the "top scanline" of the VTOTALADJust area).
+             * However, I think that effectively nothing cares about
+             * that since this is not a drawing part of the video.
+             */
             crtc.raster.ycounter++;
             crtc.raster.ycounter &= 0x1f;
         }
@@ -855,7 +863,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
 #endif /* CRTC_BEAM_RACING */
     }
-/*
+#ifdef DEBUG_CRTC
     if (crtc.venable && !new_venable)
         printf("disable ven, cl=%d, yc=%d, rl=%d\n",
                 crtc.current_charline, crtc.raster.ycounter,
@@ -864,8 +872,6 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         printf("enable ven, cl=%d, yc=%d, rl=%d\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
-*/
-/*
     if (crtc.vsync && !new_vsync)
         printf("disable vsync, cl=%d, yc=%d, rl=%d\n",
                 crtc.current_charline, crtc.raster.ycounter,
@@ -874,7 +880,8 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         printf("enable vsync, cl=%d, yc=%d, rl=%d\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
-*/
+#endif /* DEBUG_CRTC */
+
     if (crtc.venable && !new_venable) {
         /* visible area ends here - try to compute vertical centering */
         /* FIXME: count actual number of rasterlines */
