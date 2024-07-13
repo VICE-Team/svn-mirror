@@ -438,10 +438,6 @@ int machine_resources_init(void)
         init_resource_fail("userport oem joystick");
         return -1;
     }
-    if (userport_joystick_synergy_resources_init() < 0) {
-        init_resource_fail("userport synergy joystick");
-        return -1;
-    }
     if (userport_joystick_woj_resources_init() < 0) {
         init_resource_fail("userport woj joystick");
         return -1;
