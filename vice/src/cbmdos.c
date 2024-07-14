@@ -178,7 +178,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     int cmdlen;
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parse cmd: '%s' cmdlen: %d", cmd_parse->cmd, cmd_parse->cmdlength);
+    log_debug("CBMDOS parse cmd: '%s' cmdlen: %u", cmd_parse->cmd, cmd_parse->cmdlength);
 #endif
 
     cmd_parse->atsign = 0;
@@ -206,6 +206,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                 if (*++p == '\0') {
                     /* "Nothing" after a colon is actually an empty pattern.
                      * Make it match nothing -- count the NUL byte.
+                     * At the end, parselength will be the pattern's length.
                      */
                     ++cmd_parse->cmdlength;
                 }
@@ -292,7 +293,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                         cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
 
 #ifdef DEBUG_CBMDOS
-                        log_debug("L recordlength=%d", cmd_parse->recordlength);
+                        log_debug("L recordlength=%u", cmd_parse->recordlength);
 #endif
                         /* Don't allow REL file record lengths less than 2 or
                            greater than 254.  The 1541/71/81 lets you create a
@@ -351,7 +352,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
     int i, templength = 0;
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parse plus cmd: '%s' cmdlen: %d", cmd_parse->full, cmd_parse->fulllength);
+    log_debug("CBMDOS parse plus cmd: '%s' cmdlen: %u", cmd_parse->full, cmd_parse->fulllength);
 #endif
 
     cmd_parse->command = NULL;
