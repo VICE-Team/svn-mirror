@@ -432,28 +432,49 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
         l = (int)strlen(bufinfo->dirmask);
 
+        /* fix 2 bugs:
+         * - pattern A*Z would not match AZZ because it jumped to the first Z
+         *   only.
+         * - pattern FOO* didn't match filename FOO
+         */
+
         for (p = finfo->name, i = 0;
              *p && bufinfo->dirmask[i] && i < l; i++) {
             if (bufinfo->dirmask[i] == '?') {
                 p++;
             } else if (bufinfo->dirmask[i] == '*') {
-                if (!(bufinfo->dirmask[i + 1])) {
+                if (bufinfo->dirmask[i + 1] == '\0') {
                     f = 0;
                     break;
                 } /* end mask */
-                while (*p && (*p != bufinfo->dirmask[i + 1])) {
-                    p++;
+                /* Handle ONE * followed by text but no more (like 1581):
+                 * When at the * in A*XYZ, skip to 3 positions before
+                 * the end of the file name to try to match XYZ.  */
+                int rest_of_filename = strlen((const char *)p);
+                int rest_of_pattern = strlen(&bufinfo->dirmask[i + 1]);
+
+                if (rest_of_filename < rest_of_pattern) {
+                    break;      /* no match: file name too short */
                 }
+                p = p + rest_of_filename - rest_of_pattern;
             } else {
                 if (*p != bufinfo->dirmask[i]) {
                     break;
                 }
                 p++;
             }
-            if ((!*p) && (!(bufinfo->dirmask[i + 1]))) {
+            if (*p == '\0' && bufinfo->dirmask[i + 1] == '\0') {
                 f = 0;
                 break;
             }
+        }
+        /* Check for an edge case missed by the loop:
+         * pattern "FOO*" should match filename "FOO". */
+        if (f > 0 &&
+                *p == '\0' &&
+                bufinfo->dirmask[i    ] == '*' &&
+                bufinfo->dirmask[i + 1] == '\0') {
+            f = 0;
         }
         if (f > 0) {
             fileio_close(finfo);
