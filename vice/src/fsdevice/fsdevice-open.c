@@ -119,12 +119,17 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         mask = rname;
     }
 
-    /* Test on wildcards.  */
-    if (cbmdos_parse_wildcard_check(mask, (unsigned int)strlen(mask))) {
-        if (*mask == '/') {
+    /* Test if a pattern was given (even the NUL one that matches nothing) */
+    if (cmd_parse->parselength > 0) {
+        if (mask[0] == '/') {
             strcpy(bufinfo[secondary].dirmask, mask + 1);
             *mask++ = 0;
         } else {
+            /* For the NUL pattern, use a character that can't appear
+             * in file names: the directory separator. */
+            if (!mask[0]) {
+                mask = ARCHDEP_DIR_SEP_STR;
+            }
             strcpy(bufinfo[secondary].dirmask, mask);
             lib_free(cmd_parse->parsecmd);
             cmd_parse->parsecmd = lib_strdup(fsdevice_get_path(vdrive->unit));
