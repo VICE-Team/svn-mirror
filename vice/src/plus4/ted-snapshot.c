@@ -262,7 +262,7 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     if (RasterCycle != (uint8_t)TED_RASTER_CYCLE(maincpu_clk)) {
         log_error(ted.log,
-                  "Not matching raster cycle (%d) in snapshot; should be %lu.",
+                  "Not matching raster cycle (%d) in snapshot; should be %u.",
                   RasterCycle, TED_RASTER_CYCLE(maincpu_clk));
         goto fail;
     }
