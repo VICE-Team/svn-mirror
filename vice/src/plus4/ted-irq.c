@@ -114,11 +114,11 @@ void ted_irq_set_raster_line(unsigned int line)
 
     if (line < ted.screen_height) {
         unsigned int current_line = TED_RASTER_Y(maincpu_clk);
-
+        /* int casts are to ensure that subtraction can become negative */
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                               + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                               + (ted.cycles_per_line
-                                 * (line - current_line)));
+                                 * ((int)line - (int)current_line)));
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         /* FIXME this needs to be checked */
@@ -134,10 +134,11 @@ void ted_irq_set_raster_line(unsigned int line)
     } else {
         unsigned int current_line = TED_RASTER_Y(maincpu_clk);
         if (current_line >= ted.screen_height) {
+            /* int casts are to ensure that subtraction can become negative */
             ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                                   + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                   + (ted.cycles_per_line
-                                     * (line - current_line)));
+                                     * ((int)line - (int)current_line)));
 
             if (line <= current_line) {
                 ted.raster_irq_clk = CLOCK_MAX;

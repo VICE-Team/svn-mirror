@@ -726,10 +726,11 @@ inline static void ted1c1d_store(uint16_t addr, uint8_t value)
     }
 
     if (ted.raster_irq_line < ted.screen_height) {
+        /* int casts are to ensure that subtraction can become negative */
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                               + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                               + (ted.cycles_per_line
-                                 * (ted.raster_irq_line - new_raster)));
+                                 * ((int)ted.raster_irq_line - (int)new_raster)));
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         /* FIXME this needs to be checked */
@@ -743,10 +744,11 @@ inline static void ted1c1d_store(uint16_t addr, uint8_t value)
         alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
         if (new_raster >= ted.screen_height) {
+            /* int casts are to ensure that subtraction can become negative */
             ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                                   + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                   + (ted.cycles_per_line
-                                     * (ted.raster_irq_line - new_raster)));
+                                     * ((int)ted.raster_irq_line - (int)new_raster)));
 
             if (ted.raster_irq_line <= new_raster) {
                 ted.raster_irq_clk = CLOCK_MAX;
