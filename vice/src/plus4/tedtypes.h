@@ -130,8 +130,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
                                                                   ? 1 - ted.screen_height : 1) : 0)) & 0x1ff))
 
 /* Cycle # within the current line.  */
-/*#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))*/
-#define TED_RASTER_CYCLE(clk)       ((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0))
+#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
 
 /* `clk' value for the beginning of the current line.  */
 /* FIXME: assigned to (CLOCK)ted.raster_irq_clk in ted-irq.c:ted_irq_set_raster_line() */
