@@ -450,8 +450,8 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
                 /* Handle ONE * followed by text but no more (like 1581):
                  * When at the * in A*XYZ, skip to 3 positions before
                  * the end of the file name to try to match XYZ.  */
-                int rest_of_filename = strlen((const char *)p);
-                int rest_of_pattern = strlen(&bufinfo->dirmask[i + 1]);
+                size_t rest_of_filename = strlen((const char *)p);
+                size_t rest_of_pattern = strlen(&bufinfo->dirmask[i + 1]);
 
                 if (rest_of_filename < rest_of_pattern) {
                     break;      /* no match: file name too short */
