@@ -136,7 +136,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 /* `clk' value for the beginning of the current line.  */
 /* FIXME: assigned to (CLOCK)ted.raster_irq_clk in ted-irq.c:ted_irq_set_raster_line() */
 /* FIXME: assigned to (CLOCK)ted.raster_irq_clk in ted-mem.c:ted1c1d_store() */
-#define TED_LINE_START_CLK(clk)     ((unsigned int)(ted.last_emulate_line_clk + (((clk) - ted.last_emulate_line_clk) >= 114UL ? 114UL : 0UL)))
+#define TED_LINE_START_CLK(clk)     ((CLOCK)(ted.last_emulate_line_clk + (((clk) - ted.last_emulate_line_clk) >= 114UL ? 114UL : 0UL)))
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 /* FIXME not always true, previous line can be 511 */
