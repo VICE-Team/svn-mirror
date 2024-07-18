@@ -65,6 +65,23 @@ VIA#1   User port plug
 
 18, CB1     8, PC2      <- this one is NOT connected on the "21sec Backup" cable!
 39, CA2     B, FLAG2
+
+
+"Data Becker Floppy Express" cable
+
+VIA#1   User port plug
+ 2, PA0     C, PB0
+ 3, PA1     D, PB1
+ 4, PA2     E, PB2
+ 5, PA3     F, PB3
+ 6, PA4     H, PB4
+ 7, PA5     J, PB5
+ 8, PA6     K, PB6
+ 9, PA7     L, PB7
+
+39, CA2     B, FLAG2
+???         M, PA2      <- connects to extra logic on the floppy board
+
 */
 
 #define PC_PORT_STANDARD        0

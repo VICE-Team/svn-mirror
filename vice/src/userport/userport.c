@@ -302,6 +302,12 @@ static int userport_set_device(int id)
     }
     userport_current_device = id;
 
+    /* FIXME: some emulators have userport devices, but no userport parallel
+              cable, remove this once it is implemented. */
+    if (machine_class == VICE_MACHINE_VIC20) {
+        return 0;
+    }
+
     /* check if any drive has a parallel cable enabled */
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         int cable;
