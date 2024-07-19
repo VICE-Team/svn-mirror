@@ -123,7 +123,12 @@ int c128generic_crt_attach(FILE *fd, uint8_t *rawcart)
             len *= 2;
         }
     } else {
-        log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        if ((chip.start != 0x8000) && (chip.start != 0xc000)) {
+            log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        }
+        if (chip.size > 0x4000) {
+            log_error(LOG_DEFAULT, "invalid CRT CHIP size: $%04x", chip.size);
+        }
         return -1;
     }
 
@@ -156,7 +161,12 @@ int c128generic_crt_attach(FILE *fd, uint8_t *rawcart)
             len *= 2;
         }
     } else {
-        log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        if ((chip.start != 0x8000) && (chip.start != 0xc000)) {
+            log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        }
+        if (chip.size > 0x4000) {
+            log_error(LOG_DEFAULT, "invalid CRT CHIP size: $%04x", chip.size);
+        }
         return -1;
     }
     c128generic_common_attach();
