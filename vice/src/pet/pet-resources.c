@@ -47,11 +47,6 @@
 
 static int sync_factor;
 
-#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
-/* Frequency of the power grid in Hz */
-static int power_freq = 1;
-#endif
-
 static int set_ramsize(int size, void *param);
 static int set_superpet_enabled(int value, void *param);
 
@@ -333,33 +328,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
-static int set_power_freq(int val, void *param)
-{
-    int change_timing = 0;
-
-    if (power_freq != val) {
-        change_timing = 1;
-    }
-
-    switch (val) {
-        case 50:
-        case 60:
-            break;
-        default:
-            return -1;
-    }
-    power_freq = val;
-    if (change_timing) {
-        if (sync_factor > 0) {
-            machine_change_timing(sync_factor, val, 0);
-        }
-    }
-
-    return 0;
-}
-#endif
-
 static int set_h6809_rom_name(const char *val, void *param)
 {
     unsigned int num = vice_ptr_to_uint(param);
@@ -466,10 +434,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
-    { "MachinePowerFrequency", 50, RES_EVENT_SAME, NULL,
-      &power_freq, set_power_freq, NULL },
-#endif
     { "RamSize", 32, RES_EVENT_SAME, NULL,
       &petres.model.ramSize, set_ramsize, NULL },
     { "IOSize", 0x100, RES_EVENT_SAME, NULL,

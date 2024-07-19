@@ -45,14 +45,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-#if 0 /* FIXME: do any of the PETs actually use the power grid frequency? */
-    { "-power50", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "MachinePowerFrequency", (void *)50,
-      NULL, "Use 50Hz Power-grid frequency" },
-    { "-power60", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "MachinePowerFrequency", (void *)60,
-      NULL, "Use 60Hz Power-grid frequency" },
-#endif
     { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       pet_set_model, NULL, NULL, NULL,
       "<modelnumber>", "Specify PET model to emulate. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)" },
