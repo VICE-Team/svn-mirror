@@ -883,28 +883,43 @@ static void checkgameexrom(char *name, int crtid, char **game, char **exrom)
         return;
     }
 
-    if (crtid == 0) {
-        /* for generic cartridge having both zero is broken */
-        if ((headerbuffer[0x18] == 0x01) && (headerbuffer[0x19] == 0x01)) {
-            *exrom = "Warning: exrom in crt image set incorrectly.\n";
-            *game = "Warning: game in crt image set incorrectly.\n";
-        }
-    } else if ((crtid == CARTRIDGE_OCEAN) &&
-                (printbanks(name, 1) == CARTRIDGE_SIZE_512KB)) {
-        /* 512k Ocean uses a different startup config than whats in the table */
-        if (headerbuffer[0x18] != 0x00) {
-            *exrom = "Warning: exrom in crt image set incorrectly";
-        }
-        if (headerbuffer[0x19] != 0x01) {
-            *game = "Warning: game in crt image set incorrectly";
-        }
-    } else {
-        if (headerbuffer[0x18] != cart_info[crtid].exrom) {
-            *exrom = "Warning: exrom in crt image set incorrectly";
-        }
-        if (headerbuffer[0x19] != cart_info[crtid].game) {
-            *game = "Warning: game in crt image set incorrectly";
-        }
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+            if (crtid == 0) {
+                /* for generic cartridge having both zero is broken */
+                if ((headerbuffer[0x18] == 0x01) && (headerbuffer[0x19] == 0x01)) {
+                    *exrom = "Warning: exrom in crt image set incorrectly";
+                    *game = "Warning: game in crt image set incorrectly";
+                }
+            } else if ((crtid == CARTRIDGE_OCEAN) &&
+                        (printbanks(name, 1) == CARTRIDGE_SIZE_512KB)) {
+                /* 512k Ocean uses a different startup config than whats in the table */
+                if (headerbuffer[0x18] != 0x00) {
+                    *exrom = "Warning: exrom in crt image set incorrectly";
+                }
+                if (headerbuffer[0x19] != 0x01) {
+                    *game = "Warning: game in crt image set incorrectly";
+                }
+            } else {
+                if (headerbuffer[0x18] != cart_info[crtid].exrom) {
+                    *exrom = "Warning: exrom in crt image set incorrectly";
+                }
+                if (headerbuffer[0x19] != cart_info[crtid].game) {
+                    *game = "Warning: game in crt image set incorrectly";
+                }
+            }
+        break;
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            /* game and exrom bytes are only used for C64 cartridges */
+            if (headerbuffer[0x18] != 0) {
+                *exrom = "Warning: exrom in crt image set incorrectly";
+            }
+            if (headerbuffer[0x19] != 0) {
+                *game = "Warning: game in crt image set incorrectly";
+            }
+        break;
     }
 }
 
@@ -943,8 +958,6 @@ static void printinfo(char *name)
                 } else {
                     modename = "?";
                 }
-
-                checkgameexrom(name, crtid, &game_warning, &exrom_warning);
             break;
             case VICE_MACHINE_C128:
                 if ((crtid >= 0) && (crtid <= CARTRIDGE_C128_LAST)) {
@@ -968,6 +981,7 @@ static void printinfo(char *name)
                 }
             break;
         }
+        checkgameexrom(name, crtid, &game_warning, &exrom_warning);
 
         memcpy(systemname, &headerbuffer[0], 0x10); systemname[0x10] = 0;
         if (systemname[0x0f] == 0x20) { systemname[0x0f] = 0; }
@@ -981,12 +995,13 @@ static void printinfo(char *name)
 
         if (machine_class == VICE_MACHINE_C64) {
             printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
-            if (exrom_warning) {
-                printf("%s.\n", exrom_warning);
-            }
-            if (game_warning) {
-                printf("%s.\n", game_warning);
-            }
+        }
+
+        if (exrom_warning) {
+            printf("%s.\n", exrom_warning);
+        }
+        if (game_warning) {
+            printf("%s.\n", game_warning);
         }
 
         if (load_input_file(name) < 0) {
