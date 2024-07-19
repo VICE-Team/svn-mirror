@@ -371,9 +371,9 @@ static const cmdline_option_t cmdline_options[] =
 #define INPUT_EXP_ARGS 6
 
 #define CONS_COL_NO ""
-#define CONS_COL_RED "\x1B[31m"
-#define CONS_COL_GREEN "\x1B[32m"
-#define CONS_COL_BLUE "\x1B[36m"
+#define CONS_COL_RED "\x1B[91;40m"
+#define CONS_COL_GREEN "\x1B[92;40m"
+#define CONS_COL_BLUE "\x1B[96;40m"
 #define CONS_COL_OFF "\033[0m\t\t"
 
 static const char *cmd2string[256];
@@ -708,13 +708,17 @@ static void wic64_log(const char *col, const char *fmt, ...)
     va_list args;
     const char *col_before = "";
     const char *col_after = "";
+    const char *lf;
 
     if (!wic64_logenabled) {
         return;
     }
-    if (col && wic64_colorize_log) {
-        col_before = col;
-        col_after = CONS_COL_OFF;
+    if (resources_get_string("LogFileName", &lf) != -1) {
+        if ((col && wic64_colorize_log) &&
+            ((*lf == '\0') || (strncmp(lf, "-", 1) == 0))) {
+            col_before = col;
+            col_after = CONS_COL_OFF;
+        }
     }
     va_start(args, fmt);
     vsnprintf(t, 256, fmt, args);
@@ -730,8 +734,9 @@ static void _wic64_log(const char *col, const int lv, const char *fmt, ...)
     char t[256];
     va_list args;
 
-    if (wic64_loglevel < lv)
+    if (wic64_loglevel < lv) {
         return;
+    }
     va_start(args, fmt);
     vsnprintf(t, 256, fmt, args);
     wic64_log(col, "%s", t);
