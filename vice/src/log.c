@@ -116,7 +116,9 @@ static int set_log_file_name(const char *val, void *param)
     }
 
     if (log_file) {
-        fclose(log_file);
+        if (log_file != stdout) {
+            fclose(log_file);
+        }
         log_file_open();
     }
 
