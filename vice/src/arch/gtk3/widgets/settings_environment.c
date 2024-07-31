@@ -30,11 +30,18 @@
 
 #include "cwdwidget.h"
 #include "logfilewidget.h"
+#include "machine.h"
 #include "vice_gtk3.h"
 
 #include "settings_environment.h"
 
 
+static const vice_gtk3_radiogroup_entry_t loglevels[] = {
+    { "no log",        0 },
+    { "unstable only", 1 },
+    { "all",           2 },
+    { NULL,           -1 }
+};
 
 
 /** \brief  Create widget to change host environment settings
@@ -46,10 +53,16 @@
 GtkWidget *settings_environment_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *grid2;
     GtkWidget *cwd_label;
     GtkWidget *cwd_widget;
     GtkWidget *logfile_widget;
+    GtkWidget *ane_label;
+    GtkWidget *lxa_label;
+    GtkWidget *ane_widget;
+    GtkWidget *lxa_widget;
     int        row = 0;
+    int        row2 = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -71,6 +84,42 @@ GtkWidget *settings_environment_widget_create(GtkWidget *parent)
     logfile_widget = logfile_widget_create();
     gtk_widget_set_margin_top(logfile_widget, 24);  /* extra space */
     gtk_grid_attach(GTK_GRID(grid), logfile_widget, 0, row, 1, 1);
+    row++;
+
+    if ((machine_class == VICE_MACHINE_C64SC) ||
+        (machine_class == VICE_MACHINE_VIC20)) {
+
+        grid2 = gtk_grid_new();
+        gtk_grid_set_column_spacing(GTK_GRID(grid2), 8);
+        gtk_grid_set_row_spacing(GTK_GRID(grid2), 8);
+
+        ane_label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(ane_label), "<b>ANE logging</b>");
+        gtk_widget_set_halign(ane_label, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(grid2), ane_label, 0, row2, 1, 1);
+
+        lxa_label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(lxa_label), "<b>LXA logging</b>");
+        gtk_widget_set_halign(lxa_label, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(grid2), lxa_label, 1, row2, 1, 1);
+        row2++;
+
+        ane_widget = vice_gtk3_resource_radiogroup_new("LogLevelANE",
+                                                loglevels,
+                                                GTK_ORIENTATION_VERTICAL);
+        gtk_grid_attach(GTK_GRID(grid2), ane_widget, 0, row2, 1, 1);
+
+        lxa_widget = vice_gtk3_resource_radiogroup_new("LogLevelLXA",
+                                                loglevels,
+                                                GTK_ORIENTATION_VERTICAL);
+        gtk_grid_attach(GTK_GRID(grid2), lxa_widget, 1, row2, 1, 1);
+        row2++;
+
+        gtk_widget_show_all(grid2);
+
+        gtk_grid_attach(GTK_GRID(grid), grid2, 0, row, 1, 1);
+        row++;
+    }
 
     gtk_widget_show_all(grid);
     return grid;

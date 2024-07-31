@@ -43,6 +43,7 @@
 
 
 UI_MENU_DEFINE_TOGGLE(Sound)
+UI_MENU_DEFINE_TOGGLE(SoundEmulateOnWarp)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundDeviceName)
@@ -211,6 +212,10 @@ const ui_menu_entry_t sound_output_menu[] = {
     {   .string   = "Sound",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_Sound_callback
+    },
+    {   .string   = "Emulate in warp mode",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SoundEmulateOnWarp_callback
     },
     {   .string   = "Volume",
         .type     = MENU_ENTRY_DIALOG,
