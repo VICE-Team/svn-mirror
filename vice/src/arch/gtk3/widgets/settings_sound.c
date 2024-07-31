@@ -101,13 +101,14 @@ GtkWidget *settings_sound_widget_create(GtkWidget *widget)
     GtkWidget *inner;
     GtkWidget *scale;
     GtkWidget *enabled_check;
+    GtkWidget *warp_enabled_check;
 
     /* outer grid: contains the checkbox and an 'inner' grid for the widgets */
     outer = gtk_grid_new();
 
     /* add checkbox for 'sound enabled' */
     enabled_check = vice_gtk3_resource_check_button_new("Sound",
-                                                        "Enable sound playback");
+                                                        "Enable sound emulation");
     gtk_grid_attach(GTK_GRID(outer), enabled_check, 0, 0, 1, 1);
 
     scale = vice_gtk3_resource_scale_custom_new_printf("%s",
@@ -123,12 +124,16 @@ GtkWidget *settings_sound_widget_create(GtkWidget *widget)
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     gtk_grid_attach(GTK_GRID(outer), scale, 1, 0, 1, 1);
 
+    warp_enabled_check = vice_gtk3_resource_check_button_new("SoundEmulateOnWarp",
+        "Enable sound emulation in warp mode. (Disabling has a negative impact on compatibility)");
+    gtk_grid_attach(GTK_GRID(outer), warp_enabled_check, 0, 1, 2, 1);
+
     /* inner grid: contains widgets and can be enabled/disabled depending on
      * the state of the 'sound enabled' checkbox */
     inner = create_inner_grid();
     gtk_widget_set_margin_top(inner, 16);
 
-    gtk_grid_attach(GTK_GRID(outer), inner, 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(outer), inner, 0, 2, 2, 1);
     gtk_widget_show_all(outer);
     return outer;
 }

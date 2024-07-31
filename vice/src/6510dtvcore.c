@@ -814,7 +814,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 */
 
 #define ANE_MAGIC       0xef
-#define ANE_RDY_MAGIC   0xee
+#define ANE_RDY_MAGIC   (0xee & ANE_MAGIC)
 
 #ifndef ANE_LOG_LEVEL
 #define ANE_LOG_LEVEL 0
