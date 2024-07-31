@@ -816,15 +816,19 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define ANE_MAGIC       0xef
 #define ANE_RDY_MAGIC   0xee
 
-/* FIXME: perhaps we should make the log level a user setting */
+#ifndef ANE_LOG_LEVEL
+#define ANE_LOG_LEVEL 0
+#warning "ANE_LOG_LEVEL not defined, disabling by default"
+#endif
+
 #if 1
-static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
+/* static int ane_log_level = 1; */ /* 0: none, 1: unstable only 2: all */
 
 #define ANE_LOGGING(rdy)                                                                    \
     do {                                                                                    \
         unsigned int result = ((reg_a_read | (rdy ? ANE_RDY_MAGIC : ANE_MAGIC)) & reg_x & p1); \
         unsigned int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x));                   \
-        if ((ane_log_level == 2) || ((ane_log_level == 1) && (unstablebits != 0))) {        \
+        if ((ANE_LOG_LEVEL == 2) || ((ANE_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
                     reg_pc, p1, reg_a_read, reg_x, result, rdy ? " (RDY cycle)" : "");      \
@@ -1263,15 +1267,20 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define LXA_MAGIC       0xee    /* needs to be 0xee for wizball */
 #define LXA_RDY_MAGIC   0xee
 
+#ifndef LXA_LOG_LEVEL
+#define LXA_LOG_LEVEL 0
+#warning "LXA_LOG_LEVEL not defined, disabling by default"
+#endif
+
 /* FIXME: perhaps we should make the log level a user setting */
 #if 1
-static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
+/* static int lxa_log_level = 1; */ /* 0: none, 1: unstable only 2: all */
 
 #define LXA_LOGGING(rdy)                                                                    \
     do {                                                                                    \
         unsigned int result = (reg_a_read | (rdy ? LXA_RDY_MAGIC : LXA_MAGIC)) & p1;        \
         unsigned int unstablebits = (reg_a_read ^ 0xff) & p1;                               \
-        if ((lxa_log_level == 2) || ((lxa_log_level == 1) && (unstablebits != 0))) {        \
+        if ((LXA_LOG_LEVEL == 2) || ((LXA_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
                     reg_pc, p1, reg_a_read, result, rdy ? " (RDY cycle)" : "");             \

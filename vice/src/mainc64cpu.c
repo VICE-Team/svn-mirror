@@ -40,6 +40,7 @@
 #endif
 
 #include "debug.h"
+#include "cmdline.h"
 #include "interrupt.h"
 #include "machine.h"
 #include "mainc64cpu.h"
@@ -49,6 +50,7 @@
 #include "monitor.h"
 #include "mos6510.h"
 #include "reu.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
@@ -510,6 +512,58 @@ mos6510_regs_t maincpu_regs;
 
 /* ------------------------------------------------------------------------- */
 
+unsigned int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
+unsigned int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
+
+static int set_ane_log_level(int val, void *param)
+{
+    if ((val < 0) || (val > 2)) {
+        return -1;
+    }
+    ane_log_level = val;
+    return 0;
+}
+
+static int set_lxa_log_level(int val, void *param)
+{
+    if ((val < 0) || (val > 2)) {
+        return -1;
+    }
+    lxa_log_level = val;
+    return 0;
+}
+
+static const resource_int_t maincpu_resources_int[] = {
+    { "LogLevelANE", 0, RES_EVENT_NO, NULL,
+      &ane_log_level, set_ane_log_level, NULL },
+    { "LogLevelLXA", 0, RES_EVENT_NO, NULL,
+      &lxa_log_level, set_lxa_log_level, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+int maincpu_resources_init(void)
+{
+    return resources_register_int(maincpu_resources_int);
+}
+
+static const cmdline_option_t cmdline_options_maincpu[] =
+{
+    { "-aneloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "LogLevelANE", NULL,
+      "<Type>", "Set ANE log level: (0: None, 1: Unstable, 2: All)" },
+    { "-lxaloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "LogLevelLXA", NULL,
+      "<Type>", "Set LXA log level: (0: None, 1: Unstable, 2: All)" },
+    CMDLINE_LIST_END
+};
+
+int maincpu_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options_maincpu);
+}
+
+/* ------------------------------------------------------------------------- */
+
 monitor_interface_t *maincpu_monitor_interface_get(void)
 {
     maincpu_monitor_interface->cpu_regs = &maincpu_regs;
@@ -695,6 +749,8 @@ void maincpu_mainloop(void)
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 
     while (1) {
+#define ANE_LOG_LEVEL ane_log_level
+#define LXA_LOG_LEVEL lxa_log_level
 #define CLK maincpu_clk
 #define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
@@ -839,6 +895,8 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
         || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
         || SMW_DW(m, (uint32_t)last_opcode_info) < 0
+        || SMW_DW(m, (uint32_t)ane_log_level) < 0
+        || SMW_DW(m, (uint32_t)lxa_log_level) < 0
         || SMW_DW(m, (uint32_t)maincpu_ba_low_flags) < 0) {
         goto fail;
     }
@@ -885,6 +943,8 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
         || SMR_DW_UINT(m, &last_opcode_info) < 0
+        || SMR_DW_UINT(m, &ane_log_level) < 0
+        || SMR_DW_UINT(m, &lxa_log_level) < 0
         || SMR_DW_INT(m, &maincpu_ba_low_flags) < 0) {
         goto fail;
     }

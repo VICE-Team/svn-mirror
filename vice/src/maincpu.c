@@ -49,6 +49,8 @@
 #endif
 #include "h6809regs.h"
 #include "snapshot.h"
+#include "resources.h"
+#include "cmdline.h"
 #include "traps.h"
 #include "types.h"
 
@@ -287,6 +289,29 @@ mos6510dtv_regs_t maincpu_regs;
 #else
 mos6510_regs_t maincpu_regs;
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+static const resource_int_t maincpu_resources_int[] = {
+    /* TODO: add resources */
+    RESOURCE_INT_LIST_END
+};
+
+int maincpu_resources_init(void)
+{
+    return resources_register_int(maincpu_resources_int);
+}
+
+static const cmdline_option_t cmdline_options_maincpu[] =
+{
+    /* TODO: add options */
+    CMDLINE_LIST_END
+};
+
+int maincpu_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options_maincpu);
+}
 
 /* ------------------------------------------------------------------------- */
 
