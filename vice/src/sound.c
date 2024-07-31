@@ -531,6 +531,7 @@ static int volume;
 static int amp;
 static int fragment_size;
 static int output_option;
+static int sound_emulation_enabled_on_warp;
 
 /* divisors for fragment size calculation */
 static const int fragment_divisor[] = {
@@ -574,6 +575,14 @@ static int set_output_option(int val, void *param)
         output_option = val;
         sound_state_changed = TRUE;
     }
+    return 0;
+}
+
+static int set_sound_emulation_enabled_on_warp(int value, void *param)
+{
+    int val = value ? 1 : 0;
+
+    sound_emulation_enabled_on_warp = val;
     return 0;
 }
 
@@ -707,6 +716,8 @@ static const resource_int_t resources_int[] = {
       (void *)&volume, set_volume, NULL },
     { "SoundOutput", ARCHDEP_SOUND_OUTPUT_MODE, RES_EVENT_NO, NULL,
       (void *)&output_option, set_output_option, NULL },
+    { "SoundEmulateOnWarp", 1, RES_EVENT_NO, NULL,
+      (void *)&sound_emulation_enabled_on_warp, set_sound_emulation_enabled_on_warp, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -762,6 +773,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-soundvolume", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundVolume", NULL,
       "<Volume>", "Specify the sound volume (0..100)" },
+    { "-soundwarpmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SoundEmulateOnWarp", NULL,
+      "<mode>", "Specify how to handle sound emulation in warp mode: (0: do not emulate the sound chips, 1: keep emulating the sound chips)" },
     CMDLINE_LIST_END
 };
 
@@ -1354,6 +1368,12 @@ static int sound_run_sound(void)
         if (i) {
             return i;
         }
+    }
+
+    /* if "disable sound emulation on warp" is enabled, exit */
+    if ((sound_emulation_enabled_on_warp == 0) && warp_mode_enabled) {
+        snddata.lastclk = maincpu_clk;
+        return 0;
     }
 
     /* Handling of cycle based sound engines. */
