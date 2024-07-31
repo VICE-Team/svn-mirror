@@ -52,6 +52,7 @@ int log_early_init(int argc, char **argv);
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_error(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
+
 int log_debug(const char *format, ...) VICE_ATTR_PRINTF;
 int log_verbose(const char *format, ...) VICE_ATTR_PRINTF;
 

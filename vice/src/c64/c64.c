@@ -674,6 +674,11 @@ int machine_resources_init(void)
         init_resource_fail("rombanks");
         return -1;
     }
+    /* FIXME: we might want to move this into machine.c or init.c */
+    if (maincpu_resources_init() < 0) {
+        init_resource_fail("maincpu");
+        return -1;
+    }
     if (c64_resources_init() < 0) {
         init_resource_fail("c64");
         return -1;
@@ -936,6 +941,11 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
+        return -1;
+    }
+    /* FIXME: we might want to move this into machine.c or init.c */
+    if (maincpu_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("maincpu");
         return -1;
     }
     if (c64_cmdline_options_init() < 0) {
