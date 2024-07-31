@@ -6109,6 +6109,11 @@ the 'file' method/device.
 @item Sound
 Boolean specifying whether audio emulation is turned on.
 
+@vindex SoundEmulateOnWarp
+@item SoundEmulateOnWarp
+Boolean specifying whether sound chips should be emulated in warp mode.
+(0: do not emulate sound chips in warp mode, 1: emulate sound chips also in warp mode)
+
 @vindex SoundSampleRate
 @item SoundSampleRate
 Integer specifying the sampling frequency in Hz
@@ -6268,6 +6273,12 @@ source for the 'file' sampler device.
 @itemx +sound
 Enable/disable sound emulation
 (@code{Sound=1}, @code{Sound=0}).
+
+@findex -soundwarpmode
+@item -soundwarpmode <mode>
+Specify if sound chips should be emulated in warp mode.
+(@code{SoundEmulateOnWarp}).
+(0: do not emulate sound chips in warp mode, 1: emulate sound chips also in warp mode)
 
 @findex -soundrate
 @item -soundrate <value>
@@ -9164,7 +9175,21 @@ Set the chance of any bit to randomly toggle (0-4096)
 @item DebugCartEnable
 Boolean specifying whether the debug "cartridge" used for the test suite is enabled.
 
+@vindex LogLevelANE
+@item LogLevelANE
+Integer specifying the log mode (0=none 1=only unstable 2=all)
+(x64sc, xvic).
+
+@vindex LogLevelLXA
+@item LogLevelLXA
+Integer specifying the log mode (0=none 1=only unstable 2=all)
+(x64sc, xvic).
+
+@end table
+
 @b{The following are only available when the emulators were compiled in DEBUG mode:}
+
+@table @code
 
 @vindex TraceMode
 @item TraceMode
@@ -9220,7 +9245,23 @@ Disable/enable calling of the exception handler
 @itemx +debugcart
 Enable/disable the debug "cartridge" used for the test suite.
 
+@findex -aneloglevel
+@item -aneloglevel <mode>
+Set the log mode (0=none 1=only unstable 2=all)
+(@code{LogLevelANE})
+(x64sc, xvic).
+
+@findex -lxaloglevel
+@item -lxaloglevel <mode>
+Set the log mode (0=none 1=only unstable 2=all)
+(@code{LogLevelLXA})
+(x64sc, xvic).
+
+@end table
+
 @b{The following are only available when the emulators were compiled in DEBUG mode:}
+
+@table @code
 
 @findex -trace_maincpu, +trace_maincpu
 @item -trace_maincpu
