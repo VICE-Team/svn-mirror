@@ -29,25 +29,52 @@
 
 #include <stdio.h>
 
+/* values passed into the log helper (log_out->log_helper) */
+#define LOG_LEVEL_NONE      0x00
+#define LOG_LEVEL_FATAL     0x20
+#define LOG_LEVEL_ERROR     0x40
+#define LOG_LEVEL_WARNING   0x60
+#define LOG_LEVEL_INFO      0x80
+#define LOG_LEVEL_VERBOSE   0xa0
+#define LOG_LEVEL_DEBUG     0xc0
+#define LOG_LEVEL_ALL       0xff
 
-#define LOG_LEVEL_NONE  0x00
+/* values used to set the log level (log_set_limit, log_set_limit_early) */
 
-typedef signed int log_t;
-#define LOG_ERR     ((log_t)-1)
-#define LOG_DEFAULT ((log_t)-2)
+/* errors only */
+#define LOG_LIMIT_SILENT    (LOG_LEVEL_WARNING - 1)
+/* all messages, except verbose+debug */
+#define LOG_LIMIT_STANDARD  (LOG_LEVEL_VERBOSE - 1)
+/* all messages, except debug */
+#define LOG_LIMIT_VERBOSE   (LOG_LEVEL_DEBUG - 1)
+/* all messages */
+#define LOG_LIMIT_DEBUG     (LOG_LEVEL_ALL - 1)
+
+int log_set_limit_early(int n);
+int log_early_init(int argc, char **argv);
+
+//void log_enable(int on);
+int log_set_limit(int n);
 
 int log_resources_init(void);
 void log_resources_shutdown(void);
 int log_cmdline_options_init(void);
+
+/* init/open the log file */
 int log_init(void);
 int log_init_with_fd(FILE *f);
+
+/* for individual log streams */
+typedef signed int log_t;
+#define LOG_ERR     ((log_t)-1)
+#define LOG_DEFAULT ((log_t)-2)
+
 log_t log_open(const char *id);
 int log_close(log_t log);
 void log_close_all(void);
-void log_enable(int on);
-int log_set_silent(int n);
-int log_set_verbose(int n);
-int log_early_init(int argc, char **argv);
+
+/* actual log functions */
+int log_out(log_t log, unsigned int level, const char *format, ...) VICE_ATTR_PRINTF3;
 
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;

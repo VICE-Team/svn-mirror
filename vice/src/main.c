@@ -217,11 +217,11 @@ int main_program(int argc, char **argv)
             default_settings_requested = 1;
 #endif
         } else if ((!strcmp(argv[i], "-verbose")) || (!strcmp(argv[i], "--verbose"))) {
-            log_set_silent(0);
-            log_set_verbose(1);
+            log_set_limit_early(LOG_LIMIT_VERBOSE);
         } else if ((!strcmp(argv[i], "-silent")) || (!strcmp(argv[i], "--silent"))) {
-            log_set_silent(1);
-            log_set_verbose(0);
+            log_set_limit_early(LOG_LIMIT_SILENT);
+        } else if ((!strcmp(argv[i], "-debug")) || (!strcmp(argv[i], "--debug"))) {
+            log_set_limit_early(LOG_LIMIT_DEBUG);
         } else if ((!strcmp(argv[i], "-seed")) || (!strcmp(argv[i], "--seed"))) {
             if ((i + 1) < argc) {
                 lib_rand_seed(strtoul(argv[++i], NULL, 0));
@@ -315,6 +315,7 @@ int main_program(int argc, char **argv)
         }
     }
 
+    /* FIXME: it should be possible to init the log system much earlier */
     if (log_init() < 0) {
         const char *logfile = NULL;
 
