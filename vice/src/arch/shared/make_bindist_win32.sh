@@ -131,7 +131,7 @@ set_bindist_vice_version()
   svn_suffix=""
 
   # check for SVN revision
-  svn_rev_string=$(svnversion $TOPSRCDIR)
+  svn_rev_string=$(svnversion $TOPSRCDIR)     # TBD...
   if [ $? -eq 0 ]; then
     # okay, we have an SVN revision, get the number
     svn_rev=$(echo "$svn_rev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/')

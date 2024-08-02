@@ -69,9 +69,7 @@
 #include "video.h"
 #include "vsyncapi.h"
 
-#ifdef USE_SVN_REVISION
 #include "svnversion.h"
-#endif
 
 #ifdef DEBUG_MAIN
 #define DBG(x)  printf x
@@ -196,11 +194,7 @@ int main_program(int argc, char **argv)
             console_mode = true;
             /* video_disabled_mode = 1;  Breaks exitscreenshot */
         } else if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version"))) {
-#ifdef USE_SVN_REVISION
             printf("%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
-#else
-            printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
-#endif
             archdep_program_name_free();
             archdep_program_path_free();
             lib_free(cmdline);
@@ -346,11 +340,7 @@ int main_program(int argc, char **argv)
 
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, " ");
-#ifdef USE_SVN_REVISION
     log_message(LOG_DEFAULT, "*** VICE Version %s, rev %s ***", VERSION, VICE_SVN_REV_STRING);
-#else
-    log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
-#endif
     log_message(LOG_DEFAULT, " ");
     if (machine_class == VICE_MACHINE_VSID) {
         log_message(LOG_DEFAULT, "Welcome to %s, the free portable SID Player.",

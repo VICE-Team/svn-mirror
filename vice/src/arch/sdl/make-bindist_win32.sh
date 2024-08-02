@@ -67,7 +67,7 @@ SVN_REVISION_OVERRIDE=$9
 # Try to get the SVN revision
 
 SVN_SUFFIX=""
-svnrev_string=$(svnversion $TOPSRCDIR)
+svnrev_string=$(svnversion $TOPSRCDIR)      # TBD...
 if test "$?" = "0"; then
   # Choose the second number (usually higher) if it exists; drop letter suffixes.
   svnrev=`echo "$svnrev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/'`

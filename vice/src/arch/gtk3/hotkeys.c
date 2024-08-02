@@ -56,9 +56,7 @@
 #include "util.h"
 #include "version.h"
 #include "vice_gtk3.h"
-#ifdef USE_SVN_REVISION
 #include "svnversion.h"
-#endif
 
 #include "hotkeys.h"
 

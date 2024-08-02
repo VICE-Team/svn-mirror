@@ -42,10 +42,7 @@
 #include "util.h"
 #include "version.h"
 #include "vicefeatures.h"
-
-#ifdef USE_SVN_REVISION
 #include "svnversion.h"
-#endif
 
 static void make_n_cols(char *text, int len, int cols)
 {
@@ -379,11 +376,7 @@ static UI_MENU_CALLBACK(about_callback)
         i = 0;
         sdl_ui_print_center("VICE", i++);
         sdl_ui_print_center("Versatile Commodore Emulator", i++);
-#ifdef USE_SVN_REVISION
         sdl_ui_print_center("Version " VERSION " rev " VICE_SVN_REV_STRING, i);
-#else
-        sdl_ui_print_center("Version " VERSION, i);
-#endif
         i++;
 #ifdef USE_SDL2UI
         sdl_ui_print_center("SDL2", i++);

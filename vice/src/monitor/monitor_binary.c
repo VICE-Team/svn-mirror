@@ -55,10 +55,7 @@
 #include "mon_register.h"
 
 #include "version.h"
-
-#ifdef USE_SVN_REVISION
-# include "svnversion.h"
-#endif
+#include "svnversion.h"
 
 #ifdef HAVE_NETWORK
 
@@ -1398,9 +1395,7 @@ static void monitor_binary_process_vice_info(binary_command_t *command)
         4, 0, 0, 0, 0,
     };
 
-    #ifdef USE_SVN_REVISION
-        write_uint32(VICE_SVN_REV_NUMBER, &response[6]);
-    #endif
+        write_uint32(VICE_SVN_REV_NUMBER, &response[6]);        // TBD: here, the integer VICE_SVN_REV_NUMBER, not the string VICE_SVN_REV_STRING is used. Not compatible with git sha1
 
     monitor_binary_response(sizeof(response), e_MON_RESPONSE_VICE_INFO, e_MON_ERR_OK, command->request_id, response);
 }

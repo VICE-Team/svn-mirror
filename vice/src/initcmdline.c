@@ -70,9 +70,7 @@
 #include "vsync.h"
 #include "zfile.h"
 
-#ifdef USE_SVN_REVISION
 #include "svnversion.h"
-#endif
 
 #ifdef DEBUG_CMDLINE
 #define DBG(x)  printf x
@@ -320,11 +318,7 @@ static int cmdline_seed(const char *param, void *extra_param)
 
 static int cmdline_version(const char *param, void *extra_param)
 {
-#ifdef USE_SVN_REVISION
     printf("%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
-#else
-    printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
-#endif
     exit(EXIT_SUCCESS);
     return 0; /* get rid of warning */
 }

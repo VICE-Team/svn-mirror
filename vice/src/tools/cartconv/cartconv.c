@@ -46,9 +46,7 @@
 
 
 #include "version.h"
-#ifdef USE_SVN_REVISION
-# include "svnversion.h"
-#endif
+#include "svnversion.h"
 
 #include "cartridge.h"
 #include "machine.h"
@@ -1570,11 +1568,7 @@ static int checkflag(char *flg, char *arg)
             verbose = 1;
             return 1;
         } else if (strcmp(flg, "--version") == 0) {
-#ifdef USE_SVN_REVISION
             printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
-#else
-            printf("cartconv (VICE %s)\n", VERSION);
-#endif
             return 1;
         }
     }

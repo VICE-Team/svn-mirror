@@ -34,9 +34,7 @@
 #include "debug_gtk3.h"
 #include "info.h"
 #include "lib.h"
-#ifdef USE_SVN_REVISION
-# include "svnversion.h"
-#endif
+#include "svnversion.h"
 #include "ui.h"
 #include "uiactions.h"
 #include "uidata.h"
@@ -164,23 +162,13 @@ void ui_about_dialog_show(void)
     gtk_window_set_title(GTK_WINDOW(about), "About VICE");
 
     /* set version string */
-#ifdef USE_SVN_REVISION
     g_snprintf(version, sizeof(version),
-            "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
+            "%s %s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
             cairo_version_string(),
             pango_version_string());
-#else
-    g_snprintf(version, sizeof(version),
-            "%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
-            VERSION,
-            GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
-            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
-            cairo_version_string(),
-            pango_version_string());
-#endif
 #undef VICE_VERSION_STRING
     if (archdep_get_runtime_info(&runtime_info)) {
         size_t v = strlen(version);

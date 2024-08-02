@@ -36,9 +36,7 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
-#ifdef USE_SVN_REVISION
 #include "svnversion.h"
-#endif
 #include "types.h"
 #include "uiapi.h"
 #include "version.h"
@@ -841,11 +839,7 @@ snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t
         || snapshot_write_byte(f, viceversion[1]) < 0
         || snapshot_write_byte(f, viceversion[2]) < 0
         || snapshot_write_byte(f, viceversion[3]) < 0
-#ifdef USE_SVN_REVISION
         || snapshot_write_dword(f, VICE_SVN_REV_NUMBER) < 0) {
-#else
-        || snapshot_write_dword(f, 0) < 0) {
-#endif
         snapshot_error = SNAPSHOT_CANNOT_WRITE_VERSION_ERROR;
         goto fail;
     }

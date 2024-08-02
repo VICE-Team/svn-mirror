@@ -479,25 +479,19 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST) $(RESID_EXTRA_DIST) $(RESIDDTV_EXTRA_DIST)
 endif
 
 
-if USE_SVN_REVISION
 SVN_VERSION_HEADER = svnversion.h
 if USE_SVN_REVISION_OVERRIDE
 SVN_REVISION = "@SVN_REVISION_OVERRIDE@"
 else
 SVN_REVISION = `$(SVNVERSION) $(top_srcdir)`
 endif
-else
-SVN_VERSION_HEADER =
-endif
 
 BUILT_SOURCES = $(SVN_VERSION_HEADER) infocontrib.h
 
-if USE_SVN_REVISION
 svnversion.h.indirect:
-	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVN_REVISION) svnversion.h
+	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh svnversion.h
 
 svnversion.h: svnversion.h.indirect
-endif
 
 infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h"

@@ -63,9 +63,7 @@
 
 #include "vicedate.h"
 
-#ifdef USE_SVN_REVISION
-# include "svnversion.h"
-#endif
+#include "svnversion.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -5236,13 +5234,8 @@ static int validate_cmd(int nargs, char **args)
  */
 static int version_cmd(int nargs, char **args)
 {
-#ifdef USE_SVN_REVISION
     printf("c1541 (VICE %s SVN r%d)\n",
             VERSION, VICE_SVN_REV_NUMBER);
-#else
-    printf("c1541 (VICE %s)\n",
-            VERSION);
-#endif
     return FD_OK;
 }
 
