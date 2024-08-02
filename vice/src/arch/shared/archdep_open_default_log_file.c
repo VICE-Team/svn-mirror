@@ -47,40 +47,30 @@
 
 /** \brief  Opens the default log file
  *
- * On *nix the log goes to stdout by default. If that does not exist, attempt
- * to open a log file in the user's vice state dir. If the file cannot be
- * opened for some reason, stdout is returned anyway.
+ * Attempt to open a log file in the user's vice state dir. If the file cannot
+ * be opened for some reason, return NULL.
  *
- * \return  file pointer to log file
+ * NOTE: In the past this function would return stdout (instead of opening a
+ * regular file) under certain conditions, eg when stdout was connected to a
+ * pipe or a terminal. Or simply when opening the default log file failed. This
+ * is not the case anymore, since the log system handles the log file and stdout
+ * separately now.
+ *
+ * \return  file pointer to log file, or NULL on failure.
  */
 FILE *archdep_open_default_log_file(void)
 {
-    FILE *fp = stdout;
+    FILE *fp;
     char *path;
 
-    /* quick fix. on non windows platforms this should check if VICE has been
-       started from a terminal, and only if not open a file instead of stdout */
-#ifdef UNIX_COMPILE
-    if (!isatty(fileno(fp))) {
-        struct stat statinfo;
-        fstat(fileno(fp), &statinfo);
-        /* also check if stdout is connected to a pipe or regular file, in that
-           case do not open a logfile either, so we can redirect the output on
-           the shell */
-        if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
-#endif
-            path = archdep_default_logfile();
-            fp = fopen(path, "w");
-            if (fp == NULL) {
-                log_error(LOG_ERR,
-                        "failed to open log file '%s' for writing, reverting to stdout",
-                        path);
-                fp = stdout;
-            }
-            lib_free(path);
-#ifdef UNIX_COMPILE
-        }
+    path = archdep_default_logfile();
+    fp = fopen(path, "w");
+    if (fp == NULL) {
+        log_error(LOG_ERR,
+                "failed to open log file '%s' for writing.",
+                path);
     }
-#endif
+    lib_free(path);
+
     return fp;
 }

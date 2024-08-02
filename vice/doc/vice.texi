@@ -1239,13 +1239,33 @@ settings tree (see src/arch/gtk3/uisettings.c).
 Specify log file name
 (@code{LogFileName}).
 
+@findex -logtofile, +logtofile
+@item -logtofile
+@itemx +logtofile
+Enable/disable logging to the log file.
+(@code{LogToFile=1}, @code{LogToFile=0}).
+
+@findex -logtostdout, +logtostdout
+@item -logtostdout
+@itemx +logtostdout
+Enable/disable logging to stdout.
+(@code{LogToStdout=1}, @code{LogToStdout=0}).
+
+@findex -logtomonitor, +logtomonitor
+@item -logtomonitor
+@itemx +logtomonitor
+Enable/disable logging to the monitor.
+(@code{LogToMonitor=1}, @code{LogToMonitor=0}).
+
 @findex -verbose
 @item -verbose
 Enable verbose log output.
+(@code{LogLimit}).
 
 @findex -silent
 @item -silent
 Disable all log output (except errors).
+(@code{LogLimit}).
 
 @findex -no-redirect-streams
 @item -no-redirect-streams
@@ -17516,6 +17536,23 @@ Boolean specifying whether the emulator should dump core when it gets a signal
 @vindex LogFileName
 @item LogFileName
 String specifying the filename of the current log file.
+
+@vindex LogLimit
+@item LogLimit
+Integer specifying the "verbosity" of the log output. Higher numbers mean more
+verbosity (0: no log, 255: all messages)
+
+@vindex LogToFile
+@item LogToFile
+Boolean that specifies whether the log should go to the log file.
+
+@vindex LogToStdout
+@item LogToStdout
+Boolean that specifies whether the log should go stdout (usually the launching terminal).
+
+@vindex LogToMonitor
+@item LogToMonitor
+Boolean that specifies whether the log should go to the monitor console.
 
 @vindex ExitScreenshotName
 @item ExitScreenshotName

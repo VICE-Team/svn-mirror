@@ -3665,9 +3665,9 @@ static int quit_cmd(int nargs, char **args)
 static int verbose_cmd(int nargs, char **args)
 {
     if (nargs >= 2 && strcmp(args[1], "off") == 0) {
-        return log_set_verbose(0);
+        return log_set_limit(LOG_LIMIT_STANDARD);
     } else {
-        return log_set_verbose(1);
+        return log_set_limit(LOG_LIMIT_VERBOSE);
     }
 }
 
@@ -3677,9 +3677,9 @@ static int verbose_cmd(int nargs, char **args)
 static int silent_cmd(int nargs, char **args)
 {
     if (nargs >= 2 && strcmp(args[1], "off") == 0) {
-        return log_set_silent(0);
+        return log_set_limit(LOG_LIMIT_STANDARD);
     } else {
-        return log_set_silent(1);
+        return log_set_limit(LOG_LIMIT_SILENT);
     }
 }
 

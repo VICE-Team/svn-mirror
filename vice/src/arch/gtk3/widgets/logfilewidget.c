@@ -43,18 +43,13 @@
 
 #include "logfilewidget.h"
 
-
-/** \brief  ID of the 'changed' signal handler of the "stdout" check button
- *
- * This ID is used to temporarily block the signal to avoid signal handlers of
- * the check button and the text entry triggering each other.
- */
-static gulong check_handler = 0;
-
 /** \brief  Button to open a file manager in the logfile directory
  */
 static GtkWidget *launcher = NULL;
 
+/** \brief  "Log to file" checkbutton widget
+ */
+static GtkWidget  *file_check;
 
 /** \brief  Handler for the 'changed' event of the entry
  *
@@ -68,32 +63,11 @@ static void on_logfile_entry_changed(GtkWidget *entry, gpointer check)
     const char *text    = gtk_entry_get_text(GTK_ENTRY(entry));
     bool        enabled = g_strcmp0(text, "-") == 0;
 
-    /* avoid signals bouncing */
-    g_signal_handler_block(check, check_handler);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
-    gtk_widget_set_sensitive(launcher, !enabled);
-    g_signal_handler_unblock(check, check_handler);
-}
-
-/** \brief  Handler for the 'toggled' event of the check button
- *
- * Set \a browser contents to "-" when \a check is toggled on, clear \a browser
- * contents when \a check is toggled off.
- *
- * \param[in]   check   GtkCheckButton for "log to stdout"
- * \param[in]   chooser resource file chooser containing the LogFileName contents
- */
-static void on_stdout_check_toggled(GtkWidget *check, gpointer chooser)
-{
-    const char *text;
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
-        text = "-";
-    } else {
-        text = "";
+    if (enabled) {
+        /* enable "log to stdout", disable "log to file" when "-" was entered as name */
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(file_check), enabled ^ 1);
     }
-    gtk_entry_set_text(GTK_ENTRY(chooser), text);
-    resources_set_string("LogFileName", text);
 }
 
 /** \brief  Open directory containing the log file
@@ -182,6 +156,13 @@ static GtkWidget *label_helper(const char *text)
     return label;
 }
 
+static const vice_gtk3_combo_entry_int_t log_limits[] = {
+    { "Silent",  LOG_LIMIT_SILENT },
+    { "Standard",  LOG_LIMIT_STANDARD },
+    { "Verbose",  LOG_LIMIT_VERBOSE },
+    { "Debug",  LOG_LIMIT_DEBUG },
+    { NULL,       -1 }
+};
 
 /** \brief  Create widget to set the LogFileName resource
  *
@@ -193,7 +174,9 @@ GtkWidget *logfile_widget_create(void)
     GtkWidget  *header_label;
     GtkWidget  *logfile_chooser;
     GtkWidget  *stdout_check;
+    GtkWidget  *mon_check;
     GtkWidget  *button_box;
+    GtkWidget  *limits_widget;
     const char *logfilename = NULL;
     char       *logfile_default;
     int         row = 0;
@@ -209,6 +192,9 @@ GtkWidget *logfile_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), header_label, 0, row, 2, 1);
     row++;
 
+    file_check = vice_gtk3_resource_check_button_new("LogToFile", "Log to file");
+    gtk_grid_attach(GTK_GRID(grid), file_check, 0, row, 1, 1);
+
     /* logfile resource filechooser */
     logfile_default = archdep_default_logfile();
     logfile_chooser = vice_gtk3_resource_filechooser_new("LogFileName",
@@ -222,16 +208,23 @@ GtkWidget *logfile_widget_create(void)
     /* use the default log file path as a placeholder text */
     gtk_entry_set_placeholder_text(GTK_ENTRY(logfile_chooser), logfile_default);
     lib_free(logfile_default);
-    gtk_grid_attach(GTK_GRID(grid), logfile_chooser, 0, row, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), logfile_chooser, 1, row, 3, 1);
     row++;
 
     /* check button for "log to stdout" */
-    stdout_check = gtk_check_button_new_with_label("Log to stdout");
+    stdout_check = vice_gtk3_resource_check_button_new("LogToStdout", "Log to stdout");
     logfilename = gtk_entry_get_text(GTK_ENTRY(logfile_chooser));
     if (g_strcmp0(logfilename, "-") == 0) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stdout_check), TRUE);
     }
     gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
+
+    mon_check = vice_gtk3_resource_check_button_new("LogToMonitor", "Log to monitor");
+    gtk_grid_attach(GTK_GRID(grid), mon_check, 1, row, 1, 1);
+
+    limits_widget = vice_gtk3_resource_combo_int_new("LogLimit",
+                                                              log_limits);
+    gtk_grid_attach(GTK_GRID(grid), limits_widget, 2, row, 1, 1);
 
     /* "Open directory" button in button box, next to the stdout check button */
     button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
@@ -239,16 +232,12 @@ GtkWidget *logfile_widget_create(void)
     launcher = gtk_button_new_with_label("Open directory containing log file");
     gtk_box_pack_start(GTK_BOX(button_box), launcher, FALSE, FALSE, 0);
     gtk_widget_set_halign(button_box, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), button_box, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button_box, 3, row, 1, 1);
 
     g_signal_connect(G_OBJECT(launcher),
                      "clicked",
                      G_CALLBACK(on_launcher_clicked),
                      NULL);
-    check_handler = g_signal_connect(G_OBJECT(stdout_check),
-                                     "toggled",
-                                     G_CALLBACK(on_stdout_check_toggled),
-                                     (gpointer)logfile_chooser);
     g_signal_connect_unlocked(G_OBJECT(logfile_chooser),
                               "changed",
                               G_CALLBACK(on_logfile_entry_changed),

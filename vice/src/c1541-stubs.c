@@ -320,3 +320,7 @@ void file_system_detach_disk_all(void)
 {
 }
 
+int mon_out(const char *format, ...)
+{
+}
+
