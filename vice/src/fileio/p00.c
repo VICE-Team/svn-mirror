@@ -450,7 +450,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
         } else if (*reclenp != reclen) {
             /* The given record length does not match the stored record
              * length */
-            log_verbose("p00_open: record size: found %d != expected %d => record size mismatch\n", reclen, *reclenp);
+            log_verbose(LOG_DEFAULT, "p00_open: record size: found %d != expected %d => record size mismatch\n", reclen, *reclenp);
             return NULL;
         }
     }

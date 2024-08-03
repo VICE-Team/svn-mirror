@@ -84,7 +84,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         opencbm_so = vice_dynlib_open(ARCHDEP_OPENCBM_SO_NAME);
 
         if (opencbm_so == NULL) {
-            log_verbose("opening dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
+            log_verbose(LOG_DEFAULT, "opening dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
             return -1;
         }
 
@@ -102,7 +102,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         GET_SYMBOL_AND_TEST(cbm_get_eoi);
         GET_SYMBOL_AND_TEST(cbm_reset);
 
-        log_verbose("sucessfully loaded " ARCHDEP_OPENCBM_SO_NAME);
+        log_verbose(LOG_DEFAULT, "sucessfully loaded " ARCHDEP_OPENCBM_SO_NAME);
     }
 
     return 0;

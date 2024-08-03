@@ -97,11 +97,11 @@ void log_close_all(void);
 
 int log_out(log_t log, unsigned int level, const char *format, ...) VICE_ATTR_PRINTF3;
 
+int log_verbose(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_error(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 
 int log_debug(const char *format, ...) VICE_ATTR_PRINTF;
-int log_verbose(const char *format, ...) VICE_ATTR_PRINTF;
 
 #endif

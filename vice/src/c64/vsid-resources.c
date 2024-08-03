@@ -140,7 +140,7 @@ static int set_kernal_revision(int val, void *param)
 {
     int n = 0, rev = C64_KERNAL_UNKNOWN;
     const char *name = NULL;
-    log_verbose("set_kernal_revision was kernal_revision: %d new val:%d", kernal_revision, val);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision was kernal_revision: %d new val:%d", kernal_revision, val);
 
     if (val == C64_KERNAL_UNKNOWN) {
         kernal_revision = C64_KERNAL_UNKNOWN;
@@ -161,7 +161,7 @@ static int set_kernal_revision(int val, void *param)
         return -1;
     }
 
-    log_verbose("set_kernal_revision found rev:%d name: %s", rev, name);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision found rev:%d name: %s", rev, name);
 
     if (resources_set_string("KernalName", name) < 0) {
         log_error(LOG_DEFAULT, "failed to set kernal name (%s)", name);
@@ -175,7 +175,7 @@ static int set_kernal_revision(int val, void *param)
     }
 
     kernal_revision = rev;
-    log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision new kernal_revision: %d", kernal_revision);
     return 0;
 }
 
