@@ -175,8 +175,10 @@ GtkWidget *logfile_widget_create(void)
     GtkWidget  *logfile_chooser;
     GtkWidget  *stdout_check;
     GtkWidget  *mon_check;
+    GtkWidget  *col_check;
     GtkWidget  *button_box;
     GtkWidget  *limits_widget;
+    GtkWidget  *limits_label;
     const char *logfilename = NULL;
     char       *logfile_default;
     int         row = 0;
@@ -188,7 +190,7 @@ GtkWidget *logfile_widget_create(void)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* header */
-    header_label = label_helper("<b>VICE log file</b>");
+    header_label = label_helper("<b>VICE log</b>");
     gtk_grid_attach(GTK_GRID(grid), header_label, 0, row, 2, 1);
     row++;
 
@@ -211,16 +213,10 @@ GtkWidget *logfile_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), logfile_chooser, 1, row, 3, 1);
     row++;
 
-    /* check button for "log to stdout" */
-    stdout_check = vice_gtk3_resource_check_button_new("LogToStdout", "Log to stdout");
-    logfilename = gtk_entry_get_text(GTK_ENTRY(logfile_chooser));
-    if (g_strcmp0(logfilename, "-") == 0) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stdout_check), TRUE);
-    }
-    gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
 
-    mon_check = vice_gtk3_resource_check_button_new("LogToMonitor", "Log to monitor");
-    gtk_grid_attach(GTK_GRID(grid), mon_check, 1, row, 1, 1);
+    limits_label = label_helper("Log limit");
+    gtk_widget_set_halign(limits_label, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(grid), limits_label, 1, row, 1, 1);
 
     limits_widget = vice_gtk3_resource_combo_int_new("LogLimit",
                                                               log_limits);
@@ -233,6 +229,25 @@ GtkWidget *logfile_widget_create(void)
     gtk_box_pack_start(GTK_BOX(button_box), launcher, FALSE, FALSE, 0);
     gtk_widget_set_halign(button_box, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(grid), button_box, 3, row, 1, 1);
+
+    row++;
+
+    /* check button for "log to stdout" */
+    stdout_check = vice_gtk3_resource_check_button_new("LogToStdout", "Log to stdout");
+    logfilename = gtk_entry_get_text(GTK_ENTRY(logfile_chooser));
+    if (g_strcmp0(logfilename, "-") == 0) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stdout_check), TRUE);
+    }
+    gtk_grid_attach(GTK_GRID(grid), stdout_check, 0, row, 1, 1);
+
+    /* check button for "log to monitor" */
+    mon_check = vice_gtk3_resource_check_button_new("LogToMonitor", "Log to monitor");
+    gtk_grid_attach(GTK_GRID(grid), mon_check, 1, row, 1, 1);
+
+    /* check button for "Colorize Log" */
+    col_check = vice_gtk3_resource_check_button_new("LogColorize", "Colorize Log");
+    gtk_grid_attach(GTK_GRID(grid), col_check, 2, row, 1, 1);
+
 
     g_signal_connect(G_OBJECT(launcher),
                      "clicked",
