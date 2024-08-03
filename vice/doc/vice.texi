@@ -1257,6 +1257,12 @@ Enable/disable logging to stdout.
 Enable/disable logging to the monitor.
 (@code{LogToMonitor=1}, @code{LogToMonitor=0}).
 
+@findex -logcolorize, +logcolorize
+@item -logcolorize
+@itemx +logcolorize
+Enable/disable colorizing the log output.
+(@code{LogColorize=1}, @code{LogColorize=0}).
+
 @findex -verbose
 @item -verbose
 Enable verbose log output.
@@ -8739,11 +8745,6 @@ Integer number of lines to hexdump, 0: unlimited
 Integer, 1-255: Timeout to wait for URLs in seconds
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
-@vindex WIC64ColorizeLog
-@item WIC64ColorizeLog
-Integer, 1: WiC64 tracing using ANSI colorizing, 0: no colorizing
-(vic20, x64, x64sc, xscpu64 and x128 only).
-
 @vindex WIC64LogLevel
 @item WIC64LogLevel
 Integer, WiC64 trace level, 0: no trace, 1: standard, 2: verbose,
@@ -8809,13 +8810,6 @@ Integer to specify number of lines to hexdump, 0: unlimited,
 @findex -wic64remotetimeout
 @item -wic64remotetimeout <value>
 Timeout to wait for URLs in seconds, 1 - 255
-(vic20, x64, x64sc, xscpu64 and x128 only).
-
-@findex -wic64colorizetrace
-@item -wic64colorizetrace
-@itemx +wic64colorizetrace
-Enable/disable ANSI color codes for terminals to colorize the WiC64 log for
-better readability
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
@@ -17553,6 +17547,10 @@ Boolean that specifies whether the log should go stdout (usually the launching t
 @vindex LogToMonitor
 @item LogToMonitor
 Boolean that specifies whether the log should go to the monitor console.
+
+@vindex LogColorize
+@item LogColorize
+Boolean that specifies whether the log in the terminal should be colorized.
 
 @vindex ExitScreenshotName
 @item ExitScreenshotName
