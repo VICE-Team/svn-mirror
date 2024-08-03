@@ -36,6 +36,14 @@
 # include <windows.h>
 #endif
 
+#include <stdio.h>
+#include <stdlib.h>
+#ifdef UNIX_COMPILE
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
 #include "lib.h"
 #include "util.h"
 
@@ -74,6 +82,11 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
+int archdep_default_logger_is_terminal(void)
+{
+    return 1;   /* FIXME */
+}
+
 #elif defined(UNIX_COMPILE) || defined(ARCHEP_OS_BEOS)
 
 /** \brief  Write log message to stdout
@@ -95,6 +108,18 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
+int archdep_default_logger_is_terminal(void)
+{
+    FILE *fp = stdout;
+    struct stat statinfo;
+
+    fstat(fileno(fp), &statinfo);
+    if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
+        return 1;
+    }
+    return 0;
+}
+
 #else
 
 /** \brief  Write log message to stdout
@@ -109,6 +134,11 @@ int archdep_default_logger(const char *level_string, const char *txt)
 int archdep_default_logger(const char *level_string, const char *txt)
 {
     return 0;
+}
+
+int archdep_default_logger_is_terminal(void)
+{
+    return 0;   /* FIXME */
 }
 
 #endif
