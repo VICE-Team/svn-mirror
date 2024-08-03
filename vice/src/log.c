@@ -717,7 +717,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     if (log_to_stdout) {
         /* FIXME: we should force colors off here, if the standard logger goes
                   into a file (because stdout was redirected) */
-        if (0) {
+        if (archdep_default_logger_is_terminal() == 0) {
             terminalpre = nocolorpre;
             terminaltxt = nocolortxt;
         }

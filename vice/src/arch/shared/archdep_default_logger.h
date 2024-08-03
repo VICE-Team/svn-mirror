@@ -31,4 +31,6 @@
 
 int archdep_default_logger(const char *level_string, const char *txt);
 
+int archdep_default_logger_is_terminal(void);
+
 #endif
