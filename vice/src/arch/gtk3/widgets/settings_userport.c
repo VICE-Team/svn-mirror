@@ -339,17 +339,7 @@ static GtkWidget *create_device_combobox(void)
 static GtkWidget *create_wic64_logenabled_widget(void)
 {
     return vice_gtk3_resource_check_button_new("WIC64Logenabled",
-                                               "Enable WiC64 tracing");
-}
-
-/** \brief  Create widget for the "WIC64ColorizeLog" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_wic64_colorizedlog_widget(void)
-{
-    return vice_gtk3_resource_check_button_new("WIC64ColorizeLog",
-                                               "Enable WiC64 colorized tracing");
+                                               "Enable WiC64 logging");
 }
 
 /** \brief  Create widget for the "WIC64Logenabled" resource
@@ -451,7 +441,6 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *server;
     GtkWidget *tz_widget;
     GtkWidget *tracing;
-    GtkWidget *colorized;
     GtkWidget *resetuser;
     GtkWidget *lines_widget;
     GtkWidget *trace_level;
@@ -470,31 +459,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
 
     label = label_helper("<b>WiC64 settings</b>");
     gtk_widget_set_margin_bottom(label, 8);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row++, 2, 1);
-
-    /* enable WiC64 tracing */
-    tracing = create_wic64_logenabled_widget();
-    gtk_grid_attach(GTK_GRID(grid), tracing,     0, row, 1, 1);
-
-    label = gtk_label_new("Hexdump Lines\n(0: unlimited)");
-    gtk_widget_set_margin_start(label, 4);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    lines_widget = vice_gtk3_resource_spin_int_new(
-        "WIC64HexdumpLines", 0, 32768, 1);
-    gtk_grid_attach(GTK_GRID(grid), lines_widget, 1, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
-    row++;
-
-    colorized = create_wic64_colorizedlog_widget();
-    gtk_grid_attach(GTK_GRID(grid), colorized,     0, row, 1, 1);
-
-    label = gtk_label_new("Trace level\n(0: off)");
-    gtk_widget_set_margin_start(label, 4);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    trace_level = vice_gtk3_resource_spin_int_new(
-        "WIC64LogLevel", 0, WIC64_MAXTRACELEVEL, 1);
-    gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     label = gtk_label_new("Remote Timeout\n(1 - 255)");
@@ -565,6 +530,28 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     /* enable WiC64 tracing */
     resetuser = create_wic64_resetuser_widget();
     gtk_grid_attach(GTK_GRID(grid), resetuser, 1, row, 1, 1);
+    row++;
+
+    /* enable WiC64 tracing */
+    tracing = create_wic64_logenabled_widget();
+    gtk_grid_attach(GTK_GRID(grid), tracing,     0, row, 1, 1);
+
+    label = gtk_label_new("Hexdump Lines\n(0: unlimited)");
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    lines_widget = vice_gtk3_resource_spin_int_new(
+        "WIC64HexdumpLines", 0, 32768, 1);
+    gtk_grid_attach(GTK_GRID(grid), lines_widget, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
+    row++;
+
+    label = gtk_label_new("Log level\n(0: off)");
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    trace_level = vice_gtk3_resource_spin_int_new(
+        "WIC64LogLevel", 0, WIC64_MAXTRACELEVEL, 1);
+    gtk_grid_attach(GTK_GRID(grid), trace_level, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, row, 1, 1);
     row++;
 
     wic64_save = grid;
