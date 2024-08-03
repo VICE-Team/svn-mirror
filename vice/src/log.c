@@ -95,6 +95,8 @@ static int log_to_file = 1;
 static int log_to_stdout = 1;
 static int log_to_monitor = 0;
 
+static int log_colorize = 1;
+
 /* ------------------------------------------------------------------------- */
 
 static int log_file_type = 0;
@@ -278,6 +280,15 @@ static int set_log_to_monitor(int val, void *param)
     return 0;
 }
 
+static int set_log_colorize(int val, void *param)
+{
+    LOCK();
+    log_colorize = val ? 1 : 0;
+    DBG(("set_log_colorize:%d\n", val));
+    UNLOCK();
+    return 0;
+}
+
 static int set_log_file_name(const char *val, void *param)
 {
     if (locked) {
@@ -317,6 +328,8 @@ static const resource_int_t resources_int[] = {
       &log_to_stdout, set_log_to_stdout, NULL },
     { "LogToMonitor", 0, RES_EVENT_NO, NULL,
       &log_to_monitor, set_log_to_monitor, NULL },
+    { "LogColorize", 1, RES_EVENT_NO, NULL,
+      &log_colorize, set_log_colorize, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -420,6 +433,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+logtomonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "LogToMonitor", (void *)0,
       NULL, "Do not log to the monitor." },
+    { "-logcolorize", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "LogColorize", (void *)1,
+      NULL, "Colorize the log output." },
+    { "+logcolorize", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "LogColorize", (void *)0,
+      NULL, "Do not colorize the log output." },
 
     CMDLINE_LIST_END
 };
@@ -609,15 +628,40 @@ static int log_tofile(const char *pretxt, const char *logtxt)
     return rc;
 }
 
+static char *logskipcolors(char *txt)
+{
+    char *p = lib_strdup(txt);
+    char *out;
+    out = p;
+    while (*txt != 0) {
+        if (*txt == 0x1b) {
+            txt++;
+            if (*txt == '[') {
+                while ((*txt != 0) && (*txt != 'm')) {
+                    txt++;
+                }
+                if (*txt != 0) {
+                    txt++;
+                }
+            }
+        } else {
+            *out = *txt;
+            out++; txt++;
+        }
+    }
+    *out = 0;
+    return p;
+}
+
 /* main log helper */
 static int log_helper(log_t log, unsigned int level, const char *format,
                       va_list ap)
 {
     static const char * const level_strings[8] = {
         "",             /* LOG_LEVEL_NONE */
-        "Fatal - ",     /* LOG_LEVEL_FATAL */
-        "Error - ",     /* LOG_LEVEL_ERROR */
-        "Warning - ",   /* LOG_LEVEL_WARNING */
+        LOG_COL_LRED "Fatal" LOG_COL_OFF " - ",     /* LOG_LEVEL_FATAL */
+        LOG_COL_LRED "Error" LOG_COL_OFF " - ",     /* LOG_LEVEL_ERROR */
+        LOG_COL_LMAGENTA "Warning" LOG_COL_OFF " - ",   /* LOG_LEVEL_WARNING */
         "",             /* LOG_LEVEL_INFO */
         "",             /* LOG_LEVEL_VERBOSE */
         "",             /* LOG_LEVEL_DEBUG */
@@ -630,8 +674,10 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     int rc = 0;
     char *pretxt = NULL;
     char *logtxt = NULL;
-
-    // va_list ap1, ap2;
+    char *nocolorpre = NULL;
+    char *nocolortxt = NULL;
+    char *terminalpre = NULL;
+    char *terminaltxt = NULL;
 
     /* exit early if there is no log enabled */
     if ((log_limit < level) ||
@@ -641,45 +687,64 @@ static int log_helper(log_t log, unsigned int level, const char *format,
 
     if ((logi != LOG_DEFAULT) && (logi != LOG_ERR)) {
         if ((logs == NULL) || (logi < 0)|| (logi >= num_logs) || (logs[logi] == NULL)) {
-#ifdef DEBUG
-            log_archdep("log_helper: internal error (invalid id or closed log), messages follows:\n", format, ap);
-#endif
+            DBG(("log_helper: internal error (invalid id or closed log), messages follows:\n"));
             return -1;
         }
     }
 
     /* prepend the log_t prefix, and the loglevel string */
     if ((log_file != NULL) && (logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
-        pretxt = lib_msprintf("%s: %s", logs[logi], lvlstr);
+        pretxt = lib_msprintf(LOG_COL_LWHITE "%s" LOG_COL_OFF ": %s", logs[logi], lvlstr);
     } else {
         pretxt = lib_msprintf("%s", lvlstr);
     }
     /* build the log string */
     logtxt = lib_mvsprintf(format, ap);
 
+    if ((log_to_file) || (!log_colorize)) {
+        nocolorpre = logskipcolors(pretxt);
+        nocolortxt = logskipcolors(logtxt);
+    }
+
+    if (log_colorize) {
+        terminalpre = pretxt;
+        terminaltxt = logtxt;
+    } else {
+        terminalpre = nocolorpre;
+        terminaltxt = nocolortxt;
+    }
+
     if (log_to_stdout) {
+        /* FIXME: we should force colors off here, if the standard logger goes
+                  into a file (because stdout was redirected) */
+        if (0) {
+            terminalpre = nocolorpre;
+            terminaltxt = nocolortxt;
+        }
         /* output to stdout */
-        if (log_archdep(pretxt, logtxt) < 0) {
+        if (log_archdep(terminalpre, terminaltxt) < 0) {
             rc = -1;
         }
     }
 
     if (log_to_file) {
         /* output to log file */
-        if (log_tofile(pretxt, logtxt) < 0) {
+        if (log_tofile(nocolorpre, nocolortxt) < 0) {
             rc = -1;
         }
     }
 
     if (log_to_monitor) {
         /* output to monitor */
-        if (log_monitor(pretxt, logtxt) < 0) {
+        if (log_monitor(terminalpre, terminaltxt) < 0) {
             rc = -1;
         }
     }
 
     lib_free(pretxt);
     lib_free(logtxt);
+    lib_free(nocolorpre);
+    lib_free(nocolortxt);
     return rc;
 }
 
