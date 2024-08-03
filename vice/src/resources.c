@@ -977,7 +977,7 @@ int resources_set_defaults(void)
             case RES_INTEGER:
                 if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].factory_value),
                                                  resources[i].param) < 0) {
-                    log_verbose("Cannot set int resource '%s' to default '%d'",
+                    log_verbose(LOG_DEFAULT, "Cannot set int resource '%s' to default '%d'",
                                 resources[i].name, vice_ptr_to_int(resources[i].factory_value));
                     /*return -1;*/
                 }
@@ -985,7 +985,7 @@ int resources_set_defaults(void)
             case RES_STRING:
                 if ((*resources[i].set_func_string)((const char *)(resources[i].factory_value),
                                                     resources[i].param) < 0) {
-                    log_verbose("Cannot set string resource '%s' to default '%s'",
+                    log_verbose(LOG_DEFAULT, "Cannot set string resource '%s' to default '%s'",
                                 resources[i].name, (const char *)(resources[i].factory_value));
                     /*return -1;*/
                 }

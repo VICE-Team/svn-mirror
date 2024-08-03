@@ -188,7 +188,7 @@ static int set_kernal_revision(const char *param, void *extra_param)
         i++;
     } while ((rev == C64_KERNAL_UNKNOWN) && (kernal_match[i].name != NULL));
 
-    log_verbose("set_kernal_revision (\"-kernalrev\") val:'%s' rev: %d", param, rev);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision (\"-kernalrev\") val:'%s' rev: %d", param, rev);
 
     if (rev == C64_KERNAL_UNKNOWN) {
         log_error(LOG_DEFAULT, "invalid kernal revision (%d)", rev);

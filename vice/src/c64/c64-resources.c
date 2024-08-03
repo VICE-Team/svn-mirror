@@ -95,7 +95,7 @@ static int set_kernal_rom_name(const char *val, void *param)
                 AND it was not null before (in that case we are setting the
                 default value) */
     int changed = 0;
-    log_verbose("set_kernal_rom_name val:%s.", val);
+    log_verbose(LOG_DEFAULT, "set_kernal_rom_name val:%s.", val);
     if ((val != NULL) && (kernal_rom_name != NULL)) {
         changed = (strcmp(val, kernal_rom_name) != 0);
     }
@@ -255,7 +255,7 @@ static int set_kernal_revision(int val, void *param)
     const char *name = NULL;
     int flags;
 
-    log_verbose("set_kernal_revision(val:%d) was kernal_revision: %d", val, kernal_revision);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision(val:%d) was kernal_revision: %d", val, kernal_revision);
 
     flags = get_trapflags();
 
@@ -293,7 +293,7 @@ static int set_kernal_revision(int val, void *param)
         }
     }
 
-    log_verbose("set_kernal_revision found rev:%d name: %s", rev, name);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision found rev:%d name: %s", rev, name);
 
     if (resources_set_string("KernalName", name) < 0) {
         log_error(LOG_DEFAULT, "failed to set kernal name (%s)", name);
@@ -311,7 +311,7 @@ static int set_kernal_revision(int val, void *param)
         restore_trapflags(flags);
     }
     kernal_revision = rev;
-    log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
+    log_verbose(LOG_DEFAULT, "set_kernal_revision new kernal_revision: %d", kernal_revision);
     return 0;
 }
 

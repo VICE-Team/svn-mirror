@@ -110,7 +110,7 @@ void mousedrv_mouse_changed(void)
 {
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
-    log_verbose("GTK3MOUSE: Status changed: %d (%s)",
+    log_verbose(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)",
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
     if (_mouse_enabled) {
         ui_mouse_grab_pointer();

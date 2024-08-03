@@ -808,6 +808,20 @@ int log_error(log_t log, const char *format, ...)
     UNLOCK_AND_RETURN_INT(rc);
 }
 
+int log_verbose(log_t log, const char *format, ...)
+{
+    va_list ap;
+    int rc = 0;
+
+    LOCK();
+
+    va_start(ap, format);
+    rc = log_helper(log, LOG_LEVEL_VERBOSE, format, ap);
+    va_end(ap);
+
+    UNLOCK_AND_RETURN_INT(rc);
+}
+
 int log_debug(const char *format, ...)
 {
     va_list ap;
@@ -822,16 +836,3 @@ int log_debug(const char *format, ...)
     UNLOCK_AND_RETURN_INT(rc);
 }
 
-int log_verbose(const char *format, ...)
-{
-    va_list ap;
-    int rc = 0;
-
-    LOCK();
-
-    va_start(ap, format);
-    rc = log_helper(LOG_DEFAULT, LOG_LEVEL_VERBOSE, format, ap);
-    va_end(ap);
-
-    UNLOCK_AND_RETURN_INT(rc);
-}
