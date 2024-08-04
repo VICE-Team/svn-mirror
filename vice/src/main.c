@@ -123,6 +123,8 @@ static pthread_mutex_t init_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* ------------------------------------------------------------------------- */
 
+log_t main_log;
+
 /* This is the main program entry point.  Call this from `main()'.  */
 int main_program(int argc, char **argv)
 {
@@ -331,6 +333,8 @@ int main_program(int argc, char **argv)
         }
     }
 
+    main_log = log_open("Main");
+
     DBG(("main:initcmdline_check_args(argc:%d)\n", argc));
     if (initcmdline_check_args(argc, argv) < 0) {
         return -1;
@@ -346,11 +350,15 @@ int main_program(int argc, char **argv)
     program_name = archdep_program_name();
 
     /* VICE boot sequence.  */
+
+    /* NOTE: we do NOT use main_log here on purpose, this is so we can output the
+             welcome banner without the "Main:" prefix */
+
     log_message(LOG_DEFAULT, " ");
 #ifdef USE_SVN_REVISION
-    log_message(LOG_DEFAULT, "*** VICE Version %s, rev %s ***", VERSION, VICE_SVN_REV_STRING);
+    log_message(LOG_DEFAULT, LOG_COL_LWHITE "*** VICE Version %s, rev %s ***" LOG_COL_OFF, VERSION, VICE_SVN_REV_STRING);
 #else
-    log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
+    log_message(LOG_DEFAULT, LOG_COL_LWHITE "*** VICE Version %s ***" LOG_COL_OFF, VERSION);
 #endif
     log_message(LOG_DEFAULT, " ");
     if (machine_class == VICE_MACHINE_VSID) {
@@ -391,18 +399,20 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "%s", term_tmp);
 
     log_message(LOG_DEFAULT, " ");
-    log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
-    log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
+    log_message(LOG_DEFAULT, LOG_COL_LWHITE "This is free software with ABSOLUTELY NO WARRANTY." LOG_COL_OFF);
+    log_message(LOG_DEFAULT, LOG_COL_LWHITE "See the \"About VICE\" command for more info." LOG_COL_OFF);
     log_message(LOG_DEFAULT, " ");
 
+    /* from this point on use main_log ! */
+
     /* lib_free(program_name); */
-    lib_rand_printseed(); /* log the random seed */
-    log_message(LOG_DEFAULT, "command line was: %s", cmdline);
+    lib_rand_printseed(main_log); /* log the random seed */
+    log_message(main_log, "command line was: %s", cmdline);
     lib_free(cmdline);
 
     /* log VICE system file directory */
     datadir = archdep_get_vice_datadir();
-    log_message(LOG_DEFAULT, "VICE system file directory: %s.", datadir);
+    log_message(main_log, "VICE system file directory: %s.", datadir);
     lib_free(datadir);
 
     /* Complete the GUI initialization (after loading the resources and
@@ -423,7 +433,7 @@ int main_program(int argc, char **argv)
 #ifdef USE_VICE_THREAD
 
     if (pthread_create(&vice_thread, NULL, vice_thread_main, NULL)) {
-        log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
+        log_fatal(main_log, "failed to launch main thread");
         return 1;
     }
 
@@ -438,15 +448,17 @@ int main_program(int argc, char **argv)
     return 0;
 }
 
+extern log_t maincpu_log;   /* FIXME: where should this live? */
+
 void main_loop_forever(void)
 {
-    log_message(LOG_DEFAULT, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
-    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
+    log_message(maincpu_log, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
+    log_message(maincpu_log, "starting at ($FFFC).");
 
     /* This doesn't return. The thread will directly exit when requested. */
     maincpu_mainloop();
 
-    log_error(LOG_DEFAULT, "perkele! (THREAD)");
+    log_fatal(main_log, "perkele! (THREAD)");
 }
 
 #ifdef USE_VICE_THREAD
@@ -458,7 +470,9 @@ void vice_thread_shutdown(void)
         return;
     }
 
-    log_message(LOG_DEFAULT, "\nConfigure Flags:\n%s", CONFIGURE_FLAGS);
+    /* NOTE: use LOG_DEFAULT here on purpose */
+
+    log_message(LOG_DEFAULT, "\n" LOG_COL_LWHITE "Configure Flags" LOG_COL_OFF ":\n%s", CONFIGURE_FLAGS);
     /* log resources with non default values */
     resources_log_active();
     /* log the active config as commandline options */
@@ -474,7 +488,7 @@ void vice_thread_shutdown(void)
 
     pthread_join(vice_thread, NULL);
 
-    log_message(LOG_DEFAULT, "VICE thread has been joined.");
+    log_message(main_log, "VICE thread has been joined.");
 }
 
 void *vice_thread_main(void *unused)

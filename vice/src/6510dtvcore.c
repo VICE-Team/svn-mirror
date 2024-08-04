@@ -43,6 +43,11 @@
 #define CPU_STR "Main CPU"
 #endif
 
+#ifndef CPU_LOG_ID
+#define CPU_LOG_ID LOG_DEFAULT
+#warning "CPU_LOG_ID not defined, using LOG_DEFAULT by default"
+#endif
+
 #include "traps.h"
 
 #include "profiler.h"
@@ -830,10 +835,10 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         unsigned int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x));                   \
         if ((ANE_LOG_LEVEL == 2) || ((ANE_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
-                log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
                     reg_pc, p1, reg_a_read, reg_x, result, rdy ? " (RDY cycle)" : "");      \
             } else {                                                                        \
-                log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
                     reg_pc, p1, reg_a_read, reg_x, result,                                  \
                     unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
                     unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
@@ -1282,10 +1287,10 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         unsigned int unstablebits = (reg_a_read ^ 0xff) & p1;                               \
         if ((LXA_LOG_LEVEL == 2) || ((LXA_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
-                log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
                     reg_pc, p1, reg_a_read, result, rdy ? " (RDY cycle)" : "");             \
             } else {                                                                        \
-                log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
                     reg_pc, p1, reg_a_read, result,                                         \
                     unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
                     unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \

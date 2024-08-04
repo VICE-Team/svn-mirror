@@ -49,6 +49,7 @@
 #include "ui.h"
 #include "uimachinewindow.h"
 
+static log_t mousedrv_log = LOG_DEFAULT;
 
 /** \brief The callbacks registered for mouse buttons being pressed or
  *         released.
@@ -97,7 +98,7 @@ void mouse_button(int bnumber, int state)
         }
         break;
     default:
-        log_error(LOG_DEFAULT, "GTK3MOUSE: Warning: Strange mouse button %d\n", bnumber);
+        log_warning(mousedrv_log, "Strange mouse button %d\n", bnumber);
     }
 }
 
@@ -110,7 +111,7 @@ void mousedrv_mouse_changed(void)
 {
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
-    log_verbose(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)",
+    log_verbose(mousedrv_log, "Status changed: %d (%s)",
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
     if (_mouse_enabled) {
         ui_mouse_grab_pointer();
@@ -121,6 +122,7 @@ void mousedrv_mouse_changed(void)
 
 int mousedrv_resources_init(const mouse_func_t *funcs)
 {
+    mousedrv_log = log_open("GTK3 Mouse");
     /* Copy entire 'mouse_func_t' structure. */
     mouse_funcs = *funcs;
     return 0;

@@ -314,6 +314,9 @@ void interrupt_ack_reset(interrupt_cpu_status_t *cs)
 }
 
 /* Trigger a TRAP next cycle */
+
+extern log_t traps_log;
+
 void interrupt_maincpu_trigger_trap(void (*trap_func)(uint16_t, void *data),
                                     void *data)
 {
@@ -331,7 +334,7 @@ void interrupt_maincpu_trigger_trap(void (*trap_func)(uint16_t, void *data),
      */
 
     if (trap_size_needed > cs->traps_size) {
-        log_message(LOG_DEFAULT, "Increasing trap_func array size to %d with %d to run", trap_size_needed, cs->traps_count);
+        log_verbose(traps_log, "Increasing trap_func array size to %d with %d to run", trap_size_needed, cs->traps_count);
         cs->trap_func = lib_realloc(cs->trap_func, trap_size_needed * sizeof(*cs->trap_func));
         cs->trap_data = lib_realloc(cs->trap_data, trap_size_needed * sizeof(*cs->trap_data));
         cs->traps_size = trap_size_needed;

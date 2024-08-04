@@ -35,6 +35,7 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "log.h"
 
 #ifdef DEBUG
 /* memory leak pinpointing, don't forget to enable in lib.c */
@@ -48,7 +49,7 @@ float lib_float_rand(float min, float max);
 double lib_double_rand_unit(void);
 
 void lib_rand_seed(uint64_t seed);
-void lib_rand_printseed(void);
+void lib_rand_printseed(log_t log);
 
 char *lib_msprintf(const char *fmt, ...) VICE_ATTR_PRINTF;
 char *lib_mvsprintf(const char *fmt, va_list args);

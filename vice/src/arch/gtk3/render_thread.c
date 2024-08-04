@@ -54,14 +54,18 @@ static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 #define LOCK() pthread_mutex_lock(&lock)
 #define UNLOCK() pthread_mutex_unlock(&lock)
 
+log_t render_log = LOG_DEFAULT;
+
 render_thread_t render_thread_create(render_thread_callback_t callback, void *thread_context)
 {
     render_thread_t thread;
 
     LOCK();
 
+    render_log = log_open("Render thread");
+
     if (thread_count == RENDER_THREAD_MAX) {
-        log_error(LOG_ERR, "Reach maximum render thread count (%d), cannot create another", RENDER_THREAD_MAX);
+        log_error(render_log, "Reach maximum render thread count (%d), cannot create another", RENDER_THREAD_MAX);
         UNLOCK();
         archdep_vice_exit(-1);
     }
@@ -77,7 +81,7 @@ render_thread_t render_thread_create(render_thread_callback_t callback, void *th
 
     UNLOCK();
 
-    log_message(LOG_DEFAULT, "Created render thread %d", thread->index);
+    log_message(render_log, "Created render thread %d", thread->index);
 
     return thread;
 }
@@ -91,7 +95,7 @@ void render_thread_initiate_shutdown(render_thread_t thread)
         return;
     }
 
-    log_message(LOG_DEFAULT, "Initiating render thread %d shutdown", thread->index);
+    log_message(render_log, "Initiating render thread %d shutdown", thread->index);
     thread->is_shutdown_initiated = true;
 
     /* Schedule the shutdown job */
@@ -102,7 +106,7 @@ void render_thread_initiate_shutdown(render_thread_t thread)
 
 void render_thread_join(render_thread_t thread)
 {
-    log_message(LOG_DEFAULT, "Joining render thread %d ...", thread->index);
+    log_message(render_log, "Joining render thread %d ...", thread->index);
 
     /* TODO: We should block until all jobs are done - but there's a race condition deadlock outcome here. Fix needed */
     g_thread_pool_free(thread->executor, TRUE, TRUE);
@@ -111,7 +115,7 @@ void render_thread_join(render_thread_t thread)
     thread->is_shut_down = true;
     UNLOCK();
 
-    log_message(LOG_DEFAULT, "Joined render thread %d.", thread->index);
+    log_message(render_log, "Joined render thread %d.", thread->index);
 }
 
 void render_thread_shutdown_and_join_all(void)
@@ -132,7 +136,7 @@ void render_thread_push_job(render_thread_t thread, render_job_t job)
 
     if (thread->is_shutdown_initiated)
     {
-        log_message(LOG_DEFAULT, "Ignoring new render job as render thread %d %s down", thread->index, thread->is_shut_down ? "has shut" : "is shutting");
+        log_message(render_log, "Ignoring new render job as render thread %d %s down", thread->index, thread->is_shut_down ? "has shut" : "is shutting");
         UNLOCK();
         return;
     }
