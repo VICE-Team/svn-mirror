@@ -808,6 +808,20 @@ int log_error(log_t log, const char *format, ...)
     UNLOCK_AND_RETURN_INT(rc);
 }
 
+int log_fatal(log_t log, const char *format, ...)
+{
+    va_list ap;
+    int rc;
+
+    LOCK();
+
+    va_start(ap, format);
+    rc = log_helper(log, LOG_LEVEL_FATAL, format, ap);
+    va_end(ap);
+
+    UNLOCK_AND_RETURN_INT(rc);
+}
+
 int log_verbose(log_t log, const char *format, ...)
 {
     va_list ap;
