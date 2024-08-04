@@ -115,6 +115,8 @@ static linenoiseCompletions need_filename_lc = {0, NULL};
 #define FONT_TYPE_PETME64   3 /* https://www.kreativekorp.com/software/fonts/c64/ */
 static int font_type = FONT_TYPE_ASCII;
 
+static log_t monui_log = LOG_DEFAULT;
+
 /* FIXME: this should perhaps be done using some function from archdep */
 static int is_dir(struct dirent *de)
 {
@@ -915,7 +917,7 @@ static void get_terminal_size_in_chars(VteTerminal *terminal,
 static void printfontinfo(const PangoFontDescription* desc, const char *name)
 {
     const char *variations = pango_font_description_get_variations(desc);
-    log_message(LOG_DEFAULT, "Monitor: using font '%s' (Family:%s, Size:%d, Variations:%s) PETSCII:%s Terminal Scale:%f",
+    log_message(monui_log, "using font '%s' (Family:%s, Size:%d, Variations:%s) PETSCII:%s Terminal Scale:%f",
                 name,
                 pango_font_description_get_family(desc),
                 pango_font_description_get_size(desc) / PANGO_SCALE,
@@ -1107,7 +1109,7 @@ static PangoFontDescription* getfontdesc(const char *name)
     PangoFontDescription* desc = pango_font_description_from_string(name);
 
     if (desc == NULL) {
-        log_warning(LOG_ERR, "Failed to parse Pango font description '%s'", name);
+        log_warning(monui_log, "Failed to parse Pango font description '%s'", name);
         return NULL;
     }
 
@@ -1129,12 +1131,12 @@ bool uimon_set_font(void)
     font_type = FONT_TYPE_ASCII;
 
     if (resources_get_string("MonitorFont", &monitor_font) < 0) {
-        log_error(LOG_ERR, "Failed to read 'MonitorFont' resource.");
+        log_error(monui_log, "Failed to read 'MonitorFont' resource.");
         return false;
     }
 
     if (fixed.term == NULL) {
-        log_error(LOG_ERR, "No monitor instance found.");
+        log_error(monui_log, "No monitor instance found.");
         return false;
     }
 
@@ -1165,21 +1167,21 @@ bool uimon_set_font(void)
     desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
     using_font = pango_font_description_to_string(desc_tmp);
     if(!strncasecmp("c64 pro", using_font, 7)) {
-        log_message(LOG_DEFAULT, "'C64 Pro*' font found, enabling PETSCII output.");
+        log_message(monui_log, "'C64 Pro*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_C64PRO;
     } else if(!strncasecmp("pet me 64", using_font, 9) ||
               !strncasecmp("pet me 128", using_font, 10)) {
-        log_message(LOG_DEFAULT, "'PET Me 64/128*' font found, enabling PETSCII output.");
+        log_message(monui_log, "'PET Me 64/128*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_PETME64;
     } else if(!strncasecmp("pet me", using_font, 6)) {
-        log_message(LOG_DEFAULT, "'PET Me*' font found, enabling PETSCII output.");
+        log_message(monui_log, "'PET Me*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_PETME;
     }
     scale_terminal_set(1.0f);
     printfontinfo(desc_tmp, using_font);
 
     if (resources_set_string("MonitorFont", using_font) < 0) {
-        log_error(LOG_ERR, "Failed to set 'MonitorFont' resource.");
+        log_error(monui_log, "Failed to set 'MonitorFont' resource.");
         return false;
     }
 
@@ -1452,6 +1454,10 @@ static gboolean uimon_window_close_impl(gpointer user_data)
 
 console_t *uimon_window_open(bool display_now)
 {
+    if (monui_log = LOG_DEFAULT) {
+        monui_log = log_open("Monitor UI");
+    }
+
     if (native_monitor()) {
         return uimonfb_window_open();
     }

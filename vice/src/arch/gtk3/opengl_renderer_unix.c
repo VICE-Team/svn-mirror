@@ -38,6 +38,8 @@
 #include "log.h"
 #include "render_queue.h"
 
+extern log_t opengl_log;
+
 #define CANVAS_LOCK() pthread_mutex_lock(context->canvas_lock_ptr)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(context->canvas_lock_ptr)
 #define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
@@ -109,27 +111,27 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     context->x_display = GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget));
 
     if (!glXQueryVersion(context->x_display, &glx_major, &glx_minor)) {
-        log_error(LOG_DEFAULT, "Failed to get GLX version\n");
+        log_error(opengl_log, "Failed to get GLX version\n");
         archdep_vice_exit(1);
     }
 
-    log_message(LOG_DEFAULT, "GLX version: %d.%d", glx_major, glx_minor);
+    log_message(opengl_log, "GLX version: %d.%d", glx_major, glx_minor);
 
     /* FBConfigs were added in GLX version 1.3. */
     if (glx_major < 1 || (glx_major == 1 && glx_minor < 3)) {
-        log_error(LOG_DEFAULT, "At least GLX 1.3 is required\n");
+        log_error(opengl_log, "At least GLX 1.3 is required\n");
         archdep_vice_exit(1);
     }
 
-    log_message(LOG_DEFAULT, "Getting matching framebuffer configs" );
+    log_message(opengl_log, "Getting matching framebuffer configs" );
 
     PFNGLXCHOOSEFBCONFIGPROC vice_glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXChooseFBConfig");
     GLXFBConfig *framebuffer_configs = vice_glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
     if (!framebuffer_configs) {
-        log_error(LOG_DEFAULT, "Failed to retrieve a framebuffer config\n");
+        log_error(opengl_log, "Failed to retrieve a framebuffer config\n");
         archdep_vice_exit(1);
     }
-    log_message(LOG_DEFAULT, "Found %d matching FB configs.", fbcount);
+    log_message(opengl_log, "Found %d matching FB configs.", fbcount);
 
     /* Just pick the first one I guess. */
     GLXFBConfig framebuffer_config = framebuffer_configs[0];
@@ -200,7 +202,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         XSetErrorHandler(oldHandler);
 
         if (!context->gl_context) {
-            log_error(LOG_DEFAULT, "Failed to obtain an OpenGL 3.2 context, requesting a legacy context\n" );
+            log_error(opengl_log, "Failed to obtain an OpenGL 3.2 context, requesting a legacy context\n" );
 
             /*
              * Couldn't create GL 3.2 context.  Fall back to old-style 2.x context.
@@ -228,7 +230,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
 
-    log_message(LOG_DEFAULT, "Obtained OpenGL %d.%d context\n Vendor:   %s\n Renderer: %s\n Version:  %s\n Legacy:   %s",
+    log_message(opengl_log, "Obtained OpenGL %d.%d context\n Vendor:   %s\n Renderer: %s\n Version:  %s\n Legacy:   %s",
         major,
         minor,
         glGetString(GL_VENDOR),
@@ -238,12 +240,12 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     /* Not sure if an indirect context will work but lets leave some useful output for bug reports */
     if (!glXIsDirect(context->x_display, context->gl_context)) {
-        log_message(LOG_DEFAULT, "Indirect GLX rendering context obtained - please let us know if this works!");
+        log_message(opengl_log, "Indirect GLX rendering context obtained - please let us know if this works!");
     } else {
-        log_message(LOG_DEFAULT, "Direct GLX rendering context obtained");
+        log_message(opengl_log, "Direct GLX rendering context obtained");
     }
 
-    log_message(LOG_DEFAULT, "Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
+    log_message(opengl_log, "Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
 
     vice_opengl_renderer_clear_current(context);
 }
@@ -260,12 +262,12 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
         result = glXSwapIntervalMESA(gl_int);
         if (result) {
             if (!set_vsync_failed) {
-                log_error(LOG_DEFAULT, "glXSwapIntervalMESA(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
+                log_error(opengl_log, "glXSwapIntervalMESA(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
                 set_vsync_failed = true;
             }
         } else {
             if (set_vsync_failed) {
-                log_message(LOG_DEFAULT, "glXSwapIntervalMESA(%d) started working again", gl_int);
+                log_message(opengl_log, "glXSwapIntervalMESA(%d) started working again", gl_int);
                 set_vsync_failed = false;
             }
         }
@@ -275,12 +277,12 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
         result = glXSwapIntervalSGI(gl_int);
         if (result) {
             if (!set_vsync_failed) {
-                log_error(LOG_DEFAULT, "glXSwapIntervalSGI(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
+                log_error(opengl_log, "glXSwapIntervalSGI(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
                 set_vsync_failed = true;
             }
         } else {
             if (set_vsync_failed) {
-                log_message(LOG_DEFAULT, "glXSwapIntervalSGI(%d) started working again", gl_int);
+                log_message(opengl_log, "glXSwapIntervalSGI(%d) started working again", gl_int);
                 set_vsync_failed = false;
             }
         }

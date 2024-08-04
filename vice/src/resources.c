@@ -1678,7 +1678,7 @@ void resources_log_active(void)
             char *line = string_resource_item(i, "");
             if (line != NULL) {
                 if (n == 0) {
-                    log_message(LOG_DEFAULT, "\nResources with non default values:");
+                    log_message(LOG_DEFAULT, "\n" LOG_COL_LWHITE "Resources with non default values" LOG_COL_OFF ":");
                     n++;
                 }
                 log_message(LOG_DEFAULT, "%s", line);

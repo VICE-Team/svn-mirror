@@ -962,9 +962,9 @@ double lib_double_rand_unit(void)
 }
 
 static uint64_t initalseed;
-void lib_rand_printseed(void)
+void lib_rand_printseed(log_t log)
 {
-    log_message(LOG_DEFAULT, "random seed was: 0x%"PRIx64, initalseed);
+    log_message(log, "random seed was: 0x%"PRIx64, initalseed);
 }
 
 void lib_rand_seed(uint64_t seed)

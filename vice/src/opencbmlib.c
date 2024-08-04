@@ -45,6 +45,8 @@
 #define LOG(x)
 #endif
 
+static log_t opencbm_log = LOG_DEFAULT;
+
 static void *opencbm_so = NULL;
 
 /* Macro for getting function pointers from opencbm dll.  */
@@ -83,8 +85,10 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
     if (opencbm_so == NULL) {
         opencbm_so = vice_dynlib_open(ARCHDEP_OPENCBM_SO_NAME);
 
+        opencbm_log = log_open("OPENCBM");
+
         if (opencbm_so == NULL) {
-            log_verbose(LOG_DEFAULT, "opening dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
+            log_verbose(opencbm_log, "opening dynamic library " ARCHDEP_OPENCBM_SO_NAME " failed!");
             return -1;
         }
 
@@ -102,7 +106,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         GET_SYMBOL_AND_TEST(cbm_get_eoi);
         GET_SYMBOL_AND_TEST(cbm_reset);
 
-        log_verbose(LOG_DEFAULT, "sucessfully loaded " ARCHDEP_OPENCBM_SO_NAME);
+        log_verbose(opencbm_log, "sucessfully loaded " ARCHDEP_OPENCBM_SO_NAME);
     }
 
     return 0;

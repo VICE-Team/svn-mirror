@@ -57,6 +57,8 @@
 #include "macOS-util.h"
 #endif
 
+log_t opengl_log = LOG_DEFAULT;
+
 #define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
 #define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
@@ -123,6 +125,8 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
     context_t *context;
 
     CANVAS_LOCK();
+
+    opengl_log = log_open("OpenGL");
 
     /* First initialise the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
@@ -705,13 +709,13 @@ static void render(void *job_data, void *pool_data)
         /* TODO: BSD thread prio stuff */
 #endif
 
-        log_message(LOG_DEFAULT, "Render thread initialised");
+        log_message(opengl_log, "Render thread initialised");
         return;
     }
 
     if (job == render_thread_shutdown) {
         archdep_thread_shutdown();
-        log_message(LOG_DEFAULT, "Render thread shutdown");
+        log_message(opengl_log, "Render thread shutdown");
         return;
     }
 
@@ -878,7 +882,7 @@ static GLuint create_shader(GLenum shader_type, const char *text)
                 break;
         }
 
-        log_error(LOG_DEFAULT, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
+        log_error(opengl_log, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
         lib_free(info_log);
 
         archdep_vice_exit(1);
@@ -904,14 +908,14 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
 
     fd = sysfile_open(vertex_shader_filename, "GLSL", &path, "rb");
     if (fd == NULL) {
-        log_error(LOG_DEFAULT, "Could not open vertex shader: %s", vertex_shader_filename);
+        log_error(opengl_log, "Could not open vertex shader: %s", vertex_shader_filename);
         archdep_vice_exit(1);
     }
 
-    log_message(LOG_DEFAULT, "Loading vertex shader: %s", path);
+    log_message(opengl_log, "Loading vertex shader: %s", path);
 
     if (util_file_load_string(fd, &vertex_shader)) {
-        log_error(LOG_DEFAULT, "Could not read vertex shader: %s", path);
+        log_error(opengl_log, "Could not read vertex shader: %s", path);
         fclose(fd);
         lib_free(path);
         archdep_vice_exit(1);
@@ -923,14 +927,14 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
 
     fd = sysfile_open(fragment_shader_filename, "GLSL", &path, "rb");
     if (fd == NULL) {
-        log_error(LOG_DEFAULT, "Could not open fragment shader: %s", fragment_shader_filename);
+        log_error(opengl_log, "Could not open fragment shader: %s", fragment_shader_filename);
         archdep_vice_exit(1);
     }
 
-    log_message(LOG_DEFAULT, "Loading fragment shader: %s", path);
+    log_message(opengl_log, "Loading fragment shader: %s", path);
 
     if (util_file_load_string(fd, &fragment_shader)) {
-        log_error(LOG_DEFAULT, "Could not read fragment shader: %s", path);
+        log_error(opengl_log, "Could not read fragment shader: %s", path);
         fclose(fd);
         lib_free(path);
         lib_free(vertex_shader);
@@ -954,7 +958,7 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
         info_log = lib_malloc(sizeof(GLchar) * (info_log_length + 1));
         glGetProgramInfoLog(program, info_log_length, NULL, info_log);
-        log_error(LOG_DEFAULT, "Linker failure: %s\n", info_log);
+        log_error(opengl_log, "Linker failure: %s\n", info_log);
         lib_free(info_log);
         lib_free(fragment_shader);
         lib_free(vertex_shader);

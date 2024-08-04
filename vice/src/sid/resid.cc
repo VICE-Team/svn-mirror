@@ -45,6 +45,8 @@ extern "C" {
 #include "sid-snapshot.h"
 #include "types.h"
 
+extern log_t sound_log;
+
 } // extern "C"
 
 #include "resid/sid.h"
@@ -219,14 +221,14 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
 
     if (!psid->sid->set_sampling_parameters(cycles_per_sec, method,
                                             speed, passband, gain)) {
-        log_warning(LOG_DEFAULT,
+        log_warning(sound_log,
                     "reSID: Out of spec, increase sampling rate or decrease maximum speed");
         return 0;
     }
 
     psid->sid->enable_raw_debug_output(rawoutput);
 
-    log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s%s",
+    log_message(sound_log, "reSID: %s, filter %s, sampling rate %dHz - %s%s",
                 model_text,
                 filters_enabled ? "on" : "off",
                 speed, method_text,

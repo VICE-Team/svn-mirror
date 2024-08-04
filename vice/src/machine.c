@@ -242,9 +242,12 @@ void machine_reset_event_playback(CLOCK offset, void *data)
 /* NOTE: To make sure things work "as expected", really only deal with "reset"
    in the function below - anything related to "powerup" should go into
    machine_powerup() instead */
+
+extern log_t maincpu_log;   /* FIXME: where should this live? */
+
 void machine_reset(void)
 {
-    log_message(LOG_DEFAULT, "Main CPU: RESET.");
+    log_message(maincpu_log, "RESET.");
 
     is_jammed = false;
 

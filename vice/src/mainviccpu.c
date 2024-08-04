@@ -51,6 +51,8 @@
 #define EXIT_FAILURE 1
 #endif
 
+log_t maincpu_log = LOG_DEFAULT;
+
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
@@ -433,6 +435,8 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
 void maincpu_early_init(void)
 {
     maincpu_int_status = interrupt_cpu_status_new();
+
+    maincpu_log = log_open("Main CPU");
 }
 
 void maincpu_init(void)
@@ -576,6 +580,7 @@ void maincpu_mainloop(void)
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 
     while (1) {
+#define CPU_LOG_ID maincpu_log
 #define ANE_LOG_LEVEL ane_log_level
 #define LXA_LOG_LEVEL lxa_log_level
 #define CLK maincpu_clk

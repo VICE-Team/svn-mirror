@@ -90,6 +90,8 @@ static double vsync_metric_emulated_fps;
 #   define METRIC_UNLOCK()
 #endif
 
+log_t vsync_log = LOG_DEFAULT;
+
 /* ------------------------------------------------------------------------- */
 
 typedef struct callback_queue_s {
@@ -166,7 +168,7 @@ static int set_relative_speed(int val, void *param)
 {
     if (val == 0) {
         val = 100;
-        log_warning(LOG_DEFAULT, "Setting speed to 0 is no longer supported - use warp instead.");
+        log_warning(vsync_log, "Setting speed to 0 is no longer supported - use warp instead.");
     }
 
     relative_speed = val;
@@ -324,6 +326,8 @@ double vsync_get_refresh_frequency(void)
 
 void vsync_init(void (*hook)(void))
 {
+    vsync_log = log_open("VSync");
+
     /* Set the initial warp state. */
     if (initial_warp_mode_cmdline != -1) {
         /* Command line overrides config resource setting. */
@@ -521,7 +525,7 @@ void vsync_do_end_of_line(void)
     tick_now = tick_now_after(last_sync_tick);
 
     if (sync_reset) {
-        log_message(LOG_DEFAULT, "Sync reset");
+        log_message(vsync_log, "Sync reset");
         sync_reset = false;
         metrics_reset = true;
 
