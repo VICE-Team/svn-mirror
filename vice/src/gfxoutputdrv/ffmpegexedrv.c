@@ -86,13 +86,13 @@
 /* #define VICE_IS_SERVER */
 
 #ifdef DEBUG_FFMPEG
-#define DBG(x) log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef DEBUG_FFMPEG_FRAMES
-#define DBGFRAMES(x) log_debug x
+#define DBGFRAMES(x) log_printf  x
 #else
 #define DBGFRAMES(x)
 #endif
@@ -1037,7 +1037,7 @@ static VIDEOFrame* video_alloc_picture(int bpp, int width, int height)
     picture->data = lib_malloc(bpp * width * height);
     if (!picture->data) {
         lib_free(picture);
-        log_debug("ffmpegexedrv: Could not allocate frame data");
+        log_debug(LOG_DEFAULT, "ffmpegexedrv: Could not allocate frame data");
         return NULL;
     }
 
@@ -1061,7 +1061,7 @@ static int ffmpegexedrv_open_video(void)
     /* allocate the encoded raw picture */
     video_st_frame = video_alloc_picture(INPUT_VIDEO_BPP, video_width, video_height);
     if (!video_st_frame) {
-        log_debug("ffmpegexedrv: could not allocate picture");
+        log_debug(LOG_DEFAULT, "ffmpegexedrv: could not allocate picture");
         return -1;
     }
 
@@ -1135,7 +1135,7 @@ static int ffmpegexedrv_init_file(void)
         return -1;
     }
 
-    log_debug("ffmpegexedrv: Initialized file successfully");
+    log_debug(LOG_DEFAULT, "ffmpegexedrv: Initialized file successfully");
 
     /*start_ffmpeg_executable();*/
 
@@ -1201,7 +1201,7 @@ static int ffmpegexedrv_close(screenshot_t *screenshot)
     /* free the streams */
     close_stream();
 
-    log_debug("ffmpegexedrv: Closed successfully");
+    log_debug(LOG_DEFAULT, "ffmpegexedrv: Closed successfully");
 
     file_init_done = 0;
 

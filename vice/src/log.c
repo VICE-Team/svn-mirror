@@ -836,7 +836,21 @@ int log_verbose(log_t log, const char *format, ...)
     UNLOCK_AND_RETURN_INT(rc);
 }
 
-int log_debug(const char *format, ...)
+int log_debug(log_t log, const char *format, ...)
+{
+    va_list ap;
+    int rc = 0;
+
+    LOCK();
+
+    va_start(ap, format);
+    rc = log_helper(log, LOG_LEVEL_DEBUG, format, ap);
+    va_end(ap);
+
+    UNLOCK_AND_RETURN_INT(rc);
+}
+
+int log_printf(const char *format, ...)
 {
     va_list ap;
     int rc;
@@ -849,4 +863,3 @@ int log_debug(const char *format, ...)
 
     UNLOCK_AND_RETURN_INT(rc);
 }
-

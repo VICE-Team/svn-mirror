@@ -802,7 +802,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     uint8_t *slot;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_rel_open_new: Name (%u) '%s'",
+    log_debug(LOG_DEFAULT, "vdrive_rel_open_new: Name (%u) '%s'",
               cmd_parse->filelength, cmd_parse->file);
 #endif
 
@@ -823,7 +823,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, cmd_parse->file, cmd_parse->filelength);
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: Created dir slot. Name (%u) '%s'",
+    log_debug(LOG_DEFAULT, "DIR: Created dir slot. Name (%u) '%s'",
               cmd_parse->filelength, cmd_parse->file);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = cmd_parse->filetype | 0x80;       /* closed */
@@ -834,7 +834,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memcpy(&(p->dir.buffer[p->dir.slot * 32 + 2]), p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DEBUG: write DIR slot (%u %u).",
+    log_debug(LOG_DEFAULT, "DEBUG: write DIR slot (%u %u).",
 #if 0
               vdrive->Curr_track, vdrive->Curr_sector);
 #endif
@@ -857,7 +857,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
     int newrelfile = 0;
 
     if (p->slot) {
-        log_debug(
+        log_debug(LOG_DEFAULT,
             "Open existing REL file '%s' with record length %u on channel %u.",
             cmd_parse->file, cmd_parse->recordlength, secondary);
         /* Follow through to function. */
@@ -865,7 +865,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
             return SERIAL_ERROR;
         }
     } else if (cmd_parse->recordlength > 0) {
-        log_debug(
+        log_debug(LOG_DEFAULT,
             "Open new REL file '%s' with record length %u on channel %u.",
             cmd_parse->file, cmd_parse->recordlength, secondary);
 
@@ -882,7 +882,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
         /* set a flag so we can expand the rel file to 1 record later. */
         newrelfile++;
     } else {
-        log_debug(
+        log_debug(LOG_DEFAULT,
             "Open non-existing REL file '%s' with unspecified record length on channel %u.",
             cmd_parse->file, secondary);
         vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_FOUND, 0, 0);
@@ -1107,7 +1107,7 @@ static int vdrive_rel_position_internal(vdrive_t *vdrive, unsigned int secondary
     /* Fill the rest of the currently written record. */
     vdrive_rel_fillrecord(vdrive, secondary);
 
-    log_debug("Requested position %u, %u on channel %u.",
+    log_debug(LOG_DEFAULT, "Requested position %u, %u on channel %u.",
             record, position, secondary);
 
     /* locate the track, sector and sector offset of record */
@@ -1364,7 +1364,7 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
                 }
             }
         }
-        log_debug("Forced from read to position %u, 0 on channel %u.",
+        log_debug(LOG_DEFAULT, "Forced from read to position %u, 0 on channel %u.",
                 p->record, secondary);
 
         goto out;
@@ -1513,7 +1513,7 @@ int vdrive_rel_close(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    log_debug("VDrive REL close channel %u.", secondary);
+    log_debug(LOG_DEFAULT, "VDrive REL close channel %u.", secondary);
 
     vdrive_iec_switch(vdrive, p);
 
@@ -1597,7 +1597,7 @@ void vdrive_rel_listen(vdrive_t *vdrive, unsigned int secondary)
                 }
             }
         }
-        log_debug("Forced from write to position %u, 0 on channel %u.",
+        log_debug(LOG_DEFAULT, "Forced from write to position %u, 0 on channel %u.",
                 p->record, secondary);
 
 #if 0

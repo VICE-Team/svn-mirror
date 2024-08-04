@@ -56,13 +56,13 @@
 #include "plus4-generic.h"
 
 #ifdef DEBUGCART
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef DEBUGCARTRW
-#define DBGRW(x)  log_debug x
+#define DBGRW(x) log_printf  x
 #else
 #define DBGRW(x)
 #endif

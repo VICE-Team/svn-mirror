@@ -3935,7 +3935,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
 
     if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: GEOS_FILE_STRUC_SEQ (%d:%d)", infoTrk, infoSec);
+        log_debug(LOG_DEFAULT, "DEBUG: GEOS_FILE_STRUC_SEQ (%d:%d)", infoTrk, infoSec);
 #endif
         /* sequential file contained in cvt file
          * since vlir block is the first data block simply put it to
@@ -3967,7 +3967,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         }
     } else if (geosFileStruc == GEOS_FILE_STRUC_VLIR) {
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: GEOS_FILE_STRUC_VLIR (%d:%d)", infoTrk, infoSec);
+        log_debug(LOG_DEFAULT, "DEBUG: GEOS_FILE_STRUC_VLIR (%d:%d)", infoTrk, infoSec);
 #endif
         /* The vlir block in cvt files is a conversion of the vlir
          * block on cbm disks.
@@ -3983,7 +3983,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         }
 
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: VLIR scan record chains");
+        log_debug(LOG_DEFAULT, "DEBUG: VLIR scan record chains");
 #endif
 
         /* Replace the TS-chain-origins with NoOfBlocks/BytesInLastSector */
@@ -3997,13 +3997,13 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         while (aktTrk != 0 && vlirIdx <= 254) {
             if (aktTrk != 0) { /* Record exists and is not empty */
 #ifdef DEBUG_DRIVE
-                log_debug("DEBUG: VLIR IDX %u", vlirIdx);
+                log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
                 NoOfChains++;
                 while (aktTrk != 0) {
                     /* Read the chain and collect No Of Blocks */
 #ifdef DEBUG_DRIVE
-                    log_debug("DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
+                    log_debug(LOG_DEFAULT, "DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
 #endif
 
                     if (vdrive_read_sector(drives[unit], block, aktTrk, aktSec) != 0) {
@@ -4051,7 +4051,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         }
 
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: VLIR output record chains");
+        log_debug(LOG_DEFAULT, "DEBUG: VLIR output record chains");
 #endif
         /* now output the record chains
            (leave the TS-Pointers since they are usesless now) */
@@ -4062,13 +4062,13 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         while (aktTrk != 0 && vlirIdx <= 254) {
             if (aktTrk != 0) {
 #ifdef DEBUG_DRIVE
-                log_debug("DEBUG: VLIR IDX %u", vlirIdx);
+                log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
                 NoOfChains--;
                 /* Record exists */
                 while (aktTrk != 0) {
 #ifdef DEBUG_DRIVE
-                    log_debug("DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
+                    log_debug(LOG_DEFAULT, "DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
 #endif
                     if (vdrive_read_sector(drives[unit], block, aktTrk, aktSec) != 0) {
                         fprintf(stderr,
@@ -4354,7 +4354,7 @@ static int internal_write_geos_file(int unit, FILE* f)
 
     if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: GEOS_FILE_STRUC_SEQ (%u:%u)", vlirTrk, vlirSec);
+        log_debug(LOG_DEFAULT, "DEBUG: GEOS_FILE_STRUC_SEQ (%u:%u)", vlirTrk, vlirSec);
 #endif
         /* normal seq file (rest like standard files) */
         lastTrk = vlirTrk;
@@ -4407,7 +4407,7 @@ static int internal_write_geos_file(int unit, FILE* f)
         }
     } else if (geosFileStruc == GEOS_FILE_STRUC_VLIR) {
 #ifdef DEBUG_DRIVE
-        log_debug("DEBUG: GEOS_FILE_STRUC_VLIR (%u:%u)", vlirTrk, vlirSec);
+        log_debug(LOG_DEFAULT, "DEBUG: GEOS_FILE_STRUC_VLIR (%u:%u)", vlirTrk, vlirSec);
 #endif
         /* in a cvt file containing a vlir file the vlir block contains
          * a pair (NoOfBlocksForChain, BytesInLastBlock + 2) for every vlir
@@ -4420,7 +4420,7 @@ static int internal_write_geos_file(int unit, FILE* f)
         while (vlirIdx <= 254) {
             if (vlirBlock[vlirIdx] != 0) {
 #ifdef DEBUG_DRIVE
-                log_debug("DEBUG: VLIR IDX %d (%u:%u)", vlirIdx, vlirTrk, vlirSec);
+                log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %d (%u:%u)", vlirIdx, vlirTrk, vlirSec);
 #endif
                 lastTrk = vlirTrk;
                 lastSec = vlirSec;
@@ -4464,7 +4464,7 @@ static int internal_write_geos_file(int unit, FILE* f)
 
                     /* write it to disk */
 #ifdef DEBUG_DRIVE
-                    log_debug("DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
+                    log_debug(LOG_DEFAULT, "DEBUG: VLIR BLOCK (%u:%u)", aktTrk, aktSec);
 #endif
 
                     if (vdrive_write_sector(drives[unit], block, aktTrk, aktSec) != 0) {
@@ -4611,7 +4611,7 @@ static int write_geos_cmd(int nargs, char **args)
            30);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DEBUG: closing, write DIR slot (%u %u) and BAM.",
+    log_debug(LOG_DEFAULT, "DEBUG: closing, write DIR slot (%u %u) and BAM.",
             dir.track, dir.sector);
 #endif
     vdrive_write_sector(drives[dev], dir.buffer, dir.track, dir.sector);

@@ -59,7 +59,7 @@ void realdevice_open(unsigned int device, uint8_t secondary, void (*st_func)(uin
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: OPEN FD:%p DEVICE:%u SECONDARY:%i",
+    log_debug(LOG_DEFAULT, "realdevice: OPEN FD:%p DEVICE:%u SECONDARY:%i",
         (void*)realdevice_fd, device & 0x0f, secondary & 0x0f);
 #endif
     assert(opencbmlib.p_cbm_open != NULL);
@@ -73,7 +73,7 @@ void realdevice_close(unsigned int device, uint8_t secondary, void (*st_func)(ui
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: CLOSE FD:%p DEVICE:%u SECONDARY:%i",
+    log_debug(LOG_DEFAULT, "realdevice: CLOSE FD:%p DEVICE:%u SECONDARY:%i",
         (void*)realdevice_fd, device & 0x0f, secondary & 0x0f);
 #endif
     assert(opencbmlib.p_cbm_close != NULL);
@@ -87,7 +87,7 @@ void realdevice_listen(unsigned int device, uint8_t secondary, void (*st_func)(u
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: LISTEN FD:%p DEVICE:%u SECONDARY:%i",
+    log_debug(LOG_DEFAULT, "realdevice: LISTEN FD:%p DEVICE:%u SECONDARY:%i",
         (void*)realdevice_fd, device & 0x0f, secondary & 0x0f);
 #endif
     assert(opencbmlib.p_cbm_listen != NULL);
@@ -101,7 +101,7 @@ void realdevice_talk(unsigned int device, uint8_t secondary, void (*st_func)(uin
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: TALK FD:%p DEVICE:%u SECONDARY:%i",
+    log_debug(LOG_DEFAULT, "realdevice: TALK FD:%p DEVICE:%u SECONDARY:%i",
         (void*)realdevice_fd, device & 0x0f, secondary & 0x0f);
 #endif
     assert(opencbmlib.p_cbm_talk != NULL);
@@ -115,7 +115,7 @@ void realdevice_unlisten(void (*st_func)(uint8_t))
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: UNLISTEN FD:%p", (void*)realdevice_fd);
+    log_debug(LOG_DEFAULT, "realdevice: UNLISTEN FD:%p", (void*)realdevice_fd);
 #endif
     assert(opencbmlib.p_cbm_unlisten != NULL);
     assert(realdevice_fd != NULL);
@@ -127,7 +127,7 @@ void realdevice_untalk(void (*st_func)(uint8_t))
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: UNTALK FD:%p", (void*)realdevice_fd);
+    log_debug(LOG_DEFAULT, "realdevice: UNTALK FD:%p", (void*)realdevice_fd);
 #endif
     assert(opencbmlib.p_cbm_untalk != NULL);
     assert(realdevice_fd != NULL);
@@ -145,7 +145,7 @@ void realdevice_write(uint8_t data, void (*st_func)(uint8_t))
     vsync_suspend_speed_eval();
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: WRITE FD:%p DATA:%02x", (void*)realdevice_fd, mydata);
+    log_debug(LOG_DEFAULT, "realdevice: WRITE FD:%p DATA:%02x", (void*)realdevice_fd, mydata);
 #endif
     assert(opencbmlib.p_cbm_raw_write != NULL);
     assert(realdevice_fd != NULL);
@@ -153,7 +153,7 @@ void realdevice_write(uint8_t data, void (*st_func)(uint8_t))
          ? 0 : 0x83;
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: WRITE FD:%p ST:%02x", (void*)realdevice_fd, st);
+    log_debug(LOG_DEFAULT, "realdevice: WRITE FD:%p ST:%02x", (void*)realdevice_fd, st);
 #endif
 
     st_func(st);
@@ -170,8 +170,8 @@ uint8_t realdevice_read(void (*st_func)(uint8_t))
     st = ((*opencbmlib.p_cbm_raw_read)(realdevice_fd, &data, 1) == 1) ? 0 : 2;
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: READ FD:%p DATA:%02x", (void*)realdevice_fd, data);
-    log_debug("realdevice: READ FD:%p ST:%02x", (void*)realdevice_fd, st);
+    log_debug(LOG_DEFAULT, "realdevice: READ FD:%p DATA:%02x", (void*)realdevice_fd, data);
+    log_debug(LOG_DEFAULT, "realdevice: READ FD:%p ST:%02x", (void*)realdevice_fd, st);
 #endif
 
     assert(realdevice_fd != NULL);
@@ -181,7 +181,7 @@ uint8_t realdevice_read(void (*st_func)(uint8_t))
     }
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: READ FD:%p ST after EOI:%02x", (void*)realdevice_fd, st);
+    log_debug(LOG_DEFAULT, "realdevice: READ FD:%p ST after EOI:%02x", (void*)realdevice_fd, st);
 #endif
 
     st_func(st);
@@ -193,21 +193,21 @@ void realdevice_init(void)
 {
     realdevice_log = log_open("Real Device");
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_init()");
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_init()");
 #endif
 
     if (opencbmlib_open(&opencbmlib) >= 0) {
         realdevice_available = 1;
     }
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_available: %u", realdevice_available);
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_available: %u", realdevice_available);
 #endif
 }
 
 void realdevice_reset(void)
 {
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_reset() FD:%p", (void*)realdevice_fd);
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_reset() FD:%p", (void*)realdevice_fd);
 #endif
     if (realdevice_enabled) {
         assert(realdevice_fd != NULL);
@@ -219,7 +219,7 @@ void realdevice_reset(void)
 int realdevice_enable(void)
 {
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_enable() realdevice_available before: %u", realdevice_available);
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_enable() realdevice_available before: %u", realdevice_available);
 #endif
     if (realdevice_available == 0 &&
             opencbmlib_open(&opencbmlib) >= 0) {
@@ -233,7 +233,7 @@ int realdevice_enable(void)
 
     if (realdevice_enabled == 0) {
 #ifdef DEBUG_RD
-        log_debug("realdevice: realdevice_enable: calling cbm_driver_open");
+        log_debug(LOG_DEFAULT, "realdevice: realdevice_enable: calling cbm_driver_open");
 #endif
         assert(opencbmlib.p_cbm_driver_open != NULL);
         if ((*opencbmlib.p_cbm_driver_open)(&realdevice_fd, 0) != 0) {
@@ -250,7 +250,7 @@ int realdevice_enable(void)
     }
 
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_enable: realdevice_enabled++");
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_enable: realdevice_enabled++");
 #endif
     realdevice_enabled++;
 
@@ -260,7 +260,7 @@ int realdevice_enable(void)
 void realdevice_disable(void)
 {
 #ifdef DEBUG_RD
-    log_debug("realdevice: realdevice_disable() realdevice_enabled: %u", realdevice_enabled);
+    log_debug(LOG_DEFAULT, "realdevice: realdevice_disable() realdevice_enabled: %u", realdevice_enabled);
 #endif
     if (realdevice_enabled > 0) {
         realdevice_enabled--;

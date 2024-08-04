@@ -213,7 +213,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
     p[length] = 0;
 
 #ifdef DEBUG_DRIVE
-    log_debug("Command '%c' (%s).", *p, p);
+    log_debug(LOG_DEFAULT, "Command '%c' (%s).", *p, p);
 #endif
 
     cmd.full = p;
@@ -242,9 +242,9 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("Command '%s' (%u) %d.", cmd.command, cmd.commandlength, status);
-    log_debug("File    '%s' (%u).", cmd.file, cmd.filelength);
-    log_debug("Drive   '%d'.", cmd.drive);
+    log_debug(LOG_DEFAULT, "Command '%s' (%u) %d.", cmd.command, cmd.commandlength, status);
+    log_debug(LOG_DEFAULT, "File    '%s' (%u).", cmd.file, cmd.filelength);
+    log_debug(LOG_DEFAULT, "Drive   '%d'.", cmd.drive);
 #endif
 
     if (status != CBMDOS_IPE_OK) {
@@ -491,7 +491,7 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     int origpart = -1;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_command_ua1b2 command: %c.", cmd->command[1]);
+    log_debug(LOG_DEFAULT, "vdrive_command_ua1b2 command: %c.", cmd->command[1]);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -515,7 +515,7 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                                                  &drive, &track, &sector);
         if (rc < 0) {
 #ifdef DEBUG_DRIVE
-            log_debug("b-R/W parsed OK. (np=%d) channel %d mode %u, "
+            log_debug(LOG_DEFAULT, "b-R/W parsed OK. (np=%d) channel %d mode %u, "
                       "drive=%d, track=%d sector=%d.", rc, channel,
                       vdrive->buffers[channel].mode, drive, track, sector);
 #endif
@@ -610,7 +610,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     int origpart = -1;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_command_block command: %c.", cmd->abbrv[2]);
+    log_debug(LOG_DEFAULT, "vdrive_command_block command: %c.", cmd->abbrv[2]);
 #endif
 
     /* status = CBMDOS_IPE_SYNTAX; */
@@ -624,7 +624,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
             if (l < 0) {
 #ifdef DEBUG_DRIVE
-                log_debug("b-r/w parsed OK. (l=%d) channel %d mode %u, "
+                log_debug(LOG_DEFAULT, "b-r/w parsed OK. (l=%d) channel %d mode %u, "
                           "drive=%d, track=%d sector=%d.", l, channel,
                           vdrive->buffers[channel].mode, drive, track, sector);
 #endif
@@ -1314,7 +1314,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("RENAME: dest name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "RENAME: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -1377,7 +1377,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("RENAME: src name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "RENAME: src name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     /* Now we can replace the old file name...  */
@@ -1438,7 +1438,7 @@ static int vdrive_command_renameheader(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("RENAMEHEADER: dest name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "RENAMEHEADER: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -1522,7 +1522,7 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("RENAMEPART: dest name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "RENAMEPART: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -1583,7 +1583,7 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("RENAMEPART: src name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "RENAMEPART: src name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     /* Now we can replace the old file name...  */
@@ -1633,7 +1633,7 @@ static int vdrive_command_lockunlock(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("LOCK/UNLOCK: dest name='%s', len=%u", cmd->file, cmd->filelength);
+    log_debug(LOG_DEFAULT, "LOCK/UNLOCK: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -1884,7 +1884,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
         }
 
 #ifdef DEBUG_DRIVE
-        log_debug("remove name='%s', len=%u, type=%u.",
+        log_debug(LOG_DEFAULT, "remove name='%s', len=%u, type=%u.",
             cmd->file, cmd->filelength, cmd->filetype);
 #endif
 
@@ -2163,7 +2163,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("chpart name='%s', len=%u",
+    log_debug(LOG_DEFAULT, "chpart name='%s', len=%u",
               cmd->file, cmd->filelength);
 #endif
 
@@ -2318,7 +2318,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 /* don't need to check the BAM or anything, just proceed */
 
 #ifdef DEBUG_DRIVE
-                log_debug("Partition Trk %d Sec %d - Trk %d len: %d", ts, ss, te, len);
+                log_debug(LOG_DEFAULT, "Partition Trk %d Sec %d - Trk %d len: %d", ts, ss, te, len);
 #endif
                 /* setup BAM location */
                 vdrive->Header_Track = ts;
@@ -2395,7 +2395,7 @@ static int vdrive_command_mkdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("mkdir name='%s', len=%u.",
+    log_debug(LOG_DEFAULT, "mkdir name='%s', len=%u.",
         cmd->file, cmd->filelength);
 #endif
 
@@ -3485,7 +3485,7 @@ int vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
 /*    last_code = CBMDOS_IPE_OK; */
 
 #ifdef DEBUG_DRIVE
-    log_debug("Set error channel: code =%d, last_code =%d, track =%u, "
+    log_debug(LOG_DEFAULT, "Set error channel: code =%d, last_code =%d, track =%u, "
               "sector =%u.", code, vdrive->last_code, track, sector);
 #endif
 
@@ -3781,7 +3781,7 @@ static int vdrive_command_time(vdrive_t *vdrive, uint8_t *cmd, int length)
     time(&timep);
     ts = localtime(&timep);
 #ifdef DEBUG_DRIVE
-    log_debug("current time: %s %02d/%02d/%04d %02d:%02d:%02d\n",
+    log_debug(LOG_DEFAULT, "current time: %s %02d/%02d/%04d %02d:%02d:%02d\n",
             days[ts->tm_wday], ts->tm_mon + 1, ts->tm_mday, ts->tm_year + 1900,
             ts->tm_hour, ts->tm_min, ts->tm_sec);
 #endif

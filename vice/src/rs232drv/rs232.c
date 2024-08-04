@@ -57,7 +57,7 @@
 #include "vicesocket.h"
 
 #ifdef DEBUG
-# define DBG(_xxx) log_debug _xxx
+# define DBG(_xxx) log_printf  _xxx
 #else
 # define DBG(_xxx)
 #endif

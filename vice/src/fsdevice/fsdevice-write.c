@@ -49,7 +49,7 @@
 /* #define REL_DEBUG */
 
 #ifdef REL_DEBUG
-# define DBG(x) log_debug x
+# define DBG(x) log_printf  x
 # include "log.h"
 #else
 # define DBG(x)

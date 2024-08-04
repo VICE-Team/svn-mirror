@@ -67,25 +67,25 @@
 #include "vice-event.h"
 
 #ifdef DBGKBD
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef DBGKBD_KEYS
-#define DBGKEY(x)  log_debug x
+#define DBGKEY(x) log_printf  x
 #else
 #define DBGKEY(x)
 #endif
 
 #ifdef DBGKBD_MODIFIERS
-#define DBGMOD(x)  log_debug x
+#define DBGMOD(x) log_printf  x
 #else
 #define DBGMOD(x)
 #endif
 
 #ifdef DBGKBD_MATRIX
-#define DBGMTX(x)  log_debug x
+#define DBGMTX(x) log_printf  x
 #else
 #define DBGMTX(x)
 #endif

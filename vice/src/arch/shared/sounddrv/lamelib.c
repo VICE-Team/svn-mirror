@@ -41,7 +41,7 @@ static void *lib_so = NULL;
 #define GET_SYMBOL_AND_TEST( _name_ ) \
     lamelib.p_##_name_ = (_name_##_t) vice_dynlib_symbol(lib_so, #_name_ ); \
     if (!lamelib.p_##_name_ ) { \
-        log_debug("getting symbol " #_name_ " failed!"); \
+        log_debug(LOG_DEFAULT, "getting symbol " #_name_ " failed!"); \
         return -1; \
     }
 
@@ -51,7 +51,7 @@ static int load_lib(void)
         lib_so = vice_dynlib_open(ARCHDEP_LAME_SO_NAME);
 
         if (!lib_so) {
-            log_debug("opening dynamic library " ARCHDEP_LAME_SO_NAME " failed!");
+            log_debug(LOG_DEFAULT, "opening dynamic library " ARCHDEP_LAME_SO_NAME " failed!");
             return -1;
         }
 
@@ -73,7 +73,7 @@ static void free_lib(void)
 {
     if (lib_so) {
         if (vice_dynlib_close(lib_so) != 0) {
-            log_debug("closing dynamic library " ARCHDEP_LAME_SO_NAME " failed!");
+            log_debug(LOG_DEFAULT, "closing dynamic library " ARCHDEP_LAME_SO_NAME " failed!");
         }
     }
     lib_so = NULL;

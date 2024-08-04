@@ -65,7 +65,7 @@
 /* #define DEBUG_ZFILE */
 
 #ifdef DEBUG_ZFILE
-#define ZDEBUG(a)  log_debug a
+#define ZDEBUG(a) log_printf  a
 #else
 #define ZDEBUG(a)
 #endif

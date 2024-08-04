@@ -44,7 +44,7 @@
 
 #ifdef DEBUG_IECBUS
 #include "log.h"
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -76,7 +76,7 @@ static void debug_iec_cpu_write(unsigned int data)
     if (debug.iec) {
         uint8_t value = ~data;
 
-        log_debug("$DD00 store: %s %s %s",
+        log_debug(LOG_DEFAULT, "$DD00 store: %s %s %s",
                   value & 0x20 ? "DATA OUT" : "        ",
                   value & 0x10 ? "CLK OUT" : "       ",
                   value & 0x08 ? "ATN OUT" : "       "
@@ -90,7 +90,7 @@ static void debug_iec_cpu_read(unsigned int data)
     if (debug.iec) {
         uint8_t value = data;
 
-        log_debug("$DD00 read:  %s %s %s %s %s",
+        log_debug(LOG_DEFAULT, "$DD00 read:  %s %s %s %s %s",
                   value & 0x20 ? "DATA OUT" : "        ",
                   value & 0x10 ? "CLK OUT" : "       ",
                   value & 0x08 ? "ATN OUT" : "       ",
@@ -110,7 +110,7 @@ void debug_iec_drv_write(unsigned int data)
         if (value != oldvalue) {
             oldvalue = value;
 
-            log_debug("$1800 store: %s %s %s",
+            log_debug(LOG_DEFAULT, "$1800 store: %s %s %s",
                       value & 0x02 ? "DATA OUT" : "        ",
                       value & 0x08 ? "CLK OUT" : "       ",
                       value & 0x10 ? "ATNA   " : "       "
@@ -139,7 +139,7 @@ void debug_iec_drv_read(unsigned int data)
                 }
             }
 
-            log_debug("$1800 read:  %s %s %s %s %s %s%s",
+            log_debug(LOG_DEFAULT, "$1800 read:  %s %s %s %s %s %s%s",
                       value & 0x02 ? "DATA OUT" : "        ",
                       value & 0x08 ? "CLK OUT" : "       ",
                       value & 0x10 ? "ATNA   " : "       ",
@@ -159,7 +159,7 @@ void debug_iec_bus_write(unsigned int data)
     if (debug.iec) {
         uint8_t value = data;
 
-        log_debug("  BUS store: %s %s %s",
+        log_debug(LOG_DEFAULT, "  BUS store: %s %s %s",
                   value & 0x02 ? "DATA OUT" : "        ",
                   value & 0x08 ? "CLK OUT" : "       ",
                   value & 0x10 ? "ATNA   " : "       "
@@ -174,7 +174,7 @@ void debug_iec_bus_read(unsigned int data)
     if (debug.iec) {
         uint8_t value = data;
 
-        log_debug("  BUS read:  %s %s %s %s %s %s",
+        log_debug(LOG_DEFAULT, "  BUS read:  %s %s %s %s %s %s",
                   value & 0x02 ? "DATA OUT" : "        ",
                   value & 0x08 ? "CLK OUT" : "       ",
                   value & 0x10 ? "ATNA   " : "       ",

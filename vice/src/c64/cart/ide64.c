@@ -70,7 +70,7 @@
 #include "vicii-phi1.h"
 
 #ifdef IDE64_DEBUG
-#define debug(x) log_debug(x)
+#define debug(x) log_printf (x)
 #else
 #define debug(x)
 #endif

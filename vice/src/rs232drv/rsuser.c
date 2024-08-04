@@ -81,19 +81,19 @@ static void int_rsuser(CLOCK offset, void *data);
 
 
 #ifdef DEBUG
-# define LOG_DEBUG(_xxx) log_debug _xxx
+# define LOG_DEBUG(_xxx) log_printf  _xxx
 #else
 # define LOG_DEBUG(_xxx)
 #endif
 
 #ifdef DEBUG_TIMING_SEND
-# define LOG_DEBUG_TIMING_TX(_xxx) log_debug _xxx
+# define LOG_DEBUG_TIMING_TX(_xxx) log_printf  _xxx
 #else
 # define LOG_DEBUG_TIMING_TX(_xxx)
 #endif
 
 #ifdef DEBUG_TIMING_RECV
-# define LOG_DEBUG_TIMING_RX(_xxx) log_debug _xxx
+# define LOG_DEBUG_TIMING_RX(_xxx) log_printf  _xxx
 #else
 # define LOG_DEBUG_TIMING_RX(_xxx)
 #endif

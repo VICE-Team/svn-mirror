@@ -29,7 +29,7 @@
 /* #define DEBUG_DISKIMAGE */
 
 #ifdef DEBUG_DISKIMAGE
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif

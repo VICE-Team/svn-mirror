@@ -246,7 +246,7 @@ void debug_maincpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint8_t reg_a,
                     }
                 }
 
-                log_debug("%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
+                log_debug(LOG_DEFAULT, "%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
                           (long)mclk, reg_a, reg_x, reg_y, small_dis);
                 break;
             }
@@ -263,13 +263,13 @@ void debug_maincpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint8_t reg_a,
                 break;
             }
         case DEBUG_NORMAL:
-            log_debug(".%04X %03u %03u %10ld  %-22s "
+            log_debug(LOG_DEFAULT, ".%04X %03u %03u %10ld  %-22s "
                       "%02x%02x%02x%02x", (unsigned int)reg_pc,
                       RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
                       reg_a, reg_x, reg_y, reg_sp);
             break;
         default:
-            log_debug("Unknown debug format.");
+            log_debug(LOG_DEFAULT, "Unknown debug format.");
     }
 }
 
@@ -298,7 +298,7 @@ void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint16_t r
                 }
             }
 
-            log_debug("%02X%04X %ld %04X %04X %04X %s", reg_pbr, (unsigned int)reg_pc,
+            log_debug(LOG_DEFAULT, "%02X%04X %ld %04X %04X %04X %s", reg_pbr, (unsigned int)reg_pc,
                     (long)mclk, reg_c, reg_x, reg_y, small_dis);
             break;
       }
@@ -315,13 +315,13 @@ void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint16_t r
             break;
       }
       case DEBUG_NORMAL:
-            log_debug(".%02X%04X %03u %03u %10ld  %-25s "
+            log_debug(LOG_DEFAULT, ".%02X%04X %03u %03u %10ld  %-25s "
                     "%04x %04x %04x %04x", reg_pbr, (unsigned int)reg_pc,
                     RLINE(mclk), RCYCLE(mclk),(long)mclk, dis,
                     reg_c, reg_x, reg_y, reg_sp);
             break;
       default:
-            log_debug("Unknown debug format.");
+            log_debug(LOG_DEFAULT, "Unknown debug format.");
 
     }
 }
@@ -338,7 +338,7 @@ void debug_drive(uint32_t reg_pc, CLOCK mclk, const char *dis,
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(st);
     } else {
-        log_debug("%s", st);
+        log_debug(LOG_DEFAULT, "%s", st);
     }
 }
 
@@ -347,7 +347,7 @@ void debug_text(const char *text)
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(text);
     } else {
-        log_debug("%s", text);
+        log_debug(LOG_DEFAULT, "%s", text);
     }
 }
 
@@ -374,7 +374,7 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(textout);
     } else {
-        log_debug("%s", textout);
+        log_debug(LOG_DEFAULT, "%s", textout);
     }
 
     lib_free(textout);
@@ -392,7 +392,7 @@ void debug_nmi(interrupt_cpu_status_t *cs, CLOCK iclk)
 
 void debug_dma(const char *txt, CLOCK dclk, CLOCK num)
 {
-    log_debug("*** DMA %s %"PRIu64"  %02"PRIu64, txt, dclk, num);
+    log_debug(LOG_DEFAULT, "*** DMA %s %"PRIu64"  %02"PRIu64, txt, dclk, num);
 }
 
 /*------------------------------------------------------------------------*/

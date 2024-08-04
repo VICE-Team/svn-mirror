@@ -295,7 +295,7 @@ void vsid_state_print_tunes_played_unlocked(void)
         }
     }
     buffer[t] = '\0';
-    log_debug("VSID STATE: Tunes played: %s (%d/%d)", buffer, p, count);
+    log_debug(LOG_DEFAULT, "VSID STATE: Tunes played: %s (%d/%d)", buffer, p, count);
 }
 
 

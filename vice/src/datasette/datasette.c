@@ -54,7 +54,7 @@
 #include "vice-event.h"
 
 #ifdef DEBUG_TAPE
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -696,9 +696,9 @@ static void datasette_alarm_set(int port, CLOCK offset)
 {
 #ifdef DEBUG_TAPE
     if (!datasette_alarm_pending[port]) {
-        log_debug("datasette_alarm_set: %"PRIu64"", offset);
+        log_debug(LOG_DEFAULT, "datasette_alarm_set: %"PRIu64"", offset);
     } else {
-        log_debug("datasette_alarm_set: %"PRIu64" (WARNING: another alarm was pending!)", offset);
+        log_debug(LOG_DEFAULT, "datasette_alarm_set: %"PRIu64" (WARNING: another alarm was pending!)", offset);
     }
 #endif
     alarm_set(datasette_alarm[port], offset);

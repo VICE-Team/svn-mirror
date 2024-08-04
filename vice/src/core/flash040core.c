@@ -43,7 +43,7 @@
 /* #define FLASH_DEBUG_ENABLED */
 
 #ifdef FLASH_DEBUG_ENABLED
-#define FLASH_DEBUG(x) log_debug x
+#define FLASH_DEBUG(x) log_printf  x
 #else
 #define FLASH_DEBUG(x)
 #endif

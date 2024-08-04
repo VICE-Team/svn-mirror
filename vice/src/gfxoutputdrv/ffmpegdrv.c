@@ -335,7 +335,7 @@ static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt,
     int ret;
 
     if (!frame) {
-        log_debug("ffmpegdrv: Error allocating an audio frame");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Error allocating an audio frame");
         return NULL;
     }
 
@@ -347,7 +347,7 @@ static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt,
     if (nb_samples) {
         ret = VICE_P_AV_FRAME_GET_BUFFER(frame, 0);
         if (ret < 0) {
-            log_debug("ffmpegdrv: Error allocating an audio buffer");
+            log_debug(LOG_DEFAULT, "ffmpegdrv: Error allocating an audio buffer");
             return NULL;
         }
     }
@@ -370,7 +370,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     VICE_P_AV_DICT_FREE(&opts);
 
     if (ret < 0) {
-        log_debug("ffmpegdrv: could not open audio codec (%d)", ret);
+        log_debug(LOG_DEFAULT, "ffmpegdrv: could not open audio codec (%d)", ret);
         return -1;
     }
 
@@ -440,7 +440,7 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
 
     st = VICE_P_AVFORMAT_NEW_STREAM(ffmpegdrv_oc, avcodecaudio);
     if (!st) {
-        log_debug("ffmpegdrv: Could not alloc audio stream");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Could not alloc audio stream");
         return -1;
     }
 
@@ -483,7 +483,7 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     avr_ctx = VICE_P_AVRESAMPLE_ALLOC_CONTEXT();
     if (!avr_ctx) {
 #endif
-        log_debug("ffmpegdrv: Could not alloc resampler context");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Could not alloc resampler context");
         return -1;
     }
 
@@ -512,7 +512,7 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
 #else
     if (VICE_P_AVRESAMPLE_OPEN(avr_ctx) < 0) {
 #endif
-        log_debug("ffmpegdrv: Failed to initialize the resampling context");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Failed to initialize the resampling context");
         return -1;
     }
 
@@ -566,7 +566,7 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
             ret = VICE_P_AVRESAMPLE_CONVERT(avr_ctx, audio_st.frame->data, 0, dst_nb_samples, (const uint8_t **)frame->data, 0, frame->nb_samples);
 #endif
             if (ret < 0) {
-                log_debug("ffmpegdrv_encode_audio: Error while converting audio frame");
+                log_debug(LOG_DEFAULT, "ffmpegdrv_encode_audio: Error while converting audio frame");
                 return -1;
             }
             frame = audio_st.frame;
@@ -578,7 +578,7 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
         if (got_packet) {
             if (write_frame(ffmpegdrv_oc, &c->time_base, audio_st.st, &pkt)<0)
             {
-                log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
+                log_debug(LOG_DEFAULT, "ffmpegdrv_encode_audio: Error while writing audio frame");
             }
         }
     }
@@ -646,7 +646,7 @@ static AVFrame* ffmpegdrv_alloc_picture(enum AVPixelFormat pix_fmt, int width, i
 
     ret = VICE_P_AV_FRAME_GET_BUFFER(picture, 32);
     if (ret < 0) {
-        log_debug("ffmpegdrv: Could not allocate frame data");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Could not allocate frame data");
         return NULL;
     }
 
@@ -663,7 +663,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
     /* open the codec */
     ret = VICE_P_AVCODEC_OPEN2(c, avcodecvideo, NULL);
     if (ret < 0) {
-        log_debug("ffmpegdrv: could not open video codec");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: could not open video codec");
         return -1;
     }
 
@@ -672,7 +672,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
     /* allocate the encoded raw picture */
     video_st.frame = ffmpegdrv_alloc_picture(c->pix_fmt, c->width, c->height);
     if (!video_st.frame) {
-        log_debug("ffmpegdrv: could not allocate picture");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: could not allocate picture");
         return -1;
     }
 
@@ -683,7 +683,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
     if (c->pix_fmt != VICE_AV_PIX_FMT_RGB24) {
         video_st.tmp_frame = ffmpegdrv_alloc_picture(VICE_AV_PIX_FMT_RGB24, c->width, c->height);
         if (!video_st.tmp_frame) {
-            log_debug("ffmpegdrv: could not allocate temporary picture");
+            log_debug(LOG_DEFAULT, "ffmpegdrv: could not allocate temporary picture");
             return -1;
         }
     }
@@ -735,7 +735,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
 
     st = VICE_P_AVFORMAT_NEW_STREAM(ffmpegdrv_oc, avcodecvideo);
     if (!st) {
-        log_debug("ffmpegdrv: Could not alloc video stream\n");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Could not alloc video stream\n");
         return;
     }
 
@@ -785,7 +785,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
                       SWS_BICUBIC,
                       NULL, NULL, NULL);
         if (sws_ctx == NULL) {
-            log_debug("ffmpegdrv: Can't create Scaler!\n");
+            log_debug(LOG_DEFAULT, "ffmpegdrv: Can't create Scaler!\n");
         }
     }
 #endif
@@ -839,7 +839,7 @@ static int ffmpegdrv_init_file(void)
 
     VICE_P_AVFORMAT_WRITE_HEADER(ffmpegdrv_oc,NULL);
 
-    log_debug("ffmpegdrv: Initialized file successfully");
+    log_debug(LOG_DEFAULT, "ffmpegdrv: Initialized file successfully");
 
     file_init_done = 1;
 
@@ -883,7 +883,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     ffmpegdrv_oc = VICE_P_AVFORMAT_ALLOC_CONTEXT();
 
     if (!ffmpegdrv_oc) {
-        log_debug("ffmpegdrv: Cannot allocate format context");
+        log_debug(LOG_DEFAULT, "ffmpegdrv: Cannot allocate format context");
         return -1;
     }
 
@@ -927,7 +927,7 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
     }
 
     /* free the stream */
-    log_debug("ffmpegdrv: Closed successfully");
+    log_debug(LOG_DEFAULT, "ffmpegdrv: Closed successfully");
 
     file_init_done = 0;
 
@@ -998,21 +998,21 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         /* encode the image */
         ret = VICE_P_AVCODEC_ENCODE_VIDEO2(c, &pkt, video_st.frame, &got_packet);
         if (ret < 0) {
-            log_debug("Error while encoding video frame");
+            log_debug(LOG_DEFAULT, "Error while encoding video frame");
             return -1;
         }
         /* if zero size, it means the image was buffered */
         if (got_packet) {
             if (write_frame(ffmpegdrv_oc, &c->time_base, video_st.st, &pkt)<0)
             {
-                log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
+                log_debug(LOG_DEFAULT, "ffmpegdrv_encode_audio: Error while writing audio frame");
             }
         } else {
             ret = 0;
         }
     }
     if (ret < 0) {
-        log_debug("Error while writing video frame");
+        log_debug(LOG_DEFAULT, "Error while writing video frame");
         return -1;
     }
 

@@ -55,7 +55,7 @@ static ascii_t drv_ascii[NUM_OUTPUT_SELECT];
 static log_t drv_ascii_log = LOG_ERR;
 
 #ifdef DEBUG_PRINTER
-#define DBG(x) log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif

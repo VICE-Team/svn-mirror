@@ -46,7 +46,7 @@
 #include "util.h"
 
 #ifdef M93C86DEBUG
-#define LOG(_x_) log_debug _x_
+#define LOG(_x_) log_printf  _x_
 #else
 #define LOG(_x_)
 #endif
@@ -353,7 +353,7 @@ int m93c86_open_image(char *name, int rw)
         /* FIXME */
     } else {
         /* FIXME */
-        log_debug("eeprom card image name not set");
+        log_debug(LOG_DEFAULT, "eeprom card image name not set");
         return 0;
     }
 
@@ -369,21 +369,21 @@ int m93c86_open_image(char *name, int rw)
         m93c86_image_file = fopen(m93c86_image_filename, "rb");
 
         if (m93c86_image_file == NULL) {
-            log_debug("could not open eeprom card image: %s", m93c86_image_filename);
+            log_debug(LOG_DEFAULT, "could not open eeprom card image: %s", m93c86_image_filename);
             return -1;
         } else {
             if (fread(m93c86_data, 1, M93C86_SIZE, m93c86_image_file) == 0) {
-                log_debug("could not read eeprom card image: %s", m93c86_image_filename);
+                log_debug(LOG_DEFAULT, "could not read eeprom card image: %s", m93c86_image_filename);
             }
             fseek(m93c86_image_file, 0, SEEK_SET);
-            log_debug("opened eeprom card image (ro): %s", m93c86_image_filename);
+            log_debug(LOG_DEFAULT, "opened eeprom card image (ro): %s", m93c86_image_filename);
         }
     } else {
         if (fread(m93c86_data, 1, M93C86_SIZE, m93c86_image_file) == 0) {
-            log_debug("could not read eeprom card image: %s", m93c86_image_filename);
+            log_debug(LOG_DEFAULT, "could not read eeprom card image: %s", m93c86_image_filename);
         }
         fseek(m93c86_image_file, 0, SEEK_SET);
-        log_debug("opened eeprom card image (rw): %s", m93c86_image_filename);
+        log_debug(LOG_DEFAULT, "opened eeprom card image (rw): %s", m93c86_image_filename);
     }
     return 0;
 }
@@ -399,19 +399,19 @@ int m93c86_save_image(const char *name)
     FILE *fp;
 
     if (name == NULL || *name == '\0') {
-        log_debug("error: eeprom card image filename is NULL or empty");
+        log_debug(LOG_DEFAULT, "error: eeprom card image filename is NULL or empty");
         return -1;
     }
 
     fp = fopen(name, "wb");
     if (fp == NULL) {
-        log_debug("could not open file '%s' for writing: errno %d (%s)",
+        log_debug(LOG_DEFAULT, "could not open file '%s' for writing: errno %d (%s)",
                   name, errno, strerror(errno));
         return -1;
     }
 
     if (fwrite(m93c86_data, 1u, M93C86_SIZE, fp) != M93C86_SIZE) {
-        log_debug("error while writing eeprom card image: errno %d (%s)",
+        log_debug(LOG_DEFAULT, "error while writing eeprom card image: errno %d (%s)",
                   errno, strerror(errno));
         fclose(fp);
         return -1;
@@ -427,16 +427,16 @@ int m93c86_save_image(const char *name)
 int m93c86_flush_image(void)
 {
     if (m93c86_image_file == NULL) {
-        log_debug("cannot flush eeprom card image: file not opened");
+        log_debug(LOG_DEFAULT, "cannot flush eeprom card image: file not opened");
         return -1;
     }
     if (!eeprom_file_rw) {
-        log_debug("cannot flush read-only eeprom card image");
+        log_debug(LOG_DEFAULT, "cannot flush read-only eeprom card image");
         return -1;
     }
     fseek(m93c86_image_file, 0, SEEK_SET);
     if (fwrite(m93c86_data, 1, M93C86_SIZE, m93c86_image_file) == 0) {
-        log_debug("failed to flush eeprom card image: %d (%s)",
+        log_debug(LOG_DEFAULT, "failed to flush eeprom card image: %d (%s)",
                   errno, strerror(errno));
         return -1;
     }
@@ -451,7 +451,7 @@ void m93c86_close_image(int rw)
         if (rw) {
             fseek(m93c86_image_file, 0, SEEK_SET);
             if (fwrite(m93c86_data, 1, M93C86_SIZE, m93c86_image_file) == 0) {
-                log_debug("could not write eeprom card image");
+                log_debug(LOG_DEFAULT, "could not write eeprom card image");
             }
         }
         fclose(m93c86_image_file);

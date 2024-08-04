@@ -148,7 +148,7 @@ static uint8_t *find_next_directory_sector(vdrive_dir_context_t *dir,
         dir->buffer[1] = sector;
         vdrive_write_sector(vdrive, dir->buffer, dir->track, dir->sector);
 #ifdef DEBUG_DRIVE
-        log_debug("Found (%u %u) TR = %u SE = %u.",
+        log_debug(LOG_DEFAULT, "Found (%u %u) TR = %u SE = %u.",
                   track, sector, dir->track, dir->sector);
 #endif
         dir->slot = 0;
@@ -169,7 +169,7 @@ void vdrive_dir_create_slot(bufferinfo_t *p, uint8_t *realname,
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: Created dir slot. Name (%d) '%s'\n", reallength, realname);
+    log_debug(LOG_DEFAULT, "DIR: Created dir slot. Name (%d) '%s'\n", reallength, realname);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
 
@@ -242,7 +242,7 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const uint8_t *name,
         dir->buffer[1] = vdrive->Dir_Sector;
     }
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%u/s:%u dir t:%u/s:%u)",
+    log_debug(LOG_DEFAULT, "DIR: vdrive_dir_find_first_slot (curr t:%u/s:%u dir t:%u/s:%u)",
               dir->track, dir->sector, vdrive->Dir_Track, vdrive->Dir_Sector);
 #endif
 }
@@ -272,7 +272,7 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
     uint8_t *dirbuf = NULL;
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot start (t:%u/s:%u) #%u",
+    log_debug(LOG_DEFAULT, "DIR: vdrive_dir_find_next_slot start (t:%u/s:%u) #%u",
             dir->track, dir->sector, dir->slot);
 #endif
     /*
@@ -320,7 +320,7 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
     } while (1);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot (t:%u/s:%u) #%u",
+    log_debug(LOG_DEFAULT, "DIR: vdrive_dir_find_next_slot (t:%u/s:%u) #%u",
             dir->track, dir->sector, dir->slot);
 #endif
 
@@ -541,7 +541,7 @@ int vdrive_dir_first_directory(vdrive_t *vdrive,
     char *name;
 
 #ifdef DEBUG_VDRIVE
-    log_debug("DIR: %s name: '%s', length: %d, filetype: %d",
+    log_debug(LOG_DEFAULT, "DIR: %s name: '%s', length: %d, filetype: %d",
             __func__, name, length, filetype);
 #endif
 
@@ -893,7 +893,7 @@ uint8_t *vdrive_dir_part_find_next_slot(vdrive_dir_context_t *dir)
     vdrive_t *vdrive = dir->vdrive;
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot start (t:%u/s:%u) #%u", dir->track, dir->sector, dir->slot);
+    log_debug(LOG_DEFAULT, "DIR: vdrive_dir_find_next_slot start (t:%u/s:%u) #%u", dir->track, dir->sector, dir->slot);
 #endif
     /*
      * Loop all partition entrys starting at 1,0 on system partition
@@ -932,7 +932,7 @@ uint8_t *vdrive_dir_part_find_next_slot(vdrive_dir_context_t *dir)
     } while (1);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot (t:%u/s:%u) #%u", dir->track, dir->sector, dir->slot);
+    log_debug(LOG_DEFAULT, "DIR: vdrive_dir_find_next_slot (t:%u/s:%u) #%u", dir->track, dir->sector, dir->slot);
 #endif
 
     return NULL;
@@ -1008,7 +1008,7 @@ int vdrive_dir_part_first_directory(vdrive_t *vdrive, const uint8_t *name,
     int ptype;
 
 #ifdef DEBUG_VDRIVE
-    log_debug("DIRPART: %s name: '%s', length: %d, filetype: %d",
+    log_debug(LOG_DEFAULT, "DIRPART: %s name: '%s', length: %d, filetype: %d",
             __func__, name, length, filetype);
 #endif
 

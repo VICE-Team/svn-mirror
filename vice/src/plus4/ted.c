@@ -102,7 +102,7 @@ void ted_delay_clk(void)
 {
     CLOCK diff;
 
-    /*log_debug("MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
+    /*log_debug(LOG_DEFAULT, "MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
 
     if (ted.fastmode == 0) {
         diff = maincpu_clk - old_maincpu_clk - ((old_cycle & 1) ^ 1);
@@ -715,7 +715,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (ted.tv_current_line < ted.screen_height) {
         raster_line_emulate(&ted.raster);
     } else {
-        log_debug("Skip line %u %u", ted.tv_current_line, ted.screen_height);
+        log_debug(LOG_DEFAULT, "Skip line %u %u", ted.tv_current_line, ted.screen_height);
     }
 
     if (ted.ted_raster_counter == ted.last_dma_line) {
@@ -772,7 +772,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
             raster_canvas_handle_end_of_frame(&ted.raster);
         }
 
-        /*log_debug("Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
+        /*log_debug(LOG_DEFAULT, "Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
 
         vsync_do_vsync(ted.raster.canvas);
 
@@ -785,7 +785,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
 
     if (in_visible_area) {
-/*        log_debug("Idle state %03x, %03x, %d",ted.ted_raster_counter, ted.idle_state, ted.raster.ycounter);*/
+/*        log_debug(LOG_DEFAULT, "Idle state %03x, %03x, %d",ted.ted_raster_counter, ted.idle_state, ted.raster.ycounter);*/
         if (!ted.idle_state) {
             ted.mem_counter = (ted.mem_counter + ted.mem_counter_inc) & 0x3ff;
             ted.chr_pos_count = (ted.chr_pos_count + ted.mem_counter_inc) & 0x3ff;

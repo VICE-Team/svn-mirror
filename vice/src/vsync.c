@@ -704,7 +704,7 @@ void vsync_do_vsync(struct video_canvas_s *c)
     vsyncarch_postsync();
 
 #ifdef VSYNC_DEBUG
-    log_debug("vsync: start:%lu  delay:%ld  sound-delay:%lf  end:%lu  next-frame:%lu  frame-ticks:%lu",
+    log_debug(LOG_DEFAULT, "vsync: start:%lu  delay:%ld  sound-delay:%lf  end:%lu  next-frame:%lu  frame-ticks:%lu",
                 now, delay, sound_delay * 1000000, tick_now(), next_frame_start, ticks_per_frame);
 #endif
 

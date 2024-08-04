@@ -124,7 +124,7 @@ static void mp3_close(void)
     mp3_size = vice_lame_encode_flush(gfp, mp3_buffer, MP3_BUFFER_SIZE);
 
     if (fwrite(mp3_buffer, 1, (size_t)mp3_size, mp3_fd) != (size_t)mp3_size) {
-        log_debug("ERROR mp3_close failed.");
+        log_debug(LOG_DEFAULT, "ERROR mp3_close failed.");
     }
     fclose(mp3_fd);
     mp3_fd = NULL;
@@ -163,7 +163,7 @@ int sound_init_mp3_device(void)
 #ifndef HAVE_STATIC_LAME
     int result = lamelib_open();
     if (result != 0) {
-        log_debug("ERROR setting up dynamic lame lib!");
+        log_debug(LOG_DEFAULT, "ERROR setting up dynamic lame lib!");
         return result;
     }
 #endif

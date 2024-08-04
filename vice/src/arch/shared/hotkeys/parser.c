@@ -1154,7 +1154,7 @@ bool vhk_parser_parse(const char *path)
                 char *trimmed  = vhk_parser_strtrim(line);
 
                 if (vhk_debug) {
-                    log_debug("(%s) LINE %3ld: '%s'",
+                    log_debug(LOG_DEFAULT, "(%s) LINE %3ld: '%s'",
                               ifstack_true() ? "TRUE " : "FALSE",
                               textfile_reader_linenum(&reader),
                               line);

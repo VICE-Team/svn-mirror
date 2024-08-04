@@ -36,13 +36,13 @@
 /* #define DEBUG_STEP */
 
 #ifdef DEBUG_VIA2
-#define DBG(_x_) log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif
 
 #ifdef DEBUG_STEP
-#define DBGSTEP(_x_) log_debug _x_
+#define DBGSTEP(_x_) log_printf  _x_
 #else
 #define DBGSTEP(_x_)
 #endif
