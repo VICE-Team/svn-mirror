@@ -62,7 +62,7 @@ void ted_fetch_matrix(int offs, int num)
     }
     /*memcpy(ted.cbuf, ted.cbuf_tmp, TED_SCREEN_TEXTCOLS);*/
 
-/*    log_debug("Fetch line  : %03x, %03x", ted.ted_raster_counter, start_char);*/
+/*    log_debug(LOG_DEFAULT, "Fetch line  : %03x, %03x", ted.ted_raster_counter, start_char);*/
 }
 
 inline void ted_fetch_color(int offs, int num)
@@ -79,7 +79,7 @@ inline void ted_fetch_color(int offs, int num)
         memcpy(ted.cbuf_tmp + offs, ted.color_ptr + start_char, c);
         memcpy(ted.cbuf_tmp + offs + c, ted.color_ptr, num - c);
     }
-/*    log_debug("Color fetch : %03x, %03x", ted.ted_raster_counter, start_char);*/
+/*    log_debug(LOG_DEFAULT, "Color fetch : %03x, %03x", ted.ted_raster_counter, start_char);*/
 }
 
 /* If we are on a bad line, do the DMA.  Return nonzero if cycles have been

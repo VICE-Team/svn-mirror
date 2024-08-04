@@ -47,7 +47,7 @@
 #include "util.h"
 
 #ifdef SPIFLASHDEBUG
-#define LOG(_x_) log_debug _x_
+#define LOG(_x_) log_printf  _x_
 #else
 #define LOG(_x_)
 #endif

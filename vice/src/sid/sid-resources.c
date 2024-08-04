@@ -127,7 +127,7 @@ static int set_sid_engine(int set_engine, void *param)
     sid_engine = engine;
 
 #ifdef SID_ENGINE_MODEL_DEBUG
-    log_debug("SID engine set to %d", engine);
+    log_debug(LOG_DEFAULT, "SID engine set to %d", engine);
 #endif
     sound_state_changed = 1;
 
@@ -232,7 +232,7 @@ static int set_sid_model(int val, void *param)
     }
 
 #ifdef SID_ENGINE_MODEL_DEBUG
-    log_debug("SID model set to %d", sid_model);
+    log_debug(LOG_DEFAULT, "SID model set to %d", sid_model);
 #endif
     sid_state_changed = 1;
     return 0;

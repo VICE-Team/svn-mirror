@@ -51,13 +51,13 @@
 #include "plus4-generic.h"
 
 #ifdef DEBUGGENERIC
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef DEBUGGENERICRW
-#define DBGRW(x)  log_debug x
+#define DBGRW(x) log_printf  x
 #else
 #define DBGRW(x)
 #endif

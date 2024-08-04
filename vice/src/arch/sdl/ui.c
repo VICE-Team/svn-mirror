@@ -92,7 +92,7 @@
 #endif
 
 #ifdef SDL_DEBUG
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif

@@ -60,7 +60,7 @@
 /* #define DEBUG_KEYS */
 
 #ifdef DEBUG_KEYS
-#define DBGKEY(x) log_debug x
+#define DBGKEY(x) log_printf  x
 #else
 #define DBGKEY(x)
 #endif

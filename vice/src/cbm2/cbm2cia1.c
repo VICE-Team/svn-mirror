@@ -27,7 +27,7 @@
 /* #define DEBUG_CIA1 */
 
 #ifdef DEBUG_CIA1
-#define DBG(_x_)        log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif

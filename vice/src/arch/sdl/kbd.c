@@ -228,7 +228,7 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
     ui_action_map_t *map;
 
 #ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(SDL1x_to_SDL2x_Keys(key)), mod);
+    log_debug(LOG_DEFAULT, "%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(SDL1x_to_SDL2x_Keys(key)), mod);
 #endif
 #ifdef WINDOWS_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
@@ -271,7 +271,7 @@ void sdlkbd_press(SDLKey key, SDLMod mod)
 void sdlkbd_release(SDLKey key, SDLMod mod)
 {
 #ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug(LOG_DEFAULT, "%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
 
 #ifdef WINDOWS_COMPILE
@@ -294,7 +294,7 @@ ui_menu_action_t sdlkbd_press_for_menu_action(SDLKey key, SDLMod mod)
     ui_menu_action_t i, retval = MENU_ACTION_NONE;
 
 #ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug(LOG_DEFAULT, "%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
 
     if (key != SDLK_UNKNOWN) {
@@ -316,7 +316,7 @@ ui_menu_action_t sdlkbd_release_for_menu_action(SDLKey key, SDLMod mod)
     ui_menu_action_t i, retval = MENU_ACTION_NONE_RELEASE;
 
 #ifdef SDL_DEBUG
-    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug(LOG_DEFAULT, "%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
 
     if (key != SDLK_UNKNOWN) {

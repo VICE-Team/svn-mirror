@@ -37,7 +37,7 @@
 #include "tapeport.h"
 
 #ifdef DEBUG_TAPE
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -53,7 +53,7 @@ static void logit(int f, int n)
     };
     static int buf[4];
     buf[f] = n;
-    log_debug("%28s flux:%d sense:%d write:%d motor:%d",
+    log_debug(LOG_DEFAULT, "%28s flux:%d sense:%d write:%d motor:%d",
               names[f], buf[0], buf[1], buf[2], buf[3]);
 
 }

@@ -111,7 +111,7 @@
 #endif
 
 #ifdef MMCRDEBUG
-#define LOG(_x_) log_debug _x_
+#define LOG(_x_) log_printf  _x_
 #else
 #define LOG(_x_)
 #endif
@@ -2550,7 +2550,7 @@ void mmcreplay_reset(void)
     mmcreplay_set_stdcfg();
 
     if (enable_rescue_mode) {
-        log_debug("MMCREPLAY: Rescue Mode enabled");
+        log_debug(LOG_DEFAULT, "MMCREPLAY: Rescue Mode enabled");
     }
 
     mmcreplay_update_mapper(CMODE_READ, 0);

@@ -445,11 +445,11 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
 
 #if TAP_DEBUG > 2
     if (TAP_PULSE_SHORT(data)) {
-        log_debug("s");
+        log_debug(LOG_DEFAULT, "s");
     } else if (TAP_PULSE_MIDDLE(data)) {
-        log_debug("m");
+        log_debug(LOG_DEFAULT, "m");
     } else if (TAP_PULSE_LONG(data)) {
-        log_debug("l");
+        log_debug(LOG_DEFAULT, "l");
     }
 #endif
 
@@ -587,32 +587,32 @@ void tap_cbm_print_error(int ret)
 {
     switch (ret) {
         case 0:
-            log_debug("OK\n");
+            log_debug(LOG_DEFAULT, "OK\n");
             break;
         case -1:
-            log_debug("ERROR (tape end)\n");
+            log_debug(LOG_DEFAULT, "ERROR (tape end)\n");
             break;
         case -2:
-            log_debug("ERROR (sync read)\n");
+            log_debug(LOG_DEFAULT, "ERROR (sync read)\n");
             break;
 /*      case -3:
-            log_debug("ERROR (short block)\n");
+            log_debug(LOG_DEFAULT, "ERROR (short block)\n");
             break;
  */
         case -4:
-            log_debug("ERROR (long block)\n");
+            log_debug(LOG_DEFAULT, "ERROR (long block)\n");
             break;
         case -5:
-            log_debug("ERROR (too many single errors)\n");
+            log_debug(LOG_DEFAULT, "ERROR (too many single errors)\n");
             break;
         case -6:
-            log_debug("ERROR (double read error)\n");
+            log_debug(LOG_DEFAULT, "ERROR (double read error)\n");
             break;
         case -7:
-            log_debug("ERROR (checksum error)\n");
+            log_debug(LOG_DEFAULT, "ERROR (checksum error)\n");
             break;
         default:
-            log_debug("ERROR (%i?)\n", ret);
+            log_debug(LOG_DEFAULT, "ERROR (%i?)\n", ret);
     }
 }
 #endif
@@ -641,7 +641,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, uint8_t *buffer, int *
         data = tap_cbm_read_byte(tap);
 #if TAP_DEBUG > 1
         if (data >= 0) {
-            log_debug("<%02x> ", data);
+            log_debug(LOG_DEFAULT, "<%02x> ", data);
         }
 #endif
         if (data == -1) {
@@ -675,7 +675,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, uint8_t *buffer, int *
             return -1; /* end-of-tape */
         } else if (data == -2) {
 #if TAP_DEBUG > 1
-            log_debug(" ##");
+            log_debug(LOG_DEFAULT, " ##");
 #endif
             if (*pass == 1) {
                 /* single error in first pass => store position in error_buf and go on */
@@ -704,7 +704,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, uint8_t *buffer, int *
             /* byte ok */
             if (count < *size) {
 #if TAP_DEBUG > 1
-                log_debug(" %02x", (uint8_t) data);
+                log_debug(LOG_DEFAULT, " %02x", (uint8_t) data);
 #endif
                 buffer[count++] = (uint8_t) data;
                 if ((machine_tape_behaviour() == TAPE_BEHAVIOUR_C16) && (count == *size)) {
@@ -729,7 +729,7 @@ static int tap_cbm_read_block(tap_t *tap, uint8_t *buffer, int size)
     int i, ret, pass, error_count, error_buf[MAX_ERRORS];
 
 #if TAP_DEBUG > 0
-    log_debug("\nTAP_CBM_READ_BLOCK(size %i): ", size);
+    log_debug(LOG_DEFAULT, "\nTAP_CBM_READ_BLOCK(size %i): ", size);
 #endif
 
     ret = -1;
@@ -740,7 +740,7 @@ static int tap_cbm_read_block(tap_t *tap, uint8_t *buffer, int size)
         ret = tap_cbm_read_block_once(tap, &pass, buffer, &size, error_buf, &error_count);
 
 #if TAP_DEBUG > 0
-        log_debug(" PASS%i:%i/%i ", pass, ret, error_count);
+        log_debug(LOG_DEFAULT, " PASS%i:%i/%i ", pass, ret, error_count);
 #endif
 
         if ((ret >= 0) && (error_count == 0)) {
@@ -1002,7 +1002,7 @@ static int tap_tt_skip_pilot(tap_t *tap)
     int data;
 
 #if TAP_DEBUG > 1
-    log_debug("\nTAP_TT_SKIP_PILOT(0x%X", ftell(tap->fd));
+    log_debug(LOG_DEFAULT, "\nTAP_TT_SKIP_PILOT(0x%X", ftell(tap->fd));
 #endif
 
     /* turbo-tape pilot is just repeats of value 0x02 */
@@ -1020,7 +1020,7 @@ static int tap_tt_skip_pilot(tap_t *tap)
     } while (data == 2);
 
 #if TAP_DEBUG > 1
-    log_debug("-0x%X) ", ftell(tap->fd));
+    log_debug(LOG_DEFAULT, "-0x%X) ", ftell(tap->fd));
 #endif
 
     return 0;
@@ -1032,26 +1032,26 @@ static void tap_tt_print_error(int ret)
 {
     switch (ret) {
         case -1:
-            log_debug("ERROR (tape end)\n");
+            log_debug(LOG_DEFAULT, "ERROR (tape end)\n");
             break;
         case -2:
-            log_debug("ERROR (sync read)\n");
+            log_debug(LOG_DEFAULT, "ERROR (sync read)\n");
             break;
         case -3:
-            log_debug("ERROR (block type)\n");
+            log_debug(LOG_DEFAULT, "ERROR (block type)\n");
             break;
         case -4:
-            log_debug("ERROR (data)\n");
+            log_debug(LOG_DEFAULT, "ERROR (data)\n");
             break;
         case -5:
-            log_debug("ERROR (checksum)\n");
+            log_debug(LOG_DEFAULT, "ERROR (checksum)\n");
             break;
         case -6:
-            log_debug("ERROR (pilot)\n");
+            log_debug(LOG_DEFAULT, "ERROR (pilot)\n");
             break;
 
         default:
-            log_debug("OK (%i bytes read)\n", ret);
+            log_debug(LOG_DEFAULT, "OK (%i bytes read)\n", ret);
     }
 }
 #endif
@@ -1062,7 +1062,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
     unsigned int count;
 
 #if TAP_DEBUG > 1
-    log_debug("TAP_TT_READ_BLOCK(%u) ", size);
+    log_debug(LOG_DEFAULT, "TAP_TT_READ_BLOCK(%u) ", size);
 #endif
 
     /* skip pilot */
@@ -1077,7 +1077,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
         data = tap_tt_read_byte(tap);
 #if TAP_DEBUG > 1
         if (data >= 0) {
-            log_debug("<%02x> ", data);
+            log_debug(LOG_DEFAULT, "<%02x> ", data);
         }
 #endif
         if (data == -1) {
@@ -1094,7 +1094,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
     }
 #if TAP_DEBUG > 1
     if (data >= 0) {
-        log_debug("<%02x> ", data);
+        log_debug(LOG_DEFAULT, "<%02x> ", data);
     }
 #endif
     if (((type == TT_BLOCK_TYPE_DATA) && (data != 0)) ||
@@ -1103,7 +1103,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
     }
 #if TAP_DEBUG > 1
     if (buffer == NULL) {
-        log_debug("(.....) ");
+        log_debug(LOG_DEFAULT, "(.....) ");
     }
 #endif
 
@@ -1118,7 +1118,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
         }
 #if TAP_DEBUG > 1
         if (data >= 0 && buffer != NULL) {
-            log_debug("%02x ", data);
+            log_debug(LOG_DEFAULT, "%02x ", data);
         }
 #endif
 
@@ -1138,7 +1138,7 @@ static int tap_tt_read_block(tap_t *tap, int type, uint8_t *buffer, unsigned int
         }
 #if TAP_DEBUG > 1
         if (data >= 0) {
-            log_debug("[%02x] ", data);
+            log_debug(LOG_DEFAULT, "[%02x] ", data);
         }
 #endif
         if (buffer != NULL) {
@@ -1264,7 +1264,7 @@ static int tap_find_pilot(tap_t *tap, int type)
     countTT = 0;
 
 #if TAP_DEBUG > 0
-    log_debug(" TAP_FIND_PILOT");
+    log_debug(LOG_DEFAULT, " TAP_FIND_PILOT");
 #endif
 
     while ((countCBM < minCBM) && (countTT < PILOT_MIN_LENGTH_TT * 8)) {
@@ -1399,9 +1399,9 @@ static int tap_find_pilot(tap_t *tap, int type)
 
 #if TAP_DEBUG > 0
     if (countTT >= PILOT_MIN_LENGTH_TT * 8) {
-        log_debug(" found TT pilot(0x%X)", startTT + 2);
+        log_debug(LOG_DEFAULT, " found TT pilot(0x%X)", startTT + 2);
     } else {
-        log_debug(" found CBM pilot(0x%X)", startCBM);
+        log_debug(LOG_DEFAULT, " found CBM pilot(0x%X)", startCBM);
     }
 #endif
 
@@ -1476,7 +1476,7 @@ static int tap_read_file(tap_t *tap)
     long fpos;
 
 #if TAP_DEBUG > 0
-    log_debug("\nTAP_READ_FILE(START)\n");
+    log_debug(LOG_DEFAULT, "\nTAP_READ_FILE(START)\n");
 #endif
 
     /* store current position in TAP file */
@@ -1509,7 +1509,7 @@ static int tap_read_file(tap_t *tap)
     fseek(tap->fd, fpos, SEEK_SET);
 
 #if TAP_DEBUG > 0
-    log_debug("\nTAP_READ_FILE(END%i)\n", ret);
+    log_debug(LOG_DEFAULT, "\nTAP_READ_FILE(END%i)\n", ret);
 #endif
 
 
@@ -1522,7 +1522,7 @@ static int tap_skip_file(tap_t *tap)
     int ret;
 
 #if TAP_DEBUG > 0
-    log_debug("\nTAP_SKIP_FILE(START)\n");
+    log_debug(LOG_DEFAULT, "\nTAP_SKIP_FILE(START)\n");
 #endif
 
     /* clear old file data */
@@ -1542,7 +1542,7 @@ static int tap_skip_file(tap_t *tap)
     }
 
 #if TAP_DEBUG > 0
-    log_debug("\nTAP_SKIP_FILE(END%i)\n", ret);
+    log_debug(LOG_DEFAULT, "\nTAP_SKIP_FILE(END%i)\n", ret);
 #endif
 
     return ret;

@@ -50,7 +50,7 @@
 /* #define DEBUG_NEOS */
 
 #ifdef DEBUG_NEOS
-#define DBG(_x_)  log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif

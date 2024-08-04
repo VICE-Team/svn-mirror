@@ -36,7 +36,7 @@
 
 #ifdef DEBUG_SERIAL_IEC_BUS
 #include "log.h"
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif

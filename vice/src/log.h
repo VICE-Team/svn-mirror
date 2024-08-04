@@ -53,7 +53,6 @@
 int log_set_limit_early(int n);
 int log_early_init(int argc, char **argv);
 
-//void log_enable(int on);
 int log_set_limit(int n);
 
 int log_resources_init(void);
@@ -97,12 +96,14 @@ void log_close_all(void);
 
 int log_out(log_t log, unsigned int level, const char *format, ...) VICE_ATTR_PRINTF3;
 
+int log_debug(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_verbose(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_error(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_fatal(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 
-int log_debug(const char *format, ...) VICE_ATTR_PRINTF;
+/* simple way to print to the default log, at debug level */
+int log_printf(const char *format, ...) VICE_ATTR_PRINTF;
 
 #endif

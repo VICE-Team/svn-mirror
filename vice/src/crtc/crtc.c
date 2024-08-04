@@ -32,7 +32,7 @@
 /* #define DEBUG_CRTC */
 
 #ifdef DEBUG_CRTC
-#define DBG(_x_)        log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif
@@ -512,12 +512,12 @@ raster_t *crtc_init(void)
     crtc.hires_draw_callback = NULL;
 
 #if 0
-    log_debug("scr_width=%d, scr_height=%d",
+    log_debug(LOG_DEFAULT, "scr_width=%d, scr_height=%d",
               crtc.screen_width, crtc.screen_height);
-    log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
+    log_debug(LOG_DEFAULT, "tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
               CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
               CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
-    log_debug("displayed lines: first=%d, last=%d",
+    log_debug(LOG_DEFAULT, "displayed lines: first=%d, last=%d",
               CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
 #endif
 

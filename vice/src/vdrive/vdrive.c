@@ -41,7 +41,7 @@
 /* #define DEBUG_DRIVE */
 
 #ifdef DEBUG_DRIVE
-#define DBG(x) log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -187,7 +187,7 @@ void vdrive_refresh(unsigned int unit)
     vdrive_t *vdrive;
 
 #ifdef DEBUG_DRIVE
-log_debug("VDRIVE: refresh unit %u", unit);
+log_debug(LOG_DEFAULT, "VDRIVE: refresh unit %u", unit);
 #endif
 
     vdrive = file_system_get_vdrive(unit);
@@ -223,7 +223,7 @@ void vdrive_flush(unsigned int unit)
     vdrive_t *vdrive;
 
 #ifdef DEBUG_DRIVE
-log_debug("VDRIVE: flush unit %u", unit);
+log_debug(LOG_DEFAULT, "VDRIVE: flush unit %u", unit);
 #endif
 
     vdrive = file_system_get_vdrive(unit);
@@ -524,7 +524,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             return -1;
     }
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_attach_image image type:%u vdrive format:%u num_tracks:%u bam_size:%u",
+    log_debug(LOG_DEFAULT, "vdrive_attach_image image type:%u vdrive format:%u num_tracks:%u bam_size:%u",
          image->type, vdrive->image_format, vdrive->num_tracks, vdrive->bam_size);
 #endif
 
@@ -535,7 +535,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
     vdrive->images[drive] = image;
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: Image attached to unit %u, drive %u as %u", unit, drive, image->type);
+    log_debug(LOG_DEFAULT, "VDRIVE: Image attached to unit %u, drive %u as %u", unit, drive, image->type);
 #endif
 
     vdrive->haspt = haspt;
@@ -928,7 +928,7 @@ static int vdrive_log_to_phy(vdrive_t *vdrive, disk_addr_t *dadr, unsigned int t
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: log-to-phys %u %u %u to %u %u", track, sector, vdrive->current_offset, dadr->track, dadr->sector);
+    log_debug(LOG_DEFAULT, "VDRIVE: log-to-phys %u %u %u to %u %u", track, sector, vdrive->current_offset, dadr->track, dadr->sector);
 #endif
 
     return 0;
@@ -959,7 +959,7 @@ int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsig
 #endif
     ret = disk_image_read_sector(vdrive->image, buf, &dadr);
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: read_sector %u %u = %d", dadr.track, dadr.sector, ret);
+    log_debug(LOG_DEFAULT, "VDRIVE: read_sector %u %u = %d", dadr.track, dadr.sector, ret);
 #endif
 
     return ret;
@@ -991,7 +991,7 @@ int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track
     ret = disk_image_write_sector(vdrive->image, buf, &dadr);
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: write_sector %u %u = %d", dadr.track, dadr.sector, ret);
+    log_debug(LOG_DEFAULT, "VDRIVE: write_sector %u %u = %d", dadr.track, dadr.sector, ret);
 #endif
 
     return ret;
@@ -1281,7 +1281,7 @@ static int vdrive_change_part(vdrive_t *vdrive, int part)
     unsigned int bamsize[5] = {0, 0x2100, 0x100, 0x200, 0x300};
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: Change part to %d", part);
+    log_debug(LOG_DEFAULT, "VDRIVE: Change part to %d", part);
 #endif
     /* make sure parition/drive is in a valid range */
     if (part < 0
@@ -1349,7 +1349,7 @@ static int vdrive_change_part(vdrive_t *vdrive, int part)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: Change part result is %d",ret);
+    log_debug(LOG_DEFAULT, "VDRIVE: Change part result is %d",ret);
 #endif
     return ret;
 }
@@ -1586,7 +1586,7 @@ int vdrive_switch(vdrive_t *vdrive, int part)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: request switch to %d",part);
+    log_debug(LOG_DEFAULT, "VDRIVE: request switch to %d",part);
 #endif
     /* find the real partition/drive */
     part = vdrive_realpart(vdrive, part);
@@ -1632,7 +1632,7 @@ int vdrive_switch(vdrive_t *vdrive, int part)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: result is %d %d %u %u",ret, vdrive->current_part, vdrive->current_offset, vdrive->image_format);
+    log_debug(LOG_DEFAULT, "VDRIVE: result is %d %d %u %u",ret, vdrive->current_part, vdrive->current_offset, vdrive->image_format);
 #endif
     return ret;
 }

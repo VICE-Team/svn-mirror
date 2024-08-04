@@ -72,7 +72,7 @@
 /* #define RRNETMK3DEBUG */
 
 #ifdef RRNETMK3DEBUG
-#define LOG(_x_) log_debug _x_
+#define LOG(_x_) log_printf  _x_
 #else
 #define LOG(_x_)
 #endif

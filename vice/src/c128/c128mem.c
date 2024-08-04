@@ -78,13 +78,13 @@
 /* #define DEBUG_KEYS */
 
 #ifdef DEBUG_MMU
-#define DEBUG_PRINT(x) log_debug x
+#define DEBUG_PRINT(x) log_printf  x
 #else
 #define DEBUG_PRINT(x)
 #endif
 
 #ifdef DEBUG_KEYS
-#define DBGKEY(x) log_debug x
+#define DBGKEY(x) log_printf  x
 #else
 #define DBGKEY(x)
 #endif

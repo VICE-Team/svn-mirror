@@ -165,7 +165,7 @@ inline void vicii_delay_clk(void)
 #if 0
     CLOCK diff;
 
-    /*log_debug("MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
+    /*log_debug(LOG_DEFAULT, "MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
 
     if (vicii.fastmode == 0) {
         diff = maincpu_clk - old_maincpu_clk;

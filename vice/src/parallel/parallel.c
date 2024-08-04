@@ -57,7 +57,7 @@
 #include "types.h"
 
 #ifdef DEBUG_PARALLEL
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -184,11 +184,11 @@ static int state = WaitATN;
 static void DoTrans(int tr)
 {
     if (debug.ieee) {
-        log_debug("DoTrans(%s).%s", State[state].name, Trans[tr]);
+        log_debug(LOG_DEFAULT, "DoTrans(%s).%s", State[state].name, Trans[tr]);
     }
     State[state].m[tr](tr);
     if (debug.ieee) {
-        log_debug(" -> %s", State[state].name);
+        log_debug(LOG_DEFAULT, " -> %s", State[state].name);
     }
 }
 #else
@@ -223,7 +223,7 @@ static void unexpected(int trans)
 {
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("IEEE488: unexpected line transition in state %s: %s.",
+        log_debug(LOG_DEFAULT, "IEEE488: unexpected line transition in state %s: %s.",
                     State[state].name, Trans[trans]);
     }
 #endif
@@ -261,7 +261,7 @@ static void In1_ATN_false(int tr)
             } else {
 #ifdef DEBUG
                 if (debug.ieee) {
-                    log_debug("IEEE488: Ouch, something weird happened: %s got %s",
+                    log_debug(LOG_DEFAULT, "IEEE488: Ouch, something weird happened: %s got %s",
                                 State[In1].name, Trans[tr]);
                 }
 #endif
@@ -287,7 +287,7 @@ static void In1_DAV_true(int tr)
     }
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("IEEE488: sendbyte returns %04x",
+        log_debug(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",
                 (unsigned int)par_status);
     }
 #endif
@@ -360,7 +360,7 @@ static void OPet_NRFD_true(int tr)
 {
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("OPet_NRFD_true()");
+        log_debug(LOG_DEFAULT, "OPet_NRFD_true()");
     }
 #endif
     State[Out1].m[NRFD_false](tr);
@@ -456,21 +456,21 @@ static const State_t State[NSTATE] = {
 #define PARALLEL_LINE_DEBUG_CLR(line, linecap)                          \
     if (debug.ieee) {                                                   \
         if (old && !parallel_ ## line) {                                \
-            log_debug("clr_" # line "(%02x) -> " # linecap "_false",    \
+            log_debug(LOG_DEFAULT, "clr_" # line "(%02x) -> " # linecap "_false",    \
                         ~mask & 0xffU); }                               \
         else                                                            \
         if (old & ~mask) {                                              \
-            log_debug("clr_" # line "(%02x) -> %02x",                   \
+            log_debug(LOG_DEFAULT, "clr_" # line "(%02x) -> %02x",                   \
                         ~mask & 0xffU, parallel_ ## line); }            \
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)                          \
     if (debug.ieee) {                                                   \
         if (!old) {                                                     \
-            log_debug("set_" # line "(%02x) -> " # linecap "_true", mask); } \
+            log_debug(LOG_DEFAULT, "set_" # line "(%02x) -> " # linecap "_true", mask); } \
         else                                                            \
         if (!(old & mask)) {                                            \
-            log_debug("set_" # line "(%02x) -> %02x",                   \
+            log_debug(LOG_DEFAULT, "set_" # line "(%02x) -> %02x",                   \
                         mask, parallel_ ## line); }                     \
     }
 #else
@@ -550,7 +550,7 @@ void parallel_restore_set_atn(uint8_t mask)
 
 #ifdef DEBUG
     if (debug.ieee && !old) {
-        log_debug("set_atn(%02x) -> ATN_true", mask);
+        log_debug(LOG_DEFAULT, "set_atn(%02x) -> ATN_true", mask);
     }
 #endif
 
@@ -566,7 +566,7 @@ void parallel_restore_clr_atn(uint8_t mask)
 
 #ifdef DEBUG
     if (debug.ieee && old && !parallel_atn) {
-        log_debug("clr_atn(%02x) -> ATN_false",
+        log_debug(LOG_DEFAULT, "clr_atn(%02x) -> ATN_false",
                 (unsigned int)(~mask & 0xff));
     }
 #endif

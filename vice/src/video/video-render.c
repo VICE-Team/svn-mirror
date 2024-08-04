@@ -78,7 +78,7 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
     int rendermode;
 
 #if 0
-    log_debug("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i",
+    log_debug(LOG_DEFAULT, "w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i",
               width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
 
 #endif

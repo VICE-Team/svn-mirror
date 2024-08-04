@@ -60,7 +60,7 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
     int c;
     uint8_t *colorram = NULL;
 
-    /*log_debug("OFF %02i NUM %02i NFF %02i",offs,num,num_0xff);*/
+    /*log_debug(LOG_DEFAULT, "OFF %02i NUM %02i NFF %02i",offs,num,num_0xff);*/
 
     if (vicii.viciidtv) {
         num_0xff = 0;
@@ -341,7 +341,7 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
         vicii.fetch_clk = (vicii.sprite_fetch_clk + vicii_sprites_fetch_table[vicii.sprite_fetch_msk][0].cycle);
     }
 
-    /*log_debug("HCSD SCLK %i FCLK %i CLK %i OFFSET %li SUB %i",
+    /*log_debug(LOG_DEFAULT, "HCSD SCLK %i FCLK %i CLK %i OFFSET %li SUB %i",
                 vicii.store_clk, vicii.fetch_clk, clk, offset, sub);*/
 
     if (vicii.store_clk != CLOCK_MAX) {
@@ -398,7 +398,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
 #ifdef DEBUG
             if (debug.maincpu_traceflg) {
-                log_debug("SDMA %u", i);
+                log_debug(LOG_DEFAULT, "SDMA %u", i);
             }
 #endif
 
@@ -468,7 +468,7 @@ phi2noultimax:
 
     num_cycles = sf->num;
 
-    /*log_debug("SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
+    /*log_debug(LOG_DEFAULT, "SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
 
     if ((vicii.fastmode == 0) && !vicii.badline_disable) {
         dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);

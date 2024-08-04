@@ -178,7 +178,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     int cmdlen;
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parse cmd: '%s' cmdlen: %u", cmd_parse->cmd, cmd_parse->cmdlength);
+    log_debug(LOG_DEFAULT, "CBMDOS parse cmd: '%s' cmdlen: %u", cmd_parse->cmd, cmd_parse->cmdlength);
 #endif
 
     cmd_parse->atsign = 0;
@@ -236,7 +236,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     }
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
+    log_debug(LOG_DEFAULT, "CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
 #endif
 
     cmdlen = cmd_parse->cmdlength - (int)(p - cmd_parse->cmd);
@@ -254,7 +254,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     }
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
+    log_debug(LOG_DEFAULT, "CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
 #endif
 
     /* Preset the file-type if the LOAD/SAVE secondary addresses are used. */
@@ -293,7 +293,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                         cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
 
 #ifdef DEBUG_CBMDOS
-                        log_debug("L recordlength=%u", cmd_parse->recordlength);
+                        log_debug(LOG_DEFAULT, "L recordlength=%u", cmd_parse->recordlength);
 #endif
                         /* Don't allow REL file record lengths less than 2 or
                            greater than 254.  The 1541/71/81 lets you create a
@@ -352,7 +352,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
     int i, templength = 0;
 
 #ifdef DEBUG_CBMDOS
-    log_debug("CBMDOS parse plus cmd: '%s' cmdlen: %u", cmd_parse->full, cmd_parse->fulllength);
+    log_debug(LOG_DEFAULT, "CBMDOS parse plus cmd: '%s' cmdlen: %u", cmd_parse->full, cmd_parse->fulllength);
 #endif
 
     cmd_parse->command = NULL;

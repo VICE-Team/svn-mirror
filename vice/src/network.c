@@ -60,13 +60,13 @@
 #include "vsyncapi.h"
 
 #ifdef NETWORK_DEBUG
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef NETWORK_TRAFFIC_DEBUG
-#define DBGT(x)  log_debug x
+#define DBGT(x) log_printf  x
 #else
 #define DBGT(x)
 #endif
@@ -481,7 +481,7 @@ exiterror:
     frame_delta = new_frame_delta;
     network_init_frame_event_list();
     sprintf(st, "Using %d frames delay.", frame_delta);
-    log_debug("netplay connected with %d frames delta.", frame_delta);
+    log_debug(LOG_DEFAULT, "netplay connected with %d frames delta.", frame_delta);
     ui_display_statustext(st, true);
     return ret;
 }
@@ -513,7 +513,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
         buf_size = archdep_file_size(f);
         buf = lib_malloc((size_t)buf_size);
         if (fread(buf, 1, (size_t)buf_size, f) == 0) {
-            log_debug("network_server_connect_trap read failed.");
+            log_debug(LOG_DEFAULT, "network_server_connect_trap read failed.");
         }
         fclose(f);
 
@@ -813,7 +813,7 @@ int network_connect_client(void)
     }
 
     if (fwrite(buf, 1, buf_size, f) == 0) {
-        log_debug("network_connect_client write failed.");
+        log_debug(LOG_DEFAULT, "network_connect_client write failed.");
     }
     fclose(f);
     lib_free(buf);

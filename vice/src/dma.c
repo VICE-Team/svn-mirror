@@ -58,7 +58,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, CLOCK num, CLOCK sub)
 
 #ifdef DEBUG
     if (debug.maincpu_traceflg) {
-        log_debug("START %"PRIu64" NUM %"PRIu64" SUB %"PRIu64" MAIN %"PRIu64" DMAST %"PRIu64,
+        log_debug(LOG_DEFAULT, "START %"PRIu64" NUM %"PRIu64" SUB %"PRIu64" MAIN %"PRIu64" DMAST %"PRIu64,
                   start_clk, num, sub, maincpu_clk, dma_start);
     }
 #endif
@@ -80,7 +80,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, CLOCK num, CLOCK sub)
         && cs->num_dma_per_opcode == 1) {
 #ifdef DEBUGIRQDMA
         if (debug.maincpu_traceflg) {
-            log_debug("DECR");
+            log_debug(LOG_DEFAULT, "DECR");
         }
 #endif
         irq_sub = 1;
@@ -90,7 +90,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, CLOCK num, CLOCK sub)
         && cs->num_dma_per_opcode == 1) {
 #ifdef DEBUGIRQDMA
         if (debug.maincpu_traceflg) {
-            log_debug("DECR");
+            log_debug(LOG_DEFAULT, "DECR");
         }
 #endif
         nmi_sub = 1;
@@ -101,7 +101,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, CLOCK num, CLOCK sub)
     cs->last_stolen_cycles_clk = dma_start + num;
 #ifdef DEBUGIRQDMA
     if (debug.maincpu_traceflg) {
-        log_debug("IRQCLK %i LASTSTOLEN %i",
+        log_debug(LOG_DEFAULT, "IRQCLK %i LASTSTOLEN %i",
                   cs->irq_clk, cs->last_stolen_cycles_clk);
     }
 #endif
@@ -123,7 +123,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, CLOCK num, CLOCK sub)
 
 #ifdef DEBUGIRQDMA
     if (debug.maincpu_traceflg) {
-        log_debug("NEWIRQCLK %i", cs->irq_clk);
+        log_debug(LOG_DEFAULT, "NEWIRQCLK %i", cs->irq_clk);
     }
 #endif
 }

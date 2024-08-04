@@ -51,13 +51,13 @@
 #include "zmbv_avi.h"
 
 #ifdef DEBUG_ZMBV
-#define LOG(x)  log_debug   x
+#define LOG(x) log_printf    x
 #else
 #define LOG(x)
 #endif
 
 #ifdef DEBUG_ZMBV_FRAMES
-#define LOGFRAMES(x)  log_debug   x
+#define LOGFRAMES(x) log_printf    x
 #else
 #define LOGFRAMES(x)
 #endif
@@ -488,7 +488,7 @@ static int zmbvdrv_init_file(void)
         return -1;
     }
 
-    log_debug("zmbvdrv: Initialized file successfully");
+    log_debug(LOG_DEFAULT, "zmbvdrv: Initialized file successfully");
 
     file_init_done = 1;
 
@@ -565,7 +565,7 @@ static int zmbvdrv_close(screenshot_t *screenshot)
     zmbv_avi_stop(zavi);
 
     /* free the stream */
-    log_debug("zmbvdrv: Closed successfully");
+    log_debug(LOG_DEFAULT, "zmbvdrv: Closed successfully");
 
     file_init_done = 0;
 
@@ -616,7 +616,7 @@ static int zmbvdrv_record(screenshot_t *screenshot)
     ret = 0;
 quit:
     if (ret < 0) {
-        log_debug("Error while writing video frame");
+        log_debug(LOG_DEFAULT, "Error while writing video frame");
         return -1;
     }
 

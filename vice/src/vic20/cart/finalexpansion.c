@@ -67,7 +67,7 @@
 /*#define FE_DEBUG_ENABLED*/
 
 #ifdef FE_DEBUG_ENABLED
-#define FE_DEBUG(x) log_debug x
+#define FE_DEBUG(x) log_printf  x
 #else
 #define FE_DEBUG(x)
 #endif

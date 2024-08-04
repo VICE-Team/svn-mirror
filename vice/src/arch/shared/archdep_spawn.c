@@ -65,7 +65,7 @@
 /* #define DEBUG_SPAWN */
 
 #ifdef DEBUG_SPAWN
-#define LOG(a)  log_debug a
+#define LOG(a) log_printf  a
 #else
 #define LOG(a)
 #endif

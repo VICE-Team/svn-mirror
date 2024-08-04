@@ -151,7 +151,7 @@ static void my_debug_iec_drv_write(unsigned int data)
         if (value != oldvalue) {
             oldvalue = value;
 
-            log_debug("$1800 store: %s %s %s",
+            log_debug(LOG_DEFAULT, "$1800 store: %s %s %s",
                       value & 0x02 ? "DATA OUT" : "        ",
                       value & 0x08 ? "CLK OUT" : "       ",
                       value & 0x10 ? "ATNA   " : "       "
@@ -180,7 +180,7 @@ static void my_debug_iec_drv_read(unsigned int data)
                 }
             }
 
-            log_debug("$1800 read:  %s %s %s %s %s %s%s",
+            log_debug(LOG_DEFAULT, "$1800 read:  %s %s %s %s %s %s%s",
                       value & 0x02 ? "DATA OUT" : "        ",
                       value & 0x08 ? "CLK OUT" : "       ",
                       value & 0x10 ? "ATNA   " : "       ",

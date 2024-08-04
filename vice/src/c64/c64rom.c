@@ -44,7 +44,7 @@
 #include "types.h"
 
 #ifdef DEBUG_C64ROM
-#define LOG(x)  log_debug x
+#define LOG(x) log_printf  x
 #else
 #define LOG(x)
 #endif

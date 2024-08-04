@@ -91,7 +91,7 @@
 /* #define DEBUG_QUADRATURE */
 
 #ifdef DEBUG_QUADRATURE
-#define DBG(_x_)  log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif

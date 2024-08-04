@@ -1454,7 +1454,7 @@ static gboolean uimon_window_close_impl(gpointer user_data)
 
 console_t *uimon_window_open(bool display_now)
 {
-    if (monui_log = LOG_DEFAULT) {
+    if (monui_log == LOG_DEFAULT) {
         monui_log = log_open("Monitor UI");
     }
 

@@ -477,7 +477,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 
     sym = kbd_arch_keyname_to_keynum(key);
 
-    /* log_debug("%s: %s %i", __func__, key, sym); */
+    /* log_debug(LOG_DEFAULT, "%s: %s %i", __func__, key, sym); */
 
     if (sym < 0) {
         log_error(keyboard_log, "Could not find key `%s'!", key);
