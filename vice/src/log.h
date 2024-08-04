@@ -101,6 +101,7 @@ int log_verbose(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_message(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_warning(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 int log_error(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
+int log_fatal(log_t log, const char *format, ...) VICE_ATTR_PRINTF2;
 
 int log_debug(const char *format, ...) VICE_ATTR_PRINTF;
 
