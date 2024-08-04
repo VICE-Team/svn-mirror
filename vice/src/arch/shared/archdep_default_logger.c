@@ -34,6 +34,7 @@
 
 #ifdef WINDOWS_COMPILE
 # include <windows.h>
+# include <sys/stat.h>
 #endif
 
 #include <stdio.h>
@@ -84,7 +85,27 @@ int archdep_default_logger(const char *level_string, const char *txt)
 
 int archdep_default_logger_is_terminal(void)
 {
-    return 1;   /* FIXME */
+    struct stat statinfo;
+    DWORD temp;
+    const bool mode = GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &temp);
+    const int type = GetFileType(GetStdHandle(STD_OUTPUT_HANDLE));
+    /* this works in cmd.exe */
+    if (mode || (type == FILE_TYPE_CHAR)) {
+        return 1;
+    }
+
+    /* extra check seems to work for msys */
+    fstat(fileno(stdout), &statinfo);
+    /* 1 - 0    msys (-noredir)
+       0 - 1    msys (-noredir) > bla
+       0 - 1    cmd -noredir > bla
+       0 - 0    cmd > bla
+       0 - 0    cmd
+    */
+    if (S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
+        return 1;
+    }
+    return 0;
 }
 
 #elif defined(UNIX_COMPILE) || defined(ARCHEP_OS_BEOS)
