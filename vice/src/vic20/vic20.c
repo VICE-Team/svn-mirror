@@ -587,11 +587,13 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
+#if 0
     /* FIXME: we might want to move this into machine.c or init.c */
     if (maincpu_resources_init() < 0) {
         init_resource_fail("maincpu");
         return -1;
     }
+#endif
     if (vic20_resources_init() < 0) {
         init_resource_fail("vic20");
         return -1;

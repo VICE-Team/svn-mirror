@@ -58,6 +58,8 @@ void maincpu_mainloop(void);
 struct monitor_interface_s *maincpu_monitor_interface_get(void);
 int maincpu_snapshot_read_module(struct snapshot_s *s);
 int maincpu_snapshot_write_module(struct snapshot_s *s);
+int maincpu_resources_init(void);
+int maincpu_cmdline_options_init(void);
 
 void maincpu_set_pc(int);
 void maincpu_set_a(int);
