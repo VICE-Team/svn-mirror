@@ -229,7 +229,7 @@ static gboolean get_keyset_resources(void)
             if (keyset_labels[row][col]) {
                 if (resources_get_int_sprintf("KeySet%d%s", &value, keyset_index,
                             keyset_labels[row][col]) < 0) {
-                    log_error(LOG_ERR,
+                    log_error(LOG_DEFAULT,
                             "failed to retrieve value for resource 'KeySet%d%s\n",
                             keyset_index, keyset_labels[row][col]);
                     return FALSE;
@@ -257,7 +257,7 @@ static gboolean set_keyset_resources(void)
             if (keyset_labels[row][col]) {
                 if (resources_set_int_sprintf("KeySet%d%s", value, keyset_index,
                             keyset_labels[row][col]) < 0) {
-                    log_error(LOG_ERR,
+                    log_error(LOG_DEFAULT,
                             "failed to set value for resource 'KeySet%d%s\n",
                             keyset_index, keyset_labels[row][col]);
                     return FALSE;
@@ -361,7 +361,7 @@ void keyset_dialog_show(int keyset)
     gchar title[256];
 
     if (keyset < 1 || keyset > 2) {
-        log_error(LOG_ERR, "Got invalid keyset number: %d\n", keyset);
+        log_error(LOG_DEFAULT, "Got invalid keyset number: %d\n", keyset);
         return;
     }
 

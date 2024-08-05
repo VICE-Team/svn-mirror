@@ -203,13 +203,13 @@ static void on_netplay_notify_active(GtkSwitch  *widget,
         if (role == 0) {
             /* attempt to start server */
             if (network_start_server() < 0) {
-                log_error(LOG_ERR, "Failed to start netplay server.");
+                log_error(LOG_DEFAULT, "Failed to start netplay server.");
                 failed = true;
            }
         } else {
             /* start the client */
             if (network_connect_client() < 0) {
-                log_error(LOG_ERR, "Failed to start client.");
+                log_error(LOG_DEFAULT, "Failed to start client.");
                 failed = true;
             }
         }

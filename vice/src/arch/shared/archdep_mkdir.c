@@ -72,7 +72,7 @@ int archdep_mkdir(const char *pathname, int mode)
 #elif defined(WINDOWS_COMPILE)
     return _mkdir(pathname);
 #else
-    log_error(LOG_ERR,
+    log_error(LOG_DEFAULT,
               "%s(): not implemented for current system, whoops!\n",
               __func__);
     archdep_vice_exit(1);
@@ -120,7 +120,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
     int      status = 0;    /* OK */
 
     if (pathname == NULL || *pathname == '\0') {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): pathname is NULL or empty.",
                   __func__);
         return -1;
@@ -167,7 +167,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
         bpos = 0;
     }
 #else
-    log_error(LOG_ERR, "Unsupported OS: aborting.");
+    log_error(LOG_DEFAULT, "Unsupported OS: aborting.");
     archdep_exit(1);
 #endif
     buffer[bpos] = '\0';
@@ -183,7 +183,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
         if (archdep_access(buffer, ARCHDEP_ACCESS_F_OK) != 0) {
             /* doesn't exit, create */
             if (archdep_mkdir(buffer, mode) != 0) {
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "%s(): failed to create directory %s: %d (%s).",
                           __func__, buffer, errno, strerror(errno));
                 status = -1;
@@ -194,7 +194,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
 
             if (archdep_stat(buffer, NULL, &isdir) != 0) {
                 /* printf("archdep_stat() failed!\n"); */
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "%s(): archdep_stat(%s) failed: %d (%s).",
                           __func__, buffer, errno, strerror(errno));
                 status = -1;
@@ -202,7 +202,7 @@ int archdep_mkdir_recursive(const char *pathname, int mode)
             }
             if (!isdir) {
                 /* printf("not a directory!\n"); */
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "%s(): path %s exists but is not a directory.",
                           __func__, buffer);
                 status = -1;

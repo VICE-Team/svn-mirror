@@ -68,7 +68,7 @@
 /* hi-res graphics memory image.  */
 static uint8_t *petdww_ram = NULL;
 
-static log_t petdww_log = LOG_ERR;
+static log_t petdww_log = LOG_DEFAULT;
 
 static int petdww_activate(void);
 static int petdww_deactivate(void);

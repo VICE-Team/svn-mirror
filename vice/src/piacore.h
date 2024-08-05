@@ -64,6 +64,6 @@ typedef struct {
 
 static int is_peek_access = 0;
 
-static log_t mypia_log = LOG_ERR;
+static log_t mypia_log = LOG_DEFAULT;
 
 #endif

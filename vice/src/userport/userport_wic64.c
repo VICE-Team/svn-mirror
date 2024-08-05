@@ -87,7 +87,7 @@
 static char *http_user_agent = HTTP_AGENT_REVISED;
 
 #include "log.h"
-static log_t wic64_loghandle = LOG_ERR;
+static log_t wic64_loghandle = LOG_DEFAULT;
 static int userport_wic64_enabled = 0;
 
 /* Some prototypes are needed */
@@ -513,7 +513,7 @@ static int userport_wic64_enable(int value)
     if (userport_wic64_enabled == val) {
         return 0;
     }
-    if (wic64_loghandle == LOG_ERR) {
+    if (wic64_loghandle == LOG_DEFAULT) {
         wic64_loghandle = log_open("WiC64");
     }
 

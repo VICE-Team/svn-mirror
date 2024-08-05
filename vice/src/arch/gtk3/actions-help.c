@@ -75,7 +75,7 @@ static void help_manual_action(ui_action_map_t *self)
          * wrong and should be looked at. This is different from failing to
          * load the PDF or not having a program to show the PDF
          */
-        log_error(LOG_ERR, "failed to construct a proper URI from '%s',"
+        log_error(LOG_DEFAULT, "failed to construct a proper URI from '%s',"
                 " not trying the HTML fallback, this is an error that"
                 " should not happen.",
                 uri);

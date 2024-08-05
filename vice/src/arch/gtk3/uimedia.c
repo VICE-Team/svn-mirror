@@ -507,7 +507,7 @@ static void save_screenshot_vsync_callback(void *param)
     if (screenshot_save(screenshot_driver, screenshot_filename, canvas) < 0) {
         char *filename_copy;
 
-        log_error(LOG_ERR, "Failed to write screenshot file '%s'.",
+        log_error(LOG_DEFAULT, "Failed to write screenshot file '%s'.",
                   screenshot_filename);
         /* push error message handler onto the UI thread */
         filename_copy = lib_strdup(screenshot_filename);

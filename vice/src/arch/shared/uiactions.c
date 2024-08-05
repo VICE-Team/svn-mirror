@@ -960,7 +960,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
 
         /* first check if the action is already registered */
         if (action_mappings[map->action].handler != NULL) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Handler for action %d (%s) already present, skipping.",
                       map->action, ui_action_get_name(map->action));
             map++;
@@ -1041,7 +1041,7 @@ void ui_action_trigger(int action)
             map->handler(map);
         }
     } else {
-        log_error(LOG_ERR, "no handler for action %d\n", action);
+        log_error(LOG_DEFAULT, "no handler for action %d\n", action);
     }
 }
 

@@ -1659,7 +1659,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
     linesleft = last_known_yres - 1;
 
     if (len < 0) {
-        log_error(LOG_ERR, "Invalid address range");
+        log_error(LOG_DEFAULT, "Invalid address range");
         return;
     }
 

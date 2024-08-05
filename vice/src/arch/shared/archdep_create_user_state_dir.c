@@ -49,7 +49,7 @@ void archdep_create_user_state_dir(void)
     if (archdep_mkdir_recursive(state, 0755) == 0) {
         return;     /* we created the dir */
     } else if (errno != EEXIST) {
-        log_error(LOG_ERR, "failed to create user state dir '%s': %d: %s.",
+        log_error(LOG_DEFAULT, "failed to create user state dir '%s': %d: %s.",
                   state, errno, strerror(errno));
         archdep_vice_exit(1);
     }

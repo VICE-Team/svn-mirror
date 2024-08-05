@@ -44,7 +44,7 @@
 #include "util.h"
 
 
-static log_t driver_select_log = LOG_ERR;
+static log_t driver_select_log = LOG_DEFAULT;
 
 /* Currently used printer driver.  */
 static driver_select_t driver[NUM_DRIVER_SELECT];

@@ -166,7 +166,7 @@ struct wd1770_s {
     int is1772;
 };
 
-static log_t wd1770_log = LOG_ERR;
+static log_t wd1770_log = LOG_DEFAULT;
 
 /*-----------------------------------------------------------------------*/
 /* WD1770 external interface.  */
@@ -174,7 +174,7 @@ static log_t wd1770_log = LOG_ERR;
 /* Functions using disk unit context.  */
 void wd1770d_init(diskunit_context_t *drv)
 {
-    if (wd1770_log == LOG_ERR) {
+    if (wd1770_log == LOG_DEFAULT) {
         wd1770_log = log_open("WD1770");
     }
 

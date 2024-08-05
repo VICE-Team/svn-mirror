@@ -49,7 +49,7 @@
 #define LOG(x)
 #endif
 
-static log_t c64rom_log = LOG_ERR;
+static log_t c64rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
@@ -301,7 +301,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (c64rom_log == LOG_ERR) {
+    if (c64rom_log == LOG_DEFAULT) {
         c64rom_log = log_open("C64MEM");
     }
 

@@ -111,7 +111,7 @@ static uint8_t bank_high_reg = 0;
 static char *nvram_filename = NULL;
 static int nvram_writeback = 0;
 
-static log_t megacart_log = LOG_ERR;
+static log_t megacart_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 
@@ -512,7 +512,7 @@ static void clear_ram(void)
 
 void megacart_init(void)
 {
-    if (megacart_log == LOG_ERR) {
+    if (megacart_log == LOG_DEFAULT) {
         megacart_log = log_open(CARTRIDGE_VIC20_NAME_MEGACART);
     }
 }

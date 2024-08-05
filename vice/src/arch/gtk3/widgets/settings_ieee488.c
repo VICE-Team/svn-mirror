@@ -82,7 +82,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (cartridge_enable(CARTRIDGE_IEEE488) < 0) {
-            log_error(LOG_ERR, "failed to enable " CARTNAME ".");
+            log_error(LOG_DEFAULT, "failed to enable " CARTNAME ".");
             vice_gtk3_message_error(GTK_WINDOW(parent),
                                     CARTNAME " Error",
                                     "Failed to enable " CARTNAME ".");
@@ -90,7 +90,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         }
     } else {
         if (cartridge_disable(CARTRIDGE_IEEE488) < 0) {
-            log_error(LOG_ERR, "failed to disable " CARTNAME ".");
+            log_error(LOG_DEFAULT, "failed to disable " CARTNAME ".");
             vice_gtk3_message_error(GTK_WINDOW(parent),
                                     CARTNAME " Error",
                                     "Failed to disable " CARTNAME ".");

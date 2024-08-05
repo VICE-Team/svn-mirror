@@ -63,7 +63,7 @@ typedef struct color_list_s color_list_t;
 
 static color_list_t *color_alloced = NULL;
 
-static log_t color_log = LOG_ERR;
+static log_t color_log = LOG_DEFAULT;
 
 /*-----------------------------------------------------------------------*/
 

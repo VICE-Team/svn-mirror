@@ -60,7 +60,7 @@ static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &old_val) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): failed to get value for resource '%s'\n",
                   __func__, resource);
         return;
@@ -90,7 +90,7 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
 
     /* set current value */
     if (resources_get_int(resource, &value) < 0) {
-        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+        log_error(LOG_DEFAULT, "failed to get value for resource '%s'\n",
                 resource);
         value = 0;
     }
@@ -317,7 +317,7 @@ static void on_custom_changed(GtkWidget *self, gpointer data)
 
     resource = resource_widget_get_resource_name(self);
     if (resources_get_int(resource, &old_val) < 0) {
-        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+        log_error(LOG_DEFAULT, "failed to get value for resource '%s'\n",
                 resource);
         return;
     }
@@ -456,7 +456,7 @@ static gdouble custom_get_display_value(GtkWidget *self)
 
     resource_name = resource_widget_get_resource_name(self);
     if (resources_get_int(resource_name, &resource_value) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): failed to get value for resource '%s'.",
                   __func__, resource_name);
         resource_value = 0;
@@ -754,7 +754,7 @@ static void on_exp_changed(GtkWidget *self, gpointer data)
 
     resource = resource_widget_get_resource_name(self);
     if (resources_get_int(resource, &old_val) < 0) {
-        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+        log_error(LOG_DEFAULT, "failed to get value for resource '%s'\n",
                 resource);
         return;
     }

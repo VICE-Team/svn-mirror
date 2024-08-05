@@ -124,7 +124,7 @@ GtkWidget *printer_driver_widget_create(int device,
 
     /* sanity check */
     if (device < 3 || device > 6) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): invalid device number %d, valid device numbers are"
                   " 4-6 or 3 for userport",
                   __func__, device);

@@ -172,7 +172,7 @@ static char *joymap_file = NULL;
 static char *joymap_factory = NULL;
 
 
-static log_t joy_log = LOG_ERR;
+static log_t joy_log = LOG_DEFAULT;
 
 static void joystick_latch_matrix(CLOCK offset)
 {

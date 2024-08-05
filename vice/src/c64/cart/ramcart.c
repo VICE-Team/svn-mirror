@@ -118,7 +118,7 @@ static uint8_t ramcart[2];
 static uint8_t *ramcart_ram = NULL;
 static int old_ramcart_ram_size = 0;
 
-static log_t ramcart_log = LOG_ERR;
+static log_t ramcart_log = LOG_DEFAULT;
 
 static int ramcart_activate(void);
 static int ramcart_deactivate(void);

@@ -41,7 +41,7 @@
 #include "util.h"
 
 
-static log_t fsimage_gcr_log = LOG_ERR;
+static log_t fsimage_gcr_log = LOG_DEFAULT;
 static const uint8_t gcr_image_header_expected_1541[] =
     { 0x47, 0x43, 0x52, 0x2D, 0x31, 0x35, 0x34, 0x31, 0x00 };
 static const uint8_t gcr_image_header_expected_1571[] =

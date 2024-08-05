@@ -349,7 +349,7 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
     off_t length;
 
     if (util_check_null_string(name)) {
-        log_error(LOG_ERR, "No file name given for util_file_load().");
+        log_error(LOG_DEFAULT, "No file name given for util_file_load().");
         return -1;
     }
 
@@ -403,7 +403,7 @@ int util_file_load_string(FILE *fd, char **dest)
 
     if (r < (size_t)size) {
         lib_free(buffer);
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes",
                   r, (size_t)size);
         return -1;
@@ -426,7 +426,7 @@ int util_file_save(const char *name, uint8_t *src, int size)
     size_t r;
 
     if (util_check_null_string(name)) {
-        log_error(LOG_ERR, "No file name given for save_file().");
+        log_error(LOG_DEFAULT, "No file name given for save_file().");
         return -1;
     }
 

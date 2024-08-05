@@ -154,7 +154,7 @@ static flash040_context_t flash_state;
 
 static int vic_um_writeback;
 
-static log_t um_log = LOG_ERR;
+static log_t um_log = LOG_DEFAULT;
 
 static char *vic_um_filename = NULL;
 static int vic_um_filetype = 0;
@@ -609,7 +609,7 @@ void vic_um_powerup(void)
 
 void vic_um_init(void)
 {
-    if (um_log == LOG_ERR) {
+    if (um_log == LOG_DEFAULT) {
         um_log = log_open(CARTRIDGE_VIC20_NAME_UM);
     }
 }

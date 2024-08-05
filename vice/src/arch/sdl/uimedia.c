@@ -119,7 +119,7 @@ static void auto_screenshot_vsync_callback(void *param)
     /* no need for locale bullshit */
     filename = create_proposed_screenshot_name("png");
     if ((filename == NULL) || (screenshot_save("PNG", filename, canvas) < 0)) {
-        log_error(LOG_ERR, "Failed to autosave screenshot.");
+        log_error(LOG_DEFAULT, "Failed to autosave screenshot.");
         ui_error("Error autosaving screenshot.");
     }
     lib_free(filename);

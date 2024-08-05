@@ -50,7 +50,7 @@
 #define DBG(x)
 #endif
 
-static log_t palette_log = LOG_ERR;
+static log_t palette_log = LOG_DEFAULT;
 
 
 palette_t *palette_create(unsigned int num_entries, const char *entry_names[])

@@ -49,7 +49,7 @@
 #include "snapshot.h"
 
 #ifdef DEBUG
-static log_t c64dtvblitter_log = LOG_ERR;
+static log_t c64dtvblitter_log = LOG_DEFAULT;
 #endif
 
 static unsigned int c64dtv_blitter_int_num;
@@ -119,7 +119,7 @@ static int reg1e_mintermALU;
 void c64dtvblitter_init(void)
 {
 #ifdef DEBUG
-    if (c64dtvblitter_log == LOG_ERR) {
+    if (c64dtvblitter_log == LOG_DEFAULT) {
         c64dtvblitter_log = log_open("C64DTVBLITTER");
     }
 #endif
@@ -634,7 +634,7 @@ static const char snap_module_name[] = "C64DTVBLITTER";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-/* static log_t c64_snapshot_log = LOG_ERR; */
+/* static log_t c64_snapshot_log = LOG_DEFAULT; */
 
 int c64dtvblitter_snapshot_write_module(snapshot_t *s)
 {

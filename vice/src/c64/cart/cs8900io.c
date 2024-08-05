@@ -73,7 +73,7 @@
 */
 static int should_activate = 0;
 
-static log_t cs8900io_log = LOG_ERR;
+static log_t cs8900io_log = LOG_DEFAULT;
 
 /* Flag: Can we even use CS8900 I/O, or is the hardware not available? */
 static int cs8900io_cannot_use = 0;
@@ -111,7 +111,7 @@ static int cs8900io_activate(void)
     log_message(cs8900io_log, "cs8900io_activate().");
 #endif
 
-    if (cs8900io_log != LOG_ERR) {
+    if (cs8900io_log != LOG_DEFAULT) {
         switch (cs8900_activate(cs8900io_interface)) {
             case -1:
                 cs8900io_enabled = 0;
@@ -151,7 +151,7 @@ static int cs8900io_deactivate(void)
         cs8900io_enabled = 0;
         should_activate = 0;
         /* FIXME: WTH check for cs8900io_log here? */
-        if (cs8900io_log != LOG_ERR) {
+        if (cs8900io_log != LOG_DEFAULT) {
             return cs8900_deactivate();
         }
     }

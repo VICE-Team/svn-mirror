@@ -75,7 +75,7 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
             }
 
             if (screenshot_save((char *) param, filename, sdl_active_canvas) < 0) {
-                log_error(LOG_ERR, "Failed to save screenshot.");
+                log_error(LOG_DEFAULT, "Failed to save screenshot.");
                 ui_error("Failed to save screenshot.");
             } else {
                 log_message(LOG_DEFAULT, "Saved %s screenshot to %s", (char *) param, filename);

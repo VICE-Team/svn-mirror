@@ -77,7 +77,7 @@ static uint8_t *cart_ram = NULL;
 #define CART_ROM_SIZE (0x400 * 8)
 static uint8_t *cart_rom = NULL;
 
-static log_t mikroassembler_log = LOG_ERR;
+static log_t mikroassembler_log = LOG_DEFAULT;
 
 static const export_resource_t export_res = {
     CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER, 0, VIC_CART_RAM123 | VIC_CART_BLK3 | VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_MIKRO_ASSEMBLER
@@ -169,7 +169,7 @@ static void clear_ram(void)
 
 void mikroassembler_init(void)
 {
-    if (mikroassembler_log == LOG_ERR) {
+    if (mikroassembler_log == LOG_DEFAULT) {
         mikroassembler_log = log_open(CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER);
     }
 }

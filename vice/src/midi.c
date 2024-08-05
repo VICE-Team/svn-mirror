@@ -115,7 +115,7 @@ static uint8_t rxdata;     /* data that has been received last */
 static uint8_t txdata;     /* data prepared to send */
 static int alarm_active = 0;    /* if alarm is set or not */
 
-static log_t midi_log = LOG_ERR;
+static log_t midi_log = LOG_DEFAULT;
 
 static void int_midi(CLOCK offset, void *data);
 
@@ -237,7 +237,7 @@ void midi_init(void)
 
     midi_alarm = alarm_new(maincpu_alarm_context, "MIDI", int_midi, NULL);
 
-    if (midi_log == LOG_ERR) {
+    if (midi_log == LOG_DEFAULT) {
         midi_log = log_open("MIDI");
     }
     mididrv_init();

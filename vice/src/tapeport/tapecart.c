@@ -131,7 +131,7 @@ static tapeport_device_t tapecart_device = {
 
 static alarm_t *tapecart_logic_alarm;
 static alarm_t *tapecart_pulse_alarm;
-static log_t    tapecart_log = LOG_ERR;
+static log_t    tapecart_log = LOG_DEFAULT;
 
 /* current physical state of tape port lines */
 static int motor_state;
@@ -348,7 +348,7 @@ static int tapecart_enable(int port, int value)
 
         /* enable logging */
         tapecart_log = log_open("tapecart");
-        if (tapecart_log == LOG_ERR) {
+        if (tapecart_log == LOG_DEFAULT) {
             return -1;
         }
 
@@ -386,7 +386,7 @@ static int tapecart_enable(int port, int value)
         lib_free(tapecart_buffers);
         tapecart_buffers = NULL;
 
-        if (tapecart_log != LOG_ERR) {
+        if (tapecart_log != LOG_DEFAULT) {
             log_close(tapecart_log);
         }
     }

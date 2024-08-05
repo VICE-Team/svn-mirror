@@ -730,7 +730,7 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
 
 /* end of c64dtvmem_main.c */
 
-static log_t c64dtvmem_log = LOG_ERR;
+static log_t c64dtvmem_log = LOG_DEFAULT;
 
 /* I/O of the memory mapper ($D100/$D101) */
 uint8_t c64dtvmem_memmapper[0x2];
@@ -883,7 +883,7 @@ static int restore_trapflags(void)
 
 void c64dtv_init(void)
 {
-    if (c64dtvmem_log == LOG_ERR) {
+    if (c64dtvmem_log == LOG_DEFAULT) {
         c64dtvmem_log = log_open("C64DTVMEM");
     }
 

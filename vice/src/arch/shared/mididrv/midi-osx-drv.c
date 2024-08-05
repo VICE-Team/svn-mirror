@@ -49,7 +49,7 @@
 #include "types.h"
 #include "util.h"
 
-static log_t mididrv_log = LOG_ERR;
+static log_t mididrv_log = LOG_DEFAULT;
 
 /* ----- FIFO Buffer ----- */
 #define OUT_BUF_LEN 3
@@ -303,7 +303,7 @@ static void dump_destinations(void)
 
 void mididrv_init(void)
 {
-    if (mididrv_log == LOG_ERR) {
+    if (mididrv_log == LOG_DEFAULT) {
         mididrv_log = log_open("MIDIdrv");
     }
 }

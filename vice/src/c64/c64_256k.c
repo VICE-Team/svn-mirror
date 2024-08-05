@@ -59,7 +59,7 @@ uint8_t c64_256k_CRB;
 
 int c64_256k_start;
 
-static log_t c64_256k_log = LOG_ERR;
+static log_t c64_256k_log = LOG_DEFAULT;
 
 static int c64_256k_activate(void);
 static int c64_256k_deactivate(void);

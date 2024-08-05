@@ -45,7 +45,7 @@
 #define SNAP_MODNAME_SIZE   32
 
 
-static log_t vdrive_snapshot_log = LOG_ERR;
+static log_t vdrive_snapshot_log = LOG_DEFAULT;
 
 void vdrive_snapshot_init(void)
 {

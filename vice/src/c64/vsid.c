@@ -88,7 +88,7 @@ int machine_class = VICE_MACHINE_VSID;
 */
 static void machine_vsync_hook(void);
 
-static log_t c64_log = LOG_ERR;
+static log_t c64_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

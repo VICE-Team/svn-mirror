@@ -219,7 +219,7 @@ static const trap_t c64_serial_traps[] = {
     }
 };
 
-static log_t c64_log = LOG_ERR;
+static log_t c64_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

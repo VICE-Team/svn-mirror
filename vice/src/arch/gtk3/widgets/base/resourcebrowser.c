@@ -217,7 +217,7 @@ static void browse_filename_callback(GtkDialog *dialog,
 
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_set(state->entry, filename)){
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "failed to set resource %s to '%s', reverting\n",
                     state->res_name, filename);
             /* restore resource to original state */
@@ -247,7 +247,7 @@ static void save_filename_callback(GtkDialog *dialog,
 
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_set(state->entry, filename)){
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "failed to set resource %s to '%s', reverting\n",
                     state->res_name, filename);
             /* restore resource to original state */

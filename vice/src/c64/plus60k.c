@@ -100,7 +100,7 @@
 /* PLUS60K registers */
 static uint8_t plus60k_reg = 0;
 
-static log_t plus60k_log = LOG_ERR;
+static log_t plus60k_log = LOG_DEFAULT;
 
 static int plus60k_activate(void);
 static int plus60k_deactivate(void);

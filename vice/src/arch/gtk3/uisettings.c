@@ -2292,7 +2292,7 @@ static GtkTreeStore *populate_tree_model(void)
             nodes = main_nodes_vsid;
             break;
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Error: %s:%d:%s(): unsupported machine_class %d\n",
                       __FILE__, __LINE__, __func__, machine_class);
             archdep_vice_exit(1);
@@ -2689,12 +2689,12 @@ static gboolean ui_settings_dialog_activate_node(const char *path)
     int column = 0;
 
     if (settings_window == NULL) {
-        log_error(LOG_ERR, "settings dialog node activation requested without"
+        log_error(LOG_DEFAULT, "settings dialog node activation requested without"
                 " the dialog active.");
         return FALSE;
     }
     if (path == NULL || *path == '\0') {
-        log_error(LOG_ERR, "NULL or empty path passed.");
+        log_error(LOG_DEFAULT, "NULL or empty path passed.");
         return FALSE;
     }
 

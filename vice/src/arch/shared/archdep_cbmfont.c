@@ -77,7 +77,7 @@ int archdep_register_cbmfont(void)
     CFArrayRef errors;
 
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &fontPath) < 0) {
-        log_error(LOG_ERR, "failed to find resource data '%s'.",
+        log_error(LOG_DEFAULT, "failed to find resource data '%s'.",
                 VICE_CBM_FONT_TTF);
         return 0;
     }
@@ -90,7 +90,7 @@ int archdep_register_cbmfont(void)
 
     if(!CTFontManagerRegisterFontsForURLs(fontUrls, kCTFontManagerScopeProcess, &errors))
     {
-        log_error(LOG_ERR, "Failed to register font for file: %s", fontPath);
+        log_error(LOG_DEFAULT, "Failed to register font for file: %s", fontPath);
         CFRelease(fontUrls);
         CFRelease(fontUrl);
         lib_free(fontPath);
@@ -123,7 +123,7 @@ int archdep_register_cbmfont(void)
 
     for (i = 0; i < sizeof font_files / sizeof font_files[0]; i++) {
         if (sysfile_locate(font_files[i], "common", &path) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "failed to find resource data '%s'.",
                       font_files[i]);
             return 0;
@@ -144,7 +144,7 @@ int archdep_register_cbmfont(void)
 
 int archdep_register_cbmfont(void)
 {
-    log_error(LOG_ERR, "no fontconfig support, sorry.");
+    log_error(LOG_DEFAULT, "no fontconfig support, sorry.");
     return 0;
 }
 
@@ -272,7 +272,7 @@ void archdep_unregister_cbmfont(void)
         char *path;
 
         if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
-            log_error(LOG_ERR, "failed to find resource data '%s'.",
+            log_error(LOG_DEFAULT, "failed to find resource data '%s'.",
                     VICE_CBM_FONT_TTF);
             return;
         }

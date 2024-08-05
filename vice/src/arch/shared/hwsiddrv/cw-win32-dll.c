@@ -193,7 +193,7 @@ int cw_dll_read(uint16_t addr, int chipno)
             return buf[0];
         }
     }
-    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
+    log_error(LOG_DEFAULT, "PCI CatWeasel does not support SID #%i.", chipno);
     return 0;
 }
 
@@ -216,10 +216,10 @@ void cw_dll_store(uint16_t addr, uint8_t val, int chipno)
             }
             return;
         }
-        log_error(LOG_ERR, "PCI CatWeasel store at address %04x.", addr);
+        log_error(LOG_DEFAULT, "PCI CatWeasel store at address %04x.", addr);
         return;
     }
-    log_error(LOG_ERR, "PCI CatWeasel does not support SID #%i.", chipno);
+    log_error(LOG_DEFAULT, "PCI CatWeasel does not support SID #%i.", chipno);
 }
 
 /* set current main clock frequency, which gives us the possibilty to

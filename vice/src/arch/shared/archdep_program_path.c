@@ -113,11 +113,11 @@ static bool argv_fallback(void)
     size_t res_len;
 
     if (argv0_ref == NULL) {
-        log_error(LOG_ERR, "argv[0] is NULL, giving up.");
+        log_error(LOG_DEFAULT, "argv[0] is NULL, giving up.");
         return false;
     }
     if (*argv0_ref == '\0') {
-        log_error(LOG_ERR, "argv[0] is empty, giving up.");
+        log_error(LOG_DEFAULT, "argv[0] is empty, giving up.");
         return false;
     }
 
@@ -132,7 +132,7 @@ static bool argv_fallback(void)
      * Relative path in argv[0], try to get cwd and join it with argv[0]
      */
     if (archdep_getcwd(cwd_buf, sizeof(cwd_buf)) == NULL) {
-        log_error(LOG_ERR, "failed to get cwd, giving up.");
+        log_error(LOG_DEFAULT, "failed to get cwd, giving up.");
         return false;
     }
 
@@ -140,7 +140,7 @@ static bool argv_fallback(void)
     res_len = strlen(result);
     if (res_len >= sizeof(buffer)) {
         /* insufficient space */
-        log_error(LOG_ERR, "insufficient space for path, giving up.");
+        log_error(LOG_DEFAULT, "insufficient space for path, giving up.");
         lib_free(result);
         return false;
     }
@@ -176,7 +176,7 @@ const char *archdep_program_path(void)
      * while later versions do, yay! :) */
     result = GetModuleFileName(NULL, buffer, sizeof(buffer) - 1);
     if (result == 0 || ((result == sizeof(buffer) - 1) && GetLastError() != 0)) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
@@ -202,7 +202,7 @@ const char *archdep_program_path(void)
     /* get path via libproc */
     pid_t pid = getpid();
     if (proc_pidpath(pid, buffer, sizeof(buffer) - 1) <= 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
@@ -213,7 +213,7 @@ const char *archdep_program_path(void)
 # elif defined(LINUX_COMPILE)
 
     if (readlink("/proc/self/exe", buffer, sizeof(buffer) - 1) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
@@ -238,7 +238,7 @@ const char *archdep_program_path(void)
         mib[3] = -1;
 
         if (sysctl(mib, 4, buffer, &bufsize, NULL, 0) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "failed to retrieve executable path, falling back"
                     " to getcwd() + argv[0]");
             if (!argv_fallback()) {
@@ -253,7 +253,7 @@ const char *archdep_program_path(void)
 #  elif defined(NETBSD_COMPILE)
 
     if (readlink("/proc/curproc/exe", buffer, sizeof(buffer) - 1) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
@@ -283,7 +283,7 @@ const char *archdep_program_path(void)
         mib[3] = -1;
 
         if (sysctl(mib, 4, buffer, &bufsize, NULL, 0) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "failed to retrieve executable path, falling back"
                     " to getcwd() + argv[0]");
             if (!argv_fallback()) {

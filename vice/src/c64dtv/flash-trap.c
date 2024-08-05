@@ -58,7 +58,7 @@ static int traps_installed = 0;
 static const trap_t *flash_traps;
 
 /* Logging goes here.  */
-static log_t flash_log = LOG_ERR;
+static log_t flash_log = LOG_DEFAULT;
 
 static fileio_info_t *fi = NULL;
 

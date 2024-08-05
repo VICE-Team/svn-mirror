@@ -188,7 +188,7 @@ struct pc8477_s {
     uint8_t res[10];
 };
 
-static log_t pc8477_log = LOG_ERR;
+static log_t pc8477_log = LOG_DEFAULT;
 
 /*-----------------------------------------------------------------------*/
 
@@ -238,7 +238,7 @@ void pc8477d_init(diskunit_context_t *drv)
 {
     char *name;
 
-    if (pc8477_log == LOG_ERR) {
+    if (pc8477_log == LOG_DEFAULT) {
         pc8477_log = log_open("PC8477");
     }
 

@@ -113,7 +113,7 @@ int archdep_init(int *argc, char **argv)
      * call, but it appears to work at least (BW)
      */
     if (atexit(SDL_Quit) != 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to register SDL_Quit() with atexit().");
         archdep_vice_exit(1);
     }

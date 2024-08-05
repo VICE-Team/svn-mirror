@@ -44,7 +44,7 @@
 #include "util.h"
 #include "z80mem.h"
 
-static log_t c128rom_log = LOG_ERR;
+static log_t c128rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
@@ -660,7 +660,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (c128rom_log == LOG_ERR) {
+    if (c128rom_log == LOG_DEFAULT) {
         c128rom_log = log_open("C128MEM");
     }
 

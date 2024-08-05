@@ -2015,7 +2015,7 @@ static void ciacore_inttod_entry(CLOCK offset, void *data)
 
 void ciacore_setup_context(cia_context_t *cia_context)
 {
-    cia_context->log = LOG_ERR;
+    cia_context->log = LOG_DEFAULT;
     cia_context->read_clk = 0;
     cia_context->read_offset = 0;
     cia_context->last_read = 0;

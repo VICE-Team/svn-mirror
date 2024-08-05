@@ -42,7 +42,7 @@
 #include "types.h"
 
 
-static log_t plus4rom_log = LOG_ERR;
+static log_t plus4rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 int plus4_rom_loaded = 0;
@@ -122,7 +122,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (plus4rom_log == LOG_ERR) {
+    if (plus4rom_log == LOG_DEFAULT) {
         plus4rom_log = log_open("PLUS4MEM");
     }
 

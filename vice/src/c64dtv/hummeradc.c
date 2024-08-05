@@ -32,7 +32,7 @@
 #include "log.h"
 #include "resources.h"
 
-static log_t hummeradc_log = LOG_ERR;
+static log_t hummeradc_log = LOG_DEFAULT;
 
 #if 0
 #define HUMMERADC_DEBUG(args ...) log_message(hummeradc_log, args)
@@ -312,7 +312,7 @@ uint8_t hummeradc_read(void)
 
 void hummeradc_init(void)
 {
-    if (hummeradc_log == LOG_ERR) {
+    if (hummeradc_log == LOG_DEFAULT) {
         hummeradc_log = log_open("HUMMERADC");
     }
     hummeradc_reset();

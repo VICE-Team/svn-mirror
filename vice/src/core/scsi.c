@@ -45,7 +45,6 @@
 /* #define SCSIDBG */
 
 #define LOG LOG_DEFAULT
-#define ERR LOG_ERR
 
 #ifdef SCSILOG1
 #define LOG1(_x_) log_message _x_
@@ -65,7 +64,7 @@
 #define SDBG(_x_)
 #endif
 
-#define CRIT(_x_) log_message _x_
+#define CRIT(_x_) log_error _x_
 
 #define MAXIDS 7
 #define MAXLUNS 8
@@ -106,7 +105,7 @@ static int32_t scsi_imagecheck(struct scsi_context_s *context)
     if (!context->file[(context->target << 3) | context->lun]) {
         if ( context->target == 0 && context->lun == 0 &&
             !(context->log & SCSI_LOG_NODISK0) ) {
-            CRIT((ERR, "SCSI: no image attached to disk 0;"
+            CRIT((LOG, "SCSI: no image attached to disk 0;"
                 " expect unusual results and/or hangs" ));
             context->log |= SCSI_LOG_NODISK0;
         }
@@ -171,14 +170,14 @@ int32_t scsi_image_read(struct scsi_context_s *context)
     fhd = context->file[(context->target << 3) | context->lun];
 
     if (archdep_fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
-        CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
+        CRIT((LOG, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
     }
 
     if (fread(context->data_buf, 512, 1, fhd) < 1) {
         if (!feof(fhd)) {
-            CRIT((ERR, "SCSI: error reading disk %d at sector 0x%x",
+            CRIT((LOG, "SCSI: error reading disk %d at sector 0x%x",
                 context->target, context->address));
             return -4;
         }
@@ -219,13 +218,13 @@ int32_t scsi_image_write(struct scsi_context_s *context)
     fhd = context->file[(context->target << 3) | context->lun];
 
     if (archdep_fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
-        CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
+        CRIT((LOG, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
     }
 
     if (fwrite(context->data_buf, 512, 1, fhd) < 1) {
-        CRIT((ERR, "SCSI: error writing disk %d at sector 0x%x",
+        CRIT((LOG, "SCSI: error writing disk %d at sector 0x%x",
             context->target, context->address));
         return -4;
     }
@@ -519,7 +518,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->cmd_size = 10;
                     break;
                 default:
-                    CRIT((ERR, "SCSI: Unknown Command=%0x",
+                    CRIT((LOG, "SCSI: Unknown Command=%0x",
                         context->cmd_buf[0]));
                     context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                     context->status = SCSI_STATUS_CHECKCONDITION;

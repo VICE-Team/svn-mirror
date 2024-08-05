@@ -398,7 +398,7 @@ static joy_priv_t *scan_device(const char *node)
 
     rc = libevdev_new_from_fd(fd, &evdev);
     if (rc < 0) {
-        log_error(LOG_ERR, "failed to initialize libevdev: %s", strerror(rc));
+        log_error(LOG_DEFAULT, "failed to initialize libevdev: %s", strerror(rc));
         close(fd);
         return NULL;
     }
@@ -446,7 +446,7 @@ void linux_joystick_evdev_init(void)
 
     sd_result = scandir("/dev/input", &namelist, sd_filter, alphasort);
     if (sd_result < 0) {
-        log_error(LOG_ERR, "scandir() failed on /dev/input: %s", strerror(errno));
+        log_error(LOG_DEFAULT, "scandir() failed on /dev/input: %s", strerror(errno));
         return;
     }
 

@@ -209,7 +209,7 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
     res = resource_widget_get_resource_name(spin);
     value = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
     if (resources_set_int(res, value) < 0) {
-        log_error(LOG_ERR, "failed to set resource '%s' to %d\n", res, value);
+        log_error(LOG_DEFAULT, "failed to set resource '%s' to %d\n", res, value);
     }
 }
 
@@ -236,7 +236,7 @@ static GtkWidget *resource_spin_int_new_helper(GtkWidget *spin)
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
 
     if (resources_get_int(resource, &current) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): failed to get value for resource '%s'\n",
                   __func__, resource);
     }
@@ -275,7 +275,7 @@ GtkWidget *vice_gtk3_resource_spin_int_new(
 
     /* store current resource value for use in reset() */
     if (resources_get_int(resource, &current) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to get current value for resource '%s', defaulting"
                 " to 0.",
                 resource);
@@ -362,7 +362,7 @@ gboolean vice_gtk3_resource_spin_int_get(GtkWidget *widget, int *value)
 {
     const char *resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, value) < 0) {
-        log_error(LOG_ERR, "failed to get value for resource '%s'.", resource);
+        log_error(LOG_DEFAULT, "failed to get value for resource '%s'.", resource);
         return FALSE;
     }
     return TRUE;
@@ -395,7 +395,7 @@ gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_default_value(resource, &factory) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to get factory value for resource '%s'.",
                 resource);
         return FALSE;
@@ -418,13 +418,13 @@ gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget)
 
     /* get widget state */
     if (!vice_gtk3_resource_spin_int_get(widget, &widget_val)) {
-        log_error(LOG_ERR, "failed to retrieve current value of widget");
+        log_error(LOG_DEFAULT, "failed to retrieve current value of widget");
         return FALSE;
     }
     /* get resource value */
     resource_name = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource_name, &resource_val) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to retrieve value for resource '%s'",
                 resource_name);
     }
@@ -600,14 +600,14 @@ gboolean vice_gtk3_resource_spin_double_factory(GtkWidget *spin)
 
     resource = resource_widget_get_resource_name(spin);
     if (resources_get_default_value(resource, &factory) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "failed to get factory value for resource %s'.",
                   resource);
         return FALSE;
     }
     value = strtod(factory, &endptr);
     if (*endptr != '\0') {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "factory value '%s' of resource '%s' could not be converted"
                   " to double.",
                   factory, resource);

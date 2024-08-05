@@ -99,7 +99,7 @@ static GtkWidget *create_cartridge_base_widget(void)
                                                           eth_base_list_vic20);
             break;
         default:
-            log_error(LOG_ERR, "%s(): should never get here!", __func__);
+            log_error(LOG_DEFAULT, "%s(): should never get here!", __func__);
             break;
     }
     return combo;

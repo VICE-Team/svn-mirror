@@ -59,7 +59,7 @@ typedef struct linux_joystick_priv_s {
 
 
 /** \brief  Linux joystick log */
-static log_t joystick_linux_log = LOG_ERR;
+static log_t joystick_linux_log = LOG_DEFAULT;
 
 
 /** \brief  Callback for the joystick system to poll a joystick device
@@ -132,7 +132,7 @@ void linux_joystick_init(void)
 {
     int i;
 
-    if (joystick_linux_log == LOG_ERR) {
+    if (joystick_linux_log == LOG_DEFAULT) {
         joystick_linux_log = log_open("Joystick");
     }
     log_message(joystick_linux_log, "Linux joystick interface initialization...");

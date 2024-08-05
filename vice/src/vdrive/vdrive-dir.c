@@ -61,7 +61,7 @@
 
 
 
-static log_t vdrive_dir_log = LOG_ERR;
+static log_t vdrive_dir_log = LOG_DEFAULT;
 
 
 void vdrive_dir_init(void)
@@ -85,7 +85,7 @@ static int vdrive_dir_get_interleave(unsigned int type)
         case VDRIVE_IMAGE_FORMAT_NP:
             return 1;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Using interleave 3.", type);
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Using interleave 3.", type);
             return 3;
     }
 }

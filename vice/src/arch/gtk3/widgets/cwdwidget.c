@@ -59,7 +59,7 @@ static void create_css_provider(void)
 
     provider = gtk_css_provider_new();
     if (!gtk_css_provider_load_from_data(provider, INVALID_PATH_CSS, -1, &error)) {
-        log_error(LOG_ERR, "%s(): %s", __func__, error->message);
+        log_error(LOG_DEFAULT, "%s(): %s", __func__, error->message);
         g_error_free(error);
     }
 }

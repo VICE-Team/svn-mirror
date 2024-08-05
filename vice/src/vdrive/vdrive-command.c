@@ -58,7 +58,7 @@
 #define IP_MAX_COMMAND_LEN 128 /* real 58 */
 
 
-static log_t vdrive_command_log = LOG_ERR;
+static log_t vdrive_command_log = LOG_DEFAULT;
 
 static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd);
 static int vdrive_command_format_worker(struct vdrive_s *vdrive, uint8_t *disk_name, uint8_t *disk_id);

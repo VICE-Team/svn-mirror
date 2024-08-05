@@ -71,7 +71,7 @@
 #define DBG(x)
 #endif
 
-static log_t vdrive_iec_log = LOG_ERR;
+static log_t vdrive_iec_log = LOG_DEFAULT;
 
 #define OFFSET_SUPER_POINTER 3
 #define SIDE_SECTORS_MAX 6

@@ -76,7 +76,7 @@
 
 #define HRE_DEBUG_GFX       0
 
-static log_t pethre_log = LOG_ERR;
+static log_t pethre_log = LOG_DEFAULT;
 
 static int pethre_activate(void);
 static int pethre_deactivate(void);

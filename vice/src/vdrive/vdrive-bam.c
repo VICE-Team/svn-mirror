@@ -124,14 +124,14 @@ static int vdrive_bam_read_bam_block(vdrive_t *vdrive, unsigned int block)
                 err = vdrive_read_sector(vdrive, vdrive->bam + (block << 8),
                          vdrive->bam_tracks[block], vdrive->bam_sectors[block]);
             } else {
-                log_error(LOG_ERR, "Trying to read beyond BAM limit (offset=0x%x).",
+                log_error(LOG_DEFAULT, "Trying to read beyond BAM limit (offset=0x%x).",
                     block << 8);
             }
             break;
         case VDRIVE_IMAGE_FORMAT_SYS:
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot read BAM.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot read BAM.",
                     vdrive->image_format);
     }
 
@@ -172,7 +172,7 @@ static int vdrive_calculate_disk_half(vdrive_t *vdrive)
         case VDRIVE_IMAGE_FORMAT_9000:
             return vdrive->num_tracks - 1;
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Unknown disk type %u.  Cannot calculate disk half.",
                       vdrive->image_format);
     }
@@ -209,7 +209,7 @@ static int vdrive_bam_get_interleave(vdrive_t *vdrive)
         case VDRIVE_IMAGE_FORMAT_9000:
             return 10;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Using interleave 10.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Using interleave 10.",
                     vdrive->image_format);
             return 10;
     }
@@ -709,7 +709,7 @@ static uint8_t *vdrive_bam_get_track_entry(vdrive_t *vdrive, unsigned int track,
 
     /* D9090/60 has track 0, and it has a BAM entry */
     if (track == 0 && vdrive->image_format != VDRIVE_IMAGE_FORMAT_9000) {
-        log_error(LOG_ERR, "invalid track number: 0");
+        log_error(LOG_DEFAULT, "invalid track number: 0");
         return NULL;
     }
 
@@ -770,7 +770,7 @@ static uint8_t *vdrive_bam_get_track_entry(vdrive_t *vdrive, unsigned int track,
             }
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot calculate BAM track.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot calculate BAM track.",
                     vdrive->image_format);
     }
     return bamp;
@@ -818,7 +818,7 @@ static void vdrive_bam_sector_free(vdrive_t *vdrive, uint8_t *bamp,
             /* NP's don't keep track of number of sectors available */
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot find free sector.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot find free sector.",
                     vdrive->image_format);
     }
 }
@@ -964,7 +964,7 @@ void vdrive_bam_clear_all(vdrive_t *vdrive)
             }
             break;
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Unknown disk type %u.  Cannot clear BAM.",
                       vdrive->image_format);
     }
@@ -1203,7 +1203,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
             }
             break;
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Unknown disk type %u.  Cannot create BAM.",
                       vdrive->image_format);
     }
@@ -1315,7 +1315,7 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
             err = 0;
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot read BAM.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot read BAM.",
                     vdrive->image_format);
     }
 
@@ -1371,7 +1371,7 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
         case VDRIVE_IMAGE_FORMAT_SYS:
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot write BAM.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot write BAM.",
                     vdrive->image_format);
     }
 
@@ -1457,7 +1457,7 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 }
                 break;
             default:
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "Unknown disk type %u.  Cannot calculate free sectors.",
                           vdrive->image_format);
         }
@@ -1572,7 +1572,7 @@ void vdrive_bam_setup_bam(vdrive_t *vdrive)
             vdrive->bam_sectors[1] = vdrive->Bam_Sector;
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %u.  Cannot locate BAM.",
+            log_error(LOG_DEFAULT, "Unknown disk type %u.  Cannot locate BAM.",
                     vdrive->image_format);
     }
 }

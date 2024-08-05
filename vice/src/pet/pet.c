@@ -134,7 +134,7 @@ static long     pet_cycles_per_rfsh     = PET_PAL_CYCLES_PER_RFSH;
 static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 */
 
-static log_t pet_log = LOG_ERR;
+static log_t pet_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 int machine_get_keyboard_type(void)

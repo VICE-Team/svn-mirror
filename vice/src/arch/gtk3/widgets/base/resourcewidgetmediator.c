@@ -194,7 +194,7 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
     return mediator;
 
 report_error:
-    log_error(LOG_ERR,
+    log_error(LOG_DEFAULT,
               "%s(): resource %s: failed to get value.",
               __func__, name);
     return mediator;

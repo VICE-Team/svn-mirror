@@ -285,7 +285,7 @@ const char *textfile_reader_read(textfile_reader_t *reader)
                 }
             } else {
                 /* error */
-                log_error(LOG_ERR, "read error: %d: %s", errno, strerror(errno));
+                log_error(LOG_DEFAULT, "read error: %d: %s", errno, strerror(errno));
                 return NULL;
             }
         } else {

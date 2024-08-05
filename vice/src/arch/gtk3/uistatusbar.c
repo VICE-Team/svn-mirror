@@ -2325,7 +2325,7 @@ static void statusbar_append_led(int bar, GtkWidget *led, gboolean separator)
 
     /* sanity check */
     if (bar < 0 || bar >= MAX_STATUS_BARS) {
-        log_error(LOG_ERR, "Invalid status bar index of %d.", bar);
+        log_error(LOG_DEFAULT, "Invalid status bar index of %d.", bar);
         return;
     }
 
@@ -2360,7 +2360,7 @@ static void statusbar_append_widget(int bar, GtkWidget *widget, gboolean separat
 
     /* sanity check */
     if (bar < 0 || bar >= MAX_STATUS_BARS) {
-        log_error(LOG_ERR, "Invalid status bar index of %d.", bar);
+        log_error(LOG_DEFAULT, "Invalid status bar index of %d.", bar);
         return;
     }
 
@@ -2394,7 +2394,7 @@ static void statusbar_append_widget_end(int bar, GtkWidget *widget)
 
     /* sanity check */
     if (bar < 0 || bar >= MAX_STATUS_BARS) {
-        log_error(LOG_ERR, "Invalid status bar index of %d.", bar);
+        log_error(LOG_DEFAULT, "Invalid status bar index of %d.", bar);
         return;
     }
 
@@ -2519,7 +2519,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     }
     if (i == MAX_STATUS_BARS) {
         /* Fatal error (should never happen) */
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "Maxium number of status bars (%d) exceeded.",
                   MAX_STATUS_BARS);
         archdep_vice_exit(1);

@@ -51,7 +51,7 @@
 #include "c64acia.h"
 #endif
 
-static log_t c128_snapshot_log = LOG_ERR;
+static log_t c128_snapshot_log = LOG_DEFAULT;
 
 static char snap_rom_module_name[] = "C128ROM";
 #define SNAP_ROM_MAJOR 0

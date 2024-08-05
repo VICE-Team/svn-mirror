@@ -57,7 +57,7 @@
 #define IS_D2M_LEN(x) (((x) == D2M_FILE_SIZE) || ((x) == D2M_FILE_SIZE_E))
 #define IS_D4M_LEN(x) (((x) == D4M_FILE_SIZE) || ((x) == D4M_FILE_SIZE_E))
 
-static log_t disk_image_probe_log = LOG_ERR;
+static log_t disk_image_probe_log = LOG_DEFAULT;
 
 static void disk_image_check_log(disk_image_t *image, const char *type)
 {

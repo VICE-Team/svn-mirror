@@ -75,7 +75,7 @@ static uint8_t *cart_ram = NULL;
 #define CART_ROM_SIZE (0x400 * 4)
 static uint8_t *cart_rom = NULL;
 
-static log_t superexpander_log = LOG_ERR;
+static log_t superexpander_log = LOG_DEFAULT;
 
 static const export_resource_t export_res = {
     CARTRIDGE_VIC20_NAME_SUPEREXPANDER, 0, VIC_CART_RAM123 | VIC_CART_BLK5, NULL, NULL, CARTRIDGE_VIC20_SUPEREXPANDER
@@ -161,7 +161,7 @@ static void clear_ram(void)
 
 void superexpander_init(void)
 {
-    if (superexpander_log == LOG_ERR) {
+    if (superexpander_log == LOG_DEFAULT) {
         superexpander_log = log_open(CARTRIDGE_VIC20_NAME_SUPEREXPANDER);
     }
 }

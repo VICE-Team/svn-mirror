@@ -661,7 +661,7 @@ GtkWidget *crt_control_widget_create(GtkWidget  *parent,
 
     /* sanity check */
     if (RESOURCE_COUNT != sizeof control_info / sizeof control_info[0]) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "RESOURCE_COUNT doesn't match element count of control_info[]");
         return NULL;
     }

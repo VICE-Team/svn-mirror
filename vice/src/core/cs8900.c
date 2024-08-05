@@ -69,7 +69,7 @@
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
-static log_t cs8900_log = LOG_ERR;
+static log_t cs8900_log = LOG_DEFAULT;
 
 /* status which received packages to accept
    This is used in cs8900_should_accept().

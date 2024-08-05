@@ -66,7 +66,7 @@ static uint8_t *petreu_ram = NULL;
    the future 512kb/1mb/2mb versions */
 static int old_petreu_ram_size = 0;
 
-static log_t petreu_log = LOG_ERR;
+static log_t petreu_log = LOG_DEFAULT;
 
 static int petreu_activate(void);
 static int petreu_deactivate(void);

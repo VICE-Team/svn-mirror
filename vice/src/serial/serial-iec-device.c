@@ -179,7 +179,7 @@ int serial_iec_device_cmdline_options_init(void)
 
 /* Logging goes here.  */
 #if IEC_DEVICE_DEBUG > 0
-static log_t serial_iec_device_log = LOG_ERR;
+static log_t serial_iec_device_log = LOG_DEFAULT;
 #endif
 
 struct serial_iec_device_state_s {

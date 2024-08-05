@@ -122,7 +122,7 @@ static void output_graphics_line_data(screenshot_t *screenshot, uint8_t *data,
             }
             break;
         default:
-            log_error(LOG_ERR, "Invalid mode %u.", mode);
+            log_error(LOG_DEFAULT, "Invalid mode %u.", mode);
     }
 }
 

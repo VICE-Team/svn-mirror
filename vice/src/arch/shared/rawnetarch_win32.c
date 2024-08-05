@@ -84,7 +84,7 @@ static HINSTANCE pcap_library = NULL;
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
-static log_t rawnet_arch_log = LOG_ERR;
+static log_t rawnet_arch_log = LOG_DEFAULT;
 
 static pcap_if_t *EthernetPcapNextDev = NULL;
 static pcap_if_t *EthernetPcapAlldevs = NULL;
@@ -222,7 +222,7 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
     if (EthernetPcapNextDev->name == NULL) {
         fprintf(stderr, "%s:%d:%s(): adapter name is NULL",
                 __FILE__, __LINE__, __func__);
-        log_error(LOG_ERR, "adapter name is NULL");
+        log_error(LOG_DEFAULT, "adapter name is NULL");
         return 0;
     }
     *ppname = lib_strdup(EthernetPcapNextDev->name);
@@ -230,7 +230,7 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
     if (EthernetPcapNextDev->description == NULL) {
         fprintf(stderr, "%s:%d:%s(): adapter description is NULL",
                 __FILE__, __LINE__, __func__);
-        log_error(LOG_ERR, "adapter description is NULL");
+        log_error(LOG_DEFAULT, "adapter description is NULL");
         return 0;
     }
     *ppdescription = lib_strdup(EthernetPcapNextDev->description);

@@ -45,7 +45,7 @@
 #include "uiapi.h"
 
 
-static log_t cs256k_log = LOG_ERR;
+static log_t cs256k_log = LOG_DEFAULT;
 
 static int cs256k_activate(void);
 static int cs256k_deactivate(void);

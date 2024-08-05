@@ -139,7 +139,7 @@ static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
 static long cbm2_cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
 */
 
-static log_t cbm2_log = LOG_ERR;
+static log_t cbm2_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* FIXME: add different keyboard types */

@@ -98,7 +98,7 @@ typedef struct zfile_s zfile_t;
 
 static zfile_t *zfile_list = NULL;
 
-static log_t zlog = LOG_ERR;
+static log_t zlog = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 

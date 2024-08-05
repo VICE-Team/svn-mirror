@@ -127,7 +127,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
                 return cycle;
             }
         default:
-            log_error(LOG_ERR, "Unknown register!");
+            log_error(LOG_DEFAULT, "Unknown register!");
     }
     return 0;
 }
@@ -186,7 +186,7 @@ static void mon_register_set_val(int mem, int reg_id, uint16_t val)
             WDC65816_REGS_SET_EMUL(reg_ptr, (uint8_t)val);
             break;
         default:
-            log_error(LOG_ERR, "Unknown register!");
+            log_error(LOG_DEFAULT, "Unknown register!");
             return;
     }
 }
@@ -203,7 +203,7 @@ static void mon_register_print(int mem)
             return;
         }
     } else if (mem != e_comp_space) {
-        log_error(LOG_ERR, "Unknown memory space!");
+        log_error(LOG_DEFAULT, "Unknown memory space!");
         return;
     }
 

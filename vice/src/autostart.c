@@ -122,7 +122,7 @@ static enum {
 #define AUTOSTART_CHECK_FIRST_COLUMN    1
 
 /* Log descriptor.  */
-log_t autostart_log = LOG_ERR;
+log_t autostart_log = LOG_DEFAULT;
 
 /* Flag: was true drive emulation turned on when we started booting the disk image?  */
 static int orig_drive_true_emulation_state = -1;
@@ -947,9 +947,9 @@ int autostart_init(int default_seconds, int handle_drive_true_emulation)
 
     autostart_reinit(default_seconds, handle_drive_true_emulation);
 
-    if (autostart_log == LOG_ERR) {
+    if (autostart_log == LOG_DEFAULT) {
         autostart_log = log_open("AUTOSTART");
-        if (autostart_log == LOG_ERR) {
+        if (autostart_log == LOG_DEFAULT) {
             return -1;
         }
     }
@@ -1684,10 +1684,10 @@ static void setup_for_disk(int unit, int drive)
                 set_true_drive_emulation_mode(1, unit);
             }
             if (!get_true_drive_emulation_state(unit)) {
-                log_message(LOG_ERR, "True drive emulation is not enabled.");
+                log_error(LOG_DEFAULT, "True drive emulation is not enabled.");
                 set_device_traps_state(unit, 1);
                 if (!get_device_traps_state(unit)) {
-                    log_message(LOG_ERR, "Virtual device traps are not enabled.");
+                    log_error(LOG_DEFAULT, "Virtual device traps are not enabled.");
                 }
             }
         }
@@ -1705,7 +1705,7 @@ static void setup_for_disk(int unit, int drive)
                 set_device_traps_state(unit, 1);
             }
             if (!get_device_traps_state(unit)) {
-                log_message(LOG_ERR, "Virtual device traps are not enabled.");
+                log_error(LOG_DEFAULT, "Virtual device traps are not enabled.");
             }
         }
     }
@@ -1746,10 +1746,10 @@ static void setup_for_disk_ready(int unit, int drive)
                 set_true_drive_emulation_mode(1, unit);
             }
             if (!get_true_drive_emulation_state(unit)) {
-                log_message(LOG_ERR, "True drive emulation is not enabled.");
+                log_error(LOG_DEFAULT, "True drive emulation is not enabled.");
                 set_device_traps_state(unit, 1);
                 if (!get_device_traps_state(unit)) {
-                    log_message(LOG_ERR, "Virtual device traps are not enabled.");
+                    log_error(LOG_DEFAULT, "Virtual device traps are not enabled.");
                 }
             }
         }
@@ -1812,7 +1812,7 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
             diskimg = file_system_get_image(unit, drive);
 
             if (diskimg == NULL) {
-                log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit);
+                log_error(LOG_DEFAULT, "Failed to get disk image for unit %d.", unit);
             } else {
                 int chk = drive_check_image_format(diskimg->type, 0);
                 log_message(autostart_log, "mounted image is type: %u, %schanging drive.",
@@ -1820,7 +1820,7 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 /* change drive type only when image does not work in current drive */
                 if (chk < 0) {
                     if (resources_set_int_sprintf("Drive%dType", drive_image_type_to_drive_type(diskimg->type), unit) < 0) {
-                        log_error(LOG_ERR, "Failed to set drive type.");
+                        log_error(LOG_DEFAULT, "Failed to set drive type.");
                     }
                 }
 
@@ -1869,14 +1869,14 @@ static void setup_for_prg_vfs(int unit)
         }
     }
     if (get_true_drive_emulation_state(unit)) {
-        log_message(LOG_ERR, "True drive emulation is still enabled.");
+        log_error(LOG_DEFAULT, "True drive emulation is still enabled.");
     }
 #endif
     if (!orig_device_traps_state) {
         set_device_traps_state(unit, 1);
     }
     if (!get_device_traps_state(unit)) {
-        log_message(LOG_ERR, "Virtual device traps are not enabled.");
+        log_error(LOG_DEFAULT, "Virtual device traps are not enabled.");
     }
     /* always shorten the long names when autostarting, the long names cause
        nothing but problems */
@@ -1898,7 +1898,7 @@ static void setup_for_prg_vfs_ready(void)
         }
     }
     if (get_true_drive_emulation_state(unit)) {
-        log_message(LOG_ERR, "True drive emulation is still enabled.");
+        log_error(LOG_DEFAULT, "True drive emulation is still enabled.");
     }
 }
 #endif
@@ -1951,7 +1951,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             /* shorten the filename to 16 chars (if enabled) */
             vdrive = file_system_get_vdrive(unit);
             if (vdrive == NULL) {
-                log_error(LOG_ERR, "Failed to get vdrive reference for unit #%d:%d.", unit, drive);
+                log_error(LOG_DEFAULT, "Failed to get vdrive reference for unit #%d:%d.", unit, drive);
                 return -1;
             }
             fsdevice_limit_namelength(vdrive, (uint8_t*)boot_file_name);
@@ -2100,17 +2100,17 @@ static void set_tapeport_device(int datasette, int tapecart)
 {
     /* first disable all devices, so we dont get any conflicts */
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
-        log_error(LOG_ERR, "Failed to disable the tape port device.");
+        log_error(LOG_DEFAULT, "Failed to disable the tape port device.");
     }
     /* now enable the one we want to enable */
     if (datasette) {
         if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_DATASETTE) < 0) {
-            log_error(LOG_ERR, "Failed to enable the Datasette.");
+            log_error(LOG_DEFAULT, "Failed to enable the Datasette.");
         }
     }
     if (tapecart) {
         if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_TAPECART) < 0) {
-            log_error(LOG_ERR, "Failed to enable the Tapecart.");
+            log_error(LOG_DEFAULT, "Failed to enable the Tapecart.");
         }
     }
 }
@@ -2154,7 +2154,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         int tapedevice_temp;
 
         if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {
-            log_error(LOG_ERR, "Failed to get Datasette status.");
+            log_error(LOG_DEFAULT, "Failed to get Datasette status.");
         }
 
         set_tapeport_device(1, 0);  /* select datasette on, tapecart off */

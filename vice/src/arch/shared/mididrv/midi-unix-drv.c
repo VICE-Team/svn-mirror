@@ -89,7 +89,7 @@ static int midi_driver_num = MIDI_DRIVER_ALSA;
 static int midi_driver_num = MIDI_DRIVER_OSS;
 #endif
 
-static log_t mididrv_log = LOG_ERR;
+static log_t mididrv_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 /* OSS driver */
@@ -558,7 +558,7 @@ static midi_driver_t midi_drivers[] = {
 
 void mididrv_init(void)
 {
-    if (mididrv_log == LOG_ERR) {
+    if (mididrv_log == LOG_DEFAULT) {
         mididrv_log = log_open("MIDIdrv");
     }
 

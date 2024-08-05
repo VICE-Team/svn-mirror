@@ -399,7 +399,7 @@ void crt_preview_widget_update(const gchar *path)
         debug_gtk3("next chip packet offset = %lx", (unsigned long)pos);
 #endif
         if (fseek(fd, pos, SEEK_SET) != 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "fseek(%ld) failed: %d: %s",
                     pos, errno, strerror(errno));
             break;

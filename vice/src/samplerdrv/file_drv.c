@@ -111,7 +111,7 @@
 #include "sampler.h"
 #include "util.h"
 
-static log_t filedrv_log = LOG_ERR;
+static log_t filedrv_log = LOG_DEFAULT;
 
 static char *sample_name = NULL;
 

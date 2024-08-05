@@ -71,7 +71,7 @@ void archdep_create_user_config_dir(void)
     if (archdep_mkdir(cfg, 0755) == 0) {
         return;     /* we created the dir */
     } else if (errno != EEXIST) {
-        log_error(LOG_ERR, "failed to create user config dir '%s': %d: %s.",
+        log_error(LOG_DEFAULT, "failed to create user config dir '%s': %d: %s.",
                 cfg, errno, strerror(errno));
         archdep_vice_exit(1);
     }

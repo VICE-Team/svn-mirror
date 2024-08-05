@@ -136,7 +136,7 @@ int datasette_sound_emulation = 1;
 /* volume of sound from datasette device */
 int datasette_sound_emulation_volume;
 
-static log_t datasette_log = LOG_ERR;
+static log_t datasette_log = LOG_DEFAULT;
 
 static void datasette_internal_reset(int port);
 static void datasette_event_record(int command);

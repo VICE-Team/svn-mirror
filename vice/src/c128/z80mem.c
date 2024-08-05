@@ -55,7 +55,7 @@
 uint8_t z80bios_rom[0x1000];
 
 /* Logging.  */
-static log_t z80mem_log = LOG_ERR;
+static log_t z80mem_log = LOG_DEFAULT;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_z80mem_read_tab_ptr;
@@ -1077,7 +1077,7 @@ void z80mem_update_config(int config)
 
 int z80mem_load(void)
 {
-    if (z80mem_log == LOG_ERR) {
+    if (z80mem_log == LOG_DEFAULT) {
         z80mem_log = log_open("Z80MEM");
     }
 
