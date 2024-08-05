@@ -34,6 +34,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "autostart.h"
+#include "cmdline.h"
 #include "debug.h"
 #include "interrupt.h"
 #include "log.h"
@@ -41,6 +42,7 @@
 #include "main65816cpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
@@ -143,6 +145,29 @@ unsigned int last_opcode_addr;
    function makes it faster, you have to generate a `TRAP' interrupt to have
    the values copied into this struct.  */
 WDC65816_regs_t maincpu_regs;
+
+/* ------------------------------------------------------------------------- */
+
+static const resource_int_t maincpu_resources_int[] = {
+    /* TODO */
+    RESOURCE_INT_LIST_END
+};
+
+int maincpu_resources_init(void)
+{
+    return resources_register_int(maincpu_resources_int);
+}
+
+static const cmdline_option_t cmdline_options_maincpu[] =
+{
+    /* TODO */
+    CMDLINE_LIST_END
+};
+
+int maincpu_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options_maincpu);
+}
 
 /* ------------------------------------------------------------------------- */
 

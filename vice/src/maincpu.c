@@ -294,8 +294,32 @@ mos6510_regs_t maincpu_regs;
 
 /* ------------------------------------------------------------------------- */
 
+int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
+int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
+
+static int set_ane_log_level(int val, void *param)
+{
+    if ((val < 0) || (val > 2)) {
+        return -1;
+    }
+    ane_log_level = val;
+    return 0;
+}
+
+static int set_lxa_log_level(int val, void *param)
+{
+    if ((val < 0) || (val > 2)) {
+        return -1;
+    }
+    lxa_log_level = val;
+    return 0;
+}
+
 static const resource_int_t maincpu_resources_int[] = {
-    /* TODO: add resources */
+    { "LogLevelANE", 0, RES_EVENT_NO, NULL,
+      &ane_log_level, set_ane_log_level, NULL },
+    { "LogLevelLXA", 0, RES_EVENT_NO, NULL,
+      &lxa_log_level, set_lxa_log_level, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -306,7 +330,12 @@ int maincpu_resources_init(void)
 
 static const cmdline_option_t cmdline_options_maincpu[] =
 {
-    /* TODO: add options */
+    { "-aneloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "LogLevelANE", NULL,
+      "<Type>", "Set ANE log level: (0: None, 1: Unstable, 2: All)" },
+    { "-lxaloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "LogLevelLXA", NULL,
+      "<Type>", "Set LXA log level: (0: None, 1: Unstable, 2: All)" },
     CMDLINE_LIST_END
 };
 
@@ -551,6 +580,9 @@ void maincpu_mainloop(void)
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 
     while (1) {
+#define CPU_LOG_ID maincpu_log
+#define ANE_LOG_LEVEL ane_log_level
+#define LXA_LOG_LEVEL lxa_log_level
 #define CLK maincpu_clk
 #define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
@@ -726,7 +758,7 @@ unsigned int maincpu_get_sp(void) {
 
 static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {
@@ -764,7 +796,10 @@ int maincpu_snapshot_write_module(snapshot_t *s)
             || SMW_BA(m, burst_cache, 4) < 0
             || SMW_W(m, burst_addr) < 0
             || SMW_DW(m, dtvclockneg) < 0
-            || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
+            || SMW_DW(m, (uint32_t)last_opcode_info) < 0
+            || SMW_DW(m, (uint32_t)ane_log_level) < 0
+            || SMW_DW(m, (uint32_t)lxa_log_level) < 0
+        ) {
         goto fail;
     }
 #else
@@ -775,7 +810,10 @@ int maincpu_snapshot_write_module(snapshot_t *s)
             || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
             || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
             || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-            || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
+            || SMW_DW(m, (uint32_t)last_opcode_info) < 0
+            || SMW_DW(m, (uint32_t)ane_log_level) < 0
+            || SMW_DW(m, (uint32_t)lxa_log_level) < 0
+        ) {
         goto fail;
     }
 #endif
@@ -843,7 +881,10 @@ int maincpu_snapshot_read_module(snapshot_t *s)
             || SMR_W(m, &burst_addr) < 0
             || SMR_DW_INT(m, &dtvclockneg) < 0
 #endif
-            || SMR_DW_UINT(m, &last_opcode_info) < 0) {
+            || SMR_DW_UINT(m, &last_opcode_info) < 0
+            || SMR_DW_INT(m, &ane_log_level) < 0
+            || SMR_DW_INT(m, &lxa_log_level) < 0
+        ) {
         goto fail;
     }
 

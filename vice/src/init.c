@@ -108,6 +108,10 @@ int init_resources(void)
         init_resource_fail("UI");
         return -1;
     }
+    if (maincpu_resources_init() < 0) {
+        init_resource_fail("main cpu");
+        return -1;
+    }
     if (machine_common_resources_init() < 0) {
         init_resource_fail("machine common");
         return -1;

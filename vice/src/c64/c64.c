@@ -674,11 +674,13 @@ int machine_resources_init(void)
         init_resource_fail("rombanks");
         return -1;
     }
+#if 0
     /* FIXME: we might want to move this into machine.c or init.c */
     if (maincpu_resources_init() < 0) {
         init_resource_fail("maincpu");
         return -1;
     }
+#endif
     if (c64_resources_init() < 0) {
         init_resource_fail("c64");
         return -1;

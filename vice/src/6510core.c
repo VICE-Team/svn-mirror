@@ -45,6 +45,11 @@
 #define CPU_STR "Main CPU"
 #endif
 
+#ifndef CPU_LOG_ID
+#define CPU_LOG_ID LOG_DEFAULT
+#warning "CPU_LOG_ID not defined, using LOG_DEFAULT by default"
+#endif
+
 #include "traps.h"
 
 #ifndef DRIVE_CPU
@@ -838,10 +843,41 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define ANE_MAGIC       0xef
 #define ANE_RDY_MAGIC   0xee
 
+#ifndef ANE_LOG_LEVEL
+#define ANE_LOG_LEVEL 0
+#warning "ANE_LOG_LEVEL not defined, disabling by default"
+#endif
+
+#if 1
+#define ANE_LOGGING(rdy)                                                                    \
+    do {                                                                                    \
+        unsigned int result = ((reg_a_read | (rdy ? ANE_RDY_MAGIC : ANE_MAGIC)) & reg_x_read & p1); \
+        unsigned int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x_read));                   \
+        if ((ANE_LOG_LEVEL == 2) || ((ANE_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
+            if (unstablebits == 0) {                                                        \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
+                    reg_pc, p1, reg_a_read, reg_x_read, result, rdy ? " (RDY cycle)" : ""); \
+            } else {                                                                        \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, reg_x_read, result,                             \
+                    unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
+                    unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
+                    unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
+                    );                                                                      \
+            }                                                                               \
+        }                                                                                   \
+    } while (0)
+#else
+#define ANE_LOGGING(rdy)
+#endif
+
 #ifndef ANE
 #define ANE(value, pc_inc)                                                          \
     do {                                                                            \
         uint8_t tmp = ((reg_a_read | ANE_MAGIC) & reg_x_read & ((uint8_t)(value))); \
+        ANE_LOGGING(0);                                                             \
         reg_a_write(tmp);                                                           \
         LOCAL_SET_NZ(tmp);                                                          \
         INC_PC(pc_inc);                                                             \
@@ -1345,10 +1381,41 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define LXA_MAGIC       0xee    /* needs to be 0xee for wizball */
 #define LXA_RDY_MAGIC   0xee
 
+#ifndef LXA_LOG_LEVEL
+#define LXA_LOG_LEVEL 0
+#warning "LXA_LOG_LEVEL not defined, disabling by default"
+#endif
+
+#if 1
+#define LXA_LOGGING(rdy)                                                                    \
+    do {                                                                                    \
+        unsigned int result = (reg_a_read | (rdy ? LXA_RDY_MAGIC : LXA_MAGIC)) & p1;        \
+        unsigned int unstablebits = (reg_a_read ^ 0xff) & p1;                               \
+        if ((LXA_LOG_LEVEL == 2) || ((LXA_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
+            if (unstablebits == 0) {                                                        \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
+                    reg_pc, p1, reg_a_read, result, rdy ? " (RDY cycle)" : "");             \
+            } else {                                                                        \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, result,                                         \
+                    unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
+                    unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
+                    unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
+                    );                                                                      \
+            }                                                                               \
+        }                                                                                   \
+    } while (0)
+#else
+#define LXA_LOGGING(rdy)
+#endif
+
 #ifndef LXA
 #define LXA(value, pc_inc)                                             \
     do {                                                               \
         uint8_t tmp = ((reg_a_read | LXA_MAGIC) & ((uint8_t)(value))); \
+        LXA_LOGGING(0);                                                \
         reg_x_write(tmp);                                              \
         reg_a_write(tmp);                                              \
         LOCAL_SET_NZ(tmp);                                             \

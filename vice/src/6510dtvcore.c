@@ -1277,7 +1277,6 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #warning "LXA_LOG_LEVEL not defined, disabling by default"
 #endif
 
-/* FIXME: perhaps we should make the log level a user setting */
 #if 1
 /* static int lxa_log_level = 1; */ /* 0: none, 1: unstable only 2: all */
 
