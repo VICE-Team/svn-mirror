@@ -860,7 +860,7 @@ static gchar *drag_data_get_filename(GtkSelectionData *data,
 
         case DT_TEXT_URI:       /* fall through ('text/uri') */
         default:
-            log_error(LOG_ERR, "Unhandled drag target %u", info);
+            log_error(LOG_DEFAULT, "Unhandled drag target %u", info);
             break;
     }
 
@@ -975,7 +975,7 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 
     if (index < 0) {
         /* We should never end up here. */
-        log_error(LOG_ERR, "focus-in-event: window not found\n");
+        log_error(LOG_DEFAULT, "focus-in-event: window not found\n");
         archdep_vice_exit(1);
     }
 
@@ -1026,7 +1026,7 @@ static gboolean on_window_state_event(GtkWidget *widget,
 
     if (index < 0) {
         /* We should never end up here. */
-        log_error(LOG_ERR, "window-state-event: window not found\n");
+        log_error(LOG_DEFAULT, "window-state-event: window not found\n");
         archdep_vice_exit(1);
     }
 
@@ -1214,7 +1214,7 @@ video_canvas_t *ui_get_active_canvas(void)
 
     canvas = ui_resources.canvas[active_win_index];
     if (canvas == NULL) {
-        log_error(LOG_ERR, "No canvas for window %d!", active_win_index);
+        log_error(LOG_DEFAULT, "No canvas for window %d!", active_win_index);
     }
     return canvas;
 }
@@ -1614,7 +1614,7 @@ void macos_set_dock_icon_workaround(GdkPixbuf *icon)
     gbytes = g_bytes_new_take(png_buffer, png_buffer_size);
 
     if (!gbytes) {
-        log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to access icon bytes from gresource file.\n");
+        log_error(LOG_DEFAULT, "macos_set_dock_icon_workaround: failed to access icon bytes from gresource file.\n");
         return;
     }
 
@@ -1634,7 +1634,7 @@ void macos_set_dock_icon_workaround(GdkPixbuf *icon)
         OBJC_MSGSEND(id, id, SEL, id)(application, sel_getUid("setApplicationIconImage:"), logo);
         OBJC_MSGSEND(id, id, SEL)(logo, sel_getUid("release"));
     } else {
-        log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to initialise image from resource");
+        log_error(LOG_DEFAULT, "macos_set_dock_icon_workaround: failed to initialise image from resource");
     }
 }
 
@@ -1830,11 +1830,11 @@ void ui_create_main_window(video_canvas_t *canvas)
         target_window = identify_canvas_func(canvas);
     }
     if (target_window < 0) {
-        log_error(LOG_ERR, "ui_create_main_window: canvas not identified!\n");
+        log_error(LOG_DEFAULT, "ui_create_main_window: canvas not identified!\n");
         archdep_vice_exit(1);
     }
     if (ui_resources.window_widget[target_window] != NULL) {
-        log_error(LOG_ERR, "ui_create_main_window: existing window recreated??\n");
+        log_error(LOG_DEFAULT, "ui_create_main_window: existing window recreated??\n");
         archdep_vice_exit(1);
     }
 
@@ -2152,13 +2152,13 @@ int ui_init(void)
     }
 
     if (!uidata_init()) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to initialize GResource data, don't expect much"
                 " when it comes to icons, fonts or logos.");
     }
 
     if (!archdep_register_cbmfont()) {
-        log_error(LOG_ERR, "failed to register CBM font.");
+        log_error(LOG_DEFAULT, "failed to register CBM font.");
     }
 
     /*

@@ -58,7 +58,7 @@ int petrom_9_loaded = 0;    /* 1 = $9*** ROM is loaded */
 int petrom_A_loaded = 0;    /* 1 = $A*** ROM is loaded */
 int petrom_B_loaded = 0;    /* 1 = $B*** ROM or Basic 4 is loaded */
 
-static log_t petrom_log = LOG_ERR;
+static log_t petrom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the ROM has been loaded. */
 static int rom_loaded = 0;
@@ -757,7 +757,7 @@ int mem_load(void)
 {
     int i;
 
-    if (petrom_log == LOG_ERR) {
+    if (petrom_log == LOG_DEFAULT) {
         petrom_log = log_open("PETMEM");
     }
 

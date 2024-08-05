@@ -84,7 +84,7 @@ static int force_c64_mode = 0;
 static int mmu_config64 = 0;
 
 /* Logging goes here.  */
-static log_t mmu_log = LOG_ERR;
+static log_t mmu_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 

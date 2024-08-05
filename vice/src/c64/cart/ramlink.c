@@ -66,7 +66,6 @@
 /* #define RLDEBUGMEM */
 
 #define LOG LOG_DEFAULT
-#define ERR LOG_ERR
 
 #ifdef RLDEBUGMEM
 #define MDBG(_x_) log_message _x_
@@ -92,7 +91,7 @@
 #define LOG2(_x_)
 #endif
 
-#define CRIT(_x_) log_message _x_
+#define CRIT(_x_) log_error _x_
 
 #if C64CART_ROM_LIMIT <= 65536
 #error C64CART_ROM_LIMIT is too small; it should be at least 65536
@@ -718,7 +717,7 @@ int ramlink_ram_save(const char *filename)
     if (!util_check_null_string(filename)) {
         LOG1((LOG, "RAMLINK: Writing RAMLINK memory image %s.", filename));
         if (util_file_save(filename, rl_card, rl_cardsize) < 0) {
-            CRIT((ERR, "RAMLINK: Writing RAMLINK memory image %s failed.",
+            CRIT((LOG, "RAMLINK: Writing RAMLINK memory image %s failed.",
                 filename));
             return -1;
         }
@@ -775,13 +774,13 @@ static int ramlink_load_ram_image(void)
     if (!util_check_null_string(rl_filename)) {
         if (util_file_load(rl_filename, rl_card, (size_t)rl_cardsize,
             UTIL_FILE_LOAD_RAW) < 0) {
-            CRIT((ERR, "RAMLINK: Reading RAMLINK memory image %s failed.",
+            CRIT((LOG, "RAMLINK: Reading RAMLINK memory image %s failed.",
                 rl_filename));
             /* only create a new file if no file exists, so we dont accidently
                 overwrite any files */
             if (!util_file_exists(rl_filename)) {
                 if (util_file_save(rl_filename, rl_card, rl_cardsize) < 0) {
-                    CRIT((ERR, "RAMLINK: Creating RAMLINK memory image %s failed.",
+                    CRIT((LOG, "RAMLINK: Creating RAMLINK memory image %s failed.",
                         rl_filename));
                     return -1;
                 }

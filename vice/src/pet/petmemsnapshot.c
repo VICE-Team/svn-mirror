@@ -50,7 +50,7 @@
 #include "types.h"
 #include "machine.h"
 
-static log_t pet_snapshot_log = LOG_ERR;
+static log_t pet_snapshot_log = LOG_DEFAULT;
 
 /*
  * PET memory dump should be 4-32k or 128k, depending on the config, as RAM.

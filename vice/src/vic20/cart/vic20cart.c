@@ -697,7 +697,7 @@ int cartridge_enable(int type)
     if (cart_type_enabled(type)) {
         return 0;
     }
-    log_error(LOG_ERR, "Failed to enable cartridge with ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed to enable cartridge with ID %d.", type);
     return -1;
 #endif
     return 0;
@@ -751,7 +751,7 @@ int cartridge_disable(int type)
     if (!cart_type_enabled(type)) {
         return 0;
     }
-    log_error(LOG_ERR, "Failed to disable cartridge with ID %d.\n", type);
+    log_error(LOG_DEFAULT, "Failed to disable cartridge with ID %d.\n", type);
     return -1;
 #endif
     return 0;
@@ -812,7 +812,7 @@ int cartridge_bin_save(int type, const char *filename)
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
             return finalexpansion_bin_save(filename);
     }
-    log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed saving binary cartridge image for cartridge ID %d.", type);
     return -1;
 }
 
@@ -834,7 +834,7 @@ int cartridge_crt_save(int type, const char *filename)
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
             return finalexpansion_crt_save(filename);
     }
-    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed saving .crt cartridge image for cartridge ID %d.", type);
     return -1;
 }
 

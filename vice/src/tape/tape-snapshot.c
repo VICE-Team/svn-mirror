@@ -43,7 +43,7 @@
 
 
 /* Logging.  */
-static log_t tape_snapshot_log = LOG_ERR;
+static log_t tape_snapshot_log = LOG_DEFAULT;
 
 
 #define T64IMAGE_SNAP_MAJOR 1

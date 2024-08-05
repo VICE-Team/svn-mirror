@@ -175,7 +175,7 @@ static void acia_preinit(void)
     acia.ticks = 21111;
     acia.fd = -1;
     acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
-    acia.log = LOG_ERR;
+    acia.log = LOG_DEFAULT;
     acia.irq_type = IK_NONE;
     acia.mode = ACIA_MODE_NORMAL;
 }
@@ -668,7 +668,7 @@ void myacia_init(void)
     acia.alarm_tx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_tx, NULL);
     acia.alarm_rx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_rx, NULL);
 
-    if (acia.log == LOG_ERR) {
+    if (acia.log == LOG_DEFAULT) {
         acia.log = log_open(MYACIA);
     }
 }

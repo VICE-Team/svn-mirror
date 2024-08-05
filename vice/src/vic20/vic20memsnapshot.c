@@ -51,7 +51,7 @@
 #include "vic20rom.h"
 
 
-static log_t vic20_snapshot_log = LOG_ERR;
+static log_t vic20_snapshot_log = LOG_DEFAULT;
 
 /************************************************************************/
 

@@ -153,7 +153,7 @@ static int try_attach_disk(int unit_number, int drive_number, char *filename_loc
         struct disk_image_s *diskimg = file_system_get_image(unit_number, drive_number);
 
         if (diskimg == NULL) {
-            log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit_number);
+            log_error(LOG_DEFAULT, "Failed to get disk image for unit %d.", unit_number);
             return -1;
         } else {
             int chk = drive_check_image_format(diskimg->type, 0);
@@ -162,7 +162,7 @@ static int try_attach_disk(int unit_number, int drive_number, char *filename_loc
             /* change drive type only when image does not work in current drive */
             if (chk < 0) {
                 if (resources_set_int_sprintf("Drive%dType", drive_image_type_to_drive_type(diskimg->type), unit_number) < 0) {
-                    log_error(LOG_ERR, "Failed to set drive type.");
+                    log_error(LOG_DEFAULT, "Failed to set drive type.");
                 }
             }
 
@@ -192,19 +192,19 @@ static int try_attach_tapecart(char *filename)
 
     /* get current tapeport device */
     if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {
-        log_error(LOG_ERR, "Failed to get tape port device.");
+        log_error(LOG_DEFAULT, "Failed to get tape port device.");
         return -1;
     }
 
     /* first disable all devices, so we dont get any conflicts */
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
-        log_error(LOG_ERR, "Failed to disable the tape port device.");
+        log_error(LOG_DEFAULT, "Failed to disable the tape port device.");
         goto exiterror;
     }
 
     /* enable the tape cart */
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_TAPECART) < 0) {
-        log_error(LOG_ERR, "Failed to enable the Tapecart.");
+        log_error(LOG_DEFAULT, "Failed to enable the Tapecart.");
         goto exiterror;
     }
 
@@ -216,7 +216,7 @@ static int try_attach_tapecart(char *filename)
 exiterror:
     /* restore tape port device */
     if (resources_set_int("TapePort1Device", tapedevice_temp) < 0) {
-        log_error(LOG_ERR, "Failed to restore tape port device.");
+        log_error(LOG_DEFAULT, "Failed to restore tape port device.");
     }
     return -1;
 }
@@ -252,7 +252,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
                 && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
             /* failed */
-            log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
+            log_error(LOG_DEFAULT, "smart attach failed for '%s' failed", filename);
         }
     } else if ((machine_class == VICE_MACHINE_VIC20)
             || (machine_class == VICE_MACHINE_CBM5x0)
@@ -263,7 +263,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 /* && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0 */
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0) {
             /* failed */
-            log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
+            log_error(LOG_DEFAULT, "smart attach failed for '%s' failed", filename);
         }
     } else {
         /* Smart attach for other emulators: don't try to attach a file
@@ -273,7 +273,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0)
         {
-            log_error(LOG_ERR, "Failed to smart attach '%s'",
+            log_error(LOG_DEFAULT, "Failed to smart attach '%s'",
                     filename_locale);
         }
     }

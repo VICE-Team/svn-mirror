@@ -56,7 +56,7 @@
 
 /* ------------------------ */
 
-static log_t c64_snapshot_log = LOG_ERR;
+static log_t c64_snapshot_log = LOG_DEFAULT;
 
 static const char snap_rom_module_name[] = "C64ROM";
 

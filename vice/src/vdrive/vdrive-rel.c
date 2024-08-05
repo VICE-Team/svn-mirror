@@ -50,7 +50,7 @@
 #define DIRTY_RECORD   2
 #define WRITTEN_RECORD 4
 
-static log_t vdrive_rel_log = LOG_ERR;
+static log_t vdrive_rel_log = LOG_DEFAULT;
 
 static unsigned int vdrive_rel_record_max(vdrive_t *vdrive, unsigned int secondary);
 static int vdrive_rel_position_internal(vdrive_t *vdrive, unsigned int secondary, unsigned int rec_lo, unsigned int rec_hi, unsigned int position);

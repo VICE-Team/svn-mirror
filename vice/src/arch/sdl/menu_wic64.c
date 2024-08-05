@@ -187,7 +187,7 @@ ui_callback_data_t uiwic64_menu_create(void)
     j++;
     wic64_menu[j].string = NULL;
     if (j >= MENTRIES) {
-        log_error(LOG_ERR, "internal error: %s, %d >= MENTRIES(%d)", __FUNCTION__, j, MENTRIES);
+        log_error(LOG_DEFAULT, "internal error: %s, %d >= MENTRIES(%d)", __FUNCTION__, j, MENTRIES);
     }
     return (ui_callback_data_t) wic64_menu;
 }

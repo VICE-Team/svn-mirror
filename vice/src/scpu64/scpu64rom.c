@@ -39,7 +39,7 @@
 #include "sysfile.h"
 #include "types.h"
 
-static log_t scpu64rom_log = LOG_ERR;
+static log_t scpu64rom_log = LOG_DEFAULT;
 
 uint8_t scpu64rom_scpu64_rom[SCPU64_SCPU64_ROM_MAXSIZE];
 
@@ -94,7 +94,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (scpu64rom_log == LOG_ERR) {
+    if (scpu64rom_log == LOG_DEFAULT) {
         scpu64rom_log = log_open("SCPU64MEM");
     }
 

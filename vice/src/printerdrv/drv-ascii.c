@@ -52,7 +52,7 @@ typedef struct ascii_s ascii_t;
 
 static ascii_t drv_ascii[NUM_OUTPUT_SELECT];
 
-static log_t drv_ascii_log = LOG_ERR;
+static log_t drv_ascii_log = LOG_DEFAULT;
 
 #ifdef DEBUG_PRINTER
 #define DBG(x) log_printf  x

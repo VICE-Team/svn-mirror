@@ -201,7 +201,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         /* make sure we're not opening a directory */
         archdep_stat(p, NULL, &isdir);
         if (isdir) {
-            log_error(LOG_ERR, "'%s' is a directory, not a file.", p);
+            log_error(LOG_DEFAULT, "'%s' is a directory, not a file.", p);
             if (complete_path_return != NULL) {
                 *complete_path_return = NULL;
             }

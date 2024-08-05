@@ -154,7 +154,7 @@ static int cmdline_memory(const char *param, void *extra_param)
                        || strcmp(opt, "A0") == 0) {
                 memconf |= VIC_BLK5;
             } else {
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "Unsupported memory extension option: `%s'.", opt);
                 lib_free(opt);
                 return -1;

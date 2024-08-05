@@ -150,7 +150,7 @@ static GtkListStore *create_model(const char *path)
     }
 
     if (content_func == NULL) {
-        log_error(LOG_ERR, "no content-get function specified, bailing!");
+        log_error(LOG_DEFAULT, "no content-get function specified, bailing!");
         return model;
     }
 

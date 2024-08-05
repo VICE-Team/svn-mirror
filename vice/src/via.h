@@ -176,7 +176,7 @@ typedef struct via_context_s {
     struct alarm_s *t2_underflow_alarm;     /* after T2 has reached xxFF */
     struct alarm_s *t2_shift_alarm;         /* 1 clock later than t2_underflow_alarm */
     struct alarm_s *phi2_sr_alarm;
-    signed int log;             /* init to LOG_ERR */
+    signed int log;             /* init to LOG_DEFAULT */
 
     CLOCK read_clk;             /* init to 0 */
     int read_offset;            /* init to 0 */

@@ -108,7 +108,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
         if (cartridge_enable(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "failed to enable " CARTNAME ", please set BIOS file.");
             vice_gtk3_message_error(GTK_WINDOW(parent),
                                     CARTNAME " Error",
@@ -116,7 +116,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
         }
     } else if (!enabled) {
         if (cartridge_disable(CARTRIDGE_MMC64) < 0) {
-            log_error(LOG_ERR, "failed to disable " CARTNAME ".");
+            log_error(LOG_DEFAULT, "failed to disable " CARTNAME ".");
             vice_gtk3_message_error(GTK_WINDOW(parent),
                                     CARTNAME " Error",
                                     "Failed to disable " CARTNAME ", please set BIOS file.");

@@ -55,7 +55,7 @@
 #define DTVROM_NTSCV3_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
 #define DTVROM_HUMMER_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
 
-static log_t c64dtvflash_log = LOG_ERR;
+static log_t c64dtvflash_log = LOG_DEFAULT;
 #ifdef DEBUG
 static int flash_log_enabled = 0;
 #endif
@@ -500,7 +500,7 @@ static int c64dtvflash_load_rom(int idx)
 void c64dtvflash_init(void)
 {
 #ifdef DEBUG
-    if (c64dtvflash_log == LOG_ERR) {
+    if (c64dtvflash_log == LOG_DEFAULT) {
         c64dtvflash_log = log_open("C64DTVFLASH");
     }
 #endif

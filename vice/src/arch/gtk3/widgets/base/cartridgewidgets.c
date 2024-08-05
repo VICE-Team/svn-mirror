@@ -144,7 +144,7 @@ static void on_save_response(GtkDialog *self, gint response, gpointer data)
                 result = cartridge_save_secondary_image(state->cart_id, filename);
                 break;
             default:
-                log_error(LOG_ERR,
+                log_error(LOG_DEFAULT,
                           "%s(): saving of %s cartridge image is not implemented.",
                           __func__, tag_defaults[state->image_num - CART_IMAGE_PRIMARY]);
                 result = -1;
@@ -200,7 +200,7 @@ static void on_flush_clicked(GtkButton *self, gpointer data)
             result = cartridge_flush_secondary_image(state->cart_id);
             break;
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "%s(): flushing of %s cartridge image is not implemented.",
                       __func__, tag_defaults[state->image_num - CART_IMAGE_PRIMARY]);
             result = -1;
@@ -615,7 +615,7 @@ GtkWidget *cart_image_widget_new(int         cart_id,
     int         row = 0;
 
     if (!valid_image_num(image_num)) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s: invalid image number %d, valid range is %d-%d.",
                   __func__, image_num, CART_IMAGE_PRIMARY, CART_IMAGE_COUNT);
         return NULL;

@@ -44,7 +44,6 @@ cmdhd
 /* #define I8255ADBG */
 
 #define LOG LOG_DEFAULT
-#define ERR LOG_ERR
 
 #ifdef I8255ALOG
 #define LOG1(_x_) log_message _x_
@@ -58,7 +57,7 @@ cmdhd
 #define DBG(_x_)
 #endif
 
-#define CRIT(_x_) log_message _x_
+#define CRIT(_x_) log_error _x_
 
 void i8255a_reset(i8255a_state *ctx)
 {
@@ -149,7 +148,7 @@ void i8255a_store(i8255a_state *ctx, int8_t reg, uint8_t data)
             break;
         }
         if ( (data & I8255A_G2_MS) || (data & I8255A_G1_MS) ) {
-            CRIT((ERR,"I8255A: Unsupported mode set."));
+            CRIT((LOG,"I8255A: Unsupported mode set."));
         }
         ctx->ctrl = data;
         if (!(ctx->ctrl & I8255A_G1_PA) && ctx->set_pa) {

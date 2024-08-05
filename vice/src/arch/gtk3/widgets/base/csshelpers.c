@@ -56,7 +56,7 @@ GtkCssProvider *vice_gtk3_css_provider_new(const char *css)
     /* attempt to load CSS from string */
     gtk_css_provider_load_from_data(provider, css, -1, &err);
     if (err != NULL) {
-        log_error(LOG_ERR, "CSS error: %s", err->message);
+        log_error(LOG_DEFAULT, "CSS error: %s", err->message);
         g_error_free(err);
         return NULL;
     }
@@ -79,7 +79,7 @@ gboolean vice_gtk3_css_provider_add(GtkWidget *widget,
     /* try to get style context */
     context = gtk_widget_get_style_context(widget);
     if (context == NULL) {
-        log_error(LOG_ERR, "Couldn't get style context of widget");
+        log_error(LOG_DEFAULT, "Couldn't get style context of widget");
         /* don't free the context, it's owned by the widget */
         return FALSE;
     }
@@ -107,7 +107,7 @@ gboolean vice_gtk3_css_provider_remove(GtkWidget *widget,
     /* try to get style context */
     context = gtk_widget_get_style_context(widget);
     if (context == NULL) {
-        log_error(LOG_ERR, "Couldn't get style context of widget");
+        log_error(LOG_DEFAULT, "Couldn't get style context of widget");
         /* don't free the context, it's owned by the widget */
         return FALSE;
     }

@@ -355,7 +355,7 @@ static void riotcore_int_riot(CLOCK offset, void *data)
 
 void riotcore_setup_context(riot_context_t *riot_context)
 {
-    riot_context->log = LOG_ERR;
+    riot_context->log = LOG_DEFAULT;
     riot_context->read_clk = 0;
     riot_context->read_offset = 0;
     riot_context->last_read = 0;

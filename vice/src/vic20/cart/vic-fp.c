@@ -141,7 +141,7 @@ static int ram5_flop;
 static unsigned int cart_rom_bank;
 
 static int vic_fp_writeback;
-static log_t fp_log = LOG_ERR;
+static log_t fp_log = LOG_DEFAULT;
 
 static char *vic_fp_filename = NULL;
 static int vic_fp_filetype = 0;
@@ -318,7 +318,7 @@ void vic_fp_powerup(void)
 
 void vic_fp_init(void)
 {
-    if (fp_log == LOG_ERR) {
+    if (fp_log == LOG_DEFAULT) {
         fp_log = log_open(CARTRIDGE_VIC20_NAME_FP);
     }
 }

@@ -207,7 +207,7 @@ typedef struct rs232 {
 
 /* And these things */
 static rs232_t fds[RS232_NUM_DEVICES]; /* status for all open RS232_NUM_DEVICES devices */
-static log_t rs232dev_log = LOG_ERR;   /* logger */
+static log_t rs232dev_log = LOG_DEFAULT;   /* logger */
 
 /* ------------------------------------------------------------------------- */
 

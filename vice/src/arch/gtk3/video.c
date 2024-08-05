@@ -49,7 +49,7 @@
 
 /** \brief  Log for Gtk3-native video messages
  */
-static log_t    gtk3video_log = LOG_ERR;
+static log_t    gtk3video_log = LOG_DEFAULT;
 
 /** \brief  Set <CHIP>AspectMode resource (integer)
  *
@@ -404,7 +404,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
  */
 int video_init(void)
 {
-    if (gtk3video_log == LOG_ERR) {
+    if (gtk3video_log == LOG_DEFAULT) {
         gtk3video_log = log_open("Gtk3Video");
     }
     return 0;

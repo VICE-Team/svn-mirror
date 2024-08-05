@@ -130,7 +130,7 @@ int plus4cart_load_func_lo(const char *rom_name)
     /* Load 3plus1 low ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name, machine_name, extromlo1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Couldn't load 3plus1 low ROM `%s'.",
                       rom_name);
             return -1;
@@ -150,7 +150,7 @@ int plus4cart_load_func_hi(const char *rom_name)
     /* Load 3plus1 high ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name, machine_name, extromhi1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Couldn't load 3plus1 high ROM `%s'.",
                       rom_name);
             return -1;
@@ -171,7 +171,7 @@ int plus4cart_load_c2lo(const char *rom_name)
     /* Load c2 low ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name, machine_name, extromlo3, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Couldn't load cartridge 2 low ROM `%s'.",
                       rom_name);
             return -1;
@@ -192,7 +192,7 @@ int plus4cart_load_c2hi(const char *rom_name)
     /* Load c2 high ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name, machine_name, extromhi3, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Couldn't load cartridge 2 high ROM `%s'.",
                       rom_name);
             return -1;

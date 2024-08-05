@@ -48,7 +48,7 @@
 #include "util.h"
 
 
-static log_t cbm2rom_log = LOG_ERR;
+static log_t cbm2rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the ROM has been loaded. */
 static int rom_loaded = 0;
@@ -186,7 +186,7 @@ int mem_load(void)
     int i;
     const char *rom_name = NULL;
 
-    if (cbm2rom_log == LOG_ERR) {
+    if (cbm2rom_log == LOG_DEFAULT) {
         cbm2rom_log = log_open("CBM2MEM");
     }
 

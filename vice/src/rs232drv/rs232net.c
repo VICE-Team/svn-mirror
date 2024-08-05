@@ -104,7 +104,7 @@ typedef struct rs232net {
  * initialized to their '0' value, see 6.7.8.10 */
 static rs232net_t fds[RS232_NUM_DEVICES];
 
-static log_t rs232net_log = LOG_ERR;
+static log_t rs232net_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 

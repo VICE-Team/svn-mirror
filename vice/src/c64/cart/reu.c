@@ -233,7 +233,7 @@ static uint8_t *reu_ram = NULL;
     buffer has to cleared when resizing the REU. */
 static unsigned int old_reu_ram_size = 0;
 
-static log_t reu_log = LOG_ERR; /*!< the log output for the REU */
+static log_t reu_log = LOG_DEFAULT; /*!< the log output for the REU */
 
 static int reu_activate(void);
 static int reu_deactivate(void);

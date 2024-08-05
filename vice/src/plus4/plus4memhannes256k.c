@@ -48,7 +48,7 @@
 /* HANNES 256K registers */
 static uint8_t h256k_reg = 0;
 
-static log_t h256k_log = LOG_ERR;
+static log_t h256k_log = LOG_DEFAULT;
 
 static int h256k_activate(int type);
 static int h256k_deactivate(void);

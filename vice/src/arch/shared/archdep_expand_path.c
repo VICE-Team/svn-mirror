@@ -86,7 +86,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = lib_strdup(orig_name);
 #else
     /* fallback */
-    log_error(LOG_ERR, "unsupported OS: just returning input.");
+    log_error(LOG_DEFAULT, "unsupported OS: just returning input.");
     *return_path = lib_strdup(orig_name);
 #endif
     return 0;

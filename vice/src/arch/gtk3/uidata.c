@@ -62,7 +62,7 @@ gboolean uidata_init(void)
 #endif
 
     if (sysfile_locate(UIDATA_GRESOURCE_FILE, "common", &path) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "failed to find resource data '%s'.",
                   UIDATA_GRESOURCE_FILE);
         return FALSE;
@@ -70,7 +70,7 @@ gboolean uidata_init(void)
 
     gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "failed to load resource data '%s': %s.",
                   path, err->message);
         g_clear_error(&err);
@@ -130,7 +130,7 @@ GdkPixbuf *uidata_get_pixbuf(const gchar *name)
     buf = gdk_pixbuf_new_from_resource(path, &err);
     lib_free(path);
     if (err) {
-        log_error(LOG_ERR, "Failed to obtain pixbuf for %s, Error: %s", name, err->message);
+        log_error(LOG_DEFAULT, "Failed to obtain pixbuf for %s, Error: %s", name, err->message);
         g_clear_error(&err);
     }
     return buf;
@@ -160,7 +160,7 @@ GdkPixbuf *uidata_get_pixbuf_at_scale(const gchar *name,
                                                 preserve_aspect, &err);
     lib_free(path);
     if (err) {
-        log_error(LOG_ERR, "Failed to obtain pixbuf for %s, Error: %s", name, err->message);
+        log_error(LOG_DEFAULT, "Failed to obtain pixbuf for %s, Error: %s", name, err->message);
         g_clear_error(&err);
     }
     return buf;
@@ -184,7 +184,7 @@ GBytes *uidata_get_bytes(const gchar *name)
             G_RESOURCE_LOOKUP_FLAGS_NONE, &err);
     lib_free(path);
     if (bytes == NULL) {
-        log_error(LOG_ERR, "failed: %s.", err->message);
+        log_error(LOG_DEFAULT, "failed: %s.", err->message);
         g_clear_error(&err);
     }
     return bytes;

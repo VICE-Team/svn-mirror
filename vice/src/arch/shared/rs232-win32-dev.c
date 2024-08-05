@@ -199,7 +199,7 @@ typedef struct rs232dev {
 
 static rs232dev_t fds[RS232_NUM_DEVICES];
 
-static log_t rs232dev_log = LOG_ERR;
+static log_t rs232dev_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 

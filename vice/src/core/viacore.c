@@ -1821,7 +1821,7 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->read_clk = 0;
     via_context->read_offset = 0;
     via_context->last_read = 0;
-    via_context->log = LOG_ERR;
+    via_context->log = LOG_DEFAULT;
 
     via_context->my_module_name_alt1 = NULL;
     via_context->my_module_name_alt2 = NULL;
@@ -1851,7 +1851,7 @@ void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
 {
     char *buffer;
 
-    if (via_context->log == LOG_ERR) {
+    if (via_context->log == LOG_DEFAULT) {
         via_context->log = log_open(via_context->my_module_name);
     }
 

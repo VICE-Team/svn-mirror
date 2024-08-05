@@ -73,7 +73,7 @@ GtkWidget *printer_output_device_widget_create(int device)
         strncpy(resource, "PrinterUserportTextDevice", sizeof resource - 1u);
         resource[sizeof resource - 1u] = '\0';
     } else {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): invalid device number %d.",
                   __func__, device);
         return NULL;

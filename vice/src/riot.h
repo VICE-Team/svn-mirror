@@ -44,7 +44,7 @@ typedef struct riot_context_s {
     uint8_t old_pa;
     uint8_t old_pb;
 
-    signed int log;       /* init to LOG_ERR */
+    signed int log;       /* init to LOG_DEFAULT */
 
     struct alarm_s *alarm;
 

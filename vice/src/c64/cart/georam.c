@@ -108,7 +108,7 @@ static uint8_t georam[2];
 static uint8_t *georam_ram = NULL;
 static int old_georam_ram_size = 0;
 
-static log_t georam_log = LOG_ERR;
+static log_t georam_log = LOG_DEFAULT;
 
 static int georam_activate(void);
 static int georam_deactivate(void);

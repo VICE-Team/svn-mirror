@@ -66,7 +66,7 @@
 
 /* Log descriptor.  */
 #ifdef DEBUG_MOUSE
-static log_t mouse_log = LOG_ERR;
+static log_t mouse_log = LOG_DEFAULT;
 #endif
 
 /* Weird trial and error based number here :( larger causes mouse jumps. */

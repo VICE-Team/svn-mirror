@@ -30,7 +30,7 @@
 #include "fsdrive.h"
 #include "snapshot.h"
 
-static log_t fsdrive_snapshot_log = LOG_ERR;
+static log_t fsdrive_snapshot_log = LOG_DEFAULT;
 
 void fsdrive_snapshot_prepare(void)
 {

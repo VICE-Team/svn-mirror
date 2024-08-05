@@ -80,7 +80,7 @@
 #define DBG(x)
 #endif
 
-static log_t sdlvideo_log = LOG_ERR;
+static log_t sdlvideo_log = LOG_DEFAULT;
 
 static int sdl_bitdepth;
 

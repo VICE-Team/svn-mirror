@@ -83,7 +83,7 @@ static void remove_checkpoint_from_list(checkpoint_list_t **head, mon_checkpoint
     }
 
     if (!cur_entry) {
-        log_error(LOG_ERR, "Invalid checkpoint entry!");
+        log_error(LOG_DEFAULT, "Invalid checkpoint entry!");
         return;
     } else {
         if (!prev_entry) {

@@ -93,7 +93,7 @@ static int rrnetmk3_hw_flashjumper = 0; /* status of the flash jumper */
 
 static uint8_t rrnetmk3_biossel = 0; /* 0 = ROM is mapped */
 
-static log_t rrnetmk3_log = LOG_ERR;
+static log_t rrnetmk3_log = LOG_DEFAULT;
 
 static uint8_t rrnetmk3_bios[0x2002];
 static int rrnetmk3_bios_offset = 0;

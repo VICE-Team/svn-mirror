@@ -585,11 +585,11 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
             } else {
                 if (mem2 != e_invalid_space) {
                     if (!(mem1 == mem2)) {
-                        log_error(LOG_ERR, "Invalid memspace!");
+                        log_error(LOG_DEFAULT, "Invalid memspace!");
                         return 0;
                     }
                 } else {
-                    log_error(LOG_ERR, "Invalid memspace!");
+                    log_error(LOG_DEFAULT, "Invalid memspace!");
                     return 0;
                 }
             }
@@ -857,7 +857,7 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
         if (sidefx == 0) {
-            log_error(LOG_ERR, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
+            log_error(LOG_DEFAULT, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
         }
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
@@ -881,7 +881,7 @@ uint8_t mon_get_mem_val_ex_nosfx(MEMSPACE mem, int bank, uint16_t mem_addr)
     if (mon_interfaces[mem]->mem_bank_peek != NULL) {
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
-        log_error(LOG_ERR, "mon_get_mem_val_ex_nosfx: mem_bank_peek() not implemented for memspace %u.", mem);
+        log_error(LOG_DEFAULT, "mon_get_mem_val_ex_nosfx: mem_bank_peek() not implemented for memspace %u.", mem);
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
 }
@@ -2203,7 +2203,7 @@ int mon_playback_commands(const char *filename, bool interrupt_current_playback)
          * Need to grow the playback FP stack. But look out for insane playback include depth.
          */
         if (playback_fp_stack_size_max >= PLAYBACK_MAX_FP_DEPTH) {
-            log_error(LOG_ERR, "Max level of playback file depth %d reached, exiting", playback_fp_stack_size_max);
+            log_error(LOG_DEFAULT, "Max level of playback file depth %d reached, exiting", playback_fp_stack_size_max);
             archdep_vice_exit(1);
         }
 
@@ -2219,7 +2219,7 @@ int mon_playback_commands(const char *filename, bool interrupt_current_playback)
     }
 
     if (fp == NULL) {
-        log_error(LOG_ERR, "Failed to open playback file: '%s'", filename);
+        log_error(LOG_DEFAULT, "Failed to open playback file: '%s'", filename);
         mon_out("Cannot open '%s'.\n", filename);
         return -1;
     }
@@ -2605,7 +2605,7 @@ void mon_print_conditional(cond_node_t *cnode)
 
     if (cnode->operation != e_INV) {
         if (!(cnode->child1 && cnode->child2)) {
-            log_error(LOG_ERR, "No conditional!");
+            log_error(LOG_DEFAULT, "No conditional!");
             return;
         }
         mon_print_conditional(cnode->child1);
@@ -2644,7 +2644,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         int value_1, value_2;
 
         if (!(cnode->child1 && cnode->child2)) {
-            log_error(LOG_ERR, "No conditional!");
+            log_error(LOG_DEFAULT, "No conditional!");
             return 0;
         }
         value_1 = mon_evaluate_conditional(cnode->child1);
@@ -2686,7 +2686,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 break;
             case e_DIV:
                 if (value_2 == 0) {
-                    log_error(LOG_ERR, "Division by zero in conditional\n");
+                    log_error(LOG_DEFAULT, "Division by zero in conditional\n");
                     return 0;
                 }
                 cnode->value = (value_1 / value_2);
@@ -2698,7 +2698,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 cnode->value = (value_1 | value_2);
                 break;
             default:
-                log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
+                log_error(LOG_DEFAULT, "Unexpected conditional operator: %d\n",
                           cnode->operation);
                 return 0;
         }

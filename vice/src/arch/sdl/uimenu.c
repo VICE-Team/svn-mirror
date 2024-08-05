@@ -480,7 +480,7 @@ static const char *get_itemdata_for_action(ui_menu_entry_t *item)
             break;
 
         default:
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "%s(): unhandled type %u for item %s without callback.",
                     __func__, item->type, item->string);
             itemdata = sdl_menu_text_unknown;
@@ -2090,7 +2090,7 @@ void sdl_ui_activate_item_action(ui_action_map_t *map)
             if (item->callback != NULL) {
                 item->callback(1 /*activated*/, item->data);
             } else {
-                log_error(LOG_ERR, "%s(): no callback to trigger!\n", __func__);
+                log_error(LOG_DEFAULT, "%s(): no callback to trigger!\n", __func__);
             }
         } else {
             /* menu isn't active, set trap */

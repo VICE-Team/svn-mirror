@@ -1483,7 +1483,7 @@ int cartridge_enable(int type)
     if (cart_type_enabled(type)) {
         return 0;
     }
-    log_error(LOG_ERR, "Failed to enable cartridge with ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed to enable cartridge with ID %d.", type);
     return -1;
 }
 
@@ -1586,7 +1586,7 @@ int cartridge_disable(int type)
     if (!cart_type_enabled(type)) {
         return 0;
     }
-    log_error(LOG_ERR, "Failed to disable cartridge with ID %d.\n", type);
+    log_error(LOG_DEFAULT, "Failed to disable cartridge with ID %d.\n", type);
     return -1;
 }
 
@@ -2828,7 +2828,7 @@ int cartridge_flush_image(int type)
         case CARTRIDGE_REU:
             return reu_flush_image();
     }
-    log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed flushing cartridge image for cartridge ID %d.", type);
     return -1;
 }
 
@@ -2851,7 +2851,7 @@ int cartridge_flush_secondary_image(int type)
         case CARTRIDGE_REX_RAMFLOPPY:
             return rexramfloppy_ram_flush();
     }
-    log_error(LOG_ERR, "Failed flushing secondary image for cartridge ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed flushing secondary image for cartridge ID %d.", type);
     return -1;
 }
 
@@ -2906,7 +2906,7 @@ int cartridge_bin_save(int type, const char *filename)
         case CARTRIDGE_REU:
             return reu_bin_save(filename);
     }
-    log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.\n", type);
+    log_error(LOG_DEFAULT, "Failed saving binary cartridge image for cartridge ID %d.\n", type);
     return -1;
 }
 
@@ -2929,7 +2929,7 @@ int cartridge_save_secondary_image(int type, const char *filename)
         case CARTRIDGE_REX_RAMFLOPPY:
             return rexramfloppy_ram_save(filename);
     }
-    log_error(LOG_ERR, "Failed saving secondary image for cartridge ID %d.\n", type);
+    log_error(LOG_DEFAULT, "Failed saving secondary image for cartridge ID %d.\n", type);
     return -1;
 }
 
@@ -2972,7 +2972,7 @@ int cartridge_crt_save(int type, const char *filename)
             return rrnetmk3_crt_save(filename);
 #endif
     }
-    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.", type);
+    log_error(LOG_DEFAULT, "Failed saving .crt cartridge image for cartridge ID %d.", type);
     return -1;
 }
 

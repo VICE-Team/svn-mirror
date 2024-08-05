@@ -57,7 +57,7 @@
 
 /* #define SDL_DEBUG */
 
-static log_t sdlkbd_log = LOG_ERR;
+static log_t sdlkbd_log = LOG_DEFAULT;
 
 /* Menu keys */
 int sdl_ui_menukeys[MENU_ACTION_NUM];

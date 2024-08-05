@@ -90,7 +90,7 @@ static int drive_init_was_called = 0;
 diskunit_context_t *diskunit_context[NUM_DISK_UNITS];
 
 /* Generic drive logging goes here.  */
-static log_t drive_log = LOG_ERR;
+static log_t drive_log = LOG_DEFAULT;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 int rom_loaded = 0;

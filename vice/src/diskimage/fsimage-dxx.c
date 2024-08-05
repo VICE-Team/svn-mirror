@@ -42,7 +42,7 @@
 #include "util.h"
 #include "x64.h"
 
-static log_t fsimage_dxx_log = LOG_ERR;
+static log_t fsimage_dxx_log = LOG_DEFAULT;
 
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  const disk_track_t *raw)

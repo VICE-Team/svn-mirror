@@ -541,11 +541,11 @@ GtkWidget *vice_gtk3_resource_combo_hex_new_range(const char *resource,
                                                   int         step)
 {
     if (upper <= lower) {
-        log_error(LOG_ERR, "%s(): invalid range %d-%d", __func__, lower, upper);
+        log_error(LOG_DEFAULT, "%s(): invalid range %d-%d", __func__, lower, upper);
         return NULL;
     }
     if (step < 1) {
-        log_error(LOG_ERR, "%s(): invalid step value %d", __func__, step);
+        log_error(LOG_DEFAULT, "%s(): invalid step value %d", __func__, step);
         return NULL;
     }
     return combo_hex_helper(resource,
@@ -677,7 +677,7 @@ static void combo_str_model_append(GtkListStore *model,
                            COLUMN_VALUE, value,
                            -1);
     } else {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "%s(): cannot append row, `id` and `value` must both be"
                   " non-NULL and non-empty",
                   __func__);

@@ -376,7 +376,7 @@ void machine_tape_init_c128(void)
     }
 }
 
-static log_t c128_log = LOG_ERR;
+static log_t c128_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

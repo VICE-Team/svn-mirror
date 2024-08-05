@@ -87,7 +87,7 @@ static BOOL os_is_win64(void)
 
     if (fnIsWow64Process != NULL) {
         if (!fnIsWow64Process(GetCurrentProcess(), &amd64))  {
-            log_error(LOG_ERR, "failed to determine arch");
+            log_error(LOG_DEFAULT, "failed to determine arch");
             return FALSE;
         }
     }

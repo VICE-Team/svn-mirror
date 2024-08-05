@@ -65,8 +65,7 @@ int log_init_with_fd(FILE *f);
 
 /* for individual log streams */
 typedef signed int log_t;
-#define LOG_ERR     ((log_t)-1)
-#define LOG_DEFAULT ((log_t)-2)
+#define LOG_DEFAULT ((log_t)-1)
 
 log_t log_open(const char *id);
 int log_close(log_t log);

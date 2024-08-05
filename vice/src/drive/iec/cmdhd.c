@@ -54,7 +54,6 @@
 #include "resources.h"
 
 #define LOG LOG_DEFAULT
-#define ERR LOG_ERR
 
 /* #define CMDLOG */
 /* #define CMDIO */
@@ -78,7 +77,7 @@
 #define BLOG(_x_)
 #endif
 
-#define CRIT(_x_) log_message _x_
+#define CRIT(_x_) log_error _x_
 
 #define iecbus (viap->v_iecbus)
 
@@ -1229,7 +1228,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
 
     if (!hd->mycontext->parallel_cable && rlpresent) {
         hd->mycontext->parallel_cable = 1;
-        CRIT((ERR, "CMDHD: RAMLink detected. Drive %u 'parallel cable' set to 'standard'.",
+        CRIT((LOG, "CMDHD: RAMLink detected. Drive %u 'parallel cable' set to 'standard'.",
             hd->mycontext->mynumber + 8));
     }
 }
@@ -1300,12 +1299,12 @@ void cmdhd_reset(cmdhd_context_t *hd)
     if (hd->imagesize < 144) {
         if (unit == 1) {
             hd->i8255a_i[1] &= 0xf9;
-            CRIT((ERR, "CMDHD: Image size too small, starting up in installation mode."));
+            CRIT((LOG, "CMDHD: Image size too small, starting up in installation mode."));
             if (hd->mycontext->parallel_cable) {
                 hd->mycontext->parallel_cable = 0;
-                CRIT((ERR, "CMDHD: Drive %u 'parallel cable' set to none. Set it back to 'standard' when",
+                CRIT((LOG, "CMDHD: Drive %u 'parallel cable' set to none. Set it back to 'standard' when",
                     hd->mycontext->mynumber + 8));
-                CRIT((ERR, "CMDHD: HDDOS installation is complete."));
+                CRIT((LOG, "CMDHD: HDDOS installation is complete."));
             }
         } else {
             /* remove scsi ID 0 */
@@ -1434,9 +1433,9 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
     hd->numattached++;
 
     if (hd->numattached > 1) {
-        CRIT((ERR, "CMDHD: Attaching a new DHD normally requires the drive to be manually reset as"));
-        CRIT((ERR, "CMDHD: the HDDOS is not designed to detect this. Exceptions are when handling"));
-        CRIT((ERR, "CMDHD: removable media on SCSI IDs other than 0 (ie. changing .S?? files)."));
+        CRIT((LOG, "CMDHD: Attaching a new DHD normally requires the drive to be manually reset as"));
+        CRIT((LOG, "CMDHD: the HDDOS is not designed to detect this. Exceptions are when handling"));
+        CRIT((LOG, "CMDHD: removable media on SCSI IDs other than 0 (ie. changing .S?? files)."));
     }
 
     return 0;

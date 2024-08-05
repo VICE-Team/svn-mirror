@@ -115,7 +115,7 @@ static plot_t drv_1520[NUM_OUTPUT_SELECT];
 static palette_t *palette = NULL;
 
 /* Logging goes here.  */
-static log_t drv1520_log = LOG_ERR;
+static log_t drv1520_log = LOG_DEFAULT;
 
 #define PIXEL_INDEX_WHITE       0
 #define PIXEL_INDEX_BLACK       1

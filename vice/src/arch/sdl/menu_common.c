@@ -96,7 +96,7 @@ UI_MENU_CALLBACK(submenu_radio_callback)
                         break;
                     }
                 } else {
-                    log_error(LOG_ERR,
+                    log_error(LOG_DEFAULT,
                               "item %s doesn't have a callback but also not a"
                               " resource name set or a `checked` function set.",
                               item->string);

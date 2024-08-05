@@ -257,7 +257,7 @@ static mps_t drv_mps803[NUM_OUTPUT_SELECT];
 static palette_t *palette = NULL;
 
 /* FIXME: log per mps_t? */
-static log_t drv803_log = LOG_ERR;
+static log_t drv803_log = LOG_DEFAULT;
 
 /* global mode */
 #define MPS_REVERSE  0x01

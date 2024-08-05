@@ -62,7 +62,7 @@ int archdep_path_is_relative(const char *path)
     }
     return 1;
 #else
-    log_error(LOG_ERR, "system not supported.");
+    log_error(LOG_DEFAULT, "system not supported.");
     archdep_vice_exit(1);
 #endif
 }

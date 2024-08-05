@@ -139,7 +139,7 @@ static int mem6809_read_limit_tab[0x101];
 read_func_ptr_t *_mem6809_read_tab_ptr;
 store_func_ptr_t *_mem6809_write_tab_ptr;
 
-static log_t pet_mem_log = LOG_ERR;
+static log_t pet_mem_log = LOG_DEFAULT;
 
 static uint8_t last_access = 0;
 

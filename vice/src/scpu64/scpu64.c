@@ -196,7 +196,7 @@ static const trap_t scpu64_serial_traps[] = {
     { NULL, 0, 0, { 0, 0, 0 }, NULL, NULL, NULL }
 };
 
-static log_t scpu64_log = LOG_ERR;
+static log_t scpu64_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

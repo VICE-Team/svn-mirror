@@ -304,11 +304,11 @@ bool m3u_open(const char *path,
               bool (*directive_callback)(m3u_ext_id_t id, const char *arg, size_t len))
 {
     if (path == NULL || *path == '\0') {
-        log_error(LOG_ERR, "m3u: path argument cannot be NULL or empty.");
+        log_error(LOG_DEFAULT, "m3u: path argument cannot be NULL or empty.");
         return false;
     }
     if (entry_callback == NULL) {
-        log_error(LOG_ERR, "m3u: entry_callback entry cannot be NULL.");
+        log_error(LOG_DEFAULT, "m3u: entry_callback entry cannot be NULL.");
         return false;
     }
     playlist_path = lib_strdup(path);
@@ -319,7 +319,7 @@ bool m3u_open(const char *path,
     /* try to open file for reading */
     playlist_fp = fopen(path, "rb");
     if (playlist_fp == NULL) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to open %s for reading: errno %d: %s.",
                   path, errno, strerror(errno));
         return false;
@@ -346,7 +346,7 @@ bool m3u_open(const char *path,
 static bool have_output_file(void)
 {
     if (playlist_fp == NULL) {
-        log_error(LOG_ERR, "m3u: no output file.");
+        log_error(LOG_DEFAULT, "m3u: no output file.");
         return false;
     }
     return true;
@@ -367,7 +367,7 @@ static bool m3u_append_string(const char *s)
         return false;
     }
     if (fputs(s, playlist_fp) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to write to %s: errno %d: %s.",
                   playlist_path, errno, strerror(errno));
         return false;
@@ -389,7 +389,7 @@ bool m3u_create(const char *path)
     /* open file for writing */
     playlist_fp = fopen(path, "w");
     if (playlist_fp == NULL) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to open %s for writing: errno %d: %s.",
                   path, errno, strerror(errno));
         return false;
@@ -426,11 +426,11 @@ bool m3u_set_playlist_title(const char *title)
         return false;
     }
     if (have_playlist_title) {
-        log_error(LOG_ERR, "m3u: playlist title has already been set.");
+        log_error(LOG_DEFAULT, "m3u: playlist title has already been set.");
         return false;
     }
     if (fprintf(playlist_fp, "#PLAYLIST: %s\n", title) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to write playlist title: errno %d: %s.",
                   errno, strerror(errno));
         return false;
@@ -478,7 +478,7 @@ bool m3u_append_comment(const char *comment)
         comment++;
     }
     if (fprintf(playlist_fp, "# %s\n", comment) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to write comment: errno %d: %s.",
                   errno, strerror(errno));
         return false;
@@ -494,7 +494,7 @@ bool m3u_append_comment(const char *comment)
 bool m3u_append_newline(void)
 {
     if (fputc('\n', playlist_fp) < 0) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "m3u: failed to write to %s: errno %d: %s.",
                   playlist_path, errno, strerror(errno));
         return false;
@@ -539,7 +539,7 @@ bool m3u_parse(void)
     size_t len;
 
     if (playlist_fp == NULL) {
-        log_error(LOG_ERR, "m3u: no input file.");
+        log_error(LOG_DEFAULT, "m3u: no input file.");
         return false;
     }
 
@@ -575,7 +575,7 @@ bool m3u_parse(void)
             /* entry, check if directory or file */
             if (archdep_stat(temp, NULL, &isdir) < 0) {
                 /* error, report but ignore for now */
-                log_error(LOG_ERR, "m3u: stat() call failed on %s", temp);
+                log_error(LOG_DEFAULT, "m3u: stat() call failed on %s", temp);
                 lib_free(temp);
                 continue;
             }

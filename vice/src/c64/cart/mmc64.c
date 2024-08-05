@@ -147,7 +147,7 @@ static int mmc64_revision;
 static int mmc64_sd_type = 0;
 static uint8_t mmc64_image_file_readonly = 0;
 
-static log_t mmc64_log = LOG_ERR;
+static log_t mmc64_log = LOG_DEFAULT;
 
 static uint8_t mmc64_bios[0x2002];
 static int mmc64_bios_offset = 0;

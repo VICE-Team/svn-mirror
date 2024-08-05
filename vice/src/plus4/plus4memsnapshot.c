@@ -49,7 +49,7 @@
 #define DBG(x)
 #endif
 
-static log_t plus4_snapshot_log = LOG_ERR;
+static log_t plus4_snapshot_log = LOG_DEFAULT;
 
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0

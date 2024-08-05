@@ -84,7 +84,7 @@ video_canvas_t *video_canvas_init(void)
     }
 
     if (i == TRACKED_CANVAS_MAX) {
-        log_error(LOG_ERR, "Creating more than expected video_canvas_t, monitor will not refresh this canvas after each command");
+        log_error(LOG_DEFAULT, "Creating more than expected video_canvas_t, monitor will not refresh this canvas after each command");
     }
 
     return canvas;

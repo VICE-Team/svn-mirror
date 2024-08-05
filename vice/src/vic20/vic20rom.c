@@ -43,7 +43,7 @@
 #include "vic20rom.h"
 
 
-static log_t vic20rom_log = LOG_ERR;
+static log_t vic20rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int vicrom_loaded = 0;
@@ -187,7 +187,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (vic20rom_log == LOG_ERR) {
+    if (vic20rom_log == LOG_DEFAULT) {
         vic20rom_log = log_open("VIC20MEM");
     }
 

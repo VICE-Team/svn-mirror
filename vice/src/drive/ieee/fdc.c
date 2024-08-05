@@ -57,7 +57,7 @@
 
 #define NUM_FDC NUM_DISK_UNITS   /* dual disk drives */
 
-static log_t fdc_log = LOG_ERR;
+static log_t fdc_log = LOG_DEFAULT;
 
 typedef struct fdc_t {
     int          fdc_state;
@@ -967,7 +967,7 @@ void fdc_init(diskunit_context_t *drv)
     imgfdc->buffer = NULL;
     imgfdc->iprom = NULL;
 
-    if (fdc_log == LOG_ERR) {
+    if (fdc_log == LOG_DEFAULT) {
         fdc_log = log_open("fdc");
     }
 

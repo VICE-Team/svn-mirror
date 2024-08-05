@@ -282,7 +282,7 @@ static const tape_init_t tapeinit = {
     100 * 8
 };
 
-static log_t vic20_log = LOG_ERR;
+static log_t vic20_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

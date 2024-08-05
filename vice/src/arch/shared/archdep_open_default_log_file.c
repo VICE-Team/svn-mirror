@@ -66,7 +66,7 @@ FILE *archdep_open_default_log_file(void)
     path = archdep_default_logfile();
     fp = fopen(path, "w");
     if (fp == NULL) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                 "failed to open log file '%s' for writing.",
                 path);
     }

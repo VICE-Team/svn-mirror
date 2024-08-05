@@ -121,7 +121,7 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
                        NULL,                /* user data for child setup */
                        NULL,                /* child process ID */
                        &error)) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "failed to launch file manager to view directory: %s",
                   error->message);
         g_error_free(error);
@@ -131,7 +131,7 @@ static void on_launcher_clicked(GtkWidget *button, gpointer data)
                                 uri,
                                 GDK_CURRENT_TIME,
                                 &error)) {
-        log_error(LOG_ERR,
+        log_error(LOG_DEFAULT,
                   "failed to lauch file manager to view directory: %s",
                   error->message);
         g_error_free(error);

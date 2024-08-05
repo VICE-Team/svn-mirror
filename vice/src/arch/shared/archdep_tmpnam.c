@@ -98,7 +98,7 @@ char *archdep_tmpnam(void)
     temp_name = lib_malloc(ARCHDEP_PATH_MAX + 1U);
 
     if (GetTempPath(ARCHDEP_PATH_MAX, temp_path) == 0) {
-        log_error(LOG_ERR, "failed to get Windows temp dir.");
+        log_error(LOG_DEFAULT, "failed to get Windows temp dir.");
         lib_free(temp_path);
         lib_free(temp_name);
         archdep_vice_exit(1);
@@ -106,7 +106,7 @@ char *archdep_tmpnam(void)
 
 
     if (GetTempFileName(temp_path, "vice", 0, temp_name) == 0) {
-        log_error(LOG_ERR, "failed to construct a Windows temp file.");
+        log_error(LOG_DEFAULT, "failed to construct a Windows temp file.");
         lib_free(temp_path);
         lib_free(temp_name);
         archdep_vice_exit(1);

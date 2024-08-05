@@ -72,7 +72,7 @@
 #include "uiapi.h"
 #endif
 
-static log_t vdrive_log = LOG_ERR;
+static log_t vdrive_log = LOG_DEFAULT;
 
 void vdrive_init(void)
 {

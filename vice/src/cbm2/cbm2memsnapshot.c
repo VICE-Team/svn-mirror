@@ -43,7 +43,7 @@
 #include "snapshot.h"
 #include "types.h"
 
-static log_t cbm2_snapshot_log = LOG_ERR;
+static log_t cbm2_snapshot_log = LOG_DEFAULT;
 
 /*
  * CBM2 memory dump should be 128, 256, 512 or 1024k, depending on the

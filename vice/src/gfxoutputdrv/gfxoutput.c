@@ -62,7 +62,7 @@ typedef struct gfxoutputdrv_list_s gfxoutputdrv_list_t;
 
 static gfxoutputdrv_list_t *gfxoutputdrv_list = NULL;
 static int gfxoutputdrv_list_count = 0;
-static log_t gfxoutput_log = LOG_ERR;
+static log_t gfxoutput_log = LOG_DEFAULT;
 static gfxoutputdrv_list_t *gfxoutputdrv_list_iter = NULL;
 
 

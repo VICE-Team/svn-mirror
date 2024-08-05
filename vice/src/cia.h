@@ -144,7 +144,7 @@ typedef struct cia_context_s {
     CLOCK power_ticks;
     CLOCK ticks_per_sec;
 
-    signed int log;               /* init to LOG_ERR */
+    signed int log;               /* init to LOG_DEFAULT */
 
     struct ciat_s *ta;
     struct ciat_s *tb;

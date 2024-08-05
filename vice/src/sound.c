@@ -60,7 +60,7 @@
 #include "ui.h"
 
 
-log_t sound_log = LOG_ERR;
+log_t sound_log = LOG_DEFAULT;
 
 static void sounddev_close(const sound_device_t **dev);
 

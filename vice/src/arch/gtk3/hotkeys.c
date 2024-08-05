@@ -81,7 +81,7 @@ static GtkAccelGroup *accel_group = NULL;
 static gboolean valid_window_id(gint window_id)
 {
     if (window_id != PRIMARY_WINDOW && window_id != SECONDARY_WINDOW) {
-        log_error(LOG_ERR, "Invalid window ID of %d.", window_id);
+        log_error(LOG_DEFAULT, "Invalid window ID of %d.", window_id);
         return FALSE;
     }
     return TRUE;

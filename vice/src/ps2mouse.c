@@ -42,7 +42,7 @@ static void mouse_button_middle(int pressed);
 static void mouse_button_up(int pressed);
 static void mouse_button_down(int pressed);
 
-static log_t ps2mouse_log = LOG_ERR;
+static log_t ps2mouse_log = LOG_DEFAULT;
 
 #if 0
 #define PS2MOUSE_DEBUG(args ...) log_message(ps2mouse_log, args)
@@ -504,7 +504,7 @@ int mouse_ps2_cmdline_options_init(void)
 
 void mouse_ps2_init(void)
 {
-    if (ps2mouse_log == LOG_ERR) {
+    if (ps2mouse_log == LOG_DEFAULT) {
         ps2mouse_log = log_open("ps2mouse");
     }
 

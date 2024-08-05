@@ -42,7 +42,7 @@
 #include "util.h"
 #include "p64.h"
 
-static log_t fsimage_p64_log = LOG_ERR;
+static log_t fsimage_p64_log = LOG_DEFAULT;
 
 /*-----------------------------------------------------------------------*/
 /* Intial P64 buffer setup.  */

@@ -236,7 +236,7 @@ static const tape_init_t tapeinit = {
     100 * 8
 };
 
-static log_t c64_log = LOG_ERR;
+static log_t c64_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */

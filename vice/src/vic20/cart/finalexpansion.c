@@ -128,7 +128,7 @@ static uint8_t register_b;
 static uint8_t lock_bit;
 
 static int finalexpansion_writeback;
-static log_t fe_log = LOG_ERR;
+static log_t fe_log = LOG_DEFAULT;
 
 static char *finalexpansion_filename = NULL;
 static int finalexpansion_filetype = 0;
@@ -619,7 +619,7 @@ void finalexpansion_powerup(void)
 
 void finalexpansion_init(void)
 {
-    if (fe_log == LOG_ERR) {
+    if (fe_log == LOG_DEFAULT) {
         fe_log = log_open(CARTRIDGE_VIC20_NAME_FINAL_EXPANSION);
     }
 

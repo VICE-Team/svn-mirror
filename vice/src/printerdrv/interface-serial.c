@@ -58,7 +58,7 @@ static int interface_opencbm_detach(unsigned int prnr);
 static int interface_serial_attach(unsigned int prnr);
 static int interface_serial_detach(unsigned int prnr);
 
-static log_t interface_serial_log = LOG_ERR;
+static log_t interface_serial_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 

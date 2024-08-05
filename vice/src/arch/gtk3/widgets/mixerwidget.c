@@ -510,7 +510,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
             || machine_class == VICE_MACHINE_PLUS4) {
         /* check for presence of SidCart */
         if (resources_get_int("SidCart", &tmp) < 0) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                     "failed to get value for resource SidCart, bailing!");
             return NULL;
         }
@@ -574,7 +574,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     }
 
     if (resources_get_int("SidModel", &model) < 0) {
-        log_error(LOG_ERR, "failed to get SidModel resource");
+        log_error(LOG_DEFAULT, "failed to get SidModel resource");
         return NULL;
     }
 

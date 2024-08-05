@@ -685,7 +685,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
         return 0;
     }
 
-    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR)) {
+    if (logi != LOG_DEFAULT) {
         if ((logs == NULL) || (logi < 0)|| (logi >= num_logs) || (logs[logi] == NULL)) {
             DBG(("log_helper: internal error (invalid id or closed log), messages follows:\n"));
             return -1;
@@ -693,7 +693,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     }
 
     /* prepend the log_t prefix, and the loglevel string */
-    if ((log_file != NULL) && (logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
+    if ((log_file != NULL) && (logi != LOG_DEFAULT) && (*logs[logi] != '\0')) {
         pretxt = lib_msprintf(LOG_COL_LWHITE "%s" LOG_COL_OFF ": %s", logs[logi], lvlstr);
     } else {
         pretxt = lib_msprintf("%s", lvlstr);

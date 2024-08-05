@@ -39,7 +39,7 @@
 #ifdef USE_PORTAUDIO
 #include <portaudio.h>
 
-static log_t portaudio_log = LOG_ERR;
+static log_t portaudio_log = LOG_DEFAULT;
 
 static int stream_started = 0;
 static PaStream *stream = NULL;

@@ -53,7 +53,7 @@
 /* PLUS256K registers */
 static uint8_t plus256k_reg = 0;
 
-static log_t plus256k_log = LOG_ERR;
+static log_t plus256k_log = LOG_DEFAULT;
 
 static int plus256k_activate(void);
 static int plus256k_deactivate(void);

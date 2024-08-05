@@ -58,7 +58,7 @@
 #define DEFAULT_JOYSTICK_FUZZ      1000
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-static log_t sdljoy_log = LOG_ERR;
+static log_t sdljoy_log = LOG_DEFAULT;
 
 /* Autorepeat in menu & vkbd */
 static ui_menu_action_t autorepeat;

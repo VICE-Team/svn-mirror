@@ -45,7 +45,7 @@
 #include "snapshot.h"
 
 #ifdef DEBUG
-static log_t c64dtvdma_log = LOG_ERR;
+static log_t c64dtvdma_log = LOG_DEFAULT;
 #endif
 
 static unsigned int c64dtv_dma_int_num;
@@ -84,7 +84,7 @@ static uint8_t dest_memtype = 0x00;
 void c64dtvdma_init(void)
 {
 #ifdef DEBUG
-    if (c64dtvdma_log == LOG_ERR) {
+    if (c64dtvdma_log == LOG_DEFAULT) {
         c64dtvdma_log = log_open("C64DTVDMA");
     }
 #endif
@@ -509,7 +509,7 @@ static const char snap_module_name[] = "C64DTVDMA";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-/* static log_t c64_snapshot_log = LOG_ERR; */
+/* static log_t c64_snapshot_log = LOG_DEFAULT; */
 
 int c64dtvdma_snapshot_write_module(snapshot_t *s)
 {

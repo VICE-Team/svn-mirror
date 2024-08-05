@@ -66,7 +66,7 @@
 #define DBG(x)
 #endif
 
-static log_t drive_snapshot_log = LOG_ERR;
+static log_t drive_snapshot_log = LOG_DEFAULT;
 
 static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr);
 static int drive_snapshot_write_gcrimage_module(snapshot_t *s,

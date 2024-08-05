@@ -49,7 +49,7 @@
 
 static int mus_load_file(const char* filename, int ispsid);
 
-static log_t vlog = LOG_ERR;
+static log_t vlog = LOG_DEFAULT;
 
 typedef struct psid_s {
     /* PSID data */
@@ -245,7 +245,7 @@ int psid_load_file(const char* filename)
         firstfile = 1;
     }
 
-    if (vlog == LOG_ERR) {
+    if (vlog == LOG_DEFAULT) {
         vlog = log_open("Vsid");
     }
 

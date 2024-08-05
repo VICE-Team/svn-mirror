@@ -80,7 +80,7 @@ static int tape_is_initialized = 0;
 static const trap_t *tape_traps;
 
 /* Logging goes here.  */
-static log_t tape_log = LOG_ERR;
+static log_t tape_log = LOG_DEFAULT;
 
 /* The tape image for device 1. */
 tape_image_t *tape_image_dev[TAPEPORT_MAX_PORTS] = { NULL };
@@ -139,7 +139,7 @@ int tape_init(const tape_init_t *init)
 {
     int i;
 
-    if (tape_log == LOG_ERR) {
+    if (tape_log == LOG_DEFAULT) {
         tape_log = log_open("Tape");
     }
 

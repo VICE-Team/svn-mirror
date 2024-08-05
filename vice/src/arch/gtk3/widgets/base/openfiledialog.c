@@ -59,7 +59,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 filename_cb(dialog, filename, data);
             } else {
                 /* should never be reached */
-                log_error(LOG_ERR, "filename is NULL.");
+                log_error(LOG_DEFAULT, "filename is NULL.");
             }
             break;
         default:

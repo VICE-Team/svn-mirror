@@ -290,7 +290,7 @@ static const tape_init_t tapeinit = {
     264 * 8
 };
 
-static log_t plus4_log = LOG_ERR;
+static log_t plus4_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /*
