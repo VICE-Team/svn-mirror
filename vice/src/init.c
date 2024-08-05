@@ -62,7 +62,7 @@
 /* #define DBGINIT */
 
 #ifdef DBGINIT
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -83,7 +83,7 @@ void init_resource_fail(const char *module)
 
 int init_resources(void)
 {
-    DBG(("init_resources\n"));
+    DBG(("init_resources"));
     if (resources_init(machine_get_name())) {
         archdep_startup_log_error("Cannot initialize resource handling.\n");
         return -1;
@@ -150,6 +150,7 @@ int init_resources(void)
         return -1;
     }
 #endif
+    DBG(("init_resources done"));
     return 0;
 }
 
@@ -161,6 +162,7 @@ void init_cmdline_options_fail(const char *module)
 
 int init_cmdline_options(void)
 {
+    DBG(("init_cmdline_options"));
     if (cmdline_init()) {
         archdep_startup_log_error("Cannot initialize command-line handling.\n");
         return -1;
@@ -232,6 +234,7 @@ int init_cmdline_options(void)
         return -1;
     }
 #endif
+    DBG(("init_cmdline_options done"));
     return 0;
 }
 

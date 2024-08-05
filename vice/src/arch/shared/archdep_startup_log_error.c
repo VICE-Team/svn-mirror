@@ -42,7 +42,7 @@
 #include "archdep_startup_log_error.h"
 
 
-/** \brief  Log an error message while the log system isn't initliazed yet
+/** \brief  Log an error message while the log system isn't initialized yet
  *
  * \param[in]   format  format string
  */
