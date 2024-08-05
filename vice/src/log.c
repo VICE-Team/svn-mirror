@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -516,7 +517,19 @@ log_t log_open(const char *id)
     log_t i;
 
     LOCK();
-
+#if 0
+    /* first check if we have a log with the same tag */
+    /* FIXME: this is costly and stupid - we should use something with a hash
+              table or whatever else is quicker */
+    for (i = 0; i < num_logs; i++) {
+        if (logs[i] == NULL) {
+            if (!strcmp(id, logs[i])) {
+                printf("log_open(%s) exists: %d\n", id, (int)new_log);
+                UNLOCK_AND_RETURN_INT(i);
+            }
+        }
+    }
+#endif
     for (i = 0; i < num_logs; i++) {
         if (logs[i] == NULL) {
             new_log = i;
@@ -530,16 +543,15 @@ log_t log_open(const char *id)
 
     logs[new_log] = lib_strdup(id);
 
-    /* printf("log_open(%s) = %d\n", id, (int)new_log); */
-    UNLOCK();
-    return new_log;
+    /*printf("log_open(%s) = %d\n", id, (int)new_log);*/
+    UNLOCK_AND_RETURN_INT(new_log);
 }
 
 int log_close(log_t log)
 {
     LOCK();
 
-    /* printf("log_close(%d)\n", (int)log); */
+    /*printf("log_close(%s) = %d\n", logs[(unsigned int)log], (int)log);*/
     if (logs[(unsigned int)log] == NULL) {
         UNLOCK_AND_RETURN_INT(-1);
     }
@@ -628,6 +640,8 @@ static int log_tofile(const char *pretxt, const char *logtxt)
     return rc;
 }
 
+/* works like strdup, but produces a copy of the string which does
+   not contain any escape sequences in the form 0x1b [ xxx m */
 static char *logskipcolors(char *txt)
 {
     char *p = lib_strdup(txt);
@@ -670,7 +684,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
 
     const char *lvlstr = level_strings[(level >> 5) & 7];
 
-    const signed int logi = (signed int)log;
+    signed int logi = (signed int)log;
     int rc = 0;
     char *pretxt = NULL;
     char *logtxt = NULL;
@@ -686,17 +700,17 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     }
 
     if (logi != LOG_DEFAULT) {
-        if ((logs == NULL) || (logi < 0)|| (logi >= num_logs) || (logs[logi] == NULL)) {
-            DBG(("log_helper: internal error (invalid id or closed log), messages follows:\n"));
-            return -1;
+        if ((logs == NULL) || (logi < 0) || (logi >= num_logs) || (logs[logi] == NULL)) {
+            DBG(("log_helper: internal error (invalid id or closed log), message follows:\n"));
+            logi = LOG_DEFAULT;
         }
     }
 
     /* prepend the log_t prefix, and the loglevel string */
-    if ((log_file != NULL) && (logi != LOG_DEFAULT) && (*logs[logi] != '\0')) {
-        pretxt = lib_msprintf(LOG_COL_LWHITE "%s" LOG_COL_OFF ": %s", logs[logi], lvlstr);
-    } else {
+    if ((logi == LOG_DEFAULT) || (*logs[logi] == '\0')) {
         pretxt = lib_msprintf("%s", lvlstr);
+    } else {
+        pretxt = lib_msprintf(LOG_COL_LWHITE "%s" LOG_COL_OFF ": %s", logs[logi], lvlstr);
     }
     /* build the log string */
     logtxt = lib_mvsprintf(format, ap);

@@ -252,6 +252,8 @@ raster_t *vicii_init(unsigned int flag)
         return NULL;
     }
 
+    /* log_debug(LOG_DEFAULT, "vicii_init(%d)", flag); */
+
     vicii.log = log_open("VIC-II");
 
     vicii_chip_model_init();
