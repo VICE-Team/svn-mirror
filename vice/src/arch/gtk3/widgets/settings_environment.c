@@ -86,8 +86,7 @@ GtkWidget *settings_environment_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), logfile_widget, 0, row, 1, 1);
     row++;
 
-    if ((machine_class == VICE_MACHINE_C64SC) ||
-        (machine_class == VICE_MACHINE_VIC20)) {
+    if ((machine_class != VICE_MACHINE_SCPU64)) {
 
         grid2 = gtk_grid_new();
         gtk_grid_set_column_spacing(GTK_GRID(grid2), 8);
