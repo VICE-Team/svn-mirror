@@ -53,6 +53,8 @@
 
 #define MAXSID 3
 
+static log_t sid_log = LOG_DEFAULT;
+
 static int sids_found = -1;
 
 static int pssids[MAXSID] = {-1, -1, -1};
@@ -170,6 +172,10 @@ int ps_ieee1284_open(void)
     int cap;
     int retval;
 
+    if (sid_log == LOG_DEFAULT) {
+        sid_log = log_open("PARSID1284");
+    }
+
     if (!sids_found) {
         return -1;
     }
@@ -180,7 +186,7 @@ int ps_ieee1284_open(void)
 
     sids_found = 0;
 
-    log_message(LOG_DEFAULT, "Detecting libieee1284 ParSIDs.");
+    log_message(sid_log, "Detecting libieee1284 ParSIDs.");
 
     if (ieee1284_find_ports(&parlist, 0) != E1284_OK) {
         return -1;
@@ -204,11 +210,11 @@ int ps_ieee1284_open(void)
     }
 
     if (!sids_found) {
-        log_message(LOG_DEFAULT, "No libieee1284 ParSIDs found.");
+        log_message(sid_log, "No libieee1284 ParSIDs found.");
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "Libieee1284 ParSID: opened, found %d SIDs.", sids_found);
+    log_message(sid_log, "Libieee1284 ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -222,7 +228,7 @@ int ps_ieee1284_close(void)
         ieee1284_close(parlist.portv[pssids[i]]);
         pssids[i] = -1;
     }
-    log_message(LOG_DEFAULT, "Libieee1284 ParSID: closed.");
+    log_message(sid_log, "Libieee1284 ParSID: closed.");
 
     return 0;
 }

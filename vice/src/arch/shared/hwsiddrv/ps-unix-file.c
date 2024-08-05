@@ -52,6 +52,8 @@
 #include "sid-resources.h"
 #include "types.h"
 
+static log_t sid_log = LOG_DEFAULT;
+
 #define MAXSID 3
 
 #ifdef HAVE_LINUX_PARPORT_HEADERS
@@ -147,6 +149,10 @@ int ps_file_open(void)
     int i;
     int mode = IEEE1284_MODE_COMPAT;
 
+    if (sid_log == LOG_DEFAULT) {
+        sid_log = log_open("PARSID");
+    }
+
     if (!sids_found) {
         return -1;
     }
@@ -157,7 +163,7 @@ int ps_file_open(void)
 
     sids_found = 0;
 
-    log_message(LOG_DEFAULT, "Detecting Linux ParSIDs.");
+    log_message(sid_log, "Detecting Linux ParSIDs.");
 
     for (i = 0; i < MAXSID; ++i) {
         pssids[sids_found] = open(parport_name[i], O_RDWR);
@@ -166,33 +172,33 @@ int ps_file_open(void)
                 if (!ioctl(pssids[sids_found], PPNEGOT, &mode)) {
                     if (detect_sid(sids_found)) {
                         sids_found++;
-                        log_message(LOG_DEFAULT, "PARSID found on %s.", parport_name[i]);
+                        log_message(sid_log, "PARSID found on %s.", parport_name[i]);
                     } else {
-                        log_message(LOG_DEFAULT, "No ParSID on %s.", parport_name[i]);
+                        log_message(sid_log, "No ParSID on %s.", parport_name[i]);
                         close(pssids[sids_found]);
                         pssids[sids_found] = -1;
                     }
                 } else {
-                    log_message(LOG_DEFAULT, "Could not set correct mode for %s.", parport_name[i]);
+                    log_message(sid_log, "Could not set correct mode for %s.", parport_name[i]);
                     close(pssids[sids_found]);
                     pssids[sids_found] = -1;
                 }
             } else {
-                log_message(LOG_DEFAULT, "Could not claim %s.", parport_name[i]);
+                log_message(sid_log, "Could not claim %s.", parport_name[i]);
                 close(pssids[sids_found]);
                 pssids[sids_found] = -1;
             }
         } else {
-            log_message(LOG_DEFAULT, "Could not open %s.", parport_name[i]);
+            log_message(sid_log, "Could not open %s.", parport_name[i]);
         }
     }
 
     if (!sids_found) {
-        log_message(LOG_DEFAULT, "No Linux ParSIDs found.");
+        log_message(sid_log, "No Linux ParSIDs found.");
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "Linux ParSID: opened, found %d SIDs.", sids_found);
+    log_message(sid_log, "Linux ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -208,7 +214,7 @@ int ps_file_close(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "Linux ParSID: closed.");
+    log_message(sid_log, "Linux ParSID: closed.");
 
     return 0;
 }
@@ -300,30 +306,30 @@ int ps_file_open(void)
 
     sids_found = 0;
 
-    log_message(LOG_DEFAULT, "Detecting FreeBSD ParSIDs.");
+    log_message(sid_log, "Detecting FreeBSD ParSIDs.");
 
     for (i = 0; i < MAXSID; ++i) {
         pssids[sids_found] = open(parport_name[i], O_RDWR);
         if (pssids[sids_found] != -1) {
             if (detect_sid(sids_found)) {
                 sids_found++;
-                log_message(LOG_DEFAULT, "PARSID found on %s.", parport_name[i]);
+                log_message(sid_log, "PARSID found on %s.", parport_name[i]);
             } else {
-                log_message(LOG_DEFAULT, "No ParSID on %s.", parport_name[i]);
+                log_message(sid_log, "No ParSID on %s.", parport_name[i]);
                 close(pssids[sids_found]);
                 pssids[sids_found] = -1;
             }
         } else {
-            log_message(LOG_DEFAULT, "Could not open %s.", parport_name[i]);
+            log_message(sid_log, "Could not open %s.", parport_name[i]);
         }
     }
 
     if (!sids_found) {
-        log_message(LOG_DEFAULT, "No FreeBSD ParSIDs found.");
+        log_message(sid_log, "No FreeBSD ParSIDs found.");
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "FreeBSD ParSID: opened, found %d SIDs.", sids_found);
+    log_message(sid_log, "FreeBSD ParSID: opened, found %d SIDs.", sids_found);
 
     return 0;
 }
@@ -339,7 +345,7 @@ int ps_file_close(void)
         }
     }
 
-    log_message(LOG_DEFAULT, "FreeBSD ParSID: closed.");
+    log_message(sid_log, "FreeBSD ParSID: closed.");
 
     return 0;
 }

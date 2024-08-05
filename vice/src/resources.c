@@ -998,7 +998,7 @@ int resources_set_defaults(void)
     if (resource_modified_callback != NULL) {
         resources_exec_callback_chain(resource_modified_callback, NULL);
     }
-    log_message(LOG_DEFAULT, "Done setting resources to default.");
+    log_verbose(LOG_DEFAULT, "Done setting resources to default.");
 
     return 0;
 }
