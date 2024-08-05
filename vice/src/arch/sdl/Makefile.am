@@ -150,6 +150,8 @@ libarch_a_SOURCES = \
 	menu_joyport.h \
 	menu_joystick.c \
 	menu_joystick.h \
+	menu_log.c \
+	menu_log.h \
 	menu_media.c \
 	menu_media.h \
 	menu_midi.c \

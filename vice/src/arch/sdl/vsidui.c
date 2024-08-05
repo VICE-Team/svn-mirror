@@ -48,6 +48,7 @@
 #include "menu_debug.h"
 #include "menu_help.h"
 #include "menu_jam.h"
+#include "menu_log.h"
 #include "menu_monitor.h"
 #include "menu_reset.h"
 #include "menu_settings.h"
@@ -460,6 +461,11 @@ static const ui_menu_entry_t vsid_main_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)settings_manager_menu_vsid
+    },
+    {   .string   = "Log settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)log_menu
     },
     {   .action   = ACTION_QUIT,
         .string   = "Quit emulator",
