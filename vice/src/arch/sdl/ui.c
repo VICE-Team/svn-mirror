@@ -35,6 +35,7 @@
 #include "vice_sdl.h"
 #include <stdio.h>
 
+#include "attach.h"
 #include "autostart.h"
 #include "cmdline.h"
 #include "archdep.h"
@@ -202,8 +203,23 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 #else
         case SDL_DROPFILE:
             if (machine_class != VICE_MACHINE_VSID) {
-                if (autostart_autodetect(e.drop.file, NULL, 0,
-                            AUTOSTART_MODE_RUN) < 0) {
+                int drop_mode = 0;
+                int res = 0;
+                resources_get_int("AutostartDropMode", &drop_mode);
+                switch (drop_mode) {
+                    case AUTOSTART_DROP_MODE_ATTACH:
+                        res = file_system_attach_disk(8, 0, e.drop.file);
+                        break;
+                    case AUTOSTART_DROP_MODE_LOAD:
+                        res = autostart_autodetect(e.drop.file, NULL, 0, AUTOSTART_MODE_LOAD);
+                        break;
+                    case AUTOSTART_DROP_MODE_RUN:
+                        res = autostart_autodetect(e.drop.file, NULL, 0, AUTOSTART_MODE_RUN);
+                        break;
+                    default:
+                        break;
+                }
+                if (res < 0) {
                     ui_error("Cannot autostart specified file.");
                 }
             } else {
