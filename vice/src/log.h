@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -48,7 +49,7 @@
 /* all messages, except debug */
 #define LOG_LIMIT_VERBOSE   (LOG_LEVEL_DEBUG - 1)
 /* all messages */
-#define LOG_LIMIT_DEBUG     (LOG_LEVEL_ALL - 1)
+#define LOG_LIMIT_DEBUG     (LOG_LEVEL_ALL)
 
 int log_set_limit_early(int n);
 int log_early_init(int argc, char **argv);

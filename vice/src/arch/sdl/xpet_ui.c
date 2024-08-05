@@ -44,6 +44,7 @@
 #include "menu_jam.h"
 #include "menu_joyport.h"
 #include "menu_joystick.h"
+#include "menu_log.h"
 #include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -195,6 +196,11 @@ static ui_menu_entry_t xpet_main_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)settings_manager_menu
+    },
+    {   .string   = "Log settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)log_menu
     },
 #ifdef USE_SDL2UI
     {   .string   = "Edit",
