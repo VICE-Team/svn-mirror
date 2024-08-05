@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "attach.h"
+#include "autostart.h"
 #include "autostart-prg.h"
 #include "charset.h"
 #include "drive.h"
@@ -1223,6 +1224,7 @@ UI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 UI_MENU_DEFINE_TOGGLE(AutostartTapeBasicLoad)
 UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
+UI_MENU_DEFINE_RADIO(AutostartDropMode)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 UI_MENU_DEFINE_STRING(AutostartPrgDiskImage)
 
@@ -1297,7 +1299,7 @@ static ui_menu_entry_t autostart_settings_menu[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    SDL_MENU_ITEM_TITLE("Autostart PRG mode"),
+    SDL_MENU_ITEM_TITLE("PRG Autostart mode"),
     {   .string   = "VirtualFS",
         .type     = MENU_ENTRY_RESOURCE_RADIO,
         .callback = radio_AutostartPrgMode_callback,
@@ -1315,11 +1317,30 @@ static ui_menu_entry_t autostart_settings_menu[] = {
     },
     SDL_MENU_ITEM_SEPARATOR,
 
-    {   .string   = "Autostart disk image",
+    {   .string   = "Autostart disk",
         .type     = MENU_ENTRY_RESOURCE_STRING,
         .callback = string_AutostartPrgDiskImage_callback,
         .data     = (ui_callback_data_t)"Disk image for autostarting PRG files"
     },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Autostart drag'n drop mode"),
+    {   .string   = "Attach image",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartDropMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_DROP_MODE_ATTACH
+    },
+    {   .string   = "Load",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartDropMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_DROP_MODE_LOAD
+    },
+    {   .string   = "Load and Run",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_AutostartDropMode_callback,
+        .data     = (ui_callback_data_t)AUTOSTART_DROP_MODE_RUN
+    },
+
     SDL_MENU_LIST_END
 };
 
