@@ -84,6 +84,9 @@ static GtkWidget *rtc_58321a_save = NULL;
 /** \brief  ds1307 save enable toggle button */
 static GtkWidget *rtc_ds1307_save = NULL;
 
+/** \brief  diag pin enable toggle button */
+static GtkWidget *diag_pin_active = NULL;
+
 #ifdef HAVE_LIBCURL
 /** \brief  WiC64 save enable settigns */
 static GtkWidget *wic64_save = NULL;
@@ -129,6 +132,16 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
                                                "Enable RTC (DS1307) saving");
 }
 
+/** \brief  Create widget for the "DiagPin" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_diag_pin_active_widget(void)
+{
+    return vice_gtk3_resource_check_button_new("DiagPin",
+                                               "Enable diagnostic pin");
+}
+
 /** \brief  Set the RTC checkboxes' or WiC64 settings sensitivity based on device ID
  *
  * Use userport device \a id to determine which widget to 'grey-out'.
@@ -142,6 +155,9 @@ static void set_widgets_sensitivity(int id)
     }
     if (rtc_ds1307_save != NULL) {
         gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
+    }
+    if (diag_pin_active != NULL) {
+        gtk_widget_set_sensitive(diag_pin_active, id == USERPORT_DEVICE_DIAGNOSTIC_PIN);
     }
 #ifdef HAVE_LIBCURL
     if (wic64_save != NULL) {
@@ -613,9 +629,8 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
 
     /* PET userport diagnostic pin */
     if (machine_class == VICE_MACHINE_PET) {
-        gtk_grid_attach(GTK_GRID(grid),
-                        pet_diagnosticpin_widget_create(),
-                        0, row, 2, 1);
+        diag_pin_active = create_diag_pin_active_widget();
+        gtk_grid_attach(GTK_GRID(grid), diag_pin_active, 0, row, 2, 1);
         row++;
     }
 #ifdef HAVE_LIBCURL

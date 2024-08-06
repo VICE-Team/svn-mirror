@@ -32,32 +32,32 @@
      A  B  C  D  E  F  H  J  K  L  M  N
 
 
-        C64/C128         C64DTV    VIC20               Plus4               PET                 CBM2 (internal)
+        C64/C128         C64DTV    VIC20               Plus4               PET                      CBM2 (internal)
 
      1  GND                        GND                 GND                 GND
      2  +5V DC                     +5V DC              +5V DC              TV Video
-     3  !RESET                     !RESET              !RESET              IEEE-SRQ
-     4  CNT1 (CIA1)                JOY0                P2                  IEEE-EOI
-     5  SP1                        JOY1                P3                  Diagnostic Sense
-     6  CNT2 (CIA2)                JOY2                P4                  Tape#2 Read
-     7  SP2                        Lightpen Fire       P5                  Cass Write
-     8  PC2                        PA6, Tape Sense     RS232 clock         Tape#1 Read          5 (?)
-     9  Serial ATN in              Serial ATN in       ATN (Cpu Port)      TV Vertical          4 (?)
+     3  !RESET                     !RESET              !RESET              CB1 (PIA2) IEEE-SRQ IN
+     4  CNT1 (CIA1)                JOY0                P2                  PA6 (PIA1) IEEE-EOI
+     5  SP1                        JOY1                P3                  PA7 (PIA1) Diag Pin
+     6  CNT2 (CIA2)                JOY2                P4                  CB1 (VIA) Tape#2 Read
+     7  SP2                        Lightpen Fire       P5                  PB3 (VIA) Tape Write
+     8  PC2                        PA6, Tape Sense     RS232 clock         CA1 (PIA1) Tape#1 Read               5 (?)
+     9  Serial ATN in              Serial ATN in       ATN (Cpu Port)      PB5 (VIA); CB1 (PIA1) TV Vertical    4 (?)
     10  9V AC                      9V AC               9V AC               TV Horizontal
-    11  9V AC                      9V AC               9V AC               Graphic
+    11  9V AC                      9V AC               9V AC               CA2 (VIA) Graphic
     12  GND                        GND                 GND                 GND
 
      A  GND                        GND                 GND                 GND
-     B  !FLAG2                     CB1                 P0                  CA1
-     C  PB0 (CIA2)       PB0       PB0                 RXD (ACIA)          PA0                 14 (?)
-     D  PB1              PB1       PB1                 RTS (ACIA)          PA1                 13 (?)
-     E  PB2              PB2       PB2                 DTR (ACIA)          PA2                 12 (?)
-     F  PB3              PB3       PB3                 P7                  PA3                 11 (?)
-     H  PB4              PB4       PB4                 DCD (ACIA)          PA4                 10 (?)
-     J  PB5              PB5       PB5                 P6                  PA5                  9 (?)
-     K  PB6              PB6       PB6                 P1                  PA6                  8 (?)
-     L  PB7              PB7       PB7                 DSR (ACIA)          PA7                  7 (?)
-     M  PA2 (CIA2)       PA2       CB2                 TXD (ACIA)          CB2                  2 (?)
+     B  !FLAG2                     CB1                 P0                  CA1 (VIA)
+     C  PB0 (CIA2)       PB0       PB0                 RXD (ACIA)          PA0 (VIA)                 14 (?)
+     D  PB1              PB1       PB1                 RTS (ACIA)          PA1 (VIA)                 13 (?)
+     E  PB2              PB2       PB2                 DTR (ACIA)          PA2 (VIA)                 12 (?)
+     F  PB3              PB3       PB3                 P7                  PA3 (VIA)                 11 (?)
+     H  PB4              PB4       PB4                 DCD (ACIA)          PA4 (VIA)                 10 (?)
+     J  PB5              PB5       PB5                 P6                  PA5 (VIA)                  9 (?)
+     K  PB6              PB6       PB6                 P1                  PA6 (VIA)                  8 (?)
+     L  PB7              PB7       PB7                 DSR (ACIA)          PA7 (VIA)                  7 (?)
+     M  PA2 (CIA2)       PA2       CB2                 TXD (ACIA)          CB2 (VIA)                  2 (?)
      N  GND                        GND                 GND                 GND
 
    CBM2 (internal)
@@ -138,6 +138,7 @@
 #include "userport_8bss.h"
 #include "userport_dac.h"
 #include "userport_diag_586220_harness.h"
+#include "userport_diag_pin.h"
 #include "userport_digimax.h"
 #include "userport_hummer_joystick.h"
 #include "userport_io_sim.h"
@@ -206,8 +207,11 @@ static userport_port_props_t userport_props;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* FIXME: the device_init table has the info on what works on what emu, we can
+          remove all other checks */
 static int valid_device(userport_device_t *device)
 {
+#if 0
     if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
         return 0;
     }
@@ -223,7 +227,7 @@ static int valid_device(userport_device_t *device)
     if ((device->store_sp1 || device->read_sp1 || device->store_sp2 || device->read_sp2) && !userport_props.has_sp12) {
         return 0;
     }
-
+#endif
     return 1;
 }
 
@@ -788,6 +792,12 @@ static userport_init_t userport_devices_init[] = {
       userport_spt_joystick_resources_init, /* resources init function */
       NULL,                                 /* resources shutdown function */
       NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_DIAGNOSTIC_PIN,           /* device id */
+      UP_PET,                                   /* emulators this device works on */
+      userport_diag_pin_resources_init,         /* resources init function */
+      NULL,                                     /* resources shutdown function */
+      userport_diag_pin_cmdline_options_init    /* cmdline options init function */
     },
 
     { USERPORT_DEVICE_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */

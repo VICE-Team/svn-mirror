@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "tapeport.h"
 #include "types.h"
+#include "userport.h"
 
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
@@ -84,20 +85,10 @@ static void my_restore_int(unsigned int pia_int_num, int a)
 /* ------------------------------------------------------------------------- */
 /* PIA resources.  */
 
-/* Flag: is the diagnostic pin enabled?  */
+/* Flag: is the diagnostic pin enabled? (read only!) */
 static int diagnostic_pin_enabled;
 
-static int set_diagnostic_pin_enabled(int val, void *param)
-{
-    diagnostic_pin_enabled = val ? 1 : 0;
-
-    return 0;
-}
-
-
 static const resource_int_t resources_int[] = {
-    { "DiagPin", 0, RES_EVENT_SAME, NULL,
-      &diagnostic_pin_enabled, set_diagnostic_pin_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -109,12 +100,6 @@ int pia1_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-diagpin", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Enable userport diagnostic pin" },
-    { "+diagpin", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Disable userport diagnostic pin" },
     CMDLINE_LIST_END
 };
 
@@ -173,7 +158,7 @@ void pia1_set_tape2_motor_in(int v)
  * interface and thus obtaining and releasing the main lock is too expensive.
  * This function avoids that performance hit.
  *
- * \return  state of DiagPin resource
+ * \return  state of DiagPin resource (only for display)
  */
 bool pia1_get_diagnostic_pin(void)
 {
@@ -258,6 +243,9 @@ static uint8_t read_pa(void)
     uint8_t byte;
 
     drive_cpu_execute_all(maincpu_clk);
+
+    diagnostic_pin_enabled = read_userport_sp1(0);  /* pin 5 */
+    /*printf("diag:%d\n", diagnostic_pin_enabled);*/
 
     byte = 0xff
            - (tape1_sense ? 16 : 0)
