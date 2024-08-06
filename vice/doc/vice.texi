@@ -8683,6 +8683,9 @@ Set the device attached to the userport (see table below):
 @item 25
 @tab Userport Stupid Pet Tricks joystick adapter
 @tab x64, x64sc, x128, xscpu64, xcbm2, xpet, xvic
+@item 26
+@tab PET Userport diagnostic pin
+@tab xpet
 @end multitable
 
 @table @code

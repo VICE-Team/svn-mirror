@@ -35,6 +35,8 @@ libuserport_a_SOURCES = \
 	userport_dac.h \
 	userport_diag_586220_harness.c \
 	userport_diag_586220_harness.h \
+	userport_diag_pin.c \
+	userport_diag_pin.h \
 	userport_digimax.c \
 	userport_digimax.h \
 	userport_hks_joystick.c \

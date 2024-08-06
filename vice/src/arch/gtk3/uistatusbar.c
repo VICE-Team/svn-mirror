@@ -2191,6 +2191,16 @@ void diagnosticpin_led_set_active(int bar, gboolean active)
     }
 }
 
+void diagnosticpin_led_set_visible(int bar, gboolean active)
+{
+    GtkWidget *led = allocated_bars[bar].diagnosticpin_led;
+
+    if (led != NULL) {
+        gtk_widget_set_visible(led, active);
+        gtk_widget_set_sensitive(led, active);
+    }
+}
+
 /** \brief  Callback for the SuperCPU turbo LED
  *
  * Set resource "SpeedSwitch" to \a active.
