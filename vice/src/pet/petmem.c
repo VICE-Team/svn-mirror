@@ -324,6 +324,30 @@ static uint8_t read_io_88_8f(uint16_t addr)
     return last_access;
 }
 
+static uint8_t peek_io_88_8f(uint16_t addr)
+{
+    switch (addr & 0xff00) {
+        case 0x8800:
+            return petio_8800_peek(addr);
+        case 0x8900:
+            return petio_8900_peek(addr);
+        case 0x8a00:
+            return petio_8a00_peek(addr);
+        case 0x8b00:
+            return petio_8b00_peek(addr);
+        case 0x8c00:
+            return petio_8c00_peek(addr);
+        case 0x8d00:
+            return petio_8d00_peek(addr);
+        case 0x8e00:
+            return petio_8e00_peek(addr);
+        case 0x8f00:
+            return petio_8f00_peek(addr);
+    }
+
+    return last_access;
+}
+
 static uint8_t read_io_e9_ef(uint16_t addr)
 {
     switch (addr & 0xff00) {
@@ -1961,6 +1985,9 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 result = read_unused(addr);
                 /* is_peek_access = 0; FIXME */
                 return result;
+            }
+            if (addr >= 0x8800 && addr < 0x9000) {
+                return peek_io_88_8f(addr);
             }
             /* FALLS THROUGH TO normal read with side effects */
     }
