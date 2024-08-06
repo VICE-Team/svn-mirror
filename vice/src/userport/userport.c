@@ -207,32 +207,6 @@ static userport_port_props_t userport_props;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-/* FIXME: the device_init table has the info on what works on what emu, we can
-          remove all other checks */
-static int valid_device(userport_device_t *device)
-{
-#if 0
-    if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
-        return 0;
-    }
-
-    if ((device->read_pa3 || device->store_pa3) && !userport_props.has_pa3) {
-        return 0;
-    }
-
-    if (device->needs_pc && !userport_props.has_pc) {
-        return 0;
-    }
-
-    if ((device->store_sp1 || device->read_sp1 || device->store_sp2 || device->read_sp2) && !userport_props.has_sp12) {
-        return 0;
-    }
-#endif
-    return 1;
-}
-
-/* ---------------------------------------------------------------------------------------------------------- */
-
 void userport_port_register(userport_port_props_t *props)
 {
     userport_props.has_pa2 = props->has_pa2;
@@ -250,29 +224,26 @@ int userport_device_register(int id, userport_device_t *device)
         return -1;
     }
 
-    if (valid_device(device)) {
-        userport_device[id].name = device->name;
-        userport_device[id].joystick_adapter_id = device->joystick_adapter_id;
-        userport_device[id].device_type = device->device_type;
-        userport_device[id].enable = device->enable;
-        userport_device[id].read_pbx = device->read_pbx;
-        userport_device[id].store_pbx = device->store_pbx;
-        userport_device[id].read_pa2 = device->read_pa2;
-        userport_device[id].store_pa2 = device->store_pa2;
-        userport_device[id].read_pa3 = device->read_pa3;
-        userport_device[id].store_pa3 = device->store_pa3;
-        userport_device[id].needs_pc = device->needs_pc;
-        userport_device[id].store_sp1 = device->store_sp1;
-        userport_device[id].read_sp1 = device->read_sp1;
-        userport_device[id].store_sp2 = device->store_sp2;
-        userport_device[id].read_sp2 = device->read_sp2;
-        userport_device[id].reset = device->reset;
-        userport_device[id].powerup = device->powerup;
-        userport_device[id].write_snapshot = device->write_snapshot;
-        userport_device[id].read_snapshot = device->read_snapshot;
-        return 0;
-    }
-    return -1;
+    userport_device[id].name = device->name;
+    userport_device[id].joystick_adapter_id = device->joystick_adapter_id;
+    userport_device[id].device_type = device->device_type;
+    userport_device[id].enable = device->enable;
+    userport_device[id].read_pbx = device->read_pbx;
+    userport_device[id].store_pbx = device->store_pbx;
+    userport_device[id].read_pa2 = device->read_pa2;
+    userport_device[id].store_pa2 = device->store_pa2;
+    userport_device[id].read_pa3 = device->read_pa3;
+    userport_device[id].store_pa3 = device->store_pa3;
+    userport_device[id].needs_pc = device->needs_pc;
+    userport_device[id].store_sp1 = device->store_sp1;
+    userport_device[id].read_sp1 = device->read_sp1;
+    userport_device[id].store_sp2 = device->store_sp2;
+    userport_device[id].read_sp2 = device->read_sp2;
+    userport_device[id].reset = device->reset;
+    userport_device[id].powerup = device->powerup;
+    userport_device[id].write_snapshot = device->write_snapshot;
+    userport_device[id].read_snapshot = device->read_snapshot;
+    return 0;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
