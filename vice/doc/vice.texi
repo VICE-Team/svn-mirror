@@ -8619,13 +8619,13 @@ Set the device attached to the userport (see table below):
 @tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
 @item 4
 @tab PET userport joy adapter
-@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
 @item 5
 @tab Hummer userport joy adapter
-@tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
+@tab x64dtv
 @item 6
 @tab OEM userport joy adapter
-@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
 @item 7
 @tab HIT userport joy adapter
 @tab x64, x64sc, x128, xscpu64
@@ -8637,13 +8637,13 @@ Set the device attached to the userport (see table below):
 @tab x64, x64sc, x128, xscpu64
 @item 10
 @tab Synergy userport joy adapter
-@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@tab xplus4
 @item 11
 @tab Wheel of joystick 8-joy userport joy adapter
 @tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
 @item 12
 @tab Userport DAC
-@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
 @item 13
 @tab Userport DigiMAX
 @tab x64, x64sc, x128, xscpu64, xcbm2

@@ -1107,6 +1107,7 @@ xplus4_libs =  \
 	$(plus4_lib) \
 	$(plus4cart_lib) \
 	$(diag_lib) \
+	$(userport_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecplus4exp_lib) \
@@ -1125,7 +1126,6 @@ xplus4_libs =  \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
-	$(userport_lib) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
@@ -1133,7 +1133,12 @@ xplus4_libs =  \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \
 	$(zmbv_lib) \
-	$(plus4stubs_lib)
+	$(plus4stubs_lib) \
+	\
+	$(plus4_lib)
+
+# NOTE: ^^^ link a second time against plus4_lib to solve a nasty problem with
+#           unresolved symbols
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(XPLUS4_RES)

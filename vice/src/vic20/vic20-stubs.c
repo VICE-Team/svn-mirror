@@ -33,6 +33,7 @@
 #include "cartridge.h"
 #include "pet/petpia.h"
 #include "vic20.h"
+#include "c64/c64parallel.h"    /* FIXME: use vic20 specific header once it exists */
 
 /*******************************************************************************
     clockport
@@ -43,4 +44,13 @@ clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
 bool pia1_get_diagnostic_pin(void)
 {
     return false;
+}
+
+/*******************************************************************************
+    userport devices
+*******************************************************************************/
+
+int parallel_cable_cpu_resources_init(void)
+{
+    return -1;
 }

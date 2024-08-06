@@ -33,6 +33,10 @@
 
 #include "cart/clockport.h"
 #include "cartridge.h"
+#include "ds1307.h"
+#include "rtc-58321a.h"
+#include "rsuser.h"
+#include "c64parallel.h"
 #include "c64cart.h"
 #include "c64/cart/c64cartmem.h"
 #include "machine.h"
@@ -228,7 +232,82 @@ void cartridge_trigger_freeze(void)
 {
 }
 
+/*******************************************************************************
+    userport devices
+*******************************************************************************/
+
 bool pia1_get_diagnostic_pin(void)
 {
     return false;
+}
+
+int ds1307_write_snapshot(rtc_ds1307_t *context, snapshot_t *s)
+{
+    return -1;
+}
+int ds1307_read_snapshot(rtc_ds1307_t *context, snapshot_t *s)
+{
+    return -1;
+}
+rtc_ds1307_t *ds1307_init(char *device)
+{
+    return NULL;
+}
+void ds1307_destroy(rtc_ds1307_t *context, int save)
+{
+}
+void ds1307_set_clk_line(rtc_ds1307_t *context, uint8_t data)
+{
+}
+void ds1307_set_data_line(rtc_ds1307_t *context, uint8_t data)
+{
+}
+uint8_t ds1307_read_data_line(rtc_ds1307_t *context)
+{
+    return 0;
+}
+
+int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_t *s)
+{
+    return -1;
+}
+int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_t *s)
+{
+    return -1;
+}
+rtc_58321a_t *rtc58321a_init(char *device)
+{
+    return NULL;
+}
+void rtc58321a_destroy(rtc_58321a_t *context, int save)
+{
+}
+uint8_t rtc58321a_read(rtc_58321a_t *context)
+{
+    return 0;
+}
+void rtc58321a_write_address(rtc_58321a_t *context, uint8_t address)
+{
+}
+void rtc58321a_write_data(rtc_58321a_t *context, uint8_t data)
+{
+}
+void rtc58321a_stop_clock(rtc_58321a_t *context)
+{
+}
+void rtc58321a_start_clock(rtc_58321a_t *context)
+{
+}
+
+int rsuser_resources_init(void)
+{
+    return -1;
+}
+int rsuser_cmdline_options_init(void)
+{
+    return -1;
+}
+int parallel_cable_cpu_resources_init(void)
+{
+    return -1;
 }

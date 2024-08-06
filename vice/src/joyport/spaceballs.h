@@ -30,5 +30,6 @@
 #include "types.h"
 
 int joyport_spaceballs_resources_init(void);
+int userport_spaceballs_resources_init(void);
 
 #endif

@@ -51,6 +51,7 @@
 
 int printer_resources_init(void)
 {
+    DBG(("printer_resources_init"));
     if (output_graphics_init_resources() < 0
         || output_text_init_resources() < 0
         || output_select_init_resources() < 0
@@ -68,6 +69,7 @@ int printer_resources_init(void)
 
 int printer_userport_resources_init(void)
 {
+    DBG(("printer_userport_resources_init"));
     if (output_select_userport_init_resources() < 0
         || driver_select_userport_init_resources() < 0) {
         return -1;
@@ -82,6 +84,7 @@ void printer_resources_shutdown(void)
 
 int printer_cmdline_options_init(void)
 {
+    DBG(("printer_cmdline_options_init"));
     if (output_text_init_cmdline_options() < 0
         || output_select_init_cmdline_options() < 0
         || driver_select_init_cmdline_options() < 0
@@ -93,6 +96,7 @@ int printer_cmdline_options_init(void)
 
 int printer_userport_cmdline_options_init(void)
 {
+    DBG(("printer_userport_cmdline_options_init"));
     if (driver_select_userport_init_cmdline_options() < 0
         || output_select_userport_init_cmdline_options() < 0) {
         return -1;

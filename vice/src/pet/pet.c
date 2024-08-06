@@ -359,10 +359,6 @@ int machine_resources_init(void)
         init_resource_fail("printer");
         return -1;
     }
-    if (printer_userport_resources_init() < 0) {
-        init_resource_fail("userport printer");
-        return -1;
-    }
     if (init_joyport_ports() < 0) {
         init_resource_fail("joyport ports");
         return -1;
@@ -426,46 +422,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    if (userport_joystick_cga_resources_init() < 0) {
-        init_resource_fail("userport cga joystick");
-        return -1;
-    }
-    if (userport_joystick_pet_resources_init() < 0) {
-        init_resource_fail("userport pet joystick");
-        return -1;
-    }
-    if (userport_joystick_oem_resources_init() < 0) {
-        init_resource_fail("userport oem joystick");
-        return -1;
-    }
-    if (userport_joystick_woj_resources_init() < 0) {
-        init_resource_fail("userport woj joystick");
-        return -1;
-    }
-    if (userport_spt_joystick_resources_init() < 0) {
-        init_resource_fail("userport stupid pet tricks joystick");
-        return -1;
-    }
-    if (userport_dac_resources_init() < 0) {
-        init_resource_fail("userport dac");
-        return -1;
-    }
-    if (userport_rtc_58321a_resources_init() < 0) {
-        init_resource_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_resources_init() < 0) {
-        init_resource_fail("userport rtc (ds1307)");
-        return -1;
-    }
-    if (userport_petscii_snespad_resources_init() < 0) {
-        init_resource_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_io_sim_resources_init() < 0) {
-        init_resource_fail("userport I/O simulation");
-        return -1;
-    }
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
         return -1;
@@ -486,8 +442,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
-    userport_rtc_58321a_resources_shutdown();
-    userport_rtc_ds1307_resources_shutdown();
+    userport_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
     joyport_resources_shutdown();
@@ -552,10 +507,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("printer");
         return -1;
     }
-    if (printer_userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport printer");
-        return -1;
-    }
     if (joyport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joyport");
         return -1;
@@ -618,14 +569,6 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-    if (userport_rtc_58321a_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (ds1307)");
-        return -1;
-    }
     if (debugcart_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug cart");
         return -1;
