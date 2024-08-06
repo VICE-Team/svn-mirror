@@ -158,7 +158,7 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
                cycles are stolen from the CPU.  */
 #ifdef DEBUG
             if (debug.maincpu_traceflg) {
-                log_debug("ICLK=%lu  last_stolen_cycle=%lu",
+                log_debug(LOG_DEFAULT, "ICLK=%lu  last_stolen_cycle=%lu",
                         (unsigned long)cpu_clk,
                         (unsigned long)(cs->last_stolen_cycles_clk));
             }
@@ -204,7 +204,7 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
 
 #ifdef DEBUG
                 if (debug.maincpu_traceflg) {
-                    log_debug("ICLK=%lu  last_stolen_cycle=%lu",
+                    log_debug(LOG_DEFAULT, "ICLK=%lu  last_stolen_cycle=%lu",
                             (unsigned long)cpu_clk,
                             (unsigned long)(cs->last_stolen_cycles_clk));
                 }
