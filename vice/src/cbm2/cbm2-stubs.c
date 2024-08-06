@@ -37,6 +37,8 @@
 #ifdef HAVE_LIBCURL
 #include "userport_wic64.h"
 #endif
+#include "rsuser.h"
+#include "c64/c64parallel.h"    /* FIXME: use CBM2 specific header once it exists */
 
 #ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
@@ -55,8 +57,25 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 
 clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
 
+/*******************************************************************************
+    userport devices
+*******************************************************************************/
 
 bool pia1_get_diagnostic_pin(void)
 {
     return false;
+}
+
+int parallel_cable_cpu_resources_init(void)
+{
+    return -1;
+}
+
+int rsuser_cmdline_options_init(void)
+{
+    return -1;
+}
+int rsuser_resources_init(void)
+{
+    return -1;
 }

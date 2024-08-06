@@ -153,9 +153,11 @@ static joyport_t joyport_spaceballs_device = {
 
 int joyport_spaceballs_resources_init(void)
 {
-    if (joyport_device_register(JOYPORT_ID_SPACEBALLS, &joyport_spaceballs_device) < 0) {
-        return -1;
-    }
+    return joyport_device_register(JOYPORT_ID_SPACEBALLS, &joyport_spaceballs_device);
+}
+
+int userport_spaceballs_resources_init(void)
+{
     return userport_device_register(USERPORT_DEVICE_SPACEBALLS, &userport_spaceballs_device);
 }
 

@@ -124,10 +124,34 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "printer.h"
 #include "resources.h"
+#include "rsuser.h"
 #include "snapshot.h"
+#include "spaceballs.h"
 #include "uiapi.h"
 #include "userport.h"
+#include "userport_joystick.h"
+#include "userport_hks_joystick.h"
+#include "userport_woj_joystick.h"
+#include "userport_4bit_sampler.h"
+#include "userport_8bss.h"
+#include "userport_dac.h"
+#include "userport_diag_586220_harness.h"
+#include "userport_digimax.h"
+#include "userport_hummer_joystick.h"
+#include "userport_io_sim.h"
+#include "userport_petscii_snespad.h"
+#include "userport_rtc_58321a.h"
+#include "userport_rtc_ds1307.h"
+#include "userport_spt_joystick.h"
+#include "userport_superpad64.h"
+#include "userport_synergy_joystick.h"
+#include "userport_wic64.h"
+
+#include "c64parallel.h"
+#include "plus4parallel.h"
+
 #include "util.h"
 #include "init.h"
 
@@ -601,6 +625,206 @@ void userport_reset_end(void)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* All machines that are 100% compatible */
+#define UP_C64 (VICE_MACHINE_C64 | VICE_MACHINE_C128 | VICE_MACHINE_C64SC | VICE_MACHINE_SCPU64)
+#define UP_PLUS4 (VICE_MACHINE_PLUS4)
+#define UP_VIC20 (VICE_MACHINE_VIC20)
+#define UP_DTV (VICE_MACHINE_C64DTV)
+#define UP_PET (VICE_MACHINE_PET)
+#define UP_CBM2 (VICE_MACHINE_CBM5x0 | VICE_MACHINE_CBM6x0)
+
+static userport_init_t userport_devices_init[] = {
+/* FIXME: Add userport printer support to xplus4 */
+    { USERPORT_DEVICE_PRINTER,              /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      printer_userport_resources_init,      /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      printer_userport_cmdline_options_init /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_RS232_MODEM,          /* device id */
+      UP_C64 | UP_VIC20,                    /* emulators this device works on */
+      rsuser_resources_init,                /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      rsuser_cmdline_options_init           /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_CGA,         /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_joystick_cga_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_PET,         /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_joystick_pet_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_HUMMER,          /* device id */
+      UP_DTV,                                   /* emulators this device works on */
+      userport_joystick_hummer_resources_init,  /* resources init function */
+      NULL,                                     /* resources shutdown function */
+      NULL                                      /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_OEM,         /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_joystick_oem_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_HIT,         /* device id */
+      UP_C64,                               /* emulators this device works on */
+      userport_joystick_hit_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_KINGSOFT,            /* device id */
+      UP_C64,                                       /* emulators this device works on */
+      userport_joystick_kingsoft_resources_init,    /* resources init function */
+      NULL,                                         /* resources shutdown function */
+      NULL                                          /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_STARBYTE,            /* device id */
+      UP_C64,                                       /* emulators this device works on */
+      userport_joystick_starbyte_resources_init,    /* resources init function */
+      NULL,                                         /* resources shutdown function */
+      NULL                                          /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_SYNERGY,         /* device id */
+      UP_PLUS4,                                 /* emulators this device works on */
+      userport_joystick_synergy_resources_init, /* resources init function */
+      NULL,                                     /* resources shutdown function */
+      NULL                                      /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_WOJ,                     /* device id */
+      UP_C64 | UP_VIC20 | UP_PLUS4 | UP_PET | UP_CBM2,  /* emulators this device works on */
+      userport_joystick_woj_resources_init,             /* resources init function */
+      NULL,                                             /* resources shutdown function */
+      NULL                                              /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_DAC,                  /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_dac_resources_init,          /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_DIGIMAX,              /* device id */
+      UP_C64 | UP_CBM2,                     /* emulators this device works on */
+      userport_digimax_resources_init,      /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_4BIT_SAMPLER,         /* device id */
+      UP_C64 | UP_CBM2,                     /* emulators this device works on */
+      userport_4bit_sampler_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_8BSS,         /* device id */
+      UP_C64 | UP_CBM2,             /* emulators this device works on */
+      userport_8bss_resources_init, /* resources init function */
+      NULL,                         /* resources shutdown function */
+      NULL                          /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_RTC_58321A,               /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2,     /* emulators this device works on */
+      userport_rtc_58321a_resources_init,       /* resources init function */
+      userport_rtc_58321a_resources_shutdown,   /* resources shutdown function */
+      userport_rtc_58321a_cmdline_options_init  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_RTC_DS1307,               /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2,     /* emulators this device works on */
+      userport_rtc_ds1307_resources_init,       /* resources init function */
+      userport_rtc_ds1307_resources_shutdown,   /* resources shutdown function */
+      userport_rtc_ds1307_cmdline_options_init  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_PETSCII_SNESPAD,                  /* device id */
+      UP_C64 | UP_VIC20 | UP_PLUS4 | UP_PET | UP_CBM2,  /* emulators this device works on */
+      userport_petscii_snespad_resources_init,          /* resources init function */
+      NULL,                                             /* resources shutdown function */
+      NULL                                              /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_SUPERPAD64,           /* device id */
+      UP_C64 | UP_CBM2,                     /* emulators this device works on */
+      userport_superpad64_resources_init,   /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    { USERPORT_DEVICE_DIAG_586220_HARNESS,          /* device id */
+      UP_C64,                                       /* emulators this device works on */
+      userport_diag_586220_harness_resources_init,  /* resources init function */
+      NULL,                                         /* resources shutdown function */
+      NULL                                          /* cmdline options init function */
+    },
+#endif
+    { USERPORT_DEVICE_DRIVE_PAR_CABLE,      /* device id */
+      UP_C64 | UP_PLUS4,                    /* emulators this device works on */
+      parallel_cable_cpu_resources_init,    /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_IO_SIMULATION,                            /* device id */
+      UP_C64 | UP_VIC20 | UP_PLUS4 | UP_DTV | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_io_sim_resources_init,                           /* resources init function */
+      NULL,                                                     /* resources shutdown function */
+      NULL                                                      /* cmdline options init function */
+    },
+#ifdef HAVE_LIBCURL
+    { USERPORT_DEVICE_WIC64,                /* device id */
+      UP_C64 | UP_VIC20,                    /* emulators this device works on */
+      userport_wic64_resources_init,        /* resources init function */
+      userport_wic64_resources_shutdown,    /* resources shutdown function */
+      userport_wic64_cmdline_options_init   /* cmdline options init function */
+    },
+#endif
+    { USERPORT_DEVICE_SPACEBALLS,           /* device id */
+      UP_C64 | UP_VIC20,                    /* emulators this device works on */
+      userport_spaceballs_resources_init,   /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_SPT_JOYSTICK,         /* device id */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
+      userport_spt_joystick_resources_init, /* resources init function */
+      NULL,                                 /* resources shutdown function */
+      NULL                                  /* cmdline options init function */
+    },
+
+    { USERPORT_DEVICE_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */
+};
+
+static int userport_devices_resources_init(void)
+{
+    int i = 0;
+
+    while (userport_devices_init[i].device_id != USERPORT_DEVICE_NONE) {
+        if (userport_devices_init[i].emu_mask & machine_class) {
+            if (userport_devices_init[i].userport_device_resources_init) {
+                if (userport_devices_init[i].userport_device_resources_init() < 0) {
+                    return -1;
+                }
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+
+static void userport_devices_resources_shutdown(void)
+{
+    int i = 0;
+
+    while (userport_devices_init[i].device_id != USERPORT_DEVICE_NONE) {
+        if (userport_devices_init[i].emu_mask & machine_class) {
+            if (userport_devices_init[i].userport_device_resources_shutdown) {
+                userport_devices_init[i].userport_device_resources_shutdown();
+            }
+        }
+        i++;
+    }
+}
+
+
 static int set_userport_device(int val, void *param)
 {
     return userport_set_device(val);
@@ -622,7 +846,16 @@ int userport_resources_init(void)
         return -1;
     }
 
-    return machine_register_userport();
+    if (machine_register_userport() < 0) {
+        return -1;
+    }
+
+    return userport_devices_resources_init();
+}
+
+void userport_resources_shutdown(void)
+{
+    userport_devices_resources_shutdown();
 }
 
 struct userport_opt_s {

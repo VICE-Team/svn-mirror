@@ -522,17 +522,6 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
-    if (parallel_cable_cpu_resources_init() < 0) {
-        init_resource_fail("userport drive parallel cable");
-        return -1;
-    }
-/* FIXME: Add userport printer support to xplus4 */
-#if 0
-    if (printer_userport_resources_init() < 0) {
-        init_resource_fail("userport printer");
-        return -1;
-    }
-#endif
     if (init_joyport_ports() < 0) {
         init_resource_fail("joyport ports");
         return -1;
@@ -543,22 +532,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (userport_joystick_synergy_resources_init() < 0) {
-        init_resource_fail("userport synergy joystick");
-        return -1;
-    }
-    if (userport_joystick_woj_resources_init() < 0) {
-        init_resource_fail("userport woj joystick");
-        return -1;
-    }
-    if (userport_petscii_snespad_resources_init() < 0) {
-        init_resource_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_io_sim_resources_init() < 0) {
-        init_resource_fail("userport I/O simulation");
         return -1;
     }
     if (sampler_resources_init() < 0) {
@@ -644,6 +617,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
+    userport_resources_shutdown();
     cartio_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
@@ -701,13 +675,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("printer");
         return -1;
     }
-/* FIXME: Add userport printer support to xplus4 */
-#if 0
-    if (printer_userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport printer");
-        return -1;
-    }
-#endif
     if (joyport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joyport");
         return -1;

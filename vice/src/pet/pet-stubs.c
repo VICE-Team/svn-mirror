@@ -35,6 +35,8 @@
 #ifdef HAVE_LIBCURL
 #include "userport_wic64.h"
 #endif
+#include "rsuser.h"
+#include "c64/c64parallel.h"    /* FIXME: use pet specific header once it exists */
 
 /* dummy function to satisfy the global cartridge system */
 int cartridge_attach_image(int type, const char *name)
@@ -152,3 +154,20 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 *******************************************************************************/
 
 clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
+/*******************************************************************************
+    userport devices
+*******************************************************************************/
+
+int parallel_cable_cpu_resources_init(void)
+{
+    return -1;
+}
+int rsuser_cmdline_options_init(void)
+{
+    return -1;
+}
+int rsuser_resources_init(void)
+{
+    return -1;
+}
