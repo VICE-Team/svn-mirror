@@ -963,6 +963,26 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
     return set_userport_device(temp, NULL);
 }
 
+
+/* ------------------------------------------------------------------------- */
+
+static int userport_devices_cmdline_options_init(void)
+{
+    int i = 0;
+
+    while (userport_devices_init[i].device_id != USERPORT_DEVICE_NONE) {
+        if (userport_devices_init[i].emu_mask & machine_class) {
+            if (userport_devices_init[i].userport_device_cmdline_options_init) {
+                if (userport_devices_init[i].userport_device_cmdline_options_init() < 0) {
+                    return -1;
+                }
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+
 static char *build_userport_string(int something)
 {
     int i = 0;
@@ -1000,7 +1020,11 @@ int userport_cmdline_options_init(void)
     cf.f = build_userport_string;
     cmdline_options[0].description = cf.c;
 
-    return cmdline_register_options(cmdline_options);
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+
+    return userport_devices_cmdline_options_init();
 }
 
 void userport_enable(int val)
