@@ -345,6 +345,7 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
+    /* CAUTION: must come after userport and serial */
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
         return -1;

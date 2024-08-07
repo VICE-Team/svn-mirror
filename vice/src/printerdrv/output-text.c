@@ -135,8 +135,7 @@ static const cmdline_option_t cmdline_options_userport[] =
 
 int output_text_init_cmdline_options(void)
 {
-    if (machine_class != VICE_MACHINE_C64DTV
-        && machine_class != VICE_MACHINE_PLUS4) {
+    if (machine_class != VICE_MACHINE_C64DTV) {
         if (cmdline_register_options(cmdline_options_userport) < 0) {
             return -1;
         }
@@ -218,6 +217,8 @@ static void output_text_close(unsigned int prnr)
 
 static int output_text_putc(unsigned int prnr, uint8_t b)
 {
+    DBG(("output_text_putc(prnr:%u) byte:0x%02x fd:%s", prnr, b,
+         (output_fd[printer_device[prnr]] == NULL) ? "NULL" : "ok"));
     if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
     }
@@ -272,8 +273,7 @@ int output_text_init_resources(void)
         return -1;
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV
-        && machine_class != VICE_MACHINE_PLUS4) {
+    if (machine_class != VICE_MACHINE_C64DTV) {
         if (resources_register_int(resources_int_userport) < 0) {
             return -1;
         }

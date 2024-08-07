@@ -72,8 +72,10 @@ int printer_userport_resources_init(void)
     DBG(("printer_userport_resources_init"));
     if (output_select_userport_init_resources() < 0
         || driver_select_userport_init_resources() < 0) {
+        DBG(("printer_userport_resources_init (failed)"));
         return -1;
     }
+    DBG(("printer_userport_resources_init (ok)"));
     return 0;
 }
 
