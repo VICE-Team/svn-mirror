@@ -123,7 +123,7 @@ static io_source_t petreureg1_device = {
     "PETREU REG 1",       /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "PETREU",             /* resource to set to '0' */
-    0x8800, 0x88ff, 0x0f, /* range for the device, regs:$8800-$881f, mirrors:$8820-$88ff */
+    0x8800, 0x88ff, 0x0f, /* range for the device, regs:$8800-$880f, mirrors:$8810-$88ff */
     1,                    /* read is always valid */
     store_petreu_reg,     /* store function */
     store_petreu_reg,     /* poke function */
@@ -140,7 +140,7 @@ static io_source_t petreureg2_device = {
     "PETREU REG 2",       /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "PETREU",             /* resource to set to '0' */
-    0x8a00, 0x8aff, 0x0f, /* range for the device, regs:$8a00-$8a1f, mirrors:$8a20-$8aff */
+    0x8a00, 0x8aff, 0x0f, /* range for the device, regs:$8a00-$8a0f, mirrors:$8a10-$8aff */
     1,                    /* read is always valid */
     store_petreu2_reg,    /* store function */
     store_petreu2_reg,    /* poke function */
