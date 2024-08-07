@@ -112,6 +112,8 @@
     PB0
  */
 
+#define DEBUG_UP
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -156,6 +158,11 @@
 #include "util.h"
 #include "init.h"
 
+#ifdef DEBUG_UP
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 typedef struct type2text_s {
     int type;
@@ -609,13 +616,13 @@ void userport_reset_end(void)
 #define UP_CBM2 (VICE_MACHINE_CBM5x0 | VICE_MACHINE_CBM6x0)
 
 static userport_init_t userport_devices_init[] = {
-/* FIXME: Add userport printer support to xplus4 */
     { USERPORT_DEVICE_PRINTER,              /* device id */
-      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2, /* emulators this device works on */
-      printer_userport_resources_init,      /* resources init function */
-      NULL,                                 /* resources shutdown function */
-      printer_userport_cmdline_options_init /* cmdline options init function */
+      UP_C64 | UP_VIC20 | UP_PET | UP_CBM2 | UP_PLUS4, /* emulators this device works on */
+      printer_userport_resources_init,                 /* resources init function */
+      NULL,                                            /* resources shutdown function */
+      printer_userport_cmdline_options_init            /* cmdline options init function */
     },
+    /* NOTE: technically ACIA is also userport with a Plus4 */
     { USERPORT_DEVICE_RS232_MODEM,          /* device id */
       UP_C64 | UP_VIC20,                    /* emulators this device works on */
       rsuser_resources_init,                /* resources init function */
@@ -782,8 +789,10 @@ static int userport_devices_resources_init(void)
         if (userport_devices_init[i].emu_mask & machine_class) {
             if (userport_devices_init[i].userport_device_resources_init) {
                 if (userport_devices_init[i].userport_device_resources_init() < 0) {
+                    DBG(("userport_devices_resources_init failed for id %d", userport_devices_init[i].device_id));
                     return -1;
                 }
+                DBG(("userport_devices_resources_init registered id %d", userport_devices_init[i].device_id));
             }
         }
         i++;

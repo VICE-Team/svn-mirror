@@ -34,6 +34,7 @@
 #include "driver-select.h"
 #include "interface-userport.h"
 #include "log.h"
+#include "machine.h"
 #include "output-select.h"
 #include "printer.h"
 #include "resources.h"
@@ -54,15 +55,28 @@
 C64/C128 | CBM2 | PET | VIC20 | CENTRONICS  | NOTES
 ---------------------------------------------------
     B    |  6   |  B  |   B   |     11      | FLAG2 <- BUSY
-    C    | 14   |  C  |   C   |      2      | PB0 -> DATA0
-    D    | 13   |  D  |   D   |      3      | PB1 -> DATA1
-    E    | 12   |  E  |   E   |      4      | PB2 -> DATA2
-    F    | 11   |  F  |   F   |      5      | PB3 -> DATA3
-    H    | 10   |  H  |   H   |      6      | PB4 -> DATA4
-    J    |  9   |  J  |   J   |      7      | PB5 -> DATA5
-    K    |  8   |  K  |   K   |      8      | PB6 -> DATA6
-    L    |  7   |  L  |   L   |      9      | PB7 -> DATA7
-    M    |  2   |  M  |   M   |      1      | PA2 -> STROBE
+    C    | 14   |  C  |   C   |      2      | PB0   -> DATA0
+    D    | 13   |  D  |   D   |      3      | PB1   -> DATA1
+    E    | 12   |  E  |   E   |      4      | PB2   -> DATA2
+    F    | 11   |  F  |   F   |      5      | PB3   -> DATA3
+    H    | 10   |  H  |   H   |      6      | PB4   -> DATA4
+    J    |  9   |  J  |   J   |      7      | PB5   -> DATA5
+    K    |  8   |  K  |   K   |      8      | PB6   -> DATA6
+    L    |  7   |  L  |   L   |      9      | PB7   -> DATA7
+    M    |  2   |  M  |   M   |      1      | PA2   -> STROBE
+
+  Plus4  | CENTRONICS  | NOTES
+---------------------------------------------------
+    H    |  11         | DCD (ACIA) <- Busy
+    B    |  2          | PB0        -> D0
+    K    |  3          | PB1        -> D1
+    4    |  4          | PB2        -> D2
+    5    |  5          | PB3        -> D3
+    6    |  6          | PB4        -> D4
+    7    |  7          | PB5        -> D5
+    J    |  8          | PB6        -> D6
+    F    |  9          | PB7        -> D7
+    D    |  1          | RTS (ACIA) -> Strobe
 */
 
 /* ------------------------------------------------------------------------- */
@@ -124,6 +138,7 @@ static int userport_printer_enable(int val)
     return 0;
 }
 
+/* called via printer-userport.c:printer_userport_init_resources */
 int interface_userport_init_resources(void)
 {
     DBG(("interface_userport_init_resources()"));
@@ -138,15 +153,21 @@ static uint8_t strobe;
 static void userport_printer_store_pbx(uint8_t b, int pulse)
 {
     value = b;
+    DBG(("userport_printer_store_pbx(0x%02x)", b));
 }
 
 static void userport_printer_store_pa2(uint8_t s)
 {
+    DBG(("userport_printer_store_pa2(%d) output:%d value: 0x%02x", s, userport_printer_enabled && strobe && !s, value));
     if (userport_printer_enabled && strobe && !s) {     /* hi->lo on strobe */
         driver_select_putc(USERPORT_OUTPUT, 4, (uint8_t)value);
 
-        set_userport_flag(1); /* signal lo->hi */
-        set_userport_flag(0); /* signal hi->lo */
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            /* FIXME: not sure what to do here */
+        } else {
+            set_userport_flag(1); /* signal lo->hi */
+            set_userport_flag(0); /* signal hi->lo */
+        }
     }
     strobe = s;
 }

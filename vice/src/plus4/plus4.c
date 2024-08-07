@@ -514,12 +514,13 @@ int machine_resources_init(void)
         init_resource_fail("serial");
         return -1;
     }
-    if (printer_resources_init() < 0) {
-        init_resource_fail("printer");
-        return -1;
-    }
     if (userport_resources_init() < 0) {
         init_resource_fail("userport devices");
+        return -1;
+    }
+    /* CAUTION: must come after userport and serial */
+    if (printer_resources_init() < 0) {
+        init_resource_fail("printer");
         return -1;
     }
     if (init_joyport_ports() < 0) {
@@ -663,6 +664,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("acia");
         return -1;
     }
+    if (userport_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport");
+        return -1;
+    }
     if (rs232drv_cmdline_options_init() < 0) {
         init_cmdline_options_fail("rs232drv");
         return -1;
@@ -681,10 +686,6 @@ int machine_cmdline_options_init(void)
     }
     if (joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joystick");
-        return -1;
-    }
-    if (userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport");
         return -1;
     }
     if (sampler_cmdline_options_init() < 0) {

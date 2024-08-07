@@ -105,7 +105,7 @@ static ui_menu_entry_t xplus4_main_menu[] = {
     {   .string   = "Printer",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
-        .data     = (ui_callback_data_t)printer_iec_nouserport_menu
+        .data     = (ui_callback_data_t)printer_iec_menu
     },
     {   .string   = "Machine settings",
         .type     = MENU_ENTRY_SUBMENU,

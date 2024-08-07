@@ -255,6 +255,7 @@ void output_select_close(unsigned int prnr)
 
 int output_select_putc(unsigned int prnr, uint8_t b)
 {
+    DBG(("output_select_putc(prnr:%u) value:0x%02x", prnr, b));
     return output_select[prnr].output_putc(prnr, b);
 }
 

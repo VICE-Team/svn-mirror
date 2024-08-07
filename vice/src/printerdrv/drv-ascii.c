@@ -178,8 +178,8 @@ static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
 #ifdef DEBUG_PRINTER
-    log_message(drv_ascii_log, "Print device #%u secondary %u data %02x.",
-                prnr + 4, secondary, b);
+    log_message(drv_ascii_log, "drv_ascii_putc(prnr:%u secondary:%u data %02x) device:%u",
+                prnr, secondary, b, prnr + 4);
 #endif
 
     if (print_char(&drv_ascii[prnr], prnr, b) < 0) {

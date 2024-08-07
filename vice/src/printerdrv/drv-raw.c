@@ -71,7 +71,7 @@ static void drv_raw_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_raw_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
-    DBG(("Print device #%u secondary %u data %02x.", prnr + 4, secondary, b));
+    DBG(("drv_raw_putc(prnr:%u) secondary %u data %02x.", prnr + 4, secondary, b));
 
     if (output_select_putc(prnr, b) < 0) {
         return -1;

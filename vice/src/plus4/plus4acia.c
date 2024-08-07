@@ -30,6 +30,7 @@
 #include "vice.h"
 
 #include "plus4acia.h"
+#include "userport.h"
 
 #define mycpu           maincpu
 #define myclk           maincpu_clk
@@ -82,13 +83,30 @@ static int _acia_enabled = 0;
 
 /* ------------------------------------------------------------------------- */
 
+static void wrap_acia_store(uint16_t addr, uint8_t value)
+{
+    if ((addr & 3) == 2) {
+        /* ACIA command register:
+           bits 2,3 control RTS
+           0, 0 -> RTS high
+           any other -> RTS low
+        */
+        if ((value & 0x0c) == 0) {
+            store_userport_pa2(1); /* Userport pin D */
+        } else {
+            store_userport_pa2(0); /* Userport pin D */
+        }
+    }
+    acia_store(addr, value);
+}
+
 static io_source_t acia_device = {
     "ACIA",               /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "Acia1Enable",        /* resource to set to '0' */
     0xfd00, 0xfd0f, 0x03, /* range for the device, regs:$fd00-$fd03, mirrors:$df04-$fd0f */
     1,                    /* read is always valid */
-    acia_store,           /* store function */
+    wrap_acia_store,      /* store function */
     NULL,                 /* NO poke function */
     acia_read,            /* read function */
     acia_peek,            /* peek function */

@@ -29,7 +29,15 @@
 #include "machine-printer.h"
 #include "plus4.h"
 #include "printer.h"
+#include "log.h"
 
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
 
 void machine_printer_setup_context(struct machine_context_s *machine_ctx)
 {
@@ -37,7 +45,8 @@ void machine_printer_setup_context(struct machine_context_s *machine_ctx)
 
 int machine_printer_resources_init(void)
 {
-    if (printer_serial_init_resources() < 0) {
+    DBG(("machine_printer_resources_init"));
+    if (printer_serial_init_resources() < 0 || printer_userport_init_resources() < 0) {
         return -1;
     }
     return 0;
@@ -49,6 +58,7 @@ void machine_printer_resources_shutdown(void)
 
 int machine_printer_cmdline_options_init(void)
 {
+    DBG(("machine_printer_cmdline_options_init"));
     if (printer_serial_init_cmdline_options() < 0) {
         return -1;
     }
