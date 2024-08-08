@@ -15878,7 +15878,7 @@ Integer specifying the size of the memory in KiB.
 @vindex MemoryHack
 @item MemoryHack
 Integer specifying what memory expansion hack is active.
-(0: None, 1: C256K, 2: H256K, 3: H1024K, 4: H4096K)
+(0: None, 1: C256K, 2: H256K, 3: H1024K)
 
 @vindex Acia1Enable
 @item Acia1Enable
@@ -15919,7 +15919,7 @@ Specify size of RAM installed in KiB
 @item -memoryexphack <device>
 Set active memory expansion hack
 (@code{MemoryHack}).
-(0: None, 1: C256K, 2: H256K, 3: H1024K, 4: H4096K)
+(0: None, 1: C256K, 2: H256K, 3: H1024K)
 
 @findex -acia, +acia
 @item -acia

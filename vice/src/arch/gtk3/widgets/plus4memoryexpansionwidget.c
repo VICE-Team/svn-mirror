@@ -48,7 +48,6 @@ static const vice_gtk3_radiogroup_entry_t expansions[] = {
     { "256KiB (CSORY)",     MEMORY_HACK_C256K },
     { "256KiB (HANNES)",    MEMORY_HACK_H256K },
     { "1024KiB (HANNES)",   MEMORY_HACK_H1024K },
-    { "4096KiB (HANNES)",   MEMORY_HACK_H4096K },
     { NULL, -1 }
 };
 

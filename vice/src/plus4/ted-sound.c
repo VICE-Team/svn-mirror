@@ -336,7 +336,6 @@ static int ted_sound_machine_calculate_samples(sound_t **psid, float *pbuf, int 
 static int ted_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
-    int j;
     int16_t volume;
 
     if (snd.digital) {
