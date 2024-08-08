@@ -265,7 +265,8 @@ static const resource_string_t resources_string[] = {
     /* { "MonitorFont", "Mono 11", RES_EVENT_NO, NULL, */
     { "MonitorFont", "C64 Pro Mono Regular 9", RES_EVENT_NO, NULL,
         &ui_resources.monitor_font, set_monitor_font, NULL },
-    { "MonitorFG", "#ffffff", RES_EVENT_NO, NULL,
+    /* we want this one to be "terminal white" but NOT "bright white" */
+    { "MonitorFG", "#cccccc", RES_EVENT_NO, NULL,
         &ui_resources.monitor_fg, set_monitor_fg, NULL },
     { "MonitorBG", "#000000", RES_EVENT_NO, NULL,
         &ui_resources.monitor_bg, set_monitor_bg, NULL },

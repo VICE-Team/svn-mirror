@@ -112,7 +112,7 @@
     PB0
  */
 
-#define DEBUG_UP
+/* #define DEBUG_UP */
 
 #include "vice.h"
 
