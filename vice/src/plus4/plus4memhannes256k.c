@@ -90,7 +90,6 @@ int set_h256k_enabled(int val)
         case H256K_DISABLED:
         case H256K_256K:
         case H256K_1024K:
-        case H256K_4096K:
             break;
         default:
             return -1;
@@ -150,10 +149,6 @@ static int h256k_activate(int type)
             h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0xf0000);
             log_message(h256k_log, "HANNES 1MiB expansion installed.");
             break;
-        case 3:
-            h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x3f0000);
-            log_message(h256k_log, "HANNES 4MiB expansion installed.");
-            break;
     }
     h256k_reset();
     return 0;
@@ -190,9 +185,6 @@ static void h256k_reg_store(uint16_t addr, uint8_t value)
     if (h256k_enabled == 2) {
         h256k_bank = h256k_bank + ((3 - ((value & 0xc) >> 2)) << 2);
         h256k_reg = h256k_reg | 0x70;
-    }
-    if (h256k_enabled == 3) {
-        h256k_bank = h256k_bank + ((3 - ((value & 0x30) >> 4)) << 4);
     }
     h256k_bound = (value & 0x80) >> 7;
 }

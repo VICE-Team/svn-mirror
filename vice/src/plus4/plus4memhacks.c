@@ -44,7 +44,6 @@ static const char *hack_desc[] = {
     "256KiB CSORY",
     "256KiB Hannes",
     "1MiB Hannes",
-    "4MiB Hannes"
 };
 
 
@@ -64,7 +63,6 @@ static int set_memory_hack(int val, void *param)
         case MEMORY_HACK_C256K:
         case MEMORY_HACK_H256K:
         case MEMORY_HACK_H1024K:
-        case MEMORY_HACK_H4096K:
             break;
         default:
             return -1;
@@ -79,7 +77,6 @@ static int set_memory_hack(int val, void *param)
             break;
         case MEMORY_HACK_H256K:
         case MEMORY_HACK_H1024K:
-        case MEMORY_HACK_H4096K:
             set_h256k_enabled(H256K_DISABLED);
             break;
     }
@@ -106,10 +103,6 @@ static int set_memory_hack(int val, void *param)
             set_h256k_enabled(H256K_1024K);
             resources_set_int("RamSize", 1024);
             break;
-        case MEMORY_HACK_H4096K:
-            set_h256k_enabled(H256K_4096K);
-            resources_set_int("RamSize", 4096);
-            break;
     }
 
     return 0;
@@ -123,7 +116,6 @@ int plus4_memory_hacks_ram_inject(uint16_t addr, uint8_t value)
             break;
         case MEMORY_HACK_H256K:
         case MEMORY_HACK_H1024K:
-        case MEMORY_HACK_H4096K:
             h256k_ram_inject(addr, value);
             break;
         case MEMORY_HACK_NONE:
@@ -168,7 +160,7 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-memoryexphack", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MemoryHack", NULL,
-      "<device>", "Set the 'memory expansion hack' device (0: None, 1: CSORY 256KiB, 2: HANNES 256KiB, 3: HANNES 1MiB, 4: HANNES 4MiB)" },
+      "<device>", "Set the 'memory expansion hack' device (0: None, 1: CSORY 256KiB, 2: HANNES 256KiB, 3: HANNES 1MiB)" },
     CMDLINE_LIST_END
 };
 

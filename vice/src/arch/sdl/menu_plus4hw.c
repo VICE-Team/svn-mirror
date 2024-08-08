@@ -234,10 +234,6 @@ const ui_menu_entry_t plus4_hardware_menu_template[] = {
         .callback = radio_MemoryHack_callback,
         .data     = (ui_callback_data_t)MEMORY_HACK_H1024K
     },
-    {   .string   = "4MiB (HANNES)",
-        .type     = MENU_ENTRY_RESOURCE_RADIO,
-        .callback = radio_MemoryHack_callback,
-        .data     = (ui_callback_data_t)MEMORY_HACK_H4096K},
     SDL_MENU_LIST_END
 };
 

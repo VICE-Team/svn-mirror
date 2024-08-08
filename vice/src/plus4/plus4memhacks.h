@@ -36,7 +36,6 @@ typedef enum plus4_memhack_e {
     MEMORY_HACK_C256K,  /**< 256KB CSORY */
     MEMORY_HACK_H256K,  /**< 256KB Hannes */
     MEMORY_HACK_H1024K, /**< 1024KB Hannes */
-    MEMORY_HACK_H4096K  /**< 4096KB Hannes */
 } plus4_memhack_t;
 
 
