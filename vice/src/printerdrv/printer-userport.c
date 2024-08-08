@@ -31,7 +31,7 @@
 #include "types.h"
 #include "log.h"
 
-#define DEBUG_PRINTER
+/* #define DEBUG_PRINTER */
 
 #ifdef DEBUG_PRINTER
 #define DBG(x) log_printf  x

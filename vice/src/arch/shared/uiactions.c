@@ -399,7 +399,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PRINTER_FORMFEED_4,        "printer-formfeed-4",       "Send form feed to printer #4",         VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_PRINTER_FORMFEED_5,        "printer-formfeed-5",       "Send form feed to printer #5",         VICE_MACHINE_ALL^VICE_MACHINE_VSID },
     { ACTION_PRINTER_FORMFEED_6,        "printer-formfeed-6",       "Send form feed to plotter #6",         VICE_MACHINE_ALL^VICE_MACHINE_VSID },
-    { ACTION_PRINTER_FORMFEED_USERPORT, "printer-formfeed-userport", "Send form feed to userport printer",  VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|VICE_MACHINE_C128|VICE_MACHINE_VIC20|VICE_MACHINE_PET|VICE_MACHINE_CBM6x0 },
+    { ACTION_PRINTER_FORMFEED_USERPORT, "printer-formfeed-userport", "Send form feed to userport printer",  VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_SCPU64|VICE_MACHINE_C128|VICE_MACHINE_VIC20|VICE_MACHINE_PET|VICE_MACHINE_CBM6x0|VICE_MACHINE_PLUS4 },
 
     { ACTION_VIRTUAL_KEYBOARD,          "virtual-keyboard",         "Activate virtual keyboard",            VICE_MACHINE_ALL^VICE_MACHINE_VSID },
 
