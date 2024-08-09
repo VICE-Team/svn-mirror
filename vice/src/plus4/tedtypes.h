@@ -342,8 +342,12 @@ struct ted_s {
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
 
+    /* Last (data) value read or written by the CPU */
+    uint8_t last_cpu_val;
+
     unsigned int int_num;
 };
+
 typedef struct ted_s ted_t;
 
 extern ted_t ted;

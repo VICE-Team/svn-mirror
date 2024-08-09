@@ -84,7 +84,8 @@ void mem_proc_port_set_motor_in(int val);
 void plus4io_init(void);
 void plus4_pio1_init(int block);
 
-uint8_t read_unused(uint16_t addr);
+uint8_t mem_read_open_space(uint16_t addr);
+uint8_t *mem_get_open_space(void);
 
 void store_bank_io(uint16_t addr, uint8_t byte);
 

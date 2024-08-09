@@ -39,6 +39,7 @@
 #include "monitor.h"
 #include "plus4mem.h"
 #include "resources.h"
+#include "tedtypes.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -337,18 +338,19 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
         current = current->next;
     }
 
-    /* no valid I/O source was read, return phi1 */
+    /* no valid I/O source was read, return open space */
     if (io_source_valid == 0) {
-        return read_unused(addr);
+        return mem_read_open_space(addr);
     }
     /* only one valid I/O source was read, return value */
     if (io_source_valid == 1) {
         return firstval;
     }
+
     /* more than one I/O source was read, handle collision */
     if (io_source_collision_handling == IO_COLLISION_METHOD_DETACH_ALL) {
         io_source_msg_detach_all(addr, io_source_counter, list);
-        return read_unused(addr);
+        return mem_read_open_space(addr);
     } else if (io_source_collision_handling == IO_COLLISION_METHOD_DETACH_LAST) {
         io_source_msg_detach_last(addr, io_source_counter, list, lowest_order);
         return realval;
@@ -356,7 +358,7 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
         io_source_log_collisions(addr, io_source_counter, list);
         return realval;
     }
-    return read_unused(addr);
+    return mem_read_open_space(addr);
 }
 
 /* peek from I/O area with no side-effects */
@@ -375,7 +377,7 @@ static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
         current = current->next;
     }
 
-    return read_unused(addr);
+    return mem_read_open_space(addr);
 }
 
 static inline void io_store(io_source_list_t *list, uint16_t addr, uint8_t value)
@@ -494,7 +496,8 @@ void cartio_set_highest_order(unsigned int nr)
 uint8_t plus4io_fd00_read(uint16_t addr)
 {
     DBGRW(("IO: io-fd00 r %04x\n", addr));
-    return io_read(&plus4io_fd00_head, addr);
+    ted.last_cpu_val = io_read(&plus4io_fd00_head, addr);
+    return ted.last_cpu_val;
 }
 
 uint8_t plus4io_fd00_peek(uint16_t addr)
@@ -506,13 +509,15 @@ uint8_t plus4io_fd00_peek(uint16_t addr)
 void plus4io_fd00_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-fd00 w %04x %02x\n", addr, value));
+    ted.last_cpu_val = value;
     io_store(&plus4io_fd00_head, addr, value);
 }
 
 uint8_t plus4io_fe00_read(uint16_t addr)
 {
     DBGRW(("IO: io-fe00 r %04x\n", addr));
-    return io_read(&plus4io_fe00_head, addr);
+    ted.last_cpu_val = io_read(&plus4io_fe00_head, addr);
+    return ted.last_cpu_val;
 }
 
 uint8_t plus4io_fe00_peek(uint16_t addr)
@@ -524,6 +529,7 @@ uint8_t plus4io_fe00_peek(uint16_t addr)
 void plus4io_fe00_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-fe00 w %04x %02x\n", addr, value));
+    ted.last_cpu_val = value;
     io_store(&plus4io_fe00_head, addr, value);
 }
 
