@@ -17,6 +17,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/core/rtc
 
 AM_CFLAGS = @VICE_CFLAGS@ @INLINE_UNIT_GROWTH@

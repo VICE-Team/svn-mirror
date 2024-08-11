@@ -33,6 +33,7 @@
 
 #include "cart/clockport.h"
 #include "cartridge.h"
+#include "datasette.h"
 #include "ds1307.h"
 #include "rtc-58321a.h"
 #include "rsuser.h"
@@ -96,6 +97,19 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
 int tapecart_flush_tcrt(void)
 {
     return -1;
+}
+
+void machine_set_tape_write_in(int port, int val)
+{
+}
+void machine_set_tape_motor_in(int port, int val)
+{
+}
+void machine_trigger_flux_change(int port, unsigned int on)
+{
+}
+void machine_set_tape_sense(int port, int sense)
+{
 }
 
 #ifdef WINDOWS_COMPILE
