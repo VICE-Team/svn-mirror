@@ -30,6 +30,7 @@
 #include "c64mem.h"
 #include "pet/petpia.h"
 #include "snapshot.h"
+#include "datasette.h"
 #include "tap.h"
 #include "tape.h"
 #include "tapecart.h"
@@ -209,4 +210,17 @@ bool pia1_get_diagnostic_pin(void)
 int tapeport_get_active_state(void)
 {
     return 0;
+}
+
+void machine_set_tape_write_in(int port, int val)
+{
+}
+void machine_set_tape_motor_in(int port, int val)
+{
+}
+void machine_trigger_flux_change(int port, unsigned int on)
+{
+}
+void machine_set_tape_sense(int port, int sense)
+{
 }
