@@ -653,7 +653,7 @@ void parallel_clr_ndac(uint8_t mask)
 #ifdef DEBUG
 #define PARALLEL_DEBUG_SET_BUS(type)                                    \
     if (debug.ieee) {                                               \
-        log_debug(# type "_set_bus(%02x) -> %02x (%02x)", \
+        log_debug(LOG_DEFAULT, # type "_set_bus(%02x) -> %02x (%02x)", \
                     (unsigned int)b, parallel_bus, ~parallel_bus & 0xffu);             \
     }
 #else
