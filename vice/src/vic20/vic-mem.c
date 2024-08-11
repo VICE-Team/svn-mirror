@@ -291,17 +291,15 @@ uint8_t vic_read(uint16_t addr)
 
 #ifdef HAVE_MOUSE
     if ((addr == 8) || (addr == 9)) {
-        if (_mouse_enabled) {
-            if ((maincpu_clk ^ pot_cycle) & ~511) {
-                pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
+        if ((maincpu_clk ^ pot_cycle) & ~511) {
+            pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
 
-                if (_mouse_enabled) {
-                    mouse_poll();
-                }
-
-                vic.regs[8] = read_joyport_potx();
-                vic.regs[9] = read_joyport_poty();
+            if (_mouse_enabled) {
+                mouse_poll();
             }
+
+            vic.regs[8] = read_joyport_potx();
+            vic.regs[9] = read_joyport_poty();
         }
     }
 #endif
