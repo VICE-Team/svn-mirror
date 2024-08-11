@@ -831,7 +831,6 @@ x64dtv_libs =  \
 	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
-	$(diag_lib) \
 	$(vdrive_lib) \
 	$(sid_dtv_lib) \
 	$(monitor_lib) \
@@ -842,14 +841,15 @@ x64dtv_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_dtv_libs) \
+	$(userport_lib) \
 	$(c64dtvstubs_lib) \
+	$(diag_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
 	$(rtc_lib) \
 	$(hvsc_lib) \
 	$(hotkeys_lib) \
-	$(zmbv_lib)\
-	$(userport_lib)
+	$(zmbv_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
