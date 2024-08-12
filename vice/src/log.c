@@ -62,11 +62,14 @@
  *******************************************************************
  */
 
+static int log_locks_initialized = 0;
+static void log_init_locks(void);
+
 #include <pthread.h>
 static pthread_mutex_t log_lock;
 
-#define LOCK() pthread_mutex_lock(&log_lock)
-#define UNLOCK() pthread_mutex_unlock(&log_lock)
+#define LOCK() { log_init_locks(); pthread_mutex_lock(&log_lock); }
+#define UNLOCK() { pthread_mutex_unlock(&log_lock); }
 #define UNLOCK_AND_RETURN_INT(i) { int result = (i); UNLOCK(); return result; }
 
 #else /* #ifdef USE_VICE_THREAD */
@@ -196,17 +199,26 @@ int log_set_limit_early(int n)
     UNLOCK_AND_RETURN_INT(0);
 }
 
+static void log_init_locks(void)
+{
+    if (log_locks_initialized == 0) {
+#ifdef USE_VICE_THREAD
+        pthread_mutexattr_t lock_attributes;
+        pthread_mutexattr_init(&lock_attributes);
+        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&log_lock, &lock_attributes);
+#endif
+        log_locks_initialized = 1;
+    }
+    return;
+}
+
 /* called via main_program()->archdep_init() */
 int log_early_init(int argc, char **argv)
 {
     int i;
 
-#ifdef USE_VICE_THREAD
-    pthread_mutexattr_t lock_attributes;
-    pthread_mutexattr_init(&lock_attributes);
-    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&log_lock, &lock_attributes);
-#endif
+    log_init_locks();
 
     DBG(("log_early_init: %d %s\n", argc, argv[0]));
     if (argc > 1) {

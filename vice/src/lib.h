@@ -38,8 +38,22 @@
 #include "log.h"
 
 #ifdef DEBUG
-/* memory leak pinpointing, don't forget to enable in lib.c */
+
+/* enable memory debugging */
+#define LIB_DEBUG
+/* enable pinpointing of memory leaks (lib_malloc etc) */
 #define LIB_DEBUG_PINPOINT
+
+/* warn on free(NULL) */
+/* #define LIB_DEBUG_WARN_FREE_NULL */
+
+/* show backtrace in caller info */
+#define LIB_DEBUG_BACKTRACE
+
+/* number of extra bytes to allocate before/after a memory block */
+/* #define LIB_DEBUG_GUARD 0x123 */   /* BUGBUG: funky how this breaks stuff */
+#define LIB_DEBUG_GUARD 0x100
+
 #endif
 
 void lib_init(void);
@@ -63,7 +77,7 @@ void lib_free_pinpoint(void *p, const char *name, unsigned int line);
 char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line);
 
 #ifndef COMPILING_LIB_DOT_C
-
+/* overload the lib_xxx functions, EXCEPT we are compiling lib.c itself */
 #define lib_malloc(x) lib_malloc_pinpoint(x, __FILE__, __LINE__)
 #define lib_free(x) lib_free_pinpoint(x, __FILE__, __LINE__)
 #define lib_calloc(x, y) lib_calloc_pinpoint(x, y, __FILE__, __LINE__)
