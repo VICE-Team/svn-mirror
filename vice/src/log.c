@@ -62,9 +62,6 @@
  *******************************************************************
  */
 
-static int log_locks_initialized = 0;
-static void log_init_locks(void);
-
 #include <pthread.h>
 static pthread_mutex_t log_lock;
 
@@ -79,6 +76,9 @@ static pthread_mutex_t log_lock;
 #define UNLOCK_AND_RETURN_INT(i) return (i)
 
 #endif /* #ifdef USE_VICE_THREAD */
+
+static int log_locks_initialized = 0;
+static void log_init_locks(void);
 
 static FILE *log_file = NULL;
 
