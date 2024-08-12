@@ -210,6 +210,8 @@ This is the documentation for VICE, the Versatile Commodore Emulator.
 
 * Basics::                      Simple things you can do.
 
+* Quick setup::                 Some quick hints on setting up VICE.
+
 * Settings and resources::      Emulator parameters you can change.
 
 * Machine-specific features::   Peculiar characteristics of the emulators.
@@ -3252,7 +3254,7 @@ in Vim.
 
 
 
-@node Basics, Settings and resources, System files, Top
+@node Basics, Quick setup, System files, Top
 @chapter Basic operation
 
 This section describes the basic things you can do once the emulator
@@ -3577,7 +3579,53 @@ examine a memory location and if they find a certain "magic" value they
 only do what you know from the C64 as @code{Run/Stop-Restore}.
 Therefore, to really reset a CBM-II use power cycle.
 
-@node Settings and resources, Machine-specific features, Basics, Top
+@node Quick setup, Settings and resources, Basics, Top
+@chapter Quick setup
+
+This chapter is mostly aimed at people who are used to older VICE releases. The
+default configuration has shifted from "make the emulator fast enough to work
+on consumer hardware" to "pedantic focus on emulation accuracy", which is why
+newer releases have been perceived as "slower" by some people.
+
+However, a couple things can be reverted and "improved" - if better performance
+is what you can afford to trade for a little less emulation accuracy.
+@strong{Note that if you encounter any strange problems, you should always try to
+reset settings to default first.}
+
+@itemize @bullet
+
+@item
+To speed up loading .prg files, enable
+Options->Host->Autostart->Autostart PRG Settings->Autostart mode->Inject into RAM
+(@code{AutostartPrgMode} = 0)
+
+@item
+To speed up loading .d64 files,
+enable Options->Peripherial devices->Drive->Virtual device
+(@code{VirtualDevice8..11} = 1)
+and enable Options->Host->Autostart->Handle True Drive Emulation on autostart
+(@code{AutostartHandleTrueDriveEmulation} = 1)
+
+@item
+To speed up warp mode,
+disable Options->Audio->Sound driver->Enable sound emulation in warpmode
+(@code{SoundEmulateOnWarp} = 0)
+
+@end itemize
+
+Last not least (does not really fit into the above list):
+
+@itemize @bullet
+
+@item
+If you are coming from WinVICE to GTK3, you might want to restore the original
+WinVICE hotkeys. Go to
+Options->Host->Hotkeys->Load From,
+and navigate to data/hotkeys/hotkeys-winvice-legacy.vhk
+
+@end itemize
+
+@node Settings and resources, Machine-specific features, Quick setup, Top
 @chapter Settings and resources
 
 In the VICE emulators, all the settings are stored in entities known as
