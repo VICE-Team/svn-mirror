@@ -289,14 +289,14 @@ inline static void ted06_store(const uint8_t value)
 
     /* This is the funniest part... handle bad line tricks.  */
 
-    if (line == ted.first_dma_line && (value & 0x10) != 0) {
+    if ((line == ted.first_dma_line) && (value & 0x10) != 0) {
         ted.allow_bad_lines = 1;
         ted.raster.ycounter = 0;         /* should be 7 actually */
     }
 
-    if (ted.raster.ysmooth != (value & 7)
-        && line >= ted.first_dma_line
-        && line <= ted.last_dma_line) {
+    if ((ted.raster.ysmooth != (value & 7))
+        && (line >= ted.first_dma_line)
+        && (line <= ted.last_dma_line)) {
         ted_badline_check_state(value, cycle, line);
     }
 
@@ -342,7 +342,7 @@ inline static void check_lateral_border(const uint8_t value, int cycle,
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
-            if (cycle == 17 && !(ted.regs[0x07] & 0x8)) {
+            if ((cycle == 17) && !(ted.regs[0x07] & 0x8)) {
                 raster->blank_this_line = 1;
             }
         } else {
@@ -365,7 +365,7 @@ inline static void check_lateral_border(const uint8_t value, int cycle,
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
-            if (cycle == 56 && (ted.regs[0x07] & 0x8)
+            if ((cycle == 56) && (ted.regs[0x07] & 0x8)
                 && (!raster->blank_enabled || raster->open_left_border)) {
                 raster->open_right_border = 1;
             }
