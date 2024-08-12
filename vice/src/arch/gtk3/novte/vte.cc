@@ -4732,7 +4732,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                     int codepoint = ((ch2 & 0x3f) << 6) | (ch3 & 0x3f);
                     int codeh = codepoint >> 8;
                     int codel = codepoint & 0xff;
-                    printf("[A:%04x]", codepoint);
+                    /*printf("[A:%04x]", codepoint);*/
                     switch (codeh) {
                         case 0: /* uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
                             /* simple petscii -> ascii conversion */
@@ -4783,7 +4783,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                 to++;
                 to++;
             }
-            printf("%c", ch);
+            /*printf("%c", ch);*/
             g_string_append_c(string, ch);
             from = ++to;
         }
