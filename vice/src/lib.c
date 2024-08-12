@@ -45,60 +45,75 @@
 #include "lib.h"
 
 #ifdef DEBUG
-/* enable memory debugging */
-# define LIB_DEBUG
-/* enable pinpointing of memory leaks, don't forget to enable in lib.h */
-# define LIB_DEBUG_PINPOINT
-/* warn on free(NULL) */
-/* #define LIB_DEBUG_WARN_FREE_NULL */
-# if defined(HAVE_EXECINFO_H) && defined(HAVE_BT_SYMBOLS)
-#  define LIB_DEBUG_CALLER
-#  define DEBUG_BT_MAXDEPTH 16
-#  include <execinfo.h>
+# ifdef LIB_DEBUG_BACKTRACE
+#  if defined(HAVE_EXECINFO_H) && defined(HAVE_BT_SYMBOLS)
+#   define LIB_DEBUG_CALLER
+#   define DEBUG_BT_MAXDEPTH 16
+#   include <execinfo.h>
+#  endif
 # endif
 #endif
 
+static log_t log_lib = LOG_DEFAULT;
+
 #define LIB_DEBUG_LOCK()
 #define LIB_DEBUG_UNLOCK()
-
-#ifdef LIB_DEBUG
-#define LIB_DEBUG_SIZE  0x10000
-#define LIB_DEBUG_GUARD 0x1000
-#define LIB_DEBUG_TOPMAX 50
-
-#ifdef LIB_DEBUG_PINPOINT
-static const char *lib_debug_filename[LIB_DEBUG_SIZE];
-static unsigned int lib_debug_line[LIB_DEBUG_SIZE];
-static const char *lib_debug_top_filename[LIB_DEBUG_TOPMAX];
-static unsigned int lib_debug_top_line[LIB_DEBUG_TOPMAX];
-static const char *lib_debug_pinpoint_filename;
-static unsigned int lib_debug_pinpoint_line = 0;
-#endif
-
-static void *lib_debug_address[LIB_DEBUG_SIZE];
-static unsigned int lib_debug_size[LIB_DEBUG_SIZE];
-static unsigned int lib_debug_top_size[LIB_DEBUG_TOPMAX];
-static unsigned int lib_debug_current_total = 0;
-static unsigned int lib_debug_max_total = 0;
-#ifdef LIB_DEBUG_CALLER
-static void *lib_debug_bt_caller[LIB_DEBUG_SIZE][DEBUG_BT_MAXDEPTH];
-static int lib_debug_bt_numcaller[LIB_DEBUG_SIZE];
-#endif
-
-#if LIB_DEBUG_GUARD > 0
-static char *lib_debug_guard_base[LIB_DEBUG_SIZE];
-static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
-#endif
 
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
 static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 #undef LIB_DEBUG_LOCK
 #undef LIB_DEBUG_UNLOCK
-#define LIB_DEBUG_LOCK() pthread_mutex_lock(&lib_debug_lock)
-#define LIB_DEBUG_UNLOCK() pthread_mutex_unlock(&lib_debug_lock)
+#define LIB_DEBUG_LOCK() { lib_lock_init(); pthread_mutex_lock(&lib_debug_lock); }
+#define LIB_DEBUG_UNLOCK() { pthread_mutex_unlock(&lib_debug_lock); }
 #endif
 
+#ifdef LIB_DEBUG_PINPOINT
+static const char *lib_debug_pinpoint_filename;
+static unsigned int lib_debug_pinpoint_line = 0;
+#endif
+
+#define LIB_DEBUG_SIZE  0x10000
+#define LIB_DEBUG_TOPMAX 50
+
+#ifdef DEBUG
+static void *lib_debug_address[LIB_DEBUG_SIZE];
+#if defined(LIB_DEBUG_PINPOINT)
+static unsigned int lib_debug_top_size[LIB_DEBUG_TOPMAX];
+#endif
+#if defined(LIB_DEBUG) || defined(LIB_DEBUG_PINPOINT)
+static unsigned int lib_debug_size[LIB_DEBUG_SIZE];
+static unsigned int lib_debug_current_total = 0;
+static unsigned int lib_debug_max_total = 0;
+#endif
+#endif /* DEBUG */
+
+#if defined(LIB_DEBUG) || defined(LIB_DEBUG_PINPOINT)
+#ifdef LIB_DEBUG_CALLER
+/* NOT if DEBUG only */
+static void *lib_debug_bt_caller[LIB_DEBUG_SIZE][DEBUG_BT_MAXDEPTH];
+static int lib_debug_bt_numcaller[LIB_DEBUG_SIZE];
+#endif
+#endif
+
+#ifdef LIB_DEBUG
+#ifdef LIB_DEBUG_PINPOINT
+static const char *lib_debug_filename[LIB_DEBUG_SIZE];
+static unsigned int lib_debug_line[LIB_DEBUG_SIZE];
+#endif
+#endif /* LIB_DEBUG */
+
+#if defined(LIB_DEBUG_PINPOINT)
+static const char *lib_debug_top_filename[LIB_DEBUG_TOPMAX];
+static unsigned int lib_debug_top_line[LIB_DEBUG_TOPMAX];
+#endif
+
+#ifdef LIB_DEBUG
+#if LIB_DEBUG_GUARD > 0
+static char *lib_debug_guard_base[LIB_DEBUG_SIZE];
+static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
+#endif
+#endif /* LIB_DEBUG */
 
 #ifdef DEBUG
 /** \brief  Flag to enable/debug output on exit of emu/tool
@@ -106,6 +121,7 @@ static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 static int lib_debug_enable_output = 1;
 #endif
 
+static int lib_debug_lock_initialized = 0;
 
 /*----------------------------------------------------------------------------*/
 
@@ -115,6 +131,7 @@ static void lib_debug_check(void);
 static void lib_debug_init(void)
 {
     memset(lib_debug_address, 0, sizeof(lib_debug_address));
+#ifdef LIB_DEBUG
 #ifdef LIB_DEBUG_CALLER
     memset(lib_debug_bt_caller, 0, sizeof(lib_debug_bt_caller));
     memset(lib_debug_bt_numcaller, 0, sizeof(lib_debug_bt_numcaller));
@@ -126,12 +143,33 @@ static void lib_debug_init(void)
     memset(lib_debug_line, 0, sizeof(lib_debug_line));
     memset(lib_debug_top_size, 0, sizeof(lib_debug_top_size));
 #endif
-
+#endif /* LIB_DEBUG */
     /* Check for memory leaks on exit. */
     atexit(lib_debug_check);
 }
-#endif
+#endif /* DEBUG */
 
+/* triggered early by first use of LOCK() */
+static void lib_lock_init(void)
+{
+    if (lib_debug_lock_initialized == 0) {
+        lib_debug_lock_initialized = 1;
+#ifdef USE_VICE_THREAD
+        pthread_mutexattr_t lock_attributes;
+        pthread_mutexattr_init(&lock_attributes);
+        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&lib_debug_lock, &lock_attributes);
+#endif
+#ifdef DEBUG
+        lib_debug_init();
+#endif
+    }
+}
+
+
+#ifdef LIB_DEBUG
+
+#ifdef LIB_DEBUG_PINPOINT
 static void lib_debug_add_top(const char *filename, unsigned int line, unsigned int size)
 {
     unsigned int index, i;
@@ -151,6 +189,7 @@ static void lib_debug_add_top(const char *filename, unsigned int line, unsigned 
         }
     }
 }
+#endif /* LIB_DEBUG_PINPOINT */
 
 static void lib_debug_alloc(void *ptr, size_t size, int level)
 {
@@ -158,22 +197,22 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
 
     index = 0;
 
-    while (index < LIB_DEBUG_SIZE && lib_debug_address[index] != NULL) {
+    while ((index < LIB_DEBUG_SIZE) && (lib_debug_address[index] != NULL)) {
         index++;
     }
 
     if (index == LIB_DEBUG_SIZE) {
-        printf("Error: lib_debug_alloc(): Out of debug address slots. (increase LIB_DEBUG_SIZE!)\n");
+        log_error(log_lib, "lib_debug_alloc(): Out of debug address slots. (increase LIB_DEBUG_SIZE!)");
         return;
     }
 
 #ifdef LIB_DEBUG_CALLER
     lib_debug_bt_numcaller[index] = backtrace(lib_debug_bt_caller[index], DEBUG_BT_MAXDEPTH);
 #if 0
-    printf("lib_debug_alloc(): Alloc address %p size %i slot %i from %p.\n",
+    log_printf("lib_debug_alloc(): Alloc address %p size %i slot %i from %p.",
            ptr, size, index, func);
 #endif
-#endif
+#endif /* LIB_DEBUG_CALLER */
 
     lib_debug_address[index] = ptr;
     lib_debug_size[index] = (unsigned int)size;
@@ -199,19 +238,19 @@ static void lib_debug_free(void *ptr, unsigned int level, bool fill)
 
     index = 0;
 
-    while (index < LIB_DEBUG_SIZE && lib_debug_address[index] != ptr) {
+    while ((index < LIB_DEBUG_SIZE) && (lib_debug_address[index] != ptr)) {
         index++;
     }
 
     if (index == LIB_DEBUG_SIZE) {
 #if 0
-        printf("lib_debug_free(): Cannot find debug address!\n");
+        log_printf("lib_debug_free(): Cannot find debug address!");
 #endif
         return;
     }
 
 #if 0
-    printf("lib_debug_free(): Free address %p size %u slot %u.\n",
+    log_printf("lib_debug_free(): Free address %p size %u slot %u.",
            ptr, lib_debug_size[index], index);
 #endif
 
@@ -230,25 +269,30 @@ static void lib_debug_guard_add(char *ptr, unsigned int size)
 {
     unsigned int index;
 
+    LIB_DEBUG_LOCK();
+
     index = 0;
 
     /* find free slot */
-    while (index < LIB_DEBUG_SIZE && lib_debug_guard_base[index] != NULL) {
+    while ((index < LIB_DEBUG_SIZE) && (lib_debug_guard_base[index] != NULL)) {
+        /* log_printf("REJECT BASE %p SLOT %d SIZE %d", lib_debug_guard_base[index], index, lib_debug_guard_size[index]); */
         index++;
     }
 
     if (index == LIB_DEBUG_SIZE) {
-        printf("Error: lib_debug_guard_add(): Out of debug address slots. (increase LIB_DEBUG_SIZE)\n");
+        log_error(log_lib, "lib_debug_guard_add(): Out of debug address slots. (increase LIB_DEBUG_SIZE)");
         return;
     }
 #if 0
-    printf("ADD BASE %p SLOT %d SIZE %d\n", ptr, index, size);
+    log_printf("ADD BASE %p SLOT %d SIZE %d", ptr, index, size);
 #endif
     lib_debug_guard_base[index] = ptr;
     lib_debug_guard_size[index] = (unsigned int)size;
 
     memset(ptr, 0x55, LIB_DEBUG_GUARD);
     memset(ptr + LIB_DEBUG_GUARD + size, 0x55, LIB_DEBUG_GUARD);
+
+    LIB_DEBUG_UNLOCK();
 }
 
 /* called by lib_debug_libc_free, lib_debug_check (at exit) */
@@ -260,15 +304,15 @@ static int lib_debug_guard_remove(char *ptr)
     index = 0;
 
     /* find matching slot */
-    while (index < LIB_DEBUG_SIZE && lib_debug_guard_base[index] != (ptr - LIB_DEBUG_GUARD)) {
+    while ((index < LIB_DEBUG_SIZE) && (lib_debug_guard_base[index] != (ptr - LIB_DEBUG_GUARD))) {
         index++;
     }
 
     if (index == LIB_DEBUG_SIZE) {
 #ifdef LIB_DEBUG_PINPOINT
-        printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+        log_error(log_lib, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-        printf("Error: lib_debug_guard_remove(): Cannot find debug address %p! (make sure to use functions from lib.h, do NOT use lib_free on pointers allocated by other functions.)\n",
+        log_error(log_lib, "lib_debug_guard_remove(): Cannot find debug address %p! (make sure to use functions from lib.h, do NOT use lib_free on pointers allocated by other functions.)",
                (void *)(ptr - LIB_DEBUG_GUARD));
         return 0;
     }
@@ -276,23 +320,23 @@ static int lib_debug_guard_remove(char *ptr)
     for (i = 0; i < LIB_DEBUG_GUARD; i++) {
         if ((uint8_t)*(ptr - LIB_DEBUG_GUARD + i) != 0x55) {
 #ifdef LIB_DEBUG_PINPOINT
-            printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+            log_error(log_lib, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-            printf("Error: Memory corruption in lower part of base %p!\n", (void *)(ptr - LIB_DEBUG_GUARD));
+            log_error(log_lib, "Memory corruption in lower part of base %p!", (void *)(ptr - LIB_DEBUG_GUARD));
             break;
         }
     }
     for (i = 0; i < LIB_DEBUG_GUARD; i++) {
         if (*(ptr + lib_debug_guard_size[index] + i) != 0x55) {
 #ifdef LIB_DEBUG_PINPOINT
-            printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+            log_error(log_lib, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-            printf("Error: Memory corruption in higher part of base %p!\n", (void *)(ptr - LIB_DEBUG_GUARD));
+            log_error(log_lib, "Memory corruption in higher part of base %p!", (void *)(ptr - LIB_DEBUG_GUARD));
             break;
         }
     }
 #if 0
-    printf("REM BASE %p SLOT %d\n", ptr - LIB_DEBUG_GUARD, index);
+    log_printf("REM BASE %p SLOT %d", ptr - LIB_DEBUG_GUARD, index);
 #endif
     lib_debug_guard_base[index] = NULL;
     return 1;
@@ -304,22 +348,22 @@ static unsigned int lib_debug_guard_size_get(char *ptr)
 
     index = 0;
 
-    while (index < LIB_DEBUG_SIZE && lib_debug_guard_base[index] != (ptr - LIB_DEBUG_GUARD)) {
+    while ((index < LIB_DEBUG_SIZE) && (lib_debug_guard_base[index] != (ptr - LIB_DEBUG_GUARD))) {
         index++;
     }
 
     if (index == LIB_DEBUG_SIZE) {
 #ifdef LIB_DEBUG_PINPOINT
-        printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+        log_error(log_lib, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-        printf("Error: lib_debug_guard_size(): Cannot find debug address %p!\n",
+        log_error(log_lib, "lib_debug_guard_size(): Cannot find debug address %p!",
                (void *)(ptr - LIB_DEBUG_GUARD));
         return 0;
     }
 
     return lib_debug_guard_size[index];
 }
-#endif
+#endif /* LIB_DEBUG_GUARD > 0 */
 
 /*----------------------------------------------------------------------------*/
 
@@ -328,13 +372,13 @@ static void *lib_debug_libc_malloc(size_t size)
 #if LIB_DEBUG_GUARD > 0
     char *ptr;
 
-    ptr = (char *)malloc(size + 2 * LIB_DEBUG_GUARD);
+    ptr = (char *)malloc(size + (2 * LIB_DEBUG_GUARD));
     lib_debug_guard_add(ptr, (unsigned int)size);
 
     return (void *)(ptr + LIB_DEBUG_GUARD);
 #else
     return malloc(size);
-#endif
+#endif /* LIB_DEBUG_GUARD > 0 */
 }
 
 static void *lib_debug_libc_calloc(size_t nmemb, size_t size)
@@ -342,7 +386,7 @@ static void *lib_debug_libc_calloc(size_t nmemb, size_t size)
 #if LIB_DEBUG_GUARD > 0
     char *ptr;
 
-    ptr = (char *)malloc(nmemb * size + 2 * LIB_DEBUG_GUARD);
+    ptr = (char *)malloc(nmemb * size + (2 * LIB_DEBUG_GUARD));
     lib_debug_guard_add(ptr, (unsigned int)(nmemb * size));
 
     memset(ptr + LIB_DEBUG_GUARD, 0, nmemb * size);
@@ -350,7 +394,7 @@ static void *lib_debug_libc_calloc(size_t nmemb, size_t size)
     return (void *)(ptr + LIB_DEBUG_GUARD);
 #else
     return calloc(nmemb, size);
-#endif
+#endif /* LIB_DEBUG_GUARD > 0 */
 }
 
 static void lib_debug_libc_free(void *ptr)
@@ -366,15 +410,17 @@ static void lib_debug_libc_free(void *ptr)
 #ifdef LIB_DEBUG_WARN_FREE_NULL
     else {
 #ifdef LIB_DEBUG_PINPOINT
-        printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+        log_warning(log_lib, "%s:%u: Pointer passed to lib_debug_libc_free is NULL.",
+                    lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+#else
+        log_warning(log_lib, "Pointer passed to lib_debug_libc_free is NULL.");
 #endif
-        printf("Warning: Pointer passed to lib_debug_libc_free is NULL.\n");
     }
-#endif
+#endif /* LIB_DEBUG_WARN_FREE_NULL */
 
 #else
     free(ptr);
-#endif
+#endif /* LIB_DEBUG_GUARD > 0 */
 }
 
 static void *lib_debug_libc_realloc(void *ptr, size_t size)
@@ -405,22 +451,24 @@ static void *lib_debug_libc_realloc(void *ptr, size_t size)
     return (void *)new_ptr;
 #else
     return realloc(ptr, size);
-#endif
+#endif /* LIB_DEBUG_GUARD > 0 */
 }
-#endif
+#endif /* LIB_DEBUG */
 
 /*----------------------------------------------------------------------------*/
 
 #ifdef LIB_DEBUG
-static void printsize(unsigned int size)
+static char *sizestr(unsigned int size)
 {
+    static char s[0x10];
     if (size > (1024 * 1024)) {
-        printf("%uMiB", size / (1024 * 1024));
+        sprintf(s, "%uMiB", size / (1024 * 1024));
     } else if (size > (1024)) {
-        printf("%uKiB", size / (1024));
+        sprintf(s, "%uKiB", size / (1024));
     } else {
-        printf("%uB", size);
+        sprintf(s, "%uB", size);
     }
+    return s;
 }
 #endif
 
@@ -466,11 +514,11 @@ static void lib_debug_leaklist_add(unsigned int index)
         }
 #endif
     } else {
-        printf("Error: lib_debug_leaklist_add(): Out of slots. (increase LIB_DEBUG_LEAKLIST_MAX!)\n");
+        log_error(log_lib, "lib_debug_leaklist_add(): Out of slots. (increase LIB_DEBUG_LEAKLIST_MAX!)");
     }
 }
-#endif
-#endif
+#endif /* LIB_DEBUG_PINPOINT */
+#endif /* LIB_DEBUG */
 
 #ifdef DEBUG
 static void lib_debug_check(void)
@@ -478,14 +526,15 @@ static void lib_debug_check(void)
 #ifdef LIB_DEBUG
     unsigned int index, count;
     unsigned int leakbytes;
-#ifdef LIB_DEBUG_CALLER
+#if defined(LIB_DEBUG_CALLER) && defined (LIB_DEBUG_PINPOINT)
     char **btstring;
-    int btidx, spc;
+    int btidx;
 #endif
     count = 0;
     leakbytes = 0;
+#ifdef LIB_DEBUG_PINPOINT
     lib_debug_leaklist_num = 0;
-
+#endif
     if (!lib_debug_enable_output) {
         return;
     }
@@ -496,10 +545,10 @@ static void lib_debug_check(void)
 #ifdef LIB_DEBUG_PINPOINT
             lib_debug_leaklist_add(index);
 #else
-            printf("Warning: Memory block allocated here was not free'd (Memory leak with size 0x%x at %p).",
+            log_warning(log_lib, "Memory block allocated here was not free'd (Memory leak with size 0x%x at %p).",
                    lib_debug_size[index], lib_debug_address[index]);
-            printf("\n");
-#endif
+            log_printf("  ");
+#endif /* LIB_DEBUG_PINPOINT */
             leakbytes += lib_debug_size[index];
 #if LIB_DEBUG_GUARD > 0
             lib_debug_guard_remove((char *)lib_debug_address[index]);
@@ -508,59 +557,66 @@ static void lib_debug_check(void)
     }
 
 #ifdef LIB_DEBUG_PINPOINT
-    printf("\n");
     for (index = 0; index < lib_debug_leaklist_num; index++) {
-        printf("%s:%u: Warning: Memory block(s) allocated here was not "
+        log_printf("  ");
+        log_warning(log_lib, "%s:%u: Memory block(s) allocated here was not "
                 "free'd (Memory leak with size 0x%x at %p).",
                lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index],
                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
 #ifdef LIB_DEBUG_CALLER
-        printf("\ncallstack:\n");
+        log_printf("  ");
+        log_printf("callstack:");
         btstring = backtrace_symbols(lib_debug_leaklist_bt_caller[index], lib_debug_leaklist_bt_numcaller[index]);
         if (btstring == NULL) {
-            printf("             lookup failed\n");
+            log_printf("             lookup failed");
         } else {
             for (btidx = 1; btidx < lib_debug_leaklist_bt_numcaller[index]; btidx++) {
-                printf("             ");
-                for (spc = 0; spc < btidx; spc++) {
-                    printf(" ");
-                }
-                printf("%s\n", btstring[btidx]);
+                char spaces[0x10];
+                memset(spaces, ' ', 0x10);
+                spaces[btidx] = 0;
+                log_printf("             %s%s", spaces, btstring[btidx]);
             }
         }
         free(btstring);
 #endif
-        printf("\n");
     }
+#endif /* LIB_DEBUG_PINPOINT */
+
+    log_printf("  ");
+#ifdef LIB_DEBUG_PINPOINT
+    log_printf("Total memory leaks: %u in %u lines. Total bytes leaked: 0x%x (%s).",
+               count, lib_debug_leaklist_num, leakbytes, sizestr(leakbytes));
+#else
+    log_printf("Total memory leaks: %u. Total bytes leaked: 0x%x (%s).",
+               count, leakbytes, sizestr(leakbytes));
 #endif
 
-    printf("\nTotal memory leaks: %u", count);
-#ifdef LIB_DEBUG_PINPOINT
-    printf(" in %u lines", lib_debug_leaklist_num);
-#endif
-    printf(". Total bytes leaked: 0x%x (", leakbytes);
-    printsize(leakbytes);
-    printf(").\n\nmax. total memory that was allocated: 0x%x bytes. (", lib_debug_max_total);
-    printsize(lib_debug_max_total);
-    printf(")\n");
+    log_printf("  ");
+    log_printf("max. total memory that was allocated: 0x%x bytes. (%s)",
+               lib_debug_max_total, sizestr(lib_debug_max_total));
 
 #ifdef LIB_DEBUG_PINPOINT
-    printf("\nTop %d largest allocated blocks:\n", LIB_DEBUG_TOPMAX);
+    log_printf("  ");
+    log_printf("Top %d largest allocated blocks:", LIB_DEBUG_TOPMAX);
+    log_printf("  ");
     for (index = 0; index < LIB_DEBUG_TOPMAX; index++) {
         if (lib_debug_top_size[index]) {
-            printf("%8x bytes (", lib_debug_top_size[index]);
-            printsize(lib_debug_top_size[index]);
-            printf(") allocated at %s:%u\n",
-                    lib_debug_top_filename[index], lib_debug_top_line[index]);
+            log_printf("%8x bytes (%s) allocated at %s:%u",
+                       lib_debug_top_size[index], sizestr(lib_debug_top_size[index]),
+                       lib_debug_top_filename[index], lib_debug_top_line[index]);
         }
     }
 #endif
 
-#endif
+#endif /* LIB_DEBUG */
 }
-#endif
+#endif /* DEBUG */
 
 /*----------------------------------------------------------------------------*/
+/* standard memory functions, prefixed by lib_. these will be used directly by
+   other code (instead of the actual standard functions), and indirectly by the
+   wrappers further below. */
+
 /* like malloc, but abort on out of memory. */
 #ifdef LIB_DEBUG_PINPOINT
 static
@@ -747,6 +803,8 @@ char *lib_msprintf(const char *fmt, ...)
 }
 
 /*----------------------------------------------------------------------------*/
+/* wrappers for the standard functions, which will be used when
+   LIB_DEBUG_PINPOINT is defined */
 
 #ifdef LIB_DEBUG_PINPOINT
 void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line)
@@ -819,10 +877,9 @@ char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line)
     return result;
 }
 
+#endif /* LIB_DEBUG_PINPOINT */
 
 /*----------------------------------------------------------------------------*/
-
-#endif
 
 /** \brief Return a copy of str with leading and trailing whitespace removed */
 char *lib_strdup_trimmed(char *str)
@@ -976,19 +1033,9 @@ void lib_rand_seed(uint64_t seed)
 
 void lib_init(void)
 {
-#ifdef DEBUG
+    log_debug(log_lib, "lib_init()");
+    lib_lock_init();
 
-#ifdef USE_VICE_THREAD
-    {
-        pthread_mutexattr_t lock_attributes;
-        pthread_mutexattr_init(&lock_attributes);
-        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-        pthread_mutex_init(&lib_debug_lock, &lock_attributes);
-    }
-#endif
-
-    lib_debug_init();
-#endif
     /*
      * set random seed for all actively-used PRNGs from current time, so things
      * like random startup delay are actually random, ie different on each
