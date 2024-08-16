@@ -3287,7 +3287,7 @@ static int info_cmd(int nargs, char **args)
 
     vdrive = drives[dnr];
     format_name = image_format_name(vdrive->image_format);
-    if (format_name == NULL) {
+    if ((format_name == NULL) || (vdrive->image == NULL)) {
         return FD_NOTREADY; /* not quite a proper error code, but it was already
                                here in the code */
     }
