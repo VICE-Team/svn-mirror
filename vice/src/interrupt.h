@@ -148,28 +148,35 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
 
     if (value) {                /* Trigger the IRQ.  */
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
-            cs->nirq++;
-            cs->global_pending_int = (cs->global_pending_int | (unsigned int)(IK_IRQ | IK_IRQPEND));
-            cs->pending_int[int_num] = (cs->pending_int[int_num] | (unsigned int)IK_IRQ);
+            cs->pending_int[int_num] |= (unsigned int)IK_IRQ;
 
-            cs->irq_pending_clk = CLOCK_MAX;
+            /*
+             * Only when the first IRQ source becomes active, the CPU sees the
+             * IRQ input line go active; on additional ones, no change is visible.
+             */
+            if (cs->nirq == 0) {
+                cs->global_pending_int |= (unsigned int)(IK_IRQ | IK_IRQPEND);
 
-            /* This makes sure that IRQ delay is correctly emulated when
-               cycles are stolen from the CPU.  */
+                cs->irq_pending_clk = CLOCK_MAX;
+
+                /* This makes sure that IRQ delay is correctly emulated when
+                   cycles are stolen from the CPU.  */
 #ifdef DEBUG
-            if (debug.maincpu_traceflg) {
-                log_debug(LOG_DEFAULT, "ICLK=%lu  last_stolen_cycle=%lu",
-                        (unsigned long)cpu_clk,
-                        (unsigned long)(cs->last_stolen_cycles_clk));
-            }
+                if (debug.maincpu_traceflg) {
+                    log_debug(LOG_DEFAULT, "ICLK=%lu  last_stolen_cycle=%lu",
+                            (unsigned long)cpu_clk,
+                            (unsigned long)(cs->last_stolen_cycles_clk));
+                }
 #endif
-            cs->irq_delay_cycles = 0;
+                cs->irq_delay_cycles = 0;
 
-            if (cs->last_stolen_cycles_clk <= cpu_clk) {
-                cs->irq_clk = cpu_clk;
-            } else {
-                interrupt_fixup_int_clk(cs, cpu_clk, &(cs->irq_clk));
+                if (cs->last_stolen_cycles_clk <= cpu_clk) {
+                    cs->irq_clk = cpu_clk;
+                } else {
+                    interrupt_fixup_int_clk(cs, cpu_clk, &(cs->irq_clk));
+                }
             }
+            cs->nirq++;
         }
     } else {                    /* Remove the IRQ condition.  */
         if (cs->pending_int[int_num] & IK_IRQ) {
