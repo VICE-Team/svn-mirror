@@ -1164,6 +1164,16 @@ void mon_backtrace(void)
     extern uint16_t callstack_memory_bank_config[];
     extern uint8_t  callstack_sp[];
     extern unsigned callstack_size;
+    /* FIXME: memspace should be passed as an argument to this function */
+    MEMSPACE mem = default_memspace;
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+    /* FIXME: only computer memspace can work right now */
+    if (mem != e_comp_space) {
+        mon_out("Sorry, backtrace is only implemented for computer memspace.\n");
+        return;
+    }
 
     pc = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_PC);
     sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
