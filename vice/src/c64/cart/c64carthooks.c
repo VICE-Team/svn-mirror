@@ -3243,6 +3243,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         } else {
 
             switch (cart_ids[i]) {
+                /* "Debug" */
+                case CARTRIDGE_DEBUGCART:
+                    /* do nothing */
+                    break;
+
                 /* "Slot 0" */
                 case CARTRIDGE_CPM:
                     if (cpmcart_snapshot_write_module(s) < 0) {
@@ -3832,6 +3837,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
         } else {
 
             switch (cart_ids[i]) {
+                /* "Debug" */
+                case CARTRIDGE_DEBUGCART:
+                    /* do nothing */
+                    break;
+
                 /* "Slot 0" */
                 case CARTRIDGE_CPM:
                     if (cpmcart_snapshot_read_module(s) < 0) {
