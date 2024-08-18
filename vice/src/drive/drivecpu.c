@@ -392,6 +392,10 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
     /* Run drive CPU emulation until the stop_clk clock has been reached. */
     while (*drv->clk_ptr < cpu->stop_clk) {
 /* Include the 6502/6510 CPU emulation core.  */
+#define CPU_LOG_ID (drv->log)
+/* #define ANE_LOG_LEVEL ane_log_level */
+/* #define LXA_LOG_LEVEL lxa_log_level */
+#define CPU_IS_JAMMED cpu->is_jammed
 
 #define CLK (*(drv->clk_ptr))
 #define RMW_FLAG (cpu->rmw_flag)

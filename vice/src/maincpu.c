@@ -292,10 +292,12 @@ mos6510dtv_regs_t maincpu_regs;
 mos6510_regs_t maincpu_regs;
 #endif
 
+static int maincpu_jammed = 0;
+
 /* ------------------------------------------------------------------------- */
 
-int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
-int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
+static int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
+static int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
 
 static int set_ane_log_level(int val, void *param)
 {
@@ -583,6 +585,7 @@ void maincpu_mainloop(void)
 #define CPU_LOG_ID maincpu_log
 #define ANE_LOG_LEVEL ane_log_level
 #define LXA_LOG_LEVEL lxa_log_level
+#define CPU_IS_JAMMED maincpu_jammed
 #define CLK maincpu_clk
 #define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info

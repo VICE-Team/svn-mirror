@@ -417,7 +417,7 @@
                 addr |= (LOAD(0xfffd) << 8);                                   \
                 bank_start = bank_limit = 0; /* prevent caching */             \
                 LOCAL_SET_INTERRUPT(1);                                        \
-                cpu_is_jammed = 0;                                             \
+                CPU_IS_JAMMED = 0;                                             \
                 CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                         \
                 JUMP(addr);                                                    \
                 DMA_ON_RESET;                                                  \
@@ -1016,7 +1016,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         uint32_t trap_result;                                                            \
         EXPORT_REGISTERS();                                                           \
         if (!ROM_TRAP_ALLOWED() || (trap_result = ROM_TRAP_HANDLER()) == (uint32_t)-1) { \
-            cpu_is_jammed = 1;                                                        \
+            CPU_IS_JAMMED = 1;                                                        \
             REWIND_FETCH_OPCODE(CLK);                                                 \
             JAM();                                                                    \
         } else {                                                                      \
@@ -1700,7 +1700,11 @@ static const uint8_t fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+#ifndef CPU_IS_JAMMED
     static int cpu_is_jammed = 0;
+#define CPU_IS_JAMMED cpu_is_jammed
+#warning "CPU_IS_JAMMED not defined, using default (internal)"
+#endif
 
 #if !defined(DRIVE_CPU)
     CLOCK profiling_clock_start;
@@ -1718,20 +1722,20 @@ static const uint8_t fetch_tab[] = {
     /* HACK: when the CPU is jammed, no interrupts are served, the only way
        to recover is reset. so we clear the interrupt flags and force
        acknowledging them here in this case. */
-    if (cpu_is_jammed) {
+    if (CPU_IS_JAMMED) {
         interrupt_ack_irq(CPU_INT_STATUS);
         CPU_INT_STATUS->global_pending_int &= ~(IK_IRQ | IK_NMI);
         if (CPU_INT_STATUS->global_pending_int & IK_RESET) {
-            cpu_is_jammed = 0;
+            CPU_IS_JAMMED = 0;
         }
     }
 
     {
         enum cpu_int pending_interrupt;
 
-        if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
-            && (CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
-            && CPU_INT_STATUS->irq_pending_clk <= CLK) {
+        if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ) &&
+             (CPU_INT_STATUS->global_pending_int & IK_IRQPEND) &&
+             (CPU_INT_STATUS->irq_pending_clk <= CLK)) {
             interrupt_ack_irq(CPU_INT_STATUS);
         }
 
@@ -1740,10 +1744,9 @@ static const uint8_t fetch_tab[] = {
 #if !defined(DRIVE_CPU)
             profiling_clock_start = CLK;
 #endif
-
             DO_INTERRUPT(pending_interrupt);
-            if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
-                && CPU_INT_STATUS->global_pending_int & IK_IRQPEND) {
+            if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ) &&
+                  CPU_INT_STATUS->global_pending_int & IK_IRQPEND) {
                 CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
             }
             while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
@@ -1832,7 +1835,7 @@ trap_skipped:
             case 0x32:          /* JAM */
             case 0x42:          /* JAM */
 #endif
-                cpu_is_jammed = 1;
+                CPU_IS_JAMMED = 1;
                 REWIND_FETCH_OPCODE(CLK);
                 JAM();
                 break;

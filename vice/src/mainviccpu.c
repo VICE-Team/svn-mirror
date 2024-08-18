@@ -339,10 +339,12 @@ const CLOCK maincpu_opcode_write_cycles[] = {
    the values copied into this struct.  */
 mos6510_regs_t maincpu_regs;
 
+static int maincpu_jammed = 0;
+
 /* ------------------------------------------------------------------------- */
 
-int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
-int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
+static int ane_log_level = 0; /* 0: none, 1: unstable only 2: all */
+static int lxa_log_level = 0; /* 0: none, 1: unstable only 2: all */
 
 static int set_ane_log_level(int val, void *param)
 {
@@ -583,6 +585,7 @@ void maincpu_mainloop(void)
 #define CPU_LOG_ID maincpu_log
 #define ANE_LOG_LEVEL ane_log_level
 #define LXA_LOG_LEVEL lxa_log_level
+#define CPU_IS_JAMMED maincpu_jammed
 #define CLK maincpu_clk
 #define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
@@ -706,7 +709,7 @@ unsigned int maincpu_get_sp(void) {
 
 static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 3
+#define SNAP_MINOR 4
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {
@@ -728,7 +731,8 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
         || SMW_DW(m, (uint32_t)last_opcode_info) < 0
         || SMW_DW(m, (uint32_t)ane_log_level) < 0
-        || SMW_DW(m, (uint32_t)lxa_log_level) < 0) {
+        || SMW_DW(m, (uint32_t)lxa_log_level) < 0
+        || SMW_DW(m, (uint32_t)maincpu_jammed) < 0) {
         goto fail;
     }
 
@@ -775,7 +779,8 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &status) < 0
         || SMR_DW_UINT(m, &last_opcode_info) < 0
         || SMR_DW_INT(m, &ane_log_level) < 0
-        || SMR_DW_INT(m, &lxa_log_level) < 0) {
+        || SMR_DW_INT(m, &lxa_log_level) < 0
+        || SMR_DW_INT(m, &maincpu_jammed) < 0) {
         goto fail;
     }
 
