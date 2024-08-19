@@ -1205,16 +1205,21 @@ inline static void bit_write(int port)
 
     /* C16 TAPs use half the machine clock as base cycle */
     if (machine_class == VICE_MACHINE_PLUS4) {
+        /* FIXME: we might also need to compensate for the remainder of this / 2 */
         write_time = write_time / 2;
     }
 
     if (write_time < (CLOCK)7) {
+        /* make sure the remainder does not get lost */
+        last_write_clk[port] -= (write_time % (CLOCK)8);
         return;
     }
 
     if (write_time < (CLOCK)(255 * 8 + 7)) {
         /* this is a normal short/one byte gap */
-        write_gap = (uint8_t)(write_time / (CLOCK)8);
+        write_gap = (write_time / (CLOCK)8);
+        /* make sure the remainder does not get lost */
+        last_write_clk[port] -= (write_time % (CLOCK)8);
         if (fwrite(&write_gap, 1, 1, current_image[port]->fd) < 1) {
             log_error(datasette_log, "datasette bit_write failed (stopping tape).");
             datasette_control(port, DATASETTE_CONTROL_STOP);
