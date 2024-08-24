@@ -105,15 +105,22 @@ void userport_digimax_sound_chip_init(void)
     digimax_sound_chip_offset = sound_chip_register(&digimax_sound_chip);
 }
 
+/*
+    PA2 low,  /PA3 low:  DAC #0 (left)
+    PA2 high, /PA3 low:  DAC #1 (right)
+    PA2 low,  /PA3 high: DAC #2 (left)
+    PA2 high, /PA3 high: DAC #3 (right).
+*/
+
 static void userport_digimax_store_pa2(uint8_t value)
 {
-    userport_digimax_address &= 2;
+    userport_digimax_address &= ~1;
     userport_digimax_address |= (value & 1);
 }
 
 static void userport_digimax_store_pa3(uint8_t value)
 {
-    userport_digimax_address &= 1;
+    userport_digimax_address &= ~2;
     userport_digimax_address |= ((value & 1) << 1);
 }
 
@@ -123,16 +130,16 @@ static void userport_digimax_store_pbx(uint8_t value, int pulse)
 
     switch (userport_digimax_address) {
         case 0x0:
-            addr = 2;
+            addr = 1;
             break;
-        case 0x4:
-            addr = 3;
-            break;
-        case 0x8:
+        case 0x1:
             addr = 0;
             break;
-        case 0xc:
-            addr = 1;
+        case 0x2:
+            addr = 3;
+            break;
+        case 0x3:
+            addr = 2;
             break;
     }
 
