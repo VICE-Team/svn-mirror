@@ -28,6 +28,7 @@
 #include "dac.h"
 #include "spline.h"
 #include <math.h>
+#include <cassert>
 
 namespace reSID
 {
@@ -299,6 +300,8 @@ Filter::Filter()
       // points.
       // double_point scaled_voltage[fi.opamp_voltage_size];
       double_point scaled_voltage[50];
+
+      assert((fi.opamp_voltage_size > 0) && (fi.opamp_voltage_size < 50));
 
       for (int i = 0; i < fi.opamp_voltage_size; i++) {
         // The target output range is 16 bits, in order to fit in an unsigned
