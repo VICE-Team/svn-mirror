@@ -22,6 +22,8 @@
 
 #include "resid-config.h"
 
+#include <cassert>
+
 namespace reSID
 {
 
@@ -744,14 +746,17 @@ void Filter::clock(int voice1, int voice2, int voice3)
     // MOS 6581.
     Vlp = solve_integrate_6581(1, Vbp, Vlp_x, Vlp_vc, f);
     Vbp = solve_integrate_6581(1, Vhp, Vbp_x, Vbp_vc, f);
-    Vhp = f.summer[offset + f.resonance[res][Vbp] + Vlp + Vi];
   }
   else {
     // MOS 8580.
     Vlp = solve_integrate_8580(1, Vbp, Vlp_x, Vlp_vc, f);
     Vbp = solve_integrate_8580(1, Vhp, Vbp_x, Vbp_vc, f);
-    Vhp = f.summer[offset + f.resonance[res][Vbp] + Vlp + Vi];
   }
+
+  assert((Vbp >= 0) && (Vbp < (1 << 16)));
+  const int idx = offset + f.resonance[res][Vbp] + Vlp + Vi;
+  assert((idx >= 0) && (idx < summer_offset<5>::value));
+  Vhp = f.summer[idx];
 }
 
 // ----------------------------------------------------------------------------
@@ -859,7 +864,10 @@ void Filter::clock(cycle_count delta_t, int voice1, int voice2, int voice3)
       // Calculate filter outputs.
       Vlp = solve_integrate_6581(delta_t_flt, Vbp, Vlp_x, Vlp_vc, f);
       Vbp = solve_integrate_6581(delta_t_flt, Vhp, Vbp_x, Vbp_vc, f);
-      Vhp = f.summer[offset + f.resonance[res][Vbp] + Vlp + Vi];
+      assert((Vbp >= 0) && (Vbp < (1 << 16)));
+      const int idx = offset + f.resonance[res][Vbp] + Vlp + Vi;
+      assert((idx >= 0) && (idx < summer_offset<5>::value));
+      Vhp = f.summer[idx];
 
       delta_t -= delta_t_flt;
     }
@@ -874,7 +882,10 @@ void Filter::clock(cycle_count delta_t, int voice1, int voice2, int voice3)
       // Calculate filter outputs.
       Vlp = solve_integrate_8580(delta_t_flt, Vbp, Vlp_x, Vlp_vc, f);
       Vbp = solve_integrate_8580(delta_t_flt, Vhp, Vbp_x, Vbp_vc, f);
-      Vhp = f.summer[offset + f.resonance[res][Vbp] + Vlp + Vi];
+      assert((Vbp >= 0) && (Vbp < (1 << 16)));
+      const int idx = offset + f.resonance[res][Vbp] + Vlp + Vi;
+      assert((idx >= 0) && (idx < summer_offset<5>::value));
+      Vhp = f.summer[idx];
 
       delta_t -= delta_t_flt;
     }
@@ -1449,7 +1460,11 @@ for my $mix (0..2**@i-1) {
   }
 
   // Sum the inputs in the mixer and run the mixer output through the gain.
-  return (short)(f.gain[vol][f.mixer[offset + Vi]] - (1 << 15));
+  const int idx1 = offset + Vi;
+  assert((idx1 >= 0) && (idx1 < mixer_offset<8>::value));
+  const int idx2 = f.mixer[idx1];
+  assert((idx2 >= 0) && (idx2 < (1 << 16)));
+  return (short)(f.gain[vol][idx2] - (1 << 15));
 }
 
 
@@ -1819,7 +1834,9 @@ int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc, model_filter_
 */
 
   // vx = g(vc)
-  vx = mf.opamp_rev[(vc >> 15) + (1 << 15)];
+  const int idx = (vc >> 15) + (1 << 15);
+  assert((idx >= 0) && (idx < (1 << 16)));
+  vx = mf.opamp_rev[idx];
 
   // Return vo.
   return vx + (vc >> 14);
@@ -1863,7 +1880,9 @@ int Filter::solve_integrate_8580(int dt, int vi, int& vx, int& vc, model_filter_
   vc -= n_I_rfc*dt;
 
   // vx = g(vc)
-  vx = mf.opamp_rev[(vc >> 15) + (1 << 15)];
+  const int idx = (vc >> 15) + (1 << 15);
+  assert((idx >= 0) && (idx < (1 << 16)));
+  vx = mf.opamp_rev[idx];
 
   // Return vo.
   return vx + (vc >> 14);
