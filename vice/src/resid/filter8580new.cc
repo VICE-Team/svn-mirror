@@ -28,7 +28,6 @@
 #include "dac.h"
 #include "spline.h"
 #include <math.h>
-#include <cassert>
 
 namespace reSID
 {
