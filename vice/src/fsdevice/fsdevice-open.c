@@ -158,18 +158,19 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     }
     strcpy(bufinfo[secondary].dir, cmd_parse->parsecmd);
     /*
-     * Start Address, Line Link and Line number 0
+     * Start Address, Line Link and Line number 1 (=partition 1)
      */
 
     p = bufinfo[secondary].name;
-
+    /* start address = 0x0401 */
     *p++ = 1;
     *p++ = 4;
-
+    /* who knows why this is 0x0101 ? */
     *p++ = 1;
     *p++ = 1;
-
-    *p++ = 0;
+    /* CMD puts the partition number here, it shouldn't be 0 (like on 1541) so
+       programs that expect a CMD device are happy with it */
+    *p++ = 1;
     *p++ = 0;
 
     *p++ = (uint8_t)0x12;     /* Reverse on */
