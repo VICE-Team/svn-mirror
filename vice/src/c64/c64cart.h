@@ -79,10 +79,11 @@ extern export_t export;
 
 /* expose public API symbols for those headers that provide them */
 #define CARTRIDGE_INCLUDE_PUBLIC_API
+#include "cart/dqbb.h"          /* needed for x128 */
 #include "cart/expert.h"        /* provide defines for ExpertCartridgeMode resource */
 #include "cart/retroreplay.h"   /* provide defines for RRrevision resource */
 #include "cart/mmc64.h"         /* provide defines for MMC64_sd_type and MMC64_revision resources */
-#include "cart/mmcreplay.h"     /* provide defines for MMCRSDType resource */
+#include "cart/mmcreplay.h"     /* needed for x128, provide defines for MMCRSDType resource */
 #ifdef HAVE_RAWNET
 #include "cart/ethernetcart.h"  /* provide defines for ETHERNETCARTMode resource */
 #endif

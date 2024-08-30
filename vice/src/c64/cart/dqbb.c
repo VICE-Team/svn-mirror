@@ -53,28 +53,47 @@
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
-    "Double Quick Brown box"
+    (Double) Quick Brown Box
 
-    - 16k RAM
+    There have been 3 incarnations of this cartridge, and each was available in
+    various versions with different amount of memory:
 
-    The Double Quick Brown box is a banked memory system.
-    It uses a register at $de00 to control the areas used, the
-    read/write / read-only state and on/off of the cart.
+    1st: "QBB" (Quick Brown Box) - C64 only, 8kb in the smallest variant
+    2nd: "QBB-B" adds battery backup
+    3rd: "DQBB" (Double Quick Brown Box) - adds C128 support, 16kb
 
-    This is done as follows:
+    The last incarnation has a switch to enable either C64 or C128 mode (see below)
 
-    bit 2:   1 = $A000-$BFFF mapped in, 0 = $A000-$BFFF not mapped in.
+    Write-Only register at $de00:
+
+    bit 2:   controls the /GAME line:
+             1 = $A000-$BFFF mapped in (/GAME low)
+             0 = $A000-$BFFF not mapped in (/GAME high)
     bit 4:   1 = read/write, 0 = read-only.
-    bit 7:   1 = cart off, 0 = cart on.
+    bit 6:   controls the /EXROM line: (*)
+             1 = /EXROM low
+             0 = /EXROM low
+    bit 7:   1 = cart off, 0 = cart on. (register remains active)
 
-    The register is write-only. Attempting to read it will
-    only return random values.
+    (*) The switch holds /EXROM low when in C64 position, so this bit can be
+        used to force the C128 into C64, when the switch is in C128 position.
+
+    The remaining 4 bits are used for banking, consequently the largest available
+    variant had 256k RAM. Which variants actually existed for real remains unknown,
+    ads frequently mention all possible (16/32/64/128/256k) variants however.
+
+    C128 mode (DQBB only):
+
+    - ROM mapped to $8000-BFFF
+
+    A hardware RESET or power up clears all bits, so in C64 mode it will always
+    start with 8k mapped.
 
     The current emulation has the register mirrorred through the
     range of $de00-$deff
 */
 
-/* #define DBGDQBB */
+#define DBGDQBB
 
 #ifdef DBGDQBB
 #define DBG(x) log_printf  x
@@ -85,9 +104,11 @@
 static log_t dqbb_log = LOG_DEFAULT; /*!< the log output for the dqbb_log */
 
 /* DQBB register bits */
-static int dqbb_a000_mapped;
+static int dqbb_game;
 static int dqbb_readwrite;
 static int dqbb_off;
+static int dqbb_exrom;
+static int dqbb_bank;
 
 /* DQBB image.  */
 static uint8_t *dqbb_ram = NULL;
@@ -102,7 +123,12 @@ static int dqbb_enabled = 0;
 /* Filename of the DQBB image.  */
 static char *dqbb_filename = NULL;
 
-#define DQBB_RAM_SIZE   0x4000
+#define DQBB_RAM_SIZE   (0x400 * 256)   /* max. size */
+
+static int dqbb_size; /* actual size */
+static int dqbb_bank_mask;
+
+static int dqbb_mode_switch;    /* 0: C128, 1: C64 */
 
 static int reg_value = 0;
 
@@ -146,26 +172,41 @@ int dqbb_cart_enabled(void)
 
 static void dqbb_change_config(void)
 {
+    int mode = CMODE_RAM;
+
     if (dqbb_enabled) {
-        if (dqbb_off) {
-            cart_config_changed_slot1(2, 2, CMODE_READ);
-        } else {
-            if (dqbb_a000_mapped) {
-                cart_config_changed_slot1(1, 1, CMODE_READ);
+        if (!dqbb_off) {
+            /* The mode switch pulls exrom when in C64 position */
+            if (dqbb_mode_switch || dqbb_exrom) {
+                if (dqbb_game) {
+                    mode = CMODE_16KGAME;
+                } else {
+                    mode = CMODE_8KGAME;
+                }
             } else {
-                cart_config_changed_slot1(0, 0, CMODE_READ);
+                if (dqbb_game) {
+                    /* switch is in C128 position, and /GAME bit is set */
+                    mode = CMODE_ULTIMAX;
+                }
             }
         }
-    } else {
-        cart_config_changed_slot1(2, 2, CMODE_READ);
     }
+
+    cart_config_changed_slot1(mode, mode, CMODE_READ);
+    DBG(("dqbb_change_config: 0x%02x (%s) mode:%d enable:%d off:%d game:%d exrom:%d",
+         mode, cart_config_string(mode), dqbb_mode_switch, dqbb_enabled, dqbb_off, dqbb_game, dqbb_exrom));
 }
 
 static void dqbb_io1_store(uint16_t addr, uint8_t byte)
 {
-    dqbb_a000_mapped = (byte & 4) >> 2;
-    dqbb_readwrite = (byte & 0x10) >> 4;
-    dqbb_off = (byte & 0x80) >> 7;
+    dqbb_game = (byte >> 2) & 1;
+    dqbb_readwrite = (byte >> 4) & 1;
+    dqbb_exrom = (byte >> 6) & 1;
+    dqbb_off = (byte >> 7) & 1;
+    dqbb_bank = (byte & 3) | ((byte >> 1) & 4) | ((byte >> 2) & 8);
+    dqbb_bank &= dqbb_bank_mask;
+    DBG(("dqbb_io1_store reg: 0x%02x enabled:%d r/w:%d bank:%d game:%d exrom:%d",
+         byte, dqbb_off, dqbb_readwrite, dqbb_bank, dqbb_game, dqbb_exrom));
     dqbb_change_config();
     reg_value = byte;
 }
@@ -180,6 +221,7 @@ static int dqbb_dump(void)
     mon_out("$A000-$BFFF RAM: %s, cart status: %s\n",
             (reg_value & 4) ? "mapped in" : "not mapped in",
             (reg_value & 0x80) ? ((reg_value & 0x10) ? "read/write" : "read-only") : "disabled");
+    mon_out("current bank: %d of %d\n", dqbb_bank, dqbb_size / 16);
     return 0;
 }
 
@@ -224,10 +266,10 @@ static int dqbb_activate(void)
     }
 
     if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_load(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
+        if (util_file_load(dqbb_filename, dqbb_ram, dqbb_size * 0x400, UTIL_FILE_LOAD_RAW) < 0) {
             /* only create a new file if no file exists, so we dont accidently overwrite any files */
             if (!util_file_exists(dqbb_filename)) {
-                if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+                if (util_file_save(dqbb_filename, dqbb_ram, dqbb_size * 0x400) < 0) {
                     return -1;
                 }
                 log_message(dqbb_log, "created '%s'", dqbb_filename);
@@ -241,13 +283,14 @@ static int dqbb_activate(void)
 
 static int dqbb_deactivate(void)
 {
+    DBG(("dqbb_deactivate"));
     if (dqbb_ram == NULL) {
         return 0;
     }
 
     if (!util_check_null_string(dqbb_filename)) {
         if (dqbb_write_image) {
-            if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+            if (util_file_save(dqbb_filename, dqbb_ram, dqbb_size * 0x400) < 0) {
                 return -1;
             }
         }
@@ -321,6 +364,36 @@ static int set_dqbb_image_write(int val, void *param)
     return 0;
 }
 
+static int set_dqbb_size(int val, void *param)
+{
+    if (val != dqbb_size) {
+        if ((val == 16) ||
+            (val == 32) ||
+            (val == 64) ||
+            (val == 128) ||
+            (val == 256)) {
+            dqbb_deactivate();
+            dqbb_size = val;
+            dqbb_bank_mask = (val == 0) ? 0 : (val / 16) - 1;
+            dqbb_activate();
+            DBG(("set_dqbb_size size: %d mask: 0x%02x", dqbb_size, dqbb_bank_mask));
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+static int set_dqbb_mode(int val, void *param)
+{
+    dqbb_mode_switch = (val == 0) ? DQBB_MODE_C128 : DQBB_MODE_C64;
+    DBG(("set_dqbb_mode: %s", dqbb_mode_switch == DQBB_MODE_C64 ? "C64" : "C128"));
+    if (dqbb_enabled) {
+        dqbb_change_config();
+    }
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
@@ -330,8 +403,12 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "DQBB", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "DQBB", 0, RES_EVENT_STRICT, NULL,
       &dqbb_enabled, set_dqbb_enabled, NULL },
+    { "DQBBSize", 16, RES_EVENT_STRICT, NULL,
+      &dqbb_size, set_dqbb_size, NULL },
+    { "DQBBMode", DQBB_MODE_C64, RES_EVENT_STRICT, NULL,
+      &dqbb_mode_switch, set_dqbb_mode, NULL },
     { "DQBBImageWrite", 0, RES_EVENT_NO, NULL,
       &dqbb_write_image, set_dqbb_image_write, NULL },
     RESOURCE_INT_LIST_END
@@ -362,6 +439,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+dqbb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DQBB", (resource_value_t)0,
       NULL, "Disable Double Quick Brown Box" },
+    { "-dqbbsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DQBBSize", NULL,
+      "<Size>", "Set Double Quick Brown Box RAM size (16/32/64/128/256kiB)" },
+    { "-dqbbmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DQBBMode", NULL,
+      "<Mode>", "Set Double Quick Brown Box mode switch (0: C128, 1:C64)" },
     { "-dqbbimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DQBBfilename", NULL,
       "<Name>", "Specify Double Quick Brown Box filename" },
@@ -388,9 +471,12 @@ const char *dqbb_get_file_name(void)
 
 void dqbb_reset(void)
 {
-    dqbb_a000_mapped = 0;
+    dqbb_game = 0;
     dqbb_readwrite = 0;
     dqbb_off = 0;
+    dqbb_bank = 0;
+    dqbb_exrom = 0;
+
     if (dqbb_enabled) {
         dqbb_change_config();
     }
@@ -398,6 +484,8 @@ void dqbb_reset(void)
 
 void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
+    /* FIXME: this doesn't incorporate the banking, nor C128 */
+#if 0
     switch (addr & 0xf000) {
         case 0xb000:
         case 0xa000:
@@ -410,6 +498,7 @@ void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limi
         default:
             break;
     }
+#endif
     *base = NULL;
     *start = 0;
     *limit = 0;
@@ -458,7 +547,7 @@ int dqbb_disable(void)
 
 int dqbb_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    if (util_file_load(filename, rawcart, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
+    if (util_file_load(filename, rawcart, dqbb_size * 0x400, UTIL_FILE_LOAD_RAW) < 0) {
         return -1;
     }
     util_string_set(&dqbb_filename, filename);
@@ -475,7 +564,7 @@ int dqbb_bin_save(const char *filename)
         return -1;
     }
 
-    if (util_file_save(filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+    if (util_file_save(filename, dqbb_ram, dqbb_size * 0x400) < 0) {
         return -1;
     }
     return 0;
@@ -490,26 +579,26 @@ int dqbb_flush_image(void)
 
 uint8_t dqbb_roml_read(uint16_t addr)
 {
-    return dqbb_ram[addr & 0x1fff];
+    return dqbb_ram[(addr & 0x1fff) + (dqbb_bank * 0x4000)];
 }
 
 void dqbb_roml_store(uint16_t addr, uint8_t byte)
 {
     if (dqbb_readwrite) {
-        dqbb_ram[addr & 0x1fff] = byte;
+        dqbb_ram[(addr & 0x1fff) + (dqbb_bank * 0x4000)] = byte;
     }
     mem_store_without_romlh(addr, byte);
 }
 
 uint8_t dqbb_romh_read(uint16_t addr)
 {
-    return dqbb_ram[(addr & 0x1fff) + 0x2000];
+    return dqbb_ram[(addr & 0x1fff) + 0x2000 + (dqbb_bank * 0x4000)];
 }
 
 void dqbb_romh_store(uint16_t addr, uint8_t byte)
 {
     if (dqbb_readwrite) {
-        dqbb_ram[(addr & 0x1fff) + 0x2000] = byte;
+        dqbb_ram[(addr & 0x1fff) + 0x2000 + (dqbb_bank * 0x4000)] = byte;
     }
     mem_store_without_romlh(addr, byte);
 }
@@ -517,13 +606,37 @@ void dqbb_romh_store(uint16_t addr, uint8_t byte)
 int dqbb_peek_mem(uint16_t addr, uint8_t *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
-        *value = dqbb_ram[addr & 0x1fff];
+        *value = dqbb_ram[(addr & 0x1fff) + (dqbb_bank * 0x4000)];
         return CART_READ_VALID;
     } else if ((addr >= 0xa000) && (addr <= 0xbfff)) {
-        *value = dqbb_ram[(addr & 0x1fff) + 0x2000];
+        *value = dqbb_ram[(addr & 0x1fff) + 0x2000 + (dqbb_bank * 0x4000)];
         return CART_READ_VALID;
     }
     return CART_READ_THROUGH;
+}
+
+
+/* ------------------------------------------------------------------------- */
+
+/* In C128 mode the RAM is mapped to $8000-$BFFF */
+int dqbb_c128_read(uint16_t addr, uint8_t *value)
+{
+    if ((addr >= 0x8000) && (addr <= 0xbfff)) {
+        *value = dqbb_ram[(addr & 0x3fff) + (dqbb_bank * 0x4000)];
+        return CART_READ_VALID; /* read was valid */
+    }
+    return CART_READ_THROUGH;
+}
+
+int dqbb_c128_store(uint16_t addr, uint8_t value)
+{
+    if ((addr >= 0x8000) && (addr <= 0xbfff)) {
+        if (dqbb_readwrite) {
+            dqbb_ram[(addr & 0x3fff) + (dqbb_bank * 0x4000)] = value;
+        }
+        return 1; /* write was valid */
+    }
+    return 0; /* write was invalid */
 }
 
 /* ---------------------------------------------------------------------*/
@@ -534,15 +647,18 @@ int dqbb_peek_mem(uint16_t addr, uint8_t *value)
    --------------------------------
    BYTE  | enabled    | cartridge enabled flag
    BYTE  | read write | read/write flag
-   BYTE  | a000 map   | $A000 mapped flag
+   BYTE  | a000 map   | $A000 mapped flag (GAME line)
    BYTE  | off        | dqbb off flag
    BYTE  | register   | register
-   ARRAY | RAM        | 16768 BYTES of RAM data
+   BYTE  | exrom      | state of EXROM line
+   BYTE  | size       | RAM size in kb
+   BYTE  | bank       | selected ram bank
+   ARRAY | RAM        | <size> BYTES of RAM data
  */
 
 static const char snap_module_name[] = "CARTDQBB";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 int dqbb_snapshot_write_module(snapshot_t *s)
 {
@@ -557,10 +673,14 @@ int dqbb_snapshot_write_module(snapshot_t *s)
     if (0
         || (SMW_B(m, (uint8_t)dqbb_enabled) < 0)
         || (SMW_B(m, (uint8_t)dqbb_readwrite) < 0)
-        || (SMW_B(m, (uint8_t)dqbb_a000_mapped) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_game) < 0)
         || (SMW_B(m, (uint8_t)dqbb_off) < 0)
         || (SMW_B(m, (uint8_t)reg_value) < 0)
-        || (SMW_BA(m, dqbb_ram, DQBB_RAM_SIZE) < 0)) {
+        || (SMW_B(m, (uint8_t)dqbb_exrom) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_size) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_bank) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_mode_switch) < 0)
+        || (SMW_BA(m, dqbb_ram, dqbb_size * 0x400) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -591,10 +711,14 @@ int dqbb_snapshot_read_module(snapshot_t *s)
     if (0
         || (SMR_B_INT(m, &dqbb_enabled) < 0)
         || (SMR_B_INT(m, &dqbb_readwrite) < 0)
-        || (SMR_B_INT(m, &dqbb_a000_mapped) < 0)
+        || (SMR_B_INT(m, &dqbb_game) < 0)
         || (SMR_B_INT(m, &dqbb_off) < 0)
         || (SMR_B_INT(m, &reg_value) < 0)
-        || (SMR_BA(m, dqbb_ram, DQBB_RAM_SIZE) < 0)) {
+        || (SMR_B_INT(m, &dqbb_exrom) < 0)
+        || (SMR_B_INT(m, &dqbb_size) < 0)
+        || (SMR_B_INT(m, &dqbb_bank) < 0)
+        || (SMR_B_INT(m, &dqbb_mode_switch) < 0)
+        || (SMR_BA(m, dqbb_ram, dqbb_size * 0x400) < 0)) {
         snapshot_module_close(m);
         lib_free(dqbb_ram);
         dqbb_ram = NULL;

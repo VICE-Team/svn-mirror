@@ -87,13 +87,13 @@ void cart_detach_conflicting(int type);
 /* from c64cartmem.c */
 void cart_reset_memptr(void);
 
-/* mode_phiN bit 0,1 control exrom/game */
+/* mode_phiN bit 0 controls !GAME, bit 1 controls !EXROM */
 
-/* FIXME: EXROM is inverted in these constants, while GAME is not */
-#define CMODE_8KGAME    0
-#define CMODE_16KGAME   1
-#define CMODE_RAM       2
-#define CMODE_ULTIMAX   3
+/* FIXME: !GAME is inverted in these constants, while !EXROM is not */
+#define CMODE_8KGAME    0   /* !EXROM: 0    !GAME: 1 */
+#define CMODE_16KGAME   1   /* !EXROM: 0    !GAME: 0 */
+#define CMODE_RAM       2   /* !EXROM: 1    !GAME: 1 */
+#define CMODE_ULTIMAX   3   /* !EXROM: 1    !GAME: 0 */
 
 const char *cart_config_string(uint8_t mode); /* convert above mode into human readable string */
 

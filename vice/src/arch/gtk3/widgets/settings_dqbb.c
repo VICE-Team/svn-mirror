@@ -35,10 +35,38 @@
 #include <gtk/gtk.h>
 
 #include "cartridge.h"
+#include "c64cart.h"
 #include "vice_gtk3.h"
 
 #include "settings_dqbb.h"
 
+/** \brief  List of supported RAM sizes */
+static int ram_sizes[] = { 16, 32, 64, 128, 256, -1 };
+
+/** \brief  List of supported modes */
+static int dqbb_modes[] = { DQBB_MODE_C64, DQBB_MODE_C128, -1 };
+
+/** \brief  Create radio button group to determine DQBB RAM size
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_dqbb_size_widget(void)
+{
+    return ram_size_radiogroup_new("DQBBsize",
+                                   CARTRIDGE_NAME_DQBB " Size",
+                                   ram_sizes);
+}
+
+/** \brief  Create radio button group to determine DQBB mode
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_dqbb_mode_widget(void)
+{
+    return ram_size_radiogroup_new("DQBBmode",
+                                   CARTRIDGE_NAME_DQBB " Mode",
+                                   dqbb_modes);
+}
 
 /** \brief  Create widget to load/save Double Quick Brown Box image file
  *
@@ -73,6 +101,8 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *dqbb_enable_widget; /* dqbb_enable shadows */
     GtkWidget *dqbb_image;
+    GtkWidget *dqbb_size;
+    GtkWidget *dqbb_mode;
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
 
@@ -81,8 +111,13 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), dqbb_enable_widget, 0, 0, 1, 1);
 
     dqbb_image = create_dqbb_image_widget();
+    dqbb_size = create_dqbb_size_widget();
+    dqbb_mode = create_dqbb_mode_widget();
+
     gtk_widget_set_margin_top(dqbb_image, 8);
     gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), dqbb_size,  0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), dqbb_mode,  1, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
