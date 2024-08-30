@@ -690,7 +690,7 @@ void external_function_rom_set_bank(int value)
     ext_function_rom_bank = value;
 }
 
-/* ROML and ROMH reads at the cartridge port */
+/* ROML ($8000-$BFFF) and ROMH ($C000-$FFFF) reads at the cartridge port */
 uint8_t external_function_rom_read(uint16_t addr)
 {
     int type = cart_getid_slot0();
@@ -702,6 +702,17 @@ uint8_t external_function_rom_read(uint16_t addr)
                 vicii.last_cpu_val = val;
                 return vicii.last_cpu_val;
             }
+            break;
+    }
+    /* slot 1 */
+    type = cart_getid_slot1();
+    switch(type) {
+        case CARTRIDGE_DQBB:
+            if (dqbb_c128_read(addr, &val) == CART_READ_VALID) {
+                vicii.last_cpu_val = val;
+                return vicii.last_cpu_val;
+            }
+            break;
     }
     /* then do slotmain */
     type = cartridge_get_id(0);
@@ -734,7 +745,7 @@ uint8_t external_function_rom_read(uint16_t addr)
     return vicii.last_cpu_val;
 }
 
-/* ROML and ROMH peeks at the cartridge port */
+/* ROML ($8000-$BFFF) and ROMH ($C000-$FFFF) peeks at the cartridge port */
 uint8_t external_function_rom_peek(uint16_t addr)
 {
     int type = cart_getid_slot0();
@@ -746,6 +757,17 @@ uint8_t external_function_rom_peek(uint16_t addr)
             if (c128ramlink_roml_read(addr, &val)) {
                 return val;
             }
+            break;
+    }
+    /* slot 1 */
+    type = cart_getid_slot1();
+    switch(type) {
+        case CARTRIDGE_DQBB:
+            if (dqbb_c128_read(addr, &val) == CART_READ_VALID) {
+                vicii.last_cpu_val = val;
+                return vicii.last_cpu_val;
+            }
+            break;
     }
     /* then do slotmain */
     type = cartridge_get_id(0);
@@ -779,10 +801,24 @@ uint8_t external_function_rom_peek(uint16_t addr)
     return val;
 }
 
-/* ROML and ROMH stores at the cartridge port */
+/* ROML ($8000-$BFFF) and ROMH ($C000-$FFFF) stores at the cartridge port */
 void external_function_rom_store(uint16_t addr, uint8_t value)
 {
-    int type = cartridge_get_id(0);
+    int type;
+
+    /* slot 1 */
+    type = cart_getid_slot1();
+    switch(type) {
+        case CARTRIDGE_DQBB:
+            if (dqbb_c128_store(addr, value)) {
+                vicii.last_cpu_val = value;
+                return;  /* FIXME: is this correct, ie does the write to DQBB go to C128 RAM? */
+            }
+            break;
+    }
+
+    /* main slot */
+    type = cartridge_get_id(0);
     switch(type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
             c128gmod2_roml_store(addr, value);

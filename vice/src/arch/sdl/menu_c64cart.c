@@ -564,16 +564,59 @@ static ui_menu_entry_t expert_cart_menu[] = {
 /* Double Quick Brown Box */
 
 UI_MENU_DEFINE_TOGGLE(DQBB)
+UI_MENU_DEFINE_RADIO(DQBBMode)
+UI_MENU_DEFINE_RADIO(DQBBSize)
 UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
 UI_MENU_DEFINE_TOGGLE(DQBBImageWrite)
 
-#define DQBB_OFFSET_FLUSH 5
-#define DQBB_OFFSET_SAVE 6
+#define DQBB_OFFSET_FLUSH 16
+#define DQBB_OFFSET_SAVE 17
 
 static ui_menu_entry_t dqbb_cart_menu[] = {
     {   .string   = "Enable " CARTRIDGE_NAME_DQBB,
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_DQBB_callback,
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Mode"),
+    {   .string   = "C64",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBMode_callback,
+        .data     = (ui_callback_data_t)DQBB_MODE_C64
+    },
+    {   .string   = "C128",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBMode_callback,
+        .data     = (ui_callback_data_t)DQBB_MODE_C128
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Memory size"),
+    {   .string   = "16KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBSize_callback,
+        .data     = (ui_callback_data_t)16
+    },
+    {   .string   = "32KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBSize_callback,
+        .data     = (ui_callback_data_t)32
+    },
+    {   .string   = "64KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBSize_callback,
+        .data     = (ui_callback_data_t)64
+    },
+    {   .string   = "128KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBSize_callback,
+        .data     = (ui_callback_data_t)128
+    },
+    {   .string   = "256KiB",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_DQBBSize_callback,
+        .data     = (ui_callback_data_t)256
     },
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -587,16 +630,17 @@ static ui_menu_entry_t dqbb_cart_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_DQBBImageWrite_callback
     },
-    {   .string   = "Save image now", /* 5 */
+    {   .string   = "Save image now", /* 16 */
         .type     = MENU_ENTRY_OTHER,
         .callback = c64_cart_flush_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_DQBB
     },
-    {   .string   = "Save image as", /* 6 */
+    {   .string   = "Save image as", /* 17 */
         .type     = MENU_ENTRY_OTHER,
         .callback = c64_cart_save_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_DQBB
     },
+
     SDL_MENU_LIST_END
 };
 

@@ -10149,6 +10149,14 @@ String specifying the filename of the image for the cartridge emulated in the "m
 @item DQBB
 Boolean specifying whether the Double Quick Brown Box should be emulated or not.
 
+@vindex DQBBSize
+@item DQBBSize
+Integer specifying the RAM size (16, 32, 64, 128, 256kiB).
+
+@vindex DQBBMode
+@item DQBBMode
+Boolean specifying the position of the slide/mode switch (0: C128, 1: C64).
+
 @vindex DQBBfilename
 @item DQBBfilename
 String specifying the filename of the DQBB RAM image.
@@ -10679,6 +10687,14 @@ Attach raw 16KiB Double Quick Brown Box cartridge image.
 @itemx +dqbb
 Enable/disable Double Quick Brown Box
 (@code{DQBB=1}, @code{DQBB=0}).
+
+@findex -dqbbsize
+@item -dqbbsize <size>
+Specify the RAM size (16, 32, 64, 128, 256kiB) (@code{DQBBsize}).
+
+@findex -dqbbmode
+@item -dqbbmode <mode>
+Specify the position of the slide/mode switch (@code{DQBBmode=0}: C128, @code{DQBBmode=1}: C64).
 
 @findex -dqbbimage
 @item -dqbbimage <name>
