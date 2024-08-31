@@ -201,7 +201,8 @@ static void snespad_store(int port, uint8_t val)
         counter = 0;
     }
 
-    if (clock_line && !new_clock) {
+    /* The CD4021 shift register used in SNES controllers shifts on the rising edge */
+    if (!clock_line && new_clock) {
         /* clock line asserted, increment the counter if we are not at the end of the sequence */
         if (counter != SNESPAD_EOS) {
             counter++;
