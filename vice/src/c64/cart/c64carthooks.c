@@ -1994,6 +1994,7 @@ void cartridge_shutdown(void)
 
     /* "Main Slot" */
     /* "Slot 1" */
+    dqbb_shutdown();
     /* "IO Slot" */
 }
 

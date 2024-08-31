@@ -43,6 +43,7 @@ int dqbb_cart_enabled(void);
 int dqbb_resources_init(void);
 void dqbb_resources_shutdown(void);
 int dqbb_cmdline_options_init(void);
+
 void dqbb_reset(void);
 void dqbb_detach(void);
 void dqbb_init_config(void);
@@ -65,6 +66,7 @@ int dqbb_bin_attach(const char *filename, uint8_t *rawcart);
 int dqbb_bin_save(const char *filename);
 int dqbb_flush_image(void);
 void dqbb_powerup(void);
+void dqbb_shutdown(void);
 
 struct snapshot_s;
 
