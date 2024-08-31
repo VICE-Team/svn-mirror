@@ -213,7 +213,8 @@ static uint8_t userport_snespad_read_pbx(uint8_t orig)
         case SNESPAD_BIT_13_1:
         case SNESPAD_BIT_14_1:
         case SNESPAD_BIT_15_1:
-            retval = 1;
+            /* part of the snes sequence, but unused, return 0 on each line */
+            retval = 0;
             break;
         case SNESPAD_EOS:
             retval = 1;

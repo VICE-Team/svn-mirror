@@ -132,10 +132,11 @@ static uint8_t snespad_read(int port)
         case SNESPAD_BIT_13_1:
         case SNESPAD_BIT_14_1:
         case SNESPAD_BIT_15_1:
-            retval = 4;
+            /* part of the snes sequence, but unused, return 0 on each line */
+            retval = 0;
             break;
         case SNESPAD_EOS:
-            retval = 0;
+            retval = 4;
             break;
         default:
             retval = 1;
