@@ -254,6 +254,13 @@ void dqbb_powerup(void)
     }
 }
 
+void dqbb_shutdown(void)
+{
+    if (dqbb_ram) {
+        lib_free(dqbb_ram);
+    }
+}
+
 static int dqbb_activate(void)
 {
     DBG(("dqbb_activate"));
