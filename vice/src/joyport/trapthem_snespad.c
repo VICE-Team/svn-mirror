@@ -153,7 +153,8 @@ static void snespad_store(int port, uint8_t val)
         counter[port] = 0;
     }
 
-    if (clock_line[port] && !new_clock) {
+    /* The CD4021 shift register used in SNES controllers shifts on the rising edge */
+    if (!clock_line[port] && new_clock) {
         if (counter[port] != SNESPAD_EOS) {
             counter[port]++;
         }

@@ -156,7 +156,8 @@ static void userport_snespad_store_pbx(uint8_t value, int pulse)
         counter = 0;
     }
 
-    if (clock_line && !new_clock) {
+    /* The CD4021 shift register used in SNES controllers shifts on the rising edge */
+    if (!clock_line && new_clock) {
         if (counter != SNESPAD_EOS) {
             counter++;
         }
