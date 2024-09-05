@@ -1217,12 +1217,13 @@ specified afterwards on the command line.
 
 @findex -config
 @item -config <filename>
-Specify config file
+Specify config file (see @pxref{Settings and resources}).
 
 @findex -addconfig
 @item -addconfig <filename>
 Specify extra config file for loading additional resources. This can be used to
-add "patch sets" for various configurations.
+add "patch sets" for various configurations. This file uses the same format as
+the regular config file (see @pxref{Settings and resources}).
 
 @findex -dumpconfig
 @item -dumpconfig <filename>
@@ -23307,6 +23308,18 @@ Basic v2.0 with Ultrabasic-64 (C64)
 @item xbasic
 Basic v2.0 with Xbasic (C64)
 @end table
+
+@c @node FIXME
+@section petcat extra features
+
+@itemize
+@item If a line does not begin with a line number, a new line number is created by
+taking the line number of the previous line and incrementing it by two.
+@item Lines starting with a semicolon will be treated as comments and are ignored
+@item Unlike the BASIC editor, petcat can create BASIC files that contain lines
+numbered in arbitrary order, and also duplicate line numbers.
+@end itemize
+
 
 @c @node FIXME
 @section petcat examples
