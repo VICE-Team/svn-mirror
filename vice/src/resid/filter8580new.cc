@@ -280,6 +280,12 @@ Filter::Filter()
       double N31 = norm*((1u << 31) - 1);
       mf.vo_N16 = N16;
 
+      // In the 6581 the mixer input resistors for the filter lines
+      // are slightly bigger than the voice ones
+      // Scale the values accordingly
+      const double scaleFactor = m==0 ? 0.93 : 1.0;
+      mf.filterGain = static_cast<int>(scaleFactor * (1 << 12));
+
       // The "zero" output level of the voices.
       // The digital range of one voice is 20 bits; create a scaling term
       // for multiplication which fits in 11 bits.

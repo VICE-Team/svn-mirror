@@ -608,6 +608,7 @@ protected:
     int bk;
     int vc_min;
     int vc_max;
+    int filterGain;
     double vo_N16;  // Fixed point scaling for 16 bit op-amp output.
 
     // Reverse op-amp transfer function.
@@ -928,14 +929,26 @@ short Filter::output()
 my @i = qw(v1 v2 v3 ve Vlp Vbp Vhp);
 for my $mix (0..2**@i-1) {
     print sprintf("  case 0x%02x:\n", $mix);
-    my @sum;
+    my @sumVoice;
+    my @sumFilt;
+    my $bit = 0;
     for (@i) {
-        unshift(@sum, $_) if $mix & 0x01;
-        $mix >>= 1;
+        if ($bit < 4) {
+            unshift(@sumVoice, $_) if $mix & (1 << $bit);
+        } else {
+            unshift(@sumFilt, $_) if $mix & (1 << $bit);
+        }
+        $bit += 1;
     }
-    my $sum = join(" + ", @sum) || "0";
+    my $sum;
+    if (@sumFilt) {
+        $sumV = (@sumVoice) ? " + ".join(" + ", @sumVoice) : "";
+        $sum = "(((".join(" + ", @sumFilt).") * mf.filterGain) >> 12)" . $sumV;
+    } else {
+        $sum = join(" + ", @sumVoice) || "0";
+    }
     print "    Vi = $sum;\n";
-    print "    offset = mixer_offset<" . @sum . ">::value;\n";
+    print "    offset = mixer_offset<" . (@sumVoice+@sumFilt) . ">::value;\n";
     print "    break;\n";
 }
   */
@@ -1010,451 +1023,451 @@ for my $mix (0..2**@i-1) {
     offset = mixer_offset<4>::value;
     break;
   case 0x10:
-    Vi = Vlp;
+    Vi = (((Vlp) * f.filterGain) >> 12);
     offset = mixer_offset<1>::value;
     break;
   case 0x11:
-    Vi = Vlp + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<2>::value;
     break;
   case 0x12:
-    Vi = Vlp + v2;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<2>::value;
     break;
   case 0x13:
-    Vi = Vlp + v2 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x14:
-    Vi = Vlp + v3;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<2>::value;
     break;
   case 0x15:
-    Vi = Vlp + v3 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x16:
-    Vi = Vlp + v3 + v2;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x17:
-    Vi = Vlp + v3 + v2 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x18:
-    Vi = Vlp + ve;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<2>::value;
     break;
   case 0x19:
-    Vi = Vlp + ve + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x1a:
-    Vi = Vlp + ve + v2;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x1b:
-    Vi = Vlp + ve + v2 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x1c:
-    Vi = Vlp + ve + v3;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x1d:
-    Vi = Vlp + ve + v3 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x1e:
-    Vi = Vlp + ve + v3 + v2;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x1f:
-    Vi = Vlp + ve + v3 + v2 + v1;
+    Vi = (((Vlp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x20:
-    Vi = Vbp;
+    Vi = (((Vbp) * f.filterGain) >> 12);
     offset = mixer_offset<1>::value;
     break;
   case 0x21:
-    Vi = Vbp + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<2>::value;
     break;
   case 0x22:
-    Vi = Vbp + v2;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<2>::value;
     break;
   case 0x23:
-    Vi = Vbp + v2 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x24:
-    Vi = Vbp + v3;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<2>::value;
     break;
   case 0x25:
-    Vi = Vbp + v3 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x26:
-    Vi = Vbp + v3 + v2;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x27:
-    Vi = Vbp + v3 + v2 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x28:
-    Vi = Vbp + ve;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<2>::value;
     break;
   case 0x29:
-    Vi = Vbp + ve + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x2a:
-    Vi = Vbp + ve + v2;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x2b:
-    Vi = Vbp + ve + v2 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x2c:
-    Vi = Vbp + ve + v3;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x2d:
-    Vi = Vbp + ve + v3 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x2e:
-    Vi = Vbp + ve + v3 + v2;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x2f:
-    Vi = Vbp + ve + v3 + v2 + v1;
+    Vi = (((Vbp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x30:
-    Vi = Vbp + Vlp;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12);
     offset = mixer_offset<2>::value;
     break;
   case 0x31:
-    Vi = Vbp + Vlp + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x32:
-    Vi = Vbp + Vlp + v2;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x33:
-    Vi = Vbp + Vlp + v2 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x34:
-    Vi = Vbp + Vlp + v3;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x35:
-    Vi = Vbp + Vlp + v3 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x36:
-    Vi = Vbp + Vlp + v3 + v2;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x37:
-    Vi = Vbp + Vlp + v3 + v2 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x38:
-    Vi = Vbp + Vlp + ve;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<3>::value;
     break;
   case 0x39:
-    Vi = Vbp + Vlp + ve + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x3a:
-    Vi = Vbp + Vlp + ve + v2;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x3b:
-    Vi = Vbp + Vlp + ve + v2 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x3c:
-    Vi = Vbp + Vlp + ve + v3;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<4>::value;
     break;
   case 0x3d:
-    Vi = Vbp + Vlp + ve + v3 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x3e:
-    Vi = Vbp + Vlp + ve + v3 + v2;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<5>::value;
     break;
   case 0x3f:
-    Vi = Vbp + Vlp + ve + v3 + v2 + v1;
+    Vi = (((Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x40:
-    Vi = Vhp;
+    Vi = (((Vhp) * f.filterGain) >> 12);
     offset = mixer_offset<1>::value;
     break;
   case 0x41:
-    Vi = Vhp + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<2>::value;
     break;
   case 0x42:
-    Vi = Vhp + v2;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<2>::value;
     break;
   case 0x43:
-    Vi = Vhp + v2 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x44:
-    Vi = Vhp + v3;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<2>::value;
     break;
   case 0x45:
-    Vi = Vhp + v3 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x46:
-    Vi = Vhp + v3 + v2;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x47:
-    Vi = Vhp + v3 + v2 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x48:
-    Vi = Vhp + ve;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<2>::value;
     break;
   case 0x49:
-    Vi = Vhp + ve + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x4a:
-    Vi = Vhp + ve + v2;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x4b:
-    Vi = Vhp + ve + v2 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x4c:
-    Vi = Vhp + ve + v3;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x4d:
-    Vi = Vhp + ve + v3 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x4e:
-    Vi = Vhp + ve + v3 + v2;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x4f:
-    Vi = Vhp + ve + v3 + v2 + v1;
+    Vi = (((Vhp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x50:
-    Vi = Vhp + Vlp;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12);
     offset = mixer_offset<2>::value;
     break;
   case 0x51:
-    Vi = Vhp + Vlp + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x52:
-    Vi = Vhp + Vlp + v2;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x53:
-    Vi = Vhp + Vlp + v2 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x54:
-    Vi = Vhp + Vlp + v3;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x55:
-    Vi = Vhp + Vlp + v3 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x56:
-    Vi = Vhp + Vlp + v3 + v2;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x57:
-    Vi = Vhp + Vlp + v3 + v2 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x58:
-    Vi = Vhp + Vlp + ve;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<3>::value;
     break;
   case 0x59:
-    Vi = Vhp + Vlp + ve + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x5a:
-    Vi = Vhp + Vlp + ve + v2;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x5b:
-    Vi = Vhp + Vlp + ve + v2 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x5c:
-    Vi = Vhp + Vlp + ve + v3;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<4>::value;
     break;
   case 0x5d:
-    Vi = Vhp + Vlp + ve + v3 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x5e:
-    Vi = Vhp + Vlp + ve + v3 + v2;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<5>::value;
     break;
   case 0x5f:
-    Vi = Vhp + Vlp + ve + v3 + v2 + v1;
+    Vi = (((Vhp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x60:
-    Vi = Vhp + Vbp;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12);
     offset = mixer_offset<2>::value;
     break;
   case 0x61:
-    Vi = Vhp + Vbp + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<3>::value;
     break;
   case 0x62:
-    Vi = Vhp + Vbp + v2;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<3>::value;
     break;
   case 0x63:
-    Vi = Vhp + Vbp + v2 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x64:
-    Vi = Vhp + Vbp + v3;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<3>::value;
     break;
   case 0x65:
-    Vi = Vhp + Vbp + v3 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x66:
-    Vi = Vhp + Vbp + v3 + v2;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x67:
-    Vi = Vhp + Vbp + v3 + v2 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x68:
-    Vi = Vhp + Vbp + ve;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<3>::value;
     break;
   case 0x69:
-    Vi = Vhp + Vbp + ve + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x6a:
-    Vi = Vhp + Vbp + ve + v2;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x6b:
-    Vi = Vhp + Vbp + ve + v2 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x6c:
-    Vi = Vhp + Vbp + ve + v3;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<4>::value;
     break;
   case 0x6d:
-    Vi = Vhp + Vbp + ve + v3 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x6e:
-    Vi = Vhp + Vbp + ve + v3 + v2;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<5>::value;
     break;
   case 0x6f:
-    Vi = Vhp + Vbp + ve + v3 + v2 + v1;
+    Vi = (((Vhp + Vbp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x70:
-    Vi = Vhp + Vbp + Vlp;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12);
     offset = mixer_offset<3>::value;
     break;
   case 0x71:
-    Vi = Vhp + Vbp + Vlp + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v1;
     offset = mixer_offset<4>::value;
     break;
   case 0x72:
-    Vi = Vhp + Vbp + Vlp + v2;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v2;
     offset = mixer_offset<4>::value;
     break;
   case 0x73:
-    Vi = Vhp + Vbp + Vlp + v2 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v2 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x74:
-    Vi = Vhp + Vbp + Vlp + v3;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v3;
     offset = mixer_offset<4>::value;
     break;
   case 0x75:
-    Vi = Vhp + Vbp + Vlp + v3 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v3 + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x76:
-    Vi = Vhp + Vbp + Vlp + v3 + v2;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v3 + v2;
     offset = mixer_offset<5>::value;
     break;
   case 0x77:
-    Vi = Vhp + Vbp + Vlp + v3 + v2 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + v3 + v2 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x78:
-    Vi = Vhp + Vbp + Vlp + ve;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve;
     offset = mixer_offset<4>::value;
     break;
   case 0x79:
-    Vi = Vhp + Vbp + Vlp + ve + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v1;
     offset = mixer_offset<5>::value;
     break;
   case 0x7a:
-    Vi = Vhp + Vbp + Vlp + ve + v2;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v2;
     offset = mixer_offset<5>::value;
     break;
   case 0x7b:
-    Vi = Vhp + Vbp + Vlp + ve + v2 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v2 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x7c:
-    Vi = Vhp + Vbp + Vlp + ve + v3;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v3;
     offset = mixer_offset<5>::value;
     break;
   case 0x7d:
-    Vi = Vhp + Vbp + Vlp + ve + v3 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v1;
     offset = mixer_offset<6>::value;
     break;
   case 0x7e:
-    Vi = Vhp + Vbp + Vlp + ve + v3 + v2;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2;
     offset = mixer_offset<6>::value;
     break;
   case 0x7f:
-    Vi = Vhp + Vbp + Vlp + ve + v3 + v2 + v1;
+    Vi = (((Vhp + Vbp + Vlp) * f.filterGain) >> 12) + ve + v3 + v2 + v1;
     offset = mixer_offset<7>::value;
     break;
   }
