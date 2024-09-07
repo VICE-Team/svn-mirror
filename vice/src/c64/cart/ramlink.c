@@ -656,14 +656,36 @@ static void ramlink_off(void)
     cart_port_config_changed_slot0();
 }
 
+/* Turn on or off devices based on port access settings */
+static void ramlink_update_io1mode(void)
+{
+    if (rl_io1mode == 0) { /* internal RAM */
+        ramlink_other1_off();
+        ramlink_ramport_off();
+        ramlink_io1_on();
+    } else if ((rl_io1mode == 1) && (rl_cardsizemb != 0) && rl_card &&
+        rl_enabled) { /* RAMCard */
+        ramlink_other1_off();
+        ramlink_ramport_off();
+        ramlink_io1_on();
+    } else if (rl_io1mode == 2) { /* GEORAM or RAMDRIVE */
+        ramlink_other1_off();
+        ramlink_io1_off();
+        ramlink_ramport_on();
+    } else { /* PASSTHRU */
+        ramlink_ramport_off();
+        ramlink_io1_off();
+        ramlink_other1_on();
+    }
+}
+
 /* Turn on RL */
 static void ramlink_on(void)
 {
-    ramlink_io1_on();
     ramlink_io2_on();
-    ramlink_other1_off();
     ramlink_reu_on();
     ramlink_georam2_on();
+    ramlink_update_io1mode();
     rl_on = 1;
     cart_port_config_changed_slot0();
 }
@@ -1448,24 +1470,7 @@ static void ramlink_io2_b0_bf_store(uint16_t addr, uint8_t value)
 static void ramlink_io2_c0_c3_store(uint16_t addr, uint8_t value)
 {
     rl_io1mode = addr & 0x3;
-    if (rl_io1mode == 0) { /* internal RAM */
-        ramlink_other1_off();
-        ramlink_ramport_off();
-        ramlink_io1_on();
-    } else if ((rl_io1mode == 1) && (rl_cardsizemb != 0) && rl_card &&
-        rl_enabled) { /* RAMCard */
-        ramlink_other1_off();
-        ramlink_ramport_off();
-        ramlink_io1_on();
-    } else if (rl_io1mode == 2) { /* GEORAM or RAMDRIVE */
-        ramlink_other1_off();
-        ramlink_io1_off();
-        ramlink_ramport_on();
-    } else { /* PASSTHRU */
-        ramlink_ramport_off();
-        ramlink_io1_off();
-        ramlink_other1_on();
-    }
+    ramlink_update_io1mode();
 
     IDBG((LOG, "RAMLINK: io2 w %04x < %02x at 0x%04x", addr, value, reg_pc));
 }
@@ -1482,6 +1487,7 @@ static int ramlink_io2_dump(void)
     mon_out("DOS mapped?: %s\n", rl_dos ? "Yes" : "No");
     mon_out("Mode: %s\n", rl_normal ? "Normal" : "Direct");
     mon_out("RAMCard Size: %d MiB\n", rl_cardsizemb);
+    mon_out("IO1 source: %u\n", rl_io1mode);
     mon_out("I8255A at $DF40\n");
     i8255a_dump(&rl_i8255a);
 
