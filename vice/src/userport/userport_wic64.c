@@ -858,6 +858,7 @@ static void prep_wic64_str(void)
 static size_t write_cb(char *data, size_t n, size_t l, void *userp)
 {
     size_t tmp = httpbufferptr + n * l;
+    debug_log(CONS_COL_NO, 3, "%s, %dx%d bytes/size", __FUNCTION__, n, l);
 
     if (tmp >= HTTPREPLY_MAXLEN) {
         wic64_log(CONS_COL_NO, "libcurl reply too long, dropping %"PRI_SIZE_T" bytes.\n",
@@ -892,6 +893,7 @@ static void add_transfer(CURLM *cmulti, char *url)
     }
     curl_easy_setopt(eh, CURLOPT_USERAGENT, http_user_agent);
     curl_multi_add_handle(cmulti, eh);
+    curl_multi_poll(cm, NULL, 0, 1, NULL);
 }
 
 static void update_prefs(uint8_t *buffer, size_t len)
@@ -948,6 +950,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     long response = -1;
     char *url = "<unknown>";
 
+    still_alive = 0;
     r = curl_multi_perform(cm, &still_alive);
     if (r != CURLM_OK) {
         wic64_log(CONS_COL_NO, "%s: curl_multi_perform failed: %s", __FUNCTION__, curl_multi_strerror(r));
@@ -962,6 +965,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         send_reply_revised(NETWORK_ERROR, "Failed to read HTTP response", NULL, 0, "!0"); /* maybe wrong here */
         goto out;
     }
+    debug_log(CONS_COL_NO, 3, "%s, running handles: %d, r = %d", __FUNCTION__, still_alive, r);
 
     if (wic64_remote_timeout_triggered) {
         debug_log(LOG_COL_LRED, 2, "Remote timout expired");
@@ -972,11 +976,13 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     }
 
     if (still_alive) {
+        curl_multi_poll(cm, NULL, 0, 1, NULL);
         /* http request not yet finished */
         alarm_unset(http_get_alarm);
         alarm_set(http_get_alarm, maincpu_clk + (312 * 65));
         return;
     }
+
     alarm_unset(cmd_remote_timeout_alarm);
     remote_to = wic64_remote_timeout;
 
