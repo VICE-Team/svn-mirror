@@ -78,10 +78,10 @@ static uint8_t *makeshortheader(uint8_t *p)
     }
     n = strlen((char*)p);
     if (!longnames && (n > 16)) {
-        d = p + (n - 1);
+        d = p + (n - 1); /* point to last char */
         /* scan backwards until path seperator */
         while (d != p) {
-            if (*d == '/') { /* FIXME: use macro */
+            if (*d == ARCHDEP_DIR_SEP_CHR) {
                 d++; n = 0;
                 /* copy last part to the beginning */
                 while (d) {
@@ -97,6 +97,8 @@ static uint8_t *makeshortheader(uint8_t *p)
             }
             d--;
         }
+        /* if for some reason the above fails, hard-limit to 16 chars */
+        p[16] = 0;
     }
     return p;
 }
