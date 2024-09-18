@@ -125,6 +125,8 @@
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
 #include "turtlegraphics.h"
+#include "uc1.h"
+#include "uc2.h"
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
@@ -663,6 +665,11 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return partner64_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
+        case CARTRIDGE_UC1:
+            return uc1_roml_read(addr);
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            return uc2_roml_read(addr);
         case CARTRIDGE_REX_RAMFLOPPY:
             return rexramfloppy_roml_read(addr);
 #ifdef HAVE_RAWNET
@@ -833,6 +840,13 @@ void roml_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
             return;
+        case CARTRIDGE_UC1:
+            uc1_roml_store(addr, value);
+            return;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_roml_store(addr, value);
+            return;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_roml_store(addr, value);
@@ -921,6 +935,11 @@ static uint8_t romh_read_slotmain(uint16_t addr)
             return partner64_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_romh_read(addr);
+        case CARTRIDGE_UC1:
+            return uc1_romh_read(addr);
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            return uc2_romh_read(addr);
         case CARTRIDGE_SNAPSHOT64:
             return snapshot64_romh_read(addr);
         case CARTRIDGE_EXOS:
@@ -1055,6 +1074,11 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
             return partner64_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_romh_read(addr);
+        case CARTRIDGE_UC1:
+            return uc1_romh_read(addr);
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            return uc2_romh_read(addr);
         case CARTRIDGE_SNAPSHOT64:
             return snapshot64_romh_read(addr);
         case CARTRIDGE_STARDOS:
@@ -1236,6 +1260,13 @@ void romh_no_ultimax_store(uint16_t addr, uint8_t value)
             retroreplay_romh_store(addr, value);
             return; /* writes to cartridge RAM should not fall through to C64 RAM in mode 0x22 */
             break;
+        case CARTRIDGE_UC1:
+            uc1_romh_store(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_romh_store(addr, value);
+            break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
@@ -1288,6 +1319,13 @@ void roml_no_ultimax_store(uint16_t addr, uint8_t value)
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_UC1:
+            uc1_roml_store(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_roml_store(addr, value);
             break;
         case CARTRIDGE_REX_RAMFLOPPY:
             rexramfloppy_roml_store(addr, value);
@@ -1349,6 +1387,13 @@ void raml_no_ultimax_store(uint16_t addr, uint8_t value)
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_UC1:
+            uc1_roml_no_ultimax_store(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_roml_no_ultimax_store(addr, value);
             break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
@@ -1446,6 +1491,11 @@ static uint8_t ultimax_1000_7fff_read_slot1(uint16_t addr)
             return ide64_ram_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_1000_7fff_read(addr);
+        case CARTRIDGE_UC1:
+            return uc1_1000_7fff_read(addr);
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            return uc2_1000_7fff_read(addr);
         case CARTRIDGE_PARTNER64:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
@@ -1507,6 +1557,8 @@ uint8_t ultimax_1000_7fff_read(uint16_t addr)
 /* ultimax store - 1000 to 7fff */
 void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
 {
+    DBG(("ultimax_1000_7fff_store()\n"));
+
     /* "Slot 0" */
     if (magicvoice_cart_enabled() ||
         ieeeflash64_cart_enabled()) {
@@ -1531,6 +1583,13 @@ void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
             break;
         case CARTRIDGE_CAPTURE:
             capture_1000_7fff_store(addr, value);
+            break;
+        case CARTRIDGE_UC1:
+            uc1_1000_7fff_store(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_1000_7fff_store(addr, value);
             break;
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
@@ -1584,6 +1643,11 @@ static uint8_t ultimax_a000_bfff_read_slot1(uint16_t addr)
             return partner64_a000_bfff_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_a000_bfff_read(addr);
+        case CARTRIDGE_UC1:
+            return uc1_a000_bfff_read(addr);
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            return uc2_a000_bfff_read(addr);
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FORMEL64:
@@ -1680,6 +1744,15 @@ void ultimax_a000_bfff_store(uint16_t addr, uint8_t value)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_a000_bfff_store(addr, value);
+            break;
+        case CARTRIDGE_UC1:
+            /* fake ultimax hack, c64 ram */
+            uc1_a000_bfff_store(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            /* fake ultimax hack, c64 ram */
+            uc2_a000_bfff_store(addr, value);
             break;
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_EXOS:
@@ -1988,6 +2061,13 @@ static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
             break;
         case CARTRIDGE_NONE:
             break;
+        case CARTRIDGE_UC1:
+            res = uc1_romh_phi1_read(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            res = uc2_romh_phi1_read(addr, value);
+            break;
         default:
             /* generic fallback */
             *value = ultimax_romh_read_hirom(addr);
@@ -2103,6 +2183,13 @@ static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
             res = stardos_romh_phi2_read(addr, value);
             break;
         case CARTRIDGE_NONE:
+            break;
+        case CARTRIDGE_UC1:
+            res = uc1_romh_phi2_read(addr, value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            res = uc2_romh_phi2_read(addr, value);
             break;
         default:
             /* generic fallback */
@@ -2326,6 +2413,13 @@ static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             res = retroreplay_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_UC1:
+            res = uc1_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            res = uc2_peek_mem(&export_slotmain, addr, &value);
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:

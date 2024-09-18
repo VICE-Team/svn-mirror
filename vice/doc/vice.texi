@@ -9767,6 +9767,8 @@ Super Snapshot V5
 @item
 Turtle Graphics II
 @item
+Universal Cartridge
+@item
 Warp Speed
 @item
 Westermann Learning
@@ -10140,6 +10142,12 @@ The following cartridge types are valid:
 78: Partner 64
 @item
 79: Hyper-BASIC
+@item
+80: Universal Cartridge 1
+@item
+81: Universal Cartridge 1.5
+@item
+82: Universal Cartridge 2
 @end itemize
 
 @vindex CartridgeFile
@@ -11480,6 +11488,18 @@ Attach raw 16KiB Stardos cartridge image.
 @findex -cartturtle
 @item -cartturtle <name>
 Attach raw 16KiB Turtle Graphics II cartridge image.
+
+@findex -cartuc1
+@item -cartuc1 <name>
+Attach raw 128KiB Universal Cartridge 1 image.
+
+@findex -cartuc15
+@item -cartuc15 <name>
+Attach raw 512KiB Universal Cartridge 1.5 image.
+
+@findex -cartuc2
+@item -cartuc2 <name>
+Attach raw 512KiB Universal Cartridge 2 image.
 
 @findex -cartwl
 @item -cartwl <name>
@@ -23038,6 +23058,12 @@ Super Snapshot V5 .crt file
 Stardos .crt file
 @item turtle
 Turtle Graphics II .crt file
+@item uc1
+Universal Cartridge 1 .crt file
+@item uc15
+Universal Cartridge 1.5 .crt file
+@item uc2
+Universal Cartridge 2 .crt file
 @item wl
 Westermann Learning .crt file
 @item ws
@@ -29723,6 +29749,12 @@ $0010- xxxx - ROM data
 @tab Partner 64
 @item 79
 @tab Hyper-BASIC
+@item 80
+@tab Universal Cartridge 1
+@item 81
+@tab Universal Cartridge 1.5
+@item 82
+@tab Universal Cartridge 2
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
@@ -32676,7 +32708,7 @@ rom bank 0x00 - 0x03 (0x04) 8192* 4 32KiB mapped to e000
 MC6821 registers mapped to io2 at dfc0..dfc4
 
 - press reset and hold delete to get the main menu
-- press reset and hold control to skip cbm80 check 
+- press reset and hold control to skip cbm80 check
   (dont start additional cartridge)
 
 - press RESTORE, then...
@@ -33248,7 +33280,7 @@ and runs the original sd2iec firmware.
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
 0010: 00 00 00 40 01 00 00 46 01 00 00 00 00 00 00 00  ...@@...F........
 0020: 4d 55 4c 54 49 4d 41 58 00 00 00 00 00 00 00 00  MULTIMAX........
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
@@ -33612,7 +33644,7 @@ the IO lines all the time.
 @end example
 
     This cartridge type was found in an argentinian H.E.R.O. clone cartridge,
-    ROM  memory is  organized in 8KiB ($2000) banks located at $8000-$9FFF. 
+    ROM  memory is  organized in 8KiB ($2000) banks located at $8000-$9FFF.
     There appears to be one register mirrored over IO2 (the software uses $DFFF).
     Banks are selected by writing to the lower 2 bits of the register, bit 5
     disables the cartridge.
@@ -33664,7 +33696,7 @@ the IO lines all the time.
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
 0010: 00 00 00 40 01 00 00 4c 00 01 00 00 00 00 00 00  ...@...L........
 0020: 48 45 53 20 54 75 72 74 6c 65 20 47 72 61 70 68  HES Turtle Graph
 0030: 69 63 73 20 49 49 00 00 00 00 00 00 00 00 00 00  ics II..........
@@ -33716,7 +33748,7 @@ incorrect, any further information and/or corrections are appreciated.
 When the cart starts, the first half of the active ROM is banked to ROML ($8000-$9fff).
 When reading from  the  I/O-2  range  the second half of the active ROM  bank
 is enabled in RMH ($A000-$BFFF). When  reading from the I/O-1 range the cart is
-disabled. 
+disabled.
 
 When a freeze happens the first half of the ROM is mapped to ROML ($8000-$9FFF) and
 the second half to ROMH ($E000-$FFFF).
@@ -33818,6 +33850,191 @@ E0C0: 2C CA 91 AD 0A 03 AE 0B 03 8D B8 02 8E B9 02 A9  ,...............
     bit 5 - A14
     bit 6 and/or 7 - _EXROM,  0 = make cart visible
 @end example
+
+@c @node FIXME
+@subsubsection 80 - Universal Cartridge 1
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32KiB, 64KiB or 128KiB sizes (2 to 8 banks of 16KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (lo) (0)
+@item Startup mode
+@tab 16KiB Game
+@item Load address
+@tab (banks 00-07) - $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+0010: 00 00 00 40 01 00 00 50 00 00 01 00 00 00 00 00  ...@@...........
+0020: 75 63 2d 6c 4f 41 44 45 52 00 00 00 00 00 00 00  uc-lOADER.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 02 00 00 80 00 20 00  CHIP.. ....... .
+0050: 19 80 9e 82 c3 c2 cd 38 30 4c 55 84 4c 64 84 4c  .......80... ..
+..
+2050: 43 48 49 50 00 00 20 10 00 02 00 00 a0 00 20 00  CHIP.. ....... .
+2060: 00 3F 0A 01 00 86 4E 24 28 31 30 29 3A 4A 4F 59  .?....N$(10):JOY
+..
+4060: 43 48 49 50 00 00 20 10 00 02 00 01 80 00 20 00  CHIP.. ....... .
+4070: 00 8B C9 28 4E 24 2C 31 29 B3 B1 22 FF 22 A7 32  ...(N$,1)..".".2
+..
+6070: 43 48 49 50 00 00 20 10 00 02 00 01 a0 00 20 00  CHIP.. ....... .
+6080: AE 01 83 33 2C 37 2C 22 32 29 20 44 45 4C 20 4B  ...3,7,"2) DEL K
+@end example
+
+    This cartridge type has up to 128K ROM memory and 32K SRAM memory. Each
+    Bank is  organized  in 16KiB  ($4000), banks  are located at $8000-$BFFF.
+    Bank switching is done by writing the bank number to $DE00 (Bit 0 to 2).
+
+@example
+    Register at IO1 ($DE00):
+    Bit 0-2   bank number
+    Bit 3 --- IO Register disable (1 - Register is invisible)
+    Bit 4 --- SRAM write enable   (1 - SRAM is writable)
+    Bit 5 --- SRAM select         (1 - RAM, 0 - ROM)
+    Bit 6 --- Signal /GAME        (C64 Cartridge Mode)
+    Bit 7 --- Signal /EXROM       (C64 Cartridge Mode)
+
+    UC1 Documentation:
+    https://oe7twj.at/index.php?title=Universal_Cartridge_1
+@end example
+
+    In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
+    0 to indicate the RESET/power-up configuration of 16 KiB ROM.
+
+    There is a Windows Tool which can create RAW Image file and UC1 CRT file.
+    The content of the image file is configurable using a CSV file.
+
+    Since UC1 cartridge can set /EXROM and /GAME signal, all known C64 basic
+    configurations for cartridges (Off, 8K, 16K, UltiMax) are configurable.
+
+    Cartridge memory can be either ROM or SRAM.
+    SRAM can be protected, so it appears as ROM memory.
+    IO Register can be disabled, so configuration cannot be overwritten.
+    Basic CRT files (8K, 16K, UltiMax) can be loaded into UC1 SRAM from
+    ROM or Disk and ececuted by a Reset.
+
+
+@c @node FIXME
+@subsubsection 81 - Universal Cartridge 1.5
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 128KiB, 256KiB or 512KiB sizes (8 to 32 banks of 16KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (lo) (0)
+@item Startup mode
+@tab 16KiB Game
+@item Load address
+@tab (banks 00-07) - $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+0010: 00 00 00 40 01 00 00 51 00 00 01 00 00 00 00 00  ...@@...........
+0020: 75 63 2d 6c 4f 41 44 45 52 00 00 00 00 00 00 00  uc-lOADER.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 02 00 00 80 00 20 00  CHIP.. ....... .
+0050: 19 80 9e 82 c3 c2 cd 38 30 4c 55 84 4c 64 84 4c  .......80... ..
+..
+2050: 43 48 49 50 00 00 20 10 00 02 00 00 a0 00 20 00  CHIP.. ....... .
+2060: 00 3F 0A 01 00 86 4E 24 28 31 30 29 3A 4A 4F 59  .?....N$(10):JOY
+..
+4060: 43 48 49 50 00 00 20 10 00 02 00 01 80 00 20 00  CHIP.. ....... .
+4070: 00 8B C9 28 4E 24 2C 31 29 B3 B1 22 FF 22 A7 32  ...(N$,1)..".".2
+..
+6070: 43 48 49 50 00 00 20 10 00 02 00 01 a0 00 20 00  CHIP.. ....... .
+6080: AE 01 83 33 2C 37 2C 22 32 29 20 44 45 4C 20 4B  ...3,7,"2) DEL K
+@end example
+
+    This cartridge has nearly the same hardware spec as an UC2 cartridge.
+    The difference is in the hardware components.
+    UC2 is controlled by an CPLD and UC15 uses GAL and TTL.
+
+    From the software side the difference is:
+    UC2 can read back the register values.
+    UC15 cannot readback cause register are simple TTL FF.
+
+
+@c @node FIXME
+@subsubsection 82 - Universal Cartridge 2
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 128KiB, 256KiB or 512KiB sizes (8 to 32 banks of 16KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (lo) (0)
+@item Startup mode
+@tab 16KiB Game
+@item Load address
+@tab (banks 00-07) - $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+0010: 00 00 00 40 01 00 00 52 00 00 01 00 00 00 00 00  ...@@...........
+0020: 75 63 2d 6c 4f 41 44 45 52 00 00 00 00 00 00 00  uc-lOADER.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 02 00 00 80 00 20 00  CHIP.. ....... .
+0050: 19 80 9e 82 c3 c2 cd 38 30 4c 55 84 4c 64 84 4c  .......80... ..
+..
+2050: 43 48 49 50 00 00 20 10 00 02 00 00 a0 00 20 00  CHIP.. ....... .
+2060: 00 3F 0A 01 00 86 4E 24 28 31 30 29 3A 4A 4F 59  .?....N$(10):JOY
+..
+4060: 43 48 49 50 00 00 20 10 00 02 00 01 80 00 20 00  CHIP.. ....... .
+4070: 00 8B C9 28 4E 24 2C 31 29 B3 B1 22 FF 22 A7 32  ...(N$,1)..".".2
+..
+6070: 43 48 49 50 00 00 20 10 00 02 00 01 a0 00 20 00  CHIP.. ....... .
+6080: AE 01 83 33 2C 37 2C 22 32 29 20 44 45 4C 20 4B  ...3,7,"2) DEL K
+@end example
+
+    This cartridge type has up to 512K ROM memory and 512K SRAM memory. Each
+    Bank is  organized  in 16KiB  ($4000), banks  are located at $8000-$BFFF.
+    Bank switching is done by writing the bank number to $DE02 (Bit 0 to 4).
+
+@example
+    Register A at IO1 ($DE02):
+    Bit 0-4   bank number
+
+    Register B at IO1 ($DE03):
+    Bit 3 --- IO Register disable (1 - Register is invisible)
+    Bit 4 --- SRAM write enable   (1 - SRAM is writable)
+    Bit 5 --- SRAM select         (1 - RAM, 0 - ROM)
+    Bit 6 --- Signal /GAME        (C64 Cartridge Mode)
+    Bit 7 --- Signal /EXROM       (C64 Cartridge Mode)
+
+    UC2 Documentation:
+    https://oe7twj.at/index.php?title=Universal_Cartridge_2
+@end example
+
+    In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
+    0 to indicate the RESET/power-up configuration of 16 KiB ROM.
+
+    There is a Windows Tool which can create RAW Image file and UC2 CRT file.
+    The content of the image file is configurable using a CSV file.
+
+    Since UC2 cartridge can set /EXROM and /GAME signal, all known C64 basic
+    configurations for cartridges (Off, 8K, 16K, UltiMax) are configurable.
+
+    Cartridge memory can be either ROM or SRAM.
+    SRAM can be protected, so it appears as ROM memory.
+    IO Register can be disabled, so configuration cannot be overwritten.
+    Basic CRT files (8K, 16K, UltiMax) can be loaded into UC2 SRAM from
+    ROM or Disk and ececuted by a Reset.
+
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics

@@ -147,6 +147,9 @@
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
 #include "turtlegraphics.h"
+#include "uc1.h"
+#include "uc2.h"
+
 #ifdef HAVE_RAWNET
 #include "ethernetcart.h"
 #endif
@@ -412,6 +415,15 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartrgcd", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RGCD, NULL, NULL,
       "<Name>", "Attach raw 64KiB RGCD cartridge image" },
+    { "-cartuc1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_UC1, NULL, NULL,
+      "<Name>", "Attach raw UC-1 cartridge image" },
+    { "-cartuc15", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_UC15, NULL, NULL,
+      "<Name>", "Attach raw UC-1.5 cartridge image" },
+    { "-cartuc2", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_UC2, NULL, NULL,
+      "<Name>", "Attach raw UC-2 cartridge image" },
 #ifdef HAVE_RAWNET
     { "-cartrrnet", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RRNETMK3, NULL, NULL,
@@ -1017,6 +1029,12 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return rexramfloppy_bin_attach(filename, rawcart);
         case CARTRIDGE_RGCD:
             return rgcd_bin_attach(filename, rawcart);
+        case CARTRIDGE_UC1:
+            return uc1_bin_attach(filename, rawcart);
+        case CARTRIDGE_UC15:
+            return uc15_bin_attach(filename, rawcart);
+        case CARTRIDGE_UC2:
+            return uc2_bin_attach(filename, rawcart);
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_bin_attach(filename, rawcart);
@@ -1287,6 +1305,13 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
+            break;
+        case CARTRIDGE_UC1:
+            uc1_config_setup(rawcart);
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_config_setup(rawcart);
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
@@ -1884,6 +1909,13 @@ void cart_detach(int type)
         case CARTRIDGE_RGCD:
             rgcd_detach();
             break;
+        case CARTRIDGE_UC1:
+            uc1_detach();
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_detach();
+            break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_detach();
@@ -2179,6 +2211,13 @@ void cartridge_init_config(void)
             case CARTRIDGE_RGCD:
                 rgcd_config_init();
                 break;
+            case CARTRIDGE_UC1:
+                uc1_config_init();
+                break;
+            case CARTRIDGE_UC15:
+            case CARTRIDGE_UC2:
+                uc2_config_init();
+                break;
 #ifdef HAVE_RAWNET
             case CARTRIDGE_RRNETMK3:
                 rrnetmk3_config_init();
@@ -2378,6 +2417,13 @@ void cartridge_reset(void)
         case CARTRIDGE_REX_RAMFLOPPY:
             rexramfloppy_reset();
             break;
+        case CARTRIDGE_UC1:
+            uc1_reset();
+            break;
+        case CARTRIDGE_UC15:
+        case CARTRIDGE_UC2:
+            uc2_reset();
+            break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_reset();
@@ -2505,6 +2551,13 @@ void cartridge_powerup(void)
             break;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             supersnapshot_v5_powerup();
+            break;
+        case CARTRIDGE_UC1:
+            uc1_powerup();
+            break;
+        case CARTRIDGE_UC2:
+        case CARTRIDGE_UC15:
+            uc2_powerup();
             break;
     }
 
@@ -3117,6 +3170,13 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
             return;
+        case CARTRIDGE_UC1:
+            uc1_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_UC2:
+        case CARTRIDGE_UC15:
+            uc2_mmu_translate(addr, base, start, limit);
+            return;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_mmu_translate(addr, base, start, limit);
@@ -3578,6 +3638,17 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_RGCD:
                     if (rgcd_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
+                case CARTRIDGE_UC1:
+                    if (uc1_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
+                case CARTRIDGE_UC15:
+                case CARTRIDGE_UC2:
+                    if (uc2_snapshot_write_module(s) < 0) {
                         return -1;
                     }
                     break;
@@ -4172,6 +4243,17 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_RGCD:
                     if (rgcd_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_UC1:
+                    if (uc1_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_UC15:
+                case CARTRIDGE_UC2:
+                    if (uc2_snapshot_read_module(s) < 0) {
                         goto fail2;
                     }
                     break;

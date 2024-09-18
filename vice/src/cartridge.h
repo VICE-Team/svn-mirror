@@ -262,7 +262,10 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
 #define CARTRIDGE_PARTNER64            78 /* partner64.c */
 #define CARTRIDGE_HYPERBASIC           79 /* hyperbasic.c */
-#define CARTRIDGE_LAST                 79 /* cartconv: last cartridge in list */
+#define CARTRIDGE_UC1                  80 /* uc1.c */
+#define CARTRIDGE_UC15                 81 /* uc2.c */
+#define CARTRIDGE_UC2                  82 /* uc2.c */
+#define CARTRIDGE_LAST                 82 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -380,6 +383,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
 #define CARTRIDGE_NAME_ZIPPCODE48         "ZIPP-CODE 48"
+#define CARTRIDGE_NAME_UC1                "Universal Cartridge 1"   /* uc1.c :: universal cartridge 1   */
+#define CARTRIDGE_NAME_UC15               "Universal Cartridge 1.5" /* uc2.c :: universal cartridge 1.5 */
+#define CARTRIDGE_NAME_UC2                "Universal Cartridge 2"   /* uc2.c :: universal cartridge 2   */
 
 #define CARTRIDGE_NAME_GENERIC_8KB        "generic 8KiB game"
 #define CARTRIDGE_NAME_GENERIC_16KB       "generic 16KiB game"
