@@ -34098,6 +34098,12 @@ is used for banking
 @tab UltiMem
 @item 5
 @tab Final Expansion
+@item 6
+@tab Rabbit tape turbo
+@item 7
+@tab Super Expander
+@item 8
+@tab Mikro Assembler
 @end multitable
 
 @c @node FIXME
