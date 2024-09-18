@@ -55,9 +55,11 @@ GtkWidget *cart_image_widget_new(int         cart_id,
                                  gboolean    flush_button,
                                  gboolean    save_button);
 
-void       cart_image_widget_append_check(GtkWidget  *widget,
+GtkWidget *cart_image_widget_append_check(GtkWidget  *widget,
                                           const char *resource,
                                           const char *text);
+
+void       cart_image_widget_update_sensitivity(GtkWidget *widget);
 
 void       cart_image_widgets_shutdown(void);
 
