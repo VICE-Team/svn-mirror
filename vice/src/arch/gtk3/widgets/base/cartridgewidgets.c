@@ -391,7 +391,10 @@ static void update_buttons_sensitivity(const ci_state_t *state)
             can_save  = FALSE;
             can_flush = FALSE;
     }
-
+#if 0
+    debug_gtk3("can-save : %s", can_save  ? "TRUE" : "FALSE");
+    debug_gtk3("can-flush: %s", can_flush ? "TRUE" : "FALSE");
+#endif
     if (state->flush != NULL) {
         gtk_widget_set_sensitive(state->flush, can_flush);
     }
@@ -702,10 +705,12 @@ GtkWidget *cart_image_widget_new(int         cart_id,
  * \param[in]   widget      cartridge image widget
  * \param[in]   resource    resource name
  * \param[in]   text        text for the check button
+ *
+ * \return  check button
  */
-void cart_image_widget_append_check(GtkWidget  *widget,
-                                    const char *resource,
-                                    const char *text)
+GtkWidget *cart_image_widget_append_check(GtkWidget  *widget,
+                                          const char *resource,
+                                          const char *text)
 {
     mediator_t *mediator = mediator_for_widget(widget);
     if (mediator != NULL) {
@@ -718,6 +723,31 @@ void cart_image_widget_append_check(GtkWidget  *widget,
                         check,
                         0, state->checks_count, 1, 1);
         state->checks_count++;
+        return check;
+    }
+    return NULL;
+}
+
+
+/** \brief  Update sensitivity of widget's save and flush buttons
+ *
+ * \param[in]   widget  cartridge image widget
+ *
+ * \note    If we require this multiple times in various settings pages to
+ *          react to an "Enable" check button like the REU settings, we might
+ *          consider adding a helper function to set up a event handler on
+ *          such a check button that then calls this function.
+ */
+void cart_image_widget_update_sensitivity(GtkWidget *widget)
+{
+    mediator_t *mediator = mediator_for_widget(widget);
+
+    if (mediator != NULL) {
+        ci_state_t *state = mediator_get_data(mediator);
+
+        if (state != NULL) {
+            update_buttons_sensitivity(state);
+        }
     }
 }
 
