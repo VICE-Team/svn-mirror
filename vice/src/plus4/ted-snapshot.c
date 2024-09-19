@@ -46,7 +46,7 @@
 /* #define DEBUGTED */
 
 #ifdef DEBUGTED
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -117,7 +117,7 @@ int ted_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    DBG(("TED write snapshot at clock: %d cycle: %d tedline: %d rasterline: %d\n", maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), TED_RASTER_Y(maincpu_clk), ted.raster.current_line));
+    DBG(("TED write snapshot at clock: %d cycle: %d tedline: %d rasterline: %d", maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), TED_RASTER_Y(maincpu_clk), ted.raster.current_line));
 
     if (0
         || SMW_CLOCK(m, ted.last_emulate_line_clk) < 0
@@ -177,14 +177,14 @@ int ted_snapshot_write_module(snapshot_t *s)
         goto fail;
     }
 
-    DBG(("TED snapshot written.\n"));
+    DBG(("TED snapshot written."));
     return snapshot_module_close(m);
 
 fail:
     if (m != NULL) {
         snapshot_module_close(m);
     }
-    DBG(("error writing TED snapshot.\n"));
+    DBG(("error writing TED snapshot."));
     return -1;
 }
 
@@ -256,7 +256,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     /* Sanity check the current raster line and the current raster cycle */
-    DBG(("TED read snapshot at clock: %d cycle: %d (%d) tedline: %d (%d) rasterline: %d\n",
+    DBG(("TED read snapshot at clock: %d cycle: %d (%d) tedline: %d (%d) rasterline: %d",
          maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), RasterCycle, TED_RASTER_Y(maincpu_clk),
          RasterLine, ted.raster.current_line));
 
@@ -355,7 +355,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     raster_force_repaint(&ted.raster);
-    DBG(("TED: snapshot loaded.\n"));
+    DBG(("TED: snapshot loaded."));
     return 0;
 
 fail:

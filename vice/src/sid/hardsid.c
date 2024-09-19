@@ -46,14 +46,14 @@
 #if defined(DEBUG_HARDSID_DUMMY)
 
 #define hardsid_drv_available() 1
-#define hardsid_drv_reset() printf("hardsid_drv_reset\n")
-#define hardsid_drv_open() (printf("hardsid_drv_open\n"), 0)
-#define hardsid_drv_close() printf("hardsid_drv_close\n")
-#define hardsid_drv_read(addr, chipno)  (printf("hardsid_drv_read addr:%02x chip:%d\n", addr, chipno), 1)
-#define hardsid_drv_store(addr, val, chipno) printf("hardsid_drv_store addr:%02x val:%02x chip:%d\n", addr, val, chipno)
-#define hardsid_drv_set_device(chipno, device) printf("hardsid_drv_set_device chip:%02x device:%u\n", chipno, device)
-#define hardsid_drv_state_read(chipno, sid_state) printf("hardsid_drv_state_read chip:%d sid_state:%p\n", chipno, sid_state)
-#define hardsid_drv_state_write(chipno, sid_state) printf("hardsid_drv_state_write chip:%d sid_state:%p\n", chipno, sid_state)
+#define hardsid_drv_reset() log_printf("hardsid_drv_reset")
+#define hardsid_drv_open() (log_printf("hardsid_drv_open"), 0)
+#define hardsid_drv_close() log_printf("hardsid_drv_close")
+#define hardsid_drv_read(addr, chipno)  (log_printf("hardsid_drv_read addr:%02x chip:%d", addr, chipno), 1)
+#define hardsid_drv_store(addr, val, chipno) log_printf("hardsid_drv_store addr:%02x val:%02x chip:%d", addr, val, chipno)
+#define hardsid_drv_set_device(chipno, device) log_printf("hardsid_drv_set_device chip:%02x device:%u", chipno, device)
+#define hardsid_drv_state_read(chipno, sid_state) log_printf("hardsid_drv_state_read chip:%d sid_state:%p", chipno, sid_state)
+#define hardsid_drv_state_write(chipno, sid_state) log_printf("hardsid_drv_state_write chip:%d sid_state:%p", chipno, sid_state)
 
 #endif
 
@@ -81,7 +81,7 @@ int hardsid_open(void)
         hardsid_is_open = hardsid_drv_open();
         memset(sidbuf, 0, sizeof(sidbuf));
     }
-    DBG(("hardsid_open hardsid_is_open=%d\n", hardsid_is_open));
+    DBG(("hardsid_open hardsid_is_open=%d", hardsid_is_open));
     return hardsid_is_open;
 }
 
@@ -91,7 +91,7 @@ int hardsid_close(void)
         hardsid_drv_close();
         hardsid_is_open = -1;
     }
-    DBG(("hardsid_close hardsid_is_open=%d\n", hardsid_is_open));
+    DBG(("hardsid_close hardsid_is_open=%d", hardsid_is_open));
     return 0;
 }
 

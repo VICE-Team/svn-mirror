@@ -84,7 +84,7 @@
 #endif
 
 #ifdef DEBUGMACHINE
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -180,7 +180,7 @@ void machine_powerup(void)
        triggers a powerup call, will happen at clock value 6, so this is safe */
     static CLOCK powerup_clk = 0;
 
-    DBG(("machine_powerup clk:%08x %s\n", maincpu_clk, (maincpu_clk == powerup_clk) ? "(skip mem init)":"init memory" ));
+    DBG(("machine_powerup clk:%08x %s", maincpu_clk, (maincpu_clk == powerup_clk) ? "(skip mem init)":"init memory" ));
 
     machine_specific_powerup();
 
@@ -194,7 +194,7 @@ void machine_powerup(void)
 
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
-    DBG(("machine_trigger_reset_internal (%s)\n", mode == MACHINE_RESET_MODE_POWER_CYCLE ? "power cycle":"reset"));
+    DBG(("machine_trigger_reset_internal (%s)", mode == MACHINE_RESET_MODE_POWER_CYCLE ? "power cycle":"reset"));
 
     is_jammed = false;
 

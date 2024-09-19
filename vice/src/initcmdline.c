@@ -75,7 +75,7 @@
 #endif
 
 #ifdef DEBUG_CMDLINE
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -238,9 +238,9 @@ static int cmdline_features(const char *param, void *extra_param)
 {
     const feature_list_t *list = vice_get_feature_list();
 
-    printf("Compile time options:\n");
+    log_message(LOG_DEFAULT, "Compile time options:");
     while (list->symbol) {
-        printf("%-25s %4s %s\n", list->symbol, list->isdefined ? "yes " : "no  ", list->descr);
+        log_message(LOG_DEFAULT, "%-25s %4s %s", list->symbol, list->isdefined ? "yes " : "no  ", list->descr);
         ++list;
     }
 
@@ -321,9 +321,9 @@ static int cmdline_seed(const char *param, void *extra_param)
 static int cmdline_version(const char *param, void *extra_param)
 {
 #ifdef USE_SVN_REVISION
-    printf("%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
+    fprintf(stdout, "%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
+    fprintf(stdout, "%s (VICE %s)\n", archdep_program_name(), VERSION);
 #endif
     exit(EXIT_SUCCESS);
     return 0; /* get rid of warning */
@@ -523,12 +523,12 @@ int initcmdline_check_psid(void)
 
 int initcmdline_check_args(int argc, char **argv)
 {
-    DBG(("initcmdline_check_args (argc:%d)\n", argc));
+    DBG(("initcmdline_check_args (argc:%d)", argc));
     if (cmdline_parse(&argc, argv) < 0) {
         archdep_startup_log_error("Error parsing command-line options, bailing out. For help use '-help'\n");
         return -1;
     }
-    DBG(("initcmdline_check_args 1 (argc:%d)\n", argc));
+    DBG(("initcmdline_check_args 1 (argc:%d)", argc));
 
     /* The last orphan option is the same as `-autostart'.  */
     if ((argc > 1) && (autostart_string == NULL)) {
@@ -537,7 +537,7 @@ int initcmdline_check_args(int argc, char **argv)
         argc--;
         argv++;
     }
-    DBG(("initcmdline_check_args 2 (argc:%d)\n", argc));
+    DBG(("initcmdline_check_args 2 (argc:%d)", argc));
 
     if (argc > 1) {
         int len = 0, j;

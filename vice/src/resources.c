@@ -63,7 +63,7 @@
 
 
 #ifdef VICE_DEBUG_RESOURCES
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -139,7 +139,7 @@ static unsigned int resources_calc_hash_key(const char *name)
 {
     unsigned int key, i, shift;
 
-    DBG(("resources_calc_hash_key: '%s'\n", name ? name : "<empty/null>"));
+    DBG(("resources_calc_hash_key: '%s'", name ? name : "<empty/null>"));
 
     key = 0; shift = 0;
     for (i = 0; name[i] != '\0'; i++) {
@@ -232,7 +232,7 @@ static resource_ram_t *lookup(const char *name)
     resource_ram_t *res;
     unsigned int hashkey;
 
-    DBG(("lookup name:'%s'\n", name ? name : "<empty/null>"));
+    DBG(("lookup name:'%s'", name ? name : "<empty/null>"));
 
     if (name == NULL) {
         return NULL;
@@ -258,7 +258,7 @@ int resources_register_int(const resource_int_t *r)
     const resource_int_t *sp;
     resource_ram_t *dp;
 
-    DBG(("resources_register_int name:'%s'\n", r->name ? r->name : "<empty/null>"));
+    DBG(("resources_register_int name:'%s'", r->name ? r->name : "<empty/null>"));
 
     sp = r;
     dp = resources + num_resources;
@@ -311,7 +311,7 @@ int resources_register_string(const resource_string_t *r)
     const resource_string_t *sp;
     resource_ram_t *dp;
 
-    DBG(("resources_register_string name:'%s'\n", r->name ? r->name : "<empty/null>"));
+    DBG(("resources_register_string name:'%s'", r->name ? r->name : "<empty/null>"));
 
     sp = r;
     dp = resources + num_resources;
@@ -967,7 +967,7 @@ int resources_set_defaults(void)
     tape_image_detach_all();
 
     for (i = 0; i < num_resources; i++) {
-        DBG(("setting default for '%s'\n", resources[i].name));
+        DBG(("setting default for '%s'", resources[i].name));
         switch (resources[i].type) {
             /* CAUTION: the following MUST NOT fail and NOT return early when resetting
                         a resource fails - else we get strange side effects in the case
@@ -991,7 +991,7 @@ int resources_set_defaults(void)
                 }
                 break;
         }
-        DBG(("issue callback for '%s'\n", resources[i].name));
+        DBG(("issue callback for '%s'", resources[i].name));
         resources_issue_callback(resources + i, 0);
     }
 
@@ -1014,7 +1014,7 @@ int resources_set_event_safe(void)
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
                     if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].event_strict_value),
                                                      resources[i].param) < 0) {
-                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'\n", resources[i].name);
+                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'", resources[i].name);
                         return -1;
                     }
                 }
@@ -1023,7 +1023,7 @@ int resources_set_event_safe(void)
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
                     if ((*resources[i].set_func_string)((const char *)(resources[i].event_strict_value),
                                                         resources[i].param) < 0) {
-                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'\n", resources[i].name);
+                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'", resources[i].name);
                         return -1;
                     }
                 }
@@ -1272,7 +1272,7 @@ static int check_resource_file_version(const char *fname)
             if (strcmp(tag, "ConfigVersion") == 0) {
                 tag = strtok(NULL, "=");
                 if (strcmp(tag, VERSION) != 0) {
-                    log_warning(LOG_DEFAULT, "Config file version mismatch (is '%s', expected '%s').\n",
+                    log_warning(LOG_DEFAULT, "Config file version mismatch (is '%s', expected '%s').",
                                 tag, VERSION);
                     ui_error("WARNING: Configuration file version mismatch (is '%s', expected '%s').\n\n%s",
                             tag, VERSION, versionmessage);
@@ -1448,7 +1448,7 @@ static int resource_item_isdefault(int num)
             if (i1 == i2) {
                 return 1;
             }
-            DBG(("%s = (int) default: \"%d\" is: \"%d\"\n", resources[num].name, i2, i1));
+            DBG(("%s = (int) default: \"%d\" is: \"%d\"", resources[num].name, i2, i1));
             break;
         case RES_STRING:
             v = *resources[num].value_ptr;
@@ -1457,7 +1457,7 @@ static int resource_item_isdefault(int num)
             if (strcmp(s1, s2) == 0) {
                 return 1;
             }
-            DBG(("%s = (string) default: \"%s\" is: \"%s\"\n", resources[num].name, s2, s1));
+            DBG(("%s = (string) default: \"%s\" is: \"%s\"", resources[num].name, s2, s1));
             break;
         default:
             log_error(LOG_DEFAULT, "Unknown value type for resource `%s'.", resources[num].name);

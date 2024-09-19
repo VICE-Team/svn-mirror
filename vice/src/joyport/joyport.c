@@ -71,7 +71,7 @@
 #include "waasoft_dongle.h"
 
 #ifdef DEBUG_JOYPORT
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -384,7 +384,7 @@ uint8_t read_joyport_potx(void)
         }
     }
 
-    DBG(("read_joyport_potx id: %d %d ret: %d %d\n", id1, id2, ret1, ret2));
+    DBG(("read_joyport_potx id: %d %d ret: %d %d", id1, id2, ret1, ret2));
 
     switch (pot_port_mask) {
         case 1:
@@ -792,10 +792,10 @@ void joyport_display_joyport(int port, int id, uint16_t status)
         if (id == joy_port[port]) {
             joyport_display[port + 1] = status;
         } else {
-            log_error(LOG_DEFAULT, "joyport_display_joyport: device with id '%d' not in port '%d'\n", id, port);
+            log_error(LOG_DEFAULT, "joyport_display_joyport: device with id '%d' not in port '%d'", id, port);
         }
     } else {
-        log_error(LOG_DEFAULT, "joyport_display_joyport: invalid port '%d'\n", port);
+        log_error(LOG_DEFAULT, "joyport_display_joyport: invalid port '%d'", port);
     }
 
     ui_display_joyport(joyport_display);

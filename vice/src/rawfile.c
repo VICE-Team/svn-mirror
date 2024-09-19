@@ -36,12 +36,13 @@
 #include "archdep.h"
 #include "fileio.h"
 #include "lib.h"
+#include "log.h"
 #include "util.h"
 
 #include "rawfile.h"
 
 #ifdef DEBUGRAWFILE
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -194,7 +195,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     char *complete_src, *complete_dst;
     int rc;
 
-    DBG(("rawfile_rename '%s' to '%s'\n", src_name, dst_name));
+    DBG(("rawfile_rename '%s' to '%s'", src_name, dst_name));
 
     if (path == NULL) {
         complete_src = lib_strdup(src_name);
@@ -212,7 +213,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     }
 
     rc = archdep_rename(complete_src, complete_dst);
-    DBG(("rawfile_rename rename returned: %d errno: %d\n", rc, errno));
+    DBG(("rawfile_rename rename returned: %d errno: %d", rc, errno));
     lib_free(complete_src);
     lib_free(complete_dst);
 

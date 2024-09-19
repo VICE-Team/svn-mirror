@@ -66,7 +66,7 @@
 #include "uimenu.h"
 
 #ifdef DBGSDLMENU
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -897,7 +897,7 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
             } else if (item->action > ACTION_NONE) {
                 /* UI action: trigger */
 #if 0
-                DBG(("%s(): got action ID %d (%s)\n",
+                DBG(("%s(): got action ID %d (%s)",
                      __func__, item->action, ui_action_get_name(item->action)));
 #endif
                 ui_action_trigger(item->action);
@@ -958,7 +958,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     unsigned int height;
     static char msg[0x40];
 
-    DBG(("sdl_ui_trap start\n"));
+    DBG(("sdl_ui_trap start"));
 
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
@@ -1002,7 +1002,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
 
     sdljoy_clear_presses();
 
-    DBG(("sdl_ui_trap end\n"));
+    DBG(("sdl_ui_trap end"));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1421,7 +1421,7 @@ menufont_t *sdl_ui_get_menu_font(void)
 /* called before the UI runs by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_open */
 void sdl_ui_activate_pre_action(void)
 {
-    DBG(("sdl_ui_activate_pre_action start\n"));
+    DBG(("sdl_ui_activate_pre_action start"));
 #ifdef HAVE_FFMPEG
     if (screenshot_is_recording()) {
         screenshot_stop_recording();
@@ -1445,13 +1445,13 @@ void sdl_ui_activate_pre_action(void)
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
     sdljoy_autorepeat_init();
-    DBG(("sdl_ui_activate_pre_action end\n"));
+    DBG(("sdl_ui_activate_pre_action end"));
 }
 
 /* called when UI closes and emulator resumes by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_close */
 void sdl_ui_activate_post_action(void)
 {
-    DBG(("sdl_ui_activate_post_action start\n"));
+    DBG(("sdl_ui_activate_post_action start"));
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
@@ -1483,7 +1483,7 @@ void sdl_ui_activate_post_action(void)
         ui_pause_enable();
     }
 
-    DBG(("sdl_ui_activate_post_action end\n"));
+    DBG(("sdl_ui_activate_post_action end"));
 }
 
 void sdl_ui_init_draw_params(video_canvas_t *canvas)
@@ -2090,14 +2090,14 @@ void sdl_ui_activate_item_action(ui_action_map_t *map)
             if (item->callback != NULL) {
                 item->callback(1 /*activated*/, item->data);
             } else {
-                log_error(LOG_DEFAULT, "%s(): no callback to trigger!\n", __func__);
+                log_error(LOG_DEFAULT, "%s(): no callback to trigger!", __func__);
             }
         } else {
             /* menu isn't active, set trap */
             interrupt_maincpu_trigger_trap(sdl_ui_trap, item);
         }
     } else {
-        fprintf(stderr, "%s(): ERROR: item is NULL\n", __func__);
+        log_error(LOG_DEFAULT, "%s(): ERROR: item is NULL", __func__);
     }
 }
 
