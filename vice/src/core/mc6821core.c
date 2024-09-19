@@ -31,8 +31,8 @@
 /* #define MC6821_DEBUG */
 
 #ifdef MC6821_DEBUG
-#include <stdio.h>
-#define DBG(x)  printf x
+#include <log.h>
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -183,7 +183,7 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
         /* MC6821 Port A */
         if (reg == 1) {
             /* control register */
-            /* DBG(("MC6821: PA CTRL %02x\n", data)); */
+            /* DBG(("MC6821: PA CTRL %02x", data)); */
             ctx->ctrlA = data;
             if (data & MC6821_CTRL_C2DDR) {
                 /* CA2 is output */
@@ -205,7 +205,7 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
                         ctx->CA2state = 0;
                         break;
                     case MC6821_CTRL_C2_STROBE_C:
-                        DBG(("MC6821: PA CTRL unimplemented output mode %02x for CA2\n", data & MC6821_CTRL_C2MODE));
+                        DBG(("MC6821: PA CTRL unimplemented output mode %02x for CA2", data & MC6821_CTRL_C2MODE));
                         ctx->CA2state = 0;
                         break;
                     case MC6821_CTRL_C2_STROBE_E:
@@ -215,13 +215,13 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
             } else {
                 /* CA2 is input */
                 if (data & MC6821_CTRL_C2_IRQEN) {
-                    DBG(("MC6821: PA CTRL unimplemented irq mode %02x for CA2\n", data & MC6821_CTRL_C2MODE));
+                    DBG(("MC6821: PA CTRL unimplemented irq mode %02x for CA2", data & MC6821_CTRL_C2MODE));
                 }
             }
         } else {
             if (ctx->ctrlA & MC6821_CTRL_REG) {
                 /* output register */
-                /* DBG(("MC6821: PA DATA %02x\n",data)); */
+                /* DBG(("MC6821: PA DATA %02x",data)); */
 
                 ctx->dataA = data;
                 if (ctx->set_pa) {
@@ -229,7 +229,7 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
                 }
             } else {
                 /* data direction register */
-                /* DBG(("MC6821: PA DDR %02x\n",data)); */
+                /* DBG(("MC6821: PA DDR %02x",data)); */
                 ctx->ddrA = data;
                 /* update port if ddr changes */
                 if (ctx->set_pa) {
@@ -241,7 +241,7 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
         /* MC6821 Port B */
         if (reg == 1) {
             /* control register */
-            DBG(("MC6821: PB CTRL %02x\n", data));
+            DBG(("MC6821: PB CTRL %02x", data));
             ctx->ctrlB = data;
             if (data & MC6821_CTRL_C2DDR) {
                 /* CB2 is output */
@@ -261,17 +261,17 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
                         }
                         break;
                     case MC6821_CTRL_C2_STROBE_C:
-                        DBG(("MC6821: PB CTRL unimplemented output mode %02x for CB2\n", data & MC6821_CTRL_C2MODE));
+                        DBG(("MC6821: PB CTRL unimplemented output mode %02x for CB2", data & MC6821_CTRL_C2MODE));
                         break;
                     case MC6821_CTRL_C2_STROBE_E:
-                        DBG(("MC6821: PB CTRL FIXME output mode %02x for CB2\n", data & MC6821_CTRL_C2MODE));
+                        DBG(("MC6821: PB CTRL FIXME output mode %02x for CB2", data & MC6821_CTRL_C2MODE));
                         ctx->CB2state = 1;
                         break;
                 }
             } else {
                 /* CB2 is input */
                 if (data & MC6821_CTRL_C2_IRQEN) {
-                    DBG(("MC6821: PB CTRL unimplemented irq mode %02x for CB2\n", data & MC6821_CTRL_C2MODE));
+                    DBG(("MC6821: PB CTRL unimplemented irq mode %02x for CB2", data & MC6821_CTRL_C2MODE));
                 }
             }
         } else {
@@ -302,7 +302,7 @@ void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, 
                 }
             } else {
                 /* data direction register */
-                DBG(("MC6821: PB DDR %02x\n", data));
+                DBG(("MC6821: PB DDR %02x", data));
                 ctx->ddrB = data;
                 /* update port if ddr changes */
                 if (ctx->set_pb) {

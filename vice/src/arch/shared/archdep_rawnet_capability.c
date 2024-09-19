@@ -46,7 +46,7 @@
 #include "archdep_rawnet_capability.h"
 
 #ifdef DEBUG_ARCHDEP_RAWNET_CAPABILITY
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -64,12 +64,12 @@ static bool cap_check(cap_value_t cap_flag)
     }
 
     if (cap_set_flag(cap, CAP_EFFECTIVE, 1, &cap_flag, CAP_SET) == -1) {
-        DBG(("CAP_NET_RAW not enabled\n"));
+        DBG(("CAP_NET_RAW not enabled"));
         cap_free(cap);
         return false;
     }
     if (cap_set_proc(cap) != 0) {
-        DBG(("cannot set CAP_NET_RAW\n"));
+        DBG(("cannot set CAP_NET_RAW"));
         cap_free(cap);
         return false;
     }

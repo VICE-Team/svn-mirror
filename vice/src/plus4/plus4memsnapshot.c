@@ -44,7 +44,7 @@
 /* #define DEBUGSNAPSHOT */
 
 #ifdef DEBUGSNAPSHOT
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -86,7 +86,7 @@ static int plus4_snapshot_write_rom_module(snapshot_t *s)
         goto fail2;
     }
 
-    DBG(("rom snapshots written.\n"));
+    DBG(("rom snapshots written."));
     return 0;
 
 fail:
@@ -94,7 +94,7 @@ fail:
         snapshot_module_close(m);
     }
 fail2:
-    DBG(("error writing rom snapshots.\n"));
+    DBG(("error writing rom snapshots."));
     return -1;
 }
 
@@ -170,7 +170,7 @@ static int plus4_snapshot_read_rom_module(snapshot_t *s)
 
     /* enable traps again when necessary */
     restore_trapflags();
-    DBG(("rom snapshots loaded.\n"));
+    DBG(("rom snapshots loaded."));
     return 0;
 
 fail:
@@ -178,7 +178,7 @@ fail:
         snapshot_module_close(m);
     }
     restore_trapflags();
-    DBG(("error loading rom snapshots.\n"));
+    DBG(("error loading rom snapshots."));
     return -1;
 }
 

@@ -53,7 +53,7 @@
 /* #define DEBUGSNAPSHOT */
 
 #ifdef DEBUGSNAPSHOT
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -90,10 +90,10 @@ int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
         || userport_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         archdep_remove(name);
-        DBG(("error writing snapshot modules.\n"));
+        DBG(("error writing snapshot modules."));
         return -1;
     }
-    DBG(("all snapshots written.\n"));
+    DBG(("all snapshots written."));
     snapshot_close(s);
     return 0;
 }
@@ -137,7 +137,7 @@ int plus4_snapshot_read(const char *name, int event_mode)
 
     sound_snapshot_finish();
 
-    DBG(("all snapshots loaded.\n"));
+    DBG(("all snapshots loaded."));
     return 0;
 
 fail:
@@ -147,6 +147,6 @@ fail:
 
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 
-    DBG(("error loading snapshot modules.\n"));
+    DBG(("error loading snapshot modules."));
     return -1;
 }

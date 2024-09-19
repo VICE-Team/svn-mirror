@@ -49,7 +49,7 @@
 
 
 #ifdef DEBUG_SNAPSHOT
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -713,7 +713,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t
 
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0) {
         snapshot_error = SNAPSHOT_FIRST_MODULE_NOT_FOUND_ERROR;
-        DBG(("snapshot_module_open error: name: '%s' NOT found\n", name));
+        DBG(("snapshot_module_open error: name: '%s' NOT found", name));
         return NULL;
     }
 
@@ -723,7 +723,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t
 
     m->offset = s->first_module_offset;
 
-    DBG(("snapshot_module_open name: '%s'\n", name));
+    DBG(("snapshot_module_open name: '%s'", name));
 
     /* Search for the module name.  This is quite inefficient, but I don't
        think we care.  */
@@ -762,37 +762,37 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t
         snapshot_error = SNAPSHOT_NO_ERROR;
     }
 #endif
-    DBG(("snapshot_module_open name: '%s', version %u.%u found\n", name, *major_version_return, *minor_version_return));
+    DBG(("snapshot_module_open name: '%s', version %u.%u found", name, *major_version_return, *minor_version_return));
     return m;
 
 fail:
     fseek(s->file, s->first_module_offset, SEEK_SET);
     lib_free(m);
-    DBG(("snapshot_module_open error: name: '%s' NOT found\n", name));
+    DBG(("snapshot_module_open error: name: '%s' NOT found", name));
     return NULL;
 }
 
 int snapshot_module_close(snapshot_module_t *m)
 {
-    DBG(("snapshot_module_close name: '%s'\n", current_module));
+    DBG(("snapshot_module_close name: '%s'", current_module));
     /* Backpatch module size if writing.  */
     if (m->write_mode
         && (fseek(m->file, m->size_offset, SEEK_SET) < 0
             || snapshot_write_dword(m->file, m->size) < 0)) {
         snapshot_error = SNAPSHOT_MODULE_CLOSE_ERROR;
-        DBG(("snapshot_module_close error\n"));
+        DBG(("snapshot_module_close error"));
         return -1;
     }
 
     /* Skip module.  */
     if (fseek(m->file, m->offset + m->size, SEEK_SET) < 0) {
         snapshot_error = SNAPSHOT_MODULE_SKIP_ERROR;
-        DBG(("snapshot_module_close error\n"));
+        DBG(("snapshot_module_close error"));
         return -1;
     }
 
     lib_free(m);
-    DBG(("snapshot_module_close ok\n"));
+    DBG(("snapshot_module_close ok"));
     return 0;
 }
 
