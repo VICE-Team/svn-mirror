@@ -149,7 +149,7 @@ const cart_t cart_info[] = {
            CARTRIDGE_SIZE_512KB,   0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_UC15,                "uc15", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_128KB |
            CARTRIDGE_SIZE_256KB |
-           CARTRIDGE_SIZE_512KB,   0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_UC2,                  "uc2", save_regular_crt},
+           CARTRIDGE_SIZE_512KB,   0x4000, 0x8000,   0, 2, CARTRIDGE_NAME_UC2,                  "uc2", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

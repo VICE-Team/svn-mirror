@@ -139,6 +139,7 @@ static uint8_t *cart_ram = NULL;
 
 
 
+
 /*
  *-- Set UC register A -----
  */
@@ -266,8 +267,6 @@ static void uc2_io1_store(uint16_t addr, uint8_t value)
     }
 }
 
-
-
 static uint8_t uc2_io1_peek(uint16_t addr)
 {
     if(IOENA(regB)) {
@@ -278,12 +277,20 @@ static uint8_t uc2_io1_peek(uint16_t addr)
                 return(regB);
         }
     }
-    return 0;
+    return 0xff;
+}
+static uint8_t uc15_io1_peek(uint16_t addr)
+{
+    return 0xff;
 }
 
 static uint8_t uc2_io1_read(uint16_t addr)
 {
     return uc2_io1_peek(addr);
+}
+static uint8_t uc15_io1_read(uint16_t addr)
+{
+    return uc15_io1_peek(addr);
 }
 
 static int uc2_dump(void)
@@ -442,19 +449,6 @@ void uc2_romh_store(uint16_t addr, uint8_t value)
 }
 
 
-
-void uc2_poke(uint16_t addr, uint8_t value)
-{
-    DBG(("poke: $%04X, %02X", addr, value));
-}
-
-uint8_t uc2_peek(uint16_t addr)
-{
-    DBG(("peek: $%04X", addr));
-    return 0;
-}
-
-
 /* VIC reads */
 int uc2_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
@@ -575,70 +569,6 @@ uint8_t uc2_c000_cfff_read(uint16_t addr)
     return vicii_read_phi1();
 }
 
-
-
-void uc2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
-{
-/* FIXME: this is broken, code-in-ram execution from AR "acid test" fails */
-#if 0
-    switch (addr & 0xe000) {
-        case 0x4000:
-            if (write_ram) {
-                DBG(("translate $4xxx"));
-                *base = cart_ram;
-                *start = 0x4000;
-                *limit = 0x5ffd;
-                return;
-            }
-            break;
-        case 0x6000:
-            if (write_ram) {
-                DBG(("translate $6xxx"));
-                *base = cart_ram + 0x2000;
-                *start = 0x4000;
-                *limit = 0x5ffd;
-                return;
-            }
-            break;
-        case 0x8000:
-            if (export_ram) {
-                DBG(("translate $8xxx"));
-                *base = cart_ram;
-            } else {
-                *base = regAs + (regA << 13) - 0x8000;
-            }
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        case 0xa000:
-            if (export_ram) {
-                DBG(("translate $Axxx"));
-                *base = cart_ram + 0x2000;
-            } else {
-                *base = romh_banks + (regA << 13) - 0xa000;
-            }
-            *start = 0xa000;
-            *limit = 0xbffd;
-            return;
-        case 0xe000:
-            if (export_ram) {
-                DBG(("translate $Exxx"));
-                *base = cart_ram + 0x2000;
-            } else {
-                *base = romh_banks + (regA << 13) - 0xe000;
-            }
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        default:
-            break;
-    }
-#endif
-    *base = NULL;
-    *start = 0;
-    *limit = 0;
-}
-
 /* ---------------------------------------------------------------------*/
 
 static io_source_t uc2_device = {
@@ -669,8 +599,8 @@ static io_source_t uc15_device = {
     0,                         /* read is never valid, reg is write only */
     uc2_io1_store,             /* store function */
     NULL,                      /* NO poke function */
-    uc2_io1_read,              /* read function */
-    uc2_io1_peek,              /* peek function */
+    uc15_io1_read,             /* read function */
+    uc15_io1_peek,             /* peek function */
     uc2_dump,                  /* device state information dump function */
     CARTRIDGE_UC15,            /* cartridge ID */
     IO_PRIO_NORMAL,            /* normal priority, device read needs to be checked for collisions */

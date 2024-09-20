@@ -417,13 +417,13 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Attach raw 64KiB RGCD cartridge image" },
     { "-cartuc1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_UC1, NULL, NULL,
-      "<Name>", "Attach raw UC-1 cartridge image" },
+      "<Name>", "Attach raw 32/64/128KiB UC-1 cartridge image" },
     { "-cartuc15", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_UC15, NULL, NULL,
-      "<Name>", "Attach raw UC-1.5 cartridge image" },
+      "<Name>", "Attach raw 128/256/512KiB UC-1.5 cartridge image" },
     { "-cartuc2", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_UC2, NULL, NULL,
-      "<Name>", "Attach raw UC-2 cartridge image" },
+      "<Name>", "Attach raw 128/256/512KiB UC-2 cartridge image" },
 #ifdef HAVE_RAWNET
     { "-cartrrnet", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RRNETMK3, NULL, NULL,
@@ -3169,13 +3169,6 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
             return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
-            return;
-        case CARTRIDGE_UC1:
-            uc1_mmu_translate(addr, base, start, limit);
-            return;
-        case CARTRIDGE_UC2:
-        case CARTRIDGE_UC15:
-            uc2_mmu_translate(addr, base, start, limit);
             return;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
