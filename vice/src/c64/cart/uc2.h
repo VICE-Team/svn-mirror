@@ -33,29 +33,22 @@
 
 void uc2_config_init(void);
 void uc2_config_setup(uint8_t *rawcart);
+
+int uc15_bin_attach(const char *filename, uint8_t *rawcart);
+int uc15_crt_attach(FILE *fd, uint8_t *rawcart);
 int uc2_bin_attach(const char *filename, uint8_t *rawcart);
 int uc2_crt_attach(FILE *fd, uint8_t *rawcart);
 void uc2_detach(void);
 
-int uc15_bin_attach(const char *filename, uint8_t *rawcart);
-int uc15_crt_attach(FILE *fd, uint8_t *rawcart);
-
-void uc2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
 uint8_t uc2_roml_read(uint16_t addr);
-void uc2_roml_store(uint16_t addr, uint8_t value);
-int uc2_roml_no_ultimax_store(uint16_t addr, uint8_t value);
 uint8_t uc2_romh_read(uint16_t addr);
+int uc2_roml_no_ultimax_store(uint16_t addr, uint8_t value);
 int uc2_romh_phi1_read(uint16_t addr, uint8_t *value);
 int uc2_romh_phi2_read(uint16_t addr, uint8_t *value);
-
+void uc2_roml_store(uint16_t addr, uint8_t value);
 void uc2_romh_store(uint16_t addr, uint8_t value);
 
-void uc2_poke(uint16_t addr, uint8_t value);
-uint8_t uc2_peek(uint16_t addr);
-
 int uc2_peek_mem(export_t *ex, uint16_t addr, uint8_t *value);
-
 
 uint8_t uc2_1000_7fff_read(uint16_t addr);
 void uc2_1000_7fff_store(uint16_t addr, uint8_t value);
@@ -63,6 +56,7 @@ uint8_t uc2_a000_bfff_read(uint16_t addr);
 void uc2_a000_bfff_store(uint16_t addr, uint8_t value);
 uint8_t uc2_c000_cfff_read(uint16_t addr);
 void uc2_c000_cfff_store(uint16_t addr, uint8_t value);
+
 
 void uc2_reset(void);
 void uc2_powerup(void);

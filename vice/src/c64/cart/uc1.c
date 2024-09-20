@@ -130,6 +130,7 @@ static uint8_t *cart_ram = NULL;
 
 
 
+
 /*
  *-- Set UC register at IO1 -----
  */
@@ -380,19 +381,6 @@ void uc1_romh_store(uint16_t addr, uint8_t value)
 }
 
 
-
-void uc1_poke(uint16_t addr, uint8_t value)
-{
-    DBG(("poke: $%04X, %02X", addr, value));
-}
-
-uint8_t uc1_peek(uint16_t addr)
-{
-    DBG(("peek: $%04X", addr));
-    return 0;
-}
-
-
 /* VIC reads */
 int uc1_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
@@ -507,70 +495,6 @@ uint8_t uc1_c000_cfff_read(uint16_t addr)
         return mem_read_without_ultimax(addr);
     }
     return vicii_read_phi1();
-}
-
-
-
-void uc1_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
-{
-/* FIXME: this is broken, code-in-ram execution from AR "acid test" fails */
-#if 0
-    switch (addr & 0xe000) {
-        case 0x4000:
-            if (write_ram) {
-                DBG(("translate $4xxx"));
-                *base = cart_ram;
-                *start = 0x4000;
-                *limit = 0x5ffd;
-                return;
-            }
-            break;
-        case 0x6000:
-            if (write_ram) {
-                DBG(("translate $6xxx"));
-                *base = cart_ram + 0x2000;
-                *start = 0x4000;
-                *limit = 0x5ffd;
-                return;
-            }
-            break;
-        case 0x8000:
-            if (export_ram) {
-                DBG(("translate $8xxx"));
-                *base = cart_ram;
-            } else {
-                *base = roml_banks + (roml_bank << 13) - 0x8000;
-            }
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        case 0xa000:
-            if (export_ram) {
-                DBG(("translate $Axxx"));
-                *base = cart_ram + 0x2000;
-            } else {
-                *base = romh_banks + (romh_bank << 13) - 0xa000;
-            }
-            *start = 0xa000;
-            *limit = 0xbffd;
-            return;
-        case 0xe000:
-            if (export_ram) {
-                DBG(("translate $Exxx"));
-                *base = cart_ram + 0x2000;
-            } else {
-                *base = romh_banks + (romh_bank << 13) - 0xe000;
-            }
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        default:
-            break;
-    }
-#endif
-    *base = NULL;
-    *start = 0;
-    *limit = 0;
 }
 
 /* ---------------------------------------------------------------------*/

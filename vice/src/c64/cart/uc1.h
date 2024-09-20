@@ -33,26 +33,18 @@
 
 void uc1_config_init(void);
 void uc1_config_setup(uint8_t *rawcart);
+
 int uc1_bin_attach(const char *filename, uint8_t *rawcart);
 int uc1_crt_attach(FILE *fd, uint8_t *rawcart);
 void uc1_detach(void);
 
-void uc1_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
 uint8_t uc1_roml_read(uint16_t addr);
-void uc1_roml_store(uint16_t addr, uint8_t value);
-int uc1_roml_no_ultimax_store(uint16_t addr, uint8_t value);
 uint8_t uc1_romh_read(uint16_t addr);
+int uc1_roml_no_ultimax_store(uint16_t addr, uint8_t value);
 int uc1_romh_phi1_read(uint16_t addr, uint8_t *value);
 int uc1_romh_phi2_read(uint16_t addr, uint8_t *value);
-
+void uc1_roml_store(uint16_t addr, uint8_t value);
 void uc1_romh_store(uint16_t addr, uint8_t value);
-
-void uc1_poke(uint16_t addr, uint8_t value);
-uint8_t uc1_peek(uint16_t addr);
-
-int uc1_peek_mem(export_t *ex, uint16_t addr, uint8_t *value);
-
 
 uint8_t uc1_1000_7fff_read(uint16_t addr);
 void uc1_1000_7fff_store(uint16_t addr, uint8_t value);
@@ -60,6 +52,9 @@ uint8_t uc1_a000_bfff_read(uint16_t addr);
 void uc1_a000_bfff_store(uint16_t addr, uint8_t value);
 uint8_t uc1_c000_cfff_read(uint16_t addr);
 void uc1_c000_cfff_store(uint16_t addr, uint8_t value);
+
+int uc1_peek_mem(export_t *ex, uint16_t addr, uint8_t *value);
+
 
 void uc1_reset(void);
 void uc1_powerup(void);
