@@ -152,22 +152,34 @@ int sid_common_set_engine_model(const char *param, void *extra_param)
 
 static cmdline_option_t sidengine_cmdline_options[] =
 {
-    /* NOTE: although we use CALL_FUNCTION, we put the resource that will be
-             modified into the array - this helps reconstructing the cmdline */
     { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      sid_common_set_engine_model, NULL, "SidModel", NULL,
+      sid_common_set_engine_model, NULL, NULL, NULL,
       "<engine and model>", NULL },
+    /* extra options that only set either the engine or the model - this removes
+       the need for complex special case handling when reconstructing the cmdline */
+    { "-sidengine", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidEngine", NULL,
+      "<engine>", NULL },
+    { "-sidmodel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidModel", NULL,
+      "<model>", NULL },
     CMDLINE_LIST_END
 };
 
 #ifdef HAVE_RESID
 static cmdline_option_t siddtvengine_cmdline_options[] =
 {
-    /* NOTE: although we use CALL_FUNCTION, we put the resource that will be
-             modified into the array - this helps reconstructing the cmdline */
     { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      sid_common_set_engine_model, NULL, "SidModel", NULL,
+      sid_common_set_engine_model, NULL, NULL, NULL,
       "<engine and model>", NULL },
+    /* extra options that only set either the engine or the model - this removes
+       the need for complex special case handling when reconstructing the cmdline */
+    { "-sidengine", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidEngine", NULL,
+      "<engine>", NULL },
+    { "-sidmodel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidModel", NULL,
+      "<model>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -309,6 +321,8 @@ static char *generate_sid_address_range(int nr)
 }
 
 static char *sid_return = NULL;
+static char *sid_return_engine = NULL;
+static char *sid_return_model = NULL;
 
 static char *build_sid_cmdline_option(int sid_type)
 {
@@ -386,22 +400,140 @@ static char *build_sid_cmdline_option(int sid_type)
     return sid_return;
 }
 
+static char *build_sid_engine_cmdline_option(int sid_type)
+{
+    char *old, *new;
+
+    if (sid_return_engine) {
+        return sid_return_engine;
+    }
+
+    /* start building up the command-line */
+    old = lib_strdup("Specify SID engine (");
+
+#ifdef HAVE_FASTSID
+    /* add fast sid options */
+    new = util_concat(old, "0: FastSID", NULL);
+    lib_free(old);
+    old = new;
+#endif
+
+#ifdef HAVE_RESID
+    /* add resid options if available */
+    if (sid_type != SIDTYPE_SIDCART) {
+#ifdef HAVE_FASTSID
+        new = util_concat(old, ", 1: ReSID", NULL);
+#else
+        new = util_concat(old, "1: ReSID", NULL);
+#endif
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+#ifdef HAVE_CATWEASELMKIII
+    /* add catweasel options if available */
+    if (catweaselmkiii_available()) {
+        new = util_concat(old, ", 2: Catweasel", NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+#ifdef HAVE_HARDSID
+    /* add hardsid options if available */
+    if (hardsid_available()) {
+        new = util_concat(old, ", 3: HardSID", NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+#ifdef HAVE_PARSID
+#if !defined(WINDOWS_COMPILE) || (defined(WINDOWS_COMPILE) && defined(HAVE_LIBIEEE1284))
+    /* add parsid options if available */
+    if (parsid_available()) {
+        new = util_concat(old, ", 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3", NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+#endif
+
+    /* add ending bracket */
+    new = util_concat(old, ")", NULL);
+    lib_free(old);
+
+    sid_return_engine = new;
+
+    return sid_return_engine;
+}
+
+static char *build_sid_model_cmdline_option(int sid_type)
+{
+    char *old, *new;
+
+    if (sid_return_model) {
+        return sid_return_model;
+    }
+
+    /* start building up the command-line */
+    old = lib_strdup("Specify SID model (");
+
+#if !defined(HAVE_RESID) && defined(HAVE_FASTSID)
+    /* add fast sid options */
+    new = util_concat(old, "0: 6581, 1: 8580", NULL);
+    lib_free(old);
+    old = new;
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_FASTSID)
+    /* add resid options if available */
+    if (sid_type != SIDTYPE_SIDCART) {
+        new = util_concat(old, "0: 6581, 1: 8580, 2: 8580 + digiboost", NULL);
+        lib_free(old);
+        old = new;
+    }
+
+    /* add residdtv options if available */
+    if (sid_type == SIDTYPE_SIDDTV) {
+        new = util_concat(old, ", 3: DTVSID", NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+    /* add ending bracket */
+    new = util_concat(old, ")", NULL);
+    lib_free(old);
+
+    sid_return_model = new;
+
+    return sid_return_model;
+}
+
 int sid_cmdline_options_init(int sid_type)
 {
 #ifdef HAVE_RESID
     if (sid_type == SIDTYPE_SIDDTV) {
         siddtvengine_cmdline_options[0].description = build_sid_cmdline_option(SIDTYPE_SIDDTV);
+        siddtvengine_cmdline_options[1].description = build_sid_engine_cmdline_option(SIDTYPE_SIDDTV);
+        siddtvengine_cmdline_options[2].description = build_sid_model_cmdline_option(SIDTYPE_SIDDTV);
         if (cmdline_register_options(siddtvengine_cmdline_options) < 0) {
             return -1;
         }
     } else {
         sidengine_cmdline_options[0].description = build_sid_cmdline_option(sid_type);
+        sidengine_cmdline_options[1].description = build_sid_engine_cmdline_option(sid_type);
+        sidengine_cmdline_options[2].description = build_sid_model_cmdline_option(sid_type);
         if (cmdline_register_options(sidengine_cmdline_options) < 0) {
             return -1;
         }
     }
 #else
     sidengine_cmdline_options[0].description = build_sid_cmdline_option(sid_type);
+    sidengine_cmdline_options[1].description = build_sid_engine_cmdline_option(sid_type);
+    sidengine_cmdline_options[2].description = build_sid_model_cmdline_option(sid_type);
     if (cmdline_register_options(sidengine_cmdline_options) < 0) {
         return -1;
     }
@@ -457,6 +589,14 @@ void sid_cmdline_options_shutdown(void)
     if (sid_return) {
         lib_free(sid_return);
         sid_return = NULL;
+    }
+    if (sid_return_engine) {
+        lib_free(sid_return_engine);
+        sid_return_engine = NULL;
+    }
+    if (sid_return_model) {
+        lib_free(sid_return_model);
+        sid_return_model = NULL;
     }
     if (sid2_address_range) {
         lib_free(sid2_address_range);
