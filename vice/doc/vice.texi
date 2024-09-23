@@ -12396,6 +12396,18 @@ ParSID Port 1: 1024/parsid/parsid1/par1/lpt1,
 ParSID Port 2: 1280/parsid2/par2/lpt2
 ParSID Port 3: 1536/parsid3/par3/lpt3)
 
+@findex -sidengine
+@item -sidengine <engine>
+Specify engine for the emulated SID chip
+(@code{SidEngine}).
+(FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6)
+
+@findex -sidmodel
+@item -sidemodel <model>
+Specify model for the emulated SID chip
+(@code{SidModel}).
+(6581: 0, 8580: 1, ReSID 8580 + digiboost: 2, DTVSID: 3)
+
 @findex -sidfilters, +sidfilters
 @item -sidfilters
 @itemx +sidfilters
