@@ -114,7 +114,9 @@ console_t *uimonfb_window_open(void)
  */
 void uimonfb_window_close(void)
 {
-    native_console_close(console_log_local);
+    if (console_log_local != NULL) {
+        native_console_close(console_log_local);
+    }
 
     uimon_window_suspend();
 }

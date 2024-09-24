@@ -103,7 +103,12 @@ static int log_colorize = 1;
 
 /* ------------------------------------------------------------------------- */
 
-static int log_file_type = 0;
+#define LOG_FILE_TYPE_NONE              0
+#define LOG_FILE_TYPE_STDOUT            1   /* stdout */
+#define LOG_FILE_TYPE_ARCH_DEFAULT      2   /* the default file, eg ~/.local/state/vice/vice.log */
+#define LOG_FILE_TYPE_USER_NAME         3   /* name given by user */
+
+static int log_file_type = LOG_FILE_TYPE_NONE;
 
 static int log_file_open(void)
 {
@@ -117,7 +122,7 @@ static int log_file_open(void)
         /* no log file name was given, in this case we use the arch dependent
            default name */
         /* CAUTION: this may return stdout */
-        log_file_type = 2;
+        log_file_type = LOG_FILE_TYPE_ARCH_DEFAULT;
         DBG(("log_file_open default\n"));
         log_file = archdep_open_default_log_file();
         if (log_file == NULL) {
@@ -128,7 +133,7 @@ static int log_file_open(void)
             log_to_stdout = 1;
             log_to_file = 0;
             log_file = NULL;
-            log_file_type = 1;
+            log_file_type = LOG_FILE_TYPE_STDOUT;
         }
     } else if (strcmp(log_file_name, "-") == 0) {
         DBG(("log_file_open stdout\n"));
@@ -138,13 +143,13 @@ static int log_file_open(void)
         log_to_file = 0;
         log_file = NULL;
         log_file_name[0] = 0;
-        log_file_type = 1;
+        log_file_type = LOG_FILE_TYPE_STDOUT;
     } else if (log_to_file) {
         DBG(("log_file_open file '%s'\n", log_file_name));
-        log_file_type = 3;
+        log_file_type = LOG_FILE_TYPE_USER_NAME;
         log_file = fopen(log_file_name, MODE_WRITE_TEXT);
         if (log_file == NULL) {
-            log_file_type = 0;
+            log_file_type = LOG_FILE_TYPE_NONE;
             rc = -1;
         }
     }
@@ -335,14 +340,14 @@ static int set_log_file_name(const char *val, void *param)
 static const resource_int_t resources_int[] = {
     { "LogLimit", LOG_LIMIT_STANDARD, RES_EVENT_NO, NULL,
       &log_limit, set_log_limit, NULL },
+    { "LogColorize", 1, RES_EVENT_NO, NULL,
+      &log_colorize, set_log_colorize, NULL },
     { "LogToFile", 1, RES_EVENT_NO, NULL,
       &log_to_file, set_log_to_file, NULL },
     { "LogToStdout", 1, RES_EVENT_NO, NULL,
       &log_to_stdout, set_log_to_stdout, NULL },
     { "LogToMonitor", 0, RES_EVENT_NO, NULL,
       &log_to_monitor, set_log_to_monitor, NULL },
-    { "LogColorize", 1, RES_EVENT_NO, NULL,
-      &log_colorize, set_log_colorize, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -512,7 +517,8 @@ int log_init(void)
     if (log_to_file) {
         /* HACK: do not close/reopen if previous log_file_open triggered stdout
                  or custom filename */
-        if ((log_file_type == 0) || (log_file_type == 3)) {
+        if ((log_file_type == LOG_FILE_TYPE_NONE) ||
+            (log_file_type == LOG_FILE_TYPE_USER_NAME)) {   /* FIXME: BUG? */
             log_file_close();
             log_file_open();
         }
