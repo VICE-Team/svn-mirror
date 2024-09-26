@@ -1033,7 +1033,7 @@ void lib_rand_seed(uint64_t seed)
 
 void lib_init(void)
 {
-    log_debug(log_lib, "lib_init()");
+    /* log_debug(log_lib, "lib_init()"); */
     lib_lock_init();
 
     /*

@@ -48,13 +48,13 @@
 /* #define IODEBUGRW */
 
 #ifdef IODEBUG
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
 
 #ifdef IODEBUGRW
-#define DBGRW(x) printf x
+#define DBGRW(x) log_printf x
 #else
 #define DBGRW(x)
 #endif
@@ -85,9 +85,9 @@ static void io_source_detach(io_source_detach_t *source)
             if (source->det_cartid != CARTRIDGE_NONE) {
 #ifdef IODEBUG
                 if (source->det_cartid == 0) {
-                    DBG(("IO: cart id in io struct is 0, it should be updated! name: %s\n", source->det_devname));
+                    DBG(("IO: cart id in io struct is 0, it should be updated! name: %s", source->det_devname));
                 } else {
-                    DBG(("IO: io_source_detach id:%d name: %s\n", source->det_cartid, source->det_devname));
+                    DBG(("IO: io_source_detach id:%d name: %s", source->det_cartid, source->det_devname));
                 }
 #endif
                 assert(source->det_cartid != CARTRIDGE_CRT); /* CARTRIDGE_CRT is not allowed at this point */
@@ -114,9 +114,9 @@ static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t
 
     current = current->next;
 
-    DBG(("IO: check %d sources for addr %04x\n", amount, addr));
+    DBG(("IO: check %d sources for addr %04x", amount, addr));
     while (current) {
-        /* DBG(("IO: check '%s'\n", current->device->name)); */
+        /* DBG(("IO: check '%s'", current->device->name)); */
         if (current->device->io_source_valid &&
             addr >= current->device->start_address &&
             addr <= current->device->end_address &&
@@ -126,7 +126,7 @@ static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t
             detach_list[found].det_name = current->device->resource_name;
             detach_list[found].det_devname = current->device->name;
             detach_list[found].det_cartid = current->device->cart_id;
-            DBG(("IO: found #%d: '%s'\n", found, current->device->name));
+            DBG(("IO: found #%d: '%s'", found, current->device->name));
 
             /* first part of the message "read collision at x from" */
             if (found == 0) {
@@ -157,9 +157,9 @@ static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t
         ui_error(new_msg, addr);
         lib_free(new_msg);
 
-        DBG(("IO: found %d items to detach\n", found));
+        DBG(("IO: found %d items to detach", found));
         for (i = 0; i < found; i++) {
-            DBG(("IO: detach #%d id:%d name: %s\n", i, detach_list[i].det_cartid, detach_list[i].det_devname));
+            DBG(("IO: detach #%d id:%d name: %s", i, detach_list[i].det_cartid, detach_list[i].det_devname));
             io_source_detach(&detach_list[i]);
         }
     }
@@ -181,9 +181,9 @@ static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_
 
     current = current->next;
 
-    DBG(("IO: check %d sources for addr %04x\n", real_amount, addr));
+    DBG(("IO: check %d sources for addr %04x", real_amount, addr));
     while (current) {
-        /* DBG(("IO: check '%s'\n", current->device->name)); */
+        /* DBG(("IO: check '%s'", current->device->name)); */
         if (current->device->io_source_valid &&
             addr >= current->device->start_address &&
             addr <= current->device->end_address &&
@@ -194,7 +194,7 @@ static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_
             detach_list[found].det_devname = current->device->name;
             detach_list[found].det_cartid = current->device->cart_id;
             detach_list[found].order = current->device->order;
-            DBG(("IO: found #%d: '%s'\n", found, current->device->name));
+            DBG(("IO: found #%d: '%s'", found, current->device->name));
 
             if (current->device->order == lowest) {
                 first_cart = current->device->name;
@@ -229,10 +229,10 @@ static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_
         ui_error(new_msg, addr);
         lib_free(new_msg);
 
-        DBG(("IO: found %d items to detach\n", found));
+        DBG(("IO: found %d items to detach", found));
         for (i = 0; i < found; i++) {
             if (detach_list[i].order != lowest) {
-                DBG(("IO: detach #%d id:%d name: %s\n", i, detach_list[i].det_cartid, detach_list[i].det_devname));
+                DBG(("IO: detach #%d id:%d name: %s", i, detach_list[i].det_cartid, detach_list[i].det_devname));
                 io_source_detach(&detach_list[i]);
             }
         }
@@ -252,15 +252,15 @@ static void io_source_log_collisions(uint16_t addr, int amount, io_source_list_t
 
     current = current->next;
 
-    DBG(("IO: check %d sources for addr %04x\n", amount, addr));
+    DBG(("IO: check %d sources for addr %04x", amount, addr));
     while (current) {
-        /* DBG(("IO: check '%s'\n", current->device->name)); */
+        /* DBG(("IO: check '%s'", current->device->name)); */
         if (current->device->io_source_valid &&
             addr >= current->device->start_address &&
             addr <= current->device->end_address &&
             current->device->io_source_prio == IO_PRIO_NORMAL) {
             /* found a conflict */
-            DBG(("IO: found #%d: '%s'\n", found, current->device->name));
+            DBG(("IO: found #%d: '%s'", found, current->device->name));
 
             /* first part of the message "read collision at x from" */
             if (found == 0) {
@@ -428,7 +428,7 @@ io_source_list_t *io_source_register(io_source_t *device)
     io_source_list_t *retval = lib_malloc(sizeof(io_source_list_t));
 
     assert(device != NULL);
-    DBG(("IO: register id:%d name:%s\n", device->cart_id, device->name));
+    DBG(("IO: register id:%d name:%s", device->cart_id, device->name));
 
     switch (device->start_address & 0xff00) {
         case 0xd000:
@@ -490,7 +490,7 @@ void io_source_unregister(io_source_list_t *device)
     io_source_list_t *prev;
 
     assert(device != NULL);
-    DBG(("IO: unregister id:%d name:%s\n", device->device->cart_id, device->device->name));
+    DBG(("IO: unregister id:%d name:%s", device->device->cart_id, device->device->name));
 
     prev = device->previous;
     prev->next = device->next;
@@ -588,199 +588,199 @@ void cartio_set_highest_order(unsigned int nr)
 
 uint8_t c64io_d000_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d000 r %04x\n", addr));
+    DBGRW(("IO: io-d000 r %04x", addr));
     return io_read(&c64io_d000_head, addr);
 }
 
 uint8_t c64io_d000_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d000 p %04x\n", addr));
+    DBGRW(("IO: io-d000 p %04x", addr));
     return io_peek(&c64io_d000_head, addr);
 }
 
 void c64io_d000_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d000 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d000 w %04x %02x", addr, value));
     io_store(&c64io_d000_head, addr, value);
 }
 
 uint8_t c64io_d100_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d100 r %04x\n", addr));
+    DBGRW(("IO: io-d100 r %04x", addr));
     return io_read(&c64io_d100_head, addr);
 }
 
 uint8_t c64io_d100_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d100 p %04x\n", addr));
+    DBGRW(("IO: io-d100 p %04x", addr));
     return io_peek(&c64io_d100_head, addr);
 }
 
 void c64io_d100_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d100 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d100 w %04x %02x", addr, value));
     io_store(&c64io_d100_head, addr, value);
 }
 
 uint8_t c64io_d200_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d200 r %04x\n", addr));
+    DBGRW(("IO: io-d200 r %04x", addr));
     return io_read(&c64io_d200_head, addr);
 }
 
 uint8_t c64io_d200_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d200 p %04x\n", addr));
+    DBGRW(("IO: io-d200 p %04x", addr));
     return io_peek(&c64io_d200_head, addr);
 }
 
 void c64io_d200_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d200 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d200 w %04x %02x", addr, value));
     io_store(&c64io_d200_head, addr, value);
 }
 
 uint8_t c64io_d300_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d300 r %04x\n", addr));
+    DBGRW(("IO: io-d300 r %04x", addr));
     return io_read(&c64io_d300_head, addr);
 }
 
 uint8_t c64io_d300_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d300 p %04x\n", addr));
+    DBGRW(("IO: io-d300 p %04x", addr));
     return io_peek(&c64io_d300_head, addr);
 }
 
 void c64io_d300_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d300 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d300 w %04x %02x", addr, value));
     io_store(&c64io_d300_head, addr, value);
 }
 
 uint8_t c64io_d400_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d400 r %04x\n", addr));
+    DBGRW(("IO: io-d400 r %04x", addr));
     return io_read(&c64io_d400_head, addr);
 }
 
 uint8_t c64io_d400_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d400 p %04x\n", addr));
+    DBGRW(("IO: io-d400 p %04x", addr));
     return io_peek(&c64io_d400_head, addr);
 }
 
 void c64io_d400_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d400 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d400 w %04x %02x", addr, value));
     io_store(&c64io_d400_head, addr, value);
 }
 
 uint8_t c64io_d500_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d500 r %04x\n", addr));
+    DBGRW(("IO: io-d500 r %04x", addr));
     return io_read(&c64io_d500_head, addr);
 }
 
 uint8_t c64io_d500_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d500 p %04x\n", addr));
+    DBGRW(("IO: io-d500 p %04x", addr));
     return io_peek(&c64io_d500_head, addr);
 }
 
 void c64io_d500_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d500 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d500 w %04x %02x", addr, value));
     io_store(&c64io_d500_head, addr, value);
 }
 
 uint8_t c64io_d600_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d600 r %04x\n", addr));
+    DBGRW(("IO: io-d600 r %04x", addr));
     return io_read(&c64io_d600_head, addr);
 }
 
 uint8_t c64io_d600_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d600 p %04x\n", addr));
+    DBGRW(("IO: io-d600 p %04x", addr));
     return io_peek(&c64io_d600_head, addr);
 }
 
 void c64io_d600_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d600 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d600 w %04x %02x", addr, value));
     io_store(&c64io_d600_head, addr, value);
 }
 
 uint8_t c64io_d700_read(uint16_t addr)
 {
-    DBGRW(("IO: io-d700 r %04x\n", addr));
+    DBGRW(("IO: io-d700 r %04x", addr));
     return io_read(&c64io_d700_head, addr);
 }
 
 uint8_t c64io_d700_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-d700 p %04x\n", addr));
+    DBGRW(("IO: io-d700 p %04x", addr));
     return io_peek(&c64io_d700_head, addr);
 }
 
 void c64io_d700_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-d700 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-d700 w %04x %02x", addr, value));
     io_store(&c64io_d700_head, addr, value);
 }
 
 uint8_t c64io_dd00_read(uint16_t addr)
 {
-    DBGRW(("IO: io-dd00 r %04x\n", addr));
+    DBGRW(("IO: io-dd00 r %04x", addr));
     return io_read(&c64io_dd00_head, addr);
 }
 
 uint8_t c64io_dd00_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-dd00 p %04x\n", addr));
+    DBGRW(("IO: io-dd00 p %04x", addr));
     return io_peek(&c64io_dd00_head, addr);
 }
 
 void c64io_dd00_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-dd00 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-dd00 w %04x %02x", addr, value));
     io_store(&c64io_dd00_head, addr, value);
 }
 
 uint8_t c64io_de00_read(uint16_t addr)
 {
-    DBGRW(("IO: io-de00 r %04x\n", addr));
+    DBGRW(("IO: io-de00 r %04x", addr));
     return io_read(&c64io_de00_head, addr);
 }
 
 uint8_t c64io_de00_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-de00 p %04x\n", addr));
+    DBGRW(("IO: io-de00 p %04x", addr));
     return io_peek(&c64io_de00_head, addr);
 }
 
 void c64io_de00_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-de00 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-de00 w %04x %02x", addr, value));
     io_store(&c64io_de00_head, addr, value);
 }
 
 uint8_t c64io_df00_read(uint16_t addr)
 {
-    DBGRW(("IO: io-df00 r %04x\n", addr));
+    DBGRW(("IO: io-df00 r %04x", addr));
     return io_read(&c64io_df00_head, addr);
 }
 
 uint8_t c64io_df00_peek(uint16_t addr)
 {
-    DBGRW(("IO: io-df00 p %04x\n", addr));
+    DBGRW(("IO: io-df00 p %04x", addr));
     return io_peek(&c64io_df00_head, addr);
 }
 
 void c64io_df00_store(uint16_t addr, uint8_t value)
 {
-    DBGRW(("IO: io-df00 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io-df00 w %04x %02x", addr, value));
     io_store(&c64io_df00_head, addr, value);
 }
 
