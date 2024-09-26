@@ -28,7 +28,7 @@ extern "C" {
 
 typedef struct zmbv_avi_s *zmbv_avi_t;
 
-extern zmbv_avi_t zmbv_avi_start (const char *fname, int width, int height, int fps, int audiorate);
+extern zmbv_avi_t zmbv_avi_start (const char *fname, int width, int height, double fps, int audiorate);
 extern int zmbv_avi_stop (zmbv_avi_t zavi);
 
 extern int zmbv_avi_write_chunk (zmbv_avi_t zavi, const char tag[4], uint32_t size, const void *data, uint32_t flags);

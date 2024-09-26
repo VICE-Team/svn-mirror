@@ -112,12 +112,13 @@ int gfxoutput_early_init(int help)
     gfxoutput_init_iff(help);
     gfxoutput_init_pcx(help);
     gfxoutput_init_ppm(help);
+
     /* video related */
+    gfxoutput_init_zmbv(help);
+    gfxoutput_init_ffmpegexe(help);
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg(help);
 #endif
-    gfxoutput_init_ffmpegexe(help);
-    gfxoutput_init_zmbv(help);
 
     /* C64 formats */
     gfxoutput_init_godot(help);
