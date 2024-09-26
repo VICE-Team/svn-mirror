@@ -39,6 +39,8 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
+#include "math.h"
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -124,7 +126,14 @@ static char *zmbv_format = NULL;
 static int audio_freq = 48000;    /* initialized by zmbv_soundmovie_init */
 static int audio_channels = 1;       /* initialized by zmbv_soundmovie_init */
 
-static unsigned int video_framerate = 50; /* initialized by zmbvdrv_init_video */
+static double video_framerate = 50.125f; /* initialized by zmbvdrv_init_video */
+
+CLOCK clk_startframe;
+CLOCK clk_frame_cycles;
+CLOCK clk_last_audio_frame;
+CLOCK clk_this_audio_frame;
+CLOCK clk_last_video_frame;
+CLOCK clk_this_video_frame;
 
 static int zmbvdrv_init_file(void);
 
@@ -268,12 +277,12 @@ static int zmbvdrv_open_audio(int speed, int channels)
         log_error(LOG_DEFAULT, "zmbvdrv: Error allocating audio buffer (%u bytes)", (unsigned)MAX_AUDIO_BUFFER_SIZE);
         return -1;
     }
-    zmbvdrv_audio_in.size = (audio_freq / video_framerate);
-    LOG(("zmbvdrv_open_audio freq:%d fps:%u bufsize:%d\n", audio_freq, video_framerate, zmbvdrv_audio_in.size));
+    zmbvdrv_audio_in.size = round((double)audio_freq / video_framerate);
+    LOG(("zmbvdrv_open_audio freq:%d fps:%f bufsize:%d", audio_freq, video_framerate, zmbvdrv_audio_in.size));
 #if 0
     memset(cur_audio, 0, zmbvdrv_audio_in.size * 2);
     if (zmbv_avi_write_chunk_audio(zavi, &cur_audio[0], zmbvdrv_audio_in.size) < 0) {
-        LOG(("FATAL: can't write audio frame for screen #%d\n", 0));
+        LOG(("FATAL: can't write audio frame for screen #%d", 0));
     }
 #endif
     return 0;
@@ -322,8 +331,11 @@ static int zmbv_soundmovie_encode(soundmovie_buffer_t *audio_in)
 {
     int ret = 0;
 
-    LOGFRAMES(("zmbv_soundmovie_encode(size:%d used:%d channels:%d)",
-               audio_in->size, audio_in->used, audio_channels));
+    clk_last_audio_frame = clk_this_audio_frame;
+    clk_this_audio_frame = maincpu_clk;
+
+    LOGFRAMES(("zmbv_soundmovie_encode(size:%d used:%d channels:%d) clk:%ld frame:%d",
+               audio_in->size, audio_in->used, audio_channels, clk_this_audio_frame, frameno));
 
     /* FIXME: we might have an endianess problem here, we might have to swap lo/hi on BE machines */
     if (audio_channels == 1) {
@@ -403,14 +415,14 @@ static int zmbvdrv_fill_rgb_image(screenshot_t *screenshot)
         cur_pal[(x * (PALETTE_COLORS_BPP / 8)) + 2] = screenshot->palette->entries[x].blue;
     }
 
-    LOGFRAMES(("zmbvdrv_fill_rgb_image video_width/height: %dx%d\n", video_width, video_height));
+    LOGFRAMES(("zmbvdrv_fill_rgb_image video_width/height: %dx%d", video_width, video_height));
     for (y = 0; y < video_height; y++) {
         for (x = 0; x < video_width; x++) {
             cur_screen[(y * video_width) + x] = screenshot->draw_buffer[bufferoffset + x];
         }
         bufferoffset += screenshot->draw_buffer_line_size;
     }
-    LOGFRAMES(("zmbvdrv_fill_rgb_image done\n"));
+    LOGFRAMES(("zmbvdrv_fill_rgb_image done"));
 
     return 0;
 }
@@ -455,9 +467,9 @@ static void zmbvdrv_init_video(screenshot_t *screenshot)
     video_init_done = 1;
     {
         double time_base, fps;
+        clk_frame_cycles = machine_get_cycles_per_frame();
         time_base = ((double)machine_get_cycles_per_frame()) / ((double) machine_get_cycles_per_second());
         fps = 1.0f / time_base;
-        fps += 0.5f;
         LOG(("zmbvdrv_init_video fps: %f timebase: %f", fps, time_base));
         video_framerate = fps;
     }
@@ -508,7 +520,13 @@ static int zmbvdrv_save(screenshot_t *screenshot, const char *filename)
     /* complevel = 9; */
     /* no_zlib = 0; */
 
-    if (no_zlib) iflg |= ZMBV_INIT_FLAG_NOZLIB;
+    clk_startframe = maincpu_clk;
+    clk_this_video_frame = clk_this_audio_frame = clk_startframe;
+    LOG(("zmbvdrv_save start clock: %ld", clk_startframe));
+
+    if (no_zlib) {
+        iflg |= ZMBV_INIT_FLAG_NOZLIB;
+    }
     LOG(("zmbvdrv_save using compression level %d", complevel));
 
     zmbvdrv_init_video(screenshot);
@@ -579,9 +597,28 @@ static int zmbvdrv_record(screenshot_t *screenshot)
     int ret = -1;
     int32_t written;
     int flags;
+    CLOCK clk_diff;
 
     if (audio_init_done && video_init_done && !file_init_done) {
         zmbvdrv_init_file();
+    }
+
+    clk_last_video_frame = clk_this_video_frame;
+    clk_this_video_frame = maincpu_clk;
+
+    if (clk_this_video_frame > clk_this_audio_frame) {
+        /* video ahead of audio */
+        clk_diff = clk_this_video_frame - clk_this_audio_frame;
+        if (clk_diff > clk_frame_cycles) {
+            LOG(("zmbvdrv_record video>audio %ld %ld frame:%ld diff:%ld", clk_this_video_frame, clk_this_audio_frame, clk_frame_cycles, clk_diff));
+            /*return 0;*/ /* skip this frame? */
+        }
+    } else if (clk_this_audio_frame > clk_this_video_frame) {
+        /* audio is ahead of video */
+        clk_diff = clk_this_audio_frame - clk_this_video_frame;
+        if (clk_diff > clk_frame_cycles) {
+            LOG(("zmbvdrv_record video<audio %ld %ld frame:%ld diff:%ld", clk_this_video_frame, clk_this_audio_frame, clk_frame_cycles, clk_diff));
+        }
     }
 
     zmbvdrv_fill_rgb_image(screenshot);
@@ -590,27 +627,27 @@ static int zmbvdrv_record(screenshot_t *screenshot)
 
     frameno++;
 
-    LOGFRAMES(("zmbvdrv_record: frame %d\n", frameno));
+    LOGFRAMES(("zmbvdrv_record: frame %d (clk:%ld)", frameno, clk_this_video_frame));
 
     /* encode video frame */
     if (zmbv_encode_prepare_frame(zcodec, flags, fmt, cur_pal, video_work_buffer, work_buffer_size) < 0) {
-        LOG(("FATAL: can't prepare frame for screen #%d\n", frameno));
+        LOG(("FATAL: can't prepare frame for screen #%d", frameno));
         goto quit;
     }
     for (int y = 0; y < video_height; ++y) {
         if (zmbv_encode_line(zcodec, cur_screen+(y*video_width)) < 0) {
-            LOG(("FATAL: can't encode line #%d for screen #%d\n", y, frameno));
+            LOG(("FATAL: can't encode line #%d for screen #%d", y, frameno));
             goto quit;
         }
     }
     written = zmvb_encode_finish_frame(zcodec);
     if (written < 0) {
-        LOG(("FATAL: can't finish frame for screen #%d\n", frameno));
+        LOG(("FATAL: can't finish frame for screen #%d", frameno));
         goto quit;
     }
     /* write avi chunk */
     if (zmbv_avi_write_chunk_video(zavi, video_work_buffer, written) < 0) {
-        LOG(("FATAL: can't write compressed frame for screen #%d\n", frameno));
+        LOG(("FATAL: can't write compressed frame for screen #%d", frameno));
         goto quit;
     }
     ret = 0;

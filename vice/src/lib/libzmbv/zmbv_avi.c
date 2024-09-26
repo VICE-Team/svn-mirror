@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -69,7 +70,7 @@ struct zmbv_avi_s {
   uint8_t *index;
   uint32_t indexsize, indexused;
   uint32_t width, height;
-  uint32_t fps;
+  double fps;
   uint32_t frames;
   uint32_t written;
   //uint32_t audioused; // always 0 for now
@@ -79,7 +80,7 @@ struct zmbv_avi_s {
 };
 
 
-zmbv_avi_t zmbv_avi_start (const char *fname, int width, int height, int fps, int audiorate) {
+zmbv_avi_t zmbv_avi_start (const char *fname, int width, int height, double fps, int audiorate) {
   if (fname != NULL && fname[0] && width > 0 && height > 0 && width <= 16384 && height <= 16384 && fps > 0 && fps <= 100) {
     zmbv_avi_t zavi = malloc(sizeof(*zavi));
     if (zavi == NULL) return NULL;
@@ -139,7 +140,7 @@ int zmbv_avi_stop (zmbv_avi_t zavi) {
 
       AVIOUT4("avih");
       AVIOUTd(56); // # of bytes to follow
-      AVIOUTd((uint32_t)(1000000/zavi->fps)); // microseconds per frame
+      AVIOUTd((uint32_t)round(1000000.0f/zavi->fps)); // microseconds per frame
       AVIOUTd(0);
       AVIOUTd(0); // PaddingGranularity (whatever that might be)
       AVIOUTd(0x110); // Flags, 0x10 has index, 0x100 interleaved
@@ -167,7 +168,7 @@ int zmbv_avi_stop (zmbv_avi_t zavi) {
       AVIOUTd(0); // Reserved, MS says: wPriority, wLanguage
       AVIOUTd(0); // InitialFrames
       AVIOUTd(1000000); // Scale
-      AVIOUTd((uint32_t)(1000000*zavi->fps)); // Rate: Rate/Scale == samples/second
+      AVIOUTd((uint32_t)round(1000000.0f*zavi->fps)); // Rate: Rate/Scale == samples/second
       AVIOUTd(0); // Start
       AVIOUTd(zavi->frames); // Length
       AVIOUTd(0); // SuggestedBufferSize
