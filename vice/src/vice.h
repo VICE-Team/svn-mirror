@@ -127,7 +127,18 @@
 #endif
 
 /* format checking attributes for printf style functions */
-#if defined(__GNUC__)
+#ifdef __clang__
+/* like regular printf, func(format, ...) */
+#define VICE_ATTR_PRINTF    __attribute__((__format__(__printf__, 1, 2)))
+/* one extra param on the left, func(param, format, ...) */
+#define VICE_ATTR_PRINTF2   __attribute__((__format__(__printf__, 2, 3)))
+/* two extra param on the left, func(param, param, format, ...) */
+#define VICE_ATTR_PRINTF3   __attribute__((__format__(__printf__, 3, 4)))
+/* three extra param on the left, func(param, param, param, format, ...) */
+#define VICE_ATTR_PRINTF4   __attribute__((__format__(__printf__, 4, 5)))
+/* one extra param after the format, func(format, param, ...) (used for resource sprintf) */
+#define VICE_ATTR_RESPRINTF __attribute__((__format__(__printf__, 1, 3)))
+#elif defined(__GNUC__)
 /* like regular printf, func(format, ...) */
 #define VICE_ATTR_PRINTF    __attribute__((format(printf, 1, 2)))
 /* one extra param on the left, func(param, format, ...) */
