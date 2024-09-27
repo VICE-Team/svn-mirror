@@ -174,10 +174,14 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
         }
     } else {
         /* We're recording a movie */
-        if ((recording_driver->record)(screenshot) < 0) {
-            log_error(screenshot_log, "Recording failed...");
-            lib_free(screenshot->color_map);
-            return -1;
+        if (vsync_get_warp_mode() == 0) {
+            /* skip recording when warpmode is active, this doesn't really work -
+               and unless we significantly change what warpmode does can not work */
+            if ((recording_driver->record)(screenshot) < 0) {
+                log_error(screenshot_log, "Recording failed...");
+                lib_free(screenshot->color_map);
+                return -1;
+            }
         }
     }
 
