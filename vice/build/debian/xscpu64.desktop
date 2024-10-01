@@ -5,4 +5,4 @@ Comment=Commodore 64 SuperCPU emulator
 Exec=/usr/bin/xscpu64
 Terminal=false
 Icon=/usr/share/icons/hicolor/scalable/apps/xscpu64.svg
-Categories=Game,Emulator
+Categories=Game;Emulator;

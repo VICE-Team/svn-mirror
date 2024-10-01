@@ -5,4 +5,4 @@ Comment=Commodore VIC-20 emulator
 Exec=/usr/bin/xvic
 Terminal=false
 Icon=/usr/share/icons/hicolor/scalable/apps/xvic.svg
-Categories=Game,Emulator
+Categories=Game;Emulator;
