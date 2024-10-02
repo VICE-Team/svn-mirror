@@ -65,6 +65,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <unistd.h>
+#include <math.h>
 
 #include "archdep.h"
 #include "cmdline.h"
@@ -235,7 +236,7 @@ static gfxoutputdrv_format_t output_formats_to_test[] =
 static int file_init_done;
 
 #define DUMMY_FRAMES_VIDEO  1
-#define DUMMY_FRAMES_AUDIO  200 /* FIXME: calculate from AUDIO_SKIP_SECONDS */
+#define DUMMY_FRAMES_AUDIO  ((int)round(fps * (double)AUDIO_SKIP_SECONDS))
 
 #define AUDIO_SKIP_SECONDS  4
 
@@ -570,10 +571,10 @@ static void find_ports(void)
 
 static int start_ffmpeg_executable(void)
 {
+    char fpsstring[0x20];
+    char *dot;
     static char command[0x400];
     static char tempcommand[0x400];
-    int fpsint;
-    int fpsfrac;
     int n;
     int audio_connected = 0;
     int video_connected = 0;
@@ -584,11 +585,15 @@ static int start_ffmpeg_executable(void)
     log_resource_values(__FUNCTION__);
 
     /* FPS of the input, including "half framerate" */
-    fpsint = fps;
-    fpsfrac = (fps * 100.0f) - (fpsint * 100.0f);
+    sprintf(fpsstring, "%f", fps);
+    dot = strchr(fpsstring,',');
+    if (dot) {
+        *dot = '.';
+    }
 
     strcpy(command,
             "ffmpeg "
+            "-nostdin "
             /* Caution: at least on windows we must avoid that the ffmpeg
                executable produces output on stdout - if it does, the process
                may block and wait for ffmpeg_stderr being read */
@@ -599,7 +604,6 @@ static int start_ffmpeg_executable(void)
             /* "-loglevel error " */
 #else
             "-loglevel quiet "
-            "-nostdin "
 #endif
     );
 
@@ -607,19 +611,19 @@ static int start_ffmpeg_executable(void)
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         sprintf(tempcommand,
                 "-f rawvideo "
-                "-pix_fmt rgb24 "
-                "-framerate %2d.%02d "              /* exact fps */
+                "-pixel_format rgb24 "
+                "-framerate %s "              /* exact fps */
+                "-r %s "              /* exact fps */
                 "-s %dx%d "                         /* size */
                 /*"-readrate_initial_burst 0 "*/        /* no initial burst read */
                 /*"-readrate 1 "*/                      /* Read input at native frame rate */
                 "-thread_queue_size 512 "
-                "-vsync 0 "
 #ifdef VICE_IS_SERVER
                 "-i tcp://127.0.0.1:%d "
 #else
                 "-i tcp://127.0.0.1:%d?listen "
 #endif
-                , fpsint, fpsfrac
+                , fpsstring, fpsstring
                 , video_width, video_height
                 , SOCKETS_VIDEO_PORT
         );
@@ -631,7 +635,6 @@ static int start_ffmpeg_executable(void)
             sprintf(tempcommand,
                     "-f s16le "                     /* input audio stream format */
                     "-acodec pcm_s16le "            /* audio codec */
-                    "-channels %d "                 /* input audio channels */
                     "-ac %d "                       /* input audio channels */
                     "-ar %d "                       /* input audio stream sample rate */
                     "-ss %d "                       /* skip seconds at start */
@@ -641,8 +644,6 @@ static int start_ffmpeg_executable(void)
 #else
                     "-i tcp://127.0.0.1:%d?listen "
 #endif
-                    "-async 1 "
-                    , audio_input_channels
                     , audio_input_channels
                     , audio_input_sample_rate
                     , AUDIO_SKIP_SECONDS
@@ -657,17 +658,17 @@ static int start_ffmpeg_executable(void)
             "-f %s "        /* outfile format/container */
             "-shortest "    /* Finish encoding when the shortest output stream ends. */
             /*"-shortest_buf_duration 1 "*/ /* the maximum duration of buffered frames in seconds */
-            "-async 1 "
             , ffmpegexe_format                      /* outfile format/container */
     );
     strcat(command, tempcommand);
     /* options for the output file (video) */
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         sprintf(tempcommand,
-                "-framerate %2d.%02d "              /* exact fps */
+                "-framerate %s "              /* exact fps */
+                "-r %s "              /* exact fps */
                 "-vcodec %s "   /* outfile video codec */
                 "-b:v %d "      /* outfile video bitrate */
-                , fpsint, fpsfrac
+                , fpsstring, fpsstring
                 , av_codec_get_option(video_codec)     /* outfile video codec */
                 , video_bitrate               /* outfile video bitrate */
         );
@@ -688,6 +689,12 @@ static int start_ffmpeg_executable(void)
     strcat(command, outfilename ? outfilename : "outfile.avi");
 
 #ifndef VICE_IS_SERVER
+    /* kill old process in case it is still running for whatever reason */
+    if (ffmpeg_pid != 0) {
+        kill_coproc(ffmpeg_pid);
+        ffmpeg_pid = 0;
+    }
+
     /*DBG(("forking ffmpeg: '%s'", command));*/
     if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command, &ffmpeg_pid) < 0) {
         log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
@@ -766,6 +773,11 @@ static int start_ffmpeg_executable(void)
 #endif
 
 #ifdef VICE_IS_SERVER
+    /* kill old process in case it is still running for whatever reason */
+    if (ffmpeg_pid != 0) {
+        kill_coproc(ffmpeg_pid);
+        ffmpeg_pid = 0;
+    }
     /*DBG(("forking ffmpeg: '%s'", command));*/
     if (fork_coproc(&ffmpeg_stdin, &ffmpeg_stdout, command, &ffmpeg_pid) < 0) {
         log_error(LOG_DEFAULT, "Cannot fork process '%s'.", command);
@@ -852,11 +864,14 @@ static void close_stream(void)
         close(ffmpeg_stdout);
         ffmpeg_stdout = -1;
     }
-
+    /* do not kill ffmpeg here, it should die when the streams close. if it is
+       killed early the resulting file will be broken */
+#if 0
     if (ffmpeg_pid != 0) {
         kill_coproc(ffmpeg_pid);
         ffmpeg_pid = 0;
     }
+#endif
 }
 
 /*****************************************************************************
@@ -1298,6 +1313,13 @@ static void ffmpegexedrv_shutdown(void)
     int i = 0;
 #endif
     DBG(("ffmpegexedrv_shutdown"));
+
+    /* kill old process in case it is still running for whatever reason */
+    if (ffmpeg_pid != 0) {
+        kill_coproc(ffmpeg_pid);
+        ffmpeg_pid = 0;
+    }
+
 #ifndef HAVE_FFMPEG
     if (ffmpegexe_drv.formatlist != NULL) {
 

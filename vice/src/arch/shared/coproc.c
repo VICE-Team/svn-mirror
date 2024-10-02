@@ -148,7 +148,11 @@ void kill_coproc(vice_pid_t pid)
 {
     log_message(LOG_DEFAULT, "terminating child process id: %d", pid);
     if (kill(pid, SIGKILL) != 0) {
-        log_error(LOG_DEFAULT, "terminating child process id %d failed.", pid);
+        if (errno == ESRCH) {
+            log_debug(LOG_DEFAULT, "child process id %d does not exist anymore.", pid);
+        } else {
+            log_error(LOG_DEFAULT, "terminating child process id %d failed.", pid);
+        }
     }
 }
 
@@ -282,7 +286,11 @@ void kill_coproc(vice_pid_t pid)
 {
     log_message(LOG_DEFAULT, "terminating child process id: %p", pid);
     if (TerminateProcess(pid, 0) != 0) {
-        log_error(LOG_DEFAULT, "terminating child process id %p failed.", pid);
+        if (GetLastError() == ERROR_INVALID_HANDLE) {
+            log_debug(LOG_DEFAULT, "child process id %d does not exist anymore.", pid);
+        } else {
+            log_error(LOG_DEFAULT, "terminating child process id %p failed.", pid);
+        }
     }
 }
 
