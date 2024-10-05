@@ -268,7 +268,7 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
          *        So this needs some serious refactoring.
          */
         type = RW_TYPE_AUDIO;
-    } else {
+    } else if (screenshot_is_recording()) {
         type = RW_TYPE_VIDEO;
     }
 

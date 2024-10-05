@@ -1209,7 +1209,11 @@ static int ffmpegexedrv_save(screenshot_t *screenshot, const char *filename)
     if (test_ffmpeg_executable() < 0) {
         screenshot_stop_recording();
         ui_error("ffmpeg executable could not be started.");
-        return -1;
+        /* Do not return -1, since that would just pop up a second error message,
+           which will eventually appear behind the main window, and make the UI
+           seem to hang. We can do this, since there is no further error handling
+           depending on the return value. */
+        return 0;
     }
 
 #ifdef HAVE_FFMPEG
