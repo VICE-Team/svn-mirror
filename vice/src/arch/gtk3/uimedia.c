@@ -708,6 +708,11 @@ static void on_save_video_filename(GtkDialog *dialog,
         }
         g_free(filename);
         g_free(filename_locale);
+
+        /* if for some reason recording is not active now, signal the UI it has been stopped */
+        if (!screenshot_is_recording()) {
+            ui_media_stop_recording();
+        }
     }
     mainlock_release();
     gtk_widget_destroy(GTK_WIDGET(dialog));
