@@ -25,6 +25,8 @@
  *
  */
 
+/* #define DEBUG_BINMON */
+
 #include "vice.h"
 
 #include <assert.h>
@@ -58,6 +60,12 @@
 
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
+#endif
+
+#ifdef DEBUG_BINMON
+#define DBG(x)   log_printf x
+#else
+#define DBG(x)
 #endif
 
 #ifdef HAVE_NETWORK
@@ -1425,7 +1433,7 @@ static void monitor_binary_process_mem_get(binary_command_t *command)
     uint8_t requested_memspace = body[5];
     uint16_t requested_banknum = little_endian_to_uint16(&body[6]);
 
-    uint32_t length = endaddress - startaddress + 1;
+    uint32_t length = (endaddress + 1) - startaddress;
 
     if (startaddress > endaddress) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
@@ -1492,7 +1500,7 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
     uint8_t requested_memspace = body[5];
     uint16_t requested_banknum = little_endian_to_uint16(&body[6]);
 
-    uint32_t length = endaddress - startaddress + 1;
+    uint32_t length = (endaddress + 1) - startaddress;
 
     if (startaddress > endaddress) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
@@ -1522,8 +1530,11 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
 
     banknum = requested_banknum;
 
+    DBG(("monitor_binary_process_mem_set %04x-%04x (=length:%04x) bank:%d memspace:%d", startaddress, endaddress, length, banknum, memspace));
+
     sidefx = !!new_sidefx;
     for (i = 0; i < length; i++) {
+        DBG(("%04x:%02x", (uint16_t)ADDR_LIMIT(startaddress + i), body[header_size + i]));
         mon_set_mem_val_ex(memspace, banknum, (uint16_t)ADDR_LIMIT(startaddress + i), body[header_size + i]);
     }
     sidefx = old_sidefx;
@@ -1541,7 +1552,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
 
     command.request_id = little_endian_to_uint32(&pbuffer[6]);
 
-    if (command.api_version < 0x01 || command.api_version > 0x02) {
+    if ((command.api_version < 0x01) || (command.api_version > 0x02)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command.request_id);
         return;
     }
@@ -1555,6 +1566,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     command.body = &pbuffer[11];
 
     command_type = command.type;
+    DBG(("monitor_binary_process_command type:%02x", command_type));
     if (command_type == e_MON_CMD_PING) {
         monitor_binary_process_ping(&command);
 
