@@ -1006,7 +1006,8 @@ ssize_t vice_network_send(vice_network_socket_t *sockfd,
     signals_pipe_set();
     ret = send(sockfd->sockfd, buffer, buffer_length, flags);
     if (ret > buffer_length) {
-        log_error(LOG_DEFAULT, "vice_network_send: internal error");
+        log_error(LOG_DEFAULT, "vice_network_send: internal error (ret:%"PRI_SSIZE_T" buffer_length:%"PRI_SSIZE_T" errno:%d - %s)",
+                  ret, buffer_length, errno, strerror(errno));
         ret = -1; /* signal error */
     }
     signals_pipe_unset();
