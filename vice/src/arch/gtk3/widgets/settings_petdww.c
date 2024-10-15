@@ -139,7 +139,7 @@ GtkWidget *settings_petdww_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 2, 1);
 
     /* DWW filename */
-    label = gtk_label_new("DWW image file");
+    label = gtk_label_new("DWW RAM image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     chooser = vice_gtk3_resource_filechooser_new("PETDWWfilename",
                                                  GTK_FILE_CHOOSER_ACTION_SAVE);
