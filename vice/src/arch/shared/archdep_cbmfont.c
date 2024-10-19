@@ -41,7 +41,7 @@
 
 /** \brief  Filename of the TrueType CBM font used for directory display
  */
-#define VICE_CBM_FONT_TTF "C64_Pro_Mono-STYLE.ttf"
+/* #define VICE_CBM_FONT_TTF "C64_Pro_Mono-STYLE.ttf" */
 
 /** \brief  List of fonts to register with the OS */
 static const char *font_files[] = {
@@ -75,31 +75,35 @@ int archdep_register_cbmfont(void)
     CFURLRef fontUrl;
     CFArrayRef fontUrls;
     CFArrayRef errors;
+    int i;
 
-    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &fontPath) < 0) {
-        log_error(LOG_DEFAULT, "failed to find resource data '%s'.",
-                VICE_CBM_FONT_TTF);
-        return 0;
-    }
+    for (i = 0; i < sizeof font_files / sizeof font_files[0]; i++) {
+        if (sysfile_locate(font_files[i], "common", &fontPath) < 0) {
+            log_error(LOG_DEFAULT, "failed to find resource data '%s'.",
+                    font_files[i]);
+            return 0;
+        }
 
-    fontPathStringRef = CFStringCreateWithCString(NULL, fontPath, kCFStringEncodingUTF8);
-    fontUrl = CFURLCreateWithFileSystemPath(NULL, fontPathStringRef, kCFURLPOSIXPathStyle, false);
-    fontUrls = CFArrayCreate(NULL, (const void **)&fontUrl, 1, NULL);
+        fontPathStringRef = CFStringCreateWithCString(NULL, fontPath, kCFStringEncodingUTF8);
+        fontUrl = CFURLCreateWithFileSystemPath(NULL, fontPathStringRef, kCFURLPOSIXPathStyle, false);
+        fontUrls = CFArrayCreate(NULL, (const void **)&fontUrl, 1, NULL);
 
-    CFRelease(fontPathStringRef);
+        CFRelease(fontPathStringRef);
 
-    if(!CTFontManagerRegisterFontsForURLs(fontUrls, kCTFontManagerScopeProcess, &errors))
-    {
-        log_error(LOG_DEFAULT, "Failed to register font for file: %s", fontPath);
+        if(!CTFontManagerRegisterFontsForURLs(fontUrls, kCTFontManagerScopeProcess, &errors))
+        {
+            log_error(LOG_DEFAULT, "Failed to register font for file: %s", fontPath);
+            CFRelease(fontUrls);
+            CFRelease(fontUrl);
+            lib_free(fontPath);
+            return 0;
+        }
+
         CFRelease(fontUrls);
         CFRelease(fontUrl);
         lib_free(fontPath);
-        return 0;
     }
 
-    CFRelease(fontUrls);
-    CFRelease(fontUrl);
-    lib_free(fontPath);
     return 1;
 }
 
