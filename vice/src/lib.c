@@ -54,7 +54,9 @@
 # endif
 #endif
 
+#if defined(LIB_DEBUG) || defined(DEBUG)
 static log_t log_lib = LOG_DEFAULT;
+#endif
 
 #define LIB_DEBUG_LOCK()
 #define LIB_DEBUG_UNLOCK()
@@ -1033,7 +1035,6 @@ void lib_rand_seed(uint64_t seed)
 
 void lib_init(void)
 {
-    /* log_debug(log_lib, "lib_init()"); */
     lib_lock_init();
 
     /*
