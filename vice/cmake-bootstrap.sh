@@ -182,8 +182,15 @@ function extract_include_dirs {
 		| sed "s#^\\..*\\./src\$#\\\${CMAKE_SOURCE_DIR}$vpath/src#" \
 		| sed "s#^\\..*\\./src/#\\\${CMAKE_SOURCE_DIR}$vpath/src/#" \
 		| sed -n "p; s#^\\\${CMAKE_SOURCE_DIR}$vpath#\\\${CMAKE_SOURCE_DIR}#p" \
-		| unique_preserve_order \
-		| indent_file_list
+		| unique_preserve_order
+
+	(extract_make_var AM_CPPFLAGS; space; extract_make_var VICE_CFLAGS; space; extract_make_var VICE_CXXFLAGS) \
+		| sed $'s/ -/\\\n-/g' \
+		| grep '^-isystem' \
+		| sed 's/^-isystem//' \
+		| sed 's/^[[:space:]]*//' \
+		| sed 's/[[:space:]]*$//' \
+		| unique_preserve_order
 }
 
 function extract_link_dirs {
@@ -460,7 +467,7 @@ function process_source_makefile {
 			    PRIVATE
 			        \${CMAKE_CURRENT_SOURCE_DIR}
 			        \${CMAKE_CURRENT_SOURCE_DIR}/$(extract_make_var VPATH)
-			        $(extract_include_dirs)
+			        $(extract_include_dirs | indent_file_list)
 			    )
 
 			target_compile_options(
@@ -571,7 +578,7 @@ function generate_executable_target {
 		    PRIVATE
 		        \${CMAKE_CURRENT_SOURCE_DIR}
 		        \${CMAKE_CURRENT_SOURCE_DIR}/$(extract_make_var VPATH)
-		        $(extract_include_dirs)
+		        $(extract_include_dirs | indent_file_list)
 		    )
 		
 		target_compile_options(
