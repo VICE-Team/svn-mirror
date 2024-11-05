@@ -714,9 +714,9 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir)
     if (drv->image) {
         /* don't do check on the "image" tracks here since this value for the
            CMDFDs is logical not physical */
-	if (drv->image->type != DISK_IMAGE_TYPE_D1M &&
-	    drv->image->type != DISK_IMAGE_TYPE_D2M &&
-	    drv->image->type != DISK_IMAGE_TYPE_D4M) {
+    if (drv->image->type != DISK_IMAGE_TYPE_D1M &&
+        drv->image->type != DISK_IMAGE_TYPE_D2M &&
+        drv->image->type != DISK_IMAGE_TYPE_D4M) {
             if (drv->drive->current_half_track > (drv->image->tracks * 2)) {
                 log_warning(LOG_DEFAULT, "disk image will get extended (%d tracks)",
                             drv->drive->current_half_track / 2);
