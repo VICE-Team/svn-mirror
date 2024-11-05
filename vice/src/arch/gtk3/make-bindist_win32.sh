@@ -139,7 +139,7 @@ if test x"$CROSS" != "xtrue"; then
   cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
   cd $MINGW_PREFIX
   cp bin/lib{lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
-  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
+  cp --parents lib/gdk-pixbuf-2.0/2.10.0/loaders.cache lib/gdk-pixbuf-2.0/2.10.0/loaders/*pixbufloader*{png,svg,xpm}.dll $BUILDPATH
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
   cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
