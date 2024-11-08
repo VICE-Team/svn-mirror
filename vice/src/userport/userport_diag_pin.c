@@ -76,6 +76,21 @@ static int set_diagnostic_pin_enabled(int val, void *param)
     return 0;
 }
 
+/*
+ * Called if the command line option +diagpin or -diagpin are used.
+ * Sets the resource as if .type = SET_RESOURCE. Also sets the userport
+ * device to the diagnostic pin, on the theory that it is wanted because
+ * the user explicitly sets its state.
+ */
+static int diagnostic_pin_command_line_option(const char *value, void *extra_param)
+{
+    cmdline_option_t *opt = (cmdline_option_t *)extra_param;
+    resources_set_value(opt->resource_name, opt->resource_value);
+
+    return resources_set_value("UserportDevice",
+                (resource_value_t)USERPORT_DEVICE_DIAGNOSTIC_PIN);
+}
+
 static const resource_int_t resources_int[] = {
     { "DiagPin", 0, RES_EVENT_SAME, NULL,
       &diagnostic_pin_enabled, set_diagnostic_pin_enabled, NULL },
@@ -87,17 +102,32 @@ int userport_diag_pin_resources_init(void)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
-    return userport_device_register(USERPORT_DEVICE_DIAGNOSTIC_PIN, &diag_pin_device);
+    return userport_device_register(USERPORT_DEVICE_DIAGNOSTIC_PIN,
+                                    &diag_pin_device);
 }
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-diagpin", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Enable userport diagnostic pin" },
-    { "+diagpin", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Disable userport diagnostic pin" },
+    { .name = "-diagpin",
+      .type = CALL_FUNCTION,
+      .attributes = CMDLINE_ATTRIB_NONE,
+      .set_func = diagnostic_pin_command_line_option,
+      .extra_param = (void *)&cmdline_options[0],/* this very cmdline_option_t */
+      .resource_name = "DiagPin",
+      .resource_value = (resource_value_t)1,
+      .param_name = NULL,
+      .description = "Attach userport diagnostic pin and enable"
+    },
+    { .name = "+diagpin",
+      .type = CALL_FUNCTION,
+      .attributes = CMDLINE_ATTRIB_NONE,
+      .set_func = diagnostic_pin_command_line_option,
+      .extra_param = (void *)&cmdline_options[1],/* this very cmdline_option_t */
+      .resource_name = "DiagPin",
+      .resource_value = (resource_value_t)0,
+      .param_name = NULL,
+      .description = "Attach userport diagnostic pin and disable"
+    },
     CMDLINE_LIST_END
 };
 
