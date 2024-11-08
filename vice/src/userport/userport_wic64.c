@@ -124,6 +124,7 @@ static void do_connect(uint8_t *url);
 static void cmd_tcp_write(void);
 static void cmd_timeout(int arm);
 static void cmd_remote_timeout(int arm);
+static int stage_dummy, stage_retcode, stage_length, stage_data, bsr, bsl, bsd;
 
 static userport_device_t userport_wic64_device = {
     "Userport WiC64",                     /* device name */
@@ -471,13 +472,14 @@ static const cmdline_option_t cmdline_options[] =
 #define INPUT_EXP_ARGS 6
 
 static const char *cmd2string[256];
-/* WiC64 return codes */
+/* WiC64 return codes, adjust debug output accordingly if changes happen here, see func 'userport_wic64_read_pbx()' */
 static uint8_t SUCCESS          = 0;
 static uint8_t INTERNAL_ERROR   = 1;
 static uint8_t CLIENT_ERROR     = 2;
 static uint8_t CONNECTION_ERROR = 3;
 static uint8_t NETWORK_ERROR    = 4;
 static uint8_t SERVER_ERROR     = 5;
+static char *err2string[] = { "SUCCESS", "INTERNAL", "CLIENT", "CONNECTION", "NETWORK", "SERVER" };
 
 #define HTTPREPLY_MAXLEN ((unsigned)(16 * 1024 * 1024)) /* 16MB needed for potential large images to flash via bigloader */
 static size_t httpbufferptr = 0;
@@ -1238,9 +1240,14 @@ static void send_reply_revised(const uint8_t rcode, const char *msg, const uint8
         reply_length = (uint32_t)(len + 3 + offs);
 
         cmd_timeout(1);         /* arm alarm handler */
+        stage_dummy = 1;
+        bsr = stage_retcode = 1;
+        bsl = stage_length = 2 + offs;
+        bsd = stage_data = len;
         handshake_flag2();
     } else {
         /* legacy protocol */
+        stage_dummy = stage_retcode = stage_length = stage_data = -1;
         if (legacy_msg && payload) {
             wic64_log(LOG_COL_LRED,
                       "protocol error: can't send both payload and legacy message: '%s' discarded.",
@@ -2354,12 +2361,53 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     /* FIXME: what do we have to do with original value? */
     /* CIA read is triggered once more by wic64 lib on the host,
        even if all bytes are sent, so the last byte seems to be sent twice */
+    char *stage = NULL;
+    char datastr[32];
+    int v = 0, b = 0;
 
-    debug_log(LOG_COL_LGREEN, 3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
-               isprint(retval) ? retval : '.',
-               retval, replyptr, reply_length, reply_length);
     cmd_timeout(0);
     /* FIXME: trigger mainloop */
+
+    if (wic64_loglevel < 3)
+        return retval;
+
+    if (stage_retcode < 0) {
+        stage = NULL;
+    } else if (stage_dummy) {
+        stage = "dummy";
+        b = v = 1;
+        stage_dummy--;
+    } else if (stage_retcode) {
+        if (retval < 6) {       /* num of error codes defined for now */
+            stage = err2string[retval];
+        } else {
+            stage = "UNKNOWN";
+        }
+        v = bsr - --stage_retcode;
+        b = bsr;
+    } else if (stage_length) {
+        stage = "length";
+        v = bsl - --stage_length;
+        b = bsl;
+    } else if (stage_data) {
+        v = bsd - --stage_data;
+        b = bsd;
+        snprintf(datastr, 31, "data block %04d/%04d", (v / 256) + 1, (b / 256) + 1);
+        stage = datastr;
+    }
+
+    if (stage) {
+        debug_log(LOG_COL_LGREEN, 3, "sending '%c'/0x%02x - 0x%02x/0x%04x %s\t - ptr = %d, rl = %d/0x%x",
+                  isprint(retval) ? retval : '.', retval,
+                  v, b, stage,
+                  replyptr,
+                  reply_length, reply_length);
+    } else {
+        debug_log(LOG_COL_LGREEN, 3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
+                  isprint(retval) ? retval : '.', retval,
+                  replyptr,
+                  reply_length, reply_length);
+    }
     return retval;
 }
 
