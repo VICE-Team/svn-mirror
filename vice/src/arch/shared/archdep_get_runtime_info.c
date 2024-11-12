@@ -97,6 +97,36 @@ static BOOL os_is_win64(void)
 #endif
 
 
+#if defined(WINDOWS_COMPILE)
+/** \brief  Try to determine if we're running Windows 11 or later
+ *
+ * Apparently Windows 11 is actually a build of 10, so we need to do some
+ * version detection magic.
+ *
+ * \return  \c TRUE if Windows 11 or later
+ */
+static BOOL IsWindows11OrGreater(void)
+{
+    OSVERSIONINFOEX vinfo;
+    ULONGLONG       cmask = 0;
+
+    memset(&vinfo, 0, sizeof vinfo);
+    vinfo.dwOSVersionInfoSize = sizeof vinfo;
+    vinfo.dwMajorVersion      = 10;
+    vinfo.dwMinorVersion      = 0;
+    vinfo.dwBuildNumber       = 21996;
+
+    cmask = VerSetConditionMask(cmask, VER_MAJORVERSION, VER_GREATER_EQUAL);
+    cmask = VerSetConditionMask(cmask, VER_MINORVERSION, VER_GREATER_EQUAL);
+    cmask = VerSetConditionMask(cmask, VER_BUILDNUMBER,  VER_GREATER_EQUAL);
+
+    return VerifyVersionInfo(&vinfo,
+                             VER_MAJORVERSION|VER_MINORVERSION|VER_BUILDNUMBER,
+                             cmask);
+
+}
+#endif
+
 /** \brief  Get runtime info
  *
  * Try to retrieve OS name, version, release and arch.
@@ -144,7 +174,9 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 
     name = "Unknown";
 
-    if (IsWindows10OrGreater()) {
+    if (IsWindows11OrGreater()) {
+        name = "11";
+    } else if (IsWindows10OrGreater()) {
         /* yes, not correct, fuck it */
         name = "10";
     } else if (IsWindows8Point1OrGreater()) {
