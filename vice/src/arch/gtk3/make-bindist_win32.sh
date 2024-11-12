@@ -136,10 +136,16 @@ done
 if test x"$CROSS" != "xtrue"; then
 
 # The following lines assume that this script is run by MSYS2.
+  curdir=`pwd`
   cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
   cd $MINGW_PREFIX
   cp bin/lib{lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
-  cp --parents lib/gdk-pixbuf-2.0/2.10.0/loaders.cache lib/gdk-pixbuf-2.0/2.10.0/loaders/*pixbufloader*{png,svg,xpm}.dll $BUILDPATH
+  cp --parents lib/gdk-pixbuf-2.0/2.10.0/loaders/*pixbufloader*{png,svg,xpm}.dll $BUILDPATH
+  # generate loaders.cache from the copied loaders in the binidst, not the system loaders
+  cd $BUILDPATH
+  GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+  cd $MINGW_PREFIX
+
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
   cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
@@ -153,6 +159,8 @@ if test x"$CROSS" != "xtrue"; then
     cp $UNZIPBIN $BUILDPATH/bin
     cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
   fi
+
+  cd "$curdir"
 
 else
 
@@ -229,6 +237,10 @@ EOF
   cd $current
 
 fi
+
+
+echo "TOPSRCDIR = $TOPSRCDIR"
+echo "BUILDPATH = $BUILDPATH"
 
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BUILDPATH
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BUILDPATH
