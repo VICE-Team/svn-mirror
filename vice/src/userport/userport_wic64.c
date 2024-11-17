@@ -2363,7 +2363,7 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
        even if all bytes are sent, so the last byte seems to be sent twice */
     char *stage = NULL;
     char datastr[32];
-    int v = 0, b = 0;
+    int v = 0, b = 0, d = 1;
 
     cmd_timeout(0);
     /* FIXME: trigger mainloop */
@@ -2392,7 +2392,8 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     } else if (stage_data) {
         v = bsd - --stage_data;
         b = bsd;
-        snprintf(datastr, 31, "data block %04d/%04d", (v / 256) + 1, (b / 256) + 1);
+        if ((bsd > 255) && (v == bsd)) d = 0;
+        snprintf(datastr, 31, "data block %04d/%04d", (v / 256) + 1*d, ((b - 1) / 256) + 1);
         stage = datastr;
     }
 
