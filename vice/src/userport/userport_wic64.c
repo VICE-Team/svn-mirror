@@ -1,3 +1,4 @@
+
 /*
  * userport_wic64.c - Userport WiC64 wifi interface emulation.
  *
@@ -1683,7 +1684,7 @@ static void cmd_wifi(int cmd)
         break;
     case WIC64_CMD_GET_RSSI:
         send_reply_revised(SUCCESS, "Success",
-                           (uint8_t *) "99", strlen("99") + l, NULL);
+                           (uint8_t *) "-99dBm", strlen("-99dBm") + l, NULL);
         break;
     default:
         break;
@@ -1727,7 +1728,7 @@ static void cmd_get_local_time(void)
     snprintf(timestr, 63, "%02d:%02d:%02d %02d-%02d-%04d",
              tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_mday, tm->tm_mon+1, tm->tm_year + 1900);
     wic64_log(CONS_COL_NO, "get timezone + time, returning '%s'", timestr);
-    send_reply_revised(SUCCESS, "Success", (uint8_t *)timestr, strlen(timestr), NULL);
+    send_reply_revised(SUCCESS, "Success", (uint8_t *)timestr, strlen(timestr) + 1, NULL);
 }
 
 /* set timezone */
