@@ -2803,7 +2803,6 @@ void register_joystick_driver(
     int num_hats)
 {
     struct joystick_device_s *new_joystick_device;
-    int n;
 
     joystick_devices = lib_realloc(joystick_devices,
             sizeof(struct joystick_device_s) * (num_joystick_devices + 1));
@@ -2829,33 +2828,25 @@ void register_joystick_driver(
     new_joystick_device->joyport = -1;
     new_joystick_device->priv = priv;
 
-    /* now create a default mapping, using the following logic:
-     * - map all hats to joystick directions
-     * - if the controller has at least two axes, map first two axis to joystick directions
-     * - if the controller has exactly four axes, map the next two to joystick directions too
-     * - if the controller has six or more axes, map axis 3 and 4 to joystick directions
-     *   (this makes the second analog stick on ps3/4 controllers work)
-     * - if the controller has eight or more axes, map axis 6 and 7 to joystick directions
-     *   (this makes the dpad on ps5 pad work)
-     * - if the controller has no axes nor hats, use the first four buttons for the
-     *   joystick directions
-     * - all remaining buttons are mapped to fire buttons. the second next to fire button 2
-     *   and the third next to button 3.
-     */
+    /* now create a (very simple) default mapping */
+
+    /* NOTE: All previous attempts to apply a more complex mapping based on the
+             number of hats/axes/buttons failed, and caused weird side effects
+             with some controller(s). Because of that all related magic was
+             removed - use a custom mapping file instead */
+
     if (num_hats > 0) {
-        for (n = 0; n < num_hats; n++) {
-            new_joystick_device->hat_mapping[n].up.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->hat_mapping[n].up.value.joy_pin = JOYSTICK_DIRECTION_UP;
-            new_joystick_device->hat_mapping[n].down.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->hat_mapping[n].down.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-            new_joystick_device->hat_mapping[n].left.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->hat_mapping[n].left.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
-            new_joystick_device->hat_mapping[n].right.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->hat_mapping[n].right.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-        }
-    }
-    if (num_axes > 1) {
-        /* first two axes */
+        /* if the controller has a "hat", use that for joystick directions */
+        new_joystick_device->hat_mapping[0].up.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->hat_mapping[0].up.value.joy_pin = JOYSTICK_DIRECTION_UP;
+        new_joystick_device->hat_mapping[0].down.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->hat_mapping[0].down.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+        new_joystick_device->hat_mapping[0].left.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->hat_mapping[0].left.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
+        new_joystick_device->hat_mapping[0].right.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->hat_mapping[0].right.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
+    } else if (num_axes > 1) {
+        /* if no "hat" exists, but at least two axes, use the first two axes for joystick directions */
         new_joystick_device->axis_mapping[0].positive_direction.action = JOY_ACTION_JOYSTICK;
         new_joystick_device->axis_mapping[0].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
         new_joystick_device->axis_mapping[0].negative_direction.action = JOY_ACTION_JOYSTICK;
@@ -2864,102 +2855,26 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         new_joystick_device->axis_mapping[1].negative_direction.action = JOY_ACTION_JOYSTICK;
         new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
-
-#if !defined(MACOS_COMPILE)
-        if (num_axes == 4) {
-            /* next two axes */
-            /* CAUTION: make sure to not map axes 2 and/or 5 for pads with > 4 axes, those are
-                        the analog triggers on ps3/ps4 pads and their neutral position is at
-                        one extreme of the axis, resulting in some direction being pressed all the time */
-#else
-        if (num_axes >= 4) {
-            /* the caution above does not apply to macOS. */
-#endif
-            new_joystick_device->axis_mapping[2].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[2].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-            new_joystick_device->axis_mapping[2].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[2].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
-            new_joystick_device->axis_mapping[3].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-            new_joystick_device->axis_mapping[3].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
-        }
-#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
-        /* CAUTION: this does not work correctly with the current windows joystick code */
-        if (num_axes >= 6) {
-            /* next two axes (eg second analog stick on ps3/ps4 pads) */
-            new_joystick_device->axis_mapping[3].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-            new_joystick_device->axis_mapping[3].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
-            new_joystick_device->axis_mapping[4].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-            new_joystick_device->axis_mapping[4].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
-        }
-        if (num_axes >= 8) {
-            /* next two axes (dpad on ps5 pad) */
-            new_joystick_device->axis_mapping[6].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[6].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-            new_joystick_device->axis_mapping[6].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[6].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
-            new_joystick_device->axis_mapping[7].positive_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[7].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-            new_joystick_device->axis_mapping[7].negative_direction.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->axis_mapping[7].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
-        }
-#endif
+    } else {
+        /* if neither "hat" nor at least two axis exist, this must be a very special
+           controller - print a warning and do not map anything */
+        log_warning(LOG_DEFAULT, "Controller has no hats nor at least two axis - could not apply default mapping.");
     }
 
-    n = 0;
-    if ((num_hats == 0) && (num_axes == 0)) {
-        if (num_buttons > 3) {
-            /* FIXME: find a common adajoystick_devicespter or controller to use as a reference */
-            new_joystick_device->button_mapping[0].mapping.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->button_mapping[0].mapping.value.joy_pin = 1;
-            new_joystick_device->button_mapping[1].mapping.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->button_mapping[1].mapping.value.joy_pin = 2;
-            new_joystick_device->button_mapping[2].mapping.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->button_mapping[2].mapping.value.joy_pin = 4;
-            new_joystick_device->button_mapping[3].mapping.action = JOY_ACTION_JOYSTICK;
-            new_joystick_device->button_mapping[3].mapping.value.joy_pin = 8;
-            n = 4;
-        }
+    /* the first 3 buttons will be fire buttons */
+    if (num_buttons > 0) {
+        new_joystick_device->button_mapping[0].mapping.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->button_mapping[0].mapping.value.joy_pin = 16;
     }
-    if (num_buttons > n) {
-        new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_JOYSTICK;
-        new_joystick_device->button_mapping[n].mapping.value.joy_pin = 16;
-        n++;
+    if (num_buttons > 1) {
+        new_joystick_device->button_mapping[1].mapping.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->button_mapping[1].mapping.value.joy_pin = 32;
     }
-    /* Disabled after discussion on IRC --compyx 2024-01-02 */
-#if 0
-    if (num_buttons > n) {
-        new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_JOYSTICK;
-        new_joystick_device->button_mapping[n].mapping.value.joy_pin = 32;
-        n++;
+    if (num_buttons > 2) {
+        new_joystick_device->button_mapping[2].mapping.action = JOY_ACTION_JOYSTICK;
+        new_joystick_device->button_mapping[2].mapping.value.joy_pin = 64;
     }
-    if (num_buttons > n) {
-        new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_JOYSTICK;
-        new_joystick_device->button_mapping[n].mapping.value.joy_pin = 64;
-        n++;
-    }
-    for ( ; n < num_buttons; n++) {
-        switch (n & 3) {
-            case 0:
-            case 3:
-            default:
-                new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_JOYSTICK;
-                new_joystick_device->button_mapping[n].mapping.value.joy_pin = 16;
-                break;
-            case 1:
-                new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_UI_ACTIVATE;
-                break;
-            case 2:
-                new_joystick_device->button_mapping[n].mapping.action = JOY_ACTION_MAP;
-                break;
-        }
-    }
-#endif
+
     memset(gtkjoy_pins, 0, sizeof(int) * JOYPORT_MAX_PORTS * JOYPORT_MAX_PINS);
 #if 0 /* for testing */
     new_joystick_device->button_mapping[0].action = JOY_ACTION_KEYBOARD;
