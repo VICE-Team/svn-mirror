@@ -423,7 +423,8 @@ int main_program(int argc, char **argv)
 
     /* log VICE system file directory */
     datadir = archdep_get_vice_datadir();
-    log_message(main_log, "VICE system file directory: %s.", datadir);
+    log_message(main_log, "VICE system file directory: '%s'.", datadir);
+    log_message(main_log, "VICE system file search path: '%s'.", get_system_path());
     lib_free(datadir);
 
     /* Complete the GUI initialization (after loading the resources and
