@@ -71,6 +71,7 @@ sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
 	sdl_joymap_keyrah_v3.vjm \
+	sdl_joymap_xbox360.vjm \
 	sdl_pos.vkm \
 	sdl_pos_uk.vkm \
 	sdl_pos_ch.vkm \
