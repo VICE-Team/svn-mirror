@@ -19,6 +19,250 @@ with the "-default" command line argument or use "restore default config"
 in the UI).
 
 
+* Changes in Vice 3.9
+=====================
+
+** general
+----------
+
+- (mostly) rewritten joystick mapping and -input system. Both the SDL and GTK
+  versions share common code now, have the same features, and can use the same
+  mapping files. However, unfortunately we ran out of time and could not implement
+  a related UI in the GTK port yet - which means you will have to create and/or
+  install the required mapping file manually like this, if the (very simple)
+  default mapping does not work for you:
+
+  1) find a matching SDL mapping file in DATA/C64. If none of the existing ones
+     matches your controller, you may create one yourself (either manually or
+     using the SDL port). (*)
+  2) rename the mapping file to "gtk3-joymap-<MACHINE>.vjm" - for example
+     gtk3-joymap-C64SC.vjm
+  3) copy the resulting file to the (current) default location:
+     Windows: the bin directory (where the .exe resides)
+     Linux: $HOME/.config/vice/
+
+  (*) if you create one for a controller we do not support yet, please send that
+      mapping file to us, so we can include it.
+
+  WE ARE LOOKING FOR WINDOWS AND MACOS DEVELOPERS WHO WANT TO HELP IMPLEMENTING
+  AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
+
+- Interrupt logic fix: Only when the first IRQ source becomes active, the CPU
+  sees the IRQ input line go active; on additional ones, no change is visible.
+  So most of the actions that are done should only be done when the first
+  IRQ source becomes active, and not on additional ones. (bug #2052)
+
+  IF YOU ARE USING VICE TO DEVELOP/DEBUG, IT IS STRONGLY RECOMMENDED TO UPDATE
+
+- added an option that allows to skip soundchip emulation in warpmode (to increase
+  performance, at the cost of some accuracy).
+
+- reSID: scale down filtered voices on 6581
+- reSID: scale and clip volume by an arbitrary factor, makes 6581/8580 nearly
+  the same volume.
+- reSID: implement DAC leakage.
+- reSID: fix uninitialized var in old filter
+- reSID: Fixed the 8580 filter voltages, now the values really make sense
+
+- CIA: always toggle AM/PM flag when writing 12 o'clock time, no matter if this
+  is a change to the hours register or not.
+
+- cleanup of the userport system, devices that do not (and can not) work are no
+  more available for a particular machine
+
+- Added C64/C128/SCPU64 palette file created by Kim Lemon to allow for consistency
+  in screenshots for lemon64.com.
+
+- fixed handling of warp mode while movie recording is active
+- improved ZMBV recording, now handles accurate fractional FPS
+- fixed recording with external ffmpeg executable
+
+- fixed polling POTX/POTY when no mouse is active
+- added Chalkboard PowerPad emulation
+- fixed Rushware Keypad
+- fixed Cardco Cardkey keypad
+- fixed Atari CX21 Keypad
+- fixed SNES pad's raw data
+- fixed mapping for keypads attached to joyports
+- fix: WOJ Adapter bits where inverted (bug #2026)
+- removed support for right and middle button with Amiga and AtariST mice -
+  These connect POT lines with GND when pressed, and are open if not, which the
+  CBM machines can not detect (since there is no pullup resistor)
+- Allow CMD smartmouse time/date to be read and written even if the mouse is not
+  grabbed
+
+- When writing .tap values, add the remainder of the current value to the next,
+  so overall tap length will be correct.
+- do not automatically 'press play' when attaching a t64 image, we don't do this
+  for taps either.
+- 'press STOP' when detaching a tap image.
+- Fix default tape header type (t64) for vic20 and c128 (it should be type 3,
+  ie absolute).
+- Fix the 'load to basic start' autostart option for tape.
+
+- Reworked the log system. logging to stdout and to an actual file can coexist
+  now, each can be selected separately.
+- (Optional) support for colors in log messages
+- Made ANE/LXA logging options available in all emus, except SCPU
+
+- VICII: init color ram at powerup (bug #2037)
+
+- fsdevice: fixed file name pattern matching.
+- fsdevice: Directory loading of "$:" was loading the full directory but should
+  have matched no files at all. It is actually a degenerate case where you
+  specify an empty pattern and that matches no names. (bug #2047)
+- fsdevice: make the first 'line number' in the directory 1 instead of 0. This
+  is the partition number on cmd devices, and apparently the c64os setup chokes
+  on it being 0
+
+- fixed DigiMAX DAC addresses to make stereo replay work correctly
+- RAMLINK: IO1 wouldn't bet setup properly after RAMLINK was turned back on
+- fixed RTC core (RTC on CMD FD/HD and RAMLink)
+
+- save 'jammed' status into snapshot for each cpu (bug #1770)
+
+** Buildsystem
+--------------
+
+- make configure bail if pkg-config isn't found
+- generate linker map files with `--enable-debug`
+- configure: barf if `--enable-gtk3ui` is combined with `--without-zlib`
+- Added "Game" and "Emulator" categories in the .desktop file template used by
+  the `--enable-desktop-files` configure switch. Should fix issues with desktop
+  environments not showing the icons after a `make install`.
+
+** C64 fixes
+------------
+
+- extended DQBB support, support 16-256k RAM, support C128 mode.
+- added support for UC1/UC15/UC2 cartridges
+- correctly assign rr revision when mounting crt file
+- various WiC64 related fixes
+- Make possible to enable the CP/M cartridge again
+
+** C128 fixes
+-------------
+
+- added snapshot support for c128 cartridge system
+- Fixed various Z80 timing issues
+- Fix: Z80 can not see charrom in c128 mode, but it can in c64 mode (bug #1987)
+- added WZ reg for improved bit 3 and 5 status register results. x128 Z80 now passes ZEXALL.
+- RAMlink: also exposes open-circuit when internal function roms are off (bug #1963)
+- VDC memory is now properly accessed when memory configs differ; vdcdump runs
+  in 16KB mode. (bug #1981)
+
+** VIC20 fixes
+--------------
+
+- tweak ram init pattern, this makes some known cases that rely on it work
+  (AE, Jelly Monsters)
+- make the 'exp' command work in the monitor
+- added support for 'rabbit tape' cartridge
+- added support for 'Super Expander' cartridge
+- added support for 'Mikro Assembler' cartridge
+- added missing 'bin save', 'crt save', 'flush image' for Final Expansion,
+  Megacart, Ultimem, VIC Flash Plugin
+
+- added VIC20 SDL keymaps for UK(symbolic and positional) and DE (positional).
+
+** Plus4 fixes
+--------------
+
+- fixed crash when xplus4 runs for a while
+- new TED sound logic, heavily inspired by SDL-YAPE
+- enabled userport printer
+- added support for the 'PETSCII SNES ADAPTER'
+- allow 8 controller ports
+- make expansion port system (and 'exp' command) work like in other emus, move
+  sid-card and digiblaster to cartridges
+- improve the case when the TED is reading from floating bus.
+- remove support for 'Hannes 4MB' expansion, which was kindof broken, and no
+  software exists for even the 1mb variant :)
+
+** PET fixes
+------------
+
+- remove the 'load to basic start (tape)' option, since PETs always load absolute
+- CRTC emulation fixes (bug #2054)
+- fixed PETREU. The masking of the memory bank number allowed too many bank
+  address bits, overflowing the allocated memory. (bug #2061)
+- fix monitor IO command in range 8800-8fff
+
+** CBM2 fixes
+-------------
+
+- remove the 'load to basic start (tape)' option, since CBM2s always load absolute
+- Implemented the missing cbm2 cartridge stuff
+- handle Machine Power Frequency
+
+** Monitor fixes
+----------------
+
+- Remove the wierd delayed 'importing' of registers that were changed in the
+  monitor. Instead explicitly export before, and import after, each invokation
+  of any function that may 'break' into the monitor (and thus lets the user
+  change the registers by the R or G command). (see bug #2025, bug #2024.)
+  It is strongly recommended, for everyone who uses the monitor for debugging,
+  to update to this version - as simply entering and exiting the monitor
+  potentially screwed up registers and/or executes the last instruction twice,
+  which obviously can lead to all kind of unexpected behaviour.
+
+  THIS BUG EXISTS IN ALL VICE RELEASES PRIOR TO THIS RELEASE. You have been warned :)
+
+- memmap extension: show reads of non initialized ram.
+- added read/write as alias for load/store
+- implement 'warp on'/'warp off' as advertised.
+- limit the output of i and ii commands to a power of two, if the output would
+  be smaller than a full screen width
+- added monitor command 'tapeoffs <offset>' to set .tap to given offset, or to
+  return the current offset when no args are given.
+- Improve "help" command.
+- Fixed some commands output wrapping against wide and narrow terminals.
+- 6809 assembler fixes, "post-byte with submode" was wrong in some cases
+
+** SDL fixes
+------------
+
+- added missing ui items for megacart, final expansion, ultimem, vic flash plugin
+- Add menu item "Enable joystick menu navigation", enable joystick menu navigation
+  by default
+- support for Autostart Drag&Drop Mode
+
+
+** GTK fixes
+------------
+
+- added a hidden feature for the 'set to default' button for the CRT sliders:
+  hold shift or control, or click with right button, to reset to neutral setting
+  instead of whatever (tweaked) defaults. Allows to quickly switch to a setting
+  that reproduces a loaded palette 100%
+- disable the "Recent files" in file dialogs
+- Fix drag-n-drop not working on Windows
+- Fix "Reset" button of the mixer widget
+- New "ROM Settings" interface. The new interface actually allows users to
+  load/save .vrs files, unlike the old interface. No support for ROM set
+  archives (.vra), since nobody uses those and they're an unwieldy mess.
+- Fixed "Printer Formfeed"
+- register provided PETSCII fonts (PetMe, C64 Pro Mono) at startup
+- removed DirectX 5 fallback from Win32 joystick driver
+
+- Added "Autostart Drop Mode" option to control autostart behaviour on image drop.
+  For Window managers that support it, the user can "override" the behaviour with
+  Shift held during drop (attach only) or Alt held (attach and load). Not holding
+  a key during drop will use the resource value.
+
+- make GTK monitor window larger by default
+- use scroll-wheel to scroll terminal window forth/back, ctrl+scroll wheel to zoom
+- show only monospace fonts in the monitor font selection dialog
+- Monitor uses PETSCII font (if available/selected)
+
+** c1541 fixes
+--------------
+
+- actually check if opening disk images succeeded, Exit with `EXIT_FAILURE` if
+  c1541 fails to open any of the images specified on the command line.
+
+
 * Changes in Vice 3.8
 =====================
 
