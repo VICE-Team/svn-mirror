@@ -207,6 +207,7 @@
 
 #define DRIVE_RPM_ONE                    100        /* 1 RPM */
 #define DRIVE_RPM_MAX                  32000        /* 320 RPM */
+#define DRIVE_RPM_MIN                  28000        /* 280 RPM */
 #define DRIVE_RPM_DEFAULT              30000        /* 300 RPM */
 
 #define DRIVE_WOBBLE_FREQ_ONE           1000        /* 1 Hz */
