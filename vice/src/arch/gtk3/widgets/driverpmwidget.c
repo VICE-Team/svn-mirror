@@ -69,14 +69,17 @@ typedef struct spin_s {
 } spin_t;
 
 /** \brief  Spin button declarations for the RPM resources
- *
- * Please note I pulled the following values from my backside, so feel free to
- * alter them to more sensible values   -- compyx
  */
 static const spin_t spinners[] = {
-    { "Drive RPM",        "Drive%dRPM",             "%6.2f",   26000, 34000,                    260.0f, 340.0f, 0.5f },
-    { "Wobble frequency", "Drive%dWobbleFrequency", "%6.3fHz",     0, DRIVE_WOBBLE_FREQ_MAX,      0.0f,  50.0f, 0.1f },
-    { "Wobble Amplitude", "Drive%dWobbleAmplitude", "%4.2fRPM",    0, DRIVE_WOBBLE_AMPLITUDE_MAX, 0.0f,   5.0f, 0.1f }
+    { "Drive RPM",        "Drive%dRPM",             "%6.2f",
+      DRIVE_RPM_MIN,                 DRIVE_RPM_MAX,
+      DRIVE_RPM_MIN / DRIVE_RPM_ONE, DRIVE_RPM_MAX / DRIVE_RPM_ONE,                           0.5f },
+    { "Wobble frequency", "Drive%dWobbleFrequency", "%6.3fHz",
+      0,                             DRIVE_WOBBLE_FREQ_MAX,
+      0.0f,                          DRIVE_WOBBLE_FREQ_MAX / DRIVE_WOBBLE_FREQ_ONE,           0.1f },
+    { "Wobble Amplitude", "Drive%dWobbleAmplitude", "%4.2fRPM",
+      0,                             DRIVE_WOBBLE_AMPLITUDE_MAX,
+      0.0f,                          DRIVE_WOBBLE_AMPLITUDE_MAX / DRIVE_WOBBLE_AMPLITUDE_ONE, 0.1f }
 };
 
 /** \brief  Create widget to control drive RPM and wobble
