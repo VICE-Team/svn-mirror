@@ -136,6 +136,7 @@ in the UI).
 
 - extended DQBB support, support 16-256k RAM, support C128 mode.
 - added support for UC1/UC15/UC2 cartridges
+- added support for BMP Data Turbo 2000 cartridge
 - correctly assign rr revision when mounting crt file
 - various WiC64 related fixes
 - Make possible to enable the CP/M cartridge again
