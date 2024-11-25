@@ -22946,6 +22946,8 @@ Blackbox V4 .crt file
 Blackbox V8 .crt file
 @item bb9
 Blackbox V9 .crt file
+@item bdt
+BMP Data Turbo 2000 .crt file
 @item cap
 Capture .crt file
 @item comal
@@ -34047,6 +34049,35 @@ E0C0: 2C CA 91 AD 0A 03 AE 0B 03 8D B8 02 8E B9 02 A9  ,...............
     Basic CRT files (8K, 16K, UltiMax) can be loaded into UC2 SRAM from
     ROM or Disk and ececuted by a Reset.
 
+@c @node FIXME
+@subsubsection 83 - BMP Data Turbo 2000
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+0010: 00 00 00 40 01 00 00 53 00 00 00 00 00 00 00 00  ...@...S........
+0020: 42 4d 50 20 44 61 74 61 20 54 75 72 62 6f 20 32  BMP Data Turbo 2
+0030: 30 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00  000.............
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 09 80 00 08 c3 c2 cd 38 30 a2 0b 8e 11 d0 20 a3  .......80.......
+
+@end example
+
+    After  RESET  or  POWER  ON,  16KiB  of  cartridge  ROM  is  visible  at
+    $8000-$BFFF. ROM  at  $8000-$BFFF  is  disabled by writing into the I/O-2
+    area (typically $DF00) and may be re-enabled by writing into  I/O-1 ($DE00).
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics
