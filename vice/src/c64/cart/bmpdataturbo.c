@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_BMPDATATURBO
+/* #define DEBUG_BMPDATATURBO */
 
 #include "vice.h"
 

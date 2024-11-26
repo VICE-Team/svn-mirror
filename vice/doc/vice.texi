@@ -9655,6 +9655,8 @@ Blackbox V8
 @item
 Blackbox V9
 @item
+BMP Data Turbo 2000
+@item
 C64 Games System
 @item
 Capture
@@ -10658,6 +10660,10 @@ Attach raw 32/64KiB Blackbox V8 cartridge image.
 @findex -cartbb9
 @item -cartbb9 <name>
 Attach raw 32KiB Blackbox V9 cartridge image.
+
+@findex -cartbdt
+@item -cartbdt <name>
+Attach raw 16KiB BMP Data Turbo 2000 cartridge image.
 
 @findex -cartcap
 @item -cartcap <name>
@@ -29769,6 +29775,8 @@ $0010- xxxx - ROM data
 @tab Universal Cartridge 1.5
 @item 82
 @tab Universal Cartridge 2
+@item 83
+@tab BMP Data Turbo 2000
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
