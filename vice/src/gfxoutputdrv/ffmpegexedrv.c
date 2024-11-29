@@ -55,6 +55,8 @@
 
 /* #define DEBUG_FFMPEG */
 /* #define DEBUG_FFMPEG_FRAMES */
+#define DEBUG_FFMPEG
+#define DEBUG_FFMPEG_FRAMES
 
 #include "vice.h"
 
@@ -1307,6 +1309,7 @@ static int ffmpegexedrv_record(screenshot_t *screenshot)
     }
 
     /*DBGFRAMES(("ffmpegexedrv_record (%u)", framecounter));*/
+    DBGFRAMES(("ffmpegexedrv_record (%u)", framecounter));
     video_fill_rgb_image(screenshot, video_st_frame);
 
     if (write_video_frame(video_st_frame) < 0) {
