@@ -1244,7 +1244,7 @@ static void send_reply_revised(const uint8_t rcode, const char *msg, const uint8
         stage_dummy = 1;
         bsr = stage_retcode = 1;
         bsl = stage_length = 2 + offs;
-        bsd = stage_data = len;
+        bsd = stage_data = (int)len;
         handshake_flag2();
     } else {
         /* legacy protocol */
