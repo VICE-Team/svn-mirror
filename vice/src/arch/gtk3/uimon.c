@@ -1283,14 +1283,17 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
 
-        resources_get_int("MonitorXpos", &xpos);
-        resources_get_int("MonitorYpos", &ypos);
+        resources_get_int("MonitorXPos", &xpos);
+        resources_get_int("MonitorYPos", &ypos);
         if (xpos == INT_MIN || ypos == INT_MIN) {
             /* Only center if we didn't get either a previous position or
              * the position was set via the command line.
              */
             gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
         }
+        /* Set the gravity so that gtk doesn't over-compensate for the
+         * window's border width when saving/restoring its position. */
+        gtk_window_set_gravity(GTK_WINDOW(fixed.window), GDK_GRAVITY_STATIC);
         gtk_widget_set_app_paintable(fixed.window, TRUE);
         gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
 

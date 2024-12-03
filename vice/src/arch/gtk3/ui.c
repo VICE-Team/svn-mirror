@@ -1788,6 +1788,9 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    /* Set the gravity so that gtk doesn't over-compensate for the
+     * window's border width when saving/restoring its position. */
+    gtk_window_set_gravity(GTK_WINDOW(new_window), GDK_GRAVITY_STATIC);
     /* this needs to be here to make the menus with accelerators work */
     vhk_gtk_init_accelerators(new_window);
 
