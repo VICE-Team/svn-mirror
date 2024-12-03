@@ -456,22 +456,44 @@ if		{ BEGIN (COND_MODE); return IF; }
         iyh { yylval.i = e_IYH; return MON_REGISTER; }	/* z80 */
 }
 
-<COND_MODE>{
-        ==    { yylval.i = e_EQU; return COND_OP; }
-        !=    { yylval.i = e_NEQ; return COND_OP; }
-        \<=   { yylval.i = e_LTE; return COND_OP; }
-        \<    { yylval.i = e_LT;  return COND_OP; }
-        \>    { yylval.i = e_GT;  return COND_OP; }
-        \>=   { yylval.i = e_GTE; return COND_OP; }
+ /* FIXME: currently no operator precedence is implemented (so all operators */
+ /* have the same precedence - ie evaluation is strictly left to right. */
+ /* The table below shows the operator precedence in C, which we probably want
+ /* to use, should we implement this at some point. */
 
-        \+    { yylval.i = e_ADD; return COND_OP; }
-        -     { yylval.i = e_SUB; return COND_OP; }
-        \*    { yylval.i = e_MUL; return COND_OP; }
-        \/    { yylval.i = e_DIV; return COND_OP; }
-        &     { yylval.i = e_BINARY_AND; return COND_OP; }
-        \|    { yylval.i = e_BINARY_OR; return COND_OP; }
-        &&    { yylval.i = e_LOGICAL_AND; return COND_OP; }
-        \|\|  { yylval.i = e_LOGICAL_OR;  return COND_OP; }
+ /* Category           Operator                             Associativity */
+ /* --------------------------------------------------------------------- */
+ /* Postfix            () [] -> . ++ - -                    Left to right */
+ /* Unary              + - ! ~ ++ - - (type)* & sizeof      Right to left */
+ /* Multiplicative     * / %                                Left to right */
+ /* Additive           + -                                  Left to right */
+ /* Shift              << >>                                Left to right */
+ /* Relational         < <= > >=                            Left to right */
+ /* Equality           == !=                                Left to right */
+ /* Bitwise AND        &                                    Left to right */
+ /* Bitwise XOR        ^                                    Left to right */
+ /* Bitwise OR         |                                    Left to right */
+ /* Logical AND        &&                                   Left to right */
+ /* Logical OR         ||                                   Left to right */
+ /* Conditional        ?:                                   Right to left */
+ /* Assignment         = += -= *= /= %= >>= <<= &= ^= |=    Right to left */
+ /* Comma              ,                                    Left to right */
+
+<COND_MODE>{
+        \*    { yylval.i = e_MUL; return COND_OP; }             /* Multiplicative */
+        \/    { yylval.i = e_DIV; return COND_OP; }             /* Multiplicative */
+        \+    { yylval.i = e_ADD; return COND_OP; }             /* Additive */
+        -     { yylval.i = e_SUB; return COND_OP; }             /* Additive */
+        \<=   { yylval.i = e_LTE; return COND_OP; }             /* Relational */
+        \<    { yylval.i = e_LT;  return COND_OP; }             /* Relational */
+        \>    { yylval.i = e_GT;  return COND_OP; }             /* Relational */
+        \>=   { yylval.i = e_GTE; return COND_OP; }             /* Relational */
+        ==    { yylval.i = e_EQU; return COND_OP; }             /* Equality */
+        !=    { yylval.i = e_NEQ; return COND_OP; }             /* Equality */
+        &     { yylval.i = e_BINARY_AND; return COND_OP; }      /* Bitwise AND */
+        \|    { yylval.i = e_BINARY_OR; return COND_OP; }       /* Bitwise OR */
+        &&    { yylval.i = e_LOGICAL_AND; return COND_OP; }     /* Logical AND */
+        \|\|  { yylval.i = e_LOGICAL_OR;  return COND_OP; }     /* Logical OR */
 
 	A 		{ yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	X 		{ yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
