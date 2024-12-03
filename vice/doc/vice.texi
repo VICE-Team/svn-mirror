@@ -20718,7 +20718,11 @@ current rasterline, and CY refers to the current cycle in the line.
 
 Full expressions are also supported (+, -, *, /, &, |, &&, ||). This lets
 you for example check specific bits in the FL register using the bitwise
-boolean operators (& and |). Parentheses are also supported in the expression.
+boolean operators (& and |).
+
+Please note that currently expressions are evaluated strictly left to right, so
+use parentheses in complex expressions to indicate the desired evaluation order.
+
 Registers can be the registers of other devices; this is denoted by
 a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:)
 Examples: A == $0, X == Y, 8:X == X
