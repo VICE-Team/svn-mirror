@@ -145,6 +145,9 @@ if test x"$CROSS" != "xtrue"; then
   cd $BUILDPATH
   GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
   cd $MINGW_PREFIX
+  # get dependencies of the SVG loader
+  # FIXME: only works for the updated SVG (renamed) SVG loader
+  cp `ntldd -R $BUILDPATH/lib/gdk-pixbuf-2.0/2.10.0//loaders/pixbufloader_svg.dll | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
 
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
