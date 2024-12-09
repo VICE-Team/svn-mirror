@@ -29199,7 +29199,7 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 This is very similar to the D80/D82 header in placement but without the DOS
 version value.
-Also note that the dos version bytes are "3A".
+Also note that the DOS version bytes are "3A".
 For the D90, it is believed that the $FF at offset $3 in the configuration
 sector dictates the DOS version.
 
@@ -29239,7 +29239,7 @@ examining LBA X+2 (starting at X=0) and checking for a special
 signature in the block. If it does not find it, X will increase by
 128, and it will try again. It will do this until it finds the
 signature, or until it gets a read error from the HD signaling the end
-of disk space. The device will the switch to installation mode.
+of disk space. The device will then switch to installation mode.
 
 The following is an example configuration block of a 40 MB drive:
 
@@ -29301,7 +29301,7 @@ CMD HD signature.
 @item (X*$200+$400+n*$40)+$01
 @tab Number of pages
 @item (X*$200+$400+n*$40)+$02-$03
-@tab Location of data offset from X in sectors (256 bytes); MSB format
+@tab Location of data offset from X*$200 in sectors (256 bytes); MSB format
 @item (X*$200+$400+n*$40)+$04-$05
 @tab Checksum of data; MSB format
 @item (X*$200+$400+n*$40)+$06-$0F
@@ -29312,31 +29312,29 @@ CMD HD signature.
 @tab ASCII of date
 @item (X*$200+$400+n*$40)+$20-$3F
 @tab All 0x00
-@item (X*$200+$500+d*$38)+$00
+@item (X*$200+$500)+d+$00
 @tab SCSI ID of HD in bits 7-4, LUN in bits 3-0; $FF means not present
-@item (X*$200+$500+d*$38)+$38
+@item (X*$200+$500)+d+$38
 @tab MSB of disk location in drive map
-@item (X*$200+$500+d*$38)+$70
+@item (X*$200+$500)+d+$70
 @tab Middle byte of disk location in drive map
-@item (X*$200+$500+d*$38)+$A8
+@item (X*$200+$500)+d+$A8
 @tab LSB of disk location in drive map
 @item (X*$200+$500)+$E0
 @tab 0x00 (unknown)
 @item (X*$200+$500)+$E1
 @tab Device number (12 or 0x0C by default)
 @item (X*$200+$500)+$E2
-@tab 0x01 (unknown)
+@tab Default partition number (1 by default)
 @item (X*$200+$500)+$E3
-@tab 0x01 (unknown)
+@tab Default partition number (1 by default)
 @item (X*$200+$500)+$E4
 @tab Device number (12 or 0x0C by default)
 @item (X*$200+$500)+$E5
 @tab 0x80: 2 to the power of the SCSI ID of host (which is always 7)
 @item (X*$200+$500)+$E6-$E7
-@tab Location of CMD partition table offset from X in sectors (256 bytes); MSB format
-@item (X*$200+$500)+$E8
-@tab Default partition number
-@item (X*$200+$500)+$E9-$EF
+@tab Location of CMD partition table offset from X*$200 in sectors (256 bytes); MSB format
+@item (X*$200+$500)+$E8-$EF
 @tab All 0x00
 @item (X*$200+$500)+$F0-$F7
 @tab 0x43 0x4D 0x44 0x20 0x48 0x44 0x20 0x20: First half of signature
@@ -29388,11 +29386,11 @@ The standard partition entry:
 @item $05-$14
 @tab 16 character partition name (in PETASCII, padded with $A0)
 @item $15-$17
-@tab Location of the partition data offset from X in sectors (256 bytes); MSB format; partition 0, the system partition always starts a 0.
+@tab Location of the partition (in blocks) in MSB format. Partition 0, the system partition, always starts at X*$200.
 @item $18-$1D
 @tab All 0x00
 @item $1E-$1F
-@tab Size of partition (in blocks) in MSB format. Partition 0, the system partition is always 0x90 blocks, which includes blocks from X to the end of the partition table.
+@tab Size of partition (in blocks) in MSB format. Partition 0, the system partition is always 0x90 blocks, which includes blocks from X*$200 to the end of the partition table.
 @end multitable
 
 When a partition is deleted, its entry is removed and all others stay
