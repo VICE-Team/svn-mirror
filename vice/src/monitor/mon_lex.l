@@ -458,7 +458,7 @@ if		{ BEGIN (COND_MODE); return IF; }
 
  /* FIXME: currently no operator precedence is implemented (so all operators */
  /* have the same precedence - ie evaluation is strictly left to right. */
- /* The table below shows the operator precedence in C, which we probably want
+ /* The table below shows the operator precedence in C, which we probably want */
  /* to use, should we implement this at some point. */
 
  /* Category           Operator                             Associativity */
