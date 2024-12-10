@@ -43,6 +43,7 @@
 #include "c64cart.h"
 #include "cartridge.h"
 #include "log.h"
+#include "resources.h"
 #include "vice_gtk3.h"
 
 #include "settings_mmc64.h"
@@ -74,9 +75,43 @@ static const vice_gtk3_radiogroup_entry_t card_types[] = {
 /** \brief  BIOS filename entry */
 static GtkWidget *bios_filename = NULL;
 
+/** \brief  BIOS "Flush image" button */
+static GtkWidget *flush_button = NULL;
+
+/** \brief  BIOS "Save As" button" */
+static GtkWidget *save_button = NULL;
+
 /** \brief  SD card widget filename entry */
 static GtkWidget *card_filename = NULL;
 
+
+/** \brief  Update sensitivity of BIOS flush and save buttons
+ *
+ * Set sensitivity of the "Flush" and "Save As" buttons of the BIOS file
+ * widget, based on the presence of a BIOS image.
+ * (Assumes the resource "MMC64BIOSfilename" is only set if a valid BIOS file
+ * is loaded)
+ */
+static void update_buttons_sensitivity(void)
+{
+    const char *bios = NULL;
+    gboolean    sensitive;
+
+    resources_get_string("MMC64BIOSfilename", &bios);
+    sensitive = (bios != NULL && *bios != '\0');
+    gtk_widget_set_sensitive(flush_button, sensitive);
+    gtk_widget_set_sensitive(save_button,  sensitive);
+}
+
+/** \brief  Custom callback for the BIOS file chooser widget
+ *
+ * \param[in]   entry       file chooser's GtkEntry widget (ignored)
+ * \param[in]   filename    filename returned by the file chooser (ignored)
+ */
+static void bios_callback(GtkEntry *entry, gchar *filename)
+{
+    update_buttons_sensitivity();
+}
 
 /** \brief  Handler for the 'toggled' event of the "MMC64 Enabled" widget
  *
@@ -101,6 +136,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
         vice_gtk3_message_error(GTK_WINDOW(parent),
                                 CARTNAME " Error",
                                 "Cannot enable " CARTNAME " due to missing BIOS file.");
+        update_buttons_sensitivity();
         return;
     }
 
@@ -122,6 +158,8 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
                                     "Failed to disable " CARTNAME ", please set BIOS file.");
         }
     }
+
+    update_buttons_sensitivity();
 }
 
 /** \brief  Callback for the save-dialog response handler
@@ -242,9 +280,7 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
 {
     GtkWidget  *label;
     GtkWidget  *bios_write;
-    GtkWidget  *box;
-    GtkWidget  *save;
-    GtkWidget  *flush;
+    GtkWidget  *button_box;
     const char *title;
 
     /* header */
@@ -264,6 +300,7 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
                                                        GTK_FILE_CHOOSER_ACTION_OPEN);
     title = "Select " CARTRIDGE_NAME_MMC64 " BIOS file";
     vice_gtk3_resource_filechooser_set_custom_title(bios_filename, title);
+    vice_gtk3_resource_filechooser_set_callback(bios_filename, bios_callback);
     gtk_grid_attach(GTK_GRID(grid), label,         0, row, 1,           1);
     gtk_grid_attach(GTK_GRID(grid), bios_filename, 1, row, columns - 1, 1);
     row++;
@@ -272,25 +309,25 @@ static int create_bios_image_layout(GtkWidget *grid, int row, int columns)
     bios_write = vice_gtk3_resource_check_button_new("MMC64_bios_write",
                                                      "Enable BIOS image writes");
     /* buttons */
-    box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-    flush = gtk_button_new_with_label("Flush image");
-    save =  gtk_button_new_with_label("Save image as ..");
+    button_box   = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    flush_button = gtk_button_new_with_label("Flush image");
+    save_button  = gtk_button_new_with_label("Save image as ..");
 
-    g_signal_connect(G_OBJECT(flush),
+    g_signal_connect(G_OBJECT(flush_button),
                      "clicked",
                      G_CALLBACK(on_flush_clicked),
                      NULL);
-    g_signal_connect(G_OBJECT(save),
+    g_signal_connect(G_OBJECT(save_button),
                      "clicked",
                      G_CALLBACK(on_save_clicked),
                      NULL);
 
-    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), bios_write,    1, row, 1,           1);
-    gtk_grid_attach(GTK_GRID(grid), box,           2, row, columns - 2, 1);
+    gtk_box_pack_start(GTK_BOX(button_box), save_button,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(button_box), flush_button, FALSE, FALSE, 0);
+    gtk_box_set_spacing(GTK_BOX(button_box), 8);
+    gtk_widget_set_halign(button_box, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(grid), bios_write, 1, row, 1,           1);
+    gtk_grid_attach(GTK_GRID(grid), button_box, 2, row, columns - 2, 1);
     return row + 1;
 }
 
@@ -414,6 +451,8 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), revision_label,   0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), revision_widget,  1, row, 1, 1);
 #undef NUM_COLS
+
+    update_buttons_sensitivity();
 
     gtk_widget_show_all(grid);
     return grid;
