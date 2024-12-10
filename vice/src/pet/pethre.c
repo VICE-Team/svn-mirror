@@ -206,10 +206,68 @@ int e888_dump(void)
 
 #define CRTC_MA12               0x10
 
+/*
+ * On zimmers.net is a 1-page document 324890-01_manual.pdf which
+ * reads (my translation from German):
+ * ------
+ * The 8296 HIRES Graphics is an emulation of the 512*256 Commodore High Speed
+ * Graphivs, which uses the built-in RAM and 6502 microprocessor.
+ *
+ * A hardware addition is plugged into the socket of the CRTC (UC9) and the
+ * character ROM (UC5).
+ *
+ * The software for emulating the High Speed Graphivs is contained in a 4 KB
+ * EPROM ($9000, UE10), een BASIC-extension to use the graphics is in a
+ * further 4K EPROM ($A000, UE9).
+ *
+ * The "hidden" RAM behind the EPROM in UE9 and the BASIC ROM is used As screen
+ * memory.
+ *
+ * On the extension board there is a 4-fold DIL switch (1 to 4), with which one
+ * can set jumpers JU3, JU4, JU7, JU6 by hardware.
+ *
+ * By writing a latch at $E888 (decimal 59582), the jumpers JU3...JU7  are
+ * controlled by software (independently of the DIL-settings).
+ *
+ *     Bit   Value   Jumper/Signal
+ *
+ *      0        1    JU4  /RAMSEL9    1)
+ *      1        2    JU3  /RAMSELA    1)
+ *      2        4    JU5  /RAMON      1)
+ *      3        8       ---
+ *      4       16    JU7              2)
+ *      5       32    JU6              2)
+ *      6       64       ---
+ *      7      128          LATCHON    3)
+ *
+ * 1) On the original motherboard the signals /RAMSELA, /RAMSEL9 and /RAMON
+ *    can be controlled by PA0, PA1 and PA3 of the user port, if jumpers
+ *    JU3, JU4 and JU5 are closed.
+ *    On the adapter, "off" of the DIL-switch means
+ *    for 1 and 2: RAMSELA and RAMSEL9 : high
+ *    for 3 and 4: Jumper J6 and J7: placed (closed)
+ * 2) high = jumper placed
+ * 3) high = Latch On
+ * ------
+ * (unfortunately the document doesn't say what "Latch On" does, but I guess
+ * that if it is off, it has no effect and the /RAM* signals are default.)
+ *
+ *  - JU1 : set /RAMSELA to GND (do not use JU1/JU3 together)
+ *  - JU2 : set /RAMSEL9 to GND (do not use JU2/JU4 together)
+ *  - JU3 : set /RAMSELA to Userport PA0 (do not use JU1/JU3 together)
+ *  - JU4 : set /RAMSEL9 to Userport PA1 (do not use JU2/JU4 together)
+ *  - JU5 : set /RAMON to Userport PA2
+ *  - JU6 : set J4 expansion port pin /SELENP to /CSA ($A*** ROM)
+ *  - JU7 : set J4 expansion port pin /SELENP to /CS9 ($9*** ROM)
+ *
+ *  - JU8/JU9 : set JU8, unset JU9: do not use video MA12 for RAM addressing;
+ *              unset JU8, set JU9: use video MA12 for RAM addressing.
+ */
+
+#define E888_LATCH_ON           0x80
 #define E888_NOT_RAM_ON         0x04
 #define E888_NOT_RAMSEL_A       0x02
 #define E888_NOT_RAMSEL_9       0x01
-#define E888_CR6                0x01
 
 void crtc_store_hre(uint16_t addr, uint8_t value)
 {
