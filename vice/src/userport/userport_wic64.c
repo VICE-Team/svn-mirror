@@ -1663,13 +1663,16 @@ static void cmd_wifi(int cmd)
 
     switch (cmd) {
     case WIC64_CMD_SCAN_WIFI_NETWORKS:
+        char rets[128];
+        char sep = l ? '\0' : '\1';
+        snprintf(rets, 127, "0%cvice-emulation%c65%c%c", sep, sep, sep, 0xff);
         send_reply_revised(SUCCESS, "Success",
-                           (uint8_t *) "00\001vice-emulation\00199\001",
-                           strlen("00\001vice-emulation\00199\001") + l,
+                           (uint8_t *) rets, 20+l,
                            NULL);
         break;
     case WIC64_CMD_IS_CONFIGURED:
-        send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
+        char r = '\0';
+        send_reply_revised(SUCCESS, "Success", (uint8_t *)&r, 1, NULL);
         break;
     case WIC64_CMD_CONNECT_WITH_SSID_STRING:
     case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
@@ -1684,7 +1687,7 @@ static void cmd_wifi(int cmd)
         break;
     case WIC64_CMD_GET_RSSI:
         send_reply_revised(SUCCESS, "Success",
-                           (uint8_t *) "-99dBm", strlen("-99dBm") + l, NULL);
+                           (uint8_t *) "-65dBm", strlen("-65dBm") + l, NULL);
         break;
     default:
         break;
@@ -2158,11 +2161,14 @@ static void do_command(void)
         cmd_get_statusmsg();
         break;
     case WIC64_CMD_ECHO:
-        send_reply_revised(SUCCESS, "Success", commandbuffer, commandptr, NULL);
+        if (wic64_protocol != WIC64_PROT_EXTENDED)
+            send_reply_revised(SUCCESS, "", commandbuffer, commandptr, NULL);
+        else
+            send_reply_revised(CLIENT_ERROR, "", NULL, 0, NULL);
         break;
     case WIC64_CMD_REBOOT:
         userport_wic64_reset();
-        send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);
+        /*send_reply_revised(SUCCESS, "Success", NULL, 0, NULL);  reported as error in F64*/
         /* FIXME: userport->sendHandshakeSignalBeforeReboot(); */
         handshake_flag2();
         break;
