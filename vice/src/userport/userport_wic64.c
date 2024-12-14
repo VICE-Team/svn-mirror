@@ -1662,7 +1662,7 @@ static void cmd_wifi(int cmd)
     int l = (wic64_protocol == WIC64_PROT_LEGACY) ? 0 : 1; /* kludge to make it compatible */
 
     switch (cmd) {
-    case WIC64_CMD_SCAN_WIFI_NETWORKS:
+    case WIC64_CMD_SCAN_WIFI_NETWORKS: {
         char rets[128];
         char sep = l ? '\0' : '\1';
         snprintf(rets, 127, "0%cvice-emulation%c65%c%c", sep, sep, sep, 0xff);
@@ -1670,10 +1670,12 @@ static void cmd_wifi(int cmd)
                            (uint8_t *) rets, 20+l,
                            NULL);
         break;
-    case WIC64_CMD_IS_CONFIGURED:
+    }
+    case WIC64_CMD_IS_CONFIGURED: {
         char r = '\0';
         send_reply_revised(SUCCESS, "Success", (uint8_t *)&r, 1, NULL);
         break;
+    }
     case WIC64_CMD_CONNECT_WITH_SSID_STRING:
     case WIC64_CMD_CONNECT_WITH_SSID_INDEX:
     case WIC64_CMD_IS_CONNECTED:
