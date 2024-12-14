@@ -31,7 +31,7 @@
 
 #define WIC64_DEFAULT_TRANSFER_TIMEOUT 1 /* supervise userport transfer */
 #define WIC64_DEFAULT_REMOTE_TIMEOUT 5   /* supervise remote URL fetch */
-#define WIC64_MAXTRACELEVEL 3   /* adjust if needed more */
+#define WIC64_MAXTRACELEVEL 4   /* adjust if needed more */
 /* timezone mapping
    C64 sends just a number 0-31, bcd little endian in commandbuffer.
    offsets can then be calculated.
