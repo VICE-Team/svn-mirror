@@ -43,7 +43,7 @@
 
 /** \brief  Initialize the library
  *
- * This sets the paths to the HSVC and the SLDB, STIL, and BUGlist files.
+ * This sets the paths to the HVSC and the SLDB, STIL, and BUGlist files.
  *
  * The \a path is expected to be an absolute path to the HVSC's root directory,
  * or `NULL` to use the environment variable `HVSC_BASE`.
