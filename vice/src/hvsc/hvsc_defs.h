@@ -49,7 +49,7 @@
  * This number indicates API version, when this number changes it means there
  * are incompatible changes in the API. Set via the Makefile.
  */
-#ifndef HSVC_LIB_VERSION_MAJ
+#ifndef HVSC_LIB_VERSION_MAJ
 #define HVSC_LIB_VERSION_MAJ    0
 #endif
 

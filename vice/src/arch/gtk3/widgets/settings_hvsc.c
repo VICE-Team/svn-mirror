@@ -101,7 +101,7 @@ GtkWidget *settings_hvsc_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    label = gtk_label_new("HSVC root directory");
+    label = gtk_label_new("HVSC root directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     hvsc_root_entry = vice_gtk3_resource_entry_new("HVSCRoot");
     gtk_widget_set_hexpand(hvsc_root_entry, TRUE);

@@ -545,7 +545,7 @@ void hvsc_set_paths(const char *path)
 }
 
 
-/** \brief  Free memory used by the HSVC paths
+/** \brief  Free memory used by the HVSC paths
  */
 void hvsc_free_paths(void)
 {
@@ -568,7 +568,7 @@ void hvsc_free_paths(void)
 }
 
 
-/** \brief  Strip the HSVC root path from \a path
+/** \brief  Strip the HVSC root path from \a path
  *
  * \param[in]   path    path to a PSID file inside the HVSC
  *
@@ -579,7 +579,7 @@ void hvsc_free_paths(void)
 char *hvsc_path_strip_root(const char *path)
 {
     size_t  plen = strlen(path);             /* length of path */
-    size_t  rlen = (hvsc_root_path == NULL) ? 0 : strlen(hvsc_root_path);   /* length of HSVC root path */
+    size_t  rlen = (hvsc_root_path == NULL) ? 0 : strlen(hvsc_root_path);   /* length of HVSC root path */
     char   *result;
 
     if (rlen == 0) {
@@ -587,7 +587,7 @@ char *hvsc_path_strip_root(const char *path)
     } else if (plen <= rlen) {
         result = hvsc_strdup(path);
     } else if (memcmp(path, hvsc_root_path, rlen) == 0) {
-        /* got HSVC root path */
+        /* got HVSC root path */
         result = hvsc_malloc(plen - rlen + 1u);
         memcpy(result, path + rlen, plen - rlen + 1u);
     } else {
