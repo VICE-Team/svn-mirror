@@ -2222,7 +2222,7 @@ static void do_command(void)
             send_reply_revised(CLIENT_ERROR, "", NULL, 0, NULL);
         break;
     case WIC64_CMD_REBOOT:
-        wic64_sleep_cycles(3 * machine_get_cycles_per_second()); /* emulated a 3s reboot */
+        wic64_sleep_cycles((int)(3 * machine_get_cycles_per_second())); /* emulated a 3s reboot */
         userport_wic64_reset();
         break;
     case WIC64_CMD_SET_TRANSFER_TIMEOUT:
