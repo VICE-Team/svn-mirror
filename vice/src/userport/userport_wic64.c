@@ -2023,7 +2023,7 @@ static void cmd_force_timeout_alarm_handler(CLOCK offset, void *data)
     input_state = INPUT_EXP_PROT;
     commandptr = 0;
     alarm_unset(cmd_force_timeout_alarm);
-    set_userport_flag(FLAG2_INACTIVE);
+    /* set_userport_flag(FLAG2_INACTIVE); */
 }
 
 static void cmd_force_timeout(void)
@@ -2035,7 +2035,7 @@ static void cmd_force_timeout(void)
     wic64_log(CONS_COL_NO, "forcing timeout after %ds", timeout);
     force_timeout = 1;
 
-    set_userport_flag(FLAG2_ACTIVE);
+    /* set_userport_flag(FLAG2_ACTIVE); */
 
     if (cmd_force_timeout_alarm == NULL) {
         cmd_force_timeout_alarm = alarm_new(maincpu_alarm_context, "CMDForceTimoutAlarm",
@@ -2222,8 +2222,8 @@ static void do_command(void)
             send_reply_revised(CLIENT_ERROR, "", NULL, 0, NULL);
         break;
     case WIC64_CMD_REBOOT:
-        userport_wic64_reset();
         wic64_sleep_cycles(3 * machine_get_cycles_per_second()); /* emulated a 3s reboot */
+        userport_wic64_reset();
         break;
     case WIC64_CMD_SET_TRANSFER_TIMEOUT:
     case WIC64_CMD_SET_REMOTE_TIMEOUT:
@@ -2391,10 +2391,12 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             } else {
                 wic64_prot_state(value);
             }
+            handshake_flag2();
 
             cmd_timeout(1);
             if ((input_state == INPUT_EXP_ARGS) &&
                 (commandptr == input_length)) {
+                cmd_timeout(0);
                 wic64_log(LOG_COL_LBLUE, "command %s (len=%d/0x%x, using %s protocol)",
                           cmd2string[input_command],
                           input_length, input_length,
@@ -2402,13 +2404,10 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                           (wic64_protocol == WIC64_PROT_REVISED) ? "revised" :
                           (wic64_protocol == WIC64_PROT_EXTENDED) ? "extended" :
                           "unknown");
-                cmd_timeout(0);
                 do_command();
                 commandptr = input_state = input_length = 0;
                 input_command = WIC64_CMD_NONE;
                 memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
-            } else {
-                handshake_flag2();
             }
         } else {
             if (reply_length) {
@@ -2570,14 +2569,8 @@ static void userport_wic64_reset(void)
     if (cmd_force_timeout_alarm) {
         alarm_unset(cmd_force_timeout_alarm);
     }
-    if (flag2_alarm) {
-        alarm_unset(flag2_alarm);
-    }
-    if (cycle_alarm) {
-        alarm_unset(cycle_alarm);
-    }
+    /* flag2 and cycle alarms need to be preserverd !*/
     remote_to = wic64_remote_timeout; /* reset to given value */
-
     if (curl) {
         /* connection closed */
         curl_easy_cleanup(curl);
