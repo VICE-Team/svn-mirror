@@ -802,8 +802,10 @@ void userport_wic64_factory_reset(void)
 
 void wic64_set_status(const char *status)
 {
-    strncpy(wic64_last_status, status, sizeof wic64_last_status);
-    wic64_last_status[sizeof wic64_last_status - 1u] = '\0';
+    if (status) {
+        strncpy(wic64_last_status, status, sizeof wic64_last_status);
+        wic64_last_status[sizeof wic64_last_status - 1u] = '\0';
+    }
 }
 
 static void prep_wic64_str(void)
@@ -1137,16 +1139,22 @@ static void handshake_flag2(void)
 
 static void cycle_alarm_handler(CLOCK offset, void *data)
 {
-    debug_log(LOG_COL_OFF, 3, "%s: expired", __FUNCTION__);
+    debug_log(LOG_COL_OFF, 3, "%s: expired, data = %p", __FUNCTION__, data);
     alarm_unset(cycle_alarm);
-    handshake_flag2();
+    alarm_destroy(cycle_alarm);
+    cycle_alarm = NULL;
+    if (data) {
+        (*(void(*)(void))data)();               /* execute callback */
+    }
 }
 
-static void wic64_sleep_cycles(int cycles)
+static void wic64_sleep_cycles(int cycles, void *cb)
 {
-    if (cycle_alarm == NULL) {
-        cycle_alarm = alarm_new(maincpu_alarm_context, "CycleAlarm", cycle_alarm_handler, NULL);
+    if (cycle_alarm) {
+        debug_log(LOG_COL_LRED, 3, "%s: refusing to re-arm pending cycle alarm", __FUNCTION__);
+        return;
     }
+    cycle_alarm = alarm_new(maincpu_alarm_context, "CycleAlarm", cycle_alarm_handler, cb);
     alarm_unset(cycle_alarm);
     alarm_set(cycle_alarm, maincpu_clk + cycles);
 }
@@ -2222,8 +2230,8 @@ static void do_command(void)
             send_reply_revised(CLIENT_ERROR, "", NULL, 0, NULL);
         break;
     case WIC64_CMD_REBOOT:
-        wic64_sleep_cycles((int)(3 * machine_get_cycles_per_second())); /* emulated a 3s reboot */
-        userport_wic64_reset();
+        debug_log(CONS_COL_NO, 3, "%s: arming for reboot", __FUNCTION__);
+        wic64_sleep_cycles(3 * machine_get_cycles_per_second(), userport_wic64_reset); /* emulated a 3s reboot */
         break;
     case WIC64_CMD_SET_TRANSFER_TIMEOUT:
     case WIC64_CMD_SET_REMOTE_TIMEOUT:
@@ -2346,11 +2354,29 @@ static void wic64_prot_state(uint8_t value)
     }
 }
 
+/* this is run after handshake of last byte is completed */
+static void run_command_helper(void)
+{
+    wic64_log(LOG_COL_LBLUE, "command %s (len=%d/0x%x, using %s protocol)",
+              cmd2string[input_command],
+              input_length, input_length,
+              (wic64_protocol == WIC64_PROT_LEGACY) ? "legacy" :
+              (wic64_protocol == WIC64_PROT_REVISED) ? "revised" :
+              (wic64_protocol == WIC64_PROT_EXTENDED) ? "extended" :
+              "unknown");
+    do_command();
+    cmd_timeout(0);
+    commandptr = input_state = input_length = 0;
+    input_command = WIC64_CMD_NONE;
+    memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
+}
+
 /* PC2 irq (pulse) triggers when C64 reads/writes to userport */
 static void userport_wic64_store_pbx(uint8_t value, int pulse)
 {
     if (force_timeout) {
         debug_log(LOG_COL_OFF, 3, "%s: force timeout running %d/%d", __FUNCTION__, value, pulse);
+        set_userport_flag(FLAG2_INACTIVE);
         return;
     }
     if (pulse == 1) {
@@ -2396,18 +2422,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
             cmd_timeout(1);
             if ((input_state == INPUT_EXP_ARGS) &&
                 (commandptr == input_length)) {
-                cmd_timeout(0);
-                wic64_log(LOG_COL_LBLUE, "command %s (len=%d/0x%x, using %s protocol)",
-                          cmd2string[input_command],
-                          input_length, input_length,
-                          (wic64_protocol == WIC64_PROT_LEGACY) ? "legacy" :
-                          (wic64_protocol == WIC64_PROT_REVISED) ? "revised" :
-                          (wic64_protocol == WIC64_PROT_EXTENDED) ? "extended" :
-                          "unknown");
-                do_command();
-                commandptr = input_state = input_length = 0;
-                input_command = WIC64_CMD_NONE;
-                memset(commandbuffer, 0, COMMANDBUFFER_MAXLEN);
+                wic64_sleep_cycles(FLAG2_TOGGLE_DELAY + 1, run_command_helper);
             }
         } else {
             if (reply_length) {
@@ -2582,12 +2597,14 @@ static void userport_wic64_reset(void)
         lib_free(post_url);
         post_url = NULL;
     }
-    wic64_set_status("RESET");
+    /* wic64_set_status("RESET"); real HW doesn't tell this */
 
     wic64_log(LOG_COL_LBLUE, "cyan color: host -> WiC64 communication");
     wic64_log(LOG_COL_LGREEN, "green color: WiC64 -> host communication");
     wic64_log(LOG_COL_LRED, "red color: some error");
     wic64_log(CONS_COL_NO, "no color: other information");
+
+    handshake_flag2();
 }
 
 /* ---------------------------------------------------------------------*/
