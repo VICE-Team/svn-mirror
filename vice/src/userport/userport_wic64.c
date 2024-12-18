@@ -2231,7 +2231,7 @@ static void do_command(void)
         break;
     case WIC64_CMD_REBOOT:
         debug_log(CONS_COL_NO, 3, "%s: arming for reboot", __FUNCTION__);
-        wic64_sleep_cycles(3 * machine_get_cycles_per_second(), userport_wic64_reset); /* emulated a 3s reboot */
+        wic64_sleep_cycles(3 * (int)machine_get_cycles_per_second(), userport_wic64_reset); /* emulated a 3s reboot */
         break;
     case WIC64_CMD_SET_TRANSFER_TIMEOUT:
     case WIC64_CMD_SET_REMOTE_TIMEOUT:
