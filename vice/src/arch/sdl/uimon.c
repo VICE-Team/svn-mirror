@@ -170,9 +170,9 @@ int uimon_out(const char *buffer)
 
 /* petscii layout:
  00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted (ctrl)
- 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 20  !"#$%&'()*+,-./0123456789:;<=>?
  40 @abcdefghijklmnopqrstuvwxyz[ ]^
- 60  !"#$%&´()*+,-./0123456789:;<=>?
+ 60  !"#$%&'()*+,-./0123456789:;<=>?
  80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted (Ctrl)
  A0 ................................
  C0  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
@@ -180,7 +180,7 @@ int uimon_out(const char *buffer)
 */
 /* monitor charset:
  00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted
- 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 20  !"#$%&'()*+,-./0123456789:;<=>?
  40 @abcdefghijklmnopqrstuvwxyz[ ]^
  60  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
  80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted
@@ -288,7 +288,7 @@ int uimon_petscii_upper_out(const char *buffer, int num)
 
 /* screencode layout:
  00 @abcdefghijklmnopqrstuvwxyz[ ]^
- 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 20  !"#$%&'()*+,-./0123456789:;<=>?
  40  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
  60 ................................
  80-FF inverted version of the above
@@ -296,7 +296,7 @@ int uimon_petscii_upper_out(const char *buffer, int num)
 
 /* monitor charset:
  00 @abcdefghijklmnopqrstuvwxyz[ ]^     inverted
- 20  !"#$%&´()*+,-./0123456789:;<=>?
+ 20  !"#$%&'()*+,-./0123456789:;<=>?
  40 @abcdefghijklmnopqrstuvwxyz[ ]^
  60  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....
  80  ABCDEFGHIJKLMNOPQRSTUVWXYZ.....    inverted
