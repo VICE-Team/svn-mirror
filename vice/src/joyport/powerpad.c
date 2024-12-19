@@ -155,10 +155,10 @@ static uint8_t powerpad_read(int port)
     uint16_t joyval = joyport_digital_value(port);
 
     switch (counter[port]) {
-        case 0:     // always 0
+        case 0:     /* always 0 */
             retval |= 0;
             break;
-        case 1:     // always 0
+        case 1:     /* always 0 */
             mouse_get_new_movement();
             retval |= 0;
             break;
