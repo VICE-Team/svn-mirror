@@ -4594,6 +4594,10 @@ x64/x64sc/xscpu64 control ports and devices:
 @tab Dongle (Paperclip2)
 @tab X
 @tab X
+@item 42
+@tab Chalkboard Powerpad
+@tab X
+@tab X
 @end multitable
 
 x128 control ports and devices:
@@ -4823,6 +4827,10 @@ x128 control ports and devices:
 @tab X
 @item 41
 @tab Dongle (Paperclip2)
+@tab X
+@tab X
+@item 42
+@tab Chalkboard Powerpad
 @tab X
 @tab X
 @end multitable
@@ -5359,6 +5367,19 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab X
+@item 42
+@tab Chalkboard Powerpad
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab X
 @end multitable
 
 xvic control ports and devices:
@@ -5566,6 +5587,9 @@ xvic control ports and devices:
 @tab X
 @item 38
 @tab Microflyte joystick
+@tab X
+@item 42
+@tab Chalkboard Powerpad
 @tab X
 @end multitable
 
