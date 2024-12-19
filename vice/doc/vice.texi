@@ -1276,6 +1276,11 @@ Enable verbose log output.
 Disable all log output (except errors).
 (@code{LogLimit}).
 
+@findex -loglimit
+@item -loglimit <level>
+Set log level.
+(@code{LogLimit}).
+
 @findex -no-redirect-streams
 @item -no-redirect-streams
 Disable stream redirection on Windows. Stream redirection is used on Windows
@@ -12433,7 +12438,7 @@ Specify engine for the emulated SID chip
 (FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6)
 
 @findex -sidmodel
-@item -sidemodel <model>
+@item -sidmodel <model>
 Specify model for the emulated SID chip
 (@code{SidModel}).
 (6581: 0, 8580: 1, ReSID 8580 + digiboost: 2, DTVSID: 3)
@@ -14712,6 +14717,18 @@ Specify Vic Flash Plugin extension ROM name
 @itemx +fpwriteback
 Enable/Disable Vic Flash Plugin write back to ROM file
 (@code{VicFlashPluginWriteBack=1}, @code{VicFlashPluginWriteBack=0}).
+
+@findex -cartrabbit
+@item -cartrabbit <name>
+Specify Rabit Tape extension ROM name
+
+@findex -cartse
+@item -cartse <name>
+Specify Super Expander cartridge ROM name
+
+@findex -cartma
+@item -cartma <name>
+Specify Mikro Assembler cartridge ROM name
 
 @findex -ultimem
 @item -ultimem <name>
