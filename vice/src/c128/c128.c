@@ -354,7 +354,8 @@ static int tapemode = 0;
 
 void machine_tape_init_c64(void)
 {
-    if (tapemode != 1) {
+    /* CAUTION: only call trap init functions when traps have been initialized */
+    if (traps_ready() && (tapemode != 1)) {
         if (tapemode == 0) {
             tape_init(&tapeinit_c64_mode);
         } else {
@@ -366,7 +367,8 @@ void machine_tape_init_c64(void)
 
 void machine_tape_init_c128(void)
 {
-    if (tapemode != 2) {
+    /* CAUTION: only call trap init functions when traps have been initialized */
+    if (traps_ready() && (tapemode != 2)) {
         if (tapemode == 0) {
             tape_init(&tapeinit_c128_mode);
         } else {
