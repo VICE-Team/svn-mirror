@@ -64,6 +64,8 @@ static int remove_trap(const trap_t *t);
 
 log_t traps_log = LOG_DEFAULT;
 
+static int trapsready = 0;
+
 /* ------------------------------------------------------------------------- */
 
 /* Trap-related resources.  */
@@ -274,6 +276,13 @@ int traps_cmdline_options_init(void)
 void traps_init(void)
 {
     traps_log = log_open("Traps");
+    trapsready = 1;
+}
+
+/* returns 1 if traps are ready to be used */
+int traps_ready(void)
+{
+    return trapsready;
 }
 
 void traps_shutdown(void)

@@ -48,6 +48,7 @@ typedef struct trap_s {
 } trap_t;
 
 void traps_init(void);
+int traps_ready(void);
 void traps_shutdown(void);
 int traps_resources_init(void);
 int traps_cmdline_options_init(void);
