@@ -2688,6 +2688,10 @@ int joystick_cmdline_options_init(void)
 
 int joystick_init(void)
 {
+    int res = -1;
+
+    joy_log = log_open("Joystick");
+
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
                                joystick_latch_handler, NULL);
 
@@ -2723,7 +2727,10 @@ int joystick_init(void)
 
     /* do not load joymap file when -default was passed on the command line */
     if (!default_settings_requested) {
-        joy_arch_mapping_load(joymap_file);
+        res = joy_arch_mapping_load(joymap_file);
+    }
+    if (res < 0) {
+        log_warning(joy_log, "using minimal default mapping.");
     }
 
     return 1;
@@ -2814,7 +2821,7 @@ void register_joystick_driver(
     new_joystick_device->num_hats = num_hats;
     new_joystick_device->num_buttons = num_buttons;
 
-    log_message(LOG_DEFAULT,
+    log_message(joy_log,
                 "registered controller '%s' with %d %s, %d %s, %d %s",
                 new_joystick_device->jname,
                 num_axes, num_axes == 1 ? "axis" : "axes",
@@ -2858,7 +2865,7 @@ void register_joystick_driver(
     } else {
         /* if neither "hat" nor at least two axis exist, this must be a very special
            controller - print a warning and do not map anything */
-        log_warning(LOG_DEFAULT, "Controller has no hats nor at least two axis - could not apply default mapping.");
+        log_warning(joy_log, "Controller has no hats nor at least two axis - could not apply default mapping.");
     }
 
     /* the first 3 buttons will be fire buttons */
