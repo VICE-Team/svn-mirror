@@ -76,7 +76,7 @@ function checkwhitespace
 # find trailing whitespace
     while IFS= read -r line
     do
-        grep -Hn '\s\+$' "$line" | sed 's/\s\+$/~~~~/'
+        grep -Hn '[[:blank:]]\+$' "$line" | sed 's/\s\+$/~~~~/'
     done < .checkws
     rm -f .checkws
 }
