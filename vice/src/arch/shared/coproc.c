@@ -287,7 +287,7 @@ void kill_coproc(vice_pid_t pid)
     log_message(LOG_DEFAULT, "terminating child process id: %p", pid);
     if (TerminateProcess(pid, 0) != 0) {
         if (GetLastError() == ERROR_INVALID_HANDLE) {
-            log_debug(LOG_DEFAULT, "child process id %d does not exist anymore.", pid);
+            log_debug(LOG_DEFAULT, "child process id %p does not exist anymore.", pid);
         } else {
             log_error(LOG_DEFAULT, "terminating child process id %p failed.", pid);
         }
