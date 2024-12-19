@@ -440,7 +440,7 @@ void linux_joystick_evdev_init(void)
     int             sd_result;
     int             i;
 
-    joy_evdev_log = log_open("Joystick");
+    joy_evdev_log = log_open("evdev Joystick");
 
     log_message(joy_evdev_log, "Initializing Linux evdev joystick driver.");
 

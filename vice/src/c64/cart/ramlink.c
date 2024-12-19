@@ -61,8 +61,8 @@
 #include "drive/iec/cmdhd.h"
 #include "vicii-phi1.h"
 
-#define RLLOG1
-#define RLLOG2
+/* #define RLLOG1 */
+/* #define RLLOG2 */
 /* #define RLLOG1 */
 /* #define RLLOG2 */
 /* #define RLDEBUGIO */
@@ -1260,7 +1260,7 @@ static void set_pa(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     ramlink_sync_cpus();
     cmdbus.cpu_data = byte;
     cmdbus_update();
-//if (reg==0) printf("RAMLINK: Send %02x\n",byte);
+/*if (reg==0) printf("RAMLINK: Send %02x\n",byte);*/
 }
 
 static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
@@ -1283,7 +1283,7 @@ static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
         data = 0xff;
     }
 
-//if (reg==0) printf("RAMLINK: Got  %02x\n",data);
+/*if (reg==0) printf("RAMLINK: Got  %02x\n",data);*/
     return data;
 }
 
@@ -1318,7 +1318,7 @@ static void set_pb(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     cmdbus_patn_changed(new, old);
 
     cmdbus_update();
-//if (reg==1) printf("RAMLINK: R=%d C=%d A=%d\n",(byte & 0x80 ? 0 : 1),(byte & 0x40 ? 0 : 1),(byte & 0x20 ? 0 : 1));
+/*if (reg==1) printf("RAMLINK: R=%d C=%d A=%d\n",(byte & 0x80 ? 0 : 1),(byte & 0x40 ? 0 : 1),(byte & 0x20 ? 0 : 1));*/
 }
 
 static uint8_t get_pb(struct _i8255a_state *ctx, int8_t reg)
