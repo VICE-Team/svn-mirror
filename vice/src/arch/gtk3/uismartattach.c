@@ -372,7 +372,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
 
-    resources_get_int("AutostartOnDoubleclick", &autostart);
+    resources_get_int("AutostartOnDoubleClick", &autostart);
 
     /* first, to make the following logic less funky, map some events to others,
        depending on whether autostart-on-doubleclick is enabled or not, and
@@ -536,7 +536,7 @@ static GtkWidget *create_smart_attach_dialog(void)
     size_t i;
     int autostart = 0;
 
-    resources_get_int("AutostartOnDoubleclick", &autostart);
+    resources_get_int("AutostartOnDoubleClick", &autostart);
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(

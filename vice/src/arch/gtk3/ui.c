@@ -5,7 +5,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  *
- * $VICERES AutostartOnDoubleclick  all
+ * $VICERES AutostartOnDoubleClick  all
  * $VICERES CrtcFullscreen          xcbm2 xpet
  * $VICERES TEDFullscreen           xplus4
  * $VICERES VDCFullscreen           x128
@@ -295,7 +295,7 @@ static const resource_int_t resources_int_shared[] = {
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
     /* Use autostart on doubleclick in dialogs */
-    { "AutostartOnDoubleclick", 0, RES_EVENT_NO, NULL,
+    { "AutostartOnDoubleClick", 0, RES_EVENT_NO, NULL,
         &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
         NULL },
 
@@ -414,10 +414,10 @@ static const cmdline_option_t cmdline_options_common[] =
         set_monitor_fg,  NULL, "MonitorFG", NULL,
         "font-foreground", "Set monitor font foreround color" },
     { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "AutostartOnDoubleclick", (void*)1,
+        NULL, NULL, "AutostartOnDoubleClick", (void*)1,
         NULL, "Autostart files on doubleclick" },
     { "+autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "AutostartOnDoubleclick", (void*)0,
+        NULL, NULL, "AutostartOnDoubleClick", (void*)0,
         NULL, "Open files on doubleclick" },
     { "-settings-node", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
         set_settings_node_path, NULL, NULL, NULL,

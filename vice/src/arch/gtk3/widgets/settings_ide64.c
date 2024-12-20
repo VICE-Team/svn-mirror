@@ -34,7 +34,7 @@
  * $VICERES IDE64RTCSave            x64 x64sc xscpu64 x128
  * $VICERES SBDIGIMAX               x64 x64sc xscpu64 x128
  * $VICERES SBDIGIMAXbase           x64 x64sc xscpu64 x128
- * $ViCERES SBETFE                  x64 x64sc xscpu64 x128
+ * $VICERES SBETFE                  x64 x64sc xscpu64 x128
  * $VICERES SBETFEbase              x64 x64sc xscpu64 x128
  */
 

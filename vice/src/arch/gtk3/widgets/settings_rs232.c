@@ -7,7 +7,6 @@
 /*
  * $VICERES Acia1Enable     x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Dev        x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
- * $VICERES Acia1Ctrl       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Irq        x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Mode       x64 x64sc xscpu64 x128 xvic

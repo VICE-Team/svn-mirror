@@ -9313,6 +9313,9 @@ Trace the drive 3 CPU / Do not trace the drive 3 CPU
 @vindex IEC_TRACE
 @item IEC_TRACE
 Trace IEC bus activity / Do not trace IEC bus activity
+@vindex IEEE_TRACE
+@item IEEE_TRACE
+Trace IEEE bus activity / Do not trace IEEE bus activity
 
 @end table
 

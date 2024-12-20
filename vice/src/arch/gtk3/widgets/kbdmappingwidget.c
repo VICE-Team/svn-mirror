@@ -8,6 +8,10 @@
  * $VICERES KeymapIndex         -vsid
  * $VICERES KeymapUserPosFile   -vsid
  * $VICERES KeymapUserSymFile   -vsid
+ *
+ * only indirectly:
+ * $VICERES KeymapPosFile       -vsid
+ * $VICERES KeymapSymFile       -vsid
  */
 
 /*

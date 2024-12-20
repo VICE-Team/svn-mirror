@@ -25,11 +25,11 @@
  *
  * $VICERES SoundVolume         all
  * $VICERES C128ColumnKey       x128
- * $VICERES CrtcHideStatusbar   xcbm2 xpet
- * $VICERES TEDHideStatusbar    xplus4
- * $VICERES VDCHideStatusbar    x128
- * $VICERES VICHideStatusbar    xvic
- * $VICERES VICIIHideStatusbar  x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES CrtcShowStatusbar   xcbm2 xpet
+ * $VICERES TEDShowStatusbar    xplus4
+ * $VICERES VDCShowStatusbar    x128
+ * $VICERES VICShowStatusbar    xvic
+ * $VICERES VICIIShowStatusbar  x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES DiagPin             xpet
  * $VICERES SpeedSwitch         xscpu64
  * $VICERES JiffySwitch         xscpu64
@@ -3715,7 +3715,7 @@ gboolean ui_statusbar_set_visible_for_window(GtkWidget *window, gboolean visible
 
 /** \brief  Show/Hide statusbar of the **active** window
  *
- * Toggle visibility of statusbar based on "${chip}HideStatusbar" resource.
+ * Toggle visibility of statusbar based on "${chip}ShowStatusbar" resource.
  *
  * \return  TRUE (don't pass event along further)
  */

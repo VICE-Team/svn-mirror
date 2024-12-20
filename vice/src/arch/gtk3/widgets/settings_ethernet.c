@@ -7,6 +7,9 @@
 /*
  * $VICERES ETHERNET_DRIVER     x64 x64sc xscpu64 x128 xvic
  * $VICERES ETHERNET_INTERFACE  x64 x64sc xscpu64 x128 xvic
+ *
+ * read only, set internally:
+ * $VICERES ETHERNET_DISABLED   x64 x64sc xscpu64 x128 xvic
  */
 
 /*

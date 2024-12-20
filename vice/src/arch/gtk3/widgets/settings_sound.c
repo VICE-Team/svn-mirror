@@ -30,6 +30,9 @@
  *  02111-1307  USA.
  */
 
+/*
+ * $VICERES SoundEmulateOnWarp
+ */
 
 #include "vice.h"
 #include <gtk/gtk.h>

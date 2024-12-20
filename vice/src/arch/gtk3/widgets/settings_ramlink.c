@@ -11,6 +11,7 @@
  * $VICERES RAMLINKsize         x64 x64sc xscpu64 x128
  * $VICERES RAMLINKmode         x64 x64sc xscpu64 x128
  * $VICERES RAMLINKRTCSave      x64 x64sc xscpu64 x128
+ * $VICERES RAMLINKBIOSfilename x64 x64sc xscpu64 x128
  */
 
 /*

@@ -8,11 +8,11 @@
  */
 
 /*
- * $VICERES RamBlock0   xvic
- * $VICERES RamBlock1   xvic
- * $VICERES RamBlock2   xvic
- * $VICERES RamBlock3   xvic
- * $VICERES RamBlock5   xvic
+ * $VICERES RAMBlock0   xvic
+ * $VICERES RAMBlock1   xvic
+ * $VICERES RAMBlock2   xvic
+ * $VICERES RAMBlock3   xvic
+ * $VICERES RAMBlock5   xvic
  */
 
 /*

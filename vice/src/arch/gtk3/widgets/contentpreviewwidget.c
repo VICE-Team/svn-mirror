@@ -91,7 +91,7 @@ static void on_row_activated(
     GtkTreeIter iter;
     int autostart = 0;
 
-    resources_get_int("AutostartOnDoubleclick", &autostart);
+    resources_get_int("AutostartOnDoubleClick", &autostart);
 
     model = gtk_tree_view_get_model(view);
     selection = gtk_tree_view_get_selection(view);

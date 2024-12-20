@@ -49,6 +49,7 @@
  * $VICERES DosName1541             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
  * $VICERES DosName1541ii           x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
  * $VICERES DosName1551             xplus4
+ * $VICERES DosName1570             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
  * $VICERES DosName1571             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
  * $VICERES DosName1571cr           x128
  * $VICERES DosName1581             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
@@ -58,12 +59,13 @@
  * $VICERES DosName4040             -vsid
  * $VICERES DosName9000             -vsid
  * $VICERES DosNameCMDHD            x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
- * $VICERES Dosname1001             -vsid
- * $VICERES Dosname2000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
- * $VICERES Dosname4000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
- * $VICERES DriveProFDOS1571Name    x64 x64sc x64dtv xscpu64 x128
+ * $VICERES DosName1001             -vsid
+ * $VICERES DosName2000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DosName4000             x64 x64sc x64dtv xscpu64 x128 xplus4 xvic
+ * $VICERES DriveProfDOS1571Name    x64 x64sc x64dtv xscpu64 x128
  * $VICERES DriveStarDosName        x64 x64sc x64dtv xscpu64 x128
  * $VICERES DriveSuperCardName      x64 x64sc x64dtv xscpu64 x128
+ * $VICERES Basic1                  xpet
  * $VICERES EditorName              xpet
  * $VICERES FunctionHighName        xplus4
  * $VICERES FunctionLowName         xplus4

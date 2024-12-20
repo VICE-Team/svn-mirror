@@ -29,6 +29,10 @@
  *
  */
 
+/*
+ * $VICERES SSRamExpansion        x64 x64sc x128
+ */
+
 #include "vice.h"
 #include <gtk/gtk.h>
 

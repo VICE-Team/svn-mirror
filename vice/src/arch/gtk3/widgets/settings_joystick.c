@@ -16,6 +16,7 @@
  * $VICERES JoyDevice8      -xplus4 -xpet -vsid
  * $VICERES JoyDevice9      -xplus4 -xpet -vsid
  * $VICERES JoyDevice10     -xplus4 -xpet -vsid
+ * $VICERES JoyDevice11     -xplus4
  *
  * Only altered when two control ports are available, so not for xvic:
  * $VICERES JoyPort1Device  -xcbm2 -xpet -xvic -vsid

@@ -10,10 +10,16 @@
  * $VICERES JoyPort3Device      x64 x64sc x64dtv xscpu64 x128 xcbm2 xvic
  * $VICERES JoyPort4Device      x64 x64sc xscpu64 x128 xcbm2 xpet xvice
  * $VICERES JoyPort5Device      xplus4
+ * $VICERES JoyPort6Device      x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xvic
+ * $VICERES JoyPort7Device      x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xvic
+ * $VICERES JoyPort8Device      x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xvic
+ * $VICERES JoyPort9Device      x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xvic
+ * $VICERES JoyPort10Device     x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xvic
+ * $VICERES JoyPort11Device     xplus4
+ *
  * $VICERES BBRTCSave           -vsid
  * $VICERES ps2mouse            x64dtv
  * $VICERES SmartMouseRTCSave   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0
- * $VICERES UserportJoy         -xcbm5x0 -vsid
  */
 
 /*

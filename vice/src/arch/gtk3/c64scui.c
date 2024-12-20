@@ -26,6 +26,10 @@
  *
  */
 
+/*
+ * $VICERES VICIIModel x64 x64sc x64dtv x128 xcbm2
+ */
+
 #include "vice.h"
 
 #include <stdio.h>

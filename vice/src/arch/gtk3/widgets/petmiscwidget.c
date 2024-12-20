@@ -7,6 +7,7 @@
 /*
  * $VICERES Crtc        xpet
  * $VICERES EoiBlank    xpet
+ * $VICERES Screen2001  xpet
  */
 
 /*

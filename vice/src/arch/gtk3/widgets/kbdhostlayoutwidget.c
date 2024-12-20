@@ -6,6 +6,10 @@
 
 /*
  * $VICERES KeyboardMapping     -vsid
+ *
+ * sets indirectly:
+ * $VICERES KeymapPosFile       -vsid
+ * $VICERES KeymapSymFile       -vsid
  */
 
 /*
