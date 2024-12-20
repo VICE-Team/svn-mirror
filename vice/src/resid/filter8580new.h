@@ -1887,7 +1887,7 @@ int Filter::solve_integrate_8580(int dt, int vi, int& vx, int& vc, model_filter_
   unsigned int Vgdt = (vi < nVgt) ? nVgt - vi : 0;  // triode/saturation mode
 
   // Dac current, scaled by (1/m)*2^13*m*2^16*m*2^16*2^-15 = m*2^30
-  int n_I_rfc = n_dac*(int(Vgst*Vgst - Vgdt*Vgdt) >> 15);
+  int n_I_rfc = (n_dac*(int(Vgst*Vgst - Vgdt*Vgdt) >> 15)) >> 4;
 
   // Change in capacitor charge.
   vc -= n_I_rfc*dt;
