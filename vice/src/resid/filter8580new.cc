@@ -760,7 +760,7 @@ void Filter::set_w0()
   {
     // MOS 8580 cutoff: 0 - 12.5kHz.
     model_filter_t& f = model_filter[1];
-    n_dac = (n_param * f.f0_dac[fc]) >> 15;
+    n_dac = (n_param * f.f0_dac[fc]) >> 11;
   }
 }
 
