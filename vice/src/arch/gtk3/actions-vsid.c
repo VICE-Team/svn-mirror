@@ -29,7 +29,7 @@
  */
 
 /* Resources altered by this file:
- *
+ * $VICERES PSIDKeepEnv       vsid
  */
 
 #include "vice.h"

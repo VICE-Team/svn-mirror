@@ -27,6 +27,10 @@
  *
  */
 
+/*
+ * $VICERES MachinePowerFrequency   -x64dtv -xpet
+ */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>

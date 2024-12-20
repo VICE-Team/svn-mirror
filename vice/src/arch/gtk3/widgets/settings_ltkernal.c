@@ -16,6 +16,7 @@
  * $VICERES LTKimage4       x64 x64sc x128
  * $VICERES LTKimage5       x64 x64sc x128
  * $VICERES LTKimage6       x64 x64sc x128
+ * $VICERES LTKport         x64 x64sc x128
  */
 
 /*

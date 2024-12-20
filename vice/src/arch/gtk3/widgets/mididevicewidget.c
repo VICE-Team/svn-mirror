@@ -5,8 +5,8 @@
  */
 
 /*
- * $VICERES MidiInDev       x64 x64sc xscpu64 x128 xvic
- * $VICERES MidiOutDev      x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIInDev       x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIOutDev      x64 x64sc xscpu64 x128 xvic
  * (Windows only)
  */
 

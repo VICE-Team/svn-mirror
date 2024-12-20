@@ -11,6 +11,9 @@
  * $VICERES FFMPEGAudioCodec            -vsid
  * $VICERES FFMPEGVideoCodec            -vsid
  * $VICERES FFMPEGVideoHalveFramerate   -vsid
+ * $VICERES ZMBVFormat                  -vsid
+ * $VICERES ZMBVAudioCodec              -vsid
+ * $VICERES ZMBVVideoCodec              -vsid
  */
 
 /*

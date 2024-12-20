@@ -35,6 +35,15 @@
 
 #include "settings_environment.h"
 
+/*
+ * $VICERES LogColorize     all
+ * $VICERES LogLevelANE     all
+ * $VICERES LogLevelLXA     all
+ * $VICERES LogLimit        all
+ * $VICERES LogToFile       all
+ * $VICERES LogToMonitor    all
+ * $VICERES LogToStdout     all
+ */
 
 static const vice_gtk3_radiogroup_entry_t loglevels[] = {
     { "no log",        0 },

@@ -8,6 +8,8 @@
  * $VICERES DQBB            x64 x64sc xscpu64 x128
  * $VICERES DQBBfilename    x64 x64sc xscpu64 x128
  * $VICERES DQBBImageWrite  x64 x64sc xscpu64 x128
+ * $VICERES DQBBSize        x64 x64sc xscpu64 x128
+ * $VICERES DQBBMode        x64 x64sc xscpu64 x128
  */
 
 /*

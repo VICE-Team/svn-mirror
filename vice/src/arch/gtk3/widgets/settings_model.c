@@ -13,6 +13,11 @@
  * $VICERES VICIINewLuminances  x64dtv
  * $VICERES HummerADC           x64dtv
  *
+ * following are set internally:
+ *
+ * $VICERES BoardType           x64 x64sc xscpu64
+ * $VICERES DTVFlashRevision    x64dtv
+ *
  *  (for more, see used widgets)
  */
 

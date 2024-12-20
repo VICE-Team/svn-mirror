@@ -29,6 +29,8 @@
  * $VICERES JoyStick8AutoFire       -vsid -xpet -xplus4
  * $VICERES JoyStick9AutoFire       -vsid -xpet -xplus4
  * $VICERES JoyStick10AutoFire      -vsid -xpet -xplus4
+ * $VICERES JoyStick11AutoFire      xplus4
+ *
  * $VICERES JoyStick1AutoFireMode   -vsid -xpet -xcbm2
  * $VICERES JoyStick2AutoFireMode   -vsid -xpet -xcbm2 -xvic
  * $VICERES JoyStick3AutoFireMode   -vsid
@@ -39,6 +41,8 @@
  * $VICERES JoyStick8AutoFireMode   -vsid -xpet -xplus4
  * $VICERES JoyStick9AutoFireMode   -vsid -xpet -xplus4
  * $VICERES JoyStick10AutoFireMode  -vsid -xpet -xplus4
+ * $VICERES JoyStick11AutoFireMode  xplus4
+ *
  * $VICERES JoyStick1AutoFireSpeed  -vsid -xpet -xcbm2
  * $VICERES JoyStick2AutoFireSpeed  -vsid -xpet -xcbm2 -xvic
  * $VICERES JoyStick3AutoFireSpeed  -vsid
@@ -49,6 +53,7 @@
  * $VICERES JoyStick8AutoFireSpeed  -vsid -xpet -xplus4
  * $VICERES JoyStick9AutoFireSpeed  -vsid -xpet -xplus4
  * $VICERES JoyStick10AutoFireSpeed -vsid -xpet -xplus4
+ * $VICERES JoyStick11AutoFireSpeed xplus4
  */
 
 /*

@@ -28,6 +28,10 @@
  *  02111-1307  USA.
  */
 
+/*
+ * only indirectly:
+ * $VICERES FliplistName    all
+ */
 
 #include "vice.h"
 

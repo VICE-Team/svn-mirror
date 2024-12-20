@@ -9,6 +9,7 @@
  *          a little more involved to figure out exacly what resources are
  *          set for which video chip.
  * Controls the following resource(s):
+ * $VICERES MachineVideoStandard all
  */
 
 /*

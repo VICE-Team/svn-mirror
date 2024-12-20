@@ -237,7 +237,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     int autostart = 0;
     int unit;
 
-    resources_get_int("AutostartOnDoubleclick", &autostart);
+    resources_get_int("AutostartOnDoubleClick", &autostart);
     unit = GPOINTER_TO_INT(user_data);
 #if 0
     debug_gtk3("Got port %d.", port);
@@ -368,7 +368,7 @@ static GtkWidget *create_tape_attach_dialog(int port)
 #if 0
     debug_gtk3("Got port %d.", port);
 #endif
-    resources_get_int("AutostartOnDoubleclick", &autostart);
+    resources_get_int("AutostartOnDoubleClick", &autostart);
     g_snprintf(title, sizeof(title), "Attach a tape image to port #%d", port);
 
     /* create new dialog */

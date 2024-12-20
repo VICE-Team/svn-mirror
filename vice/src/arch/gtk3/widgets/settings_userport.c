@@ -6,15 +6,15 @@
 
 /*
  * $VICERES UserportDevice          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES Userport58321aSave      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportDS1307Save      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportRTC58321aSave   x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportRTCDS1307Save   x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES WIC64DefaultServer      x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64HexdumpLines       x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Logenabled         x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64LogLevel           x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Resetuser          x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Timezone           x64 x64sc xscpu64 x128 xvic
- * $VICERES WIC64RemoteTimout       x64 x64sc xscpu64 x128 xvic
+ * $VICERES WIC64RemoteTimeout      x64 x64sc xscpu64 x128 xvic
  *
  * The following resources are not user-configurable, but set indirectly via
  * the WiC64 code, so we list them here for `gtk3-resources.py` to find:

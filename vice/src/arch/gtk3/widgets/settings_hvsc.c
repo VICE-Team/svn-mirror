@@ -25,6 +25,10 @@
  *
  */
 
+/*
+ * $VICERES HVSCRoot    vsid
+ */
+
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <stdlib.h>

@@ -23,8 +23,6 @@
  * $VICERES Printer4TextDevice          -vsid
  * $VICERES Printer5TextDevice          -vsid
  * $VICERES Printer6TextDevice          -vsid
- * $VICERES Printer7TextDevice          -vsid
- * $VICERES PrinterUserport             x64 x64sc xscpu64 x128 xvic xpet xcbm2 xplus4
  */
 
 /*

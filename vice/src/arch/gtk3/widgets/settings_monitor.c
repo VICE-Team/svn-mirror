@@ -16,6 +16,7 @@
  * $VICERES MonitorLogFileName          all
  * $VICERES MonitorChisLines            all
  * $VICERES MonitorFont                 all
+ * $VICERES MonitorScrollbackLines      all
  */
 
 /*

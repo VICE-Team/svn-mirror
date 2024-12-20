@@ -10,6 +10,17 @@
  * $VICERES CartridgeFile   x64 x64sc xscpu64 x128 xvic xplus4
  * $VICERES CartridgeType   x64 x64sc xscpu64 x128 xvic xplus4
  *
+ * $VICERES GenericCartridgeFile2000 xvic
+ * $VICERES GenericCartridgeFile4000 xvic
+ * $VICERES GenericCartridgeFile6000 xvic
+ * $VICERES GenericCartridgeFileA000 xvic
+ * $VICERES GenericCartridgeFileB000 xvic
+ *
+ * $VICERES Cart1Name   xcbm2 xcbm5x0
+ * $VICERES Cart2Name   xcbm2 xcbm5x0
+ * $VICERES Cart4Name   xcbm2 xcbm5x0
+ * $VICERES Cart6Name   xcbm2 xcbm5x0
+ *
  * These are only directly *read* by the code, manipulating them goes through
  * the cartridge API as intended.
  */
