@@ -29,7 +29,8 @@
  */
 
 /* Resources altered by this file:
- * $VICERES PSIDKeepEnv       vsid
+ * $VICERES PSIDKeepEnv     vsid
+ * $VICERES Speed           vsid
  */
 
 #include "vice.h"
