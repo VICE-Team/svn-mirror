@@ -194,7 +194,8 @@ static void dqbb_change_config(void)
 
     cart_config_changed_slot1(mode, mode, CMODE_READ);
     DBG(("dqbb_change_config: 0x%02x (%s) mode:%d enable:%d off:%d game:%d exrom:%d",
-         mode, cart_config_string(mode), dqbb_mode_switch, dqbb_enabled, dqbb_off, dqbb_game, dqbb_exrom));
+         (unsigned int)mode, cart_config_string(mode), dqbb_mode_switch, dqbb_enabled,
+         dqbb_off, dqbb_game, dqbb_exrom));
 }
 
 static void dqbb_io1_store(uint16_t addr, uint8_t byte)
@@ -383,7 +384,7 @@ static int set_dqbb_size(int val, void *param)
             dqbb_size = val;
             dqbb_bank_mask = (val == 0) ? 0 : (val / 16) - 1;
             dqbb_activate();
-            DBG(("set_dqbb_size size: %d mask: 0x%02x", dqbb_size, dqbb_bank_mask));
+            DBG(("set_dqbb_size size: %d mask: 0x%02x", dqbb_size, (unsigned int)dqbb_bank_mask));
         } else {
             return -1;
         }
