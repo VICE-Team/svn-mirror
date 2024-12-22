@@ -36,18 +36,9 @@ $ cd ..
   vice.texi contains the author list twice, once under "@c
   ---vice-core-team---", and once under "@node Copyright"
 
-- run src/buildtools/updatereadme.sh to update README and vicedate.h with the
-  current year.
-- make sure to 'touch' vice.texi so that the current year will be put into all
-  needed files.
+Everything up to this point can be prepared in advance. The following should be
+done in one go when creating the actual release.
 
-$ touch doc/vice.texi
-$ ./src/buildtools/genvicedate_h.sh
-
-- after changing any of the above, make sure to run "make" so the changes will
-  propagate to various files, and then commit the changed files.
-
-$ make all
 $ svn commit -m "preparing release - no more committing until after the release is done!"
 
 - ANNOUNCE A CODE FREEZE ;)
@@ -69,22 +60,32 @@ $ svn commit -m "preparing release - no more committing until after the release 
   For massive changes we can decide to bump MAJOR and set MINOR and BUILD to 0,
   for example when merging the 'vice-4' branch somewhere in the future.
 
-- propagate the updated version into the documentation:
+- run src/buildtools/updatereadme.sh to update README with the current year.
+- run ./src/buildtools/genvicedate_h.sh to update vicedate.h with the current
+  year.
+- make sure to 'touch' vice.texi so that the current year will be put into all
+  needed files.
+- after changing any of the above, make sure to run "make" so the changes will
+  propagate to various files, and then commit the changed files.
 
 $ touch doc/vice.texi
+$ ./src/buildtools/updatereadme.sh
+$ ./src/buildtools/genvicedate_h.sh
 $ make all
 
 This will update the user-visible version in the binary/docs (README, index.html
 etc), so it should happen only immediately before the release.
 
-while at it, also check the following:
-
-- are the "banners" on various sourceforge pages (tickets) still up to date?
-- are the "readmes" in the files areas still up to date?
 
 Make sure everything is fine, and commit the release
 
 $ svn commit -m "this is the 3.8.0 release - merry xmas"
+
+
+while at it, also check the following:
+
+- are the "banners" on various sourceforge pages (tickets) still up to date?
+- are the "readmes" in the files areas still up to date?
 
 
 ****************************************
