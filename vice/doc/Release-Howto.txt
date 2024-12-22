@@ -10,8 +10,13 @@ $ svn log -r <rev of last release>:<current rev> > log.txt
 you can look up the revision of the last release in the tags directory in the
 repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
-- update the html pages in doc/html (index.html, windows.html, macosx.html). use
-  the checklinks.sh script to check the links.
+- update the html pages in doc/html
+  - use the checklinks.sh script to check all links.
+  - index.html ("news" update release date and new major.minor, "Download VICE"
+    update new major.minor)
+  - macosx.html (duplicate top paragraph and update for new major.minor)
+  - windows.html (duplicate "Binary distributions" top paragraph and update for
+    new major.minor)
 
 $ cd doc/html
 $ ./checklinks.sh

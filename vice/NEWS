@@ -199,7 +199,7 @@ in the UI).
 ** Monitor fixes
 ----------------
 
-- Remove the wierd delayed 'importing' of registers that were changed in the
+- Remove the weird delayed 'importing' of registers that were changed in the
   monitor. Instead explicitly export before, and import after, each invokation
   of any function that may 'break' into the monitor (and thus lets the user
   change the registers by the R or G command). (see bug #2025, bug #2024.)
