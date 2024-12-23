@@ -916,7 +916,11 @@ static void get_terminal_size_in_chars(VteTerminal *terminal,
 
 static void printfontinfo(const PangoFontDescription* desc, const char *name)
 {
+#if PANGO_VERSION_CHECK(1, 42, 0)
     const char *variations = pango_font_description_get_variations(desc);
+#else
+    const char *variations = "UNKNOWN(pre-1.42)";
+#endif
     log_message(monui_log, "using font '%s' (Family:%s, Size:%d, Variations:%s) PETSCII:%s Terminal Scale:%f",
                 name,
                 pango_font_description_get_family(desc),
