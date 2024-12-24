@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           TAG_NAME: ${{ github.ref }}
           RELEASE_NAME: ${{ github.ref }}
@@ -78,7 +78,7 @@ jobs:
 
       - name: Upload Release Tarball
         id: upload
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.build.outputs.tarball_path }}
@@ -213,6 +213,7 @@ jobs:
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
+          # CAUTION: use same packages as in build-main-on-push.yml
           install: >-
             autotools
             base-devel
@@ -246,6 +247,7 @@ jobs:
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
+          # CAUTION: use same packages as in build-main-on-push.yml
           install: >-
             autotools
             base-devel
@@ -302,7 +304,7 @@ jobs:
 
       - name: Upload Zip
         id: upload-zip
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.build.outputs.zip_path }}
@@ -326,7 +328,7 @@ jobs:
 
       - name: Upload 7Zip
         id: upload-7zip
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.build.outputs.seven_zip_path }}
@@ -355,9 +357,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+          # CAUTION: use same config/deps as in build-main-on-push.yml
           ui: [ { name: 'GTK3',
                   conf: '--enable-gtk3ui --with-pulse',
-                  deps: 'libglew-dev libgtk-3-dev libpulse-dev' },
+                  deps: 'libevdev-dev libglew-dev libgtk-3-dev libpulse-dev' },
                 { name: 'SDL2',
                   conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
                   deps: 'libsdl2-dev libsdl2-image-dev' },
@@ -372,16 +375,17 @@ jobs:
         run: git config --global core.autocrlf input
 
       - name: Checkout Source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download Documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vice-pdf
           path: vice/doc/
 
       - name: Install Dependencies
         shell: bash
+        # CAUTION: use same packages as in build-main-on-push.yml
         run: |
           sudo apt update
           sudo apt install -y autoconf \
@@ -452,7 +456,7 @@ jobs:
 
       - name: Upload Deb
         id: upload_deb
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
           ASSET_PATH: ${{ steps.make_deb.outputs.deb_path }}
@@ -479,7 +483,7 @@ jobs:
     needs: [create_release, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           retries: 3
