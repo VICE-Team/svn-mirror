@@ -147,6 +147,7 @@ while at it, also check the following:
 
   Now fix your stuff, commit to svn, and if you are ready push the tag again:
 
+  $ git pull
   $ git tag $RELEASE
   $ git push origin $RELEASE
 
