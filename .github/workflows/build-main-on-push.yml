@@ -216,6 +216,7 @@ jobs:
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
+          # CAUTION: use same packages in make-release.yml
           install: >-
             autotools
             base-devel
@@ -249,6 +250,7 @@ jobs:
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
+          # CAUTION: use same packages in make-release.yml
           install: >-
             autotools
             base-devel
@@ -392,6 +394,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+          # CAUTION: use same config/deps in make-release.yml
           ui: [ { name: 'GTK3',
                   conf: '--enable-gtk3ui --with-pulse',
                   deps: 'libevdev-dev libglew-dev libgtk-3-dev libpulse-dev' },
@@ -419,6 +422,7 @@ jobs:
 
       - name: Install Dependencies
         shell: bash
+        # CAUTION: use same packages in make-release.yml
         run: |
           sudo apt update
           sudo apt install -y autoconf \
