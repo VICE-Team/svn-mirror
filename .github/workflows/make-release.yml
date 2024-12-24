@@ -70,7 +70,7 @@ jobs:
           echo "tarball_name=${TARBALL}"        >> $GITHUB_OUTPUT
 
       - name: Upload Artifact Tarball
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vice-tarball
           path: ${{ steps.build.outputs.tarball_path }}
