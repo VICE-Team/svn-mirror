@@ -155,7 +155,7 @@ jobs:
           echo "pdf_path=$(echo $(pwd)/doc/vice.pdf)" >> $GITHUB_OUTPUT
 
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vice-pdf
           path: ${{ steps.build.outputs.pdf_path }}
