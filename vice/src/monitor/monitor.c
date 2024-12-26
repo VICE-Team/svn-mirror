@@ -190,8 +190,9 @@ static CLOCK stopwatch_start_time[NUM_MEMSPACES];
 monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
-unsigned char data_buf[256];
-unsigned char data_mask_buf[256];
+#define DATA_BUF_SIZE 256
+unsigned char data_buf[DATA_BUF_SIZE];
+unsigned char data_mask_buf[DATA_BUF_SIZE];
 unsigned int data_buf_len;
 bool asm_mode;
 MON_ADDR asm_mode_addr;
@@ -1076,6 +1077,11 @@ void mon_clear_buffer(void)
 
 void mon_add_number_to_buffer(int number)
 {
+    int bytes_now = number > 0xff ? 2 : 1;
+    if (data_buf_len + bytes_now >= DATA_BUF_SIZE) {
+        mon_out("Trying to write more bytes than the buffer fits, ignoring\n");
+        return;
+    }
     unsigned int i = data_buf_len;
     data_buf[data_buf_len++] = (number & 0xff);
     if (number > 0xff) {
