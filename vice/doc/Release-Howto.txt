@@ -206,6 +206,10 @@ publish the release
   the new file(s) and then set it to the respective platform to change the
   default downloads
 
+- on the tracker update the milestones
+
+    admin->admin->bugs->field management->new milestone (save)
+
 - announce the release on the ml (and eventually elsewhere)
 
 - update the TODO wiki page (remove old crossed out things)
