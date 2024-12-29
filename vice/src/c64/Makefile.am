@@ -216,8 +216,6 @@ libc64c64dtv_a_SOURCES = \
 	c64fastiec.h \
 	c64keyboard.c \
 	c64keyboard.h \
-	c64parallel.c \
-	c64parallel.h \
 	c64rom.c \
 	c64rom.h \
 	c64romset.c \
