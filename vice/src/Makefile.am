@@ -594,6 +594,7 @@ printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 resid_lib = $(top_builddir)/src/resid/libresid.a
 resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
+rs232drvpet_lib = $(top_builddir)/src/rs232drv/librs232drvpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 rtc_lib = $(top_builddir)/src/core/rtc/librtc.a
 samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
@@ -631,7 +632,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib) $(linenoise_ng_lib)
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if SUPPORT_X64
 x64_bin = x64
@@ -716,6 +717,7 @@ x64_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
@@ -773,6 +775,7 @@ x64sc_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(viciisc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
@@ -895,6 +898,7 @@ xscpu64_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(viciisc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
@@ -954,6 +958,7 @@ x128_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
@@ -1011,6 +1016,7 @@ xvic_libs =  \
 	$(monitor_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
 	$(diag_lib) \
@@ -1063,6 +1069,7 @@ xpet_libs =  \
 	$(monitor_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
+	$(rs232drvpet_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
@@ -1122,6 +1129,7 @@ xplus4_libs =  \
 	$(monitor_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
@@ -1180,6 +1188,7 @@ xcbm2_libs = \
 	$(monitor_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
+	$(rs232drvpet_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
@@ -1236,6 +1245,7 @@ xcbm5x0_libs = \
 	$(xcbm5x0_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
+	$(rs232drv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
@@ -1540,8 +1550,11 @@ $(printerdrv_lib):
 	@echo "making all in printerdrv"
 	@(cd printerdrv && $(MAKE))
 $(rs232drv_lib):
-	@echo "making all in rs232drv"
-	@(cd rs232drv && $(MAKE))
+	@echo "making librs232drv.a in rs232drv"
+	@(cd rs232drv && $(MAKE) librs232drv.a)
+$(rs232drvpet_lib):
+	@echo "making librs232drvpet.a in rs232drv"
+	@(cd rs232drv && $(MAKE) librs232drvpet.a)
 $(raster_lib):
 	@echo "making libraster.a in raster"
 	@(cd raster && $(MAKE) libraster.a)
