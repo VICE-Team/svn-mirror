@@ -421,12 +421,6 @@ int machine_resources_init(void)
         init_resource_fail("sid");
         return -1;
     }
-#if 0
-    if (rs232drv_resources_init() < 0) {
-        init_resource_fail("rs232drv");
-        return -1;
-    }
-#endif
     if (serial_resources_init() < 0) {
         init_resource_fail("serial");
         return -1;
@@ -529,9 +523,6 @@ void machine_resources_shutdown(void)
     flash_trap_resources_shutdown();
     c64dtv_resources_shutdown();
     c64dtvmem_resources_shutdown();
-#if 0
-    rs232drv_resources_shutdown();
-#endif
     printer_resources_shutdown();
     drive_resources_shutdown();
     fsdevice_resources_shutdown();
@@ -565,12 +556,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("sid");
         return -1;
     }
-#if 0
-    if (rs232drv_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("rs232drv");
-        return -1;
-    }
-#endif
     if (serial_cmdline_options_init() < 0) {
         init_cmdline_options_fail("serial");
         return -1;
@@ -717,11 +702,6 @@ int machine_specific_init(void)
         return -1;
     }
 
-#if 0
-    /* Initialize RS232 handler.  */
-    rs232drv_init();
-#endif
-
     /* Initialize print devices.  */
     printer_init();
 
@@ -804,10 +784,6 @@ void machine_specific_reset(void)
     ciacore_reset(machine_context.cia1);
     ciacore_reset(machine_context.cia2);
     sid_reset();
-
-#if 0
-    rs232drv_reset();
-#endif
     printer_reset();
 
     /* FIXME */
