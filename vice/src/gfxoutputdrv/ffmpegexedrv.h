@@ -32,4 +32,7 @@
 
 void gfxoutput_init_ffmpegexe(int help);
 
+/* deprecated access for UIs that do not use the gfxoutputdrv->formatlist yet: */
+extern gfxoutputdrv_format_t *ffmpegdrv_formatlist;
+
 #endif

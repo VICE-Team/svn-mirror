@@ -1246,13 +1246,6 @@ static const predef_symbol_t predef_symbols[] = {
         false
 #endif
     },
-    {   "HAVE_FFMPEG",
-#ifdef HAVE_FFMPEG
-        true
-#else
-        false
-#endif
-    },
     {   "UNIX",
 #if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
         true
