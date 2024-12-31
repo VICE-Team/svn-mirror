@@ -79,15 +79,6 @@ static void update_audio_combo_box(int id);
 static GtkWidget *audiobitrate;
 static GtkWidget *videobitrate;
 
-/* hack to deal with coexistence of old (lib) and new (exe) FFMPEG drivers,
-   we use this to wrap usages of videodriver when producing resource names - in
-   that case we use "FFMPEG" also when the videodriver name is "FFMPEGEXE". */
-static const char* ffmpeg_kludges(const char *name)
-{
-    if (!strcmp(name, "FFMPEGEXE")) { return "FFMPEG"; }
-    return name;
-}
-
 /*****************************************************************************
  *                              Event handlers                               *
  ****************************************************************************/
@@ -118,14 +109,14 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
     flags = driver_info->formatlist[fmt_id].flags;
 
     if (fmt_name != NULL && *fmt_name != '\0') {
-        resources_set_string_sprintf("%sFormat", fmt_name, ffmpeg_kludges(driver_info->name));
+        resources_set_string_sprintf("%sFormat", fmt_name, driver_info->name);
     }
 
     video = create_video_model(fmt_id);
     gtk_combo_box_set_active(GTK_COMBO_BOX(video_widget), 0);
     gtk_combo_box_set_model(GTK_COMBO_BOX(video_widget),
             GTK_TREE_MODEL(video));
-    if (resources_get_int_sprintf("%sVideoCodec", &vc, ffmpeg_kludges(driver_info->name)) < 0) {
+    if (resources_get_int_sprintf("%sVideoCodec", &vc, driver_info->name) < 0) {
         vc = 0;
     }
     update_video_combo_box(vc);
@@ -134,7 +125,7 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
     gtk_combo_box_set_active(GTK_COMBO_BOX(audio_widget), 0);
     gtk_combo_box_set_model(GTK_COMBO_BOX(audio_widget),
             GTK_TREE_MODEL(audio));
-    if (resources_get_int_sprintf("%sAudioCodec", &ac, ffmpeg_kludges(driver_info->name)) < 0) {
+    if (resources_get_int_sprintf("%sAudioCodec", &ac, driver_info->name) < 0) {
         ac = 0;
     }
     update_audio_combo_box(ac);
@@ -163,7 +154,7 @@ static void on_video_codec_changed(GtkComboBox *combo, gpointer data)
         int codec;
 
         gtk_tree_model_get(model, &iter, 1, &codec, -1);
-        resources_set_int_sprintf("%sVideoCodec", codec, ffmpeg_kludges(driver_info->name));
+        resources_set_int_sprintf("%sVideoCodec", codec, driver_info->name);
     }
 }
 
@@ -187,7 +178,7 @@ static void on_audio_codec_changed(GtkComboBox *combo, gpointer data)
         int codec;
 
         gtk_tree_model_get(model, &iter, 1, &codec, -1);
-        resources_set_int_sprintf("%sAudioCodec", codec, ffmpeg_kludges(driver_info->name));
+        resources_set_int_sprintf("%sAudioCodec", codec, driver_info->name);
     }
 }
 
@@ -530,7 +521,7 @@ GtkWidget *ffmpeg_widget_create(const char *driver)
     formatlist = driver_info->formatlist;
 
     /* get current FFMPEG format */
-    if (resources_get_string_sprintf("%sFormat", &current_format, ffmpeg_kludges(driver)) < 0) {
+    if (resources_get_string_sprintf("%sFormat", &current_format, driver) < 0) {
         current_format = "avi"; /* hope this works out */
     }
 
@@ -552,7 +543,7 @@ GtkWidget *ffmpeg_widget_create(const char *driver)
     video_widget = create_video_combo_box(fmt_index);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 1, 1, 1);
-    if (resources_get_int_sprintf("%sVideoCodec", &current_vc, ffmpeg_kludges(driver)) < 0) {
+    if (resources_get_int_sprintf("%sVideoCodec", &current_vc, driver) < 0) {
         current_vc = 0;
     }
     update_video_combo_box(current_vc);
@@ -563,7 +554,7 @@ GtkWidget *ffmpeg_widget_create(const char *driver)
     audio_widget = create_audio_combo_box(fmt_index);
     gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), audio_widget, 3, 1, 1, 1);
-    if (resources_get_int_sprintf("%sAudioCodec", &current_ac, ffmpeg_kludges(driver)) < 0) {
+    if (resources_get_int_sprintf("%sAudioCodec", &current_ac, driver) < 0) {
         current_ac = 0;
     }
     update_audio_combo_box(current_ac);

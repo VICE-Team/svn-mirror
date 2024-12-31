@@ -33,7 +33,7 @@
 
 #include "types.h"
 
-#include "ffmpegdrv.h"
+#include "ffmpegexedrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
 #include "menu_common.h"
@@ -73,15 +73,6 @@ static UI_MENU_CALLBACK(custom_FFMPEGFormat_callback);
 static void update_format_menu(const char *current_format);
 static void update_codec_menus(const char *current_format);
 
-/* hack to deal with coexistence of old (lib) and new (exe) FFMPEG drivers,
-   we use this to wrap usages of videodriver when producing resource names - in
-   that case we use "FFMPEG" also when the videodriver name is "FFMPEGEXE". */
-static const char* ffmpeg_kludges(const char *name)
-{
-    if (!strcmp(name, "FFMPEGEXE")) { return "FFMPEG"; }
-    return name;
-}
-
 /* activate this driver */
 void sdl_menu_ffmpeg_set_driver(const char *videodriver)
 {
@@ -96,7 +87,7 @@ void sdl_menu_ffmpeg_set_driver(const char *videodriver)
 
     videodriver_formatlist = ffmpeg_drv->formatlist;
 
-    resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
+    resources_get_string_sprintf("%sFormat", &w, videodriver);
     update_format_menu(w);
     update_codec_menus(w);
 }
@@ -302,7 +293,7 @@ static void update_codec_menus(const char *current_format)
     } else {
 
         /* get the currently used video codec */
-        resources_get_int_sprintf("%sVideoCodec", &video_codec_id, ffmpeg_kludges(videodriver));
+        resources_get_int_sprintf("%sVideoCodec", &video_codec_id, videodriver);
 
         codec_found = 0;
         while (codec && codec->name) {
@@ -335,7 +326,7 @@ static void update_codec_menus(const char *current_format)
         /* is the old codec still valid for the new driver? */
         if (!codec_found) {
             /* no: default to the first codec in the new submenu */
-            resources_set_int_sprintf("%sVideoCodec", format->video_codecs[0].id, ffmpeg_kludges(videodriver));
+            resources_set_int_sprintf("%sVideoCodec", format->video_codecs[0].id, videodriver);
         }
     }
 
@@ -349,7 +340,7 @@ static void update_codec_menus(const char *current_format)
     } else {
 
         /* get the currently selected audio codec */
-        resources_get_int_sprintf("%sAudioCodec", &audio_codec_id, ffmpeg_kludges(videodriver));
+        resources_get_int_sprintf("%sAudioCodec", &audio_codec_id, videodriver);
         codec_found = 0;
         while (codec && codec->name) {
             audio_codec_menu[i].action   = ACTION_NONE;
@@ -382,7 +373,7 @@ static void update_codec_menus(const char *current_format)
         /* is the old codec still valid for the new driver? */
         if (!codec_found) {
             /* no: default to the first codec in the new submenu */
-            resources_set_int_sprintf("%sAudioCodec", format->audio_codecs[0].id, ffmpeg_kludges(videodriver));
+            resources_set_int_sprintf("%sAudioCodec", format->audio_codecs[0].id, videodriver);
         }
     }
 
@@ -398,14 +389,14 @@ static UI_MENU_CALLBACK(custom_FFMPEGFormat_callback)
         return NULL;
     }
     if (activated) {
-        resources_set_string_sprintf("%sFormat", (char *)param, ffmpeg_kludges(videodriver));
+        resources_set_string_sprintf("%sFormat", (char *)param, videodriver);
         update_codec_menus((const char *)param);
     } else {
         const char *w;
 
-        resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
+        resources_get_string_sprintf("%sFormat", &w, videodriver);
 #ifdef SDL_DEBUG
-        fprintf(stderr, "%s: %sFormat = '%s'\n", __func__, ffmpeg_kludges(videodriver), w);
+        fprintf(stderr, "%s: %sFormat = '%s'\n", __func__, videodriver, w);
 #endif
         if (!strcmp(w, (char *)param)) {
             return sdl_menu_text_tick;
@@ -424,15 +415,15 @@ static UI_MENU_CALLBACK(radio_FFMPEGAudioCodec_callback)
     }
     if (activated) {
         const char *w;
-        resources_set_int_sprintf("%sAudioCodec", vice_ptr_to_int(param), ffmpeg_kludges(videodriver));
-        resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
+        resources_set_int_sprintf("%sAudioCodec", vice_ptr_to_int(param), videodriver);
+        resources_get_string_sprintf("%sFormat", &w, videodriver);
         update_codec_menus(w);
     } else {
         int w = 0;
 
-        resources_get_int_sprintf("%sAudioCodec", &w, ffmpeg_kludges(videodriver));
+        resources_get_int_sprintf("%sAudioCodec", &w, videodriver);
 #ifdef SDL_DEBUG
-        fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, ffmpeg_kludges(videodriver), w);
+        fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, videodriver, w);
 #endif
         if (w == vice_ptr_to_int(param)) {
             return sdl_menu_text_tick;
@@ -451,15 +442,15 @@ static UI_MENU_CALLBACK(radio_FFMPEGVideoCodec_callback)
     }
     if (activated) {
         const char *w;
-        resources_set_int_sprintf("%sVideoCodec", vice_ptr_to_int(param), ffmpeg_kludges(videodriver));
-        resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
+        resources_set_int_sprintf("%sVideoCodec", vice_ptr_to_int(param), videodriver);
+        resources_get_string_sprintf("%sFormat", &w, videodriver);
         update_codec_menus(w);
     } else {
         int w = 0;
 
-        resources_get_int_sprintf("%sVideoCodec", &w, ffmpeg_kludges(videodriver));
+        resources_get_int_sprintf("%sVideoCodec", &w, videodriver);
 #ifdef SDL_DEBUG
-        fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, ffmpeg_kludges(videodriver), w);
+        fprintf(stderr, "%s: %sFormat = '%d'\n", __func__, videodriver, w);
 #endif
         if (w == vice_ptr_to_int(param)) {
             return sdl_menu_text_tick;
@@ -494,7 +485,7 @@ void sdl_menu_ffmpeg_init(void)
         return;
     }
 
-    resources_get_string_sprintf("%sFormat", &w, ffmpeg_kludges(videodriver));
+    resources_get_string_sprintf("%sFormat", &w, videodriver);
     update_format_menu(w);
     update_codec_menus(w);
 }

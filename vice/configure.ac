@@ -106,7 +106,6 @@ dnl Graphics options
 dnl
 VICE_ARG_WITH_LIST(gif,                     [  --with-gif              use GIF screenshot system])
 VICE_ARG_WITH_LIST(png,                     [  --without-png           do not use the PNG screenshot system])
-VICE_ARG_ENABLE_LIST(ffmpeg,                [  --enable-ffmpeg         enable FFmpeg support])
 dnl Only supported for SDL1
 VICE_ARG_ENABLE_LIST(hwscale,               [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
 
@@ -448,10 +447,6 @@ HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_DINPUT_SUPPORT="no "
 HAVE_DYNLIB_SUPPORT_TOO="no "
 HAVE_FASTSID_SUPPORT="no "
-HAVE_FFMPEG_AVRESAMPLE_SUPPORT="no "
-HAVE_FFMPEG_SUPPORT="no "
-HAVE_FFMPEG_SWRESAMPLE_SUPPORT="no "
-HAVE_FFMPEG_SWSCALE_SUPPORT="no "
 HAVE_FONTCONFIG_SUPPORT="no "
 HAVE_GIF_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
@@ -2390,121 +2385,6 @@ fi
 LIBS="$old_LIBS"
 AC_SUBST(NETPLAY_LIBS)
 
-dnl ----- FFMPEG -----
-FFMPEG_INCLUDES=
-
-HAVE_FFMPEG=no
-ffmpeg_use_header_subdirs=no
-
-AC_MSG_CHECKING([for FFMPEG support])
-
-dnl external ffmpeg
-if test x"$enable_ffmpeg" = "xyes"; then
-  PKG_PROG_PKG_CONFIG
-
-  valid_ffmpeg_platform="no"
-
-  if test x"$is_unix" = "xyes"; then
-    dnl --- unix (requires dynlib support) ---
-    if test x"$dynlib_support" = "xyes"; then
-      valid_ffmpeg_platform="yes"
-    fi
-  else
-    valid_ffmpeg_platform="yes"
-  fi
-
-  if test x"$valid_ffmpeg_platform" = "xyes"; then
-    AC_MSG_RESULT([via pkg-config])
-    PKG_CHECK_MODULES(FFMPEG_AV,  [libavcodec libavformat libavutil],
-      [old_CFLAGS=$CFLAGS
-       old_CPPFLAGS=$CPPFLAGS
-       CFLAGS="$CFLAGS $FFMPEG_AV_CFLAGS"
-       CPPFLAGS="$CPPFLAGS $FFMPEG_AV_CFLAGS"
-
-       AC_CHECK_HEADER(libavformat/avformat.h,
-        [AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
-         ffmpeg_use_header_subdirs="yes"],
-        [AC_CHECK_HEADER(avformat.h,,
-          [AC_MSG_ERROR([No suitable FFMPEG header found!])])])
-
-       CFLAGS=$old_CFLAGS
-       CPPFLAGS=$old_CPPFLAGS
-
-      PKG_CHECK_MODULES(FFMPEG_SWSCALE, [libswscale],
-        [have_swscale=yes],
-        [echo "no. trying img_convert"]
-        [old_LIBS=$LIBS]
-        [AC_CHECK_LIB(avcodec, img_convert,[have_imgconvert=yes])]
-        [LIBS=$old_LIBS]
-      )
-      if (test x"${have_swscale}" = x"yes") || (test x"${have_imgconvert}" = x"yes") ; then
-        AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
-        HAVE_FFMPEG_SUPPORT="yes"
-        FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
-        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
-        dlopen_pthread=yes
-      fi
-      if (test x"${have_swscale}" = x"yes") ; then
-        AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
-        HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
-        FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
-        dlopen_pthread=yes
-      fi
-       ],
-      [echo "no. disabled."]
-    )
-    AC_DEFINE([EXTERNAL_FFMPEG],,[External FFMPEG libraries are used])
-    HAVE_FFMPEG=yes
-    PKG_CHECK_MODULES(FFMPEG_SWRESAMPLE, [libswresample], [have_swresample=yes], [have_swresample=no])
-    if test x"$have_swresample" = "xyes"; then
-      AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
-      HAVE_FFMPEG_SWRESAMPLE_SUPPORT="yes"
-    else
-      # dnl libav is abandoned and support should be removed, but check for it if swresample is missing.
-      PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
-      if test x"$have_avresample" = "xyes"; then
-        AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have libav avresample lib available])
-        HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
-      else
-        AC_MSG_ERROR([No swresample or avresample library available!])
-      fi
-    fi
-  else
-    AC_MSG_RESULT([not available])
-  fi
-fi
-
-if test x"$HAVE_FFMPEG" = "xyes"; then
-
-  dnl
-  dnl After all that, is the version of ffmpeg compatible with our code.
-  dnl ffmpeg 4.x is, ffmpeg 5 is not.
-  dnl
-
-  ORIG_CFLAGS="$CFLAGS"
-  CFLAGS="$CFLAGS $FFMPEG_INCLUDES"
-
-  TEST_FFMPEG_C=" AVCodecContext *context_dropped_in_ffmpeg_5;
-                  "
-
-  if test x"$ffmpeg_use_header_subdirs" = "xyes"; then
-    AC_TRY_COMPILE([ #include "libavformat/avformat.h" ],
-                   [ $TEST_FFMPEG_C ],
-                   ,
-                   [ AC_MSG_ERROR([ffmpeg version is not compatible. Use 4.x]) ])
-  else
-    AC_TRY_COMPILE([ #include "avformat.h" ],
-                   [ $TEST_FFMPEG_C ],
-                   ,
-                   [ AC_MSG_ERROR([ffmpeg version is not compatible. Use 4.x])])
-  fi
-
-  CFLAGS=$ORIG_CFLAGS
-  AC_SUBST(FFMPEG_INCLUDES)
-else
-  AC_MSG_RESULT([disabled])
-fi
-
 dnl check for glibc 2.20+
 linux_glibc_220_and_up=yes
 AC_MSG_CHECKING(if we are using glibc-2.20 and up)
@@ -3778,18 +3658,6 @@ echo "-----------"
 
 echo "GIF encoding support : $HAVE_GIF_SUPPORT (--with/without-gif)"
 echo "PNG encoding support : $HAVE_PNG_SUPPORT (--with/without-png)"
-
-echo ""
-echo "VIDEO RECORDING"
-echo "---------------"
-
-echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-ffmpeg)"
-echo "FFMPEG swscale support        : $HAVE_FFMPEG_SWSCALE_SUPPORT"
-if test x"$have_swresample" = "xyes"; then
-  echo "Audio resampling library      : swresample"
-elif test x"$have_avresample" = "xyes"; then
-  echo "Audio resampling library      : avresample"
-fi
 
 echo ""
 echo "INPUT"

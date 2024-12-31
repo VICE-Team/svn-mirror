@@ -1422,11 +1422,10 @@ menufont_t *sdl_ui_get_menu_font(void)
 void sdl_ui_activate_pre_action(void)
 {
     DBG(("sdl_ui_activate_pre_action start"));
-#ifdef HAVE_FFMPEG
+
     if (screenshot_is_recording()) {
         screenshot_stop_recording();
     }
-#endif
 
     vsync_suspend_speed_eval();
     sound_suspend();

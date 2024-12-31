@@ -139,13 +139,9 @@ static int zmbvdrv_init_file(void);
 
 /******************************************************************************/
 
-#ifdef HAVE_FFMPEG
-#include "libavformat/avformat.h"
-#else
 #define AV_CODEC_ID_NONE            0
 #define AV_CODEC_ID_ZMBV            1
 #define AV_CODEC_ID_PCM_S16LE       2
-#endif
 
 static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
     { AV_CODEC_ID_PCM_S16LE,    "PCM uncompressed" },
