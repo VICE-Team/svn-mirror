@@ -545,7 +545,7 @@ static int userport_wic64_enable(int value)
         log_message(wic64_loghandle, "WiC64 enabled");
 
         prep_wic64_str();
-
+        userport_wic64_reset();
     } else {
         if (httpbuffer) {
             lib_free(httpbuffer);
@@ -1021,7 +1021,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         res = curl_easy_getinfo(msg->easy_handle, CURLINFO_EFFECTIVE_URL, &url);
         if (res != CURLE_OK) {
             /* ignore problem, URL is only for debugging */
-            wic64_log(LOG_COL_LRED, "%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
+            debug_log(CONS_COL_NO, 2, "%s: curl_easy_getinfo(...&URL failed: %s", __FUNCTION__,
                       curl_easy_strerror(res));
             url = "<unknown>";
         }
