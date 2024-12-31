@@ -43,9 +43,7 @@
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
-#ifdef HAVE_ZLIB
 #include <zlib.h>
-#endif
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -199,7 +197,6 @@ void zfile_shutdown(void)
    of the temporary file; return NULL otherwise.  */
 static char *try_uncompress_with_gzip(const char *name)
 {
-#ifdef HAVE_ZLIB
     FILE *fddest;
     gzFile fdsrc;
     char *tmp_name = NULL;
@@ -242,38 +239,6 @@ static char *try_uncompress_with_gzip(const char *name)
     fclose(fddest);
 
     return tmp_name;
-#else
-    char *tmp_name = NULL;
-    int exit_status;
-    char *argv[4];
-
-    if (!file_is_gzip(name)) {
-        return NULL;
-    }
-
-    /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_strdup("gzip");
-    argv[1] = lib_strdup("-cd");
-    argv[2] = archdep_filename_parameter(name);
-    argv[3] = NULL;
-
-    ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
-    exit_status = archdep_spawn("gzip", argv, &tmp_name, NULL);
-
-    lib_free(argv[0]);
-    lib_free(argv[1]);
-    lib_free(argv[2]);
-
-    if (exit_status == 0) {
-        ZDEBUG(("try_uncompress_with_gzip: OK"));
-        return tmp_name;
-    } else {
-        ZDEBUG(("try_uncompress_with_gzip: failed"));
-        archdep_remove(tmp_name);
-        lib_free(tmp_name);
-        return NULL;
-    }
-#endif
 }
 
 /* If `name' has a bzip-like extension, try to uncompress it into a temporary
@@ -829,7 +794,6 @@ static enum compression_type try_uncompress(const char *name,
 /* Compress `src' into `dest' using gzip.  */
 static int compress_with_gzip(const char *src, const char *dest)
 {
-#ifdef HAVE_ZLIB
     FILE *fdsrc;
     gzFile fddest;
     size_t len;
@@ -859,36 +823,6 @@ static int compress_with_gzip(const char *src, const char *dest)
     ZDEBUG(("compress with zlib: OK."));
 
     return 0;
-#else
-    static char *argv[4];
-    int exit_status;
-    char *mdest;
-
-    /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_strdup("gzip");
-    argv[1] = lib_strdup("-c");
-    argv[2] = lib_strdup(src);
-    argv[3] = NULL;
-
-    mdest = lib_strdup(dest);
-
-    ZDEBUG(("compress_with_gzip: spawning gzip -c %s", src));
-    exit_status = archdep_spawn("gzip", argv, &mdest, NULL);
-
-    lib_free(mdest);
-
-    lib_free(argv[0]);
-    lib_free(argv[1]);
-    lib_free(argv[2]);
-
-    if (exit_status == 0) {
-        ZDEBUG(("compress_with_gzip: OK."));
-        return 0;
-    } else {
-        ZDEBUG(("compress_with_gzip: failed."));
-        return -1;
-    }
-#endif
 }
 
 /* Compress `src' into `dest' using bzip.  */

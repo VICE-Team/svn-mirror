@@ -112,7 +112,6 @@ VICE_ARG_ENABLE_LIST(hwscale,               [  --disable-hwscale       disables 
 dnl
 dnl Misc build options
 dnl
-VICE_ARG_WITH_LIST(zlib,                    [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(unzip-bin,               [  --with-unzip-bin        enables distribution of unzip.exe in the windows bindist])
 VICE_ARG_WITH_LIST(libieee1284,             [  --with-libieee1284      use the libieee1284 parallel port library])
 VICE_ARG_ENABLE_LIST(arch,                  [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
@@ -1195,10 +1194,6 @@ if test x"$check_gtk3" = "xyes"; then
       AC_MSG_ERROR([GTK3 UI requested, but GTK3 support packages are missing])
     fi
   fi
-  dnl error out if gtk3 support is requested but zlib is disabled
-  if test x"$enable_gtk3ui" = "xyes" -a x"$with_zlib" = "xno"; then
-    AC_MSG_ERROR([GTK3 UI requested, but zlib is explicitly disabled])
-  fi
 
   dnl Used to compile the vice.gresource.xml file
   AC_CHECK_PROG(GLIB_COMPILE_RESOURCES, [glib-compile-resources], [glib-compile-resources], [no])
@@ -2159,26 +2154,18 @@ AC_CHECK_LIB(m, sqrt,,,$LIBS)
 dnl ----- ZLib -----
 ZLIB_LIBS=
 
-if test x"$with_zlib" != "xno" ; then
-  AC_CHECK_HEADER(zlib.h,,)
-  if test x"$ac_cv_header_zlib_h" = "xyes" ; then
-    ac_cv_lib_z_zlibVersion=yes
-    AC_CHECK_LIB(z, zlibVersion,
+AC_CHECK_HEADER(zlib.h,,)
+if test x"$ac_cv_header_zlib_h" = "xyes" ; then
+  ac_cv_lib_z_zlibVersion=yes
+  AC_CHECK_LIB(z, zlibVersion,
                [ ZLIB_LIBS="-lz";
                  HAVE_ZLIB_SUPPORT="yes";
                  AC_DEFINE(HAVE_ZLIB,,
                  [Can we use the ZLIB compression library?]) ],,)
-  fi
-fi
-
-if test x"$HAVE_ZLIB_SUPPORT" = "xyes" ; then
-  AM_CONDITIONAL(HAVE_ZLIB, true)
 else
-  AM_CONDITIONAL(HAVE_ZLIB, false)
+  AC_MSG_ERROR([Zlib header not found, please install zlib.])
 fi
-
 AC_SUBST(ZLIB_LIBS)
-
 
 dnl --- Curl / WIC64 ---
 dnl We need at least version 7.77.1 for `CURLSSLOPT_NATIVE_CA`
@@ -3730,8 +3717,6 @@ fi
 if test x"$real_arch" = "xUnix"; then
     echo "POSIX 1003.1e capabilities support: $HAVE_CAPABILITIES_SUPPORT"
 fi
-
-echo "zlib support                      : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
 
 if test x"$real_arch" = "xUnix"; then
     echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT (--with/--wihout-libieee1284)"
