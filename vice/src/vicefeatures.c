@@ -350,12 +350,6 @@ static const feature_list_t featurelist[] = {
 #endif
 
 /* (all) */
-    { "HAVE_ZLIB", "Use the ZLIB compression library.",
-#ifndef HAVE_ZLIB
-        0 },
-#else
-        1 },
-#endif
 #ifdef UNIX_COMPILE /* (unix) */
     { "LINUX_JOYSTICK", "Enable support for Linux style joysticks.",
 #ifndef LINUX_JOYSTICK
