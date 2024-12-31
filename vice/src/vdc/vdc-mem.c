@@ -678,7 +678,7 @@ int vdc_dump(void)
         mon_out("%02x: ", regnum);
         for (c = 0; c < 16; c++) {
             if (regnum <= 37) {
-                mon_out("%02x ", vdc.regs[regnum] | regmask[regnum]);
+                mon_out("%02x ", (unsigned int)(vdc.regs[regnum] | regmask[regnum]));
             }
             regnum++;
             if ((c & 3) == 3) {

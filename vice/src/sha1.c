@@ -313,6 +313,6 @@ void SHA1String(
 
     /* format the hash for comparison */
     for(offset = 0; offset < 20; offset++) {
-        sprintf(hash_string_out + (2 * offset), "%02x", result[offset] & 0xff);
+        sprintf(hash_string_out + (2 * offset), "%02x", (unsigned int)result[offset] & 0xff);
     }
 }

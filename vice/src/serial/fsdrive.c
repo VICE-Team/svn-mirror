@@ -184,7 +184,7 @@ static uint8_t serialcommand(unsigned int device, uint8_t secondary)
             break;
 
         default:
-            log_error(fsdrive_log, "Unknown command %02X.", secondary & 0xff);
+            log_error(fsdrive_log, "Unknown command %02X.", (unsigned int)(secondary & 0xff));
     }
 
     return st;

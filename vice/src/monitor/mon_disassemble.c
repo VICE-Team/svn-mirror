@@ -145,23 +145,28 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
     switch (opc_size) {
         case 1:
-            sprintf(buff, "%02X          %s%s", x,
+            sprintf(buff, "%02X          %s%s",
+                    x,
                     is_undoc ? "*" : "", string);
             break;
         case 2:
-            sprintf(buff, "%02X %02X       %s%s", x, p1 & 0xff,
+            sprintf(buff, "%02X %02X       %s%s",
+                    x, (unsigned int)p1 & 0xff,
                     is_undoc ? "*" : "", string);
             break;
         case 3:
-            sprintf(buff, "%02X %02X %02X    %s%s", x, p1 & 0xff, p2 & 0xff,
+            sprintf(buff, "%02X %02X %02X    %s%s",
+                    x, (unsigned int)p1 & 0xff, (unsigned int)p2 & 0xff,
                     is_undoc ? "*" : "", string);
             break;
         case 4:
-            sprintf(buff, "%02X %02X %02X %02X %s%s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff,
+            sprintf(buff, "%02X %02X %02X %02X %s%s",
+                    x, (unsigned int)p1 & 0xff, (unsigned int)p2 & 0xff, (unsigned int)p3 & 0xff,
                     is_undoc ? "*" : "", string);
             break;
         case 5:
-            sprintf(buff, "%02X%02X%02X %02X%02X %s%s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff, p4 & 0xFF,
+            sprintf(buff, "%02X%02X%02X %02X%02X %s%s",
+                    x, (unsigned int)p1 & 0xff, (unsigned int)p2 & 0xff, (unsigned int)p3 & 0xff, (unsigned int)p4 & 0xff,
                     is_undoc ? "*" : "", string);
             break;
         default:
@@ -356,7 +361,11 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             break;
 
         case ASM_ADDR_MODE_MOVE:
-            sprintf(buffp, (hex_mode ? " $%02X,$%02X" : " %3d,%3u"), p2 & 0xff, ival);
+            if (hex_mode) {
+                sprintf(buffp, " $%02X,$%02X", (unsigned int)p2 & 0xff, ival);
+            } else {
+                sprintf(buffp, " %3d,%3u", p2 & 0xff, ival);
+            }
             break;
 
         case ASM_ADDR_MODE_RELATIVE:

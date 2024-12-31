@@ -93,8 +93,7 @@ static void pop_irq_state(tpi_context_t *tpi_context)
     if (mytpi_debug) {
         log_message(tpi_context->log,
                     "pop_irq_state(latches=%02x, stack=%02x, active=%02x)",
-                    (int)irq_latches, (int)(tpi_context->irq_stack),
-                    (int)irq_active);
+                    irq_latches, tpi_context->irq_stack, irq_active);
     }
     if (irq_priority) {
         if (tpi_context->irq_stack) {
@@ -120,8 +119,7 @@ static uint8_t push_irq_state(tpi_context_t *tpi_context)
     if (mytpi_debug) {
         log_message(tpi_context->log,
                     "push_irq_state(latches=%02x, act=%02x, stack=%02x mask=%02x).",
-                    (int)irq_latches, (int)irq_active,
-                    (int)(tpi_context->irq_stack), (int)irq_mask);
+                    irq_latches, irq_active, tpi_context->irq_stack, irq_mask);
     }
 
     irq_latches &= ~irq_active;

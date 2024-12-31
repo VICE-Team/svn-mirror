@@ -171,7 +171,7 @@ static int parallelcommand(void)
             }
             break;
         default:
-            log_error(parallel_log, "Unknown command %02X.", TrapSecondary & 0xff);
+            log_error(parallel_log, "Unknown command %02X.", (unsigned int)(TrapSecondary & 0xff));
     }
     return st;
 }
@@ -374,7 +374,7 @@ if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
                     "ok=%s, st=%04x.",
                     (unsigned int)secadr,
                     p->lastbyte[secadr],
-                    (int)*data,
+                    (unsigned int)*data,
                     p->lastok[secadr] ? "ok" : "no",
                     (unsigned int)(p->lastst[secadr]),
                     p->nextbyte[secadr],
