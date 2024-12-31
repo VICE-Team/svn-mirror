@@ -3718,7 +3718,7 @@ if test x"$real_arch" = "xUnix"; then
     echo "POSIX 1003.1e capabilities support: $HAVE_CAPABILITIES_SUPPORT"
 fi
 
-if test x"$real_arch" = "xUnix"; then
+if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
     echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT (--with/--wihout-libieee1284)"
 fi
 
