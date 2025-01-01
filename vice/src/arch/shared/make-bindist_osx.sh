@@ -45,8 +45,10 @@ if which gtk-update-icon-cache-3.0 > /dev/null; then
   GTK_UPDATE_ICON_CACHE=gtk-update-icon-cache-3.0
 elif which gtk3-update-icon-cache >/dev/null; then
   GTK_UPDATE_ICON_CACHE=gtk3-update-icon-cache
+elif which gtk-update-icon-cache >/dev/null; then
+  GTK_UPDATE_ICON_CACHE=gtk-update-icon-cache
 else
-  >&2 echo "ERROR: Could not find gtk-update-icon-cache-3.0 or gtk3-update-icon-cache"
+  >&2 echo "ERROR: Could not find gtk-update-icon-cache-3.0, gtk3-update-icon-cache, nor gtk-update-icon-cache."
   exit 1
 fi
 
