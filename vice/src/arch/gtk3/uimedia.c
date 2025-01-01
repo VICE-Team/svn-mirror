@@ -358,14 +358,14 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                     save_screenshot_handler(data);
                 } else if (strcmp(child_name, CHILD_SOUND) == 0) {
                     save_audio_recording_handler(data);
-                    ui_display_recording(1);
+                    ui_display_recording(UI_RECORDING_STATUS_AUDIO);
                 } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
                     save_video_recording_handler(data);
-                    ui_display_recording(1);
+                    ui_display_recording(UI_RECORDING_STATUS_VIDEO);
                 }
             } else {
                 save_audio_recording_handler(data);
-                ui_display_recording(1);
+                ui_display_recording(UI_RECORDING_STATUS_AUDIO);
             }
 #if 0
             mainlockk_release();
@@ -1067,8 +1067,6 @@ static GtkWidget *create_video_widget(void)
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
 
-
-#if 1
     label = gtk_label_new("Video driver");
     gtk_widget_set_margin_start(label, 16);
 
@@ -1125,21 +1123,7 @@ static GtkWidget *create_video_widget(void)
     video_driver_options_grid = options_grid;
 
     gtk_grid_attach(GTK_GRID(grid), options_grid, 0, 1, 1, 1);
-#else
-    label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD);
-    gtk_widget_set_margin_start(label, 16);
-    gtk_widget_set_margin_end(label, 16);
-    gtk_widget_set_margin_top(label, 16);
-    gtk_widget_set_margin_bottom(label, 16);
-    gtk_label_set_markup(GTK_LABEL(label),
-            "Video recording is unavailable due to VICE having being compiled"
-            " without FFMPEG support.\nPlease recompile with"
-            " <tt>--enable-ffmpeg</tt>.\n\n"
-            "If you didn't compile VICE yourself, ask your provider.");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -1256,7 +1240,7 @@ void ui_media_stop_recording(void)
         screenshot_stop_recording();
     }
 
-    ui_display_recording(0);
+    ui_display_recording(UI_RECORDING_STATUS_NONE);
     statusbar_recording_widget_hide_all(ui_statusbar_get_recording_widget(), 10);
 }
 

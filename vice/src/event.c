@@ -698,7 +698,7 @@ static void event_record_start_trap(uint16_t addr, void *data)
                         1, 1, 0) < 0) {
                 ui_error("Could not create start snapshot file %s.",
                         event_snapshot_path(event_start_snapshot));
-                ui_display_recording(0);
+                ui_display_recording(UI_RECORDING_STATUS_NONE);
                 return;
             }
             destroy_list();
@@ -752,7 +752,7 @@ static void event_record_start_trap(uint16_t addr, void *data)
     alarm_set(event_alarm, next_timestamp_clk);
 
     record_active = 1;
-    ui_display_recording(1);
+    ui_display_recording(UI_RECORDING_STATUS_EVENTS);
 }
 
 int event_record_start(void)
@@ -797,7 +797,7 @@ int event_record_stop(void)
 
     interrupt_maincpu_trigger_trap(event_record_stop_trap, (void *)0);
 
-    ui_display_recording(0);
+    ui_display_recording(UI_RECORDING_STATUS_NONE);
 
     alarm_unset(event_alarm);
 

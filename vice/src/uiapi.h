@@ -101,6 +101,11 @@ void ui_display_reset(int device, int mode);
 
 /* Recording UI */
 void ui_display_playback(int playback_status, char *version);
+
+#define UI_RECORDING_STATUS_NONE    0   /**< nothing is being recorded */
+#define UI_RECORDING_STATUS_EVENTS  1   /**< recording events */
+#define UI_RECORDING_STATUS_AUDIO   2   /**< recording audio */
+#define UI_RECORDING_STATUS_VIDEO   3   /**< recording video */
 void ui_display_recording(int recording_status);
 void ui_display_event_time(unsigned int current, unsigned int total);
 
