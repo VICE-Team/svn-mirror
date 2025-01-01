@@ -261,6 +261,7 @@ int memmap_screenshot_save(const char *drvname, const char *filename, int x_size
 int screenshot_record(void)
 {
     screenshot_t screenshot;
+    int result;
 
     if (recording_driver == NULL) {
         return 0;
@@ -280,7 +281,15 @@ int screenshot_record(void)
         return -1;
     }
 
-    return screenshot_save_core(&screenshot, NULL, NULL);
+    result = screenshot_save_core(&screenshot, NULL, NULL);
+    DBG(("screenshot_record result:%d", result));
+    if (result < 0) {
+        /*log_error(screenshot_log, "Video recording failed, stopping...");*/
+        screenshot_stop_recording();
+        ui_display_recording(UI_RECORDING_STATUS_NONE);
+    }
+
+    return result;
 }
 
 void screenshot_stop_recording(void)
