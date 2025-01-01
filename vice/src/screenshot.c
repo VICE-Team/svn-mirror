@@ -50,6 +50,13 @@
 #include "ui.h"
 #include "vsync.h"
 
+/* #define DEBUG_SCREENSHOT */
+
+#ifdef DEBUG_SCREENSHOT
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
 
 static log_t screenshot_log = LOG_DEFAULT;
 static gfxoutputdrv_t *recording_driver;
@@ -197,7 +204,9 @@ int screenshot_save(const char *drvname, const char *filename,
     screenshot_t screenshot;
     gfxoutputdrv_t *drv;
     int result;
-    /* printf("screenshot_save(%s, %s, ...)\n", drvname, filename); */
+
+    DBG(("screenshot_save(%s, %s, ...)", drvname, filename));
+
     if ((drv = gfxoutput_get_driver(drvname)) == NULL) {
         return -1;
     }
@@ -222,7 +231,7 @@ int screenshot_save(const char *drvname, const char *filename,
     }
 
     result = screenshot_save_core(&screenshot, drv, filename);
-
+    DBG(("screenshot_save_core result:%d", result));
     if (result < 0) {
         recording_driver = NULL;
         recording_canvas = NULL;
@@ -248,6 +257,7 @@ int memmap_screenshot_save(const char *drvname, const char *filename, int x_size
 }
 #endif
 
+/* called for each frame */
 int screenshot_record(void)
 {
     screenshot_t screenshot;
@@ -255,6 +265,8 @@ int screenshot_record(void)
     if (recording_driver == NULL) {
         return 0;
     }
+
+    /* DBG(("screenshot_record")); */
 
     /* Retrive framebuffer and screen geometry.  */
     if (recording_canvas != NULL) {

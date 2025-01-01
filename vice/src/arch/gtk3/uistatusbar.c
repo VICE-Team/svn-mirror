@@ -106,6 +106,14 @@
 
 #include "uistatusbar.h"
 
+/* #define DEBUG_STATUSBAR */
+
+#ifdef DEBUG_STATUSBAR
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
+
 
 /** \brief The maximum number of status bars we will permit to exist at once. */
 #define MAX_STATUS_BARS 3
@@ -2891,7 +2899,7 @@ void ui_display_playback(int playback_status, char *version)
 void ui_display_recording(int recording_status)
 {
     GtkWidget *widget;
-
+    DBG(("ui_display_recording: %d", recording_status));
     /* Ok to call from VICE thread */
     widget = allocated_bars[0].record;
     statusbar_recording_widget_set_recording_status(widget, recording_status);

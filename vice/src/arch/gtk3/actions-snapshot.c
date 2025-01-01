@@ -88,7 +88,7 @@ static void snapshot_quicksave_action(ui_action_map_t *self)
 static void history_record_start_action(ui_action_map_t *self)
 {
     event_record_start();
-    ui_display_recording(1);
+    ui_display_recording(UI_RECORDING_STATUS_EVENTS);
 
 }
 
@@ -99,7 +99,7 @@ static void history_record_start_action(ui_action_map_t *self)
 static void history_record_stop_action(ui_action_map_t *self)
 {
     event_record_stop();
-    ui_display_recording(0);
+    ui_display_recording(UI_RECORDING_STATUS_NONE);
 }
 
 
