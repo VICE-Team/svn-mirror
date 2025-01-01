@@ -290,10 +290,19 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
     }
 #endif
 
-    if ((type != UI_RECORDING_STATUS_NONE) && (type != UI_RECORDING_STATUS_EVENTS) && status) {
-        g_timeout_add_seconds(1, update_timer, (gpointer)widget);
-    }
     DBG(("statusbar_recording_widget_set_recording_status type:%d", type));
+
+    switch (type) {
+        case UI_RECORDING_STATUS_NONE:
+            statusbar_recording_widget_hide_all(GTK_WIDGET(widget), HIDE_ALL_TIMEOUT);
+            break;
+        case UI_RECORDING_STATUS_EVENTS:
+            break;
+        case UI_RECORDING_STATUS_AUDIO:
+        case UI_RECORDING_STATUS_VIDEO:
+            g_timeout_add_seconds(1, update_timer, (gpointer)widget);
+            break;
+    }
 
     /* update recording status text */
     label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);

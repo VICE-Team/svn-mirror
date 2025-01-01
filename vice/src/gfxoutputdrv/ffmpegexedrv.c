@@ -439,13 +439,18 @@ static void log_resource_values(const char *func)
 static ssize_t write_video_frame(VIDEOFrame *pic)
 {
     ssize_t len = INPUT_VIDEO_BPP * video_height * video_width;
+    ssize_t res;
 
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         if (ffmpeg_video_socket == 0) {
             log_error(ffmpeg_log, "FFMPEG: write_video_frame ffmpeg_video_socket is 0 (framecount:%"PRIu64")", framecounter);
             return -1;
         }
-        return len - vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
+        res = vice_network_send(ffmpeg_video_socket, pic->data, len, 0 /* flags */);
+        if (res < 0) {
+            return -1;
+        }
+        return len - res;
     }
     return 0;
 }
