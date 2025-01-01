@@ -25,11 +25,11 @@ fi
 if [ -z "$APPLE_ID_EMAIL" ]; then
     err "Missing env APPLE_ID_EMAIL. Set to your apple ID email address"
 fi
-if [ -z "$NOTARISATION_PROVIDER" ]; then
-    err "Missing env NOTARISATION_PROVIDER. Refer to https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution/customizing_the_notarization_workflow"
+if [ -z "$APPLE_TEAM_ID" ]; then
+    err "Missing env APPLE_TEAM_ID. Get it from https://developer.apple.com/account#MembershipDetailsCard"
 fi
-if [ -z "$NOTARISATION_PASSWORD" ]; then
-    err "Missing env NOTARISATION_PASSWORD. Refer to https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution/customizing_the_notarization_workflow"
+if [ -z "$APPLE_NOTARISATION_PASSWORD" ]; then
+    err "Missing env APPLE_NOTARISATION_PASSWORD. NOT YOUR APPLE ID PASSWORD. Refer to https://support.apple.com/en-us/102654"
 fi
 
 set -o nounset
@@ -51,31 +51,13 @@ echo "Build Dir: $BUILD_DIR"
 
 function notarise {
     OUTPUT="$(mktemp)"
-    xcrun altool --notarize-app \
-                 --primary-bundle-id "$1" \
-                 --username "$APPLE_ID_EMAIL" \
-                 --password "$NOTARISATION_PASSWORD" \
-                 --asc-provider "$NOTARISATION_PROVIDER" \
-                 --file "$1" \
-                 2>&1 | tee "$OUTPUT"
-    UUID=$(awk '/RequestUUID/ { print $3 }' "$OUTPUT")
-
-    if [ -z "$UUID" ]
-    then
-        echo "ERROR: Failed to capture RequestUUID from xcrun output".
-        exit 1
-    fi
-
-    echo "Waiting for Status: success"
-
-    while [ -z "$(grep "Status: success" "$OUTPUT")" ]
-    do    
-        sleep 10
-        xcrun altool --notarization-info "$UUID" \
-                     -u "$APPLE_ID_EMAIL" \
-                     -p "$NOTARISATION_PASSWORD" \
-                     2>&1 | tee "$OUTPUT"
-    done
+    xcrun notarytool submit \
+        --apple-id "$APPLE_ID_EMAIL" \
+        --password "$APPLE_NOTARISATION_PASSWORD" \
+        --team-id "$APPLE_TEAM_ID" \
+        --wait \
+        "$1" \
+        2>&1 | tee "$OUTPUT"
 
     xcrun stapler staple "$1"
 }
