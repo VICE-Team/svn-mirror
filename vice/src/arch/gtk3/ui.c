@@ -26,7 +26,7 @@
  * $VICERES Window1Width            x128
  * $VICERES Window1Xpos             x128
  * $VICERES Window1Ypos             x128
-
+ * $VICERES StartMinimized          -vsid
  */
 
 /*
