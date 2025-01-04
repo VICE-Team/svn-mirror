@@ -901,6 +901,8 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
+    curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1L);
+
     /* work around bug 1964 (https://sourceforge.net/p/vice-emu/bugs/1964/) */
 #ifdef CURLSSLOPT_NATIVE_CA
     curl_easy_setopt(eh, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
@@ -1649,6 +1651,7 @@ static void cmd_http_post(int cmd)
         } else {
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
         }
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         res = curl_easy_setopt(curl, CURLOPT_USERAGENT, http_user_agent);
         if (res != CURLE_OK) {
             wic64_log(CONS_COL_NO, "curl set user agent failed: %s", curl_easy_strerror(res));
@@ -1825,6 +1828,7 @@ static void do_connect(uint8_t *buffer)
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
     }
 
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_URL, buffer);
     /* Do not do the transfer - only connect to host */
     curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
