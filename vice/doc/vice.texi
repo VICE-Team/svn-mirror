@@ -17629,6 +17629,12 @@ Enable/Disable keyboard-status bar (when status bar is enabled)
 Start/Do not start with minimized window
 (@code{StartMinimized=1}, @code{StartMinimized=0}).
 
+@findex -maximized, +maximized
+@item -maximized
+@itemx +maximized
+Start/Do not start with maximized window
+(@code{StartMaximized=1}, @code{StartMaximized=0}).
+
 @findex -jamaction
 @item -jamaction <Type>
 Specify the action to take when the CPU encounters a 'JAM' opcode
@@ -17729,6 +17735,10 @@ Boolean specifying whether the keyboard-status bar is enabled.
 @vindex StartMinimized
 @item StartMinimized
 Boolean specifying whether the emulator should start minimized
+
+@vindex StartMaximized
+@item StartMaximized
+Boolean specifying whether the emulator should start maximized
 
 @vindex JAMAction
 @item JAMAction
