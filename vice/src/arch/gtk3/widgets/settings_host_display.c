@@ -7,6 +7,7 @@
 /*
  * $VICERES FullscreenDecorations   -vsid
  * $VICERES StartMinimized          -vsid
+ * $VICERES StartMaximized          -vsid
  */
 
 /*
@@ -121,6 +122,21 @@ static GtkWidget *create_rendering_options_widget(const char *chip)
     return grid;
 }
 
+/** \brief  Handler for the 'toggled' event of the minimized/maximized check buttons
+ *
+ * Prevent user from enabling both "start minimized" and "start maximized".
+ *
+ * \param[in]   self    check button triggering event
+ * \param[in]   other   check button for opposite state
+ */
+static void on_minmax_toggled(GtkToggleButton *self, gpointer other)
+{
+    if (gtk_toggle_button_get_active(self) &&
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(other))) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(other), FALSE);
+    }
+}
+
 
 /** \brief  Create host display settings widget
  *
@@ -138,6 +154,7 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         GtkWidget  *decorations;
         GtkWidget  *minimized;
+        GtkWidget  *maximized;
         GtkWidget  *rendering_options;
         GtkWidget  *rendering_options_vdc = NULL;
         const char *chip;
@@ -147,6 +164,9 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         minimized = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
                 "Start the emulator window minimized");
+        maximized = vice_gtk3_resource_check_button_new(
+                "StartMaximized",
+                "Start the emulator window maximized");
         rendering_options = create_rendering_options_widget(chip);
         gtk_widget_set_margin_top(rendering_options, 24);
         if (machine_class == VICE_MACHINE_C128) {
@@ -154,11 +174,21 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
             gtk_widget_set_margin_top(rendering_options_vdc, 24);
         }
 
+        g_signal_connect(G_OBJECT(minimized),
+                         "toggled",
+                         G_CALLBACK(on_minmax_toggled),
+                         (gpointer)maximized);
+        g_signal_connect(G_OBJECT(maximized),
+                         "toggled",
+                         G_CALLBACK(on_minmax_toggled),
+                         (gpointer)minimized);
+
         gtk_grid_attach(GTK_GRID(grid), decorations, 0, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), minimized, 0, 2, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), rendering_options, 0, 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), maximized, 0, 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), rendering_options, 0, 4, 1, 1);
         if (machine_class == VICE_MACHINE_C128) {
-            gtk_grid_attach(GTK_GRID(grid), rendering_options_vdc, 0, 4, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), rendering_options_vdc, 0, 5, 1, 1);
         }
     }
     gtk_widget_show_all(grid);

@@ -155,7 +155,8 @@ static int set_window_height(gint height, void *window_index);
 static int set_window_width(gint width, void *window_index);
 static int set_window_xpos(gint xpos, void *window_index);
 static int set_window_ypos(gint ypos, void *window_index);
-static int set_start_minimized(gboolean start_minimized, void *unused);
+static int set_start_minimized(int start_minimized, void *unused);
+static int set_start_maximized(int start_minimized, void *unused);
 static int set_native_monitor(gboolean use_native_monitorl, void *unused);
 static int set_monitor_font(const gchar *font_description, void *unused);
 static int set_monitor_bg(const gchar *color, void *unused);
@@ -198,6 +199,7 @@ typedef struct ui_resources_s {
     int pause_on_settings;      /**< PauseOnSettings (bool) */
 
     int start_minimized;        /**< StartMinimized (bool) */
+    int start_maximized;        /**< StartMaximized (bool) */
 
     int use_native_monitor;     /**< NativeMonitor (bool) */
 
@@ -285,6 +287,8 @@ static const resource_int_t resources_int_shared[] = {
 
     { "StartMinimized", 0, RES_EVENT_NO, NULL,
         &ui_resources.start_minimized, set_start_minimized, NULL },
+    { "StartMaximized", 0, RES_EVENT_NO, NULL,
+        &ui_resources.start_maximized, set_start_maximized, NULL },
 
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &ui_resources.use_native_monitor, set_native_monitor, NULL },
@@ -392,6 +396,12 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+minimized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "StartMinimized", (void *)0,
         NULL, "Do not start VICE minimized" },
+    { "-maximized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "StartMaximized", (void*)1,
+        NULL, "Start VICE maximized" },
+    { "+maximized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "StartMaximized", (void*)0,
+        NULL, "Do not start VICE maximized" },
     { "-nativemonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)1,
         NULL, "Use native monitor on OS terminal" },
@@ -569,11 +579,34 @@ static int set_autostart_on_doubleclick(gboolean autostart_on_doubleclick, void 
  * \param[in]   start_minimized start the emulator window minimized
  * \param[in]   unused          extra param (ignored)
  *
- * \return 0
+ * \return  0 on success, -1 when StartMaximized is true
  */
-static int set_start_minimized(gboolean start_minimized, void *unused)
+static int set_start_minimized(int start_minimized, void *unused)
 {
+    if (start_minimized && ui_resources.start_maximized) {
+        log_error(LOG_DEFAULT,
+                  "cannot request both minimized and maximized window.");
+        return -1;
+    }
     ui_resources.start_minimized = start_minimized;
+    return 0;
+}
+
+/** \brief  Set StartMaximized resource
+ *
+ * \param[in]   start_maximized start the emulator window maximized
+ * \param[in]   unused          extra param (ignored)
+ *
+ * \return  0 on success, -1 when StartMinimized is true
+ */
+static int set_start_maximized(int start_maximized, void *unused)
+{
+    if (start_maximized && ui_resources.start_minimized) {
+        log_error(LOG_DEFAULT,
+                  "cannot request both minimized and maximized window.");
+        return -1;
+    }
+    ui_resources.start_maximized = start_maximized;
     return 0;
 }
 
@@ -1780,7 +1813,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     GdkPixbuf *icon;
     gchar title[256];
 
-    int minimized = 0;
     bool restored = false;
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1939,18 +1971,16 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     /*
-     * Do we start minimized?
+     * Do we start minimized or maximized?
      */
-    if (resources_get_int("StartMinimized", &minimized) < 0) {
-        minimized = 0;  /* fallback : not minimized */
-    }
-    if (minimized) {
-        /* there's no gtk_window_minimize() so we do this:
-         * (there is a gtk_window_maximize(), so for API consistency I'd would
-         *  probably have added gtk_window_minimize() to mirror the maximize
-         *  function)
-         */
+    if (ui_resources.start_minimized && ui_resources.start_maximized) {
+        /* error: cannot have both: log and ignore */
+        log_error(LOG_DEFAULT, "minimized and maximized window requested, ignoring.");
+    } else if (ui_resources.start_minimized) {
+        /* there's no gtk_window_minimize() so we do this */
         gtk_window_iconify(GTK_WINDOW(new_window));
+    } else if (ui_resources.start_maximized) {
+        gtk_window_maximize(GTK_WINDOW(new_window));
     } else {
         /* my guess is a minimized/iconified window cannot be fullscreen */
         if (ui_is_fullscreen_from_canvas(canvas)) {
