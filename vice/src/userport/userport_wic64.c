@@ -902,11 +902,17 @@ static void add_transfer(CURLM *cmulti, char *url)
     curl_easy_setopt(eh, CURLOPT_URL, url);
     curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
     curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1L);
+    /* need to decied if we want to ship a certificate file
+    curl_easy_setopt(eh, CURLOPT_CAINFO, PREFIX "/share/vice/etc/ca-bundle.crt");
+    curl_easy_setopt(eh, CURLOPT_CAPATH, PREFIX "/share/vice/etc/ca-bundle.crt");
+    */
+    curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0L);
 
-    /* work around bug 1964 (https://sourceforge.net/p/vice-emu/bugs/1964/) */
+    /* work around bug 1964 (https://sourceforge.net/p/vice-emu/bugs/1964/) - maybe not needed anymore !*/
 #ifdef CURLSSLOPT_NATIVE_CA
     curl_easy_setopt(eh, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
 #endif
+
     /* set USERAGENT: otherwise the server won't return data, e.g. wicradio */
     if (wic64_protocol == WIC64_PROT_LEGACY) {
         http_user_agent = HTTP_AGENT_LEGACY;
@@ -1652,6 +1658,11 @@ static void cmd_http_post(int cmd)
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
         }
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        /* need to decied if we want to ship a certificate file
+           curl_easy_setopt(curl, CURLOPT_CAINFO, PREFIX "/share/vice/etc/ca-bundle.crt");
+           curl_easy_setopt(curl, CURLOPT_CAPATH, PREFIX "/share/vice/etc/ca-bundle.crt");
+        */
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         res = curl_easy_setopt(curl, CURLOPT_USERAGENT, http_user_agent);
         if (res != CURLE_OK) {
             wic64_log(CONS_COL_NO, "curl set user agent failed: %s", curl_easy_strerror(res));
@@ -1829,6 +1840,11 @@ static void do_connect(uint8_t *buffer)
     }
 
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    /* need to decied if we want to ship a certificate file
+    curl_easy_setopt(curl, CURLOPT_CAINFO, PREFIX "/share/vice/etc/ca-bundle.crt");
+    curl_easy_setopt(curl, CURLOPT_CAPATH, PREFIX "/share/vice/etc/ca-bundle.crt");
+    */
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(curl, CURLOPT_URL, buffer);
     /* Do not do the transfer - only connect to host */
     curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
