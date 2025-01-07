@@ -556,25 +556,32 @@ static SDL_WindowFlags sdl2_ui_generate_flags_for_canvas(const video_canvas_t* c
 {
     SDL_WindowFlags flags = 0;
     int minimized = 0;
+    int maximized = 0;
     int hide_vdc = 0;
 
     if (machine_class == VICE_MACHINE_C128) {
         resources_get_int("C128HideVDC", &hide_vdc);
     }
     resources_get_int("StartMinimized", &minimized);
+    resources_get_int("StartMaximized", &maximized);
 
-    if (minimized) {
-      flags |= SDL_WINDOW_MINIMIZED;
+    if (minimized && maximized) {
+        log_warning(LOG_DEFAULT,
+                    "both StartMinized and StartMaximized are true, ignoring.");
+    } else if (minimized) {
+        flags |= SDL_WINDOW_MINIMIZED;
+    } else if (maximized) {
+        flags |= SDL_WINDOW_MAXIMIZED;
     }
 
     if (hide_vdc && (canvas->index == VIDEO_CANVAS_IDX_VDC)) {
-      flags |= SDL_WINDOW_HIDDEN;
+        flags |= SDL_WINDOW_HIDDEN;
     }
 
     if (canvas->fullscreenconfig->enable) {
-      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     } else {
-      flags |= SDL_WINDOW_RESIZABLE;
+        flags |= SDL_WINDOW_RESIZABLE;
     }
 
     return flags;
