@@ -730,8 +730,13 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     } else {
         pretxt = lib_msprintf(LOG_COL_LWHITE "%s" LOG_COL_OFF ": %s", logs[logi], lvlstr);
     }
+
     /* build the log string */
     logtxt = lib_mvsprintf(format, ap);
+    if (logtxt == NULL) {
+        fprintf(stderr, "log_helper: internal error (lib_mvsprintf returned NULL)\n");
+        return -1;
+    }
 
     if ((log_to_file) || (!log_colorize)) {
         nocolorpre = logskipcolors(pretxt);
