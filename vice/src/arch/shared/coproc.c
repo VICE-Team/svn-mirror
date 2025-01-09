@@ -49,6 +49,22 @@
  * installing an ignoring handler.
  */
 
+/*
+    spawns a shell and executes a shell command (which can be a program)
+    as a background process
+
+    cmd         command to run
+
+    returns:
+
+    fd_wr       stdin of the child process
+    fd_rd       stdout of the child process
+    childpid    PID of the child process (to be used with kill_coproc)
+
+    return value: 0:ok, -1:error
+
+*/
+
 /* this code is currently used to spawn sub processes in:
    - gfxoutputdrv/ffmpegexedrv.c
    - printerdrv/output-text.c
@@ -57,6 +73,14 @@
 */
 
 #include "vice.h"
+
+/* #define DEBUG_COPROC */
+
+#ifdef DEBUG_COPROC
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
 
 /* TODO: Perhaps implement fork_coproc() on Haiku using Haiku-specific code
  *       instead of relying on the POSIX compatibility layer? */
@@ -87,7 +111,7 @@ static struct sigaction ignore;
 
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *childpid)
 {
-    int fd1[2], fd2[2];
+    int pipe_stdout_fd[2], pipe_stdin_fd[2];
     vice_pid_t pid;
 
     ignore.sa_handler = SIG_IGN;
@@ -97,47 +121,52 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *childpid)
     sigaction(SIGCHLD, &ignore, NULL);
     sigaction(SIGPIPE, &ignore, NULL);
 
-    if (pipe(fd1) < 0) {
+    *fd_rd = *fd_wr = *childpid = -1;
+
+    if (pipe(pipe_stdout_fd) < 0) {
         log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
         return -1;
     }
-    if (pipe(fd2) < 0) {
+    if (pipe(pipe_stdin_fd) < 0) {
         log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
-        close(fd1[0]);
-        close(fd1[1]);
+        close(pipe_stdout_fd[0]);
+        close(pipe_stdout_fd[1]);
         return -1;
     }
-    log_message(LOG_DEFAULT, "forking process '%s'", cmd);
+
+    log_message(LOG_DEFAULT, "Coproc: forking process '%s'", cmd);
     if ((pid = fork()) < 0) {
         log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
-        close(fd1[0]);
-        close(fd1[1]);
-        close(fd2[0]);
-        close(fd2[1]);
+        close(pipe_stdout_fd[0]);
+        close(pipe_stdout_fd[1]);
+        close(pipe_stdin_fd[0]);
+        close(pipe_stdin_fd[1]);
         return -1;
-    } else if (pid == 0) {      /* child */
-        close(fd1[0]);
-        if (fd1[1] != STDOUT_FILENO) {
-            dup2(fd1[1], STDOUT_FILENO);
-            close(fd1[1]);
+    } else if (pid == 0) {
+        /* child */
+        close(pipe_stdout_fd[0]);
+        if (pipe_stdout_fd[1] != STDOUT_FILENO) {
+            dup2(pipe_stdout_fd[1], STDOUT_FILENO);
+            close(pipe_stdout_fd[1]);
         }
-        close(fd2[1]);
-        if (fd2[0] != STDIN_FILENO) {
-            dup2(fd2[0], STDIN_FILENO);
-            close(fd2[0]);
+        close(pipe_stdin_fd[1]);
+        if (pipe_stdin_fd[0] != STDIN_FILENO) {
+            dup2(pipe_stdin_fd[0], STDIN_FILENO);
+            close(pipe_stdin_fd[0]);
         }
 
         /* Hm, we have to close all other files that are currently
            open now...  */
-        execl(SHELL, "sh", "-c", cmd, NULL);
+        execl(SHELL, SHELL, "-c", cmd, NULL);
 
         archdep_vice_exit(127); /* child dies on error */
-    } else {                    /* parent */
-        close(fd1[1]);
-        close(fd2[0]);
+    } else {
+        /* parent */
+        close(pipe_stdout_fd[1]);
+        close(pipe_stdin_fd[0]);
 
-        *fd_rd = fd1[0];
-        *fd_wr = fd2[1];
+        *fd_rd = pipe_stdout_fd[0];
+        *fd_wr = pipe_stdin_fd[1];
         *childpid = pid;
         log_message(LOG_DEFAULT, "forked process id is: %d", pid);
     }
