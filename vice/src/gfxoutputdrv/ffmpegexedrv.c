@@ -570,7 +570,7 @@ static int test_ffmpeg_executable(void)
 #else
     static int test_stdin = -1;
     static int test_stdout = -1;
-    static vice_pid_t test_pid = -1;
+    static vice_pid_t test_pid = VICE_PID_INVALID;
     int res = -1;
     size_t n;
     static char output[0x40];
@@ -578,9 +578,9 @@ static int test_ffmpeg_executable(void)
         "ffmpeg 2>&1"   /* redirect stderr to stdout. this better works on the big 3 */
     };
     /* kill old process in case it is still running for whatever reason */
-    if (test_pid != -1) {
+    if (test_pid != VICE_PID_INVALID) {
         kill_coproc(test_pid);
-        test_pid = -1;
+        test_pid = VICE_PID_INVALID;
     }
     if (test_stdin != -1) {
         close(test_stdin);
@@ -597,8 +597,13 @@ static int test_ffmpeg_executable(void)
         goto testend;
     }
     /*log_printf("test_ffmpeg_executable pid:%d stdin:%d stdout:%d", test_pid, test_stdin, test_stdout);*/
+#ifdef WINDOWS_COMPILE
+    if (test_pid == VICE_PID_INVALDI) {
+        log_error(ffmpeg_log, "Cannot fork ffmpeg process '%s' (pid == NULL).", command);
+#else
     if (test_pid <= 0) {
         log_error(ffmpeg_log, "Cannot fork ffmpeg process '%s' (pid <= 0).", command);
+#endif
         goto testend;
     }
 
@@ -618,9 +623,9 @@ static int test_ffmpeg_executable(void)
     }
 testend:
     /* kill new process */
-    if (test_pid != -1) {
+    if (test_pid != VICE_PID_INVALID) {
         kill_coproc(test_pid);
-        test_pid = -1;
+        test_pid = VICE_PID_INVALID;
     }
     if (test_stdin != -1) {
         close(test_stdin);
