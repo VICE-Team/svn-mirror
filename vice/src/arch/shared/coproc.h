@@ -31,9 +31,11 @@
 #if defined(WINDOWS_COMPILE)
 #include <windows.h>
 typedef HANDLE vice_pid_t;
+#define VICE_PID_INVALID    NULL
 #else
 #include <sys/types.h>
 typedef pid_t vice_pid_t;
+#define VICE_PID_INVALID    -1
 #endif
 
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *childpid);
