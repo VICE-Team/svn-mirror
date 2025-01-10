@@ -125,7 +125,6 @@ int archdep_spawn(const char *name, char **argv,
         return -1;
     } else {
         if (child_pid == 0) {
-            int res;
             /* child - CAUTION: log system does not work here */
             if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
                 stdout_errno = errno;
@@ -135,7 +134,7 @@ int archdep_spawn(const char *name, char **argv,
                 stderr_errno = errno;
                 _exit(-1);
             }
-            res = execvp(name, argv);
+            execvp(name, argv);
             /* execvp should never return, except when there was some error */
             _exit(-1);
         }
