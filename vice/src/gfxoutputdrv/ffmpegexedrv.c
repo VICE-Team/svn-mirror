@@ -598,7 +598,7 @@ static int test_ffmpeg_executable(void)
     }
     /*log_printf("test_ffmpeg_executable pid:%d stdin:%d stdout:%d", test_pid, test_stdin, test_stdout);*/
 #ifdef WINDOWS_COMPILE
-    if (test_pid == VICE_PID_INVALDI) {
+    if (test_pid == VICE_PID_INVALID) {
         log_error(ffmpeg_log, "Cannot fork ffmpeg process '%s' (pid == NULL).", command);
 #else
     if (test_pid <= 0) {
