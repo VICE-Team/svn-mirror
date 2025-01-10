@@ -222,8 +222,10 @@ static int file_init_done;
 
 #define AUDIO_SKIP_SECONDS  4
 
-#define SOCKETS_VIDEO_PORT  60000
-#define SOCKETS_AUDIO_PORT  60001
+#define SOCKETS_RANGE_FIRST 53248
+#define SOCKETS_RANGE_LAST  57343
+static int current_video_port = SOCKETS_RANGE_FIRST;
+static int current_audio_port = SOCKETS_RANGE_FIRST + 1;
 
 /* input video stream */
 #define INPUT_VIDEO_BPP     3
@@ -436,6 +438,17 @@ static void log_resource_values(const char *func)
     DBG(("%s FFMPEGVideoHalveFramerate:%d", func, video_halve_framerate));
 }
 
+static void prepare_port_numbers(void)
+{
+    current_video_port += 2;
+    current_audio_port += 2;
+    if (current_audio_port > SOCKETS_RANGE_LAST) {
+        current_video_port = SOCKETS_RANGE_FIRST;
+        current_audio_port = SOCKETS_RANGE_FIRST + 1;
+    }
+    log_message(ffmpeg_log, "prepare_port_numbers %d:%d", current_video_port, current_audio_port);
+}
+
 static ssize_t write_video_frame(VIDEOFrame *pic)
 {
     ssize_t len = INPUT_VIDEO_BPP * video_height * video_width;
@@ -531,6 +544,7 @@ static void find_ports(void)
 
 static int test_ffmpeg_executable(void)
 {
+#if 0
     int ret;
     char *argv[5];
     /* `exec*()' does not want these to be constant...  */
@@ -547,11 +561,77 @@ static int test_ffmpeg_executable(void)
     lib_free(argv[2]);
     lib_free(argv[3]);
 
+    /* NOTE: ffmpeg returns 1 (not 0) on success */
     if (ret != 1) {
-        log_error(ffmpeg_log, "ffmpeg executable can not be started.");
+        log_error(ffmpeg_log, "ffmpeg executable can not be started. (ret:%d)", ret);
         return -1;
     }
     return 0;
+#else
+    static int test_stdin = -1;
+    static int test_stdout = -1;
+    static vice_pid_t test_pid = -1;
+    int res = -1;
+    size_t n;
+    static char output[0x40];
+    static char command[0x40] = {
+        "ffmpeg 2>&1"   /* redirect stderr to stdout. this better works on the big 3 */
+    };
+    /* kill old process in case it is still running for whatever reason */
+    if (test_pid != -1) {
+        kill_coproc(test_pid);
+        test_pid = -1;
+    }
+    if (test_stdin != -1) {
+        close(test_stdin);
+        test_stdin = -1;
+    }
+    if (test_stdout != -1) {
+        close(test_stdout);
+        test_stdout = -1;
+    }
+    DBG(("test_ffmpeg_executable: '%s'", command));
+    /*log_printf("fork command:%s", command);*/
+    if (fork_coproc(&test_stdin, &test_stdout, command, &test_pid) < 0) {
+        log_error(ffmpeg_log, "Cannot fork ffmpeg process '%s'.", command);
+        goto testend;
+    }
+    /*log_printf("test_ffmpeg_executable pid:%d stdin:%d stdout:%d", test_pid, test_stdin, test_stdout);*/
+    if (test_pid <= 0) {
+        log_error(ffmpeg_log, "Cannot fork ffmpeg process '%s' (pid <= 0).", command);
+        goto testend;
+    }
+
+    /* FIXME: stdout is 0 on error ? */
+    if (test_stdout) {
+        memset(output, 0, 0x40);
+        n = read(test_stdout, output, 0x3f);
+        /*log_printf("test_ffmpeg_executable got: '%s'", output);*/
+        output[6] = 0;
+        if ((n >= 6) && !strcmp("ffmpeg", output)) {
+            res = 0;
+            /*log_printf("test_ffmpeg_executable tested ok");*/
+        }
+    }
+    if (res < 0) {
+        log_error(ffmpeg_log, "ffmpeg not found.\n");
+    }
+testend:
+    /* kill new process */
+    if (test_pid != -1) {
+        kill_coproc(test_pid);
+        test_pid = -1;
+    }
+    if (test_stdin != -1) {
+        close(test_stdin);
+        test_stdin = -1;
+    }
+    if (test_stdout != -1) {
+        close(test_stdout);
+        test_stdout = -1;
+    }
+    return res;
+#endif
 }
 
 static int start_ffmpeg_executable(void)
@@ -607,7 +687,7 @@ static int start_ffmpeg_executable(void)
 #endif
                 , fpsstring, fpsstring
                 , video_width, video_height
-                , SOCKETS_VIDEO_PORT
+                , current_video_port
         );
         strcat(command, tempcommand);
     }
@@ -629,7 +709,7 @@ static int start_ffmpeg_executable(void)
                     , audio_input_channels
                     , audio_input_sample_rate
                     , AUDIO_SKIP_SECONDS
-                    , SOCKETS_AUDIO_PORT
+                    , current_audio_port
             );
             strcat(command, tempcommand);
     }
@@ -686,7 +766,7 @@ static int start_ffmpeg_executable(void)
 
     if ((video_has_codec > 0) && (video_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
-        ad = vice_network_address_generate("127.0.0.1", SOCKETS_VIDEO_PORT);
+        ad = vice_network_address_generate("127.0.0.1", current_video_port);
         if (!ad) {
             log_error(ffmpeg_log, "Bad device name.\n");
             return -1;
@@ -722,7 +802,7 @@ static int start_ffmpeg_executable(void)
 
     if ((audio_has_codec > 0) && (audio_codec != AV_CODEC_ID_NONE)) {
         vice_network_socket_address_t *ad = NULL;
-        ad = vice_network_address_generate("127.0.0.1", SOCKETS_AUDIO_PORT);
+        ad = vice_network_address_generate("127.0.0.1", current_audio_port);
         if (!ad) {
             log_error(ffmpeg_log, "Bad device name.\n");
             return -1;
@@ -858,6 +938,8 @@ static void close_stream(void)
         ffmpeg_pid = 0;
     }
 #endif
+
+    prepare_port_numbers();
 }
 
 /*****************************************************************************
@@ -1155,12 +1237,18 @@ static int ffmpegexedrv_save(screenshot_t *screenshot, const char *filename)
 
     if (test_ffmpeg_executable() < 0) {
         screenshot_stop_recording();
-        ui_error("ffmpeg executable could not be started.");
-        /* Do not return -1, since that would just pop up a second error message,
-           which will eventually appear behind the main window, and make the UI
-           seem to hang. We can do this, since there is no further error handling
-           depending on the return value. */
-        return 0;
+        sleep(1);
+        if (test_ffmpeg_executable() < 0) {
+            sleep(1);
+            if (test_ffmpeg_executable() < 0) {
+                ui_error("ffmpeg executable could not be started.");
+                /* Do not return -1, since that would just pop up a second error message,
+                which will eventually appear behind the main window, and make the UI
+                seem to hang. We can do this, since there is no further error handling
+                depending on the return value. */
+                return 0;
+            }
+        }
     }
 
     log_resource_values(__FUNCTION__);
