@@ -187,25 +187,16 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
     GtkWidget *size;
     GtkWidget *wrapper;
     int        row = 0;
-    const char *image = NULL;
-    int         cart_enabled;
-
-    resources_get_string("RAMLINKfilename", &image);
-    cart_enabled = cartridge_type_enabled(CARTRIDGE_RAMLINK);
 
     grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     /* create 'enable ramlink' checkbox */
     /* we can't use a `resource_check_button` here, since toggling the resource
-     * depends on whether an image file is specified
+     * depends on whether a BIOS image file is specified
      */
     enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_RAMLINK " emulation");
-    /* only set state to true if both the state is true and an image is given */
-    if (cart_enabled && (image != NULL && *image != '\0')) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable), TRUE);
-    }
-    g_signal_connect(enable,
+    g_signal_connect(G_OBJECT(enable),
                      "toggled",
                      G_CALLBACK(on_enable_toggled),
                      NULL);
