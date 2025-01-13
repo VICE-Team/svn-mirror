@@ -196,6 +196,8 @@ GtkWidget *settings_ramlink_widget_create(GtkWidget *parent)
      * depends on whether a BIOS image file is specified
      */
     enable = gtk_check_button_new_with_label("Enable " CARTRIDGE_NAME_RAMLINK " emulation");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable),
+                                 cartridge_type_enabled(CARTRIDGE_RAMLINK));
     g_signal_connect(G_OBJECT(enable),
                      "toggled",
                      G_CALLBACK(on_enable_toggled),
