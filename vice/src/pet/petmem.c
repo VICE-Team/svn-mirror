@@ -297,7 +297,7 @@ static void rom6809_store(uint16_t addr, uint8_t value)
 
 uint8_t read_unused(uint16_t addr)
 {
-    return last_access;
+    return addr >> 8;
 }
 
 static uint8_t read_io_88_8f(uint16_t addr)
