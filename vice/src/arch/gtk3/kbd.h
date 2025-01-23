@@ -65,4 +65,10 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum);
  */
 const char *kbd_get_menu_keyname(void);
 
+/** \brief  Fixup the GTK keycodes so they are the same on all OSs */
+/**
+ *  \return fixed keyval (also modifies the value in the event)
+ */
+guint kbd_fix_keyval(GdkEvent *event);
+
 #endif
