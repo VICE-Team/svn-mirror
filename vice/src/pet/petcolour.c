@@ -55,7 +55,7 @@
  */
 static void DRAW_rgbi(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8)
 {
-    if (ymod8 < 8 && xstart < xend) {
+    if (xstart < xend) {
         uint8_t *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
@@ -84,7 +84,7 @@ static void DRAW_rgbi(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8)
 
 static void DRAW_analog(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8)
 {
-    if (ymod8 < 8 && xstart < xend) {
+    if (xstart < xend) {
         uint8_t *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
