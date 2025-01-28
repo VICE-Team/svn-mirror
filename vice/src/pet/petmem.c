@@ -898,7 +898,7 @@ static uint8_t read_io_e8(uint16_t addr)
             break;
         case 0x80:              /* CRTC */
             if (petres.model.crtc) {
-                last_access = crtc_read(addr);
+                return last_access = crtc_read(addr);
             } /* fall through */
         case 0x00:
             return addr >> 8;   /* empty space */
