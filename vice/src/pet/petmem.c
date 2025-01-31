@@ -635,7 +635,7 @@ int petmem_superpet_diag(void)
 static uint8_t read_super_io(uint16_t addr)
 {
     if (addr >= 0xeff4) {       /* unused / readonly */
-        return last_access;
+        return read_unused(addr);
     } else if (addr >= 0xeff0) {       /* ACIA */
         last_access = acia1_read((uint16_t)(addr & 0x03));
     } else if ((addr & 0x0010) == 0) {
@@ -650,9 +650,10 @@ static uint8_t read_super_io(uint16_t addr)
 #endif /* DEBUG_DONGLE */
         } else {
             last_access = 0xff;
+            return last_access;
         }
     }
-    return last_access;   /* fallback */
+    return read_unused(addr);   /* fallback */
 }
 
 static void store_super_io(uint16_t addr, uint8_t value)
@@ -1058,8 +1059,11 @@ static void set_std_9tof(void)
             ramE8 = petres.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
             ramF = petres.ramselA;
             /*
-             * XXX: If there is no I/O peek through, how can we write
+             * In this case the window of the I/O peek through is
+             * E800-E8FF. See note [1].
+             * Q: If there is no I/O peek through, how can we write
              * again to the E888 register to restore I/O?
+             * A: FFF0 is always writable so you can enable I/O peek through.
              */
         } else {
             ram9 = petres.ramsel9;
@@ -1275,6 +1279,22 @@ void mem_toggle_watchpoints(int flag, void *context)
  * The register is write-only, and the value is written through to the
  * previously selected ram bank.
  *
+ * Note [1]: The I/O-peek-through in expansion memory is active for
+ * E800-EFFF. UE5, FPLA II, has only the 5 top address bits available to
+ * make its decisions.  Since the original 64K board used /NO_ROM to
+ * disable the ROMs (it is directly connected to CS2 on the ROM chips),
+ * it would blend out the Editor ROM even if you had an extended one. So
+ * E900-EFFF would be either empty space, or extra I/O chips, but not
+ * ROM.
+ * But also in the 8296, the I/O peek through seems to be only 256
+ * bytes.  UE6, FPLA I, has more address bits and uses /NOIO (=CR6) and
+ * NOROM (=CR7) too. This is for accessing the extra 32 KB of "main"
+ * memory when CR7 = 0.
+ * So, if CR7 = 1, then the I/O peek through seems to be 2 KB.
+ * If CR7 = 0 (and petmem_ramON), then it is 256 bytes.
+ * Sources:
+ * http://www.zimmers.net/anonftp/pub/cbm/firmware/computers/pet/8296/8296desc3.tar.gz
+ * http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/pet/8296/CBM8296_ServiceManual_DinA4_alle.pdf
  */
 
 #define FFF0_BANK_C      0x08
@@ -1338,8 +1358,16 @@ static void store_8x96(uint16_t addr, uint8_t value)
                 bankCoffset = 0x8000 + ((value & FFF0_BANK_C) ? 0x8000 : 0);
                 for (l = 0xc0; l < 0x100; l++) {
                     if ((l == 0xe8) && (value & FFF0_IO_PEEK_THROUGH)) {
+                        /* In this case the window of the I/O
+                         * peek through is E800-EFFF. See note [1]. */
                         _mem_read_tab[l] = read_io_e8;
                         _mem_write_tab[l] = store_io_e8;
+                        _mem_read_base_tab[l] = NULL;
+                        mem_read_limit_tab[l] = 0;
+                    } else if ((l >= 0xe9) && (l <= 0xef) &&
+                            (value & FFF0_IO_PEEK_THROUGH)) {
+                        _mem_read_tab[l] = read_io_e9_ef;
+                        _mem_write_tab[l] = store_io_e9_ef;
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
                     } else {
@@ -1793,7 +1821,7 @@ static uint8_t peek_bank_io(uint16_t addr)
             }
             /* FALL THROUGH */
         case 0x00:
-            return addr >> 8;
+            return addr >> 8;   /* Empty space */
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
             break;
     }
@@ -1986,8 +2014,9 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 /* is_peek_access = 0; FIXME */
                 return result;
             }
-            if (addr >= 0x8800 && addr < 0x9000) {
-                return peek_io_88_8f(addr);
+            if (addr >= 0x8800 && addr < 0x9000 &&
+                pet_colour_type == PET_COLOUR_TYPE_OFF) {
+                    return peek_io_88_8f(addr);
             }
             /* FALLS THROUGH TO normal read with side effects */
     }
