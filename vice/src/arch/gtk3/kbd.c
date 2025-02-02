@@ -29,7 +29,7 @@
  *
  */
 
-#define HAVE_DEBUG_GTK3UI
+/* #define HAVE_DEBUG_GTK3UI */
 
 #include "vice.h"
 
@@ -54,7 +54,7 @@
 
 /** \brief  Enable debug_gtk3() calls for the Gdk scancode/keypad fixes
  */
-#define DEBUG_GDK_FIXES
+/* #define DEBUG_GDK_FIXES */
 
 
 /** \brief  Gdk keyval translation table array indexes
