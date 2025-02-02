@@ -126,6 +126,7 @@
 #include "pagefox.h"
 #include "partner64.h"
 #include "prophet64.h"
+#include "profidos.h"
 #include "ramcart.h"
 #include "ramlink.h"
 #include "retroreplay.h"
@@ -401,6 +402,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartpartner64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_PARTNER64, NULL, NULL,
       "<Name>", "Attach raw 16KiB " CARTRIDGE_NAME_PARTNER64 " cartridge image" },
+    { "-cartpd", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_PROFIDOS, NULL, NULL,
+      "<Name>", "Attach raw 16KiB " CARTRIDGE_NAME_PROFIDOS " cartridge image" },
     { "-cartramcart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RAMCART, NULL, NULL,
       "<Name>", "Attach raw RamCart cartridge image" },
@@ -1025,6 +1029,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return pagefox_bin_attach(filename, rawcart);
         case CARTRIDGE_PARTNER64:
             return partner64_bin_attach(filename, rawcart);
+        case CARTRIDGE_PROFIDOS:
+            return profidos_bin_attach(filename, rawcart);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_REX:
@@ -1296,6 +1302,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_PARTNER64:
             partner64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_PROFIDOS:
+            profidos_config_setup(rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_setup(rawcart);
@@ -1906,6 +1915,9 @@ void cart_detach(int type)
         case CARTRIDGE_PARTNER64:
             partner64_detach();
             break;
+        case CARTRIDGE_PROFIDOS:
+            profidos_detach();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
@@ -2211,6 +2223,9 @@ void cartridge_init_config(void)
             case CARTRIDGE_PARTNER64:
                 partner64_config_init();
                 break;
+            case CARTRIDGE_PROFIDOS:
+                profidos_config_init();
+                break;
             case CARTRIDGE_RETRO_REPLAY:
                 retroreplay_config_init();
                 break;
@@ -2431,6 +2446,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_PARTNER64:
             partner64_reset();
+            break;
+        case CARTRIDGE_PROFIDOS:
+            profidos_reset();
             break;
         case CARTRIDGE_REX_RAMFLOPPY:
             rexramfloppy_reset();
@@ -3632,6 +3650,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                         return -1;
                     }
                     break;
+                case CARTRIDGE_PROFIDOS:
+                    if (profidos_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
                 case CARTRIDGE_RETRO_REPLAY:
                     if (retroreplay_snapshot_write_module(s) < 0) {
                         return -1;
@@ -4239,6 +4262,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_PARTNER64:
                     if (partner64_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_PROFIDOS:
+                    if (profidos_snapshot_read_module(s) < 0) {
                         goto fail2;
                     }
                     break;

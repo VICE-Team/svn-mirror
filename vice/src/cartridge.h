@@ -266,7 +266,8 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_UC15                 81 /* uc2.c */
 #define CARTRIDGE_UC2                  82 /* uc2.c */
 #define CARTRIDGE_BMPDATATURBO         83 /* bmpdataturbo.c */
-#define CARTRIDGE_LAST                 83 /* cartconv: last cartridge in list */
+#define CARTRIDGE_PROFIDOS             84 /* profidos.c */
+#define CARTRIDGE_LAST                 84 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -352,6 +353,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"
 #define CARTRIDGE_NAME_PARTNER64          "Partner 64"
+#define CARTRIDGE_NAME_PROFIDOS           "Profi-DOS"
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
