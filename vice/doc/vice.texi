@@ -9765,6 +9765,8 @@ Pagefox
 @item
 Prophet64
 @item
+Profi-DOS
+@item
 REX 256KiB EPROM Cart
 @item
 REX RAM-Floppy
@@ -10182,6 +10184,10 @@ The following cartridge types are valid:
 81: Universal Cartridge 1.5
 @item
 82: Universal Cartridge 2
+@item
+83: BMP Data Turbo
+@item
+84: Profi-DOS
 @end itemize
 
 @vindex CartridgeFile
@@ -23102,6 +23108,8 @@ Prophet64 .crt file
 Pagefox .crt file
 @item partner64
 Partner 64 .crt file
+@item pd
+Profi-DOS .crt file
 @item rep256
 REX 256KiB EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
 @item rgcd
@@ -29835,6 +29843,8 @@ $0010- xxxx - ROM data
 @tab Universal Cartridge 2
 @item 83
 @tab BMP Data Turbo 2000
+@item 84
+@tab Profi-DOS
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
@@ -34144,6 +34154,74 @@ E0C0: 2C CA 91 AD 0A 03 AE 0B 03 8D B8 02 8E B9 02 A9  ,...............
     After  RESET  or  POWER  ON,  16KiB  of  cartridge  ROM  is  visible  at
     $8000-$BFFF. ROM  at  $8000-$BFFF  is  disabled by writing into the I/O-2
     area (typically $DF00) and may be re-enabled by writing into  I/O-1 ($DE00).
+
+@c @node FIXME
+@subsubsection 84 - Profi-DOS
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB (2 banks of 8KiB)
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+0010: 00 00 00 40 01 00 00 54 01 00 00 00 00 00 00 00  ...@...T........
+0020: 50 72 6f 66 69 2d 44 4f 53 00 00 00 00 00 00 00  Profi-DOS.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 e0 00 20 00  CHIP.. ....... .
+0050: 8d 9d 02 a9 eb 48 a9 8e 48 ad 9c 02 48 ad 9d 02  .....H..H...H...
+..
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 e0 00 20 00  CHIP.. ....... .
+2060: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+    The ROM is connected like this:
+
+@example
+    Port    EPROM
+
+      D7 => D6
+      D6 => D4
+      D5 => D7
+      D4 => D5
+      D3 => D0
+      D2 => D3
+      D1 => D1
+      D0 => D2
+
+      A0 => A0
+      A1 => A1
+      A2 => A2
+      A3 => A3
+      A4 => A4
+      A5 => A5
+      A6 => A6
+      A7 => A7
+      A8 => A12
+      A9 => A10
+     A10 => A11
+     A11 => A9
+     A12 => A8
+     A13 => A13
+@end example
+
+    After reorganizing the ROM data as shown above, the first 8k bank of the ROM
+    contains the code. The second bank is used as a lookup table, and wired so
+    that when D0 becomes active (=0), then a counter is started which counts 4
+    cycles. If during those 4 cycles D1 becomes active (=0), then the EPROM is
+    enabled and the cartridge enables ultimax mode for ROMH. This way the cart
+    can patch the kernal, without having an explicit enable mechanism - which
+    makes it hard to dump (you'll have to know the addresses where this happens)
+
+    Any access (read or write) to IO2 ($dfxx) will disable the cartridge again.
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics

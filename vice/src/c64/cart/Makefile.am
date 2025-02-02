@@ -162,6 +162,8 @@ libc64cart_a_SOURCES = \
 	pagefox.h \
 	partner64.c \
 	partner64.h \
+	profidos.c \
+	profidos.h \
 	prophet64.c \
 	prophet64.h \
 	ramcart.c \
