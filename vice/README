@@ -152,9 +152,9 @@
 
     - the VICE wiki at http://vice-emu.pokefinder.org/
 
- - Before reporting a bug, please try a recent nightly build and check if your
-   issue is already fixed. You can fine nightly builds for windows here:
-   <SF-uploads via Travis-CI?>
+ - Before reporting a bug, please try a recent development build and check if
+   your issue is already fixed. You can find development builds for windows
+   here: https://github.com/VICE-Team/svn-mirror/releases
 
  - When you report a bug, please try to be as accurate as possible and describe
    how it can be reproduced to the very detail. You should also tell us what
