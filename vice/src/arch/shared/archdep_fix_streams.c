@@ -8,6 +8,9 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * (With help from elgonzo to fix some issues, see
+ * https://sourceforge.net/p/vice-emu/bugs/2065/#4eb6)
+ *
  * OS support:
  *  - Windows
  */
@@ -44,16 +47,11 @@
  * running application so we can log to the terminal, if any, using those
  * streams.
  *
- * \todo    Properly detect (if possible) if we're already redirected to a file
- *          or pipe so `x64sc -help > help.txt` works. GetFileType() should
- *          return something other than FILE_TYPE_CHAR when redirected or piped,
- *          but of course that doesn't actually work on this shitshow they call
- *          Windows.
+ * \todo    Prompt doesn't reappear, need to press Enter in cmd.exe
+ * \todo    Prompt reappears at odd location (middle of console) in case of
+ *          PowerShell.
+ * \todo    Piping (to `more`) doesn't work
  */
-
-#if 0
-#define DEBUG_FIX
-#endif
 
 #ifdef WINDOWS_COMPILE
 
@@ -61,112 +59,46 @@
 #include <io.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
 
 void archdep_fix_streams(void)
 {
-    /* With --enable-debug we compile with -mconsole on Windows, so the streams
-     * are available as they should be. */
+    /* We build with -mconsole for debug builds, so the following code should
+     * only run with --disable-debug (configure's default) */
 #ifndef DEBUG
-    const char *msystem;
-#ifdef DEBUG_FIX
-    FILE *log = fopen("winapisux", "w");
-#endif
+    const char *msystem = getenv("MSYSTEM");
 
-    /* try to attach a console to the spawning process (cmd.exe), but not when
-     * running from an msys2 shell */
-    msystem = getenv("MSYSTEM");
-#ifdef DEBUG_FIX
-    fprintf(log, "env('MSYSTEM') = %s\n", msystem ? msystem : "<NULL>");
-#endif
     if (msystem == NULL || *msystem == '\0') {
-#ifdef DEBUG_FIX
-        fprintf(log, "calling AttachConsole(ATTACH_PARENT_PROCESS): ");
-        fflush(log);
-#endif
-        if (AttachConsole(ATTACH_PARENT_PROCESS)) {
-#ifdef DEBUG_FIX
-            fprintf(log, "OK\n");
-#endif
-            FILE *fp_stdin = stdin;
-            FILE *fp_stdout = stdout;
-            FILE *fp_stderr = stderr;
-            HANDLE stdhandle;
-            DWORD ftype;
-            BY_HANDLE_FILE_INFORMATION finfo; /* wtf? */
-#ifdef DEBUG_FIX
-            DWORD size;
-            char path[4096];
-#endif
+        /* Not running from an MSYS shell: redirect stdout and stderr */
+        FILE   *fp_out;
+        FILE   *fp_err;
+        HANDLE  handle;
+        DWORD   filetype;
+        BOOL    is_cons;
 
-            /* redirect stdin */
-            stdhandle = GetStdHandle(STD_INPUT_HANDLE);
-            if (stdhandle) {
-                ftype = GetFileType(stdhandle);
-#ifdef DEBUG_FIX
-                fprintf(log, "GetFileType(STD_INPUT_HANDLE) = %lu\n", ftype);
-#endif
-                if (ftype == FILE_TYPE_CHAR) {
-                    freopen_s(&fp_stdin, "CONIN$", "r", stdin);
-                }
-                CloseHandle(stdhandle);
-            }
+        handle   = GetStdHandle(STD_OUTPUT_HANDLE);
+        filetype = GetFileType(handle);
+        is_cons  = (filetype == FILE_TYPE_UNKNOWN || filetype == FILE_TYPE_CHAR);
 
-            /* redirect stdout */
-            stdhandle = GetStdHandle(STD_OUTPUT_HANDLE);
-            if (stdhandle) {
-                /* XXX: always 2 (FILE_TYPE_CHAR) */
-                ftype = GetFileType(stdhandle);
-#ifdef DEBUG_FIX
-                fprintf(log, "GetFileType(STD_OUTPUT_HANDLE) = %lu\n", ftype);
-#endif
-                /* XXX: always fails */
-                if (GetFileInformationByHandle(stdhandle, &finfo)) {
-#ifdef DEBUG_FIX
-                    fprintf(log,
-                            "GetFileInformationByHandle(STD_OUTPUT_HANDLE) = %lx\n",
-                            finfo.dwFileAttributes);
-#endif
-                }
-
-                /* XXX: size is always 0 */
-#ifdef DEBUG_FIX
-                memset(path, 0, sizeof(path));
-                size = GetFinalPathNameByHandleA(stdhandle, path, sizeof(path), 0);
-                fprintf(log,
-                        "GetFinalPathNameByHandleA(STD_OUTPUT_HANDLE) = %lu, '%s'\n",
-                        size, path);
-#endif
-
-                if (ftype == FILE_TYPE_CHAR) {
-                    freopen_s(&fp_stdout, "CONOUT$", "w", stdout);
-                }
-            }
-
-            /* redirect stderr */
-            stdhandle = GetStdHandle(STD_ERROR_HANDLE);
-            if (stdhandle) {
-                ftype = GetFileType(stdhandle);
-#ifdef DEBUG_FIX
-                fprintf(log, "GetFileType(STD_ERROR_HANDLE) = %lu\n", ftype);
-#endif
-                if (ftype == FILE_TYPE_CHAR) {
-                    freopen_s(&fp_stderr, "CONOUT$", "w", stderr);
-                }
-                CloseHandle(stdhandle);
-            }
-        } else {
-            /* Can't report failure since we can't use (f)printf and VICE's
-             * logging system isn't initialized yet =) */
-            /* NOP */
-#ifdef DEBUG_FIX
-            fprintf(log, "failed, giving up.\n");
-#endif
+        if (filetype == FILE_TYPE_DISK) {
+            /* don't call AttachConsole in case of redirecting to file */
+            return;
         }
+
+        /* attach console to process for output redirection */
+        if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+            if (is_cons) {
+                /* stdout is an interactive console */
+                freopen_s(&fp_out, "CONOUT$", "wt", stdout);
+                /* just redirect stderr as well, no idea if windows supports
+                 * redirecting stdout but not stderr (or vice versa) */
+                freopen_s(&fp_err, "CONOUT$", "wt", stderr);
+            }
+        }
+
+        /* clean up */
+        CloseHandle(handle);
     }
-#ifdef DEBUG_FIX
-    fclose(log);
-#endif
 #endif  /* ifndef DEBUG */
 }
 
