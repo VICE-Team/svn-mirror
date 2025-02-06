@@ -123,6 +123,10 @@ BUILDPATH="$TOPBUILDDIR/$GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
 
 echo "Removing an old $BUILDPATH ..."
 rm -r -f $BUILDPATH
+if [ "$?" -ne "0" ]; then
+    echo "Failed to remove $BUILDPATH, aborting."
+    exit 1
+fi
 
 echo "Generating a $WINXX GTK3 port binary distribution..."
 mkdir -p $BUILDPATH/bin
@@ -241,9 +245,6 @@ EOF
 
 fi
 
-
-echo "TOPSRCDIR = $TOPSRCDIR"
-echo "BUILDPATH = $BUILDPATH"
 
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BUILDPATH
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BUILDPATH
