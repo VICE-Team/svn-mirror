@@ -26,8 +26,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler> <html-docs> [<svn-revision-override>]
-#                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10     $11       $12        $13         $14
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <unzip-bin> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <objdump> <compiler> <html-docs> [<svn-revision-override>]
+#                         $1      $2             $3              $4          $5          $6             $7           $8    $9                 $10       $11        $12         $13
 #
 
 STRIP=$1
@@ -39,9 +39,6 @@ X64INC=$6
 TOPSRCDIR=$7
 CPU=$8
 TOPBUILDDIR=$9
-
-shift
-CROSS=$9
 
 shift
 OBJDUMP=$9
@@ -137,115 +134,37 @@ for i in $EXECUTABLES; do
   $STRIP $BUILDPATH/bin/$(basename $i).exe
 done
 
-if test x"$CROSS" != "xtrue"; then
+# Copy DLLs
+curdir=`pwd`
+cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
+cd $MINGW_PREFIX
+cp bin/lib{lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
+cp --parents lib/gdk-pixbuf-2.0/2.10.0/loaders/*pixbufloader*{png,svg,xpm}.dll $BUILDPATH
+# generate loaders.cache from the copied loaders in the binidst, not the system loaders
+cd $BUILDPATH
+GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+cd $MINGW_PREFIX
+# get dependencies of the SVG loader
+# FIXME: only works for the updated SVG (renamed) SVG loader
+cp `ntldd -R $BUILDPATH/lib/gdk-pixbuf-2.0/2.10.0//loaders/pixbufloader_svg.dll | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
 
-# The following lines assume that this script is run by MSYS2.
-  curdir=`pwd`
-  cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
-  cd $MINGW_PREFIX
-  cp bin/lib{lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
-  cp --parents lib/gdk-pixbuf-2.0/2.10.0/loaders/*pixbufloader*{png,svg,xpm}.dll $BUILDPATH
-  # generate loaders.cache from the copied loaders in the binidst, not the system loaders
-  cd $BUILDPATH
-  GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
-  cd $MINGW_PREFIX
-  # get dependencies of the SVG loader
-  # FIXME: only works for the updated SVG (renamed) SVG loader
-  cp `ntldd -R $BUILDPATH/lib/gdk-pixbuf-2.0/2.10.0//loaders/pixbufloader_svg.dll | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
+# GTK3 accepts having only scalable icons,
+# which reduces the bindist size considerably.
+cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
+cp --parents share/icons/hicolor/index.theme $BUILDPATH
+cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
+cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
+cd - >/dev/null
 
-  # GTK3 accepts having only scalable icons,
-  # which reduces the bindist size considerably.
-  cp --parents -a share/icons/Adwaita/{index.*,scalable,symbolic} $BUILDPATH
-  cp --parents share/icons/hicolor/index.theme $BUILDPATH
-  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
-  cd - >/dev/null
-
-  # drop unzip.exe and its dependencies in the bin/ =)
-  if test x"$UNZIPBIN" != "xno"; then
-    cp $UNZIPBIN $BUILDPATH/bin
-    cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
-  fi
-
-  cd "$curdir"
-
-else
-
-# The following lines assume a cross compiler,
-# with DLLs installed in the dll or bin dir. of that toolchain.
-#
-# 2019-10-02: Updated to work with FrankenVICE (Debian cross-compiler using
-#             Fedora packages for Gtk3/GLib)
-#             Currently a bit flakey, but it seems to work.
-#
-# 2020-07-07: More hacks added, makes the bindist run again, but on Windows 7
-#             with 'Aero' or Win10, this still displays the white screen and
-#             the screwed up 'X' in the window decorations
-#             Also: liblzma-5.dll is missing, but this doesn't seem to matter
-#             when I copy that DLL from an msys2 build.
-
-
-  libm=`$COMPILER -print-file-name=libm.a`
-  echo "libm.a = '$libm'"
-  location=`dirname $libm`
-  loc=`dirname $location`
-  echo "loc = $loc"
-    if test -d "$loc/dll"
-  then dlldir="$loc/dll"
-    else dlldir="$loc/bin"
-  fi
-  dlls=`$OBJDUMP -p src/x64sc.exe | gawk '/^\\tDLL N/{print $3;}'`
-  for i in $dlls
-  do test -e $dlldir/$i&&cp $dlldir/$i $BUILDPATH
-  done
-  # A few of these libs cannot be found by frankenvice, so perhaps we need to install
-  # these or alter this command:
-  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
-  gccname=`$COMPILER -print-file-name=libgcc.a`
-  gccdir=`dirname $gccname`
-  dlls=`find $gccdir -name 'libgcc*.dll' -o -name 'libstdc*.dll'`
-  test -n "$dlls"&&cp $dlls $BUILDPATH
-  get_dll_deps
-  get_dll_deps
-  current=`pwd`
-  cd $loc
-  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{svg,xpm}.dll $BUILDPATH
-  test -e lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-png.dll&&cp --parents lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-png.dll $BUILDPATH
-  # update loaders.cache
-  cat <<EOF > $BUILDPATH/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
-# Generated by src/arch/gtk3/make-bindist_win32.h
-# Ugly hack which can break at any moment
-
-"lib\\\\gdk-pixbuf-2.0\\\\2.10.0\\\\loaders\\\\libpixbufloader-svg.dll"
-"svg" 6 "gdk-pixbuf" "Scalable Vector Graphics" "LGPL"
-"image/svg+xml" "image/svg" "image/svg-xml" "image/vnd.adobe.svg+xml" "text/xml-svg" "image/svg+xml-compressed" ""
-"svg" "svgz" "svg.gz" ""
-" <svg" "*    " 100
-" <!DOCTYPE svg" "*           " 100
-
-# Empty line after even the last entry is required, otherwise the parser fails. A little sucky.
-EOF
-  cp --parents -a share/icons/Adwaita/{index.*,scalable} $BUILDPATH
-  # Breaks: no hicolor/ in either Debian or Fedora, but doesn't seem to matter
-  cp --parents share/icons/hicolor/index.theme $BUILDPATH
-  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
-
-  # Ugly hack since we now have all emulators in bin/ and updating the above
-  # with BUILDDIR/bin seems to miss some DLL's:
-  mv $BUILDPATH/*.dll $BUILDPATH/bin/
-
-  # Some hardcoded stuff, we really should improve this script, separate it
-  # into a new file. (libwinpthread-1.dll is symlinked from libwinphread-1.dll
-  # (note the absence of the 't' in the latter)
-  cp $loc/lib/libwinpthread-1.dll $BUILDPATH/bin
-  # XXX: perhaps also libgcc* ? These are not in $loc
-
-  cd $current
-
+# drop unzip.exe and its dependencies in the bin/ =)
+if test x"$UNZIPBIN" != "xno"; then
+  cp $UNZIPBIN $BUILDPATH/bin
+  cp `ntldd -R $UNZIPBIN | gawk '/\\\\bin\\\\/{print $3;}' | cygpath -f -` $BUILDPATH/bin
 fi
 
+cd "$curdir"
 
+# Copy VICE data files
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BUILDPATH
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BUILDPATH
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $BUILDPATH
