@@ -694,12 +694,14 @@ void uiscreenshot_menu_create(void)
 
 static void uiscreenshot_menu_free(ui_menu_entry_t *menu)
 {
-    ui_menu_entry_t *entry = menu;
-    while (entry->string != NULL) {
-        lib_free(entry->string);
-        entry++;
+    if (menu) {
+        ui_menu_entry_t *entry = menu;
+        while (entry->string != NULL) {
+            lib_free(entry->string);
+            entry++;
+        }
+        lib_free(menu);
     }
-    lib_free(menu);
 }
 
 
