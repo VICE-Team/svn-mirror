@@ -1752,30 +1752,38 @@ dnl XDG .desktop files are only supported for the Gtk3 UI on Unix (excl. MacOS)
 dnl
 AM_CONDITIONAL(INSTALL_DESKTOP_FILES, false)
 if test x"$enable_desktop_files" = "xyes"; then
-    dnl Check Gtk3 UI
-    if test x"$enable_gtk3ui" != "xyes"; then
-        AC_MSG_ERROR([XDG desktop files requested but UI is not Gtk3.])
-    fi
-    dnl Check OS (Unix)
-    if test x"$is_unix_x11" != "xyes"; then
-        AC_MSG_ERROR([XDG desktop files requested but OS is not Unix.])
-    fi
-    dnl Check OS (not MacOS)
-    if test x"$is_unix_macos" = "xyes"; then
-        AC_MSG_ERROR([XDG desktop files requested but OS is MacOS.])
-    fi
-    dnl Check for xdg-desktop-menu
-    AC_CHECK_PROG(XDG_DESKTOP_MENU, xdg-desktop-menu, xdg-desktop-menu, no)
-    echo "$XDG_DESKTOP_MENU"
-    if test x"$XDG_DESKTOP_MENU" = "xno"; then
-        AC_MSG_ERROR([XDG desktop files requested but required tool xdg-desktop-menu is missing. Please install xgd-utils.])
-    fi
+  dnl Check Gtk3 UI
+  if test x"$enable_gtk3ui" != "xyes"; then
+    AC_MSG_ERROR([XDG desktop files requested but UI is not Gtk3.])
+  fi
+  dnl Check OS (Unix)
+  if test x"$is_unix_x11" != "xyes"; then
+    AC_MSG_ERROR([XDG desktop files requested but OS is not Unix.])
+  fi
+  dnl Check OS (not MacOS)
+  if test x"$is_unix_macos" = "xyes"; then
+    AC_MSG_ERROR([XDG desktop files requested but OS is MacOS.])
+  fi
+  dnl Check for desktop-file-install
+  AC_CHECK_PROG(DESKTOP_FILE_INSTALL, desktop-file-install, desktop_file_install, no)
+  if test x"$DESKTOP_FILE_INSTALL" = "xno"; then
+    AC_MSG_ERROR([XDG desktop files requested but required tool desktop-file-install is missing. Please install desktop-file-utils.])
+  fi
+  dnl Check for xdg-icon-resource
+  AC_CHECK_PROG(XDG_ICON_RESOURCE, xdg-icon-resource, xdg-icon-resource, no)
+  if test x"$XDG_ICON_RESOURCE" = "xno"; then
+    AC_MSG_ERROR([XDG desktop files requested but required tool xdg-icon-resource is missing. Please install xdg-utils.])
+  fi
+  dnl Check for update-desktop-database
+  AC_CHECK_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database, update-desktop-database, no)
+  if test x"$UPDATE_DESKTOP_DATABASE" = "xno"; then
+    AC_MSG_ERROR([XDG desktop files requested but required tool update-desktop-database is missing. Please install desktop-file-utils.])
+  fi
 
-    dnl We got the UI + OS + tools:
-    USE_DESKTOP_FILES="yes"
-    AM_CONDITIONAL(INSTALL_DESKTOP_FILES, true)
-    AC_SUBST([XDG_DESKTOP_MENU], ["$XDG_DESKTOP_MENU"])
-
+  dnl We got the UI + OS + tools:
+  USE_DESKTOP_FILES="yes"
+  AC_DEFINE(INSTALL_DESKTOP_FILES, , [Install XDG desktop files and icons])
+  AM_CONDITIONAL(INSTALL_DESKTOP_FILES, true)
 fi
 
 
@@ -3414,7 +3422,6 @@ AC_OUTPUT([Makefile
            src/arch/gtk3/Makefile
            src/arch/gtk3/data/Makefile
            src/arch/gtk3/data/macos/Makefile
-           src/arch/gtk3/data/unix/Makefile
            src/arch/gtk3/data/win32/Makefile
            src/arch/gtk3/joystickdrv/Makefile
            src/arch/gtk3/novte/Makefile

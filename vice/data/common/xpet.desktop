@@ -2,7 +2,7 @@
 Type=Application
 Name=VICE (xpet)
 Comment=Commodore PET emulator
-Exec=/usr/bin/xpet
+Exec=xpet
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/apps/xpet.svg
+Icon=vice-xpet
 Categories=Game;Emulator;

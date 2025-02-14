@@ -2,7 +2,7 @@
 Type=Application
 Name=VICE (x64dtv)
 Comment=C64DTV emulator
-Exec=/usr/bin/x64dtv
+Exec=x64dtv
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/apps/x64dtv.svg
+Icon=vice-x64dtv
 Categories=Game;Emulator;

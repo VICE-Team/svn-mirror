@@ -3,4 +3,4 @@
 # The per-OS files are in subdirs and the things needed for every OS are
 # handled here.
 
-SUBDIRS = macos unix win32
+SUBDIRS = macos win32
