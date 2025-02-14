@@ -195,7 +195,7 @@ uninstall-icons:
 	xdg-icon-resource uninstall --size 48 vice-xplus4
 	xdg-icon-resource uninstall --size 64 vice-xplus4
 	xdg-icon-resource uninstall --size 256 vice-xplus4
-	xdg-icon-resource uninstall --size 32 vice-vic
+	xdg-icon-resource uninstall --size 32 vice-xvic
 	xdg-icon-resource uninstall --size 48 vice-xvic
 	xdg-icon-resource uninstall --size 64 vice-xvic
 	xdg-icon-resource uninstall --size 256 vice-xvic
