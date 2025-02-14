@@ -2,7 +2,7 @@
 Type=Application
 Name=VICE (xvic)
 Comment=Commodore VIC-20 emulator
-Exec=/usr/bin/xvic
+Exec=xvic
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/apps/xvic.svg
+Icon=vice-xvic
 Categories=Game;Emulator;

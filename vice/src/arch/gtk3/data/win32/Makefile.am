@@ -11,74 +11,74 @@ if WINDOWS_COMPILE
 
 # TODO: check if we can use patsubst here, to simplify the rules a bit.
 
-X64SC_ICONS = $(top_srcdir)/data/common/C64_16.png \
-	      $(top_srcdir)/data/common/C64_24.png \
-	      $(top_srcdir)/data/common/C64_32.png \
-	      $(top_srcdir)/data/common/C64_48.png \
-	      $(top_srcdir)/data/common/C64_64.png \
-	      $(top_srcdir)/data/common/C64_256.png
+X64SC_ICONS = $(top_srcdir)/data/common/vice-x64_16.png \
+	      $(top_srcdir)/data/common/vice-x64_24.png \
+	      $(top_srcdir)/data/common/vice-x64_32.png \
+	      $(top_srcdir)/data/common/vice-x64_48.png \
+	      $(top_srcdir)/data/common/vice-x64_64.png \
+	      $(top_srcdir)/data/common/vice-x64_256.png
 
 if SUPPORT_X64
 X64_ICONS = $(X64SC_ICONS)
 endif
 
-X64DTV_ICONS = $(top_srcdir)/data/common/DTV_16.png \
-	       $(top_srcdir)/data/common/DTV_24.png \
-	       $(top_srcdir)/data/common/DTV_32.png \
-	       $(top_srcdir)/data/common/DTV_48.png \
-	       $(top_srcdir)/data/common/DTV_64.png \
-	       $(top_srcdir)/data/common/DTV_256.png
+X64DTV_ICONS = $(top_srcdir)/data/common/vice-x64dtv_16.png \
+	       $(top_srcdir)/data/common/vice-x64dtv_24.png \
+	       $(top_srcdir)/data/common/vice-x64dtv_32.png \
+	       $(top_srcdir)/data/common/vice-x64dtv_48.png \
+	       $(top_srcdir)/data/common/vice-x64dtv_64.png \
+	       $(top_srcdir)/data/common/vice-x64dtv_256.png
 
-XSCPU64_ICONS = $(top_srcdir)/data/common/SCPU_16.png \
-		$(top_srcdir)/data/common/SCPU_24.png \
-		$(top_srcdir)/data/common/SCPU_32.png \
-		$(top_srcdir)/data/common/SCPU_48.png \
-		$(top_srcdir)/data/common/SCPU_64.png \
-		$(top_srcdir)/data/common/SCPU_256.png
+XSCPU64_ICONS = $(top_srcdir)/data/common/vice-xscpu64_16.png \
+		$(top_srcdir)/data/common/vice-xscpu64_24.png \
+		$(top_srcdir)/data/common/vice-xscpu64_32.png \
+		$(top_srcdir)/data/common/vice-xscpu64_48.png \
+		$(top_srcdir)/data/common/vice-xscpu64_64.png \
+		$(top_srcdir)/data/common/vice-xscpu64_256.png
 
-X128_ICONS = $(top_srcdir)/data/common/C128_16.png \
-	     $(top_srcdir)/data/common/C128_24.png \
-	     $(top_srcdir)/data/common/C128_32.png \
-	     $(top_srcdir)/data/common/C128_48.png \
-	     $(top_srcdir)/data/common/C128_64.png \
-	     $(top_srcdir)/data/common/C128_256.png
+X128_ICONS = $(top_srcdir)/data/common/vice-x128_16.png \
+	     $(top_srcdir)/data/common/vice-x128_24.png \
+	     $(top_srcdir)/data/common/vice-x128_32.png \
+	     $(top_srcdir)/data/common/vice-x128_48.png \
+	     $(top_srcdir)/data/common/vice-x128_64.png \
+	     $(top_srcdir)/data/common/vice-x128_256.png
 
-XVIC_ICONS = $(top_srcdir)/data/common/VIC20_16.png \
-	     $(top_srcdir)/data/common/VIC20_24.png \
-	     $(top_srcdir)/data/common/VIC20_32.png \
-	     $(top_srcdir)/data/common/VIC20_48.png \
-	     $(top_srcdir)/data/common/VIC20_64.png \
-	     $(top_srcdir)/data/common/VIC20_256.png
+XVIC_ICONS = $(top_srcdir)/data/common/vice-xvic_16.png \
+	     $(top_srcdir)/data/common/vice-xvic_24.png \
+	     $(top_srcdir)/data/common/vice-xvic_32.png \
+	     $(top_srcdir)/data/common/vice-xvic_48.png \
+	     $(top_srcdir)/data/common/vice-xvic_64.png \
+	     $(top_srcdir)/data/common/vice-xvic_256.png
 
-XPLUS4_ICONS = $(top_srcdir)/data/common/Plus4_16.png \
-	       $(top_srcdir)/data/common/Plus4_24.png \
-	       $(top_srcdir)/data/common/Plus4_32.png \
-	       $(top_srcdir)/data/common/Plus4_48.png \
-	       $(top_srcdir)/data/common/Plus4_64.png \
-	       $(top_srcdir)/data/common/Plus4_256.png
+XPLUS4_ICONS = $(top_srcdir)/data/common/vice-xplus4_16.png \
+	       $(top_srcdir)/data/common/vice-xplus4_24.png \
+	       $(top_srcdir)/data/common/vice-xplus4_32.png \
+	       $(top_srcdir)/data/common/vice-xplus4_48.png \
+	       $(top_srcdir)/data/common/vice-xplus4_64.png \
+	       $(top_srcdir)/data/common/vice-xplus4_256.png
 
-XPET_ICONS = $(top_srcdir)/data/common/PET_16.png \
-	     $(top_srcdir)/data/common/PET_24.png \
-	     $(top_srcdir)/data/common/PET_32.png \
-	     $(top_srcdir)/data/common/PET_48.png \
-	     $(top_srcdir)/data/common/PET_64.png \
-	     $(top_srcdir)/data/common/PET_256.png
+XPET_ICONS = $(top_srcdir)/data/common/vice-xpet_16.png \
+	     $(top_srcdir)/data/common/vice-xpet_24.png \
+	     $(top_srcdir)/data/common/vice-xpet_32.png \
+	     $(top_srcdir)/data/common/vice-xpet_48.png \
+	     $(top_srcdir)/data/common/vice-xpet_64.png \
+	     $(top_srcdir)/data/common/vice-xpet_256.png
 
-XCBM2_ICONS = $(top_srcdir)/data/common/CBM2_16.png \
-	      $(top_srcdir)/data/common/CBM2_24.png \
-	      $(top_srcdir)/data/common/CBM2_32.png \
-	      $(top_srcdir)/data/common/CBM2_48.png \
-	      $(top_srcdir)/data/common/CBM2_64.png \
-	      $(top_srcdir)/data/common/CBM2_256.png
+XCBM2_ICONS = $(top_srcdir)/data/common/vice-xcbm2_16.png \
+	      $(top_srcdir)/data/common/vice-xcbm2_24.png \
+	      $(top_srcdir)/data/common/vice-xcbm2_32.png \
+	      $(top_srcdir)/data/common/vice-xcbm2_48.png \
+	      $(top_srcdir)/data/common/vice-xcbm2_64.png \
+	      $(top_srcdir)/data/common/vice-xcbm2_256.png
 
 XCBM5x0_ICONS = $(XCBM2_ICONS)
 
-VSID_ICONS = $(top_srcdir)/data/common/SID_16.png \
-	     $(top_srcdir)/data/common/SID_24.png \
-	     $(top_srcdir)/data/common/SID_32.png \
-	     $(top_srcdir)/data/common/SID_48.png \
-	     $(top_srcdir)/data/common/SID_64.png \
-	     $(top_srcdir)/data/common/SID_256.png
+VSID_ICONS = $(top_srcdir)/data/common/vice-vsid_16.png \
+	     $(top_srcdir)/data/common/vice-vsid_24.png \
+	     $(top_srcdir)/data/common/vice-vsid_32.png \
+	     $(top_srcdir)/data/common/vice-vsid_48.png \
+	     $(top_srcdir)/data/common/vice-vsid_64.png \
+	     $(top_srcdir)/data/common/vice-vsid_256.png
 
 
 # Do we use the old x64 emu?

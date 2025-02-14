@@ -2,7 +2,7 @@
 Type=Application
 Name=VICE (xcbm5x0)
 Comment=Commodore CBM-II (500/P) emulator
-Exec=/usr/bin/xcbm5x0
+Exec=xcbm5x0
 Terminal=false
-Icon=/usr/share/icons/hicolor/scalable/apps/xcbm2.svg
+Icon=vice-xcbm2
 Categories=Game;Emulator;
