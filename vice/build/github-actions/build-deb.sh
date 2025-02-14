@@ -69,10 +69,12 @@ if [ "$UI" = "gtk3" ]; then
     # Copy .desktop files
     cp vice/data/common/*.desktop ${DEB_DIR}/usr/share/applications
     # Copy icon files
-    cp vice/data/common/vice-*_32.png ${DEB_DIR}/usr/share/icons/hicolor/32x32/apps
-    cp vice/data/common/vice-*_48.png ${DEB_DIR}/usr/share/icons/hicolor/48x48/apps
-    cp vice/data/common/vice-*_64.png ${DEB_DIR}/usr/share/icons/hicolor/64x64/apps
-    cp vice/data/common/vice-*_256.png ${DEB_DIR}/usr/share/icons/hicolor/256x256/apps
+    for name in "x64 x64dtv xscpu64 x128 xvic xplus4 xpet xcbm2 vsid"; do
+        for size_ in "32 48 64 256"; do
+            cp vice/data/common/vice-${name}_${size_}.png \
+                ${DEB_DIR}/usr/share/icons/hicolor/${size_}x${size_}/apps/vice-${name}.png
+        done
+    done
 fi
 
 # Create copyright file, taking contributor info from src/infocontrib.h
