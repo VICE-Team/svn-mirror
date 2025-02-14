@@ -75,6 +75,9 @@ if [ "$UI" = "gtk3" ]; then
                 ${DEB_DIR}/usr/share/icons/hicolor/${size_}x${size_}/apps/vice-${name}.png
         done
     done
+elif [ "$UI" = "sdl1" -o "$UI" = "sdl2" ];
+    # Copy icon files
+    cp vice/data/common/vice-*_256.png ${DEB_DIR}/usr/share/vice/common/
 fi
 
 # Create copyright file, taking contributor info from src/infocontrib.h
