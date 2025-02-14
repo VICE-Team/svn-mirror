@@ -69,8 +69,8 @@ if [ "$UI" = "gtk3" ]; then
     # Copy .desktop files
     cp vice/data/common/*.desktop ${DEB_DIR}/usr/share/applications
     # Copy icon files
-    for name in "x64 x64dtv xscpu64 x128 xvic xplus4 xpet xcbm2 vsid"; do
-        for size_ in "32 48 64 256"; do
+    for name in x64 x64dtv xscpu64 x128 xvic xplus4 xpet xcbm2 vsid; do
+        for size_ in 32 48 64 256; do
             cp vice/data/common/vice-${name}_${size_}.png \
                 ${DEB_DIR}/usr/share/icons/hicolor/${size_}x${size_}/apps/vice-${name}.png
         done
