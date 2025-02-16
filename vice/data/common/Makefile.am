@@ -3,69 +3,83 @@ commondir = $(VICE_DATADIR)/common
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 
-icon_files = vice-x128_16.png \
-	     vice-x128_24.png \
-	     vice-x128_32.png \
-	     vice-x128_48.png \
-	     vice-x128_64.png \
-	     vice-x128_256.png \
-	     vice-x128_1024.svg \
-	     vice-x64_16.png \
-	     vice-x64_24.png \
-	     vice-x64_32.png \
-	     vice-x64_48.png \
-	     vice-x64_64.png \
-	     vice-x64_256.png \
-	     vice-x64_1024.svg \
-	     vice-xcbm2_16.png \
-	     vice-xcbm2_24.png \
-	     vice-xcbm2_32.png \
-	     vice-xcbm2_48.png \
-	     vice-xcbm2_64.png \
-	     vice-xcbm2_256.png \
-	     vice-xcbm2_1024.svg \
-	     vice-x64dtv_16.png \
-	     vice-x64dtv_24.png \
-	     vice-x64dtv_32.png \
-	     vice-x64dtv_48.png \
-	     vice-x64dtv_64.png \
-	     vice-x64dtv_256.png \
-	     vice-x64dtv_1024.svg \
-	     vice-xpet_16.png \
-	     vice-xpet_24.png \
-	     vice-xpet_32.png \
-	     vice-xpet_48.png \
-	     vice-xpet_64.png \
-	     vice-xpet_256.png \
-	     vice-xpet_1024.svg \
-	     vice-xplus4_16.png \
-	     vice-xplus4_24.png \
-	     vice-xplus4_32.png \
-	     vice-xplus4_48.png \
-	     vice-xplus4_64.png \
-	     vice-xplus4_256.png \
-	     vice-xplus4_1024.svg \
-	     vice-xscpu64_16.png \
-	     vice-xscpu64_24.png \
-	     vice-xscpu64_32.png \
-	     vice-xscpu64_48.png \
-	     vice-xscpu64_64.png \
-	     vice-xscpu64_256.png \
-	     vice-xscpu64_1024.svg \
-	     vice-vsid_16.png \
-	     vice-vsid_24.png \
-	     vice-vsid_32.png \
-	     vice-vsid_48.png \
-	     vice-vsid_64.png \
-	     vice-vsid_256.png \
-	     vice-vsid_1024.svg \
-	     vice-xvic_16.png \
-	     vice-xvic_24.png \
-	     vice-xvic_32.png \
-	     vice-xvic_48.png \
-	     vice-xvic_64.png \
-	     vice-xvic_256.png \
-	     vice-xvic_1024.svg
+icons_16x16 = vice-vsid_16.png \
+	      vice-x128_16.png \
+	      vice-x64_16.png \
+	      vice-x64dtv_16.png \
+	      vice-xcbm2_16.png \
+	      vice-xpet_16.png \
+	      vice-xplus4_16.png \
+	      vice-xscpu64_16.png \
+	      vice-xvic_16.png
+
+icons_24x24 = vice-vsid_24.png \
+	      vice-x128_24.png \
+	      vice-x64_24.png \
+	      vice-x64dtv_24.png \
+	      vice-xcbm2_24.png \
+	      vice-xpet_24.png \
+	      vice-xplus4_24.png \
+	      vice-xscpu64_24.png \
+	      vice-xvic_24.png
+
+icons_32x32 = vice-vsid_32.png \
+	      vice-x128_32.png \
+	      vice-x64_32.png \
+	      vice-x64dtv_32.png \
+	      vice-xcbm2_32.png \
+	      vice-xpet_32.png \
+	      vice-xplus4_32.png \
+	      vice-xscpu64_32.png \
+	      vice-xvic_32.png
+
+icons_48x48 = vice-vsid_48.png \
+	      vice-x128_48.png \
+	      vice-x64_48.png \
+	      vice-x64dtv_48.png \
+	      vice-xcbm2_48.png \
+	      vice-xpet_48.png \
+	      vice-xplus4_48.png \
+	      vice-xscpu64_48.png \
+	      vice-xvic_48.png
+
+icons_64x64 = vice-vsid_64.png \
+	      vice-x128_64.png \
+	      vice-x64_64.png \
+	      vice-x64dtv_64.png \
+	      vice-xcbm2_64.png \
+	      vice-xpet_64.png \
+	      vice-xplus4_64.png \
+	      vice-xscpu64_64.png \
+	      vice-xvic_64.png
+
+icons_256x256 = vice-vsid_256.png \
+	        vice-x128_256.png \
+	        vice-x64_256.png \
+	        vice-x64dtv_256.png \
+	        vice-xcbm2_256.png \
+	        vice-xpet_256.png \
+	        vice-xplus4_256.png \
+	        vice-xscpu64_256.png \
+	        vice-xvic_256.png
+
+icons_scalable = vice-vsid_1024.svg \
+	         vice-x128_1024.svg \
+	         vice-x64_1024.svg \
+	         vice-x64dtv_1024.svg \
+	         vice-xcbm2_1024.svg \
+	         vice-xpet_1024.svg \
+	         vice-xplus4_1024.svg \
+	         vice-xscpu64_1024.svg \
+	         vice-xvic_1024.svg
+
+icon_files = $(icons_16x16) \
+	     $(icons_24x24) \
+	     $(icons_32x32) \
+	     $(icons_48x48) \
+	     $(icons_64x64) \
+	     $(icons_256x256) \
+	     $(icons_scalable)
 
 logo_files = CBM_Logo.svg \
 	     vice-logo-black.svg
