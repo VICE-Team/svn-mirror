@@ -37,7 +37,6 @@ icon_files = vice-x128_16.png \
 	     vice-xpet_48.png \
 	     vice-xpet_64.png \
 	     vice-xpet_256.png \
-	     vice-xpet_256.svg \
 	     vice-xpet_1024.svg \
 	     vice-xplus4_16.png \
 	     vice-xplus4_24.png \
