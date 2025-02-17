@@ -105,37 +105,36 @@ desktop_files = x64.desktop \
 		xcbm5x0.desktop \
 		vsid.desktop
 
-# Don't install icon files into VICE data dir if we have --enable-desktop-files,
-# we use install hooks with xdg-icon-resource for those:
+
+if USE_SDLUI
+if WINDOWS_COMPILE
+# SDL 1.2 says to use 32x32 icons on Windows
+common_DATA = $(icons_32x32)
+else
+common_DATA = $(icons_256x256)
+endif
+endif
+
+if USE_SDL2UI
+# 256x256 icons are fine for SDL 2.x for all OSes
+common_DATA = $(icons_256x256)
+endif
+
+if USE_GTK3UI
 if INSTALL_DESKTOP_FILES
+# We install icons via xdg-icon-resource, so don't install any icons directly
 common_DATA = $(logo_files) \
 	      $(font_files)
 else
-common_DATA = $(icon_files) \
+common_DATA = $(icons_32x32) \
+	      $(icons_48x48) \
+	      $(icons_64x64) \
+	      $(icons_256x256) \
+	      $(icons_scalable) \
 	      $(logo_files) \
 	      $(font_files)
 endif
 
-EXTRA_DIST = $(icon_files) \
-	     $(logo_files) \
-	     $(font_files) \
-	     $(desktop_files) \
-             PetMe-FreeLicense.txt \
-	     x64.rc \
-	     x64sc.rc \
-	     x64dtv.rc \
-	     xscpu64.rc \
-	     x128.rc \
-	     xvic.rc \
-	     xplus4.rc \
-	     xpet.rc \
-	     xcbm2.rc \
-	     xcbm5x0.rc \
-	     vsid.rc \
-	     vice.gresource.xml
-
-
-if USE_GTK3UI
 # Generate gresource binary file, required by all Gtk3 emus
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
@@ -270,11 +269,34 @@ uninstall-hook: uninstall-icons uninstall-desktop-files
 
 endif
 
+
+# Everything goes into a source dist
+EXTRA_DIST = $(icon_files) \
+	     $(logo_files) \
+	     $(font_files) \
+	     $(desktop_files) \
+             PetMe-FreeLicense.txt \
+	     x64.rc \
+	     x64sc.rc \
+	     x64dtv.rc \
+	     xscpu64.rc \
+	     x128.rc \
+	     xvic.rc \
+	     xplus4.rc \
+	     xpet.rc \
+	     xcbm2.rc \
+	     xcbm5x0.rc \
+	     vsid.rc \
+	     vice.gresource.xml
+
+
+CLEANFILES = $(GRESOURCE_TARGET)
+
+if WINDOWS_COMPILE
 # The *.ico and *.res files are currently generated in
 # src/arch/gtk3/data/win32/Makefile.am, but the plan is to move that to here
 # to also be able to generate the files for linking with SDL binaries on Win32
-CLEANFILES = \
-	$(GRESOURCE_TARGET) \
+CLEANFILES += \
 	x64.ico \
 	x64sc.ico \
 	x64dtv.ico \
@@ -297,5 +319,6 @@ CLEANFILES = \
 	xcbm2.res \
 	xcbm5x0.res \
 	vsid.res
+endif
 
 endif
