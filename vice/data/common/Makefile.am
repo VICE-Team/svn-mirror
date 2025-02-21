@@ -81,6 +81,76 @@ icon_files = $(icons_16x16) \
 	     $(icons_256x256) \
 	     $(icons_scalable)
 
+icons_win32_vsid = vice-vsid_16.png \
+		   vice-vsid_24.png \
+		   vice-vsid_32.png \
+		   vice-vsid_48.png \
+		   vice-vsid_64.png \
+		   vice-vsid_256.png
+
+icons_win32_x128 = vice-x128_16.png \
+		   vice-x128_24.png \
+		   vice-x128_32.png \
+		   vice-x128_48.png \
+		   vice-x128_64.png \
+		   vice-x128_256.png
+
+icons_win32_x64 = vice-x64_16.png \
+		  vice-x64_24.png \
+		  vice-x64_32.png \
+		  vice-x64_48.png \
+		  vice-x64_64.png \
+		  vice-x64_256.png
+
+icons_win32_x64dtv = vice-x64dtv_16.png \
+		     vice-x64dtv_24.png \
+		     vice-x64dtv_32.png \
+		     vice-x64dtv_48.png \
+		     vice-x64dtv_64.png \
+		     vice-x64dtv_256.png
+
+icons_win32_x64sc = vice-x64sc_16.png \
+		    vice-x64sc_24.png \
+		    vice-x64sc_32.png \
+		    vice-x64sc_48.png \
+		    vice-x64sc_64.png \
+		    vice-x64sc_256.png
+
+icons_win32_xcbm2 = vice-xcbm2_16.png \
+		    vice-xcbm2_24.png \
+		    vice-xcbm2_32.png \
+		    vice-xcbm2_48.png \
+		    vice-xcbm2_64.png \
+		    vice-xcbm2_256.png
+
+icons_win32_xpet = vice-xpet_16.png \
+		   vice-xpet_24.png \
+		   vice-xpet_32.png \
+		   vice-xpet_48.png \
+		   vice-xpet_64.png \
+		   vice-xpet_256.png
+
+icons_win32_xplus4 = vice-xplus4_16.png \
+		     vice-xplus4_24.png \
+		     vice-xplus4_32.png \
+		     vice-xplus4_48.png \
+		     vice-xplus4_64.png \
+		     vice-xplus4_256.png
+
+icons_win32_xscpu64 = vice-xscpu64_16.png \
+		      vice-xscpu64_24.png \
+		      vice-xscpu64_32.png \
+		      vice-xscpu64_48.png \
+		      vice-xscpu64_64.png \
+		      vice-xscpu64_256.png
+
+icons_win32_xvic = vice-xvic_16.png \
+		   vice-xvic_24.png \
+		   vice-xvic_32.png \
+		   vice-xvic_48.png \
+		   vice-xvic_64.png \
+		   vice-xvic_256.png
+
 logo_files = CBM_Logo.svg \
 	     vice-logo-black.svg
 
@@ -134,6 +204,44 @@ common_DATA = $(icons_32x32) \
 	      $(logo_files) \
 	      $(font_files)
 endif
+
+if WINDOWS_COMPILE
+
+# Windows .res files
+if SUPPORT_X64
+X64_RES=x64.res
+else
+X64_RES=
+endif
+
+win32_res_files: vsid.res x128.res $(X64_RES) x64dtv.res x64sc.res xcbm2.res \
+		 xcbm5x0.res xpet.res xplus4.res xscpu64.res xvic.res
+
+# Create Windows .ico files
+%.ico:
+	$(ICOTOOL) -c -o $@ $^
+
+# Create Windows .res files from .ico and .rc files
+%.res: $(top_srcdir)/data/common/%.rc %.ico
+	$(WINDRES) $< -O coff -o $@
+
+vsid.ico: $(icons_win32_vsid)
+x128.ico: $(icons_win32_x128)
+if SUPPORT_X64
+x64.ico: $(icons_win32_x64)
+endif
+x64dtv.ico: $(icons_win32_x64dtv)
+x64sc.ico: $(icons_win32_x64)
+xcbm2.ico: $(icons_win32_xcbm2)
+xcbm5x0.ico: $(icons_win32_xcbm2)
+xpet.ico: $(icons_win32_xpet)
+xplus4.ico: $(icons_win32_xplus4)
+xscpu64.ico: $(icons_win32_xscpu64)
+xvic.ico: $(icons_win32_xvic)
+
+# if WINDOWS_COMPILE
+endif
+
 
 # Generate gresource binary file, required by all Gtk3 emus
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
