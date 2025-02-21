@@ -264,9 +264,9 @@ EXTRA_DIST = \
 
 if WINDOWS_COMPILE
 
-# Use Gtk's icon stuff to generate icon sets
+# Generate icons
 all:
-	(cd ../gtk3/data/win32 && $(MAKE))
+	(cd $(top_builddir)/data/common && $(MAKE) win32_res_files)
 
 endif
 
