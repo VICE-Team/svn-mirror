@@ -1,4 +1,5 @@
 if WINDOWS_COMPILE
+if USE_GTK3UI
 
 # Create Windows .ico files
 #
@@ -11,4 +12,5 @@ if WINDOWS_COMPILE
 all:
 	(cd $(top_builddir)/data/common && $(MAKE) win32_res_files)
 
+endif
 endif

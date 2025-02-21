@@ -204,10 +204,12 @@ common_DATA = $(icons_32x32) \
 	      $(logo_files) \
 	      $(font_files)
 endif
+endif
 
+# Windows .res and .ico files (for Gtk3 and SDL)
 if WINDOWS_COMPILE
+if !USE_HEADLESSUI
 
-# Windows .res files
 if SUPPORT_X64
 X64_RES=x64.res
 else
@@ -239,10 +241,13 @@ xplus4.ico: $(icons_win32_xplus4)
 xscpu64.ico: $(icons_win32_xscpu64)
 xvic.ico: $(icons_win32_xvic)
 
+# if !USE_HEADLESSUI
+endif
 # if WINDOWS_COMPILE
 endif
 
 
+if USE_GTK3UI
 # Generate gresource binary file, required by all Gtk3 emus
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
@@ -251,7 +256,7 @@ common_DATA += $(GRESOURCE_TARGET)
 
 
 if INSTALL_DESKTOP_FILES
-.PHONY: install-icons install-desktop-files uinstall-icons 
+.PHONY: install-icons install-desktop-files uinstall-icons
 
 # Install icon files in their proper place. The default context is 'apps' and
 # the default mode is 'system' when running as root and 'user' when not running
