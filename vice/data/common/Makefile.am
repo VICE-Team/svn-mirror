@@ -380,8 +380,11 @@ install-data-hook: install-icons install-desktop-files
 uninstall-hook: uninstall-icons uninstall-desktop-files
 	update-desktop-database
 
+# if INSTALL_DESKTOP_FILES
 endif
 
+# if USE_GTK3UI
+endif
 
 # Everything goes into a source dist
 EXTRA_DIST = $(icon_files) \
@@ -403,7 +406,11 @@ EXTRA_DIST = $(icon_files) \
 	     vice.gresource.xml
 
 
+if USE_GTK3UI
 CLEANFILES = $(GRESOURCE_TARGET)
+else
+CLEANFILES =
+endif
 
 if WINDOWS_COMPILE
 # The *.ico and *.res files are currently generated in
@@ -432,6 +439,4 @@ CLEANFILES += \
 	xcbm2.res \
 	xcbm5x0.res \
 	vsid.res
-endif
-
 endif
