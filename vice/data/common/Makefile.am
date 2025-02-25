@@ -348,59 +348,31 @@ uninstall-icons:
 # this work for the canonical emulator names, alternate names will be a TODO.
 install-desktop-files:
 if SUPPORT_X64
-	if test -n "$(DESTDIR)"; then \
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/x64.desktop ;\
-	else \
-	    desktop-file-install $(top_srcdir)/data/common/x64.desktop ;\
-	fi
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64.desktop
 endif
-	if test -n "$(DESTDIR)"; then \
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/x64sc.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/x64dtv.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xscpu64.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/x128.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xplus4.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xvic.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xpet.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xcbm2.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/xcbm5x0.desktop ;\
-	    desktop-file-install --dir=$(DESTDIR)/usr/share/applications $(top_srcdir)/data/common/vsid.desktop ;\
-	else \
-	    desktop-file-install $(top_srcdir)/data/common/x64sc.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/x64dtv.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xscpu64.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/x128.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xplus4.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xvic.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xpet.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xcbm2.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/xcbm5x0.desktop ;\
-	    desktop-file-install $(top_srcdir)/data/common/vsid.desktop ;\
-	fi
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64sc.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64dtv.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xscpu64.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x128.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xplus4.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xvic.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xpet.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xcbm2.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xcbm5x0.desktop
+	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/vsid.desktop
 
 # No `desktop-file-uninstall` exists, nor is there an uninstall option for
 # `desktop-file-install` or `desktop-file-uninstall`, so a simple `rm` will
 # have to do.
 uninstall-desktop-files:
-	if test -n "$(DESTDIR)"; then \
-	    rm -f $(DESTDIR)/share/applications/x64{,dtv,sc}.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/xscpu64.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/x128.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/xplus4.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/xpet.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/xcbm{2,5x0}.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/xvic.desktop ;\
-	    rm -f $(DESTDIR)/share/applications/vsid.desktop ;\
-	else \
-	    rm -f /usr/share/applications/x64{,dtv,sc}.desktop ;\
-	    rm -f /usr/share/applications/xscpu64.desktop ;\
-	    rm -f /usr/share/applications/x128.desktop ;\
-	    rm -f /usr/share/applications/xplus4.desktop ;\
-	    rm -f /usr/share/applications/xpet.desktop ;\
-	    rm -f /usr/share/applications/xcbm{2,5x0}.desktop ;\
-	    rm -f /usr/share/applications/xvic.desktop ;\
-	    rm -f /usr/share/applications/vsid.desktop ;\
-	fi
+	rm -f $(DESTDIR)${prefix}/share/applications/x64{,dtv,sc}.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/xscpu64.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/x128.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/xplus4.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/xpet.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/xcbm{2,5x0}.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/xvic.desktop
+	rm -f $(DESTDIR)${prefix}/share/applications/vsid.desktop
 
 install-data-hook: install-icons install-desktop-files
 	-update-desktop-database
