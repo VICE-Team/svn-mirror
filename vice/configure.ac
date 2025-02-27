@@ -140,9 +140,6 @@ VICE_ARG_ENABLE_LIST(experimental-devices,  [  --enable-experimental-devices    
 dnl Needed for WIC64
 VICE_ARG_WITH_LIST(libcurl,                 [  --without-libcurl       disable libcurl support [[default=no]]])
 
-dnl Linux evdev joysticks
-VICE_ARG_WITH_LIST(evdev,                   [  --without-evdev         disable Linux evdev joystick driver [[default=no]]])
-
 dnl
 dnl UI options
 dnl
@@ -2062,22 +2059,14 @@ dnl ----- Joystick support -----
 JOY_LIBS=
 AM_CONDITIONAL(HAVE_LINUX_EVDEV, false)
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
-  AC_CHECK_HEADER(linux/joystick.h,
-                  [
-                   AC_CHECK_DECL(JS_VERSION,[
-                       LINUX_JOYSTICK_SUPPORT="yes";
-                        AC_DEFINE(LINUX_JOYSTICK,,
-                              [Enable support for Linux style joysticks.])
-                        JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux.o";
-                   ],[],[#include <linux/joystick.h>])],)
   dnl Linux evdev joystick driver
-  if test x"$with_evdev" != "xno" -a x"$is_unix_linux" = "xyes"; then
+  if test x"$is_unix_linux" = "xyes"; then
     PKG_CHECK_MODULES([libevdev],
                       [libevdev],
                       [AC_DEFINE(HAVE_LINUX_EVDEV,,[Enable support for Linux evdev joysticks.])
                        JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux_evdev.o"
                        HAVE_LINUX_EVDEV_SUPPORT="yes"],
-                      [AC_MSG_ERROR([Linux evdev joystick driver requested (--with-evdev) but the libevdev headers are missing.])])
+                      [AC_MSG_ERROR([Please install libevdev headers.])])
     VICE_CFLAGS="$VICE_CFLAGS $libevdev_CFLAGS"
     VICE_CXXFLAGS="$VICE_CXXFLAGS $libevdev_CXXFLAGS"
     LIBS="$LIBS $libevdev_LIBS"
@@ -3760,7 +3749,6 @@ echo "Build old x64 emulator        : $X64_INCLUDED (--enable/--disable-x64)"
 echo "Install XDG .desktop files    : $USE_DESKTOP_FILES"
 echo "icotool for Windows found     : $ICOTOOL"
 echo "Experimental devices emulation: $HAVE_EXPERIMENTAL_DEVICES_SUPPORT (--enable-experimental-devices)"
-echo "Linux evdev joystick driver   : $HAVE_LINUX_EVDEV_SUPPORT (--with-evdev)"
 
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"

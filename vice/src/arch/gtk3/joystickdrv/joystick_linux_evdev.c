@@ -34,8 +34,6 @@
 
 #include "vice.h"
 
-#if defined(HAVE_LINUX_EVDEV)
-
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -480,5 +478,3 @@ void linux_joystick_evdev_init(void)
     }
     free(namelist);
 }
-
-#endif  /* ifdef HAVE_LINUX_EVDEV */
