@@ -20,16 +20,37 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 
 noinst_LIBRARIES = libjoystickdrv.a
 
-# These sources are always linked
-libjoystickdrv_a_SOURCES = \
-	joystick_linux.c
-
-# These sources are conditionally linked
+if WINDOWS_COMPILE
+libjoystickdrv_a_SOURCES = joystick_win32_directinput.c
 EXTRA_libjoystickdrv_a_SOURCES = \
 	joystick_bsd.c \
 	joystick_linux_evdev.c \
+	joystick_osx.c
+endif
+
+if MACOS_COMPILE
+libjoystickdrv_a_SOURCES = joystick_osx.c
+EXTRA_libjoystickdrv_a_SOURCES = \
+	joystick_bsd.c \
+	joystick_linux_evdev.c \
+	joystick_win32_directinput.c
+endif
+
+if LINUX_COMPILE
+libjoystickdrv_a_SOURCES = joystick_linux_evdev.c
+EXTRA_libjoystickdrv_a_SOURCES = \
+	joystick_bsd.c \
 	joystick_osx.c \
 	joystick_win32_directinput.c
+endif
+
+if BSD_COMPILE
+libjoystickdrv_a_SOURCES = joystick_bsd.c
+EXTRA_libjoystickdrv_a_SOURCES = \
+	joystick_linux_evdev.c \
+	joystick_osx.c \
+	joystick_win32_directinput.c
+endif
 
 libjoystickdrv_a_DEPENDENCIES = \
 	@JOYSTICK_DRIVERS@
