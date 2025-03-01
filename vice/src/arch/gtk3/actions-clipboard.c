@@ -34,6 +34,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "charset.h"
 #include "clipboard.h"
@@ -50,11 +51,35 @@
  */
 static void edit_copy_action(ui_action_map_t *self)
 {
+#ifdef WINDOWS_COMPILE
+    char *text = clipboard_read_screen_output("\r\n");
+#else
     char *text = clipboard_read_screen_output("\n");
-
+#endif
     if (text != NULL) {
+        size_t  i;
+        size_t  len;
+        char   *tmp;
+
+        /* Some characters were translated to ASCII by clipboard_read_screen_output(),
+         * but just about anything in the non a-zA-Z range wasn't so we need to
+         * mangle the text further: */
+        len = strlen(text);
+        tmp = lib_malloc(len + 1u);
+        for (i = 0; i < len; i++) {
+            unsigned char c = (unsigned char)text[i];
+            if ((c == '\r' || c == '\n') || (c < 127 && isprint(c))) {
+                tmp[i] = (char)c;
+            } else {
+                tmp[i] = '?';
+            }
+        }
+        tmp[len] = '\0';
+
         gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
-                               text, (gint)strlen(text));
+                               tmp,
+                               (gint)len);
+        lib_free(tmp);
     }
 }
 
