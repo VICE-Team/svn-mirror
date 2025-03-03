@@ -282,7 +282,16 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
         int bank;
 
         mem_get_screen_parameter(&base, &rows, &screen_width, &bank);
+        /* HACK: mem_get_screen_parameter() returns actual screen size from the
+           video chip registers - this can be zero rows or zero columns! If
+           width is 0, use last known terminal width instead, to avoid division
+           by 0 further below. */
+        if (screen_width == 0) {
+            screen_width = last_known_xres;
+        }
+
         max_width = screen_width;
+
         if (max_width > (last_known_xres - (7 + 2))) {
             max_width = (last_known_xres - (7 + 2));
             /* to make the output easier to read, make sure the number of items
