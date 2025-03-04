@@ -146,8 +146,8 @@
 #define HDR_SECTOR_8050        0        /* block w/disk name */
 #define BAM_TRACK_8050         38
 #define BAM_SECTOR_8050        0
-#define BAM_NAME_8050          6        /* pos. of disk name in header blk */
-#define BAM_ID_8050            24       /* pos. of disk id in header blk */
+#define HDR_NAME_8050          6        /* pos. of disk name in header blk */
+#define HDR_ID_8050            24       /* pos. of disk id in header blk */
 #define DIR_TRACK_8050         39
 #define DIR_SECTOR_8050        1
 
@@ -159,8 +159,8 @@
 #define HDR_SECTOR_8250        HDR_SECTOR_8050
 #define BAM_TRACK_8250         BAM_TRACK_8050
 #define BAM_SECTOR_8250        BAM_SECTOR_8050
-#define BAM_NAME_8250          BAM_NAME_8050 /* pos. of disk name in hdr blk */
-#define BAM_ID_8250            BAM_ID_8050   /* pos. of disk id in hdr blk */
+#define HDR_NAME_8250          HDR_NAME_8050 /* pos. of disk name in hdr blk */
+#define HDR_ID_8250            HDR_ID_8050   /* pos. of disk id in hdr blk */
 #define DIR_TRACK_8250         DIR_TRACK_8050
 #define DIR_SECTOR_8250        DIR_SECTOR_8050
 

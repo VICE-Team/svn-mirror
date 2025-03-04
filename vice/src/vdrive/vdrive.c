@@ -650,8 +650,8 @@ void vdrive_set_disk_geometry(vdrive_t *vdrive)
             vdrive->Bam_Sector = BAM_SECTOR_8050;
             vdrive->Header_Track = HDR_TRACK_8050;
             vdrive->Header_Sector = HDR_SECTOR_8050;
-            vdrive->bam_name = BAM_NAME_8050;
-            vdrive->bam_id = BAM_ID_8050;
+            vdrive->bam_name = HDR_NAME_8050;
+            vdrive->bam_id = HDR_ID_8050;
             vdrive->Dir_Track = DIR_TRACK_8050;
             vdrive->Dir_Sector = DIR_SECTOR_8050;
             break;
@@ -660,8 +660,8 @@ void vdrive_set_disk_geometry(vdrive_t *vdrive)
             vdrive->Bam_Sector = BAM_SECTOR_8250;
             vdrive->Header_Track = HDR_TRACK_8250;
             vdrive->Header_Sector = HDR_SECTOR_8250;
-            vdrive->bam_name = BAM_NAME_8250;
-            vdrive->bam_id = BAM_ID_8250;
+            vdrive->bam_name = HDR_NAME_8250;
+            vdrive->bam_id = HDR_ID_8250;
             vdrive->Dir_Track = DIR_TRACK_8250;
             vdrive->Dir_Sector = DIR_SECTOR_8250;
             break;
