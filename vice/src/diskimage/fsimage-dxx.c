@@ -166,8 +166,8 @@ int fsimage_read_dxx_image(const disk_image_t *image)
 
     if (image->type == DISK_IMAGE_TYPE_D80
         || image->type == DISK_IMAGE_TYPE_D82) {
-        sectors = disk_image_check_sector(image, BAM_TRACK_8050, BAM_SECTOR_8050);
-        bam_id = &buffer[BAM_ID_8050];
+        sectors = disk_image_check_sector(image, HDR_TRACK_8050, HDR_SECTOR_8050);
+        bam_id = &buffer[HDR_ID_8050];
     } else {
         sectors = disk_image_check_sector(image, BAM_TRACK_1541, BAM_SECTOR_1541);
         bam_id = &buffer[BAM_ID_1541];
