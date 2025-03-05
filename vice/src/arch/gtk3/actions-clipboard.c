@@ -80,6 +80,7 @@ static void edit_copy_action(ui_action_map_t *self)
                                tmp,
                                (gint)len);
         lib_free(tmp);
+        lib_free(text);
     }
 }
 
