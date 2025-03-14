@@ -59,7 +59,9 @@ UI_MENU_DEFINE_RADIO(JoyDevice9)
 UI_MENU_DEFINE_RADIO(JoyDevice10)
 UI_MENU_DEFINE_RADIO(JoyDevice11)
 
-static ui_menu_entry_t joystick_device_dyn_menu[JOYPORT_MAX_PORTS][6];
+/* FIXME: proper solution would be to dynamically allocate the array of menu
+ *        items per port, for now we stick with max. 16 controllers */
+static ui_menu_entry_t joystick_device_dyn_menu[JOYPORT_MAX_PORTS][5 + 16];
 static int joystick_device_dyn_menu_init[JOYPORT_MAX_PORTS] = { 0 };
 
 static void sdl_menu_joystick_device_free(int port)
@@ -135,7 +137,7 @@ static const char *joystick_device_dynmenu_helper(int port)
 #ifdef HAVE_SDL_NUMJOYSTICKS
         n = 0;
         joystick_ui_reset_device_list();
-        while (j < JOYPORT_MAX_PORTS - 1 && (device_name = joystick_ui_get_next_device_name(&id)) != NULL) {
+        while (n < 16 && (device_name = joystick_ui_get_next_device_name(&id)) != NULL) {
             entry[j].action   = ACTION_NONE;
             entry[j].string   = lib_strdup(device_name);
             entry[j].type     = MENU_ENTRY_RESOURCE_RADIO;
