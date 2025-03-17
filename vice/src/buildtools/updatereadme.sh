@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 ###############################################################################
 # updatereadme.sh   - update VICE version / date in the README file
@@ -83,17 +83,14 @@ fi
 if [ "x$TOPLINE" = "x" ]; then
     echo "WARNING: top line of README not found, version/date NOT updated."
 else
-    TOPLINE="  VICE  "
-    TOPLINE+=$VMAJOR.$VMINOR
+    TOPLINE="  VICE  $VMAJOR.$VMINOR"
     if [ "$VBUILD" = "0" ]; then
-    TOPLINE+="  "
+    TOPLINE="$TOPLINE  "
     else
-    TOPLINE+=.$VBUILD
+    TOPLINE="$TOPLINE.$VBUILD"
     fi
-    TOPLINE+="                                                        "
-    TOPLINE+=$MONTH
-    TOPLINE+=" "
-    TOPLINE+=$YEAR
+    TOPLINE="$TOPLINE                                                        "
+    TOPLINE="$MONTH $YEAR"
     LC_ALL=C $SED_I -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
 fi
 
@@ -112,15 +109,12 @@ fi
 if [ "x$LINE" = "x" ]; then
     echo "WARNING: second patch line of README not found, version NOT updated."
 else
-    LINE="This is version "
-    LINE+=$VMAJOR.$VMINOR
+    LINE="This is version $VMAJOR.$VMINOR"
     if [ "$VBUILD" = "0" ]; then
-    LINE+=" "
     else
-    LINE+=.$VBUILD
-    LINE+=" "
+    LINE="$LINE.$VBUILD"
     fi
-    LINE+="of VICE"
+    LINE="$LINE of VICE"
     LC_ALL=C $SED_I -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
 fi
 
