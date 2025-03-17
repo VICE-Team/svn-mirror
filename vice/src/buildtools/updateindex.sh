@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 ###############################################################################
 # updateindex.sh   - update VICE version / date in the index.html file
@@ -70,137 +70,116 @@ MONTH=`grep "VICEDATE_MONTH_LONG " $VICEDATE | cut -d '"' -f 2`
 YEAR=`grep "VICEDATE_YEAR " $VICEDATE | cut -d " " -f 3`
 
 if [ "x$VERBOSE" = "x1" ]; then
-echo day $DAY
-echo month: $MONTH
-echo year: $YEAR
+    echo "day $DAY"
+    echo "month: $MONTH"
+    echo "year: $YEAR"
 fi
 
 # "(24 January 2022) Version 3.6.1 released"
 TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 1 old: $TOPLINE
+    echo "line 1 old: $TOPLINE"
 fi
 
 if [ "x$TOPLINE" = "x" ]; then
     echo "WARNING: patch line 1 of index.html not found, version/date NOT updated."
 else
-    TOPLINE="("
-    TOPLINE+=$DAY
-    TOPLINE+=" "
-    TOPLINE+=$MONTH
-    TOPLINE+=" "
-    TOPLINE+=$YEAR
-    TOPLINE+=") Version "
-    TOPLINE+=$VMAJOR.$VMINOR
-    if [ "$VBUILD" = "0" ]; then
-    TOPLINE+=""
-    else
-    TOPLINE+=.$VBUILD
+    TOPLINE="($DAY $MONTH $YEAR) Version $VMAJOR.$VMINOR"
+    if [ "$VBUILD" != "0" ]; then
+        TOPLINE="$TOPLINE.$VBUILD"
     fi
-    TOPLINE+=" released"
+    TOPLINE="$TOPLINE released"
     LC_ALL=C $SED_I -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 1 new: $TOPLINE
+    echo "line 1 new: $TOPLINE"
 fi
 
 # <a href="https://sourceforge.net/projects/vice-emu/files/releases/vice-3.6.1.tar.gz/download">vice-3.6.1.tar.gz</a>
 
 LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 2 old: $LINE
+    echo "line 2 old: $LINE"
 fi
 
 if [ "x$LINE" = "x" ]; then
     echo "WARNING: patch line 2 of index.html not found, version/date NOT updated."
 else
-    LINE="vice-"
-    LINE+=$VMAJOR.$VMINOR
-    if [ "$VBUILD" = "0" ]; then
-    LINE+=""
-    else
-    LINE+=.$VBUILD
+    LINE="vice-$VMAJOR.$VMINOR"
+    if [ "$VBUILD" != "0" ]; then
+        LINE="$LINE.$VBUILD"
     fi
-    LINE+=".tar.gz"
+    LINE="$LINE.tar.gz"
     LC_ALL=C $SED_I -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
 fi
 
 LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 2 new: $LINE
+    echo "line 2 new: $LINE"
 fi
 
 #  <li>Download <a href="https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/GTK3VICE-3.6.1-win64.zip/download">VICE 3.6.1</a> (64bit GTK3)</li>
 
 LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 3 old: $LINE
+    echo "line 3 old: $LINE"
 fi
 
 if [ "x$LINE" = "x" ]; then
     echo "WARNING: patch line 3 of index.html not found, version/date NOT updated."
 else
-    LINE="VICE-"
-    LINE+=$VMAJOR.$VMINOR
-    if [ "$VBUILD" = "0" ]; then
-    LINE+=""
-    else
-    LINE+=.$VBUILD
+    LINE="VICE-$VMAJOR.$VMINOR"
+    if [ "$VBUILD" != "0" ]; then
+        LINE="$LINE.$VBUILD"
     fi
-    LINE+="-win"
+    LINE="$LINE-win"
     LC_ALL=C $SED_I -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
 fi
 
 LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 3 new: $LINE
+    echo "line 3 new: $LINE"
 fi
 
 LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 4 old: $LINE
+    echo "line 4 old: $LINE"
 fi
 
 if [ "x$LINE" = "x" ]; then
     echo "WARNING: patch line 4 of index.html not found, version/date NOT updated."
 else
-    LINE="VICE "
-    LINE+=$VMAJOR.$VMINOR
-    if [ "$VBUILD" = "0" ]; then
-    LINE+=""
-    else
-    LINE+=.$VBUILD
+    LINE="VICE $VMAJOR.$VMINOR"
+    if [ "$VBUILD" != "0" ]; then
+        LINE="$LINE.$VBUILD"
     fi
     LC_ALL=C $SED_I -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
 fi
 
 LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 4 new: $LINE
+    echo "line 4 new: $LINE"
 fi
 
 LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 5 old: $LINE
+    echo "line 5 old: $LINE"
 fi
 
 if [ "x$LINE" = "x" ]; then
     echo "WARNING: patch line 5 of index.html not found, version/date NOT updated."
 else
-    LINE=""
-    LINE+=$VMAJOR.$VMINOR
-    if [ "$VBUILD" = "0" ]; then
-    LINE+=""
-    else
-    LINE+=.$VBUILD
+    LINE="$VMAJOR.$VMINOR"
+    if [ "$VBUILD" != "0" ]; then
+        LINE="$LINE.$VBUILD"
     fi
-    LINE+=".dmg"
+    LINE="$LINE.dmg"
     LC_ALL=C $SED_I -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
 fi
 
 LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
-echo line 5 new: $LINE
+    echo "line 5 new: $LINE"
 fi
