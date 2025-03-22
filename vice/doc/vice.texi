@@ -9572,7 +9572,7 @@ images are supported:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell
+@file{.crt} images, as used by the CCS64 emulator by Per Hï¿½kan Sundell
 @item
 raw @file{.bin} images, with or without load address
 @end itemize
@@ -11646,7 +11646,7 @@ choosing one of the available predefined color sets, for example:
 @item
 @file{c64s.vpl} (``C64S''), palette taken from the shareware C64S emulator by Miha Peternel.
 @item
-@file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64 emulator by Per Håkan Sundell.
+@file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64 emulator by Per Hï¿½kan Sundell.
 @item
 @file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator by Christian Bauer
 (@uref{https://frodo.cebix.net/}).
@@ -21472,6 +21472,7 @@ mentioned above.
 * MON_CMD_REGISTERS_AVAILABLE::
 * MON_CMD_DISPLAY_GET::
 * MON_CMD_VICE_INFO::
+* MON_CMD_CPUHISTORY_GET::
 * MON_CMD_PALETTE_GET::
 * MON_CMD_JOYPORT_SET::
 * MON_CMD_USERPORT_SET::
@@ -21490,15 +21491,20 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+FX | SA SA | EA EA | MS | BI BI
+@end example
+@*
+
 @table @strong
-@item byte 0: side effects?
+@item FX: 1 byte: side effects?
 Should the read cause side effects?
 
-@item byte 1-2: start address
+@item SA: 2 bytes: start address
 
-@item byte 3-4: end address
+@item EA: 2 bytes: end address
 
-@item byte 5: memspace
+@item MS: 1 byte: memspace
 Describes which part of the computer you want to read:
 
 @itemize
@@ -21509,7 +21515,7 @@ Describes which part of the computer you want to read:
 @item 0x04: drive 11
 @end itemize
 
-@item byte 6-7: bank ID
+@item BI: 2 bytes: bank ID
 Describes which bank you want. This is dependent on your
 machine. @xref{MON_CMD_BANKS_AVAILABLE}.  If the memspace selected
 doesn't support banks, this value is ignored.
@@ -21522,10 +21528,16 @@ Response type:
 
 Response body:
 
-@table @strong
-@item byte 0-1: The length of the memory segment. Will be zero for start 0x0000, end 0xffff.
+@example
+ML ML | MM[0] MM[1] ... MM[ML-1]
+@end example
+@*
 
-@item byte 2+: The memory at the address.
+@table @strong
+@item ML: 2 bytes: Memory segment length. 
+  Will be zero for start 0x0000, end 0xffff.
+
+@item MM: ML bytes: The memory at the address.
 
 @end table
 
@@ -21538,15 +21550,20 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+FX | SA SA | EA EA | MS | BI BI | MM[0] MM[1] ... MM[EA-SA]
+@end example
+@*
+
 @table @strong
-@item byte 0: side effects?
+@item FX: 1 byte: side effects?
 Should the write cause side effects?
 
-@item byte 1-2: start address
+@item SA: 2 bytes: start address
 
-@item byte 3-4: end address
+@item EA: 2 bytes: end address
 
-@item byte 5: memspace
+@item MS: 1 byte: memspace
 Describes which part of the computer you want to write:
 
 @itemize
@@ -21557,12 +21574,12 @@ Describes which part of the computer you want to write:
 @item 0x04: drive 11
 @end itemize
 
-@item byte 6-7: bank ID
+@item BI: 2 bytes: bank ID
 Describes which bank you want. This is dependent on your machine. 
 @xref{MON_CMD_BANKS_AVAILABLE}.  
 If the memspace selected doesn't support banks, this byte is ignored.
 
-@item byte 8+: Memory contents to write
+@item MM: 1+EA-SA bytes: Memory contents to write
 
 @end table
 
@@ -21572,7 +21589,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_CHECKPOINT_GET
 @subsection Checkpoint get (0x11)
@@ -21583,8 +21603,13 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+CN CN CN CN
+@end example
+@*
+
 @table @strong
-@item byte 0-3: checkpoint number
+@item CN: 4 bytes: checkpoint number
 
 @end table
 
@@ -21600,25 +21625,30 @@ executing this one.
 
 Command body:
 
+@example
+SA SA | EA EA | ST | EN | OP | TM | MS?
+@end example
+@*
+
 @table @strong
-@item byte 0-1: start address
+@item SA: 2 bytes: start address
 
-@item byte 2-3: end address
+@item EA: 2 bytes: end address
 
-@item byte 4: stop when hit
+@item ST: 1 byte: stop when hit
 >=0x01: true, 0x00: false
 
-@item byte 5: enabled
+@item EN: 1 byte: enabled
 >=0x01: true, 0x00: false
 
-@item byte 6: CPU operation
+@item OP: 1 byte: CPU operation
 >=0x01: load, 0x02: store, 0x04: exec
 
-@item byte 7: temporary
+@item TM: 1 byte: temporary
     Deletes the checkpoint after it has been hit once. This is similar to
     "until" command, but it will not resume the emulator.
 
-@item byte 8 (optional): memspace
+@item MS: 1 byte (optional): memspace
 Describes which part of the computer to checkpoint:
 
 @itemize
@@ -21642,8 +21672,13 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+CN CN CN CN
+@end example
+@*
+
 @table @strong
-@item byte 0-3: checkpoint number
+@item CN: 4 bytes: checkpoint number
 
 @end table
 
@@ -21653,7 +21688,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_CHECKPOINT_LIST
 @subsection Checkpoint list (0x14)
@@ -21662,7 +21700,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Currently empty.
+@end example
+@*
 
 Response type:
 
@@ -21673,8 +21714,13 @@ Emits a series of MON_RESPONSE_CHECKPOINT_INFO responses
 
 Response body:
 
+@example
+CC CC CC CC
+@end example
+@*
+
 @table @strong
-@item byte 0-3: The total number of checkpoints
+@item CC: 4 bytes: The total count of checkpoints
 
 @end table
 
@@ -21685,10 +21731,15 @@ Minimum VICE version: 3.5
 
 Command body:
 
-@table @strong
-@item byte 0-3: Checkpoint number
+@example
+CN CN CN CN | EN
+@end example
+@*
 
-@item byte 4: Enabled?
+@table @strong
+@item CN: 4 bytes: Checkpoint number
+
+@item EN: 1 byte: Enabled?
 0x00: disabled, 0x01: enabled
 
 @end table
@@ -21699,7 +21750,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_CONDITION_SET
 @subsection Condition set (0x22)
@@ -21711,13 +21765,18 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+CN CN CN CN | EL | ES[0] ES[1] ... ES[EL-1]
+@end example
+@*
+
 @table @strong
-@item byte 0-3: checkpoint number
+@item CN: 4 bytes: checkpoint number
 
-@item byte 4: condition expression length
+@item EL: 1 byte: condition expression length
 
-@item byte 5+: condition expression string
-This is the same format used on the command line. Not null terminated.
+@item ES: EL bytes: condition expression string
+This is the same format used in the text monitor. Not null terminated.
 
 @end table
 
@@ -21727,7 +21786,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_REGISTERS_GET
 @subsection Registers get (0x31)
@@ -21738,8 +21800,13 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+MS
+@end example
+@*
+
 @table @strong
-@item byte 0: memspace
+@item MS: 1 byte: memspace
 Describes which part of the computer you want to read:
 
 @itemize
@@ -21763,8 +21830,13 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+MS | RC RC [ IS[0] @{ RI[0] RV[0] RV[0] @} ... IS[RC-1] @{ RI[RC-1] RV[RC-1] RV[RC-1] @} ]
+@end example
+@*
+
 @table @strong
-@item byte 0: memspace
+@item MS: 1 byte: memspace
 Describes which part of the computer you want to write:
 
 @itemize
@@ -21775,14 +21847,24 @@ Describes which part of the computer you want to write:
 @item 0x04: drive 11
 @end itemize
 
-@item byte 1-2: The count of the array items
+@item RC: 2 bytes: Register count
 
-@item byte 3+: An array with items of structure:
+@item Array: RC*(IS+1) bytes: An array with items of structure:
 
 @table @strong
-@item byte 0: Size of the item, excluding this byte
-@item byte 1: ID of the register
-@item byte 2-3: register value
+
+@item
+
+[
+
+@item IS: 1 byte: Item size, excluding this byte
+@item RI: 1 byte: Register ID
+@item RV: 2 bytes: Register value
+
+@item
+
+]
+
 @end table
 
 @end table
@@ -21798,16 +21880,21 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+SR | SD | FL | FN[0] FN[1] ... FN[FL-1]
+@end example
+@*
+
 @table @strong
-@item byte 0: Save ROMs to snapshot file?
+@item SR: 1 byte: Save ROMs to snapshot file?
 >=0x01: true, 0x00: false
 
-@item byte 1: Save disks to snapshot file?
+@item SD: 1 byte: Save disks to snapshot file?
 >=0x01: true, 0x00: false
 
-@item byte 2: Length of filename
+@item FL: 1 byte: Length of filename
 
-@item byte 3+: Filename
+@item FN: FL bytes: Filename
 The filename to save the snapshot to.
 
 @end table
@@ -21818,7 +21905,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_UNDUMP
 @subsection Undump (0x42)
@@ -21829,10 +21919,15 @@ Minimum VICE version: 3.5
 
 Command body:
 
-@table @strong
-@item byte 0: Length of filename
+@example
+FL | FN[0] FN[1] ... FN[FL-1]
+@end example
+@*
 
-@item byte 1+: Filename
+@table @strong
+@item FL: 1 byte: Length of filename
+
+@item FN: FL bytes: Filename
 The filename to load the snapshot from.
 
 @end table
@@ -21843,8 +21938,13 @@ Response type:
 
 Response body:
 
+@example
+PC PC
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The current program counter position
+@item PC: 2 bytes: The current program counter position
 
 @end table
 
@@ -21857,10 +21957,15 @@ Minimum VICE version: 3.5
 
 Command body:
 
-@table @strong
-@item byte 0: Length of resource name
+@example
+NL | RN[0] RN[1] ... RN[NL-1]
+@end example
+@*
 
-@item byte 1+: Resource name
+@table @strong
+@item NL: 1 byte: Resource name length
+
+@item RN: NL bytes: Resource name
 
 @end table
 
@@ -21870,13 +21975,18 @@ Response type:
 
 Response body:
 
+@example
+RT | VL | RV[0] RV[1] ... RV[VL-1]
+@end example
+@*
+
 @table @strong
-@item byte 0: Type of the resource
+@item RT: 1 byte: Resource type
 0x00: String, 0x01: Integer
 
-@item byte 1: Length of the value
+@item VL: 1 byte: Resource value length
 
-@item byte 2+: The value
+@item RV: VL bytes: The resource value
 
 @end table
 
@@ -21889,18 +21999,23 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+RT | NL | RN[0] RN[1] ... RN[NL-1] | VL | RV[0] RV[1] ... RV[VL-1]
+@end example
+@*
+
 @table @strong
-@item 1 byte: Type of the resource value
+@item RT: 1 byte: Type of the resource value
 0x00: String, 0x01: Integer@*
 Strings will be interpreted if the destination is an Integer.
 
-@item 1 byte: Resource name length = (&name)
+@item NL: 1 byte: Resource name length
 
-@item (*name) bytes: The resource name
+@item RN: NL bytes: The resource name
 
-@item 1 byte: Resource value length = (&value)
+@item VL: 1 byte: Resource value length
 
-@item (*value) bytes: The resource value
+@item RV: VL bytes: The resource value
 
 @end table
 
@@ -21910,7 +22025,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_ADVANCE_INSTRUCTIONS
 @subsection Advance Instructions (0x71)
@@ -21921,11 +22039,16 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+SO | IC IC
+@end example
+@*
+
 @table @strong
-@item byte 0: Step over subroutines?
+@item SO: 1 byte: Step over subroutines?
 Should subroutines count as a single instruction?
 
-@item byte 1-2: How many instructions to step over.
+@item IC: 2 bytes: How many instructions to step over.
 
 @end table
 
@@ -21935,7 +22058,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_KEYBOARD_FEED
 @subsection Keyboard feed (0x72)
@@ -21948,10 +22074,15 @@ Minimum API version: 2
 
 Command body:
 
-@table @strong
-@item byte 0: Length of text
+@example
+TL | TC[0] TC[1] ... TC[TL-1]
+@end example
+@*
 
-@item byte 1+: The text, in PETSCII
+@table @strong
+@item TL: 1 byte: Text Length
+
+@item TC: TL bytes: The text content, in PETSCII
 
 @end table
 
@@ -21961,7 +22092,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_EXECUTE_UNTIL_RETURN
 @subsection Execute until return (0x73)
@@ -21974,7 +22108,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Currently empty.
+@end example
+@*
 
 Response type:
 
@@ -21982,7 +22119,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_PING
 @subsection Ping (0x81)
@@ -21993,7 +22133,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Always empty
+@end example
+@*
 
 Response type:
 
@@ -22001,7 +22144,10 @@ Response type:
 
 Response body:
 
+@example
 Always empty
+@end example
+@*
 
 @node MON_CMD_BANKS_AVAILABLE
 @subsection Banks available (0x82)
@@ -22012,7 +22158,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Currently empty.
+@end example
+@*
 
 Response type:
 
@@ -22020,18 +22169,32 @@ Response type:
 
 Response body:
 
-@table @strong
-@item byte 0-1: The count of the array items
-@item byte 2+: An array with items of structure:
+@example
+BC BC [ IS[0] @{ BI[0] BI[0] | NL[0] | BN[0][0] BN[0][1] ... BN[0][NL[0]-1] @} ... IS[BC-1] @{ ... @} ]
+@end example
+@*
 
 @table @strong
-@item byte 0: Size of the item, excluding this byte
+@item BC: 2 bytes: Bank item count
+@item Array 1+BC*IS bytes: An array with items of structure:
 
-@item byte 1-2: bank ID
+@table @strong
 
-@item byte 3: Name length
+@item
 
-@item byte 4+: Name
+[
+
+@item IS: 1 byte: Item size, excluding this byte
+
+@item BI: 2 bytes: Bank ID
+
+@item NL: 1 byte: Name Length
+
+@item BN: NL bytes: Name
+
+@item
+
+]
 
 @end table
 
@@ -22046,9 +22209,14 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+MS
+@end example
+@*
+
 @table @strong
 
-@item byte 0: memspace
+@item MS: 1 byte: memspace
 Describes which part of the computer you want to read:
 
 @itemize
@@ -22063,25 +22231,30 @@ Describes which part of the computer you want to read:
 
 Response type:
 
-0x82: MON_RESPONSE_REGISTERS_AVAILABLE
+0x83: MON_RESPONSE_REGISTERS_AVAILABLE
 
 Response body:
 
-@table @strong
-@item byte 0-1: The count of the array items
-@item byte 2+: An array with items of structure:
+@example
+RC RC [ IS[0] @{ RI[0] | RS[0] | NL[0] | RN[0][0] RN[0][1] ... RN[0][NL[0]-1] @} ... IS[RC-1] @{ ... @} ]
+@end example
+@*
 
 @table @strong
+@item RC: 2 bytes: Register item count
+@item Array: RC*(IS+1) bytes: An array with items of structure:
 
-@item byte 0: Size of the item, excluding this byte
+@table @strong
 
-@item byte 1: ID of the register
+@item IS: 1 byte: Item Size, excluding this byte
 
-@item byte 2: Size of the register in bits
+@item RI: 1 byte: Register ID
 
-@item byte 3: Length of name
+@item RS: 1 byte: Register Size in bits
 
-@item byte 4+: Name
+@item NL: 1 byte: Length of name
+
+@item RN: NL bytes : Register name
 
 @end table
 
@@ -22098,12 +22271,17 @@ Minimum API version: 2
 
 Command body:
 
+@example
+VC | FM
+@end example
+@*
+
 @table @strong
-@item byte 0: USE VIC-II? 
+@item VC: 1 byte: USE VIC-II? 
 Must be included, but ignored for all but the C128. If true, (>=0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
-@item byte 1: Format
+@item FM: 1 byte: Format
 0x00: Indexed, 8 bit@*
 
 @end table
@@ -22114,31 +22292,35 @@ Response type:
 
 Response body:
 
-@table @strong
-@item 4 bytes: Length of the fields before the display buffer
+@example
+FL FL FL FL | DW DW | DH DH | XO XO | YO YO | IW IW | IH IH | BP | BL BL BL BL | BD[0] BD[1] ... BD[BL-1]
+@end example
+@*
 
-@item 2 bytes: Debug width of display buffer (uncropped)
+@table @strong
+@item FL: 4 bytes: Length of the fields before the display buffer
+
+@item DW: 2 bytes: Debug width of display buffer (uncropped)
 The largest width the screen gets.
 
-@item 2 bytes: Debug height of display buffer (uncropped)
+@item DH: 2 bytes: Debug height of display buffer (uncropped)
 The largest height the screen gets.
 
-@item 2 bytes: X offset
+@item XO: 2 bytes: X offset
 X offset to the inner part of the screen.
 
-@item 2 bytes: Y offset 
+@item YO: 2 bytes: Y offset 
 Y offset to the inner part of the screen.
 
-@item 2 bytes: Width of the inner part of the screen.
+@item IW: 2 bytes: Width of the inner part of the screen.
 
-@item 2 bytes: Height of the inner part of the screen.
+@item IH: 2 bytes: Height of the inner part of the screen.
 
-@item 1 byte: Bits per pixel of display buffer, 8
+@item BP: 1 byte: Bits per pixel of display buffer, 8
 
+@item BL: 4 bytes: Length of display buffer
 
-@item 4 bytes: Length of display buffer = (&buffer)
-
-@item (*buffer) bytes: Display buffer data
+@item BD: BL bytes: Display buffer data
 
 @end table
 
@@ -22151,7 +22333,10 @@ Minimum VICE version: 3.6
 
 Command body:
 
+@example
 Always empty
+@end example
+@*
 
 Response type:
 
@@ -22159,16 +22344,119 @@ Response type:
 
 Response body:
 
-@table @strong
-@item 1 byte: Length of main version = (&main)
+@example
+ML | MV[0] MV[1] ... MV[ML-1] | SL | SV[0] SV[1] ... SV[SL-1]
+@end example
+@*
 
-@item (*main) bytes: Main version
+@table @strong
+@item ML: 1 byte: Length of main version
+
+@item MV: ML bytes: Main version
 In linear format. For example 0x03, 0x05, 0x00, 0x00 for 3.5.0.0
 
-@item 1 byte: Length of SVN revision = (&rev)
+@item SL: 1 byte: Length of SVN revision
 
-@item (*rev) bytes: SVN revision
+@item SV: SL bytes: SVN revision
 In little endian format. Returns zero if it's not an SVN build.
+
+@end table
+
+@node MON_CMD_CPUHISTORY_GET
+@subsection CPU History (0x86)
+
+Gets records of every instruction executed by an emulated CPU.
+
+Minimum VICE version: 3.10
+
+Command body:
+
+@example
+MS | HC HC HC HC
+@end example
+@*
+
+@table @strong
+@item MS: 1 byte: memspace
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@item HC: 4 bytes: count of items to retrieve
+
+@end table
+
+Response type:
+
+0x86: MON_RESPONSE_CPUHISTORY_GET
+
+Response body:
+
+@example
+HC HC HC HC [
+    IS[0] @{
+      RC[0] RC[0] [
+        RS[0][0] @{ ... @}
+        ...
+        RS[0][RC-1] @{ ... @}
+      ]
+    @}
+    ...
+    IS[HC-1] @{ ... @}
+]
+CL CL CL CL CL CL CL CL | IL | IB[0] IB[1] ... IB[IL-1]
+@end example
+@*
+
+@table @strong
+@item HC: 4 bytes: CPU history item count
+
+@item Array: HC*(IS+1) bytes:
+An array with items of structure:
+
+@table @strong
+@item
+
+[
+
+@item IS: 1 bytes: Item size, excluding this byte
+
+@item RC: 2 bytes: Register item count
+
+@item Array: RC*(RS+1) bytes: Array items of structure:
+
+@table @strong
+@item
+
+[
+
+@item RS: 1 byte: Item size, excluding this byte
+
+@item @{...@}: RS bytes: The array item body from @ref{MON_RESPONSE_REGISTER_INFO}
+
+@item
+
+]
+
+@end table
+
+@item CL: 8 bytes: The CPU clock
+
+@item IL: 1 bytes: instruction bytes length
+
+@item IB: IL bytes: Instruction byte string.
+This is a fixed length and must be interpreted by the client.
+
+@end table
+
+@item
+
+]
 
 @end table
 
@@ -22181,8 +22469,13 @@ Minimum VICE version: 3.6
 
 Command body:
 
+@example
+VC
+@end example
+@*
+
 @table @strong
-@item byte 0: USE VIC-II? 
+@item VC: 1 byte: USE VIC-II? 
 Must be included, but ignored for all but the C128. If true, (>=0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
@@ -22194,19 +22487,36 @@ Response type:
 
 Response body:
 
+@example
+PC PC [
+  IS[0] { RR[0] | GG[0] | BB[0] }
+  ...
+  IS[PC-1] { RR[PC-1] | GG[PC-1] | BB[PC-1] }
+]
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The number of palette items.
+@item PC: 2 bytes: The palette item count
 
-@item byte 2+: An array with items of structure:
+@item Array : PC*(IS+1): An array with items of structure:
 
 @table @strong
-@item byte 0: Size of the item, excluding this byte
+@item
 
-@item byte 1: Red
+[
 
-@item byte 2: Green
+@item IS: 1 byte: Item size, excluding this byte
 
-@item byte 3: Blue
+@item RR: 1 byte: Red
+
+@item GG: 1 byte: Green
+
+@item BB: 1 byte: Blue
+
+@item
+
+]
 
 @end table
 
@@ -22221,9 +22531,14 @@ Minimum VICE version: 3.6
 
 Command body:
 
+@example
+PN PN | PV PV
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The port to set the value on
-@item byte 2-3: The value to set
+@item PN: 2 bytes: The port to set the value on
+@item PV: 2 bytes: The value to set
 
 @end table
 
@@ -22233,8 +22548,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
-
+@end example
+@*
 
 @node MON_CMD_USERPORT_SET
 @subsection Userport set (0xb2)
@@ -22245,8 +22562,13 @@ Minimum VICE version: 3.6
 
 Command body:
 
+@example
+UV UV
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The value to set
+@item UV: 2 bytes: The value to set
 
 @end table
 
@@ -22256,7 +22578,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_EXIT
 @subsection Exit (0xaa)
@@ -22267,7 +22592,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Currently empty.
+@end example
+@*
 
 Response type:
 
@@ -22275,7 +22603,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_QUIT
 @subsection Quit (0xbb)
@@ -22286,7 +22617,10 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
 Currently empty.
+@end example
+@*
 
 Response type:
 
@@ -22294,7 +22628,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_RESET
 @subsection Reset (0xcc)
@@ -22305,8 +22642,13 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+RS
+@end example
+@*
+
 @table @strong
-@item byte 0: What to reset
+@item RS: 1 byte: What to reset
 
 @itemize
 @item 0x00: Reset system
@@ -22322,7 +22664,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node MON_CMD_AUTOSTART
 @subsection Autostart / autoload (0xdd)
@@ -22333,16 +22678,21 @@ Minimum VICE version: 3.5
 
 Command body:
 
+@example
+RL | FI FI | FL | FN[0] FN[1] ... FN[FL-1]
+@end example
+@*
+
 @table @strong
-@item byte 0: Run after loading?
+@item RL: 1 byte: Run after loading?
 >=0x01: true, 0x00: false
 
-@item byte 1-2: File index
+@item FI: 2 bytes: File index
 The index of the file to execute, if a disk image. 0x00 is the default value.
 
-@item byte 3: Length of filename
+@item FL: byte 3: Length of filename
 
-@item byte 4+: Filename
+@item FN: FL bytes: Filename
 The filename to autoload.
 
 @end table
@@ -22353,7 +22703,10 @@ Response type:
 
 Response body:
 
+@example
 Currently empty.
+@end example
+@*
 
 @node Binary Responses
 @section Responses
@@ -22382,7 +22735,10 @@ Response type:
 
 Response body:
 
+@example
 Usually empty
+@end example
+@*
 
 @node MON_RESPONSE_CHECKPOINT_INFO
 @subsection Checkpoint Response (0x11)
@@ -22402,37 +22758,43 @@ Response type:
 
 Response body:
 
+@example
+CN CN CN CN | CH | SA SA | EA EA | ST | EN | OP | TM | HC HC HC HC | IC IC IC IC | CE | MS
+@end example
+@*
+
 @table @strong
-@item byte 0-3: Checkpoint number
+@item CN: 4 bytes: Checkpoint number
 
-@item byte 4: Currently hit?
+@item CH: 1 byte: Currently hit?
 >=0x01: true, 0x00: false
 
-@item byte 5-6: start address
+@item SA: 2 bytes: start address
 
-@item byte 7-8: end address
+@item EA: 2 bytes: end address
 
-@item byte 9: stop when hit
+@item ST: 1 byte: stop when hit
 >=0x01: true, 0x00: false
 
-@item byte 10: enabled
+@item EN: 1 byte: enabled
 >=0x01: true, 0x00: false
 
-@item byte 11: CPU operation
+@item OP: 1 byte: CPU operation
 0x01: load, 0x02: store, 0x04: exec
 
-@item byte 12: temporary
-Deletes the checkpoint after it has been hit once. This is similar to
-"until" command, but it will not resume the emulator.
+@item TM: 1 byte: temporary
+    Deletes the checkpoint after it has been hit once. This is similar to
+    "until" command, but it will not resume the emulator.
 
-@item byte 13-16: hit count
+@item HC: 4 bytes: hit count
 
-@item byte 17-20: ignore count
+@item IC: 4 bytes: ignore count
 
-@item byte 21: Has condition?
+@item CE: 1 byte: Has condition?
 >=0x01: true, 0x00: false
 
-@item byte 22: memspace
+@item MS: 1 byte: memspace
+Describes which part of the computer to checkpoint:
 
 @itemize
 @item 0x00: main memory
@@ -22453,17 +22815,34 @@ Response type:
 
 Response body:
 
+@example
+RC RC [ 
+    IS[0] @{ RI[0] | RV[0] RV[0] @}
+    ...
+    IS[RC-1] @{ RI[RC-1] | RV[RC-1] RV[RC-1] @}
+]
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The count of the array items
+@item RC: 2 bytes: The count of the array items
 
-@item byte 2+: An array with items of structure:
+@item Array: RC*(IS+1): An array with items of structure:
 
 @table @strong
-@item byte 0: Size of the item, excluding this byte
+@item
 
-@item byte 1: ID of the register
+[
 
-@item byte 2-3: register value
+@item IS: 1 byte: Item size, excluding this byte
+
+@item RI: 1 byte: ID of the register
+
+@item RV: 2 bytes: register value
+
+@item
+
+]
 
 @end table
 
@@ -22481,8 +22860,13 @@ Response type:
 
 Response body:
 
+@example
+PC PC
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The current program counter position
+@item PC: 2 bytes: The current program counter position
 
 @end table
 
@@ -22498,8 +22882,13 @@ Response type:
 
 Response body:
 
+@example
+PC PC
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The current program counter position
+@item PC: 2 bytes: The current program counter position
 
 @end table
 
@@ -22514,8 +22903,13 @@ Response type:
 
 Response body:
 
+@example
+PC PC
+@end example
+@*
+
 @table @strong
-@item byte 0-1: The current program counter position
+@item PC: 2 bytes: The current program counter position
 
 @end table
 
@@ -23774,7 +24168,7 @@ the file names can't have trailing spaces.
 Ettore Perazzoli.)
 
 This format was defined in 1998 as a cooperative effort between several
-emulator people, mainly Per Håkan Sundell, author of the CCS64 C64
+emulator people, mainly Per Hï¿½kan Sundell, author of the CCS64 C64
 emulator, Andreas Boose of the VICE CBM emulator team and Joe
 Forster/STA, the author of Star Commander.  It was the first real public
 attempt to create a format for the emulator community which removed
@@ -36108,7 +36502,7 @@ Implemented the SDL UI slider control and fixed some
 GP2X/Dingoo SDL UI issues.
 
 @item
-@b{István Fábián}
+@b{Istvï¿½n Fï¿½biï¿½n}
 Contributed a initial patch with the more correct 1541 bus
 timing code and which gave us hints for to improving the 1541
 emulation.
@@ -36219,7 +36613,7 @@ driver, basic support for the OPENCBM library and some
 other patches.
 
 @item
-@b{Frank König}
+@b{Frank Kï¿½nig}
 Contributed the Win32 joystick autofire feature.
 
 @item
@@ -36268,7 +36662,7 @@ CPU emulation.
 Provided some monitor fixes.
 
 @item
-@b{Marko Mäkelä}
+@b{Marko Mï¿½kelï¿½}
 Wrote lots of CPU documentation. Wrote the VIC Flash Plugin
 cartridge emulation in xvic. Wrote the Ultimem cartridge
 emulation in xvic.
@@ -36335,7 +36729,7 @@ Donated @code{findpath.c}.
 Digitalized the C64 colors used in the (old) default palette.
 
 @item
-@b{Lasse Öörni}
+@b{Lasse ï¿½ï¿½rni}
 Contributed the Windows Multimedia sound driver
 
 @item
@@ -36582,7 +36976,7 @@ thanks goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel, Per Håkan Sundell, David Horrocks, Benjamin Rosseaux and William McCabe
+Peternel, Per Hï¿½kan Sundell, David Horrocks, Benjamin Rosseaux and William McCabe
 for writing cool emulators to compete with.  @t{:-)}
 
 @c end of file generation section.
