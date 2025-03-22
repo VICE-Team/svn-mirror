@@ -68,21 +68,6 @@ uint8_t memmap_state = 0;
 
 #define MEMMAP_ELEM uint16_t
 
-struct cpuhistory_s {
-   CLOCK cycle;
-   uint16_t addr;
-   uint16_t reg_st;
-   uint8_t op;
-   uint8_t p1;
-   uint8_t p2;
-   uint8_t reg_a;
-   uint8_t reg_x;
-   uint8_t reg_y;
-   uint8_t reg_sp;
-   MEMSPACE origin;
-};
-typedef struct cpuhistory_s cpuhistory_t;
-
 /* CPU history variables */
 static cpuhistory_t *cpuhistory = NULL;
 static int cpuhistory_buffer_lines = 0;     /* actual size of the cyclic buffer */
@@ -122,7 +107,7 @@ int monitor_cpuhistory_allocate(int lines)
     if (lines < 10140) {
         lines = 10140;
     }
-    lines *= 5;
+    lines = lines * 5 + 1;
 
     cpuhistory = lib_realloc(cpuhistory, (size_t)lines * sizeof(cpuhistory_t));
 
@@ -181,39 +166,18 @@ void monitor_cpuhistory_fix_p2(unsigned int p2)
     cpuhistory[cpuhistory_i].p2 = p2;
 }
 
-void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filter3,
-                    MEMSPACE filter4, MEMSPACE filter5)
-{
-    uint8_t op, p1, p2, p3 = 0;
-    MEMSPACE mem;
-    uint16_t loc, addr;
-    int hex_mode = 1;
-    const char *dis_inst;
-    unsigned opc_size;
+cpuhistory_t *mon_cpuhistory_seek(int count, MEMSPACE filter1, MEMSPACE filter2,
+                                  MEMSPACE filter3, MEMSPACE filter4, MEMSPACE filter5) {
     int i, pos;
-    CLOCK cycle;
-    char otext[10];
-
-    /* if nothing passed, set the first filter to the default device */
-    if ((filter1 == e_invalid_space) &&
-        (filter2 == e_invalid_space) &&
-        (filter3 == e_invalid_space) &&
-        (filter4 == e_invalid_space) &&
-        (filter5 == e_invalid_space)) {
-        filter1 = default_memspace;
-    }
-
-    /* determine the actual maximum records to go through */
-    if (count < 1) {
-        count = cpuhistory_show_lines;
-    } else if (count > cpuhistory_buffer_lines) {
-        count = cpuhistory_buffer_lines;
-    }
 
     /* 'i' is the actual counter */
     i = 0;
     /* start looking at last entry */
     pos = cpuhistory_i;
+
+    if (count >= cpuhistory_buffer_lines) {
+        count = cpuhistory_buffer_lines - 1;
+    }
 
     /* find out where we need to start */
     while (i < count) {
@@ -234,51 +198,94 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
         /* this is totally possible since the emulation runs each CPU in
             chunks and eventually syncs up. Syncing is more aggressive
             when talking between devices. */
-        if (pos == cpuhistory_i) {
+        if (pos == (cpuhistory_i + 1) % cpuhistory_buffer_lines) {
             break;
         }
     }
 
-    /* loop through all entries until we find the number records requested */
-    while (i > 0) {
-        /* adjust our buffer circular reference */
-        pos = ( pos + 1) % cpuhistory_buffer_lines;
-        /* make sure the record matches */
-        if ((cpuhistory[pos].origin != e_invalid_space)
-            && ((filter1 == cpuhistory[pos].origin)
-                || (filter2 == cpuhistory[pos].origin)
-                || (filter3 == cpuhistory[pos].origin)
-                || (filter4 == cpuhistory[pos].origin)
-                || (filter5 == cpuhistory[pos].origin))) {
-            cycle = cpuhistory[pos].cycle;
-            addr = cpuhistory[pos].addr;
-            op = cpuhistory[pos].op;
-            p1 = cpuhistory[pos].p1;
-            p2 = cpuhistory[pos].p2;
+    return &cpuhistory[pos];
+}
 
-            mem = cpuhistory[pos].origin;
-            loc = addr_location(addr);
-
-            dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode, &opc_size);
-
-            strncpy(otext, mon_memspace_string[mem], 4);
-
-            /* Print the disassembled instruction */
-            mon_out(".%s:%04x  %-26s A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %12"PRIu64"\n",
-                otext, loc, dis_inst,
-                cpuhistory[pos].reg_a, cpuhistory[pos].reg_x,
-                cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
-                ((cpuhistory[pos].reg_st & (1 << 7)) != 0) ? 'N' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 6)) != 0) ? 'V' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 4)) != 0) ? 'B' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 3)) != 0) ? 'D' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 2)) != 0) ? 'I' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 1)) != 0) ? 'Z' : '.',
-                ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : '.',
-                cycle
-                );
-            i--;
+cpuhistory_t *mon_cpuhistory_next(cpuhistory_t *current, MEMSPACE filter1, MEMSPACE filter2,
+                         MEMSPACE filter3, MEMSPACE filter4, MEMSPACE filter5) {
+    cpuhistory_t *wrap = &cpuhistory[cpuhistory_buffer_lines];
+    cpuhistory_t *head = &cpuhistory[(cpuhistory_i + 1) % cpuhistory_buffer_lines];
+    do {
+        current += 1;
+        if (current >= wrap) {
+            current = &cpuhistory[0];
+        } else if (current == head) {
+            return NULL;
         }
+    /* make sure the record matches */
+    } while (!((current->origin != e_invalid_space)
+        && ((filter1 == current->origin)
+            || (filter2 == current->origin)
+            || (filter3 == current->origin)
+            || (filter4 == current->origin)
+            || (filter5 == current->origin))));
+    
+    return current;
+}
+
+void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filter3,
+                    MEMSPACE filter4, MEMSPACE filter5)
+{
+    uint8_t op, p1, p2, p3 = 0;
+    MEMSPACE mem;
+    uint16_t loc, addr;
+    int hex_mode = 1;
+    const char *dis_inst;
+    cpuhistory_t *current;
+    unsigned opc_size;
+    CLOCK cycle;
+    char otext[10];
+
+    /* if nothing passed, set the first filter to the default device */
+    if ((filter1 == e_invalid_space) &&
+        (filter2 == e_invalid_space) &&
+        (filter3 == e_invalid_space) &&
+        (filter4 == e_invalid_space) &&
+        (filter5 == e_invalid_space)) {
+        filter1 = default_memspace;
+    }
+
+    /* determine the actual maximum records to go through */
+    if (count < 1) {
+        count = cpuhistory_show_lines;
+    }
+
+    current = mon_cpuhistory_seek(count, filter1, filter2, filter3, filter4, filter5);
+
+    /* loop through all entries until we find the number records requested */
+    while ((current = mon_cpuhistory_next(current, filter1, filter2, filter3, filter4, filter5))) {
+        cycle = current->cycle;
+        addr = current->addr;
+        op = current->op;
+        p1 = current->p1;
+        p2 = current->p2;
+
+        mem = current->origin;
+        loc = addr_location(addr);
+
+        dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode, &opc_size);
+
+        strncpy(otext, mon_memspace_string[mem], 4);
+
+        /* Print the disassembled instruction */
+        mon_out(".%s:%04x  %-26s A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %12"PRIu64"\n",
+            otext, loc, dis_inst,
+            current->reg_a, current->reg_x,
+            current->reg_y, current->reg_sp,
+            ((current->reg_st & (1 << 7)) != 0) ? 'N' : '.',
+            ((current->reg_st & (1 << 6)) != 0) ? 'V' : '.',
+            ((current->reg_st & (1 << 4)) != 0) ? 'B' : '.',
+            ((current->reg_st & (1 << 3)) != 0) ? 'D' : '.',
+            ((current->reg_st & (1 << 2)) != 0) ? 'I' : '.',
+            ((current->reg_st & (1 << 1)) != 0) ? 'Z' : '.',
+            ((current->reg_st & (1 << 0)) != 0) ? 'C' : '.',
+            cycle
+            );
     }
 }
 
