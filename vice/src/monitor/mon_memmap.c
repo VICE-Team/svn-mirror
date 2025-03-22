@@ -224,7 +224,7 @@ cpuhistory_t *mon_cpuhistory_next(cpuhistory_t *current, MEMSPACE filter1, MEMSP
             || (filter3 == current->origin)
             || (filter4 == current->origin)
             || (filter5 == current->origin))));
-    
+
     return current;
 }
 

@@ -1481,7 +1481,7 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary cpuhistory: Invalid count %u", count);
         return;
-    } 
+    }
 
     current = mon_cpuhistory_seek(requested_count, memspace, memspace, memspace, memspace, memspace);
     while ((current = mon_cpuhistory_next(current, memspace, memspace, memspace, memspace, memspace))) {
@@ -1545,7 +1545,7 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
         reg_pc->val = current->addr;
         reg_lin->val = 0xffff;
         reg_cyc->val = 0xffff;
-        
+
         *response_cursor = item_size;
         ++response_cursor;
 
