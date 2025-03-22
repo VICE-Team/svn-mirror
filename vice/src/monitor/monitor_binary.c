@@ -430,8 +430,8 @@ static uint8_t memspace_to_uint8_t(MEMSPACE mem) {
 
 #define MON_REGISTER_ITEM_SIZE 3
 
-static uint16_t *count_registers(mon_reg_list_t *regs) {
-    uint16_t count;
+static uint16_t count_registers(mon_reg_list_t *regs) {
+    uint16_t count = 0;
 
     for( ; regs->name ; regs++) {
         if (!ignore_fake_register(regs)) {
