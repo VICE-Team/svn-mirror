@@ -1436,6 +1436,7 @@ static void monitor_binary_process_vice_info(binary_command_t *command)
     monitor_binary_response(sizeof(response), e_MON_RESPONSE_VICE_INFO, e_MON_ERR_OK, command->request_id, response);
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
 static void monitor_binary_process_cpuhistory(binary_command_t *command)
 {
     mon_reg_list_t *regs;
@@ -1576,7 +1577,12 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
     lib_free(templates);
     lib_free(response);
 }
-
+#else
+static void monitor_binary_process_cpuhistory(binary_command_t *command)
+{
+    monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+}
+#endif /* FEATURE_CPUMEMHISTORY */
 
 static void monitor_binary_process_mem_get(binary_command_t *command)
 {
