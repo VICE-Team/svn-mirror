@@ -1441,15 +1441,15 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
 {
     mon_reg_list_t *regs;
     mon_reg_list_t *templates;
-    mon_reg_list_t *reg_a;
-    mon_reg_list_t *reg_x;
-    mon_reg_list_t *reg_y;
-    mon_reg_list_t *reg_sp;
-    mon_reg_list_t *reg_flags;
-    mon_reg_list_t *reg_pc;
-    mon_reg_list_t *reg_lin;
-    mon_reg_list_t *reg_cyc;
-    int i;
+    mon_reg_list_t *reg_a = NULL;
+    mon_reg_list_t *reg_x = NULL;
+    mon_reg_list_t *reg_y = NULL;
+    mon_reg_list_t *reg_sp = NULL;
+    mon_reg_list_t *reg_flags = NULL;
+    mon_reg_list_t *reg_pc = NULL;
+    mon_reg_list_t *reg_lin = NULL;
+    mon_reg_list_t *reg_cyc = NULL;
+    int i, j;
     int registers_per_row = 8;
     unsigned char *response;
     unsigned char *response_cursor;
@@ -1502,35 +1502,42 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
 
     templates = mon_register_list_get(memspace);
 
-    for (i = 0; templates[i].name != NULL; i++) {
+    for (i = 0, j = 0; templates[i].name != NULL; i++) {
         unsigned int id = templates[i].id;
+        bool set_reg = false;
+        mon_reg_list_t *reg = &regs[j];
         mon_reg_list_t *template = &templates[i];
         if (ignore_fake_register(template)) {
             continue;
         } else if (id == e_PC) {
-            memcpy(&regs[0], template, sizeof(mon_reg_list_t));
-            reg_pc = &regs[0];
+            set_reg = true;
+            reg_pc = reg;
         } else if (id == e_A) {
-            memcpy(&regs[1], template, sizeof(mon_reg_list_t));
-            reg_a = &regs[1];
+            set_reg = true;
+            reg_a = reg;
         } else if (id == e_X) {
-            memcpy(&regs[2], template, sizeof(mon_reg_list_t));
-            reg_x = &regs[2];
+            set_reg = true;
+            reg_x = reg;
         } else if (id == e_Y) {
-            memcpy(&regs[3], template, sizeof(mon_reg_list_t));
-            reg_y = &regs[3];
+            set_reg = true;
+            reg_y = reg;
         } else if (id == e_SP) {
-            memcpy(&regs[4], template, sizeof(mon_reg_list_t));
-            reg_sp = &regs[4];
+            set_reg = true;
+            reg_sp = reg;
         } else if (id == e_FLAGS) {
-            memcpy(&regs[5], template, sizeof(mon_reg_list_t));
-            reg_flags = &regs[5];
+            set_reg = true;
+            reg_flags = reg;
         } else if (id == e_Rasterline) {
-            memcpy(&regs[6], template, sizeof(mon_reg_list_t));
-            reg_lin = &regs[6];
+            set_reg = true;
+            reg_lin = reg;
         } else if (id == e_Cycle) {
-            memcpy(&regs[7], template, sizeof(mon_reg_list_t));
-            reg_cyc = &regs[7];
+            set_reg = true;
+            reg_cyc = reg;
+        }
+
+        if (set_reg) {
+            memcpy(reg, template, sizeof(mon_reg_list_t));
+            j++;
         }
     }
 
@@ -1538,14 +1545,30 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
 
     current = mon_cpuhistory_seek(count, memspace, memspace, memspace, memspace, memspace);
     while ((current = mon_cpuhistory_next(current, memspace, memspace, memspace, memspace, memspace))) {
-        reg_a->val = current->reg_a;
-        reg_x->val = current->reg_x;
-        reg_y->val = current->reg_y;
-        reg_sp->val = current->reg_sp;
-        reg_flags->val = current->reg_st;
-        reg_pc->val = current->addr;
-        reg_lin->val = 0xffff;
-        reg_cyc->val = 0xffff;
+        if(reg_a != NULL) {
+            reg_a->val = current->reg_a;
+        }
+        if (reg_x != NULL) {
+            reg_x->val = current->reg_x;
+        }
+        if (reg_y != NULL) {
+            reg_y->val = current->reg_y;
+        }
+        if (reg_sp != NULL) {
+            reg_sp->val = current->reg_sp;
+        }
+        if (reg_flags != NULL) {
+            reg_flags->val = current->reg_st;
+        }
+        if (reg_pc != NULL) {
+            reg_pc->val = current->addr;
+        }
+        if (reg_lin != NULL) {
+            reg_lin->val = 0xffff;
+        }
+        if (reg_cyc != NULL) {
+            reg_cyc->val = 0xffff;
+        }
 
         *response_cursor = item_size;
         ++response_cursor;
