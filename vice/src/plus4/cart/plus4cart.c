@@ -126,8 +126,10 @@ cartridge_info_t *cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
-/* return cartridge type of main slot
-   returns 0 (CARTRIDGE_CRT) if crt file */
+/* FIXME: slot arg is ignored right now.
+   this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+   (it does NOT return CARTRIDGE_CRT)
+*/
 int cartridge_get_id(int slot)
 {
     int type = plus4cart_type;
@@ -792,6 +794,11 @@ void cartridge_trigger_freeze(void)
     DBG(("cartridge_trigger_freeze delay %d cycles", delay));
 }
 
+/* FIXME: add additional image to standard cartridge */
+int cartridge_attach_add_image(int type, const char *filename)
+{
+    return -1;
+}
 
 int cartridge_save_image(int type, const char *filename)
 {

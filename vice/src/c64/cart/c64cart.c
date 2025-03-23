@@ -349,11 +349,14 @@ cartridge_info_t *cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
-/* FIXME: this only works in slot 0 right now */
+/* FIXME: slot arg is ignored right now.
+   this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+   FIXME: should we return CARTRIDGE_CRT(0) or not?
+*/
 int cartridge_get_id(int slot)
 {
     int type = cart_getid_slotmain();
-    /*DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type));*/
+    /* DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type)); */
     return type;
 }
 
@@ -1175,6 +1178,12 @@ exiterror:
     lib_free(rawcart);
     log_message(LOG_DEFAULT, "CART: could not attach '%s'.", abs_filename);
     lib_free(abs_filename);
+    return -1;
+}
+
+/* FIXME: add additional image to standard cartridge */
+int cartridge_attach_add_image(int type, const char *filename)
+{
     return -1;
 }
 

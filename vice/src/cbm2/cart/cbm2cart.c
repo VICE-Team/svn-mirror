@@ -790,6 +790,12 @@ exiterror:
     return -1;
 }
 
+/* FIXME: add additional image to standard cartridge */
+int cartridge_attach_add_image(int type, const char *filename)
+{
+    return -1;
+}
+
 void cartridge_trigger_freeze(void)
 {
 }
@@ -849,8 +855,10 @@ int cartridge_type_enabled(int crtid)
     return 0;
 }
 
-/* return cartridge type of main slot
-   returns 0 (CARTRIDGE_CRT) if crt file */
+/* FIXME: slot arg is ignored right now.
+   this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+   (it does NOT return CARTRIDGE_CRT)
+*/
 int cartridge_get_id(int slot)
 {
     DBG(("cartridge_get_id(slot:%d): type:%d", slot, cbm2cart_type));
