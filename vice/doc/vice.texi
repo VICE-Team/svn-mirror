@@ -21831,7 +21831,11 @@ Minimum VICE version: 3.5
 Command body:
 
 @example
-MS | RC RC [ IS[0] @{ RI[0] RV[0] RV[0] @} ... IS[RC-1] @{ RI[RC-1] RV[RC-1] RV[RC-1] @} ]
+MS | RC RC [
+    IS[0] @{ RI[0] | RV[0] RV[0] @}
+    ...
+    IS[RC-1] @{ RI[RC-1] | RV[RC-1] RV[RC-1] @}
+]
 @end example
 @*
 
@@ -22170,7 +22174,11 @@ Response type:
 Response body:
 
 @example
-BC BC [ IS[0] @{ BI[0] BI[0] | NL[0] | BN[0][0] BN[0][1] ... BN[0][NL[0]-1] @} ... IS[BC-1] @{ ... @} ]
+BC BC [ 
+    IS[0] @{ BI[0] BI[0] | NL[0] | BN[0][0] BN[0][1] ... BN[0][NL[0]-1] @}
+    ... 
+    IS[BC-1] @{ ... @}
+]
 @end example
 @*
 
@@ -22293,7 +22301,8 @@ Response type:
 Response body:
 
 @example
-FL FL FL FL | DW DW | DH DH | XO XO | YO YO | IW IW | IH IH | BP | BL BL BL BL | BD[0] BD[1] ... BD[BL-1]
+FL FL FL FL | DW DW | DH DH | XO XO | YO YO | IW IW | IH IH | BP | 
+    BL BL BL BL | BD[0] BD[1] ... BD[BL-1]
 @end example
 @*
 
@@ -22759,7 +22768,8 @@ Response type:
 Response body:
 
 @example
-CN CN CN CN | CH | SA SA | EA EA | ST | EN | OP | TM | HC HC HC HC | IC IC IC IC | CE | MS
+CN CN CN CN | CH | SA SA | EA EA | ST | EN | OP | TM | 
+    HC HC HC HC | IC IC IC IC | CE | MS
 @end example
 @*
 
