@@ -262,7 +262,7 @@ void magicdesk128_reset(void)
 
 static char snap_module_name[] = "MAGICDESK128";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 int magicdesk128_snapshot_write_module(snapshot_t *s)
 {
@@ -274,7 +274,14 @@ int magicdesk128_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    /* FIXME */
+    if (0
+        || SMW_B(m, (uint8_t)md128reg) < 0
+        || SMW_B(m, (uint8_t)rombank) < 0
+        || SMW_B(m, (uint8_t)bankmask) < 0
+        || (SMW_BA(m, ext_function_rom, MD128_ROM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
     return snapshot_module_close(m);
 }
@@ -296,7 +303,13 @@ int magicdesk128_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    /* FIXME */
+    if (0
+        || SMR_B_UINT(m, &md128reg) < 0
+        || SMR_B_UINT(m, &rombank) < 0
+        || SMR_B_UINT(m, &bankmask) < 0
+        || (SMR_BA(m, ext_function_rom, MD128_ROM_SIZE) < 0)) {
+        goto fail;
+    }
 
     snapshot_module_close(m);
 
