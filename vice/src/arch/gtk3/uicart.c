@@ -140,13 +140,10 @@ static const cart_type_list_t c128_cart_types[] = {
 
 
 /** \brief  List of VIC-20 'main' cart types
- *
- * The generic type will use the generic carts list in #vic20_cart_types_generic
  */
 static const cart_type_list_t vic20_cart_types[] = {
     { "Smart-attach",               UICART_VIC20_SMART },
     { "Generic",                    UICART_VIC20_GENERIC },
-/*  { "Add to generic cartridge",   UICART_VIC20_ADD_GENERIC }, */
     { "Freezer",                    UICART_VIC20_FREEZER },
     { "Games",                      UICART_VIC20_GAME },
     { "Utilities",                  UICART_VIC20_UTIL },
@@ -177,20 +174,6 @@ static const cart_type_list_t cbm2_cart_types[] = {
     { NULL, -1 }
 };
 
-#if 0
-/** \brief  List of VIC-20 cart types of the 'generic' variety
- */
-static const cart_type_list_t vic20_cart_types_generic[] = {
-    { "Smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
-    { "32KiB cartridge at $2000",       CARTRIDGE_VIC20_32KB_2000 },
-    { "4/8/16KiB cartridge at $2000",   CARTRIDGE_VIC20_16KB_2000 },
-    { "4/8/16KiB cartridge at $4000",   CARTRIDGE_VIC20_16KB_4000 },
-    { "4/8/16KiB cartridge at $6000",   CARTRIDGE_VIC20_16KB_6000 },
-    { "4/8KiB cartridge at $A000",      CARTRIDGE_VIC20_8KB_A000 },
-    { "4KiB cartridge at $B000",        CARTRIDGE_VIC20_4KB_B000 },
-    { NULL, -1 }
-};
-#endif
 
 /** \brief  File filter pattern for CRT images */
 static const char *pattern_crt[] = { "*.crt", NULL };
@@ -246,6 +229,9 @@ static GtkWidget *cart_preview_widget = NULL;
 
 /** \brief  Reference to the cart-set-default widget */
 static GtkWidget *cart_set_default_widget = NULL;
+
+/** \brief  Reference to the cart add widget */
+static GtkWidget *cart_add_widget = NULL;
 
 
 /** \brief  Reference to the cart ID widget */
@@ -433,6 +419,7 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
             if ((pattern == UICART_PATTERN_CRT) || (mask == 0x0)) {
                 gtk_widget_hide(GTK_WIDGET(cart_id_widget));
                 gtk_widget_hide(GTK_WIDGET(cart_id_label));
+                gtk_widget_hide(GTK_WIDGET(cart_add_widget));
             } else {
                 gtk_widget_show(GTK_WIDGET(cart_id_widget));
                 gtk_widget_show(GTK_WIDGET(cart_id_label));
@@ -442,26 +429,7 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
             set_pattern(pattern);
 
             break;
-#if 0
-        case VICE_MACHINE_VIC20:
-            if ((crt_type == UICART_VIC20_GENERIC) ||
-                (crt_type == UICART_VIC20_ADD_GENERIC)) {
-                id_model = create_cart_id_model_vic20();
-                /* gtk_widget_set_sensitive(cart_id_widget, TRUE); */
-                gtk_widget_show(GTK_WIDGET(cart_id_widget));
-                gtk_widget_show(GTK_WIDGET(cart_id_label));
-            } else {
-                /* empty model */
-                id_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
-                /* gtk_widget_set_sensitive(cart_id_widget, FALSE); */
-                gtk_widget_hide(GTK_WIDGET(cart_id_widget));
-                gtk_widget_hide(GTK_WIDGET(cart_id_label));
-            }
-            gtk_combo_box_set_model(GTK_COMBO_BOX(cart_id_widget), GTK_TREE_MODEL(id_model));
-            gtk_combo_box_set_active(GTK_COMBO_BOX(cart_id_widget), 0);
 
-            break;
-#endif
         default:
             break;
     }
@@ -488,6 +456,46 @@ static int get_cart_type(void)
         }
     }
     return crt_type;
+}
+
+
+/** \brief  Handler for the "changed" event of the cart ID combo box
+ *
+ * \param[in]   combo   cart ID combo
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_cart_id_changed(GtkComboBox *combo, gpointer data)
+{
+    int lasttype = cartridge_get_id(0);
+    int id = get_cart_id();
+    int generic_add = 0;
+
+    /* enable the "add to generic cartridge" checkbox only when a generic
+       cartridge is selected AND currently inserted! */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            break;
+        /* currently we only use this on vic20 */
+        case VICE_MACHINE_VIC20:
+            if (id >= CARTRIDGE_VIC20_DETECT) {
+                if (lasttype == CARTRIDGE_VIC20_GENERIC) {
+                    generic_add = 1;
+                }
+            }
+            break;
+    }
+
+    if (generic_add) {
+        gtk_widget_show(cart_add_widget);
+    } else {
+        gtk_widget_hide(cart_add_widget);
+    }
 }
 
 
@@ -671,6 +679,15 @@ static int attach_cart_image(int type, int id, const char *path)
             return 0;
             break;
     }
+
+    /* add to cartridge */
+    if ((cart_add_widget != NULL) &&
+            (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cart_add_widget)))) {
+        if ((cartridge_attach_add_image(id, path) == 0)) {
+            return 1;
+        }
+    }
+
     /* printf("call cartridge_attach_image(id:%d path:%s)\n", id, path); */
     if ((cartridge_attach_image(id, path) == 0)) {
         /* check 'set default' */
@@ -765,31 +782,6 @@ static GtkListStore *create_cart_id_model(unsigned int flags)
     return model;
 }
 
-#if 0
-/** \brief  Create a list of cartridges for VIC-20
- *
- * Only valid for VIC-20
- *
- * \return  Two-column list store (name, id)
- */
-static GtkListStore *create_cart_id_model_vic20(void)
-{
-    GtkListStore *model;
-    GtkTreeIter iter;
-    int i;
-
-    model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
-
-    for (i = 0; vic20_cart_types_generic[i].name != NULL; i++) {
-        gtk_list_store_append(model, &iter);
-        gtk_list_store_set(model, &iter,
-                0, vic20_cart_types_generic[i].name,    /* cart name */
-                1, vic20_cart_types_generic[i].id,      /* cart ID */
-                -1);
-    }
-    return model;
-}
-#endif
 
 /** \brief  Create combo box with main cartridge types
  *
@@ -850,36 +842,14 @@ static GtkWidget *create_cart_id_combo_box(unsigned int mask)
             "text", 0, NULL);
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+
+    g_signal_connect_unlocked(G_OBJECT(combo),
+                              "changed",
+                              G_CALLBACK(on_cart_id_changed),
+                              NULL);
     return combo;
 }
 
-#if 0
-/** \brief  Create combo box with generic VIC-20 cartridges
- *
- * \return  GtkComboBox
- */
-static GtkWidget *create_cart_id_combo_box_vic20(void)
-{
-    GtkWidget *combo;
-    GtkListStore *model;
-    GtkCellRenderer *renderer;
-
-    model = create_cart_id_model_vic20();
-    if (model == NULL) {
-        return gtk_combo_box_new();
-    }
-    combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
-    g_object_unref(model);
-
-    renderer = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
-            "text", 0, NULL);
-
-    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-    return combo;
-}
-#endif
 
 /** \brief  Create the 'extra' widget for the dialog
  *
@@ -954,7 +924,30 @@ static GtkWidget *create_extra_widget(gboolean set_default)
             break;
     }
 
+    /* create "Set cartridge as default" check button */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
+        case VICE_MACHINE_VIC20:
+            cart_add_widget = gtk_check_button_new_with_label(
+                    "add to cartridge");
+            gtk_toggle_button_set_active(
+                    GTK_TOGGLE_BUTTON(cart_add_widget), 0);
+
+            gtk_grid_attach(GTK_GRID(grid), cart_add_widget, 4, 0, 1, 1);
+            break;
+        default:
+            /* Set cart as default is not supported for the current machine */
+            break;
+    }
+
     gtk_widget_show_all(grid);
+    gtk_widget_hide(cart_add_widget);
     return grid;
 }
 

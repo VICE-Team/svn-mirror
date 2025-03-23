@@ -50,8 +50,13 @@ void cartridge_init_config(void);
 /* detect cartridge type (takes crt and bin files) */
 int cartridge_detect(const char *filename);
 
-/* attach (and enable) a cartridge by type and filename (takes crt and bin files) */
+/* attach (and enable) a cartridge by type and filename (takes crt and bin files)
+   this function detaches previously attached image(s) in the (all) main slot(s) */
 int cartridge_attach_image(int type, const char *filename);
+
+/* attach (and enable) a cartridge by type and filename (takes crt and bin files)
+   this function ADDs one (or more) images (usually to the generic cartridge) */
+int cartridge_attach_add_image(int type, const char *filename);
 
 /* enable cartridge by type. loads default image if any.
    should be used by the UI instead of using the resources directly */
@@ -65,6 +70,7 @@ void cartridge_detach_image(int type);
 
 /* FIXME: slot arg is ignored right now.
    this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+   (it does NOT return CARTRIDGE_CRT)
 */
 int cartridge_get_id(int slot);
 
