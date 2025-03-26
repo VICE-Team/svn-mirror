@@ -1455,7 +1455,7 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
     unsigned char *response_cursor;
     uint8_t instruction_length = 4;
     uint16_t requested_count, count = 0;
-    uint32_t response_size;
+    uint64_t response_size;
     int item_size = 2 + registers_per_row * (MON_REGISTER_ITEM_SIZE + 1) + 8 + 1 + instruction_length;
 
     cpuhistory_t *current;
@@ -1495,8 +1495,15 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
     }
 
     response_size = 4 + count * (item_size + 1);
+    if (response_size > UINT32_MAX) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        log_message(LOG_DEFAULT, "monitor binary cpuhistory: Response too long %lu", response_size);
+        return;
+    }
+
     response = lib_malloc(response_size);
     response_cursor = response;
+
 
     regs = lib_calloc(1, sizeof(mon_reg_list_t) * (registers_per_row + 1));
 
