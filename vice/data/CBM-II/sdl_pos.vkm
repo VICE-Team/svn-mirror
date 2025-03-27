@@ -178,7 +178,7 @@
 91 1 4 8        /*            [ -> [            */
 93 2 3 8        /*            ] -> ]            */
 13 2 5 8        /*       Return -> pi           */
-306 8 5 8       /*    Left Ctrl -> CTRL         */
+306 8 5 0x4008  /*    Left Ctrl -> CTRL         */
 97 9 3 8        /*            A -> A            */
 115 10 3 8      /*            S -> S            */
 100 11 3 8      /*            D -> D            */
@@ -225,7 +225,7 @@
 19 2 5 8        /*  Pause/Break -> Pi           */
 280 5 0 8       /*         PgUp -> Rev/Off      */
 279 5 1 8       /*          End -> CE           */
-305 3 4 8       /*   Right Ctrl -> C=           */
+305 3 4 0x2008  /*   Right Ctrl -> C=           */
 271 7 4 8       /* Numpad Enter -> Numpad Enter */
 267 7 1 8       /*     Numpad / -> Numpad /     */
 263 4 2 8       /*     Numpad 7 -> Numpad 7     */
