@@ -33,17 +33,17 @@
 struct machine_context_s;
 struct via_context_s;
 
-void vic20via1_setup_context(struct machine_context_s *machine_context);
-void via1_init(struct via_context_s *via_context);
-void via1_store(uint16_t addr, uint8_t byte);
-uint8_t via1_read(uint16_t addr);
-uint8_t via1_peek(uint16_t addr);
-
 void vic20via3_setup_context(struct machine_context_s *machine_context);
 void via3_init(struct via_context_s *via_context);
 void via3_store(uint16_t addr, uint8_t byte);
 uint8_t via3_read(uint16_t addr);
 uint8_t via3_peek(uint16_t addr);
+
+void vic20via2_setup_context(struct machine_context_s *machine_context);
+void via2_init(struct via_context_s *via_context);
+void via2_store(uint16_t addr, uint8_t byte);
+uint8_t via2_read(uint16_t addr);
+uint8_t via2_peek(uint16_t addr);
 
 void via3_set_tape_sense(int v);
 void via3_set_tape_write_in(int v);

@@ -37,7 +37,7 @@
 void machine_trigger_flux_change(int port, unsigned int on)
 {
     if (port == TAPEPORT_PORT_1) {
-        viacore_signal(machine_context.via1, VIA_SIG_CA1, VIA_SIG_FALL);
+        viacore_signal(machine_context.via2, VIA_SIG_CA1, VIA_SIG_FALL);
     }
 }
 
