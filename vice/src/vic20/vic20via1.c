@@ -44,19 +44,19 @@
 #include "vic20via.h"
 
 
-void via1_store(uint16_t addr, uint8_t data)
+void via2_store(uint16_t addr, uint8_t data)
 {
-    viacore_store(machine_context.via1, addr, data);
+    viacore_store(machine_context.via2, addr, data);
 }
 
-uint8_t via1_read(uint16_t addr)
+uint8_t via2_read(uint16_t addr)
 {
-    return viacore_read(machine_context.via1, addr);
+    return viacore_read(machine_context.via2, addr);
 }
 
-uint8_t via1_peek(uint16_t addr)
+uint8_t via2_peek(uint16_t addr)
 {
-    return viacore_peek(machine_context.via1, addr);
+    return viacore_peek(machine_context.via2, addr);
 }
 
 static void set_ca2(via_context_t *via_context, int state)
@@ -188,18 +188,18 @@ static uint8_t read_prb(via_context_t *via_context)
     return byte;
 }
 
-void via1_init(via_context_t *via_context)
+void via2_init(via_context_t *via_context)
 {
-    viacore_init(machine_context.via1, maincpu_alarm_context,
+    viacore_init(machine_context.via2, maincpu_alarm_context,
                  maincpu_int_status);
 }
 
-void vic20via1_setup_context(machine_context_t *machinecontext)
+void vic20via2_setup_context(machine_context_t *machinecontext)
 {
     via_context_t *via;
 
-    machinecontext->via1 = lib_malloc(sizeof(via_context_t));
-    via = machinecontext->via1;
+    machinecontext->via2 = lib_malloc(sizeof(via_context_t));
+    via = machinecontext->via2;
 
     via->prv = NULL;
     via->context = NULL;
@@ -207,8 +207,8 @@ void vic20via1_setup_context(machine_context_t *machinecontext)
     via->rmw_flag = &maincpu_rmw_flag;
     via->clk_ptr = &maincpu_clk;
 
-    via->myname = lib_msprintf("Via1");
-    via->my_module_name = lib_msprintf("VIA1");
+    via->myname = lib_msprintf("Via2");
+    via->my_module_name = lib_msprintf("VIA2");
 
     viacore_setup_context(via);
 

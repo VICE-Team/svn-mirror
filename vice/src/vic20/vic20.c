@@ -292,9 +292,9 @@ static int via3_dump(void)
     return viacore_dump(machine_context.via3);
 }
 
-static int via1_dump(void)
+static int via2_dump(void)
 {
-    return viacore_dump(machine_context.via1);
+    return viacore_dump(machine_context.via2);
 }
 
 static void vic_via1_via2_store(uint16_t addr, uint8_t data)
@@ -303,7 +303,7 @@ static void vic_via1_via2_store(uint16_t addr, uint8_t data)
         via3_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
     vic_store(addr, data);
 }
@@ -317,7 +317,7 @@ static uint8_t vic_via1_via2_read(uint16_t addr)
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -332,7 +332,7 @@ static uint8_t vic_via1_via2_peek(uint16_t addr)
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -344,7 +344,7 @@ static void via1_via2_store(uint16_t addr, uint8_t data)
         via3_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
 }
 
@@ -357,7 +357,7 @@ static uint8_t via1_via2_read(uint16_t addr)
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -372,7 +372,7 @@ static uint8_t via1_via2_peek(uint16_t addr)
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -427,8 +427,8 @@ static io_source_t via3_device = {
 /* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
           this is done as a temporary HACK to keep mirrors working and still get the correct register size,
           this needs to be fixed properly after the 3.6 release */
-static io_source_t via1_device = {
-    "VIA1",                /* name of the chip */
+static io_source_t via2_device = {
+    "VIA2",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
 #if 0
@@ -440,7 +440,7 @@ static io_source_t via1_device = {
     NULL,                  /* NO poke function */
     via1_via2_read,        /* read function */
     via1_via2_peek,        /* peek function */
-    via1_dump,             /* chip state information dump function */
+    via2_dump,             /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
     0,                     /* insertion order, gets filled in by the registration function */
@@ -448,14 +448,14 @@ static io_source_t via1_device = {
 };
 
 static io_source_list_t *vic_list_item = NULL;
-static io_source_list_t *via1_list_item = NULL;
 static io_source_list_t *via3_list_item = NULL;
+static io_source_list_t *via2_list_item = NULL;
 
 static void vic20io0_init(void)
 {
     vic_list_item = io_source_register(&vic_device);
-    via1_list_item = io_source_register(&via1_device);
     via3_list_item = io_source_register(&via3_device);
+    via2_list_item = io_source_register(&via2_device);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -892,8 +892,8 @@ static void vic20_monitor_init(void)
 
 void machine_setup_context(void)
 {
-    vic20via1_setup_context(&machine_context);
     vic20via3_setup_context(&machine_context);
+    vic20via2_setup_context(&machine_context);
     vic20ieeevia1_setup_context(&machine_context);
     vic20ieeevia2_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
@@ -960,8 +960,8 @@ int machine_specific_init(void)
         return -1;
     }
 
-    via1_init(machine_context.via1);
     via3_init(machine_context.via3);
+    via2_init(machine_context.via2);
 
     ieeevia1_init(machine_context.ieeevia1);
     ieeevia2_init(machine_context.ieeevia2);
@@ -1046,8 +1046,8 @@ void machine_specific_reset(void)
 
     serial_traps_reset();
 
-    viacore_reset(machine_context.via1);
     viacore_reset(machine_context.via3);
+    viacore_reset(machine_context.via2);
     vic_reset();
     sid_reset();
 
@@ -1090,8 +1090,8 @@ void machine_specific_shutdown(void)
     /* and cartridge */
     cartridge_detach_image(-1);
 
-    viacore_shutdown(machine_context.via1);
     viacore_shutdown(machine_context.via3);
+    viacore_shutdown(machine_context.via2);
     viacore_shutdown(machine_context.ieeevia1);
     viacore_shutdown(machine_context.ieeevia2);
 
