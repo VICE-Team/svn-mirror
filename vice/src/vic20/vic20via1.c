@@ -1,5 +1,5 @@
 /*
- * vic20via1.c - VIA1 emulation in the VIC20.
+ * vic20via1.c - VIA2 emulation in the VIC20.
  *
  * Written by
  *  Andre Fachat <fachat@physik.tu-chemnitz.de>
