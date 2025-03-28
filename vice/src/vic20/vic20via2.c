@@ -1,5 +1,5 @@
 /*
- * vic20via2.c - VIA2 emulation in the VIC20.
+ * vic20via2.c - VIA1 emulation in the VIC20.
  *
  * Written by
  *  Andre Fachat <fachat@physik.tu-chemnitz.de>
@@ -59,19 +59,19 @@ static void update_portbits(void)
     store_userport_pbx(userport_pb, userport_pa6 ? USERPORT_NO_PULSE : USERPORT_PULSE);
 }
 
-void via2_store(uint16_t addr, uint8_t data)
+void via3_store(uint16_t addr, uint8_t data)
 {
-    viacore_store(machine_context.via2, addr, data);
+    viacore_store(machine_context.via3, addr, data);
 }
 
-uint8_t via2_read(uint16_t addr)
+uint8_t via3_read(uint16_t addr)
 {
-    return viacore_read(machine_context.via2, addr);
+    return viacore_read(machine_context.via3, addr);
 }
 
-uint8_t via2_peek(uint16_t addr)
+uint8_t via3_peek(uint16_t addr)
 {
-    return viacore_peek(machine_context.via2, addr);
+    return viacore_peek(machine_context.via3, addr);
 }
 
 static void set_ca2(via_context_t *via_context, int state)
@@ -100,23 +100,23 @@ static int tape_sense = 0;
 static int tape_write_in = 0;
 static int tape_motor_in = 0;
 
-void via2_set_tape_sense(int v)
+void via3_set_tape_sense(int v)
 {
     tape_sense = v;
 }
 
 /* FIXME: find out how to set the write in and motor in lines */
-void via2_set_tape_write_in(int v)
+void via3_set_tape_write_in(int v)
 {
     tape_write_in = v;
 }
 
-void via2_set_tape_motor_in(int v)
+void via3_set_tape_motor_in(int v)
 {
     tape_motor_in = v;
 }
 
-static void via2_internal_lightpen_check(uint8_t pa)
+static void via3_internal_lightpen_check(uint8_t pa)
 {
     uint8_t b = read_joyport_dig(JOYPORT_1);
 
@@ -125,11 +125,11 @@ static void via2_internal_lightpen_check(uint8_t pa)
     vic_set_light_pen(maincpu_clk, !(b & 0x20));
 }
 
-void via2_check_lightpen(void)
+void via3_check_lightpen(void)
 {
-    uint8_t pa = machine_context.via2->via[VIA_PRA] | ~(machine_context.via2->via[VIA_DDRA]);
+    uint8_t pa = machine_context.via3->via[VIA_PRA] | ~(machine_context.via3->via[VIA_DDRA]);
 
-    via2_internal_lightpen_check(pa);
+    via3_internal_lightpen_check(pa);
 }
 
 static void undump_pra(via_context_t *via_context, uint8_t byte)
@@ -142,7 +142,7 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
 {
     uint8_t joy_bits = 0;
 
-    via2_internal_lightpen_check(byte);
+    via3_internal_lightpen_check(byte);
     iec_pa_write(byte);
 
     joy_bits = ((byte & 0x20) >> 1) | ((byte & 0x1c) >> 2);
@@ -262,18 +262,18 @@ inline static uint8_t read_prb(via_context_t *via_context)
     return byte;
 }
 
-void via2_init(via_context_t *via_context)
+void via3_init(via_context_t *via_context)
 {
-    viacore_init(machine_context.via2, maincpu_alarm_context,
+    viacore_init(machine_context.via3, maincpu_alarm_context,
                  maincpu_int_status);
 }
 
-void vic20via2_setup_context(machine_context_t *machinecontext)
+void vic20via3_setup_context(machine_context_t *machinecontext)
 {
     via_context_t *via;
 
-    machinecontext->via2 = lib_malloc(sizeof(via_context_t));
-    via = machinecontext->via2;
+    machinecontext->via3 = lib_malloc(sizeof(via_context_t));
+    via = machinecontext->via3;
 
     via->prv = NULL;
     via->context = NULL;

@@ -79,7 +79,7 @@ struct via_context_s;
 
 typedef struct machine_context_s {
     struct via_context_s *via1;
-    struct via_context_s *via2;
+    struct via_context_s *via3;
     struct via_context_s *ieeevia1;
     struct via_context_s *ieeevia2;
     struct printer_context_s *printer[3];

@@ -129,16 +129,16 @@ uint8_t iec_drive_read(unsigned int dnr)
 /*
    The VIC20 has a strange bus layout for the serial IEC bus.
 
-     VIA1 CA2 CLK out
-     VIA1 CB1 SRQ in
-     VIA1 CB2 DATA out
-     VIA2 PA0 CLK in
-     VIA2 PA1 DATA in
-     VIA2 PA7 ATN out
+     VIA1 PA0 CLK in
+     VIA1 PA1 DATA in
+     VIA1 PA7 ATN out
+     VIA2 CA2 CLK out
+     VIA2 CB1 SRQ in
+     VIA2 CB2 DATA out
 
  */
 
-/* These two routines are called for VIA2 Port A. */
+/* These two routines are called for VIA1 Port A. */
 
 uint8_t iec_pa_read(void)
 {
@@ -213,7 +213,7 @@ void iec_pa_write(uint8_t data)
 }
 
 
-/* This routine is called for VIA1 PCR (= CA2 and CB2).
+/* This routine is called for VIA2 PCR (= CA2 and CB2).
    Although Cx2 uses three bits for control, we assume the calling routine has
    set bit 5 and bit 1 to the real output value for CB2 (DATA out) and CA2
    (CLK out) resp. (25apr1997 AF) */
