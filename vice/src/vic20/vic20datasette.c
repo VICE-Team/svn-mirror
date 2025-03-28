@@ -44,20 +44,20 @@ void machine_trigger_flux_change(int port, unsigned int on)
 void machine_set_tape_sense(int port, int sense)
 {
     if (port == TAPEPORT_PORT_1) {
-        via3_set_tape_sense(sense);
+        via1_set_tape_sense(sense);
     }
 }
 
 void machine_set_tape_write_in(int port, int val)
 {
     if (port == TAPEPORT_PORT_1) {
-        via3_set_tape_write_in(val);
+        via1_set_tape_write_in(val);
     }
 }
 
 void machine_set_tape_motor_in(int port, int val)
 {
     if (port == TAPEPORT_PORT_1) {
-        via3_set_tape_motor_in(val);
+        via1_set_tape_motor_in(val);
     }
 }
