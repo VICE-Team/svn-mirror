@@ -281,8 +281,8 @@ void vic20via1_setup_context(machine_context_t *machinecontext)
     via->rmw_flag = &maincpu_rmw_flag;
     via->clk_ptr = &maincpu_clk;
 
-    via->myname = lib_msprintf("Via2");
-    via->my_module_name = lib_msprintf("VIA2");
+    via->myname = lib_msprintf("Via1");
+    via->my_module_name = lib_msprintf("VIA1");
 
     viacore_setup_context(via);
 
