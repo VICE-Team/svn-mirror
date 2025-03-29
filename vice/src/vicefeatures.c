@@ -196,16 +196,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 
-/* FIXME: support for libnet < 1.1 should get removed */
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "VICE_USE_LIBNET_1_1", "Enable support for libnet 1.1",
-#ifndef VICE_USE_LIBNET_1_1
-        0 },
-#else
-        1 },
-#endif
-#endif
-
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_REALDEVICE", "Support for OpenCBM", /* (former CBM4Linux). */
 #ifndef HAVE_REALDEVICE
@@ -322,6 +312,15 @@ static const feature_list_t featurelist[] = {
         0 },
 #else
         1 },
+#endif
+
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_LIBNET", "Use the libnet library.",
+#ifndef HAVE_LIBNET
+        0 },
+#else
+        1 },
+#endif
 #endif
 
 #if !defined(WINDOWS_COMPILE) /* not windows */
@@ -485,29 +484,12 @@ const feature_list_t *vice_get_feature_list(void)
 #if 0
 /* FIXME: appear in config.h but are not used in code: */
 
-/* Support for direct PCI I/O access Catweasel MKIII. */
-#define HAVE_CATWEASELMKIII_IO /**/
-/* Enable Fullscreen support. */
-/* #undef HAVE_FULLSCREEN */
-/* Support for PCI/ISA HardSID. */
-#define HAVE_HARDSID_IO /**/
-/* Enable support for BSD style joysticks. */
-/* #undef BSD_JOYSTICK */
 /* Define if building universal (internal helper macro) */
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
-/* WARNING win32 and osx bindist greps for this in config.h! */
+/* WARNING osx bindist greps for this in config.h! */
 /* External FFMPEG libraries are used */
 #define EXTERNAL_FFMPEG /**/
 /* WARNING osx bindist greps for this in config.h! */
 /* External linking for lame libs */
 #define HAVE_EXTERNAL_LAME /**/
-/* WARNING: seems to be used in makefiles all over the place */
-/* Enable the readline library */
-/* #undef HAVE_READLINE */
-
-/* appear in code, but should get removed */
-
-/* FIXME: support for libnet < 1.1 should get removed (unix) */
-/* Enable support for libnet 1.1 */
-#define VICE_USE_LIBNET_1_1
 #endif

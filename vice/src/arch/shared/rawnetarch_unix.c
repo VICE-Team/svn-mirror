@@ -96,14 +96,8 @@ static pcap_if_t *rawnet_pcap_dev_list = NULL;
 static pcap_t *rawnet_pcap_fp = NULL;
 
 #ifdef HAVE_LIBNET
-#ifdef VICE_USE_LIBNET_1_1
 static libnet_t *TfeLibnetFP = NULL;
-#else /* VICE_USE_LIBNET_1_1 */
-static struct libnet_link_int *TfeLibnetFP = NULL;
-#endif /* VICE_USE_LIBNET_1_1 */
-
 static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
-
 #endif /* HAVE_LIBNET */
 
 
@@ -202,11 +196,7 @@ static int rawnet_pcap_open_adapter(const char *interface_name)
 
 #ifdef HAVE_LIBNET
     /* now, open the libnet device to be able to send afterwards */
-#ifdef VICE_USE_LIBNET_1_1
     TfeLibnetFP = libnet_init(LIBNET_LINK, (char *)interface_name, TfeLibnetErrBuf);
-#else /* VICE_USE_LIBNET_1_1 */
-    TfeLibnetFP = libnet_open_link_interface(interface_name, TfeLibnetErrBuf);
-#endif /* VICE_USE_LIBNET_1_1 */
 
     if (TfeLibnetFP == NULL) {
         log_message(rawnet_arch_log, "Libnet interface could not be opened: '%s'", TfeLibnetErrBuf);
@@ -334,9 +324,7 @@ static int rawnet_arch_pcap_receive_frame(rawnet_pcap_internal_t *pinternal)
 
 #ifdef HAVE_LIBNET
 
-# ifdef VICE_USE_LIBNET_1_1
-
-#  define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_libnet_1_1
+#define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_libnet_1_1
 
 static void rawnet_arch_transmit_libnet_1_1(int force, int onecoll,
         int inhibit_crc, int tx_pad_dis, int txlength, uint8_t *txframe)
@@ -372,35 +360,6 @@ static void rawnet_arch_transmit_libnet_1_1(int force, int onecoll,
 
     } while (0);
 }
-
-# else /* VICE_USE_LIBNET_1_1 */
-
-#  define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_libnet_1_0
-
-static void rawnet_arch_transmit_libnet_1_0(int force, int onecoll,
-        int inhibit_crc, int tx_pad_dis, int txlength, uint8_t *txframe)
-{
-    u_char *plibnet_buffer = NULL;
-
-    /* we want to send via libnet 1.0 */
-
-    if (libnet_init_packet(txlength, &plibnet_buffer)==-1) {
-        log_message(rawnet_arch_log, "WARNING! Could not send packet!");
-    } else {
-        if (plibnet_buffer) {
-            memcpy(plibnet_buffer, txframe, txlength);
-            libnet_write_link_layer(TfeLibnetFP, "eth0", plibnet_buffer, txlength);
-            libnet_destroy_packet(&plibnet_buffer);
-        } else {
-            log_message(rawnet_arch_log,
-                    "WARNING! Could not send packet: plibnet_buffer==NULL, "
-                    "but libnet_init_packet() did NOT fail!!");
-        }
-    }
-
-}
-
-# endif
 
 #else /* HAVE_LIBNET */
 
