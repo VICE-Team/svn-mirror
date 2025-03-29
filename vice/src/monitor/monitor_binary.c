@@ -1602,7 +1602,7 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
         ++response_cursor;
     }
 
-    monitor_binary_response(response_size, e_MON_RESPONSE_CPUHISTORY_GET, e_MON_ERR_OK, command->request_id, response);
+    monitor_binary_response((uint32_t)response_size, e_MON_RESPONSE_CPUHISTORY_GET, e_MON_ERR_OK, command->request_id, response);
 
     lib_free(templates);
     lib_free(response);
