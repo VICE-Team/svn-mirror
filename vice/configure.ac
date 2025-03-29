@@ -2433,7 +2433,7 @@ if test x"$enable_ethernet" = "xyes"; then
         AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
         AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
         HAVE_RAWNET_SUPPORT="yes";
-        AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
+        AC_DEFINE(HAVE_LIBNET,,[Support for libnet library])
         TFE_LIBS="-lpcap `libnet-config --libs`"
         libnet_cflags="`libnet-config --defines`"
     ],,$LIBS)],,$LIBS)
@@ -2444,6 +2444,7 @@ if test x"$enable_ethernet" = "xyes"; then
         AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
         AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
         HAVE_RAWNET_SUPPORT="yes";
+        AC_DEFINE(HAVE_LIBNET,,[Support for libnet library])
         TFE_LIBS="-lpcap `libnet-config --libs`"
         libnet_cflags="`libnet-config --defines`"
     ],,$LIBS)],,$LIBS)
