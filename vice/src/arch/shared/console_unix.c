@@ -108,8 +108,10 @@ exitnull:
 
 int native_console_close(console_t *log)
 {
-    lib_free(log->private);
-    lib_free(log);
+    if(log != NULL) {
+        lib_free(log->private);
+        lib_free(log);
+    }
     linenoiseHistoryFree();
     return 0;
 }
