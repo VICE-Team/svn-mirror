@@ -124,7 +124,7 @@ int uimon_out(const char *buffer)
 
     char *buf = lib_strdup(buffer);
 
-    if (using_ui_monitor) {
+    if (using_ui_monitor && menu_draw) {
         int y = menu_draw->max_text_y - 1;
         char *p = buf;
         int i = 0;
