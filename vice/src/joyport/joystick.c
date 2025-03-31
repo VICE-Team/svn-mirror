@@ -3103,7 +3103,7 @@ void joy_button_event(joystick_button_t *button, int32_t value)
  */
 void joy_hat_event(joystick_hat_t *hat, int32_t value)
 {
-    int     joyport = hat->device->joyport; 
+    int     joyport = hat->device->joyport;
     int32_t prev    = hat->prev;
 
     if (value == prev) {
@@ -3702,7 +3702,7 @@ joystick_device_t *joystick_device_by_index(int index)
 
 
 /** \brief  Get number of registered joystick devices
- * 
+ *
  * \return  number of devices
  */
 int joystick_device_count(void)
@@ -3779,7 +3779,7 @@ void joystick_calibration_init(joystick_calibration_t *calibration)
  */
 static void joystick_calibration_default_for_axis(joystick_axis_t *axis)
 {
-    if (!axis->digital) { 
+    if (!axis->digital) {
         int32_t range = axis->maximum - axis->minimum;
 
         /* add one to get proper range, but only if the result fits */
