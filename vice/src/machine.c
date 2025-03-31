@@ -378,7 +378,9 @@ void machine_shutdown(void)
 #ifdef MAC_JOYSTICK
     joy_hidlib_exit();
 #endif
-
+#if !defined(USE_HEADLESSUI)
+    joystick_arch_shutdown();
+#endif
     sound_close();
 
     printer_shutdown();

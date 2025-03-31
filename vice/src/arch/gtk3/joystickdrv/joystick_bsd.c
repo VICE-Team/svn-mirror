@@ -1,8 +1,7 @@
 /** \file   joystick_bsd.c
- * \brief   NetBSD/FreeBSD/DragonFly USB joystick support
+ * \brief   NetBSD/FreeBSD USB joystick support
  *
- * \author  Dieter Baron <dillo@nih.at>
- * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * \todo    Check if this code also works on OpenBSD.
  */
@@ -30,10 +29,45 @@
 
 #include "vice.h"
 
-
-#include <fcntl.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <errno.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <usbhid.h>
+
+#ifdef FREEBSD_COMPILE
+/* for hid_* and HUG_* */
+#include <dev/hid/hid.h>
+/* for struct usb_device_info */
+#include <dev/usb/usb_ioctl.h>
+#endif
+
+#ifdef NETBSD_COMPILE
+#include <dev/usb/usb.h>
+#include <dev/usb/usbhid.h>
+#include <dev/hid/hid.h>
+
+/* FreeBSD (9.3) doesn't have the D-Pad defines */
+#ifndef HUG_D_PAD_UP
+#define HUG_D_PAD_UP    0x0090
+#endif
+#ifndef HUG_D_PAD_DOWN
+#define HUG_D_PAD_DOWN  0x0091
+#endif
+#ifndef HUG_D_PAD_RIGHT
+#define HUG_D_PAD_RIGHT 0x0092
+#endif
+#ifndef HUG_D_PAD_LEFT
+#define HUG_D_PAD_LEFT  0x0093
+#endif
+
+#endif  /* NETBSD_COMPILE */
 
 #include "cmdline.h"
 #include "joystick.h"
@@ -42,346 +76,588 @@
 #include "log.h"
 #include "resources.h"
 #include "types.h"
+#include "util.h"
 
-
-#define ITEM_AXIS   0
-#define ITEM_BUTTON 1
-#define ITEM_HAT    2
-
-static log_t bsd_joystick_log;
-
-#ifdef HAVE_USB_H
-#include <usb.h>
-#endif
-
-#ifdef DRAGONFLYBSD_COMPILE
-/* sys/param.h contains the __DragonFly_version macro */
-# include <sys/param.h>
-# if __DragonFly_version >= 300200
-/* DragonFly >= 3.2 (USB4BSD stack) */
-#  include <bus/u4b/usb.h>
-#  include <bus/u4b/usbhid.h>
-# else
-/* DragonFly < 3.2: old USB stack */
-#  include <bus/usb/usb.h>
-#  include <bus/usb/usbhid.h>
-# endif
-#else
-# ifdef FREEBSD_COMPILE
-#  include <sys/ioccom.h>
-# endif
-# include <dev/usb/usb.h>
-# include <dev/usb/usbhid.h>
-#endif
-
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-
-#if defined(HAVE_USBHID_H)
-#include <usbhid.h>
-#elif defined(HAVE_LIBUSB_H)
-#include <libusb.h>
-#elif defined(HAVE_LIBUSBHID_H)
-#include <libusbhid.h>
-#endif
-
-#define MAX_DEV 16   /* number of uhid devices to try (NetBSD 9.3 has 16
-                        /dev/uhid* nodes) */
-
-
-/*
- * This hat map was created from values observed on NetBSD 9.2
- * with an analog joystick "ADDISON TECHNOLOGY" that also has a hat switch.
- * uhidev1 at uhub1 port 6 configuration 1 interface 0
- * uhidev1: vendor 0907 (0x907) product 0523 (0x523), rev 1.00/1.00, addr 40, iclass 3/0
- * uhid0 at uhidev1: input=3, output=0, feature=0
- *
- * Only 0 and the odd values (horizontal and vertical) were observed
- * but let's leave the diagonals in too, just in case.
- *
- * There are apparently hats with 0 for neutral and 1 for up, and some
- * with 8 for neutral and 0 for up. The other values are off by 1.
- * We try to autodetect, by seeing which of 0 or 8 occurs first.
- * We report no direction until one of those is seen.
+/* Constants used when calling scandir(3) and (re)constructing nodes in the
+ * file system of HID devices
  */
-#define MAX_HAT_MAP_INDEX 8
-static const uint8_t hat_map[MAX_HAT_MAP_INDEX + 2] = {
-    0,                                                  /* 0 */
-    JOYSTICK_DIRECTION_UP,                              /* 1 */
-    JOYSTICK_DIRECTION_UP | JOYSTICK_DIRECTION_RIGHT,   /* 2 */
-    JOYSTICK_DIRECTION_RIGHT,                           /* 3 */
-    JOYSTICK_DIRECTION_RIGHT | JOYSTICK_DIRECTION_DOWN, /* 4 */
-    JOYSTICK_DIRECTION_DOWN,                            /* 5 */
-    JOYSTICK_DIRECTION_DOWN | JOYSTICK_DIRECTION_LEFT,  /* 6 */
-    JOYSTICK_DIRECTION_LEFT,                            /* 7 */
-    JOYSTICK_DIRECTION_LEFT | JOYSTICK_DIRECTION_UP,    /* 8 */
-    0,                                                  /* 9 */
+
+/** \brief  Root directory of \c uhid* files */
+#define ROOT_NODE       "/dev"
+
+/** \brief  Length of the #ROOT_NODE */
+#define ROOT_NODE_LEN   4
+
+/** \brief  Prefix of HID files in the \c /dev virtual file system */
+#define NODE_PREFIX     "uhid"
+
+/** \brief  Length of the #NODE_PREIFX */
+#define NODE_PREFIX_LEN 4
+
+
+/** \brief  Driver-specific data
+ */
+typedef struct joy_priv_s {
+    void          *buffer;          /**< buffer for reading HID data */
+    report_desc_t  rep_desc;        /**< HID report descriptor */
+    int            rep_size;        /**< size of \c rep_desc */
+    int            rep_id;          /**< report ID */
+    int            fd;              /**< file descriptor of HID device */
+    int           *prev_axes;       /**< previous raw value of axes */
+    int           *prev_buttons;    /**< previous raw value of buttons */
+    int           *prev_hats;       /**< previous raw value of hats */
+} joy_priv_t;
+
+
+/* Forward declarations */
+static bool bsd_joy_open (joystick_device_t *joydev);
+static void bsd_joy_poll (joystick_device_t *joydev);
+static void bsd_joy_close(joystick_device_t *joydev);
+static void joy_priv_free(void *priv);
+
+
+/** \brief  Log for BSD joystick driver */
+static log_t bsd_joy_log;
+
+/** \brief  BSD joystick driver declaration */
+static joystick_driver_t driver = {
+    .open      = bsd_joy_open,
+    .poll      = bsd_joy_poll,
+    .close     = bsd_joy_close,
+    .priv_free = joy_priv_free
 };
 
-struct usb_joy_item {
-    struct hid_item item;
-    struct usb_joy_item *next;
 
-    int type;
-    int min_val;
-    int max_val;
-    int ordinal_number;
-};
-
-typedef struct bsd_joystick_priv_s {
-    struct usb_joy_item *usb_joy_item;
-    char *usb_joy_buf;
-    int usb_joy_fd;
-    int usb_joy_size;
-} bsd_joystick_priv_t;
-
-static void usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int orval, int type)
+/** \brief  Allocate new private data object
+ *
+ * Allocate and initialize private data object instance.
+ *
+ * \return  new data object
+ */
+static joy_priv_t *joy_priv_new(void)
 {
-    struct usb_joy_item *it;
-    int w;
+    joy_priv_t *priv = lib_malloc(sizeof *priv);
 
-    it = lib_malloc(sizeof *it);
-    it->next = *item;
-    *item = it;
+    priv->buffer   = NULL;
+    priv->rep_desc = NULL;
+    priv->rep_size = 0;
+    priv->fd       = -1;
+    priv->rep_id   = 0;
+    priv->prev_axes = NULL;
+    priv->prev_buttons = NULL;
+    priv->prev_hats = NULL;
+    return priv;
+}
 
-    memcpy(&it->item, hi, sizeof(*hi));
-    it->type = type;
-    it->ordinal_number = orval;
+/** \brief  Free private data instance
+ *
+ * Free private data object and its resources.
+ * Closes file descriptor, cleans up HID report descriptor and free HID buffer.
+ *
+ * \param[in]   priv    private data object
+ */
+static void joy_priv_free(void *priv)
+{
+    joy_priv_t *p = priv;
 
-    switch (type) {
-        case ITEM_AXIS:
-            w = (hi->logical_maximum - hi->logical_minimum) / 3;
-            it->min_val = hi->logical_minimum + w;
-            it->max_val = hi->logical_maximum - w;
-            break;
-        case ITEM_BUTTON:
-            it->min_val = hi->logical_minimum;
-            it->max_val = hi->logical_maximum - 1;
-            break;
-        case ITEM_HAT:
-            it->min_val = -1;   /* mapping not autodetected yet */
-            break;
+    if (p != NULL) {
+        if (p->fd >= 0) {
+            close(p->fd);
+        }
+        lib_free(p->buffer);
+        if (p->rep_desc != NULL) {
+            hid_dispose_report_desc(p->rep_desc);
+        }
+        lib_free(p->prev_axes);
+        lib_free(p->prev_buttons);
+        lib_free(p->prev_hats);
+        lib_free(p);
     }
 }
 
-static void usb_free_item(struct usb_joy_item **item)
+/** \brief  Open joystick device for polling
+ *
+ * \param[in]   joydev  joystick device
+ */
+static bool bsd_joy_open (joystick_device_t *joydev)
 {
-    struct usb_joy_item *it, *it2;
-
-    it=*item;
-    while (it) {
-        it2 = it;
-        it = it->next;
-        lib_free(it2);
-    }
-    *item = NULL;
+    return true;    /* NOP */
 }
 
-static void usb_joystick_close(void* priv)
+/** \brief  Poll joystick device
+ *
+ * \param[in]   joydev  joystick device
+ */
+static void bsd_joy_poll(joystick_device_t *joydev)
 {
-    bsd_joystick_priv_t *joypriv = priv;
-    close(joypriv->usb_joy_fd);
-    usb_free_item(&joypriv->usb_joy_item);
-    lib_free(priv);
-}
+    joy_priv_t *priv = joydev->priv;
 
-static void usb_joystick(int jp, void* priv)
-{
-    int val;
-    ssize_t ret;
-    struct usb_joy_item *it;
-    bsd_joystick_priv_t *joypriv = priv;
+    if (priv != NULL && priv->fd >= 0) {
+        ssize_t rsize;
 
-    val = 0;
-    while ((ret = read(joypriv->usb_joy_fd, joypriv->usb_joy_buf, joypriv->usb_joy_size)) == joypriv->usb_joy_size) {
-        val = 1;
-    }
-    if (ret != -1 && errno != EAGAIN) {
-        /* XXX */
-        log_warning(bsd_joystick_log, "strange read return: %zd/%d", ret, errno);
-        return;
-    }
-    if (!val) {
-        return;
-    }
+        while ((rsize = read(priv->fd, priv->buffer, (size_t)priv->rep_size)) == priv->rep_size) {
+            struct hid_data *data;
+            struct hid_item  item;
 
-    for (it = joypriv->usb_joy_item; it; it = it->next) {
-        val = hid_get_data(joypriv->usb_joy_buf, &it->item);
-        if (it->type == ITEM_HAT) {
-            if (val >= 0 && val <= MAX_HAT_MAP_INDEX) {
-                /* Autodect if 0 is neutral, or 8 */
-                if (it->min_val < 0) {
-                    if (val == 0) {
-                        it->min_val = 0;
-                    } else if (val == 8) {
-                        it->min_val = 1;
-                    } else {
-                        /* Not yet autodetected */
-                    }
-                    /* Report neutral position for now */
-                    joy_hat_event(jp, it->ordinal_number, 0);
-                } else {
-                    val += it->min_val;
-                    joy_hat_event(jp, it->ordinal_number, hat_map[val]);
+            data = hid_start_parse(priv->rep_desc, 1 << hid_input, priv->rep_id);
+            if (data == NULL) {
+                return;
+            }
+
+            while (hid_get_item(data, &item) > 0) {
+                joystick_axis_t   *axis;
+                joystick_button_t *button;
+                joystick_hat_t    *hat;
+                int                value = hid_get_data(priv->buffer, &item);
+                int                usage = HID_USAGE(item.usage);
+                unsigned int       page  = HID_PAGE(item.usage);
+                int                prev;
+
+                switch (page) {
+                    case HUP_GENERIC_DESKTOP:
+                        switch (usage) {
+                            case HUG_X:     /* fall through */
+                            case HUG_Y:     /* fall through */
+                            case HUG_Z:     /* fall through */
+                            case HUG_RX:    /* fall through */
+                            case HUG_RY:    /* fall through */
+                            case HUG_RZ:    /* fall through */
+                            case HUG_SLIDER:
+                                /* axis */
+                                axis = joystick_axis_from_code(joydev, (uint32_t)usage);
+                                if (axis != NULL) {
+                                    /* XXX: On my Logitech F710 the Y axis is inverted by
+                                     *      FreeBSD, NetBSD just reports insane values.
+                                     *      So for FreeBSD we'd need calibration to be
+                                     *      implemented for the F710 to work.
+                                     */
+                                    prev = priv->prev_axes[axis->index];
+                                    if (value != prev) {
+                                        priv->prev_axes[axis->index] = value;
+                                        joy_axis_event(axis, (int32_t)value);
+                                    }
+                                }
+                                break;
+
+                            case HUG_HAT_SWITCH:
+                                /* hat */
+                                hat = joystick_hat_from_code(joydev, (uint32_t)usage);
+                                if (hat != NULL) {
+                                    prev = priv->prev_hats[hat->index];
+                                    if (prev != value) {
+                                        priv->prev_hats[hat->index] = value;
+                                        joy_hat_event(hat, (int32_t)value);
+                                    }
+                                }
+                                break;
+
+                            case HUG_D_PAD_UP:      /* fall through */
+                            case HUG_D_PAD_DOWN:    /* fall through */
+                            case HUG_D_PAD_LEFT:    /* fall through */
+                            case HUG_D_PAD_RIGHT:
+                                /* D-Pad is mapped as buttons */
+                                button = joystick_button_from_code(joydev, (uint32_t)usage);
+                                if (button != NULL) {
+                                    prev = priv->prev_buttons[button->index];
+                                    if (prev != value) {
+                                        priv->prev_buttons[button->index] = value;
+                                        joy_button_event(button, (int32_t)value);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case HUP_BUTTON:
+                        /* button event */
+                        button = joystick_button_from_code(joydev, (uint32_t)usage);
+                        if (button != NULL) {
+                            prev = priv->prev_buttons[button->index];
+                            if (prev != value) {
+                                priv->prev_buttons[button->index] = value;
+                                joy_button_event(button, (int32_t)value);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
-        } else {
-            if (it->type == ITEM_BUTTON) {
-                joy_button_event(jp, it->ordinal_number, val);
-            } else if (val <= it->min_val) {
-                joy_axis_event(jp, it->ordinal_number, JOY_AXIS_NEGATIVE);
-            } else if (val > it->max_val) {
-                joy_axis_event(jp, it->ordinal_number, JOY_AXIS_POSITIVE);
-            } else {
-                joy_axis_event(jp, it->ordinal_number, JOY_AXIS_MIDDLE);
-            }
+            hid_end_parse(data);
+        }
+
+        if (rsize != -1 && errno != EAGAIN) {
+            log_warning(bsd_joy_log,
+                        "weird report size: %zd: %s",
+                        rsize, strerror(errno));
         }
     }
 }
 
-static joystick_driver_t bsd_joystick_driver = {
-    .poll = usb_joystick,
-    .close = usb_joystick_close
-};
-
-void usb_joystick_init(void)
+/** \brief  Close joystick device
+ *
+ * \param[in]   joydev  joystick device
+ */
+static void bsd_joy_close(joystick_device_t *joydev)
 {
-    int j, id = 0, fd;
-    report_desc_t report;
-    struct hid_item h;
-    struct hid_data *d;
-    char dev[32];
-    char name[20];
-    int next_ordinal_to_assign;
-    int ordinal_to_assign;
-    int found_x;
-    int found_y;
-    struct usb_joy_item *it;
-    char axes = 0, buttons = 0, hats = 0;
-    bsd_joystick_priv_t *priv;
-    int usb_joy_size;
+    if (joydev != NULL && joydev->priv != NULL) {
+        joy_priv_free(joydev->priv);
+        joydev->priv = NULL;
+    }
+}
 
-    for (j=0; j<MAX_DEV; j++) {
-        axes = 0;
-        buttons = 0;
-        hats = 0;
-        next_ordinal_to_assign = 0;
 
-        sprintf(dev, "/dev/uhid%d", j);
-        fd = open(dev, O_RDONLY | O_NONBLOCK);
-        if (fd < 0) {
-            continue;
-        }
+/** \brief  scandir select callback
+ *
+ * Check if name matches "uhid?*".
+ *
+ * \param[in]   de  directory entry
+ *
+ * \return  non-0 when matching "uhid?*"
+ */
+static int sd_select(const struct dirent *de)
+{
+    const char *name = de->d_name;
 
-#if defined(USB_GET_REPORT_ID) && !defined(DRAGONFLYBSD_COMPILE)
-        if (ioctl(fd, USB_GET_REPORT_ID, &id) < 0) {
-            log_warning(bsd_joystick_log, "Cannot get report id for joystick device `%s'.", dev);
-            close(fd);
-        }
-#endif
+    return ((strlen(name) >= NODE_PREFIX_LEN + 1u) &&
+            (strncmp(NODE_PREFIX, name, NODE_PREFIX_LEN) == 0));
+}
 
-        if ((report=hid_get_report_desc(fd)) == NULL) {
-            log_warning(bsd_joystick_log, "Cannot report description for joystick device `%s'.", dev);
-            close(fd);
-            continue;
-        }
-        usb_joy_size = hid_report_size(report, hid_input, id);
+/** \brief  Get full path of UHID device node
+ *
+ * \param[in]   node    node in /dev/
+ *
+ * \return  full path to \a node
+ * \note    free with \c lib_free() after use
+ */
+static char *full_node_path(const char *node)
+{
+    size_t  nlen = strlen(node);
+    size_t  plen = ROOT_NODE_LEN + 1u + nlen + 1u;
+    char   *path = lib_malloc(plen);
 
-        next_ordinal_to_assign = 2;
-        found_x = 0;
-        found_y = 0;
-        priv = NULL;
-#if !defined(HAVE_USBHID_H) && !defined(HAVE_LIBUSB_H) && defined(HAVE_LIBUSBHID)
-        for (d = hid_start_parse(report, id);
+    memcpy(path, ROOT_NODE, ROOT_NODE_LEN);
+    path[ROOT_NODE_LEN] = '/';
+    memcpy(path + ROOT_NODE_LEN + 1, node, nlen + 1u);
+    return path;
+}
+
+/** \brief  Open device for HID usage
+ *
+ * Open \c node and get associated HID data from it for scanning/polling.
+ * This function opens the device and allocates a buffer for HID reports, gets
+ * the report ID and size and allocates a \c joy_priv_t instance with all that
+ * data.
+ *
+ * \param[in]   node    path in <tt>/dev/</tt> to the device
+ *
+ * \return  new initialized \c joy_priv_t instance or <tt>NULL</tt> on error
+ */
+static joy_priv_t *joy_hid_open(const char *node)
+{
+    joy_priv_t    *priv;
+    report_desc_t  rep_desc;
+    int            rep_id;
+    int            rep_size;
+    int            fd;
+
+    fd = open(node, O_RDONLY|O_NONBLOCK);
+    if (fd < 0) {
+        /* don't log, (Net)BSD allocates a lot of nodes in /dev that aren't
+         * actually valid */
+        return NULL;
+    }
+
+    /* get report ID if possible, else asume 0 */
+#ifdef USB_GET_REPORT_ID
+    if (ioctl(fd, USB_GET_REPORT_ID, &rep_id) < 0) {
+        log_warning(bsd_joy_log, "USB_GET_REPORT_ID failed.");
+        close(fd);
+        return NULL;
+    }
 #else
-        for (d = hid_start_parse(report, 1 << hid_input, id);
+    rep_id = 0;
 #endif
-        hid_get_item(d, &h);) {
 
-            if (h.kind == hid_collection && HID_PAGE(h.usage) == HUP_GENERIC_DESKTOP && (HID_USAGE(h.usage) == HUG_JOYSTICK || HID_USAGE(h.usage) == HUG_GAME_PAD)) {
-                if (priv == NULL) {
-                    priv = lib_malloc(sizeof(bsd_joystick_priv_t));
-                    priv->usb_joy_size = usb_joy_size;
-                    priv->usb_joy_item = NULL;
-                }
-                continue;
-            }
-            if (!priv) {
-                continue;
-            }
-
-            switch (HID_PAGE(h.usage)) {
-                case HUP_GENERIC_DESKTOP:
-                    switch (HID_USAGE(h.usage)) {
-                        case HUG_X:
-                        case HUG_RX:
-                            if (!found_x) {
-                                ordinal_to_assign = 0;
-                            } else {
-                                ordinal_to_assign = next_ordinal_to_assign;
-                            }
-                            usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS);
-                            axes++;
-                            if (!found_x) {
-                                found_x = 1;
-                            } else {
-                                next_ordinal_to_assign++;
-                            }
-                            break;
-                        case HUG_Y:
-                        case HUG_RY:
-                            if (!found_y) {
-                                ordinal_to_assign = 1;
-                            } else {
-                                ordinal_to_assign = next_ordinal_to_assign;
-                            }
-                            usb_joy_add_item(&priv->usb_joy_item, &h, ordinal_to_assign, ITEM_AXIS);
-                            axes++;
-                            if (!found_y) {
-                                found_y = 1;
-                            } else {
-                                next_ordinal_to_assign++;
-                            }
-                            break;
-                        case HUG_HAT_SWITCH:
-                            usb_joy_add_item(&priv->usb_joy_item, &h, hats, ITEM_HAT);
-                            hats++;
-                            break;
-                    }
-                    break;
-                case HUP_BUTTON:
-                    usb_joy_add_item(&priv->usb_joy_item, &h, buttons, ITEM_BUTTON);
-                    buttons++;
-                    break;
-            }
-        }
-
-        hid_end_parse(d);
-        hid_dispose_report_desc(report);
-        if (!priv) {
-            continue;
-        }
-        if (!found_x || !found_y) {
-            next_ordinal_to_assign = 0;
-            for (it = priv->usb_joy_item; it; it = it->next) {
-                if (it->type == ITEM_AXIS) {
-                    it->ordinal_number = next_ordinal_to_assign++;
-                }
-            }
-        }
-
-        if ((priv->usb_joy_buf = malloc(priv->usb_joy_size)) == NULL) {
-            log_warning(bsd_joystick_log, "Cannot allocate buffer for joystick device `%s'.", dev);
-            close(fd);
-            usb_free_item(&priv->usb_joy_item);
-            lib_free(priv);
-            continue;
-        }
-
-        log_message(bsd_joystick_log, "USB joystick found: `%s'.", dev);
-        priv->usb_joy_fd = fd;
-        snprintf(name, sizeof(name), "Joystick %d", j);
-        register_joystick_driver(&bsd_joystick_driver, name, priv, axes, buttons, hats);
+    /* get report description */
+    rep_desc = hid_get_report_desc(fd);
+    if (rep_desc == NULL) {
+        log_error(bsd_joy_log,
+                  "failed to get HID report for %s: %s",
+                  node, strerror(errno));
+        close(fd);
+        return NULL;
     }
+
+    /* get report size */
+    rep_size = hid_report_size(rep_desc, hid_input, rep_id);
+    if (rep_size <= 0) {
+        log_error(bsd_joy_log, "invalid report size of %d", rep_size);
+        hid_dispose_report_desc(rep_desc);
+        close(fd);
+        return NULL;
+    }
+
+    /* success: allocate private data object and store what we need for polling
+     * and further querying */
+    priv = joy_priv_new();
+    priv->buffer   = lib_malloc((size_t)rep_size);
+    priv->rep_desc = rep_desc;
+    priv->rep_size = rep_size;
+    priv->rep_id   = rep_id;
+    priv->fd       = fd;
+
+    return priv;
+}
+
+/** \brief  Add axis to joystick device
+ *
+ * \param[in]   joydev  joystick device
+ * \param[in]   item    HID item with axis information
+ *
+ */
+static void add_joy_axis(joystick_device_t     *joydev,
+                         const struct hid_item *item)
+{
+    joystick_axis_t *axis;
+
+    axis = joystick_axis_new(hid_usage_in_page(item->usage));
+    axis->code    = (uint32_t)HID_USAGE(item->usage);
+    axis->minimum = item->logical_minimum;
+    axis->maximum = item->logical_maximum;
+
+    log_message(bsd_joy_log, "axis %u: %s", axis->code, axis->name);
+    joystick_device_add_axis(joydev, axis);
+}
+
+/** \brief  Add button to joystick device
+ *
+ * \param[in]   joydev  joystick device
+ * \param[in]   item    HID item with button information
+ */
+static void add_joy_button(joystick_device_t     *joydev,
+                           const struct hid_item *item)
+{
+    joystick_button_t *button;
+
+    button = joystick_button_new(hid_usage_in_page(item->usage));
+    button->code = (uint32_t)HID_USAGE(item->usage);
+
+    log_message(bsd_joy_log, "button %u: %s", button->code, button->name);
+    joystick_device_add_button(joydev, button);
+}
+
+/** \brief  Add hat to joystick device
+ *
+ * \param[in]   joydev  joystick device
+ * \param[in]   item    HID item with hat information
+ */
+static void add_joy_hat(joystick_device_t     *joydev,
+                           const struct hid_item *item)
+{
+    joystick_hat_t *hat;
+
+    hat = joystick_hat_new(hid_usage_in_page(item->usage));
+    hat->code = (uint32_t)HID_USAGE(item->usage);
+
+    log_message(bsd_joy_log, "hat %u: %s", hat->code, hat->name);
+    joystick_device_add_hat(joydev, hat);
+}
+
+/** \brief  Scan device for inputs
+ *
+ * Scan \a joydev for axes, buttons and hats and register them with \a joydev.
+ *
+ * \param[in]   joydev  joystick device
+ *
+ * \return  \c true on succes
+ */
+static bool scan_inputs(joystick_device_t *joydev)
+{
+    joy_priv_t      *priv;
+    struct hid_data *hdata;
+    struct hid_item  hitem;
+
+    priv  = joydev->priv;
+    hdata = hid_start_parse(priv->rep_desc, 1 << hid_input, priv->rep_id);
+    if (hdata == NULL) {
+        log_error(bsd_joy_log, "hid_start_parse() failed: %s,", strerror(errno));
+        return false;
+    }
+
+    while (hid_get_item(hdata, &hitem) > 0) {
+        unsigned int page  = HID_PAGE (hitem.usage);
+        int          usage = HID_USAGE(hitem.usage);
+
+        switch (page) {
+            case HUP_GENERIC_DESKTOP:
+                switch (usage) {
+                    case HUG_X:     /* fall through */
+                    case HUG_Y:     /* fall through */
+                    case HUG_Z:     /* fall through */
+                    case HUG_RX:    /* fall through */
+                    case HUG_RY:    /* fall through */
+                    case HUG_RZ:    /* fall through */
+                    case HUG_SLIDER:
+                        /* got an axis */
+                        add_joy_axis(joydev, &hitem);
+                        break;
+                    case HUG_HAT_SWITCH:
+                        /* hat, seems to be D-Pad on Logitech F710 */
+                        add_joy_hat(joydev, &hitem);
+                        break;
+                    case HUG_D_PAD_UP:      /* fall through */
+                    case HUG_D_PAD_DOWN:    /* fall through */
+                    case HUG_D_PAD_LEFT:    /* fall through */
+                    case HUG_D_PAD_RIGHT:
+                        /* treat D-Pad as buttons */
+                        add_joy_button(joydev, &hitem);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case HUP_BUTTON:
+                /* usage appears to be the button number */
+                add_joy_button(joydev, &hitem);
+                break;
+            default:
+                break;
+        }
+    }
+
+    hid_end_parse(hdata);
+    return true;
+}
+
+
+/** \brief  Scan joystick device for capabilities
+ *
+ * \param[in]   node    device node to scan
+ *
+ * \return  new joystick device instance or <tt>NULL</tt> on error
+ */
+static joystick_device_t *scan_device(const char *node)
+{
+    joystick_device_t      *joydev;
+    joy_priv_t             *priv;
+    struct usb_device_info  devinfo;
+    char                   *name;
+
+    /* try to open device and get HID report information */
+    priv = joy_hid_open(node);
+    if (priv == NULL) {
+        return NULL;
+    }
+
+    /* get device info for vendor and product */
+    if (ioctl(priv->fd, USB_GET_DEVICEINFO, &devinfo) < 0) {
+        log_error(bsd_joy_log, "failed to get USB device info: %s", strerror(errno));
+        joy_priv_free(priv);
+        return NULL;
+    }
+    if (*devinfo.udi_vendor == '\0' && *devinfo.udi_product == '\0') {
+        /* fall back to device node as name */
+        name = lib_strdup(node);
+    } else {
+        name = util_concat(devinfo.udi_vendor, " ", devinfo.udi_product, NULL);
+    }
+
+    /* now we can allocate the joystick device instance and its data */
+    joydev          = joystick_device_new();
+    joydev->node    = lib_strdup(node);
+    joydev->name    = name;
+    joydev->vendor  = devinfo.udi_vendorNo;
+    joydev->product = devinfo.udi_productNo;
+
+    joydev->priv = priv;
+    return joydev;
+}
+
+
+/** \brief  Initialize BSD joystick driver and add available devices
+ */
+void joystick_arch_init(void)
+{
+    struct dirent **namelist = NULL;
+    int             nl_count;
+    int             n;
+
+    bsd_joy_log = log_open("BSD Joystick");
+    log_message(bsd_joy_log, "Registering driver.");
+    joystick_driver_register(&driver);
+
+
+    /* Initialize HID library so we can retrieve strings for page and usage;
+     * without this button names will be "0x00001" etc, not very informative.
+     * (Parses /usr/share/misc/ubs_hid_usages on FreeBSD)
+     */
+    hid_init(NULL);
+
+    log_message(bsd_joy_log, "Scanning available devices:");
+    nl_count = scandir(ROOT_NODE, &namelist, sd_select, NULL);
+    if (nl_count < 0) {
+        log_warning(bsd_joy_log,
+                    "scandir(\"%s/%s?*\") failed, giving up.",
+                    ROOT_NODE, NODE_PREFIX);
+        return;
+    } else if (nl_count == 0) {
+        log_message(bsd_joy_log, "no devices found.");
+        return;
+    }
+
+    /* scan uhid device nodes and register valid joystick devices */
+    for (n = 0; n < nl_count; n++) {
+        joystick_device_t *joydev;
+        char              *node;
+
+        node   = full_node_path(namelist[n]->d_name);
+        joydev = scan_device(node);
+        if (joydev != NULL) {
+            log_message(bsd_joy_log, "%s: %s", joydev->node, joydev->name);
+
+            /* scan axes, buttons and hats */
+            if (scan_inputs(joydev)) {
+                /* OK: try to register */
+                if (!joystick_device_register(joydev)) {
+                    /* failure */
+                    log_warning(bsd_joy_log,
+                                "failed to register device %s (\"%s\")",
+                                joydev->node, joydev->name);
+                    joystick_device_free(joydev);
+                } else {
+                    /* allocate arrays for previous values of inputs */
+                    joy_priv_t *priv = joydev->priv;
+
+                    priv->prev_axes    = lib_malloc((size_t)joydev->num_axes *
+                                                    sizeof *priv->prev_axes);
+                    priv->prev_buttons = lib_malloc((size_t)joydev->num_buttons *
+                                                    sizeof *priv->prev_buttons);
+                    priv->prev_hats    = lib_malloc((size_t)joydev->num_hats *
+                                                    sizeof *priv->prev_hats);
+                }
+            } else {
+                /* failure while scanning: log and free invalid device */
+                log_warning(bsd_joy_log,
+                            "failed to scan inputs for device %s (\"%s\")",
+                            joydev->node, joydev->name);
+                joystick_device_free(joydev);
+            }
+        }
+        lib_free(node);
+        free(namelist[n]);
+    }
+
+    free(namelist);
+}
+
+
+/** \brief  Driver-specific cleanup
+ *
+ * Currently doesn't do anything, just here to satisfy the API
+ */
+void joystick_arch_shutdown(void)
+{
+    /* NOP */
 }

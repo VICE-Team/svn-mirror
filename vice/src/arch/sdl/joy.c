@@ -164,17 +164,58 @@ int joy_sdl_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void sdl_joystick_poll(int joyport, void* joystick) {}
-static void sdl_joystick_close(void* joystick)
+static bool sdl_joystick_open(joystick_device_t *joydev)
 {
+    return true;
+}
+
+static void sdl_joystick_poll(joystick_device_t *joydev)
+{
+    /* NOP: handled in SDL event loop */
+}
+
+static void sdl_joystick_close(joystick_device_t *joystick)
+{
+#if 0
     SDL_JoystickClose(joystick);
     lib_free(joy_ordinal_to_id);
     joy_ordinal_to_id = NULL;
+#endif
 }
 
+
+typedef struct joy_priv_s {
+    SDL_Joystick        *sdldev;
+    VICE_SDL_JoystickID  id;
+    int                  joynum;
+} joy_priv_t;
+
+
+static joy_priv_t *joy_priv_new(SDL_Joystick *sdldev, int joynum)
+{
+    joy_priv_t *priv = lib_malloc(sizeof *priv);
+
+    priv->sdldev = sdldev;
+    priv->joynum = joynum;
+#ifdef USE_SDL2UI
+    priv->id     = SDL_JoystickInstanceID(sdldev);
+#else
+    priv->id     = (VICE_SDL_JoystickID)joynum;
+#endif
+    return priv;
+}
+
+static void joy_priv_free(void *priv)
+{
+    lib_free(priv);
+}
+
+
 static joystick_driver_t sdl_joystick_driver = {
-    .poll = sdl_joystick_poll,
-    .close = sdl_joystick_close
+    .open  = sdl_joystick_open,
+    .poll  = sdl_joystick_poll,
+    .close = sdl_joystick_close,
+    .priv_free = joy_priv_free
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -182,24 +223,151 @@ static joystick_driver_t sdl_joystick_driver = {
 /**********************************************************
  * Generic high level joy routine                         *
  **********************************************************/
-int joy_sdl_init(void)
+
+static bool sdljoy_get_devices(void);
+
+
+void joystick_arch_init(void)
 {
     sdljoy_log = log_open("SDLJoystick");
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
         log_error(sdljoy_log, "Subsystem init failed!");
-        return -1;
     }
 
-    sdljoy_rescan();
-
-    return 0;
+    joystick_driver_register(&sdl_joystick_driver);
+    sdljoy_get_devices();
+//    sdljoy_rescan();
 }
 
-VICE_SDL_JoystickID *joy_ordinal_to_id = NULL;
+
+static joystick_device_t *scan_device(SDL_Joystick *sdldev, int index)
+{
+    joystick_device_t *joydev = joystick_device_new();
+    joy_priv_t        *priv   = joy_priv_new(sdldev, index);
+    const char        *name;
+    char               buffer[64];
+    int                i;
+
+#ifdef USE_SDL2UI
+    name = SDL_JoystickName(sdldev);
+#else
+    name = SDL_JoystickName(index);
+#endif
+    if (name != NULL) {
+        joydev->name = lib_strdup(name);
+    } else {
+        log_warning(sdljoy_log,
+                    "couldn't retrieve joystick name: %s.", SDL_GetError());
+        joydev->name = lib_msprintf("Joystick_%d", index + 1);
+    }
+#ifdef USE_SDL2UI
+    joydev->vendor  = SDL_JoystickGetVendor(sdldev);
+    joydev->product = SDL_JoystickGetProduct(sdldev);
+#endif
+    joydev->priv    = priv;
+
+    /* enumerate axes */
+    for (i = 0; i < SDL_JoystickNumAxes(sdldev); i++) {
+        joystick_axis_t *axis;
+
+        snprintf(buffer, sizeof buffer, "Axis_%d", i + 1);
+        axis = joystick_axis_new(buffer);
+        axis->code = i;
+#ifdef USE_SDL2UI
+        axis->minimum = SDL_JOYSTICK_AXIS_MIN;
+        axis->maximum = SDL_JOYSTICK_AXIS_MAX;
+#endif
+        joystick_device_add_axis(joydev, axis);
+    }
+
+    /* enumerate buttons */
+    for (i = 0; i < SDL_JoystickNumButtons(sdldev); i++) {
+        joystick_button_t *button;
+
+        snprintf(buffer, sizeof buffer, "Button_%d", i + 1);
+        button = joystick_button_new(buffer);
+        button->code = i;
+        joystick_device_add_button(joydev, button);
+    }
+
+    /* enumerate hats */
+    for (i = 0; i < SDL_JoystickNumHats(sdldev); i++) {
+        joystick_hat_t *hat;
+
+        snprintf(buffer, sizeof buffer, "Hat_%d", i + 1);
+        hat = joystick_hat_new(buffer);
+        hat->code = i;
+        joystick_device_add_hat(joydev, hat);
+    }
+    return joydev;
+}
+
+static bool sdljoy_get_devices(void)
+{
+    int num;
+    int njoys = SDL_NumJoysticks();
+
+    if (njoys < 0) {
+        log_error(sdljoy_log, "Could not get number of joysticks: %s.", SDL_GetError());
+        return false;
+    } else if (njoys == 0) {
+        log_message(sdljoy_log, "No joysticks found.");
+        return true;
+    }
+
+    log_message(sdljoy_log, "Got %d potential devices.", njoys);
+    for (num = 0; num < njoys; num++) {
+#ifdef USE_SDL2UI
+        log_message(sdljoy_log,
+                    "SDL_JoystickNameForIndex(%d) = \"%s\"",
+                    num, SDL_JoystickNameForIndex(num));
+#endif
+    }
+    for (num = 0; num < njoys; num++) {
+        SDL_Joystick *sdldev = SDL_JoystickOpen(num);
+
+        if (sdldev == NULL) {
+            log_warning(sdljoy_log, "failed to open device %d: %s", num, SDL_GetError());
+        } else {
+            joystick_device_t *joydev = scan_device(sdldev, num);
+
+            if (joydev != NULL) {
+                joystick_device_register(joydev);
+            }
+#if 0
+            SDL_JoystickClose(sdldev);
+#endif
+        }
+
+    }
+    return true;
+}
+
+
+/** \brief  Get SDL joystick ID for joystick device by index
+ *
+ * \param[in]   ordinal index in the register devices list
+ *
+ * \return  SDL joystick ID or -1 when \a ordinal is out of bounds
+ * \todo    Perhaps rename?
+ */
+VICE_SDL_JoystickID joy_ordinal_to_id(int ordinal)
+{
+    joystick_device_t *joydev = joystick_device_by_index(ordinal);
+
+    if (joydev != NULL) {
+        joy_priv_t *priv = joydev->priv;
+        return priv->id;
+    }
+    return -1;
+}
+
+
 
 int sdljoy_rescan(void)
 {
+#if 0
     int i, axis, button, hat, ball;
     SDL_Joystick *joy;
     char *name;
@@ -249,6 +417,7 @@ int sdljoy_rescan(void)
     joy_ordinal_to_id[num_valid_joysticks] = -1;
 
     SDL_JoystickEventState(SDL_ENABLE);
+#endif
     return 0;
 }
 
@@ -300,19 +469,99 @@ static inline uint8_t sdljoy_hat_direction(Uint8 value, uint8_t prev)
     return 0;
 }
 
+
+bool sdljoy_get_joy_for_event(VICE_SDL_JoystickID   device_id,
+                              joystick_device_t   **joy_device,
+                              int                  *joy_index)
+{
+    int count = joystick_device_count();
+
+    if (count > 0) {
+#ifdef USE_SDL2UI
+        int i;
+
+        for (i = 0; i < count; i++) {
+            joystick_device_t *joydev = joystick_device_by_index(i);
+            joy_priv_t        *priv   = joydev->priv;
+
+            if (priv->id == device_id) {
+                if (joy_device != NULL) {
+                    *joy_device = joydev;
+                }
+                if (joy_index != NULL) {
+                    *joy_index = i;
+                }
+                return true;
+            }
+        }
+#else
+        if (joy_device != NULL) {
+            *joy_device = joystick_device_by_index((int)device_id);
+        }
+        if (joy_index != NULL) {
+            *joy_index = (int)device_id;
+        }
+#endif
+    }
+    return false;
+}
+
+
+joystick_device_t *sdljoy_get_joydev_for_event(VICE_SDL_JoystickID event_device_id)
+{
+    int count;
+
+    count = joystick_device_count();
+    if (count > 0) {
+#ifdef USE_SDL2UI
+        int i;
+
+        for (i = 0; i < count; i++) {
+            joystick_device_t *joydev = joystick_device_by_index(i);
+
+            if (joydev != NULL) {
+                joy_priv_t *priv = joydev->priv;
+
+                if (priv->id == event_device_id) {
+                    return joydev;
+                }
+            }
+        }
+#else
+        return joystick_device_by_index((int)event_device_id);
+#endif
+    }
+    return NULL;
+}
+
+
 int sdljoy_get_joynum_for_event(VICE_SDL_JoystickID event_device_id)
 {
-    int i = 0;
+#ifdef USE_SDL2UI
+    int i;
+    int count;
 
-    while (joy_ordinal_to_id[i] != -1) {
-        if (joy_ordinal_to_id[i] == event_device_id) {
-            return i;
+    count = joystick_device_count();
+    for (i = 0; i < count; i++) {
+        joystick_device_t *joydev = joystick_device_by_index(i);
+
+        if (joydev != NULL) {
+            joy_priv_t *priv = joydev->priv;
+
+            if (priv->id == event_device_id) {
+                return i;
+            }
         }
-        i++;
     }
-
     return -1;
+#else
+    /* SDL 1.2 doesn't have instance IDs, just indexes */
+    return (int)event_device_id;
+#endif
 }
+
+
+
 
 static joystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
 {
@@ -426,15 +675,16 @@ uint8_t sdljoy_check_hat_movement(SDL_Event e)
     return cur;
 }
 
-void sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
+void sdljoy_axis_event(Uint8 joynum, Uint8 axisnum, Sint16 value)
 {
-    joystick_axis_value_t cur, prev;
-
-    prev = joy_axis_prev(joynum, axis);
+    joystick_device_t *joydev = joystick_device_by_index(joynum);
+    joystick_axis_t   *axis   = joydev->axes[axisnum];
+#if 0
+    prev = joy_axis_prev(joynum, axisnum);
 
     cur = sdljoy_axis_direction(value, prev);
-
-    joy_axis_event(joynum, axis, cur);
+#endif
+    joy_axis_event(axis, value);
 }
 
 static ui_menu_action_t sdljoy_perform_event_for_menu_action(joystick_mapping_t* event, Sint16 value)
@@ -624,6 +874,11 @@ int sdljoy_get_swap_ports(void)
 {
     return _sdljoy_swap_ports;
 }
+
+void joystick_arch_shutdown(void)
+{
+}
+
 
 /* ------------------------------------------------------------------------- */
 

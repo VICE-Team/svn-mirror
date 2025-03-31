@@ -546,7 +546,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     pin = (vice_ptr_to_int(param)) & 15;
     port = (vice_ptr_to_int(param)) >> 5;
     if (joystick_port_map[port] >= JOYDEV_REALJOYSTICK_MIN) {
-        joystick_device = joy_ordinal_to_id[joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN];
+        joystick_device = joy_ordinal_to_id(joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN);
     }
 
     if (activated) {
@@ -582,7 +582,7 @@ static UI_MENU_CALLBACK(clear_joymap_callback)
     port = (vice_ptr_to_int(param)) >> 5;
 
     if (activated && joystick_port_map[port] >= JOYDEV_REALJOYSTICK_MIN) {
-        joystick_device = joy_ordinal_to_id[joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN];
+        joystick_device = joy_ordinal_to_id(joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN);
         for (pin = 0; pin < JOYPORT_MAX_PINS; pin++) {
             joy_delete_pin_mapping(joystick_device, 1 << pin);
         }
@@ -601,7 +601,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     pot = (vice_ptr_to_int(param)) & 15;
     port = (vice_ptr_to_int(param)) >> 5;
     if (joystick_port_map[port] >= JOYDEV_REALJOYSTICK_MIN) {
-        joystick_device = joy_ordinal_to_id[joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN];
+        joystick_device = joy_ordinal_to_id(joystick_port_map[port] - JOYDEV_REALJOYSTICK_MIN);
     }
 
     if (activated) {
