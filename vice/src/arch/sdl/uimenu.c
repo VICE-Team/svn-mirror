@@ -1209,7 +1209,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
             case SDL_JOYBUTTONUP:
                 if (sdljoy_get_joy_for_event(e.jbutton.which, &joydev, &joynum)) {
                     joy_button_event(joydev->buttons[e.jbutton.button],
-                                     e.type == SDL_JOYBUTTONDOWN ? 1 : 0); 
+                                     e.type == SDL_JOYBUTTONDOWN ? 1 : 0);
                 }
                 break;
             case SDL_JOYHATMOTION:

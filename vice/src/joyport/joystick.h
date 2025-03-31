@@ -179,8 +179,7 @@ typedef struct joystick_mapping_s {
  */
 typedef struct joystick_calibration_s {
     bool invert;            /**< invert value */
-    struct 
-    {
+    struct {
         int32_t negative;   /**< axis threshold: V <= T: active input */
         int32_t positive;   /**< axis threshold: V >= T: active input */
     } threshold;
@@ -270,7 +269,7 @@ typedef struct joystick_device_s {
 
     /** \brief  HID product ID */
     uint16_t            product;
- 
+
     /** \brief  List of axes */
     joystick_axis_t   **axes;
 
