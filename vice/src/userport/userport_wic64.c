@@ -104,6 +104,7 @@ static int wic64_set_macaddress(const char *val, void *p);
 static int wic64_set_ipaddress(const char *val, void *p);
 static int wic64_set_sectoken(const char *val, void *p);
 static int wic64_set_timezone(int val, void *param);
+static int wic64_set_dhcp(int val, void *param);
 static int wic64_set_logenabled(int val, void *param);
 static int wic64_set_loglevel(int val, void *param);
 static int wic64_set_resetuser(int val, void *param);
@@ -170,6 +171,7 @@ static char *default_server_hostname = NULL;
 static char *wic64_mac_address = NULL; /* c-string std. notation e.g 0a:02:0b:04:05:0c */
 static char *wic64_internal_ip = NULL; /* c-string std. notation e.g. 192.168.1.10 */
 static unsigned char wic64_external_ip[4] = { 0, 0, 0, 0 }; /* just a dummy, report not implemented to user cmd 0x13 */
+
 static uint8_t wic64_timezone[2] = { 0, 0};
 static uint16_t wic64_udp_port = 0;
 static uint16_t wic64_tcp_port = 0;
@@ -179,7 +181,8 @@ static int remote_to = WIC64_DEFAULT_REMOTE_TIMEOUT;
 static uint8_t wic64_remote_timeout_triggered = 0;
 static int force_timeout = 0;
 static char *wic64_sec_token = NULL;
-static int current_tz = 2;
+static int current_tz = 2; /* WIC64Timezone */
+static int current_dhcp = 1; /* WIC64DHCP */
 static int wic64_logenabled = 0;
 static int wic64_loglevel = 0;
 static int wic64_resetuser = 0;
@@ -304,15 +307,19 @@ static void debug_hexdump(const char *col, const int lv, const char *buf, int le
 
 /* ---------------------------------------------------------------------*/
 
+#define IPADDR_INVALID      "255.255.255.255"
+#define MACADDR_INVALID     "FF:FF:FF:FF:FF:FF"
+#define SECTOKEN_INVALID    "0123456789ab"
+
 static const resource_string_t wic64_resources[] =
 {
     { "WIC64DefaultServer", "http://x.wic64.net/", (resource_event_relevant_t)0, NULL,
       &default_server_hostname, wic64_set_default_server, NULL },
-    { "WIC64MACAddress", "DEADBE", (resource_event_relevant_t)0, NULL,
+    { "WIC64MACAddress", MACADDR_INVALID, (resource_event_relevant_t)0, NULL,
       (char **) &wic64_mac_address, wic64_set_macaddress, NULL },
-    { "WIC64IPAddress", "AAAA", (resource_event_relevant_t)0, NULL,
+    { "WIC64IPAddress", IPADDR_INVALID, (resource_event_relevant_t)0, NULL,
       (char **) &wic64_internal_ip, wic64_set_ipaddress, NULL },
-    { "WIC64SecToken", "0123456789ab", (resource_event_relevant_t)0, NULL,
+    { "WIC64SecToken", SECTOKEN_INVALID, (resource_event_relevant_t)0, NULL,
       (char **) &wic64_sec_token, wic64_set_sectoken, NULL },
     RESOURCE_STRING_LIST_END,
 };
@@ -320,6 +327,8 @@ static const resource_string_t wic64_resources[] =
 static const resource_int_t wic64_resources_int[] = {
     { "WIC64Timezone", 2, RES_EVENT_NO, NULL,
       &current_tz, wic64_set_timezone, NULL },
+    { "WIC64DHCP", 1, RES_EVENT_NO, NULL,
+      &current_dhcp, wic64_set_dhcp, NULL },
     { "WIC64Logenabled", 0, RES_EVENT_NO, NULL,
       &wic64_logenabled, wic64_set_logenabled, NULL },
     { "WIC64LogLevel", 0, RES_EVENT_NO, NULL,
@@ -376,6 +385,21 @@ static const cmdline_option_t cmdline_options[] =
     { "-wic64timezone", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "WIC64Timezone", NULL,
       "<0..31>", "Specify default timezone index, e.g. 2: European Central Time" },
+    { "-wic64ipaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64IPAddress", NULL,
+      "<IP>", "Specify WiC64 IP" },
+    { "-wic64macaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64MACAddress", NULL,
+      "<MAC>", "Specify WiC64 MAC" },
+    { "-wic64token", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "WIC64SecToken", NULL,
+      "<token>", "Specify WiC64 security token" },
+    { "-wic64dhcp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "WIC64DHCP", (void *)1,
+      NULL, "Enable WiC64 DHCP" },
+    { "+wic64DHCP", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "WIC64DHCP", (void *)0,
+      NULL, "Disable WiC64 DHCP" },
     { "-wic64trace", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WIC64Logenabled", (void *)1,
       NULL, "Enable WiC64 tracing" },
@@ -635,18 +659,42 @@ static int wic64_set_default_server(const char *val, void *v)
 
 static int wic64_set_macaddress(const char *val, void *v)
 {
-    util_string_set((char **)&wic64_mac_address, val);
-    return 0;
+    unsigned int a, b, c, d, e, f;
+    int ret;
+    /* validate string */
+    ret = sscanf(val, "%02x:%02x:%02x:%02x:%02x:%02x", &a, &b, &c, &d, &e, &f);
+    if ((ret == 6) &&
+       (/*(a >= 0) &&*/ (a <= 255)) &&
+       (/*(b >= 0) &&*/ (b <= 255)) &&
+       (/*(c >= 0) &&*/ (c <= 255)) &&
+       (/*(d >= 0) &&*/ (d <= 255)) &&
+       (/*(e >= 0) &&*/ (e <= 255)) &&
+       (/*(f >= 0) &&*/ (f <= 255))) {
+        util_string_set((char **)&wic64_mac_address, val);
+        return 0;
+    }
+    return -1;
 }
 
 static int wic64_set_ipaddress(const char *val, void *v)
 {
-    util_string_set((char **)&wic64_internal_ip, val);
-    return 0;
+    int ret, a, b, c, d;
+    /* validate string */
+    ret = sscanf(val, "%d.%d.%d.%d", &a, &b, &c, &d);
+    if ((ret == 4) &&
+       ((a >= 0) && (a <= 255)) &&
+       ((b >= 0) && (b <= 255)) &&
+       ((c >= 0) && (c <= 255)) &&
+       ((d >= 0) && (d <= 255))) {
+        util_string_set((char **)&wic64_internal_ip, val);
+        return 0;
+    }
+    return -1;
 }
 
 static int wic64_set_sectoken(const char *val, void *v)
 {
+    /* TODO: validate string */
     util_string_set((char **)&wic64_sec_token, val);
     return 0;
 }
@@ -654,6 +702,12 @@ static int wic64_set_sectoken(const char *val, void *v)
 static int wic64_set_timezone(int val, void *param)
 {
     current_tz = val;
+    return 0;
+}
+
+static int wic64_set_dhcp(int val, void *param)
+{
+    current_dhcp = val;
     return 0;
 }
 
@@ -778,7 +832,7 @@ static void wic64_reset_user_helper(void)
              lib_unsigned_rand(0, 15),
              lib_unsigned_rand(0, 15));
     resources_set_string("WIC64MACAddress", tmp);
-    resources_set_string("WIC64SecToken", "0123456789ab");
+    resources_set_string("WIC64SecToken", SECTOKEN_INVALID);
 }
 
 void userport_wic64_factory_reset(void)
@@ -2541,10 +2595,60 @@ static void userport_wic64_store_pa2(uint8_t value)
     }
 }
 
+/*
+    return a reasonable "local IP"
+
+    this is used in two cases:
+    - the WIC64IPAddress in the config is empty, and WIC64DHCP is 0. In that
+      case we use the local IP as default
+    - WIC64DHCP is 1. In that case we should always use the local IP
+
+    Note: This is a surprisingly non trivial operation. For instance, due to
+    the high level approach of the emulation, we can't really tell what our
+    local IP is, without trying to connect somewhere.
+
+    What we really intend to do here, is determining the IP address, which will
+    be used by libcurl when we make connections, so it can be shown to the user
+    in the emulation.
+*/
+static int getlocalip(char *str)
+{
+    char *ip;
+    CURLcode res;
+    CURL *c = curl_easy_init();
+
+    *str = 0;
+
+    /* try to connect to the default server */
+    curl_easy_setopt(c, CURLOPT_URL, default_server_hostname);
+    curl_easy_setopt(c, CURLOPT_CONNECT_ONLY, 0);
+
+    /* Perform the connect */
+    res = curl_easy_perform(c);
+    /* Check for errors */
+    if((res == CURLE_OK) &&
+        !curl_easy_getinfo(c, CURLINFO_LOCAL_IP, &ip) && ip) {
+        /* if the connection was successful, libcurl will return the local ip */
+        strcpy(str, ip);
+    } else {
+        /* as a last resort, just produce a random 'local' IP */
+        snprintf(str, 16, "192.168.%u.%u",
+            lib_unsigned_rand(1, 254),
+            lib_unsigned_rand(1, 254));
+    }
+
+    /* always cleanup */
+    curl_easy_reset(c);
+    curl_easy_cleanup(c);
+
+    return 0;
+}
+
 static void userport_wic64_reset(void)
 {
     char *tmp;
     int tmp_tz;
+    int tmp_dhcp;
 
     wic64_log(CONS_COL_NO, "%s", __FUNCTION__);
     commandptr = input_state = input_length = force_timeout = 0;
@@ -2552,36 +2656,6 @@ static void userport_wic64_reset(void)
     wic64_inputmode = 1;
     memset(sec_token, 0, 32);
     sec_init = 0;
-
-    if ((resources_get_string("WIC64MACAddress", (const char **)&tmp) == -1) ||
-        (tmp == NULL) ||
-        (strcmp((const char*)tmp, "DEADBE") == 0)) {
-        wic64_mac_address = lib_malloc(32);
-        snprintf(wic64_mac_address, 32, "08:d1:f9:%02x:%02x:%02x",
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15),
-                 lib_unsigned_rand(0, 15));
-        debug_log(CONS_COL_NO, 2, "WIC64: generated MAC: %s", wic64_mac_address);
-    } else {
-        wic64_mac_address = tmp;
-    }
-
-    if ((resources_get_string("WIC64IPAddress", (const char **)&tmp) == -1) ||
-        (tmp == NULL) ||
-        (strcmp((const char *)tmp, "AAAA") == 0)) {
-        wic64_internal_ip = lib_malloc(16);
-        snprintf(wic64_internal_ip, 16, "192.168.%u.%u",
-                 lib_unsigned_rand(1, 254),
-                 lib_unsigned_rand(1, 254));
-        debug_log(CONS_COL_NO, 2, "WIC64: generated internal IP: %s", wic64_internal_ip);
-    } else {
-        wic64_internal_ip = tmp;
-    }
-    if (resources_get_int("WIC64Timezone", &tmp_tz) == -1) {
-        current_tz = 2;
-    } else {
-        current_tz = tmp_tz;
-    }
 
     if (http_get_alarm) {
         alarm_unset(http_get_alarm);
@@ -2617,6 +2691,58 @@ static void userport_wic64_reset(void)
         lib_free(post_url);
         post_url = NULL;
     }
+
+    if (resources_get_int("WIC64Timezone", &tmp_tz) == -1) {
+        current_tz = 2;
+    } else {
+        current_tz = tmp_tz;
+    }
+
+    if (resources_get_int("WIC64DHCP", &tmp_dhcp) == -1) {
+        current_dhcp = 1;
+    } else {
+        current_dhcp = tmp_dhcp;
+    }
+
+    if ((resources_get_string("WIC64MACAddress", (const char **)&tmp) == -1) ||
+        (tmp == NULL) ||
+        (strcmp((const char*)tmp, MACADDR_INVALID) == 0)) {
+        /* if MAC is empty in the config, then generate a random one and save it
+           in the resource */
+        wic64_mac_address = lib_malloc(32);
+        snprintf(wic64_mac_address, 32, "08:d1:f9:%02x:%02x:%02x",
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15),
+                 lib_unsigned_rand(0, 15));
+        debug_log(CONS_COL_NO, 2, "WIC64: generated MAC: %s", wic64_mac_address);
+    } else {
+        wic64_mac_address = tmp;
+        debug_log(CONS_COL_NO, 2, "WIC64: using saved MAC: %s", wic64_mac_address);
+    }
+
+    if (current_dhcp) {
+        if (wic64_internal_ip == NULL) {
+            wic64_internal_ip = lib_malloc(16);
+        }
+        getlocalip(wic64_internal_ip);
+        debug_log(CONS_COL_NO, 2, "WIC64: generated internal IP: %s", wic64_internal_ip);
+    }
+
+    if ((resources_get_string("WIC64IPAddress", (const char **)&tmp) == -1) ||
+        (tmp == NULL) ||
+        (strcmp((const char *)tmp, IPADDR_INVALID) == 0)) {
+        /* ip is empty */
+        if (wic64_internal_ip == NULL) {
+            wic64_internal_ip = lib_malloc(16);
+        }
+        getlocalip(wic64_internal_ip);
+        debug_log(CONS_COL_NO, 2, "WIC64: generated internal IP: %s", wic64_internal_ip);
+    } else {
+        /* use saved ip */
+        wic64_internal_ip = tmp;
+    }
+
+
     /* wic64_set_status("RESET"); real HW doesn't tell this */
 
     wic64_log(LOG_COL_LBLUE, "cyan color: host -> WiC64 communication");

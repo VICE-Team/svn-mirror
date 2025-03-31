@@ -358,7 +358,7 @@ static GtkWidget *create_wic64_logenabled_widget(void)
                                                "Enable WiC64 logging");
 }
 
-/** \brief  Create widget for the "WIC64Logenabled" resource
+/** \brief  Create widget for the "WIC64Resetuser" resource
  *
  * \return  GtkCheckButton
  */
@@ -398,7 +398,7 @@ static GtkWidget *create_wic64_timezone_combo(void)
     return combo;
 }
 
-#if 0 /* disabled, as security token editable actually makes no sense */
+#if 1 /* disabled, as security token editable actually makes no sense */
 /** \brief  Handler for the 'icon-press' event of the "Security token" entry
  *
  * Toggle visibility of the WIC64 security token when clicking the "eye" icon
@@ -441,6 +441,19 @@ static void on_wic64_reset_settings_clicked(GtkWidget *widget, gpointer p)
     vice_gtk3_resource_entry_factory(wic64_server_save);
     vice_gtk3_resource_spin_int_factory(wic64_remote_timeout_save);
     vice_gtk3_resource_combo_int_sync(wic64_tz_save);
+    /* FIXME: also update MAC, SecToken */
+}
+
+/** \brief   Handler for the 'clicked' event of the 'dhcp' checkbox
+ *
+ * \param[in]   widget      checkbox triggering the event
+ * \param[in]   user_data   the textfield to enable/disable accordingly
+ */
+static void on_wic64_dhcp_clicked(GtkWidget *dhcp, gpointer p)
+{
+    GtkWidget *ip_addr = p;
+    gboolean enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dhcp)) ^ 1;
+    gtk_widget_set_sensitive(ip_addr, enabled);
 }
 
 /** \brief  Append WIC64 widgets to the main grid
@@ -460,11 +473,11 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     GtkWidget *resetuser;
     GtkWidget *lines_widget;
     GtkWidget *trace_level;
-#if 0
     GtkWidget *mac_addr;
     GtkWidget *ip_addr;
     GtkWidget *sec_token;
-#endif
+    GtkWidget *dhcp;
+
     GtkWidget *reset;
     int        row = 0;
 
@@ -494,7 +507,6 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), server, 1, row, 1, 1);
     row++;
 
-#if 0
     label    = label_helper("MAC address");
     mac_addr = vice_gtk3_resource_entry_new("WIC64MACAddress");
     gtk_widget_set_hexpand(mac_addr, TRUE);
@@ -504,11 +516,15 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
 
     label   = label_helper("IP address");
     ip_addr = vice_gtk3_resource_entry_new("WIC64IPAddress");
+    dhcp = vice_gtk3_resource_check_button_new("WIC64DHCP", "DHCP");
     gtk_widget_set_hexpand(ip_addr, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label,   0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ip_addr, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), dhcp,    2, row, 1, 1);
     row++;
-#endif
+
+    g_signal_connect(dhcp, "clicked", G_CALLBACK(on_wic64_dhcp_clicked), ip_addr);
+    gtk_widget_set_sensitive(ip_addr, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dhcp)) ^ 1);
 
     label    = label_helper("Timezone");
     wic64_tz_save = tz_widget = create_wic64_timezone_combo();
@@ -517,7 +533,7 @@ static int append_wic64_widgets(GtkWidget *parent_grid, int parent_row)
     gtk_grid_attach(GTK_GRID(grid), tz_widget, 1, row, 1, 1);
     row++;
 
-#if 0 /* keep it for now, as it was @compyx's fun to hack it ;-) */
+#if 1 /* keep it for now, as it was @compyx's fun to hack it ;-) */
     label     = label_helper("Security token");
     sec_token = vice_gtk3_resource_entry_new("WIC64SecToken");
     gtk_widget_set_hexpand(sec_token, TRUE);
