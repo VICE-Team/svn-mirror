@@ -8802,7 +8802,12 @@ identifying the user at the WiC64 portal
 
 @vindex WIC64IPAddress
 @item WIC64IPAddress
-String specifying the IP address used by the wic64 emulation
+String specifying the IP address used by the wic64 emulation (if DHCP is disabled)
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@vindex WIC64DHCP
+@item WIC64DHCP
+Boolean specifying whether the WiC64 local IP address should be choosen automatically
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @vindex WIC64Logenabled
@@ -8891,6 +8896,27 @@ Integer to specify number of lines to hexdump, 0: unlimited,
 @findex -wic64remotetimeout
 @item -wic64remotetimeout <value>
 Timeout to wait for URLs in seconds, 1 - 255
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64ipaddress
+@item -wic64ipaddress <IP>
+Specify WiC64 IP (when DHCP is disabled)
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64macaddress
+@item -wic64macaddress <MAC>
+Specify WiC64 MAC
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64token
+@item -wic64token <token>
+Specify WiC64 security token
+(vic20, x64, x64sc, xscpu64 and x128 only).
+
+@findex -wic64dhcp, +wic64dhcp
+@item -wic64dhcp
+@itemx +wic64dhcp
+Enable/disable automatically setting the local IP address (default: enabled)
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
 @end table
