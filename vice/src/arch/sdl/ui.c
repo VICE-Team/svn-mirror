@@ -260,6 +260,9 @@ void ui_dispatch_events(void)
     int joynum;
 
     while (SDL_PollEvent(&e)) {
+        joystick_device_t *joydev = NULL;
+        joystick_button_t *button = NULL;
+
         switch (e.type) {
             case SDL_KEYDOWN:
                 ui_display_kbd_status(&e);
@@ -271,28 +274,21 @@ void ui_dispatch_events(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
-                if (joynum != -1) {
+                if (sdljoy_get_joy_for_event((VICE_SDL_JoystickID)e.jaxis.which, &joydev, &joynum)) {
                     sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
                     joystick_set_axis_value(joynum, e.jaxis.axis, (uint8_t)((~e.jaxis.value + 32768) >> 8));
                 }
                 break;
-            case SDL_JOYBUTTONDOWN:
-                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
-                if (joynum != -1) {
-                    joy_button_event(joynum, e.jbutton.button, 1);
-                }
-                break;
+            case SDL_JOYBUTTONDOWN: /* fall through */
             case SDL_JOYBUTTONUP:
-                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
-                if (joynum != -1) {
-                    joy_button_event(joynum, e.jbutton.button, 0);
+                if (sdljoy_get_joy_for_event((VICE_SDL_JoystickID)e.jbutton.which, &joydev, &joynum)) {
+                    button = joydev->buttons[e.jbutton.button];
+                    joy_button_event(button, e.type == SDL_JOYBUTTONDOWN ? 1: 0);
                 }
                 break;
             case SDL_JOYHATMOTION:
-                joynum = sdljoy_get_joynum_for_event((VICE_SDL_JoystickID)e.jaxis.which);
-                if (joynum != -1) {
-                    joy_hat_event(joynum, e.jhat.hat, hat_map[e.jhat.value]);
+                if (sdljoy_get_joy_for_event((VICE_SDL_JoystickID)e.jaxis.which, &joydev, &joynum)) {
+                    joy_hat_event(joydev->hats[e.jhat.hat], hat_map[e.jhat.value]);
                 }
                 break;
 #endif

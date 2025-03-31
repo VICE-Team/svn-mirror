@@ -34,7 +34,7 @@
 #include "types.h"
 
 #include "vice_sdl.h"
-
+#include "joystick.h"
 #include "uimenu.h"
 
 void joystick_close(void);
@@ -59,7 +59,12 @@ void sdljoy_set_extra(SDL_Event e, int type);
 void sdljoy_unset(SDL_Event e);
 void sdljoy_set_joystick_axis(SDL_Event e, int pot);
 void sdljoy_delete_extra_mapping(int type);
+joystick_device_t *sdljoy_get_joydev_for_event(VICE_SDL_JoystickID event_device_id);
 int sdljoy_get_joynum_for_event(VICE_SDL_JoystickID event_device_id);
+bool sdljoy_get_joy_for_event(VICE_SDL_JoystickID   device_id,
+                              joystick_device_t   **joy_device,
+                              int                  *joy_index);
+
 int sdljoy_rescan(void);
 void sdljoy_clear_presses(void);
 
@@ -68,7 +73,7 @@ void sdljoy_clear_presses(void);
 void sdljoy_swap_ports(void);
 int sdljoy_get_swap_ports(void) ;
 
-extern VICE_SDL_JoystickID *joy_ordinal_to_id;
+VICE_SDL_JoystickID joy_ordinal_to_id(int ordinal);
 
 #define JOYDEV_NONE     0
 #define JOYDEV_NUMPAD   1
