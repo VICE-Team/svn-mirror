@@ -110,10 +110,11 @@ typedef struct joy_priv_s {
 
 
 /* Forward declarations */
-static bool bsd_joy_open (joystick_device_t *joydev);
-static void bsd_joy_poll (joystick_device_t *joydev);
-static void bsd_joy_close(joystick_device_t *joydev);
-static void joy_priv_free(void *priv);
+static bool bsd_joy_open     (joystick_device_t *joydev);
+static void bsd_joy_poll     (joystick_device_t *joydev);
+static void bsd_joy_close    (joystick_device_t *joydev);
+static void bsd_joy_customize(joystick_device_t *joydev);
+static void joy_priv_free    (void *priv);
 
 
 /** \brief  Log for BSD joystick driver */
@@ -124,6 +125,7 @@ static joystick_driver_t driver = {
     .open      = bsd_joy_open,
     .poll      = bsd_joy_poll,
     .close     = bsd_joy_close,
+    .customize = bsd_joy_customize,
     .priv_free = joy_priv_free
 };
 
@@ -426,8 +428,10 @@ static void add_joy_axis(joystick_device_t     *joydev,
     axis->code    = (uint32_t)HID_USAGE(item->usage);
     axis->minimum = item->logical_minimum;
     axis->maximum = item->logical_maximum;
-
-    log_message(bsd_joy_log, "axis %u: %s", axis->code, axis->name);
+#if 0
+    log_message(bsd_joy_log, "axis %u: %s (%d-%d)",
+                axis->code, axis->name, axis->minimum, axis->maximum);
+#endif
     joystick_device_add_axis(joydev, axis);
 }
 
@@ -660,4 +664,26 @@ void joystick_arch_init(void)
 void joystick_arch_shutdown(void)
 {
     /* NOP */
+}
+
+
+/** \brief  Custom mapper/calibrator
+ *
+ * \param[in]   joydev  joystick device
+ */
+static void bsd_joy_customize(joystick_device_t *joydev)
+{
+#ifdef FREEBSD_COMPILE
+    if (joydev->vendor == 0x046d && joydev->product == 0xc21f) {
+        joystick_axis_t *left_thumb_y;
+
+        /* Logitech F710 (XInput mode) */
+
+        /* For some reason the Y axis of the left thumbstick is inverted on at
+         * least FreeBSD 14.2. On NetBSD 10.1 the device doesn't appear to
+         * function at all */
+        left_thumb_y = joydev->axes[1];
+        left_thumb_y->calibration.invert = true;
+    }
+#endif
 }
