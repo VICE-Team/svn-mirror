@@ -51,6 +51,14 @@
 #include "wd1770.h"
 #include "cmdhd.h"
 
+#define DEBUG_DRIVEMEM
+
+#ifdef DEBUG_DRIVEMEM
+#define LOG(x)  log_printf
+#else
+#define LOG(x)
+#endif
+
 static drive_read_func_t *read_tab_watch[0x101];
 static drive_store_func_t *store_tab_watch[0x101];
 
@@ -66,6 +74,7 @@ static int watchpoints_active = 0;
 
 static uint8_t drive_read_free(diskunit_context_t *drv, uint16_t address)
 {
+    LOG(("%04x %02x   drive_read_free", address, drv->cpu->cpu_last_data));
     return drv->cpu->cpu_last_data;
 }
 
@@ -77,7 +86,8 @@ static void drive_store_free(diskunit_context_t *drv, uint16_t address, uint8_t 
 
 static uint8_t drive_peek_free(diskunit_context_t *drv, uint16_t address)
 {
-    return 0;
+    LOG(("%04x %02x   drive_peek_free", address, drv->cpu->cpu_last_data));
+    return drv->cpu->cpu_last_data;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -100,6 +110,7 @@ static void drive_zero_store_watch(diskunit_context_t *drv, uint16_t addr, uint8
 
 static uint8_t drive_read_watch(diskunit_context_t *drv, uint16_t address)
 {
+    LOG(("%04x %02x   drive_read_watch\n", address, drv->cpud->read_tab[0][address >> 8](drv, address)));
     monitor_watch_push_load_addr(address, drv->cpu->monspace);
     return drv->cpu->cpu_last_data = drv->cpud->read_tab[0][address >> 8](drv, address);
 }
