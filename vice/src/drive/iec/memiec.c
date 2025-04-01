@@ -138,69 +138,64 @@ void memiec_init(struct diskunit_context_s *drv, unsigned int type)
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
         drv->cpu->pageone = drv->drive_ram + 0x100;
-#if 0   /* FIXME: we must make sure the read functions are always being called,
-        so the "last value on bus" hack can work */
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x000007fd);
-        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0x000007fd);
-#endif
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
         drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0);
         drivemem_set_func(cpud, 0x18, 0x1c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
         drivemem_set_func(cpud, 0x1c, 0x20, via2d_read, via2d_store, via2d_peek, NULL, 0);
         if (drv->drive_ram2_enabled) {
-            drivemem_set_func(cpud, 0x20, 0x40, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x2000], 0x20003ffd);
+            drivemem_set_func(cpud, 0x20, 0x40, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x2000], 0);
         } else {
-            drivemem_set_func(cpud, 0x20, 0x28, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0x200027fd);
+            drivemem_set_func(cpud, 0x20, 0x28, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0);
             drivemem_set_func(cpud, 0x38, 0x3c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
             drivemem_set_func(cpud, 0x3c, 0x40, via2d_read, via2d_store, via2d_peek, NULL, 0);
         }
         if (drv->drive_ram4_enabled) {
-            drivemem_set_func(cpud, 0x40, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0x40005ffd);
+            drivemem_set_func(cpud, 0x40, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0);
         } else {
-            drivemem_set_func(cpud, 0x40, 0x48, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0x400047fd);
+            drivemem_set_func(cpud, 0x40, 0x48, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0);
             drivemem_set_func(cpud, 0x58, 0x5c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
             drivemem_set_func(cpud, 0x5c, 0x60, via2d_read, via2d_store, via2d_peek, NULL, 0);
         }
         if (drv->drive_ram6_enabled) {
-            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0x60007ffd);
+            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0);
         } else {
-            drivemem_set_func(cpud, 0x60, 0x68, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0x600067fd);
+            drivemem_set_func(cpud, 0x60, 0x68, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0);
             drivemem_set_func(cpud, 0x78, 0x7c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
             drivemem_set_func(cpud, 0x7c, 0x80, via2d_read, via2d_store, via2d_peek, NULL, 0);
         }
         if (drv->drive_ram8_enabled) {
-            drivemem_set_func(cpud, 0x80, 0xa0, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x8000], 0x80009ffd);
+            drivemem_set_func(cpud, 0x80, 0xa0, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x8000], 0);
         } else {
-            drivemem_set_func(cpud, 0x80, 0xa0, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x80009ffd);
+            drivemem_set_func(cpud, 0x80, 0xa0, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0);
         }
         if (drv->drive_rama_enabled) {
-            drivemem_set_func(cpud, 0xa0, 0xc0, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0xa000], 0xa000bffd);
+            drivemem_set_func(cpud, 0xa0, 0xc0, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0xa000], 0);
         } else {
-            drivemem_set_func(cpud, 0xa0, 0xc0, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x2000], 0xa000bffd);
+            drivemem_set_func(cpud, 0xa0, 0xc0, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x2000], 0);
         }
-        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x4000], 0xc000fffd);
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x4000], 0);
         break;
     case DRIVE_TYPE_1570:
     case DRIVE_TYPE_1571:
         drv->cpu->pageone = drv->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x000007fd);
-        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0x000007fd);
-        drivemem_set_func(cpud, 0x08, 0x10, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0x08000ffd);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0);
+        drivemem_set_func(cpud, 0x08, 0x10, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0);
         drivemem_set_func(cpud, 0x18, 0x1c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
         drivemem_set_func(cpud, 0x1c, 0x20, via2d_read, via2d_store, via2d_peek, NULL, 0);
         drivemem_set_func(cpud, 0x20, 0x30, wd1770d_read, wd1770d_store, wd1770d_peek, NULL, 0);
         if (drv->drive_ram4_enabled) {
             drivemem_set_func(cpud, 0x40, 0x48, cia1571_read, cia1571_store, cia1571_peek, NULL, 0);
-            drivemem_set_func(cpud, 0x48, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0x48005ffd);
+            drivemem_set_func(cpud, 0x48, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0);
         } else {
             drivemem_set_func(cpud, 0x40, 0x60, cia1571_read, cia1571_store, cia1571_peek, NULL, 0);
         }
         if (drv->drive_ram6_enabled) {
-            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0x60007ffd);
+            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0);
         } else {
             drivemem_set_func(cpud, 0x60, 0x80, cia1571_read, cia1571_store, cia1571_peek, NULL, 0);
         }
-        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000fffd);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0);
         break;
     case DRIVE_TYPE_1571CR:
         /* The mos5710 IC in the 1571CR drive implements:
@@ -228,9 +223,9 @@ void memiec_init(struct diskunit_context_s *drv, unsigned int type)
             RAM   0  1  1  x    x    x    x     6xxx 7xxx
          */
         drv->cpu->pageone = drv->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x000007fd);
-        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0x000007fd);
-        drivemem_set_func(cpud, 0x08, 0x10, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0x08000ffd);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, &drv->drive_ram[0x0100], 0);
+        drivemem_set_func(cpud, 0x08, 0x10, drive_read_1541ram, drive_store_1541ram, drive_peek_1541ram, drv->drive_ram, 0);
         drivemem_set_func(cpud, 0x10, 0x14, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
         drivemem_set_func(cpud, 0x14, 0x18, via2d_read, via2d_store, via2d_peek, NULL, 0);
         drivemem_set_func(cpud, 0x18, 0x1c, via1d1541_read, via1d1541_store, via1d1541_peek, NULL, 0);
@@ -239,29 +234,31 @@ void memiec_init(struct diskunit_context_s *drv, unsigned int type)
         /* FIXME: the following is very incorrect */
         if (drv->drive_ram4_enabled) {
             drivemem_set_func(cpud, 0x40, 0x48, mos5710_read, mos5710_store, mos5710_peek, NULL, 0);
-            drivemem_set_func(cpud, 0x48, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0x48005ffd);
+            drivemem_set_func(cpud, 0x48, 0x60, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x4000], 0);
         } else {
             drivemem_set_func(cpud, 0x40, 0x60, mos5710_read, mos5710_store, mos5710_peek, NULL, 0);
         }
         if (drv->drive_ram6_enabled) {
-            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0x60007ffd);
+            drivemem_set_func(cpud, 0x60, 0x80, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x6000], 0);
         } else {
             drivemem_set_func(cpud, 0x60, 0x80, mos5710_read, mos5710_store, mos5710_peek, NULL, 0);
         }
-        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000fffd);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0);
         break;
+    /* FIXME: check open-i/o behaviour for 1581/65C02, see bug #2113 */
     case DRIVE_TYPE_1581:
         drv->cpu->pageone = drv->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x00001ffd);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
         drivemem_set_func(cpud, 0x01, 0x20, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x0100], 0x00001ffd);
         drivemem_set_func(cpud, 0x40, 0x60, cia1581_read, cia1581_store, cia1581_peek, NULL, 0);
         drivemem_set_func(cpud, 0x60, 0x80, wd1770d_read, wd1770d_store, wd1770d_peek, NULL, 0);
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000fffd);
         break;
+    /* FIXME: check open-i/o behaviour for FD/65C02, see bug #2113 */
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
         drv->cpu->pageone = drv->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x00003ffd);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
         drivemem_set_func(cpud, 0x01, 0x40, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x0100], 0x00003ffd);
         drivemem_set_func(cpud, 0x40, 0x4c, via4000_read, via4000_store, via4000_peek, NULL, 0);
         drivemem_set_func(cpud, 0x4e, 0x50, pc8477d_read, pc8477d_store, pc8477d_peek, NULL, 0);
@@ -270,9 +267,10 @@ void memiec_init(struct diskunit_context_s *drv, unsigned int type)
         /* for performance reasons it's only this page */
         drivemem_set_func(cpud, 0xf0, 0xf1, drive_read_rom_ds1216, NULL, drive_peek_rom_ds1216, &drv->trap_rom[0x7000], 0x8000fffd);
         break;
+    /* FIXME: check open-i/o behaviour for CMDHD/65C02, see bug #2113 */
     case DRIVE_TYPE_CMDHD:
         drv->cpu->pageone = drv->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, drv->drive_ram, 0x00003ffd);
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drive_peek_zero, NULL, 0);
         drivemem_set_func(cpud, 0x01, 0x40, drive_read_ram, drive_store_ram, drive_peek_ram, &drv->drive_ram[0x0100], 0x00003ffd);
         /* CMDHD uses a lot of weird registers to mamage the memory above 0x4000
         so the granularity here doesn't work. We just group it all together */
