@@ -234,8 +234,12 @@ static void linux_joystick_evdev_close(joystick_device_t *joydev)
     if (joydev != NULL && joydev->priv != NULL) {
         joy_priv_t *priv = joydev->priv;
 
-        close(priv->fd);
-        libevdev_free(priv->evdev);
+        if (priv->fd >= 0) {
+            close(priv->fd);
+        }
+        if (priv->evdev != NULL) {
+            libevdev_free(priv->evdev);
+        }
         priv->fd    = -1;
         priv->evdev = NULL;
     }
@@ -413,11 +417,7 @@ void joystick_arch_init(void)
         //log_message(joy_evdev_log, "Possible device '%s'", namelist[i]->d_name);
         joydev = scan_device(namelist[i]->d_name);
         if (joydev != NULL) {
-            if (!joystick_device_register(joydev)) {
-                log_message(joy_evdev_log,
-                            "Failed to add device, continuing with next device.");
-                joystick_device_free(joydev);
-            }
+            joystick_device_register(joydev);
         }
     }
     free(namelist);
