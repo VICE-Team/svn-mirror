@@ -3636,8 +3636,12 @@ static void order_inputs_on_code(joystick_device_t *joydev)
  */
 bool joystick_device_register(joystick_device_t *joydev)
 {
-    if (joydev == NULL || joydev->name == NULL) {
-        /* TODO: reject devices with too little inputs */
+    /* reject devices with too little inputs */
+    if (!((joydev->num_axes >= 2 || joydev->num_hats >= 1) &&
+          joydev->num_buttons >= 1)) {
+        /* close and free device */
+        joy_driver.close(joydev);
+        joystick_device_free(joydev);
         return false;
     }
 
