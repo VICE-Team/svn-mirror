@@ -272,14 +272,9 @@ static void linux_joystick_customize(joystick_device_t *joydev)
  */
 static int sd_filter(const struct dirent *de)
 {
-    const char *name = de->d_name;
-    size_t      len  = strlen(name);
-
-    /* we need "event" plus at least one more character */
-    if (len > 5u && memcmp(name, "event", 5u) == 0) {
-        return 1;
-    }
-    return 0;
+    /* on Debian 12.10 joystick devices end with "-event-joystick", no idea if
+     * this is also true on other Linux distros, needs checking! */
+    return strstr(de->d_name, "-event-joystick") != NULL;
 }
 
 /** \brief  Scan device for available buttons
@@ -339,11 +334,11 @@ static joystick_device_t *scan_device(const char *node)
     joystick_device_t *joydev;
     struct libevdev   *evdev;
     joy_priv_t        *priv;
-    char               path[256];
+    char               path[1024];
     int                fd;
     int                rc;
 
-    snprintf(path, sizeof path, "/dev/input/%s", node);
+    snprintf(path, sizeof path, "/dev/input/by-id/%s", node);
     fd = open(path, O_RDONLY|O_NONBLOCK);
     if (fd < 0) {
         return NULL;
@@ -405,7 +400,7 @@ void joystick_arch_init(void)
     log_message(joy_evdev_log, "Initializing Linux evdev joystick driver.");
     joystick_driver_register(&driver);
 
-    sd_result = scandir("/dev/input", &namelist, sd_filter, alphasort);
+    sd_result = scandir("/dev/input/by-id", &namelist, sd_filter, alphasort);
     if (sd_result < 0) {
         log_error(LOG_DEFAULT, "scandir() failed on /dev/input: %s", strerror(errno));
         return;
