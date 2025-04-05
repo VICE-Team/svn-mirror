@@ -1421,6 +1421,9 @@ static int checkflag(char *flg, char *arg)
             case 'l':
                 checkarg(arg);
                 load_address = (int)strtoul(arg, NULL, 0);
+                if (load_address == 0) {
+                    fprintf(stderr, "WARNING: load address is 0, are you sure?\n");
+                }
                 return 2;
             case 's':
                 checkarg(arg);
