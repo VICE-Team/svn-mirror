@@ -403,7 +403,7 @@ const command_t command_list[] = {
       "into \n<destination> in the file system.  If <destination> is not "
       "specified, copy \nit into a file with the same name as <source>."
       "\nPlease note that due to GEOS using ASCII, not PETSCII, the name should"
-      " be\bentered in inverted case (ie to read 'rEADmE', use 'ReadMe'",
+      " be\nentered in inverted case (ie to read 'rEADmE', use 'ReadMe'",
       1, 2,
       read_geos_cmd },
     { "geoswrite",
