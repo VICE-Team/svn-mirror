@@ -1419,12 +1419,19 @@ static int checkflag(char *flg, char *arg)
                 }
                 return 2;
             case 'l':
+            {
+                char *endptr = NULL;
                 checkarg(arg);
-                load_address = (int)strtoul(arg, NULL, 0);
+                load_address = (int)strtoul(arg, &endptr, 0);
+                if (strlen(arg) != (endptr - arg)) {
+                    fprintf(stderr, "ERROR: invalid characters in number '%s'.\n", arg);
+                    exit(-1);
+                }
                 if (load_address == 0) {
                     fprintf(stderr, "WARNING: load address is 0, are you sure?\n");
                 }
                 return 2;
+            }
             case 's':
                 checkarg(arg);
                 if (cart_subtype == 0) {
