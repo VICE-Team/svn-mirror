@@ -732,6 +732,14 @@ static video_container_t* sdl_container_create(int canvas_idx)
                                                 SDL_RENDERER_ACCELERATED);
     }
 
+    if (!container->renderer && drv_index == -1) {
+        log_warning(sdlvideo_log, "SDL_CreateRenderer() failed. Falling back to basic renderer: %s", SDL_GetError());
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_VSYNC, "0", SDL_HINT_OVERRIDE);
+        container->renderer = SDL_CreateRenderer(container->window,
+                                                drv_index,
+                                                0);
+    }
+
     if (!container->renderer) {
         log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s", SDL_GetError());
         sdl_container_destroy(container);
