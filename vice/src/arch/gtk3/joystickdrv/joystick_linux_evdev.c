@@ -162,6 +162,14 @@ static void dispatch_event(joystick_device_t  *joydev, struct input_event *event
     }
 }
 
+/** \brief  Open callback for the joystick system
+ *
+ * Open joystick for polling.
+ *
+ * \param[in]   joydev  joystick device
+ *
+ * \return  \c true on success (also when \a joydev was already opened)
+ */
 static bool linux_joystick_evdev_open(joystick_device_t *joydev)
 {
     struct libevdev *evdev;
@@ -173,10 +181,17 @@ static bool linux_joystick_evdev_open(joystick_device_t *joydev)
         return false;
     }
 
+    priv = joydev->priv;
+    if (priv->fd >= 0) {
+        /* already opened */
+        return true;
+    }
+
     fd = open(joydev->node, O_RDONLY|O_NONBLOCK);
     if (fd < 0) {
         return false;
     }
+    priv->fd = fd;
 
     /* get evdev instance from file descriptor */
     rc = libevdev_new_from_fd(fd, &evdev);
@@ -185,9 +200,6 @@ static bool linux_joystick_evdev_open(joystick_device_t *joydev)
         close(fd);
         return false;
     }
-
-    priv = joydev->priv;
-    priv->fd = fd;
     priv->evdev = evdev;
 
     return true;
@@ -195,7 +207,7 @@ static bool linux_joystick_evdev_open(joystick_device_t *joydev)
 
 /** \brief  Poll callback for the joystick system
  *
- * \param[in]   priv    driver-specific joystick data
+ * \param[in]   joydev  joystick device
  */
 static void linux_joystick_evdev_poll(joystick_device_t *joydev)
 {
@@ -204,7 +216,10 @@ static void linux_joystick_evdev_poll(joystick_device_t *joydev)
     int              rc;
     unsigned int     flags = LIBEVDEV_READ_FLAG_NORMAL;
 
-    priv  = joydev->priv;
+    priv = joydev->priv;
+    if (priv == NULL || priv->fd < 0 || priv->evdev == NULL) {
+        return;
+    }
     evdev = priv->evdev;
 
     while (libevdev_has_event_pending(evdev)) {
@@ -227,7 +242,7 @@ static void linux_joystick_evdev_poll(joystick_device_t *joydev)
  *
  * Release resources associated with the joystick.
  *
- * \param[in]   priv    driver-specific joystick data
+ * \param[in]   joydev  joystick data device
  */
 static void linux_joystick_evdev_close(joystick_device_t *joydev)
 {
@@ -360,13 +375,16 @@ static joystick_device_t *scan_device(const char *node)
     joydev->product     = (uint16_t)libevdev_get_id_product(evdev);
 
     priv = joy_priv_new();
-    priv->fd     = fd;       /* TODO: remove once open() is implemented */
-    priv->evdev  = evdev;    /* TODO: remove once open() is implemented */
     joydev->priv = priv;
 
     /* scan for valid inputs */
     scan_buttons(joydev, evdev);
     scan_axes(joydev, evdev);
+
+    /* clean up */
+    libevdev_free(evdev);
+    close(fd);
+
     return joydev;
 }
 
@@ -413,7 +431,10 @@ void joystick_arch_init(void)
         joydev = scan_device(namelist[i]->d_name);
         if (joydev != NULL) {
             joystick_device_register(joydev);
-        }
+            /* open joystick: REMOVE once we have opening/closing via resource
+             * and manually implemented properly */
+            linux_joystick_evdev_open(joydev);
+      }
     }
     free(namelist);
 }
