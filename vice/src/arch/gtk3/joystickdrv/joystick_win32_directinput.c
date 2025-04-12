@@ -58,7 +58,7 @@ typedef struct joy_priv_s {
     LPDIRECTINPUTDEVICE8 didev; /**< DirectInput device instance */
     LONG                 prev_axes[DIJS2_MAX_AXES];         /**< prev state of axes */
     BYTE                 prev_buttons[DIJS2_MAX_BUTTONS];   /**< prev state of buttons */
-    LONG                 prev_hats[DIJS2_MAX_HATS];         /**< prev state of POVs */
+    WORD                 prev_hats[DIJS2_MAX_HATS];         /**< prev state of POVs */
 } joy_priv_t;
 
 
@@ -83,6 +83,8 @@ static joy_priv_t *joy_priv_new(void)
 {
     joy_priv_t *priv = lib_calloc(sizeof *priv, 1);
     priv->didev = NULL;
+    /* set POV values to neutral (0xffff) */
+    memset(priv->prev_hats, 0xff, sizeof priv->prev_hats);
     return priv;
 }
 
@@ -200,21 +202,24 @@ static void win32_joy_poll(joystick_device_t *joydev)
     for (i = 0; i < joydev->num_hats; i++) {
         /* POVs are simply reported sequentially, so hat index is POV value index */
         joystick_hat_t *hat       = joydev->hats[i];
-        int32_t         value     = LOWORD(jstate.rgdwPOV[i]);
+        WORD            value     = LOWORD(jstate.rgdwPOV[i]);
+        WORD            prev      = priv->prev_hats[i];
         int32_t         direction = JOYSTICK_DIRECTION_NONE;  /* neutral */
-        LONG            prev      = priv->prev_hats[i];
 
         if (prev == value) {
             continue;
         }
-        priv->prev_hats[i] = prev;
+        priv->prev_hats[i] = value;
 
         /* POVs map to 360 degrees, in units of 1/100th of a degree, neutral
-         * is reported as -1 / 0xffffffff.
+         * is reported as 0xffff.
          * Translate position on a circle to joystick directions, clockwise
          * from North through to Northwest */
-        if (value < 0 || value >= 36000) {
-            /* invalid: report neutral position */
+#if 0
+        printf("HAT %d: %u\n", i, (unsigned int)value);
+#endif
+        if (value == 0xffff) {
+            /* report neutral position */
             direction = JOYSTICK_DIRECTION_NONE;
         } else if (value >= 33750 || value < 2250) {
             /* North */
