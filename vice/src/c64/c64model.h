@@ -70,8 +70,11 @@ enum {
 #define GLUE_DISCRETE  0
 #define GLUE_CUSTOM_IC 1
 
-#define BOARD_C64 0
-#define BOARD_MAX 1
+#define BOARD_C64  0
+#define BOARD_MAX  1
+#define BOARD_SX64 2
+#define BOARD_C128 3
+#define BOARD_LAST 3
 
 #define IEC_HARD_RESET 0
 #define IEC_SOFT_RESET 1
@@ -101,7 +104,7 @@ typedef struct {
     int cia1_model;
     int cia2_model;
     int cia_tick;
-    int board; /* 0: normal, 1: ultimax */
+    int board; /* 0: normal, 1: ultimax, 2: sx64, 3: C128 */
     int iecreset; /* 1: reset goes to IEC bus (old) 0: only reset IEC on hard reset (new) */
     const char *kernal;
     const char *chargen;
