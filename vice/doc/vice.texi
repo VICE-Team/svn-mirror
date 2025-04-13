@@ -23328,7 +23328,7 @@ check file: cartconv [-r] [-q|-v] -c "input name"
 -i <name>                   input filename
 -o <name>                   output filename
 -n <name>                   crt cart name
--l <addr>                   load address
+-l <addr>                   load address (decimal, use 0x-prefix for hexadecimal, e.g. 0xc000)
 -q                          quiet
 -v --verbose                verbose
 --types                     show the supported cart types

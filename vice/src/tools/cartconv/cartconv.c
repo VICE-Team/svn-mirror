@@ -1342,7 +1342,7 @@ static void usage(void)
             "-i <name>                   input filename\n"
             "-o <name>                   output filename\n"
             "-n <name>                   crt cart name\n"
-            "-l <addr>                   load address\n"
+            "-l <addr>                   load address (decimal, use 0x-prefix for hexadecimal, e.g. 0xc000)\n"
             "-q                          quiet\n"
             "-v --verbose                verbose\n"
             "--types                     show the supported cart types\n"
