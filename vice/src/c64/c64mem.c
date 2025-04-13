@@ -43,6 +43,7 @@
 #include "c64meminit.h"
 #include "c64memlimit.h"
 #include "c64memrom.h"
+#include "c64model.h"
 #include "c64pla.h"
 #include "c64ui.h"
 #include "c64cartmem.h"
@@ -66,6 +67,9 @@
 
 /* Machine class (moved from c64.c to distinguish between x64 and x64sc) */
 int machine_class = VICE_MACHINE_C64;
+
+/* import from c64-resources.c - don't use the resource for performance reasons */
+extern int board_type;
 
 /* C64 memory-related resources.  */
 
@@ -210,7 +214,12 @@ void mem_pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
 
-    c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, 1, 0x17);
+    /* NOTE: CPU port bits 3,4,5 are not connected on the SX64 board */
+    if (board_type == BOARD_SX64) {
+        c64pla_config_changed(1, 1, 1, 1, 0x07);
+    } else {
+        c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, 1, 0x17);
+    }
 
     mem_update_tab_ptrs(watchpoints_active);
 
@@ -259,6 +268,9 @@ uint8_t zero_read(uint16_t addr)
             return pport.dir_read;
         case 1:
             retval = pport.data_read;
+
+            /* FIXME: bits 3,4,5 are not connected on SX-64 boards - whether they
+                      show similar behaviour needs to be tested */
 
             /* discharge the "capacitor" */
 
@@ -751,7 +763,7 @@ void mem_initialize_memory(void)
         mem_read_tab[i][0] = zero_read;
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
-            if (board == 1 && j >= 0x08) {
+            if (board == BOARD_MAX && j >= 0x08) {
                 /* mem_read_tab[i][j] = void_read;
                 mem_read_base_tab[i][j] = NULL;
                 mem_set_write_hook(0, j, void_store); */
@@ -776,7 +788,7 @@ void mem_initialize_memory(void)
                 }
             }
         }
-        if (board == 1) {
+        if (board == BOARD_MAX) {
             /* mem_read_tab[i][0xff] = void_read;
             mem_read_base_tab[i][0xff] = NULL;
             mem_set_write_hook(0, 0xff, void_store); */
@@ -840,7 +852,7 @@ void mem_initialize_memory(void)
     plus256k_init_config();
     c64_256k_init_config();
 
-    if (board == 1) {
+    if (board == BOARD_MAX) {
         mem_limit_max_init();
     }
 }

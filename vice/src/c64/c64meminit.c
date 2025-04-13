@@ -35,6 +35,7 @@
 #include "c64mem.h"
 #include "c64meminit.h"
 #include "c64memrom.h"
+#include "c64model.h"
 #include "cartio.h"
 #include "machine.h"
 #include "resources.h"
@@ -128,13 +129,13 @@ const unsigned int c64meminit_romh_mapping[32] = {
 void c64meminit(unsigned int base)
 {
     unsigned int i, j;
-    int board = 0;
+    int board = BOARD_C64;
 
     if (machine_class != VICE_MACHINE_C128) {
         resources_get_int("BoardType", &board);
     }
 
-    if (board != 1) {
+    if (board != BOARD_MAX) {
         /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
         for (i = 0xa0; i <= 0xbf; i++) {
             mem_read_tab_set(base + 3, i, c64memrom_basic64_read);
@@ -196,7 +197,7 @@ void c64meminit(unsigned int base)
         }
     }
 
-    if (board != 1) {
+    if (board != BOARD_MAX) {
         /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
         11, 14, 15, 26, 27, 30, 31).  */
         for (i = 0xe0; i <= 0xff; i++) {
@@ -304,7 +305,7 @@ void c64meminit(unsigned int base)
 
     /* Setup Ultimax configuration.  */
     for (j = 16; j < 24; j++) {
-        if (board == 1) {
+        if (board == BOARD_MAX) {
             for (i = 0x08; i <= 0x0f; i++) {
                 mem_read_tab_set(base + j, i, ultimax_0800_0fff_read);
                 mem_set_write_hook(base + j, i, ultimax_0800_0fff_store);

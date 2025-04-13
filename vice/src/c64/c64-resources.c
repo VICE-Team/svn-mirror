@@ -76,7 +76,7 @@ int kernal_revision = C64_KERNAL_REV3;
 int cia1_model;
 int cia2_model;
 
-static int board_type = BOARD_C64;
+int board_type = BOARD_C64;
 static int iec_reset = 0;
 
 static log_t res_log = LOG_DEFAULT;
@@ -135,7 +135,7 @@ static int set_basic_rom_name(const char *val, void *param)
 static int set_board_type(int val, void *param)
 {
     int old_board_type = board_type;
-    if ((val < 0) || (val > 1)) {
+    if ((val < 0) || (val > BOARD_LAST)) {
         return -1;
     }
     board_type = val;
