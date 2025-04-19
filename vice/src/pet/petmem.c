@@ -295,7 +295,25 @@ static void rom6809_store(uint16_t addr, uint8_t value)
 }
 #endif
 
-uint8_t read_unused(uint16_t addr)
+/*
+ * This is a very complicated way to return "addr >> 8" in *most* cases.
+ * This is because with a LOAD instruction, the last successful read on the
+ * bus was the high byte of the address.
+ * Example: LDA $9000 reads AD 00 90 as instruction bytes and then from $9000.
+ * Even LDA ($12),Y reads B1 12 as instruction bytes, but then 00 90 from the
+ * zero page, then from $9000.
+ * The only exception is when there is indexing with a page crossing.
+ * Then there is a dummy read from $90xx before the real read of $91xx.
+ * In that case you get $90, not $91.
+ *
+ * Annoyingly, when viewing memory with Vice's monitor, this won't work right.
+ */
+inline uint8_t read_unused(uint16_t addr)
+{
+    return last_access;
+}
+
+static inline uint8_t peek_unused(uint16_t addr)
 {
     return addr >> 8;
 }
@@ -752,7 +770,7 @@ static void store_super_flat(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-/* Generic memory access.  */
+/* Generic 6502 memory access.  */
 
 void mem_store(uint16_t addr, uint8_t value)
 {
@@ -763,6 +781,8 @@ uint8_t mem_read(uint16_t addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
+
+/* Generic 6809 memory access.  */
 
 #define PRINT_6809_STORE        0
 #define PRINT_6809_READ         0
@@ -902,7 +922,7 @@ static uint8_t read_io_e8(uint16_t addr)
                 return last_access = crtc_read(addr);
             } /* fall through */
         case 0x00:
-            return addr >> 8;   /* empty space */
+            return read_unused(addr); /* Empty space */
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
             if (addr & 0x10) {
                 v1 = pia1_read(addr);
@@ -1084,7 +1104,9 @@ static void set_std_9tof(void)
             mem_read_limit_tab[i] = 0;
         }
     } else {
-        fetch = ram9 ? ram_read : rom_read;
+        fetch = ram9            ? ram_read :
+                petrom_9_loaded ? rom_read :
+                                  read_unused;
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
             _mem_write_tab[i] = store;
@@ -1094,7 +1116,9 @@ static void set_std_9tof(void)
     }
 
     /* Setup RAM/ROM at $A000 - $AFFF. */
-    fetch = ramA ? ram_read : rom_read;
+    fetch = ramA            ? ram_read :
+            petrom_A_loaded ? rom_read :
+                              read_unused;
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
@@ -1108,9 +1132,20 @@ static void set_std_9tof(void)
                                  _mem_read_base_tab, mem_read_limit_tab);
     }
 
-    /* Setup RAM/ROM at $B000 - $DFFF: Basic. */
+    /* Setup RAM/ROM at $B000 - $BFFF: Basic 4.0 or EPROM socket. */
+    fetch = ramBCD          ? ram_read :
+            petrom_B_loaded ? rom_read :
+                              read_unused;
+    for (i = 0xb0; i < 0xc0; i++) {
+        _mem_read_tab[i] = fetch;
+        _mem_write_tab[i] = store;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
+    }
+
+    /* Setup RAM/ROM at $C000 - $DFFF: Basic. */
     fetch = ramBCD ? ram_read : rom_read;
-    for (i = 0xb0; i <= 0xdf; i++) {
+    for (i = 0xc0; i <= 0xdf; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = NULL;
@@ -1649,10 +1684,6 @@ void mem_initialize_memory(void)
     mem_read_limit_tab[0x100] = 0;
 
     ram_size = petres.model.ramSize * 1024;
-    _mem_read_tab_ptr = _mem_read_tab;
-    _mem_write_tab_ptr = _mem_write_tab;
-    _mem_read_tab_ptr_dummy = _mem_read_tab;
-    _mem_write_tab_ptr_dummy = _mem_write_tab;
 
     /* setup watchpoint tables */
     _mem_read_tab_watch[0] = zero_read_watch;
@@ -1686,10 +1717,10 @@ void mem_initialize_memory(void)
             _mem6809_read_tab_watch[i] = read6809_watch;
             _mem6809_write_tab_watch[i] = store6809_watch;
         }
-
-        _mem6809_read_tab_ptr = _mem6809_read_tab;
-        _mem6809_write_tab_ptr = _mem6809_write_tab;
     }
+
+    /* Set memory access via watchpoints, if needed: _mem_read_tab_ptr etc */
+    mem_toggle_watchpoints(watchpoints_active, NULL);
 
     maincpu_resync_limits();
 }
@@ -1821,7 +1852,7 @@ static uint8_t peek_bank_io(uint16_t addr)
             }
             /* FALL THROUGH */
         case 0x00:
-            return addr >> 8;   /* Empty space */
+            return peek_unused(addr); /* Empty space */
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
             break;
     }
@@ -2010,7 +2041,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             if (addr >= 0xE900 && addr < 0xE800 + petres.model.IOSize) {
                 uint8_t result;
                 /* is_peek_access = 1; FIXME */
-                result = read_unused(addr);
+                result = peek_unused(addr);
                 /* is_peek_access = 0; FIXME */
                 return result;
             }
@@ -2021,6 +2052,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             /* FALLS THROUGH TO normal read with side effects */
     }
     /* For extram, rom, cpu/cpu6809 when not accessing I/O, and ram: */
+    /* TODO: might need PEEK for cases with empty space */
     return mem_bank_read(bank, addr, context);
 }
 
