@@ -174,7 +174,7 @@ static const ui_menu_item_t datasette_1_control_submenu[] = {
         .type   = UI_MENU_TYPE_ITEM_ACTION,
         .action = ACTION_TAPE_STOP_1
     },
-    {   .label  = "Start",
+    {   .label  = "Play",
         .type   = UI_MENU_TYPE_ITEM_ACTION,
         .action = ACTION_TAPE_PLAY_1
     },
@@ -210,7 +210,7 @@ static const ui_menu_item_t datasette_2_control_submenu[] = {
         .type   = UI_MENU_TYPE_ITEM_ACTION,
         .action = ACTION_TAPE_STOP_1
     },
-    {   .label  = "Start",
+    {   .label  = "Play",
         .type   = UI_MENU_TYPE_ITEM_ACTION,
         .action = ACTION_TAPE_PLAY_1
     },
