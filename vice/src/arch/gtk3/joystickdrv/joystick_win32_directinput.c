@@ -151,8 +151,19 @@ static void win32_joy_poll(joystick_device_t *joydev)
         &jstate.lFX,  &jstate.lFY,  &jstate.lFZ,
         &jstate.lFRx, &jstate.lFRy, &jstate.lFRz
     };
-    int          i;
-    HRESULT      result;
+    /* mapping of directions to eight sections of 45 degrees */
+    static const int32_t hat_map[36000/4500] = {
+        JOYSTICK_DIRECTION_UP,
+        JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_RIGHT,
+        JOYSTICK_DIRECTION_RIGHT,
+        JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_RIGHT,
+        JOYSTICK_DIRECTION_DOWN,
+        JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_LEFT,
+        JOYSTICK_DIRECTION_LEFT,
+        JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_LEFT
+    };
+    int     i;
+    HRESULT result;
 
     /* poll device */
     priv   = joydev->priv;
@@ -205,7 +216,6 @@ static void win32_joy_poll(joystick_device_t *joydev)
         WORD            value     = LOWORD(jstate.rgdwPOV[i]);
         WORD            prev      = priv->prev_hats[i];
         int32_t         direction = JOYSTICK_DIRECTION_NONE;  /* neutral */
-
         if (prev == value) {
             continue;
         }
@@ -221,6 +231,14 @@ static void win32_joy_poll(joystick_device_t *joydev)
         if (value == 0xffff) {
             /* report neutral position */
             direction = JOYSTICK_DIRECTION_NONE;
+        } else {
+            /* rotate hat 22.5 deg so 0-22.5 deg becomes North, 22.5-45 becomes
+             * Northeast, and so on, divide by 45 deg so we get an index into
+             * direction map */
+            WORD hidx = ((value + 2250) % 36000) / 4500;
+            direction = hat_map[hidx];
+        }
+#if 0
         } else if (value >= 33750 || value < 2250) {
             /* North */
             direction = JOYSTICK_DIRECTION_UP;
@@ -246,6 +264,7 @@ static void win32_joy_poll(joystick_device_t *joydev)
             /* Northwest */
             direction = JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_LEFT;
         }
+#endif
         joy_hat_event(hat, direction);
     }
 }
@@ -500,4 +519,7 @@ void joystick_arch_init(void)
 
 void joystick_arch_shutdown(void)
 {
+    if (dinput_handle != NULL) {
+        IDirectInput8_Release(dinput_handle);
+    }
 }
