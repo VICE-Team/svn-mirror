@@ -30,6 +30,15 @@
 
 #include "sound.h"
 #include "types.h"
+#include "log.h"
+
+/* #define DEBUG_DUMP */
+
+#ifdef DEBUG_DUMP
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 static FILE *dump_fd = NULL;
 
@@ -39,21 +48,28 @@ static int dump_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     *channels = 1;
 
     dump_fd = fopen(param ? param : "vicesnd.sid", "w");
-    return !dump_fd;
+    DBG(("dump_init param:%p fd:%p", param, dump_fd));
+    return (dump_fd == NULL) ? -1 : 0;
 }
 
 static int dump_write(int16_t *pbuf, size_t nr)
 {
+    /*DBG(("dump_write"));*/
     return 0;
 }
 
 static int dump_dump(uint16_t addr, uint8_t byte, CLOCK clks)
 {
+    DBG(("dump_dump %d %d %d", (int)clks, addr, byte));
     return (fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte) < 0);
 }
 
+/* FIXME: it is unclear why this function does this. no other sound output
+          driver implements "flush" for that matter
+*/
 static int dump_flush(char *state)
 {
+    DBG(("dump_flush state:'%s'"));
     if (fprintf(dump_fd, "%s", state) < 0) {
         return 1;
     }
@@ -63,6 +79,7 @@ static int dump_flush(char *state)
 
 static void dump_close(void)
 {
+    DBG(("dump_close"));
     fclose(dump_fd);
     dump_fd = NULL;
 }
@@ -85,5 +102,6 @@ static const sound_device_t dump_device =
 
 int sound_init_dump_device(void)
 {
+    DBG(("sound_init_dump_device"));
     return sound_register_device(&dump_device);
 }
