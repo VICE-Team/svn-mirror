@@ -6237,15 +6237,7 @@ Implemented drivers are:
 
 @itemize @bullet
 @item
-@code{ahi}, for the Amiga/Morphos/Aros sound driver.
-@item
-@code{aix}, for the IBM AIX sound driver.
-@item
-@code{allegro}, for the DOS Allegro sound driver.
-@item
 @code{alsa}, for the linux ALSA sound driver.
-@item
-@code{arts}, for the *nix ARTS sound driver.
 @item
 @code{beos}, for the BeOS/Zeta/Haiku sound driver.
 @item
@@ -6254,35 +6246,25 @@ Implemented drivers are:
 @code{coreaudio}, for the Mac OS X sound driver (@code{SoundDeviceArg}
 specifies the audio device, default system output by default).
 @item
-@code{dart}, for the OS/2 sound driver.
-@item
 @code{dummy}, fully emulating the sound output chip(s), but not actually playing samples.
+@item
+@code{dump}, writing all the write accesses to the registers to a file
+(specified by @code{SoundDeviceArg}, default value is
+@code{vicesnd.sid});
 @item
 @code{dx}, for the Windows Direct-X sound driver.
 @item
-@code{hpux}, for the HP-UX audio device (unfinished;
+@code{netbsd}, for the NetBDS audio device (unfinished;
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
 default).
-@item
-@code{midas}, for the DOS Midas sound driver.
 @item
 @code{pulse}, for the Pulseaudio sound driver.
 @item
 @code{sdl}, for the Simple DirectMedia Layer audio driver.
 @item
-@code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
-specifies the audio device, @file{/dev/audio} by default);
-@item
-@code{speed}, like @code{dummy} but also calculating samples (mainly
-used to evaluate the speed of the sample generator);
-@item
-@code{sun}, for the Solaris and NetBDS audio device (unfinished;
+@code{sun}, for the Solaris audio device (unfinished;
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
 default).
-@item
-@code{uss}, for the Linux/FreeBSD Universal Sound System driver
-(@code{SoundDeviceArg} specifies the audio device, @file{/dev/dsp} by
-default);
 @item
 @code{wmm}, for the Windows Multimedia Waveout sound device.
 @end itemize
@@ -6305,12 +6287,9 @@ Implemented drivers are:
 @item
 @code{aiff}, for the Apple Interchange File Format 16bit sound recorder driver.
 @item
-@code{dump}, writing all the write accesses to the registers to a file
-(specified by @code{SoundDeviceArg}, default value is
-@code{vicesnd.sid});
-@item
 @code{fs}, writing samples to a file (specified by
 @code{SoundDeviceArg}; default is @file{vicesnd.raw});
+@item
 @code{iff}, for the Amiga Interchange File Format (8SVX) 8bit sound recorder driver.
 @item
 @code{mp3}, for the MP3 sound recorder driver.
@@ -6411,7 +6390,7 @@ Set sound fragment size
 @item -sounddev <Name>
 Specifies the name of the audio device
 (@code{SoundDeviceName}).
-(ahi, aix, allegro, alsa, arts, beos, bsp, coreaudio, dart, dummy, dx, hpux, midas, pulse, sdl, sgi, sun, uss, wmm)
+(alsa, beos, bsp, coreaudio, dummy, dump, dx, netbsd, pulse, sdl, sun, wmm)
 
 @findex -soundarg
 @item -soundarg <args>
@@ -6422,7 +6401,7 @@ Specifies an additional parameter for the audio device
 @item -soundrecdev <name>
 Specify recording sound driver
 (@code{SoundRecordDeviceName}).
-(aiff, dump, fs, iff, mp3, flac, ogg, speed, voc, wav)
+(aiff, fs, iff, mp3, flac, ogg, voc, wav)
 
 @findex -soundrecarg
 @item -soundrecarg <args>
