@@ -64,6 +64,7 @@ static int dump_dump(uint16_t addr, uint8_t byte, CLOCK clks)
     return (fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte) < 0);
 }
 
+#if 0
 /* FIXME: it is unclear why this function does this. no other sound output
           driver implements "flush" for that matter
 */
@@ -76,6 +77,7 @@ static int dump_flush(char *state)
 
     return fflush(dump_fd);
 }
+#endif
 
 static void dump_close(void)
 {
@@ -90,7 +92,7 @@ static const sound_device_t dump_device =
     dump_init,
     dump_write,
     dump_dump,
-    dump_flush,
+    NULL, /* dump_flush, */
     NULL,
     dump_close,
     NULL,

@@ -131,8 +131,12 @@ static const sound_register_devices_t sound_register_devices[] = {
        works, no files will be created accidently */
     { "dummy", "Dummy sound output (no sound)", sound_init_dummy_device, SOUND_PLAYBACK_DEVICE },
 
+    /* FIXME: the dump device (and part of the sound system) needs to be
+       rewritten somehow, so it can be used while actually playing sound, ie as
+       a record device */
+    { "dump", "Sound chip write recording", sound_init_dump_device, SOUND_PLAYBACK_DEVICE },
+
     { "fs", "Raw sound recording", sound_init_fs_device, SOUND_RECORD_DEVICE },
-    { "dump", "Sound chip state recording", sound_init_dump_device, SOUND_RECORD_DEVICE },
     { "wav", "RIFF/WAV sound recording", sound_init_wav_device, SOUND_RECORD_DEVICE },
     { "voc", "Creative Voice VOC sound recording", sound_init_voc_device, SOUND_RECORD_DEVICE },
     { "iff", "AmigaOS IFF/8SVX sound recording", sound_init_iff_device, SOUND_RECORD_DEVICE },
@@ -149,7 +153,7 @@ static const sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_VORBIS
     { "ogg", "OGG sound recording", sound_init_vorbis_device, SOUND_RECORD_DEVICE },
 #endif
-
+    /* the driver used for recording sound when actually recording video+sound */
     { "soundmovie", "Movie sound recording", sound_init_movie_device, SOUND_MOVIE_RECORD_DEVICE },
     { NULL, NULL, NULL, 0 }
 };
@@ -467,6 +471,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 #endif
 }
 
+/* perform the actual write to the sound chip */
 static void sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     if (sound_calls[addr >> 5]->store) {
@@ -921,7 +926,6 @@ static int sound_device_count = 0;
 int sound_register_device(const sound_device_t *pdevice)
 {
     if (sound_device_count < MAX_SOUND_DEVICES) {
-        DBG(("sound_register_device #%i ->flush:%p", sound_device_count, pdevice->flush));
         sound_devices[sound_device_count] = pdevice;
         sound_device_count++;
     } else {
@@ -1734,6 +1738,10 @@ long sound_sample_position(void)
                         / snddata.clkstep);
 }
 
+/* dump the state of the sound chip to the monitor
+
+   NOTE: for some reason this function is only used for SID?
+ */
 int sound_dump(int chipno)
 {
     DBG(("sound_dump chipno:%d", chipno));
@@ -1769,8 +1777,11 @@ void sound_store(uint16_t addr, uint8_t val, int chipno)
         return;
     }
 
+    /* perform the actual write to the sound chip */
     sound_machine_store(snddata.psid[chipno], addr, val);
 
+    /* now check if we have a "dump" method (which dumps the details of the
+       write access to a file), and if so, call it */
     if (!snddata.playdev->dump) {
         return;
     }

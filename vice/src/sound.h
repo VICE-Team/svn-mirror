@@ -190,8 +190,8 @@ typedef struct sound_device_s {
     int (*write)(int16_t *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
     int (*dump)(uint16_t addr, uint8_t byte, CLOCK clks);
-    /* flush-routine to be called every frame */
-    int (*flush)(char *state);
+    /* DEPRECATED: flush-routine to be called every frame (not called anywhere) */
+    int (*deprecated_flush)(char *state);
     /* return number of samples currently available in the kernel buffer */
     int (*bufferspace)(void);
     /* close and cleanup device */
