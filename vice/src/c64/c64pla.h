@@ -43,16 +43,25 @@ struct pport_s {
     uint8_t data_out;
 
     /* cycle that should invalidate the unused bits of the data port. */
+    CLOCK data_set_clk_bit3; /* SX-64 only */
+    CLOCK data_set_clk_bit4; /* SX-64 only */
+    CLOCK data_set_clk_bit5; /* SX-64 only */
     CLOCK data_set_clk_bit6;
     CLOCK data_set_clk_bit7;
 
     /* indicates if the unused bits of the data port are still
        valid or should be read as 0, 1 = unused bits valid,
        0 = unused bits should be 0 */
+    uint8_t data_set_bit3; /* SX-64 only */
+    uint8_t data_set_bit4; /* SX-64 only */
+    uint8_t data_set_bit5; /* SX-64 only */
     uint8_t data_set_bit6;
     uint8_t data_set_bit7;
 
     /* indicated if the unused bits are in the process of falling off. */
+    uint8_t data_falloff_bit3; /* SX-64 only */
+    uint8_t data_falloff_bit4; /* SX-64 only */
+    uint8_t data_falloff_bit5; /* SX-64 only */
     uint8_t data_falloff_bit6;
     uint8_t data_falloff_bit7;
 };
