@@ -70,11 +70,15 @@ enum {
 #define GLUE_DISCRETE  0
 #define GLUE_CUSTOM_IC 1
 
-#define BOARD_C64  0
-#define BOARD_MAX  1
-#define BOARD_SX64 2
-#define BOARD_C128 3
-#define BOARD_LAST 3
+/* CAUTION: these are shared with x128 */
+#define BOARD_C64   0
+#define BOARD_MAX   1
+#define BOARD_SX64  2
+#define BOARD_LAST_C64  2
+/* put all C128 boards last */
+#define BOARD_C128  3
+#define BOARD_C128D 4
+#define BOARD_LAST  4
 
 #define IEC_HARD_RESET 0
 #define IEC_SOFT_RESET 1

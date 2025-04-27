@@ -133,7 +133,7 @@ static int c128_hide_vdc;
 int cia1_model = CIA_MODEL_6526A;
 int cia2_model = CIA_MODEL_6526A;
 
-static int board_type = BOARD_C128D;
+int board_type = BOARD_C128D;
 
 static int set_c128_full_banks(int val, void *param)
 {
@@ -178,7 +178,7 @@ static int set_machine_type(int val, void *param)
 static int set_board_type(int val, void *param)
 {
     int old_board_type = board_type;
-    if ((val < 0) || (val > 1)) {
+    if ((val < BOARD_C128) || (val > BOARD_LAST)) {
         return -1;
     }
     board_type = val;
