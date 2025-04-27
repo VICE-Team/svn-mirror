@@ -51,6 +51,7 @@
 #include "cartridge.h"
 #include "cia.h"
 #include "cpmcart.h"
+#include "lib.h"
 #include "machine.h"
 #include "mainc64cpu.h"
 #include "maincpu.h"
@@ -275,6 +276,23 @@ uint8_t zero_read(uint16_t addr)
 
             /* FIXME: bits 3,4,5 are not connected on SX-64 boards - whether they
                       show similar behaviour needs to be tested */
+            if (board_type == BOARD_SX64) {
+                /* set real value of read bit 3 */
+                if (pport.data_falloff_bit3 && (pport.data_set_clk_bit3 < maincpu_clk)) {
+                    pport.data_falloff_bit3 = 0;
+                    pport.data_set_bit3 = 0;
+                }
+                /* set real value of read bit 4 */
+                if (pport.data_falloff_bit4 && (pport.data_set_clk_bit4 < maincpu_clk)) {
+                    pport.data_falloff_bit4 = 0;
+                    pport.data_set_bit4 = 0;
+                }
+                /* set real value of read bit 5 */
+                if (pport.data_falloff_bit5 && (pport.data_set_clk_bit5 < maincpu_clk)) {
+                    pport.data_falloff_bit5 = 0;
+                    pport.data_set_bit5 = 0;
+                }
+            }
 
             /* set real value of read bit 6 */
             if (pport.data_falloff_bit6 && (pport.data_set_clk_bit6 < maincpu_clk)) {
@@ -289,6 +307,23 @@ uint8_t zero_read(uint16_t addr)
             }
 
             /* for unused bits in input mode, the value comes from the "capacitor" */
+            if (board_type == BOARD_SX64) {
+                /* set real value of bit 3 */
+                if (!(pport.dir_read & 0x08)) {
+                    retval &= ~0x08;
+                    retval |= pport.data_set_bit3;
+                }
+                /* set real value of bit 4 */
+                if (!(pport.dir_read & 0x10)) {
+                    retval &= ~0x10;
+                    retval |= pport.data_set_bit4;
+                }
+                /* set real value of bit 5 */
+                if (!(pport.dir_read & 0x20)) {
+                    retval &= ~0x20;
+                    retval |= pport.data_set_bit5;
+                }
+            }
 
             /* set real value of bit 6 */
             if (!(pport.dir_read & 0x40)) {
@@ -328,6 +363,9 @@ void zero_store_dma(uint16_t addr, uint8_t value)
     }
 }
 
+#define FALLOFF_RANDOM (C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES / 5)
+#define FALLOFF_RANDOM_SX (SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES / 5)
+
 /* store zeropage, 0/1 goes to CPU port */
 void zero_store(uint16_t addr, uint8_t value)
 {
@@ -354,10 +392,34 @@ void zero_store(uint16_t addr, uint8_t value)
                stable value) to input mode (where the input is floating), some
                of the charge is transferred to the floating input */
 
+            if (board_type == BOARD_SX64) {
+                if ((pport.dir & 0x08)) {
+                    if ((pport.dir ^ value) & 0x08) {
+                        pport.data_set_clk_bit3 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                        pport.data_set_bit3 = pport.data & 0x08;
+                        pport.data_falloff_bit3 = 1;
+                    }
+                }
+                if ((pport.dir & 0x10)) {
+                    if ((pport.dir ^ value) & 0x10) {
+                        pport.data_set_clk_bit4 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                        pport.data_set_bit4 = pport.data & 0x10;
+                        pport.data_falloff_bit4 = 1;
+                    }
+                }
+                if ((pport.dir & 0x20)) {
+                    if ((pport.dir ^ value) & 0x20) {
+                        pport.data_set_clk_bit5 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                        pport.data_set_bit5 = pport.data & 0x20;
+                        pport.data_falloff_bit5 = 1;
+                    }
+                }
+            }
+
             /* check if bit 6 has flipped */
             if ((pport.dir & 0x40)) {
                 if ((pport.dir ^ value) & 0x40) {
-                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM);
                     pport.data_set_bit6 = pport.data & 0x40;
                     pport.data_falloff_bit6 = 1;
                 }
@@ -366,7 +428,7 @@ void zero_store(uint16_t addr, uint8_t value)
             /* check if bit 7 has flipped */
             if ((pport.dir & 0x80)) {
                 if ((pport.dir ^ value) & 0x80) {
-                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM);
                     pport.data_set_bit7 = pport.data & 0x80;
                     pport.data_falloff_bit7 = 1;
                 }
@@ -398,14 +460,32 @@ void zero_store(uint16_t addr, uint8_t value)
                otherwise don't touch it */
             if (pport.dir & 0x80) {
                 pport.data_set_bit7 = value & 0x80;
-                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM);
                 pport.data_falloff_bit7 = 1;
             }
 
             if (pport.dir & 0x40) {
                 pport.data_set_bit6 = value & 0x40;
-                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM);
                 pport.data_falloff_bit6 = 1;
+            }
+
+            if (board_type == BOARD_SX64) {
+                if (pport.dir & 0x20) {
+                    pport.data_set_bit5 = value & 0x20;
+                    pport.data_set_clk_bit5 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                    pport.data_falloff_bit5 = 1;
+                }
+                if (pport.dir & 0x10) {
+                    pport.data_set_bit4 = value & 0x10;
+                    pport.data_set_clk_bit4 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                    pport.data_falloff_bit4 = 1;
+                }
+                if (pport.dir & 0x08) {
+                    pport.data_set_bit3 = value & 0x08;
+                    pport.data_set_clk_bit3 = maincpu_clk + SX64_CPU6510_DATA_PORT_FALL_OFF_CYCLES + lib_unsigned_rand(0, FALLOFF_RANDOM_SX);
+                    pport.data_falloff_bit3 = 1;
+                }
             }
 
             if (pport.data != value) {
