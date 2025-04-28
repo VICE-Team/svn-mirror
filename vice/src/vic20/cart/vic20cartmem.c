@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #include "vice.h"
 
@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#include "log.h"
 #ifdef HAVE_RAWNET
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
@@ -65,9 +66,10 @@
 #include "sidcart.h"
 #include "superexpander.h"
 #include "ultimem.h"
+#include "writenow.h"
 
 #ifdef DEBUGCART
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -364,8 +366,10 @@ void cartridge_store_blk3(uint16_t addr, uint8_t value)
     }
 }
 
+/* A000-BFFF */
 uint8_t cartridge_read_blk5(uint16_t addr)
 {
+    DBG(("cartridge_read_blk5 (%d) 0x%04x", mem_cartridge_type, addr));
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
             vic20_cpu_last_data = behrbonz_blk25_read(addr);
@@ -391,10 +395,14 @@ uint8_t cartridge_read_blk5(uint16_t addr)
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             vic20_cpu_last_data = superexpander_blk5_read(addr);
             break;
+        case CARTRIDGE_VIC20_WRITE_NOW:
+            vic20_cpu_last_data = writenow_blk5_read(addr);
+            break;
     }
     return vic20_cpu_last_data;
 }
 
+/* A000-BFFF */
 uint8_t cartridge_peek_blk5(uint16_t addr)
 {
     switch (mem_cartridge_type) {
@@ -412,10 +420,13 @@ uint8_t cartridge_peek_blk5(uint16_t addr)
             return megacart_blk5_read(addr);
         case CARTRIDGE_VIC20_SUPEREXPANDER:
             return superexpander_blk5_read(addr);
+        case CARTRIDGE_VIC20_WRITE_NOW:
+            return writenow_blk5_read(addr);
     }
     return 0;
 }
 
+/* A000-BFFF */
 void cartridge_store_blk5(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
@@ -442,7 +453,6 @@ void cartridge_store_blk5(uint16_t addr, uint8_t value)
 
 void cartridge_init(void)
 {
-    generic_init();
     behrbonz_init();
     finalexpansion_init();
     megacart_init();
@@ -460,9 +470,6 @@ void cartridge_reset(void)
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
             behrbonz_reset();
-            break;
-        case CARTRIDGE_VIC20_GENERIC:
-            generic_reset();
             break;
         case CARTRIDGE_VIC20_UM:
             vic_um_reset();
@@ -526,7 +533,7 @@ void cartridge_attach(int type, uint8_t *rawcart)
 
     mem_cartridge_type = type;
 
-    DBG(("cartridge_attach type: %d\n", type));
+    DBG(("cartridge_attach type: %d", type));
 #if 0
     switch (type) {
         case CARTRIDGE_VIC20_GENERIC:
@@ -568,6 +575,8 @@ static void cart_detach_all(void)
     rabbit_detach();
     megacart_detach();
     vic_um_detach();
+    writenow_detach();
+
     vic20_ieee488_detach();
 #ifdef HAVE_MIDI
     vic20_midi_detach();
@@ -615,6 +624,9 @@ void cartridge_detach(int type)
             break;
         case CARTRIDGE_VIC20_RABBIT:
             rabbit_detach();
+            break;
+        case CARTRIDGE_VIC20_WRITE_NOW:
+            writenow_detach();
             break;
     }
     mem_cartridge_type = CARTRIDGE_NONE;

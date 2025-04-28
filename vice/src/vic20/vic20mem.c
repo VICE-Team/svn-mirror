@@ -61,6 +61,14 @@
 #include "vic20rom.h"
 #include "vic20via.h"
 
+/* #define DEBUG_VIC20MEM */
+
+#ifdef DEBUG_VIC20MEM
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* The VIC20 memory. */
@@ -391,6 +399,8 @@ void mem_initialize_memory(void)
         }
     }
 
+    DBG(("0400-0FFF %s", (mem_cart_blocks & VIC_CART_RAM123) ? "cartridge" : ((ram_block_0_enabled) ? "ram" : "open")));
+
     if (mem_cart_blocks & VIC_CART_BLK1) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x20, 0x3f,
@@ -404,6 +414,8 @@ void mem_initialize_memory(void)
             vic20_mem_disable_ram_block(1);
         }
     }
+
+    DBG(("2000-3FFF %s", (mem_cart_blocks & VIC_CART_BLK1) ? "cartridge" : ((ram_block_1_enabled) ? "ram" : "open")));
 
     if (mem_cart_blocks & VIC_CART_BLK2) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
@@ -419,6 +431,8 @@ void mem_initialize_memory(void)
         }
     }
 
+    DBG(("4000-5FFF %s", (mem_cart_blocks & VIC_CART_BLK2) ? "cartridge" : ((ram_block_2_enabled) ? "ram" : "open")));
+
     if (mem_cart_blocks & VIC_CART_BLK3) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x60, 0x7f,
@@ -433,6 +447,8 @@ void mem_initialize_memory(void)
         }
     }
 
+    DBG(("6000-7FFF %s", (mem_cart_blocks & VIC_CART_BLK3) ? "cartridge" : ((ram_block_3_enabled) ? "ram" : "open")));
+
     if (mem_cart_blocks & VIC_CART_BLK5) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0xa0, 0xbf,
@@ -446,6 +462,8 @@ void mem_initialize_memory(void)
             vic20_mem_disable_ram_block(5);
         }
     }
+
+    DBG(("A000-BFFF %s", (mem_cart_blocks & VIC_CART_BLK5) ? "cartridge" : ((ram_block_5_enabled) ? "ram" : "open")));
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
