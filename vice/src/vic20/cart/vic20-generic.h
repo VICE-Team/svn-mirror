@@ -42,14 +42,6 @@ void generic_blk3_store(uint16_t addr, uint8_t value);
 uint8_t generic_blk5_read(uint16_t addr);
 void generic_blk5_store(uint16_t addr, uint8_t value);
 
-/* uint8_t generic_io2_read(uint16_t addr); */
-/* void generic_io2_store(uint16_t addr, uint8_t value); */
-/* uint8_t generic_io3_read(uint16_t addr); */
-/* void generic_io3_store(uint16_t addr, uint8_t value); */
-
-void generic_init(void);
-void generic_reset(void);
-
 void generic_config_setup(uint8_t *rawcart);
 int generic_bin_attach(int type, const char *filename);
 

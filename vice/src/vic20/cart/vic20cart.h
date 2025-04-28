@@ -29,12 +29,18 @@
 
 #include "types.h"
 
-void reset_try_flags(void);
+#define TRY_RESOURCE_CARTTYPE  (1 << 0)
+#define TRY_RESOURCE_CARTNAME  (1 << 1)
+#define TRY_RESOURCE_CARTRESET (1 << 2)
+
+#define TRY_RESOURCE_CARTFILE2 (1 << 8)
+#define TRY_RESOURCE_CARTFILE4 (1 << 9)
+#define TRY_RESOURCE_CARTFILE6 (1 << 10)
+#define TRY_RESOURCE_CARTFILEA (1 << 11)
+#define TRY_RESOURCE_CARTFILEB (1 << 12)
+
 int try_cartridge_attach(int c);
 
-#define TRY_RESOURCE_CARTTYPE (1 << 0)
-#define TRY_RESOURCE_CARTNAME (1 << 1)
-#define TRY_RESOURCE_CARTRESET (1 << 2)
 
 /* Cartridge ROM limit = 1MB */
 #define VIC20CART_ROM_LIMIT (1024 * 1024)
