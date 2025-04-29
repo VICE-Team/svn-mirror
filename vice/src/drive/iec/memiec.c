@@ -46,7 +46,7 @@
 #define DEBUG_MEMIEC
 
 #ifdef DEBUG_MEMIEC
-#define LOG(x)  log_printf
+#define LOG(x)  log_printf x
 #else
 #define LOG(x)
 #endif
