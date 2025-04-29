@@ -1390,7 +1390,7 @@ static int _encode(char **p, int len)
 {
     int enc_it = 0;
     int i;
-    static char hextab[16] = "0123456789abcdef";
+    static char hextab[16 + 1] = "0123456789abcdef";
 
     for (i = 0; i < len; i++) {
         encoded_helper[enc_it++] = hextab[((**p) >> 4) & 0xf];

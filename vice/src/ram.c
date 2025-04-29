@@ -349,7 +349,7 @@ void ram_init_print_pattern(char *s, int len, char *eol)
     unsigned char *mem;
     char *p = s, *pp;
     int i, a;
-    const char hextab[16] = "0123456789abcdef";
+    const char hextab[16 + 1] = "0123456789abcdef";
 
     mem = lib_malloc(len);
     ram_init(mem, len);
