@@ -54,7 +54,7 @@
 #define DEBUG_DRIVEMEM
 
 #ifdef DEBUG_DRIVEMEM
-#define LOG(x)  log_printf
+#define LOG(x)  log_printf x
 #else
 #define LOG(x)
 #endif
