@@ -34,6 +34,8 @@
 #include "log.h"
 
 #define VOC_MAX 0x6fc00c   /* taken from sound conversion program */
+#define VOC_HEADER_LEN       26
+#define VOC_BLOCK_HEADER_LEN 16
 
 static FILE *voc_fd = NULL;
 static int samples = 0;
@@ -43,8 +45,8 @@ static int extra_block = 0;
 static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* VOC header. */
-    unsigned char header[26] = "Creative Voice File\032\032\0\024\001\037\021";
-    unsigned char block_header[16] = "\011sssrrrr\026c\004\0\0\0\0\0";
+    unsigned char header[VOC_HEADER_LEN + 1] = "Creative Voice File\032\032\0\024\001\037\021";
+    unsigned char block_header[VOC_BLOCK_HEADER_LEN + 1] = "\011sssrrrr\026c\004\0\0\0\0\0";
     uint32_t sample_rate = (uint32_t)*speed;
 
     voc_fd = fopen(param ? param : "vicesnd.voc", MODE_WRITE);
@@ -55,7 +57,7 @@ static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     samples = 0;
     extra_block = 0;
 
-    if (fwrite(header, 1, 26, voc_fd) != 26) {
+    if (fwrite(header, 1, VOC_HEADER_LEN, voc_fd) != VOC_HEADER_LEN) {
         fclose(voc_fd);
         return 1;
     }
@@ -69,7 +71,7 @@ static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     block_header[6] = (uint8_t)((sample_rate >> 16) & 0xff);
     block_header[7] = (uint8_t)((sample_rate >> 24) & 0xff);
 
-    return (fwrite(block_header, 1, 16, voc_fd) != 16);
+    return (fwrite(block_header, 1, VOC_BLOCK_HEADER_LEN, voc_fd) != VOC_BLOCK_HEADER_LEN);
 }
 
 static int voc_write(int16_t *pbuf, size_t nr)

@@ -33,6 +33,9 @@
 #include "archdep.h"
 #include "log.h"
 
+#define IFF_MONO_HEADER_LEN     48
+#define IFF_STEREO_HEADER_LEN   60
+
 static FILE *iff_fd = NULL;
 static int samples = 0;
 static int stereo = 0;
@@ -40,8 +43,8 @@ static int stereo = 0;
 static int iff_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* IFF/8SVX header. */
-    unsigned char mono_header[48] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
-    unsigned char stereo_header[60] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
+    unsigned char mono_header[IFF_MONO_HEADER_LEN + 1] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
+    unsigned char stereo_header[IFF_STEREO_HEADER_LEN + 1] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
 
     uint16_t sample_rate = (uint16_t)*speed;
 
@@ -58,7 +61,7 @@ static int iff_init(const char *param, int *speed, int *fragsize, int *fragnr, i
         stereo = 1;
         stereo_header[32] = (uint8_t)((sample_rate >> 8) & 0xff);
         stereo_header[33] = (uint8_t)(sample_rate & 0xff);
-        if (fwrite(stereo_header, 1, 60, iff_fd) != 60) {
+        if (fwrite(stereo_header, 1, IFF_STEREO_HEADER_LEN, iff_fd) != IFF_STEREO_HEADER_LEN) {
             fclose(iff_fd);
             return 1;
         }
@@ -66,7 +69,7 @@ static int iff_init(const char *param, int *speed, int *fragsize, int *fragnr, i
         stereo = 0;
         mono_header[32] = (uint8_t)((sample_rate >> 8) & 0xff);
         mono_header[33] = (uint8_t)(sample_rate & 0xff);
-        if (fwrite(mono_header, 1, 48, iff_fd) != 48) {
+        if (fwrite(mono_header, 1, IFF_MONO_HEADER_LEN, iff_fd) != IFF_MONO_HEADER_LEN) {
             fclose(iff_fd);
             return 1;
         }

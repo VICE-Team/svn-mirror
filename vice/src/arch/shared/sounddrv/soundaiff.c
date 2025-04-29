@@ -33,6 +33,8 @@
 #include "archdep.h"
 #include "log.h"
 
+#define AIFF_HEADER_LEN 54
+
 static FILE *aiff_fd = NULL;
 static int samples = 0;
 
@@ -42,7 +44,7 @@ static int aiff_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     unsigned int check_value;
 
     /* AIFF header. */
-    unsigned char header[54] = "FORMssssAIFFCOMM\0\0\0\022\0cffff\0\020\100rrr\0\0\0\0\0\0SSNDssss\0\0\0\0\0\0\0\0";
+    unsigned char header[AIFF_HEADER_LEN + 1] = "FORMssssAIFFCOMM\0\0\0\022\0cffff\0\020\100rrr\0\0\0\0\0\0SSNDssss\0\0\0\0\0\0\0\0";
 
     uint32_t sample_rate = (uint32_t)*speed;
 
@@ -69,7 +71,7 @@ static int aiff_init(const char *param, int *speed, int *fragsize, int *fragnr, 
         check_value = check_value * 2;
     }
 
-    return (fwrite(header, 1, 54, aiff_fd) != 54);
+    return (fwrite(header, 1, AIFF_HEADER_LEN, aiff_fd) != AIFF_HEADER_LEN);
 }
 
 static int aiff_write(int16_t *pbuf, size_t nr)
