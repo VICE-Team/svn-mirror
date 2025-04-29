@@ -110,11 +110,12 @@ typedef struct joy_priv_s {
 
 
 /* Forward declarations */
-static bool bsd_joy_open     (joystick_device_t *joydev);
-static void bsd_joy_poll     (joystick_device_t *joydev);
-static void bsd_joy_close    (joystick_device_t *joydev);
-static void bsd_joy_customize(joystick_device_t *joydev);
-static void joy_priv_free    (void *priv);
+static bool        bsd_joy_open     (joystick_device_t *joydev);
+static void        bsd_joy_poll     (joystick_device_t *joydev);
+static void        bsd_joy_close    (joystick_device_t *joydev);
+static void        bsd_joy_customize(joystick_device_t *joydev);
+static joy_priv_t *joy_hid_open     (const char *node);
+static void        joy_priv_free    (void *priv);
 
 
 /** \brief  Log for BSD joystick driver */
@@ -140,14 +141,14 @@ static joy_priv_t *joy_priv_new(void)
 {
     joy_priv_t *priv = lib_malloc(sizeof *priv);
 
-    priv->buffer   = NULL;
-    priv->rep_desc = NULL;
-    priv->rep_size = 0;
-    priv->fd       = -1;
-    priv->rep_id   = 0;
-    priv->prev_axes = NULL;
+    priv->buffer       = NULL;
+    priv->rep_desc     = NULL;
+    priv->rep_size     = 0;
+    priv->fd           = -1;
+    priv->rep_id       = 0;
+    priv->prev_axes    = NULL;
     priv->prev_buttons = NULL;
-    priv->prev_hats = NULL;
+    priv->prev_hats    = NULL;
     return priv;
 }
 
@@ -163,16 +164,16 @@ static void joy_priv_free(void *priv)
     joy_priv_t *p = priv;
 
     if (p != NULL) {
-        if (p->fd >= 0) {
-            close(p->fd);
-        }
-        lib_free(p->buffer);
+       lib_free(p->buffer);
         if (p->rep_desc != NULL) {
             hid_dispose_report_desc(p->rep_desc);
         }
         lib_free(p->prev_axes);
         lib_free(p->prev_buttons);
         lib_free(p->prev_hats);
+        if (p->fd >= 0) {
+            close(p->fd);
+        }
         lib_free(p);
     }
 }
@@ -183,7 +184,25 @@ static void joy_priv_free(void *priv)
  */
 static bool bsd_joy_open (joystick_device_t *joydev)
 {
-    return true;    /* NOP */
+    if (joydev != NULL) {
+        joy_priv_t *priv = joydev->priv;
+
+        if (priv == NULL) {
+            log_error(bsd_joy_log,
+                      "%s(): failed to open device %s",
+                      __func__, joydev->node);
+            return false;   /* error opening device, already reported */
+        }
+        priv->fd = open(joydev->node, O_RDONLY|O_NONBLOCK);
+        if (priv->fd < 0) {
+            log_error(bsd_joy_log,
+                      "%s(): failed to open device %s: %d: %s",
+                      __func__, joydev->node, errno, strerror(errno));
+            return false;
+        }
+        return true;
+    }
+    return false;
 }
 
 /** \brief  Poll joystick device
@@ -304,8 +323,12 @@ static void bsd_joy_poll(joystick_device_t *joydev)
 static void bsd_joy_close(joystick_device_t *joydev)
 {
     if (joydev != NULL && joydev->priv != NULL) {
-        joy_priv_free(joydev->priv);
-        joydev->priv = NULL;
+        joy_priv_t *priv = joydev->priv;
+
+        if (priv->fd >= 0) {
+            close(priv->fd);
+            priv->fd = -1;
+        }
     }
 }
 
@@ -352,9 +375,9 @@ static char *full_node_path(const char *node)
  * the report ID and size and allocates a \c joy_priv_t instance with all that
  * data.
  *
- * \param[in]   node    path in <tt>/dev/</tt> to the device
+ * \param[in]   node    path in \c /dev/ to the device
  *
- * \return  new initialized \c joy_priv_t instance or <tt>NULL</tt> on error
+ * \return  new initialized \c joy_priv_t instance or \c NULL on error
  */
 static joy_priv_t *joy_hid_open(const char *node)
 {
@@ -404,11 +427,11 @@ static joy_priv_t *joy_hid_open(const char *node)
     /* success: allocate private data object and store what we need for polling
      * and further querying */
     priv = joy_priv_new();
-    priv->buffer   = lib_malloc((size_t)rep_size);
-    priv->rep_desc = rep_desc;
-    priv->rep_size = rep_size;
-    priv->rep_id   = rep_id;
-    priv->fd       = fd;
+    priv->buffer       = lib_malloc((size_t)rep_size);
+    priv->rep_desc     = rep_desc;
+    priv->rep_size     = rep_size;
+    priv->rep_id       = rep_id;
+    priv->fd           = fd;
 
     return priv;
 }
@@ -619,6 +642,8 @@ void joystick_arch_init(void)
         node   = full_node_path(namelist[n]->d_name);
         joydev = scan_device(node);
         if (joydev != NULL) {
+            joy_priv_t *priv;
+
             log_message(bsd_joy_log, "%s: %s", joydev->node, joydev->name);
 
             /* scan axes, buttons and hats */
@@ -631,14 +656,13 @@ void joystick_arch_init(void)
                                 joydev->node, joydev->name);
                     joystick_device_free(joydev);
                 } else {
-                    /* allocate arrays for previous values of inputs */
-                    joy_priv_t *priv = joydev->priv;
-
-                    priv->prev_axes    = lib_malloc((size_t)joydev->num_axes *
+                    priv = joydev->priv;
+                    /* allocate arrays for previous input states */
+                    priv->prev_axes    = lib_calloc((size_t)joydev->num_axes,
                                                     sizeof *priv->prev_axes);
-                    priv->prev_buttons = lib_malloc((size_t)joydev->num_buttons *
+                    priv->prev_buttons = lib_calloc((size_t)joydev->num_buttons,
                                                     sizeof *priv->prev_buttons);
-                    priv->prev_hats    = lib_malloc((size_t)joydev->num_hats *
+                    priv->prev_hats    = lib_calloc((size_t)joydev->num_hats,
                                                     sizeof *priv->prev_hats);
                 }
             } else {
@@ -648,6 +672,10 @@ void joystick_arch_init(void)
                             joydev->node, joydev->name);
                 joystick_device_free(joydev);
             }
+
+            /* close device */
+            priv = joydev->priv;
+            close(priv->fd);
         }
         lib_free(node);
         free(namelist[n]);

@@ -26,7 +26,8 @@
  */
 
 #include "vice.h"
-
+#include <stdbool.h>
+#include <stdint.h>
 #include "joyport.h"
 #include "joystick.h"
 #include "lib.h"
@@ -54,8 +55,11 @@
  * Contains arch-specific data of a joystick device.
  */
 typedef struct joy_priv_s {
-    GUID                 guid;  /**< GUID */
-    LPDIRECTINPUTDEVICE8 didev; /**< DirectInput device instance */
+    GUID                 guid;      /**< GUID */
+    LPDIRECTINPUTDEVICE8 didev;     /**< DirectInput device instance */
+    bool                 acquired;  /**< device has been acquired (DirectInput
+                                         doesn't provide any method to determine
+                                         if a device is acquired) */
     LONG                 prev_axes[DIJS2_MAX_AXES];         /**< prev state of axes */
     BYTE                 prev_buttons[DIJS2_MAX_BUTTONS];   /**< prev state of buttons */
     WORD                 prev_hats[DIJS2_MAX_HATS];         /**< prev state of POVs */
@@ -82,7 +86,8 @@ static log_t winjoy_log = LOG_DEFAULT;
 static joy_priv_t *joy_priv_new(void)
 {
     joy_priv_t *priv = lib_calloc(sizeof *priv, 1);
-    priv->didev = NULL;
+    priv->didev    = NULL;
+    priv->acquired = false;
     /* set POV values to neutral (0xffff) */
     memset(priv->prev_hats, 0xff, sizeof priv->prev_hats);
     return priv;
@@ -124,11 +129,13 @@ static bool win32_joy_open(joystick_device_t *joydev)
 
     result = IDirectInputDevice8_Acquire(priv->didev);
     if (SUCCEEDED(result)) {
-        return true;
+        priv->acquired = true;
+    } else {
+        log_error(winjoy_log, "failed to acquire device \"%s\": error 0x%08lx",
+                  joydev->name, (unsigned long)result);
+        priv->acquired = false;
     }
-    log_error(winjoy_log, "failed to acquire device \"%s\": error 0x%08lx",
-              joydev->name, (unsigned long)result);
-    return false;
+    return priv->acquired;
 }
 
 /** \brief  Joystick drive poll() method
@@ -166,7 +173,11 @@ static void win32_joy_poll(joystick_device_t *joydev)
     HRESULT result;
 
     /* poll device */
-    priv   = joydev->priv;
+    priv = joydev->priv;
+    if (!priv->acquired) {
+        /* not open, done */
+        return;
+    }
     result = IDirectInputDevice8_Poll(priv->didev);
     if (result != DI_OK && result != DI_NOEFFECT) {
         return;
@@ -225,9 +236,6 @@ static void win32_joy_poll(joystick_device_t *joydev)
          * is reported as 0xffff.
          * Translate position on a circle to joystick directions, clockwise
          * from North through to Northwest */
-#if 0
-        printf("HAT %d: %u\n", i, (unsigned int)value);
-#endif
         if (value == 0xffff) {
             /* report neutral position */
             direction = JOYSTICK_DIRECTION_NONE;
@@ -238,33 +246,6 @@ static void win32_joy_poll(joystick_device_t *joydev)
             WORD hidx = ((value + 2250) % 36000) / 4500;
             direction = hat_map[hidx];
         }
-#if 0
-        } else if (value >= 33750 || value < 2250) {
-            /* North */
-            direction = JOYSTICK_DIRECTION_UP;
-        } else if (value >= 2250 && value < 6750) {
-            /* Northeast */
-            direction = JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_RIGHT;
-        } else if (value >= 6750 && value < 11250) {
-            /* East */
-            direction = JOYSTICK_DIRECTION_RIGHT;
-        } else if (value >= 11250 && value < 15750) {
-            /* Southeast */
-            direction = JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_RIGHT;
-        } else if (value >= 15750 && value < 20250) {
-            /* South */
-            direction = JOYSTICK_DIRECTION_DOWN;
-        } else if (value >= 20250 && value < 24750) {
-            /* Southwest */
-            direction = JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_LEFT;
-        } else if (value >= 24750 && value < 29250) {
-            /* West */
-            direction = JOYSTICK_DIRECTION_LEFT;
-        } else if (value >= 29250 && value < 33750) {
-            /* Northwest */
-            direction = JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_LEFT;
-        }
-#endif
         joy_hat_event(hat, direction);
     }
 }
@@ -278,6 +259,7 @@ static void win32_joy_close(joystick_device_t *joydev)
     joy_priv_t *priv = joydev->priv;
 
     IDirectInputDevice8_Unacquire(priv->didev);
+    priv->acquired = false;
 }
 
 
@@ -464,12 +446,6 @@ static BOOL enum_devices_callback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
                                     enum_objects_callback,
                                     (LPVOID)joydev,
                                     DIDFT_ABSAXIS|DIDFT_BUTTON|DIDFT_POV);
-
-    /* Open device manually for polling, until the driver's open() method has
-     * been properly implemented and tested (changing resource "JoyDeviceN"
-     * should close the old device and open the new one)
-     */
-    win32_joy_open(joydev);
 
     /* register device and continue */
     joystick_device_register(joydev);
