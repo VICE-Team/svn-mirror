@@ -164,8 +164,16 @@ int joy_sdl_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Driver methods
+ */
+
 static bool sdl_joystick_open(joystick_device_t *joydev)
 {
+    /* NOP: SDL has its own mechanism for opening/closing devices and appears
+     * to just keep all host devices it found open. We return `true` here to
+     * avoid resource setters triggering an error.
+     */
     return true;
 }
 
@@ -176,18 +184,17 @@ static void sdl_joystick_poll(joystick_device_t *joydev)
 
 static void sdl_joystick_close(joystick_device_t *joystick)
 {
-#if 0
-    SDL_JoystickClose(joystick);
-    lib_free(joy_ordinal_to_id);
-    joy_ordinal_to_id = NULL;
-#endif
+    /* NOP: The actual call to SDL_JoystickClose() happens on emulator shutdown,
+     * not when closing via VICE's driver */
 }
 
 
+/** \brief  SDL-specific host device data
+ */
 typedef struct joy_priv_s {
-    SDL_Joystick        *sdldev;
-    VICE_SDL_JoystickID  id;
-    int                  joynum;
+    SDL_Joystick        *sdldev;    /**< SDL device reference */
+    VICE_SDL_JoystickID  id;        /**< joystick ID used by VICE */
+    int                  joynum;    /**< joystick index according to SDL */
 } joy_priv_t;
 
 

@@ -431,9 +431,11 @@ void joystick_arch_init(void)
         joydev = scan_device(namelist[i]->d_name);
         if (joydev != NULL) {
             joystick_device_register(joydev);
+#if 0
             /* open joystick: REMOVE once we have opening/closing via resource
              * and manually implemented properly */
             linux_joystick_evdev_open(joydev);
+#endif
       }
     }
     free(namelist);

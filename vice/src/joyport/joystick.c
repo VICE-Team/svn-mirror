@@ -105,6 +105,17 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
+
+/** \brief  Joystick system has been initialized
+ *
+ * Used to prevent the resource setters from trying to open host joystick
+ * devices that aren't yet available.
+ * The resource setters can only open devices *after* the joystick system has
+ * been fully initialized (and available host devices actually registered),
+ * which isn't the case when resources are initially set via command line.
+ */
+bool joystick_init_done = false;
+
 static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
@@ -823,12 +834,28 @@ static joystick_device_t **joystick_devices = NULL;
 
 static int set_joystick_device(int val, void *param)
 {
-    int port_idx = vice_ptr_to_int(param);
+    joystick_device_t *joydev;
+    int                port_idx = vice_ptr_to_int(param);
+
+    if (val == joystick_port_map[port_idx]) {
+        /* same device, exit */
+        return 0;
+    }
 
     if (joystick_port_map[port_idx] >= JOYDEV_REALJOYSTICK_MIN) {
         int olddev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (olddev < num_joystick_devices) {
             joystick_devices[olddev]->joyport = -1;
+            /* close old device */
+            if (joystick_init_done) {
+                joydev = joystick_device_by_index(olddev);
+#if 0
+                log_message(joy_log,
+                            "resource JoyDevice%d: closing old device %d (%s)",
+                            port_idx, olddev, joydev->name);
+#endif
+                joystick_device_close(joydev);
+            }
         }
     }
 
@@ -842,6 +869,18 @@ static int set_joystick_device(int val, void *param)
             for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
                 if (i != port_idx && joystick_port_map[port_idx] == joystick_port_map[i]) {
                     joystick_port_map[i] = JOYDEV_NONE;
+                }
+            }
+            /* open device for polling */
+            if (joystick_init_done) {
+                joydev = joystick_device_by_index(newdev);
+#if 0
+                log_message(joy_log,
+                            "resource JoyDevice%d: opening device %d (%s)",
+                            port_idx, newdev, joydev->name);
+#endif
+                if (!joystick_device_open(joydev)) {
+                    return -1;
                 }
             }
         }
@@ -2707,6 +2746,7 @@ int joystick_cmdline_options_init(void)
 int joystick_init(void)
 {
     int res = -1;
+    int i;
 
     joy_log = log_open("Joystick");
 
@@ -2728,11 +2768,18 @@ int joystick_init(void)
     joystick_arch_init();
 #endif
 
-    int i;
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        if (joystick_port_map[i] >= JOYDEV_REALJOYSTICK_MIN) {
-            if (joystick_port_map[i] - JOYDEV_REALJOYSTICK_MIN < num_joystick_devices) {
-                joystick_devices[joystick_port_map[i] - JOYDEV_REALJOYSTICK_MIN]->joyport = i;
+        int devnum = joystick_port_map[i];
+
+        if (devnum >= JOYDEV_REALJOYSTICK_MIN) {
+            if (devnum - JOYDEV_REALJOYSTICK_MIN < num_joystick_devices) {
+                joystick_device_t *joydev = joystick_devices[devnum - JOYDEV_REALJOYSTICK_MIN];
+
+                joydev->joyport = i;
+                log_message(joy_log,
+                            "joystick_init(): resource JoyDevice%d: opening device %d (%s)",
+                            i + 1, devnum - JOYDEV_REALJOYSTICK_MIN, joydev->name);
+                joystick_device_open(joydev);
             } else {
                 joystick_port_map[i] = JOYDEV_NONE;
             }
@@ -2746,6 +2793,10 @@ int joystick_init(void)
     if (res < 0) {
         log_warning(joy_log, "using minimal default mapping.");
     }
+
+    /* mark joystick init done so any future resource setter calls can open and
+     * close devices */
+    joystick_init_done = true;
 
     return 1;
 }
@@ -4180,4 +4231,21 @@ void joystick_device_clear_mappings(joystick_device_t *joydev)
         joystick_hat_clear_mappings(joydev->hats[i]);
     }
 
+}
+
+
+bool joystick_device_open(joystick_device_t *joydev)
+{
+    if (joydev != NULL && joy_driver.open != NULL) {
+        return joy_driver.open(joydev);
+    }
+    return false;
+}
+
+
+void joystick_device_close(joystick_device_t *joydev)
+{
+    if (joydev != NULL && joy_driver.close != NULL) {
+        joy_driver.close(joydev);
+    }
 }

@@ -351,6 +351,9 @@ typedef struct joystick_driver_s {
 } joystick_driver_t;
 
 
+extern bool joystick_init_done;
+
+
 int joystick_init(void);
 int joystick_resources_init(void);
 int joystick_cmdline_options_init(void);
@@ -448,6 +451,8 @@ void               joystick_driver_register  (const joystick_driver_t *driver);
 joystick_device_t *joystick_device_new       (void);
 void               joystick_device_free      (joystick_device_t *joydev);
 bool               joystick_device_register  (joystick_device_t *joydev);
+bool               joystick_device_open      (joystick_device_t *joydev);
+void               joystick_device_close     (joystick_device_t *joydev);
 
 joystick_device_t *joystick_device_by_index  (int index);
 int                joystick_device_count     (void);
