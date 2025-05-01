@@ -356,9 +356,9 @@ static int tapeport_device_resources_init(int amount)
 
     /* The WordCraft dongle is only for PETs */
     if (machine_class == VICE_MACHINE_PET) {
-	if (wordcraft_dongle_resources_init(amount) < 0) {
-	    return -1;
-	}
+        if (wordcraft_dongle_resources_init(amount) < 0) {
+            return -1;
+        }
     }
 
     /* Only use tapecart device and dtl basic dongle on c64/c128 */
