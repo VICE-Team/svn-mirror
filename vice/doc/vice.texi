@@ -8566,6 +8566,9 @@ Set the device attached to the second tape port (xpet only, see table below):
 @item 6
 @tab tapecart
 @tab x64, x64sc, x128
+@item 7
+@tab WordCraft dongle
+@tab xpet
 @end multitable
 
 @table @code
@@ -16915,7 +16918,7 @@ applied to the CB2 sound signal.
 @node Colour PET
 @subsection Colour PET
 The Colour PET is a simple extension by Steve Gray
-@uref{http://www.6502.org/users/sjgray/projects/colourpet/}. It exploits
+@uref{http://cbmsteve.ca/colourpet/index.html}. It exploits
 the similarities and differences between the 4032 and 8032 models, to
 use memory at $8800 as colour RAM.
 
@@ -36167,12 +36170,14 @@ outdated mess. And various fixes and improvements.
 @b{Olaf Seibert}
 Contributed some PET, including PET DWW hires, Xaw, lightpen,
 hardware scaling, and disk drive patches. Added proper SuperPET
-support, including 6809/6309 CPU emulation. Maintained the Xaw UI.
+support, including 6809/6309 CPU emulation and 6702 'dongle' chip.
+Maintained the Xaw UI.
 Added PET HRE (High Res Emulator) board emulation. Added the
 2-chip colour board for the Universal PET mainboard. Added
 support for 'printer/plotter' Commodore 1520. Overhauled internals
 of VIA and CIA code. Corrected pre-CRTC PET display timing.
 REL-file support for the filesystem device and c1541.
+Added WordCraft dongle.
 
 @item
 @b{Marcus Sutton}

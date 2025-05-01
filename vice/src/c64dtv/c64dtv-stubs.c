@@ -108,6 +108,9 @@ void machine_set_tape_motor_in(int port, int val)
 void machine_trigger_flux_change(int port, unsigned int on)
 {
 }
+void machine_set_tape_read_in(int port, unsigned int on)
+{
+}
 void machine_set_tape_sense(int port, int sense)
 {
 }
