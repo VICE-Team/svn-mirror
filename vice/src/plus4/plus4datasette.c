@@ -38,6 +38,13 @@ void machine_trigger_flux_change(int port, unsigned int on)
     }
 }
 
+void machine_set_tape_read_in(int port, unsigned int on)
+{
+    if (port == TAPEPORT_PORT_1) {
+        mem_proc_port_trigger_flux_change(on);
+    }
+}
+
 void machine_set_tape_sense(int port, int sense)
 {
     if (port == TAPEPORT_PORT_1) {

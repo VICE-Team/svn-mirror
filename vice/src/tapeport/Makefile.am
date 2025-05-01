@@ -23,6 +23,8 @@ libtapeport_a_SOURCES = \
 	dtl-basic-dongle.h \
 	sense-dongle.c \
 	sense-dongle.h \
+	wordcraft-dongle.c \
+	wordcraft-dongle.h \
 	tape_diag_586220_harness.c \
 	tape_diag_586220_harness.h \
 	tapecart.c \

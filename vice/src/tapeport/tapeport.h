@@ -44,6 +44,7 @@ enum {
     TAPEPORT_DEVICE_SENSE_DONGLE,
     TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS,
     TAPEPORT_DEVICE_TAPECART,
+    TAPEPORT_DEVICE_WORDCRAFT_DONGLE,
 
     /* This item always needs to be at the end */
     TAPEPORT_MAX_DEVICES
@@ -130,6 +131,7 @@ void tapeport_powerup(void);
 int tapeport_valid_port(int port);
 
 void tapeport_trigger_flux_change(unsigned int on, int port);
+void tapeport_set_read_in(unsigned int on, int port);
 void tapeport_set_tape_sense(int sense, int port);
 void tapeport_set_write_in(int val, int port);
 void tapeport_set_motor_in(int val, int port);
