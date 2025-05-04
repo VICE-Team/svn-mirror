@@ -296,7 +296,7 @@ static const mon_cmds_t mon_cmd_array[] = {
     },
 
     { "keybuf", "",
-      "\"<string>\"",
+      "<string>",
       "Put the specified string into the keyboard buffer.",
       NO_FILENAME_ARG
     },
@@ -661,19 +661,19 @@ static const mon_cmds_t mon_cmd_array[] = {
     },
 
     { "attach", "",
-      "<filename> <device>",
+      "\"<filename>\" <device>",
       "Attach file to device. (device 32 = cart)",
       FILENAME_ARG
     },
 
     { "autostart", "",
-      "<filename> [file_index]",
+      "\"<filename>\" [file_index]",
       "Autostart a given disk/tape image or program.",
       FILENAME_ARG
     },
 
     { "autoload", "",
-      "<filename> [file_index]",
+      "\"<filename>\" [file_index]",
       "Autoload given disk/tape image or program.",
       FILENAME_ARG
     },
@@ -727,7 +727,7 @@ static const mon_cmds_t mon_cmd_array[] = {
     },
 
     { "list", "",
-      "[<Directory>]",
+      "[<device>]",
       "List disk contents.",
       NO_FILENAME_ARG
     },
