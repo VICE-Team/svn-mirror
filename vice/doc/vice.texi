@@ -20639,7 +20639,7 @@ Specify the type of CPU currently used (6502/z80).
 @itemx exp
 Print out list of attached expansion port devices.
 
-@item keybuf "<string>"
+@item keybuf <string>
 Put the specified string into the keyboard buffer. Note that you can specify
 specific keycodes by using C-style escaped hexcodes ("\x0a").
 
@@ -20886,8 +20886,14 @@ Create directory.
 @item rmdir <directory>
 Remove directory.
 
-@item attach <filename> <device>
+@item attach "<filename>" <device>
 Attach file to device. (device 32 = cart)
+
+@item autostart "<filename>" [file_index]
+Autostart a given disk/tape image or program.
+
+@item autoload "<filename>" [file_index]
+Autoload given disk/tape image or program.
 
 @item block_read <track> <sector> [<address>]
 @itemx br <track> <sector> [<address>]
@@ -20910,7 +20916,7 @@ can not be sent to the actual drive emulation and must be handled by the virtual
 drive implementation. As a consequence, all limitations of the virtual drives
 apply. Use the regular monitor commands to eg execute code in the drive.
 
-@item list [<directory>]
+@item list [<device>]
 List disk contents.
 
 @item load "<filename>" <device> [<address>]
