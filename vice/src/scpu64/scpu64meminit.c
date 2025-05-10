@@ -277,7 +277,12 @@ void scpu64meminit(void)
                     break;
                 case KT:
                     mem_read_tab_set(k, j, ram1_read);
+#if 0
                     mem_read_base_set(k, j, mem_trap_ram - 0xe000);
+#else
+                    mem_read_base_set(k, j, (uint8_t*)(0 - 0xe000));
+                    mem_read_addr_set(k, j, (uintptr_t)mem_trap_ram);
+#endif
                     /* write hook preset, ram */
                     break;
                 case KS:
@@ -413,7 +418,12 @@ void scpu64meminit(void)
                     break;
                 case CR:
                     mem_read_tab_set(k, j, chargen_read);
+#if 0
                     mem_read_base_set(k, j, mem_chargen_rom - 0xd000);
+#else
+                    mem_read_base_set(k, j, (uint8_t*)(0 - 0xd000));
+                    mem_read_addr_set(k, j, (uintptr_t)mem_chargen_rom);
+#endif
                     /* write hook preset, ram */
                     break;
                 }
