@@ -67,7 +67,7 @@ static void sdl_ui_image_file_selector_redraw(image_contents_t *contents, const 
     int i, j;
     char* title_string;
     char* name;
-    uint8_t oldbg;
+    uint8_t oldbg = 0;
     image_contents_file_list_t *entry;
 
     title_string = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
