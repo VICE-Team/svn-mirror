@@ -479,8 +479,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_SUPEREXPANDER   7   /* superexpander.c */
 #define CARTRIDGE_VIC20_MIKRO_ASSEMBLER 8   /* mikroassembler.c */
 #define CARTRIDGE_VIC20_WRITE_NOW       9   /* writenow.c */
+#define CARTRIDGE_VIC20_MINIMON         10  /* minimon.c */
 
-#define CARTRIDGE_VIC20_LAST            9   /* cartconv: last cartridge in list */
+#define CARTRIDGE_VIC20_LAST            10  /* cartconv: last cartridge in list */
 
 /*
  * VIC20 Generic cartridges
@@ -545,6 +546,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_VIC20_NAME_IO3_RAM         "I/O-3 RAM"
 #define CARTRIDGE_VIC20_NAME_IEEE488         "VIC-1112 IEEE-488 Interface"  /*https://sleepingelephant.com/denial/wiki/index.php/File:Chipitos.be-VIC-1112.jpg */
 #define CARTRIDGE_VIC20_NAME_MIDI            "MIDI"
+#define CARTRIDGE_VIC20_NAME_MINIMON         "Minimon"
 #define CARTRIDGE_VIC20_NAME_SIDCART         "SIDCART"
 #define CARTRIDGE_VIC20_NAME_RABBIT          "Rabbit Tape"
 #define CARTRIDGE_VIC20_NAME_SUPEREXPANDER   "Super Expander"
@@ -639,8 +641,10 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_SIZE_8MB      CARTRIDGE_SIZE_8192KB
 #define CARTRIDGE_SIZE_16MB     CARTRIDGE_SIZE_16384KB
 
-#define CARTRIDGE_FILETYPE_BIN  1
-#define CARTRIDGE_FILETYPE_CRT  2
+#define CARTRIDGE_FILETYPE_NONE     0 /* implies "no file" */
+#define CARTRIDGE_FILETYPE_BIN      1
+#define CARTRIDGE_FILETYPE_CRT      2
+#define CARTRIDGE_FILETYPE_SNAPSHOT 3 /* file is embedded into a snapshot */
 
 /* FIXME: merge the cartridge list with the one used by cartconv */
 

@@ -147,6 +147,7 @@ libwidgets_a_SOURCES = \
 	settings_megacart.c \
 	settings_midi.c \
 	settings_misc.c \
+	settings_minimon.c \
 	settings_mixer.c \
 	settings_mmc64.c \
 	settings_mmcr.c \
@@ -318,6 +319,7 @@ EXTRA_DIST = \
 	settings_megacart.h \
 	settings_midi.h \
 	settings_misc.h \
+	settings_minimon.h \
 	settings_mixer.h \
 	settings_mmc64.h \
 	settings_mmcr.h \

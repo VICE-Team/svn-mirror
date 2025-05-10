@@ -14378,10 +14378,221 @@ SYS32592
 @end itemize
 
 @node VIC20 cartridges, VIC20 memory expansions, VIC20-specific, VIC20-specific
-@subsection Using cartridge images
+
+@subsection Using cartridges
+
+Generally a cartridge can be enabled by attaching its respective cartridge
+image, or using the respective menu option for cartridges that do not
+require an image.
+
+@dfn{Cartridge images} are like disk images, but contain the contents of
+cartridge ROM and/or RAM images instead of disk images. Two kinds of cartridge
+images are supported:
+
+@itemize @bullet
+@item
+@file{.crt} images, as originally used by the CCS64 emulator by Per Håkan Sundell
+@item
+raw @file{.bin} images, without load address
+@item
+raw @file{.prg} images, with load address
+@end itemize
+
+Use cartconv to convert .bin or .prg images to .crt format.
+
+To attach cartridges, use the ``Attach a cartridge image'' submenu. When using
+@file{.crt} images, this will work for every cartridge which is supported. For
+raw @file{.bin} or @file{.prg} images you will have to select the correct type
+of cartridge first, or use command line options.
+
+When you have successfully attached a cartridge image,
+you should then reset the machine to make sure the cartridge initializes
+itself. (Or enable the "reset on cartridge change" option).
+
+Of course, it is also possible to detach a currently attached
+cartridge image (``Detach cartridge image'').
+
+The cartridge system is organized in "Slots" to allow more than one cartridge
+connected at a time, like it can be done using an expansion port expander on
+a real VIC20 (see below).
+
+The imaginary expansion port expander is organized in 4 slots, the
+cartridges are associated with them like this:
+
+@c @node FIXME
+@subsubsection Slot 0
+
+All carts that have a passthrough connector go here. Once a "Slot 0"
+cartridge is enabled all further cartridges are connected to its respective
+passthrough port.
+
+Only one cartridge of this type can be active at a time.
+
+"Slot 0" carts have individual "enable" switches, enabling means enabling permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+Minimon
+@end itemize
+
+
+@c @node FIXME
+@subsubsection Slot 1
+
+Mostly RAM based cartridges which for one reason or the other might make sense
+to be enabled together with one of the "Main Slot" cartridges go here.
+
+Only one cartridge of this type can be active at a time.
+
+"Slot 1" carts have individual "enable" switches, enabling means enabling permanently
+
+Currently no cartridges use this slot
+
+
+@c @node FIXME
+@subsubsection Main Slot
+
+All other cartridges which are not pure i/o extensions go here.
+
+Only one cartridge of this type can be active at a time.
+
+Cartridges in the "Main Slot" must be explicitly set as default to enable them permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+generic 4KiB, 8KiB and 16KiB cartridges located at $2000, $4000, $6000, $a000, $b000 (see below)
+@item
+Behrbonz
+@item
+Final Expansion
+@item
+Megacart
+@item
+Mikro Assembler
+@item
+Rabbit tape turbo
+@item
+Super Expander
+@item
+Ultimem
+@item
+VIC Flash Plugin
+@item
+Write Now
+@end itemize
+
+
+@c @node FIXME
+@subsubsection I/O Slot
+
+All carts that are pure I/O extensions go here.
+
+Any number of "I/O Slot" Carts may be active at a time.
+
+"I/O Slot" carts have individual "enable" switches, enabling means enabling permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+ACIA (Swiftlink, Turbo232)
+@item
+MIDI (Passport/Syntech, Datel/Siel/JMS/C-Lab, Maplin, Namesoft, Sequential)
+@item
+RAM Expansion Module (REU)
+@item
+SID Cartridge
+@item
+VIC1112 IEEE-488 Interface
+@end itemize
+
+On top of that, xvic emulates the "Masquerade" IO expander, which make it possible
+to use (some) C64 cartridges at the VIC20:
+
+@itemize @bullet
+@item
+ACIA (Swiftlink, Turbo232)
+@item
+DigiMAX
+@item
+DS12C887 RTC
+@item
+Ethernet (The Final Ethernet, RR-Net)
+@item
+GEO-RAM
+@item
+SFX Sound Expander
+@item
+SFX Sound Sampler
+@end itemize
+
+
+@c @node FIXME
+@subsubsection Expected behaviour
+
+When the emulator is run without arguments, all settings from the config file
+should be applied and arguments override settings from the config file.
+
+When saving the settings to the config file it is expected that on the next run
+of the emulator all settings will be in the same state as they were when saved.
+
+There is an exception to this rule: the cartridge in the "Main Slot" must be
+explicitly set as default before it gets saved to the config file.
+
+@code{+cart} should disable ALL cartridges, including eventually activated REU,
+Swiftlink and all similar expansionport devices.
+
+@code{-cartXYZ} options should generally attach AND activate a cart of type XYZ.
+As a consequence, attaching carts this way which are NOT in the "Main Slot" will
+also enable the cart permanently.
+
+@c @node FIXME
+@subsubsection Common problems
+
+If attaching a cartridge does not work as expected, this may be because of various
+reasons:
+
+@itemize @bullet
+
+@item Not seldomly VIC20 related files with @code{.crt} extension found "in the wild" are
+plain binaries, and not in actual @code{.crt} format - if in doubt use @code{cartconv}
+to verify and/or fix).
+
+@item You may have unintentionally enabled more than one cartridge at once, for
+example by saving the settings with GEORAM enabled, and then later attaching a game
+cartridge from the command-line. The cartridge system will allow certain combinations,
+but (as on the real thing) not all do (can) actually work. To make sure this is
+not the case, either detach all cartridges from the menus, or use @code{+cart}
+on the command-line.
+
+@item The cartridge image might be broken. Try one from a different source. If you
+are sure the dump is ok (for example because you dumped it yourself) then make sure
+it is in proper linear order (on some cartridges, for example "capture", address and/or
+data lines at the eprom are shuffled around so a dump made with an eprom burner can not
+be used as is).
+
+@item Last not least you might have encountered a bug in the emulation. If you
+suspect this is the case, and you can still reproduce the bug after checking the
+things above, please file a bug report including the following information:
+
+@itemize @bullet
+@item attach your vicerc and a reference to the cartridge binaries
+@item if you can, comment in the respective DEBUGXYZ macros prominently defined at the
+top of these files: src/vic20/cart/vic20cart.c src/vic20/cart/vic20cartmem.c src/vic20/vic20io.c
+src/vic20/vic20export.c and then recompile. this will add debug output that might make
+it much easier to locate certain problems.
+@end itemize
+
+@end itemize
+
+@subsubsection Using cartridge images
 
 As with the C64 (@pxref{C64 cartridges}), it is possible to attach
-several types of cartridge images:
+several types of generic cartridge images:
 
 @itemize @bullet
 @item
@@ -14464,6 +14675,10 @@ The following cartridge types are valid:
      7: Super Expander
 @item
      8: Mikro Assembler
+@item
+     9: Write Now
+@item
+    10: Minimon
 @item
   - 10: SID Cartridge
 @item
@@ -14651,10 +14866,26 @@ Boolean specifying whether the DS12C887 RTC data should be saved when changed or
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
 
-@vindex MachineVideoStandard
-@item MachineVideoStandard
-Integer that specifies the video standard of the emulated machine
-(1: PAL, 2: NTSC).
+@vindex MinimonFilename
+@item MinimonFilename
+String specifying the filename of the Minimon ROM image.
+
+@vindex MinimonEnabled
+@item MinimonEnabled
+Boolean specifying whether Minimon emulation is enabled.
+
+@vindex MinimonPgmSwitch
+@item MinimonPgmSwitch
+Boolean specifying whether the Minimon ROM is writeable.
+
+@vindex MinimonIoSwitch
+@item MinimonIoSwitch
+Boolean specifying whether the Minimon ROM is active in IO2/3 (default: enabled)
+
+@vindex MinimonImageWrite
+@item MinimonImageWrite
+Boolean specifying whether changes to the Minimon ROM will be written back to the
+ROM image file.
 
 @end table
 
@@ -14936,21 +15167,33 @@ Size of the GEORAM expansion unit
 (@code{GEORAMsize}).
 (512, 1024, 2048, 4096)
 
-@findex -model
-@item -model <model>
-Specify the VIC20 model you want to emulate
-(@code{MachineVideoStandard}, @code{RamBlock0}, @code{RamBlock1}, @code{RamBlock2}, @code{RamBlock3} and @code{RamBlock5}).
-(vic20/vic20pal/vic20ntsc, vic21)
+@findex -minimon, +minimon
+@item -minimon
+@itemx +minimon
+Enable/Disable the Minimon expansion
+(@code{MinimonEnabled=1}, @code{MinimonEnabled=0}).
 
-@findex -pal
-@item -pal
-Use PAL sync factor
-(@code{MachineVideoStandard=1}).
+@findex -minimonrom
+@item -minimonrom <name>
+Specify name of Minimon ROM image (@code{MinimonFilename}).
 
-@findex -ntsc
-@item -ntsc
-Use NTSC sync factor
-(@code{MachineVideoStandard=2}).
+@findex -minimonrw, -minimonro
+@item -minimonrw
+@itemx -minimonro
+Save/Do not save the Minimon ROM when changed
+(@code{MinimonImageWrite=1}, @code{MinimonImageWrite=0}).
+
+@findex -minimonpgm, +minimonpgm
+@item -minimonpgm
+@itemx +minimonpgm
+Set/Remove the Minimon PGM switch
+(@code{MinimonPgmSwitch=1}, @code{MinimonPgmSwitch=0}).
+
+@findex -minimonio, +minimonio
+@item -minimonio
+@itemx +minimonio
+Set/Remove the Minimon IO switch
+(@code{MinimonIoSwitch=1}, @code{MinimonIoSwitch=0}).
 
 @end table
 
@@ -14961,6 +15204,11 @@ Use NTSC sync factor
 @subsubsection VIC resources
 
 @table @code
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(1: PAL, 2: NTSC).
 
 @vindex VICVideoCache
 @item VICVideoCache
@@ -15100,6 +15348,22 @@ Boolean to enable/disable OpenGL 90 degree clockwise rotation.
 @subsubsection VIC command-line options
 
 @table @code
+
+@findex -model
+@item -model <model>
+Specify the VIC20 model you want to emulate
+(@code{MachineVideoStandard}, @code{RamBlock0}, @code{RamBlock1}, @code{RamBlock2}, @code{RamBlock3} and @code{RamBlock5}).
+(vic20/vic20pal/vic20ntsc, vic21)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=2}).
 
 @findex -VICvcache, +VICvcache
 @item -VICvcache
@@ -23618,6 +23882,8 @@ Behr Bonz
 Final Expansion
 @item mega
 Mega-Cart
+@item mini
+Minimon
 @item ma
 Mikro Assembler
 @item rabbit
@@ -35275,6 +35541,50 @@ This cartridge maps 4KiB ROM into block3 and 5 ($6000-$6fff, $a000-$afff), and 3
 This cartridge maps 8KiB ROM into block5 ($a000-$afff), plus the last 2KiB of the ROM are mapped into IO ($9800-$9Bff)
 
 @c FIXME: cartridge details
+
+@c @node FIXME
+@subsubsection 10 - Minimon
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2KiB (ROM)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+ 0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE
+ 0010: 00 00 00 40 02 00 00 0a 00 00 00 00 00 00 00 00  ...@............
+ 0020: 4d 69 6e 69 6d 6f 6e 00 00 00 00 00 00 00 00 00  Minimon.........
+ 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+ 0040: 43 48 49 50 00 00 08 10 00 00 00 00 98 00 08 00  CHIP............
+ 0050: 20 a2 9f a2 00 8e 12 01 20 e2 9f 0d 4d 4f 4e 49   ....... ...MONI
+ 0060: 54 4f 52 0d 00 90 14 d8 a2 05 68 9d 10 01 ca 10  TOR.......h.....
+ 0070: f9 20 e2 9f 0d 42 52 45 41 4b 00 a9 c0 85 9d ba  . ...BREAK......
+ 0080: 8e 16 01 a9 00 85 c1 85 c2 58 20 e2 9f 0d 20 20  .........X ...
+ 0090: 50 43 20 20 53 52 20 41 43 20 58 52 20 59 52 20  PC  SR AC XR YR
+
+@dots{}
+ 0830: ff ff 68 85 22 68 85 23 e6 22 d0 02 e6 23 a0 00  ..h."h.#."...#..
+ 0840: b1 22 f0 05 20 d2 ff 90 ef a5 23 48 a5 22 48 60  .".. .....#H."H`
+@end example
+
+This cartridge maps 2KiB ROM into the IO2 and IO3 area ($9800 - $9fff). It (the
+monitor) can be started by SYS38912.
+
+The cartridge has two switches:
+
+@itemize @bullet
+@item PGM: when enabled, the memory in the socket can be written to (when it is SRAM
+  or EEPROM)
+@item CART/MON: when in MON position, the ROM is mapped into IO. in CART position
+  the IO is mapped transparent to the pass through port.
+@end itemize
+
+"Freeze" (a long press on the reset button on the original cartridge) will
+trigger a reset, and inhibit reads to BLK5 for ~300ms, to prevent a CBMA0 cart
+from starting.
+
 
 @c @node FIXME
 @subsection PLUS4 Cartridge Specifics

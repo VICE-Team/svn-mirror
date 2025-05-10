@@ -125,6 +125,10 @@ static const ui_action_map_t cartridge_actions_vic20[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
+    {   .action  = ACTION_CART_ATTACH_RAW_MINIMON,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
     {   .action  = ACTION_CART_ATTACH_RAW_ULTIMEM,
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
@@ -135,6 +139,9 @@ static const ui_action_map_t cartridge_actions_vic20[] = {
     },
     {   .action  = ACTION_CART_DETACH,
         .handler = cart_detach_action
+    },
+    {   .action  = ACTION_CART_FREEZE,
+        .handler = cart_freeze_action
     },
     UI_ACTION_MAP_TERMINATOR
 };

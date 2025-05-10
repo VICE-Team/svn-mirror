@@ -64,7 +64,7 @@
 
     - 8KiB ROM mapped to A000-BFFF
 
-    - additionally the last 2KiB of the ROM are mapped to IO at 9800-9BFF
+    - additionally the next-to-last 1 KiB of the ROM is mapped to I/O2 ($9800..$9BFF)
 
     start with SYS41000
 */
