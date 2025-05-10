@@ -32,6 +32,7 @@ const cart_t cart_info_vic20[] = {
     /* FIXME: second bank should go to a000 */
     {0, 0, CARTRIDGE_SIZE_8KB,     0x1000, 0x6000,   2, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_MIKRO_ASSEMBLER,     "ma", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_8KB,     0x2000, 0xA000,   1, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_WRITE_NOW,           "wn", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_2KB,     0x0800, 0x9800,   1, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_MINIMON,           "mini", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

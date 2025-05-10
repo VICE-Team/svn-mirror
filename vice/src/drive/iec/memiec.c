@@ -43,7 +43,7 @@
 #include "cmdhd.h"
 
 
-#define DEBUG_MEMIEC
+/* #define DEBUG_MEMIEC */
 
 #ifdef DEBUG_MEMIEC
 #define LOG(x)  log_printf x

@@ -29,6 +29,10 @@
 
 #include "types.h"
 
+#define CART_READ_VIC20MEM             -1
+#define CART_READ_THROUGH               0
+#define CART_READ_VALID                 1
+
 extern int mem_cartridge_type;
 extern int mem_cart_blocks;
 

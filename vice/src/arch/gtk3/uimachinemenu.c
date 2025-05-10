@@ -387,7 +387,7 @@ static const ui_menu_item_t file_menu_tape_xpet[] = {
 /* {{{ file_menu_cart_freeze */
 /** \brief  'File' menu - cartridge section for C64/C128
  *
- * C64, SCPU64 and C128, containing "Cartridge freeze".
+ * VIC20, C64, SCPU64 and C128, containing "Cartridge freeze".
  */
 static const ui_menu_item_t file_menu_cart_freeze[] = {
     {   .label    = "Attach cartridge image...",
@@ -1093,7 +1093,7 @@ GtkWidget *ui_machine_menu_bar_create(gint window_id)
 
         case VICE_MACHINE_VIC20:
             file_menu_tape_section    = file_menu_tape;
-            file_menu_cart_section    = file_menu_cart_no_freeze;
+            file_menu_cart_section    = file_menu_cart_freeze;
             file_menu_printer_section = file_menu_printer;
             break;
 

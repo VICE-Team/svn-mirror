@@ -55,6 +55,7 @@ static vic20_cart_flush_t carts[] = {
     { CARTRIDGE_VIC20_FP,              "VicFlashPluginWriteBack", NULL },
     { CARTRIDGE_VIC20_UM,              "UltiMemWriteBack",        NULL },
     { CARTRIDGE_VIC20_FINAL_EXPANSION, "FinalExpansionWriteBack", NULL },
+    { CARTRIDGE_VIC20_MINIMON,         "MinimonImageWrite",       "MinimonFilename" },
     { 0,                               NULL,                      NULL }
 };
 
@@ -232,6 +233,10 @@ static UI_MENU_CALLBACK(attach_cart_callback)
             case CARTRIDGE_VIC20_MEGACART:
                 title  = "Select " CARTRIDGE_VIC20_NAME_MEGACART " image";
                 action = ACTION_CART_ATTACH_RAW_MEGACART;
+                break;
+            case CARTRIDGE_VIC20_MINIMON:
+                title  = "Select " CARTRIDGE_VIC20_NAME_MINIMON " image";
+                action = ACTION_CART_ATTACH_RAW_MINIMON;
                 break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
                 title  = "Select " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image";
@@ -434,15 +439,63 @@ UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
 
+UI_MENU_DEFINE_TOGGLE(MinimonEnabled)
+UI_MENU_DEFINE_TOGGLE(MinimonImageWrite)
+UI_MENU_DEFINE_FILE_STRING(MinimonFilename)
+UI_MENU_DEFINE_TOGGLE(MinimonIoSwitch)
+UI_MENU_DEFINE_TOGGLE(MinimonPgmSwitch)
+
+#define OFFS_FLUSH_MINI 8
 #define OFFS_FLUSH_FE   2
 #define OFFS_FLUSH_UM   2
 #define OFFS_FLUSH_FP   2
 #define OFFS_FLUSH_MEGACART   3
 
+#define OFFS_SAVE_MINI  9
 #define OFFS_SAVE_FE    3
 #define OFFS_SAVE_UM    3
 #define OFFS_SAVE_FP    3
 #define OFFS_SAVE_MEGACART   4
+
+static ui_menu_entry_t minimon_cart_menu[] = {
+    {   .string   = "Enable " CARTRIDGE_VIC20_NAME_MINIMON,     /* 0 */
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MinimonEnabled_callback
+    },
+    SDL_MENU_ITEM_SEPARATOR,                                    /* 1 */
+
+    {   .string   = "enable ROM in IO2/3",                      /* 2 */
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MinimonIoSwitch_callback
+    },
+    {   .string   = "enable PGM switch",                        /* 3 */
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MinimonPgmSwitch_callback
+    },
+    SDL_MENU_ITEM_SEPARATOR,                                    /* 4 */
+
+    SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_MINIMON " image"), /* 5 */
+    {   .string   = "Image file",                               /* 6 */
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = file_string_MinimonFilename_callback,
+        .data     = (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MINIMON " ROM image"
+    },
+    {   .string   = "Save image on detach.",                    /* 7 */
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MinimonImageWrite_callback
+    },
+    {   .string   = "Save image now",                           /* 8 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_flush_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MINIMON
+    },
+    {   .string   = "Save image as",                            /* 9 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = vic20_cart_save_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MINIMON
+    },
+    SDL_MENU_LIST_END
+};
 
 static ui_menu_entry_t finalexpansion_cart_menu[] = {
     SDL_MENU_ITEM_TITLE(CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " settings"),
@@ -816,20 +869,28 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
 
 static void cartmenu_update_flush(void)
 {
-    georam_menu[12].status = cartridge_can_flush_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* slot 0 */
+    minimon_cart_menu[OFFS_FLUSH_MINI].status = cartridge_can_flush_image(CARTRIDGE_VIC20_MINIMON) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* main slot */
     megacart_cart_menu[OFFS_FLUSH_MEGACART].status = cartridge_can_flush_secondary_image(CARTRIDGE_VIC20_MEGACART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     vic_um_cart_menu[OFFS_FLUSH_UM].status = cartridge_can_flush_image(CARTRIDGE_VIC20_UM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     vic_fp_cart_menu[OFFS_FLUSH_FP].status = cartridge_can_flush_image(CARTRIDGE_VIC20_FP) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     finalexpansion_cart_menu[OFFS_FLUSH_FE].status = cartridge_can_flush_image(CARTRIDGE_VIC20_FINAL_EXPANSION) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* io slot */
+    georam_menu[12].status = cartridge_can_flush_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 static void cartmenu_update_save(void)
 {
-    georam_menu[13].status = cartridge_can_save_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* slot 0 */
+    minimon_cart_menu[OFFS_SAVE_MINI].status = cartridge_can_save_image(CARTRIDGE_VIC20_MINIMON) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* main slot */
     megacart_cart_menu[OFFS_SAVE_FE].status = cartridge_can_save_secondary_image(CARTRIDGE_VIC20_MEGACART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     vic_um_cart_menu[OFFS_SAVE_UM].status = cartridge_can_save_image(CARTRIDGE_VIC20_UM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     vic_fp_cart_menu[OFFS_SAVE_FP].status = cartridge_can_save_image(CARTRIDGE_VIC20_FP) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     finalexpansion_cart_menu[OFFS_SAVE_FE].status = cartridge_can_save_image(CARTRIDGE_VIC20_FINAL_EXPANSION) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    /* io slot */
+    georam_menu[13].status = cartridge_can_save_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 /* Cartridge menu */
@@ -863,6 +924,12 @@ const ui_menu_entry_t vic20cart_menu[] = {
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART
+    },
+    {   .action   = ACTION_CART_ATTACH_RAW_MINIMON,
+        .string   = "Attach " CARTRIDGE_VIC20_NAME_MINIMON " image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_VIC20_MINIMON
     },
     {   .action   = ACTION_CART_ATTACH_RAW_FINAL,
         .string   = "Attach " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image",
@@ -933,6 +1000,11 @@ const ui_menu_entry_t vic20cart_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)megacart_cart_menu
+    },
+    {   .string   = CARTRIDGE_VIC20_NAME_MINIMON,
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)minimon_cart_menu
     },
     {   .string   = "I/O-2 RAM",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,

@@ -31,6 +31,8 @@ libvic20cart_a_SOURCES = \
 	megacart.h \
 	mikroassembler.c \
 	mikroassembler.h \
+	minimon.c \
+	minimon.h \
 	rabbit.c \
 	rabbit.h \
 	superexpander.c \
