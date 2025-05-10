@@ -1286,7 +1286,9 @@ int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
                 return CART_READ_THROUGH; /* "passthrough" */
             } else {
                 if (mv_romE000_enabled) {
-                    *base = (uint8_t *)(mv_rom - (uint8_t *)0xc000);
+                    /* *base = (uint8_t *)(mv_rom - (uint8_t *)0xc000); */
+                    *base = (uint8_t *)(0 - 0xc000);
+                    *base += (uintptr_t)(mv_rom);
                     *start = 0xe000;
                     *limit = 0xfffd;
                     return CART_READ_VALID;
@@ -1306,7 +1308,9 @@ int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
                 return CART_READ_THROUGH_NO_ULTIMAX; /* "passthrough" */
             } else {
                 if (mv_romA000_enabled) {
-                    *base = (uint8_t *)(mv_rom - (uint8_t *)0xa000);
+                    /* *base = (uint8_t *)(mv_rom - (uint8_t *)0xa000); */
+                    *base = (uint8_t *)(0 - 0xa000);
+                    *base += (uintptr_t)(mv_rom);
                     *start = 0xa000;
                     *limit = 0xbffd;
                     return CART_READ_VALID;

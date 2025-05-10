@@ -988,7 +988,12 @@ int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
         if ((ltk_ramh && (p & 2)) || (ltk_ramh && ltk_freeze )) {
             *base = export_ram0 + 0x2000 - 0xe000;
         } else if (p & 2) {
+#if 0
             *base = c64memrom_kernal64_trap_rom - 0xe000;
+#else
+            *base = (uint8_t*)(0 - 0xe000);
+            *base += (uintptr_t)c64memrom_kernal64_trap_rom;
+#endif
         } else {
             /* include RAM to speed things up */
             *base = mem_ram;

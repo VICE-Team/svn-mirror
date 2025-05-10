@@ -1280,9 +1280,16 @@ void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t rea
     mem_read_tab[base][index] = read_func;
 }
 
+/* set c64 base */
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
     mem_read_base_tab[base][index] = mem_ptr;
+}
+
+/* add actual pointer */
+void mem_read_addr_set(unsigned int base, unsigned int index, uintptr_t addr)
+{
+    mem_read_base_tab[base][index] += addr;
 }
 
 void mem_initialize_memory(void)

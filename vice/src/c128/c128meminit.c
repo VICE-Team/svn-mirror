@@ -100,7 +100,12 @@ void c128meminit(int base)
             if ((j & 0x2) == 0) {
                 mem_read_tab_set(j + base, i, basic_lo_read);
                 mem_set_write_hook(j + base, i, basic_lo_store);
+#if 0
                 mem_read_base_set(j + base, i, c128memrom_basic_rom - 0x4000);
+#else
+                mem_read_base_set(j + base, i, (uint8_t*)(0 - 0x4000));
+                mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
+#endif
                 mem_read_limit_set(j + base, i, 0x40007fff - 2);
             } else {
                 mem_read_tab_set(j + base, i, ram_read);
@@ -116,7 +121,12 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, basic_hi_read);
                 mem_set_write_hook(j + base, i, basic_hi_store);
+#if 0
                 mem_read_base_set(j + base, i, c128memrom_basic_rom - 0x4000);
+#else
+                mem_read_base_set(j + base, i, (uint8_t*)(0 - 0x4000));
+                mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
+#endif
                 mem_read_limit_set(j + base, i, 0x8000bfff - 2);
                 break;
             case 1:
@@ -144,7 +154,12 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, editor_read);
                 mem_set_write_hook(j + base, i, editor_store);
+#if 0
                 mem_read_base_set(j + base, i, c128memrom_basic_rom - 0x4000);
+#else
+                mem_read_base_set(j + base, i, (uint8_t*)(0 - 0x4000));
+                mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
+#endif
                 mem_read_limit_set(j + base, i, 0xc000cfff - 2);
                 break;
             case 1:
@@ -279,7 +294,12 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, hi_read);
                 mem_set_write_hook(j + base, i, hi_store);
+#if 0
                 mem_read_base_set(j + base, i, c128memrom_kernal_trap_rom - 0xe000);
+#else
+                mem_read_base_set(j + base, i, (uint8_t*)(0 - 0xe000));
+                mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_kernal_trap_rom);
+#endif
                 mem_read_limit_set(j + base, i, 0xe000feff - 2);
                 break;
             case 1:

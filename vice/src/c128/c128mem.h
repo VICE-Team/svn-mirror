@@ -65,6 +65,7 @@ void mem_pla_config_changed(void);
 void mem_set_write_hook(int config, int page, store_func_t *f);
 void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr);
+void mem_read_addr_set(unsigned int base, unsigned int index, uintptr_t addr);
 void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit);
 
 uint8_t ram_read(uint16_t addr);
