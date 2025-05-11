@@ -1012,7 +1012,7 @@ static gboolean _vte_frozen_row_column_to_text_offset (VteRing *ring,
     if (position >= ring->end) {
         offset->text_offset = _vte_stream_head (ring->text_stream) + position - ring->end;
         offset->fragment_cells = 0;
-        offset->eol_cells = column;
+        offset->eol_cells = (gint)column;
         return TRUE;
     }
 
@@ -1056,14 +1056,14 @@ static gboolean _vte_frozen_row_column_to_text_offset (VteRing *ring,
     for (i = 0, cell = row->cells; i < row->len && i < column; i++, cell++) {
         if (G_LIKELY (!cell->attr.fragment())) {
             if (G_UNLIKELY (i + cell->attr.columns() > column)) {
-                offset->fragment_cells = column - i;
+                offset->fragment_cells = (gint) (column - i);
                 break;
             }
             num_chars += _vte_unistr_strlen(cell->c);
         }
     }
     if (i >= row->len) {
-        offset->eol_cells = column - i;
+        offset->eol_cells = (gint) (column - i);
     }
 
     /* count the number of UTF-8 bytes for the given number of characters */
@@ -1134,7 +1134,7 @@ static gboolean _vte_frozen_row_text_offset_to_column (VteRing *ring,
     /* row and buffer now contain the same text, in different representation */
 
     /* count the number of characters for the given UTF-8 text offset */
-    off = offset->text_offset - records[0].text_start_offset;
+    off = (unsigned int) (offset->text_offset - records[0].text_start_offset);
     num_chars = 0;
     for (i = 0; i < off && i < buffer->len; i++) {
         if ((buffer->str[i] & 0xC0) != 0x80) {
@@ -1343,7 +1343,7 @@ void _vte_ring_rewrap (VteRing *ring, glong columns, VteVisualPosition **markers
                     if (paragraph_is_ascii) {
                         /* Shortcut for quickly wrapping ASCII (excluding TAB) text.
                            Don't read text_stream, and advance by a whole row of characters. */
-                        int len = MIN(runlength, (gsize) (columns - col));
+                        ssize_t len = MIN(runlength, (gsize) (columns - col));
                         col += len;
                         text_offset += len;
                         paragraph_len -= len;
@@ -1351,7 +1351,7 @@ void _vte_ring_rewrap (VteRing *ring, glong columns, VteVisualPosition **markers
                     } else {
                         /* Process one character only. */
                         char textbuf[6];  /* fits at least one UTF-8 character */
-                        int textbuf_len;
+                        ssize_t textbuf_len;
                         col += attr_change.attr.columns();
                         /* Find beginning of next UTF-8 character */
                         text_offset++; paragraph_len--; runlength--;

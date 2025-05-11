@@ -727,7 +727,7 @@ static gboolean _vte_boa_decrypt (VteBoa *boa, gsize offset, guint32 overwrite_c
 static int _vte_boa_compressBound (unsigned int len)
 {
 #ifndef VTESTREAM_MAIN
-    return compressBound(len);
+    return (int)compressBound(len);
 #else
     return 2 * len;
 #endif
@@ -742,7 +742,7 @@ static unsigned int _vte_boa_compress (char *dst, unsigned int dstlen, const cha
 
     z_ret = compress2 ((Bytef *) dst, &dstlen_ulongf, (const Bytef *) src, srclen, 1);
     g_assert_cmpuint (z_ret, ==, Z_OK);
-    return dstlen_ulongf;
+    return (unsigned int)dstlen_ulongf;
 #else
     /* Fake compression for unit testing:
      * Each char gets prefixed by a repetition count. This prefix is omitted if it would be the
@@ -781,7 +781,7 @@ static unsigned int _vte_boa_uncompress (char *dst, unsigned int dstlen, const c
 
     z_ret = uncompress ((Bytef *) dst, &dstlen_ulongf, (const Bytef *) src, srclen);
     g_assert_cmpuint (z_ret, ==, Z_OK);
-    return dstlen_ulongf;
+    return (unsigned int)dstlen_ulongf;
 #else
     /* Fake decompression for unit testing; see above. */
     unsigned int len = 0, repeat = 0;

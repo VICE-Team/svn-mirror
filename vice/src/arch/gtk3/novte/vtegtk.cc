@@ -506,7 +506,7 @@ static void vte_terminal_get_property (GObject *object,
             g_value_set_boolean (value, vte_terminal_get_rewrap_on_resize (terminal));
             break;
         case PROP_SCROLLBACK_LINES:
-            g_value_set_uint (value, vte_terminal_get_scrollback_lines(terminal));
+            g_value_set_uint (value, (guint)vte_terminal_get_scrollback_lines(terminal));
             break;
         case PROP_SCROLL_ON_KEYSTROKE:
             g_value_set_boolean (value, vte_terminal_get_scroll_on_keystroke(terminal));
@@ -2910,8 +2910,8 @@ void vte_terminal_get_geometry_hints(NoVteTerminal *terminal,
 
     hints->base_width  = padding.left + padding.right;
     hints->base_height = padding.top  + padding.bottom;
-    hints->width_inc   = impl->m_cell_width;
-    hints->height_inc  = impl->m_cell_height;
+    hints->width_inc   = (gint)impl->m_cell_width;
+    hints->height_inc  = (gint)impl->m_cell_height;
     hints->min_width   = hints->base_width  + hints->width_inc  * min_columns;
     hints->min_height  = hints->base_height + hints->height_inc * min_rows;
 

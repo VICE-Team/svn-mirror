@@ -45,7 +45,7 @@ static inline VteCells *_vte_cells_for_cell_array (VteCell *cells)
     return (VteCells *) (((guchar *) cells) - G_STRUCT_OFFSET (VteCells, cells));
 }
 
-static VteCells *_vte_cells_realloc (VteCells *cells, guint32 len)
+static VteCells *_vte_cells_realloc (VteCells *cells, gsize len)
 {
     guint32 alloc_len = (1 << g_bit_storage (MAX (len, 80))) - 1;
 

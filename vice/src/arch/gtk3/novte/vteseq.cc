@@ -216,7 +216,7 @@ void VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const
     char buf[32];
     /* gsize len; */
 
-    int id = params.number_or_default_at(0, 0);
+    int id = (int)params.number_or_default_at(0, 0);
 
 #ifndef VTE_DEBUG
     /* Send a dummy reply */
@@ -328,7 +328,7 @@ void VteTerminalPrivate::clear_current_line()
         _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
         rowdata->attr.soft_wrapped = 0;
         /* Repaint this row. */
-        invalidate_cells(0, m_column_count, m_screen->cursor.row, 1);
+        invalidate_cells(0, (int)m_column_count, m_screen->cursor.row, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
@@ -351,7 +351,7 @@ void VteTerminalPrivate::clear_above_current()
             _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
             rowdata->attr.soft_wrapped = 0;
             /* Repaint the row. */
-            invalidate_cells(0, m_column_count, i, 1);
+            invalidate_cells(0, (int)m_column_count, i, 1);
         }
     }
     /* We've modified the display.  Make a note of it. */
@@ -851,7 +851,7 @@ void VteTerminalPrivate::decset(long setting,
         case 3:
             /* 3: DECCOLM set/reset to 132/80 columns mode, clear screen and cursor home */
             if (m_deccolm_mode) {
-                emit_resize_window(set ? 132 : 80, m_row_count);
+                emit_resize_window(set ? 132 : 80, (guint)m_row_count);
                 clear_screen();
                 home_cursor();
             }
@@ -979,7 +979,7 @@ void VteTerminalPrivate::seq_cursor_back_tab(vte::parser::Params const& params)
         /* Find the next tabstop. */
         while (newcol > 0) {
             newcol--;
-            if (get_tabstop(newcol % m_column_count)) {
+            if (get_tabstop(newcol % ((int)m_column_count))) {
                 break;
             }
         }
@@ -1015,7 +1015,7 @@ void VteTerminalPrivate::clear_to_bol()
         }
     }
     /* Repaint this row. */
-    invalidate_cells(0, m_screen->cursor.col+1,
+    invalidate_cells(0, (int)m_screen->cursor.col + 1,
                          m_screen->cursor.row, 1);
 
     /* We've modified the display.  Make a note of it. */
@@ -1073,7 +1073,7 @@ void VteTerminalPrivate::clear_below_current()
         }
         rowdata->attr.soft_wrapped = 0;
         /* Repaint this row. */
-        invalidate_cells(0, m_column_count, i, 1);
+        invalidate_cells(0, (int)m_column_count, i, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
@@ -1111,7 +1111,7 @@ void VteTerminalPrivate::clear_to_eol()
     }
     rowdata->attr.soft_wrapped = 0;
     /* Repaint this row. */
-    invalidate_cells(m_screen->cursor.col, m_column_count - m_screen->cursor.col,
+    invalidate_cells(m_screen->cursor.col, (int)(m_column_count - m_screen->cursor.col),
                          m_screen->cursor.row, 1);
 }
 
@@ -1144,11 +1144,11 @@ void VteTerminalPrivate::set_cursor_row(vte::grid::row_t row)
 {
     vte::grid::row_t start_row, end_row;
     if (m_origin_mode && m_scrolling_restricted) {
-        start_row = m_scrolling_region.start;
-        end_row = m_scrolling_region.end;
+        start_row = (int)m_scrolling_region.start;
+        end_row = (int)m_scrolling_region.end;
     } else {
         start_row = 0;
-        end_row = m_row_count - 1;
+        end_row = (int)(m_row_count - 1);
     }
     row += start_row;
     row = CLAMP(row, start_row, end_row);
@@ -1247,8 +1247,8 @@ void VteTerminalPrivate::set_scrolling_region(vte::grid::row_t start /* relative
     }
 
     /* Set the right values. */
-    m_scrolling_region.start = start;
-    m_scrolling_region.end = end;
+    m_scrolling_region.start = (int)start;
+    m_scrolling_region.end = (int)end;
     m_scrolling_restricted = TRUE;
     if (m_scrolling_region.start == 0 &&
         m_scrolling_region.end == m_row_count - 1) {
@@ -1315,7 +1315,7 @@ void VteTerminalPrivate::delete_character()
             }
             rowdata->attr.soft_wrapped = 0;
             /* Repaint this row. */
-            invalidate_cells(col, len - col, m_screen->cursor.row, 1);
+            invalidate_cells(col, (int)(len - col), m_screen->cursor.row, 1);
         }
     }
 
@@ -1396,7 +1396,7 @@ void VteTerminalPrivate::erase_characters(long count)
             }
         }
         /* Repaint this row. */
-        invalidate_cells(m_screen->cursor.col, count, m_screen->cursor.row, 1);
+        invalidate_cells(m_screen->cursor.col, (int)count, m_screen->cursor.row, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
@@ -1533,7 +1533,8 @@ void VteTerminalPrivate::change_color(vte::parser::Params const& params,
     }
 
     vte::color::rgb color;
-    guint idx, i;
+    size_t idx;
+    guint i;
 
     for (i = 0; pairs[i] && pairs[i + 1]; i += 2) {
         idx = strtoul (pairs[i], (char **) NULL, 10);
@@ -1543,16 +1544,16 @@ void VteTerminalPrivate::change_color(vte::parser::Params const& params,
         }
 
         if (color.parse(pairs[i + 1])) {
-            set_color(idx == 256 ? VTE_BOLD_FG : idx, VTE_COLOR_SOURCE_ESCAPE, color);
+            set_color(idx == 256 ? VTE_BOLD_FG : (int)idx, VTE_COLOR_SOURCE_ESCAPE, color);
         } else if (strcmp (pairs[i + 1], "?") == 0) {
             gchar buf[128];
-            auto c = get_color(idx == 256 ? VTE_BOLD_FG : idx);
+            auto c = get_color(idx == 256 ? VTE_BOLD_FG : (int)idx);
             if (c == NULL && idx == 256) {
                 c = get_color(VTE_DEFAULT_FG);
             }
             g_assert(c != NULL);
             g_snprintf (buf, sizeof (buf),
-                            _VTE_CAP_OSC "4;%u;rgb:%04x/%04x/%04x%s",
+                            _VTE_CAP_OSC "4;%lu;rgb:%04x/%04x/%04x%s",
                             idx, c->red, c->green, c->blue, terminator);
             /*feed_child(buf, -1);*/ /* FIXME: removed */
         }
@@ -1592,7 +1593,7 @@ void VteTerminalPrivate::seq_reset_color(vte::parser::Params const& params)
                     continue;
             }
 
-            reset_color(value == 256 ? VTE_BOLD_FG : value, VTE_COLOR_SOURCE_ESCAPE);
+            reset_color(value == 256 ? VTE_BOLD_FG : (int)value, VTE_COLOR_SOURCE_ESCAPE);
         }
     } else {
         for (unsigned int idx = 0; idx < VTE_DEFAULT_FG; idx++) {
@@ -1643,7 +1644,7 @@ void VteTerminalPrivate::seq_reverse_index(vte::parser::Params const& params)
         ring_insert(start, true);
         /* Update the display. */
         scroll_region(start, end - start + 1, 1);
-        invalidate_cells(0, m_column_count, start, 2);
+        invalidate_cells(0, (int)m_column_count, start, 2);
     } else {
         /* Otherwise, just move the cursor up. */
         m_screen->cursor.row--;
@@ -1660,7 +1661,7 @@ void VteTerminalPrivate::seq_tab_set(vte::parser::Params const& params)
     if (m_tabstops == NULL) {
         m_tabstops = g_hash_table_new(NULL, NULL);
     }
-    set_tabstop(m_screen->cursor.col);
+    set_tabstop((int)m_screen->cursor.col);
 }
 
 /* Tab. */
@@ -1683,7 +1684,7 @@ VteTerminalPrivate::move_cursor_tab()
     if (m_tabstops != NULL) {
         /* Find the next tabstop. */
         for (newcol++; newcol < VTE_TAB_MAX; newcol++) {
-            if (get_tabstop(newcol)) {
+            if (get_tabstop((int)newcol)) {
                 break;
             }
         }
@@ -1722,7 +1723,7 @@ VteTerminalPrivate::move_cursor_tab()
             glong i;
             VteCell *cell = _vte_row_data_get_writable (rowdata, col);
             VteCell tab = *cell;
-            tab.attr.set_columns(newcol - col);
+            tab.attr.set_columns((int)(newcol - col));
             tab.c = '\t';
             /* Save tab char */
             *cell = tab;
@@ -1735,7 +1736,7 @@ VteTerminalPrivate::move_cursor_tab()
             }
         }
 
-        invalidate_cells(m_screen->cursor.col, newcol - m_screen->cursor.col,
+        invalidate_cells(m_screen->cursor.col, (int)(newcol - m_screen->cursor.col),
                             m_screen->cursor.row, 1);
         m_screen->cursor.col = newcol;
     }
@@ -1756,7 +1757,7 @@ void VteTerminalPrivate::seq_tab_clear(vte::parser::Params const& params)
     auto param = params.number_or_default_at(0, 0);
 
     if (param == 0) {
-        clear_tabstop(m_screen->cursor.col);
+        clear_tabstop((int)m_screen->cursor.col);
     } else if (param == 3) {
         if (m_tabstops != nullptr) {
             g_hash_table_destroy(m_tabstops);
@@ -1852,7 +1853,7 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
                     return -1;
                 }
                 *index += 1;
-                return param1;
+                return (int)param1;
             }
         }
     }
@@ -1881,7 +1882,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
             switch (param0) {
                 case 4:
                     if (subparams.number_at(1, param1) && param1 >= 0 && param1 <= 3) {
-                        m_defaults.attr.set_underline(param1);
+                        m_defaults.attr.set_underline((int)param1);
                     }
                     break;
                 case 38:
@@ -1889,7 +1890,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
                     unsigned int index = 1;
                     auto color = parse_sgr_38_48_parameters<8, 8, 8>(subparams, &index, true);
                     if (G_LIKELY (color != -1)) {
-                        m_defaults.attr.set_fore(color);
+                        m_defaults.attr.set_fore((uint32_t)color);
                     }
                     break;
                 }
@@ -1898,7 +1899,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
                     unsigned int index = 1;
                     auto color = parse_sgr_38_48_parameters<8, 8, 8>(subparams, &index, true);
                     if (G_LIKELY (color != -1)) {
-                        m_defaults.attr.set_back(color);
+                        m_defaults.attr.set_back((uint32_t)color);
                     }
                     break;
                 }
@@ -1981,7 +1982,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
             case 35:
             case 36:
             case 37:
-                m_defaults.attr.set_fore(VTE_LEGACY_COLORS_OFFSET + (param - 30));
+                m_defaults.attr.set_fore((uint32_t)(VTE_LEGACY_COLORS_OFFSET + (param - 30)));
                 break;
             case 38:
             case 48:
@@ -2037,7 +2038,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
             case 45:
             case 46:
             case 47:
-                m_defaults.attr.set_back(VTE_LEGACY_COLORS_OFFSET + (param - 40));
+                m_defaults.attr.set_back((uint32_t)(VTE_LEGACY_COLORS_OFFSET + (param - 40)));
                 break;
             /* case 48: was handled above at 38 to avoid code duplication */
             case 49:
@@ -2063,8 +2064,8 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
             case 95:
             case 96:
             case 97:
-                m_defaults.attr.set_fore(VTE_LEGACY_COLORS_OFFSET + (param - 90) +
-                                            VTE_COLOR_BRIGHT_OFFSET);
+                m_defaults.attr.set_fore((uint32_t)(VTE_LEGACY_COLORS_OFFSET + (param - 90) +
+                                            VTE_COLOR_BRIGHT_OFFSET));
                 break;
             case 100:
             case 101:
@@ -2074,8 +2075,8 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
             case 105:
             case 106:
             case 107:
-                m_defaults.attr.set_back(VTE_LEGACY_COLORS_OFFSET + (param - 100) +
-                                            VTE_COLOR_BRIGHT_OFFSET);
+                m_defaults.attr.set_back((uint32_t)(VTE_LEGACY_COLORS_OFFSET + (param - 100) +
+                                            VTE_COLOR_BRIGHT_OFFSET));
                 break;
         }
     }
@@ -2663,7 +2664,7 @@ void VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& para
                 _vte_debug_print(VTE_DEBUG_PARSE,
                                     "Moving window to "
                                     "%ld,%ld.\n", arg1, arg2);
-                emit_move_window(arg1, arg2);
+                emit_move_window((guint)arg1, (guint)arg2);
             }
             break;
         case 4:
@@ -2674,7 +2675,7 @@ void VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& para
                                     arg2, arg1,
                                     arg2 / m_cell_width,
                                     arg1 / m_cell_height);
-                emit_resize_window(arg2 / m_cell_width, arg1 / m_cell_height);
+                emit_resize_window((guint)(arg2 / m_cell_width), (guint)(arg1 / m_cell_height));
             }
             break;
         case 5:
@@ -2696,7 +2697,7 @@ void VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& para
                                     "Resizing window "
                                     "(to %ld columns, %ld rows).\n",
                                     arg2, arg1);
-                emit_resize_window(arg2, arg1);
+                emit_resize_window((guint)arg2, (guint)arg1);
             }
             break;
         case 9:
@@ -2811,7 +2812,7 @@ void VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& para
                                     param);
                 /* Resize to the specified number of
                  * rows. */
-                emit_resize_window(m_column_count, param);
+                emit_resize_window((guint)m_column_count, (guint)param);
             }
             break;
     }

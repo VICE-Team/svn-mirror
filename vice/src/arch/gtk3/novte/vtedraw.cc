@@ -565,7 +565,7 @@ static guint context_hash (PangoContext *context)
 {
     return pango_units_from_double (pango_cairo_context_get_resolution (context))
          ^ pango_font_description_hash (pango_context_get_font_description (context))
-         ^ cairo_font_options_hash (pango_cairo_context_get_font_options (context))
+         ^ (guint)cairo_font_options_hash (pango_cairo_context_get_font_options (context))
          ^ GPOINTER_TO_UINT (pango_context_get_language (context))
          ^ vte_pango_context_get_fontconfig_timestamp (context);
 }
@@ -677,7 +677,7 @@ static struct unistr_info *font_info_get_unistr_info (struct font_info *info, vt
 
     g_string_set_size (info->string, 0);
     _vte_unistr_append_to_string (c, info->string);
-    pango_layout_set_text (info->layout, info->string->str, info->string->len);
+    pango_layout_set_text (info->layout, info->string->str, (int)info->string->len);
     pango_layout_get_extents (info->layout, NULL, &logical);
 
     uinfo->width = PANGO_PIXELS_CEIL (logical.width);
