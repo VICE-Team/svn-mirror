@@ -57,11 +57,11 @@
 #define VTE_COLOR_PLAIN_OFFSET          0
 #define VTE_COLOR_BRIGHT_OFFSET         8
 #define VTE_DIM_COLOR                   (1U << 10)
-#define VTE_RGB_COLOR_MASK(rb,gb,bb)    (1U << ((rb) + (gb) + (bb)))
-#define VTE_RGB_COLOR(bb,gb,rb,r,g,b)   (VTE_RGB_COLOR_MASK(rb,gb,bb) |   \
+#define VTE_RGB_COLOR_MASK(rb,gb,bb)    ((uint32_t)(1U << ((rb) + (gb) + (bb))))
+#define VTE_RGB_COLOR(bb,gb,rb,r,g,b)   ((uint32_t)(VTE_RGB_COLOR_MASK(rb,gb,bb) |   \
                                          ((((r) >> (8 - (rb))) & ((1U << (rb)) -  1U)) << ((gb) + (bb))) | \
                                          ((((g) >> (8 - (gb))) & ((1U << (gb)) -  1U)) << (bb)) | \
-                                         (((b) >> (8 - (bb))) & ((1U << (bb)) -  1U)))
+                                         (((b) >> (8 - (bb))) & ((1U << (bb)) -  1U))))
 #define VTE_RGB_COLOR_GET_COMPONENT(packed,shift,bits) \
         ((((packed) >> (shift)) & ((1U << (bits)) - 1U)) << (8 - bits) | ((1U << (8 - bits)) >> 1))
 

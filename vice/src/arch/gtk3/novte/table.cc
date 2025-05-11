@@ -94,7 +94,7 @@ static void _vte_table_arginfo_head_revert(struct _vte_table_arginfo_head *head,
     info = head->list;
     head->list = last->next;
     if (last >= &head->stack[0] && last < &head->stack[G_N_ELEMENTS(head->stack)]){
-        head->stack_allocated = last - &head->stack[0];
+        head->stack_allocated = (guint) (last - &head->stack[0]); /* FIXME */
     }
     do {
         struct _vte_table_arginfo *next = info->next;
@@ -211,7 +211,7 @@ static void _vte_table_addi(struct _vte_table *table,
         }
         table->handler = handler;
         g_free(table->original);
-        table->original = (unsigned char *) g_memdup(original, original_length);
+        table->original = (unsigned char *) g_memdup2(original, original_length);
         table->original_length = original_length;
         return;
     }
@@ -242,11 +242,11 @@ static void _vte_table_addi(struct _vte_table *table,
                 int initial;
                 GByteArray *b;
 
-                initial = original_length - length;
+                initial = (int) (original_length - length); /* FIXME */
                 b = g_byte_array_new();
                 g_byte_array_set_size(b, 0);
                 g_byte_array_append(b, original, initial);
-                g_byte_array_append(b, (const guint8*)pattern + 2, length - 2);
+                g_byte_array_append(b, (const guint8*)pattern + 2, (guint)(length - 2));
                 _vte_table_addi(table, b->data, b->len, (const char *)b->data + initial,
                                 b->len - initial, handler);
                 g_byte_array_free(b, TRUE);

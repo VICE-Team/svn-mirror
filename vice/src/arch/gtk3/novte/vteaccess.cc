@@ -200,7 +200,7 @@ static void vte_terminal_accessible_update_private_data_if_needed(VteTerminalAcc
     char *next;
     long row, offset, caret;
     long ccol, crow;
-    guint i;
+    long i;
 
     /* If nothing's changed, just return immediately. */
     if ((priv->snapshot_contents_invalid == FALSE) &&
@@ -290,7 +290,7 @@ static void vte_terminal_accessible_update_private_data_if_needed(VteTerminalAcc
             if (next == NULL) {
                 break;
             } else {
-                i = next - priv->snapshot_text->str;
+                i = (int)(next - priv->snapshot_text->str);
             }
         }
         /* Find offsets for the beginning of lines. */
@@ -341,7 +341,7 @@ static void vte_terminal_accessible_update_private_data_if_needed(VteTerminalAcc
         /* Make a note that we'll need to notify observers if the caret moved.
          * But only notify them after sending text-changed. */
     if (caret != priv->snapshot_caret) {
-        priv->snapshot_caret = caret;
+        priv->snapshot_caret = (gint)caret;
         priv->text_caret_moved_pending = TRUE;
     }
 
@@ -476,7 +476,7 @@ static void vte_terminal_accessible_text_scrolled(VteTerminal *terminal,
     VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
     struct _VteCharAttributes attr;
     long delta, row_count;
-    guint i, len;
+    long i, len;
 
     /* TODOegmont: Fix this for smooth scrolling */
     /* g_assert(howmuch != 0); */
@@ -777,7 +777,7 @@ static gchar *vte_terminal_accessible_get_text(AtkText *text, gint start_offset,
 {
     VteTerminalAccessible *accessible = VTE_TERMINAL_ACCESSIBLE(text);
     VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
-    int start, end;
+    ssize_t start, end;
     gchar *ret;
 
     g_assert(VTE_IS_TERMINAL_ACCESSIBLE(accessible));
@@ -1262,8 +1262,8 @@ static void vte_terminal_accessible_get_character_extents(AtkText *text, gint of
     cell_height = novte_terminal_get_char_height (terminal);
     *x *= cell_width;
     *y *= cell_height;
-    *width = cell_width;
-    *height = cell_height;
+    *width = (gint)cell_width;
+    *height = (gint)cell_height;
     *x += base_x;
     *y += base_y;
 }
@@ -1344,8 +1344,8 @@ static gchar *vte_terminal_accessible_get_selection(AtkText *text, gint selectio
     auto start_sel = impl->m_selection_start;
     auto end_sel = impl->m_selection_end;
 
-    *start_offset = offset_from_xy (priv, start_sel.col, start_sel.row);
-    *end_offset = offset_from_xy (priv, end_sel.col, end_sel.row);
+    *start_offset = offset_from_xy (priv, (gint)start_sel.col, (gint)start_sel.row);
+    *end_offset = offset_from_xy (priv, (gint)end_sel.col, (gint)end_sel.row);
 
     return g_strdup(impl->m_selection[VTE_SELECTION_PRIMARY]->str);
 }

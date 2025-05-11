@@ -170,7 +170,7 @@ gsize _vte_iso2022_process(struct _vte_iso2022_state *state,
 
     /* skip blanks -- TODOegmont: why here? */
     j = gunichars->len;
-    g_array_set_size(gunichars, gunichars->len + outbuf-buf);
+    g_array_set_size(gunichars, (guint)(gunichars->len + (outbuf - buf)));
     for (i = 0; buf + i < outbuf; i++) {
         c = buf[i];
         if (G_UNLIKELY (c == '\0')) {

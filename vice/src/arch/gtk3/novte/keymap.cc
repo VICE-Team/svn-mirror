@@ -943,7 +943,7 @@ void _vte_keymap_key_add_key_modifiers(guint keyval,
                                         char **normal,
                                         gssize *normal_length)
 {
-    int modifier, offset;
+    int modifier; ssize_t offset;
     char *nnormal;
     enum _vte_modifier_encoding_method modifier_encoding_method;
     guint significant_modifiers;
