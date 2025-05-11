@@ -211,7 +211,7 @@ static void _vte_table_addi(struct _vte_table *table,
         }
         table->handler = handler;
         g_free(table->original);
-        table->original = (unsigned char *) g_memdup2(original, original_length);
+        table->original = (unsigned char *) g_memdup(original, (guint)original_length);
         table->original_length = original_length;
         return;
     }
