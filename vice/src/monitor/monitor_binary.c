@@ -1497,7 +1497,7 @@ static void monitor_binary_process_cpuhistory(binary_command_t *command)
     response_size = 4 + count * (item_size + 1);
     if (response_size > UINT32_MAX) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        log_message(LOG_DEFAULT, "monitor binary cpuhistory: Response too long %lu", response_size);
+        log_message(LOG_DEFAULT, "monitor binary cpuhistory: Response too long %"PRI_SIZE_T, response_size);
         return;
     }
 
