@@ -51,7 +51,7 @@
 #include "wd1770.h"
 #include "cmdhd.h"
 
-#define DEBUG_DRIVEMEM
+/* #define DEBUG_DRIVEMEM */
 
 #ifdef DEBUG_DRIVEMEM
 #define LOG(x)  log_printf x
