@@ -947,19 +947,23 @@ void pet_crtc_set_screen(void)
                 vmask, cols, petres.model.crtc);
 */
     int hwflag = (cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0;
+    int vrevmask;
     /* Note: see bug #1954.
      * The real cause for the timing difference is unknown so far.
      * If found, the condition below will probably change. */
     if (cols == 80 && petres.map != PET_MAP_8296) {
         hwflag |= CRTC_HW_LATE_BEAM;
     }
+    /* On the 8296 we do not (invert the screen by clearing MA12). */
+    vrevmask = petres.map == PET_MAP_8296 ? vmask : 0x1000;
+
     crtc_set_screen_options(cols, 25 * 10);
     crtc_set_screen_addr(mem_ram + 0x8000);
     crtc_set_hw_options(hwflag,
                         vmask,
                         0x2000,         /* vchar: MA13 */
                         512,            /* vcoffset */
-                        0x1000);        /* vrevmask: MA12 */
+                        vrevmask);      /* vrevmask: MA12 */
     crtc_set_retrace_type(petres.model.crtc ? CRTC_RETRACE_TYPE_CRTC
                                             : CRTC_RETRACE_TYPE_DISCRETE);
 
