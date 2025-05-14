@@ -211,16 +211,16 @@ int e888_dump(void)
  * reads (my translation from German):
  * ------
  * The 8296 HIRES Graphics is an emulation of the 512*256 Commodore High Speed
- * Graphivs, which uses the built-in RAM and 6502 microprocessor.
+ * Graphics, which uses the built-in RAM and 6502 microprocessor.
  *
  * A hardware addition is plugged into the socket of the CRTC (UC9) and the
  * character ROM (UC5).
  *
- * The software for emulating the High Speed Graphivs is contained in a 4 KB
+ * The software for emulating the High Speed Graphics is contained in a 4 KB
  * EPROM ($9000, UE10), een BASIC-extension to use the graphics is in a
  * further 4K EPROM ($A000, UE9).
  *
- * The "hidden" RAM behind the EPROM in UE9 and the BASIC ROM is used As screen
+ * The "hidden" RAM behind the EPROM in UE9 and the BASIC ROM is used as screen
  * memory.
  *
  * On the extension board there is a 4-fold DIL switch (1 to 4), with which one
@@ -250,7 +250,7 @@ int e888_dump(void)
  * 3) high = Latch On
  * ------
  * (unfortunately the document doesn't say what "Latch On" does, but I guess
- * that if it is off, it has no effect and the /RAM* signals are default.)
+ * that if it is off, the /RAM* signals are set by the DIL switches.)
  *
  *  - JU1 : set /RAMSELA to GND (do not use JU1/JU3 together)
  *  - JU2 : set /RAMSEL9 to GND (do not use JU2/JU4 together)
