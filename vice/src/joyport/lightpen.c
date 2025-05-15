@@ -146,7 +146,7 @@ static lightpen_trigger_callback_ptr_t chip_trigger_callback;
 
 /* Lightpen/gun type */
 struct lp_type_s {
-    /* PEN needs button to be pressed to register, GUN doesn't */
+    /* PEN needs right host button to be pressed to register, GUN doesn't */
     enum { PEN, GUN } type;
     /* Buttons: bitmask for joyport 1 pins, with 0x20 for potY and 0x40 for potX */
     uint8_t button1;
@@ -265,16 +265,16 @@ static inline void lightpen_update_buttons(int buttons)
     lightpen_buttons = buttons;
 
     /* check potx/poty */
-    lightpen_button_y = ((((lp_type[lightpen_type].button1 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_1))
-                         || (((lp_type[lightpen_type].button2 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_2)))
+    lightpen_button_y = ((((lp_type[lightpen_type].button1 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_LEFT))
+                         || (((lp_type[lightpen_type].button2 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_RIGHT)))
                         ? 1 : 0;
 
-    lightpen_button_x = ((((lp_type[lightpen_type].button1 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_1))
-                         || (((lp_type[lightpen_type].button2 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_2)))
+    lightpen_button_x = ((((lp_type[lightpen_type].button1 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_LEFT))
+                         || (((lp_type[lightpen_type].button2 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_RIGHT)))
                         ? 1 : 0;
 
-    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button1 & 0x1f), buttons & LP_HOST_BUTTON_1);
-    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button2 & 0x1f), buttons & LP_HOST_BUTTON_2);
+    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button1 & 0x1f), buttons & LP_HOST_BUTTON_LEFT);
+    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button2 & 0x1f), buttons & LP_HOST_BUTTON_RIGHT);
 }
 
 /* --------------------------------------------------------- */
@@ -567,7 +567,8 @@ void lightpen_update(int window, int x, int y, int buttons)
         return;
     }
 
-    if ((lp_type[lightpen_type].type == PEN) && !(buttons & LP_HOST_BUTTON_1)) {
+    /* type "PEN" only sends events when right host button is pressed */
+    if ((lp_type[lightpen_type].type == PEN) && !(buttons & LP_HOST_BUTTON_RIGHT)) {
         return;
     }
 

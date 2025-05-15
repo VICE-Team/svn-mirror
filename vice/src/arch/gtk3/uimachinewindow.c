@@ -370,10 +370,10 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
         pthread_mutex_lock(&canvas->lock);
         if (button == 1) {
             /* Left mouse button */
-            canvas->pen_buttons |= LP_HOST_BUTTON_1;
+            canvas->pen_buttons |= LP_HOST_BUTTON_LEFT;
         } else if (button == 3) {
             /* Right mouse button */
-            canvas->pen_buttons |= LP_HOST_BUTTON_2;
+            canvas->pen_buttons |= LP_HOST_BUTTON_RIGHT;
         }
         pthread_mutex_unlock(&canvas->lock);
 
@@ -387,10 +387,10 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
         pthread_mutex_lock(&canvas->lock);
         if (button == 1) {
             /* Left mouse button */
-            canvas->pen_buttons &= ~LP_HOST_BUTTON_1;
+            canvas->pen_buttons &= ~LP_HOST_BUTTON_LEFT;
         } else if (button == 3) {
             /* Right mouse button */
-            canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
+            canvas->pen_buttons &= ~LP_HOST_BUTTON_RIGHT;
         }
         pthread_mutex_unlock(&canvas->lock);
 
