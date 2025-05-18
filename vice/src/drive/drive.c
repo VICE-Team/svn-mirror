@@ -903,7 +903,13 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
            and the LED was on */
         led_pwm1 = 1000;
     } else {
-        led_pwm1 = (int)(drive->led_active_ticks / led_period * 1000);
+        led_pwm1 = (int)((drive->led_active_ticks * 1000) / led_period);
+        /* With the 1541's real LED, the human eye perceives brightness much earlier in the PWM
+        * duty cycle range; the blog post at
+        * https://blog.mbedded.ninja/programming/firmware/controlling-led-brightness-using-pwm/
+        * describes this. so adjust our output intensity level to compensate, using a square
+        * root power function to produce higher RGB outputs at lower PWM duty cycle levels. */
+        led_pwm1 = 1000 * sqrt((float) led_pwm1 / 1000.0);
     }
     assert(led_pwm1 <= MAX_PWM);
     if (led_pwm1 > MAX_PWM) {
