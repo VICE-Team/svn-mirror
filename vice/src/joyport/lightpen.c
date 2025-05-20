@@ -29,6 +29,15 @@
 
 #include <stdio.h>
 
+/* #define DEBUG_LIGHTPEN */
+
+#ifdef DEBUG_LIGHTPEN
+#include "log.h"
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
+
 #if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
 
 #include "joyport.h"
@@ -538,10 +547,16 @@ int lightpen_register_trigger_callback(lightpen_trigger_callback_ptr_t trigger_c
     return 0;
 }
 
-/* Update lightpen coordinates and button status. Called at the end of each frame.
+/* Update lightpen coordinates and button status.
+   Called at the end of each frame by the UI code.
+
    For x128, window 1 is VICII, window 0 is VDC. Others always use window 0.
-   x and y are the canvas coordinates; double size, hwscale and offsets are removed in the arch side.
-   Negative values of x and/or y can be used to indicate that the pointer is off the (emulated) screen. */
+
+   x and y are the host canvas coordinates; double size, hwscale and offsets are
+   removed in the arch side.
+
+   Negative values of x and/or y can be used to indicate that the pointer is off
+   the (emulated) screen. */
 void lightpen_update(int window, int x, int y, int buttons)
 {
     CLOCK pulse_time;
@@ -553,6 +568,8 @@ void lightpen_update(int window, int x, int y, int buttons)
     if ((!lightpen_enabled) || (chip_timing_callback[window] == NULL) || (chip_trigger_callback == NULL)) {
         return;
     }
+
+/* DBG(("lightpen_update: x: %i y: %i buttons: %04x", x, y, buttons)); */
 
     lightpen_update_buttons(buttons);
 
