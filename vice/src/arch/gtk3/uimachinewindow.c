@@ -330,11 +330,19 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
     double render_w = canvas->geometry->screen_size.width;
 #else
     /* get width from render context instead */
+#ifdef WINDOWS_COMPILE
+    vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
+    double render_w = context->bitmap_width;
+    if (canvas->videoconfig->double_size_enabled) {
+        render_w /= 2.0f;
+    }
+#else
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     double render_w = context->current_frame_width;
     if (canvas->videoconfig->double_size_enabled) {
         render_w /= 2.0f;
     }
+#endif
     /* sanity check */
     if (render_w != canvas->geometry->screen_size.width) {
         static int once = 0;
