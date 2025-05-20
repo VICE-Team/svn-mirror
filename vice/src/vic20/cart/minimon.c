@@ -740,6 +740,8 @@ int minimon_bin_save(const char *filename)
     FILE *fd;
     size_t ret;
 
+    DBG(("minimon_bin_save '%s'", filename));
+
     if (filename == NULL) {
         return -1;
     }
@@ -768,11 +770,13 @@ int minimon_crt_save(const char *filename)
     FILE *fd;
     crt_chip_header_t chip;
 
+    DBG(("minimon_crt_save '%s'", filename));
+
     if (minimon_rom == NULL) {
         return -1;
     }
 
-    fd = crt_create(filename, CARTRIDGE_VIC20_MINIMON, 0, 0, STRING_MINIMON);
+    fd = crt_create_vic20(filename, CARTRIDGE_VIC20_MINIMON, 0, STRING_MINIMON);
 
     if (fd == NULL) {
         return -1;
