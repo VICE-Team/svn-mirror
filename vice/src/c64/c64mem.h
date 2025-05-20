@@ -82,6 +82,7 @@ int c64_mem_ui_init(void);
 void c64_mem_ui_shutdown(void);
 
 uint8_t vsid_io_read(uint16_t addr);
+uint8_t vsid_io_peek(uint16_t addr);
 void vsid_io_store(uint16_t addr, uint8_t val);
 
 #endif
