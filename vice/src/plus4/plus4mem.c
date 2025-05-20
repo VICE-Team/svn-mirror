@@ -36,6 +36,7 @@
 #include "datasette.h"
 #include "digiblaster.h"
 #include "iecbus.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
@@ -59,6 +60,14 @@
 #include "ted-mem.h"
 #include "types.h"
 #include "mos6510.h"
+
+/* #define DEBUG_MEM */
+
+#ifdef DEBUG_MEM
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
 
 static int hard_reset_flag = 1;
 
@@ -100,7 +109,7 @@ unsigned int mem_config;
 #define RAM8 mem_ram + 0x8000
 #define RAMC mem_ram + 0xc000
 
-static uint8_t *chargen_tab[8][16] = {
+static uint8_t *chargen_base_tab[8][16] = {
     /* 0000-3fff, RAM selected  */
     {       RAM0, RAM0, RAM0, RAM0,
             RAM0, RAM0, RAM0, RAM0,
@@ -143,10 +152,65 @@ static uint8_t *chargen_tab[8][16] = {
        plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3 },
     /* c000-ffff, ROM selected  */
     {  plus4memrom_kernal_rom, plus4memrom_kernal_rom,
-       plus4memrom_kernal_rom, plus4memrom_kernal_rom,
+           plus4memrom_kernal_rom, plus4memrom_kernal_rom,
        extromhi1, extromhi1, extromhi1, extromhi1,
        extromhi2, extromhi2, extromhi2, extromhi2,
        extromhi3, extromhi3, extromhi3, extromhi3 }
+};
+
+typedef uint8_t *read_base_func_t(unsigned int segment);
+typedef read_base_func_t *read_base_func_ptr_t;
+
+/* function(s) to fetch a dynamic base from */
+static read_base_func_ptr_t chargen_read_base_tab[8][16] = {
+    /* 0000-3fff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 4000-7fff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 8000-bfff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* c000-ffff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+
+    /* 0000-3fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 4000-7fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 8000-bfff, ROM selected  */
+    /* FIXME: we cant directly point to cartridge ROM here, we need a better
+              (indirect) way to do this */
+    {  NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL },
+
+    /* c000-ffff, ROM selected  */
+    {  NULL, NULL, NULL, NULL,
+       NULL, NULL, NULL, NULL,
+    /* FIXME: we cant directly point to cartridge ROM here, we need a better
+              (indirect) way to do this */
+       NULL, NULL, NULL, NULL,
+       NULL, NULL, NULL, NULL }
 };
 
 /*
@@ -156,7 +220,20 @@ static uint8_t *chargen_tab[8][16] = {
 */
 uint8_t *mem_get_tedmem_base(unsigned int segment)
 {
-    return chargen_tab[segment][mem_config >> 1];
+    uint8_t *base;
+    read_base_func_ptr_t basefunc;
+
+    if ((basefunc = chargen_read_base_tab[segment][mem_config >> 1]) == NULL) {
+        /* no base read function, use the base tab */
+        return chargen_base_tab[segment][mem_config >> 1];
+    }
+
+    if ((base = basefunc(segment)) != NULL) {
+        return base;
+    }
+
+    /* if the base read function returned NULL, use the base tab */
+    return chargen_base_tab[segment][mem_config >> 1];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -689,26 +766,26 @@ void mem_initialize_memory(void)
         case 256:
         case 64:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM8;
-                chargen_tab[3][i] = RAMC;
-                chargen_tab[5][i] = RAM4;
+                chargen_base_tab[1][i] = RAM4;
+                chargen_base_tab[2][i] = RAM8;
+                chargen_base_tab[3][i] = RAMC;
+                chargen_base_tab[5][i] = RAM4;
             }
             break;
         case 32:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM4;
-                chargen_tab[5][i] = RAM4;
+                chargen_base_tab[1][i] = RAM4;
+                chargen_base_tab[2][i] = RAM0;
+                chargen_base_tab[3][i] = RAM4;
+                chargen_base_tab[5][i] = RAM4;
             }
             break;
         case 16:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM0;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM0;
-                chargen_tab[5][i] = RAM0;
+                chargen_base_tab[1][i] = RAM0;
+                chargen_base_tab[2][i] = RAM0;
+                chargen_base_tab[3][i] = RAM0;
+                chargen_base_tab[5][i] = RAM0;
             }
             break;
     }
@@ -800,6 +877,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[5][i] = NULL;
         mem_read_tab[7][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[7][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[9][i] = plus4memrom_basic_read;
         mem_read_base_tab[9][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = plus4memrom_extromlo1_read;
@@ -809,6 +887,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[13][i] = NULL;
         mem_read_tab[15][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[15][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[17][i] = plus4memrom_basic_read;
         mem_read_base_tab[17][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[19][i] = plus4memrom_extromlo1_read;
@@ -818,6 +897,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[21][i] = NULL;
         mem_read_tab[23][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[23][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[25][i] = plus4memrom_basic_read;
         mem_read_base_tab[25][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromlo1_read;
@@ -831,18 +911,26 @@ void mem_initialize_memory(void)
 
     /* Setup Kernal ROM and extension ROMs at $E000-$FFFF.  */
     for (i = 0xc0; i <= 0xff; i++) {
+#if 0
         mem_read_tab[1][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[5][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[7][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#else
+        /* redirect kernal to cartridge port */
+        mem_read_tab[1][i] = plus4cart_kernal_read;
+        mem_read_base_tab[1][i] = NULL;
+        mem_read_tab[3][i] = plus4cart_kernal_read;
+        mem_read_base_tab[3][i] = NULL;
+        mem_read_tab[5][i] = plus4cart_kernal_read;
+        mem_read_base_tab[5][i] = NULL;
+        mem_read_tab[7][i] = plus4cart_kernal_read;
+        mem_read_base_tab[7][i] = NULL;
+#endif
         mem_read_tab[9][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[9][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = plus4memrom_extromhi1_read;
@@ -851,6 +939,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[13][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[15][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[15][i] = extromhi1 + ((i & 0x3f) << 8);
+
         mem_read_tab[17][i] = plus4cart_c1hi_read;
         /*mem_read_base_tab[17][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[17][i] = NULL;
@@ -863,6 +952,7 @@ void mem_initialize_memory(void)
         mem_read_tab[23][i] = plus4cart_c1hi_read;
         /*mem_read_base_tab[23][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[23][i] = NULL;
+
         mem_read_tab[25][i] = plus4memrom_extromhi3_read;
         mem_read_base_tab[25][i] = extromhi3 + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromhi3_read;
@@ -1202,6 +1292,23 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                     0  1  Function HI (hi internal #2)
                     1  0  Cartridge HI (hi external #1)
                     1  1  reserved
+
+                    fdd0 "BASIC",  "KERNAL"
+                    fdd1 "3+1",    "KERNAL"
+                    fdd2 "CART-1", "KERNAL"
+                    fdd3 "CART-2", "KERNAL"
+                    fdd4 "BASIC",  "3+1"
+                    fdd5 "3+1",    "3+1"
+                    fdd6 "CART-1", "3+1"
+                    fdd7 "CART-2", "3+1"
+                    fdd8 "BASIC",  "CART-1"
+                    fdd9 "3+1",    "CART-1"
+                    fdda "CART-1", "CART-1"
+                    fddb "CART-2", "CART-1"
+                    fddc "BASIC",  "CART-2"
+                    fddd "3+1",    "CART-2"
+                    fdde "CART-1", "CART-2"
+                    fddf "CART-2", "CART-2"
 
                 $FF00-  TED registers
 

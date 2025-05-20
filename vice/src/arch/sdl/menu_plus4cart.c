@@ -73,6 +73,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
             case CARTRIDGE_PLUS4_JACINT1MB:
                 action = ACTION_CART_ATTACH_RAW_JACINT1MB;
                 break;
+            case CARTRIDGE_PLUS4_SPEEDY:
+                action = ACTION_CART_ATTACH_RAW_SPEEDY;
+                break;
             case CARTRIDGE_PLUS4_GENERIC_C1:
                 action = ACTION_CART_ATTACH_RAW_C1_FULL;
                 break;
@@ -169,6 +172,12 @@ const ui_menu_entry_t plus4cart_menu[] = {
         .type     = MENU_ENTRY_DIALOG,
         .callback = attach_cart_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_JACINT1MB
+    },
+    {   .action   = ACTION_CART_ATTACH_RAW_SPEEDY,
+        .string   = "Attach raw " CARTRIDGE_PLUS4_NAME_SPEEDY " image",
+        .type     = MENU_ENTRY_DIALOG,
+        .callback = attach_cart_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_PLUS4_SPEEDY
     },
     SDL_MENU_ITEM_SEPARATOR,
 

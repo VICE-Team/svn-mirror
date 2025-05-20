@@ -28,6 +28,8 @@ libplus4cart_a_SOURCES = \
 	plus4-generic.h \
 	plus4-generic.c \
 	plus4-sidcart.c \
+	speedy.h \
+	speedy.c \
 	jacint1mb.h \
 	jacint1mb.c \
 	magiccart.h \

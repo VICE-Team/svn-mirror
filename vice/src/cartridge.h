@@ -566,8 +566,9 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS4_MAGIC           1   /* c264 magic cart */
 #define CARTRIDGE_PLUS4_MULTI           2   /* plus4 multi cart */
 #define CARTRIDGE_PLUS4_JACINT1MB       3   /* 1MB Cartridge */
+#define CARTRIDGE_PLUS4_SPEEDY          4   /* Speedy */
 
-#define CARTRIDGE_PLUS4_LAST            3
+#define CARTRIDGE_PLUS4_LAST            4
 
 /* FIXME: get rid of this */
 #define CARTRIDGE_PLUS4_DETECT          0x8200 /* low byte must be 0x00 */
@@ -591,6 +592,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS4_NAME_JACINT1MB  "1MB Cartridge"
 #define CARTRIDGE_PLUS4_NAME_MAGIC      "c264 magic cart"
 #define CARTRIDGE_PLUS4_NAME_MULTI      "Plus4 multi cart"
+#define CARTRIDGE_PLUS4_NAME_SPEEDY     "Speedy"
 
 /*
  * cbm2 cartridge system
