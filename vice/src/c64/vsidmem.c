@@ -53,6 +53,7 @@
 #include "monitor.h"
 #include "ram.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "tpi.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
@@ -792,6 +793,9 @@ static uint8_t peek_bank_io(uint16_t addr)
             return cia1_peek(addr);
         case 0xdd00:
             return cia2_peek(addr);
+        case 0xde00:
+        case 0xdf00:
+            return vsid_io_peek(addr);
     }
     return 0xff;
 }
@@ -990,6 +994,12 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io, NULL, IO_MIRROR_NONE);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io, NULL, IO_MIRROR_NONE);
 
+    if (sid_stereo >= 1) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID2", sid2_address_start, sid2_address_start + 0x1f, sid2_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 2) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID3", sid3_address_start, sid3_address_start + 0x1f, sid3_dump, NULL, IO_MIRROR_NONE);
+    }
     return mem_ioreg_list;
 }
 
