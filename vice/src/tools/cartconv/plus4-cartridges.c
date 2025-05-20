@@ -27,6 +27,6 @@ const cart_t cart_info_plus4[] = {
     {0, 0, CARTRIDGE_SIZE_2MB |
            CARTRIDGE_SIZE_4MB,     0x4000, 0x8000,   0, CRT_CHIP_ROM, CARTRIDGE_PLUS4_NAME_MULTI,           "multi", save_multicart_crt},
     {0, 0, CARTRIDGE_SIZE_1MB,     0x4000, 0x8000,  64, CRT_CHIP_ROM, CARTRIDGE_PLUS4_NAME_JACINT1MB,      "jacint", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_8KB,     0x2000, 0x8000,   1, CRT_CHIP_ROM, CARTRIDGE_PLUS4_NAME_SPEEDY,         "speedy", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
-

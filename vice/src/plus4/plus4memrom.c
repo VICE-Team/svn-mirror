@@ -36,6 +36,14 @@
 #include "sysfile.h"
 #include "types.h"
 
+/* #define DEBUG_MEMROM */
+
+#ifdef DEBUG_MEMROM
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 uint8_t plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE];
 uint8_t plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE];
 
@@ -48,6 +56,7 @@ uint8_t extromhi3[PLUS4_C2HI_ROM_SIZE];
 
 uint8_t plus4memrom_kernal_trap_rom[PLUS4_KERNAL_ROM_SIZE];
 
+/* c000 - ffff */
 uint8_t plus4memrom_kernal_read(uint16_t addr)
 {
     return plus4memrom_kernal_rom[addr & 0x3fff];
@@ -60,6 +69,7 @@ static void plus4memrom_kernal_store(uint16_t addr, uint8_t value)
 }
 #endif
 
+/* 8000 - bfff */
 uint8_t plus4memrom_basic_read(uint16_t addr)
 {
     return plus4memrom_basic_rom[addr & 0x3fff];
@@ -75,6 +85,7 @@ static void plus4memrom_basic_store(uint16_t addr, uint8_t value)
 
 uint8_t plus4memrom_trap_read(uint16_t addr)
 {
+    DBG(("plus4memrom_trap_read 0x%04x", addr));
     switch (addr & 0xc000) {
         case 0xc000:
             return plus4memrom_kernal_trap_rom[addr & 0x3fff];
@@ -95,6 +106,7 @@ void plus4memrom_trap_store(uint16_t addr, uint8_t value)
 /* c0lo internal "function rom" (plus4) */
 uint8_t plus4memrom_extromlo1_read(uint16_t addr)
 {
+    DBG(("plus4memrom_extromlo1_read 0x%04x", addr));
     return extromlo1[addr & 0x3fff];
 }
 
@@ -107,12 +119,14 @@ uint8_t plus4memrom_extromhi1_read(uint16_t addr)
 /* c2lo can be internal or external cartridge, used by v364 speech rom */
 uint8_t plus4memrom_extromlo3_read(uint16_t addr)
 {
+    DBG(("plus4memrom_extromlo3_read 0x%04x", addr));
     return extromlo3[addr & 0x3fff];
 }
 
 /* c2hi can be internal or external cartridge, used by v364 speech rom */
 uint8_t plus4memrom_extromhi3_read(uint16_t addr)
 {
+    DBG(("plus4memrom_extromhi3_read 0x%04x", addr));
     return extromhi3[addr & 0x3fff];
 }
 
@@ -225,7 +239,9 @@ uint8_t plus4memrom_rom_read(uint16_t addr)
             } else {
                 switch ((mem_config >> 3) & 3) {
                     case 0:
-                        return plus4memrom_kernal_read(addr);
+                        /*return plus4memrom_kernal_read(addr);*/
+                        /* enable redirecting kernal to cartridge port */
+                        return plus4cart_kernal_read(addr);
                     case 1: /* c0hi */
                         return plus4memrom_extromhi1_read(addr);
                     case 2: /* c1hi */

@@ -15769,6 +15769,8 @@ The following cartridge types are valid:
      2: Plus4 multi cart
 @item
      3: 1MB Cartridge
+@item
+     4: "Speedy" freezer cartridge
 @end itemize
 
 @vindex CartridgeFile
@@ -15823,6 +15825,10 @@ Attach a 128kiB/256kiB/512kiB/1MiB/2MiB "c264 magic cart" image
 @item -cartmulti <name>
 Attach a 1MiB/2MiB "Plus4 multi cart" image. The binary should contain all c1lo
 banks first, then all c1hi banks.
+
+@findex -cartspeedy
+@item -cartspeedy <name>
+Attach a 8kiB "Speedy" image
 
 @end table
 
@@ -23917,6 +23923,8 @@ Generic 4KiB/8KiB/16KiB C2HI cartridge
 c264 magic cart
 @item multi
 Plus4 multi cart
+@item speedy
+"Speedy" freezer cart
 @end table
 
 @b{CBM2 cartridges:}
@@ -35600,6 +35608,8 @@ from starting.
 @tab Plus4 multi cart
 @item 3
 @tab 1MB Cartridge
+@item 4
+@tab "Speedy" freezer cartridge
 @end multitable
 
 For all Plus4 binary formats (non .crt) the convention is to store all banks of
@@ -35712,6 +35722,31 @@ This cartridge has one banking register at $fda0.
 @end example
 
 This cartridge has one banking register at $fe00.
+
+@c @node FIXME
+@subsubsection 4 - Speedy
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8KiB
+@item Load address
+@tab $8000-$BFFF (mirrored twice) (C1LO)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 50 4c 55 53 34 20 43 41 52 54 52 49 44 47 45 20  PLUS4 CARTRIDGE
+  0010: 00 00 00 40 02 00 00 04 00 00 00 00 00 00 00 00  ...@............
+  0020: 53 70 65 65 64 79 00 00 00 00 00 00 00 00 00 00  Speedy..........
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+  0050: 4c 0a 80 42 4f 50 02 43 42 4d a2 00 bd 26 80 9d  L..BOP.CBM...&..
+@dots{}
+  2030: 20 20 20 20 20 20 20 20 00 84 00 a4 00 06 00 ef  ................
+  2040: 12 ff fd ff fd ff ff ff ff ff df ff ff ff ff ff  ................
+@end example
+
 
 @c @node FIXME
 @subsection CBM2 Cartridge Specifics

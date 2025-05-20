@@ -164,6 +164,10 @@ static const ui_action_map_t cartridge_actions_plus4[] = {
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
     },
+    {   .action  = ACTION_CART_ATTACH_RAW_SPEEDY,
+        .handler = sdl_ui_activate_item_action,
+        .dialog  = true
+    },
     {   .action  = ACTION_CART_ATTACH_RAW_C1_FULL,
         .handler = sdl_ui_activate_item_action,
         .dialog  = true
@@ -190,6 +194,9 @@ static const ui_action_map_t cartridge_actions_plus4[] = {
     },
     {   .action  = ACTION_CART_DETACH,
         .handler = cart_detach_action
+    },
+    {   .action  = ACTION_CART_FREEZE,
+        .handler = cart_freeze_action
     },
     UI_ACTION_MAP_TERMINATOR
 };

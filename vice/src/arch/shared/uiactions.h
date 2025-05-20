@@ -127,6 +127,7 @@ enum {
     ACTION_CART_ATTACH_RAW_JACINT1MB,   /* Plus/4 */
     ACTION_CART_ATTACH_RAW_MAGIC,       /* Plus/4 */
     ACTION_CART_ATTACH_RAW_MULTI,       /* Plus/4 */
+    ACTION_CART_ATTACH_RAW_SPEEDY,      /* Plus/4 */
     ACTION_CART_ATTACH_RAW_C1_FULL,     /* Plus/4 */
     ACTION_CART_ATTACH_RAW_C1_LOW,      /* Plus/4 */
     ACTION_CART_ATTACH_RAW_C1_HIGH,     /* Plus/4 */

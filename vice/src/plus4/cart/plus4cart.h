@@ -42,9 +42,22 @@
 #define PLUS4_C1LO_ROM_SIZE (16 * 0x400)
 #define PLUS4_C1HI_ROM_SIZE (16 * 0x400)
 
+#define CART_READ_PLUS4MEM             -1
+#define CART_READ_THROUGH               0
+#define CART_READ_VALID                 1
+
 /* expansion port access functions */
+uint8_t plus4cart_kernal_read(uint16_t addr);
+
 uint8_t plus4cart_c1lo_read(uint16_t addr);
 uint8_t plus4cart_c1hi_read(uint16_t addr);
+
+int plus4cart_fd00_read(uint16_t addr, uint8_t *value);
+int plus4cart_fe00_read(uint16_t addr, uint8_t *value);
+int plus4cart_fd00_peek(uint16_t addr, uint8_t *value);
+int plus4cart_fe00_peek(uint16_t addr, uint8_t *value);
+
+uint8_t *plus4cart_get_tedmem_base(unsigned int segment);
 
 /* FIXME: these live in plus4-generic.c */
 /* FIXME: we need this because of a reference in plus4mem.c that should be
