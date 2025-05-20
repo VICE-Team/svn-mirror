@@ -294,6 +294,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
 #elif defined(WINDOWS_COMPILE)
 
+        /* scale is a uniform scaling applied to eg high dpi widgets by gtk */
         int scale = gtk_widget_get_scale_factor(widget);
         POINT pt;
         /* mouse_host_moved(motion->x_root * scale, motion->y_root * scale); */
@@ -308,6 +309,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
 #else /* Xlib, warp is relative to window */
 
+        /* scale is a uniform scaling applied to eg high dpi widgets by gtk */
         int scale = gtk_widget_get_scale_factor(widget);
         mouse_host_moved(
             (widget_x + motion->x) * scale,
@@ -322,8 +324,27 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
     /*
      * Mouse isn't captured, so we update the pen position.
      */
-
+#if 0
+    /* FIXME: this value is wrong in (at least) xvic, it is always the full
+              width of produced video, not just the width of the shown window */
     double render_w = canvas->geometry->screen_size.width;
+#else
+    /* get width from render context instead */
+    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    double render_w = context->current_frame_width;
+    if (canvas->videoconfig->double_size_enabled) {
+        render_w /= 2.0f;
+    }
+    /* sanity check */
+    if (render_w != canvas->geometry->screen_size.width) {
+        static int once = 0;
+        if (!once) {
+            log_warning(LOG_DEFAULT, "geometry->screen_size.width (%u) does not match actual rendered width (%f)",
+                        canvas->geometry->screen_size.width, render_w);
+            once++;
+        }
+    }
+#endif
     double render_h = canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line + 1;
 
     /* There might be some sweet off-by-0.5 bugs here */

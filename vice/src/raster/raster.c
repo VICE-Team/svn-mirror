@@ -54,6 +54,14 @@
 #include "video.h"
 #include "viewport.h"
 
+/* #define DEBUG_RASTER */
+
+#ifdef DEBUG_RASTER
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 
 static int raster_calc_frame_buffer_width(raster_t *raster)
 {
@@ -409,12 +417,13 @@ void raster_set_geometry(raster_t *raster,
     if (geometry->screen_size.width != screen_width
         || geometry->screen_size.height != screen_height
         || geometry->extra_offscreen_border_left != extra_offscreen_border_left
-        || geometry->extra_offscreen_border_right
-        != extra_offscreen_border_right) {
+        || geometry->extra_offscreen_border_right != extra_offscreen_border_right) {
         geometry->screen_size.width = screen_width;
         geometry->screen_size.height = screen_height;
         geometry->extra_offscreen_border_left = extra_offscreen_border_left;
         geometry->extra_offscreen_border_right = extra_offscreen_border_right;
+        DBG(("raster_set_geometry screen_size.width:%d height:%d extra_offscreen_border_left: %d right:%d",
+             screen_width, screen_height, extra_offscreen_border_left, extra_offscreen_border_right));
         raster_realize_frame_buffer(raster);
     }
 
