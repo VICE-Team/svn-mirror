@@ -50,6 +50,7 @@
 
 #ifdef WINDOWS_COMPILE
 #include "directx_renderer.h"
+#include "directx_renderer_impl.h"
 #else
 #include "opengl_renderer.h"
 #endif
