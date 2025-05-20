@@ -98,6 +98,9 @@ static char *ExitScreenshotName = NULL;
 static char *ExitScreenshotName1 = NULL;
 static bool is_first_reset = true;
 
+/* Declaration for joy_hidlib_exit() to fix undeclared function error */
+void joy_hidlib_exit(void);
+
 /* NOTE: this function is very similar to drive_jam - in case the behavior
          changes, change drive_jam too */
 unsigned int machine_jam(const char *format, ...)
