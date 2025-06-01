@@ -923,13 +923,13 @@ void mem_initialize_memory(void)
 #else
         /* redirect kernal to cartridge port */
         mem_read_tab[1][i] = plus4cart_kernal_read;
-        mem_read_base_tab[1][i] = NULL;
+        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = plus4cart_kernal_read;
-        mem_read_base_tab[3][i] = NULL;
+        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[5][i] = plus4cart_kernal_read;
-        mem_read_base_tab[5][i] = NULL;
+        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[7][i] = plus4cart_kernal_read;
-        mem_read_base_tab[7][i] = NULL;
+        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
 #endif
         mem_read_tab[9][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[9][i] = extromhi1 + ((i & 0x3f) << 8);
