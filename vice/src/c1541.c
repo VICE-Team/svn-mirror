@@ -252,7 +252,7 @@ struct vdrive_s *file_system_get_vdrive(unsigned int unit)
         return NULL;
     }
 
-    return drives[unit - 8];
+    return drives[unit - DRIVE_UNIT_MIN];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1089,6 +1089,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
         return -1;
     }
 
+    vdrive_device_shutdown(vdrive);
     vdrive_device_setup(vdrive, unit);
     vdrive_attach_image(image, unit, 0, vdrive);
     return 0;
@@ -1117,9 +1118,10 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
         disk_image_media_destroy(image);
         disk_image_destroy(image);
         vdrive->image = NULL;
-        /* also clean up buffer used by the vdrive */
-        vdrive_device_shutdown(vdrive);
     }
+
+    /* also clean up buffer used by the vdrive */
+    vdrive_device_shutdown(vdrive);
 }
 
 /** \brief  Open image or create a new one
@@ -5220,7 +5222,7 @@ static int validate_cmd(int nargs, char **args)
         return FD_NOTREADY;
     }
 
-    printf("validating in unit %d ...\n", dnr + 8);
+    printf("validating in unit %d ...\n", dnr + DRIVE_UNIT_MIN);
     vdrive_command_validate(drives[dnr]);
 
     return FD_OK;
@@ -5363,10 +5365,10 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (dest_name == (char *)finfo->name) {
-        printf("writing file `%s' to unit %d\n", finfo->name, dnr + 8);
+        printf("writing file `%s' to unit %d\n", finfo->name, dnr + DRIVE_UNIT_MIN);
     } else {
         printf("writing file `%s' as `%s' to unit %d\n", finfo->name,
-               dest_name, dnr + 8);
+               dest_name, dnr + DRIVE_UNIT_MIN);
     }
 
     if (rel_record_length == 0) {
@@ -5630,6 +5632,7 @@ int main(int argc, char **argv)
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         drives[i] = lib_calloc(1, sizeof *drives[i]);
+        vdrive_device_setup(drives[i], DRIVE_UNIT_MIN + i);
     }
 
     /* The first arguments without leading `-' are interpreted as disk images
@@ -5638,10 +5641,10 @@ int main(int argc, char **argv)
         if ((i - 1) == NUM_DISK_UNITS) {
             fprintf(stderr, "Ignoring disk image `%s'\n", argv[i]);
         } else {
-            if (open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + 8)) != 0) {
+            if (open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + DRIVE_UNIT_MIN)) != 0) {
                 /* error: clean up and exit */
                 while (--i >= 1) {
-                    close_disk_image(drives[i - 1], (unsigned int)(i - 1 + 8));
+                    close_disk_image(drives[i - 1], (unsigned int)(i - 1 + DRIVE_UNIT_MIN));
                 }
                 for (i = 0; i < NUM_DISK_UNITS; i++) {
                     lib_free(drives[i]);
@@ -5764,7 +5767,7 @@ int main(int argc, char **argv)
     /* free memory used by the virtual drives */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         if (drives[i]) {
-            close_disk_image(drives[i], i + 8);
+            close_disk_image(drives[i], i + DRIVE_UNIT_MIN);
             lib_free(drives[i]);
         }
     }
@@ -5811,7 +5814,7 @@ static int p00save_cmd(int nargs, char **args)
         if (check_drive_unit(dnr) < 0) {
             return FD_BADDEV;
         }
-        dnr -= 8;
+        dnr -= DRIVE_UNIT_MIN;
     }
 
     p00save[dnr] = (unsigned int)enable;
