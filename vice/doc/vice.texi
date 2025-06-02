@@ -1442,7 +1442,8 @@ and after doing so revert all settings to what they were before autostarting.
 If you want to allow the started program to access the host file system, you will
 have to enable "virtual device traps". If you want the autostart logic to disable
 true drive emulation temporarily to speed up the autostart, then enable "handle
-TDE at autostart.
+TDE at autostart (this is required if true drive emulation would be enabled
+otherwise - as is the default).
 
 @xref{Disk and tape images}. for more information about images and
 autostart.
@@ -3431,7 +3432,7 @@ use the ``Autostart'' button in the file selector window after selecting
 a proper disk or tape image file.
 
 If true drive emulation is turned on, and the @dfn{Handle TDE at Autostart}
-setting is enabled, true drive emulation will be turned off before running 
+setting is enabled, true drive emulation will be turned off before loading
 the program and then turned on again after it has been
 loaded.  This way, you get the maximum possible speed while loading the
 file, but you do not lose compatibility once the program itself is
@@ -3603,7 +3604,7 @@ reset settings to default first.}
 @item
 To speed up loading .prg files, enable
 Options->Host->Autostart->Autostart PRG Settings->Autostart mode->Inject into RAM
-(@code{AutostartPrgMode} = 0)
+(@code{AutostartPrgMode} = 1)
 
 @item
 To speed up loading .d64 files,
@@ -3786,7 +3787,8 @@ Boolean, if true put a colon after the load command when autostarting
 @item AutostartHandleTrueDriveEmulation
 Boolean, if true handle (enable/disable) True Drive Emulation on autostart
 (all emulators except vsid). This is disabled by default to ensure maximum
-compatibility.
+compatibility. It @emph{must} be enabled, if true drive emulation is enabled, and
+@code{AutostartPrgMode} is 0.
 
 @vindex AutostartWarp
 @item AutostartWarp
@@ -3798,6 +3800,8 @@ Boolean, if true temporarily enable warp mode when autostarting
 Integer specifying the autostart mode for prg files
 (all emulators except vsid).
 (0: virtual filesystem, 1: inject to RAM, 2: copy to D64)
+Note that @code{AutostartHandleTrueDriveEmulation} must be enabled, if true drive
+emulation is enabled.
 
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
