@@ -730,7 +730,9 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 /* Set the retrace/vertical blank alarm, to cause an IRQ,
                  * at the end/rhs of the visible text area.
                  * Non-crtc timings are fixed so we might as well use the
-                 * more efficient expression to check for the bottom line. */
+                 * more efficient expression to check for the bottom line.
+                 * The screen takes 200 lines, then 20 lines bottom border,
+                 * 20 lines retrace time, and 20 lines top border. */
                 alarm_set(crtc.adjusted_retrace_alarm,
                           crtc.rl_start + crtc.rl_visible);
             }
@@ -783,7 +785,9 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
             /* Set the retrace/vertical blank alarm, to end the IRQ,
              * at the rhs of the visible text area but 1 line above it.
              * Non-crtc timings are fixed so we might as well use the
-             * more efficient expression to check for the top line. */
+             * more efficient expression to check for the top line.
+             * End the retrace time 60 line times after starting it,
+             * at the same horizontal position (40 chars). */
             alarm_set(crtc.adjusted_retrace_alarm,
                       crtc.rl_start + crtc.rl_visible);
         }
@@ -958,13 +962,20 @@ static void crtc_adjusted_retrace_alarm_handler(CLOCK offset, void *data)
     crtc.retrace_callback(crtc.off_screen, offset);
 }
 
-/*
- * Experimental approximation of snow.
- * Real snow would be of lower intensity than normal pixels because it is
- * typically only displayed for one frame.
- * Also, read access to the screen memory should probably cause it too.
- */
-#define SNOW            0
+void crtc_update_snow(uint16_t addr, uint8_t value)
+{
+#if CRTC_SNOW
+    /* snow ... */
+    int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
+                       crtc.hw_cols
+                  - crtc.beam_offset;
+    int width =  crtc.rl_visible * crtc.hw_cols;
+
+    if (beampos >= 0 && beampos < width) {
+        crtc.prefetch[beampos] = value;
+    }
+#endif /* SNOW */
+}
 
 /*
  * The caller must mask the addr to an acceptable range for the screen size.
@@ -1006,16 +1017,8 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
             }
         }
     }
-#if SNOW
-    /* snow ... */
-    int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
-                       crtc.hw_cols
-                  - crtc.beam_offset;
-    int width =  crtc.rl_visible * crtc.hw_cols;
-
-    if (beampos >= 0 && beampos < width) {
-        crtc.prefetch[beampos] = value;
-    }
+#if CRTC_SNOW
+    crtc_update_snow(addr, value);
 #endif /* SNOW */
 }
 #endif /* CRTC_BEAM_RACING */
