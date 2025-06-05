@@ -93,10 +93,16 @@ uint8_t *crtc_get_active_bitmap(void);
  *
  * Additionally, the timing of the "off_screen" signal for non-CRTC is
  * corrected, at the cost of extra alarms.
+ *
+ * CRTC_SNOW: Experimental approximation of snow.
+ * Real snow would be of lower intensity than normal pixels because it is
+ * typically only displayed for one frame.
  */
 #define CRTC_BEAM_RACING        1
+#define CRTC_SNOW               0
 #if CRTC_BEAM_RACING
 void crtc_update_prefetch(uint16_t addr, uint8_t value);
+void crtc_update_snow(uint16_t addr, uint8_t value);
 #endif
 
 /*

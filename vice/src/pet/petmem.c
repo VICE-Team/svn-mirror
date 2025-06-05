@@ -207,7 +207,11 @@ static void store_extC(uint16_t addr, uint8_t value)
  */
 static uint8_t read_vmem(uint16_t addr)
 {
-    last_access = mem_ram[0x8000 + (addr & 0x3fff)];
+    addr &= 0x3fff;
+    last_access = mem_ram[0x8000 + addr];
+#if CRTC_BEAM_RACING && CRTC_SNOW
+    crtc_update_snow(addr, last_access);
+#endif
     return last_access;
 }
 
@@ -231,13 +235,19 @@ static void store_vmem(uint16_t addr, uint8_t value)
  */
 static uint8_t read_vmirror(uint16_t addr)
 {
-    last_access = mem_ram[0x8000 + (addr & 0x0bff)];   /* 0x3FF + 0x800 */
+    addr &= 0x0bff;   /* 0x3FF + 0x800 */
+    last_access = mem_ram[0x8000 + addr];
+#if CRTC_BEAM_RACING
+    if (addr < 0x0400) {
+        crtc_update_snow(addr, last_access);
+    }
+#endif
     return last_access;
 }
 
 static void store_vmirror(uint16_t addr, uint8_t value)
 {
-    addr &= 0x0bff;
+    addr &= 0x0bff;   /* 0x3FF + 0x800 */
     mem_ram[0x8000 + addr] = value;
     last_access = value;
 #if CRTC_BEAM_RACING
@@ -1104,12 +1114,21 @@ static void set_std_9tof(void)
             mem_read_limit_tab[i] = 0;
         }
     } else {
-        fetch = ram9            ? ram_read :
+        /*
+         * On 8296, $9xxx can be used by the CRTC.  With a jumper, even more
+         * than that, but we don't emulate that.
+         */
+        void (*store9)(uint16_t, uint8_t);
+
+        fetch = ram9            ? read_vmem : /* ram9 can only be set on 8296 */
                 petrom_9_loaded ? rom_read :
                                   read_unused;
+        store9 = petres.map == PET_MAP_8296 ? store_vmem :
+                                              store;
+
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
-            _mem_write_tab[i] = store;
+            _mem_write_tab[i] = store9;
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
@@ -1241,7 +1260,7 @@ void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, uin
     *limit = mem_read_limit_tab;
 }
 
-/* called by mem_update_config(), mem_toggle_watchpoints() */
+/* called by mem_initialize_memory(), mem_toggle_watchpoints() */
 static void mem_update_tab_ptrs(int flag)
 {
     if (flag) {
