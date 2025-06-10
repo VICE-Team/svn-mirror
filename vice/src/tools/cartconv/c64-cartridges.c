@@ -152,6 +152,13 @@ const cart_t cart_info[] = {
            CARTRIDGE_SIZE_512KB,   0x4000, 0x8000,   0, 2, CARTRIDGE_NAME_UC2,                  "uc2", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_16KB,    0x4000, 0x8000,   1, 0, CARTRIDGE_NAME_BMPDATATURBO,         "bdt", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB,    0x2000, 0xe000,   2, 0, CARTRIDGE_NAME_PROFIDOS,              "pd", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB |
+           CARTRIDGE_SIZE_64KB |
+           CARTRIDGE_SIZE_128KB |
+           CARTRIDGE_SIZE_256KB |
+           CARTRIDGE_SIZE_512KB |
+           CARTRIDGE_SIZE_1024KB |
+           CARTRIDGE_SIZE_2048KB,  0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_MAGIC_DESK_16,        "md16", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

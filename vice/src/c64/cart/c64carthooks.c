@@ -113,6 +113,7 @@
 #include "mach5.h"
 #include "machine.h"
 #include "magicdesk.h"
+#include "magicdesk16.h"
 #include "magicformel.h"
 #include "magicvoice.h"
 #include "maxbasic.h"
@@ -369,6 +370,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartmd", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_DESK, NULL, NULL,
       "<Name>", "Attach raw 32/64/128KiB Magic Desk cartridge image" },
+    { "-cartmd16", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_DESK_16, NULL, NULL,
+      "<Name>", "Attach raw up to 2048KiB Magic Desk 16K cartridge image" },
     { "-cartmf", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_FORMEL, NULL, NULL,
       "<Name>", "Attach raw Magic Formel cartridge image" },
@@ -1011,6 +1015,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return mach5_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_DESK:
             return magicdesk_bin_attach(filename, rawcart);
+        case CARTRIDGE_MAGIC_DESK_16:
+            return magicdesk16_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_bin_attach(filename, rawcart);
         case CARTRIDGE_MAX_BASIC:
@@ -1275,6 +1281,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MAGIC_DESK_16:
+            magicdesk16_config_setup(rawcart);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_config_setup(rawcart);
@@ -1888,6 +1897,9 @@ void cart_detach(int type)
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_detach();
             break;
+        case CARTRIDGE_MAGIC_DESK_16:
+            magicdesk16_detach();
+            break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_detach();
             break;
@@ -2195,6 +2207,9 @@ void cartridge_init_config(void)
                 break;
             case CARTRIDGE_MAGIC_DESK:
                 magicdesk_config_init();
+                break;
+            case CARTRIDGE_MAGIC_DESK_16:
+                magicdesk16_config_init();
                 break;
             case CARTRIDGE_MAGIC_FORMEL:
                 magicformel_config_init();
@@ -3605,6 +3620,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                         return -1;
                     }
                     break;
+                case CARTRIDGE_MAGIC_DESK_16:
+                    if (magicdesk16_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
                 case CARTRIDGE_MAGIC_FORMEL:
                     if (magicformel_snapshot_write_module(s) < 0) {
                         return -1;
@@ -4217,6 +4237,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_MAGIC_DESK:
                     if (magicdesk_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_MAGIC_DESK_16:
+                    if (magicdesk16_snapshot_read_module(s) < 0) {
                         goto fail2;
                     }
                     break;

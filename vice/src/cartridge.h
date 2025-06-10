@@ -273,7 +273,8 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_UC2                  82 /* uc2.c */
 #define CARTRIDGE_BMPDATATURBO         83 /* bmpdataturbo.c */
 #define CARTRIDGE_PROFIDOS             84 /* profidos.c */
-#define CARTRIDGE_LAST                 84 /* cartconv: last cartridge in list */
+#define CARTRIDGE_MAGIC_DESK_16        85 /* magicdesk16.c */
+#define CARTRIDGE_LAST                 85 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -346,6 +347,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_LT_KERNAL          "Lt. Kernal Host Adaptor"
 #define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
 #define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
+#define CARTRIDGE_NAME_MAGIC_DESK_16      "Magic Desk 16K" /* https://github.com/crystalct/MagicDesk2 */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
 #define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
