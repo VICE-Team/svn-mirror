@@ -9763,6 +9763,8 @@ MACH 5
 @item
 Magic Desk
 @item
+Magic Desk 16
+@item
 Magic Formel
 @item
 MAX Basic
@@ -10200,6 +10202,8 @@ The following cartridge types are valid:
 83: BMP Data Turbo
 @item
 84: Profi-DOS
+@item
+85: Magic Desk 16
 @end itemize
 
 @vindex CartridgeFile
@@ -11159,6 +11163,10 @@ Attach raw 8KiB MACH 5 cartridge image.
 @findex -cartmd
 @item -cartmd <name>
 Attach raw 32/64/128KiB Magic Desk cartridge image.
+
+@findex -cartmd16
+@item -cartmd16 <name>
+Attach raw up to 2048KiB Magic Desk 16K cartridge image.
 
 @findex -cartmf
 @item -cartmf <name>
@@ -23782,6 +23790,8 @@ Lt. Kernal Host Adaptor .crt file
 MACH 5 .crt file
 @item md
 Magic Desk .crt file
+@item md16
+Magic Desk 16 .crt file
 @item mf
 Magic Formel .crt file
 @item max
@@ -34924,6 +34934,47 @@ E0C0: 2C CA 91 AD 0A 03 AE 0B 03 8D B8 02 8E B9 02 A9  ,...............
     makes it hard to dump (you'll have to know the addresses where this happens)
 
     Any access (read or write) to IO2 ($dfxx) will disable the cartridge again.
+
+@c @node FIXME
+@subsubsection 85 - Magic Desk 16
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32KiB, 64KiB ... up to 2048KiB sizes (4 to 128 banks of 16KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab active (hi) (0)
+@item Startup mode
+@tab 16KiB Game
+@item Load address
+@tab (banks 0-127) - $8000-BFFF
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE
+000010: 00 00 00 40 01 00 00 55 00 00 00 00 00 00 00 00  ...@...U........
+000020: 4d 61 67 69 63 20 44 65 73 6b 20 31 36 4b 00 00  Magic Desk 16K..
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+000040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+000050: 09 80 09 80 c3 c2 cd 38 30 78 a2 ff 9a d8 a9 08  .......80x......
+..
+200820: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+200830: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+
+@end example
+
+Very similar to the classic "Magic Desk" cartridge, except that it uses
+16KiB banks instead and operates in "16k Game" mode.
+
+Bank switching is done by writing the bank number to $DE00.
+Bit 7 is cleared for selecting one of the ROM banks. If bit
+7 is set ($DE00 = $80), the GAME/EXROM lines are disabled,  turning  on
+RAM at $8000-B9FFF instead of ROM.
+
+used by "SNK vs CAPCOM - Stronger Edition"
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics

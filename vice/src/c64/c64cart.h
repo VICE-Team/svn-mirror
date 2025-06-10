@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-/* Cartridge ROM limit = 1MB (EasyFlash) */
-#define C64CART_ROM_LIMIT (1024 * 1024)
+/* Cartridge ROM limit = 2MB (Magic Desk 2 - 16K config) */
+#define C64CART_ROM_LIMIT (2 * 1024 * 1024)
 /* Cartridge RAM limit = 32kB (IDE64, ...) */
 #define C64CART_RAM_LIMIT (32 * 1024)
 /* maximum size of a full "all inclusive" cartridge image (16MB for REU) */
