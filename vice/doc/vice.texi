@@ -31392,7 +31392,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
     Bank switching is done by writing to address $DE00+X, where  X  is  the
     bank number (STA $DE00,X). For instance, to read from bank  3,  address
     $DE03 is written to. Reading from anywhere  in  the  I/O-1  range  will
-    disable the cart.
+    set the bank to 0.
 
     The CRT file contains a string of CHIP blocks, each block with a  start
     address of $8000, length $2000 and the bank number in the  bank  field.
