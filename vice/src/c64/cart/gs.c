@@ -72,7 +72,7 @@ static uint8_t gs_io1_read(uint16_t addr)
 {
     currbank = 0;
     /* 8k configuration */
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     /* printf("C64GS: r addr: $de%02x\n", addr); */
     return 0;
 }
