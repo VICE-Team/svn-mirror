@@ -10210,6 +10210,11 @@ The following cartridge types are valid:
 @item CartridgeFile
 String specifying the filename of the image for the cartridge emulated in the "main" slot.
 
+@vindex Comal80Revision
+@item Comal80Revision
+Integer specifying the Comal 80 hardware revision.
+(0: Grey, 1: Commodore/Black)
+
 @vindex DQBB
 @item DQBB
 Boolean specifying whether the Double Quick Brown Box should be emulated or not.
@@ -10726,6 +10731,12 @@ Attach raw 8KiB Capture cartridge image.
 @findex -cartcomal
 @item -cartcomal <name>
 Attach raw 64KiB Comal 80 cartridge image.
+
+@findex -comal80rev
+@item -comal80rev <Revision>
+Set the Comal 80 hardware revision
+(@code{Comal80Revision}).
+(0: Grey, 1: Commodore/Black)
 
 @findex -cartdep256
 @item -cartdep256 <name>
@@ -31684,18 +31695,52 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
     banks of ROM memory and the cart has 1 (write-only) bank control register which
     is located at $DE00 and mirrored throughout the $DE00-$DEFF range.
 
+    Two variants of this Cartridge existed:
+
+    1. Grey Cartridge (Comal Users Group, USA)
+       Produced around 1984-1985, likely with UniComal Denmarks approval.
+       Approx. 2,000 units distributed (according to COMAL Today).
+
+@itemize @bullet
+@item 4 sockets populated with 16 KB EPROMs (27128)
+@item NO additional socket, but it was possible to piggyback a fifth EPROM via
+      minor hardware mod
+@end itemize
+
 @example
     bit  meaning
     ---  -------
-    7    exrom?
-    6    game?
-    5    unknown function (used by the software to disable the cartridge)
-    4    unused?
-    3    unused?
-    2    unknown function (used by the software however)
-    0-1  selects bank
+    7    -
+    6    GAME
+    5    EXROM
+    4    -
+    3    -
+    2    -
+    0-1  selects EPROM (16k bank)
 @end example
 
+    2. Black Cartridge (Official Commodore Release)
+       Used internationally and with a different hardware configuration.
+
+@itemize @bullet
+@item Two fixed 32 KB ROMs (Commodore) and one socket for a 32 KB (or with
+      hardware modification 64 KB ) EPROM
+@end itemize
+
+@example
+    bit  meaning
+    ---  -------
+    7    -
+    6    GAME + EXROM
+    5    -
+    4    -
+    3    -
+    2    switches to the optional third socket (additional 2x16k)
+    0-1  selects EPROM+bank (4x16k bank)
+@end example
+
+If the Cartridge Hardware Subtype/Revision (Offset 0x1A in the CRT Header) is 1,
+then VICE emulates the older "Grey" cartridge variant.
 
 @c @node FIXME
 @subsubsection 22 - Structured Basic

@@ -806,7 +806,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = capture_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_COMAL80:
-                rc = comal80_crt_attach(fd, rawcart);
+                rc = comal80_crt_attach(fd, rawcart, header.subtype);
                 break;
             case CARTRIDGE_DELA_EP256:
                 rc = delaep256_crt_attach(fd, rawcart);
