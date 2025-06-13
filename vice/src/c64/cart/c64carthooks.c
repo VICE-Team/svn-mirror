@@ -527,6 +527,7 @@ int cart_cmdline_options_init(void)
         || ethernetcart_cmdline_options_init() < 0
 #endif
         /* "Main Slot" */
+        || comal80_cmdline_options_init() < 0
         || easyflash_cmdline_options_init() < 0
         || gmod2_cmdline_options_init() < 0
         || gmod3_cmdline_options_init() < 0
@@ -593,6 +594,7 @@ int cart_resources_init(void)
         || aciacart_resources_init() < 0
 #endif
         /* "Main Slot" */
+        || comal80_resources_init() < 0
         || easyflash_resources_init() < 0
         || gmod2_resources_init() < 0
         || gmod3_resources_init() < 0
@@ -643,6 +645,7 @@ void cart_resources_shutdown(void)
 #endif
 
     /* "Main Slot" */
+    comal80_resources_shutdown();
     easyflash_resources_shutdown();
     gmod2_resources_shutdown();
     gmod3_resources_shutdown();

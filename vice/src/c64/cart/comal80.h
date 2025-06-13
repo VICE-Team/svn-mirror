@@ -34,8 +34,12 @@
 void comal80_config_init(void);
 void comal80_config_setup(uint8_t *rawcart);
 int comal80_bin_attach(const char *filename, uint8_t *rawcart);
-int comal80_crt_attach(FILE *fd, uint8_t *rawcart);
+int comal80_crt_attach(FILE *fd, uint8_t *rawcart, int variant);
 void comal80_detach(void);
+
+int comal80_cmdline_options_init(void);
+int comal80_resources_init(void);
+void comal80_resources_shutdown(void);
 
 struct snapshot_s;
 
