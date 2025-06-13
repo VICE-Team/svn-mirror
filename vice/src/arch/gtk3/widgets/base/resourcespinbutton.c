@@ -933,14 +933,14 @@ GtkWidget *vice_gtk3_resource_spin_custom_new(const gchar *resource_name,
                               "destroy",
                               G_CALLBACK(on_custom_spin_destroy),
                               (gpointer)state);
-    g_signal_connect_unlocked(G_OBJECT(spin),
-                              "output",
-                              G_CALLBACK(on_custom_spin_output),
-                              (gpointer)state);
-    g_signal_connect_unlocked(G_OBJECT(spin),
-                              "input",
-                              G_CALLBACK(on_custom_spin_input),
-                              (gpointer)state);
+    g_signal_connect(G_OBJECT(spin),
+                     "output",
+                     G_CALLBACK(on_custom_spin_output),
+                     (gpointer)state);
+    g_signal_connect(G_OBJECT(spin),
+                     "input",
+                     G_CALLBACK(on_custom_spin_input),
+                    (gpointer)state);
     g_signal_connect(G_OBJECT(spin),
                      "value-changed",
                      G_CALLBACK(on_custom_spin_value_changed),
