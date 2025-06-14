@@ -179,7 +179,6 @@ static uint8_t wic64_timeout = WIC64_DEFAULT_TRANSFER_TIMEOUT;
 static int wic64_remote_timeout; /* used for resource */
 static int remote_to = WIC64_DEFAULT_REMOTE_TIMEOUT;
 static uint8_t wic64_remote_timeout_triggered = 0;
-static int force_timeout = 0;
 static char *wic64_sec_token = NULL;
 static int current_tz = 2; /* WIC64Timezone */
 static int current_dhcp = 1; /* WIC64DHCP */
@@ -2101,7 +2100,7 @@ static void cmd_get_statusmsg(void)
 static void cmd_force_timeout_alarm_handler(CLOCK offset, void *data)
 {
     wic64_log(LOG_COL_LRED, "force timeout expired");
-    replyptr = reply_length = force_timeout = 0;
+    replyptr = reply_length = 0;
     input_state = INPUT_EXP_PROT;
     commandptr = 0;
     alarm_unset(cmd_force_timeout_alarm);
@@ -2115,7 +2114,6 @@ static void cmd_force_timeout(void)
     }
     int timeout = (commandptr > 0) ? commandbuffer[0] : 1;
     wic64_log(CONS_COL_NO, "forcing timeout after %ds", timeout);
-    force_timeout = 1;
 
     /* set_userport_flag(FLAG2_ACTIVE); */
 
@@ -2448,11 +2446,6 @@ static void run_command_helper(void)
 /* PC2 irq (pulse) triggers when C64 reads/writes to userport */
 static void userport_wic64_store_pbx(uint8_t value, int pulse)
 {
-    if (force_timeout) {
-        debug_log(LOG_COL_OFF, 3, "%s: force timeout running %d/%d", __FUNCTION__, value, pulse);
-        set_userport_flag(FLAG2_INACTIVE);
-        return;
-    }
     if (pulse == 1) {
         if (wic64_inputmode) {
             debug_log(LOG_COL_LBLUE, 3, "receiving '%c'/0x%02x, input_state = %d",
@@ -2567,10 +2560,6 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
 /* PA2 interrupt toggles input/output mode */
 static void userport_wic64_store_pa2(uint8_t value)
 {
-    if (force_timeout == 1) {
-        debug_log(LOG_COL_OFF, 3, "%s: force timeout pending...%d", __FUNCTION__, value);
-        return;
-    }
     debug_log(CONS_COL_NO, 2, "userport mode %s...(len = %d)",
                value ? "sending" : "receiving",
                reply_length);
@@ -2651,7 +2640,7 @@ static void userport_wic64_reset(void)
     int tmp_dhcp;
 
     wic64_log(CONS_COL_NO, "%s", __FUNCTION__);
-    commandptr = input_state = input_length = force_timeout = 0;
+    commandptr = input_state = input_length = 0;
     input_command = WIC64_CMD_NONE;
     wic64_inputmode = 1;
     memset(sec_token, 0, 32);
