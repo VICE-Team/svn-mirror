@@ -324,11 +324,11 @@ static void osx_joystick_read(int joyport, void* priv) {
                                         &e,
                                         &value, 1) >= 0) {
                         if (value < e.min_pvalue*3/4 + e.max_pvalue/4) {
-                            joy_axis_event(joyport, e.ordinal, JOY_AXIS_NEGATIVE);
+                            // joy_axis_event(joyport, e.ordinal, JOY_AXIS_NEGATIVE);
                         } else if (value > e.min_pvalue/4 + e.max_pvalue*3/4) {
-                            joy_axis_event(joyport, e.ordinal, JOY_AXIS_POSITIVE);
+                            // joy_axis_event(joyport, e.ordinal, JOY_AXIS_POSITIVE);
                         } else {
-                            joy_axis_event(joyport, e.ordinal, JOY_AXIS_MIDDLE);
+                            // joy_axis_event(joyport, e.ordinal, JOY_AXIS_MIDDLE);
                         }
                     }
                     break;
@@ -356,13 +356,13 @@ static void osx_joystick_read(int joyport, void* priv) {
                         }
 
                         if (value >= 0 && value <= MAX_HAT_MAP_INDEX) {
-                            joy_hat_event(joyport, e.ordinal, hat_map[value]);
+                            // joy_hat_event(joyport, e.ordinal, hat_map[value]);
                         }
                     }
                 }
             } else if (e.usage_page == kHIDPage_Button) {
                 if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
-                    joy_button_event(joyport, e.ordinal, value);
+                    // joy_button_event(joyport, e.ordinal, value);
                 }
             }
         }
@@ -377,8 +377,8 @@ static void osx_joystick_close(void *priv) {
 }
 
 static joystick_driver_t osx_joystick_driver = {
-    .poll = osx_joystick_read,
-    .close = osx_joystick_close
+//    .poll = osx_joystick_read,
+//    .close = osx_joystick_close
 };
 
 static CFDictionaryRef CreateHIDDeviceMatchDictionary(const int page, const int usage)
@@ -405,7 +405,7 @@ static CFDictionaryRef CreateHIDDeviceMatchDictionary(const int page, const int 
 
 /* ----- API ----- */
 
-void joy_hidlib_init(void)
+void joystick_arch_init(void)
 {
     if ( !mgr ) {
         /* create the manager */
@@ -478,14 +478,14 @@ void joy_hidlib_init(void)
             d->product_id = (int)product_id;
             d->product_name = product_name;
             joy_hidlib_enumerate_elements(d, &axes, &buttons, &hats);
-            register_joystick_driver(&osx_joystick_driver, product_name, d, axes, buttons, hats);
+//            register_joystick_driver(&osx_joystick_driver, product_name, d, axes, buttons, hats);
         }
     }
     lib_free(all_devices);
     CFRelease( device_set );
 }
 
-void joy_hidlib_exit(void)
+void joystick_arch_shutdown(void)
 {
     if(mgr) {
         IOHIDManagerClose( mgr, 0 );
