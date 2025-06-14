@@ -469,7 +469,6 @@ HAVE_SYS_AUDIOIO_H_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_ZLIB_SUPPORT="no "
 LINUX_JOYSTICK_SUPPORT="no "
-MAC_JOYSTICK_SUPPORT="no "
 USE_ALSA_SUPPORT="no "
 USE_COREAUDIO_SUPPORT="no "
 USE_DMEDIA_SUPPORT="no "
@@ -2130,9 +2129,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_
                   [IOHIDManagerCreate(NULL,0)],
                   [AC_MSG_RESULT(yes);
                    JOY_LIBS="-framework IOKit -framework CoreServices";
-                   MAC_JOYSTICK_SUPPORT="yes";
                    HAS_HIDMGR_SUPPORT="yes";
-                   AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])
                    JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_osx.o";
                    ],
                   [AC_MSG_RESULT(no);

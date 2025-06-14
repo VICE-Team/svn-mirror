@@ -357,14 +357,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef MACOS_COMPILE /* (osx) */
-    { "MAC_JOYSTICK", "Enable Mac Joystick support.",
-#ifndef MAC_JOYSTICK
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(UNIX_COMPILE) /* (unix) */
     { "USE_ALSA", "Enable ALSA support.",
 #ifndef USE_ALSA
