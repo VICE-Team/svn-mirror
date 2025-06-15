@@ -3700,6 +3700,7 @@ static int read_cmd(int nargs, char **args)
     int status = 0;
     uint8_t *slot;
     uint8_t file_type;
+    const int secadr = 0;       /* use 0 to force read mode */
 
     unit = extract_unit_from_file_name(args[1], &p);
     if (unit <= 0) {
@@ -3734,7 +3735,7 @@ static int read_cmd(int nargs, char **args)
     charset_petconvstring((uint8_t *)src_name_petscii, CONVERT_TO_PETSCII);
 
     if (vdrive_iec_open(drives[dnr], (uint8_t *)src_name_petscii,
-                        (unsigned int)strlen(src_name_petscii), 0, NULL)) {
+                        (unsigned int)strlen(src_name_petscii), secadr, NULL)) {
         fprintf(stderr,
                 "cannot read `%s' on unit %d\n", src_name_ascii, dnr + 8);
         lib_free(src_name_ascii);
@@ -3744,7 +3745,7 @@ static int read_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
-    bufferinfo_t *bufferinfo = &drives[dnr]->buffers[0];        /* 0 = secadr */
+    bufferinfo_t *bufferinfo = &drives[dnr]->buffers[secadr];
     slot = bufferinfo->slot;
     actual_name = lib_malloc(IMAGE_CONTENTS_FILE_NAME_LEN + 1);
     memcpy(actual_name, slot + SLOT_NAME_OFFSET, IMAGE_CONTENTS_FILE_NAME_LEN);

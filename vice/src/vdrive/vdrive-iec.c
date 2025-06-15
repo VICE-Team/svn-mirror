@@ -498,12 +498,16 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
 
         if (rc != CBMDOS_IPE_OK) {
             status = SERIAL_ERROR;
+#ifdef DEBUG_DRIVE
+            log_debug(LOG_DEFAULT, "File name parsing failed, rc = %d, status = SERIAL_ERROR", rc);
+#endif
             goto out;
         }
 #ifdef DEBUG_DRIVE
         log_debug(LOG_DEFAULT, "Raw file name: `%s', length: %u.", name, length);
         log_debug(LOG_DEFAULT, "Parsed file name: `%s', reallength: %u. drive: %i",
                   cmd_parse->file, cmd_parse->filelength, cmd_parse->drive);
+        log_debug(LOG_DEFAULT, "File type: %u, Record length: %u.", cmd_parse->filetype, cmd_parse->recordlength);
 #endif
     } else {
         cmd_parse->full = (uint8_t*)cmd_parse_ext->parsecmd;
