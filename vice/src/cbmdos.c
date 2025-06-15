@@ -304,6 +304,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                         }
                         /* skip the rest */
                         cmdlen = 0;
+                    } else {
+                        /* No record length: we can only read this file, not write it */
+                        cmd_parse->readmode = CBMDOS_FAM_READ;
                     }
                 }
                 cmd_parse->filetype = CBMDOS_FT_REL;
@@ -498,8 +501,16 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                         break;
                     case 'L'|0x80:
                     case 'L':                   /* L,(#record length)  max 254 */
-                        if (p+2 < limit && p[1] == ',') {
-                            cmd_parse->recordlength = p[2]; /* Changing RL causes error */
+                        /*
+                         * Allow extra text between L and the comma,
+                         * like with other file types.
+                         */
+                        uint8_t *comma = memchr(p + 1, ',', limit - (p + 1));
+                        if (comma && comma + 1 < limit) {
+                            cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
+#ifdef DEBUG_CBMDOS
+                            log_debug(LOG_DEFAULT, "L recordlength=%u", cmd_parse->recordlength);
+#endif
                             /* Don't allow REL file record lengths less than 2 or
                                greater than 254.  The 1541/71/81 lets you create a
                                REL file of record length 0, but it locks up the CPU
@@ -508,11 +519,12 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                                 return CBMDOS_IPE_OVERFLOW;
                             }
                             /* skip the REL length */
-                            p += 2;
-                            cmd_parse->filetype = CBMDOS_FT_REL;
+                            p = comma + 1;
                         } else {
-                            return CBMDOS_IPE_OVERFLOW;
+                            /* No record length: we can only read this file, not write it */
+                            cmd_parse->readmode = CBMDOS_FAM_READ;
                         }
+                        cmd_parse->filetype = CBMDOS_FT_REL;
                         break;
                     case 'R':
                         cmd_parse->readmode = CBMDOS_FAM_READ;
