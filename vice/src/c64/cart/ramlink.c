@@ -63,8 +63,6 @@
 
 /* #define RLLOG1 */
 /* #define RLLOG2 */
-/* #define RLLOG1 */
-/* #define RLLOG2 */
 /* #define RLDEBUGIO */
 /* #define RLDEBUGMEM */
 
@@ -114,6 +112,8 @@ cartconv -t rl -i ramlink2.bin -o ramlink2.crt -n "CMD RAMLINK 2.01"
 
 extern unsigned int reg_pc;
 
+/* #define RAMLINKXL */
+
 /* resources */
 static int rl_enabled = 0;
 static int rl_write_image = 0;
@@ -149,7 +149,7 @@ static uint8_t *rl_ram = NULL;
 static uint8_t *rl_rom = NULL;
 static int rl_extexrom = 0;
 static int rl_extgame = 0;
-static char rl_memmap[256];
+static int8_t rl_memmap[256];
 
 /* some prototypes are needed */
 static uint8_t ramlink_io1_read(uint16_t addr);
@@ -942,9 +942,13 @@ static int set_size(int size, void *param)
     }
     if (size !=  1 && size !=  2 && size !=  3 && size !=  4 &&
         size !=  5 && size !=  8 && size !=  9 && size != 12 &&
-        size != 13 && size != 16 && size != 20 && size != 32 &&
+        size != 13 && size != 16 &&
+#ifdef RAMLINKXL
+        size != 20 && size != 32 &&
         size != 36 && size != 48 && size != 52 && size != 64 &&
-        size != 17 && size != 33 && size != 49 && size !=  0) {
+        size != 17 && size != 33 && size != 49 &&
+#endif
+        size !=  0) {
         return -1;
     }
 
@@ -1009,7 +1013,7 @@ static int set_size(int size, void *param)
 #if 0
     printf("* RL_MEMMAP:\n");
     for(i=0;i<64;i++) {
-        printf("%02x ",rl_memmap[i]);
+        printf("%02x ",(unsigned int)rl_memmap[i]);
         if (!((i+1)%16)) printf("\n");
     }
 #endif
@@ -1260,7 +1264,6 @@ static void set_pa(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     ramlink_sync_cpus();
     cmdbus.cpu_data = byte;
     cmdbus_update();
-/*if (reg==0) printf("RAMLINK: Send %02x\n",byte);*/
 }
 
 static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
@@ -1283,7 +1286,6 @@ static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
         data = 0xff;
     }
 
-/*if (reg==0) printf("RAMLINK: Got  %02x\n",data);*/
     return data;
 }
 
@@ -1318,7 +1320,6 @@ static void set_pb(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     cmdbus_patn_changed(new, old);
 
     cmdbus_update();
-/*if (reg==1) printf("RAMLINK: R=%d C=%d A=%d\n",(byte & 0x80 ? 0 : 1),(byte & 0x40 ? 0 : 1),(byte & 0x20 ? 0 : 1));*/
 }
 
 static uint8_t get_pb(struct _i8255a_state *ctx, int8_t reg)
@@ -1547,7 +1548,7 @@ static void ramlink_io2_a0_a3_store(uint16_t addr, uint8_t value)
     }
     i = rl_memmap[(rl_cardaddr >> 20) & 63];
     /* if the memory re-mapping is set to -1, then the bus is open */
-    if (i>64) {
+    if (i<0) {
         rl_cardbase = -1;
     } else {
         rl_cardbase = (i << 20) | (rl_cardaddr & 0x0fffff);
