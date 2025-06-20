@@ -605,47 +605,48 @@ void mmu_ffxx_store(uint16_t addr, uint8_t value)
 
 int mmu_dump(void *context, uint16_t addr)
 {
-    mon_out("CR: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+    mon_out("     Bank  $4000-$7FFF  $8000-$BFFF  $C000-$CFFF  $D000-$DFFF  $E000-$FFFF\n");
+    mon_out("CR:     %d %12s %12s %12s %12s %12s\n",
             (mmu[0] & 0xc0) >> 6,
-            (mmu[0] & 2) ? "RAM" : "BASIC ROM low",
-            (mmu[0] & 8) ? ((mmu[0] & 4) ? "RAM" : "External Function ROM") : ((mmu[0] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
-            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
-            (mmu[0] & 1) ? ((mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM")) : "I/O",
-            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+            (mmu[0] & 2) ? "RAM" : "BASIC ROM",
+            (mmu[0] & 8) ? ((mmu[0] & 4) ? "RAM" : "Ext.Func.ROM") : ((mmu[0] & 4) ? "Int.Func.ROM" : "BASIC ROM"),
+            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[0] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"),
+            (mmu[0] & 1) ? ((mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "Ext. Func. ROM") : ((mmu[0] & 0x10) ? "Int. Func. ROM" : "Kernal ROM")) : "I/O",
+            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "Ext Func.ROM") : ((mmu[0] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"));
 
-    mon_out("PCRA: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+    mon_out("PCRA:   %d %12s %12s %12s %12s %12s\n",
             (mmu[1] & 0xc0) >> 6,
-            (mmu[1] & 2) ? "RAM" : "BASIC ROM low",
-            (mmu[1] & 8) ? ((mmu[1] & 4) ? "RAM" : "External Function ROM") : ((mmu[1] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
-            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
-            (mmu[1] & 1) ? ((mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM")) : "I/O",
-            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+            (mmu[1] & 2) ? "RAM" : "BASIC ROM",
+            (mmu[1] & 8) ? ((mmu[1] & 4) ? "RAM" : "Ext.Func.ROM") : ((mmu[1] & 4) ? "Int.Func.ROM" : "BASIC ROM"),
+            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[1] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"),
+            (mmu[1] & 1) ? ((mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[1] & 0x10) ? "Int.Func.ROM" : "Kernal ROM")) : "I/O",
+            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[1] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"));
 
-    mon_out("PCRB: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+    mon_out("PCRB:   %d %12s %12s %12s %12s %12s\n",
             (mmu[2] & 0xc0) >> 6,
-            (mmu[2] & 2) ? "RAM" : "BASIC ROM low",
-            (mmu[2] & 8) ? ((mmu[2] & 4) ? "RAM" : "External Function ROM") : ((mmu[2] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
-            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
-            (mmu[2] & 1) ? ((mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM")) : "I/O",
-            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+            (mmu[2] & 2) ? "RAM" : "BASIC ROM",
+            (mmu[2] & 8) ? ((mmu[2] & 4) ? "RAM" : "Ext.Func.ROM") : ((mmu[2] & 4) ? "Int.Func.ROM" : "BASIC ROM"),
+            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[2] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"),
+            (mmu[2] & 1) ? ((mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[2] & 0x10) ? "Int.Func.ROM" : "Kernal ROM")) : "I/O",
+            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[2] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"));
 
-    mon_out("PCRC: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+    mon_out("PCRC:   %d %12s %12s %12s %12s %12s\n",
             (mmu[3] & 0xc0) >> 6,
-            (mmu[3] & 2) ? "RAM" : "BASIC ROM low",
-            (mmu[3] & 8) ? ((mmu[3] & 4) ? "RAM" : "External Function ROM") : ((mmu[3] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
-            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
-            (mmu[3] & 1) ? ((mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM")) : "I/O",
-            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+            (mmu[3] & 2) ? "RAM" : "BASIC ROM",
+            (mmu[3] & 8) ? ((mmu[3] & 4) ? "RAM" : "Ext.Func.ROM") : ((mmu[3] & 4) ? "Int.Func.ROM" : "BASIC ROM"),
+            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[3] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"),
+            (mmu[3] & 1) ? ((mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[3] & 0x10) ? "Int.Func.ROM" : "Kernal ROM")) : "I/O",
+            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[3] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"));
 
-    mon_out("PCRD: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+    mon_out("PCRD:   %d %12s %12s %12s %12s %12s\n",
             (mmu[4] & 0xc0) >> 6,
-            (mmu[4] & 2) ? "RAM" : "BASIC ROM low",
-            (mmu[4] & 8) ? ((mmu[4] & 4) ? "RAM" : "External Function ROM") : ((mmu[4] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
-            (mmu[4] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
-            (mmu[4] & 1) ? ((mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM")) : "I/O",
-            (mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+            (mmu[4] & 2) ? "RAM" : "BASIC ROM",
+            (mmu[4] & 8) ? ((mmu[4] & 4) ? "RAM" : "Ext.Func.ROM") : ((mmu[4] & 4) ? "Int.Func.ROM" : "BASIC ROM"),
+            (mmu[4] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[4] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"),
+            (mmu[4] & 1) ? ((mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[4] & 0x10) ? "Int.Func.ROM" : "Kernal ROM")) : "I/O",
+            (mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "Ext.Func.ROM") : ((mmu[4] & 0x10) ? "Int.Func.ROM" : "Kernal ROM"));
 
-    mon_out("MCR: 40/80 key: %s, Operating mode: %s, EXROM line: %d, GAME line: %d, fast serial: %s, current CPU: %s\n",
+    mon_out("MCR: 40/80 key: %s, Operating mode: %s, EXROM line: %d, GAME line: %d\n     Fast serial: %s, Current CPU: %s\n",
             (mmu[5] & 0x80) ? "up" : "down",
             (mmu[5] & 0x40) ? "C64 mode" : "C128 mode",
             (mmu[5] & 0x20) >> 5,
@@ -653,7 +654,7 @@ int mmu_dump(void *context, uint16_t addr)
             (mmu[5] & 8) ? "serial out" : "serial in",
             (mmu[5] & 1) ? "8502" : "Z80");
 
-    mon_out("RCR: VIC-II RAM bank: %d, Shared RAM location: %s, Shared RAM size: %s\n",
+    mon_out("RCR: VIC-II RAM bank: %d, Shared RAM location & size: %s, %s\n",
             (mmu[6] & 0xc0) >> 6,
             (mmu[6] & 8) ? ((mmu[6] & 4) ? "bottom and top" : "top") : ((mmu[6] & 4) ? "bottom" : "none"),
             (mmu[6] & 2) ? ((mmu[6] & 1) ? "16KiB" : "8KiB") : ((mmu[6] & 1) ? "4KiB" : "1KiB"));
