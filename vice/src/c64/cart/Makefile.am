@@ -141,8 +141,9 @@ libc64cart_a_SOURCES = \
 	mach5.c \
 	mach5.h \
 	magicdesk.c \
-	magicdesk16.c \
 	magicdesk.h \
+	magicdesk16.c \
+	magicdesk16.h \
 	magicformel.c \
 	magicformel.h \
 	magicvoice.c \
