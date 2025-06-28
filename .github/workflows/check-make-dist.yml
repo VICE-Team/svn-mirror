@@ -126,8 +126,7 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: |
-          ./vice/build/github-actions/irc-message.sh "make dist => make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}"
-
+          ./vice/build/github-actions/irc-message.sh "make dist => make failed for ${{ matrix.source.name }} => ${{ matrix.target.name }}. See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
   diff_dists:
     name: Check dist tarballs for content differences
@@ -155,4 +154,4 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: |
-          ./vice/build/github-actions/irc-message.sh "Dist tarballs do not match. See log of 'Weekly Check Dist' github action."
+          ./vice/build/github-actions/irc-message.sh "Dist tarballs do not match. See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
