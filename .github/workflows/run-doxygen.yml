@@ -37,4 +37,4 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: |
-          ./vice/build/github-actions/irc-message.sh "Running Doxygen failed."
+          ./vice/build/github-actions/irc-message.sh "Running Doxygen failed. See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
