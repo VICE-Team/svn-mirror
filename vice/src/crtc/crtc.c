@@ -401,7 +401,7 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
     crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8 + 2 * CRTC_SCREEN_BORDERWIDTH;
     crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES + 2 * CRTC_SCREEN_BORDERHEIGHT;
 
-    DBG(("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d",
+    DBG(("crtc_set_screen_options: cols=%d, rl=%d -> w=%u, h=%u",
          num_cols, rasterlines, crtc.screen_width, crtc.screen_height));
 
     crtc_update_window();
@@ -869,19 +869,19 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
 #ifdef DEBUG_CRTC
     if (crtc.venable && !new_venable)
-        printf("disable ven, cl=%d, yc=%d, rl=%d\n",
+        printf("disable ven, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
     if (new_venable && !crtc.venable)
-        printf("enable ven, cl=%d, yc=%d, rl=%d\n",
+        printf("enable ven, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
     if (crtc.vsync && !new_vsync)
-        printf("disable vsync, cl=%d, yc=%d, rl=%d\n",
+        printf("disable vsync, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
     if (new_vsync && !crtc.vsync)
-        printf("enable vsync, cl=%d, yc=%d, rl=%d\n",
+        printf("enable vsync, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
 #endif /* DEBUG_CRTC */

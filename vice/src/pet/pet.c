@@ -957,7 +957,11 @@ void pet_crtc_set_screen(void)
     /* On the 8296 we do not (invert the screen by clearing MA12). */
     vrevmask = petres.map == PET_MAP_8296 ? vmask : 0x1000;
 
-    crtc_set_screen_options(cols, 25 * 10);
+    /*
+     * Vertical nr of pixels: max(25*10, 256), for 25 text lines of 10 px,
+     * or 256 for the HRE.
+     */
+    crtc_set_screen_options(cols, 256);
     crtc_set_screen_addr(mem_ram + 0x8000);
     crtc_set_hw_options(hwflag,
                         vmask,
