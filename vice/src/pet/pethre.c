@@ -332,9 +332,9 @@ static void pethre_DRAW(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8
      * memory.
      */
     if (ymod8 < 8 && xstart < xend) {
-        int ma_hi = scr_rel & MA_HI;    /* MA<9...6> MA is already multi- */
-        int ma_lo = scr_rel & MA_LO;    /* MA<5...0> ...plied by two.     */
-        /* Form <MA 9-6><RA 2-0><MA 5-0> */
+        int ma_hi = scr_rel & MA_HI;    /* MA<11...6> MA is already multi- */
+        int ma_lo = scr_rel & MA_LO;    /* MA< 5...0> ...plied by two.     */
+        /* Form <MA 11-6><RA 2-0><MA 5-0> */
         uint8_t *screen_rel = mem_ram + 0x8000 +   /* == crtc.screen_base */
                            (ma_hi << 3) + (ymod8 << 6) + ma_lo;
         int width = xend - xstart;
@@ -357,7 +357,7 @@ static void pethre_DRAW(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8
             int i;
 
 #if HRE_DEBUG_GFX
-            log_message(pethre_log, "pethre_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x screen_rel=%04x", xstart, xend, ymod8, scr_rel, screen_rel - mem_ram);
+            log_message(pethre_log, "pethre_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x screen_rel=%04x", xstart, xend, ymod8, (unsigned int)scr_rel, (unsigned int)(screen_rel - mem_ram));
 #endif
             for (i = xstart; i < xend; i++) {
                 int d = *screen_rel++;
