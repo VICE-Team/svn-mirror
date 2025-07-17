@@ -20879,7 +20879,10 @@ Note: No ROM images are included into the dump.
 
 @item goto <address>
 @itemx g <address>
-Change the PC to address and continue execution.
+Change the PC to address and continue execution. If no address is given, execution
+will continue from where it stopped. Also, if @code{KeepMonitorOpen} is 1, the monitor
+window will stay open in the background. This can be useful to watch eg trace points
+or log output in real time.
 
 @item io [<address>]
 Display i/o registers. Invoking without an address shows a dump of
@@ -21059,6 +21062,20 @@ The "load|store|exec" parameter can be either "load", "store" or "exec"
 monitor breaks. If not specified, the monitor breaks on "exec".
 A conditional expression can also be specified for the breakpoint.
 For more information on conditions, see the CONDITION command.
+
+When a breakpoint hits, the following info will be printed: The first line shows
+the type of checkpoint, the address, current raster line and -cycle. The second
+line shows a dump and disassemble, followed by the CPU registers and flags. The
+number at the end of the line is the stopwatch cycle counter.
+@end table
+
+@example
+#1 (Stop on  exec ea31)   41/$029,  35/$23
+.C:ea31  20 EA FF    JSR $FFEA      - A:00 X:ED Y:0A SP:ed ..-..IZ.   27481706
+@end example
+
+
+@table @code
 
 @item enable <checknum>
 @item disable <checknum>
