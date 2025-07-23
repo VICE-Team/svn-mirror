@@ -22742,11 +22742,11 @@ HC HC HC HC [
         ...
         RS[0][RC-1] @{ ... @}
       ]
+      CL[0] CL[0] CL[0] CL[0] CL[0] CL[0] CL[0] CL[0] | IL[0] | IB[0][0] IB[0][1] ... IB[0][IL-1]
     @}
     ...
     IS[HC-1] @{ ... @}
 ]
-CL CL CL CL CL CL CL CL | IL | IB[0] IB[1] ... IB[IL-1]
 @end example
 @*
 
