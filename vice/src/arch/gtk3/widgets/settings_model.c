@@ -770,6 +770,7 @@ static void machine_model_handler_c64dtv(int model)
             break;
         case DTVMODEL_V3_PAL:       /* fall through */
         case DTVMODEL_V3_NTSC:      /* fall through */
+        case DTVMODEL_HUMMER_PAL:
         case DTVMODEL_HUMMER_NTSC:
             rev = DTVREV_3;
             break;

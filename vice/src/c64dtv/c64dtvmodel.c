@@ -83,6 +83,7 @@ static const struct model_s dtvmodels[] = {
     { MACHINE_SYNC_NTSC, DTVREV_2, IS_DTV,    DTVMODEL_V2_NTSC }, /* DTV v2 (ntsc) */
     { MACHINE_SYNC_PAL,  DTVREV_3, IS_DTV,    DTVMODEL_V3_PAL }, /* DTV v3 (pal) */
     { MACHINE_SYNC_NTSC, DTVREV_3, IS_DTV,    DTVMODEL_V3_NTSC }, /* DTV v3 (ntsc) */
+    { MACHINE_SYNC_PAL,  DTVREV_3, IS_HUMMER, DTVMODEL_HUMMER_PAL }, /* Hummer (pal) */
     { MACHINE_SYNC_NTSC, DTVREV_3, IS_HUMMER, DTVMODEL_HUMMER_NTSC }, /* Hummer (ntsc) */
 };
 

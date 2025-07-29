@@ -49,11 +49,12 @@
 
 /* #define DEBUG */
 
-#define DTVROM_PALV2_NAME_DEFAULT   "dtvrom.bin" /* FIXME: rename (who made this?) */
-#define DTVROM_PALV3_NAME_DEFAULT   "dtvrom.bin" /* FIXME: rename (who made this?) */
-#define DTVROM_NTSCV2_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
-#define DTVROM_NTSCV3_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
-#define DTVROM_HUMMER_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_PALV2_NAME_DEFAULT       "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_PALV3_NAME_DEFAULT       "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_NTSCV2_NAME_DEFAULT      "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_NTSCV3_NAME_DEFAULT      "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_HUMMER_NAME_DEFAULT      "dtvrom.bin" /* FIXME: rename (who made this?) */
+#define DTVROM_HUMMER_PAL_NAME_DEFAULT  "dtvrom.bin" /* FIXME: rename (who made this?) */
 
 static log_t c64dtvflash_log = LOG_DEFAULT;
 #ifdef DEBUG
@@ -634,8 +635,10 @@ static const resource_string_t resources_string[] = {
       &c64dtvflash_filename[DTVMODEL_V3_NTSC], set_c64dtvflash_filename, (void*)DTVMODEL_V3_NTSC },
     { "DTVPALV3FlashName", DTVROM_PALV3_NAME_DEFAULT, RES_EVENT_NO, NULL,
       &c64dtvflash_filename[DTVMODEL_V3_PAL], set_c64dtvflash_filename, (void*)DTVMODEL_V3_PAL },
-    { "DTVHummerFlashName", DTVROM_HUMMER_NAME_DEFAULT, RES_EVENT_NO, NULL,
+    { "DTVNTSCHummerFlashName", DTVROM_HUMMER_NAME_DEFAULT, RES_EVENT_NO, NULL,
       &c64dtvflash_filename[DTVMODEL_HUMMER_NTSC], set_c64dtvflash_filename, (void*)DTVMODEL_HUMMER_NTSC },
+    { "DTVPALHummerFlashName", DTVROM_HUMMER_PAL_NAME_DEFAULT, RES_EVENT_NO, NULL,
+      &c64dtvflash_filename[DTVMODEL_HUMMER_PAL], set_c64dtvflash_filename, (void*)DTVMODEL_HUMMER_PAL },
     RESOURCE_STRING_LIST_END
 };
 
@@ -682,9 +685,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-palv3romimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DTVPALV3FlashName", NULL,
       "<Name>", "Specify name of C64DTV PAL v3 ROM image" },
-    { "-hummerromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DTVHummerFlashName", NULL,
-      "<Name>", "Specify name of C64DTV Hummer ROM image" },
+    { "-hummerntscromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DTVNTSCHummerFlashName", NULL,
+      "<Name>", "Specify name of C64DTV NTSC Hummer ROM image" },
+    { "-hummerpalromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DTVPALHummerFlashName", NULL,
+      "<Name>", "Specify name of C64DTV PAL Hummer ROM image" },
     { "-c64dtvromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "c64dtvromrw", (void *)1,
       NULL, "Enable writes to C64DTV ROM image" },

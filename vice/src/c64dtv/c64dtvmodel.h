@@ -35,6 +35,7 @@ enum {
     DTVMODEL_V2_NTSC,      /* DTV v2 (ntsc) */
     DTVMODEL_V3_PAL,       /* DTV v3 (pal) */
     DTVMODEL_V3_NTSC,      /* DTV v3 (ntsc) */
+    DTVMODEL_HUMMER_PAL,   /* Hummer (pal) */
     DTVMODEL_HUMMER_NTSC,  /* Hummer (ntsc) */
 
     /* This entry always needs to be at the end */
