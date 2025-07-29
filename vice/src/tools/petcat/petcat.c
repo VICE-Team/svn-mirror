@@ -1882,6 +1882,23 @@ static int p_expand(int version, int addr, int ctrls)
 #define MAX_INLINE_LEN  (256 * 8)
 #define MAX_OUTLINE_LEN 256
 
+static unsigned char* check_leading_space(int version, unsigned char* p)
+{
+    if (version == B_10 || version == B_65) {
+        /* for modes that preserve leading spaces, only delete a single space */
+        if (isspace(*p)) {
+            p++;
+        }
+    } else {
+        /* otherwise, delete all leading spaces */
+        while (isspace((unsigned char)*p)) {
+            p++;
+        }
+    }
+
+    return p;
+}
+
 static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[MAX_INLINE_LEN + 1];
@@ -1920,9 +1937,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
         quote = 0;
         rem_data_mode = 0;
-        while (isspace((unsigned char)*p2)) {
-            p2++;
-        }
+
+        p2 = check_leading_space(version, p2);
 
         while (*p2) {
             if (*p2 == 0x22) {
