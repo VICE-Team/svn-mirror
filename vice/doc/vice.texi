@@ -13935,10 +13935,15 @@ Specify filename of the C64DTV NTSC v3 ROM image
 Specify filename of the C64DTV PAL v3 ROM image
 (@code{DTVPALV3FlashName}).
 
-@findex -hummerromimage
-@item -hummerromimage <name>
-Specify filename of the C64DTV Hummer ROM image
-(@code{DTVHummerFlashName}).
+@findex -hummerntscromimage
+@item -hummerntscromimage <name>
+Specify filename of the C64DTV NTSC Hummer ROM image
+(@code{DTVNTSCHummerFlashName}).
+
+@findex -hummerpalromimage
+@item -hummerpalromimage <name>
+Specify filename of the C64DTV PAL Hummer ROM image
+(@code{DTVPALHummerFlashName}).
 
 @findex -c64dtvromrw, +c64dtvromrw
 @item -c64dtvromrw
@@ -14110,9 +14115,13 @@ String specifying the filename of the DTV NTSC v3 Flash ROM image.
 @item DTVPALV3FlashName
 String specifying the filename of the DTV PAL v3 Flash ROM image.
 
-@vindex DTVHummerFlashName
-@item DTVHummerFlashName
-String specifying the filename of the DTV Hummer Flash ROM image.
+@vindex DTVNTSCHummerFlashName
+@item DTVNTSCHummerFlashName
+String specifying the filename of the DTV NTSC Hummer Flash ROM image.
+
+@vindex DTVPALHummerFlashName
+@item DTVPALHummerFlashName
+String specifying the filename of the DTV PAL Hummer Flash ROM image.
 
 @vindex DTVFlashRevision
 @item DTVFlashRevision

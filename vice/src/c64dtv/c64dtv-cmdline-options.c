@@ -48,6 +48,8 @@ static struct model_s model_match[] = {
     { "v3pal", DTVMODEL_V3_PAL },
     { "v3ntsc", DTVMODEL_V3_NTSC },
     { "hummer", DTVMODEL_HUMMER_NTSC },
+    { "hummerpal", DTVMODEL_HUMMER_PAL },
+    { "hummerntsc", DTVMODEL_HUMMER_NTSC },
     { NULL, DTVMODEL_UNKNOWN }
 };
 
