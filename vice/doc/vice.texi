@@ -14011,7 +14011,8 @@ The C64DTV userport emulation currently supports three devices:
 Hummer ADC, userport joystick and PS/2 mouse.
 
 The joystick that controls either the Hummer ADC or userport joystick
-can be selected using the same parameter or menu option.
+can be selected using the same parameter or menu option. (Enable "Hummer userport
+adapter" and use the first extra joystick.)
 
 While using the Hummer ADC, joystick UP and DOWN are mapped to
 the Hummer buttons A and B respectively. LEFT and RIGHT set the ADCs
