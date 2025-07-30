@@ -45,6 +45,7 @@ static log_t hummeradc_log = LOG_DEFAULT;
 #define ADC_DIO_BIT 0x01
 
 /* Hummer ADC variables */
+/* FIXME: move code from c64dtvmemsnapshot.c here, make static */
 uint8_t hummeradc_value;
 uint8_t hummeradc_channel;
 uint8_t hummeradc_control;
@@ -112,7 +113,7 @@ void hummeradc_store(uint8_t value)
 {
     uint16_t joyport_3_joystick_value;
 #ifdef HUMMERADC_DEBUG_ENABLED
-    HUMMERADC_DEBUG("write: value %02x, state %i", value, hummeradc_state);
+    HUMMERADC_DEBUG("write: value %02x, state %i, ADC:%2x", value, hummeradc_state, hummeradc_value);
 #endif
     if (value & ADC_START_BIT) {
         hummeradc_state = ADC_START;
@@ -232,13 +233,13 @@ void hummeradc_store(uint8_t value)
                     - "inertia" (hold down left/right for value++/--), handled elsewhere */
                 joyport_3_joystick_value = get_joystick_value(JOYPORT_3);
                 switch (joyport_3_joystick_value & 0x0c) {
-                    case 4:
+                    case 4:  /* left */
                         hummeradc_value = 0x00;
                         break;
-                    case 8:
+                    case 8:  /* right */
                         hummeradc_value = 0xff;
                         break;
-                    default:
+                    default: /* neutral */
                         hummeradc_value = 0x80;
                         break;
                 }
@@ -303,7 +304,7 @@ uint8_t hummeradc_read(void)
             break;
     }
 #ifdef HUMMERADC_DEBUG_ENABLED
-    HUMMERADC_DEBUG(" read: value %02x, state %i", retval, hummeradc_state);
+    HUMMERADC_DEBUG(" read: value %02x, state %i, ADC:%2x", retval, hummeradc_state, hummeradc_value);
 #endif
     return retval;
 }
