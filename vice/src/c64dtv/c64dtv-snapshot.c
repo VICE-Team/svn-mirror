@@ -41,6 +41,7 @@
 #include "cia.h"
 #include "drive-snapshot.h"
 #include "drive.h"
+#include "hummeradc.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -82,7 +83,7 @@ int c64dtv_snapshot_write(const char *name, int save_roms, int save_disks,
         || c64dtv_snapshot_write_module(s, save_roms) < 0
         || c64dtvdma_snapshot_write_module(s) < 0
         || c64dtvblitter_snapshot_write_module(s) < 0
-        || c64dtvmisc_snapshot_write_module(s) < 0
+        || hummeradc_snapshot_write_module(s) < 0
         || ciacore_snapshot_write_module(machine_context.cia1, s) < 0
         || ciacore_snapshot_write_module(machine_context.cia2, s) < 0
         || sid_snapshot_write_module(s) < 0
@@ -127,7 +128,7 @@ int c64dtv_snapshot_read(const char *name, int event_mode)
         || c64dtv_snapshot_read_module(s) < 0
         || c64dtvdma_snapshot_read_module(s) < 0
         || c64dtvblitter_snapshot_read_module(s) < 0
-        || c64dtvmisc_snapshot_read_module(s) < 0
+        || hummeradc_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(machine_context.cia1, s) < 0
         || ciacore_snapshot_read_module(machine_context.cia2, s) < 0
         || sid_snapshot_read_module(s) < 0

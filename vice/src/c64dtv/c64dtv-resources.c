@@ -147,14 +147,6 @@ static int set_power_freq(int val, void *param)
 }
 #endif
 
-int c64dtv_hummer_adc_enabled = 0;
-
-static int c64dtv_hummer_adc_set(int val, void *param)
-{
-    c64dtv_hummer_adc_enabled = val ? 1 : 0;
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "ChargenName", C64_CHARGEN_NAME, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
@@ -171,8 +163,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "HummerADC", 0, RES_EVENT_SAME, NULL,
-      (int *)&c64dtv_hummer_adc_enabled, c64dtv_hummer_adc_set, NULL },
     RESOURCE_INT_LIST_END
 };
 
