@@ -61,6 +61,7 @@
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
+#include "hummeradc.h"
 #include "imagecontents.h"
 #include "inception.h"
 #include "init.h"
@@ -409,6 +410,10 @@ int machine_resources_init(void)
         init_resource_fail("c64dtv");
         return -1;
     }
+    if (hummeradc_resources_init() < 0) {
+        init_resource_fail("hummer adc");
+        return -1;
+    }
     if (c64dtvmem_resources_init() < 0) {
         init_resource_fail("c64dtvmem");
         return -1;
@@ -542,6 +547,10 @@ int machine_cmdline_options_init(void)
     }
     if (c64dtv_cmdline_options_init() < 0) {
         init_cmdline_options_fail("c64dtv");
+        return -1;
+    }
+    if (hummeradc_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("hummer adc");
         return -1;
     }
     if (c64dtvmem_cmdline_options_init() < 0) {

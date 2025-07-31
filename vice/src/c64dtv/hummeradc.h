@@ -28,6 +28,7 @@
 #define VICE_HUMMERADC_H
 
 #include "types.h"
+#include "snapshot.h"
 
 void hummeradc_init(void);
 void hummeradc_reset(void);
@@ -36,11 +37,14 @@ void hummeradc_shutdown(void);
 uint8_t hummeradc_read(void);
 void hummeradc_store(uint8_t value);
 
-extern uint8_t hummeradc_value;
-extern uint8_t hummeradc_channel;
-extern uint8_t hummeradc_control;
-extern uint8_t hummeradc_chanattr;
-extern uint8_t hummeradc_chanwakeup;
-extern uint8_t hummeradc_prev;
+int hummeradc_enable(int value);
+
+extern int c64dtv_hummer_adc_enabled;
+
+int hummeradc_cmdline_options_init(void);
+int hummeradc_resources_init(void);
+
+int hummeradc_snapshot_write_module(snapshot_t *s);
+int hummeradc_snapshot_read_module(snapshot_t *s);
 
 #endif

@@ -30,6 +30,4 @@
 int c64dtv_resources_init(void);
 void c64dtv_resources_shutdown(void);
 
-extern int c64dtv_hummer_adc_enabled;
-
 #endif
