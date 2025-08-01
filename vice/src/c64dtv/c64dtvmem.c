@@ -49,7 +49,7 @@
 #include "interrupt.h"
 #include "alarm.h"
 #include "hummeradc.h"
-#include "ps2mouse.h"
+#include "userport_ps2mouse.h"
 
 /* TODO this is a hack */
 #define C64_RAM_SIZE 0x200000

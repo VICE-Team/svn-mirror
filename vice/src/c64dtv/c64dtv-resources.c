@@ -34,7 +34,7 @@
 #include "c64rom.h"
 #include "cartridge.h"
 #include "hummeradc.h"
-#include "ps2mouse.h"
+#include "userport_ps2mouse.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

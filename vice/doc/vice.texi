@@ -8750,6 +8750,9 @@ Set the device attached to the userport (see table below):
 @item 26
 @tab PET Userport diagnostic pin
 @tab xpet
+@item 27
+@tab Userport PS/2 Mouse
+@tab x64dtv
 @end multitable
 
 @table @code
@@ -14010,15 +14013,13 @@ The default setting is "New Luminances".
 The C64DTV userport emulation currently supports three devices:
 Hummer ADC, userport joystick and PS/2 mouse.
 
-The joystick that controls either the Hummer ADC or userport joystick
-can be selected using the same parameter or menu option. (Enable "Hummer userport
-adapter" and use the first extra joystick.)
+The Hummer ADC will be always enabled when a "Hummer" model is selected.
 
 While using the Hummer ADC, joystick UP and DOWN are mapped to
 the Hummer buttons A and B respectively. LEFT and RIGHT set the ADCs
 output to 0 and 255. Centering the joystick results in the ADC value of 128.
 
-Currently the Hummer ADC and userport joystick are mutually exclusive.
+The Hummer ADC and userport joystick are mutually exclusive.
 This means that enabling one disables the other. PS/2 mouse emulation
 can be used simultaneously with either Hummer ADC or userport joystick.
 
@@ -14029,12 +14030,6 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 @itemx +hummeradc
 Enable/Disable Hummer ADC
 (@code{HummerADC=1}, @code{HummerADC=0}).
-
-@findex -ps2mouse, +ps2mouse
-@item -ps2mouse
-@itemx +ps2mouse
-Enable/disable PS/2 mouse on userport
-(@code{ps2mouse=1}, @code{ps2mouse=0}).
 
 @end table
 
@@ -14143,10 +14138,6 @@ Boolean, enables true hardware flash file system.
 @vindex HummerADC
 @item HummerADC
 Boolean to enable/disable the Hummer ADC emulation.
-
-@vindex ps2mouse
-@item ps2mouse
-Boolean to enable/disable PS/2 Mouse emulation.
 
 @vindex DtvBlitterLog
 @item DtvBlitterLog

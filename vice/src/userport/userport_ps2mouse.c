@@ -31,7 +31,9 @@
 #include "cmdline.h"
 #include "resources.h"
 #include "log.h"
-#include "ps2mouse.h"
+#include "joyport.h"
+#include "userport.h"
+#include "userport_ps2mouse.h"
 #include "alarm.h"
 #include "maincpu.h"
 #include "mousedrv.h"
@@ -114,9 +116,70 @@ enum {
 
 /* Output buffer */
 #define PS2_QUEUE_SIZE 8
-uint8_t ps2mouse_queue[PS2_QUEUE_SIZE];
-uint8_t ps2mouse_queue_head;
-uint8_t ps2mouse_queue_tail;
+static uint8_t ps2mouse_queue[PS2_QUEUE_SIZE];
+static uint8_t ps2mouse_queue_head;
+static uint8_t ps2mouse_queue_tail;
+
+/* ------------------------------------------------------------------------- */
+
+static uint8_t userport_ps2mouse_read_pbx(uint8_t orig);
+static void userport_ps2mouse_store_pbx(uint8_t value, int pulse);
+static int userport_ps2mouse_enable(int val);
+static int userport_ps2mouse_write_snapshot_module(snapshot_t *s);
+static int userport_ps2mouse_read_snapshot_module(snapshot_t *s);
+
+static userport_device_t ps2mouse_device = {
+    "PS/2 Mouse",                                   /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,                       /* this is NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_MOUSE_ADAPTER,             /* device is a mouse adapter */
+    userport_ps2mouse_enable,                       /* enable function */
+    userport_ps2mouse_read_pbx,                     /* read pb0-pb7 function */
+    userport_ps2mouse_store_pbx,                    /* store pb0-pb7 function */
+    NULL,                                           /* NO read pa2 pin function */
+    NULL,                                           /* NO store pa2 pin function */
+    NULL,                                           /* NO read pa3 pin function */
+    NULL,                                           /* NO store pa3 pin function */
+    0,                                              /* pc pin is NOT needed */
+    NULL,                                           /* NO store sp1 pin function */
+    NULL,                                           /* NO read sp1 pin function */
+    NULL,                                           /* NO store sp2 pin function */
+    NULL,                                           /* NO read sp2 pin function */
+    NULL,                                           /* NO reset function */
+    NULL,                                           /* NO powerup function */
+    userport_ps2mouse_write_snapshot_module,        /* snapshot write function */
+    userport_ps2mouse_read_snapshot_module          /* snapshot read function */
+};
+
+static int ps2mouse_enabled = 0;
+
+static int userport_ps2mouse_enable(int val)
+{
+    ps2mouse_enabled = (unsigned int)(val ? 1 : 0);
+
+    return 0;
+}
+
+int userport_ps2mouse_resources_init(void)
+{
+    return userport_device_register(USERPORT_DEVICE_MOUSE_PS2, &ps2mouse_device);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static int userport_ps2mouse_write_snapshot_module(snapshot_t *s)
+{
+    /* FIXME */
+    return 0;
+}
+
+static int userport_ps2mouse_read_snapshot_module(snapshot_t *s)
+{
+    /* FIXME */
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 
 static int ps2mouse_queue_put(uint8_t value)
 {
@@ -172,6 +235,7 @@ static int ps2mouse_handle_command(uint8_t value)
 
         case PS2_CMD_SET_REMOTE_MODE:
 #ifdef HAVE_MOUSE
+            mouse_poll(); /* HACK: should probably happen elsewhere */
             mouse_get_raw_int16(&ps2mouse_lastx, &ps2mouse_lasty);
 #endif
             return (ps2mouse_queue_put(PS2_REPLY_OK));
@@ -180,7 +244,9 @@ static int ps2mouse_handle_command(uint8_t value)
         case PS2_CMD_READ_DATA:
             new_buttons = ps2mouse_buttons;
 #ifdef HAVE_MOUSE
+            mouse_poll(); /* HACK: should probably happen elsewhere */
             mouse_get_raw_int16(&new_x, &new_y);
+
             diff_x = (new_x - ps2mouse_lastx);
             if (diff_x < 0) {
                 new_buttons |= PS2_MDATA_XS;
@@ -403,7 +469,7 @@ static void c64dtv_ps2mouse_alarm_handler(CLOCK offset, void *data)
 }
 
 
-void ps2mouse_store(uint8_t value)
+void userport_ps2mouse_store_pbx(uint8_t value, int pulse)
 {
     ps2mouse_in = value;
     if (((ps2mouse_prev & PS2_CLK_BIT) == 0) && (value & PS2_CLK_BIT)
@@ -416,20 +482,20 @@ void ps2mouse_store(uint8_t value)
     return;
 }
 
-uint8_t ps2mouse_read(void)
+uint8_t userport_ps2mouse_read_pbx(uint8_t orig)
 {
     return ps2mouse_out;
 }
 
 /* ------------------------------------------------------------------------- */
 
-
-static void c64dtv_ps2mouse_alarm_init(void)
+static void userport_ps2mouse_alarm_init(void)
 {
     c64dtv_ps2mouse_alarm = alarm_new(maincpu_alarm_context, "PS2MOUSEAlarm",
                                       c64dtv_ps2mouse_alarm_handler, NULL);
 }
 
+/* called from src/c64dtv/c64dtvmem.c:979 */
 void ps2mouse_reset(void)
 {
     ps2mouse_in = 0xff;
@@ -447,34 +513,6 @@ void ps2mouse_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-int ps2mouse_enabled = 0;
-
-static int set_ps2mouse_enable(int val, void *param)
-{
-    ps2mouse_enabled = (unsigned int)(val ? 1 : 0);
-
-    return 0;
-}
-
-static const resource_int_t resources_int[] = {
-    { "ps2mouse", 0, RES_EVENT_SAME, NULL,
-      &ps2mouse_enabled, set_ps2mouse_enable, NULL },
-    RESOURCE_INT_LIST_END
-};
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-ps2mouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "PS2Mouse", (void *)1,
-      NULL, "Enable PS/2 mouse on userport" },
-    { "+ps2mouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "PS2Mouse", (void *)0,
-      NULL, "Disable PS/2 mouse on userport" },
-    CMDLINE_LIST_END
-};
-
-/* ------------------------------------------------------------------------- */
-
 static const mouse_func_t mouse_funcs =
 {
     mouse_button_left,
@@ -484,36 +522,32 @@ static const mouse_func_t mouse_funcs =
     mouse_button_down
 };
 
+/* called from src/c64dtv/c64dtv.c:507 */
 int mouse_ps2_resources_init(void)
 {
-    if (resources_register_int(resources_int) < 0) {
-        return -1;
-    }
-
     return mousedrv_resources_init(&mouse_funcs);
 }
 
+/* called from src/c64dtv/c64dtv.c:637 */
 int mouse_ps2_cmdline_options_init(void)
 {
-    if (cmdline_register_options(cmdline_options) < 0) {
-        return -1;
-    }
-
     return mousedrv_cmdline_options_init();
 }
 
+/* called from src/c64dtv/c64dtv.c:776 */
 void mouse_ps2_init(void)
 {
     if (ps2mouse_log == LOG_DEFAULT) {
         ps2mouse_log = log_open("ps2mouse");
     }
 
-    c64dtv_ps2mouse_alarm_init();
+    userport_ps2mouse_alarm_init();
 
     ps2mouse_reset();
     mousedrv_init();
 }
 
+/* called from src/c64dtv/c64dtv.c:823 */
 void mouse_ps2_shutdown(void)
 {
 }
