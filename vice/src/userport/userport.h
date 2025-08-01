@@ -70,6 +70,7 @@ enum {
     USERPORT_DEVICE_SPACEBALLS, /* CAUTION: also connects to the controller port(s) */
     USERPORT_DEVICE_SPT_JOYSTICK,
     USERPORT_DEVICE_DIAGNOSTIC_PIN,
+    USERPORT_DEVICE_MOUSE_PS2,
 
     /* This item always needs to be at the end */
     USERPORT_MAX_DEVICES
@@ -91,7 +92,8 @@ enum {
     USERPORT_DEVICE_TYPE_WIFI,
 #endif
     USERPORT_DEVICE_TYPE_IO_SIMULATION,
-    USERPORT_DEVICE_TYPE_DIAGNOSTIC
+    USERPORT_DEVICE_TYPE_DIAGNOSTIC,
+    USERPORT_DEVICE_TYPE_MOUSE_ADAPTER,
 };
 
 /* 24 pin userport pin defines */

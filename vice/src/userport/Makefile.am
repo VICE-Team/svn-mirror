@@ -49,6 +49,8 @@ libuserport_a_SOURCES = \
 	userport_joystick.h \
 	userport_petscii_snespad.c \
 	userport_petscii_snespad.h \
+	userport_ps2mouse.c \
+	userport_ps2mouse.h \
 	userport_rtc_58321a.c \
 	userport_rtc_58321a.h \
 	userport_rtc_ds1307.c \

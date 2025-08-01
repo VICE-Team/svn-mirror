@@ -88,7 +88,7 @@
 #include "parallel.h"
 #include "printer.h"
 #include "protopad.h"
-#include "ps2mouse.h"
+#include "userport_ps2mouse.h"
 #include "resources.h"
 #include "rushware_keypad.h"
 #include "sampler.h"

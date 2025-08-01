@@ -241,7 +241,6 @@ noinst_HEADERS = \
 	plus4ui.h \
 	profiler.h \
 	profiler_data.h \
-	ps2mouse.h \
 	r65c02.h \
 	ram.h \
 	rawfile.h \
@@ -344,10 +343,6 @@ base_sources = \
 	vsync.c \
 	zfile.c \
 	zipcode.c
-
-
-ps2mouse_sources = \
-	ps2mouse.c
 
 midi_sources = \
 	midi.c
@@ -854,7 +849,7 @@ x64dtv_libs =  \
 	$(hotkeys_lib) \
 	$(zmbv_lib)
 
-x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
+x64dtv_SOURCES = $(base_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(X64DTV_RES)
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
 if HAVE_DEBUG

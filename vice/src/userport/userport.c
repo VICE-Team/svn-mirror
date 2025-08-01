@@ -145,6 +145,7 @@
 #include "userport_hummer_joystick.h"
 #include "userport_io_sim.h"
 #include "userport_petscii_snespad.h"
+#include "userport_ps2mouse.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
 #include "userport_spt_joystick.h"
@@ -184,6 +185,7 @@ static type2text_t device_type_desc[] = {
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { USERPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
 #endif
+    { USERPORT_DEVICE_TYPE_MOUSE_ADAPTER, "Mouse adapter" },
     { -1, NULL }
 };
 
@@ -776,6 +778,13 @@ static userport_init_t userport_devices_init[] = {
       userport_diag_pin_resources_init,         /* resources init function */
       NULL,                                     /* resources shutdown function */
       userport_diag_pin_cmdline_options_init    /* cmdline options init function */
+    },
+
+    { USERPORT_DEVICE_MOUSE_PS2,                /* device id */
+      UP_DTV,                                   /* emulators this device works on */
+      userport_ps2mouse_resources_init,         /* resources init function */
+      NULL,                                     /* resources shutdown function */
+      NULL                                      /* cmdline options init function */
     },
 
     { USERPORT_DEVICE_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */

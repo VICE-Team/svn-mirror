@@ -51,6 +51,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "joyport.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
@@ -145,6 +146,7 @@ void mouse_get_raw_int16(int16_t *x, int16_t *y)
 {
     *x = (int16_t)mouse_x;
     *y = (int16_t)mouse_y;
+    DBG(("mouse_get_raw_int16 %d, %d", *x, *y));
 }
 
 void mouse_get_last_int16(int16_t *x, int16_t *y)
