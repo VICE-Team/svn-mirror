@@ -47,6 +47,10 @@
 /* #define DEBUG_TEDSOUND */
 
 #ifdef DEBUG_TEDSOUND
+#pragma GCC diagnostic warning "-O3"
+#pragma GCC diagnostic warning "-Wall"
+#pragma GCC diagnostic warning "-Wextra"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #define DBG(x)     log_printf x
 #else
 #define DBG(x)
@@ -178,7 +182,7 @@ struct plus4_sound_s {
 
     uint8_t voice0_cached_output;
     uint8_t voice1_cached_output;
-    uint8_t digital_cached_output;
+    uint16_t digital_cached_output;
 
     uint32_t oscStep;
 
