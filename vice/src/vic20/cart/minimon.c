@@ -317,27 +317,37 @@ static int io_unregister(void)
 
 static uint8_t minimon_io2_read(uint16_t addr)
 {
+    if (minimon_bios_type == CARTRIDGE_FILETYPE_NONE) {
+        return (0x9800 + (addr & 0x3ff)) >> 8; /* open bus */
+    }
     return minimon_rom[0x000 + (addr & 0x3ff)];
 }
 
 static uint8_t minimon_io3_read(uint16_t addr)
 {
+    if (minimon_bios_type == CARTRIDGE_FILETYPE_NONE) {
+        return (0x9a00 + (addr & 0x3ff)) >> 8; /* open bus */
+    }
     return minimon_rom[0x400 + (addr & 0x3ff)];
 }
 
 static void minimon_io2_write(uint16_t addr, uint8_t value)
 {
-    if (minimon_pgm_enabled) {
-        minimon_rom[0x000 + (addr & 0x3ff)] = value;
-        minimon_bios_changed = 1;
+    if (minimon_bios_type != CARTRIDGE_FILETYPE_NONE) {
+        if (minimon_pgm_enabled) {
+            minimon_rom[0x000 + (addr & 0x3ff)] = value;
+            minimon_bios_changed = 1;
+        }
     }
 }
 
 static void minimon_io3_write(uint16_t addr, uint8_t value)
 {
-    if (minimon_pgm_enabled) {
-        minimon_rom[0x400 + (addr & 0x3ff)] = value;
-        minimon_bios_changed = 1;
+    if (minimon_bios_type != CARTRIDGE_FILETYPE_NONE) {
+        if (minimon_pgm_enabled) {
+            minimon_rom[0x400 + (addr & 0x3ff)] = value;
+            minimon_bios_changed = 1;
+        }
     }
 }
 
@@ -467,6 +477,7 @@ static int set_minimon_image_filename(const char *name, void *param)
     }
 
     /* FIXME: load new image */
+    log_warning(LOG_DEFAULT, "FIXME: load minimon image on resource change");
 
     return 0;
 }
@@ -800,6 +811,11 @@ int minimon_flush_image(void)
 {
     /* FIXME */
     int ret = -1;
+
+    if (minimon_bios_type == CARTRIDGE_FILETYPE_NONE) {
+        log_warning(LOG_DEFAULT, "Flush: no minimon image attached");
+        return 0;
+    }
     if (minimon_bios_changed && minimon_bios_write) {
         if (minimon_bios_type == CARTRIDGE_FILETYPE_CRT) {
             ret = minimon_crt_save(minimon_image_filename);
