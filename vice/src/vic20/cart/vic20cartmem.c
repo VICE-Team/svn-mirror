@@ -392,9 +392,13 @@ uint8_t cartridge_read_blk5(uint16_t addr)
     /* "Slot 0" */
 
     if (minimon_cart_enabled()) {
+
         if ((res = minimon_blk5_read(addr, &value)) == CART_READ_VALID) {
             return value;
         }
+        /* open bus value, in case no cartridge is attached to pass through */
+        vic20_cpu_last_data = (addr >> 8);
+        printf("cartridge_read_blk5 %02x %04x\n", vic20_cpu_last_data, addr);
     }
 
     /* main slot */
