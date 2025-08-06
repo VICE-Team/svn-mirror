@@ -172,6 +172,25 @@ static void sid_alarm_init(void)
 #endif
 /* ------------------------------------------------------------------------- */
 
+/* Add some randomness to the pot value(s). Note that _with paddles_ the error
+   gets gradually worse depending on the sampled value (the larger the value,
+   the bigger error. This does _not_ happen with the 1351 mouse */
+static inline uint8_t makepotval(int value)
+{
+/* FIXME: we must somehow determine whether this is a 1531 or not, use the
+          lesser error for the time being */
+#if 0
+    unsigned int fuzz = lib_unsigned_rand(0, (value * 5) / 255);
+#else
+    unsigned int fuzz = lib_unsigned_rand(0, 1);
+#endif
+    value += fuzz;
+    if (value > 255) {
+        return 255;
+    }
+    return value;
+}
+
 static uint8_t sid_read_chip(uint16_t addr, int chipno)
 {
     int val = -1;
@@ -190,8 +209,8 @@ static uint8_t sid_read_chip(uint16_t addr, int chipno)
                 mouse_poll();
             }
 
-            val_pot_x = read_joyport_potx();
-            val_pot_y = read_joyport_poty();
+            val_pot_x = makepotval(read_joyport_potx());
+            val_pot_y = makepotval(read_joyport_poty());
         }
 #endif
         val = (addr == 0x19) ? val_pot_x : val_pot_y;
