@@ -291,13 +291,14 @@ static inline unsigned vic_read_rasterline(void)
    the bigger error. This does _not_ happen with the 1351 mouse */
 static inline uint8_t makepotval(int value)
 {
-/* FIXME: we must somehow determine whether this is a 1531 or not, use the
-          lesser error for the time being */
-#if 0
-    unsigned int fuzz = lib_unsigned_rand(0, (value * 5) / 255);
-#else
-    unsigned int fuzz = lib_unsigned_rand(0, 1);
-#endif
+    unsigned int fuzz;
+
+    if (get_joyport_pot_type() == JOYPORT_POT_TYPE_ANALOG) {
+        fuzz = lib_unsigned_rand(0, (value * 5) / 255);
+    } else {
+        fuzz = lib_unsigned_rand(0, 1);
+    }
+
     value += fuzz;
     if (value > 255) {
         return 255;

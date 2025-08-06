@@ -341,6 +341,10 @@ uint8_t read_joyport_poty(void);
 
 void set_joyport_pot_mask(int mask);
 
+#define JOYPORT_POT_TYPE_ANALOG     0   /* regular resistor */
+#define JOYPORT_POT_TYPE_DIGITAL    1   /* digital (1351 style) */
+int get_joyport_pot_type(void);
+
 void joyport_powerup(void);
 
 int joyport_resources_init(void);

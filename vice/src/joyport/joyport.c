@@ -116,6 +116,7 @@ static const char *res2text(int joyport_id)
     return retval;
 }
 
+/* setup which port(s) are selected, ie the upper 2 bits of $dc00 on C64 */
 void set_joyport_pot_mask(int mask)
 {
     pot_port_mask = mask;
@@ -310,6 +311,40 @@ static void find_pot_ports(void)
     if (pot_port2 == -1) {
         pot_port2 = -2;
     }
+}
+
+/* returns JOYPORT_POT_TYPE_DIGITAL if one of the selected POTs is a digital
+   (1351 style) device. we need this to correctly emulate the dither produced
+   when sampling the POTs */
+int get_joyport_pot_type(void)
+{
+    /* first find the pot ports if needed */
+    if (pot_port1 == -1 || pot_port2 == -1) {
+        find_pot_ports();
+    }
+
+    if (pot_port_mask == 1 || pot_port_mask == 3) {
+        if (pot_port1 != -2) {
+            switch (joy_port[pot_port1]) {
+                case JOYPORT_ID_MOUSE_1351:
+                case JOYPORT_ID_MOUSE_SMART:
+                case JOYPORT_ID_MOUSE_MICROMYS:
+                    return JOYPORT_POT_TYPE_DIGITAL;
+            }
+        }
+    }
+
+    if (pot_port_mask == 2 || pot_port_mask == 3) {
+        if (pot_port2 != -2) {
+            switch (joy_port[pot_port2]) {
+                case JOYPORT_ID_MOUSE_1351:
+                case JOYPORT_ID_MOUSE_SMART:
+                case JOYPORT_ID_MOUSE_MICROMYS:
+                    return JOYPORT_POT_TYPE_DIGITAL;
+            }
+        }
+    }
+    return JOYPORT_POT_TYPE_ANALOG;
 }
 
 /* calculate the paddle value that will show in the registers when both
