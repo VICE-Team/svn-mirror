@@ -288,13 +288,19 @@ static inline unsigned vic_read_rasterline(void)
 
 /* Add some randomness to the pot value(s). Note that _with paddles_ the error
    gets gradually worse depending on the sampled value (the larger the value,
-   the bigger error. This does _not_ happen with the 1351 mouse */
+   the bigger error. This does _not_ happen with the 1351 mouse.
+   Additionally the amount of error appears to depend on display DMA.
+*/
 static inline uint8_t makepotval(int value)
 {
     unsigned int fuzz;
 
     if (get_joyport_pot_type() == JOYPORT_POT_TYPE_ANALOG) {
-        fuzz = lib_unsigned_rand(0, (value * 5) / 255);
+        if (vic.area == VIC_AREA_DISPLAY) {
+            fuzz = lib_unsigned_rand(0, 1 + ((value * 25) / 255));
+        } else {
+            fuzz = lib_unsigned_rand(0, 1 + ((value * 5) / 255));
+        }
     } else {
         fuzz = lib_unsigned_rand(0, 1);
     }
