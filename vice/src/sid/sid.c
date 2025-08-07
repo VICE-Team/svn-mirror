@@ -192,6 +192,25 @@ static inline uint8_t makepotval(int value)
     return value;
 }
 
+/* this creates a "glitched" value that might be read in the first incomplete
+   sample period after switching the control port */
+static inline uint8_t makebadpotval(int value, int clkdiff)
+{
+    unsigned int fuzz;
+
+    if (get_joyport_pot_type() == JOYPORT_POT_TYPE_ANALOG) {
+        fuzz = lib_unsigned_rand(0, (clkdiff * 32) / 255);
+    } else {
+        fuzz = lib_unsigned_rand(0, 255);
+    }
+
+    value += fuzz;
+    if (value > 255) {
+        return 255;
+    }
+    return value;
+}
+
 static uint8_t sid_read_chip(uint16_t addr, int chipno)
 {
     int val = -1;
@@ -203,15 +222,26 @@ static uint8_t sid_read_chip(uint16_t addr, int chipno)
 #ifdef HAVE_MOUSE
     if (chipno == 0 && (addr == 0x19 || addr == 0x1a)) {
 #if 1
-        if ((maincpu_clk ^ pot_cycle) & ~511) {
-            pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
+        CLOCK port_changed_clk = get_joyport_pot_mask_clk();
+        CLOCK port_changed_diff_clk = maincpu_clk - port_changed_clk;
+        if (port_changed_diff_clk > 511) {
+            /* produce a regular value */
+            if ((maincpu_clk ^ pot_cycle) & ~511) {
+                pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
 
-            if (_mouse_enabled) {
-                mouse_poll();
+                if (_mouse_enabled) {
+                    mouse_poll();
+                }
+
+                val_pot_x = makepotval(read_joyport_potx());
+                val_pot_y = makepotval(read_joyport_poty());
             }
-
-            val_pot_x = makepotval(read_joyport_potx());
-            val_pot_y = makepotval(read_joyport_poty());
+        } else {
+            /* produce a "bad" value in case the POT register was read within
+               the first sample period after switching the port */
+            pot_cycle = port_changed_clk & ~511;
+            val_pot_x = makebadpotval(read_joyport_potx(), 512 - (int)port_changed_diff_clk);
+            val_pot_y = makebadpotval(read_joyport_poty(), 512 - (int)port_changed_diff_clk);
         }
 #endif
         val = (addr == 0x19) ? val_pot_x : val_pot_y;

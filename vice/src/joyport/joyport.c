@@ -45,6 +45,7 @@
 #include "lightpen.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mouse_1351.h"
 #include "mouse_neos.h"
 #include "mouse_paddle.h"
@@ -82,6 +83,7 @@ static uint16_t joyport_display[JOYPORT_MAX_PORTS + 1];
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
 static int pot_port_mask = 1;
+static CLOCK pot_port_mask_clk = 0; /* time when the mask changed */
 
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
@@ -119,7 +121,15 @@ static const char *res2text(int joyport_id)
 /* setup which port(s) are selected, ie the upper 2 bits of $dc00 on C64 */
 void set_joyport_pot_mask(int mask)
 {
+    if (pot_port_mask != mask) {
+        pot_port_mask_clk = maincpu_clk;
+    }
     pot_port_mask = mask;
+}
+
+CLOCK get_joyport_pot_mask_clk(void)
+{
+    return pot_port_mask_clk;
 }
 
 static int joyport_device_is_single_port(int id)
