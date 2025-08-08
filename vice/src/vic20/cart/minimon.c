@@ -488,46 +488,92 @@ int minimon_cart_enabled(void)
     return minimon_enabled;
 }
 
+
+static int minimon_activate(void)
+{
+    minimon_bios_changed = 0;
+    /* minimon_reset(); */
+    return 0;
+}
+
+static int minimon_deactivate(void)
+{
+    int ret;
+
+    if (minimon_bios_changed && minimon_bios_write) {
+        if (minimon_bios_type == CARTRIDGE_FILETYPE_CRT) {
+            ret = minimon_crt_save(minimon_image_filename);
+        } else {
+            ret = minimon_bin_save(minimon_image_filename);
+        }
+        if (ret <= 0) {
+            return 0; /* FIXME */
+        }
+    }
+    return 0;
+}
+
 /* setup the MinimonEnabled resource */
 static int set_minimon_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (minimon_enabled == val) {
-        DBG(("set_minimon_enabled: %d to %d (nothing to do)", minimon_enabled, val));
-        return 0; /* nothing to do */
-    }
-
-    DBG(("set_minimon_enabled: %d to %d", minimon_enabled, val));
-    if (val) {
-
-        /* prepare the RAM/ROM */
-        if (minimon_rom) {
-            clear_ram();
+    DBG(("Minimon: set_enabled: '%s' %d to %d", minimon_image_filename, minimon_enabled, val));
+    if (!minimon_enabled && val) {
+        /* activate minimon */
+        if (param) {
+            /* if the param is != NULL, then we should load the default image file */
+            DBG(("Minimon: set_enabled(1) '%s'", minimon_image_filename));
             if (minimon_image_filename) {
-                minimon_rom_reload(minimon_image_filename);
+                if (*minimon_image_filename) {
+                    /* try .crt first */
+                    if ((cartridge_attach_image(CARTRIDGE_CRT, minimon_image_filename) < 0) &&
+                        (cartridge_attach_image(CARTRIDGE_VIC20_MINIMON, minimon_image_filename) < 0)) {
+                        DBG(("Minimon: set_enabled(1) did not register"));
+                        return -1;
+                    }
+                    /* minimon_enabled = 1; */ /* cartridge_attach_image will end up calling set_minimon_enabled again */
+                    return 0;
+                }
+            }
+        } else {
+            DBG(("Minimon: set_enabled(0) '%s'", minimon_image_filename));
+            /* cart_power_off(); */
+            /* if the param is == NULL, then we should actually set the resource */
+            if (export_add(&export_res23) < 0) {
+                DBG(("Minimon: set_enabled(0) did not register"));
+                return -1;
+            } else {
+                DBG(("Minimon: set_enabled registered"));
+
+                if (minimon_activate() < 0) {
+                    return -1;
+                }
+                minimon_enabled = 1;
+                minimon_io2_list_item = io_source_register(&minimon_io2_device);
+                minimon_io3_list_item = io_source_register(&minimon_io3_device);
+                minimon_reset();
+                minimon_alarm_install();
             }
         }
-
-        /* enable cartridge */
-        if (export_add(&export_res23) < 0) {
+    } else if (minimon_enabled && !val) {
+        /* remove minimon */
+        if (minimon_deactivate() < 0) {
             return -1;
         }
-        if (minimon_io_enabled) {
-            io_register();
-        }
-        /* FIXME: minimon_reload_file(); */
-        minimon_alarm_install();
-    } else {
-        /* disable cartridge */
-        io_unregister();
         minimon_alarm_deinstall();
+        /* cart_power_off(); */
         export_remove(&export_res23);
+        minimon_enabled = 0;
+        io_source_unregister(minimon_io2_list_item);
+        io_source_unregister(minimon_io3_list_item);
+        minimon_io2_list_item = NULL;
+        minimon_io3_list_item = NULL;
     }
-    minimon_enabled = val; /* resource */
-
+    DBG(("Minimon: set_enabled done: '%s' %d : %d", minimon_image_filename, val, minimon_enabled));
     return 0;
 }
+
 
 /* set the resource for the PGM switch */
 static int set_minimon_pgm_enabled(int value, void *param)
