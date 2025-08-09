@@ -108,6 +108,9 @@ static int minimon_bios_changed = 0; /* flag: was the ROM written to? */
 
 static int minimon_io23_temp = 0;
 
+static int set_minimon_enabled(int value, void *param);
+static int minimon_rom_reload(char *filename);
+
 /* ------------------------------------------------------------------------- */
 
 static int freeze_triggered = 0; /* if not 0, a "freeze reset" was just triggered */
@@ -178,8 +181,6 @@ static void minimon_alarm_deinstall(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static int minimon_rom_reload(char *filename);
 
 /* FIXME: this still needs to be tweaked to match the hardware */
 static RAMINITPARAM ramparam = {
@@ -457,11 +458,18 @@ const char *minimon_get_file_name(void)
 /* set the MinimonFilename resource */
 static int set_minimon_image_filename(const char *name, void *param)
 {
-    DBG(("set_minimon_image_filename '%s'", name));
-    if (minimon_image_filename != NULL && name != NULL && strcmp(name, minimon_image_filename) == 0) {
+    int enabled = minimon_enabled;
+
+    DBG(("set_minimon_image_filename '%s' (enabled: %d)", name, enabled));
+
+    /* if filename was already set, but not changed, return */
+    if ((minimon_image_filename != NULL) &&
+        (name != NULL) &&
+        (strcmp(name, minimon_image_filename) == 0)) {
         return 0;
     }
 
+    /* if filename is valid, check if a file with that name exists */
     if ((name != NULL) && (*name != '\0')) {
         if (util_check_filename_access(name) < 0) {
             return -1;
@@ -469,17 +477,14 @@ static int set_minimon_image_filename(const char *name, void *param)
     }
 
     DBG(("set_minimon_image_filename"));
-    if (minimon_enabled) {
-        minimon_flush_image();
-        util_string_set(&minimon_image_filename, name);
-    } else {
-        util_string_set(&minimon_image_filename, name);
-    }
 
-    /* FIXME: load new image */
-    log_warning(LOG_DEFAULT, "FIXME: load minimon image on resource change");
+    /* if already enabled, flush image and disable */
+    set_minimon_enabled(0, (void*)1);
 
-    return 0;
+    util_string_set(&minimon_image_filename, name);
+
+    /* enable, load new image */
+    return set_minimon_enabled(enabled, (void*)1);
 }
 
 /* get the MinimonEnabled resource */
@@ -487,7 +492,6 @@ int minimon_cart_enabled(void)
 {
     return minimon_enabled;
 }
-
 
 static int minimon_activate(void)
 {
@@ -500,13 +504,18 @@ static int minimon_deactivate(void)
 {
     int ret;
 
+    DBG(("minimon_deactivate: minimon_bios_changed: %d minimon_bios_write: %d",
+         minimon_bios_changed, minimon_bios_write));
+
     if (minimon_bios_changed && minimon_bios_write) {
+        DBG(("minimon_deactivate: flushing image"));
         if (minimon_bios_type == CARTRIDGE_FILETYPE_CRT) {
             ret = minimon_crt_save(minimon_image_filename);
         } else {
             ret = minimon_bin_save(minimon_image_filename);
         }
         if (ret <= 0) {
+            DBG(("minimon_deactivate: flush failed"));
             return 0; /* FIXME */
         }
     }
@@ -793,7 +802,6 @@ int minimon_bin_attach(const char *filename, uint8_t *rawcart)
 
 int minimon_bin_save(const char *filename)
 {
-    /* FIXME */
     FILE *fd;
     size_t ret;
 
@@ -818,12 +826,11 @@ int minimon_bin_save(const char *filename)
         return -1;
     }
     minimon_bios_changed = 0;
-    return -1;
+    return 0;
 }
 
 int minimon_crt_save(const char *filename)
 {
-    /* FIXME */
     FILE *fd;
     crt_chip_header_t chip;
 
@@ -850,29 +857,25 @@ int minimon_crt_save(const char *filename)
     }
 
     fclose(fd);
-    return -1;
+    return 0;
 }
 
 int minimon_flush_image(void)
 {
-    /* FIXME */
-    int ret = -1;
-
+    int ret = 0;
+    DBG(("minimon_flush_image minimon_bios_changed:%d minimon_bios_write:%d",
+         minimon_bios_changed, minimon_bios_write));
     if (minimon_bios_type == CARTRIDGE_FILETYPE_NONE) {
         log_warning(LOG_DEFAULT, "Flush: no minimon image attached");
-        return 0;
-    }
-    if (minimon_bios_changed && minimon_bios_write) {
+    } else if (minimon_bios_changed && minimon_bios_write) {
         if (minimon_bios_type == CARTRIDGE_FILETYPE_CRT) {
             ret = minimon_crt_save(minimon_image_filename);
         } else {
             ret = minimon_bin_save(minimon_image_filename);
         }
-        if (ret <= 0) {
-            return 0; /* FIXME */
-        }
     }
     minimon_bios_changed = 0;
+    DBG(("minimon_flush_image ret: %d", ret));
     return ret;
 }
 
