@@ -1203,12 +1203,16 @@ int cartridge_can_flush_image(int crtid)
 {
     const char *p;
     if (!cartridge_type_enabled(crtid)) {
+        DBG(("cartridge_can_flush_image crtid:%d ret: 0", crtid));
         return 0;
     }
     p = cartridge_get_filename_by_crtid(crtid);
     if ((p == NULL) || (*p == '\x0')) {
+        DBG(("cartridge_can_flush_image crtid:%d ret: 0", crtid));
         return 0;
     }
+
+    DBG(("cartridge_can_flush_image crtid:%d ret: 1", crtid));
     return 1;
 }
 
@@ -1229,8 +1233,10 @@ int cartridge_can_flush_secondary_image(int crtid)
 int cartridge_can_save_image(int crtid)
 {
     if (!cartridge_type_enabled(crtid)) {
+        DBG(("cartridge_can_save_image crtid:%d ret: 0", crtid));
         return 0;
     }
+    DBG(("cartridge_can_save_image crtid:%d ret: 1", crtid));
     return 1;
 }
 
