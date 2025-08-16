@@ -87,8 +87,13 @@ inline static uint8_t datab_read(unsigned int dnr)
     log_debug(LOG_DEFAULT, "TCBM PB READ DATA %02x DDR %02x",
               tiatcbm[dnr].datab, tiatcbm[dnr].ddrb);
 #endif
+
+#if 0 /* FIXME: remove when we can confirm the code below is correct, see #2160 */
     return (tiatcbm[dnr].datab | ~tiatcbm[dnr].ddrb)
            & (tpid_outputc[dnr] | 0xfc);
+#endif
+    return ((tiatcbm[dnr].datab & tiatcbm[dnr].ddrb) |
+            (tpid_outputc[dnr] & (~tiatcbm[dnr].ddrb & 0x03)));
 }
 
 inline static uint8_t datac_read(unsigned int dnr)
@@ -97,9 +102,14 @@ inline static uint8_t datac_read(unsigned int dnr)
     log_debug(LOG_DEFAULT, "TCBM PC READ DATA %02x DDR %02x",
               tiatcbm[dnr].datac, tiatcbm[dnr].ddrc);
 #endif
+#if 0 /* FIXME: remove when we can confirm the code below is correct, see #2160 */
     return (tiatcbm[dnr].datac | ~tiatcbm[dnr].ddrc)
            & ((tpid_outputc[dnr] << 4) | 0x7f)
            & ((tpid_outputc[dnr] >> 1) | 0xbf);
+#endif
+    return ((tiatcbm[dnr].datac & tiatcbm[dnr].ddrc) |
+            ((tpid_outputc[dnr] << 4) & (~tiatcbm[dnr].ddrc) & 0x80) |
+            ((tpid_outputc[dnr] >> 1) & (~tiatcbm[dnr].ddrc) & 0x40));
 }
 
 inline static void store_pa(unsigned int dnr)
