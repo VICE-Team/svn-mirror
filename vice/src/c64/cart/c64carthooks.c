@@ -117,6 +117,7 @@
 #include "magicformel.h"
 #include "magicvoice.h"
 #include "maxbasic.h"
+#include "megabyter.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -373,6 +374,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartmd16", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_DESK_16, NULL, NULL,
       "<Name>", "Attach raw up to 2048KiB Magic Desk 16K cartridge image" },
+    { "-cartmb", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_MEGABYTER, NULL, NULL,
+      "<Name>", "Attach raw 1024KiB " CARTRIDGE_NAME_MEGABYTER " cartridge image" },
     { "-cartmf", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_FORMEL, NULL, NULL,
       "<Name>", "Attach raw Magic Formel cartridge image" },
@@ -534,6 +538,7 @@ int cart_cmdline_options_init(void)
         || ide64_cmdline_options_init() < 0
         || ieeeflash64_cmdline_options_init() < 0
         || ltkernal_cmdline_options_init() < 0
+        || megabyter_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
         || rexramfloppy_cmdline_options_init() < 0
@@ -600,6 +605,7 @@ int cart_resources_init(void)
         || gmod3_resources_init() < 0
         || ide64_resources_init() < 0
         || ltkernal_resources_init() < 0
+        || megabyter_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || retroreplay_resources_init() < 0
         || rexramfloppy_resources_init() < 0
@@ -651,6 +657,7 @@ void cart_resources_shutdown(void)
     gmod3_resources_shutdown();
     ide64_resources_shutdown();
     ltkernal_resources_shutdown();
+    megabyter_resources_shutdown();
     mmcreplay_resources_shutdown();
     retroreplay_resources_shutdown();
     rexramfloppy_resources_shutdown();
@@ -1024,6 +1031,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return magicformel_bin_attach(filename, rawcart);
         case CARTRIDGE_MAX_BASIC:
             return maxbasic_bin_attach(filename, rawcart);
+        case CARTRIDGE_MEGABYTER:
+            return megabyter_bin_attach(filename, rawcart);
         case CARTRIDGE_MIKRO_ASSEMBLER:
             return mikroass_bin_attach(filename, rawcart);
         case CARTRIDGE_MMC_REPLAY:
@@ -1293,6 +1302,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_MAX_BASIC:
             maxbasic_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MEGABYTER:
+            megabyter_config_setup(rawcart);
             break;
         case CARTRIDGE_MIKRO_ASSEMBLER:
             mikroass_config_setup(rawcart);
@@ -1909,6 +1921,9 @@ void cart_detach(int type)
         case CARTRIDGE_MAX_BASIC:
             maxbasic_detach();
             break;
+        case CARTRIDGE_MEGABYTER:
+            megabyter_detach();
+            break;
         case CARTRIDGE_MIKRO_ASSEMBLER:
             mikroass_detach();
             break;
@@ -2219,6 +2234,9 @@ void cartridge_init_config(void)
                 break;
             case CARTRIDGE_MAX_BASIC:
                 maxbasic_config_init();
+                break;
+            case CARTRIDGE_MEGABYTER:
+                megabyter_config_init();
                 break;
             case CARTRIDGE_MIKRO_ASSEMBLER:
                 mikroass_config_init();
@@ -2922,6 +2940,8 @@ int cartridge_flush_image(int type)
             return gmod2_flush_image();
         case CARTRIDGE_GMOD3:
             return gmod3_flush_image();
+        case CARTRIDGE_MEGABYTER:
+            return megabyter_flush_image();
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
@@ -3000,6 +3020,8 @@ int cartridge_bin_save(int type, const char *filename)
             return gmod2_bin_save(filename);
         case CARTRIDGE_GMOD3:
             return gmod3_bin_save(filename);
+        case CARTRIDGE_MEGABYTER:
+            return megabyter_bin_save(filename);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
@@ -3071,6 +3093,8 @@ int cartridge_crt_save(int type, const char *filename)
             return gmod2_crt_save(filename);
         case CARTRIDGE_GMOD3:
             return gmod3_crt_save(filename);
+        case CARTRIDGE_MEGABYTER:
+            return megabyter_crt_save(filename);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_crt_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
@@ -3220,6 +3244,9 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
             return;
         case CARTRIDGE_LT_KERNAL:
             ltkernal_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_MEGABYTER:
+            megabyter_mmu_translate(addr, base, start, limit);
             return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
@@ -3635,6 +3662,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_MAX_BASIC:
                     if (maxbasic_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
+                case CARTRIDGE_MEGABYTER:
+                    if (megabyter_snapshot_write_module(s) < 0) {
                         return -1;
                     }
                     break;
@@ -4255,6 +4287,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_MAX_BASIC:
                     if (maxbasic_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_MEGABYTER:
+                    if (megabyter_snapshot_read_module(s) < 0) {
                         goto fail2;
                     }
                     break;

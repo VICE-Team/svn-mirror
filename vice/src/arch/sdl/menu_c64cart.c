@@ -170,6 +170,7 @@ static c64_cart_flush_t carts[] = {
     { CARTRIDGE_ISEPIC,         "IsepicCartridgeEnabled",   "Isepicfilename" },
     { CARTRIDGE_EASYFLASH,      NULL,                       NULL },
     { CARTRIDGE_GEORAM,         "GEORAM",                   "GEORAMfilename" },
+    { CARTRIDGE_MEGABYTER,      NULL,                       NULL, },
     { CARTRIDGE_MMC64,          "MMC64",                    "MMC64BIOSfilename" },
     { CARTRIDGE_MMC_REPLAY,     NULL,                       NULL },
     { CARTRIDGE_GMOD2,          NULL,                       NULL },
@@ -785,6 +786,37 @@ static ui_menu_entry_t georam_menu[] = {
         .type     = MENU_ENTRY_OTHER,
         .callback = c64_cart_save_callback,
         .data     = (ui_callback_data_t)CARTRIDGE_GEORAM
+    },
+    SDL_MENU_LIST_END
+};
+
+
+/* Megabyter */
+
+UI_MENU_DEFINE_TOGGLE(MegabyterWriteCRT)
+UI_MENU_DEFINE_TOGGLE(MegabyterOptimizeCRT)
+
+#define MEGABYTER_OFFSET_FLUSH 2
+#define MEGABYTER_OFFSET_SAVE 3
+
+static ui_menu_entry_t megabyter_cart_menu[] = {
+    {   .string   = "Save image on detach",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MegabyterWriteCRT_callback
+    },
+    {   .string   = "Optimize image on write",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_MegabyterOptimizeCRT_callback
+    },
+    {   .string   = "Save image now", /* 2 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = c64_cart_flush_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_MEGABYTER
+    },
+    {   .string   = "Save image as", /* 3 */
+        .type     = MENU_ENTRY_OTHER,
+        .callback = c64_cart_save_callback,
+        .data     = (ui_callback_data_t)CARTRIDGE_MEGABYTER
     },
     SDL_MENU_LIST_END
 };
@@ -1696,6 +1728,7 @@ static const cartmenu_state_t flush_primary_states[] = {
     { isepic_cart_menu,         ISEPIC_OFFSET_FLUSH,        CARTRIDGE_ISEPIC },
     { easyflash_cart_menu,      EASYFLASH_OFFSET_FLUSH,     CARTRIDGE_EASYFLASH },
     { georam_menu,              GEORAM_OFFSET_FLUSH,        CARTRIDGE_GEORAM },
+    { megabyter_cart_menu,      MEGABYTER_OFFSET_FLUSH,     CARTRIDGE_MEGABYTER },
     { mmc64_cart_menu,          MMC64_OFFSET_FLUSH,         CARTRIDGE_MMC64 },
     { mmcreplay_cart_menu,      MMCR_OFFSET_FLUSH,          CARTRIDGE_MMC_REPLAY },
     { retroreplay_cart_menu,    RETROREPLAY_OFFSET_FLUSH,   CARTRIDGE_RETRO_REPLAY },
@@ -1724,6 +1757,7 @@ static const cartmenu_state_t save_primary_states[] = {
     { isepic_cart_menu,         ISEPIC_OFFSET_SAVE,         CARTRIDGE_ISEPIC },
     { easyflash_cart_menu,      EASYFLASH_OFFSET_SAVE,      CARTRIDGE_EASYFLASH },
     { georam_menu,              GEORAM_OFFSET_SAVE,         CARTRIDGE_GEORAM },
+    { megabyter_cart_menu,      MEGABYTER_OFFSET_SAVE,      CARTRIDGE_MEGABYTER },
     { mmc64_cart_menu,          MMC64_OFFSET_SAVE,          CARTRIDGE_MMC64 },
     { mmcreplay_cart_menu,      MMCR_OFFSET_SAVE,           CARTRIDGE_MMC_REPLAY },
     { retroreplay_cart_menu,    RETROREPLAY_OFFSET_SAVE,    CARTRIDGE_RETRO_REPLAY },

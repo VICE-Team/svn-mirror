@@ -150,6 +150,8 @@ libc64cart_a_SOURCES = \
 	magicvoice.h \
 	maxbasic.c \
 	maxbasic.h \
+	megabyter.c \
+	megabyter.h \
 	mikroass.c \
 	mikroass.h \
 	mmcreplay.c \

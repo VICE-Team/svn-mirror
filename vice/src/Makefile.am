@@ -192,6 +192,7 @@ noinst_HEADERS = \
 	fixpoint.h \
 	fsdevice.h \
 	flash040.h \
+	flash800.h \
 	fliplist.h \
 	fullscreen.h \
 	gcr.h \
