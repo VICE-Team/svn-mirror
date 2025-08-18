@@ -158,7 +158,8 @@ const cart_t cart_info[] = {
            CARTRIDGE_SIZE_256KB |
            CARTRIDGE_SIZE_512KB |
            CARTRIDGE_SIZE_1024KB |
-           CARTRIDGE_SIZE_2048KB,  0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_MAGIC_DESK_16,        "md16", save_regular_crt},
+           CARTRIDGE_SIZE_2048KB,  0x2000, 0x8000,   0, 0, CARTRIDGE_NAME_MAGIC_DESK_16,        "md16", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_1024KB,  0x2000, 0x8000, 128, 2, CARTRIDGE_NAME_MEGABYTER,              "mb", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

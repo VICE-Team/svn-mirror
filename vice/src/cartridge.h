@@ -274,7 +274,8 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BMPDATATURBO         83 /* bmpdataturbo.c */
 #define CARTRIDGE_PROFIDOS             84 /* profidos.c */
 #define CARTRIDGE_MAGIC_DESK_16        85 /* magicdesk16.c */
-#define CARTRIDGE_LAST                 85 /* cartconv: last cartridge in list */
+#define CARTRIDGE_MEGABYTER            86 /* megabyter.c */
+#define CARTRIDGE_LAST                 86 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -352,6 +353,7 @@ void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
 #define CARTRIDGE_NAME_MAX_BASIC          "MAX Basic"
+#define CARTRIDGE_NAME_MEGABYTER          "PTV Megabyter"
 #define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
 #define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
 #define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */

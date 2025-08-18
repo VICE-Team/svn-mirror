@@ -23,6 +23,7 @@ libcore_a_SOURCES = \
 	cs8900.c \
 	cs8900.h \
 	flash040core.c \
+	flash800core.c \
 	fmopl.c \
 	fmopl.h \
 	i8255a.c \

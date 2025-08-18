@@ -98,6 +98,7 @@
 #include "magicformel.h"
 #include "magicvoice.h"
 #include "maxbasic.h"
+#include "megabyter.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -656,6 +657,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return ltkernal_roml_read(addr);
         case CARTRIDGE_MAX_BASIC:
             return maxbasic_roml_read(addr);
+        case CARTRIDGE_MEGABYTER:
+            return megabyter_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
         case CARTRIDGE_MULTIMAX:
@@ -829,6 +832,9 @@ void roml_store(uint16_t addr, uint8_t value)
             return;
         case CARTRIDGE_LT_KERNAL:
             ltkernal_roml_store(addr, value);
+            return;
+        case CARTRIDGE_MEGABYTER:
+            megabyter_roml_store(addr, value);
             return;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_roml_store(addr, value);

@@ -108,6 +108,7 @@
 #include "magicformel.h"
 #include "magicvoice.h"
 #include "maxbasic.h"
+#include "megabyter.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -294,6 +295,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_MAGIC_FORMEL,        CARTRIDGE_MAGIC_FORMEL,        CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_MAGIC_VOICE,         CARTRIDGE_MAGIC_VOICE,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MAX_BASIC,           CARTRIDGE_MAX_BASIC,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_MEGABYTER,           CARTRIDGE_MEGABYTER,           CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_MIKRO_ASSEMBLER,     CARTRIDGE_MIKRO_ASSEMBLER,     CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MMC64,               CARTRIDGE_MMC64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MMC_REPLAY,          CARTRIDGE_MMC_REPLAY,          CARTRIDGE_GROUP_FREEZER },
@@ -923,6 +925,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 break;
             case CARTRIDGE_MAX_BASIC:
                 rc = maxbasic_crt_attach(fd, rawcart);
+                break;
+            case CARTRIDGE_MEGABYTER:
+                rc = megabyter_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_MIKRO_ASSEMBLER:
                 rc = mikroass_crt_attach(fd, rawcart);
