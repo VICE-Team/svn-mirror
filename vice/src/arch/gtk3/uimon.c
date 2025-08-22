@@ -81,6 +81,14 @@
 #include "widgethelpers.h"
 #include "uidata.h"
 
+/*#define DEBUG_UIMON*/
+
+#ifdef DEBUG_UIMON
+#define DBG(x)  log_printf
+#else
+#define DBG(x)
+#endif
+
 static gboolean uimon_window_open_impl(gpointer user_data);
 static gboolean uimon_window_resume_impl(gpointer user_data);
 
@@ -1376,6 +1384,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                   NULL);
 
         vte_console.console_can_stay_open = 1;
+        vte_console.console_cannot_output = 0;
 
         uimon_set_font();
     } else {

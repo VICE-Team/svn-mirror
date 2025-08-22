@@ -93,6 +93,14 @@
 #include "video.h"
 #include "vsync.h"
 
+/*#define DEBUG_MONITOR*/
+
+#ifdef DEBUG_MONITOR
+#define DBG(x)  log_printf
+#else
+#define DBG(x)
+#endif
+
 /*
    INITBREAK switched to a break point so that the first instruction doesn't
    run when '-initbreak reset' is used.
@@ -161,6 +169,7 @@ int exit_mon = 0;
  * different from what keep_monitor_open does :)
  */
 static int mon_console_suspend_on_leaving = 1;
+
 /* flag used by the eXit command. it will force the monitor to close regardless
  * of keep_monitor_open.
  */
@@ -989,6 +998,7 @@ void mon_jump(MON_ADDR addr)
 void mon_go(void)
 {
     exit_mon = 1;
+    mon_console_suspend_on_leaving = 0;
 
     if (should_pause_on_exit_mon || ui_pause_active()) {
         should_pause_on_exit_mon = false;
@@ -3043,7 +3053,8 @@ static void monitor_open(void)
     mon_console_close_on_leaving = 0;
 
     if (console_mode) {
-        /* Shitty hack. We should support the console size etc. */
+        /* Shitty hack. We should support the console size etc.
+           NOTE: this is (only) for the case when VICE runs in console mode (-console) */
         static console_t console_log_console = { TTY_COLUMNS, TTY_ROWS, 0, 0, NULL };
         console_log = &console_log_console;
     } else if (monitor_is_remote() || monitor_is_binary()) {
@@ -3058,6 +3069,7 @@ static void monitor_open(void)
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
         }
     }
+    DBG(("monitor_open console_mode:%d console_log:%p", console_mode, console_log));
 
     if (console_log == NULL) {
         log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
@@ -3235,7 +3247,7 @@ static int monitor_process(char *cmd)
         last_cmd = cmd;
     }
 
-    uimon_notify_change(); /* @SRT */
+    uimon_notify_change();
 
     return exit_mon;
 }
@@ -3283,6 +3295,7 @@ static void monitor_close(bool check_exit)
         console_log = NULL;
     }
 
+    DBG(("monitor_close console_log:%p", console_log));
     vsync_suspend_speed_eval();
 }
 
@@ -3290,6 +3303,8 @@ void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
     char *p;
+
+    DBG(("monitor_startup console_log:%p", console_log));
 
     if (inside_monitor) {
         /*
