@@ -65,6 +65,7 @@
 
 static uint8_t mem_read_patchbuf(uint16_t addr);
 static void mem_initialize_memory_6809_flat(void);
+static void mem_initialize_memory_6809_banked(void);
 
 uint8_t petmem_2001_buf_ef[256];
 
@@ -629,6 +630,7 @@ static int efe0_dump(void)
 
 void set_spet_bank(int banknr)
 {
+    spet_bank = banknr;
     spet_bank_ptr = &mem_ram[EXT_RAM + (banknr << 12)];
 }
 
@@ -637,8 +639,11 @@ void petmem_reset(void)
     spet_ramen = 1;
     set_spet_bank(0);
     spet_ctrlwp = 1;
-    spet_flat_mode = 0;
     spet_firq_disabled = 0;
+    if (spet_flat_mode) {
+	spet_flat_mode = 0;
+	mem_initialize_memory_6809_banked();
+    }
 
     petmem_map_reg = 0;
     petmem_ramON = 0;
@@ -697,7 +702,7 @@ static void store_super_io(uint16_t addr, uint8_t value)
         spet_firq_disabled = (value & 0x20);
         spet_flat_mode = (value & 0x40);
         spet_ctrlwp = !(value & 0x80);
-        /* printf("spet_bank := %x  ", spet_bank);
+        /* printf("spet_bank := %2d  ", spet_bank);
            printf("spet_flat_mode := %d  ", !!spet_flat_mode);
            printf("spet_firq_disabled := %d  ", !!spet_firq_disabled);
            printf("spet_ctrlwp := %d\n", !!spet_ctrlwp); */
@@ -710,14 +715,14 @@ static void store_super_io(uint16_t addr, uint8_t value)
              */
             mem_initialize_memory_6809_flat();
             /* mon_bank(e_default_space, "extram");
-               extern WORD PC;
+               extern uint16_t PC;
                 printf("next opcode: %04X: banked %02X, flat %02X\n",
                        PC,
-                       mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
+                       spet_bank_ptr[PC & 0x0FFF],
                        mem_ram[EXT_RAM + PC]
                   ); */
         }
-        /* else if (spet_bank_4k != old_spet_bank_4k) {
+        /* else if (spet_bank != old_spet_bank) {
          *      maincpu_resync_limits(); notyet: 6809 doesn't use bank_base yet.
          * }
          */
@@ -1385,8 +1390,8 @@ static void store_8x96(uint16_t addr, uint8_t value)
                 if (value & FFF0_SCREEN_PEEK_THROUGH) {
                     /* screen memory mapped through */
                     for (; l < 0x90; l++) {
-                        _mem_read_tab[l] = ram_read;
-                        _mem_write_tab[l] = ram_store;
+                        _mem_read_tab[l] = read_vmem;
+                        _mem_write_tab[l] = store_vmem;
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
                     }
@@ -1633,29 +1638,30 @@ void mem_initialize_memory_6809(void)
 }
 
 /*
- * The memory mapping is probably reset even if FIRQ is disabled
- * (see http://mikenaberezny.com/wp-content/uploads/2009/11/superos9-mmu-schematic-r2.jpg )
- * but since a missing FIRQ basically halts the 6809, there is little
- * difference in practice.
+ * Reset the memory mapping to 00 if a FIRQ happens.
+ * See http://mikenaberezny.com/wp-content/uploads/2009/11/superos9-mmu-schematic-r2.jpg
+ * Note that it swaps the meaning of Q5 and Q6.
  */
 int superpet_sync(void)
 {
+    if (spet_firq_disabled) {
+        log_error(pet_mem_log, "SuperPET: SYNC encountered, but no FIRQ possible!");
+        return 1;
+    }
+    set_spet_bank(0);
+    spet_ctrlwp = 1;
     spet_flat_mode = 0;
+    spet_firq_disabled = 0;
     mem_initialize_memory_6809_banked();
     /* mon_bank(e_default_space, "6809");
-       extern WORD PC;
+       extern uint16_t PC;
        printf("next opcode: %04X: banked %02X, flat %02X\n",
                PC,
                mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
                mem_ram[EXT_RAM + PC]
           ); */
 
-    if (spet_firq_disabled) {
-        log_error(pet_mem_log, "SuperPET: SYNC encountered, but no FIRQ possible!");
-        return 1;
-    } else {
-        return 0;
-    }
+    return 0;
 }
 
 /* This does the plain 8032 configuration, as 8096 stuff only comes up when
