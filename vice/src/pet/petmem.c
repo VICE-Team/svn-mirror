@@ -641,8 +641,8 @@ void petmem_reset(void)
     spet_ctrlwp = 1;
     spet_firq_disabled = 0;
     if (spet_flat_mode) {
-	spet_flat_mode = 0;
-	mem_initialize_memory_6809_banked();
+        spet_flat_mode = 0;
+        mem_initialize_memory_6809_banked();
     }
 
     petmem_map_reg = 0;
