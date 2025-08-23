@@ -49,7 +49,7 @@
 /*#define DEBUG_CONSOLE*/
 
 #ifdef DEBUG_CONSOLE
-#define DBG(x)  log_printf
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif

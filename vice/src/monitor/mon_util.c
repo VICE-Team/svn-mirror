@@ -52,7 +52,7 @@
 /*#define DEBUG_MONUTIL*/
 
 #ifdef DEBUG_MONUTIL
-#define DBG(x)  log_printf
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
