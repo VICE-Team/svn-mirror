@@ -380,10 +380,13 @@ static int set_dqbb_size(int val, void *param)
             (val == 64) ||
             (val == 128) ||
             (val == 256)) {
+            int was_enabled = dqbb_enabled;
             dqbb_deactivate();
             dqbb_size = val;
             dqbb_bank_mask = (val == 0) ? 0 : (val / 16) - 1;
-            dqbb_activate();
+            if (was_enabled) {
+                dqbb_activate();
+            }
             DBG(("set_dqbb_size size: %d mask: 0x%02x", dqbb_size, (unsigned int)dqbb_bank_mask));
         } else {
             return -1;
