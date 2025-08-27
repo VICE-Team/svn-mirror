@@ -41,31 +41,44 @@
 /* Logging goes here.  */
 static log_t tcbmrom_log;
 
-static uint8_t drive_rom1551[DRIVE_ROM1551_SIZE];
-
-/* If nonzero, the ROM image has been loaded.  */
+/* If nonzero, the ROM image is available  */
 static unsigned int rom1551_loaded = 0;
 
-
+/* test ROM for existence, size */
 int tcbmrom_load_1551(void)
 {
-    return driverom_load("DosName1551", drive_rom1551, &rom1551_loaded,
+    return driverom_test_load("DosName1551", &rom1551_loaded,
             DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, "1551",
             DRIVE_TYPE_1551, NULL);
 }
 
+/* setup (=load) the ROM for a given disk unit */
 void tcbmrom_setup_image(diskunit_context_t *unit)
 {
+    unsigned int loaded = 0;
     if (rom_loaded) {
-        switch (unit->type) {
-            case DRIVE_TYPE_1551:
-                memcpy(&(unit->rom[0x4000]), drive_rom1551,
-                       DRIVE_ROM1551_SIZE);
-                break;
+        if (unit->rom_type != unit->type) {
+            /* set this here to avoid recursion */
+            unit->rom_type = unit->type;
+
+            switch (unit->type) {
+                case DRIVE_TYPE_1551:
+                    driverom_load("DosName1551", unit->rom, &loaded,
+                            DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, "1551",
+                            DRIVE_TYPE_1551, NULL);
+                    /* ROM was loaded to the lower part of the buffer */
+                    memcpy(&(unit->rom[DRIVE_ROM1551_SIZE]), unit->rom, DRIVE_ROM1551_SIZE);
+                    break;
+            }
+            /* if loading failed, set rom type to 0 */
+            if (!loaded) {
+                unit->rom_type = 0;
+            }
         }
     }
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int tcbmrom_check_loaded(unsigned int type)
 {
     switch (type) {

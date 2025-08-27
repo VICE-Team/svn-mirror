@@ -59,6 +59,9 @@ void driverom_initialize_traps(struct diskunit_context_s *drive);
 int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
                   int *loaded, int min, int max, const char *name,
                   unsigned int type, unsigned int *size);
+int driverom_test_load(const char *resource_name, unsigned int *loaded,
+                       int min, int max, const char *name,
+                       unsigned int type, unsigned int *size);
 int driverom_load_images(void);
 int driverom_snapshot_write(struct snapshot_s *s, const struct drive_s *drive);
 int driverom_snapshot_read(struct snapshot_s *s, struct drive_s *drive);

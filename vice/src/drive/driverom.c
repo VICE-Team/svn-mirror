@@ -44,7 +44,7 @@
 #include "snapshot.h"
 
 #ifdef DBGDRIVEROM
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -73,6 +73,77 @@ static log_t driverom_log;
 /* If nonzero, we are far enough in init that we can load ROMs.  */
 static int drive_rom_load_ok = 0;
 
+/* like driverom_load, but doesn't actually load anything, and only tests if the
+   file exists and matches the given size(s) */
+int driverom_test_load(const char *resource_name, unsigned int *loaded,
+                        int min, int max, const char *name,
+                        unsigned int type, unsigned int *size)
+{
+    const char *rom_name = NULL;
+    int filesize;
+    unsigned int dnr;
+
+    DBG(("driverom_test_load res:%s loaded:%u min:%d max:%d name:%s type:%u size:%u",
+       resource_name, *loaded, min, max, name, type, size ? *size : 0));
+
+    if (!drive_rom_load_ok) {
+        return 0;
+    }
+
+    resources_get_string(resource_name, &rom_name);
+
+    DBG(("driverom_test_load rom_name: %s", rom_name));
+
+    if (size != NULL) {
+        *size = 0;
+    }
+    if (loaded != NULL) {
+        *loaded = 0;
+    }
+
+    filesize = sysfile_locate(rom_name, "DRIVES", NULL);
+
+    if (filesize < 0) {
+#if 1
+        log_error(driverom_log, "%s ROM image not found. "
+                  "Hardware-level %s emulation is not available.", name, name);
+#endif
+        goto exiterror;
+    }
+
+    if ((min < max)) {
+        if ((filesize > max)) {
+#if 1
+            log_error(driverom_log, "%s ROM image too large. "
+                    "Hardware-level %s emulation is not available.", name, name);
+#endif
+            goto exiterror;
+        }
+    }
+
+    if (loaded != NULL) {
+        *loaded = 1;
+    }
+    if (size != NULL) {
+        *size = (unsigned int)filesize;
+    }
+    return 0;
+
+exiterror:
+#if 1
+    /* FIXME: this should probably no more happen here */
+    /* disable the drives that used the ROM which could not be loaded */
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+        if (unit->type == type) {
+            unit->type = DRIVE_TYPE_NONE;
+            drive_disable(diskunit_context[dnr]);
+            machine_bus_status_drivetype_set(dnr + 8, 0);
+        }
+    }
+#endif
+    return -1;
+}
 
 int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
                   int *loaded, int min, int max, const char *name,
@@ -82,7 +153,7 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
     int filesize;
     unsigned int dnr;
 
-    DBG(("driverom_load res:%s loaded:%u min:%d max:%d name:%s type:%u size:%u\n",
+    DBG(("driverom_load res:%s loaded:%u min:%d max:%d name:%s type:%u size:%u",
        resource_name, *loaded, min, max, name, type, size ? *size : 0));
 
     if (!drive_rom_load_ok) {
@@ -91,53 +162,59 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
 
     resources_get_string(resource_name, &rom_name);
 
-    DBG(("driverom_load rom_name: %s\n", rom_name));
+    DBG(("driverom_load rom_name: %s", rom_name));
+
+    if (size != NULL) {
+        *size = 0;
+    }
+    if (loaded != NULL) {
+        *loaded = 0;
+    }
 
     filesize = sysfile_load(rom_name, "DRIVES", drive_rom, min, max);
 
     if (filesize < 0) {
         log_error(driverom_log, "%s ROM image not found. "
                   "Hardware-level %s emulation is not available.", name, name);
-
-        if (size != NULL) {
-            *size = 0;
-        }
-        if (loaded != NULL) {
-            *loaded = 0;
-        }
-        /* disable the drives that used the ROM which could not be loaded */
-        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-            diskunit_context_t *unit = diskunit_context[dnr];
-            if (unit->type == type) {
-                unit->type = DRIVE_TYPE_NONE;
-                drive_disable(diskunit_context[dnr]);
-                machine_bus_status_drivetype_set(dnr + 8, 0);
-            }
-        }
-        return -1;
+        goto exiterror;
     }
 
     *loaded = 1;
     if (size != NULL) {
         *size = (unsigned int)filesize;
     }
+
     /* Align to the end of available space */
     if ((filesize <= min) && (min < max)) {
-        DBG(("driverom_load align drive rom\n"));
+        DBG(("driverom_load align drive rom"));
+        /* sysfile_load loaded the block to the top end of the buffer */
         memmove(drive_rom, &drive_rom[max - min], min);
     }
 
+    /* reset all drives that use the loaded ROM */
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
         if (unit->type == type) {
-            DBG(("driverom_load prepare drive rom and reset\n"));
+            DBG(("driverom_load prepare drive rom and reset"));
             machine_drive_rom_setup_image(dnr);
             driverom_initialize_traps(diskunit_context[dnr]);
             drive_cpu_trigger_reset(dnr);
         }
     }
     return 0;
+
+exiterror:
+    /* disable the drives that used the ROM which could not be loaded */
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+        if (unit->type == type) {
+            unit->type = DRIVE_TYPE_NONE;
+            drive_disable(diskunit_context[dnr]);
+            machine_bus_status_drivetype_set(dnr + 8, 0);
+        }
+    }
+    return -1;
 }
 
 int driverom_load_images(void)
@@ -163,7 +240,7 @@ void driverom_initialize_traps(diskunit_context_t *unit)
     unit->trap = -1;
     unit->trapcont = -1;
 
-    DBG(("driverom_initialize_traps type: %u trap idle: %s\n", unit->type,
+    DBG(("driverom_initialize_traps type: %u trap idle: %s", unit->type,
            unit->idling_method == DRIVE_IDLE_TRAP_IDLE ? "enabled" : "disabled"));
 
     if (unit->idling_method != DRIVE_IDLE_TRAP_IDLE) {

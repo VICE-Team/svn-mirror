@@ -82,16 +82,19 @@ void tcbm_drive_setup_context(struct diskunit_context_s *drv)
     tpid_setup_context(drv);
 }
 
+/* test all ROMs for existence, size */
 void tcbm_drive_rom_load(void)
 {
     tcbmrom_load_1551();
 }
 
+/* setup (=load) the ROM for a given disk unit nr */
 void tcbm_drive_rom_setup_image(unsigned int dnr)
 {
     tcbmrom_setup_image(diskunit_context[dnr]);
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int tcbm_drive_rom_check_loaded(unsigned int type)
 {
     return tcbmrom_check_loaded(type);

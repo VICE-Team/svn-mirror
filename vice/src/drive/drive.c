@@ -195,6 +195,7 @@ int drive_init(void)
 
     }
 
+    /* NOTE: this will not actually load the images yet, only check of the ROMs exist */
     driverom_load_images();
     /* Do not error out if _SOME_ images are not found, ie. FD2K/4K, CMDHD */
 #if 0
@@ -207,8 +208,7 @@ int drive_init(void)
     }
 #endif
 
-    log_message(drive_log, "Finished loading ROM images.");
-    rom_loaded = 1;
+    rom_loaded = 1; /* mark drive ROMs being tested OK */
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
@@ -220,8 +220,11 @@ int drive_init(void)
             resources_set_int_sprintf("Drive%uType", DRIVE_TYPE_NONE, unit + 8);
         }
 
+        /* This will trigger loading the ROM if needed */
         machine_drive_rom_setup_image(unit);
     }
+
+    log_message(drive_log, "Finished loading ROM images.");
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];

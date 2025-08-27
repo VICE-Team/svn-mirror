@@ -173,6 +173,7 @@ void iec_drive_idling_method(unsigned int dnr)
     lib_free(tmp);
 }
 
+/* test all ROMs for existence, size */
 void iec_drive_rom_load(void)
 {
     iecrom_load_1540();
@@ -186,11 +187,13 @@ void iec_drive_rom_load(void)
     iecrom_load_CMDHD();
 }
 
+/* setup (=load) the ROM for a given disk unit nr */
 void iec_drive_rom_setup_image(unsigned int dnr)
 {
     iecrom_setup_image(diskunit_context[dnr]);
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int iec_drive_rom_check_loaded(unsigned int type)
 {
     return iecrom_check_loaded(type);
