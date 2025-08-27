@@ -236,6 +236,9 @@ typedef struct diskunit_context_s {
     /* Current ROM image.  */
     uint8_t rom[DRIVE_ROM_SIZE];
 
+    /* What ROM type do we have loaded?  */
+    unsigned int rom_type;
+
     /* Current trap ROM image.  */
     uint8_t trap_rom[DRIVE_ROM_SIZE];
     int trap, trapcont;

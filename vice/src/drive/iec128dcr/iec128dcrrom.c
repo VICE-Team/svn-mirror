@@ -41,30 +41,48 @@
 /* Logging goes here.  */
 static log_t iec128dcrrom_log;
 
-static uint8_t drive_rom1571cr[DRIVE_ROM1571CR_SIZE];
-
-/* If nonzero, the ROM image has been loaded.  */
+/* If nonzero, the ROM image is available  */
 static unsigned int rom1571cr_loaded = 0;
 
 
+/* test ROM for existence, size */
 int iec128dcrrom_load_1571cr(void)
 {
-    return driverom_load("DosName1571cr", drive_rom1571cr, &rom1571cr_loaded,
+    return driverom_test_load("DosName1571cr", &rom1571cr_loaded,
             DRIVE_ROM1571CR_SIZE, DRIVE_ROM1571CR_SIZE, "1571CR",
             DRIVE_TYPE_1571CR, NULL);
 }
 
+/* setup (=load) the ROM for a given disk unit */
 void iec128dcrrom_setup_image(diskunit_context_t *unit)
 {
+    unsigned int loaded = 0;
     if (rom_loaded) {
-        switch (unit->type) {
-            case DRIVE_TYPE_1571CR:
-                memcpy(unit->rom, drive_rom1571cr, DRIVE_ROM1571CR_SIZE);
-                break;
+
+        if (unit->rom_type != unit->type) {
+            /* set this here to avoid recursion */
+            unit->rom_type = unit->type;
+
+            switch (unit->type) {
+                case DRIVE_TYPE_1571CR:
+                    driverom_load("DosName1571cr", unit->rom, &loaded,
+                        DRIVE_ROM1571CR_SIZE, DRIVE_ROM1571CR_SIZE, "1571CR",
+                        DRIVE_TYPE_1571CR, NULL);
+                    break;
+                default:
+                    /* NOP */
+                    break;
+            }
+
+            /* if loading failed, set rom type to 0 */
+            if (!loaded) {
+                unit->rom_type = 0;
+            }
         }
     }
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int iec128dcrrom_check_loaded(unsigned int type)
 {
     switch (type) {

@@ -110,6 +110,7 @@ void ieee_drive_setup_context(struct diskunit_context_s *drv)
     riot2_setup_context(drv);
 }
 
+/* test all ROMs for existence, size */
 void ieee_drive_rom_load(void)
 {
     ieeerom_load_2031();
@@ -120,16 +121,19 @@ void ieee_drive_rom_load(void)
     ieeerom_load_9000();
 }
 
+/* setup (=load) the ROM for a given disk unit nr */
 void ieee_drive_rom_setup_image(unsigned int dnr)
 {
     ieeerom_setup_image(diskunit_context[dnr]);
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int ieee_drive_rom_check_loaded(unsigned int type)
 {
     return ieeerom_check_loaded(type);
 }
 
+/* perform checksum check on ROM for given disk unit nr */
 void ieee_drive_rom_do_checksum(unsigned int dnr)
 {
 }

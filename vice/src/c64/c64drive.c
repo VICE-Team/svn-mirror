@@ -103,18 +103,21 @@ void machine_drive_idling_method(unsigned int dnr)
     iec_drive_idling_method(dnr);
 }
 
+/* test ROMs for existence, size */
 void machine_drive_rom_load(void)
 {
     iec_drive_rom_load();
     ieee_drive_rom_load();
 }
 
+/* setup (=load) the ROM for a given disk unit */
 void machine_drive_rom_setup_image(unsigned int dnr)
 {
     iec_drive_rom_setup_image(dnr);
     ieee_drive_rom_setup_image(dnr);
 }
 
+/* check if the drive ROM is available for a given drive type, returns -1 on error */
 int machine_drive_rom_check_loaded(unsigned int type)
 {
     if (iec_drive_rom_check_loaded(type) == 0) {
@@ -127,6 +130,7 @@ int machine_drive_rom_check_loaded(unsigned int type)
     return -1;
 }
 
+/* perform checksum check on ROM for given disk unit nr */
 void machine_drive_rom_do_checksum(unsigned int dnr)
 {
     iec_drive_rom_do_checksum(dnr);
