@@ -62,8 +62,10 @@ int printer_resources_init(void)
         || drv_raw_init_resources() < 0
         || driver_select_init_resources() < 0
         || machine_printer_resources_init() < 0) {
+        DBG(("printer_resources_init (failed)"));
         return -1;
     }
+    DBG(("printer_resources_init (OK)"));
     return 0;
 }
 
@@ -108,6 +110,7 @@ int printer_userport_cmdline_options_init(void)
 
 void printer_init(void)
 {
+    DBG(("printer_init"));
     output_graphics_init();
     drv_ascii_init();
     drv_mps803_init();
@@ -116,6 +119,7 @@ void printer_init(void)
     drv_raw_init();
     driver_select_init();
     machine_printer_init();
+    DBG(("printer_init (done)"));
 }
 
 void printer_reset(void)

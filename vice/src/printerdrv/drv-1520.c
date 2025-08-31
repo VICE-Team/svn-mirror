@@ -45,6 +45,12 @@
 /*#define DEBUG1520       1 */
 /*#define DEBUG1520_A   1*/
 
+#ifdef DEBUG1520
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
+
 /*
  * Each line segment is 0,2 mm.
  * At 150 DPI that would be 11,8 pixels.
@@ -108,6 +114,8 @@ struct plot_s {
     int rel_origin_x, rel_origin_y;     /* steps relative to abs_origin */
     int cur_x, cur_y;                   /* steps relative to abs_origin */
     int lowest_y;                       /* steps relative to start of page */
+
+    int first_open_type;    /* if not 0, the driver will initialize itself (for the given type) if needed */
 };
 typedef struct plot_s plot_t;
 
@@ -1084,6 +1092,51 @@ static void print_char_reset(plot_t *mps, const uint8_t c)
 /* ------------------------------------------------------------------------- */
 /* Interface to the upper layer.  */
 
+static int drv_1520_palette_init(void)
+{
+    static const char *color_names[5] =
+    {
+        "Black", "White", "Blue", "Green", "Red"
+    };
+
+    /* FIXME: rename the palette somehow? */
+    palette = palette_create(5, color_names);
+
+    if (palette == NULL) {
+        return -1;
+    }
+
+    if (palette_load("1520.vpl", "PRINTER", palette) < 0) {
+        log_error(drv1520_log, "Cannot load palette file `%s'.",
+                  "1520.vpl");
+        return -1;
+    }
+
+    return 0;
+}
+
+static int drv_1520_first_open(unsigned int prnr)
+{
+#if DEBUG1520
+    log_message(drv1520_log, "drv_1520_first_open: prnr=%u", prnr);
+#endif
+
+    output_parameter_t output_parameter;
+    plot_t *mps = &drv_1520[prnr];
+
+    output_parameter.maxcol = X_PIXELS+1;
+    output_parameter.maxrow = Y_PIXELS+1;
+    output_parameter.dpi_x = (PIXELS_PER_STEP * STEPS_PER_MM * 254) / 10;
+    output_parameter.dpi_y = (PIXELS_PER_STEP * STEPS_PER_MM * 254) / 10;
+    output_parameter.palette = palette;
+
+    drv_1520[prnr].prnr = prnr;
+    power_on_reset(mps);
+
+    drv_1520[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
+}
 static int drv_1520_open(unsigned int prnr, unsigned int secondary)
 {
 #if DEBUG1520
@@ -1092,19 +1145,8 @@ static int drv_1520_open(unsigned int prnr, unsigned int secondary)
 
     /* Is this the first open? */
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-        plot_t *mps = &drv_1520[prnr];
-
-        output_parameter.maxcol = X_PIXELS+1;
-        output_parameter.maxrow = Y_PIXELS+1;
-        output_parameter.dpi_x = (PIXELS_PER_STEP * STEPS_PER_MM * 254) / 10;
-        output_parameter.dpi_y = (PIXELS_PER_STEP * STEPS_PER_MM * 254) / 10;
-        output_parameter.palette = palette;
-
-        drv_1520[prnr].prnr = prnr;
-        power_on_reset(mps);
-
-        return output_select_open(prnr, &output_parameter);
+        drv_1520[prnr].first_open_type = 1520;
+        return 0;
     } else if (secondary > 7) {
         return -1;
     }
@@ -1112,12 +1154,31 @@ static int drv_1520_open(unsigned int prnr, unsigned int secondary)
     return 0;
 }
 
+static int drv_first_open(unsigned int prnr)
+{
+    DBG(("drv_first_open(prnr:%u first_open_type:%d)", prnr, drv_1520[prnr].first_open_type));
+
+    if ((palette == NULL) && (drv_1520_palette_init() < 0)) {
+        return -1;
+    }
+
+    switch (drv_1520[prnr].first_open_type) {
+        case 1520:
+            return drv_1520_first_open(prnr);
+        case 0:
+            return 0;
+    }
+    return -1;
+}
+
 static void drv_1520_close(unsigned int prnr, unsigned int secondary)
 {
 #if DEBUG1520
     log_message(drv1520_log, "drv_1520_close: sa=%u prnr=%u", secondary, prnr);
 #endif
-
+    if (drv_first_open(prnr) < 0) {
+        return;
+    }
     /* Is this the last close? */
     if (secondary == DRIVER_LAST_CLOSE) {
         plot_t *mps = &drv_1520[prnr];
@@ -1145,7 +1206,9 @@ static int drv_1520_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 #if DEBUG1520
     log_message(drv1520_log, "drv_1520_putc: sa=%u b='%c' (%u) prnr=%u", secondary, b, b, prnr);
 #endif
-
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     switch (secondary) {
     case 0:
         print_char_text(mps, b);
@@ -1180,6 +1243,9 @@ static int drv_1520_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 
 static int drv_1520_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     return output_select_getc(prnr, b);
 }
 
@@ -1188,6 +1254,9 @@ static int drv_1520_flush(unsigned int prnr, unsigned int secondary)
 #if DEBUG1520
     log_message(drv1520_log, "drv_1520_flush");
 #endif
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     return output_select_flush(prnr);
 }
 
@@ -1198,6 +1267,11 @@ static int drv_1520_formfeed(unsigned int prnr)
 #endif
     plot_t *mps = &drv_1520[prnr];
 
+#if 0 /* do not auto-init on formfeed, avoid superflous init at shutdown */
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
+#endif
     if (mps->prnr == (int)prnr && mps->sheet != NULL) {
         eject(mps);
     }
@@ -1240,28 +1314,11 @@ int drv_1520_init_resources(void)
 
 int drv_1520_init(void)
 {
-    static const char *color_names[5] =
-    {
-        "Black", "White", "Blue", "Green", "Red"
-    };
-
     drv1520_log = log_open("plot1520");
 
 #if DEBUG1520
     log_message(drv1520_log, "drv_1520_init");
 #endif
-
-    palette = palette_create(5, color_names);
-
-    if (palette == NULL) {
-        return -1;
-    }
-
-    if (palette_load("1520.vpl", "PRINTER", palette) < 0) {
-        log_error(drv1520_log, "Cannot load palette file `%s'.",
-                  "1520.vpl");
-        return -1;
-    }
 
     return 0;
 }

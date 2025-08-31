@@ -25,8 +25,6 @@
  *
  */
 
-/* #define DEBUG_PRINTER */
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -42,6 +40,15 @@
 #include "resources.h"
 #include "types.h"
 #include "util.h"
+
+
+/* #define DEBUG_PRINTER */
+
+#ifdef DEBUG_PRINTER
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
 
 
 static log_t driver_select_log = LOG_DEFAULT;
@@ -207,6 +214,8 @@ static int set_printer_driver(const char *name, void *param)
     if (list == NULL) {
         return -1;
     }
+    DBG(("set_printer_driver name:%s param:%d (list->driver_select.drv_name:%s)",
+         name, prnr, list->driver_select.drv_name));
 
     if ((prnr == PRINTER_IEC_4) || (prnr == PRINTER_IEC_5)) {
         if (!driver_select_is_printer(name)) {
@@ -229,12 +238,12 @@ static int set_printer_driver(const char *name, void *param)
             memcpy(&(driver[prnr]), &(list->driver_select), sizeof(driver_select_t));
             if(driver[prnr].drv_select) {
 #ifdef DEBUG_PRINTER
-                log_message(driver_select_log, "driver[%d].drv_select != NULL", prnr);
+                log_message(driver_select_log, "driver[%u].drv_select != NULL (%s)", prnr, name);
 #endif
                 return driver[prnr].drv_select(prnr);
             }
 #ifdef DEBUG_PRINTER
-            log_message(driver_select_log, "driver[%d].drv_select == NULL", prnr);
+            log_message(driver_select_log, "driver[%u].drv_select == NULL (%s)", prnr, name);
 #endif
             return 0;
         }
@@ -350,12 +359,12 @@ int driver_select(unsigned int prnr)
 {
     if(driver[prnr].drv_select) {
 #ifdef DEBUG_PRINTER
-        log_message(driver_select_log, "driver[%d].drv_select != NULL", prnr);
+        log_message(driver_select_log, "driver[%u].drv_select != NULL", prnr);
 #endif
         return driver[prnr].drv_select(prnr);
     }
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "driver[%d].drv_select == NULL", prnr);
+    log_message(driver_select_log, "driver[%u].drv_select == NULL", prnr);
 #endif
     return 0;
 }

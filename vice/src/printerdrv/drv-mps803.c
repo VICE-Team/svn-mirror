@@ -26,8 +26,6 @@
  *
  */
 
-/* #define DEBUG_MPS803 */
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -44,6 +42,8 @@
 #include "printer.h"
 #include "sysfile.h"
 #include "types.h"
+
+/* #define DEBUG_MPS803 */
 
 #ifdef DEBUG_MPS803
 #define DBG(x) log_printf  x
@@ -248,6 +248,8 @@ struct mps_s {
 
     uint8_t charset[512 * MAX_BYTES_PER_CHAR]; /* full charset */
     uint8_t rom[MAX_ROM_SIZE]; /* full printer rom */
+
+    int first_open_type;    /* if not 0, the driver will initialize itself (for the given type) if needed */
 };
 typedef struct mps_s mps_t;
 
@@ -270,6 +272,8 @@ static log_t drv803_log = LOG_DEFAULT;
 
 #define MPS_BUSINESS 0x80 /* opened with SA = 7 in business mode */
 #define MPS_GRAPHICS 0x00 /* opened with SA = 0 in graphics mode */
+
+static int drv_first_open(unsigned int prnr);
 
 /* ------------------------------------------------------------------------- */
 
@@ -1004,8 +1008,34 @@ static void mps_engine_putc(mps_t *mps, unsigned int prnr, unsigned int secondar
 /* ------------------------------------------------------------------------- */
 /* Interface to the upper layer.  */
 
+static int mps803_palette_init(void)
+{
+    const char *color_names[2] = {"Black", "White"};
+
+    /* FIXME: rename the palette somehow? */
+    palette = palette_create(2, color_names);
+
+    if (palette == NULL) {
+        return -1;
+    }
+
+    if (palette_load("mps803.vpl", "PRINTER", palette) < 0) {
+        log_error(drv803_log, "Cannot load palette file `%s'.",
+                  "mps803.vpl");
+        return -1;
+    }
+
+    return 0;
+}
+
 static int drv_common_open(unsigned int prnr, unsigned int secondary)
 {
+
+    DBG(("drv_common_open(%u,%u)", prnr, secondary));
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
+
     switch (secondary) {
         case  0: /* Print data exactly as received (mps801,mps803: Select graphic mode) */
             /* set_chargen_mode(&drv_mps803[prnr], secondary, MPS_GRAPHICS); */
@@ -1052,35 +1082,49 @@ static int drv_common_open(unsigned int prnr, unsigned int secondary)
     return 0;
 }
 
+static int drv_2022_first_open(unsigned int prnr)
+{
+    output_parameter_t output_parameter;
+
+    DBG(("drv_2022_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_2022(&drv_mps803[prnr], C2022_ROM_NAME, C2022_ROM_SIZE); */    /* 7x6 */
+    if (sysfile_load(C2022_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C2022_ROM_SIZE, C2022_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer ROM '%s'.", C2022_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 7;
+    drv_mps803[prnr].char_width = 6;
+    drv_mps803[prnr].page_width_dots = 80 * 6;
+    drv_mps803[prnr].page_height_dots = 66 * 7;
+    drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
+    drv_mps803[prnr].lookup_method = 2;
+
+    output_parameter.maxcol = 80 * 6;
+    output_parameter.maxrow = 66 * 7;
+    output_parameter.dpi_x = 72;
+    output_parameter.dpi_y = 72;
+    output_parameter.palette = palette;
+
+    convert_rom_char_192(&drv_mps803[prnr], 0);
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
+}
+
 static int drv_2022_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-
-        DBG(("drv_2022_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-        output_parameter.maxcol = 80 * 6;
-        output_parameter.maxrow = 66 * 7;
-        output_parameter.dpi_x = 72;
-        output_parameter.dpi_y = 72;
-        output_parameter.palette = palette;
-
-        /* init_charset_2022(&drv_mps803[prnr], C2022_ROM_NAME, C2022_ROM_SIZE); */    /* 7x6 */
-        if (sysfile_load(C2022_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C2022_ROM_SIZE, C2022_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer ROM '%s'.", C2022_ROM_NAME);
-            return -1;
-        }
-        convert_rom_char_192(&drv_mps803[prnr], 0);
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-        drv_mps803[prnr].char_height = 7;
-        drv_mps803[prnr].char_width = 6;
-        drv_mps803[prnr].page_width_dots = 80 * 6;
-        drv_mps803[prnr].page_height_dots = 66 * 7;
-        drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
-        drv_mps803[prnr].lookup_method = 2;
-        return output_select_open(prnr, &output_parameter);
+        drv_mps803[prnr].first_open_type = 2022;
+        return 0;
     }
     DBG(("drv_2022_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
@@ -1090,39 +1134,53 @@ static int drv_2022_select(unsigned int prnr)
 {
     DBG(("drv_2022_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_2022_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+static int drv_4023_first_open(unsigned int prnr)
+{
+    output_parameter_t output_parameter;
+
+    DBG(("drv_4023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_4023(&drv_mps803[prnr], C4023_ROM_NAME, C4023_ROM_SIZE); */    /* 8x8 */
+    if (sysfile_load(C4023_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C4023_ROM_SIZE, C4023_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer ROM '%s'.", C4023_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 8;
+    drv_mps803[prnr].char_width = 8;
+    drv_mps803[prnr].page_width_dots = 80 * 8;
+    drv_mps803[prnr].page_height_dots = 66 * 8;
+    drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
+    drv_mps803[prnr].lookup_method = 1;
+
+    output_parameter.maxcol = 80 * 8;
+    output_parameter.maxrow = 66 * 8;
+    output_parameter.dpi_x = 72;
+    output_parameter.dpi_y = 72;
+    output_parameter.palette = palette;
+
+    convert_rom_char_192(&drv_mps803[prnr], 1024);
+
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static int drv_4023_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-        DBG(("drv_4023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-
-        output_parameter.maxcol = 80 * 8;
-        output_parameter.maxrow = 66 * 8;
-        output_parameter.dpi_x = 72;
-        output_parameter.dpi_y = 72;
-        output_parameter.palette = palette;
-
-        /* init_charset_4023(&drv_mps803[prnr], C4023_ROM_NAME, C4023_ROM_SIZE); */    /* 8x8 */
-        if (sysfile_load(C4023_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C4023_ROM_SIZE, C4023_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer ROM '%s'.", C4023_ROM_NAME);
-            return -1;
-        }
-        convert_rom_char_192(&drv_mps803[prnr], 1024);
-
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-        drv_mps803[prnr].char_height = 8;
-        drv_mps803[prnr].char_width = 8;
-        drv_mps803[prnr].page_width_dots = 80 * 8;
-        drv_mps803[prnr].page_height_dots = 66 * 8;
-        drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
-        drv_mps803[prnr].lookup_method = 1;
-        return output_select_open(prnr, &output_parameter);
+        drv_mps803[prnr].first_open_type = 4023;
+        return 0;
     }
     DBG(("drv_4023_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
@@ -1132,39 +1190,53 @@ static int drv_4023_select(unsigned int prnr)
 {
     DBG(("drv_4023_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_4023_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+static int drv_8023_first_open(unsigned int prnr)
+{
+    output_parameter_t output_parameter;
+
+    DBG(("drv_8023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_8023(&drv_mps803[prnr], C8023_ROM_NAME, C8023_ROM_SIZE); */    /* 8x8 */
+    if (sysfile_load(C8023_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C8023_ROM_SIZE, C8023_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer ROM '%s'.", C8023_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 7;
+    drv_mps803[prnr].char_width = 6;
+    drv_mps803[prnr].page_width_dots = 136 * 6;
+    drv_mps803[prnr].page_height_dots = 66 * 7;
+    drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
+    drv_mps803[prnr].lookup_method = 1;
+
+    output_parameter.maxcol = 136 * 6;
+    output_parameter.maxrow = 66 * 7;
+    output_parameter.dpi_x = 72;
+    output_parameter.dpi_y = 72;
+    output_parameter.palette = palette;
+
+    convert_rom_char_192(&drv_mps803[prnr], 0);
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static int drv_8023_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-        DBG(("drv_8023_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-
-        output_parameter.maxcol = 136 * 6;
-        output_parameter.maxrow = 66 * 7;
-        output_parameter.dpi_x = 72;
-        output_parameter.dpi_y = 72;
-        output_parameter.palette = palette;
-
-        /* init_charset_8023(&drv_mps803[prnr], C8023_ROM_NAME, C8023_ROM_SIZE); */    /* 8x8 */
-        if (sysfile_load(C8023_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, C8023_ROM_SIZE, C8023_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer ROM '%s'.", C8023_ROM_NAME);
-            return -1;
-        }
-        convert_rom_char_192(&drv_mps803[prnr], 0);
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-
-        drv_mps803[prnr].char_height = 7;
-        drv_mps803[prnr].char_width = 6;
-        drv_mps803[prnr].page_width_dots = 136 * 6;
-        drv_mps803[prnr].page_height_dots = 66 * 7;
-        drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_OLD_ENHANCE | CTRL_FEATURE_CR_WITHOUT_LF;
-        drv_mps803[prnr].lookup_method = 1;
-        return output_select_open(prnr, &output_parameter);
+        drv_mps803[prnr].first_open_type = 8023;
+        return 0;
     }
     DBG(("drv_8023_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
@@ -1174,40 +1246,53 @@ static int drv_8023_select(unsigned int prnr)
 {
     DBG(("drv_8023_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_8023_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+static int drv_mps801_first_open(unsigned int prnr)
+{
+    output_parameter_t output_parameter;
+
+    DBG(("drv_mps801_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_mps801(&drv_mps803[prnr], MPS801_ROM_NAME, MPS801_ROM_SIZE); */    /* 8x8 */
+    if (sysfile_load(MPS801_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS801_ROM_SIZE, MPS801_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer ROM '%s'.", MPS801_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 7;
+    drv_mps803[prnr].char_width = 6;
+    drv_mps803[prnr].page_width_dots = 80 * 6;
+    drv_mps803[prnr].page_height_dots = 66 * 7;
+    drv_mps803[prnr].model_sa_features = 0;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_NEW_ENHANCE | CTRL_FEATURE_BIT_IMAGE_PRINTING;
+    drv_mps803[prnr].lookup_method = 0;
+
+    output_parameter.maxcol = 80 * 6;
+    output_parameter.maxrow = 66 * 7;
+    output_parameter.dpi_x = 60;
+    output_parameter.dpi_y = 72;
+    output_parameter.palette = palette;
+
+    convert_rom_char_mps801(&drv_mps803[prnr], 0x800);
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static int drv_mps801_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-        DBG(("drv_mps801_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-
-        output_parameter.maxcol = 80 * 6;
-        output_parameter.maxrow = 66 * 7;
-        output_parameter.dpi_x = 60;
-        output_parameter.dpi_y = 72;
-        output_parameter.palette = palette;
-
-        /* init_charset_mps801(&drv_mps803[prnr], MPS801_ROM_NAME, MPS801_ROM_SIZE); */    /* 8x8 */
-        if (sysfile_load(MPS801_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS801_ROM_SIZE, MPS801_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer ROM '%s'.", MPS801_ROM_NAME);
-            return -1;
-        }
-
-        convert_rom_char_mps801(&drv_mps803[prnr], 0x800);
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-
-        drv_mps803[prnr].char_height = 7;
-        drv_mps803[prnr].char_width = 6;
-        drv_mps803[prnr].page_width_dots = 80 * 6;
-        drv_mps803[prnr].page_height_dots = 66 * 7;
-        drv_mps803[prnr].model_sa_features = 0;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_NEW_ENHANCE | CTRL_FEATURE_BIT_IMAGE_PRINTING;
-        drv_mps803[prnr].lookup_method = 0;
-        return output_select_open(prnr, &output_parameter);
+        drv_mps803[prnr].first_open_type = 801;
+        return 0;
     }
     DBG(("drv_mps801_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
@@ -1217,38 +1302,53 @@ static int drv_mps801_select(unsigned int prnr)
 {
     DBG(("drv_mps801_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_mps801_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+static int drv_mps802_first_open(unsigned int prnr)
+{
+    output_parameter_t output_parameter;
+
+    DBG(("drv_mps802_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_mps802(&drv_mps803[prnr], MPS802_ROM_NAME, MPS802_ROM_SIZE); */    /* 8x8 */
+    if (sysfile_load(MPS802_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS802_ROM_SIZE, MPS802_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer ROM '%s'.", MPS802_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 8;
+    drv_mps803[prnr].char_width = 8;
+    drv_mps803[prnr].page_width_dots = 80 * 8;
+    drv_mps803[prnr].page_height_dots = 66 * 8;
+    drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_CR_WITHOUT_LF;
+    drv_mps803[prnr].lookup_method = 1;
+
+    output_parameter.maxcol = 80 * 8;
+    output_parameter.maxrow = 66 * 8;
+    output_parameter.dpi_x = 72;
+    output_parameter.dpi_y = 72;
+    output_parameter.palette = palette;
+
+    convert_rom_char_192(&drv_mps803[prnr], 1024);
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static int drv_mps802_open(unsigned int prnr, unsigned int secondary)
 {
     if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-        DBG(("drv_mps802_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-
-        output_parameter.maxcol = 80 * 8;
-        output_parameter.maxrow = 66 * 8;
-        output_parameter.dpi_x = 72;
-        output_parameter.dpi_y = 72;
-        output_parameter.palette = palette;
-
-        /* init_charset_mps802(&drv_mps803[prnr], MPS802_ROM_NAME, MPS802_ROM_SIZE); */    /* 8x8 */
-        if (sysfile_load(MPS802_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS802_ROM_SIZE, MPS802_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer ROM '%s'.", MPS802_ROM_NAME);
-            return -1;
-        }
-        convert_rom_char_192(&drv_mps803[prnr], 1024);
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-        drv_mps803[prnr].char_height = 8;
-        drv_mps803[prnr].char_width = 8;
-        drv_mps803[prnr].page_width_dots = 80 * 8;
-        drv_mps803[prnr].page_height_dots = 66 * 8;
-        drv_mps803[prnr].model_sa_features = SA_FEATURE_PROG_CHAR_254;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_CR_WITHOUT_LF;
-        drv_mps803[prnr].lookup_method = 1;
-        return output_select_open(prnr, &output_parameter);
+        drv_mps803[prnr].first_open_type = 802;
+        return 0;
     }
     DBG(("drv_mps802_open(prnr:%u, secondary:%u)", prnr, secondary));
     return drv_common_open(prnr, secondary);
@@ -1258,41 +1358,55 @@ static int drv_mps802_select(unsigned int prnr)
 {
     DBG(("drv_mps802_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_mps802_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+static int drv_mps803_first_open(unsigned int prnr)
+{
+    static output_parameter_t output_parameter;
+
+    DBG(("drv_mps803_first_open(prnr:%u)", prnr));
+
+    /* NOTE: the palette should have been (re)loaded by the function that calls this */
+
+    /* init_charset_mps803(&drv_mps803[prnr], MPS803_ROM_NAME, MPS803_ROM_SIZE); */    /* 7x6 */
+    if (sysfile_load(MPS803_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load printer charset '%s'.", MPS803_ROM_NAME);
+        return -1;
+    }
+
+    drv_mps803[prnr].char_height = 7;
+    drv_mps803[prnr].char_width = MPS803_BYTES_PER_CHAR;
+    drv_mps803[prnr].page_width_dots = MPS803_PAGE_WIDTH_DOTS;
+    drv_mps803[prnr].page_height_dots = MPS803_PAGE_HEIGHT_DOTS;
+    drv_mps803[prnr].model_sa_features = 0;
+    drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_NEW_ENHANCE | CTRL_FEATURE_BIT_IMAGE_PRINTING;
+    drv_mps803[prnr].lookup_method = 0;
+
+    output_parameter.maxcol = MPS803_PAGE_WIDTH_DOTS;
+    output_parameter.maxrow = MPS803_PAGE_HEIGHT_DOTS;
+    output_parameter.dpi_x = 60;    /* mps803 has different horizontal & vertical dpi - see pg 49 of the manual part H. */
+    output_parameter.dpi_y = 72;    /* NOTE - mixed dpi might not be liked by some image viewers */
+    output_parameter.palette = palette;
+
+    convert_rom_char_160(&drv_mps803[prnr], 0xc3f);
+#ifdef DEBUG_MPS803
+    dump_printer_charset(&drv_mps803[prnr]);
+#endif
+
+    drv_mps803[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 {
-    if (secondary == DRIVER_FIRST_OPEN) {
-        output_parameter_t output_parameter;
-
-        DBG(("drv_mps803_open(prnr:%u, secondary:DRIVER_FIRST_OPEN)", prnr));
-        output_parameter.maxcol = MPS803_PAGE_WIDTH_DOTS;
-        output_parameter.maxrow = MPS803_PAGE_HEIGHT_DOTS;
-        output_parameter.dpi_x = 60;    /* mps803 has different horizontal & vertical dpi - see pg 49 of the manual part H. */
-        output_parameter.dpi_y = 72;    /* NOTE - mixed dpi might not be liked by some image viewers */
-        output_parameter.palette = palette;
-
-        /* init_charset_mps803(&drv_mps803[prnr], MPS803_ROM_NAME, MPS803_ROM_SIZE); */    /* 7x6 */
-        if (sysfile_load(MPS803_ROM_NAME, "PRINTER", drv_mps803[prnr].rom, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0) {
-            log_error(drv803_log, "Could not load printer charset '%s'.", MPS803_ROM_NAME);
-            return -1;
-        }
-
-        convert_rom_char_160(&drv_mps803[prnr], 0xc3f);
-#ifdef DEBUG_MPS803
-        dump_printer_charset(&drv_mps803[prnr]);
-#endif
-        drv_mps803[prnr].char_height = 7;
-        drv_mps803[prnr].char_width = MPS803_BYTES_PER_CHAR;
-        drv_mps803[prnr].page_width_dots = MPS803_PAGE_WIDTH_DOTS;
-        drv_mps803[prnr].page_height_dots = MPS803_PAGE_HEIGHT_DOTS;
-        drv_mps803[prnr].model_sa_features = 0;
-        drv_mps803[prnr].model_ctrl_features = CTRL_FEATURE_NEW_ENHANCE | CTRL_FEATURE_BIT_IMAGE_PRINTING;
-        drv_mps803[prnr].lookup_method = 0;
-        return output_select_open(prnr, &output_parameter);
-    }
     DBG(("drv_mps803_open(prnr:%u, secondary:%u)", prnr, secondary));
+    if (secondary == DRIVER_FIRST_OPEN) {
+        drv_mps803[prnr].first_open_type = 803;
+        return 0;
+    }
     return drv_common_open(prnr, secondary);
 }
 
@@ -1300,7 +1414,37 @@ static int drv_mps803_select(unsigned int prnr)
 {
     DBG(("drv_mps803_select(%u)", prnr));
     output_select_close(prnr);
+
     return drv_mps803_open(prnr, DRIVER_FIRST_OPEN);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int drv_first_open(unsigned int prnr)
+{
+    DBG(("drv_first_open(prnr:%u first_open_type:%d)", prnr, drv_mps803[prnr].first_open_type));
+
+    if ((palette == NULL) && (mps803_palette_init() < 0)) {
+        return -1;
+    }
+
+    switch (drv_mps803[prnr].first_open_type) {
+        case 801:
+            return drv_mps801_first_open(prnr);
+        case 802:
+            return drv_mps802_first_open(prnr);
+        case 803:
+            return drv_mps803_first_open(prnr);
+        case 2022:
+            return drv_2022_first_open(prnr);
+        case 4023:
+            return drv_4023_first_open(prnr);
+        case 8023:
+            return drv_8023_first_open(prnr);
+        case 0:
+            return 0;
+    }
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1308,6 +1452,9 @@ static int drv_mps803_select(unsigned int prnr)
 static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 {
     DBG(("drv_mps803_close(%u,%u)", prnr, secondary));
+    if (drv_first_open(prnr) < 0) {
+        return;
+    }
     output_select_close(prnr);
 }
 
@@ -1319,7 +1466,10 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
-    /* DBG(("drv_mps803_putc(%u,%u:$%02x)", prnr, secondary, b)); */
+    DBG(("drv_mps803_putc(%u,%u:$%02x)", prnr, secondary, b));
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     mps_engine_putc(&drv_mps803[prnr], prnr, secondary, b);
     return 0;
 }
@@ -1327,18 +1477,29 @@ static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
     DBG(("drv_mps803_getc(%u,%u)", prnr, secondary));
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     return output_select_getc(prnr, b);
 }
 
 static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
 {
     /* DBG(("drv_mps803_flush(%u,%u)", prnr, secondary)); */
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     return output_select_flush(prnr);
 }
 
 static int drv_mps803_formfeed(unsigned int prnr)
 {
     DBG(("drv_mps803_formfeed(%u)", prnr));
+#if 0 /* do not auto-init on formfeed, avoid superflous init at shutdown */
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
+#endif
     return output_select_formfeed(prnr);;
 }
 
@@ -1504,22 +1665,7 @@ int drv_mps803_init_resources(void)
 
 int drv_mps803_init(void)
 {
-    const char *color_names[2] = {"Black", "White"};
-
     drv803_log = log_open("MPS");
-
-    /* FIXME: rename the palette somehow? */
-    palette = palette_create(2, color_names);
-
-    if (palette == NULL) {
-        return -1;
-    }
-
-    if (palette_load("mps803.vpl", "PRINTER", palette) < 0) {
-        log_error(drv803_log, "Cannot load palette file `%s'.",
-                  "mps803.vpl");
-        return -1;
-    }
 
     return 0;
 }
@@ -1528,4 +1674,5 @@ void drv_mps803_shutdown(void)
 {
     DBG(("drv_mps803_shutdown"));
     palette_free(palette);
+    palette = NULL;
 }

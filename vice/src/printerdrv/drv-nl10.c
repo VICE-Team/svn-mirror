@@ -106,6 +106,8 @@ typedef struct nl10_s {
     int col_nr, line_nr;
     int isopen, mode, gfx_mode, gfx_count;
     int linespace; /* in 1/216 inch */
+
+    int first_open_type;    /* if not 0, the driver will initialize itself (for the given type) if needed */
 } nl10_t;
 
 
@@ -265,8 +267,12 @@ static void reset(nl10_t *nl10)
 static void reset_hard(nl10_t *nl10)
 {
     reset(nl10);
-    memset(nl10->char_ram, 0, 12 * 96);
-    memset(nl10->char_ram_nlq, 0, 47 * 96);
+    if (nl10->char_ram) {
+        memset(nl10->char_ram, 0, 12 * 96);
+    }
+    if (nl10->char_ram_nlq) {
+        memset(nl10->char_ram_nlq, 0, 47 * 96);
+    }
 }
 
 
@@ -1928,25 +1934,78 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const ui
 /* ------------------------------------------------------------------------- */
 /* Interface to the upper layer.  */
 
+static int nl10_palette_init(void)
+{
+    const char *color_names[2] = {"Black", "White"};
+
+    /* FIXME: rename the palette somehow? */
+    palette = palette_create(2, color_names);
+
+    if (palette == NULL) {
+        return -1;
+    }
+
+    if (palette_load("nl10.vpl", "PRINTER", palette) < 0) {
+        log_error(drvnl10_log, "Cannot load palette file `%s'.",
+                  "nl10.vpl");
+        return -1;
+    }
+
+    return 0;
+}
+
+static int drv_nl10_first_open(unsigned int prnr)
+{
+    int i;
+    DBG(("drv_nl10_first_open(prnr:%u secondary:DRIVER_FIRST_OPEN) device:%u", prnr, 4 + prnr));
+    output_parameter_t output_parameter;
+
+    /* allocate RAM buffers */
+    for (i = 0; i < NUM_OUTPUT_SELECT; i++) {
+        if (drv_nl10[i].char_ram == NULL) {
+            drv_nl10[i].char_ram = lib_malloc(96 * 12);
+            memset(drv_nl10[i].char_ram, 0, 12 * 96);
+        }
+        if (drv_nl10[i].char_ram_nlq == NULL) {
+            drv_nl10[i].char_ram_nlq = lib_malloc(96 * 47);
+            memset(drv_nl10[i].char_ram_nlq, 0, 47 * 96);
+        }
+        reset_hard(&(drv_nl10[i]));
+        drv_nl10[i].isopen = 0;
+    }
+
+    /* load ROM, init charset */
+    if (drv_nl10_init_charset() < 0) {
+        return -1;
+    }
+
+    /* load palette (if needed) */
+    if ((palette == NULL) && (nl10_palette_init() < 0)) {
+        return -1;
+    }
+
+    output_parameter.maxcol = MAX_COL;
+    output_parameter.maxrow = MAX_ROW;
+    output_parameter.dpi_x = 300;
+    output_parameter.dpi_y = 300;
+    output_parameter.palette = palette;
+
+    drv_nl10[prnr].pos_y = 0;
+    drv_nl10[prnr].pos_y_pix = 0;
+    drv_nl10[prnr].isopen = 1;
+
+    drv_nl10[prnr].first_open_type = 0;
+
+    return output_select_open(prnr, &output_parameter);
+}
+
 static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 {
     nl10_t *nl10 = &(drv_nl10[prnr]);
 
     if (secondary == DRIVER_FIRST_OPEN) {
-        DBG(("drv_nl10_open(prnr:%u secondary:DRIVER_FIRST_OPEN) device:%u", prnr, 4 + prnr));
-        output_parameter_t output_parameter;
-
-        output_parameter.maxcol = MAX_COL;
-        output_parameter.maxrow = MAX_ROW;
-        output_parameter.dpi_x = 300;
-        output_parameter.dpi_y = 300;
-        output_parameter.palette = palette;
-
-        drv_nl10[prnr].pos_y = 0;
-        drv_nl10[prnr].pos_y_pix = 0;
-        drv_nl10[prnr].isopen = 1;
-
-        return output_select_open(prnr, &output_parameter);
+        drv_nl10[prnr].first_open_type = 10;
+        return 0;
     }
     DBG(("drv_nl10_open(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
 
@@ -1961,9 +2020,29 @@ static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
     return 0;
 }
 
+static int drv_first_open(unsigned int prnr)
+{
+    DBG(("drv_first_open(prnr:%u first_open_type:%d)", prnr, drv_nl10[prnr].first_open_type));
+
+    if ((palette == NULL) && (nl10_palette_init() < 0)) {
+        return -1;
+    }
+
+    switch (drv_nl10[prnr].first_open_type) {
+        case 10:
+            return drv_nl10_first_open(prnr);
+        case 0:
+            return 0;
+    }
+    return -1;
+}
+
 static void drv_nl10_close(unsigned int prnr, unsigned int secondary)
 {
     DBG(("drv_nl10_close(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
+    if (drv_first_open(prnr) < 0) {
+        return;
+    }
     /* cannot call output_select_close() here since it would eject the
        current page, which is not what "close"ing a channel to a real
        printer does */
@@ -1976,18 +2055,27 @@ static void drv_nl10_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_nl10_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
+    if (drv_first_open(prnr) < 0) {
+        return 0;
+    }
     print_char(&drv_nl10[prnr], prnr, b);
     return 0;
 }
 
 static int drv_nl10_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
+    if (drv_first_open(prnr) < 0) {
+        return 0;
+    }
     return 0x80;
 }
 
 static int drv_nl10_flush(unsigned int prnr, unsigned int secondary)
 {
     DBG(("drv_nl10_flush(prnr:%u secondary:%u) device:%u", prnr, secondary, 4 + prnr));
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     return 0;
 }
 
@@ -1995,6 +2083,11 @@ static int drv_nl10_formfeed(unsigned int prnr)
 {
     DBG(("drv_nl10_formfeed(prnr:%u) device:%u", prnr, 4 + prnr));
     nl10_t *nl10 = &(drv_nl10[prnr]);
+#if 0 /* do not auto-init on formfeed, avoid superflous init at shutdown */
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
+#endif
     if (nl10->isopen) {
         formfeed(nl10, prnr);
     }
@@ -2004,6 +2097,9 @@ static int drv_nl10_formfeed(unsigned int prnr)
 static int drv_nl10_select(unsigned int prnr)
 {
     DBG(("drv_nl10_select(prnr:%u) device:%u", prnr, 4 + prnr));
+    if (drv_first_open(prnr) < 0) {
+        return -1;
+    }
     if ((prnr == PRINTER_USERPORT) && (userport_get_device() == USERPORT_DEVICE_PRINTER)) {
         return drv_nl10_open(prnr, DRIVER_FIRST_OPEN);
     }
@@ -2038,40 +2134,9 @@ int drv_nl10_init_resources(void)
 
 int drv_nl10_init(void)
 {
-    int i;
-    static const char *color_names[2] =
-    {
-        "Black", "White"
-    };
-
     DBG(("drv_nl10_init"));
 
     drvnl10_log = log_open("NL10");
-
-    for (i = 0; i < NUM_OUTPUT_SELECT; i++) {
-        drv_nl10[i].char_ram = lib_malloc(96 * 12);
-        drv_nl10[i].char_ram_nlq = lib_malloc(96 * 47);
-        reset_hard(&(drv_nl10[i]));
-        drv_nl10[i].isopen = 0;
-    }
-
-    if (drv_nl10_init_charset() < 0) {
-        return -1;
-    }
-
-    palette = palette_create(2, color_names);
-
-    if (palette == NULL) {
-        return -1;
-    }
-
-    if (palette_load("nl10.vpl", "PRINTER", palette) < 0) {
-        log_error(drvnl10_log, "Cannot load palette file `%s'.",
-                  "nl10.vpl");
-        return -1;
-    }
-
-    log_message(drvnl10_log, "Printer driver initialized.");
 
     return 0;
 }
@@ -2079,9 +2144,10 @@ int drv_nl10_init(void)
 void drv_nl10_shutdown(void)
 {
     int i;
-    palette_free(palette);
-
     DBG(("drv_nl10_shutdown"));
+
+    palette_free(palette);
+    palette = NULL;
 
     for (i = 0; i < NUM_OUTPUT_SELECT; i++) {
         if (drv_nl10[i].isopen) {
@@ -2090,6 +2156,8 @@ void drv_nl10_shutdown(void)
 
         lib_free(drv_nl10[i].char_ram);
         lib_free(drv_nl10[i].char_ram_nlq);
+        drv_nl10[i].char_ram = NULL;
+        drv_nl10[i].char_ram_nlq = NULL;
     }
 }
 
@@ -2257,13 +2325,16 @@ static const uint8_t drv_nl10_charset_mapping[3][256] =
 
 /* -------------------------------------------------------------------------- */
 
+/* loads drv_nl10_rom,
+ * inits drv_nl10_charset_nlq, drv_nl10_charset_nlq_italic
+ */
 static int drv_nl10_init_charset(void)
 {
     char *name = NL10_ROM_NAME;
     int i, j;
 
     DBG(("drv_nl10_init_charset"));
-
+    /* NOTE: we could dynamically allocate drv_nl10_charset_nlq and -_italic here */
     memset(drv_nl10_charset_nlq, 0, CHARSET_SIZE * 47);
     memset(drv_nl10_charset_nlq_italic, 0, CHARSET_SIZE * 47);
 
