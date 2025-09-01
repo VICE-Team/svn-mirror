@@ -686,7 +686,8 @@ static void machine_window_create(video_canvas_t *canvas)
     backend_label = "OpenGL";
 #endif
 
-    log_message(machine_window_log, "using GTK3 backend: %s", backend_label);
+    log_message(machine_window_log, "Chip '%s' using GTK3 backend '%s'.",
+                canvas->videoconfig->chip_name , backend_label);
 
     new_event_box = gtk_event_box_new();
 
@@ -734,20 +735,20 @@ static void machine_window_create(video_canvas_t *canvas)
        tricks and assumptions. the following also shows shortcomings / problems in other parts of the code.
     */
 #if 1
-    log_message(machine_window_log, "chip_name: %s", canvas->videoconfig->chip_name);
-    log_message(machine_window_log, " screen_size: %u x %u", canvas->geometry->screen_size.width, canvas->geometry->screen_size.height);
-    /*log_message(machine_window_log, " first/lastline: %u x %u", canvas->viewport->first_line, canvas->viewport->last_line);*/
-    log_message(machine_window_log, " gfx_size: %u x %u", canvas->geometry->gfx_size.width, canvas->geometry->gfx_size.height);
-    log_message(machine_window_log, " gfx_position: %u x %u", canvas->geometry->gfx_position.x, canvas->geometry->gfx_position.y);
-    log_message(machine_window_log, " first/last displayed line: %u x %u", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
-    log_message(machine_window_log, " extra offscreen border left/right: %u x %u", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
-    /*log_message(machine_window_log, " screen_display_wh: %f x %f", (float)canvas->screen_display_w, (float)canvas->screen_display_h);*/
-    /*log_message(machine_window_log, " canvas_physical_wh: %u x %u", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);*/
-    log_message(machine_window_log, " scalexy: %d x %d sizexy: %u x %u",
+    /*log_verbose(machine_window_log, "chip_name: %s", canvas->videoconfig->chip_name);*/
+    log_verbose(machine_window_log, " screen_size: %u x %u", canvas->geometry->screen_size.width, canvas->geometry->screen_size.height);
+    /*log_verbose(machine_window_log, " first/lastline: %u x %u", canvas->viewport->first_line, canvas->viewport->last_line);*/
+    log_verbose(machine_window_log, " gfx_size: %u x %u", canvas->geometry->gfx_size.width, canvas->geometry->gfx_size.height);
+    log_verbose(machine_window_log, " gfx_position: %u x %u", canvas->geometry->gfx_position.x, canvas->geometry->gfx_position.y);
+    log_verbose(machine_window_log, " first/last displayed line: %u x %u", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
+    log_verbose(machine_window_log, " extra offscreen border left/right: %u x %u", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
+    /*log_verbose(machine_window_log, " screen_display_wh: %f x %f", (float)canvas->screen_display_w, (float)canvas->screen_display_h);*/
+    /*log_verbose(machine_window_log, " canvas_physical_wh: %u x %u", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);*/
+    log_verbose(machine_window_log, " scalexy: %d x %d sizexy: %u x %u",
               canvas->videoconfig->scalex, canvas->videoconfig->scaley,
               canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
-    log_message(machine_window_log, " rmode: %u", canvas->videoconfig->cap->single_mode.rmode);
-    log_message(machine_window_log, " aspect ratio: %f", (float)canvas->geometry->pixel_aspect_ratio);
+    log_verbose(machine_window_log, " rmode: %u", canvas->videoconfig->cap->single_mode.rmode);
+    log_verbose(machine_window_log, " aspect ratio: %f", (float)canvas->geometry->pixel_aspect_ratio);
 #endif
     /* find out if we have a videochip that uses vertical stretching. since the resources are not
        initialized, assume it always is stretched (this is the default) */
@@ -762,7 +763,7 @@ static void machine_window_create(video_canvas_t *canvas)
         /* vstretch = 1; */ /* HACK: for some reason that doesn't give the wanted result */
     }
 #if 1
-    log_message(machine_window_log, " hstretch: %u vstretch: %u", hstretch, vstretch);
+    log_verbose(machine_window_log, " hstretch: %u vstretch: %u", hstretch, vstretch);
 #endif
     /* calculate the initial size from the values we have
        WARNING: terrible hacks coming up
@@ -780,7 +781,7 @@ static void machine_window_create(video_canvas_t *canvas)
         h = (unsigned)(((double)h) * canvas->geometry->pixel_aspect_ratio);
     }
 #if 1
-    log_message(machine_window_log, " initializing with width, height: %u x %u", w, h);
+    log_verbose(machine_window_log, " initializing with width, height: %u x %u", w, h);
 #endif
     /* finally set the size. use -1 for width and height to compensate for single pixel errors. this
        will be corrected by the resize that will happen at the end of initialization */

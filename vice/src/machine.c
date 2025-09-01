@@ -297,6 +297,8 @@ int machine_init(void)
 {
     machine_init_was_called = 1;
 
+    DBG(("machine_init"));
+
     fsdevice_init();
     file_system_init();
     mem_initialize_memory();

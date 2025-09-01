@@ -193,6 +193,11 @@ int log_set_limit(int n)
     UNLOCK_AND_RETURN_INT(0);
 }
 
+int log_get_limit(void)
+{
+    return log_limit;
+}
+
 /* called by code that is executed *before* the resources are registered */
 int log_set_limit_early(int n)
 {

@@ -115,7 +115,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         archdep_vice_exit(1);
     }
 
-    log_message(opengl_log, "GLX version: %d.%d", glx_major, glx_minor);
+    log_verbose(opengl_log, "GLX version: %d.%d", glx_major, glx_minor);
 
     /* FBConfigs were added in GLX version 1.3. */
     if (glx_major < 1 || (glx_major == 1 && glx_minor < 3)) {
@@ -123,7 +123,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         archdep_vice_exit(1);
     }
 
-    log_message(opengl_log, "Getting matching framebuffer configs" );
+    log_verbose(opengl_log, "Getting matching framebuffer configs" );
 
     PFNGLXCHOOSEFBCONFIGPROC vice_glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXChooseFBConfig");
     GLXFBConfig *framebuffer_configs = vice_glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
@@ -131,7 +131,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         log_error(opengl_log, "Failed to retrieve a framebuffer config\n");
         archdep_vice_exit(1);
     }
-    log_message(opengl_log, "Found %d matching FB configs.", fbcount);
+    log_verbose(opengl_log, "Found %d matching FB configs.", fbcount);
 
     /* Just pick the first one I guess. */
     GLXFBConfig framebuffer_config = framebuffer_configs[0];
@@ -230,7 +230,16 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
 
-    log_message(opengl_log, "Obtained OpenGL %d.%d context\n Vendor:   %s\n Renderer: %s\n Version:  %s\n Legacy:   %s",
+    if (log_get_limit() <= LOG_LIMIT_STANDARD) {
+        log_message(opengl_log, "Obtained OpenGL %d.%d context %s %s",
+            major,
+            minor,
+            context->gl_context_is_legacy ? "Legacy" : "",
+            glXIsDirect(context->x_display, context->gl_context) ? "" : "GLX indirect"
+        );
+    }
+
+    log_verbose(opengl_log, "Obtained OpenGL %d.%d context\n Vendor:   %s\n Renderer: %s\n Version:  %s\n Legacy:   %s",
         major,
         minor,
         glGetString(GL_VENDOR),
@@ -240,12 +249,12 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     /* Not sure if an indirect context will work but lets leave some useful output for bug reports */
     if (!glXIsDirect(context->x_display, context->gl_context)) {
-        log_message(opengl_log, "Indirect GLX rendering context obtained - please let us know if this works!");
+        log_warning(opengl_log, "Indirect GLX rendering context obtained - please let us know if this works!");
     } else {
-        log_message(opengl_log, "Direct GLX rendering context obtained");
+        log_verbose(opengl_log, "Direct GLX rendering context obtained");
     }
 
-    log_message(opengl_log, "Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
+    log_verbose(opengl_log, "Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
 
     vice_opengl_renderer_clear_current(context);
 }

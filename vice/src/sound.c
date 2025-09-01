@@ -1325,7 +1325,7 @@ int sound_open(void)
 static void sounddev_close(const sound_device_t **dev)
 {
     if (*dev) {
-        log_message(sound_log, "Closing device `%s'", (*dev)->name);
+        log_verbose(sound_log, "Closing device `%s'", (*dev)->name);
         if ((*dev)->close) {
             (*dev)->close();
         }

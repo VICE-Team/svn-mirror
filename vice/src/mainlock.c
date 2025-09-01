@@ -109,7 +109,7 @@ static void consider_exit(void)
         pthread_mutex_unlock(&internal_lock);
         pthread_mutex_unlock(&main_lock);
 
-        log_message(mainlock_log, "VICE thread is exiting");
+        log_verbose(mainlock_log, "VICE thread is exiting");
 
         archdep_thread_shutdown();
 
@@ -138,7 +138,7 @@ void mainlock_initiate_shutdown(void)
     vice_thread_keepalive = false;
     pthread_mutex_unlock(&internal_lock);
 
-    log_message(mainlock_log, "VICE thread initiating shutdown");
+    log_verbose(mainlock_log, "VICE thread initiating shutdown");
 
     /* If called on the vice thread itself, run the exit code immediately */
     if (pthread_equal(pthread_self(), vice_thread)) {

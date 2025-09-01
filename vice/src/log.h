@@ -55,6 +55,7 @@ int log_set_limit_early(int n);
 int log_early_init(int argc, char **argv);
 
 int log_set_limit(int n);
+int log_get_limit(void);
 
 int log_resources_init(void);
 void log_resources_shutdown(void);
