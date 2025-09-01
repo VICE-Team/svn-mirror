@@ -48,13 +48,17 @@ int c128rom_load_chargen_it(const char *rom_name);
 int c128rom_load_chargen_no(const char *rom_name);
 int c128rom_load_chargen_se(const char *rom_name);
 
-int c128rom_load_kernal64(const char *rom_name, uint8_t *cartkernal);
+int c128rom_load_kernal64(const char *rom_name);
 int c128rom_load_basic64(const char *rom_name);
 
 int c128rom_basic_checksum(void);
 int c128rom_kernal_checksum(void);
+
 int c128rom_kernal_setup(void);
 int c128rom_chargen_setup(void);
+int c128rom_basic_setup(void);
+int c128rom_kernal64_setup(void);
+int c128rom_basic64_setup(void);
 
 /* BASICLO + BASICHI */
 #define C128_BASIC_85_CHECKSUM      38592

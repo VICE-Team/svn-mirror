@@ -466,7 +466,15 @@ static int set_basiclo_rom_name(const char *val, void *param)
         return 0;
     }
 
-    return c128rom_load_basiclo(basiclo_rom_name);
+    if (c128rom_load_basiclo(basiclo_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_basic_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int set_basichi_rom_name(const char *val, void *param)
@@ -475,7 +483,15 @@ static int set_basichi_rom_name(const char *val, void *param)
         return 0;
     }
 
-    return c128rom_load_basichi(basichi_rom_name);
+    if (c128rom_load_basichi(basichi_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_basic_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int set_kernal64_rom_name(const char *val, void *param)
@@ -484,7 +500,15 @@ static int set_kernal64_rom_name(const char *val, void *param)
         return 0;
     }
 
-    return c128rom_load_kernal64(kernal64_rom_name, NULL);
+    if (c128rom_load_kernal64(kernal64_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_kernal64_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int set_basic64_rom_name(const char *val, void *param)
@@ -493,7 +517,15 @@ static int set_basic64_rom_name(const char *val, void *param)
         return 0;
     }
 
-    return c128rom_load_basic64(basic64_rom_name);
+    if (c128rom_load_basic64(basic64_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_basic64_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int set_cia1_model(int val, void *param)

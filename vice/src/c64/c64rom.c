@@ -158,7 +158,8 @@ int c64rom_print_kernal_info(void)
     return rev;
 }
 
-int c64rom_cartkernal_active = 0;
+/* FIXME: this flag is strange, it is only ever set to 1 and never to 0 */
+static int c64rom_cartkernal_active = 0;
 
 #define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
 static int trapfl[NUM_TRAP_DEVICES];
@@ -188,9 +189,11 @@ static void restore_trapflags(void)
     }
 }
 
-/* the extra parameter cartkernal is used to replace the kernal
-   with a cartridge kernal rom image, if it is NULL normal kernal
-   is used */
+/* FIXME: the extra parameter cartkernal was used to replace the kernal
+   with a cartridge kernal rom image.
+
+   CAUTION: The current code does NOT use this anymore, cartkernal is always NULL
+*/
 int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
 {
     int rev;

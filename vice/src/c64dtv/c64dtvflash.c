@@ -48,6 +48,13 @@
 #include "c64dtvflash.h"
 
 /* #define DEBUG */
+/* #define DEBUG_DTVFLASH */
+
+#ifdef DEBUG_DTVFLASH
+#define DBG(x)  log_printf  x
+#else
+#define DBG(x)
+#endif
 
 #define DTVROM_PALV2_NAME_DEFAULT       "dtvrom.bin" /* FIXME: rename (who made this?) */
 #define DTVROM_PALV3_NAME_DEFAULT       "dtvrom.bin" /* FIXME: rename (who made this?) */
@@ -61,9 +68,12 @@ static log_t c64dtvflash_log = LOG_DEFAULT;
 static int flash_log_enabled = 0;
 #endif
 
+/* Flag: nonzero if the DTV ROMs are available.  */
+static int rom_loaded = 0;
+
 #define C64_ROM_SIZE 0x200000
 
-/* Filenames of C64DTV RAM/ROM */
+/* Filenames of C64DTV RAM/ROM(s) */
 static char *c64dtvflash_filename[DTVMODEL_NUM] = { NULL, NULL, NULL, NULL, NULL };
 
 static int c64dtvflash_revision = 0;
@@ -445,13 +455,13 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 
 /* ------------------------------------------------------------------------- */
 
-int c64dtvflash_rom_loaded = 0;
-
-static int c64dtvflash_load_rom(int idx)
+static int c64dtvflash_rom_setup(int idx)
 {
     int retval = 0;     /* need to change this when ui gets changed for error indication */
-    /*int idx = c64dtvflash_revision;*/ /* DTVFlashRevision */
 
+    if (!rom_loaded) {
+        return 0;
+    }
 #ifdef DEBUG
     if (flash_log_enabled) {
         log_message(c64dtvflash_log, "loading ROM");
@@ -493,9 +503,13 @@ static int c64dtvflash_load_rom(int idx)
         memcpy(c64dtvflash_mem + 0xd000, mem_chargen_rom,
                C64_CHARGEN_ROM_SIZE);
     }
-    c64dtvflash_rom_loaded = retval;
 
     return retval;
+}
+
+static int c64dtvflash_load_rom(int idx)
+{
+    return c64dtvflash_rom_setup(idx);
 }
 
 void c64dtvflash_init(void)
@@ -505,6 +519,8 @@ void c64dtvflash_init(void)
         c64dtvflash_log = log_open("C64DTVFLASH");
     }
 #endif
+
+    rom_loaded = 1;
 
     c64dtvflash_load_rom(c64dtvflash_revision);  /* DTVFlashRevision */
 
@@ -572,14 +588,11 @@ static int set_c64dtvflash_filename(const char *name, void *param)
     }
 
     if (c64dtvflash_mem_rw && c64dtvflash_filename[idx] != NULL && *c64dtvflash_filename[idx] != '\0') {
+        /* flush (old) image */
         if (util_file_save(c64dtvflash_filename[idx], c64dtvflash_mem, 0x200000) < 0) {
-#ifdef DEBUG
-            log_message(c64dtvflash_log, "Writing C64DTV ROM image %s failed.", c64dtvflash_filename[idx]);
-#endif
+            log_error(c64dtvflash_log, "Writing C64DTV ROM image %s failed.", c64dtvflash_filename[idx]);
         } else {
-#ifdef DEBUG
             log_message(c64dtvflash_log, "Wrote C64DTV ROM image %s.", c64dtvflash_filename[idx]);
-#endif
         }
     }
 
@@ -598,6 +611,7 @@ static int set_c64dtvflash_filename(const char *name, void *param)
 
     lib_free(complete_path);
 
+    /* (re)load ROM */
     if (c64dtvflash_filename[idx] != NULL && *c64dtvflash_filename[idx] != '\0') {
         retval = c64dtvflash_load_rom(idx);
     }
