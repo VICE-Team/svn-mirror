@@ -224,7 +224,7 @@ int drive_init(void)
         machine_drive_rom_setup_image(unit);
     }
 
-    log_message(drive_log, "Finished loading ROM images.");
+    log_verbose(drive_log, "Finished loading ROM images.");
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];

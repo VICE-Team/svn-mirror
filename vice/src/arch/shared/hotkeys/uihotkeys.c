@@ -234,7 +234,7 @@ int ui_hotkeys_cmdline_options_init(void)
 void ui_hotkeys_init(const char *prefix)
 {
     vhk_log = log_open("Hotkeys");
-    log_message(vhk_log, "Initializing hotkeys.");
+    log_verbose(vhk_log, "Initializing hotkeys.");
     if (prefix == NULL || *prefix == '\0') {
         log_error(vhk_log,
                   "%s(): `prefix` cannot be empty or NULL.",
@@ -283,7 +283,7 @@ void ui_hotkeys_init(const char *prefix)
  */
 void ui_hotkeys_shutdown(void)
 {
-    log_message(vhk_log, "shutting down.");
+    log_verbose(vhk_log, "shutting down.");
     /* call virtual method before tearing down the generic hotkeys data */
     ui_hotkeys_arch_shutdown();
     vhk_parser_shutdown();
@@ -312,12 +312,12 @@ void ui_hotkeys_load_vice_default(void)
     lib_free(fullpath);
 
     if (ui_hotkeys_load(filename)) {
-        log_message(vhk_log, "OK.");
+        log_verbose(vhk_log, "OK.");
         /* clear the custom hotkeys file resource */
         resources_set_string("HotkeyFile", "");
         vhk_source = VHK_SOURCE_VICE;
     } else {
-        log_message(vhk_log, "failed, continuing anyway.");
+        log_error(vhk_log, "failed, continuing anyway.");
     }
 }
 
@@ -338,10 +338,10 @@ bool ui_hotkeys_load_user_default(void)
                 "parsing user-defined hotkeys in '%s'",
                 path);
     if (ui_hotkeys_load(path)) {
-        log_message(vhk_log, "OK.");
+        log_verbose(vhk_log, "OK.");
         vhk_source = VHK_SOURCE_USER;
     } else {
-        log_message(vhk_log, "failed, continuing anyway.");
+        log_error(vhk_log, "failed, continuing anyway.");
     }
     lib_free(path);
     return true;

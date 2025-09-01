@@ -514,13 +514,13 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         /* Make sure the render thread wakes up and does its thing asap. */
         SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 
-        log_message(LOG_DEFAULT, "Render thread initialised");
+        log_verbose(LOG_DEFAULT, "Render thread initialised");
         return;
     }
 
     if (job == render_thread_shutdown) {
         archdep_thread_shutdown();
-        log_message(LOG_DEFAULT, "Render thread shutdown");
+        log_verbose(LOG_DEFAULT, "Render thread shutdown");
         return;
     }
 

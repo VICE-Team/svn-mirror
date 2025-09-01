@@ -709,13 +709,13 @@ static void render(void *job_data, void *pool_data)
         /* TODO: BSD thread prio stuff */
 #endif
 
-        log_message(opengl_log, "Render thread initialised");
+        log_verbose(opengl_log, "Render thread initialised");
         return;
     }
 
     if (job == render_thread_shutdown) {
         archdep_thread_shutdown();
-        log_message(opengl_log, "Render thread shutdown");
+        log_verbose(opengl_log, "Render thread shutdown");
         return;
     }
 

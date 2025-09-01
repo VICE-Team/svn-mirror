@@ -144,47 +144,53 @@ static void vice_banner(void)
     log_message(LOG_DEFAULT, LOG_COL_LWHITE "*** VICE Version %s ***" LOG_COL_OFF, VERSION);
 #endif
     log_message(LOG_DEFAULT, " ");
-    if (machine_class == VICE_MACHINE_VSID) {
-        log_message(LOG_DEFAULT, "Welcome to %s, the free portable SID Player.",
-                    program_name);
+
+    if (log_get_limit() <= LOG_LIMIT_STANDARD) {
+        log_message(LOG_DEFAULT, "This is the condensed log, for the full log use " LOG_COL_LWHITE "--verbose" LOG_COL_OFF " or " LOG_COL_LWHITE "--debug" LOG_COL_OFF ".");
+        log_message(LOG_DEFAULT, " ");
     } else {
-        log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
-                    program_name, machine_name);
-    }
-    log_message(LOG_DEFAULT, " ");
-
-    log_message(LOG_DEFAULT, "Current VICE team members:");
-    n = 0; *term_tmp = 0;
-    for (i = 0; core_team[i].name != NULL; i++) {
-        name_len = strlen(core_team[i].name);
-        /* XXX: reject names that will never fit, for now */
-        if ((int)name_len + 3 > TERM_TMP_SIZE) {
-            log_warning(LOG_DEFAULT, "%s:%d: name '%s' too large for buffer",
-                    __FILE__, __LINE__, core_team[i].name);
-            break;  /* this will still write out whatever was in the buffer */
-        }
-
-        if (n + (int)name_len + 3 > TERM_TMP_SIZE) {    /* +3 for ", \0" */
-            log_message(LOG_DEFAULT, "%s", term_tmp);
-            strcpy(term_tmp, core_team[i].name);
-            n = (int)name_len;
+        if (machine_class == VICE_MACHINE_VSID) {
+            log_message(LOG_DEFAULT, "Welcome to %s, the free portable SID Player.",
+                        program_name);
         } else {
-            strcat(term_tmp, core_team[i].name);
-            n += (int)name_len;
+            log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
+                        program_name, machine_name);
         }
-        if (core_team[i + 1].name == NULL) {
-            strcat(term_tmp, ".");
-        } else {
-            strcat(term_tmp, ", ");
-            n += 2;
-        }
-    }
-    log_message(LOG_DEFAULT, "%s", term_tmp);
+        log_message(LOG_DEFAULT, " ");
 
-    log_message(LOG_DEFAULT, " ");
-    log_message(LOG_DEFAULT, LOG_COL_LWHITE "This is free software with ABSOLUTELY NO WARRANTY." LOG_COL_OFF);
-    log_message(LOG_DEFAULT, LOG_COL_LWHITE "See the \"About VICE\" command for more info." LOG_COL_OFF);
-    log_message(LOG_DEFAULT, " ");
+        log_message(LOG_DEFAULT, "Current VICE team members:");
+        n = 0; *term_tmp = 0;
+        for (i = 0; core_team[i].name != NULL; i++) {
+            name_len = strlen(core_team[i].name);
+            /* XXX: reject names that will never fit, for now */
+            if ((int)name_len + 3 > TERM_TMP_SIZE) {
+                log_warning(LOG_DEFAULT, "%s:%d: name '%s' too large for buffer",
+                        __FILE__, __LINE__, core_team[i].name);
+                break;  /* this will still write out whatever was in the buffer */
+            }
+
+            if (n + (int)name_len + 3 > TERM_TMP_SIZE) {    /* +3 for ", \0" */
+                log_message(LOG_DEFAULT, "%s", term_tmp);
+                strcpy(term_tmp, core_team[i].name);
+                n = (int)name_len;
+            } else {
+                strcat(term_tmp, core_team[i].name);
+                n += (int)name_len;
+            }
+            if (core_team[i + 1].name == NULL) {
+                strcat(term_tmp, ".");
+            } else {
+                strcat(term_tmp, ", ");
+                n += 2;
+            }
+        }
+        log_message(LOG_DEFAULT, "%s", term_tmp);
+
+        log_message(LOG_DEFAULT, " ");
+        log_message(LOG_DEFAULT, LOG_COL_LWHITE "This is free software with ABSOLUTELY NO WARRANTY." LOG_COL_OFF);
+        log_message(LOG_DEFAULT, LOG_COL_LWHITE "See the \"About VICE\" command for more info." LOG_COL_OFF);
+        log_message(LOG_DEFAULT, " ");
+    }
 }
 
 /* This is the main program entry point.  Call this from `main()'.  */
@@ -242,6 +248,11 @@ int main_program(int argc, char **argv)
         /* printf("%s(): disabling stream redirection\n", __func__); */
     }
 #endif
+
+    /* set log level to "normal" here, any log output before would use "debug",
+       and anything after here can use the option(s) on the cmdline */
+    log_set_limit_early(LOG_LIMIT_STANDARD);
+
     /* Check for some options at the beginning of the commandline before
        initializing the user interface or loading the config file.
        -default => use default config, do not load any config
@@ -500,7 +511,7 @@ void vice_thread_shutdown(void)
 
     pthread_join(vice_thread, NULL);
 
-    log_message(main_log, "VICE thread has been joined.");
+    log_verbose(main_log, "VICE thread has been joined.");
 }
 
 void *vice_thread_main(void *unused)

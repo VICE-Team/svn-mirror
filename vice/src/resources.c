@@ -951,8 +951,8 @@ int resources_set_defaults(void)
 {
     unsigned int i;
 
-    log_message(LOG_DEFAULT, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
-    log_message(LOG_DEFAULT, "Setting resources to default...");
+    log_verbose(LOG_DEFAULT, "%s", ""); /* ugly hack to produce a blank log line, but not trigger a warning */
+    log_verbose(LOG_DEFAULT, "Setting resources to default...");
 
     /* the cartridge system uses internal state variables so the default cartridge
        can be unset without changing the attached cartridge and/or attach another

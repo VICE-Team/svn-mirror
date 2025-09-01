@@ -448,5 +448,5 @@ void joystick_arch_init(void)
  */
 void joystick_arch_shutdown(void)
 {
-    printf("%s(): called\n", __func__);
+    /* printf("%s(): called\n", __func__); */
 }

@@ -158,6 +158,16 @@
 #include "mouse.h"
 #endif
 
+
+/* #define DEBUG_C64 */
+
+#ifdef DEBUG_C64
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
+
+
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
 #define KBDBUF_ALARM_DELAY   1
@@ -1018,6 +1028,8 @@ int machine_specific_init(void)
 {
     c64_log = log_open("C64");
 
+    DBG(("machine_specific_init"));
+
     if (mem_load() < 0) {
         return -1;
     }
@@ -1152,6 +1164,8 @@ int machine_specific_init(void)
     cartridge_init();
 
     machine_drive_stub();
+
+    DBG(("machine_specific_init (done)"));
 
     return 0;
 }

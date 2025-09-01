@@ -186,7 +186,7 @@ int ps_ieee1284_open(void)
 
     sids_found = 0;
 
-    log_message(sid_log, "Detecting libieee1284 ParSIDs.");
+    log_verbose(sid_log, "Detecting libieee1284 ParSIDs.");
 
     if (ieee1284_find_ports(&parlist, 0) != E1284_OK) {
         return -1;
@@ -210,7 +210,7 @@ int ps_ieee1284_open(void)
     }
 
     if (!sids_found) {
-        log_message(sid_log, "No libieee1284 ParSIDs found.");
+        log_verbose(sid_log, "No libieee1284 ParSIDs found.");
         return -1;
     }
 

@@ -87,8 +87,11 @@ static int set_sprite_background_collisions_enabled(int val, void *param)
 
 static int set_vsp_bug_enabled(int val, void *param)
 {
+    int old = vicii_resources.vsp_bug_enabled;
     vicii_resources.vsp_bug_enabled = val;
-    vicii_init_vsp_bug();
+    if (val != old) {
+        vicii_init_vsp_bug();
+    }
     return 0;
 }
 
@@ -196,7 +199,7 @@ int vicii_resources_init(void)
 
     if ((machine_class == VICE_MACHINE_C64SC) ||
         (machine_class == VICE_MACHINE_SCPU64)){
-        resources_int2[0].factory_value = VICII_MODEL_8565;
+        resources_int2[0].factory_value = vicii_resources.model = VICII_MODEL_8565;
     }
 
     if (raster_resources_chip_init("VICII", &vicii.raster, &video_chip_cap) < 0) {
