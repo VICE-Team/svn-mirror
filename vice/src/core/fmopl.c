@@ -325,13 +325,13 @@ static const double mul_tab[16] = {
  *   TL_RES_LEN - sinus resolution (X axis)
  */
 #define TL_TAB_LEN (12 * 2 * TL_RES_LEN)
-static signed int tl_tab[TL_TAB_LEN];
+static signed int *tl_tab = NULL;
 
 #define ENV_QUIET       (TL_TAB_LEN >> 4)
 
 /* sin waveform table in 'decibel' scale */
 /* four waveforms on OPL2 type chips */
-static unsigned int sin_tab[SIN_LEN * 4];
+static unsigned int *sin_tab = NULL;
 
 /* LFO Amplitude Modulation table (verified on real YM3812)
    27 output levels (triangle waveform); 1 level takes one of: 192, 256 or 448 samples
@@ -950,6 +950,15 @@ static int init_tables(void)
     signed int n;
     double o, m;
 
+    if (tl_tab == NULL) {
+        tl_tab = lib_malloc(TL_TAB_LEN * sizeof(signed int));
+    }
+
+    if (sin_tab == NULL) {
+        sin_tab = lib_malloc(SIN_LEN * 4 * sizeof(unsigned int));
+    }
+
+
     for (x = 0; x < TL_RES_LEN; x++) {
         m = (1 << 16) / pow(2, (x + 1) * (ENV_STEP / 4.0) / 8.0);
         m = floor(m);
@@ -1031,6 +1040,15 @@ static int init_tables(void)
 
 static void OPLCloseTable( void )
 {
+    if (tl_tab) {
+        lib_free(tl_tab);
+        tl_tab = NULL;
+    }
+
+    if (sin_tab) {
+        lib_free(sin_tab);
+        sin_tab = NULL;
+    }
 }
 
 static void OPL_initalize(FM_OPL *OPL)
