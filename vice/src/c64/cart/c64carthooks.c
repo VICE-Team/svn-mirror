@@ -166,7 +166,7 @@
 /* #define DEBUGCART */
 
 #ifdef DEBUGCART
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -1409,7 +1409,7 @@ void cart_attach(int type, uint8_t *rawcart)
             zippcode48_config_setup(rawcart);
             break;
         default:
-            DBG(("CART: no attach hook %d\n", type));
+            DBG(("CART: no attach hook %d", type));
             break;
     }
 }
@@ -1444,7 +1444,7 @@ static void cart_detach_conflicts0(int *list, int type)
             while (*list != 0) {
                 if (*list != type) {
                     if (cartridge_type_enabled(*list)) {
-                        DBG(("CART: detach conflicting cart: %d (only one Slot 0 cart can be active)\n", *list));
+                        DBG(("CART: detach conflicting cart: %d (only one Slot 0 cart can be active)", *list));
                         cartridge_detach_image(*list);
                     }
                 }
@@ -1458,7 +1458,7 @@ static void cart_detach_conflicts0(int *list, int type)
 
 void cart_detach_conflicting(int type)
 {
-    DBG(("CART: detach conflicting for type: %d ...\n", type));
+    DBG(("CART: detach conflicting for type: %d ...", type));
     cart_detach_conflicts0(slot0conflicts, type);
     cart_detach_conflicts0(slot1conflicts, type);
 }
@@ -1468,7 +1468,7 @@ void cart_detach_conflicting(int type)
 */
 int cartridge_enable(int type)
 {
-    DBG(("CART: enable type: %d\n", type));
+    DBG(("CART: enable type: %d", type));
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:
@@ -1542,7 +1542,7 @@ int cartridge_enable(int type)
 #endif
         /* "Main Slot" */
         default:
-            DBG(("CART: no enable hook %d\n", type));
+            DBG(("CART: no enable hook %d", type));
             break;
     }
     cart_detach_conflicting(type);
@@ -1569,7 +1569,7 @@ int cartridge_disable(int type)
     fprintf(stderr, "%s:%d: %s() isn't implemented yet, continuing\n",
             __FILE__, __LINE__, __func__);
     */
-    DBG(("CART: enable type: %d\n", type));
+    DBG(("CART: enable type: %d", type));
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:
@@ -1643,7 +1643,7 @@ int cartridge_disable(int type)
 #endif
         /* "Main Slot" */
         default:
-            DBG(("CART: no disable hook %d\n", type));
+            DBG(("CART: no disable hook %d", type));
             break;
     }
 #if 0
@@ -1666,7 +1666,7 @@ int cartridge_disable(int type)
 */
 void cart_detach_all(void)
 {
-    DBG(("CART: detach all\n"));
+    DBG(("CART: detach all"));
     debugcart_detach();
     /* "slot 0" */
     tpi_detach();
@@ -1709,7 +1709,7 @@ void cart_detach_all(void)
 */
 void cart_detach(int type)
 {
-    DBG(("CART: cart_detach ID: %d\n", type));
+    DBG(("CART: cart_detach ID: %d", type));
 
     switch (type) {
         /* "Slot 0" */
@@ -2027,7 +2027,7 @@ void cart_detach(int type)
             zippcode48_detach();
             break;
         default:
-            DBG(("CART: no detach hook ID: %d\n", type));
+            DBG(("CART: no detach hook ID: %d", type));
             break;
     }
 }
@@ -2035,7 +2035,7 @@ void cart_detach(int type)
 /* called once by cartridge_init at machine init */
 void cart_init(void)
 {
-    DBG(("CART: cart_init\n"));
+    DBG(("CART: cart_init"));
 
     /* "Slot 0" */
     mmc64_init();
@@ -2344,7 +2344,7 @@ void cartridge_init_config(void)
             case CARTRIDGE_NONE:
                 break;
             default:
-                DBG(("CART: no init hook ID: %d\n", mem_cartridge_type));
+                DBG(("CART: no init hook ID: %d", mem_cartridge_type));
                 cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
                 break;
         }
@@ -2650,7 +2650,7 @@ void cartridge_powerup(void)
 /* called by cart_nmi_alarm_triggered, after an alarm occured */
 static void cart_freeze(int type)
 {
-    DBG(("CART: freeze (type:%d)\n", type));
+    DBG(("CART: freeze (type:%d)", type));
     switch (type) {
         /* "Slot 0" (no freezer carts) */
         /* "Slot 1" */
@@ -3112,6 +3112,7 @@ int cartridge_crt_save(int type, const char *filename)
 
 void cartridge_sound_chip_init(void)
 {
+    DBG(("cartridge_sound_chip_init"));
     digimax_sound_chip_init();
     sfx_soundsampler_sound_chip_init();
     sfx_soundexpander_sound_chip_init();
@@ -3156,7 +3157,7 @@ void cartridge_sound_chip_init(void)
 */
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-    /* DBG(("CARTHOOKS: cartridge_mmu_translate(%x)\n",addr)); */
+    /* DBG(("CARTHOOKS: cartridge_mmu_translate(%x)",addr)); */
     int res = CART_READ_THROUGH;
 #if 0
     /* disable all the mmu translation stuff for testing */
@@ -3298,7 +3299,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
         while (e != NULL) {
             if (number_of_carts == C64CART_DUMP_MAX_CARTS) {
-                DBG(("CART snapshot save: active carts > max (%i)\n", number_of_carts));
+                DBG(("CART snapshot save: active carts > max (%i)", number_of_carts));
                 return -1;
             }
             if (last_cart != (int)e->device->cartid) {
@@ -3894,7 +3895,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 default:
                     /* If the cart cannot be saved, we obviously can't load it either.
                     Returning an error at this point is better than failing at later. */
-                    DBG(("CART snapshot save: cart %i handler missing\n", cart_ids[i]));
+                    DBG(("CART snapshot save: cart %i handler missing", cart_ids[i]));
                     return -1;
             }
         }
@@ -3946,7 +3947,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     }
 
     if (number_of_carts > C64CART_DUMP_MAX_CARTS) {
-        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, C64CART_DUMP_MAX_CARTS));
+        DBG(("CART snapshot read: carts %i > max %i", number_of_carts, C64CART_DUMP_MAX_CARTS));
         goto fail;
     }
 
@@ -4517,7 +4518,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
 #endif
 
                 default:
-                    DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
+                    DBG(("CART snapshot read: cart %i handler missing", cart_ids[i]));
                     goto fail2;
             }
         }
