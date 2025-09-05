@@ -139,7 +139,7 @@ char *ui_get_file(const char *format, ...)
  */
 void ui_init_with_args(int *argc, char **argv)
 {
-    printf("Initialising headless ui with args\n");
+    log_verbose(LOG_DEFAULT, "Initialising headless ui with args");
 }
 
 
@@ -149,7 +149,7 @@ void ui_init_with_args(int *argc, char **argv)
  */
 int ui_init(void)
 {
-    printf("Initialising headless ui\n");
+    log_verbose(LOG_DEFAULT, "Initialising headless ui");
 
     return 0;
 }
@@ -165,7 +165,7 @@ int ui_init(void)
  */
 int ui_init_finalize(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     return 0;
 }
@@ -179,7 +179,7 @@ int ui_init_finalize(void)
  */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     va_list args;
     char *buffer;
@@ -190,7 +190,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     buffer = lib_mvsprintf(format, args);
     va_end(args);
 
-    printf("%s\n", buffer);
+    log_warning(LOG_DEFAULT, "%s", buffer);
 
     lib_free(buffer);
 
@@ -198,6 +198,20 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     return MACHINE_JAM_ACTION_QUIT; /* quit emulator */
 }
 
+static int save_resources_on_exit;
+
+static int set_save_resources_on_exit(int val, void *param)
+{
+    save_resources_on_exit = val ? 1 : 0;
+
+    return 0;
+}
+
+static resource_int_t resources_int[] = {
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+      &save_resources_on_exit, set_save_resources_on_exit, NULL },
+    RESOURCE_INT_LIST_END
+};
 
 /** \brief  Initialize resources related to the UI in general
  *
@@ -205,7 +219,10 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
  */
 int ui_resources_init(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -215,14 +232,14 @@ int ui_resources_init(void)
  */
 void ui_resources_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 }
 
 /** \brief Clean up memory used by the UI system itself
  */
 void ui_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 }
 
 
@@ -230,7 +247,7 @@ void ui_shutdown(void)
  */
 void ui_dispatch_events(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 }
 
 /** \brief  Display the "Do you want to extend the disk image to
@@ -243,7 +260,7 @@ void ui_dispatch_events(void)
  */
 int ui_extend_image_dialog(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     /* FIXME: this dialog needs to be implemented. */
     NOT_IMPLEMENTED();
@@ -257,7 +274,7 @@ int ui_extend_image_dialog(void)
  */
 void ui_error(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     char *buffer;
     va_list ap;
@@ -266,7 +283,7 @@ void ui_error(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    printf("VICE Error: %s\n", buffer);
+    log_error(LOG_DEFAULT, "VICE Error: %s", buffer);
     lib_free(buffer);
 }
 
@@ -277,7 +294,7 @@ void ui_error(const char *format, ...)
  */
 void ui_message(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     char *buffer;
     va_list ap;
@@ -286,14 +303,14 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    printf("VICE Message: %s", buffer);
+    log_message(LOG_DEFAULT, "VICE Message: %s", buffer);
     lib_free(buffer);
 }
 
 
 bool ui_pause_loop_iteration(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
     /*
     ui_dispatch_next_event();
     g_usleep(10000);
@@ -309,7 +326,7 @@ bool ui_pause_loop_iteration(void)
  */
 static void pause_trap(uint16_t addr, void *data)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 /*
     vsync_suspend_speed_eval();
     sound_suspend();
@@ -325,7 +342,7 @@ static void pause_trap(uint16_t addr, void *data)
  */
 int ui_pause_active(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     return is_paused;
 }
@@ -335,7 +352,7 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     if (!ui_pause_active()) {
         is_paused = 1;
@@ -348,7 +365,7 @@ void ui_pause_enable(void)
  */
 void ui_pause_disable(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 
     if (ui_pause_active()) {
         is_paused = 0;
@@ -360,7 +377,7 @@ void ui_pause_disable(void)
  */
 void ui_update_lightpen(void)
 {
-    /* printf("%s\n", __func__); */
+    /* log_verbose(LOG_DEFAULT, "%s", __func__); */
 }
 
 void arch_ui_activate(void)
