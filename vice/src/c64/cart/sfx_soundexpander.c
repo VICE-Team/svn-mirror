@@ -45,6 +45,14 @@
 #include "sound.h"
 #include "uiapi.h"
 
+/* #define DEBUG_SFX_SOUNDEXPANDER */
+
+#ifdef DEBUG_SFX_SOUNDEXPANDER
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 /*
     Note: this cartridge has a passthrough port, which for some odd reason does
           connect all lines 1:1 straight through, EXCEPT for these:
@@ -179,6 +187,7 @@ static uint16_t sfx_soundexpander_sound_chip_offset = 0;
 
 void sfx_soundexpander_sound_chip_init(void)
 {
+    DBG(("sfx_soundexpander_sound_chip_init"));
     sfx_soundexpander_sound_chip_offset = sound_chip_register(&sfx_soundexpander_sound_chip);
 }
 
@@ -194,7 +203,8 @@ int sfx_soundexpander_cart_enabled(void)
 static int set_sfx_soundexpander_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
-
+    DBG(("set_sfx_soundexpander_enabled chip_enabled:%d value:%d",
+        sfx_soundexpander_sound_chip.chip_enabled, value));
     if (sfx_soundexpander_sound_chip.chip_enabled != val) {
         if (val) {
             if (export_add(&export_res_sound) < 0) {
@@ -428,12 +438,13 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int
 
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+    DBG(("sfx_soundexpander_sound_machine_init sfx_soundexpander_chip:%d", sfx_soundexpander_chip));
     if (sfx_soundexpander_chip == 3812) {
         if (YM3812_chip != NULL) {
             ym3812_shutdown(YM3812_chip);
         }
         YM3812_chip = ym3812_init((UINT32)3579545, (UINT32)speed);
-    } else {
+    } else if (sfx_soundexpander_chip == 3526) {
         if (YM3526_chip != NULL) {
             ym3526_shutdown(YM3526_chip);
         }

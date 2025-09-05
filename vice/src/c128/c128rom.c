@@ -752,8 +752,6 @@ static int c128rom_check_res_file(const char* resname)
 
 int mem_load(void)
 {
-    const char *rom_name = NULL;
-
     if (c128rom_log == LOG_DEFAULT) {
         c128rom_log = log_open("C128MEM");
     }
