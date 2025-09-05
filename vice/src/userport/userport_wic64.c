@@ -512,6 +512,7 @@ static char *err2string[] = { "SUCCESS", "INTERNAL", "CLIENT", "CONNECTION", "NE
 static size_t httpbufferptr = 0;
 static uint8_t *httpbuffer = NULL;
 static char *replybuffer = NULL;
+static uint8_t *commandbuffer = NULL;
 
 #define COMMANDBUFFER_MAXLEN    0x100010
 #define URL_MAXLEN              8192
@@ -560,6 +561,10 @@ static int userport_wic64_enable(int value)
         debug_log(CONS_COL_NO, 2, "%s: encoded_helper allocated 0x%xkB", __FUNCTION__,
                    COMMANDBUFFER_MAXLEN / 1024);
 
+        commandbuffer = lib_malloc(COMMANDBUFFER_MAXLEN);
+        debug_log(CONS_COL_NO, 2, "%s: commandbuffer allocated 0x%xkB", __FUNCTION__,
+                   COMMANDBUFFER_MAXLEN / 1024);
+
         curl_send_buf = lib_malloc(COMMANDBUFFER_MAXLEN);
         debug_log(CONS_COL_NO, 2, "%s: curl_send_buf allocated 0x%xkB", __FUNCTION__,
                    COMMANDBUFFER_MAXLEN / 1014);
@@ -581,6 +586,10 @@ static int userport_wic64_enable(int value)
         if (encoded_helper) {
             lib_free(encoded_helper);
             encoded_helper = NULL;
+        }
+        if (commandbuffer) {
+            lib_free(commandbuffer);
+            commandbuffer = NULL;
         }
         if (curl_send_buf) {
             lib_free(curl_send_buf);
@@ -1168,7 +1177,6 @@ static void do_http_get(char *url)
 static uint8_t input_state = 0, input_command = WIC64_CMD_NONE;
 static uint8_t wic64_inputmode = 1;
 static uint32_t input_length = 0, commandptr = 0;
-static uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 
 static uint32_t replyptr = 0, reply_length = 0;
 static uint8_t reply_port_value = 0;
