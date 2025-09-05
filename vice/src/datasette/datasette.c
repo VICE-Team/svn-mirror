@@ -71,7 +71,7 @@
 static tap_t *current_image[TAPEPORT_MAX_PORTS];
 
 /* Buffer for the TAP */
-static uint8_t tap_buffer[TAPEPORT_MAX_PORTS][TAP_BUFFER_LENGTH];
+static uint8_t *tap_buffer[TAPEPORT_MAX_PORTS];
 
 /* Pointer and length of the tap-buffer */
 static long next_tap[TAPEPORT_MAX_PORTS], last_tap[TAPEPORT_MAX_PORTS];
@@ -887,6 +887,10 @@ void datasette_set_tape_image(int port, tap_t *image)
     datasette_internal_reset(port);
 
     if (image != NULL) {
+        /* allocate buffer for the image */
+        if (tap_buffer[port] == NULL) {
+            tap_buffer[port] = lib_malloc(TAP_BUFFER_LENGTH);
+        }
         /* We need the length of tape for realistic counter. */
         current_image[port]->cycle_counter_total = 0;
         do {
@@ -904,6 +908,13 @@ void datasette_set_tape_image(int port, tap_t *image)
     fullwave[port] = 0;
 
     ui_set_tape_status(port, current_image[port] ? 1 : 0);
+
+    /* if image was removed, get rid of the buffer */
+    if (image == NULL) {
+        if (tap_buffer[port] != NULL) {
+            lib_free(tap_buffer[port]);
+        }
+    }
 }
 
 
