@@ -129,7 +129,7 @@ static t6721_state *t6721 = NULL; /* context for the t6721 chip */
 static tpi_context_t *tpi_context = NULL; /* context for the TPI chip */
 
 #define MV_ROM_SIZE 0x4000
-static uint8_t mv_rom[MV_ROM_SIZE];
+static uint8_t *mv_rom = NULL;
 
 static int mv_extgame = 0, mv_extexrom = 0;
 static int mv_game = 1, mv_exrom = 1;
@@ -1109,8 +1109,15 @@ static int set_magicvoice_enabled(int value, void *param)
         io_source_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
         magicvoice_sound_chip.chip_enabled = 0;
+        if (mv_rom) {
+            lib_free(mv_rom);
+            mv_rom = NULL;
+        }
         DBG(("MV: set_enabled unregistered\n"));
     } else if (!magicvoice_sound_chip.chip_enabled && val) {
+        if (mv_rom == NULL) {
+            mv_rom = lib_malloc(MV_ROM_SIZE);
+        }
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
             if ((magicvoice_filename != NULL) && (*magicvoice_filename != 0)) {
