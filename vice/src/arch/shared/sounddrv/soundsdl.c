@@ -41,6 +41,8 @@
 #include "log.h"
 #include "sound.h"
 
+static log_t sdlaudio_log = LOG_DEFAULT;
+
 static int16_t *sdl_buf = NULL;
 static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
@@ -80,19 +82,29 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
     }
 }
 
+#ifdef USE_SDL2UI
+static void printdrivers(void)
+{
+    int i;
+    char names[256] = { 0 };
+    for (i = 0; i < SDL_GetNumAudioDrivers(); i++) {
+        strcat(names, SDL_GetAudioDriver(i));
+        strcat(names, " ");
+    }
+    log_message(sdlaudio_log, "Available drivers: %s", names);
+}
+#endif
+
 static int sdl_init(const char *param, int *speed,
                     int *fragsize, int *fragnr, int *channels)
 {
     SDL_AudioSpec spec;
     int nr;
 
-#ifdef USE_SDL2UI
-    int i;
+    sdlaudio_log = log_open("SDLAudio");
 
-    log_message(LOG_DEFAULT, "SDLAudio: list of drivers:");
-    for (i = 0; i < SDL_GetNumAudioDrivers(); i++) {
-        log_message(LOG_DEFAULT, "SDLAudio: %d: %s", i, SDL_GetAudioDriver(i));
-    }
+#ifdef USE_SDL2UI
+    printdrivers();
 #endif
 
     memset(&spec, 0, sizeof(spec));
@@ -118,7 +130,7 @@ static int sdl_init(const char *param, int *speed,
      *       to get an idea of the whole mess
      */
     if (SDL_OpenAudio(&spec, NULL)) {
-        log_message(LOG_DEFAULT, "SDLAudio: SDL_OpenAudio() failed: %s",
+        log_message(sdlaudio_log, "SDLAudio: SDL_OpenAudio() failed: %s",
                 SDL_GetError());
         return 1;
     }
@@ -131,17 +143,17 @@ static int sdl_init(const char *param, int *speed,
      * $ SDL_AUDIODRIVER="directsound" x64sc.exe
      */
 #ifdef USE_SDL2UI
-    log_message(LOG_DEFAULT, "SDLAudio: current driver: %s",
+    log_message(sdlaudio_log, "SDLAudio: current driver: %s",
             SDL_GetCurrentAudioDriver());
 #endif
 
     if ((sdl_spec.format != AUDIO_S16 && sdl_spec.format != AUDIO_S16MSB)
             || sdl_spec.channels != *channels) {
         SDL_CloseAudio();
-        log_message(LOG_DEFAULT, "SDLAudio: got invalid audio spec.");
+        log_warning(sdlaudio_log, "SDLAudio: got invalid audio spec.");
         return 1;
     }
-    log_message(LOG_DEFAULT, "SDLAudio: got proper audio spec.");
+    log_verbose(sdlaudio_log, "SDLAudio: got proper audio spec.");
 
 
     /* recalculate the number of fragments since the frag size might
