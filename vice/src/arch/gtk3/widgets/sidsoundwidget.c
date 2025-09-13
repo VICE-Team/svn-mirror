@@ -39,6 +39,12 @@
  * $VICERES Sid2AddressStart            all
  * $VICERES Sid3AddressStart            all
  *
+ * These are related to USBSID
+ * $VICERES SidUSBSIDReadMode           all
+ * $VICERES SidUSBSIDAudioMode          all
+ * $VICERES SidUSBSIDDiffSize           all
+ * $VICERES SidUSBSIDBufferSize         all
+ *
  * Until PSID files support more than three SIDs, these will be -vsid:
  * $VICERES Sid4AddressStart            -vsid
  * $VICERES Sid5AddressStart            -vsid
@@ -133,6 +139,30 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
 };
 #endif
 
+#ifdef HAVE_USBSID
+/** \brief  Values for the "SidUSBSIDDiffSize" resource
+ */
+static const vice_gtk3_radiogroup_entry_t us_diffsizes_radio[] = {
+    { "32",   32 },
+    { "64",   64 },
+    { "128", 128 },
+    { "256", 256 },
+    { NULL,   -1 }
+};
+
+/** \brief  Values for the "SidUSBSIDBufferSize" resource
+ */
+static const vice_gtk3_radiogroup_entry_t us_buffsizes_radio[] = {
+    { "512",     512 },
+    { "1024",   1024 },
+    { "2048",   2048 },
+    { "4092",   4092 },
+    { "8192",   8192 },
+    { "16384", 16384 },
+    { NULL,   -1 }
+};
+#endif
+
 /** \brief  I/O addresses for extra SID's for the C64 */
 static int sid_addr_list_c64[] = {
     /*N/A*/ 0xd420, 0xd440, 0xd460, 0xd480, 0xd4a0, 0xd4c0, 0xd4e0,
@@ -166,6 +196,15 @@ static GtkWidget *resid_6581_grid;
 
 /** \brief  8580 widgets grid */
 static GtkWidget *resid_8580_grid;
+#endif
+
+#ifdef HAVE_USBSID
+/** \brief  USBSID read mode / audio mode checkbox */
+static GtkWidget *us_switches;
+/** \brief  USBSID diffsizes radio buttons */
+static GtkWidget *us_diffsizes;
+/** \brief  USBSID buffsizes radio buttons */
+static GtkWidget *us_buffsizes;
 #endif
 
 /** \brief  Number of extra SIDs widget */
@@ -265,6 +304,83 @@ static GtkWidget *create_resid_sampling_widget(void)
     label = label_helper("<b>ReSID sampling method</b>");
     group = vice_gtk3_resource_radiogroup_new("SidResidSampling",
                                               resid_sampling_modes,
+                                              GTK_ORIENTATION_VERTICAL);
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+#endif
+
+#ifdef HAVE_USBSID
+/** \brief  Create widget to control USBSID switches
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_us_switches_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *us_readmode;
+    GtkWidget *us_audiomode;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>USBSID options</b>");
+    us_readmode = vice_gtk3_resource_check_button_new("SidUSBSIDReadMode",
+                                                        "Enable read mode");
+    us_audiomode = vice_gtk3_resource_check_button_new("SidUSBSIDAudioMode",
+                                                        "Enable stereo mode");
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_readmode, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_audiomode, 0, 2, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+/** \brief  Create widget to control USBSID buffer diff
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_us_diffsizes_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *group;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>USBSID buffer diff</b>");
+    group = vice_gtk3_resource_radiogroup_new("SidUSBSIDDiffSize",
+                                              us_diffsizes_radio,
+                                              GTK_ORIENTATION_VERTICAL);
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+/** \brief  Create widget to control USBSID buffer size
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_us_buffsizes_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *group;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>USBSID buffer size</b>");
+    group = vice_gtk3_resource_radiogroup_new("SidUSBSIDBufferSize",
+                                              us_buffsizes_radio,
                                               GTK_ORIENTATION_VERTICAL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
@@ -549,6 +665,22 @@ GtkWidget *sid_sound_widget_create(void)
         gtk_widget_hide(resid_6581_grid);
         gtk_widget_show(resid_8580_grid);
     }
+#endif
+
+/* FIXME: HardSID options are missing */
+
+#ifdef HAVE_USBSID
+    us_switches = create_us_switches_widget();
+    us_diffsizes = create_us_diffsizes_widget();
+    us_buffsizes = create_us_buffsizes_widget();
+
+    gtk_grid_attach(GTK_GRID(grid), us_switches, 0, row + 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_diffsizes, 1, row + 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_buffsizes, 2, row + 3, 1, 1);
+
+    gtk_widget_set_sensitive(us_switches, current_engine == SID_ENGINE_USBSID);
+    gtk_widget_set_sensitive(us_diffsizes, current_engine == SID_ENGINE_USBSID);
+    gtk_widget_set_sensitive(us_buffsizes, current_engine == SID_ENGINE_USBSID);
 #endif
 
     if (machine_class != VICE_MACHINE_PLUS4 &&

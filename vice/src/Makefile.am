@@ -268,6 +268,7 @@ noinst_HEADERS = \
 	uicmdline.h \
 	uicolor.h \
 	uimon.h \
+	usbsid.h \
 	util.h \
 	version.h.in \
 	version.h \
@@ -569,6 +570,9 @@ gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 if !USE_HEADLESSUI
 hotkeys_lib = $(top_builddir)/src/arch/shared/hotkeys/libhotkeys.a
 endif
+if HAVE_USBSID
+usbsiddrv_lib = $(top_builddir)/src/lib/libusbsiddrv/libusbsiddrv.a
+endif
 hwsiddrv_lib = $(top_builddir)/src/arch/shared/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
@@ -630,6 +634,10 @@ emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS
 
 driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
+if HAVE_USBSID
+driver_libs += $(usbsiddrv_lib)
+endif
+
 if SUPPORT_X64
 x64_bin = x64
 else
@@ -668,6 +676,10 @@ vsid_libs =  \
 	$(hotkeys_lib) \
 	$(vsidstubs_lib) \
 	$(md5_lib)
+
+if HAVE_USBSID
+vsid_libs += $(usbsiddrv_lib)
+endif
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ $(VSID_RES)
@@ -1503,6 +1515,11 @@ $(gfxoutputdrv_lib):
 $(hvsc_lib):
 	@echo "making all in hvsc"
 	@(cd hvsc && $(MAKE))
+if HAVE_USBSID
+$(usbsiddrv_lib):
+	@echo "making all in lib/libusbsiddrv"
+	@(cd lib/libusbsiddrv && $(MAKE))
+endif
 $(hwsiddrv_lib):
 	@echo "making all in arch/shared/hwsiddrv"
 	@(cd arch/shared/hwsiddrv && $(MAKE))

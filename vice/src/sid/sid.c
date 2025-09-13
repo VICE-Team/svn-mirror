@@ -38,6 +38,7 @@
 #include "catweaselmkiii.h"
 #include "fastsid.h"
 #include "hardsid.h"
+#include "usbsid.h"
 #include "joyport.h"
 #include "lib.h"
 #include "machine.h"
@@ -623,6 +624,9 @@ int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int
 
 int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+    #ifdef HAVE_USBSID
+    usbsid_open();
+    #endif
     return sid_engine.init(psid, speed, cycles_per_sec, 1000);
 }
 
@@ -667,6 +671,9 @@ void sid_sound_machine_close(sound_t *psid)
         buf7 = NULL;
     }
 #endif
+#ifdef HAVE_USBSID
+    usbsid_close();
+#endif
 }
 
 uint8_t sid_sound_machine_read(sound_t *psid, uint16_t addr)
@@ -682,6 +689,9 @@ void sid_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte)
 void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     sid_engine.reset(psid, cpu_clk);
+    #ifdef HAVE_USBSID
+    usbsid_reset(true); /* This is called when the STOP button is pressed */
+    #endif
 }
 
 #ifdef SOUND_SYSTEM_FLOAT
@@ -1012,6 +1022,10 @@ int sid_sound_machine_cycle_based(void)
             return 0;
 #endif
 #endif
+#ifdef HAVE_USBSID
+        case SID_ENGINE_USBSID:
+            return 0;
+#endif
     }
 
     return 0;
@@ -1063,6 +1077,13 @@ static void set_sound_func(void)
             sid_dump_func = NULL; /* TODO: parsid dump */
         }
 #endif
+#endif
+#ifdef HAVE_USBSID
+        if (sid_engine_type == SID_ENGINE_USBSID) {
+            sid_read_func = usbsid_read;
+            sid_store_func = usbsid_store;
+            sid_dump_func = NULL; /* TODO: usbsid dump */
+        }
 #endif
     } else {
         sid_read_func = sid_read_off;
@@ -1118,7 +1139,18 @@ int sid_engine_set(int engine)
     }
 #endif
 #endif
-
+#ifdef HAVE_USBSID
+    if (engine == SID_ENGINE_USBSID
+        && sid_engine_type != SID_ENGINE_USBSID) {
+        if (usbsid_open() < 0) {
+            return -1;
+        }
+    }
+    if (engine != SID_ENGINE_USBSID
+        && sid_engine_type == SID_ENGINE_USBSID) {
+        usbsid_close();
+    }
+#endif
     sid_engine_type = engine;
 
     set_sound_func();
@@ -1155,6 +1187,9 @@ void sid_set_machine_parameter(long clock_rate)
 #ifdef HAVE_HARDSID
     hardsid_set_machine_parameter(clock_rate);
 #endif
+#ifdef HAVE_USBSID
+    usbsid_set_machine_parameter(clock_rate);
+#endif
 }
 
 
@@ -1182,6 +1217,8 @@ int sid_engine_get_max_sids(int engine)
         case SID_ENGINE_PARSID:
             return SID_ENGINE_PARSID_NUM_SIDS;
 #endif
+        case SID_ENGINE_USBSID:
+            return SID_ENGINE_USBSID_NUM_SIDS;
         default:
             /* unknow engine */
             return -1;

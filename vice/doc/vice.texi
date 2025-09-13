@@ -12311,7 +12311,7 @@ Integer specifying what model of the SID must be emulated.
 @vindex SidEngine
 @item SidEngine
 Integer specifying what SID engine will be used.
-(0: FastSID, 1: ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3)
+(0: FastSID, 1: ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3, 7: USBSID-Pico)
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -12351,6 +12351,37 @@ in millivolts. [0] (-5000..5000, 1000 equals 1mV)
 Boolean specifying whether raw debug output is enabled. When enabled, the raw -
  not downsampled - audio data is written to a file called resid.raw in the current
  working directory.
+
+@vindex SidUSBSIDReadMode
+@item SidUSBSIDReadMode
+Boolean specifying whether to enable USBSID-Pico read mode. When enabled, this
+mode allows for reading from SID registers that provides a means to configure an
+FPGASID that is seated on USBSID-Pico. This mode is not suited for regular audio
+use as it disables cycle exact writing & digiplay.
+Default is (@code{SidUSBSIDReadMode=0}) for off, (@code{SidUSBSIDReadMode=1}) for on.
+
+@vindex SidUSBSIDAudioMode
+@item SidUSBSIDAudioMode
+Boolean to enable USBSID-Pico PCB (v1.3) stereo audio mode. When enabled the audio of SID socket 1
+will be output over the left audio channel and the audio of SID socket 2 over the right channel
+of USBSID-Pico's audio out.
+Default is (@code{SidUSBSIDAudioMode=0}) for Mono, (@code{SidUSBSIDAudioMode=1}) for Stereo.
+
+@vindex SidUSBSIDDiffSize
+@item SidUSBSIDDiffSize
+Integer specifying the minimal difference (must be a number divisable by 8) in bytes to
+use between the head and tail of the drivers ringbuffer, this allows for some audio
+quality tuning on slower systems.
+In most cases the default value of 64 bytes (also the size of a USB packet) is the
+right setting for best audio quality. (@code{SidUSBSIDDiffSize=32-256}).
+
+@vindex SidUSBSIDBufferSize
+@item SidUSBSIDBufferSize
+Integer specifying the size in bytes to use as ringbuffer to store temporary data when sending
+SID writes to USBSID-Pico (must be a number divisable by 8), this allows for some audio quality
+tuning on slower systems.
+In most cases the default value of 8192 bytes is the right setting for best audio quality.
+(@code{SidUSBSIDBufferSize=512-16384}).
 
 @end table
 
@@ -12498,14 +12529,15 @@ DTVSID: 260/dtv/c64dtv/dtvsid,
 Catweasel MKIII: 512/catweaselmkiii/catweasel3/catweasel/cwmkiii/cw3/cw,
 HardSID: 768/hardsid/hard/hs,
 ParSID Port 1: 1024/parsid/parsid1/par1/lpt1,
-ParSID Port 2: 1280/parsid2/par2/lpt2
-ParSID Port 3: 1536/parsid3/par3/lpt3)
+ParSID Port 2: 1280/parsid2/par2/lpt2,
+ParSID Port 3: 1536/parsid3/par3/lpt3,
+USBSID-Pico: 1792/usbsid/usbs/us)
 
 @findex -sidengine
 @item -sidengine <engine>
 Specify engine for the emulated SID chip
 (@code{SidEngine}).
-(FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6)
+(FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6, USBSID-Pico: 7)
 
 @findex -sidmodel
 @item -sidmodel <model>
@@ -12557,6 +12589,35 @@ reSID filter bias setting for 8580, which can be used to adjust DAC bias in mill
 Boolean specifying whether raw debug output is enabled. When enabled, the raw -
  not downsampled - audio data is written to a file called resid.raw in the current
  working directory.
+
+@findex -usreadmode
+@item -usreadmode <0 or 1>
+Enable USBSID-Pico read mode. When enabled, this mode allows for reading from SID
+ registers that provides a means to configure an FPGASID that is seated on USBSID-Pico.
+ This mode is not suited for regular audio use as it disables cycle exact writing & digiplay.
+  Default is (@code{SidUSBSIDReadMode=0}) for off, (@code{SidUSBSIDReadMode=1}) for on.
+
+@findex -usaudiomode
+@item -usaudiomode <0 or 1>
+Set USBSID-Pico PCB (v1.3) audio mode to Stereo or Mono. When enabled the audio of SID socket 1
+ will be output over the left audio channel and the audio of SID socket 2 over the right channel
+ of USBSID-Pico's audio out.
+  Default is (@code{SidUSBSIDAudioMode=0}) for Mono, (@code{SidUSBSIDAudioMode=1}) for Stereo.
+
+@findex -usdiffsize
+@item -usdiffsize <number divisable by 8>
+Specifies the minimal difference in bytes to use between the head and tail of the
+ drivers ringbuffer, this allows for some audio quality tuning on slower systems.
+ In most cases the default value of 64 bytes (also the size of a USB packet) is the
+ right setting for best audio quality.
+  (@code{SidUSBSIDDiffSize=32-256}).
+
+@findex -usbuffsize
+@item -usbuffsize <number divisable by 8>
+Specifies the size in bytes to use as ringbuffer to store temporary data when sending
+ SID writes to USBSID-Pico, this allows for some audio quality tuning on slower systems.
+ In most cases the default value of 8192 bytes is the right setting for best audio quality.
+  (@code{SidUSBSIDBufferSize=512-16384}).
 
 @end table
 
@@ -37492,6 +37553,10 @@ Fixed some monitor issues.
 @item
 @b{Bjoern Odendahl}
 Created the new VICE logo and volunteered to create new icons.
+
+@item
+@b{LouD}
+Added USBSID-Pico hardware SID support.
 
 @end itemize
 
