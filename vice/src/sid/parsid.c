@@ -186,6 +186,7 @@ void parsid_store(uint16_t addr, uint8_t outval, int chipno)
     }
 }
 
+/* return 0 if parsid is not available, != 0 if it is */
 int parsid_available(void)
 {
     parsid_open();

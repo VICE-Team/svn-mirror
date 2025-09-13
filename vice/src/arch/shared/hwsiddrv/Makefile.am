@@ -16,6 +16,12 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 AM_LDFLAGS = @VICE_LDFLAGS@
 
+# TESTING
+if HAVE_USBSID
+AM_CPPFLAGS += -I$(top_srcdir)/src/lib/libusbsiddrv
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/libusbsiddrv
+AM_LDFLAGS += -I$(top_srcdir)/src/lib/libusbsiddrv
+endif
 
 noinst_LIBRARIES = libhwsiddrv.a
 
@@ -38,6 +44,11 @@ HWSIDDRIVERS += \
 	parsid-win32-drv.o \
 	ps-ieee1284.o
 endif HAVE_PARSID
+if HAVE_USBSID
+HWSIDDRIVERS += \
+	usbsid-unixwin-drv.o \
+	us-unixwin-device.o
+endif HAVE_USBSID
 endif WINDOWS_COMPILE
 
 if BEOS_COMPILE
@@ -64,6 +75,11 @@ HWSIDDRIVERS += \
 	ps-ieee1284.o \
 	ps-unix-file.o
 endif HAVE_PARSID
+if HAVE_USBSID
+HWSIDDRIVERS += \
+	usbsid-unixwin-drv.o \
+	us-unixwin-device.o
+endif HAVE_USBSID
 endif UNIX_COMPILE
 
 
@@ -80,7 +96,9 @@ EXTRA_libhwsiddrv_a_SOURCES = \
 	parsid-unix-drv.c \
 	parsid-win32-drv.c \
 	ps-ieee1284.c \
-	ps-unix-file.c
+	ps-unix-file.c \
+	usbsid-unixwin-drv.c \
+	us-unixwin-device.c
 
 EXTRA_DIST = \
 	cw-unix.h \
@@ -88,7 +106,8 @@ EXTRA_DIST = \
 	hs-unix.h \
 	hs-win32.h \
 	ps-unix.h \
-	ps-win32.h
+	ps-win32.h \
+	us-unixwin.h
 
 # Always built:
 # (needs to be declared empty to avoid `make` to try to build libhwsiddrv.o

@@ -122,7 +122,6 @@ GtkWidget *sid_engine_model_widget_create(void)
     list = sid_get_engine_model_list();
     for (i = 0; list[i] != NULL; i++) {
         GtkWidget *radio;
-
         radio = gtk_radio_button_new_with_label(group, list[i]->name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
                                     GTK_RADIO_BUTTON(last));

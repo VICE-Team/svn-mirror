@@ -223,6 +223,14 @@ static const feature_list_t featurelist[] = {
 #endif
 
 /* (all) */
+    { "HAVE_USBSID", "Enable USBSID support",
+#ifndef HAVE_USBSID
+        0 },
+#else
+        1 },
+#endif
+
+/* (all) */
     { "HAVE_PNG", "Use the PNG library.",
 #ifndef HAVE_PNG
         0 },

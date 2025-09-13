@@ -445,6 +445,7 @@ HAVE_DYNLIB_SUPPORT_TOO="no "
 HAVE_FASTSID_SUPPORT="no "
 HAVE_FONTCONFIG_SUPPORT="no "
 HAVE_GIF_SUPPORT="no "
+HAVE_USBSID_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
 HAVE_IOSID_SUPPORT="no "
@@ -789,6 +790,44 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
     HAVE_CATWEASELMKIII_SUPPORT="yes"
   fi
+
+  dnl check for usbsid required libraries and headers
+  if test x"$enable_usbsid" != "xno" ; then
+    PKG_PROG_PKG_CONFIG
+    WIN32_USBSID_HEADER_PRESENT=yes
+    AC_CHECK_HEADERS(libusb-1.0/libusb.h,,[WIN32_USBSID_HEADER_PRESENT=no],)
+    if test x"$WIN32_USBSID_HEADER_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(usb-1.0, libusb_init,[LIBS="-lusb-1.0 $LIBS"; USBSID_LIB_PRESENT=yes],,)
+      if test x"$PKG_CONFIG" != "x" -a x"$USBSID_LIB_PRESENT" = "xyes"; then
+        PKG_CHECK_MODULES(LIBUSB, [libusb-1.0], HAVE_LIBUSB_SUPPORT="yes")
+        AC_MSG_CHECKING([for pkgconfig libusb-1.0])
+        if test x"$HAVE_LIBUSB_SUPPORT" = "xyes"; then
+          VICE_CFLAGS="$VICE_CFLAGS $LIBUSB_CFLAGS";
+          VICE_CPPFLAGS="$VICE_CPPFLAGS $LIBUSB_CFLAGS";
+          AC_MSG_RESULT([yes])
+        else
+          AC_MSG_RESULT([no])
+        fi
+      fi
+    fi
+  fi
+
+  dnl usbsid support
+  AM_CONDITIONAL(HAVE_USBSID, false)
+  AC_MSG_CHECKING([for USBSID-Pico support])
+  if test x"$enable_usbsid" != "xno" ; then
+    if test x"$HAVE_LIBUSB_SUPPORT" = "xyes"; then
+      AC_DEFINE([HAVE_USBSID],,[Support for USBSID])
+      HAVE_USBSID_SUPPORT="yes"
+      AM_CONDITIONAL(HAVE_USBSID, true)
+      AC_MSG_RESULT([yes])
+    else
+      AC_MSG_RESULT([no (LIBUSB not found)])
+    fi
+  else
+    AC_MSG_RESULT([no (USBSID-Pico disabled)])
+  fi
+
   if test x"$enable_hardsid" != "xno"; then
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     HAVE_HARDSID_SUPPORT="yes"
@@ -2761,7 +2800,7 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
-dnl Check for ParSID/HardSID/CW support
+dnl Check for ParSID/USBSID/HardSID/CW support
 if test x"$is_unix" = "xyes"; then
 
   dnl Check cpu first
@@ -2914,6 +2953,44 @@ if test x"$is_unix" = "xyes"; then
     fi
 
   fi
+
+  dnl usbsid required libraries and headers
+  if test x"$enable_usbsid" != "xno" ; then
+    PKG_PROG_PKG_CONFIG
+    UNIX_USBSID_HEADER_PRESENT=yes
+    AC_CHECK_HEADERS(libusb-1.0/libusb.h,,[UNIX_USBSID_HEADER_PRESENT=no],)
+    if test x"$UNIX_USBSID_HEADER_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(usb-1.0, libusb_init,[LIBS="-lusb-1.0 $LIBS"; USBSID_LIB_PRESENT=yes],,)
+      if test x"$PKG_CONFIG" != "x" -a x"$USBSID_LIB_PRESENT" = "xyes"; then
+        PKG_CHECK_MODULES(LIBUSB, [libusb-1.0], HAVE_LIBUSB_SUPPORT="yes")
+        AC_MSG_CHECKING([for pkgconfig libusb-1.0])
+        if test x"$HAVE_LIBUSB_SUPPORT" = "xyes"; then
+          VICE_CFLAGS="$VICE_CFLAGS $LIBUSB_CFLAGS";
+          VICE_CPPFLAGS="$VICE_CPPFLAGS $LIBUSB_CFLAGS";
+          AC_MSG_RESULT([yes])
+        else
+          AC_MSG_RESULT([no])
+        fi
+      fi
+    fi
+  fi
+
+  dnl usbsid support
+  AM_CONDITIONAL(HAVE_USBSID, false)
+  AC_MSG_CHECKING([for USBSID-Pico support])
+  if test x"$enable_usbsid" != "xno" ; then
+    if test x"$HAVE_LIBUSB_SUPPORT" = "xyes"; then
+      AC_DEFINE([HAVE_USBSID],,[Support for USBSID])
+      HAVE_USBSID_SUPPORT="yes"
+      AM_CONDITIONAL(HAVE_USBSID, true)
+      AC_MSG_RESULT([yes])
+    else
+      AC_MSG_RESULT([no (LIBUSB not found!!)])
+    fi
+  else
+    AC_MSG_RESULT([no (USBSID-Pico disabled)])
+  fi
+
 fi
 
 AC_TYPE_SIGNAL
@@ -3455,6 +3532,7 @@ AC_OUTPUT([Makefile
            src/lib/Makefile
            src/lib/p64/Makefile
            src/lib/linenoise-ng/Makefile
+           src/lib/libusbsiddrv/Makefile
            src/lib/libzmbv/Makefile
            src/lib/md5/Makefile
            src/monitor/Makefile
@@ -3613,6 +3691,7 @@ fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
     echo "MIDI support                 : $HAVE_MIDI_SUPPORT (--enable/disable-midi)"
+    echo "USBSID-Pico support          : $HAVE_USBSID_SUPPORT"
 fi
 
 if test x"$real_arch" != "xOSX" -a x"$real_arch" != "xBeOS"; then

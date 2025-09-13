@@ -35,6 +35,7 @@
 #include "catweaselmkiii.h"
 #include "fastsid.h"
 #include "hardsid.h"
+#include "usbsid.h"
 #include "log.h"
 #include "parsid.h"
 #include "resources.h"
@@ -893,6 +894,42 @@ static int sid_snapshot_read_parsid_module(snapshot_module_t *m, int sidnr)
 #endif
 #endif
 
+#ifdef HAVE_USBSID
+static int sid_snapshot_write_us_module(snapshot_module_t *m, int sidnr)
+{
+    sid_us_snapshot_state_t sid_state;
+
+    usbsid_state_read(sidnr, &sid_state);
+
+    if (0
+        || SMW_BA(m, sid_state.regs, (0x20 * 4)) < 0
+        || SMW_QW(m, sid_state.usid_main_clk) < 0
+        || SMW_QW(m, sid_state.usid_alarm_clk) < 0
+        || SMW_B(m, sid_state.lastaccess_chipno) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int sid_snapshot_read_us_module(snapshot_module_t *m, int sidnr)
+{
+    sid_us_snapshot_state_t sid_state;
+
+    if (0
+        || SMW_BA(m, sid_state.regs, (0x20 * 4)) < 0
+        || SMW_QW(m, sid_state.usid_main_clk) < 0
+        || SMW_QW(m, sid_state.usid_alarm_clk) < 0
+        || SMW_B(m, sid_state.lastaccess_chipno) < 0) {
+        return -1;
+    }
+
+    usbsid_state_write(sidnr, &sid_state);
+
+    return 0;
+}
+#endif
+
+
 /* ---------------------------------------------------------------------*/
 
 static const char snap_module_name_extended1[] = "SIDEXTENDED";
@@ -972,8 +1009,14 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
             }
             break;
 #endif
+#ifdef HAVE_USBSID
+        case SID_ENGINE_USBSID:
+            if (sid_snapshot_write_us_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
+#endif
     }
-
     return snapshot_module_close(m);
 
 fail:
@@ -1082,6 +1125,13 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
             }
             break;
 #endif
+#endif
+#ifdef HAVE_USBSID
+        case SID_ENGINE_USBSID:
+            if (sid_snapshot_read_us_module(m, sidnr) < 0) {
+                goto fail;
+            }
+            break;
 #endif
 #ifdef HAVE_FASTSID
         case SID_ENGINE_FASTSID:

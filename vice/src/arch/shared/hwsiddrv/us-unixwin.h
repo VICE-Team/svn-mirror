@@ -1,8 +1,10 @@
 /*
- * sid-cmdline-options.h - SID command line options.
+ * us-unixwin.h - Linux USBSID specific prototypes.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  LouDnl <vice@mail.loudai.nl>
+ *
+ * Based on hs-unix.h written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,16 +27,42 @@
  *
  */
 
-#ifndef VICE_SID_CMDLINE_OPTIONS_H
-#define VICE_SID_CMDLINE_OPTIONS_H
+#ifndef VICE_US_UNIXWIN_H
+#define VICE_US_UNIXWIN_H
 
-int sid_cmdline_options_init(int sid_type);
-int sid_common_set_engine_model(const char *param, void *extra_param);
+#include "sid-snapshot.h"
+#include "types.h"
 
-#ifdef HAVE_USBSID
-int us_setparam(const char *param, void *extra_param);
-#endif
+#define US_MAXSID 4
 
-void sid_cmdline_options_shutdown(void);
+int us_device_open(void);
 
-#endif
+int us_device_close(void);
+
+void us_device_reset(bool us_reset);
+
+int us_device_read(uint16_t addr, int chipno);
+
+CLOCK us_delay(void);
+
+void us_device_store(uint16_t addr, uint8_t val, int chipno);
+
+void us_set_machine_parameter(long cycles_per_sec);
+
+unsigned int us_device_available(void);
+
+void us_set_readmode(int val);
+
+void us_set_audiomode(int val);
+
+void us_restart_ringbuffer(void);
+
+void us_set_buffsize(int val);
+
+void us_set_diffsize(int val);
+
+void us_device_state_read(int chipno, struct sid_us_snapshot_state_s *sid_state);
+
+void us_device_state_write(int chipno, struct sid_us_snapshot_state_s *sid_state);
+
+#endif /* VICE_US_UNIXWIN_H */
