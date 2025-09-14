@@ -1,4 +1,6 @@
 name: Snapshot Build
+env:
+  PATH_ARTIFACTS: dist
 on:
   push:
     tags:
