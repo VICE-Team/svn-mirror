@@ -408,6 +408,8 @@ jobs:
                               libmpg123-dev \
                               libpcap-dev \
                               libpng-dev \
+                              libusb-1.0-0 \
+                              libusb-1.0-0-dev \
                               libusb-dev \
                               libvorbis-dev \
                               portaudio19-dev \
