@@ -654,6 +654,7 @@ int USBSID_Class::USBSID_InitThread(void)
   /* Init ringbuffer */
   flush_buffer = 0;
   run_thread = buffer_pos = 1;
+  threaded = withcycles = true;
   pthread_mutex_lock(&us_mutex);
   USBSID_InitRingBuffer(ring_size, diff_size);
   us_thread++;
