@@ -1239,7 +1239,7 @@ int USBSID_Class::LIBUSB_Setup(bool start_threaded, bool with_cycles)
 
   /* Check for an available USBSID-Pico */
   if (LIBUSB_Available(ctx, VENDOR_ID, PRODUCT_ID) <= 0) {
-    USBERR(stderr, "[USBSID] USBSID-Pico not connected\n");
+    USBDBG(stderr, "[USBSID] USBSID-Pico not connected\n");
     goto out;
   }
 
