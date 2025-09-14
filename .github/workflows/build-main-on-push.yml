@@ -578,7 +578,6 @@ jobs:
           ./configure --enable-option-checking=fatal \
                       --prefix=/usr \
                       --disable-arch \
-                      --enable-usbsid \
                       --enable-cpuhistory \
                       --enable-parsid \
                       --with-pulse \
