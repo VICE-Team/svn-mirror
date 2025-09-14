@@ -228,6 +228,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-lame
             mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-libusb
             mingw-w64-${{ matrix.arch.arch }}-libvorbis
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-ntldd
@@ -263,6 +264,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-lame
             mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-libusb
             mingw-w64-${{ matrix.arch.arch }}-libvorbis
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-ntldd
@@ -406,6 +408,7 @@ jobs:
                               libmpg123-dev \
                               libpcap-dev \
                               libpng-dev \
+                              libusb-dev \
                               libvorbis-dev \
                               portaudio19-dev \
                               texinfo \
