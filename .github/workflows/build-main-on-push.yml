@@ -622,7 +622,7 @@ jobs:
 
   publish_release:
     name: Publish Release
-    needs: [create_release, build, build_deb]
+    needs: [create_release, build, build_deb, build_mac]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
@@ -640,7 +640,7 @@ jobs:
 
   build_error_notify:
     name: IRC Notification of Build Errors
-    needs: [cleanup_previous_builds, create_release, build_doc, build, build_deb, publish_release]
+    needs: [cleanup_previous_builds, create_release, build_doc, build, build_deb, build_mac, publish_release]
     runs-on: ubuntu-latest
     if: ${{ failure() }}
     steps:
