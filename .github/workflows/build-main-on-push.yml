@@ -521,6 +521,104 @@ jobs:
               data: fs.readFileSync(ASSET_PATH)
             });
 
+ build_mac:
+    name: Build MacOs Package
+    needs: [create_release, build_doc]
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+          ui: [ { name: 'GTK3',
+                  conf: '--enable-gtk3ui',
+                  deps: 'gtk+3' },
+                { name: 'SDL2',
+                  conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
+                  deps: 'sdl2 sdl2_image' },
+                # { name: 'SDL1',
+                #   conf: '--enable-sdl1ui --with-sdlsound --without-pulse',
+                #   deps: 'sdl sdl12-compat sdl2_image' },
+                { name: 'Headless',
+                  conf: '--enable-headlessui --with-pulse',
+                  deps: '' }
+              ]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: deps [macOS]
+        if: runner.os == 'macOS'
+        run: |
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          brew update
+          brew upgrade || true
+          brew uninstall --ignore-dependencies --force pkg-config@0.29.2
+          brew install \
+            dos2unix \
+            autoconf \
+            automake \
+            libtool \
+            pkgconf \
+            coreutils \
+            gnu-sed \
+            libgcrypt \
+            xa \
+            librsvg \
+            adwaita-icon-theme \
+            glew \
+            libusb \
+            libusb-compat \
+            ${{ matrix.ui.deps }}
+      - name: Build
+        run: |
+          mkdir -p build/usr
+          cd vice
+          ./src/buildtools/genvicedate_h.sh
+          ./autogen.sh
+          # ALSA is required for SDL2 as well for midi support
+          ./configure --enable-option-checking=fatal \
+                      --prefix=/usr \
+                      --disable-arch \
+                      --enable-usbsid \
+                      --enable-cpuhistory \
+                      --enable-parsid \
+                      --with-pulse \
+                      --with-alsa \
+                      --with-fastsid \
+                      --with-resid \
+                      ${{ matrix.ui.conf }}
+          make -j $(sysctl -n hw.ncpu) -s
+          make DESTDIR=$HOME/build install
+          cd ..
+          mkdir $PATH_ARTIFACTS
+          cd $PATH_ARTIFACTS
+          tar cvzf vice-macos-${{ matrix.ui.name }}.tgz -C $HOME/build .
+          pwd
+          ls -l
+
+      - name: Upload zip
+        id: upload_macoszip
+        uses: actions/github-script@v7
+        env:
+          UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
+          ASSET_PATH: ${{ env.PATH_ARTIFACTS}}/vice-macos-${{ matrix.ui.name }}.tgz
+          ASSET_NAME: vice-macos-${{ matrix.ui.name }}.tgz
+          ASSET_CONTENT_TYPE: application/vnd.debian.binary-package
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          retries: 3
+          script: |
+            const fs = require('fs');
+            const { UPLOAD_URL, ASSET_PATH, ASSET_NAME, ASSET_CONTENT_TYPE } = process.env;
+            const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
+              url: UPLOAD_URL,
+              headers: {
+                'content-type': ASSET_CONTENT_TYPE,
+                'content-length': fs.statSync(ASSET_PATH).size
+              },
+              name: ASSET_NAME,
+              data: fs.readFileSync(ASSET_PATH)
+            });
+
   publish_release:
     name: Publish Release
     needs: [create_release, build, build_deb]
