@@ -105,7 +105,7 @@ int us_device_open(void)
 
     sids_found = 0;
 
-    log_message(usbsid_log, "Detecting boards");
+    log_debug(usbsid_log, "Detecting boards");
 
     if (usbsid == NULL) {
         usbsid = create_USBSID();
