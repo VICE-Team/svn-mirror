@@ -521,7 +521,7 @@ jobs:
               data: fs.readFileSync(ASSET_PATH)
             });
 
- build_mac:
+  build_mac:
     name: Build MacOs Package
     needs: [create_release, build_doc]
     runs-on: macos-latest
