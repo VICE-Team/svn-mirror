@@ -1421,12 +1421,14 @@ static joyport_init_t joyport_devices_init[] = {
       NULL,                              /* resources shutdown function */
       NULL                               /* cmdline options init function */
     },
+#ifdef JOYPORT_EXPERIMENTAL_DEVICES
     { JOYPORT_ID_DIAG_586220_HARNESS,             /* device id */
       VICE_MACHINE_C64_COMPATIBLE,                /* emulators this device works on */
       joyport_diag_586220_harness_resources_init, /* resources init function */
       NULL,                                       /* resources shutdown function */
       NULL                                        /* cmdline options init function */
     },
+#endif
     { JOYPORT_ID_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */
 };
 
