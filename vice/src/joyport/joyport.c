@@ -39,6 +39,7 @@
 #include "cx85.h"
 #include "inception.h"
 #include "joyport.h"
+#include "joyport_diag_586220_harness.h"
 #include "joyport_io_sim.h"
 #include "joystick.h"
 #include "lib.h"
@@ -132,6 +133,7 @@ CLOCK get_joyport_pot_mask_clk(void)
     return pot_port_mask_clk;
 }
 
+/* FIXME: isn't this info in the registered device struct? */
 static int joyport_device_is_single_port(int id)
 {
     switch (id) {
@@ -149,6 +151,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_PROTOPAD:
         case JOYPORT_ID_PADDLES:
         case JOYPORT_ID_IO_SIMULATION:
+        case JOYPORT_ID_DIAG_586220_HARNESS:
             return 0;
     }
     return 1;
@@ -1417,6 +1420,12 @@ static joyport_init_t joyport_devices_init[] = {
       joyport_paperclip2_resources_init, /* resources init function */
       NULL,                              /* resources shutdown function */
       NULL                               /* cmdline options init function */
+    },
+    { JOYPORT_ID_DIAG_586220_HARNESS,             /* device id */
+      VICE_MACHINE_C64_COMPATIBLE,                /* emulators this device works on */
+      joyport_diag_586220_harness_resources_init, /* resources init function */
+      NULL,                                       /* resources shutdown function */
+      NULL                                        /* cmdline options init function */
     },
     { JOYPORT_ID_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */
 };

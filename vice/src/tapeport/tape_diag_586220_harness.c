@@ -31,11 +31,11 @@ part of a diagnostic harness.
 
 PIN | CABLE | NOTES
 -------------------
-A-1 |   8   | SWa, SWb, SWc, SWd, SWa2 control (+5V)
-C-3 |   7   | SWa, SWb, SWc, SWd, SWa2 control (MOTOR) can ground the line
-D-4 |   6   | loops to 4 (READ <-> SENSE)
-E-5 |   5   | SWa, SWb, SWc, SWd, SWa2 control (WRITE) can ground the line
-F-6 |   4   | loops to 6 (SENSE <-> READ)
+C-3 |   7   | Motor | Joyport Switches control (MOTOR) can ground the line
+D-4 |   6   | Read  | loops to 4 (READ <-> SENSE)
+E-5 |   5   | Write | Joyport Switches control (WRITE) can ground the line
+F-6 |   4   | Sense | loops to 6 (SENSE <-> READ)
+
 */
 
 #include "vice.h"
@@ -54,6 +54,14 @@ F-6 |   4   | loops to 6 (SENSE <-> READ)
 #include "tape_diag_586220_harness.h"
 #include "tapeport.h"
 #include "util.h"
+
+/*#define DEBUG_DIAG_586220*/
+
+#ifdef DEBUG_DIAG_586220
+#define DBG(x)  log_printf  x
+#else
+#define DBG(x)
+#endif
 
 #ifdef TAPEPORT_EXPERIMENTAL_DEVICES
 
@@ -96,7 +104,7 @@ static void tape_diag_586220_harness_set_motor(int port, int flag)
 
 static void tape_diag_586220_harness_toggle_write_bit(int port, int write_bit)
 {
-    c64_diag_586220_store_tapeport(C64_DIAG_TAPEPORT_WRITE, (uint8_t)write_bit);
+    c64_diag_586220_store_tapeport(C64_DIAG_TAPEPORT_WRITE, (uint8_t)write_bit ? 1 : 0);
 }
 
 static void tape_diag_586220_harness_set_sense_out(int port, int sense)

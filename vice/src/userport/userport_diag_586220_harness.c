@@ -28,22 +28,18 @@
 
 PIN | PIN | NOTES
 -----------------
- 4  |  6  | CNT1 <-> CNT2
- 5  |  7  | SP1 <-> SP2
- 6  |  4  | CNT2 <-> CNT1
- 7  |  5  | SP2 <-> SP1
- 8  |  B  | PC2 -> FLAG2
- 9  |  M  | PA3 <-> PA2
- B  |  8  | FLAG2 <- PC2
- C  |  H  | PB0 <-> PB4
- D  |  J  | PB1 <-> PB5
- E  |  K  | PB2 <-> PB6
- F  |  L  | PB3 <-> PB7
- H  |  C  | PB4 <-> PB0
- J  |  D  | PB5 <-> PB1
- K  |  E  | PB6 <-> PB2
- L  |  F  | PB7 <-> PB3
- M  |  9  | PA2 <-> PA3
+ 4  |  6  | CNT1  <-> CNT2
+ 5  |  7  | SP1   <-> SP2
+ 9  |  M  | PA3   <-> PA2
+ B  |  8  | FLAG2 <-  PC2
+
+ C  |  H  | PB0   <-> PB4
+ D  |  J  | PB1   <-> PB5
+ E  |  K  | PB2   <-> PB6
+ F  |  L  | PB3   <-> PB7
+
+no data lines go to other ports
+
 */
 
 #include "vice.h"
@@ -58,6 +54,15 @@ PIN | PIN | NOTES
 #include "joyport.h"
 #include "userport.h"
 #include "userport_diag_586220_harness.h"
+#include "log.h"
+
+/*#define DEBUG_DIAG_586220*/
+
+#ifdef DEBUG_DIAG_586220
+#define DBG(x)  log_printf  x
+#else
+#define DBG(x)
+#endif
 
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
 
@@ -138,10 +143,11 @@ static uint8_t userport_diag_586220_harness_read_pa2(uint8_t orig)
 
 static void userport_diag_586220_harness_store_pa2(uint8_t value)
 {
-   pax &= 0xfb;
-   pax |= ((value & 1) << 2);
+    pax &= 0xfb;
+    pax |= ((value & 1) << 2);
 
-   c64_diag_586220_store_userport_pax(pax);
+    DBG(("userport_diag_586220_harness_store_pa2 %02x (%02x)", value, pax));
+    c64_diag_586220_store_userport_pax(pax);
 }
 
 static uint8_t userport_diag_586220_harness_read_pa3(uint8_t orig)
@@ -151,10 +157,10 @@ static uint8_t userport_diag_586220_harness_read_pa3(uint8_t orig)
 
 static void userport_diag_586220_harness_store_pa3(uint8_t value)
 {
-   pax &= 0xf7;
-   pax |= ((value & 1) << 3);
-
-   c64_diag_586220_store_userport_pax(pax);
+    pax &= 0xf7;
+    pax |= ((value & 1) << 3);
+    DBG(("userport_diag_586220_harness_store_pa3 %02x (%02x)", value, pax));
+    c64_diag_586220_store_userport_pax(pax);
 }
 
 static uint8_t userport_diag_586220_harness_read_sp1(uint8_t orig)

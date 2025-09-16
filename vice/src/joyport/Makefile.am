@@ -8,7 +8,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/core/rtc \
-	-I$(top_srcdir)/src/userport
+	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/diag
 
 AM_CFLAGS = @VICE_CFLAGS@
 
@@ -34,6 +35,8 @@ libjoyport_a_SOURCES = \
 	inception.h \
 	joyport.c \
 	joyport.h \
+	joyport_diag_586220_harness.c \
+	joyport_diag_586220_harness.h \
 	joyport_io_sim.c \
 	joyport_io_sim.h \
 	joystick.c \
