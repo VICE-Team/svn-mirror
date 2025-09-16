@@ -1286,6 +1286,7 @@ bool driver_select_has_graphics_output(const char *drv_name)
     DIAG harness
 *******************************************************************************/
 
+#ifdef HAVE_EXPERIMENTAL_DEVICES
 void c64_diag_586220_store_joyport_dig(uint8_t port, uint8_t val)
 {
 }
@@ -1299,7 +1300,7 @@ uint8_t c64_diag_586220_read_joyport_pot(void)
 {
     return 0;
 }
-
+#endif
 
 /*******************************************************************************
     UI
