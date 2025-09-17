@@ -425,6 +425,7 @@ int drive_check_expansion8000(int drive_type);
 int drive_check_expansionA000(int drive_type);
 int drive_check_parallel_cable(int drive_type);
 int drive_check_extend_policy(int drive_type);
+int drive_check_dolphindos3(int drive_type);
 int drive_check_profdos(int drive_type);
 int drive_check_supercard(int drive_type);
 int drive_check_stardos(int drive_type);

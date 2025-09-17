@@ -85,6 +85,7 @@ static uint8_t supercard_read(diskunit_context_t *drv, uint16_t addr)
     return drv->cpu->cpu_last_data = supercard_rom[addr & 0x07ff];
 }
 
+/* CAUTION: gets called no matter if supercard is enabled or not */
 void supercard_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
@@ -110,10 +111,12 @@ void supercard_mem_init(struct diskunit_context_s *drv, unsigned int type)
     }
 }
 
+/* CAUTION: gets called no matter if supercard is enabled or not */
 void supercard_init(diskunit_context_t *drv)
 {
 }
 
+/* CAUTION: gets called no matter if supercard is enabled or not */
 void supercard_reset(diskunit_context_t *drv)
 {
 }

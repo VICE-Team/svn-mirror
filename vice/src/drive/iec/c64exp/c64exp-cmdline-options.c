@@ -70,6 +70,12 @@ static cmdline_option_t cmd_drive[] =
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable StarDOS" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, NULL, (void *)1,
+      NULL, "Enable DolphinDOS3" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, NULL, (void *)0,
+      NULL, "Disable DolphinDOS3" },
     CMDLINE_LIST_END
 };
 
@@ -101,12 +107,18 @@ int c64exp_cmdline_options_init(void)
         cmd_drive[6].name = lib_msprintf("+drive%istardos", dnr + 8);
         cmd_drive[6].resource_name
             = lib_msprintf("Drive%iStarDos", dnr + 8);
+        cmd_drive[7].name = lib_msprintf("-drive%idd3", dnr + 8);
+        cmd_drive[7].resource_name
+            = lib_msprintf("Drive%iDolphinDos3", dnr + 8);
+        cmd_drive[8].name = lib_msprintf("+drive%idd3", dnr + 8);
+        cmd_drive[8].resource_name
+            = lib_msprintf("Drive%iDolphinDos3", dnr + 8);
 
         if (cmdline_register_options(cmd_drive) < 0) {
             return -1;
         }
 
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < 9; i++) {
             lib_free(cmd_drive[i].name);
             lib_free(cmd_drive[i].resource_name);
         }

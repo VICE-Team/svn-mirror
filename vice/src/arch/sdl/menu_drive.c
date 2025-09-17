@@ -1000,10 +1000,11 @@ DRIVE_EXPAND_MENU(11)
 
 UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
 UI_MENU_DEFINE_FILE_STRING(DriveStarDOSName)
-
-#ifdef DRIVE_EXPERIMENTAL_DEVICES
 UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
-#define DRIVE_EXBOARD_EXPERIMENTAL(x) \
+
+#define DRIVE_EXBOARD_MENU(x)                                                     \
+    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
+        DRIVE_EXBOARD_EXPERIMENTAL(x)                                             \
         {   .string   = "Professional DOS 1571",                                  \
             .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
             .callback = set_exboard_callback,                                     \
@@ -1013,14 +1014,7 @@ UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
             .type     = MENU_ENTRY_DIALOG,                                        \
             .callback = file_string_DriveProfDOS1571Name_callback,                \
             .data     = (ui_callback_data_t)"Set Professional DOS 1571 ROM image" \
-        },
-#else
-#define DRIVE_EXBOARD_EXPERIMENTAL(x)
-#endif
-
-#define DRIVE_EXBOARD_MENU(x)                                                     \
-    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
-        DRIVE_EXBOARD_EXPERIMENTAL(x)                                             \
+        },                                                                        \
         {   .string   = "StarDOS",                                                \
             .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
             .callback = set_exboard_callback,                                     \

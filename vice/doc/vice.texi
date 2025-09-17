@@ -6732,6 +6732,17 @@ integers controlling what type of parallel cable is emulated for drives 8 to 11
 x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Dolphin DOS 3, 3: Formel64)
 xplus4: (0: None, 1: Standard)
 
+@vindex Drive8DolphinDOS3
+@vindex Drive9DolphinDOS3
+@vindex Drive10DolphinDOS3
+@vindex Drive11DolphinDOS3
+@item Drive8DolphinDOS3
+@itemx Drive9DolphinDOS3
+@itemx Drive10DolphinDOS3
+@itemx Drive11DolphinDOS3
+Booleans controlling whether Dolphin DOS 3 is emulated or not for drives 8 to 11
+(x64, x64sc, xscpu64 and x128 only).
+
 @vindex Drive8ProfDOS
 @vindex Drive9ProfDOS
 @vindex Drive10ProfDOS
@@ -7066,7 +7077,7 @@ Set parallel cable type for drives 8-11 respectively
 (@code{Drive8ParallelCable}, @code{Drive9ParallelCable},
 @code{Drive10ParallelCable}, @code{Drive11ParallelCable})
 (x64, x64sc, xscpu64, x128 and xplus4 only).
-x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Dolphin DOS 3, 3: Formel64)
 xplus4: (0: None, 1: Standard)
 
 @findex -drive8idle
@@ -7312,6 +7323,21 @@ Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 8 to 11
 @code{Drive9RAMA000=1}, @code{Drive9RAMA000=0},
 @code{Drive10RAMA000=1}, @code{Drive10RAMA000=0},
 @code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
+
+@findex -drive8dd3, +drive8dd3
+@findex -drive9dd3, +drive9dd3
+@findex -drive10dd3, +drive10dd3
+@findex -drive11dd3, +drive11dd3
+@item -drive8dd3, +drive8dd3
+@itemx -drive9dd3, +drive9dd3
+@itemx -drive10dd3, +drive10dd3
+@itemx -drive11dd3, +drive11dd3
+Enable/disable Professional DOS for drive 8 to 11
+(@code{Drive8DolphinDOS3=1}, @code{Drive8DolphinDOS3=0},
+@code{Drive9DolphinDOS3=1}, @code{Drive9DolphinDOS3=0},
+@code{Drive10DolphinDOS3=1}, @code{Drive10DolphinDOS3=0},
+@code{Drive11DolphinDOS3=1}, @code{Drive11DolphinDOS3=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive8profdos, +drive8profdos
 @findex -drive9profdos, +drive9profdos

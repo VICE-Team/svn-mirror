@@ -357,6 +357,18 @@ int drive_check_stardos(int drive_type)
     return 0;
 }
 
+int drive_check_dolphindos3(int drive_type)
+{
+    /* FIXME: is this correct? */
+    switch (drive_type) {
+    case DRIVE_TYPE_1540:
+    case DRIVE_TYPE_1541:
+    case DRIVE_TYPE_1541II:
+        return 1;
+    }
+    return 0;
+}
+
 
 /** \brief  Check if \a drive_type supports a real-time clock
  *
