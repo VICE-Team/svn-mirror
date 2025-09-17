@@ -201,12 +201,17 @@ typedef struct diskunit_context_s {
     /* Flag: What parallel cable do we emulate?  */
     int parallel_cable;
 
+    /* FIXME: since those are basically exclusive, we should refactor the
+     *        following into a single variable/resource.... */
+
     /* Is the Professional DOS extension enabled?  */
     int profdos;
     /* Is the Supercard+ extension enabled? */
     int supercard;
     /* Is the StarDOS extension enabled? */
     int stardos;
+    /* Is the DolphinDOS3 extension enabled? */
+    int dolphindos3;
 
     /* RTC context */
     rtc_ds1216e_t *ds1216;

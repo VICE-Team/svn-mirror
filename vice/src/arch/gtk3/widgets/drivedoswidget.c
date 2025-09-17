@@ -71,14 +71,12 @@ typedef struct drive_dos_exp_s {
 
 /** \brief  List of possible expansions, terminated by .name == NULL */
 static const drive_dos_exp_t expansions[] = {
-    { "None",               NULL,               NULL },
-    /* XXX: Emulation of ProDOS is broken, see bug #759 */
-#ifdef DRIVE_EXPERIMENTAL_DEVICES
-    { "Professional DOS",   "Drive%dProfDOS",   drive_check_profdos },
-#endif
-    { "StarDOS",            "Drive%dStarDOS",   drive_check_stardos },
-    { "Supercard+",         "Drive%dSuperCard", drive_check_supercard },
-    { NULL,                 NULL,               NULL }
+    { "None",               NULL,                  NULL },
+    { "Dolphin DOS 3",      "Drive%dDolphinDOS3",  drive_check_dolphindos3 },
+    { "Professional DOS",   "Drive%dProfDOS",      drive_check_profdos },
+    { "StarDOS",            "Drive%dStarDOS",      drive_check_stardos },
+    { "Supercard+",         "Drive%dSuperCard",    drive_check_supercard },
+    { NULL,                 NULL,                  NULL }
 };
 
 

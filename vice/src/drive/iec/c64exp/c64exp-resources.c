@@ -42,6 +42,13 @@
 
 #include "c64exp-resources.h"
 
+/* #define DEBUG_C64EXP */
+
+#ifdef DEBUG_C64EXP
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 static char *profdos_1571_name = NULL;
 static char *supercard_name = NULL;
@@ -105,6 +112,8 @@ static int set_drive_profdos(int val, void *param)
 {
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
 
+    DBG(("set_drive_profdos profdos:%d", val));
+
     unit->profdos = val ? 1 : 0;
     drivemem_init(unit);
 
@@ -113,6 +122,8 @@ static int set_drive_profdos(int val, void *param)
 
 static int set_profdos_1571_name(const char *val, void *param)
 {
+    DBG(("set_profdos_1571_name name:%s", val));
+
     if (util_string_set(&profdos_1571_name, val)) {
         return 0;
     }
@@ -157,6 +168,15 @@ static int set_stardos_name(const char *val, void *param)
     return stardos_exp_load(stardos_name);
 }
 
+static int set_drive_dd3(int val, void *param)
+{
+    diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
+
+    unit->dolphindos3 = val ? 1 : 0;
+
+    return 0;
+}
+
 static resource_int_t res_drive[] = {
     { NULL, DRIVE_PC_NONE, RES_EVENT_SAME, NULL,
       NULL, set_drive_parallel_cable, NULL },
@@ -166,6 +186,8 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_supercard, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_stardos, NULL },
+    { NULL, 0, RES_EVENT_SAME, NULL,
+      NULL, set_drive_dd3, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -199,6 +221,9 @@ int c64exp_resources_init(void)
         res_drive[3].name = lib_msprintf("Drive%iStarDos", dnr + 8);
         res_drive[3].value_ptr = &(unit->stardos);
         res_drive[3].param = vice_uint_to_ptr(dnr);
+        res_drive[4].name = lib_msprintf("Drive%iDolphinDos3", dnr + 8);
+        res_drive[4].value_ptr = &(unit->dolphindos3);
+        res_drive[4].param = vice_uint_to_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0) {
             return -1;
@@ -208,6 +233,7 @@ int c64exp_resources_init(void)
         lib_free(res_drive[1].name);
         lib_free(res_drive[2].name);
         lib_free(res_drive[3].name);
+        lib_free(res_drive[4].name);
     }
 
     return resources_register_string(resources_string);

@@ -155,6 +155,11 @@ int drive_check_expansionA000(int type)
     return 0;
 }
 
+int drive_check_dolphindos3(int type)
+{
+    return 0;
+}
+
 int drive_check_profdos(int type)
 {
     return 0;
