@@ -339,7 +339,7 @@ static inline void vicii_handle_vsp_bug(void)
     /* simulate the "VSP bug" problem */
     if(vicii_resources.vsp_bug_enabled) {
         if((vsp_buglines[line] + vsp_bugchannels[channel] + lib_unsigned_rand(0, 1)) > VSP_PROB_THRESH) {
-            for(page = 0x00; page < 0xff; page++) {
+            for(page = 0x00; page <= 0xff; page++) {
                 /* keep 98,5% of all pages untouched. this is hand tweaked to result in
                  * somewhat convincing long term plots in vsp-lab */
                 if (lib_unsigned_rand(0, 1000) > 985) {
