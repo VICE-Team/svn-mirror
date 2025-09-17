@@ -1004,7 +1004,6 @@ UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
 
 #define DRIVE_EXBOARD_MENU(x)                                                     \
     static const ui_menu_entry_t drive_##x##_exboard_menu[] = {                   \
-        DRIVE_EXBOARD_EXPERIMENTAL(x)                                             \
         {   .string   = "Professional DOS 1571",                                  \
             .type     = MENU_ENTRY_OTHER_TOGGLE,                                  \
             .callback = set_exboard_callback,                                     \
