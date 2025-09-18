@@ -2358,7 +2358,25 @@ static const uint8_t rewind_fetch_tab[] = {
 
         SET_LAST_ADDR(reg_pc);
 
-        FETCH_OPCODE(opcode);
+        /* HACK: The real CPU would stop fetching opcodes all together when
+         * "jammed" - however, our code may rely on FETCH_OPCODE being called
+         * here, so we can not simply skip it. What we do instead is remembering
+         * the opcode fetched when not jammed and force it when jammed.
+         * This is needed so the CPU would not continue executing opcodes when
+         * the value at the original jam location changed to a non-jam, for
+         * whatever reason.
+         */
+        {
+            static uint8_t lastop;
+            FETCH_OPCODE(opcode);
+            if (!CPU_IS_JAMMED) {
+                /* remember current opcode */
+                lastop = p0;
+            } else {
+                /* set opcode that made the cpu jam */
+                SET_OPCODE(lastop);
+            }
+        }
 
 #ifdef FEATURE_CPUMEMHISTORY
 #ifndef DRIVE_CPU
