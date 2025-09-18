@@ -37,6 +37,9 @@
 #include "c64mem.h"
 #include "c64-cmdline-options.h"
 #include "c64_256k.h"
+#ifdef HAVE_EXPERIMENTAL_DEVICES
+#include "c64_diag_586220_harness.h"
+#endif
 #include "cartridge.h"
 #include "cbmdos.h"
 #include "cia.h"
