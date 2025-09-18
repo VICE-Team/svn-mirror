@@ -104,6 +104,8 @@ static GtkWidget *scale_widgets[NUM_SCALES];
 
 static int old_sid_model = -1;
 static int new_sid_model = -1;
+static int old_sid_engine = -1;
+static int new_sid_engine = -1;
 
 /** \brief  Handler for the 'destroy' event of the mixer widget
  *
@@ -354,12 +356,24 @@ GtkWidget *vsid_mixer_widget_create(void)
 void vsid_mixer_widget_update(void)
 {
 #ifdef HAVE_RESID
+    resources_get_int("SidEngine", &new_sid_engine);
     resources_get_int("SidModel", &new_sid_model);
+    debug_gtk3("old engine = %d, new engine = %d", old_sid_engine, new_sid_engine);
     debug_gtk3("old model = %d, new model = %d", old_sid_model, new_sid_model);
-    if (new_sid_model != old_sid_model) {
-        debug_gtk3("model has changed: updating scale widgets");
-        old_sid_model = new_sid_model;
+    if ((new_sid_engine != old_sid_engine) ||
+        (new_sid_model != old_sid_model)) {
+        debug_gtk3("engine or model has changed: updating scale widgets");
         add_resid_scales(main_grid, 1, new_sid_model);
+        gtk_widget_set_sensitive(main_grid, (new_sid_engine == SID_ENGINE_RESID));
+#if 0
+        if (new_sid_engine == SID_ENGINE_RESID) {
+            gtk_widget_show_all(main_grid);
+        } else {
+            gtk_widget_hide(main_grid);
+        }
+#endif
     }
+    old_sid_engine = new_sid_engine;
+    old_sid_model = new_sid_model;
 #endif
 }
