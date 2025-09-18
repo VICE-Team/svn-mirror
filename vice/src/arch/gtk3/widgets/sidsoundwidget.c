@@ -62,6 +62,7 @@
 #include "sid.h"
 #include "sidenginemodelwidget.h"
 #include "sound.h"
+#include "vsidmixerwidget.h"
 #include "vice_gtk3.h"
 
 #include "sidsoundwidget.h"
@@ -286,6 +287,10 @@ static void engine_model_changed_callback(int engine, int model)
     gtk_widget_set_sensitive(resid_6581_grid, is_resid);
     gtk_widget_set_sensitive(resid_8580_grid, is_resid);
     gtk_widget_set_sensitive(resid_sampling,  is_resid);
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        vsid_mixer_widget_update();
+    }
 }
 
 /** \brief  Create widget to control ReSID sampling method
