@@ -80,15 +80,9 @@ GtkWidget *canvas_render_mirror_widget_create(const char *chip)
     rotate = vice_gtk3_resource_check_button_new_sprintf("%sRotate",
                                                          "Rotate 90\u00b0",
                                                          chip);
-    /* grey out the options, remove this once it's implemented in the renderer */
-#if defined(WINDOWS_COMPILE)
-    /* flipx/flipy works on opengl */
-    gtk_widget_set_sensitive(flip_x, 0);
-    gtk_widget_set_sensitive(flip_y, 0);
-#endif
-#if 1
+    /* grey out rotate option, remove this once it's implemented in the renderer */
     gtk_widget_set_sensitive(rotate, 0);
-#endif
+
     gtk_grid_attach(GTK_GRID(grid), label,  0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_x, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_y, 0, 2, 1, 1);
