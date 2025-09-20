@@ -505,6 +505,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     bool interlaced;
     int vsync = canvas->videoconfig->vsync;
     int filter = canvas->videoconfig->glfilter;
+    int flipidx = canvas->videoconfig->flipx | (canvas->videoconfig->flipy << 1);
     DXGI_PRESENT_PARAMETERS present_parameters = { 0 };
 
     if (job == render_thread_init) {
@@ -599,12 +600,46 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
             )
         );
 
-    context->d2d_device_context->SetTransform(
-        D2D1::Matrix3x2F::Translation(
-            context->render_dest_rect.left,
-            context->render_dest_rect.top
-            )
-    );
+    /* FIXME: add support for rotate */
+
+    switch (flipidx) {
+        default:
+        case 0:
+            context->d2d_device_context->SetTransform(
+                D2D1::Matrix3x2F::Translation(
+                    context->render_dest_rect.left,
+                    context->render_dest_rect.top
+                    )
+            );
+            break;
+        case 1:
+            context->d2d_device_context->SetTransform(
+                D2D1::Matrix3x2F(-1,0,0,1,0,0) *
+                D2D1::Matrix3x2F::Translation(
+                    context->render_dest_rect.right,
+                    context->render_dest_rect.top
+                    )
+            );
+            break;
+        case 2:
+            context->d2d_device_context->SetTransform(
+                D2D1::Matrix3x2F(1,0,0,-1,0,0) *
+                D2D1::Matrix3x2F::Translation(
+                    context->render_dest_rect.left,
+                    context->render_dest_rect.bottom
+                    )
+            );
+            break;
+        case 3:
+            context->d2d_device_context->SetTransform(
+                D2D1::Matrix3x2F(-1,0,0,-1,0,0) *
+                D2D1::Matrix3x2F::Translation(
+                    context->render_dest_rect.right,
+                    context->render_dest_rect.bottom
+                    )
+            );
+            break;
+    }
     context->d2d_device_context->DrawImage(context->d2d_effect_scale);
 
     result = context->d2d_device_context->EndDraw();
