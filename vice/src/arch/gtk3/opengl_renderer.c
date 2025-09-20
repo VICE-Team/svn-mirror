@@ -89,33 +89,18 @@ static float vertexData[] = {
          1.0f, -1.0f, 0.0f, 1.0f,
         -1.0f,  1.0f, 0.0f, 1.0f,
          1.0f,  1.0f, 0.0f, 1.0f,
-/* normal */
+        /* normal */
         0.0f,  1.0f,
         1.0f,  1.0f,
         0.0f,  0.0f,
         1.0f,  0.0f
-#if 0
-/* xflip */
-        1.0f,  1.0f,
-        0.0f,  1.0f,
-        1.0f,  0.0f,
-        0.0f,  0.0f,
-/* yflip */
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-        0.0f,  1.0f,
-        1.0f,  1.0f,
-/* xyflip (180 degr rot) */
-        1.0f,  0.0f,
-        0.0f,  0.0f,
-        1.0f,  1.0f,
-        0.0f,  1.0f,
-/* 90 degr rot */
-        1.0f,  1.0f,
-        1.0f,  0.0f,
-        0.0f,  1.0f,
-        0.0f,  0.0f,
-#endif
+};
+
+static const float vertexDataPatches[4][8] = {
+    { 0.0f, 1.0f,  1.0f, 1.0f,  0.0f, 0.0f,  1.0f, 0.0f },  /* normal */
+    { 1.0f, 1.0f,  0.0f, 1.0f,  1.0f, 0.0f,  0.0f, 0.0f },  /* flip x */
+    { 0.0f, 0.0f,  1.0f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f,},  /* flip y */
+    { 1.0f, 0.0f,  0.0f, 0.0f,  1.0f, 1.0f,  0.0f, 1.0f },  /* flip x & y */
 };
 
 /**/
@@ -197,7 +182,12 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
         glGenBuffers(1, &context->vbo);
         glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
+#if 0
+        /* FIXME: we should really do flipx/flipy in the shader instead */
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+#else
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_DYNAMIC_DRAW);
+#endif
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glGenVertexArrays(1, &context->vao);
     }
@@ -217,7 +207,6 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     /* Due to the weird inverted native co-ordinates on macOS, we also need to layout when the window size changes */
     g_signal_connect_unlocked(gtk_widget_get_toplevel(canvas->event_box), "size-allocate", G_CALLBACK(on_top_level_widget_resized), canvas);
 #endif
-
     CANVAS_UNLOCK();
 }
 
@@ -529,16 +518,24 @@ static void legacy_render(video_canvas_t *canvas, float scale_x, float scale_y)
 
     int filter;
     GLuint gl_filter;
+    int flipidx;
 
-    float u1 = 0.0f;
-    float v1 = 0.0f;
-    float u2 = 1.0f;
-    float v2 = 1.0f;
+    float u1;
+    float v1;
+    float u2;
+    float v2;
 
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     filter = canvas->videoconfig->glfilter;
 
-    /* FIXME: add support for flipx/flipy/rotate */
+    /* FIXME: add support for rotate */
+
+    /* update texture coords according to flipx/flipy */
+    flipidx = canvas->videoconfig->flipx | (canvas->videoconfig->flipy << 1);
+    u1 = vertexDataPatches[flipidx][4];
+    v1 = vertexDataPatches[flipidx][5];
+    u2 = vertexDataPatches[flipidx][2];
+    v2 = vertexDataPatches[flipidx][3];
 
     /* We only support builtin linear and nearest on legacy OpenGL contexts */
     gl_filter = filter ? GL_LINEAR : GL_NEAREST;
@@ -594,6 +591,8 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     /* Used when OpenGL 3.2+ is available */
 
     int filter;
+    int flipidx;
+    static int flipidxlast;
     GLint gl_filter;
 
     GLuint program;
@@ -608,7 +607,13 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     filter = canvas->videoconfig->glfilter;
 
-    /* FIXME: add support for flipx/flipy/rotate */
+    /* FIXME: add support for rotate */
+
+    /* update texture coords according to flipx/flipy */
+    flipidx = canvas->videoconfig->flipx | (canvas->videoconfig->flipy << 1);
+    if (flipidxlast != flipidx) {
+        memcpy(&vertexData[16], &vertexDataPatches[flipidx], sizeof(float) * 8);
+    }
 
     /* For shader filters, we start with nearest neighbor. So only use linear if directly requested. */
     gl_filter = (filter == VIDEO_GLFILTER_BILINEAR) ?  GL_LINEAR : GL_NEAREST;
@@ -644,6 +649,13 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     glDisable(GL_BLEND);
     glBindVertexArray(context->vao);
     glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
+
+    if (flipidxlast != flipidx) {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertexData), vertexData);
+    }
+
+    flipidxlast = flipidx;
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(position_attribute,  4, GL_FLOAT, GL_FALSE, 0, 0);

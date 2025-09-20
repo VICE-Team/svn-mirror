@@ -38,6 +38,9 @@
 #include "log.h"
 #include "render_queue.h"
 
+/* for testing, undefine to use legacy renderer even with 3.2+ */
+/*#define FORCE_LEGACY_RENDERER*/
+
 extern log_t opengl_log;
 
 #define CANVAS_LOCK() pthread_mutex_lock(context->canvas_lock_ptr)
@@ -179,9 +182,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
      * Check for the GLX_ARB_create_context extension string and the function.
      * If either is not present, use GLX 1.3 context creation method.
      */
-
     if (!isExtensionSupported(glx_extensions, "GLX_ARB_create_context") || !vice_glXCreateContextAttribsARB) {
-        /* Legact context -- TODO, actually support using this */
+        /* Legacy context -- TODO, actually support using this */
         PFNGLXCREATENEWCONTEXTPROC vice_glXCreateNewContext = (PFNGLXCREATENEWCONTEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateNewContext");
         context->gl_context = vice_glXCreateNewContext(context->x_display, framebuffer_config, GLX_RGBA_TYPE, NULL, True);
     } else {
@@ -189,7 +191,11 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         int context_attribs[] =
             {
                 GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
+#ifdef FORCE_LEGACY_RENDERER
+                GLX_CONTEXT_MINOR_VERSION_ARB, 1,
+#else
                 GLX_CONTEXT_MINOR_VERSION_ARB, 2,
+#endif
                 None
             };
 
@@ -225,7 +231,12 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     vice_opengl_renderer_make_current(context);
     glewInit();
 
+#ifdef FORCE_LEGACY_RENDERER
+    major = 3;
+    minor = 1;
+#else
     sscanf((const char *)glGetString(GL_VERSION), "%d.%d", &major, &minor);
+#endif
 
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);

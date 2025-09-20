@@ -236,14 +236,14 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
     if (!context->d3d_swap_chain) {
 
         DXGI_SWAP_CHAIN_DESC1 swap_chain_desc = { 0 };
-        swap_chain_desc.Width                 = 0;                                // use automatic sizing
+        swap_chain_desc.Width                 = 0;                                /* use automatic sizing */
         swap_chain_desc.Height                = 0;
-        swap_chain_desc.Format                = DXGI_FORMAT_B8G8R8A8_UNORM;       // this is the most common swapchain format
+        swap_chain_desc.Format                = DXGI_FORMAT_B8G8R8A8_UNORM;       /* this is the most common swapchain format */
         swap_chain_desc.Stereo                = false;
-        swap_chain_desc.SampleDesc.Count      = 1;                                // don't use multi-sampling
+        swap_chain_desc.SampleDesc.Count      = 1;                                /* don't use multi-sampling */
         swap_chain_desc.SampleDesc.Quality    = 0;
         swap_chain_desc.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        swap_chain_desc.BufferCount           = 2;                                // use double buffering to enable flip
+        swap_chain_desc.BufferCount           = 2;                                /* use double buffering to enable flip */
         swap_chain_desc.Scaling               = DXGI_SCALING_STRETCH;
         swap_chain_desc.SwapEffect            = DXGI_SWAP_EFFECT_DISCARD;
         swap_chain_desc.Flags                 = 0;
@@ -264,7 +264,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
             return;
         }
 
-        // Ensure that DXGI doesn't queue more than one frame at a time.
+        /* Ensure that DXGI doesn't queue more than one frame at a time. */
         context->dxgi_device->SetMaximumFrameLatency(1);
     }
 
@@ -387,8 +387,7 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
                     bitmap_properies,
                     &context->render_bitmap);
 
-            if (FAILED(result))
-            {
+            if (FAILED(result)) {
                 vice_directx_impl_log_windows_error("CreateBitmap1");
                 return;
             }
