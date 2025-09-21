@@ -81,8 +81,9 @@ GtkWidget *canvas_render_mirror_widget_create(const char *chip)
                                                          "Rotate 90\u00b0",
                                                          chip);
     /* grey out rotate option, remove this once it's implemented in the renderer */
+#ifdef WINDOWS_COMPILE
     gtk_widget_set_sensitive(rotate, 0);
-
+#endif
     gtk_grid_attach(GTK_GRID(grid), label,  0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_x, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), flip_y, 0, 2, 1, 1);
