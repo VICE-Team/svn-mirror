@@ -84,7 +84,7 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
  * entire display area, and the last eight assign texture coordinates
  * to each corner.
  */
-static float vertexData[] = {
+static float vertexData[16 + 8] = {
         -1.0f, -1.0f, 0.0f, 1.0f,
          1.0f, -1.0f, 0.0f, 1.0f,
         -1.0f,  1.0f, 0.0f, 1.0f,
@@ -101,6 +101,21 @@ static const float vertexDataPatches[4][8] = {
     { 1.0f, 1.0f,  0.0f, 1.0f,  1.0f, 0.0f,  0.0f, 0.0f },  /* flip x */
     { 0.0f, 0.0f,  1.0f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f,},  /* flip y */
     { 1.0f, 0.0f,  0.0f, 0.0f,  1.0f, 1.0f,  0.0f, 1.0f },  /* flip x & y */
+};
+
+static const float model_matrix[2][16] = {
+    { /* ident, no rotation */
+      1.0f,   0.0f, 0.0f, 0.0f,
+      0.0f,   1.0f, 0.0f, 0.0f,
+      0.0f,   0.0f, 1.0f, 0.0f,
+      0.0f,   0.0f, 0.0f, 1.0f
+    }, {
+      /* rotated 90 degr clockwise */
+      0.0f,   1.0f, 0.0f, 0.0f,
+     -1.0f,   0.0f, 0.0f, 0.0f,
+      0.0f,   0.0f, 1.0f, 0.0f,
+      0.0f,   0.0f, 0.0f, 1.0f
+    }
 };
 
 /**/
@@ -528,8 +543,6 @@ static void legacy_render(video_canvas_t *canvas, float scale_x, float scale_y)
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     filter = canvas->videoconfig->glfilter;
 
-    /* FIXME: add support for rotate */
-
     /* update texture coords according to flipx/flipy */
     flipidx = canvas->videoconfig->flipx | (canvas->videoconfig->flipy << 1);
     u1 = vertexDataPatches[flipidx][4];
@@ -544,6 +557,13 @@ static void legacy_render(video_canvas_t *canvas, float scale_x, float scale_y)
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE0);
+
+    /* Save the current matrix. */
+    glPushMatrix();
+
+    if (canvas->videoconfig->rotate) {
+        glRotatef(270.0f, 0, 0, 1); /* rotate 90degr clockwise */
+    }
 
     if (context->interlaced) {
         glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
@@ -584,6 +604,9 @@ static void legacy_render(video_canvas_t *canvas, float scale_x, float scale_y)
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+
+    /* Reset the current matrix to the one that was saved. */
+    glPopMatrix();
 }
 
 static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
@@ -602,12 +625,11 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     GLuint view_size_uniform;
     GLuint source_size_uniform;
     GLuint this_frame_uniform;
+    GLuint rotation_uniform;
     GLuint last_frame_uniform = 0;
 
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     filter = canvas->videoconfig->glfilter;
-
-    /* FIXME: add support for rotate */
 
     /* update texture coords according to flipx/flipy */
     flipidx = canvas->videoconfig->flipx | (canvas->videoconfig->flipy << 1);
@@ -641,6 +663,7 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     view_size_uniform   = glGetUniformLocation(program, "view_size");
     source_size_uniform = glGetUniformLocation(program, "source_size");
     this_frame_uniform  = glGetUniformLocation(program, "this_frame");
+    rotation_uniform    = glGetUniformLocation(program, "rotation");
 
     if (context->interlaced) {
         last_frame_uniform  = glGetUniformLocation(program, "last_frame");
@@ -664,6 +687,8 @@ static void modern_render(video_canvas_t *canvas, float scale_x, float scale_y)
     glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
     glUniform2f(view_size_uniform, context->native_view_width, context->native_view_height);
     glUniform2f(source_size_uniform, context->current_frame_width, context->current_frame_height);
+
+    glUniformMatrix4fv(rotation_uniform, 1, GL_FALSE, model_matrix[canvas->videoconfig->rotate]);
 
     if (context->interlaced) {
         glUniform1i(last_frame_uniform, 0);
@@ -760,7 +785,12 @@ static void render(void *job_data, void *pool_data)
         float viewport_aspect;
         float emulated_aspect;
 
-        viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
+        if (canvas->videoconfig->rotate) {
+            /* rotate aspect 90 degr too */
+            viewport_aspect = (float)context->native_view_height / (float)context->native_view_width;
+        } else {
+            viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
+        }
         emulated_aspect = (float)context->current_frame_width / (float)context->current_frame_height;
 
         if (canvas->videoconfig->aspect_mode == VIDEO_ASPECT_MODE_TRUE) {
