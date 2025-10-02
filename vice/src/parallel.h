@@ -45,6 +45,9 @@ void parallel_bus_enable(unsigned int unit, unsigned int enable);
 void parallel_trap_eof_callback_set(void (*func)(void));
 void parallel_trap_attention_callback_set(void (*func)(void));
 
+int parallel_resources_init(void);
+int parallel_cmdline_options_init(void);
+
 /* state of the bus lines -> "if (parallel_eoi) { eoi is active }" */
 extern uint8_t parallel_eoi;
 extern uint8_t parallel_ndac;

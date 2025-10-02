@@ -403,7 +403,7 @@ The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
 is horribly broken with respect to IEEE488 (they shipped it before they
-tested it with the floppy drive, so only tape worked.  Therefore the
+tested it with the floppy drive, so only tape and printers worked.  Therefore the
 emulator patches the ROM to fix the IEEE488 routines.
 
 As well as other low-level fixes the 2001 patch obtains the load address
@@ -828,7 +828,8 @@ OpenCBM library. You can get it from @uref{https://spiro.trikaliotis.net/opencbm
 Make sure to pick the right library (32 or 64bit) for your system. 
 @itemize @bullet
 @item To use it in the emulators, go to the drive tab in the settings and choose
-either "Virtual Device" or "IEC Device" and "Real Drive (OpenCBM)".
+either "Virtual (traps)" or "Virtual (bus)" and in the dropdown labeled
+"Virtual backend", choose "Real Drive (OpenCBM)".
 Note that this will not work with all emulators right now. Also note that using
 the real drives like this provides only very limited compatibility in practise -
 it is recommended to transfer the disks to images and use the images with an
@@ -842,8 +843,8 @@ file as filename (eg /dev/cbm).
 @end itemize
 @end itemize
 
-When using disk images there are two available types of drive
-emulation.  One of them the @dfn{virtual drive} emulation.  It does
+When using disk images there are three available types of drive
+emulation.  One of them the @dfn{virtual (traps)} emulation.  It does
 @emph{not} really emulate the serial line, but patches the kernal ROM
 (with the so-called @dfn{kernal traps}) so that serial line operations
 can be emulated via C language routines.  This emulation is very fast,
@@ -853,11 +854,15 @@ this type of emulation.
 
 The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050, 8250, and D9090/60)
 do not use kernal traps. Instead the IEEE488 interface lines are
-monitored and the data is passed to the drive emulation. To use them
-on the C64, you need to enable the IEEE488 interface emulation. Only
-if the IEEE488 emulation is enabled, those drives can be selected.
+monitored and the data is passed to the drive emulation.
+This is called @dfn{virtual (ieee- or iec-bus)} emulation.
+To use the IEEE488 disks on the C64, you need to enable the IEEE488 interface
+emulation. Only if the IEEE488 emulation is enabled, those drives can be
+selected.
 
-The other alternative is a @dfn{true drive} emulation.  The
+This option also exists for the serial IEC disks (except on the VIC-20).
+
+The third, most accurate, alternative is a @dfn{true drive} emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
 VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware
@@ -3519,7 +3524,7 @@ the name) and then build a disk image using all four.
 Go to "Preferences -> Peripheral devices -> Printer", select the printer you want to use.
 Note that not all types of printers are available at all ports/device numbers.
 @item
-Enable either "Virtual Device" or "IEC Device" (There is no "True Printer Emulation")
+Enable either "Virtual (traps)" or "Virtual (bus)" (There is no "True Printer Emulation")
 @item
 Set "Emulation type" to "File system access" if you want to output to a file or pipe through a program.
 If you want to use a real printer via OpenCBM, select "Real device (OpenCBM)".
@@ -3608,8 +3613,8 @@ Options->Host->Autostart->Autostart PRG Settings->Autostart mode->Inject into RA
 
 @item
 To speed up loading .d64 files,
-enable Options->Peripherial devices->Drive->Virtual device
-(@code{VirtualDevice8..11} = 1)
+enable Options->Peripherial devices->Drive->Virtual (traps)
+(@code{TrapDevice8..11} = 1)
 and enable Options->Host->Autostart->Handle True Drive Emulation on autostart
 (@code{AutostartHandleTrueDriveEmulation} = 1)
 
@@ -7487,15 +7492,16 @@ Note that, by default, all drives create P00 files on save.
 
 @table @code
 
-@vindex IECDevice8
-@vindex IECDevice9
-@vindex IECDevice10
-@vindex IECDevice11
-@item IECDevice8
-@itemx IECDevice9
-@itemx IECDevice10
-@itemx IECDevice11
-Booleans that specify whether IEC device emulation for device #8 to #11 is enabled.
+@vindex BusDevice8
+@vindex BusDevice9
+@vindex BusDevice10
+@vindex BusDevice11
+@item BusDevice8
+@itemx BusDevice9
+@itemx BusDevice10
+@itemx BusDevice11
+Booleans that specify whether IEC or IEEE-488 (bus) device emulation for
+virtual device #8 to #11 is enabled.
 
 @vindex FileSystemDevice8
 @vindex FileSystemDevice9
@@ -7572,39 +7578,39 @@ Disabled by default.
 
 @table @code
 
-@findex -iecdevice8, +iecdevice8
-@item -iecdevice8
-@itemx +iecdevice8
-Enable/disable IEC device emulation for device #8
-(@code{IECDevice8=1}, @code{IECDevice8=0}).
+@findex -busdevice8, +busdevice8
+@item -busdevice8
+@itemx +busdevice8
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #8
+(@code{BusDevice8=1}, @code{BusDevice8=0}).
 
-@findex -iecdevice9, +iecdevice9
-@item -iecdevice9
-@itemx +iecdevice9
-Enable/disable IEC device emulation for device #9
-(@code{IECDevice9=1}, @code{IECDevice9=0}).
+@findex -busdevice9, +busdevice9
+@item -busdevice9
+@itemx +busdevice9
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #9
+(@code{BusDevice9=1}, @code{BusDevice9=0}).
 
-@findex -iecdevice10, +iecdevice10
-@item -iecdevice10
-@itemx +iecdevice10
-Enable/disable IEC device emulation for device #10
-(@code{IECDevice10=1}, @code{IECDevice10=0}).
+@findex -busdevice10, +busdevice10
+@item -busdevice10
+@itemx +busdevice10
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #10
+(@code{BusDevice10=1}, @code{BusDevice10=0}).
 
-@findex -iecdevice11, +iecdevice11
-@item -iecdevice11
-@itemx +iecdevice11
-Enable/disable IEC device emulation for device #11
-(@code{IECDevice11=1}, @code{IECDevice11=0}).
+@findex -busdevice11, +busdevice11
+@item -busdevice11
+@itemx +busdevice11
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #11
+(@code{BusDevice11=1}, @code{BusDevice11=0}).
 
-@findex -device8
-@findex -device9
-@findex -device10
-@findex -device11
-@item -device8 <type>
-@itemx -device9 <type>
-@itemx -device10 <type>
-@itemx -device11 <type>
-Set device type for device 8-11 respectively
+@findex -devicebackend8
+@findex -devicebackend9
+@findex -devicebackend10
+@findex -devicebackend11
+@item -devicebackend8 <type>
+@itemx -devicebackend9 <type>
+@itemx -devicebackend10 <type>
+@itemx -devicebackend11 <type>
+Set backend device type for trap or bus device 8-11 respectively
 (@code{FileSystemDevice8}, @code{FileSystemDevice9}, @code{FileSystemDevice10}, @code{FileSystemDevice11})
 (all emulators except vsid).
 (0: None, 1: Filesystem, 2: OpenCBM (Real))
@@ -7770,15 +7776,15 @@ output from the Commodore printer code) and then to the printer via
 
 @table @code
 
-@vindex IECDevice4
-@vindex IECDevice5
-@vindex IECDevice6
-@vindex IECDevice7
-@item IECDevice4
-@itemx IECDevice5
-@itemx IECDevice6
-@itemx IECDevice7
-Booleans that specify whether IEC device emulation for device #4, #5, #6 and #7 is enabled.
+@vindex BusDevice4
+@vindex BusDevice5
+@vindex BusDevice6
+@vindex BusDevice7
+@item BusDevice4
+@itemx BusDevice5
+@itemx BusDevice6
+@itemx BusDevice7
+Booleans that specify whether IEC or IEEE-488 (bus) device emulation for device #4, #5, #6 and #7 is enabled.
 
 @vindex PrinterTextDevice1
 @vindex PrinterTextDevice2
@@ -7857,50 +7863,50 @@ String specifying the user-port printer output device.
 
 @table @code
 
-@findex -iecdevice4, +iecdevice4
-@item -iecdevice4
-@itemx +iecdevice4
-Enable/disable IEC device emulation for device #4
-(@code{IECDevice4=1}, @code{IECDevice4=0}).
+@findex -busdevice4, +busdevice4
+@item -busdevice4
+@itemx +busdevice4
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #4
+(@code{BusDevice4=1}, @code{BusDevice4=0}).
 
-@findex -iecdevice5, +iecdevice5
-@item -iecdevice5
-@itemx +iecdevice5
-Enable/disable IEC device emulation for device #5
-(@code{IECDevice5=1}, @code{IECDevice5=0}).
+@findex -busdevice5, +busdevice5
+@item -busdevice5
+@itemx +busdevice5
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #5
+(@code{BusDevice5=1}, @code{BusDevice5=0}).
 
-@findex -iecdevice6, +iecdevice6
-@item -iecdevice6
-@itemx +iecdevice6
-Enable/disable IEC device emulation for device #6
-(@code{IECDevice6=1}, @code{IECDevice6=0}).
+@findex -busdevice6, +busdevice6
+@item -busdevice6
+@itemx +busdevice6
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #6
+(@code{BusDevice6=1}, @code{BusDevice6=0}).
 
-@findex -iecdevice7, +iecdevice7
-@item -iecdevice7
-@itemx +iecdevice7
-Enable/disable IEC device emulation for device #7
-(@code{IECDevice7=1}, @code{IECDevice7=0}).
+@findex -busdevice7, +busdevice7
+@item -busdevice7
+@itemx +busdevice7
+Enable/disable IEC or IEEE-488 (bus) device emulation for device #7
+(@code{BusDevice7=1}, @code{BusDevice7=0}).
 
-@findex -device4
-@item -device4 <type>
+@findex -devicebackend4
+@item -devicebackend4 <type>
 Set device type for device 4
 (@code{Printer4}).
 (0: None, 1: Filesystem, 2: Real)
 
-@findex -device5
-@item -device5 <type>
+@findex -devicebackend5
+@item -devicebackend5 <type>
 Set device type for device 5
 (@code{Printer5}).
 (0: None, 1: Filesystem, 2: Real)
 
-@findex -device6
-@item -device6 <type>
+@findex -devicebackend6
+@item -devicebackend6 <type>
 Set device type for device 6
 (@code{Printer6}).
 (0: None, 1: Filesystem, 2: Real)
 
-@findex -device7
-@item -device7 <type>
+@findex -devicebackend7
+@item -devicebackend7 <type>
 Set device type for device 7
 (@code{Printer7}).
 (0: None, 2: Real)
@@ -8000,31 +8006,28 @@ maximum compatibility.
 
 @table @code
 
-@vindex VirtualDevice1
-@vindex VirtualDevice2
-@vindex VirtualDevice4
-@vindex VirtualDevice5
-@vindex VirtualDevice6
-@vindex VirtualDevice7
-@vindex VirtualDevice8
-@vindex VirtualDevice9
-@vindex VirtualDevice10
-@vindex VirtualDevice11
-@item VirtualDevice1
-@itemx VirtualDevice2
-@itemx VirtualDevice4
-@itemx VirtualDevice5
-@itemx VirtualDevice6
-@itemx VirtualDevice7
-@itemx VirtualDevice8
-@itemx VirtualDevice9
-@itemx VirtualDevice10
-@itemx VirtualDevice11
-Boolean specifying whether all the mechanisms for virtual device
-emulation should be enabled. Serial IEC devices use kernal traps,
-parallel IEEE488 devices use an own IEEE488 engine. Both are switched
-on and off with this resource.
-
+@vindex TrapDevice1
+@vindex TrapDevice2
+@vindex TrapDevice4
+@vindex TrapDevice5
+@vindex TrapDevice6
+@vindex TrapDevice7
+@vindex TrapDevice8
+@vindex TrapDevice9
+@vindex TrapDevice10
+@vindex TrapDevice11
+@item TrapDevice1
+@itemx TrapDevice2
+@itemx TrapDevice4
+@itemx TrapDevice5
+@itemx TrapDevice6
+@itemx TrapDevice7
+@itemx TrapDevice8
+@itemx TrapDevice9
+@itemx TrapDevice10
+@itemx TrapDevice11
+Boolean specifying whether the kernal trap mechanism for virtual device
+emulation should be enabled. Serial IEC devices can use kernal traps.
 @end table
 
 
@@ -8033,37 +8036,37 @@ on and off with this resource.
 
 @table @code
 
-@findex -virtualdev1, +virtualdev1
-@findex -virtualdev2, +virtualdev2
-@findex -virtualdev4, +virtualdev4
-@findex -virtualdev5, +virtualdev5
-@findex -virtualdev6, +virtualdev6
-@findex -virtualdev7, +virtualdev7
-@findex -virtualdev8, +virtualdev8
-@findex -virtualdev9, +virtualdev9
-@findex -virtualdev10, +virtualdev10
-@findex -virtualdev11, +virtualdev11
-@item -virtualdev1, +virtualdev1
-@itemx -virtualdev2, +virtualdev2
-@itemx -virtualdev4, +virtualdev4
-@itemx -virtualdev5, +virtualdev5
-@itemx -virtualdev6, +virtualdev6
-@itemx -virtualdev7, +virtualdev7
-@itemx -virtualdev8, +virtualdev8
-@itemx -virtualdev9, +virtualdev9
-@itemx -virtualdev10, +virtualdev10
-@itemx -virtualdev11, +virtualdev11
-Enable/disable virtual devices
-(@code{VirtualDevice1=1}, @code{VirtualDevice1=0},
- @code{VirtualDevice2=1}, @code{VirtualDevice2=0},
- @code{VirtualDevice4=1}, @code{VirtualDevice4=0},
- @code{VirtualDevice5=1}, @code{VirtualDevice5=0},
- @code{VirtualDevice6=1}, @code{VirtualDevice6=0},
- @code{VirtualDevice7=1}, @code{VirtualDevice7=0},
- @code{VirtualDevice8=1}, @code{VirtualDevice8=0},
- @code{VirtualDevice9=1}, @code{VirtualDevice9=0},
- @code{VirtualDevice10=1}, @code{VirtualDevice10=0},
- @code{VirtualDevice11=1}, @code{VirtualDevice11=0}).
+@findex -trapdevice1, +trapdevice1
+@findex -trapdevice2, +trapdevice2
+@findex -trapdevice4, +trapdevice4
+@findex -trapdevice5, +trapdevice5
+@findex -trapdevice6, +trapdevice6
+@findex -trapdevice7, +trapdevice7
+@findex -trapdevice8, +trapdevice8
+@findex -trapdevice9, +trapdevice9
+@findex -trapdevice10, +trapdevice10
+@findex -trapdevice11, +trapdevice11
+@item -trapdevice1, +trapdevice1
+@itemx -trapdevice2, +trapdevice2
+@itemx -trapdevice4, +trapdevice4
+@itemx -trapdevice5, +trapdevice5
+@itemx -trapdevice6, +trapdevice6
+@itemx -trapdevice7, +trapdevice7
+@itemx -trapdevice8, +trapdevice8
+@itemx -trapdevice9, +trapdevice9
+@itemx -trapdevice10, +trapdevice10
+@itemx -trapdevice11, +trapdevice11
+Enable/disable kernal traps for virtual devices
+(@code{TrapDevice1=1}, @code{TrapDevice1=0},
+ @code{TrapDevice2=1}, @code{TrapDevice2=0},
+ @code{TrapDevice4=1}, @code{TrapDevice4=0},
+ @code{TrapDevice5=1}, @code{TrapDevice5=0},
+ @code{TrapDevice6=1}, @code{TrapDevice6=0},
+ @code{TrapDevice7=1}, @code{TrapDevice7=0},
+ @code{TrapDevice8=1}, @code{TrapDevice8=0},
+ @code{TrapDevice9=1}, @code{TrapDevice9=0},
+ @code{TrapDevice10=1}, @code{TrapDevice10=0},
+ @code{TrapDevice11=1}, @code{TrapDevice11=0}).
 
 @end table
 

@@ -5,18 +5,18 @@
  */
 
 /*
- * $VICERES VirtualDevice8              -vsid
- * $VICERES VirtualDevice9              -vsid
- * $VICERES VirtualDevice10             -vsid
- * $VICERES VirtualDevice11             -vsid
+ * $VICERES TrapDevice8                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice9                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice10                -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice11                -vsid -xcbm5x0 -xcbm2 -xpet
  * $VICERES Drive8TrueEmulation         -vsid
  * $VICERES Drive9TrueEmulation         -vsid
  * $VICERES Drive10TrueEmulation        -vsid
  * $VICERES Drive11TrueEmulation        -vsid
- * $VICERES IECDevice8                  -vsid -xcbm5x0 -xcbm2 -xpet -xvic
- * $VICERES IECDevice9                  -vsid -xcbm5x0 -xcbm2 -xpet -xvic
- * $VICERES IECDevice10                 -vsid -xcbm5x0 -xcbm2 -xpet -xvic
- * $VICERES IECDevice11                 -vsid -xcbm5x0 -xcbm2 -xpet -xvic
+ * $VICERES BusDevice8                  -vsid -xvic
+ * $VICERES BusDevice9                  -vsid -xvic
+ * $VICERES BusDevice10                 -vsid -xvic
+ * $VICERES BusDevice11                 -vsid -xvic
  * $VICERES FileSystemDevice8           -vsid
  * $VICERES FileSystemDevice9           -vsid
  * $VICERES FileSystemDevice10          -vsid
@@ -116,8 +116,8 @@ static GtkWidget *drive_read_only[NUM_DISK_UNITS][2];
 /** \brief  Real time clock save check buttons */
 static GtkWidget *drive_rtc_save[NUM_DISK_UNITS];
 
-/** \brief  IEC device check buttons */
-static GtkWidget *drive_iec_device[NUM_DISK_UNITS];
+/** \brief  IEC or IEEE-488 device check buttons */
+static GtkWidget *drive_bus_device[NUM_DISK_UNITS];
 
 /** \brief  Drive extend-policy widgets */
 static GtkWidget *drive_extend[NUM_DISK_UNITS];
@@ -175,6 +175,9 @@ static gboolean has_iec(void)
  *
  * \param[in]   widget  IEC toggle button
  * \param[in]   unit    unit number (8-11)
+ *
+ * This callback is used if the virtual backend depends on TrapDevice%d
+ * as well as the Virtual (bus) checkbox.
  */
 static void iec_callback(GtkWidget *widget, int unit)
 {
@@ -183,9 +186,28 @@ static void iec_callback(GtkWidget *widget, int unit)
         int virtdev = 0;
         int index   = unit - DRIVE_UNIT_MIN;
 
-        resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit);
+        resources_get_int_sprintf("TrapDevice%d", &virtdev, unit);
         gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
         gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
+    }
+}
+
+/** \brief  Custom callback for the IEEE widget in driveoptions.c
+ *
+ * \param[in]   widget  IEEE toggle button
+ * \param[in]   unit    unit number (8-11)
+ *
+ * This callback is used if the virtual backend depends only on
+ * the Virtual (bus) checkbox.
+ */
+static void ieee_callback(GtkWidget *widget, int unit)
+{
+    if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
+        int ieeedev = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+        int index   = unit - DRIVE_UNIT_MIN;
+
+        gtk_widget_set_sensitive(drive_device_type_label[index], ieeedev);
+        gtk_widget_set_sensitive(drive_device_type[index], ieeedev);
     }
 }
 
@@ -236,26 +258,21 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
     }
 }
 
-/** \brief  Handler for the 'toggled' event of the IEC checkbox
+/** \brief  Handler for the 'toggled' event of the IEC/IEEE-488 bus checkbox
  *
  * Triggers the user-provided callback function on toggle.
  *
  * \param[in]   widget  IEC checkbox
  * \param[in]   data    unit number
  */
-static void on_iec_toggled(GtkWidget *widget, gpointer data)
+static void on_bus_toggled(GtkWidget *widget, gpointer data)
 {
-    if (machine_class != VICE_MACHINE_PET &&
-            machine_class != VICE_MACHINE_CBM6x0 &&
-            machine_class != VICE_MACHINE_CBM5x0) {
+    void (*callback)(GtkWidget *, int);
+    int unit = GPOINTER_TO_INT(data);
 
-        void (*callback)(GtkWidget *, int);
-        int unit = GPOINTER_TO_INT(data);
-
-        callback = g_object_get_data(G_OBJECT(widget), "UnitCallback");
-        if (callback != NULL) {
-            callback(widget, unit);
-        }
+    callback = g_object_get_data(G_OBJECT(widget), "UnitCallback");
+    if (callback != NULL) {
+        callback(widget, unit);
     }
 }
 
@@ -297,25 +314,24 @@ static GtkWidget *create_left_aligned_label(const char *text)
     return label;
 }
 
-/** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
+/** \brief  Create checkbox to toggle IEC/IEEE-488 (bus) Device emulation for \a unit
  *
  * \param[in]   unit        unit number (8-11)
  * \param[in]   callback    function to call on checkbutton toggle events
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_iec_check_button(int unit,
-                                          void (*callback)(GtkWidget *, int))
+static GtkWidget *create_bus_check_button(int unit, void (*callback)(GtkWidget *, int))
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new_sprintf("IECDevice%d",
-                                                        "IEC device",
+    check = vice_gtk3_resource_check_button_new_sprintf("BusDevice%d",
+                                                        "Virtual (bus)",
                                                         unit);
     g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
     g_signal_connect(GTK_TOGGLE_BUTTON(check),
                      "toggled",
-                     G_CALLBACK(on_iec_toggled),
+                     G_CALLBACK(on_bus_toggled),
                      GINT_TO_POINTER(unit));
     return check;
 }
@@ -372,7 +388,7 @@ static GtkWidget *create_rtc_check_button(int unit)
     return check;
 }
 
-/** \brief  Create widget to control IEC device type
+/** \brief  Create widget to control IEC/IEEE-488 device type
  *
  * \param[in]   unit    unit number (8-11)
  *
@@ -413,8 +429,8 @@ static GtkWidget *create_drive_virtual_device_widget(int unit, void (*callback)(
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new_sprintf("VirtualDevice%d",
-                                                        "Virtual device",
+    check = vice_gtk3_resource_check_button_new_sprintf("TrapDevice%d",
+                                                        "Virtual (traps)",
                                                         unit);
     g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
     g_signal_connect(GTK_TOGGLE_BUTTON(check),
@@ -443,7 +459,7 @@ static void create_vic20_layout(GtkWidget *left_grid,
     /* Left column widgets */
 
     /* IEC device type combo box */
-    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
+    drive_device_type_label[index] = create_left_aligned_label("Virtual backend");
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type_label[index], 0, left_row, 1, 1);
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type[index],       1, left_row, 1, 1);
@@ -477,13 +493,13 @@ static void create_c64_layout(GtkWidget *left_grid,
 
     /* Left column widgets */
 
-    /* IEC device check button */
-    drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(left_grid), drive_iec_device[index], 0, left_row, 2, 1);
+    /* IEC/IEEE-488 (bus) device check button */
+    drive_bus_device[index] = create_bus_check_button(unit, iec_callback);
+    gtk_grid_attach(GTK_GRID(left_grid), drive_bus_device[index], 0, left_row, 2, 1);
     left_row++;
 
-    /* IEC device type combo box */
-    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
+    /* IEC/IEEE-488 (bus) device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("Virtual backend");
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_widget_set_margin_top(drive_device_type_label[index], 8);
     gtk_widget_set_margin_top(drive_device_type[index], 8);
@@ -547,12 +563,12 @@ static void create_plus4_layout(GtkWidget *left_grid,
     /* Left column widgets */
 
     /* IEC device check button */
-    drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(left_grid), drive_iec_device[index], 0, left_row, 2, 1);
+    drive_bus_device[index] = create_bus_check_button(unit, iec_callback);
+    gtk_grid_attach(GTK_GRID(left_grid), drive_bus_device[index], 0, left_row, 2, 1);
     left_row++;
 
     /* IEC device type combo box */
-    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
+    drive_device_type_label[index] = create_left_aligned_label("Virtual backend");
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_widget_set_margin_top(drive_device_type_label[index], 8);
     gtk_widget_set_margin_top(drive_device_type[index], 8);
@@ -592,22 +608,24 @@ static void create_pet_layout(GtkWidget *left_grid,
                               int        right_row,
                               int        unit)
 {
-#if 0
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
-#endif
+
     /* Left column widgets */
 
-    /* IEEE/Virtual device type combo box */
-    /* No virtual devices, so no IEEE device type? */
-#if 0
-    drive_device_type_label[index] = create_left_aligned_label("IEEE device type");
+    /* IEEE-488 device check button */
+    drive_bus_device[index] = create_bus_check_button(unit, ieee_callback);
+    gtk_grid_attach(GTK_GRID(left_grid), drive_bus_device[index], 0, left_row, 2, 1);
+    left_row++;
+
+    /* Virtual device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("Virtual backend");
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_widget_set_margin_top(drive_device_type_label[index], 8);
     gtk_widget_set_margin_top(drive_device_type[index], 8);
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type_label[index], 0, left_row, 1, 1);
     gtk_grid_attach(GTK_GRID(left_grid), drive_device_type[index],       1, left_row, 1, 1);
     left_row++;
-#endif
+
     /* Right column widgets (none at the moment) */
 }
 
@@ -658,7 +676,7 @@ static int create_left_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(grid), drive_tde[index],          0, row, 2, 1);
     row++;
 
-    /* Virtual Device */
+    /* Virtual Device (bus) check button */
     if (has_iec()) {
         drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
         gtk_grid_attach(GTK_GRID(grid), drive_virtualdev[index],   0, row, 2, 1);
@@ -811,30 +829,26 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 1, 1);
 
     /* set sensitivity of the filesystem-type comboboxes, depending on the
-     * IECDevice (not for VIC20 and PET/CBM-II) and VirtualDevice resource
+     * BusDevice (not for VIC20 and PET/CBM-II) and TrapDevice resource
      */
-    if (has_iec()) {
-        for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-            int iecdev = 0;
-            int virtdev = 0;
-            int index = unit - DRIVE_UNIT_MIN;  /* index in the widget arrays */
+    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+        int iecdev = 0;
+        int virtdev = 0;
+        int index = unit - DRIVE_UNIT_MIN;  /* index in the widget arrays */
 
-            /* FIXME: xvic doesn't use IEDevice (yet), uses its own iecbus code */
-            if (machine_class != VICE_MACHINE_VIC20 &&
-                    machine_class != VICE_MACHINE_PET &&
-                    machine_class != VICE_MACHINE_CBM5x0 &&
-                    machine_class != VICE_MACHINE_CBM6x0) {
-                resources_get_int_sprintf("IECDevice%d", &iecdev, unit);
-            }
-            resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit);
-            /* try to set sensitive, regardless of if the widget actually
-             * exists, this helps with debugging since Gtk will print a warning
-             * on the console.
-             */
-            gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
-            gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
+        /* FIXME: xvic doesn't use BusDevice (yet), uses its own iecbus code */
+        if (machine_class != VICE_MACHINE_VIC20) {
+            resources_get_int_sprintf("BusDevice%d", &iecdev, unit);
         }
+        resources_get_int_sprintf("TrapDevice%d", &virtdev, unit);
+        /* try to set sensitive, regardless of if the widget actually
+         * exists, this helps with debugging since Gtk will print a warning
+         * on the console.
+         */
+        gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
+        gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
     }
+
     gtk_widget_show_all(layout);
     return layout;
 }

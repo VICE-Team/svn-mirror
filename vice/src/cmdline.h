@@ -119,6 +119,7 @@ typedef struct cmdline_option_ram_s {
 int cmdline_init(void);
 
 int cmdline_register_options(const cmdline_option_t *c);
+int cmdline_option_exists(const char *name);
 void cmdline_shutdown(void);
 int cmdline_parse(int *argc, char **argv);
 void cmdline_show_help(void *userparam);

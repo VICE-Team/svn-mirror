@@ -859,7 +859,7 @@ static void get_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("TrapDevice%d", &trapfl[i], trapdevices[i]);
     }
 }
 
@@ -867,7 +867,7 @@ static void clear_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", 0, trapdevices[i]);
     }
 }
 
@@ -875,7 +875,7 @@ static int restore_trapflags(void)
 {
     int i, flags = 0;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", trapfl[i], trapdevices[i]);
         flags |= trapfl[i];
     }
     return flags;
@@ -1019,7 +1019,7 @@ void c64dtv_mapper_store(uint16_t addr, uint8_t value)
             c64dtvmem_memmapper[0] = value;
             maincpu_resync_limits();
             if (restore_trapflags()) {
-                log_message(c64dtvmem_log, "Changed KERNAL segment - disable VirtualDevices if you encounter problems");
+                log_message(c64dtvmem_log, "Changed KERNAL segment - disable TrapDevices if you encounter problems");
             }
             break;
         case 0x01:

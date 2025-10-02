@@ -24,6 +24,8 @@ EXTRA_libserial_a_SOURCES = \
 libserial_a_SOURCES = \
 	fsdrive.c \
 	fsdrive.h \
+	iec-ieee488-shared.c \
+	iec-ieee488-shared.h \
 	serial-device.c \
 	serial-iec-bus.c \
 	serial-iec-bus.h \

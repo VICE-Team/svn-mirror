@@ -144,13 +144,13 @@ void mon_drive_execute_disk_cmd(char *cmd)
 /* check if a drive is associated with a filesystem/directory */
 int mon_drive_is_fsdevice(int drive_unit)
 {
-    int virtualdev = 0, truedrive = 0, iecdevice = 0 /* , fsdevice = 0 */;
+    int trapdevice = 0, truedrive = 0, busdevice = 0 /* , fsdevice = 0 */;
     /* FIXME: unsure if this check really works as advertised */
-    resources_get_int_sprintf("VirtualDevice%d", &virtualdev, drive_unit);
+    resources_get_int_sprintf("TrapDevice%d", &trapdevice, drive_unit);
     resources_get_int_sprintf("Drive%dTrueEmulation", &truedrive, drive_unit);
-    resources_get_int_sprintf("IECDevice%i", &iecdevice, drive_unit);
+    resources_get_int_sprintf("BusDevice%i", &busdevice, drive_unit);
     /* resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive_unit); */
-    if ((virtualdev && !truedrive) || (!virtualdev && iecdevice)) {
+    if ((trapdevice && !truedrive) || (!trapdevice && busdevice)) {
         if (machine_bus_device_type_get(drive_unit) == SERIAL_DEVICE_FS) {
             return 1;
         }

@@ -148,16 +148,16 @@ int file_system_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-device8", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-devicebackend8", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice8", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM)" },
-    { "-device9", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-devicebackend9", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice9", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM)" },
-    { "-device10", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-devicebackend10", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice10", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM)" },
-    { "-device11", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-devicebackend11", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice11", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM)" },
     { "-attach8ro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,

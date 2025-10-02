@@ -66,9 +66,9 @@ void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
     iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
 }
 
-void machine_bus_status_virtualdevices_set(unsigned int unit, unsigned int enable)
+void machine_bus_status_trapdevices_set(unsigned int unit, unsigned int enable)
 {
-    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, unit, enable);
+    iecbus_status_set(IECBUS_STATUS_TRAPDEVICE, unit, enable);
 }
 
 void machine_bus_eof_callback_set(void (*func)(void))
