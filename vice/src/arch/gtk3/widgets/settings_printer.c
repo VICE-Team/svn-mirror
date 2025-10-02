@@ -198,7 +198,7 @@ static bool machine_has_iec_or_ieee(void)
         case VICE_MACHINE_VIC20:    /* fall through */
 #endif
         case VICE_MACHINE_PLUS4:
-	/* these machines have IEEE-488 */
+        /* these machines have IEEE-488 */
         case VICE_MACHINE_PET:      /* fall through */
         case VICE_MACHINE_CBM5x0:   /* fall through */
         case VICE_MACHINE_CBM6x0:   /* fall through */
