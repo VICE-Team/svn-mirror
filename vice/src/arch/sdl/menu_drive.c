@@ -97,7 +97,7 @@ static int check_current_drive_type(int type, int drive)
     int drivetype;
 
     resources_get_int_sprintf("Drive%iTrueEmulation", &tde, drive);
-    resources_get_int_sprintf("VirtualDevice%i", &vdt, drive);
+    resources_get_int_sprintf("TrapDevice%i", &vdt, drive);
     resources_get_int_sprintf("Drive%iType", &drivetype, drive);
     resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
     if (!tde && vdt) {
@@ -116,20 +116,22 @@ static char *get_drive_type_string(int drive)
 {
     int type;
     int tde = 0;
-    int vdt = 0;
+    int bus = 0;
+    int trap = 0;
     int fsdevice = 0;
 
     type = drive_get_type_by_devnr(drive);
     resources_get_int_sprintf("Drive%iTrueEmulation", &tde, drive);
-    resources_get_int_sprintf("VirtualDevice%i", &vdt, drive);
+    resources_get_int_sprintf("BusDevice%i", &bus, drive);
+    resources_get_int_sprintf("TrapDevice%i", &trap, drive);
     resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
 
-    if (!tde && vdt && fsdevice == ATTACH_DEVICE_FS) {
+    if (!tde && (trap || bus) && fsdevice == ATTACH_DEVICE_FS) {
         return MENU_SUBMENU_STRING " directory";
     }
 
 #ifdef HAVE_REALDEVICE
-    if (!tde && vdt && fsdevice == ATTACH_DEVICE_REAL) {
+    if (!tde && (trap || bus) && fsdevice == ATTACH_DEVICE_REAL) {
         return MENU_SUBMENU_STRING " real drive";
     }
 #endif
@@ -675,16 +677,16 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
         if (support) {
             if (parameter == ATTACH_DEVICE_REAL) {
 #ifdef HAVE_REALDEVICE
-                resources_set_int_sprintf("IECDevice%i", 1, drive);
+                resources_set_int_sprintf("BusDevice%i", 1, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
 #endif
             } else if (parameter == ATTACH_DEVICE_FS) {
-                resources_set_int_sprintf("VirtualDevice%i", 1, drive);
+                resources_set_int_sprintf("TrapDevice%i", 1, drive);
                 resources_set_int_sprintf("Drive%iTrueEmulation", 0, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", 0, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
             } else {
-                resources_set_int_sprintf("VirtualDevice%i", 0, drive);
+                resources_set_int_sprintf("TrapDevice%i", 0, drive);
                 resources_set_int_sprintf("Drive%iTrueEmulation", 1, drive);
                 resources_set_int_sprintf("Drive%iType", parameter, drive);
             }
@@ -1087,10 +1089,10 @@ UI_MENU_DEFINE_TOGGLE(Drive9TrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive10TrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive11TrueEmulation)
 
-UI_MENU_DEFINE_TOGGLE(VirtualDevice8)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice9)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice10)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
+UI_MENU_DEFINE_TOGGLE(TrapDevice8)
+UI_MENU_DEFINE_TOGGLE(TrapDevice9)
+UI_MENU_DEFINE_TOGGLE(TrapDevice10)
+UI_MENU_DEFINE_TOGGLE(TrapDevice11)
 
 UI_MENU_DEFINE_STRING(Drive8FixedSize)
 UI_MENU_DEFINE_STRING(Drive9FixedSize)
@@ -1158,9 +1160,9 @@ UI_MENU_DEFINE_STRING(Drive11FixedSize)
 /* 14 */{   .string   = "Drive " #x" True Drive Emulation",                     \
             .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
             .callback = toggle_Drive##x##TrueEmulation_callback },              \
-/* 15 */{   .string   = "Drive " #x" Virtual Device",                           \
+/* 15 */{   .string   = "Drive " #x" Virtual (Trap) Device",                    \
             .type     = MENU_ENTRY_RESOURCE_TOGGLE,                             \
-            .callback = toggle_VirtualDevice##x##_callback },                   \
+            .callback = toggle_TrapDevice##x##_callback },                      \
 /* 16 */SDL_MENU_ITEM_SEPARATOR,                                                \
 /* 17 */{   .string   = "CMD HD fixed size",                                    \
             .type     = MENU_ENTRY_RESOURCE_STRING,                             \

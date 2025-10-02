@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "iec-ieee488-shared.h"
 #include "iecbus.h"
 #include "resources.h"
 #include "serial-iec-device.h"
@@ -54,8 +55,7 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value);
 /* ------------------------------------------------------------------------- */
 
 
-static int iec_device_enabled[IECBUS_NUM];
-
+/* Called from indirect_callback() in iec-ieee488-shared.c */
 static int set_iec_device_enable(int enable, void *param)
 {
     unsigned int unit;
@@ -66,7 +66,6 @@ static int set_iec_device_enable(int enable, void *param)
         return -1;
     }
 
-    iec_device_enabled[unit] = enable;
     if (enable) {
         serial_iec_device_enable(unit);
     } else {
@@ -78,26 +77,6 @@ static int set_iec_device_enable(int enable, void *param)
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
-    { "IECDevice4", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[4], set_iec_device_enable, (void *)4 },
-    { "IECDevice5", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[5], set_iec_device_enable, (void *)5 },
-    { "IECDevice6", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[6], set_iec_device_enable, (void *)6 },
-    { "IECDevice7", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[7], set_iec_device_enable, (void *)7 },
-    { "IECDevice8", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[8], set_iec_device_enable, (void *)8 },
-    { "IECDevice9", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[9], set_iec_device_enable, (void *)9 },
-    { "IECDevice10", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[10], set_iec_device_enable, (void *)10 },
-    { "IECDevice11", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[11], set_iec_device_enable, (void *)11 },
-    RESOURCE_INT_LIST_END
-};
-
 int serial_iec_device_resources_init(void)
 {
     if (machine_class == VICE_MACHINE_VIC20) {
@@ -105,61 +84,8 @@ int serial_iec_device_resources_init(void)
                   which makes iecdevice not work */
         return 0;
     }
-    return resources_register_int(resources_int);
+    return iec_ieee_device_resources_init(set_iec_device_enable);
 }
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-iecdevice4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice4", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #4" },
-    { "+iecdevice4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice4", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #4" },
-    { "-iecdevice5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice5", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #5" },
-    { "+iecdevice5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice5", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #5" },
-    { "-iecdevice6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice6", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #6" },
-    { "+iecdevice6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice6", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #6" },
-    { "-iecdevice7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice7", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #7" },
-    { "+iecdevice7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice7", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #7" },
-    { "-iecdevice8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice8", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #8" },
-    { "+iecdevice8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice8", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #8" },
-    { "-iecdevice9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice9", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #9" },
-    { "+iecdevice9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice9", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #9" },
-    { "-iecdevice10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice10", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #10" },
-    { "+iecdevice10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice10", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #10" },
-    { "-iecdevice11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice11", (resource_value_t)1,
-      NULL, "Enable IEC device emulation for device #11" },
-    { "+iecdevice11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "IECDevice11", (resource_value_t)0,
-      NULL, "Disable IEC device emulation for device #11" },
-    CMDLINE_LIST_END
-};
 
 int serial_iec_device_cmdline_options_init(void)
 {
@@ -168,7 +94,7 @@ int serial_iec_device_cmdline_options_init(void)
                   which makes iecdevice not work */
         return 0;
     }
-    return cmdline_register_options(cmdline_options);
+    return iec_ieee_device_cmdline_options_init();
 }
 
 /*------------------------------------------------------------------------*/
@@ -210,7 +136,7 @@ void serial_iec_device_init(void)
     serial_iec_device_inited = 1;
 
     for (i = 0; i < IECBUS_NUM; i++) {
-        if (iec_device_enabled[i]) {
+        if (iec_ieee_device_enabled[i]) {
             serial_iec_device_enable(i);
         }
     }

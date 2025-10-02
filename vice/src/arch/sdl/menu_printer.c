@@ -243,16 +243,16 @@ VICE_SDL_PRINTER_TYPE_MENU(6)
 
 #ifdef HAVE_REALDEVICE
 VICE_SDL_DEVICE_TYPE_MENU(7)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice7)
-UI_MENU_DEFINE_TOGGLE(IECDevice7)
+UI_MENU_DEFINE_TOGGLE(TrapDevice7)
+UI_MENU_DEFINE_TOGGLE(BusDevice7)
 #endif
 
-UI_MENU_DEFINE_TOGGLE(VirtualDevice4)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice5)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice6)
-UI_MENU_DEFINE_TOGGLE(IECDevice4)
-UI_MENU_DEFINE_TOGGLE(IECDevice5)
-UI_MENU_DEFINE_TOGGLE(IECDevice6)
+UI_MENU_DEFINE_TOGGLE(TrapDevice4)
+UI_MENU_DEFINE_TOGGLE(TrapDevice5)
+UI_MENU_DEFINE_TOGGLE(TrapDevice6)
+UI_MENU_DEFINE_TOGGLE(BusDevice4)
+UI_MENU_DEFINE_TOGGLE(BusDevice5)
+UI_MENU_DEFINE_TOGGLE(BusDevice6)
 
 static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
 {
@@ -401,47 +401,47 @@ UI_MENU_DEFINE_STRING(PrinterTextDevice3)
 
 const ui_menu_entry_t printer_iec_menu[] = {
     VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
-    {   .string   = "Printer #4 enable virtual device",
+    {   .string   = "Printer #4 enable virt. (trap) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice4_callback
+        .callback = toggle_TrapDevice4_callback
     },
-    {   .string   = "Printer #4 enable IEC device",
+    {   .string   = "Printer #4 enable virt. (bus) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_IECDevice4_callback
+        .callback = toggle_BusDevice4_callback
     },
     SDL_MENU_ITEM_SEPARATOR,
 
     VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
-    {   .string   = "Printer #5 enable virtual device",
+    {   .string   = "Printer #5 enable virt. (trap) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice5_callback
+        .callback = toggle_TrapDevice5_callback
     },
-    {   .string   = "Printer #5 enable IEC device",
+    {   .string   = "Printer #5 enable virt. (bus) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_IECDevice5_callback,
+        .callback = toggle_BusDevice5_callback,
     },
     SDL_MENU_ITEM_SEPARATOR,
 
     VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
-    {   .string   = "Printer #6 enable virtual device",
+    {   .string   = "Printer #6 enable virt. (trap) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice6_callback
+        .callback = toggle_TrapDevice6_callback
     },
-    {   .string   = "Printer #6 enable IEC device",
+    {   .string   = "Printer #6 enable virt. (bus) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_IECDevice6_callback
+        .callback = toggle_BusDevice6_callback
     },
     SDL_MENU_ITEM_SEPARATOR,
 
 #ifdef HAVE_REALDEVICE
     VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS
-    {   .string   = "Device #7 enable virtual device",
+    {   .string   = "Device #7 enable virt. (trap) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice7_callback
+        .callback = toggle_TrapDevice7_callback
     },
-    {   .string   = "Device #7 enable IEC device",
+    {   .string   = "Device #7 enable virt. (bus) device",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_IECDevice7_callback
+        .callback = toggle_BusDevice7_callback
     },
     SDL_MENU_ITEM_SEPARATOR,
 

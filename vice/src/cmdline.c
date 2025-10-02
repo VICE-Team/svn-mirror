@@ -77,6 +77,11 @@ static cmdline_option_ram_t *lookup_exact(const char *name)
     return NULL;
 }
 
+int cmdline_option_exists(const char *name)
+{
+    return lookup_exact(name) != NULL;
+}
+
 int cmdline_register_options(const cmdline_option_t *c)
 {
     cmdline_option_ram_t *p;

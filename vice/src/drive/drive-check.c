@@ -394,12 +394,9 @@ int drive_get_type_by_devnr(int devnr)
     int fsdevice;
     int drivetype;
 
-    if ((machine_class != VICE_MACHINE_CBM5x0) &&
-        (machine_class != VICE_MACHINE_CBM6x0) &&
-        (machine_class != VICE_MACHINE_PET) &&
-        /* FIXME: xvic has its own IEC code and doesn't use "IECDevice[8-11]" */
+    if (/* FIXME: xvic has its own IEC code and doesn't use "BusDevice[8-11]" */
         (machine_class != VICE_MACHINE_VIC20)) {
-        resources_get_int_sprintf("IECDevice%i", &iecdevice, devnr);
+        resources_get_int_sprintf("BusDevice%i", &iecdevice, devnr);
         resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, devnr);
     }
     resources_get_int_sprintf("Drive%iType", &drivetype, devnr);

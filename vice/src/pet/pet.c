@@ -307,6 +307,10 @@ int machine_resources_init(void)
         init_resource_fail("pet");
         return -1;
     }
+    if (parallel_resources_init() < 0) {
+        init_resource_fail("parallel");
+        return -1;
+    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -458,6 +462,10 @@ int machine_cmdline_options_init(void)
     }
     if (pet_cmdline_options_init() < 0) {
         init_cmdline_options_fail("pet");
+        return -1;
+    }
+    if (parallel_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("parallel");
         return -1;
     }
     if (cartio_cmdline_options_init() < 0) {

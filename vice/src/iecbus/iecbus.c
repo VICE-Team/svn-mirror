@@ -527,7 +527,7 @@ void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable
         case IECBUS_STATUS_IECDEVICE:
             iecdevice[unit] = enable ? (1 << 1) : 0;
             break;
-        case IECBUS_STATUS_VIRTUALDEVICES:
+        case IECBUS_STATUS_TRAPDEVICE:
             virtualdevices[unit] = enable ? (1 << 0) : 0;
             break;
     }

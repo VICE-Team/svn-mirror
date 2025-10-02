@@ -180,7 +180,7 @@ UI_MENU_DEFINE_INT(DatasetteTapeWobbleFrequency)
 UI_MENU_DEFINE_INT(DatasetteTapeWobbleAmplitude)
 UI_MENU_DEFINE_INT(DatasetteTapeAzimuthError)
 UI_MENU_DEFINE_TOGGLE(DatasetteSound)
-UI_MENU_DEFINE_TOGGLE(VirtualDevice1)
+UI_MENU_DEFINE_TOGGLE(TrapDevice1)
 
 const ui_menu_entry_t tape_pet_menu[] = {
     {   .action   = ACTION_TAPE_ATTACH_1,
@@ -299,7 +299,7 @@ const ui_menu_entry_t tape_pet_menu[] = {
     },
     {   .string   = "Enable virtual device (for t64)",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice1_callback
+        .callback = toggle_TrapDevice1_callback
     },
     SDL_MENU_LIST_END
 };
@@ -388,7 +388,7 @@ const ui_menu_entry_t tape_menu_template[] = {
     },
     {   .string   = "Enable virtual device (for t64)",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
-        .callback = toggle_VirtualDevice1_callback
+        .callback = toggle_TrapDevice1_callback
     },
     SDL_MENU_LIST_END
 };

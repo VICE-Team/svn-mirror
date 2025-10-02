@@ -47,6 +47,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "drivetypes.h"
+#include "serial/iec-ieee488-shared.h"
 #include "iecbus.h"
 #include "ieee.h"
 #include "log.h"
@@ -56,6 +57,7 @@
 #include "resources.h"
 #include "types.h"
 
+#define DEBUG_PARALLEL  1
 #ifdef DEBUG_PARALLEL
 #define DBG(x) log_printf  x
 #else
@@ -64,18 +66,32 @@
 
 #define PARALLEL_DEBUG_VERBOSE
 static int parallel_emu = 0;
-static int parallel_unit_enabled[IECBUS_NUM];
 
 void parallel_bus_enable(unsigned int unit, unsigned int enable)
 {
     int n;
     DBG(("parallel_bus_enable unit: %u enable: %u", unit, enable));
-    parallel_unit_enabled[unit] = enable ? 1 : 0;
     parallel_emu = 0;
     for (n = 0; n < IECBUS_NUM; n++) {
-        parallel_emu |= parallel_unit_enabled[unit];
+        parallel_emu |= iec_ieee_device_enabled[unit];
     }
     DBG(("parallel_bus_enable parallel_emu: %d", parallel_emu));
+}
+
+/* Called from indirect_callback() in iec-ieee488-shared.c */
+static int set_ieee_device_enable(int enable, void *param)
+{
+    unsigned int unit;
+
+    unit = vice_ptr_to_uint(param);
+    DBG(("set_ieee_device_enable: enable: %d, unit: %u", enable, unit));
+
+    if ((unit < 4 || unit >= IECBUS_NUM)) {
+        return -1;
+    }
+    parallel_bus_enable(unit, enable);
+
+    return 0;
 }
 
 /***************************************************************************
@@ -763,3 +779,15 @@ const drivefunc_context_t drive_funcs[NUM_DISK_UNITS] = {
     }
 
 PARALLEL_CPU_SET_LINE(atn, cpu, CPU)
+
+
+int parallel_resources_init(void)
+{
+    return iec_ieee_device_resources_init(set_ieee_device_enable);
+}
+
+int parallel_cmdline_options_init(void)
+{
+    return iec_ieee_device_cmdline_options_init();
+}
+

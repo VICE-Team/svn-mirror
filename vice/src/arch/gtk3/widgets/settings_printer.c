@@ -5,14 +5,14 @@
  */
 
 /*
- * $VICERES VirtualDevice4              -vsid
- * $VICERES VirtualDevice5              -vsid
- * $VICERES VirtualDevice6              -vsid
- * $VICERES VirtualDevice7              -vsid
- * $VICERES IECDevice4                  x64 x64sc x64dtv xscpu64 x128 xplus4
- * $VICERES IECDevice5                  x64 x64sc x64dtv xscpu64 x128 xplus4
- * $VICERES IECDevice6                  x64 x64sc x64dtv xscpu64 x128 xplus4
- * $VICERES IECDevice7                  x64 x64sc x64dtv xscpu64 x128 xplus4
+ * $VICERES TrapDevice4                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice5                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice6                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES TrapDevice7                 -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES BusDevice4                  -vsid -xvic
+ * $VICERES BusDevice5                  -vsid -xvic
+ * $VICERES BusDevice6                  -vsid -xvic
+ * $VICERES BusDevice7                  -vsid -xvic
  * $VICERES Printer7                    -vsid
  * $VICERES Printer4Output              -vsid
  * $VICERES Printer5Output              -vsid
@@ -81,7 +81,7 @@ typedef struct child_s {
     int         device;         /**< device number used by resources */
     int         device_drv;     /**< device number used by drivers */
     bool        has_type;       /**< can set emulation type */
-    bool        has_virtdev;    /**< virtual device support */
+    bool        has_trapdev;    /**< virtual device support with traps */
     bool        has_iec;        /**< can have IEC device support (depends on machine) */
     bool        has_formfeed;   /**< can send FF */
     bool        has_realdev;    /**< real device (OpenCBM) support */
@@ -99,7 +99,7 @@ static const child_t children[] = {
         .device       = 4,
         .device_drv   = PRINTER_IEC_4,  /* 0 */
         .has_type     = true,
-        .has_virtdev  = true,
+        .has_trapdev  = true,
         .has_iec      = true,
         .has_formfeed = true,
         .has_driver   = true,
@@ -112,7 +112,7 @@ static const child_t children[] = {
         .device       = 5,
         .device_drv   = PRINTER_IEC_5,  /* 1 */
         .has_type     = true,
-        .has_virtdev  = true,
+        .has_trapdev  = true,
         .has_iec      = true,
         .has_formfeed = true,
         .has_driver   = true,
@@ -125,7 +125,7 @@ static const child_t children[] = {
         .device       = 6,
         .device_drv   = PRINTER_IEC_6,  /* 2 */
         .has_type     = true,
-        .has_virtdev  = true,
+        .has_trapdev  = true,
         .has_iec      = true,
         .has_formfeed = true,
         .has_driver   = true,
@@ -137,7 +137,7 @@ static const child_t children[] = {
         .name         = "opencbm7",
         .device       = 7,
         .device_drv   = PRINTER_USERPORT,   /* 3 */
-        .has_virtdev  = true,
+        .has_trapdev  = true,
         .has_iec      = true,
         .has_realdev  = true,
     },
@@ -184,7 +184,7 @@ static int get_child_index_for_device(int device)
  *
  * \note    Returns `false` for xvic due to xvic having its own iecbus code.
  */
-static bool machine_has_iec(void)
+static bool machine_has_iec_or_ieee(void)
 {
     switch (machine_class) {
         /* these machines have IEC */
@@ -198,6 +198,10 @@ static bool machine_has_iec(void)
         case VICE_MACHINE_VIC20:    /* fall through */
 #endif
         case VICE_MACHINE_PLUS4:
+	/* these machines have IEEE-488 */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
             return true;
 
         default:
@@ -272,8 +276,8 @@ static GtkWidget *create_virtual_device_check_button(int device)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new_sprintf("VirtualDevice%d",
-                                                        "Enable Virtual Device",
+    check = vice_gtk3_resource_check_button_new_sprintf("TrapDevice%d",
+                                                        "Virtual (traps)",
                                                         device);
     return check;
 }
@@ -288,8 +292,8 @@ static GtkWidget *create_iec_check_button(int device)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new_sprintf("IECDevice%d",
-                                                        "Enable IEC device",
+    check = vice_gtk3_resource_check_button_new_sprintf("BusDevice%d",
+                                                        "Virtual (bus)",
                                                         device);
     return check;
 }
@@ -414,13 +418,13 @@ static GtkWidget *create_printer_widget(int index)
          * custom check button */
         type = create_real_device7_check_button();
     }
-    if (child->has_virtdev) {
+    if (child->has_trapdev) {
         virtdev = create_virtual_device_check_button(device);
     } else if (child->has_userport) {
         virtdev = userport_device_check_button_new("Enable userport printer emulation",
                                                    USERPORT_DEVICE_PRINTER);
     }
-    if (child->has_iec && machine_has_iec()) {
+    if (child->has_iec && machine_has_iec_or_ieee()) {
         iec = create_iec_check_button(device);
     }
     if (child->has_driver) {

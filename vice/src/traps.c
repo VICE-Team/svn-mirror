@@ -118,79 +118,39 @@ static int set_traps_enabled(int val, void *param)
     }
     set_traps_status(enabled);
 
-    machine_bus_status_virtualdevices_set(unit, enabled);
+    machine_bus_status_trapdevices_set(unit, enabled);
     return 0;
 }
 
 static resource_int_t resources_int[] = {
     /* tape */
-    { "VirtualDevice1", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice1", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[1], set_traps_enabled, (void*)1 },
-    { "VirtualDevice2", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice2", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[2], set_traps_enabled, (void*)2 },
     /* printers */
-    { "VirtualDevice4", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice4", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[4], set_traps_enabled, (void*)4 },
-    { "VirtualDevice5", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice5", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[5], set_traps_enabled, (void*)5 },
-    { "VirtualDevice6", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice6", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[6], set_traps_enabled, (void*)6 },
-    { "VirtualDevice7", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice7", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[7], set_traps_enabled, (void*)7 },
     /* disk drives */
-    { "VirtualDevice8", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice8", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[8], set_traps_enabled, (void*)8 },
-    { "VirtualDevice9", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice9", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[9], set_traps_enabled, (void*)9 },
-    { "VirtualDevice10", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice10", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[10], set_traps_enabled, (void*)10 },
-    { "VirtualDevice11", 0, RES_EVENT_SAME, NULL,
+    { "TrapDevice11", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[11], set_traps_enabled, (void*)11 },
     RESOURCE_INT_LIST_END
 };
-
-#if 0
-static resource_int_t resources_int_ieee[] = {
-    /* tape */
-    { "VirtualDevice1", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[1], set_traps_enabled, (void*)1 },
-    { "VirtualDevice2", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[2], set_traps_enabled, (void*)2 },
-    /* printers */
-    { "VirtualDevice4", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[4], set_traps_enabled, (void*)4 },
-    { "VirtualDevice5", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[5], set_traps_enabled, (void*)5 },
-    { "VirtualDevice6", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[6], set_traps_enabled, (void*)6 },
-    { "VirtualDevice7", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[7], set_traps_enabled, (void*)7 },
-    /* disk drives */
-    { "VirtualDevice8", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[8], set_traps_enabled, (void*)8 },
-    { "VirtualDevice9", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[9], set_traps_enabled, (void*)9 },
-    { "VirtualDevice10", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[10], set_traps_enabled, (void*)10 },
-    { "VirtualDevice11", 1, RES_EVENT_SAME, NULL,
-      &traps_enabled_device[11], set_traps_enabled, (void*)11 },
-    RESOURCE_INT_LIST_END
-};
-#endif
 
 int traps_resources_init(void)
 {
-#if 0
-    /* the IEEE488 based machines do not use "device traps" (ROM patches),
-       instead the virtual devices are actually interfaced to the IEEE bus.
-       this makes them much more reliably, which is why we can enable them
-       by default here. */
-    if ((machine_class == VICE_MACHINE_PET) ||
-        (machine_class == VICE_MACHINE_CBM5x0) ||
-        (machine_class == VICE_MACHINE_CBM6x0)) {
-        return resources_register_int(resources_int_ieee);
-    }
-#endif
     return resources_register_int(resources_int);
 }
 
@@ -201,67 +161,67 @@ int traps_resources_init(void)
 static const cmdline_option_t cmdline_options[] =
 {
     /* tape */
-    { "-virtualdev1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice1", (resource_value_t)1,
+    { "-trapdevice1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice1", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice1", (resource_value_t)0,
+    { "+trapdevice1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice1", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice2", (resource_value_t)1,
+    { "-trapdevice2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice2", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice2", (resource_value_t)0,
+    { "+trapdevice2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice2", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     /* printers */
-    { "-virtualdev4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice4", (resource_value_t)1,
+    { "-trapdevice4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice4", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice4", (resource_value_t)0,
+    { "+trapdevice4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice4", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice5", (resource_value_t)1,
+    { "-trapdevice5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice5", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice5", (resource_value_t)0,
+    { "+trapdevice5", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice5", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice6", (resource_value_t)1,
+    { "-trapdevice6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice6", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice6", (resource_value_t)0,
+    { "+trapdevice6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice6", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice7", (resource_value_t)1,
+    { "-trapdevice7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice7", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice7", (resource_value_t)0,
+    { "+trapdevice7", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice7", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     /* disk drives */
-    { "-virtualdev8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice8", (resource_value_t)1,
+    { "-trapdevice8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice8", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice8", (resource_value_t)0,
+    { "+trapdevice8", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice8", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice9", (resource_value_t)1,
+    { "-trapdevice9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice9", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice9", (resource_value_t)0,
+    { "+trapdevice9", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice9", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice10", (resource_value_t)1,
+    { "-trapdevice10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice10", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice10", (resource_value_t)0,
+    { "+trapdevice10", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice10", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
-    { "-virtualdev11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice11", (resource_value_t)1,
+    { "-trapdevice11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice11", (resource_value_t)1,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "VirtualDevice11", (resource_value_t)0,
+    { "+trapdevice11", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "TrapDevice11", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     CMDLINE_LIST_END
 };

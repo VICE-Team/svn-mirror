@@ -44,7 +44,7 @@
 
 /* FIXME: this code should be a wrapper to the functions in src/iecbus/iecbus.c
           and not implement the IEC stuff right here - this is needed to make the
-          "IECDevice" implementation work in xvic as well */
+          "BusDevice" implementation work in xvic as well */
 
 #define NOT(x) ((x) ^ 1)
 

@@ -5,10 +5,10 @@
  */
 
 /*
- * $VICERES VirtualDevice1          -xscpu64 -vsid
- * $VICERES VirtualDevice2          -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
- * $VICERES TapePort1Device         -xscpu64 -vsid
- * $VICERES TapePort2Device         -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
+ * $VICERES TrapDevice1                     -xscpu64 -vsid
+ * $VICERES TrapDevice2                     -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
+ * $VICERES TapePort1Device                 -xscpu64 -vsid
+ * $VICERES TapePort2Device                 -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
  * $VICERES DatasetteResetWithCPU           -xscpu64 -vsid
  * $VICERES DatasetteSound                  -xscpu64 -vsid
  * $VICERES DatasetteSoundVolume            -xscpu64 -vsid
@@ -17,11 +17,11 @@
  * $VICERES DatasetteTapeWobbleAmplitude    -xscpu64 -vsid
  * $VICERES DatasetteTapeWobbleFrequency    -xscpu64 -vsid
  * $VICERES DatasetteZeroGapDelay           -xscpu64 -vsid
- * $VICERES CPClockF83Save          -xscpu64 -vsid
- * $VICERES TapecartUpdateTCRT      x64 x64sc x128
- * $VICERES TapecartOptimizeTCRT    x64 x64sc x128
- * $VICERES TapecartLogLevel        x64 x64sc x128
- * $VICERES TapecartTCRTFilename    x64 x64sc x128
+ * $VICERES CPClockF83Save                  -xscpu64 -vsid
+ * $VICERES TapecartUpdateTCRT              x64 x64sc x128
+ * $VICERES TapecartOptimizeTCRT            x64 x64sc x128
+ * $VICERES TapecartLogLevel                x64 x64sc x128
+ * $VICERES TapecartTCRTFilename            x64 x64sc x128
  */
 
 /*
@@ -270,12 +270,12 @@ static GtkWidget *create_datasette_widget(void)
     row++;
 
     /* device traps for datasette #1 and #2 */
-    ds_traps1 = vice_gtk3_resource_check_button_new("VirtualDevice1",
-                                                    "Virtual Device #1 (required for t64)");
+    ds_traps1 = vice_gtk3_resource_check_button_new("TrapDevice1",
+                                                    "Kernal traps for Device #1 (required for t64)");
     gtk_grid_attach(GTK_GRID(grid), ds_traps1, 0, row, 2, 1);
     if (machine_has_second_tape_port()) {
-        ds_traps2 = vice_gtk3_resource_check_button_new("VirtualDevice2",
-                                                        "Virtual Device #2 (required for t64)");
+        ds_traps2 = vice_gtk3_resource_check_button_new("TrapDevice2",
+                                                        "Kernal traps for Device #2 (required for t64)");
         gtk_grid_attach(GTK_GRID(grid), ds_traps2, 2, row, 2, 1);
     }
     row++;
