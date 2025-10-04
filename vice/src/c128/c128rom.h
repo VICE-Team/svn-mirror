@@ -75,13 +75,15 @@ int c128rom_basic64_setup(void);
 #define C128_KERNAL_DE_R01_CHECKSUM     22098 /* FIXME: 19680 ? */
 #define C128_KERNAL_CH_R01_CHECKSUM     21376
 
-/* C128 chargen */
+/* C128 chargen
+ * CAUTION: some dumps that are circulating have the two charsets swapped.
+ * The international one should be in the first half (see #2171)
+ */
 #define C128_CHARGEN_NAME       "chargen-390059-01.bin"
 #define C128_CHARGEN_BE_NAME    "chargen-325167-02.bin" /* italian/french/belgium */
 #define C128_CHARGEN_CH_NAME    "chargen-325173-01D.bin"
 #define C128_CHARGEN_DE_NAME    "chargen-315079-01.bin"
 #define C128_CHARGEN_FI_NAME    "chargen-325181-01.bin" /* same as swedish */
-/*#define C128_CHARGEN_FR_NAME    "chargen-325167-01.bin"*/
 #define C128_CHARGEN_FR_NAME    "chargen-325167-02.bin" /* italian/french/belgium */
 #define C128_CHARGEN_IT_NAME    "chargen-325167-02.bin" /* italian/french/belgium */
 #define C128_CHARGEN_NO_NAME    "chargen-325078-02.bin"
