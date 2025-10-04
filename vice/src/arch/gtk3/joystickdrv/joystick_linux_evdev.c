@@ -336,6 +336,8 @@ static void scan_axes(joystick_device_t *joydev, struct libevdev *evdev)
                 if (info != NULL) {
                     axis->minimum = info->minimum;
                     axis->maximum = info->maximum;
+                    /* FIXME: Workaround for bug #2161 (should be fixed one layer above) */
+                    axis->digital = (info->minimum == -1) && (info->maximum == 1);
                 }
                 /* joydev takes ownership of axis */
                 joystick_device_add_axis(joydev, axis);
