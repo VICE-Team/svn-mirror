@@ -9,7 +9,6 @@ roms = \
 	basiclo-318018-04.bin \
 	chargen-315079-01.bin \
 	chargen-390059-01.bin \
-	chargen-325167-01.bin \
 	chargen-325181-01.bin \
 	chargen-325173-01D.bin \
 	chargen-325078-02.bin \
