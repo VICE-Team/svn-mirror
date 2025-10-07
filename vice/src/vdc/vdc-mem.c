@@ -383,14 +383,28 @@ void vdc_store(uint16_t addr, uint8_t value)
             if ((vdc.regs[25] & 0x0Fu) != (oldval & 0x0Fu)) {
                 /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
-                /* Smooth scroll behaviour differs between VDC versions */
+                /* Smooth scroll behaviour differs between VDC versions:
+                Incrementing HSS always moves the screen contents to the right,
+                but in v0 VDC, the left border moves to the right as well(!),
+                which makes scrolling almost totally useless.
+                Also, v0 VDC has another, even more serious bug:
+                if xsmooth == (vdc.regs[22] >> 4), pixel data of leftmost char
+                is missing (inside border?) so pixel data and attributes are out
+                of sync! This also affects the hardware cursor, which appears to
+                be located one char to the right.
+                In v1/v2 VDC, the bugs are fixed: the border is fixed so only
+                the rightmost pixel of the leftmost char is visible, which is
+                why (vdc.regs[22] >> 4) has to be used as xsmooth init value. */
                 if (vdc.revision == VDC_REVISION_0) {
-                    /* v0 VDC, incrementing HSS moves screen to the left, so xsmooth should decrease */
-                    vdc.xsmooth = ((vdc.regs[22] >> 4) - (vdc.regs[25] & 0x0F)) & 0x0F;
+                    /* v0 VDC, incrementing HSS moves border and screen to the right */
+                    vdc.v0xscroll = (vdc.regs[25] & 0x0F);
+                    vdc.xsmooth = (vdc.regs[22] >> 4) & 0x0F;
                 } else {
                     /* v1/2 VDC, incrementing HSS moves screen to the right */
+                    vdc.v0xscroll = 0;
                     vdc.xsmooth = (vdc.regs[25] & 0x0F);
                 }
+                vdc.border_width = vdc.iborder_width + vdc.v0xscroll;
                 vdc.raster.xsmooth = 0;
                 /* Hack to get the line redrawn because we are not actually using the xsmooth in raster
                 (so the xsmooth color is irrelevant, but changing it still forces a repaint of the line) */
