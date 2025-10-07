@@ -102,7 +102,9 @@ struct vdc_s {
     unsigned int first_displayed_line;
     unsigned int last_displayed_line;
     unsigned int border_height;
-    unsigned int border_width;
+    unsigned int v0xscroll;
+    unsigned int iborder_width; /* internal */
+    unsigned int border_width;  /* including v0 xscroll */
     unsigned int raster_ycounter_max;
     unsigned int screen_textlines;
 
@@ -132,7 +134,7 @@ struct vdc_s {
     unsigned int mem_counter;
     unsigned int bitmap_counter;
 
-    /* Bytes per character.  */
+    /* Bytes per character, either 16 or 32 */
     unsigned int bytes_per_char;
 
     /* Character width - width of each character on screen in physical pixels */
@@ -173,7 +175,7 @@ struct vdc_s {
     /* The screen geometry has changed.  */
     int update_geometry;
 
-    /* 0..7 pixel x shift.  */
+    /* 0..7 pixel x shift. FIXME - should be 0..15! */
     unsigned int xsmooth;
 
     /* VDC Revision.  */

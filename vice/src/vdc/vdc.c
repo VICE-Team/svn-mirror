@@ -306,7 +306,8 @@ static void vdc_update_geometry(void)
     } else if (vdc.hsync_shift + (vdc.screen_text_cols * vdc.charwidth) > VDC_SCREEN_WIDTH ) {
         vdc.hsync_shift = VDC_SCREEN_WIDTH - (vdc.screen_text_cols * vdc.charwidth);
     }
-    vdc.border_width = vdc.hsync_shift;
+    vdc.iborder_width = vdc.hsync_shift;
+    vdc.border_width = vdc.iborder_width + vdc.v0xscroll;
 
     vdc.update_geometry = 0;
 }
@@ -334,6 +335,8 @@ void vdc_reset(void)
     vdc.interlaced = 0;
     vdc.regs[9] = vdc.raster_ycounter_max = 7;
     vdc.regs[22] = 0x78;
+    vdc.regs[27] = vdc.skip_after_line = 0;
+    vdc.v0xscroll = 0;
     vdc.charwidth = 8;
     vdc.attribute_offset = 0;
     vdc.border_height = 59;
