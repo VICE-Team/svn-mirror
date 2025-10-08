@@ -2058,7 +2058,7 @@ static int p_expand(int version, int addr, int ctrls)
                 c, feof(source), *line, sysflg));
 
     if (checksummer_data) {
-	    free(checksummer_data);
+        free(checksummer_data);
     }
     return (!feof(source) && (*line | line[1]) && sysflg);
 }
