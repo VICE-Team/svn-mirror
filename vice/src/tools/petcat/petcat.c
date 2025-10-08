@@ -592,6 +592,142 @@ static basic_list_t basic_list[] = {
 
 #define NUM_VERSIONS ((sizeof(basic_list) / sizeof(basic_list[0])) - 1)
 
+typedef struct {
+    uint8_t val;
+    uint8_t shift;
+} chksum_64er_data;
+
+static char *chksum_64er_finalize(void *data) {
+    chksum_64er_data *v = data;
+    char out[6];
+    snprintf(out, 6, "<%03hhu>", v->val);
+    return strdup(out);
+}
+
+static void chksum_64er_v1_process(void *data, uint8_t c, int quoted) {
+    chksum_64er_data *v = data;
+    if (c == 0x20) {
+        return; /* ignores spaces within quotes, too */
+    }
+    v->val += c;
+}
+
+static void chksum_64er_v1_init(void *data, int linenum) {
+    chksum_64er_data *v = data;
+    v->val = 0;
+    v->shift = 0;
+    chksum_64er_v1_process(data, linenum & 0xff, 0);
+    chksum_64er_v1_process(data, linenum >> 8, 0);
+}
+
+static void chksum_64er_v3_process(void *data, uint8_t c, int quoted) {
+    chksum_64er_data *v = data;
+    uint8_t tmp;
+    if (c == 0x20) {
+        return; /* ignores spaces within quotes, too */
+    }
+    v->shift &= 7;
+    tmp = c << v->shift;
+    tmp |= c >> (8 - v->shift);
+    v->shift++;
+    v->val += tmp;
+}
+
+static void chksum_64er_v3_init(void *data, int linenum) {
+    chksum_64er_data *v = data;
+    v->val = 0;
+    v->shift = 0;
+    chksum_64er_v3_process(data, linenum & 0xff, 0);
+    chksum_64er_v3_process(data, linenum >> 8, 0);
+}
+
+typedef struct {
+    uint8_t val;
+} chksum_cmddossier_data;
+
+static void chksum_cmddossier_init(void *data, int linenum) {
+    chksum_cmddossier_data *v = data;
+    v->val = (linenum & 0xff) ^ (linenum >> 8);
+}
+
+static void chksum_cmddossier_process(void *data, uint8_t c, int quoted) {
+    chksum_cmddossier_data *v = data;
+    if (!quoted && c == ' ') {
+        return;
+    }
+    v->val ^= c;
+}
+
+static char *chksum_cmddossier_finalize(void *data) {
+    chksum_64er_data *v = data;
+    char out[10];
+    snprintf(out, 10, "<sh/sp>%02hhx", v->val);
+    return strdup(out);
+}
+
+typedef struct {
+    uint16_t val;
+} chksum_f64_data;
+
+static void chksum_f64_init(void *data, int linenum) {
+    chksum_f64_data *v = data;
+    v->val = (uint16_t)linenum ^ 0xffff;
+}
+
+static void chksum_f64_process(void *data, uint8_t c, int quoted) {
+    chksum_f64_data *v = data;
+    if (!quoted && c == ' ') {
+        return;
+    }
+    /* Taken from https://github.com/Zirias/f64summer, which is BSD-2 */
+    if ((c >= 0x60 && c < 0x80)
+      || (c >= 0xe0 && c < 0xff)
+      || c == 0xde) {
+        if (c == 0xde || c == 0x7e) {
+            c = 0xff;
+        } else if (c & 0x80) {
+            c -= 0x40;
+        } else {
+            c += 0x60;
+        }
+    }
+    if (c==0xa0) {
+        c=' ';
+    }
+    for (int b = 0; b < 8; ++b) {
+        unsigned char tmp = !!(c & 0x80);
+        c <<= 1;
+        tmp ^= (v->val & 1);
+        v->val >>= 1;
+        if (tmp) v->val ^= 0xb400;
+    }
+}
+
+static char *chksum_f64_finalize(void *data) {
+    chksum_f64_data *v = data;
+    char out[7];
+    snprintf(out, 7, "<%04hx>", v->val);
+    return strdup(out);
+}
+
+typedef struct {
+    char *name;
+    char *description;
+    void (*init)(void *data, int linenum);
+    void (*process)(void *data, uint8_t c, int quoted);
+    char *(*finalize)(void *data);
+    unsigned int datasize;
+} chksum_t;
+
+chksum_t chksum_list[] = {
+    /* v2 uses the same algorithm as v1 */
+    {"64er-v1", "64'er Checksummer v1 + v2", chksum_64er_v1_init, chksum_64er_v1_process, chksum_64er_finalize, sizeof(chksum_64er_data)},
+    {"64er-v3", "64'er Checksummer v3", chksum_64er_v3_init, chksum_64er_v3_process, chksum_64er_finalize, sizeof(chksum_64er_data)},
+    {"dossier", "Commodore Dossier Checksummer", chksum_cmddossier_init, chksum_cmddossier_process, chksum_cmddossier_finalize, sizeof(chksum_cmddossier_data)},
+    {"f64", "F64Summer", chksum_f64_init, chksum_f64_process, chksum_f64_finalize, sizeof(chksum_f64_data)},
+    {NULL, NULL, NULL, NULL, NULL, 0},
+};
+
 /* Limits */
 
 #define NUM_KWCE        11
@@ -914,6 +1050,7 @@ static const char *kwfe65[] = {
 static void usage(char *progname);
 static void petcat_version(void);
 static int parse_version(char *str);
+static chksum_t *parse_checksummer(char *str);
 static void list_keywords(int version);
 static void pet_2_asc (int version, int ctrls);
 static void asc_2_pet (int version, int ctrls);
@@ -934,6 +1071,7 @@ static int verbose = 0;     /* flag, =1 for verbose output */
 
 static const unsigned char MagicHeaderP00[8] = "C64File\0";
 
+static chksum_t *checksummer = NULL;
 /* ------------------------------------------------------------------------- */
 
 int main(int argc, char **argv)
@@ -1036,6 +1174,11 @@ int main(int argc, char **argv)
         } else if (strcmp(argv[0], "-version") == 0) {
             petcat_version();
             return EXIT_SUCCESS;
+        } else if (!strncmp(argv[0], "-C", 2) && !checksummer) {
+            checksummer = parse_checksummer((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));
+            if (checksummer) {
+                continue;
+            }
             /* Basic version */
         } else if (!strncmp(argv[0], "-w", 2) && !wr_mode) {
             version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));
@@ -1293,6 +1436,7 @@ void usage(char *progname)
             "   -nh\t\tno header <default if output is a file>\n"
             "   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n"
             "   -text\tForce text mode\n"
+            "   -C<chksum>\tadd listing checksums of the specified type.\n"
             "   -<version>\tuse keywords for <version> instead of the v7.0 ones\n"
             "   -w<version>\ttokenize using keywords on specified Basic version.\n"
             "   -k<version>\tlist all keywords for the specified Basic version\n"
@@ -1308,6 +1452,13 @@ void usage(char *progname)
         fprintf(stdout, "\t%s\t%s\n", sorted_option_elements[i].version_select, sorted_option_elements[i].name);
     }
     free(sorted_option_elements);
+
+    fprintf(stdout, "\n");
+
+    fprintf(stdout, "\n\tChecksummers:\n");
+    for (i = 0; chksum_list[i].name; ++i) {
+        fprintf(stdout, "\t%s\t%s\n", chksum_list[i].name, chksum_list[i].description);
+    }
 
     fprintf(stdout, "\n");
 
@@ -1364,6 +1515,23 @@ static int parse_version(char *str)
     fprintf(stderr, "\nUnimplemented version '%s'\n", str);
 
     return -1;
+}
+
+static chksum_t *parse_checksummer(char *str)
+{
+    if (str == NULL || !*str) {
+        return NULL;
+    }
+
+    for (int i = 0; chksum_list[i].name; ++i) {
+        if (strcasecmp(str, chksum_list[i].name) == 0) {
+            return &chksum_list[i];
+        }
+    }
+
+    fprintf(stderr, "\nUnimplemented checksummer '%s'\n", str);
+
+    return NULL;
 }
 
 static void list_keywords(int version)
@@ -1708,6 +1876,11 @@ static int p_expand(int version, int addr, int ctrls)
     int quote, spnum, directory = 0;
     int sysflg = 0;
 
+    void *checksummer_data = NULL;
+    if (checksummer) {
+        checksummer_data = malloc(checksummer->datasize);
+    }
+
     /*
      * It seems to be common mistake not to terminate BASIC properly
      * before the machine language part, so we don't check for the
@@ -1719,6 +1892,9 @@ static int p_expand(int version, int addr, int ctrls)
     while ((fread(line, 1, 2, source) == 2) && (line[1]) && fread(line + 2, 1, 2, source) == 2) {
         quote = 0;
         fprintf(dest, "%5d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
+        if (checksummer) {
+            checksummer->init(checksummer_data, spnum);
+        }
 
         if (directory) {
             if (spnum >= 100) {
@@ -1740,6 +1916,9 @@ static int p_expand(int version, int addr, int ctrls)
         }
 
         do {
+            if (checksummer)
+                checksummer->process(checksummer_data, c, quote);
+
             if (c == 0x22) {
                 quote ^= c;
             }
@@ -1867,12 +2046,20 @@ static int p_expand(int version, int addr, int ctrls)
 
             _p_toascii((int)c, version, ctrls, quote);  /* convert character */
         } while ((c = getc(source)) != EOF && c);
+        if (checksummer) {
+            char *chksum = checksummer->finalize(checksummer_data);
+            fprintf(dest, "\t|| %s", chksum);
+            free(chksum);
+        }
         fprintf(dest, "\n");
     }      /* line */
 
     DBG(("\n c %02d  EOF %d  *line %d  sysflg %d\n",
                 c, feof(source), *line, sysflg));
 
+    if (checksummer_data) {
+	    free(checksummer_data);
+    }
     return (!feof(source) && (*line | line[1]) && sysflg);
 }
 

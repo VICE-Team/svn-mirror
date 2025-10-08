@@ -24172,6 +24172,9 @@ Skip <n> bytes in the beginning of input file. Ignored on P00.
 @findex -text
 @item -text
 Force text mode
+@findex -C<chksum>
+@item -C<chksum>
+add listing checksums of the specified type. (see below)
 @c @findex -<version> - this one breaks the index (?!)
 @item -<version>
 use keywords for <version> instead of the v7.0 ones
@@ -24186,7 +24189,7 @@ list all keywords for the specified Basic version
 list all Basic versions available.
 @findex -l
 @item -l
-Specify load address for program (in hex, no loading chars!).
+Specify load address for program (in hex, no leading chars!).
 @findex -o <name>
 @item -o <name>
 Specify the output file name
@@ -24281,6 +24284,18 @@ Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
 Basic v2.0 with Ultrabasic-64 (C64)
 @item xbasic
 Basic v2.0 with Xbasic (C64)
+@end table
+
+Checksummers:
+@table @code
+@item 64er-v1
+64'er Checksummer v1 + v2
+@item 64er-v3
+64'er Checksummer v3
+@item dossier
+Commodore Dossier Checksummer
+@item f64
+F64Summer
 @end table
 
 @c @node FIXME
