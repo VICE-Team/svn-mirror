@@ -114,7 +114,7 @@ src                         - common code
  resid                      - cycle exact sid engine (made by dag lem)
  resid-dtv
  sid                        - SID chip interface and emulation for fallback sid engine (fastsid)
- vdc                        - MOS8563 VDC emulation
+ vdc                        - MOS8563/8568 VDC emulation
  vicii                      - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv
  viciisc                    - more cycle exact then vicii code emulation used in x64sc and xscpu64
 
