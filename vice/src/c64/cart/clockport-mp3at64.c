@@ -34,17 +34,30 @@
 
 #include <mpg123.h>
 
+#include "archdep.h"
 #include "clockport.h"
 #include "lib.h"
-#ifdef MP3AT64_DEBUG
 #include "log.h"
-#endif
 #include "monitor.h"
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
 
 #include "clockport-mp3at64.h"
+
+/* #define MP3AT64_DEBUG */
+
+#ifdef MP3AT64_DEBUG
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
+
+/* #define DUMPWAV */
+
+#ifdef DUMPWAV
+FILE *dumpfile;
+#endif
 
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
@@ -161,6 +174,7 @@ static float mp3_get_current_sample(void)
             }
             mp3_output_buffers[MP3_BUFFERS - 1] = NULL;
             mp3_output_buffers_size[MP3_BUFFERS - 1] = 0;
+            mp3_output_sample_pos = 0;
         }
     }
     return retval / 32767.0;
@@ -181,8 +195,10 @@ static int16_t mp3_get_current_sample(void)
             }
             mp3_output_buffers[MP3_BUFFERS - 1] = NULL;
             mp3_output_buffers_size[MP3_BUFFERS - 1] = 0;
+            mp3_output_sample_pos = 0;
         }
     }
+
     return retval;
 }
 #endif
@@ -246,6 +262,9 @@ void clockport_mp3at64_sound_chip_init(void)
 
 static int clockport_mp3at64_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+#ifdef DUMPWAV
+    dumpfile = fopen("dumpwav.raw", "wb");
+#endif
     mp3_err = mpg123_init();
     if (mp3_err != MPG123_OK) {
         return 0;
@@ -276,6 +295,9 @@ static void clockport_mp3at64_sound_machine_close(sound_t *psid)
             mp3_output_buffers_size[i] = 0;
         }
     }
+#ifdef DUMPWAV
+    fclose(dumpfile);
+#endif
 }
 
 #ifdef SOUND_SYSTEM_FLOAT
@@ -297,6 +319,8 @@ static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int
     int i;
     int16_t sample;
 
+    DBG(("clockport_mp3at64_sound_machine_calculate_samples soc:%d num:%d clock-delta:%ld n:%04x", soc, nr, *delta_t, n));
+
     for (i = 0; i < nr; ++i) {
         switch (soc) {
             default:
@@ -304,9 +328,9 @@ static int clockport_mp3at64_sound_machine_calculate_samples(sound_t **psid, int
                 sample = sound_audio_mix(mp3_get_current_sample(), mp3_get_current_sample());
                 pbuf[i] = sound_audio_mix(pbuf[i], sample);
                 break;
-           case SOUND_OUTPUT_STEREO:
+            case SOUND_OUTPUT_STEREO:
                 pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], mp3_get_current_sample());
-                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[i], mp3_get_current_sample());
+                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], mp3_get_current_sample());
                 break;
         }
     }
@@ -466,10 +490,16 @@ static int mp3_validate(void)
 
 static int mp3_frame_is_empty(void)
 {
-    if (mp3_frame_buffer[0x24] == 'X' && mp3_frame_buffer[0x25] == 'i' && mp3_frame_buffer[0x26] == 'n' && mp3_frame_buffer[0x27] == 'g') {
+    if (mp3_frame_buffer[0x24] == 'X' &&
+        mp3_frame_buffer[0x25] == 'i' &&
+        mp3_frame_buffer[0x26] == 'n' &&
+        mp3_frame_buffer[0x27] == 'g') {
         return 1;
     }
-    if (mp3_frame_buffer[0x24] == 'I' && mp3_frame_buffer[0x25] == 'n' && mp3_frame_buffer[0x26] == 'f' && mp3_frame_buffer[0x27] == 'o') {
+    if (mp3_frame_buffer[0x24] == 'I' &&
+        mp3_frame_buffer[0x25] == 'n' &&
+        mp3_frame_buffer[0x26] == 'f' &&
+        mp3_frame_buffer[0x27] == 'o') {
         return 1;
     }
     return 0;
@@ -484,8 +514,18 @@ static void mp3at64_store_mp3_data(uint8_t val)
     int block;
     int ret;
     size_t size;
+    static int warnoverflow = 1;
 
-    mp3_frame_buffer[mp3_input_pointer] = val;
+    DBG(("mp3at64_store_mp3_data: 0x%02x ptr:%04x state:%d", val, mp3_input_pointer, mp3_input_data_state));
+
+    if (mp3_input_pointer < MP3_INPUT_MAX_FRAME) {
+        mp3_frame_buffer[mp3_input_pointer] = val;
+        warnoverflow = 1;
+    } else if (warnoverflow) {
+        log_error(LOG_DEFAULT, "mp3_frame_buffer overflow (state:%d pos:%04x)",
+                mp3_input_data_state, (unsigned)mp3_input_pointer);
+        warnoverflow = 0;
+    }
 
     switch (mp3_input_data_state) {
         case MP3_INPUT_STATE_IDLE:
@@ -604,7 +644,10 @@ static void mp3at64_store_mp3_data(uint8_t val)
                         mp3_id3_length[mp3_input_pointer - 6] = val;
                         mp3_input_pointer++;
                         if (mp3_input_pointer == 10) {
-                            mp3_id3_len = (mp3_id3_length[0] << 21) | (mp3_id3_length[1] << 14) | (mp3_id3_length[2] << 7) | mp3_id3_length[3];
+                            mp3_id3_len = (mp3_id3_length[0] << 21) |
+                                          (mp3_id3_length[1] << 14) |
+                                          (mp3_id3_length[2] << 7) |
+                                           mp3_id3_length[3];
                         }
                     }
                     break;
@@ -671,6 +714,12 @@ static void mp3at64_store_mp3_data(uint8_t val)
                                     if (mp3_get_sampling_rate() != mp3_output_rate) {
                                         mp3_resample(block, mp3_get_sampling_rate());
                                     }
+                                    DBG(("block: %d size: %d", block, size));
+#ifdef DUMPWAV
+                                    fwrite(mp3_output_buffers[block], 1, mp3_output_buffers_size[block], dumpfile);
+#endif
+                                } else {
+                                    lib_free(buffer);
                                 }
                             }
                             mp3_input_pointer = 0;
@@ -699,15 +748,11 @@ static void clockport_mp3at64_store(uint16_t address, uint8_t val, void *context
             mp3at64_store_mp3_data(val);
             break;
         case 5:
-#ifdef MP3AT64_DEBUG
-            log_warning(LOG_DEFAULT, "storing i2c data: %d", val);
-#endif
+            DBG(("storing i2c data: %d", val));
             mp3at64_set_i2c_data(val);
             break;
         case 6:
-#ifdef MP3AT64_DEBUG
-            log_warning(LOG_DEFAULT, "storing i2c clock: %d", val);
-#endif
+            DBG(("storing i2c clock: %d", val));
             mp3at64_set_i2c_clock(val);
             break;
     }
@@ -783,6 +828,7 @@ void clockport_mp3at64_shutdown(void)
 clockport_device_t *clockport_mp3at64_open_device(const char *owner)
 {
     clockport_device_t *retval = NULL;
+    DBG(("clockport_mp3at64_open_device"));
     if (clockport_mp3at64_sound_chip.chip_enabled) {
         ui_error("ClockPort MP3@64 already in use by %s.", clockport_mp3at64_owner);
         return NULL;
