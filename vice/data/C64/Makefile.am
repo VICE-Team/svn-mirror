@@ -72,6 +72,7 @@ sdl_keymaps = \
 	sdl_joymap_thec64.vjm \
 	sdl_joymap_keyrah_v3.vjm \
 	sdl_joymap_xbox360.vjm \
+	sdl_joymap_8bitdo_6b.vjm \
 	sdl_pos.vkm \
 	sdl_pos_uk.vkm \
 	sdl_pos_ch.vkm \
@@ -92,7 +93,11 @@ sdl_keymaps = \
 	sdl_sym_it.vkm \
 	sdl_sym_fr.vkm \
 	sdl_sym_tr.vkm \
-	sdl_sym_da.vkm
+	sdl_sym_da.vkm \
+	sdl_sym_us_pi_4-500_bmc64.vkm \
+	sdl_sym_uk_pi_4-500_bmc64.vkm \
+	sdl_sym_no_pi_4-500_bmc64.vkm \
+	sdl_c64p.vkm
 
 sym_file = \
 	c64mem.sym
