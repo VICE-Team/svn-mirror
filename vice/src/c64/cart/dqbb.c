@@ -315,6 +315,7 @@ static int dqbb_deactivate(void)
 static int set_dqbb_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
+    DBG(("set_dqbb_enabled: val:%d", val));
 
     if ((!val) && (dqbb_enabled)) {
         cart_power_off();
@@ -339,6 +340,7 @@ static int set_dqbb_enabled(int value, void *param)
         dqbb_reset();
         dqbb_change_config();
     }
+    DBG(("set_dqbb_enabled: dqbb_enabled:%d", dqbb_enabled));
     return 0;
 }
 
@@ -374,6 +376,7 @@ static int set_dqbb_image_write(int val, void *param)
 
 static int set_dqbb_size(int val, void *param)
 {
+    DBG(("set_dqbb_size: val:%d", val));
     if (val != dqbb_size) {
         if ((val == 16) ||
             (val == 32) ||
@@ -389,16 +392,18 @@ static int set_dqbb_size(int val, void *param)
             }
             DBG(("set_dqbb_size size: %d mask: 0x%02x", dqbb_size, (unsigned int)dqbb_bank_mask));
         } else {
+            DBG(("set_dqbb_size: (error) dqbb_size:%d", dqbb_size));
             return -1;
         }
     }
+    DBG(("set_dqbb_size: (ok) dqbb_size:%d", dqbb_size));
     return 0;
 }
 
 static int set_dqbb_mode(int val, void *param)
 {
-    dqbb_mode_switch = (val == 0) ? DQBB_MODE_C128 : DQBB_MODE_C64;
-    DBG(("set_dqbb_mode: %s", dqbb_mode_switch == DQBB_MODE_C64 ? "C64" : "C128"));
+    dqbb_mode_switch = (val == DQBB_MODE_C128) ? DQBB_MODE_C128 : DQBB_MODE_C64;
+    DBG(("set_dqbb_mode: val:%d dqbb_mode_switch: %s", val, dqbb_mode_switch == DQBB_MODE_C64 ? "C64" : "C128"));
     if (dqbb_enabled) {
         dqbb_change_config();
     }
@@ -414,11 +419,11 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "DQBB", 0, RES_EVENT_STRICT, NULL,
+    { "DQBB", 0, RES_EVENT_SAME, NULL,
       &dqbb_enabled, set_dqbb_enabled, NULL },
-    { "DQBBSize", 16, RES_EVENT_STRICT, NULL,
+    { "DQBBSize", 16, RES_EVENT_SAME, NULL,
       &dqbb_size, set_dqbb_size, NULL },
-    { "DQBBMode", DQBB_MODE_C64, RES_EVENT_STRICT, NULL,
+    { "DQBBMode", DQBB_MODE_C64, RES_EVENT_SAME, NULL,
       &dqbb_mode_switch, set_dqbb_mode, NULL },
     { "DQBBImageWrite", 0, RES_EVENT_NO, NULL,
       &dqbb_write_image, set_dqbb_image_write, NULL },
