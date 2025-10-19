@@ -1012,6 +1012,7 @@ int resources_set_event_safe(void)
         switch (resources[i].type) {
             case RES_INTEGER:
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
+                    DBG(("seting event-safe resource value for '%s'", resources[i].name));
                     if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].event_strict_value),
                                                      resources[i].param) < 0) {
                         log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'", resources[i].name);
@@ -1021,6 +1022,7 @@ int resources_set_event_safe(void)
                 break;
             case RES_STRING:
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
+                    DBG(("seting event-safe resource value for '%s'", resources[i].name));
                     if ((*resources[i].set_func_string)((const char *)(resources[i].event_strict_value),
                                                         resources[i].param) < 0) {
                         log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'", resources[i].name);
