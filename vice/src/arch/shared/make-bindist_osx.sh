@@ -102,8 +102,7 @@ elif [ "$UI_TYPE" = "SDL2" ]; then
 fi
 
 # define droppable file types
-DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
-DROP_FORMATS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
+DROP_EXTENSIONS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
 
 # runtime scripts
 MACOS_SCRIPTS=macOS-runtime-scripts.inc
@@ -159,56 +158,72 @@ APP_DOCS=$APP_SHARE/vice/doc
 APP_BIN=$APP_RESOURCES/bin
 APP_LIB=$APP_RESOURCES/lib
 
-if ! which -s platypus; then
-  echo "ERROR: platypus not found (sudo port install platypus / brew install platypus)"
-  exit 1
-fi
-
 make_app_bundle() {
-  local app_name=$1
-  local app_path=$BUILD_DIR/$app_name.app
-  local app_launcher=$2
-  local output=$(mktemp)
+  local app_name="$1"
+  local app_launcher="$2"
+  local app_path="$BUILD_DIR/$app_name.app"
+  local contents="$app_path/Contents"
+  local macos="$contents/MacOS"
+  local resources="$contents/Resources"
+  local info_plist="$contents/Info.plist"
+  local bundle_id="org.viceteam.$app_name"
+  local icon_src="$RUN_PATH/Resources/VICE.icns"
+  local icon_name="VICE.icns"
+  local min_macos="${MIN_MACOS_VER:-12.0}"  # override with MIN_MACOS_VER if you want
 
-  platypus \
-    -a $app_name \
-    -o None \
-    -i "$RUN_PATH/Resources/VICE.icns" \
-    -V "$VICE_VERSION" \
-    -u "The VICE Team" \
-    -I "org.viceteam.$app_name" \
-    -c "$app_launcher" \
-    -D \
-    -X $DROP_TYPES \
-    -R \
-    -B \
-    "$app_path" \
-    > /dev/null \
-    2> $output
+  rm -rf "$app_path"
+  mkdir -p "$macos" "$resources"
   
-  PLATYPUS_STATUS=$?
-  
-  if [ $PLATYPUS_STATUS -ne 0 ]; then
-    echo "ERROR: platypus failed with $PLATYPUS_STATUS. Output:"
-    cat $output
-    rm $output
+  # Install icon
+  cp "$icon_src" "$resources/$icon_name"
 
-    exit 1
-  fi
+  # 2) Install launcher (your script/binary)
+  #    We name it the same as the app for neatness, but any name is fine.
+  install -m 0755 "$app_launcher" "$macos/$app_name"
 
-  #
-  # For some reason can't set the CFBundlePackageType key directly using platypus.
-  # Without this the codesigning works but spctl --assess --verbose *.app results
-  # in "rejected (the code is valid but does not seem to be an app)" -- which
-  # means it won't get past gatekeeper properly, at least on 10.14. But it will on
-  # 10.15 if it's notarised. Wtf Apple.
-  #
-  # Also, with newer versions of platypus, the key WILL be there already.
-  # So, we check for it, and add it if missing.
-  #
+  # 3) Minimal Info.plist
+  /usr/bin/env cat > "$info_plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>    <string>en</string>
+  <key>CFBundleName</key>                 <string>${app_name}</string>
+  <key>CFBundleDisplayName</key>          <string>${app_name}</string>
+  <key>CFBundleIdentifier</key>           <string>${bundle_id}</string>
+  <key>CFBundleVersion</key>              <string>${VICE_VERSION}</string>
+  <key>CFBundleShortVersionString</key>   <string>${VICE_VERSION}</string>
+  <key>CFBundlePackageType</key>          <string>APPL</string>
+  <key>CFBundleExecutable</key>           <string>${app_name}</string>
+  <key>CFBundleIconFile</key>             <string>${icon_name}</string>
+  <key>CFBundlePackageType</key>          <string>APPL</string>
+  <key>LSMinimumSystemVersion</key>       <string>${min_macos}</string>
+  <key>NSHighResolutionCapable</key>      <true/>
+  <key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2025 The VICE Team</string>
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key><string>VICE Files</string>
+      <key>CFBundleTypeRole</key><string>Viewer</string> <!-- or Editor if you really want -->
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        $(for ext in $DROP_EXTENSIONS; do printf '        <string>%s</string>\n' "$ext"; done)
+      </array>
+      <!-- optional: <key>LSHandlerRank</key><string>Default</string> -->
+    </dict>
+  </array>
+</dict>
+</plist>
+PLIST
 
-  /usr/libexec/PlistBuddy -c 'print ":CFBundlePackageType"' "$app_path/Contents/Info.plist" >/dev/null 2>&1 || \
-    /usr/libexec/PlistBuddy -c "Add CFBundlePackageType string APPL" "$app_path/Contents/Info.plist"
+  # Strip extended attrs from script (reduces Gatekeeper false positives when copying from net fs)
+  xattr -cr "$app_path" || true
 }
 
 echo "  bundling $BUNDLE.app: "
@@ -305,7 +320,7 @@ for emu in $BINARIES ; do
   copy_tree "$TOP_DIR/data/$ROM" "$APP_ROMS/$ROM"
   (cd $APP_ROMS/$ROM && eval "rm -f $ROM_REMOVE")
 
-  echo -n "[platypus] "
+  echo -n "[app] "
   make_app_bundle $emu $RUN_PATH/$REDIRECT_LAUNCHER
 
   # ready
@@ -323,6 +338,8 @@ cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.s
 
 if [ "$UI_TYPE" = "SDL2" ]; then
   cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
+  copy_lib_recursively $DEPS_PREFIX/lib/libjxl_cms.*.dylib
+  copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
 elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
@@ -398,20 +415,6 @@ if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
   copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
 fi
 
-# ffmpeg
-if grep -q "^#define EXTERNAL_FFMPEG " "src/config.h"; then
-  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavformat.*.dylib')"
-  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavcodec.*.dylib')"
-  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavutil.*.dylib')"
-  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswscale.*.dylib')"
-  if grep -q "^#define HAVE_FFMPEG_AVRESAMPLE " "src/config.h"; then
-    copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavresample.*.dylib')"
-  fi
-  if grep -q "^#define HAVE_FFMPEG_SWRESAMPLE " "src/config.h"; then
-    copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswresample.*.dylib')"
-  fi
-fi
-
 # --- copy tools ---------------------------------------------------------------
 
 BIN_DIR=$BUILD_DIR/bin
@@ -451,6 +454,10 @@ done
 
 echo "Deduplicating libs"
 
+relative_path() {
+  python3 -c 'import os,sys; print(os.path.relpath(sys.argv[1], os.path.dirname(sys.argv[2])))' "$1" "$2"
+}
+
 for lib in $(find $APP_LIB -name '*.dylib' | sort -V -r); do
   if [ -L "$lib" ]; then
     continue
@@ -462,9 +469,10 @@ for lib in $(find $APP_LIB -name '*.dylib' | sort -V -r); do
     fi
 
     if cmp -s "$potential_duplicate" "$lib"; then
-      echo "Replacing $(basename $potential_duplicate) with symlink to $(basename $lib)"
+      echo "Replacing $(basename $potential_duplicate) with symlink to $(relative_path "$lib" "$potential_duplicate")"
+      chmod u+w "$potential_duplicate"
       rm "$potential_duplicate"
-      ln -s "$(basename "$lib")" "$potential_duplicate"
+      ln -s "$(relative_path "$lib" "$potential_duplicate")" "$potential_duplicate"
     fi
   done
 done
@@ -558,7 +566,7 @@ for emu in $EMULATORS $TOOLS; do
     #!/bin/bash
     export VICE_INITIAL_CWD="$(pwd)"
     export PROGRAM="$(basename "$0")"
-    "$(dirname "$0")/../VICE.app/Contents/Resources/script" "$@"
+    "$(dirname "$0")/../VICE.app/Contents/MacOS/VICE" "$@"
 HEREDOC
   chmod +x "$BIN_DIR/$emu"
 done
@@ -611,14 +619,6 @@ fi
 
 # --- copy hotkeys files ---
 cp "$TOP_DIR/data/hotkeys/"*.vhk "$APP_HOTKEYS/"
-
-
-# --- wtf permissions. ---------------------------------------------------------
-
-# platypus produces 777 binaries, which is awesome.
-
-find $BUILD_DIR -type f -exec chmod a-w {} \;
-find $BUILD_DIR -type d -exec chmod 755 {} \;
 
 
 # --- code signing (for Apple notarisation) ------------------------------------
