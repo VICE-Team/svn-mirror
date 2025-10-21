@@ -87,6 +87,7 @@ libarchdep_a_SOURCES = \
 	archdep_get_vice_hotkeysdir.c \
 	archdep_get_vice_machinedir.c \
 	archdep_getcwd.c \
+	archdep_glob.c \
 	archdep_home_path.c \
 	archdep_icon_path.c \
 	archdep_is_haiku.c \
@@ -199,6 +200,7 @@ EXTRA_DIST = \
 	archdep_get_vice_hotkeysdir.h \
 	archdep_get_vice_machinedir.h \
 	archdep_getcwd.h \
+	archdep_glob.h \
 	archdep_home_path.h \
 	archdep_icon_path.h \
 	archdep_is_haiku.h \

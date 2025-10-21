@@ -142,6 +142,7 @@
 #include "userport_superpad64.h"
 #include "userport_synergy_joystick.h"
 #include "userport_wic64.h"
+#include "userport_funmp3.h"
 #include "userport_woj_joystick.h"
 #include "vdc.h"
 #include "vdc-mem.h"
@@ -1149,7 +1150,9 @@ int machine_specific_init(void)
 #ifdef USE_MPG123
     clockport_mp3at64_sound_chip_init();
 #endif
-
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    userport_funmp3_sound_chip_init();
+#endif
     drive_sound_init();
     datasette_sound_init();
     video_sound_init();

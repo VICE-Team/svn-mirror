@@ -105,6 +105,7 @@
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_wic64.h"
+#include "userport_funmp3.h"
 #include "userport_woj_joystick.h"
 #include "via.h"
 #include "vic.h"
@@ -984,6 +985,11 @@ int machine_specific_init(void)
 
     /* Initialize userport based sound chips */
     userport_dac_sound_chip_init();
+
+    /* Initialize funmp3 */
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    userport_funmp3_sound_chip_init();
+#endif
 
     drive_sound_init();
     datasette_sound_init();
