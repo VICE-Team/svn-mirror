@@ -111,6 +111,7 @@
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_woj_joystick.h"
+#include "userport_funmp3.h"
 #include "util.h"
 #include "via.h"
 #include "vice-event.h"
@@ -431,6 +432,12 @@ int machine_resources_init(void)
         init_resource_fail("debug cart");
         return -1;
     }
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    if (userport_funmp3_resources_init() < 0) {
+        init_resource_fail("funmp3 cart");
+        return -1;
+    }
+#endif
     return 0;
 }
 
@@ -582,6 +589,12 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("debug cart");
         return -1;
     }
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    if (userport_funmp3_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("funmp3 cart");
+        return -1;
+    }
+#endif
     return 0;
 }
 
@@ -705,6 +718,11 @@ int machine_specific_init(void)
 
     /* Initialize userport based sound chips */
     userport_dac_sound_chip_init();
+
+    /* Initialize funmp3 */
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    userport_funmp3_sound_chip_init();
+#endif
 
     drive_sound_init();
     datasette_sound_init();

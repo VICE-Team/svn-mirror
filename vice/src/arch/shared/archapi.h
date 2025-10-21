@@ -82,6 +82,7 @@
 #include "archdep_get_vice_hotkeysdir.h"
 #include "archdep_get_vice_machinedir.h"
 #include "archdep_getcwd.h"
+#include "archdep_glob.h"
 #include "archdep_home_path.h"
 #include "archdep_icon_path.h"
 #include "archdep_is_haiku.h"

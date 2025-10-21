@@ -8782,6 +8782,9 @@ Set the device attached to the userport (see table below):
 @item 27
 @tab Userport PS/2 Mouse
 @tab x64dtv
+@item 27
+@tab Userport FunMP3
+@tab x64, x64sc, x128, xscpu64, xpet, xvic
 @end multitable
 
 @table @code
@@ -8855,6 +8858,11 @@ Integer, WiC64 trace level, 0: no trace, 1: standard, 2: verbose,
 3: debug
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@vindex FunMP3Dir
+@item FunMP3Dir
+String specifying the path to the directory where mp3's are lookup up
+for playing
+(vic20, x64, x64sc, xscpu64, x128 and xpet only).
 @end table
 
 @c @node FIXME
@@ -8937,6 +8945,10 @@ Specify WiC64 security token
 Enable/disable automatically setting the local IP address (default: enabled)
 (vic20, x64, x64sc, xscpu64 and x128 only).
 
+@findex -funmp3dir
+@item -funmp3dir <path>
+Specify path to search for mp3 files used by the FunMP3 module
+(vic20, x64, x64sc, xscpu64, x128, xpet only).
 @end table
 
 @c -----------------------------------------------------------------------------
@@ -36712,6 +36724,7 @@ The VICE core team:
 @b{Pottendo}
 Fixed WiC64 support. Most of the former contributions (pre V3.x) have
 been taken over and/or replaced by other's contributions.
+Added FunMP3 userport cartdridge support.
 
 @item
 @b{Marco van den Heuvel}

@@ -152,6 +152,7 @@
 #include "userport_superpad64.h"
 #include "userport_synergy_joystick.h"
 #include "userport_wic64.h"
+#include "userport_funmp3.h"
 
 #include "c64parallel.h"
 #include "plus4parallel.h"
@@ -786,6 +787,14 @@ static userport_init_t userport_devices_init[] = {
       NULL,                                     /* resources shutdown function */
       NULL                                      /* cmdline options init function */
     },
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    { USERPORT_DEVICE_FUNMP3,                /* device id */
+      UP_C64 | UP_VIC20,                     /* emulators this device works on */
+      userport_funmp3_resources_init,        /* resources init function */
+      userport_funmp3_resources_shutdown,    /* resources shutdown function */
+      userport_funmp3_cmdline_options_init   /* cmdline options init function */
+    },
+#endif
 
     { USERPORT_DEVICE_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */
 };
@@ -930,6 +939,10 @@ static const struct userport_opt_s id_match[] = {
 #endif
     { "space",              USERPORT_DEVICE_SPACEBALLS },
     { "spaceballs",         USERPORT_DEVICE_SPACEBALLS },
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    { "funmp3",             USERPORT_DEVICE_FUNMP3 },
+#endif
+
     { NULL, -1 }
 };
 
