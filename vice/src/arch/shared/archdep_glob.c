@@ -52,7 +52,7 @@
 static char *fh[1];
 
 /* expects an absolute path for pattern and many glob() functions are NOT implemented */
-int glob(const char *pattern, int flags, void *errfunc, glob_t *pglob)
+int archdep_glob(const char *pattern, int flags, void *errfunc, glob_t *pglob)
 {
    WIN32_FIND_DATA FindFileData;
    HANDLE hFind;
@@ -81,7 +81,7 @@ int glob(const char *pattern, int flags, void *errfunc, glob_t *pglob)
    return 0;
 }
 
-void globfree(glob_t *pglob)
+void archdep_globfree(glob_t *pglob)
 {
     lib_free(pglob->gl_pathv[0]);
 }

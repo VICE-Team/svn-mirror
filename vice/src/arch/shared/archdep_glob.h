@@ -37,6 +37,8 @@
 #if defined(UNIX_COMPILE)
 #if defined (HAVE_GLOB_H)
 #include <glob.h>
+#define archdep_glob glob
+#define archdep_globfree globfree
 #endif
 #endif
 
@@ -50,8 +52,8 @@ typedef struct {
 } glob_t;
 
 /* expects an absolute path for pattern and many glob() functions are NOT implemented */
-int glob(const char *pattern, int flags, void *errfunc, glob_t *pglob);
-void globfree(glob_t *pglob);
+int archdep_glob(const char *pattern, int flags, void *errfunc, glob_t *pglob);
+void archdep_globfree(glob_t *pglob);
 
 #endif
 
