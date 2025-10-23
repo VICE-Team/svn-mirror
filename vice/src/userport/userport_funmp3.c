@@ -170,7 +170,7 @@ static int ret = MPG123_OK;
 
 static int funmp3_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
-    int i, j, rem;
+    size_t i, j, rem;
     int16_t sample;
     int res = 0;
     if (!mp3_playing) {
@@ -182,8 +182,9 @@ static int funmp3_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf,
            put remaining samples to the front and decode new chunk */
         if (rem > 0) {
             /* copy unconsumed samples to the front */
-            for (i = act_pos, j = 0; i < size; i++, j++)
+            for (i = act_pos, j = 0; i < size; i++, j++) {
                 buf[j] = buf[i];
+            }
         }
         act_pos = 0;
         ret = mpg123_read(mh, (unsigned char *)bufr + (rem * sizeof(int16_t)),
@@ -211,7 +212,7 @@ static int funmp3_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf,
         res = nr;
     } else {
         log_error(lh, "mpg123_read() error: %d", ret);
-        exit(1);
+        res = 0;
     }
     if (ret == MPG123_DONE) {
         funmp3_stop();
@@ -255,13 +256,13 @@ static void funmp3_start(uint8_t val)
         snprintf(fn, ARCHDEP_PATH_MAX, "%05d*", val);
     }
     archdep_expand_path(&fn_abs, fn);
-    if ((glob(fn_abs, 0, NULL, &results) != 0) ||
+    if ((archdep_glob(fn_abs, 0, NULL, &results) != 0) ||
         (results.gl_pathc < 1)) {
         log_message(lh, "can't open '%s'", fn_abs);
         return;
     }
     mp3_name = lib_strdup(results.gl_pathv[0]);
-    globfree(&results);
+    archdep_globfree(&results);
     log_message(lh, "request to play '%s'", mp3_name);
 
     mpg123_close(mh);
@@ -303,7 +304,7 @@ static void funmp3_stop(void)
     if (mh) {
         mpg123_close(mh);
     }
-    mp3_playing = 0;
+    mp3_playing = act_pos = size = 0;
     set_userport_flag(0);
 }
 
@@ -364,6 +365,7 @@ static void userport_funmp3_store_pbx(uint8_t val, int pulse)
         mp3_last = 0;
         return;
     }
+    funmp3_stop();
     mp3_last = val;             /* the default is to repeat */
     funmp3_start(255 - val);    /* that's how it is defined */
 }
