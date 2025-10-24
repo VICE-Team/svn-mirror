@@ -85,7 +85,27 @@ static UI_MENU_CALLBACK(UserportDevice_dynmenu_callback)
     return MENU_SUBMENU_STRING;
 }
 
-ui_menu_entry_t userport_menu[6];
+#if defined(USE_MPG123) && defined(HAVE_GLOB_H)
+#include "uifilereq.h"
+#include "resources.h"
+static UI_MENU_CALLBACK(set_directory_callback)
+{
+    char *name;
+    const char *res;
+
+    res = (const char *)param;
+    if (activated) {
+        name = sdl_ui_file_selection_dialog("Select FunMP3 directory", FILEREQ_MODE_CHOOSE_DIR);
+        if (name != NULL) {
+            resources_set_string(res, name);
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+#endif
+
+ui_menu_entry_t userport_menu[7];
 
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
@@ -109,6 +129,23 @@ void uiuserport_menu_create(int rtc)
         userport_menu[j].data     = NULL;
         j++;
     }
+
+#if defined(USE_MPG123) && defined(HAVE_GLOB_H)
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_VIC20 ||
+        machine_class == VICE_MACHINE_PET ||
+        machine_class == VICE_MACHINE_SCPU64) {
+
+        userport_menu[j].action   = ACTION_NONE;
+        userport_menu[j].string   = "FunMP3 Directory";
+        userport_menu[j].type     = MENU_ENTRY_DIALOG;
+        userport_menu[j].callback = set_directory_callback;
+        userport_menu[j].data     = (ui_callback_data_t) "FunMP3Dir";
+        j++;
+    }
+#endif
 
 #ifdef HAVE_LIBCURL
     if (machine_class == VICE_MACHINE_C64 ||
