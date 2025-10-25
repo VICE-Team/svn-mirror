@@ -113,8 +113,8 @@ int us_device_open(void)
             /* Gather settings from resources */
             resources_get_int("SidUSBSIDReadMode", &r_readmode);
             resources_get_int("SidUSBSIDAudioMode", &r_audiomode);
-            resources_get_int("SidUSBSIDDiffSize", &r_readmode);
-            resources_get_int("SidUSBSIDBufferSize", &r_diffsize);
+            resources_get_int("SidUSBSIDDiffSize", &r_diffsize);
+            resources_get_int("SidUSBSIDBufferSize", &r_buffsize);
             /* Apply settings to local variables */
             readmode = r_readmode;
             audiomode = r_audiomode;
@@ -162,9 +162,10 @@ int us_device_open(void)
 int us_device_close(void)
 {
     log_message(usbsid_log, "Start device closing");
-    if (usbsid) {
+    if (usbsid != NULL) {
         mute_USBSID(usbsid);
         close_USBSID(usbsid);
+        usbsid = NULL;
     }
 
     /* Clean up vars */
