@@ -422,7 +422,7 @@ void raster_set_geometry(raster_t *raster,
         geometry->screen_size.height = screen_height;
         geometry->extra_offscreen_border_left = extra_offscreen_border_left;
         geometry->extra_offscreen_border_right = extra_offscreen_border_right;
-        DBG(("raster_set_geometry screen_size.width:%d height:%d extra_offscreen_border_left: %d right:%d",
+        DBG(("raster_set_geometry screen_size.width:%u height:%u extra_offscreen_border_left: %u right:%u",
              screen_width, screen_height, extra_offscreen_border_left, extra_offscreen_border_right));
         raster_realize_frame_buffer(raster);
     }

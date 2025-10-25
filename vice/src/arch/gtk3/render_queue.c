@@ -138,7 +138,7 @@ backbuffer_t *render_queue_get_from_pool(void *render_queue, int pixel_data_size
     /* Make sure there's at least the requested size in bytes */
     if (bb->pixel_data_size_bytes < pixel_data_size_bytes) {
         lib_free(bb->pixel_data);
-        bb->pixel_data = lib_malloc(pixel_data_size_bytes);
+        bb->pixel_data = lib_calloc(pixel_data_size_bytes, 1);
         bb->pixel_data_size_bytes = pixel_data_size_bytes;
     }
 

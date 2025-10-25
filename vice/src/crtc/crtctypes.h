@@ -60,6 +60,7 @@ struct crtc_s {
     /* window size computed by crtc_set_screen_options() */
     unsigned int screen_width;
     unsigned int screen_height;
+    bool delayed_resize; /* nr of scanlines has changed; act on a batch of changes */
 
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
@@ -127,6 +128,8 @@ struct crtc_s {
     int current_charline; /* state of the current character line counter */
 
     int blank;          /* external blank (only honored if hw_blank set) */
+
+    int vadj_counter;   /* counter for scanlines before vertical blank */
 
     /* frame */
 
@@ -209,11 +212,11 @@ extern crtc_t crtc;
 
 /* those define the invisible borders, where we never paint anything */
 #define CRTC_SCREEN_BORDERWIDTH  8
-#define CRTC_SCREEN_BORDERHEIGHT 8
+#define CRTC_SCREEN_BORDERHEIGHT 8      /* FIXME: 16 doesn't work with bug 2175 */
 
 /* These define the extra space around the size given from the machine,
    to allow effects like open borders etc. */
 #define CRTC_EXTRA_COLS         6
-#define CRTC_EXTRA_RASTERLINES  16
+#define CRTC_EXTRA_RASTERLINES  0       /* FIXME: only works when 0 with bug 2175 */
 
 #endif
