@@ -253,7 +253,8 @@ size_t _vte_conv(VteConv converter,
 
     /* Possibly convert the input data from gunichars to UTF-8. */
     if (converter->in_unichar) {
-        int i; gulong char_count;
+        gulong i;
+        gulong char_count;
         guchar *p, *end;
         gunichar *g;
 
