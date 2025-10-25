@@ -117,7 +117,7 @@ extern "C"
     if( p == NULL ) return -1;
     return ((USBSID_Class*)p)->us_Found;
   }
-  void writesingle_USBSID(USBSIDitf p, unsigned char *buff, size_t len){
+  void writesingle_USBSID(USBSIDitf p, unsigned char *buff, int len){
     if( p == NULL ) return;
     return ((USBSID_Class*)p)->USBSID_SingleWrite(buff, len);
   };
@@ -125,7 +125,7 @@ extern "C"
     if( p == NULL ) return 0;
     return ((USBSID_Class*)p)->USBSID_SingleRead(reg);
   };
-  void writebuffer_USBSID(USBSIDitf p, unsigned char *buff, size_t len){
+  void writebuffer_USBSID(USBSIDitf p, unsigned char *buff, int len){
     if( p == NULL ) return;
     return ((USBSID_Class*)p)->USBSID_Write(buff, len);
   };

@@ -433,7 +433,7 @@ void USBSID_Class::USBSID_ToggleStereo(void)
 
 /* SYNCHRONOUS */
 
-void USBSID_Class::USBSID_SingleWrite(unsigned char *buff, size_t len)
+void USBSID_Class::USBSID_SingleWrite(unsigned char *buff, int len)
 {
   if (!us_Initialised) return;
   int actual_length = 0;
@@ -462,7 +462,7 @@ unsigned char USBSID_Class::USBSID_SingleRead(uint8_t reg)
   return result[0];
 }
 
-unsigned char USBSID_Class::USBSID_SingleReadConfig(unsigned char *buff, size_t len)
+unsigned char USBSID_Class::USBSID_SingleReadConfig(unsigned char *buff, int len)
 {
   if (!us_Initialised) return 0;
   int actual_length;
@@ -550,8 +550,8 @@ void USBSID_Class::USBSID_WriteCycled(uint8_t reg, uint8_t val, uint16_t cycles)
   write_buffer[0] = (CYCLED_WRITE << 6);
   write_buffer[1] = (reg & 0xFF);
   write_buffer[2] = val;
-  write_buffer[3] = (cycles >> 8);
-  write_buffer[4] = (cycles & 0xFF);
+  write_buffer[3] = (uint8_t)(cycles >> 8);
+  write_buffer[4] = (uint8_t)(cycles & 0xFF);
   USBSID_Write(write_buffer, 5);
   return;
 }
@@ -655,8 +655,8 @@ int USBSID_Class::USBSID_InitThread(void)
   flush_buffer = 0;
   run_thread = buffer_pos = 1;
   threaded = withcycles = true;
-  pthread_mutex_lock(&us_mutex);
   USBSID_InitRingBuffer(ring_size, diff_size);
+  pthread_mutex_lock(&us_mutex);
   us_thread++;
   pthread_mutex_unlock(&us_mutex);
   int error;
@@ -843,8 +843,8 @@ void USBSID_Class::USBSID_FlushBuffer(void)
     ? (buffer_pos >= 5)
     : (buffer_pos >= 3))) {
     thread_buffer[0] = (withcycles == 1)
-      ? (CYCLED_WRITE << 6 | (buffer_pos - 1))
-      : (WRITE << 6 | (buffer_pos - 1));
+      ? (uint8_t)(CYCLED_WRITE << 6 | (buffer_pos - 1))
+      : (uint8_t)(WRITE << 6 | (buffer_pos - 1));
     memcpy(out_buffer, thread_buffer, buffer_pos);
     buffer_pos = 1;
     flush_buffer = 0;
@@ -876,8 +876,8 @@ void USBSID_Class::USBSID_WriteRingCycled(uint8_t reg, uint8_t val, uint16_t cyc
   if (threaded && withcycles) {
     USBSID_RingPut(reg);
     USBSID_RingPut(val);
-    USBSID_RingPut((cycles >> 8) & 0xFF);
-    USBSID_RingPut(cycles & 0xFF);
+    USBSID_RingPut((uint8_t)(cycles >> 8) & 0xFF);
+    USBSID_RingPut((uint8_t)(cycles & 0xFF));
   } else {
     USBERR(stderr, "[USBSID] Function '%s' cannot be used when threaded = %d and withcycles = %d\n", __func__, threaded, withcycles);
   }
@@ -895,7 +895,7 @@ void USBSID_Class::USBSID_RingPopCycled(void)
       || buffer_pos == len_out_buffer
       || flush_buffer == 1) {
     flush_buffer = 0;
-    thread_buffer[0] = (CYCLED_WRITE << 6 | (buffer_pos - 1));
+    thread_buffer[0] = (uint8_t)((CYCLED_WRITE << 6) | (buffer_pos - 1));
     memcpy(out_buffer, thread_buffer, buffer_pos);
     buffer_pos = 1;
     libusb_submit_transfer(transfer_out);
@@ -917,7 +917,7 @@ void USBSID_Class::USBSID_RingPop(void)
     || buffer_pos == len_out_buffer
     || flush_buffer == 1) {
     flush_buffer = 0;
-    thread_buffer[0] = (WRITE << 6 | (buffer_pos - 1));
+    thread_buffer[0] = (uint8_t)((WRITE << 6) | (buffer_pos - 1));
     memcpy(out_buffer, thread_buffer, buffer_pos);
     buffer_pos = 1;
     libusb_submit_transfer(transfer_out);
@@ -951,14 +951,14 @@ uint8_t USBSID_Class::USBSID_Address(uint16_t addr)
   static uint8_t a;
   switch (addr) {
     case 0xD400 ... 0xD499:
-      a = (addr & SIDLMASK); /* $D400 -> $D479 1, 2, 3 & 4 */
+      a = (uint8_t)(addr & SIDLMASK); /* $D400 -> $D479 1, 2, 3 & 4 */
       break;
     case 0xD500 ... 0xD599:
     case 0xDE00 ... 0xDF99:
       a = ((SID3ADDR | (addr & SID2MASK)) & SIDLMASK);
       break;
     default:
-      a = (addr & SIDLMASK);
+      a = (uint8_t)(addr & SIDLMASK);
       break;
   }
   return a;
@@ -973,7 +973,7 @@ uint_fast64_t USBSID_Class::USBSID_CycleFromTimestamp(timestamp_t timestamp)
   USBSID_GetClockRate();  /* Make sure we use the right clockrate */
   us_InvCPUcycleDurationNanoSeconds = 1.0 / (ratio_t::den / (float)cycles_per_sec);
   auto nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(timestamp - m_StartTime);
-  return (int_fast64_t)(nsec.count() * us_InvCPUcycleDurationNanoSeconds);
+  return (int_fast64_t)((double)nsec.count() * us_InvCPUcycleDurationNanoSeconds);
 }
 
 uint_fast64_t USBSID_Class::USBSID_WaitForCycle(uint_fast16_t cycles)
@@ -981,7 +981,7 @@ uint_fast64_t USBSID_Class::USBSID_WaitForCycle(uint_fast16_t cycles)
   if (!us_Initialised) return 0;
   USBSID_GetClockRate();  /* Make sure we use the right clockrate */
   timestamp_t now = std::chrono::high_resolution_clock::now();
-  double dur = cycles * us_CPUcycleDuration;  /* duration in nanoseconds */
+  double dur = (double)cycles * us_CPUcycleDuration;  /* duration in nanoseconds */
   duration_t duration = (duration_t)(int_fast64_t)dur; /* equals dur but as chrono nanoseconds */
   auto target_time = m_LastTime + duration;  /* ns to wait since m_LastTime (now + duration for actual wait time) */
   // auto target_time = now + duration;  /* ns to wait since m_LastTime (now + duration for actual wait time) */
@@ -993,7 +993,7 @@ uint_fast64_t USBSID_Class::USBSID_WaitForCycle(uint_fast16_t cycles)
   }
   m_LastTime = target_time;
   /* int_fast64_t waited_cycles = wait_usec.count(); */
-  int_fast64_t waited_cycles = (wait_nsec.count() * us_InvCPUcycleDurationNanoSeconds);
+  int_fast64_t waited_cycles = (int_fast64_t)((double)wait_nsec.count() * us_InvCPUcycleDurationNanoSeconds);
   // USBDBG(stdout, "[C] %ld [WC] %ld [us] %ld [ns] %ld [ts] %lu\n",
   //   cycles, waited_cycles, wait_usec.count(), wait_nsec.count(), USBSID_CycleFromTimestamp(now));
   // return (wait_nsec.count() > 0) ? waited_cycles : 0;
@@ -1031,7 +1031,7 @@ void USBSID_Class::LIBUSB_CloseDevice(void)
   return;
 }
 
-int USBSID_Class::LIBUSB_Available(libusb_context *ctx, uint16_t vendor_id, uint16_t product_id)
+int USBSID_Class::LIBUSB_Available(uint16_t vendor_id, uint16_t product_id)
 {
   struct libusb_device **devs;
   struct libusb_device *dev;
@@ -1239,7 +1239,7 @@ int USBSID_Class::LIBUSB_Setup(bool start_threaded, bool with_cycles)
   libusb_set_option(ctx, LIBUSB_OPTION_LOG_LEVEL, 0);
 
   /* Check for an available USBSID-Pico */
-  if (LIBUSB_Available(ctx, VENDOR_ID, PRODUCT_ID) <= 0) {
+  if (LIBUSB_Available(VENDOR_ID, PRODUCT_ID) <= 0) {
     USBDBG(stderr, "[USBSID] USBSID-Pico not connected\n");
     goto out;
   }
