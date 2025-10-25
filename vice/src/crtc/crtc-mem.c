@@ -83,6 +83,7 @@ void crtc_store(uint16_t addr, uint8_t value)
             if (crtc.initialized) {
                 alarm_set(crtc.raster_draw_alarm, crtc.rl_start + value);
             }
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_HDISP:        /* R01  Horizontal characters displayed */
@@ -108,6 +109,7 @@ void crtc_store(uint16_t addr, uint8_t value)
                 crtc_fetch_prefetch();
             }
 #endif
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_HSYNC:        /* R02  Horizontal Sync Position */
@@ -122,18 +124,22 @@ void crtc_store(uint16_t addr, uint8_t value)
 
         case CRTC_REG_VTOTAL:       /* R04  Vertical total (character) rows */
             crtc.regs[CRTC_REG_VTOTAL] &= 0x7f;
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_VTOTALADJ:    /* R05  Vertical total line adjust */
             crtc.regs[CRTC_REG_VTOTALADJ] &= 0x1f;
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_VDISP:        /* R06  Number of display lines on screen */
             crtc.regs[CRTC_REG_VDISP] &= 0x7f;
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_VSYNC:        /* R07  Vertical sync position */
             crtc.regs[CRTC_REG_VSYNC] &= 0x7f;
+            crtc.delayed_resize = true;
             break;
 
         case CRTC_REG_MODECTRL:     /* R08  unused: Interlace and Skew */
