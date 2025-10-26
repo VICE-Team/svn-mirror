@@ -3148,7 +3148,7 @@ if test x"$with_mpg123" = "xyes"; then
     if test x"$USE_MPG123_SUPPORT" != "xyes"; then
         AC_MSG_ERROR([MPG123 support requested but missing])
     fi
-    if test x"$is_win32_gtk3" = "xyes"; then
+    if test x"$is_win32" = "xyes"; then
         AC_DEFINE(HAVE_GLOB_H,,)
     else
         AC_CHECK_HEADERS(glob.h,,)
