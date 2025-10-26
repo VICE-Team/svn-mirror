@@ -334,6 +334,7 @@ static int userport_funmp3_enable(int value)
         funmp3_stop();
         if (mh) {
             mpg123_delete(mh);
+            mh = NULL;
         }
         if (bufr) {
             lib_free(bufr);
