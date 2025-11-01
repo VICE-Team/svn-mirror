@@ -1276,6 +1276,26 @@ bool uimon_set_background_color(const char *color)
     return false;
 }
 
+static void mon_set_pos(int xpos, int ypos)
+{
+    DBG(("mon_set_pos window xpos:%3d ypos:%3d", xpos, ypos));
+    if ((xpos == INT_MIN) || (ypos == INT_MIN)) {
+        /* Only center if we didn't get either a previous position or
+            * the position was set via the command line.
+            */
+        gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
+    } else {
+        gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
+    }
+}
+
+static void mon_set_size(int width, int height)
+{
+    DBG(("mon_set_size window resize width:%3d height:%3d", width, height));
+    if ((width > 0) && (height > 0)) {
+        gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
+    }
+}
 
 static gboolean uimon_window_open_impl(gpointer user_data)
 {
@@ -1286,6 +1306,8 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     int sblines;
     int xpos = INT_MIN;
     int ypos = INT_MIN;
+    int height = 0;
+    int width = 0;
 
     pthread_mutex_lock(&fixed.lock);
 
@@ -1297,12 +1319,14 @@ static gboolean uimon_window_open_impl(gpointer user_data)
 
         resources_get_int("MonitorXPos", &xpos);
         resources_get_int("MonitorYPos", &ypos);
-        if (xpos == INT_MIN || ypos == INT_MIN) {
-            /* Only center if we didn't get either a previous position or
-             * the position was set via the command line.
-             */
-            gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
-        }
+        resources_get_int("MonitorHeight", &height);
+        resources_get_int("MonitorWidth",  &width);
+        DBG(("uimon_window_open_impl window xpos:%3d ypos:%3d width:%3d height:%3d",
+             xpos, ypos, width, height));
+
+        mon_set_pos(xpos, ypos);
+        mon_set_size(width, height);
+
         /* Set the gravity so that gtk doesn't over-compensate for the
          * window's border width when saving/restoring its position. */
         gtk_window_set_gravity(GTK_WINDOW(fixed.window), GDK_GRAVITY_STATIC);
@@ -1330,6 +1354,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         /* base size should be multiple of .._inc, else we get funky effects */
         hints.base_width = hints.width_inc;
         hints.base_height = hints.height_inc;
+        DBG(("uimon_window_open_impl font width:%3d height:%3d", hints.width_inc, hints.height_inc));
         gtk_window_set_geometry_hints (GTK_WINDOW (fixed.window),
                                      fixed.term,
                                      &hints,
@@ -1339,7 +1364,10 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_USER_POS |
                                      GDK_HINT_USER_SIZE);
 
-        vte_terminal_set_size(VTE_TERMINAL(fixed.term), DEFAULT_COLUMNS, DEFAULT_ROWS);
+        if ((xpos == INT_MIN) || (ypos == INT_MIN)) {
+            DBG(("uimon_window_open_impl set vte size to defaults"));
+            vte_terminal_set_size(VTE_TERMINAL(fixed.term), DEFAULT_COLUMNS, DEFAULT_ROWS);
+        }
 
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
                 gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
@@ -1399,31 +1427,32 @@ static gboolean uimon_window_open_impl(gpointer user_data)
 
     /* Ensure any queued monitor output is displayed */
     gdk_threads_add_timeout(0, write_to_terminal, NULL);
-
     return FALSE;
 }
 
 static gboolean uimon_window_resume_impl(gpointer user_data)
 {
-    int xpos;
-    int ypos;
-    int height;
-    int width;
+    int xpos = INT_MIN;
+    int ypos = INT_MIN;
+    int height = 0;
+    int width = 0;
 
     resources_get_int("MonitorXPos",   &xpos);
     resources_get_int("MonitorYPos",   &ypos);
     resources_get_int("MonitorHeight", &height);
     resources_get_int("MonitorWidth",  &width);
+    DBG(("uimon_window_resume_impl window xpos:%3d ypos:%3d width:%3d height:%3d",
+         xpos, ypos, width, height));
 
     gtk_widget_show_all(fixed.window);
     on_term_text_modified(VTE_TERMINAL(fixed.term), NULL);
 
-    if (xpos > INT_MIN && ypos > INT_MIN) {
-        gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
-    }
-    if (width >= 0 && height >= 0) {
-        gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
-    }
+    mon_set_pos(xpos, ypos);
+
+#if 0
+    /* BUG: this makes it hang first time the monitor window is opened */
+    mon_set_size(height, width);
+#endif
 
     /*
      * Make the monitor window appear on top of the active emulated machine
@@ -1431,7 +1460,6 @@ static gboolean uimon_window_resume_impl(gpointer user_data)
      * window is in fullscreen mode. (only tested on Windows 10)
      */
     gtk_window_present(GTK_WINDOW(fixed.window));
-
     return FALSE;
 }
 
