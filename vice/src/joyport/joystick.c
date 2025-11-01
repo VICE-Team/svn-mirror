@@ -4041,13 +4041,17 @@ void joystick_device_add_axis(joystick_device_t *joydev,
                                    sizeof *joydev->axes * (size_t)joydev->max_axes);
     }
 
+    /* Digital axis detection */
+    axis->digital = (axis->minimum == -1 && axis->maximum == 1);
+
     /* set default calibration */
     joystick_calibration_default_for_axis(axis);
 #if 0
-    printf("AXIS %d: min: %d, N-threshold: %d, P-threshold: %d, max: %d\n",
+    printf("AXIS %d: min: %d, N-threshold: %d, P-threshold: %d, max: %d, digital: %d\n",
            joydev->num_axes,
            axis->minimum, axis->calibration.threshold.negative,
-           axis->calibration.threshold.positive, axis->maximum);
+           axis->calibration.threshold.positive, axis->maximum,
+           axis->digital);
 #endif
     /* store parent device */
     axis->device = joydev;
