@@ -2618,7 +2618,7 @@ static int getlocalip(char *str)
 
     /* try to connect to the default server */
     curl_easy_setopt(c, CURLOPT_URL, default_server_hostname);
-    curl_easy_setopt(c, CURLOPT_CONNECT_ONLY, 0);
+    curl_easy_setopt(c, CURLOPT_CONNECT_ONLY, 0L);
 
     /* Perform the connect */
     res = curl_easy_perform(c);
