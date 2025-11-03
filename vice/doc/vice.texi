@@ -3667,6 +3667,16 @@ values, at any time.  This is achieved with the ``Save settings'' and
 Default Settings'', can be used to reset all the values to the factory
 defaults.
 
+Note that, when saving the settings to a new file, using ``Save settings to...'',
+only the resources for the currently running emulator will be stored into this
+file, and the settings related to other emulators (which might exist in a previously
+loaded file) will not be copied to it.
+
+You can also store some extra settings, for example to configure a certain hardware
+setup, in an extra file, and load these using ``Load extra settings from...''. In
+this case the resources will not be reset to default first and only the resources
+present in that file will be changed/used.
+
 A special resource, @code{SaveResourcesOnExit}, if set to a non zero
 value, causes the emulator to save the current
 (changed) settings before exiting, and can be toggled with the ``Save
@@ -8098,17 +8108,18 @@ connect through a network socket.
 
 It is possible to define up to four serial devices, and then decide
 which interface should be connected to which device.  This is done by
-so-called @dfn{rs232 device file names}; an rs232 device file name can
+so-called @dfn{RS232 device file names}; an RS232 device file name can
 be either a simple path, a network address, or a command name preceeded 
 by a pipe symbol @samp{|}.  
 If the path specifies a special device (e.g. @file{/dev/ttyS0} or @file{com1}) it
-is recognized by VICE and the emulator can set the baudrate.
+is recognized by VICE and the emulator can set the baudrate. (Note that in Windows
+you may have to use the full device path for higher COM ports, eg @file{\\.\com10})
 
-For example, rs232 device @samp{filename} will cause the output to be
+For example, RS232 device @samp{filename} will cause the output to be
 written (not appended) to the file @file{filename}, while printer device
 @samp{|lpr} will cause the @code{lpr} command to be executed and be fed
-the rs232 output.  The rs232 output will not be converted but saved as
-sent by the emulated machine.  The same holds true for the rs232 input.
+the RS232 output.  The RS232 output will not be converted but saved as
+sent by the emulated machine.  The same holds true for the RS232 input.
 If the command writes data to the standard output it will be caught by VICE
 and sent back to the emulator.  Also the data sent by the pseudo device will
 be sent back to VICE.
