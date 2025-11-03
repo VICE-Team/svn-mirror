@@ -71,7 +71,6 @@
 #define PRINTER_NUM      4  /**< number of printer devices supported */
 #define PRINTER_MIN      4  /**< lowest device number for a printer */
 #define PRINTER_MAX      7  /**< highest device number for a printer */
-#define PRINTER_USERPORT 3  /**< userport printer virtual device number */
 
 
 /** \brief  GtkStack child data */
@@ -136,7 +135,6 @@ static const child_t children[] = {
         .title        = "OpenCBM 7",
         .name         = "opencbm7",
         .device       = 7,
-        .device_drv   = PRINTER_USERPORT,   /* 3 */
         .has_trapdev  = true,
         .has_iec      = true,
         .has_realdev  = true,
@@ -145,6 +143,7 @@ static const child_t children[] = {
         .title        = "Userport",
         .name         = "userport",
         .device       = 3,
+        .device_drv   = PRINTER_USERPORT,   /* 3 */
         .has_userport = true,
         .has_driver   = true,
         .has_outmode  = true,
