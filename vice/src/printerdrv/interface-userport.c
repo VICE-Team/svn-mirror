@@ -112,6 +112,9 @@ static userport_device_t printer_device = {
 
 /* ------------------------------------------------------------------------- */
 
+static uint8_t value;   /* userport value */
+static uint8_t strobe;
+
 static int userport_printer_enabled = 0;
 
 #define USERPORT_OUTPUT         (NUM_OUTPUT_SELECT - 1)
@@ -127,6 +130,7 @@ static int userport_printer_enable(int val)
         if (driver_select_open(USERPORT_OUTPUT, DRIVER_FIRST_OPEN) >= 0) {
             if (driver_select_open(USERPORT_OUTPUT, 4) >= 0) {
                 userport_printer_enabled = 1;
+                strobe = 1; /* make sure the first hi->lo transition is detected */
             }
         }
     }
@@ -146,9 +150,6 @@ int interface_userport_init_resources(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static uint8_t value; /* userport value */
-static uint8_t strobe;
 
 static void userport_printer_store_pbx(uint8_t b, int pulse)
 {
