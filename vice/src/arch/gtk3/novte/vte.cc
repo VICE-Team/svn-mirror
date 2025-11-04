@@ -4735,6 +4735,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                     /*printf("[A:%04x]", codepoint);*/
                     switch (codeh) {
                         case 0: /* uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                        case 2: /* inverted uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
                             /* simple petscii -> ascii conversion */
                             if ((codel >= 0x20) && (codel <= 0x3f)) {
                                 ch = codel;
@@ -4750,6 +4751,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                             }
                             break;
                         case 1: /* lowercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
+                        case 3: /* inverted lowercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
                             /* simple petscii -> ascii conversion */
                             if ((codel >= 0x20) && (codel <= 0x3f)) {
                                 ch = codel;
@@ -4767,12 +4769,15 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                                 ch = '.';
                             }
                             break;
+/* copy the inverted chars as normal chars */
+#if 0
                         case 2: /* inverted uppercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
                             ch = '.';
                             break;
                         case 3: /* inverted lowercase, petscii codes in ranges 0x20-0x7f and 0xa0-0xff */
                             ch = '.';
                             break;
+#endif
                         default:
                             ch = '.';
                             break;
@@ -4811,7 +4816,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                 if (ch == 0xee) {
                     int codepoint = ((ch2 & 0x3f) << 6) | (ch3 & 0x3f);
                     int codeh = codepoint >> 8;
-                    int codel = codepoint & 0xff;
+                    int codel = codepoint & 0x7f; /* copy inverted chars as normal chars */
                     /*printf("[B:%04x]", codepoint);*/
                     switch (codeh) {
                         case 0: /* uppercase */
@@ -4901,7 +4906,7 @@ GString* VteTerminalPrivate::attributes_to_ascii(GString* text_string, GArray* a
                 if (ch == 0xee) {
                     int codepoint = ((ch2 & 0x3f) << 6) | (ch3 & 0x3f);
                     int codeh = codepoint >> 8;
-                    int codel = codepoint & 0xff;
+                    int codel = codepoint & 0x7f; /* copy inverted chars as normal chars */
                     /*printf("[B:%04x]", codepoint);*/
                     switch (codeh) {
                         case 2: /* uppercase */
