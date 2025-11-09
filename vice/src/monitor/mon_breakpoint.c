@@ -534,10 +534,11 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
 
     ptr = search_checkpoint_list(list, addr);
 
-    while (ptr && mon_is_in_range(ptr->checkpt->start_addr, ptr->checkpt->end_addr, addr)) {
+    while (ptr) {
         cp = ptr->checkpt;
         ptr = ptr->next;
-        if (cp && (cp->enabled == e_ON)) {
+        if (cp && (cp->enabled == e_ON) &&
+            mon_is_in_range(cp->start_addr, cp->end_addr, addr)) {
 
             /* If condition test fails, skip this checkpoint */
             if (cp->condition) {
