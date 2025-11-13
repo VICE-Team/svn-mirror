@@ -237,7 +237,15 @@ struct monitor_cpu_type_s;
 extern struct console_s *console_log;
 extern int sidefx;
 extern int break_on_dummy_access;
-extern int exit_mon;
+
+enum exit_mon {
+    exit_mon_no = 0,            /* Do not exit the monitor */
+    exit_mon_continue = 1,      /* Exit and continue normal program flow */
+    exit_mon_change_flow = 2,   /* Exit with changed program flow */
+    exit_mon_quit_vice = 3      /* Exit monitor and even the whole VICE */
+};
+
+extern enum exit_mon exit_mon;
 
 extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
