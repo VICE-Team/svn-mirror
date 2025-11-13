@@ -1028,7 +1028,7 @@ static void monitor_binary_process_resource_set(binary_command_t *command)
 
 static void monitor_binary_process_exit(binary_command_t *command)
 {
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
 
     monitor_binary_response(0, e_MON_RESPONSE_EXIT, e_MON_ERR_OK, command->request_id, NULL);
 }
@@ -1955,7 +1955,7 @@ int monitor_binary_get_command_line(void)
 
         monitor_binary_process_command(buffer);
 
-        if (exit_mon) {
+        if (exit_mon != exit_mon_no) {
             return 0;
         }
     }

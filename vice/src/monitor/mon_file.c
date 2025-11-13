@@ -506,7 +506,7 @@ int mon_autostart(const char *image_name,
 
     /* leave monitor but return after autostart */
     autostart_trigger_monitor(1);
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
 
     return result;
 }

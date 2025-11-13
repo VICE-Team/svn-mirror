@@ -689,7 +689,7 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     update_checkpoint_state(mem);
 
     if (is_temp) {
-        exit_mon = 1;
+        exit_mon = exit_mon_continue;
     }
 
     if (do_print) {
