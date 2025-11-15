@@ -545,10 +545,7 @@ jobs:
                 deps: 'gtk+3 librsvg adwaita-icon-theme glew' },
               { name: 'SDL2',
                 conf: '--enable-sdl2ui',
-                deps: 'sdl2 sdl2_image' },
-              { name: 'Headless',
-                conf: '--enable-headlessui',
-                deps: '' }
+                deps: 'sdl2 sdl2_image' }
             ]
     runs-on: ${{ matrix.silicon.runner }}
     steps:
@@ -612,7 +609,7 @@ jobs:
           make -j $(sysctl -n hw.ncpu) -s
           DEPS_PREFIX=${{ matrix.silicon.brew_prefix }} make bindistzip
           DMG_NAME=$(ls *.dmg)
-          DMG_PATH="$(pwd)"/${DMG_NAME}"
+          DMG_PATH="$(pwd)/${DMG_NAME}"
           echo "dmg_name=${DMG_NAME}" >> $GITHUB_OUTPUT
           echo "dmg_path=${DMG_PATH}" >> $GITHUB_OUTPUT
 
