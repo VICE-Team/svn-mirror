@@ -567,9 +567,9 @@ jobs:
           path: |
             ${{ matrix.silicon.brew_prefix }}/Homebrew
             ${{ matrix.silicon.brew_prefix }}/Cellar
-          key: homebrew-${{ runner.os }}-${{ runner.arch }}-${{ matrix.ui.name }}-${{ github.run_number }}
+          key: homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-${{ github.run_number }}
           restore-keys: |
-            homebrew-${{ runner.os }}-${{ runner.arch }}-${{ matrix.ui.name }}-
+            homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-
 
       - name: Homebrew Install Dependencies
         run: |
