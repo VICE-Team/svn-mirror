@@ -347,14 +347,16 @@ if [ "$UI_TYPE" = "SDL2" ]; then
   cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 # FIXME
 #  copy_lib_recursively $DEPS_PREFIX/lib/libjxl_cms.*.dylib
-  copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
+# FIXME
+#  copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
 elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
   # Gtk runtime stuff
 # FIXME
 #  cp -r $DEPS_PREFIX/lib/gdk-pixbuf-2.0 $APP_LIB
-  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
+# FIXME
+#  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
   cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
   cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
 
