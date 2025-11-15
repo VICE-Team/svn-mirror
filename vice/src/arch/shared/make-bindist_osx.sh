@@ -403,7 +403,8 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 #    cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
-    $GTK_UPDATE_ICON_CACHE "$out_icons/"
+# FIXME
+#    $GTK_UPDATE_ICON_CACHE "$out_icons/"
   }
 
   mkdir $APP_SHARE/icons
