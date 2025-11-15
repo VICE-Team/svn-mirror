@@ -571,8 +571,8 @@ if [ "$UI_TYPE" = "GTK3" ]; then
     # macports
     sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
   fi
-
-  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
+#FIXME
+#  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
 fi
 
 
