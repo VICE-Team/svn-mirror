@@ -526,7 +526,7 @@ jobs:
   build_mac:
     name: Build macOS Binaries
     env:
-      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libomp libvorbis flac"
+      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libvorbis flac"
     needs: [create_release, build_doc]
     strategy:
       fail-fast: false
@@ -593,6 +593,7 @@ jobs:
                       --enable-option-checking \
                       --disable-arch \
                       --disable-html-docs \
+                      --disable-openmp \
                       --disable-pdf-docs \
                       --enable-cpuhistory \
                       --enable-ethernet \
