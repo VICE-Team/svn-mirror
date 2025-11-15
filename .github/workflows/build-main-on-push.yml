@@ -524,86 +524,77 @@ jobs:
             });
 
   build_mac:
-    name: Build MacOs Package
+    name: Build macOS Binaries
     needs: [create_release, build_doc]
-    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
-          ui: [ { name: 'GTK3',
-                  conf: '--enable-gtk3ui',
-                  deps: 'gtk+3' },
-                { name: 'SDL2',
-                  conf: '--enable-sdl2ui --with-sdlsound --without-pulse',
-                  deps: 'sdl2 sdl2_image' },
-                # { name: 'SDL1',
-                #   conf: '--enable-sdl1ui --with-sdlsound --without-pulse',
-                #   deps: 'sdl sdl12-compat sdl2_image' },
-                { name: 'Headless',
-                  conf: '--enable-headlessui --with-pulse',
-                  deps: '' }
-              ]
+        silicon:  [ { name: 'Intel Silicon',
+                      runner: 'macos-13',
+                      brew_prefix: '/usr/local' },
+                    { name: 'Apple Silicon',
+                      runner: 'macos-14',
+                      brew_prefix: '/opt/homebrew' }
+                  ]
+        ui: [ { name: 'GTK3',
+                conf: '--enable-gtk3ui',
+                deps: 'gtk+3 librsvg adwaita-icon-theme glew' },
+              { name: 'SDL2',
+                conf: '--enable-sdl2ui',
+                deps: 'sdl2 sdl2_image libpng' },
+              { name: 'Headless',
+                conf: '--enable-headlessui',
+                deps: '' }
+            ]
+    runs-on: ${{ matrix.silicon.runner }}
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      - name: deps [macOS]
-        if: runner.os == 'macOS'
+      - name: deps
         run: |
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           brew update
           brew upgrade || true
-          brew uninstall --ignore-dependencies --force pkg-config@0.29.2
-          brew install \
-            dos2unix \
-            autoconf \
-            automake \
-            libtool \
-            pkgconf \
-            coreutils \
-            gnu-sed \
-            libgcrypt \
-            xa \
-            librsvg \
-            adwaita-icon-theme \
-            glew \
-            libusb \
-            libusb-compat \
-            ${{ matrix.ui.deps }}
+          brew install autoconf automake pkg-config xa lame texinfo dos2unix libomp ${{ matrix.ui.deps }}
       - name: Build
+        id: build
         run: |
-          mkdir -p build/usr
           cd vice
           ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
-          # ALSA is required for SDL2 as well for midi support
           ./configure --enable-option-checking=fatal \
-                      --prefix=/usr \
+                      --enable-option-checking \
                       --disable-arch \
+                      --disable-html-docs \
+                      --disable-pdf-docs \
                       --enable-cpuhistory \
+                      --enable-ethernet \
+                      --enable-midi \
                       --enable-parsid \
-                      --with-pulse \
-                      --with-alsa \
                       --with-fastsid \
+                      --with-flac \
+                      --with-gif \
+                      --with-lame \
+                      --with-libcurl \
+                      --with-png \
                       --with-resid \
+                      --with-vorbis \
                       ${{ matrix.ui.conf }}
           make -j $(sysctl -n hw.ncpu) -s
-          make DESTDIR=$HOME/build install
-          cd ..
-          mkdir $PATH_ARTIFACTS
-          cd $PATH_ARTIFACTS
-          tar cvzf vice-macos-${{ matrix.ui.name }}.tgz -C $HOME/build .
-          pwd
-          ls -l
+          DEPS_PREFIX=${{ matrix.silicon.brew_prefix }} make bindistzip
+          DMG_NAME=$(ls *.dmg)
+          DMG_PATH="$(pwd)"/${DMG_NAME}"
+          echo "dmg_name=${DMG_NAME}" >> $GITHUB_OUTPUT
+          echo "dmg_path=${DMG_PATH}" >> $GITHUB_OUTPUT
 
-      - name: Upload zip
-        id: upload_macoszip
+      - name: Upload dmg
         uses: actions/github-script@v7
         env:
           UPLOAD_URL: ${{ needs.create_release.outputs.upload_url }}
-          ASSET_PATH: ${{ env.PATH_ARTIFACTS}}/vice-macos-${{ matrix.ui.name }}.tgz
-          ASSET_NAME: vice-macos-${{ matrix.ui.name }}.tgz
-          ASSET_CONTENT_TYPE: application/vnd.debian.binary-package
+          ASSET_PATH: ${{ steps.build.outputs.dmg_path }}
+          ASSET_NAME: ${{ steps.build.outputs.dmg_name }}
+          ASSET_CONTENT_TYPE: application/x-apple-diskimage
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           retries: 3
