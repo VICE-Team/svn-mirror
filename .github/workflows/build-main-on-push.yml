@@ -562,25 +562,23 @@ jobs:
           path: vice/doc/
 
       - name: Homebrew Cache Setup
+        id: brew_cache
         uses: actions/cache@v4
         with:
           path: |
-            ${{ matrix.silicon.brew_prefix }}/Homebrew
             ${{ matrix.silicon.brew_prefix }}/Cellar
+            ~/Library/Caches/Homebrew
           key: homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-${{ github.run_number }}
           restore-keys: |
             homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-
 
+      - name: Homebrew Handle Cache Miss
+        if: steps.brew_cache.outputs.cache-hit != 'true'
+        run: |
+          brew list -1 | xargs brew uninstall --force
+
       - name: Homebrew Install Dependencies
         run: |
-          FLAG="${{ matrix.silicon.brew_prefix }}/Homebrew/.vice_cache_ready"
-          if [ -f "$FLAG" ]; then
-            echo "Homebrew cache already warmed: $FLAG exists. Skipping initial brew uninstall."
-          else
-            brew list -1 | xargs brew uninstall --force
-            touch "$FLAG"
-            echo "Created cache flag: $FLAG"
-          fi
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           brew update
           brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
