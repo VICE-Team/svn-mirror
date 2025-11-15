@@ -156,7 +156,7 @@ jobs:
                       --without-png \
                       --without-pulse
           make stylecheck
-          make
+          make -j $(sysctl -n hw.ncpu) -s
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -525,15 +525,19 @@ jobs:
 
   build_mac:
     name: Build macOS Binaries
+    env:
+      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libomp"
     needs: [create_release, build_doc]
     strategy:
       fail-fast: false
       matrix:
         silicon:  [ { name: 'Intel Silicon',
                       runner: 'macos-13',
+                      conf: '--enable-macos-minimum-version=13.0',
                       brew_prefix: '/usr/local' },
                     { name: 'Apple Silicon',
                       runner: 'macos-14',
+                      conf: '--enable-macos-minimum-version=14.0',
                       brew_prefix: '/opt/homebrew' }
                   ]
         ui: [ { name: 'GTK3',
@@ -551,12 +555,29 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      - name: deps
+      - name: Download Documentation
+        uses: actions/download-artifact@v4
+        with:
+          name: vice-pdf
+          path: vice/doc/
+
+      - name: Homebrew Cache Setup
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ matrix.silicon.brew_prefix }}/Homebrew
+            ${{ matrix.silicon.brew_prefix }}/Cellar
+          key: homebrew-${{ runner.os }}-${{ runner.arch }}-${{ matrix.ui.name }}-${{ github.run_number }}
+          restore-keys: |
+            homebrew-${{ runner.os }}-${{ runner.arch }}-${{ matrix.ui.name }}-
+
+      - name: Homebrew Install Dependencies
         run: |
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           brew update
           brew upgrade || true
-          brew install autoconf automake pkg-config xa lame texinfo dos2unix libomp ${{ matrix.ui.deps }}
+          brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
+      
       - name: Build
         id: build
         run: |
@@ -580,7 +601,8 @@ jobs:
                       --with-png \
                       --with-resid \
                       --with-vorbis \
-                      ${{ matrix.ui.conf }}
+                      ${{ matrix.ui.conf }} \
+                      ${{ matrix.silicon.conf }}
           make -j $(sysctl -n hw.ncpu) -s
           DEPS_PREFIX=${{ matrix.silicon.brew_prefix }} make bindistzip
           DMG_NAME=$(ls *.dmg)
