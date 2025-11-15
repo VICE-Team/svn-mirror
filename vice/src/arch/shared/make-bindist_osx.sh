@@ -345,22 +345,16 @@ cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.s
 
 if [ "$UI_TYPE" = "SDL2" ]; then
   cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
-# FIXME
-#  copy_lib_recursively $DEPS_PREFIX/lib/libjxl_cms.*.dylib
-# FIXME
-#  copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
+  copy_lib_recursively $DEPS_PREFIX/lib/libjxl_cms.*.dylib
+  copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
 elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
   # Gtk runtime stuff
-# FIXME
-#  cp -r $DEPS_PREFIX/lib/gdk-pixbuf-2.0 $APP_LIB
-# FIXME
-#  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
-# FIXME
-#  cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
-# FIXME
-#  cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
+  cp -r $DEPS_PREFIX/lib/gdk-pixbuf-2.0 $APP_LIB
+  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
+  cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
+  cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
 
   # Get rid of any compiled python that came with glib share
   find $APP_SHARE -name '*.pyc' -exec rm {} \;
@@ -371,41 +365,38 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 
     mkdir "$out_icons"
     # Rewrite the index.theme file to exclude large non-vector assets
-# FIXME
-#    awk '
-#      BEGIN {
-#        directories_found = 0
-#      }
-#      /^Directories=/ {
-#        directories_found = 1
-#        printf "Directories="
-#        system("echo " $0 " | tr \"=,\" \"\n\" | grep ^scalable | tr \"\n\" \",\" ")
-#        printf "\n"
-#        next
-#      }
-#      {
-#        if (!directories_found) {
-#          print
-#          next
-#        }
-#      }
-#      /^\[/ {
-#        eat = 0
-#        if ($0 !~ /^\[scalable\//) {
-#          eat = 1
-#        }
-#      }
-#      {
-#        if (!eat) {
-#          print
-#        }
-#      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
-# FIXME
-#    cp -r "$in_icons/scalable" "$out_icons/"
+    awk '
+      BEGIN {
+        directories_found = 0
+      }
+      /^Directories=/ {
+        directories_found = 1
+        printf "Directories="
+        system("echo " $0 " | tr \"=,\" \"\n\" | grep ^scalable | tr \"\n\" \",\" ")
+        printf "\n"
+        next
+      }
+      {
+        if (!directories_found) {
+          print
+          next
+        }
+      }
+      /^\[/ {
+        eat = 0
+        if ($0 !~ /^\[scalable\//) {
+          eat = 1
+        }
+      }
+      {
+        if (!eat) {
+          print
+        }
+      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
+    cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
-# FIXME
-#    $GTK_UPDATE_ICON_CACHE "$out_icons/"
+    $GTK_UPDATE_ICON_CACHE "$out_icons/"
   }
 
   mkdir $APP_SHARE/icons
@@ -413,10 +404,8 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   import_scalable_gtk_icons Adwaita
 
   # hicolor is small, just copy it. It doesn't have any scalable assets.
-# FIXME
-#  cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
-# FIXME
-#  $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
+  cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
+  $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
 fi
 
 # .so libs need their libs too
@@ -429,11 +418,9 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime
-# FIXME
-#if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
-# FIXME
-#  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
-#fi
+if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
+  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
+fi
 
 # --- copy tools ---------------------------------------------------------------
 
@@ -571,8 +558,8 @@ if [ "$UI_TYPE" = "GTK3" ]; then
     # macports
     sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
   fi
-#FIXME
-#  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
+
+  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
 fi
 
 
