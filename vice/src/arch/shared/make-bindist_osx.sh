@@ -400,6 +400,7 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 #          print
 #        }
 #      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
+# FIXME
 #    cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
@@ -412,8 +413,10 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   import_scalable_gtk_icons Adwaita
 
   # hicolor is small, just copy it. It doesn't have any scalable assets.
-  cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
-  $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
+# FIXME
+#  cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
+# FIXME
+#  $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
 fi
 
 # .so libs need their libs too
@@ -426,6 +429,7 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime
+# FIXME
 #if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
 # FIXME
 #  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
