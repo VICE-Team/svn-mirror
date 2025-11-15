@@ -531,11 +531,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        silicon:  [ { name: 'Intel Silicon',
-                      runner: 'macos-13',
-                      conf: '--enable-macos-minimum-version=13.0',
-                      brew_prefix: '/usr/local' },
-                    { name: 'Apple Silicon',
+        silicon:  [ { name: 'Apple Silicon',
                       runner: 'macos-15-intel',
                       conf: '--enable-macos-minimum-version=15.0',
                       brew_prefix: '/opt/homebrew' }
@@ -557,22 +553,6 @@ jobs:
         with:
           name: vice-pdf
           path: vice/doc/
-
-      - name: Homebrew Cache Setup
-        id: brew_cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ${{ matrix.silicon.brew_prefix }}/Cellar
-            ~/Library/Caches/Homebrew
-          key: homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-${{ github.run_number }}
-          restore-keys: |
-            homebrew-${{ matrix.silicon.runner }}-${{ runner.arch }}-${{ matrix.ui.name }}-
-
-      - name: Homebrew Handle Cache Miss
-        if: steps.brew_cache.outputs.cache-hit != 'true'
-        run: |
-          brew list -1 | xargs brew uninstall --force
 
       - name: Homebrew Install Dependencies
         run: |
