@@ -63,7 +63,7 @@ echo " CPU arch: $CPU_ARCH"
 # setup BUILD dir
 BUILD_DIR=$(echo "vice-$CPU_ARCH-$UI_TYPE-$VICE_VERSION" | tr '[:upper:]' '[:lower:]')
 
-if [[ ! -z "$GITHUB_REF_NAME" ]]; then
+if [[ ! -z "${GITHUB_REF_NAME:-}" ]]; then
   #GitHub Actions build
   BUILD_DIR="$BUILD_DIR-$GITHUB_REF_NAME"
 else
@@ -339,6 +339,13 @@ done
 
 cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.sh"
 
+#
+# Yes this looks dumb but some stuff isn't directly linked and therefore the
+# automated recursive copying misses them.
+#
+# PLEASE DON'T MESS WITH THIS IF YOU DON'T HAVE THE MEANS TO TEST IT
+#
+
 # Can use dtrace in a terminal and run x64sc.app to find runtime libs that aren't directly linked:
 # sudo dtrace -n 'syscall::*stat*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 # sudo dtrace -n 'syscall::*open*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
@@ -355,6 +362,8 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
   cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
   cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
+
+  copy_lib_recursively $DEPS_PREFIX/lib/librsvg-*.dylib
 
   # Get rid of any compiled python that came with glib share
   find $APP_SHARE -name '*.pyc' -exec rm {} \;
@@ -606,10 +615,9 @@ fi
 
 # --- copy fonts ---------------------------------------------------------------
 
-FONTS="C64_Pro_Mono-STYLE.ttf"
 echo "  copying fonts"
-for FONT in $FONTS ; do
-  cp "$TOP_DIR/data/common/$FONT" "$APP_COMMON/"
+for FONT in $(ls -1 $TOP_DIR/data/common/*.ttf) ; do
+  cp "$FONT" "$APP_COMMON/"
 done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
