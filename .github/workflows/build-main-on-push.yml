@@ -526,7 +526,7 @@ jobs:
   build_mac:
     name: Build macOS Binaries
     env:
-      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libomp"
+      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libomp libvorbis flac"
     needs: [create_release, build_doc]
     strategy:
       fail-fast: false
@@ -573,9 +573,16 @@ jobs:
 
       - name: Homebrew Install Dependencies
         run: |
+          FLAG="${{ matrix.silicon.brew_prefix }}/Homebrew/.vice_cache_ready"
+          if [ -f "$FLAG" ]; then
+            echo "Homebrew cache already warmed: $FLAG exists. Skipping initial brew uninstall."
+          else
+            brew list -1 | xargs brew uninstall --force
+            touch "$FLAG"
+            echo "Created cache flag: $FLAG"
+          fi
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           brew update
-          brew upgrade || true
           brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
       
       - name: Build
