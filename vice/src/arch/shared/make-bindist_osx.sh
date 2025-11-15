@@ -371,34 +371,35 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 
     mkdir "$out_icons"
     # Rewrite the index.theme file to exclude large non-vector assets
-    awk '
-      BEGIN {
-        directories_found = 0
-      }
-      /^Directories=/ {
-        directories_found = 1
-        printf "Directories="
-        system("echo " $0 " | tr \"=,\" \"\n\" | grep ^scalable | tr \"\n\" \",\" ")
-        printf "\n"
-        next
-      }
-      {
-        if (!directories_found) {
-          print
-          next
-        }
-      }
-      /^\[/ {
-        eat = 0
-        if ($0 !~ /^\[scalable\//) {
-          eat = 1
-        }
-      }
-      {
-        if (!eat) {
-          print
-        }
-      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
+# FIXME
+#    awk '
+#      BEGIN {
+#        directories_found = 0
+#      }
+#      /^Directories=/ {
+#        directories_found = 1
+#        printf "Directories="
+#        system("echo " $0 " | tr \"=,\" \"\n\" | grep ^scalable | tr \"\n\" \",\" ")
+#        printf "\n"
+#        next
+#      }
+#      {
+#        if (!directories_found) {
+#          print
+#          next
+#        }
+#      }
+#      /^\[/ {
+#        eat = 0
+#        if ($0 !~ /^\[scalable\//) {
+#          eat = 1
+#        }
+#      }
+#      {
+#        if (!eat) {
+#          print
+#        }
+#      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
     cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
