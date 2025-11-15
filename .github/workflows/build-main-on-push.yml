@@ -536,8 +536,8 @@ jobs:
                       conf: '--enable-macos-minimum-version=13.0',
                       brew_prefix: '/usr/local' },
                     { name: 'Apple Silicon',
-                      runner: 'macos-14',
-                      conf: '--enable-macos-minimum-version=14.0',
+                      runner: 'macos-15-intel',
+                      conf: '--enable-macos-minimum-version=15.0',
                       brew_prefix: '/opt/homebrew' }
                   ]
         ui: [ { name: 'GTK3',
