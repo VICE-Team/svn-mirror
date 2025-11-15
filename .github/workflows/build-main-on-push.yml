@@ -556,10 +556,10 @@ jobs:
 
       - name: Homebrew Install Dependencies
         run: |
-          export HOMEBREW_NO_INSTALL_CLEANUP=1
-          brew update
           brew list -1 | xargs brew uninstall --force
+          brew update
           brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
+          ls -l /opt/homebrew/lib/
       
       - name: Build
         id: build
