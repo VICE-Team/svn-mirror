@@ -359,7 +359,8 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 #  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
 # FIXME
 #  cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
-  cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
+# FIXME
+#  cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
 
   # Get rid of any compiled python that came with glib share
   find $APP_SHARE -name '*.pyc' -exec rm {} \;
@@ -423,10 +424,10 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime
-if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
+#if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
 # FIXME
 #  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
-fi
+#fi
 
 # --- copy tools ---------------------------------------------------------------
 
