@@ -526,7 +526,7 @@ jobs:
   build_mac:
     name: Build macOS Binaries
     env:
-      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libvorbis flac"
+      SHARED_DEPS: "autoconf automake pkg-config xa lame dos2unix libpng libvorbis flac"
     needs: [create_release, build_doc]
     strategy:
       fail-fast: false
@@ -545,7 +545,7 @@ jobs:
                 deps: 'gtk+3 librsvg adwaita-icon-theme glew' },
               { name: 'SDL2',
                 conf: '--enable-sdl2ui',
-                deps: 'sdl2 sdl2_image libpng' },
+                deps: 'sdl2 sdl2_image' },
               { name: 'Headless',
                 conf: '--enable-headlessui',
                 deps: '' }
