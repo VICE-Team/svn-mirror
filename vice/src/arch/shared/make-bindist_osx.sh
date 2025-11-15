@@ -400,7 +400,7 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 #          print
 #        }
 #      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
-    cp -r "$in_icons/scalable" "$out_icons/"
+#    cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
     $GTK_UPDATE_ICON_CACHE "$out_icons/"
