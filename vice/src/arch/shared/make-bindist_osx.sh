@@ -36,7 +36,8 @@ WARN_CODE_SIGN=false
 [ -z ${DEPS_PREFIX+set} ] && (>&2 echo "ERROR: Please set DEPS_PREFIX environment variable to something like /opt/local, /usr/local, or /opt/homebrew"; exit 1)
 
 if [ -z ${CODE_SIGN_ID+set} ]; then
-  CODE_SIGN_ID=$(security find-identity -v -p codesigning | grep "Developer ID Application" | head -n1 | awk -F'"' '{ print $2 }')
+  # Sign as ad-hoc if no identity is provided
+  CODE_SIGN_ID="-"
   WARN_CODE_SIGN=true
 fi
 
@@ -703,7 +704,13 @@ cp "$TOP_DIR/data/hotkeys/"*.vhk "$APP_HOTKEYS/"
 # --- code signing (for Apple notarisation) ------------------------------------
 
 code_sign_file () {
-  codesign -s "$CODE_SIGN_ID" --timestamp --options runtime -f "$1"
+  if [ "$CODE_SIGN_ID" = "-" ]; then
+    # Ad-hoc signing
+    codesign --force --sign - -f "$1"
+  else
+    # Signing with provided identity
+    codesign -s "$CODE_SIGN_ID" --timestamp --options runtime -f "$1"
+  fi
 }
 
 if [ -n "$CODE_SIGN_ID" ]; then
@@ -767,24 +774,12 @@ fi
 
 # --- show warnings ------------------------------------------------------------
 
-if [ -z "$CODE_SIGN_ID" ]; then
-  cat <<HEREDOC | sed 's/^ *//'
-
-    ****
-    Bindist is not codesigned. To sign, export the CODE_SIGN_ID environment variable to
-    something like "Developer ID Application: <NAME> (<ID>)".
-
-    Run 'security find-identity -v -p codesigning' to list available identities.
-    ****
-
-HEREDOC
-fi
-
 if $WARN_CODE_SIGN; then
   cat <<HEREDOC | sed 's/^ *//'
 
     ****
-    CODE_SIGN_ID environment variable not set, using detected value: $CODE_SIGN_ID
+    CODE_SIGN_ID environment variable not set, using ad-hoc signature. User will
+    need to override Gatekeeper to run the apps.
     
     Run 'security find-identity -v -p codesigning' to list available identities,
     and set CODE_SIGN_ID to something like "Developer ID Application: <NAME> (<ID>)".
