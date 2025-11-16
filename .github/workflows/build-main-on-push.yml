@@ -533,8 +533,7 @@ jobs:
       matrix:
         silicon:  [ { name: 'Apple Silicon',
                       runner: 'macos-15-intel',
-                      conf: '--enable-macos-minimum-version=15.0',
-                      brew_prefix: '/opt/homebrew' }
+                      conf: '--enable-macos-minimum-version=15.0' }
                   ]
         ui: [ { name: 'GTK3',
                 conf: '--enable-gtk3ui',
@@ -555,11 +554,13 @@ jobs:
           path: vice/doc/
 
       - name: Homebrew Install Dependencies
+        id: homebrew
         run: |
           brew list -1 | xargs brew uninstall --force
           brew update
           brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
-          ls -l /opt/homebrew/lib/
+          ls -l $(brew --prefix)/lib
+          echo "brew_prefix=$(brew --prefix)" >> $GITHUB_OUTPUT
       
       - name: Build
         id: build
@@ -588,7 +589,7 @@ jobs:
                       ${{ matrix.ui.conf }} \
                       ${{ matrix.silicon.conf }}
           make -j $(sysctl -n hw.ncpu) -s
-          DEPS_PREFIX=${{ matrix.silicon.brew_prefix }} make bindistzip
+          DEPS_PREFIX=${{ steps.homebrew.outputs.brew_prefix }} make bindistzip
           DMG_NAME=$(ls *.dmg)
           DMG_PATH="$(pwd)/${DMG_NAME}"
           echo "dmg_name=${DMG_NAME}" >> $GITHUB_OUTPUT
