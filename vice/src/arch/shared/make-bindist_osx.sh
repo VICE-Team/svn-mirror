@@ -127,24 +127,112 @@ resolve_link () {
   echo "$(cd $(dirname $link) && cd $(dirname $link_target) && pwd -P)/$(basename $link_target)"
 }
 
-copy_lib_recursively () {
-  local lib="$1"
-  local lib_basename=`basename "$lib"`
-  local lib_dest="$APP_LIB/$lib_basename"
+extract_rpaths () {
+  local thing="$1"
 
-  if [ "$lib" = "" ] || [ -e "$lib_dest" ]; then
-    return
-  fi
+  LOADER_PATH=$(dirname "$thing")
+  # >&2 echo "Loader path for $thing: $LOADER_PATH"
 
-  cp "$lib" "$lib_dest"
-  chmod 644 "$lib_dest"
+  RPATHS=$(
+    otool -l "$thing" \
+    | grep -A 2 LC_RPATH \
+    | grep path \
+    | sed 's/.*path //' \
+    | sed 's/ (offset.*//' \
+    | sed "s,@loader_path/,$LOADER_PATH/,"
+  )
 
-  # copy this lib's libs
-  LIB_LIBS=`otool -L "$lib_dest" | egrep "^\s+$DEPS_PREFIX/" | grep -v "$lib_basename" | awk '{print $1}'`
+  # >&2 echo "RPATHs for $thing:"
+  # >&2 echo "$RPATHS"
 
-  for lib_lib in $LIB_LIBS; do
-    copy_lib_recursively "$lib_lib"
+  echo "$RPATHS"
+}
+
+find_thing_libs () {
+  local thing="$1"
+
+  otool -L "$thing" \
+    | grep -v "$thing" \
+    | egrep -v "^\s+/usr/lib/" \
+    | egrep -v "^\s+/System/Library/" \
+    | awk '{print $1}'
+  
+  true
+}
+
+copy_thing_libs_internal () {
+  local thing="$1"
+
+  shift
+  local exe_rpaths="$@"
+
+  THING_LIBS=$(find_thing_libs "$thing")
+  # >&2 echo "*** $thing libs:"
+  # >&2 echo "$THING_LIBS"
+
+  # copy this lib's libs. Some resolution of @rpath and @loader_path is needed for some libs.
+  RPATHS=$(extract_rpaths "$thing")
+
+  # >&2 echo "Combined lib + exe RPATHs for $thing:"
+  # >&2 echo -e "$RPATHS\n$exe_rpaths"
+
+  for lib in $THING_LIBS; do
+    resolved_lib="$lib"
+    if [[ "$resolved_lib" == @rpath/* ]]; then
+      # >&2 echo "Considering @rpath lib: $resolved_lib"
+      for rpath in $RPATHS $exe_rpaths; do
+        # >&2 echo "  considering rpath: $rpath"
+        candidate_lib="$rpath/${resolved_lib#@rpath/}"
+
+        if [[ "$candidate_lib" == @loader_path/* ]]; then
+          candidate_lib="$LOADER_PATH/${candidate_lib#@loader_path/}"
+        fi
+
+        if [ -e "$candidate_lib" ]; then
+          # >&2 echo "  candidate lib exists: $candidate_lib"
+          resolved_lib="$candidate_lib"
+          break
+        fi
+      done
+
+    elif [[ "$lib" == @loader_path/* ]]; then
+      candidate_lib="$LOADER_PATH/${lib#@loader_path/}"
+      if [ -e "$candidate_lib" ]; then
+        resolved_lib="$candidate_lib"
+      fi
+    fi
+
+    # >&2 echo "Found lib to copy: $lib"
+    # >&2 echo "  resolved to: $resolved_lib"
+    
+    if [ ! -e "$resolved_lib" ]; then
+      >&2 echo "  ERROR: resolved lib $resolved_lib does not exist!"
+      exit 1
+    fi
+
+    basename_lib=$(basename "$resolved_lib")
+    if [ -e "$APP_LIB/$basename_lib" ]; then
+      # >&2 echo "  already copied, skipping."
+      continue
+    fi
+
+    # >&2 echo "  copying to bundle."
+    cp "$resolved_lib" "$APP_LIB/"
+    chmod 644 "$APP_LIB/$basename_lib"
+
+    # Replace the lib path in the original lib to point to the copied lib
+    install_name_tool -change "$lib" "@rpath/$basename_lib" "$APP_LIB/$basename_lib" \
+      2> >(grep -v "invalidate the code signature")
+
+    # Recursively copy this lib's libs
+    copy_thing_libs_internal "$resolved_lib" "$exe_rpaths"
   done
+}
+
+copy_thing_libs () {
+  local thing="$1"
+
+  copy_thing_libs_internal "$thing" "$(extract_rpaths "$thing")"
 }
 
 # --- create bundle ------------------------------------------------------------
@@ -308,11 +396,7 @@ for emu in $BINARIES ; do
   fi
 
   # copy any needed "local" libs
-  LOCAL_LIBS=`otool -L $APP_BIN/$emu | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
-
-  for lib in $LOCAL_LIBS; do
-    copy_lib_recursively $lib
-  done
+  copy_thing_libs "$APP_BIN/$emu"
 
   # copy emulator ROM
   eval "ROM=\${ROM_$emu}"
@@ -339,21 +423,12 @@ done
 
 cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.sh"
 
-#
-# Yes this looks dumb but some stuff isn't directly linked and therefore the
-# automated recursive copying misses them.
-#
-# PLEASE DON'T MESS WITH THIS IF YOU DON'T HAVE THE MEANS TO TEST IT
-#
-
 # Can use dtrace in a terminal and run x64sc.app to find runtime libs that aren't directly linked:
 # sudo dtrace -n 'syscall::*stat*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 # sudo dtrace -n 'syscall::*open*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 
 if [ "$UI_TYPE" = "SDL2" ]; then
   cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
-  # copy_lib_recursively $DEPS_PREFIX/lib/libjxl_cms.*.dylib
-  # copy_lib_recursively $DEPS_PREFIX/lib/libsharpyuv.*.dylib
 elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
@@ -362,8 +437,6 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
   cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
   cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
-
-  copy_lib_recursively $DEPS_PREFIX/lib/librsvg-*.dylib
 
   # Get rid of any compiled python that came with glib share
   find $APP_SHARE -name '*.pyc' -exec rm {} \;
@@ -419,16 +492,13 @@ fi
 
 # .so libs need their libs too
 for lib in `find $APP_LIB -name '*.so'`; do
-  LIB_LIBS=`otool -L $lib | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
-
-  for lib_lib in $LIB_LIBS; do
-    copy_lib_recursively $lib_lib
-  done
+  copy_thing_libs "$lib"
 done
 
 # Some libs are loaded at runtime
 if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
-  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
+  cp $DEPS_PREFIX/lib/libmp3lame.dylib "$APP_LIB/"
+  copy_thing_libs $DEPS_PREFIX/lib/libmp3lame.dylib
 fi
 
 # --- copy tools ---------------------------------------------------------------
@@ -455,11 +525,7 @@ for tool_file in $TOOLS ; do
   fi
 
   # copy any needed "local" libs
-  LOCAL_LIBS=`otool -L $APP_BIN/$tool_name | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
-
-  for lib in $LOCAL_LIBS; do
-      copy_lib_recursively $lib
-  done
+  copy_thing_libs "$APP_BIN/$tool_name"
 
   # ready
   echo
@@ -504,9 +570,7 @@ relink () {
   # Any link to a lib in $DEPS_PREFIX is updated to @rpath/$lib
   #
 
-  set +o pipefail
-  THING_LIBS=`otool -L $thing | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
-  set -o pipefail
+  THING_LIBS=$(find_thing_libs "$thing")
 
   for thing_lib in $THING_LIBS; do
     install_name_tool -change $thing_lib @rpath/$(basename $thing_lib) $thing \
