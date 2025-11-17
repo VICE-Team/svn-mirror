@@ -36,9 +36,7 @@ export GTK_EXE_PREFIX="$BUNDLE_RESOURCES"
 export GTK_PATH="$BUNDLE_RESOURCES"
 
 export GDK_PIXBUF_MODULE_FILE="$BUNDLE_LIB/gdk-pixbuf-2.0/2.10.0/loaders.cache"
-if [ `uname -r | cut -d . -f 1` -ge 10 ]; then
-    export GTK_IM_MODULE_FILE="$BUNDLE_ETC/gtk-3.0/gtk.immodules"
-fi
+export GTK_IM_MODULE_FILE="$BUNDLE_LIB/gtk-3.0/3.0.0/immodules.cache"
 
 export LC_ALL=en_US
 
