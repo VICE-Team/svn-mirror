@@ -43,9 +43,12 @@
 int archdep_is_macos_bindist(void) {
 #ifdef MACOS_COMPILE
     static char *BINDIST_BOOT_PATH = "/VICE.app/Contents/Resources/bin";
+    char resolved_boot_path[PATH_MAX];
+    char *bindist_boot_path_ptr;
 
-    char *bindist_boot_path_ptr = strstr(archdep_boot_path(), BINDIST_BOOT_PATH);
+    realpath(archdep_boot_path(), resolved_boot_path);
 
+    bindist_boot_path_ptr = strstr(resolved_boot_path, BINDIST_BOOT_PATH);
     if (bindist_boot_path_ptr && strlen(bindist_boot_path_ptr) == strlen(BINDIST_BOOT_PATH)) {
         return 1;
     }
