@@ -69,6 +69,7 @@ static const char *font_files[] = {
 # ifdef MACOS_COMPILE
 
 #  include <CoreText/CTFontManager.h>
+#  include <pango/pangocairo.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -105,6 +106,9 @@ int archdep_register_cbmfont(void)
         CFRelease(fontUrl);
         lib_free(fontPath);
     }
+
+    /* Force Pango to reinitialize so that the available fonts are rescanned */
+    pango_cairo_font_map_set_default(NULL);
 
     return 1;
 }
