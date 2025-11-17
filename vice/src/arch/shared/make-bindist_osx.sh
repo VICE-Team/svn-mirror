@@ -221,10 +221,6 @@ copy_thing_libs_internal () {
     cp "$resolved_lib" "$APP_LIB/"
     chmod 644 "$APP_LIB/$basename_lib"
 
-    # Replace the lib path in the original lib to point to the copied lib
-    install_name_tool -change "$lib" "@rpath/$basename_lib" "$APP_LIB/$basename_lib" \
-      2> >(grep -v "invalidate the code signature")
-
     # Recursively copy this lib's libs
     copy_thing_libs_internal "$resolved_lib" "$exe_rpaths"
   done
@@ -483,12 +479,23 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   }
 
   mkdir $APP_SHARE/icons
-
   import_scalable_gtk_icons Adwaita
 
   # hicolor is small, just copy it. It doesn't have any scalable assets.
   cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
   $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
+
+  export GTK_EXE_PREFIX="$APP_RESOURCES"
+  export GTK_PATH="$APP_LIB/gtk-3.0"
+  export DYLD_LIBRARY_PATH="$APP_LIB"
+
+  # Keep only the necessary GTK schemas
+  TMPDIR=$(mktemp -d)
+  mv "$APP_SHARE/glib-2.0/schemas/org.gtk.Settings."*.xml $TMPDIR/
+  rm "$APP_SHARE/glib-2.0/schemas/"*.xml
+  mv $TMPDIR/* "$APP_SHARE/glib-2.0/schemas/"
+  rmdir $TMPDIR
+  glib-compile-schemas "$APP_SHARE/glib-2.0/schemas"
 fi
 
 # .so libs need their libs too
@@ -501,6 +508,21 @@ if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
   cp $DEPS_PREFIX/lib/libmp3lame.dylib "$APP_LIB/"
   copy_thing_libs $DEPS_PREFIX/lib/libmp3lame.dylib
 fi
+
+if [ "$UI_TYPE" = "GTK3" ]; then
+  # GDK-Pixbuf loaders.cache
+  # Discover loader .so files from the bundle and feed them to the query tool:
+  gdk-pixbuf-query-loaders $(find "$APP_LIB/gdk-pixbuf-2.0/2.10.0/loaders" -name '*.so') \
+     > "$APP_LIB/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+  sed -i '' -e "s,$(pwd)/$APP_LIB/,,g" "$APP_LIB/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+
+  # GTK3 IM modules cache
+  # keep only im-quartz.so and replace the cache
+  find "$APP_LIB/gtk-3.0/3.0.0/immodules/" -name '*.so' ! -name 'im-quartz.so' -exec rm -f {} \;
+  echo '"gtk-3.0/3.0.0/immodules/im-quartz.so"' > "$APP_LIB/gtk-3.0/3.0.0/immodules.cache"
+  echo '"quartz" "Mac OS X Quartz" "gtk30" "" "ja:ko:zh:*"' >> "$APP_LIB/gtk-3.0/3.0.0/immodules.cache"
+fi
+
 
 # --- copy tools ---------------------------------------------------------------
 
@@ -574,7 +596,7 @@ relink () {
   THING_LIBS=$(find_thing_libs "$thing")
 
   for thing_lib in $THING_LIBS; do
-    install_name_tool -change $thing_lib @rpath/$(basename $thing_lib) $thing \
+    install_name_tool -change $thing_lib "@rpath/$(basename $thing_lib)" $thing \
       2> >(grep -v "invalidate the code signature")
   done
 
@@ -615,27 +637,6 @@ for bin in $BINARIES $TOOLS; do
   relink $APP_BIN/$(basename $bin)
   chmod 555 $APP_BIN/$(basename $bin)
 done
-
-if [ "$UI_TYPE" = "GTK3" ]; then
-  # these copied cache files would otherwise point to local files
-  if [ -e $APP_ETC/gtk-3.0/gtk.immodules ]; then
-    # macports
-    sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gtk.immodules
-  fi
-
-  if [ -e $APP_LIB/gtk-3.0/3.0.0/immodules.cache ]; then
-    # homebrew
-    sed -i '' -e "s,$DEPS_PREFIX[^ ]immodules/,@executable_path/../lib/gtk-3.0/3.0.0/immodules/," $APP_LIB/gtk-3.0/3.0.0/immodules.cache
-  fi
-
-  if [ -e $APP_ETC/gtk-3.0/gdk-pixbuf.loaders ]; then
-    # macports
-    sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
-  fi
-
-  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
-fi
-
 
 # --- create general command line launchers ------------------------------------
 
