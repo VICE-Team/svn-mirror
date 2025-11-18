@@ -118,6 +118,7 @@ int archdep_register_cbmfont(void)
 #  ifdef HAVE_FONTCONFIG
 
 #   include <fontconfig/fontconfig.h>
+#   include <pango/pangocairo.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -150,6 +151,9 @@ int archdep_register_cbmfont(void)
             lib_free(path);
         }
     }
+
+    /* Force Pango to reinitialize so that the available fonts are rescanned */
+    pango_cairo_font_map_set_default(NULL);
 
     return 1;
 }
@@ -190,6 +194,7 @@ static bool font_registered = false;
 
 #   include <windows.h>
 #   include <pango/pango.h>
+#   include <pango/pangocairo.h>
 
 int archdep_register_cbmfont(void)
 {
@@ -253,12 +258,16 @@ int archdep_register_cbmfont(void)
                     "%s(): According to Windows, the CBM font was succesfully"
                     " registered.",
                     __func__);
-        return 1;
+    } else {
+        log_warning(archdep_font_log,
+                    "%s(): According to Windows, registering the font failed",
+                    __func__);
+        return 0;
     }
-    log_warning(archdep_font_log,
-                "%s(): According to Windows, registering the font failed",
-                __func__);
 #endif
+    /* Force Pango to reinitialize so that the available fonts are rescanned */
+    pango_cairo_font_map_set_default(NULL);
+
     return 1;
 }
 
