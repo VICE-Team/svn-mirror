@@ -261,6 +261,7 @@ if INSTALL_DESKTOP_FILES
 # Install icon files in their proper place. The default context is 'apps' and
 # the default mode is 'system' when running as root and 'user' when not running
 # as root, both defaults are what we want.
+$(if $(DESTDIR),install-icons: XDG_DATA_HOME=$(DESTDIR)$(prefix)/share)
 install-icons:
 	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x64_32.png vice-x64
 	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x64_48.png vice-x64
@@ -299,6 +300,7 @@ install-icons:
 	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-vsid_64.png vice-vsid
 	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-vsid_256.png vice-vsid
 
+$(if $(DESTDIR),uninstall-icons: XDG_DATA_HOME=$(DESTDIR)$(prefix)/share)
 uninstall-icons:
 	xdg-icon-resource uninstall --size 32 vice-x64
 	xdg-icon-resource uninstall --size 48 vice-x64
