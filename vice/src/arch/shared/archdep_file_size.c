@@ -28,7 +28,7 @@
 #include "archdep_defs.h"
 
 #include <stdio.h>
-#if defined(ARCHEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
 # include <sys/types.h>
 #endif
 
