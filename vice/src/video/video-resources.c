@@ -177,7 +177,6 @@ static resource_int_t resources_chip_scan[] =
     RESOURCE_INT_LIST_END
 };
 
-
 /** \brief  Setter for integer resource "${CHIP}Filter"
  *
  * Sets the "render mode" to `VIDEO_FILTER_NONE`, `VIDEO_FILTER_CRT` or
@@ -398,7 +397,7 @@ static resource_int_t resources_chip_palette_int[] =
     RESOURCE_INT_LIST_END
 };
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
 /** \brief  Setter for the integer resource "${CHIP}AspectMode"
  *
  * \param[in]   mode        aspect mode
@@ -449,6 +448,9 @@ static int set_aspect_ratio(const char *val, void *canvas)
 
     return ui_set_aspect_ratio(new_aspect, canvas);
 }
+#endif
+
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
 
 static int set_glfilter(int val, void *canvas)
 {
@@ -1094,7 +1096,7 @@ int video_resources_chip_init(const char *chipname,
     }
 
     /* Open GL options */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
     /* CHIPAspectMode, CHIPGLFilter, CHIPFlipX, CHIPFlipY, CHIPRotate */
     if (machine_class != VICE_MACHINE_VSID) {
         int res = 0;

@@ -548,8 +548,10 @@ UI_MENU_DEFINE_TOGGLE(CrtcVSync)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 UI_MENU_DEFINE_RADIO(VICIIAspectMode)
 UI_MENU_DEFINE_STRING(VICIIAspectRatio)
+#endif
 
 UI_MENU_DEFINE_RADIO(VICIIFullscreenMode)
 
@@ -569,8 +571,10 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
 
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 UI_MENU_DEFINE_RADIO(VDCAspectMode)
 UI_MENU_DEFINE_STRING(VDCAspectRatio)
+#endif
 
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_RADIO(VDCFullscreenMode)
@@ -594,8 +598,10 @@ UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 UI_MENU_DEFINE_RADIO(CrtcAspectMode)
 UI_MENU_DEFINE_STRING(CrtcAspectRatio)
+#endif
 
 static const ui_menu_entry_t crtc_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(Crtc)
@@ -614,8 +620,10 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 UI_MENU_DEFINE_RADIO(TEDAspectMode)
 UI_MENU_DEFINE_STRING(TEDAspectRatio)
+#endif
 
 UI_MENU_DEFINE_RADIO(TEDFullscreenMode)
 
@@ -635,8 +643,10 @@ static const ui_menu_entry_t ted_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 UI_MENU_DEFINE_RADIO(VICAspectMode)
 UI_MENU_DEFINE_STRING(VICAspectRatio)
+#endif
 
 UI_MENU_DEFINE_RADIO(VICFullscreenMode)
 
