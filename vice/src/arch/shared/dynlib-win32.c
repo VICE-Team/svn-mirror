@@ -96,7 +96,7 @@ void archdep_opencbm_fix_dll_path(void)
 
 void *vice_dynlib_open(const char *name)
 {
-    return LoadLibrary(name);
+    return LoadLibrary(TEXT(name));
 }
 
 void *vice_dynlib_symbol(void *handle,const char *name)

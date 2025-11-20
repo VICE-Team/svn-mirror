@@ -114,7 +114,7 @@ static int has_usb_hardsid = 1;
 static int init_interface(void)
 {
     if (dll == NULL) {
-        dll = LoadLibrary("HARDSID.DLL");
+        dll = LoadLibrary(TEXT("HARDSID.DLL"));
         if (dll != NULL) {
             GetHardSIDCount = (GetHardSIDCount_t)(void*)GetProcAddress(dll, "GetHardSIDCount");
             InitHardSID_Mapper = (InitHardSID_Mapper_t)(void*)GetProcAddress(dll, "InitHardSID_Mapper");
