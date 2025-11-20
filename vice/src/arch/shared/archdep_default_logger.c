@@ -108,7 +108,7 @@ int archdep_default_logger_is_terminal(void)
     return 0;
 }
 
-#elif defined(UNIX_COMPILE) || defined(ARCHEP_OS_BEOS)
+#elif defined(UNIX_COMPILE)
 
 /** \brief  Write log message to stdout
  *
