@@ -94,14 +94,57 @@ void archdep_opencbm_fix_dll_path(void)
     opencbm_fix_tried = 1;
 }
 
+#ifdef _UNICODE
+static const WCHAR *alloc_wchar_from_char(const char *text)
+{
+    int len;
+    WCHAR *wtext;
+
+    /* Calculate required length (uses CP_ACP scheme) */
+    len = MultiByteToWideChar(CP_ACP, 0, text, -1, NULL, 0);
+
+    /* Get the space for the converted string */
+    wtext = (WCHAR *)malloc(len * sizeof(WCHAR));
+    if (wtext == NULL)
+        return NULL;
+
+    /* Convert the string to WCHAR */
+    MultiByteToWideChar(CP_ACP, 0, text, -1, wtext, len);
+
+    return wtext;
+}
+#endif
+
 void *vice_dynlib_open(const char *name)
 {
-    return LoadLibrary(TEXT(name));
+#ifdef _UNICODE
+    WCHAR *wname = alloc_wchar_from_char(name);
+    /* No need to test the value of wname, LoadLibrary()
+       returns NULL if the parameter is also NULL. */
+    HMODULE handle = LoadLibrary(wname);
+    /* Free the allocated file name */
+    free(wname);
+
+    return (void *)handle;
+#else
+    return LoadLibrary(name);
+#endif
 }
 
 void *vice_dynlib_symbol(void *handle,const char *name)
 {
+/* Windows CE has a sligthly different handling because
+   the name of the exported function is also unicode */
+#ifdef _WIN32_WCE
+    WCHAR *wname = alloc_wchar_from_char(name);
+    void *address = GetProcAddress((HMODULE)handle, wname);
+    /* Free the allocated file name */
+    free(wname);
+
+    return address;
+#else
     return GetProcAddress((HMODULE)handle, name);
+#endif
 }
 
 char *vice_dynlib_error(void)
