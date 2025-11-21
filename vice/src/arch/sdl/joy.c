@@ -244,7 +244,7 @@ void joystick_arch_init(void)
 
     joystick_driver_register(&sdl_joystick_driver);
     sdljoy_get_devices();
-//    sdljoy_rescan();
+    /* sdljoy_rescan(); */
 }
 
 
