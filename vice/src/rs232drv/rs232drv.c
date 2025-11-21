@@ -35,10 +35,15 @@
 #include "types.h"
 #include "util.h"
 
+/* NOTE: always declare this array, so the rs232 code compiles without further
+  ifdef hell, even when neither HAVE_RS232DEV nor HAVE_RS232NET is defined.
+  Since BSS will be initialized with zeros, this will do the right thing in
+  aciacore no matter what. */
+int rs232_useip232[RS232_NUM_DEVICES];
+
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 
 char *rs232_devfile[RS232_NUM_DEVICES] = { NULL };
-int rs232_useip232[RS232_NUM_DEVICES];
 
 static int set_devfile(const char *val, void *param)
 {
