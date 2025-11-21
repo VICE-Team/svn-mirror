@@ -1,10 +1,10 @@
 /*
- * userport_funmp3.h:
+ * userport_funmp3.h - Userport FunMP3 emulation.
  *    details about this cartridge can be found here:
- *    http://www.christianes-components.de/download/FunMP3-Player_Handbuch.pdf
+ *    http://www.christianes-components.de [credits: Markus Neeb FunMP3-Player]
  *
  * Written by
- *  pottendo (pottendo@gmx.net)
+ *  pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
