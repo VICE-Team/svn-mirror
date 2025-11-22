@@ -254,6 +254,33 @@ $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 
 common_DATA += $(GRESOURCE_TARGET)
 
+# NOTE: It is important to consider the following cases:
+# a) regular install (system wide, by root)
+# b) regular install (by user)
+# c) staged install (by a package maintainer)
+#
+# A staged install can be done (by a user) by giving DESTDIR on the commandline:
+#
+# make install DESTDIR=/home/paul/vice-staged
+#
+# and should result in the same directory structure a regular system wide install
+# would use, but with DESTDIR prepended.
+#
+# For a regular install, i tricky case to consider is when the desktop environment
+# uses a different install prefix than it was used for VICE. a common case would
+# be when the system uses /usr and VICE uses /usr/local - but it can be even more
+# exotic, for example Gentoo installs emulators in /usr/games.
+#
+# That means we can NOT use PREFIX in any of the pathes below, we should rather
+# let the respective utilities figure out the correct (default) path and only in
+# the case of a staged install use whatever mechanism is available to prepend
+# DESTDIR.
+
+# FIXME: we need a mechanism to figure out the correct PREFIX used by the desktop
+# installation, to use with the cases below that do not offer a good mechanism
+# to do this for the staged install case. (/usr should work for most practical
+# purposes anyway)
+DESKTOP_PREFIX=/usr
 
 if INSTALL_DESKTOP_FILES
 .PHONY: install-icons install-desktop-files uinstall-icons
@@ -261,82 +288,86 @@ if INSTALL_DESKTOP_FILES
 # Install icon files in their proper place. The default context is 'apps' and
 # the default mode is 'system' when running as root and 'user' when not running
 # as root, both defaults are what we want.
-$(if $(DESTDIR),install-icons: XDG_DATA_HOME=$(DESTDIR)$(prefix)/share)
 install-icons:
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x64_32.png vice-x64
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x64_48.png vice-x64
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x64_64.png vice-x64
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x64_256.png vice-x64
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x64dtv_32.png vice-x64dtv
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x64dtv_48.png vice-x64dtv
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x64dtv_64.png vice-x64dtv
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x64dtv_256.png vice-x64dtv
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xscpu64_32.png vice-xscpu64
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xscpu64_48.png vice-xscpu64
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xscpu64_64.png vice-xscpu64
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xscpu64_256.png vice-xscpu64
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x128_32.png vice-x128
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x128_48.png vice-x128
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x128_64.png vice-x128
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x128_256.png vice-x128
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xplus4_32.png vice-xplus4
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xplus4_48.png vice-xplus4
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xplus4_64.png vice-xplus4
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xplus4_256.png vice-xplus4
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xvic_32.png vice-xvic
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xvic_48.png vice-xvic
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xvic_64.png vice-xvic
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xvic_256.png vice-xvic
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xpet_32.png vice-xpet
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xpet_48.png vice-xpet
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xpet_64.png vice-xpet
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xpet_256.png vice-xpet
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xcbm2_32.png vice-xcbm2
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xcbm2_48.png vice-xcbm2
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xcbm2_64.png vice-xcbm2
-	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xcbm2_256.png vice-xcbm2
-	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-vsid_32.png vice-vsid
-	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-vsid_48.png vice-vsid
-	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-vsid_64.png vice-vsid
+	if test -n "$(DESTDIR)"; then \
+		export XDG_DATA_HOME=$(DESTDIR)$(DESKTOP_PREFIX)/share ;\
+	fi ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x64_32.png vice-x64 ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x64_48.png vice-x64 ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x64_64.png vice-x64 ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x64_256.png vice-x64 ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x64dtv_32.png vice-x64dtv ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x64dtv_48.png vice-x64dtv ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x64dtv_64.png vice-x64dtv ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x64dtv_256.png vice-x64dtv ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xscpu64_32.png vice-xscpu64 ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xscpu64_48.png vice-xscpu64 ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xscpu64_64.png vice-xscpu64 ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xscpu64_256.png vice-xscpu64 ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-x128_32.png vice-x128 ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-x128_48.png vice-x128 ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-x128_64.png vice-x128 ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-x128_256.png vice-x128 ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xplus4_32.png vice-xplus4 ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xplus4_48.png vice-xplus4 ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xplus4_64.png vice-xplus4 ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xplus4_256.png vice-xplus4 ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xvic_32.png vice-xvic ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xvic_48.png vice-xvic ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xvic_64.png vice-xvic ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xvic_256.png vice-xvic ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xpet_32.png vice-xpet ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xpet_48.png vice-xpet ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xpet_64.png vice-xpet ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xpet_256.png vice-xpet ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-xcbm2_32.png vice-xcbm2 ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-xcbm2_48.png vice-xcbm2 ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-xcbm2_64.png vice-xcbm2 ;\
+	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-xcbm2_256.png vice-xcbm2 ;\
+	xdg-icon-resource install --size 32 $(top_srcdir)/data/common/vice-vsid_32.png vice-vsid ;\
+	xdg-icon-resource install --size 48 $(top_srcdir)/data/common/vice-vsid_48.png vice-vsid ;\
+	xdg-icon-resource install --size 64 $(top_srcdir)/data/common/vice-vsid_64.png vice-vsid ;\
 	xdg-icon-resource install --size 256 $(top_srcdir)/data/common/vice-vsid_256.png vice-vsid
 
-$(if $(DESTDIR),uninstall-icons: XDG_DATA_HOME=$(DESTDIR)$(prefix)/share)
 uninstall-icons:
-	xdg-icon-resource uninstall --size 32 vice-x64
-	xdg-icon-resource uninstall --size 48 vice-x64
-	xdg-icon-resource uninstall --size 64 vice-x64
-	xdg-icon-resource uninstall --size 256 vice-x64
-	xdg-icon-resource uninstall --size 32 vice-x64dtv
-	xdg-icon-resource uninstall --size 48 vice-x64dtv
-	xdg-icon-resource uninstall --size 64 vice-x64dtv
-	xdg-icon-resource uninstall --size 256 vice-x64dtv
-	xdg-icon-resource uninstall --size 32 vice-xscpu64
-	xdg-icon-resource uninstall --size 48 vice-xscpu64
-	xdg-icon-resource uninstall --size 64 vice-xscpu64
-	xdg-icon-resource uninstall --size 256 vice-xscpu64
-	xdg-icon-resource uninstall --size 32 vice-x128
-	xdg-icon-resource uninstall --size 48 vice-x128
-	xdg-icon-resource uninstall --size 64 vice-x128
-	xdg-icon-resource uninstall --size 256 vice-x128
-	xdg-icon-resource uninstall --size 32 vice-xplus4
-	xdg-icon-resource uninstall --size 48 vice-xplus4
-	xdg-icon-resource uninstall --size 64 vice-xplus4
-	xdg-icon-resource uninstall --size 256 vice-xplus4
-	xdg-icon-resource uninstall --size 32 vice-xvic
-	xdg-icon-resource uninstall --size 48 vice-xvic
-	xdg-icon-resource uninstall --size 64 vice-xvic
-	xdg-icon-resource uninstall --size 256 vice-xvic
-	xdg-icon-resource uninstall --size 32 vice-xpet
-	xdg-icon-resource uninstall --size 48 vice-xpet
-	xdg-icon-resource uninstall --size 64 vice-xpet
-	xdg-icon-resource uninstall --size 256 vice-xpet
-	xdg-icon-resource uninstall --size 32 vice-xcbm2
-	xdg-icon-resource uninstall --size 48 vice-xcbm2
-	xdg-icon-resource uninstall --size 64 vice-xcbm2
-	xdg-icon-resource uninstall --size 256 vice-xcbm2
-	xdg-icon-resource uninstall --size 32 vice-vsid
-	xdg-icon-resource uninstall --size 48 vice-vsid
-	xdg-icon-resource uninstall --size 64 vice-vsid
+	if test -n "$(DESTDIR)"; then \
+		export XDG_DATA_HOME=$(DESTDIR)$(DESKTOP_PREFIX)/share ;\
+	fi ;\
+	xdg-icon-resource uninstall --size 32 vice-x64 ;\
+	xdg-icon-resource uninstall --size 48 vice-x64 ;\
+	xdg-icon-resource uninstall --size 64 vice-x64 ;\
+	xdg-icon-resource uninstall --size 256 vice-x64 ;\
+	xdg-icon-resource uninstall --size 32 vice-x64dtv ;\
+	xdg-icon-resource uninstall --size 48 vice-x64dtv ;\
+	xdg-icon-resource uninstall --size 64 vice-x64dtv ;\
+	xdg-icon-resource uninstall --size 256 vice-x64dtv ;\
+	xdg-icon-resource uninstall --size 32 vice-xscpu64 ;\
+	xdg-icon-resource uninstall --size 48 vice-xscpu64 ;\
+	xdg-icon-resource uninstall --size 64 vice-xscpu64 ;\
+	xdg-icon-resource uninstall --size 256 vice-xscpu64 ;\
+	xdg-icon-resource uninstall --size 32 vice-x128 ;\
+	xdg-icon-resource uninstall --size 48 vice-x128 ;\
+	xdg-icon-resource uninstall --size 64 vice-x128 ;\
+	xdg-icon-resource uninstall --size 256 vice-x128 ;\
+	xdg-icon-resource uninstall --size 32 vice-xplus4 ;\
+	xdg-icon-resource uninstall --size 48 vice-xplus4 ;\
+	xdg-icon-resource uninstall --size 64 vice-xplus4 ;\
+	xdg-icon-resource uninstall --size 256 vice-xplus4 ;\
+	xdg-icon-resource uninstall --size 32 vice-xvic ;\
+	xdg-icon-resource uninstall --size 48 vice-xvic ;\
+	xdg-icon-resource uninstall --size 64 vice-xvic ;\
+	xdg-icon-resource uninstall --size 256 vice-xvic ;\
+	xdg-icon-resource uninstall --size 32 vice-xpet ;\
+	xdg-icon-resource uninstall --size 48 vice-xpet ;\
+	xdg-icon-resource uninstall --size 64 vice-xpet ;\
+	xdg-icon-resource uninstall --size 256 vice-xpet ;\
+	xdg-icon-resource uninstall --size 32 vice-xcbm2 ;\
+	xdg-icon-resource uninstall --size 48 vice-xcbm2 ;\
+	xdg-icon-resource uninstall --size 64 vice-xcbm2 ;\
+	xdg-icon-resource uninstall --size 256 vice-xcbm2 ;\
+	xdg-icon-resource uninstall --size 32 vice-vsid ;\
+	xdg-icon-resource uninstall --size 48 vice-vsid ;\
+	xdg-icon-resource uninstall --size 64 vice-vsid ;\
 	xdg-icon-resource uninstall --size 256 vice-vsid
 
 # We can use the program prefix/suffix set via configure's --program-prefix= /
@@ -348,33 +379,40 @@ uninstall-icons:
 # So for example using --program-suffix=-gtk3 won't work since "x64sc-gtk3.desktop"
 # means the vendor is "x64sc" and the executable "gtk3". For now we'll just make
 # this work for the canonical emulator names, alternate names will be a TODO.
+
 install-desktop-files:
 if SUPPORT_X64
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64.desktop
+	if test -n "$(DESTDIR)"; then \
+		export RPM_BUILD_ROOT=$(DESTDIR) ;\
+	fi ;\
+	desktop-file-install $(top_srcdir)/data/common/x64.desktop
 endif
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64sc.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x64dtv.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xscpu64.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/x128.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xplus4.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xvic.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xpet.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xcbm2.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/xcbm5x0.desktop
-	desktop-file-install --dir=$(DESTDIR)${prefix}/share/applications $(top_srcdir)/data/common/vsid.desktop
+	if test -n "$(DESTDIR)"; then \
+		export RPM_BUILD_ROOT=$(DESTDIR) ;\
+	fi ;\
+	desktop-file-install $(top_srcdir)/data/common/x64sc.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/x64dtv.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xscpu64.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/x128.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xplus4.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xvic.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xpet.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xcbm2.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/xcbm5x0.desktop ;\
+	desktop-file-install $(top_srcdir)/data/common/vsid.desktop
 
 # No `desktop-file-uninstall` exists, nor is there an uninstall option for
 # `desktop-file-install` or `desktop-file-uninstall`, so a simple `rm` will
 # have to do.
 uninstall-desktop-files:
-	rm -f $(DESTDIR)${prefix}/share/applications/x64{,dtv,sc}.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/xscpu64.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/x128.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/xplus4.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/xpet.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/xcbm{2,5x0}.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/xvic.desktop
-	rm -f $(DESTDIR)${prefix}/share/applications/vsid.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/x64{,dtv,sc}.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/xscpu64.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/x128.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/xplus4.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/xpet.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/xcbm{2,5x0}.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/xvic.desktop
+	rm -f $(DESTDIR)$(DESKTOP_PREFIX)/share/applications/vsid.desktop
 
 install-data-hook: install-icons install-desktop-files
 	-update-desktop-database
