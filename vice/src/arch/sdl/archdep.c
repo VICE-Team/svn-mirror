@@ -40,7 +40,9 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/stat.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "archdep.h"
 #include "findpath.h"
