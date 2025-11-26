@@ -18,6 +18,199 @@ Before reporting bugs, always try with a clean config: Run the emulator
 with the "-default" command line argument or use "restore default config"
 in the UI).
 
+In case the emulator fails to start because of missing files, typically ROMs,
+please contact the package maintainer(s) of your distribution on how to fix
+this.
+
+
+* Changes in Vice 3.10
+======================
+
+As in the last release, the joystick mapping and -input system is still work in
+progress. Both the SDL and GTK versions share common code now, have the same
+features, and can use the same mapping files. However, unfortunately we still do
+not have a related UI in the GTK port yet - which means you will have to create
+and/or install the required mapping file manually like this, if the (very
+simple) default mapping does not work for you:
+
+  1) find a matching SDL mapping file in DATA/C64. If none of the existing ones
+     matches your controller, you may create one yourself (either manually or
+     using the SDL port). (*)
+  2) rename the mapping file to "gtk3-joymap-<MACHINE>.vjm" - for example
+     gtk3-joymap-C64SC.vjm
+  3) copy the resulting file to the (current) default location:
+     Windows: the bin directory (where the .exe resides)
+     Linux: $HOME/.config/vice/
+
+  (*) if you create one for a controller we do not support yet, please send that
+      mapping file to us, so we can include it.
+
+WE ARE LOOKING FOR WINDOWS AND MACOS DEVELOPERS WHO WANT TO HELP IMPLEMENTING
+AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
+
+
+** general
+----------
+
+- Renamed (virtual/trap) device related settings
+
+    Specifically the command line options:
+
+    -virtualdevN => -trapdeviceN
+    -iecdeviceN => -busdeviceN
+    -deviceN <Type> => -devicebackendN <Type>
+
+    and the related resource names:
+
+    VirtualDeviceN => TrapDeviceN
+    IECDeviceN => BusDeviceN
+
+    FileSystemDeviceN remains the same, since it indicates the back-end storage
+    type already accurately enough.
+
+    This generalizes the names used for IEC and IEEE-488 settings.
+    It abandons the confusing name "virtual device" and replaces it with
+    "trapdevice" (device which is implemented using kernal traps). It had been
+    getting this specific meaning over time already.
+
+- reSID: remove aliasing noise by dithering.
+- reSID: fix for accidently introduced DC offset in 6581 filters
+- added support for USBSID-Pico
+
+- Add binary monitor CPUHISTORY_GET command.
+
+- fixed -sounddev dump
+- added option to start with maximized (-maximized/+maximized) window
+- log cleanup, the log is much less verbose by default now
+
+- do not continue execution in jammed state when the value at the original jam
+  location changes, see testprogs/CPU/cpujam/unjam.prg
+
+- VICII: VSP memory corruption emulation skipped last page
+
+- fixed lightpen logic, require RMB to be pressed and held down for 'PEN' type
+  devices to produce lightpen events (via 'fire')
+
+- Printer: fixed formfeed for userport printer
+- Printer: make sure the first character is printed after manually enabling the
+  printer
+
+- Drives: fixed professional dos 1571
+- Drives: fixed some issues with reading open I/O
+
+- Monitor: fixed some cases where checkpoints would not trigger
+
+- c1541: Fixed reading REL files
+
+- petcat: in C65/Mega65 mode preserve leading spaces in txt->prg conversion
+
+
+** Buildsystem
+--------------
+
+- remove --without-zlib and make zlib mandatory
+- make SDL1 compile again when HWSCALE is disabled
+- fixed compilation when both HAVE_RS232DEV and HAVE_RS232NET are NOT defined
+- remove cross-compiling magic from Windows bindist script
+- remove support for ancient libnet, remove VICE_USE_LIBNET_1_1
+- Improve desktop file and icon installation on Unix
+- correctly handle make's DESTDIR to allow for staged installs
+- Fixed linking issues with LLVM's lld (18 and 19)
+
+
+** C64 fixes
+------------
+
+- added support for the 'Profi-DOS' cartridge by REX Datentechnik. Thanks to
+  SubZero for providing the cartridge over 15 years ago, sorry for the massive
+  delay >_<
+- added support for "Magic Desk 16" cartridge
+- added support for Protovisions 'Megabyter' cartridge
+- Added FunMP3 userport cartridge support
+- fix Comal 80 cartridge implementation, add a subtype for the older 'grey'
+  cartridge
+- fixed implementation of c64gs cartridge
+- fixed mp3@c64
+- fix CPU port emulation for SX64. On the SX64 board, bits 3,4,5 of the CPU port
+  are not connected.
+- more realistic emulation of paddle ADC artefacts/glitches
+- fixed swedish symbolic keymap
+- add some joy- and keymaps related to
+  https://github.com/aminch/8-bit-pc-pi-compile
+
+
+** C128 fixes
+------------
+
+- fixed snapshot for magicdesk128 and partner128
+- made VDC v0 a bit less broken
+- Make the MMU IO dump in the monitor ("io d500") significantly more readable.
+- fixed chargen dumps (the international charset should be in the first half)
+
+
+** VIC20 fixes
+--------------
+
+- refactored cartridge code, bring back explicit "add to cartridge" feature
+- added support for the 'Write Now' cartridge
+- added support for the 'Minimon' cartridge
+- more realistic emulation of paddle ADC artefacts/glitches
+
+
+** Plus4 fixes
+--------------
+
+- added support for the 'speedy' plus4 freezer cartridge
+- fixed virtual device traps
+- fixed TED sample/digital channel
+- keymap fixes
+
+
+** PET fixes
+------------
+
+- Added "WordCraft" tape port dongle
+- fixed reading open space: the high byte of the address is read.
+- fixed PET 8296 $Axxxx video ram treatment.
+- Fixed CRTC 80x42 text mode
+- Fix access to 8800-8FFF colour memory from the Vice monitor in the case of
+  ColourPET.
+- In ColourPET and lower case mode, also fill in the colour of the extra 2
+  lines of the characters. This will be the background colour of the character
+  "above".
+
+
+** CBM2 fixes
+-------------
+
+- keymap fixes
+
+
+** DTV fixes
+------------
+
+- added support for the PAL DTV Hummer
+
+
+** GTK fixes
+------------
+
+- fixed crash/hang when monitor window opens first time
+- fixed custom fonts not working
+- fixed the joystick keyset config dialog.
+- implement support for flipx/flipy (for mirror setups)
+- implement rotate option in the opengl renderer
+- copy inverted characters like normal characters from the monitor
+- fixed/improved drive LED brightness modulation by PWM
+
+
+** Windows fixes
+----------------
+
+- fixed problems with the custom font(s) not registering at startup
+- fixed problems with the monitor not opening
+
+
 
 * Changes in Vice 3.9
 =====================
