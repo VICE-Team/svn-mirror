@@ -3155,7 +3155,7 @@ system/window manager. Mappings using @code{<Alt>} or
 @item @code{scpu-speed-switch-toggle}
 @tab Toggle SCPU Speed switch
 @item @code{screenshot-quicksave}
-@tab Quiksave screenshot
+@tab Quicksave screenshot
 @item @code{settings-default}
 @tab Restore default settings
 @item @code{settings-dialog}
@@ -18098,6 +18098,12 @@ Specify the action to take when the CPU encounters a 'JAM' opcode
 Specify the system file search path
 (@code{Directory}).
 
+@findex -quicksaveformat
+@item -quicksaveformat <Format>
+Specify the format of the quicksave screenshot
+(@code{QuicksaveScreenshotFormat})
+(png, gif ,bmp, iff, pcx, ppm, 4bt, artstudio, koala, minipaint).
+
 @end table
 
 @subsection Common resources
@@ -18169,6 +18175,10 @@ String specifying the filename of a screenshot file that will be written when th
 @vindex ExitScreenshotName1
 @item ExitScreenshotName1
 String specifying the filename of a screenshot file that will be written when the emulator exits. (x128)
+
+@vindex QuicksaveScreenshotFormat
+@item QuicksaveScreenshotFormat
+String specifying the format of the quicksave screenshot (png, gif ,bmp, iff, pcx, ppm, 4bt, artstudio, koala, minipaint)
 
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
