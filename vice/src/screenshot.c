@@ -36,6 +36,7 @@
 #include <time.h>
 #include <sys/time.h>
 
+#include "cmdline.h"
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
@@ -404,10 +405,49 @@ static resource_string_t resources_string[] = {
     RESOURCE_STRING_LIST_END
 };
 
+static int quicksave_set_func(const char *value, void *extra_param)
+{
+    char *s;
+    int i = 0;;
+    if (value == NULL) {
+        return -1;
+    }
+    s = lib_strdup(value);
+    while(s[i] != 0) {
+        s[i] = toupper(s[i]);
+        i++;
+    }
+    i = resources_set_string("QuicksaveScreenshotFormat", s);
+    lib_free(s);
+    return i;
+}
+
+static cmdline_option_t cmdline_options[] =
+{
+    { "-quicksaveformat", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      quicksave_set_func, NULL, "QuicksaveScreenshotFormat", NULL,
+      "<Format>",
+    /* KLUDGES: this should really be generated at runtime */
+    "Specify format of quicksave screenshots ("
+#ifdef HAVE_PNG
+    "png, "
+#endif
+#ifdef HAVE_GIF
+    "gif ,"
+#endif
+    "bmp, iff, pcx, ppm, 4bt, artstudio, koala, minipaint)"
+    },
+    CMDLINE_LIST_END
+};
 
 int screenshot_resources_init(void)
 {
     return resources_register_string(resources_string);
+}
+
+int screenshot_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 

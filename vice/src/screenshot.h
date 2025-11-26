@@ -147,6 +147,7 @@ const char *screenshot_get_quickscreenshot_format(void);
 char *screenshot_create_datetime_string(void);
 char *screenshot_create_quickscreenshot_filename(const char *format);
 int screenshot_resources_init(void);
+int screenshot_cmdline_options_init(void);
 void screenshot_ui_auto_screenshot(void);
 
 #ifdef FEATURE_CPUMEMHISTORY

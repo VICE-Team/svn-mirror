@@ -30,7 +30,7 @@
  *
  */
 
-/* #define DEBUG_MAIN */
+#define DEBUG_MAIN
 
 #include "vice.h"
 
@@ -59,6 +59,7 @@
 #include "main.h"
 #include "mainlock.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "sysfile.h"
 #include "types.h"
 #include "uiapi.h"
@@ -344,11 +345,17 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
+    /* KLUDGES: this should really get fixed properly, so it can go into the
+       regular init function(s) */
     DBG(("main:early gfxoutput init"));
     gfxoutput_early_init((int)help_requested);
     gfxoutput_resources_init();
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
+    if (screenshot_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("screenshot");
         return -1;
     }
     DBG(("main:early gfxoutput init done"));
