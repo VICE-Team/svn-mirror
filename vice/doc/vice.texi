@@ -1276,6 +1276,11 @@ Enable/disable colorizing the log output.
 Enable verbose log output.
 (@code{LogLimit}).
 
+@findex -debug
+@item -debug
+Enable all log output.
+(@code{LogLimit}).
+
 @findex -silent
 @item -silent
 Disable all log output (except errors).
@@ -9458,6 +9463,11 @@ Trace the drive 3 CPU / Do not trace the drive 3 CPU (@code{Drive3CPU_TRACE=1}, 
 @itemx +trace_iec
 Trace IEC bus activity / Do not trace IEC bus activity (@code{IEC_TRACE=1}, @code{IEC_TRACE=0})
 
+@findex -trace_ieee, +trace_ieee
+@item -trace_ieee
+@itemx +trace_ieee
+Trace IEEE bus activity / Do not trace IEEE bus activity (@code{IEEE_TRACE=1}, @code{IEEE_TRACE=0})
+
 @findex -trace_mode
 @item -trace_mode <value>
 Trace mode (0=normal 1=small 2=history)
@@ -9833,6 +9843,8 @@ Ocean
 Pagefox
 @item
 Prophet64
+@item
+Protovision "Megabyter"
 @item
 Profi-DOS
 @item
@@ -11414,6 +11426,10 @@ Attach raw Ocean cartridge image.
 @findex -cartp64
 @item -cartp64 <name>
 Attach raw 256KiB Prophet 64 cartridge image.
+
+@findex -cartpd
+@item -cartpd <name>
+Attach raw 16KiB Profi-DOS cartridge image
 
 @findex -cartpf
 @item -cartpf <name>
@@ -15149,6 +15165,10 @@ Specify Write Now cartridge ROM name
 @findex -ultimem
 @item -ultimem <name>
 Specify Ultimem extension ROM name
+
+@findex -cartmini
+@item -cartmini <name>
+Specify name of Minimon ROM image (@code{MinimonFilename}).
 
 @findex -umwriteback, +umwriteback
 @item -umwriteback
@@ -30753,6 +30773,10 @@ $0010- xxxx - ROM data
 @tab BMP Data Turbo 2000
 @item 84
 @tab Profi-DOS
+@item 85
+@tab Magic Desk 16
+@item 86
+@tab Protovision "Megabyter"
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
