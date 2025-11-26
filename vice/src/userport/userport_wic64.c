@@ -82,6 +82,10 @@
 #define WIC64_VERSION_DEVEL 0
 #define WIC64_SHORT_VERSION "2.1.0"
 #define WIC64_VERSION_STRING "2.1.0 ("PACKAGE"; "VERSION")"
+#define WIC64_PROT_LEGACY 'W'
+#define WIC64_PROT_REVISED 'R'
+#define WIC64_PROT_EXTENDED 'E'
+#define WIC64_PROT_UNKNOWN 'U'
 #define HTTP_AGENT_REVISED "WiC64/"WIC64_SHORT_VERSION" ("PACKAGE"; "VERSION")"
 #define HTTP_AGENT_LEGACY "ESP32HTTPClient"
 static char *http_user_agent = HTTP_AGENT_REVISED;
@@ -187,7 +191,7 @@ static int wic64_loglevel = 0;
 static int wic64_resetuser = 0;
 static int wic64_hexdumplines = 0;
 
-static char wic64_protocol = 'U'; /* invalid, so we see in trace even the legacy */
+static char wic64_protocol = WIC64_PROT_UNKNOWN; /* invalid, so we see in trace even the legacy */
 static int big_load = 0;
 static char wic64_last_status[40]; /* according spec 40 bytes, hold status string. incl. \0 */
 static char *post_data = NULL;
@@ -487,9 +491,6 @@ static const cmdline_option_t cmdline_options[] =
 
 #define WIC64_CMD_NONE 0xff
 
-#define WIC64_PROT_LEGACY 'W'
-#define WIC64_PROT_REVISED 'R'
-#define WIC64_PROT_EXTENDED 'E'
 #define INPUT_EXP_PROT 0
 #define INPUT_EXP_CMD 1
 #define INPUT_EXP_LL 2
@@ -2473,10 +2474,10 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                     input_state = INPUT_EXP_CMD;
                     break;
                 default:
-                    wic64_log(LOG_COL_LRED, "unknown protocol '%c'/0x%02x, using revised.",
+                    debug_log(LOG_COL_LRED, 3, "unknown protocol '%c'/0x%02x.",
                               isprint(value) ? value: '.', value);
-                    wic64_protocol = WIC64_PROT_REVISED;
-                    input_state = INPUT_EXP_CMD;
+                    wic64_protocol = WIC64_PROT_UNKNOWN;
+                    input_state = INPUT_EXP_PROT;
                     break;
                 }
 
@@ -2521,8 +2522,9 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
     cmd_timeout(0);
     /* FIXME: trigger mainloop */
 
-    if (wic64_loglevel < 3)
-        return retval;
+    if (wic64_loglevel < 3) {
+        return (wic64_protocol != WIC64_PROT_UNKNOWN) ? retval : 0xff;
+    }
 
     if (stage_retcode < 0) {
         stage = NULL;
@@ -2557,6 +2559,9 @@ static uint8_t userport_wic64_read_pbx(uint8_t orig)
                   replyptr,
                   reply_length, reply_length);
     } else {
+        if (wic64_protocol == WIC64_PROT_UNKNOWN) {
+            retval = 0xff;
+        }
         debug_log(LOG_COL_LGREEN, 3, "sending '%c'/0x%02x - ptr = %d, rl = %d/0x%x",
                   isprint(retval) ? retval : '.', retval,
                   replyptr,
