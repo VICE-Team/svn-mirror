@@ -313,7 +313,7 @@ bool ui_pause_loop_iteration(void)
     /* log_verbose(LOG_DEFAULT, "%s", __func__); */
     /*
     ui_dispatch_next_event();
-    g_usleep(10000);
+    archdep_usleep(10000);
     */
     return is_paused;
 }

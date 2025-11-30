@@ -58,6 +58,7 @@
 
 #include "log.h"
 #include "sound.h"
+#include "archdep_usleep.h"
 
 static int sun_bufferspace(void);
 
@@ -182,7 +183,7 @@ static int sun_write(int16_t *pbuf, size_t nr)
 #endif
 
     while (sun_bufferspace() < 0) {
-        usleep(5000);
+        archdep_usleep(5000);
     }
 
     return 0;

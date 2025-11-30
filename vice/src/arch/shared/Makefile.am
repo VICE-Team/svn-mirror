@@ -115,6 +115,7 @@ libarchdep_a_SOURCES = \
 	archdep_set_current_drive.c \
 	archdep_set_openmp_wait_policy.c \
 	archdep_signals.c \
+	archdep_sleep.c \
 	archdep_socketpeek.c \
 	archdep_sound.c \
 	archdep_spawn.c \
@@ -229,6 +230,7 @@ EXTRA_DIST = \
 	archdep_set_current_drive.h \
 	archdep_set_openmp_wait_policy.h \
 	archdep_signals.h \
+	archdep_sleep.h \
 	archdep_socketpeek.h \
 	archdep_sound.h \
 	archdep_spawn.h \
