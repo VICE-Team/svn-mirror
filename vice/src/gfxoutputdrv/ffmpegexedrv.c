@@ -61,6 +61,7 @@
 #include <math.h>
 
 #include "archdep.h"
+#include "archdep_sleep.h"
 #include "cmdline.h"
 #include "coproc.h"
 #include "ffmpegexedrv.h"
@@ -857,7 +858,7 @@ static int start_ffmpeg_executable(void)
         int audio_available = 0;
         int video_available = 0;
 
-        /*sleep(1);*/
+        /*archdep_sleep(1);*/
         if (ffmpeg_audio_socket != NULL) {
             audio_available = vice_network_select_poll_one(ffmpeg_audio_socket);
             DBG(("ffmpeg_audio_socket available: %d", audio_available));
@@ -1242,9 +1243,9 @@ static int ffmpegexedrv_save(screenshot_t *screenshot, const char *filename)
 
     if (test_ffmpeg_executable() < 0) {
         screenshot_stop_recording();
-        sleep(1);
+        archdep_sleep(1);
         if (test_ffmpeg_executable() < 0) {
-            sleep(1);
+            archdep_sleep(1);
             if (test_ffmpeg_executable() < 0) {
                 ui_error("ffmpeg executable could not be started.");
                 /* Do not return -1, since that would just pop up a second error message,
