@@ -80,6 +80,12 @@ typedef uint64_t CLOCK;
 # endif
 #endif
 
+/* MSVC doesn't provide ssize_t */
+#ifdef _MSC_VER
+/* Since ssize_t can be used for a count of bytes,
+   assume to be the same size of intptr_t */
+typedef intptr_t ssize_t;
+#endif
 
 #define vice_ptr_to_int(x)  ((int)(intptr_t)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(uintptr_t)(x))
