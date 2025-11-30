@@ -27,6 +27,7 @@
 
 #include <windows.h>
 
+#include "lib.h"
 #include "dynlib.h"
 
 static int opencbm_fix_tried = 0;
@@ -95,7 +96,7 @@ void archdep_opencbm_fix_dll_path(void)
 }
 
 #ifdef _UNICODE
-static const WCHAR *alloc_wchar_from_char(const char *text)
+static WCHAR *alloc_wchar_from_char(const char *text)
 {
     int len;
     WCHAR *wtext;
@@ -104,7 +105,7 @@ static const WCHAR *alloc_wchar_from_char(const char *text)
     len = MultiByteToWideChar(CP_ACP, 0, text, -1, NULL, 0);
 
     /* Get the space for the converted string */
-    wtext = (WCHAR *)malloc(len * sizeof(WCHAR));
+    wtext = (WCHAR *)lib_malloc(len * sizeof(WCHAR));
     if (wtext == NULL)
         return NULL;
 
@@ -123,7 +124,7 @@ void *vice_dynlib_open(const char *name)
        returns NULL if the parameter is also NULL. */
     HMODULE handle = LoadLibrary(wname);
     /* Free the allocated file name */
-    free(wname);
+    lib_free(wname);
 
     return (void *)handle;
 #else
@@ -139,7 +140,7 @@ void *vice_dynlib_symbol(void *handle,const char *name)
     WCHAR *wname = alloc_wchar_from_char(name);
     void *address = GetProcAddress((HMODULE)handle, wname);
     /* Free the allocated file name */
-    free(wname);
+    lib_free(wname);
 
     return address;
 #else
