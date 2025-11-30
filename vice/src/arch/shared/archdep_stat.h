@@ -29,6 +29,15 @@
 
 #include <stddef.h>
 
+/* Visual Studio doesn't provide these macros. */
+#ifdef _MSC_VER
+#define S_ISDIR(_m)  (((_m) & S_IFMT) == _S_IFDIR)
+#define S_ISFIFO(_m) (((_m) & S_IFMT) == _S_IFIFO)
+#define S_ISCHR(_m)  (((_m) & S_IFMT) == _S_IFCHR)
+#define S_ISBLK(_m)  (((_m) & S_IFMT) == _S_IFBLK)
+#define S_ISREG(_m)  (((_m) & S_IFMT) == _S_IFREG)
+#endif
+
 int archdep_stat(const char *filename, size_t *len, unsigned int *isdir);
 
 #endif

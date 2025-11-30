@@ -27,7 +27,6 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -48,6 +47,8 @@
 #include "lib.h"
 #include "util.h"
 
+#include "archdep_defs.h"
+#include "archdep_stat.h"
 #include "archdep_default_logger.h"
 
 
