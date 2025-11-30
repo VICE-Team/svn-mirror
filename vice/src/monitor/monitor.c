@@ -411,17 +411,17 @@ void monitor_vsync_hook(void)
 /* Some local helper functions */
 static int find_cpu_type_from_string(const char *cpu_string)
 {
-    if ((strcasecmp(cpu_string, "6502") == 0) || (strcasecmp(cpu_string, "6510") == 0)) {
+    if ((util_strcasecmp(cpu_string, "6502") == 0) || (util_strcasecmp(cpu_string, "6510") == 0)) {
         return CPU_6502;
-    } else if (strcasecmp(cpu_string, "r65c02") == 0) {
+    } else if (util_strcasecmp(cpu_string, "r65c02") == 0) {
         return CPU_R65C02;
-    } else if (strcasecmp(cpu_string, "65816")==0) {
+    } else if (util_strcasecmp(cpu_string, "65816")==0) {
         return CPU_65816;
-    } else if (strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
+    } else if (util_strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
         return CPU_6809;
-    } else if (strcasecmp(cpu_string, "z80") == 0) {
+    } else if (util_strcasecmp(cpu_string, "z80") == 0) {
         return CPU_Z80;
-    } else if ((strcasecmp(cpu_string, "6502dtv") == 0) || (strcasecmp(cpu_string, "6510dtv") == 0)) {
+    } else if ((util_strcasecmp(cpu_string, "6502dtv") == 0) || (util_strcasecmp(cpu_string, "6510dtv") == 0)) {
         return CPU_6502DTV;
     } else {
         return -1;
