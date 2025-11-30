@@ -110,7 +110,12 @@ sid_engine_t fakesid_hooks =
     fakesid_resid_state_write
 };
 
-struct sound_s {};
+struct sound_s {
+/* empty struct is a GNU extension, so add a dummy for non GNU compilers */
+#ifndef __GNUC__
+    uint8_t dummy;
+#endif
+};
 
 /* ------------------------------------------------------------------------- */
 
