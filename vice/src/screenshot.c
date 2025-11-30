@@ -34,7 +34,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
 
 #include "cmdline.h"
 #include "gfxoutput.h"
@@ -348,8 +350,12 @@ char *screenshot_create_datetime_string(void)
 {
     time_t stamp = time(NULL);
     struct tm *stamp_tm = localtime(&stamp);
+#ifdef HAVE_GETTIMEOFDAY
     struct timeval tv;
-    char *result, buf[20];
+#else
+    static unsigned int count = 0;
+#endif
+    char *result, buf[40];
 
     if (stamp_tm == NULL ||
         strftime(buf, sizeof(buf), "%Y%m%d%H%M%S", stamp_tm) == 0) {
@@ -357,12 +363,20 @@ char *screenshot_create_datetime_string(void)
         return NULL;
     }
 
+#ifdef HAVE_GETTIMEOFDAY
     if (gettimeofday(&tv, NULL) < 0 ||
         (result = lib_msprintf("%s%02ld", buf, (tv.tv_usec / 10000))) == NULL) {
         log_error(LOG_DEFAULT, "Could not generate autosave screenshot microsecond timestamp!");
         return NULL;
     }
-
+#else
+    /* TODO: add support for time functions? */
+    if ((result = lib_msprintf("%s-%u", buf, count)) == NULL) {
+        log_error(LOG_DEFAULT, "Could not generate autosave screenshot file name!");
+        return NULL;
+    }
+    count++;
+#endif
     return result;
 }
 
