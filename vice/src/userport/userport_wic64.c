@@ -1078,6 +1078,9 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     remote_to = wic64_remote_timeout;
 
     msg = curl_multi_info_read(cm, &msgs_left);
+    if (msgs_left > 0) {
+        wic64_log(LOG_COL_LRED, "%s, msgs_left: %d (>0! not handled), msg = %p", __FUNCTION__, msgs_left, msg);
+    }
     if (msg) {
         CURLcode res;
         res = curl_easy_getinfo(msg->easy_handle,
@@ -1096,6 +1099,8 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
                       curl_easy_strerror(res));
             url = "<unknown>";
         }
+    } else {
+        wic64_log(LOG_COL_LRED, "%s, msgs_left: %d, msg = %p!", __FUNCTION__, msgs_left, msg);
     }
 
     if (response == 201) {
@@ -1138,6 +1143,11 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
     }
 
   out:
+    if (msg) {
+        /* cleanup easy handly, fixes FD leak */
+        curl_multi_remove_handle(cm, msg->easy_handle);
+        curl_easy_cleanup(msg->easy_handle);
+    }
     curl_multi_cleanup(cm);
     curl_global_cleanup();
     alarm_unset(http_get_alarm);
