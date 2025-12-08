@@ -1035,7 +1035,7 @@ static void update_prefs(uint8_t *buffer, size_t len)
 
 static void http_get_alarm_handler(CLOCK offset, void *data)
 {
-    CURLMsg *msg;
+    CURLMsg *msg = NULL;
     CURLMcode r;
     int msgs_left = -1;
     long response = -1;
@@ -1063,6 +1063,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         send_reply_revised(NETWORK_ERROR, "Remote timeout", NULL, 0, "!0");
         wic64_remote_timeout_triggered = 0;
         remote_to = wic64_remote_timeout;
+        msg = curl_multi_info_read(cm, &msgs_left); /* ensure all handles are freed when leaving below */
         goto out;
     }
 
