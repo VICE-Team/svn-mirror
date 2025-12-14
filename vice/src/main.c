@@ -462,9 +462,23 @@ int main_program(int argc, char **argv)
 
 #ifdef USE_VICE_THREAD
 
-    if (pthread_create(&vice_thread, NULL, vice_thread_main, NULL)) {
-        log_fatal(main_log, "failed to launch main thread");
-        return 1;
+    {
+        /*
+         * On macOS, pthreads have a default stack size of 512KB. Linux
+         * pthreads use 8MB by default. Since we have code in wic64 that
+         * uses ~1MB temp stack buffers, we explicitly set the VICE thread
+         * stack size to 8MB to bring all platforms in line with Linux.
+         */
+
+        pthread_attr_t attr;
+        size_t stacksize = 8 * 1024 * 1024;
+        pthread_attr_init(&attr);
+        pthread_attr_setstacksize(&attr, stacksize);
+
+        if (pthread_create(&vice_thread, &attr, vice_thread_main, NULL)) {
+            log_fatal(main_log, "failed to launch main thread");
+            return 1;
+        }
     }
 
     pthread_mutex_unlock(&init_lock);
