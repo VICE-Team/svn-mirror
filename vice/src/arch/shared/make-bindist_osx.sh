@@ -115,7 +115,7 @@ DROP_EXTENSIONS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
 # runtime scripts
 MACOS_SCRIPTS=macOS-runtime-scripts.inc
 LAUNCHER=../shared/macOS-launcher.sh
-REDIRECT_LAUNCHER=../shared/macOS-redirect-launcher.sh
+REDIRECT_LAUNCHER=../shared/macOS-redirect-launcher.applescript
 
 copy_tree () {
   (cd "$1" && tar --exclude 'Makefile*' --exclude .svn -c -f - .) | (cd "$2" && tar xf -)
@@ -259,19 +259,40 @@ make_app_bundle() {
   local resources="$contents/Resources"
   local info_plist="$contents/Info.plist"
   local bundle_id="org.viceteam.$app_name"
-  local icon_src="$RUN_PATH/Resources/VICE.icns"
   local icon_name="VICE.icns"
   local min_macos="${MIN_MACOS_VER:-12.0}"  # override with MIN_MACOS_VER if you want
+  local app_exe_filename="$app_name"
 
   rm -rf "$app_path"
-  mkdir -p "$macos" "$resources"
   
-  # Install icon
-  cp "$icon_src" "$resources/$icon_name"
+  # 2) Install launcher
+  if [[ "$app_launcher" == *.applescript ]]; then  
+    osacompile -o "$app_path" "$app_launcher"
+    app_exe_filename=droplet
 
-  # 2) Install launcher (your script/binary)
-  #    We name it the same as the app for neatness, but any name is fine.
-  install -m 0755 "$app_launcher" "$macos/$app_name"
+    # Install emu specific icon
+    if [[ "$app_name" == "x64sc" ]]; then
+      src_icon_name="x64"
+    elif [[ "$app_name" == "xcbm5x0" ]]; then
+      src_icon_name="xcbm2"
+    else
+      src_icon_name="$app_name"
+    fi
+
+    rm "$resources/droplet.icns"
+    mkdir -p "$resources/VICE.iconset"
+    cp "$TOP_DIR/data/common/vice-${src_icon_name}_256.png" "$resources/VICE.iconset/icon_256x256.png"
+    iconutil -c icns "$resources/VICE.iconset" -o "$resources/$icon_name"
+    rm -rf "$resources/VICE.iconset"
+  else
+    mkdir -p "$macos"
+    cp "$app_launcher" "$macos/$app_name"
+    chmod +x "$macos/$app_name"
+
+    # Install icon
+    mkdir -p "$resources"
+    cp "$RUN_PATH/Resources/VICE.icns" "$resources/$icon_name"
+  fi
 
   # 3) Minimal Info.plist
   /usr/bin/env cat > "$info_plist" <<PLIST
@@ -286,7 +307,7 @@ make_app_bundle() {
   <key>CFBundleVersion</key>              <string>${VICE_VERSION}</string>
   <key>CFBundleShortVersionString</key>   <string>${VICE_VERSION}</string>
   <key>CFBundlePackageType</key>          <string>APPL</string>
-  <key>CFBundleExecutable</key>           <string>${app_name}</string>
+  <key>CFBundleExecutable</key>           <string>${app_exe_filename}</string>
   <key>CFBundleIconFile</key>             <string>${icon_name}</string>
   <key>CFBundlePackageType</key>          <string>APPL</string>
   <key>LSMinimumSystemVersion</key>       <string>${min_macos}</string>
