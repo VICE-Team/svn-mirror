@@ -34,6 +34,12 @@ if [[ "$1" = -psn_* ]]; then
     shift
 fi
 
+# Accept --program <name> from stub apps
+if [[ "$1" == "--program" && -n "$2" ]]; then
+  PROGRAM="$2"
+  shift 2
+fi
+
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd -P)/../Resources"
 
 cd "$ROOT_DIR"

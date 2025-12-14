@@ -31,7 +31,7 @@
 
 RUN_PATH=`dirname $0`
 
-TOP_DIR=$1
+TOP_DIR=$(realpath "$1")
 STRIP=$2
 VICE_VERSION=$3
 ENABLEARCH=$4
