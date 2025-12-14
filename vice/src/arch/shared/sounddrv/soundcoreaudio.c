@@ -535,7 +535,7 @@ static int audio_open(AudioStreamBasicDescription *in)
 
     size = range.mMinimum > frames_in_fragment ? range.mMinimum : frames_in_fragment;
 
-    log_message(LOG_DEFAULT, "sound (coreaudio_init): audio frame buffer size in samples min: %f max: %f fragment size: %u, chosen: %d", range.mMinimum, range.mMaximum, frames_in_fragment, size);
+    log_message(LOG_DEFAULT, "sound (coreaudio_init): audio frame buffer size in samples min: %f max: %f fragment size: %u, chosen: %u", range.mMinimum, range.mMaximum, frames_in_fragment, (unsigned int)size);
 
     /* set the buffer size */
     AudioObjectPropertyAddress buffer_size_address = {
@@ -546,12 +546,12 @@ static int audio_open(AudioStreamBasicDescription *in)
 
     err = AudioObjectSetPropertyData(device, &buffer_size_address, 0, NULL, sizeof(UInt32), &size);
     if (err) {
-        log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting buffer size to %d", size);
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting buffer size to %u", (unsigned int)size);
         return -1;
     }
     err = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &size, sizeof(size));
     if (err) {
-        log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting max frames per slice to %d", size);
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting max frames per slice to %u", (unsigned int)size);
         return -1;
     }
 
