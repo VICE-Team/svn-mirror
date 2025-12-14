@@ -1968,6 +1968,7 @@ static void cmd_tcp_available(void)
         send_reply_revised(NETWORK_ERROR, "NETWORK ERROR", NULL, 0, NULL);
         return;
     }
+    debug_log(CONS_COL_NO, 3, "%s: bytes_available = %d", __FUNCTION__, bytes_available);
     t[0] = bytes_available & 0xff;
     t[1] = (bytes_available >> 8) & 0xff;
     send_reply_revised(SUCCESS, "Success", t, 2, NULL);
@@ -2027,7 +2028,7 @@ static void cmd_tcp_read(void)
                                   tcp_get_alarm_handler, NULL);
     }
     alarm_unset(tcp_get_alarm);
-    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65));
+    alarm_set(tcp_get_alarm, maincpu_clk + (312 * 65 / 2));
     /* no reply here, but from alarm handler */
 }
 
@@ -2092,8 +2093,12 @@ static void cmd_tcp_close(void)
         curl_global_cleanup();
         curl = NULL;
     }
-    alarm_unset(tcp_send_alarm);
-    alarm_unset(tcp_get_alarm);
+    if (tcp_send_alarm) {
+        alarm_unset(tcp_send_alarm);
+    }
+    if (tcp_get_alarm) {
+        alarm_unset(tcp_get_alarm);
+    }
     send_reply_revised(SUCCESS, "Success", NULL, 0, "0");
 }
 
