@@ -209,5 +209,4 @@ EXTRA_DIST = \
 	vice-launcher.sh \
 	videoarch.h \
 	vsidstate.h \
-	winjoy.h \
-	x11-launcher.sh
+	winjoy.h
