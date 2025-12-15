@@ -253,7 +253,7 @@ EXTRA_DIST = \
 	dynlib-win32.c \
 	macOS-common-runtime.sh \
 	macOS-launcher.sh \
-	macOS-redirect-launcher.sh \
+	macOS-redirect-launcher.applescript \
 	macOS-util.h \
 	macOS-wrap-ar.sh \
 	macOS-wrap-ranlib.sh \
