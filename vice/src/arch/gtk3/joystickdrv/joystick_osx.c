@@ -126,14 +126,14 @@ static void joy_hidlib_close_device(joy_hid_device_t *device)
     }
 }
 
-static void joy_hidlib_process_element(IOHIDElementRef internal_element, 
+static void joy_hidlib_process_element(IOHIDElementRef internal_element,
                                        joystick_device_t *joydev,
                                        joy_hid_element_t **elements_ptr,
                                        int *element_count,
                                        int *capacity)
 {
     IOHIDElementType type = IOHIDElementGetType(internal_element);
-    
+
     /* Recursively process collection elements */
     if (type == kIOHIDElementTypeCollection) {
         CFArrayRef children = IOHIDElementGetChildren(internal_element);
@@ -146,23 +146,23 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
         }
         return;
     }
-    
+
     /* Only process input elements */
-    if (type != kIOHIDElementTypeInput_Misc && 
-        type != kIOHIDElementTypeInput_Button && 
+    if (type != kIOHIDElementTypeInput_Misc &&
+        type != kIOHIDElementTypeInput_Button &&
         type != kIOHIDElementTypeInput_Axis) {
         return;
     }
-    
+
     /* Expand array if needed */
     if (*element_count >= *capacity) {
         *capacity *= 2;
         *elements_ptr = lib_realloc(*elements_ptr, sizeof(joy_hid_element_t) * (*capacity));
     }
-    
+
     joy_hid_element_t *e = &(*elements_ptr)[*element_count];
     (*element_count)++;
-    
+
     uint32_t usage_page = IOHIDElementGetUsagePage(internal_element);
     uint32_t usage = IOHIDElementGetUsage(internal_element);
     CFIndex pmin = IOHIDElementGetPhysicalMin(internal_element);
@@ -338,7 +338,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
 
     for (i = 0; i < device->num_elements; i++) {
         joy_hid_element_t e = device->elements[i];
-        
+
         if(e.usage_page == kHIDPage_GenericDesktop) {
             switch(e.usage) {
             case kHIDUsage_GD_X:
@@ -407,7 +407,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
     /*
      * Until we have a joystick mapping UI we use this to turn all buttons
      * into a single button by counting pressed buttons.
-     * 
+     *
      * Yes this sucks but for controllers with many buttons this is better
      * than picking some arbitrary button and having that be the only one.
      */
@@ -573,11 +573,11 @@ void joystick_arch_init(void)
             joydev_priv->internal_device    = dev;
 
             joy_hidlib_enumerate_elements(joydev);
-            
+
             joystick_device_register(joydev);
         }
     }
-    
+
     lib_free(all_devices);
     CFRelease( device_set );
 }
