@@ -83,6 +83,7 @@ BUILD_FLAGS="\
     --with-png \
     --with-resid \
     --with-vorbis \
+    --disable-pdf-docs \
     "
 
 if [ "$(uname -m)" == "x86_64" ]; then
