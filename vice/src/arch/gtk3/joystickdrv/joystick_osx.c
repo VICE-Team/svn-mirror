@@ -262,7 +262,7 @@ static void joy_hidlib_device_specific_init_ps3(joystick_device_t *joydev)
     /*
      * Send output report to activate controller and attempt to turn off LEDs.
      * Setting LED bitmap to 0 should turn all LEDs off.
-     * 
+     *
      * The LED configuration bytes are required for the controller to function.
      */
     uint8_t output_report[48] = {
