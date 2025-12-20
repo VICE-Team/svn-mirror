@@ -1069,7 +1069,9 @@ static int quotedcodes = 0; /* flag, =1 if non alphanumeric characters inside qu
 static int dec = 0;         /* flag, =1 if output control codes in decimal */
 static int verbose = 0;     /* flag, =1 for verbose output */
 
-static const unsigned char MagicHeaderP00[8] = "C64File\0";
+#define P00HDR_LEN      18
+#define P00HDR_TAG_LEN  8
+static const unsigned char MagicHeaderP00[P00HDR_TAG_LEN + 1] = "C64File\0";
 
 static chksum_t *checksummer = NULL;
 /* ------------------------------------------------------------------------- */
@@ -1289,11 +1291,11 @@ int main(int argc, char **argv)
 
             source = stdin;
 
-            for (plen = 0, p = MagicHeaderP00; plen < 8 && (c = getc(source)) != EOF && (unsigned)c == *p; ++plen, ++p) {}
+            for (plen = 0, p = MagicHeaderP00; plen < P00HDR_TAG_LEN && (c = getc(source)) != EOF && (unsigned)c == *p; ++plen, ++p) {}
 
-            if (plen == 8) {
+            if (plen == P00HDR_TAG_LEN) {
                 /* skip the rest of header */
-                for (plen = 18; plen > 0 && getc(source) != EOF; --plen) {}
+                for (plen = P00HDR_LEN; plen > 0 && getc(source) != EOF; --plen) {}
             } else {
                 /*printf("P00 failed at location %d.\n", plen);*/
                 ungetc(c, source);
@@ -1335,7 +1337,7 @@ int main(int argc, char **argv)
 
             if (textmode || ((offset & 255) != 1 && ((c = getc(source)) != EOF && ungetc(c, source) != EOF && c && c != 1))) {
                 /* Print the bytes lost in header check */
-                if (plen > 0 && plen < 8) {
+                if (plen > 0 && plen < P00HDR_TAG_LEN) {
                     for (c = 0; c < plen; ++c) {
                         fputc (MagicHeaderP00[(int)c], dest);
                     }
