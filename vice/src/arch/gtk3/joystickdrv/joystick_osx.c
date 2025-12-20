@@ -2,6 +2,7 @@
  * \brief   Mac OS X joystick support using IOHIDManager
  *
  * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ * \author  David Hogan <david.q.hogan@gmail.com>
  */
 
 /*
@@ -23,6 +24,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
+ */
+
+/*
+ * NOTE: 2025-12-20 dqh: This implementation is a massive hack just to
+ *                       get sane joystick support working in macOS. To
+ *                       be reimplemented when the joystick subsystem
+ *                       rebuild is finished.
  */
 
 #define JOY_INTERNAL
@@ -223,6 +231,75 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
 #endif
 }
 
+static void joy_hidlib_device_specific_init_ps3(joystick_device_t *joydev)
+{
+    IOHIDDeviceRef dev = ((joy_hid_device_t *)joydev->priv)->internal_device;
+
+    uint8_t report[49];
+    CFIndex len;
+    IOReturn r;
+
+    /* Reading feature reports F2 and F5 "wakes up" the PS3 controller. */
+
+    /* F2 feature report - 17 bytes of data */
+    memset(report, 0, sizeof(report));
+    len = 17;
+    r = IOHIDDeviceGetReport(dev, kIOHIDReportTypeFeature, 0xF2, report, &len);
+    if (r != kIOReturnSuccess) {
+        log_message(LOG_LEVEL_ERROR, "joy-hid: PS3 controller: could not get FEATURE report F2 (r=%x)", (unsigned)r);
+        /* Continue anyway, some clones might not support this */
+    }
+
+    /* F5 feature report - 8 bytes of data */
+    memset(report, 0, sizeof(report));
+    len = 8;
+    r = IOHIDDeviceGetReport(dev, kIOHIDReportTypeFeature, 0xF5, report, &len);
+    if (r != kIOReturnSuccess) {
+        log_message(LOG_LEVEL_ERROR, "joy-hid: PS3 controller: could not get FEATURE report F5 (r=%x)", (unsigned)r);
+        /* Continue anyway */
+    }
+
+    /*
+     * Send output report to activate controller and attempt to turn off LEDs.
+     * Setting LED bitmap to 0 should turn all LEDs off.
+     * 
+     * The LED configuration bytes are required for the controller to function.
+     */
+    uint8_t output_report[48] = {
+        0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00,
+        0xff, 0x27, 0x10, 0x00, 0x32,  /* 10-14: LED 1 config */
+        0xff, 0x27, 0x10, 0x00, 0x32,  /* 15-19: LED 2 config */
+        0xff, 0x27, 0x10, 0x00, 0x32,  /* 20-24: LED 3 config */
+        0xff, 0x27, 0x10, 0x00, 0x32,  /* 25-29: LED 4 config */
+        0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00
+    };
+
+    len = sizeof(output_report);
+    r = IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, 0x01, output_report, len);
+    if (r != kIOReturnSuccess) {
+        log_message(LOG_LEVEL_ERROR, "joy-hid: PS3 controller: could not send output report (r=%x)", (unsigned)r);
+    }
+}
+
+static void joy_hidlib_device_specific_init(joystick_device_t *joydev)
+{
+    /* PS3 controllers need an activation sequence. IDs taken from SDL2. */
+    if (
+            (joydev->vendor == 0x054c && joydev->product == 0x0268)
+        ||  (joydev->vendor == 0x0925 && joydev->product == 0x0005)
+        ||  (joydev->vendor == 0x8888 && joydev->product == 0x0308)
+    ) {
+        joy_hidlib_device_specific_init_ps3(joydev);
+        return;
+    }
+}
+
 static void joy_hidlib_enumerate_elements(joystick_device_t *joydev)
 {
     joy_hid_device_t *device = (joy_hid_device_t *)joydev->priv;
@@ -399,7 +476,8 @@ static void macos_joystick_poll(joystick_device_t *joydev)
             }
         } else if (e.usage_page == kHIDPage_Button) {
             if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
-                buttons_pressed += value;
+                if (value > 0)
+                    buttons_pressed += 1;
             }
         }
     }
@@ -572,6 +650,13 @@ void joystick_arch_init(void)
             joydev->priv                    = joydev_priv;
             joydev_priv->internal_device    = dev;
 
+            if (kIOReturnSuccess != IOHIDDeviceOpen(dev, 0)) {
+                log_message(LOG_LEVEL_ERROR, "joy-hid: could not open device %s (vendor: %04x, product: %04x)", buffer, joydev->vendor, joydev->product);
+                joystick_device_free(joydev);
+                continue;
+            }
+
+            joy_hidlib_device_specific_init(joydev);
             joy_hidlib_enumerate_elements(joydev);
 
             joystick_device_register(joydev);
