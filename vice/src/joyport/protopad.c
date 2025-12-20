@@ -232,6 +232,9 @@ static uint8_t protopad_read(int port)
         retval |= (button_fire ? JOYPORT_FIRE : 0);
     } else {
         switch (counter[port]) {
+            case PROTOPAD_HANDSHAKE:
+                retval = 0x07;
+                break;
             case PROTOPAD_TRIPPLE_0: /* return B A Right */
                 retval = (uint8_t)((joyval & (JOYPORT_BUTTON_B | JOYPORT_BUTTON_A | JOYPORT_RIGHT)) >> 3);
                 break;
@@ -245,37 +248,41 @@ static uint8_t protopad_read(int port)
                 retval = (uint8_t)((joyval & (JOYPORT_BUTTON_LEFT_BUMBER | JOYPORT_BUTTON_Y | JOYPORT_BUTTON_X)) >> 6);
                 break;
             default:
-                retval = 0xff;
+                retval = 0x00;
         }
     }
 
-    return ~(retval & 0x1f);
+    return ~(retval & 0xff);
 }
 
 static void protopad_store(int port, uint8_t val)
 {
-    uint8_t new_mode = JOYPORT_BIT_BOOL(val, JOYPORT_FIRE_BIT);     /* mode line is on joyport 'fire' pin */
-    uint8_t new_clock = JOYPORT_BIT_BOOL(val, JOYPORT_RIGHT_BIT);   /* clock line is on joyport 'right' pin */
+    uint8_t joyval = val ^ 255;
 
-    if (clock_line[port] != new_clock) {
-        /* clock line asserted, increment counter */
-        counter[port]++;
-        if (counter[port] == PROTOPAD_COUNT_MAX) {
-            /* counter is at the max, roll back to output state 0 */
-            counter[port] = PROTOPAD_TRIPPLE_0;
+    int button_up = JOYPORT_BIT_BOOL(joyval, JOYPORT_UP_BIT);
+    int button_down = JOYPORT_BIT_BOOL(joyval, JOYPORT_DOWN_BIT);
+    int button_left = JOYPORT_BIT_BOOL(joyval, JOYPORT_LEFT_BIT);
+    int button_right = JOYPORT_BIT_BOOL(joyval, JOYPORT_RIGHT_BIT);
+    int button_fire = JOYPORT_BIT_BOOL(joyval, JOYPORT_FIRE_BIT);
+
+    if (mode_line[port] == 1) {
+        if ((button_up != 0) && (button_down != 0) && (button_left != 0) && (button_right != 0) && (button_fire != 0)) {
+           mode_line[port] = 0;
+           clock_line[port] = 0;
+           counter[port] = PROTOPAD_HANDSHAKE;
+        }
+    } else {
+        if (button_fire == 0) {
+            mode_line[port] = 1;
+        } else {
+            if (clock_line[port] != !button_right) {
+                clock_line[port] = !button_right;
+                if (counter[port] < PROTOPAD_COUNT_MAX) {
+                    counter[port]++;
+                }
+            }
         }
     }
-
-    if (mode_line[port] && !new_mode) {
-        /* mode line changed */
-        if (!new_mode) {
-            /* mode line asserted, set state to output handshake */
-            counter[port] = PROTOPAD_HANDSHAKE;
-        }
-    }
-
-    mode_line[port] = new_mode;
-    clock_line[port] = new_clock;
 }
 
 static uint8_t protopad_read_potx(int port)
