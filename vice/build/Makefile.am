@@ -1,2 +1,3 @@
 SUBDIRS = \
-	beos
+	beos \
+	macOS

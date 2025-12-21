@@ -3464,6 +3464,7 @@ fi
 AC_OUTPUT([Makefile
            build/Makefile
            build/beos/Makefile
+           build/macOS/Makefile
            data/Makefile
            data/C128/Makefile
            data/C64/Makefile

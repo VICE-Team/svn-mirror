@@ -31906,7 +31906,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
     Two variants of this Cartridge existed:
 
     1. Grey Cartridge (Comal Users Group, USA)
-       Produced around 1984-1985, likely with UniComal Denmarks approval.
+       Produced around 1984-1985, likely with UniComal Denmarks approval.
        Approx. 2,000 units distributed (according to COMAL Today).
 
 @itemize @bullet
