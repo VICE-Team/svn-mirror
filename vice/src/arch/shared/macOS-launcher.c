@@ -42,32 +42,32 @@ int main(int argc, char *argv[])
     char *exe_dirname;
     char *exe_filename;
     uint32_t size = sizeof(exe_path);
-    
+
     /* Get the path to this executable \*/
     if (_NSGetExecutablePath(exe_path, &size) != 0) {
         fprintf(stderr, "Error: Could not determine executable path\n");
         return 1;
     }
-    
+
     /* Resolve symlinks */
     if (realpath(exe_path, real_path) == NULL) {
         fprintf(stderr, "Error: Could not resolve executable path\n");
         return 1;
     }
-    
+
     /* Split into dirname and basename */
     exe_dirname  = dirname(real_path);
     exe_filename = basename(real_path);
-    
+
     /* Build path to the bash script (same directory as this executable) */
     snprintf(script_path, sizeof(script_path), "%s/../Resources/%s.sh", exe_dirname, exe_filename);
-    
+
     /* Replace argv[0] with the script path */
     argv[0] = script_path;
-    
+
     /* Execute the bash script */
     execv(script_path, argv);
-    
+
     /* If we get here, execv failed */
     perror("Error executing launcher script");
     return 1;

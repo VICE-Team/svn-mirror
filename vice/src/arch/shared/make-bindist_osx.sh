@@ -157,7 +157,7 @@ find_thing_libs () {
     | egrep -v "^\s+/usr/lib/" \
     | egrep -v "^\s+/System/Library/" \
     | awk '{print $1}'
-  
+
   true
 }
 
@@ -205,7 +205,7 @@ copy_thing_libs_internal () {
 
     # >&2 echo "Found lib to copy: $lib"
     # >&2 echo "  resolved to: $resolved_lib"
-    
+
     if [ ! -e "$resolved_lib" ]; then
       >&2 echo "  ERROR: resolved lib $resolved_lib does not exist!"
       exit 1
@@ -264,7 +264,7 @@ make_app_bundle() {
   local app_exe_filename="$app_name"
 
   rm -rf "$app_path"
-  
+
   # 2) Install launcher
   if [[ "$app_launcher" == *.applescript ]]; then
     osacompile -o "$app_path" "$app_launcher"
@@ -392,7 +392,7 @@ if [ -d etc ]; then
   echo -n "] "
 fi
 
-echo  
+echo
 
 
 # --- embed emu binaries -------------------------------------------------------
@@ -568,7 +568,7 @@ for tool_file in $TOOLS ; do
     exit 1
   fi
   cp src/$tool_file $APP_BIN/$tool_name
-  
+
   # strip binary
   if [ x"$STRIP" = "xstrip" ]; then
     echo -n "[strip] "
@@ -649,7 +649,7 @@ relink () {
     install_name_tool -delete_rpath $rpath $thing \
       2> >(grep -v "invalidate the code signature")
   done
-  
+
   install_name_tool -add_rpath @executable_path/../lib $thing \
     2> >(grep -v "invalidate the code signature")
 }
@@ -794,7 +794,7 @@ else
   mkdir $DMG_DIR
   ln -s /Applications $DMG_DIR/
   mv $BUILD_DIR $DMG_DIR
-  
+
   # Create the image and format it
   echo "  creating DMG"
   hdiutil create -fs HFS+ -srcfolder $DMG_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet
@@ -826,7 +826,7 @@ if $WARN_CODE_SIGN; then
     ****
     CODE_SIGN_ID environment variable not set, using ad-hoc signature. User will
     need to override Gatekeeper to run the apps.
-    
+
     Run 'security find-identity -v -p codesigning' to list available identities,
     and set CODE_SIGN_ID to something like "Developer ID Application: <NAME> (<ID>)".
     ****
@@ -836,7 +836,7 @@ fi
 
 if test x"$ENABLEARCH" = "xyes"; then
   cat <<HEREDOC | sed 's/^ *//'
-    
+
     ****
     Warning: binaries are optimized for your system and might not run on a different system,
     use --enable-arch=no to avoid this.
@@ -847,7 +847,7 @@ fi
 
 if [ ! -e doc/vice.pdf ]; then
   cat <<HEREDOC | sed 's/^ *//'
-    
+
     ****
     Warning: This binary distribution does not include vice.pdf as it was not built.
     ****
