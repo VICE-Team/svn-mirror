@@ -104,8 +104,10 @@ AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
 
 - petcat: in C65/Mega65 mode preserve leading spaces in txt->prg conversion
 
+- Userport: Added FunMP3 userport cartridge support.
+            Thanks to Gregor Schillinger, Markus Neeb
+- Userport: Improved compatibility and some crashes in WiC64 emulation
 
-** Buildsystem
 --------------
 
 - remove --without-zlib and make zlib mandatory
@@ -126,7 +128,6 @@ AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
   delay >_<
 - added support for "Magic Desk 16" cartridge
 - added support for Protovisions 'Megabyter' cartridge
-- Added FunMP3 userport cartridge support
 - fix Comal 80 cartridge implementation, add a subtype for the older 'grey'
   cartridge
 - fixed implementation of c64gs cartridge
@@ -210,9 +211,12 @@ AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
 - fixed problems with the custom font(s) not registering at startup
 - fixed problems with the monitor not opening
 
+** Mac fixes
+------------
 
+- fixed crash when using WiC64
 
-* Changes in Vice 3.9
+ in Vice 3.9
 =====================
 
 ** general
