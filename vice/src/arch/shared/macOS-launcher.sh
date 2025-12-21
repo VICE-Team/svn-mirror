@@ -40,7 +40,7 @@ if [[ "$1" == "--program" && -n "$2" ]]; then
   shift 2
 fi
 
-ROOT_DIR="$(cd "$(dirname "$0")" && pwd -P)/../Resources"
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
 cd "$ROOT_DIR"
 source "./bin/common-runtime.sh"
