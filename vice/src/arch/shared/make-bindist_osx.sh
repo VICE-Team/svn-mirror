@@ -266,7 +266,7 @@ make_app_bundle() {
   rm -rf "$app_path"
   
   # 2) Install launcher
-  if [[ "$app_launcher" == *.applescript ]]; then  
+  if [[ "$app_launcher" == *.applescript ]]; then
     osacompile -o "$app_path" "$app_launcher"
     app_exe_filename=droplet
 
@@ -284,14 +284,22 @@ make_app_bundle() {
     cp "$TOP_DIR/data/common/vice-${src_icon_name}_256.png" "$resources/VICE.iconset/icon_256x256.png"
     iconutil -c icns "$resources/VICE.iconset" -o "$resources/$icon_name"
     rm -rf "$resources/VICE.iconset"
-  else
+  elif [[ "$app_launcher" == *.sh ]]; then
     mkdir -p "$macos"
-    cp "$app_launcher" "$macos/$app_name"
-    chmod +x "$macos/$app_name"
+
+    # A native wrapper is needed for macOS to not think it needs Rosetta
+    cp src/arch/shared/macOS-launcher "$macos/$app_name"
+
+    # Move shell script to Resources to avoid code signing issues
+    mkdir -p "$resources"
+    cp "$app_launcher" "$resources/${app_name}.sh"
+    chmod +x "$resources/${app_name}.sh"
 
     # Install icon
-    mkdir -p "$resources"
     cp "$RUN_PATH/Resources/VICE.icns" "$resources/$icon_name"
+  else
+    >&2 echo "ERROR: Unknown launcher type: $app_launcher"
+    exit 1
   fi
 
   # 3) Minimal Info.plist
@@ -323,12 +331,11 @@ make_app_bundle() {
   <array>
     <dict>
       <key>CFBundleTypeName</key><string>VICE Files</string>
-      <key>CFBundleTypeRole</key><string>Viewer</string> <!-- or Editor if you really want -->
+      <key>CFBundleTypeRole</key><string>Viewer</string>
       <key>CFBundleTypeExtensions</key>
       <array>
-        $(for ext in $DROP_EXTENSIONS; do printf '        <string>%s</string>\n' "$ext"; done)
+$(for ext in $DROP_EXTENSIONS; do printf '        <string>%s</string>\n' "$ext"; done)
       </array>
-      <!-- optional: <key>LSHandlerRank</key><string>Default</string> -->
     </dict>
   </array>
 </dict>
@@ -513,7 +520,7 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   # Keep only the necessary GTK schemas
   TMPDIR=$(mktemp -d)
   mv "$APP_SHARE/glib-2.0/schemas/org.gtk.Settings."*.xml $TMPDIR/
-  rm "$APP_SHARE/glib-2.0/schemas/"*.xml
+  find "$APP_SHARE"/glib-2.0/schemas/ -name "*.xml" -exec rm {} \;
   mv $TMPDIR/* "$APP_SHARE/glib-2.0/schemas/"
   rmdir $TMPDIR
   glib-compile-schemas "$APP_SHARE/glib-2.0/schemas"
@@ -730,8 +737,25 @@ code_sign_file () {
     # Ad-hoc signing
     codesign --force --sign - -f "$1"
   else
-    # Signing with provided identity
-    codesign -s "$CODE_SIGN_ID" --timestamp --options runtime -f "$1"
+    # Signing with provided identity. Can intermittently fail due to server allocated timestamps.
+    local codesign_succeeded=false
+    for in in $(seq 1 4)
+    do
+      if codesign -s "$CODE_SIGN_ID" --timestamp --options runtime -f "$1"
+      then
+        codesign_succeeded=true
+        break
+      else
+        >&2 echo "Codesign failed, will retry"
+        sleep 1
+      fi
+    done
+
+    if ! $codesign_succeeded
+    then
+      >&2 echo "Codesign failed, giving up"
+      false
+    fi
   fi
 }
 

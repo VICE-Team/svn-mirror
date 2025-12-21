@@ -44,6 +44,16 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 
 noinst_LIBRARIES = libarchdep.a
 
+if MACOS_COMPILE
+# Build native wrapper executable used by macOS apps
+noinst_PROGRAMS = macOS-launcher
+macOS_launcher_SOURCES = macOS-launcher.c
+# Don't link this launcher app to the usual deps
+macOS-launcher$(EXEEXT): CPPFLAGS =
+macOS-launcher$(EXEEXT): CFLAGS =
+macOS-launcher$(EXEEXT): LDFLAGS =
+endif
+
 libarchdep_a_SOURCES = \
 	archdep_access.c \
 	archdep_boot_path.c \
@@ -265,5 +275,10 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	uiactions.h \
 	README-bindist.txt
+
+if !MACOS_COMPILE
+# Distribute the native launcher source on non-macOS platforms
+EXTRA_DIST += macOS-launcher.c
+endif
 
 # FIXME: the Extra MacOS script stuff should live elsewhere
