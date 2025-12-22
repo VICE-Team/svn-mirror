@@ -1196,7 +1196,10 @@ static uint8_t reply_port_value = 0;
 static void flag2_alarm_handler(CLOCK offset, void *data)
 {
     debug_log(LOG_COL_OFF, 4, "%s: handshake expired", __FUNCTION__);
-    set_userport_flag(FLAG2_INACTIVE);
+    /* CAUTION: only call set_userport_flag() when we are actually the active userport device */
+    if (userport_get_device() == USERPORT_DEVICE_WIC64) {
+        set_userport_flag(FLAG2_INACTIVE);
+    }
     alarm_unset(flag2_alarm);
 }
 
@@ -1214,8 +1217,11 @@ static void handshake_flag2(void)
     alarm_set(flag2_alarm, maincpu_clk + FLAG2_TOGGLE_DELAY);
     debug_log(LOG_COL_OFF, 4, "%s: armed handshake", __FUNCTION__);
 
-    set_userport_flag(FLAG2_ACTIVE);
-    /* set_userport_flag(FLAG2_INACTIVE); */
+    /* CAUTION: only call set_userport_flag() when we are actually the active userport device */
+    if (userport_get_device() == USERPORT_DEVICE_WIC64) {
+        set_userport_flag(FLAG2_ACTIVE);
+        /* set_userport_flag(FLAG2_INACTIVE); */
+    }
 }
 
 static void cycle_alarm_handler(CLOCK offset, void *data)

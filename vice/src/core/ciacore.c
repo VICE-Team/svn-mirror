@@ -1609,12 +1609,13 @@ static void ciacore_async_interrupt(cia_context_t *cia_context, int flag)
          */
         alarm_set(cia_context->idle_alarm, rclk + 1);
     } else {
-        DBG(("ciacore_async_interrupt: idleclk == rclk + %ld\n", (long)(idleclk - rclk)));
+        DBG(("ciacore_async_interrupt: idleclk == rclk + %ld", (long)(idleclk - rclk)));
     }
 }
 
 void ciacore_set_flag(cia_context_t *cia_context)
 {
+    DBG(("ciacore_set_flag"));
     ciacore_async_interrupt(cia_context, CIA_IM_FLG);
 }
 
@@ -1627,7 +1628,7 @@ void ciacore_set_sdr(cia_context_t *cia_context, uint8_t data)
     if ((cia_context->c_cia[CIA_CRA] & CIA_CRA_SPMODE) == CIA_CRA_SPMODE_IN) {
 
         cia_context->c_cia[CIA_SDR] = data;
-        DBG(("ciacore_set_sdr %s: %02x\n", cia_context->myname, data));
+        DBG(("ciacore_set_sdr %s: %02x", cia_context->myname, data));
 
         /*
          * For more cycle-exactness, something like

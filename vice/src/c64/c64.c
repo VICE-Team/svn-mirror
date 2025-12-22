@@ -1489,8 +1489,10 @@ const char *machine_get_name(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* called via userport.c:set_userport_flag->userport_props.set_flag(val); */
 static void c64_userport_set_flag(uint8_t b)
 {
+    DBG(("c64_userport_set_flag(%d)", b));
     if (b != 0) {
         ciacore_set_flag(machine_context.cia2);
     }
