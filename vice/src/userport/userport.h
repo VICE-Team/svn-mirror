@@ -369,7 +369,10 @@ void userport_reset(void);
 void userport_reset_end(void);
 void userport_powerup(void);
 
-/* use this function from userport device code to set the userport flag */
+/* use this function from userport device code to set the userport flag.
+   CAUTION: make sure to only call this from devices that are actually connected
+            to the userport!
+ */
 void set_userport_flag(uint8_t val);
 
 int userport_resources_init(void);

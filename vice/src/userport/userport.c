@@ -503,8 +503,15 @@ void store_userport_pa3(uint8_t val)
     }
 }
 
+/* called by userport devices to set the !FLAG line.
+   CAUTION: make sure to only call this from devices that are actually connected
+            to the userport!
+    val: 0 signal hi->lo
+    val: 1 signal lo->hi
+*/
 void set_userport_flag(uint8_t val)
 {
+    DBG(("set_userport_flag (val:%d)", val));
     if (userport_active) {
         if (userport_props.set_flag) {
             userport_props.set_flag(val);
