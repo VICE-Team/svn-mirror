@@ -214,7 +214,10 @@ AND FIXING FURTHER GAMECONTROLLER RELATED ISSUES - PLEASE GET IN TOUCH!
 ** Mac fixes
 ------------
 
+- fixed joysticks not working at all
+- fixed 'open with file'
 - fixed crash when using WiC64
+- fixed Apple silicon builds asking for Rosetta install
 
  in Vice 3.9
 =====================
