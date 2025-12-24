@@ -1,5 +1,5 @@
 
-  VICE  3.9                                                          Dez 2024
+  VICE  3.10                                                          Dez 2025
 
 
                  _______________
@@ -24,7 +24,7 @@
 
  ----------------------------------------------------------------------------
 
- This is version 3.9 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 3.10 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  Win32, macOS, Haiku and for most Unix systems provided with the X Window
  System version 11, R5 or later.
@@ -191,24 +191,24 @@
  VICE, the Versatile Commodore Emulator
 
     Core Team Members:
-    1999-2024 Pottendo
-    2005-2024 Marco van den Heuvel
-    2007-2024 Fabrizio Gennari
-    2009-2024 Groepaz
-    2009-2024 Errol Smith
-    2009-2024 Ingo Korb
-    2010-2024 Olaf Seibert
-    2011-2024 Marcus Sutton
-    2011-2024 Kajtar Zsolt
-    2016-2024 AreaScout
-    2016-2024 Bas Wassink
-    2017-2024 Michael C. Martin
-    2018-2024 Christopher Phillips
-    2019-2024 David Hogan
-    2020-2024 Empathic Qubit
-    2020-2024 Roberto Muscedere
-    2021-2024 June Tate-Gans
-    2021-2024 Pablo Roldan
+    1999-2025 Pottendo
+    2005-2025 Marco van den Heuvel
+    2007-2025 Fabrizio Gennari
+    2009-2025 Groepaz
+    2009-2025 Errol Smith
+    2009-2025 Ingo Korb
+    2010-2025 Olaf Seibert
+    2011-2025 Marcus Sutton
+    2011-2025 Kajtar Zsolt
+    2016-2025 AreaScout
+    2016-2025 Bas Wassink
+    2017-2025 Michael C. Martin
+    2018-2025 Christopher Phillips
+    2019-2025 David Hogan
+    2020-2025 Empathic Qubit
+    2020-2025 Roberto Muscedere
+    2021-2025 June Tate-Gans
+    2021-2025 Pablo Roldan
 
     Inactive/Ex Team Members:
     2011-2016 Stefan Haubenthal
