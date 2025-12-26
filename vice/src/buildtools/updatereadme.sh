@@ -6,14 +6,13 @@
 
 #VERBOSE=1
 
-# Make sure we're using GNU sed, not BSD sed
-if sed --version >/dev/null 2>&1; then
-    SED=sed
-elif gsed --version >/dev/null 2>&1; then
-    SED=gsed
+if sed -i 'p' $(mktemp) 2>/dev/null
+then
+    # GNU sed
+    SED_I="sed -i"
 else
-    echo No GNU sed found
-    exit 2
+    # BSD sed
+    SED_I="sed -i ''"
 fi
 
 README=README
@@ -92,7 +91,7 @@ else
     fi
     TOPLINE="$TOPLINE                                                        "
     TOPLINE="$TOPLINE$MONTH $YEAR"
-    LC_ALL=C $SED -i -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
+    LC_ALL=C $SED_I -e "s: \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep " \+VICE \+[0-9]\+\.[0-9]\+[\.]*[0-9]* \+[A-Z][a-z][a-z] 20[0-9][0-9]" < $README`
@@ -115,7 +114,7 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE of VICE"
-    LC_ALL=C $SED -i -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
+    LC_ALL=C $SED_I -e "s:This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE:$LINE:g" $README
 fi
 
 LINE=`grep "This is version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+of VICE" < $README`
