@@ -6,13 +6,14 @@
 
 #VERBOSE=1
 
-if sed -i 'p' $(mktemp) 2>/dev/null
-then
-    # GNU sed
-    SED_I="sed -i"
+# Make sure we're using GNU sed, not BSD sed
+if sed --version >/dev/null 2>&1; then
+    SED=sed
+elif gsed --version >/dev/null 2>&1; then
+    SED=gsed
 else
-    # BSD sed
-    SED_I="sed -i ''"
+    echo No GNU sed found
+    exit 2
 fi
 
 README=doc/html/index.html
@@ -89,7 +90,7 @@ else
         TOPLINE="$TOPLINE.$VBUILD"
     fi
     TOPLINE="$TOPLINE released"
-    LC_ALL=C $SED_I -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
+    LC_ALL=C $SED -i -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
 fi
 
 TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
@@ -112,7 +113,7 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE.tar.gz"
-    LC_ALL=C $SED_I -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
+    LC_ALL=C $SED -i -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
 fi
 
 LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
@@ -135,7 +136,7 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE-win"
-    LC_ALL=C $SED_I -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
+    LC_ALL=C $SED -i -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
 fi
 
 LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
@@ -155,7 +156,7 @@ else
     if [ "$VBUILD" != "0" ]; then
         LINE="$LINE.$VBUILD"
     fi
-    LC_ALL=C $SED_I -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
+    LC_ALL=C $SED -i -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
 fi
 
 LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
@@ -176,7 +177,7 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE.dmg"
-    LC_ALL=C $SED_I -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
+    LC_ALL=C $SED -i -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
 fi
 
 LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
