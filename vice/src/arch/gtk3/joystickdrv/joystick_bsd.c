@@ -649,12 +649,14 @@ void joystick_arch_init(void)
             /* scan axes, buttons and hats */
             if (scan_inputs(joydev)) {
                 /* OK: try to register */
+                char *backup_name = lib_strdup(joydev->name);
+
                 if (!joystick_device_register(joydev)) {
                     /* failure */
+                    /* joydev is already destroyed */
                     log_warning(bsd_joy_log,
                                 "failed to register device %s (\"%s\")",
-                                joydev->node, joydev->name);
-                    joystick_device_free(joydev);
+                                node, backup_name);
                 } else {
                     priv = joydev->priv;
                     /* allocate arrays for previous input states */
@@ -665,6 +667,7 @@ void joystick_arch_init(void)
                     priv->prev_hats    = lib_calloc((size_t)joydev->num_hats,
                                                     sizeof *priv->prev_hats);
                 }
+                lib_free(backup_name);
             } else {
                 /* failure while scanning: log and free invalid device */
                 log_warning(bsd_joy_log,
