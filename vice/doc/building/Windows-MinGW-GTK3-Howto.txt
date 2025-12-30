@@ -76,16 +76,22 @@ dqh
 
 Run the following command lines to install the prerequisites:
 
-$ pacman -S --noconfirm --needed base-devel pactoys
-$ pacboy sync autotools pkg-config gcc ntldd unzip: zip: p7zip: subversion: gtk3 glew icoutils xa65 curl
+$ pacman -S --noconfirm --needed autotools base-devel p7zip subversion unzip zip
 
-(Note: type the colons that you see in the second command; they are important.
- Hit enter for the default on all the prompts, then wait for a lot of stuff
- to download and install.)
+If you are using a 64-bit MinGW shell also run this:
+$ pacman -S --noconfirm --needed mingw-w64-x86_64-curl mingw-w64-x86_64-gcc mingw-w64-x86_64-glew mingw-w64-x86_64-gtk3 mingw-w64-x86_64-icoutils mingw-w64-x86_64-ntldd mingw-w64-x86_64-xa65
 
-if you want to get all the extras right now as well, add
+..otherwise for a 32-bit MinGW shell run:
+$ pacman -S --noconfirm --needed mingw-w64-i686-curl mingw-w64-i686-gcc mingw-w64-i686-glew mingw-w64-i686-gtk3 mingw-w64-i686-icoutils mingw-w64-i686-ntldd mingw-w64-i686-xa65
 
-$ pacboy sync portaudio giflib flac mpg123 libvorbis lame
+(Note: Hit enter for the default on all the prompts, then wait for a lot of stuff
+ to download and install. You can install both 32 and 64 bit packages if required.)
+
+If you want to get all the extras right now then add these additional packages:
+For a 64-bit shell:
+$ pacman -S --noconfirm --needed mingw-w64-x86_64-flac mingw-w64-x86_64-giflib mingw-w64-x86_64-lame mingw-w64-x86_64-libvorbis mingw-w64-x86_64-mpg123 mingw-w64-x86_64-portaudio
+or for a 32-bit shell:
+$ pacman -S --noconfirm --needed mingw-w64-i686-flac mingw-w64-i686-giflib mingw-w64-i686-lame mingw-w64-i686-libvorbis mingw-w64-i686-mpg123 mingw-w64-i686-portaudio
 
 See further below for details; some options require adding flags to configure.
 
@@ -161,6 +167,7 @@ $ make -s --no-print-dir
 $ make -s --no-print-dir bindist
 
 
+
 9. If you want the distribution in a ZIP or a 7z archive instead of a
 subdirectory then use one of these commands (instead of "make -s --no-print-dir bindist").
 Use this for a ZIP-format bindist:
@@ -181,13 +188,21 @@ If you install any of these packages after you have built VICE, rerun
 "./configure" (using the respective options) and "make" to produce updated
 binaries that make use of the new options.
 
-$ pacboy sync curl (needed for wic64, reconfigure with --with-libcurl)
-$ pacboy sync portaudio (needed for sampler input, reconfigure with --enable-portaudio)
-$ pacboy sync giflib (reconfigure with --with-gif)
-$ pacboy sync flac (reconfigure with --with-flac)
-$ pacboy sync mpg123 (reconfigure with --with-mpg123)
-$ pacboy sync lame (reconfigure with --with-lame)
-$ pacboy sync libvorbis (reconfigure with --with-vorbis)
+For 64 bit MinGW shell:
+$ pacman -S mingw-w64-x86_64-portaudio  (needed for sampler input, reconfigure with --enable-portaudio)
+$ pacman -S mingw-w64-x86_64-giflib     (reconfigure with --with-gif)
+$ pacman -S mingw-w64-x86_64-flac       (reconfigure with --with-flac)
+$ pacman -S mingw-w64-x86_64-mpg123     (reconfigure with --with-mpg123)
+$ pacman -S mingw-w64-x86_64-lame       (reconfigure with --with-lame)
+$ pacman -S mingw-w64-x86_64-libvorbis  (reconfigure with --with-vorbis)
+
+For 32 bit MinGW shell:
+$ pacman -S mingw-w64-i686-portaudio    (needed for sampler input, reconfigure with --enable-portaudio)
+$ pacman -S mingw-w64-i686-giflib       (reconfigure with --with-gif)
+$ pacman -S mingw-w64-i686-flac         (reconfigure with --with-flac)
+$ pacman -S mingw-w64-i686-mpg123       (reconfigure with --with-mpg123)
+$ pacman -S mingw-w64-i686-lame         (reconfigure with --with-lame)
+$ pacman -S mingw-w64-i686-libvorbis    (reconfigure with --with-vorbis)
 
 
 10.1 Extra Libraries
