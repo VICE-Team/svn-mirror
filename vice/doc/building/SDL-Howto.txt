@@ -98,21 +98,13 @@ Install development packages
 
 After installing the msys2 base system we need a "few" more packages, so:
 
-$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL2 libpng \
-  SDL2_image
+$ pacman -S --noconfirm --needed autotools base-devel p7zip subversion unzip zip
+$ pacman -S --noconfirm --needed mingw-w64-x86_64-gcc mingw-w64-x86_64-libpng \
+  mingw-w64-x86_64-ntldd mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image \
+  mingw-w64-x86_64-xa65
 
 Select 'all' for the base-devel group, then proceed to install a few packages,
 perhaps grab a beer, have some coffee or tea while msys2 does its magic.
-
-Now we need the xa assembler to build the VSID driver, which isn't in the MSYS2
-repo, so we'll build it ourselves:
-
-$ wget https://www.floodgap.com/retrotech/xa/dists/xa-2.3.11.tar.gz
-$ tar -xvzf xa-2.3.11.tar.gz
-$ cd xa-2.3.11
-$ make
-$ make install
-$ cd ~
 
 
 Check out VICE via SVN and create a minimal SDL2 build
@@ -184,8 +176,11 @@ Creating a SDL(1.2) Version Instead of SDL2
 Almost identical to above except for following:
 
 Installing Dependencies:
-$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL libpng \
-  SDL_image
+
+$ pacman -S --noconfirm --needed autotools base-devel p7zip subversion unzip zip
+$ pacman -S --noconfirm --needed mingw-w64-x86_64-gcc mingw-w64-x86_64-libpng \
+  mingw-w64-x86_64-ntldd mingw-w64-x86_64-SDL mingw-w64-x86_64-SDL_image \
+  mingw-w64-x86_64-xa65
 
 Configure:
 $ ./configure --enable-sdl1ui
