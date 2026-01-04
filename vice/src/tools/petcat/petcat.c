@@ -1162,7 +1162,8 @@ int main(int argc, char **argv)
 
         /* reading offset */
         if (!strcmp(argv[0], "-skip") || !strcmp(argv[0], "-offset")) {
-            if (argc > 1 && sscanf(argv[1], "%lx", &offset) == 1) {
+            if (argc > 1) {
+                offset = strtoul(argv[1], NULL, 0);
                 --argc; ++argv;
                 continue;
             }
@@ -1327,6 +1328,12 @@ int main(int argc, char **argv)
         } else {
             if (hdr) { /* name as comment when using petcat name.prg > name.txt */
                 fprintf(dest, "\n\n;%s ", (fil ? argv[0] : "<stdin>"));
+            }
+
+            /* skip "offset" bytes */
+            while (offset > 0) {
+                getc(source);
+                offset--;
             }
 
             /*
