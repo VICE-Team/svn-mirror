@@ -29,9 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c128.h"
 #include "c128mem.h"
 #include "c128memrom.h"
+#include "c128model.h"
 #include "c128rom.h"
 #include "c64memrom.h"
 #include "c64rom.h"
@@ -278,9 +280,10 @@ int c128rom_kernal_setup(void)
     const char *resname = NULL;
     const char *rom_name = NULL;
     uint8_t *kernal = NULL;
-    static const char *last_kernal64 = NULL;
+    const char *last_kernal64 = NULL;
     char *name;
     const char *kernal64 = C128_KERNAL64_NAME;
+    int board_type = BOARD_C128;
 
     if (!rom_loaded) {
         return 0;
@@ -320,12 +323,36 @@ int c128rom_kernal_setup(void)
             return -1;
     }
 
-    log_verbose(c128rom_log, "kernal64:%s", kernal64);
-
-    if (kernal64 != last_kernal64) {
-        resources_set_string("Kernal64Name", kernal64);
+    /* HACK: In the C128DCR, C64 kernal+BASIC are combined with C128 kernal
+     * in a single chip. Since we don't have separate resources for localized
+     * C64 kernals, we load it automatically here. */
+    resources_get_int("BoardType", &board_type);
+    if (board_type == BOARD_C128D) {
+        const char *p;
+        resources_get_string("Kernal64Name", &last_kernal64);
+        /* get only the name of the file, remove the path */
+        p = strrchr(last_kernal64, ARCHDEP_DIR_SEP_CHR);
+        if (p != NULL) {
+            /* dir separator was found, move pointer behind it */
+            p++;
+        } else {
+            /* separator not found, use original string */
+            p = last_kernal64;
+        }
+        /* now check if the loaded C64 kernal is one of the stock kernals we
+         * provide, and only then replace it by another stock kernal */
+        if (!strcmp(p, C128_KERNAL64_NAME) ||
+            !strcmp(p, C128_KERNAL64_NO_NAME) ||
+            !strcmp(p, C128_KERNAL64_SE_NAME)) {
+            log_warning(c128rom_log,
+                        "On C128DCR boards the C64 kernal is in the same IC as the C128 kernal, using: %s",
+                        kernal64);
+            /* if the file changed, load the new one */
+            if (strcmp(kernal64, last_kernal64) != 0) {
+                resources_set_string("Kernal64Name", kernal64);
+            }
+        }
     }
-    last_kernal64 = kernal64;
 
     /* disable traps before loading the ROM */
     get_trapflags();

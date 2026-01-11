@@ -75,6 +75,16 @@ int c128rom_basic64_setup(void);
 #define C128_KERNAL_DE_R01_CHECKSUM     22098 /* FIXME: 19680 ? */
 #define C128_KERNAL_CH_R01_CHECKSUM     21376
 
+
+/*
+Version        BASlo        BAShi        Kernal       C64 BASIC    C64 Kernal
+-------        -----        -----        ------       ---------    ----------
+First          318018-02    318019-02    318020-03    251913-01lo 251913-01hi
+Middle upgrade 318018-03    318019-03    318020-04    251913-01lo 251913-01hi
+Final upgrade  318018-04    318019-04    318020-05    251913-01lo 251913-01hi
+128DCR         318022-02lo  318022-02hi  318023-02hi  combined in 318023-02lo
+*/
+
 /* C128 chargen
  * CAUTION: some dumps that are circulating have the two charsets swapped.
  * The international one should be in the first half (see #2171)
@@ -99,9 +109,15 @@ int c128rom_basic64_setup(void);
 #define C128_KERNAL_NO_NAME     "kernalno"                  /* FIXME: identify */
 #define C128_KERNAL_SE_NAME     "kernal-318034-01.bin"
 
-/* C128 BASIC */
+/* C128 BASIC
+ * NOTE: in the C128DCR the two parts are combined in 318022-02
+ */
 #define C128_BASICLO_NAME       "basiclo-318018-04.bin"     /* BASIC */
 #define C128_BASICHI_NAME       "basichi-318019-04.bin"     /* Editor */
+
+/* NOTE: in the regular C128, C64 BASIC and C64 kernal are combined in 251913-01
+ * in the C128DCR, C64 BASIC, C64 kernal and C128 kernal are combined in 318023-02
+ */
 
 /* C64 BASIC */
 #define C128_BASIC64_NAME       "basic64-901226-01.bin"     /* first 8k in 318081-01 */
