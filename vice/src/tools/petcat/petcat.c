@@ -1900,6 +1900,7 @@ static int p_expand(int version, int addr, int ctrls)
 
     while ((fread(line, 1, 2, source) == 2) && (line[1]) && fread(line + 2, 1, 2, source) == 2) {
         quote = 0;
+        /* the line number */
         fprintf(dest, "%5d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
         if (checksummer) {
             checksummer->init(checksummer_data, spnum);
@@ -1925,19 +1926,16 @@ static int p_expand(int version, int addr, int ctrls)
         }
 
         do {
-            if (checksummer)
+            if (checksummer) {
                 checksummer->process(checksummer_data, c, quote);
+            }
 
             if (c == 0x22) {
                 quote ^= c;
             }
 
-            /*
-             * Simons' basic. Any flag for this is not needed since it is
-             * mutually exclusive with all other implemented modes.
-             */
-
-            if (!quote && (c == 0x64)) {
+            /* Simons' basic. Tokens are prefixed by $64 */
+            if (!quote && (c == 0x64) && (version == B_SIMON)) {
                 if (((c = getc(source)) < 0x80) && basic_list[version - 1].tokens) {
                     fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
                     continue;
@@ -1948,7 +1946,7 @@ static int p_expand(int version, int addr, int ctrls)
 
             /* basic 2.0, 7.0, 10.0, 65.0 and extensions */
 
-            if (!quote && c > 0x7f) {
+            if (!quote && (c > 0x7f)) {
                 /* check for keywords common to all versions, include pi */
                 if (c <= basic_list[B_1 - 1].max_token || c == 0xff) {
                     fprintf(dest, "%s", keyword[c & 0x7f]);
@@ -2037,8 +2035,13 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_EVE:
                     case B_TT64:
                     case B_HANDY:
-                        if (basic_list[version - 1].tokens && c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
+                        if ((basic_list[version - 1].tokens) &&
+                            (c >= basic_list[version - 1].token_start) &&
+                            (c <= basic_list[version - 1].max_token)) {
                             fprintf(dest, "%s", basic_list[version - 1].tokens[c - basic_list[version - 1].token_start]);
+                        } else {
+                            /* not a valid token */
+                            out_ctrl((int)c);  /* output byte as control code */
                         }
                         break;
 
@@ -2053,7 +2056,12 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             }
 
-            _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+            if (c == 13) {
+                /* return outside quotes, this can only be a control code */
+                out_ctrl((int)c);  /* output as control code */
+            } else {
+                _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+            }
         } while ((c = getc(source)) != EOF && c);
         if (checksummer) {
             char *chksum = checksummer->finalize(checksummer_data);
