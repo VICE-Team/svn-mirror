@@ -30,6 +30,8 @@
 #ifndef VICE_USBSID_H
 #define VICE_USBSID_H
 
+#include "vice.h"
+
 #ifdef HAVE_USBSID
 #include "sid-snapshot.h"
 #include "types.h"
@@ -42,20 +44,18 @@ void usbsid_reset(bool us_reset);
 int usbsid_read(uint16_t addr, int chipno);
 void usbsid_store(uint16_t addr, uint8_t val, int chipno);
 void usbsid_set_machine_parameter(long cycles_per_sec);
-int usbsid_available(void);
 void usbsid_set_audiomode(int val);
 void usbsid_set_readmode(int val);
 void usbsid_restart_ringbuffer(void);
 void usbsid_set_buffsize(int val);
 void usbsid_set_diffsize(int val);
-
+int usbsid_drv_available(void);
 int usbsid_drv_open(void);
 int usbsid_drv_close(void);
 void usbsid_drv_reset(bool us_reset);
 int usbsid_drv_read(uint16_t addr, int chipno);
 void usbsid_drv_store(uint16_t addr, uint8_t val, int chipno);
 void usbsid_drv_set_machine_parameter(long cycles_per_sec);
-int usbsid_drv_available(void);
 void usbsid_drv_set_audiomode(int val);
 void usbsid_drv_set_readmode(int val);
 void usbsid_drv_restart_ringbuffer(void);
@@ -69,4 +69,7 @@ void usbsid_drv_state_read(int chipno, struct sid_us_snapshot_state_s *sid_state
 void usbsid_drv_state_write(int chipno, struct sid_us_snapshot_state_s *sid_state);
 
 #endif /* HAVE_USBSID */
+
+int usbsid_available(void);
+
 #endif /* VICE_USBSID_H */
