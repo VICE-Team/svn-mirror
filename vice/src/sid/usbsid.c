@@ -206,6 +206,9 @@ void usbsid_state_write(int chipno, struct sid_us_snapshot_state_s *sid_state)
     }
 }
 #else
+
+#include "usbsid.h"
+
 int usbsid_available(void)
 {
     return 0;
