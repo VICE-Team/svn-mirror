@@ -126,6 +126,9 @@ static void save_snapshot_dialog(void)
     gint response_id;
     int save_roms;
     int save_disks;
+    const char *eventdir = NULL;
+
+    resources_get_string("EventSnapshotDir", &eventdir);
 
     dialog = gtk_file_chooser_dialog_new("Save snapshot file",
             ui_get_active_window(),
@@ -136,6 +139,11 @@ static void save_snapshot_dialog(void)
 
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_snapshot, FALSE));
+
+    /* set directory */
+    if (eventdir != NULL && *eventdir != '\0') {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), eventdir);
+    }
 
     /* set proposed filename */
     gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog),
@@ -224,10 +232,13 @@ static void load_snapshot_filename_callback(GtkDialog *dialog,
 static gboolean load_snapshot_trap_impl(gpointer user_data)
 {
     const char *filters[] = { "*.vsf", NULL };
+    const char *eventdir = NULL;
+
+    resources_get_string("EventSnapshotDir", &eventdir);
 
     vice_gtk3_open_file_dialog(
             "Open snapshot file",
-            "Snapshot files", filters, NULL,
+            "Snapshot files", filters, eventdir,
             load_snapshot_filename_callback,
             NULL);
     /* FIXME: shouldn't this return TRUE? */
