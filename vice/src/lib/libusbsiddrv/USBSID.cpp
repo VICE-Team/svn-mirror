@@ -1010,7 +1010,8 @@ int USBSID_Class::LIBUSB_OpenDevice(void)
   devh = libusb_open_device_with_vid_pid(ctx, VENDOR_ID, PRODUCT_ID);
   if (!devh) {
     rc = -1;
-    USBERR(stderr, "[USBSID] Error opening USB device with VID & PID: %d %s: %s\r\n", rc, libusb_error_name(rc), libusb_strerror(rc));
+    USBERR(stderr, "[USBSID] Error opening USB device with VID & PID: %d %s: %s\r\n",
+      rc, libusb_error_name(rc), libusb_strerror((enum libusb_error)rc));
   }
   return rc;
 }
