@@ -689,6 +689,11 @@ void ciacore_reset(cia_context_t *cia_context)
  */
 static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
+    if ((cia_context->sr_bits > 1 && cia_context->sr_bits < 15) ||
+        (cia_context->sr_bits == 15 && !(cia_context->sdr_delay & (/*CIA_SDR_CNT1 | */CIA_SDR_CNT2)))) {
+        schedule_sdr_alarm(cia_context, rclk, CIA_SDR_SET_SDR_IRQ2);
+    }
+
     if ((byte & CIA_CRA_SPMODE_OUT) == CIA_CRA_SPMODE_IN) {
         /* Switching from output to input */
         bool forceFinish = false;
