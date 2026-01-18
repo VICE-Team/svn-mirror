@@ -690,7 +690,7 @@ void ciacore_reset(cia_context_t *cia_context)
 static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
     if ((cia_context->sr_bits > 1 && cia_context->sr_bits < 15) ||
-        (cia_context->sr_bits == 15 && !(cia_context->sdr_delay & (/*CIA_SDR_CNT1 | */CIA_SDR_CNT2)))) {
+        (cia_context->sr_bits == 15 && !(cia_context->sdr_delay & CIA_SDR_CNT2))) {
         schedule_sdr_alarm(cia_context, rclk, CIA_SDR_SET_SDR_IRQ2);
     }
 
@@ -701,9 +701,9 @@ static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rcl
         uint32_t sdr_delay = cia_context->sdr_delay;
         uint32_t cnt_delay = sdr_delay;
 
-        if (cia_context->model == CIA_MODEL_6526) {
+        /* if (cia_context->model == CIA_MODEL_6526_4485) {
             cnt_wanted = (CIA_SDR_CNT0 | CIA_SDR_CNT1 | CIA_SDR_CNT2);
-        } else {
+        } else */ {
             cnt_wanted = (               CIA_SDR_CNT1 | CIA_SDR_CNT2);
         }
         forceFinish = (cnt_delay & cnt_wanted) != cnt_wanted;
