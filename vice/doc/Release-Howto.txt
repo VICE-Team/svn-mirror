@@ -60,7 +60,7 @@ $ svn commit -m "preparing release - no more committing until after the release 
   For massive changes we can decide to bump MAJOR and set MINOR and BUILD to 0,
   for example when merging the 'vice-4' branch somewhere in the future.
 
-- run src/buildtools/updatereadme.sh to update README with the current year.
+- run ./src/buildtools/updatereadme.sh to update README with the current year.
 - run ./src/buildtools/genvicedate_h.sh to update vicedate.h with the current
   year.
 - make sure to 'touch' vice.texi so that the current year will be put into all
@@ -208,7 +208,7 @@ publish the release
 
 - on the tracker update the milestones
 
-    admin->admin->bugs->field management->new milestone (save)
+    admin->bugs->field management->new milestone (save)
 
 - announce the release on the ml (and eventually elsewhere)
 
