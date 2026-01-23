@@ -2056,8 +2056,18 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             }
 
-            if (c == 13) {
-                /* return outside quotes, this can only be a control code */
+            /* some codes must always be converted to control codes, else they can't
+               be tokenized into the exact same thing again */
+            if ((c == 0x0d) ||  /* return */
+                (c == 0x2a) ||  /* literal "*" (else converts into a token) */
+                (c == 0x2b) ||  /* literal "+" (else converts into a token) */
+                (c == 0x2d) ||  /* literal "-" (else converts into a token) */
+                (c == 0x2f) ||  /* literal "/" (else converts into a token) */
+                (c == 0x3c) ||  /* literal "<" (else converts into a token) */
+                (c == 0x3d) ||  /* literal "=" (else converts into a token) */
+                (c == 0x3e) ||  /* literal ">" (else converts into a token) */
+                (c == 0x5e)     /* literal "^" (else converts into a token) */
+               ){
                 out_ctrl((int)c);  /* output as control code */
             } else {
                 _p_toascii((int)c, version, ctrls, quote);  /* convert character */
@@ -2103,6 +2113,7 @@ static unsigned char* check_leading_space(int version, unsigned char* p)
     return p;
 }
 
+/* this converts ASCII to BASIC */
 static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[MAX_INLINE_LEN + 1];
@@ -2114,8 +2125,6 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
     int c;
     int ctmp = -1;
     int kwlentmp = -1;
-    unsigned char rem_data_mode;
-    unsigned char rem_data_endchar = '\0';
     unsigned int len = 0;
     unsigned int match;
     unsigned int match2;
@@ -2140,7 +2149,6 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
         DBG(("line: %u [%s]\n", linum, line));
 
         quote = 0;
-        rem_data_mode = 0;
 
         p2 = check_leading_space(version, p2);
 
@@ -2154,7 +2162,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
             match = 0;
             match2 = 0;
-            if (quote) {
+
                 /*
                  * control code evaluation
                  * only strings that appear inside quotes are
@@ -2258,15 +2266,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     fprintf(stderr, "error: line %u - unknown control code: %s\n",
                             linum, p);
                     exit(-1);
-                }
-/*    DBG(("controlcode end\n")); */
-            } else if (rem_data_mode) {
-                /* if we have already encountered a REM or a DATA,
-                   simply copy the char */
 
-                /* DO NOTHING! As we do not set "match", the if (!match) will be true,
-                 * and this part will copy the char over to the new buffer */
-            } else if (isalpha((unsigned char)*p2) || strchr("+-*/^>=<", *p2)) {
+/*    DBG(("controlcode end\n")); */
+
+            } else if (!quote && (isalpha((unsigned char)*p2) || strchr("+-*/^>=<", *p2))) {
                 /* FE and CE prefixes are checked first */
                 if (version == B_7 || version == B_71 || version == B_10 || version == B_65 || version == B_SXC || version == B_SIMON) {
                     switch (version) {
@@ -2372,21 +2375,6 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         if ((version == B_35) || (ctmp != 0x4e)) {  /* Skip prefix */
                             kwlentmp = (int)kwlen;
                             match++;
-
-                            /* Check if the keyword is a REM or a DATA */
-                            switch (ctmp) {
-                                case TOKEN_DATA:
-                                    rem_data_mode = 1;
-                                    rem_data_endchar = ':';
-                                    break;
-
-                                case TOKEN_REM:
-                                    rem_data_mode = 1;
-                                    rem_data_endchar = '\0';
-                                    break;
-                                default:
-                                    break;
-                            }
                         }
                     }
                 }
@@ -2461,11 +2449,6 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             if (!match) {
                 /* convert character */
                 *p1++ = (unsigned char)(_a_topetscii(*p2 & 0xff, ctrls));
-
-                /* check if the REM/DATA mode has to be stopped: */
-                if (*p2 == rem_data_endchar) {
-                    rem_data_mode = 0;
-                }
 
                 p3 = p2;
                 ++p2;
