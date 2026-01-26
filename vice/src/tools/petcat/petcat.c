@@ -1882,8 +1882,9 @@ static int p_expand(int version, int addr, int ctrls)
 {
     static char line[4];
     int c = 0;
-    int quote, spnum, directory = 0;
+    int quote, spnum;
     int sysflg = 0;
+    int initialspace = 0;
 
     void *checksummer_data = NULL;
     if (checksummer) {
@@ -1906,24 +1907,11 @@ static int p_expand(int version, int addr, int ctrls)
             checksummer->init(checksummer_data, spnum);
         }
 
-        if (directory) {
-            if (spnum >= 100) {
-                spnum = 0;
-            } else if (spnum >= 10) {
-                spnum = 1;
-            } else {
-                spnum = 2;
-            }
-        }
-
         /* prevent list protection from terminating listing */
-
         while ((c = getc(source)) != EOF && !c) {
         }
 
-        if (c == 0x12 && !line[2] && !line[3]) {  /* 00 00 12 22 */
-            directory++;
-        }
+        initialspace = (c == 0x20);
 
         do {
             if (checksummer) {
@@ -1932,6 +1920,8 @@ static int p_expand(int version, int addr, int ctrls)
 
             if (c == 0x22) {
                 quote ^= c;
+            } else if (c != 0x20) {
+                initialspace = 0;
             }
 
             /* Simons' basic. Tokens are prefixed by $64 */
@@ -2051,11 +2041,6 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             } /* quote */
 
-            if (directory && spnum && c == 0x20) {
-                spnum--;          /* eat spaces to adjust directory lines */
-                continue;
-            }
-
             /* some codes must always be converted to control codes, else they can't
                be tokenized into the exact same thing again */
             if ((c == 0x0d) ||  /* return */
@@ -2069,6 +2054,12 @@ static int p_expand(int version, int addr, int ctrls)
                 (c == 0x5e)     /* literal "^" (else converts into a token) */
                ){
                 out_ctrl((int)c);  /* output as control code */
+            } else if (c == 0x20) {
+                if (initialspace) {
+                    out_ctrl((int)c);  /* output as control code */
+                } else {
+                    _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+                }
             } else {
                 _p_toascii((int)c, version, ctrls, quote);  /* convert character */
             }
