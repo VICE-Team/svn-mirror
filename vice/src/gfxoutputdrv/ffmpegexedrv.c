@@ -572,8 +572,10 @@ static int test_ffmpeg_executable(void)
     static int test_stdout = -1;
     static vice_pid_t test_pid = VICE_PID_INVALID;
     int res = -1;
+#ifndef WINDOWS_COMPILE
     size_t n;
     static char output[0x40];
+#endif
     static char command[0x40] = {
         "ffmpeg 2>&1"   /* redirect stderr to stdout. this better works on the big 3 */
     };
@@ -609,6 +611,11 @@ static int test_ffmpeg_executable(void)
 
     /* FIXME: stdout is 0 on error ? */
     if (test_stdout) {
+#ifdef WINDOWS_COMPILE
+        /* FIXME: somehow reading the ffmpeg output does not work in Windows,
+           neither from stdout, nor when redirecting to a temp file. */
+        res = 0;
+#else
         memset(output, 0, 0x40);
         n = read(test_stdout, output, 0x3f);
         /*log_printf("test_ffmpeg_executable got: '%s'", output);*/
@@ -617,6 +624,7 @@ static int test_ffmpeg_executable(void)
             res = 0;
             /*log_printf("test_ffmpeg_executable tested ok");*/
         }
+#endif
     }
     if (res < 0) {
         log_error(ffmpeg_log, "ffmpeg not found.\n");
