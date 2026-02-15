@@ -72,6 +72,7 @@ enum {
     USERPORT_DEVICE_DIAGNOSTIC_PIN,
     USERPORT_DEVICE_MOUSE_PS2,
     USERPORT_DEVICE_FUNMP3,
+    USERPORT_DEVICE_JOYSTICK_V8,
 
     /* This item always needs to be at the end */
     USERPORT_MAX_DEVICES
