@@ -8798,9 +8798,12 @@ Set the device attached to the userport (see table below):
 @item 27
 @tab Userport PS/2 Mouse
 @tab x64dtv
-@item 27
+@item 28
 @tab Userport FunMP3
 @tab x64, x64sc, x128, xscpu64, xpet, xvic
+@item 29
+@tab V8 userport joy adapter
+@tab x64, x64sc, x128, xscpu64, x64dtv, xpet, xvic
 @end multitable
 
 @table @code

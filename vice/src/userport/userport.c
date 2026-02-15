@@ -151,6 +151,7 @@
 #include "userport_spt_joystick.h"
 #include "userport_superpad64.h"
 #include "userport_synergy_joystick.h"
+#include "userport_v8_joystick.h"
 #include "userport_wic64.h"
 #include "userport_funmp3.h"
 
@@ -684,6 +685,12 @@ static userport_init_t userport_devices_init[] = {
     { USERPORT_DEVICE_JOYSTICK_SYNERGY,         /* device id */
       UP_PLUS4,                                 /* emulators this device works on */
       userport_joystick_synergy_resources_init, /* resources init function */
+      NULL,                                     /* resources shutdown function */
+      NULL                                      /* cmdline options init function */
+    },
+    { USERPORT_DEVICE_JOYSTICK_V8,              /* device id */
+      UP_C64 | UP_VIC20 | UP_DTV | UP_PET,      /* emulators this device works on */
+      userport_joystick_v8_resources_init,      /* resources init function */
       NULL,                                     /* resources shutdown function */
       NULL                                      /* cmdline options init function */
     },
