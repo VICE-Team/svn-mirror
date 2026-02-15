@@ -1696,7 +1696,7 @@ static void _p_fputc(int c, int p, int quote)
 {
    if (quote && quotedcodes) {
         /* if enabled, output all quoted non alphanumeric characters as control codes */
-        if (!(((c >= 'a') && (c <= 'A')) ||
+        if (!(((c >= 'a') && (c <= 'z')) ||
               ((c >= 'A') && (c <= 'Z')) ||
               ((c >= '0') && (c <= '9')) ||
               (c == '"') /* needed so the leading quote does NOT get converted into a control code */
