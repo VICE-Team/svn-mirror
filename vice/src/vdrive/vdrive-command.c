@@ -3837,7 +3837,7 @@ static int vdrive_command_time(vdrive_t *vdrive, uint8_t *cmd, int length)
         p->readmode = CBMDOS_FAM_READ;
         return CBMDOS_IPE_OK;
     } else if (cmd[2] == 'W') {
-        if  (cmd[3] != 'A' || cmd[3] != 'D' || cmd[3] != 'B') {
+        if  (cmd[3] != 'A' && cmd[3] != 'D' && cmd[3] != 'B') {
             goto bad;
         }
         vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
