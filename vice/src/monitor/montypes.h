@@ -268,6 +268,7 @@ void mon_add_string_to_buffer(char *str);
 void mon_backtrace(void);
 void mon_cart_freeze(void);
 IO_SIM_RESULT mon_userport_set_output(int value);
+void mon_joyport_get_output(int port);
 IO_SIM_RESULT mon_joyport_set_output(int port, int value);
 void mon_reset_machine(int type);
 void mon_resource_get(const char *name);

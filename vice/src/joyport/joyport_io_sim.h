@@ -31,13 +31,14 @@
 
 int joyport_io_sim_resources_init(void);
 
+/* used in the monitor to set the lines */
 void joyport_io_sim_set_out_lines(uint8_t val, int port);
-uint8_t joyport_io_sim_get_out_lines(int port);
-uint8_t joyport_io_sim_get_in_lines(int port);
-
 void joyport_io_sim_set_potx(uint8_t val, int port);
 void joyport_io_sim_set_poty(uint8_t val, int port);
 
+/* used in the monitor to get the lines */
+uint8_t joyport_io_sim_get_out_lines(int port);
+uint8_t joyport_io_sim_get_in_lines(int port);
 uint8_t joyport_io_sim_get_potx(int port);
 uint8_t joyport_io_sim_get_poty(int port);
 

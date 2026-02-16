@@ -1403,6 +1403,39 @@ IO_SIM_RESULT mon_userport_set_output(int value)
     return 0;
 }
 
+void mon_joyport_get_output(int port)
+{
+    int command_ok = 0;
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            if (port == JOYPORT_1 || port == JOYPORT_2) {
+                command_ok = 1;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if (port == JOYPORT_1) {
+                command_ok = 1;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (port == JOYPORT_1 || port == JOYPORT_2 || port == JOYPORT_PLUS4_SIDCART) {
+                command_ok = 1;
+            }
+            break;
+    }
+    if (command_ok) {
+        mon_out("$%02x\n", joyport_io_sim_get_out_lines(port));
+    } else {
+        mon_out("Illegal value.\n");
+    }
+}
+
+/* FIXME: why would this only support the "regular" joystick ports? */
 IO_SIM_RESULT mon_joyport_set_output(int port, int value)
 {
     int command_ok = 0;

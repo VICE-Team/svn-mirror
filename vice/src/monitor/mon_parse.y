@@ -597,6 +597,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_userport_set_output($2); }
                   | CMD_JPDB number number end_cmd
                     { mon_joyport_set_output($2, $3); }
+                  | CMD_JPDB number end_cmd
+                    { mon_joyport_get_output($2); }
                   | CMD_COMMENT opt_rest_of_line end_cmd
                      { }
                   | CMD_STOPWATCH RESET end_cmd
