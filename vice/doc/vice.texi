@@ -21063,6 +21063,11 @@ Display i/o registers. Invoking without an address shows a dump of
 the entire io range, if an address is given then details for the
 chip at the respective (base-)address are displayed (if available).
 
+@item jpdb <port> [<value>]
+Set the value to be used with the "Joystick port I/O simulation". Note that the value
+is the raw value as read from the I/O port, ie "active" lines are zero. When no value
+is provided, the command shows the currently used value.
+
 @item next [<count>]
 @itemx n [<count>]
 Advance to the next instruction(s).  COUNT allows stepping
