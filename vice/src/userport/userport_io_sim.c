@@ -166,11 +166,11 @@
 static int userport_io_sim_enabled = 0;
 
 #ifndef HOST_HARDWARE_IO
-static uint8_t userport_io_sim_pbx_out = 0;
-static uint8_t userport_io_sim_pbx_in = 0;
+static uint8_t userport_io_sim_pbx_out = 0xff;
+static uint8_t userport_io_sim_pbx_in = 0xff;
 
-static uint8_t userport_io_sim_pax_out = 0;
-static uint8_t userport_io_sim_pax_in = 0;
+static uint8_t userport_io_sim_pax_out = 0xff;
+static uint8_t userport_io_sim_pax_in = 0xff;
 #endif
 
 /* Some prototypes are needed */
@@ -340,10 +340,10 @@ static int userport_io_sim_enable(int value)
 
 #ifndef HOST_HARDWARE_IO
     if (val) {
-        userport_io_sim_pbx_out = 0;
-        userport_io_sim_pbx_in = 0;
-        userport_io_sim_pax_out = 0;
-        userport_io_sim_pax_in = 0;
+        userport_io_sim_pbx_out = 0xff;
+        userport_io_sim_pbx_in = 0xff;
+        userport_io_sim_pax_out = 0xff;
+        userport_io_sim_pax_in = 0xff;
     }
 #endif
 

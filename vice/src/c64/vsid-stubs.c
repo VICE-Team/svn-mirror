@@ -1199,6 +1199,11 @@ const char *tapeport_get_device_type_desc(int type)
 }
 #endif
 
+uint8_t userport_io_sim_get_pbx_out_lines(void)
+{
+    return 0;
+}
+
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
 }

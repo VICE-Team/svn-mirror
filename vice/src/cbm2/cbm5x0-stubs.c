@@ -91,3 +91,8 @@ void userport_wic64_factory_reset(void)
 {
 }
 #endif
+
+uint8_t userport_io_sim_get_pbx_out_lines(void)
+{
+    return 0;
+}
