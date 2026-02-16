@@ -31,14 +31,14 @@
 
 int userport_io_sim_resources_init(void);
 
+/* used in the monitor to set the lines */
 void userport_io_sim_set_pbx_out_lines(uint8_t val);
-uint8_t userport_io_sim_get_pbx_out_lines(void);
-
-uint8_t userport_io_sim_get_pbx_in_lines(void);
-
 void userport_io_sim_set_pax_out_lines(uint8_t val);
-uint8_t userport_io_sim_get_pax_out_lines(void);
 
+/* used in the monitor to get the lines */
+uint8_t userport_io_sim_get_pbx_out_lines(void);
+uint8_t userport_io_sim_get_pbx_in_lines(void);
+uint8_t userport_io_sim_get_pax_out_lines(void);
 uint8_t userport_io_sim_get_pax_in_lines(void);
 
 #endif

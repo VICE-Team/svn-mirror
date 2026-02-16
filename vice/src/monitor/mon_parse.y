@@ -595,6 +595,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_cart_freeze(); }
                   | CMD_UPDB number end_cmd
                     { mon_userport_set_output($2); }
+                  | CMD_UPDB end_cmd
+                    { mon_userport_get_output(); }
                   | CMD_JPDB number number end_cmd
                     { mon_joyport_set_output($2, $3); }
                   | CMD_JPDB number end_cmd

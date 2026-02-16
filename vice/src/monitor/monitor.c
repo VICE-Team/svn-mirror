@@ -1387,6 +1387,15 @@ void mon_cart_freeze(void)
     }
 }
 
+void mon_userport_get_output(void)
+{
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        mon_out("Unsupported.\n");
+    } else {
+        mon_out("PB: $%02x\n", userport_io_sim_get_pbx_out_lines());
+    }
+}
+
 IO_SIM_RESULT mon_userport_set_output(int value)
 {
     if (machine_class == VICE_MACHINE_CBM5x0) {
