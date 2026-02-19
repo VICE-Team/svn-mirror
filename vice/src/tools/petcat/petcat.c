@@ -1870,6 +1870,52 @@ static int scan_integer(const char *line, unsigned int *num, unsigned int *digit
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* some extra buffering, so we can use ungetc multiple times (libc only
+   guarantees ONE push back to work) */
+
+static int ptr_r = 0;
+static int ptr_w = 0;
+static unsigned char readbuffer[512];
+
+static int my_getc(FILE *f)
+{
+    int ch;
+    if (ptr_r != ptr_w) {
+        /* there are characters in the buffer */
+        ch = readbuffer[ptr_r];     /* get character */
+        ptr_r = (ptr_r + 1) & 511;  /* advance pointer */
+    } else {
+        /* no characters in the buffer */
+        ch = getc(f);
+    }
+    return ch;
+}
+
+static size_t my_fread(char *buffer, size_t size, size_t num, FILE *f)
+{
+    int ch, n;
+    for (n = 0; n < (size * num); n++) {
+        ch = my_getc(f);
+        if (ch == EOF) {
+            break;
+        }
+        buffer[n] = ch;
+    }
+    return n / size;
+}
+
+static int my_ungetc(FILE *f, int ch)
+{
+    readbuffer[ptr_w] = ch;     /* put character into buffer */
+    ptr_w = (ptr_w + 1) & 511;  /* advance pointer */
+    if (ptr_r == ptr_w) {
+        fprintf(stderr, "ERROR: input buffer overrun\n");
+        exit (-1);
+    }
+    return ch;
+}
+
 /*
  * convert basic (and petscii) to ascii (text)
  *
@@ -1899,20 +1945,27 @@ static int p_expand(int version, int addr, int ctrls)
      * next file on stdin intact.
      */
 
-    while ((fread(line, 1, 2, source) == 2) && (line[1]) && fread(line + 2, 1, 2, source) == 2) {
+    while ((my_fread(line, 1, 2, source) == 2) &&  /* line link */
+           (line[1] != 0) &&                       /* stop if highbyte is 0 */
+           (my_fread(line + 2, 1, 2, source) == 2) /* line number */
+        ) {
+
         quote = 0;
+
         /* the line number */
         fprintf(dest, "%5d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
         if (checksummer) {
             checksummer->init(checksummer_data, spnum);
         }
 
-        /* prevent list protection from terminating listing */
-        while ((c = getc(source)) != EOF && !c) {
+        /* skip 0 bytes, prevent list protection from terminating listing */
+        while ((c = my_getc(source)) != EOF && !c) {
+            /* FIXME: should we output these somehow? */
         }
 
         initialspace = (c == 0x20);
 
+        /* process the rest of the line */
         do {
             if (checksummer) {
                 checksummer->process(checksummer_data, c, quote);
@@ -1926,7 +1979,7 @@ static int p_expand(int version, int addr, int ctrls)
 
             /* Simons' basic. Tokens are prefixed by $64 */
             if (!quote && (c == 0x64) && (version == B_SIMON)) {
-                if (((c = getc(source)) < 0x80) && basic_list[version - 1].tokens) {
+                if (((c = my_getc(source)) < 0x80) && basic_list[version - 1].tokens) {
                     fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
                     continue;
                 } else {
@@ -1951,13 +2004,13 @@ static int p_expand(int version, int addr, int ctrls)
                         if (version == B_65) {
                             /* Use the kwce65 table for BASIC 65.0, which is
                                longer than the kwce and kwce10 tables. */
-                            if ((c = getc(source)) < NUM_KWCE65) {
+                            if ((c = my_getc(source)) < NUM_KWCE65) {
                                 fprintf(dest, "%s", kwce65[c]);
                             } else {
                                 fprintf(dest, "($ce%02x)", (unsigned int)c);
                             }
                         } else {
-                            if ((c = getc(source)) <= MAX_KWCE) {
+                            if ((c = my_getc(source)) <= MAX_KWCE) {
                                 fprintf(dest, "%s", (version == B_10) ? kwce10[c] : kwce[c]);
                             } else {
                                 fprintf(dest, "($ce%02x)", (unsigned int)c);
@@ -1966,7 +2019,7 @@ static int p_expand(int version, int addr, int ctrls)
                         continue;
                     } else if (c == 0xfe && basic_list[version - 1].prefixfe) {
                         if (version == B_SXC) {
-                            if ((c = getc(source)) <= basic_list[B_SXC - 1].max_token) {
+                            if ((c = my_getc(source)) <= basic_list[B_SXC - 1].max_token) {
                                 fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
                             } else {
                                 fprintf(dest, "($fe%02x)", (unsigned int)c);
@@ -1974,13 +2027,13 @@ static int p_expand(int version, int addr, int ctrls)
                         } else if (version == B_65) {
                             /* Use the kwfe65 table for BASIC 65.0, which is
                                longer than the kwfe and kwfe71 tables. */
-                            if ((c = getc(source)) <= basic_list[B_65 - 1].max_token) {
+                            if ((c = my_getc(source)) <= basic_list[B_65 - 1].max_token) {
                                 fprintf(dest, "%s", kwfe65[c]);
                             } else {
                                 fprintf(dest, "($fe%02x)", (unsigned int)c);
                             }
                         } else {
-                            if ((c = getc(source)) <= basic_list[B_10 - 1].max_token) {
+                            if ((c = my_getc(source)) <= basic_list[B_10 - 1].max_token) {
                                 fprintf(dest, "%s", (version == B_71) ? kwfe71[c] : kwfe[c]);
                             } else {
                                 fprintf(dest, "($fe%02x)", (unsigned int)c);
@@ -2058,12 +2111,41 @@ static int p_expand(int version, int addr, int ctrls)
                 if (initialspace) {
                     out_ctrl((int)c);  /* output as control code */
                 } else {
+                    int ch;
+
                     _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+
+                    if ((ch = my_getc(source)) == 0x20) {
+                        int extraspaces = 0;
+                        /* test if there are only spaces for the rest of the line */
+                        while ((ch = my_getc(source)) != EOF && (ch == 0x20)) {
+                            extraspaces++;
+                        }
+                        if (ch == 0) {
+                            /* end of line reached, output spaces as control codes */
+                            out_ctrl((int)0x20);
+                            while (extraspaces) {
+                                out_ctrl((int)0x20);
+                                extraspaces--;
+                            }
+                        } else {
+                            /* push back into buffer */
+                            my_ungetc(source, 0x20);
+                            while (extraspaces) {
+                                my_ungetc(source, 0x20);
+                                extraspaces--;
+                            }
+                        }
+                        my_ungetc(source, ch);
+                    } else {
+                        my_ungetc(source, ch);
+                    }
                 }
             } else {
                 _p_toascii((int)c, version, ctrls, quote);  /* convert character */
             }
-        } while ((c = getc(source)) != EOF && c);
+        } while ((c = my_getc(source)) != EOF && c);
+
         if (checksummer) {
             char *chksum = checksummer->finalize(checksummer_data);
             fprintf(dest, "\t|| %s", chksum);
