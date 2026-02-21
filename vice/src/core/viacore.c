@@ -233,15 +233,15 @@ inline static void update_myviairq(via_context_t *via_context)
  * - the next time T1 gets reloaded and will raise the T1 IRQ some time before;
  *   t1zero is set in this case (alarm time when IRQ is raised; because it is an
  *   alarm it has to be set to the cycle before the CPU must see it).
- * - the previous time it was reloaded (if no more IRQ is wanted);
- *   t1zero is 0 in this case.
+ * - the previous time it was reloaded (possibly if no more IRQ is wanted;
+ *   t1zero is 0 in this case).
  *
- * If the current clock (rclk) has not yet rached t1reload, the difference -2
+ * If the current clock (rclk) has not yet reached t1reload, the difference -2
  * is the clock value. Minus 2 to reach 0 and FFFF.
  *
  * T1:  3     2     1     0    FFFF   42
- *                           ^         ^
- *     rclk             t1zero        t1reload
+ *                        ^           ^
+ *     rclk               t1zero      t1reload
  *
  * Otherwise, calculate the total time since the last reload.
  * We take the remainder of this elapsed time when dividing by the full cycle time.
@@ -265,17 +265,23 @@ inline static void update_myviairq(via_context_t *via_context)
 inline static uint16_t viacore_t1(via_context_t *via_context, CLOCK rclk)
 {
     if (rclk < via_context->t1reload) {
-        return via_context->t1reload - rclk - FULL_CYCLE_2;
+        CLOCK res = via_context->t1reload - rclk - (unsigned)FULL_CYCLE_2;
+        return (uint16_t)res;
     } else {    /* always reload from latch, contrary to datasheet */
-        unsigned int full_cycle = via_context->tal + FULL_CYCLE_2;
-        CLOCK time_past_last_reload = rclk - (via_context->t1reload);
-        unsigned int partial_cycle = time_past_last_reload % full_cycle;
+/*
+ * Example of a case where the timer should show FFFF:
+ *
+ * T1:  3     2     1     0    FFFF   3
+ *      ^                 ^       ^
+ *     t1reload           t1zero  rclk
+ */
+        unsigned int full_cycle = via_context->tal + FULL_CYCLE_2;      /* 3+2=5 */
+        CLOCK time_past_last_reload = rclk - (via_context->t1reload);   /* 4     */
+        unsigned int partial_cycle = time_past_last_reload % full_cycle;/* 4%5=4 */
 
-        return via_context->tal - partial_cycle;
+        return via_context->tal - partial_cycle;                     /* 3-4=FFFF */
     }
 }
-
-#define TBI_OFFSET              1
 
 #define SR_PHI2_FIRST_OFFSET    3
 #define SR_PHI2_NEXT_OFFSET     1
@@ -653,7 +659,6 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
         run_pending_alarms(rclk, via_context->write_offset, via_context->alarm_context);
-        /* run_pending_alarms(rclk, 0, via_context->alarm_context); */
     }
 
     switch (addr) {
@@ -671,6 +676,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                     via_context->ca2_out_state = true;
                     (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 }
+                // if not pulse, CA2 gets reset on an active CA1 transition
             }
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
                 update_myviairq_rclk(via_context, rclk);
@@ -1081,6 +1087,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
                     via_context->ca2_out_state = true;
                     (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 }
+                // if not pulse, CA2 gets reset on an active CA1 transition
             }
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
                 update_myviairq_rclk(via_context, rclk);
@@ -1316,8 +1323,13 @@ static void viacore_t1_zero_alarm(CLOCK offset, void *data)
         alarm_set(via_context->t1_zero_alarm, via_context->t1zero);
 
         /* Let t1reload also keep up with the cpu clock;
-           this should avoid `% full_cycle` case. */
+         * this should avoid `% full_cycle` case in viacore_t1().
+         * However, this breaks seeing $FFFF in T1, which would happen in the
+         * next cycle (where rclk = current_t1reload - 1) (bug 2203).
+         * This optimization broke when this alarm was set to one clock cycle
+         * earlier, to fix viavarious tests 10, 11, 12, 13, 21 (PB7 and IFR).
         via_context->t1reload += full_cycle;
+         */
 
         VIALOG2("viacore_t1_zero_alarm: re-set t1_zero_alarm at %lu, tal=%04x, t1reload=%lu\n", via_context->t1zero, via_context->tal, via_context->t1reload);
     }
