@@ -321,23 +321,37 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
     return byte;
 }
 
+/*
+   Bit  7   |   ATN IN
+   Bits 6-5 |   Device address preset switches IN
+            |     00 = #8, 01 = #9, 10 = #10, 11 = #11
+   Bit  4   |   ATN acknowledge OUT
+   Bit  3   |   CLOCK OUT
+   Bit  2   |   CLOCK IN
+   Bit  1   |   DATA OUT
+   Bit  0   |   DATA IN
+
+   IN mask:     1110 0101   0xe5
+   OUT mask:    0001 1010   0x1a
+*/
 static uint8_t read_prb(via_context_t *via_context)
 {
     uint8_t byte;
-    uint8_t orval;
+    uint8_t driveid;
     drivevia1_context_t *via1p;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    /* 0 for drive0, 0x20 for drive 1 */
-    orval = (via1p->number << 5);
+    driveid = (via1p->number << 5) & 0x60;
 
     if (iecbus != NULL) {
-        byte = (((via_context->via[VIA_PRB] & 0x1a)
-                 | iecbus->drv_port) ^ 0x85) | orval;
+        uint8_t tmp = (iecbus->drv_port ^ 0x85) | 0x1a | driveid ;
+        byte = ((via_context->via[VIA_PRB] & via_context->via[VIA_DDRB])
+                | (tmp & ~(via_context->via[VIA_DDRB])));
     } else {
-        byte = (((via_context->via[VIA_PRB] & 0x1a)
-                 | iec_drive_read(via1p->number)) ^ 0x85) | orval;
+        uint8_t tmp = (iec_drive_read(via1p->number) ^ 0x85) | 0x1a | driveid;
+        byte = ((via_context->via[VIA_PRB] & via_context->via[VIA_DDRB])
+                | (tmp & ~(via_context->via[VIA_DDRB])));
     }
 
     DEBUG_IEC_DRV_READ(byte);
