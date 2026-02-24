@@ -2096,6 +2096,7 @@ static int p_expand(int version, int addr, int ctrls)
 
             /* some codes must always be converted to control codes, else they can't
                be tokenized into the exact same thing again */
+            /* FIXME: this is also true for every keyword */
             if ((c == 0x0d) ||  /* return */
                 (c == 0x2a) ||  /* literal "*" (else converts into a token) */
                 (c == 0x2b) ||  /* literal "+" (else converts into a token) */
