@@ -193,7 +193,7 @@ static GtkListStore *device_combo_model_new(void)
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter, 0, index, 1, buffer, -1);
 
-        DBG(("device_combo_model_new: %p mode: %u\n", (void*)joydev, joydev->status & JOY_POLL_MASK));
+        DBG(("device_combo_model_new: %p mode: %u", (void*)joydev, joydev->status & JOY_POLL_MASK));
     }
     return model;
 }
@@ -303,8 +303,7 @@ static GtkWidget *create_hats_grid(joystick_device_t *joydev)
 
 /* now the buttons at the bottom of the mapping tab */
 
-GtkWidget *mappings_path;
-GtkWidget *mappings_source;
+static GtkWidget *mappings_path;
 static void update_treeview_full(joystick_device_t *joydev);
 
 /** \brief  Callback for the dialog's response handler
@@ -758,7 +757,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
 
     DBG(("create_mappings_model joydev:%p", (void*)joydev));
 
-    DBG(("%d buttons:\n", joydev->num_buttons));
+    DBG(("%d buttons:", joydev->num_buttons));
     for (i = 0; i < joydev->num_buttons; i++) {
         GtkTreeIter      iter;
         joystick_button_t *button   = joydev->buttons[i];
@@ -805,7 +804,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     }
     n+=i;
 
-    DBG(("%d hats:\n", joydev->num_hats));
+    DBG(("%d hats:", joydev->num_hats));
     for (i = 0; i < joydev->num_hats; i++) {
         GtkTreeIter      iter;
         joystick_hat_t *hat   = joydev->hats[i];
@@ -858,9 +857,11 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     return model;
 }
 
+static int mapping_dialog_last_selected = -1;
+
 static void on_mapping_close(joystick_device_t *joydev)
 {
-    DBG(("on_mapping_close\n"));
+    DBG(("on_mapping_close"));
     update_treeview_full(joydev);
 }
 
@@ -951,6 +952,11 @@ static void on_row_activated(GtkTreeView *view,
                            COL_INPUT_NAME, &input_name,
                            -1);
         DBG(("id: %d type:%s name:%s", id, input_type, input_name));
+
+        /* remember selected row */
+        DBG(("mapping_dialog_last_selected: %d", idx));
+        mapping_dialog_last_selected = idx;
+
         show_mapping_dialog(joydev, idx);
     }
 #endif
@@ -1021,6 +1027,17 @@ static GtkWidget *create_mappings_view(joystick_device_t *joydev)
     return view;
 }
 
+/** \brief  Select active row in the treeview by index
+ */
+static void mappings_select_by_index(int idx)
+{
+    GtkTreeSelection  *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(mappings_view));
+    GtkTreePath *path = gtk_tree_path_new_from_indices(idx, -1);
+    gtk_tree_selection_select_path(selection, path);
+    gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(mappings_view), path, NULL, FALSE, 0, 0);
+    gtk_tree_path_free(path);
+}
+
 /** \brief  Update treeview by regenerating model with current joymaps
  */
 static void update_treeview_full(joystick_device_t *joydev)
@@ -1028,6 +1045,14 @@ static void update_treeview_full(joystick_device_t *joydev)
     GtkListStore *model = create_mappings_model(joydev);
 
     gtk_tree_view_set_model(GTK_TREE_VIEW(mappings_view), GTK_TREE_MODEL(model));
+
+    DBG(("update_treeview_full"));
+
+    if (mapping_dialog_last_selected > -1) {
+        /* select the row with the calculated index */
+        DBG(("select row mapping_dialog_last_selected: %d", mapping_dialog_last_selected));
+        mappings_select_by_index(mapping_dialog_last_selected);
+    }
 }
 
 
@@ -1037,6 +1062,8 @@ static GtkWidget *mapping_widget_new(joystick_device_t *joydev)
     GtkWidget *scroll;
     GtkWidget *mapping_file_grid;
     GtkWidget *grid = gtk_grid_new();
+
+    DBG(("mapping_widget_new"));
 
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
@@ -1073,6 +1100,7 @@ static GtkWidget *calibration_widget_new(joystick_device_t *joydev)
     return grid;
 }
 
+/* reopen all devices used by the mapping gui for the main emulation thread */
 static void reopen_host_devices(void)
 {
     int           index;
@@ -1080,7 +1108,7 @@ static void reopen_host_devices(void)
     for (index = 0; index < joystick_device_count(); index++) {
         joystick_device_t *joydev = joystick_device_by_index(index);
         if ((joydev->status & JOY_REOPEN_MASK) == JOY_REOPEN_MAIN) {
-            DBG(("reopen_host_device_callback: %p mode: %u\n", (void*)joydev, joydev->status & JOY_POLL_MASK));
+            DBG(("reopen_host_device_callback: %p mode: %u", (void*)joydev, joydev->status & JOY_POLL_MASK));
             joystick_device_close(joydev);
             joystick_device_open(joydev, JOY_POLL_MAIN);
             joydev->status &= ~JOY_REOPEN_MAIN;
@@ -1101,19 +1129,13 @@ static void on_joymap_widget_destroy(GtkWidget *self, gpointer unused)
 }
 
 
-GtkWidget *joymap_stack;
-GtkWidget *joymap_switcher;
+static GtkWidget *joymap_stack;
+static GtkWidget *joymap_switcher;
 
 GtkWidget *settings_joymap_widget_create(GtkWidget *parent)
 {
     GtkWidget *label;
     int        row = 0;
-
-
-    /* TODO: Remember all opened host devices
-     *       Close all host devices
-     *       Reopen host devices on widget destruction
-     */
 
     poll_timeout_id = 0;
 
@@ -1238,11 +1260,9 @@ static void mappings_joystick_event(void *input, joystick_input_t type, int32_t 
     joystick_hat_t    *hat;
 
     GtkTreeIter       iter;
-    GtkTreeSelection  *selection;
     joystick_device_t *joydev = NULL;
 
-    DBG(("mappings_joystick_event type:%u value:%d input:%p", type, value, input));
-
+    /*DBG(("mappings_joystick_event type:%u value:%d input:%p", type, value, input));*/
 
     /* get joydev from host device drop down list */
     {
@@ -1308,14 +1328,11 @@ static void mappings_joystick_event(void *input, joystick_input_t type, int32_t 
         default:
             break;
     }
-    /*DBG(("mappings_joystick_event n:%d", n));*/
 
     if (n > -1) {
+        DBG(("mappings_joystick_event select row:%d", n));
         /* select the row with the calculated index */
-        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(mappings_view));
-        GtkTreePath *path = gtk_tree_path_new_from_indices(n, -1);
-        gtk_tree_selection_select_path(selection, path);
-        gtk_tree_path_free(path);
+        mappings_select_by_index(n);
     }
 }
 
