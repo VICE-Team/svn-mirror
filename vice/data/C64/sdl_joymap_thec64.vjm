@@ -23,7 +23,7 @@
 # action [action_parameters]:
 # 0               none
 # 1 pin           joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)
-# 2 row col       keyboard
+# 2 row col flgs  keyboard (flags: 1 = shifted)
 # 3               map
 # 4               UI activate
 # 5 action-name   UI function
@@ -46,3 +46,4 @@
 0 1 5 5 show-statusbar-toggle
 0 1 6 5 pause-toggle
 0 1 7 4
+

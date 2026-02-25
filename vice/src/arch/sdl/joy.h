@@ -42,8 +42,11 @@ void joystick(void);
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
 void joy_arch_init_default_mapping(int joynum);
-int joy_arch_mapping_load(const char *filename);
-int joy_arch_mapping_dump(const char *filename);
+
+/* FIXME: can we remove these here (moved to joystick.h? */
+int joy_arch_mapping_load(const char *filename, joystick_device_t *joydev);
+int joy_arch_mapping_dump(const char *filename, joystick_device_t *joydev);
+
 void sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value);
 ui_menu_action_t sdljoy_axis_event_for_menu_action(Uint8 joynum, Uint8 axis, Sint16 value);
 ui_menu_action_t sdljoy_button_event_for_menu_action(Uint8 joynum, Uint8 button, Uint8 value);

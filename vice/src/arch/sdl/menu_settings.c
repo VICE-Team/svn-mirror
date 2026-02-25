@@ -393,7 +393,7 @@ static UI_MENU_CALLBACK(save_joymap_callback)
             return NULL;
         }
 
-        if (joy_arch_mapping_dump(file)) {
+        if (joy_arch_mapping_dump(file, NULL)) {
             ui_error("Cannot save joymap.");
         } else {
             ui_message("Joymap saved.");
@@ -410,7 +410,7 @@ static UI_MENU_CALLBACK(save_joymap_to_callback)
         name = sdl_ui_file_selection_dialog("Choose joystick map file", FILEREQ_MODE_SAVE_FILE);
 
         if (name != NULL) {
-            if (joy_arch_mapping_dump(name) < 0) {
+            if (joy_arch_mapping_dump(name, NULL) < 0) {
                 ui_error("Cannot save joymap.");
             } else {
                 ui_message("Joymap saved.");
@@ -430,7 +430,7 @@ static UI_MENU_CALLBACK(load_joymap_callback)
             return NULL;
         }
 
-        if (joy_arch_mapping_load(file)) {
+        if (joy_arch_mapping_load(file, NULL)) {
             ui_error("Cannot load joymap.");
         } else {
             ui_message("Joymap loaded.");

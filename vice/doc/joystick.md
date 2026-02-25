@@ -3,7 +3,7 @@
 > To get a nicely formatted HTML version of this document, including syntax
 > highlighting, use:
 >
-> `pandoc -s -t html -f gfm joystick.md > joystick.html`
+> `pandoc -s -t html -f gfm joystick.md | sed 's/36em;/42em;/' > joystick.html`
 
 
 ## Preface
@@ -112,14 +112,40 @@ typedef struct joystick_driver_s {
 } joystick_driver_t;
 ```
 
-> Currently (re)opening a device hasn't been implemented yet, so the `open()`
-> method can be ignored, for now.
-
 ### Driver methods
+
+#### `bool open(joystick_device_t *joydev)`
+
+The `open()` method should open the joystick device so it's ready to be polled
+(e.g. open file descriptor, initialize OS-specific objects to use the device).
+If a device is already open, the method should ignore this and return `true`
+(this way reopening a device via a resource setter doesn't trigger an error).
+If opening the device fails this method should return `false`.
+
+
+#### `void poll(joystick_device_t *joydev)`
 
 The `poll()` method is called by the emulation at the end of *every emulated
 scanline*, and is expected to process any pending event data and pass that
 along to `joy_axis_event()`, `joy_button_event()` or `joy_hat_event()`.
+
+The `poll()` method should check the `joystick_device_t`'s `status` member
+before actually polling:
+
+```C
+if ((joydev->status & JOY_POLL_MASK) == JOY_POLL_NONE) {
+    return;
+}
+```
+
+> The `status` member has three poll states: `JOY_POLL_NONE` (no polling),
+> `JOY_POLL_MAIN` (events are passed to the main loop, i.e. the emulated devices)
+> and `JOY_POLL_UI` (events are passed to the UI for mapping and calibration).
+> The generic code takes care of where events are passed to, so the driver only
+> needs to concern itself with whether to poll or not (so far).
+
+
+#### `void close(joystick_device_t *joydev)`
 
 The `close()` method should close the host device (e.g. close file descriptor)
 and put the device in a proper state for opening again. It should **not** free
@@ -128,12 +154,18 @@ in the `priv_free()` method, called by the joystick system on shutdown.
 It should also **not** free the joystick device instance, that again is done by
 the joystick system.
 
+
+#### `void priv_free(void *priv)`
+
 The `priv_free()` method (if used) is, as mentioned above, called on emulator
 shutdown (or once we implement plug-n-pray, on device unplugging), and can be
 used to free any arch-specific resources that cannot be contained in the
 `joystick_device_t` instance or its members.
 > For example: the DirectInput driver for Windows stores a `GUID` and an
 > `LPDIRECTINPUTDEVICE8` instance in `priv`.
+
+
+#### `void customize(joystick_device_t *joydev)`
 
 The `customize()` method can be used to customize the default mapping and
 calibration applied by the joystick system when `joystick_device_register()` is
@@ -154,6 +186,7 @@ typedef struct foo_priv_s {
 
 /* Declaration of driver methods */
 static joystick_driver_t foo_driver = {
+    .open      = foo_open,
     .poll      = foo_poll,
     .close     = foo_close
     .priv_free = foo_priv_free
@@ -184,7 +217,7 @@ void joystick_arch_init(void)
                                                           whatever */
         joydev->vendor  = foodev->vendor_id;    /* USB HID vendor ID */
         joydev->product = foodev->product_id;   /* USB HID product ID */
- 
+
         /* Iterate axes, buttons and perhaps hats of a device and add them */
         for (int a = 0; a < NUM_AXES(foodev); a++) {
 
@@ -230,6 +263,11 @@ static void foo_poll(joystick_device_t *joydev)
 {
     foo_priv_t *priv = joydev->priv;
 
+    /* check poll state: exit if no polling is requested */
+    if ((joydev->status & JOY_POLL_MASK == JOY_POLL_NONE) {
+        return;
+    }
+
     while (HAS_EVENT_PENDING(priv->foodev) {
         FOO_EVENT event = GET_EVENT(priv->foodev);
 
@@ -246,6 +284,21 @@ static void foo_poll(joystick_device_t *joydev)
     }
 }
 
+
+static bool foo_open(joystick_device-t *joydev)
+{
+    foo_priv_t *priv = joydev->priv;
+
+    /* return true if device is already open */
+    if (FOO_DEVICE_IS_OPEN(priv->foodev)) {
+        return true;
+    }
+
+    if (!FOO_DEVICE_OPEN(priv->foodev)) {
+        return false;
+    }
+    return true;
+}
 
 static void foo_close(joystick_device_t *joydev)
 {

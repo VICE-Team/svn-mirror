@@ -68,7 +68,10 @@
 #define BUTTON_CODE_MIN BTN_JOYSTICK
 
 /** \brief  Maximum valid button event code */
-#define BUTTON_CODE_MAX BTN_THUMBR
+/*#define BUTTON_CODE_MAX BTN_THUMBR */
+/* NOTE: do not limit this, eg PS3 pad DPAD uses 220-223 */
+#define BUTTON_CODE_MAX KEY_MAX
+
 
 /** \brief  Maximum number of axis event codes */
 #define NUM_AXES_MAX    (AXIS_CODE_MAX - AXIS_CODE_MIN + 1u)
@@ -216,10 +219,11 @@ static void linux_joystick_evdev_poll(joystick_device_t *joydev)
     int              rc;
     unsigned int     flags = LIBEVDEV_READ_FLAG_NORMAL;
 
-    priv = joydev->priv;
-    if (priv == NULL || priv->fd < 0 || priv->evdev == NULL) {
+    if ((joydev->status & JOY_POLL_MASK) == JOY_POLL_NONE) {
         return;
     }
+
+    priv  = joydev->priv;
     evdev = priv->evdev;
 
     while (libevdev_has_event_pending(evdev)) {
@@ -344,6 +348,17 @@ static void scan_axes(joystick_device_t *joydev, struct libevdev *evdev)
     }
 }
 
+/* BUG: for some reason this function will still not "see" controllers that are
+   connected via bluetooth - apparently those will not show up in either of the
+   scanned directories by default. see eg https://bbs.archlinux.org/viewtopic.php?id=281009
+   Maybe we have to check /dev/input/js[0..9] anyway
+ */
+
+/* CAUTION: if we use by-id, and there is more than one controller of the same
+   type, we only see this controller once - since they have the same id. */
+/*#define EVDEVPATH   "/dev/input/by-id"*/
+#define EVDEVPATH   "/dev/input/by-path"
+
 static joystick_device_t *scan_device(const char *node)
 {
     joystick_device_t *joydev;
@@ -353,7 +368,7 @@ static joystick_device_t *scan_device(const char *node)
     int                fd;
     int                rc;
 
-    snprintf(path, sizeof path, "/dev/input/by-id/%s", node);
+    snprintf(path, sizeof path, EVDEVPATH "/%s", node);
     fd = open(path, O_RDONLY|O_NONBLOCK);
     if (fd < 0) {
         return NULL;
@@ -373,6 +388,7 @@ static joystick_device_t *scan_device(const char *node)
     joydev->node        = lib_strdup(path);
     joydev->vendor      = (uint16_t)libevdev_get_id_vendor(evdev);
     joydev->product     = (uint16_t)libevdev_get_id_product(evdev);
+    /*printf("vid:%04x pid:%04x %s\n", joydev->vendor, joydev->product, joydev->node);*/
 
     priv = joy_priv_new();
     joydev->priv = priv;
@@ -411,34 +427,70 @@ void joystick_arch_init(void)
 {
     struct dirent **namelist = NULL;
     int             sd_result;
-    int             i;
+    int             i, ii;
 
     joy_evdev_log = log_open("evdev Joystick");
 
     log_message(joy_evdev_log, "Initializing Linux evdev joystick driver.");
     joystick_driver_register(&driver);
 
-    sd_result = scandir("/dev/input/by-id", &namelist, sd_filter, alphasort);
+    sd_result = scandir(EVDEVPATH, &namelist, sd_filter, alphasort);
     if (sd_result < 0) {
-        log_error(LOG_DEFAULT, "scandir() failed on /dev/input: %s", strerror(errno));
+        log_error(LOG_DEFAULT, "scandir() failed on %s: %s", EVDEVPATH, strerror(errno));
         return;
     }
 
+    char **rpath= lib_malloc(sd_result * sizeof(char*));
+    /* get the real path for each device */
+    for (i = 0; i < sd_result; i++) {
+        char actualpath [PATH_MAX];
+        char path[PATH_MAX];
+        snprintf(path, sizeof path, EVDEVPATH "/%s", namelist[i]->d_name);
+        if (realpath(path, actualpath) == NULL) {
+            rpath[i] = NULL;
+        } else {
+            rpath[i] = lib_strdup(actualpath);
+        }
+        /*printf("%d:%s\n", i, rpath[i]);*/
+    }
+    /* remove all equal pathes, except the first one */
+    for (i = 0; i < sd_result; i++) {
+        char *this = rpath[i];
+        /*printf("%d:%s\n", i, this);*/
+        if (this) {
+            for (ii = 0; ii < sd_result; ii++) {
+                if (i != ii) {
+                    if (rpath[ii]) {
+                        if (!strcmp(this, rpath[ii])) {
+                            /*printf("free %d:%s\n", ii, rpath[ii]);*/
+                            lib_free(rpath[ii]);
+                            rpath[ii] = NULL;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    /* register all devices that still have a real path left */
     for (i = 0; i < sd_result; i++) {
         joystick_device_t *joydev;
-
-        //log_message(joy_evdev_log, "Possible device '%s'", namelist[i]->d_name);
-        joydev = scan_device(namelist[i]->d_name);
-        if (joydev != NULL) {
-            joystick_device_register(joydev);
+        if (rpath[i]) {
+            joydev = scan_device(namelist[i]->d_name);
+            if (joydev != NULL) {
+                joystick_device_register(joydev);
 #if 0
-            /* open joystick: REMOVE once we have opening/closing via resource
-             * and manually implemented properly */
-            linux_joystick_evdev_open(joydev);
+                /* open joystick: REMOVE once we have opening/closing via resource
+                * and manually implemented properly */
+                linux_joystick_evdev_open(joydev);
 #endif
-      }
+                /*printf("registered %s.\n", namelist[i]->d_name);*/
+            }
+            lib_free(rpath[i]);
+            rpath[i] = NULL;
+        }
     }
     free(namelist);
+    lib_free(rpath);
 }
 
 

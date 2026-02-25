@@ -162,6 +162,18 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
         return;
     }
 
+    /* Have we seen this element before? */
+    uint32_t usage_page = IOHIDElementGetUsagePage(internal_element);
+    uint32_t usage = IOHIDElementGetUsage(internal_element);
+
+    for (int i = 0; i < *element_count; i++) {
+        joy_hid_element_t *e = &(*elements_ptr)[i];
+        if (e->usage_page == (int)usage_page && e->usage == (int)usage) {
+            /* Already processed. Some elements may appear multiple times. */
+            return;
+        }
+    }
+
     /* Expand array if needed */
     if (*element_count >= *capacity) {
         *capacity *= 2;
@@ -171,8 +183,6 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
     joy_hid_element_t *e = &(*elements_ptr)[*element_count];
     (*element_count)++;
 
-    uint32_t usage_page = IOHIDElementGetUsagePage(internal_element);
-    uint32_t usage = IOHIDElementGetUsage(internal_element);
     CFIndex pmin = IOHIDElementGetPhysicalMin(internal_element);
     CFIndex pmax = IOHIDElementGetPhysicalMax(internal_element);
     CFIndex lmin = IOHIDElementGetLogicalMin(internal_element);
@@ -186,19 +196,23 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
     e->max_lvalue = (int)lmax;
     e->internal_element = internal_element;
 
-#if 0 /* Disabled until we have mapping UI*/
-    code = HID_CODE(usage_page, usage);
+    bool is_joy_axis = false;
+    bool is_x_axis = false;
 
     /* Process axes */
     if (usage_page == kHIDPage_GenericDesktop) {
         switch (usage) {
             case kHIDUsage_GD_X:
+            case kHIDUsage_GD_Rx:
+                is_x_axis = true;
+
             case kHIDUsage_GD_Y:
-            // case kHIDUsage_GD_Z:
-            // case kHIDUsage_GD_Rx:
-            // case kHIDUsage_GD_Ry:
-            // case kHIDUsage_GD_Rz:
-            // case kHIDUsage_GD_Slider:
+            case kHIDUsage_GD_Ry:
+                is_joy_axis = true;
+
+            case kHIDUsage_GD_Z:
+            case kHIDUsage_GD_Rz:
+            case kHIDUsage_GD_Slider:
                 if (e->min_lvalue != e->max_lvalue) {
                     log_message(LOG_DEFAULT, "joy-hid: axis: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
                         usage_page, usage, pmin, pmax, lmin, lmax);
@@ -207,9 +221,19 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
                     axis->code = HID_CODE(usage_page, usage);
                     axis->minimum = e->min_lvalue;
                     axis->maximum = e->max_lvalue;
+
+                    /* HACK: Get axis used as joystick by default */
+                    if (is_joy_axis) {
+                        axis->mapping.negative.action = JOY_ACTION_JOYSTICK;
+                        axis->mapping.negative.value.joy_pin = is_x_axis ? JOYSTICK_DIRECTION_LEFT : JOYSTICK_DIRECTION_UP;
+                        axis->mapping.positive.action = JOY_ACTION_JOYSTICK;
+                        axis->mapping.positive.value.joy_pin = is_x_axis ? JOYSTICK_DIRECTION_RIGHT : JOYSTICK_DIRECTION_DOWN;
+                    }
+
                     joystick_device_add_axis(joydev, axis);
                 }
                 break;
+
             case kHIDUsage_GD_Hatswitch:
                 log_message(LOG_DEFAULT, "joy-hid: hat: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
                     usage_page, usage, pmin, pmax, lmin, lmax);
@@ -220,15 +244,39 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
                 break;
         }
     }
+    else if (usage_page == kHIDPage_Simulation) {
+        switch (usage) {
+            case kHIDUsage_Sim_Accelerator:
+            case kHIDUsage_Sim_Brake:
+                log_message(LOG_DEFAULT, "joy-hid: sim axis: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
+                    usage_page, usage, pmin, pmax, lmin, lmax);
+
+                joystick_axis_t *axis = joystick_axis_new(NULL);
+                axis->code = HID_CODE(usage_page, usage);
+                axis->minimum = e->min_lvalue;
+                axis->maximum = e->max_lvalue;
+                joystick_device_add_axis(joydev, axis);
+                break;
+        }
+    }
+    else if (usage_page == kHIDPage_Consumer) {
+        if (usage == kHIDUsage_Csmr_Record) {
+            log_message(LOG_DEFAULT, "joy-hid: consumer button: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
+                usage_page, usage, pmin, pmax, lmin, lmax);
+
+            joystick_button_t *button = joystick_button_new(NULL);
+            button->code = HID_CODE(usage_page, usage);
+            joystick_device_add_button(joydev, button);
+        }
+    }
     else if (usage_page == kHIDPage_Button) {
         log_message(LOG_DEFAULT, "joy-hid: button: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
-                    usage_page, usage, pmin, pmax, lmin, lmax);
+            usage_page, usage, pmin, pmax, lmin, lmax);
 
         joystick_button_t *button = joystick_button_new(NULL);
         button->code = HID_CODE(usage_page, usage);
         joystick_device_add_button(joydev, button);
     }
-#endif
 }
 
 static void joy_hidlib_device_specific_init_ps3(joystick_device_t *joydev)
@@ -318,7 +366,7 @@ static void joy_hidlib_enumerate_elements(joystick_device_t *joydev)
     /* Start with initial capacity */
     int capacity = 32;
     int element_count = 0;
-    joy_hid_element_t *elements = lib_malloc(sizeof(joy_hid_element_t) * capacity);
+    joy_hid_element_t *elements = lib_calloc(capacity, sizeof(joy_hid_element_t));
 
     /* Process all top-level elements recursively */
     CFIndex cnt = CFArrayGetCount(internal_elements);
@@ -330,39 +378,6 @@ static void joy_hidlib_enumerate_elements(joystick_device_t *joydev)
     device->num_elements = element_count;
     device->internal_elements = internal_elements;
     device->elements = elements;
-
-    /* We don't have mapping ui, so pretend each device is a simple joystick with a hat. */
-
-    /* Add two axis, x and y, with codes 0 and 1 */
-    joystick_axis_t *axis_x = joystick_axis_new(NULL);
-    axis_x->code = 0;
-    axis_x->minimum = 0;
-    axis_x->maximum = 65535;
-    axis_x->mapping.negative.action = JOY_ACTION_JOYSTICK;
-    axis_x->mapping.negative.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
-    axis_x->mapping.positive.action = JOY_ACTION_JOYSTICK;
-    axis_x->mapping.positive.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-    joystick_device_add_axis(joydev, axis_x);
-
-    joystick_axis_t *axis_y = joystick_axis_new(NULL);
-    axis_y->code = 1;
-    axis_y->minimum = 0;
-    axis_y->maximum = 65535;
-    axis_y->mapping.negative.action = JOY_ACTION_JOYSTICK;
-    axis_y->mapping.negative.value.joy_pin = JOYSTICK_DIRECTION_UP;
-    axis_y->mapping.positive.action = JOY_ACTION_JOYSTICK;
-    axis_y->mapping.positive.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-    joystick_device_add_axis(joydev, axis_y);
-
-    /* Add a single hat with code 0 for now */
-    joystick_hat_t *hat = joystick_hat_new(NULL);
-    hat->code = 0;
-    joystick_device_add_hat(joydev, hat);
-
-    /* Add a single button with code 0 for now */
-    joystick_button_t *button = joystick_button_new(NULL);
-    button->code = 0;
-    joystick_device_add_button(joydev, button);
 }
 
 static void joy_hidlib_free_elements(joy_hid_device_t *device)
@@ -411,7 +426,6 @@ static void macos_joystick_poll(joystick_device_t *joydev)
     joy_hid_device_t *device = (joy_hid_device_t *)joydev->priv;
     int i;
     int value;
-    int buttons_pressed = 0;
 
     for (i = 0; i < device->num_elements; i++) {
         joy_hid_element_t e = device->elements[i];
@@ -419,25 +433,16 @@ static void macos_joystick_poll(joystick_device_t *joydev)
         if(e.usage_page == kHIDPage_GenericDesktop) {
             switch(e.usage) {
             case kHIDUsage_GD_X:
-                if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
-                    joystick_axis_t *axis_x = joystick_axis_from_code(joydev, 0);
-                    if (axis_x != NULL) {
-                        /* Normalize to axis range */
-                        float normalized_value = (float)(value - e.min_lvalue) / (e.max_lvalue - e.min_lvalue);
-                        int axis_value = (int)(normalized_value * (axis_x->maximum - axis_x->minimum) + axis_x->minimum);
-                        joy_axis_event(axis_x, axis_value);
-                    }
-                }
-                break;
-
             case kHIDUsage_GD_Y:
+            case kHIDUsage_GD_Z:
+            case kHIDUsage_GD_Rx:
+            case kHIDUsage_GD_Ry:
+            case kHIDUsage_GD_Rz:
+            case kHIDUsage_GD_Slider:
                 if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
-                    joystick_axis_t *axis_y = joystick_axis_from_code(joydev, 1);
-                    if (axis_y != NULL) {
-                        /* Normalize to axis range */
-                        float normalized_value = (float)(value - e.min_lvalue) / (e.max_lvalue - e.min_lvalue);
-                        int axis_value = (int)(normalized_value * (axis_y->maximum - axis_y->minimum) + axis_y->minimum);
-                        joy_axis_event(axis_y, axis_value);
+                    joystick_axis_t *axis = joystick_axis_from_code(joydev, HID_CODE(e.usage_page, e.usage));
+                    if (axis != NULL) {
+                        joy_axis_event(axis, value);
                     }
                 }
                 break;
@@ -466,7 +471,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
                     }
 
                     if (value >= 0 && value <= MAX_HAT_MAP_INDEX) {
-                        joystick_hat_t *hat = joystick_hat_from_code(joydev, 0);
+                        joystick_hat_t *hat = joystick_hat_from_code(joydev, HID_CODE(e.usage_page, e.usage));
                         if (hat != NULL) {
                             joy_hat_event(hat, hat_map[value]);
                         }
@@ -474,25 +479,35 @@ static void macos_joystick_poll(joystick_device_t *joydev)
                 }
                 break;
             }
+        } else if (e.usage_page == kHIDPage_Simulation) {
+            switch(e.usage) {
+            case kHIDUsage_Sim_Accelerator:
+            case kHIDUsage_Sim_Brake:
+                if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
+                    joystick_axis_t *axis = joystick_axis_from_code(joydev, HID_CODE(e.usage_page, e.usage));
+                    if (axis != NULL) {
+                        joy_axis_event(axis, value);
+                    }
+                }
+                break;
+            }
+        } else if (e.usage_page == kHIDPage_Consumer) {
+            if (e.usage == kHIDUsage_Csmr_Record) {
+                if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
+                    joystick_button_t *button = joystick_button_from_code(joydev, HID_CODE(e.usage_page, e.usage));
+                    if (button != NULL) {
+                        joy_button_event(button, value ? 1 : 0);
+                    }
+                }
+            }
         } else if (e.usage_page == kHIDPage_Button) {
             if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
-                if (value > 0)
-                    buttons_pressed += 1;
+                joystick_button_t *button = joystick_button_from_code(joydev, HID_CODE(e.usage_page, e.usage));
+                if (button != NULL) {
+                    joy_button_event(button, value ? 1 : 0);
+                }
             }
         }
-    }
-
-    /*
-     * Until we have a joystick mapping UI we use this to turn all buttons
-     * into a single button by counting pressed buttons.
-     *
-     * Yes this sucks but for controllers with many buttons this is better
-     * than picking some arbitrary button and having that be the only one.
-     */
-
-    joystick_button_t *button = joystick_button_from_code(joydev, 0);
-    if (button != NULL) {
-        joy_button_event(button, buttons_pressed > 0 ? 1 : 0);
     }
 }
 

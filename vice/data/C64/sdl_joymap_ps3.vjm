@@ -23,7 +23,7 @@
 # action [action_parameters]:
 # 0               none
 # 1 pin           joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)
-# 2 row col       keyboard
+# 2 row col flgs  keyboard (flags: 1 = shifted)
 # 3               map
 # 4               UI activate
 # 5 action-name   UI function
@@ -44,22 +44,27 @@
 # up
 0 0 3 1 1
 
-0 0 4 1 16
-0 0 5 1 16
+# L2 (axis)
+#0 0 4 1 64
+# L2 (axis) (full value when not pressed)
+#0 0 5 1 64
 
 # analog right
 # right
-0 0 6 2 0 2
+0 0 6 2 0 2 0
 # left
-0 0 7 2 0 2
+0 0 7 2 0 2 1
 # down
-0 0 8 2 0 7
+0 0 8 2 0 7 0
 # up
-0 0 9 2 0 7
+0 0 9 2 0 7 1
 
-0 0 10 1 16
-0 0 11 1 16
+# R2 (axis)
+#0 0 10 1 32
+# R2 (axis) (full value when not pressed)
+#0 0 11 1 32
 
+# X -> fire
 0 1 0 1 16
 # O -> Space
 0 1 1 2 7 4
@@ -73,8 +78,10 @@
 # R1 -> Y
 0 1 5 2 3 1
 
-0 1 6 1 1 16
-0 1 7 1 1 16
+# L2 (button) -> fire3
+0 1 6 1 64
+# R2 (button) -> fire2
+0 1 7 1 32
 
 # SELECT
 0 1 8 5 virtual-keyboard
