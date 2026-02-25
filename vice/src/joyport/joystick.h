@@ -212,6 +212,8 @@ typedef struct joystick_axis_s {
     /* capabilities (TODO: more data like fuzz, flat) */
     int32_t   minimum;  /**< minimum axis value */
     int32_t   maximum;  /**< maximum axis value */
+    uint32_t  range;    /**< range of axis (maximum - minimum + 1) */
+    int32_t   neutral;  /**< neutral position value */
     bool      digital;  /**< axis is digital (reports -1, 0, 1) */
     struct {
        joystick_mapping_t negative; /**< negative direction */
@@ -247,6 +249,36 @@ typedef struct joystick_hat_s {
 } joystick_hat_t;
 
 
+/** \brief  No polling, device is closed */
+#define JOY_POLL_NONE   0x00
+
+/** \brief  Polled events should pass to the main loop
+ *
+ * Any host joystick events should be passed to the main loop to be used for
+ * emulated joysticks/paddles etc.
+ */
+#define JOY_POLL_MAIN   0x01
+
+/** \brief  Polled events should pass to the UI thread
+ *
+ * Any host joystick events should be passed to the UI thread to be used for
+ * joystick mapping and calibration.
+ */
+#define JOY_POLL_UI     0x02
+
+/** \brief  Bitmask to mask out poll mode from device status
+ */
+#define JOY_POLL_MASK   0x03
+
+
+/** \brief  Device must be re-opened for use with the main loop
+ */
+#define JOY_REOPEN_MAIN   0x04
+
+/** \brief  Bitmask to mask out reopen mode from device status
+ */
+#define JOY_REOPEN_MASK   0x04
+
 /** \brief  Joystick device object
  *
  * Contains all information on a host joystick device.
@@ -263,6 +295,16 @@ typedef struct joystick_device_s {
      * directory.
      */
     char               *node;
+
+    /** \brief  Status bits
+     *
+     * For now just poll state, might add more later, if required.
+     *
+     * \see #JOY_POLL_NONE
+     * \see #JOY_POLL_MAIN
+     * \see #JOY_POLL_UI
+     */
+    unsigned int        status;
 
     /** \brief  HID vendor ID */
     uint16_t            vendor;
@@ -414,8 +456,19 @@ void joystick_close(void);
 void joystick_resources_shutdown(void);
 void joystick_ui_reset_device_list(void);
 const char *joystick_ui_get_next_device_name(int *id);
-int joy_arch_mapping_dump(const char *filename);
-int joy_arch_mapping_load(const char *filename);
+
+/* dump joymap to a .vjm file.
+   when joydev is NULL, then the mapping for ALL devices will be written, and
+   the first column of the data in the output file will be the index of the
+   respective controller/device */
+int joy_arch_mapping_dump(const char *filename, joystick_device_t *joydev);
+
+/* load joymap from a .vjm file.
+   when joydev is NULL, then the mapping for ALL devices will read, and the
+   mapping assigned according to the first column of the data in the file.
+   when joydev is not NULL, the first column will be ignored and the mapping
+   assigned to the given device */
+int joy_arch_mapping_load(const char *filename, joystick_device_t *joydev);
 
 int32_t joy_axis_prev(uint8_t joynum, uint8_t axis);
 
@@ -451,8 +504,10 @@ void               joystick_driver_register  (const joystick_driver_t *driver);
 joystick_device_t *joystick_device_new       (void);
 void               joystick_device_free      (joystick_device_t *joydev);
 bool               joystick_device_register  (joystick_device_t *joydev);
-bool               joystick_device_open      (joystick_device_t *joydev);
+bool               joystick_device_open      (joystick_device_t *joydev,
+                                              unsigned int       mode);
 void               joystick_device_close     (joystick_device_t *joydev);
+int                joystick_device_index     (joystick_device_t *joydev);
 
 joystick_device_t *joystick_device_by_index  (int index);
 int                joystick_device_count     (void);
@@ -475,20 +530,38 @@ void               joystick_calibration_init (joystick_calibration_t *calibratio
 
 joystick_axis_t   *joystick_axis_new         (const char *name);
 joystick_axis_t   *joystick_axis_from_code   (joystick_device_t *joydev,
-                                              uint32_t code);
+                                              uint32_t           code);
 void               joystick_axis_free        (joystick_axis_t *axis);
 void               joystick_axis_clear_mappings(joystick_axis_t *axis);
+joystick_axis_value_t joystick_axis_direction(joystick_axis_t *axis,
+                                              int32_t          value);
 
 joystick_button_t *joystick_button_new       (const char *name);
 joystick_button_t *joystick_button_from_code (joystick_device_t *joydev,
-                                              uint32_t code);
+                                              uint32_t           code);
 void               joystick_button_free      (joystick_button_t *button);
 void               joystick_button_clear_mappings(joystick_button_t *button);
+int32_t            joystick_button_pressed   (joystick_button_t *button,
+                                              int32_t            value);
 
 joystick_hat_t    *joystick_hat_new          (const char *name);
 joystick_hat_t    *joystick_hat_from_code    (joystick_device_t *joydev,
-                                              uint32_t code);
+                                              uint32_t           code);
 void               joystick_hat_free         (joystick_hat_t *hat);
 void               joystick_hat_clear_mappings(joystick_hat_t *hat);
+
+bool joystick_ui_poll_setup(joystick_device_t *joydev);
+void joystick_ui_poll(void);
+void joystick_ui_poll_teardown(void);
+
+/* To be implemented by UIs other than SDL or HEADLESS */
+
+/** \brief  Callback for the UI to receive joystick events
+ *
+ * \param[in]   input   event source (#joystick_axis_t, #joystick_button_t or #joystick_hat_t)
+ * \param[in]   type    type of \a input
+ * \param[in]   value   raw value for \a input
+ */
+void joystick_ui_event(void *input, joystick_input_t type, int32_t value);
 
 #endif

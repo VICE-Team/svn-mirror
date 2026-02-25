@@ -106,6 +106,7 @@
 #include "settings_io.h"
 #include "settings_isepic.h"
 #include "settings_jam.h"
+#include "settings_joymap.h"
 #include "settings_joystick.h"
 #include "settings_keyboard.h"
 #include "settings_ltkernal.h"
@@ -968,6 +969,9 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
+    { "Joystick mappings",
+      "joystick-mappings",
+      settings_joymap_widget_create, NULL },
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },

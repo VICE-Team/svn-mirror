@@ -43,6 +43,7 @@
 #include "alarm.h"
 #include "cmdline.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -879,7 +880,7 @@ static int set_joystick_device(int val, void *param)
                             "resource JoyDevice%d: opening device %d (%s)",
                             port_idx, newdev, joydev->name);
 #endif
-                if (!joystick_device_open(joydev)) {
+                if (!joystick_device_open(joydev, JOY_POLL_MAIN)) {
                     return -1;
                 }
             }
@@ -1302,6 +1303,7 @@ void joy_delete_extra_mapping(int type)
 
 static void mapping_dump_header(FILE *fp)
 {
+        /*   12345678901234567890123456789012345678901234567890123456789012345678901234567890 */
     fprintf(fp, "# VICE joystick mapping file\n"
             "#\n"
             "# A joystick map is read in as patch to the current map.\n"
@@ -1322,18 +1324,21 @@ static void mapping_dump_header(FILE *fp)
             "# 2      hat\n"
             "#\n"
             "# For buttons, inputindex is the zero-based index of the button.\n"
-            "# For hats: hat 0 has inputindex 0,1,2,3 respectively for up, down, left and right. Hat 1 has 5,6,7,8 etc.\n"
-            "# For axes, and action 1 (joystick) and 2 (keyboard): axis 0 has inputindex 0,1 respectively for positive and negative, axis 1 has 2,3 etc.\n"
-            "# For axes, and action 6 (pot axis): inputindex is the zero-based index of the axis.\n"
+            "# For hats: hat 0 has inputindex 0,1,2,3 respectively for up, down, left and\n"
+            "# right. Hat 1 has 5,6,7,8 etc.\n"
+            "# For axes, and action 1 (joystick) and 2 (keyboard): axis 0 has inputindex\n"
+            "# 0,1 respectively for positive and negative, axis 1 has 2,3 etc.\n"
+            "# For axes, and action 6 (pot axis): inputindex is the zero-based index of the\n"
+            "# axis.\n"
             "#\n"
             "# action [action_parameters]:\n"
-            "# 0               none\n"
-            "# 1 pin           joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)\n"
-            "# 2 row col       keyboard\n"
-            "# 3               map\n"
-            "# 4               UI activate\n"
-            "# 5 action-name   UI function\n"
-            "# 6 pot           potentiometer (1=pot x, 2=pot y)\n"
+            "# 0                none\n"
+            "# 1 pin            joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)\n"
+            "# 2 row col flags  keyboard (flags: 1=shift)\n"
+            "# 3                map\n"
+            "# 4                UI activate\n"
+            "# 5 action-name    UI function\n"
+            "# 6 pot            potentiometer (1=pot x, 2=pot y)\n"
             "#\n\n"
             );
 }
@@ -1361,7 +1366,7 @@ static void mapping_dump_map(FILE               *fp,
             fprintf(fp, " %i", map->value.joy_pin);
             break;
         case JOY_ACTION_KEYBOARD:
-            fprintf(fp, " %i %i", map->value.key[0], map->value.key[1]);
+            fprintf(fp, " %i %i %i", map->value.key[0], map->value.key[1], map->value.key[2]);
             break;
         case JOY_ACTION_UI_FUNCTION:
             fprintf(fp, " %s", ui_action_get_name(map->value.ui_action));
@@ -1372,12 +1377,64 @@ static void mapping_dump_map(FILE               *fp,
     fprintf(fp, "\n");
 }
 
+/* write mapping for one joystick device */
+static void mapping_dump_device(FILE *fp, int dev_idx, joystick_device_t *joydev)
+{
+    int   inp_idx;
+    int   row    = 0;
 
-int joy_arch_mapping_dump(const char *filename)
+    fprintf(fp, "# %s\n", joydev->name);
+
+    /* dump axis mappings */
+    for (inp_idx = 0; inp_idx < joydev->num_axes; inp_idx++) {
+        joystick_axis_t *axis = joydev->axes[inp_idx];
+
+        if (axis->mapping.pot > 0) {
+            fprintf(fp, "%i %i %i %i %u\n",
+                    dev_idx, JOY_INPUT_AXIS, inp_idx, JOY_ACTION_POT_AXIS, axis->mapping.pot);
+        } else {
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 0, &axis->mapping.positive);
+            mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 1, &axis->mapping.negative);
+        }
+        fprintf(fp, "\n");
+        row += 2;
+    }
+
+    /* dump button mappings */
+    for (inp_idx = 0; inp_idx < joydev->num_buttons; inp_idx++) {
+        joystick_button_t *button = joydev->buttons[inp_idx];
+
+        mapping_dump_map(fp, dev_idx, JOY_INPUT_BUTTON, inp_idx, &button->mapping);
+    }
+    fprintf(fp, "\n");
+
+    /* dump hat mappings */
+    row = 0;
+    for (inp_idx = 0; inp_idx < joydev->num_hats; inp_idx++) {
+        joystick_hat_t *hat = joydev->hats[inp_idx];
+
+        /* indexes 0-3 are hardcoded to up, down, left and right */
+        mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 0, &hat->mapping.up);
+        mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 1, &hat->mapping.down);
+        mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 2, &hat->mapping.left);
+        mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 3, &hat->mapping.right);
+        row += 4;
+    }
+
+    /* avoid printing newlines at end of dump */
+    if (dev_idx < num_joystick_devices - 1) {
+        fprintf(fp, "\n\n");
+    }
+}
+
+/* dump joymap to a .vjm file.
+   when joydev is NULL, then the mapping for ALL devices will be written, and
+   the first column of the data in the output file will be the index of the
+   respective controller/device */
+int joy_arch_mapping_dump(const char *filename, joystick_device_t *joydev)
 {
     FILE *fp;
     int   dev_idx;
-    int   inp_idx;
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
@@ -1389,58 +1446,21 @@ int joy_arch_mapping_dump(const char *filename)
 
     fp = fopen(filename, MODE_WRITE_TEXT);
     if (fp == NULL) {
+        log_error(joy_log, "Failed to open `%s'.", filename);
         return -1;
     }
+
+    log_message(joy_log, "Writing joystick map to `%s'.", filename);
 
     mapping_dump_header(fp);
 
     fprintf(fp, "!CLEAR\n\n");
 
-    for (dev_idx = 0; dev_idx < num_joystick_devices; dev_idx++) {
-        joystick_device_t *joydev = joystick_devices[dev_idx];
-        int                row    = 0;
-
-        fprintf(fp, "# %s\n", joydev->name);
-
-        /* dump axis mappings */
-        for (inp_idx = 0; inp_idx < joydev->num_axes; inp_idx++) {
-            joystick_axis_t *axis = joydev->axes[inp_idx];
-
-            if (axis->mapping.pot > 0) {
-                fprintf(fp, "%i %i %i %i %u\n",
-                        dev_idx, JOY_INPUT_AXIS, inp_idx, JOY_ACTION_POT_AXIS, axis->mapping.pot);
-            } else {
-                mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 0, &axis->mapping.positive);
-                mapping_dump_map(fp, dev_idx, JOY_INPUT_AXIS, row + 1, &axis->mapping.negative);
-            }
-            fprintf(fp, "\n");
-            row += 2;
-        }
-
-        /* dump button mappings */
-        for (inp_idx = 0; inp_idx < joydev->num_buttons; inp_idx++) {
-            joystick_button_t *button = joydev->buttons[inp_idx];
-
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_BUTTON, inp_idx, &button->mapping);
-        }
-        fprintf(fp, "\n");
-
-        /* dump hat mappings */
-        row = 0;
-        for (inp_idx = 0; inp_idx < joydev->num_hats; inp_idx++) {
-            joystick_hat_t *hat = joydev->hats[inp_idx];
-
-            /* indexes 0-3 are hardcoded to up, down, left and right */
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 0, &hat->mapping.up);
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 1, &hat->mapping.down);
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 2, &hat->mapping.left);
-            mapping_dump_map(fp, dev_idx, JOY_INPUT_HAT, row + 3, &hat->mapping.right);
-            row += 4;
-        }
-
-        /* avoid printing newlines at end of dump */
-        if (dev_idx < num_joystick_devices - 1) {
-            fprintf(fp, "\n\n");
+    if (joydev) {
+        mapping_dump_device(fp, 0, joydev);
+    } else {
+        for (dev_idx = 0; dev_idx < num_joystick_devices; dev_idx++) {
+            mapping_dump_device(fp, dev_idx, joystick_devices[dev_idx]);
         }
     }
 
@@ -1448,38 +1468,46 @@ int joy_arch_mapping_dump(const char *filename)
     return 0;
 }
 
-
-static void joy_arch_keyword_clear(void)
+/* clear one device only */
+static void _joy_arch_keyword_clear(joystick_device_t  *joydev)
 {
-    int i, k;
+    int k;
+    for (k = 0; k < joydev->num_axes; ++k) {
+        joydev->axes[k]->mapping.positive.action = JOY_ACTION_NONE;
+        joydev->axes[k]->mapping.negative.action = JOY_ACTION_NONE;
+    }
+    for (k = 0; k < joydev->num_buttons; ++k) {
+        joydev->buttons[k]->mapping.action = JOY_ACTION_NONE;
+    }
+    for (k = 0; k < joydev->num_hats; ++k) {
+        joydev->hats[k]->mapping.up.action    = JOY_ACTION_NONE;
+        joydev->hats[k]->mapping.down.action  = JOY_ACTION_NONE;
+        joydev->hats[k]->mapping.left.action  = JOY_ACTION_NONE;
+        joydev->hats[k]->mapping.right.action = JOY_ACTION_NONE;
+    }
+}
 
-    for (i = 0; i < num_joystick_devices; ++i) {
-        joystick_device_t *joydev = joystick_devices[i];
+static void joy_arch_keyword_clear(joystick_device_t  *joydev)
+{
+    int i;
 
-        for (k = 0; k < joydev->num_axes; ++k) {
-            joydev->axes[k]->mapping.positive.action = JOY_ACTION_NONE;
-            joydev->axes[k]->mapping.negative.action = JOY_ACTION_NONE;
-        }
-        for (k = 0; k < joystick_devices[i]->num_buttons; ++k) {
-            joydev->buttons[k]->mapping.action = JOY_ACTION_NONE;
-        }
-        for (k = 0; k < joystick_devices[i]->num_hats; ++k) {
-            joydev->hats[k]->mapping.up.action    = JOY_ACTION_NONE;
-            joydev->hats[k]->mapping.down.action  = JOY_ACTION_NONE;
-            joydev->hats[k]->mapping.left.action  = JOY_ACTION_NONE;
-            joydev->hats[k]->mapping.right.action = JOY_ACTION_NONE;
+    if (joydev) {
+        _joy_arch_keyword_clear(joydev);
+    } else {
+        for (i = 0; i < num_joystick_devices; ++i) {
+            _joy_arch_keyword_clear(joystick_devices[i]);
         }
     }
 }
 
-static void joy_arch_parse_keyword(char *buffer)
+static void joy_arch_parse_keyword(char *buffer, joystick_device_t  *joydev)
 {
     char *key;
 
     key = strtok(buffer + 1, " \t:");
 
     if (!strcmp(key, "CLEAR")) {
-        joy_arch_keyword_clear();
+        joy_arch_keyword_clear(joydev);
     }
 }
 
@@ -1503,6 +1531,7 @@ typedef struct parser_state_s {
 
     /* mandatory columns */
     int                joy_index;   /**< joystick index */
+    joystick_device_t  *joydev;     /**< joystick device */
     joystick_input_t   input_type;  /**< input type */
     int                input_index; /**< input index */
     joystick_action_t  action;      /**< action number */
@@ -1638,7 +1667,7 @@ static void parser_set_mapping(const parser_state_t *state,
  */
 static bool parser_set_axis(const parser_state_t *state)
 {
-    joystick_device_t  *joydev = joystick_devices[state->joy_index];
+    joystick_device_t  *joydev = state->joydev ? state->joydev : joystick_devices[state->joy_index];
     bool                result = true;
 
     if (state->action == JOY_ACTION_POT_AXIS) {
@@ -1689,7 +1718,7 @@ static bool parser_set_axis(const parser_state_t *state)
  */
 static bool parser_set_button(const parser_state_t *state)
 {
-    joystick_device_t *joydev = joystick_devices[state->joy_index];
+    joystick_device_t  *joydev = state->joydev ? state->joydev : joystick_devices[state->joy_index];
     int                index = state->input_index;
     bool               result = true;
 
@@ -1715,7 +1744,7 @@ static bool parser_set_hat(const parser_state_t *state)
 {
     int                index     = state->input_index / 4;
     int                direction = state->input_index % 4;
-    joystick_device_t *joydev    = joystick_devices[state->joy_index];
+    joystick_device_t  *joydev = state->joydev ? state->joydev : joystick_devices[state->joy_index];
 
     if (index < joydev->num_hats) {
         joystick_hat_t     *hat   = joydev->hats[index];
@@ -1757,6 +1786,9 @@ static bool parser_set_hat(const parser_state_t *state)
  */
 static bool parser_set_ball(const parser_state_t *state)
 {
+#if 0
+    joystick_device_t  *joydev = state->joydev ? state->joydev : joystick_devices[state->joy_index];
+#endif
     parser_log_error(state, "balls are currently not supported.");
     return false;
 }
@@ -1769,7 +1801,7 @@ static bool parser_set_ball(const parser_state_t *state)
  *
  * \return  \c true on success
  */
-static bool joy_arch_parse_entry(const char *buffer, const char *filename, int lineno)
+static bool joy_arch_parse_entry(const char *buffer, const char *filename, int lineno, joystick_device_t *joydev)
 {
     parser_state_t  state;
     char            action_name[256];
@@ -1792,6 +1824,7 @@ static bool joy_arch_parse_entry(const char *buffer, const char *filename, int l
     state.filename    = filename;
     state.lineno      = lineno;
     state.joy_index   = args[0];
+    state.joydev      = joydev;
     state.input_type  = (joystick_input_t)args[1];
     state.input_index = args[2];
     state.action      = (joystick_action_t)args[3];
@@ -1954,8 +1987,12 @@ static bool joy_arch_parse_entry(const char *buffer, const char *filename, int l
     return result;
 }
 
-
-int joy_arch_mapping_load(const char *filename)
+/* load joymap from a .vjm file.
+   when joydev is NULL, then the mapping for ALL devices will read, and the
+   mapping assigned according to the first column of the data in the file.
+   when joydev is not NULL, the first column will be ignored and the mapping
+   assigned to the given device */
+int joy_arch_mapping_load(const char *filename, joystick_device_t *joydev)
 {
     FILE *fp;
     char *complete_path;
@@ -2012,11 +2049,11 @@ int joy_arch_mapping_load(const char *filename)
                     break;
                 case '!':
                     /* keyword handling */
-                    joy_arch_parse_keyword(p);
+                    joy_arch_parse_keyword(p, joydev);
                     break;
                 default:
                     /* table entry handling */
-                    joy_arch_parse_entry(p, filename, lineno);
+                    joy_arch_parse_entry(p, filename, lineno, joydev);
                     break;
             }
 
@@ -2067,7 +2104,7 @@ static int joymap_file_set(const char *val, void *param)
         return 0;
     }
 
-    return joy_arch_mapping_load(joymap_file);
+    return joy_arch_mapping_load(joymap_file, NULL);
 }
 
 static const resource_int_t joyopposite_resources_int[] = {
@@ -2779,7 +2816,7 @@ int joystick_init(void)
                 log_message(joy_log,
                             "joystick_init(): resource JoyDevice%d: opening device %d (%s)",
                             i + 1, devnum - JOYDEV_REALJOYSTICK_MIN, joydev->name);
-                joystick_device_open(joydev);
+                joystick_device_open(joydev, JOY_POLL_MAIN);
             } else {
                 joystick_port_map[i] = JOYDEV_NONE;
             }
@@ -2788,7 +2825,7 @@ int joystick_init(void)
 
     /* do not load joymap file when -default was passed on the command line */
     if (!default_settings_requested) {
-        res = joy_arch_mapping_load(joymap_file);
+        res = joy_arch_mapping_load(joymap_file, NULL);
     }
     if (res < 0) {
         log_warning(joy_log, "using minimal default mapping.");
@@ -3007,9 +3044,16 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
             break;
         case JOY_ACTION_KEYBOARD:
-            DBG(("joy_perform_event (JOY_ACTION_KEYBOARD) joyport: %d value: %d key: %02x/%02x\n",
-                 joyport, value, (unsigned int)event->value.key[0], (unsigned int)event->value.key[1]));
+            DBG(("joy_perform_event (JOY_ACTION_KEYBOARD) joyport: %d value: %d key: %02x/%02x/%02x\n",
+                 joyport, value, (unsigned int)event->value.key[0], (unsigned int)event->value.key[1], (unsigned int)event->value.key[2]));
             keyboard_set_keyarr_any(event->value.key[0], event->value.key[1], value);
+            /* bit 0 of the flag value indicates a shifted key */
+            if (event->value.key[2] & 1) {
+                /* get matrix position of right shift from the keymap */
+                if ((kbd_rshiftrow != -1) && (kbd_rshiftcol != -1)) {
+                    keyboard_set_keyarr_any(kbd_rshiftrow, kbd_rshiftcol, value);
+                }
+            }
             break;
         case JOY_ACTION_UI_ACTIVATE:
             DBG(("%s (JOY_ACTION_UI_ACTIVATE) joyport: %d value: %d\n", __func__, joyport, value));
@@ -3039,24 +3083,30 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
 }
 
 
-/** \brief  Handle joystick axis event
+/** \brief  Interpret raw axis value as direction
+ *
+ * Apply calibration and transform raw \a value into a direction for an
+ * emulated device.
+ *
+ * Determine if we need to invert the raw value and then apply thresholds from
+ * the calibration data to calculate the direction for an emulated joystick.
  *
  * \param[in]   axis    joystick axis
- * \param[in]   value   raw value for \a axis
+ * \param[in]   value   raw value of \a axis
+ *
+ * \return  emulated joystick direction
  */
-void joy_axis_event(joystick_axis_t *axis, int32_t value)
+joystick_axis_value_t joystick_axis_direction(joystick_axis_t *axis, int32_t value)
 {
-    joystick_axis_value_t  direction = JOY_AXIS_MIDDLE;
-    joystick_axis_value_t  prev      = axis->prev;
-    int                    joyport   = axis->device->joyport;
+    joystick_axis_value_t direction  = JOY_AXIS_MIDDLE;
 
-
-    /* digital axes don't require calibration: */
+    /* digital axis? */
     if (axis->digital) {
         /* calibration: invert value? */
         if (axis->calibration.invert) {
             value *= -1;
         }
+        /* no thresholds for digital axes */
         if (value < 0) {
             direction = JOY_AXIS_NEGATIVE;
         } else if (value > 0) {
@@ -3065,23 +3115,9 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
     } else {
         /* here we apply calibration */
         if (axis->calibration.invert) {
-            /* invert value by calculating the distance from center and taking
-             * the opposite side of the center */
-            uint32_t range = axis->maximum - axis->minimum;
-            int32_t  center;
-
-            /* integer range: add 1 but avoid overflow (unlikely since HID
-             * axis values appear to be 16-bit signed integers) */
-            if (range < UINT32_MAX) {
-                range++;
-            }
-
-            center = axis->maximum - (range / 2);
-#if 0
-            printf("%s(): inverting %d: [%d-%d] -> %d\n",
-                   __func__, value, axis->minimum, axis->maximum, center - value);
-#endif
-            value = center - value;
+            /* invert value by calculating the distance from neutral and taking
+             * the opposite side of the neuatral position */
+            value = axis->neutral - value;
         }
         if (value <= axis->calibration.threshold.negative) {
             direction = JOY_AXIS_NEGATIVE;
@@ -3090,6 +3126,33 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
         }
     }
 
+    return direction;
+}
+
+
+/** \brief  Handle joystick axis event
+ *
+ * \param[in]   axis    joystick axis
+ * \param[in]   value   raw value for \a axis
+ */
+void joy_axis_event(joystick_axis_t *axis, int32_t value)
+{
+    joystick_axis_value_t direction;
+    joystick_axis_value_t prev    = axis->prev;
+    int                   joyport = axis->device->joyport;
+
+#if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
+    unsigned int           poll_state = axis->device->status & JOY_POLL_MASK;
+
+    if (poll_state == JOY_POLL_NONE) {
+        return;
+    } else if (poll_state == JOY_POLL_UI) {
+        joystick_ui_event(axis, JOY_INPUT_AXIS, value);
+        return;
+    }
+#endif
+
+    direction = joystick_axis_direction(axis, value);
     if (direction == prev) {
         return;
     }
@@ -3117,6 +3180,28 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
 }
 
 
+/** \brief  Interpret raw button value
+ *
+ * Determine pressed state of \a button by interpreting \a value and applying
+ * calibration (just invert if required).
+ *
+ * \param[in]   button  joystick button
+ * \param[in]   value   raw value of \a button
+ *
+ * \return  \c 1 if pressed, \c 0 if released
+ */
+int32_t joystick_button_pressed(joystick_button_t *button, int32_t value)
+{
+    int32_t pressed = value ? 1 : 0;
+
+    if (button->calibration.invert) {
+        pressed = !pressed;
+    }
+    return pressed;
+}
+
+
+
 /** \brief  Handle joystick button event
  *
  * \param[in]   button  joystick button
@@ -3124,7 +3209,7 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
  */
 void joy_button_event(joystick_button_t *button, int32_t value)
 {
-    int32_t pressed = value ? 1 : 0;
+    /* TODO: reinstate this: */
 #if 0
     int num_buttons = joystick_devices[joynum].num_buttons;
     int joy_pin = joystick_devices[joynum].button_mapping[button].value.joy_pin;
@@ -3138,7 +3223,21 @@ void joy_button_event(joystick_button_t *button, int32_t value)
         }
     }
 #endif
+
+#if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
+    unsigned int poll_state = button->device->status & JOY_POLL_MASK;
+
+    if (poll_state == JOY_POLL_NONE) {
+        return;
+    } else if (poll_state == JOY_POLL_UI) {
+        joystick_ui_event(button, JOY_INPUT_BUTTON, value);
+        return;
+    }
+#endif
+
     if (value != button->prev) {
+        int32_t pressed = joystick_button_pressed(button, value);
+
         DBG(("joy_button_event: joy: %s, button: %d (%s) pressed: %d\n",
              button->device->name, button->index, button->name, pressed));
         joy_perform_event(&button->mapping, button->device->joyport, pressed);
@@ -3156,6 +3255,17 @@ void joy_hat_event(joystick_hat_t *hat, int32_t value)
 {
     int     joyport = hat->device->joyport;
     int32_t prev    = hat->prev;
+
+#if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
+    unsigned int poll_state = hat->device->status & JOY_POLL_MASK;
+
+    if (poll_state == JOY_POLL_NONE) {
+        return;
+    } else if (poll_state == JOY_POLL_UI) {
+        joystick_ui_event(hat, JOY_INPUT_HAT, value);
+        return;
+    }
+#endif
 
     if (value == prev) {
         return;
@@ -3308,7 +3418,11 @@ void joystick(void)
         int i;
 
         for (i = 0; i < num_joystick_devices; i++) {
-            joy_driver.poll(joystick_devices[i]);
+            joystick_device_t *joydev = joystick_devices[i];
+
+            if ((joydev->status & JOY_POLL_MASK) == JOY_POLL_MAIN) {
+                joy_driver.poll(joydev);
+            }
         }
     }
 }
@@ -3401,6 +3515,7 @@ joystick_device_t *joystick_device_new(void)
 
     joydev->name         = NULL;
     joydev->node         = NULL;
+    joydev->status       = JOY_POLL_NONE;
     joydev->vendor       = 0;
     joydev->product      = 0;
     joydev->axes         = lib_calloc(NUM_AXES_INITIAL, sizeof *joydev->axes);
@@ -3766,6 +3881,23 @@ int joystick_device_count(void)
 }
 
 
+/** \brief  Get index of device in registered devices list
+ *
+ * \param[in]   joydev  joystick device
+ *
+ * \return  index in devices list or -1 if not found
+ */
+int joystick_device_index(joystick_device_t *joydev)
+{
+    for (size_t index = 0; index < num_joystick_devices; index++) {
+        if (joystick_devices[index] == joydev) {
+            return (int)index;
+        }
+    }
+    return -1;
+}
+
+
 /** \brief  Set joystick device name
  *
  * Set name of \a joydev to \a name, deallocating the old name if present.
@@ -3835,15 +3967,9 @@ void joystick_calibration_init(joystick_calibration_t *calibration)
 static void joystick_calibration_default_for_axis(joystick_axis_t *axis)
 {
     if (!axis->digital) {
-        int32_t range = axis->maximum - axis->minimum;
-
-        /* add one to get proper range, but only if the result fits */
-        if (range < INT32_MAX) {
-            range++;
-        }
         /* default: 0-25% negative, 25-75% neutral, 75-100% positive */
-        axis->calibration.threshold.negative = axis->minimum + (range / 4);
-        axis->calibration.threshold.positive = axis->minimum + ((range / 4) * 3);
+        axis->calibration.threshold.negative = axis->minimum + (axis->range / 4);
+        axis->calibration.threshold.positive = axis->minimum + ((axis->range / 4) * 3);
     } else {
         axis->calibration.threshold.negative = -1;
         axis->calibration.threshold.positive = +1;
@@ -3869,6 +3995,8 @@ static void joystick_axis_init(joystick_axis_t *axis)
     axis->index   = -1;
     axis->minimum = INT16_MIN;
     axis->maximum = INT16_MAX;
+    axis->range   = UINT16_MAX + 1;
+    axis->neutral = 0;
     axis->digital = false;
     axis->device  = NULL;
     joystick_mapping_init(&axis->mapping.negative);
@@ -4043,6 +4171,14 @@ void joystick_device_add_axis(joystick_device_t *joydev,
 
     /* Digital axis detection */
     axis->digital = (axis->minimum == -1 && axis->maximum == 1);
+
+    /* calculate range and neutral position */
+    axis->range = axis->maximum - axis->minimum;
+    /*add 1 to get proper range, but avoid overflow */
+    if (axis->range < UINT32_MAX) {
+        axis->range++;
+    }
+    axis->neutral = axis->minimum + (axis->range / 2);
 
     /* set default calibration */
     joystick_calibration_default_for_axis(axis);
@@ -4238,10 +4374,32 @@ void joystick_device_clear_mappings(joystick_device_t *joydev)
 }
 
 
-bool joystick_device_open(joystick_device_t *joydev)
+/** \brief  Open host joystick device for polling
+ *
+ * The polling \a mode can be either #JOY_POLL_MAIN, which passed events to
+ * the emulated devices, or #JOY_POLL_UI, which passes the events to the UI
+ * thread for joystick configuration (mapping and calibration).
+ *
+ * \param[in]   joydev  joystick device
+ * \param[in]   mode    polling mode
+ *
+ * \return  \c true on success
+ *
+ * \see #JOY_POLL_MAIN
+ * \see #JOY_POLL_UI
+ *
+ * \note    At a later point \a mode could be used to further control devices,
+ *          such as blocking/non-blocking/exclusive-access, should that be
+ *          required.
+ */
+bool joystick_device_open(joystick_device_t *joydev, unsigned int mode)
 {
     if (joydev != NULL && joy_driver.open != NULL) {
-        return joy_driver.open(joydev);
+        joydev->status = mode;
+        if (joy_driver.open(joydev)) {
+            return true;
+        }
+        joydev->status &= ~JOY_POLL_MASK;
     }
     return false;
 }
@@ -4250,6 +4408,75 @@ bool joystick_device_open(joystick_device_t *joydev)
 void joystick_device_close(joystick_device_t *joydev)
 {
     if (joydev != NULL && joy_driver.close != NULL) {
+        /* set polling to none */
+        joydev->status &= ~JOY_POLL_MASK;
         joy_driver.close(joydev);
+    }
+}
+
+
+/*
+ * UI joystick polling
+ *
+ * Basic operation:
+ *
+ * Call joystick_ui_poll_setup() to start polling
+ * Call joystick_ui_poll() at certain intervals to poll the device and trigger
+ * callbacks to joystick_ui_event() to pass events to the UI.
+ * Stop polling with a call to joystick_ui_poll_teardown().
+ *
+ * The UI is expected to implement joystick_ui_event() to receive events.
+ */
+
+/** \brief  Host joystick device polled by the UI
+ *
+ * Only a single device can be polled at a time.
+ */
+static joystick_device_t *ui_joydev = NULL;
+
+
+/** \brief  Set up polling from the UI
+ *
+ * \param[in]   joydev  joystick device
+ *
+ * \return  \c true on success
+ */
+bool joystick_ui_poll_setup(joystick_device_t *joydev)
+{
+    printf("%s(): starting polling of %s\n", __func__, joydev->name);
+    if (joydev == NULL) {
+        return false;
+    }
+    if (ui_joydev != NULL) {
+        joystick_ui_poll_teardown();
+    }
+    ui_joydev = joydev;
+    return joystick_device_open(ui_joydev, JOY_POLL_UI);
+}
+
+
+/** \brief  Stop polling from the UI
+ *
+ * Stop polling of currently opened device, if any.
+ */
+void joystick_ui_poll_teardown(void)
+{
+    if (ui_joydev != NULL) {
+        printf("%s(): stopping polling of %s\n", __func__, ui_joydev->name);
+        joystick_device_close(ui_joydev);
+        ui_joydev = NULL;
+    }
+}
+
+
+/** \brief  Poll current joystick device
+ *
+ * Process pending events of current joystick device and pass events to the UI
+ * through #joystick_ui_event().
+ */
+void joystick_ui_poll(void)
+{
+    if (ui_joydev != NULL && joy_driver.poll != NULL) {
+        joy_driver.poll(ui_joydev);
     }
 }

@@ -148,6 +148,12 @@ const char *file_chooser_pattern_hotkeys[] = {
 };
 
 
+/** \brief  Patterns for joymap files */
+const char *file_chooser_pattern_joymap[] = {
+    "*.vjm", NULL
+};
+
+
 /** \brief  Patterns for snapshot files
  */
 const char *file_chooser_pattern_snapshot [] = {
@@ -228,6 +234,12 @@ const ui_file_filter_t file_chooser_filter_snapshot = {
 const ui_file_filter_t file_chooser_filter_hotkeys = {
     "Hotkeys files",
     file_chooser_pattern_hotkeys
+};
+
+/** \brief  Filter for joymap files */
+const ui_file_filter_t file_chooser_filter_joymap = {
+    "Joymap files",
+    file_chooser_pattern_joymap
 };
 
 /** \brief  Create a GtkFileFilter instance from \a filter
