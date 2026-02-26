@@ -850,9 +850,11 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     /* Fire buttons: Bits 4-6. Each of the three notional fire buttons
      * controls the red, green, or blue color of the fire button
      * area. By default, we are using one-button joysticks and so this
-     * region will be either black or red. */
-    cairo_set_source_rgb(cr, (val&0x10) ? 1 : 0,
-                             (val&0x20) ? 1 : 0,
+     * region will be either black or red.
+     * We add to R & G if button 3 is pressed, otherwise the pure blue
+     * is virtually invisible. It's now a perceptable bluish gray. */
+    cairo_set_source_rgb(cr, (val&0x10) ? 1 : (val&0x40) ? 0.5 : 0,
+                             (val&0x20) ? 1 : (val&0x40) ? 0.5 : 0,
                              (val&0x40) ? 1 : 0);
     cairo_rectangle(cr, x + e + 2*s, y + e + 2*s, e, e);
     cairo_fill(cr);
