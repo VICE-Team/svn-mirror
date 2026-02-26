@@ -32,6 +32,8 @@
  *
  */
 
+/* #define DEBUG_EVDEV */
+
 #include "vice.h"
 
 #include <dirent.h>
@@ -54,6 +56,11 @@
 #include "lib.h"
 #include "log.h"
 
+#ifdef DEBUG_EVDEV
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 /** \brief  Array length helper */
 #define ARRAY_LEN(arr) (sizeof arr / sizeof arr[0])
@@ -142,9 +149,9 @@ static void dispatch_event(joystick_device_t  *joydev, struct input_event *event
     if (event->type == EV_KEY) {
         joystick_button_t *button;
 
-        printf("button %02x (%s): %d\n",
+        DBG(("button %02x (%s): %d",
                event->code, libevdev_event_code_get_name(EV_KEY, event->code),
-               event->value);
+               event->value));
 
         button = joystick_button_from_code(joydev, event->code);
         if (button != NULL) {
@@ -154,9 +161,9 @@ static void dispatch_event(joystick_device_t  *joydev, struct input_event *event
     } else if (event->type == EV_ABS) {
         joystick_axis_t *axis;
 #if 0
-        printf("axis %02x (%s): %d\n",
+        DBG(("axis %02x (%s): %d",
                event->code, libevdev_event_code_get_name(EV_ABS, event->code),
-               event->value);
+               event->value));
 #endif
         axis = joystick_axis_from_code(joydev, event->code);
         if (axis != NULL) {
@@ -273,11 +280,11 @@ static void linux_joystick_evdev_close(joystick_device_t *joydev)
 static void linux_joystick_customize(joystick_device_t *joydev)
 {
 #if 0
-    printf("%s() called for device %04x:%04x\n",
-           __func__, (unsigned int)joydev->vendor, (unsigned int)joydev->product);
+    DBG(("%s() called for device %04x:%04x",
+           __func__, (unsigned int)joydev->vendor, (unsigned int)joydev->product));
 
     if (joydev->vendor == 0x46d && joydev->product == 0xc21f) {
-        printf("%s(): inverting Y axis for F710\n", __func__);
+        DBG(("%s(): inverting Y axis for F710", __func__));
         joydev->axes[1]->calibration.invert = true;
     }
 #endif
@@ -483,7 +490,7 @@ void joystick_arch_init(void)
                 * and manually implemented properly */
                 linux_joystick_evdev_open(joydev);
 #endif
-                /*printf("registered %s.\n", namelist[i]->d_name);*/
+                /*DBG(("registered %s.", namelist[i]->d_name));*/
             }
             lib_free(rpath[i]);
             rpath[i] = NULL;
@@ -500,5 +507,5 @@ void joystick_arch_init(void)
  */
 void joystick_arch_shutdown(void)
 {
-    /* printf("%s(): called\n", __func__); */
+    /* DBG(("%s(): called", __func__)); */
 }

@@ -4443,7 +4443,7 @@ static joystick_device_t *ui_joydev = NULL;
  */
 bool joystick_ui_poll_setup(joystick_device_t *joydev)
 {
-    printf("%s(): starting polling of %s\n", __func__, joydev->name);
+    DBG(("%s(): starting polling of %s\n", __func__, joydev->name));
     if (joydev == NULL) {
         return false;
     }
@@ -4462,7 +4462,7 @@ bool joystick_ui_poll_setup(joystick_device_t *joydev)
 void joystick_ui_poll_teardown(void)
 {
     if (ui_joydev != NULL) {
-        printf("%s(): stopping polling of %s\n", __func__, ui_joydev->name);
+        DBG(("%s(): stopping polling of %s\n", __func__, ui_joydev->name));
         joystick_device_close(ui_joydev);
         ui_joydev = NULL;
     }
