@@ -913,7 +913,7 @@ static void show_mapping_dialog(joystick_device_t *joydev, int id)
         input_type = 3 + (idx & 3);
     }
     DBG(("input type: (%d) %s", input_type, input_type_str[input_type]));
-    DBG(("input name: %s", name));
+    DBG(("input name: %s", name ? name : "NULL"));
     DBG(("mapping type: %u", mapping->action));
 
     joymap_dialog_show(joydev, mapping, input_type_str[input_type], name, on_mapping_close);
