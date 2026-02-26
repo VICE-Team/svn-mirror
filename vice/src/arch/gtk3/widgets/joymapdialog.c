@@ -36,8 +36,6 @@
  *      should select the correct value (needs some stunts via keymap code)
  *  - handle (re)mapping for POT axis
  *    - create widget for changing the POT mapping
- *  - after closing the (re)mapping dialog, the previously selected row in the
- *    list of mappings should stay selected
  */
 
 
@@ -63,17 +61,15 @@
 #define DBG(x)
 #endif
 
-void (*user_callback)(joystick_device_t*);
-joystick_device_t *cached_joydev = NULL;
+static void (*user_callback)(joystick_device_t*);
+static joystick_device_t *cached_joydev = NULL;
 
-GtkWidget *top_grid;
-
-GtkWidget *combobox_types;
-GtkWidget *value_grid;
-
-GtkWidget *cpvalue;
-GtkWidget *actionvalue;
-GtkWidget *todolabel;
+static GtkWidget *top_grid;
+static GtkWidget *combobox_types;
+static GtkWidget *value_grid;
+static GtkWidget *cpvalue;
+static GtkWidget *actionvalue;
+static GtkWidget *todolabel;
 
 /** \brief get actual ui-action id from the index in the dropdown box
  */
@@ -133,35 +129,53 @@ static void set_mapping(joystick_mapping_t *mapping)
     }
 }
 
+/** \brief destroy all widgets in the value grid
+ */
+static void destroy_value_widgets(void)
+{
+    DBG(("destroy_value_widgets"));
+    if (cpvalue != NULL) {
+        gtk_widget_destroy(cpvalue);
+    }
+    if (actionvalue != NULL) {
+        gtk_widget_destroy(actionvalue);
+    }
+    if (todolabel != NULL) {
+        gtk_widget_destroy(todolabel);
+    }
+    cpvalue = NULL;
+    actionvalue = NULL;
+    todolabel = NULL;
+    DBG(("destroy_value_widgets done"));
+}
+
 /** \brief destroy all widgets when closing the dialog
  */
 static void destroy_all(void)
 {
-    if (cpvalue) {
-        gtk_widget_destroy(GTK_WIDGET(cpvalue));
-        cpvalue = NULL;
-    }
-    if (actionvalue) {
-        gtk_widget_destroy(GTK_WIDGET(actionvalue));
-        actionvalue = NULL;
-    }
-    if (todolabel) {
-        gtk_widget_destroy(GTK_WIDGET(todolabel));
-        todolabel = NULL;
-    }
-    if (combobox_types) {
-        gtk_widget_destroy(GTK_WIDGET(combobox_types));
-        combobox_types = NULL;
-    }
+    DBG(("destroy_all"));
+
+    destroy_value_widgets();
 
     if (value_grid) {
+        DBG(("value_grid: %p", (void*)value_grid));
         gtk_widget_destroy(GTK_WIDGET(value_grid));
-        value_grid = NULL;
     }
+    value_grid = NULL;
+
+    if (combobox_types) {
+        DBG(("combobox_types: %p", (void*)combobox_types));
+        gtk_widget_destroy(GTK_WIDGET(combobox_types));
+    }
+    combobox_types = NULL;
+
     if (top_grid) {
+        DBG(("top_grid: %p", (void*)top_grid));
         gtk_widget_destroy(GTK_WIDGET(top_grid));
-        top_grid = NULL;
     }
+    top_grid = NULL;
+
+    DBG(("destroy_all done"));
 }
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -175,6 +189,7 @@ static void on_response(GtkDialog *dialog,
                         gpointer user_data)
 {
     joystick_mapping_t *mapping = (joystick_mapping_t *)user_data;
+    DBG(("mapping dialog on_response"));
     switch (response_id) {
         case GTK_RESPONSE_ACCEPT:
             set_mapping(mapping);
@@ -185,14 +200,15 @@ static void on_response(GtkDialog *dialog,
             /* fall through */
 
         case GTK_RESPONSE_REJECT:
-            gtk_widget_destroy(GTK_WIDGET(dialog));
             destroy_all();
+            gtk_widget_destroy(GTK_WIDGET(dialog));
             break;
 
         default:
             debug_gtk3("Unhandled response ID %d", response_id);
             break;
     }
+    DBG(("mapping dialog on_response done"));
 }
 
 /** \brief  Create left-aligned label using Pango markup
@@ -280,7 +296,7 @@ static GtkListStore *actionvalue_combo_model_new(void)
     model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
     for (action = list; action->id > ACTION_NONE; action++) {
         GtkTreeIter        iter;
-        DBG(("id:%d name:%s", action->id, action->name));
+        /*DBG(("id:%d name:%s", action->id, action->name));*/
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter, 0, action->id, 1, action->name, -1);
     }
@@ -292,6 +308,7 @@ static void actionvalue_select_by_action(int id)
     ui_action_info_t *list;
     const ui_action_info_t *action;
     int index = 0;
+    DBG(("actionvalue_select_by_action: %d", id));
     list = ui_action_get_info_list();
     for (action = list; action->id > ACTION_NONE; action++) {
         if (action->id == id) {
@@ -332,18 +349,8 @@ static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mappi
 {
     DBG(("create_value_widget action:%d", action));
     /* first destroy all existing value widgets */
-    if (cpvalue != NULL) {
-        gtk_widget_destroy(cpvalue);
-        cpvalue = NULL;
-    }
-    if (actionvalue != NULL) {
-        gtk_widget_destroy(actionvalue);
-        actionvalue = NULL;
-    }
-    if (todolabel != NULL) {
-        gtk_widget_destroy(todolabel);
-        todolabel = NULL;
-    }
+    destroy_value_widgets();
+    DBG(("create_value_widget destroy done"));
 
     switch (action) {
         case JOY_ACTION_JOYSTICK:
@@ -374,6 +381,7 @@ static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mappi
                 gtk_grid_attach(GTK_GRID(grid), todolabel, 0, 0, 1, 1);
             break;
     }
+    DBG(("create_value_widget done"));
     return grid;
 }
 
@@ -419,10 +427,12 @@ static void on_type_changed(GtkComboBox *self, gpointer data)
         int           index = -1;
 
         gtk_tree_model_get(model, &iter, 0, &index, -1);
-        DBG(("Got index %d for device", index));
+        DBG(("Got index %d for type", index));
         /* destroy the old widget first */
         if (value_grid != NULL) {
+            destroy_value_widgets();
             gtk_widget_destroy(value_grid);
+            value_grid = NULL;
         }
         /* create new widget for the selected mapping type */
         value_grid = vice_gtk3_grid_new_spaced(1, 1);
@@ -467,6 +477,8 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev, joystick_mapp
     int row = 0;
     char buf[0x100];
 
+    DBG(("create_content_widget"));
+
     /* setup grid with all buttons the same size */
     top_grid = grid = vice_gtk3_grid_new_spaced(2, 3);
     gtk_widget_set_margin_top(grid, 16);
@@ -499,8 +511,10 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev, joystick_mapp
     gtk_grid_attach(GTK_GRID(grid), value_grid, 1, row, 1, 1);
     row++;
 
-
     gtk_widget_show_all(grid);
+
+    DBG(("create_content_widget done"));
+
     return grid;
 }
 

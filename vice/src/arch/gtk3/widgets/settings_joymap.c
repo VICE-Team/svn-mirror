@@ -9,8 +9,8 @@
 #define DEBUG_JOYMAPSETTINGS
 
 /* TODO:
- *  - after closing the (re)mapping dialog, the previously selected row in the
- *    list of mappings should stay selected
+ *  - in the input tab, the list of axis/buttons/hats should automatically
+ *    scroll so the currently pressed one is actually visible
  *  - implement the calibration tab
  */
 
@@ -688,17 +688,22 @@ static char *get_flag_string(int flags)
     return "";
 }
 
-static int count0bits(int val)
+/* FIXME: the mapping system actually would support using more than one bit,
+          but the GUI does not (yet) */
+static char *get_direction_string(int val)
 {
-    int cnt = 0;
-    while (cnt < 32) {
-        if (val & 1) {
-            return cnt;
-        }
-        val >>= 1;
-        cnt++;
+    switch (val) {
+        case 0x0001: return "up";
+        case 0x0002: return "down";
+        case 0x0004: return "left";
+        case 0x0008: return "right";
+        case 0x0010: return "fire";
+        case 0x0020: return "fire2";
+        case 0x0040: return "fire3";
+        case 0x0080: return "fire4";
+        default: break;
     }
-    return cnt;
+    return "-";
 }
 
 static char *get_mapped_string(joystick_mapping_t *mapping)
@@ -709,9 +714,8 @@ static char *get_mapped_string(joystick_mapping_t *mapping)
              return "-";
          case JOY_ACTION_JOYSTICK:
          {
-             char *joydirs[8] = {  "up", "down", "left", "right","fire", "fire2", "fire3", "fire4" };
-             /*sprintf(str, "joy pin: 0x%04x", mapping->value.joy_pin);*/
-             sprintf(str, "0x%04x  %s", mapping->value.joy_pin, joydirs[count0bits(mapping->value.joy_pin)]);
+             sprintf(str, "0x%04x  %s", mapping->value.joy_pin,
+                        get_direction_string(mapping->value.joy_pin));
              return str;
          }
          case JOY_ACTION_KEYBOARD:
@@ -1207,6 +1211,8 @@ static void inputs_joystick_event(void *input, joystick_input_t type, int32_t va
                     }
                 }
             }
+            /* FIXME: scroll list to make the "active" axis visible if scrolled
+                      out of sight */
             break;
         case JOY_INPUT_BUTTON:
             button = input;
@@ -1225,6 +1231,8 @@ static void inputs_joystick_event(void *input, joystick_input_t type, int32_t va
                     }
                 }
             }
+            /* FIXME: scroll list to make the "active" button visible if scrolled
+                      out of sight */
             break;
         case JOY_INPUT_HAT:
             hat = input;
@@ -1244,6 +1252,8 @@ static void inputs_joystick_event(void *input, joystick_input_t type, int32_t va
                     }
                 }
             }
+            /* FIXME: scroll list to make the "active" hat visible if scrolled
+                      out of sight */
             break;
         default:
             break;
