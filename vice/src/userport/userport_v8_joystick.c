@@ -126,7 +126,7 @@ int userport_joystick_v8_resources_init(void)
 
 static uint8_t userport_joystick_v8_read_pbx(uint8_t orig)
 {
-    uint8_t retval;
+    uint8_t retval = 0;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
     uint8_t jv4 = ~read_joyport_dig(JOYPORT_4);
     uint8_t jv5 = ~read_joyport_dig(JOYPORT_5);
