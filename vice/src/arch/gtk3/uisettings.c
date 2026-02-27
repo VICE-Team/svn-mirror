@@ -1001,7 +1001,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
-   { "Userport devices",
+    { "Userport devices",
       "userport-devices",
       settings_userport_widget_create, NULL },
     { "Tape port devices",
