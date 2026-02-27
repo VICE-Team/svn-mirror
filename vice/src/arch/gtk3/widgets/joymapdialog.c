@@ -65,10 +65,16 @@ static void (*user_callback)(joystick_device_t*);
 static joystick_device_t *cached_joydev = NULL;
 
 static GtkWidget *top_grid;
-static GtkWidget *combobox_types;
+static GtkWidget *combobox_types;   /* mapping type combobox */
+
 static GtkWidget *value_grid;
-static GtkWidget *cpvalue;
-static GtkWidget *actionvalue;
+static GtkWidget *cpvalue;          /* control port value combobox */
+static GtkWidget *actionvalue;      /* ui action value combobox */
+static GtkWidget *rowlabel;
+static GtkWidget *keyrowvalue;      /* keyboard row value combobox */
+static GtkWidget *collabel;
+static GtkWidget *keycolvalue;      /* keyboard column value combobox */
+static GtkWidget *keyshiftvalue;
 static GtkWidget *todolabel;
 
 /** \brief get actual ui-action id from the index in the dropdown box
@@ -92,28 +98,48 @@ static int actionvalue_get_action_by_index(int index)
  */
 static void set_mapping(joystick_mapping_t *mapping)
 {
-    int index, value;
-    index = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox_types));
+    int index = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox_types));
+
     DBG(("set_mapping action %u->%d", mapping->action, index));
-    mapping->action = index;
-    switch (mapping->action) {
+
+    switch (index) {
         case JOY_ACTION_JOYSTICK:
-                value = gtk_combo_box_get_active(GTK_COMBO_BOX(cpvalue));
-                DBG(("set_mapping (joystick) value %d->%d", mapping->value.joy_pin, 1 << value));
-                mapping->value.joy_pin = 1 << value;
+            {
+                int value = gtk_combo_box_get_active(GTK_COMBO_BOX(cpvalue));
+                DBG(("set_mapping (joystick) value %d->%d (value:%d)", mapping->value.joy_pin, 1 << value, value));
+                if (value >= 0) {
+                    mapping->value.joy_pin = 1 << value;
+                    mapping->action = index;
+                }
+            }
             break;
         case JOY_ACTION_KEYBOARD:
+            {
                 /* TODO: get values from dialog, apply to key mapping */
-                DBG(("TODO: set_mapping (keyboard) row:%d column:%d flags:%02x ->",
-                       mapping->value.key[0], mapping->value.key[1], (unsigned int)mapping->value.key[2]));
-                log_warning(LOG_DEFAULT, "Mapping for key presses axes is not implemented.");
+                int rowvalue = gtk_combo_box_get_active(GTK_COMBO_BOX(keyrowvalue));
+                int colvalue = gtk_combo_box_get_active(GTK_COMBO_BOX(keycolvalue));
+                int shiftvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(keyshiftvalue));
+                /* key[0] = row, key[1] = column, key[2] = flags */
+                DBG(("set_mapping (keyboard) row:%d column:%d flags:%02x -> row:%d column:%d flags:%02x",
+                       mapping->value.key[0], mapping->value.key[1], (unsigned int)mapping->value.key[2],
+                       rowvalue, colvalue, (unsigned int)shiftvalue));
+                if ((rowvalue >= 0) && (colvalue >=0)) {
+                    mapping->action = index;
+                    mapping->value.key[0] = rowvalue;
+                    mapping->value.key[1] = colvalue;
+                    mapping->value.key[2] = shiftvalue;
+                }
+            }
             break;
         case JOY_ACTION_UI_FUNCTION:
-                value = actionvalue_get_action_by_index(gtk_combo_box_get_active(GTK_COMBO_BOX(actionvalue)));
+            {
+                int value = actionvalue_get_action_by_index(gtk_combo_box_get_active(GTK_COMBO_BOX(actionvalue)));
                 DBG(("set_mapping (ui action) value %d->%d", mapping->value.ui_action, value));
                 if (value > -1) {
                     mapping->value.ui_action = value;
+                    mapping->action = index;
                 }
+            }
             break;
         case JOY_ACTION_POT_AXIS:
                 /* TODO: get values from dialog, apply to POT mapping */
@@ -124,6 +150,7 @@ static void set_mapping(joystick_mapping_t *mapping)
             /* fall through */
         case JOY_ACTION_UI_ACTIVATE:
             /* fall through */
+            mapping->action = index;
         default:
             break;
     }
@@ -140,11 +167,31 @@ static void destroy_value_widgets(void)
     if (actionvalue != NULL) {
         gtk_widget_destroy(actionvalue);
     }
+    if (rowlabel != NULL) {
+        gtk_widget_destroy(rowlabel);
+    }
+    if (keyrowvalue != NULL) {
+        gtk_widget_destroy(keyrowvalue);
+    }
+    if (collabel != NULL) {
+        gtk_widget_destroy(collabel);
+    }
+    if (keycolvalue != NULL) {
+        gtk_widget_destroy(keycolvalue);
+    }
+    if (keyshiftvalue != NULL) {
+        gtk_widget_destroy(keyshiftvalue);
+    }
     if (todolabel != NULL) {
         gtk_widget_destroy(todolabel);
     }
     cpvalue = NULL;
     actionvalue = NULL;
+    keyrowvalue = NULL;
+    keycolvalue = NULL;
+    keyshiftvalue = NULL;
+    collabel = NULL;
+    rowlabel = NULL;
     todolabel = NULL;
     DBG(("destroy_value_widgets done"));
 }
@@ -225,6 +272,55 @@ static GtkWidget *label_helper(const char *text)
     gtk_label_set_markup(GTK_LABEL(label), text);
     return label;
 }
+
+
+/** \brief create "keyboard column" values drop down list (create)
+ */
+static GtkListStore *key_column_combo_model_new(void)
+{
+    GtkListStore *model;
+    int           index;
+    /* FIXME: we should only create the numbers in the range that actually
+              applies to the max rows/columns of the keyboard in the emulator */
+    const char *types[] = {
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        NULL
+    };
+    DBG(("key_column_combo_model_new"));
+    model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+    for (index = 0; types[index] != NULL; index++) {
+        GtkTreeIter        iter;
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter, 0, index, 1, types[index], -1);
+    }
+    return model;
+}
+
+/** \brief create "keyboard column" values drop down list
+ */
+static GtkWidget *key_column_combo_new(joystick_mapping_t *mapping)
+{
+    GtkWidget       *combo;
+    GtkListStore    *model;
+    GtkCellRenderer *renderer;
+
+    combo    = gtk_combo_box_new();
+    model    = key_column_combo_model_new();
+    renderer = gtk_cell_renderer_text_new();
+
+    gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "text", 1, NULL);
+#if 0
+    g_signal_connect(G_OBJECT(combo),
+                     "changed",
+                     G_CALLBACK(on_type_changed),
+                     NULL);
+#endif
+    return combo;
+}
+
+
 
 /** \brief create "control port" values drop down list (create)
  */
@@ -356,15 +452,34 @@ static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mappi
         case JOY_ACTION_JOYSTICK:
                 cpvalue = cpvalue_combo_new(mapping);
                 gtk_grid_attach(GTK_GRID(grid), cpvalue, 0, 0, 1, 1);
+                cpvalue_select_by_joypin(mapping->value.joy_pin);
             break;
         case JOY_ACTION_KEYBOARD:
-                /* TODO */
-                todolabel = label_helper("<b>TODO</b>");
-                gtk_grid_attach(GTK_GRID(grid), todolabel, 0, 0, 1, 1);
+                rowlabel = label_helper("row:");
+                gtk_grid_attach(GTK_GRID(grid), rowlabel, 0, 0, 1, 1);
+                keyrowvalue = key_column_combo_new(mapping);
+                gtk_grid_attach(GTK_GRID(grid), keyrowvalue, 1, 0, 1, 1);
+                collabel = label_helper("column:");
+                gtk_grid_attach(GTK_GRID(grid), collabel, 2, 0, 1, 1);
+                keycolvalue = key_column_combo_new(mapping);
+                gtk_grid_attach(GTK_GRID(grid), keycolvalue, 3, 0, 1, 1);
+                keyshiftvalue = gtk_check_button_new_with_label("+ shift");
+                gtk_grid_attach(GTK_GRID(grid), keyshiftvalue, 4, 0, 1, 1);
+                /* key[0] = row, key[1] = column, key[2] = flags */
+                if (mapping->value.key[0] >= 0) {
+                    gtk_combo_box_set_active(GTK_COMBO_BOX(keyrowvalue), mapping->value.key[0]);
+                }
+                if (mapping->value.key[1] >= 0) {
+                    gtk_combo_box_set_active(GTK_COMBO_BOX(keycolvalue), mapping->value.key[1]);
+                }
+                if (mapping->value.key[2] >= 0) {
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(keyshiftvalue), mapping->value.key[2]);
+                }
             break;
         case JOY_ACTION_UI_FUNCTION:
                 actionvalue = actionvalue_combo_new(mapping);
                 gtk_grid_attach(GTK_GRID(grid), actionvalue, 0, 0, 1, 1);
+                actionvalue_select_by_action(mapping->value.ui_action);
             break;
         case JOY_ACTION_POT_AXIS:
                 /* TODO */
@@ -381,6 +496,7 @@ static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mappi
                 gtk_grid_attach(GTK_GRID(grid), todolabel, 0, 0, 1, 1);
             break;
     }
+
     DBG(("create_value_widget done"));
     return grid;
 }
@@ -506,8 +622,6 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev, joystick_mapp
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     value_grid = vice_gtk3_grid_new_spaced(1, 1);
     create_value_widget(GTK_WIDGET(value_grid), mapping, mapping->action);
-    cpvalue_select_by_joypin(mapping->value.joy_pin);
-    actionvalue_select_by_action(mapping->value.ui_action);
     gtk_grid_attach(GTK_GRID(grid), value_grid, 1, row, 1, 1);
     row++;
 
@@ -518,7 +632,7 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev, joystick_mapp
     return grid;
 }
 
-/** \brief  Handle "key pressd" event
+/** \brief  Handle "key pressed" event
  */
 static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
         gpointer data)
@@ -527,6 +641,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
     /* TODO: translate the pressed key to the right col/row and apply that */
     log_warning(LOG_DEFAULT, "setting key mapping via key presses is not implemented.");
     DBG(("pressed key value (fixed): %04x", key));
+    /* key[0] = row, key[1] = column, key[2] = flags */
     return FALSE;
 }
 

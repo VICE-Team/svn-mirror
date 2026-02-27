@@ -11,7 +11,16 @@
 /* TODO:
  *  - in the input tab, the list of axis/buttons/hats should automatically
  *    scroll so the currently pressed one is actually visible
+ *  - the list of axis/buttons/hats should resize when the dialog is resized
  *  - implement the calibration tab
+ *
+ * Some places of the GUI will have to explicitly poll the controllers to make
+ * some features work as expected:
+ *
+ *  - mapping a button to "toggle-pause" works, pressing the button to "pause"
+ *    works, but pressing the button to unpause does not
+ *  - mapping a button to "activate ui" works, but pressing it to close the
+ *    menu again does not
  */
 
 #include "vice.h"
@@ -720,9 +729,12 @@ static char *get_mapped_string(joystick_mapping_t *mapping)
          }
          case JOY_ACTION_KEYBOARD:
          {
-             /*sprintf(str, "key col: %d row: %d flags:0x%02x", mapping->value.key[0], mapping->value.key[1], mapping->value.key[2]);*/
-             /*sprintf(str, "col: %d row: %d flags: 0x%02x", mapping->value.key[0], mapping->value.key[1], mapping->value.key[2]);*/
-             sprintf(str, "col: %d row: %d %s", mapping->value.key[0], mapping->value.key[1], get_flag_string(mapping->value.key[2]));
+             /* key[0] = row, key[1] = column, key[2] = flags */
+             /*sprintf(str, "row: %d col: %d flags: 0x%02x", mapping->value.key[0], mapping->value.key[1], mapping->value.key[2]);*/
+             sprintf(str, "row: %d col: %d %s",
+                     mapping->value.key[0],
+                     mapping->value.key[1],
+                     get_flag_string(mapping->value.key[2]));
              return str;
          }
          case JOY_ACTION_MAP:
