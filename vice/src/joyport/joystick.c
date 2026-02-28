@@ -890,20 +890,27 @@ static int set_joystick_device(int val, void *param)
     return 0;
 }
 
+/* POT mapping (used by GTK joystick drivers) */
+void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, uint8_t value)
+{
+    if ((joydev->joyport == 0 || joydev->joyport == 1) && (axis->mapping.pot > 0)) {
+        joystick_axis_value[joydev->joyport][axis->mapping.pot - 1] = value;
+    }
+}
+
+/* POT mapping (used by SDL) */
 void joystick_set_axis_value(unsigned int joynum, unsigned int axis_idx, uint8_t value)
 {
     if (joynum < num_joystick_devices) {
         joystick_device_t *joydev = joystick_devices[joynum];
         joystick_axis_t   *axis   = joydev->axes[axis_idx];
-
-        if ((joydev->joyport == 0 || joydev->joyport == 1) && (axis->mapping.pot > 0)) {
-            joystick_axis_value[joydev->joyport][axis->mapping.pot - 1] = value;
-        }
+        joy_set_axis_value(joydev, axis, value);
     }
 }
 
 static char mapping_retval[50];
 
+/* POT mapping */
 char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
 {
     int j;
@@ -1149,11 +1156,13 @@ char *get_joy_extra_mapping_string(int which)
     return retval;
 }
 
+/* POT mapping */
 void joy_set_pot_mapping(int joystick_device_num, int axis, int pot)
 {
     joystick_devices[joystick_device_num]->axes[axis]->mapping.pot = pot + 1;
 }
 
+/* POT mapping */
 void joy_delete_pot_mapping(int joystick_device_num, int pot)
 {
     int j;
