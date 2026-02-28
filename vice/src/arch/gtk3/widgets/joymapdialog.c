@@ -57,6 +57,7 @@
 #include "widgethelpers.h"
 #include "ui.h"
 #include "uiactions.h"
+#include "unicodehelpers.h"
 #include "kbd.h"
 
 #include "joystick.h"
@@ -426,7 +427,7 @@ static GtkListStore *cpvalue_combo_model_new(void)
     int           index;
 
     const char *types[] = {
-        "up", "down", "left", "right", "fire", "fire2", "fire3",
+        "Up", "Down", "Left", "Right", "Fire", "Fire 2", "Fire 3",
         NULL
     };
 
@@ -613,12 +614,12 @@ static GtkListStore *type_combo_model_new(void)
 
     const char *types[JOY_ACTION_MAX + 2] = {
         "none",         /* JOY_ACTION_NONE */
-        "control port", /* JOY_ACTION_JOYSTICK */
-        "keyboard",     /* JOY_ACTION_KEYBOARD */
-        "map",          /* JOY_ACTION_MAP */
-        "activate ui",  /* JOY_ACTION_UI_ACTIVATE */
-        "action",       /* JOY_ACTION_UI_FUNCTION */
-        "pot axis",     /* JOY_ACTION_POT_AXIS */
+        "Control port", /* JOY_ACTION_JOYSTICK */
+        "Keyboard",     /* JOY_ACTION_KEYBOARD */
+        "Map",          /* JOY_ACTION_MAP */
+        "Activate UI",  /* JOY_ACTION_UI_ACTIVATE */
+        "GUI action",   /* JOY_ACTION_UI_FUNCTION */
+        "Pot axis",     /* JOY_ACTION_POT_AXIS */
         NULL
     };
 
@@ -698,6 +699,7 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev,
     GtkWidget *grid;
     int row = 0;
     char buf[0x100];
+    gchar *tmptext;
 
     DBG(("create_content_widget"));
 
@@ -713,8 +715,10 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev,
     label = label_helper("<b>Input:</b>");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     sprintf(buf, "%s (%s)", name, input);
+    tmptext = vice_gtk3_locale_to_utf8(buf);
     label = label_helper(buf);
     gtk_grid_attach(GTK_GRID(grid), label, 1, row, 1, 1);
+    g_free(tmptext);
     row++;
 
     label = label_helper("<b>Mapping Type:</b>");
