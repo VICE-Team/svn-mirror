@@ -1250,7 +1250,7 @@ void joy_delete_pin_mapping(int joystick_device_num, int pin)
     }
 }
 
-#if (defined USE_SDLUI ||defined USE_SDL2UI)
+#if (defined USE_SDLUI || defined USE_SDL2UI)
 void joy_delete_extra_mapping(int type)
 {
     int i;
@@ -3325,8 +3325,9 @@ joystick_mapping_t *joy_get_axis_mapping(uint8_t                joynum,
 {
     joystick_mapping_t *retval = joy_get_axis_mapping_not_setting_value(
             joynum, axis, joystick_devices[joynum]->axes[axis]->prev);
-    if (prev)
+    if (prev) {
         *prev = joystick_devices[joynum]->axes[axis]->prev;
+    }
     joystick_devices[joynum]->axes[axis]->prev = value;
     return retval;
 }
@@ -3351,8 +3352,9 @@ joystick_mapping_t *joy_get_button_mapping(uint8_t  joynum,
 {
     joystick_mapping_t *retval = joy_get_button_mapping_not_setting_value(
             joynum, button, joystick_devices[joynum]->buttons[button]->prev);
-     if (prev)
+     if (prev) {
         *prev = joystick_devices[joynum]->buttons[button]->prev;
+     }
     joystick_devices[joynum]->buttons[button]->prev = value;
     return retval;
 }
@@ -3361,8 +3363,9 @@ joystick_mapping_t *joy_get_button_mapping_not_setting_value(uint8_t joynum,
                                                              uint8_t button,
                                                              uint8_t value)
 {
-    if (value)
+    if (value) {
         return &joystick_devices[joynum]->buttons[button]->mapping;
+    }
     return NULL;
 }
 
@@ -3378,8 +3381,9 @@ joystick_mapping_t *joy_get_hat_mapping(uint8_t  joynum,
 {
     joystick_mapping_t *retval = joy_get_hat_mapping_not_setting_value(
             joynum, hat, joystick_devices[joynum]->hats[hat]->prev);
-     if (prev)
+     if (prev) {
         *prev = joystick_devices[joynum]->hats[hat]->prev;
+     }
     joystick_devices[joynum]->hats[hat]->prev = value;
     return retval;
 }
@@ -4200,6 +4204,12 @@ void joystick_device_add_axis(joystick_device_t *joydev,
 #endif
     /* store parent device */
     axis->device = joydev;
+    /* store parent input */
+    axis->mapping.negative.input.axis = axis;
+    axis->mapping.positive.input.axis = axis;
+
+    axis->mapping.negative.type = JOY_INPUT_AXIS;
+    axis->mapping.positive.type = JOY_INPUT_AXIS;
 
     joydev->axes[joydev->num_axes++] = axis;
 }
@@ -4230,7 +4240,13 @@ void joystick_device_add_button(joystick_device_t *joydev,
                                       sizeof *joydev->buttons * (size_t)joydev->max_buttons);
     }
 
+    /* store parent device */
     button->device = joydev;
+    /* store parent input */
+    button->mapping.input.button = button;
+
+    button->mapping.type = JOY_INPUT_BUTTON;
+
     joydev->buttons[joydev->num_buttons++] = button;
 }
 
@@ -4260,7 +4276,19 @@ void joystick_device_add_hat(joystick_device_t *joydev,
                                    sizeof *joydev->hats * (size_t)joydev->max_hats);
     }
 
+    /* store parent device */
     hat->device = joydev;
+    /* store parent input */
+    hat->mapping.up.input.hat = hat;
+    hat->mapping.down.input.hat = hat;
+    hat->mapping.left.input.hat = hat;
+    hat->mapping.right.input.hat = hat;
+
+    hat->mapping.up.type = JOY_INPUT_HAT;
+    hat->mapping.down.type = JOY_INPUT_HAT;
+    hat->mapping.left.type = JOY_INPUT_HAT;
+    hat->mapping.right.type = JOY_INPUT_HAT;
+
     joydev->hats[joydev->num_hats++] = hat;
 }
 
