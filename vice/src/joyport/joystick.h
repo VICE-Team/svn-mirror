@@ -173,6 +173,17 @@ typedef struct joystick_mapping_s {
         int key[3];
         int ui_action;
     } value;
+
+    /* parent input */
+    union {
+        struct joystick_button_s *button;
+        struct joystick_axis_s   *axis;
+        struct joystick_hat_s    *hat;
+    } input;
+
+    /* the type of input the mapping is for */
+    joystick_input_t type;
+
 } joystick_mapping_t;
 
 /** \brief  Calibration for a host input

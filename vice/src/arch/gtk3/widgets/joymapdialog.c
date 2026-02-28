@@ -29,15 +29,22 @@
 
 #define DEBUG_JOYMAPDIALOG
 
-/* TODO: (some of this must be done in settings_joymap.c)
- *  - handle (re)mapping for keyboard/keypresses
- *    - create the widget to change kbd row/column/flag
- *    - instead of manually choosing row/column, pressing the respective key
- *      should select the correct value (needs some stunts via keymap code)
- *  - handle (re)mapping for POT axis
- *    - create widget for changing the POT mapping
+/* TODO: (also see settings_joymap.c)
+ *  - when changing key mapping, instead of manually choosing row/column,
+ *    pressing the respective key should select the correct value (needs some
+ *    stunts via keymap code)
+ *  - at least the button names should go through some UTF conversion
+ *  - the "map" type doesn't really make sense in GTK, so we should probably
+ *    hide it.
+ *  - some of the code contained here might duplicate stuff already implemented
+ *    in joystick.c, and should use the common code instead
  */
 
+/* BUGS:
+ *  https://sourceforge.net/p/vice-emu/feature-requests/376/
+ *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2204/
+ *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2205/
+ */
 
 #include "vice.h"
 
@@ -75,6 +82,7 @@ static GtkWidget *keyrowvalue;      /* keyboard row value combobox */
 static GtkWidget *collabel;
 static GtkWidget *keycolvalue;      /* keyboard column value combobox */
 static GtkWidget *keyshiftvalue;
+static GtkWidget *potvalue;         /* pot mapping value combobox */
 static GtkWidget *todolabel;
 
 /** \brief get actual ui-action id from the index in the dropdown box
@@ -94,6 +102,36 @@ static int actionvalue_get_action_by_index(int index)
     return -1;
 }
 
+
+/* FIXME: this should probably go to joystick.c */
+static void clear_pot_mapping(joystick_mapping_t *mapping)
+{
+    if (mapping->type == JOY_INPUT_AXIS) {
+        mapping->input.axis->mapping.positive.action = JOY_ACTION_NONE;
+        mapping->input.axis->mapping.negative.action = JOY_ACTION_NONE;
+        mapping->input.axis->mapping.pot = 0;
+    }
+}
+
+/* FIXME: this should probably go to joystick.c */
+static void set_pot_mapping(joystick_mapping_t *mapping, int pot)
+{
+    if (mapping->type == JOY_INPUT_AXIS) {
+        mapping->input.axis->mapping.positive.action = pot ? JOY_ACTION_POT_AXIS : JOY_ACTION_NONE;
+        mapping->input.axis->mapping.negative.action = pot ? JOY_ACTION_POT_AXIS : JOY_ACTION_NONE;
+        mapping->input.axis->mapping.pot = pot;
+    }
+}
+
+/* FIXME: this should probably go to joystick.c */
+static int get_pot_mapping(joystick_mapping_t *mapping)
+{
+    if (mapping->type == JOY_INPUT_AXIS) {
+        return mapping->input.axis->mapping.pot;
+    }
+    return -1;
+}
+
 /** \brief apply selected mapping from dialog to the mapping of the joymap
  */
 static void set_mapping(joystick_mapping_t *mapping)
@@ -108,6 +146,7 @@ static void set_mapping(joystick_mapping_t *mapping)
                 int value = gtk_combo_box_get_active(GTK_COMBO_BOX(cpvalue));
                 DBG(("set_mapping (joystick) value %d->%d (value:%d)", mapping->value.joy_pin, 1 << value, value));
                 if (value >= 0) {
+                    clear_pot_mapping(mapping);
                     mapping->value.joy_pin = 1 << value;
                     mapping->action = index;
                 }
@@ -115,7 +154,6 @@ static void set_mapping(joystick_mapping_t *mapping)
             break;
         case JOY_ACTION_KEYBOARD:
             {
-                /* TODO: get values from dialog, apply to key mapping */
                 int rowvalue = gtk_combo_box_get_active(GTK_COMBO_BOX(keyrowvalue));
                 int colvalue = gtk_combo_box_get_active(GTK_COMBO_BOX(keycolvalue));
                 int shiftvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(keyshiftvalue));
@@ -124,6 +162,7 @@ static void set_mapping(joystick_mapping_t *mapping)
                        mapping->value.key[0], mapping->value.key[1], (unsigned int)mapping->value.key[2],
                        rowvalue, colvalue, (unsigned int)shiftvalue));
                 if ((rowvalue >= 0) && (colvalue >=0)) {
+                    clear_pot_mapping(mapping);
                     mapping->action = index;
                     mapping->value.key[0] = rowvalue;
                     mapping->value.key[1] = colvalue;
@@ -136,14 +175,20 @@ static void set_mapping(joystick_mapping_t *mapping)
                 int value = actionvalue_get_action_by_index(gtk_combo_box_get_active(GTK_COMBO_BOX(actionvalue)));
                 DBG(("set_mapping (ui action) value %d->%d", mapping->value.ui_action, value));
                 if (value > -1) {
+                    clear_pot_mapping(mapping);
                     mapping->value.ui_action = value;
                     mapping->action = index;
                 }
             }
             break;
         case JOY_ACTION_POT_AXIS:
-                /* TODO: get values from dialog, apply to POT mapping */
-                log_warning(LOG_DEFAULT, "Mapping for POT axes is not implemented.");
+            {
+                int value = gtk_combo_box_get_active(GTK_COMBO_BOX(potvalue));  /* 0 or 1 */
+                DBG(("set_mapping (pot axis) value %u->%d", mapping->input.axis->mapping.pot, value + 1));
+                if (value >= 0) {
+                    set_pot_mapping(mapping, value + 1);
+                }
+            }
             break;
             /* "Map" and "Activate UI" have no value */
         case JOY_ACTION_MAP:
@@ -182,6 +227,9 @@ static void destroy_value_widgets(void)
     if (keyshiftvalue != NULL) {
         gtk_widget_destroy(keyshiftvalue);
     }
+    if (potvalue != NULL) {
+        gtk_widget_destroy(potvalue);
+    }
     if (todolabel != NULL) {
         gtk_widget_destroy(todolabel);
     }
@@ -190,6 +238,7 @@ static void destroy_value_widgets(void)
     keyrowvalue = NULL;
     keycolvalue = NULL;
     keyshiftvalue = NULL;
+    potvalue = NULL;
     collabel = NULL;
     rowlabel = NULL;
     todolabel = NULL;
@@ -306,6 +355,53 @@ static GtkWidget *key_column_combo_new(joystick_mapping_t *mapping)
 
     combo    = gtk_combo_box_new();
     model    = key_column_combo_model_new();
+    renderer = gtk_cell_renderer_text_new();
+
+    gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "text", 1, NULL);
+#if 0
+    g_signal_connect(G_OBJECT(combo),
+                     "changed",
+                     G_CALLBACK(on_type_changed),
+                     NULL);
+#endif
+    return combo;
+}
+
+
+/** \brief create "pot axis" values drop down list (create)
+ */
+static GtkListStore *pot_axis_combo_model_new(void)
+{
+    GtkListStore *model;
+    int           index;
+    /* FIXME: we should only create the numbers in the range that actually
+              applies to the max rows/columns of the keyboard in the emulator */
+    const char *types[] = {
+        "Pot X", "Pot Y",
+        NULL
+    };
+    DBG(("pot_axis_combo_model_new"));
+    model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+    for (index = 0; types[index] != NULL; index++) {
+        GtkTreeIter        iter;
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter, 0, index + 1, 1, types[index], -1);
+    }
+    return model;
+}
+
+/** \brief create "keyboard column" values drop down list
+ */
+static GtkWidget *pot_axis_combo_new(void)
+{
+    GtkWidget       *combo;
+    GtkListStore    *model;
+    GtkCellRenderer *renderer;
+
+    combo    = gtk_combo_box_new();
+    model    = pot_axis_combo_model_new();
     renderer = gtk_cell_renderer_text_new();
 
     gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
@@ -441,7 +537,9 @@ static GtkWidget *actionvalue_combo_new(joystick_mapping_t *mapping)
 
 /** \brief creates the widget to alter the value of the mapping
  */
-static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mapping, int action)
+static GtkWidget *create_value_widget(GtkWidget *grid,
+                                      joystick_mapping_t *mapping,
+                                      int action)
 {
     DBG(("create_value_widget action:%d", action));
     /* first destroy all existing value widgets */
@@ -482,9 +580,14 @@ static GtkWidget *create_value_widget(GtkWidget *grid, joystick_mapping_t *mappi
                 actionvalue_select_by_action(mapping->value.ui_action);
             break;
         case JOY_ACTION_POT_AXIS:
-                /* TODO */
-                todolabel = label_helper("<b>TODO</b>");
-                gtk_grid_attach(GTK_GRID(grid), todolabel, 0, 0, 1, 1);
+            {
+                int value = get_pot_mapping(mapping);
+                potvalue = pot_axis_combo_new();
+                gtk_grid_attach(GTK_GRID(grid), potvalue, 0, 0, 1, 1);
+                if (value > 0) {
+                    gtk_combo_box_set_active(GTK_COMBO_BOX(potvalue), value - 1);
+                }
+            }
             break;
         /* no value for "map" and "activate ui" */
         case JOY_ACTION_MAP:
@@ -586,7 +689,10 @@ static GtkWidget *type_combo_new(joystick_mapping_t *mapping)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_content_widget(joystick_device_t *joydev, joystick_mapping_t *mapping, const char *input, const char *name)
+static GtkWidget *create_content_widget(joystick_device_t *joydev,
+                                        joystick_mapping_t *mapping,
+                                        const char *input,
+                                        const char *name)
 {
     GtkWidget *label;
     GtkWidget *grid;
@@ -649,7 +755,11 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
  *
  * \param[in]   joydev  device
  */
-void joymap_dialog_show(joystick_device_t *joydev, joystick_mapping_t *mapping, const char *input, const char *name, void (*callback)(joystick_device_t*))
+void joymap_dialog_show(joystick_device_t *joydev,
+                        joystick_mapping_t *mapping,
+                        const char *input,
+                        const char *name,
+                        void (*callback)(joystick_device_t*))
 {
     GtkWidget *dialog;
     GtkWidget *content;

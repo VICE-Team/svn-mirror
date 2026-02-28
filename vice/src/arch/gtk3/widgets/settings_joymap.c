@@ -8,11 +8,14 @@
 
 #define DEBUG_JOYMAPSETTINGS
 
-/* TODO:
+/* TODO: (also see joymapdialog.c)
  *  - in the input tab, the list of axis/buttons/hats should automatically
  *    scroll so the currently pressed one is actually visible
  *  - the list of axis/buttons/hats should resize when the dialog is resized
  *  - implement the calibration tab
+ *  - some of the code contained here might duplicate stuff already implemented
+ *    in joystick.c, and should use the common code instead
+ *  - at least the button names should go through some UTF conversion
  *
  * Some places of the GUI will have to explicitly poll the controllers to make
  * some features work as expected:
@@ -21,6 +24,12 @@
  *    works, but pressing the button to unpause does not
  *  - mapping a button to "activate ui" works, but pressing it to close the
  *    menu again does not
+ */
+
+/* BUGS:
+ *  https://sourceforge.net/p/vice-emu/feature-requests/376/
+ *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2204/
+ *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2205/
  */
 
 #include "vice.h"
@@ -440,6 +449,7 @@ static void on_reset_clicked(GtkButton *btn, gpointer extra)
         joystick_axis_t *axis   = joydev->axes[i];
         axis->mapping.negative.action = JOY_ACTION_NONE;
         axis->mapping.positive.action = JOY_ACTION_NONE;
+        axis->mapping.pot = 0;
     }
     for (i = 0; i < joydev->num_hats; i++) {
         joystick_hat_t *hat   = joydev->hats[i];
@@ -679,12 +689,12 @@ static char *get_action_string(int action)
 {
     switch (action) {
         case JOY_ACTION_NONE: return "none";
-        case JOY_ACTION_JOYSTICK: return "control port";
-        case JOY_ACTION_KEYBOARD: return "keyboard";
-        case JOY_ACTION_MAP: return "map";
-        case JOY_ACTION_UI_ACTIVATE: return "activate ui";
-        case JOY_ACTION_UI_FUNCTION: return "action";
-        case JOY_ACTION_POT_AXIS: return "pot";
+        case JOY_ACTION_JOYSTICK: return "Control port";
+        case JOY_ACTION_KEYBOARD: return "Keyboard";
+        case JOY_ACTION_MAP: return "Map";
+        case JOY_ACTION_UI_ACTIVATE: return "Activate UI";
+        case JOY_ACTION_UI_FUNCTION: return "GUI action";
+        case JOY_ACTION_POT_AXIS: return "Pot axis";
     }
     return "invalid";
 }
@@ -702,14 +712,14 @@ static char *get_flag_string(int flags)
 static char *get_direction_string(int val)
 {
     switch (val) {
-        case 0x0001: return "up";
-        case 0x0002: return "down";
-        case 0x0004: return "left";
-        case 0x0008: return "right";
-        case 0x0010: return "fire";
-        case 0x0020: return "fire2";
-        case 0x0040: return "fire3";
-        case 0x0080: return "fire4";
+        case 0x0001: return "Pp";
+        case 0x0002: return "Down";
+        case 0x0004: return "Left";
+        case 0x0008: return "Right";
+        case 0x0010: return "Fire";
+        case 0x0020: return "Fire 2";
+        case 0x0040: return "Fire 3";
+        case 0x0080: return "Fire 4";
         default: break;
     }
     return "-";
@@ -731,7 +741,7 @@ static char *get_mapped_string(joystick_mapping_t *mapping)
          {
              /* key[0] = row, key[1] = column, key[2] = flags */
              /*sprintf(str, "row: %d col: %d flags: 0x%02x", mapping->value.key[0], mapping->value.key[1], mapping->value.key[2]);*/
-             sprintf(str, "row: %d col: %d %s",
+             sprintf(str, "Row: %d Col: %d %s",
                      mapping->value.key[0],
                      mapping->value.key[1],
                      get_flag_string(mapping->value.key[2]));
@@ -746,8 +756,11 @@ static char *get_mapped_string(joystick_mapping_t *mapping)
              sprintf(str, "%s", ui_action_get_name(mapping->value.ui_action));
              return str;
          case JOY_ACTION_POT_AXIS:
-             log_warning(LOG_DEFAULT, "Mapping for POT axes is not implemented.");
-             return "TODO";
+         {
+             int pot = mapping->input.axis->mapping.pot;
+             sprintf(str, "Pot %c", pot == 1 ? 'X' : 'Y');
+             return str;
+         }
     }
     return "invalid";
 }
@@ -777,13 +790,14 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     for (i = 0; i < joydev->num_buttons; i++) {
         GtkTreeIter      iter;
         joystick_button_t *button   = joydev->buttons[i];
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, button->name, get_action_string(button->mapping.action), get_mapped_string(&button->mapping)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, button->name,
+             get_action_string(button->mapping.action), get_mapped_string(&button->mapping)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + i,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "button",
+                            COL_INPUT_TYPE, "Button",
                             COL_INPUT_NAME, button->name,
                             COL_MAPPED_TYPE, get_action_string(button->mapping.action),
                             COL_MAPPED_VAL, get_mapped_string(&button->mapping),
@@ -795,28 +809,35 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     for (i = 0; i < joydev->num_axes; i++) {
         GtkTreeIter      iter;
         joystick_axis_t *axis   = joydev->axes[i];
+        /* HACK HACK: the mapping loader should probably do this (check with SDL!) */
+        if (axis->mapping.pot != 0) {
+            axis->mapping.negative.action = JOY_ACTION_POT_AXIS;
+            axis->mapping.positive.action = JOY_ACTION_POT_AXIS;
+        }
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 2) + 0,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "axis min",
+                            COL_INPUT_TYPE, "Axis min",
                             COL_INPUT_NAME, axis->name,
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.negative.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.negative),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name, get_action_string(axis->mapping.negative.action), get_mapped_string(&axis->mapping.negative)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
+             get_action_string(axis->mapping.negative.action), get_mapped_string(&axis->mapping.negative)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 2) + 1,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "axis max",
+                            COL_INPUT_TYPE, "Axis max",
                             COL_INPUT_NAME, axis->name,
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.positive.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.positive),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name, get_action_string(axis->mapping.positive.action), get_mapped_string(&axis->mapping.positive)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
+             get_action_string(axis->mapping.positive.action), get_mapped_string(&axis->mapping.positive)));
     }
     n+=i;
 
@@ -829,45 +850,49 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             &iter,
                             COL_INDEX, n + (i * 4) + 0,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "hat up",
+                            COL_INPUT_TYPE, "Hat up",
                             COL_INPUT_NAME, hat->name,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.up.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.up),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name, get_action_string(hat->mapping.up.action), get_mapped_string(&hat->mapping.up)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+             get_action_string(hat->mapping.up.action), get_mapped_string(&hat->mapping.up)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 1,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "hat down",
+                            COL_INPUT_TYPE, "Hat down",
                             COL_INPUT_NAME, hat->name,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.down.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.down),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name, get_action_string(hat->mapping.down.action), get_mapped_string(&hat->mapping.down)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+             get_action_string(hat->mapping.down.action), get_mapped_string(&hat->mapping.down)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 2,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "hat left",
+                            COL_INPUT_TYPE, "Hat left",
                             COL_INPUT_NAME, hat->name,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.left.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.left),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name, get_action_string(hat->mapping.left.action), get_mapped_string(&hat->mapping.left)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+             get_action_string(hat->mapping.left.action), get_mapped_string(&hat->mapping.left)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 3,
                             COL_ID, n + i,
-                            COL_INPUT_TYPE, "hat right",
+                            COL_INPUT_TYPE, "Hat right",
                             COL_INPUT_NAME, hat->name,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.right.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.right),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name, get_action_string(hat->mapping.right.action), get_mapped_string(&hat->mapping.right)));
+        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+             get_action_string(hat->mapping.right.action), get_mapped_string(&hat->mapping.right)));
     }
     n+=i;
     return model;
@@ -883,8 +908,8 @@ static void on_mapping_close(joystick_device_t *joydev)
 
 static void show_mapping_dialog(joystick_device_t *joydev, int id)
 {
-    static char *input_type_str[8] = { "button", "axis min", "axis max",
-        "hat up" , "hat down" , "hat left", "hat right", "invalid"  };
+    static char *input_type_str[8] = { "Button", "Axis min", "Axis max",
+        "Hat up" , "Hat down" , "Hat left", "Hat right", "invalid"  };
     int input_type = 7;
     char *name = NULL;
     joystick_mapping_t *mapping = NULL;
