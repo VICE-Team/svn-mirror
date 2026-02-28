@@ -244,6 +244,7 @@ static GtkWidget *create_axes_grid(joystick_device_t *joydev)
 {
     GtkWidget *grid;
     int        i;
+    gchar *tmptext;
 
     grid = grid_helper("<b>Axes</b>", 8, 8, 2);
     for (i = 0; i < joydev->num_axes; i++) {
@@ -253,7 +254,8 @@ static GtkWidget *create_axes_grid(joystick_device_t *joydev)
         gdouble          range  = (gdouble)(axis->maximum - axis->minimum + 1);
         gdouble          center = (gdouble)axis->minimum + range / 2.0;
 
-        label = gtk_label_new(axis->name);
+        tmptext = vice_gtk3_locale_to_utf8(axis->name);
+        label = gtk_label_new(tmptext);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
 
         scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,
@@ -267,6 +269,7 @@ static GtkWidget *create_axes_grid(joystick_device_t *joydev)
 
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), scale, 1, i + 1, 1, 1);
+        g_free(tmptext);
     }
     return grid;
 }
@@ -277,6 +280,7 @@ static GtkWidget *create_buttons_grid(joystick_device_t *joydev)
 {
     GtkWidget *grid;
     int        i;
+    gchar *tmptext;
 
     grid = grid_helper("<b>Buttons</b>", 8, 8, 2);
     for (i = 0; i < joydev->num_buttons; i++) {
@@ -284,7 +288,8 @@ static GtkWidget *create_buttons_grid(joystick_device_t *joydev)
         GtkWidget         *led;
         joystick_button_t *button = joydev->buttons[i];
 
-        label = gtk_label_new(button->name);
+        tmptext = vice_gtk3_locale_to_utf8(button->name);
+        label = gtk_label_new(tmptext);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
 
         led = joy_button_led_widget_new(NULL, NULL);
@@ -292,6 +297,7 @@ static GtkWidget *create_buttons_grid(joystick_device_t *joydev)
 
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), led,   1, i + 1, 1, 1);
+        g_free(tmptext);
     }
     return grid;
 }
@@ -301,6 +307,7 @@ static GtkWidget *create_hats_grid(joystick_device_t *joydev)
 {
     GtkWidget *grid;
     int        i;
+    gchar *tmptext;
 
     grid = grid_helper("<b>Hats</b>", 8, 8, 2);
     for (i = 0; i < joydev->num_hats; i++) {
@@ -308,7 +315,8 @@ static GtkWidget *create_hats_grid(joystick_device_t *joydev)
         GtkWidget         *led;
         joystick_hat_t *hat = joydev->hats[i];
 
-        label = gtk_label_new(hat->name);
+        tmptext = vice_gtk3_locale_to_utf8(hat->name);
+        label = gtk_label_new(tmptext);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
 
         led = joy_hat_led_widget_new(NULL, NULL);
@@ -316,6 +324,7 @@ static GtkWidget *create_hats_grid(joystick_device_t *joydev)
 
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), led,   1, i + 1, 1, 1);
+        g_free(tmptext);
     }
     return grid;
 }
