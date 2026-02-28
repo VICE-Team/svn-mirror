@@ -42,6 +42,7 @@
 #include "joyport.h"
 #include "joystick.h"
 #include "resources.h"
+#include "unicodehelpers.h"
 #include "util.h"
 #include "joybuttonledwidget.h"
 #include "joyhatledwidget.h"
@@ -774,6 +775,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     int i;
     int n = 0;
     GtkListStore *model;
+    gchar *tmptext;
 
     model = gtk_list_store_new(6,
                                G_TYPE_INT,      /* ID */
@@ -790,6 +792,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     for (i = 0; i < joydev->num_buttons; i++) {
         GtkTreeIter      iter;
         joystick_button_t *button   = joydev->buttons[i];
+        tmptext = vice_gtk3_locale_to_utf8(button->name);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, button->name,
              get_action_string(button->mapping.action), get_mapped_string(&button->mapping)));
         gtk_list_store_append(model, &iter);
@@ -798,10 +801,11 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_INDEX, n + i,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Button",
-                            COL_INPUT_NAME, button->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(button->mapping.action),
                             COL_MAPPED_VAL, get_mapped_string(&button->mapping),
                             -1);
+        g_free(tmptext);
     }
     n+=i;
 
@@ -814,30 +818,34 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
             axis->mapping.negative.action = JOY_ACTION_POT_AXIS;
             axis->mapping.positive.action = JOY_ACTION_POT_AXIS;
         }
+        tmptext = vice_gtk3_locale_to_utf8(axis->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 2) + 0,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Axis min",
-                            COL_INPUT_NAME, axis->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.negative.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.negative),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
              get_action_string(axis->mapping.negative.action), get_mapped_string(&axis->mapping.negative)));
+        g_free(tmptext);
+        tmptext = vice_gtk3_locale_to_utf8(axis->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 2) + 1,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Axis max",
-                            COL_INPUT_NAME, axis->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.positive.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.positive),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
              get_action_string(axis->mapping.positive.action), get_mapped_string(&axis->mapping.positive)));
+        g_free(tmptext);
     }
     n+=i;
 
@@ -845,54 +853,62 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
     for (i = 0; i < joydev->num_hats; i++) {
         GtkTreeIter      iter;
         joystick_hat_t *hat   = joydev->hats[i];
+        tmptext = vice_gtk3_locale_to_utf8(hat->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 0,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Hat up",
-                            COL_INPUT_NAME, hat->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.up.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.up),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
              get_action_string(hat->mapping.up.action), get_mapped_string(&hat->mapping.up)));
+        g_free(tmptext);
+        tmptext = vice_gtk3_locale_to_utf8(hat->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 1,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Hat down",
-                            COL_INPUT_NAME, hat->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.down.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.down),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
              get_action_string(hat->mapping.down.action), get_mapped_string(&hat->mapping.down)));
+        g_free(tmptext);
+        tmptext = vice_gtk3_locale_to_utf8(hat->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 2,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Hat left",
-                            COL_INPUT_NAME, hat->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.left.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.left),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
              get_action_string(hat->mapping.left.action), get_mapped_string(&hat->mapping.left)));
+        g_free(tmptext);
+        tmptext = vice_gtk3_locale_to_utf8(hat->name);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
                             &iter,
                             COL_INDEX, n + (i * 4) + 3,
                             COL_ID, n + i,
                             COL_INPUT_TYPE, "Hat right",
-                            COL_INPUT_NAME, hat->name,
+                            COL_INPUT_NAME, tmptext,
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.right.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.right),
                             -1);
         DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
              get_action_string(hat->mapping.right.action), get_mapped_string(&hat->mapping.right)));
+        g_free(tmptext);
     }
     n+=i;
     return model;

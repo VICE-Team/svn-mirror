@@ -42,6 +42,35 @@
 
 #include "unicodehelpers.h"
 
+
+/** \brief  Convert locale encoded string \a text to UTF-8
+ *
+ * \param[in]   text    string in the current locale
+ *
+ * \return  \a text encoded to UTF-8, or the original string on failure
+ *
+ * \note    the result must be freed after use with g_free()
+ */
+gchar *vice_gtk3_locale_to_utf8(const gchar *text)
+{
+    GError *err = NULL;
+    gsize br;
+    gsize bw;
+    gchar *result;
+
+    result = g_locale_to_utf8(text, -1, &br, &bw, &err);
+    if (result == NULL) {
+        log_warning(LOG_DEFAULT,
+                "warning: failed to convert string to UTF-8: %s",
+                err->message);
+        result = g_strdup(text);
+        if (err != NULL) {
+            g_error_free(err);
+        }
+    }
+    return result;
+}
+
 /*
  *  "C64 Pro"
  */

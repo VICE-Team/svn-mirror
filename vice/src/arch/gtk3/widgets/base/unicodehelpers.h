@@ -31,6 +31,8 @@
           we should provide additional functions that convert as single character (which can
           always work) and/or alternative functions that take a buffer length */
 
+gchar *vice_gtk3_locale_to_utf8(const gchar *text);
+
 unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, bool inverted, bool lowercase);
 unsigned char *vice_gtk3_scrcode_to_utf8(unsigned char *s, bool inverted, bool lowercase);
 unsigned char *vice_gtk3_petscii_upper_to_utf8(unsigned char *s, bool inverted);
