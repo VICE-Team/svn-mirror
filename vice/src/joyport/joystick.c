@@ -3620,7 +3620,7 @@ static void joystick_device_trim_name(joystick_device_t *joydev)
  *
  * \return  \c true if four directions and at least primary fire could be mapped
  */
-static bool joystick_device_apply_default_mapping(joystick_device_t *joydev)
+bool joystick_device_apply_default_mapping(joystick_device_t *joydev)
 {
     if (joydev->num_hats > 0) {
         /* if the controller as a "hat", use that for joystick directions */

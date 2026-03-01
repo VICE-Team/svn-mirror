@@ -445,30 +445,10 @@ static void on_save_as_clicked(GtkButton *button, gpointer extra)
  */
 static void on_reset_clicked(GtkButton *btn, gpointer extra)
 {
-    int i;
     joystick_device_t *joydev = (joystick_device_t *)extra;
 
-    /* FIXME: we might want to use some API function for this */
-
-    /* clear mapping */
-    for (i = 0; i < joydev->num_buttons; i++) {
-        joystick_button_t *button   = joydev->buttons[i];
-        button->mapping.action = JOY_ACTION_NONE;
-    }
-    for (i = 0; i < joydev->num_axes; i++) {
-        joystick_axis_t *axis   = joydev->axes[i];
-        axis->mapping.negative.action = JOY_ACTION_NONE;
-        axis->mapping.positive.action = JOY_ACTION_NONE;
-        axis->mapping.pot = 0;
-    }
-    for (i = 0; i < joydev->num_hats; i++) {
-        joystick_hat_t *hat   = joydev->hats[i];
-        hat->mapping.up.action = JOY_ACTION_NONE;
-        hat->mapping.down.action = JOY_ACTION_NONE;
-        hat->mapping.left.action = JOY_ACTION_NONE;
-        hat->mapping.right.action = JOY_ACTION_NONE;
-    }
-
+    joystick_device_clear_mappings(joydev);
+    joystick_device_apply_default_mapping(joydev);
     update_treeview_full(joydev);
 }
 
