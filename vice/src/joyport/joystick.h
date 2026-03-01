@@ -538,6 +538,8 @@ void               joystick_device_add_hat   (joystick_device_t *joydev,
                                               joystick_hat_t    *hat);
 void               joystick_device_clear_mappings(joystick_device_t *joydev);
 
+bool               joystick_device_apply_default_mapping(joystick_device_t *joydev);
+
 void               joystick_mapping_init     (joystick_mapping_t *mapping);
 void               joystick_calibration_init (joystick_calibration_t *calibration);
 
