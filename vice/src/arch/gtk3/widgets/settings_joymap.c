@@ -722,7 +722,7 @@ static char *get_flag_string(int flags)
 static char *get_direction_string(int val)
 {
     switch (val) {
-        case 0x0001: return "Pp";
+        case 0x0001: return "Up";
         case 0x0002: return "Down";
         case 0x0004: return "Left";
         case 0x0008: return "Right";
@@ -802,7 +802,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
         GtkTreeIter      iter;
         joystick_button_t *button   = joydev->buttons[i];
         tmptext = vice_gtk3_locale_to_utf8(button->name);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, button->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + i, n + i, button->name,
              get_action_string(button->mapping.action), get_mapped_string(&button->mapping)));
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
@@ -816,7 +816,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             -1);
         g_free(tmptext);
     }
-    n+=i;
+    n += i;
 
     DBG(("%d axis:", joydev->num_axes));
     for (i = 0; i < joydev->num_axes; i++) {
@@ -838,7 +838,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.negative.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.negative),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 2) + 0, n + i, axis->name,
              get_action_string(axis->mapping.negative.action), get_mapped_string(&axis->mapping.negative)));
         g_free(tmptext);
         tmptext = vice_gtk3_locale_to_utf8(axis->name);
@@ -852,11 +852,11 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(axis->mapping.positive.action),
                             COL_MAPPED_VAL, get_mapped_string(&axis->mapping.positive),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, axis->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 2) + 1, n + i, axis->name,
              get_action_string(axis->mapping.positive.action), get_mapped_string(&axis->mapping.positive)));
         g_free(tmptext);
     }
-    n+=i;
+    n += (i * 2);
 
     DBG(("%d hats:", joydev->num_hats));
     for (i = 0; i < joydev->num_hats; i++) {
@@ -873,7 +873,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.up.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.up),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 4) + 0, n + i, hat->name,
              get_action_string(hat->mapping.up.action), get_mapped_string(&hat->mapping.up)));
         g_free(tmptext);
         tmptext = vice_gtk3_locale_to_utf8(hat->name);
@@ -887,7 +887,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.down.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.down),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 4) + 1, n + i, hat->name,
              get_action_string(hat->mapping.down.action), get_mapped_string(&hat->mapping.down)));
         g_free(tmptext);
         tmptext = vice_gtk3_locale_to_utf8(hat->name);
@@ -901,7 +901,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.left.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.left),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 4) + 2, n + i, hat->name,
              get_action_string(hat->mapping.left.action), get_mapped_string(&hat->mapping.left)));
         g_free(tmptext);
         tmptext = vice_gtk3_locale_to_utf8(hat->name);
@@ -915,7 +915,7 @@ static GtkListStore *create_mappings_model(joystick_device_t *joydev)
                             COL_MAPPED_TYPE, get_action_string(hat->mapping.right.action),
                             COL_MAPPED_VAL, get_mapped_string(&hat->mapping.right),
                             -1);
-        DBG(("%d: %s (mapping: action:%s val:%s)", n + i, hat->name,
+        DBG(("%d;%d: %s (mapping: action:%s val:%s)", n + (i * 4) + 3, n + i, hat->name,
              get_action_string(hat->mapping.right.action), get_mapped_string(&hat->mapping.right)));
         g_free(tmptext);
     }
@@ -933,13 +933,16 @@ static void on_mapping_close(joystick_device_t *joydev)
 
 static void show_mapping_dialog(joystick_device_t *joydev, int id)
 {
-    static char *input_type_str[8] = { "Button", "Axis min", "Axis max",
-        "Hat up" , "Hat down" , "Hat left", "Hat right", "invalid"  };
+    static char *input_type_str[8] = {
+        "Button",
+        "Axis min", "Axis max",
+        "Hat up" , "Hat down" , "Hat left", "Hat right",
+        "invalid" };
     int input_type = 7;
     char *name = NULL;
     joystick_mapping_t *mapping = NULL;
 
-    DBG(("TODO: show_mapping_dialog id:%d joydev:%p", id, (void*)joydev));
+    DBG(("show_mapping_dialog id:%d joydev:%p", id, (void*)joydev));
 
     if (id < joydev->num_buttons) {
         /* is a button */
@@ -959,25 +962,29 @@ static void show_mapping_dialog(joystick_device_t *joydev, int id)
         input_type = 1 + (idx & 1);
     } else if (id < (joydev->num_buttons + (joydev->num_axes * 2) + (joydev->num_hats * 4))) {
         /* is a hat */
-        int idx = id - joydev->num_buttons + (joydev->num_axes * 2);
+        int idx = id - (joydev->num_buttons + (joydev->num_axes * 2));
         joystick_hat_t *hat   = joydev->hats[idx / 4];
         DBG(("hat idx:%d", idx));
         name = hat->name;
-        if (idx & 1) {
+        if ((idx & 3) == 0) {
             mapping = &hat->mapping.up;
-        } else if (idx & 2) {
+        } else if ((idx & 3) == 1) {
             mapping = &hat->mapping.down;
-        } else if (idx & 4) {
+        } else if ((idx & 3) == 2) {
             mapping = &hat->mapping.left;
-        } else if (idx & 8) {
+        } else if ((idx & 3) == 3) {
             mapping = &hat->mapping.right;
         }
         input_type = 3 + (idx & 3);
     }
     DBG(("input type: (%d) %s", input_type, input_type_str[input_type]));
     DBG(("input name: %s", name ? name : "NULL"));
-    DBG(("mapping type: %u", mapping->action));
-
+    DBG(("mapping type: %u", mapping ? mapping->action : -1));
+#ifdef DEBUG_JOYMAPSETTINGS
+    if (mapping == NULL) {
+        DBG(("show_mapping_dialog: ERROR - mapping is NULL!"));
+    } else
+#endif
     joymap_dialog_show(joydev, mapping, input_type_str[input_type], name, on_mapping_close);
 }
 
@@ -1097,6 +1104,7 @@ static GtkWidget *create_mappings_view(joystick_device_t *joydev)
  */
 static void mappings_select_by_index(int idx)
 {
+    DBG(("mappings_select_by_index %d", idx));
     GtkTreeSelection  *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(mappings_view));
     GtkTreePath *path = gtk_tree_path_new_from_indices(idx, -1);
     gtk_tree_selection_select_path(selection, path);
@@ -1380,20 +1388,21 @@ static void mappings_joystick_event(void *input, joystick_input_t type, int32_t 
             n = (hat->index * 4);
             if (joydev) {
                 n += joydev->num_buttons;
-                n += joydev->num_axes;
+                n += (joydev->num_axes * 2);
             }
+            DBG(("hat event row: %d value: %02x", n, (unsigned int)value));
             if (value == 0) {
                 /* ignore hat release events */
                 n = -1;
             } else {
                 if (value & 2) {
-                    n++; /* down */
+                    n += 1; /* down */
                 }
                 if (value & 4) {
-                    n++; /* left */
+                    n += 2; /* left */
                 }
                 if (value & 8) {
-                    n++; /* right */
+                    n += 3; /* right */
                 }
             }
             break;

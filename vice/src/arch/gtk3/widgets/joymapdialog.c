@@ -769,6 +769,8 @@ void joymap_dialog_show(joystick_device_t *joydev,
     GtkWidget *content;
     gchar title[256];
 
+    DBG(("joymap_dialog_show '%s' '%s'", input, name));
+
     user_callback = callback;
     cached_joydev = joydev;
 
