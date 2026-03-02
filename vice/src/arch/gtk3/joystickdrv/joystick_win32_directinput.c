@@ -216,6 +216,7 @@ static void win32_joy_poll(joystick_device_t *joydev)
             if (value != prev) {
                 priv->prev_axes[i] = value;
                 joy_axis_event(axis, (int32_t)value);
+                /* TODO: make sure the value passed to joy_set_axis_value is in 0-255 range */
                 /* provide value(s) to the POT values */
                 joy_set_axis_value(joydev, axis, value);
             }
