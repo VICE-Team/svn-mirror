@@ -107,7 +107,7 @@ static int actionvalue_get_action_by_index(int index)
 /* FIXME: this should probably go to joystick.c */
 static void clear_pot_mapping(joystick_mapping_t *mapping)
 {
-    if (mapping->type == JOY_INPUT_AXIS) {
+    if ((mapping->type == JOY_INPUT_AXIS) && (mapping->input.axis->mapping.pot != 0)) {
         mapping->input.axis->mapping.positive.action = JOY_ACTION_NONE;
         mapping->input.axis->mapping.negative.action = JOY_ACTION_NONE;
         mapping->input.axis->mapping.pot = 0;
