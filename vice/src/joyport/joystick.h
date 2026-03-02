@@ -462,7 +462,7 @@ void joy_axis_event  (joystick_axis_t   *axis,   int32_t value);
 void joy_button_event(joystick_button_t *button, int32_t value);
 void joy_hat_event   (joystick_hat_t    *hat,    int32_t value);
 
-void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, uint8_t value);
+void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, int value);
 
 void joystick(void);
 void joystick_close(void);

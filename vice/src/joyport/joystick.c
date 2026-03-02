@@ -891,10 +891,13 @@ static int set_joystick_device(int val, void *param)
 }
 
 /* POT mapping (used by GTK joystick drivers) */
-void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, uint8_t value)
+void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, int value)
 {
     if ((joydev->joyport == 0 || joydev->joyport == 1) && (axis->mapping.pot > 0)) {
-        joystick_axis_value[joydev->joyport][axis->mapping.pot - 1] = value;
+        int range = axis->maximum - axis->minimum;
+        int scaled = (255 * (value - axis->minimum)) / range;
+        /* CAUTION: POT value is in 0-255 range here */
+        joystick_axis_value[joydev->joyport][axis->mapping.pot - 1] = scaled;
     }
 }
 
