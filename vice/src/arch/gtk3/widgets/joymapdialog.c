@@ -196,7 +196,10 @@ static void set_mapping(joystick_mapping_t *mapping)
             /* fall through */
         case JOY_ACTION_UI_ACTIVATE:
             /* fall through */
+        case JOY_ACTION_NONE:
+            clear_pot_mapping(mapping);
             mapping->action = index;
+            /* fall through */
         default:
             break;
     }
