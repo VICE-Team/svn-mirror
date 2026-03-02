@@ -217,7 +217,7 @@ static void win32_joy_poll(joystick_device_t *joydev)
                 priv->prev_axes[i] = value;
                 joy_axis_event(axis, (int32_t)value);
                 /* provide value(s) to the POT values */
-                joy_set_axis_value(joydev, axis, value);
+                joy_set_axis_value(joydev, axis, value >> 8);
             }
         }
     }
