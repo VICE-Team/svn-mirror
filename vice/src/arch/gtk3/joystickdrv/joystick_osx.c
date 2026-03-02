@@ -451,6 +451,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
                     joystick_axis_t *axis = joystick_axis_from_code(joydev, HID_CODE(e.usage_page, e.usage));
                     if (axis != NULL) {
                         joy_axis_event(axis, value);
+                        /* TODO: make sure the value passed to joy_set_axis_value is in 0-255 range */
                         /* provide value(s) to the POT values */
                         joy_set_axis_value(joydev, axis, value);
                     }
@@ -497,6 +498,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
                     joystick_axis_t *axis = joystick_axis_from_code(joydev, HID_CODE(e.usage_page, e.usage));
                     if (axis != NULL) {
                         joy_axis_event(axis, value);
+                        /* TODO: make sure the value passed to joy_set_axis_value is in 0-255 range */
                         /* provide value(s) to the POT values */
                         joy_set_axis_value(joydev, axis, value);
                     }
