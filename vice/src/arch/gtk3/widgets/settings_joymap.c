@@ -15,7 +15,8 @@
  *  - implement the calibration tab
  *  - some of the code contained here might duplicate stuff already implemented
  *    in joystick.c, and should use the common code instead
- *  - at least the button names should go through some UTF conversion
+ *  - right now only a regular joystick is considered as device to map to - but
+ *    we also support SNES pads, joystick.c has some code to deal with it(?)
  *
  * Some places of the GUI will have to explicitly poll the controllers to make
  * some features work as expected:

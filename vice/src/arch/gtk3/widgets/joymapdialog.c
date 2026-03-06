@@ -33,7 +33,6 @@
  *  - when changing key mapping, instead of manually choosing row/column,
  *    pressing the respective key should select the correct value (needs some
  *    stunts via keymap code)
- *  - at least the button names should go through some UTF conversion
  *  - the "map" type doesn't really make sense in GTK, so we should probably
  *    hide it.
  *  - some of the code contained here might duplicate stuff already implemented
