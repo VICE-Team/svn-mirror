@@ -292,19 +292,6 @@ static void linux_joystick_customize(joystick_device_t *joydev)
 #endif
 }
 
-/** \brief  Filter callback for scandir(3)
- *
- * \param[in]   de  dirent instance
- *
- * \return  \c 1 if the directory entry matches 'event*', \c 0 otherwise
- */
-static int sd_filter(const struct dirent *de)
-{
-    /* on Debian 12.10 joystick devices end with "-event-joystick", no idea if
-     * this is also true on other Linux distros, needs checking! */
-    return strstr(de->d_name, "-event-joystick") != NULL;
-}
-
 /** \brief  Scan device for available buttons
  *
  * \param[in]   joydev  joystick device instance
@@ -366,7 +353,49 @@ static void scan_axes(joystick_device_t *joydev, struct libevdev *evdev)
 /* CAUTION: if we use by-id, and there is more than one controller of the same
    type, we only see this controller once - since they have the same id. */
 /*#define EVDEVPATH   "/dev/input/by-id"*/
-#define EVDEVPATH   "/dev/input/by-path"
+/* CAUTION: we can't use by-path either, since BT controllers will not be there */
+/*#define EVDEVPATH   "/dev/input/by-path"*/
+#define EVDEVPATH   "/dev/input"
+
+/* check if the device is an actual game controller - we expect it to have at
+   least one related button, and one absolute axis */
+static bool is_gamepad(struct libevdev *dev)
+{
+    bool has_gamepad_button;
+    bool has_axes;
+#if 0
+    if (!libevdev_has_event_type(dev, EV_KEY)) {
+        return false;
+    }
+#endif
+    has_gamepad_button =
+        libevdev_has_event_code(dev, EV_KEY, BTN_GAMEPAD) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_SOUTH) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_EAST) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_NORTH) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_WEST) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_START) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_SELECT) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_TR) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_TL) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_JOYSTICK) ||
+        libevdev_has_event_code(dev, EV_KEY, BTN_TRIGGER);
+
+    if (!has_gamepad_button) {
+        return false;
+    }
+
+    has_axes =
+        libevdev_has_event_type(dev, EV_ABS) &&
+        (libevdev_has_event_code(dev, EV_ABS, ABS_X) ||
+         libevdev_has_event_code(dev, EV_ABS, ABS_Y) ||
+         libevdev_has_event_code(dev, EV_ABS, ABS_RX) ||
+         libevdev_has_event_code(dev, EV_ABS, ABS_RY) ||
+         libevdev_has_event_code(dev, EV_ABS, ABS_HAT0X) ||
+         libevdev_has_event_code(dev, EV_ABS, ABS_HAT0Y));
+
+    return has_axes;
+}
 
 static joystick_device_t *scan_device(const char *node)
 {
@@ -379,6 +408,7 @@ static joystick_device_t *scan_device(const char *node)
 
     snprintf(path, sizeof path, EVDEVPATH "/%s", node);
     fd = open(path, O_RDONLY|O_NONBLOCK);
+    /*DBG(("scan_device open %s fd:%d", path, fd));*/
     if (fd < 0) {
         return NULL;
     }
@@ -386,8 +416,19 @@ static joystick_device_t *scan_device(const char *node)
     /* get evdev instance from file descriptor */
     rc = libevdev_new_from_fd(fd, &evdev);
     if (rc < 0) {
-        log_error(LOG_DEFAULT, "failed to initialize libevdev: %s", strerror(rc));
+        /* do not log an error here - /dev/input/js0 (for example) may or may not be
+           a symlink to a evdev device, and produce a meaningless error if it is not */
+        /*log_error(LOG_DEFAULT, "failed to initialize libevdev: %s", strerror(rc));*/
+        log_verbose(LOG_DEFAULT, "failed to initialize libevdev: %s", strerror(rc));
         close(fd);
+        return NULL;
+    }
+
+    DBG(("scan_device %s name:%s phys:%s isgamepad:%d",
+         node, libevdev_get_name(evdev), libevdev_get_phys(evdev), is_gamepad(evdev)));
+
+    if (is_gamepad(evdev) == 0) {
+        /*DBG(("not a gamepad"));*/
         return NULL;
     }
 
@@ -397,7 +438,7 @@ static joystick_device_t *scan_device(const char *node)
     joydev->node        = lib_strdup(path);
     joydev->vendor      = (uint16_t)libevdev_get_id_vendor(evdev);
     joydev->product     = (uint16_t)libevdev_get_id_product(evdev);
-    /*printf("vid:%04x pid:%04x %s\n", joydev->vendor, joydev->product, joydev->node);*/
+    /*DBG(("vid:%04x pid:%04x %s", joydev->vendor, joydev->product, joydev->node));*/
 
     priv = joy_priv_new();
     joydev->priv = priv;
@@ -427,7 +468,6 @@ static joystick_driver_t driver = {
     .customize = linux_joystick_customize
 };
 
-
 /** \brief  Initialize Linux evdev joystick driver
  *
  * Scan device nodes in \c /dev/input/ for supported joysticks/gamepads.
@@ -437,41 +477,51 @@ void joystick_arch_init(void)
     struct dirent **namelist = NULL;
     int             sd_result;
     int             i, ii;
+    struct stat statbuf;
+    char **rpath;
 
     joy_evdev_log = log_open("evdev Joystick");
 
     log_message(joy_evdev_log, "Initializing Linux evdev joystick driver.");
     joystick_driver_register(&driver);
 
-    sd_result = scandir(EVDEVPATH, &namelist, sd_filter, alphasort);
+    sd_result = scandir(EVDEVPATH, &namelist, NULL, alphasort);
     if (sd_result < 0) {
         log_error(LOG_DEFAULT, "scandir() failed on %s: %s", EVDEVPATH, strerror(errno));
         return;
     }
 
-    char **rpath= lib_malloc(sd_result * sizeof(char*));
+    /* the following is some hackery that tries to avoid duplicated entries
+       beeing registered */
+
     /* get the real path for each device */
+    rpath= lib_malloc(sd_result * sizeof(char*));
     for (i = 0; i < sd_result; i++) {
         char actualpath [PATH_MAX];
         char path[PATH_MAX];
         snprintf(path, sizeof path, EVDEVPATH "/%s", namelist[i]->d_name);
-        if (realpath(path, actualpath) == NULL) {
-            rpath[i] = NULL;
-        } else {
-            rpath[i] = lib_strdup(actualpath);
+        /*DBG(("check path %d:%s", i, path));*/
+        rpath[i] = NULL;
+        if (stat(path, &statbuf) < 0) {
+            continue;
         }
-        /*printf("%d:%s\n", i, rpath[i]);*/
+        if (S_ISDIR(statbuf.st_mode) == 0) {
+            if (realpath(path, actualpath) != NULL) {
+                rpath[i] = lib_strdup(actualpath);
+            }
+            DBG(("use path %d:%s", i, rpath[i] ? rpath[i] : "NULL"));
+        }
     }
     /* remove all equal pathes, except the first one */
     for (i = 0; i < sd_result; i++) {
         char *this = rpath[i];
-        /*printf("%d:%s\n", i, this);*/
+        /*DBG(("check path %d:%s", i, this));*/
         if (this) {
             for (ii = 0; ii < sd_result; ii++) {
                 if (i != ii) {
                     if (rpath[ii]) {
                         if (!strcmp(this, rpath[ii])) {
-                            /*printf("free %d:%s\n", ii, rpath[ii]);*/
+                            DBG(("free dupe %d:%s", ii, rpath[ii]));
                             lib_free(rpath[ii]);
                             rpath[ii] = NULL;
                         }
@@ -480,10 +530,13 @@ void joystick_arch_init(void)
             }
         }
     }
-    /* register all devices that still have a real path left */
+    /* try to register all devices that still have a real path left */
     for (i = 0; i < sd_result; i++) {
         joystick_device_t *joydev;
-        if (rpath[i]) {
+        char *this = rpath[i];
+        DBG(("try register path %d:%s", i, this ? this : "NULL"));
+        if (this) {
+            /* check if this is really a game controller, and if so get properties */
             joydev = scan_device(namelist[i]->d_name);
             if (joydev != NULL) {
                 joystick_device_register(joydev);
@@ -492,7 +545,7 @@ void joystick_arch_init(void)
                 * and manually implemented properly */
                 linux_joystick_evdev_open(joydev);
 #endif
-                /*DBG(("registered %s.", namelist[i]->d_name));*/
+                DBG(("registered %s.", namelist[i]->d_name));
             }
             lib_free(rpath[i]);
             rpath[i] = NULL;
