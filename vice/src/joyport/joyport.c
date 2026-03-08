@@ -106,6 +106,30 @@ static resid2text_t ids[] = {
     { -1, NULL }
 };
 
+static int pot_port1 = -1;
+static int pot_port2 = -1;
+
+static void find_pot_ports(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        if (port_props[i].has_pot) {
+            if (pot_port1 == -1) {
+                pot_port1 = i;
+            } else {
+                pot_port2 = i;
+            }
+        }
+    }
+    if (pot_port1 == -1) {
+        pot_port1 = -2;
+    }
+    if (pot_port2 == -1) {
+        pot_port2 = -2;
+    }
+}
+
 static const char *res2text(int joyport_id)
 {
     int i;
@@ -123,8 +147,67 @@ static const char *res2text(int joyport_id)
 void set_joyport_pot_mask(int mask)
 {
     if (pot_port_mask != mask) {
-        pot_port_mask_clk = maincpu_clk;
+        int testmask = 0;
+        int id1 = JOYPORT_ID_NONE;
+        int id2 = JOYPORT_ID_NONE;
+        int val1x = 255;
+        int val1y = 255;
+        int val2x = 255;
+        int val2y = 255;
+
+        /* find the pot ports if needed */
+        if (pot_port1 == -1 || pot_port2 == -1) {
+            find_pot_ports();
+        }
+        /* set bit in testmask for each port that has a pot connected */
+        if (pot_port1 != -2) {
+            id1 = joy_port[pot_port1];
+            if (id1 != JOYPORT_ID_NONE) {
+                /* get POT value */
+                if (joyport_device[id1].read_potx) {
+                    val1x = joyport_device[id1].read_potx(pot_port1);
+                }
+                if (joyport_device[id1].read_poty) {
+                    val1y = joyport_device[id1].read_poty(pot_port1);
+                }
+                /* glitches will only be produced when POT is not "open" */
+                /* FIXME: this will always cause glitches on both axis - even
+                   when one axis is open */
+                if ((val1x != 255) || (val1y != 255)) {
+                    testmask |= 0x01;
+                }
+            }
+        }
+        if (pot_port2 != -2) {
+            id2 = joy_port[pot_port2];
+            if (id2 != JOYPORT_ID_NONE) {
+                /* get POT value */
+                if (joyport_device[id2].read_potx) {
+                    val2x = joyport_device[id2].read_potx(pot_port2);
+                }
+                if (joyport_device[id2].read_poty) {
+                    val2y = joyport_device[id2].read_poty(pot_port2);
+                }
+                /* glitches will only be produced when POT is not "open" */
+                /* FIXME: this will always cause glitches on both axis - even
+                   when one axis is open */
+                if ((val2x != 255) || (val2y != 255)) {
+                    testmask |= 0x02;
+                }
+            }
+        }
+        /* printf("ports %d,%d ids: %d,%d testmask:%d val: %3d,%3d %3d,%3d\n",
+               pot_port1, pot_port2, id1, id2, testmask, val1x, val1y, val2x, val2y); */
+
+        /* if an existing pot was selected or deselected, remember when we did
+           this, for glitch emulation */
+        if ((pot_port_mask & testmask) != (mask & testmask)) {
+            pot_port_mask_clk = maincpu_clk;
+        }
     }
+    /* printf("maincpu_clk: %10d pot_port_mask_clk: %10d mask: %02x->%02x\n",
+           maincpu_clk, pot_port_mask_clk, pot_port_mask, mask); */
+    /* remember actual mask */
     pot_port_mask = mask;
 }
 
@@ -154,6 +237,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_DIAG_586220_HARNESS:
             return 0;
     }
+    /* we can only attach exactly one of this device type */
     return 1;
 }
 
@@ -300,30 +384,6 @@ void store_joyport_dig(int port, uint8_t val, uint8_t mask)
     joyport_device[id].store_digital(port, store_val);
 
     joyport_dig_stored[port] = store_val;
-}
-
-static int pot_port1 = -1;
-static int pot_port2 = -1;
-
-static void find_pot_ports(void)
-{
-    int i;
-
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        if (port_props[i].has_pot) {
-            if (pot_port1 == -1) {
-                pot_port1 = i;
-            } else {
-                pot_port2 = i;
-            }
-        }
-    }
-    if (pot_port1 == -1) {
-        pot_port1 = -2;
-    }
-    if (pot_port2 == -1) {
-        pot_port2 = -2;
-    }
 }
 
 /* returns JOYPORT_POT_TYPE_DIGITAL if one of the selected POTs is a digital
