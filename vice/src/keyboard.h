@@ -149,4 +149,7 @@ extern int rev_keyarr[KBD_COLS];
 
 int keyboard_statusbar_enabled(void);
 
+/* for the GUI to translate keycodes to row/col */
+int keyboard_find_mapped_row_col(int key, int *row, int *col, int *shift);
+
 #endif
