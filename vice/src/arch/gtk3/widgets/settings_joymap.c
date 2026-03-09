@@ -21,15 +21,11 @@
  * Some places of the GUI will have to explicitly poll the controllers to make
  * some features work as expected:
  *
- *  - mapping a button to "toggle-pause" works, pressing the button to "pause"
- *    works, but pressing the button to unpause does not
  *  - mapping a button to "activate ui" works, but pressing it to close the
  *    menu again does not
  */
 
 /* BUGS:
- *  https://sourceforge.net/p/vice-emu/feature-requests/376/
- *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2204/
  *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2205/
  */
 

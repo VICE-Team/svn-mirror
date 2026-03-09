@@ -33,15 +33,11 @@
  *  - when changing key mapping, instead of manually choosing row/column,
  *    pressing the respective key should select the correct value (needs some
  *    stunts via keymap code)
- *  - the "map" type doesn't really make sense in GTK, so we should probably
- *    hide it.
  *  - some of the code contained here might duplicate stuff already implemented
  *    in joystick.c, and should use the common code instead
  */
 
 /* BUGS:
- *  https://sourceforge.net/p/vice-emu/feature-requests/376/
- *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2204/
  *  (Windows) https://sourceforge.net/p/vice-emu/bugs/2205/
  */
 
@@ -379,8 +375,6 @@ static GtkListStore *pot_axis_combo_model_new(void)
 {
     GtkListStore *model;
     int           index;
-    /* FIXME: we should only create the numbers in the range that actually
-              applies to the max rows/columns of the keyboard in the emulator */
     const char *types[] = {
         "Pot X", "Pot Y",
         NULL
@@ -609,10 +603,12 @@ static GtkWidget *create_value_widget(GtkWidget *grid,
 
 /** \brief  mapping type drop down list (create)
  */
-static GtkListStore *type_combo_model_new(void)
+static GtkTreeModel *type_combo_model_new(joystick_mapping_t *mapping)
 {
     GtkListStore *model;
-    int           index;
+    GtkTreeIter iter;
+    int index;
+    int indextag;
 
     const char *types[JOY_ACTION_MAX + 2] = {
         "none",         /* JOY_ACTION_NONE */
@@ -625,15 +621,57 @@ static GtkListStore *type_combo_model_new(void)
         NULL
     };
 
+    DBG(("type_combo_model_new type: %u", mapping->type));
+
     model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
     for (index = 0; types[index] != NULL; index++) {
-        GtkTreeIter        iter;
+        indextag = index;
+
+        /* disable MAP for all inputs for now */
+        if (index == JOY_ACTION_MAP) {
+            indextag = -1;
+        }
+
+        switch (mapping->type) {
+            case JOY_INPUT_AXIS:
+            case JOY_INPUT_HAT:
+            case JOY_INPUT_BALL:
+                /* disable "ui activate" for non buttons */
+                if (index == JOY_ACTION_UI_ACTIVATE) {
+                    indextag = -1;
+                }
+                /* disable "ui action" for non buttons */
+                if (index == JOY_ACTION_UI_FUNCTION) {
+                    indextag = -1;
+                }
+                break;
+            case JOY_INPUT_BUTTON:
+                /* disable POT axis for buttons */
+                if (index == JOY_ACTION_POT_AXIS) {
+                    indextag = -1;
+                }
+                break;
+        }
+
         gtk_list_store_append(model, &iter);
-        gtk_list_store_set(model, &iter, 0, index, 1, types[index], -1);
+        gtk_list_store_set(model, &iter, 0, indextag, 1, types[index], -1);
+        DBG(("type_combo_model_new %2d: '%s'", indextag, types[index]));
     }
-    return model;
+
+    return GTK_TREE_MODEL(model);
 }
 
+static void set_sensitive(GtkCellLayout *cell_layout,
+              GtkCellRenderer *cell,
+              GtkTreeModel *tree_model,
+              GtkTreeIter *iter,
+              gpointer data) {
+
+    int indextag = -1;
+    gtk_tree_model_get(tree_model, iter, 0, &indextag, -1);
+    /* disable the rows which have index = -1 */
+    g_object_set(cell, "sensitive", (indextag != -1), NULL);
+}
 
 /** \brief mapping type drop down list (changed)
  */
@@ -670,23 +708,26 @@ static void on_type_changed(GtkComboBox *self, gpointer data)
  */
 static GtkWidget *type_combo_new(joystick_mapping_t *mapping)
 {
-    GtkWidget       *combo;
-    GtkListStore    *model;
+    GtkTreeModel *model;
+    GtkWidget *combo;
     GtkCellRenderer *renderer;
 
-    combo    = gtk_combo_box_new();
-    model    = type_combo_model_new();
-    renderer = gtk_cell_renderer_text_new();
+    model = type_combo_model_new(mapping);
+    combo = gtk_combo_box_new_with_model(model);
+    g_object_unref(model);
 
-    gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
+    renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "text", 1, NULL);
+    gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(combo), renderer, set_sensitive, NULL, NULL);
+
     g_signal_connect(G_OBJECT(combo),
                      "changed",
                      G_CALLBACK(on_type_changed),
                      mapping);
     return combo;
 }
+
 
 /** \brief  Create content widget for the dialog
  *
