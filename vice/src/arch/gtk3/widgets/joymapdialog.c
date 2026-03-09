@@ -30,9 +30,6 @@
 #define DEBUG_JOYMAPDIALOG
 
 /* TODO: (also see settings_joymap.c)
- *  - when changing key mapping, instead of manually choosing row/column,
- *    pressing the respective key should select the correct value (needs some
- *    stunts via keymap code)
  *  - some of the code contained here might duplicate stuff already implemented
  *    in joystick.c, and should use the common code instead
  */
@@ -54,6 +51,8 @@
 #include "uiactions.h"
 #include "unicodehelpers.h"
 #include "kbd.h"
+#include "keyboard.h"
+#include "keymap.h"
 
 #include "joystick.h"
 #include "joymapdialog.h"
@@ -790,11 +789,22 @@ static GtkWidget *create_content_widget(joystick_device_t *joydev,
 static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
         gpointer data)
 {
+    int found, row, col, shift, mapshift;
     guint key = kbd_fix_keyval((GdkEvent*)event);
-    /* TODO: translate the pressed key to the right col/row and apply that */
-    log_warning(LOG_DEFAULT, "setting key mapping via key presses is not implemented.");
-    DBG(("pressed key value (fixed): %04x", key));
+
+    DBG(("pressed key value (fixed): %04x (%s)", key, kbd_arch_keynum_to_keyname(key)));
     /* key[0] = row, key[1] = column, key[2] = flags */
+    found = keyboard_find_mapped_row_col(key, &row, &col, &shift);
+
+    mapshift = ((shift & VIRTUAL_SHIFT) != 0) ? 1 : 0;
+
+    DBG(("found: %d row: %d col: %d shift: %d mapshift: %d", found, row, col, shift, mapshift));
+
+    if ((found >= 0) && (keyrowvalue != NULL) && (keycolvalue != NULL) && (keyshiftvalue != NULL)) {
+        gtk_combo_box_set_active(GTK_COMBO_BOX(keyrowvalue), row);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(keycolvalue), col);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(keyshiftvalue), mapshift);
+    }
     return FALSE;
 }
 
