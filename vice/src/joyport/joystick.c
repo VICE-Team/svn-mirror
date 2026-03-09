@@ -3428,6 +3428,7 @@ const char *joystick_ui_get_next_device_name(int *id)
     return NULL;
 }
 
+/* called from vsync code (really hsync) */
 void joystick(void)
 {
     if (joy_driver.poll != NULL) {
