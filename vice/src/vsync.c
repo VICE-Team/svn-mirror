@@ -487,6 +487,7 @@ static void update_performance_metrics(tick_t frame_tick)
     }
 }
 
+/* FIXME: really hsync, not vsync */
 void vsync_do_end_of_line(void)
 {
     const int microseconds_between_sync = 2 * 1000;
