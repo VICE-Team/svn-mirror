@@ -413,7 +413,6 @@ static GtkWidget *pot_axis_combo_new(void)
 }
 
 
-
 /** \brief create "control port" values drop down list (create)
  */
 static GtkListStore *cpvalue_combo_model_new(void)
@@ -422,7 +421,18 @@ static GtkListStore *cpvalue_combo_model_new(void)
     int           index;
 
     const char *types[] = {
-        "Up", "Down", "Left", "Right", "Fire", "Fire 2", "Fire 3",
+        JOYPORT_P0_NAME,
+        JOYPORT_P1_NAME,
+        JOYPORT_P2_NAME,
+        JOYPORT_P3_NAME,
+        JOYPORT_P4_NAME,
+        JOYPORT_P5_NAME,
+        JOYPORT_P6_NAME,
+        JOYPORT_P7_NAME,
+        JOYPORT_P8_NAME,
+        JOYPORT_P9_NAME,
+        JOYPORT_P10_NAME,
+        JOYPORT_P11_NAME,
         NULL
     };
 

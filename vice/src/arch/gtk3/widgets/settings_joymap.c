@@ -15,8 +15,6 @@
  *  - implement the calibration tab
  *  - some of the code contained here might duplicate stuff already implemented
  *    in joystick.c, and should use the common code instead
- *  - right now only a regular joystick is considered as device to map to - but
- *    we also support SNES pads, joystick.c has some code to deal with it(?)
  *
  * Some places of the GUI will have to explicitly poll the controllers to make
  * some features work as expected:
@@ -699,14 +697,18 @@ static char *get_flag_string(int flags)
 static char *get_direction_string(int val)
 {
     switch (val) {
-        case 0x0001: return "Up";
-        case 0x0002: return "Down";
-        case 0x0004: return "Left";
-        case 0x0008: return "Right";
-        case 0x0010: return "Fire";
-        case 0x0020: return "Fire 2";
-        case 0x0040: return "Fire 3";
-        case 0x0080: return "Fire 4";
+        case JOYPORT_P0: return JOYPORT_P0_NAME;
+        case JOYPORT_P1: return JOYPORT_P1_NAME;
+        case JOYPORT_P2: return JOYPORT_P2_NAME;
+        case JOYPORT_P3: return JOYPORT_P3_NAME;
+        case JOYPORT_P4: return JOYPORT_P4_NAME;
+        case JOYPORT_P5: return JOYPORT_P5_NAME;
+        case JOYPORT_P6: return JOYPORT_P6_NAME;
+        case JOYPORT_P7: return JOYPORT_P7_NAME;
+        case JOYPORT_P8: return JOYPORT_P8_NAME;
+        case JOYPORT_P9: return JOYPORT_P9_NAME;
+        case JOYPORT_P10: return JOYPORT_P10_NAME;
+        case JOYPORT_P11: return JOYPORT_P11_NAME;
         default: break;
     }
     return "-";

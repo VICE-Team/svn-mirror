@@ -689,10 +689,10 @@ static joyport_mapping_t joystick_mapping = {
     "Down",       /* name for the mapping of pin 1 (DOWN) */
     "Left",       /* name for the mapping of pin 2 (LEFT) */
     "Right",      /* name for the mapping of pin 3 (RIGHT) */
-    "Fire1",      /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
-    "Fire2",      /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
-    "Fire3",      /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
-    NULL,         /* NO mapping of pin 7 (SNES-Y) */
+    "Fire1",      /* name for the mapping of pin 4 (FIRE-1/SNES-B) */
+    "Fire2",      /* name for the mapping of pin 5 (FIRE-2/SNES-Y) */
+    "Fire3",      /* name for the mapping of pin 6 (FIRE-3/SNES-A) */
+    NULL,         /* NO mapping of pin 7 (SNES-X) */
     NULL,         /* NO mapping of pin 8 (SNES-LB) */
     NULL,         /* NO mapping of pin 9 (SNES-RB) */
     NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
@@ -707,10 +707,10 @@ static joyport_mapping_t joystick_no_pot_mapping = {
     "Down",       /* name for the mapping of pin 1 (DOWN) */
     "Left",       /* name for the mapping of pin 2 (LEFT) */
     "Right",      /* name for the mapping of pin 3 (RIGHT) */
-    "Fire",       /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
-    NULL,         /* NO mapping of pin 5 (FIRE-2/SNES-B) */
-    NULL,         /* NO mapping of pin 6 (FIRE-3/SNES-X) */
-    NULL,         /* NO mapping of pin 7 (SNES-Y) */
+    "Fire",       /* name for the mapping of pin 4 (FIRE-1/SNES-B) */
+    NULL,         /* NO mapping of pin 5 (FIRE-2/SNES-Y) */
+    NULL,         /* NO mapping of pin 6 (FIRE-3/SNES-A) */
+    NULL,         /* NO mapping of pin 7 (SNES-X) */
     NULL,         /* NO mapping of pin 8 (SNES-LB) */
     NULL,         /* NO mapping of pin 9 (SNES-RB) */
     NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
@@ -725,10 +725,10 @@ static joyport_mapping_t snes_mapping = {
     "D-Pad Down",   /* name for the mapping of pin 1 (DOWN) */
     "D-Pad Left",   /* name for the mapping of pin 2 (LEFT) */
     "D-Pad Right",  /* name for the mapping of pin 3 (RIGHT) */
-    "A Button",     /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
-    "B Button",     /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
-    "X Button",     /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
-    "Y Button",     /* name for the mapping of pin 7 (SNES-Y) */
+    "B Button",     /* name for the mapping of pin 4 (FIRE/SNES-B) */
+    "Y Button",     /* name for the mapping of pin 5 (FIRE-2/SNES-Y) */
+    "A Button",     /* name for the mapping of pin 6 (FIRE-3/SNES-A) */
+    "X Button",     /* name for the mapping of pin 7 (FIRE-4/SNES-X) */
     "Left Bumber",  /* name for the mapping of pin 8 (SNES-LB) */
     "Right Bumper", /* name for the mapping of pin 9 (SNES-RB) */
     "Select",       /* name for the mapping of pin 10 (SNES-SELECT) */
@@ -777,13 +777,13 @@ static uint8_t read_joystick(int port)
 static uint8_t read_potx(int port)
 {
     /* printf("read_potx %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
-    return joystick_value[port] & JOYPAD_FIRE2 ? 0x00 : 0xff;
+    return (joystick_value[port] & JOYPAD_FIRE2) ? 0x00 : 0xff;
 }
 
 static uint8_t read_poty(int port)
 {
     /* printf("read_poty %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
-    return joystick_value[port] & JOYPAD_FIRE3 ? 0x00 : 0xff;
+    return (joystick_value[port] & JOYPAD_FIRE3) ? 0x00 : 0xff;
 }
 
 
@@ -914,6 +914,7 @@ void joystick_set_axis_value(unsigned int joynum, unsigned int axis_idx, uint8_t
 static char mapping_retval[50];
 
 /* POT mapping */
+/* FIXME: this seems SDL UI specific */
 char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
 {
     int j;
@@ -932,6 +933,7 @@ char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
     return retval;
 }
 
+/* FIXME: this seems SDL UI specific */
 char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
 {
     int j;
@@ -1047,6 +1049,7 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
     return retval;
 }
 
+/* FIXME: this seems SDL UI specific */
 char *get_joy_extra_mapping_string(int which)
 {
     int i, j;

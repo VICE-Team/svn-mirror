@@ -155,6 +155,29 @@ enum {
     JOYPORT_DEVICE_DIAG_HARNESS,
 };
 
+/*
+Bit     Name    Standard    3 Buttons       SNES-Pad
+---     ----    --------    ---------       --------
+ 0      Up      Up          Up              D-Pad Up
+ 1      Down    Down        Down            D-Pad Down
+ 2      Left    Left        Left            D-Pad Left
+ 3      Right   Right       Right           D-Pad Right
+ 4      Fire    Fire        Fire            B   (South/Down)
+ 5      Fire2               Fire 2 (POTX)   Y   (West/Right)
+ 6      Fire3               Fire 3 (POTY)   A   (East/Left)
+ 7      Fire4                               X   (North/Up)
+ 8      Fire5                               Left Shoulder
+ 9      Fire6                               Right Shoulder
+10      Fire7                               Select
+11      Fire8                               Start
+
+NOTE: make sure to keep the bits in an order that will make some sense for all
+      supported devices (regular joysticks AND SNES Pads)
+
+CAUTION: when changing the order of the bits, (re)test all the controllers that
+         use them. also the order of some string arrays might have to be fixed.
+*/
+
 /* joystick bits */
 #define JOYPORT_P0_BIT    0
 #define JOYPORT_P1_BIT    1
@@ -225,24 +248,38 @@ enum {
 #define JOYPORT_FIRE_POTY   JOYPORT_FIRE_3
 
 /* Alternative bit names as used for snes pads */
-#define JOYPORT_BUTTON_A_BIT             JOYPORT_FIRE_1_BIT
-#define JOYPORT_BUTTON_B_BIT             JOYPORT_FIRE_2_BIT
-#define JOYPORT_BUTTON_X_BIT             JOYPORT_FIRE_3_BIT
-#define JOYPORT_BUTTON_Y_BIT             JOYPORT_FIRE_4_BIT
+#define JOYPORT_BUTTON_B_BIT             JOYPORT_FIRE_1_BIT
+#define JOYPORT_BUTTON_Y_BIT             JOYPORT_FIRE_2_BIT
+#define JOYPORT_BUTTON_A_BIT             JOYPORT_FIRE_3_BIT
+#define JOYPORT_BUTTON_X_BIT             JOYPORT_FIRE_4_BIT
 #define JOYPORT_BUTTON_LEFT_BUMBER_BIT   JOYPORT_FIRE_5_BIT
 #define JOYPORT_BUTTON_RIGHT_BUMBER_BIT  JOYPORT_FIRE_6_BIT
 #define JOYPORT_BUTTON_SELECT_BIT        JOYPORT_FIRE_7_BIT
 #define JOYPORT_BUTTON_START_BIT         JOYPORT_FIRE_8_BIT
 
 /* Alternative bit value names as used for snes pads */
-#define JOYPORT_BUTTON_A             JOYPORT_FIRE_1
-#define JOYPORT_BUTTON_B             JOYPORT_FIRE_2
-#define JOYPORT_BUTTON_X             JOYPORT_FIRE_3
-#define JOYPORT_BUTTON_Y             JOYPORT_FIRE_4
+#define JOYPORT_BUTTON_B             JOYPORT_FIRE_1
+#define JOYPORT_BUTTON_Y             JOYPORT_FIRE_2
+#define JOYPORT_BUTTON_A             JOYPORT_FIRE_3
+#define JOYPORT_BUTTON_X             JOYPORT_FIRE_4
 #define JOYPORT_BUTTON_LEFT_BUMBER   JOYPORT_FIRE_5
 #define JOYPORT_BUTTON_RIGHT_BUMBER  JOYPORT_FIRE_6
 #define JOYPORT_BUTTON_SELECT        JOYPORT_FIRE_7
 #define JOYPORT_BUTTON_START         JOYPORT_FIRE_8
+
+/* bit names */
+#define JOYPORT_P0_NAME     "Up"
+#define JOYPORT_P1_NAME     "Down"
+#define JOYPORT_P2_NAME     "Left"
+#define JOYPORT_P3_NAME     "Right"
+#define JOYPORT_P4_NAME     "Fire   / SNES-B"
+#define JOYPORT_P5_NAME     "Fire 2 / SNES-Y"
+#define JOYPORT_P6_NAME     "Fire 3 / SNES-A"
+#define JOYPORT_P7_NAME     "SNES-X"
+#define JOYPORT_P8_NAME     "SNES-LB"
+#define JOYPORT_P9_NAME     "SNES-RB"
+#define JOYPORT_P10_NAME    "SNES-Select"
+#define JOYPORT_P11_NAME    "SNES-Start"
 
 #define JOYPORT_BIT_BOOL(var, pos) ((var & (1 << pos)) ? 1 : 0)
 
@@ -305,10 +342,10 @@ typedef struct joyport_mapping_s {
     char *pin1;   /* name for the mapping of digital pin 1 (DOWN) */
     char *pin2;   /* name for the mapping of digital pin 2 (LEFT) */
     char *pin3;   /* name for the mapping of digital pin 3 (RIGHT) */
-    char *pin4;   /* name for the mapping of digital pin 4 (FIRE-1/SNES-A) */
-    char *pin5;   /* name for the mapping of digital pin 5 (FIRE-2/SNES-B) */
-    char *pin6;   /* name for the mapping of digital pin 6 (FIRE-3/SNES-X) */
-    char *pin7;   /* name for the mapping of digital pin 7 (SNES-Y) */
+    char *pin4;   /* name for the mapping of digital pin 4 (FIRE-1/SNES-B) */
+    char *pin5;   /* name for the mapping of digital pin 5 (FIRE-2/SNES-Y) */
+    char *pin6;   /* name for the mapping of digital pin 6 (FIRE-3/SNES-A) */
+    char *pin7;   /* name for the mapping of digital pin 7 (SNES-X) */
     char *pin8;   /* name for the mapping of digital pin 8 (SNES-LB) */
     char *pin9;   /* name for the mapping of digital pin 9 (SNES-RB) */
     char *pin10;  /* name for the mapping of digital pin 10 (SNES-SELECT) */
