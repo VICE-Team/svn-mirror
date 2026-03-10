@@ -35,13 +35,37 @@
 #include <stdint.h>
 #include "lib.h"
 
+/*
+Bit     Name    Standard    3 Buttons       SNES-Pad
+---     ----    --------    ---------       --------
+ 0      Up      Up          Up              D-Pad Up
+ 1      Down    Down        Down            D-Pad Down
+ 2      Left    Left        Left            D-Pad Left
+ 3      Right   Right       Right           D-Pad Right
+ 4      Fire    Fire        Fire            B   (South/Down)
+ 5      Fire2               Fire 2 (POTX)   Y   (West/Right)
+ 6      Fire3               Fire 3 (POTY)   A   (East/Left)
+ 7      Fire4                               X   (North/Up)
+ 8      Fire5                               Left Shoulder
+ 9      Fire6                               Right Shoulder
+10      Fire7                               Select
+11      Fire8                               Start
 
+NOTE: make sure to keep the bits in an order that will make some sense for all
+      supported devices (regular joysticks AND SNES Pads)
+
+CAUTION: when changing the order of the bits, (re)test all the controllers that
+         use them. also the order of some string arrays might have to be fixed.
+*/
+
+/* values used for control port mapping */
 #define JOYSTICK_DIRECTION_NONE  0
 #define JOYSTICK_DIRECTION_UP    1
 #define JOYSTICK_DIRECTION_DOWN  2
 #define JOYSTICK_DIRECTION_LEFT  4
 #define JOYSTICK_DIRECTION_RIGHT 8
 
+/* autofire */
 #define JOYSTICK_AUTOFIRE_OFF   0
 #define JOYSTICK_AUTOFIRE_ON    1
 

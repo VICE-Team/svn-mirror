@@ -50,9 +50,9 @@
      2   |  JOY1     | dpad down  |  I
      3   |  JOY2     | dpad left  |  I
      4   |  JOY3     | dpad right |  I
-     5   |  POTY     | A button   |  I
-     6   |  JOY4     | Y button   |  I
-     9   |  POTX     | X button   |  I
+     5   |  POTY     | A (Left)   |  I
+     6   |  JOY4     | Y (right)  |  I
+     9   |  POTX     | X (up)     |  I
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic/xcbm5x0)
@@ -236,16 +236,24 @@ static uint8_t protopad_read(int port)
                 retval = 0x07;
                 break;
             case PROTOPAD_TRIPPLE_0: /* return B A Right */
-                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_B | JOYPORT_BUTTON_A | JOYPORT_RIGHT)) >> 3);
+                retval = JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_B_BIT) << 2;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_A_BIT) << 1;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_RIGHT_BIT) << 0;
                 break;
             case PROTOPAD_TRIPPLE_1: /* return Left Down Up */
-                retval = (uint8_t)(joyval & (JOYPORT_LEFT | JOYPORT_DOWN | JOYPORT_UP));
+                retval = JOYPORT_BIT_BOOL(joyval, JOYPORT_LEFT_BIT) << 2;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_DOWN_BIT) << 1;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_UP_BIT) << 0;
                 break;
             case PROTOPAD_TRIPPLE_2: /* return Start Select Bumber-R */
-                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_START | JOYPORT_BUTTON_SELECT | JOYPORT_BUTTON_RIGHT_BUMBER)) >> 9);
+                retval = JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_START_BIT) << 2;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_SELECT_BIT) << 1;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_RIGHT_BUMBER_BIT) << 0;
                 break;
             case PROTOPAD_TRIPPLE_3: /* return Bumber-L Y X */
-                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_LEFT_BUMBER | JOYPORT_BUTTON_Y | JOYPORT_BUTTON_X)) >> 6);
+                retval = JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_LEFT_BUMBER_BIT) << 2;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_Y_BIT) << 1;
+                retval |= JOYPORT_BIT_BOOL(joyval, JOYPORT_BUTTON_X_BIT) << 0;
                 break;
             default:
                 retval = 0x00;
