@@ -642,15 +642,29 @@ static GtkTreeModel *type_combo_model_new(joystick_mapping_t *mapping)
         }
 
         switch (mapping->type) {
+            case JOY_INPUT_BALL:    /* FIXME */
+                break;
             case JOY_INPUT_AXIS:
-            case JOY_INPUT_HAT:
-            case JOY_INPUT_BALL:
                 /* disable "ui activate" for non buttons */
                 if (index == JOY_ACTION_UI_ACTIVATE) {
                     indextag = -1;
                 }
                 /* disable "ui action" for non buttons */
                 if (index == JOY_ACTION_UI_FUNCTION) {
+                    indextag = -1;
+                }
+                break;
+            case JOY_INPUT_HAT:
+                /* disable "ui activate" for non buttons */
+                if (index == JOY_ACTION_UI_ACTIVATE) {
+                    indextag = -1;
+                }
+                /* disable "ui action" for non buttons */
+                if (index == JOY_ACTION_UI_FUNCTION) {
+                    indextag = -1;
+                }
+                /* disable POT axis for buttons */
+                if (index == JOY_ACTION_POT_AXIS) {
                     indextag = -1;
                 }
                 break;
