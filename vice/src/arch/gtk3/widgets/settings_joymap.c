@@ -395,12 +395,7 @@ static void save_as_callback(GtkDialog *dialog, gchar *path, gpointer extra)
         fullpath = util_add_extension_const(path, "vjm");
         g_free(path);
 
-        if (joy_arch_mapping_dump(fullpath, joydev) != -1) {
-            vice_gtk3_message_info(GTK_WINDOW(dialog),
-                                   "Joymap saved",
-                                   "Joymap succesfully saved as '%s'.",
-                                   fullpath);
-        } else {
+        if (joy_arch_mapping_dump(fullpath, joydev) == -1) {
             vice_gtk3_message_error(GTK_WINDOW(dialog),
                                     "Joymap error",
                                     "Failed to save joymap as '%s'.",
