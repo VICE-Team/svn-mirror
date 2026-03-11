@@ -22819,8 +22819,10 @@ FL FL FL FL | DW DW | DH DH | XO XO | YO YO | IW IW | IH IH | BP |
 @*
 
 @table @strong
-@item FL: 4 bytes: Length of the fields before the display buffer
+@item FL: 4 bytes: Length of the fields before the display buffer (DW...BP)
+@end table
 
+@table @strong
 @item DW: 2 bytes: Debug width of display buffer (uncropped)
 The largest width the screen gets.
 
@@ -22838,11 +22840,12 @@ Y offset to the inner part of the screen.
 @item IH: 2 bytes: Height of the inner part of the screen.
 
 @item BP: 1 byte: Bits per pixel of display buffer, 8
+@end table
 
+@table @strong
 @item BL: 4 bytes: Length of display buffer
 
 @item BD: BL bytes: Display buffer data
-
 @end table
 
 @node MON_CMD_VICE_INFO
