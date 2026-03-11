@@ -19,6 +19,9 @@
 
 #include "vsidstate.h"
 
+/** \brief  Name of the PSID file passed on the commandline
+ */
+extern char *psid_autostart_image;
 
 /** \brief  UI state object for threading, do NOT use directly
  *
@@ -64,6 +67,11 @@ void vsid_state_init(void)
      * bugs.
      */
     state->psid_filename = NULL;
+    /* KLUDGES: if a PSID file was passed on the command line, put it into the
+     * state here, else eg pressing STOP/START immediately after will not work */
+    if (psid_autostart_image) {
+        state->psid_filename = strdup(psid_autostart_image);
+    }
     state->name = NULL;
     state->author = NULL;
     state->copyright = NULL;
