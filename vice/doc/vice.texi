@@ -1484,6 +1484,9 @@ the @dfn{romset files}, text files describing the different ROMs to load.
 @item
 the @dfn{hotkey files}, text files with keyboard shortcuts.
 
+@item
+the @dfn{joymap files}, text files with controller mappings.
+
 @end itemize
 
 The place where they will be searched for depends on the value of the
@@ -1505,7 +1508,7 @@ The disk drive ROMs are looked for in a directory with @code{EMU} set to
 For example, if you have the C64 emulator installed in
 
 @example
-/usr/local/bin/x64
+/usr/local/bin/x64sc
 @end example
 
 then the value will be
@@ -1544,19 +1547,49 @@ resource values (@pxref{Resource files}).
 @node ROM files, Keymap files, Gtk3 Hotkeys files, System files, System files
 @section ROM files
 
-Every emulator requires its own ROM set.  For the VIC20 and the C64, the
+Every emulator requires its own ROM set.  For the C64, the
 ROM set consists of the following files:
 
 @itemize @bullet
 
 @item
-@file{kernal},  the Kernal ROM (8 KiB)
+@file{kernal-901227-03.bin},  the Kernal ROM (8 KiB)
 
 @item
-@file{basic}, the Basic ROM (8 KiB)
+@file{basic-901226-01.bin}, the BASIC ROM (8 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 KiB)
+@file{chargen-901225-01.bin}, the character generator ROM (4 KiB)
+
+@end itemize
+
+The VIC20 needs the following files:
+
+@itemize @bullet
+
+@item
+@file{kernal.901486-07.bin},  the Kernal ROM (8 KiB)
+
+@item
+@file{basic-901486-01.bin}, the BASIC ROM (8 KiB)
+
+@item
+@file{chargen-901460-03.bin}, the character generator ROM (4 KiB)
+
+@end itemize
+
+The Plus4 needs the following files:
+
+@itemize @bullet
+
+@item
+@file{kernal-318004-05.bin},  the Kernal ROM (16 KiB)
+
+@item
+@file{basic-318006-01.bin}, the BASIC ROM (16 KiB)
+
+@item
+@file{3plus1-317053-01.bin} and @file{3plus1-317054-01.bin}, the builtin '3plus1' software ROM (32 KiB)
 
 @end itemize
 
@@ -1565,13 +1598,19 @@ The C128 needs the following files:
 @itemize @bullet
 
 @item
-@file{kernal}, the Kernal ROM (8 KiB)
+@file{kernal-318020-05.bin}, the Kernal ROM (8 KiB)
 
 @item
-@file{basic}, the Basic + Editor ROM (32 KiB)
+@file{basiclo-318018-04.bin} and @file{basichi-318019-04.bin}, the Basic + Editor ROM (32 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 KiB)
+@file{chargen-390059-01.bin}, the character generator ROM (4 KiB)
+
+@item
+@file{kernal64-901227-03.bin}, the C64 Kernal ROM (8 KiB)
+
+@item
+@file{basic64-901226-01.bin}, the C64 BASIC ROM (8 KiB)
 
 @end itemize
 
@@ -1794,28 +1833,28 @@ full (256 char) character set is computed by inverting.
 @itemize @bullet
 
 @item
-@file{kernal}, the KERNAL (8KiB) for the business machines (6xx/7xx)
+@file{kernal-901244-04a.bin}, the KERNAL (8KiB) for the business machines (6xx/7xx)
 
 @item
-@file{kernal.500}, the KERNAL (8KiB) for the personal machine (510) (901234-02)
+@file{kernal-901234-02.bin}, the KERNAL (8KiB) for the personal machine (510) (901234-02)
 
 @item
-@file{basic.128}, the CBM-II 128KiB BASIC (16KiB)
+@file{basic-901242+3-04a.bin}, the CBM-II 128KiB BASIC (16KiB)
 
 @item
-@file{basic.256}, CBM-II 256KiB BASIC (16KiB)
+@file{basic-901240+1-03.bin}, CBM-II 256KiB BASIC (16KiB)
 
 @item
-@file{basic.500}, C510 BASIC (16KiB) (901236-02 + 901235-02)
+@file{basic-901235+6-02.bin}, C510 BASIC (16KiB) (901236-02 + 901235-02)
 
 @item
-@file{chargen.500}, character generator ROM for the C5x0 (4KiB) (901225-01)
+@file{chargen-901225-01.bin}, character generator ROM for the C5x0 (4KiB) (901225-01)
 
 @item
-@file{chargen.600}, character generator ROM for the C6x0 (4KiB)
+@file{chargen-901237-01.bin}, character generator ROM for the C6x0 (4KiB)
 
 @item
-@file{chargen.700}, character generator ROM for the C7x0 (4KiB)
+@file{chargen-901232-01.bin}, character generator ROM for the C7x0 (4KiB)
 
 @end itemize
 
@@ -1827,7 +1866,7 @@ The SCPU64 needs the following files:
 @file{scpu64}, the SCPU64 ROM (128 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 KiB)
+@file{chargen-901225-01.bin}, the character generator ROM (4 KiB)
 
 @end itemize
 
