@@ -41,7 +41,7 @@
 #include "types.h"
 
 
-#define DEBUG_USBSID
+/* #define DEBUG_USBSID */
 /* define to trace usbsid stuff without having a usbsid */
 /* #define DEBUG_USBSID_DUMMY */
 
