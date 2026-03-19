@@ -2883,7 +2883,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     disk_image_t *disk_image;
     unsigned int disk_type;
     size_t disk_size;
-    size_t total_written;
+    size_t file_written;
     uint8_t *buf, *str;
     unsigned int channel = 2;
     char *p00_name = NULL;
@@ -2929,7 +2929,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     track = floppy->Dir_Track;
     sector = floppy->Dir_Sector;
 
-    total_written = 0;
+    file_written = 0;
     while (1) {
         int i, res;
 
@@ -2947,6 +2947,8 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
         for (i = 0; i < 256; i += SLOT_SIZE) {
             uint8_t file_type = buf[i + SLOT_TYPE_OFFSET];
+
+            file_written = 0;
 
             if (((file_type & 7) == CBMDOS_FT_SEQ
                         || (file_type & 7) == CBMDOS_FT_PRG
@@ -3071,28 +3073,23 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     }
                     do {
                         /* guard against cyclic blocks */
-                        if (total_written < disk_size) {
+                        if (file_written < disk_size) {
                             status = vdrive_iec_read(floppy, &c, 0);
                             fputc(c, fd);
-                            total_written++;
+                            file_written++;
                         } else {
                             fprintf(stderr,
                                     "Error: trying to extract more data than"
                                     " image can contain (%zu), possibly a\n"
-                                    "       cyclic T/S chain in file '%s',"
-                                    " aborting.\n",
+                                    "       cyclic T/S chain in file '%s'.\n",
                                     disk_size, name);
-                            fclose(fd);
-                            if (p00_name != NULL) {
-                                lib_free(p00_name);
-                            }
-                            vdrive_iec_close(floppy, channel);
-                            return FD_WRTERR;
+                            break;
                         }
                     } while (status == SERIAL_OK);
                 }
                 if (p00_name != NULL) {
                     lib_free(p00_name);
+                    p00_name = NULL;
                 }
 
                 vdrive_iec_close(floppy, 0);
