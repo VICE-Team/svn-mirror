@@ -1797,6 +1797,10 @@ void mem_initialize_memory(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab[base];
 
     c64pla_pport_reset();
+    /* the next function needs to be called to update the pport.data_read so
+       that it reflects the impact the external pull up resistors have.
+       fix for bug #2121. */
+    mem_pla_config_changed();
 
     cartridge_init_config();
 }
