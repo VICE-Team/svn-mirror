@@ -2929,7 +2929,6 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     track = floppy->Dir_Track;
     sector = floppy->Dir_Sector;
 
-    file_written = 0;
     while (1) {
         int i, res;
 
