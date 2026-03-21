@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <libgen.h>
 #include <limits.h>
+#include <mach-o/dyld.h>
 
 int main(int argc, char *argv[])
 {
