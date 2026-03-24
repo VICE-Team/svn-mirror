@@ -3940,16 +3940,16 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
          * since vlir block is the first data block simply put it to
          * disk
          */
+        aktTrk = vlirBlock[0];
+        aktSec = vlirBlock[1];
 
-        for (n = 2; n < 256; n++) {
+        BytesInLastSector = (aktTrk != 0) ? 256 : aktSec + 1;
+        for (n = 2; n < BytesInLastSector; n++) {
             fputc(vlirBlock[n], outf);
         }
 
         /* the rest is like standard cbm file TS-Chains.
            Put them to disk */
-
-        aktTrk = vlirBlock[0];
-        aktSec = vlirBlock[1];
         while (aktTrk != 0) {
             if (vdrive_read_sector(drives[unit], block, aktTrk, aktSec) != 0) {
                 fprintf(stderr,
