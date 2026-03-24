@@ -2690,8 +2690,8 @@ static int entry_cmd(int nargs, char **args)
         printf("@-replacement T/S: %d/%d\n",
                 slot[SLOT_REPLACE_TRACK], slot[SLOT_REPLACE_SECTOR]);
 
-        printf("GEOS: IT/S: %d/%d\n", slot[SLOT_GEOS_ITRACK], slot[SLOT_GEOS_ISECTOR]);
-        printf("GEOS: struct: %02x,  type: %02x\n",
+        printf("GEOS: Info block T/S: %d/%d\n", slot[SLOT_GEOS_ITRACK], slot[SLOT_GEOS_ISECTOR]);
+        printf("GEOS: structure: %02x,  type: %02x\n",
                 slot[SLOT_GEOS_STRUCT], slot[SLOT_GEOS_TYPE]);
         printf("GEOS: YY/mm/dd hh:mm %d/%d/%d %d:%d\n",
                 slot[SLOT_GEOS_YEAR],
@@ -3959,7 +3959,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
             }
             aktTrk = block[0];
             aktSec = block[1];
-            BytesInLastSector = aktTrk != 0 ? 256 : aktSec + 1;
+            BytesInLastSector = (aktTrk != 0) ? 256 : aktSec + 1;
             for (n = 2; n < BytesInLastSector; n++) {
                 fputc(block[n], outf);
             }
@@ -4096,6 +4096,73 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
     return FD_OK;
 }
 
+/* find directory entry/slot for given file name, returns pointer to direntry */
+static int find_dir_entry(char *filename, int dnr, uint8_t *slot)
+{
+    unsigned int track, sector;
+    vdrive_t *floppy;
+    uint8_t *buf, *str;
+    unsigned int channel = 2;
+
+    /* printf("find dir entry for: %s (dev:%d)\n", filename, dnr); */
+
+    floppy = drives[dnr];
+
+    if (vdrive_iec_open(floppy, (const uint8_t *)"#", 1, channel, NULL)) {
+        fprintf(stderr, "cannot open buffer #%u in unit %d\n", channel,
+                dnr + DRIVE_UNIT_MIN);
+        return FD_RDERR;
+    }
+
+    track = floppy->Dir_Track;
+    sector = floppy->Dir_Sector;
+
+    while (1) {
+        int i, res;
+
+        str = (uint8_t *)lib_msprintf("B-R:%u 0 %u %u", channel, track, sector);
+        res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
+        lib_free(str);
+
+        if (res) {
+            return FD_RDERR;
+        }
+
+        buf = floppy->buffers[channel].buffer;
+
+        for (i = 0; i < 256; i += SLOT_SIZE) {
+            uint8_t file_type = buf[i + SLOT_TYPE_OFFSET];
+
+            if (file_type & CBMDOS_FT_CLOSED) {
+                uint8_t *file_name = buf + i + SLOT_NAME_OFFSET;
+                unsigned int len;
+
+                for (len = 0; len < IMAGE_CONTENTS_FILE_NAME_LEN; len++) {
+                    if (file_name[len] == 0xa0) {
+                        break;
+                    }
+                }
+                /* printf("search:%s name:%s type:%02x namelen:%d\n", filename, file_name, file_type, len); */
+                if (memcmp(filename, file_name, len) == 0) {
+                    /* printf("found! %s\n", file_name); */
+                    memcpy(slot, buf + i, SLOT_SIZE);
+                    vdrive_iec_close(floppy, channel);
+                    return FD_OK;
+                }
+            }
+        }
+        if (buf[0] && buf[1]) {
+            track = buf[0];
+            sector = buf[1];
+        } else {
+            break;
+        }
+    }
+    vdrive_iec_close(floppy, channel);
+    return FD_OK;
+}
+
+
 /* Author:      DiSc
  * Date:        2000-07-28
  * Reads a geos file from the diskimage and writes it to a convert file
@@ -4125,7 +4192,7 @@ static int read_geos_cmd(int nargs, char **args)
     int unit;
     cbmdos_cmd_parse_t *parse_cmd;
     size_t namelen;
-
+    unsigned char slot[SLOT_SIZE];
 
     unit = extract_unit_from_file_name(args[1], &p);
     if (unit > 0) {
@@ -4158,12 +4225,11 @@ static int read_geos_cmd(int nargs, char **args)
         return FD_BADNAME;
     }
 
-
     /*
      * We use this to pass to vdrive_iec_open() as its `cmd_parse_ext` argument
-     * to tell the function to look for USR files. Without this the function
-     * defaults to looking for PRG files and will fail to locate the GEOS file
-     * requested.
+     * to tell the function what CBM file type the GEOS file is. Without this
+     * the function defaults to looking for (only) PRG files and will fail to
+     * locate the GEOS file requested (which is usually, but not always, USR).
      */
     namelen = strlen(src_name_ascii);
     parse_cmd = lib_calloc(1, sizeof *parse_cmd);
@@ -4173,8 +4239,18 @@ static int read_geos_cmd(int nargs, char **args)
                                                            vdrive_iec_open() */
     parse_cmd->parselength = (unsigned int)namelen;
     parse_cmd->secondary = 0;
-    parse_cmd->filetype = CBMDOS_FT_USR;
+    /*parse_cmd->filetype = CBMDOS_FT_USR;*/
     parse_cmd->readmode = CBMDOS_FAM_READ;
+
+    /* find the direntry for this file so we can determine the CBM file type */
+    err_code = find_dir_entry(src_name_ascii, dev, slot);
+    if (err_code) {
+        return err_code;
+    }
+    /* NOTE: the file structure is checked later in internal_read_geos_file(),
+       so we don't do it here */
+
+    parse_cmd->filetype = slot[SLOT_TYPE_OFFSET] & 7;
 
     if (vdrive_iec_open(drives[dev], (uint8_t *)src_name_ascii,
                         (unsigned int)strlen(src_name_ascii), 0,
