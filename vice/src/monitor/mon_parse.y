@@ -606,7 +606,7 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                   | CMD_STOPWATCH RESET end_cmd
                      { mon_stopwatch_reset(); }
                   | CMD_STOPWATCH end_cmd
-                     { mon_stopwatch_show("Stopwatch: ", "\n"); }
+                     { mon_stopwatch_show(default_memspace, "Stopwatch: ", "\n"); }
                   | CMD_PROFILE TOGGLE end_cmd
                      { mon_profile_action($2); }
                   | CMD_PROFILE end_cmd

@@ -1644,7 +1644,7 @@ void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
     } else {
         mon_out("%s ", dis_inst);
     }
-    mon_stopwatch_show("", "\n");
+    mon_stopwatch_show(mem, "", "\n");
 }
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
