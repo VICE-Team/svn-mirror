@@ -4400,6 +4400,14 @@ static int internal_write_geos_file(int unit, FILE* f)
      * else its already a data block */
     for (n = 2; n < 256; n++) {
         c = fgetc(f);
+        if (c == EOF) {
+            vlirBlock[0] = 0;
+            vlirBlock[1] = (unsigned char)(n - 1);
+            while (n < 256) {
+                vlirBlock[n++] = 0x00;
+            }
+            break;
+        }
         vlirBlock[n] = (unsigned char)c;
     }
 
