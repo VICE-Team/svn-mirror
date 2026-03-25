@@ -345,7 +345,7 @@ void monitor_change_device(MEMSPACE mem);
 
 void mon_export(void);
 
-void mon_stopwatch_show(const char* prefix, const char* suffix);
+void mon_stopwatch_show(MEMSPACE mem, const char* prefix, const char* suffix);
 void mon_stopwatch_reset(void);
 void mon_maincpu_trace(void);
 void mon_maincpu_toggle_trace(int state);

@@ -206,7 +206,7 @@ static void mon_register_print(int mem)
             mon_out(" %03u %03u %i", line, cycle, half_cycle);
         }
     }
-    mon_stopwatch_show(" ", "\n");
+    mon_stopwatch_show(mem, " ", "\n");
 }
 
 /* TODO: should use mon_register_list_get */

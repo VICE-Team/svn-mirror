@@ -1505,13 +1505,13 @@ void mon_export(void)
     }
 }
 
-void mon_stopwatch_show(const char *prefix, const char *suffix)
+void mon_stopwatch_show(MEMSPACE mem, const char *prefix, const char *suffix)
 {
     unsigned long t;
     monitor_interface_t *vice_interface;
-    vice_interface = mon_interfaces[default_memspace];
+    vice_interface = mon_interfaces[mem];
     t = (unsigned long)
-        (*vice_interface->clk - stopwatch_start_time[default_memspace]);
+        (*vice_interface->clk - stopwatch_start_time[mem]);
     mon_out("%s%10lu%s", prefix, t, suffix);
 }
 
