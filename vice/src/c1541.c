@@ -3923,6 +3923,11 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
     for (n = 2; n < 256; n++) {
         fputc(infoBlock[n], outf);
     }
+#ifdef DEBUG_DRIVE
+    log_debug(LOG_DEFAULT, "DEBUG: Info Block at %u/%u (%u/%u %u/%u %u/%u %u/%u %u/%u)", infoTrk, infoSec,
+              infoBlock[0], infoBlock[1], infoBlock[2], infoBlock[3], infoBlock[4], infoBlock[5],
+              infoBlock[6], infoBlock[7], infoBlock[8], infoBlock[9]);
+#endif
 
     /* read first data block or vlir block */
     if (vdrive_read_sector(drives[unit], vlirBlock, firstTrk, firstSec) != 0) {
@@ -3931,7 +3936,11 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
                 src_name_ascii, strerror(errno));
         return FD_RDERR;
     }
-
+#ifdef DEBUG_DRIVE
+    log_debug(LOG_DEFAULT, "DEBUG: First Block at %u/%u (%u/%u %u/%u %u/%u %u/%u %u/%u)", firstTrk, firstSec,
+              vlirBlock[0], vlirBlock[1], vlirBlock[2], vlirBlock[3], vlirBlock[4], vlirBlock[5],
+              vlirBlock[6], vlirBlock[7], vlirBlock[8], vlirBlock[9]);
+#endif
     if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {
 #ifdef DEBUG_DRIVE
         log_debug(LOG_DEFAULT, "DEBUG: GEOS_FILE_STRUC_SEQ (%d:%d)", infoTrk, infoSec);
@@ -3982,19 +3991,24 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         }
 
 #ifdef DEBUG_DRIVE
-        log_debug(LOG_DEFAULT, "DEBUG: VLIR scan record chains");
+        log_debug(LOG_DEFAULT, "DEBUG: VLIR scan record chains (%u/%u %u/%u %u/%u %u/%u %u/%u)",
+                  vlirBlock[0], vlirBlock[1], vlirBlock[2], vlirBlock[3], vlirBlock[4], vlirBlock[5],
+                  vlirBlock[6], vlirBlock[7], vlirBlock[8], vlirBlock[9]);
 #endif
 
         /* Replace the TS-chain-origins with NoOfBlocks/BytesInLastSector */
-
         vlirIdx = 2;
         aktTrk = vlirBlock[vlirIdx];
         aktSec = vlirBlock[vlirIdx + 1];
+#ifdef DEBUG_DRIVE
+        log_debug(LOG_DEFAULT, "DEBUG: VLIR Track: %u Sector: %u\n", aktTrk, aktSec);
+#endif
         NoOfBlocks = 0;
         NoOfChains = 0;
         BytesInLastSector = 255;
-        while (aktTrk != 0 && vlirIdx <= 254) {
-            if (aktTrk != 0) { /* Record exists and is not empty */
+
+        for (vlirIdx = 0; vlirIdx < 256;) {
+            if ((aktTrk != 0) && (vlirIdx <= 254)) { /* Record exists and is not empty */
 #ifdef DEBUG_DRIVE
                 log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
@@ -4058,8 +4072,12 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         vlirIdx = 2;
         aktTrk = vlirBlock[vlirIdx];
         aktSec = vlirBlock[vlirIdx + 1];
-        while (aktTrk != 0 && vlirIdx <= 254) {
-            if (aktTrk != 0) {
+#ifdef DEBUG_DRIVE
+        log_debug(LOG_DEFAULT, "DEBUG: VLIR Track: %u Sector: %u\n", aktTrk, aktSec);
+#endif
+        for (vlirIdx = 0; vlirIdx < 256;) {
+            if ((aktTrk != 0) && (vlirIdx <= 254)) { /* Record exists and is not empty */
+
 #ifdef DEBUG_DRIVE
                 log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
