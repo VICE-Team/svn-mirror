@@ -198,6 +198,7 @@ static int cd_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
+static int delete_geos_cmd(int nargs, char **args);
 static int entry_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
 static int extract_geos_cmd(int nargs, char **args);
@@ -412,10 +413,17 @@ const command_t command_list[] = {
       1, 1,
       write_geos_cmd },
     { "geosextract",
-      "geosextract <source>",
+      "geosextract [<unit>]",
       "Extract all the files to the file system and GEOS Convert them.",
       0, 1,
       extract_geos_cmd },
+    { "geosdelete",
+      "geosdelete <file1> [<file2> ... <fileN>]",
+      "Delete the specified GEOS files."
+      "\nPlease note that due to GEOS using ASCII, not PETSCII, the name should"
+      " be\nentered in inverted case (ie to read 'rEADmE', use 'ReadMe'",
+      1, MAXARG,
+      delete_geos_cmd },
     { "help",
       "help [<command>]",
       "Explain specified command.  If no command is specified, list "
@@ -2838,6 +2846,71 @@ static int delete_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+/** \brief  Delete (scratch) GEOS file(s) from disk image(s)
+ *
+ * Delete one or more files. Each file can have a unit number (@\<unit>:) in
+ * front of it to indicate which unit to use.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
+static int delete_geos_cmd(int nargs, char **args)
+{
+    int i;
+
+    for (i = 1; i < nargs; i++) {
+        int unit;   /* unit number */
+        int dnr;    /* index in drives array */
+        char *p;
+        char *name;
+        char *command;
+        int status;
+
+        unit = extract_unit_from_file_name(args[i], &p);
+        if (unit < 0) {
+            /* illegal unit between '@' and ':' */
+            return FD_BADDEV;
+        }
+        if (unit == 0) {
+            /* no '@<unit>:' found, use current device */
+            dnr = drive_index;
+        } else {
+            dnr = unit - DRIVE_UNIT_MIN;    /* set proper device index */
+        }
+        if (check_drive_ready(dnr) < 0) {
+            return FD_NOTREADY;
+        }
+        name = p;   /* update pointer to name */
+
+        if (!is_valid_cbm_file_name(name)) {
+            fprintf(stderr,
+                    "`%s' is not a valid CBM DOS file name: ignored\n", name);
+            continue;
+        }
+
+        command = util_concat("S:", name, NULL); /* uppercase S, because we don't convert to petscii */
+#if 0
+        /* do not convert, GEOS filenames are ASCII */
+        charset_petconvstring((uint8_t *)command, CONVERT_TO_PETSCII);
+#endif
+        printf("deleting `%s' on unit %d\n", name, unit);
+
+        status = vdrive_command_execute(drives[dnr], (uint8_t *)command,
+                                        (unsigned int)strlen(command));
+        lib_free(command);
+        /* vdrive_command_execute() returns CBMDOS_IPE_DELETED even if no
+         * files where actually scratched, so just display error messages that
+         * actual mean something, not "ERRORCODE 1" */
+        if (status != CBMDOS_IPE_OK && status != CBMDOS_IPE_DELETED) {
+            printf("%02d, %s, 00, 00\n",
+                    status, cbmdos_errortext((unsigned int)status));
+        }
+    }
+
+    return FD_OK;
+}
 
 #define P00_HDR_LEN         0x1a
 #define P00_HDR_MAGIC       0x00
