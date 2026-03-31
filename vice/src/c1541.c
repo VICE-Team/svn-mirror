@@ -4007,8 +4007,15 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
         NoOfChains = 0;
         BytesInLastSector = 255;
 
-        for (vlirIdx = 0; vlirIdx < 256;) {
-            if ((aktTrk != 0) && (vlirIdx <= 254)) { /* Record exists and is not empty */
+        for (vlirIdx = 2; vlirIdx < 256;) {
+            /* "When a T/S link of $00/$00 is encountered, we are at the end of the
+                RECORD block" */
+            if ((aktTrk == 0) && (aktSec == 0)) {
+                break;
+            }
+            /* "If the T/S link is a $00/$FF, then the record is not available." */
+            if ((aktTrk != 0) && (vlirIdx <= 254)) {
+                /* Record exists and is not empty */
 #ifdef DEBUG_DRIVE
                 log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
@@ -4075,9 +4082,15 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
 #ifdef DEBUG_DRIVE
         log_debug(LOG_DEFAULT, "DEBUG: VLIR Track: %u Sector: %u\n", aktTrk, aktSec);
 #endif
-        for (vlirIdx = 0; vlirIdx < 256;) {
-            if ((aktTrk != 0) && (vlirIdx <= 254)) { /* Record exists and is not empty */
-
+        for (vlirIdx = 2; vlirIdx < 256;) {
+            /* "When a T/S link of $00/$00 is encountered, we are at the end of the
+                RECORD block" */
+            if ((aktTrk == 0) && (aktSec == 0)) {
+                break;
+            }
+            /* "If the T/S link is a $00/$FF, then the record is not available." */
+            if ((aktTrk != 0) && (vlirIdx <= 254)) {
+                /* Record exists and is not empty */
 #ifdef DEBUG_DRIVE
                 log_debug(LOG_DEFAULT, "DEBUG: VLIR IDX %u", vlirIdx);
 #endif
