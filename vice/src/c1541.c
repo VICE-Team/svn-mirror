@@ -3070,8 +3070,9 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     len +=2;
                 }
 
-
-                charset_petconvstring((uint8_t *)name, CONVERT_TO_ASCII);
+                if (!geos) {
+                    charset_petconvstring((uint8_t *)name, CONVERT_TO_ASCII);
+                }
 
                 /* translate illegal chars for the host OS to '_' */
                 archdep_sanitize_filename((char *)name);
