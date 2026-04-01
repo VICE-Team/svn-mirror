@@ -206,6 +206,7 @@ static int format_cmd(int nargs, char **args);
 static int help_cmd(int nargs, char **args);
 static int info_cmd(int nargs, char **args);
 static int list_cmd(int nargs, char **args);
+static int list_geos_cmd(int nargs, char **args);
 static int name_cmd(int nargs, char **args);
 static int p00save_cmd(int nargs, char **args);
 static int pwd_cmd(int nargs, char **args);
@@ -398,32 +399,43 @@ const command_t command_list[] = {
       "Otherwise, format the disk in the current unit, if any.",
       1, 4,
       format_cmd },
+    { "geosdelete",
+      "geosdelete <file1> [<file2> ... <fileN>]",
+      "Delete the specified GEOS files."
+      "\nPlease note that due to GEOS using ASCII, not PETSCII, the name should"
+      " be\nentered as listed by the 'geoslist' command.",
+      1, MAXARG,
+      delete_geos_cmd },
+    { "geosdir",
+      "geosdir [<pattern>]",
+      "List GEOS files matching <pattern> (default is all files).",
+      0, 1,
+      list_cmd },
+    { "geosextract",
+      "geosextract [<unit>]",
+      "Extract all the files to the file system and GEOS Convert them.",
+      0, 1,
+      extract_geos_cmd },
+    { "geoslist",
+      "geoslist [<pattern>]",
+      "List GEOS files matching <pattern> (default is all files).",
+      0, 1,
+      list_geos_cmd },
     { "geosread",
       "geosread <source> [<destination>]",
       "Read GEOS <source> from the disk image and copy it as a Convert file "
       "into \n<destination> in the file system.  If <destination> is not "
       "specified, copy \nit into a file with the same name as <source>."
       "\nPlease note that due to GEOS using ASCII, not PETSCII, the name should"
-      " be\nentered in inverted case (ie to read 'rEADmE', use 'ReadMe'",
+      " be\nentered as listed by the 'geoslist' command.",
       1, 2,
       read_geos_cmd },
     { "geoswrite",
       "geoswrite <source>",
-      "Write GEOS Convert file <source> from the file system on a disk image.",
+      "Write GEOS Convert file <source> from the file system to a disk image.\n"
+      "Note that the actual file name on disk will be taken from the Convert file.",
       1, 1,
       write_geos_cmd },
-    { "geosextract",
-      "geosextract [<unit>]",
-      "Extract all the files to the file system and GEOS Convert them.",
-      0, 1,
-      extract_geos_cmd },
-    { "geosdelete",
-      "geosdelete <file1> [<file2> ... <fileN>]",
-      "Delete the specified GEOS files."
-      "\nPlease note that due to GEOS using ASCII, not PETSCII, the name should"
-      " be\nentered in inverted case (ie to read 'rEADmE', use 'ReadMe'",
-      1, MAXARG,
-      delete_geos_cmd },
     { "help",
       "help [<command>]",
       "Explain specified command.  If no command is specified, list "
@@ -3550,19 +3562,31 @@ static int list_file_matches_pattern(const char *name,
 
 
 
-/** \brief  Show directory listing of a drive
- *
- * \param[in]   nargs   number of arguments
- * \param[in]   args    argument list
- *
- * \return  0 on success, < 0 on failure (`FD_NOTREADY`)
- *
- * FIXME: diskcontents_read internally opens/closes the disk image, including
- *        a complete reset of internal vdrive variables. this makes things like
- *        changing sub partitions and sub directories inside images impossible
- *        from the c1541 shell.
- */
-static int list_cmd(int nargs, char **args)
+static void fix_geos_name(char *str)
+{
+    /* seek for first quote */
+    while (*str) {
+        if (*str == '"') {
+            str++; /* skip quote */
+            break;
+        }
+        str++;
+    }
+    /* flip case until next quote */
+    while (*str) {
+        if (*str == '"') {
+            break;
+        }
+        if ((*str >= 0x61) && (*str <= 0x7a)) {
+            *str -= 0x20;
+        } else if ((*str >= 0x41) && (*str <= 0x5a)) {
+            *str += 0x20;
+        }
+        str++;
+    }
+}
+
+static int internal_list_cmd(int nargs, char **args, int geos)
 {
     char *pattern;
     char *type;
@@ -3574,7 +3598,7 @@ static int list_cmd(int nargs, char **args)
 /*    unsigned int drive = 0; */
 
     if (nargs > 1) {
-        /* use new version call untill all old calls are replaced */
+        /* use new version call until all old calls are replaced */
         unit = extract_unit_from_file_name(args[1], &pattern);
         if (unit == 0) {
             dnr = (int)drive_index;
@@ -3607,7 +3631,9 @@ static int list_cmd(int nargs, char **args)
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
         image_contents_file_list_t *element = listing->file_list;
-
+        if (geos) {
+            fix_geos_name(string);
+        }
         printf("%s\n", string);
         lib_free(string);
         if (element == NULL) {
@@ -3620,6 +3646,9 @@ static int list_cmd(int nargs, char **args)
                             type, pattern)) {
                     lib_free(string);
                     string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
+                    if (geos) {
+                        fix_geos_name(string);
+                    }
                     printf("%s\n", string);
                     fflush(stdout);
                 }
@@ -3637,6 +3666,27 @@ static int list_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+/** \brief  Show directory listing of a drive
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure (`FD_NOTREADY`)
+ *
+ * FIXME: diskcontents_read internally opens/closes the disk image, including
+ *        a complete reset of internal vdrive variables. this makes things like
+ *        changing sub partitions and sub directories inside images impossible
+ *        from the c1541 shell.
+ */
+static int list_cmd(int nargs, char **args)
+{
+    return internal_list_cmd(nargs, args, 0);
+}
+
+static int list_geos_cmd(int nargs, char **args)
+{
+    return internal_list_cmd(nargs, args, 1);
+}
 
 /** \brief  Change disk name and id
  *
