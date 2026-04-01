@@ -23715,23 +23715,27 @@ disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
 or @code{d90} (CBM D9090).
 Otherwise, format the disk in the current unit, if any.
 
+@item geosdelete <file1> [<file2> @dots{} <fileN>]
+Delete the specified GEOS files.
+Please note that due to GEOS using ASCII, not PETSCII, the name should be
+entered as listed by the 'geoslist' command.
+
+@item geosextract [<unit>]
+Extract all the files to the file system and GEOS Convert them.
+
+@item geoslist [<pattern>]
+@item geosdir [<pattern>]
+List GEOS files matching @code{pattern} (default is all files).
+
 @item geosread <source> [<destination>]
 Read GEOS <source> from the disk image and copy it as a Convert file into
 <destination> in the file system.  If <destination> is not specified, copy
 it into a file with the same name as <source>.
 Please note that due to GEOS using ASCII, not PETSCII, the name should be
-entered in inverted case (ie to read 'rEADmE', use 'ReadMe'
+entered as listed by the 'geoslist' command.
 
 @item geoswrite <source>
-Write GOES Convert file <source> from the file system on a disk image.
-
-@item geosextract [<unit>]
-Extract all the files to the file system and GEOS Convert them.
-
-@item geosdelete <file1> [<file2> @dots{} <fileN>]
-Delete the specified GEOS files.
-Please note that due to GEOS using ASCII, not PETSCII, the name should be
-entered in inverted case (ie to read 'rEADmE', use 'ReadMe'
+Write GOES Convert file <source> from the file system to a disk image.
 
 @item help [<command>]
 Explain specified command.  If no command is specified, list available
