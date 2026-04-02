@@ -410,7 +410,7 @@ const command_t command_list[] = {
       "geosdir [<pattern>]",
       "List GEOS files matching <pattern> (default is all files).",
       0, 1,
-      list_cmd },
+      list_geos_cmd },
     { "geosextract",
       "geosextract [<unit>]",
       "Extract all the files to the file system and GEOS Convert them.",
