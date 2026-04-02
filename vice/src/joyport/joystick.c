@@ -2042,10 +2042,19 @@ int joy_arch_mapping_load(const char *filename, joystick_device_t *joydev)
 
             len = strlen(buffer);
             if (len == 0) {
+                /* end of file */
                 break;
             }
 
-            buffer[len - 1u] = 0; /* remove newline */
+            /* remove newline */
+            buffer[len - 1u] = 0;
+            len--;
+
+            /* remove extra CR that might exist in files created on Windows */
+            if ((len > 0) && (buffer[len - 1u] == 0x0d)) {
+                buffer[len - 1u] = 0;
+                len--;
+            }
 
             /* remove comments */
             /* What if a comment contains '#' (e.g. `# map button to "#"`)? */

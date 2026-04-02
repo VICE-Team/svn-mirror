@@ -23735,7 +23735,7 @@ Please note that due to GEOS using ASCII, not PETSCII, the name should be
 entered as listed by the 'geoslist' command.
 
 @item geoswrite <source>
-Write GOES Convert file <source> from the file system to a disk image.
+Write GEOS Convert file <source> from the file system to a disk image.
 
 @item help [<command>]
 Explain specified command.  If no command is specified, list available
