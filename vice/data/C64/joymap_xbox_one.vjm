@@ -35,11 +35,12 @@
 
 !CLEAR
 
-# Controller (Xbox One For Windows)
-# Wired controller:
-# [045e:0001] GUID: AEE9C7D0-1364-11F1-8002-444553540000
-# Wireless controller via usb cable:
-# [045e:0001] GUID: 6042A2F0-2EEE-11F1-8001-444553540000
+# [045e:0001] "Controller (Xbox One For Windows)" (5 axes, 16 buttons, 1 hat) Windows 10, GTK
+# Driver - default Windows driver
+# NOTE this is only tested (so far) with:
+# - Wired (only) xbox one controller
+# - Wireless xbox one controller used with a USB cable (not bluetooth)
+
 0 0 0 1 8
 0 0 1 1 4
 
