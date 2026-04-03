@@ -1395,10 +1395,24 @@ static void mapping_dump_map(FILE               *fp,
 /* write mapping for one joystick device */
 static void mapping_dump_device(FILE *fp, int dev_idx, joystick_device_t *joydev)
 {
+    archdep_runtime_info_t info;
     int   inp_idx;
     int   row    = 0;
 
-    fprintf(fp, "# %s\n", joydev->name);
+    archdep_get_runtime_info(&info);
+    fprintf(fp,
+        "# [%04x:%04x] \"%s\" (%d %s, %d %s, %d %s) %s, %s\n\n",
+        (unsigned int)joydev->vendor, (unsigned int)joydev->product, joydev->name,
+        joydev->num_axes, joydev->num_axes == 1 ? "axis" : "axes",
+        joydev->num_buttons, joydev->num_buttons == 1 ? "button" : "buttons",
+        joydev->num_hats, joydev->num_hats == 1 ? "hat" : "hats",
+        info.os_name,
+#ifdef USE_GTK3UI
+        "GTK"
+#else
+        "SDL"
+#endif
+    );
 
     /* dump axis mappings */
     for (inp_idx = 0; inp_idx < joydev->num_axes; inp_idx++) {
