@@ -325,8 +325,9 @@ static GtkWidget *create_hats_grid(joystick_device_t *joydev)
 }
 
 /* now the buttons at the bottom of the mapping tab */
-
+#if 0
 static GtkWidget *mappings_path;
+#endif
 static void update_treeview_full(joystick_device_t *joydev);
 
 /** \brief  Callback for the dialog's response handler
@@ -515,18 +516,19 @@ static void on_save_clicked(GtkButton *button, gpointer extra)
 static GtkWidget *create_mapping_file_grid(joystick_device_t *joydev)
 {
     GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *box;
     GtkWidget *button;
     int        row = 0;
+#if 0
+    GtkWidget *label;
     const char *mappingfile = NULL;
-
     resources_get_string("JoyMapFile", &mappingfile);
+#endif
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
+#if 0
     label = label_helper("Mapping file:");
     mappings_path = gtk_entry_new();
     gtk_editable_set_editable(GTK_EDITABLE(mappings_path), FALSE);
@@ -537,7 +539,7 @@ static GtkWidget *create_mapping_file_grid(joystick_device_t *joydev)
     gtk_grid_attach(GTK_GRID(grid), label,        0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), mappings_path, 1, row, 1, 1);
     row++;
-
+#endif
     box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
 
     button = gtk_button_new_with_label("Load from");

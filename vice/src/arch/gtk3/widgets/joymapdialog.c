@@ -412,7 +412,6 @@ static GtkWidget *pot_axis_combo_new(void)
     return combo;
 }
 
-
 /** \brief create "control port" values drop down list (create)
  */
 static GtkListStore *cpvalue_combo_model_new(void)
@@ -420,7 +419,7 @@ static GtkListStore *cpvalue_combo_model_new(void)
     GtkListStore *model;
     int           index;
 
-    const char *types[] = {
+    const char *types[JOYPORT_MAX_PINS + 1] = {
         JOYPORT_P0_NAME,
         JOYPORT_P1_NAME,
         JOYPORT_P2_NAME,
@@ -448,7 +447,7 @@ static GtkListStore *cpvalue_combo_model_new(void)
 static void cpvalue_select_by_joypin(int joypin)
 {
     int index = 0;
-    for (index = 0; index < 7; index++) {
+    for (index = 0; index < JOYPORT_MAX_PINS; index++) {
         if ((1 << index) == joypin) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(cpvalue), index);
             return;
