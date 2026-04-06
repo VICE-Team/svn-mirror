@@ -156,20 +156,23 @@ enum {
 };
 
 /*
-Bit     Name    Standard    3 Buttons       SNES-Pad
----     ----    --------    ---------       --------
- 0      Up      Up          Up              D-Pad Up
- 1      Down    Down        Down            D-Pad Down
- 2      Left    Left        Left            D-Pad Left
- 3      Right   Right       Right           D-Pad Right
- 4      Fire    Fire        Fire            B   (South/Down)
- 5      Fire2               Fire 2 (POTX)   Y   (West/Right)
- 6      Fire3               Fire 3 (POTY)   A   (East/Left)
- 7      Fire4                               X   (North/Up)
- 8      Fire5                               Left Shoulder
- 9      Fire6                               Right Shoulder
-10      Fire7                               Select
-11      Fire8                               Start
+Bit     Name    Standard    3 Buttons       Paddles    SNES-Pad           Microflyte
+---     ----    --------    ---------       -------    --------           ----------
+ 0      Up      Up          Up                         D-Pad Up           Throttle up
+ 1      Down    Down        Down                       D-Pad Down         Throttle down
+ 2      Left    Left        Left                       D-Pad Left         Brake
+ 3      Right   Right       Right                      D-Pad Right        Flaps
+ 4      Fire    Fire        Fire            Button 1   B   (South/Down)   Reset
+ 5      Fire2               Fire 2 (POTX)   Button 2   Y   (West/Right)
+ 6      Fire3               Fire 3 (POTY)              A   (East/Left)
+ 7      Fire4                                          X   (North/Up)
+ 8      Fire5                                          Left Shoulder
+ 9      Fire6                                          Right Shoulder
+10      Fire7                                          Select
+11      Fire8                                          Start
+
+        POTX                                Paddle 1                      Left/Right
+        POTY                                Paddle 2                      Up/Down
 
 NOTE: make sure to keep the bits in an order that will make some sense for all
       supported devices (regular joysticks AND SNES Pads)
@@ -272,14 +275,17 @@ CAUTION: when changing the order of the bits, (re)test all the controllers that
 #define JOYPORT_P1_NAME     "Down"
 #define JOYPORT_P2_NAME     "Left"
 #define JOYPORT_P3_NAME     "Right"
-#define JOYPORT_P4_NAME     "Fire   / SNES-B (North)"
+#define JOYPORT_P4_NAME     "Fire   / SNES-B (South)"
 #define JOYPORT_P5_NAME     "Fire 2 / SNES-Y (West)"
 #define JOYPORT_P6_NAME     "Fire 3 / SNES-A (East)"
-#define JOYPORT_P7_NAME     "SNES-X (South)"
+#define JOYPORT_P7_NAME     "SNES-X (North)"
 #define JOYPORT_P8_NAME     "SNES-LB"
 #define JOYPORT_P9_NAME     "SNES-RB"
 #define JOYPORT_P10_NAME    "SNES-Select"
 #define JOYPORT_P11_NAME    "SNES-Start"
+
+#define JOYPORT_POTX_NAME   "Pot X"
+#define JOYPORT_POTY_NAME   "Pot Y"
 
 #define JOYPORT_BIT_BOOL(var, pos) ((var & (1 << pos)) ? 1 : 0)
 
@@ -335,6 +341,7 @@ typedef struct joyport_port_props_s {
 
 int joyport_port_has_pot(int port);
 
+/* FIXME: SDL UI only, remove */
 /* this structure is used for host joystick to emulated input device mappings */
 typedef struct joyport_mapping_s {
     char *name;   /* name of the device on the port */
@@ -354,6 +361,7 @@ typedef struct joyport_mapping_s {
     char *pot2;   /* name for the mapping of analog pot 2 (POT-Y) */
 } joyport_mapping_t;
 
+/* FIXME: remove? */
 void joyport_set_mapping(joyport_mapping_t *mapping, int port);
 void joyport_clear_mapping(int port);
 
