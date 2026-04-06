@@ -276,7 +276,7 @@ void ui_dispatch_events(void)
             case SDL_JOYAXISMOTION:
                 if (sdljoy_get_joy_for_event((VICE_SDL_JoystickID)e.jaxis.which, &joydev, &joynum)) {
                     sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
-                    joystick_set_axis_value(joynum, e.jaxis.axis, (uint8_t)((~e.jaxis.value + 32768) >> 8));
+                    joystick_set_axis_value(joynum, e.jaxis.axis, e.jaxis.value);
                 }
                 break;
             case SDL_JOYBUTTONDOWN: /* fall through */

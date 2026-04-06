@@ -36,20 +36,23 @@
 #include "lib.h"
 
 /*
-Bit     Name    Standard    3 Buttons       SNES-Pad
----     ----    --------    ---------       --------
- 0      Up      Up          Up              D-Pad Up
- 1      Down    Down        Down            D-Pad Down
- 2      Left    Left        Left            D-Pad Left
- 3      Right   Right       Right           D-Pad Right
- 4      Fire    Fire        Fire            B   (South/Down)
- 5      Fire2               Fire 2 (POTX)   Y   (West/Right)
- 6      Fire3               Fire 3 (POTY)   A   (East/Left)
- 7      Fire4                               X   (North/Up)
- 8      Fire5                               Left Shoulder
- 9      Fire6                               Right Shoulder
-10      Fire7                               Select
-11      Fire8                               Start
+Bit     Name    Standard    3 Buttons       Paddles    SNES-Pad           Microflyte
+---     ----    --------    ---------       -------    --------           ----------
+ 0      Up      Up          Up                         D-Pad Up           Throttle up
+ 1      Down    Down        Down                       D-Pad Down         Throttle down
+ 2      Left    Left        Left                       D-Pad Left         Brake
+ 3      Right   Right       Right                      D-Pad Right        Flaps
+ 4      Fire    Fire        Fire            Button 1   B   (South/Down)   Reset
+ 5      Fire2               Fire 2 (POTX)   Button 2   Y   (West/Right)
+ 6      Fire3               Fire 3 (POTY)              A   (East/Left)
+ 7      Fire4                                          X   (North/Up)
+ 8      Fire5                                          Left Shoulder
+ 9      Fire6                                          Right Shoulder
+10      Fire7                                          Select
+11      Fire8                                          Start
+
+        POTX                                Paddle 1                      Left/Right
+        POTY                                Paddle 2                      Up/Down
 
 NOTE: make sure to keep the bits in an order that will make some sense for all
       supported devices (regular joysticks AND SNES Pads)
@@ -439,7 +442,7 @@ int joystick_cmdline_options_init(void);
 int joy_sdl_init(void);
 int joy_sdl_resources_init(void);
 int joy_sdl_cmdline_options_init(void);
-void joystick_set_axis_value(unsigned int index, unsigned int axis, uint8_t value);
+void joystick_set_axis_value(unsigned int index, unsigned int axis, int value);
 
 
 int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);

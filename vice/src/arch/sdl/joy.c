@@ -371,7 +371,7 @@ VICE_SDL_JoystickID joy_ordinal_to_id(int ordinal)
 }
 
 
-
+/* FIXME: does not work right now */
 int sdljoy_rescan(void)
 {
 #if 0

@@ -683,85 +683,17 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
-static joyport_mapping_t joystick_mapping = {
-    "Joystick",   /* name of the device */
-    "Up",         /* name for the mapping of pin 0 (UP) */
-    "Down",       /* name for the mapping of pin 1 (DOWN) */
-    "Left",       /* name for the mapping of pin 2 (LEFT) */
-    "Right",      /* name for the mapping of pin 3 (RIGHT) */
-    "Fire1",      /* name for the mapping of pin 4 (FIRE-1/SNES-B) */
-    "Fire2",      /* name for the mapping of pin 5 (FIRE-2/SNES-Y) */
-    "Fire3",      /* name for the mapping of pin 6 (FIRE-3/SNES-A) */
-    NULL,         /* NO mapping of pin 7 (SNES-X) */
-    NULL,         /* NO mapping of pin 8 (SNES-LB) */
-    NULL,         /* NO mapping of pin 9 (SNES-RB) */
-    NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
-    NULL,         /* NO mapping of pin 11 (SNES-START) */
-    NULL,         /* NO mapping of pot 1 (POT-X) */
-    NULL          /* NO mapping of pot 2 (POT-Y) */
-};
-
-static joyport_mapping_t joystick_no_pot_mapping = {
-    "Joystick",   /* name of the device */
-    "Up",         /* name for the mapping of pin 0 (UP) */
-    "Down",       /* name for the mapping of pin 1 (DOWN) */
-    "Left",       /* name for the mapping of pin 2 (LEFT) */
-    "Right",      /* name for the mapping of pin 3 (RIGHT) */
-    "Fire",       /* name for the mapping of pin 4 (FIRE-1/SNES-B) */
-    NULL,         /* NO mapping of pin 5 (FIRE-2/SNES-Y) */
-    NULL,         /* NO mapping of pin 6 (FIRE-3/SNES-A) */
-    NULL,         /* NO mapping of pin 7 (SNES-X) */
-    NULL,         /* NO mapping of pin 8 (SNES-LB) */
-    NULL,         /* NO mapping of pin 9 (SNES-RB) */
-    NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
-    NULL,         /* NO mapping of pin 11 (SNES-START) */
-    NULL,         /* NO mapping of pot 1 (POT-X) */
-    NULL          /* NO mapping of pot 2 (POT-Y) */
-};
-
-static joyport_mapping_t snes_mapping = {
-    "SNES Pad",     /* name of the device */
-    "D-Pad Up",     /* name for the mapping of pin 0 (UP) */
-    "D-Pad Down",   /* name for the mapping of pin 1 (DOWN) */
-    "D-Pad Left",   /* name for the mapping of pin 2 (LEFT) */
-    "D-Pad Right",  /* name for the mapping of pin 3 (RIGHT) */
-    "B Button",     /* name for the mapping of pin 4 (FIRE/SNES-B) */
-    "Y Button",     /* name for the mapping of pin 5 (FIRE-2/SNES-Y) */
-    "A Button",     /* name for the mapping of pin 6 (FIRE-3/SNES-A) */
-    "X Button",     /* name for the mapping of pin 7 (FIRE-4/SNES-X) */
-    "Left Bumber",  /* name for the mapping of pin 8 (SNES-LB) */
-    "Right Bumper", /* name for the mapping of pin 9 (SNES-RB) */
-    "Select",       /* name for the mapping of pin 10 (SNES-SELECT) */
-    "Start",        /* name for the mapping of pin 11 (SNES-START) */
-    NULL,           /* NO mapping of pot 1 (POT-X) */
-    NULL            /* NO mapping of pot 2 (POT-Y) */
-};
-
+/* FIXME: this can be removed */
 void joystick_set_snes_mapping(int port)
 {
-    joyport_set_mapping(&snes_mapping, port);
+    joyport_set_mapping(NULL, port);
 }
 
 static int joyport_enable_joystick(int port, int val)
 {
-    joyport_mapping_t *mapping = NULL;
-
     joyport_joystick[port] = (val) ? 1 : 0;
     if (val) {
-        if (port == JOYPORT_1 || port == JOYPORT_2 || (port == JOYPORT_PLUS4_SIDCART && machine_class == VICE_MACHINE_PLUS4)) {
-            if (joyport_port_has_pot(port)) {
-                mapping = &joystick_mapping;
-            } else {
-                mapping = &joystick_no_pot_mapping;
-            }
-        } else {
-            if (joystick_adapter_is_snes()) {
-                mapping = &snes_mapping;
-            } else {
-                mapping = &joystick_no_pot_mapping;
-            }
-        }
-        joyport_set_mapping(mapping, port);
+        joyport_set_mapping(NULL, port);
     } else {
         joyport_clear_mapping(port);
     }
@@ -901,8 +833,9 @@ void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, int va
     }
 }
 
+#if (defined USE_SDLUI || defined USE_SDL2UI)
 /* POT mapping (used by SDL) */
-void joystick_set_axis_value(unsigned int joynum, unsigned int axis_idx, uint8_t value)
+void joystick_set_axis_value(unsigned int joynum, unsigned int axis_idx, int value)
 {
     if (joynum < num_joystick_devices) {
         joystick_device_t *joydev = joystick_devices[joynum];
@@ -911,7 +844,9 @@ void joystick_set_axis_value(unsigned int joynum, unsigned int axis_idx, uint8_t
     }
 }
 
-static char mapping_retval[50];
+
+#define MAPPING_STRING_MAXLEN 50
+static char mapping_retval[MAPPING_STRING_MAXLEN + 1];
 
 /* POT mapping */
 /* FIXME: this seems SDL UI specific */
@@ -933,16 +868,28 @@ char *get_joy_pot_mapping_string(int joystick_device_num, int pot)
     return retval;
 }
 
-/* FIXME: this seems SDL UI specific */
+/* FIXME: SDL UI specific */
+static void append_to_mapping_string(char *index_string, char *type_string, int index, int sub_index)
+{
+    char temp_string[MAPPING_STRING_MAXLEN];
+    if (index_string != NULL ) {
+        snprintf(temp_string, MAPPING_STRING_MAXLEN,
+                "%s%d,%s%d ", type_string, index, index_string, sub_index);
+    } else {
+        snprintf(temp_string, MAPPING_STRING_MAXLEN,
+                "%s%d ", type_string, index);
+    }
+    if ((strlen(temp_string) + strlen(mapping_retval)) < MAPPING_STRING_MAXLEN) {
+        strcat(mapping_retval, temp_string);
+    }
+}
+
+/* FIXME: SDL UI specific */
 char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
 {
     int j;
-    int valid = 0;
-    int index = 0;
-    int sub_index = 0;
-    char *retval = NULL;
-    char *type_string = NULL;
-    char *index_string = NULL;
+
+    mapping_retval[0] = 0;
 
     if (joystick_device_num >= 0 && joystick_device_num < num_joystick_devices) {
         joystick_device_t *joydev = joystick_devices[joystick_device_num];
@@ -953,19 +900,11 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
             joystick_mapping_t *negative = &axis->mapping.negative;
 
             if (positive->action == JOY_ACTION_JOYSTICK && positive->value.joy_pin == pin) {
-                valid++;
-                type_string  = "Ax";
-                index_string = "I";
-                index        = j;
-                sub_index    = 0;
+                append_to_mapping_string("I", "Ax", j, 0);
             }
 
             if (negative->action == JOY_ACTION_JOYSTICK && negative->value.joy_pin == pin) {
-                valid++;
-                type_string  = "Ax";
-                index_string = "I";
-                index        = j;
-                sub_index    = 1;
+                append_to_mapping_string("I", "Ax", j, 1);
             }
         }
 
@@ -975,11 +914,7 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
 
             if (mapping->action == JOY_ACTION_JOYSTICK) {
                 if (mapping->value.joy_pin == pin) {
-                    valid++;
-                    type_string  = "Bt";
-                    index_string = NULL;
-                    index        = j;
-                    sub_index    = 0;
+                    append_to_mapping_string(NULL, "Bt", j, 0);
                 }
             }
         }
@@ -993,73 +928,38 @@ char *get_joy_pin_mapping_string(int joystick_device_num, int pin)
 
             if (up->action == JOY_ACTION_JOYSTICK) {
                 if (up->value.joy_pin == pin) {
-                    valid++;
-                    type_string  = "Ht";
-                    index_string = "I";
-                    index        = j;
-                    sub_index    = 0;
+                    append_to_mapping_string("I", "Ht", j, 0);
                 }
             }
 
             if (down->action == JOY_ACTION_JOYSTICK) {
                 if (down->value.joy_pin == pin) {
-                    valid++;
-                    type_string  = "Ht";
-                    index_string = "I";
-                    index        = j;
-                    sub_index    = 1;
+                    append_to_mapping_string("I", "Ht", j, 1);
                 }
             }
 
             if (left->action == JOY_ACTION_JOYSTICK) {
                 if (left->value.joy_pin == pin) {
-                    valid++;
-                    type_string  = "Ht";
-                    index_string = "I";
-                    index        = j;
-                    sub_index    = 2;
+                    append_to_mapping_string("I", "Ht", j, 2);
                 }
             }
 
             if (right->action == JOY_ACTION_JOYSTICK) {
                 if (right->value.joy_pin == pin) {
-                    valid++;
-                    type_string  = "Ht";
-                    index_string = "I";
-                    index        = j;
-                    sub_index    = 3;
+                    append_to_mapping_string("I", "Ht", j, 3);
                 }
             }
         }
     }
-    if (valid > 1) {
-        retval = "Multiple";
-    }
-    if (valid == 1) {
-        if (index_string != NULL ) {
-            snprintf(mapping_retval, sizeof mapping_retval,
-                    "%s%d, %s%d", type_string, index, index_string, sub_index);
-        } else {
-            snprintf(mapping_retval, sizeof mapping_retval,
-                    "%s%d", type_string, index);
-        }
-        retval = mapping_retval;
-    }
-
-    return retval;
+    return mapping_retval;
 }
 
-/* FIXME: this seems SDL UI specific */
+/* FIXME: SDL UI specific */
 char *get_joy_extra_mapping_string(int which)
 {
     int i, j;
-    int valid = 0;
-    int joy = 0;
-    int index = 0;
-    int sub_index = 0;
-    char *retval = NULL;
-    char *type_string = NULL;
-    char *index_string = NULL;
+
+    mapping_retval[0] = 0;
 
     for (i = 0; i < num_joystick_devices; i++) {
         joystick_device_t *joydev = joystick_devices[i];
@@ -1069,21 +969,11 @@ char *get_joy_extra_mapping_string(int which)
             joystick_mapping_t *negative = &joydev->axes[j]->mapping.negative;
 
             if (positive->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ax";
-                index_string = "I";
-                index        = j;
-                sub_index    = 0;
+                append_to_mapping_string("I", "Ax", j, 0);
             }
 
             if (negative->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ax";
-                index_string = "I";
-                index        = j;
-                sub_index    = 1;
+                append_to_mapping_string("I", "Ax", j, 1);
             }
         }
 
@@ -1091,12 +981,7 @@ char *get_joy_extra_mapping_string(int which)
             joystick_mapping_t *mapping = &joydev->buttons[j]->mapping;
 
             if (mapping->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Bt";
-                index_string = NULL;
-                index        = j;
-                sub_index    = 0;
+                append_to_mapping_string(NULL, "Bt", j, 0);
             }
         }
 
@@ -1107,59 +992,23 @@ char *get_joy_extra_mapping_string(int which)
             joystick_mapping_t *right = &joydev->hats[j]->mapping.right;
 
             if (up->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ht";
-                index_string = "I";
-                index        = j;
-                sub_index    = 0;
+                append_to_mapping_string("I", "Ht", j, 0);
             }
 
             if (down->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ht";
-                index_string = "I";
-                index        = j;
-                sub_index    = 1;
+                append_to_mapping_string("I", "Ht", j, 1);
             }
 
             if (left->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ht";
-                index_string = "I";
-                index        = j;
-                sub_index    = 2;
+                append_to_mapping_string("I", "Ht", j, 2);
             }
 
             if (right->action == (which ? JOY_ACTION_MAP : JOY_ACTION_UI_ACTIVATE)) {
-                valid++;
-                joy          = i;
-                type_string  = "Ht";
-                index_string = "I";
-                index        = j;
-                sub_index    = 3;
+                append_to_mapping_string("I", "Ht", j, 3);
             }
         }
     }
-    if (valid > 1) {
-        retval = "Multiple";
-    }
-    if (valid == 1) {
-        if (index_string != NULL ) {
-            snprintf(mapping_retval, sizeof mapping_retval,
-                    "J%d, %s%d, %s%d",
-                    joy, type_string, index, index_string, sub_index);
-        } else {
-            snprintf(mapping_retval, sizeof mapping_retval,
-                    "J%d, %s%d",
-                    joy, type_string, index);
-        }
-        retval = mapping_retval;
-    }
-
-    return retval;
+    return mapping_retval;
 }
 
 /* POT mapping */
@@ -1185,6 +1034,7 @@ void joy_delete_pot_mapping(int joystick_device_num, int pot)
     }
 }
 
+/* delete all mappings from given joyport pin */
 void joy_delete_pin_mapping(int joystick_device_num, int pin)
 {
     int j;
@@ -1255,6 +1105,7 @@ void joy_delete_pin_mapping(int joystick_device_num, int pin)
         }
     }
 }
+#endif
 
 #if (defined USE_SDLUI || defined USE_SDL2UI)
 void joy_delete_extra_mapping(int type)

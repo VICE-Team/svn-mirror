@@ -1023,43 +1023,31 @@ int joyport_port_is_active(int port)
     return port_props[port].active;
 }
 
+/* FIXME: the port naming strings can be removed completely,
+ * they do not change anymore */
 void joyport_set_mapping(joyport_mapping_t *map, int port)
 {
-    joystick_mapping[port].name = map->name;
-    joystick_mapping[port].pin0 = map->pin0;
-    joystick_mapping[port].pin1 = map->pin1;
-    joystick_mapping[port].pin2 = map->pin2;
-    joystick_mapping[port].pin3 = map->pin3;
-    joystick_mapping[port].pin4 = map->pin4;
-    joystick_mapping[port].pin5 = map->pin5;
-    joystick_mapping[port].pin6 = map->pin6;
-    joystick_mapping[port].pin7 = map->pin7;
-    joystick_mapping[port].pin8 = map->pin8;
-    joystick_mapping[port].pin9 = map->pin9;
-    joystick_mapping[port].pin10 = map->pin10;
-    joystick_mapping[port].pin11 = map->pin11;
-    joystick_mapping[port].pot1 = map->pot1;
-    joystick_mapping[port].pot2 = map->pot2;
+    joystick_mapping[port].name = "Joyport";
+    joystick_mapping[port].pin0 = JOYPORT_P0_NAME;
+    joystick_mapping[port].pin1 = JOYPORT_P1_NAME;
+    joystick_mapping[port].pin2 = JOYPORT_P2_NAME;
+    joystick_mapping[port].pin3 = JOYPORT_P3_NAME;
+    joystick_mapping[port].pin4 = JOYPORT_P4_NAME;
+    joystick_mapping[port].pin5 = JOYPORT_P5_NAME;
+    joystick_mapping[port].pin6 = JOYPORT_P6_NAME;
+    joystick_mapping[port].pin7 = JOYPORT_P7_NAME;
+    joystick_mapping[port].pin8 = JOYPORT_P8_NAME;
+    joystick_mapping[port].pin9 = JOYPORT_P9_NAME;
+    joystick_mapping[port].pin10 = JOYPORT_P10_NAME;
+    joystick_mapping[port].pin11 = JOYPORT_P11_NAME;
+    joystick_mapping[port].pot1 = JOYPORT_POTX_NAME;
+    joystick_mapping[port].pot2 = JOYPORT_POTY_NAME;
+
     joystick_mapped[port] = 1;
 }
 
 void joyport_clear_mapping(int port)
 {
-    joystick_mapping[port].name = NULL;
-    joystick_mapping[port].pin0 = NULL;
-    joystick_mapping[port].pin1 = NULL;
-    joystick_mapping[port].pin2 = NULL;
-    joystick_mapping[port].pin3 = NULL;
-    joystick_mapping[port].pin4 = NULL;
-    joystick_mapping[port].pin5 = NULL;
-    joystick_mapping[port].pin6 = NULL;
-    joystick_mapping[port].pin7 = NULL;
-    joystick_mapping[port].pin8 = NULL;
-    joystick_mapping[port].pin9 = NULL;
-    joystick_mapping[port].pin10 = NULL;
-    joystick_mapping[port].pin11 = NULL;
-    joystick_mapping[port].pot1 = NULL;
-    joystick_mapping[port].pot2 = NULL;
     joystick_mapped[port] = 0;
 }
 
@@ -1071,16 +1059,14 @@ int joyport_has_mapping(int port)
     return 0;
 }
 
+/* builds the list of mappings for the SDL ui */
 static joyport_map_t pinmap[JOYPORT_MAX_PINS + 1] = { 0 };
 static joyport_map_t potmap[JOYPORT_MAX_POTS + 1] = { 0 };
 static joyport_map_desc_t joyport_map = { 0 };
 
+/* FIXME: this can still be made simpler, there is no "mapping per port" info anymore */
 joyport_map_desc_t *joyport_get_mapping(int port)
 {
-    int i = 0;
-    int j = 0;
-    int pots_used = 0;
-
     if (!joystick_mapped[port]) {
         return NULL;
     }
@@ -1088,119 +1074,57 @@ joyport_map_desc_t *joyport_get_mapping(int port)
     /* build joystick mapping description */
     joyport_map.name = joystick_mapping[port].name;
 
-    if (joystick_mapping[port].pin0 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin0;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[0].name = joystick_mapping[port].pin0;
+    pinmap[0].pin = 0;
 
-    if (joystick_mapping[port].pin1 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin1;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[1].name = joystick_mapping[port].pin1;
+    pinmap[1].pin = 1;
 
-    if (joystick_mapping[port].pin2 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin2;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[2].name = joystick_mapping[port].pin2;
+    pinmap[2].pin = 2;
 
-    if (joystick_mapping[port].pin3 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin3;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[3].name = joystick_mapping[port].pin3;
+    pinmap[3].pin = 3;
 
-    if (joystick_mapping[port].pin4 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin4;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[4].name = joystick_mapping[port].pin4;
+    pinmap[4].pin = 4;
 
-    if (joystick_mapping[port].pin5 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin5;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[5].name = joystick_mapping[port].pin5;
+    pinmap[5].pin = 5;
 
-    if (joystick_mapping[port].pin6 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin6;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[6].name = joystick_mapping[port].pin6;
+    pinmap[6].pin = 6;
 
-    if (joystick_mapping[port].pin7 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin7;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[7].name = joystick_mapping[port].pin7;
+    pinmap[7].pin = 7;
 
-    if (joystick_mapping[port].pin8 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin8;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[8].name = joystick_mapping[port].pin8;
+    pinmap[8].pin = 8;
 
-    if (joystick_mapping[port].pin9 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin9;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[9].name = joystick_mapping[port].pin9;
+    pinmap[9].pin = 9;
 
-    if (joystick_mapping[port].pin10 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin10;
-        pinmap[i].pin = j;
-        i++;
-    }
-    j++;
+    pinmap[10].name = joystick_mapping[port].pin10;
+    pinmap[10].pin = 10;
 
-    if (joystick_mapping[port].pin11 != NULL) {
-        pinmap[i].name = joystick_mapping[port].pin11;
-        pinmap[i].pin = j;
-        i++;
-    }
+    pinmap[11].name = joystick_mapping[port].pin11;
+    pinmap[11].pin = 11;
 
-    pinmap[i].name = NULL;
-    pinmap[i].pin = 0;
+    pinmap[12].name = NULL;
+    pinmap[12].pin = 0;
 
-    i = 0;
-    j = 0;
+    potmap[0].name = joystick_mapping[port].pot1;
+    potmap[0].pin = 0;
 
-    if (joystick_mapping[port].pot1 != NULL) {
-        potmap[i].name = joystick_mapping[port].pot1;
-        potmap[i].pin = j;
-        pots_used++;
-        i++;
-    }
-    j++;
+    potmap[1].name = joystick_mapping[port].pot2;
+    potmap[1].pin = 1;
 
-    if (joystick_mapping[port].pot2 != NULL) {
-        potmap[i].name = joystick_mapping[port].pot2;
-        potmap[i].pin = j;
-        i++;
-        pots_used++;
-    }
-
-    potmap[i].name = NULL;
-    potmap[i].pin = 0;
+    potmap[2].name = NULL;
+    potmap[2].pin = 0;
 
     joyport_map.pinmap = pinmap;
-    if (pots_used) {
-        joyport_map.potmap = potmap;
-    } else {
-        joyport_map.potmap = NULL;
-    }
+    joyport_map.potmap = potmap;
+
     return &joyport_map;
 }
 

@@ -1475,6 +1475,9 @@ of the machine you are emulating;
 the @dfn{keyboard maps}, text files describing the keyboard layout;
 
 @item
+the @dfn{joymap files}, text files with controller mappings.
+
+@item
 the @dfn{palette files}, text files describing the colors of the machine you
 are emulating.
 
@@ -1483,9 +1486,6 @@ the @dfn{romset files}, text files describing the different ROMs to load.
 
 @item
 the @dfn{hotkey files}, text files with keyboard shortcuts.
-
-@item
-the @dfn{joymap files}, text files with controller mappings.
 
 @end itemize
 
@@ -1539,6 +1539,7 @@ resource values (@pxref{Resource files}).
 @menu
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
+* Joymap files::                Files describing the joystick mapping.
 * Hotkeys files::               Files defining UI hotkeys.
 * Palette files::               Files defining the machine's colors.
 * Romset files::                Files defining the machine's ROM set.
@@ -1871,7 +1872,7 @@ The SCPU64 needs the following files:
 @end itemize
 
 
-@node Keymap files, Palette files, ROM files, System files
+@node Keymap files, Joymap files, ROM files, System files
 @section Keymap files
 
 @dfn{Keymap files} are used to define the keyboard layout, defining which
@@ -2330,6 +2331,204 @@ keyboard matrix), and @code{1} specifies that every time the user presses
 @key{F2} the shift key on the C64 keyboard must be pressed.
 
 
+@node Joymap files, Palette files, Keymap files, System files
+@section Joymap files
+
+@dfn{Joymap files} are used to define how a host controller is mapped to the
+emulated joysticks. VICE uses one file per emulated machine to store the
+current default mapping, these files contain the mapping for several controllers.
+Files saved by the UI contain the mapping for one controller only, and can
+be reused.
+
+VICE joymap files have the @code{.vjm} default extension.
+
+@subsection Syntax of the hotkeys files
+
+@subsubsection Comments
+Comments are started with @code{#} and occupy the
+rest of the line, they can also appear inline after a directive or
+mapping.
+
+When creating new joymaps, please copy over the usual set of leading comments
+(which contain brief documentation). Please also add a line that indicates which
+controller exactly this mapping is for, and which OS and port (GTK/SDL) was used.
+If you save the mapping from the UI, all of this is automatically included.
+
+@node Directives
+@subsubsection Directives
+Directives are special commands for the parser. They start with
+@strong{@code{!}} and are case-insensitive.
+
+@menu
+* !CLEAR::
+@end menu
+
+@strong{!CLEAR}
+@quotation
+
+@verbatim
+!clear
+@end verbatim
+
+@end quotation
+Clear all registered mappings. Usually used as the first directive in the
+default joymap file.
+
+@subsubsection Joystick mappings
+
+A line has 4 mandatory columns:
+
+@enumerate
+@item Joystick number (zero-based index of the hardware joystick)
+
+@item Input type
+@enumerate
+@item Axis (JOY_INPUT_AXIS)
+@item Button (JOY_INPUT_BUTTON)
+@item Hat (JOY_INPUT_HAT)
+@item Ball (JOY_INPUT_BALL)
+@end enumerate
+
+@item Input index
+@itemize
+@item For buttons, it is the zero-based index of the button
+@item For axes: * if the action is 6 (POT_AXIS), it is the zero-based index of the axis * otherwise, 0 and 1 are respectively the positive and negative directions of axis 0; 2 and 3 are respectively the positive and negative directions of axis 1 etc. In formulas: axis=inputindex/2 (integer division), direction = positive if inputindex % 2 ==0 , negative if inputindex % 2 ==1.
+@item for hats, 0, 1, 2 and 3 are respectively up, down, left and right of hat 0; 4, 5, 6 and 7 are respectively up, down, left and right of hat 1, etc.
+@end itemize
+
+@item Action
+@enumerate
+@item NONE: none
+@item JOYSTICK: emulated joystick action
+@item KEYBOARD: emulated keyboard action
+@item MAP: SDL-only. Only works while the SDL settings menu is active. If a joystick action mapped to this is performed, the user is asked to press a key, which will become a hotkey to select the currently-selected menu
+@item UI_ACTIVATE: go to the settings menu (SDL) show the settings dialog (Gtk3)
+@item UI_FUNCTION: shortcut to a specific UI function. A string argument (unquoted) indicating the UI action to trigger. @xref{#action-list,,List of action names} for a list of action names.
+@item POT_AXIS: (only for axes of hardware joysticks) the analog value of the axis is the value of the emulated potentiometer
+@end enumerate
+
+@item For some actions, more columns are present:
+@itemize
+
+@item JOYSTICK
+@enumerate 5
+@item emulated joystick pin:
+@end enumerate
+
+@multitable @columnfractions .1 .5 .5
+@item 1
+@tab Joystick up / SNES pad up
+@item 2
+@tab Joystick down / SNES pad down
+@item 4
+@tab Joystick left / SNES pad left
+@item 8
+@tab Joystick right / SNES pad right
+@item 16
+@tab Joystick fire 1 / SNES pad B button
+@item 32
+@tab Joystick fire 2 / SNES pad Y button
+@item 64
+@tab Joystick fire 3 / SNES pad A button
+@item 128
+@tab SNES pad X button
+@item 256
+@tab SNES pad left bumber
+@item 512
+@tab SNES pad right bumber
+@item 1024
+@tab SNES pad select button
+@item 2048
+@tab SNES pad start button
+@end multitable
+
+@item KEYBOARD
+@enumerate 5
+@item row in the keyboard matrix layout
+@item column in the keyboard matrix layout
+@item flags (bit0: shift pressed)
+@end enumerate
+
+@item POT_AXIS
+@enumerate 5
+which potentiometer is affected:
+@end enumerate
+@enumerate 1
+@item Pot-X
+@item Pot-Y
+@end enumerate
+@end itemize
+
+@end enumerate
+
+@subsubsection Example
+
+Take this sample line from data/C64/sdl_joymap_ps3.vjm
+
+@example
+# O -> Space
+0 1 1 2 7 4 0
+@end example
+
+@itemize
+@item First column: HW joystick 0
+@item Second column: input type is button (1)
+@item Third column: input index 1, so button 1
+@item Fourth column: action KEYBOARD (2)
+@item Fifth and sixth columns: Space (7 and 4 in the matrix)
+@item seventh column: flags (no SHIFT)
+@end itemize
+
+@subsection Default mapping
+
+When the emulator starts up, and no mapping was previously configured, a minimal
+default mapping is applied: The first two axis will be used for the joystick
+directions, and the first 3 buttons will be fire buttons. Use the UI to further
+configure the mapping to your liking.
+
+We also provide a couple mapping files made for popular controllers, these follow
+the following scheme (if possible):
+
+@itemize @bullet
+@item First all existing buttons are mapped 1:1 (positional) to the SNES controller, ie
+DPad to DPad, Start to Start, Select to Select etc
+@item Left analog stick to joystick directions
+@item Right analog stick to paddle X/Y
+@item the "menu" key (on Playstation controllers it is the PS button) to the "pause"
+gui action
+@end itemize
+
+This way most stuff will work out of the Box. If you want to provide a mapping for your
+favourite controller, please use the same setup. We recommend to use the "joyride"
+program for testing, and to use one of the available SNES-controller emulations in VICE.
+
+@subsection Microflyte Joystick
+
+The Microflyte joystick is a very rare analog joystick specifically made to be used
+with flight simulators.
+
+To not clutter the UI too much, it does not show the descriptions of the buttons/axes
+for this device, refer to the following to table for creating a mapping:
+
+@multitable @columnfractions .1 .2
+@item @b{Joystick}
+@tab @b{Microflyte}
+@item Up
+@tab Throttle up
+@item Down
+@tab Throttle down
+@item Left
+@tab Brake
+@item Right
+@tab Flaps
+@item Fire
+@tab Reset
+@item Pot X
+@tab Left/Right
+@item Pot Y
+@tab Up/Down
+@end multitable
+
 @node Palette files, Romset files, Keymap files, System files
 @section Palette files
 
@@ -2754,6 +2953,7 @@ system/window manager. Mappings using @code{<Alt>} or
 @code{<Alt><Shift>} are usually fine.
 @end quotation
 
+@anchor{#action-list}
 @subsection List of action names
 @multitable @columnfractions 0.5 0.5
 @item @b{name}
