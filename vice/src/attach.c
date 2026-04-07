@@ -673,6 +673,7 @@ static int file_system_attach_disk_internal(unsigned int unit, unsigned int driv
                           file_system_device_enabled[unit - 8]) < 0) {
         return -1;
     } else {
+        log_message(attach_log, "Disk image unit %u:%u %s", unit, drive, filename);
         file_system_set_serial_hooks(unit, ATTACH_DEVICE_NONE);
         fliplist_set_current(unit, filename);
         ui_display_drive_current_image(unit - 8, drive, filename);
