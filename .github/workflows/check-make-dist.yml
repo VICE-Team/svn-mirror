@@ -76,7 +76,7 @@ jobs:
           echo "artifact_name=$(basename -s .tar.gz vice-*.tar.gz)-${{ matrix.source.name }}.tar.gz" >> $GITHUB_OUTPUT
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         # This makes sure we only upload artifacts for the different configure
         # options used when creating the tarballs, not every combination of
         # source and target:
@@ -140,7 +140,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Dist Tarballs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
           # we don't specify an artifact name or download path so we download
           # all artifacts to the current working directory
 

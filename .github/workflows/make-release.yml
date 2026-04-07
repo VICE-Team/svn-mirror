@@ -70,7 +70,7 @@ jobs:
           echo "tarball_name=${TARBALL}"        >> $GITHUB_OUTPUT
 
       - name: Upload Artifact Tarball
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: vice-tarball
           path: ${{ steps.build.outputs.tarball_path }}
@@ -110,7 +110,7 @@ jobs:
         run: git config --global core.autocrlf input
 
       - name: Download Tarball
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-tarball
 
@@ -155,7 +155,7 @@ jobs:
           echo "pdf_path=$(echo $(pwd)/doc/vice.pdf)" >> $GITHUB_OUTPUT
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: vice-pdf
           path: ${{ steps.build.outputs.pdf_path }}
@@ -187,12 +187,12 @@ jobs:
           ls -A1 | grep -v 'build-.*\.sh' | xargs rm -rf
 
       - name: Download Documentation
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-pdf
 
       - name: Download Tarball
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-tarball
 
@@ -382,7 +382,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Documentation
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-pdf
           path: vice/doc/

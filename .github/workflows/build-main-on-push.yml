@@ -159,7 +159,7 @@ jobs:
           make -j $(sysctl -n hw.ncpu) -s
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: vice-pdf
           path: vice/doc/vice.pdf
@@ -207,7 +207,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Documentation
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-pdf
           path: vice/doc/
@@ -424,7 +424,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Documentation
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-pdf
           path: vice/doc/
@@ -557,7 +557,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Documentation
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vice-pdf
           path: vice/doc/
