@@ -403,6 +403,7 @@ jobs:
                               libasound-dev \
                               libcap-dev \
                               libcurl4-openssl-dev \
+                              libflac12t64 \
                               libflac-dev \
                               libgif-dev \
                               libieee1284-3-dev \
