@@ -243,6 +243,7 @@ APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
 APP_COMMON=$APP_SHARE/vice/common
 APP_HOTKEYS=$APP_SHARE/vice/hotkeys
+APP_JOYMAPS=$APP_SHARE/vice/joymaps
 APP_GLSL=$APP_SHARE/vice/GLSL
 APP_ICONS=$APP_SHARE/vice/icons
 APP_ROMS=$APP_SHARE/vice
@@ -356,6 +357,7 @@ mkdir -p $APP_ETC
 mkdir -p $APP_SHARE
 mkdir -p $APP_COMMON
 mkdir -p $APP_HOTKEYS
+mkdir -p $APP_JOYMAPS
 mkdir -p $APP_ICONS
 mkdir -p $APP_ROMS
 mkdir -p $APP_DOCS
@@ -728,6 +730,9 @@ fi
 
 # --- copy hotkeys files ---
 cp "$TOP_DIR/data/hotkeys/"*.vhk "$APP_HOTKEYS/"
+
+# --- copy joymap files ---
+cp "$TOP_DIR/data/joymaps/"*.vhk "$APP_JOYMAPS/"
 
 
 # --- code signing (for Apple notarisation) ------------------------------------

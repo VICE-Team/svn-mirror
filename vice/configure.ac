@@ -3482,6 +3482,7 @@ AC_OUTPUT([Makefile
            data/common/Makefile
            data/GLSL/Makefile
            data/hotkeys/Makefile
+           data/joymaps/Makefile
            doc/Makefile
            doc/building/Makefile
            doc/html/Makefile
