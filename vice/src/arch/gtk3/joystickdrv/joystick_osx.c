@@ -46,8 +46,7 @@
 
 #define HID_CODE(page, usage) (((page) << 16) | (usage))
 
-/* FIXME: this should not be here, remapping happens one level higher
- * This hat map was created from values observed on macOS 12 with PS4 and PS5 controller (bluetooth),
+/* This hat map was created from values observed on macOS 12 with PS4 and PS5 controller (bluetooth),
  * and based on various searches other controllers use this scheme. Xbox controllers are slightly
  * different which is handled via a hack later.
  */
@@ -227,6 +226,7 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
                     axis->minimum = e->min_lvalue;
                     axis->maximum = e->max_lvalue;
 
+                    /* FIXME: this should not be here, default mapping happens one level above */
                     /* HACK: Get axis used as joystick by default */
                     if (is_joy_axis) {
                         axis->mapping.negative.action = JOY_ACTION_JOYSTICK;
@@ -285,7 +285,11 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
     }
 }
 
-/* FIXME: this should not be here, its the job of the OS */
+/* FIXME: this should probably not be here, its the job of the OS */
+/* apparently ds3 is supposed to work out of the box?
+ * https://www.thetechedvocate.org/how-to-connect-a-ps3-controller-to-your-mac/
+ * https://osxdaily.com/2014/12/28/connect-playstation-3-controller-mac-os-x/
+ */
 static void joy_hidlib_device_specific_init_ps3(joystick_device_t *joydev)
 {
     IOHIDDeviceRef dev = ((joy_hid_device_t *)joydev->priv)->internal_device;
@@ -460,7 +464,7 @@ static void macos_joystick_poll(joystick_device_t *joydev)
             case kHIDUsage_GD_Hatswitch:
                 if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
                     if (joydev->vendor == 0x45e) {
-                        /* FIXME: this should not be here, remapping happens one level higher
+                           /* FIXME: not sure this is actually needed, a properly configured mapping might do it
                             * Microsoft device hack ... idea from godot source:
                             * https://github.com/godotengine/godot/blob/master/platform/osx/joypad_osx.cpp
                             *
