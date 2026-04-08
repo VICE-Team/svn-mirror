@@ -131,24 +131,12 @@ static GtkWidget *device_widgets[JOYPORT_MAX_PORTS];
  */
 static void on_swap_joysticks_toggled(GtkWidget *button, gpointer data)
 {
-    int joy1 = -1;
-    int joy2 = -1;
-
     ui_action_trigger(ACTION_SWAP_CONTROLPORT_TOGGLE);
 
     /* make sure to set the correct state, swapping might fail due to certain
      * devices not being allowed on certain ports */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
                                  ui_get_controlport_swapped());
-
-    /* get current values */
-    resources_get_int_sprintf("JoyDevice%d", &joy1, 1);
-    resources_get_int_sprintf("JoyDevice%d", &joy2, 2);
-
-    /* updating the widgets (triggers updating the resources but since they're
-     * the same nothing will happen) */
-    joystick_device_widget_update(device_widgets[JOYPORT_1], joy1);
-    joystick_device_widget_update(device_widgets[JOYPORT_2], joy2);
 }
 
 /** \brief  Handler for the 'clicked' event of the "Configure keysets" button

@@ -4412,6 +4412,10 @@ port device is connected to a control port.
 
 @table @code
 
+@vindex JoysticksAreSwapped
+@item JoysticksAreSwapped
+Boolean indicating whether the first two joysticks/controllers are swapped.
+
 @vindex JoyPort1Device
 @item JoyPort1Device
 Set the device attached to:
@@ -4490,6 +4494,12 @@ Enable saving of the battery-backed real time clock data.
 @subsection Control port command-line options
 
 @table @code
+
+@vindex -swapjoysticks, +swapjoysticks
+@item -swapjoysticks
+@item +swapjoysticks
+Swap/do not swap the first two joysticks/controllers.
+(@code{JoysticksAreSwapped})
 
 @findex -controlport1device
 @item -controlport1device <device>

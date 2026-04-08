@@ -1031,8 +1031,8 @@ const ui_menu_entry_t joystick_menu[] = {
     },
     {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .string    = "Swap native joystick ports",
-        .type      = MENU_ENTRY_OTHER_TOGGLE,
-        .displayed = swap_controlport_toggle_display
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "JoysticksAreSwapped"
     },
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -1147,8 +1147,8 @@ const ui_menu_entry_t joystick_c64_menu[] = {
     },
     {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .string    = "Swap native joystick ports",
-        .type      = MENU_ENTRY_OTHER_TOGGLE,
-        .displayed = swap_controlport_toggle_display
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "JoysticksAreSwapped"
     },
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -1262,8 +1262,8 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
     },
     {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .string    = "Swap native joystick ports",
-        .type      = MENU_ENTRY_OTHER_TOGGLE,
-        .displayed = swap_controlport_toggle_display
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "JoysticksAreSwapped"
     },
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -1384,8 +1384,8 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
     },
     {   .action    = ACTION_SWAP_CONTROLPORT_TOGGLE,
         .string    = "Swap native joystick ports",
-        .type      = MENU_ENTRY_OTHER_TOGGLE,
-        .displayed = swap_controlport_toggle_display
+        .type      = MENU_ENTRY_RESOURCE_TOGGLE,
+        .resource = "JoysticksAreSwapped"
     },
     SDL_MENU_ITEM_SEPARATOR,
 
