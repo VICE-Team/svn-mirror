@@ -35,13 +35,13 @@
 
 !CLEAR
 
-# [045e:0001] "Controller (Xbox One For Windows)" (5 axes, 16 buttons, 1 hat) Windows 10, GTK
-# [045e:0001] "Bluetooth LE XINPUT compatible input device" (5 axes, 16 buttons, 1 hat) Windows 10, GTK
+# [045e:02ff] "Xbox One Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
+# [045e:0b20] "Xbox One S Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
 # Driver - default Windows driver
 # Tested successfully with:
 # - Wired Xbox one controller
 # - Wireless Xbox one controller used with a USB cable
-# - Wireless Xbox one controller (newer model) with bluetooth (appears as "Bluetooth LE XINPUT compatible input device" in GTK)
+# - Wireless Xbox one controller (newer model) with bluetooth (appears as "Xbox One S Controller" in SDL)
 #   NOTE if the Xbox button (mapped to pause) doesn't register, update the controller firmware.
 # Untested - Older Xbox one wireless controllers (not bluetooth compatible) using Xbox wireless adapter
 
@@ -51,12 +51,9 @@
 0 0 2 1 2
 0 0 3 1 1
 
-0 0 4 0
-0 0 5 0
+0 0 2 6 1
 
-0 0 3 6 1
-
-0 0 4 6 2
+0 0 3 6 2
 
 0 1 0 1 16
 0 1 1 1 64
