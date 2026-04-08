@@ -2354,7 +2354,6 @@ When creating new joymaps, please copy over the usual set of leading comments
 controller exactly this mapping is for, and which OS and port (GTK/SDL) was used.
 If you save the mapping from the UI, all of this is automatically included.
 
-@node Directives
 @subsubsection Directives
 Directives are special commands for the parser. They start with
 @strong{@code{!}} and are case-insensitive.
