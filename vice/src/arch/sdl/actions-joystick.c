@@ -75,13 +75,3 @@ void actions_joystick_register(void)
 {
     ui_actions_register(joystick_actions);
 }
-
-
-/** \brief  Custom display callback for "swap-controlport-toggle"
- *
- * \param[in]   item    menu item (unused)
- */
-const char *swap_controlport_toggle_display(ui_menu_entry_t *item)
-{
-    return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
-}

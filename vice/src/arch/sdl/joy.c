@@ -864,22 +864,18 @@ void sdljoy_unset(SDL_Event e)
 
 /* ------------------------------------------------------------------------- */
 
-static int _sdljoy_swap_ports = 0;
-
 void sdljoy_swap_ports(void)
 {
-    int i, k;
-
-    resources_get_int("JoyDevice1", &i);
-    resources_get_int("JoyDevice2", &k);
-    resources_set_int("JoyDevice1", k);
-    resources_set_int("JoyDevice2", i);
-    _sdljoy_swap_ports ^= 1;
+    int swapped = 0;
+    resources_get_int("JoysticksAreSwapped", &swapped);
+    resources_set_int("JoysticksAreSwapped", swapped ^ 1);
 }
 
 int sdljoy_get_swap_ports(void)
 {
-    return _sdljoy_swap_ports;
+    int swapped = 0;
+    resources_get_int("JoysticksAreSwapped", &swapped);
+    return swapped;
 }
 
 void joystick_arch_shutdown(void)
@@ -894,12 +890,9 @@ void joystick_arch_shutdown(void)
 
 void sdljoy_swap_ports(void)
 {
-    int i, k;
-
-    resources_get_int("JoyDevice1", &i);
-    resources_get_int("JoyDevice2", &k);
-    resources_set_int("JoyDevice1", k);
-    resources_set_int("JoyDevice2", i);
+    int swapped = 0;
+    resources_get_int("JoysticksAreSwapped", &swapped);
+    resources_set_int("JoysticksAreSwapped", swapped ^ 1);
 }
 
 void joystick(void)

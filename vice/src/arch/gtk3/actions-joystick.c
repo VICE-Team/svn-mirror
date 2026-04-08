@@ -49,18 +49,15 @@
 #include "actions-joystick.h"
 
 
-/** \brief  Joysticks swapped state
- */
-static bool controlport_swapped = false;
-
-
 /** \brief  Get controlport swapped state
  *
  * \return  `true` if swapped
  */
 bool ui_get_controlport_swapped(void)
 {
-    return controlport_swapped;
+    int swapped = 0;
+    resources_get_int("JoysticksAreSwapped", &swapped);
+    return swapped;
 }
 
 
@@ -70,40 +67,10 @@ bool ui_get_controlport_swapped(void)
  */
 static void swap_controlport_toggle_action(ui_action_map_t *self)
 {
-    int joy1  = -1;
-    int joy2  = -1;
-    int type1 = -1;
-    int type2 = -1;
-
-    resources_get_int("JoyPort1Device", &type1);
-    resources_get_int("JoyPort2Device", &type2);
-
-    /* unset both resources first to avoid assigning for example the mouse to
-     * two ports. here might be dragons!
-     */
-    resources_set_int("JoyPort1Device", 0);
-    resources_set_int("JoyPort2Device", 0);
-
-    /* try setting port #2 first, some devices only work in port #1 */
-    if (resources_set_int("JoyPort2Device", type1) < 0) {
-        /* restore config */
-        resources_set_int("JoyPort1Device", type1);
-        resources_set_int("JoyPort2Device", type2);
-        return;
-    }
-    if (resources_set_int("JoyPort1Device", type2) < 0) {
-        /* restore config */
-        resources_set_int("JoyPort1Device", type1);
-        resources_set_int("JoyPort2Device", type2);
-        return;
-    }
-
-    resources_get_int("JoyDevice1", &joy1);
-    resources_get_int("JoyDevice2", &joy2);
-    resources_set_int("JoyDevice1", joy2);
-    resources_set_int("JoyDevice2", joy1);
-    controlport_swapped = !controlport_swapped;
-    vhk_gtk_set_check_item_blocked_by_action(self->action, controlport_swapped);
+    int swapped = 0;
+    resources_get_int("JoysticksAreSwapped", &swapped);
+    resources_set_int("JoysticksAreSwapped", swapped ^ 1);
+    vhk_gtk_set_check_item_blocked_by_action(self->action, swapped);
 }
 
 /** \brief  Toggle keyset joysticks
@@ -196,7 +163,7 @@ void actions_joystick_setup_ui(void)
     /* swap joysticks */
     if (ui_action_is_valid(ACTION_SWAP_CONTROLPORT_TOGGLE)) {
         vhk_gtk_set_check_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
-                                                 (gboolean)controlport_swapped);
+                                                 (gboolean)ui_get_controlport_swapped());
     }
 
     /* keyset joysticks */
