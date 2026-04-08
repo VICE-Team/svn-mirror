@@ -175,26 +175,47 @@ desktop_files = x64.desktop \
 		xcbm5x0.desktop \
 		vsid.desktop
 
+sdl_joymaps =	sdl_joymap_8bitdo_6b.vjm \
+		sdl_joymap_ds3.vjm \
+		sdl_joymap_ds4.vjm \
+		sdl_joymap_ds4_windows.vjm \
+		sdl_joymap_ds5.vjm \
+		sdl_joymap_keyrah_v3.vjm \
+		sdl_joymap_thec64.vjm \
+		sdl_joymap_xbox360.vjm \
+		sdl_joymap_xbox_one_windows.vjm \
+
+gtk_joymaps =	gtk_joymap_ds3_DsHidMini.vjm \
+		gtk_joymap_ds3_scp_tools.vjm \
+		gtk_joymap_ds3_Sony.vjm \
+		gtk_joymap_ds3.vjm \
+		gtk_joymap_ds4.vjm \
+		gtk_joymap_ds4_windows.vjm \
+		gtk_joymap_ds5.vjm \
+		gtk_joymap_logitech_x3dpro_windows.vjm \
+		gtk_joymap_xbox_one_windows.vjm
+
 
 if USE_SDLUI
 if WINDOWS_COMPILE
 # SDL 1.2 says to use 32x32 icons on Windows
-common_DATA = $(icons_32x32)
+common_DATA = $(icons_32x32) $(sdl_joymaps)
 else
-common_DATA = $(icons_256x256)
+common_DATA = $(icons_256x256) $(sdl_joymaps)
 endif
 endif
 
 if USE_SDL2UI
 # 256x256 icons are fine for SDL 2.x for all OSes
-common_DATA = $(icons_256x256)
+common_DATA = $(icons_256x256) $(sdl_joymaps)
 endif
 
 if USE_GTK3UI
 if INSTALL_DESKTOP_FILES
 # We install icons via xdg-icon-resource, so don't install any icons directly
 common_DATA = $(logo_files) \
-	      $(font_files)
+	      $(font_files) \
+	      $(gtk_joymaps)
 else
 common_DATA = $(icons_32x32) \
 	      $(icons_48x48) \
@@ -202,7 +223,8 @@ common_DATA = $(icons_32x32) \
 	      $(icons_256x256) \
 	      $(icons_scalable) \
 	      $(logo_files) \
-	      $(font_files)
+	      $(font_files) \
+	      $(gtk_joymaps)
 endif
 endif
 
