@@ -2392,12 +2392,16 @@ A line has 4 mandatory columns:
 @item Input index
 @itemize
 @item For buttons, it is the zero-based index of the button
-@item For axes: * if the action is 6 (POT_AXIS), it is the zero-based index of the axis * otherwise, 0 and 1 are respectively the positive and negative directions of axis 0; 2 and 3 are respectively the positive and negative directions of axis 1 etc. In formulas: axis=inputindex/2 (integer division), direction = positive if inputindex % 2 ==0 , negative if inputindex % 2 ==1.
+@item For axes:
+@itemize
+@item if the action is 6 (POT_AXIS), it is the zero-based index of the axis
+@item otherwise, 0 and 1 are respectively the positive and negative directions of axis 0; 2 and 3 are respectively the positive and negative directions of axis 1 etc. In formulas: axis=inputindex/2 (integer division), direction = positive if inputindex % 2 == 0 , negative if inputindex % 2 == 1.
+@end itemize
 @item for hats, 0, 1, 2 and 3 are respectively up, down, left and right of hat 0; 4, 5, 6 and 7 are respectively up, down, left and right of hat 1, etc.
 @end itemize
 
 @item Action
-@enumerate
+@enumerate 0
 @item NONE: none
 @item JOYSTICK: emulated joystick action
 @item KEYBOARD: emulated keyboard action
@@ -2413,8 +2417,6 @@ A line has 4 mandatory columns:
 @item JOYSTICK
 @enumerate 5
 @item emulated joystick pin:
-@end enumerate
-
 @multitable @columnfractions .1 .5 .5
 @item 1
 @tab Joystick up / SNES pad up
@@ -2441,6 +2443,7 @@ A line has 4 mandatory columns:
 @item 2048
 @tab SNES pad start button
 @end multitable
+@end enumerate
 
 @item KEYBOARD
 @enumerate 5
@@ -2451,11 +2454,11 @@ A line has 4 mandatory columns:
 
 @item POT_AXIS
 @enumerate 5
-which potentiometer is affected:
-@end enumerate
+@item which potentiometer is affected:
 @enumerate 1
 @item Pot-X
 @item Pot-Y
+@end enumerate
 @end enumerate
 @end itemize
 
@@ -2463,20 +2466,18 @@ which potentiometer is affected:
 
 @subsubsection Example
 
-Take this sample line from data/C64/sdl_joymap_ps3.vjm
+Take this sample line from data/common/sdl_joymap_ds3.vjm
 
 @example
-# O -> Space
-0 1 1 2 7 4 0
+0 1 10 5 pause-toggle
 @end example
 
 @itemize
 @item First column: HW joystick 0
 @item Second column: input type is button (1)
-@item Third column: input index 1, so button 1
-@item Fourth column: action KEYBOARD (2)
-@item Fifth and sixth columns: Space (7 and 4 in the matrix)
-@item seventh column: flags (no SHIFT)
+@item Third column: input index 10, so button 10
+@item Fourth column: action UI_FUNCTION (5)
+@item Fifth column: Toggle pause mode (pause-toggle)
 @end itemize
 
 @subsection Default mapping

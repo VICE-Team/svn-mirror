@@ -183,17 +183,17 @@ sdl_joymaps =	sdl_joymap_8bitdo_6b.vjm \
 		sdl_joymap_keyrah_v3.vjm \
 		sdl_joymap_thec64.vjm \
 		sdl_joymap_xbox360.vjm \
-		sdl_joymap_xbox_one_windows.vjm \
+		sdl_joymap_xbox_one_windows.vjm
 
-gtk_joymaps =	gtk_joymap_ds3_DsHidMini.vjm \
-		gtk_joymap_ds3_scp_tools.vjm \
-		gtk_joymap_ds3_Sony.vjm \
-		gtk_joymap_ds3.vjm \
-		gtk_joymap_ds4.vjm \
-		gtk_joymap_ds4_windows.vjm \
-		gtk_joymap_ds5.vjm \
-		gtk_joymap_logitech_x3dpro_windows.vjm \
-		gtk_joymap_xbox_one_windows.vjm
+gtk_joymaps =	gtk3_joymap_ds3_DsHidMini.vjm \
+		gtk3_joymap_ds3_scp_tools.vjm \
+		gtk3_joymap_ds3_Sony.vjm \
+		gtk3_joymap_ds3.vjm \
+		gtk3_joymap_ds4.vjm \
+		gtk3_joymap_ds4_windows.vjm \
+		gtk3_joymap_ds5.vjm \
+		gtk3_joymap_logitech_x3dpro_windows.vjm \
+		gtk3_joymap_xbox_one_windows.vjm
 
 
 if USE_SDLUI
