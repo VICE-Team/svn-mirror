@@ -463,7 +463,7 @@ jobs:
                               texlive-latex-extra \
                               xa65
           sudo apt install -y ${{ matrix.ui.deps }}
-          sudo apt upgrade -y
+          # sudo apt upgrade -y
 
       - name: Build
         shell: bash
