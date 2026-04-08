@@ -174,9 +174,11 @@ rm -f `find $BUILDPATH -name "Makefile*"`
 rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
 mkdir $BUILDPATH/hotkeys
+mkdir $BUILDPATH/joymaps
 cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/*.ttf $BUILDPATH/common
 cp $TOPSRCDIR/data/hotkeys/*.vhk $BUILDPATH/hotkeys
+cp $TOPSRCDIR/data/joymaps/*.vjm $BUILDPATH/joymaps
 
 #if test x"$HTML_DOCS" = "xyes"; then
 #    cp -a $TOPSRCDIR/doc/html $BUILDPATH
