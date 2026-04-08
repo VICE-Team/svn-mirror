@@ -97,7 +97,7 @@ BINDIST_EMUS="x64sc xscpu64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 # Tools
 BINDIST_TOOLS="c1541 tools/cartconv/cartconv tools/petcat/petcat"
 
-# Emulator data directories (ROMs, ROMSets, keymaps, joymaps)
+# Emulator data directories (ROMs, ROMSets, keymaps)
 BINDIST_EMU_DATA_DIRS="C128 C64 C64DTV CBM-II DRIVES PET PLUS4 PRINTER SCPU64 VIC20"
 
 # Bindist DLLs

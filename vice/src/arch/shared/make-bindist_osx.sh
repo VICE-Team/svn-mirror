@@ -732,7 +732,7 @@ fi
 cp "$TOP_DIR/data/hotkeys/"*.vhk "$APP_HOTKEYS/"
 
 # --- copy joymap files ---
-cp "$TOP_DIR/data/joymaps/"*.vhk "$APP_JOYMAPS/"
+cp "$TOP_DIR/data/joymaps/"*.vjm "$APP_JOYMAPS/"
 
 
 # --- code signing (for Apple notarisation) ------------------------------------

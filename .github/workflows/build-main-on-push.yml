@@ -147,11 +147,7 @@ jobs:
         run: |
           cd vice
           ./src/buildtools/genvicedate_h.sh
-          ls -al
-          ls -al data/joymaps
-          ./autogen.sh || cat .automake.out
-          ls -al
-          ls -al data/joymaps
+          ./autogen.sh
           ./configure --enable-option-checking=fatal \
                       --enable-headlessui \
                       --enable-html-docs \
