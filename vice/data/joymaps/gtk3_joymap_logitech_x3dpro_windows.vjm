@@ -37,29 +37,50 @@
 
 # [046d:0001] "Logitech Extreme 3D" (4 axes, 12 buttons, 1 hat) Windows 10, GTK
 # Driver - default Windows driver
+
+# X Axis    > Right/left
 0 0 0 1 8
 0 0 1 1 4
 
+# Y Axis    > Down/up
 0 0 2 1 2
 0 0 3 1 1
 
+# Throttle  > Pot Y
 0 0 2 6 2
 
+# Twist/Z   > Pot X
 0 0 3 6 1
 
+# Trigger   > Fire
 0 1 0 1 16
+
+# Thumb (2) > Fire2 / SNES-Y
 0 1 1 1 32
+
+# Button 3  > Fire3 / SNES-A
 0 1 2 1 64
+
+# Button 4  > Fire4 / SNES-X
 0 1 3 1 128
+
+# Btns 5-6  > LB / RB
 0 1 4 1 256
 0 1 5 1 512
+
+# Btns 7-8  > Select / Start
 0 1 6 1 1024
 0 1 7 1 2048
+
+# Buttons 9-11 unmapped
 0 1 8 0
 0 1 9 0
 0 1 10 0
+
+# Button 12 > Pause
 0 1 11 5 pause-toggle
 
+# Hat/D-Pad > Up/down/left/right
 0 2 0 1 1
 0 2 1 1 2
 0 2 2 1 4

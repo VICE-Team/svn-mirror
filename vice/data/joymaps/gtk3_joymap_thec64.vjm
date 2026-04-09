@@ -35,13 +35,7 @@
 
 !CLEAR
 
-# [054c:0001] "PLAYSTATION(R)3 Controller" (8 axes, 24 buttons, 1 hat) Windows 10, GTK
-# Driver - Official Sony Driver. Note - only works wired with USB cable, no bluetooth
-# Source - https://wiki.rpcs3.net/index.php?title=Help:Controller_Configuration#Using_DualShock_3_controller
-# Device:   "Wireless controller for PLAYSTATION(R)3"
-# Provider: Sony Computer Entertatinment Inc.
-# Date:     28/03/2013
-# Version   1.5.0.0
+# [1c59:0001] " THEC64 Joystick" (5 axes, 8 buttons, 0 hats) Windows 10, GTK
 
 0 0 0 1 8
 0 0 1 1 4
@@ -49,7 +43,8 @@
 0 0 2 1 2
 0 0 3 1 1
 
-0 0 2 6 1
+0 0 4 0
+0 0 5 0
 
 0 0 6 0
 0 0 7 0
@@ -57,40 +52,12 @@
 0 0 8 0
 0 0 9 0
 
-0 0 5 6 2
+0 1 0 1 16
+0 1 1 1 16
+0 1 2 1 32
+0 1 3 1 64
+0 1 4 5 virtual-keyboard
+0 1 5 5 show-statusbar-toggle
+0 1 6 5 pause-toggle
+0 1 7 4
 
-0 0 12 0
-0 0 13 0
-
-0 0 14 0
-0 0 15 0
-
-0 1 0 1 128
-0 1 1 1 64
-0 1 2 1 16
-0 1 3 1 32
-0 1 4 0
-0 1 5 0
-0 1 6 1 256
-0 1 7 1 512
-0 1 8 1 2048
-0 1 9 1 1024
-0 1 10 0
-0 1 11 0
-0 1 12 5 pause-toggle
-0 1 13 0
-0 1 14 0
-0 1 15 0
-0 1 16 0
-0 1 17 0
-0 1 18 0
-0 1 19 0
-0 1 20 0
-0 1 21 0
-0 1 22 0
-0 1 23 0
-
-0 2 0 1 1
-0 2 1 1 2
-0 2 2 1 4
-0 2 3 1 8
