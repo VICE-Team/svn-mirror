@@ -56,10 +56,10 @@
 #include "ltkernal.h"
 #include "ramlink.h"
 
-/* #define DBGC128CART */
+#define DBGC128CART
 
 #ifdef DBGC128CART
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -199,7 +199,7 @@ static cartridge_info_t *c128cartridge_get_info_list(void)
 
 static void c128cartridge_config_init(int type)
 {
-    DBG(("c128cartridge_config_init()\n"));
+    DBG(("c128cartridge_config_init()"));
 
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -217,7 +217,7 @@ static void c128cartridge_config_init(int type)
 /* copy data from rawcart into actually used ROM array(s). (called from c64carthooks:cart_attach()) */
 static void c128cartridge_config_setup(int type, uint8_t *rawcart)
 {
-    DBG(("c128cartridge_config_setup(ptr: 0x%p)\n", (void*)rawcart));
+    DBG(("c128cartridge_config_setup(ptr: 0x%p)", (void*)rawcart));
 
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -245,7 +245,7 @@ static int c128cartridge_attach_crt(int type, FILE *fd, const char *filename, ui
 {
     int res = -1;
 
-    DBG(("c128cartridge_attach_crt type: %d fd: %p ptr:%p\n", type, (void*)fd, (void*)rawcart));
+    DBG(("c128cartridge_attach_crt type: %d fd: %p ptr:%p", type, (void*)fd, (void*)rawcart));
 
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -277,7 +277,7 @@ static int c128cartridge_attach_crt(int type, FILE *fd, const char *filename, ui
 static int c128cartridge_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     int res = -1;
-    DBG(("c128cartridge_bin_attach type: %d name: %s\n", type, filename));
+    DBG(("c128cartridge_bin_attach type: %d name: %s", type, filename));
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
             res = c128generic_bin_attach(filename, rawcart);
@@ -307,7 +307,7 @@ static int c128cartridge_bin_attach(int type, const char *filename, uint8_t *raw
 
 static int c128cartridge_bin_save(int type, const char *filename)
 {
-    DBG(("c128cartridge_bin_save name: %s\n", filename));
+    DBG(("c128cartridge_bin_save name: %s", filename));
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
@@ -324,7 +324,7 @@ static int c128cartridge_bin_save(int type, const char *filename)
 
 static int c128cartridge_save_secondary_image(int type, const char *filename)
 {
-    DBG(("c128cartridge_save_secondary_image name: %s\n", filename));
+    DBG(("c128cartridge_save_secondary_image name: %s", filename));
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
@@ -341,7 +341,7 @@ static int c128cartridge_save_secondary_image(int type, const char *filename)
 
 static int c128cartridge_crt_save(int type, const char *filename)
 {
-    DBG(("c128cartridge_crt_save name: %s\n", filename));
+    DBG(("c128cartridge_crt_save name: %s", filename));
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
@@ -459,10 +459,10 @@ static int c128cartridge_can_flush_secondary_image(int crtid)
 */
 static void c128cartridge_detach_image(int type)
 {
-    DBG(("c128cartridge_detach_image type: %d\n", type));
+    DBG(("c128cartridge_detach_image type: %d", type));
     if (type == 0) {
         type = cartridge_get_id(0);
-        DBG(("c128cartridge_detach_image  got type: %d\n", type));
+        DBG(("c128cartridge_detach_image  got type: %d", type));
     }
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -568,7 +568,7 @@ static int c128cartridge_snapshot_read(int type, snapshot_t *s)
 
 static int c128cartridge_snapshot_write(int type, snapshot_t *s)
 {
-    DBG(("c128cartridge_snapshot_write\n"));
+    DBG(("c128cartridge_snapshot_write"));
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
             return c128generic_snapshot_write_module(s, type);
@@ -588,7 +588,7 @@ static int c128cartridge_snapshot_write(int type, snapshot_t *s)
 
 void c128cartridge_setup_interface(void)
 {
-    DBG(("c128cartridge_setup_interface\n"));
+    DBG(("c128cartridge_setup_interface"));
     /* assign the function pointers for the interface that is used in the c64 cartridge system */
     c128interface.attach_crt = c128cartridge_attach_crt;
     c128interface.bin_attach = c128cartridge_bin_attach;

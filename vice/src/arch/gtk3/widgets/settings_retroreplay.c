@@ -60,68 +60,6 @@ static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
 };
 
 
-/** \brief  Callback for the save-dialog response handler
- *
- * \param[in,out]   dialog      save-file dialog
- * \param[in,out]   filename    filename
- * \param[in]       data        extra data (unused)
- */
-static void save_filename_callback(GtkDialog *dialog,
-                                   gchar     *filename,
-                                   gpointer   data)
-{
-    if (filename != NULL) {
-        if (cartridge_save_image(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
-            vice_gtk3_message_error(GTK_WINDOW(dialog),
-                                    CARTNAME " Error",
-                                    "Failed to save image as '%s'.",
-                                    filename);
-        }
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the 'clicked' event of the "Save As" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_save_clicked(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_save_file_dialog("Save " CARTNAME
-                                        " image as",
-                                        NULL,
-                                        TRUE,
-                                        NULL,
-                                        save_filename_callback,
-                                        NULL);
-    gtk_widget_show(dialog);
-}
-
-
-/** \brief  Handler for the 'clicked' event of the "Flush now" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
-{
-    if (cartridge_flush_image(CARTRIDGE_RETRO_REPLAY) < 0) {
-        GtkWidget *parent;
-
-        parent = gtk_widget_get_toplevel(widget);
-        if (!GTK_IS_WINDOW(widget)) {
-            parent = NULL;  /* default to current emulator window */
-        }
-        vice_gtk3_message_error(GTK_WINDOW(parent),
-                                CARTNAME " Error",
-                                "Failed to flush current image.");
-    }
-}
-
 /** \brief  Create left-align label
  *
  * \param[in]   text    text for the label (uses Pango markup)
@@ -166,15 +104,12 @@ static GtkWidget *create_switch(const char *resource)
 GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *box;
     GtkWidget *flash;
     GtkWidget *bank;
     GtkWidget *label;
     GtkWidget *revision;
     GtkWidget *clockport;
-    GtkWidget *save_button;
-    GtkWidget *flush_button;
-    GtkWidget *bios_write;
+    GtkWidget *primary;
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
@@ -208,35 +143,18 @@ GtkWidget *settings_retroreplay_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label,     0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), clockport, 1, 3, 1, 1);
 
-    /* RRBiosWrite */
-    bios_write = vice_gtk3_resource_check_button_new("RRBiosWrite",
-            "Write back " CARTNAME " Flash ROM image automatically");
-    gtk_widget_set_valign(bios_write, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 4, 3, 1);
-
-    /* wrap buttons in button box */
-    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_hexpand(box, TRUE);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-
-    /* Save image as .. */
-    save_button = gtk_button_new_with_label("Save image as ..");
-    g_signal_connect(save_button,
-                     "clicked",
-                     G_CALLBACK(on_save_clicked),
-                     NULL);
-
-    /* Flush image now */
-    flush_button = gtk_button_new_with_label("Flush image");
-    g_signal_connect(flush_button,
-                     "clicked",
-                     G_CALLBACK(on_flush_clicked),
-                     NULL);
-
-    gtk_box_pack_start(GTK_BOX(box), save_button,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush_button, FALSE, FALSE, 0);
-    gtk_grid_attach(GTK_GRID(grid), box, 3, 4, 1, 1);
+    primary = cart_image_widget_new(CARTRIDGE_RETRO_REPLAY,        /* cart id */
+                                    CARTRIDGE_NAME_RETRO_REPLAY,   /* cart name */
+                                    CART_IMAGE_PRIMARY,     /* image number */
+                                    "cartridge",            /* image tag */
+                                    NULL,                   /* resource name */
+                                    TRUE,                   /* flush button */
+                                    TRUE                    /* save button */
+                                    );
+    cart_image_widget_append_check(primary,
+                                   "RRBiosWrite",
+                                   "Save image when changed");
+    gtk_grid_attach(GTK_GRID(grid), primary,   0, 4, 4, 1);
 
     gtk_widget_show_all(grid);
     return grid;

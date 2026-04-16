@@ -39,14 +39,27 @@
 #include "cartridge.h"
 #include "c64cart.h"
 #include "vice_gtk3.h"
+#include "log.h"
 
 #include "settings_dqbb.h"
+
+#define DEBUG_DQBB
+
+#ifdef DEBUG_DQBB
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 /** \brief  List of supported RAM sizes */
 static int ram_sizes[] = { 16, 32, 64, 128, 256, -1 };
 
 /** \brief  List of supported modes */
-static int dqbb_modes[] = { DQBB_MODE_C64, DQBB_MODE_C128, -1 };
+static const vice_gtk3_radiogroup_entry_t dqbb_modes[] = {
+    { "C64",            DQBB_MODE_C64 },
+    { "C128",           DQBB_MODE_C128 },
+    { NULL,             -1 }
+};
 
 /** \brief  Create radio button group to determine DQBB RAM size
  *
@@ -65,9 +78,10 @@ static GtkWidget *create_dqbb_size_widget(void)
  */
 static GtkWidget *create_dqbb_mode_widget(void)
 {
-    return ram_size_radiogroup_new("DQBBmode",
-                                   CARTRIDGE_NAME_DQBB " Mode",
-                                   dqbb_modes);
+    return vice_gtk3_resource_radiogroup_new("DQBBmode",
+                                              dqbb_modes,
+                                              GTK_ORIENTATION_VERTICAL);
+
 }
 
 /** \brief  Create widget to load/save Double Quick Brown Box image file
@@ -91,6 +105,14 @@ static GtkWidget *create_dqbb_image_widget(void)
     return image;
 }
 
+static void on_enable_clicked(GtkWidget *widget, gpointer user_data)
+{
+    /*GtkWidget *parent = gtk_widget_get_toplevel(widget);*/
+    int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    DBG(("DQBB on_enable_clicked: %d", enabled));
+    /* FIXME: update save/flush button(s) */
+}
 
 /** \brief  Create widget to control Double Quick Brown Box resources
  *
@@ -105,11 +127,16 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
     GtkWidget *dqbb_image;
     GtkWidget *dqbb_size;
     GtkWidget *dqbb_mode;
+    GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
 
     dqbb_enable_widget = carthelpers_create_enable_check_button(CARTRIDGE_NAME_DQBB,
                                                                 CARTRIDGE_DQBB);
+    g_signal_connect(G_OBJECT(dqbb_enable_widget),
+                     "clicked",
+                     G_CALLBACK(on_enable_clicked),
+                     NULL);
     gtk_grid_attach(GTK_GRID(grid), dqbb_enable_widget, 0, 0, 1, 1);
 
     dqbb_image = create_dqbb_image_widget();
@@ -117,9 +144,16 @@ GtkWidget *settings_dqbb_widget_create(GtkWidget *parent)
     dqbb_mode = create_dqbb_mode_widget();
 
     gtk_widget_set_margin_top(dqbb_image, 8);
-    gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), dqbb_size,  0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), dqbb_mode,  1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 4);
+    /* FIXME: why  +3 */
+    gtk_grid_attach(GTK_GRID(grid), dqbb_size,  0, 2+3, 1, 1);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>" CARTRIDGE_NAME_DQBB " mode</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2+3+1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), dqbb_mode,  0, 2+3+2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

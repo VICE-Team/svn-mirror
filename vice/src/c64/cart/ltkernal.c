@@ -60,6 +60,7 @@
 #include "c64memrom.h"
 #include "alarm.h"
 
+#define LTKLOG0
 /* #define LTKLOG1 */
 /* #define LTKLOG2 */
 /* #define LTKDEBUGIO */
@@ -77,6 +78,12 @@
 #define IDBG(_x_) log_message _x_
 #else
 #define IDBG(_x_)
+#endif
+
+#ifdef LTKLOG0
+#define DBG(_x_) log_printf _x_
+#else
+#define DBG(_x_)
 #endif
 
 #ifdef LTKLOG1
@@ -386,18 +393,21 @@ static void ltkernal_unregisterio(void)
 
 static int set_port(int port, void *param)
 {
+    DBG(("LTK set_port:%d", port));
+
     if (port < 0 || port > 15) {
         return -1;
     }
 
     ltk_port = port;
-    LOG1((LOG, "LTK port = %d", port));
 
     return 0;
 }
 
 static int set_io(int io, void *param)
 {
+    DBG(("LTK set_io:%d", io));
+
     if (io < LTKIO_DE00 || io > LTKIO_DF00) {
         return -1;
     }
@@ -432,7 +442,7 @@ static int set_image_file(const char *name, void *param)
     }
 
     util_string_set(&(ltk_disk[i]), name);
-    LOG1((LOG, "LTK image[%d] = '%s'", i, name));
+    DBG(("LTK set_image_file [%d] = '%s'", i, name));
 
     /* apply changes */
     if (ltk_inserted) {
@@ -1249,6 +1259,7 @@ int ltkernal_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int i;
 
+    DBG(("ltkernal_crt_attach"));
     if (ltkernal_check_scpu64()) {
         return -1;
     }
@@ -1272,7 +1283,7 @@ int ltkernal_crt_attach(FILE *fd, uint8_t *rawcart)
 
 int ltkernal_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    LOG2((LOG, "LTK bin attach"));
+    DBG(("ltkernal_bin_attach: %s", filename));
 
     if (ltkernal_check_scpu64()) {
         return -1;

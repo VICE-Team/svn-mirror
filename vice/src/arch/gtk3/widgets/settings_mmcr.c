@@ -61,63 +61,6 @@ static const vice_gtk3_radiogroup_entry_t card_types[] = {
 };
 
 
-/** \brief  Callback for the save-dialog response handler
- *
- * \param[in,out]   dialog      save-file dialog
- * \param[in,out]   filename    filename
- * \param[in]       data        extra data (unused)
- */
-static void save_filename_callback(GtkDialog *dialog,
-                                   gchar     *filename,
-                                   gpointer   data)
-{
-    if (filename != NULL) {
-        if (cartridge_save_image(CARTRIDGE_MMC_REPLAY, filename) < 0) {
-            vice_gtk3_message_error(GTK_WINDOW(dialog),
-                                    CARTNAME " Error",
-                                    "Failed to save image as '%s'",
-                                    filename);
-        }
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the "clicked" event of the Save Image button
- *
- * \param[in]   widget      button (unused)
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_save_clicked(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_save_file_dialog("Save " CARTNAME " image",
-                                        NULL, TRUE, NULL,
-                                        save_filename_callback,
-                                        NULL);
-    gtk_widget_show(dialog);
-}
-
-/** \brief  Handler for the "clicked" event of the Flush Image button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   unused
- */
-static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *parent = gtk_widget_get_toplevel(widget);
-
-    if (!GTK_IS_WINDOW(parent)) {
-        parent = NULL;  /* make error dialog default to active window */
-    }
-    if (cartridge_flush_image(CARTRIDGE_MMC_REPLAY) < 0) {
-        vice_gtk3_message_error(GTK_WINDOW(parent),
-                                CARTNAME "Error",
-                                "Failed to flush image.");
-    }
-}
-
 /** \brief  Create grid with switch and label for the MMCRRescueMode resource
  *
  * \return  GtkGrid
@@ -146,47 +89,6 @@ static GtkWidget *create_rescue_mode_widget(void)
     return grid;
 }
 
-/** \brief  Add EEPROM widgets to main grid
- *
- * \param[in]   grid    main grid
- * \param[in]   row     row in \a grid to add widgets
- * \param[in]   columns number of columns in \a grid, for proper column span
- *
- * \return  row in \a grid to add more widgets
- */
-static int create_eeprom_layout(GtkWidget *grid, int row, int columns)
-{
-    GtkWidget  *label;
-    GtkWidget  *eeprom;
-    GtkWidget  *readwrite;
-    const char *title;
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label),
-                         "<b>" CARTNAME " EEPROM</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 8);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
-    row++;
-
-    label  = gtk_label_new("Image file");
-    eeprom = vice_gtk3_resource_filechooser_new("MMCREEPROMImage",
-                                                GTK_FILE_CHOOSER_ACTION_OPEN);
-    title  = "Select " CARTNAME " EEPROM image file";
-    vice_gtk3_resource_filechooser_set_custom_title(eeprom, title);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-
-    gtk_grid_attach(GTK_GRID(grid), label,  0, row, 1,           1);
-    gtk_grid_attach(GTK_GRID(grid), eeprom, 1, row, columns - 1, 1);
-    row++;
-
-    /* add RW widget */
-    readwrite = vice_gtk3_resource_check_button_new("MMCREEPROMRW",
-                                                    "Enable writes to EEPROM image");
-    gtk_grid_attach(GTK_GRID(grid), readwrite, 1, row, columns - 1, 1);
-
-    return row + 1;
-}
 
 /** \brief  Add widgets for the SD/MCC card
  *
@@ -203,6 +105,8 @@ static int create_card_layout(GtkWidget *grid, int row, int columns)
     GtkWidget  *card_writes;
     GtkWidget  *card_type;
     const char *title;
+
+    /* FIXME: SD/MMC Card Widget should also be implemented in common code */
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label),
@@ -240,56 +144,6 @@ static int create_card_layout(GtkWidget *grid, int row, int columns)
     return row + 1;
 }
 
-/** \brief  Add cartridge image widgets to main grid
- *
- * \param[in]   grid    main grid
- * \param[in]   row     row in \a grid to add widgets
- * \param[in]   columns number of columns in \a grid, for proper column span
- *
- * \return  row in \a grid to add more widgets
- */
-static int create_cart_image_layout(GtkWidget *grid, int row, int columns)
-{
-    GtkWidget *label;
-    GtkWidget *write_back;
-    GtkWidget *box;
-    GtkWidget *save;
-    GtkWidget *flush;
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label),
-                         "<b>" CARTNAME " Cartridge Image</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(label, 16);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, columns, 1);
-    row++;
-
-    write_back = vice_gtk3_resource_check_button_new("MMCRImageWrite",
-                                                     "Save image when changed");
-    gtk_grid_attach(GTK_GRID(grid), write_back, 0, row, 2, 1);
-
-
-    box =   gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-    flush = gtk_button_new_with_label("Flush image");
-    save =  gtk_button_new_with_label("Save image as ..");
-
-    g_signal_connect(G_OBJECT(flush),
-                     "clicked",
-                     G_CALLBACK(on_flush_clicked),
-                     NULL);
-    g_signal_connect(G_OBJECT(save),
-                     "clicked",
-                     G_CALLBACK(on_save_clicked),
-                     NULL);
-
-    gtk_box_pack_start(GTK_BOX(box), save,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush, FALSE, FALSE, 0);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), box, 2, row, columns - 2, 1);
-
-    return row + 1;
-}
 
 
 /** \brief  Create widget to control MMC Replay resources
@@ -305,6 +159,8 @@ GtkWidget *settings_mmcr_widget_create(GtkWidget *parent)
     GtkWidget *rescue_widget;
     GtkWidget *clockport_label;
     GtkWidget *clockport_widget;
+    GtkWidget *primary;
+    GtkWidget *secondary;
     int        row = 0;
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
@@ -314,12 +170,6 @@ GtkWidget *settings_mmcr_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), rescue_widget, 0, row, NUM_COLS, 1);
     row++;
 
-    row = create_eeprom_layout    (grid, row, NUM_COLS);
-    row = create_card_layout      (grid, row, NUM_COLS);
-    row = create_cart_image_layout(grid, row, NUM_COLS);
-#if 0
-    gtk_grid_attach(GTK_GRID(grid), create_card_type_widget(), 0, row, NUM_COLS, 1);
-#endif
     clockport_label  = gtk_label_new("ClockPort device");
     clockport_widget = clockport_device_widget_create("MMCRClockPort");
     gtk_widget_set_margin_top(clockport_label, 16);
@@ -327,6 +177,39 @@ GtkWidget *settings_mmcr_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(clockport_label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), clockport_label,  0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), clockport_widget, 1, row, 1, 1);
+    row++;
+
+    primary = cart_image_widget_new(CARTRIDGE_MMC_REPLAY,        /* cart id */
+                                    CARTRIDGE_NAME_MMC_REPLAY,   /* cart name */
+                                    CART_IMAGE_PRIMARY,     /* image number */
+                                    "cartridge",            /* image tag */
+                                    NULL,                   /* resource name */
+                                    TRUE,                   /* flush button */
+                                    TRUE                    /* save button */
+                                    );
+    cart_image_widget_append_check(primary,
+                                   "MMCRImageWrite",
+                                   "Save image when changed");
+
+
+    gtk_grid_attach(GTK_GRID(grid), primary,   0, row, 4, 1);
+    row++;
+
+    secondary = cart_image_widget_new(CARTRIDGE_MMC_REPLAY,
+                                      CARTRIDGE_NAME_MMC_REPLAY,
+                                      CART_IMAGE_SECONDARY,
+                                      "EEPROM",
+                                      "MMCREEPROMImage",
+                                      TRUE,
+                                      TRUE);
+    cart_image_widget_append_check(secondary,
+                                   "MMCREEPROMRW",
+                                   "Enable writes to " CARTRIDGE_NAME_MMC_REPLAY
+                                   " EEPROM image");
+    gtk_grid_attach(GTK_GRID(grid), secondary,   0, row, 4, 1);
+    row++;
+
+    row = create_card_layout      (grid, row, NUM_COLS);
 
 #undef NUM_COLS
     gtk_widget_show_all(grid);

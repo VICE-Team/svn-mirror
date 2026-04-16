@@ -50,6 +50,8 @@
  * +------------------------------------------+
  */
 
+/* #define DEBUG_UISETTINGS */
+
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -160,6 +162,12 @@
 #include "settings_video.h"
 
 #include "uisettings.h"
+
+#ifdef DEBUG_UISETTINGS
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 
 /** \brief  CSS to allow collapsing/expanding tree nodes with crsr keys
@@ -2345,6 +2353,7 @@ static GtkTreeStore *populate_tree_model(void)
     }
 
     for (i = 0; nodes[i].name != NULL; i++) {
+        /*DBG(("node %d:%s", i, nodes[i].name));*/
         gtk_tree_store_append(model, &iter, NULL);
         gtk_tree_store_set(model, &iter,
                 COLUMN_NAME, nodes[i].name,
@@ -2361,6 +2370,7 @@ static GtkTreeStore *populate_tree_model(void)
             for (c = 0; list[c].name != NULL; c++) {
                 char buffer[256];
 
+                /*DBG(("child %d:%s", c, list[c].name));*/
                 g_snprintf(buffer, 256, "%s", list[c].name);
                 gtk_tree_store_append(model, &child, &iter);
                 gtk_tree_store_set(model, &child,
@@ -2481,6 +2491,8 @@ static GtkWidget *create_content_widget(GtkWidget *dialog)
     GtkWidget        *button_box;
     GtkWidget        *close_button;
 
+    DBG(("create_content_widget"));
+
     settings_grid = gtk_grid_new();
     settings_tree = create_treeview();
 
@@ -2528,6 +2540,7 @@ static GtkWidget *create_content_widget(GtkWidget *dialog)
             }
         }
     }
+    DBG(("create_content_widget new grid"));
 
     /* create container for generic settings and close button */
     extra = gtk_grid_new();
@@ -2613,6 +2626,7 @@ static void response_callback(GtkWidget *widget,
     if (response_id == GTK_RESPONSE_DELETE_EVENT) {
         /* close dialog */
         int pause_on_settings = 0;
+        DBG(("response_callback"));
 
         gtk_widget_destroy(widget);
         settings_window = NULL;
@@ -2650,6 +2664,7 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
         int max_width = DIALOG_WIDTH + DIALOG_WIDTH_TOLERANCE;
         int max_height = DIALOG_HEIGHT + DIALOG_HEIGHT_TOLERANCE;
 #endif
+        DBG(("on_dialog_configure_event"));
         /* Update dialog position, using gtk_window_get_position() doesn't
          * work, it reports the position of the dialog when it was spawned,
          * not the position if it has been moved afterwards. */
@@ -2712,6 +2727,7 @@ static GtkWidget *dialog_create_helper(void)
                               "destroy",
                               G_CALLBACK(on_settings_dialog_destroy),
                               NULL);
+    DBG(("dialog_create_helper done"));
     return dialog;
 }
 
@@ -2854,7 +2870,7 @@ static gboolean ui_settings_dialog_show_impl(gpointer user_data)
                    settings_xpos, settings_ypos);
         gtk_window_move(GTK_WINDOW(dialog), settings_xpos, settings_ypos);
     }
-
+    DBG(("ui_settings_dialog_show_impl done"));
     return FALSE;
 }
 

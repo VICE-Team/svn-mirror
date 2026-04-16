@@ -39,6 +39,7 @@
 #include "export.h"
 #include "flash040.h"
 #include "lib.h"
+#include "log.h"
 #include "maincpu.h"
 #include "monitor.h"
 #include "resources.h"
@@ -67,10 +68,10 @@
     see https://www.freepascal.org/~daniel/gmod2/
 */
 
-/* #define DEBUGGMOD2 */
+#define DEBUGGMOD2
 
 #ifdef DEBUGGMOD2
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -222,6 +223,7 @@ void c128gmod2_config_setup(uint8_t *rawcart)
 
 static int set_c128gmod2_eeprom_filename(const char *name, void *param)
 {
+    DBG(("set_c128gmod2_eeprom_filename '%s'", name));
     if ((c128gmod2_eeprom_filename != NULL) && (name != NULL) && (strcmp(name, c128gmod2_eeprom_filename) == 0)) {
         return 0;
     }
@@ -243,6 +245,7 @@ static int set_c128gmod2_eeprom_filename(const char *name, void *param)
 
 static int set_c128gmod2_eeprom_rw(int val, void* param)
 {
+    DBG(("set_c128gmod2_eeprom_rw '%d'", val));
     c128gmod2_eeprom_rw = val ? 1 : 0;
     m93c86_set_image_rw(c128gmod2_eeprom_rw);
     return 0;
@@ -250,6 +253,7 @@ static int set_c128gmod2_eeprom_rw(int val, void* param)
 
 static int set_c128gmod2_flash_write(int val, void *param)
 {
+    DBG(("set_c128gmod2_flash_write '%d'", val));
     c128gmod2_flash_write = val ? 1 : 0;
 
     return 0;
@@ -328,6 +332,8 @@ int c128gmod2_bin_attach(const char *filename, uint8_t *rawcart)
     c128gmod2_filetype = 0;
     c128gmod2_filename = NULL;
 
+    DBG(("c128gmod2_bin_attach '%s'", filename));
+
     if (util_file_load(filename, rawcart, GMOD2_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
@@ -341,6 +347,7 @@ int c128gmod2_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
     int i;
+    DBG(("c128gmod2_crt_attach '%s'", filename));
 
     memset(rawcart, 0xff, GMOD2_FLASH_SIZE);
 
@@ -370,6 +377,7 @@ int c128gmod2_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 int c128gmod2_bin_save(const char *filename)
 {
     FILE *fd;
+    DBG(("c128gmod2_bin_save '%s'", filename));
 
     if (filename == NULL) {
         return -1;
@@ -397,6 +405,7 @@ int c128gmod2_crt_save(const char *filename)
     crt_chip_header_t chip;
     uint8_t *data;
     int i;
+    DBG(("c128gmod2_crt_save '%s'", filename));
 
     fd = crt_create(filename, CARTRIDGE_C128_GMOD2C128, 1, 0, STRING_GMOD2);
 
@@ -426,6 +435,7 @@ int c128gmod2_crt_save(const char *filename)
 
 int c128gmod2_flush_image(void)
 {
+    DBG(("c128gmod2_flush_image c128gmod2_filetype:%d", c128gmod2_filetype));
     if (c128gmod2_filetype == CARTRIDGE_FILETYPE_BIN) {
         return c128gmod2_bin_save(c128gmod2_filename);
     } else if (c128gmod2_filetype == CARTRIDGE_FILETYPE_CRT) {
@@ -455,6 +465,7 @@ int c128gmod2_can_flush_eeprom(void)
  */
 int c128gmod2_eeprom_save(const char *filename)
 {
+    DBG(("c128gmod2_eeprom_save '%s'", filename));
     return m93c86_save_image(filename);
 }
 
@@ -464,6 +475,7 @@ int c128gmod2_eeprom_save(const char *filename)
  */
 int c128gmod2_flush_eeprom(void)
 {
+    DBG(("c128gmod2_flush_eeprom"));
     return m93c86_flush_image();
 }
 

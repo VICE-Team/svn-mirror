@@ -2465,7 +2465,7 @@ A line has 4 mandatory columns:
 
 @subsubsection Example
 
-Take this sample line from data/common/sdl_joymap_ds3.vjm
+Take this sample line from data/joymaps/sdl_joymap_ds3.vjm
 
 @example
 0 1 10 5 pause-toggle

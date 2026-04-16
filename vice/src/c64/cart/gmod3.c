@@ -99,10 +99,10 @@
     $DExx   bit7    Flash Dout
 */
 
-/* #define DEBUGGMOD3 */
+#define DEBUGGMOD3
 
 #ifdef DEBUGGMOD3
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -175,7 +175,7 @@ static const export_resource_t export_res = {
 uint8_t gmod3_io1_read(uint16_t addr)
 {
     gmod3_io1_device.io_source_valid = 0;
-    /* DBG(("io1 r %04x (cs:%d)\n", addr, eeprom_cs)); */
+    /* DBG(("GMod3 io1 r %04x (cs:%d)", addr, eeprom_cs)); */
 
     if (gmod3_bitbang_enabled) {
         if (eeprom_cs == 0) { /* active low */
@@ -215,7 +215,7 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
 {
     int mode = CMODE_WRITE;
 
-    DBG(("io1 w %04x %02x\n", addr, value));
+    DBG(("GMod3 io1 w %04x %02x", addr, value));
 
     addr &= 0xff;
 
@@ -226,11 +226,11 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
             eeprom_clock = (value >> 5) & 1;
             eeprom_data_in = (value >> 4) & 1;
 
-            DBG(("io1 w %04x %02x (cs:%d data:%d clock:%d)\n",
+            DBG(("GMod3 io1 w %04x %02x (cs:%d data:%d clock:%d)",
                 addr, value, eeprom_cs, eeprom_data_in, eeprom_clock));
         } else {
             gmod3_bank = value + ((addr & 0x07) << 8);
-            DBG(("io1 w %04x %02x (bank: %d)\n",
+            DBG(("GMod3 io1 w %04x %02x (bank: %d)",
                 addr, value, gmod3_bank));
         }
     } else if (addr == 0x08) {
@@ -245,7 +245,7 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
         } else if ((value & 0x40) == 0x40) {
             gmod3_cmode = CMODE_RAM;
         }
-        DBG(("io1 w %04x %02x (bitbang: %d vectors: %d mode: %d)\n",
+        DBG(("GMod3 io1 w %04x %02x (bitbang: %d vectors: %d mode: %d)",
             addr, value, gmod3_bitbang_enabled, gmod3_vectors_enabled, gmod3_cmode));
     }
 
@@ -277,7 +277,7 @@ static uint8_t vectors[8] = { 0x08, 0x00, 0x08, 0x00, 0x0c, 0x80, 0x0c, 0x00 };
 
 uint8_t gmod3_romh_read(uint16_t addr)
 {
-    DBG(("gmod3_romh_read %04x\n", addr));
+    DBG(("gmod3_romh_read %04x", addr));
     if (addr >= 0xfff8 /*&& addr <= 0xffff*/) {
         return vectors[addr & 7];
     }
@@ -371,6 +371,7 @@ void gmod3_config_setup(uint8_t *rawcart)
 
 static int set_gmod3_flash_write(int val, void *param)
 {
+    DBG(("set_gmod3_flash_write:%d", val));
     gmod3_flash_write = val ? 1 : 0;
 
     return 0;
@@ -430,6 +431,8 @@ int gmod3_bin_attach(const char *filename, uint8_t *rawcart)
     gmod3_flashsize = 0;
     memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
 
+    DBG(("gmod3_bin_attach:%s", filename));
+
     if (util_file_load(filename, rawcart, GMOD3_16MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, GMOD3_8MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             if (util_file_load(filename, rawcart, GMOD3_4MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -462,6 +465,8 @@ int gmod3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     gmod3_filename = NULL;
     gmod3_flashsize = 0;
     memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
+
+    DBG(("gmod3_crt_attach:%s", filename));
 
     for (i = 0; i < (GMOD3_16MB_FLASH_SIZE / 0x2000); i++) { /* FIXME */
         if (crt_read_chip_header(&chip, fd)) {
@@ -500,6 +505,8 @@ int gmod3_bin_save(const char *filename)
         return -1;
     }
 
+    DBG(("gmod3_bin_save:%s", filename));
+
     fd = fopen(filename, MODE_WRITE);
 
     if (fd == NULL) {
@@ -522,6 +529,8 @@ int gmod3_crt_save(const char *filename)
     crt_chip_header_t chip;
     uint8_t *data;
     int i;
+
+    DBG(("gmod3_crt_save:%s", filename));
 
     fd = crt_create(filename, CARTRIDGE_GMOD3, 1, 0, STRING_GMOD3);
 
@@ -551,6 +560,7 @@ int gmod3_crt_save(const char *filename)
 
 int gmod3_flush_image(void)
 {
+    DBG(("gmod3_flush_image:%d", gmod3_filetype));
     if (gmod3_filetype == CARTRIDGE_FILETYPE_BIN) {
         return gmod3_bin_save(gmod3_filename);
     } else if (gmod3_filetype == CARTRIDGE_FILETYPE_CRT) {
@@ -561,6 +571,7 @@ int gmod3_flush_image(void)
 
 void gmod3_detach(void)
 {
+    DBG(("gmod3_detach"));
     if (gmod3_flash_write /* && flashrom_state->flash_dirty */) {
         gmod3_flush_image();
     }

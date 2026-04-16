@@ -65,7 +65,7 @@
 #define MMCREPLAY_FLASHROM_SIZE (1024 * 512)
 #define MMCREPLAY_RAM_SIZE (1024 * 512)
 
-/* #define MMCRDEBUG */
+#define MMCRDEBUG
 
 #ifdef MMCRDEBUG
 #define DEBUG_LOGBANKS    /* log access to banked rom/ram */
@@ -2633,6 +2633,7 @@ void mmcreplay_config_setup(uint8_t *rawcart)
 
 static int set_mmcr_clockport_device(int val, void *param)
 {
+    LOG(("set_mmcr_clockport_device: %d", val));
     if (val == clockport_device_id) {
         return 0;
     }
@@ -2660,6 +2661,7 @@ static int set_mmcr_clockport_device(int val, void *param)
 
 static int clockport_activate(void)
 {
+    LOG(("clockport_activate"));
     if (mmcr_enabled) {
         return 0;
     }
@@ -2677,6 +2679,7 @@ static int clockport_activate(void)
 
 static int clockport_deactivate(void)
 {
+    LOG(("clockport_deactivate"));
     if (!mmcr_enabled) {
         return 0;
     }
@@ -2721,6 +2724,7 @@ int mmcreplay_bin_attach(const char *filename, uint8_t *rawcart)
     mmcr_filetype = 0;
     mmcr_filename = NULL;
 
+    LOG(("mmcreplay_bin_attach filename:%s", filename));
     if (util_file_load(filename, rawcart, MMCREPLAY_FLASHROM_SIZE,
                        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         /* also try loading one 64k bank */
@@ -2745,6 +2749,7 @@ int mmcreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     mmcr_filetype = 0;
     mmcr_filename = NULL;
 
+    LOG(("mmcreplay_crt_attach filename:%s", filename));
     memset(rawcart, 0xff, 0x80000);
 
     for (i = 0; i <= 63; i++) {
@@ -2791,6 +2796,7 @@ int mmcreplay_bin_save(const char *filename)
     FILE *fd;
     int i, n = 0;
 
+    LOG(("mmcreplay_bin_save filename:%s", filename));
     if (filename == NULL) {
         return -1;
     }
@@ -2829,6 +2835,7 @@ int mmcreplay_crt_save(const char *filename)
     uint8_t *data;
     int i, n = 0;
 
+    LOG(("mmcreplay_crt_save filename:%s", filename));
     fd = crt_create(filename, CARTRIDGE_MMC_REPLAY, 1, 0, STRING_MMC_REPLAY);
 
     if (fd == NULL) {
@@ -2877,6 +2884,7 @@ int mmcreplay_crt_save(const char *filename)
 
 int mmcreplay_flush_image(void)
 {
+    LOG(("mmcreplay_flush_image mmcr_filetype:%d", mmcr_filetype));
     if (mmcr_filetype == CARTRIDGE_FILETYPE_BIN) {
         return mmcreplay_bin_save(mmcr_filename);
     } else if (mmcr_filetype == CARTRIDGE_FILETYPE_CRT) {
@@ -2887,12 +2895,14 @@ int mmcreplay_flush_image(void)
 
 int mmcreplay_save_eeprom(const char *filename)
 {
+    LOG(("mmcreplay_save_eeprom:%s", filename));
     log_error(LOG_DEFAULT, "FIXME: mmcreplay_save_eeprom not implemented");
     return -1;
 }
 
 int mmcreplay_flush_eeprom(void)
 {
+    LOG(("mmcreplay_flush_eeprom"));
     log_error(LOG_DEFAULT, "FIXME: mmcreplay_flush_eeprom not implemented");
     return -1;
 }
@@ -2936,6 +2946,7 @@ int mmcreplay_cart_enabled(void)
 
 static int set_mmcr_card_filename(const char *name, void *param)
 {
+    LOG(("set_mmcr_card_filename:%s", name));
     if (mmcr_card_filename != NULL && name != NULL && strcmp(name, mmcr_card_filename) == 0) {
         return 0;
     }
@@ -2957,6 +2968,7 @@ static int set_mmcr_card_filename(const char *name, void *param)
 
 static int set_mmcr_eeprom_filename(const char *name, void *param)
 {
+    LOG(("set_mmcr_eeprom_filename:%s", name));
     if (mmcr_eeprom_filename != NULL && name != NULL && strcmp(name, mmcr_eeprom_filename) == 0) {
         return 0;
     }
@@ -2978,6 +2990,7 @@ static int set_mmcr_eeprom_filename(const char *name, void *param)
 
 static int set_mmcr_card_rw(int val, void* param)
 {
+    LOG(("set_mmcr_card_rw:%d", val));
     mmcr_card_rw = val ? 1 : 0;
 
     if (mmcr_enabled) {
@@ -2989,18 +3002,21 @@ static int set_mmcr_card_rw(int val, void* param)
 
 static int set_mmcr_eeprom_rw(int val, void* param)
 {
+    LOG(("set_mmcr_eeprom_rw:%d", val));
     mmcr_eeprom_rw = val ? 1 : 0;
     return 0;
 }
 
 static int set_mmcr_rescue_mode(int val, void* param)
 {
+    LOG(("set_mmcr_rescue_mode:%d", val));
     enable_rescue_mode = val ? 1 : 0;
     return 0;
 }
 
 static int set_mmcr_sd_type(int val, void* param)
 {
+    LOG(("set_mmcr_sd_type:%d", val));
     switch (val) {
         case MMCR_TYPE_AUTO:
         case MMCR_TYPE_MMC:
@@ -3017,6 +3033,7 @@ static int set_mmcr_sd_type(int val, void* param)
 
 static int set_mmcr_image_write(int val, void *param)
 {
+    LOG(("set_mmcr_image_write:%d", val));
     mmcr_write_image = val ? 1 : 0;
 
     return 0;
