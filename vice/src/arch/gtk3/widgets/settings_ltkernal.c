@@ -272,6 +272,8 @@ static int create_hd_images_layout(GtkWidget *grid, int row, int columns)
     GtkWidget *label;
     int        disk;
 
+    /* FIXME: HD-image Widget should also be implemented in common code */
+
     /* create header */
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label),

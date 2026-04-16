@@ -63,7 +63,7 @@
 /* FIXME: test and then remove all old code */
 #define USEPASSTHROUGHHACK 1 /* define 1 to use the passthrough hack */
 
-/* #define MMC64DEBUG */
+#define MMC64DEBUG
 
 /*
 #define LOG_READ_DF10
@@ -448,18 +448,18 @@ static int set_mmc64_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    LOG(("MMC64: set_enabled: '%s' %d to %d", mmc64_bios_filename, mmc64_enabled, val));
+    LOG(("MMC64: set_mmc64_enabled: '%s' %d to %d", mmc64_bios_filename, mmc64_enabled, value));
     if (!mmc64_enabled && val) {
         /* activate mmc64 */
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
-            LOG(("MMC64: set_enabled(1) '%s'", mmc64_bios_filename));
+            LOG(("MMC64: set_mmc64_enabled(1) '%s'", mmc64_bios_filename));
             if (mmc64_bios_filename) {
                 if (*mmc64_bios_filename) {
                     /* try .crt first */
                     if ((cartridge_attach_image(CARTRIDGE_CRT, mmc64_bios_filename) < 0) &&
                         (cartridge_attach_image(CARTRIDGE_MMC64, mmc64_bios_filename) < 0)) {
-                        LOG(("MMC64: set_enabled(1) did not register"));
+                        LOG(("MMC64: set_mmc64_enabled(1) did not register"));
                         return -1;
                     }
                     /* mmc64_enabled = 1; */ /* cartridge_attach_image will end up calling set_mmc64_enabled again */
@@ -467,14 +467,14 @@ static int set_mmc64_enabled(int value, void *param)
                 }
             }
         } else {
-            LOG(("MMC64: set_enabled(0) '%s'", mmc64_bios_filename));
+            LOG(("MMC64: set_mmc64_enabled(0) '%s'", mmc64_bios_filename));
             cart_power_off();
             /* if the param is == NULL, then we should actually set the resource */
             if (export_add(&export_res) < 0) {
-                LOG(("MMC64: set_enabled(0) did not register"));
+                LOG(("MMC64: set_mmc64_enabled(0) did not register"));
                 return -1;
             } else {
-                LOG(("MMC64: set_enabled registered"));
+                LOG(("MMC64: set_mmc64_enabled registered"));
 
                 if (mmc64_activate() < 0) {
                     return -1;
@@ -512,7 +512,7 @@ static int set_mmc64_enabled(int value, void *param)
         mmc64_io1_list_item = NULL;
         mmc64_io2_list_item = NULL;
     }
-    LOG(("MMC64: set_enabled done: '%s' %d : %d", mmc64_bios_filename, val, mmc64_enabled));
+    LOG(("MMC64: set_mmc64_enabled done: '%s' %d : %d", mmc64_bios_filename, val, mmc64_enabled));
     return 0;
 }
 
@@ -546,6 +546,7 @@ static int set_mmc64_flashjumper(int val, void *param)
 
 static int set_mmc64_revision(int val, void *param)
 {
+    LOG(("set_mmc64_revision: %d", val));
     switch (val) {
         case MMC64_REV_A:
         case MMC64_REV_B:
@@ -561,6 +562,7 @@ static int set_mmc64_revision(int val, void *param)
 
 static int set_mmc64_sd_type(int val, void *param)
 {
+    LOG(("set_mmc64_sd_type:%d", val));
     switch (val) {
         case MMC64_TYPE_AUTO:
         case MMC64_TYPE_MMC:
@@ -578,6 +580,7 @@ static int set_mmc64_sd_type(int val, void *param)
 
 static int set_mmc64_bios_write(int val, void *param)
 {
+    LOG(("set_mmc64_bios_write:%d", val));
     mmc64_bios_write = val ? 1 : 0;
     return 0;
 }
@@ -586,12 +589,13 @@ static int set_mmc64_bios_filename(const char *name, void *param)
 {
     int enabled;
 
+    LOG(("MMC64: set_mmc64_bios_filename:%s", name));
     if (name != NULL && *name != '\0') {
         if (util_check_filename_access(name) < 0) {
             return -1;
         }
     }
-    LOG(("MMC64: set_name: %d '%s'", mmc64_enabled, mmc64_bios_filename));
+    LOG(("MMC64: set_mmc64_bios_filename: %d '%s'", mmc64_enabled, mmc64_bios_filename));
 
     util_string_set(&mmc64_bios_filename, name);
     resources_get_int("MMC64", &enabled);
@@ -599,16 +603,18 @@ static int set_mmc64_bios_filename(const char *name, void *param)
     if (set_mmc64_enabled(enabled, (void*)1) < 0) {
         lib_free(mmc64_bios_filename);
         mmc64_bios_filename = NULL;
-        LOG(("MMC64: set_name done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
+        LOG(("MMC64: set_mmc64_bios_filename done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
         return -1;
     }
-    LOG(("MMC64: set_name done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
+    /* should be enabled now */
+    LOG(("MMC64: set_mmc64_bios_filename done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
 
     return 0;
 }
 
 static int set_mmc64_image_filename(const char *name, void *param)
 {
+    LOG(("MMC64: set_mmc64_image_filename:%s", name));
     if (mmc64_image_filename != NULL && name != NULL && strcmp(name, mmc64_image_filename) == 0) {
         return 0;
     }
@@ -1300,6 +1306,7 @@ int mmc64_bin_save(const char *filename)
     FILE *fd;
     size_t ret;
 
+    LOG(("mmc64_bin_save:%s", filename));
     if (filename == NULL) {
         return -1;
     }
@@ -1323,6 +1330,7 @@ int mmc64_crt_save(const char *filename)
     FILE *fd;
     crt_chip_header_t chip;
 
+    LOG(("mmc64_crt_save:%s", filename));
     fd = crt_create(filename, CARTRIDGE_MMC64, 1, 0, STRING_MMC64);
 
     if (fd == NULL) {
@@ -1348,6 +1356,7 @@ int mmc64_bin_attach(const char *filename, uint8_t *rawcart)
     int amount_read = 0;
     FILE *fd;
 
+    LOG(("mmc64_bin_attach:%s", filename));
     fd = fopen(filename, MODE_READ);
     if (!fd) {
         return -1;
@@ -1370,6 +1379,7 @@ int mmc64_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
 
+    LOG(("mmc64_crt_attach:%s", filename));
     if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
@@ -1390,6 +1400,7 @@ int mmc64_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 
 int mmc64_flush_image(void)
 {
+    LOG(("mmc64_flush_image:%d", mmc64_bios_type));
     if (mmc64_bios_type == CARTRIDGE_FILETYPE_BIN) {
         return mmc64_bin_save(mmc64_bios_filename);
     } else if (mmc64_bios_type == CARTRIDGE_FILETYPE_CRT) {

@@ -238,6 +238,8 @@ static GtkWidget *create_ide64_device_widget(int device)
         "*.hdd", "*.iso", "*.fdd", "*.cfa", "*.dsk", "*.img", NULL
     };
 
+    /* FIXME: HD-image Widget should also be implemented in common code */
+
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);

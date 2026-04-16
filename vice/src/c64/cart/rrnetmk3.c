@@ -69,7 +69,7 @@
       - a write to $de88 disables the ROM
 */
 
-/* #define RRNETMK3DEBUG */
+#define RRNETMK3DEBUG
 
 #ifdef RRNETMK3DEBUG
 #define LOG(_x_) log_printf  _x_
@@ -168,13 +168,14 @@ void rrnetmk3_reset(void)
 
 static int set_rrnetmk3_flashjumper(int val, void *param)
 {
+    LOG(("RRNETMK3 set_rrnetmk3_flashjumper: %d", val));
     rrnetmk3_hw_flashjumper = val ? 1 : 0;
-    LOG(("RRNETMK3 Flashjumper: %d", rrnetmk3_hw_flashjumper));
     return 0;
 }
 
 static int set_rrnetmk3_bios_write(int val, void *param)
 {
+    LOG(("RRNETMK3 set_rrnetmk3_bios_write: %d", val));
     rrnetmk3_bios_write = val ? 1 : 0;
     return 0;
 }
@@ -413,6 +414,7 @@ int rrnetmk3_bin_save(const char *filename)
         return -1;
     }
 
+    LOG(("rrnetmk3_bin_save: %s", filename));
     fd = fopen(filename, MODE_WRITE);
     if (fd == NULL) {
         return -1;
@@ -432,6 +434,7 @@ int rrnetmk3_crt_save(const char *filename)
     FILE *fd;
     crt_chip_header_t chip;
 
+    LOG(("rrnetmk3_crt_save: %s", filename));
     fd = crt_create(filename, CARTRIDGE_RRNETMK3, 1, 0, STRING_RRNETMK3);
 
     if (fd == NULL) {
@@ -457,6 +460,7 @@ int rrnetmk3_bin_attach(const char *filename, uint8_t *rawcart)
     int amount_read = 0;
     FILE *fd;
 
+    LOG(("rrnetmk3_bin_attach: %s", filename));
     fd = fopen(filename, MODE_READ);
     if (!fd) {
         return -1;
@@ -479,6 +483,7 @@ int rrnetmk3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
 
+    LOG(("rrnetmk3_crt_attach: %s", filename));
     if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
@@ -499,6 +504,7 @@ int rrnetmk3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 
 int rrnetmk3_flush_image(void)
 {
+    LOG(("rrnetmk3_flush_image: %d", rrnetmk3_bios_type));
     if (rrnetmk3_bios_type == CARTRIDGE_FILETYPE_BIN) {
         return rrnetmk3_bin_save(rrnetmk3_bios_filename);
     } else if (rrnetmk3_bios_type == CARTRIDGE_FILETYPE_CRT) {

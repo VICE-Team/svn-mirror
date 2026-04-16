@@ -69,8 +69,10 @@
 #include "vicesocket.h"
 #include "vicii-phi1.h"
 
+#define IDE64_DEBUG
+
 #ifdef IDE64_DEBUG
-#define debug(x) log_printf (x)
+#define debug(x) log_printf x
 #else
 #define debug(x)
 #endif
@@ -402,7 +404,7 @@ static void detect_ide64_image(struct drive_s *drive)
         drive->type = ATA_DRIVE_NONE;
         return;
     }
-    debug("IDE64 detect");
+    debug(("IDE64 detect"));
     geometry->cylinders = drive->settings.cylinders;
     geometry->heads = drive->settings.heads;
     geometry->sectors = drive->settings.sectors;
@@ -676,6 +678,8 @@ static int set_usbserver_address(const char *name, void *param)
 
 static int set_ide64_clockport_device(int val, void *param)
 {
+    debug(("set_ide64_clockport_device val:%d", val));
+
     if (val == clockport_device_id) {
         return 0;
     }
@@ -786,7 +790,7 @@ int ide64_resources_init(void)
 {
     int i;
 
-    debug("IDE64 resource init");
+    debug(("IDE64 resource init"));
     for (i = 0; i < 4; i++) {
         drives[i].drv = NULL;
         drives[i].filename = NULL;
@@ -808,7 +812,7 @@ int ide64_resources_shutdown(void)
 {
     int i;
 
-    debug("IDE64 resource shutdown");
+    debug(("IDE64 resource shutdown"));
 
     for (i = 0; i < 4; i++) {
         if (drives[i].filename) {
@@ -1477,7 +1481,7 @@ void ide64_config_init(void)
     int i;
     struct drive_s *drive;
 
-    debug("IDE64 init");
+    debug(("IDE64 init"));
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ | CMODE_PHI2_RAM);
     current_bank = 0;
     current_cfg = 0;
@@ -1498,7 +1502,7 @@ void ide64_config_init(void)
 
 void ide64_config_setup(uint8_t *rawcart)
 {
-    debug("IDE64 setup");
+    debug(("IDE64 setup"));
     memcpy(roml_banks, rawcart, 0x80000);
     memset(export_ram0, 0, 0x8000);
 }
@@ -1527,7 +1531,7 @@ void ide64_detach(void)
 
     shortbus_unregister();
 
-    debug("IDE64 detached");
+    debug(("IDE64 detached"));
 }
 
 static int ide64_common_attach(uint8_t *rawcart, int detect)
@@ -1559,7 +1563,7 @@ static int ide64_common_attach(uint8_t *rawcart, int detect)
 
     usbserver_activate(settings_usbserver);
 
-    debug("IDE64 attached");
+    debug(("IDE64 attached"));
 
     shortbus_register();
 
@@ -1571,6 +1575,7 @@ int ide64_bin_attach(const char *filename, uint8_t *rawcart)
     off_t len;
     FILE *fd;
 
+    debug(("ide64_bin_attach:%s", filename));
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
         return -1;
@@ -1597,6 +1602,7 @@ int ide64_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int i;
 
+    debug(("ide64_crt_attach"));
     for (i = 0; i <= 31; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             if (i == 4 || i == 8) {

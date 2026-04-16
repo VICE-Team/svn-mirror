@@ -35,62 +35,6 @@
 
 #include "settings_rrnetmk3.h"
 
-
-/** \brief  Callback for the save-dialog response handler
- *
- * \param[in,out]   dialog      save-file dialog
- * \param[in,out]   filename    filename
- * \param[in]       data        extra data (unused)
- */
-static void save_filename_callback(GtkDialog *dialog,
-                                  gchar      *filename,
-                                  gpointer    data)
-{
-    if (filename != NULL) {
-        if (cartridge_save_image(CARTRIDGE_RRNETMK3, filename) < 0) {
-            vice_gtk3_message_error(GTK_WINDOW(dialog),
-                                    CARTRIDGE_NAME_RRNETMK3 " Error",
-                                    "Failed to save image as '%s'",
-                                    filename);
-        }
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-/** \brief  Handler for the "clicked" event of the "Save As" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_save_clicked(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *dialog;
-
-    dialog = vice_gtk3_save_file_dialog("Save " CARTRIDGE_NAME_RRNETMK3 " image as",
-                                        NULL,
-                                        TRUE,
-                                        NULL,
-                                        save_filename_callback,
-                                        NULL);
-    gtk_widget_show(dialog);
-}
-
-/** \brief  Handler for the "clicked" event of the "Flush now" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
-{
-    if (cartridge_flush_image(CARTRIDGE_RRNETMK3) < 0) {
-        vice_gtk3_message_error(GTK_WINDOW(gtk_widget_get_toplevel(widget)),
-                                CARTRIDGE_NAME_RRNETMK3 " Error",
-                                "Failed to flush image.");
-    }
-}
-
-
 /** \brief  Create widget to control RRNet Mk3 resources
  *
  * \param[in]   parent  parent widget (unused)
@@ -100,12 +44,10 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *box;
     GtkWidget *flash_label;
     GtkWidget *flash_jumper;
-    GtkWidget *bios_write;
-    GtkWidget *save_button;
-    GtkWidget *flush_button;
+    GtkWidget *primary;
+    int row = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -119,40 +61,25 @@ GtkWidget *settings_rrnetmk3_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(flash_jumper, GTK_ALIGN_START);
     gtk_widget_set_valign(flash_jumper, GTK_ALIGN_CENTER);
 
-    /* RRBiosWrite */
-    bios_write = vice_gtk3_resource_check_button_new("RRNETMK3_bios_write",
-            "Write back " CARTRIDGE_NAME_RRNETMK3 " Flash ROM image automatically");
-    gtk_widget_set_valign(bios_write, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(bios_write, 8);
+    gtk_grid_attach(GTK_GRID(grid), flash_label,  0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flash_jumper, 1, row, 1, 1);
+    row++;
 
-    /* wrap buttons in button box */
-    box = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-    gtk_box_set_spacing(GTK_BOX(box), 8);
-    gtk_widget_set_hexpand(box, TRUE);
-    gtk_widget_set_halign(box, GTK_ALIGN_END);
-    gtk_widget_set_margin_top(box, 8);
+    primary = cart_image_widget_new(CARTRIDGE_RRNETMK3,        /* cart id */
+                                    CARTRIDGE_NAME_RRNETMK3,   /* cart name */
+                                    CART_IMAGE_PRIMARY,     /* image number */
+                                    "cartridge",            /* image tag */
+                                    NULL,                   /* resource name */
+                                    TRUE,                   /* flush button */
+                                    TRUE                    /* save button */
+                                    );
+    cart_image_widget_append_check(primary,
+                                   "RRNETMK3_bios_write",
+                                   "Save image when changed");
 
-    /* Save image as .. */
-    save_button = gtk_button_new_with_label("Save image as ..");
-    g_signal_connect(save_button,
-                     "clicked",
-                     G_CALLBACK(on_save_clicked),
-                     NULL);
 
-    /* Flush image */
-    flush_button = gtk_button_new_with_label("Flush image");
-    g_signal_connect(flush_button,
-                     "clicked",
-                     G_CALLBACK(on_flush_clicked),
-                     NULL);
-
-    gtk_box_pack_start(GTK_BOX(box), save_button,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(box), flush_button, FALSE, FALSE, 0);
-
-    gtk_grid_attach(GTK_GRID(grid), flash_label,  0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flash_jumper, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bios_write,   0, 1, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), box,          3, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), primary,   0, row, 4, 1);
+    row++;
 
     gtk_widget_show_all(grid);
     return grid;

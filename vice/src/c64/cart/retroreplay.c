@@ -45,6 +45,7 @@
 #include "export.h"
 #include "flash040.h"
 #include "lib.h"
+#include "log.h"
 #include "maincpu.h"
 #include "monitor.h"
 #include "ram.h"
@@ -79,10 +80,10 @@
 
 */
 
-/* #define DEBUGRR */
+#define DEBUGRR
 
 #ifdef DEBUGRR
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -278,7 +279,7 @@ uint8_t retroreplay_io1_read(uint16_t addr)
 {
     retroreplay_io1_device.io_source_valid = 0;
 
-/* DBG(("io1 r %04x\n",addr)); */
+/* DBG(("io1 r %04x",addr)); */
 
     if (rr_active) {
         switch (addr & 0xff) {
@@ -329,7 +330,7 @@ void retroreplay_io1_store(uint16_t addr, uint8_t value)
 {
     int mode = CMODE_WRITE;
 
-    DBG(("io1 w %04x %02x\n", addr, value));
+    /* DBG(("RR io1 w %04x %02x", addr, value)); */
 
     if (rr_active) {
         switch (addr & 0xff) {
@@ -474,7 +475,7 @@ uint8_t retroreplay_io2_read(uint16_t addr)
 {
     retroreplay_io2_device.io_source_valid = 0;
 
-    DBG(("io2 r %04x\n", addr));
+    DBG(("io2 r %04x", addr));
 
     if (rr_active) {
         if ((!reu_mapping) && (!rr_frozen)) {
@@ -500,7 +501,7 @@ uint8_t retroreplay_io2_read(uint16_t addr)
 
 void retroreplay_io2_store(uint16_t addr, uint8_t value)
 {
-    DBG(("io2 w %04x %02x\n", addr, value));
+    DBG(("io2 w %04x %02x", addr, value));
 
     if (rr_active) {
         if ((!reu_mapping) && (!rr_frozen)) {
@@ -543,7 +544,7 @@ uint8_t retroreplay_roml_read(uint16_t addr)
 
 void retroreplay_roml_store(uint16_t addr, uint8_t value)
 {
-/*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
+/*    DBG(("roml w %04x %02x ram:%d flash:%d", addr, value, export_ram, rr_hw_flashjumper)); */
     if (export_ram) {
         export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)] = value;
     } else {
@@ -559,7 +560,7 @@ void retroreplay_roml_store(uint16_t addr, uint8_t value)
 
 int retroreplay_roml_no_ultimax_store(uint16_t addr, uint8_t value)
 {
-/*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
+/*    DBG(("roml w %04x %02x ram:%d flash:%d", addr, value, export_ram, rr_hw_flashjumper)); */
     if (rr_hw_flashjumper) {
         if (export_ram) {
             export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)] = value;
@@ -808,7 +809,7 @@ int retroreplay_freeze_allowed(void)
 
 void retroreplay_config_init(void)
 {
-    DBG(("retroreplay_config_init flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
+    DBG(("retroreplay_config_init flash:%d bank jumper: %d offset: %08x", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
 
     rr_active = 1;
     rr_frozen = 0;
@@ -831,7 +832,7 @@ void retroreplay_config_init(void)
 
 void retroreplay_reset(void)
 {
-    DBG(("retroreplay_reset flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
+    DBG(("retroreplay_reset flash:%d bank jumper: %d offset: %08x", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
     rr_active = 1;
     rr_frozen = 0;
 
@@ -853,7 +854,7 @@ void retroreplay_reset(void)
 
 void retroreplay_config_setup(uint8_t *rawcart)
 {
-    DBG(("retroreplay_config_setup bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
+    DBG(("retroreplay_config_setup bank jumper: %d offset: %08x", rr_hw_bankjumper, rom_offset));
 
     if (rr_hw_flashjumper) {
         rr_cmode = CMODE_RAM;
@@ -879,6 +880,7 @@ int retroreplay_cart_enabled(void)
 static int set_rr_revision(int val, void *param)
 {
     rr_revision = val ? 1 : 0;
+    DBG(("set_rr_revision: %d", rr_revision));
 
     if (rr_active) {
         maincpu_resync_limits();
@@ -889,7 +891,7 @@ static int set_rr_revision(int val, void *param)
 static int set_rr_flashjumper(int val, void *param)
 {
     rr_hw_flashjumper = val ? 1 : 0;
-    DBG(("set_rr_flashjumper: %d\n", rr_hw_flashjumper));
+    DBG(("set_rr_flashjumper: %d", rr_hw_flashjumper));
     return 0;
 }
 
@@ -910,19 +912,21 @@ static int set_rr_bankjumper(int val, void *param)
     if (rr_active) {
         maincpu_resync_limits();
     }
-    DBG(("bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
+    DBG(("set_rr_bankjumper bank jumper: %d offset: %08x", rr_hw_bankjumper, rom_offset));
     return 0;
 }
 
 static int set_rr_bios_write(int val, void *param)
 {
     rr_bios_write = val ? 1 : 0;
+    DBG(("set_rr_bios_write: %d", rr_bios_write));
 
     return 0;
 }
 
 static int set_rr_clockport_device(int val, void *param)
 {
+    DBG(("set_rr_clockport_device: %d", val));
     if (val == clockport_device_id) {
         return 0;
     }
@@ -950,6 +954,7 @@ static int set_rr_clockport_device(int val, void *param)
 
 static int clockport_activate(void)
 {
+    DBG(("clockport_activate"));
     if (rr_enabled) {
         return 0;
     }
@@ -967,6 +972,7 @@ static int clockport_activate(void)
 
 static int clockport_deactivate(void)
 {
+    DBG(("clockport_deactivate"));
     if (!rr_enabled) {
         return 0;
     }
@@ -1099,6 +1105,8 @@ int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
     retroreplay_filetype = 0;
     retroreplay_filename = NULL;
 
+    DBG(("retroreplay_bin_attach:%s", filename));
+
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
         return -1;
@@ -1151,6 +1159,8 @@ int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename, uin
     retroreplay_filetype = 0;
     retroreplay_filename = NULL;
 
+    DBG(("retroreplay_crt_attach:%s", filename));
+
     for (i = 0; i <= 15; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
@@ -1202,6 +1212,8 @@ int retroreplay_bin_save(const char *filename)
         return -1;
     }
 
+    DBG(("retroreplay_bin_save:%s", filename));
+
     fd = fopen(filename, MODE_WRITE);
 
     if (fd == NULL) {
@@ -1233,6 +1245,8 @@ int retroreplay_crt_save(const char *filename)
     crt_chip_header_t chip;
     uint8_t *data;
     int i;
+
+    DBG(("retroreplay_crt_save:%s", filename));
 
     fd = crt_create_v11(filename, CARTRIDGE_RETRO_REPLAY, rr_revision, 1, 0, STRING_RETRO_REPLAY);
 
@@ -1277,6 +1291,8 @@ int retroreplay_crt_save(const char *filename)
 
 int retroreplay_flush_image(void)
 {
+    DBG(("retroreplay_flush_image:%d", retroreplay_filetype));
+
     if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
         return retroreplay_bin_save(retroreplay_filename);
     } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {
@@ -1287,6 +1303,7 @@ int retroreplay_flush_image(void)
 
 void retroreplay_detach(void)
 {
+    DBG(("retroreplay_detach"));
     if (rr_bios_write && flashrom_state->flash_dirty) {
         retroreplay_flush_image();
     }

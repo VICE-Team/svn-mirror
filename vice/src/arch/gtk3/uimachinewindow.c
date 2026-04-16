@@ -674,7 +674,8 @@ static void machine_window_create(video_canvas_t *canvas)
     machine_window_log = log_open("Window");
 
     /* hack to determine window index for use in UI action handling later */
-    if (strcmp(canvas->videoconfig->chip_name, "VDC") == 0) {
+    if (canvas && canvas->videoconfig && canvas->videoconfig->chip_name &&
+        strcmp(canvas->videoconfig->chip_name, "VDC") == 0) {
         window_id = SECONDARY_WINDOW;
     }
 

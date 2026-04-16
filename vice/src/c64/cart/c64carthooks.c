@@ -2821,10 +2821,7 @@ int cartridge_can_flush_image(int crtid)
 {
     const char *p;
 
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
-        return c128cartridge->can_flush_image(crtid);
-    }
-
+    /* cart must be enabled and a filename set */
     if (!cartridge_type_enabled(crtid)) {
         return 0;
     }
@@ -2832,18 +2829,23 @@ int cartridge_can_flush_image(int crtid)
     if ((p == NULL) || (*p == '\x0')) {
         return 0;
     }
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_flush_image(crtid);
+    }
     return 1;
 }
 
 /* returns 1 when secondary cartridge image can be flushed */
 int cartridge_can_flush_secondary_image(int crtid)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
-        return c128cartridge->can_flush_secondary_image(crtid);
-    }
-
+    /* cart must be enabled */
     if (!cartridge_type_enabled(crtid)) {
         return 0;
+    }
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_flush_secondary_image(crtid);
     }
 
     switch (crtid) {
@@ -2866,12 +2868,13 @@ int cartridge_can_flush_secondary_image(int crtid)
 /* returns 1 when cartridge (ROM) image can be saved */
 int cartridge_can_save_image(int crtid)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
-        return c128cartridge->can_save_image(crtid);
-    }
-
+    /* cart must be enabled */
     if (!cartridge_type_enabled(crtid)) {
         return 0;
+    }
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_save_image(crtid);
     }
 
     return 1;
@@ -2880,12 +2883,13 @@ int cartridge_can_save_image(int crtid)
 /* returns 1 when secondary cartridge image can be saved */
 int cartridge_can_save_secondary_image(int crtid)
 {
-    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
-        return c128cartridge->can_save_secondary_image(crtid);
-    }
-
+    /* cart must be enabled */
     if (!cartridge_type_enabled(crtid)) {
         return 0;
+    }
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(crtid)) {
+        return c128cartridge->can_save_secondary_image(crtid);
     }
 
     switch (crtid) {

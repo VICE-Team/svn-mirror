@@ -93,7 +93,7 @@
     range of $de00-$deff
 */
 
-/* #define DBGDQBB */
+#define DBGDQBB
 
 #ifdef DBGDQBB
 #define DBG(x) log_printf  x
@@ -369,6 +369,7 @@ static int set_dqbb_filename(const char *name, void *param)
 
 static int set_dqbb_image_write(int val, void *param)
 {
+    DBG(("set_dqbb_image_write: val:%d", val));
     dqbb_write_image = val ? 1 : 0;
 
     return 0;
@@ -563,6 +564,7 @@ int dqbb_disable(void)
 
 int dqbb_bin_attach(const char *filename, uint8_t *rawcart)
 {
+    DBG(("dqbb_bin_attach: %s", filename));
     if (util_file_load(filename, rawcart, dqbb_size * 0x400, UTIL_FILE_LOAD_RAW) < 0) {
         return -1;
     }
@@ -580,6 +582,7 @@ int dqbb_bin_save(const char *filename)
         return -1;
     }
 
+    DBG(("dqbb_bin_save: %s", filename));
     if (util_file_save(filename, dqbb_ram, dqbb_size * 0x400) < 0) {
         return -1;
     }
@@ -588,6 +591,7 @@ int dqbb_bin_save(const char *filename)
 
 int dqbb_flush_image(void)
 {
+    DBG(("dqbb_flush_image"));
     return dqbb_bin_save(dqbb_filename);
 }
 
