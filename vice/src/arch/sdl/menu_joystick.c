@@ -32,6 +32,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "mouse.h"
@@ -47,6 +48,14 @@
 #include "vice_sdl.h"
 
 #include "menu_joystick.h"
+
+/*#define DEBUG_MENU_JOYSTICK*/
+
+#ifdef DEBUG_MENU_JOYSTICK
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 
 UI_MENU_DEFINE_RADIO(JoyDevice1)
@@ -560,14 +569,24 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     }
 
     if (activated) {
+        DBG(("custom_joymap_callback port:%d pin: %02x", port, (unsigned)pin));
         target = lib_msprintf("Port %i %s", port + 1, joy_pin[port][pin]);
         e = sdl_ui_poll_event("controller", target, joystick_device, 0, 1, 0, 5);
         lib_free(target);
+        DBG(("custom_joymap_callback: e.type:%02x", e.type));
 
         switch (e.type) {
             case SDL_JOYAXISMOTION:
+                DBG(("custom_joymap_callback: (SDL_JOYAXISMOTION %d) sdljoy_set_joystick %02x (pin:%d)",
+                     e.jaxis.value, 1U << pin, pin));
+                sdljoy_set_joystick(e, 1 << pin);
+                break;
             case SDL_JOYBUTTONDOWN:
+                DBG(("custom_joymap_callback: (SDL_JOYBUTTONDOWN) sdljoy_set_joystick %02x (pin:%d)", 1U << pin, pin));
+                sdljoy_set_joystick(e, 1 << pin);
+                break;
             case SDL_JOYHATMOTION:
+                DBG(("custom_joymap_callback: (SDL_JOYHATMOTION) sdljoy_set_joystick %02x (pin:%d)", 1U << pin, pin));
                 sdljoy_set_joystick(e, 1 << pin);
                 break;
             case SDL_KEYDOWN:
