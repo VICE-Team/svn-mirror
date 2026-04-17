@@ -352,10 +352,16 @@ static void on_romset_save_callback(GtkDialog *dialog,
         const char **roms = get_all_resource_names();
 
         if (romset_file_save(filename, roms) != 0) {
+/* On Windows the main thread stops responding when we use the dialog as
+   parent here, see bug #2205 */
+#ifdef WINDOWS_COMPILE
+            ui_error("Failed to save ROM set file %s.", filename);
+#else
             vice_gtk3_message_error(GTK_WINDOW(dialog),
                                     "VICE error",
                                     "Failed to save ROM set file %s.",
                                     filename);
+#endif
         }
         lib_free(roms);
         g_free(filename);

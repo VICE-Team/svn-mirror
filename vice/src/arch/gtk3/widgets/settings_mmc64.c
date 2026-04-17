@@ -166,14 +166,21 @@ static int create_card_image_layout(GtkWidget *grid, int row, int columns)
     return row + 1;
 }
 
-static void on_enable_clicked(GtkWidget *widget, gpointer user_data)
-{
-    /*GtkWidget *parent = gtk_widget_get_toplevel(widget);*/
-    int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    DBG(("MMC64 on_enable_clicked: %d", enabled));
-    /* FIXME: update save/flush button(s) */
+/** \brief  Handler for the 'toggled' event of the "Enable" check button
+ *
+ * Update sensitivity of the cart image widget's buttons when enabling/disabling
+ * MMC64 emulation.
+ *
+ * \param[in]   self    check button (ignored)
+ * \param[in]   image   cartridge image widget
+ */
+static void on_enable_activate(GtkWidget *self, gpointer image)
+{
+    DBG(("MMC64 on_enable_activate"));
+    cart_image_widget_update_sensitivity(GTK_WIDGET(image));
 }
+
 
 /** \brief  Create widget to control MMC64 resources
  *
@@ -208,10 +215,6 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
     /* enable emulation check button */
     enable_widget = carthelpers_create_enable_check_button(CARTRIDGE_NAME_MMC64,
                                                            CARTRIDGE_MMC64);
-    g_signal_connect(G_OBJECT(enable_widget),
-                     "clicked",
-                     G_CALLBACK(on_enable_clicked),
-                     NULL);
 
     /* jumper switch and label */
     jumper_wrapper = gtk_grid_new();
@@ -265,6 +268,12 @@ GtkWidget *settings_mmc64_widget_create(GtkWidget *parent)
 
     row = create_card_image_layout(grid, row, NUM_COLS);
 
+    /* set up signal handler to update sensitivity of save/flush buttons when
+     * toggling MMC64 emulation */
+    g_signal_connect(G_OBJECT(enable_widget),
+                     "toggled",
+                     G_CALLBACK(on_enable_activate),
+                     (gpointer)primary);
 #undef NUM_COLS
 
     gtk_widget_show_all(grid);

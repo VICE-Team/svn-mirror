@@ -36,6 +36,7 @@
 #include "resourcecheckbutton.h"
 #include "resourcewidgetmediator.h"
 #include "ui.h"
+#include "uiapi.h"
 
 #include "cartridgewidgets.h"
 
@@ -157,9 +158,16 @@ static void on_save_response(GtkDialog *self, gint response, gpointer data)
             char title[256];
 
             g_snprintf(title, sizeof title, "%s Error", state->cart_name);
+/* On Windows the main thread stops responding when we use the dialog as
+   parent here, see bug #2205 */
+#ifdef WINDOWS_COMPILE
+            ui_error("Failed to save %s %s image as:\n'%s'.",
+                    state->cart_name, state->image_tag, filename);
+#else
             vice_gtk3_message_error(GTK_WINDOW(self), title,
                                     "Failed to save %s %s image as '%s'.",
                                     state->cart_name, state->image_tag, filename);
+#endif
         }
         g_free(filename);
     }
