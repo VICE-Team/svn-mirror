@@ -33,9 +33,20 @@
 #include "joy.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "uipoll.h"
+
+
+/* #define DEBUG_UIPOLL */
+
+#ifdef DEBUG_UIPOLL
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 
 /* ------------------------------------------------------------------ */
 /* static functions */
@@ -94,16 +105,19 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, VICE_SDL_Joyst
                     break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
                 case SDL_JOYBUTTONDOWN:
+                    DBG(("sdl_ui_poll_event SDL_JOYBUTTONDOWN"));
                     if (allow_any_joystick || e.jbutton.which == joystick_device) {
                         polling = 0;
                     }
                     break;
                 case SDL_JOYHATMOTION:
+                    DBG(("sdl_ui_poll_event SDL_JOYHATMOTION"));
                     if ((allow_any_joystick || e.jhat.which == joystick_device) && (sdljoy_check_hat_movement(e) != 0)) {
                         polling = 0;
                     }
                     break;
                 case SDL_JOYAXISMOTION:
+                    DBG(("sdl_ui_poll_event SDL_JOYAXISMOTION %d", e.jaxis.value));
                     if ((allow_any_joystick || e.jaxis.which == joystick_device) && (sdljoy_check_axis_movement(e) != 0)) {
                         polling = 0;
                     }
@@ -130,6 +144,6 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, VICE_SDL_Joyst
     if (polling == 1) {
         e.type = SDL_USEREVENT;
     }
-
+    DBG(("sdl_ui_poll_event e.type:%02x polling:%d axis value:%d", e.type, polling, e.jaxis.value));
     return e;
 }
