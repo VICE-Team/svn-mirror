@@ -37,8 +37,18 @@
 
 #include "cartridge.h"
 #include "vice_gtk3.h"
+#include "log.h"
 
 #include "settings_reu.h"
+
+
+#define DEBUG_REU
+
+#ifdef DEBUG_REU
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 
 /** \brief  List of supported RAM sizes in KiB */
@@ -55,6 +65,7 @@ static int ram_sizes[] = { 128, 256, 512, 1024, 2048, 4096, 8192, 16384, -1 };
  */
 static void on_enable_activate(GtkWidget *self, gpointer image)
 {
+    DBG(("REU on_enable_activate"));
     cart_image_widget_update_sensitivity(GTK_WIDGET(image));
 }
 

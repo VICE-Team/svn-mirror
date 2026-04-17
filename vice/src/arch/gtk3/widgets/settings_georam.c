@@ -37,6 +37,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "cartridge.h"
@@ -44,6 +45,13 @@
 
 #include "settings_georam.h"
 
+#define DEBUG_GEORAM
+
+#ifdef DEBUG_GEORAM
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 /** \brief  List of supported RAM sizes */
 static int ram_sizes[] = { 512, 1024, 2048, 4096, -1 };
@@ -68,6 +76,20 @@ static GtkWidget *create_georam_size_widget(void)
     return ram_size_radiogroup_new("GEORAMsize",
                                    CARTRIDGE_NAME_GEORAM " Size",
                                    ram_sizes);
+}
+
+/** \brief  Handler for the 'toggled' event of the "Enable" check button
+ *
+ * Update sensitivity of the cart image widget's buttons when enabling/disabling
+ * GEORAM emulation.
+ *
+ * \param[in]   self    check button (ignored)
+ * \param[in]   image   cartridge image widget
+ */
+static void on_enable_activate(GtkWidget *self, gpointer image)
+{
+    DBG(("GEORAM on_enable_activate"));
+    cart_image_widget_update_sensitivity(GTK_WIDGET(image));
 }
 
 /** \brief  Create widget to load/save GEORAM image file
@@ -123,6 +145,13 @@ GtkWidget *settings_georam_widget_create(GtkWidget *parent)
     if (georam_ioswap != NULL) {
         gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 3, 1, 1);
     }
+
+    /* set up signal handler to update sensitivity of save/flush buttons when
+     * toggling georam emulation */
+    g_signal_connect(G_OBJECT(georam_enable),
+                     "toggled",
+                     G_CALLBACK(on_enable_activate),
+                     (gpointer)georam_image);
 
     gtk_widget_show_all(grid);
     return grid;

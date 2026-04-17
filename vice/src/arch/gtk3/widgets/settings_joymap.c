@@ -45,6 +45,7 @@
 #include "vsync.h"
 
 #include "uiactions.h"
+#include "uiapi.h"
 #include "settings_joymap.h"
 #include "joymapdialog.h"
 
@@ -397,10 +398,16 @@ static void save_as_callback(GtkDialog *dialog, gchar *path, gpointer extra)
         g_free(path);
 
         if (joy_arch_mapping_dump(fullpath, joydev) == -1) {
+/* On Windows the main thread stops responding when we use the dialog as
+   parent here, see bug #2205 */
+#ifdef WINDOWS_COMPILE
+            ui_error("Failed to save joymap as '%s'.", fullpath);
+#else
             vice_gtk3_message_error(GTK_WINDOW(dialog),
                                     "Joymap error",
                                     "Failed to save joymap as '%s'.",
                                     fullpath);
+#endif
         }
         lib_free(fullpath);
     }
