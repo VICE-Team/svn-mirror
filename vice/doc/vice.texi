@@ -4591,6 +4591,7 @@ Enable/Disable saving of the battery-backed real time clock data
 @node Control port and devices,  , Control port options, Control port settings
 @subsection Control port and devices
 
+
 x64/x64sc/xscpu64 control ports and devices:
 
 @multitable @columnfractions .05 .33 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05 .05
@@ -4876,7 +4877,12 @@ x64/x64sc/xscpu64 control ports and devices:
 @tab Chalkboard Powerpad
 @tab X
 @tab X
+@item 44
+@tab Mouse (Joystick mouse)
+@tab X
+@tab X
 @end multitable
+
 
 x128 control ports and devices:
 
@@ -5111,7 +5117,12 @@ x128 control ports and devices:
 @tab Chalkboard Powerpad
 @tab X
 @tab X
+@item 44
+@tab Mouse (Joystick mouse)
+@tab X
+@tab X
 @end multitable
+
 
 x64dtv control ports and devices:
 
@@ -5147,6 +5158,7 @@ x64dtv control ports and devices:
 @tab X
 @end multitable
 
+
 xcbm2/xpet can handle the following devices on all control ports:
 
 @multitable @columnfractions .05 .33
@@ -5157,6 +5169,7 @@ xcbm2/xpet can handle the following devices on all control ports:
 @item 1
 @tab Joystick
 @end multitable
+
 
 xcbm5x0 control ports and devices:
 
@@ -5338,6 +5351,7 @@ xcbm5x0 control ports and devices:
 @tab X
 @tab X
 @end multitable
+
 
 xplus4 control ports and devices:
 
@@ -5658,7 +5672,21 @@ xplus4 control ports and devices:
 @tab
 @tab
 @tab X
+@item 44
+@tab Mouse (Joystick mouse)
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab
+@tab X
 @end multitable
+
 
 xvic control ports and devices:
 
@@ -5869,11 +5897,15 @@ xvic control ports and devices:
 @item 42
 @tab Chalkboard Powerpad
 @tab X
+@item 44
+@tab Mouse (Joystick mouse)
+@tab X
 @end multitable
+
 
 Meaning of abreviations used in the tables above:
 
-@multitable @columnfractions .05 .33
+@multitable @columnfractions .05 .95
 @headitem abr
 @tab meaning
 @item N1

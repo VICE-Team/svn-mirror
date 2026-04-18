@@ -86,6 +86,7 @@ enum {
     JOYPORT_ID_PAPERCLIP2,
     JOYPORT_ID_POWERPAD,
     JOYPORT_ID_DIAG_586220_HARNESS,
+    JOYPORT_ID_MOUSE_DIGITAL,
 
     /* This item always needs to be at the end */
     JOYPORT_MAX_DEVICES
