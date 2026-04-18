@@ -76,7 +76,7 @@ dqh
 
 Run the following command lines to install the prerequisites:
 
-$ pacman -S --noconfirm --needed autotools base-devel p7zip subversion unzip zip
+$ pacman -S --noconfirm --needed autotools base-devel iconv p7zip subversion unzip zip
 
 If you are using a 64-bit MinGW shell also run this:
 $ pacman -S --noconfirm --needed mingw-w64-x86_64-curl mingw-w64-x86_64-gcc mingw-w64-x86_64-glew mingw-w64-x86_64-gtk3 mingw-w64-x86_64-icoutils mingw-w64-x86_64-ntldd mingw-w64-x86_64-xa65
