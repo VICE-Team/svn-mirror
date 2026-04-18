@@ -248,11 +248,13 @@ static uint8_t userport_snespad_read_pbx(uint8_t orig)
    BYTE  | COUNTER | current count
    BYTE  | CLOCK   | clock line state
    BYTE  | LATCH   | latch line state
+
+   followed by 1 joyport module
  */
 
 static const char snap_module_name[] = "UPPETSCII";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   1
+#define SNAP_MINOR   2
 
 static int userport_petscii_write_snapshot_module(snapshot_t *s)
 {
@@ -271,7 +273,12 @@ static int userport_petscii_write_snapshot_module(snapshot_t *s)
         snapshot_module_close(m);
         return -1;
     }
-    return snapshot_module_close(m);
+    snapshot_module_close(m);
+
+    if (joyport_snapshot_write_module(s, JOYPORT_3) < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 static int userport_petscii_read_snapshot_module(snapshot_t *s)
@@ -297,7 +304,12 @@ static int userport_petscii_read_snapshot_module(snapshot_t *s)
         || (SMR_B(m, &latch_line) < 0)) {
         goto fail;
     }
-    return snapshot_module_close(m);
+    snapshot_module_close(m);
+
+    if (joyport_snapshot_read_module(s, JOYPORT_3) < 0) {
+        return -1;
+    }
+    return 0;
 
 fail:
     snapshot_module_close(m);

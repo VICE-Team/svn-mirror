@@ -156,6 +156,8 @@ static void userport_joystick_woj_store_pbx(uint8_t value, int pulse)
    type  | name   | description
    ----------------------------
    BYTE  | select | joyport select
+
+   followed by 8 joyport modules
  */
 
 static const char woj_module_name[] = "UPJOYWOJ";

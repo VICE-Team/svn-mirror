@@ -177,6 +177,8 @@ static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
    type  | name   | description
    ----------------------------
    BYTE  | select | joyport select
+
+   followed by 3 joyport modules
  */
 
 static const char synergy_module_name[] = "UPJOYSYNERGY";

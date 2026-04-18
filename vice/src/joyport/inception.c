@@ -39,6 +39,14 @@
 
 #include "log.h"
 
+/* #define DEBUGINCEPTION */
+
+#ifdef DEBUGINCEPTION
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 /* Control port <--> INCEPTION connections:
 
    cport |   INCEPTION
@@ -69,6 +77,8 @@ static int joyport_inception_set_enabled(int port, int enabled)
 {
     int new_state = enabled ? 1 : 0;
 
+    /* FIXME: "port" is completely ignored? */
+    DBG(("joyport_inception_set_enabled port:%d enabled:%d", port, enabled));
     if (new_state == inception_enabled) {
         return 0;
     }
@@ -87,6 +97,7 @@ static int joyport_inception_set_enabled(int port, int enabled)
 
     /* set the current state */
     inception_enabled = new_state;
+    DBG(("joyport_inception_set_enabled changed port:%d inception_enabled:%d", port, inception_enabled));
 
     return 0;
 }
@@ -256,16 +267,19 @@ int joyport_inception_resources_init(void)
    ----------------------------------
    BYTE  | COUNTER | counter value
    BYTE  | CLOCK   | clock line state
+
+   followed by 8 joyport modules
  */
 
 static const char snap_module_name[] = "INCEPTION";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int inception_write_snapshot(struct snapshot_s *s, int p)
 {
     snapshot_module_t *m;
 
+    DBG(("inception_write_snapshot"));
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
@@ -278,7 +292,21 @@ static int inception_write_snapshot(struct snapshot_s *s, int p)
             snapshot_module_close(m);
             return -1;
     }
-    return snapshot_module_close(m);
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_5) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_6) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_7) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_8) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_9) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_10) < 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int inception_read_snapshot(struct snapshot_s *s, int p)
@@ -286,6 +314,7 @@ static int inception_read_snapshot(struct snapshot_s *s, int p)
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
+    DBG(("inception_read_snapshot"));
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
     if (m == NULL) {
@@ -304,7 +333,20 @@ static int inception_read_snapshot(struct snapshot_s *s, int p)
         goto fail;
     }
 
-    return snapshot_module_close(m);
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_5) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_6) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_7) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_8) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_9) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_10) < 0) {
+        return -1;
+    }
+    return 0;
 
 fail:
     snapshot_module_close(m);
