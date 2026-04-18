@@ -47,10 +47,13 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+
 #include "mouse_1351.h"
+#include "mouse_digital.h"
 #include "mouse_neos.h"
 #include "mouse_paddle.h"
 #include "mouse_quadrature.h"
+
 #include "multijoy.h"
 #include "ninja_snespad.h"
 #include "paperclip2.h"
@@ -1215,6 +1218,12 @@ static joyport_init_t joyport_devices_init[] = {
       NULL                             /* cmdline options init function */
     },
 #ifdef HAVE_MOUSE
+    { JOYPORT_ID_MOUSE_DIGITAL,        /* device id */
+      VICE_MACHINE_NATIVE_5V_JOYPORTS, /* emulators this device works on */
+      mouse_digital_register,          /* resources init function */
+      NULL,                            /* resources shutdown function */
+      NULL                             /* cmdline options init function */
+    },
     { JOYPORT_ID_MOUSE_1351,           /* device id */
       VICE_MACHINE_NATIVE_5V_JOYPORTS, /* emulators this device works on */
       mouse_1351_register,             /* resources init function */
