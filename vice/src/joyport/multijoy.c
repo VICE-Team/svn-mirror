@@ -239,11 +239,13 @@ int joyport_multijoy_resources_init(void)
    type  |   name  | description
    ----------------------------------
    BYTE  | ADDRESS | which joystick is active
+
+   followed by 8 joyport modules
  */
 
 static const char snap_module_name[] = "MULTIJOY";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int multijoy_write_snapshot(struct snapshot_s *s, int p)
 {
@@ -260,7 +262,21 @@ static int multijoy_write_snapshot(struct snapshot_s *s, int p)
             snapshot_module_close(m);
             return -1;
     }
-    return snapshot_module_close(m);
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_5) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_6) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_7) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_8) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_9) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_10) < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 static int multijoy_read_snapshot(struct snapshot_s *s, int p)
@@ -285,9 +301,23 @@ static int multijoy_read_snapshot(struct snapshot_s *s, int p)
         goto fail;
     }
 
-    return snapshot_module_close(m);
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_5) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_6) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_7) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_8) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_9) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_10) < 0) {
+        return -1;
+    }
+    return 0;
 
 fail:
     snapshot_module_close(m);
     return -1;
+
 }

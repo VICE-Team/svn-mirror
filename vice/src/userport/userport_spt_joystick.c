@@ -168,6 +168,10 @@ static uint8_t userport_spt_joystick_read_pbx(uint8_t orig)
 
 /* ---------------------------------------------------------------------*/
 
+/*
+   followed by 1 joyport module
+*/
+
 static int userport_spt_joystick_write_snapshot_module(snapshot_t *s)
 {
     return joyport_snapshot_write_module(s, JOYPORT_3);

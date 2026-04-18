@@ -84,7 +84,7 @@
 /* #define DEBUGJOY */
 
 #ifdef DEBUGJOY
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
@@ -2738,6 +2738,7 @@ static int joystick_snapshot_write_module(snapshot_t *s, int port)
     char snapshot_name[16];
 
     sprintf(snapshot_name, "JOYSTICK%d", port);
+    DBG(("joystick_snapshot_write_module %s", snapshot_name));
 
     m = snapshot_module_create(s, snapshot_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
     if (m == NULL) {
@@ -2759,6 +2760,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
     char snapshot_name[16];
 
     sprintf(snapshot_name, "JOYSTICK%d", port);
+    DBG(("joystick_snapshot_read_module %s", snapshot_name));
 
     m = snapshot_module_open(s, snapshot_name, &major_version, &minor_version);
     if (m == NULL) {
@@ -2922,7 +2924,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
 {
     switch (event->action) {
         case JOY_ACTION_JOYSTICK:
-            DBG(("joy_perform_event (JOY_ACTION_JOYSTICK) joyport: %d value: %d pin: %02x\n",
+            DBG(("joy_perform_event (JOY_ACTION_JOYSTICK) joyport: %d value: %d pin: %02x",
                  joyport, value, event->value.joy_pin));
             if (joyport >=0 && joyport < JOYPORT_MAX_PORTS) {
                 if (value) {
@@ -2933,7 +2935,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
             break;
         case JOY_ACTION_KEYBOARD:
-            DBG(("joy_perform_event (JOY_ACTION_KEYBOARD) joyport: %d value: %d key: %02x/%02x/%02x\n",
+            DBG(("joy_perform_event (JOY_ACTION_KEYBOARD) joyport: %d value: %d key: %02x/%02x/%02x",
                  joyport, value, (unsigned int)event->value.key[0], (unsigned int)event->value.key[1], (unsigned int)event->value.key[2]));
             keyboard_set_keyarr_any(event->value.key[0], event->value.key[1], value);
             /* bit 0 of the flag value indicates a shifted key */
@@ -2945,7 +2947,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
             break;
         case JOY_ACTION_UI_ACTIVATE:
-            DBG(("%s (JOY_ACTION_UI_ACTIVATE) joyport: %d value: %d\n", __func__, joyport, value));
+            DBG(("%s (JOY_ACTION_UI_ACTIVATE) joyport: %d value: %d", __func__, joyport, value));
             if ((joyport >= 0) && (joyport < JOYPORT_MAX_PORTS)) {
                 if (value) {
                     arch_ui_activate();
@@ -2953,7 +2955,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
             break;
         case JOY_ACTION_UI_FUNCTION:
-            DBG(("%s (JOY_ACTION_UI_FUNCTION) joyport: %d value: %d\n", __func__, joyport, value));
+            DBG(("%s (JOY_ACTION_UI_FUNCTION) joyport: %d value: %d", __func__, joyport, value));
             if ((joyport >= 0) && (joyport < JOYPORT_MAX_PORTS)) {
                 if (value && event->value.ui_action > ACTION_NONE) {
                     ui_action_trigger(event->value.ui_action);
@@ -2961,7 +2963,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
 #if 0   /* FIXME */
         case MENUACTION:
-            DBG(("joy_perform_event (MENUACTION) joyport: %d value: %d action: %d\n",
+            DBG(("joy_perform_event (MENUACTION) joyport: %d value: %d action: %d",
                  joyport, value,event->value.action));
             break;
 #endif
@@ -3046,7 +3048,7 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
         return;
     }
 
-    DBG(("joy_axis_event: joy: %s axis: %d value: %d: direction: %d prev: %d\n",
+    DBG(("joy_axis_event: joy: %s axis: %d value: %d: direction: %d prev: %d",
          axis->device->name, axis->index, value, direction, prev));
 
     /* release directions first if needed */
@@ -3127,7 +3129,7 @@ void joy_button_event(joystick_button_t *button, int32_t value)
     if (value != button->prev) {
         int32_t pressed = joystick_button_pressed(button, value);
 
-        DBG(("joy_button_event: joy: %s, button: %d (%s) pressed: %d\n",
+        DBG(("joy_button_event: joy: %s, button: %d (%s) pressed: %d",
              button->device->name, button->index, button->name, pressed));
         joy_perform_event(&button->mapping, button->device->joyport, pressed);
         button->prev = value;

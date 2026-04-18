@@ -1029,6 +1029,7 @@ void joystick_adapter_deactivate(void)
     }
 }
 
+/* enable extra joystick ports */
 void joystick_adapter_set_ports(int ports, int has_5vdc)
 {
     int i;
@@ -1047,6 +1048,7 @@ int joystick_adapter_get_ports(void)
     return joystick_adapter_ports + joystick_adapter_additional_ports;
 }
 
+/* enable even more joystick ports (eg internal expansion) */
 void joystick_adapter_set_add_ports(int ports)
 {
     joystick_adapter_additional_ports = ports;
@@ -2069,6 +2071,7 @@ int joyport_snapshot_write_module(struct snapshot_s *s, int port)
     char snapshot_name[16];
 
     sprintf(snapshot_name, "JOYPORT%d", port);
+    DBG(("joyport_snapshot_write_module %s", snapshot_name));
 
     m = snapshot_module_create(s, snapshot_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
 
@@ -2085,6 +2088,7 @@ int joyport_snapshot_write_module(struct snapshot_s *s, int port)
     snapshot_module_close(m);
 
     /* save seperate joyport device module */
+    DBG(("joyport_snapshot_write_module device id %d", joy_port[port]));
     switch (joy_port[port]) {
         case JOYPORT_ID_NONE:
             break;
@@ -2108,6 +2112,7 @@ int joyport_snapshot_read_module(struct snapshot_s *s, int port)
     char snapshot_name[16];
 
     sprintf(snapshot_name, "JOYPORT%d", port);
+    DBG(("joyport_snapshot_read_module %s", snapshot_name));
 
     m = snapshot_module_open(s, snapshot_name, &major_version, &minor_version);
     if (m == NULL) {
@@ -2131,6 +2136,7 @@ int joyport_snapshot_read_module(struct snapshot_s *s, int port)
     joyport_set_device(port, temp_joy_port);
 
     /* load device snapshot */
+    DBG(("joyport_snapshot_read_module device id %d (=%d)", joy_port[port], temp_joy_port));
     switch (joy_port[port]) {
         case JOYPORT_ID_NONE:
             break;
