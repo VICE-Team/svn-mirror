@@ -144,17 +144,49 @@ static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr
     return byte;
 }
 
+/*
+       +-----+-----+-----+-----+-----+-----+-----+-----+
+       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7| (row, read port A)
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 2| 5 % |  R  |  D  |  X  |  C  |  F  |  T  | 6 & |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 3| 7 ' |  Y  |  G  |  V  |  B  |  H  |  U  | 8 ( |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 4| 9 ) |  I  |  J  |  N  |  M  |  K  |  O  |  0  |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+ |Bit 7| DEL |Retrn|C_L/R|C_U/D|  F1 |  F3 |  F5 |  F7 |
+ +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+  \
+   (column, write port b)
+   port b bit 7 - joystick pin 4 (right)
+              3 - cassette write
+*/
+
 static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 {
     uint8_t byte;
     /* FIXME: not 100% sure about this... */
     uint8_t val = ~(via_context->via[VIA_DDRA]);
     uint8_t msk = via_context->oldpb;
-    uint8_t m;
+    uint8_t joy = ~read_joyport_dig(JOYPORT_1);
     int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
-        if (!(msk & m)) {
+    /* Bit 7 is mapped to the right direction of the joystick (bit
+       3 in `joystick_value[]'). */
+    if (joy & 0x8) {
+        msk &= 0x7f;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (!(msk & (1 << i))) {
             val &= ~rev_keyarr[i];
         }
     }
@@ -170,10 +202,10 @@ static uint8_t read_prb(via_context_t *via_context)
     uint8_t val = ~(via_context->via[VIA_DDRB]);
     uint8_t msk = via_context->oldpa;
     uint8_t joy = ~read_joyport_dig(JOYPORT_1);
-    int m, i;
+    int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
-        if (!(msk & m)) {
+    for (i = 0; i < 8; i++) {
+        if (!(msk & (1 << i))) {
             val &= ~keyarr[i];
         }
     }
