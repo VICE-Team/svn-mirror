@@ -1,0 +1,70 @@
+# VICE joystick mapping file
+#
+# A joystick map is read in as patch to the current map.
+#
+# File format:
+# - comment lines start with '#'
+# - keyword lines start with '!keyword'
+# - normal line has 'joynum inputtype inputindex action'
+#
+# Keywords and their lines are:
+# '!CLEAR'    clear all mappings
+#
+# inputtype:
+# 0      axis
+# 1      button
+# 2      hat
+#
+# For buttons, inputindex is the zero-based index of the button.
+# For hats: hat 0 has inputindex 0,1,2,3 respectively for up, down, left and
+# right. Hat 1 has 5,6,7,8 etc.
+# For axes, and action 1 (joystick) and 2 (keyboard): axis 0 has inputindex
+# 0,1 respectively for positive and negative, axis 1 has 2,3 etc.
+# For axes, and action 6 (pot axis): inputindex is the zero-based index of the
+# axis.
+#
+# action [action_parameters]:
+# 0                none
+# 1 pin            joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)
+# 2 row col flags  keyboard (flags: 1=shift)
+# 3                map
+# 4                UI activate
+# 5 action-name    UI function
+# 6 pot            potentiometer (1=pot x, 2=pot y)
+#
+
+!CLEAR
+
+# [057e:0001] "Pro Controller" (4 axes, 16 buttons, 1 hat) Windows 10, GTK
+
+0 0 0 1 8
+0 0 1 1 4
+
+0 0 2 1 2
+0 0 3 1 1
+
+0 0 2 6 1
+
+0 0 3 6 2
+
+0 1 0 1 16
+0 1 1 1 64
+0 1 2 1 32
+0 1 3 1 128
+0 1 4 1 256
+0 1 5 1 512
+0 1 6 0
+0 1 7 0
+0 1 8 0
+0 1 9 0
+0 1 10 0
+0 1 11 0
+0 1 12 1 2048
+0 1 13 1 1024
+0 1 14 0
+0 1 15 0
+
+0 2 0 1 1
+0 2 1 1 2
+0 2 2 1 4
+0 2 3 1 8
