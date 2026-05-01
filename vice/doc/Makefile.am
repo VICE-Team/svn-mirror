@@ -56,6 +56,7 @@ endif
 #if 0
 $(builddir)/vice.txt:	.vice-texi-charset-ok
 	touch vicetmp.txt
+	@$(srcdir)/snapshots-extract.sh
 	LC_ALL=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-validate --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | LC_ALL=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
@@ -65,6 +66,7 @@ if ENABLE_PDF_DOCS
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	@LC_ALL=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	@$(srcdir)/fixdates.sh vicepdf.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3`
+	@$(srcdir)/snapshots-extract.sh
 	@if $(AM_V_P); then \
 		LC_ALL=C $(TEXI2DVI) -I $(srcdir) -V --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi; \
 	else \

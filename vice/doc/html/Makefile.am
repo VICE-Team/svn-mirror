@@ -143,6 +143,7 @@ vice.texi: $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
 
 $(GEN_HTML): vice.texi $(srcdir)/texi2html
 	@echo "generating html documentation..."
+	@"$(srcdir)"/../snapshots-extract.sh
 	$(PERL) "$(srcdir)"/texi2html -I "$(srcdir)"/.. -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
 endif
 

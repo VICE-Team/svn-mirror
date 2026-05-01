@@ -19279,11 +19279,94 @@ Each module has a name and saves the state of an entity like a CIA, the CPU,
 or the memory.
 
 @menu
+* Terminology::
+* Module framework::
 * Emulator modules::
-* Module formats::
+* Common Modules::
 @end menu
 
-@node Emulator modules, Module formats, Snapshot format, Snapshot format
+@subsection Terminology
+
+In this section we use certain abbreviations to define the types of the
+data saved in the snapshot.
+
+@table @code
+@item BYTE
+8 bit integer.
+@item WORD
+16 bit integer.  Saved with low-byte first, high-byte last.
+@item DWORD
+32 bit integer.  Saved with low-word first, then high-word.  Each word saved with its low-byte first.
+@item ARRAY
+Array of BYTE values.  Length depends on the description.
+@end table
+
+The tables for the single modules state the type, name and description
+of the data saved in the modules.  The data is saved in the order it is
+in the tables, so no offset is given.
+
+@node Module framework, CPU 6502 module, Module Terminology, Common Modules
+@subsection Module framework
+
+The VICE snapshot file starts with the magic string and includes the
+fileformat version number.
+
+@multitable @columnfractions .2 .3 .5
+@item Type
+@tab Name
+@tab Description
+@item 19 BYTE
+@tab MAGIC
+@tab "VICE Snapshot File\032", padded with 0
+@item BYTE
+@tab VMAJOR
+@tab fileformat major version number
+@item BYTE
+@tab VMINOR
+@tab fileformat minor version number
+@item 16 BYTE
+@tab MACHINENAME
+@tab Name of emulated machine, like "PET", "CBM-II", "VIC20", "C64" or "C128". zerobyte-padded.
+@item 13 BYTE
+@tab VERSION MAGIC
+@tab "VICE Version\032", padded with 0
+@item 4 BYTE
+@tab VERSION
+@tab Release version (major, minor, micro). Byte 4 is always zero.
+@item DWORD
+@tab SVNVERSION
+@tab SVN revision (or 0 if not available)
+@end multitable
+
+The file header is followed by a number of different snapshot modules.
+
+Each module has a header with the information given in the table below.
+The header includes two version numbers, VMAJOR and VMINOR.  In the past the
+idea was that modules with the same VMAJOR should be able to be exchanged. This
+however proved to be too difficult to maintain, and insanely hard to test for
+correctness, which is why now the emulator will reject the snapshot when it
+finds a module that is too old. @b{Because of this you should not use snapshots
+for permanent/long term storage.}
+
+@multitable @columnfractions .2 .3 .5
+@item Type
+@tab Name
+@tab Description
+@item 16 BYTE
+@tab MODULENAME
+@tab The name of the module in ASCII, padded with 0 to 16 byte.
+@item BYTE
+@tab VMAJOR
+@tab major version number
+@item BYTE
+@tab VMINOR
+@tab minor version number
+@item DWORD
+@tab SIZE
+@tab size of the module, including this header
+@end multitable
+
+@node Emulator modules, Common Modules, Snapshot format, Snapshot format
 @subsection Emulator modules
 
 This section lists the modules that are contained in each of the
@@ -19535,8 +19618,8 @@ when the emulation is enabled during the writing of the snapshot.
 @tab *
 @end multitable
 
-@node Module formats,  , Emulator modules, Snapshot format
-@subsection Module formats
+@node Common Modules,  , Emulator modules, Snapshot format
+@subsection Common Modules
 
 This section shows the basic module framework and the contents of the
 different types of modules.
@@ -19570,89 +19653,9 @@ insanely hard to maintain.
 * C500 data module::
 @end menu
 
-@node Module Terminology, Module framework, Module formats, Module formats
-@subsubsection Terminology
+@node Module Terminology, Module framework, Common Modules, Common Modules
 
-In this section we use certain abbreviations to define the types of the
-data saved in the snapshot.
-
-@table @code
-@item BYTE
-8 bit integer.
-@item WORD
-16 bit integer.  Saved with low-byte first, high-byte last.
-@item DWORD
-32 bit integer.  Saved with low-word first, then high-word.  Each word saved with its low-byte first.
-@item ARRAY
-Array of BYTE values.  Length depends on the description.
-@end table
-
-The tables for the single modules state the type, name and description
-of the data saved in the modules.  The data is saved in the order it is
-in the tables, so no offset is given.
-
-@node Module framework, CPU 6502 module, Module Terminology, Module formats
-@subsubsection Module framework
-
-The VICE snapshot file starts with the magic string and includes the
-fileformat version number.
-
-@multitable @columnfractions .2 .3 .5
-@item Type
-@tab Name
-@tab Description
-@item 19 BYTE
-@tab MAGIC
-@tab "VICE Snapshot File\032", padded with 0
-@item BYTE
-@tab VMAJOR
-@tab fileformat major version number
-@item BYTE
-@tab VMINOR
-@tab fileformat minor version number
-@item 16 BYTE
-@tab MACHINENAME
-@tab Name of emulated machine, like "PET", "CBM-II", "VIC20", "C64" or "C128". zerobyte-padded.
-@item 13 BYTE
-@tab VERSION MAGIC
-@tab "VICE Version\032", padded with 0
-@item 4 BYTE
-@tab VERSION
-@tab Release version (major, minor, micro). Byte 4 is always zero.
-@item DWORD
-@tab SVNVERSION
-@tab SVN revision (or 0 if not available)
-@end multitable
-
-The file header is followed by a number of different snapshot modules.
-
-Each module has a header with the information given in the table below.
-The header includes two version numbers, VMAJOR and VMINOR.  In the past the
-idea was that modules with the same VMAJOR should be able to be exchanged. This
-however proved to be too difficult to maintain, and insanely hard to test for
-correctness, which is why now the emulator will reject the snapshot when it
-finds a module that is too old. @b{Because of this you should not use snapshots
-for permanent/long term storage.}
-
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item 16 BYTE
-@tab MODULENAME
-@tab The name of the module in ASCII, padded with 0 to 16 byte.
-@item BYTE
-@tab VMAJOR
-@tab major version number
-@item BYTE
-@tab VMINOR
-@tab minor version number
-@item DWORD
-@tab SIZE
-@tab size of the module, including this header
-@end multitable
-
-@node CPU 6502 module, CPU 6809 module, Module framework, Module formats
+@node CPU 6502 module, CPU 6809 module, Module framework, Common Modules
 @subsubsection CPU 6502 module
 
 This module saves the core 6502 state.  You will find a clock value
@@ -19660,50 +19663,12 @@ there.  All other modules save their own clock values relative to this
 value.  However, the drive modules save their clocks relative to their
 appropriate CPUs of course.
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item DWORD
-@tab CLK
-@tab the current CPU clock value.  All other clock values are relative to this.
-@item BYTE
-@tab AC
-@tab Accumulator
-@item BYTE
-@tab XR
-@tab X index register
-@item BYTE
-@tab YR
-@tab Y index register
-@item BYTE
-@tab SP
-@tab Stack Pointer
-@item WORD
-@tab PC
-@tab Programm Counter
-@item BYTE
-@tab ST
-@tab Status Registers
-@item DWORD
-@tab LASTOPCODE
-@tab ?
-@item DWORD
-@tab IRQCLK
-@tab absolute CLK when the IRQ line came active
-@item DOWRD
-@tab NMICLK
-@tab absolute CLK when the NMI line came active
-@item DWORD
-@tab ?
-@tab ?
-@item DWORD
-@tab ?
-@tab ?
-@end multitable
+@c @include CPU6502.snapshots.texi
+@include MAINC64CPU.snapshots.texi
 
+@include MAINVIC20CPU.snapshots.texi
 
-@node CPU 6809 module, CIA 6526 module, CPU 6502 module, Module formats
+@node CPU 6809 module, CIA 6526 module, CPU 6502 module, Common Modules
 @subsubsection CPU 6809 module
 
 This module saves the core 6809 state.  You will find a clock value
@@ -19711,244 +19676,40 @@ there.  All other modules save their own clock values relative to this
 value.  However, the drive modules save their clocks relative to their
 appropriate CPUs of course.
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item DWORD
-@tab CLK
-@tab the current CPU clock value.  All other clock values are relative to this.
-@item WORD
-@tab X
-@tab The X register
-@item WORD
-@tab Y
-@tab The Y register
-@item WORD
-@tab U
-@tab The U register
-@item WORD
-@tab PC
-@tab The Program Counter register
-@item BYTE
-@tab DP
-@tab The Direct Page register
-@item BYTE
-@tab CC
-@tab The Condition Code register
-@item BYTE
-@tab A
-@tab The A register
-@item BYTE
-@tab B
-@tab The B register
-@item
-@tab
-@tab The following are for 6309 compatibility:
-@item WORD
-@tab V
-@tab The V register
-@item BYTE
-@tab E
-@tab The E register
-@item BYTE
-@tab F
-@tab The F register
-@end multitable
+@include CPU6809.snapshots.texi
 
-@node CIA 6526 module, VIA 6522 module, CPU 6809 module, Module formats
+
+@c @node CPU 6809 module, CIA 6526 module, CPU 6502 module, Common Modules
+@subsubsection CPU 65816 module
+
+This module saves the core 65816 state.  You will find a clock value
+there.  All other modules save their own clock values relative to this
+value.  However, the drive modules save their clocks relative to their
+appropriate CPUs of course.
+
+@include MAIN65816CPU.snapshots.texi
+
+
+@node CIA 6526 module, VIA 6522 module, CPU 6809 module, Common Modules
 @subsubsection CIA module
 
 The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift register,
 two timers, a Time of Day clock and interrupts.
 
-Version numbers: Major 1, Minor 1.
+@include CIA.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab ORA
-@tab Output register A
-@item BYTE
-@tab ORB
-@tab Output register B
-@item BYTE
-@tab DDRA
-@tab Data direction register A
-@item BYTE
-@tab DDRB
-@tab Data direction register B
-@item WORD
-@tab TAC
-@tab Timer A counter value
-@item WORD
-@tab TBC
-@tab Timer B counter value
-@item BYTE
-@tab TOD_TEN
-@tab Time of Day - current tenth of second
-@item BYTE
-@tab TOD_SEC
-@tab Time of Day - current seconds
-@item BYTE
-@tab TOD_MIN
-@tab Time of Day - current minutes
-@item BYTE
-@tab TOD_HR
-@tab Time of Day - current hours
-@item BYTE
-@tab SDR
-@tab contents of shift register
-@item BYTE
-@tab IER
-@tab mask of enabled interrupt masks
-@item BYTE
-@tab CRA
-@tab Control register A
-@item BYTE
-@tab CRB
-@tab Control register B
-@item WORD
-@tab TAL
-@tab Timer A latch value
-@item WORD
-@tab TBL
-@tab Timer B latch value
-@item BYTE
-@tab IFR
-@tab mask of currently active interrupts
-@item BYTE
-@tab PBSTATE
-@tab Bit 6/7 reflect the PB6/7 toggle bit state.  Bit 2/3 reflect the corresponding port bit state.
-@item BYTE
-@tab SRHBITS
-@tab number of half-bits to still shift in/out SDR
-@item BYTE
-@tab ALARM_TEN
-@tab Time of Day - alarm tenth of second
-@item BYTE
-@tab ALARM_SEC
-@tab Time of Day - alarm seconds
-@item BYTE
-@tab ALARM_MIN
-@tab Time of Day - alarm minutes
-@item BYTE
-@tab ALARM_HR
-@tab Time of Day - alarm hours
-@item BYTE
-@tab READICR
-@tab current clock minus the clock when ICR was read last plus 128.
-@item BYTE
-@tab TODLATCHED
-@tab Bit 0: 1= latched for reading, Bit 1: 2=stopped for writing
-@item BYTE
-@tab TODL_TEN
-@tab Time of Day - latched tenth of second
-@item BYTE
-@tab TODL_SEC
-@tab Time of Day - latched seconds
-@item BYTE
-@tab TODL_MIN
-@tab Time of Day - latched minutes
-@item BYTE
-@tab TODL_HR
-@tab Time of Day - latched hours
-@item DWORD
-@tab TOD_TICKS
-@tab clk ticks till next tenth of second
-@item --
-@tab --
-@tab The next items have been added in V1.1
-@item WORD
-@tab TASTATE
-@tab The state bits of the CIA timer A, according to ciatimer.h
-@item WORD
-@tab TBSTATE
-@tab The state bits of the CIA timer B, according to ciatimer.h
-@end multitable
 
-The last two items have been added in CIA snapshot version 1.1 due
-to the improved CIA emulation in the newer VICE versions.
-Some state bits correspond to the CIA state as described in the
-"A Software Model of the CIA 6526" document by Wolfgang Lorenz,
-some are delayed versions. For more read the source file
-@code{ciatimer.h}.
-
-@node VIA 6522 module, PIA 6520 module, CIA 6526 module, Module formats
+@node VIA 6522 module, PIA 6520 module, CIA 6526 module, Common Modules
 @subsubsection VIA module
 
 The VIA 6522 is the predecessor of the CIA and also an I/O port chip
 with 2 8-bit I/O ports, a shift register,
 two timers and interrupts.
 
-Version numbers: Major 1, Minor 0.
+@include VIA.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab ORA
-@tab Output register A
-@item BYTE
-@tab DDRA
-@tab Data direction register A
-@item BYTE
-@tab ORB
-@tab Output register B
-@item BYTE
-@tab DDRB
-@tab Data direction register B
-@item WORD
-@tab T1L
-@tab Timer 1 Latch value
-@item WORD
-@tab T1C
-@tab Timer 1 counter value
-@item BYTE
-@tab T2L
-@tab Timer 2 latch (8 bit as only lower byte is used)
-@item WORD
-@tab T2C
-@tab Timer 2 counter value
-@item BYTE
-@tab RUNFL
-@tab bit 7: timer 1 will generate IRQ on underflow; bit 6: timer 2 will generate IRQ on underflow
-@item BYTE
-@tab SR
-@tab Shift register value
-@item BYTE
-@tab ACR
-@tab Auxiliary control register
-@item BYTE
-@tab PCR
-@tab Peripheral control register
-@item BYTE
-@tab IFR
-@tab active interrupts
-@item BYTE
-@tab IER
-@tab interrupt mask
-@item BYTE
-@tab PB7
-@tab bit 7 = pb7 state
-@item BYTE
-@tab SRHBITS
-@tab number of half-bits to shift out on SR
-@item BYTE
-@tab CABSTATE
-@tab bit 7: state of CA2 pin, bit 6: state of CB2 pin
-@item BYTE
-@tab ILA
-@tab Port A Input Latch (see ACR bit 0)
-@item BYTE
-@tab ILB
-@tab Port B Input Latch (see ACR bit 1)
-@end multitable
 
-@node PIA 6520 module, TPI 6525 module, VIA 6522 module, Module formats
+@node PIA 6520 module, TPI 6525 module, VIA 6522 module, Common Modules
 @subsubsection PIA module
 
 The PIA 6520 is a chip with two I/O ports (Parallel Interface Adapter)
@@ -19956,129 +19717,38 @@ and four additional handshake lines.  The chip is pretty the same for
 Port A and B, only that Port A implements handshake on read operation
 and port B on write operation.
 
-Version numbers: Major 1, Minor 0.
+@include PIA.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item UBYTE
-@tab ORA
-@tab Output register A
-@item UBYTE
-@tab DDRA
-@tab Data Direction Register A
-@item UBYTE
-@tab CTRLA
-@tab Control Register A
-@item UBYTE
-@tab ORB
-@tab Output register B
-@item UBYTE
-@tab DDRB
-@tab Data Direction Register B
-@item UBYTE
-@tab CTRLB
-@tab Control Register B
-@item UBYTE
-@tab CABSTATE
-@tab Bit 7 = state of CA2, Bit 6 = state of CB2
-@end multitable
 
-@node TPI 6525 module, RIOT 6532 module, PIA 6520 module, Module formats
+@node TPI 6525 module, RIOT 6532 module, PIA 6520 module, Common Modules
 @subsubsection TPI module
 
 The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface).  One of
 the ports can double as an interrupt prioritizer.  Therefore we also have
 to save the states of the interrupt stack etc.
 
-Version numbers: Major 1, Minor 0.
+@include TPI.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab PRA
-@tab Port A output register
-@item BYTE
-@tab PRB
-@tab Port B output register
-@item BYTE
-@tab PRC
-@tab Port C output register (doubles as IRQ latch register)
-@item BYTE
-@tab DDRA
-@tab Port A data direction register
-@item BYTE
-@tab DDRB
-@tab Port B data direction register
-@item BYTE
-@tab DDRC
-@tab Port C data direction register (doubles as IRQ mask register)
-@item BYTE
-@tab CR
-@tab Control Register
-@item BYTE
-@tab AIR
-@tab Active interrupt register
-@item BYTE
-@tab STACK
-@tab Interrupt stack - the interrupt bits that are not (yet) served.
-@item BYTE
-@tab CABSTATE
-@tab State of CA/CB pins.  Bit 7 = state of CA, Bit 6 = state of CB
-@end multitable
 
-@node RIOT 6532 module, SID 6581 module, TPI 6525 module, Module formats
+@node RIOT 6532 module, SID 6581 module, TPI 6525 module, Common Modules
 @subsubsection RIOT module
 
 The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer.
 The chip contains 128 byte RAM, but the RAM is not saved in the
 RIOT snapshot, but in the memory section.
 
-Version numbers: Major 0, Minor 0.
+@include RIOT.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab ORA
-@tab Port A output register
-@item BYTE
-@tab DDRA
-@tab Port A data direction register
-@item BYTE
-@tab ORB
-@tab Port B output register
-@item BYTE
-@tab DDRB
-@tab Port B data direction register
-@item BYTE
-@tab EDGECTRL
-@tab Bit 0/1: A0/A1 address bits written to edgecontrol registers
-@item BYTE
-@tab IRQFL
-@tab Bit 6/7: A6/A7 IRQ flag register. Bit 0: state of the IRQ line (0=inactive, 1=active)
-@item BYTE
-@tab N
-@tab timer value
-@item WORD
-@tab DIVIDER
-@tab Pre-scale divider value (1, 8, 64, or 1024)
-@item WORD
-@tab REST
-@tab cycles since the last counter change
-@item BYTE
-@tab IRQEN
-@tab Bit 0: 0= timer IRQ disabled, 1= timer IRQ enabled
-@end multitable
 
-@node SID 6581 module, ACIA 6551 module, RIOT 6532 module, Module formats
+@node SID 6581 module, ACIA 6551 module, RIOT 6532 module, Common Modules
 @subsubsection SID module
 
-@node ACIA 6551 module, VIC-I module, SID 6581 module, Module formats
+@include SID.snapshots.texi
+
+@include SIDRESID.snapshots.texi
+
+
+@node ACIA 6551 module, VIC-I module, SID 6581 module, Common Modules
 @subsubsection ACIA module
 
 The ACIA 6551 is an RS232 interface chip.  VICE emulates RS232 connections
@@ -20088,157 +19758,44 @@ The state of the ACIA however is restored if possible.  I.e. if a connection
 is already open when restoring the snapshot, this connection is used
 instead.  If no connection is open, a carrier/DTR drop is emulated.
 
-Version numbers: Major 1, Minor 0.
+@include ACIA.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab TDR
-@tab Transmit Data Register
-@item BYTE
-@tab RDR
-@tab Receiver Data Register
-@item BYTE
-@tab SR
-@tab Status Register
-@item BYTE
-@tab CMD
-@tab Command Register
-@item BYTE
-@tab CTRL
-@tab Ctrl Register
-@item BYTE
-@tab INTX
-@tab 0 = no data to tx; 1 = Data is being transmitted; 2 = Data is being transmitted while data in TDR waiting to be put to internal transmit register
-@item DWORD
-@tab TICKS
-@tab Clock ticks till the next TDR empty interrupt
-@end multitable
 
-@node VIC-I module, VIC-II module, ACIA 6551 module, Module formats
+@node VIC-I module, VIC-II module, ACIA 6551 module, Common Modules
 @subsubsection VIC-I module
 
 @c FIXME: add description
 
-@node VIC-II module, CRTC module, VIC-I module, Module formats
+@include VIC-I.snapshots.texi
+
+
+@node VIC-II module, CRTC module, VIC-I module, Common Modules
 @subsubsection VIC-II module
 
 @c FIXME: add description
 
-@node CRTC module, C64 memory module, VIC-II module, Module formats
+@include VIC-II.snapshots.texi
+
+@include VIC-IISC.snapshots.texi
+
+@include DTVVIC.snapshots.texi
+
+
+@c @node CRTC module, C64 memory module, VIC-II module, Common Modules
+@subsubsection TED module
+
+@c FIXME: add description
+
+@include TED.snapshots.texi
+
+
+@node CRTC module, C64 memory module, VIC-II module, Common Modules
 @subsubsection CRTC module
 
-Version numbers: Major 1, Minor 1.
+@c FIXME: add description
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item
-@tab
-@tab Hardware options
-@item WORD
-@tab VADDR_MASK
-@tab Mask of the address bits valid when accessing the video memory
-@item WORD
-@tab VADDR_CHARSWITCH
-@tab If one bit in the video address is used to switch the character generator, it is masked here.
-@item WORD
-@tab VADDR_CHAROFFSET
-@tab The offset in characters in the character generator that CHARSWITCH switches.
-@item WORD
-@tab VADDR_REVSWITCH
-@tab If one bit in the video address inverts the screen, it is masked here.
-@item WORD
-@tab CHARGEN_MASK
-@tab size of character generator in byte - 1
-@item WORD
-@tab CHARGEN_OFFSET
-@tab offset given by external circuitry
-@item BYTE
-@tab HW_CURSOR
-@tab external hardware cursor circuitry enabled
-@item BYTE
-@tab HW_COLS
-@tab number of displayed columns during one character clock cycle
-@item BYTE
-@tab HW_BLANK
-@tab set if the hardware blank feature is available
-@item
-@tab
-@tab CRTC register
-@item 20 BYTE
-@tab REGISTERS
-@tab register DUMP of the CRTC registers 0-19.
-@item
-@tab
-@tab CRTC internal registers
-@item BYTE
-@tab REGNO
-@tab The current index in the CRTC register file
-@item BYTE
-@tab CHAR
-@tab The current cycle within the current rasterline
-@item BYTE
-@tab CHARLINE
-@tab The current character line
-@item BYTE
-@tab YCOUNTER
-@tab The current rasterline in the character
-@item BYTE
-@tab CRSRCNT
-@tab Framecounter for the blinking cursor
-@item BYTE
-@tab CRSRSTATE
-@tab if set the hardware cursor is visible
-@item BYTE
-@tab CRSRLINES
-@tab set if ycounter is within the active cursor rasterlines for a char
-@item WORD
-@tab CHARGEN_REL
-@tab relative base of currently used character generator in ROM (in byte)
-@item WORD
-@tab SCREEN_REL
-@tab screen address to load the counter at the beginning of the next rasterline
-@item WORD
-@tab VSYNC
-@tab number of rasterlines left within vsync; 0 = not in vsync
-@item BYTE
-@tab VENABLE
-@tab vertical enable flipflop; 1= display, 0= blank.
-@item
-@tab
-@tab (VICE-dependent?) variables
-@item WORD
-@tab SCREEN_WIDTH
-@tab width of the current display window
-@item WORD
-@tab SCREEN_HEIGHT
-@tab height of the current display window
-@item WORD
-@tab SCREEN_XOFFSET
-@tab x position where the first character in a line starts in the window@dots{}
-@item WORD
-@tab HJITTER
-@tab @dots{}but only after adding this jitter
-@item WORD
-@tab SCREEN_YOFFSET
-@tab x position where the first character in a line starts in the window@dots{}
-@item WORD
-@tab FRAMELINES
-@tab expected number of rasterlines for the current frame
-@item WORD
-@tab CURRENT_LINE
-@tab current rasterline as seen from the CRTC
-@item
-@tab
-@tab This value has been added in module version V1.1
-@item BYTE
-@tab FLAG
-@tab Bit 0: If 1 then bit in VADDR_REVSWITCH must be set for reverse; if 0 then bit must be cleared for reverse.
-@end multitable
+@include CRTC.snapshots.texi
+
 
 Here is the reference for the previous CRTC snapshot module. It is outdated
 and will not be read by this and later versions of VICE.
@@ -20269,7 +19826,8 @@ Version numbers: Major 0, Minor 0.
 @tab Hardware cursor: Bits 0-3: frame counter till next crsr line toggle. Bit 7: 1= cursor line active
 @end multitable
 
-@node C64 memory module, C128 memory module, CRTC module, Module formats
+
+@node C64 memory module, C128 memory module, CRTC module, Common Modules
 @subsubsection C64 memory module
 
 The C64 memory module actually consists of two modules.  The "C64MEM" module
@@ -20280,49 +19838,20 @@ The size of the C64 memory modules differs with each different memory
 configuration. The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
-Version numbers: Major 0, Minor 0
+@include C64MEM.snapshots.texi
 
-@b{The C64MEM module}
+@include C64ROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab CPUDATA
-@tab CPU port data byte
-@item BYTE
-@tab CPUDIR
-@tab CPU port direction byte
-@item BYTE
-@tab EXROM
-@tab state of the EXROM line (?)
-@item BYTE
-@tab GAME
-@tab state of the GAME line (?)
-@item ARRAY
-@tab RAM
-@tab 64KiB RAM dump
-@end multitable
+@include C64SCPUMEM.snapshots.texi
 
-@b{The C64ROM module}
+@include C64SCPUROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item ARRAY
-@tab KERNAL
-@tab 8KiB dump of the kernal ROM
-@item ARRAY
-@tab BASIC
-@tab 8KiB dump of the basic ROM
-@item ARRAY
-@tab CHARGEN
-@tab 4KiB dump of the chargen ROM
-@end multitable
+@include C64DTVMEM.snapshots.texi
 
-@node C128 memory module, VIC20 memory module, C64 memory module, Module formats
+@include C64DTVROM.snapshots.texi
+
+
+@node C128 memory module, VIC20 memory module, C64 memory module, Common Modules
 @subsubsection C128 memory module
 
 The C128 memory module actually consists of two modules.  The "C128MEM" module
@@ -20334,43 +19863,12 @@ configuration. The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded. The attached cartridges are
 also restored upon load if they have been saved in the snapshot.
 
-Version numbers: Major 0, Minor 0
+@include C128MEM.snapshots.texi
 
-@b{The C128MEM module}
+@include C128ROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item 12 BYTE
-@tab MMU
-@tab dump of the 12 MMU registers
-@item ARRAY
-@tab RAM
-@tab 128KiB RAM dump banks 0 and 1
-@end multitable
 
-@b{The C128ROM module}
-
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item ARRAY
-@tab KERNAL
-@tab 8KiB dump of the kernal ROM
-@item ARRAY
-@tab BASIC
-@tab 32KiB dump of the basic ROM
-@item ARRAY
-@tab EDITOR
-@tab 4KiB dump of the editor ROM
-@item ARRAY
-@tab 4KiB CHARGEN
-@tab dump of the chargen ROM
-@end multitable
-
-@node VIC20 memory module, PET memory module, C128 memory module, Module formats
+@node VIC20 memory module, PET memory module, C128 memory module, Common Modules
 @subsubsection VIC20 memory module
 
 The VIC20 memory module actually consists of two modules.  The "VIC20MEM" module
@@ -20382,90 +19880,19 @@ configuration. The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded. The attached cartridges are
 also restored upon load if they have been saved in the snapshot.
 
-@b{The VIC20MEM module}
+@include VIC20MEM.snapshots.texi
 
-Version numbers: Major 1, Minor 0
+@include VIC20ROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab CONFIG
-@tab Configuration register.  Bits 0,1,2,3,5 reflect if the corresponding memory block is RAM (bit=1) or not (bit=0).
-@item ARRAY
-@tab RAM0
-@tab 1KiB RAM dump $0000-$03ff
-@item ARRAY
-@tab RAM1
-@tab 4KiB RAM dump $1000-$1fff
-@item ARRAY
-@tab COLORRAM
-@tab 2KiB Color RAM, $9400-$9bff
-@item ARRAY
-@tab BLK0
-@tab if CONFIG & 1 then: 3KiB RAM dump $0400-$0fff
-@item ARRAY
-@tab BLK1
-@tab if CONFIG & 2 then: 8KiB RAM dump $2000-$3fff
-@item ARRAY
-@tab BLK2
-@tab if CONFIG & 4 then: 8KiB RAM dump $4000-$5fff
-@item ARRAY
-@tab BLK3
-@tab if CONFIG & 8 then: 8KiB RAM dump $6000-$7fff
-@item ARRAY
-@tab BLK5
-@tab if CONFIG & 32 then: 8KiB RAM dump $a000-$bfff
-@end multitable
+@c @node VIC20 memory module, PET memory module, C128 memory module, Common Modules
+@subsubsection Plus4 memory module
 
-@b{The VIC20ROM module}
+@include PLUS4MEM.snapshots.texi
 
-Version numbers: Major 1, Minor 1
+@include PLUS4ROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab CONFIG
-@tab Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.
-@item ARRAY
-@tab KERNAL
-@tab 8KiB KERNAL ROM image $e000-$ffff
-@item ARRAY
-@tab BASIC
-@tab 16KiB BASIC ROM image $c000-$dfff
-@item ARRAY
-@tab CHARGEN
-@tab 4KiB CHARGEN ROM image
-@item ARRAY
-@tab BLK1A
-@tab 4KiB ROM image $2*** (if CONFIG & 1)
-@item ARRAY
-@tab BLK1B
-@tab 4KiB ROM image $3*** (if CONFIG & 2)
-@item ARRAY
-@tab BLK3A
-@tab 4KiB ROM image $6*** (if CONFIG & 16)
-@item ARRAY
-@tab BLK3B
-@tab 4KiB ROM image $7*** (if CONFIG & 32)
-@item ARRAY
-@tab BLK5A
-@tab 4KiB ROM image $A*** (if CONFIG & 64)
-@item ARRAY
-@tab BLK5B
-@tab 4KiB ROM image $B*** (if CONFIG & 128)
-@item ARRAY
-@tab BLK2A
-@tab 4KiB ROM image $4*** (if CONFIG & 4; added in V1.1)
-@item ARRAY
-@tab BLK2B
-@tab 4KiB ROM image $5*** (if CONFIG & 8; added in V1.1)
-@end multitable
 
-@node PET memory module, CBM-II memory module, VIC20 memory module, Module formats
+@node PET memory module, CBM-II memory module, VIC20 memory module, Common Modules
 @subsubsection PET memory module
 
 The PET memory module actually consists of three modules.  The "PETMEM" module
@@ -20478,71 +19905,6 @@ The size of the PET memory modules differs with each different memory
 configuration.  The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
-@b{The PETMEM module}
-
-Version numbers: Major 1, Minor 3
-
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab CONFIG
-@tab Configuration value. Bits 0-3: 0= 40 col PET without CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1= RAM at $A***.
-@item BYTE
-@tab KEYBOARD
-@tab Keyboard type. 0= UK business; 1= Graphics; 2= German business
-@item BYTE
-@tab MEMSIZE
-@tab memory size of low 32KiB in k (possible values 4, 8, 16, 32)
-@item BYTE
-@tab CONF8X96
-@tab Value of the 8x96 configuration register
-@item BYTE
-@tab SUPERPET
-@tab SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use.
-@item ARRAY
-@tab RAM
-@tab 4-32KiB RAM (not 8296, size depends on MEMSIZE)
-@item ARRAY
-@tab VRAM
-@tab 2/4KiB RAM (not 8296, size depends on CONFIG)
-@item ARRAY
-@tab EXTRAM
-@tab 64KiB expansion RAM (SuperPET and 8096 only)
-@item ARRAY
-@tab RAM
-@tab 128KiB RAM (8296 only)
-@item --
-@tab --
-@tab The following item has been added in V1.1
-@item BYTE
-@tab POSITIONAL
-@tab bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.
-@item --
-@tab --
-@tab The following item has been added in V1.2
-@item BYTE
-@tab EOIBLANK
-@tab bit 0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.
-@item --
-@tab --
-@tab The following items have been added in V1.3
-@item WORD
-@tab CPU_SWITCH
-@tab 6502 / 6809 / PROG
-@item BYTE
-@tab VAL, PREVODD, WANTODD
-@tab 6702 dongle state information
-@item WORD[8]
-@tab SHIFT
-@item BYTE
-@tab SuperPET config 2
-@tab Extra bits due to the Super-OS-9 MMU. Bit 5: FIRQ disabled. Bit 6:
-expansion memory in OS-9 flat mode.
-
-@end multitable
-
 The POSITIONAL item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
@@ -20553,54 +19915,10 @@ resource.
 
 In V1.3 the state for SuperPET has been added.
 
-@b{The PETROM module}
+@include PETMEM.snapshots.texi
 
-Version numbers: Major 1, Minor 1
+@include PETROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item BYTE
-@tab CONFIG
-@tab Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM included. Bit 2: 1= $B*** ROM included. Bit 3: 1= $e900-$efff ROM included. Bit 4: 1= SuperPET ROMs included.
-@item ARRAY
-@tab KERNAL
-@tab 4KiB KERNAL ROM image $f000-$ffff
-@item ARRAY
-@tab EDITOR
-@tab 2KiB EDITOR ROM image $e000-$e7ff
-@item ARRAY
-@tab CHARGEN
-@tab 2KiB CHARGEN ROM image
-@item ARRAY
-@tab ROM9
-@tab 4KiB $9*** ROM image (if CONFIG & 1)
-@item ARRAY
-@tab ROMA
-@tab 4KiB $A*** ROM image (if CONFIG & 2)
-@item ARRAY
-@tab ROMB
-@tab 4KiB $B*** ROM image (if CONFIG & 4)
-@item ARRAY
-@tab ROMC
-@tab 4KiB $C*** ROM image
-@item ARRAY
-@tab ROMD
-@tab 4KiB $D*** ROM image
-@item ARRAY
-@tab ROME9
-@tab 7 blocks $e900-$efff ROM image (if CONFIG & 8)
-@item --
-@tab --
-@tab The following items have been added in V1.1
-@item ROM6809
-@tab ROM6809
-@tab 24KiB $A000-$FFFF ROM   (if CONFIG & 16)
-@item ARRAY
-@tab CHARGEN(2)
-@tab upper half of CHARGEN (if CONFIG & 16)
-@end multitable
 
 @b{The PETDWW module}
 
@@ -20609,19 +19927,12 @@ PETDWWPIA module, and a DWWMEM module.
 
 The former has the same format as the PIA1.
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item WORD
-@tab SIZE
-@tab The size of the memory dump that follows, or 0 if DWW disabled.
-@item ARRAY
-@tab MEM
-@tab The memory in the DWW card, SIZE bytes.
-@end multitable
+@include DWWMEM.snapshots.texi
 
-@node CBM-II memory module, C500 data module, PET memory module, Module formats
+@c @include PETDWWPIA.snapshots.texi
+
+
+@node CBM-II memory module, C500 data module, PET memory module, Common Modules
 @subsubsection CBM-II memory module
 
 The CBM-II memory module actually consists of two modules.  The
@@ -20632,57 +19943,8 @@ The size of the CBM-II memory modules differs with each different memory
 configuration.  The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
-Version numbers: Major 1, Minor 0
+@include CBM2MEM.snapshots.texi
 
-@b{The CBM2MEM module}
-
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item UBYTE
-@tab MEMSIZE
-@tab Memory size in 128KiB blocks (1=128KiB, 2=256KiB, 4=512KiB, 8=1024KiB)
-@item UBYTE
-@tab CONFIG
-@tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM, Bit 6 = is a C500
-@item UBYTE
-@tab HWCONFIG
-@tab Bit 0/1: model line configuration
-@item UBYTE
-@tab EXECBANK
-@tab CPUs execution bank register
-@item UBYTE
-@tab INDBANK
-@tab CPUs indirection bank register
-@item ARRAY
-@tab SYSRAM
-@tab 2KiB system RAM $f0000-$f07ff
-@item ARRAY
-@tab VIDEO
-@tab 2KiB video RAM $fd000-$fd7ff
-@item ARRAY
-@tab RAM
-@tab RAM dump, size according to MEMSIZE
-@item ARRAY
-@tab RAM08
-@tab if memsize < 1MiB and CONFIG & 1 : 2KiB RAM $f0800-$f0fff
-@item ARRAY
-@tab RAM1
-@tab if memsize < 1MiB and CONFIG & 2 : 4KiB RAM $f1000-$f1fff
-@item ARRAY
-@tab RAM2
-@tab if memsize < 1MiB and CONFIG & 4 : 8KiB RAM $f2000-$f3fff
-@item ARRAY
-@tab RAM4
-@tab if memsize < 1MiB and CONFIG & 8 : 8KiB RAM $f4000-$f5fff
-@item ARRAY
-@tab RAM6
-@tab if memsize < 1MiB and CONFIG & 16 : 8KiB RAM $f6000-$f7fff
-@item ARRAY
-@tab RAMC
-@tab if memsize < 1MiB and CONFIG & 32 : 4KiB RAM $fc000-$fcfff
-@end multitable
 
 The RAM* arrays are only saved if the RAM itself is less than 1MiB.
 If the memory size is 1MiB then those areas are taken from the
@@ -20692,56 +19954,23 @@ The memory array starts at $10000 if the memory size is less than 512KiB,
 or at $00000 if 512KiB or more. In case of a C510, then the memory array
 also always starts at $00000.
 
-@b{The CBM2ROM module}
+@include CBM2ROM.snapshots.texi
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item UBYTE
-@tab CONFIG
-@tab Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included. Bit 5: 1= chargen ROM is VIC-II chargen, 0= CRTC chargen.
-@item ARRAY
-@tab KERNAL
-@tab 8 KERNAL ROM image ($e000-$efff)
-@item ARRAY
-@tab BASIC
-@tab BASIC ROM image ($8000-$bfff)
-@item ARRAY
-@tab CHARGEN
-@tab 4KiB CHARGEN ROM image
-@item ARRAY
-@tab ROM1
-@tab 4KiB cartridge ROM image for $1*** (if CONFIG & 2)
-@item ARRAY
-@tab ROM2
-@tab 8KiB cartridge ROM image for $2000-$3fff (if CONFIG & 4)
-@item ARRAY
-@tab ROM4
-@tab 8KiB cartridge ROM image for $4000-$5fff (if CONFIG & 8)
-@item ARRAY
-@tab ROM6
-@tab 8KiB cartridge ROM image for $6000-$7fff (if CONFIG & 16)
-@end multitable
 
-@node C500 data module,  ,CBM-II memory module, Module formats
+
+@node C500 data module,  ,CBM-II memory module, Common Modules
 @subsubsection C500 data module
 
 The C500 data module contains simple state information not already saved
 in the other modules.
 
-Version numbers: Major 0, Minor 0
+@include C500DATA.snapshots.texi
 
-@b{The C500DATA module}
 
-@multitable @columnfractions .1 .4 .5
-@item Type
-@tab Name
-@tab Description
-@item DWORD
-@tab IRQCLK
-@tab CPU clock ticks till next 50Hz IRQ
-@end multitable
+@c @node FIXME
+@subsection other modules
+
+@include snapshots.texi
 
 @c -----------------------------------------------------------------
 @node Media images
