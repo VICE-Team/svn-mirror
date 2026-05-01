@@ -591,6 +591,19 @@ int vic_fp_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+
+/* VICFLASHPLUGIN 2.0 snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | cart_bank_reg    |
+   BYTE  | cart_cfg_reg     |
+   ARRAY | cart_ram         | CART_RAM_SIZE
+   ARRAY | cart_rom         | CART_ROM_SIZE
+
+   followed by flash040 snapshot module
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "VICFLASHPLUGIN"

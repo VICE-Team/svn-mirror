@@ -653,6 +653,18 @@ void uc1_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTUC1 0.2 snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | regval           |
+   BYTE  | bankmask         |
+   ARRAY | roml_banks       | 0x2000 * MAXBANKS
+   ARRAY | romh_banks       | 0x2000 * MAXBANKS
+   ARRAY | cart_ram         | CART_RAM_SIZE
+
+*/
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTUC1"

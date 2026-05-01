@@ -331,6 +331,25 @@ void spi_flash_set_image(uint8_t *img, uint32_t size)
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
+/* EN25QH128A 0.1 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   BYTE   | eeprom_cs               |
+   BYTE   | eeprom_clock            |
+   BYTE   | eeprom_data_in          |
+   BYTE   | eeprom_data_out         |
+   BYTE   | input_shiftreg          |
+   BYTE   | input_count             |
+   BYTE   | output_shiftreg         |
+   BYTE   | output_count            |
+   BYTE   | command                 |
+   BYTE   | addr                    |
+   BYTE   | write_enable_status     |
+   BYTE   | ready_busy_status       |
+   ARRAY  | spi_flash_data          | MAX_ROM_SIZE
+*/
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "EN25QH128A"

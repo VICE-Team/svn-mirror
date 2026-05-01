@@ -51,10 +51,33 @@
 
 static log_t plus4_snapshot_log = LOG_DEFAULT;
 
+/* PLUS4MEM 1.0 snapshot module format:
+
+   type  | name             | description
+   ------------------------------------------
+   BYTE  | pport.data       |
+   BYTE  | pport.dir        |
+   BYTE  | pport.data_out   |
+   BYTE  | mem_config       |
+   ARRAY | mem_ram          | PLUS4_RAM_SIZE
+
+   followed by ROMs and cartridge modules
+*/
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 static const char snap_mem_module_name[] = "PLUS4MEM";
 
+/* PLUS4ROM 1.0 snapshot module format:
+
+   type  | name            | description
+   ------------------------------------------
+   ARRAY | kernal rom      | PLUS4_KERNAL_ROM_SIZE
+   ARRAY | basic rom       | PLUS4_BASIC_ROM_SIZE
+   ARRAY | extromlo1       | PLUS4_BASIC_ROM_SIZE
+   ARRAY | extromlo3       | PLUS4_BASIC_ROM_SIZE
+   ARRAY | extromhi1       | PLUS4_KERNAL_ROM_SIZE
+   ARRAY | extromhi3       | PLUS4_KERNAL_ROM_SIZE
+*/
 #define SNAP_ROM_MAJOR 1
 #define SNAP_ROM_MINOR 0
 static const char snap_rom_module_name[] = "PLUS4ROM";

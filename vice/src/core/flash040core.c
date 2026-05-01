@@ -498,6 +498,17 @@ void flash040core_shutdown(flash040_context_t *flash040_context)
 
 /* -------------------------------------------------------------------------- */
 
+/* FLASH040 2.0 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   BYTE   | state                   |
+   BYTE   | base_state              |
+   BYTE   | program_byte            |
+   ARRAY  | erase_mask              | FLASH040_ERASE_MASK_SIZE
+   BYTE   | last_read               |
+*/
+
 #define FLASH040_DUMP_VER_MAJOR   2
 #define FLASH040_DUMP_VER_MINOR   0
 

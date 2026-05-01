@@ -404,17 +404,18 @@ int mypia_dump(void)
 
 static char snap_module_name[] = MYPIA_NAME;
 
-/*
- * The dump data:
- *
- * UBYTE        ORA
- * UBYTE        DDRA
- * UBYTE        CTRLA
- * UBYTE        ORB
- * UBYTE        DDRB
- * UBYTE        CTRLB
- * UBYTE        CABSTATE        Bit 7 = state of CA2, Bit 6 = state of CB2
- *
+/* PIA 1.0 snapshot module format:
+
+   type    | name        | description
+   -----------------------------------
+   UBYTE   | ORA         | Output register A
+   UBYTE   | DDRA        | Data Direction Register A
+   UBYTE   | CTRLA       | Control Register A
+   UBYTE   | ORB         | Output register B
+   UBYTE   | DDRB        | Data Direction Register B
+   UBYTE   | CTRLB       | Control Register B
+   UBYTE   | CABSTATE    |   Bit 7 = state of CA2, Bit 6 = state of CB2
+
  */
 
 /* FIXME!!!  Error check.  */

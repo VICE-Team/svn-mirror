@@ -243,6 +243,13 @@ void rabbit_detach(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* RABBIT snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   ARRAY | cart_rom | 2 * 0x400 bytes of ROM data
+ */
+
 #define VIC20CART_DUMP_VER_MAJOR   0
 #define VIC20CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "RABBIT"

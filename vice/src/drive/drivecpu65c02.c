@@ -428,6 +428,28 @@ static void drivecpu65c02_set_bank_base(void *context)
 
 /* ------------------------------------------------------------------------- */
 
+/* DRIVECPU65C02 1.3 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   CLOCK | clock                |
+   UBYTE | a                    |
+   UBYTE | x                    |
+   UBYTE | y                    |
+   UBYTE | sp                   |
+   WORD  | pc                   |
+   UBYTE | status               |
+   DWORD | last_opcode_info     |
+   CLOCK | last_clk             |
+   CLOCK | cycle_accum          |
+   CLOCK | last_exc_cycles      |
+   CLOCK | stop_clk             |
+   UBYTE | cpu_last_data        |
+   ARRAY | drive RAM            | size depends on drive
+
+   followed by CPU interrupt snapshot data
+*/
+
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 3
 

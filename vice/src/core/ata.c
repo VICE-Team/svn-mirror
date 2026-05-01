@@ -1369,6 +1369,44 @@ int ata_register_dump(ata_drive_t *drv)
  * checksum to check if there was any modification meanwhile.
  */
 
+/* ATA 0.7 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   STRING | filename                |
+   DWORD  | type                    |
+   WORD   | geometry.cylinders      |
+   BYTE   | geometry.heads          |
+   BYTE   | geometry.sectors        |
+   DWORD  | geometry.size           |
+   BYTE   | error                   |
+   BYTE   | features                |
+   BYTE   | sector_count            |
+   BYTE   | sector_count_internal   |
+   BYTE   | sector                  |
+   WORD   | cylinder                |
+   BYTE   | head,dev<<4,lba<<6,legacy   |
+   BYTE   | control                 |
+   BYTE   | cmd                     |
+   BYTE   | power                   |
+   ARRAY  | packet                  | sizeof(packet)
+   WORD   | bufp                    |
+   ARRAY  | buffer                  | sector_size
+   WORD   | cylinders               |
+   BYTE   | heads                   |
+   BYTE   | sectors                 |
+   DWORD  | pos                     |
+   DWORD  | pos / sector_size       |
+   BYTE   | wcache                  |
+   BYTE   | lookahead               |
+   BYTE   | busy                    |
+   CLOCK  | spindle_clk             |
+   CLOCK  | head_clk                |
+   CLOCK  | standby_clk             |
+   DWORD  | standby                 |
+   DWORD  | standby_max             |
+*/
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   7
 

@@ -460,7 +460,27 @@ void m93c86_close_image(int rw)
 }
 
 /* ---------------------------------------------------------------------*/
-/*    snapshot support functions                                             */
+
+/* M93C86 0.1 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   BYTE  | eeprom_cs            |
+   BYTE  | eeprom_clock         |
+   BYTE  | eeprom_data_in       |
+   BYTE  | eeprom_data_out      |
+   BYTE  | input_shiftreg       |
+   BYTE  | input_count          |
+   BYTE  | output_shiftreg      |
+   BYTE  | output_count         |
+   BYTE  | command              |
+   BYTE  | addr                 |
+   BYTE  | data0                |
+   BYTE  | data1                |
+   BYTE  | write_enable_status  |
+   BYTE  | ready_busy_status    |
+   ARRAY | m93c86_data          | 2048 bytes of ROM data
+ */
 
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   1

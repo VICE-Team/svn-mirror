@@ -1255,6 +1255,14 @@ void keyboard_event_delayed_playback(void *data)
 
 /*--------------------------------------------------------------------------*/
 
+/* KEYBOARD 1.1 snapshot module format:
+
+   type        | name           | description
+   ------------------------------------------
+   WORD ARRAY  | keyarr         |
+   WORD ARRAY  | rev_keyarr     |
+*/
+
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 #define SNAP_NAME  "KEYBOARD"

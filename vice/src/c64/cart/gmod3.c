@@ -593,6 +593,17 @@ void gmod3_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTGMOD3 0.1 snapshot module format:
+
+   type  | name         | description
+   -----------------------------------
+   BYTE  | gmod3_cmode  |
+   BYTE  | gmod3_bank   |
+   ARRAY | gmod3_rom    | GMOD3_16MB_FLASH_SIZE
+
+   followed by SPI flash module
+*/
+
 static const char snap_module_name[] = "CARTGMOD3";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1

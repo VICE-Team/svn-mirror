@@ -1011,6 +1011,31 @@ uint8_t wd1770d_peek(diskunit_context_t *drv, uint16_t addr)
     return wd1770_peek(drv->wd1770, (uint16_t)(addr & 3));
 }
 
+/* WD1770 1.0 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   BYTE   | data                    |
+   BYTE   | track                   |
+   BYTE   | sector                  |
+   BYTE   | status                  |
+   BYTE   | cmd                     |
+   WORD   | crc                     |
+   BYTE   | command                 |
+   DWORD  | type                    |
+   DWORD  | step                    |
+   DWORD  | byte_count              |
+   DWORD  | tmp                     |
+   DWORD  | direction               |
+   CLOCK  | clk                     |
+   BYTE   | irq                     |
+   BYTE   | dden                    |
+   BYTE   | sync                    |
+   BYTE   | is1772                  |
+
+    followed by FDD snapshot
+*/
+
 #define WD1770_SNAP_MAJOR 1
 #define WD1770_SNAP_MINOR 0
 

@@ -385,6 +385,17 @@ void stardos_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTSTARDOS snapshot module format:
+
+   type  | name                 | description
+   --------------------------------
+   DWORD | stardos_alarm_time   | alarm time for cap discharge
+   DWORD | cap_voltage          | cap voltage
+   BYTE  | roml_enable          | is roml enabled?
+   ARRAY | roml_banks           | 8192 bytes of ROML data
+   ARRAY | romh_banks           | 8192 bytes of ROMH data
+ */
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSTARDOS"

@@ -450,9 +450,30 @@ unsigned int maincpu_get_sp(void) {
 
 /* ------------------------------------------------------------------------- */
 
-static char snap_module_name[] = "MAIN6565802CPU";
+/* MAIN65816CPU 1.2 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   CLOCK | main clock           |
+   UBYTE | a                    |
+   UBYTE | b                    |
+   WORD  | x                    |
+   WORD  | y                    |
+   WORD  | sp                   |
+   WORD  | dpr                  |
+   UBYTE | pbr                  |
+   UBYTE | dbr                  |
+   UBYTE | emul                 |
+   WORD  | pc                   |
+   UBYTE | status               |
+   DWORD | last_opcode_info     |
+
+   Note: renamed "MAIN6565802CPU" to "MAIN65816CPU" in 1.3
+*/
+
+static char snap_module_name[] = "MAIN65816CPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {

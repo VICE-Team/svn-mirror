@@ -75,31 +75,32 @@ void ted_snapshot_prepare(void)
 
     NOTE: if you run into problems when testing, try running with a clean config and sound disabled
 
-    This is the format of the TED snapshot module:
+    FIXME: the following also doesn't match the code
 
-    Name                        Type   Size   Description
+    TED snapshot module format:
 
-    last_emulate_line_clk       DWORD  1
-    AllowBadLines               BYTE   1      flag: if true, bad lines can happen
-    BadLine                     BYTE   1      flag: this is a bad line
-    Blank                       BYTE   1      flag: draw lines in border color
-    ColorBuf                    BYTE   40     character memory buffer (loaded at bad line)
-    IdleState                   BYTE   1      flag: idle state enabled
-    MatrixBuf                   BYTE   40     video matrix buffer (loaded at bad line)
-    RamBase                     DWORD  1      pointer to the start of RAM seen by the TED
-    RasterCycle                 BYTE   1      current ted.raster cycle
-    RasterLine                  WORD   1      current ted.raster line
-    Registers                   BYTE   64     TED registers
-    ted_raster_counter          DWORD  1
-    Vc                          WORD   1      internal TED counter
-    mem_counter_inc             BYTE   1      (VcInc) value to add to Vc at the end of this line
-    VcBase                      WORD   1      internal TED memory pointer
-    VideoInt                    BYTE   1      status of TED IRQ (ted.irq_status)
-
+    Type    | Name                       |  Description
+    ---------------------------------------------------
+    DWORD   | last_emulate_line_clk      |
+    BYTE    | AllowBadLines              |  flag: if true, bad lines can happen
+    BYTE    | BadLine                    |  flag: this is a bad line
+    BYTE    | Blank                      |  flag: draw lines in border color
+    40*BYTE | ColorBuf                   |  character memory buffer (loaded at bad line)
+    BYTE    | IdleState                  |  flag: idle state enabled
+    40*BYTE | MatrixBuf                  |  video matrix buffer (loaded at bad line)
+    DWORD   | RamBase                    |  pointer to the start of RAM seen by the TED
+    BYTE    | RasterCycle                |  current ted.raster cycle
+    WORD    | RasterLine                 |  current ted.raster line
+    64*BYTE | Registers                  |  TED registers
+    DWORD   | ted_raster_counter         |
+    WORD    | Vc                         |  internal TED counter
+    BYTE    | mem_counter_inc            |  (VcInc) value to add to Vc at the end of this line
+    WORD    | VcBase                     |  internal TED memory pointer
+    BYTE    | VideoInt                   |  status of TED IRQ (ted.irq_status)
+            |
     [Alarm section]
-    FetchEventTick              DWORD  1      ticks for the next "fetch" (DMA) event
-
- */
+    DWORD   | FetchEventTick             |  ticks for the next "fetch" (DMA) event
+*/
 
 static char snap_module_name[] = "TED";
 #define SNAP_MAJOR 1

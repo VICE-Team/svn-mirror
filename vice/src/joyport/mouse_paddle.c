@@ -391,7 +391,7 @@ int paddles_cmdline_options_init(void)
     return cmdline_register_options(cmdline_extra_option);
 }
 
-/* PADDLES snapshot module format:
+/* PADDLES 1.0 snapshot module format:
 
    type  | name                   | description
    ----------------------------------------
@@ -538,7 +538,7 @@ static joyport_t koalapad_joyport_device = {
     0                           /* NO device hook function mask */
 };
 
-/* KOALAPAD snapshot module format:
+/* KOALAPAD 0.0 snapshot module format:
 
    type  | name                   | description
    ----------------------------------------

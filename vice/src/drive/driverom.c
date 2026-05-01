@@ -310,6 +310,15 @@ void driverom_initialize_traps(diskunit_context_t *unit)
 
 /* -------------------------------------------------------------------- */
 
+/*
+    DRIVEROM 1.0 snapshot module format:
+
+   Type       | Name                        | Description
+   ------------------------------------------------------
+   ARRAY      | drive ROM                   | size depends on drive
+
+*/
+
 #define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
 

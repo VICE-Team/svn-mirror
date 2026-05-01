@@ -993,6 +993,15 @@ int cartridge_type_enabled(int crtid)
 /* FIXME: due to the snapshots being generally broken as a whole, none of this
           could be tested */
 
+/* PLUS4CART snapshot module format:
+
+   type  | name                 | description
+   --------------------------------
+   BYTE  | number_of_carts      | number of attached carts
+   BYTE  | mem_cartridge_type   | main type
+   ARRAY | cart_ids             | number_of_carts * DWORD cartridge IDs
+ */
+
 #define PLUS4CART_DUMP_MAX_CARTS  1
 
 #define PLUS4CART_DUMP_VER_MAJOR   0

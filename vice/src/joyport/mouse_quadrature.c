@@ -333,7 +333,7 @@ static int read_poll_val_snapshot(snapshot_module_t *m)
     return 0;
 }
 
-/* MOUSE_AMIGA snapshot module format:
+/* MOUSE_AMIGA 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------
@@ -421,7 +421,7 @@ fail:
 
 /* --------------------------------------------------------- */
 
-/* MOUSE_CX22 snapshot module format:
+/* MOUSE_CX22 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------
@@ -502,7 +502,7 @@ fail:
 
 /* --------------------------------------------------------- */
 
-/* MOUSE_ST snapshot module format:
+/* MOUSE_ST 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------

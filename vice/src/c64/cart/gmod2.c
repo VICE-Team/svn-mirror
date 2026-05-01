@@ -546,6 +546,18 @@ void gmod2_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTGMOD2 0.2 snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | gmod2_cmode      |
+   BYTE  | gmod2_bank       |
+   ARRAY | flash_data       | GMOD2_FLASH_SIZE
+
+   followed by m93c86 snapshot module
+   followed by flash040 snapshot module
+*/
+
 static const char snap_module_name[] = "CARTGMOD2";
 static const char flash_snap_module_name[] = "FLASH040GMOD2";
 #define SNAP_MAJOR   0

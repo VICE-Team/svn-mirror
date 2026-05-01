@@ -1360,6 +1360,30 @@ void datasette_event_playback_port2(CLOCK offset, void *data)
     Snapshot support
  ******************************************************************************/
 
+/* DATASETTE 1.5 snapshot module format:
+
+   type  | name                             | description
+   -------------------------------------------------------
+   BYTE  | datasette_motor                  |
+   BYTE  | notape_mode                      |
+   CLOCK | last_write_clk                   |
+   CLOCK | motor_stop_clk                   |
+   BYTE  | datasette_alarm_pending          |
+   CLOCK | alarm_clk                        |
+   CLOCK | datasette_long_gap_pending       |
+   CLOCK | datasette_long_gap_elapsed       |
+   BYTE  | datasette_last_direction         |
+   DWORD | datasette_counter_offset         |
+   BYTE  | reset_datasette_with_maincpu     |
+   DWORD | datasette_zero_gap_delay         |
+   DWORD | datasette_speed_tuning           |
+   DWORD | datasette_tape_wobble_frequency  |
+   DWORD | datasette_tape_wobble_amplitude  |
+   DWORD | datasette_tape_azimuth_error     |
+   BYTE  | fullwave                         |
+   CLOCK | fullwave_gap                     |
+*/
+
 #define DATASETTE_SNAP_MAJOR 1
 #define DATASETTE_SNAP_MINOR 5
 

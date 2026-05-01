@@ -52,6 +52,14 @@ void vdrive_snapshot_init(void)
     vdrive_snapshot_log = log_open("VDriveSnapshot");
 }
 
+/* VDRIVEIMAGE 2.0 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+
+   FIXME: no content is actually written to the VDRIVEIMAGE module(s)
+*/
+
 #define SNAP_MAJOR 2
 #define SNAP_MINOR 0
 
@@ -66,6 +74,7 @@ int vdrive_snapshot_module_write(snapshot_t *s)
     for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
         resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
         if (tde == 0) {
+            /* only if TDE is disabled */
             floppy = file_system_get_vdrive(i);
             for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
                 image = vdrive_get_image(floppy, j);
@@ -76,6 +85,7 @@ int vdrive_snapshot_module_write(snapshot_t *s)
                     if (m == NULL) {
                         return -1;
                     }
+                    /* FIXME: no content is actually written to the VDRIVEIMAGE module? */
                     snapshot_module_close(m);
                 }
             }

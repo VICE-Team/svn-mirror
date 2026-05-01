@@ -175,7 +175,7 @@ static void userport_joystick_v8_store_pbx(uint8_t value, int pulse)
 
 /* ---------------------------------------------------------------------*/
 
-/* UP_JOY_V8 snapshot module format:
+/* UPJOYV8 snapshot module format:
 
    type  | name   | description
    ----------------------------

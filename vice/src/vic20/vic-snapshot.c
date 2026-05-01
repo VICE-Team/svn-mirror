@@ -41,6 +41,36 @@
 #include "vic-mem.h"
 #include "vic-snapshot.h"
 
+/* VIC-I 0.4 snapshot module format:
+
+   type     | name                      | description
+   --------------------------------------------------
+   DWORD    | interlace_enabled         |
+   DWORD    | interlace_field           |
+   CLOCK    | framestart_cycle          |
+   BYTE     | raster_cycle              |
+   WORD     | raster_line               |
+   WORD     | area                      |
+   WORD     | fetch_state               |
+   DWORD    | raster_line               |
+   DWORD    | text_cols                 |
+   DWORD    | text_lines                |
+   DWORD    | pending_text_cols         |
+   DWORD    | line_was_blank            |
+   DWORD    | memptr                    |
+   DWORD    | memptr_inc                |
+   DWORD    | row_counter               |
+   DWORD    | buf_offset                |
+   BYTE     | light_pen.state           |
+   BYTE     | light_pen.triggered       |
+   DWORD    | light_pen.x               |
+   DWORD    | light_pen.y               |
+   DWORD    | light_pen.x_extra_bits    |
+   CLOCK    | light_pen.trigger_cycle   |
+   BYTE     | vbuf                      |
+   ARRAY    | color ram                 | 0x400 bytes of color ram data ($9400 - $97ff) FIXME: is this really correct?
+   10*BYTE  | registers                 | 10 VIC-I registers
+*/
 
 static char snap_module_name[] = "VIC-I";
 #define SNAP_MAJOR 0
@@ -164,6 +194,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
+    /* VIC-I registers */
     for (i = 0; i < 0x10; i++) {
         if (SMR_B(m, &b) < 0) {
             goto fail;

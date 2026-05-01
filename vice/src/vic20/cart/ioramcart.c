@@ -199,14 +199,14 @@ void ioramcart_io3_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* IO2RAMCART snapshot module format:
+/* IO2RAMCART 0.0 snapshot module format:
 
    type  | name | description
    --------------------------
    ARRAY | RAM  | 1024 BYTES of RAM data
  */
 
-/* IO3RAMCART snapshot module format:
+/* IO3RAMCART 0.0 snapshot module format:
 
    type  | name | description
    --------------------------

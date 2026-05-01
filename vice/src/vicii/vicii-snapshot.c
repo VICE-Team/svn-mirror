@@ -62,48 +62,44 @@ void vicii_snapshot_prepare(void)
 
 
 /*
+   VIC-II 1.3 snapshot module format:
 
-   This is the format of the VIC-II snapshot module.
-
-   Name               Type   Size   Description
-
-   AllowBadLines      BYTE   1      flag: if true, bad lines can happen
-   BadLine            BYTE   1      flag: this is a bad line
-   Blank              BYTE   1      flag: draw lines in border color
-   ColorBuf           BYTE   40     character memory buffer (loaded at bad line)
-   ColorRam           BYTE   1024   contents of color RAM
-   IdleState          BYTE   1      flag: idle state enabled
-   LPTrigger          BYTE   1      flag: light pen has been triggered
-   LPX                BYTE   1      light pen X
-   LPY                BYTE   1      light pen Y
-   MatrixBuf          BYTE   40     video matrix buffer (loaded at bad line)
-   NewSpriteDmaMask   BYTE   1      value for SpriteDmaMask after drawing
-                                    sprites
-   RamBase            DWORD  1      pointer to the start of RAM seen by the VIC
-   RasterCycle        BYTE   1      current vicii.raster cycle
-   RasterLine         WORD   1      current vicii.raster line
-   Registers          BYTE   64     VIC-II registers
-   SbCollMask         BYTE   1      sprite-background collisions so far
-   SpriteDmaMask      BYTE   1      sprites having DMA turned on
-   SsCollMask         BYTE   1      sprite-sprite collisions so far
-   VBank              BYTE   1      location of memory bank
-   Vc                 WORD   1      internal VIC-II counter
-   VcAdd              BYTE   1      value to add to Vc at the end of this line
-                                    (vicii.mem_counter_inc)
-   VcBase             WORD   1      internal VIC-II memory pointer
-   VideoInt           BYTE   1      status of VIC-II IRQ (vicii.irq_status)
+   Type     | Name              | Description
+   ------------------------------------------
+   BYTE     | AllowBadLines     | flag: if true, bad lines can happen
+   BYTE     | BadLine           | flag: this is a bad line
+   BYTE     | Blank             | flag: draw lines in border color
+   ARRAY    | ColorBuf          | 40 bytes, character memory buffer (loaded at bad line)
+   ARRAY    | ColorRam          | 1024 bytes,  contents of color RAM
+   BYTE     | IdleState         | flag: idle state enabled
+   BYTE     | LPTrigger         | flag: light pen has been triggered
+   BYTE     | LPX               | light pen X
+   BYTE     | LPY               | light pen Y
+   ARRAY    | MatrixBuf         | 40 bytes, video matrix buffer (loaded at bad line)
+   BYTE     | NewSpriteDmaMask  | value for SpriteDmaMask after drawing sprites
+   DWORD    | RamBase           | pointer to the start of RAM seen by the VIC
+   BYTE     | RasterCycle       | current vicii.raster cycle
+   WORD     | RasterLine        | current vicii.raster line
+   64*BYTE  | Registers         | VIC-II registers
+   BYTE     | SbCollMask        | sprite-background collisions so far
+   BYTE     | SpriteDmaMask     | sprites having DMA turned on
+   BYTE     | SsCollMask        | sprite-sprite collisions so far
+   BYTE     | VBank             | location of memory bank
+   WORD     | Vc                | internal VIC-II counter
+   BYTE     | VcAdd             | value to add to Vc at the end of this line (vicii.mem_counter_inc)
+   WORD     | VcBase            | internal VIC-II memory pointer
+   BYTE     | VideoInt          | status of VIC-II IRQ (vicii.irq_status)
 
    [Sprite section: (repeat 8 times)]
 
-   SpriteXMemPtr      BYTE   1      sprite memory pointer
-   SpriteXMemPtrInc   BYTE   1      value to add to the MemPtr after fetch
-   SpriteXExpFlipFlop BYTE   1      sprite expansion flip-flop
+   BYTE     | SpriteXMemPtr     | sprite memory pointer
+   BYTE     | SpriteXMemPtrInc  | value to add to the MemPtr after fetch
+   BYTE     | SpriteXExpFlipFlop| sprite expansion flip-flop
 
    [Alarm section]
-   FetchEventTick     DWORD  1      ticks for the next "fetch" (DMA) event
-   FetchEventType     BYTE   1      type of event (0: matrix, 1: sprite check, 2: sprite fetch)
-
- */
+   DWORD    | FetchEventTick    | ticks for the next "fetch" (DMA) event
+   BYTE     | FetchEventType    | type of event (0: matrix, 1: sprite check, 2: sprite fetch)
+*/
 
 static const char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1

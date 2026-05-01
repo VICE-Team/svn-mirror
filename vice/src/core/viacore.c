@@ -1904,44 +1904,42 @@ void viacore_shutdown(via_context_t *via_context)
 
 /*------------------------------------------------------------------------*/
 
+/* ---------------------------------------------------------------------*/
+
+/* VIA 2.2 snapshot module format:
+
+   type  | name                 |version| description
+   --------------------------------------------------
+   UBYTE | ORA                  |       | Output register A
+   UBYTE | DDRA                 |       | Data direction register A
+   UBYTE | ORB                  |       | Output register B
+   UBYTE | DDRB                 |       | Data direction register B
+   UWORD | T1L                  |       | timer 1 latch value
+   UWORD | T1C                  |       | timer 1 count value
+   UBYTE | T2LL                 |       | Timer 2 latch lo
+   UBYTE | T2LH                 |       | Timer 2 latch hi
+   UBYTE | T2CL                 |       | timer 2 count value lo
+   UBYTE | T2CH                 |       | timer 2 count value hi
+   UWORD | T2C                  |       | timer 2 counter
+   UBYTE | RUNFL                |       | bit 7: timer 1 will generate IRQ on underflow; bit 6: timer 2 will generate IRQ on underflow
+   UBYTE | SR                   |       | shift register value
+   UBYTE | ACR                  |       | auxiliary control register
+   UBYTE | PCR                  |       | peripherial control register
+   UBYTE | IFR                  |       | active interrupts
+   UBYTE | IER                  |       | interrupt masks
+   UBYTE | PB7                  |       | bit 7 = pb7 state
+   UBYTE | SRHBITS              |       | number of half-bits to shift out on SR
+   UBYTE | CABSTATE             |       | bit 7 = ca2 state, bit6 = cb2 state, bit5 = cb1
+   UBYTE | ILA                  |       | input latch port A  (see ACR bit 0)
+   UBYTE | ILB                  |       | input latch port B  (see ACR bit 1)
+   UBYTE | t2_irq_allowed       | 2.2+  |
+   UBYTE | t2_underflow_alarm   | 2.2+  | 0 if not; 1+time delta if set.
+   UBYTE | t2_shift_alarm       | 2.2+  | 0 if not; 1+time delta if set.
+ */
+
 /* The name of the modul must be defined before including this file.  */
 #define VIA_DUMP_VER_MAJOR      2
 #define VIA_DUMP_VER_MINOR      2
-
-/*
- * The dump data:
- *
- * Minor version 1:
- *
- * UBYTE        ORA
- * UBYTE        DDRA
- * UBYTE        ORB
- * UBYTE        DDRB
- * UWORD        T1L             word1   via_context->tal
- * UWORD        T1C             word2   viacore_t1()
- * UBYTE        T2LL
- * UBYTE        T2LH
- * UBYTE        T2CL
- * UBYTE        T2CH
- * UWORD        T2C             word3   viacore_t2()
- * UBYTE        0x80:t1zero | 0x40:t2xx00     byte1
- * UBYTE        SR
- * UBYTE        ACR
- * UBYTE        PCR
- * UBYTE        IFR              active interrupts
- * UBYTE        IER              interrupt masks
- * UBYTE        PB7              byte4  bit 7 = pb7 state
- * UBYTE        SRHBITS          shift register state helper
- * UBYTE        CABSTATE         byte6 bit 7 = ca2 state, bit6 = cb2 state, bi5 = cb1
- * UBYTE        ILA              input latch port A
- * UBYTE        ILB              input latch port B
- *
- * Minor version 2 adds:
- *
- * UBYTE        t2_irq_allowed
- * UBYTE        t2_underflow_alarm 0 if not; 1+time delta if set.
- * UBYTE        t2_shift_alarm   0 if not; 1+time delta if set.
- */
 
 /* FIXME!!!  Error check.  */
 

@@ -52,33 +52,33 @@ static log_t cbm2_snapshot_log = LOG_DEFAULT;
 #define CBM2MEM_DUMP_VER_MAJOR   1
 #define CBM2MEM_DUMP_VER_MINOR   0
 
-/*
- * UBYTE        MEMSIZE         size in 128k (1=128, 2=256, 4=512, 8=1024)
- * UBYTE        CONFIG          Bit 0: cart08_ram
- *                                  1: cart1_ram
- *                                  2: cart2_ram
- *                                  3: cart4_ram
- *                                  4: cart6_ram
- *                                  5: cartC_ram
- *                                  6: 1= RAM starts at 0 (C500), videoram is
- *                                        1k VIC-II video, 1k colorram
- *                                     0= RAM starts at 0x10000 (others),
- *                                        videoram is 2k crtc videoram
- *
- * UBYTE        HCONFIG         Bit 0-1: ModelLine
- *
- * UBYTE        EXECBANK        CPU exec bank register
- * UBYTE        INDBANK         CPU indirect bank register
- * ARRAY        SYSRAM          2k system RAM, Bank15 $0000-$07ff
- * ARRAY        VIDEO           2k video RAM, Bank15 $d000-$d7ff
- * ARRAY        RAM             size according to MEMSIZE
- * ARRAY        RAM08           (only if memsize < 1M) 2k for cart08_ram
- * ARRAY        RAM1            (only if memsize < 1M) 4k for cart1_ram
- * ARRAY        RAM2            (only if memsize < 1M) 8k for cart2_ram
- * ARRAY        RAM4            (only if memsize < 1M) 8k for cart4_ram
- * ARRAY        RAM6            (only if memsize < 1M) 8k for cart6_ram
- * ARRAY        RAMC            (only if memsize < 1M) 4k for cartC_ram
- *
+/* CBM2MEM 1.0 snapshot module format:
+
+   type  | name     | description
+   -----------------------------
+   UBYTE | MEMSIZE  | Memory size in 128KiB blocks (1=128KiB,2=256KiB, 4=512KiB, 8=1024KiB)
+   UBYTE | CONFIG   | Bit 0 = $f0800-$f0fff RAM
+         |          |     1 = $f1000-$f1fff RAM
+         |          |     2 = $f2000-$f3fff RAM
+         |          |     3 = $f4000-$f5fff RAM
+         |          |     4 = $f6000-$f7fff RAM
+         |          |     5 = $fc000-$fcfff RAM
+         |          |     6: 1= RAM starts at 0 (C500), videoram is
+         |          |           1k VIC-II video, 1k colorram
+         |          |        0= RAM starts at 0x10000 (others),
+         |          |           videoram is 2k crtc videoram
+   UBYTE | HWCONFIG | Bit 0-1: ModelLine
+   UBYTE | EXECBANK | CPU exec bank register
+   UBYTE | INDBANK  | CPU indirect bank register
+   ARRAY | SYSRAM   | 2k system RAM, Bank15 $f0000-$f07ff
+   ARRAY | VIDEO    | 2k video RAM, Bank15 $fd000-$fd7ff
+   ARRAY | RAM      | RAM dump, size according to MEMSIZE
+   ARRAY | RAM08    | (only if memsize < 1M) 2k for cart08_ram CONFIG & 1 : 2KiB RAM $f0800-$f0fff
+   ARRAY | RAM1     | (only if memsize < 1M) 4k for cart1_ram CONFIG & 2 : 4KiB RAM $f1000-$f1fff
+   ARRAY | RAM2     | (only if memsize < 1M) 8k for cart2_ram CONFIG & 4 : 8KiB RAM $f2000-$f3fff
+   ARRAY | RAM4     | (only if memsize < 1M) 8k for cart4_ram CONFIG & 8 : 8KiB RAM $f4000-$f5fff
+   ARRAY | RAM6     | (only if memsize < 1M) 8k for cart6_ram CONFIG & 16 : 8KiB RAM $f6000-$f7fff
+   ARRAY | RAMC     | (only if memsize < 1M) 4k for cartC_ram CONFIG & 32 : 4KiB RAM $fc000-$fcfff
  */
 
 static const char module_name[] = "CBM2MEM";
@@ -278,21 +278,23 @@ static void restore_trapflags(void)
 
 /*********************************************************************/
 
-/*
- * UBYTE        CONFIG          Bit 1: cart1 ROM included
- *                                  2: cart2 ROM included
- *                                  3: cart4 ROM included
- *                                  4: cart6 ROM included
- *                                  5: chargen is of C510 type (VIC-II)
- *
- * ARRAY        KERNAL          8k Kernal ROM ($e000-$ffff)
- * ARRAY        BASIC           16k Basic ROM ($8000-$bfff)
- * ARRAY        CHARGEN         4k chargen ROM image ($c*** for VIC-II)
- * ARRAY        ROM1            4k for cart1 (if config & 2)
- * ARRAY        ROM2            8k for cart2 (if config & 4)
- * ARRAY        ROM4            8k for cart4 (if config & 8)
- * ARRAY        ROM6            8k for cart6 (if config & 16)
- */
+/* CBM2ROM 1.0 snapshot module format:
+
+   type  | name     | description
+   -----------------------------
+   UBYTE | CONFIG   | Bit 1: cart1 ROM included
+         |          |     2: cart2 ROM included
+         |          |     3: cart4 ROM included
+         |          |     4: cart6 ROM included
+         |          |     5: chargen is of C510 type (VIC-II)
+   ARRAY | KERNAL   | 8k Kernal ROM ($e000-$ffff)
+   ARRAY | BASIC    | 16k Basic ROM ($8000-$bfff)
+   ARRAY | CHARGEN  | 4k chargen ROM image ($c*** for VIC-II)
+   ARRAY | ROM1     | 4k for cart1 (if config & 2)
+   ARRAY | ROM2     | 8k for cart2 (if config & 4)
+   ARRAY | ROM4     | 8k for cart4 (if config & 8)
+   ARRAY | ROM6     | 8k for cart6 (if config & 16)
+*/
 
 static const char module_rom_name[] = "CBM2ROM";
 #define CBM2ROM_DUMP_VER_MAJOR   1

@@ -2779,10 +2779,10 @@ static void userport_wic64_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* USERPORT_WIC64 snapshot module format:
+/* UPWIC64 snapshot module format:
 
    type  | name           | description
-   -----------------------------
+   ------------------------------------
    BYTE  | input_state    |
    BYTE  | input_length   |
 */

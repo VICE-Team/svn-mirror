@@ -720,6 +720,19 @@ int megacart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* MEGACART snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | bank_low_reg     |
+   BYTE  | bank_high_reg    |
+   BYTE  | oe_flop          |
+   BYTE  | nvram_en_flop    |
+   ARRAY | cart_ram         | 0x8000 bytes of RAM data
+   ARRAY | cart_rom         | 0x200000 bytes of ROM data
+   ARRAY | cart_nvram       | 0x2000 bytes of NVRAM data
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "MEGACART"

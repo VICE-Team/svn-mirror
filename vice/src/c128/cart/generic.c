@@ -191,8 +191,10 @@ void c128generic_reset(void)
 
 /* CART128GENERIC snapshot module format:
 
-    FIXME
- */
+   type  | name                 | description
+   ------------------------------------------
+   ARRAY | ext_function_rom     | 0x8000 bytes of ROM data
+*/
 
 static char snap_module_name[] = "CART128GENERIC";
 #define SNAP_MAJOR   0

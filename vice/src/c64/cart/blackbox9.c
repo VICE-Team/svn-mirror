@@ -250,6 +250,16 @@ void blackbox9_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTBLACKBOX9 snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   BYTE  | currmode   | cartridge mode
+   BYTE  | currbank   | selected bank
+   ARRAY | ROML       | 8192 bytes of ROM data
+   ARRAY | ROMH       | 8192 bytes of ROM data
+ */
+
 static const char snap_module_name[] = "CARTBLACKBOX9";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1

@@ -257,8 +257,13 @@ void magicdesk128_reset(void)
 
 /* MAGICDESK128 snapshot module format:
 
-    FIXME
- */
+   type  | name                 | description
+   ------------------------------------------
+   BYTE  | md128reg             |
+   BYTE  | rombank              |
+   BYTE  | bankmask             |
+   ARRAY | ext_function_rom     | 0x40*0x4000 bytes of ROM data
+*/
 
 static char snap_module_name[] = "MAGICDESK128";
 #define SNAP_MAJOR   0

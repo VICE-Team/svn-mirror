@@ -934,6 +934,17 @@ int vic_um_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* ULTIMEM 2.0 snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   ARRAY | ultimem          |
+   ARRAY | cart_ram         |
+   ARRAY | cart_rom         |
+
+   followed by flash040 snapshot module
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "ULTIMEM"

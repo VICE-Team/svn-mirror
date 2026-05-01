@@ -592,17 +592,21 @@ static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data)
     SIGNAL_VERT_BLANK_ON
 }
 
+/* ---------------------------------------------------------------------*/
+
 /*
  * C500 extra data (state of 50Hz clk)
  */
+
+/* C500DATA snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   DWORD  | IRQCLK    | CPU clock ticks until next 50 Hz IRQ
+*/
+
 #define C500DATA_DUMP_VER_MAJOR   0
 #define C500DATA_DUMP_VER_MINOR   0
-
-/*
- * DWORD        IRQCLK          CPU clock ticks until next 50 Hz IRQ
- *
- */
-
 static const char module_name[] = "C500DATA";
 
 int cbm2_c500_snapshot_write_module(snapshot_t *p)

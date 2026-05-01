@@ -224,6 +224,15 @@ void magicdesk_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTMAGICD snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   BYTE  | regval     | bank register value
+   BYTE  | bankmask   | bank mask
+   ARRAY | roml_banks | 128 * 8192 bytes of ROM data
+ */
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTMAGICD"
