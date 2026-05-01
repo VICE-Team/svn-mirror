@@ -52,18 +52,61 @@ void vicii_snapshot_prepare(void)
 
 
 /*
+   VIC-IISC 1.4 snapshot module format:
 
-   This is the format of the VIC-II snapshot module.
+   Type     | Name                          | Description
+   ------------------------------------------------------
+   ARRAY    | regs                          | 0x40 BYTES state from vicii_s, in the same order
+   DWORD    | raster_cycle                  |
+   DWORD    | cycle_flags                   |
+   DWORD    | raster_line                   |
+   BYTE     | start_of_frame                |
+   BYTE     | irq_status                    |
+   DWORD    | raster_irq_line               |
+   BYTE     | raster_irq_triggered          |
+   ARRAY    | vbuf                          | VICII_SCREEN_TEXTCOLS
+   ARRAY    | cbuf                          | VICII_SCREEN_TEXTCOLS
+   BYTE     | gbuf                          |
+   DWORD    | dbuf_offset                   |
+   ARRAY    | dbuf                          | VICII_DRAW_BUFFER_SIZE
+   DWORD    | ysmooth                       |
+   BYTE     | allow_bad_lines               |
+   BYTE     | sprite_sprite_collisions      |
+   BYTE     | sprite_background_collisions  |
+   BYTE     | clear_collisions              |
+   DWORD    | idle_state                    |
+   DWORD    | vcbase                        |
+   DWORD    | vc                            |
+   DWORD    | rc                            |
+   DWORD    | vmli                          |
+   DWORD    | bad_line                      |
+   BYTE     | light_pen.state               |
+   BYTE     | light_pen.triggered           |
+   DWORD    | light_pen.x                   |
+   DWORD    | light_pen.y                   |
+   DWORD    | light_pen.x_extra_bits        |
+   CLOCK    | light_pen.trigger_cycle       |
+   BYTE     | reg11_delay                   |
+   DWORD    | prefetch_cycles               |
+   DWORD    | sprite_display_bits           |
+   BYTE     | sprite_dma                    |
+   BYTE     | last_color_reg                |
+   BYTE     | last_color_value              |
+   BYTE     | last_read_phi1                |
+   BYTE     | last_bus_phi2                 |
+   BYTE     | vborder                       |
+   BYTE     | set_vborder                   |
+   BYTE     | main_border                   |
+   BYTE     | refresh_counter               |
+   ARRAY    | color_ram                     | 0x400
 
-   Name               Type   Size   Description
+   NOTE: renamed from "VIC-II" to "VIC-IISC" in 1.4
 
-   (FIXME)
+ */
 
-*/
-
-static const char snap_module_name[] = "VIC-II";
+static const char snap_module_name[] = "VIC-IISC";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 3
+#define SNAP_MINOR 4
 
 int vicii_snapshot_write_module(snapshot_t *s)
 {

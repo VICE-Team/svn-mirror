@@ -51,14 +51,24 @@
 #include "c64acia.h"
 #endif
 
+/* C64SCPUROM 0.1 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   ARRAY | mem_chargen_rom      | SCPU64_CHARGEN_ROM_SIZE
+   ARRAY | scpu64rom_scpu64_rom | SCPU64_SCPU64_ROM_MAXSIZE
+
+   NOTE: renamed from "C64ROM" to "C64SCPUROM" in 0.1
+*/
+
 #define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
+#define SNAP_ROM_MINOR 1
 
 /* ------------------------ */
 
 static log_t c64_snapshot_log = LOG_DEFAULT;
 
-static const char snap_rom_module_name[] = "C64ROM";
+static const char snap_rom_module_name[] = "C64SCPUROM";
 
 #define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
 static int trapfl[NUM_TRAP_DEVICES];
@@ -172,9 +182,35 @@ fail:
     return -1;
 }
 
+/* C64SCPUMEM 0.1 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   BYTE  | mem_pport            |
+   BYTE  | mem_reg_soft_1mhz    |
+   BYTE  | mem_reg_sys_1mhz     |
+   BYTE  | mem_reg_hwenable     |
+   BYTE  | mem_reg_dosext       |
+   BYTE  | mem_reg_ramlink      |
+   BYTE  | mem_reg_optim        |
+   BYTE  | mem_reg_bootmap      |
+   BYTE  | mem_reg_simm         |
+   BYTE  | exrom                |
+   BYTE  | game                 |
+
+   FIXME: cpu state scpu64_snapshot_write_cpu_state()
+
+   DWORD | mem_simm_ram_mask    |
+   ARRAY | mem_ram              | SCPU64_RAM_SIZE
+   ARRAY | mem_sram             | SCPU64_SRAM_SIZE
+   ARRAY | mem_simm_ram         | mem_simm_ram_mask + 1
+
+   NOTE: renamed from "C64MEM" to "C64SCPUMEM" in 0.1
+*/
+
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "C64MEM";
+#define SNAP_MINOR 1
+static const char snap_mem_module_name[] = "C64SCPUMEM";
 
 int scpu64_snapshot_write_module(snapshot_t *s, int save_roms)
 {

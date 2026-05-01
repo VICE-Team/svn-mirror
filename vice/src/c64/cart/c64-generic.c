@@ -394,7 +394,7 @@ int generic_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 
 /* ---------------------------------------------------------------------*/
 
-/* CARTGENERIC snapshot module format:
+/* CARTGENERICC64 0.1 snapshot module format:
 
    type  | name | description
    --------------------------
@@ -405,11 +405,13 @@ int generic_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
    type  | name | description
    --------------------------
    ARRAY | ROMH | 8192 BYTES of ROMH data
+
+   NOTE: renamed from "CARTGENERIC" to "CARTGENERICC64" in 0.1
  */
 
-static char snap_module_name[] = "CARTGENERIC";
+static char snap_module_name[] = "CARTGENERICC64";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 int generic_snapshot_write_module(snapshot_t *s, int type)
 {

@@ -471,7 +471,7 @@ void generic_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* CARTGENERIC snapshot module format:
+/* CARTGENERICCBM2 0.2 snapshot module format:
 
    type  | name              | version | description
    -------------------------------------------------
@@ -479,13 +479,15 @@ void generic_resources_shutdown(void)
    ARRAY | ROM C2            |   0.1+  | 8kiB of ROM data
    ARRAY | ROM C4            |   0.1+  | 8kiB of ROM data
    ARRAY | ROM C6            |   0.1+  | 8kiB of ROM data
+
+   NOTE: renamed from "CARTGENERIC" to "CARTGENERICCBM2" in 0.2
  */
 
 /* FIXME: the following is completely untested */
 
-static const char snap_module_name[] = "CARTGENERIC";
+static const char snap_module_name[] = "CARTGENERICCBM2";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   1
+#define SNAP_MINOR   2
 
 int generic_snapshot_write_module(snapshot_t *s)
 {

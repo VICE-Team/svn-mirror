@@ -836,9 +836,21 @@ const char *generic_get_file_name(uint16_t addr)
 
 /* ------------------------------------------------------------------------- */
 
+/* CARTGENERICVIC20 2.1 snapshot module format:
+
+   type  | name                 | description
+   --------------------------------------
+   DWORD | generic_ram_blocks   | flags for ram blocks
+   DWORD | generic_rom_blocks   | flags for rom blocks
+   ARRAY | cart_ram             | 0x9000 bytes of RAM data
+   ARRAY | cart_rom             | 0x9000 bytes of ROM data
+
+   NOTE: renamed from "GENERICCART" to "CARTGENERICVIC20" in 2.1
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   2
-#define VIC20CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "GENERICCART"
+#define VIC20CART_DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "CARTGENERICVIC20"
 
 int generic_snapshot_write_module(snapshot_t *s)
 {

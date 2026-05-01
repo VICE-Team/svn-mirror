@@ -52,12 +52,24 @@
 #include "c64acia.h"
 #endif
 
+
+/* C64VSIDROM 0.1 snapshot module format:
+
+   type  | name    | description
+   -----------------------------
+   ARRAY | KERNAL  | 8192 BYTES of KERNAL ROM data
+   ARRAY | BASIC   | 8192 BYTES of BASIC ROM data
+   ARRAY | CHARGEN | 4096 BYTES of CHARGEN ROM data
+
+   NOTE: renamed from "C64ROM" to "C64VSIDROM" in 0.1
+*/
+
 #define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
+#define SNAP_ROM_MINOR 1
 
 static log_t c64_snapshot_log = LOG_DEFAULT;
 
-static const char snap_rom_module_name[] = "C64ROM";
+static const char snap_rom_module_name[] = "C64VSIDROM";
 
 static int c64_snapshot_write_rom_module(snapshot_t *s)
 {
@@ -133,9 +145,25 @@ fail:
     return -1;
 }
 
+/* C64VSIDMEM 0.1 snapshot module format:
+
+   type  | name                | version | description
+   ---------------------------------------------------
+   BYTE  | pport data          |   0.0+  | CPU port data register
+   BYTE  | pport dir           |   0.0+  | CPU port direction register
+   BYTE  | EXROM               |   0.0+  | EXROM line state
+   BYTE  | GAME                |   0.0+  | GAME line state
+   ARRAY | RAM                 |   0.0+  | 65536 BYTES of RAM data
+   BYTE  | pport data out      |   0.0+  | CPU port data out lines state
+   BYTE  | pport data read     |   0.0+  | CPU port data in lines state
+   BYTE  | pport dir read      |   0.0+  | CPU port direction in lines state
+
+   NOTE: renamed from "C64MEM" to "C64VSIDMEM" in 0.1
+*/
+
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "C64MEM";
+#define SNAP_MINOR 1
+static const char snap_mem_module_name[] = "C64VSIDMEM";
 
 int c64_snapshot_write_module(snapshot_t *s, int save_roms)
 {
