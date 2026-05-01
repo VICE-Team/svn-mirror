@@ -1025,6 +1025,24 @@ int event_playback_active(void)
 
 /*-----------------------------------------------------------------------*/
 
+/*
+   EVENT 0.1 snapshot module format:
+
+   Type    | Name                   | Description
+   ----------------------------------------------
+
+   for each event_list_t this is NOT EVENT_TIMESTAMP
+
+   DWORD   | type                   |
+   CLOCK   | clock                  |
+   DWORD   | size                   |
+   ARRAY   | data                   |
+*/
+
+static char snap_module_name[] = "EVENT";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 1
+
 int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
 {
     snapshot_module_t *m;
@@ -1036,7 +1054,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
         return 0;
     }
 
-    m = snapshot_module_open(s, "EVENT", &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
     /* This module is not mandatory.  */
     if (m == NULL) {
@@ -1144,7 +1162,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
         return 0;
     }
 
-    m = snapshot_module_create(s, "EVENT", 0, 1);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;

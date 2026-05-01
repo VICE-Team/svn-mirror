@@ -166,18 +166,20 @@ void c64_glue_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* GLUE snapshot module format:
+/* C64GLUE 1.1 snapshot module format:
 
    type | name         | description
    ------------------------------
    BYTE | type         | glue logic type
    BYTE | old vbank    | old video bank
    BYTE | alarm active | alarm is active
+
+   NOTE: renamed from "GLUE" to "C64GLUE" in 1.1
  */
 
-static char snap_module_name[] = "GLUE";
+static char snap_module_name[] = "C64GLUE";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 int c64_glue_snapshot_write_module(snapshot_t *s)
 {

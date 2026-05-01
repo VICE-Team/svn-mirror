@@ -880,9 +880,29 @@ unsigned int maincpu_get_sp(void) {
 
 /* ------------------------------------------------------------------------- */
 
-static char snap_module_name[] = "MAINCPU";
+/* MAINC64CPU 1.5 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   CLOCK | main clock           |
+   UBYTE | a                    |
+   UBYTE | x                    |
+   UBYTE | y                    |
+   UBYTE | sp                   |
+   WORD  | pc                   |
+   UBYTE | status               |
+   DWORD | last_opcode_info     |
+   DWORD | ane_log_level        |
+   DWORD | lxa_log_level        |
+   DWORD | maincpu_jammed       |
+   DWORD | maincpu_ba_low_flags |
+
+   Note: renamed "MAINCPU" to "MAINC64CPU" in 1.5
+*/
+
+static char snap_module_name[] = "MAINC64CPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 4
+#define SNAP_MINOR 5
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {

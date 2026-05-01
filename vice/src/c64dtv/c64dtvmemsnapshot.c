@@ -51,12 +51,24 @@
 #include "c64dtvmemsnapshot.h"
 #include "hummeradc.h"
 
+
+/* C64DTVROM 0.1 snapshot module format:
+
+   type  | name                 | description
+   ------------------------------------------
+   ARRAY | c64dtvflash_mem      | 0x200000
+   BYTE  | c64dtvflash_state    |
+   ARRAY | c64dtvflash_mem_lock | 39
+
+   NOTE: renamed from "C64ROM" to "C64DTVROM" in 0.1
+*/
+
 #define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
+#define SNAP_ROM_MINOR 1
 
 static log_t c64_snapshot_log = LOG_DEFAULT;
 
-static const char snap_rom_module_name[] = "C64ROM";
+static const char snap_rom_module_name[] = "C64DTVROM";
 
 #define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
 static int trapfl[NUM_TRAP_DEVICES];
@@ -178,10 +190,27 @@ fail:
     return -1;
 }
 
+/* C64DTVMEM 0.1 snapshot module format:
+
+   type  | name                     | description
+   -----------------------------------------------
+   BYTE  | pport.data               |
+   BYTE  | pport.dir                |
+   ARRAY | mem_ram                  | 0x200000
+   BYTE  | c64dtvmem_memmapper[0]   |
+   BYTE  | c64dtvmem_memmapper[1]   |
+   BYTE  | pport.data_out           |
+   BYTE  | pport.data_read          |
+   BYTE  | pport.dir_read           |
+
+   followed by ROM modules
+
+   NOTE: renamed from "C64MEM" to "C64DTVMEM" in 0.1
+*/
 
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "C64MEM";
+#define SNAP_MINOR 1
+static const char snap_mem_module_name[] = "C64DTVMEM";
 
 int c64dtv_snapshot_write_module(snapshot_t *s, int save_roms)
 {
