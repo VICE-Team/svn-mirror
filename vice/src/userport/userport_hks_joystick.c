@@ -493,7 +493,7 @@ static uint8_t userport_joystick_starbyte_read_sp2(uint8_t orig)
 
 /* ---------------------------------------------------------------------*/
 
-/* UP_JOY_HIT snapshot module format:
+/* UPJOYHIT 0.1 snapshot module format:
 
    type  | name   | description
    ----------------------------
@@ -565,7 +565,7 @@ fail:
 
 /* ------------------------------------------------------------------------- */
 
-/* UP_JOY_KINGSOFT snapshot module format:
+/* UPJOYKINGSOFT 0.1 snapshot module format:
 
    type  | name   | description
    ----------------------------
@@ -638,7 +638,7 @@ fail:
 
 /* ------------------------------------------------------------------------- */
 
-/* UP_JOY_STARBYTE snapshot module format:
+/* UPJOYSTARBYTE 0.1 snapshot module format:
 
    type  | name   | description
    ----------------------------

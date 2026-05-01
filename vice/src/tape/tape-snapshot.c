@@ -45,6 +45,13 @@
 /* Logging.  */
 static log_t tape_snapshot_log = LOG_DEFAULT;
 
+/* T64IMAGE 1.0 snapshot module format:
+
+   type  | name                             | description
+   ------------------------------------------------------
+
+   TODO: t64 snapshot support is not implemented
+*/
 
 #define T64IMAGE_SNAP_MAJOR 1
 #define T64IMAGE_SNAP_MINOR 0
@@ -62,6 +69,13 @@ static int tape_snapshot_read_t64image_module(snapshot_t *s)
     return 0; /* should be -1, but that would make snapshots with default settings fail */
 }
 
+/* TAPIMAGE 1.0 snapshot module format:
+
+   type  | name                             | description
+   ------------------------------------------------------
+   DWORD | tap_size                         |
+   ARRAY | tap file data                    |
+*/
 
 #define TAPIMAGE_SNAP_MAJOR 1
 #define TAPIMAGE_SNAP_MINOR 0
@@ -87,7 +101,7 @@ static int tape_snapshot_write_tapimage_module(int port, snapshot_t *s)
         return -1;
     }
 
-    /* remeber current position */
+    /* remember current position */
     pos = ftell(ftap);
 
     /* move to end and get size of file */
@@ -188,6 +202,26 @@ fail:
     return -1;
 }
 
+/* TAPE 1.0 snapshot module format:
+
+   preceded by tape image snapshot module
+
+   type  | name                             | description
+   ------------------------------------------------------
+   BYTE  | read_only                        |
+   BYTE  | type                             |
+   DWORD | tap->size                        |
+   BYTE  | tap->version                     |
+   BYTE  | tap->system                      |
+   DWORD | tap->current_file_seek_position  |
+   DWORD | tap->offset                      |
+   DWORD | tap->cycle_counter               |
+   DWORD | tap->cycle_counter_total         |
+   DWORD | tap->counter                     |
+   DWORD | tap->mode                        |
+   DWORD | tap->read_only                   |
+   DWORD | tap->has_changed                 |
+*/
 
 #define TAPE_SNAP_MAJOR 1
 #define TAPE_SNAP_MINOR 0

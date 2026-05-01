@@ -931,6 +931,19 @@ int finalexpansion_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FINALEXPANSION 2.0 snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | register_a       |
+   BYTE  | register_b       |
+   BYTE  | lock_bit         |
+   ARRAY | cart_ram         | CART_RAM_SIZE
+   ARRAY | flash_data       | CART_ROM_SIZE
+
+   followed by flash040 snapshot module
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "FINALEXPANSION"

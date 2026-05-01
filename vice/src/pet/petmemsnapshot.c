@@ -63,53 +63,47 @@ static const char module_ram_name[] = "PETMEM";
 #define PETMEM_DUMP_VER_MAJOR   1
 #define PETMEM_DUMP_VER_MINOR   3
 
-/*
- * UBYTE        CONFIG          Bits 0-3: 0 = 40 col PET without CRTC
- *                                        1 = 40 col PET with CRTC
- *                                        2 = 80 col PET (with CRTC)
- *                                        3 = SuperPET
- *                                        4 = 8096
- *                                        5 = 8296
- *                              Bit 6: 1= RAM at $9***
- *                              Bit 7: 1= RAM at $A***
- *
- * UBYTE        KEYBOARD        0 = UK business
- *                              1 = graphics
- *
- * UBYTE        MEMSIZE         memory size of low 32k in k (4,8,16,32)
- *
- * UBYTE        CONF8X96        8x96 configuration register
- * UBYTE        SUPERPET        SuperPET config:
- *                              Bit 0: spet_ramen,  1= RAM enabled
- *                                  1: spet_ramwp,  1= RAM write protected
- *                                  2: spet_ctrlwp, 1= CTRL reg write prot.
- *                                  3: spet_diag,   0= diag active
- *                                  4-7: spet_bank, RAM block in use
- *
- * ARRAY        RAM             4-32k RAM (not 8296, dep. on MEMSIZE)
- * ARRAY        VRAM            2/4k RAM (not 8296, dep in CONFIG)
- * ARRAY        EXTRAM          64k (SuperPET and 8096 only)
- * ARRAY        RAM             128k RAM (8296 only)
- *
- *                              Added in format V1.1, should be part of
- *                              KEYBOARD in later versions.
- *
- * BYTE         POSITIONAL      bit 0=0 = symbolic keyboard mapping
- *                                   =1 = positional keyboard mapping
- *
- *                              Added in format V1.2
- * BYTE         EOIBLANK        bit 0=0: EOI does not blank screen
- *                                   =1: EOI does blank screen
- *                              bit 1=0: Screen memory like 3000 and later
- *                                    1: Screen memory like 2001
- *
- *                              Added in format V1.3
- * WORD         CPU_SWITCH      6502 / 6809 / PROG
- * BYTE         VAL             6702 state information
- * BYTE         PREVODD
- * BYTE         WANTODD
- * WORD[8]      SHIFT
- */
+/* PETMEM 1.3 snapshot module format:
+
+   type    | name        |version| description
+   -----------------------------------
+   UBYTE   | CONFIG      |       | Bits 0-3: 0 = 40 col PET without CRTC
+           |             |       |           1 = 40 col PET with CRTC
+           |             |       |           2 = 80 col PET (with CRTC)
+           |             |       |           3 = SuperPET
+           |             |       |           4 = 8096
+           |             |       |           5 = 8296
+           |             |       | Bit 6: 1= RAM at $9***
+           |             |       | Bit 7: 1= RAM at $A***
+   UBYTE   | KEYBOARD    |       | 0 = UK business
+           |             |       | 1 = graphics
+   UBYTE   | MEMSIZE     |       | memory size of low 32k in k (4,8,16,32)
+   UBYTE   | CONF8X96    |       | 8x96 configuration register
+   UBYTE   | SUPERPET    |       | SuperPET config:
+           |             |       | Bit 0: spet_ramen,  1= RAM enabled
+           |             |       |     1: spet_ramwp,  1= RAM write protected
+           |             |       |     2: spet_ctrlwp, 1= CTRL reg write prot.
+           |             |       |     3: spet_diag,   0= diag active
+           |             |       |     4-7: spet_bank, RAM block in use
+   ARRAY   | RAM         |       | 4-32k RAM (not 8296, dep. on MEMSIZE)
+   ARRAY   | VRAM        |       | 2/4k RAM (not 8296, dep in CONFIG)
+   ARRAY   | EXTRAM      |       | 64k (SuperPET and 8096 only)
+   ARRAY   | RAM         |       | 128k RAM (8296 only)
+   BYTE    | POSITIONAL  | 1.1+  | bit 0=0 = symbolic keyboard mapping
+           |             |       |      =1 = positional keyboard mapping
+   BYTE    | EOIBLANK    | 1.2+  | bit 0=0: EOI does not blank screen
+           |             |       |      =1: EOI does blank screen
+           |             |       | bit 1=0: Screen memory like 3000 and later
+           |             |       |       1: Screen memory like 2001
+   WORD    | CPU_SWITCH  | 1.3+  | 6502 / 6809 / PROG
+   BYTE    | VAL         | 1.3+  | 6702 dongle state information
+   BYTE    | PREVODD     | 1.3+  |
+   BYTE    | WANTODD     | 1.3+  |
+   WORD[8] | SHIFT       | 1.3+  |
+   BYTE    | SuperPET 2  | 1.3+  | Extra bits due to the Super-OS-9 MMU.
+           |             |       | Bit 5: FIRQ disabled.
+           |             |       | Bit 6: expansion memory in OS-9 flat mode.
+*/
 
 static int mem_write_ram_snapshot_module(snapshot_t *s)
 {
@@ -394,28 +388,28 @@ static const char module_rom_name[] = "PETROM";
 #define PETROM_DUMP_VER_MAJOR   1
 #define PETROM_DUMP_VER_MINOR   1
 
-/*
- * UBYTE        CONFIG          Bit 0: 1= $9*** ROM included
- *                                  1: 1= $a*** ROM included
- *                                  2: 1= $b*** ROM included
- *                                  3: 1= $e900-$efff ROM included
- *                                  4: 1= $9000-$ffff 6809 ROM
- *                                        and upper half CHARGEN ROM included
- *
- * ARRAY        KERNAL          4k KERNAL ROM image $f000-$ffff
- * ARRAY        EDITOR          2k EDITOR ROM image $e000-$e800
- * ARRAY        CHARGEN         2k CHARGEN ROM image
- * ARRAY        ROM9            4k $9*** ROM (if CONFIG & 1)
- * ARRAY        ROMA            4k $A*** ROM (if CONFIG & 2)
- * ARRAY        ROMB            4k $B*** ROM (if CONFIG & 4)
- * ARRAY        ROMC            4k $C*** ROM
- * ARRAY        ROMD            4k $D*** ROM
- * ARRAY        ROME9           7 blocks $e900-$efff ROM (if CONFIG & 8)
- *                              Added in format V1.1:
- * ARRAY        ROM6809         24k $A000-$FFFF ROM   (if CONFIG & 16)
- * ARRAY        CHARGEN(2)      upper half of CHARGEN (if CONFIG & 16)
- *
- */
+/* PETROM 1.1 snapshot module format:
+
+   type  | name       |version| description
+   -------------------------------------------------
+   UBYTE | CONFIG     |       | Bit 0: 1= $9*** ROM included
+         |            |       |     1: 1= $a*** ROM included
+         |            |       |     2: 1= $b*** ROM included
+         |            |       |     3: 1= $e900-$efff ROM included
+         |            |       |     4: 1= $9000-$ffff 6809 ROM
+         |            |       |           and upper half CHARGEN ROM included
+   ARRAY | KERNAL     |       | 4k KERNAL ROM image $f000-$ffff
+   ARRAY | EDITOR     |       | 2k EDITOR ROM image $e000-$e800
+   ARRAY | CHARGEN    |       | 2k CHARGEN ROM image
+   ARRAY | ROM9       |       | 4k $9*** ROM (if CONFIG & 1)
+   ARRAY | ROMA       |       | 4k $A*** ROM (if CONFIG & 2)
+   ARRAY | ROMB       |       | 4k $B*** ROM (if CONFIG & 4)
+   ARRAY | ROMC       |       | 4k $C*** ROM
+   ARRAY | ROMD       |       | 4k $D*** ROM
+   ARRAY | ROME9      |       | 7 blocks $e900-$efff ROM (if CONFIG & 8)
+   ARRAY | ROM6809    | 1.1+  | 24k $A000-$FFFF ROM   (if CONFIG & 16)
+   ARRAY | CHARGEN(2) | 1.1+  | upper half of CHARGEN (if CONFIG & 16)
+*/
 
 static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
 {

@@ -231,7 +231,7 @@ static joyport_t mouse_1351_joyport_device = {
 
 /* FIXME: remove unused stuff from the snapshot */
 
-/* MOUSE_1351 snapshot module format:
+/* MOUSE_1351 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------
@@ -383,7 +383,7 @@ static joyport_t mouse_micromys_joyport_device = {
     0                              /* NO device hook function mask */
 };
 
-/* MOUSE_MICROMYS snapshot module format:
+/* MOUSE_MICROMYS 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------
@@ -574,7 +574,7 @@ int smart_mouse_cmdline_options_init(void)
     return cmdline_register_options(cmdline_extra_option);
 }
 
-/* MOUSE_SMART snapshot module format:
+/* MOUSE_SMART 1.0 snapshot module format:
 
    type   | name                   | description
    ---------------------------------------------

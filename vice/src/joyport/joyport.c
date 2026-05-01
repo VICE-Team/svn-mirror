@@ -2071,6 +2071,13 @@ int joyport_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* JOYPORT 0.0 snapshot module format:
+
+   type  | name                | description
+   -----------------------------------------
+   BYTE  | device id           | device id connected to this joystick port
+*/
+
 #define DUMP_VER_MAJOR   0
 #define DUMP_VER_MINOR   0
 

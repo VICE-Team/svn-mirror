@@ -466,6 +466,17 @@ void flash800core_shutdown(flash800_context_t *flash800_context)
 
 /* -------------------------------------------------------------------------- */
 
+/* FLASH800 2.0 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   BYTE   | state                   |
+   BYTE   | base_state              |
+   BYTE   | program_byte            |
+   ARRAY  | erase_mask              | FLASH800_ERASE_MASK_SIZE
+   BYTE   | last_read               |
+*/
+
 #define FLASH800_DUMP_VER_MAJOR   2
 #define FLASH800_DUMP_VER_MINOR   0
 

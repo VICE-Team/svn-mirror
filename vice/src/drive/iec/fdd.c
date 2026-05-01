@@ -750,6 +750,34 @@ void fdd_set_rate(fd_drive_t *drv, int rate)
     drv->rate = rate & 3;
 }
 
+/* FDD 1.0 snapshot module format:
+
+   type   | name                    | description
+   ----------------------------------------------
+   BYTE   | number                  |
+   BYTE   | disk_change             |
+   BYTE   | write_protect           |
+   BYTE   | track                   |
+   BYTE   | tracks                  |
+   BYTE   | head                    |
+   BYTE   | sectors                 |
+   BYTE   | motor                   |
+   BYTE   | rate                    |
+   BYTE   | sector_size             |
+   BYTE   | iso                     |
+   BYTE   | gap2                    |
+   BYTE   | gap3                    |
+   BYTE   | head_invert             |
+   BYTE   | disk_rate               |
+   DWORD  | image_sectors           |
+   DWORD  | index_count             |
+   DWORD  | raw.head                |
+   BYTE   | raw.track_head          |
+   BYTE   | raw.dirty               |
+   ARRAY  | raw.data                | raw.size
+   ARRAY  | raw.sync                | (raw.size + 7) >> 3
+*/
+
 #define FDD_SNAP_MAJOR 1
 #define FDD_SNAP_MINOR 0
 

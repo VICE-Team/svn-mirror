@@ -78,35 +78,82 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr);
 static int drive_snapshot_read_p64image_module(snapshot_t *s, unsigned int dnr);
 
 /*
-This is the format of the DRIVE snapshot module.
+    DRIVE 2.0 snapshot module format:
 
-Name                 Type   Size   Description
+   Type       | Name                        | Description
+   ------------------------------------------------------
+   BYTE       | has_tde[unit]               |
+   BYTE       | has_drives[unit]            |
+   DWORD      | sync_factor                 |
+   CLOCK      | attach_clk                  |
+   BYTE       | byte_ready_level            |
+   BYTE       | unit->clock_frequency       |
+   WORD       | current_half_track + (side * DRIVE_HALFTRACKS_1571)) |
+   CLOCK      | detach_clk                  |
+   BYTE       | extend_image_policy         |
+   DWORD      | GCR_head_offset             |
+   BYTE       | GCR_read                    |
+   BYTE       | GCR_write_value             |
+   BYTE       | unit->idling_method         |
+   BYTE       | unit->parallel_cable        |
+   BYTE       | read_only                   |
+   DWORD      | rotation_table_ptr[unr]     |
+   DWORD      | unit->type                  |
+   DWORD      | snap_accum                  |
+   CLOCK      | snap_rotation_last_clk      |
+   DWORD      | snap_bit_counter            |
+   DWORD      | snap_zero_count             |
+   WORD       | snap_last_read_data         |
+   BYTE       | snap_last_write_data        |
+   DWORD      | snap_seed                   |
+   DWORD      | snap_speed_zone             |
+   DWORD      | snap_ue7_dcba               |
+   DWORD      | snap_ue7_counter            |
+   DWORD      | snap_uf4_counter            |
+   DWORD      | snap_fr_randcount           |
+   DWORD      | snap_filter_counter         |
+   DWORD      | snap_filter_state           |
+   DWORD      | snap_filter_last_state      |
+   DWORD      | snap_write_flux             |
+   DWORD      | snap_PulseHeadPosition      |
+   DWORD      | snap_xorShift32             |
+   DWORD      | snap_so_delay               |
+   DWORD      | snap_cycle_index            |
+   CLOCK      | snap_ref_advance            |
+   DWORD      | snap_req_ref_cycles         |
+   CLOCK      | attach_detach_clk           |
+   BYTE       | byte_ready_edge             |
+   BYTE       | byte_ready_active           |
+*/
 
-SyncFactor           DWORD  1      sync factor main cpu <-> drive cpu
 
-Accum                DWORD  2
-AttachClk            CLOCK  2      write protect handling on attach
-BitsMoved            DWORD  2      number of bits moved since last access
-ByteReady            BYTE   2      flag: Byte ready
-ClockFrequency       BYTE   2      current clock frequency
-CurrentHalfTrack     WORD   2      current half track of the r/w head
-DetachClk            CLOCK  2      write protect handling on detach
-DiskID1              BYTE   2      disk ID1
-DiskID2              BYTE   2      disk ID2
-ExtendImagePolicy    BYTE   2      Is extending the disk image allowed
-FinishByte           BYTE   2      flag: Mode changed, finish byte
-GCRHeadOffset        DWORD  2      offset from the begin of the track
-GCRRead              BYTE   2      next value to read from disk
-GCRWriteValue        BYTE   2      next value to write to disk
-IdlingMethod         BYTE   2      What idle methode do we use
-LastMode             BYTE   2      flag: Was the last mode read or write
-ParallelCableEnabled BYTE   2      flag: Is the parallel cable enabed
-ReadOnly             BYTE   2      flag: This disk is read only
-RotationLastClk      CLOCK  2
-RotationTablePtr     DWORD  2      pointer to the rotation table
-                                   (offset to the rotation table is saved)
-Type                 DWORD  2      drive type
+/*
+   NOTE: some older version apparently looked like this
 
+   Type       | Name                 | Description
+   -----------------------------------------------
+       DWORD  | SyncFactor           | sync factor main cpu <-> drive cpu
+   2 * DWORD  | Accum                |
+   2 * CLOCK  | AttachClk            | write protect handling on attach
+   2 * DWORD  | BitsMoved            | number of bits moved since last access
+   2 * BYTE   | ByteReady            | flag: Byte ready
+   2 * BYTE   | ClockFrequency       | current clock frequency
+   2 * WORD   | CurrentHalfTrack     | current half track of the r/w head
+   2 * CLOCK  | DetachClk            | write protect handling on detach
+   2 * BYTE   | DiskID1              | disk ID1
+   2 * BYTE   | DiskID2              | disk ID2
+   2 * BYTE   | ExtendImagePolicy    | Is extending the disk image allowed
+   2 * BYTE   | FinishByte           | flag: Mode changed, finish byte
+   2 * DWORD  | GCRHeadOffset        | offset from the begin of the track
+   2 * BYTE   | GCRRead              | next value to read from disk
+   2 * BYTE   | GCRWriteValue        | next value to write to disk
+   2 * BYTE   | IdlingMethod         | What idle methode do we use
+   2 * BYTE   | LastMode             | flag: Was the last mode read or write
+   2 * BYTE   | ParallelCableEnabled | flag: Is the parallel cable enabed
+   2 * BYTE   | ReadOnly             | flag: This disk is read only
+   2 * CLOCK  | RotationLastClk      |
+   2 * DWORD  | RotationTablePtr     | pointer to the rotation table (offset to the rotation table is saved)
+   2 * DWORD  | Type                 | drive type
 */
 
 #define DRIVE_SNAP_MAJOR 2

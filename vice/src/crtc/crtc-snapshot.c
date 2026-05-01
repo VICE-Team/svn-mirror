@@ -43,7 +43,42 @@
 #include "types.h"
 
 
-/* Snapshot.  */
+/* CRTC 1.2 snapshot module format:
+
+   type     | name              |version|description
+   ------------------------------------------
+    WORD    | VADDR_MASK        |       | Mask of the address bits valid when accessing the video memory
+    WORD    | VADDR_CHARSWITCH  |       | If one bit in the video address is used to switch the character generator, it is masked here.
+    WORD    | VADDR_CHAROFFSET  |       | The offset in characters in the character generator that CHARSWITCH switches.
+    WORD    | VADDR_REVSWITCH   |       | If one bit in the video address inverts the screen, it is masked here.
+    WORD    | CHARGEN_MASK      |       | size of character generator in byte - 1
+    WORD    | CHARGEN_OFFSET    |       | offset given by external circuitry
+    BYTE    | HW_CURSOR         |       | external hardware cursor circuitry enabled
+    BYTE    | HW_COLS           |       | number of displayed columns during one character clock cycle
+    BYTE    | HW_BLANK          |       | set if the hardware blank feature is available CRTC register
+ 20 BYTE    | REGISTERS         |       | register DUMP of the CRTC registers 0-19.
+    BYTE    | REGNO             |       | The current index in the CRTC register file
+    BYTE    | CHAR              |       | The current cycle within the current rasterline
+    BYTE    | CHARLINE          |       | The current character line
+    BYTE    | YCOUNTER          |       | The current rasterline in the character
+    BYTE    | CRSRCNT           |       | Framecounter for the blinking cursor
+    BYTE    | CRSRSTATE         |       | if set the hardware cursor is visible
+    BYTE    | CRSRLINES         |       | set if ycounter is within the active cursor rasterlines for a char
+    WORD    | CHARGEN_REL       |       | relative base of currently used character generator in ROM (in byte)
+    WORD    | SCREEN_REL        |       | screen address to load the counter at the beginning of the next rasterline
+    WORD    | VSYNC             |       | number of rasterlines left within vsync; 0 = not in vsync
+    BYTE    | VENABLE           |       | vertical enable flipflop; 1= display, 0= blank.
+    WORD    | SCREEN_WIDTH      |       | width of the current display window
+    WORD    | SCREEN_HEIGHT     |       | height of the current display window
+    WORD    | SCREEN_XOFFSET    |       | x position where the first character in a line starts in the window
+    WORD    | HJITTER           |       |  but only after adding this jitter
+    WORD    | SCREEN_YOFFSET    |       | x position where the first character in a line starts in the window
+    WORD    | FRAMELINES        |       |  expected number of rasterlines for the current frame
+    WORD    | CURRENT_LINE      |       | current rasterline as seen from the CRTC
+    BYTE    | FLAG              | 1.1+  | Bit 0: If 1 then bit in VADDR_REVSWITCH must be set for reverse; if 0 then bit must be cleared for reverse.
+
+    (followed by raster module data)
+*/
 
 static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 1

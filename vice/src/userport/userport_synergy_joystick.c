@@ -172,7 +172,7 @@ static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
 
 /* ---------------------------------------------------------------------*/
 
-/* UP_JOY_SYNERGY snapshot module format:
+/* UPJOYSYNERGY 0.1 snapshot module format:
 
    type  | name   | description
    ----------------------------

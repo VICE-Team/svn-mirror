@@ -253,6 +253,16 @@ void behrbonz_detach(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* BEHRBONZ snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   BYTE  | bank_reg         |
+   BYTE  | reset_mode       |
+   BYTE  | write_once       |
+   ARRAY | cart_rom         | 0x200000 bytes of ROM data
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   0
 #define VIC20CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "BEHRBONZ"

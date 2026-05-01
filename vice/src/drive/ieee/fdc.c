@@ -1132,7 +1132,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 
 /************************************************************************/
 
-/* FDC* snapshot module format:
+/* FDC 0.0 snapshot module format:
 
    type  | name     | description
    ------------------------------

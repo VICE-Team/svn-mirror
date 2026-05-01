@@ -355,10 +355,17 @@ void partner128_powerup(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* PARTNER128 snapshot module format:
+/* PARTNER128 0.1 snapshot module format:
 
-    FIXME
- */
+   type  | name                 | description
+   ------------------------------------------
+   BYTE  | regvalue             |
+   BYTE  | rambank              |
+   BYTE  | isdefreezing         |
+   ARRAY | nmivector            | 2 bytes
+   ARRAY | ext_function_rom     | PARTNER_ROM_SIZE
+   ARRAY | rambanks             | PARTNER_RAM_SIZE
+*/
 
 static char snap_module_name[] = "PARTNER128";
 #define SNAP_MAJOR   0

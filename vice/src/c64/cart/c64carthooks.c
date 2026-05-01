@@ -3280,6 +3280,43 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
     Snapshot reading and writing
 */
 
+/* C64CART 0.1 snapshot module format:
+
+   type  | name                             | description
+   ------------------------------------------------------
+   BYTE  | num carts                        | number of active cartridges
+   DWORD | mem_cartridge_type               |
+   BYTE  | game                             |
+   BYTE  | exrom                            |
+   DWORD | romh_bank                        |
+   DWORD | roml_bank                        |
+   BYTE  | export_ram                       |
+   BYTE  | ultimax_phi1                     |
+   BYTE  | ultimax_phi2                     |
+   CLOCK | cart_freeze_alarm_time           |
+   CLOCK | cart_nmi_alarm_time              |
+   BYTE  | export_slot1.game                |
+   BYTE  | export_slot1.exrom               |
+   BYTE  | export_slot1.ultimax_phi1        |
+   BYTE  | export_slot1.ultimax_phi2        |
+   BYTE  | export_slotmain.game             |
+   BYTE  | export_slotmain.exrom            |
+   BYTE  | export_slotmain.ultimax_phi1     |
+   BYTE  | export_slotmain.ultimax_phi2     |
+   BYTE  | export_passthrough.game          |
+   BYTE  | export_passthrough.exrom         |
+   BYTE  | export_passthrough.ultimax_phi1  |
+   BYTE  | export_passthrough.ultimax_phi2  |
+   DWORD | reserved                         |
+   DWORD | reserved                         |
+   DWORD | reserved                         |
+   DWORD | reserved                         |
+   ARRAY | cart ids                         | <num cart> IDs of active cartridges
+
+   followed by individual cartridge modules
+
+ */
+
 #define C64CART_DUMP_MAX_CARTS  16
 
 #define C64CART_DUMP_VER_MAJOR   0

@@ -181,6 +181,15 @@ void gs_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTGS snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   BYTE  | regval     | bank register value
+   BYTE  | currbank   | current bank
+   ARRAY | roml_banks | 64 * 8192 bytes of ROM data
+ */
+
 #define CART_DUMP_VER_MAJOR   1
 #define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTGS"

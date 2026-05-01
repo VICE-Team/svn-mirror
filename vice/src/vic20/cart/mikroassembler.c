@@ -263,6 +263,14 @@ void mikroassembler_detach(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* MIKROASSEMBLER snapshot module format:
+
+   type  | name             | description
+   --------------------------------------
+   ARRAY | cart_ram         | 0x400 * 3 bytes of RAM data
+   ARRAY | cart_rom         | 0x400 * 8 bytes of ROM data
+*/
+
 #define VIC20CART_DUMP_VER_MAJOR   1
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "MIKROASSEMBLER"

@@ -401,6 +401,20 @@ int hummeradc_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+/* ---------------------------------------------------------------------*/
+
+/* HUMMERADC snapshot module format:
+
+   type  | name                 | description
+   -------------------------------------------
+   BYTE  | hummeradc_value      |
+   BYTE  | hummeradc_channel    |
+   BYTE  | hummeradc_control    |
+   BYTE  | hummeradc_chanattr   |
+   BYTE  | hummeradc_chanwakeup |
+   BYTE  | hummeradc_prev       |
+ */
+
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 static const char snap_misc_module_name[] = "HUMMERADC";

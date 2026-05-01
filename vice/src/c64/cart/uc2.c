@@ -787,6 +787,18 @@ void uc2_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* CARTUC2 snapshot module format:
+
+   type  | name         | description
+   --------------------------------
+   BYTE  | regA         | bank register value
+   BYTE  | regB         | mode
+   BYTE  | bankmask     | bank mask
+   ARRAY | roml_banks   | 32 * 8192 bytes of ROML data
+   ARRAY | romh_banks   | 32 * 8192 bytes of ROMH data
+   ARRAY | cart_ram     | 512kiB of RAM data
+ */
+
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTUC2"

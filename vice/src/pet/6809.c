@@ -5959,6 +5959,26 @@ void cpu6809_reset (void)
 
 /* ------------------------------------------------------------------------- */
 
+/* CPU6809 1.1 snapshot module format:
+
+   type  | name         | description
+   ------------------------------------------
+   CLOCK | clock        | the current CPU clock value. All other clock values are relative to this.
+   WORD  | x            | the x register
+   WORD  | y            | the y register
+   WORD  | u            | the u register
+   WORD  | s            | the s register
+   WORD  | pc           | the program counter register
+   BYTE  | dp           | the direct page register
+   BYTE  | cc           | the condition code register
+   BYTE  | a            | the a register
+   BYTE  | b            | the b register
+   WORD  | v            | the V register (for 6309 compatibility)
+   BYTE  | e            | the e register (for 6309 compatibility)
+   BYTE  | f            | the f register (for 6309 compatibility)
+   BYTE  | md           | the md register (for 6309 compatibility)
+*/
+
 static char snap_module_name[] = "CPU6809";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1

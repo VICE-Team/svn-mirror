@@ -1514,6 +1514,24 @@ int cmdhd_update_maxsize(unsigned int size, unsigned int unit)
     return 0;
 }
 
+/*
+    CMDHD 1.0 snapshot module format:
+
+   Type     | Name                  | Description
+   ----------------------------------------------
+   BYTE     | LEDs                  |
+   ARRAY    | i8255a_i              | 3
+   ARRAY    | i8255a_o              | 3
+   BYTE     | scsi_dir              |
+   BYTE     | preadyff              |
+
+    followed by i8255a data
+    followed by via core module
+    followed by via core module
+    followed by scsi core module
+    followed by rtc72421 core module
+*/
+
 #define CMDHD_SNAP_MAJOR 1
 #define CMDHD_SNAP_MINOR 0
 

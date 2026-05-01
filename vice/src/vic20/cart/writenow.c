@@ -219,6 +219,13 @@ void writenow_detach(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* WRITENOW snapshot module format:
+
+   type  | name       | description
+   --------------------------------
+   ARRAY | cart_rom   | 8 * 0x400 bytes of ROM data
+ */
+
 #define VIC20CART_DUMP_VER_MAJOR   0
 #define VIC20CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "WRITENOW"

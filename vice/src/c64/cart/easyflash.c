@@ -676,7 +676,7 @@ int easyflash_crt_save(const char *filename)
 
 /* ---------------------------------------------------------------------*/
 
-/* CARTEF snapshot module format:
+/* CARTEF 0.0 snapshot module format:
 
    type  | name       | description
    --------------------------------

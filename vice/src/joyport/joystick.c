@@ -2729,6 +2729,13 @@ int joystick_init(void)
 
 /*--------------------------------------------------------------------------*/
 
+/* JOYSTICK 1.2 snapshot module format:
+
+   type  | name                | description
+   -----------------------------------------
+   WORD  | joystick value      | current/last value read from the joystick port
+*/
+
 #define DUMP_VER_MAJOR   1
 #define DUMP_VER_MINOR   2
 

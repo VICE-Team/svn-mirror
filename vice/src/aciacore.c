@@ -726,24 +726,25 @@ void myacia_reset(void)
 #define ACIA_DUMP_VER_MAJOR      1 /*!< the major version number of the dump data */
 #define ACIA_DUMP_VER_MINOR      1 /*!< the minor version number of the dump data */
 
-/*
- * Layout of the dump data:
- *
- * UBYTE        TDR     Transmit Data Register
- * UBYTE        RDR     Receiver Data Register
- * UBYTE        SR      Status Register (includes state of IRQ line)
- * UBYTE        CMD     Command Register
- * UBYTE        CTRL    Control Register
- *
- * UBYTE        IN_TX   0 = no data to tx; 2 = TDR valid; 1 = in transmit (cf. enum acia_tx_state)
- *
- * QWORD        TICKSTX ticks till the next TDR empty interrupt
- *
- * QWORD        TICKSRX ticks till the next RDF empty interrupt
- *                      TICKSRX has been added with 2.0.9; if it does not
- *                      exist on read, it is assumed that it has the same
- *                      value as TICKSTX to emulate the old behaviour.
- */
+/* ACIA 1.1 snapshot module format:
+
+   type  | name    | description
+   ------------------------------
+   UBYTE | TDR     | Transmit Data Register
+   UBYTE | RDR     | Receiver Data Register
+   UBYTE | SR      | Status Register (includes state of IRQ line)
+   UBYTE | CMD     | Command Register
+   UBYTE | CTRL    | Control Register
+   UBYTE | IN_TX   | 0 = no data to tx; 1 = Data is being transmitted;
+                   | 2 = Data is being transmitted while data in TDR waiting
+                   | to be put to internal transmit register
+   QWORD | TICKSTX | ticks till the next TDR empty interrupt
+   QWORD | TICKSRX | ticks till the next RDF empty interrupt
+
+   NOTE: TICKSRX has been added with 2.0.9; if it does not
+         exist on read, it is assumed that it has the same
+         value as TICKSTX to emulate the old behaviour.
+*/
 
 /*! the name of this module */
 static const char module_name[] = MYACIA;

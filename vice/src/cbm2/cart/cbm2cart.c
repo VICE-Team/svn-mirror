@@ -884,12 +884,19 @@ char *cartridge_get_secondary_filename_by_slot(int slot)
 
 /* ------------------------------------------------------------------------- */
 
-/*
-    Snapshot reading and writing
-*/
-
 /* FIXME: due to the snapshots being generally broken as a whole, none of this
           could be tested */
+
+/* CBM2CART 0.1 snapshot module format:
+
+   type  | name                 | description
+   --------------------------------
+   BYTE  | number_of_carts      | number of attached carts
+   BYTE  | mem_cartridge_type   | main type
+   ARRAY | cart_ids             | number_of_carts * DWORD cartridge IDs
+
+   followed by individual cartridges modules
+ */
 
 #define CBM2CART_DUMP_MAX_CARTS  1
 
