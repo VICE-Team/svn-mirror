@@ -603,7 +603,7 @@ static int set_mmc64_bios_filename(const char *name, void *param)
     if (set_mmc64_enabled(enabled, (void*)1) < 0) {
         lib_free(mmc64_bios_filename);
         mmc64_bios_filename = NULL;
-        LOG(("MMC64: set_mmc64_bios_filename done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
+        LOG(("MMC64: set_mmc64_bios_filename done: %d", mmc64_enabled));
         return -1;
     }
     /* should be enabled now */
