@@ -12,7 +12,8 @@ MISC_DOX = \
 	gpl.texi
 
 TEXI_TOOLS = \
-	fixdates.sh
+	fixdates.sh \
+	snapshots-extract.sh
 
 DOC_TOOLS = \
 	checkdoc.c \
