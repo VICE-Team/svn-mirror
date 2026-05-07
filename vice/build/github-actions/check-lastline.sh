@@ -2,13 +2,14 @@
 OLDCWD=`pwd`
 SCRIPT_PATH=`dirname $0`
 CHECK_PATH=./src/
+PRUNE_PATH='./src/lib/*'
 
 cd $SCRIPT_PATH/../../
 
 nl='
 '
 nl=$'\n'
-FILES=`find $CHECK_PATH -type f \( -name \*.c -o -name \*.h -o -name \*.cc -o -name \*.m -o -name Makefile.am \) -print | while read f; do
+FILES=`find $CHECK_PATH -not -path "$PRUNE_PATH" -type f \( -name \*.c -o -name \*.h -o -name \*.cc -o -name \*.m -o -name Makefile.am \) -print | while read f; do
     t=$(tail -c2 $f; printf x); r1="${nl}$";
     [[ ${t%x} =~ $r1 ]] || echo "$f"
 done`
