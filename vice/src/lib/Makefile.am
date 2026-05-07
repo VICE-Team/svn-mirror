@@ -4,6 +4,10 @@ if HAVE_USBSID
 SUBDIRS += libusbsiddrv
 endif
 
+if HAVE_RESIDFP
+SUBDIRS += libresidfp
+endif
+
 AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
@@ -25,4 +29,10 @@ libzmbv:
 if HAVE_USBSID
 libusbsiddrv:
 	(cd libusbsiddrv; $(MAKE))
+endif
+
+.PHONY: libresidfp
+if HAVE_RESIDFP
+libresidfp:
+	(cd libresidfp; $(MAKE))
 endif

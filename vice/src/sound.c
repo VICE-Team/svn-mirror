@@ -1098,6 +1098,8 @@ sound_t *sound_get_psid(unsigned int channel)
     return snddata.psid[channel];
 }
 
+static int overflow_warning_count = 0;
+
 /* open sound device */
 int sound_open(void)
 {
@@ -1112,6 +1114,8 @@ int sound_open(void)
     int fragsize;
     int fragnr;
     double bufsize;
+
+    overflow_warning_count = 0;
 
     if (snddata.playdev) {
         /*
@@ -1366,10 +1370,6 @@ void sound_close(void)
 /* run sid */
 static int sound_run_sound(void)
 {
-#if 1
-    static int overflow_warning_count = 0;
-#endif
-
     int nr = 0;
     int i;
     CLOCK delta_t = 0;

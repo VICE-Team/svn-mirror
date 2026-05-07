@@ -44,9 +44,11 @@ enum {
     SID_ENGINE_RESID,
     SID_ENGINE_CATWEASELMKIII,
     SID_ENGINE_HARDSID,
-    SID_ENGINE_PARSID,
-    SID_ENGINE_USBSID = 7
+    SID_ENGINE_PARSID,      /* CAUTION: actually 3 engines, one per LPT */
+    SID_ENGINE_USBSID = 7,
+    SID_ENGINE_RESIDFP
 };
+
 
 #define SID_ENGINE_DEFAULT       99
 
@@ -54,10 +56,13 @@ enum {
  */
 
 /** \brief  Maximum number of supported SIDs for the FastSID engine */
-#define SID_ENGINE_FASTSID_NUM_SIDS         4
+#define SID_ENGINE_FASTSID_NUM_SIDS         8
 
 /** \brief  Maximum number of supported SIDs for the ReSID engine */
-#define SID_ENGINE_RESID_NUM_SIDS           4
+#define SID_ENGINE_RESID_NUM_SIDS           8
+
+/** \brief  Maximum number of supported SIDs for the ReSIDfp engine */
+#define SID_ENGINE_RESIDFP_NUM_SIDS         8
 
 /** \brief  Maximum number of supported SIDs for the Catweasel Mk3 engine */
 #define SID_ENGINE_CATWEASELMKIII_NUM_SIDS  2
@@ -100,10 +105,13 @@ enum {
 #define SID_HARDSID               (SID_ENGINE_HARDSID << 8)
 #define SID_PARSID                (SID_ENGINE_PARSID << 8)
 #define SID_USBSID                (SID_ENGINE_USBSID << 8)
+#define SID_RESIDFP_6581          ((SID_ENGINE_RESIDFP << 8) | SID_MODEL_6581)
+#define SID_RESIDFP_8580          ((SID_ENGINE_RESIDFP << 8) | SID_MODEL_8580)
+#define SID_RESIDFP_8580D         ((SID_ENGINE_RESIDFP << 8) | SID_MODEL_8580D)
 
 #define SIDTYPE_SID       0
 #define SIDTYPE_SIDDTV    1
-#define SIDTYPE_SIDCART   2
+#define SIDTYPE_SIDCART   2     /* used by machines that don't have an internal SID */
 
 #define SID_MACHINE_MAX_SID_C64     8
 #define SID_MACHINE_MAX_SID_C64DTV  1
@@ -158,6 +166,22 @@ enum {
 #define RESID_8580_FILTER_BIAS_MAX          5000
 #define RESID_8580_FILTER_BIAS_ONE          1000
 #define RESID_8580_FILTER_BIAS_DEFAULT      0
+
+
+#define RESIDFP_6581_FILTER_CURVE_MIN             0
+#define RESIDFP_6581_FILTER_CURVE_MAX             1000
+#define RESIDFP_6581_FILTER_CURVE_ONE             1000
+#define RESIDFP_6581_FILTER_CURVE_DEFAULT         500
+
+#define RESIDFP_6581_FILTER_RANGE_MIN             0
+#define RESIDFP_6581_FILTER_RANGE_MAX             1000
+#define RESIDFP_6581_FILTER_RANGE_ONE             1000
+#define RESIDFP_6581_FILTER_RANGE_DEFAULT         500
+
+#define RESIDFP_8580_FILTER_CURVE_MIN             0
+#define RESIDFP_8580_FILTER_CURVE_MAX             1000
+#define RESIDFP_8580_FILTER_CURVE_ONE             1000
+#define RESIDFP_8580_FILTER_CURVE_DEFAULT         500
 
 
 void machine_sid2_enable(int val);

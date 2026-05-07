@@ -65,7 +65,7 @@ static UI_MENU_CALLBACK(custom_SidModel_callback)
 
 static ui_menu_entry_t *sid_model_menu = NULL;
 
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
 UI_MENU_DEFINE_RADIO(SidResidSampling)
 
 static const ui_menu_entry_t sid_sampling_menu[] = {
@@ -91,7 +91,9 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
     },
     SDL_MENU_LIST_END
 };
+#endif
 
+#ifdef HAVE_RESID
 UI_MENU_DEFINE_SLIDER(SidResidPassband, 0, 90)
 UI_MENU_DEFINE_SLIDER(SidResidGain, 90, 100)
 UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -5000, 5000)
@@ -168,6 +170,36 @@ UI_MENU_DEFINE_SLIDER(SidResid8580FilterBias, -5000, 5000)
 #endif
 
 #endif /* HAVE_RESID */
+
+#ifdef HAVE_RESIDFP
+UI_MENU_DEFINE_SLIDER(SidResid6581FilterCurve, 0, RESIDFP_6581_FILTER_CURVE_MAX)
+UI_MENU_DEFINE_SLIDER(SidResid6581FilterRange, 0, RESIDFP_6581_FILTER_RANGE_MAX)
+UI_MENU_DEFINE_SLIDER(SidResid8580FilterCurve, 0, RESIDFP_8580_FILTER_CURVE_MAX)
+
+# define VICE_SDL_RESIDFP_OPTIONS                                                                                             \
+    {   .string   = "reSIDfp sampling method",                                                                                \
+        .type     = MENU_ENTRY_SUBMENU,                                                                                       \
+        .callback = submenu_radio_callback,                                                                                   \
+        .data     = (ui_callback_data_t)sid_sampling_menu                                                                     \
+    },                                                                                                                        \
+    {   .string   = "reSIDfp 6581 filter curve",                                                                              \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                                                                  \
+        .callback = slider_SidResid6581FilterCurve_callback,                                                                  \
+        .data     = (ui_callback_data_t)"Set filter curve"                                                                    \
+    },                                                                                                                        \
+    {   .string   = "reSIDfp 6581 filter range",                                                                              \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                                                                  \
+        .callback = slider_SidResid6581FilterRange_callback,                                                                  \
+        .data     = (ui_callback_data_t)"Set filter range"                                                                    \
+    },                                                                                                                        \
+    {   .string   = "reSIDfp 8580 filter curve",                                                                              \
+        .type     = MENU_ENTRY_RESOURCE_INT,                                                                                  \
+        .callback = slider_SidResid8580FilterCurve_callback,                                                                  \
+        .data     = (ui_callback_data_t)"Set filter curve"                                                                    \
+    },                                                                                                                        \
+
+#endif /* HAVE_RESIDFP */
+
 
 #ifdef HAVE_USBSID
 UI_MENU_DEFINE_TOGGLE(SidUSBSIDReadMode)
@@ -769,6 +801,9 @@ ui_menu_entry_t sid_c64_menu[] = {
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
+#endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
 #endif
@@ -827,6 +862,9 @@ ui_menu_entry_t sid_c128_menu[] = {
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
+#endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
 #endif
@@ -845,6 +883,9 @@ ui_menu_entry_t sid_cbm2_menu[] = {
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
+#endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
 #endif
@@ -862,6 +903,9 @@ ui_menu_entry_t sid_dtv_menu[] = {
     },
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
+#endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
 #endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
@@ -888,6 +932,9 @@ ui_menu_entry_t sid_vic_menu[] = {
     },
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
+#endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
 #endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
@@ -935,6 +982,9 @@ ui_menu_entry_t sid_pet_menu[] = {
     },
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
+#endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
 #endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS
@@ -984,6 +1034,9 @@ ui_menu_entry_t sid_plus4_menu[] = {
     },
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
+#endif
+#ifdef HAVE_RESIDFP
+    VICE_SDL_RESIDFP_OPTIONS
 #endif
 #ifdef HAVE_USBSID
     VICE_SDL_USBSID_OPTIONS

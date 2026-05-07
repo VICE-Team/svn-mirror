@@ -12663,7 +12663,7 @@ Integer specifying what model of the SID must be emulated.
 @vindex SidEngine
 @item SidEngine
 Integer specifying what SID engine will be used.
-(0: FastSID, 1: ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3, 7: USBSID-Pico)
+(0: FastSID, 1: ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3, 7: USBSID-Pico, 8: ReSIDfp)
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -12703,6 +12703,22 @@ in millivolts. [0] (-5000..5000, 1000 equals 1mV)
 Boolean specifying whether raw debug output is enabled. When enabled, the raw -
  not downsampled - audio data is written to a file called resid.raw in the current
  working directory.
+
+@vindex SidResid8580Gain
+@item SidResid8580Gain
+Integer that specifies reSID gain in percent [97] (90..100) for 8580.
+
+@vindex SidResid6581FilterCurve
+@item SidResid6581FilterCurve
+Integer that specifies the reSIDfp filter curve parameter [500] (0..1000) for the 6581.
+
+@vindex SidResid6581FilterRange
+@item SidResid6581FilterRange
+Integer that specifies the reSIDfp filter range parameter [500] (0..1000) for the 6581.
+
+@vindex SidResid8580FilterCurve
+@item SidResid8580FilterCurve
+Integer that specifies the reSIDfp filter curve parameter [500] (0..1000) for the 8580.
 
 @vindex SidUSBSIDReadMode
 @item SidUSBSIDReadMode
@@ -12883,13 +12899,16 @@ HardSID: 768/hardsid/hard/hs,
 ParSID Port 1: 1024/parsid/parsid1/par1/lpt1,
 ParSID Port 2: 1280/parsid2/par2/lpt2,
 ParSID Port 3: 1536/parsid3/par3/lpt3,
-USBSID-Pico: 1792/usbsid/usbs/us)
+USBSID-Pico: 1792/usbsid/usbs/us,
+ReSIDfp 6581: 2048/residfp/residfpold/residfp6581,
+ReSIDfp 8580: 2049/residfpnew/residfp8580,
+ReSIDfp 8580 + digiboost: 2050/residfpdigital/residfpd/residfpnewd/residfp8580d)
 
 @findex -sidengine
 @item -sidengine <engine>
 Specify engine for the emulated SID chip
 (@code{SidEngine}).
-(FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6, USBSID-Pico: 7)
+(FastSID: 0, ReSID: 1, DTVSID: 2, HardSID: 3, ParSID Port 1: 4, ParSID Port 2: 5, ParSID Port 3: 6, USBSID-Pico: 7, ReSIDfp: 8)
 
 @findex -sidmodel
 @item -sidmodel <model>
@@ -12941,6 +12960,18 @@ reSID filter bias setting for 8580, which can be used to adjust DAC bias in mill
 Boolean specifying whether raw debug output is enabled. When enabled, the raw -
  not downsampled - audio data is written to a file called resid.raw in the current
  working directory.
+
+@findex -residfp6581filtercurve
+@item -residfp6581filtercurve <number>
+reSIDfp filter curve setting for 6581 (0..1000).
+
+@findex -residfp6581filterrange
+@item -residfp6581filterrange <number>
+reSIDfp filter range setting for 6581 (0..1000).
+
+@findex -residfp8580filtercurve
+@item -residfp8580filtercurve <number>
+reSIDfp filter curve setting for 8580 (0..1000).
 
 @findex -usreadmode
 @item -usreadmode <0 or 1>
