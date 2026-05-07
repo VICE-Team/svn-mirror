@@ -1,9 +1,8 @@
 /*
- * sid-cmdline-options.h - SID command line options.
+ * residfp.h - reSIDfp interface code.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,15 +24,11 @@
  *
  */
 
-#ifndef VICE_SID_CMDLINE_OPTIONS_H
-#define VICE_SID_CMDLINE_OPTIONS_H
+#ifndef VICE_RESIDFP_H
+#define VICE_RESIDFP_H
 
-int sid_cmdline_options_init(int sid_type);
+#include "types.h"
 
-#ifdef HAVE_USBSID
-int us_setparam(const char *param, void *extra_param);
-#endif
-
-void sid_cmdline_options_shutdown(void);
+extern sid_engine_t residfp_hooks;
 
 #endif

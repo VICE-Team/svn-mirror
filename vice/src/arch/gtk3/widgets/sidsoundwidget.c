@@ -29,21 +29,29 @@
  * $VICERES SidEngine                   all
  * $VICERES SidStereo                   all
  * $VICERES SidResidSampling            all
+ * $VICERES SidFilters                  all
+ *
+ * These are related to ReSID
  * $VICERES SidResidPassband            all
  * $VICERES SidResidGain                all
  * $VICERES SidResidFilterBias          all
  * $VICERES SidResid8580Passband        all
  * $VICERES SidResid8580Gain            all
  * $VICERES SidResid8580FilterBias      all
- * $VICERES SidFilters                  all
- * $VICERES Sid2AddressStart            all
- * $VICERES Sid3AddressStart            all
+ *
+ * These are related to ReSIDfp
+ * $VICERES SidResid6581FilterCurve     all
+ * $VICERES SidResid6581FilterBias      all
+ * $VICERES SidResid8580FilterCurve     all
  *
  * These are related to USBSID
  * $VICERES SidUSBSIDReadMode           all
  * $VICERES SidUSBSIDAudioMode          all
  * $VICERES SidUSBSIDDiffSize           all
  * $VICERES SidUSBSIDBufferSize         all
+ *
+ * $VICERES Sid2AddressStart            all
+ * $VICERES Sid3AddressStart            all
  *
  * Until PSID files support more than three SIDs, these will be -vsid:
  * $VICERES Sid4AddressStart            -vsid
@@ -81,7 +89,7 @@
     "}"
 
 
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
 /** \brief  ReSID filter slider declaration
  */
 typedef struct slider_s {
@@ -94,7 +102,9 @@ typedef struct slider_s {
     int         resmax;     /**< resource maximum value */
     float       step;       /**< scale stepping */
 } slider_t;
+#endif
 
+#ifdef HAVE_RESID
 /** \brief  ReSID filter sliders for 6581
  *
  * Extra leading space in format string is used to keep the slider knob from
@@ -136,6 +146,42 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
     { "Interpolation",   SID_RESID_SAMPLING_INTERPOLATION },
     { "Resampling",      SID_RESID_SAMPLING_RESAMPLING },
     { "Fast resampling", SID_RESID_SAMPLING_FAST_RESAMPLING },
+    { NULL,              -1 }
+};
+#endif
+
+#ifdef HAVE_RESIDFP
+/** \brief  ReSIDfp filter sliders for 6581
+ *
+ * Extra leading space in format string is used to keep the slider knob from
+ * touching the text.
+ */
+static const slider_t fp_sliders_6581[] = {
+    { "6581 filter curve", "SidResid6581FilterCurve",       "%1.2f",
+      RESIDFP_6581_FILTER_CURVE_MIN / RESIDFP_6581_FILTER_CURVE_ONE,
+      RESIDFP_6581_FILTER_CURVE_MAX / RESIDFP_6581_FILTER_CURVE_ONE,
+      RESIDFP_6581_FILTER_CURVE_MIN, RESIDFP_6581_FILTER_CURVE_MAX, 0.01f },
+    { "6581 filter range", "SidResid6581FilterRange",       "%1.2f",
+      RESIDFP_6581_FILTER_RANGE_MIN / RESIDFP_6581_FILTER_RANGE_ONE,
+      RESIDFP_6581_FILTER_RANGE_MAX / RESIDFP_6581_FILTER_RANGE_ONE,
+      RESIDFP_6581_FILTER_RANGE_MIN, RESIDFP_6581_FILTER_RANGE_MAX, 0.01f },
+    { NULL,            NULL,                     NULL,          0,    0, 0,    0, 0 }
+};
+
+/** \brief  ReSIDfp filter sliders for 8580 */
+static const slider_t fp_sliders_8580[] = {
+    { "8580 filter curve", "SidResid8580FilterCurve",   "%1.2f",
+      RESIDFP_8580_FILTER_CURVE_MIN / RESIDFP_8580_FILTER_CURVE_ONE,
+      RESIDFP_8580_FILTER_CURVE_MAX / RESIDFP_8580_FILTER_CURVE_ONE,
+      RESIDFP_8580_FILTER_CURVE_MIN, RESIDFP_8580_FILTER_CURVE_MAX, 0.01f },
+    { NULL,            NULL,                     NULL,          0,    0,0,    0,  0 }
+};
+
+/** \brief  Values for the "SidResidSampling" resource
+ */
+static const vice_gtk3_radiogroup_entry_t residfp_sampling_modes[] = {
+    { "Linear Interpolation",   SID_RESID_SAMPLING_INTERPOLATION },
+    { "SINC Resampling",        SID_RESID_SAMPLING_RESAMPLING },
     { NULL,              -1 }
 };
 #endif
@@ -184,6 +230,7 @@ static int sid_addr_list_c128[] = {
     -1
 };
 
+static GtkWidget *sid_grid;
 
 #ifdef HAVE_RESID
 /** \brief  ReSID sampling widget */
@@ -197,6 +244,20 @@ static GtkWidget *resid_6581_grid;
 
 /** \brief  8580 widgets grid */
 static GtkWidget *resid_8580_grid;
+#endif
+
+#ifdef HAVE_RESIDFP
+/** \brief  ReSIDfp sampling widget */
+static GtkWidget *residfp_sampling;
+
+/** \brief  ReSIDfp filters checkbox */
+static GtkWidget *residfp_filters;
+
+/** \brief  ReSIDfp 6581 widgets grid */
+static GtkWidget *residfp_6581_grid;
+
+/** \brief  ReSIDfp 8580 widgets grid */
+static GtkWidget *residfp_8580_grid;
 #endif
 
 #ifdef HAVE_USBSID
@@ -258,7 +319,10 @@ static GtkWidget *label_helper(const char *text)
     return label;
 }
 
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
+static GtkWidget *create_resid_sampling_widget(void);
+static GtkWidget *create_residfp_sampling_widget(void);
+
 /** \brief  Extra callback for the SID engine/model widget
  *
  * \param[in]   engine  SID engine ID
@@ -267,32 +331,88 @@ static GtkWidget *label_helper(const char *text)
 static void engine_model_changed_callback(int engine, int model)
 {
     gboolean is_resid = (engine == SID_ENGINE_RESID);
+    gboolean is_residfp = (engine == SID_ENGINE_RESIDFP);
+
+    /*printf("engine_model_changed_callback engine: %d model: %d\n", engine, model);*/
+
     /* Show proper ReSID slider widgets
      *
      * We can't check old model vs new model here, since the resource
      * SidModel has already been updated.
      */
+    gtk_widget_hide(resid_6581_grid);
+    gtk_widget_hide(residfp_6581_grid);
+    gtk_widget_hide(resid_8580_grid);
+    gtk_widget_hide(residfp_8580_grid);
     if (model == SID_MODEL_6581) {
-        gtk_widget_show(resid_6581_grid);
-        gtk_widget_hide(resid_8580_grid);
+        if (is_residfp) {
+            gtk_widget_show(residfp_6581_grid);
+        } else {
+            gtk_widget_show(resid_6581_grid);
+        }
     } else {
-        gtk_widget_hide(resid_6581_grid);
-        gtk_widget_show(resid_8580_grid);
+        if (is_residfp) {
+            gtk_widget_show(residfp_8580_grid);
+        } else {
+            gtk_widget_show(resid_8580_grid);
+        }
     }
 
     /* Update mixer widget in the statusbar */
     mixer_widget_sid_type_changed();
 
+
+
+    resid_sampling = gtk_grid_get_child_at(GTK_GRID(sid_grid), 1, 0);
+    if (resid_sampling != NULL) {
+        gtk_widget_destroy(resid_sampling);
+        resid_sampling = NULL;
+    }
+    residfp_sampling = NULL;
+
+    /* attach both lists to same place, hide what what we don't need */
+#ifdef HAVE_RESID
+    if (engine == SID_ENGINE_RESID) {
+        resid_sampling = create_resid_sampling_widget();
+        gtk_widget_hide(resid_sampling);
+        gtk_grid_attach(GTK_GRID(sid_grid), resid_sampling, 1, 0, 1, 1);
+    }
+#endif
+#ifdef HAVE_RESIDFP
+    if (engine == SID_ENGINE_RESIDFP) {
+        residfp_sampling = create_residfp_sampling_widget();
+        gtk_widget_hide(residfp_sampling);
+        gtk_grid_attach(GTK_GRID(sid_grid), residfp_sampling, 1, 0, 1, 1);
+    }
+#endif
+
     gtk_widget_set_sensitive(resid_filters,   is_resid);
     gtk_widget_set_sensitive(resid_6581_grid, is_resid);
     gtk_widget_set_sensitive(resid_8580_grid, is_resid);
-    gtk_widget_set_sensitive(resid_sampling,  is_resid);
+
+    gtk_widget_set_sensitive(residfp_filters,   is_residfp);
+    gtk_widget_set_sensitive(residfp_6581_grid, is_residfp);
+    gtk_widget_set_sensitive(residfp_8580_grid, is_residfp);
+
+    if (is_residfp) {
+        gtk_widget_show(residfp_filters);
+        if (residfp_sampling) { gtk_widget_show(residfp_sampling); }
+        gtk_widget_hide(resid_filters);
+        if (resid_sampling) { gtk_widget_hide(resid_sampling); }
+    } else {
+        gtk_widget_hide(residfp_filters);
+        if (residfp_sampling) { gtk_widget_hide(residfp_sampling); }
+        gtk_widget_show(resid_filters);
+        if (resid_sampling) {gtk_widget_show(resid_sampling); }
+    }
 
     if (machine_class == VICE_MACHINE_VSID) {
         vsid_mixer_widget_update();
     }
 }
+#endif
 
+#ifdef HAVE_RESID
 /** \brief  Create widget to control ReSID sampling method
  *
  * \return  GtkGrid
@@ -309,6 +429,33 @@ static GtkWidget *create_resid_sampling_widget(void)
     label = label_helper("<b>ReSID sampling method</b>");
     group = vice_gtk3_resource_radiogroup_new("SidResidSampling",
                                               resid_sampling_modes,
+                                              GTK_ORIENTATION_VERTICAL);
+
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+#endif
+
+
+#ifdef HAVE_RESIDFP
+/** \brief  Create widget to control ReSIDfp sampling method
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_residfp_sampling_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *group;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>ReSIDfp sampling method</b>");
+    group = vice_gtk3_resource_radiogroup_new("SidResidSampling",
+                                              residfp_sampling_modes,
                                               GTK_ORIENTATION_VERTICAL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
@@ -618,17 +765,33 @@ GtkWidget *sid_sound_widget_create(void)
     resources_get_int("SidModel",  &current_model);
     resources_get_int("SidStereo", &current_stereo);
 
-    grid = vice_gtk3_grid_new_spaced(8, 0);
+    sid_grid = grid = vice_gtk3_grid_new_spaced(8, 0);
 
     engine = sid_engine_model_widget_create();
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
     sid_engine_model_widget_set_callback(engine_model_changed_callback);
 #endif
     gtk_grid_attach(GTK_GRID(grid), engine, 0, row, 1, 1);
 
+    resid_sampling = gtk_grid_get_child_at(GTK_GRID(grid), 1, row);
+    if (resid_sampling != NULL) {
+        gtk_widget_destroy(resid_sampling);
+        resid_sampling = NULL;
+    }
+    residfp_sampling = NULL;
+
+    /* attach both lists to same place, hide what what we don't need */
 #ifdef HAVE_RESID
-    resid_sampling = create_resid_sampling_widget();
-    gtk_grid_attach(GTK_GRID(grid), resid_sampling, 1, row, 1, 1);
+    if (current_engine == SID_ENGINE_RESID) {
+        resid_sampling = create_resid_sampling_widget();
+        gtk_grid_attach(GTK_GRID(grid), resid_sampling, 1, row, 1, 1);
+    }
+#endif
+#ifdef HAVE_RESIDFP
+    if (current_engine == SID_ENGINE_RESIDFP) {
+        residfp_sampling = create_residfp_sampling_widget();
+        gtk_grid_attach(GTK_GRID(grid), residfp_sampling, 1, row, 1, 1);
+    }
 #endif
     row++;
 
@@ -650,8 +813,6 @@ GtkWidget *sid_sound_widget_create(void)
     gtk_widget_set_margin_top(resid_filters, 16);
     gtk_widget_set_margin_bottom(resid_filters, 16);
     gtk_grid_attach(GTK_GRID(grid), resid_filters, 0, row, 3, 1);
-    gtk_widget_set_sensitive(resid_filters, current_engine == SID_ENGINE_RESID);
-    gtk_widget_set_sensitive(resid_sampling, current_engine == SID_ENGINE_RESID);
 
     resid_6581_grid = create_sliders(sliders_6581, "ReSID 6581 filter settings");
     resid_8580_grid = create_sliders(sliders_8580, "ReSID 8580 filter settings");
@@ -663,14 +824,53 @@ GtkWidget *sid_sound_widget_create(void)
     gtk_widget_set_no_show_all(resid_8580_grid, TRUE);
     gtk_widget_set_sensitive(resid_6581_grid, current_engine == SID_ENGINE_RESID);
     gtk_widget_set_sensitive(resid_8580_grid, current_engine == SID_ENGINE_RESID);
-    if (current_model == SID_MODEL_6581) {
-        gtk_widget_show(resid_6581_grid);
-        gtk_widget_hide(resid_8580_grid);
+    if (current_engine == SID_ENGINE_RESID) {
+        if (current_model == SID_MODEL_6581) {
+            gtk_widget_show(resid_6581_grid);
+            gtk_widget_hide(resid_8580_grid);
+        } else {
+            gtk_widget_hide(resid_6581_grid);
+            gtk_widget_show(resid_8580_grid);
+        }
     } else {
         gtk_widget_hide(resid_6581_grid);
-        gtk_widget_show(resid_8580_grid);
+        gtk_widget_hide(resid_8580_grid);
     }
 #endif
+
+#ifdef HAVE_RESIDFP
+    residfp_filters = vice_gtk3_resource_check_button_new("SidFilters",
+                                                        "Enable SID filter emulation");
+    gtk_widget_set_margin_top(residfp_filters, 16);
+    gtk_widget_set_margin_bottom(residfp_filters, 16);
+    gtk_grid_attach(GTK_GRID(grid), residfp_filters, 0, row, 3, 1);
+    gtk_widget_set_sensitive(residfp_filters, current_engine == SID_ENGINE_RESIDFP);
+
+    residfp_6581_grid = create_sliders(fp_sliders_6581, "ReSIDfp 6581 filter settings");
+    residfp_8580_grid = create_sliders(fp_sliders_8580, "ReSIDfp 8580 filter settings");
+    gtk_grid_attach(GTK_GRID(grid), residfp_6581_grid, 0, row + 1, 3 ,1);
+    gtk_grid_attach(GTK_GRID(grid), residfp_8580_grid, 0, row + 2, 3, 1);
+
+    /* only enable appropriate widgets */
+    gtk_widget_set_no_show_all(residfp_6581_grid, TRUE);
+    gtk_widget_set_no_show_all(residfp_8580_grid, TRUE);
+    gtk_widget_set_sensitive(residfp_6581_grid, current_engine == SID_ENGINE_RESIDFP);
+    gtk_widget_set_sensitive(residfp_8580_grid, current_engine == SID_ENGINE_RESIDFP);
+
+    if (current_engine == SID_ENGINE_RESIDFP) {
+        if (current_model == SID_MODEL_6581) {
+            gtk_widget_show(residfp_6581_grid);
+            gtk_widget_hide(residfp_8580_grid);
+        } else {
+            gtk_widget_hide(residfp_6581_grid);
+            gtk_widget_show(residfp_8580_grid);
+        }
+    } else {
+        gtk_widget_hide(residfp_6581_grid);
+        gtk_widget_hide(residfp_8580_grid);
+    }
+#endif
+
 
 /* FIXME: HardSID options are missing */
 

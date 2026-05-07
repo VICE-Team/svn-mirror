@@ -13,7 +13,9 @@
  * $VICERES SidResid8580Passband    vsid
  * $VICERES SidResid8580Gain        vsid
  * $VICERES SidResid8580FilterBias  vsid
-
+ * $VICERES SidResid6581FilterCurve vsid
+ * $VICERES SidResid6581FilterRange vsid
+ * $VICERES SidResid8580FilterCurve vsid
  */
 
 /*
@@ -215,6 +217,31 @@ static const mixer_scale_t scales_8580[NUM_SCALES] = {
 };
 
 
+/** \brief  Custom scale configuration for 6581 */
+static const mixer_scale_t fp_scales_6581[NUM_SCALES] = {
+    { "Filter curve", "SidResid6581FilterCurve",   "%1.2f",
+      RESIDFP_6581_FILTER_CURVE_MIN,   RESIDFP_6581_FILTER_CURVE_MAX,
+      RESIDFP_6581_FILTER_CURVE_MIN / RESIDFP_6581_FILTER_CURVE_ONE,
+      RESIDFP_6581_FILTER_CURVE_MAX / RESIDFP_6581_FILTER_CURVE_ONE,
+      0.01f },
+    { "Filter range", "SidResid6581FilterRange",   "%1.2f",
+      RESIDFP_6581_FILTER_RANGE_MIN,   RESIDFP_6581_FILTER_RANGE_MAX,
+      RESIDFP_6581_FILTER_RANGE_MIN / RESIDFP_6581_FILTER_RANGE_ONE,
+      RESIDFP_6581_FILTER_RANGE_MAX / RESIDFP_6581_FILTER_RANGE_ONE,
+      0.01f },
+
+};
+
+/** \brief  Custom scale configuration for 8580[D] */
+static const mixer_scale_t fp_scales_8580[NUM_SCALES] = {
+    { "Filter curve", "SidResid8580FilterCurve",   "%1.2f",
+      RESIDFP_8580_FILTER_CURVE_MIN,   RESIDFP_8580_FILTER_CURVE_MAX,
+      RESIDFP_8580_FILTER_CURVE_MIN / RESIDFP_8580_FILTER_CURVE_ONE,
+      RESIDFP_8580_FILTER_CURVE_MAX / RESIDFP_8580_FILTER_CURVE_ONE,
+      0.01f },
+};
+
+
 /** \brief  Add custom resource-bound GtkScales to the grid
  *
  * \param[in]   grid    main grid
@@ -223,15 +250,15 @@ static const mixer_scale_t scales_8580[NUM_SCALES] = {
  *
  * \return  row in \a grid for additional widgets
  */
-static int add_resid_scales(GtkWidget *grid, int row, int model)
+static int add_resid_scales(GtkWidget *grid, int row, int model, int engine)
 {
     const mixer_scale_t *scales;
     int                  i;
 
     if (model == SID_MODEL_6581) {
-        scales = scales_6581;
+        scales = (engine == SID_ENGINE_RESIDFP) ? fp_scales_6581 : scales_6581;
     } else {
-        scales = scales_8580;
+        scales = (engine == SID_ENGINE_RESIDFP) ? fp_scales_8580 : scales_8580;
     }
 
     for (i = 0; i < NUM_SCALES; i++) {
@@ -246,41 +273,44 @@ static int add_resid_scales(GtkWidget *grid, int row, int model)
         scale = gtk_grid_get_child_at(GTK_GRID(grid), 1, row + i);
         if (scale != NULL) {
             gtk_widget_destroy(scale);
+            scale = NULL;
         }
 
         /* create new widgets */
-        debug_gtk3("adding scale %s at row %d", scales[i].resource_name, row + i);
-        label = create_label(scales[i].label);
-        scale = vice_gtk3_resource_scale_custom_new(scales[i].resource_name,
-                                                    GTK_ORIENTATION_HORIZONTAL,
-                                                    scales[i].resource_low,
-                                                    scales[i].resource_high,
-                                                    scales[i].display_low,
-                                                    scales[i].display_high,
-                                                    scales[i].display_step,
-                                                    scales[i].display_format);
-        gtk_widget_set_hexpand(scale, TRUE);
-        gtk_widget_set_halign(scale, GTK_ALIGN_FILL);
-        gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-        gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
+        if (scales[i].label != NULL) {
+            debug_gtk3("adding scale %s at row %d", scales[i].resource_name, row + i);
+            label = create_label(scales[i].label);
+            scale = vice_gtk3_resource_scale_custom_new(scales[i].resource_name,
+                                                        GTK_ORIENTATION_HORIZONTAL,
+                                                        scales[i].resource_low,
+                                                        scales[i].resource_high,
+                                                        scales[i].display_low,
+                                                        scales[i].display_high,
+                                                        scales[i].display_step,
+                                                        scales[i].display_format);
+            gtk_widget_set_hexpand(scale, TRUE);
+            gtk_widget_set_halign(scale, GTK_ALIGN_FILL);
+            gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+            gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
 
-        /* use CSS to customize appearance a bit: make sure the custom formatted
-         * values don't result in different widths for the scales themselves */
-        vice_gtk3_css_provider_add(label, label_css_provider);
-        vice_gtk3_css_provider_add(scale, scale_css_provider);
+            /* use CSS to customize appearance a bit: make sure the custom formatted
+            * values don't result in different widths for the scales themselves */
+            vice_gtk3_css_provider_add(label, label_css_provider);
+            vice_gtk3_css_provider_add(scale, scale_css_provider);
 
-        gtk_grid_attach(GTK_GRID(grid), label, 0, row + i, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), scale, 1, row + i, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), label, 0, row + i, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), scale, 1, row + i, 1, 1);
 
-        /* the "old" 8580 filter implementation doesn't have customizable
-         * filter settings, so we disable the sliders if "old" and 8580 */
-#ifndef HAVE_NEW_8580_FILTER
-        if (model == SID_MODEL_8580 || model == SID_MODEL_8580D) {
-            gtk_widget_set_sensitive(scale, FALSE);
+            /* the "old" 8580 filter implementation doesn't have customizable
+            * filter settings, so we disable the sliders if "old" and 8580 */
+    #ifndef HAVE_NEW_8580_FILTER
+            if (model == SID_MODEL_8580 || model == SID_MODEL_8580D) {
+                gtk_widget_set_sensitive(scale, FALSE);
+            }
+    #endif
+            gtk_widget_show(label);
+            gtk_widget_show(scale);
         }
-#endif
-        gtk_widget_show(label);
-        gtk_widget_show(scale);
         scale_widgets[i] = scale;
     }
 
@@ -310,11 +340,15 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_widget_set_hexpand(grid, TRUE);
 
-    label = create_label("<b>ReSID settings</b>");
+    if (engine == SID_ENGINE_RESIDFP) {
+        label = create_label("<b>ReSIDfp settings</b>");
+    } else {
+        label = create_label("<b>ReSID settings</b>");
+    }
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
-    row = add_resid_scales(grid, row, new_sid_model);
+    row = add_resid_scales(grid, row, new_sid_model, engine);
 
     /* FIXME: does this make sense for non-ReSID? */
     button = gtk_button_new_with_label("Reset to defaults");
@@ -355,16 +389,29 @@ GtkWidget *vsid_mixer_widget_create(void)
  */
 void vsid_mixer_widget_update(void)
 {
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
+    GtkWidget *label;
+
     resources_get_int("SidEngine", &new_sid_engine);
     resources_get_int("SidModel", &new_sid_model);
     debug_gtk3("old engine = %d, new engine = %d", old_sid_engine, new_sid_engine);
     debug_gtk3("old model = %d, new model = %d", old_sid_model, new_sid_model);
+
     if ((new_sid_engine != old_sid_engine) ||
         (new_sid_model != old_sid_model)) {
         debug_gtk3("engine or model has changed: updating scale widgets");
-        add_resid_scales(main_grid, 1, new_sid_model);
-        gtk_widget_set_sensitive(main_grid, (new_sid_engine == SID_ENGINE_RESID));
+        label = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 0);
+        if (label != NULL) {
+            gtk_widget_destroy(label);
+        }
+        if (new_sid_engine == SID_ENGINE_RESIDFP) {
+            label = create_label("<b>ReSIDfp settings</b>");
+        } else {
+            label = create_label("<b>ReSID settings</b>");
+        }
+        gtk_grid_attach(GTK_GRID(main_grid), label, 0, 0, 2, 1);
+        add_resid_scales(main_grid, 1, new_sid_model, new_sid_engine);
+        gtk_widget_set_sensitive(main_grid, (new_sid_engine == SID_ENGINE_RESID) || (new_sid_engine == SID_ENGINE_RESIDFP));
 #if 0
         if (new_sid_engine == SID_ENGINE_RESID) {
             gtk_widget_show_all(main_grid);

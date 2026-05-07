@@ -11,10 +11,12 @@ SUFFIXES = .def
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
+	@RESIDFP_INCLUDES@ \
 	@RESID_INCLUDES@ \
 	@RESID_DTV_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib/libresidfp/src/ \
 	-I$(top_srcdir)/src/joyport
 
 AM_CFLAGS = @VICE_CFLAGS@
@@ -33,6 +35,8 @@ libsid_a_SOURCES = \
 	hardsid.c \
 	parsid.c \
 	usbsid.c \
+	residfp.cc \
+	residfp.h \
 	sid-cmdline-options.c \
 	sid-cmdline-options.h \
 	sid-resources.c \

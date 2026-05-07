@@ -60,6 +60,10 @@
 #include "resid.h"
 #endif
 
+#ifdef HAVE_RESIDFP
+#include "residfp.h"
+#endif
+
 /* SID engine hooks. */
 static sid_engine_t sid_engine;
 
@@ -563,6 +567,12 @@ bool sid_sound_machine_set_engine_hooks(void)
         sid_engine = resid_hooks;
     }
 #endif
+
+#ifdef HAVE_RESIDFP
+    if (sidengine == SID_ENGINE_RESIDFP) {
+        sid_engine = residfp_hooks;
+    }
+#endif
     if (sidengine >= 0) {
         return true;
     }
@@ -1013,6 +1023,10 @@ int sid_sound_machine_cycle_based(void)
         case SID_ENGINE_RESID:
             return 1;
 #endif
+#ifdef HAVE_RESIDFP
+        case SID_ENGINE_RESIDFP:
+            return 1;
+#endif
 #ifdef HAVE_CATWEASELMKIII
         case SID_ENGINE_CATWEASELMKIII:
             return 0;
@@ -1055,6 +1069,13 @@ static void set_sound_func(void)
         }
 #ifdef HAVE_RESID
         if (sid_engine_type == SID_ENGINE_RESID) {
+            sid_read_func = sound_read;
+            sid_store_func = sound_store;
+            sid_dump_func = sound_dump;
+        }
+#endif
+#ifdef HAVE_RESIDFP
+        if (sid_engine_type == SID_ENGINE_RESIDFP) {
             sid_read_func = sound_read;
             sid_store_func = sound_store;
             sid_dump_func = sound_dump;
@@ -1214,6 +1235,8 @@ int sid_engine_get_max_sids(int engine)
             return SID_ENGINE_FASTSID_NUM_SIDS;
         case SID_ENGINE_RESID:
             return SID_ENGINE_RESID_NUM_SIDS;
+        case SID_ENGINE_RESIDFP:
+            return SID_ENGINE_RESIDFP_NUM_SIDS;
         case SID_ENGINE_CATWEASELMKIII:
             return SID_ENGINE_CATWEASELMKIII_NUM_SIDS;
         case SID_ENGINE_HARDSID:
