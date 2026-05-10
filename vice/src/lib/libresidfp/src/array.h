@@ -53,11 +53,11 @@ private:
     matrix& operator=(const matrix&) = delete;
 
 public:
-    matrix(unsigned int x, unsigned int y) :
-        data(new T[x * y]),
+    matrix(unsigned int new_x, unsigned int new_y) :
+        data(new T[new_x * new_y]),
         count(new counter()),
-        x(x),
-        y(y) {}
+        x(new_x),
+        y(new_y) {}
 
     matrix(const matrix& p) :
         data(p.data),

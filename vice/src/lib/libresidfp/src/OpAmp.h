@@ -88,12 +88,12 @@ public:
      * @param vmin
      * @param vmax
      */
-    OpAmp(const std::vector<Spline::Point> &opamp_voltages, double Vddt,
-            double vmin, double vmax
+    OpAmp(const std::vector<Spline::Point> &opamp_voltages, double new_Vddt,
+            double new_vmin, double new_vmax
     ) :
-        Vddt(Vddt),
-        vmin(vmin),
-        vmax(vmax),
+        Vddt(new_Vddt),
+        vmin(new_vmin),
+        vmax(new_vmax),
         opamp(opamp_voltages) {}
 
     /**

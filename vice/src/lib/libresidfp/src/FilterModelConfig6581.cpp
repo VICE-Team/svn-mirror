@@ -300,14 +300,14 @@ FilterModelConfig6581::FilterModelConfig6581() :
 
 unsigned short* FilterModelConfig6581::getDAC(double adjustment) const
 {
-    const double dac_zero = getDacZero(adjustment);
+    const double new_dac_zero = getDacZero(adjustment);
 
     unsigned short* f0_dac = new unsigned short[1 << DAC_BITS];
 
     for (unsigned int i = 0; i < (1 << DAC_BITS); i++)
     {
         const double fcd = dac.getOutput(i);
-        f0_dac[i] = getNormalizedValue(dac_zero + fcd * dac_scale);
+        f0_dac[i] = getNormalizedValue(new_dac_zero + fcd * dac_scale);
     }
 
     return f0_dac;

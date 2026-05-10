@@ -182,16 +182,16 @@ private:
     FilterModelConfig6581& fmc;
 
 public:
-    explicit Integrator6581(FilterModelConfig6581& fmc) :
-        wlSnake(fmc.getWL_snake()),
+    explicit Integrator6581(FilterModelConfig6581& new_fmc) :
+        wlSnake(new_fmc.getWL_snake()),
 #ifdef SLOPE_FACTOR
         n(1.4),
 #endif
         nVddt_Vw_2(0),
-        nVddt(fmc.getNormalizedValue(fmc.getVddt())),
-        nVt(fmc.getNormalizedValue(fmc.getVth())),
-        nVmin(fmc.getNVmin()),
-        fmc(fmc) {}
+        nVddt(new_fmc.getNormalizedValue(new_fmc.getVddt())),
+        nVt(new_fmc.getNormalizedValue(new_fmc.getVth())),
+        nVmin(new_fmc.getNVmin()),
+        fmc(new_fmc) {}
 
     void setVw(unsigned short Vw) { nVddt_Vw_2 = ((nVddt - Vw) * (nVddt - Vw)) >> 1; }
 

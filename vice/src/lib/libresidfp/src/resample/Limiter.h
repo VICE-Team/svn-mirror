@@ -34,7 +34,7 @@ private:
     template<int m>
     static inline int clipper(int x)
     {
-        static_assert(m > 0);
+        static_assert(m > 0, "Clipper range must be a positive value");
         assert(x >= 0);
         if (likely(x < threshold))
             return x;

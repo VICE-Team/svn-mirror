@@ -112,12 +112,12 @@ void Filter::writeMODE_VOL(unsigned char mode_vol)
     updateMixing();
 }
 
-Filter::Filter(FilterModelConfig& fmc) :
-    mixer(fmc.getMixer()),
-    summer(fmc.getSummer()),
-    resonance(fmc.getResonance()),
-    volume(fmc.getVolume()),
-    fmc(fmc)
+Filter::Filter(FilterModelConfig& new_fmc) :
+    mixer(new_fmc.getMixer()),
+    summer(new_fmc.getSummer()),
+    resonance(new_fmc.getResonance()),
+    volume(new_fmc.getVolume()),
+    fmc(new_fmc)
 {
     input(0);
 }
