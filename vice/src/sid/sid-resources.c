@@ -806,6 +806,7 @@ static int sid_check_engine_model(int engine, int model)
 #ifdef HAVE_RESIDFP
         case SID_RESIDFP_6581:
         case SID_RESIDFP_8580:
+        case SID_RESIDFP_8580D:
 #endif
             return 0;
 #ifdef HAVE_RESID_DTV
