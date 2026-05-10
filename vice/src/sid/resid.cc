@@ -305,15 +305,17 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr, int inter
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
 
     if (psid->factor == 1000) {
+        /* CAUTION: modifies int_delta_t so it contains "cycles left to do" after exit (usually 0) */
         retval = psid->sid->clock(int_delta_t, pbuf, nr, interleave);
         (*delta_t) += int_delta_t - int_delta_t_original;
         return retval;
     }
 
+    /* Used when SID does not run at system clock ("SID card") */
     tmp_buf = getbuf(2 * nr * psid->factor / 1000);
-    retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
+    retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave);
     (*delta_t) += int_delta_t - int_delta_t_original;
-    memcpy(pbuf, tmp_buf, 2 * nr);
+    memcpy(pbuf, tmp_buf, retval * 2);
 
     return retval;
 }
