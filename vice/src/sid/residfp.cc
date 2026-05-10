@@ -269,17 +269,13 @@ static int residfp_calculate_samples(sound_t *psid, short *pbuf, int nr, int int
 {
     short *tmp_buf;
     int retval;
-    /*int int_delta_t_original = (int)*delta_t;*/
     int int_delta_t = (int)*delta_t;
 
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
 
     if (psid->factor == 1000) {
-        /* FIXME: the sound code constantly spits out "buffer overrun" warnings, but sound plays fine,
-         * something is wrong there */
-        /*retval = psid->sid->clock(int_delta_t, pbuf, nr, interleave);*/
-
         tmp_buf = getbuf(2 * nr);
+        /* CAUTION: unlike ReSID; this does NOT return the number of cycles "left to do" in int_delta_t */
         retval = psid->sid->clock(int_delta_t, tmp_buf);
         {
             int n, p = 0;
@@ -289,19 +285,22 @@ static int residfp_calculate_samples(sound_t *psid, short *pbuf, int nr, int int
             }
         }
 
-        /* printf("%p %p nr:%d interleave:%d retval:%d delta:%d\n", psid, pbuf, nr, interleave, retval, int_delta_t); */
-        /* (*delta_t) += int_delta_t - int_delta_t_original; */
+        (*delta_t) = 0;
         return retval;
     }
 
-    /* FIXME: how to trigger this case for testing? */
-
-    /* retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor; */
+    /* Used when SID does not run at system clock ("SID card") */
     tmp_buf = getbuf(2 * nr * psid->factor / 1000);
     retval = psid->sid->clock(int_delta_t, tmp_buf);
-    /* (*delta_t) += int_delta_t - int_delta_t_original; */
-    memcpy(pbuf, tmp_buf, 2 * nr);
+    {
+        int n, p = 0;
+        for (n = 0; n < retval; n++) {
+            pbuf[p] = tmp_buf[n];
+            p += interleave;
+        }
+    }
 
+    (*delta_t) = 0;
     return retval;
 }
 #endif
