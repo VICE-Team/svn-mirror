@@ -350,7 +350,7 @@ for F in `find $SOURCE -iname "*.c" -exec grep -lin snapshot {} \;`; do
 #            echo FULL:"$FULL" >> $LOGFILE
 
             # extract only the part until next closing comment
-            TAB=`echo "$FULL" | awk '/*\// {exit} {print}'`
+            TAB=$(echo "$FULL" | awk '/\*\/ /{exit} {print}')
 #            echo TAB:"$TAB" >> $LOGFILE
 
             TABLE3=""
