@@ -187,7 +187,7 @@ public:
      *
      * @param is6581 true if MOS6581, false if CSG8580
      */
-    void setModel(bool is6581) { this->is6581 = is6581; }
+    void setModel(bool new_is6581) { is6581 = new_is6581; }
 
     /**
      * SID clocking.

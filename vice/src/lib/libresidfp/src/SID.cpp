@@ -218,9 +218,9 @@ void SID::voiceSync(bool sync)
     }
 }
 
-void SID::setChipModel(ChipModel model)
+void SID::setChipModel(ChipModel new_model)
 {
-    switch (model)
+    switch (new_model)
     {
     case MOS6581:
         filter = filter6581;
@@ -238,7 +238,7 @@ void SID::setChipModel(ChipModel model)
         throw SIDError("Unknown chip type");
     }
 
-    this->model = model;
+    model = new_model;
 
     // calculate waveform-related tables
     matrix_t* wavetables = WaveformCalculator::getInstance()->getWaveTable();
@@ -283,9 +283,9 @@ void SID::setChipModel(ChipModel model)
     }
 }
 
-void SID::setCombinedWaveforms(CombinedWaveforms cws)
+void SID::setCombinedWaveforms(CombinedWaveforms new_cws)
 {
-    switch (cws)
+    switch (new_cws)
     {
     case AVERAGE:
     case WEAK:
@@ -296,7 +296,7 @@ void SID::setCombinedWaveforms(CombinedWaveforms cws)
         throw SIDError("Unknown combined waveforms type");
     }
 
-    this->cws = cws;
+    cws = new_cws;
 
     // rebuild waveform-related tables
     matrix_t* pulldowntables = WaveformCalculator::getInstance()->buildPulldownTable(model, cws);
