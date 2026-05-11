@@ -201,7 +201,7 @@ generate_configure_in $automake_version
 IFS=$old_IFS
 
 SUBDIRECTORIES=$(sed -ne "s/.*AC_CONFIG_SUBDIRS(\(.*\)).*/\1/p" configure.ac)
-SUBDIRECTORIES2=$(sed -ne "s/.*AX_SUBDIRS_CONFIGURE(\[\(.*\)],.*).*/\1/p" configure.ac)
+SUBDIRECTORIES2=$(sed -ne "s/.*AX_SUBDIRS_CONFIGURE(\[\([a-zA-Z0-9/_-]*\)],.*).*/\1/p" configure.ac)
 
 for A in $SUBDIRECTORIES $SUBDIRECTORIES2; do
     (
@@ -212,17 +212,19 @@ done
 
 buildfiles
 
-if [ x"$1" = x"--dist" ]; then
-
-    ./configure
-    (cd src/monitor/; make mon_lex.c mon_parse.c)
-
-    (cd po; make cat-id-tbl.c)
-
-    SVN_ADD_FILES="configure src/config.h.in config.guess config.sub src/monitor/mon_parse.c src/monitor/mon_parse.h src/monitor/mon_lex.c src/resid/depcomp src/resid/mkinstalldirs src/resid/missing src/resid/install-sh doc/texinfo.tex po/cat-id-tbl.c"
-    SVN_ADD_MAKEFILES="`find . -name Makefile.in`"
-
-    svn add $SVN_ADD_FILES $SVN_ADD_MAKEFILES
-
-fi
-
+# Whatever this tried to do, its probably obsolete
+#
+#if [ x"$1" = x"--dist" ]; then
+#
+#    ./configure
+#    (cd src/monitor/; make mon_lex.c mon_parse.c)
+#
+#    (cd po; make cat-id-tbl.c)
+#
+#    SVN_ADD_FILES="configure src/config.h.in config.guess config.sub src/monitor/mon_parse.c src/monitor/mon_parse.h src/monitor/mon_lex.c src/resid/depcomp src/resid/mkinstalldirs src/resid/missing src/resid/install-sh doc/texinfo.tex po/cat-id-tbl.c"
+#    SVN_ADD_MAKEFILES="`find . -name Makefile.in`"
+#
+#    svn add $SVN_ADD_FILES $SVN_ADD_MAKEFILES
+#
+#fi
+#
