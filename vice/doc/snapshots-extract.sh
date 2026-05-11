@@ -1,7 +1,7 @@
 #! /bin/bash
 
 SCRIPTDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-echo SCRIPTDIR: $SCRIPTDIR
+#echo SCRIPTDIR: $SCRIPTDIR
 
 #SOURCE=$1
 SOURCE=$SCRIPTDIR/../src
