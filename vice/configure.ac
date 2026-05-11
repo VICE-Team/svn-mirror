@@ -2048,8 +2048,7 @@ else
   if test x"$with_residfp" = "xyes" -o x"$with_residfp" = "x"; then
     AC_DEFINE(HAVE_RESIDFP,,[This version provides ReSIDfp support.])
     HAVE_RESIDFP_SUPPORT="yes"
-    AX_SUBDIRS_CONFIGURE([src/lib/libresidfp], [--disable-option-checking])
-    AX_SUBDIRS_CONFIGURE([src/lib/libresidfp], [--disable-tests])
+    AX_SUBDIRS_CONFIGURE([src/lib/libresidfp], [[--disable-option-checking],[--disable-tests]])
     RESIDFP_DIR=lib/libresidfp
     RESIDFP_LIBS="\$(top_builddir)/src/lib/libresidfp/libresidfp.a"
     RESIDFP_INCLUDES="-I\$(top_srcdir)/src/lib/libresidfp -I\$(top_builddir)/src/lib/libresidfp/src"
