@@ -244,14 +244,14 @@ endif
 
 # Manually define the dist targets so the correct tar usage will be used.
 dist-gzip:
-	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
+	$(DOS2UNIX) `find $(top_srcdir) -not -path "./src/lib*" -name "*.sh"`
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | gzip --best -c >$(distdir).tar.gz
 	$(am__remove_distdir)
 
 dist dist-all:
-	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
+	$(DOS2UNIX) `find $(top_srcdir) -not -path "./src/lib*" -name "*.sh"`
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | gzip --best -c >$(distdir).tar.gz
