@@ -299,7 +299,7 @@ for F in `find $SOURCE -iname "*.c" -exec grep -lin snapshot {} \;`; do
         FULL=`grep -i -A 50 "snapshot module.*format" $F`
 
         # extract only the part until next closing comment
-        TAB=`echo "$FULL" | awk '/*\// {exit} {print}'`
+        TAB=$(echo "$FULL" | awk '/\*\// {exit} {print}')
 
         if  [ -z "$__MODULE__" ]; then
             # FIXME: what other formats are in the source?
