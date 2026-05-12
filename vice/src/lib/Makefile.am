@@ -36,3 +36,5 @@ if HAVE_RESIDFP
 libresidfp:
 	(cd libresidfp; $(MAKE))
 endif
+
+install installdirs: SUBDIRS := $(filter-out libresidfp, $(SUBDIRS))

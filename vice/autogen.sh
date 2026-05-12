@@ -181,27 +181,7 @@ buildfiles() {
 }
 
 
-# FIXME: we also need to prevent it from installing header files and pkg info
-
-# src/residfp/sidversion.h
-# src/residfp/residfp.h src/residfp/residfp_defs.h
-# libresidfp.pc
-
-# patch the residfp makefile(s) - we don't want them to install anything
-# CAUTION: this must be written so multiple runs wont mess up the file(s)
-# NOTE: we cant revert the modified files after running this script - else it would
-# use the original file(s) when running "make install"
-patch_residfp() {
-    RESIDFP=./src/lib/libresidfp
-    sed -e "s/^lib_LTLIBRARIES/noinst_LTLIBRARIES/g" \
-        $RESIDFP/Makefile.am > $RESIDFP/Makefile.am.tmp
-    mv $RESIDFP/Makefile.am.tmp $RESIDFP/Makefile.am
-}
-
-
 # Script entry point
-
-patch_residfp
 
 autoconf_line=`autoconf --version`
 if test x"$autoconf_line" = "x"; then
