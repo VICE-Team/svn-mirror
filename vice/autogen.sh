@@ -155,11 +155,15 @@ do_autoconf() {
 
 do_autoheader() {
     if [ -e configure.in ]; then
+        # only run autoheader when AM_CONFIG_HEADER is defined
         if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.in`" = x ]; then
             do_command autoheader
         fi
     else
-        do_command autoheader
+        # only run autoheader when AC_CONFIG_HEADERS is defined
+        if [ ! x"`sed -ne "s/.*AC_CONFIG_HEADERS\((.*)\).*/\1/p" configure.ac`" = x ]; then
+            do_command autoheader
+        fi
     fi
 }
 
@@ -168,7 +172,6 @@ do_automake() {
 }
 
 buildfiles() {
-
     if [ -f configure.ac ] || [ -f configure.in ]; then
         do_aclocal
         do_autoconf
@@ -178,7 +181,27 @@ buildfiles() {
 }
 
 
+# FIXME: we also need to prevent it from installing header files and pkg info
+
+# src/residfp/sidversion.h
+# src/residfp/residfp.h src/residfp/residfp_defs.h
+# libresidfp.pc
+
+# patch the residfp makefile(s) - we don't want them to install anything
+# CAUTION: this must be written so multiple runs wont mess up the file(s)
+# NOTE: we cant revert the modified files after running this script - else it would
+# use the original file(s) when running "make install"
+patch_residfp() {
+    RESIDFP=./src/lib/libresidfp
+    sed -e "s/^lib_LTLIBRARIES/noinst_LTLIBRARIES/g" \
+        $RESIDFP/Makefile.am > $RESIDFP/Makefile.am.tmp
+    mv $RESIDFP/Makefile.am.tmp $RESIDFP/Makefile.am
+}
+
+
 # Script entry point
+
+patch_residfp
 
 autoconf_line=`autoconf --version`
 if test x"$autoconf_line" = "x"; then
@@ -211,6 +234,7 @@ for A in $SUBDIRECTORIES $SUBDIRECTORIES2; do
 done
 
 buildfiles
+
 
 # Whatever this tried to do, its probably obsolete
 #
