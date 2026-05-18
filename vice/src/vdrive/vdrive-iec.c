@@ -334,6 +334,12 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
     } else {
         /* new file... */
 
+        /* fix for bug #2223 */
+        /* a proper fix is to modify cbmdos_command_parse* in cbmdos.c but something may
+           depend on the filetype being set to 0 */
+        if (!cmd_parse->filetype) {
+            cmd_parse->filetype = CBMDOS_FT_SEQ;
+        }
         /* create a slot based on the opening name */
         vdrive_dir_create_slot(p, cmd_parse->file, cmd_parse->filelength,
                                cmd_parse->filetype);
