@@ -70,6 +70,7 @@ static int sid_resid_enable_raw_output;
 static int sid_residfp_6581_filter_curve;
 static int sid_residfp_6581_filter_range;
 static int sid_residfp_8580_filter_curve;
+static int sid_residfp_combined_waveform_strength;
 #endif
 int sid_stereo = 0;
 int checking_sid_stereo;
@@ -397,6 +398,19 @@ static int set_sid_residfp_6581_filter_range(int i, void *param)
     return 0;
 }
 
+static int set_sid_residfp_combined_waveform_strength(int i, void *param)
+{ printf("bla:%d\n", i);
+    if (i < RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN) {
+        i = RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN;
+    } else if (i > RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX) {
+        i = RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX;
+    }
+
+    sid_residfp_combined_waveform_strength = i;
+    sid_state_changed = 1;
+    return 0;
+}
+
 #endif
 
 #ifdef HAVE_HARDSID
@@ -513,6 +527,8 @@ static const resource_int_t residfp_resources_int[] = {
       &sid_residfp_6581_filter_range, set_sid_residfp_6581_filter_range, NULL },
     { "SidResid8580FilterCurve", RESIDFP_8580_FILTER_CURVE_DEFAULT, RES_EVENT_NO, NULL,
       &sid_residfp_8580_filter_curve, set_sid_residfp_8580_filter_curve, NULL },
+    { "SidResidCombinedWaveformStrength", RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT, RES_EVENT_NO, NULL,
+      &sid_residfp_combined_waveform_strength, set_sid_residfp_combined_waveform_strength, NULL },
     RESOURCE_INT_LIST_END
 };
 #endif

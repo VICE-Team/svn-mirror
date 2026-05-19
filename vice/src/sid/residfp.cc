@@ -111,7 +111,13 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
     char method_text[100];
     double curve, range = 0.5f;
 
-    int filters_enabled, model, sampling, curve_6581_int = 500, range_6581_int = 500, curve_8580_int = 500;
+    int filters_enabled, model, sampling;
+    int curve_6581_int = RESIDFP_6581_FILTER_CURVE_DEFAULT;
+    int range_6581_int = RESIDFP_6581_FILTER_RANGE_DEFAULT;
+    int curve_8580_int = RESIDFP_8580_FILTER_CURVE_DEFAULT;
+    int combined_strength_int = RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT;
+
+    CombinedWaveforms combined_table[3] = { WEAK, AVERAGE, STRONG };
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0) {
         return 0;
@@ -127,6 +133,10 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
      * the resampled result is visible to the emulator.
      */
     if (resources_get_int("SidResidSampling", &sampling) < 0) {
+        return 0;
+    }
+
+    if (resources_get_int("SidResidCombinedWaveformStrength", &combined_strength_int) < 0) {
         return 0;
     }
 
@@ -176,6 +186,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
             break;
     }
     psid->sid->enableFilter(filters_enabled ? true : false);
+    psid->sid->setCombinedWaveforms(combined_table[combined_strength_int]);
 
     switch (sampling) {
         default:

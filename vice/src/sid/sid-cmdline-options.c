@@ -276,6 +276,9 @@ static const cmdline_option_t resid_cmdline_options[] =
     { "-resid8580filtercurve", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResid8580FilterCurve", NULL,
       "<number>", "reSIDfp 8580 filter curve setting (0..1000).", },
+    { "-residcombinedwaveformstrength", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidResidCombinedWaveformStrength", NULL,
+      "<number>", "reSIDfp strength of combined waveforms (0..2).", },
 #endif
     CMDLINE_LIST_END
 };

@@ -12720,6 +12720,10 @@ Integer that specifies the reSIDfp filter range parameter [500] (0..1000) for th
 @item SidResid8580FilterCurve
 Integer that specifies the reSIDfp filter curve parameter [500] (0..1000) for the 8580.
 
+@vindex SidResidCombinedWaveformStrength
+@item SidResidCombinedWaveformStrength
+Integer that specifies the reSIDfp strength of combined waveforms [1] (0..2).
+
 @vindex SidUSBSIDReadMode
 @item SidUSBSIDReadMode
 Boolean specifying whether to enable USBSID-Pico read mode. When enabled, this
@@ -12972,6 +12976,10 @@ reSIDfp filter range setting for 6581 (0..1000).
 @findex -residfp8580filtercurve
 @item -residfp8580filtercurve <number>
 reSIDfp filter curve setting for 8580 (0..1000).
+
+@findex -residcombinedwaveformstrength
+@item -residcombinedwaveformstrength <number>
+reSIDfp strength of combined waveforms (0..2).
 
 @findex -usreadmode
 @item -usreadmode <0 or 1>
