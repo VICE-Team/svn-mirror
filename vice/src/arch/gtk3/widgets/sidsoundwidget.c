@@ -65,6 +65,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <math.h>
 
 #include "machine.h"
 #include "mixerwidget.h"
@@ -72,6 +73,7 @@
 #include "sid.h"
 #include "sidenginemodelwidget.h"
 #include "sound.h"
+#include "unicodehelpers.h"
 #include "vsidmixerwidget.h"
 #include "vice_gtk3.h"
 
@@ -271,6 +273,15 @@ static GtkWidget *residfp_6581_grid;
 
 /** \brief  ReSIDfp 8580 widgets grid */
 static GtkWidget *residfp_8580_grid;
+
+/** \brief  ReSIDfp 6581 chip profile drop down box */
+static GtkWidget *chip_profile;
+
+/** \brief  ReSIDfp 6581 chip profile label */
+static GtkWidget *chip_profile_label;
+
+/** \brief  ReSIDfp 6581 chip profile last selected */
+static int chip_profile_selected = -1;
 #endif
 
 #ifdef HAVE_USBSID
@@ -760,6 +771,176 @@ static GtkWidget *create_sid_address_widgets(void)
     return grid;
 }
 
+#ifdef HAVE_RESIDFP
+typedef struct {
+    char *name;
+    double value;
+} filter_map_t;
+
+/* taken from https://github.com/libsidplayfp/sidplayfp/blob/c44e4c0e74c12401a6dbef0ea371e34a30de099d/src/player.cpp#L138 */
+static const filter_map_t filterRangeMap[] =
+{
+    { "Anthony Lees",                        1.3 },
+    { "Antony Crowther (Ratt)",              1.1 },
+    { "Barry Leitch (The Jackal)",           0.3 },
+    { "Ben Daglish",                         0.6 },
+    { "Carsten Berggreen (Scarzix)",         0.7 },
+    { "Charles Deenen",                      0.2 },
+    { "Chris H\xc3\xbclsbeck",                   0.9 },
+    { "David Dunn",                          0.1 },
+    { "David Dunn & Aidan Bell",             0.1 },
+    { "David Whittaker",                     0.15 },
+    { "Edwin van Santen",                    0.5 },
+    { "Edwin van Santen & Falco Paul",       0.4 },
+    { "Edwin van Santen & Venom",            0.4 },
+    { "Falco Paul",                          0.15 },
+    { "Falco Paul & Edwin van Santen",       0.4 },
+    { "Figge Wasberger (Fegolhuzz)",         0.25 },
+    { "Fred Gray",                           0.4 },
+    { "Geir Tjelta",                         0.5 },
+    { "Geoff Follin",                        0.85 },
+    { "Georg Feil",                          0.2 },
+    { "Glenn Rune Gallefoss",                1.3 },
+    { "Graham Jarvis & Rob Hartshorne",      0.25 },
+    { "Jason Page",                          0.35 },
+    { "Jeroen Tel",                          0.35 },
+    { "Johannes Bjerregaard",                0.35 },
+    { "Jonathan Dunn",                       0.25 },
+    { "Jouni Ikonen (Mixer)",                0.25 },
+    { "Jori Olkkonen",                       0.15 },
+    { "Jori Olkkonen (Yip)",                 0.35 },
+    { "Kim Christensen (Future Freak)",      0.35 },
+    { "Linus \xc3\x85kesson (lft)",              0.3 },
+    { "Mark Cooksey",                        0.4 },
+    { "Mark Wilson",                         0.2 },
+    { "Markus M\xc3\xbcller (Superbrain)",       0.5 },
+    { "Martin Galway",                       0.65 },
+    { "Martin Walker",                       0.15 },
+    { "Matt Gray",                           0.3 },
+    { "Michael Hendriks",                    0.35 },
+    { "Mitch & Dane",                        0.85 },
+    { "M. Nilsson-Vonderburgh (Mic)",        0.3 },
+    { "M. Nilsson-Vonderburgh (Mitch)",      0.3 },
+    { "M. Nilsson-Vonderburgh (Yankee)",     0.3 },
+    { "NM156",                               0.7 },
+    { "Neil Brennan",                        0.25 },
+    { "Peter Clarke",                        0.2 },
+    { "Pex Tufvesson (Mahoney)",             0.35 },
+    { "Pex Tufvesson (Zax)",                 0.35 },
+    { "Renato Brosowski (Zoci-Joe)",         0.3 },
+    { "Reyn Ouwehand",                       0.8 },
+    { "Richard Joseph",                      0.3 },
+    { "Rob Hubbard",                         0.35 },
+    { "Russell Lieblich",                    0.25 },
+    { "Stellan Andersson (Dane)",            0.85 },
+    { "Steve Turner",                        0.6 },
+    { "Tim Follin",                          0.5 },
+    { "Thomas E. Petersen (Laxity)",         0.3 },
+    { "Thomas E. Petersen (TSS)",            0.3 },
+    { "Thomas Mogensen (DRAX)",              0.3 },
+    { NULL, 0.0 },
+};
+
+/** \brief create "chip profile" values drop down list (create)
+ */
+static GtkListStore *chip_profile_combo_model_new(void)
+{
+    GtkListStore *model;
+    int           index;
+
+    model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+    for (index = 0; filterRangeMap[index].name != NULL; index++) {
+        GtkTreeIter        iter;
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter, 0, index, 1, filterRangeMap[index].name, -1);
+    }
+    return model;
+}
+
+/** \brief chip profile drop down list (changed)
+ */
+static void on_chip_profile_changed(GtkComboBox *self, gpointer data)
+{
+    GtkTreeIter iter;
+    double value;
+    int value_int;
+
+    if (gtk_combo_box_get_active_iter(self, &iter)) {
+        GtkTreeModel *model = gtk_combo_box_get_model(self);
+        int           index = -1;
+
+        gtk_tree_model_get(model, &iter, 0, &index, -1);
+        if (index >= 0) {
+            value = ((filterRangeMap[index].value * 20.0f) - 1.0f) / 39.0f;
+            value_int = (int)round(value * 1000.0f);
+#if 0
+            printf("%d: %s (%f) -> %f (%d)\n", index, filterRangeMap[index].name,
+                   filterRangeMap[index].value, value, value_int);
+#endif
+            resources_set_int("SidResid6581FilterCurve", RESIDFP_6581_FILTER_CURVE_DEFAULT);
+            resources_set_int("SidResidCombinedWaveformStrength", RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT);
+            resources_set_int("SidResid6581FilterRange", value_int);
+
+            /* FIXME: we should update the sliders here, but how do we obtain the widget pointers? */
+#if 0
+            vice_gtk3_resource_scale_custom_set(GtkWidget *widget, RESIDFP_6581_FILTER_CURVE_DEFAULT);
+            vice_gtk3_resource_scale_custom_set(GtkWidget *widget, RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT);
+            vice_gtk3_resource_scale_custom_set(GtkWidget *widget, value_int);
+#endif
+            chip_profile_selected = index; /* remember selected profile */
+        }
+    }
+
+}
+
+/** \brief create "chip profile" values drop down list
+ */
+static GtkWidget *chip_profile_combo_new(void)
+{
+    GtkWidget       *combo;
+    GtkListStore    *model;
+    GtkCellRenderer *renderer;
+
+    combo    = gtk_combo_box_new();
+    model    = chip_profile_combo_model_new();
+    renderer = gtk_cell_renderer_text_new();
+
+    gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "text", 1, NULL);
+    g_signal_connect(G_OBJECT(combo),
+                     "changed",
+                     G_CALLBACK(on_chip_profile_changed),
+                     NULL);
+
+    if (chip_profile_selected >= 0) {
+        int curve, range, strength;
+        double value;
+        int value_int;
+        /* check if the profile value(s) still match the sliders */
+        if (resources_get_int("SidResid6581FilterCurve", &curve) < 0) {
+            return 0;
+        }
+        if (resources_get_int("SidResid6581FilterRange", &range) < 0) {
+            return 0;
+        }
+        if (resources_get_int("SidResidCombinedWaveformStrength", &strength) < 0) {
+            return 0;
+        }
+        value = ((filterRangeMap[chip_profile_selected].value * 20.0f) - 1.0f) / 39.0f;
+        value_int = (int)round(value * 1000.0f);
+        /* if the sliders were not changed, use the last selected profile */
+        if ((strength == RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT) &&
+            (curve == RESIDFP_6581_FILTER_CURVE_DEFAULT) &&
+            (range == value_int)) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), chip_profile_selected);
+        }
+    }
+    return combo;
+}
+
+#endif
+
 
 /** \brief  Create widget to control SID settings
  *
@@ -868,10 +1049,18 @@ GtkWidget *sid_sound_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), residfp_oldcaps, 1, row , 1, 1);
     gtk_widget_set_sensitive(residfp_oldcaps, current_engine == SID_ENGINE_RESIDFP);
 
+    chip_profile_label = label_helper("ReSIDfp 6581 profile");
+    gtk_grid_attach(GTK_GRID(grid), chip_profile_label, 0, row + 1, 1, 1);
+    chip_profile = chip_profile_combo_new();
+    gtk_widget_set_margin_top(chip_profile, 16);
+    gtk_widget_set_margin_bottom(chip_profile, 16);
+    gtk_grid_attach(GTK_GRID(grid), chip_profile, 1, row + 1 , 1, 1);
+    gtk_widget_set_sensitive(chip_profile, current_engine == SID_ENGINE_RESIDFP);
+
     residfp_6581_grid = create_sliders(fp_sliders_6581, "ReSIDfp 6581 filter settings");
     residfp_8580_grid = create_sliders(fp_sliders_8580, "ReSIDfp 8580 filter settings");
-    gtk_grid_attach(GTK_GRID(grid), residfp_6581_grid, 0, row + 1, 3 ,1);
-    gtk_grid_attach(GTK_GRID(grid), residfp_8580_grid, 0, row + 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), residfp_6581_grid, 0, row + 2, 3 ,1);
+    gtk_grid_attach(GTK_GRID(grid), residfp_8580_grid, 0, row + 3, 3, 1);
 
     /* only enable appropriate widgets */
     gtk_widget_set_no_show_all(residfp_6581_grid, TRUE);
@@ -889,11 +1078,15 @@ GtkWidget *sid_sound_widget_create(void)
         }
         gtk_widget_show(residfp_filters);
         gtk_widget_show(residfp_oldcaps);
+        gtk_widget_show(chip_profile);
+        gtk_widget_show(chip_profile_label);
     } else {
         gtk_widget_hide(residfp_6581_grid);
         gtk_widget_hide(residfp_8580_grid);
         gtk_widget_hide(residfp_filters);
         gtk_widget_hide(residfp_oldcaps);
+        gtk_widget_hide(chip_profile);
+        gtk_widget_hide(chip_profile_label);
     }
 #endif
 
@@ -905,9 +1098,9 @@ GtkWidget *sid_sound_widget_create(void)
     us_diffsizes = create_us_diffsizes_widget();
     us_buffsizes = create_us_buffsizes_widget();
 
-    gtk_grid_attach(GTK_GRID(grid), us_switches, 0, row + 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), us_diffsizes, 1, row + 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), us_buffsizes, 2, row + 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_switches, 0, row + 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_diffsizes, 1, row + 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), us_buffsizes, 2, row + 4, 1, 1);
 
     gtk_widget_set_sensitive(us_switches, current_engine == SID_ENGINE_USBSID);
     gtk_widget_set_sensitive(us_diffsizes, current_engine == SID_ENGINE_USBSID);
