@@ -657,7 +657,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
         sid_present = (gboolean)tmp;
     }
 #endif
-    printf("mixer_widget_create\n");
+
     grid = vice_gtk3_grid_new_spaced(16, 0);
     gtk_widget_set_margin_start(grid, 8);
     gtk_widget_set_margin_end(grid, 8);
@@ -822,6 +822,5 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
 
     gtk_widget_show_all(grid);
     mixer_widget_sid_type_changed();
-    printf("mixer_widget_create end\n");
     return grid;
 }
