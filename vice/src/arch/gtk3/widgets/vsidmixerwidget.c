@@ -16,6 +16,7 @@
  * $VICERES SidResid6581FilterCurve vsid
  * $VICERES SidResid6581FilterRange vsid
  * $VICERES SidResid8580FilterCurve vsid
+ * $VICERES SidResidCombinedWaveformStrength vsid
  */
 
 /*
@@ -229,7 +230,12 @@ static const mixer_scale_t fp_scales_6581[NUM_SCALES] = {
       RESIDFP_6581_FILTER_RANGE_MIN / RESIDFP_6581_FILTER_RANGE_ONE,
       RESIDFP_6581_FILTER_RANGE_MAX / RESIDFP_6581_FILTER_RANGE_ONE,
       0.01f },
-
+#if 0 /* FIXME: this does not fit into the widget space... */
+    { "Combined waveform strength", "SidResidCombinedWaveformStrength",       "%1.0f",
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN, RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX, 1.00f },
+#endif
 };
 
 /** \brief  Custom scale configuration for 8580[D] */
@@ -239,6 +245,12 @@ static const mixer_scale_t fp_scales_8580[NUM_SCALES] = {
       RESIDFP_8580_FILTER_CURVE_MIN / RESIDFP_8580_FILTER_CURVE_ONE,
       RESIDFP_8580_FILTER_CURVE_MAX / RESIDFP_8580_FILTER_CURVE_ONE,
       0.01f },
+#if 0 /* FIXME: this does not fit into the widget space... */
+    { "Combined waveform strength", "SidResidCombinedWaveformStrength",       "%1.0f",
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+      RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN, RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX, 1.00f },
+#endif
 };
 
 

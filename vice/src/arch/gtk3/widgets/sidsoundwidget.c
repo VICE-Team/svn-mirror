@@ -42,7 +42,9 @@
  * These are related to ReSIDfp
  * $VICERES SidResid6581FilterCurve     all
  * $VICERES SidResid6581FilterBias      all
+ * $VICERES SidResid6581OldCaps         all
  * $VICERES SidResid8580FilterCurve     all
+ * $VICERES SidResidCombinedWaveformStrength     all
  *
  * These are related to USBSID
  * $VICERES SidUSBSIDReadMode           all
@@ -260,6 +262,9 @@ static GtkWidget *residfp_sampling;
 
 /** \brief  ReSIDfp filters checkbox */
 static GtkWidget *residfp_filters;
+
+/** \brief  ReSIDfp 6581 old caps checkbox */
+static GtkWidget *residfp_oldcaps;
 
 /** \brief  ReSIDfp 6581 widgets grid */
 static GtkWidget *residfp_6581_grid;
@@ -820,7 +825,7 @@ GtkWidget *sid_sound_widget_create(void)
                                                         "Enable SID filter emulation");
     gtk_widget_set_margin_top(resid_filters, 16);
     gtk_widget_set_margin_bottom(resid_filters, 16);
-    gtk_grid_attach(GTK_GRID(grid), resid_filters, 0, row, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), resid_filters, 0, row, 1, 1);
 
     resid_6581_grid = create_sliders(sliders_6581, "ReSID 6581 filter settings");
     resid_8580_grid = create_sliders(sliders_8580, "ReSID 8580 filter settings");
@@ -840,9 +845,11 @@ GtkWidget *sid_sound_widget_create(void)
             gtk_widget_hide(resid_6581_grid);
             gtk_widget_show(resid_8580_grid);
         }
+        gtk_widget_show(resid_filters);
     } else {
         gtk_widget_hide(resid_6581_grid);
         gtk_widget_hide(resid_8580_grid);
+        gtk_widget_hide(resid_filters);
     }
 #endif
 
@@ -851,8 +858,15 @@ GtkWidget *sid_sound_widget_create(void)
                                                         "Enable SID filter emulation");
     gtk_widget_set_margin_top(residfp_filters, 16);
     gtk_widget_set_margin_bottom(residfp_filters, 16);
-    gtk_grid_attach(GTK_GRID(grid), residfp_filters, 0, row, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), residfp_filters, 0, row, 1, 1);
     gtk_widget_set_sensitive(residfp_filters, current_engine == SID_ENGINE_RESIDFP);
+
+    residfp_oldcaps = vice_gtk3_resource_check_button_new("SidResid6581OldCaps",
+                                                        "Old 6581 2200pf filter capacitors");
+    gtk_widget_set_margin_top(residfp_oldcaps, 16);
+    gtk_widget_set_margin_bottom(residfp_oldcaps, 16);
+    gtk_grid_attach(GTK_GRID(grid), residfp_oldcaps, 1, row , 1, 1);
+    gtk_widget_set_sensitive(residfp_oldcaps, current_engine == SID_ENGINE_RESIDFP);
 
     residfp_6581_grid = create_sliders(fp_sliders_6581, "ReSIDfp 6581 filter settings");
     residfp_8580_grid = create_sliders(fp_sliders_8580, "ReSIDfp 8580 filter settings");
@@ -873,9 +887,13 @@ GtkWidget *sid_sound_widget_create(void)
             gtk_widget_hide(residfp_6581_grid);
             gtk_widget_show(residfp_8580_grid);
         }
+        gtk_widget_show(residfp_filters);
+        gtk_widget_show(residfp_oldcaps);
     } else {
         gtk_widget_hide(residfp_6581_grid);
         gtk_widget_hide(residfp_8580_grid);
+        gtk_widget_hide(residfp_filters);
+        gtk_widget_hide(residfp_oldcaps);
     }
 #endif
 

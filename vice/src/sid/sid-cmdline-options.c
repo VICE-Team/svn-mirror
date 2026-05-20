@@ -267,6 +267,10 @@ static const cmdline_option_t resid_cmdline_options[] =
       NULL, NULL, "SidResidEnableRawOutput", (void *)0, NULL, "Disable writing raw reSID output to resid.raw." },
 #endif
 #ifdef HAVE_RESIDFP
+    { "-resid6581oldcaps", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "SidResid6581OldCaps", (void *)1, NULL, "Use old 6581 2200pf caps." },
+    { "+resid6581oldcaps", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "SidResid6581OldCaps", (void *)0, NULL, "Do not use old 6581 2200pf caps." },
     { "-resid6581filtercurve", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResid6581FilterCurve", NULL,
       "<number>", "reSIDfp 6581 filter curve setting (0..1000).", },

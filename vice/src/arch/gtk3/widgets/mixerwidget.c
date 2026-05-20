@@ -16,6 +16,7 @@
  * $VICERES SidResid6581FilterCurve -vsid
  * $VICERES SidResid6581FilterRange -vsid
  * $VICERES SidResid8580FilterCurve -vsid
+ * $VICERES SidResidCombinedWaveformStrength -vsid
  */
 
 /*
@@ -151,6 +152,9 @@ static GtkWidget *curve6581;
 /** \brief  ReSIDfp 8580 filter curve slider */
 static GtkWidget *curve8580;
 
+/** \brief  ReSIDfp combined waveform strength slider */
+static GtkWidget *combinedstrength;
+
 /** \brief  ReSIDfp 6581 filter range label */
 static GtkWidget *range6581label;
 
@@ -159,6 +163,9 @@ static GtkWidget *curve6581label;
 
 /** \brief  ReSIDfp 8580 filter curve label */
 static GtkWidget *curve8580label;
+
+/** \brief  ReSIDfp combined waveform strength label */
+static GtkWidget *combinedstrengthlabel;
 
 #endif
 
@@ -602,6 +609,20 @@ static GtkWidget *create_range6581fp_widget(gboolean minimal)
                          RESIDFP_6581_FILTER_RANGE_MAX / RESIDFP_6581_FILTER_RANGE_ONE,
                          RESIDFP_6581_FILTER_RANGE_MIN, RESIDFP_6581_FILTER_RANGE_MAX, 0.01f, minimal);
 }
+
+/** \brief  Create slider for ReSIDfp combined waveform strength
+ *
+ * \param[in]   minimal resize slider to minimal size
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_combined_waveform_strength_widget(gboolean minimal)
+{
+    return create_slider("SidResidCombinedWaveformStrength", "%1.0f",
+                         RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+                         RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX / RESIDFP_COMBINED_WAVEFORM_STRENGTH_ONE,
+                         RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN, RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX, 1.0f, minimal);
+}
 #endif  /* ifdef HAVE_RESIDFP */
 
 
@@ -786,6 +807,14 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_widget_set_hexpand(curve8580, TRUE);
     gtk_grid_attach(GTK_GRID(grid), curve8580label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), curve8580, 1, row, 1, 1);
+    row++;
+
+    combinedstrengthlabel = create_label("ReSIDfp combined waveform strength", minimal, alignment);
+    combinedstrength = create_combined_waveform_strength_widget(minimal);
+    gtk_widget_set_sensitive(combinedstrength, sid_present);
+    gtk_widget_set_hexpand(combinedstrength, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), combinedstrengthlabel, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combinedstrength, 1, row, 1, 1);
     row++;
 
 #endif

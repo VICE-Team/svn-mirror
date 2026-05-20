@@ -116,6 +116,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
     int range_6581_int = RESIDFP_6581_FILTER_RANGE_DEFAULT;
     int curve_8580_int = RESIDFP_8580_FILTER_CURVE_DEFAULT;
     int combined_strength_int = RESIDFP_COMBINED_WAVEFORM_STRENGTH_DEFAULT;
+    int old_caps = 0;
 
     CombinedWaveforms combined_table[3] = { WEAK, AVERAGE, STRONG };
 
@@ -137,6 +138,10 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
     }
 
     if (resources_get_int("SidResidCombinedWaveformStrength", &combined_strength_int) < 0) {
+        return 0;
+    }
+
+    if (resources_get_int("SidResid6581OldCaps", &old_caps) < 0) {
         return 0;
     }
 
@@ -186,6 +191,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
             break;
     }
     psid->sid->enableFilter(filters_enabled ? true : false);
+    psid->sid->enableOld6581caps(old_caps ? true : false);
     psid->sid->setCombinedWaveforms(combined_table[combined_strength_int]);
 
     switch (sampling) {
