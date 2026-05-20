@@ -12724,6 +12724,10 @@ Integer that specifies the reSIDfp filter curve parameter [500] (0..1000) for th
 @item SidResidCombinedWaveformStrength
 Integer that specifies the reSIDfp strength of combined waveforms [1] (0..2).
 
+@vindex SidResid6581OldCaps
+@item SidResid6581OldCaps
+Boolean specifying whether to use the old 2200pf capacitors for 6581.
+
 @vindex SidUSBSIDReadMode
 @item SidUSBSIDReadMode
 Boolean specifying whether to enable USBSID-Pico read mode. When enabled, this
@@ -12980,6 +12984,12 @@ reSIDfp filter curve setting for 8580 (0..1000).
 @findex -residcombinedwaveformstrength
 @item -residcombinedwaveformstrength <number>
 reSIDfp strength of combined waveforms (0..2).
+
+@findex -resid6581oldcaps, +resid6581oldcaps
+@item -resid6581oldcaps
+@itemx +resid6581oldcaps
+Enable/disable old 6581 2200pf capacitors.
+(@code{SidResid6581OldCaps=1}, @code{SidResid6581OldCaps=0}).
 
 @findex -usreadmode
 @item -usreadmode <0 or 1>

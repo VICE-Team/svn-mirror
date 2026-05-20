@@ -67,6 +67,7 @@ static int sid_resid_8580_filter_bias;
 static int sid_resid_enable_raw_output;
 #endif
 #if defined(HAVE_RESIDFP)
+static int sid_residfp_6581_old_caps;
 static int sid_residfp_6581_filter_curve;
 static int sid_residfp_6581_filter_range;
 static int sid_residfp_8580_filter_curve;
@@ -399,7 +400,7 @@ static int set_sid_residfp_6581_filter_range(int i, void *param)
 }
 
 static int set_sid_residfp_combined_waveform_strength(int i, void *param)
-{ printf("bla:%d\n", i);
+{
     if (i < RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN) {
         i = RESIDFP_COMBINED_WAVEFORM_STRENGTH_MIN;
     } else if (i > RESIDFP_COMBINED_WAVEFORM_STRENGTH_MAX) {
@@ -408,6 +409,15 @@ static int set_sid_residfp_combined_waveform_strength(int i, void *param)
 
     sid_residfp_combined_waveform_strength = i;
     sid_state_changed = 1;
+    return 0;
+}
+
+static int set_sid_residfp_6581_old_caps(int val, void *param)
+{
+    sid_residfp_6581_old_caps = val ? 1 : 0;
+
+    sid_state_changed = 1;
+
     return 0;
 }
 
@@ -521,6 +531,8 @@ static const resource_int_t resid_resources_int[] = {
 
 #if defined(HAVE_RESIDFP)
 static const resource_int_t residfp_resources_int[] = {
+    { "SidResid6581OldCaps", 0, RES_EVENT_NO, NULL,
+      &sid_residfp_6581_old_caps, set_sid_residfp_6581_old_caps, NULL },
     { "SidResid6581FilterCurve", RESIDFP_6581_FILTER_CURVE_DEFAULT, RES_EVENT_NO, NULL,
       &sid_residfp_6581_filter_curve, set_sid_residfp_6581_filter_curve, NULL },
     { "SidResid6581FilterRange", RESIDFP_6581_FILTER_RANGE_DEFAULT, RES_EVENT_NO, NULL,
