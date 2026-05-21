@@ -65,9 +65,9 @@ namespace reSIDfp
      * The resampling method
      */
     typedef enum {
-        DECIMATE,   ///< Linear interpolation
-        RESAMPLE,   ///< Sinc resampling
-        NONE        ///< No resampling
+        DECIMATE,   ///< Linear interpolation (fast but low quality)
+        RESAMPLE,   ///< Sinc resampling (high quality but CPU intensive)
+        NONE        ///< No resampling (raw 1MHz output)
     } SamplingMethod;
 }
 

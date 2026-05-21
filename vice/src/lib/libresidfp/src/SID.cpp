@@ -241,8 +241,8 @@ void SID::setChipModel(ChipModel new_model)
     model = new_model;
 
     // calculate waveform-related tables
-    matrix_t* wavetables = WaveformCalculator::getInstance()->getWaveTable();
-    matrix_t* pulldowntables = WaveformCalculator::getInstance()->buildPulldownTable(model, cws);
+    rc_matrix_t wavetables = WaveformCalculator::getInstance()->getWaveTable();
+    rc_matrix_t pulldowntables = WaveformCalculator::getInstance()->buildPulldownTable(model, cws);
 
     // calculate envelope DAC table
     {
@@ -299,7 +299,7 @@ void SID::setCombinedWaveforms(CombinedWaveforms new_cws)
     cws = new_cws;
 
     // rebuild waveform-related tables
-    matrix_t* pulldowntables = WaveformCalculator::getInstance()->buildPulldownTable(model, cws);
+    rc_matrix_t pulldowntables = WaveformCalculator::getInstance()->buildPulldownTable(model, cws);
 
     for (int i = 0; i < 3; i++)
     {

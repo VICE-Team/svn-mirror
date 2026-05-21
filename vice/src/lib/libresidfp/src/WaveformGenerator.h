@@ -91,8 +91,8 @@ namespace reSIDfp
 class WaveformGenerator
 {
 private:
-    matrix_t* model_wave = nullptr;
-    matrix_t* model_pulldown = nullptr;
+    rc_matrix_t model_wave;
+    rc_matrix_t model_pulldown;
 
     short* wave = nullptr;
     short* pulldown = nullptr;
@@ -172,8 +172,8 @@ private:
     void shiftregBitfade();
 
 public:
-    void setWaveformModels(matrix_t* models);
-    void setPulldownModels(matrix_t* models);
+    void setWaveformModels(rc_matrix_t models);
+    void setPulldownModels(rc_matrix_t models);
 
     void setOtherWaveforms(const WaveformGenerator* prev, WaveformGenerator* next)
     {

@@ -15,7 +15,8 @@ TestWaveformGenerator \
 TestSpline \
 TestSID \
 TestDac \
-TestLimiter
+TestLimiter \
+TestFilterModelConfig6581
 
 check_PROGRAMS = $(TESTS)
 
@@ -43,5 +44,9 @@ TestDac.cpp
 TestLimiter_SOURCES = \
 Main.cpp \
 TestLimiter.cpp
+
+TestFilterModelConfig6581_SOURCES = \
+Main.cpp \
+TestFilterModelConfig6581.cpp
 
 endif

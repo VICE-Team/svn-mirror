@@ -86,7 +86,7 @@ namespace reSIDfp
 class WaveformCalculator
 {
 private:
-    matrix_t wftable;
+    rc_matrix_t wftable;
 
 private:
     WaveformCalculator();
@@ -102,7 +102,7 @@ public:
      *
      * @return Waveform table
      */
-    matrix_t* getWaveTable() { return &wftable; }
+    rc_matrix_t getWaveTable() { return wftable; }
 
     /**
      * Build pulldown table for use by WaveformGenerator.
@@ -111,7 +111,7 @@ public:
      * @param cws strength of combined waveforms
      * @return Pulldown table
      */
-    static matrix_t* buildPulldownTable(ChipModel model, CombinedWaveforms cws);
+    static rc_matrix_t buildPulldownTable(ChipModel model, CombinedWaveforms cws);
 };
 
 } // namespace reSIDfp

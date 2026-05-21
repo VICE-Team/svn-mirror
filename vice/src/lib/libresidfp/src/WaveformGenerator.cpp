@@ -325,12 +325,12 @@ void WaveformGenerator::set_noise_output()
     set_no_noise_or_noise_output();
 }
 
-void WaveformGenerator::setWaveformModels(matrix_t* models)
+void WaveformGenerator::setWaveformModels(rc_matrix_t models)
 {
     model_wave = models;
 }
 
-void WaveformGenerator::setPulldownModels(matrix_t* models)
+void WaveformGenerator::setPulldownModels(rc_matrix_t models)
 {
     model_pulldown = models;
 }

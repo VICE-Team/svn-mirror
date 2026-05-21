@@ -83,8 +83,8 @@ TEST(TestWriteShiftRegister)
 
 TEST(TestSetTestBit)
 {
-    matrix_t* wavetables = reSIDfp::WaveformCalculator::getInstance()->getWaveTable();
-    matrix_t* tables = reSIDfp::WaveformCalculator::getInstance()->buildPulldownTable(reSIDfp::MOS6581, reSIDfp::AVERAGE);
+    rc_matrix_t wavetables = reSIDfp::WaveformCalculator::getInstance()->getWaveTable();
+    rc_matrix_t tables = reSIDfp::WaveformCalculator::getInstance()->buildPulldownTable(reSIDfp::MOS6581, reSIDfp::AVERAGE);
 
     reSIDfp::WaveformGenerator generator;
     generator.setModel(true);
@@ -103,8 +103,8 @@ TEST(TestSetTestBit)
 
 TEST(TestNoiseWriteBack1)
 {
-    matrix_t* wavetables = reSIDfp::WaveformCalculator::getInstance()->getWaveTable();
-    matrix_t* tables = reSIDfp::WaveformCalculator::getInstance()->buildPulldownTable(reSIDfp::MOS6581, reSIDfp::AVERAGE);
+    rc_matrix_t wavetables = reSIDfp::WaveformCalculator::getInstance()->getWaveTable();
+    rc_matrix_t tables = reSIDfp::WaveformCalculator::getInstance()->buildPulldownTable(reSIDfp::MOS6581, reSIDfp::AVERAGE);
 
     reSIDfp::WaveformGenerator modulator;
 

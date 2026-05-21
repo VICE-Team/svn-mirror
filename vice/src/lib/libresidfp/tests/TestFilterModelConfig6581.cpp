@@ -1,7 +1,7 @@
 /*
  * This file is part of libsidplayfp, a SID player engine.
  *
- *  Copyright (C) 2011-2026 Leandro Nini
+ *  Copyright (C) 2026 Leandro Nini
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,44 +18,39 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ARRAY_H
-#define ARRAY_H
+#include "utpp/utpp.h"
 
+#include "../src/FilterModelConfig6581.cpp"
+#include "../src/FilterModelConfig.cpp"
+#include "../src/Dac.cpp"
+#include "../src/Spline.cpp"
+#include "../src/OpAmp.cpp"
 
-#include <atomic>
-#include <memory>
+using namespace UnitTest;
+using namespace reSIDfp;
 
-template<typename T>
-class matrix
+SUITE(FilterModelConfig6581)
 {
-private:
-    T* data;
-    const unsigned int x, y;
 
-private:
-    matrix& operator=(const matrix&) = delete;
 
-public:
-    matrix(unsigned int new_x, unsigned int new_y) :
-        data(new T[new_x * new_y]),
-        x(new_x),
-        y(new_y) {}
+TEST(TestFilterCurve)
+{
+    // Check that values in the filter curve range do not
+    // trigger assertions
+    unsigned short* dac;
 
-    matrix(const matrix& p) :
-        data(p.data),
-        x(p.x),
-        y(p.y) {}
+    dac = FilterModelConfig6581::getInstance()->getDAC(0.0);
+    delete [] dac;
 
-    ~matrix() { delete [] data; }
+    dac = FilterModelConfig6581::getInstance()->getDAC(1.0);
+    delete [] dac;
+}
 
-    unsigned int length() const { return x * y; }
+TEST(TestFilterRange)
+{
+    FilterModelConfig6581::getInstance()->setFilterRange(0.0);
 
-    T* operator[](unsigned int a) { return &data[a * y]; }
+    FilterModelConfig6581::getInstance()->setFilterRange(1.0);
+}
 
-    T const* operator[](unsigned int a) const { return &data[a * y]; }
-};
-
-using matrix_t = matrix<short>;
-using rc_matrix_t = std::shared_ptr<matrix_t>;
-
-#endif
+}

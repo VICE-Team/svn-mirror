@@ -45,7 +45,7 @@ using CombinedWaveformConfig = struct
     float distance2;
 };
 
-using cw_cache_t = std::map<const CombinedWaveformConfig*, matrix_t>;
+using cw_cache_t = std::map<const CombinedWaveformConfig*, rc_matrix_t>;
 
 cw_cache_t PULLDOWN_CACHE;
 
@@ -232,22 +232,22 @@ short calculatePulldown(float distancetable[], float topbit, float pulsestrength
 }
 
 WaveformCalculator::WaveformCalculator() :
-    wftable(4, 4096)
+    wftable(std::make_shared<matrix_t>(4, 4096))
 {
     // Build waveform table.
-    for (unsigned int idx = 0; idx < (1u << 12); idx++)
+    for (unsigned int idx = 0; idx < 4096; idx++)
     {
         const short saw = static_cast<short>(idx);
         const short tri = static_cast<short>(triXor(idx));
 
-        wftable[0][idx] = 0xfff;
-        wftable[1][idx] = tri;
-        wftable[2][idx] = saw;
-        wftable[3][idx] = saw & (saw << 1);
+        (*wftable)[0][idx] = 0xfff;
+        (*wftable)[1][idx] = tri;
+        (*wftable)[2][idx] = saw;
+        (*wftable)[3][idx] = saw & (saw << 1);
     }
 }
 
-matrix_t* WaveformCalculator::buildPulldownTable(ChipModel model, CombinedWaveforms cws)
+rc_matrix_t WaveformCalculator::buildPulldownTable(ChipModel model, CombinedWaveforms cws)
 {
     std::lock_guard<std::mutex> lock(PULLDOWN_CACHE_Lock);
 
@@ -272,10 +272,10 @@ matrix_t* WaveformCalculator::buildPulldownTable(ChipModel model, CombinedWavefo
 
     if (lb != PULLDOWN_CACHE.end() && !(PULLDOWN_CACHE.key_comp()(cfgArray, lb->first)))
     {
-        return &(lb->second);
+        return lb->second;
     }
 
-    matrix_t pdTable(5, 4096);
+    rc_matrix_t pdTable = std::make_shared<matrix_t>(5, 4096);
 
     for (int wav = 0; wav < 5; wav++)
     {
@@ -291,13 +291,13 @@ matrix_t* WaveformCalculator::buildPulldownTable(ChipModel model, CombinedWavefo
             distancetable[12+i] = distFunc(cfg.distance2, i);
         }
 
-        for (unsigned int idx = 0; idx < (1u << 12); idx++)
+        for (unsigned int idx = 0; idx < 4096; idx++)
         {
-            pdTable[wav][idx] = calculatePulldown(distancetable, cfg.topbit, cfg.pulsestrength, cfg.threshold, idx);
+            (*pdTable)[wav][idx] = calculatePulldown(distancetable, cfg.topbit, cfg.pulsestrength, cfg.threshold, idx);
         }
     }
 
-    return &(PULLDOWN_CACHE.emplace_hint(lb, cw_cache_t::value_type(cfgArray, pdTable))->second);
+    return PULLDOWN_CACHE.emplace_hint(lb, cw_cache_t::value_type(cfgArray, pdTable))->second;
 }
 
 } // namespace reSIDfp
