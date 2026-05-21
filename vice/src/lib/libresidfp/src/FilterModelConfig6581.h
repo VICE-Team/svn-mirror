@@ -82,7 +82,7 @@ private:
     double voiceDC[256];
 
 private:
-    double getDacZero(double adjustment) const { return dac_zero + 3. * adjustment - 1.; }
+    double getDacZero(double adjustment) const { return dac_zero + 2. * adjustment - 1.; }
 
     void updateParams();
 

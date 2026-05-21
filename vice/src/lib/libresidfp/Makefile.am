@@ -77,7 +77,9 @@ src/resample/TwoPassSincResampler.h \
 src/version.cc \
 src/residfp/residfp.cpp
 
-src_libresidfp_la_LDFLAGS = -version-info $(LIBRESIDFPVERSION) $(W32_LDFLAGS)
+src_libresidfp_la_LDFLAGS = -version-info $(LIBRESIDFPVERSION) \
+$(W32_LDFLAGS) \
+$(PTHREAD_LIBS)
 
 src_libresidfp_ladir = $(includedir)/residfp
 
@@ -88,7 +90,10 @@ src/residfp/residfp_defs.h
 nodist_src_libresidfp_la_HEADERS = \
 src/residfp/sidversion.h
 
-src_libresidfp_la_CPPFLAGS = $(AM_CPPFLAGS) @RESIDFP_CXXFLAGS@
+src_libresidfp_la_CPPFLAGS = \
+$(AM_CPPFLAGS) \
+$(PTHREAD_CFLAGS) \
+@RESIDFP_CXXFLAGS@
 
 #=========================================================
 # docs

@@ -151,7 +151,7 @@ FilterModelConfig6581::FilterModelConfig6581() :
     ),
     WL_vcr(9.0 / 1.0),
     WL_snake(1.0 / 115.0),
-    dac_zero(6.65),
+    dac_zero(7.15),
     dac_scale(2.63),
     dac(DAC_BITS),
     m_oldCaps(false)
