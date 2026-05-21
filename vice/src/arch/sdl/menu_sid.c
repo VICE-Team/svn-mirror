@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <math.h>
 
 #include "lib.h"
 #include "menu_common.h"
