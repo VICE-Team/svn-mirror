@@ -53,6 +53,7 @@
 #define VTE_TERMINAL(x) NOVTE_TERMINAL(x)
 #define VteTerminal NoVteTerminal
 
+#include <pango/pangocairo.h>
 #include <dirent.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -1128,6 +1129,26 @@ static PangoFontDescription* getfontdesc(const char *name)
     return desc;
 }
 
+static bool font_family_exists(const PangoFontDescription *desc)
+{
+    PangoFontMap *fontmap;
+    PangoFontFamily *family;
+    const char *family_name;
+
+    family_name = pango_font_description_get_family(desc);
+    if (family_name == NULL) {
+        return false;
+    }
+
+    fontmap = pango_cairo_font_map_get_default();
+    if (fontmap == NULL) {
+        return false;
+    }
+
+    family = pango_font_map_get_family(fontmap, family_name);
+    return family != NULL;
+}
+
 bool uimon_set_font(void)
 {
     const PangoFontDescription *desc_tmp;
@@ -1158,12 +1179,21 @@ bool uimon_set_font(void)
 
     /* try to set monitor font */
     desc = getfontdesc(monitor_font);
+    if (desc != NULL && !font_family_exists(desc)) {
+        pango_font_description_free(desc);
+        desc = NULL;
+    }
     if (desc == NULL) {
         /* fall back */
 
         /* if we didn't try to set the default C64 font, try it now */
         if (!strcmp("C64 Pro", monitor_font)) {
             desc = getfontdesc("C64 Pro Mono Regular 9");
+        }
+
+        if (desc != NULL && !font_family_exists(desc)) {
+            pango_font_description_free(desc);
+            desc = NULL;
         }
 
         if (desc == NULL) {
@@ -1178,14 +1208,17 @@ bool uimon_set_font(void)
 
     desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
     using_font = pango_font_description_to_string(desc_tmp);
-    if(!strncasecmp("c64 pro", using_font, 7)) {
+    /* pango_font_description_from_string() never fails for unknown font names,
+     * it just returns a description that Pango/VTE will silently substitute.
+     * Verify the family actually exists before enabling PETSCII. */
+    if(!strncasecmp("c64 pro", using_font, 7) && font_family_exists(desc_tmp)) {
         log_message(monui_log, "'C64 Pro*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_C64PRO;
-    } else if(!strncasecmp("pet me 64", using_font, 9) ||
-              !strncasecmp("pet me 128", using_font, 10)) {
+    } else if((!strncasecmp("pet me 64", using_font, 9) ||
+               !strncasecmp("pet me 128", using_font, 10)) && font_family_exists(desc_tmp)) {
         log_message(monui_log, "'PET Me 64/128*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_PETME64;
-    } else if(!strncasecmp("pet me", using_font, 6)) {
+    } else if(!strncasecmp("pet me", using_font, 6) && font_family_exists(desc_tmp)) {
         log_message(monui_log, "'PET Me*' font found, enabling PETSCII output.");
         font_type = FONT_TYPE_PETME;
     }
