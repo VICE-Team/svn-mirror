@@ -106,7 +106,9 @@ static int set_sid_engine(int set_engine, void *param)
     int engine = set_engine;
 
     if (engine == SID_ENGINE_DEFAULT) {
-#ifdef HAVE_RESID
+#if defined(HAVE_RESIDFP)
+        engine = SID_ENGINE_RESIDFP;
+#elif defined(HAVE_RESID)
         engine = SID_ENGINE_RESID;
 #else
         engine = SID_ENGINE_FASTSID;
@@ -482,7 +484,7 @@ static int sid_enabled = 1;
 void sid_set_enable(int value)
 {
     int val = value ? 1 : 0;
-
+printf("sid_set_enable: %d\n",value);
     if (val == sid_enabled) {
         return;
     }
@@ -547,7 +549,11 @@ static const resource_int_t residfp_resources_int[] = {
 
 static resource_int_t common_resources_int[] = {
     /* CAUTION: position is hardcoded below */
-#if defined (HAVE_RESID) || defined (HAVE_RESIDFP)
+#if defined (HAVE_RESIDFP)
+    { "SidEngine", SID_ENGINE_DEFAULT,
+      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESIDFP,
+      &sid_engine, set_sid_engine, NULL },
+#elif defined (HAVE_RESID)
     { "SidEngine", SID_ENGINE_DEFAULT,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
       &sid_engine, set_sid_engine, NULL },
@@ -602,7 +608,9 @@ int sid_common_resources_init(void)
        here so the default value will not end up in the config file. */
 
     /* setup the default for sid engine */
-#ifdef HAVE_RESID
+#ifdef HAVE_RESIDFP
+    common_resources_int[0].factory_value = SID_ENGINE_RESIDFP;
+#elif defined(HAVE_RESID)
     common_resources_int[0].factory_value = SID_ENGINE_RESID;
 #else
     common_resources_int[0].factory_value = SID_ENGINE_FASTSID;
