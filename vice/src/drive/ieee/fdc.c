@@ -606,12 +606,12 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                     log_message(fdc_log, "do job write: header '%x %x' != disk_id '%x %x'",
                         header[0], header[1], disk_id[0], disk_id[1]);
 
-		    uint8_t *x = sysfdc->buffer;
-		    for (int xx = 0; xx < 256; xx += 16, x += 16) {
-		    log_message(fdc_log, "%04x: %02x %02x %02x %02x %02x %02x %02x %02x | %02x %02x %02x %02x %02x %02x %02x %02x",
-			    xx,
-			    x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12], x[13], x[14], x[15]);
-		    }
+                    uint8_t *x = sysfdc->buffer;
+                    for (int xx = 0; xx < 256; xx += 16, x += 16) {
+                    log_message(fdc_log, "%04x: %02x %02x %02x %02x %02x %02x %02x %02x | %02x %02x %02x %02x %02x %02x %02x %02x",
+                            xx,
+                            x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12], x[13], x[14], x[15]);
+                    }
 #endif
                     rc = FDC_ERR_ID;
                     break;
