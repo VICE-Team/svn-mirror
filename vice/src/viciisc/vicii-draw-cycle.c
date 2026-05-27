@@ -34,6 +34,10 @@
 #include "vicii-draw-cycle.h"
 #include "viciitypes.h"
 
+/* FIXME: this should probably happen at a different place */
+/* enable patch proposed in bug #2164 */
+#define SPRITESPLITPATCH 1
+
 /* disable for debugging */
 #define DRAW_INLINE inline
 
@@ -367,10 +371,19 @@ static DRAW_INLINE void draw_sprites(int i)
                                 sbuf_pixel_reg[s] = (uint8_t)((sbuf_reg[s] >> 22) & 0x03);
                             }
                             sbuf_mc_flops ^= m;
+#if SPRITESPLITPATCH
+                        } else if ((sbuf_mc_flops & m) || vicii.color_latency) {
+                            /* fetch 1 bit and make it 0 or 2 */
+                            sbuf_pixel_reg[s] = (uint8_t)(((sbuf_reg[s] >> 23) & 0x01 ) << 1);
+                        } else {
+                            sbuf_mc_flops |= m;
+                        }
+#else
                         } else {
                             /* fetch 1 bit and make it 0 or 2 */
                             sbuf_pixel_reg[s] = (uint8_t)(((sbuf_reg[s] >> 23) & 0x01 ) << 1);
                         }
+#endif
                     }
 
                     /* shift the sprite buffer and handle expansion flags */
@@ -445,6 +458,9 @@ static DRAW_INLINE void update_sprite_mc_bits_8565(void)
     uint8_t toggled = next_mc_bits ^ sprite_mc_bits;
 
     sbuf_mc_flops ^= toggled & (~sbuf_expx_flops);
+#if SPRITESPLITPATCH
+    sbuf_mc_flops |= toggled & (~sbuf_expx_flops) & (~next_mc_bits);
+#endif
     sprite_mc_bits = next_mc_bits;
 }
 
