@@ -1617,12 +1617,13 @@ inline static uint8_t d019_read(void)
 
 inline static uint8_t d01e_read(void)
 {
+#if 0
     /* Remove the pending sprite-sprite interrupt, as the collision
        register is reset upon read accesses.  */
     if (!vicii.viciidtv) {
         vicii_irq_sscoll_clear();
     }
-
+#endif
     if (!vicii_resources.sprite_sprite_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
                               "(emulation disabled)"));
@@ -1640,12 +1641,13 @@ inline static uint8_t d01e_read(void)
 
 inline static uint8_t d01f_read(void)
 {
+#if 0
     /* Remove the pending sprite-background interrupt, as the collision
        register is reset upon read accesses.  */
     if (!vicii.viciidtv) {
         vicii_irq_sbcoll_clear();
     }
-
+#endif
     if (!vicii_resources.sprite_background_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
                               "(emulation disabled)"));
