@@ -494,14 +494,18 @@ static int set_basichi_rom_name(const char *val, void *param)
     return 0;
 }
 
+/*
+ * sets up "Kernal64Name" (kernal64_rom_name)
+ */
 static int set_kernal64_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal64_rom_name, val)) {
-        return 0;
+    if (c128rom_load_kernal64(val) < 0) {
+        return -1;
     }
 
-    if (c128rom_load_kernal64(kernal64_rom_name) < 0) {
-        return -1;
+    /* set resource name (only when load succeeded) */
+    if (util_string_set(&kernal64_rom_name, val)) {
+        return 0;
     }
 
     if (c128rom_kernal64_setup() < 0) {

@@ -107,7 +107,7 @@ static int set_kernal_rom_name(const char *val, void *param)
     }
 
     /* load kernal without a kernal overriding buffer */
-    return c64rom_load_kernal(kernal_rom_name, NULL);
+    return c64rom_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(const char *val, void *param)
