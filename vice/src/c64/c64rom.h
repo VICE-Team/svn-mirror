@@ -95,11 +95,12 @@
 #define C64_KERNAL_HASH_R43    "aa136e91ecf3c5ac64f696b3dbcbfc5ba0871c98"       /* 251104-04 (sx) */
 #define C64_KERNAL_HASH_R64    "6c4fa9465f6091b174df27dfe679499df447503c"       /* 901246-01 (educator) */
 
-int c64rom_load_kernal(const char *rom_name, uint8_t *new_kernal);
+int c64rom_load_kernal(const char *rom_name);
 int c64rom_load_basic(const char *rom_name);
 int c64rom_load_chargen(const char *rom_name);
 
 int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout, char *sha1hash);
+int c64rom_get_kernal_file_chksum_id(const char *filename, uint16_t *sumout, int *idout, char *hash);
 
 /* print ROM ID, checksum, sha1 hash. returns the revision */
 int c64rom_print_kernal_info(void);

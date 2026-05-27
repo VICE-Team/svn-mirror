@@ -42,6 +42,7 @@
 #include "sha1.h"
 #include "sysfile.h"
 #include "types.h"
+#include "util.h"
 
 #ifdef DEBUG_C64ROM
 #define LOG(x) log_printf  x
@@ -132,6 +133,28 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout, char *hash)
     return C64_KERNAL_UNKNOWN; /* unknown */
 }
 
+/* get kernal checksum, id, hash by filename
+ *  sumout   kernal checksum
+ *  idout    kernal ID (from $ff80)
+ *  hash     SHA1 string
+ * returns kernal revision
+ */
+int c64rom_get_kernal_file_chksum_id(const char *filename, uint16_t *sumout, int *idout, char *hash)
+{
+    int ret = -1;
+    unsigned char buf[C64_KERNAL_ROM_SIZE];
+    unsigned char safe[C64_KERNAL_ROM_SIZE];
+    if (util_file_load(filename, buf, C64_KERNAL_ROM_SIZE, 0) < 0) {
+        return -1;
+    }
+    /* HACK HACK: this is ugly, but hey, it works and is small :) */
+    memcpy(safe, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);  /* save original */
+    memcpy(c64memrom_kernal64_rom, buf, C64_KERNAL_ROM_SIZE);
+    ret = c64rom_get_kernal_chksum_id(sumout, idout, hash);
+    memcpy(c64memrom_kernal64_rom, safe, C64_KERNAL_ROM_SIZE);  /* restore original */
+    return ret;
+}
+
 /* FIXME: this function has a misleading name, only called from snapshot stuff atm
           it was used to patch the kernal before, but not anymore
 */
@@ -157,9 +180,6 @@ int c64rom_print_kernal_info(void)
 
     return rev;
 }
-
-/* FIXME: this flag is strange, it is only ever set to 1 and never to 0 */
-static int c64rom_cartkernal_active = 0;
 
 #define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
 static int trapfl[NUM_TRAP_DEVICES];
@@ -189,19 +209,22 @@ static void restore_trapflags(void)
     }
 }
 
-/* FIXME: the extra parameter cartkernal was used to replace the kernal
-   with a cartridge kernal rom image.
-
-   CAUTION: The current code does NOT use this anymore, cartkernal is always NULL
-*/
-int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
+/*
+ * load a kernal ROM with given name (usually by setting "KernalName")
+ * - keeps "KernalRev" (kernal_revision) in sync
+ * - must NOT set "KernalName"
+ */
+int c64rom_load_kernal(const char *rom_name)
 {
-    int rev;
-
-    LOG(("c64rom_load_kernal rom_name:%s", rom_name));
+    LOG(("c64rom_load_kernal rom_name:%s rom_loaded:%d", rom_name ? rom_name : "NULL", rom_loaded));
 
     if (!rom_loaded) {
-        return 0;
+        return 1; /* CAUTION */
+    }
+
+    /* sanity check, rom_name can not be NULL */
+    if (rom_name == NULL) {
+        return -1;
     }
 
     /* disable traps before loading the ROM */
@@ -211,38 +234,28 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
     }
 
     /* Load Kernal ROM.  */
-    if (cartkernal == NULL) {
-        if (c64rom_cartkernal_active == 1) {
+    if (strcmp(rom_name, C64_KERNAL_NONE_NAME) == 0) {
+        /* special case handling for "no kernal" (MAX machine) */
+        memset(c64memrom_kernal64_rom, 0, C64_KERNAL_ROM_SIZE);
+    } else {
+        /* load the kernal ROM, try absolute path and system directories */
+        if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
+            log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
+            /* restore the traps */
             if (machine_class != VICE_MACHINE_VSID) {
                 restore_trapflags();
             }
             return -1;
         }
-
-        if (strcmp(rom_name, C64_KERNAL_NONE_NAME) == 0) {
-            /* special case handling for "no kernal" (MAX machine) */
-            memset(c64memrom_kernal64_rom, 0, C64_KERNAL_ROM_SIZE);
-        } else {
-            if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
-                log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
-                if (machine_class != VICE_MACHINE_VSID) {
-                    restore_trapflags();
-                }
-                return -1;
-            }
-        }
-    } else {
-        memcpy(c64memrom_kernal64_rom, cartkernal, 0x2000);
-        c64rom_cartkernal_active = 1;
     }
 
-    rev = c64rom_print_kernal_info();
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        resources_set_int("KernalRev", rev);
-    }
+    /* output some info, keep kernal_revision in sync with the loaded kernal */
+    kernal_revision = c64rom_print_kernal_info();
 
+    /* copy loaded kernal to trap rom */
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
 
+    /* ... and restore the traps. */
     if (machine_class != VICE_MACHINE_VSID) {
         restore_trapflags();
     }
@@ -313,7 +326,7 @@ int mem_load(void)
     if (resources_get_string("KernalName", &rom_name) < 0) {
         return -1;
     }
-    if (c64rom_load_kernal(rom_name, NULL) < 0) {
+    if (c64rom_load_kernal(rom_name) < 0) {
         return -1;
     }
 

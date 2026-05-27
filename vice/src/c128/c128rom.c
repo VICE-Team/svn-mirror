@@ -683,6 +683,9 @@ int c128rom_load_chargen_it(const char *rom_name)
 
 /******************************************************************************/
 
+/* called by mem_load(), set_kernal64_rom_name()
+ * actually loads the C64 kernal
+ */
 int c128rom_kernal64_setup(void)
 {
     const char *rom_name = NULL;
@@ -695,18 +698,29 @@ int c128rom_kernal64_setup(void)
         return -1;
     }
 
+    /* sanity check, rom_name can not be NULL */
+    if (rom_name == NULL) {
+        return -1;
+    }
+
     /* Load C64 kernal ROM.  */
     if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C128_KERNAL64_ROM_SIZE, C128_KERNAL64_ROM_SIZE) < 0) {
         log_error(c128rom_log, "Couldn't load C64 kernal ROM `%s'.", rom_name);
         return -1;
     }
 
+    /* copy loaded kernal to trap rom */
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C128_KERNAL64_ROM_SIZE);
 
     return 0;
 }
 
 /* check if C64 kernal ROM exists */
+
+/* called by c64rom_load_kernal(), set_kernal64_rom_name()
+ * load a kernal ROM with given name (usually by setting "Kernal64Name")
+ * - must NOT set "Kernal64Name"
+ */
 int c128rom_load_kernal64(const char *rom_name)
 {
     if (!rom_loaded) {
@@ -833,14 +847,12 @@ int mem_load(void)
     return 0;
 }
 
-/* FIXME: the extra parameter cartkernal was used to replace the kernal
-   with a cartridge kernal rom image.
-
-   CAUTION: The current code does NOT use this anymore, cartkernal is always NULL
-*/
-int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
+/*
+ * load a kernal ROM with given name (usually by setting "KernalName")
+ * - keeps "KernalRev" (kernal_revision) in sync
+ * - must NOT set "KernalName"
+ */
+int c64rom_load_kernal(const char *rom_name)
 {
-    /* CAUTION: this is the only place where c128rom_load_kernal64 gets called
-     *  with cartkernal potentially being not NULL */
     return c128rom_load_kernal64(rom_name);
 }
