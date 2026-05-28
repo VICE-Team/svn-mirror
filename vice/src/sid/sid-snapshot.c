@@ -989,7 +989,7 @@ static char *sid_snapshot_module_name(int sidnr, int sid_engine)
     } else {
         sprintf(snap_module_name_extended, "SID%s", engine);
     }
-    printf("sid_snapshot_module_name %d '%s' -> '%s'\n", sidnr, engine, snap_module_name_extended);
+    /*printf("sid_snapshot_module_name %d '%s' -> '%s'\n", sidnr, engine, snap_module_name_extended);*/
     return snap_module_name_extended;
 }
 
