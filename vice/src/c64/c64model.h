@@ -67,6 +67,9 @@ enum {
 #define OLD_SID 0
 #define NEW_SID 1
 
+#define OLD_SID_CAPS 1
+#define NEW_SID_CAPS 0
+
 #define GLUE_DISCRETE  0
 #define GLUE_CUSTOM_IC 1
 
@@ -104,6 +107,7 @@ enum {
 typedef struct {
     int vicii_model;
     int sid_model;
+    int sid_old_caps; /* residfp only */
     int glue_logic; /* x64sc only */
     int cia1_model;
     int cia2_model;

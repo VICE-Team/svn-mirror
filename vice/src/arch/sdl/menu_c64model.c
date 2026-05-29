@@ -235,7 +235,9 @@ CIA_MODEL_MENU(1)
 CIA_MODEL_MENU(2)
 
 UI_MENU_DEFINE_TOGGLE(IECReset)
-
+#ifdef HAVE_RESIDFP
+UI_MENU_DEFINE_TOGGLE(SidResid6581OldCaps)
+#endif
 UI_MENU_DEFINE_RADIO(KernalRev)
 
 UI_MENU_DEFINE_RADIO(MachinePowerFrequency)
@@ -391,6 +393,14 @@ const ui_menu_entry_t c64sc_model_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_IECReset_callback
     },
+#ifdef HAVE_RESIDFP
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "old 2200pF SID caps",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SidResid6581OldCaps_callback
+    },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
 
     {   .string   = "Kernal revision",
@@ -463,6 +473,14 @@ const ui_menu_entry_t scpu64_model_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_IECReset_callback
     },
+#ifdef HAVE_RESIDFP
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "old 2200pF SID caps",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SidResid6581OldCaps_callback
+    },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
 
     {   .string   = "Power grid frequency",
@@ -613,6 +631,14 @@ const ui_menu_entry_t c64_model_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_IECReset_callback
     },
+#ifdef HAVE_RESIDFP
+    SDL_MENU_ITEM_SEPARATOR,
+
+    {   .string   = "old 2200pF SID caps",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_SidResid6581OldCaps_callback
+    },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
 
     {   .string   = "Kernal revision",

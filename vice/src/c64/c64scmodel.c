@@ -49,10 +49,10 @@
 #define CIA_MODEL_DEFAULT_OLD CIA_MODEL_6526
 #define CIA_MODEL_DEFAULT_NEW CIA_MODEL_6526A
 
-static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
+static int c64model_get_temp(int vicii_model, int sid_model, int sid_old_caps, int glue_logic,
                              int cia1model, int cia2model, int board, int iecreset,
                              const char *chargen, int kernalrev);
-static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
+static void c64model_set_temp(int model, int *vicii_model, int *sid_model, int *sid_old_caps,
                               int *glue_logic, int *cia1model, int *cia2model,
                               int *board, int *iecreset,
                               const char *chargen, int *kernalrev);
@@ -91,6 +91,7 @@ struct model_s {
     int cia;        /* old or new */
     int glue;       /* discrete or ASIC */
     int sid;        /* old or new */
+    int sid_old_caps;
     int board;
     int iecreset;
     int datasette;
@@ -106,93 +107,93 @@ static const struct model_s c64models[] = {
 
     /* C64 PAL */
     { VICII_MODEL_6569, MACHINE_SYNC_PAL, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64C PAL */
     { VICII_MODEL_8565, MACHINE_SYNC_PAL, CIATICK_NET,
-      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64 OLD PAL */
     { VICII_MODEL_6569R1, MACHINE_SYNC_PAL, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV2 },
 
     /* C64 NTSC */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64C NTSC */
     { VICII_MODEL_8562, MACHINE_SYNC_NTSC, CIATICK_NET,
-      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64 OLD NTSC */
     { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, OLD_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV1 },
 
     /* C64 PAL-N */
     { VICII_MODEL_6572, MACHINE_SYNC_PALN, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* SX64 PAL, FIXME: guessed */
     { VICII_MODEL_6569, MACHINE_SYNC_PAL, CIATICK_60HZ,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_SX64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, OLD_SID_CAPS, BOARD_SX64,
       IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_SX64 },
 
     /* SX64 NTSC, FIXME: guessed */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, CIATICK_60HZ,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_SX64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, OLD_SID_CAPS, BOARD_SX64,
       IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_SX64 },
 
     /* C64 Japanese, FIXME: guessed */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_JAP_NAME, C64_KERNAL_JAP },
 
     /* C64 GS, FIXME: guessed */
     { VICII_MODEL_8565, MACHINE_SYNC_PAL, CIATICK_NET,
-      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_GS64 },
 
     /* PET64 PAL, FIXME: guessed */
     { VICII_MODEL_6569, MACHINE_SYNC_PAL, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_4064 },
 
     /* PET64 NTSC, FIXME: guessed */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, NEW_SID_CAPS, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, HAS_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_4064 },
 
     /* ultimax, FIXME: guessed */
     /* FIXME: the MAX uses a VICII 6566, currenly unemulated, NTSC-M only */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, CIATICK_NET,
-      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_MAX,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, OLD_SID_CAPS, BOARD_MAX,
       IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD, NO_CIA2,
       C64_CHARGEN_NAME, C64_KERNAL_NONE },
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
+static int c64model_get_temp(int vicii_model, int sid_model, int sid_old_caps, int glue_logic,
                       int cia1model, int cia2model, int board,
                       int iecreset, const char *chargen, int kernalrev)
 {
@@ -212,6 +213,7 @@ static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
             && (is_new_cia(c64models[i].cia) == new_cia)
             && (c64models[i].glue == glue_logic)
             && (c64models[i].sid == new_sid)
+            && (c64models[i].sid_old_caps == sid_old_caps)
             && (c64models[i].board == board)
             && (c64models[i].iecreset == iecreset)
             && (c64models[i].kernalrev == kernalrev)
@@ -226,18 +228,21 @@ static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
 /* get model from details */
 int c64model_get_model(c64model_details_t *details)
 {
-    return c64model_get_temp(details->vicii_model, details->sid_model, details->glue_logic,
+    return c64model_get_temp(details->vicii_model, details->sid_model, details->sid_old_caps, details->glue_logic,
                              details->cia1_model, details->cia2_model,
                              details->board, details->iecreset, details->chargen, details->kernalrev);
 }
 
 int c64model_get(void)
 {
-    int vicii_model, sid_model, glue_logic, cia1model, cia2model, board, iecreset, kernalrev;
+    int vicii_model, sid_model, sid_old_caps = 0, glue_logic, cia1model, cia2model, board, iecreset, kernalrev;
     const char *chargen;
 
     if ((resources_get_int("VICIIModel", &vicii_model) < 0)
         || (resources_get_int("SidModel", &sid_model) < 0)
+#ifdef HAVE_RESIDFP
+        || (resources_get_int("SidResid6581OldCaps", &sid_old_caps) < 0)
+#endif
         || (resources_get_int("GlueLogic", &glue_logic) < 0)
         || (resources_get_int("CIA1Model", &cia1model) < 0)
         || (resources_get_int("CIA2Model", &cia2model) < 0)
@@ -248,12 +253,12 @@ int c64model_get(void)
         return -1;
     }
 
-    return c64model_get_temp(vicii_model, sid_model, glue_logic,
+    return c64model_get_temp(vicii_model, sid_model, sid_old_caps, glue_logic,
                              cia1model, cia2model, board, iecreset,
                              chargen, kernalrev);
 }
 
-static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
+static void c64model_set_temp(int model, int *vicii_model, int *sid_model, int *sid_old_caps,
                        int *glue_logic, int *cia1model, int *cia2model,
                        int *board, int *iecreset,
                        const char *chargen, int *kernalrev)
@@ -265,7 +270,7 @@ static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     int old_type;
     int new_type;
 
-    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic,
+    old_model = c64model_get_temp(*vicii_model, *sid_model, *sid_old_caps, *glue_logic,
                                   *cia1model, *cia2model, *board,
                                   *iecreset, chargen, *kernalrev);
 
@@ -276,6 +281,7 @@ static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     *vicii_model = c64models[model].vicii;
     *cia1model = c64models[model].cia;
     *cia2model = c64models[model].cia;
+    *sid_old_caps = c64models[model].sid_old_caps;
     *glue_logic = c64models[model].glue;
     *board = c64models[model].board;
     *iecreset = c64models[model].iecreset;
@@ -300,7 +306,7 @@ static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
 /* get details for model */
 void c64model_set_details(c64model_details_t *details, int model)
 {
-    c64model_set_temp(model, &details->vicii_model, &details->sid_model,
+    c64model_set_temp(model, &details->vicii_model, &details->sid_model, &details->sid_old_caps,
                        &details->glue_logic, &details->cia1_model, &details->cia2_model,
                        &details->board, &details->iecreset,
                        details->chargen, &details->kernalrev);
@@ -354,6 +360,9 @@ void c64model_set(int model)
        SID model. The current engine is preserved. */
     resources_get_int("SidEngine", &old_engine);
     resources_get_int("SidModel", &old_sid_model);
+#ifdef HAVE_RESIDFP
+    resources_set_int("SidResid6581OldCaps", c64models[model].sid_old_caps);
+#endif
     new_sid_model = c64models[model].sid;
 
     old_type = is_new_sid(old_sid_model);
