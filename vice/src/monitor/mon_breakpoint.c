@@ -542,7 +542,7 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
 
             /* If condition test fails, skip this checkpoint */
             if (cp->condition) {
-                if (!mon_evaluate_conditional(cp->condition)) {
+                if (!mon_evaluate_conditional(cp->condition, is_loadstore ? loadstorepc : instpc)) {
                     continue;
                 }
             }

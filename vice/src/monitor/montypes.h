@@ -308,7 +308,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, bool m
 bool check_drive_emu_level_ok(int drive_num);
 void mon_print_conditional(cond_node_t *cnode);
 void mon_delete_conditional(cond_node_t *cnode);
-int mon_evaluate_conditional(cond_node_t *cnode);
+int mon_evaluate_conditional(cond_node_t *cnode, unsigned int effective_pc);
 int mon_write_snapshot(const char* name, int save_roms, int save_disks, int even_mode);
 int mon_read_snapshot(const char* name, int even_mode);
 bool mon_is_valid_addr(MON_ADDR a);

@@ -2704,8 +2704,8 @@ void mon_print_conditional(cond_node_t *cnode)
     }
 }
 
-
-int mon_evaluate_conditional(cond_node_t *cnode)
+/* this function is used exclusively by the break/watchpoints */
+int mon_evaluate_conditional(cond_node_t *cnode, unsigned int effective_pc)
 {
     /* Do a post-order traversal of the tree */
     if (cnode->operation != e_INV) {
@@ -2715,8 +2715,8 @@ int mon_evaluate_conditional(cond_node_t *cnode)
             log_error(LOG_DEFAULT, "No conditional!");
             return 0;
         }
-        value_1 = mon_evaluate_conditional(cnode->child1);
-        value_2 = mon_evaluate_conditional(cnode->child2);
+        value_1 = mon_evaluate_conditional(cnode->child1, effective_pc);
+        value_2 = mon_evaluate_conditional(cnode->child2, effective_pc);
 
         switch (cnode->operation) {
             case e_EQU:
@@ -2781,6 +2781,9 @@ int mon_evaluate_conditional(cond_node_t *cnode)
             int half_cycle;
             mon_interfaces[e_comp_space]->get_line_cycle(&line, &cycle, &half_cycle);
             cnode->value = cycle;
+        } else if (cnode->is_reg && (reg_regid(cnode->reg_num) == e_PC) ) {
+            /* mask out the address only, else we can not compare against the actual value */
+            cnode->value = addr_mask(effective_pc);
         } else if (cnode->is_reg) {
             cnode->value = (monitor_cpu_for_memspace[reg_memspace(cnode->reg_num)]->mon_register_get_val)
                                (reg_memspace(cnode->reg_num),
@@ -2789,7 +2792,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
             MEMSPACE src_mem = e_comp_space;
             uint16_t start;
             if (cnode->child1 != NULL) {
-                start = mon_evaluate_conditional(cnode->child1);
+                start = mon_evaluate_conditional(cnode->child1, effective_pc);
             } else {
                 start = addr_location(cnode->value);
             }
