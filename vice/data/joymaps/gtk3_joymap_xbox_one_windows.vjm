@@ -41,9 +41,12 @@
 # Tested successfully with:
 # - Wired Xbox one controller
 # - Wireless Xbox one controller used with a USB cable
-# - Wireless Xbox one controller (newer model) with bluetooth (appears as "Bluetooth LE XINPUT compatible input device" in GTK)
+# - Wireless Xbox one controller (not bluetooth compatible) using Xbox wireless adapter
+# - Wireless Xbox one controller (newer model) via bluetooth (appears as "Bluetooth LE XINPUT compatible input device" in GTK)
 #   NOTE if the Xbox button (mapped to pause) doesn't register, update the controller firmware.
-# Untested - Older Xbox one wireless controllers (not bluetooth compatible) using Xbox wireless adapter
+
+# This mapping also works with bluetooth Xbox One controllers connected via an 8BitDo receiver, except that the Xbox button can't be mapped:
+# [2dc8:0001] "Controller (8BitDo Receiver)" (5 axes, 10 buttons, 1 hat) Windows 10, GTK
 
 0 0 0 1 8
 0 0 1 1 4
