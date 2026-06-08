@@ -35,19 +35,7 @@
 
 !CLEAR
 
-# [045e:02dd] "Xbox One Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
-# [045e:02ff] "Xbox One Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
-# [045e:0b20] "Xbox One S Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
-# Driver - default Windows driver
-# Tested successfully with:
-# - Wired Xbox one controller
-# - Wireless Xbox one controller used with a USB cable
-# - Wireless Xbox one controller (not bluetooth compatible) using Xbox wireless adapter
-# - Wireless Xbox one controller (newer model) via bluetooth (appears as "Xbox One S Controller" in SDL)
-#   NOTE if the Xbox button (mapped to pause) doesn't register, update the controller firmware.
-
-# This mapping also works with bluetooth Xbox One controllers connected via an 8BitDo receiver:
-# [2dc8:3106] "Controller (8BitDo Receiver)" (6 axes, 11 buttons, 1 hat) Windows 10, SDL
+# [1c59:0024] "THEC64 Joystick" (5 axes, 8 buttons, 0 hats) Windows 10, SDL
 
 0 0 0 1 8
 0 0 1 1 4
@@ -55,34 +43,20 @@
 0 0 2 1 2
 0 0 3 1 1
 
-0 0 2 6 1
+0 0 4 0
+0 0 5 0
 
-0 0 3 6 2
+0 0 6 0
+0 0 7 0
 
 0 0 8 0
 0 0 9 0
 
-0 0 10 0
-0 0 11 0
-
 0 1 0 1 16
-0 1 1 1 64
+0 1 1 1 16
 0 1 2 1 32
-0 1 3 1 128
-0 1 4 1 256
-0 1 5 1 512
-0 1 6 1 1024
-0 1 7 1 2048
-0 1 8 0
-0 1 9 0
-0 1 10 5 pause-toggle
-0 1 11 0
-0 1 12 0
-0 1 13 0
-0 1 14 0
-0 1 15 0
-
-0 2 0 1 1
-0 2 1 1 2
-0 2 2 1 4
-0 2 3 1 8
+0 1 3 1 64
+0 1 4 5 virtual-keyboard
+0 1 5 5 show-statusbar-toggle
+0 1 6 5 pause-toggle
+0 1 7 4
