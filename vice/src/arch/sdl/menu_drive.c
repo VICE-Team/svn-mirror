@@ -1061,6 +1061,11 @@ DRIVE_EXBOARD_MENU(11)
             .callback = set_idle_callback,                                      \
             .data     = (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x << 8))   \
         },                                                                      \
+        {   .string   = "Frame idle",                                           \
+            .type     = MENU_ENTRY_OTHER_TOGGLE,                                \
+            .callback = set_idle_callback,                                      \
+            .data     = (ui_callback_data_t)(DRIVE_IDLE_FRAME_IDLE + (x << 8))  \
+        },                                                                      \
         SDL_MENU_LIST_END                                                       \
     };
 

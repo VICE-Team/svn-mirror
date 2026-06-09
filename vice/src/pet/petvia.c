@@ -228,7 +228,7 @@ static uint8_t read_prb(via_context_t *via_context)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     /* read parallel IEC interface line states */
     byte = 255

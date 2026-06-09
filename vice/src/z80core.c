@@ -771,7 +771,7 @@ static void export_registers(void)
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_WATCH)) {                                \
                 export_registers();                                                       \
-                monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)z80_reg_pc);        \
+                monitor_check_watchpoints(ORIGIN_MEMSPACE, LAST_OPCODE_ADDR, (uint16_t)z80_reg_pc);        \
                 import_registers();                                                       \
             }                                                                             \
         }                                                                                 \

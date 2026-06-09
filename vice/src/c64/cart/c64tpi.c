@@ -310,7 +310,7 @@ static uint8_t read_pa(tpi_context_t *tpi_ctx)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     byte = 0xff;
     if (ieee_is_out) {
@@ -344,7 +344,7 @@ static uint8_t read_pb(tpi_context_t *tpi_ctx)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
     byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPB])

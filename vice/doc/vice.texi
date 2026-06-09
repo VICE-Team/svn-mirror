@@ -6876,20 +6876,27 @@ The following settings, instead, are specific of each drive:
 
 @itemize @bullet
 
+@cindex Drive model
 @item
 ``Drive model'' specifies the model of the drive being emulated.
 @strong{Warning:} This will reset the drive.
 
+@cindex Enable parallel cable
 @item
 ``Enable parallel cable'' enables emulation of a SpeedDOS parallel
 cable; if you switch this option on and replace the original Commodore
 ROMs with SpeedDOS-compatible ones, you can speed up loading/saving times.
 
+@cindex Idle method
 @item
 ``Idle method'' specifies which method the drive emulation should use to
-save CPU cycles in the host CPU.  There are three methods:
+save CPU cycles in the host CPU.  There are four methods:
 
 @itemize @bullet
+@item
+@dfn{No idle}: The drives execute side by side with the main cpu, no matter
+what. So basically the drive works exactly as with the real thing, and nothing
+is done to reduce the power needs of the drive emulation. This is the default.
 @item
 @dfn{Skip cycles}: Each time the serial line is accessed by the C64, the
 drive executes all the cycles since the last time it ran.  If
@@ -6901,12 +6908,13 @@ accesses as with the previous option, but it is also always emulated at
 the end of each screen frame.  If the drive gets into the DOS idle loop,
 only pending interrupts are emulated to save time.
 @item
-@dfn{No traps}: Like ``Trap idle'', but without any traps at all.  So
-basically the drive works exactly as with the real thing, and nothing is
-done to reduce the power needs of the drive emulation.
+@dfn{Frame idle}: Again, the disk drive is still emulated upon serial line
+accesses as with the previous option, but it is also always emulated at
+the end of each video frame. This was the default for many years, but actually
+has no real advantage over @dfn{No idle}.
 @end itemize
 
-The first option (``Skip cycles'') is usually best for performance, as
+The second option (``Skip cycles'') is usually best for performance, as
 the drive is emulated as little as possible; on the other hand, you may
 notice sudden slowdowns (when the drive executes several cycles at once)
 and the LED status is never updated (because it would not be possible to
@@ -6924,7 +6932,7 @@ do this, even when they don't actually need to use the drive).
 <P>
 @end ifhtml
 
-The second option (``Trap idle'') is usually a bit slower, as at least
+The third option (``Trap idle'') is usually a bit slower, as at least
 interrupts are always emulated, but ensures the LED state is always
 updated correctly and always keeps the drive and the computer in sync.
 On the other hand, if a program installs a non-standard idle loop in the
@@ -7153,7 +7161,7 @@ Integer specifying the policy for 40-track support for drives 8 to 11.
 @itemx Drive11IdleMethod
 Integers specifying the idling method for the drive CPU.
 @xref{Drive settings}.
-(0: none, 1: skip cycles, 2: trap idle)
+(0: none, 1: skip cycles, 2: trap idle, 3: frame idle)
 
 @vindex Drive8RPM
 @vindex Drive9RPM
@@ -7392,7 +7400,7 @@ xplus4: (0: None, 1: Standard)
 Specifies <method> as the idling method for drives 8-11 respectively
 (@code{Drive8IdleMethod}, @code{Drive9IdleMethod},
 @code{Drive10IdleMethod}), @code{Drive11IdleMethod}).
-(0: none, 1: skip cycles, 2: trap idle)
+(0: none, 1: skip cycles, 2: trap idle, 3: frame idle)
 
 @findex -drive8extend
 @findex -drive9extend
@@ -12486,7 +12494,7 @@ samples audible also on the 8580.
 ``Use reSID emulation'' specifies whether the more accurate (and
 resource hungry) reSID emulation is turned on or off.
 
-@cindex reSID samping method
+@cindex reSID sampling method
 @item
 ``reSID sampling method'' selects the method for conversion of the SID
 output signal to a sampling rate appropriate for playback by standard

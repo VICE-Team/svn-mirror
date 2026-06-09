@@ -371,7 +371,7 @@ static uint8_t pia_get_pa(mc6821_state *ctx)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     byte = (parallel_bus & ~ctx->ddrA) | (ctx->dataA & ctx->ddrA);
 
@@ -389,7 +389,7 @@ static uint8_t pia_get_pb(mc6821_state *ctx)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     byte = 0xf8;
     if (parallel_ndac) {

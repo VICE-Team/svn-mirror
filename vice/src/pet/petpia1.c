@@ -242,7 +242,7 @@ static uint8_t read_pa(void)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     diagnostic_pin_enabled = read_userport_sp1(0);  /* pin 5 */
     /*printf("diag:%d\n", diagnostic_pin_enabled);*/

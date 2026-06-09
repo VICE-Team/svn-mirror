@@ -294,6 +294,7 @@ static int set_drive_idling_method(int val, void *param)
     switch (val) {
         case DRIVE_IDLE_SKIP_CYCLES:
         case DRIVE_IDLE_TRAP_IDLE:
+        case DRIVE_IDLE_FRAME_IDLE:
         case DRIVE_IDLE_NO_IDLE:
             break;
         default:

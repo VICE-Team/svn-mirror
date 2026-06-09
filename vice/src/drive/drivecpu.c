@@ -28,6 +28,8 @@
  *
  */
 
+/* #define DEBUG_DRIVE_CPU */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -55,6 +57,11 @@
 #include "types.h"
 #include "uiapi.h"
 
+#ifdef DEBUG_DRIVE_CPU
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 #define DRIVE_CPU
 
@@ -254,13 +261,19 @@ void drivecpu_init(diskunit_context_t *drv, int type)
 
 inline void drivecpu_wake_up(diskunit_context_t *drv)
 {
-    /* FIXME: this value could break some programs, or be way too high for
-       others.  Maybe we should put it into a user-definable resource.  */
-    if (maincpu_clk - drv->cpu->last_clk > 0xffffff
-        && *(drv->clk_ptr) > 934639) {
-        log_message(drv->log, "Skipping cycles.");
-        drv->cpu->last_clk = maincpu_clk;
+    if (drv->idling_method == DRIVE_IDLE_SKIP_CYCLES) {
+        /* FIXME: this value could break some programs, or be way too high for
+        others.  Maybe we should put it into a user-definable resource.  */
+        if (((maincpu_clk - drv->cpu->last_clk) > 0xffffff) &&
+            (*(drv->clk_ptr) > 934639)) {
+            log_message(drv->log, "Skipping cycles.");
+            /* forward clock (set last main cpu clock to current clock) */
+            /* FIXME: shouldn't we use clk_value from below? */
+            drv->cpu->last_clk = maincpu_clk;
+        }
     }
+    /* NOTE: after this, cpu->stop_clk will be recalculated from
+             clk_value and cpu->last_clk */
 }
 
 inline void drivecpu_sleep(diskunit_context_t *drv)
@@ -268,7 +281,11 @@ inline void drivecpu_sleep(diskunit_context_t *drv)
     /* Currently does nothing.  But we might need this hook some day.  */
 }
 
-/* Handle a ROM trap. */
+/* Handle a ROM trap.
+ * In the drive emulation, there can be one trap hooked to the drive irq.
+ * So the trap forwards the drive clock to the time when the trap (=irq)
+ * triggered.
+ */
 inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (uint16_t)drv->trap) {
@@ -278,10 +295,12 @@ inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
 
+            /* CAUTION: never run ahead cpu->stop_clk */
             if (next_clk > drv->cpu->stop_clk) {
                 next_clk = drv->cpu->stop_clk;
             }
-
+            /* forward drive clock to clock at the time of the trap */
+            DBG(("drive_trap_handler next_clk: %lu",next_clk));
             *(drv->clk_ptr) = next_clk;
         }
         return 0;
@@ -380,16 +399,17 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
         cycles = 0;
     }
 
+    /* advance cpu->stop_clk accordingly */
     while (cycles != 0) {
         tcycles = cycles > 10000 ? 10000 : cycles;
         cycles -= tcycles;
 
-        cpu->cycle_accum += drv->cpud->sync_factor * tcycles;
-        cpu->stop_clk += cpu->cycle_accum >> 16;
-        cpu->cycle_accum &= 0xffff;
+        cpu->cycle_accum += (drv->cpud->sync_factor * tcycles);
+        cpu->stop_clk += (cpu->cycle_accum >> 16);
+        cpu->cycle_accum &= 0xffff; /* keep reminder */
     }
 
-    /* Run drive CPU emulation until the stop_clk clock has been reached. */
+    /* Run drive CPU emulation until the cpu->stop_clk clock has been reached. */
     while (*drv->clk_ptr < cpu->stop_clk) {
 /* Include the 6502/6510 CPU emulation core.  */
 #define CPU_LOG_ID (drv->log)

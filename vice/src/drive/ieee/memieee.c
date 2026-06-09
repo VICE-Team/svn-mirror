@@ -40,7 +40,12 @@
 
 static uint8_t drive_read_rom(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->cpu->cpu_last_data = drv->rom[address & 0x7fff];
+    return drv->cpu->cpu_last_data = drv->trap_rom[address & 0x7fff];
+}
+
+static uint8_t drive_peek_rom(diskunit_context_t *drv, uint16_t address)
+{
+    return drv->rom[address & 0x7fff];
 }
 
 static uint8_t drive_read_2031ram(diskunit_context_t *drv, uint16_t address)
@@ -199,7 +204,7 @@ void memieee_init(struct diskunit_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x01, 0x08, drive_read_2031ram, drive_store_2031ram, NULL, &drv->drive_ram[0x0100], 0x000007fd);
         drivemem_set_func(cpud, 0x18, 0x1c, via1d2031_read, via1d2031_store, via1d2031_peek, NULL, 0);
         drivemem_set_func(cpud, 0x1c, 0x20, via2d_read, via2d_store, via2d_peek, NULL, 0);
-        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, NULL, drv->trap_rom, 0x8000bffd);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000bffd);
         return;
 
     /* The 2040/3040/4040/1001/8050/8250/9090/9060 have 256 byte at $00xx,
@@ -225,7 +230,7 @@ void memieee_init(struct diskunit_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x20, 0x30, drive_read_1001buffer2_ram, drive_store_1001buffer2_ram, NULL, &drv->drive_ram[0x0500], 0x20002ffd);
         drivemem_set_func(cpud, 0x30, 0x40, drive_read_1001buffer3_ram, drive_store_1001buffer3_ram, NULL, &drv->drive_ram[0x0900], 0x30003ffd);
         drivemem_set_func(cpud, 0x40, 0x50, drive_read_1001buffer4_ram, drive_store_1001buffer4_ram, NULL, &drv->drive_ram[0x0d00], 0x40004ffd);
-        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, NULL, drv->trap_rom, 0x8000fffd);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000fffd);
         return;
     case DRIVE_TYPE_8050:
     case DRIVE_TYPE_8250:
@@ -255,16 +260,16 @@ void memieee_init(struct diskunit_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x44, 0x48, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram, NULL, &drv->drive_ram[0x0d00], 0x440047fd);
         drivemem_set_func(cpud, 0x48, 0x4c, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram, NULL, &drv->drive_ram[0x0d00], 0x48004bfd);
         drivemem_set_func(cpud, 0x4c, 0x50, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram, NULL, &drv->drive_ram[0x0d00], 0x4c004ffd);
-        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, NULL, drv->trap_rom, 0x8000fffd);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, drive_peek_rom, drv->trap_rom, 0x8000fffd);
         return;
     case DRIVE_TYPE_2040:
-        drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL, NULL, &drv->trap_rom[0x6000], 0x60007ffd);
-        drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL, NULL, &drv->trap_rom[0x6000], 0xe000fffd);
+        drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x6000], 0x60007ffd);
+        drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x6000], 0xe000fffd);
         break;
     case DRIVE_TYPE_3040:
     case DRIVE_TYPE_4040:
-        drivemem_set_func(cpud, 0x50, 0x80, drive_read_rom, NULL, NULL, &drv->trap_rom[0x5000], 0x50007ffd);
-        drivemem_set_func(cpud, 0xd0, 0x100, drive_read_rom, NULL, NULL, &drv->trap_rom[0x5000], 0xd000fffd);
+        drivemem_set_func(cpud, 0x50, 0x80, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x5000], 0x50007ffd);
+        drivemem_set_func(cpud, 0xd0, 0x100, drive_read_rom, NULL, drive_peek_rom, &drv->trap_rom[0x5000], 0xd000fffd);
         break;
     default:
         return;

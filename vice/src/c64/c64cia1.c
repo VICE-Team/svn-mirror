@@ -436,14 +436,14 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 static void read_ciaicr(cia_context_t *cia_context)
 {
     if (burst_mod == BURST_MOD_CIA1) {
-        drive_cpu_execute_all(maincpu_clk);
+        drive_catch_up_hook(maincpu_clk);
     }
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
     if (burst_mod == BURST_MOD_CIA1) {
-        drive_cpu_execute_all(maincpu_clk);
+        drive_catch_up_hook(maincpu_clk);
     }
     cia_context->c_cia[CIA_SDR] = read_userport_sp1(cia_context->c_cia[CIA_SDR]);
     DBG(("read_sdr sp1: %02x\n", cia_context->c_cia[CIA_SDR]));

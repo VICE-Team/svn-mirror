@@ -53,8 +53,8 @@
 
 static uint8_t drive_read_rom(diskunit_context_t *drv, uint16_t address)
 {
-    LOG(("%04x %02x   drive_read_rom\n", address, drv->rom[address & 0x7fff]));
-    return drv->cpu->cpu_last_data = drv->rom[address & 0x7fff];
+    LOG(("%04x %02x   drive_read_rom\n", address, drv->trap_rom[address & 0x7fff]));
+    return drv->cpu->cpu_last_data = drv->trap_rom[address & 0x7fff];
 }
 
 static uint8_t drive_peek_rom(diskunit_context_t *drv, uint16_t address)
@@ -65,7 +65,7 @@ static uint8_t drive_peek_rom(diskunit_context_t *drv, uint16_t address)
 
 static uint8_t drive_read_rom_ds1216(diskunit_context_t *drv, uint16_t address)
 {
-    return drv->cpu->cpu_last_data = ds1216e_read(drv->ds1216, address, drv->rom[address & 0x7fff]);
+    return drv->cpu->cpu_last_data = ds1216e_read(drv->ds1216, address, drv->trap_rom[address & 0x7fff]);
 }
 
 static uint8_t drive_peek_rom_ds1216(diskunit_context_t *drv, uint16_t address)

@@ -1244,7 +1244,7 @@ int ramlink_cart_enabled(void)
 /* The timing for the parallel transfers are pretty tight */
 static void ramlink_sync_cpus(void) {
     if (maincpu_clk) {
-        drive_cpu_execute_all(maincpu_clk);
+        drive_catch_up_hook(maincpu_clk);
     }
 }
 

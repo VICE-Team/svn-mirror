@@ -235,6 +235,7 @@ int driverom_load_images(void)
 
 void driverom_initialize_traps(diskunit_context_t *unit)
 {
+    DBG(("driverom_initialize_traps unit:%p trap_rom:%p", (void*)unit, unit->trap_rom));
     memcpy(unit->trap_rom, unit->rom, DRIVE_ROM_SIZE);
 
     unit->trap = -1;
@@ -244,6 +245,7 @@ void driverom_initialize_traps(diskunit_context_t *unit)
            unit->idling_method == DRIVE_IDLE_TRAP_IDLE ? "enabled" : "disabled"));
 
     if (unit->idling_method != DRIVE_IDLE_TRAP_IDLE) {
+        DBG(("driverom_initialize_traps error (not DRIVE_IDLE_TRAP_IDLE)"));
         return;
     }
 
@@ -290,20 +292,28 @@ void driverom_initialize_traps(diskunit_context_t *unit)
             unit->trapcont = 0xd4b7;
             break;
         default:
-            break;
+            log_error(driverom_log, "trap is not defined for this drive");
+            unit->trap = -1;
+            unit->trapcont = -1;
+            return;
     }
-    if (unit->trap >= 0
-        && unit->trap_rom[unit->trap - 0x8000] == 0x4c
-        && unit->trap_rom[unit->trap - 0x8000 + 1] == (unit->trapcont & 0xff)
-        && unit->trap_rom[unit->trap - 0x8000 + 2] == (unit->trapcont >> 8)) {
+    if ((unit->trap >= 0) &&
+        (unit->trap_rom[unit->trap - 0x8000] == 0x4c) &&
+        (unit->trap_rom[(unit->trap + 1) - 0x8000] == (unit->trapcont & 0xff)) &&
+        (unit->trap_rom[(unit->trap + 2) - 0x8000] == (unit->trapcont >> 8))) {
         unit->trap_rom[unit->trap - 0x8000] = TRAP_OPCODE;
+        /* to fix the checksum, patch up the next byte as well */
+        unit->trap_rom[unit->trap - 0x8001] += (0x4c - TRAP_OPCODE);
+        /* FIXME: what does this do? */
         if (unit->type == DRIVE_TYPE_1551) {
             unit->trap_rom[0xeabf - 0x8000] = 0xea;
             unit->trap_rom[0xeac0 - 0x8000] = 0xea;
             unit->trap_rom[0xead0 - 0x8000] = 0x08;
         }
+        DBG(("driverom_initialize_traps ok"));
         return;
     }
+    DBG(("driverom_initialize_traps error (patch not found)"));
     unit->trap = -1;
     unit->trapcont = -1;
 }

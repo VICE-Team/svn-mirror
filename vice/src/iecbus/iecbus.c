@@ -226,7 +226,7 @@ static void iecbus_cpu_write_conf0(uint8_t data, CLOCK clock)
 /* Only the first disk unit (drive 8) is enabled.  */
 static uint8_t iecbus_cpu_read_conf1(CLOCK clock)
 {
-    drive_cpu_execute_all(clock);
+    drive_catch_up_hook(clock);
 
     DEBUG_IEC_CPU_READ(iecbus.cpu_port);
 
@@ -238,7 +238,7 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 {
     diskunit_context_t *unit = diskunit_context[0];
 
-    drive_cpu_execute_one(unit, clock);
+    drive_catch_up_one_hook(unit, clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -289,7 +289,7 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 /* Only the second disk unit (drive 9) is enabled.  */
 static uint8_t iecbus_cpu_read_conf2(CLOCK clock)
 {
-    drive_cpu_execute_all(clock);
+    drive_catch_up_hook(clock);
 
     DEBUG_IEC_CPU_READ(iecbus.cpu_port);
 
@@ -301,7 +301,7 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 {
     diskunit_context_t *unit = diskunit_context[1];
 
-    drive_cpu_execute_one(unit, clock);
+    drive_catch_up_one_hook(unit, clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -352,7 +352,7 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 
 static uint8_t iecbus_cpu_read_conf3(CLOCK clock)
 {
-    drive_cpu_execute_all(clock);
+    drive_catch_up_hook(clock);
     serial_iec_device_exec(clock);
 
     DEBUG_IEC_CPU_READ(iecbus.cpu_port);
@@ -365,7 +365,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
 {
     unsigned int dnr;
 
-    drive_cpu_execute_all(clock);
+    drive_catch_up_hook(clock);
     serial_iec_device_exec(clock);
 
     DEBUG_IEC_CPU_WRITE(data);

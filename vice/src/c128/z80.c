@@ -45,6 +45,9 @@
 
 #define CLK maincpu_clk
 
+/* FIXME: Is this correct at all? */
+#define ORIGIN_MEMSPACE (e_comp_space)
+
 static int dma_request = 0;
 
 static uint8_t *z80_bank_base;

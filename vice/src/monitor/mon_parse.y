@@ -1224,7 +1224,9 @@ int parse_and_execute_line(char *input)
         * If the command is to be executed when the default address space is the main cpu,
         * Ensure drive CPU emulation is up to date with main cpu CLOCK.
         */
-       drive_cpu_execute_all(maincpu_clk);
+       /* FIXME: should this be drive_catch_up_hook() instead? */
+       /*drive_cpu_execute_all(maincpu_clk);*/
+       drive_catch_up_hook(maincpu_clk);
    }
 
    temp_buf = lib_malloc(strlen(input) + 3);

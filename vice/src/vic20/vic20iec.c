@@ -142,7 +142,7 @@ uint8_t iec_drive_read(unsigned int dnr)
 
 uint8_t iec_pa_read(void)
 {
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     cpu_bus_val = (bus_data << 1) | bus_clock | (NOT(bus_atn) << 7);
 
@@ -154,7 +154,7 @@ void iec_pa_write(uint8_t data)
 {
     unsigned int i;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
@@ -222,7 +222,7 @@ void iec_pcr_write(uint8_t data)
 {
     unsigned int i;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);

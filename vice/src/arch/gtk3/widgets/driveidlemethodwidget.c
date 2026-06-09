@@ -51,6 +51,7 @@ static const vice_gtk3_combo_entry_int_t idle_methods[] = {
     { "None",           DRIVE_IDLE_NO_IDLE },
     { "Skip cycles",    DRIVE_IDLE_SKIP_CYCLES },
     { "Trap idle",      DRIVE_IDLE_TRAP_IDLE },
+    { "Frame idle",     DRIVE_IDLE_FRAME_IDLE },
     { NULL,             -1 }
 };
 

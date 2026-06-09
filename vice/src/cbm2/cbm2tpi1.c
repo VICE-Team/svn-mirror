@@ -189,7 +189,7 @@ static uint8_t read_pa(tpi_context_t *tpi_context)
 {
     uint8_t byte;
 
-    drive_cpu_execute_all(maincpu_clk);
+    drive_catch_up_hook(maincpu_clk);
 
     byte = 0x07;
     byte += parallel_atn ? 0 : 8;

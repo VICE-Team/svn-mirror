@@ -2997,6 +2997,22 @@ int monitor_check_breakpoints(MEMSPACE mem, uint16_t addr)
 }
 
 /* called by macro DO_INTERRUPT() in 6510(dtv)core.c */
+void monitor_check_watchpoints(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
+{
+    while (watch_load_count[mem]) {
+        if (watchpoints_check_loads(mem, lastpc, pc)) {
+            monitor_startup(mem);
+        }
+    }
+
+    while (watch_store_count[mem]) {
+        if (watchpoints_check_stores(mem, lastpc, pc)) {
+            monitor_startup(mem);
+        }
+    }
+}
+
+#if 0
 void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
 {
     unsigned int dnr;
@@ -3025,6 +3041,7 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
         watch_store_occurred = false;
     }
 }
+#endif
 
 int monitor_diskspace_dnr(int mem)
 {

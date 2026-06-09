@@ -33,6 +33,8 @@
 #include "snapshot.h"
 #include "machine.h"
 
+#define ORIGIN_MEMSPACE (e_comp_space)
+
 static void request_nmi(unsigned int source);
 static void req_irq(unsigned int source);
 
@@ -139,7 +141,7 @@ h6809_regs_t h6809_regs;
                 }                                                          \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                   \
                     EXPORT_REGISTERS();                                    \
-                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)PC); \
+                    monitor_check_watchpoints(ORIGIN_MEMSPACE, LAST_OPCODE_ADDR, (uint16_t)PC); \
                     IMPORT_REGISTERS();                                    \
                 }                                                          \
             }                                                              \

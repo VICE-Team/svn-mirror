@@ -60,7 +60,7 @@ void c128fastiec_fast_cpu_write(uint8_t data)
             diskunit_context_t *unit = diskunit_context[dnr];
 
             if (unit->enable) {
-                drive_cpu_execute_one(unit, maincpu_clk);
+                drive_catch_up_one_hook(unit, maincpu_clk);
                 switch (unit->type) {
                     case DRIVE_TYPE_1570:
                     case DRIVE_TYPE_1571:

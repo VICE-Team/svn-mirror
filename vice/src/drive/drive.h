@@ -80,10 +80,27 @@
 #define DRIVE_EXTEND_ASK    1
 #define DRIVE_EXTEND_ACCESS 2
 
-/* Drive idling methods.  */
+
+/* Drive idling methods.
+ */
+
+/* No idling, execute main CPU and drive CPU(s) side by side no matter what */
 #define DRIVE_IDLE_NO_IDLE     0
+
+/* In all idle modes, the drive CPU(s) are executed when there is activity
+   on the IEC bus. Additionally: */
+
+/* When the drive was not executed for a certain time, the drive clock catches
+   up, and the cycles are discarded. */
 #define DRIVE_IDLE_SKIP_CYCLES 1
+
+/* A ROM trap is installed in the drive ROM, which triggers a drive clock
+   update at each interrupt */
 #define DRIVE_IDLE_TRAP_IDLE   2
+
+/* The drive is executed at the end of every video frame */
+#define DRIVE_IDLE_FRAME_IDLE  3
+
 
 /* Drive type ID's and names. When adding things here, please also update
  * the `drive_type_info_list` array in src/drive/drive.c to keep UI's current
@@ -397,6 +414,9 @@ void drive_cpu_execute_one(struct diskunit_context_s *drv, CLOCK clk_value);
 void drive_cpu_execute_all(CLOCK clk_value);
 void drive_cpu_set_overflow(struct diskunit_context_s *drv);
 void drive_vsync_hook(void);
+void drive_cycle_hook(void);
+void drive_catch_up_hook(CLOCK clk_value);
+void drive_catch_up_one_hook(struct diskunit_context_s *unit, CLOCK clk_value);
 int drive_get_disk_drive_type(int dnr);
 void drive_enable_update_ui(struct diskunit_context_s *drv);
 void drive_update_ui_status(void);
