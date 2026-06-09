@@ -1917,7 +1917,7 @@ static int my_ungetc(FILE *f, int ch)
 }
 
 /*
- * convert basic (and petscii) to ascii (text)
+ * de-tokenize - convert basic (and petscii) to ascii (text)
  *
  * This routine starts from the beginning of Basic, and not from the
  * load address included on program files. That way it can list from
@@ -1929,6 +1929,7 @@ static int p_expand(int version, int addr, int ctrls)
     static char line[4];
     int c = 0;
     int quote, spnum;
+    int rem, data;
     int sysflg = 0;
     int initialspace = 0;
 
@@ -1950,7 +1951,7 @@ static int p_expand(int version, int addr, int ctrls)
            (my_fread(line + 2, 1, 2, source) == 2) /* line number */
         ) {
 
-        quote = 0;
+        quote = rem = data = 0; /* clear all flags */
 
         /* the line number */
         fprintf(dest, "%5d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
@@ -1989,7 +1990,20 @@ static int p_expand(int version, int addr, int ctrls)
 
             /* basic 2.0, 7.0, 10.0, 65.0 and extensions */
 
-            if (!quote && (c > 0x7f)) {
+            if (!quote && !rem && !data && (c > 0x7f)) {
+
+                /* Check if the keyword is a REM or a DATA */
+                switch (c & 0x7f) {
+                    case TOKEN_REM:
+                        rem = 1;
+                        break;
+                    case TOKEN_DATA:
+                        data = 1;
+                        break;
+                    default:
+                        break;
+                }
+
                 /* check for keywords common to all versions, include pi */
                 if (c <= basic_list[B_1 - 1].max_token || c == 0xff) {
                     fprintf(dest, "%s", keyword[c & 0x7f]);
@@ -2094,20 +2108,30 @@ static int p_expand(int version, int addr, int ctrls)
                 continue;
             } /* quote */
 
+            if ((rem || data) && (c > 0x7f)) {
+                out_ctrl((int)c);  /* output as control code */
+            } else
             /* some codes must always be converted to control codes, else they can't
                be tokenized into the exact same thing again */
-            /* FIXME: this is also true for every keyword */
-            if ((c == 0x0d) ||  /* return */
-                (c == 0x2a) ||  /* literal "*" (else converts into a token) */
-                (c == 0x2b) ||  /* literal "+" (else converts into a token) */
-                (c == 0x2d) ||  /* literal "-" (else converts into a token) */
-                (c == 0x2f) ||  /* literal "/" (else converts into a token) */
-                (c == 0x3c) ||  /* literal "<" (else converts into a token) */
-                (c == 0x3d) ||  /* literal "=" (else converts into a token) */
-                (c == 0x3e) ||  /* literal ">" (else converts into a token) */
-                (c == 0x5e)     /* literal "^" (else converts into a token) */
-               ){
+            /* FIXME: this is also true for every (literal) keyword */
+            if (c == 0x0d) {
+                /* a 'return' code in the middle of the line */
                 out_ctrl((int)c);  /* output as control code */
+            } else if (
+                 (c == 0x2a) ||  /* literal "*" (else converts into a token) */
+                 (c == 0x2b) ||  /* literal "+" (else converts into a token) */
+                 (c == 0x2d) ||  /* literal "-" (else converts into a token) */
+                 (c == 0x2f) ||  /* literal "/" (else converts into a token) */
+                 (c == 0x3c) ||  /* literal "<" (else converts into a token) */
+                 (c == 0x3d) ||  /* literal "=" (else converts into a token) */
+                 (c == 0x3e) ||  /* literal ">" (else converts into a token) */
+                 (c == 0x5e)     /* literal "^" (else converts into a token) */
+                ){
+                if (rem || data) {
+                    _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+                } else {
+                    out_ctrl((int)c);  /* output as control code */
+                }
             } else if (c == 0x20) {
                 if (initialspace) {
                     out_ctrl((int)c);  /* output as control code */
@@ -2144,6 +2168,10 @@ static int p_expand(int version, int addr, int ctrls)
                 }
             } else {
                 _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+                /* colon terminates data mode */
+                if (!quote && (c == ':')) {
+                    data = 0;
+                }
             }
         } while ((c = my_getc(source)) != EOF && c);
 
@@ -2196,6 +2224,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
     unsigned char *p2;
     unsigned char *p3;
     unsigned char quote;
+    unsigned char rem;
+    unsigned char data;
     int c;
     int ctmp = -1;
     int kwlentmp = -1;
@@ -2222,7 +2252,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
         DBG(("line: %u [%s]\n", linum, line));
 
-        quote = 0;
+        quote = rem = data = 0; /* clear all flags */
 
         p2 = check_leading_space(version, p2);
 
@@ -2342,7 +2372,12 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     exit(-1);
 
 /*    DBG(("controlcode end\n")); */
+            } else if (rem || data) {
+                /* if we have already encountered a REM or a DATA,
+                   simply copy the char */
 
+                /* DO NOTHING! As we do not set "match", the if (!match) will be true,
+                 * and this part will copy the char over to the new buffer */
             } else if (!quote && (isalpha((unsigned char)*p2) || strchr("+-*/^>=<", *p2))) {
                 /* FE and CE prefixes are checked first */
                 if (version == B_7 || version == B_71 || version == B_10 || version == B_65 || version == B_SXC || version == B_SIMON) {
@@ -2449,6 +2484,18 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         if ((version == B_35) || (ctmp != 0x4e)) {  /* Skip prefix */
                             kwlentmp = (int)kwlen;
                             match++;
+
+                            /* Check if the keyword is a REM or a DATA */
+                            switch (ctmp) {
+                                case TOKEN_REM:
+                                    rem= 1;
+                                    break;
+                                case TOKEN_DATA:
+                                    data = 1;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
@@ -2523,6 +2570,19 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             if (!match) {
                 /* convert character */
                 *p1++ = (unsigned char)(_a_topetscii(*p2 & 0xff, ctrls));
+
+                switch (*p2) {
+                    case 0: /* REM ends at end of line */
+                        rem= 0;
+                        break;
+                    case ':': /* DATA ends at colon, but only if not in quote mode */
+                        if (!quote) {
+                            data = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
                 p3 = p2;
                 ++p2;
