@@ -53,6 +53,9 @@
 
 #define CLK maincpu_clk
 
+/* FIXME: Is this correct at all? */
+#define ORIGIN_MEMSPACE (e_comp_space)
+
 z80_regs_t z80_regs;
 
 static int z80_started = 0;

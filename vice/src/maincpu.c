@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "autostart.h"
 #include "debug.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -523,6 +524,7 @@ void maincpu_resync_limits(void)
     }
 }
 
+/* This doesn't return. The thread will directly exit when requested. */
 void maincpu_mainloop(void)
 {
 #define ORIGIN_MEMSPACE (e_comp_space)
@@ -636,6 +638,8 @@ void maincpu_mainloop(void)
 #include "6510core.c"
 
         maincpu_int_status->num_dma_per_opcode = 0;
+
+        drive_cycle_hook();
 
         if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");

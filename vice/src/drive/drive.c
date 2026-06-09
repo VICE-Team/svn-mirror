@@ -276,7 +276,8 @@ int drive_init(void)
         rotation_init((diskunit->clock_frequency == 2) ? 1 : 0, unit);
         rotation_reset(drive);
 
-        if (diskunit->type == DRIVE_TYPE_2000 || diskunit->type == DRIVE_TYPE_4000 ||
+        if (diskunit->type == DRIVE_TYPE_2000 ||
+            diskunit->type == DRIVE_TYPE_4000 ||
             diskunit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_init(diskunit, diskunit->type);
         } else {
@@ -988,9 +989,11 @@ int drive_num_leds(unsigned int dnr)
     }
 }
 
+/* run drive cpu for given main clock value */
 void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
 {
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+    if (drv->type == DRIVE_TYPE_2000 ||
+        drv->type == DRIVE_TYPE_4000 ||
         drv->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_execute(drv, clk_value);
     } else {
@@ -998,6 +1001,7 @@ void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
     }
 }
 
+/* execute the CPU of all (enabled) drives */
 void drive_cpu_execute_all(CLOCK clk_value)
 {
     unsigned int dnr;
@@ -1011,9 +1015,11 @@ void drive_cpu_execute_all(CLOCK clk_value)
     }
 }
 
+
 void drive_cpu_set_overflow(diskunit_context_t *drv)
 {
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+    if (drv->type == DRIVE_TYPE_2000 ||
+        drv->type == DRIVE_TYPE_4000 ||
         drv->type == DRIVE_TYPE_CMDHD) {
         /* nothing */
     } else {
@@ -1021,7 +1027,63 @@ void drive_cpu_set_overflow(diskunit_context_t *drv)
     }
 }
 
-/* This is called at every vsync. */
+/* make given drive catch up with the given (main-) clock
+   Updates the given drive eg before a IEC port line is read or written,
+   _unless_ the "no idle" mode is active.
+*/
+void drive_catch_up_one_hook(diskunit_context_t *unit, CLOCK clk_value)
+{
+    if (unit->enable) {
+        /* in "no idle" mode we never need to catch up */
+        if (unit->idling_method != DRIVE_IDLE_NO_IDLE) {
+            drive_cpu_execute_one(unit, clk_value);
+        }
+    }
+}
+
+
+/* make all drives catch up with the given (main-) clock
+   Updates all drives eg before a IEC port line is read or written,
+   _unless_ the "no idle" mode is active.
+*/
+void drive_catch_up_hook(CLOCK clk_value)
+{
+    unsigned int dnr;
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        drive_catch_up_one_hook(diskunit_context[dnr], clk_value);
+    }
+}
+
+
+/* This is called after every main CPU instruction
+
+   Updates the drives in each iteration of the main loop,
+   _if_ the "no idle" mode is active.
+*/
+void drive_cycle_hook(void)
+{
+    unsigned int dnr;
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+        drive_t *drive = unit->drives[0];
+
+        if (unit->enable) {
+            if (unit->idling_method == DRIVE_IDLE_NO_IDLE) {
+                drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
+                /* if drive is never idle, also rotate the disk. */
+
+                /* TODO: drive 1 */
+                rotation_rotate_disk(drive);
+            }
+            /* printf("drive_cycle_hook drv %d @clk:%d\n", dnr, maincpu_clk); */
+        }
+    }
+}
+
+/* This is called at every vsync.
+   runs all drives at the end of each frame,
+   _if_ "Frame idle" is active.
+*/
 void drive_vsync_hook(void)
 {
     unsigned int dnr;
@@ -1033,17 +1095,22 @@ void drive_vsync_hook(void)
         drive_t *drive = unit->drives[0];
 
         if (unit->enable) {
-            if (unit->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
-                drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
-            }
-            if (unit->idling_method == DRIVE_IDLE_NO_IDLE) {
-                /* if drive is never idle, also rotate the disk. this prevents
-                 * huge peaks in cpu usage when the drive must catch up with
-                 * a longer period of time.
-                 */
-                /* TODO: drive 1 */
-                rotation_rotate_disk(drive);
-            }
+            /*if (unit->idling_method != DRIVE_IDLE_NO_IDLE) {*/
+#if 0
+                if (unit->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+                    drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
+                }
+#endif
+                if (unit->idling_method == DRIVE_IDLE_FRAME_IDLE) {
+                    drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
+                    /* Also rotate the disk. this prevents huge peaks in cpu
+                       usage when the drive must catch up with a longer period
+                       of time. */
+
+                    /* TODO: drive 1 */
+                    rotation_rotate_disk(drive);
+                }
+            /*}*/
             /* printf("drive_vsync_hook drv %d @clk:%d\n", dnr, maincpu_clk); */
         }
     }

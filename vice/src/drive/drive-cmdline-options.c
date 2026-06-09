@@ -68,7 +68,7 @@ static cmdline_option_t cmd_drive[] =
       "<method>", "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
-      "<method>", "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
+      "<method>", "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle 3: frame idle)" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
       "<RPM>", "Set drive rpm (30000 = 300rpm)" },

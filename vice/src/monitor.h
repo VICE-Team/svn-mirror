@@ -183,7 +183,7 @@ void monitor_abort(void);
 
 void monitor_check_icount(uint16_t a);
 void monitor_check_icount_interrupt(void);
-void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc);
+void monitor_check_watchpoints(MEMSPACE mem, unsigned int lastpc, unsigned int pc);
 
 void monitor_cpu_type_set(const char *cpu_type);
 void monitor_cpu_type_set_value(int searchcpu);

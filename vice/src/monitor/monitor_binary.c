@@ -1771,7 +1771,9 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     }
 
     /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
-    drive_cpu_execute_all(maincpu_clk);
+    /* FIXME: should this be drive_catch_up_hook() instead? */
+    /*drive_cpu_execute_all(maincpu_clk);*/
+    drive_catch_up_hook(maincpu_clk);
 
     command.length = little_endian_to_uint32(&pbuffer[2]);
 

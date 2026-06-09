@@ -255,7 +255,7 @@ void parallel_cable_cpu_execute(int type)
 
         if (unit->enable && unit->parallel_cable) {
             if (portmap[unit->parallel_cable] == port) {
-                drive_cpu_execute_one(unit, maincpu_clk);
+                drive_catch_up_one_hook(unit, maincpu_clk);
             }
         }
     }

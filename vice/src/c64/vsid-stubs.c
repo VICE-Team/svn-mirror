@@ -966,6 +966,14 @@ void drive_cpu_execute_all(CLOCK clk_value)
 {
 }
 
+void drive_catch_up_hook(CLOCK clk_value)
+{
+}
+
+void drive_cycle_hook(void)
+{
+}
+
 int drive_num_leds(unsigned int dnr)
 {
     return 1;

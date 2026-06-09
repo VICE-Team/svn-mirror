@@ -359,6 +359,7 @@ void drivecpu65c02_execute(diskunit_context_t *drv, CLOCK clk_value)
         cycles = 0;
     }
 
+    /* advance cpu->stop_clk accordingly */
     while (cycles != 0) {
         tcycles = cycles > 10000 ? 10000 : cycles;
         cycles -= tcycles;
