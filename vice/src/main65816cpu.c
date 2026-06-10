@@ -36,6 +36,7 @@
 #include "autostart.h"
 #include "cmdline.h"
 #include "debug.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -381,6 +382,8 @@ void maincpu_mainloop(void)
 #include "65816core.c"
 
         maincpu_int_status->num_dma_per_opcode = 0;
+
+        drive_cycle_hook();
 
         if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");
