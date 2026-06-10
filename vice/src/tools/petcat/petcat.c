@@ -879,20 +879,30 @@ static const char *e_ctrl1[0x20] = {
 };
 /* ------------------------------------------------------------------------- */
 
-/* 0x20 - 0x3f (petcat, tok64) */
-static const char *cbmchars[0x20] = {
-    "space", "", "", "", "", "", "", "",
-    "",      "", "", "", "", "", "", "",
-    "",      "", "", "", "", "", "", "",
-    "",      "", "", "", "", "", "", ""
+/* 0x20 - 0x5f (petcat, tok64) */
+static const char *cbmchars[0x40] = {
+    "space", "", "",  "",  "", "",  "",  "",
+    "",      "", "*", "+", "", "-", "",  "/",
+    "",      "", "",  "",  "", "",  "",  "",
+    "",      "", "",  "", "<", "=", ">", "",
+
+    "",  "a", "b", "c", "d", "e", "f", "g",
+    "h", "i", "j", "k", "l", "m", "n", "o",
+    "p", "q", "r", "s", "t", "u", "v", "w",
+    "x", "y", "z", "",  "",  "",  "^", ""
 };
 
-/* 0x20 - 0x3f (64er/Checksummer v3) */
-static const char *a_cbmchars[0x20] = {
+/* 0x20 - 0x5f (64er/Checksummer v3) */
+static const char *a_cbmchars[0x40] = {
     "SPACE", "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
-    "",      "", "", "", "", "", "", ""
+    "",      "", "", "", "", "", "", "",
+
+    "", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", ""
 };
 
 /* ------------------------------------------------------------------------- */
@@ -1924,9 +1934,25 @@ static int my_ungetc(FILE *f, int ch)
  * RAM dump.
  */
 
+#define MAX_KEYWORD_LEN     16      /* FIXME */
+
+static char petscii_to_ascii(char c)
+{
+    if ((c >= 'A') && (c <= 'Z')) {
+        c -= 'A';
+        c += 'a';
+    } else if ((c >= 'a') && (c <= 'z')) {
+        c -= 'a';
+        c += 'A';
+    }
+    return c;
+}
+
 static int p_expand(int version, int addr, int ctrls)
 {
     static char line[4];
+    static unsigned char thisword[MAX_KEYWORD_LEN + 1];
+    static unsigned char thisword_asc[MAX_KEYWORD_LEN + 1];
     int c = 0;
     int quote, spnum;
     int rem, data;
@@ -2117,7 +2143,7 @@ static int p_expand(int version, int addr, int ctrls)
             if (c == 0x0d) {
                 /* a 'return' code in the middle of the line */
                 out_ctrl((int)c);  /* output as control code */
-            } else if (
+            } else if ( /* FIXME: what about pi? */
                  (c == 0x2a) ||  /* literal "*" (else converts into a token) */
                  (c == 0x2b) ||  /* literal "+" (else converts into a token) */
                  (c == 0x2d) ||  /* literal "-" (else converts into a token) */
@@ -2126,11 +2152,12 @@ static int p_expand(int version, int addr, int ctrls)
                  (c == 0x3d) ||  /* literal "=" (else converts into a token) */
                  (c == 0x3e) ||  /* literal ">" (else converts into a token) */
                  (c == 0x5e)     /* literal "^" (else converts into a token) */
-                ){
-                if (rem || data) {
+                ) {
+                if (quote || rem || data) {
                     _p_toascii((int)c, version, ctrls, quote);  /* convert character */
                 } else {
-                    out_ctrl((int)c);  /* output as control code */
+                    /*out_ctrl((int)c);*/  /* output as control code */
+                    fprintf(dest, CLARIF_LP_ST "%c" CLARIF_RP_ST, c);
                 }
             } else if (c == 0x20) {
                 if (initialspace) {
@@ -2167,7 +2194,75 @@ static int p_expand(int version, int addr, int ctrls)
                     }
                 }
             } else {
+
+                if (!quote && !rem && !data) {
+                    int n = 0;
+                    int i;
+                    int max;
+                    int ch;
+                    unsigned char ctmp;
+
+                    /* get potential keyword into buffer */
+                    thisword[n] = c;
+                    n++;
+                    do {
+                        ch = my_getc(source);
+                        if (ch == EOF) {
+                            break;
+                        }
+                        thisword[n] = ch;
+                        n++;
+                        /* a BASIC keyword may contain any letters, $, ( */
+                        if (!(((ch >= 'a') && (ch <= 'z')) ||
+                                ((ch >= 'A') && (ch <= 'Z')) ||
+                                (ch == '$') ||
+                                (ch == '(')
+                                )) {
+                            break;
+                        }
+                    } while(n < MAX_KEYWORD_LEN);
+
+                    /* convert to ASCII */
+                    for (i = 0; i < n; i++) {
+                        thisword_asc[i] = petscii_to_ascii(thisword[i]);
+                    }
+
+                    /* push back */
+                    for (i = 1; i < n; i++) {
+                        my_ungetc(source, thisword[i]);
+                    }
+
+                    /* test if this is a keyword */
+                    if (version == B_1) {
+                        max = basic_list[B_1 - 1].num_tokens;
+                    } else if ((version == B_35) ||
+                                (version == B_7) ||
+                                (version == B_71) ||
+                                (version == B_10) ||
+                                (version == B_65) ||
+                                (version == B_SXC)) {
+                        max = basic_list[B_35 - 1].num_tokens;
+                    } else {
+                        max = basic_list[B_2 - 1].num_tokens;
+                    }
+
+                    /* compare against keyword list */
+                    /* FIXME: this only compares against the "common" keywords - it
+                                does not take other BASIC variants into account */
+                    if ((ctmp = sstrcmp(thisword_asc, keyword, 0, max)) != KW_NONE) {
+                        /* if a keyword was found, output its first character as
+                            control code, this prevents it from being tokenized by
+                            petcat, and keeps the resulting text somewhat human
+                            readable at least */
+                        /*out_ctrl(thisword[0]);*/
+                        fprintf(dest, CLARIF_LP_ST "%c" CLARIF_RP_ST, thisword_asc[0]);
+                        continue;
+                    }
+                }
+
+                /* a regular character */
                 _p_toascii((int)c, version, ctrls, quote);  /* convert character */
+
                 /* colon terminates data mode */
                 if (!quote && (c == ':')) {
                     data = 0;
@@ -2314,8 +2409,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             ((c = sstrcmp_codes(p, c_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                             ((c = sstrcmp_codes(p, d_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
 
-                            ((((c = sstrcmp_codes(p, cbmchars, 0, 0x20)) != CODE_NONE) || /* 0x20-0x3f */
-                              ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
+                            ((((c = sstrcmp_codes(p, cbmchars, 0, 0x40)) != CODE_NONE) || /* 0x20-0x5f */
+                              ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x40)) != CODE_NONE) /* 0x20-0x5f */
                               ) && (c += 0x20)) ||
 
                             ((
@@ -2473,8 +2568,12 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                     if (version == B_1) {
                         max = basic_list[B_1 - 1].num_tokens;
-                    } else if ((version == B_35) || (version == B_7) || (version == B_71) ||
-                               (version == B_10) || (version == B_65) || (version == B_SXC)) {
+                    } else if ((version == B_35) ||
+                               (version == B_7) ||
+                               (version == B_71) ||
+                               (version == B_10) ||
+                               (version == B_65) ||
+                               (version == B_SXC)) {
                         max = basic_list[B_35 - 1].num_tokens;
                     } else {
                         max = basic_list[B_2 - 1].num_tokens;
@@ -2678,8 +2777,8 @@ static void asc_2_pet(int version, int ctrls)
                     ((c = sstrcmp_codes(p, c_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
                     ((c = sstrcmp_codes(p, d_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
 
-                    ((((c = sstrcmp_codes(p, cbmchars, 0, 0x20)) != CODE_NONE) || /* 0x20-0x3f */
-                      ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
+                    ((((c = sstrcmp_codes(p, cbmchars, 0, 0x40)) != CODE_NONE) || /* 0x20-0x5f */
+                      ((c = sstrcmp_codes(p, a_cbmchars, 0, 0x40)) != CODE_NONE) /* 0x20-0x5f */
                         ) && (c += 0x20)) ||
 
                     ((
