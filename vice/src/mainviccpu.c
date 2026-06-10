@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "autostart.h"
 #include "debug.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -636,6 +637,8 @@ void maincpu_mainloop(void)
 #include "6510dtvcore.c"
 
         maincpu_int_status->num_dma_per_opcode = 0;
+
+        drive_cycle_hook();
 
         if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");
