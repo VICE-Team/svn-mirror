@@ -276,10 +276,12 @@ inline void drivecpu_wake_up(diskunit_context_t *drv)
              clk_value and cpu->last_clk */
 }
 
+#if 0
 inline void drivecpu_sleep(diskunit_context_t *drv)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
 }
+#endif
 
 /* Handle a ROM trap.
  * In the drive emulation, there can be one trap hooked to the drive irq.
@@ -393,15 +395,16 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
     drivecpu_wake_up(drv);
 
     /* Calculate number of main CPU clocks to emulate */
-    if (clk_value > cpu->last_clk) {
+    if (clk_value >= cpu->last_clk) {
         cycles = clk_value - cpu->last_clk;
     } else {
+        /* something really odd is going on */
         cycles = 0;
     }
 
     /* advance cpu->stop_clk accordingly */
     while (cycles != 0) {
-        tcycles = cycles > 10000 ? 10000 : cycles;
+        tcycles = (cycles > 0x10000) ? 0x10000 : cycles;
         cycles -= tcycles;
 
         cpu->cycle_accum += (drv->cpud->sync_factor * tcycles);
@@ -411,7 +414,9 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 
     /* Run drive CPU emulation until the cpu->stop_clk clock has been reached. */
     while (*drv->clk_ptr < cpu->stop_clk) {
+
 /* Include the 6502/6510 CPU emulation core.  */
+
 #define CPU_LOG_ID (drv->log)
 /* #define ANE_LOG_LEVEL ane_log_level */
 /* #define LXA_LOG_LEVEL lxa_log_level */
@@ -461,7 +466,7 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
     }
 
     cpu->last_clk = clk_value;
-    drivecpu_sleep(drv);
+    /*drivecpu_sleep(drv);*/
 }
 
 
