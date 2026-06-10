@@ -543,12 +543,15 @@ void drive_disable(diskunit_context_t *drv)
     resources_get_int_sprintf("Drive%uTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     if (rom_loaded) {
-        if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+#if 0
+        if (drv->type == DRIVE_TYPE_2000 ||
+            drv->type == DRIVE_TYPE_4000 ||
             drv->type == DRIVE_TYPE_CMDHD) {
-            drivecpu65c02_sleep(drv);
+            /*drivecpu65c02_sleep(drv);*/
         } else {
-            drivecpu_sleep(drv);
+            /*drivecpu_sleep(drv);*/
         }
+#endif
         machine_drive_port_default(drv);
 
         for (drive = 0; drive < NUM_DRIVES; drive++) {
@@ -1034,8 +1037,10 @@ void drive_cpu_set_overflow(diskunit_context_t *drv)
 void drive_catch_up_one_hook(diskunit_context_t *unit, CLOCK clk_value)
 {
     if (unit->enable) {
-        /* in "no idle" mode we never need to catch up */
-        if (unit->idling_method != DRIVE_IDLE_NO_IDLE) {
+        /* CAUTION: In theory we never need to catch up in "no idle" mode,
+                    but if we don't do it a bunch of tests break. */
+        /* if (unit->idling_method != DRIVE_IDLE_NO_IDLE) */
+        {
             drive_cpu_execute_one(unit, clk_value);
         }
     }
