@@ -204,8 +204,12 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 void scpu64_mem_init(void)
 {
+    /* FIXME: xscpu64 does not (yet) support the "sc" way of handling the REU */
+#if 0
     /* Initialize REU BA low interface (FIXME find a better place for this) */
-    reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_REU);
+    /*reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_REU);*/
+    reu_ba_register(vicii_cycle_reu, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_REU);
+#endif
 }
 
 void mem_pla_config_changed(void)
@@ -818,7 +822,9 @@ static void scpu64_hardware_store(uint16_t addr, uint8_t value)
 
 static void colorram_store(uint16_t addr, uint8_t value)
 {
-    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) {
+        mem_sram[0x10000 + addr] = value;
+    }
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
@@ -1374,7 +1380,7 @@ void mem_initialize_memory(void)
                 l++;
             }
             /* Some areas are I/O or cartridge (NULL) or too slow and need cycle stretching */
-            range = (p == NULL || f == ram_read_int || f == scpu64rom_scpu64_read || f == chargen_read) ? 0 : ((j << 24) | ((l << 8)-3));
+            range = (p == NULL || f == ram_read_int || f == scpu64rom_scpu64_read || f == chargen_read) ? 0 : ((j << 24) | ((l << 8) - 3));
             while (j < l) {
                 mem_read_limit_tab[i][j] = range;
                 j++;
