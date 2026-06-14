@@ -49,20 +49,27 @@ static const feature_list_t featurelist[] = {
 #else
         0 },
 #endif
+/* Gtk3UI debugging support */
+    { "HAVE_DEBUG_GTK3UI", "Enable debugging messages in the Gtk3 UI.",
+#ifndef HAVE_DEBUG_GTK3UI
+        0 },
+#else
+        1 },
+#endif
+
+ /* (all) */
+    { "HAVE_EXPERIMENTAL_DEVICES", "Enable experimental devices",
+#ifndef HAVE_EXPERIMENTAL_DEVICES
+        0 },
+#else
+        1 },
+#endif
 /* (all) */
-    { "FEATURE_CPUMEMHISTORY", "Enable the memmap/chis feature in the monitor.",
-#ifndef FEATURE_CPUMEMHISTORY
-        0 },
+    { "HAVE_X64_IMAGE", "Support for X64 image files (deprecated)",
+#ifndef HAVE_X64_IMAGE
+      0 },
 #else
-        1 },
-#endif
-#ifdef MACOS_COMPILE /* (osx) */
-    { "HAS_HIDMGR", "Enable Mac IOHIDManager Joystick driver.",
-#ifndef HAS_HIDMGR
-        0 },
-#else
-        1 },
-#endif
+      1 },
 #endif
 #ifdef UNIX_COMPILE /* (unix) */
     { "HAS_USB_JOYSTICK", "Enable emulation for USB joysticks. (deprecated)",
@@ -72,56 +79,43 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(MACOS_COMPILE) /* (osx) */
-    { "HAVE_AUDIO_UNIT", "Enable AudioUnit support.",
-#ifndef HAVE_AUDIO_UNIT
+
+/* (all) */
+    { "FEATURE_CPUMEMHISTORY", "Enable the memmap/chis feature in the monitor.",
+#ifndef FEATURE_CPUMEMHISTORY
         0 },
 #else
         1 },
 #endif
+/* (all) */
+    { "USE_VICE_THREAD", "UI and emu each on different threads.",
+#  ifndef USE_VICE_THREAD
+        0 },
+#  else
+        1 },
+#  endif
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
+    { "INSTALL_DESKTOP_FILES", "Install XDG desktop files and icons.",
+#  ifndef INSTALL_DESKTOP_FILES
+        0 },
+#  else
+        1 },
+#  endif
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
-    { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
-#ifndef HAVE_CATWEASELMKIII
+/*
+ * Used in Gtk3 for Unix. Gtk3 can also use fontconfig as a backend on MacOS
+ * and Windows.
+ */
+    { "HAVE_FONTCONFIG", "Support dynamic font loading via Fontconfig.",
+#ifndef HAVE_FONTCONFIG
         0 },
 #else
         1 },
-#endif
 #endif
 
-#ifdef WINDOWS_COMPILE /* (windows) */
-    { "HAVE_DINPUT", "Use the DirectInput joystick driver",
-#ifndef HAVE_DINPUT
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/osx/windows) */
     { "HAVE_DYNLIB_SUPPORT", "Support dynamic library loading.",
 #ifndef HAVE_DYNLIB_SUPPORT
-        0 },
-#else
-        1 },
-#endif
-#endif
- /* (all) */
-    { "HAVE_EXPERIMENTAL_DEVICES", "Enable experimental devices",
-#ifndef HAVE_EXPERIMENTAL_DEVICES
-        0 },
-#else
-        1 },
-#endif
- /* (all) */
-    { "HAVE_GIF", "Use the GIF or UNGIF library",
-#ifndef HAVE_GIF
-        0 },
-#else
-        1 },
-#endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
-    { "HAVE_HARDSID", "Support for HardSID.",
-#ifndef HAVE_HARDSID
         0 },
 #else
         1 },
@@ -136,19 +130,22 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_IPV6", "Support IPv6",
-#ifndef HAVE_IPV6
+    { "HAVE_NANOSLEEP", "Use nanosleep instead of usleep",
+#ifndef HAVE_NANOSLEEP
         0 },
 #else
         1 },
 #endif
-/* All? */
-    { "HAVE_LIBCURL", "Use the libcurl library",
-#ifndef HAVE_LIBCURL
+
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
+    { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
+#ifndef HAVE_CATWEASELMKIII
         0 },
 #else
         1 },
 #endif
+#endif
+
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_LIBIEEE1284", "Enable IEEE1284 library for parallel port", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284
@@ -180,21 +177,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 
-/* (all) */
-    { "HAVE_NANOSLEEP", "Use nanosleep instead of usleep",
-#ifndef HAVE_NANOSLEEP
-        0 },
-#else
-        1 },
-#endif
 
-/* (all) */
-    { "HAVE_NETWORK", "Enable netplay support",
-#ifndef HAVE_NETWORK
-        0 },
-#else
-        1 },
-#endif
 
 #if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_REALDEVICE", "Support for OpenCBM", /* (former CBM4Linux). */
@@ -204,43 +187,19 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
-    { "HAVE_PARSID", "Support for ParSID.",
-#ifndef HAVE_PARSID
-        0 },
-#else
-        1 },
-#endif
-#endif
 
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_PORTSID", "Support for file device based access to ParSID.",
-#ifndef HAVE_PORTSID
-        0 },
-#else
-        1 },
-#endif
-#endif
-
-/* (all) */
-    { "HAVE_USBSID", "Enable USBSID support",
-#ifndef HAVE_USBSID
-        0 },
-#else
-        1 },
-#endif
-
-/* (all) */
-    { "HAVE_PNG", "Use the PNG library.",
-#ifndef HAVE_PNG
-        0 },
-#else
-        1 },
-#endif
+/* SID related stuff */
 
 /* (all) */
     { "HAVE_FASTSID", "Enable FASTSID support. (deprecated)",
 #ifndef HAVE_FASTSID
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "HAVE_RESIDFP", "Enable ReSIDfp support.",
+#ifndef HAVE_RESIDFP
         0 },
 #else
         1 },
@@ -268,6 +227,49 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
+    { "HAVE_HARDSID", "Support for HardSID.",
+#ifndef HAVE_HARDSID
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
+    { "HAVE_PARSID", "Support for ParSID.",
+#ifndef HAVE_PARSID
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_PORTSID", "Support for file device based access to ParSID.",
+#ifndef HAVE_PORTSID
+        0 },
+#else
+        1 },
+#endif
+#endif
+/* (all) */
+    { "HAVE_USBSID", "Enable USBSID support",
+#ifndef HAVE_USBSID
+        0 },
+#else
+        1 },
+#endif
+
+/* network stuff */
+
+/* (all) */
+    { "HAVE_NETWORK", "Enable netplay support",
+#ifndef HAVE_NETWORK
+        0 },
+#else
+        1 },
+#endif
+
 /* (all) */
     { "HAVE_RS232DEV", "Enable RS232 emulation.",
 #ifndef HAVE_RS232DEV
@@ -282,30 +284,22 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) /* (sdl) */
-    { "HAVE_SDL_NUMJOYSTICKS", "The SDL_NumJoysticks function is available",
-#ifndef HAVE_SDL_NUMJOYSTICKS
+
+/* All? */
+    { "HAVE_LIBCURL", "Use the libcurl library",
+#ifndef HAVE_LIBCURL
         0 },
 #else
         1 },
 #endif
-#endif
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_SYS_AUDIO_H", "The <sys/audio.h> header file is available.",
-#ifndef HAVE_SYS_AUDIO_H
+/* (all) */
+    { "HAVE_IPV6", "Support IPv6",
+#ifndef HAVE_IPV6
         0 },
 #else
         1 },
 #endif
-#endif
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_SYS_AUDIOIO_H", "The <sys/audioio.h> header file is available.",
-#ifndef HAVE_SYS_AUDIOIO_H
-        0 },
-#else
-        1 },
-#endif
-#endif
+
 /* (all) */
     { "HAVE_RAWNET", "Enable raw ethernet emulation.",
 #ifndef HAVE_RAWNET
@@ -314,6 +308,14 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_CAPABILITIES", "Support for POSIX 1003.1e capabilities",
+#ifndef HAVE_CAPABILITIES
+        0 },
+#else
+        1 },
+#endif
+#endif
 /* (all) */
     { "HAVE_PCAP", "Use the PCAP library.",
 #ifndef HAVE_PCAP
@@ -330,7 +332,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-
 #if !defined(WINDOWS_COMPILE) /* not windows */
     { "HAVE_TUNTAP", "Support for TUN/TAP virtual network interface.",
 #ifndef HAVE_TUNTAP
@@ -340,26 +341,57 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "HAVE_CAPABILITIES", "Support for POSIX 1003.1e capabilities",
-#ifndef HAVE_CAPABILITIES
+/* joystick / HID controller backend */
+
+#ifdef MACOS_COMPILE /* (osx) */
+    { "HAS_HIDMGR", "Enable Mac IOHIDManager Joystick driver.",
+#ifndef HAS_HIDMGR
         0 },
 #else
         1 },
 #endif
 #endif
-/* (all) */
-    { "HAVE_X64_IMAGE", "Support for X64 image files (deprecated)",
-#ifndef HAVE_X64_IMAGE
-      0 },
+#ifdef WINDOWS_COMPILE /* (windows) */
+    { "HAVE_DINPUT", "Use the DirectInput joystick driver",
+#ifndef HAVE_DINPUT
+        0 },
 #else
-      1 },
+        1 },
+#endif
+#endif
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) /* (sdl) */
+    { "HAVE_SDL_NUMJOYSTICKS", "The SDL_NumJoysticks function is available",
+#ifndef HAVE_SDL_NUMJOYSTICKS
+        0 },
+#else
+        1 },
+#endif
 #endif
 
-/* (all) */
-#ifdef UNIX_COMPILE /* (unix) */
-    { "LINUX_JOYSTICK", "Enable support for Linux style joysticks.",
-#ifndef LINUX_JOYSTICK
+/* sound backends */
+
+#if 0 /* not used anywhere except for selecting default driver in sound.s */
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_SYS_AUDIO_H", "The <sys/audio.h> header file is available.",
+#ifndef HAVE_SYS_AUDIO_H
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "HAVE_SYS_AUDIOIO_H", "The <sys/audioio.h> header file is available.",
+#ifndef HAVE_SYS_AUDIOIO_H
+        0 },
+#else
+        1 },
+#endif
+#endif
+#endif
+
+#if defined(UNIX_COMPILE) /* (unix) */
+    { "USE_OSS", "Enable OSS support.",
+#ifndef USE_OSS
         0 },
 #else
         1 },
@@ -373,6 +405,15 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
+
+#if defined(MACOS_COMPILE) /* (osx) */
+    { "HAVE_AUDIO_UNIT", "Enable AudioUnit support.",
+#ifndef HAVE_AUDIO_UNIT
+        0 },
+#else
+        1 },
+#endif
+#endif
 #if defined(MACOS_COMPILE) /* (osx) */
     { "USE_COREAUDIO", "Enable CoreAudio support.",
 #ifndef USE_COREAUDIO
@@ -381,6 +422,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
+
 #if defined(WINDOWS_COMPILE) /* (windows) */
     { "USE_DXSOUND", "Enable DirectX sound support.",
 #ifndef USE_DXSOUND
@@ -389,16 +431,34 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
+
 /* (all) */
-    { "USE_LAMEMP3", "Enable lamemp3 encoding support.",
-#ifndef USE_LAMEMP3
+    { "USE_PORTAUDIO", "Enable portaudio sound input support.",
+#ifndef USE_PORTAUDIO
         0 },
 #else
         1 },
 #endif
 /* (all) */
-    { "USE_PORTAUDIO", "Enable portaudio sound input support.",
-#ifndef USE_PORTAUDIO
+    { "USE_PULSE", "Enable pulseaudio support.",
+#ifndef USE_PULSE
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "USE_SDL_AUDIO", "Enable SDL sound support.",
+#ifndef USE_SDL_AUDIO
+        0 },
+#else
+        1 },
+#endif
+
+/* audio encoder */
+
+/* (all) */
+    { "USE_LAMEMP3", "Enable lamemp3 encoding support.",
+#ifndef USE_LAMEMP3
         0 },
 #else
         1 },
@@ -424,50 +484,19 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(UNIX_COMPILE) /* (unix) */
-    { "USE_OSS", "Enable OSS support.",
-#ifndef USE_OSS
-        0 },
-#else
-        1 },
-#endif
-#endif
+
+/* image encoder */
+
 /* (all) */
-    { "USE_PULSE", "Enable pulseaudio support.",
-#ifndef USE_PULSE
+    { "HAVE_GIF", "Use the GIF or UNGIF library",
+#ifndef HAVE_GIF
         0 },
 #else
         1 },
 #endif
 /* (all) */
-    { "USE_SDL_AUDIO", "Enable SDL sound support.",
-#ifndef USE_SDL_AUDIO
-        0 },
-#else
-        1 },
-#endif
-
-    { "USE_VICE_THREAD", "UI and emu each on different threads.",
-#  ifndef USE_VICE_THREAD
-        0 },
-#  else
-        1 },
-#  endif
-
-/*
- * Used in Gtk3 for Unix. Gtk3 can also use fontconfig as a backend on MacOS
- * and Windows.
- */
-    { "HAVE_FONTCONFIG", "Support dynamic font loading via Fontconfig.",
-#ifndef HAVE_FONTCONFIG
-        0 },
-#else
-        1 },
-#endif
-
-/* Gtk3UI debugging support */
-    { "HAVE_DEBUG_GTK3UI", "Enable debugging messages in the Gtk3 UI.",
-#ifndef HAVE_DEBUG_GTK3UI
+    { "HAVE_PNG", "Use the PNG library.",
+#ifndef HAVE_PNG
         0 },
 #else
         1 },

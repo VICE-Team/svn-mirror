@@ -166,9 +166,10 @@ static GtkWidget *create_content_widget(void)
     gtk_tree_sortable_set_sort_func(sortable, COL_ISDEFINED, sort_symbol_func,
             GINT_TO_POINTER(COL_ISDEFINED), NULL);
     /* set default sort order */
+#if 0 /* do not sort by default */
     gtk_tree_sortable_set_sort_column_id(sortable, COL_SYMBOL,
-            GTK_SORT_ASCENDING);
-
+             GTK_SORT_ASCENDING);
+#endif
     /* create view */
     view =  gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
     gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(view), TRUE);
