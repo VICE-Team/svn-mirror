@@ -451,7 +451,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
                 update_myviairq(via_context);
 #ifdef MYVIA_NEED_LATCHING
                 if (IS_PA_INPUT_LATCH()) {
-                    via_context->ila = (via_context->read_pra)(via_context, VIA_PRA);
+                    via_context->ila = (via_context->read_pra)(via_context, VIA_PRA, false);
                 }
 #endif
             }
@@ -870,7 +870,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             if ((!(via_context->via[addr] & VIA_ACR_PA_LATCH)) &&
                                     (byte & VIA_ACR_PA_LATCH)) {
                 if (via_context->ifr & VIA_IM_CA1) {
-                    via_context->ila = (via_context->read_pra)(via_context, addr);
+                    via_context->ila = (via_context->read_pra)(via_context, addr, false);
                 }
             }
             /* switch on port B latching, same as for port A */
@@ -1111,7 +1111,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             } else
 #endif
             {
-                byte = (via_context->read_pra)(via_context, addr);
+                byte = (via_context->read_pra)(via_context, addr, false);
                 /*
                  * Currently the latch is transparent, so there is no need
                  * to store the byte into it. That will happen next time
@@ -1143,7 +1143,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             } else
 #endif
             {
-                byte = (via_context->read_prb)(via_context);
+                byte = (via_context->read_prb)(via_context, false);
                 /* Same comment about transparent latch as for PA */
             }
             byte = (byte & ~(via_context->via[VIA_DDRB]))
@@ -1225,7 +1225,7 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
         case VIA_PRA_NHS: /* port A, no handshake */
             {
                 uint8_t byte;
-                /* WARNING: this pin reads the voltage of the output pins, not
+                /* WARNING: this reads the voltage of the output pins, not
                 the ORA value as the other port. Value read might be different
                 from what is expected due to excessive load. */
 #ifdef MYVIA_NEED_LATCHING
@@ -1234,8 +1234,7 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
                 } else
 #endif
                 {
-                    /* FIXME: side effects ? */
-                    byte = (via_context->read_pra)(via_context, addr);
+                    byte = (via_context->read_pra)(via_context, addr, true);
                 }
                 return byte;
             }
@@ -1249,8 +1248,7 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
                 } else
 #endif
                 {
-                    /* FIXME: side effects ? */
-                    byte = (via_context->read_prb)(via_context);
+                    byte = (via_context->read_prb)(via_context, true);
                 }
                 byte = (byte & ~(via_context->via[VIA_DDRB]))
                        | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);

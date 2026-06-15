@@ -218,10 +218,10 @@ inline static void store_t2l(via_context_t *via_context, uint8_t byte)
 {
 }
 
-inline static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
+inline static uint8_t read_pra(via_context_t *via_context, uint16_t addr, bool peek_only)
 {
-    uint8_t byte;
-    uint8_t joy_bits;
+    uint8_t byte, pa;
+    uint8_t joy_bits = 0xff;
 
     /*
         Port A is connected this way:
@@ -247,17 +247,24 @@ inline static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 
     /* We assume `iec_pa_read()' returns the non-IEC bits
        as zeroes. */
+    if (peek_only) {
+        pa = iec_pa_peek();
+    } else {
+        pa = iec_pa_read();
+    }
     byte = ((via_context->via[VIA_PRA] & via_context->via[VIA_DDRA])
-            | ((iec_pa_read() | joy_bits) & ~(via_context->via[VIA_DDRA])));
+            | ((pa | joy_bits) & ~(via_context->via[VIA_DDRA])));
     return byte;
 }
 
-inline static uint8_t read_prb(via_context_t *via_context)
+inline static uint8_t read_prb(via_context_t *via_context, bool peek_only)
 {
     uint8_t byte = 0xff;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
-    byte = read_userport_pbx(byte);
+    if (!peek_only) {
+        byte = read_userport_pbx(byte);
+    }
 
     return byte;
 }

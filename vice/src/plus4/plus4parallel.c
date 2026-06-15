@@ -62,6 +62,9 @@ void parallel_cable_drive_write(int port, uint8_t data, int handshake, unsigned 
     parallel_cable_drive_value[dnr] = data;
 }
 
+/*
+ * This function must have no side effects if handshake is false.
+ */
 uint8_t parallel_cable_drive_read(int type, int handshake)
 {
     return parallel_cable_cpu_value & parallel_cable_drive_value[0] & parallel_cable_drive_value[1];

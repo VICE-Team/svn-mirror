@@ -68,6 +68,7 @@ void iec_drive_write(uint8_t data, unsigned int dnr)
     iec_update_ports();
 }
 
+/* This function must have no side effects */
 uint8_t iec_drive_read(unsigned int dnr)
 {
     return iecbus.drv_port;
