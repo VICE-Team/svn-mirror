@@ -55,6 +55,7 @@ iecbus_t *iecbus_drive_port(void)
     return NULL;
 }
 
+/* This function must have no side effects */
 uint8_t iec_drive_read(unsigned int dnr)
 {
     /* FIXME: unused */

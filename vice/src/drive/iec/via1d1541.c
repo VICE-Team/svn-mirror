@@ -287,10 +287,11 @@ static void reset(via_context_t *via_context)
 {
 }
 
-static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
+static uint8_t read_pra(via_context_t *via_context, uint16_t addr, bool peek_only)
 {
     uint8_t byte;
     drivevia1_context_t *via1p;
+    bool handshake;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
@@ -298,7 +299,10 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
         || via1p->diskunit->type == DRIVE_TYPE_1571
         || via1p->diskunit->type == DRIVE_TYPE_1571CR) {
         uint8_t tmp;
-        rotation_rotate_disk(via1p->drive);
+
+        if (!peek_only) {
+            rotation_rotate_disk(via1p->drive);
+        }
         tmp = (via1p->drive->byte_ready_level ? 0 : 0x80)
               | (via1p->drive->current_half_track == 2 ? 0 : 1);
         return (tmp & ~(via_context->via[VIA_DDRA]))
@@ -309,8 +313,13 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
         case DRIVE_PC_STANDARD:
         case DRIVE_PC_21SEC_BACKUP:
         case DRIVE_PC_FORMEL64:
+            handshake = peek_only ? false :
+                        (((addr == VIA_PRA) &&
+                          (via_context->via[VIA_PCR] & 0xe) == 0xa)) ? true :
+                        false;
+
             byte = parallel_cable_drive_read(via1p->diskunit->parallel_cable,
-                                             (((addr == VIA_PRA) && (via_context->via[VIA_PCR] & 0xe) == 0xa)) ? 1 : 0);
+                                             handshake);
             break;
         default:
             byte = ((via_context->via[VIA_PRA] & via_context->via[VIA_DDRA])
@@ -334,7 +343,7 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
    IN mask:     1110 0101   0xe5
    OUT mask:    0001 1010   0x1a
 */
-static uint8_t read_prb(via_context_t *via_context)
+static uint8_t read_prb(via_context_t *via_context, bool peek_only)
 {
     uint8_t byte;
     uint8_t driveid;

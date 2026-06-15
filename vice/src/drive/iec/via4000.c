@@ -230,7 +230,7 @@ static void reset(via_context_t *via_context)
 {
 }
 
-static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
+static uint8_t read_pra(via_context_t *via_context, uint16_t addr, bool peek_only)
 {
     uint8_t byte;
     drivevia_context_t *viap;
@@ -252,7 +252,7 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
     return byte;
 }
 
-static uint8_t read_prb(via_context_t *via_context)
+static uint8_t read_prb(via_context_t *via_context, bool peek_only)
 {
     uint8_t byte;
     drivevia_context_t *viap;

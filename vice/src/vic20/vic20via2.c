@@ -170,13 +170,13 @@ static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr
               3 - cassette write
 */
 
-static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
+static uint8_t read_pra(via_context_t *via_context, uint16_t addr, bool peek_only)
 {
     uint8_t byte;
     /* FIXME: not 100% sure about this... */
     uint8_t val = ~(via_context->via[VIA_DDRA]);
     uint8_t msk = via_context->oldpb;
-    uint8_t joy = ~read_joyport_dig(JOYPORT_1);
+    uint8_t joy = peek_only ? 0 : ~read_joyport_dig(JOYPORT_1);
     int i;
 
     /* Bit 7 is mapped to the right direction of the joystick (bit
@@ -195,7 +195,7 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
     return byte;
 }
 
-static uint8_t read_prb(via_context_t *via_context)
+static uint8_t read_prb(via_context_t *via_context, bool peek_only)
 {
     uint8_t byte;
     /* FIXME: not 100% sure about this... */

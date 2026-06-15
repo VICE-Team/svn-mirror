@@ -220,6 +220,9 @@ void parallel_cable_drive_write(int type, uint8_t data, int handshake, unsigned 
     }
 }
 
+/*
+ * This function must have no side effects if handshake is false.
+ */
 uint8_t parallel_cable_drive_read(int type, int handshake)
 {
     int port;

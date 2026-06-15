@@ -32,6 +32,7 @@
 #include "types.h"
 
 void vic20iec_init(void);
+uint8_t iec_pa_peek(void);
 uint8_t iec_pa_read(void);
 void iec_pa_write(uint8_t data);
 void iec_pcr_write(uint8_t data);

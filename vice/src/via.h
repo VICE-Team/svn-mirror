@@ -213,8 +213,8 @@ typedef struct via_context_s {
     void (*store_sr)(struct via_context_s *, uint8_t);
     void (*sr_underflow)(struct via_context_s *);
     void (*store_t2l)(struct via_context_s *, uint8_t);
-    uint8_t (*read_pra)(struct via_context_s *, uint16_t);
-    uint8_t (*read_prb)(struct via_context_s *);
+    uint8_t (*read_pra)(struct via_context_s *, uint16_t, bool);
+    uint8_t (*read_prb)(struct via_context_s *, bool);
     void (*set_int)(struct via_context_s *, unsigned int, int, CLOCK);
     void (*restore_int)(struct via_context_s *, unsigned int, int);
     void (*set_ca2)(struct via_context_s *, int state);
