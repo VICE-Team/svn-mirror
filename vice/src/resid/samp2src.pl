@@ -24,6 +24,7 @@ die("Usage: samp2src name data-in src-out\n") unless @ARGV == 3;
 my ($name, $in, $out) = @ARGV;
 
 open(F, "<$in") or die($!);
+binmode F;
 local $/ = undef;
 my $data = <F>;
 close(F) or die($!);
