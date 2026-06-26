@@ -65,7 +65,7 @@ static char *boot_path = NULL;
 const char *archdep_boot_path(void)
 {
     const char *full_path;
-    char *p;
+    const char *p;
 
     if (boot_path != NULL) {
         /* already determined boot path, return */

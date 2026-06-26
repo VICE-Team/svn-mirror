@@ -397,7 +397,7 @@ static void detect_ide64_image(struct drive_s *drive)
     FILE *file;
     unsigned char header[24];
     size_t res;
-    char *ext;
+    const char *ext;
     ata_drive_geometry_t *geometry = &drive->detected;
 
     if (!ide64_rom_list_item) {

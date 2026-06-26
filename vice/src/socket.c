@@ -576,7 +576,7 @@ static int vice_network_address_generate_ipv4(
             /* an address string was specified, try to use it */
             struct hostent * host_entry;
 
-            char * port_part = NULL;
+            const char * port_part = NULL;
 
             /* try to find out if a port has been specified */
             port_part = strchr(address_string, ':');

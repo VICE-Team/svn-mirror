@@ -3297,7 +3297,8 @@ out2:
 int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
 {
     int status;
-    uint8_t *p, *po, *pc;
+    uint8_t *p, *po;
+    const uint8_t *pc;
     int length;
     cbmdos_cmd_parse_plus_t cmd;
 

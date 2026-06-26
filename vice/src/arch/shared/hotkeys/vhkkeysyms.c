@@ -96,7 +96,7 @@ static int compar(const void *p1, const void *p2)
  */
 uint32_t vhk_keysym_from_name(const char *name)
 {
-    void            *result;
+    const void *result;
     const vhk_key_t  key = { .name = name };
 
     result = bsearch((const void *)&key,

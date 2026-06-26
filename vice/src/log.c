@@ -615,7 +615,7 @@ static int log_archdep(const char *pretxt, const char *logtxt)
     const char *end = logtxt + strlen(logtxt) + 1;
 
     while (beg < end) {
-        char *eol = strchr(beg, '\n');
+        char *eol = (char*)strchr(beg, '\n');
 
         if (eol) {
             *eol = '\0';

@@ -317,7 +317,7 @@ char *util_subst(const char *s, const char *string, const char *replacement)
     sp = s;
     dp = result;
     do {
-        char *f = strstr(sp, string);
+        char *f = (char*)strstr(sp, string);
 
         if (f == NULL) {
             break;
@@ -729,7 +729,7 @@ int util_file_exists(const char *name)
 
 char *util_find_next_line(const char *pos)
 {
-    char *p = strchr(pos, '\n');
+    const char *p = strchr(pos, '\n');
 
     return (char *)(p == NULL ? pos : p + 1);
 }
@@ -834,9 +834,9 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
     memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
-char *util_get_extension(const char *filename)
+const char *util_get_extension(const char *filename)
 {
-    char *s;
+    const char *s;
 
     if (filename == NULL) {
         return NULL;
