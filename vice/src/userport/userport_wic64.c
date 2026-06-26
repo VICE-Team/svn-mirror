@@ -1490,7 +1490,7 @@ static int http_expand_url(char *final_url)
     }
 
     /* see below, noprintables in pid=.. need to be overruled, otherwise libcurl complains */
-    p = strstr((const char *)commandbuffer, "&pid=");
+    p = (char*)strstr((const char *)commandbuffer, "&pid=");
     if (p != NULL) {
         if (!isprint((unsigned char)*(p+5))) {
             wic64_log(CONS_COL_NO, "%s: patching &pid=X.", __FUNCTION__);

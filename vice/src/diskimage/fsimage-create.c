@@ -171,7 +171,8 @@ int fsimage_create_dxm(const char *name, const char *diskname, unsigned int type
     unsigned int partblock = 0;
     uint8_t block[256];
     int rc = 0;
-    char *dname, *comma;
+    char *dname;
+    const char *comma;
     uint8_t id[2];
     unsigned int i, j;
 

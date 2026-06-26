@@ -288,7 +288,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                  * like with other file types.
                  */
                 {
-                    uint8_t *comma = memchr(p+1, ',', cmdlen);
+                    const uint8_t *comma = memchr(p+1, ',', cmdlen);
                     if (comma && p + cmdlen > comma + 1) {
                         cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
 
@@ -506,7 +506,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                              * Allow extra text between L and the comma,
                              * like with other file types.
                              */
-                            uint8_t *comma = memchr(p + 1, ',', limit - (p + 1));
+                            const uint8_t *comma = memchr(p + 1, ',', limit - (p + 1));
                             if (comma && comma + 1 < limit) {
                                 cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
 #ifdef DEBUG_CBMDOS

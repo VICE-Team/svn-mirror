@@ -243,7 +243,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
 static int disk_image_check_for_d81(disk_image_t *image)
 {
     unsigned int blk = 0;
-    char *ext;
+    const char *ext;
     size_t len;
     uint8_t block[256];
     fsimage_t *fsimage;
@@ -538,7 +538,7 @@ static int disk_image_check_for_p64(disk_image_t *image)
 static int disk_image_check_for_d1m(disk_image_t *image)
 {
     unsigned int blk = 0;
-    char *ext;
+    const char *ext;
     size_t len;
     uint8_t block[256];
     fsimage_t *fsimage;

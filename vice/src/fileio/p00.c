@@ -70,7 +70,7 @@ static const unsigned char p00_hdr_magic_string[8] = "C64File";
 static int p00_check_name(const char *name)
 {
     int t = -1;
-    char *p;
+    const char *p;
 
     if (name == NULL || (p = strrchr(name, '.')) == NULL || strlen(++p) != 3) {
         return -1;
