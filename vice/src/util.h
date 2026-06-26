@@ -51,7 +51,7 @@ void util_remove_spaces(char *s);
 void util_add_extension(char **name, const char *extension);
 char *util_add_extension_const(const char *filename, const char *extension);
 void util_add_extension_maxpath(char *name, const char *extension, unsigned int maxpath);
-char *util_get_extension(const char *filename);
+const char *util_get_extension(const char *filename);
 
 int util_file_exists(const char *name);
 int util_file_load(const char *name, uint8_t *dest, size_t size, unsigned int load_flag);
