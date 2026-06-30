@@ -22,9 +22,13 @@ gtk_joymaps =	gtk3_joymap_ds3.vjm \
 		gtk3_joymap_ds4.vjm \
 		gtk3_joymap_ds4_windows.vjm \
 		gtk3_joymap_ds5.vjm \
+		gtk3_joymap_logitech_x3dpro.vjm \
 		gtk3_joymap_logitech_x3dpro_windows.vjm \
+		gtk3_joymap_switch_pro.vjm \
 		gtk3_joymap_switch_pro_windows.vjm \
+		gtk3_joymap_thec64.vjm \
 		gtk3_joymap_thec64_windows.vjm \
+		gtk3_joymap_xbox_one.vjm \
 		gtk3_joymap_xbox_one_windows.vjm
 
 EXTRA_DIST = $(sdl_joymaps) $(gtk_joymaps)
