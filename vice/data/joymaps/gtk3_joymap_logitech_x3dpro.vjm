@@ -1,0 +1,89 @@
+# VICE joystick mapping file
+#
+# A joystick map is read in as patch to the current map.
+#
+# File format:
+# - comment lines start with '#'
+# - keyword lines start with '!keyword'
+# - normal line has 'joynum inputtype inputindex action'
+#
+# Keywords and their lines are:
+# '!CLEAR'    clear all mappings
+#
+# inputtype:
+# 0      axis
+# 1      button
+# 2      hat
+#
+# For buttons, inputindex is the zero-based index of the button.
+# For hats: hat 0 has inputindex 0,1,2,3 respectively for up, down, left and
+# right. Hat 1 has 5,6,7,8 etc.
+# For axes, and action 1 (joystick) and 2 (keyboard): axis 0 has inputindex
+# 0,1 respectively for positive and negative, axis 1 has 2,3 etc.
+# For axes, and action 6 (pot axis): inputindex is the zero-based index of the
+# axis.
+#
+# action [action_parameters]:
+# 0                none
+# 1 pin            joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)
+# 2 row col flags  keyboard (flags: 1=shift)
+# 3                map
+# 4                UI activate
+# 5 action-name    UI function
+# 6 pot            potentiometer (1=pot x, 2=pot y)
+#
+
+!CLEAR
+
+# [046d:c215] "Logitech Logitech Extreme 3D" (6 axes, 12 buttons, 0 hats) Linux, GTK
+
+# X Axis    > Right/left
+0 0 0 1 8
+0 0 1 1 4
+
+# Y Axis    > Down/up
+0 0 2 1 2
+0 0 3 1 1
+
+# Twist/Z   > Pot X
+0 0 2 6 1
+
+# Throttle  > Pot Y
+0 0 3 6 2
+
+# Hat/D-Pad > Left/right
+0 0 8 1 8
+0 0 9 1 4
+
+# Hat/D-Pad > Up/down
+0 0 10 1 2
+0 0 11 1 1
+
+# Trigger   > Fire
+0 1 0 1 16
+
+# Thumb (2) > Fire2 / SNES-Y
+0 1 1 1 32
+
+# Button 3  > Fire3 / SNES-A
+0 1 2 1 64
+
+# Button 4  > Fire4 / SNES-X
+0 1 3 1 128
+
+# Btns 5-6  > LB / RB
+0 1 4 1 256
+0 1 5 1 512
+
+# Btns 7-8  > Select / Start
+0 1 6 1 1024
+0 1 7 1 2048
+
+# Buttons 9-11 unmapped
+0 1 8 0
+0 1 9 0
+0 1 10 0
+
+# Button 12 > Pause
+0 1 11 5 pause-toggle
+
