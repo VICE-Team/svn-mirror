@@ -8,11 +8,14 @@ sdl_joymaps =	sdl_joymap_8bitdo_6b.vjm \
 		sdl_joymap_ds4_windows.vjm \
 		sdl_joymap_ds5.vjm \
 		sdl_joymap_keyrah_v3.vjm \
+		sdl_joymap_logitech_x3dpro.vjm \
 		sdl_joymap_logitech_x3dpro_windows.vjm \
+		sdl_joymap_switch_pro.vjm \
 		sdl_joymap_switch_pro_windows.vjm \
 		sdl_joymap_thec64.vjm \
 		sdl_joymap_thec64_windows.vjm \
 		sdl_joymap_xbox360.vjm \
+		sdl_joymap_xbox_one.vjm \
 		sdl_joymap_xbox_one_windows.vjm
 
 gtk_joymaps =	gtk3_joymap_ds3.vjm \
