@@ -101,7 +101,7 @@
  */
 #if 0
 # ifndef PATH_MAX
-#  if defined(BSD_COMPILE) || 
+#  if defined(BSD_COMPILE) ||
 #   include <sys/syslimits.h>
 #  endif
 # endif
