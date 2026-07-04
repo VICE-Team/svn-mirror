@@ -91,6 +91,9 @@
 #ifdef WINDOWS_COMPILE
 # include <stdlib.h>
 # define ARCHDEP_PATH_MAX   _MAX_PATH
+#elif defined(MACOS_COMPILE)
+# include <libproc.h>
+# define ARCHDEP_PATH_MAX   PROC_PIDPATHINFO_MAXSIZE
 #elif defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <limits.h>
 /* Not sure we need this fallback: on FreeBSD, NetBSD and OpenBSD using
@@ -98,7 +101,7 @@
  */
 #if 0
 # ifndef PATH_MAX
-#  if defined(BSD_COMPILE) || defined(MACOS_COMPILE)
+#  if defined(BSD_COMPILE) || 
 #   include <sys/syslimits.h>
 #  endif
 # endif
