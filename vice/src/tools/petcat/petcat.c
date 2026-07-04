@@ -139,7 +139,8 @@ typedef enum {
     B_EVE,
     B_TT64,
     B_HANDY,
-    B_65            /* Basic 65 on the Mega65 */
+    B_65,           /* Basic 65 on the Mega65 */
+    B_MDBASIC       /* MDBASIC (C64) by Mark D. Bowren */
 } basic_version_t;
 
 /* Handy Basic (VIC20) -- Tokens 0xCC - 0xE1 */
@@ -540,6 +541,26 @@ static const char *tt64kwdb[] = {
     "display", "trace", "off",     "hcopy",  "joy"
 };
 
+/* MDBASIC (C64) by Mark D. Bowren -- Tokens 0xCB - 0xFE
+ *
+ * MDBASIC is a BASIC v2.0 extension cartridge. It re-uses the GO token
+ * ($CB) for its first keyword "off" and adds keywords through $FE. Token
+ * $FF stays the standard pi symbol. Keyword order and spelling are taken
+ * directly from the MDBASIC source (the "newcmd" .shift table), so each
+ * entry here lines up with one token starting at $CB.
+ */
+
+static const char *mdbasickwcb[] = {
+    "off",    "else",   "merge",  "dump",   "vars",   "circle", "fill",
+    "scroll", "swap",   "cursor", "disk",   "delete", "files",  "color",
+    "move",   "sprite", "sprcol", "find",   "serial", "design", "trace",
+    "mapcol", "plot",   "line",   "paint",  "draw",   "renum",  "text",
+    "screen", "resume", "envelope", "wave", "voice",  "pulse",  "vol",
+    "filter", "play",   "auto",   "old",    "err",    "key",    "time",
+    "round",  "trim",   "mod",    "ptr",    "inf",    "pen",    "joy",
+    "pot",    "hex$",   "instr"
+};
+
 typedef struct basic_list_s {
     uint8_t version;
     uint8_t num_tokens;
@@ -606,6 +627,7 @@ static basic_list_t basic_list[] = {
     { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      0, 0, 0, "Basic v2.0 with The Tool 64 (C64)" },
     { B_HANDY,    22, 0xE1, 0x1801, 0, 0xCC, handykwcc,         "handy",     0, 0, 0, "Basic v2.0 with Handy Basic v1.0 (VIC20)" },
     { B_65,       85, 0x54, 0x2001, 2, 0,    NULL, /* fix */    "65",        0, 1, 1, "Basic v65.0 (Mega65)" },
+    { B_MDBASIC,  52, 0xFE, 0x0801, 0, 0xCB, mdbasickwcb,       "mdbasic",   0, 0, 0, "Basic v2.0 with MDBASIC (C64)" },
     { 0,          0,  0,    0,     0 , 0,    NULL,              NULL,        0, 0, 0, NULL }
 };
 
@@ -1636,6 +1658,9 @@ static void list_keywords(int version)
                (version == B_10) ||
                (version == B_65)) {
         max = basic_list[B_35 - 1].num_tokens;
+    } else if (version == B_MDBASIC) {
+        /* MDBASIC re-uses the GO token as "off", so omit "go" here. */
+        max = basic_list[B_2 - 1].num_tokens - 1;
     } else {
         max = basic_list[B_2 - 1].num_tokens;
     }
@@ -1715,6 +1740,7 @@ static void list_keywords(int version)
             case B_SIMON:
             case B_TT64:
             case B_HANDY:
+            case B_MDBASIC:
                 for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
                     printf("%s\t", basic_list[version -1].tokens[n] /*, n + 0xcc*/);
                 }
@@ -2093,7 +2119,14 @@ static int detokenize_basic_to_ascii(int version, int addr, int ctrls)
                 }
 
                 /* check for keywords common to all versions, include pi */
-                if (c <= basic_list[B_1 - 1].max_token || c == 0xff) {
+                /* MDBASIC re-uses the GO token ($CB) and the slots up to $FE
+                 * for its own keywords, so those must fall through to the
+                 * extension table below instead of the common keyword list.
+                 * Token $FF (pi) is still shared. */
+                if ((c <= basic_list[B_1 - 1].max_token || c == 0xff) &&
+                    !(version == B_MDBASIC &&
+                      c >= basic_list[version - 1].token_start &&
+                      c <= basic_list[version - 1].max_token)) {
                     fprintf(dest, "%s", keyword[c & 0x7f]);
 
                     if (c == 0x9E) {
@@ -2181,6 +2214,7 @@ static int detokenize_basic_to_ascii(int version, int addr, int ctrls)
                     case B_EVE:
                     case B_TT64:
                     case B_HANDY:
+                    case B_MDBASIC:       /* C64 MDBASIC */
                         if ((basic_list[version - 1].tokens) &&
                             (c >= basic_list[version - 1].token_start) &&
                             (c <= basic_list[version - 1].max_token)) {
@@ -2262,6 +2296,14 @@ static int detokenize_basic_to_ascii(int version, int addr, int ctrls)
                     }
                 }
             } else {
+
+                /* MDBASIC: an apostrophe (') outside quotes is an alternate
+                 * REM. Switch into REM mode so the rest of the line is copied
+                 * verbatim instead of being escaped or re-tokenized, exactly
+                 * as the tokenize path treats it. */
+                if (version == B_MDBASIC && !quote && !rem && !data && c == '\'') {
+                    rem = 1;
+                }
 
                 if (!quote && !rem && !data) {
                     int n = 0;
@@ -2430,6 +2472,16 @@ static void tokenize_ascii_to_basic(int version, unsigned int addr, int ctrls)
 
             match = 0;
             match2 = 0;
+
+            /*
+             * MDBASIC: an apostrophe (') outside quotes starts an alternate
+             * REM. Switch into REM mode so the rest of the line is copied
+             * verbatim instead of being tokenized; the ' itself is copied as
+             * a literal character by the if (!match) block below.
+             */
+            if (version == B_MDBASIC && !quote && !rem && !data && *p2 == '\'') {
+                rem = 1;
+            }
 
                 /*
                  * control code evaluation
@@ -2644,6 +2696,11 @@ static void tokenize_ascii_to_basic(int version, unsigned int addr, int ctrls)
                                (version == B_65) ||
                                (version == B_SXC)) {
                         max = basic_list[B_35 - 1].num_tokens;
+                    } else if (version == B_MDBASIC) {
+                        /* MDBASIC re-uses the GO token ($CB) as "off", so drop
+                         * "go" from the common keyword set here; it is matched
+                         * from the MDBASIC extension table instead. */
+                        max = basic_list[B_2 - 1].num_tokens - 1;
                     } else {
                         max = basic_list[B_2 - 1].num_tokens;
                     }
@@ -2704,6 +2761,7 @@ static void tokenize_ascii_to_basic(int version, unsigned int addr, int ctrls)
                     case B_WARSAW:
                     case B_SUPERBAS:
                     case B_HANDY:
+                    case B_MDBASIC:
                         if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                             if (match) {
                                 if ((int)kwlen >= kwlentmp) {
