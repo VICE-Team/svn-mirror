@@ -22,7 +22,7 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    $ sudo port -N selfupdate
    $ sudo port -N -s install coreutils libomp
    $ sudo port -N -s install gtk3 +quartz
-   $ sudo port -N -s install librsvg adwaita-icon-theme libsdl2 libsdl2_image lame glew libvorbis flac libjpeg-turbo
+   $ sudo port -N -s install librsvg adwaita-icon-theme libsdl2 libsdl2_image lame glew libvorbis flac libjpeg-turbo bash
    $ sudo port -N -s install ffmpeg +darwinssl
    $ sudo port -N install platypus xa texlive-basic dos2unix
 

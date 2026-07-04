@@ -30,7 +30,7 @@ $ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic do
 Gtk3:
 
 $ sudo port install gtk3 +quartz
-$ sudo port install librsvg adwaita-icon-theme glew
+$ sudo port install librsvg adwaita-icon-theme glew bash
 
 SDL2:
 
@@ -40,7 +40,7 @@ $ sudo port install libsdl2 libsdl2_image libpng
 Homebrew:
 ---------
 
-$ brew install autoconf automake pkg-config xa lame texinfo dos2unix libomp
+$ brew install autoconf automake pkg-config xa lame texinfo dos2unix libomp bash
 $ brew install basictex
 
 Gtk3:

@@ -1,4 +1,13 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
+if [ -z "$BASH_VERSINFO" ] || [ "$BASH_VERSINFO" -lt 4 ]; then
+    echo "Bash version 4 or higher is required"
+    # if macos, install bash via homebrew and run this script with the full path to the new bash
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "On macOS, install bash via macports or homebrew and try again."
+    fi
+    exit 1
+fi
 
 SCRIPTDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 #echo SCRIPTDIR: $SCRIPTDIR
