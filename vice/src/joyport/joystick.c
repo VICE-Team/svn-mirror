@@ -3044,9 +3044,6 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
 
     if (poll_state == JOY_POLL_NONE) {
         return;
-    } else if (poll_state == JOY_POLL_UI) {
-        joystick_ui_event(axis, JOY_INPUT_AXIS, value);
-        return;
     }
 #endif
 
@@ -3054,6 +3051,14 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
     if (direction == prev) {
         return;
     }
+    axis->prev = direction;
+
+#if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
+    if (poll_state == JOY_POLL_UI && direction != JOY_AXIS_MIDDLE) {
+        joystick_ui_event(axis, JOY_INPUT_AXIS, value);
+        return;
+    }
+#endif
 
     DBG(("joy_axis_event: joy: %s axis: %d value: %d: direction: %d prev: %d",
          axis->device->name, axis->index, value, direction, prev));
@@ -3073,8 +3078,6 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
     if (direction == JOY_AXIS_NEGATIVE) {
         joy_perform_event(&axis->mapping.negative, joyport, 1);
     }
-
-    axis->prev = direction;
 }
 
 
