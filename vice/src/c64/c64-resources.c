@@ -122,12 +122,15 @@ static int set_kernal_rom_name(const char *val, void *param)
             /* file was not loaded yet, so check if it exists and assume it is valid if so */
             char *fullpath = NULL;
             if (sysfile_locate(val, machine_name, &fullpath) != 0) {
-                log_error(res_log, "failed to set KernalName (%s).", val);
-                return -1;
+                if (!archdep_path_is_relative(val)) {
+                    log_error(res_log, "failed to set KernalName (%s).", val);
+                    return -1;
+                }        
+            } else {
+                /* get kernal revision for this file */
+                kernal_revision = c64rom_get_kernal_file_chksum_id(fullpath, NULL, NULL, NULL);
+                lib_free(fullpath);
             }
-            /* get kernal revision for this file */
-            kernal_revision = c64rom_get_kernal_file_chksum_id(fullpath, NULL, NULL, NULL);
-            lib_free(fullpath);
             break;
         }
         case -1:
