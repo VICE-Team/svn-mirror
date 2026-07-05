@@ -1400,7 +1400,7 @@ static void mappings_joystick_event(void *input, joystick_input_t type, int32_t 
     }
 }
 
-void joystick_ui_event(void *input, joystick_input_t type, int32_t value)
+void joystick_ui_event(void *input, joystick_input_t type, int32_t value, bool major_change)
 {
     mainlock_assert_is_not_vice_thread();
 
@@ -1411,7 +1411,10 @@ void joystick_ui_event(void *input, joystick_input_t type, int32_t value)
     if (gtk_stack_get_visible_child(GTK_STACK(joymap_stack)) == global_widgets.inputs_grid) {
         inputs_joystick_event(input, type, value);
     } else if (gtk_stack_get_visible_child(GTK_STACK(joymap_stack)) == global_widgets.mappings_grid) {
-        mappings_joystick_event(input, type, value);
+        /* Avoid constantly auto selecting noisy axis inputs in mapping UI. */
+        if (major_change) {
+            mappings_joystick_event(input, type, value);
+        }
     }
 
 
