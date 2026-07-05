@@ -49,6 +49,13 @@ char *archdep_get_vice_datadir(void)
 {
     char *path;
 
+    /* First check for VICE_DATADIR environment variable, if set use that as the data dir */
+    const char *env_datadir = getenv("VICE_DATADIR");
+    if (env_datadir != NULL) {
+        path = lib_strdup(env_datadir);
+        return path;
+    }
+
 #ifdef WINDOWS_COMPILE
 # if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI)
     path = lib_strdup(archdep_boot_path());
