@@ -600,10 +600,11 @@ void joystick_ui_poll_teardown(void);
 
 /** \brief  Callback for the UI to receive joystick events
  *
- * \param[in]   input   event source (#joystick_axis_t, #joystick_button_t or #joystick_hat_t)
- * \param[in]   type    type of \a input
- * \param[in]   value   raw value for \a input
+ * \param[in]   input          event source (#joystick_axis_t, #joystick_button_t or #joystick_hat_t)
+ * \param[in]   type           type of \a input
+ * \param[in]   value          raw value for \a input
+ * \param[in]   major_change   whether this represents a major change in the value of \a input (e.g. axis direction change, button press or release, or a hat direction change)
  */
-void joystick_ui_event(void *input, joystick_input_t type, int32_t value);
+void joystick_ui_event(void *input, joystick_input_t type, int32_t value, bool major_change);
 
 #endif

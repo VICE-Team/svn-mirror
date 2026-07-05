@@ -3039,26 +3039,27 @@ void joy_axis_event(joystick_axis_t *axis, int32_t value)
     joystick_axis_value_t prev    = axis->prev;
     int                   joyport = axis->device->joyport;
 
+    direction = joystick_axis_direction(axis, value);
+
 #if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
     unsigned int           poll_state = axis->device->status & JOY_POLL_MASK;
 
     if (poll_state == JOY_POLL_NONE) {
         return;
     }
+
+    if (poll_state == JOY_POLL_UI) {
+        // Report to the UI even if the direction is the same as the previous one, as long as it's not middle
+        joystick_ui_event(axis, JOY_INPUT_AXIS, value, direction != prev);
+        axis->prev = direction;
+        return;
+    }
 #endif
 
-    direction = joystick_axis_direction(axis, value);
     if (direction == prev) {
         return;
     }
     axis->prev = direction;
-
-#if !(defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI))
-    if (poll_state == JOY_POLL_UI && direction != JOY_AXIS_MIDDLE) {
-        joystick_ui_event(axis, JOY_INPUT_AXIS, value);
-        return;
-    }
-#endif
 
     DBG(("joy_axis_event: joy: %s axis: %d value: %d: direction: %d prev: %d",
          axis->device->name, axis->index, value, direction, prev));
@@ -3131,7 +3132,7 @@ void joy_button_event(joystick_button_t *button, int32_t value)
     if (poll_state == JOY_POLL_NONE) {
         return;
     } else if (poll_state == JOY_POLL_UI) {
-        joystick_ui_event(button, JOY_INPUT_BUTTON, value);
+        joystick_ui_event(button, JOY_INPUT_BUTTON, value, true);
         return;
     }
 #endif
@@ -3163,7 +3164,7 @@ void joy_hat_event(joystick_hat_t *hat, int32_t value)
     if (poll_state == JOY_POLL_NONE) {
         return;
     } else if (poll_state == JOY_POLL_UI) {
-        joystick_ui_event(hat, JOY_INPUT_HAT, value);
+        joystick_ui_event(hat, JOY_INPUT_HAT, value, true);
         return;
     }
 #endif
