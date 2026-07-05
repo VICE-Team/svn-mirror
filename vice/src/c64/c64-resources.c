@@ -122,10 +122,16 @@ static int set_kernal_rom_name(const char *val, void *param)
             /* file was not loaded yet, so check if it exists and assume it is valid if so */
             char *fullpath = NULL;
             if (sysfile_locate(val, machine_name, &fullpath) != 0) {
+                /* absolute path, not found: do not set kernal_rom_name, will be a fatal error later.
+                   relative path, not found: probably expanded_system_path has not been initialised.
+                   Set kernal_rom_name now. When c64rom_load_kernal() is called again, it will be
+                   with the rom file name that has been set here. And, if expanded_system_path
+                   has been initialised in the meantime, and the rom file exists in the path,
+                   things will work */
                 if (!archdep_path_is_relative(val)) {
                     log_error(res_log, "failed to set KernalName (%s).", val);
                     return -1;
-                }        
+                }
             } else {
                 /* get kernal revision for this file */
                 kernal_revision = c64rom_get_kernal_file_chksum_id(fullpath, NULL, NULL, NULL);
