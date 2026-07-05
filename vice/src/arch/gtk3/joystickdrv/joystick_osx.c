@@ -132,8 +132,8 @@ static joystick_axis_t *make_axis(joy_hid_element_t *element, char *name)
 
     log_message(
         LOG_DEFAULT,
-        "joy-hid: axis: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
-        element->usage_page, element->usage, element->min_pvalue, element->max_pvalue, element->min_lvalue, element->max_lvalue);
+        "joy-hid: axis: usage_page=0x%x usage=0x%x pmin=%d pmax=%d lmin=%d lmax=%d",
+        (unsigned int)element->usage_page, (unsigned int)element->usage, element->min_pvalue, element->max_pvalue, element->min_lvalue, element->max_lvalue);
 
     axis = joystick_axis_new(name);
     axis->code = HID_CODE(element->usage_page, element->usage);
