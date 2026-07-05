@@ -36,7 +36,7 @@ gtk_joymaps =	gtk3_joymap_ds3.vjm \
 		gtk3_joymap_ds3_macos.vjm \
 		gtk3_joymap_ds4_macos.vjm \
 		gtk3_joymap_ds5_macos.vjm \
-		gtk3_joymap_xbox_maxos.vjm
+		gtk3_joymap_xbox_macos.vjm
 
 EXTRA_DIST = $(sdl_joymaps) $(gtk_joymaps)
 # Do not install joymaps files when configured for headless
