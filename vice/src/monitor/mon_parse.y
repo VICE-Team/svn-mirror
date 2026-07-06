@@ -1238,7 +1238,7 @@ int parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    mon_clear_buffer();
-   if ( (rc =yyparse()) != 0) {
+   if ((rc = yyparse()) != 0) {
        mon_out("ERROR -- ");
        switch(rc) {
          case ERR_BAD_CMD:
@@ -1291,8 +1291,9 @@ int parse_and_execute_line(char *input)
            mon_out("Wrong syntax:\n");
        }
        mon_out("  %s\n", input);
-       for (i = 0; i < last_len; i++)
+       for (i = 0; i < last_len; i++) {
            mon_out(" ");
+       }
        mon_out("  ^\n");
        asm_mode = 0;
        new_cmd = 1;
