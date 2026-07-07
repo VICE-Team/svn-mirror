@@ -52,7 +52,7 @@ struct video_canvas_s *vdc_get_canvas(void);
 void vdc_reset(void);
 void vdc_trigger_light_pen(CLOCK mclk);
 CLOCK vdc_lightpen_timing(int x, int y);
-void vdc_prepare_for_snapshot(void);
+void vdc_snapshot_prepare(void);
 void vdc_powerup(void);
 void vdc_resize(void);
 void vdc_screenshot(struct screenshot_s *screenshot);

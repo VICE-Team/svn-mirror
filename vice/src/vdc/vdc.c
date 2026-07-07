@@ -475,20 +475,16 @@ static void vdc_set_video_mode(void)
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     unsigned int i, j;
-    static unsigned int vdc_row_counter_latch = 0;
-    static unsigned int vdc_draw_counter_latch = 0;
-    static unsigned int vdc_vert_fine_adj = 0;
-    static unsigned int stable_size_count = 0;
 
     /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
-    if (vdc_row_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
+    if (vdc.row_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
         /* We've just drawn the last raster line of the current character row,
             so handle a new row from the video signal side:
             - restart internal counters if we've displayed a full frame
             - drawing starting e.g. pass top border
             - drawing stopping e.g. pass into bottom border
             - start or stop vsync pulse */
-        vdc_row_counter_latch = 0;
+        vdc.row_counter_latch = 0;
         vdc.row_counter_y = ~(vdc.row_counter_y ^ vdc.regs[9]);   /* XNOR */
         vdc.row_counter_y &= vdc.interlaced;    /* always 0 if non-interlaced, otherwise keep bottom bit of above */
 
@@ -511,8 +507,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             FIXME comparison looks wrong, probably not a > ?    */
         if (vdc.row_counter > (vdc.regs[4])) {
             /* FIXME handle vertical fine adjust (reg#5>0) a bit cleaner and handle edge cases */
-            if (vdc_vert_fine_adj || (vdc.regs[5] & 0x1F) == 0 || (vdc.regs[5] & 0x1F) == (vdc.regs[9] & 0x1F)) {
-                vdc_vert_fine_adj = 0;
+            if (vdc.vert_fine_adj || (vdc.regs[5] & 0x1F) == 0 || (vdc.regs[5] & 0x1F) == (vdc.regs[9] & 0x1F)) {
+                vdc.vert_fine_adj = 0;
                 vdc.row_counter = 0;
                 /* we reset the raster line counter to 0, except if we are interlaced (==1) and on an odd frame */
                 vdc.row_counter_y = vdc.interlaced & vdc.frame_counter;
@@ -555,7 +551,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 }
                 vdc.draw_finished = 1;
             } else {    /* now in vertical adjust area where things work different */
-                vdc_vert_fine_adj = 1;
+                vdc.vert_fine_adj = 1;
             }
         }
 
@@ -572,9 +568,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             /* Check if the screen size has changed and if it's been stable for enough frames, update the canvas size appropriately */
             if (vdc.raster.current_line != vdc.canvas_height_old) {
                 vdc.canvas_height_old = vdc.raster.current_line;
-                stable_size_count = 0;  /* the size changed again so reset our stable size counter back to 0 */
+                vdc.stable_size_count = 0;  /* the size changed again so reset our stable size counter back to 0 */
                 /* printf("height changed! current_line: %03u \n", vdc.raster.current_line); */
-            } else if (stable_size_count == 10) {   /* we've had a few frames of stable size so lock it in and resize the window */
+            } else if (vdc.stable_size_count == 10) {   /* we've had a few frames of stable size so lock it in and resize the window */
                 /* For now do a simple check of the frame size at the mid-point between PAL (288) & NTSC (240)
                     to catch NTSC <> PAL changes, until we do a proper dynamic resize.
                     FIXME: aspect ratio won't change because it's looking at MachineVideoStandard.. */
@@ -586,18 +582,18 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     vdc.vsync_height = 25;  /* height of the vsync area in PAL is ~25 raster lines */
                 }
                 vdc.update_geometry = 1;
-                stable_size_count++;
+                vdc.stable_size_count++;
 #ifdef UNUSED_CODE
                 /* make sure we have a sane height and ignore if not */
                 if (vdc.raster.current_line < 710) {
                     vdc.canvas_height = vdc.raster.current_line;
                     vdc.update_geometry = 1;
                 } else {
-                    stable_size_count = 0;  /* no thanks, reset & keep waiting. maintains current size */
+                    vdc.stable_size_count = 0;  /* no thanks, reset & keep waiting. maintains current size */
                 }
 #endif
             } else {
-                stable_size_count++;
+                vdc.stable_size_count++;
             }
         }
     } else {
@@ -606,13 +602,13 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
 
     /* Check if this is the last raster line of the current row, and latch so */
-    if (vdc_vert_fine_adj) {    /* vertical fine adjust area has a different comparison */
+    if (vdc.vert_fine_adj) {    /* vertical fine adjust area has a different comparison */
         if (vdc.row_counter_y == (vdc.regs[5] & 0x1F) || (vdc.row_counter_y + vdc.interlaced) == (vdc.regs[5] & 0x1F)) {
-            vdc_row_counter_latch = 1;
+            vdc.row_counter_latch = 1;
         }
     } else {    /* normal case, compare with reg #9 */
         if (vdc.row_counter_y == (vdc.regs[9] & 0x1F) || (vdc.row_counter_y + vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
-            vdc_row_counter_latch = 1;
+            vdc.row_counter_latch = 1;
         }
     }
 
@@ -726,7 +722,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             /* set up for smooth scroll comparison */
             vdc.draw_counter_y = (vdc.regs[24] & 0x1F);     /* this could be moved up into the screen handling section? */
             vdc.draw_counter = 0;
-            vdc_draw_counter_latch = 0;
+            vdc.draw_counter_latch = 0;
             if (vdc.interlaced & vdc.frame_counter) {
                 vdc.draw_counter_y = (vdc.draw_counter_y + 1)
                           % ((vdc.regs[9] & 0x1F) + 1); /* FIXME this is overly complex and definitely not what the chip does internally.. */
@@ -763,11 +759,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* Handle the normal drawing case */
     } else if (vdc.draw_active) {
-        if (vdc_draw_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
+        if (vdc.draw_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
             vdc.draw_counter_y = ~(vdc.draw_counter_y ^ vdc.regs[9]); /* XNOR */
             vdc.draw_counter_y &= vdc.interlaced;   /* always 0 if non-interlaced, otherwise keep bottom bit of above */
             vdc.draw_counter++;
-            vdc_draw_counter_latch = 0;
+            vdc.draw_counter_latch = 0;
 
             /* FIXME We've just drawn the last raster line of the current row, the buffer reading could/should be here? */
 
@@ -789,12 +785,12 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.bitmap_counter &= vdc.vdc_address_mask;
         }
         if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F) || (vdc.draw_counter_y + vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
-            vdc_draw_counter_latch = 1;
+            vdc.draw_counter_latch = 1;
         }
     } else {
         /* FIXME handle the last visible(ish) row situation better
            Implied: vdc.prime_draw == 0 && vdc.draw_active == 0 */
-        vdc_draw_counter_latch = 0;
+        vdc.draw_counter_latch = 0;
     }
     vdc.raster.ycounter = vdc.draw_counter_y;   /* FIXME quick hack. maybe just use ycounter in the first place? Check side effects with memory inc functions */
     /*  END drawing section ----------------------------------------------------------------------------------------------------------------*/
