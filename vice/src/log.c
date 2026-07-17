@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DBGLOGGING */
+#define DBGLOGGING
 
 #include "vice.h"
 
@@ -171,10 +171,10 @@ static void log_file_close(void)
 {
     DBG(("log_file_close %p\n", log_file));
     if (log_file) {
+        fflush(log_file);
         if (log_file != stdout) {
             fclose(log_file);
         }
-        fflush(log_file);
         log_file = NULL;
     }
 }
