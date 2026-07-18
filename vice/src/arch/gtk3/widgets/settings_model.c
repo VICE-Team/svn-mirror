@@ -200,8 +200,10 @@ static GtkWidget *c64dtv_hummer_adc_widget = NULL;
 /** \brief  Reset with IEC checkbox */
 static GtkWidget *reset_with_iec_widget = NULL;
 
+#ifdef HAVE_RESIDFP
 /** \brief  "old SID caps" checkbox */
 static GtkWidget *old_sid_caps_widget = NULL;
+#endif
 
 /** \brief  C64 "discrete glue logic" radio button */
 static GtkWidget *c64_discrete_radio = NULL;
@@ -299,6 +301,7 @@ static void sid_model_callback(int model)
     }
 }
 
+#ifdef HAVE_RESIDFP
 /** \brief  Function called on SID caps changes
  *
  * \param[in]   flag    use old caps if 1
@@ -309,6 +312,8 @@ static void sid_old_caps_callback(int flag)
         machine_model_widget_update(machine_widget, false);
     }
 }
+#endif
+
 /** \brief  Custom callback for the Kernal Revision widget
  *
  * Triggers an update of the 'machine model' widget when a different kernal rev
@@ -1220,7 +1225,9 @@ static void c64_misc_widget_sync(void)
 {
     c64_glue_widget_sync();
     c64_reset_with_iec_sync();
+#ifdef HAVE_RESIDFP
     c64_old_sid_caps_sync();
+#endif
 }
 
 /** \brief  Create 'misc' widget for C128

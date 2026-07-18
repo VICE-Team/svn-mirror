@@ -309,6 +309,7 @@ static unsigned char *write_uint32(uint32_t input, unsigned char *output) {
     return output + 4;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
 /*! \internal \brief Write uint64 to buffer and return pointer to byte after */
 static unsigned char *write_uint64(uint64_t input, unsigned char *output) {
     for (int i = 0 ; i < 8 ; i++) {
@@ -317,6 +318,7 @@ static unsigned char *write_uint64(uint64_t input, unsigned char *output) {
 
     return output + 8;
 }
+#endif
 
 /*! \internal \brief Write string to buffer and return pointer to byte after */
 static unsigned char *write_string(uint8_t length, unsigned char *input, unsigned char *output) {
