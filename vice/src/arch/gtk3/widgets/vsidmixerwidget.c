@@ -55,7 +55,7 @@
 
 #include "vsidmixerwidget.h"
 
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 
 /** \brief  CSS for the scales
  *
@@ -401,7 +401,7 @@ GtkWidget *vsid_mixer_widget_create(void)
  */
 void vsid_mixer_widget_update(void)
 {
-#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     GtkWidget *label;
 
     resources_get_int("SidEngine", &new_sid_engine);

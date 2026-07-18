@@ -50,6 +50,14 @@
 
 #include "fixpoint.h"
 
+/* #define DEBUG_FASTSID */
+
+#ifdef DEBUG_FASTSID
+#define LOG(x)  log_printf x
+#else
+#define LOG(x)
+#endif
+
 #ifndef TRUE
 #define TRUE 1
 #endif
@@ -990,6 +998,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
 {
     uint32_t i;
     int sid_model;
+    LOG(("fastsid_init"));
 
     psid->factor = factor;
 
@@ -1003,6 +1012,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
     if (resources_get_int("SidFilters", &(psid->emulatefilter)) < 0) {
         return 0;
     }
+    LOG(("fastsid_init: filters: %d", psid->emulatefilter));
 
     init_filter(psid, speed);
     setup_sid(psid);
@@ -1023,17 +1033,17 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
     if (resources_get_int("SidModel", &sid_model) < 0) {
         return 0;
     }
+    LOG(("fastsid_init: sid_model: %d", sid_model));
 
     psid->newsid = 0;
     switch (sid_model) {
         default:
-        case 0: /* 6581 */
-        case 3: /* 6581R4 */
-        case 4: /* DTVSID */
+        case SID_MODEL_6581: /* 6581 */
+        case SID_MODEL_DTVSID: /* DTVSID */
             psid->newsid = 0;
             break;
-        case 1: /* 8580 */
-        case 2: /* 8580 + digi boost */
+        case SID_MODEL_8580: /* 8580 */
+        case SID_MODEL_8580D: /* 8580 + digi boost */
             psid->newsid = 1;
             break;
     }
@@ -1072,6 +1082,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
 
 static void fastsid_close(sound_t *psid)
 {
+    LOG(("fastsid_close"));
     lib_free(psid);
 
     if (buf) {
@@ -1185,7 +1196,7 @@ static void fastsid_store(sound_t *psid, uint16_t addr, uint8_t byte)
 static void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
     uint16_t addr;
-
+    LOG(("fastsid_reset"));
     for (addr = 0; addr < 32; addr++) {
         fastsid_store(psid, addr, 0);
     }

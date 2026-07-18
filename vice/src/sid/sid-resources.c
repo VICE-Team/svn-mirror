@@ -54,10 +54,14 @@
 
 /* #define SID_ENGINE_MODEL_DEBUG */
 
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 static int sid_filters_enabled;       /* app_resources.sidFilters */
+#endif
 static int sid_model;                 /* app_resources.sidModel */
-#if defined(HAVE_RESID)
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
 static int sid_resid_sampling;
+#endif
+#if defined(HAVE_RESID)
 static int sid_resid_passband;
 static int sid_resid_gain;
 static int sid_resid_filter_bias;
@@ -158,6 +162,7 @@ static int set_sid_engine(int set_engine, void *param)
     return 0;
 }
 
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 static int set_sid_filters_enabled(int val, void *param)
 {
     sid_filters_enabled = val ? 1 : 0;
@@ -166,6 +171,7 @@ static int set_sid_filters_enabled(int val, void *param)
 
     return 0;
 }
+#endif
 
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static int set_sid_resid_enable_raw_output(int val, void *param)
@@ -262,7 +268,7 @@ static int set_sid_model(int val, void *param)
     return 0;
 }
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 static int set_sid_resid_sampling(int val, void *param)
 {
     switch (val) {
@@ -279,7 +285,8 @@ static int set_sid_resid_sampling(int val, void *param)
     sid_state_changed = 1;
     return 0;
 }
-
+#endif
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static int set_sid_resid_passband(int i, void *param)
 {
     if (i < RESID_6581_PASSBAND_MIN) {
@@ -509,12 +516,13 @@ printf("sid_set_enable: %d\n",value);
 }
 #endif
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 static const resource_int_t resid_resources_int[] = {
-    { "SidResidEnableRawOutput", 0, RES_EVENT_NO, NULL,
-      &sid_resid_enable_raw_output, set_sid_resid_enable_raw_output, NULL },
     { "SidResidSampling", SID_RESID_SAMPLING_RESAMPLING, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+    { "SidResidEnableRawOutput", 0, RES_EVENT_NO, NULL,
+      &sid_resid_enable_raw_output, set_sid_resid_enable_raw_output, NULL },
     { "SidResidPassband", RESID_6581_PASSBAND_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_passband, set_sid_resid_passband, NULL },
     { "SidResidGain", RESID_6581_FILTER_GAIN_DEFAULT, RES_EVENT_NO, NULL,
@@ -527,6 +535,7 @@ static const resource_int_t resid_resources_int[] = {
       &sid_resid_8580_gain, set_sid_resid_8580_gain, NULL },
     { "SidResid8580FilterBias", RESID_8580_FILTER_BIAS_DEFAULT, RES_EVENT_NO, NULL,
       &sid_resid_8580_filter_bias, set_sid_resid_8580_filter_bias, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 #endif
@@ -562,8 +571,10 @@ static resource_int_t common_resources_int[] = {
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_FASTSID,
       &sid_engine, set_sid_engine, NULL },
 #endif
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESIDFP) || defined(HAVE_RESID_DTV)
     { "SidFilters", 1, RES_EVENT_SAME, NULL,
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
+#endif
     /* CAUTION: position is hardcoded below */
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
       &sid_model, set_sid_model, NULL },
@@ -648,7 +659,7 @@ int sid_common_resources_init(void)
 
 int sid_resources_init(void)
 {
-#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     if (resources_register_int(resid_resources_int) < 0) {
         return -1;
     }
@@ -844,7 +855,9 @@ static int sid_check_engine_model(int engine, int model)
         case SID_RESIDFP_8580:
         case SID_RESIDFP_8580D:
 #endif
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESIDFP)
             return 0;
+#endif
 #ifdef HAVE_RESID_DTV
         case SID_RESID_DTVSID:
             if (machine_class == VICE_MACHINE_C64DTV) {

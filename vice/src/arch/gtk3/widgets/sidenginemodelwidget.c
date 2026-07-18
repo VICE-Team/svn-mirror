@@ -48,6 +48,7 @@
 static void (*extra_callback)(int, int) = NULL;
 
 
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 /** \brief  Handler for the 'toggled' event of the SID engine/model radio buttons
  *
  * \param[in]   radio   radio button triggering the event
@@ -88,7 +89,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
         }
     }
 }
-
+#endif
 
 /** \brief  Create SID engine/model selection widget
  *
@@ -96,7 +97,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
  */
 GtkWidget *sid_engine_model_widget_create(void)
 {
-    GtkWidget           *grid;
+    GtkWidget           *grid  = gtk_grid_new();
+/* NOTE: returns an empty widget grid when no SID engine is available */
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     GtkWidget           *label;
     GtkWidget           *last = NULL;
     GSList              *group = NULL;
@@ -111,7 +114,6 @@ GtkWidget *sid_engine_model_widget_create(void)
     resources_get_int("SidModel",  &model);
     current = (unsigned int)((engine << 8) | model);
 
-    grid  = gtk_grid_new();
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>SID engine and model</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -136,7 +138,7 @@ GtkWidget *sid_engine_model_widget_create(void)
         last = radio;
         row++;
     }
-
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
