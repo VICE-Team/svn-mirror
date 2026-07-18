@@ -1265,7 +1265,9 @@ void uisid_menu_shutdown(void)
     if (sid_model_menu != NULL) {
         lib_free(sid_model_menu);
     }
+#ifdef HAVE_RESIDFP
     if (sid_profile_menu != NULL) {
         lib_free(sid_profile_menu);
     }
+#endif
 }

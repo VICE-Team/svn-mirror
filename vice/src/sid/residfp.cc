@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#if defined(HAVE_RESIDFP)
+
 #ifdef _M_ARM
 #undef _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE
 #define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
@@ -462,3 +464,5 @@ sid_engine_t residfp_hooks =
 };
 
 } // extern "C"
+
+#endif

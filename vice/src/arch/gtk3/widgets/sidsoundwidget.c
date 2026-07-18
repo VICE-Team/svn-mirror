@@ -967,12 +967,16 @@ GtkWidget *sid_sound_widget_create(void)
 #endif
     gtk_grid_attach(GTK_GRID(grid), engine, 0, row, 1, 1);
 
+#ifdef HAVE_RESID
     resid_sampling = gtk_grid_get_child_at(GTK_GRID(grid), 1, row);
     if (resid_sampling != NULL) {
         gtk_widget_destroy(resid_sampling);
         resid_sampling = NULL;
     }
+#endif
+#ifdef HAVE_RESIDFP
     residfp_sampling = NULL;
+#endif
 
     /* attach both lists to same place, hide what what we don't need */
 #ifdef HAVE_RESID

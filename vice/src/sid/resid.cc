@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#if defined(HAVE_RESID) || defined(HAVE_RESIDDTV)
+
 #ifdef _M_ARM
 #undef _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE
 #define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
@@ -452,3 +454,5 @@ sid_engine_t resid_hooks =
 };
 
 } // extern "C"
+
+#endif
