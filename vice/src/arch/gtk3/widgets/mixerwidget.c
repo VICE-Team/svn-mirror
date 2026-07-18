@@ -201,24 +201,40 @@ void mixer_widget_sid_type_changed(void)
     resources_get_int("SidModel",  &model);
     resources_get_int("SidEngine", &engine);
 
+#ifdef HAVE_RESID
+    if (engine != SID_ENGINE_RESID) {
+        gtk_widget_hide(passband6581label);
+        gtk_widget_hide(gain6581label);
+        gtk_widget_hide(bias6581label);
+        gtk_widget_hide(passband8580label);
+        gtk_widget_hide(gain8580label);
+        gtk_widget_hide(bias8580label);
+
+        gtk_widget_hide(passband6581);
+        gtk_widget_hide(gain6581);
+        gtk_widget_hide(bias6581);
+        gtk_widget_hide(passband8580);
+        gtk_widget_hide(gain8580);
+        gtk_widget_hide(bias8580);
+    }
+#endif
+#ifdef HAVE_RESIDFP
+    if (engine != SID_ENGINE_RESIDFP) {
+        gtk_widget_hide(curve6581label);
+        gtk_widget_hide(curve6581);
+        gtk_widget_hide(range6581label);
+        gtk_widget_hide(range6581);
+        gtk_widget_hide(curve8580label);
+        gtk_widget_hide(curve8580);
+        gtk_widget_hide(combinedstrengthlabel);
+        gtk_widget_hide(combinedstrength);
+    }
+#endif
+
     if (engine == SID_ENGINE_RESIDFP) {
-            gtk_widget_hide(passband6581label);
-            gtk_widget_hide(gain6581label);
-            gtk_widget_hide(bias6581label);
-            gtk_widget_hide(passband8580label);
-            gtk_widget_hide(gain8580label);
-            gtk_widget_hide(bias8580label);
-            gtk_widget_hide(passband6581);
-            gtk_widget_hide(gain6581);
-            gtk_widget_hide(bias6581);
-            gtk_widget_hide(passband8580);
-            gtk_widget_hide(gain8580);
-            gtk_widget_hide(bias8580);
-        if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
-            gtk_widget_hide(curve6581label);
-            gtk_widget_hide(curve6581);
-            gtk_widget_hide(range6581label);
-            gtk_widget_hide(range6581);
+#ifdef HAVE_RESIDFP
+        if ((model == SID_MODEL_8580) ||
+            (model == SID_MODEL_8580D)) {
             gtk_widget_show(curve8580label);
             gtk_widget_show(curve8580);
         } else {
@@ -226,57 +242,78 @@ void mixer_widget_sid_type_changed(void)
             gtk_widget_show(curve6581);
             gtk_widget_show(range6581label);
             gtk_widget_show(range6581);
-            gtk_widget_hide(curve8580label);
-            gtk_widget_hide(curve8580);
         }
-    } else {
-        gtk_widget_hide(curve6581label);
-        gtk_widget_hide(curve6581);
-        gtk_widget_hide(range6581label);
-        gtk_widget_hide(range6581);
-        gtk_widget_hide(curve8580label);
-        gtk_widget_hide(curve8580);
-        if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
-            gtk_widget_hide(passband6581);
-            gtk_widget_hide(gain6581);
-            gtk_widget_hide(bias6581);
+        gtk_widget_show(combinedstrengthlabel);
+        gtk_widget_show(combinedstrength);
+#endif
+    } else if (engine == SID_ENGINE_RESID) {
+#ifdef HAVE_RESID
+        if ((model == SID_MODEL_8580) ||
+            (model == SID_MODEL_8580D)) {
             gtk_widget_show(passband8580);
             gtk_widget_show(gain8580);
             gtk_widget_show(bias8580);
-            gtk_widget_hide(passband6581label);
-            gtk_widget_hide(gain6581label);
-            gtk_widget_hide(bias6581label);
             gtk_widget_show(passband8580label);
             gtk_widget_show(gain8580label);
             gtk_widget_show(bias8580label);
         } else {
-            gtk_widget_hide(passband8580);
-            gtk_widget_hide(gain8580);
-            gtk_widget_hide(bias8580);
             gtk_widget_show(passband6581);
             gtk_widget_show(gain6581);
             gtk_widget_show(bias6581);
-            gtk_widget_hide(passband8580label);
-            gtk_widget_hide(gain8580label);
-            gtk_widget_hide(bias8580label);
             gtk_widget_show(passband6581label);
             gtk_widget_show(gain6581label);
             gtk_widget_show(bias6581label);
         }
+#endif
     }
 
-    /* enable/disable 8580 filter controls based on --enable-new8580filter */
-    gtk_widget_set_sensitive(passband8580, FILTER_8580);
-    gtk_widget_set_sensitive(gain8580,     FILTER_8580);
-    gtk_widget_set_sensitive(bias8580,     FILTER_8580);
-
     if (engine == SID_ENGINE_FASTSID) {
+#ifdef HAVE_RESID
         gtk_widget_set_sensitive(passband6581, FALSE);
         gtk_widget_set_sensitive(gain6581,     FALSE);
         gtk_widget_set_sensitive(bias6581,     FALSE);
         gtk_widget_set_sensitive(passband8580, FALSE);
         gtk_widget_set_sensitive(gain8580,     FALSE);
         gtk_widget_set_sensitive(bias8580,     FALSE);
+#endif
+#ifdef HAVE_RESIDFP
+        gtk_widget_set_sensitive(curve8580, FALSE);
+        gtk_widget_set_sensitive(curve6581, FALSE);
+        gtk_widget_set_sensitive(range6581, FALSE);
+#endif
+    }
+
+    if (engine == SID_ENGINE_RESID) {
+#ifdef HAVE_RESID
+        gtk_widget_set_sensitive(passband6581, TRUE);
+        gtk_widget_set_sensitive(gain6581,     TRUE);
+        gtk_widget_set_sensitive(bias6581,     TRUE);
+        /* enable/disable 8580 filter controls based on --enable-new8580filter */
+        gtk_widget_set_sensitive(passband8580, FILTER_8580);
+        gtk_widget_set_sensitive(gain8580,     FILTER_8580);
+        gtk_widget_set_sensitive(bias8580,     FILTER_8580);
+#endif
+#ifdef HAVE_RESIDFP
+        gtk_widget_set_sensitive(curve8580, FALSE);
+        gtk_widget_set_sensitive(curve6581, FALSE);
+        gtk_widget_set_sensitive(range6581, FALSE);
+#endif
+    }
+
+    if (engine == SID_ENGINE_RESIDFP) {
+#ifdef HAVE_RESID
+        gtk_widget_set_sensitive(passband6581, FALSE);
+        gtk_widget_set_sensitive(gain6581,     FALSE);
+        gtk_widget_set_sensitive(bias6581,     FALSE);
+        gtk_widget_set_sensitive(passband8580, FALSE);
+        gtk_widget_set_sensitive(gain8580,     FALSE);
+        gtk_widget_set_sensitive(bias8580,     FALSE);
+#endif
+#ifdef HAVE_RESIDFP
+        gtk_widget_set_sensitive(curve8580, TRUE);
+        gtk_widget_set_sensitive(curve6581, TRUE);
+        gtk_widget_set_sensitive(range6581, TRUE);
+#endif
     }
 # undef FILTER_8580
 #endif  /* HAVE_RESID */
@@ -818,7 +855,6 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     row++;
 
 #endif
-
 
     gtk_widget_show_all(grid);
     mixer_widget_sid_type_changed();

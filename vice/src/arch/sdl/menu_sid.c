@@ -404,6 +404,7 @@ static const ui_menu_entry_t us_buffsize_menu[] = {
 #endif /* HAVE_USBSID */
 
 
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_RADIO(SidStereo)
 UI_MENU_DEFINE_RADIO(Sid2AddressStart)
@@ -863,6 +864,7 @@ static const ui_menu_entry_t c64_stereo_sid_menu[] = {
     },
     SDL_MENU_LIST_END
 };
+#endif /* defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP) */
 
 ui_menu_entry_t sid_c64_menu[] = {
     /* CAUTION: position is hardcoded below */
@@ -870,6 +872,7 @@ ui_menu_entry_t sid_c64_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback,
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Extra SIDs",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = show_SidStereo_callback,
@@ -914,6 +917,7 @@ ui_menu_entry_t sid_c64_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback,
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -932,6 +936,7 @@ ui_menu_entry_t sid_c128_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Extra SIDs",
         .type     = MENU_ENTRY_SUBMENU,
         .callback = show_SidStereo_callback,
@@ -976,6 +981,7 @@ ui_menu_entry_t sid_c128_menu[] = {
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -994,10 +1000,12 @@ ui_menu_entry_t sid_cbm2_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -1016,10 +1024,12 @@ ui_menu_entry_t sid_dtv_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -1046,10 +1056,12 @@ ui_menu_entry_t sid_vic_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -1097,10 +1109,12 @@ ui_menu_entry_t sid_pet_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif
@@ -1150,10 +1164,12 @@ ui_menu_entry_t sid_plus4_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_radio_callback
     },
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback
     },
+#endif
 #ifdef HAVE_RESID
     VICE_SDL_RESID_OPTIONS
 #endif

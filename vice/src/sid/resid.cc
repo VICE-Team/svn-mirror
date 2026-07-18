@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#if defined(HAVE_RESID) || defined(HAVE_RESIDDTV)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 
 #ifdef _M_ARM
 #undef _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE

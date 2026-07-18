@@ -1878,9 +1878,9 @@ dnl
 dnl FIXME: residfp?
 dnl
 dnl Remove this check to allow building without a SID engine
-if test x"$with_fastsid" != "xyes" -a x"$with_resid" = "xno"; then
-  AC_MSG_ERROR([Neither FastSID nor ReSID sound engine enabled, please enable at least one.])
-fi
+dnl if test x"$with_fastsid" != "xyes" -a x"$with_resid" = "xno"; then
+dnl   AC_MSG_ERROR([Neither FastSID nor ReSID sound engine enabled, please enable at least one.])
+dnl fi
 
 
 dnl FastSID
@@ -2060,7 +2060,7 @@ fi
 
 AC_SUBST(RESIDFPSUB)
 
-if test x"$RESIDFPSUB" = "xresidfp"; then
+if test x"$RESIDFPSUB" = "xlib/libresidfp"; then
   AM_CONDITIONAL(RESIDFP_DIR_USED, true)
 else
   AM_CONDITIONAL(RESIDFP_DIR_USED, false)
