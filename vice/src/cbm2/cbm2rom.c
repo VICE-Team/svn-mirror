@@ -135,7 +135,7 @@ int cbm2rom_checksum(void)
     log_message(cbm2rom_log, "Kernal checksum is %d ($%04X).", sum, sum);
 
     /* Initialize Autostart */
-    autostart_init(10, 0);
+    autostart_init(10);
     return 0;
 }
 
@@ -147,7 +147,7 @@ int cbm2rom_load_kernal(const char *rom_name)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbdbuf_init(0, 0, 0, 0);
-    autostart_init(0, 0);
+    autostart_init(0);
     tape_init(&tapeinit);
 
     /* Load Kernal ROM.  */

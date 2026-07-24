@@ -113,13 +113,18 @@ void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
         || unit->type == DRIVE_TYPE_1570
         || unit->type == DRIVE_TYPE_1571
         || unit->type == DRIVE_TYPE_1571CR) {
+        /* disk id drive 0 */
         unit->drive_ram[0x12] = id[0];
         unit->drive_ram[0x13] = id[1];
+        /* header block */
         unit->drive_ram[0x16] = id[0];
         unit->drive_ram[0x17] = id[1];
         unit->drive_ram[0x18] = track;
         unit->drive_ram[0x19] = sector;
+        /* current track drive 0 */
         unit->drive_ram[0x22] = track;
+        /* last read sector */
+        unit->drive_ram[0x4c] = sector;
     }
 }
 
@@ -134,6 +139,7 @@ void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffe
     /* TODO: drive 1 ? */
     drive_gcr_data_writeback(drive);
 
+    /* FIXME: handle all drives here */
     if (unit->type == DRIVE_TYPE_1570
         || unit->type == DRIVE_TYPE_1571
         || unit->type == DRIVE_TYPE_1571CR) {
@@ -145,13 +151,17 @@ void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffe
     /* TODO: drive 1 ? */
     drive_set_half_track(track * 2, side, drive);
 
+    /* FIXME: handle all drives here */
     if (unit->type == DRIVE_TYPE_1540
         || unit->type == DRIVE_TYPE_1541
         || unit->type == DRIVE_TYPE_1541II
         || unit->type == DRIVE_TYPE_1570
         || unit->type == DRIVE_TYPE_1571
-        || unit->type == DRIVE_TYPE_1571CR) {
-        memcpy(&(unit->drive_ram[0x0400]), buffer, 256);
+        || unit->type == DRIVE_TYPE_1571CR
+        || unit->type == DRIVE_TYPE_2031) {
+        memcpy(&(unit->drive_ram[0x0400]), buffer, 256 * 2);
+    } else if (unit->type == DRIVE_TYPE_1551) {
+        memcpy(&(unit->drive_ram[0x0500]), buffer, 256 * 2);
     }
 }
 

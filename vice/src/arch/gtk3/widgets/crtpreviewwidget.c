@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "vice_gtk3.h"
+#include "archdep.h"
 #include "crt.h"
 #include "cartridge.h"
 #include "log.h"
@@ -308,25 +309,25 @@ void crt_preview_widget_update(const gchar *path)
     int packets = 0;
 # endif
 #endif
+    size_t length;
 
-    /*
-     * Guard against non C64/C128 carts
-     * Once we implement CRT headers for VIC20 and others, this needs to be
-     * removed.
-     */
-    if (machine_class != VICE_MACHINE_C64
-            && machine_class != VICE_MACHINE_C64SC
-            && machine_class != VICE_MACHINE_C128
-            && machine_class != VICE_MACHINE_CBM5x0
-            && machine_class != VICE_MACHINE_CBM6x0
-            && machine_class != VICE_MACHINE_PLUS4
-            && machine_class != VICE_MACHINE_VIC20)
-    {
+    /* first do a quick check:
+       - try if the given file(name) can be opened for reading
+       - check if the file is long enough to even justify trying to preview it
+    */
+    fd = fopen(path, MODE_READ);
+    if (fd == NULL) {
+        return;
+    }
+    length = archdep_file_size(fd);
+    fclose(fd);
+
+    if (length < 0x20) {
         return;
     }
 
-    fd = crt_open(path, &header);
-    if (fd == NULL) {
+    if  ((crt_probe(path) == 0 ) ||
+         ((fd = crt_open(path, &header)) == NULL)) {
 #if 0
         debug_gtk3("failed to open crt image");
 #endif

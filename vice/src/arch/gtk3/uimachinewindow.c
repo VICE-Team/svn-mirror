@@ -776,8 +776,14 @@ static void machine_window_create(video_canvas_t *canvas)
             * canvas->videoconfig->scalex * (hstretch ? 2 : 1);
     }
 
-    h = (canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line)
-        * canvas->videoconfig->scaley * (vstretch ? 2 : 1);
+    if (canvas->geometry->first_displayed_line < canvas->geometry->last_displayed_line) {
+        h = (canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line);
+    } else {
+        /* HACK: avoid negative values */
+        h = 1;
+    }
+    h *= canvas->videoconfig->scaley * (vstretch ? 2 : 1);
+
     if (machine_class != VICE_MACHINE_PLUS4) {
         h = (unsigned)(((double)h) * canvas->geometry->pixel_aspect_ratio);
     }

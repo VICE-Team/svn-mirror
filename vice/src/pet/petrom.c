@@ -402,7 +402,7 @@ void petrom_checksum(void)
                 log_message(petrom_log, "Identified 80 columns editor by checksum.");
             }
             petres.rom_video = 80;
-            autostart_init(3, 0);
+            autostart_init(3);
         } else
         if (petres.editor_checksum == PET_EDIT4G40_CHECKSUM
             || petres.editor_checksum == PET_EDIT4B40_CHECKSUM1
@@ -411,7 +411,7 @@ void petrom_checksum(void)
                 log_message(petrom_log, "Identified 40 columns editor by checksum.");
             }
             petres.rom_video = 40;
-            autostart_init(3, 0);
+            autostart_init(3);
         }
         tape_init(&tapeinit4);
         petrom_keybuf_init();
@@ -420,7 +420,7 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 2 ROM by checksum.");
         }
         petres.rom_video = 40;
-        autostart_init(3, 0);
+        autostart_init(3);
         tape_init(&tapeinit2);
         petrom_keybuf_init();
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
@@ -428,7 +428,7 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 1 ROM by checksum.");
         }
         petres.rom_video = 40;
-        autostart_init(3, 0);
+        autostart_init(3);
         tape_init(&tapeinit1);
         petrom_keybuf_init();
     } else {
@@ -571,7 +571,7 @@ int petrom_load_kernal(void)
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
     kbdbuf_init(0, 0, 0, 0);
-    autostart_init(0, 0);
+    autostart_init(0);
     tape_deinstall();
 
     /* Load Kernal ROM.  */
@@ -603,7 +603,7 @@ int petrom_load_editor(void)
     /* De-initialize autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
-    autostart_init(0, 0);
+    autostart_init(0);
     tape_deinstall();
 
     if (!util_check_null_string(petres.model.editorName)) {

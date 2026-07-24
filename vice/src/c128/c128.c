@@ -1105,7 +1105,7 @@ int machine_specific_init(void)
     disk_image_init();
 
     /* Initialize autostart. */
-    autostart_init(3, 1);
+    autostart_init(3);
 
     /* Pre-init C128-specific parts of the menus before vdc_init() and
        vicii_init() create canvas windows with menubars at the top. */

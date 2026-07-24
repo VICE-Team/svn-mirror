@@ -238,8 +238,9 @@ void vdrive_close_all_channels(vdrive_t *vdrive);
 void vdrive_close_all_channels_partition(vdrive_t *vdrive, int part);
 int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track);
 int vdrive_get_max_sectors_per_head(vdrive_t *vdrive, unsigned int track);
-void vdrive_get_last_read(unsigned int *track, unsigned int *sector, uint8_t **buffer);
-void vdrive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer);
+void vdrive_get_last_read(vdrive_t *vdrive, unsigned int *track, unsigned int *sector, uint8_t **buffer, int num);
+void vdrive_set_last_read(vdrive_t *vdrive, unsigned int track, unsigned int sector, uint8_t *buffer);
+int vdrive_get_last_read_ptr(void);
 
 void vdrive_alloc_buffer(struct bufferinfo_s *p, int mode);
 void vdrive_free_buffer(struct bufferinfo_s *p);

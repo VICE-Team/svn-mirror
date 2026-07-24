@@ -1071,7 +1071,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit, unsigned int dri
     return 0;
 }
 
-void vdrive_get_last_read(unsigned int *track, unsigned int *sector, uint8_t **buffer)
+void vdrive_get_last_read(vdrive_t *vdrive, unsigned int *track, unsigned int *sector, uint8_t **buffer, int num)
 {
 }
 

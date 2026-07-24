@@ -33,6 +33,8 @@
 #include "autostart.h"
 #include "log.h"
 #include "tape.h"
+#include "t64.h"
+#include "tap.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "contentpreviewwidget.h"
@@ -94,7 +96,6 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         path = g_file_get_path(file);
         if (path != NULL) {
             gchar *path_locale = file_chooser_convert_to_locale(path);
-
             content_preview_widget_set_image(preview_widget, path_locale);
             g_free(path);
             g_free(path_locale);
@@ -352,6 +353,35 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     return grid;
 }
 
+static image_contents_t *tapecontents_read_wrapper(const char *path)
+{
+    image_contents_t *content;
+    size_t length;
+
+    /* first do a quick check:
+       - try if the given file(name) can be opened for reading
+       - check if the file is long enough to even justify trying to preview it
+    */
+    FILE *fd = fopen(path, MODE_READ);
+    if (fd == NULL) {
+        return NULL;
+    }
+    length = archdep_file_size(fd);
+    fclose(fd);
+
+    if (length < 0x20) {
+        return NULL;
+    }
+
+    if (t64_probe(path) || tap_probe(path)) {
+        content = tapecontents_read(path);
+        if (content != NULL) {
+            return content;
+        }
+    }
+
+    return NULL;
+}
 
 /** \brief  Create the tape attach dialog
  *
@@ -414,7 +444,7 @@ static GtkWidget *create_tape_attach_dialog(int port)
                                       create_extra_widget(dialog));
 
     preview_widget = content_preview_widget_create(dialog,
-                                                   tapecontents_read,
+                                                   tapecontents_read_wrapper,
                                                    on_response,
                                                    port);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
