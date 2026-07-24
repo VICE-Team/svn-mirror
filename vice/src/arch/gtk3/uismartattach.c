@@ -39,6 +39,8 @@
 #include "cartridge.h"
 #include "drive.h"
 #include "tape.h"
+#include "t64.h"
+#include "tap.h"
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
 #include "diskcontents.h"
@@ -504,14 +506,40 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 static image_contents_t *read_contents_wrapper(const char *path)
 {
     image_contents_t *content;
+    size_t length;
+
+    /* first do a quick check:
+       - try if the given file(name) can be opened for reading
+       - check if the file is long enough to even justify trying to preview it
+    */
+    FILE *fd = fopen(path, MODE_READ);
+    if (fd == NULL) {
+        return NULL;
+    }
+    length = archdep_file_size(fd);
+    fclose(fd);
+
+    if (length < 0x20) {
+        return NULL;
+    }
 
     /* try disk contents first */
-    content = diskcontents_filesystem_read(path);
-    if (content == NULL) {
-        /* fall back to tape */
-        content = tapecontents_read(path);
+    if (probe_disk_image(path)) {
+        content = diskcontents_filesystem_read(path);
+        if (content != NULL) {
+            return content;
+        }
     }
-    return content;
+
+    /* fall back to tape */
+    if (t64_probe(path) || tap_probe(path)) {
+        content = tapecontents_read(path);
+        if (content != NULL) {
+            return content;
+        }
+    }
+
+    return NULL;
 }
 
 

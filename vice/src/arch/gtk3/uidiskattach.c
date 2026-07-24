@@ -452,7 +452,44 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit, int drive)
     return grid;
 }
 
+/** \brief  Wrapper around disk contents readers
+ *
+ * First treats \a path as disk image file and when that fails it gives up.
+ *
+ * \param[in]   path    path to image file
+ *
+ * \return  image contents or `NULL` on failure
+ */
+static image_contents_t *diskcontents_filesystem_read_wrapper(const char *path)
+{
+    image_contents_t *content;
+    size_t length;
 
+    /* first do a quick check:
+       - try if the given file(name) can be opened for reading
+       - check if the file is long enough to even justify trying to preview it
+    */
+    FILE *fd = fopen(path, MODE_READ);
+    if (fd == NULL) {
+        return NULL;
+    }
+    length = archdep_file_size(fd);
+    fclose(fd);
+
+    if (length < 0x20) {
+        return NULL;
+    }
+
+    /* try disk contents first */
+    if (probe_disk_image(path)) {
+        content = diskcontents_filesystem_read(path);
+        if (content != NULL) {
+            return content;
+        }
+    }
+
+    return NULL;
+}
 
 /** \brief  Create the disk attach dialog
  *
@@ -515,7 +552,7 @@ static GtkWidget *create_disk_attach_dialog(gint unit, gint drive)
                                       create_extra_widget(dialog, unit, drive));
 
     preview_widget = content_preview_widget_create(
-            dialog, diskcontents_filesystem_read, on_response, unit);
+            dialog, diskcontents_filesystem_read_wrapper, on_response, unit);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 

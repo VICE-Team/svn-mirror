@@ -134,7 +134,7 @@ static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary, un
     status = vdrive_read_sector(vdrive, p->buffer, track, sector);
     p->length = p->buffer[0] ? 0 : p->buffer[1];
 
-    vdrive_set_last_read(track, sector, p->buffer);
+    vdrive_set_last_read(vdrive, track, sector, p->buffer);
 
     if (status != 0) {
         vdrive_iec_close(vdrive, secondary);
@@ -960,7 +960,7 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
 
             status = vdrive_read_sector(vdrive, p->buffer, track, sector);
             p->length = p->buffer[0] ? 0 : p->buffer[1];
-            vdrive_set_last_read(track, sector, p->buffer);
+            vdrive_set_last_read(vdrive, track, sector, p->buffer);
 
             if (status == 0) {
                 p->bufptr = 2;

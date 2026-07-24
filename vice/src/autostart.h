@@ -46,7 +46,7 @@ int autostart_resources_init(void);
 void autostart_resources_shutdown(void);
 int autostart_cmdline_options_init(void);
 
-int autostart_init(int default_seconds, int handle_drive_true_emulation);
+int autostart_init(int default_seconds);
 void autostart_shutdown(void);
 
 /* void autostart_reinit(int default_seconds, int handle_drive_true_emulation); */

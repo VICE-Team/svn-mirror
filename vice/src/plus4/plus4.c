@@ -828,7 +828,7 @@ int machine_specific_init(void)
     disk_image_init();
 
     /* Initialize autostart.  */
-    autostart_init(2, 1);
+    autostart_init(2);
 
     /* Initialize the sidcart first */
     sidcart_sound_chip_init();
