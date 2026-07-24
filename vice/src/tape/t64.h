@@ -213,6 +213,7 @@ typedef struct t64 t64_t;
  * t64_get_file_record()
  */
 
+int t64_probe(const char *name);
 t64_t *t64_open(const char *name, unsigned int *read_only);
 int t64_close(t64_t *t64);
 

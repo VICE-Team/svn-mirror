@@ -122,6 +122,46 @@ void fsimage_media_destroy(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
+/* try to open image, return 0 on success, -1 on failure */
+int fsimage_open_probe(disk_image_t *image)
+{
+    fsimage_t *fsimage;
+    size_t length;
+    unsigned int isdir;
+
+    fsimage = image->media.fsimage;
+    fsimage->error_info.map = NULL;
+
+    /* stat file to find out if it exists or if it is a directory */
+    if (archdep_stat(fsimage->name, &length, &isdir) < 0) {
+        log_error(fsimage_log, "Cannot open file `%s'.", fsimage->name);
+        return -1;
+    }
+
+    /* it exists, is it a directory? */
+    if (isdir) {
+        log_error(fsimage_log, "Cannot open directory `%s' as an image.", fsimage->name);
+        return -1;
+    }
+
+    /* proceed with normal opening */
+    fsimage->fd = zfile_fopen(fsimage->name, MODE_READ);
+
+    if (fsimage->fd == NULL) {
+        log_error(fsimage_log, "Cannot open file `%s'.", fsimage->name);
+        return -1;
+    }
+
+    if (fsimage_probe(image) == 0) {
+        /* valid image */
+        fsimage_close(image);
+        return 0;
+    }
+
+    fsimage_close(image);
+    return -1;
+}
+
 int fsimage_open(disk_image_t *image)
 {
     fsimage_t *fsimage;

@@ -70,6 +70,7 @@
 #include "sampler.h"
 #include "snapshot.h"
 #include "tap.h"
+#include "t64.h"
 #include "tape.h"
 #include "tapecart.h"
 #include "tapeport.h"
@@ -601,6 +602,16 @@ int tapeport_valid_port(int port)
     return 0;
 }
 
+int t64_probe(const char *filename)
+{
+    return 0;
+}
+
+int tap_probe(const char *filename)
+{
+    return 0;
+}
+
 /*****************************************************************************
  *  tapecart                                                                 *
  ****************************************************************************/
@@ -794,6 +805,11 @@ int disk_image_fsimage_create_dxm(const char *name, const char *dname, unsigned 
 }
 
 int disk_image_fsimage_create_dhd(const char *name, const char *dname, unsigned int type)
+{
+    return 0;
+}
+
+int fsimage_open_probe(disk_image_t *image)
 {
     return 0;
 }
@@ -1057,6 +1073,11 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit, unsigned int dri
 
 void vdrive_get_last_read(unsigned int *track, unsigned int *sector, uint8_t **buffer)
 {
+}
+
+int vdrive_get_last_read_ptr(void)
+{
+    return 0;
 }
 
 int vdrive_internal_create_format_disk_image(const char *filename, const char *diskname, unsigned int type)

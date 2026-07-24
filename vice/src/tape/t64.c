@@ -41,6 +41,9 @@
 #include "types.h"
 #include "zfile.h"
 
+/* Logging goes here.  */
+static log_t t64_log = LOG_DEFAULT;
+
 
 /** \brief  magic bytes found at the start of a possible T64 file
  */
@@ -241,7 +244,7 @@ static int t64_header_read(t64_header_t *hdr, FILE *fd)
         /* XXX: The correct behavior here would be to reject it, but there
            are so many broken T64 images out there, that it's better if we
            silently suffer.  */
-        log_warning(LOG_DEFAULT,
+        log_warning(t64_log,
                 "t64 image reports 0 max entries, adjusting to 1");
         hdr->num_entries = 1;
     }
@@ -251,7 +254,7 @@ static int t64_header_read(t64_header_t *hdr, FILE *fd)
     if (hdr->num_used == 0) {
         /* corrupt tape image, too many of those out there, so just adust to
          * 1 and log a warning */
-        log_warning(LOG_DEFAULT,
+        log_warning(t64_log,
                 "t64 image reports 0 used entries, adjusting to 1");
         hdr->num_used = 1;
     }
@@ -397,7 +400,7 @@ int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind)
 t64_file_record_t *t64_get_current_file_record(t64_t *t64)
 {
     if (t64->current_file_number < 0) {
-        log_error(LOG_DEFAULT, "T64: Negative file number.");
+        log_error(t64_log, "T64: Negative file number.");
         return NULL;
     }
     return t64_get_file_record(t64, (unsigned int)(t64->current_file_number));
@@ -471,6 +474,32 @@ void t64_get_header(t64_t *t64, uint8_t *name)
 
 /* ----------------------- T64 container functions --------------------------*/
 
+/* return 1 if file looks like a T64 file */
+int t64_probe(const char *name)
+{
+    FILE *fd;
+    t64_t *new;
+
+    if (t64_log == LOG_DEFAULT) {
+        t64_log = log_open("T64");
+    }
+
+    fd = zfile_fopen(name, MODE_READ);
+    if (fd == NULL) {
+        return 0;
+    }
+
+    new = t64_new();
+    new->fd = fd;
+
+    if (t64_header_read(&new->header, fd) < 0) {
+        t64_destroy(new);
+        return 0;
+    }
+    t64_destroy(new);
+    return 1;
+}
+
 /** \brief  Try to open file \a name as a T64 container
  *
  * \param[in]   name        filename/path to T64 file
@@ -487,6 +516,10 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
 
     uint16_t actual_size;
     uint16_t reported_size;
+
+    if (t64_log == LOG_DEFAULT) {
+        t64_log = log_open("T64");
+    }
 
     fd = zfile_fopen(name, MODE_READ);
     if (fd == NULL) {
@@ -544,7 +577,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
             - new->file_records[i].start_addr;
 
         if (reported_size != actual_size) {
-            log_warning(LOG_DEFAULT,
+            log_warning(t64_log,
                     "invalid file size for record %d in t64 image: $%04x, "
                     "should be $%04x, fixing",
                     new->file_records[i].index, reported_size, actual_size);
@@ -562,7 +595,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
      * the T64's data, seems some T64's have extra unused data after the last
      * file) */
     if (reported_size > actual_size) {
-            log_warning(LOG_DEFAULT,
+            log_warning(t64_log,
                     "invalid file size for record %d in t64 image: $%04x, "
                     "should be $%04x, fixing",
                     new->file_records[i].index, reported_size, actual_size);

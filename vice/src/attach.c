@@ -39,6 +39,7 @@
 #include "driveimage.h"
 #include "drive.h"
 #include "fsdevice.h"
+#include "fsimage.h"
 #include "fliplist.h"
 #include "lib.h"
 #include "log.h"
@@ -564,6 +565,31 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *vdrive,
     if ((image != NULL) && (image == oldimg)) {
         disk_image_destroy(image);
     }
+}
+
+int probe_disk_image(const char *filename)
+{
+    disk_image_t new_image;
+
+    new_image.gcr = NULL;
+    new_image.p64 = lib_calloc(1, sizeof(TP64Image));
+    new_image.read_only = 1;
+
+    new_image.device = DISK_IMAGE_DEVICE_FS;
+
+    disk_image_media_create(&new_image);
+    disk_image_fsimage_name_set(&new_image, filename);
+
+    if (fsimage_open_probe(&new_image) < 0) {
+        P64ImageDestroy((PP64Image) new_image.p64);
+        lib_free(new_image.p64);
+        disk_image_media_destroy(&new_image);
+        return 0;
+    }
+    P64ImageDestroy((PP64Image) new_image.p64);
+    lib_free(new_image.p64);
+    disk_image_media_destroy(&new_image);
+    return 1;
 }
 
 static int attach_disk_image(disk_image_t *oldimage, vdrive_t *vdrive,

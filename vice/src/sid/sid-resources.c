@@ -491,7 +491,6 @@ static int sid_enabled = 1;
 void sid_set_enable(int value)
 {
     int val = value ? 1 : 0;
-printf("sid_set_enable: %d\n",value);
     if (val == sid_enabled) {
         return;
     }

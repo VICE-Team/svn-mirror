@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "archdep.h"
@@ -83,6 +84,70 @@ static void expected_header_error(void)
             log_error(LOG_DEFAULT, "CRT header invalid (expected:'%s').", CRT_HEADER_PLUS4);
             break;
     }
+}
+
+/* returns TRUE if given filename points to a valid crt file
+   for the currently emulated machine */
+int crt_probe(const char *filename)
+{
+    uint8_t crt_header[0x40];
+    uint32_t skip;
+    FILE *fd;
+
+    fd = fopen(filename, MODE_READ);
+    if (fd == NULL) {
+        return 0;
+    }
+
+
+    if (fread(crt_header, sizeof(crt_header), 1, fd) < 1) {
+        DBG((LOG_DEFAULT, "could not read CRT header."));
+        fclose(fd);
+        return 0;
+    }
+    fclose(fd);
+
+    skip = util_be_buf_to_dword(&crt_header[0x10]);
+    if (skip < sizeof(crt_header)) {
+        DBG((LOG_DEFAULT, "CRT header size is wrong (is 0x%02x, expected 0x%02x).",
+            (unsigned int)skip, (unsigned int)sizeof(crt_header)));
+        return 0; /* invalid header size */
+    }
+
+    /*printf("CRT TAG:'%s'\n", crt_header);*/
+
+    if (memcmp(crt_header, CRT_HEADER_C64, 16) == 0) {
+        DBG(("Found header: '%s'\n", CRT_HEADER_C64));
+        if ((machine_class == VICE_MACHINE_C64 ||
+                machine_class == VICE_MACHINE_C64SC ||
+                machine_class == VICE_MACHINE_C128 ||
+                machine_class == VICE_MACHINE_SCPU64)) {
+            return 1;
+        }
+    } else if (memcmp(crt_header, CRT_HEADER_C128, 16) == 0) {
+        DBG(("Found header: '%s'\n", CRT_HEADER_C128));
+        if (machine_class == VICE_MACHINE_C128) {
+            return 1;
+        }
+    } else if (memcmp(crt_header, CRT_HEADER_CBM2, 16) == 0) {
+        DBG(("Found header: '%s'\n", CRT_HEADER_CBM2));
+        if (((machine_class == VICE_MACHINE_CBM5x0) ||
+                (machine_class == VICE_MACHINE_CBM6x0))) {
+            return 1;
+        }
+    } else if (memcmp(crt_header, CRT_HEADER_VIC20, 16) == 0) {
+        DBG(("Found header: '%s'\n", CRT_HEADER_VIC20));
+        if (machine_class == VICE_MACHINE_VIC20) {
+            return 1;
+        }
+    } else if (memcmp(crt_header, CRT_HEADER_PLUS4, 16) == 0) {
+        DBG(("Found header: '%s'\n", CRT_HEADER_PLUS4));
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 /*

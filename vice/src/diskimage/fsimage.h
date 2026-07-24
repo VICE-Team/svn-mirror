@@ -53,6 +53,8 @@ void *fsimage_fd_get(const disk_image_t *image);
 void fsimage_media_create(struct disk_image_s *image);
 void fsimage_media_destroy(struct disk_image_s *image);
 
+int fsimage_open_probe(disk_image_t *image);
+
 int fsimage_open(struct disk_image_s *image);
 int fsimage_close(struct disk_image_s *image);
 int fsimage_read_sector(const struct disk_image_s *image, uint8_t *buf,

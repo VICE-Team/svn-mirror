@@ -116,6 +116,7 @@ typedef struct tap_s {
 } tap_t;
 
 void tap_init(const struct tape_init_s *init);
+int tap_probe(const char *name);
 tap_t *tap_open(const char *name, unsigned int *read_only);
 int tap_close(tap_t *tap);
 int tap_create(const char *name);
