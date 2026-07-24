@@ -134,7 +134,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd, vice_pid_t *childpid)
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "Coproc: forking process '%s'", cmd);
+    log_verbose(LOG_DEFAULT, "Coproc: forking process '%s'", cmd);
     if ((pid = fork()) < 0) {
         log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
         close(pipe_stdout_fd[0]);

@@ -44,6 +44,8 @@
 
 struct vdrive_s;
 
+int probe_disk_image(const char *filename);
+
 void file_system_init(void);
 void file_system_shutdown(void);
 int file_system_resources_init(void);

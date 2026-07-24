@@ -49,6 +49,7 @@ typedef struct crt_chip_header_s {
     uint16_t size;                /* size of ROM in bytes */
 } crt_chip_header_t;
 
+int crt_probe(const char *filename);
 FILE *crt_open(const char *filename, crt_header_t *header);
 int crt_getid(const char *filename);
 int crt_read_chip_header(crt_chip_header_t *header, FILE *fd);

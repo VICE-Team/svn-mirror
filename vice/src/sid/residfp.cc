@@ -287,38 +287,38 @@ static int residfp_calculate_samples(sound_t *psid, float *pbuf, int nr, CLOCK *
 static int residfp_calculate_samples(sound_t *psid, short *pbuf, int nr, int interleave, CLOCK *delta_t)
 {
     short *tmp_buf;
-    int retval;
+    int retval = 0;
     int int_delta_t = (int)*delta_t;
 
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
+    if (nr > 0) {
+        if (psid->factor == 1000) {
+            tmp_buf = getbuf(2 * nr);
+            /* CAUTION: unlike ReSID; this does NOT return the number of cycles "left to do" in int_delta_t */
+            retval = psid->sid->clock(int_delta_t, tmp_buf);
+            if (retval > 0) {
+                int n, p = 0;
+                for (n = 0; n < retval; n++) {
+                    pbuf[p] = tmp_buf[n];
+                    p += interleave;
+                }
+            }
 
-    if (psid->factor == 1000) {
-        tmp_buf = getbuf(2 * nr);
-        /* CAUTION: unlike ReSID; this does NOT return the number of cycles "left to do" in int_delta_t */
+            (*delta_t) = 0;
+            return retval;
+        }
+
+        /* Used when SID does not run at system clock ("SID card") */
+        tmp_buf = getbuf(2 * nr * psid->factor / 1000);
         retval = psid->sid->clock(int_delta_t, tmp_buf);
-        {
+        if (retval > 0) {
             int n, p = 0;
             for (n = 0; n < retval; n++) {
                 pbuf[p] = tmp_buf[n];
                 p += interleave;
             }
         }
-
-        (*delta_t) = 0;
-        return retval;
     }
-
-    /* Used when SID does not run at system clock ("SID card") */
-    tmp_buf = getbuf(2 * nr * psid->factor / 1000);
-    retval = psid->sid->clock(int_delta_t, tmp_buf);
-    {
-        int n, p = 0;
-        for (n = 0; n < retval; n++) {
-            pbuf[p] = tmp_buf[n];
-            p += interleave;
-        }
-    }
-
     (*delta_t) = 0;
     return retval;
 }

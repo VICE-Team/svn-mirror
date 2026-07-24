@@ -120,7 +120,7 @@ int archdep_spawn(const char *name, char **argv,
         stdout_redir = NULL;
     }
 
-    log_message(LOG_DEFAULT, "Spawn: forking process '%s'", name);
+    log_verbose(LOG_DEFAULT, "Spawn: forking process '%s'", name);
     child_pid = fork();
     if (child_pid < 0) {
         log_error(LOG_DEFAULT, "fork() failed: %s.", strerror(errno));

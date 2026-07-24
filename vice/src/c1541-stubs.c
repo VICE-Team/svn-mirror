@@ -313,6 +313,11 @@ int drive_get_disk_drive_type(int dnr)
     return DRIVE_TYPE_NONE;
 }
 
+int drive_get_type_by_devnr(int dnr)
+{
+    return DRIVE_TYPE_NONE;
+}
+
 void tape_image_detach_all(void)
 {
 }
@@ -326,3 +331,7 @@ int mon_out(const char *format, ...)
     return 0;
 }
 
+int crt_probe(const char *filename)
+{
+    return 0;
+}

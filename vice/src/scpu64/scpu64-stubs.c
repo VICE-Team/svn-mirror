@@ -91,6 +91,11 @@ void tape_image_detach_all(void)
 {
 }
 
+int tap_probe(const char *filename)
+{
+    return 0;
+}
+
 int tap_seek_start(tap_t *tap)
 {
     return 0;

@@ -123,6 +123,7 @@ static int tap_header_read(tap_t *tap, FILE *fd)
     uint8_t buf[TAP_HDR_SIZE];
     uint8_t tagsystem = TAP_HDR_SYSTEM_C64;
     int video;
+    static int last_tap_clock = 0;
 
     if (fread(buf, TAP_HDR_SIZE, 1, fd) != 1) {
         return -1;
@@ -189,7 +190,10 @@ static int tap_header_read(tap_t *tap, FILE *fd)
     }
 
     tap->tap_clock = tap_get_clockspeed(tap->system, tap->video);
-    log_message(tape_log, ".tap clock is %dHz", tap->tap_clock);
+    if (last_tap_clock != tap->tap_clock) {
+        log_message(tape_log, ".tap clock is %dHz", tap->tap_clock);
+    }
+    last_tap_clock = tap->tap_clock;
 
     memcpy(tap->name, &buf[TAP_HDR_MAGIC_OFFSET], 12);
 
@@ -214,6 +218,32 @@ static tap_t *tap_new(void)
 
     return tap;
 }
+
+
+int tap_probe(const char *name)
+{
+    FILE *fd;
+    tap_t *new;
+
+    fd = NULL;
+
+    fd = zfile_fopen(name, MODE_READ);
+    if (fd == NULL) {
+        return 0;
+    }
+
+    new = tap_new();
+
+    if (tap_header_read(new, fd) < 0) {
+        zfile_fclose(fd);
+        lib_free(new);
+        return 0;
+    }
+    zfile_fclose(fd);
+    lib_free(new);
+    return 1;
+}
+
 
 tap_t *tap_open(const char *name, unsigned int *read_only)
 {
