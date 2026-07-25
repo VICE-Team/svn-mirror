@@ -289,6 +289,10 @@ static const resource_int_t resources_int[] = {
       (int *)&sid7_address_start, sid_set_sid7_address, NULL },
     { "Sid8AddressStart", 0xdfc0, RES_EVENT_SAME, NULL,
       (int *)&sid8_address_start, sid_set_sid8_address, NULL },
+    { "Sid9AddressStart", 0xde20, RES_EVENT_SAME, NULL,
+      (int *)&sid9_address_start, sid_set_sid9_address, NULL },
+    { "Sid10AddressStart", 0xdf20, RES_EVENT_SAME, NULL,
+      (int *)&sid10_address_start, sid_set_sid10_address, NULL },
     RESOURCE_INT_LIST_END
 };
 

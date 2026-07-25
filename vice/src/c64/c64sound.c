@@ -50,6 +50,8 @@ MACHINE_SIDx_RFUNC(machine_sid5_read, sid5_read)
 MACHINE_SIDx_RFUNC(machine_sid6_read, sid6_read)
 MACHINE_SIDx_RFUNC(machine_sid7_read, sid7_read)
 MACHINE_SIDx_RFUNC(machine_sid8_read, sid8_read)
+MACHINE_SIDx_RFUNC(machine_sid9_read, sid9_read)
+MACHINE_SIDx_RFUNC(machine_sid10_read, sid10_read)
 
 MACHINE_SIDx_RFUNC(machine_sid2_peek, sid2_peek)
 MACHINE_SIDx_RFUNC(machine_sid3_peek, sid3_peek)
@@ -58,6 +60,8 @@ MACHINE_SIDx_RFUNC(machine_sid5_peek, sid5_peek)
 MACHINE_SIDx_RFUNC(machine_sid6_peek, sid6_peek)
 MACHINE_SIDx_RFUNC(machine_sid7_peek, sid7_peek)
 MACHINE_SIDx_RFUNC(machine_sid8_peek, sid8_peek)
+MACHINE_SIDx_RFUNC(machine_sid9_peek, sid9_peek)
+MACHINE_SIDx_RFUNC(machine_sid10_peek, sid10_peek)
 
 #define MACHINE_SIDx_STORE(fname, func)            \
     static void fname(uint16_t addr, uint8_t byte) \
@@ -72,6 +76,8 @@ MACHINE_SIDx_STORE(machine_sid5_store, sid5_store)
 MACHINE_SIDx_STORE(machine_sid6_store, sid6_store)
 MACHINE_SIDx_STORE(machine_sid7_store, sid7_store)
 MACHINE_SIDx_STORE(machine_sid8_store, sid8_store)
+MACHINE_SIDx_STORE(machine_sid9_store, sid9_store)
+MACHINE_SIDx_STORE(machine_sid10_store, sid10_store)
 
 /* ---------------------------------------------------------------------*/
 
@@ -201,6 +207,42 @@ static io_source_t sid8_device = {
     IO_MIRROR_NONE        /* NO mirroring */
 };
 
+/* 9th SID, can be a cartridge or an internal board */
+static io_source_t sid9_device = {
+    "Nona SID",           /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xde20, 0xde3f, 0x1f, /* range for the 6th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid9_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid9_read,    /* read function */
+    machine_sid9_peek,    /* peek function */
+    sid9_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
+};
+
+/* 10th SID, can be a cartridge or an internal board */
+static io_source_t sid10_device = {
+    "Deca SID",           /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xdf20, 0xdf3f, 0x1f, /* range for the 6th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid10_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid10_read,    /* read function */
+    machine_sid10_peek,    /* peek function */
+    sid10_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0,                    /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE        /* NO mirroring */
+};
+
 static io_source_list_t *sid2_list_item = NULL;
 static io_source_list_t *sid3_list_item = NULL;
 static io_source_list_t *sid4_list_item = NULL;
@@ -208,6 +250,8 @@ static io_source_list_t *sid5_list_item = NULL;
 static io_source_list_t *sid6_list_item = NULL;
 static io_source_list_t *sid7_list_item = NULL;
 static io_source_list_t *sid8_list_item = NULL;
+static io_source_list_t *sid9_list_item = NULL;
+static io_source_list_t *sid10_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
@@ -245,6 +289,14 @@ static sound_chip_mixing_spec_t sid_sound_mixing_spec[SOUND_CHIP_CHANNELS_MAX] =
     {
         100, /* SID 8 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
         100, /* SID 8 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 9 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 9 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+    },
+    {
+        100, /* SID 10 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
+        100, /* SID 10 left channel volume % in case of stereo output, default output to both, activating more sids changes this */
     }
 };
 #endif
@@ -331,6 +383,8 @@ SIDx_CHECK_RANGE(5)
 SIDx_CHECK_RANGE(6)
 SIDx_CHECK_RANGE(7)
 SIDx_CHECK_RANGE(8)
+SIDx_CHECK_RANGE(9)
+SIDx_CHECK_RANGE(10)
 
 void machine_sid2_enable(int val)
 {
@@ -362,6 +416,14 @@ void machine_sid2_enable(int val)
         io_source_unregister(sid8_list_item);
         sid8_list_item = NULL;
     }
+    if (sid9_list_item != NULL) {
+        io_source_unregister(sid9_list_item);
+        sid9_list_item = NULL;
+    }
+    if (sid10_list_item != NULL) {
+        io_source_unregister(sid10_list_item);
+        sid10_list_item = NULL;
+    }
 
     if (val >= 1) {
         sid2_list_item = io_source_register(&sid2_device);
@@ -384,10 +446,17 @@ void machine_sid2_enable(int val)
     if (val >= 7) {
         sid8_list_item = io_source_register(&sid8_device);
     }
+    if (val >= 8) {
+        sid9_list_item = io_source_register(&sid9_device);
+    }
+    if (val >= 9) {
+        sid10_list_item = io_source_register(&sid10_device);
+    }
 
 #ifdef SOUND_SYSTEM_FLOAT
     /* set stereo rendering preferences */
     switch (val) {
+        /* FIXME: 9,10 chips */
         case 8:   /* 8 SID chips, 0/2/4/6 left only, 1/3/5/7 right only */
             sid_sound_mixing_spec[0].left_channel_volume = 100;
             sid_sound_mixing_spec[0].right_channel_volume = 0;

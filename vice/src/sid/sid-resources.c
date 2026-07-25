@@ -93,6 +93,10 @@ unsigned int sid7_address_start;
 unsigned int sid7_address_end;
 unsigned int sid8_address_start;
 unsigned int sid8_address_end;
+unsigned int sid9_address_start;
+unsigned int sid9_address_end;
+unsigned int sid10_address_start;
+unsigned int sid10_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
 static int sid_hardsid_main;
@@ -229,6 +233,8 @@ SET_SIDx_ADDRESS(5)
 SET_SIDx_ADDRESS(6)
 SET_SIDx_ADDRESS(7)
 SET_SIDx_ADDRESS(8)
+SET_SIDx_ADDRESS(9)
+SET_SIDx_ADDRESS(10)
 
 static int set_sid_model(int val, void *param)
 {

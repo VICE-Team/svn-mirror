@@ -12544,7 +12544,8 @@ almost 20kHz).
 @vindex SidStereo
 @item SidStereo
 Integer specifying the amount of emulated extra SIDs.
-(0: off, 1: 1 extra sid, 2: 2 extra sids, 3: three extra sids, 4: four extra sids, 5: five extra sids, 6: six extra sids, 7: seven extra sids)
+(0: off, 1: 1 extra sid, 2: 2 extra sids, 3: three extra sids, 4: four extra sids,
+ 5: five extra sids, 6: six extra sids, 7: seven extra sids, 8: eight extra sids, 9: nine extra sids)
 
 @vindex Sid2AddressStart
 @item Sid2AddressStart
@@ -12645,6 +12646,38 @@ Integer specifying the base address of the seventh SID
 @vindex Sid8AddressStart
 @item Sid8AddressStart
 Integer specifying the base address of the eigth SID
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
+
+@vindex Sid9AddressStart
+@item Sid9AddressStart
+Integer specifying the base address of the ninth SID
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
+
+@vindex Sid10AddressStart
+@item Sid10AddressStart
+Integer specifying the base address of the tenth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -12779,7 +12812,8 @@ In most cases the default value of 8192 bytes is the right setting for best audi
 @item -sidextra
 Specify the amount of extra SID chips to emulate
 (@code{SidStereo}).
-(0: off, 1: 1 extra sid, 2: 2 extra sids, 3: 3 extra sids, 4: 4 extra sids, 5: 5 extra sids, 6: 6 extra sids, 7: 7 extra sids)
+(0: off, 1: 1 extra sid, 2: 2 extra sids, 3: 3 extra sids, 4: 4 extra sids,
+ 5: 5 extra sids, 6: 6 extra sids, 7: 7 extra sids, 8: 8 extra sids, 9: 9 extra sids)
 
 @findex -sid2address
 @item -sid2address <Base address>
@@ -12887,6 +12921,40 @@ Specifies the start address for the seventh SID chip
 @item -sid8address @code{ADDRESS}
 Specifies the start address for the eight SID chip
 (@code{Sid8AddressStart})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
+
+@findex -sid9address
+@item -sid9address @code{ADDRESS}
+Specifies the start address for the ninth SID chip
+(@code{Sid9AddressStart})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
+
+@findex -sid10address
+@item -sid810ddress @code{ADDRESS}
+Specifies the start address for the tenth SID chip
+(@code{Sid10AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -35782,8 +35850,10 @@ environment for each SID file format.
 +04    WORD version
 @end example
 
-Available version number can be 0001, 0002, 0003 or 0004. Headers of version 2, 3 and 4
-provide additional fields. RSID and PSID v2NG files must have 0002, 0003 or 0004 here.
+Available version number can be 0x0001, 0x0002, 0x0003 or 0x0004. Headers of version 2, 3 and 4
+provide additional fields. RSID and PSID v2NG files must have 0x0002, 0x0003 or 0x0004 here.
+
+0x004E denotes an unofficial extension defined by Juergen Wothke for use in "Deepsid".
 
 @example
 +06    WORD dataOffset
@@ -35792,6 +35862,10 @@ provide additional fields. RSID and PSID v2NG files must have 0002, 0003 or 0004
 This is the offset from the start of the file to the C64 binary data area.
 Because of the fixed size of the header, this is either 0x0076 for version 1
 and 0x007C for version 2, 3 and 4.
+
+The 0x4e extension actually uses a variable header length, and requires this
+offset to be correct (and used). Eg. for a 1-SID file the offset would be 0x7C,
+for a 2-SID file the offset would be 0x7E, etc.
 
 @example
 +08    WORD loadAddress
@@ -36048,6 +36122,32 @@ be played back correctly, bits 4-9 in 'flags' are used as stated above.
 @item Bits 10-15 are reserved and should be set to 0.
 @end itemize
 
+
+The 0x4e extension slightly changes the valid bits:
+
+@itemize
+@item Bit 0 specifies format of the binary data (musPlayer):
+  0 = built-in music player,
+  1 = Compute!'s Sidplayer MUS data, music player must be merged.
+@item Bit 1 specifies whether the tune is PlaySID specific, e.g. uses PlaySID
+  samples (psidSpecific):
+  0 = C64 compatible,
+  1 = PlaySID specific (PSID v2NG, v3, v4)
+  1 = C64 BASIC flag (RSID)
+@item Bits 2-3 specify the video standard (clock):
+  00 = Unknown,
+  01 = PAL,
+  10 = NTSC,
+  11 = PAL and NTSC.
+@item Bits 4-5 specify the SID version (sidModel):
+  00 = Unknown,
+  01 = MOS6581,
+  10 = MOS8580,
+  11 = MOS6581 and MOS8580.
+@item 6, output channel for main $d400 SID - aka SID #0 (default: 0 )
+@item Bits 7-15 are reserved and should be set to 0.
+@end itemize
+
 @example
 +78    BYTE startPage (relocStartPage)
 @end example
@@ -36103,6 +36203,27 @@ $FE for $DFE0). Only even values are valid. Ranges $00-$41 ($D000-$D410) and
 $80-$DF ($D800-$DDF0) are invalid. Any invalid value means that no third SID
 is used, like $00.
 The address of the third SID cannot be the same as the second SID.
+
+The 0x4e extension adds a variable amount of flag words (one per extra SID) instead
+of just using the one reserved word left:
+
+@example
++7A    WORD nSidFlags
+@end example
+
+For each additional SID there is one additional nSidFlags WORD. A 0-WORD must be used
+as an "end" marker, i.e. with only 1 SID the nSidFlags at +7A would be 0. (This corresponds to the
+reserved 0 WORD that old versions require at 0x7A.)
+
+@itemize
+@item Bits 0-3,  unused
+@item Bits 4-5, SID version (same as respective flag for main SID - see +76):
+00 = Unknown: defaults to respective main SID setting
+@item Bit  6, output channel (same position as respective flag for main SID - see +76)
+@item Bit  7, unused
+@item Bits 8-15, address of SID chip (same "2 center nibbles" format as used in original HVSC formats,
+e.g. "D420" would be represented as 0x42)
+@end itemize
 
 @example
 +7C    <data>

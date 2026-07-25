@@ -38,6 +38,8 @@ int sid_set_sid5_address(int val, void *param);
 int sid_set_sid6_address(int val, void *param);
 int sid_set_sid7_address(int val, void *param);
 int sid_set_sid8_address(int val, void *param);
+int sid_set_sid9_address(int val, void *param);
+int sid_set_sid10_address(int val, void *param);
 
 extern int sid_stereo;
 extern int checking_sid_stereo;
@@ -55,5 +57,9 @@ extern unsigned int sid7_address_start;
 extern unsigned int sid7_address_end;
 extern unsigned int sid8_address_start;
 extern unsigned int sid8_address_end;
+extern unsigned int sid9_address_start;
+extern unsigned int sid9_address_end;
+extern unsigned int sid10_address_start;
+extern unsigned int sid10_address_end;
 
 #endif

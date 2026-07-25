@@ -264,7 +264,7 @@ int ui_vsid_window_load_psid(const char *filename)
     /* get md5 digest for PSID file */
     hvsc_md5_digest(filename, digest);
 
-    psid_init_driver();
+    /*psid_init_driver();*//* reset will trigger this */
     machine_play_psid(0);
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
     vsid_mixer_widget_update();
