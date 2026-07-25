@@ -171,7 +171,7 @@ constexpr unsigned int shift_mask =
  * we're back to normal cycles.
  */
 
-inline bool do_writeback(unsigned int waveform_old, unsigned int waveform_new, bool is6581)
+inline bool do_writeback(uint8_t waveform_old, uint8_t waveform_new, bool is6581)
 {
     // no writeback without combined waveforms
 
@@ -252,7 +252,7 @@ inline unsigned int get_noise_writeback(unsigned int waveform_output)
  * The XORing for bit0 is done in this cycle using the test bit latched during
  * the previous phi2 cycle.
  */
-void WaveformGenerator::shift_phase2(unsigned int waveform_old, unsigned int waveform_new)
+void WaveformGenerator::shift_phase2(uint8_t waveform_old, uint8_t waveform_new)
 {
     if (do_writeback(waveform_old, waveform_new, is6581))
     {
@@ -351,9 +351,9 @@ void WaveformGenerator::set_no_noise_or_noise_output()
     no_noise_or_noise_output = no_noise | noise_output;
 }
 
-void WaveformGenerator::writeCONTROL_REG(unsigned char control)
+void WaveformGenerator::writeCONTROL_REG(uint8_t control)
 {
-    const unsigned int waveform_prev = waveform;
+    const uint8_t waveform_prev = waveform;
     const bool test_prev = test;
 
     waveform = (control >> 4) & 0x0f;
@@ -366,30 +366,8 @@ void WaveformGenerator::writeCONTROL_REG(unsigned char control)
     if (waveform != waveform_prev)
     {
         // Set up waveform tables
-        wave = (*model_wave)[waveform & 0x3];
-        // We assume tha combinations including noise
-        // behave the same as without
-        switch (waveform & 0x7)
-        {
-        case 3:
-            pulldown = (*model_pulldown)[0];
-            break;
-        case 4:
-            pulldown = (waveform & 0x8) ? (*model_pulldown)[4] : nullptr;
-            break;
-        case 5:
-            pulldown = (*model_pulldown)[1];
-            break;
-        case 6:
-            pulldown = (*model_pulldown)[2];
-            break;
-        case 7:
-            pulldown = (*model_pulldown)[3];
-            break;
-        default:
-            pulldown = nullptr;
-            break;
-        }
+        setWave();
+        setPulldown();
 
         // no_noise and no_pulse are used in set_waveform_output() as bitmasks to
         // only let the noise or pulse influence the output when the noise or pulse

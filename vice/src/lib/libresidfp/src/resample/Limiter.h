@@ -23,16 +23,17 @@
 
 #include <cmath>
 #include <cassert>
+#include <cstdint>
 
 #include "siddefs-fp.h"
 
 class Limiter
 {
 private:
-    static constexpr int threshold = 28000;
+    static constexpr int32_t threshold = 28000;
 
     template<int m>
-    static inline int clipper(int x)
+    static inline int32_t clipper(int32_t x)
     {
         static_assert(m > 0, "Clipper range must be a positive value");
         assert(x >= 0);
@@ -46,13 +47,13 @@ private:
 
         double value = static_cast<double>(x - threshold) / max_val;
         value = a * std::tanh(b * value);
-        return static_cast<int>(threshold + (value * max_val));
+        return static_cast<int32_t>(threshold + (value * max_val));
     }
 
     /*
      * Soft Clipping implementation, splitted for test.
      */
-    static inline int softClipImpl(int x)
+    static inline int32_t softClipImpl(int32_t x)
     {
         return x < 0 ? -clipper<32768>(-x) : clipper<32767>(x);
     }
@@ -61,7 +62,7 @@ public:
     /*
      * Soft Clipping into 16 bit range [-32768,32767]
      */
-    static inline short softClip(int x) { return static_cast<short>(softClipImpl(x)); }
+    static inline int16_t softClip(int32_t x) { return static_cast<int16_t>(softClipImpl(x)); }
 
 };
 

@@ -25,26 +25,26 @@
 namespace reSIDfp
 {
 
-int Integrator8580::solve(int vi) const
+int32_t Integrator8580::solve(int32_t vi) const
 {
     // Make sure we're not in subthreshold mode
     assert(vx < nVgt);
 
     // DAC voltages
-    const unsigned int Vgst = nVgt - vx;
-    const unsigned int Vgdt = (vi < nVgt) ? nVgt - vi : 0;  // triode/saturation mode
+    const uint32_t Vgst = nVgt - vx;
+    const uint32_t Vgdt = (vi < nVgt) ? nVgt - vi : 0;  // triode/saturation mode
 
-    const unsigned int Vgst_2 = Vgst * Vgst;
-    const unsigned int Vgdt_2 = Vgdt * Vgdt;
+    const uint32_t Vgst_2 = Vgst * Vgst;
+    const uint32_t Vgdt_2 = Vgdt * Vgdt;
 
     // DAC current, scaled by (1/m)*2^13*m*2^16*m*2^16*2^-15 = m*2^30
-    const int n_I_dac = (n_dac * (static_cast<int>(Vgst_2 - Vgdt_2) >> 15)) >> 4;
+    const int32_t n_I_dac = (n_dac * (static_cast<int32_t>(Vgst_2 - Vgdt_2) >> 15)) >> 4;
 
     // Change in capacitor charge.
     vc += n_I_dac;
 
     // vx = g(vc)
-    const int tmp = (vc >> 15) - INT16_MIN;
+    const int32_t tmp = (vc >> 15) - INT16_MIN;
     assert(tmp <= UINT16_MAX);
     vx = fmc.getOpampRev(tmp);
 

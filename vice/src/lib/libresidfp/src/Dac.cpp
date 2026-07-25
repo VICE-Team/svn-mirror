@@ -69,7 +69,7 @@ double Dac::getOutput(unsigned int input, bool saturate) const
     return dacValue;
 }
 
-void Dac::kinkedDac(ChipModel chipModel)
+void Dac::kinkedDac(ChipModel chipModel, double leakLevel)
 {
     constexpr double R_INFINITY = 1e6;
 
@@ -79,7 +79,7 @@ void Dac::kinkedDac(ChipModel chipModel)
     // 6581 DACs are not terminated by a 2R resistor
     const bool term = chipModel == CSG8580;
 
-    leakage = chipModel == MOS6581 ? MOSFET_LEAKAGE_6581 : MOSFET_LEAKAGE_8580;
+    leakage = leakLevel * (chipModel == MOS6581 ? MOSFET_LEAKAGE_6581 : MOSFET_LEAKAGE_8580);
 
     double Vsum = 0.;
 

@@ -60,7 +60,7 @@ private:
     ~FilterModelConfig8580() = default;
 
 protected:
-    inline double getVoiceDC(unsigned int) const override { return getVref(); }
+    inline double getVoiceDC(uint8_t) const override { return getVref(); }
 
 public:
     static FilterModelConfig8580* getInstance();

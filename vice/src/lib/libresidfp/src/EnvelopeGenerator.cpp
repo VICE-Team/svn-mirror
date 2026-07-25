@@ -39,7 +39,7 @@ namespace reSIDfp
  *
  * see [kevtris.org](http://blog.kevtris.org/?p=13)
  */
-const unsigned int EnvelopeGenerator::adsrtable[16] =
+const uint16_t EnvelopeGenerator::adsrtable[16] =
 {
     0x007f,
     0x3000,
@@ -84,7 +84,7 @@ void EnvelopeGenerator::reset()
     rate = adsrtable[release];
 }
 
-void EnvelopeGenerator::writeCONTROL_REG(unsigned char control)
+void EnvelopeGenerator::writeCONTROL_REG(uint8_t control)
 {
     const bool gate_next = (control & 0x01) != 0;
 
@@ -119,7 +119,7 @@ void EnvelopeGenerator::writeCONTROL_REG(unsigned char control)
     }
 }
 
-void EnvelopeGenerator::writeATTACK_DECAY(unsigned char attack_decay)
+void EnvelopeGenerator::writeATTACK_DECAY(uint8_t attack_decay)
 {
     attack = (attack_decay >> 4) & 0x0f;
     decay = attack_decay & 0x0f;
@@ -134,7 +134,7 @@ void EnvelopeGenerator::writeATTACK_DECAY(unsigned char attack_decay)
     }
 }
 
-void EnvelopeGenerator::writeSUSTAIN_RELEASE(unsigned char sustain_release)
+void EnvelopeGenerator::writeSUSTAIN_RELEASE(uint8_t sustain_release)
 {
     // From the sustain levels it follows that both the low and high 4 bits
     // of the envelope counter are compared to the 4-bit sustain value.

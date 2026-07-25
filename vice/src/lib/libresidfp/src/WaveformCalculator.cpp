@@ -184,7 +184,7 @@ static unsigned int triXor(unsigned int val)
  * @param threshold
  * @param accumulator the high bits of the accumulator value
  */
-short calculatePulldown(float distancetable[], float topbit, float pulsestrength, float threshold, unsigned int accumulator)
+int16_t calculatePulldown(float distancetable[], float topbit, float pulsestrength, float threshold, unsigned int accumulator)
 {
     float bit[12];
 
@@ -217,7 +217,7 @@ short calculatePulldown(float distancetable[], float topbit, float pulsestrength
     }
 
     // Get the predicted value
-    short value = 0;
+    int16_t value = 0;
 
     for (unsigned int i = 0; i < 12; i++)
     {
@@ -237,8 +237,8 @@ WaveformCalculator::WaveformCalculator() :
     // Build waveform table.
     for (unsigned int idx = 0; idx < 4096; idx++)
     {
-        const short saw = static_cast<short>(idx);
-        const short tri = static_cast<short>(triXor(idx));
+        const int16_t saw = static_cast<int16_t>(idx);
+        const int16_t tri = static_cast<int16_t>(triXor(idx));
 
         (*wftable)[0][idx] = 0xfff;
         (*wftable)[1][idx] = tri;

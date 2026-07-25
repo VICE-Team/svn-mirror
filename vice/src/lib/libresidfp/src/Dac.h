@@ -48,6 +48,7 @@ namespace reSIDfp
  * the R and 2R resistors, or by output impedance in the NMOS transistors
  * providing the bit voltages. A good approximation of the actual DAC output is
  * achieved for 2R/R ~ 2.20.
+ * NOTE: from the schematics the 2R/R ratio seems pretty accurate.
  *
  * The MOS 8580 DACs, on the other hand, do not exhibit any discontinuities.
  * These DACs include the correct termination resistor, and also seem to have
@@ -107,8 +108,9 @@ public:
      * Build DAC model for specific chip.
      *
      * @param chipModel 6581 or 8580
+     * @param leakLevel the level of the transistor leakage
      */
-    void kinkedDac(ChipModel chipModel);
+    void kinkedDac(ChipModel chipModel, double leakLevel=1.0);
 
     /**
      * Get the Vo output for a  given combination of input bits.

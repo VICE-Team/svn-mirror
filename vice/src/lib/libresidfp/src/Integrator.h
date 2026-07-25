@@ -23,23 +23,27 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
+#include <cstdint>
+
 namespace reSIDfp
 {
 
 class Integrator
 {
 protected:
-    mutable int vx;
-    mutable int vc;
+    mutable int32_t vx;
+    mutable int32_t vc;
 
     Integrator() :
         vx(0),
         vc(0) {}
 
 public:
-    virtual int solve(int vi) const = 0;
+    virtual int32_t solve(int32_t vi) const = 0;
 
     virtual ~Integrator() = default;
+
+    void restart() { vx = 16384; vc = 16384; }
 };
 
 } // namespace reSIDfp

@@ -54,9 +54,11 @@ namespace reSIDfp
  */
 class Integrator8580 : public Integrator
 {
+    friend class State;
+
 private:
-    unsigned short nVgt;
-    unsigned short n_dac;
+    uint16_t nVgt;
+    uint16_t n_dac;
 
     FilterModelConfig8580& fmc;
 
@@ -92,7 +94,7 @@ public:
         nVgt = fmc.getNormalizedValue(Vgt);
     }
 
-    int solve(int vi) const override;
+    int32_t solve(int32_t vi) const override;
 };
 
 } // namespace reSIDfp
