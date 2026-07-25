@@ -16,6 +16,8 @@ Copyright (c) 2010-2026 Leandro Nini (drfiemost@users.sourceforge.net)
 
 -----------------------------------------------------------------------------
 
+## License
+
 _This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
@@ -29,6 +31,35 @@ _This program is distributed in the hope that it will be useful,
 _You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA._
+
+
+## About
+
+reSIDfp is a fork of Dag Lem's reSID 0.16, a reverse engineered software emulation
+of the MOS6581/8580 SID (Sound Interface Device).
+
+The project was started by Antti S. Lankila in order to improve SID emulation
+with special focus on the 6581 filter.
+The codebase has been later on ported to java by Ken Händel within the jsidplay2 project
+and has seen further work by Antti Lankila.
+It was then ported back to c++, integrated with changes from reSID 1.0
+and further improved by Leandro Nini.
+
+
+### Main differences from reSID:
+
+* combined waveforms are emulated by a parametrized model based on samplings from real chips, the pulldown effect has been separated from the digital ANDing of the waveforms;
+* high quality resampling is done in two steps to allow computational savings using lower order filters;
+* interpolation of the opamp values is accomplished with Fritsch-Carlson method to preserve monotonicity.
+
+### Features:
+
+* Filter distortion
+* 6581 DAC non-linearity
+* 6581 DAC distortion
+* 6581 DC drift
+* Oscillator leak
+* Configurable strength of combined waveforms
 
 -----------------------------------------------------------------------------
 
@@ -50,7 +81,7 @@ compile for debugging with inlining disabled and warnings
 (disabled by default)
 
 * `--enable-branch-hints`:
-enable branch hints in the reSID engine so the compiler can produce more optimized code
+enable branch hints so the compiler can produce more optimized code
 (enabled by default)
 
 * `--with-simd=<runtime/mmx/sse2/sse4/avx2/avx512f/none>`:

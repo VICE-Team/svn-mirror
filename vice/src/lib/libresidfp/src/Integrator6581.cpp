@@ -29,7 +29,7 @@
 namespace reSIDfp
 {
 
-int Integrator6581::solve(int vi) const
+int32_t Integrator6581::solve(int32_t vi) const
 {
     // Make sure Vgst>0 so we're not in subthreshold mode
     assert(vx < nVddt);
@@ -39,39 +39,39 @@ int Integrator6581::solve(int vi) const
     assert(vi < nVddt);
 
     // "Snake" voltages for triode mode calculation.
-    const unsigned int Vgst = nVddt - vx;
-    const unsigned int Vgdt = nVddt - vi;
+    const uint32_t Vgst = nVddt - vx;
+    const uint32_t Vgdt = nVddt - vi;
 
-    const unsigned int Vgst_2 = Vgst * Vgst;
-    const unsigned int Vgdt_2 = Vgdt * Vgdt;
+    const uint32_t Vgst_2 = Vgst * Vgst;
+    const uint32_t Vgdt_2 = Vgdt * Vgdt;
 
     // "Snake" current, scaled by (1/m)*2^13*m*2^16*m*2^16*2^-15 = m*2^30
-    const int n_I_snake = fmc.getNormalizedCurrentFactor<13>(wlSnake) * (static_cast<int>(Vgst_2 - Vgdt_2) >> 15);
+    const int32_t n_I_snake = fmc.getNormalizedCurrentFactor<13>(wlSnake) * (static_cast<int32_t>(Vgst_2 - Vgdt_2) >> 15);
 
     // VCR gate voltage.       // Scaled by m*2^16
     // Vg = Vddt - sqrt(((Vddt - Vw)^2 + Vgdt^2)/2)
-    const int nVg = static_cast<int>(fmc.getVcr_nVg((nVddt_Vw_2 + (Vgdt_2 >> 1)) >> 16));
+    const int32_t nVg = static_cast<int32_t>(fmc.getVcr_nVg((nVddt_Vw_2 + (Vgdt_2 >> 1)) >> 16));
 #ifdef SLOPE_FACTOR
     const double nVp = static_cast<double>(nVg - nVt) / n; // Pinch-off voltage
-    const int kVgt = static_cast<int>(nVp + 0.5) - nVmin;
+    const int32_t kVgt = static_cast<int32_t>(nVp + 0.5) - nVmin;
 #else
-    const int kVgt = (nVg - nVt) - nVmin;
+    const int32_t kVgt = (nVg - nVt) - nVmin;
 #endif
 
     // VCR voltages for EKV model table lookup.
-    const int kVgt_Vs = (kVgt - vx) - INT16_MIN;
+    const int32_t kVgt_Vs = (kVgt - vx) - INT16_MIN;
     assert((kVgt_Vs >= 0) && (kVgt_Vs <= UINT16_MAX));
-    const int kVgt_Vd = (kVgt - vi) - INT16_MIN;
+    const int32_t kVgt_Vd = (kVgt - vi) - INT16_MIN;
     assert((kVgt_Vd >= 0) && (kVgt_Vd <= UINT16_MAX));
 
     // VCR current, scaled by m*2^15*2^15 = m*2^30
-    const unsigned int If = static_cast<unsigned int>(fmc.getVcr_n_Ids_term(kVgt_Vs)) << 15;
-    const unsigned int Ir = static_cast<unsigned int>(fmc.getVcr_n_Ids_term(kVgt_Vd)) << 15;
+    const uint32_t If = static_cast<uint32_t>(fmc.getVcr_n_Ids_term(kVgt_Vs)) << 15;
+    const uint32_t Ir = static_cast<uint32_t>(fmc.getVcr_n_Ids_term(kVgt_Vd)) << 15;
 #ifdef SLOPE_FACTOR
     const double iVcr = static_cast<double>(If - Ir);
-    const int n_I_vcr = static_cast<int>(iVcr * n);
+    const int32_t n_I_vcr = static_cast<int32_t>(iVcr * n);
 #else
-    const int n_I_vcr = If - Ir;
+    const int32_t n_I_vcr = If - Ir;
 #endif
 
 #ifdef SLOPE_FACTOR
@@ -87,7 +87,7 @@ int Integrator6581::solve(int vi) const
     vc += n_I_snake + n_I_vcr;
 
     // vx = g(vc)
-    const int tmp = (vc >> 15) - INT16_MIN;
+    const int32_t tmp = (vc >> 15) - INT16_MIN;
     assert(tmp <= UINT16_MAX);
     vx = fmc.getOpampRev(tmp);
 

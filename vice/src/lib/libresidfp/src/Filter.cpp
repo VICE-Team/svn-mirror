@@ -52,8 +52,8 @@ void Filter::updateMixing()
 {
     currentVolume = volume + (vol * (1<<16));
 
-    unsigned int Nsum = 0;
-    unsigned int Nmix = 0;
+    int Nsum = 0;
+    int Nmix = 0;
 
     (filt1 ? Nsum : Nmix)++;
     (filt2 ? Nsum : Nmix)++;
@@ -72,19 +72,19 @@ void Filter::updateMixing()
     currentMixer = mixer + mixerIdx[Nmix];
 }
 
-void Filter::writeFC_LO(unsigned char fc_lo)
+void Filter::writeFC_LO(uint8_t fc_lo)
 {
     fc = (fc & 0x7f8) | (fc_lo & 0x007);
     updateCenterFrequency();
 }
 
-void Filter::writeFC_HI(unsigned char fc_hi)
+void Filter::writeFC_HI(uint8_t fc_hi)
 {
     fc = (fc_hi << 3 & 0x7f8) | (fc & 0x007);
     updateCenterFrequency();
 }
 
-void Filter::writeRES_FILT(unsigned char res_filt)
+void Filter::writeRES_FILT(uint8_t res_filt)
 {
     filt = res_filt;
 
@@ -101,7 +101,7 @@ void Filter::writeRES_FILT(unsigned char res_filt)
     updateMixing();
 }
 
-void Filter::writeMODE_VOL(unsigned char mode_vol)
+void Filter::writeMODE_VOL(uint8_t mode_vol)
 {
     vol = mode_vol & 0x0f;
     lp = (mode_vol & 0x10) != 0;
@@ -112,12 +112,16 @@ void Filter::writeMODE_VOL(unsigned char mode_vol)
     updateMixing();
 }
 
-Filter::Filter(FilterModelConfig& new_fmc) :
-    mixer(new_fmc.getMixer()),
-    summer(new_fmc.getSummer()),
-    resonance(new_fmc.getResonance()),
-    volume(new_fmc.getVolume()),
-    fmc(new_fmc)
+Filter::Filter(const FilterModelConfig& fmc,
+               const Integrator& hpIntegrator,
+               const Integrator& bpIntegrator) :
+    mixer(fmc.getMixer()),
+    summer(fmc.getSummer()),
+    resonance(fmc.getResonance()),
+    volume(fmc.getVolume()),
+    m_fmc(fmc),
+    m_hpIntegrator(hpIntegrator),
+    m_bpIntegrator(bpIntegrator)
 {
     input(0);
 }

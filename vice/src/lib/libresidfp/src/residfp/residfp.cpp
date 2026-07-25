@@ -23,6 +23,9 @@
 #include "residfp.h"
 
 #include "SID.h"
+#include "State.h"
+
+#include <cstring>
 
 using namespace reSIDfp;
 
@@ -75,6 +78,11 @@ void residfp::input(int value)
     sid.input(value);
 }
 
+unsigned char residfp::peek(int offset) const
+{
+    return sid.peek(offset);
+}
+
 unsigned char residfp::read(int offset)
 {
     return sid.read(offset);
@@ -112,6 +120,11 @@ int residfp::clock( short* buf, int bufSize)
     return sid.clock(buf, bufSize);
 }
 
+void residfp::clockDigital(unsigned int cycles)
+{
+    sid.clockDigital(cycles);
+}
+
 void residfp::clockSilent(unsigned int cycles)
 {
     sid.clockSilent(cycles);
@@ -140,4 +153,34 @@ void residfp::enableFilter(bool enable)
 void residfp::enableOld6581caps(bool enable)
 {
     sid.enableOld6581caps(enable);
+}
+
+void residfp::setOffset6581(double offset)
+{
+    sid.setOffset6581(offset);
+}
+
+void residfp::setPaddle(unsigned char x, unsigned char y)
+{
+    sid.setPaddle(x, y);
+}
+
+int residfp::stateSize() const
+{
+    return State::size(sid);
+}
+
+int residfp::saveState(char* buffer, int size) const
+{
+    return State::saveState(sid, buffer, size);
+}
+
+void residfp::restoreState(char* buffer, int size)
+{
+    State::restoreState(sid, buffer, size);
+}
+
+void residfp::setDacLeakage(double level)
+{
+    sid.setDacLeakage(level);
 }

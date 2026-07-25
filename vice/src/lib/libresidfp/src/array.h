@@ -21,6 +21,7 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include <cstdint>
 
 #include <atomic>
 #include <memory>
@@ -55,7 +56,7 @@ public:
     T const* operator[](unsigned int a) const { return &data[a * y]; }
 };
 
-using matrix_t = matrix<short>;
+using matrix_t = matrix<int16_t>;
 using rc_matrix_t = std::shared_ptr<matrix_t>;
 
 #endif

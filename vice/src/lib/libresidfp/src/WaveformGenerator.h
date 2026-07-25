@@ -90,53 +90,55 @@ namespace reSIDfp
  */
 class WaveformGenerator
 {
+    friend class State;
+
 private:
     rc_matrix_t model_wave;
     rc_matrix_t model_pulldown;
 
-    short* wave = nullptr;
-    short* pulldown = nullptr;
+    int16_t* wave = nullptr;
+    int16_t* pulldown = nullptr;
 
     // PWout = (PWn/40.95)%
-    unsigned int pw = 0;
+    uint32_t pw = 0;
 
-    unsigned int shift_register = 0;
+    uint32_t shift_register = 0;
 
     /// Shift register is latched when transitioning to shift phase 1.
-    unsigned int shift_latch = 0;
+    uint32_t shift_latch = 0;
 
     /// Emulation of pipeline causing bit 19 to clock the shift register.
     int shift_pipeline = 0;
 
-    unsigned int ring_msb_mask = 0;
-    unsigned int no_noise = 0;
-    unsigned int noise_output = 0;
-    unsigned int no_noise_or_noise_output = 0;
-    unsigned int no_pulse = 0;
-    unsigned int pulse_output = 0;
+    uint32_t ring_msb_mask = 0;
+    uint32_t no_noise = 0;
+    uint32_t noise_output = 0;
+    uint32_t no_noise_or_noise_output = 0;
+    uint32_t no_pulse = 0;
+    uint32_t pulse_output = 0;
 
-    /// The control register right-shifted 4 bits; used for output function table lookup.
-    unsigned int waveform = 0;
-
-    unsigned int waveform_output = 0;
+    uint32_t waveform_output = 0;
 
     /// Current accumulator value.
-    unsigned int accumulator = 0x555555; // Accumulator's even bits are high on powerup
+    uint32_t accumulator = 0x555555; // Accumulator's even bits are high on powerup
 
     // Fout = (Fn*Fclk/16777216)Hz
-    unsigned int freq = 0;
+    uint32_t freq = 0;
 
     /// 8580 tri/saw pipeline
-    unsigned int tri_saw_pipeline = 0x555;
+    uint32_t tri_saw_pipeline = 0x555;
 
     /// The OSC3 value
-    unsigned int osc3 = 0;
+    uint32_t osc3 = 0;
 
     /// Remaining time to fully reset shift register.
     unsigned int shift_register_reset = 0;
 
     // The wave signal TTL when no waveform is selected.
     unsigned int floating_output_ttl = 0;
+
+    /// The control register right-shifted 4 bits; used for output function table lookup.
+    uint8_t waveform = 0;
 
     /// The control register bits. Gate is handled by EnvelopeGenerator.
     //@{
@@ -159,7 +161,7 @@ private:
     //@}
 
 private:
-    void shift_phase2(unsigned int waveform_old, unsigned int waveform_new);
+    void shift_phase2(uint8_t waveform_old, uint8_t waveform_new);
 
     void write_shift_register();
 
@@ -170,6 +172,34 @@ private:
     void waveBitfade();
 
     void shiftregBitfade();
+
+    inline void setWave() { wave = (*model_wave)[waveform & 0x3]; }
+
+    inline void setPulldown()
+    {
+        // We assume tha combinations including noise
+        // behave the same as without
+        switch (waveform & 0x7)
+        {
+        case 3:
+            pulldown = (*model_pulldown)[0];
+            break;
+        case 4:
+            pulldown = (waveform & 0x8) ? (*model_pulldown)[4] : nullptr;
+            break;
+        case 5:
+            pulldown = (*model_pulldown)[1];
+            break;
+        case 6:
+            pulldown = (*model_pulldown)[2];
+            break;
+        case 7:
+            pulldown = (*model_pulldown)[3];
+            break;
+        default:
+            pulldown = nullptr;
+        }
+    }
 
 public:
     void setWaveformModels(rc_matrix_t models);
@@ -206,35 +236,35 @@ public:
      *
      * @param freq_lo low 8 bits of frequency
      */
-    void writeFREQ_LO(unsigned char freq_lo) { freq = (freq & 0xff00) | (freq_lo & 0xff); }
+    void writeFREQ_LO(uint8_t freq_lo) { freq = (freq & 0xff00) | (freq_lo & 0xff); }
 
     /**
      * Write FREQ HI register.
      *
      * @param freq_hi high 8 bits of frequency
      */
-    void writeFREQ_HI(unsigned char freq_hi) { freq = (freq_hi << 8 & 0xff00) | (freq & 0xff); }
+    void writeFREQ_HI(uint8_t freq_hi) { freq = (freq_hi << 8 & 0xff00) | (freq & 0xff); }
 
     /**
      * Write PW LO register.
      *
      * @param pw_lo low 8 bits of pulse width
      */
-    void writePW_LO(unsigned char pw_lo) { pw = (pw & 0xf00) | (pw_lo & 0x0ff); }
+    void writePW_LO(uint8_t pw_lo) { pw = (pw & 0xf00) | (pw_lo & 0x0ff); }
 
     /**
      * Write PW HI register.
      *
      * @param pw_hi high 8 bits of pulse width
      */
-    void writePW_HI(unsigned char pw_hi) { pw = (pw_hi << 8 & 0xf00) | (pw & 0x0ff); }
+    void writePW_HI(uint8_t pw_hi) { pw = (pw_hi << 8 & 0xf00) | (pw & 0x0ff); }
 
     /**
      * Write CONTROL REGISTER register.
      *
      * @param control control register value
      */
-    void writeCONTROL_REG(unsigned char control);
+    void writeCONTROL_REG(uint8_t control);
 
     /**
      * SID reset.
@@ -246,22 +276,22 @@ public:
      *
      * @return the waveform generator digital output
      */
-    unsigned int output();
+    uint32_t output();
 
     /**
      * Read OSC3 value.
      */
-    unsigned char readOSC() const { return static_cast<unsigned char>(osc3 >> 4); }
+    uint8_t readOSC() const { return static_cast<uint8_t>(osc3 >> 4); }
 
     /**
      * Read accumulator value.
      */
-    unsigned int readAccumulator() const { return accumulator; }
+    uint32_t readAccumulator() const { return accumulator; }
 
     /**
      * Read freq value.
      */
-    unsigned int readFreq() const { return freq; }
+    uint32_t readFreq() const { return freq; }
 
     /**
      * Read test value.
@@ -307,11 +337,11 @@ void WaveformGenerator::clock()
     else
     {
         // Calculate new accumulator value;
-        const unsigned int accumulator_old = accumulator;
+        const uint32_t accumulator_old = accumulator;
         accumulator = (accumulator + freq) & 0xffffff;
 
         // Check which bit have changed from low to high
-        const unsigned int accumulator_bits_set = ~accumulator_old & accumulator;
+        const uint32_t accumulator_bits_set = ~accumulator_old & accumulator;
 
         // Check whether the MSB is set high. This is used for synchronization.
         msb_rising = (accumulator_bits_set & 0x800000) != 0;
@@ -347,12 +377,12 @@ void WaveformGenerator::clock()
 }
 
 RESIDFP_INLINE
-unsigned int WaveformGenerator::output()
+uint32_t WaveformGenerator::output()
 {
     // Set output value.
     if (likely(waveform != 0))
     {
-        const unsigned int ix = (accumulator ^ (~prevVoice->accumulator & ring_msb_mask)) >> 12;
+        const uint32_t ix = (accumulator ^ (~prevVoice->accumulator & ring_msb_mask)) >> 12;
 
         // The bit masks no_pulse and no_noise are used to achieve branch-free
         // calculation of the output value.

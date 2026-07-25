@@ -26,6 +26,8 @@
 
 #include "siddefs-fp.h"
 
+#include <cstdint>
+
 namespace reSIDfp
 {
 
@@ -42,7 +44,9 @@ namespace reSIDfp
  */
 class EnvelopeGenerator
 {
-private:
+    friend class State;
+
+public:
     /**
      * The envelope state machine's distinct states. In addition to this,
      * envelope has a hold mode, which freezes envelope counter to zero.
@@ -54,10 +58,10 @@ private:
 
 private:
     /// XOR shift register for ADSR prescaling.
-    unsigned int lfsr = 0x7fff;
+    uint16_t lfsr = 0x7fff;
 
     /// Comparison value (period) of the rate counter before next event.
-    unsigned int rate = 0;
+    uint16_t rate = 0;
 
     /**
      * During release mode, the SID approximates envelope decay via piecewise
@@ -93,25 +97,25 @@ private:
     bool resetLfsr = false;
 
     /// The current digital value of envelope output.
-    unsigned char envelope_counter = 0xaa;
+    uint8_t envelope_counter = 0xaa;
 
     /// Attack register
-    unsigned char attack = 0;
+    uint8_t attack = 0;
 
     /// Decay register
-    unsigned char decay = 0;
+    uint8_t decay = 0;
 
     /// Sustain register
-    unsigned char sustain = 0;
+    uint8_t sustain = 0;
 
     /// Release register
-    unsigned char release = 0;
+    uint8_t release = 0;
 
     /// The ENV3 value, sampled at the first phase of the clock
-    unsigned char env3 = 0;
+    uint8_t env3 = 0;
 
 private:
-    static const unsigned int adsrtable[16];
+    static const uint16_t adsrtable[16];
 
 private:
     void set_exponential_counter();
@@ -127,7 +131,7 @@ public:
     /**
      * Get the Envelope Generator digital output.
      */
-    unsigned int output() const { return envelope_counter; }
+    uint8_t output() const { return envelope_counter; }
 
     /**
      * SID reset.
@@ -140,7 +144,7 @@ public:
      * @param control
      *            control register value
      */
-    void writeCONTROL_REG(unsigned char control);
+    void writeCONTROL_REG(uint8_t control);
 
     /**
      * Write Attack/Decay register.
@@ -148,7 +152,7 @@ public:
      * @param attack_decay
      *            attack/decay value
      */
-    void writeATTACK_DECAY(unsigned char attack_decay);
+    void writeATTACK_DECAY(uint8_t attack_decay);
 
     /**
      * Write Sustain/Release register.
@@ -156,14 +160,14 @@ public:
      * @param sustain_release
      *            sustain/release value
      */
-    void writeSUSTAIN_RELEASE(unsigned char sustain_release);
+    void writeSUSTAIN_RELEASE(uint8_t sustain_release);
 
     /**
      * Return the envelope current value.
      *
      * @return envelope counter value
      */
-    unsigned char readENV() const { return env3; }
+    uint8_t readENV() const { return env3; }
 };
 
 } // namespace reSIDfp

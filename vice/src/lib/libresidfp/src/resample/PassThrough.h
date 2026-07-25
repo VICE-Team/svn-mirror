@@ -31,6 +31,8 @@ namespace reSIDfp
  */
 class PassThrough final : public Resampler
 {
+    friend class State;
+
 private:
     /// Last sample
     int outputValue;

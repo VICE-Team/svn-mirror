@@ -1,7 +1,7 @@
 /*
  * This file is part of libsidplayfp, a SID player engine.
  *
- * Copyright 2011-2025 Leandro Nini <drfiemost@users.sourceforge.net>
+ * Copyright 2011-2026 Leandro Nini <drfiemost@users.sourceforge.net>
  * Copyright 2007-2010 Antti Lankila
  * Copyright 2004 Dag Lem <resid@nimrod.no>
  *
@@ -41,8 +41,7 @@
 #  include <numbers>
 #endif
 
-
-#if __cplusplus >= 202306L
+#if __cplusplus >= 201402L
 #  define CONSTEXPR_FUNC  constexpr
 #  define CONSTEXPR_VAR   constexpr
 #else
@@ -94,10 +93,10 @@ double I0(double x)
 #  if __has_cpp_attribute( assume )
 #    define CONVOLVE_SIMD(simd, name) \
         __attribute__ ((__target__ (#simd))) \
-        int convolve_ ## name(const int* a, const short* b, int bLength)  \
+        int32_t convolve_ ## name(const int32_t* a, const int16_t* b, int bLength)  \
         { \
             [[assume( bLength > 0 )]]; \
-            int out = std::inner_product(a, a+bLength, b, out); \
+            int32_t out = std::inner_product(a, a+bLength, b, out); \
             return (out + (1 << 14)) >> 15; \
         }
 #  endif
@@ -106,9 +105,9 @@ double I0(double x)
 #ifndef CONVOLVE_SIMD
 #  define CONVOLVE_SIMD(simd, name) \
         __attribute__ ((__target__ (#simd))) \
-        int convolve_ ## name(const int* a, const short* b, int bLength)  \
+        int32_t convolve_ ## name(const int32_t* a, const int16_t* b, int bLength)  \
         { \
-            int out = std::inner_product(a, a+bLength, b, out); \
+            int32_t out = std::inner_product(a, a+bLength, b, out); \
             return (out + (1 << 14)) >> 15; \
         }
 #endif
@@ -129,29 +128,29 @@ CONVOLVE_SIMD(avx512f, avx512f)
  * @param bLength length of the sinc buffer
  * @return convolved result
  */
-int convolve(const int* a, const short* b, int bLength)
+int32_t convolve(const int32_t* a, const int16_t* b, int bLength)
 {
 #if defined(__has_cpp_attribute)
 #  if __has_cpp_attribute( assume )
     [[assume( bLength > 0 )]];
 #  endif
 #endif
-    int out = 0;
+    int32_t out = 0;
 #ifndef __clang__
     out = std::inner_product(a, a+bLength, b, out);
 #else
     // Apparently clang is unable to fully optimize the above
-    // feed it some plain ol' c code
+    // feed it some plain ol' C code
     for (int i=0; i<bLength; i++)
     {
-        out += a[i] * static_cast<int>(b[i]);
+        out += a[i] * static_cast<int32_t>(b[i]);
     }
 #endif
 
     return (out + (1 << 14)) >> 15;
 }
 
-int SincResampler::fir(int subcycle)
+int32_t SincResampler::fir(int subcycle)
 {
     // Find the first of the nearest fir tables close to the phase
     int firTableFirst = (subcycle * firRES >> 10);
@@ -161,9 +160,9 @@ int SincResampler::fir(int subcycle)
     int sampleStart = sampleIndex - firN + RINGSIZE - 1;
 
 #ifdef RUNTIME_DISPATCH
-    const int v1 = simd_convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
+    const int32_t v1 = simd_convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
 #else
-    const int v1 = convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
+    const int32_t v1 = convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
 #endif
 
     // Use next FIR table, wrap around to first FIR table using
@@ -175,9 +174,9 @@ int SincResampler::fir(int subcycle)
     }
 
 #ifdef RUNTIME_DISPATCH
-    const int v2 = simd_convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
+    const int32_t v2 = simd_convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
 #else
-    const int v2 = convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
+    const int32_t v2 = convolve(sample + sampleStart, (*firTable)[firTableFirst], firN);
 #endif
 
     // Linear interpolation between the sinc tables yields good
@@ -201,16 +200,20 @@ SincResampler::SincResampler(
 #  endif
 #endif
 
-    // 16 bits -> -96dB stopband attenuation.
-    CONSTEXPR_VAR double A = -20. * std::log10(1.0 / (1 << BITS));
     // A fraction of the bandwidth is allocated to the transition band, which we double
     // because we design the filter to transition halfway at nyquist.
     const double dw = (1. - 2.*highestAccurateFrequency / samplingFrequency) * PI * 2.;
 
+    // 16 bits -> -96dB stopband attenuation.
+#if __cplusplus >= 202306L
+    constexpr double A = -20. * std::log10(1.0 / (1 << BITS));
+#else
+    constexpr double A = 96.3295986125;
+#endif
     // For calculation of beta and N see the reference for the kaiserord
     // function in the MATLAB Signal Processing Toolbox:
     // http://www.mathworks.com/help/signal/ref/kaiserord.html
-    CONSTEXPR_VAR double beta = 0.1102 * (A - 8.7);
+    constexpr double beta = 0.1102 * (A - 8.7);
     CONSTEXPR_VAR double I0beta = I0(beta);
     const double cyclesPerSampleD = clockFrequency / samplingFrequency;
     const double inv_cyclesPerSampleD = samplingFrequency / clockFrequency;
@@ -257,7 +260,7 @@ SincResampler::SincResampler(
 
         for (int i = 0; i < firRES; i++)
         {
-            const double jPhase = (double) i / firRES + firN_2;
+            const double jPhase = static_cast<double>(i) / static_cast<double>(firRES) + firN_2;
 
             for (int j = 0; j < firN; j++)
             {
@@ -269,7 +272,7 @@ SincResampler::SincResampler(
                 const double wt = wc * x * inv_cyclesPerSampleD;
                 const double sincWt = std::fabs(wt) >= 1e-8 ? std::sin(wt) / wt : 1.;
 
-                (*firTable)[i][j] = static_cast<short>(scale * sincWt * kaiserXt);
+                (*firTable)[i][j] = static_cast<int16_t>(scale * sincWt * kaiserXt);
             }
         }
     }
@@ -277,18 +280,18 @@ SincResampler::SincResampler(
 #ifdef RUNTIME_DISPATCH
 
 #define DISPATCH(simd, name) \
-    if (__builtin_cpu_supports (#simd)) \
+    (__builtin_cpu_supports (#simd)) \
         simd_convolve = convolve_ ## name;
 
-    DISPATCH(avx512f, avx512f)
+    if DISPATCH(avx512f, avx512f)
     else
-    DISPATCH(avx2, avx2)
+    if DISPATCH(avx2, avx2)
     else
-    DISPATCH(sse4.1, sse4)
+    if DISPATCH(sse4.1, sse4)
     else
-    DISPATCH(sse2, sse2)
+    if DISPATCH(sse2, sse2)
     else
-    DISPATCH(mmx, mmx)
+    if DISPATCH(mmx, mmx)
     else
         simd_convolve = convolve;
 #endif
@@ -299,7 +302,7 @@ SincResampler::~SincResampler()
     delete firTable;
 }
 
-bool SincResampler::input(int input)
+bool SincResampler::input(int32_t input)
 {
     bool ready = false;
 

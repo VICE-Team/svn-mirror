@@ -163,6 +163,8 @@ namespace reSIDfp
  */
 class Integrator6581 : public Integrator
 {
+    friend class State;
+
 private:
     const double wlSnake;
 
@@ -173,11 +175,11 @@ private:
     mutable double n;
 #endif
 
-    unsigned int nVddt_Vw_2;
+    uint32_t nVddt_Vw_2;
 
-    const unsigned short nVddt;
-    const unsigned short nVt;
-    const unsigned short nVmin;
+    const uint16_t nVddt;
+    const uint16_t nVt;
+    const uint16_t nVmin;
 
     FilterModelConfig6581& fmc;
 
@@ -193,9 +195,9 @@ public:
         nVmin(new_fmc.getNVmin()),
         fmc(new_fmc) {}
 
-    void setVw(unsigned short Vw) { nVddt_Vw_2 = ((nVddt - Vw) * (nVddt - Vw)) >> 1; }
+    void setVw(uint16_t Vw) { nVddt_Vw_2 = ((nVddt - Vw) * (nVddt - Vw)) >> 1; }
 
-    int solve(int vi) const override;
+    int32_t solve(int32_t vi) const override;
 };
 
 } // namespace reSIDfp

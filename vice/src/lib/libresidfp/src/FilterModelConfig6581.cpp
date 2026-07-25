@@ -198,7 +198,7 @@ FilterModelConfig6581::FilterModelConfig6581() :
             vmin,
             vmax);
 
-        buildMixerTable(opampModel, 8.0 / 6.0);
+        buildMixerTable(opampModel, 8.0 / (6.0 * VF_TR_RATIO));
     };
 
     auto filterGain = [this]
@@ -242,7 +242,7 @@ FilterModelConfig6581::FilterModelConfig6581() :
         {
             // The table index is right-shifted 16 times in order to fit in
             // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-            vcr_nVg[i] = to_ushort(nVddt - std::sqrt(static_cast<double>(i << 16)));
+            vcr_nVg[i] = to_uint16(nVddt - std::sqrt(static_cast<double>(i << 16)));
         }
     };
 
@@ -298,11 +298,11 @@ FilterModelConfig6581::FilterModelConfig6581() :
 #endif
 }
 
-unsigned short* FilterModelConfig6581::getDAC(double adjustment) const
+uint16_t* FilterModelConfig6581::getDAC(double adjustment) const
 {
     const double new_dac_zero = getDacZero(adjustment);
 
-    unsigned short* f0_dac = new unsigned short[1 << DAC_BITS];
+    uint16_t* f0_dac = new uint16_t[1 << DAC_BITS];
 
     for (unsigned int i = 0; i < (1 << DAC_BITS); i++)
     {

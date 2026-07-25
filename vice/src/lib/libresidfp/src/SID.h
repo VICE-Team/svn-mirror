@@ -33,6 +33,7 @@
 #include "ExternalFilter.h"
 #include "Filter.h"
 #include "Voice.h"
+#include "State.h"
 
 namespace reSIDfp
 {
@@ -61,6 +62,8 @@ public:
  */
 class SID
 {
+    friend class State;
+
 private:
     /// Currently active filter
     Filter* filter;
@@ -95,14 +98,25 @@ private:
     /// Time until #voiceSync must be run.
     unsigned int nextVoiceSync;
 
+    unsigned int offset_6581;
+
     /// Currently active chip model.
     ChipModel model;
 
     /// Currently selected combined waveforms strength.
     CombinedWaveforms cws;
 
+    // Dac leakage
+    double dacLeakage;
+
     /// Last written value
-    unsigned char busValue;
+    uint8_t busValue;
+
+    /// Paddle coordinates.
+    //@{
+    uint8_t paddleX = 0xff;
+    uint8_t paddleY = 0xff;
+    //@}
 
     /**
      * Emulated nonlinearity of the envelope DAC.
@@ -118,13 +132,16 @@ private:
      */
     float oscDAC[4096];
 
+    /// Parameters for save state
+    Params* p;
+
 private:
     /**
      * Age the bus value and zero it if it's TTL has expired.
      *
      * @param n the number of cycles
      */
-    void ageBusValue(unsigned int n);
+    void ageBusValue(int n);
 
     /**
      * Calculate the numebr of cycles according to current parameters
@@ -151,10 +168,10 @@ private:
     }
 
     /// clock internal and external filters
-    inline int clockFilt()
+    inline int32_t clockFilt()
     {
-        unsigned short filtOutput = filter->clock(voice[0], voice[1], voice[2]);
-        int exFiltInput = static_cast<int>(filtOutput) + INT16_MIN;
+        uint16_t filtOutput = filter->clock(voice[0], voice[1], voice[2]);
+        int32_t exFiltInput = static_cast<int32_t>(filtOutput) + INT16_MIN;
         return externalFilter.clock(exFiltInput);
     }
 
@@ -203,6 +220,14 @@ public:
     void input(int value);
 
     /**
+     * Read registers without altering state.
+     *
+     * @param offset SID register to read
+     * @return value read from chip
+     */
+    uint8_t peek(int offset) const;
+
+    /**
      * Read registers.
      *
      * Reading a write only register returns the last char written to any SID register.
@@ -222,7 +247,7 @@ public:
      * @param offset SID register to read
      * @return value read from chip
      */
-    unsigned char read(int offset);
+    uint8_t read(int offset);
 
     /**
      * Write registers.
@@ -230,7 +255,7 @@ public:
      * @param offset chip register to write
      * @param value value to write
      */
-    void write(int offset, unsigned char value);
+    void write(int offset, uint8_t value);
 
     /**
      * Setting of SID sampling parameters.
@@ -269,7 +294,7 @@ public:
      * @param buf audio output buffer
      * @return number of samples produced
      */
-    int clock(unsigned int cycles, short* buf);
+    int clock(unsigned int cycles, int16_t* buf);
 
     /**
      * Clock SID forward using chosen output resampling algorithm.
@@ -278,7 +303,16 @@ public:
      * @param bufSize the buffer size
      * @return number of c64 clocks run
      */
-    int clock(short* buf, int bufSize);
+    int clock(int16_t* buf, int bufSize);
+
+    /**
+     * Clock SID forward with no audio production.
+     * Only the digital parts are emulated,
+     * the analog stage is ignored.
+     *
+     * @param cycles c64 clocks to clock.
+     */
+    void clockDigital(unsigned int cycles);
 
     /**
      * Clock SID forward with no audio production.
@@ -324,6 +358,21 @@ public:
      * Enable/disable old caps (2200pF) for 6581 model.
      */
     void enableOld6581caps(bool enable);
+
+    /**
+     * Set paddle coordinates.
+     */
+    void setPaddle(uint8_t x, uint8_t y);
+
+    /*
+     * Set the DAC leakage level.
+     */
+    void setDacLeakage(double level);
+
+    /*
+     * Set the 6581 wave offset.
+     */
+    void setOffset6581(double offset);
 };
 
 } // namespace reSIDfp
@@ -338,7 +387,7 @@ namespace reSIDfp
 {
 
 RESIDFP_INLINE
-void SID::ageBusValue(unsigned int n)
+void SID::ageBusValue(int n)
 {
     if (likely(busValueTtl != 0))
     {
@@ -353,7 +402,7 @@ void SID::ageBusValue(unsigned int n)
 }
 
 RESIDFP_INLINE
-int SID::clock(unsigned int cycles, short* buf)
+int SID::clock(unsigned int cycles, int16_t* buf)
 {
     assert(buf);
 
@@ -371,7 +420,7 @@ int SID::clock(unsigned int cycles, short* buf)
                 clockWaveGen();
                 clockEnvGen();
 
-                int output = clockFilt();
+                int32_t output = clockFilt();
                 if (unlikely(resampler->input(output)))
                 {
                     buf[s++] = resampler->getOutput(scaleFactor);
@@ -392,7 +441,7 @@ int SID::clock(unsigned int cycles, short* buf)
 }
 
 RESIDFP_INLINE
-int SID::clock(short* buf, int bufSize)
+int SID::clock(int16_t* buf, int bufSize)
 {
     assert(buf);
     assert(bufSize > 0);
@@ -412,7 +461,7 @@ int SID::clock(short* buf, int bufSize)
                 clockWaveGen();
                 clockEnvGen();
 
-                int output = clockFilt();
+                int32_t output = clockFilt();
                 if (unlikely(resampler->input(output)))
                 {
                     buf[s++] = resampler->getOutput(scaleFactor);

@@ -48,10 +48,10 @@ FilterModelConfig::FilterModelConfig(
     norm(1.0 / denorm),
     N16(norm * UINT16_MAX),
     voice_voltage_range(vvr),
-    mixer(new unsigned short[mixer_offset<8>::value]),
-    summer(new unsigned short[summer_offset<5>::value]),
-    volume(new unsigned short[16 * (1 << 16)]),
-    resonance(new unsigned short[16 * (1 << 16)])
+    mixer(new uint16_t[mixer_offset<8>::value]),
+    summer(new uint16_t[summer_offset<5>::value]),
+    volume(new uint16_t[16 * (1 << 16)]),
+    resonance(new uint16_t[16 * (1 << 16)])
 {
     calcCurrFactorCoeff();
 
@@ -76,7 +76,7 @@ FilterModelConfig::FilterModelConfig(
     {
         const Spline::Point out = s.evaluate(x);
         // When interpolating outside range the first elements may be negative
-        opamp_rev[x] = out.x > 0. ? to_ushort(out.x) : 0;
+        opamp_rev[x] = out.x > 0. ? to_uint16(out.x) : 0;
     }
 }
 

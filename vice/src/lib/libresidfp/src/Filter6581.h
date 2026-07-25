@@ -1,7 +1,7 @@
 /*
  * This file is part of libsidplayfp, a SID player engine.
  *
- * Copyright 2011-2024 Leandro Nini <drfiemost@users.sourceforge.net>
+ * Copyright 2011-2026 Leandro Nini <drfiemost@users.sourceforge.net>
  * Copyright 2007-2010 Antti Lankila
  * Copyright 2004,2010 Dag Lem <resid@nimrod.no>
  *
@@ -95,7 +95,7 @@ class Integrator6581;
  * $17           |   |                    (CAP2B)     |  (CAP1B)     |
  * 0=to mixer    |   +--R8--+  +---R8--+      +---C---o      +---C---o
  * 1=to filter   |          |  |       |      |       |      |       |
- *                ------R8--o--o--[A>--o--Rw--o--[A>--o--Rw--o--[A>--o
+ *               +------R8--o--o--[A>--o--Rw--o--[A>--o--Rw--o--[A>--o
  *     ve (EXT IN)          |          |              |              |
  * D3  \ ---------------R8--o          |              | (CAP2A)      | (CAP1A)
  *     |   v3               |          | vhp          | vbp          | vlp
@@ -319,6 +319,8 @@ class Integrator6581;
  */
 class Filter6581 final : public Filter
 {
+    friend class State;
+
 private:
     /// VCR + associated capacitor connected to highpass output.
     Integrator6581 hpIntegrator;
@@ -326,7 +328,7 @@ private:
     /// VCR + associated capacitor connected to bandpass output.
     Integrator6581 bpIntegrator;
 
-    const unsigned short* f0_dac;
+    const uint16_t* f0_dac;
 
 protected:
     /**
@@ -334,11 +336,20 @@ protected:
      */
     void updateCenterFrequency() override;
 
-    int solveIntegrators() override;
+    void restartIntegrators() override { hpIntegrator.restart(); bpIntegrator.restart(); }
+
+    /*
+     * The filter input resistors on the 6581 are slightly bigger than the voice ones,
+     * scale the values accordingly.
+     */
+    int32_t getNormalizedMixerVoice(float v, uint8_t env) const override
+    {
+        return getNormalizedVoice(v * static_cast<float>(FilterModelConfig6581::VF_TR_RATIO), env);
+    }
 
 public:
     Filter6581() :
-        Filter(*FilterModelConfig6581::getInstance()),
+        Filter(*FilterModelConfig6581::getInstance(), hpIntegrator, bpIntegrator),
         hpIntegrator(*FilterModelConfig6581::getInstance()),
         bpIntegrator(*FilterModelConfig6581::getInstance()),
         f0_dac(FilterModelConfig6581::getInstance()->getDAC(0.5))

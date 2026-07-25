@@ -24,6 +24,7 @@
 
 #include "SID.h"
 
+#include <algorithm>
 #include <limits>
 
 #include "array.h"
@@ -40,11 +41,6 @@ namespace reSIDfp
 
 constexpr unsigned int ENV_DAC_BITS = 8;
 constexpr unsigned int OSC_DAC_BITS = 12;
-
-#if 0
-Note: this needs more in-depth analysis.
-With the implementation of the 6581 DC drift the digis become too loud.
-Also there is no evidence in the schematics for a DC offset in the 8580.
 
 /**
  * The waveform D/A converter introduces a DC offset in the signal
@@ -109,12 +105,16 @@ Also there is no evidence in the schematics for a DC offset in the 8580.
  * To me that seems as regular 8580s have somewhat wide 0-level range,
  * whereas that digi-compatible 8580 has it very narrow.
  * On my 6581R4AR has 0x3A as the only value giving the same output level as 1.prg
+ *
+ * NOTE: this needs more in-depth analysis.
+ * There is no evidence in the schematics for a DC offset in the 8580
+ * and it would make digis too loud.
  */
 //@{
 constexpr unsigned int OFFSET_6581 = 0x380;
 constexpr unsigned int OFFSET_8580 = 0x9c0;
 //@}
-#endif
+
 
 /**
  * Bus value stays alive for some time after each operation.
@@ -138,11 +138,24 @@ constexpr int BUS_TTL_6581 = 0x01d00;
 constexpr int BUS_TTL_8580 = 0xa2000;
 //@}
 
+// Clamp parameter in [0,1] range
+double clamp(double param)
+{
+#ifdef HAVE_CXX17
+     return std::clamp(param, 0.0, 1.0);
+#else
+     return std::max(std::min(param, 1.0), 0.0);
+#endif
+}
+
 SID::SID() :
     filter6581(new Filter6581()),
     filter8580(new Filter8580()),
     resampler(nullptr),
-    cws(AVERAGE)
+    offset_6581(OFFSET_6581),
+    cws(AVERAGE),
+    dacLeakage(1.0),
+    p(new Params)
 {
     voice[0].setOtherVoices(voice[2], voice[1]);
     voice[1].setOtherVoices(voice[0], voice[2]);
@@ -156,20 +169,24 @@ SID::~SID()
 {
     delete filter6581;
     delete filter8580;
+    delete p;
 }
 
 void SID::setFilter6581Curve(double filterCurve)
 {
+    p->filterCurve6581 = clamp(filterCurve);
     filter6581->setFilterCurve(filterCurve);
 }
 
 void SID::setFilter6581Range(double adjustment)
 {
+    p->filterRange6581 = clamp(adjustment);
     filter6581->setFilterRange(adjustment);
 }
 
 void SID::setFilter8580Curve(double filterCurve)
 {
+    p->filterCurve8580 = clamp(filterCurve);
     filter8580->setFilterCurve(filterCurve);
 }
 
@@ -181,6 +198,7 @@ void SID::enableFilter(bool enable)
 
 void SID::enableOld6581caps(bool enable)
 {
+    p->old6581caps = enable;
     filter6581->enableOldCaps(enable);
 }
 
@@ -247,7 +265,7 @@ void SID::setChipModel(ChipModel new_model)
     // calculate envelope DAC table
     {
         Dac dacBuilder(ENV_DAC_BITS);
-        dacBuilder.kinkedDac(model);
+        dacBuilder.kinkedDac(model, dacLeakage);
 
         for (unsigned int i = 0; i < (1 << ENV_DAC_BITS); i++)
         {
@@ -260,10 +278,9 @@ void SID::setChipModel(ChipModel new_model)
 
     {
         Dac dacBuilder(OSC_DAC_BITS);
-        dacBuilder.kinkedDac(model);
+        dacBuilder.kinkedDac(model, dacLeakage);
 
-        //const double offset = dacBuilder.getOutput(is6581 ? OFFSET_6581 : OFFSET_8580);
-        const double offset = dacBuilder.getOutput(0x7ff, is6581);
+        const double offset = dacBuilder.getOutput(is6581 ? offset_6581 : 0x800, is6581);
 
         for (unsigned int i = 0; i < (1 << OSC_DAC_BITS); i++)
         {
@@ -281,6 +298,8 @@ void SID::setChipModel(ChipModel new_model)
         voice[i].wave()->setWaveformModels(wavetables);
         voice[i].wave()->setPulldownModels(pulldowntables);
     }
+
+    filter->restart();
 }
 
 void SID::setCombinedWaveforms(CombinedWaveforms new_cws)
@@ -334,17 +353,38 @@ void SID::input(int value)
     filter8580->input(value);
 }
 
-unsigned char SID::read(int offset)
+uint8_t SID::peek(int offset) const
 {
     switch (offset)
     {
     case 0x19: // X value of paddle
-        busValue = 0xff;
+        return paddleX;
+
+    case 0x1a: // Y value of paddle
+        return paddleY;
+
+    case 0x1b: // Voice #3 waveform output
+        return voice[2].wave()->readOSC();
+
+    case 0x1c: // Voice #3 ADSR output
+        return voice[2].envelope()->readENV();
+
+    default:
+        return busValue;
+    }
+}
+
+uint8_t SID::read(int offset)
+{
+    switch (offset)
+    {
+    case 0x19: // X value of paddle
+        busValue = paddleX;
         busValueTtl = modelTTL;
         break;
 
     case 0x1a: // Y value of paddle
-        busValue = 0xff;
+        busValue = paddleY;
         busValueTtl = modelTTL;
         break;
 
@@ -369,7 +409,7 @@ unsigned char SID::read(int offset)
     return busValue;
 }
 
-void SID::write(int offset, unsigned char value)
+void SID::write(int offset, uint8_t value)
 {
     busValue = value;
     busValueTtl = modelTTL;
@@ -509,6 +549,41 @@ void SID::setSamplingParameters(double clockFrequency, SamplingMethod method, do
     default:
         throw SIDError("Unknown sampling method");
     }
+
+    p->method = method;
+    p->clockFrequency = clockFrequency;
+    p->samplingFrequency = samplingFrequency;
+}
+
+void SID::clockDigital(unsigned int cycles)
+{
+    ageBusValue(cycles);
+
+    while (cycles != 0)
+    {
+        int delta_t = std::min(nextVoiceSync, cycles);
+
+        if (delta_t > 0)
+        {
+            for (int i = 0; i < delta_t; i++)
+            {
+                clockWaveGen();
+                clockEnvGen();
+
+                voice[0].wave()->output();
+                voice[1].wave()->output();
+                voice[2].wave()->output();
+            }
+
+            cycles -= delta_t;
+            nextVoiceSync -= delta_t;
+        }
+
+        if (nextVoiceSync == 0)
+        {
+            voiceSync(true);
+        }
+    }
 }
 
 void SID::clockSilent(unsigned int cycles)
@@ -543,6 +618,25 @@ void SID::clockSilent(unsigned int cycles)
             voiceSync(true);
         }
     }
+}
+
+void SID::setPaddle(uint8_t x, uint8_t y)
+{
+    paddleX = x;
+    paddleY = y;
+}
+
+void SID::setDacLeakage(double level)
+{
+    dacLeakage = clamp(level);
+    setChipModel(model);
+}
+
+void SID::setOffset6581(double offset)
+{
+    // TODO determine a reasonable range
+    offset_6581 = 0x380 + static_cast<unsigned int>((1. - clamp(offset)) * 0x200);
+    setChipModel(model);
 }
 
 } // namespace reSIDfp
