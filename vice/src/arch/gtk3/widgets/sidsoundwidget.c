@@ -310,15 +310,13 @@ static GtkWidget *address_widgets[SOUND_SIDS_MAX];
  */
 static void update_sid_addresses_sensitivity(int count)
 {
+    int n;
     if (sid_machine_can_have_multiple_sids()) {
         gtk_widget_set_sensitive(address_widgets[0], count > 0);
         gtk_widget_set_sensitive(address_widgets[1], count > 1);
-        if (machine_class != VICE_MACHINE_VSID) {
-            gtk_widget_set_sensitive(address_widgets[2], count > 2);
-            gtk_widget_set_sensitive(address_widgets[3], count > 3);
-            gtk_widget_set_sensitive(address_widgets[4], count > 4);
-            gtk_widget_set_sensitive(address_widgets[5], count > 5);
-            gtk_widget_set_sensitive(address_widgets[6], count > 6);
+
+        for (n = 2; n < (SOUND_SIDS_MAX - 1); n++) {
+            gtk_widget_set_sensitive(address_widgets[n], count > n);
         }
     }
 }
@@ -628,11 +626,11 @@ static GtkWidget *create_num_sids_widget(void)
     GtkWidget *label;
     GtkWidget *spin;
     int        max_sids = SOUND_SIDS_MAX;
-
+#if 0
     if (machine_class == VICE_MACHINE_VSID) {
         max_sids = SOUND_SIDS_MAX_PSID;
     }
-
+#endif
     grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
@@ -813,10 +811,10 @@ static GtkWidget *create_sid_address_widgets(void)
     extra  = 0;
     column = 1;
     while (extra < max - 1) {
-        while ((column < 4) && (extra < max - 1)) {
+        while ((column < 5) && (extra < max - 1)) {
             gtk_grid_attach(GTK_GRID(grid),
                             address_widgets[extra],
-                            column, ((extra + 1) / 4) + 1, 1, 1);
+                            column, ((extra + 1) / 5) + 1, 1, 1);
             column++;
             extra++;
         }

@@ -287,7 +287,8 @@ static void select_tune_from_menu(GtkMenuItem *menuitem,
         return;
     }
     tune = GPOINTER_TO_INT(user_data);
-    psid_init_driver();
+    /*psid_init_driver();*/ /* reset triggers this */
+    printf("select_tune_from_menu\n");
     machine_play_psid(tune);
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 }
@@ -341,6 +342,7 @@ void ui_vsid_tune_menu_set_tune_count(int count)
  */
 void ui_vsid_tune_set_tune_current(int count)
 {
+    printf("ui_vsid_tune_set_tune_current %d\n", count);
     if (tune_submenu_group != NULL) {
         gpointer nth_item = g_slist_nth_data(tune_submenu_group, (guint)count - 1);
         if (nth_item != NULL) {

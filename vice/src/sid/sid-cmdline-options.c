@@ -66,6 +66,8 @@ static char *sid5_address_range = NULL;
 static char *sid6_address_range = NULL;
 static char *sid7_address_range = NULL;
 static char *sid8_address_range = NULL;
+static char *sid9_address_range = NULL;
+static char *sid10_address_range = NULL;
 
 struct engine_s {
     const char *name;
@@ -349,6 +351,12 @@ static cmdline_option_t stereo_cmdline_options[] =
     { "-sid8address", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Sid8AddressStart", NULL,
       "<Base address>", NULL },
+    { "-sid9address", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Sid9AddressStart", NULL,
+      "<Base address>", NULL },
+    { "-sid10address", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Sid10AddressStart", NULL,
+      "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -386,8 +394,15 @@ static char *generate_sid_address_range(int nr)
         case 7:
             temp3 = lib_strdup("Specify base address for 7th SID. (");
             break;
-        default:
+        case 8:
             temp3 = lib_strdup("Specify base address for 8th SID. (");
+            break;
+        case 9:
+            temp3 = lib_strdup("Specify base address for 9th SID. (");
+            break;
+        default:
+        case 10:
+            temp3 = lib_strdup("Specify base address for 10th SID. (");
             break;
     }
 
@@ -703,6 +718,8 @@ int sid_cmdline_options_init(int sid_type)
         sid6_address_range = generate_sid_address_range(6);
         sid7_address_range = generate_sid_address_range(7);
         sid8_address_range = generate_sid_address_range(8);
+        sid9_address_range = generate_sid_address_range(9);
+        sid10_address_range = generate_sid_address_range(10);
 
         stereo_cmdline_options[1].description = sid2_address_range;
         stereo_cmdline_options[2].description = sid3_address_range;
@@ -711,7 +728,8 @@ int sid_cmdline_options_init(int sid_type)
         stereo_cmdline_options[5].description = sid6_address_range;
         stereo_cmdline_options[6].description = sid7_address_range;
         stereo_cmdline_options[7].description = sid8_address_range;
-
+        stereo_cmdline_options[8].description = sid9_address_range;
+        stereo_cmdline_options[9].description = sid10_address_range;
 
         if (cmdline_register_options(stereo_cmdline_options) < 0) {
             return -1;
@@ -761,5 +779,13 @@ void sid_cmdline_options_shutdown(void)
     if (sid8_address_range) {
         lib_free(sid8_address_range);
         sid8_address_range = NULL;
+    }
+    if (sid9_address_range) {
+        lib_free(sid9_address_range);
+        sid9_address_range = NULL;
+    }
+    if (sid10_address_range) {
+        lib_free(sid10_address_range);
+        sid10_address_range = NULL;
     }
 }

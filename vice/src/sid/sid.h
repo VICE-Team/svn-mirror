@@ -113,9 +113,9 @@ enum {
 #define SIDTYPE_SIDDTV    1
 #define SIDTYPE_SIDCART   2     /* used by machines that don't have an internal SID */
 
-#define SID_MACHINE_MAX_SID_C64     8
+#define SID_MACHINE_MAX_SID_C64     10
 #define SID_MACHINE_MAX_SID_C64DTV  1
-#define SID_MACHINE_MAX_SID_C128    8
+#define SID_MACHINE_MAX_SID_C128    10
 
 /** \brief  The VIC20 has an optional SID cartridge */
 #define SID_MACHINE_MAX_SID_VIC20   1
@@ -129,12 +129,11 @@ enum {
 /** \brief  The PET has an optional SID Card expansion */
 #define SID_MACHINE_MAX_SID_PET     1
 
-/** \brief  VSID supports up to three SIDS
+/** \brief  VSID supports as many SIDs as C64
  *
- * This can be the same as C64 in emulation, but PSID currently only manages 3
- * SIDs.
+ * This can be the same as C64 in emulation
  */
-#define SID_MACHINE_MAX_SID_VSID    3
+#define SID_MACHINE_MAX_SID_VSID    SID_MACHINE_MAX_SID_C64
 
 
 #define RESID_6581_PASSBAND_MIN             0
@@ -199,6 +198,8 @@ uint8_t sid5_read(uint16_t address);
 uint8_t sid6_read(uint16_t address);
 uint8_t sid7_read(uint16_t address);
 uint8_t sid8_read(uint16_t address);
+uint8_t sid9_read(uint16_t address);
+uint8_t sid10_read(uint16_t address);
 
 uint8_t sid_peek(uint16_t address);
 uint8_t sid2_peek(uint16_t address);
@@ -208,6 +209,8 @@ uint8_t sid5_peek(uint16_t address);
 uint8_t sid6_peek(uint16_t address);
 uint8_t sid7_peek(uint16_t address);
 uint8_t sid8_peek(uint16_t address);
+uint8_t sid9_peek(uint16_t address);
+uint8_t sid10_peek(uint16_t address);
 
 void sid_store(uint16_t address, uint8_t byte);
 void sid2_store(uint16_t address, uint8_t byte);
@@ -217,6 +220,8 @@ void sid5_store(uint16_t address, uint8_t byte);
 void sid6_store(uint16_t address, uint8_t byte);
 void sid7_store(uint16_t address, uint8_t byte);
 void sid8_store(uint16_t address, uint8_t byte);
+void sid9_store(uint16_t address, uint8_t byte);
+void sid10_store(uint16_t address, uint8_t byte);
 
 int sid_dump(void);
 int sid2_dump(void);
@@ -226,6 +231,8 @@ int sid5_dump(void);
 int sid6_dump(void);
 int sid7_dump(void);
 int sid8_dump(void);
+int sid9_dump(void);
+int sid10_dump(void);
 
 void sid_reset(void);
 

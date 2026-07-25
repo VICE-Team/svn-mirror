@@ -40,12 +40,21 @@
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
+#include "sid.h"
 #include "resources.h"
 #include "types.h"
 #include "uiapi.h"
 #include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"
+
+/* #define DEBUG_PSID */
+
+#ifdef DEBUG_PSID
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 static int mus_load_file(const char* filename, int ispsid);
 
@@ -66,16 +75,24 @@ typedef struct psid_s {
     uint8_t name[32 + 1];
     uint8_t author[32 + 1];
     uint8_t copyright[32 + 1];
-    uint16_t flags;
-    uint8_t start_page;
-    uint8_t max_pages;
-    uint16_t reserved;
+    /* PSID v2 header */
+    uint16_t flags;                 /* 0x76 */
+    uint8_t start_page;             /* 0x78 */
+    uint8_t max_pages;              /* 0x79 */
+    uint16_t reserved;              /* 0x7a (v3: second and third SID address) */
+
+    /* PSID binary data */          /* 0x7c */
     uint16_t data_size;
     uint8_t data[65536];
 
     /* Non-PSID data */
     uint32_t frames_played;
     uint16_t load_last_addr;
+
+    int sid_version[SID_MACHINE_MAX_SID_VSID];
+    int sid_channel[SID_MACHINE_MAX_SID_VSID];
+    uint16_t sid_address[SID_MACHINE_MAX_SID_VSID];
+    int sid_num;
 } psid_t;
 
 #define PSID_V1_DATA_OFFSET 0x76
@@ -223,12 +240,75 @@ static uint16_t psid_extract_word(uint8_t **buf)
     return word;
 }
 
+static const char *get_version_string(int version)
+{
+    switch(version) {
+        case SID_MODEL_6581: return "6581";
+        case SID_MODEL_8580: return "8580";
+        case SID_MODEL_8580D: return "8580D";
+        case SID_MODEL_DTVSID: return "DTVSID";
+        default: break;
+    }
+    return "unknown";
+}
+
+/* We don't have any "panning" in the sound system yet, and the panning is
+   hardwired to left, right, left, right etc. So we try to re-order the
+   SIDs here to match the requested panning as good as possible. */
+static void psid_sort_channels(void)
+{
+    int n, m;
+    int channel;
+    int channel2;
+    DBG(("psid_sort_channels"));
+    for (n = 0; n < (SID_MACHINE_MAX_SID_VSID - 1); n++) {
+        channel = psid->sid_channel[n];
+        if (channel != (n & 1)) {
+            /* current channel does not match expected order */
+            for (m = (n + 1); m < SID_MACHINE_MAX_SID_VSID; m++) {
+                channel2 = psid->sid_channel[m];
+                /* another channel does not match expected order */
+                if (channel2 != (m & 1)) {
+                    /* swap sid[n] with sid[m] */
+                    int oldchan = psid->sid_channel[n];
+                    int oldver = psid->sid_version[n];
+                    uint16_t oldaddr = psid->sid_address[n];
+                    DBG(("swap %d with %d", n, m));
+                    psid->sid_channel[n] = psid->sid_channel[m];
+                    psid->sid_version[n] = psid->sid_version[m];
+                    psid->sid_address[n] = psid->sid_address[m];
+                    psid->sid_channel[m] = oldchan;
+                    psid->sid_version[m] = oldver;
+                    psid->sid_address[m] = oldaddr;
+                    break;
+                }
+            }
+        }
+#if 0
+        psid->sid_address[n] = 0xd400 + (0x20 * n);
+        psid->sid_channel[n] = n & 1;
+        psid->sid_version[n] = 1; /* FIXME */
+#endif
+    }
+    DBG(("sid0 addr: 0x%04x chan: %d version: %d", psid->sid_address[0], psid->sid_channel[0], psid->sid_version[0]));
+    DBG(("sid1 addr: 0x%04x chan: %d version: %d", psid->sid_address[1], psid->sid_channel[1], psid->sid_version[1]));
+    DBG(("sid2 addr: 0x%04x chan: %d version: %d", psid->sid_address[2], psid->sid_channel[2], psid->sid_version[2]));
+    DBG(("sid3 addr: 0x%04x chan: %d version: %d", psid->sid_address[3], psid->sid_channel[3], psid->sid_version[3]));
+    DBG(("sid4 addr: 0x%04x chan: %d version: %d", psid->sid_address[4], psid->sid_channel[4], psid->sid_version[4]));
+    DBG(("sid5 addr: 0x%04x chan: %d version: %d", psid->sid_address[5], psid->sid_channel[5], psid->sid_version[5]));
+    DBG(("sid6 addr: 0x%04x chan: %d version: %d", psid->sid_address[6], psid->sid_channel[6], psid->sid_version[6]));
+    DBG(("sid7 addr: 0x%04x chan: %d version: %d", psid->sid_address[7], psid->sid_channel[7], psid->sid_version[7]));
+    DBG(("sid8 addr: 0x%04x chan: %d version: %d", psid->sid_address[8], psid->sid_channel[8], psid->sid_version[8]));
+    DBG(("sid9 addr: 0x%04x chan: %d version: %d", psid->sid_address[9], psid->sid_channel[9], psid->sid_version[9]));
+}
+
 int psid_load_file(const char* filename)
 {
     FILE* f;
-    uint8_t buf[PSID_V2_DATA_OFFSET + 2];
+    uint8_t buf[PSID_V2_DATA_OFFSET + 2 + (SID_MACHINE_MAX_SID_VSID * 2)];
     uint8_t *ptr = buf;
     unsigned int length;
+    int n;
 
     /* HACK: the selected tune number is handled by the "PSIDtune" resource, which
      *       is actually saved in the ini file, and thus loaded and restored at
@@ -246,7 +326,7 @@ int psid_load_file(const char* filename)
     }
 
     if (vlog == LOG_DEFAULT) {
-        vlog = log_open("Vsid");
+        vlog = log_open("PSID");
     }
 
     if (!(f = zfile_fopen(filename, MODE_READ))) {
@@ -256,7 +336,10 @@ int psid_load_file(const char* filename)
     lib_free(psid);
     psid = lib_calloc(sizeof(psid_t), 1);
 
-    if (fread(ptr, 1, 6, f) != 6 || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
+    /* read 4-byte TAG and 2-byte Version */
+    if (fread(ptr, 1, 6, f) != 6 ||
+        ((memcmp(ptr, "PSID", 4) != 0) &&
+         (memcmp(ptr, "RSID", 4) != 0))) {
         goto fail;
     }
     psid->is_rsid = (ptr[0] == 'R');
@@ -264,12 +347,19 @@ int psid_load_file(const char* filename)
     ptr += 4;
     psid->version = psid_extract_word(&ptr);
 
-    if (psid->version < 1 || psid->version > 4) {
-        log_error(vlog, "Unknown PSID version number: %d.", (int)psid->version);
+    /* check version */
+    if (psid->version == 0x4e) {
+        log_warning(vlog, "Unofficial PSID version number: 0x%02x.", (unsigned)psid->version);
+    } else if (psid->version < 1 || psid->version > 4) {
+        log_error(vlog, "Unknown PSID version number: 0x%02x.", (unsigned)psid->version);
         goto fail;
+    } else {
+        log_message(vlog, "PSID version number: 0x%02x.", (unsigned)psid->version);
     }
-    log_message(vlog, "PSID version number: %d.", (int)psid->version);
 
+    /* read the rest of the psid header */
+
+    /* CAUTION: for 0x4e this won't be the correct value */
     length = (unsigned int)((psid->version == 1 ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
     if (fread(ptr, 1, length, f) != length) {
@@ -286,6 +376,7 @@ int psid_load_file(const char* filename)
     psid->speed = psid_extract_word(&ptr) << 16;
     psid->speed |= psid_extract_word(&ptr);
     psid->frames_played = 0;
+
     memcpy(psid->name, ptr, 32);
     psid->name[32] = '\0';
     ptr += 32;
@@ -295,17 +386,116 @@ int psid_load_file(const char* filename)
     memcpy(psid->copyright, ptr, 32);
     psid->copyright[32] = '\0';
     ptr += 32;
-    if (psid->version >= 2) {
+
+    /* now handle the extra stuff added by v2,3,4 and 0x4e extension */
+    for (n = 0; n < SID_MACHINE_MAX_SID_VSID; n++) {
+        psid->sid_address[n] = 0xd400 + (0x20 * n);
+        psid->sid_channel[n] = n & 1;
+        psid->sid_version[n] = 1; /* FIXME */
+    }
+
+    if (psid->version == 0x4e) {
+        int val;
+        int version;
+
         psid->flags = psid_extract_word(&ptr);
         psid->start_page = *ptr++;
         psid->max_pages = *ptr++;
+        DBG(("v4e, X sids, reserved:%04x", psid->reserved));
+
+        psid->sid_version[0] = (psid->flags >> 4) & 3;              /* (4e) bit 4-5 */
+        DBG(("sid_version[%d]: 0x%04x", 0, (unsigned)psid->sid_version[0]));
+        psid->sid_channel[0] =(psid->flags & 0x0040) >> 6;          /* (4e) bit 6 */
+        psid->flags &= 0x007f;                                      /* (4e) bit 7-15 unused */
+        DBG(("sid_address[%d]: 0x%04x", 0, psid->sid_address[0]));
+        DBG(("sid_channel[%d]: %d", 0, psid->sid_channel[0]));
+
+        for (n = 1;; n++) {
+            val = psid_extract_word(&ptr);
+            if (val == 0) {
+                break;
+            }
+            version = (val >> 4) & 3;                               /* (4e) bit 4-5 */
+            if (version == 0) {
+                version = psid->sid_version[0];
+            }
+            psid->sid_version[n] = version;
+            DBG(("sid_version[%d]: 0x%04x", n, (unsigned)psid->sid_version[0]));
+            psid->sid_address[n] = 0xd000 | ((val & 0xff00) >> 4);  /* (4e) bit 8-15 */
+            psid->sid_channel[n] = ((val & 0x0040) >> 6);           /* (4e) bit 6 */
+            DBG(("sid_address[%d]: 0x%04x", n, psid->sid_address[n]));
+            DBG(("sid_channel[%d]: %d", n, psid->sid_channel[n]));
+            if (fread(ptr, 1, 2, f) != 2) {
+                log_error(vlog, "Reading PSID header.");
+                goto fail;
+            }
+        }
+        psid->sid_num = n;
+
+        /*psid->flags = 0;*/ /* FIXME: prevent use of flags later */
+        psid->reserved = 0; /* FIXME: don't use later */
+        for (; n < SID_MACHINE_MAX_SID_VSID; n++) {
+            psid->sid_address[n] = 0;
+            psid->sid_channel[n] = 0;
+            psid->sid_version[n] = 0;
+        }
+
+    } else if (psid->version >= 4) {
+        psid->flags = psid_extract_word(&ptr);
+        psid->sid_version[0] = (psid->flags >> 4) & 3;              /* v2ng bit 4-5 */
+        psid->sid_version[1] = (psid->flags >> 6) & 3;              /* v3   bit 6-7 */
+        psid->sid_version[2] = (psid->flags >> 8) & 3;              /* v4   bit 8-9 */
+        psid->start_page = *ptr++;  /* v2ng */
+        psid->max_pages = *ptr++;  /* v2ng */
         psid->reserved = psid_extract_word(&ptr);
+        DBG(("v4, 3 sids, flags:%04x reserved:%04x\n", psid->flags, psid->reserved));
+        psid->sid_address[1] = 0xd000 | ((psid->reserved & 0xff00) >> 4);
+        psid->sid_address[2] = 0xd000 | ((psid->reserved & 0x00ff) << 4);
+        psid->sid_num = 3;
+        psid->sid_channel[1] = 1;
+    } else if (psid->version >= 3) {
+        psid->flags = psid_extract_word(&ptr);
+        psid->sid_version[0] = (psid->flags >> 4) & 3;              /* v2ng bit 4-5 */
+        psid->sid_version[1] = (psid->flags >> 6) & 3;              /* v3   bit 6-7 */
+        psid->start_page = *ptr++;  /* v2ng */
+        psid->max_pages = *ptr++;  /* v2ng */
+        psid->reserved = psid_extract_word(&ptr);
+        DBG(("v3, 2 sids, flags:%04x reserved:%04x\n", psid->flags, psid->reserved));
+        psid->sid_address[1] = 0xd000 | ((psid->reserved & 0xff00) >> 4);
+        psid->sid_num = 2;
+        psid->sid_channel[1] = 1;
+    } else if (psid->version >= 2) {
+        DBG(("v2, 1 sid\n"));
+        psid->flags = psid_extract_word(&ptr);
+        psid->sid_version[0] = (psid->flags >> 4) & 3;              /* v2ng bit 4-5 */
+        psid->start_page = *ptr++;  /* v2ng */
+        psid->max_pages = *ptr++;  /* v2ng */
+        psid->reserved = psid_extract_word(&ptr);
+        psid->sid_num = 1;
     } else {
+        DBG(("v1, 1 sid\n"));
         psid->flags = 0;
         psid->start_page = 0;
         psid->max_pages = 0;
         psid->reserved = 0;
+        psid->sid_num = 1;
     }
+    DBG(("sid_num: %d", psid->sid_num));
+    DBG(("flags: 0x%04x", psid->flags));
+    DBG(("start page: %02x max_pages: %02x", psid->start_page, psid->max_pages));
+
+    DBG(("sid0 addr: 0x%04x chan: %d version: %d", psid->sid_address[0], psid->sid_channel[0], psid->sid_version[0]));
+    DBG(("sid1 addr: 0x%04x chan: %d version: %d", psid->sid_address[1], psid->sid_channel[1], psid->sid_version[1]));
+    DBG(("sid2 addr: 0x%04x chan: %d version: %d", psid->sid_address[2], psid->sid_channel[2], psid->sid_version[2]));
+    DBG(("sid3 addr: 0x%04x chan: %d version: %d", psid->sid_address[3], psid->sid_channel[3], psid->sid_version[3]));
+    DBG(("sid4 addr: 0x%04x chan: %d version: %d", psid->sid_address[4], psid->sid_channel[4], psid->sid_version[4]));
+    DBG(("sid5 addr: 0x%04x chan: %d version: %d", psid->sid_address[5], psid->sid_channel[5], psid->sid_version[5]));
+    DBG(("sid6 addr: 0x%04x chan: %d version: %d", psid->sid_address[6], psid->sid_channel[6], psid->sid_version[6]));
+    DBG(("sid7 addr: 0x%04x chan: %d version: %d", psid->sid_address[7], psid->sid_channel[7], psid->sid_version[7]));
+    DBG(("sid8 addr: 0x%04x chan: %d version: %d", psid->sid_address[8], psid->sid_channel[8], psid->sid_version[8]));
+    DBG(("sid9 addr: 0x%04x chan: %d version: %d", psid->sid_address[9], psid->sid_channel[9], psid->sid_version[9]));
+
+    psid_sort_channels();
 
     if ((psid->start_song < 1) || (psid->start_song > psid->songs)) {
         log_error(vlog, "Default tune out of range (%d of %d ?), using 1 instead.", psid->start_song, psid->songs);
@@ -319,6 +509,16 @@ int psid_load_file(const char* filename)
     if (psid->flags & 0x01) {
         zfile_fclose(f);
         return mus_load_file(filename, 1);
+    }
+
+    DBG(("data offset: 0x%04x", psid->data_offset));
+    /* CAUTION: for the 0x4e extension, the data-offset MUST be correct and MUST be used */
+    if (psid->version == 0x4e) {
+        /* for a 1-SID file the offset would be 0x7C
+         * for a 2-SID file the offset would be 0x7E
+         * for a 4-SID file the offset would be 0x82
+         */
+        fseek(f, psid->data_offset, SEEK_SET);
     }
 
     /* Zero load address => the load address is stored in the
@@ -411,6 +611,7 @@ int psid_load_file(const char* filename)
 
     zfile_fclose(f);
 
+    DBG(("done psid->start_page:%02x psid->max_pages:%2x", psid->start_page, psid->max_pages));
     return 0;
 
 fail:
@@ -518,7 +719,7 @@ void psid_init_tune(int install_driver_hook)
         log_message(vlog, "  Author: %s", (char *) psid->author);
         log_message(vlog, "Released: %s", (char *) psid->copyright);
         log_message(vlog, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-        log_message(vlog, "SID model: %s", csidflag[(psid->flags >> 4) & 3]);
+        log_message(vlog, "SID model: %s", csidflag[psid->sid_version[0]]);
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)", start_song, psid->songs, psid->start_song);
     } else {
@@ -622,7 +823,6 @@ void psid_init_driver(void)
     uint16_t addr;
     int i;
     int sync;
-    int sid2loc, sid3loc;
 
     if (!psid) {
         return;
@@ -650,28 +850,30 @@ void psid_init_driver(void)
      * Top byte of reserved holds the middle nybbles of
      * the 2nd chip address. */
     resources_set_int("SidStereo", 0);
-    if (psid->version >= 3) {
-        sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
-        log_message(vlog, "2nd SID at $%04x", (unsigned int)sid2loc);
-        if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
-            && (sid2loc & 0x10) == 0) {
-            resources_set_int("SidStereo", 1);
-            resources_set_int("Sid2AddressStart", sid2loc);
-        }
-        sid3loc = 0xd000 | ((psid->reserved << 4) & 0x0ff0);
-        if (sid3loc != 0xd000) {
-            log_message(vlog, "3rd SID at $%04x", (unsigned int)sid3loc);
-            if (((sid3loc >= 0xd420 && sid3loc < 0xd800) || sid3loc >= 0xde00)
-                && (sid3loc & 0x10) == 0) {
-                resources_set_int("SidStereo", 2);
-                resources_set_int("Sid3AddressStart", sid3loc);
+    psid->sid_address[0] = 0xd400;
+    {
+        int num = psid->sid_num;
+        int n;
+        if (num) {
+            resources_set_int("SidStereo", num - 1);
+            for (n = 0; n < num; n++) {
+                log_verbose(vlog, "0x%04x SID#%d %s %s",
+                            (unsigned int)psid->sid_address[n],
+                            1 + n,
+                            psid->sid_channel[n] ? "left" : "right",
+                            get_version_string(psid->sid_version[n]));
+                if (n > 0) {
+                    resources_set_int_sprintf("Sid%dAddressStart", psid->sid_address[n], n + 1);
+                    /*printf(" Sid%dAddressStart=%04x\n", n + 1, psid->sid_address[n]);*/
+                }
             }
         }
     }
 
     /* MOS6581/MOS8580 flag. */
     if (!keepenv) {
-        switch ((psid->flags >> 4) & 0x03) {
+        /* FIXME: we cant have mixed SID versions yet */
+        switch (psid->sid_version[0]) {
             case 0x01:
                 resources_set_int("SidModel", 0);
                 break;
@@ -682,8 +884,6 @@ void psid_init_driver(void)
                 /* Keep settings (00 = unknown, 11 = any) */
                 break;
         }
-        /* FIXME: second chip model is ignored,
-         * but it is stored at (flags >> 6) & 3. */
     }
 
     /* Clear low memory to minimize the damage of PSIDs doing bad reads. */
@@ -930,15 +1130,23 @@ static int mus_load_file(const char* filename, int ispsid)
     psid->start_song = 1;
     psid->speed = 1;    /* play at 60Hz */
 
+    psid->sid_address[0] = MUS_SID1_BASE_ADDR;
+    psid->sid_channel[0] = 0;
+    /*psid->sid_version[n] = 0;*/
+
     if (stereo) {
         /* Player #1 + #2. */
         psid->reserved = (MUS_SID2_BASE_ADDR << 4) & 0xff00; /* second SID at 0xd500 */
         psid->init_addr = 0xfc90;
         psid->play_addr = 0xfc96;
+        psid->sid_num = 2;
+        psid->sid_address[1] = MUS_SID2_BASE_ADDR;
+        psid->sid_channel[1] = 1;
     } else {
         /* Player #1. */
         psid->init_addr = 0xec60;
         psid->play_addr = 0xec80;
+        psid->sid_num = 1;
     }
 
     return 0;

@@ -107,6 +107,16 @@ int machine_sid8_check_range(unsigned int sid_adr)
     return -1;
 }
 
+int machine_sid9_check_range(unsigned int sid_adr)
+{
+    return -1;
+}
+
+int machine_sid10_check_range(unsigned int sid_adr)
+{
+    return -1;
+}
+
 void machine_sid2_enable(int val)
 {
 }

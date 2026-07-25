@@ -93,6 +93,8 @@ SIDx_CHECK_RANGE(5)
 SIDx_CHECK_RANGE(6)
 SIDx_CHECK_RANGE(7)
 SIDx_CHECK_RANGE(8)
+SIDx_CHECK_RANGE(9)
+SIDx_CHECK_RANGE(10)
 
 void machine_sid2_enable(int val)
 {

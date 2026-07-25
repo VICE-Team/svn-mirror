@@ -1000,6 +1000,27 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     if (sid_stereo >= 2) {
         mon_ioreg_add_list(&mem_ioreg_list, "SID3", sid3_address_start, sid3_address_start + 0x1f, sid3_dump, NULL, IO_MIRROR_NONE);
     }
+    if (sid_stereo >= 3) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID4", sid4_address_start, sid4_address_start + 0x1f, sid4_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 4) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID5", sid5_address_start, sid5_address_start + 0x1f, sid5_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 5) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID6", sid6_address_start, sid6_address_start + 0x1f, sid6_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 6) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID7", sid7_address_start, sid7_address_start + 0x1f, sid7_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 7) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID8", sid8_address_start, sid8_address_start + 0x1f, sid8_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 8) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID9", sid9_address_start, sid9_address_start + 0x1f, sid9_dump, NULL, IO_MIRROR_NONE);
+    }
+    if (sid_stereo >= 9) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SID10", sid10_address_start, sid10_address_start + 0x1f, sid10_dump, NULL, IO_MIRROR_NONE);
+    }
     return mem_ioreg_list;
 }
 

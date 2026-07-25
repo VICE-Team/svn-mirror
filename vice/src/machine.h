@@ -175,6 +175,12 @@ int machine_sid7_check_range(unsigned int sid_adr);
 /* Check the base address for the eighth sid chip.  */
 int machine_sid8_check_range(unsigned int sid_adr);
 
+/* Check the base address for the ninth sid chip.  */
+int machine_sid9_check_range(unsigned int sid_adr);
+
+/* Check the base address for the tenth sid chip.  */
+int machine_sid10_check_range(unsigned int sid_adr);
+
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
 void machine_change_timing(int timeval, int powerfreq, int border_mode);
 

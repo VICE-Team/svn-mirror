@@ -373,6 +373,18 @@ uint8_t sid_read(uint16_t addr)
         return sid_read_chip(addr, 7);
     }
 
+    if (sid_stereo >= 8
+        && addr >= sid9_address_start
+        && addr < sid9_address_end) {
+        return sid_read_chip(addr, 8);
+    }
+
+    if (sid_stereo >= 9
+        && addr >= sid10_address_start
+        && addr < sid10_address_end) {
+        return sid_read_chip(addr, 9);
+    }
+
     return sid_read_chip(addr, 0);
 }
 
@@ -389,6 +401,8 @@ SIDx_READ(5)
 SIDx_READ(6)
 SIDx_READ(7)
 SIDx_READ(8)
+SIDx_READ(9)
+SIDx_READ(10)
 
 uint8_t sid_peek(uint16_t addr)
 {
@@ -433,6 +447,18 @@ uint8_t sid_peek(uint16_t addr)
         && addr < sid8_address_end) {
         return sid_peek_chip(addr, 7);
     }
+
+    if (sid_stereo >= 8
+        && addr >= sid9_address_start
+        && addr < sid9_address_end) {
+        return sid_peek_chip(addr, 8);
+    }
+
+    if (sid_stereo >= 9
+        && addr >= sid10_address_start
+        && addr < sid10_address_end) {
+        return sid_peek_chip(addr, 9);
+    }
     return sid_peek_chip(addr, 0);
 }
 
@@ -449,6 +475,8 @@ SIDx_PEEK(5)
 SIDx_PEEK(6)
 SIDx_PEEK(7)
 SIDx_PEEK(8)
+SIDx_PEEK(9)
+SIDx_PEEK(10)
 
 void sid_store(uint16_t addr, uint8_t byte)
 {
@@ -468,30 +496,49 @@ void sid_store(uint16_t addr, uint8_t byte)
         && addr >= sid4_address_start
         && addr < sid4_address_end) {
         sid_store_chip(addr, byte, 3);
+        return;
     }
 
     if (sid_stereo >= 4
         && addr >= sid5_address_start
         && addr < sid5_address_end) {
         sid_store_chip(addr, byte, 4);
+        return;
     }
 
     if (sid_stereo >= 5
         && addr >= sid6_address_start
         && addr < sid6_address_end) {
         sid_store_chip(addr, byte, 5);
+        return;
     }
 
     if (sid_stereo >= 6
         && addr >= sid7_address_start
         && addr < sid7_address_end) {
         sid_store_chip(addr, byte, 6);
+        return;
     }
 
     if (sid_stereo >= 7
         && addr >= sid8_address_start
         && addr < sid8_address_end) {
         sid_store_chip(addr, byte, 7);
+        return;
+    }
+
+    if (sid_stereo >= 8
+        && addr >= sid9_address_start
+        && addr < sid9_address_end) {
+        sid_store_chip(addr, byte, 8);
+        return;
+    }
+
+    if (sid_stereo >= 9
+        && addr >= sid10_address_start
+        && addr < sid10_address_end) {
+        sid_store_chip(addr, byte, 9);
+        return;
     }
     sid_store_chip(addr, byte, 0);
 }
@@ -509,6 +556,8 @@ SIDx_STORE(5)
 SIDx_STORE(6)
 SIDx_STORE(7)
 SIDx_STORE(8)
+SIDx_STORE(9)
+SIDx_STORE(10)
 
 int sid_dump(void)
 {
@@ -528,6 +577,8 @@ SIDx_DUMP(5)
 SIDx_DUMP(6)
 SIDx_DUMP(7)
 SIDx_DUMP(8)
+SIDx_DUMP(9)
+SIDx_DUMP(10)
 
 /* ------------------------------------------------------------------------- */
 
@@ -598,6 +649,8 @@ static int16_t *buf4 = NULL;
 static int16_t *buf5 = NULL;
 static int16_t *buf6 = NULL;
 static int16_t *buf7 = NULL;
+static int16_t *buf8 = NULL;
+static int16_t *buf9 = NULL;
 
 static int blen1 = 0;
 static int blen2 = 0;
@@ -606,6 +659,8 @@ static int blen4 = 0;
 static int blen5 = 0;
 static int blen6 = 0;
 static int blen7 = 0;
+static int blen8 = 0;
+static int blen9 = 0;
 
 #define GETBUFx(nr)                                 \
     static int16_t *getbuf##nr(int len)             \
@@ -629,6 +684,8 @@ GETBUFx(4)
 GETBUFx(5)
 GETBUFx(6)
 GETBUFx(7)
+GETBUFx(8)
+GETBUFx(9)
 
 #endif
 
@@ -685,6 +742,16 @@ void sid_sound_machine_close(sound_t *psid)
         blen7 = 0;
         buf7 = NULL;
     }
+    if (buf8) {
+        lib_free(buf8);
+        blen8 = 0;
+        buf8 = NULL;
+    }
+    if (buf9) {
+        lib_free(buf9);
+        blen9 = 0;
+        buf9 = NULL;
+    }
 #endif
 #ifdef HAVE_USBSID
     usbsid_close();
@@ -726,6 +793,8 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
     int16_t *tmp_buf5;
     int16_t *tmp_buf6;
     int16_t *tmp_buf7;
+    int16_t *tmp_buf8;
+    int16_t *tmp_buf9;
     int tmp_nr = 0;
     CLOCK tmp_delta_t = *delta_t;
 
@@ -879,6 +948,84 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
         }
         return tmp_nr;
     }
+    if (soc == SOUND_OUTPUT_MONO && scc == SOUND_9_DEVICES) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_buf2 = getbuf2(2 * nr);
+        tmp_buf3 = getbuf3(2 * nr);
+        tmp_buf4 = getbuf4(2 * nr);
+        tmp_buf5 = getbuf5(2 * nr);
+        tmp_buf6 = getbuf6(2 * nr);
+        tmp_buf7 = getbuf7(2 * nr);
+        tmp_buf8 = getbuf8(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf1, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf2, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf3, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[4], tmp_buf4, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[5], tmp_buf5, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[6], tmp_buf6, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[7], tmp_buf7, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[8], tmp_buf8, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf, nr, SOUND_OUTPUT_MONO, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf1[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf2[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf3[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf4[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf5[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf6[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf7[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf8[i]);
+        }
+        return tmp_nr;
+    }
+    if (soc == SOUND_OUTPUT_MONO && scc == SOUND_10_DEVICES) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_buf2 = getbuf2(2 * nr);
+        tmp_buf3 = getbuf3(2 * nr);
+        tmp_buf4 = getbuf4(2 * nr);
+        tmp_buf5 = getbuf5(2 * nr);
+        tmp_buf6 = getbuf6(2 * nr);
+        tmp_buf7 = getbuf7(2 * nr);
+        tmp_buf8 = getbuf8(2 * nr);
+        tmp_buf9 = getbuf9(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf1, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf2, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf3, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[4], tmp_buf4, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[5], tmp_buf5, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[6], tmp_buf6, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[7], tmp_buf7, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[8], tmp_buf8, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[9], tmp_buf9, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf, nr, SOUND_OUTPUT_MONO, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf1[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf2[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf3[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf4[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf5[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf6[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf7[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf8[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf9[i]);
+        }
+        return tmp_nr;
+    }
     if (soc == SOUND_OUTPUT_STEREO && scc == SOUND_1_DEVICE) {
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, SOUND_OUTPUT_STEREO, delta_t);
         for (i = 0; i < tmp_nr; i++) {
@@ -1003,6 +1150,72 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[(i * 2) + 1]);
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf2[(i * 2) + 1]);
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf3[(i * 2) + 1]);
+        }
+    }
+    if (soc == SOUND_OUTPUT_STEREO && scc == SOUND_9_DEVICES) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_buf2 = getbuf2(2 * nr);
+        tmp_buf3 = getbuf3(2 * nr);
+        tmp_buf4 = getbuf4(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf1 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[4], tmp_buf2, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[5], tmp_buf2 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[6], tmp_buf3, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[7], tmp_buf3 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[8], tmp_buf4, nr, SOUND_OUTPUT_MONO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, SOUND_OUTPUT_STEREO, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf2[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf3[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf4[i]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf2[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf3[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf4[i]);
+        }
+    }
+    if (soc == SOUND_OUTPUT_STEREO && scc == SOUND_10_DEVICES) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_buf2 = getbuf2(2 * nr);
+        tmp_buf3 = getbuf3(2 * nr);
+        tmp_buf4 = getbuf4(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf1 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[4], tmp_buf2, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[5], tmp_buf2 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[6], tmp_buf3, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[7], tmp_buf3 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[8], tmp_buf4, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[9], tmp_buf4 + 1, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, SOUND_OUTPUT_STEREO, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, SOUND_OUTPUT_STEREO, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf2[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf3[i * 2]);
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf4[i * 2]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf2[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf3[(i * 2) + 1]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf4[(i * 2) + 1]);
         }
     }
     return tmp_nr;
