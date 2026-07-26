@@ -305,7 +305,10 @@ static void funmp3_stop(void)
         mpg123_close(mh);
     }
     mp3_playing = act_pos = size = 0;
-    set_userport_flag(0);
+    if (userport_funmp3_enabled) {
+        /* only set the flag when we are actually connected to the userport */
+        set_userport_flag(0);
+    }
 }
 
 static int userport_funmp3_enable(int value)
