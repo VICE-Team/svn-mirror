@@ -174,13 +174,15 @@ static UI_MENU_CALLBACK(radio_KeymapIndex_callback)
         /* FIXME: update keyboard type menu (PET/C128) */
         resources_touch("KeyboardMapping");
         uikeyboard_update_mapping_menu();   /* host layout */
-        uikeyboard_update_index_menu();     /* mapping type (self) */
+        /* NOTE: don't update the parent menu while it is being used, this
+                 causes funky errors */
+        /*uikeyboard_update_index_menu();*/ /* mapping type (self) */
     }
     return res;
 }
 
 /* mapping type ("KeymapIndex") */
-static ui_menu_entry_t *keymap_index_submenu;
+static ui_menu_entry_t *keymap_index_submenu = NULL;
 
 static const ui_menu_entry_t keymap_index_submenu_entries[] = {
     {   .string   = "Symbolic",
@@ -221,16 +223,17 @@ void uikeyboard_update_index_menu(void)
 
     if(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data) {
         lib_free(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data);
+        settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data = NULL;
     }
 
-    entry = keymap_index_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (5));
+    keymap_index_submenu = entry = lib_malloc(sizeof(ui_menu_entry_t) * (5));
+    memset(keymap_index_submenu, 0, sizeof(ui_menu_entry_t) * 5);
     for (idx = 0; idx < 4; idx++) {
         if (!((idx < 2) && (keyboard_is_keymap_valid(idx, mapping, type) < 0))) {
             memcpy(entry, &keymap_index_submenu_entries[idx], sizeof(ui_menu_entry_t));
             entry++;
         }
     }
-    memset(entry, 0, sizeof(ui_menu_entry_t));
     settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data = keymap_index_submenu;
 }
 
@@ -285,8 +288,14 @@ void uikeyboard_menu_create(void)
 
 void uikeyboard_menu_shutdown(void)
 {
-    lib_free(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data);
-    lib_free(settings_manager_menu[SETTINGS_KEYBOARD_MAPPING_IDX].data);
+    if (settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data) {
+        lib_free(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data);
+        settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data = NULL;
+    }
+    if (settings_manager_menu[SETTINGS_KEYBOARD_MAPPING_IDX].data) {
+        lib_free(settings_manager_menu[SETTINGS_KEYBOARD_MAPPING_IDX].data);
+        settings_manager_menu[SETTINGS_KEYBOARD_MAPPING_IDX].data = NULL;
+    }
 }
 
 static UI_MENU_CALLBACK(load_sym_keymap_callback)
