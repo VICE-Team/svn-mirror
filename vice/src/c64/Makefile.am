@@ -27,6 +27,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/fsdevice \
 	-I$(top_srcdir)/src/diag \
+	-I$(top_srcdir)/src/diskimage \
 	-I$(top_srcdir)/src/imagecontents
 
 AM_CFLAGS = @VICE_CFLAGS@

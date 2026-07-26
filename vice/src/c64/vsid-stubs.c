@@ -56,6 +56,7 @@
 #include "fileio.h"
 #include "fsdevice.h"
 #include "fsdevice-filename.h"
+#include "fsimage.h"
 #include "gfxoutput.h"
 #include "iecbus.h"
 #include "iecdrive.h"
