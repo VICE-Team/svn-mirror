@@ -1246,12 +1246,15 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
                     sdl_canvaslist[i ^ 1]->container = NULL;
                 }
             }
-            sdl_container_destroy(sdl_canvaslist[i]->container);
-            sdl_canvaslist[i]->container = NULL;
+            if (sdl_canvaslist[i]->container) {
+                sdl_container_destroy(sdl_canvaslist[i]->container);
+                sdl_canvaslist[i]->container = NULL;
+            }
 #endif
-
-            SDL_FreeSurface(sdl_canvaslist[i]->screen);
-            sdl_canvaslist[i]->screen = NULL;
+            if (sdl_canvaslist[i]->screen) {
+                SDL_FreeSurface(sdl_canvaslist[i]->screen);
+                sdl_canvaslist[i]->screen = NULL;
+            }
         }
     }
 

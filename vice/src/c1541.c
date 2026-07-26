@@ -4347,7 +4347,7 @@ static int read_geos_cmd(int nargs, char **args)
     int unit;
     cbmdos_cmd_parse_t *parse_cmd;
     size_t namelen;
-    unsigned char slot[SLOT_SIZE];
+    unsigned char slot[SLOT_SIZE] = { 0, 0, 0 };
 
     unit = extract_unit_from_file_name(args[1], &p);
     if (unit > 0) {

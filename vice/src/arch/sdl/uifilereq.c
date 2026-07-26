@@ -167,7 +167,7 @@ static void sdl_ui_display_path(const char *current_dir)
 {
     int len;
     char *text = NULL;
-    char *temp = NULL;
+    const char *temp = NULL;
     int before = 0;
     int after = 0;
     int pos = 0;

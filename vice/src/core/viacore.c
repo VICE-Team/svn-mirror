@@ -1854,6 +1854,9 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->sr_underflow = NULL;
     via_context->set_cb1 = NULL;
     via_context->t2_irq_allowed = false;
+
+    via_context->cb1_is_input = 1;
+    via_context->cb2_is_input = 1;
 }
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
