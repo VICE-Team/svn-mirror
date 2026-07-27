@@ -252,6 +252,11 @@ void hvsc_text_file_init_handle(hvsc_text_file_t *handle)
  */
 bool hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
 {
+    if (path == NULL) {
+        hvsc_errno = HVSC_ERR_IO;
+        return false;
+    }
+
     hvsc_dbg("%s(): opening '%s'\n", __func__, path);
     hvsc_text_file_init_handle(handle);
 

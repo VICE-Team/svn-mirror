@@ -1664,6 +1664,7 @@ void autostart_advance(void)
         case AUTOSTART_CARTRIDGE:
             log_message(autostart_log, "Cartridge");
             restore_drive_emulation_state(autostart_disk_unit, autostart_disk_drive);
+            machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
             autostartmode = AUTOSTART_DONE;
             break;
 
@@ -1986,7 +1987,6 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);*/
     /* use for snapshot */
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
-
     return 0;
 }
 
@@ -2498,9 +2498,8 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             if (cartridge_attach_image(CARTRIDGE_CRT, file_name) == 0) {
                 log_message(autostart_log, "`%s' recognized as cartridge image.",
                             file_name);
-                autostart_type = AUTOSTART_CARTRIDGE;
-                autostart_enabled = 0;
-                autostart_done();
+                autostartmode = AUTOSTART_CARTRIDGE;
+                autostart_initial_delay_cycles = autostart_wait_for_reset = 0;
                 return 0;
             }
         }
