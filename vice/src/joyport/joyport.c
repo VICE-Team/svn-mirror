@@ -947,6 +947,11 @@ void joyport_display_joyport(int port, int id, uint16_t status)
             }
         }
     } else if ((port >= 0) && (port < JOYPORT_MAX_PORTS)) {
+        if (joysticks_are_swapped) {
+            if (port < 2) {
+                port ^= 1;
+            }
+        }
         if (id == joy_port[port]) {
             joyport_display[port + 1] = status;
         } else {
