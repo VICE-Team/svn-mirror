@@ -64,6 +64,14 @@
 #include "residfp.h"
 #endif
 
+/*#define DEBUG_SID*/
+
+#ifdef DEBUG_SID
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 /* SID engine hooks. */
 static sid_engine_t sid_engine;
 
@@ -600,12 +608,11 @@ static int sidengine;
 bool sid_sound_machine_set_engine_hooks(void)
 {
     sidengine = -1;
+    sid_engine = fakesid_hooks;
 
     if (resources_get_int("SidEngine", &sidengine) < 0) {
         return false;
     }
-
-    sid_engine = fakesid_hooks;
 
 #ifdef HAVE_FASTSID
     if (sidengine == SID_ENGINE_FASTSID) {
@@ -635,7 +642,6 @@ sound_t *sid_sound_machine_open(int chipno)
     if (!sid_sound_machine_set_engine_hooks()) {
         return NULL;
     }
-
     return sid_engine.open(siddata[chipno]);
 }
 
@@ -1279,7 +1285,7 @@ static void set_sound_func(void)
     sid_read_func = sid_read_off;
     sid_store_func = sid_write_off;
     sid_dump_func = NULL;
-
+    DBG(("set_sound_func enable:%d engine:%d\n", sid_enable, sid_engine_type));
     if (sid_enable) {
 #ifdef HAVE_FASTSID
         if (sid_engine_type == SID_ENGINE_FASTSID) {
@@ -1338,12 +1344,13 @@ static void set_sound_func(void)
 void sid_sound_machine_enable(int enable)
 {
     sid_enable = enable;
-
+    DBG(("sid_sound_machine_enable %d\n", enable));
     set_sound_func();
 }
 
 int sid_engine_set(int engine)
 {
+    DBG(("sid_engine_set %d\n", engine));
 #ifdef HAVE_CATWEASELMKIII
     if (engine == SID_ENGINE_CATWEASELMKIII
         && sid_engine_type != SID_ENGINE_CATWEASELMKIII) {

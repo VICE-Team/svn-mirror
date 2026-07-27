@@ -70,7 +70,7 @@ void vsid_state_init(void)
     /* KLUDGES: if a PSID file was passed on the command line, put it into the
      * state here, else eg pressing STOP/START immediately after will not work */
     if (psid_autostart_image) {
-        state->psid_filename = strdup(psid_autostart_image);
+        state->psid_filename = lib_strdup(psid_autostart_image);
     }
     state->name = NULL;
     state->author = NULL;

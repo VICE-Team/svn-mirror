@@ -47,6 +47,14 @@
 #include "sound.h"
 #include "types.h"
 
+/*#define DEBUG_SIDRES*/
+
+#ifdef DEBUG_SIDRES
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 /* Resource handling -- Added by Ettore 98-04-26.  */
 
 /* FIXME: We need sanity checks!  And do we really need all of these
@@ -112,6 +120,8 @@ static int sid_usbsid_diffsize;
 static int set_sid_engine(int set_engine, void *param)
 {
     int engine = set_engine;
+
+    DBG(("set_sid_engine: %d\n", engine));
 
     if (engine == SID_ENGINE_DEFAULT) {
 #if defined(HAVE_RESIDFP)
@@ -696,7 +706,7 @@ static sid_engine_model_t sid_engine_models_resid_dtv[] = {
 #endif
 
 #ifdef HAVE_FASTSID
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
 static sid_engine_model_t sid_engine_models_fastsid[] = {
     { "6581 (Fast SID)", SID_FASTSID_6581 },
     { "8580 (Fast SID)", SID_FASTSID_8580 },
@@ -712,7 +722,7 @@ static sid_engine_model_t sid_engine_models_fastsid[] = {
 #endif
 
 #ifdef HAVE_RESID
-#ifdef HAVE_FASTSID
+#if defined(HAVE_FASTSID) || defined(HAVE_RESIDFP)
 static sid_engine_model_t sid_engine_models_resid[] = {
     { "6581 (ReSID)", SID_RESID_6581 },
     { "8580 (ReSID)", SID_RESID_8580 },
@@ -730,12 +740,21 @@ static sid_engine_model_t sid_engine_models_resid[] = {
 #endif
 
 #ifdef HAVE_RESIDFP
+#if defined(HAVE_FASTSID) || defined(HAVE_RESID)
 static sid_engine_model_t sid_engine_models_residfp[] = {
     { "6581 (ReSIDfp)", SID_RESIDFP_6581 },
     { "8580 (ReSIDfp)", SID_RESIDFP_8580 },
     { "8580 + digi boost (ReSIDfp)", SID_RESIDFP_8580D },
     { NULL, -1 }
 };
+#else
+static sid_engine_model_t sid_engine_models_residfp[] = {
+    { "6581", SID_RESIDFP_6581 },
+    { "8580", SID_RESIDFP_8580 },
+    { "8580 + digi boost", SID_RESIDFP_8580D },
+    { NULL, -1 }
+};
+#endif
 #endif
 
 #ifdef HAVE_CATWEASELMKIII
@@ -834,7 +853,7 @@ sid_engine_model_t **sid_get_engine_model_list(void)
 
 static int sid_check_engine_model(int engine, int model)
 {
-    /*printf("sid_check_engine_model SidEngine:%d SidModel:%d\n", engine, model);*/
+    DBG(("sid_check_engine_model SidEngine:%d SidModel:%d\n", engine, model));
     switch (engine) {
         case SID_ENGINE_CATWEASELMKIII:
         case SID_ENGINE_HARDSID:
@@ -878,7 +897,7 @@ static int sid_check_engine_model(int engine, int model)
 
 int sid_set_engine_model(int engine, int model)
 {
-    /*printf("sid_set_engine_model SidEngine:%d SidModel:%d\n", engine, model);*/
+    DBG(("sid_set_engine_model SidEngine:%d SidModel:%d\n", engine, model));
     if (sid_check_engine_model(engine, model) < 0) {
         return -1;
     }

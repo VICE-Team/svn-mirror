@@ -44,6 +44,13 @@
 #include "util.h"
 #include "cbmdos.h"
 
+/*#define DEBUG_FSIMAGE*/
+
+#ifdef DEBUG_FSIMAGE
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 static log_t fsimage_log = LOG_DEFAULT;
 
@@ -129,6 +136,8 @@ int fsimage_open_probe(disk_image_t *image)
     size_t length;
     unsigned int isdir;
 
+    DBG(("fsimage_open_probe image:%p", image));
+
     fsimage = image->media.fsimage;
     fsimage->error_info.map = NULL;
 
@@ -167,6 +176,8 @@ int fsimage_open(disk_image_t *image)
     fsimage_t *fsimage;
     size_t length;
     unsigned int isdir;
+
+    DBG(("fsimage_open image:%p", image));
 
     fsimage = image->media.fsimage;
     fsimage->error_info.map = NULL;
@@ -214,6 +225,7 @@ int fsimage_close(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
+    DBG(("fsimage_close image:%p", image));
     fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {

@@ -794,9 +794,13 @@ static int disk_image_check_for_d90(disk_image_t *image)
 }
 
 /* check if this is a supported image,
-   return 0 on success, -1 on failure */
+   return 0 on success, -1 on failure
+   sets up image->type, image->tracks, image->max_half_tracks etc
+*/
 int fsimage_probe(disk_image_t *image)
 {
+    image->type = DISK_IMAGE_TYPE_UNKNOWN;
+
     if (disk_image_check_for_d64(image)) {
         return 0;
     }

@@ -47,6 +47,14 @@ extern "C" {
 #include "sid-snapshot.h"
 #include "types.h"
 
+/*#define DEBUG_RESID*/
+
+#ifdef DEBUG_RESID
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 extern log_t sound_log;
 
 } // extern "C"
@@ -91,7 +99,7 @@ static sound_t *resid_open(uint8_t *sidstate)
 {
     sound_t *psid;
     int i;
-
+    DBG(("resid_open"));
     psid = new sound_t;
     psid->sid = new reSID::SID;
 
@@ -110,6 +118,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
     double passband, gain;
     int filters_enabled, model, sampling, passband_percentage, gain_percentage, filter_bias_mV;
     int rawoutput;
+    DBG(("resid_init"));
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0) {
         return 0;
