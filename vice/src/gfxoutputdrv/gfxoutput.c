@@ -50,6 +50,14 @@
 #include "ffmpegexedrv.h"
 #include "zmbvdrv.h"
 
+/*#define DEBUG_GFXOUTPUT*/
+
+#ifdef DEBUG_GFXOUTPUT
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 struct gfxoutputdrv_list_s {
     struct gfxoutputdrv_s *drv;
     struct gfxoutputdrv_list_s *next;
@@ -155,6 +163,7 @@ void gfxoutput_shutdown(void)
 int gfxoutput_register(gfxoutputdrv_t *drv)
 {
     gfxoutputdrv_list_t *current;
+    DBG(("gfxoutput_register: (%s)", drv->name));
 
     current = gfxoutputdrv_list;
 
@@ -179,6 +188,7 @@ gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
     gfxoutputdrv_list_t *current = gfxoutputdrv_list;
 
     while (current->next != NULL) {
+        DBG(("gfxoutput_get_driver: (%s) %s", drvname, current->drv->name));
         if (strcmp(drvname, current->drv->name) == 0
             || strcmp(drvname, current->drv->displayname) == 0) {
             break;
