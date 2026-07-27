@@ -30,7 +30,7 @@
  *
  */
 
-#define DEBUG_MAIN
+/* #define DEBUG_MAIN */
 
 #include "vice.h"
 
@@ -197,7 +197,7 @@ static void vice_banner(void)
 /* This is the main program entry point.  Call this from `main()'.  */
 int main_program(int argc, char **argv)
 {
-    int i, n;
+    int i, n, found, foundend;
     int reserr;
     char *cmdline;
 #ifdef WINDOWS_COMPILE
@@ -223,7 +223,7 @@ int main_program(int argc, char **argv)
 
     lib_init();
 
-    /* create string from the commandline that we can log later */
+    /* create string from the (original) command line, that we can log later. */
     cmdline = lib_strdup(argv[0]);
     for (i = 1; i < argc; i++) {
         char *p;
@@ -231,6 +231,7 @@ int main_program(int argc, char **argv)
         cmdline = util_concat(p, " ", argv[i], NULL);
         lib_free(p); /* free old pointer */
     }
+    DBG(("original command line: %s", cmdline));
 
 #ifdef WINDOWS_COMPILE
     /* make stdin, stdout and stderr available on Windows when compiling with
@@ -250,12 +251,18 @@ int main_program(int argc, char **argv)
     }
 #endif
 
+#ifdef DEBUG_MAIN
+    log_set_limit_early(LOG_LIMIT_DEBUG);
+    log_warning(LOG_DEFAULT, "LOG_LIMIT raised to DEBUG");
+#else
     /* set log level to "normal" here, any log output before would use "debug",
        and anything after here can use the option(s) on the cmdline */
     log_set_limit_early(LOG_LIMIT_STANDARD);
+#endif
 
-    /* Check for some options at the beginning of the commandline before
-       initializing the user interface or loading the config file.
+    /* Check for some options at the beginning of the command line, before
+       initializing the user interface, or loading the config file.
+
        -default => use default config, do not load any config
        -config  => use specified configuration file
        -console => no user interface
@@ -263,25 +270,82 @@ int main_program(int argc, char **argv)
        -silent => no logging
        -seed => set the random seed
     */
+
+    /* First scan for the options that effectively result in some part(s)
+       of the command line being skipped. We must consider two cases:
+
+       1) options which result in the entire config being loaded/initialized,
+          which overrides any previous options (which are thus pointless).
+          (-h, -?, -help, --help, -version, --version)
+       2) options that print some info and quit immediately after that, which
+          makes any further options have no effect. (-default, -config)
+    */
+    DBG(("main:early scan cmdline(argc:%d)", argc));
+    found = 0;
+    foundend = 0;
+    for (i = 1; i < argc; i++) {
+        /* first case, command line stops here */
+        if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version")) ||
+            (!strcmp(argv[i], "-help")) || (!strcmp(argv[i], "--help")) ||
+            (!strcmp(argv[i], "-h")) || (!strcmp(argv[i], "-?"))) {
+            foundend = i;
+            break;
+        /* second case, skip previous options */
+        } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
+            found = i;
+        } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
+            found = i;
+        }
+    }
+    DBG(("main: found:%d foundend:%d", found, foundend));
+
+    /* if we found an option that (re)loads the entire config, and it is not
+       the first option on the command line, emit a warning and actually
+       remove the preceding options from the command line, so they don't
+       produce weird side effects further down.
+     */
+    if (found > 1) {
+        DBG(("main:remove preceding cmdline(argc:%d)", argc));
+        log_warning(LOG_DEFAULT, "%d command line argument(s) before '%s' will be discarded.", found - 1, argv[found]);
+        for (i = found, n = 1; i < argc; n++, i++) {
+            DBG(("arg: %d %s", n, argv[i]));
+            argv[n] = argv[i];
+        }
+        argv[n] = NULL;
+        argc = n;
+        if (foundend) {
+            foundend -= (found - 1);
+        }
+    }
+
+    /* if we found options after an option that will print info and quit,
+       terminate the command line after that option. */
+    if (foundend > 1) {
+        int left = (argc - foundend) - 1;
+        if (left > 0) {
+            DBG(("main:remove after cmdline(argc:%d)", argc));
+            log_warning(LOG_DEFAULT, "%d command line argument(s) after '%s' will have no effect.", left, argv[foundend]);
+            argv[foundend + 1] = NULL;
+            argc -= left;
+        }
+    }
+
+    /* now we have prepared the command line and can parse it left to right,
+       we handle all "special" (see above) options here, one that is not
+       handled occurs on the command line.
+    */
     DBG(("main:early parse cmdline(argc:%d)", argc));
     for (i = 1; i < argc; i++) {
-        if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
-            console_mode = true;
-            /* video_disabled_mode = 1;  Breaks exitscreenshot */
-        } else if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version"))) {
-#ifdef USE_SVN_REVISION
-            log_message(LOG_DEFAULT, "%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
-#else
-            log_message(LOG_DEFAULT, "%s (VICE %s)\n", archdep_program_name(), VERSION);
-#endif
-            archdep_program_name_free();
-            archdep_program_path_free();
-            lib_free(cmdline);
-            exit(EXIT_SUCCESS);
-        } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
+        DBG(("arg:%d '%s'", i, argv[i]));
+        if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
                 vice_config_file = lib_strdup(argv[++i]);
+                DBG(("vice_config_file:%s", vice_config_file));
                 loadconfig = true;
+            } else {
+                loadconfig = false;
+                log_error(LOG_DEFAULT, "file name expected");
+                exit(EXIT_FAILURE);
             }
         } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
             loadconfig = false;
@@ -298,29 +362,44 @@ int main_program(int argc, char **argv)
         } else if ((!strcmp(argv[i], "-seed")) || (!strcmp(argv[i], "--seed"))) {
             if ((i + 1) < argc) {
                 lib_rand_seed(strtoul(argv[++i], NULL, 0));
+            } else {
+                log_error(LOG_DEFAULT, "seed expected");
+                exit(EXIT_FAILURE);
             }
+        } else if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
+            console_mode = true;
+            /* video_disabled_mode = 1;  breaks exitscreenshot */
+        } else if ((!strcmp(argv[i], "-help")) || (!strcmp(argv[i], "--help")) ||
+                   (!strcmp(argv[i], "-h")) || (!strcmp(argv[i], "-?"))) {
+            help_requested = true;
+            break; /* prevent from being removed, we want "help" to trigger */
+        } else if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version"))) {
+            help_requested = true;
+            break; /* prevent from being removed, we want "version" to trigger */
         } else {
             break;
         }
     }
-    /* remove the already handled items from the commandline, else they will
-       get parsed again later, which causes surprising effects. */
+
+    /* remove the already handled items from the command line, else they will
+       get parsed again later, which causes surprising effects.
+    */
     for (n = 1; i < argc; n++, i++) {
         argv[n] = argv[i];
     }
     argv[n] = NULL;
     argc = n;
 
-    /* help is also special, but we want it NOT to be ignored by the main
-       commandline handler */
+    /* we are finally done with all the pre-parsing magic that should
+       not exist in the first place. now go on with the more sane
+       things.
+    */
+#ifdef DEBUG_MAIN
+    DBG(("main:final cmdline(argc:%d)", argc));
     for (i = 1; i < argc; i++) {
-        if ((!strcmp(argv[i], "-help")) ||
-                   (!strcmp(argv[i], "--help")) ||
-                   (!strcmp(argv[i], "-h")) ||
-                   (!strcmp(argv[i], "-?"))) {
-            help_requested = true;
-        }
+        DBG(("arg:%d '%s'", i, argv[i]));
     }
+#endif
 
     DBG(("main:archdep_init(argc:%d)", argc));
     if (archdep_init(&argc, argv) != 0) {
@@ -415,6 +494,7 @@ int main_program(int argc, char **argv)
         }
     }
 
+    /***********************************************************************/
     main_log = log_open("Main");
 
     DBG(("main:initcmdline_check_args(argc:%d)", argc));
@@ -519,6 +599,11 @@ void vice_thread_shutdown(void)
     log_message(LOG_DEFAULT, "\n" LOG_COL_LWHITE "Configure Flags" LOG_COL_OFF ":\n%s", CONFIGURE_FLAGS);
     /* log resources with non default values */
     resources_log_active();
+
+    if (vice_config_file) {
+        log_message(LOG_DEFAULT, "\n" LOG_COL_LWHITE "Using config file" LOG_COL_OFF ":\n%s", vice_config_file);
+    }
+
     /* log the active config as commandline options */
     cmdline_log_active();
 

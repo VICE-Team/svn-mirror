@@ -321,11 +321,14 @@ static int cmdline_seed(const char *param, void *extra_param)
 static int cmdline_version(const char *param, void *extra_param)
 {
 #ifdef USE_SVN_REVISION
-    fprintf(stdout, "%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
+    log_message(LOG_DEFAULT, "%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
 #else
-    fprintf(stdout, "%s (VICE %s)\n", archdep_program_name(), VERSION);
+    log_message(LOG_DEFAULT, "%s (VICE %s)\n", archdep_program_name(), VERSION);
 #endif
+    archdep_program_name_free();
+    archdep_program_path_free();
     exit(EXIT_SUCCESS);
+
     return 0; /* get rid of warning */
 }
 

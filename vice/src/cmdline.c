@@ -401,8 +401,18 @@ void cmdline_log_active(void)
 {
     unsigned int i;
     char *cmdline, *cmd;
+    char *cfgfile = NULL;
 
     cmdline = lib_strdup("-default");
+
+    if (vice_config_file) {
+        char *p;
+        cfgfile = lib_strdup(vice_config_file);
+        p = cmdline; /* remember old pointer */
+        cmdline = util_concat(p, " ", "-config", " ", cfgfile, NULL);
+        lib_free(p); /* free old pointer */
+        lib_free(cfgfile); /* free old pointer */
+    }
 
     for (i = 0; i < num_options; i++) {
         const char *param = cmdline_options_get_param(i);

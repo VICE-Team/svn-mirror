@@ -299,9 +299,12 @@ static gfxoutputdrv_t png_drv =
 
 void gfxoutput_init_png(int help)
 {
+#if 0
+    /* why was this added? */
     if (help) {
         return;
     }
+#endif
     gfxoutput_register(&png_drv);
 }
 #endif
