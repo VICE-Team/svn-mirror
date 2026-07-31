@@ -57,7 +57,7 @@ AC_ARG_ENABLE([arch],
   [AC_HELP_STRING([--enable-arch[[=arch]]],
     [enable architecture specific compilation [default=no]])],
   [],
-  [enable_arch=yes])
+  [enable_arch=no])
 
 dnl Enable branch prediction hints.
 AC_ARG_ENABLE([branch-hints],
