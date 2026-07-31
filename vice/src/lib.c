@@ -35,6 +35,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "archdep.h"
 #include "types.h"
@@ -561,10 +562,25 @@ static void lib_debug_check(void)
 #ifdef LIB_DEBUG_PINPOINT
     for (index = 0; index < lib_debug_leaklist_num; index++) {
         log_printf("  ");
-        log_warning(log_lib, "%s:%u: Memory block(s) allocated here was not "
-                "free'd (Memory leak with size 0x%x at %p).",
-               lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index],
-               lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
+        {
+            int n;
+            char temp[0x30];
+            char *p = (char*)lib_debug_leaklist_address[index];
+            int max = lib_debug_leaklist_size[index];
+            for (n = 0; n < 0x2e && n < max; n++) {
+                if (isgraph(*p)) {
+                    temp[n] = *p;
+                } else {
+                    break;
+                }
+                p++;
+            }
+            temp[n] = 0;
+            log_warning(log_lib, "%s:%u: Memory block(s) allocated here was not "
+                    "free'd (Memory leak with size 0x%x at %p [\"%s\"]).",
+                lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index],
+                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index], temp);
+        }
 #ifdef LIB_DEBUG_CALLER
         log_printf("  ");
         log_printf("callstack:");
