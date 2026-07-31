@@ -141,6 +141,9 @@ VICE_ARG_ENABLE_LIST(experimental-devices,  [  --enable-experimental-devices    
 dnl Needed for WIC64
 VICE_ARG_WITH_LIST(libcurl,                 [  --without-libcurl       disable libcurl support [[default=no]]])
 
+dnl Needed for USBSID
+VICE_ARG_WITH_LIST(libusb,                  [  --without-libusb        disable libusb support [[default=no]]])
+
 dnl
 dnl UI options
 dnl
@@ -446,6 +449,7 @@ HAVE_DYNLIB_SUPPORT_TOO="no "
 HAVE_FASTSID_SUPPORT="no "
 HAVE_FONTCONFIG_SUPPORT="no "
 HAVE_GIF_SUPPORT="no "
+HAVE_LIBUSB_SUPPORT="no "
 HAVE_USBSID_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
@@ -3045,7 +3049,7 @@ if test x"$is_unix" = "xyes"; then
   fi
 
   dnl usbsid required libraries and headers
-  if test x"$enable_usbsid" != "xno" ; then
+  if test x"$with_libusb" != "xno" ; then
     PKG_PROG_PKG_CONFIG
     UNIX_USBSID_HEADER_PRESENT=yes
     AC_CHECK_HEADERS(libusb-1.0/libusb.h,,[UNIX_USBSID_HEADER_PRESENT=no],)
@@ -3870,7 +3874,7 @@ echo "-----"
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
   echo "Real device (OpenCBM support)    : $HAVE_REALDEVICE_SUPPORT (--enable/disable-realdevice)"
 fi
-echo "X64 image support                : $HAVE_X64_IMAGE_SUPPORT (--enable/disable--x64-image)"
+echo "X64 image support                : $HAVE_X64_IMAGE_SUPPORT (--enable/disable-x64-image)"
 
 dnl echo ""
 dnl echo "MONITOR"
@@ -3892,6 +3896,8 @@ fi
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
     echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT (--with/--wihout-libieee1284)"
 fi
+
+echo "libusb support                    : $HAVE_LIBUSB_SUPPORT (--with/-without-libusb)"
 
 
 echo ""
