@@ -282,4 +282,5 @@ void cbm5x0ui_shutdown(void)
 #endif
 
     sdl_menu_ffmpeg_shutdown();
+    sdl_ui_font_shutdown();
 }

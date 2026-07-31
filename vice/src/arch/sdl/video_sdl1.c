@@ -121,7 +121,9 @@ struct sdl_lightpen_adjust_s {
 typedef struct sdl_lightpen_adjust_s sdl_lightpen_adjust_t;
 static sdl_lightpen_adjust_t sdl_lightpen_adjust;
 
-uint8_t *draw_buffer_vsid = NULL;
+/* KLUDGES: pointer to remember draw buffer for VSID */
+void *draw_buffer_vsid = NULL;
+
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
 
@@ -414,10 +416,14 @@ int video_init(void)
 
 void video_shutdown(void)
 {
+    struct draw_buffer_s *draw_buffer = (struct draw_buffer_s*)draw_buffer_vsid;
+
     DBG(("%s", __func__));
 
-    if (draw_buffer_vsid) {
-        lib_free(draw_buffer_vsid);
+    if (draw_buffer) {
+        lib_free(draw_buffer->draw_buffer);
+        lib_free(draw_buffer);
+        draw_buffer_vsid = NULL;
     }
 
     sdl_active_canvas = NULL;

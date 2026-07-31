@@ -740,14 +740,17 @@ int sid_cmdline_options_init(int sid_type)
 
 void sid_cmdline_options_shutdown(void)
 {
+    /* sidengine_cmdline_options[0].description */
     if (sid_return) {
         lib_free(sid_return);
         sid_return = NULL;
     }
+    /* sidengine_cmdline_options[1].description */
     if (sid_return_engine) {
         lib_free(sid_return_engine);
         sid_return_engine = NULL;
     }
+    /* sidengine_cmdline_options[2].description */
     if (sid_return_model) {
         lib_free(sid_return_model);
         sid_return_model = NULL;

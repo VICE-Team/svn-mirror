@@ -865,6 +865,8 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
+    sid_cmdline_options_shutdown();
+
     /* close the video chip(s) */
     vicii_shutdown();
 

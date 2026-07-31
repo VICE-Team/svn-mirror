@@ -730,21 +730,23 @@ int c128_resources_init(void)
 void c128_resources_shutdown(void)
 {
     lib_free(chargen_int_rom_name);
-    lib_free(chargen_de_rom_name);
-    lib_free(chargen_fr_rom_name);
-    lib_free(chargen_se_rom_name);
     lib_free(chargen_ch_rom_name);
+    lib_free(chargen_de_rom_name);
+    lib_free(chargen_fi_rom_name);
+    lib_free(chargen_fr_rom_name);
+    lib_free(chargen_it_rom_name);
     lib_free(chargen_no_rom_name);
+    lib_free(chargen_se_rom_name);
     lib_free(basiclo_rom_name);
     lib_free(basichi_rom_name);
+    lib_free(kernal64_rom_name);
+    lib_free(basic64_rom_name);
     lib_free(kernal_int_rom_name);
+    lib_free(kernal_ch_rom_name);
     lib_free(kernal_de_rom_name);
     lib_free(kernal_fi_rom_name);
     lib_free(kernal_fr_rom_name);
     lib_free(kernal_it_rom_name);
     lib_free(kernal_no_rom_name);
     lib_free(kernal_se_rom_name);
-    lib_free(kernal_ch_rom_name);
-    lib_free(basic64_rom_name);
-    lib_free(kernal64_rom_name);
 }
