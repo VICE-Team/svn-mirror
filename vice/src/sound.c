@@ -533,15 +533,15 @@ static int sound_machine_channels(void)
 /* FIXME: We need sanity checks!  And do we really need all of these
    `sound_close()' calls?  */
 
-static int playback_enabled;           /* app_resources.sound */
+static int playback_enabled = 0;       /* app_resources.sound */
 static int sample_rate;                /* app_resources.soundSampleRate */
 static char *device_name = NULL;       /* app_resources.soundDeviceName */
 static char *device_arg = NULL;        /* app_resources.soundDeviceArg */
 static char *recorddevice_name = NULL; /* app_resources.soundDeviceName */
 static char *recorddevice_arg = NULL;  /* app_resources.soundDeviceArg */
 static int buffer_size;                /* app_resources.soundBufferSize */
-static int volume;
-static int amp;
+static int volume = 0;
+static int amp = 0;
 static int fragment_size;
 static int output_option;
 static int sound_emulation_enabled_on_warp;

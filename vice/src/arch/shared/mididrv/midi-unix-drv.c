@@ -36,6 +36,12 @@
 
 #ifdef HAVE_MIDI
 
+#if 0
+/* force OSS for testing */
+#undef USE_ALSA
+#define USE_OSS
+#endif
+
 #if !defined (USE_OSS) && !defined (USE_ALSA)
 #error "MIDI driver needs either OSS or ALSA"
 #endif
@@ -445,6 +451,10 @@ static void mididrv_alsa_shutdown(void)
         mididrv_log = log_open("ALSA MIDI");
     }
 
+#ifdef DEBUG_MIDI
+    log_message(mididrv_log, "mididrv_alsa_shutdown seq:%p midi_event_parser:%p", seq, midi_event_parser);
+#endif
+
     log_verbose(mididrv_log, "closed ALSA MIDI sequencer port '%s'", midi_name);
 
     if (fd_in >= 0) {
@@ -475,7 +485,7 @@ static void mididrv_alsa_init(void)
     }
 
 #ifdef DEBUG_MIDI
-    log_message(mididrv_log, "alsa_init");
+    log_message(mididrv_log, "alsa_init seq:%p midi_event_parser:%p '%s'", seq, midi_event_parser, midi_name);
 #endif
 
     /* if we have already been initialized, just return */

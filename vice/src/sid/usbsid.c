@@ -54,7 +54,7 @@
 #if defined(DEBUG_USBSID_DUMMY)
 
 #define usbsid_drv_available() 1
-#define usbsid_drv_reset(bool us_reset) log_printf("[USBSID] usbsid_drv_reset")
+#define usbsid_drv_reset(us_reset) log_printf("[USBSID] usbsid_drv_reset")
 #define usbsid_drv_open() (log_printf("[USBSID] usbsid_drv_open"), 0)
 #define usbsid_drv_close() log_printf("[USBSID] usbsid_drv_close")
 #define usbsid_drv_read(addr, chipno)  (log_printf("[USBSID] usbsid_drv_read addr:%02x chip:%d", addr, chipno), 1)
@@ -75,6 +75,7 @@ int usbsid_open(void)
     DBG(("usbsid_open"));
     if (usbsid_is_open) {
         usbsid_is_open = usbsid_drv_open();
+        DBG(("usbsid_is_open:%d", usbsid_is_open));
         if(usbsid_is_open >= 0) {
             memset(sidbuf, 0, sizeof(sidbuf));
         }
@@ -89,6 +90,7 @@ int usbsid_open(void)
 
 int usbsid_close(void)
 {
+    DBG(("usbsid_close"));
     if (!usbsid_is_open) {
         usbsid_drv_close();
         usbsid_is_open = -1;
@@ -98,6 +100,7 @@ int usbsid_close(void)
 
 void usbsid_reset(bool us_reset)
 {
+    DBG(("usbsid_reset"));
     if (!usbsid_is_open) {
         usbsid_drv_reset(us_reset);
     }

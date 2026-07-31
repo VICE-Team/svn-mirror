@@ -879,6 +879,7 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+    c128cartridge_resources_shutdown();
     functionrom_resources_shutdown();
     rombanks_resources_shutdown();
     userport_resources_shutdown();

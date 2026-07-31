@@ -251,7 +251,7 @@ int main_program(int argc, char **argv)
     }
 #endif
 
-#ifdef DEBUG_MAIN
+#if defined(DEBUG_MAIN) || defined(DEBUG)
     log_set_limit_early(LOG_LIMIT_DEBUG);
     log_warning(LOG_DEFAULT, "LOG_LIMIT raised to DEBUG");
 #else

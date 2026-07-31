@@ -432,12 +432,6 @@ int machine_resources_init(void)
         init_resource_fail("debug cart");
         return -1;
     }
-#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
-    if (userport_funmp3_resources_init() < 0) {
-        init_resource_fail("funmp3 cart");
-        return -1;
-    }
-#endif
     return 0;
 }
 

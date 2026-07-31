@@ -283,7 +283,10 @@ int c128gmod2_resources_init(void)
 
 void c128gmod2_resources_shutdown(void)
 {
-    lib_free(c128gmod2_eeprom_filename);
+    if (c128gmod2_eeprom_filename) {
+        lib_free(c128gmod2_eeprom_filename);
+        c128gmod2_eeprom_filename = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

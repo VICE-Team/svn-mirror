@@ -833,6 +833,8 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
+    sid_cmdline_options_shutdown();
+
     if (!console_mode) {
         cbm2ui_shutdown();
     }

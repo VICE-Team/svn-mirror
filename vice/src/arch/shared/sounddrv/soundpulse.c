@@ -83,9 +83,11 @@ static int pulsedrv_init(const char *param, int *speed, int *fragsize, int *frag
 static int pulsedrv_write(int16_t *pbuf, size_t nr)
 {
     int error = 0;
-    if (pa_simple_write(simple, pbuf, nr * 2, &error)) {
-        log_error(LOG_DEFAULT, "pa_simple_write(,%d): %s", (int)nr, pa_strerror(error));
-        return 1;
+    if (simple) {
+        if (pa_simple_write(simple, pbuf, nr * 2, &error)) {
+            log_error(LOG_DEFAULT, "pa_simple_write(,%d): %s", (int)nr, pa_strerror(error));
+            return 1;
+        }
     }
 
     return 0;
@@ -94,9 +96,11 @@ static int pulsedrv_write(int16_t *pbuf, size_t nr)
 static int pulsedrv_suspend(void)
 {
     int error = 0;
-    if (pa_simple_flush(simple, &error)) {
-        log_error(LOG_DEFAULT, "pa_simple_flush(): %s", pa_strerror(error));
-        return 1;
+    if (simple) {
+        if (pa_simple_flush(simple, &error)) {
+            log_error(LOG_DEFAULT, "pa_simple_flush(): %s", pa_strerror(error));
+            return 1;
+        }
     }
     return 0;
 }

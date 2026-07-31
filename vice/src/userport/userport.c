@@ -816,9 +816,13 @@ static userport_init_t userport_devices_init[] = {
 static int userport_devices_resources_init(void)
 {
     int i = 0;
-
+    DBG(("userport_devices_resources_init"));
     while (userport_devices_init[i].device_id != USERPORT_DEVICE_NONE) {
         if (userport_devices_init[i].emu_mask & machine_class) {
+            DBG(("userport_devices_resources_init %d id %d (%p:%p)",
+                 i, userport_devices_init[i].device_id,
+                 (void*)userport_devices_init[i].userport_device_resources_init,
+                 (void*)userport_devices_init[i].userport_device_resources_shutdown));
             if (userport_devices_init[i].userport_device_resources_init) {
                 if (userport_devices_init[i].userport_device_resources_init() < 0) {
                     DBG(("userport_devices_resources_init failed for id %d", userport_devices_init[i].device_id));
@@ -835,9 +839,13 @@ static int userport_devices_resources_init(void)
 static void userport_devices_resources_shutdown(void)
 {
     int i = 0;
-
+    DBG(("userport_devices_resources_shutdown"));
     while (userport_devices_init[i].device_id != USERPORT_DEVICE_NONE) {
         if (userport_devices_init[i].emu_mask & machine_class) {
+            DBG(("userport_devices_resources_shutdown %d id %d (%p:%p)",
+                 i, userport_devices_init[i].device_id,
+                 (void*)userport_devices_init[i].userport_device_resources_init,
+                 (void*)userport_devices_init[i].userport_device_resources_shutdown));
             if (userport_devices_init[i].userport_device_resources_shutdown) {
                 userport_devices_init[i].userport_device_resources_shutdown();
             }
@@ -860,6 +868,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_resources_init(void)
 {
+    DBG(("userport_resources_init"));
     memset(userport_device, 0, sizeof(userport_device));
     userport_device[0].name = "None";
     userport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;

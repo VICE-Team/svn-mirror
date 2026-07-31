@@ -46,6 +46,12 @@
 #include "util.h"
 #include "cmdline.h"
 
+#ifdef DEBUG_FUNMP3
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
+
 static int userport_funmp3_enable(int value);
 static void userport_funmp3_store_pbx(uint8_t value, int pulse);
 static void userport_funmp3_reset(void);
@@ -108,6 +114,7 @@ static mpg123_handle *mh = NULL;
 static int mp3_playing = 0;     /* indicates if playing is on-going */
 static int mp3_last = 0;        /* this is the last requested mp3, unless explicitly asked not to repeat, then it's 0 */
 static char *funmp3_dir = NULL;
+
 static const resource_string_t funmp3_resources[] =
 {
     { "FunMP3Dir", ".", (resource_event_relevant_t)0, NULL,
@@ -125,6 +132,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int userport_funmp3_resources_init(void)
 {
+    DBG(("userport_funmp3_resources_init"));
     if (resources_register_string(funmp3_resources) < 0) {
         return -1;
     }
@@ -139,6 +147,11 @@ int userport_funmp3_cmdline_options_init(void)
 
 void userport_funmp3_resources_shutdown(void)
 {
+    DBG(("userport_funmp3_resources_shutdown"));
+    if (funmp3_dir) {
+        lib_free(funmp3_dir);
+        funmp3_dir = NULL;
+    }
 }
 
 void userport_funmp3_sound_chip_init(void)
@@ -158,6 +171,7 @@ static void funmp3_sound_machine_close(sound_t *psid)
 
 static int funmp3_set_dir(const char *val, void *v)
 {
+    DBG(("funmp3_set_dir:%s", val));
     util_string_set(&funmp3_dir, val);
     return 0;
 }
@@ -301,6 +315,7 @@ static void funmp3_start(uint8_t val)
 
 static void funmp3_stop(void)
 {
+    DBG(("funmp3_stop"));
     if (mh) {
         mpg123_close(mh);
     }
@@ -376,6 +391,7 @@ static void userport_funmp3_store_pbx(uint8_t val, int pulse)
 
 static void userport_funmp3_reset(void)
 {
+    DBG(("userport_funmp3_reset"));
     funmp3_stop();
 }
 
