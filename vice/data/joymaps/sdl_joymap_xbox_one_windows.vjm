@@ -38,13 +38,17 @@
 # [045e:02dd] "Xbox One Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
 # [045e:02ff] "Xbox One Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
 # [045e:0b20] "Xbox One S Controller" (6 axes, 16 buttons, 1 hat) Windows 10, SDL
+# [045e:0b12] "Xbox Series X Controller" (6 axes, 16 buttons, 1 hat) Windows 11, SDL
+# [045e:0b13] "Xbox Series X Controller" (6 axes, 16 buttons, 1 hat) Windows 11, SDL
 # Driver - default Windows driver
 # Tested successfully with:
 # - Wired Xbox one controller
 # - Wireless Xbox one controller used with a USB cable
 # - Wireless Xbox one controller (not bluetooth compatible) using Xbox wireless adapter
-# - Wireless Xbox one controller (newer model) via bluetooth (appears as "Xbox One S Controller" in SDL)
+# - Wireless Xbox one controller (S series) via bluetooth (appears as "Xbox One S Controller" in SDL)
 #   NOTE if the Xbox button (mapped to pause) doesn't register, update the controller firmware.
+# - Wireless Xbox one controller (Series X) via Xbox wireless adapter (appears as "Xbox Series X Controller" in SDL)
+# - Wireless Xbox one controller (Series X) via bluetooth (appears as "Xbox Series X Controller" in SDL)
 
 # This mapping also works with bluetooth Xbox One controllers connected via an 8BitDo receiver:
 # [2dc8:3106] "Controller (8BitDo Receiver)" (6 axes, 11 buttons, 1 hat) Windows 10, SDL

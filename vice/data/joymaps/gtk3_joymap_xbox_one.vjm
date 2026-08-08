@@ -37,6 +37,7 @@
 
 # [045e:02dd] "Microsoft X-Box One pad (Firmware 2015)" (8 axes, 11 buttons, 0 hats) Linux, GTK
 # [045e:02ea] "Microsoft X-Box One S pad" (8 axes, 11 buttons, 0 hats) Linux, GTK
+# [045e:0b12] "Microsoft Xbox Series S|X Controller" (8 axes, 11 buttons, 0 hats) Linux, GTK
 # [24c6:543a] "PowerA Xbox One wired controller" (8 axes, 11 buttons, 0 hats) Linux, GTK
 
 0 0 0 1 8
