@@ -271,7 +271,7 @@ static int snapshot_read_dword(FILE *f, uint32_t *dw_return)
         return -1;
     }
 
-    *dw_return = lo | (hi << 16);
+    *dw_return = lo | ((uint32_t)hi << 16);
     return 0;
 }
 
