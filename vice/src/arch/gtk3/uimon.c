@@ -236,7 +236,7 @@ int uimon_out(const char *buffer)
 int uimon_petscii_out(const char *buffer, int len)
 {
     unsigned char *utf = NULL;
-    uint8_t b;
+    uint8_t b[2] = { 0 , 0};
     int n = 0;
     uint8_t c;
 
@@ -284,12 +284,12 @@ int uimon_petscii_out(const char *buffer, int len)
                 if (c == 0) {
                     /* 0 is a petscii control code, which we display as inverted @ */
                     c = '@';
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, true, true);
+                    b[0] = c;
+                    utf = vice_gtk3_petscii_to_utf8(b, true, true);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 } else {
-                    b = c;
-                    utf = vice_gtk3_petscii_to_utf8(&b, false, true);
+                    b[0] = c;
+                    utf = vice_gtk3_petscii_to_utf8(b, false, true);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 }
             }
@@ -297,24 +297,24 @@ int uimon_petscii_out(const char *buffer, int len)
             if (c == 0) {
                 /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme(&b, true, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_to_utf8_petme(b, true, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             } else {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme(&b, false, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_to_utf8_petme(b, false, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         } else if (font_type == FONT_TYPE_PETME64) {
             if (c == 0) {
                 /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme64(&b, true, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_to_utf8_petme64(b, true, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             } else {
-                b = c;
-                utf = vice_gtk3_petscii_to_utf8_petme64(&b, false, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_to_utf8_petme64(b, false, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         }
@@ -334,7 +334,7 @@ int uimon_petscii_out(const char *buffer, int len)
 int uimon_petscii_upper_out(const char *buffer, int len)
 {
     unsigned char *utf = NULL;
-    uint8_t b;
+    uint8_t b[2] = { 0 , 0};
     int n = 0;
     uint8_t c;
 
@@ -379,12 +379,12 @@ int uimon_petscii_upper_out(const char *buffer, int len)
                 if (c == 0) {
                     /* 0 is a petscii control code, which we display as inverted @ */
                     c = '@';
-                    b = c;
-                    utf = vice_gtk3_petscii_upper_to_utf8(&b, true);
+                    b[0] = c;
+                    utf = vice_gtk3_petscii_upper_to_utf8(b, true);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 } else {
-                    b = c;
-                    utf = vice_gtk3_petscii_upper_to_utf8(&b, false);
+                    b[0] = c;
+                    utf = vice_gtk3_petscii_upper_to_utf8(b, false);
                     uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
                 }
             }
@@ -393,12 +393,12 @@ int uimon_petscii_upper_out(const char *buffer, int len)
             if (c == 0) {
                 /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
-                b = c;
-                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(b, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             } else {
-                b = c;
-                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, false);
+                b[0] = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(b, false);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         } else if (font_type == FONT_TYPE_PETME64) {
@@ -406,12 +406,12 @@ int uimon_petscii_upper_out(const char *buffer, int len)
             if (c == 0) {
                 /* 0 is a petscii control code, which we display as inverted @ */
                 c = '@';
-                b = c;
-                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, true);
+                b[0] = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(b, true);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             } else {
-                b = c;
-                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, false);
+                b[0] = c;
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(b, false);
                 uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
             }
         }
@@ -433,7 +433,7 @@ int uimon_scrcode_out(const char *buffer, int len)
 {
     int n = 0;
     unsigned char *utf = NULL;
-    uint8_t b;
+    uint8_t b[2] = { 0 , 0};
     uint8_t c;
 
     if (native_monitor()) {
@@ -449,34 +449,34 @@ int uimon_scrcode_out(const char *buffer, int len)
             c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
         } else if (font_type == FONT_TYPE_C64PRO) {
             /* regular PETSCII capable ("C64 Pro") font */
-            b = c;
+            b[0] = c;
             if (c == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_to_utf8(&b, c & 0x80 ? true : false, true);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8(b, c & 0x80 ? true : false, true);
             } else {
-                utf = vice_gtk3_scrcode_to_utf8(&b, c & 0x80 ? true : false, true);
+                utf = vice_gtk3_scrcode_to_utf8(b, c & 0x80 ? true : false, true);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         } else if (font_type == FONT_TYPE_PETME) {
             /* FIXME: regular PETSCII capable ("PET Me") font */
             int ch = c & 0x7f;
-            b = ch;
+            b[0] = ch;
             if (ch == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_to_utf8_petme(&b, c & 0x80 ? true : false, true);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8_petme(b, c & 0x80 ? true : false, true);
             } else {
-                utf = vice_gtk3_scrcode_to_utf8_petme(&b, c & 0x80 ? true : false, true);
+                utf = vice_gtk3_scrcode_to_utf8_petme(b, c & 0x80 ? true : false, true);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         } else if (font_type == FONT_TYPE_PETME64) {
             /* FIXME: regular PETSCII capable ("PET Me") font */
             int ch = c & 0x7f;
-            b = ch;
+            b[0] = ch;
             if (ch == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_to_utf8_petme64(&b, c & 0x80 ? true : false, true);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_to_utf8_petme64(b, c & 0x80 ? true : false, true);
             } else {
-                utf = vice_gtk3_scrcode_to_utf8_petme64(&b, c & 0x80 ? true : false, true);
+                utf = vice_gtk3_scrcode_to_utf8_petme64(b, c & 0x80 ? true : false, true);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         }
@@ -497,7 +497,7 @@ int uimon_scrcode_upper_out(const char *buffer, int len)
 {
     int n = 0;
     unsigned char *utf = NULL;
-    uint8_t b;
+    uint8_t b[2] = { 0 , 0};
     uint8_t c;
 
     if (native_monitor()) {
@@ -513,34 +513,34 @@ int uimon_scrcode_upper_out(const char *buffer, int len)
             c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
         } else if (font_type == FONT_TYPE_C64PRO) {
             /* regular PETSCII capable ("C64 Pro") font */
-            b = c;
+            b[0] = c;
             if (c == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_upper_to_utf8(&b, c & 0x80 ? true : false);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8(b, c & 0x80 ? true : false);
             } else {
-                utf = vice_gtk3_scrcode_upper_to_utf8(&b, c & 0x80 ? true : false);
+                utf = vice_gtk3_scrcode_upper_to_utf8(b, c & 0x80 ? true : false);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         } else if (font_type == FONT_TYPE_PETME) {
             /* FIXME: regular PETSCII capable ("PET Me") font */
             int ch = c & 0x7f;
-            b = ch;
+            b[0] = ch;
             if (ch == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_upper_to_utf8_petme(&b, c & 0x80 ? true : false);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8_petme(b, c & 0x80 ? true : false);
             } else {
-                utf = vice_gtk3_scrcode_upper_to_utf8_petme(&b, c & 0x80 ? true : false);
+                utf = vice_gtk3_scrcode_upper_to_utf8_petme(b, c & 0x80 ? true : false);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         } else if (font_type == FONT_TYPE_PETME64) {
             /* FIXME: regular PETSCII capable ("PET Me") font */
             int ch = c & 0x7f;
-            b = ch;
+            b[0] = ch;
             if (ch == 0x00) {
-                b = '@';    /* Hack, this way we sneak the 0 in there */
-                utf = vice_gtk3_petscii_upper_to_utf8_petme64(&b, c & 0x80 ? true : false);
+                b[0] = '@';    /* Hack, this way we sneak the 0 in there */
+                utf = vice_gtk3_petscii_upper_to_utf8_petme64(b, c & 0x80 ? true : false);
             } else {
-                utf = vice_gtk3_scrcode_upper_to_utf8_petme64(&b, c & 0x80 ? true : false);
+                utf = vice_gtk3_scrcode_upper_to_utf8_petme64(b, c & 0x80 ? true : false);
             }
             uimon_write_to_terminal(&fixed, (const char*)&utf[0], 3);
         }
