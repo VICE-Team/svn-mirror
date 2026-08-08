@@ -36,6 +36,7 @@
 !CLEAR
 
 # [045e:02dd] "Xbox One Controller" (6 axes, 11 buttons, 1 hat) Linux, SDL
+# [045e:0b12] "Xbox Series X Controller" (6 axes, 12 buttons, 1 hat) Linux, SDL
 # [24c6:543a] "PowerA Xbox One Controller" (6 axes, 11 buttons, 1 hat) Linux, SDL
 # [2dc8:3106] "8BitDo Ultimate Wireless / Pro 2 Wired Controller" (6 axes, 11 buttons, 1 hat) Linux, SDL
 
