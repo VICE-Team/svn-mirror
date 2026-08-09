@@ -170,6 +170,11 @@ void uimon_write_to_terminal(struct console_private_s *t,
     size_t output_buffer_required_size;
     bool write_scheduled = false;
 
+    /* early exit when length is 0 (the following code does not handle it) */
+    if (length == 0) {
+        return;
+    }
+
     pthread_mutex_lock(&fixed.lock);
 
     /*
