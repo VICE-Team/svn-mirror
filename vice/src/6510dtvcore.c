@@ -1505,7 +1505,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         CLK_INC();            \
         tmp |= (PULL() << 8); \
         CLK_INC();            \
-        LOAD(tmp);            \
+        LOAD_DUMMY(tmp);      \
         CLK_INC();            \
         tmp++;                \
         JUMP(tmp);            \
