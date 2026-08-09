@@ -1677,6 +1677,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         LOAD_DUMMY(0x100 + reg_sp);  \
         tmp = PULL();                \
         tmp = tmp | (PULL() << 8);   \
+        LOAD_DUMMY(tmp);             \
         JUMP(tmp);                   \
         FETCH_PARAM(reg_pc);         \
         CLK_ADD(CLK, CLK_INT_CYCLE); \
