@@ -227,9 +227,20 @@ int main_program(int argc, char **argv)
     cmdline = lib_strdup(argv[0]);
     for (i = 1; i < argc; i++) {
         char *p;
-        p = cmdline; /* remember old pointer */
-        cmdline = util_concat(p, " ", argv[i], NULL);
-        lib_free(p); /* free old pointer */
+        if (argv[i][0] != 0) {
+            p = cmdline; /* remember old pointer */
+            cmdline = util_concat(p, " ", argv[i], NULL);
+            DBG(("argv[%d]='%s'", i, argv[i]));
+            lib_free(p); /* free old pointer */
+        } else {
+            if (i == (argc - 1)) {
+                log_warning(LOG_DEFAULT, "last command line argument is empty (skipped).");
+                argc--;
+            } else {
+                log_error(LOG_DEFAULT, "command line argument %d is empty.", i);
+                exit(EXIT_FAILURE);
+            }
+        }
     }
     DBG(("original command line: %s", cmdline));
 
