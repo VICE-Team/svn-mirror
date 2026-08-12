@@ -55,6 +55,20 @@ inline static uint8_t fetch_phi1(int addr)
 
     if (export.ultimax_phi1) {
         uint8_t value;
+        /* $3000..$3fff     ROMH */
+        if ((addr & 0x3fff) >= 0x3000) {
+            if (ultimax_romh_phi1_read((uint16_t)(0x1000 + (addr & 0xfff)), &value)) {
+                return value;
+            }
+        /* $0800-$0fff (?) Cartridge RAM */
+        } else if (((addr & 0x3fff) >= 0x800) && ((addr & 0x3fff) <= 0x0fff)) {
+            if (ultimax_ram_phi1_read(addr, &value)) {
+                return value;
+            }
+        }
+        p = vicii.ram_base_phi1 + addr;
+        return *p;
+#if 0
         if (ultimax_romh_phi1_read((uint16_t)(0x1000 + (addr & 0xfff)), &value)) {
             if ((addr & 0x3fff) >= 0x3000) {
                 return value;
@@ -63,6 +77,7 @@ inline static uint8_t fetch_phi1(int addr)
                 return *p;
             }
         }
+#endif
     }
 
     if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
@@ -81,6 +96,20 @@ inline static uint8_t fetch_phi2(int addr)
 
     if (export.ultimax_phi2) {
         uint8_t value;
+        /* $3000..$3fff     ROMH */
+        if ((addr & 0x3fff) >= 0x3000) {
+            if (ultimax_romh_phi2_read((uint16_t)(0x1000 + (addr & 0xfff)), &value)) {
+                return value;
+            }
+        /* $0800-$0fff (?) Cartridge RAM */
+        } else if (((addr & 0x3fff) >= 0x800) && ((addr & 0x3fff) <= 0x0fff)) {
+            if (ultimax_ram_phi2_read(addr, &value)) {
+                return value;
+            }
+        }
+        p = vicii.ram_base_phi2 + addr;
+        return *p;
+#if 0
         if (ultimax_romh_phi2_read((uint16_t)(0x1000 + (addr & 0xfff)), &value)) {
             if ((addr & 0x3fff) >= 0x3000) {
                 return value;
@@ -89,6 +118,7 @@ inline static uint8_t fetch_phi2(int addr)
                 return *p;
             }
         }
+#endif
     }
 
     if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {

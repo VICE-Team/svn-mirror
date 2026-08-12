@@ -37,6 +37,7 @@
 #include "tapeport.h"
 #include "tape-snapshot.h"
 
+int board_type = 0;
 
 /*******************************************************************************
     tape
