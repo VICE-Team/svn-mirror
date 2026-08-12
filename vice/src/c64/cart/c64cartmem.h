@@ -61,4 +61,7 @@ uint8_t *ultimax_romh_phi2_ptr(uint16_t addr);
 int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value);
 int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value);
 
+int ultimax_ram_phi1_read(uint16_t addr, uint8_t *value);
+int ultimax_ram_phi2_read(uint16_t addr, uint8_t *value);
+
 #endif

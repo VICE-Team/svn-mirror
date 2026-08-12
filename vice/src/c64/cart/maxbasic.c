@@ -34,6 +34,7 @@
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64mem.h"
 #include "c64memrom.h"
+#include "c64model.h"
 #include "c64rom.h"
 #include "cartio.h"
 #include "cartridge.h"
@@ -46,6 +47,8 @@
 #include "util.h"
 #include "crt.h"
 
+extern int board_type;
+
 /*
     MAX Basic
 
@@ -53,14 +56,48 @@
     - ROM is mapped to $8000 and $e000 using ultimax mode
 
     2K RAM
-    - RAM is mapped to $0800
+    - RAM is mapped to $0800 on a Max Machine
 */
 
 #define CART_RAM_SIZE (2 * 1024)
 
-static const export_resource_t export_res = {
+static uint8_t maxbasic_io1_read(uint16_t addr);
+
+/* IO device for regular C64 */
+static io_source_t maxbasic_io1_device = {
+    CARTRIDGE_NAME_MAX_BASIC,    /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,        /* range of the device, regs:$de00-$deff */
+    0,                           /* read validity is determined by the device upon a read */
+    NULL,                        /* store function */
+    NULL,                        /* NO poke function */
+    maxbasic_io1_read,           /* read function */
+    NULL,                        /* TODO: peek function */
+    NULL,                        /* device state information dump function */
+    CARTRIDGE_MAX_BASIC,         /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0,                           /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE               /* NO mirroring */
+};
+
+/* on a Max Machine we do not have IO1, instead Pin7 enables the external RAM */
+static const export_resource_t export_ultimax_res = {
     CARTRIDGE_NAME_MAX_BASIC, 0, 1, NULL, NULL, CARTRIDGE_MAX_BASIC
 };
+
+static const export_resource_t export_res = {
+    CARTRIDGE_NAME_MAX_BASIC, 0, 1, &maxbasic_io1_device, NULL, CARTRIDGE_MAX_BASIC
+};
+
+static io_source_list_t *maxbasic_io1_list_item = NULL;
+
+/* on regular C64, one page of the external RAM can be read at $de00 */
+static uint8_t maxbasic_io1_read(uint16_t addr)
+{
+    maxbasic_io1_device.io_source_valid = 1;
+    return export_ram0[addr & 0x07ff];
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -136,9 +173,16 @@ void maxbasic_powerup(void)
 
 static int maxbasic_common_attach(void)
 {
+    if (board_type == BOARD_MAX) {
+        if (export_add(&export_ultimax_res) < 0) {
+            return -1;
+        }
+        return 0;
+    }
     if (export_add(&export_res) < 0) {
         return -1;
     }
+    maxbasic_io1_list_item = io_source_register(&maxbasic_io1_device);
     return 0;
 }
 
@@ -176,6 +220,11 @@ int maxbasic_crt_attach(FILE *fd, uint8_t *rawcart)
 void maxbasic_detach(void)
 {
     export_remove(&export_res);
+    export_remove(&export_ultimax_res);
+    if (maxbasic_io1_list_item) {
+        io_source_unregister(maxbasic_io1_list_item);
+        maxbasic_io1_list_item = NULL;
+    }
 }
 
 /* ---------------------------------------------------------------------*/

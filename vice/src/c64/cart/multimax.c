@@ -34,6 +34,7 @@
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64mem.h"
 #include "c64memrom.h"
+#include "c64model.h"
 #include "c64rom.h"
 #include "cartio.h"
 #include "cartridge.h"
@@ -55,9 +56,10 @@
     - ROM is mapped to $8000 and $e000 using ultimax mode
 
     2K RAM
-    - RAM is mapped to $0800
+    - RAM is mapped to $0800 on a MAX Machine
 
     One register in the entire I/O1 (or extended RAM for the MAX Machine) space.
+
     The register latches the lowbyte of the *address* (not the value written):
 
     bit 7       when set, a) the register is disabled and can only be
@@ -78,10 +80,52 @@
 
 */
 
+extern int board_type;
+
 #define CART_RAM_SIZE (2 * 1024)
 
 static uint8_t currbank = 0;
 static uint8_t reg_enabled = 1;
+
+static void multimax_io1_store(uint16_t addr, uint8_t value);
+static uint8_t multimax_io1_read(uint16_t addr);
+
+static int multimax_dump(void)
+{
+    mon_out("Register is %s.\n", reg_enabled ? "enabled" : "disabled");
+    mon_out("Extra RAM is %s.\n", reg_enabled ? "disabled" : "enabled");
+    mon_out("ROM Bank: %d\n", currbank);
+    return 0;
+}
+
+/* IO device for regular C64 */
+static io_source_t multimax_device = {
+    CARTRIDGE_NAME_MULTIMAX,  /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,     /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                        /* read is never valid */
+    multimax_io1_store,       /* store function */
+    NULL,                     /* NO poke function */
+    multimax_io1_read,        /* read function */
+    NULL,                     /* NO peek function */
+    multimax_dump,            /* device state information dump function */
+    CARTRIDGE_MULTIMAX,       /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0,                        /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE            /* NO mirroring */
+};
+
+static io_source_list_t *multimax_list_item = NULL;
+
+/* on a Max Machine we do not have IO1, instead Pin7 enables the external RAM */
+static const export_resource_t export_ultimax_res = {
+    CARTRIDGE_NAME_MULTIMAX, 1, 1, NULL, NULL, CARTRIDGE_MULTIMAX
+};
+
+static const export_resource_t export_res = {
+    CARTRIDGE_NAME_MULTIMAX, 1, 1, &multimax_device, NULL, CARTRIDGE_MULTIMAX
+};
 
 /* this is used on regular C64s */
 static void multimax_io1_store(uint16_t addr, uint8_t value)
@@ -95,36 +139,12 @@ static void multimax_io1_store(uint16_t addr, uint8_t value)
     }
 }
 
-static int multimax_dump(void)
+/* on regular C64, one page of the external RAM can be read at $de00 */
+static uint8_t multimax_io1_read(uint16_t addr)
 {
-    mon_out("Register is %s.\n", reg_enabled ? "enabled" : "disabled");
-    mon_out("Extra RAM is %s.\n", reg_enabled ? "disabled" : "enabled");
-    mon_out("ROM Bank: %d\n", currbank);
-    return 0;
+    multimax_device.io_source_valid = 1;
+    return export_ram0[addr & 0x07ff];
 }
-
-static io_source_t multimax_device = {
-    CARTRIDGE_NAME_MULTIMAX,  /* name of the device */
-    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
-    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
-    0xde00, 0xdeff, 0xff,     /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
-    0,                        /* read is never valid */
-    multimax_io1_store,       /* store function */
-    NULL,                     /* NO poke function */
-    NULL,                     /* NO read function */
-    NULL,                     /* NO peek function */
-    multimax_dump,            /* device state information dump function */
-    CARTRIDGE_MULTIMAX,       /* cartridge ID */
-    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
-    0,                        /* insertion order, gets filled in by the registration function */
-    IO_MIRROR_NONE            /* NO mirroring */
-};
-
-static io_source_list_t *multimax_list_item = NULL;
-
-static const export_resource_t export_res = {
-    CARTRIDGE_NAME_MULTIMAX, 1, 1, &multimax_device, NULL, CARTRIDGE_MULTIMAX
-};
 
 /* ---------------------------------------------------------------------*/
 
@@ -218,6 +238,13 @@ void multimax_powerup(void)
 
 static int multimax_common_attach(void)
 {
+    if (board_type == BOARD_MAX) {
+        if (export_add(&export_ultimax_res) < 0) {
+            return -1;
+        }
+        return 0;
+    }
+
     if (export_add(&export_res) < 0) {
         return -1;
     }

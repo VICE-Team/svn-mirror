@@ -33,6 +33,7 @@
 
 #include "c64cart.h"
 #include "c64mem.h"
+#include "c64model.h"
 #include "c64cartmem.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
@@ -2041,13 +2042,64 @@ void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
 /*
     VIC-II reads from cart memory
 
-    most carts can simply wrap to ultimax_romh_read_hirom here, only
-    those that handle the vic accesses differently than cpu accesses
-    must provide their own functions.
+    NOTE: the called functions have to decode the address
 
     FIXME: lots of testing needed!
 */
 
+extern int board_type;
+
+/* VICII phi1 RAM $0800-$0fff (?) */
+int ultimax_ram_phi1_read(uint16_t addr, uint8_t *value)
+{
+    if (board_type != BOARD_MAX) {
+        return 0;
+    }
+
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ULTIMAX:
+            /* fall through */
+        default:
+            break;
+        case CARTRIDGE_MAX_BASIC:
+            /* fall through */
+        case CARTRIDGE_MULTIMAX:
+            *value = ultimax_0800_0fff_read(addr);
+            return 1;
+    }
+
+    return 0;
+}
+
+/* VICII phi2 RAM $0800-$0fff (?) */
+int ultimax_ram_phi2_read(uint16_t addr, uint8_t *value)
+{
+    if (board_type != BOARD_MAX) {
+        return 0;
+    }
+
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ULTIMAX:
+            /* fall through */
+        default:
+            break;
+        case CARTRIDGE_MAX_BASIC:
+            /* fall through */
+        case CARTRIDGE_MULTIMAX:
+            *value = ultimax_0800_0fff_read(addr);
+            return 1;
+    }
+
+    return 0;
+}
+
+/*
+    most carts can simply wrap to ultimax_romh_read_hirom here, only
+    those that handle the vic accesses differently than cpu accesses
+    must provide their own functions.
+*/
+
+/* VICII phi1 ROMH $3000-$3fff */
 static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
@@ -2113,6 +2165,7 @@ static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
     return 1;
 }
 
+/* VICII phi1 ROMH $3000-$3fff */
 static int ultimax_romh_phi1_read_slot1(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
@@ -2141,6 +2194,7 @@ static int ultimax_romh_phi1_read_slot1(uint16_t addr, uint8_t *value)
     return ultimax_romh_phi1_read_slotmain(addr, value);
 }
 
+/* VICII phi1 ROMH $3000-$3fff */
 int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
@@ -2174,6 +2228,7 @@ int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
     return ultimax_romh_phi1_read_slot1(addr, value);
 }
 
+/* VICII phi2 ROMH $3000-$3fff */
 static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
