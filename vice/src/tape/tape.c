@@ -618,6 +618,15 @@ int tape_image_attach(unsigned int unit, const char *name)
     return tape_image_attach_internal(unit, name);
 }
 
+int tape_image_probe(const char *name)
+{
+    if (t64_probe(name) ||
+        tap_probe(name)) {
+        return 1;
+    }
+    return 0;
+}
+
 void tape_image_event_playback(unsigned int unit, const char *filename)
 {
     if (filename == NULL || filename[0] == 0) {

@@ -122,6 +122,7 @@ int tape_image_detach(unsigned int unit);
 void tape_image_detach_all(void);
 int tape_image_detach_internal(unsigned int unit);
 int tape_image_attach(unsigned int unit, const char *name);
+int tape_image_probe(const char *name);
 int tape_image_open(tape_image_t *tape_image);
 int tape_image_close(tape_image_t *tape_image);
 int tape_image_create(const char *name, unsigned int type);
