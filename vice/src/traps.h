@@ -54,7 +54,7 @@ int traps_resources_init(void);
 int traps_cmdline_options_init(void);
 int traps_add(const trap_t *trap);
 int traps_remove(const trap_t *trap);
-void traps_refresh(void);
+int traps_refresh(void);
 uint32_t traps_handler(void);
 int traps_checkaddr(unsigned int addr);
 

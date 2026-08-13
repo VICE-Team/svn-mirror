@@ -373,7 +373,7 @@ static image_contents_t *tapecontents_read_wrapper(const char *path)
         return NULL;
     }
 
-    if (t64_probe(path) || tap_probe(path)) {
+    if (tape_image_probe(path)) {
         content = tapecontents_read(path);
         if (content != NULL) {
             return content;

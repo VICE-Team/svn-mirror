@@ -588,6 +588,13 @@ static void deallocate_program_name(void)
 
 typedef enum { YES, NO, NOT_YET } CHECKYESNO;
 
+/* inspect the screen memory for a certain string
+ *
+ * returns:
+ *      YES         when string was found
+ *      NO          when a different string was found
+ *      NOT_YET     when nothing was found (yet)
+ */
 static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset, int checkcursor)
 {
     uint16_t screen_addr, addr;
@@ -732,9 +739,11 @@ static int get_bus_device_state(int unit)
            xcbm2,xcbm5x0 do not support trap device yet
 */
 
-static void set_device_traps_state(int unit, int on)
+static int set_device_traps_state(int unit, int on)
 {
     int old = 0;
+    int res = 0;
+    DBG(("set_device_traps_state TrapDevice%d on:%d", unit, on));
     /*
         FIXME: xpet does not support trap device for disk yet
                xcbm2,xcbm5x0 do not support trap device yet
@@ -750,8 +759,10 @@ static void set_device_traps_state(int unit, int on)
     }
     if (old != on) {
         log_message(autostart_log, "Turning trap device %s for unit %d.", on ? "on" : "off", unit);
-        resources_set_int_sprintf("TrapDevice%d", on, unit);
+        res = resources_set_int_sprintf("TrapDevice%d", on, unit);
+        DBG(("set_device_traps_state TrapDevice%d on:%d res:%d", unit, on, res));
     }
+    return res;
 }
 
 static int get_device_traps_state(int unit)
@@ -774,8 +785,9 @@ static int get_device_traps_state(int unit)
 }
 
 
-static void set_trap_or_bus_device_state(int unit, int on)
+static int set_trap_or_bus_device_state(int unit, int on)
 {
+    int res = 0;
     /*
         FIXME: xpet does not support trap device for disk yet
                xcbm2,xcbm5x0 do not support trap device yet
@@ -785,7 +797,7 @@ static void set_trap_or_bus_device_state(int unit, int on)
     if (((machine_class == VICE_MACHINE_PET) && (unit > 2)) ||
         (machine_class == VICE_MACHINE_CBM6x0) ||
         (machine_class == VICE_MACHINE_CBM5x0)) {
-        set_device_traps_state(unit, 0);
+        res = set_device_traps_state(unit, 0);
         set_bus_device_state(unit, on);
 #if 0
         /* HACKHACK - enable TDE when bus device is enabled.
@@ -795,8 +807,10 @@ static void set_trap_or_bus_device_state(int unit, int on)
         }
 #endif
     } else {
-        set_device_traps_state(unit, on);
+        res = set_device_traps_state(unit, on);
     }
+    DBG(("set_trap_or_bus_device_state res:%d", res));
+    return res;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -836,8 +850,8 @@ static void disable_warp_if_was_requested(void)
 static int check_rom_area(void)
 {
     static int lastmode = -1;
-    DBG(("check_rom_area entered_rom entered_rom:%d in ram:%d",
-         entered_rom, machine_addr_in_ram(reg_pc)));
+    /*DBG(("check_rom_area entered_rom entered_rom:%d in ram:%d",
+         entered_rom, machine_addr_in_ram(reg_pc)));*/
     /* enter ROM ? */
     if (!entered_rom) {
         if (reg_pc >= 0xe000) {
@@ -1018,7 +1032,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 */
 static void autostart_reinit(int default_seconds)
 {
-    DBG(("autostart_reinit default_seconds: %d\n", default_seconds));
+    DBG(("autostart_reinit default_seconds: %d", default_seconds));
 
     if (default_seconds) {
         AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
@@ -1030,6 +1044,7 @@ static void autostart_reinit(int default_seconds)
     } else {
         autostart_enabled = 0;
     }
+    DBG(("autostart_reinit autostart_enabled: %d", autostart_enabled));
 }
 
 /*  Initialize autostart.
@@ -1054,6 +1069,7 @@ int autostart_init(int default_seconds)
 
 void autostart_disable(void)
 {
+    DBG(("autostart_disable autostart_enabled: %d", autostart_enabled));
     if (!autostart_enabled) {
         return;
     }
@@ -1280,12 +1296,18 @@ static void advance_hastape(void)
 static void advance_pressplayontape(void)
 {
     int port = (autostart_tape_unit == 2) ? TAPEPORT_PORT_2 : TAPEPORT_PORT_1;
+    DBG(("advance_pressplayontape"));
     switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
             datasette_control(port, DATASETTE_CONTROL_START);
             break;
         case NO:
+            /* hack for tapecart */
+            if (check("SEARCHING", AUTOSTART_NOWAIT_BLINK)) {
+                autostartmode = AUTOSTART_LOADINGTAPE;
+                break;
+            }
             disable_warp_if_was_requested();
             autostart_disable();
             break;
@@ -1296,6 +1318,7 @@ static void advance_pressplayontape(void)
 
 static void advance_loadingtape(void)
 {
+    DBG(("advance_loadingtape"));
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
             disable_warp_if_was_requested();
@@ -1608,6 +1631,16 @@ static void advance_inject(void)
    mode if necessary.  */
 void autostart_advance(void)
 {
+#ifdef DEBUG_AUTOSTART
+    {
+        static int last = -1;
+        if (last != autostart_enabled) {
+            DBG(("autostart_advance autostart_enabled: %d", autostart_enabled));
+            last = autostart_enabled;
+        }
+    }
+#endif
+
     if (!autostart_enabled) {
         return;
     }
@@ -1680,6 +1713,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     int rnd;
     char *temp_name = NULL, *temp;
 
+    DBG(("reboot_for_autostart autostart_enabled: %d", autostart_enabled));
     if (!autostart_enabled) {
         return;
     }
@@ -1765,10 +1799,10 @@ static void setup_for_disk(int unit, int drive)
                 set_true_drive_emulation_mode(unit, 1);
             }
             if (!get_true_drive_emulation_state(unit)) {
-                log_error(LOG_DEFAULT, "True drive emulation is not enabled.");
+                log_error(autostart_log, "True drive emulation is not enabled.");
                 set_device_traps_state(unit, 1);
                 if (!get_device_traps_state(unit)) {
-                    log_error(LOG_DEFAULT, "Virtual device traps are not enabled.");
+                    log_error(autostart_log, "Virtual device traps are not enabled.");
                 }
             }
         }
@@ -1793,10 +1827,14 @@ static void setup_for_disk(int unit, int drive)
             /* enable traps when TDE is disabled, and Busdevice is disabled. */
             if (!orig_device_traps_state && !orig_bus_device_state) {
                 /* enable traps or bus device (on IEEE machines) */
-                set_trap_or_bus_device_state(unit, 1);
+                if (set_trap_or_bus_device_state(unit, 1) < 0) {
+                    /* enabling traps and/or bus device failed for some reason */
+                }
             }
             if (!get_device_traps_state(unit) && !get_bus_device_state(unit)) {
-                log_error(LOG_DEFAULT, "Either trap device or bus device must be enabled.");
+                log_error(autostart_log, "Could not enable bus device or device traps, using TDE.");
+                set_true_drive_emulation_mode(unit, 1);
+                copy_virtual_state_to_tde = 0;
             }
         }
     }
@@ -1837,10 +1875,14 @@ static void setup_for_disk_ready(int unit, int drive)
         if (!orig_device_traps_state && !orig_bus_device_state) {
             /* enable traps or bus device (on IEEE machines) */
             DBG(("setup_for_disk_ready - handle TDE (enable traps or bus)"));
-            set_trap_or_bus_device_state(unit, 1);
+            if (set_trap_or_bus_device_state(unit, 1) < 0) {
+                /* enabling traps and/or bus device failed for some reason */
+            }
         }
         if (!get_device_traps_state(unit) && !get_bus_device_state(unit)) {
-            log_error(LOG_DEFAULT, "Either trap device or bus device must be enabled.");
+            log_error(autostart_log, "Could not enable bus device or device traps, using TDE.");
+            set_true_drive_emulation_mode(unit, 1);
+            copy_virtual_state_to_tde = 0;
         }
     }
 
@@ -1870,7 +1912,7 @@ static void setup_for_prg_vfs(int unit)
         }
     }
     if (get_true_drive_emulation_state(unit)) {
-        log_error(LOG_DEFAULT, "True drive emulation is still enabled.");
+        log_error(autostart_log, "True drive emulation is still enabled.");
     }
 
     /* if neither trap device nor bus device is enabled, enable trap device */
@@ -1879,7 +1921,7 @@ static void setup_for_prg_vfs(int unit)
         set_trap_or_bus_device_state(unit, 1);
     }
     if (!get_device_traps_state(unit) && !get_bus_device_state(unit)) {
-        log_error(LOG_DEFAULT, "Either trap device or bus device must be enabled.");
+        log_error(autostart_log, "Either trap device or bus device must be enabled.");
     }
     /* always shorten the long names when autostarting, the long names cause
        nothing but problems */
@@ -1903,7 +1945,7 @@ static void setup_for_prg_vfs_ready(void)
         }
     }
     if (get_true_drive_emulation_state(unit)) {
-        log_error(LOG_DEFAULT, "True drive emulation is still enabled.");
+        log_error(autostart_log, "True drive emulation is still enabled.");
     }
 }
 #endif
@@ -1918,17 +1960,17 @@ static void set_tapeport_device(int datasette, int tapecart)
 {
     /* first disable all devices, so we dont get any conflicts */
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
-        log_error(LOG_DEFAULT, "Failed to disable the tape port device.");
+        log_error(autostart_log, "Failed to disable the tape port device.");
     }
     /* now enable the one we want to enable */
     if (datasette) {
         if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_DATASETTE) < 0) {
-            log_error(LOG_DEFAULT, "Failed to enable the Datasette.");
+            log_error(autostart_log, "Failed to enable the Datasette.");
         }
     }
     if (tapecart) {
         if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_TAPECART) < 0) {
-            log_error(LOG_DEFAULT, "Failed to enable the Tapecart.");
+            log_error(autostart_log, "Failed to enable the Tapecart.");
         }
     }
 }
@@ -1940,7 +1982,7 @@ static void setup_tapeport_device(int tapeunit, int tapedevice)
 
     /* first disable all devices, so we dont get any conflicts */
     if (resources_set_int_sprintf("TapePort%dDevice", TAPEPORT_DEVICE_NONE, tapeunit) < 0) {
-        log_error(LOG_DEFAULT, "Failed to disable the tape port device.");
+        log_error(autostart_log, "Failed to disable the tape port device.");
     }
     /* now enable the one we want to enable */
     switch(tapedevice) {
@@ -1953,7 +1995,7 @@ static void setup_tapeport_device(int tapeunit, int tapedevice)
             break;
     }
     if (resources_set_int_sprintf("TapePort%dDevice", tapedevice, tapeunit) < 0) {
-        log_error(LOG_DEFAULT, "Failed to enable the %s.", tapedevice_str);
+        log_error(autostart_log, "Failed to enable the %s.", tapedevice_str);
     }
 }
 
@@ -1965,10 +2007,13 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     uint8_t vmajor, vminor;
     snapshot_t *snap;
 
+    DBG(("autostart_snapshot autostart_enabled: %d", autostart_enabled));
+
     if (network_connected() ||
         event_record_active() ||
         event_playback_active() ||
         file_name == NULL ||
+        file_name[0] == 0 ||
         !autostart_enabled) {
         return -1;
     }
@@ -1999,10 +2044,13 @@ int autostart_tape(const char *file_name, const char *program_name,
     uint8_t do_seek = 1;
     unsigned int tapeunit = (tapeport == TAPEPORT_PORT_2) ? 2 : 1;
 
+    DBG(("autostart_tape autostart_enabled: %d", autostart_enabled));
+
     if (network_connected() ||
         event_record_active() ||
         event_playback_active() ||
         !file_name ||
+        file_name[0] == 0 ||
         !autostart_enabled) {
         return -1;
     }
@@ -2098,12 +2146,13 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
 {
     char *name = NULL;
 
-    DBG(("autostart_disk(unit: %d drive: %d)", unit, drive));
+    DBG(("autostart_disk(unit: %d drive: %d) autostart_enabled:%d", unit, drive, autostart_enabled));
 
     if (network_connected() ||
         event_record_active() ||
         event_playback_active() ||
         !file_name ||
+        file_name[0] == 0 ||
         !autostart_enabled) {
         return -1;
     }
@@ -2144,14 +2193,14 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
             diskimg = file_system_get_image(unit, drive);
 
             if (diskimg == NULL) {
-                log_error(LOG_DEFAULT, "Failed to get disk image for unit %d.", unit);
+                log_error(autostart_log, "Failed to get disk image for unit %d.", unit);
             } else {
                 int chk = drive_check_image_format(diskimg->type, 0);
                 /* change drive type only when image does not work in current drive */
                 if (chk < 0) {
                     log_message(autostart_log, "mounted image is type: %u, changing drive.", diskimg->type);
                     if (resources_set_int_sprintf("Drive%dType", drive_image_type_to_drive_type(diskimg->type), unit) < 0) {
-                        log_error(LOG_DEFAULT, "Failed to set drive type.");
+                        log_error(autostart_log, "Failed to set drive type.");
                     }
                 } else {
                     log_verbose(autostart_log, "mounted image is type: %u, not changing drive.", diskimg->type);
@@ -2248,7 +2297,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             /* shorten the filename to 16 chars (if enabled) */
             vdrive = file_system_get_vdrive(unit);
             if (vdrive == NULL) {
-                log_error(LOG_DEFAULT, "Failed to get vdrive reference for unit #%d:%d.", unit, drive);
+                log_error(autostart_log, "Failed to get vdrive reference for unit #%d:%d.", unit, drive);
                 return -1;
             }
             fsdevice_limit_namelength(vdrive, (uint8_t*)boot_file_name);
@@ -2419,10 +2468,14 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         mainlock_assert_lock_obtained();
     }
 #endif
+
+    DBG(("autostart_autodetect autostart_enabled: %d", autostart_enabled));
+
     if (network_connected() ||
         event_record_active() ||
         event_playback_active() ||
-        file_name == NULL) {
+        file_name == NULL ||
+        file_name[0] == 0) {
         return -1;
     }
 
@@ -2436,6 +2489,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 
     log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
 
+    /* autostart_disk does probing internally, so not required here */
     if (autostart_disk(unit, drive, file_name, program_name, program_number, runmode) == 0) {
         log_message(autostart_log, "`%s' recognized as disk image.", file_name);
         return 0;
@@ -2450,10 +2504,10 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 
         /*if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {*/
         if (resources_get_int_sprintf("TapePort%dDevice", &tapedevice_temp, tapeunit) < 0) {
-            log_error(LOG_DEFAULT, "Failed to get Datasette status.");
+            log_error(autostart_log, "Failed to get Datasette status.");
         }
 
-        if (t64_probe(file_name) || tap_probe(file_name)) {
+        if (tape_image_probe(file_name)) {
             /* try to autostart as tape image */
             setup_tapeport_device(tapeunit, TAPEPORT_DEVICE_DATASETTE);
             if (autostart_tape(file_name, program_name, program_number, runmode, tapeport) == 0) {
@@ -2469,6 +2523,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             (machine_class == VICE_MACHINE_C128)) {
             /* try to autostart as tapecart */
             setup_tapeport_device(tapeunit, TAPEPORT_DEVICE_TAPECART);
+            /* autostart_tapecart() does probing internally */
             if (autostart_tapecart(file_name, NULL) == 0) {
                 log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
                 /* NOTE: Tape device stays selected! */
@@ -2480,10 +2535,12 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         resources_set_int_sprintf("TapePort%dDevice", tapedevice_temp, tapeunit);
     }
 
-    if (autostart_snapshot(file_name, program_name) == 0) {
-        log_message(autostart_log, "`%s' recognized as snapshot image.",
-                    file_name);
-        return 0;
+    if (snapshot_probe(file_name)) {
+        if (autostart_snapshot(file_name, program_name) == 0) {
+            log_message(autostart_log, "`%s' recognized as snapshot image.",
+                        file_name);
+            return 0;
+        }
     }
 
     if ((machine_class == VICE_MACHINE_C64) ||

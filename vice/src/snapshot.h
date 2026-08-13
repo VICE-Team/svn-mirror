@@ -135,6 +135,7 @@ int snapshot_module_close(snapshot_module_t *m);
 snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t minor_version, const char *snapshot_machine_name);
 snapshot_t *snapshot_open(const char *filename, uint8_t *major_version_return, uint8_t *minor_version_return, const char *snapshot_machine_name);
 int snapshot_close(snapshot_t *s);
+int snapshot_probe(const char *filename);
 
 void snapshot_set_error(int error);
 int snapshot_get_error(void);

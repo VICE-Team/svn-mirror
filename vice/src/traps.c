@@ -76,9 +76,10 @@ static int traps_enabled = 0;
 #define MAX_DEVICES 15  /* FIXME: is there another constant we can use instead? */
 int traps_enabled_device[MAX_DEVICES];
 
-static void set_traps_status(int enabled)
+static int set_traps_status(int enabled)
 {
     int new_value = enabled ? 1 : 0;
+    int res = 0;
 
     DBG(("set_traps_status(%d)", enabled));
 
@@ -88,19 +89,28 @@ static void set_traps_status(int enabled)
             traplist_t *p;
 
             for (p = traplist; p != NULL; p = p->next) {
-                remove_trap(p->trap);
+                if (remove_trap(p->trap) < 0) {
+                    res = -1;
+                }
             }
         } else {
             /* Traps have been enabled.  */
             traplist_t *p;
 
             for (p = traplist; p != NULL; p = p->next) {
-                install_trap(p->trap);
+                if (install_trap(p->trap) < 0) {
+                    res = -1;
+                }
             }
         }
+    } else {
+        /* always refresh the traps, this improves error handling on the
+           layer above */
+        res = traps_refresh();
     }
 
     traps_enabled = new_value;
+    return res;
 }
 
 static int set_traps_enabled(int val, void *param)
@@ -108,6 +118,7 @@ static int set_traps_enabled(int val, void *param)
     unsigned int enabled = 0;
     unsigned int unit = vice_ptr_to_int(param);
     unsigned int i;
+    int res = 0;
 
     DBG(("set_traps_enabled %d device: %u", val, unit));
     traps_enabled_device[unit] = val ? 1 : 0;
@@ -116,10 +127,19 @@ static int set_traps_enabled(int val, void *param)
     for (i = 1; i < MAX_DEVICES; i++) {
         enabled |= traps_enabled_device[i];
     }
-    set_traps_status(enabled);
+    /* try to enable the traps, this may fail eg with unknown kernals */
+    if (set_traps_status(enabled) < 0) {
+        log_error(traps_log, "could not enable traps for device #%u", unit);
+        /* disable the traps for this device and update the global flag */
+        traps_enabled_device[unit] = 0;
+        for (i = 1; i < MAX_DEVICES; i++) {
+            enabled |= traps_enabled_device[i];
+        }
+        res = -1;
+    }
 
     machine_bus_status_trapdevices_set(unit, enabled);
-    return 0;
+    return res;
 }
 
 static resource_int_t resources_int[] = {
@@ -341,17 +361,22 @@ int traps_remove(const trap_t *trap)
     return 0;
 }
 
-void traps_refresh(void)
+int traps_refresh(void)
 {
+    int res = 0;
     if (traps_enabled) {
         traplist_t *p;
 
         for (p = traplist; p != NULL; p = p->next) {
-            remove_trap(p->trap);
-            install_trap(p->trap);
+            if (remove_trap(p->trap) < 0) {
+                res = -1;
+            }
+            if (install_trap(p->trap) < 0) {
+                res = -1;
+            }
         }
     }
-    return;
+    return res;
 }
 
 uint32_t traps_handler(void)

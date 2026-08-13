@@ -863,6 +863,42 @@ fail:
     return NULL;
 }
 
+int snapshot_probe(const char *filename)
+{
+    char magic[SNAPSHOT_MAGIC_LEN];
+    uint8_t minor_version_return;
+    uint8_t major_version_return;
+    int res = 0;
+    FILE *f;
+
+    f = zfile_fopen(filename, MODE_READ);
+    if (f == NULL) {
+        goto fail;
+    }
+
+    /* Magic string.  */
+    if (snapshot_read_byte_array(f, (uint8_t *)magic, SNAPSHOT_MAGIC_LEN) < 0
+        || memcmp(magic, snapshot_magic_string, SNAPSHOT_MAGIC_LEN) != 0) {
+        goto fail;
+    }
+
+    /* Version number.  */
+    if (snapshot_read_byte(f, &major_version_return) < 0
+        || snapshot_read_byte(f, &minor_version_return) < 0) {
+        goto fail;
+    }
+
+    /* Machine.  */
+    if (snapshot_read_byte_array(f, (uint8_t *)read_name, SNAPSHOT_MACHINE_NAME_LEN) < 0) {
+        goto fail;
+    }
+
+    res = 1;
+fail:
+    fclose(f);
+    return res;
+}
+
 /* informal only, used by the error message created below */
 static unsigned char snapshot_viceversion[4];
 static uint32_t snapshot_vicerevision;

@@ -525,6 +525,11 @@ int tape_image_detach(unsigned int unit)
     return 0;
 }
 
+int tape_image_probe(const char *name)
+{
+    return 0;
+}
+
 void tape_image_detach_all(void)
 {
 }
