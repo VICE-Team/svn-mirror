@@ -234,10 +234,18 @@ static resource_ram_t *lookup(const char *name)
 
     DBG(("lookup name:'%s'", name ? name : "<empty/null>"));
 
-    if (name == NULL) {
+    if (name == NULL || *name == 0) {
         return NULL;
     }
+
+    /* when trying to look up a resource when the resource system was not yet
+       initialized fail early instead of crashing :) */
+    if (resources == NULL || hashTable == NULL) {
+        return NULL;
+    }
+
     hashkey = resources_calc_hash_key(name);
+
     res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
     while (res != NULL) {
         if (util_strcasecmp(res->name, name) == 0) {
