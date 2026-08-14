@@ -1292,11 +1292,13 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
     mem_read_base_tab[base][index] = mem_ptr;
 }
 
+#if 0
 /* add actual pointer */
 void mem_read_addr_set(unsigned int base, unsigned int index, uintptr_t addr)
 {
     mem_read_base_tab[base][index] += addr;
 }
+#endif
 
 void mem_initialize_memory(void)
 {
@@ -1380,7 +1382,7 @@ void mem_initialize_memory(void)
                 l++;
             }
             /* Some areas are I/O or cartridge (NULL) or too slow and need cycle stretching */
-            range = (p == NULL || f == ram_read_int || f == scpu64rom_scpu64_read || f == chargen_read) ? 0 : ((j << 24) | ((l << 8) - 3));
+            range = (p == NULL || f == ram_read_int || f == scpu64rom_scpu64_read || f == chargen_read) ? 0 : (((uint32_t)j << 24) | ((l << 8) - 3));
             while (j < l) {
                 mem_read_limit_tab[i][j] = range;
                 j++;
