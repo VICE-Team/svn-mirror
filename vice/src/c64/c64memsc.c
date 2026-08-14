@@ -758,13 +758,13 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
     mem_read_base_tab[base][index] = mem_ptr;
 }
-
+#if 0
 /* add actual pointer */
 void mem_read_addr_set(unsigned int base, unsigned int index, uintptr_t addr)
 {
     mem_read_base_tab[base][index] += addr;
 }
-
+#endif
 
 void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit)
 {
@@ -830,11 +830,11 @@ void mem_initialize_memory(void)
         }
     }
 
-    uintptr_t addr = 0 - 0xd000;
+    /*uintptr_t addr = 0 - 0xd000;*/
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2, 3, 9, 10, 11, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
-#if 0
+#if 1
         mem_read_tab[1][i] = chargen_read;
         mem_read_tab[2][i] = chargen_read;
         mem_read_tab[3][i] = chargen_read;
@@ -843,15 +843,16 @@ void mem_initialize_memory(void)
         mem_read_tab[11][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-        mem_read_base_tab[1][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[2][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[3][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[9][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[10][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[11][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[26][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[27][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-#endif
+
+        mem_read_base_tab[1][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[2][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[3][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[9][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[10][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[11][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[26][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[27][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+#else
         mem_read_tab_set(1, i, chargen_read);
         mem_read_tab_set(2, i, chargen_read);
         mem_read_tab_set(3, i, chargen_read);
@@ -860,25 +861,7 @@ void mem_initialize_memory(void)
         mem_read_tab_set(11, i, chargen_read);
         mem_read_tab_set(26, i, chargen_read);
         mem_read_tab_set(27, i, chargen_read);
-#if 0
-        mem_read_base_set(1, i, mem_chargen_rom);
-        mem_read_base_set(2, i, mem_chargen_rom);
-        mem_read_base_set(3, i, mem_chargen_rom);
-        mem_read_base_set(9, i, mem_chargen_rom);
-        mem_read_base_set(10, i, mem_chargen_rom);
-        mem_read_base_set(11, i, mem_chargen_rom);
-        mem_read_base_set(26, i, mem_chargen_rom);
-        mem_read_base_set(27, i, mem_chargen_rom);
 
-        mem_read_addr_set(1, i, addr);
-        mem_read_addr_set(2, i, addr);
-        mem_read_addr_set(3, i, addr);
-        mem_read_addr_set(9, i, addr);
-        mem_read_addr_set(10, i, addr);
-        mem_read_addr_set(11, i, addr);
-        mem_read_addr_set(26, i, addr);
-        mem_read_addr_set(27, i, addr);
-#else
         mem_read_base_set(1, i, (uint8_t*)addr);
         mem_read_base_set(2, i, (uint8_t*)addr);
         mem_read_base_set(3, i, (uint8_t*)addr);

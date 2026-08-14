@@ -892,7 +892,7 @@ void mem_initialize_memory(void)
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2, 3, 9, 10, 11, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
-        uintptr_t addr = 0 - 0xd000;
+        /*uintptr_t addr = 0 - 0xd000;*/
 
         mem_read_tab[1][i] = chargen_read;
         mem_read_tab[2][i] = chargen_read;
@@ -902,15 +902,15 @@ void mem_initialize_memory(void)
         mem_read_tab[11][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-#if 0
-        mem_read_base_tab[1][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[2][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[3][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[9][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[10][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[11][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[26][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
-        mem_read_base_tab[27][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+#if 1
+        mem_read_base_tab[1][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[2][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[3][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[9][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[10][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[11][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[26][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+        mem_read_base_tab[27][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
 #else
         mem_read_base_set(1, i, (uint8_t*)addr);
         mem_read_base_set(2, i, (uint8_t*)addr);
