@@ -134,6 +134,7 @@ VICE_ARG_ENABLE_LIST(debug-threads,         [  --enable-debug-threads  enable de
 VICE_ARG_ENABLE_LIST(x64,                   [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(x64-image,             [  --enable-x64-image      enable X64 image support [[default=no]]])
 VICE_ARG_ENABLE_LIST(optimization,          [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
+VICE_ARG_ENABLE_LIST(sanitizer,             [  --enable-sanitizer      enable address- and UB sanitizer [[default=no]]])
 VICE_ARG_ENABLE_LIST(extra-warnings,        [  --enable-extra-warnings enable anal warnings [[default=no]]])
 VICE_ARG_ENABLE_LIST(io-simulation,         [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
 VICE_ARG_ENABLE_LIST(experimental-devices,  [  --enable-experimental-devices    enable experimental device emulation [[default=no]]])
@@ -174,6 +175,16 @@ if test x"$enable_optimization" = "xno"; then
   VICE_CFLAGS="-g -O0"
   VICE_CXXFLAGS="-g -O0"
   VICE_OBJCFLAGS="-g -O0"
+fi
+
+dnl
+dnl Check for enabling address- and UB sanitizer with --enable-sanitizer
+dnl
+if test x"$enable_sanitizer" = "xyes"; then
+  VICE_CFLAGS="-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined"
+  VICE_CXXFLAGS="-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined"
+  VICE_OBJCFLAGS="-g -O0 -fsanitize=address,undefined"
+  VICE_LDFLAGS="-fsanitize=address,undefined"
 fi
 
 
