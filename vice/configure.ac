@@ -181,8 +181,8 @@ dnl
 dnl Check for enabling address- and UB sanitizer with --enable-sanitizer
 dnl
 if test x"$enable_sanitizer" = "xyes"; then
-  VICE_CFLAGS="-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined"
-  VICE_CXXFLAGS="-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined"
+  VICE_CFLAGS="-g -O0 -fno-common -fno-omit-frame-pointer -fsanitize=address,undefined -fsanitize-address-use-after-scope"
+  VICE_CXXFLAGS="-g -O0 -fno-common -fno-omit-frame-pointer -fsanitize=address,undefined -fsanitize-address-use-after-scope"
   VICE_OBJCFLAGS="-g -O0 -fsanitize=address,undefined"
   VICE_LDFLAGS="-fsanitize=address,undefined"
 fi

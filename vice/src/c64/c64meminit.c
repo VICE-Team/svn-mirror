@@ -138,7 +138,7 @@ void c64meminit(unsigned int base)
     if (board != BOARD_MAX) {
         /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
         for (i = 0xa0; i <= 0xbf; i++) {
-            uintptr_t addr = 0 - 0xa000;
+            /*uintptr_t addr = 0 - 0xa000;*/
 
             mem_read_tab_set(base + 3, i, c64memrom_basic64_read);
             mem_read_tab_set(base + 7, i, c64memrom_basic64_read);
@@ -215,7 +215,7 @@ void c64meminit(unsigned int base)
         /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
         11, 14, 15, 26, 27, 30, 31).  */
         for (i = 0xe0; i <= 0xff; i++) {
-            uintptr_t addr = 0 - 0xe000;
+            /*uintptr_t addr = 0 - 0xe000;*/
             mem_read_tab_set(base + 2, i, c64memrom_kernal64_read);
             mem_read_tab_set(base + 3, i, c64memrom_kernal64_read);
             mem_read_tab_set(base + 6, i, c64memrom_kernal64_read);
