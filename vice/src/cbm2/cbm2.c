@@ -815,6 +815,7 @@ void machine_specific_powerup(void)
     tapeport_powerup();
     joyport_powerup();
     cartridge_powerup();
+    mem_powerup();
 }
 
 void machine_specific_shutdown(void)
