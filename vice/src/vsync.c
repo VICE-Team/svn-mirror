@@ -507,13 +507,20 @@ void vsync_do_end_of_line(void)
     static double sync_emulated_ticks_offset;
 
     /*
+     * This function is sometimes called from the UI thread, autostart, shutdown etc.
+     * The mainlock yield functions will assert that they are being called from the
+     * vice thread.
+     */
+    bool can_yield_to_ui = mainlock_is_vice_thread();
+
+    /*
      * Ideally the vic chip draw alarm wouldn't be triggered
      * during shutdown but here we are - apply workaround.
      */
 
     if (archdep_is_exiting()) {
         /* UI thread shutdown code can end up here ... :( */
-        if (mainlock_is_vice_thread()) {
+        if (can_yield_to_ui) {
             mainlock_yield();
         }
 
@@ -547,7 +554,9 @@ void vsync_do_end_of_line(void)
 
         if (warp_enabled) {
             /* During warp we need to periodically allow the UI a chance with the mainlock */
-            mainlock_yield();
+            if (can_yield_to_ui) {
+                mainlock_yield();
+            }
         } else {
             /*
              * Compare the emulated time vs host time.
@@ -582,19 +591,24 @@ void vsync_do_end_of_line(void)
 
                 /* If we can't rely on the audio device for timing, slow down here. */
                 if (tick_based_sync_timing) {
-                    mainlock_yield_and_sleep(ticks_until_target);
+                    if (can_yield_to_ui) {
+                        mainlock_yield_and_sleep(ticks_until_target);
+                    }
                 }
             } else if ((tick_t)0 - ticks_until_target > tick_per_second()) {
                 /* We are more than a second behind, reset sync and accept that we're not running at full speed. */
-
-                mainlock_yield();
+                if (can_yield_to_ui) {
+                    mainlock_yield();
+                }
 
                 log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
             } else {
                 /* We are running slow - make sure we still yield to the UI thread if it's waiting */
 
-                mainlock_yield();
+                if (can_yield_to_ui) {
+                    mainlock_yield();
+                }
             }
         }
 
