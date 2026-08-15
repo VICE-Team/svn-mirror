@@ -2209,7 +2209,7 @@ static void on_tree_selection_changed(GtkTreeSelection *selection,
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gchar *name = NULL;
         gchar *parent_name = NULL;
-        GtkWidget *(*callback)(void *) = NULL;
+        GtkWidget *(*callback)(GtkWidget *) = NULL;
         const char *id;
 
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
