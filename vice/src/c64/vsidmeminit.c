@@ -133,12 +133,12 @@ void c64meminit(unsigned int base)
 
     /* Setup BASIC ROM at $A000-$BFFF (memory configs 3 and 7).  */
     for (i = 0xa0; i <= 0xbf; i++) {
-        uintptr_t addr = 0 - 0xa000;
+        /*uintptr_t addr = 0 - 0xa000;*/
         mem_read_tab_set(base + 3, i, c64memrom_basic64_read);
         mem_read_tab_set(base + 7, i, c64memrom_basic64_read);
-#if 0
-        mem_read_base_set(base + 3, i, c64memrom_basic64_rom - 0xa000);
-        mem_read_base_set(base + 7, i, c64memrom_basic64_rom - 0xa000);
+#if 1
+        mem_read_base_set(base + 3, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
+        mem_read_base_set(base + 7, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
 #else
         mem_read_base_set(base + 3, i, (uint8_t*)addr);
         mem_read_base_set(base + 7, i, (uint8_t*)addr);
@@ -190,17 +190,17 @@ void c64meminit(unsigned int base)
 
     /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7).  */
     for (i = 0xe0; i <= 0xff; i++) {
-        uintptr_t addr = 0 - 0xe000;
+        /*uintptr_t addr = 0 - 0xe000;*/
 
         mem_read_tab_set(base + 2, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 3, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 6, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 7, i, c64memrom_kernal64_read);
-#if 0
-        mem_read_base_set(base + 2, i, c64memrom_kernal64_rom - 0xe000);
-        mem_read_base_set(base + 3, i, c64memrom_kernal64_rom - 0xe000);
-        mem_read_base_set(base + 6, i, c64memrom_kernal64_rom - 0xe000);
-        mem_read_base_set(base + 7, i, c64memrom_kernal64_rom - 0xe000);
+#if 1
+        mem_read_base_set(base + 2, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_rom - (uintptr_t)0xe000));
+        mem_read_base_set(base + 3, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_rom - (uintptr_t)0xe000));
+        mem_read_base_set(base + 6, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_rom - (uintptr_t)0xe000));
+        mem_read_base_set(base + 7, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_rom - (uintptr_t)0xe000));
 #else
         mem_read_base_set(base + 2, i, (uint8_t*)addr);
         mem_read_base_set(base + 3, i, (uint8_t*)addr);

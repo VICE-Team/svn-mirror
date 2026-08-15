@@ -18,7 +18,6 @@
  * $VICERES JoyPort11Device     xplus4
  *
  * $VICERES BBRTCSave           -vsid
- * $VICERES ps2mouse            x64dtv
  * $VICERES SmartMouseRTCSave   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0
  */
 
@@ -368,32 +367,6 @@ static int layout_add_smartmouse_rtc_widget(GtkGrid *layout, int row)
     return row + 1;
 }
 
-/** \brief  Add checkbox for the userport PS/2 mouse
- *
- * Add a checkbox for the "ps2mouse" resource.
- *
- * Valid for x64dtv.
- *
- * \param[in,out]   layout  main widget grid
- * \param[in]       row     row in \a layout to add the checkbox
- *
- * \return  row in the \a layout for additional widgets
- *
- * \note    the added widget spans two columns in the layout
- */
-static int layout_add_ps2mouse_widget(GtkGrid *layout, int row)
-{
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new("ps2mouse",
-                                                "Enable PS/2 mouse on Userport");
-    gtk_grid_attach(layout, check, 0, row, 2, 1);
-    gtk_widget_show(check);
-
-    return row + 1;
-}
-
-
 /*
  * Functions to create the layouts for the various emulators
  */
@@ -432,8 +405,6 @@ static int create_c64dtv_layout(GtkGrid *layout)
 
     row = layout_add_control_ports(layout, row, 2);
     row = layout_add_adapter_ports(layout, row, 8);
-    row = layout_add_bbrtc_widget(layout, row);
-    row = layout_add_ps2mouse_widget(layout, row);
 
     return row;
 }
@@ -529,7 +500,6 @@ static int create_cbm6x0_layout(GtkGrid *layout)
     int row = 0;
 
     row = layout_add_adapter_ports(layout, row, 8);
-    row = layout_add_bbrtc_widget(layout, row);
 
     return row;
 }

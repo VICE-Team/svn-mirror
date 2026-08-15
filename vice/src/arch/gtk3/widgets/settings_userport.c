@@ -15,7 +15,7 @@
  * $VICERES WIC64Resetuser          x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64Timezone           x64 x64sc xscpu64 x128 xvic
  * $VICERES WIC64RemoteTimeout      x64 x64sc xscpu64 x128 xvic
- * $VICERES FunMP3Dir               x64 x64sc xscpu64 x128 xvic xpet
+ * $VICERES FunMP3Dir               x64 x64sc xscpu64 x128 xvic
  *
  * The following resources are not user-configurable, but set indirectly via
  * the WiC64 code, so we list them here for `gtk3-resources.py` to find:
@@ -743,7 +743,6 @@ GtkWidget *settings_userport_widget_create(GtkWidget *parent)
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_VIC20:    /* fall through */
-        case VICE_MACHINE_PET:      /* fall through */
             funmp3_save = create_funmp3dir_widget();
             gtk_grid_attach(GTK_GRID(grid), funmp3_save, 0, row, 2, 1);
             row++;

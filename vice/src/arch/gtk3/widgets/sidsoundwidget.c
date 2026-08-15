@@ -367,7 +367,6 @@ static void engine_model_changed_callback(int engine, int model)
      * We can't check old model vs new model here, since the resource
      * SidModel has already been updated.
      */
-
     gtk_widget_hide(sid_filters);
 
 #ifdef HAVE_RESID
@@ -626,6 +625,7 @@ static GtkWidget *create_num_sids_widget(void)
     GtkWidget *label;
     GtkWidget *spin;
     int        max_sids = SOUND_SIDS_MAX;
+
 #if 0
     if (machine_class == VICE_MACHINE_VSID) {
         max_sids = SOUND_SIDS_MAX_PSID;
@@ -1050,28 +1050,27 @@ GtkWidget *sid_sound_widget_create(void)
 #endif
 
 #if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
-    row++;
     if (sid_machine_can_have_multiple_sids()) {
         GtkWidget *num_sids;
         GtkWidget *addresses;
 
+        row++;
         num_sids  = create_num_sids_widget();
         addresses = create_sid_address_widgets();
         gtk_widget_set_margin_top(addresses, 16);
         gtk_grid_attach(GTK_GRID(grid), num_sids,  2,   0, 1, 1); /* fixed at row 0 */
         gtk_grid_attach(GTK_GRID(grid), addresses, 0, row, 3, 1);
-        row++;
     }
 #endif
 
 #if defined(HAVE_FASTSID) || defined(HAVE_RESID) || defined(HAVE_RESID_DTV) || defined(HAVE_RESIDFP)
-    if (sid_filters == NULL) {
-        sid_filters = vice_gtk3_resource_check_button_new("SidFilters",
-                                                            "Enable SID filter emulation");
-        gtk_widget_set_margin_top(sid_filters, 16);
-        gtk_widget_set_margin_bottom(sid_filters, 16);
-        gtk_grid_attach(GTK_GRID(grid), sid_filters, 0, row, 1, 1);
-    }
+    row++;
+    sid_filters = vice_gtk3_resource_check_button_new("SidFilters",
+                                                        "Enable SID filter emulation");
+    gtk_widget_set_margin_top(sid_filters, 16);
+    gtk_widget_set_margin_bottom(sid_filters, 16);
+    gtk_grid_attach(GTK_GRID(grid), sid_filters, 0, row, 1, 1);
+
     gtk_widget_hide(sid_filters);
 #endif
 
