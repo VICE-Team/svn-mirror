@@ -742,6 +742,8 @@ void USBSID_Class::USBSID_DisableThread(void)
 void USBSID_Class::USBSID_ResetRingBuffer(void)
 {
   us_ringbuffer.ring_read = us_ringbuffer.ring_write = 0;
+  buffer_pos = 1;
+  flush_buffer = 0;
   return;
 }
 
@@ -845,8 +847,45 @@ void USBSID_Class::USBSID_SetFlush(void)
 
 void USBSID_Class::USBSID_FlushBuffer(void)
 {
-  if (threaded && flush_buffer == 1
-    && ((withcycles == 1)
+  if (!threaded || flush_buffer != 1) {
+    flush_buffer = 0;
+    return;
+  }
+
+  /* The flush is a deadline, so whatever is still waiting in the ring belongs
+   * in this packet.
+   *
+   * Without this the ring is only ever drained by USBSID_Thread(), which stops
+   * while fewer than diff_size bytes are waiting, and a packet only goes out
+   * once it reaches 61 bytes on withcycles. A write therefore waits behind up to
+   * 15 + (diff_size / 4) writes, and what that costs is a time that moves with
+   * how fast the caller happens to be writing: about 2 ms during a volume
+   * register digi at ten thousand writes a second, and a quarter of a second
+   * once the sample ends and an ordinary tune writes its registers once a
+   * frame. Ghostbusters.sid is both in turn, and the notes after its speech
+   * arrived up to 229 ms late. No value of diff_size fixes that, because the
+   * 15 writes sitting in the packet are not diff_size's to give back.
+   *
+   * The fill is worked out here rather than with USBSID_RingDiff(), which
+   * returns the free space instead of the fill once ring_read has passed
+   * ring_write.
+   *
+   * The loop always consumes a whole record or exits, so it cannot spin. The
+   * thread's own drain loop and diff_size are deliberately left alone: leaving
+   * that loop is the only thing that reaches libusb_handle_events(), and a
+   * drain condition that cannot be satisfied hangs playback outright. */
+  const int rec = (withcycles == 1) ? 4 : 2;
+  const int cap = (withcycles == 1) ? 61 : 63;
+  int waiting = (us_ringbuffer.ring_write - us_ringbuffer.ring_read
+                 + ring_size) % ring_size;
+  while (waiting >= rec && (buffer_pos + rec) <= cap) {
+    for (int i = 0; i < rec; i++) {
+      thread_buffer[buffer_pos++] = USBSID_RingGet();
+    }
+    waiting -= rec;
+  }
+
+  if (((withcycles == 1)
     ? (buffer_pos >= 5)
     : (buffer_pos >= 3))) {
     thread_buffer[0] = (withcycles == 1)

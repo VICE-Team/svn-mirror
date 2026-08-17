@@ -82,6 +82,10 @@ void us_device_reset(bool us_reset)
         usid_alarm_clk = raster_rate;
         alarm_set(usid_alarm, (usid_main_clk + raster_rate));
         if (us_reset) {
+            if (readmode == 0) {
+                resetringbuffer_USBSID(usbsid);
+            }
+            resetallregisters_USBSID(usbsid);
             reset_USBSID(usbsid);
             log_message(usbsid_log, "Reset sent");
         }
@@ -180,7 +184,7 @@ int us_device_close(void)
 }
 
 int us_device_read(uint16_t addr, int chipno)
-{   /* NOTICE: Disabled, unneeded */
+{
     if (chipno < US_MAXSID) {
         addr = ((addr & 0x1F) + (chipno * 0x20));
         if (readmode == 1) {
@@ -199,10 +203,12 @@ CLOCK us_delay(void)
         usid_main_clk = maincpu_clk;
         return 0;
     }
-    /* Without substracting 1 cycle this
-     * can cause a clicking noise in cycle exact tunes
-     * create audible skips in digitunes like Sky Buster */
-    CLOCK cycles = maincpu_clk - usid_main_clk - 1;
+    /* USBSID-Pico has a 1 cycle overhead, so without
+     * substracting 1 cycle this can cause a clicking
+     * noise in cycle exact tunes or create audible
+     * skips in digitunes like Sky Buster */
+    CLOCK cycles = (maincpu_clk - usid_main_clk);
+    cycles = ((cycles > 1) ? (cycles - 1) : cycles);
     while (cycles > 0xffff) {
         cycles -= 0xffff;
     }

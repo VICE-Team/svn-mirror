@@ -80,6 +80,7 @@ extern "C" {
   void disablethread_USBSID(USBSIDitf);
   void setflush_USBSID(USBSIDitf);
   void flush_USBSID(USBSIDitf);
+  void resetringbuffer_USBSID(USBSIDitf);
   void restartringbuffer_USBSID(USBSIDitf);
   void setbuffsize_USBSID(USBSIDitf, int size);
   void setdiffsize_USBSID(USBSIDitf, int size);
