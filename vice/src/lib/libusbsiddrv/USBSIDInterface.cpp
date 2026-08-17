@@ -165,6 +165,10 @@ extern "C"
     if( p == NULL ) return;
     return ((USBSID_Class*) p)->USBSID_Flush();
   };
+  void resetringbuffer_USBSID(USBSIDitf p){
+    if( p == NULL ) return;
+    return ((USBSID_Class*) p)->USBSID_RestartRingBuffer();
+  }
   void restartringbuffer_USBSID(USBSIDitf p){
     if( p == NULL ) return;
     return ((USBSID_Class*) p)->USBSID_RestartRingBuffer();

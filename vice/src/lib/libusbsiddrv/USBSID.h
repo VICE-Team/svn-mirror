@@ -311,7 +311,6 @@ namespace USBSID_NS
       pthread_t us_ptid;
 
       /* Ringbuffer */
-      void USBSID_ResetRingBuffer(void);
       void USBSID_InitRingBuffer(int buffer_size, int differ_size);
       void USBSID_InitRingBuffer(void);
       void USBSID_DeInitRingBuffer(void);
@@ -393,6 +392,7 @@ namespace USBSID_NS
       void USBSID_SetBufferSize(int size); /* Set the buffer size for storing writes */
       void USBSID_SetDiffSize(int size);   /* Set the minimum size difference between head & tail */
       void USBSID_RestartRingBuffer(void); /* Restart the ringbuffer*/
+      void USBSID_ResetRingBuffer(void);   /* Resets the ringbuffer to default state */
 
       /* Thread utils */
       void USBSID_RestartThread(bool with_cycles);
