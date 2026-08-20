@@ -38,6 +38,7 @@
 #include "cartridge.h"
 #include "export.h"
 #include "log.h"
+#include "maincpu.h"
 #include "monitor.h"
 #include "ram.h"
 #include "snapshot.h"
@@ -171,8 +172,8 @@ static uint8_t actionreplay_io1_read(uint16_t addr)
        to whatever was on the bus before */
     value = vicii_read_phi1();
     actionreplay_io1_store(addr, value);
-    log_warning(LOG_DEFAULT, "AR5: reading IO1 area at 0xde%02x, this corrupts the register",
-                addr & 0xffu);
+    log_warning(LOG_DEFAULT, "AR5: reading from 0xde%02x in IO1 area at 0x%04x, this corrupts the register.",
+                addr & 0xffu, reg_pc);
 
     return value;
 }
