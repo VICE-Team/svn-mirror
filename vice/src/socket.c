@@ -524,6 +524,64 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
     return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
+/*! \brief Open a datagram (UDP) socket
+
+  \param bind_address
+     The local address to bind() the socket to, or NULL for an
+     unbound socket. Use vice_network_address_generate() with an
+     empty host part to bind to all interfaces on a given port.
+
+  \return
+     NULL on error;
+     else, a handle to the socket on success.
+
+  \remark
+     Datagrams are sent with vice_network_send_to() and received
+     with vice_network_receive_from(); use
+     vice_network_select_poll_one() to check for pending datagrams
+     without blocking.
+*/
+vice_network_socket_t * vice_network_udp_open(const vice_network_socket_address_t * bind_address)
+{
+    int sockfd = INVALID_SOCKET;
+    int error = 1;
+    int domain = bind_address != NULL ? bind_address->domain : PF_INET;
+
+    do {
+        if (socket_init() < 0) {
+            break;
+        }
+
+        sockfd = (int)socket(domain, SOCK_DGRAM, IPPROTO_UDP);
+
+        if (sockfd == INVALID_SOCKET) {
+            log_message(LOG_DEFAULT,
+                        "vice_network_udp_open(): socket() returned INVALID_SOCKET: %s",
+                        strerror(errno));
+            break;
+        }
+
+        if (bind_address != NULL) {
+            if (bind(sockfd, &bind_address->address.generic, bind_address->len) < 0) {
+                log_message(LOG_DEFAULT,
+                            "vice_network_udp_open(): bind() failed: %s",
+                            strerror(errno));
+                break;
+            }
+        }
+        error = 0;
+    } while (0);
+
+    if (error) {
+        if (sockfd != INVALID_SOCKET) {
+            closesocket(sockfd);
+        }
+        sockfd = INVALID_SOCKET;
+    }
+
+    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
+}
+
 /*! \internal \brief Generate an IPv4 socket address
 
   Initialises a socket address with an IPv4 address.
@@ -1050,6 +1108,77 @@ ssize_t vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size
 
     signals_pipe_set();
     ret = recv(sockfd->sockfd, buffer, buffer_length, flags);
+    signals_pipe_unset();
+
+    return ret;
+}
+
+/*! \brief Send a datagram to a specific address
+
+  \param sockfd
+     The connection handle of a socket opened with vice_network_udp_open().
+
+  \param buffer
+     Pointer to the datagram payload to send.
+
+  \param buffer_length
+     The length of the buffer pointed to by buffer.
+
+  \param flags
+     Flags for the socket. These flags are architecture dependent.
+
+  \param to
+     The destination address of the datagram.
+
+  \return
+     the number of bytes sent; a value < 0 indicates an error.
+*/
+ssize_t vice_network_send_to(vice_network_socket_t * sockfd,
+                             const void * buffer,
+                             size_t buffer_length,
+                             int flags,
+                             const vice_network_socket_address_t * to)
+{
+    ssize_t ret;
+
+    signals_pipe_set();
+    ret = sendto(sockfd->sockfd, buffer, buffer_length, flags,
+                 &to->address.generic, to->len);
+    signals_pipe_unset();
+
+    return ret;
+}
+
+/*! \brief Receive a datagram
+
+  \param sockfd
+     The connection handle of a socket opened with vice_network_udp_open().
+
+  \param buffer
+     Pointer to a buffer receiving the datagram payload.
+
+  \param buffer_length
+     The length of the buffer pointed to by buffer.
+
+  \param flags
+     Flags for the socket. These flags are architecture dependent.
+
+  \return
+     the number of bytes received; a value < 0 indicates an error.
+
+  \remark
+     The sender address is discarded. Check for a pending datagram
+     with vice_network_select_poll_one() first to avoid blocking.
+*/
+ssize_t vice_network_receive_from(vice_network_socket_t * sockfd,
+                                  void * buffer,
+                                  size_t buffer_length,
+                                  int flags)
+{
+    ssize_t ret;
+
+    signals_pipe_set();
+    ret = recvfrom(sockfd->sockfd, buffer, buffer_length, flags, NULL, NULL);
     signals_pipe_unset();
 
     return ret;
