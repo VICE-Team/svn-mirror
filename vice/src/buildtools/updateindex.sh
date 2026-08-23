@@ -1,4 +1,5 @@
 #!/bin/bash
+# NOTE: Sometimes run via $(SHELL), which may be a non-bash shell
 
 ###############################################################################
 # updateindex.sh   - update VICE version / date in the index.html file
@@ -6,14 +7,25 @@
 
 #VERBOSE=1
 
-if sed -i 'p' $(mktemp) 2>/dev/null
+# GNU sed and BSD sed disagree about -i (suffix attached vs separate argument),
+# hence the wrapper function: in a plain string the quotes are stripped at
+# assignment and sed would use the '' as the backup suffix, leaving
+# "<file>''" droppings behind.
+#
+# Both branches use -E, because "\+" is a GNU-only BRE extension that BSD sed
+# would read as a literal '+' and silently substitute nothing. The patterns
+# are therefore ERE with a plain '+', and the greps sharing them need -E too,
+# where '(' and ')' must be escaped (literal in a BRE, group in an ERE).
+SEDTESTFILE=`mktemp`
+if sed -i 'p' "$SEDTESTFILE" 2>/dev/null
 then
     # GNU sed
-    SED_I="sed -i"
+    sed_i() { LC_ALL=C sed -E -i "$@"; }
 else
     # BSD sed
-    SED_I="sed -i ''"
+    sed_i() { LC_ALL=C sed -E -i '' "$@"; }
 fi
+rm -f "$SEDTESTFILE"
 
 README=doc/html/index.html
 CONFIG=configure.ac
@@ -76,7 +88,7 @@ if [ "x$VERBOSE" = "x1" ]; then
 fi
 
 # "(24 January 2022) Version 3.6.1 released"
-TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
+TOPLINE=`grep -E "\\([0-9]+ [A-Z][a-z]* 20[0-9][0-9]\\) Version [0-9]+\.[0-9]+[\.]*[0-9]* +released" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 1 old: $TOPLINE"
 fi
@@ -89,17 +101,17 @@ else
         TOPLINE="$TOPLINE.$VBUILD"
     fi
     TOPLINE="$TOPLINE released"
-    LC_ALL=C $SED_I -e "s:[\(][0-9]\+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released:$TOPLINE:g" $README
+    sed_i -e "s:[\(][0-9]+ [A-Z][a-z]* 20[0-9][0-9][\)] Version [0-9]+\.[0-9]+[\.]*[0-9]* +released:$TOPLINE:g" $README
 fi
 
-TOPLINE=`grep "([0-9]\+ [A-Z][a-z]* 20[0-9][0-9]) Version [0-9]\+\.[0-9]\+[\.]*[0-9]* \+released" < $README`
+TOPLINE=`grep -E "\\([0-9]+ [A-Z][a-z]* 20[0-9][0-9]\\) Version [0-9]+\.[0-9]+[\.]*[0-9]* +released" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 1 new: $TOPLINE"
 fi
 
 # <a href="https://sourceforge.net/projects/vice-emu/files/releases/vice-3.6.1.tar.gz/download">vice-3.6.1.tar.gz</a>
 
-LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
+LINE=`grep -E "vice-[0-9]+\.[0-9]+\.*[0-9]*\.tar\.gz" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 2 old: $LINE"
 fi
@@ -112,17 +124,17 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE.tar.gz"
-    LC_ALL=C $SED_I -e "s:vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz:$LINE:g" $README
+    sed_i -e "s:vice-[0-9]+\.[0-9]+\.*[0-9]*\.tar\.gz:$LINE:g" $README
 fi
 
-LINE=`grep "vice-[0-9]\+\.[0-9]\+\.*[0-9]*\.tar\.gz" < $README`
+LINE=`grep -E "vice-[0-9]+\.[0-9]+\.*[0-9]*\.tar\.gz" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 2 new: $LINE"
 fi
 
 #  <li>Download <a href="https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/GTK3VICE-3.6.1-win64.zip/download">VICE 3.6.1</a> (64bit GTK3)</li>
 
-LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
+LINE=`grep -E "VICE-[0-9]+\.[0-9]+\.*[0-9]*-win" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 3 old: $LINE"
 fi
@@ -135,15 +147,15 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE-win"
-    LC_ALL=C $SED_I -e "s:VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win:$LINE:g" $README
+    sed_i -e "s:VICE-[0-9]+\.[0-9]+\.*[0-9]*-win:$LINE:g" $README
 fi
 
-LINE=`grep "VICE-[0-9]\+\.[0-9]\+\.*[0-9]*-win" < $README`
+LINE=`grep -E "VICE-[0-9]+\.[0-9]+\.*[0-9]*-win" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 3 new: $LINE"
 fi
 
-LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
+LINE=`grep -E "VICE [0-9]+\.[0-9]+\.*[0-9]*" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 4 old: $LINE"
 fi
@@ -155,15 +167,15 @@ else
     if [ "$VBUILD" != "0" ]; then
         LINE="$LINE.$VBUILD"
     fi
-    LC_ALL=C $SED_I -e "s:VICE [0-9]\+\.[0-9]\+\.*[0-9]*:$LINE:g" $README
+    sed_i -e "s:VICE [0-9]+\.[0-9]+\.*[0-9]*:$LINE:g" $README
 fi
 
-LINE=`grep "VICE [0-9]\+\.[0-9]\+\.*[0-9]*" < $README`
+LINE=`grep -E "VICE [0-9]+\.[0-9]+\.*[0-9]*" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 4 new: $LINE"
 fi
 
-LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
+LINE=`grep -E "[0-9]+\.[0-9]+\.*[0-9]*.dmg" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 5 old: $LINE"
 fi
@@ -176,10 +188,10 @@ else
         LINE="$LINE.$VBUILD"
     fi
     LINE="$LINE.dmg"
-    LC_ALL=C $SED_I -e "s:[0-9]\+\.[0-9]\+\.*[0-9]*.dmg:$LINE:g" $README
+    sed_i -e "s:[0-9]+\.[0-9]+\.*[0-9]*.dmg:$LINE:g" $README
 fi
 
-LINE=`grep "[0-9]\+\.[0-9]\+\.*[0-9]*.dmg" < $README`
+LINE=`grep -E "[0-9]+\.[0-9]+\.*[0-9]*.dmg" < $README`
 if [ "x$VERBOSE" = "x1" ]; then
     echo "line 5 new: $LINE"
 fi
