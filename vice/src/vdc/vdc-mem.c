@@ -204,6 +204,7 @@ void vdc_store(uint16_t addr, uint8_t value)
                     vdc.xchars_total = vdc.regs[0] + 1;
                     vdc_calculate_xsync();
                 }
+                vdc.update_geometry = 1;
             }
 #ifdef REG_DEBUG
             log_message(vdc.log, "REG 0 Horizontal Total:%02x", vdc.xchars_total);
