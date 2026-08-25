@@ -275,8 +275,11 @@ static void vdc_update_geometry(void)
         vdc.screen_text_cols = vdc.regs[1];
     } else if (vdc.regs[1] < 6) {
         vdc.screen_text_cols = 6;
-    } else if (vdc.regs[1] >= vdc.regs[0]) {
+    } else if (vdc.regs[1] >= vdc.regs[0] && vdc.regs[0] > 0) { /* Make sure screen_text_cols doesn't get negative */
         vdc.screen_text_cols = vdc.regs[0] - 1; /* don't try to display more characters than are in the whole row */
+        if (vdc.screen_text_cols > VDC_SCREEN_MAX_TEXTCOLS) {   /* Clamp to maximum */
+            vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
+        }
     } else {
         vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     }
