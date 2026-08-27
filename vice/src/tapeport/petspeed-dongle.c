@@ -174,8 +174,8 @@ static void petspeed_dongle_set_sense_line(int port, int value)
 
         tapeport_set_read_in(!bit, port);
 
-	uint8_t *mem = mem_ram;
-	log_debug(wclog, "petspeed_dongle_set_sense_line: collected $%02x $%02x\n", mem[0x87D0], mem[0x87D1]);
+        uint8_t *mem = mem_ram;
+        log_debug(wclog, "petspeed_dongle_set_sense_line: collected $%02x $%02x\n", mem[0x87D0], mem[0x87D1]);
     }
     dongle_data.clock_in_line = value;
 }
@@ -185,7 +185,7 @@ static void petspeed_dongle_toggle_write_line(int port, int value)
     if (dongle_data.write_line && !value) {
         log_verbose(wclog, "petspeed_dongle_write_line: %d %d rise: restart shift sequence", port, value);
         /* Restart the shifting sequence */
-	dongle_data.shift_count = 0;
+        dongle_data.shift_count = 0;
     }
     dongle_data.write_line = value;
 }
