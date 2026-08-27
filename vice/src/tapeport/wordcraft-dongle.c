@@ -75,6 +75,7 @@ static tapeport_device_t wordcraft_dongle_device = {
 
 /* ------------------------------------------------------------------------- */
 
+static
 struct dongle_data {
     bool load_line;
     bool clock_in_line;

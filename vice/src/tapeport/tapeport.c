@@ -48,6 +48,7 @@
 #include "uiapi.h"
 #include "util.h"
 #include "wordcraft-dongle.h"
+#include "petspeed-dongle.h"
 
 /* flag indicating if the tapeport exists on the current emulated model */
 static int tapeport_active = 1;
@@ -354,9 +355,12 @@ static int tapeport_device_resources_init(int amount)
         return -1;
     }
 
-    /* The WordCraft dongle is only for PETs */
+    /* The WordCraft and PetSpeed dongles are only for PETs */
     if (machine_class == VICE_MACHINE_PET) {
         if (wordcraft_dongle_resources_init(amount) < 0) {
+            return -1;
+        }
+        if (petspeed_dongle_resources_init(amount) < 0) {
             return -1;
         }
     }
@@ -443,6 +447,10 @@ static const struct tapeport_opt_s id_match[] = {
     { "dtldongle",      TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
     { "dtlbasic",       TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
     { "dtlbasicdongle", TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
+    { "wordcraft",      TAPEPORT_DEVICE_WORDCRAFT_DONGLE },
+    { "wordcraftdongle",TAPEPORT_DEVICE_WORDCRAFT_DONGLE },
+    { "petspeed",       TAPEPORT_DEVICE_PETSPEED_DONGLE },
+    { "petspeeddongle", TAPEPORT_DEVICE_PETSPEED_DONGLE },
     { NULL, -1 }
 };
 

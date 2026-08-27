@@ -8907,6 +8907,9 @@ Set the device attached to the second tape port (xpet only, see table below):
 @item 7
 @tab WordCraft dongle
 @tab xpet
+@item 8
+@tab PetSpeed dongle
+@tab xpet (port 1 only)
 @end multitable
 
 @table @code
@@ -14935,7 +14938,7 @@ To run VIC-20 games, you can try the following:
 Try to autorun with different memory sets: "no expansion", "3KiB" and "Full"
 @item
 Load the file in a hex editor and have a look at the first two bytes. If they
-are e.g. @code{00 A0} the file should probably be attached as a cartridge image at @code {$A000}.
+are e.g. @code{00 A0} the file should probably be attached as a cartridge image at @code{$A000}.
 @item
 Some programs, (eg the loadable Scott Adams text adventures) have to be loaded
 into the expanded memory blocks, and then run with the expansion disabled via
@@ -17961,6 +17964,150 @@ Register $0C (RAM address high) = #$02
 @end itemize
 
 The last value causes the board to switch into graphics mode; former values set up proper screen dimensions for 512x256 display.
+
+@subsubsection The meaning of the bits in $E888
+
+On zimmers.net is a 1-page document 324890-01_manual.pdf which
+reads (my translation from German):
+@quotation
+The 8296 HIRES Graphics is an emulation of the 512*256 Commodore High Speed
+Graphics, which uses the built-in RAM and 6502 microprocessor.
+
+A hardware addition is plugged into the socket of the CRTC (UC9) and the
+character ROM (UC5).
+
+The software for emulating the High Speed Graphics is contained in a 4 KB
+EPROM ($9000, UE10), and a BASIC-extension to use the graphics is in a
+further 4K EPROM ($A000, UE9).
+
+The "hidden" RAM behind the EPROM in UE9 and the BASIC ROM is used as screen
+memory.
+
+On the extension board there is a 4-fold DIL switch (1 to 4), with which one
+can set jumpers JU3, JU4, JU7, JU6 by hardware.
+
+By writing a latch at $E888 (decimal 59582), the jumpers JU3...JU7  are
+controlled by software (independently of the DIL-settings).
+
+@multitable @columnfractions .10 .10  .30 .15
+@item
+Bit
+@tab
+Value
+@tab
+Jumper/Signal
+@tab
+Note
+
+@item
+0
+@tab
+1
+@tab
+JU4 /RAMSEL9
+@tab
+1)
+@item
+1
+@tab
+2
+@tab
+JU3 /RAMSELA
+@tab
+1)
+@item
+2
+@tab
+4
+@tab
+JU5 /RAMON
+@tab
+1)
+@item
+3
+@tab
+8 
+@tab
+---
+@item
+4
+@tab
+16
+@tab
+JU7
+@tab
+2)
+@item
+5
+@tab
+32
+@tab
+JU6
+@tab
+2)
+@item
+6
+@tab
+64
+@tab
+---
+@item
+7
+@tab
+128
+@tab
+LATCHON
+@tab
+3)
+@end multitable
+
+@enumerate 1
+@item @c 1
+On the original motherboard the signals /RAMSELA, /RAMSEL9 and /RAMON
+can be controlled by PA0, PA1 and PA3 of the user port, if jumpers
+JU3, JU4 and JU5 are closed.
+On the adapter, "off" of the DIL-switch means
+for 1 and 2: RAMSELA and RAMSEL9 : high;
+for 3 and 4: Jumper J6 and J7: placed (closed)
+@item @c 2
+high = jumper placed
+@item @c 3
+high = Latch On
+@end enumerate
+@end quotation
+
+(unfortunately the document doesn't say what "Latch On" does, but I guess
+that if it is off, the @code{/RAM*} signals are set by the DIL switches.)
+
+Here is a quick reminder of the meaning of the 8296's jumpers:
+
+@itemize
+@item
+JU1
+set /RAMSELA to GND (do not use JU1/JU3 together)
+@item
+JU2
+set /RAMSEL9 to GND (do not use JU2/JU4 together)
+@item
+JU3
+set /RAMSELA to Userport PA0 (do not use JU1/JU3 together)
+@item
+JU4
+set /RAMSEL9 to Userport PA1 (do not use JU2/JU4 together)
+@item
+JU5
+set /RAMON to Userport PA2
+@item
+JU6
+set J4 expansion port pin /SEL EXP to /CSA ($A*** ROM)
+@item
+JU7
+set J4 expansion port pin /SEL EXP to /CS9 ($9*** ROM)
+@item
+JU8/JU9 
+set JU8, unset JU9: do not use video MA12 for RAM addressing;
+unset JU8, set JU9: use video MA12 for RAM addressing.
+@end itemize
 
 @c --------------------------------------------------------------
 
@@ -36584,7 +36731,7 @@ Added PET HRE (High Res Emulator) board emulation. Added the
 support for 'printer/plotter' Commodore 1520. Overhauled internals
 of VIA and CIA code. Corrected pre-CRTC PET display timing.
 REL-file support for the filesystem device and c1541.
-Added WordCraft dongle.
+Added WordCraft and PetSpeed dongles.
 
 @item
 @b{Marcus Sutton}
