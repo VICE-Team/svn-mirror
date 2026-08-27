@@ -21,6 +21,8 @@ libtapeport_a_SOURCES = \
 	cp-clockf83.h \
 	dtl-basic-dongle.c \
 	dtl-basic-dongle.h \
+	petspeed-dongle.c \
+	petspeed-dongle.h \
 	sense-dongle.c \
 	sense-dongle.h \
 	wordcraft-dongle.c \
