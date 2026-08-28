@@ -194,7 +194,8 @@ int e888_dump(void)
         if (reg_E888 != 0x0F && reg_E888 != 0x83) {
             s = "(unusual value) ";
         }
-        mon_out("e888 = %02x %sramON = %d\n", reg_E888, s, petmem_ramON);
+        mon_out("e888 = %02x %slatch: %d, /ramON: %d, /ram sel9: %d, /ram selA: %d\n",
+                reg_E888, s, reg_E888 & 0x80, !petmem_ramON, !petres.ramsel9, !petres.ramselA);
 
         return 0;
     }
@@ -217,7 +218,7 @@ int e888_dump(void)
  * character ROM (UC5).
  *
  * The software for emulating the High Speed Graphics is contained in a 4 KB
- * EPROM ($9000, UE10), een BASIC-extension to use the graphics is in a
+ * EPROM ($9000, UE10), and a BASIC-extension to use the graphics is in a
  * further 4K EPROM ($A000, UE9).
  *
  * The "hidden" RAM behind the EPROM in UE9 and the BASIC ROM is used as screen
@@ -257,8 +258,8 @@ int e888_dump(void)
  *  - JU3 : set /RAMSELA to Userport PA0 (do not use JU1/JU3 together)
  *  - JU4 : set /RAMSEL9 to Userport PA1 (do not use JU2/JU4 together)
  *  - JU5 : set /RAMON to Userport PA2
- *  - JU6 : set J4 expansion port pin /SELENP to /CSA ($A*** ROM)
- *  - JU7 : set J4 expansion port pin /SELENP to /CS9 ($9*** ROM)
+ *  - JU6 : set J4 expansion port pin /SEL EXP to /CSA ($A*** ROM)
+ *  - JU7 : set J4 expansion port pin /SEL EXP to /CS9 ($9*** ROM)
  *
  *  - JU8/JU9 : set JU8, unset JU9: do not use video MA12 for RAM addressing;
  *              unset JU8, set JU9: use video MA12 for RAM addressing.
@@ -276,17 +277,19 @@ void crtc_store_hre(uint16_t addr, uint8_t value)
         /* E888 is the usual address */
         if (addr & 0x0008) {               /* turn ROMs on or off */
             if (value != reg_E888) {
-                if (value == 0x0F) {            /* ROMs on */
-                    /* printf("HRE: ROMs on\n"); */
-                    petmem_ramON = 0;
-                    petres.ramsel9 = 0;
-                    petres.ramselA = 0;
+                /* FIXME: We are storing directly into petres.ramselx, which is
+                 * meant to be a resource value. We ought to add some indirection. */
+                if (value & E888_LATCH_ON) {  /* Usually value == 0x83 */
+                    petmem_ramON =   !(value & E888_NOT_RAM_ON);   /* usu. ON  */
+                    petres.ramsel9 = !(value & E888_NOT_RAMSEL_9); /* usu. OFF */
+                    petres.ramselA = !(value & E888_NOT_RAMSEL_A); /* usu. OFF */
+                    /* printf("HRE: Latch ON  %02x -> /ramOn:%d /ramsel9:%d /ramselA:%d\n", value, !petmem_ramON, !petres.ramsel9, !petres.ramselA); */
                     ramsel_changed();
-                } else if (value == 0x83) {     /* ROMs off */
-                    /* printf("HRE: ROMs off\n"); */
-                    petmem_ramON = 1;
-                    petres.ramsel9 = 0;
-                    petres.ramselA = 0;
+                } else {                       /* Usually value == 0x0F; ROMs on */
+                    /* printf("HRE: Latch OFF %02x -> ROMs on\n", value); */
+                    petmem_ramON = 0;    /* As described above, these signals would be */
+                    petres.ramsel9 = 0;  /*   determined by the DIL switches, but we   */
+                    petres.ramselA = 0;  /*   are currently not implementing them.     */
                     ramsel_changed();
                 }
                 reg_E888 = value;
@@ -299,6 +302,10 @@ void crtc_store_hre(uint16_t addr, uint8_t value)
              * address is used to turn the hi-res graphics on or off.
              * In real hardware, this address line (MA12) goes to a
              * jumper which the HRE board spies on.
+             *
+             * Here we do a horrendous inspection into the CRTC's
+             * indirection register, and if it points to CRTC_REG_DISPSTARTH
+             * then we look at the value that is written into it.
              */
             if (crtc.regno == 0x0c) {
                 if (value & CRTC_MA12) {     /* off */
