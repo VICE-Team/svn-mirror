@@ -567,6 +567,8 @@ jobs:
         run: |
           brew list -1 | xargs brew uninstall --force
           brew update
+          # Weird Homebrew intel issue on macOS 15, so try to install dos2unix from source if the normal install fails
+          brew install dos2unix || ( echo "Attempting to build dos2unix from source" && brew install dos2unix --build-from-source )
           brew install ${{ env.SHARED_DEPS }} ${{ matrix.ui.deps }}
           echo "brew_prefix=$(brew --prefix)" >> $GITHUB_OUTPUT
       
