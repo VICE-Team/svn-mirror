@@ -108,7 +108,8 @@ static io_source_t sfx_soundexpander_piano_device = {
     NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER,
     0,
-    0
+    0,
+    IO_MIRROR_NONE
 };
 
 static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
