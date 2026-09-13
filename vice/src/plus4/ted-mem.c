@@ -690,9 +690,9 @@ inline static void ted1a1b_store(uint16_t addr, uint8_t value)
 
     ted.regs[addr] = value;
     if (addr == 0x1a) {
-        new_counter = ((value & 1) << 8) + (ted.mem_counter & 0xff);
+        new_counter = ((value & 3) << 8) + (ted.mem_counter & 0xff);
     } else {
-        new_counter = (ted.mem_counter & 0x100) | value;
+        new_counter = (ted.mem_counter & 0x300) | value;
     }
     ted.mem_counter = new_counter;
 }
@@ -976,7 +976,7 @@ inline static uint8_t ted12_read(void)
 inline static uint8_t ted1a1b_read(uint16_t addr)
 {
     if (addr == 0x1a) {
-        return ((ted.mem_counter & 0x100) >> 8) | 0xfc;
+        return ((ted.mem_counter & 0x300) >> 8) | 0xfc;
     } else {
         return ted.mem_counter & 0xff;
     }
