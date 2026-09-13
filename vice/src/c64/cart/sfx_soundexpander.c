@@ -76,9 +76,7 @@ static void sfx_soundexpander_sound_store(uint16_t addr, uint8_t value);
 static uint8_t sfx_soundexpander_sound_read(uint16_t addr);
 static uint8_t sfx_soundexpander_sound_peek(uint16_t addr);
 
-#if 0
 static uint8_t sfx_soundexpander_piano_read(uint16_t addr);
-#endif
 
 static io_source_t sfx_soundexpander_sound_device = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, /* name of the device */
@@ -97,14 +95,14 @@ static io_source_t sfx_soundexpander_sound_device = {
     IO_MIRROR_NONE                     /* NO mirroring */
 };
 
-#if 0
 static io_source_t sfx_soundexpander_piano_device = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
     IO_DETACH_RESOURCE,
     "SFXSoundExpander",
     0xdf00, 0xdfff, 0x1f,
     0,
-    NULL,
+    NULL, /* store */
+    NULL, /* poke */
     sfx_soundexpander_piano_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
@@ -112,24 +110,19 @@ static io_source_t sfx_soundexpander_piano_device = {
     0,
     0
 };
-#endif
 
 static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 
 /* unused right now */
-#if 0
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
-#endif
 
 static const export_resource_t export_res_sound = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
-#if 0
 static const export_resource_t export_res_piano = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -210,46 +203,32 @@ static int set_sfx_soundexpander_enabled(int value, void *param)
             if (export_add(&export_res_sound) < 0) {
                 return -1;
             }
-#if 0
             if (export_add(&export_res_piano) < 0) {
                 return -1;
             }
-#endif
             if (machine_class == VICE_MACHINE_VIC20) {
                 if (sfx_soundexpander_io_swap) {
                     sfx_soundexpander_sound_device.start_address = 0x9800;
                     sfx_soundexpander_sound_device.end_address = 0x9bff;
-#if 0
                     sfx_soundexpander_piano_device.start_address = 0x9800;
                     sfx_soundexpander_piano_device.end_address = 0x9bff;
-#endif
                 } else {
                     sfx_soundexpander_sound_device.start_address = 0x9c00;
                     sfx_soundexpander_sound_device.end_address = 0x9fff;
-#if 0
                     sfx_soundexpander_piano_device.start_address = 0x9c00;
                     sfx_soundexpander_piano_device.end_address = 0x9fff;
-#endif
                 }
             }
             sfx_soundexpander_sound_list_item = io_source_register(&sfx_soundexpander_sound_device);
-#if 0
             sfx_soundexpander_piano_list_item = io_source_register(&sfx_soundexpander_piano_device);
-#endif
             sfx_soundexpander_sound_chip.chip_enabled = 1;
         } else {
             export_remove(&export_res_sound);
-#if 0
             export_remove(&export_res_piano);
-#endif
             io_source_unregister(sfx_soundexpander_sound_list_item);
-#if 0
             io_source_unregister(sfx_soundexpander_piano_list_item);
-#endif
             sfx_soundexpander_sound_list_item = NULL;
-#if 0
             sfx_soundexpander_piano_list_item = NULL;
-#endif
             sfx_soundexpander_sound_chip.chip_enabled = 0;
         }
     }
@@ -544,7 +523,6 @@ static uint8_t sfx_soundexpander_sound_peek(uint16_t addr)
     return value;
 }
 
-#if 0
 /* No piano keyboard is emulated currently, so we return 0xff */
 static uint8_t sfx_soundexpander_piano_read(uint16_t addr)
 {
@@ -554,7 +532,6 @@ static uint8_t sfx_soundexpander_piano_read(uint16_t addr)
     }
     return (uint8_t)0xff;
 }
-#endif
 
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
