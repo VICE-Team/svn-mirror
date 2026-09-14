@@ -129,6 +129,10 @@ uint8_t petmem_ramON = 0;
 static int bank8offset = 0;
 static int bankCoffset = 0;
 
+/* Save old store function for last byte.  */
+static void (*store_ff)(uint16_t addr, uint8_t value) = NULL;
+static void store_8x96(uint16_t addr, uint8_t value);
+
 /* memory tables for the 6809 */
 static read_func_ptr_t _mem6809_read_tab[0x101];
 static store_func_ptr_t _mem6809_write_tab[0x101];
@@ -1105,6 +1109,7 @@ static void set_std_9tof(void)
             ramA = petres.ramselA;
             ramBCD = ramE = ramE8 = ramF = 0;
         }
+        /* printf("ram9=%d ramA=%d ramBCD=%d ramE=%d ramE8=%d ramF=%d\n", ram9, ramA, ramBCD, ramE, ramE8, ramF); */
     } else {
         store = store_dummy;
         ram9 = ramA = ramBCD = ramE = ramE8 = ramF = 0;
@@ -1249,6 +1254,12 @@ static void set_std_9tof(void)
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
     mem_read_limit_tab_ptr = mem_read_limit_tab;
+
+    /* Catch writes to $fff0 register */
+    if (petres.map == PET_MAP_8296 || petres.map == PET_MAP_8096) {
+        store_ff = _mem_write_tab[0xff];
+        _mem_write_tab[0xff] = store_8x96;
+    }
 }
 
 void ramsel_changed(void)
@@ -1361,9 +1372,6 @@ void mem_toggle_watchpoints(int flag, void *context)
 #define FFF0_BANK_C_WP   0x02
 #define FFF0_BANK_8_WP   0x01
 
-/* Save old store function for last byte.  */
-static void (*store_ff)(uint16_t addr, uint8_t value) = NULL;
-
 /* Write to last page of memory in 8x96.  */
 static void store_8x96(uint16_t addr, uint8_t value)
 {
@@ -1376,11 +1384,15 @@ static void store_8x96(uint16_t addr, uint8_t value)
         store_ff(addr, value);
     }
 
+    if (addr != 0xfff0) {
+        return;
+    }
+
     changed = petmem_map_reg ^ value;
 
-    if (addr == 0xfff0 && changed &&
-        ((petmem_map_reg | changed) & FFF0_ENABLED)) {
-        if (value & FFF0_ENABLED) {     /* ext. RAM enabled */
+    if (changed &&
+        ((petmem_map_reg | changed) & (FFF0_ENABLED|FFF0_IO_PEEK_THROUGH))) {
+        if (value & FFF0_ENABLED) {     /* exp. RAM enabled */
             /* A5 = FFF0_ENABLED | FFF0_SCREEN_PEEK_THROUGH |
              *      FFF0_BANK_8 | FFF0_BANK_8_WP
              */
@@ -1442,15 +1454,17 @@ static void store_8x96(uint16_t addr, uint8_t value)
                 }
                 store_ff = _mem_write_tab[0xff];
                 _mem_write_tab[0xff] = store_8x96;
+                petmem_map_reg = value;
                 maincpu_resync_limits();
             }
-        } else {                /* disable ext. RAM */
+        } else {                /* disable exp. RAM */
+            petmem_map_reg = value;
             petmem_set_vidmem();
             set_std_9tof();
-            store_ff = _mem_write_tab[0xff];
-            _mem_write_tab[0xff] = store_8x96;
             maincpu_resync_limits();
         }
+    } else {
+        /* A change that doesn't change anything */
         petmem_map_reg = value;
     }
 }
@@ -1483,7 +1497,10 @@ static int fff0_dump(void)
                 ((petmem_map_reg & FFF0_BANK_8_WP) ? "(write protected)" : "(r/w)")
                 );
     } else {
-        mon_out("disabled.\n");
+        if (petmem_map_reg & FFF0_IO_PEEK_THROUGH) {
+            mon_out("I/O peek through, ");
+        }
+        mon_out("expansion disabled.\n");
     }
     return 0;
 }
@@ -1699,10 +1716,6 @@ void mem_initialize_memory(void)
 
     set_std_9tof();
 
-    if (petres.map) {              /* catch writes to $fff0 register */
-        store_ff = _mem_write_tab[0xff];
-        _mem_write_tab[0xff] = store_8x96;
-    }
     _mem_read_tab[0x100] = _mem_read_tab[0];
     _mem_write_tab[0x100] = _mem_write_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
@@ -2042,10 +2055,20 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case bank_cpu:      /* current */
+            /* Use these annoying exceptions just so we PEEK I/O instead of READ it */
             if ((petmem_map_reg & (FFF0_ENABLED|FFF0_IO_PEEK_THROUGH)) ==
                                   (FFF0_ENABLED)) {
                 /* There is expansion RAM at E8xx, no I/O. */
                 break;
+            }
+            if (petres.map == PET_MAP_8296 &&
+                    petmem_ramON &&
+                    !(petmem_map_reg & FFF0_ENABLED)) {
+                bool ramE8 = petres.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
+                if (ramE8) {
+                    /* There is main RAM at E8xx, no I/O. */
+                    break;
+                }
             }
             goto check_io_range;
         case bank_cpu6809:
