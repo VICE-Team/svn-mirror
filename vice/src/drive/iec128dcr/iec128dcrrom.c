@@ -46,9 +46,9 @@ static unsigned int rom1571cr_loaded = 0;
 
 
 /* test ROM for existence, size */
-int iec128dcrrom_load_1571cr(void)
+int iec128dcrrom_probe_1571cr(void)
 {
-    return driverom_test_load("DosName1571cr", &rom1571cr_loaded,
+    return driverom_probe("DosName1571cr", &rom1571cr_loaded,
             DRIVE_ROM1571CR_SIZE, DRIVE_ROM1571CR_SIZE, "1571CR",
             DRIVE_TYPE_1571CR, NULL);
 }

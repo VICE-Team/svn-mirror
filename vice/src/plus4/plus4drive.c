@@ -102,10 +102,10 @@ void machine_drive_idling_method(unsigned int dnr)
     iec_drive_idling_method(dnr);
 }
 
-void machine_drive_rom_load(void)
+void machine_drive_rom_probe(void)
 {
-    iec_drive_rom_load();
-    tcbm_drive_rom_load();
+    iec_drive_rom_probe();
+    tcbm_drive_rom_probe();
 }
 
 void machine_drive_rom_setup_image(unsigned int dnr)

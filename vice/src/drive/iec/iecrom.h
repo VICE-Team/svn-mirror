@@ -36,14 +36,14 @@ void iecrom_setup_image(struct diskunit_context_s *unit);
 int iecrom_check_loaded(unsigned int type);
 void iecrom_do_checksum(struct diskunit_context_s *unit);
 
-int iecrom_load_1540(void);
-int iecrom_load_1541(void);
-int iecrom_load_1541ii(void);
-int iecrom_load_1570(void);
-int iecrom_load_1571(void);
-int iecrom_load_1581(void);
-int iecrom_load_2000(void);
-int iecrom_load_4000(void);
-int iecrom_load_CMDHD(void);
+int iecrom_probe_1540(void);
+int iecrom_probe_1541(void);
+int iecrom_probe_1541ii(void);
+int iecrom_probe_1570(void);
+int iecrom_probe_1571(void);
+int iecrom_probe_1581(void);
+int iecrom_probe_2000(void);
+int iecrom_probe_4000(void);
+int iecrom_probe_CMDHD(void);
 
 #endif

@@ -43,7 +43,7 @@ static int set_dos_rom_name_1551(const char *val, void *param)
         return 0;
     }
 
-    return tcbmrom_load_1551();
+    return tcbmrom_probe_1551();
 }
 
 static const resource_string_t resources_string[] = {

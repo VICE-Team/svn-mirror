@@ -83,9 +83,9 @@ void tcbm_drive_setup_context(struct diskunit_context_s *drv)
 }
 
 /* test all ROMs for existence, size */
-void tcbm_drive_rom_load(void)
+void tcbm_drive_rom_probe(void)
 {
-    tcbmrom_load_1551();
+    tcbmrom_probe_1551();
 }
 
 /* setup (=load) the ROM for a given disk unit nr */

@@ -45,9 +45,9 @@ static log_t tcbmrom_log;
 static unsigned int rom1551_loaded = 0;
 
 /* test ROM for existence, size */
-int tcbmrom_load_1551(void)
+int tcbmrom_probe_1551(void)
 {
-    return driverom_test_load("DosName1551", &rom1551_loaded,
+    return driverom_probe("DosName1551", &rom1551_loaded,
             DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, "1551",
             DRIVE_TYPE_1551, NULL);
 }

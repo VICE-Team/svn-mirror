@@ -41,7 +41,7 @@ void ieee_drive_shutdown(struct diskunit_context_s *drv);
 void ieee_drive_reset(struct diskunit_context_s *drv);
 void ieee_drive_mem_init(struct diskunit_context_s *drv, unsigned int type);
 void ieee_drive_setup_context(struct diskunit_context_s *drv);
-void ieee_drive_rom_load(void);
+void ieee_drive_rom_probe(void);
 void ieee_drive_rom_setup_image(unsigned int dnr);
 int ieee_drive_rom_check_loaded(unsigned int type);
 void ieee_drive_rom_do_checksum(unsigned int dnr);

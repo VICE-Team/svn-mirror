@@ -104,10 +104,10 @@ void machine_drive_idling_method(unsigned int dnr)
 }
 
 /* test ROMs for existence, size */
-void machine_drive_rom_load(void)
+void machine_drive_rom_probe(void)
 {
-    iec_drive_rom_load();
-    ieee_drive_rom_load();
+    iec_drive_rom_probe();
+    ieee_drive_rom_probe();
 }
 
 /* setup (=load) the ROM for a given disk unit */

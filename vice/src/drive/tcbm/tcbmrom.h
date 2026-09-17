@@ -35,6 +35,6 @@ void tcbmrom_init(void);
 void tcbmrom_setup_image(struct diskunit_context_s *unit);
 int tcbmrom_check_loaded(unsigned int type);
 
-int tcbmrom_load_1551(void);
+int tcbmrom_probe_1551(void);
 
 #endif

@@ -78,9 +78,9 @@ void iec128dcr_drive_shutdown(struct diskunit_context_s *drv)
 {
 }
 
-void iec128dcr_drive_rom_load(void)
+void iec128dcr_drive_rom_probe(void)
 {
-    iec128dcrrom_load_1571cr();
+    iec128dcrrom_probe_1571cr();
 }
 
 void iec128dcr_drive_rom_setup_image(unsigned int dnr)

@@ -174,17 +174,17 @@ void iec_drive_idling_method(unsigned int dnr)
 }
 
 /* test all ROMs for existence, size */
-void iec_drive_rom_load(void)
+void iec_drive_rom_probe(void)
 {
-    iecrom_load_1540();
-    iecrom_load_1541();
-    iecrom_load_1541ii();
-    iecrom_load_1570();
-    iecrom_load_1571();
-    iecrom_load_1581();
-    iecrom_load_2000();
-    iecrom_load_4000();
-    iecrom_load_CMDHD();
+    iecrom_probe_1540();
+    iecrom_probe_1541();
+    iecrom_probe_1541ii();
+    iecrom_probe_1570();
+    iecrom_probe_1571();
+    iecrom_probe_1581();
+    iecrom_probe_2000();
+    iecrom_probe_4000();
+    iecrom_probe_CMDHD();
 }
 
 /* setup (=load) the ROM for a given disk unit nr */
