@@ -72,7 +72,7 @@ static int set_dos_rom_name_1540(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1540();
+    return iecrom_probe_1540();
 }
 
 static int set_dos_rom_name_1541(const char *val, void *param)
@@ -81,7 +81,7 @@ static int set_dos_rom_name_1541(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1541();
+    return iecrom_probe_1541();
 }
 
 static int set_dos_rom_name_1541ii(const char *val, void *param)
@@ -90,7 +90,7 @@ static int set_dos_rom_name_1541ii(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1541ii();
+    return iecrom_probe_1541ii();
 }
 
 static int set_dos_rom_name_1570(const char *val, void *param)
@@ -99,7 +99,7 @@ static int set_dos_rom_name_1570(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1570();
+    return iecrom_probe_1570();
 }
 
 static int set_dos_rom_name_1571(const char *val, void *param)
@@ -108,7 +108,7 @@ static int set_dos_rom_name_1571(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1571();
+    return iecrom_probe_1571();
 }
 
 static int set_dos_rom_name_1581(const char *val, void *param)
@@ -117,7 +117,7 @@ static int set_dos_rom_name_1581(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_1581();
+    return iecrom_probe_1581();
 }
 
 static int set_dos_rom_name_2000(const char *val, void *param)
@@ -126,7 +126,7 @@ static int set_dos_rom_name_2000(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_2000();
+    return iecrom_probe_2000();
 }
 
 static int set_dos_rom_name_4000(const char *val, void *param)
@@ -135,7 +135,7 @@ static int set_dos_rom_name_4000(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_4000();
+    return iecrom_probe_4000();
 }
 
 static int set_dos_rom_name_CMDHD(const char *val, void *param)
@@ -144,7 +144,7 @@ static int set_dos_rom_name_CMDHD(const char *val, void *param)
         return 0;
     }
 
-    return iecrom_load_CMDHD();
+    return iecrom_probe_CMDHD();
 }
 
 static int set_drive_fixed(const char *val, void *param)

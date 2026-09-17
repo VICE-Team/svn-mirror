@@ -42,7 +42,7 @@ void iec_drive_reset(struct diskunit_context_s *drv);
 void iec_drive_mem_init(struct diskunit_context_s *drv, unsigned int type);
 void iec_drive_setup_context(struct diskunit_context_s *drv);
 void iec_drive_idling_method(unsigned int dnr);
-void iec_drive_rom_load(void);
+void iec_drive_rom_probe(void);
 void iec_drive_rom_setup_image(unsigned int dnr);
 int iec_drive_rom_check_loaded(unsigned int type);
 void iec_drive_rom_do_checksum(unsigned int dnr);

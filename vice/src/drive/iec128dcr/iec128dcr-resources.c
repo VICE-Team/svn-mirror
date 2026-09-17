@@ -43,7 +43,7 @@ static int set_dos_rom_name_1571cr(const char *val, void *param)
         return 0;
     }
 
-    return iec128dcrrom_load_1571cr();
+    return iec128dcrrom_probe_1571cr();
 }
 
 static const resource_string_t resources_string[] = {

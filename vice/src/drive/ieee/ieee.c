@@ -111,7 +111,7 @@ void ieee_drive_setup_context(struct diskunit_context_s *drv)
 }
 
 /* test all ROMs for existence, size */
-void ieee_drive_rom_load(void)
+void ieee_drive_rom_probe(void)
 {
     ieeerom_load_2031();
     ieeerom_load_2040();

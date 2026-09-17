@@ -40,7 +40,7 @@ void tcbm_drive_shutdown(struct diskunit_context_s *drv);
 void tcbm_drive_reset(struct diskunit_context_s *drv);
 void tcbm_drive_mem_init(struct diskunit_context_s *drv, unsigned int type);
 void tcbm_drive_setup_context(struct diskunit_context_s *drv);
-void tcbm_drive_rom_load(void);
+void tcbm_drive_rom_probe(void);
 void tcbm_drive_rom_setup_image(unsigned int dnr);
 int tcbm_drive_rom_check_loaded(unsigned int type);
 void tcbm_drive_rom_do_checksum(unsigned int dnr);

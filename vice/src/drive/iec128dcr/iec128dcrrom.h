@@ -35,6 +35,6 @@ void iec128dcrrom_init(void);
 void iec128dcrrom_setup_image(struct diskunit_context_s *drive);
 int iec128dcrrom_check_loaded(unsigned int type);
 
-int iec128dcrrom_load_1571cr(void);
+int iec128dcrrom_probe_1571cr(void);
 
 #endif

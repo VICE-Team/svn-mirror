@@ -88,61 +88,61 @@ static int iecrom_do_1541_checksum(diskunit_context_t *unit)
 }
 
 /* test ROM for existence, size */
-int iecrom_load_1540(void)
+int iecrom_probe_1540(void)
 {
-    return driverom_test_load("DosName1540", &rom1540_loaded,
+    return driverom_probe("DosName1540", &rom1540_loaded,
             DRIVE_ROM1540_SIZE, DRIVE_ROM1540_SIZE_EXPANDED, "1540",
             DRIVE_TYPE_1540, &drive_rom1540_size);
 }
 
-int iecrom_load_1541(void)
+int iecrom_probe_1541(void)
 {
-    return driverom_test_load("DosName1541", &rom1541_loaded,
+    return driverom_probe("DosName1541", &rom1541_loaded,
             DRIVE_ROM1541_SIZE, DRIVE_ROM1541_SIZE_EXPANDED, "1541",
             DRIVE_TYPE_1541, &drive_rom1541_size);
 }
 
-int iecrom_load_1541ii(void)
+int iecrom_probe_1541ii(void)
 {
-    return driverom_test_load("DosName1541ii",
+    return driverom_probe("DosName1541ii",
             &rom1541ii_loaded, DRIVE_ROM1541II_SIZE,
             DRIVE_ROM1541II_SIZE_EXPANDED, "1541-II", DRIVE_TYPE_1541II,
             &drive_rom1541ii_size);
 }
 
-int iecrom_load_1570(void)
+int iecrom_probe_1570(void)
 {
-    return driverom_test_load("DosName1570", &rom1570_loaded,
+    return driverom_probe("DosName1570", &rom1570_loaded,
             DRIVE_ROM1570_SIZE, DRIVE_ROM1570_SIZE, "1570", DRIVE_TYPE_1570, NULL);
 }
 
-int iecrom_load_1571(void)
+int iecrom_probe_1571(void)
 {
-    return driverom_test_load("DosName1571", &rom1571_loaded,
+    return driverom_probe("DosName1571", &rom1571_loaded,
             DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, "1571", DRIVE_TYPE_1571, NULL);
 }
 
-int iecrom_load_1581(void)
+int iecrom_probe_1581(void)
 {
-    return driverom_test_load("DosName1581", &rom1581_loaded,
+    return driverom_probe("DosName1581", &rom1581_loaded,
             DRIVE_ROM1581_SIZE, DRIVE_ROM1581_SIZE, "1581", DRIVE_TYPE_1581, NULL);
 }
 
-int iecrom_load_2000(void)
+int iecrom_probe_2000(void)
 {
-    return driverom_test_load("DosName2000", &rom2000_loaded,
+    return driverom_probe("DosName2000", &rom2000_loaded,
             DRIVE_ROM2000_SIZE, DRIVE_ROM2000_SIZE, "2000", DRIVE_TYPE_2000, NULL);
 }
 
-int iecrom_load_4000(void)
+int iecrom_probe_4000(void)
 {
-    return driverom_test_load("DosName4000", &rom4000_loaded,
+    return driverom_probe("DosName4000", &rom4000_loaded,
             DRIVE_ROM4000_SIZE, DRIVE_ROM4000_SIZE, "4000", DRIVE_TYPE_4000, NULL);
 }
 
-int iecrom_load_CMDHD(void)
+int iecrom_probe_CMDHD(void)
 {
-    return driverom_test_load("DosNameCMDHD", &romCMDHD_loaded,
+    return driverom_probe("DosNameCMDHD", &romCMDHD_loaded,
             DRIVE_ROMCMDHD_SIZE, DRIVE_ROMCMDHD_SIZE, "CMDHD", DRIVE_TYPE_CMDHD, NULL);
 }
 

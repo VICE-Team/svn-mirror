@@ -43,7 +43,7 @@ void machine_drive_reset(struct diskunit_context_s *drv);
 void machine_drive_mem_init(struct diskunit_context_s *drv, unsigned int type);
 void machine_drive_setup_context(struct diskunit_context_s *drv);
 void machine_drive_idling_method(unsigned int dnr);
-void machine_drive_rom_load(void);
+void machine_drive_rom_probe(void);
 void machine_drive_rom_setup_image(unsigned int dnr);
 int machine_drive_rom_check_loaded(unsigned int type);
 void machine_drive_rom_do_checksum(unsigned int dnr);
