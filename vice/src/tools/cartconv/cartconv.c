@@ -1665,10 +1665,10 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if (cart_type == CARTRIDGE_MAGIC_DESK_PLUS && cart_subtype > 2) {
+    if (cart_type == CARTRIDGE_MAGIC_DESK_PLUS && cart_subtype > 4) {
         fprintf(stderr,
-                "Error: Magic Desk Plus revision must be 0 (SRAM + EEPROM), "
-                "1 (SRAM only), or 2 (EEPROM only)\n");
+                "Error: Magic Desk Plus revision must be 0 (SRAM + 32KiB EEPROM), 1 (SRAM + 8KiB EEPROM),\n"
+                "2 (32KiB EEPROM), 3 (8KiB EEPROM) or 4 (SRAM only)\n");
         cleanup();
         exit(1);
     }

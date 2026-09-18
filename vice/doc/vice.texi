@@ -10823,7 +10823,7 @@ track 18, sector 18.
 @vindex MagicDeskPlusRevision
 @item MagicDeskPlusRevision
 Integer specifying the Magic Desk Plus hardware revision.
-(0: SRAM and EEPROM, 1: SRAM only, 2: EEPROM only)
+(0: SRAM + 32KiB EEPROM, 1: SRAM + 8KiB EEPROM, 2: 32KiB EEPROM, 3: 8KiB EEPROM or 4: SRAM only)
 
 @vindex MagicDeskPlusSRAMImage
 @item MagicDeskPlusSRAMImage
@@ -11736,7 +11736,7 @@ by @code{MagicDeskPlusRevision} is used.
 @item -magicdeskplusrevision <revision>
 Specify Magic Desk Plus revision
 (@code{MagicDeskPlusRevision}).
-(0: SRAM and EEPROM, 1: SRAM only, 2: EEPROM only)
+(0: SRAM + 32KiB EEPROM, 1: SRAM + 8KiB EEPROM, 2: 32KiB EEPROM, 3: 8KiB EEPROM or 4: SRAM only)
 
 @findex -magicdeskplussramimage
 @item -magicdeskplussramimage <filename>
@@ -23861,8 +23861,9 @@ MACH 5 .crt file
 @item md
 Magic Desk .crt file
 @item mdp
-Magic Desk Plus 256KiB/512KiB/1024KiB .crt file. Use @code{-s 0} for SRAM and
-EEPROM, @code{-s 1} for SRAM only, or @code{-s 2} for EEPROM only.
+Magic Desk Plus 256KiB/512KiB/1024KiB .crt file. Use @code{-s 0} for SRAM + 32KiB EEPROM,
+@code{-s 1} for SRAM + 8KiB EEPROM, @code{-s 2} for 32KiB EEPROM, @code{-s 3} for 8KiB EEPROM,
+or @code{-s 4} for SRAM only.
 @item md16
 Magic Desk 16 .crt file
 @item mf
@@ -24035,9 +24036,8 @@ Convert a .crt file to a .prg file with default load-address.
 Convert a .crt file to a .prg file with 49152 as the load-address.
 @item cartconv -t ocean -i foo.bin -o foo.crt
 Convert a binary file to an ocean type cartridge.
-@item cartconv -t mdp -s 0 -i game.bin -o game.crt
-Create a Magic Desk Plus cartridge with SRAM and EEPROM. Revisions 1 and 2
-select the SRAM-only and EEPROM-only variants respectively.
+@item cartconv -t mdp -s 1 -i game.bin -o game.crt
+Create a Magic Desk Plus cartridge with SRAM and 8KiB EEPROM.
 @item cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
 Inserting a 32KiB EPROM file into an dep64 type cartridge.
 @itemize @bullet
@@ -30655,7 +30655,7 @@ $0010- xxxx - ROM data
 @item 86
 @tab Protovision "Megabyter"
 @item 87
-@tab Magic Desk Plus (Subtype 0: SRAM and EEPROM, 1: SRAM only, 2: EEPROM only)
+@tab Magic Desk Plus (Subtype 0: SRAM + 32KiB EEPROM, 1: SRAM + 8KiB EEPROM, 2: 32KiB EEPROM, 3: 8KiB EEPROM or 4: SRAM only)
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
