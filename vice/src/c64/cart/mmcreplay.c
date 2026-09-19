@@ -65,9 +65,9 @@
 #define MMCREPLAY_FLASHROM_SIZE (1024 * 512)
 #define MMCREPLAY_RAM_SIZE (1024 * 512)
 
-#define MMCRDEBUG
+/* #define DEBUG_MMCR */
 
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
 #define DEBUG_LOGBANKS    /* log access to banked rom/ram */
 #define DEBUG_IOBANKS     /* log access to banked rom/ram in io */
 #define LOG_MAPPER        /* log memory map changes */
@@ -110,7 +110,7 @@
 /* #define TEST_RESCUE_MODE */
 #endif
 
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
 #define LOG(_x_) log_printf  _x_
 #else
 #define LOG(_x_)
@@ -599,7 +599,7 @@ static void mmcreplay_io2bank_set(unsigned int bank, unsigned int rambank)
     io2_ram_bank = (int)rambank;
 }
 
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
 static int last_mainmode = 0;
 static int last_biosmode = 0;
 static int last_biosmode444 = 0;
@@ -634,7 +634,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             mapped_game = 0;
             LOG(("main mode: rescue"));
         } else {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
             if (last_mainmode != 111) {
                 LOG(("main mode: mmc bios"));
                 last_mainmode = 111;
@@ -675,7 +675,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                 mapped_exrom = 1;
 
                 if (enable_ram_io1) {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                     if (last_biosmode != 111) {
                         LOG(("bios mode: 111"));
                         last_biosmode = 111;
@@ -724,7 +724,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         enable_io2 = 0;
                     }
                 } else {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                     if (last_biosmode != 222) {
                         LOG(("bios mode: 222"));
                         last_biosmode = 222;
@@ -787,7 +787,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                 ultimax_mapping_hack = 1;
 
                 if (enable_ram_io1) {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                     if (last_biosmode != 333) {
                         LOG(("bios mode: 333"));
                         last_biosmode = 333;
@@ -841,7 +841,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         mapped_exrom = 1;       /* 16k game */
                     }
                 } else {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                     if (last_biosmode != 444) {
                         LOG(("bios mode: 444"));
                         last_biosmode = 444;
@@ -883,7 +883,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                      * high bank=7 if not extended mode
                      */
                     if (enable_ram_io) { /* ultimax */
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                         if (last_biosmode444 != 111) {
                             LOG(("bios mode 444: ram enabled"));
                             last_biosmode444 = 111;
@@ -945,7 +945,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         ramA000_bank = cartbankl;
                         rambankh = rambankl;
                     } else {       /* 16k game */
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
                         if (last_biosmode444 != 222) {
                             LOG(("bios mode 444: ram disabled"));
                             last_biosmode444 = 222;
@@ -989,7 +989,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             }
         }
     } else if (enable_16k_mapping) {
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
         if (last_mainmode != 222) {
             LOG(("main mode: super mapper"));
             last_mainmode = 222;
@@ -1082,7 +1082,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         /**************************************************************************************************
          * normal mapper
          **************************************************************************************************/
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
         if (last_mainmode != 333) {
             LOG(("main mode: normal mapper"));
             last_mainmode = 333;
@@ -1113,7 +1113,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         /**************************************************************************************************
          * retro replay mapper
          **************************************************************************************************/
-#ifdef MMCRDEBUG
+#ifdef DEBUG_MMCR
         if (last_mainmode != 444) {
             LOG(("MMCREPLAY: *** main mode: [rr mapper]"));
             last_mainmode = 444;

@@ -99,9 +99,9 @@
     $DExx   bit7    Flash Dout
 */
 
-#define DEBUGGMOD3
+/* #define DEBUG_GMOD3 */
 
-#ifdef DEBUGGMOD3
+#ifdef DEBUG_GMOD3
 #define DBG(x)  log_printf x
 #else
 #define DBG(x)

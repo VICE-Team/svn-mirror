@@ -63,7 +63,7 @@
 /* FIXME: test and then remove all old code */
 #define USEPASSTHROUGHHACK 1 /* define 1 to use the passthrough hack */
 
-#define MMC64DEBUG
+/* #define MMC64DEBUG */
 
 /*
 #define LOG_READ_DF10

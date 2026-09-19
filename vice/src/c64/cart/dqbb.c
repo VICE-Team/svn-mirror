@@ -93,7 +93,7 @@
     range of $de00-$deff
 */
 
-#define DBGDQBB
+/* #define DBGDQBB */
 
 #ifdef DBGDQBB
 #define DBG(x) log_printf  x
