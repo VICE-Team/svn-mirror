@@ -36,7 +36,7 @@
         - check for byte ready *within* `BVC', `BVS' and `PHP'.
         - serial bus handling might be faster.  */
 
-/* #define DEBUG_DRIVE */
+#define DEBUG_DRIVE
 
 #include "vice.h"
 
@@ -93,7 +93,7 @@ diskunit_context_t *diskunit_context[NUM_DISK_UNITS];
 static log_t drive_log = LOG_DEFAULT;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
-int rom_loaded = 0;
+int drive_rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -174,7 +174,10 @@ int drive_init(void)
     unsigned int unit;
     drive_t *drive;
 
-    if (rom_loaded) {
+    DBG(("drive_init drive_rom_loaded:%d", drive_rom_loaded));
+
+    /* if drive roms are already loaded, don't do this again */
+    if (drive_rom_loaded) {
         return 0;
     }
 
@@ -205,7 +208,7 @@ int drive_init(void)
 
     }
 
-    /* NOTE: this will not actually load the images yet, only check of the ROMs exist */
+    /* NOTE: this will not actually load the images yet, only check if the ROMs exist */
     driverom_load_images();
     /* Do not error out if _SOME_ images are not found, ie. FD2K/4K, CMDHD */
 #if 0
@@ -218,7 +221,7 @@ int drive_init(void)
     }
 #endif
 
-    rom_loaded = 1; /* mark drive ROMs being tested OK */
+    drive_rom_loaded = 1; /* mark drive ROMs being tested OK */
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
@@ -496,15 +499,17 @@ int drive_enable(diskunit_context_t *drv)
     unsigned int dnr;
     unsigned int drive;
 
+    DBG(("drive_enable drive_rom_loaded:%d", drive_rom_loaded));
+
     dnr = drv->mynumber;
 
     /* This must come first, because this might be called before the drive
        initialization.  */
-    if (!rom_loaded) {
+    if (!drive_rom_loaded) {
         return -1;
     }
 
-    DBG(("drive_enable unit: %d", 8 + drv->mynumber));
+    DBG(("drive_enable unit: %u", 8 + drv->mynumber));
     resources_get_int_sprintf("Drive%uTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     /* Always disable kernal traps. */
@@ -552,7 +557,7 @@ void drive_disable(diskunit_context_t *drv)
     DBG(("drive_disable unit: %u", 8 + drv->mynumber));
     resources_get_int_sprintf("Drive%uTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
-    if (rom_loaded) {
+    if (drive_rom_loaded) {
 #if 0
         if (drv->type == DRIVE_TYPE_2000 ||
             drv->type == DRIVE_TYPE_4000 ||

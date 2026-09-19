@@ -67,7 +67,7 @@ void drivesync_set_1571(struct diskunit_context_s *drv, int new_sync)
 
     dnr = drv->mynumber;
 
-    if (rom_loaded) {
+    if (drive_rom_loaded) {
         rotation_rotate_disk(drv->drives[0]);
         rotation_init(new_sync ? 1 : 0, dnr);
         drv->clock_frequency = (new_sync) ? 2 : 1;
@@ -77,7 +77,7 @@ void drivesync_set_1571(struct diskunit_context_s *drv, int new_sync)
 
 void drivesync_set_4000(struct diskunit_context_s *drv, int new_sync)
 {
-    if (rom_loaded && drv->type == DRIVE_TYPE_4000) {
+    if (drive_rom_loaded && drv->type == DRIVE_TYPE_4000) {
         drv->clock_frequency = (new_sync) ? 4 : 2;
         drivesync_factor(drv);
     }

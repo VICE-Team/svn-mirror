@@ -396,7 +396,7 @@ extern CLOCK diskunit_clk[NUM_DISK_UNITS];
 #include "drivetypes.h"
 extern struct diskunit_context_s *diskunit_context[NUM_DISK_UNITS];
 
-extern int rom_loaded;
+extern int drive_rom_loaded;
 
 int drive_init(void);
 int drive_enable(struct diskunit_context_s *drv);

@@ -57,7 +57,7 @@ int iec128dcrrom_probe_1571cr(void)
 void iec128dcrrom_setup_image(diskunit_context_t *unit)
 {
     unsigned int loaded = 0;
-    if (rom_loaded) {
+    if (drive_rom_loaded) {
 
         if (unit->rom_type != unit->type) {
             /* set this here to avoid recursion */
@@ -89,12 +89,12 @@ int iec128dcrrom_check_loaded(unsigned int type)
         case DRIVE_TYPE_NONE:
             return 0;
         case DRIVE_TYPE_1571CR:
-            if (rom1571cr_loaded < 1 && rom_loaded) {
+            if (rom1571cr_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_ANY:
-            if ((!rom1571cr_loaded) && rom_loaded) {
+            if ((!rom1571cr_loaded) && drive_rom_loaded) {
                 return -1;
             }
             break;

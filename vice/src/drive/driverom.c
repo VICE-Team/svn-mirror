@@ -24,7 +24,7 @@
  *
  */
 
-/* #define DBGDRIVEROM */
+#define DBGDRIVEROM
 
 #include "vice.h"
 
@@ -127,7 +127,7 @@ int driverom_probe(const char *resource_name, unsigned int *loaded,
     if (size != NULL) {
         *size = (unsigned int)filesize;
     }
-    DBG(("driverom_probe OK size: %d loaded:%d", filesize, *loaded));
+    DBG(("driverom_probe OK size: %d loaded:%u", filesize, *loaded));
     return 0;
 
 exiterror:
@@ -196,7 +196,7 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
     /* reset all drives that use the loaded ROM */
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
-        DBG(("driverom_load reset dnr:%d unit->type:%d type:%d", filesize, dnr, unit->type, type));
+        DBG(("driverom_load reset filesize: %d dnr:%u unit->type:%u type:%u", filesize, dnr, unit->type, type));
         if (unit->type == type) {
             DBG(("driverom_load prepare drive rom and reset"));
             machine_drive_rom_setup_image(dnr);
